@@ -167,9 +167,9 @@ testAny('repo-authenticated deposit composes into a targeted branch workflow wit
     assert.ok(run.json.latestRun.depositingSurface.selectedInventoryRefs.length >= 1);
     assert.ok(run.json.latestRun.artifactUploadManifest.uploads.length >= 1);
     assert.equal(run.json.latestRun.systemProofBundle.proofFamilies.length, 9);
-    assert.ok(run.json.latestRun.systemProofBundle.verifierEntrypoint.requiredArtifactPaths.includes('.engi/system-proof-bundle.json'));
-    assert.ok(run.json.latestRun.systemProofBundle.verifierEntrypoint.requiredArtifactPaths.includes('.engi/proof-contract.json'));
-    assert.ok(run.json.latestRun.systemProofBundle.verifierEntrypoint.requiredArtifactPaths.includes('.engi/proof-witness-manifest.json'));
+    assert.ok(run.json.latestRun.systemProofBundle.verifierEntrypoint.requiredArtifactPaths.includes('.bitcode/system-proof-bundle.json'));
+    assert.ok(run.json.latestRun.systemProofBundle.verifierEntrypoint.requiredArtifactPaths.includes('.bitcode/proof-contract.json'));
+    assert.ok(run.json.latestRun.systemProofBundle.verifierEntrypoint.requiredArtifactPaths.includes('.bitcode/proof-witness-manifest.json'));
 
     const projected = await invoke(app, { method: 'GET', url: '/api/state?principal=buyer' });
     assert.equal(projected.statusCode, 200);
@@ -178,8 +178,8 @@ testAny('repo-authenticated deposit composes into a targeted branch workflow wit
     assert.equal(projected.json.latestRun.assetPack.assetPackId, run.json.latestRun.assetPack.assetPackId);
     assert.ok(projected.json.latestRun.artifactUploadManifest.inventoryBackedUploadCount >= 1);
     assert.ok(projected.json.latestRun.testCoverageReport.suiteCoverage.integration.entrypoints.includes('test/workflow.integration.test.js'));
-    assert.ok(projected.json.latestRun.publicArtifacts['.engi/test-coverage-report.json']);
-    assert.ok(projected.json.latestRun.publicArtifacts['.engi/bounded-public-proof.json']);
+    assert.ok(projected.json.latestRun.publicArtifacts['.bitcode/test-coverage-report.json']);
+    assert.ok(projected.json.latestRun.publicArtifacts['.bitcode/bounded-public-proof.json']);
   });
 });
 
@@ -218,8 +218,8 @@ testAny('normalization workflow composes context mode with buyer and public proj
     assert.equal(buyerState.json.latestRun.branchArtifacts.files, undefined);
     assert.equal(publicState.json.latestRun.authorizationDecisions, undefined);
     assert.ok(buyerState.json.latestRun.authorizationDecisions.length >= 1);
-    assert.ok(publicState.json.latestRun.publicArtifacts['.engi/bounded-public-proof.json']);
-    assert.ok(publicState.json.latestRun.publicArtifacts['.engi/test-coverage-report.json']);
+    assert.ok(publicState.json.latestRun.publicArtifacts['.bitcode/bounded-public-proof.json']);
+    assert.ok(publicState.json.latestRun.publicArtifacts['.bitcode/test-coverage-report.json']);
   });
 });
 
@@ -238,34 +238,34 @@ testAny('privacy-boundary workflow keeps public disclosure bounded while reviewe
     assert.equal(reviewerRun.statusCode, 200);
     assert.equal(reviewerRun.json.latestRun.projectionPrincipal, 'reviewer');
     assert.ok(reviewerRun.json.latestRun.proofWitnessManifest.proofFamilies.length === 9);
-    assert.ok(reviewerRun.json.latestRun.systemProofBundle.verifierEntrypoint.requiredArtifactPaths.includes('.engi/proof-contract.json'));
-    assert.ok(reviewerRun.json.latestRun.systemProofBundle.verifierEntrypoint.requiredArtifactPaths.includes('.engi/system-proof-bundle.json'));
-    assert.ok(reviewerRun.json.latestRun.systemProofBundle.verifierEntrypoint.requiredArtifactPaths.includes('.engi/proof-witness-manifest.json'));
-    assert.ok(reviewerRun.json.latestRun.systemProofBundle.verifierEntrypoint.requiredArtifactPaths.includes('.engi/projection-policy.json'));
-    assert.ok(reviewerRun.json.latestRun.systemProofBundle.verifierEntrypoint.requiredArtifactPaths.includes('.engi/bounded-public-proof.json'));
-    assert.ok(reviewerRun.json.latestRun.systemProofBundle.verifierEntrypoint.requiredArtifactPaths.includes('.engi/redaction-proof.json'));
-    assert.ok(reviewerRun.json.latestRun.systemProofBundle.verifierEntrypoint.requiredArtifactPaths.includes('.engi/disclosure-proof.json'));
-    assert.ok(reviewerRun.json.latestRun.branchArtifacts.visibleFileInventory.includes('.engi/proof-contract.json'));
-    assert.ok(reviewerRun.json.latestRun.branchArtifacts.visibleFileInventory.includes('.engi/system-proof-bundle.json'));
-    assert.ok(reviewerRun.json.latestRun.branchArtifacts.visibleFileInventory.includes('.engi/proof-witness-manifest.json'));
+    assert.ok(reviewerRun.json.latestRun.systemProofBundle.verifierEntrypoint.requiredArtifactPaths.includes('.bitcode/proof-contract.json'));
+    assert.ok(reviewerRun.json.latestRun.systemProofBundle.verifierEntrypoint.requiredArtifactPaths.includes('.bitcode/system-proof-bundle.json'));
+    assert.ok(reviewerRun.json.latestRun.systemProofBundle.verifierEntrypoint.requiredArtifactPaths.includes('.bitcode/proof-witness-manifest.json'));
+    assert.ok(reviewerRun.json.latestRun.systemProofBundle.verifierEntrypoint.requiredArtifactPaths.includes('.bitcode/projection-policy.json'));
+    assert.ok(reviewerRun.json.latestRun.systemProofBundle.verifierEntrypoint.requiredArtifactPaths.includes('.bitcode/bounded-public-proof.json'));
+    assert.ok(reviewerRun.json.latestRun.systemProofBundle.verifierEntrypoint.requiredArtifactPaths.includes('.bitcode/redaction-proof.json'));
+    assert.ok(reviewerRun.json.latestRun.systemProofBundle.verifierEntrypoint.requiredArtifactPaths.includes('.bitcode/disclosure-proof.json'));
+    assert.ok(reviewerRun.json.latestRun.branchArtifacts.visibleFileInventory.includes('.bitcode/proof-contract.json'));
+    assert.ok(reviewerRun.json.latestRun.branchArtifacts.visibleFileInventory.includes('.bitcode/system-proof-bundle.json'));
+    assert.ok(reviewerRun.json.latestRun.branchArtifacts.visibleFileInventory.includes('.bitcode/proof-witness-manifest.json'));
 
     const publicState = await invoke(app, { method: 'GET', url: '/api/state?principal=public' });
 
     assert.equal(publicState.statusCode, 200);
     assert.equal(publicState.json.latestRun.projectionPrincipal, 'public');
     assert.equal(publicState.json.latestRun.disclosureProof.publicDisclosureOnlyUsesBoundedMetadata, true);
-    assert.ok(publicState.json.latestRun.publicArtifacts['.engi/projection-policy.json']);
-    assert.ok(publicState.json.latestRun.publicArtifacts['.engi/bounded-public-proof.json']);
-    assert.ok(publicState.json.latestRun.publicArtifacts['.engi/redaction-proof.json']);
-    assert.ok(publicState.json.latestRun.publicArtifacts['.engi/disclosure-proof.json']);
-    assert.ok(publicState.json.latestRun.publicArtifacts['.engi/match-report.json']);
-    assert.equal('.engi/proof-contract.json' in publicState.json.latestRun.publicArtifacts, false);
-    assert.equal('.engi/system-proof-bundle.json' in publicState.json.latestRun.publicArtifacts, false);
-    assert.equal('.engi/proof-witness-manifest.json' in publicState.json.latestRun.publicArtifacts, false);
-    assert.ok(publicState.json.latestRun.branchArtifacts.publicFiles['.engi/bounded-public-proof.json']);
-    assert.equal('.engi/proof-contract.json' in publicState.json.latestRun.branchArtifacts.publicFiles, false);
-    assert.ok(publicState.json.latestRun.projectionPolicy.privateArtifactPaths.includes('.engi/proof-contract.json'));
-    assert.ok(publicState.json.latestRun.projectionPolicy.privateArtifactPaths.includes('.engi/system-proof-bundle.json'));
+    assert.ok(publicState.json.latestRun.publicArtifacts['.bitcode/projection-policy.json']);
+    assert.ok(publicState.json.latestRun.publicArtifacts['.bitcode/bounded-public-proof.json']);
+    assert.ok(publicState.json.latestRun.publicArtifacts['.bitcode/redaction-proof.json']);
+    assert.ok(publicState.json.latestRun.publicArtifacts['.bitcode/disclosure-proof.json']);
+    assert.ok(publicState.json.latestRun.publicArtifacts['.bitcode/match-report.json']);
+    assert.equal('.bitcode/proof-contract.json' in publicState.json.latestRun.publicArtifacts, false);
+    assert.equal('.bitcode/system-proof-bundle.json' in publicState.json.latestRun.publicArtifacts, false);
+    assert.equal('.bitcode/proof-witness-manifest.json' in publicState.json.latestRun.publicArtifacts, false);
+    assert.ok(publicState.json.latestRun.branchArtifacts.publicFiles['.bitcode/bounded-public-proof.json']);
+    assert.equal('.bitcode/proof-contract.json' in publicState.json.latestRun.branchArtifacts.publicFiles, false);
+    assert.ok(publicState.json.latestRun.projectionPolicy.privateArtifactPaths.includes('.bitcode/proof-contract.json'));
+    assert.ok(publicState.json.latestRun.projectionPolicy.privateArtifactPaths.includes('.bitcode/system-proof-bundle.json'));
     assert.deepEqual(
       Object.keys(publicState.json.latestRun.publicArtifacts).sort(),
       publicState.json.latestRun.projectionPolicy.publicArtifactPaths.slice().sort()
@@ -290,9 +290,9 @@ testAny('internal workflow retains raw branch files while reviewer stays replay-
     });
 
     assert.equal(run.statusCode, 200);
-    assert.ok(run.json.latestRun.branchArtifacts.files['.engi/proof-contract.json']);
-    assert.ok(run.json.latestRun.branchArtifacts.files['.engi/proof-witness-manifest.json']);
-    assert.ok(Object.keys(run.json.latestRun.branchArtifacts.files).some((path) => path.startsWith('.engi/source-material/')));
+    assert.ok(run.json.latestRun.branchArtifacts.files['.bitcode/proof-contract.json']);
+    assert.ok(run.json.latestRun.branchArtifacts.files['.bitcode/proof-witness-manifest.json']);
+    assert.ok(Object.keys(run.json.latestRun.branchArtifacts.files).some((path) => path.startsWith('.bitcode/source-material/')));
     assert.ok(run.json.latestRun.authorizationDecisions.length >= 1);
     assert.ok(run.json.latestRun.selectedSourceMaterialManifest.selectedSourceMaterial.length >= 1);
 
@@ -304,17 +304,17 @@ testAny('internal workflow retains raw branch files while reviewer stays replay-
     assert.equal(buyer.statusCode, 200);
     assert.equal(projectedPublic.statusCode, 200);
     assert.equal(reviewer.json.latestRun.branchArtifacts.files, undefined);
-    assert.equal(reviewer.json.latestRun.branchArtifacts.visibleFileInventory.some((/** @type {string} */ path) => path.startsWith('.engi/source-material/')), false);
-    assert.ok(reviewer.json.latestRun.branchArtifacts.visibleFileInventory.includes('.engi/proof-contract.json'));
-    assert.ok(reviewer.json.latestRun.systemProofBundle.verifierEntrypoint.requiredArtifactPaths.includes('.engi/proof-witness-manifest.json'));
+    assert.equal(reviewer.json.latestRun.branchArtifacts.visibleFileInventory.some((/** @type {string} */ path) => path.startsWith('.bitcode/source-material/')), false);
+    assert.ok(reviewer.json.latestRun.branchArtifacts.visibleFileInventory.includes('.bitcode/proof-contract.json'));
+    assert.ok(reviewer.json.latestRun.systemProofBundle.verifierEntrypoint.requiredArtifactPaths.includes('.bitcode/proof-witness-manifest.json'));
     assert.equal(reviewer.json.latestRun.authorizationDecisions, undefined);
     assert.equal(buyer.json.latestRun.branchArtifacts.files, undefined);
-    assert.equal(buyer.json.latestRun.branchArtifacts.visibleFileInventory.some((/** @type {string} */ path) => path.startsWith('.engi/source-material/')), false);
+    assert.equal(buyer.json.latestRun.branchArtifacts.visibleFileInventory.some((/** @type {string} */ path) => path.startsWith('.bitcode/source-material/')), false);
     assert.ok(buyer.json.latestRun.authorizationDecisions.length >= 1);
     assert.equal(projectedPublic.json.latestRun.branchArtifacts.files, undefined);
     assert.equal(projectedPublic.json.latestRun.proofWitnessManifest, undefined);
     assert.equal(projectedPublic.json.latestRun.systemProofBundle, undefined);
-    assert.equal('.engi/proof-contract.json' in projectedPublic.json.latestRun.publicArtifacts, false);
+    assert.equal('.bitcode/proof-contract.json' in projectedPublic.json.latestRun.publicArtifacts, false);
   });
 });
 
@@ -408,7 +408,7 @@ testAny('reviewer projection retains proof-family artifacts and replay-required 
       }
     }
     assert.equal(projectedPublic.json.latestRun.proofWitnessManifest, undefined);
-    assert.equal(projectedPublic.json.latestRun.publicArtifacts['.engi/bounded-public-proof.json'] !== undefined, true);
+    assert.equal(projectedPublic.json.latestRun.publicArtifacts['.bitcode/bounded-public-proof.json'] !== undefined, true);
   });
 });
 
@@ -505,12 +505,12 @@ testAny('static and verification workflow keeps receipt domains, report families
       assert.equal(verificationReceiptIds.has(receiptId), false, `receipt domain overlap detected for ${receiptId}`);
     }
 
-    assert.ok(branchFiles['.engi/measurement-receipts.json']);
-    assert.ok(branchFiles['.engi/static-measurement-report.json']);
-    assert.ok(branchFiles['.engi/static-measurement-proof.json']);
-    assert.ok(branchFiles['.engi/verification-report.json']);
-    assert.ok(branchFiles['.engi/verification-receipts.json']);
-    assert.ok(branchFiles['.engi/verification-decisions-proof.json']);
+    assert.ok(branchFiles['.bitcode/measurement-receipts.json']);
+    assert.ok(branchFiles['.bitcode/static-measurement-report.json']);
+    assert.ok(branchFiles['.bitcode/static-measurement-proof.json']);
+    assert.ok(branchFiles['.bitcode/verification-report.json']);
+    assert.ok(branchFiles['.bitcode/verification-receipts.json']);
+    assert.ok(branchFiles['.bitcode/verification-decisions-proof.json']);
   });
 });
 
@@ -555,16 +555,16 @@ testAny('selection, authorization, and disclosure workflow keeps source material
     assert.equal(reviewer.json.latestRun.selectedSourceMaterialManifest, undefined);
     assert.equal(reviewer.json.latestRun.authorizationDecisions, undefined);
     assert.equal(reviewer.json.latestRun.sensitiveDataFlowRecords, undefined);
-    assert.ok(reviewer.json.latestRun.branchArtifacts.visibleFileInventory.includes('.engi/selection-and-materialization-proof.json'));
-    assert.ok(reviewer.json.latestRun.branchArtifacts.visibleFileInventory.includes('.engi/authorization-and-sensitive-flow-proof.json'));
-    assert.ok(reviewer.json.latestRun.branchArtifacts.visibleFileInventory.includes('.engi/disclosure-proof.json'));
+    assert.ok(reviewer.json.latestRun.branchArtifacts.visibleFileInventory.includes('.bitcode/selection-and-materialization-proof.json'));
+    assert.ok(reviewer.json.latestRun.branchArtifacts.visibleFileInventory.includes('.bitcode/authorization-and-sensitive-flow-proof.json'));
+    assert.ok(reviewer.json.latestRun.branchArtifacts.visibleFileInventory.includes('.bitcode/disclosure-proof.json'));
     assert.equal(projectedPublic.json.latestRun.selectedSourceMaterialManifest, undefined);
     assert.equal(projectedPublic.json.latestRun.authorizationDecisions, undefined);
     assert.equal(projectedPublic.json.latestRun.sensitiveDataFlowRecords, undefined);
-    assert.ok(projectedPublic.json.latestRun.publicArtifacts['.engi/bounded-public-proof.json']);
-    assert.equal('.engi/selected-source-material.json' in projectedPublic.json.latestRun.publicArtifacts, false);
-    assert.equal('.engi/authorization-decisions.json' in projectedPublic.json.latestRun.publicArtifacts, false);
-    assert.equal('.engi/sensitive-data-flow.json' in projectedPublic.json.latestRun.publicArtifacts, false);
+    assert.ok(projectedPublic.json.latestRun.publicArtifacts['.bitcode/bounded-public-proof.json']);
+    assert.equal('.bitcode/selected-source-material.json' in projectedPublic.json.latestRun.publicArtifacts, false);
+    assert.equal('.bitcode/authorization-decisions.json' in projectedPublic.json.latestRun.publicArtifacts, false);
+    assert.equal('.bitcode/sensitive-data-flow.json' in projectedPublic.json.latestRun.publicArtifacts, false);
   });
 });
 
@@ -609,10 +609,10 @@ testAny('normalization settlement workflow keeps zero-credit participation, allo
     assert.deepEqual(zeroCreditParticipatingAssetIds, zeroCreditAssetIds);
     assert.deepEqual(settlementParticipatingAssetIds, [...(latestRun.settlementPreview.settlementParticipatingAssetIds || [])].sort());
     assert.equal(String(totalCredits), latestRun.journalDiff.totals.credited);
-    assert.ok(branchFiles['.engi/source-to-shares.json']);
-    assert.ok(branchFiles['.engi/settlement-participation.json']);
-    assert.ok(branchFiles['.engi/accounting-precision-report.json']);
-    assert.ok(branchFiles['.engi/settlement-source-to-shares-proof.json']);
+    assert.ok(branchFiles['.bitcode/source-to-shares.json']);
+    assert.ok(branchFiles['.bitcode/settlement-participation.json']);
+    assert.ok(branchFiles['.bitcode/accounting-precision-report.json']);
+    assert.ok(branchFiles['.bitcode/settlement-source-to-shares-proof.json']);
   });
 });
 
@@ -801,7 +801,7 @@ testAny('seeded scenario corpus remains family/member/projection coherent throug
 
         assert.equal(latestRun.systemProofBundle.proofFamilies.length, 9, `${scenarioId}/${branchMode} proof family count drift`);
         assert.equal(latestRun.proofWitnessManifest.proofFamilies.length, 9, `${scenarioId}/${branchMode} witness family count drift`);
-        assert.ok(Object.keys(branchFiles).some((path) => path.startsWith('.engi/source-material/')), `${scenarioId}/${branchMode} lost internal source material`);
+        assert.ok(Object.keys(branchFiles).some((path) => path.startsWith('.bitcode/source-material/')), `${scenarioId}/${branchMode} lost internal source material`);
         assert.deepEqual(Object.keys(proofFamilyCatalog).sort(), Object.keys(EXPECTED_PROOF_FAMILY_CATALOG).sort(), `${scenarioId}/${branchMode} proof family names drift`);
 
         for (const [proofFamily, expected] of Object.entries(EXPECTED_PROOF_FAMILY_CATALOG)) {
@@ -856,14 +856,14 @@ testAny('seeded scenario corpus remains family/member/projection coherent throug
         assert.equal(reviewerState.json.latestRun.projectionPrincipal, 'reviewer');
         assert.equal(buyerState.json.latestRun.projectionPrincipal, 'buyer');
         assert.equal(publicState.json.latestRun.projectionPrincipal, 'public');
-        assert.ok(Object.keys(internalBranchFiles).some((/** @type {string} */ path) => path.startsWith('.engi/source-material/')), `${scenarioId}/${branchMode} internal state lost source material`);
+        assert.ok(Object.keys(internalBranchFiles).some((/** @type {string} */ path) => path.startsWith('.bitcode/source-material/')), `${scenarioId}/${branchMode} internal state lost source material`);
         assert.ok(internalState.json.latestRun.authorizationDecisions.length >= 1, `${scenarioId}/${branchMode} internal state lost authorization decisions`);
         assert.ok(internalState.json.latestRun.selectedSourceMaterialManifest.selectedSourceMaterial.length >= 1, `${scenarioId}/${branchMode} internal state lost selected source material`);
         assert.equal(reviewerState.json.latestRun.branchArtifacts.files, undefined);
         assert.equal(buyerState.json.latestRun.branchArtifacts.files, undefined);
         assert.equal(publicState.json.latestRun.branchArtifacts.files, undefined);
-        assert.equal(reviewerState.json.latestRun.branchArtifacts.visibleFileInventory.some((/** @type {string} */ path) => path.startsWith('.engi/source-material/')), false, `${scenarioId}/${branchMode} reviewer leaked source material`);
-        assert.equal(buyerState.json.latestRun.branchArtifacts.visibleFileInventory.some((/** @type {string} */ path) => path.startsWith('.engi/source-material/')), false, `${scenarioId}/${branchMode} buyer leaked source material`);
+        assert.equal(reviewerState.json.latestRun.branchArtifacts.visibleFileInventory.some((/** @type {string} */ path) => path.startsWith('.bitcode/source-material/')), false, `${scenarioId}/${branchMode} reviewer leaked source material`);
+        assert.equal(buyerState.json.latestRun.branchArtifacts.visibleFileInventory.some((/** @type {string} */ path) => path.startsWith('.bitcode/source-material/')), false, `${scenarioId}/${branchMode} buyer leaked source material`);
         assert.ok(reviewerState.json.latestRun.systemProofBundle.proofFamilies.length === 9, `${scenarioId}/${branchMode} reviewer lost system proof bundle`);
         assert.ok(reviewerState.json.latestRun.proofWitnessManifest.proofFamilies.length === 9, `${scenarioId}/${branchMode} reviewer lost proof witness manifest`);
         assert.ok(buyerState.json.latestRun.authorizationDecisions.length >= 1, `${scenarioId}/${branchMode} buyer lost authorization decisions`);

@@ -44,6 +44,6 @@ test('V20 generator renders quality reports and emits only V20 generated artifac
   assert.ok(generated.markdown.includes('## V20 Operator Quality Reports'));
   assert.ok(generated.markdown.includes('### V20 Projection Quality Smoke Matrix'));
   assert.ok(generated.markdown.includes('ENGI_SPEC_V20_PROVEN.md'));
-  assert.ok(generated.markdown.includes('.engi/v20-quality-summary.json'));
+  assert.ok(generated.markdown.includes('.bitcode/v20-quality-summary.json'));
   assert.equal(Object.keys(generated.artifacts).some((artifactPath) => artifactPath.includes('/v19-')), false);
 });

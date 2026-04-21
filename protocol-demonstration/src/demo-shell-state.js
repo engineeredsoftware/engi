@@ -390,23 +390,23 @@ function buildPublicProjection(latestRun) {
       publicFiles: Object.fromEntries(Object.entries(latestRun.branchArtifacts?.files || {}).filter(([path]) => latestRun.projectionPolicy?.publicArtifactPaths?.includes(path)))
     },
     publicArtifacts: {
-      '.engi/bounded-public-proof.json': latestRun.boundedPublicProof,
-      ...(latestRun.bitcoinBoundedPublicAnchor ? { '.engi/bitcoin-bounded-public-anchor.json': latestRun.bitcoinBoundedPublicAnchor } : {}),
-      '.engi/needing-surface.json': latestRun.needingSurface,
-      '.engi/depositing-to-needing-surface.json': latestRun.depositingToNeedingSurface,
-      '.engi/match-report.json': latestRun.matchReport,
-      '.engi/prompt-completeness-proof.json': latestRun.promptCompletenessProof,
-      '.engi/code-analysis-fact-registry.json': latestRun.codeAnalysisFactRegistry,
-      '.engi/static-heuristics-registry.json': latestRun.staticHeuristicsRegistry,
-      '.engi/static-measurement-report.json': latestRun.staticMeasurementReport,
-      '.engi/static-measurement-proof.json': latestRun.staticMeasurementProof,
-      '.engi/materialization-proof.json': latestRun.materializationProof,
-      '.engi/materialization-visibility-proof.json': latestRun.materializationVisibilityProof,
-      '.engi/scenario-fixture-manifest.json': latestRun.scenarioFixtureManifest,
-      '.engi/test-coverage-report.json': latestRun.testCoverageReport,
-      '.engi/projection-policy.json': latestRun.projectionPolicy,
-      '.engi/redaction-proof.json': latestRun.redactionProof,
-      '.engi/disclosure-proof.json': latestRun.disclosureProof
+      '.bitcode/bounded-public-proof.json': latestRun.boundedPublicProof,
+      ...(latestRun.bitcoinBoundedPublicAnchor ? { '.bitcode/bitcoin-bounded-public-anchor.json': latestRun.bitcoinBoundedPublicAnchor } : {}),
+      '.bitcode/needing-surface.json': latestRun.needingSurface,
+      '.bitcode/depositing-to-needing-surface.json': latestRun.depositingToNeedingSurface,
+      '.bitcode/match-report.json': latestRun.matchReport,
+      '.bitcode/prompt-completeness-proof.json': latestRun.promptCompletenessProof,
+      '.bitcode/code-analysis-fact-registry.json': latestRun.codeAnalysisFactRegistry,
+      '.bitcode/static-heuristics-registry.json': latestRun.staticHeuristicsRegistry,
+      '.bitcode/static-measurement-report.json': latestRun.staticMeasurementReport,
+      '.bitcode/static-measurement-proof.json': latestRun.staticMeasurementProof,
+      '.bitcode/materialization-proof.json': latestRun.materializationProof,
+      '.bitcode/materialization-visibility-proof.json': latestRun.materializationVisibilityProof,
+      '.bitcode/scenario-fixture-manifest.json': latestRun.scenarioFixtureManifest,
+      '.bitcode/test-coverage-report.json': latestRun.testCoverageReport,
+      '.bitcode/projection-policy.json': latestRun.projectionPolicy,
+      '.bitcode/redaction-proof.json': latestRun.redactionProof,
+      '.bitcode/disclosure-proof.json': latestRun.disclosureProof
     }
   };
 }
@@ -578,7 +578,7 @@ function buildBuyerProjection(latestRun) {
       branchName: latestRun.branchArtifacts?.branchName,
       branchMode: latestRun.branchArtifacts?.branchMode,
       confidentiality: latestRun.branchArtifacts?.confidentiality,
-      visibleFileInventory: Object.keys(latestRun.branchArtifacts?.files || {}).filter((path) => !path.startsWith('.engi/source-material/'))
+      visibleFileInventory: Object.keys(latestRun.branchArtifacts?.files || {}).filter((path) => !path.startsWith('.bitcode/source-material/'))
     }
   };
 }
@@ -678,7 +678,7 @@ function buildReviewerProjection(latestRun) {
       visibleFileInventory: [...new Set([
         ...(latestRun.projectionPolicy?.publicArtifactPaths || []),
         ...(latestRun.projectionPolicy?.privateArtifactPaths || [])
-      ])].filter((path) => !path.startsWith('.engi/source-material/'))
+      ])].filter((path) => !path.startsWith('.bitcode/source-material/'))
     }
   };
 }

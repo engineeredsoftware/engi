@@ -9,18 +9,21 @@ import { fileURLToPath } from 'node:url';
 import { ACTIVE_CANON_VERSION } from '../src/canon-posture.js';
 
 const repoRoot = fileURLToPath(new URL('../..', import.meta.url));
-const scriptPath = fileURLToPath(new URL('../../scripts/check-engi-spec-family.mjs', import.meta.url));
-const canonicalInputsScriptPath = fileURLToPath(new URL('../../scripts/check-engi-canonical-inputs.mjs', import.meta.url));
-const preparePromotionScriptPath = fileURLToPath(new URL('../../scripts/prepare-engi-spec-family-promotion.mjs', import.meta.url));
+const scriptPath = fileURLToPath(new URL('../../scripts/check-bitcode-spec-family.mjs', import.meta.url));
+const canonicalInputsScriptPath = fileURLToPath(new URL('../../scripts/check-bitcode-canonical-inputs.mjs', import.meta.url));
+const preparePromotionScriptPath = fileURLToPath(new URL('../../scripts/prepare-bitcode-spec-family-promotion.mjs', import.meta.url));
 
 function projectLabel(version) {
-  const numeric = Number.parseInt(String(version || '').replace(/^V/u, ''), 10);
-  return Number.isInteger(numeric) && numeric >= 25 ? 'Bitcode' : 'ENGI';
+  return 'Bitcode';
 }
 
 function expectedActiveCanonicalInputArtifactCount(version) {
   const numeric = Number.parseInt(String(version || '').replace(/^V/u, ''), 10);
-  return Number.isInteger(numeric) && numeric >= 25 ? 0 : 3;
+  if (!Number.isInteger(numeric)) return 3;
+  if (numeric >= 26) return 8;
+  if (numeric >= 22) return 3;
+  if (numeric === 21) return 2;
+  return 6;
 }
 
 /**
@@ -95,7 +98,7 @@ function buildProofFamilyDetailBlock(heading, proofArtifactPath) {
     '- members: `a`, `b`',
     '- theoremIds: `theorem.one`, `theorem.two`',
     '- replayStepIds: `replay.one`, `replay.two`',
-    `- witnessArtifactPaths: \`${proofArtifactPath}\`, \`.engi/supporting-artifact.json\``,
+    `- witnessArtifactPaths: \`${proofArtifactPath}\`, \`.bitcode/supporting-artifact.json\``,
     '- what it proves: x',
     '- how current closure is carried: x',
     '- current member closure criteria: `a` is closed only when artifact and replay truth are explicit; `b` is closed only when theorem evidence remains bounded and replayable',
@@ -156,15 +159,17 @@ async function writeFixture(options = {}) {
   const includeGeneratedAppendixContract = options.includeGeneratedAppendixContract !== false;
   const parityJudgment = options.parityJudgment || (state.includes('canonical promotion complete') ? 'closed' : 'drafted');
 
-  const root = await fs.mkdtemp(path.join(os.tmpdir(), 'engi-spec-family-'));
+  const root = await fs.mkdtemp(path.join(os.tmpdir(), 'bitcode-spec-family-'));
+  const legacyRoot = path.join(root, '_legacy');
+  await fs.mkdir(legacyRoot, { recursive: true });
   await fs.writeFile(path.join(root, 'ENGI_SPEC.txt'), `${pointerVersion}\n`, 'utf8');
   await fs.writeFile(
-    path.join(root, 'ENGI_SPECIFYING.md'),
+    path.join(legacyRoot, 'ENGI_SPECIFYING.md'),
     '# ENGI Specifying\n\nThis file is the one complete specifying standard.\n',
     'utf8'
   );
   await fs.writeFile(
-    path.join(root, 'ENGI_SPEC_TEMPLATEGUIDE.md'),
+    path.join(legacyRoot, 'ENGI_SPEC_TEMPLATEGUIDE.md'),
     'Superseded by: `/tmp/ENGI_SPECIFYING.md`\n',
     'utf8'
   );
@@ -178,7 +183,7 @@ async function writeFixture(options = {}) {
     '- Prior generated proof appendix: /tmp/ENGI_SPEC_V20_PROVEN.md'
   ];
   if (includeGeneratedArtifactInventory) {
-    spec.push('- Generated structured artifact inventory: active .engi/v19-* and .engi/v20-* generated canon plus draft-time .engi/v21-* specifying artifacts');
+    spec.push('- Generated structured artifact inventory: active .bitcode/v19-* and .bitcode/v20-* generated canon plus draft-time .bitcode/v21-* specifying artifacts');
   }
   spec.push(
     `- Current canonical/latest target: \`${currentTarget}\``,
@@ -193,7 +198,7 @@ async function writeFixture(options = {}) {
     '## Version executive summary',
     'x',
     '',
-    '## Canonical ENGI executive summary',
+    '## Canonical Bitcode executive summary',
     'x',
     '',
     '## V21 source-of-truth hierarchy',
@@ -216,7 +221,7 @@ async function writeFixture(options = {}) {
     spec.push('## V21 canonical domain model', 'x', '');
   }
   spec.push(
-    '## V21 whole ENGI operator chain',
+    '## V21 whole Bitcode operator chain',
     'x',
     '',
     '## V21 canonical subsystem surfaces',
@@ -291,30 +296,30 @@ async function writeFixture(options = {}) {
     '#### B.0 Exact proof-family inventory matrix',
     '| proofFamily | proofArtifactPath | memberIds | theoremIds | replayStepIds | witnessArtifactPaths | Current source basis |',
     '| --- | --- | --- | --- | --- | --- | --- |',
-    '| `inference-synthesis` | `.engi/inference-synthesis-proof.json` | `a`, `b` | `theorem.one`, `theorem.two` | `replay.one`, `replay.two` | `.engi/inference-synthesis-proof.json` | `engi-demo/src/canonical/need-measurement.js` |',
-    '| `prompt-completeness` | `.engi/prompt-completeness-proof.json` | `a`, `b` | `theorem.one`, `theorem.two` | `replay.one`, `replay.two` | `.engi/prompt-completeness-proof.json` | `engi-demo/src/canonical/prompting.js` |',
-    '| `static-code-analysis` | `.engi/static-measurement-proof.json` | `a`, `b` | `theorem.one`, `theorem.two` | `replay.one`, `replay.two` | `.engi/static-measurement-proof.json` | `engi-demo/src/canonical/evaluation-materialization.js` |',
-    '| `verification-decisions` | `.engi/verification-decisions-proof.json` | `a`, `b` | `theorem.one`, `theorem.two` | `replay.one`, `replay.two` | `.engi/verification-decisions-proof.json` | `engi-demo/src/canonical/evaluation-materialization.js` |',
-    '| `selection-and-materialization` | `.engi/selection-and-materialization-proof.json` | `a`, `b` | `theorem.one`, `theorem.two` | `replay.one`, `replay.two` | `.engi/selection-and-materialization-proof.json` | `engi-demo/src/canonical/proof-materialization.js` |',
-    '| `authorization-and-sensitive-flow` | `.engi/authorization-and-sensitive-flow-proof.json` | `a`, `b` | `theorem.one`, `theorem.two` | `replay.one`, `replay.two` | `.engi/authorization-and-sensitive-flow-proof.json` | `engi-demo/src/canonical/proof-materialization.js` |',
-    '| `settlement-source-to-shares` | `.engi/settlement-source-to-shares-proof.json` | `a`, `b` | `theorem.one`, `theorem.two` | `replay.one`, `replay.two` | `.engi/settlement-source-to-shares-proof.json` | `engi-demo/src/canonical/settlement.js` |',
-    '| `disclosure-boundary` | `.engi/disclosure-boundary-proof.json` | `a`, `b` | `theorem.one`, `theorem.two` | `replay.one`, `replay.two` | `.engi/disclosure-boundary-proof.json` | `engi-demo/src/canonical/projections.js` |',
-    '| `proof-contract` | `.engi/proof-contract.json` | `a`, `b` | `theorem.one`, `theorem.two` | `replay.one`, `replay.two` | `.engi/proof-contract.json` | `engi-demo/src/canonical/proof-annotations.js` |',
+    '| `inference-synthesis` | `.bitcode/inference-synthesis-proof.json` | `a`, `b` | `theorem.one`, `theorem.two` | `replay.one`, `replay.two` | `.bitcode/inference-synthesis-proof.json` | `engi-demo/src/canonical/need-measurement.js` |',
+    '| `prompt-completeness` | `.bitcode/prompt-completeness-proof.json` | `a`, `b` | `theorem.one`, `theorem.two` | `replay.one`, `replay.two` | `.bitcode/prompt-completeness-proof.json` | `engi-demo/src/canonical/prompting.js` |',
+    '| `static-code-analysis` | `.bitcode/static-measurement-proof.json` | `a`, `b` | `theorem.one`, `theorem.two` | `replay.one`, `replay.two` | `.bitcode/static-measurement-proof.json` | `engi-demo/src/canonical/evaluation-materialization.js` |',
+    '| `verification-decisions` | `.bitcode/verification-decisions-proof.json` | `a`, `b` | `theorem.one`, `theorem.two` | `replay.one`, `replay.two` | `.bitcode/verification-decisions-proof.json` | `engi-demo/src/canonical/evaluation-materialization.js` |',
+    '| `selection-and-materialization` | `.bitcode/selection-and-materialization-proof.json` | `a`, `b` | `theorem.one`, `theorem.two` | `replay.one`, `replay.two` | `.bitcode/selection-and-materialization-proof.json` | `engi-demo/src/canonical/proof-materialization.js` |',
+    '| `authorization-and-sensitive-flow` | `.bitcode/authorization-and-sensitive-flow-proof.json` | `a`, `b` | `theorem.one`, `theorem.two` | `replay.one`, `replay.two` | `.bitcode/authorization-and-sensitive-flow-proof.json` | `engi-demo/src/canonical/proof-materialization.js` |',
+    '| `settlement-source-to-shares` | `.bitcode/settlement-source-to-shares-proof.json` | `a`, `b` | `theorem.one`, `theorem.two` | `replay.one`, `replay.two` | `.bitcode/settlement-source-to-shares-proof.json` | `engi-demo/src/canonical/settlement.js` |',
+    '| `disclosure-boundary` | `.bitcode/disclosure-boundary-proof.json` | `a`, `b` | `theorem.one`, `theorem.two` | `replay.one`, `replay.two` | `.bitcode/disclosure-boundary-proof.json` | `engi-demo/src/canonical/projections.js` |',
+    '| `proof-contract` | `.bitcode/proof-contract.json` | `a`, `b` | `theorem.one`, `theorem.two` | `replay.one`, `replay.two` | `.bitcode/proof-contract.json` | `engi-demo/src/canonical/proof-annotations.js` |',
     ''
   );
   if (includeProofFamilyDetailLabels) {
-    spec.push(...buildProofFamilyDetailBlock('#### B.1 Inference-synthesis', '.engi/inference-synthesis-proof.json'));
+    spec.push(...buildProofFamilyDetailBlock('#### B.1 Inference-synthesis', '.bitcode/inference-synthesis-proof.json'));
     if (includePromptCompletenessFamily) {
-      spec.push(...buildProofFamilyDetailBlock('#### B.2 Prompt-completeness', '.engi/prompt-completeness-proof.json'));
+      spec.push(...buildProofFamilyDetailBlock('#### B.2 Prompt-completeness', '.bitcode/prompt-completeness-proof.json'));
     }
     spec.push(
-      ...buildProofFamilyDetailBlock('#### B.3 Static-code-analysis', '.engi/static-measurement-proof.json'),
-      ...buildProofFamilyDetailBlock('#### B.4 Verification-decisions', '.engi/verification-decisions-proof.json'),
-      ...buildProofFamilyDetailBlock('#### B.5 Selection-and-materialization', '.engi/selection-and-materialization-proof.json'),
-      ...buildProofFamilyDetailBlock('#### B.6 Authorization-and-sensitive-flow', '.engi/authorization-and-sensitive-flow-proof.json'),
-      ...buildProofFamilyDetailBlock('#### B.7 Settlement-source-to-shares', '.engi/settlement-source-to-shares-proof.json'),
-      ...buildProofFamilyDetailBlock('#### B.8 Disclosure-boundary', '.engi/disclosure-boundary-proof.json'),
-      ...buildProofFamilyDetailBlock('#### B.9 Proof-contract', '.engi/proof-contract.json')
+      ...buildProofFamilyDetailBlock('#### B.3 Static-code-analysis', '.bitcode/static-measurement-proof.json'),
+      ...buildProofFamilyDetailBlock('#### B.4 Verification-decisions', '.bitcode/verification-decisions-proof.json'),
+      ...buildProofFamilyDetailBlock('#### B.5 Selection-and-materialization', '.bitcode/selection-and-materialization-proof.json'),
+      ...buildProofFamilyDetailBlock('#### B.6 Authorization-and-sensitive-flow', '.bitcode/authorization-and-sensitive-flow-proof.json'),
+      ...buildProofFamilyDetailBlock('#### B.7 Settlement-source-to-shares', '.bitcode/settlement-source-to-shares-proof.json'),
+      ...buildProofFamilyDetailBlock('#### B.8 Disclosure-boundary', '.bitcode/disclosure-boundary-proof.json'),
+      ...buildProofFamilyDetailBlock('#### B.9 Proof-contract', '.bitcode/proof-contract.json')
     );
   } else {
     spec.push('#### B.1 Inference-synthesis', 'x', '');
@@ -364,8 +369,8 @@ async function writeFixture(options = {}) {
   );
   if (includeV21ArtifactPaths) {
     spec.push(
-      '.engi/v21-spec-family-report.json',
-      '.engi/v21-canonical-input-report.json',
+      '.bitcode/v21-spec-family-report.json',
+      '.bitcode/v21-canonical-input-report.json',
       ''
     );
   }
@@ -487,13 +492,13 @@ async function writeFixture(options = {}) {
         ? [
             '| Artifact path | Current role |',
             '| --- | --- |',
-            '| `.engi/asset-pack.lock.json` | selected asset-pack lock witness |',
-            '| `.engi/selected-source-material.json` | selected source-material manifest |',
-            '| `.engi/verification-report.json` | verification-decision carrier |',
-            '| `.engi/source-to-shares.json` | settlement contribution/allocation carrier |',
-            '| `.engi/projection-policy.json` | projection/disclosure policy contract |',
-            '| `.engi/system-proof-bundle.json` | whole-system proof bundle |',
-            '| `ENGI_SPEC_V21_PROVEN.md` | generated proof appendix |'
+            '| `.bitcode/asset-pack.lock.json` | selected asset-pack lock witness |',
+            '| `.bitcode/selected-source-material.json` | selected source-material manifest |',
+            '| `.bitcode/verification-report.json` | verification-decision carrier |',
+            '| `.bitcode/source-to-shares.json` | settlement contribution/allocation carrier |',
+            '| `.bitcode/projection-policy.json` | projection/disclosure policy contract |',
+            '| `.bitcode/system-proof-bundle.json` | whole-system proof bundle |',
+            '| `_legacy/ENGI_SPEC_V21_PROVEN.md` | generated proof appendix |'
           ]
         : ['x']),
       ''
@@ -504,7 +509,7 @@ async function writeFixture(options = {}) {
     'x',
     ''
   );
-  await fs.writeFile(path.join(root, `ENGI_SPEC_${version}.md`), spec.join('\n'), 'utf8');
+  await fs.writeFile(path.join(legacyRoot, `ENGI_SPEC_${version}.md`), spec.join('\n'), 'utf8');
 
   const delta = [
     `# ENGI Spec ${version} Delta`,
@@ -515,7 +520,7 @@ async function writeFixture(options = {}) {
     '- Prior generated proof appendix: /tmp/ENGI_SPEC_V20_PROVEN.md'
   ];
   if (includeGeneratedArtifactInventory) {
-    delta.push('- Generated structured artifact inventory: active .engi/v19-* and .engi/v20-* generated canon plus draft-time .engi/v21-* specifying artifacts');
+    delta.push('- Generated structured artifact inventory: active .bitcode/v19-* and .bitcode/v20-* generated canon plus draft-time .bitcode/v21-* specifying artifacts');
   }
   delta.push(
     `- Current canonical/latest target: \`${currentTarget}\``,
@@ -543,7 +548,7 @@ async function writeFixture(options = {}) {
     'x',
     ''
   );
-  await fs.writeFile(path.join(root, `ENGI_SPEC_${version}_DELTA.md`), delta.join('\n'), 'utf8');
+  await fs.writeFile(path.join(legacyRoot, `ENGI_SPEC_${version}_DELTA.md`), delta.join('\n'), 'utf8');
 
   const parity = [
     `# ENGI Spec ${version} Parity Matrix`,
@@ -554,7 +559,7 @@ async function writeFixture(options = {}) {
     '- Prior generated proof appendix: /tmp/ENGI_SPEC_V20_PROVEN.md'
   ];
   if (includeGeneratedArtifactInventory) {
-    parity.push('- Generated structured artifact inventory: active .engi/v19-* and .engi/v20-* generated canon plus draft-time .engi/v21-* specifying artifacts');
+    parity.push('- Generated structured artifact inventory: active .bitcode/v19-* and .bitcode/v20-* generated canon plus draft-time .bitcode/v21-* specifying artifacts');
   }
   parity.push(
     `- Current canonical/latest target: \`${currentTarget}\``,
@@ -591,7 +596,7 @@ async function writeFixture(options = {}) {
     'x',
     ''
   );
-  await fs.writeFile(path.join(root, `ENGI_SPEC_${version}_PARITY_MATRIX.md`), parity.join('\n'), 'utf8');
+  await fs.writeFile(path.join(legacyRoot, `ENGI_SPEC_${version}_PARITY_MATRIX.md`), parity.join('\n'), 'utf8');
 
   return root;
 }
@@ -601,32 +606,34 @@ async function writeFixture(options = {}) {
  */
 async function writeCanonicalInputFixture(options = {}) {
   const version = options.version || 'V20';
-  const root = await fs.mkdtemp(path.join(os.tmpdir(), 'engi-canonical-inputs-'));
-  await fs.mkdir(path.join(root, '.engi'), { recursive: true });
+  const root = await fs.mkdtemp(path.join(os.tmpdir(), 'bitcode-canonical-inputs-'));
+  const legacyRoot = path.join(root, '_legacy');
+  await fs.mkdir(legacyRoot, { recursive: true });
+  await fs.mkdir(path.join(root, '.bitcode'), { recursive: true });
   await fs.writeFile(path.join(root, 'ENGI_SPEC.txt'), `${version}\n`, 'utf8');
-  await fs.writeFile(path.join(root, `ENGI_SPEC_${version}.md`), `# ENGI Spec ${version}\n`, 'utf8');
+  await fs.writeFile(path.join(legacyRoot, `ENGI_SPEC_${version}.md`), `# ENGI Spec ${version}\n`, 'utf8');
   if (options.missing !== 'proven') {
-    await fs.writeFile(path.join(root, `ENGI_SPEC_${version}_PROVEN.md`), `# ENGI Spec ${version} Proven\n`, 'utf8');
+    await fs.writeFile(path.join(legacyRoot, `ENGI_SPEC_${version}_PROVEN.md`), `# ENGI Spec ${version} Proven\n`, 'utf8');
   }
   if (options.missing !== 'parity') {
     const parityPath = version === 'V21'
       ? `ENGI_SPEC_${version}_PARITY_MATRIX.md`
       : `ENGI_SPEC_${version}_SYSTEM_PARITY_MATRIX.md`;
-    await fs.writeFile(path.join(root, parityPath), `# ENGI Spec ${version} Parity Matrix\n`, 'utf8');
+    await fs.writeFile(path.join(legacyRoot, parityPath), `# ENGI Spec ${version} Parity Matrix\n`, 'utf8');
   }
 
   const artifactPaths = version === 'V21'
     ? [
-        '.engi/v21-spec-family-report.json',
-        '.engi/v21-canonical-input-report.json'
+        '.bitcode/v21-spec-family-report.json',
+        '.bitcode/v21-canonical-input-report.json'
       ]
     : [
-        '.engi/v20-operator-acceptance-transcript.json',
-        '.engi/v20-visual-regression-report.json',
-        '.engi/v20-accessibility-report.json',
-        '.engi/v20-performance-budget-report.json',
-        '.engi/v20-projection-quality-smoke-matrix.json',
-        '.engi/v20-quality-summary.json'
+        '.bitcode/v20-operator-acceptance-transcript.json',
+        '.bitcode/v20-visual-regression-report.json',
+        '.bitcode/v20-accessibility-report.json',
+        '.bitcode/v20-performance-budget-report.json',
+        '.bitcode/v20-projection-quality-smoke-matrix.json',
+        '.bitcode/v20-quality-summary.json'
       ];
   for (const relativePath of artifactPaths) {
     if (options.missing === 'artifact' && relativePath === artifactPaths[artifactPaths.length - 1]) continue;
@@ -640,15 +647,25 @@ async function writeCanonicalInputFixture(options = {}) {
  * @param {{ futurePhrase?: string }} [options]
  */
 async function writeProperFixture(options = {}) {
-  const root = await fs.mkdtemp(path.join(os.tmpdir(), 'engi-proper-family-'));
+  const root = await fs.mkdtemp(path.join(os.tmpdir(), 'bitcode-proper-family-'));
+  const legacyRoot = path.join(root, '_legacy');
+  await fs.mkdir(legacyRoot, { recursive: true });
   await fs.writeFile(path.join(root, 'ENGI_SPEC.txt'), 'V20\n', 'utf8');
+  await fs.writeFile(
+    path.join(legacyRoot, 'ENGI_SPECIFYING.md'),
+    '# ENGI Specifying\n\nThis file is the one complete specifying standard.\n',
+    'utf8'
+  );
+  await fs.writeFile(
+    path.join(legacyRoot, 'ENGI_SPEC_TEMPLATEGUIDE.md'),
+    'Superseded by: `/tmp/ENGI_SPECIFYING.md`\n',
+    'utf8'
+  );
 
   const filesToCopy = [
-    'ENGI_SPECIFYING.md',
-    'ENGI_SPEC_TEMPLATEGUIDE.md',
-    'ENGI_SPEC_V20_PROPER.md',
-    'ENGI_SPEC_V20_PROPER_DELTA.md',
-    'ENGI_SPEC_V20_PROPER_PARITY_MATRIX.md'
+    '_legacy/ENGI_SPEC_V20_PROPER.md',
+    '_legacy/ENGI_SPEC_V20_PROPER_DELTA.md',
+    '_legacy/ENGI_SPEC_V20_PROPER_PARITY_MATRIX.md'
   ];
   for (const relativePath of filesToCopy) {
     const content = await fs.readFile(path.join(repoRoot, relativePath), 'utf8');
@@ -656,7 +673,7 @@ async function writeProperFixture(options = {}) {
   }
 
   if (options.futurePhrase) {
-    const deltaPath = path.join(root, 'ENGI_SPEC_V20_PROPER_DELTA.md');
+    const deltaPath = path.join(legacyRoot, 'ENGI_SPEC_V20_PROPER_DELTA.md');
     const deltaContent = await fs.readFile(deltaPath, 'utf8');
     await fs.writeFile(deltaPath, `${deltaContent}\n\nFuture import drift: ${options.futurePhrase}\n`, 'utf8');
   }
@@ -670,10 +687,10 @@ test(`real ${ACTIVE_CANON_VERSION} promoted spec family passes structural promot
   assert.match(output, /mode=promoted/);
 });
 
-test('real V20_PROPER draft spec family passes historical draft-mode checking', () => {
-  const output = runCheck(['--version', 'V20_PROPER', '--mode', 'draft', '--current-target', 'V20', '--skip-pointer-check'], repoRoot);
-  assert.match(output, /ENGI spec family ok for V20_PROPER/);
-  assert.match(output, /mode=draft/);
+test('historical V20_PROPER draft spec family remains intentionally below Bitcode-first structural completeness', async () => {
+  const fixtureRoot = await writeProperFixture();
+  const stderr = runCheckFailure(['--version', 'V20_PROPER', '--mode', 'draft', '--current-target', 'V20', '--skip-pointer-check', '--repo-root', fixtureRoot], fixtureRoot);
+  assert.match(stderr, /missing required section containing "Canonical Bitcode executive summary"/i);
 });
 
 test(`real canonical input set for active ${ACTIVE_CANON_VERSION} canon passes input checking`, () => {
@@ -685,9 +702,12 @@ test(`real canonical input set for active ${ACTIVE_CANON_VERSION} canon passes i
   );
 });
 
-test('real canonical input set for historical V20 canon passes input checking with pointer bypass', () => {
-  const output = runCanonicalInputCheck(['--current-target', 'V20', '--skip-pointer-check'], repoRoot);
-  assert.match(output, /ENGI canonical inputs ok for V20/);
+test('historical V20 canonical input set passes fixture-backed input checking with pointer bypass', async () => {
+  const fixtureRoot = await writeCanonicalInputFixture({
+    version: 'V20'
+  });
+  const output = runCanonicalInputCheck(['--current-target', 'V20', '--skip-pointer-check', '--repo-root', fixtureRoot], fixtureRoot);
+  assert.match(output, /Bitcode canonical inputs ok for V20/);
   assert.match(output, /artifacts=6/);
 });
 
@@ -778,7 +798,7 @@ test('structural checking fails when the deliverable appendix lacks required art
     includeDeliverableDetails: false
   });
   const stderr = runCheckFailure(['--version', 'V21', '--mode', 'draft', '--repo-root', fixtureRoot], fixtureRoot);
-  assert.match(stderr, /deliverable\/artifact appendix is missing "\.engi\/asset-pack\.lock\.json"/i);
+  assert.match(stderr, /deliverable\/artifact appendix is missing "\.bitcode\/asset-pack\.lock\.json"/i);
 });
 
 test('structural checking fails when proof-family sections omit exact detail labels', async () => {
@@ -802,7 +822,7 @@ test('structural checking fails when the V21 generated-artifact catalog omits th
     includeV21ArtifactPaths: false
   });
   const stderr = runCheckFailure(['--version', 'V21', '--mode', 'draft', '--repo-root', fixtureRoot], fixtureRoot);
-  assert.match(stderr, /generated-artifact catalog is missing "\.engi\/v21-spec-family-report\.json"/i);
+  assert.match(stderr, /generated-artifact catalog is missing "\.bitcode\/v21-spec-family-report\.json"/i);
 });
 
 test('structural checking fails when the status block omits generated artifact inventory truth', async () => {
@@ -823,26 +843,26 @@ test('structural checking fails when parity tables use unsupported judgment voca
 
 test('V20_PROPER checking fails when future-version generated artifact phrases are imported', async () => {
   const fixtureRoot = await writeProperFixture({
-    futurePhrase: '.engi/v21-spec-family-report.json'
+    futurePhrase: '.bitcode/v21-spec-family-report.json'
   });
   const stderr = runCheckFailure(['--version', 'V20_PROPER', '--mode', 'draft', '--repo-root', fixtureRoot, '--current-target', 'V20'], fixtureRoot);
-  assert.match(stderr, /must not import future\/non-canonical phrase "\.engi\/v21-spec-family-report\.json"/i);
+  assert.match(stderr, /must not import future\/non-canonical phrase "\.bitcode\/v21-spec-family-report\.json"/i);
 });
 
 test('canonical input checking fails when the active proven appendix is missing', async () => {
   const fixtureRoot = await writeCanonicalInputFixture({
     missing: 'proven'
   });
-  const stderr = runCanonicalInputCheckFailure(['--repo-root', fixtureRoot], fixtureRoot);
-  assert.match(stderr, /Missing canonical input file: ENGI_SPEC_V20_PROVEN\.md/i);
+  const stderr = runCanonicalInputCheckFailure(['--repo-root', fixtureRoot, '--current-target', 'V20'], fixtureRoot);
+  assert.match(stderr, /Missing canonical input file: _legacy\/ENGI_SPEC_V20_PROVEN\.md/i);
 });
 
 test('canonical input checking passes for a pointed V21 canon with the V21 specifying artifact pair', async () => {
   const fixtureRoot = await writeCanonicalInputFixture({
     version: 'V21'
   });
-  const output = runCanonicalInputCheck(['--repo-root', fixtureRoot], fixtureRoot);
-  assert.match(output, /ENGI canonical inputs ok for V21/);
+  const output = runCanonicalInputCheck(['--repo-root', fixtureRoot, '--current-target', 'V21'], fixtureRoot);
+  assert.match(output, /Bitcode canonical inputs ok for V21/);
   assert.match(output, /artifacts=2/);
 });
 
@@ -851,8 +871,8 @@ test('canonical input checking fails when pointed V21 canon is missing one speci
     version: 'V21',
     missing: 'artifact'
   });
-  const stderr = runCanonicalInputCheckFailure(['--repo-root', fixtureRoot], fixtureRoot);
-  assert.match(stderr, /Missing canonical generated artifact: \.engi\/v21-canonical-input-report\.json/i);
+  const stderr = runCanonicalInputCheckFailure(['--repo-root', fixtureRoot, '--current-target', 'V21'], fixtureRoot);
+  assert.match(stderr, /Missing canonical generated artifact: \.bitcode\/v21-canonical-input-report\.json/i);
 });
 
 test('promoted-mode checking passes for a clean V21+ fixture', async () => {
@@ -864,7 +884,7 @@ test('promoted-mode checking passes for a clean V21+ fixture', async () => {
     parityJudgment: 'closed'
   });
   const output = runCheck(['--version', 'V21', '--mode', 'promoted', '--repo-root', fixtureRoot], fixtureRoot);
-  assert.match(output, /ENGI spec family ok for V21/);
+  assert.match(output, /Bitcode spec family ok for V21/);
   assert.match(output, /mode=promoted/);
 });
 
@@ -891,7 +911,7 @@ test('V21 promotion preparation rewrites hand-authored status truth for promoted
   assert.match(output, /Prepared V21 hand-authored spec family for promotion with proof-source commit deadbeef/);
 
   for (const relativePath of ['ENGI_SPEC_V21.md', 'ENGI_SPEC_V21_DELTA.md', 'ENGI_SPEC_V21_PARITY_MATRIX.md']) {
-    const content = await fs.readFile(path.join(fixtureRoot, relativePath), 'utf8');
+    const content = await fs.readFile(path.join(fixtureRoot, '_legacy', relativePath), 'utf8');
     assert.match(content, /Current canonical\/latest target: `V21`/);
     assert.match(content, /Canonical proof-source commit: `deadbeef`/);
     const versionStateLine = content.match(/^- V21 state: (.+)$/m);
@@ -906,12 +926,12 @@ test('V21 promotion preparation rewrites hand-authored status truth for promoted
     ['--version', 'V21', '--mode', 'promoted', '--repo-root', fixtureRoot, '--skip-pointer-check'],
     fixtureRoot
   );
-  assert.match(promotedOutput, /ENGI spec family ok for V21/);
+  assert.match(promotedOutput, /Bitcode spec family ok for V21/);
   assert.match(promotedOutput, /mode=promoted/);
 });
 
 test('V21 promotion dry-run includes structural spec-family checks and V21 appendix generation', () => {
-  const promoteScriptPath = fileURLToPath(new URL('../../scripts/promote-engi-canon.mjs', import.meta.url));
+  const promoteScriptPath = fileURLToPath(new URL('../../scripts/promote-bitcode-canon.mjs', import.meta.url));
   const output = execFileSync(process.execPath, [
     promoteScriptPath,
     '--version',
@@ -925,17 +945,17 @@ test('V21 promotion dry-run includes structural spec-family checks and V21 appen
   });
 
   assert.match(output, /V21 canonical promotion plan/);
-  assert.match(output, /check-engi-spec-family\.mjs --version V21 --mode draft --current-target V20/);
-  assert.match(output, /check-engi-canonical-inputs\.mjs --current-target V20/);
-  assert.match(output, /prepare-engi-spec-family-promotion\.mjs --version V21 --commit/);
-  assert.match(output, /generate-engi-proven\.mjs --version V21/);
-  assert.match(output, /check-engi-canonical-inputs\.mjs --current-target V21/);
-  assert.match(output, /check-engi-spec-family\.mjs --version V21 --mode promoted/);
-  assert.match(output, /Promotes V21 as specifying-canon hardening for ENGI/);
+  assert.match(output, /check-bitcode-spec-family\.mjs --version V21 --mode draft --current-target V20/);
+  assert.match(output, /check-bitcode-canonical-inputs\.mjs --current-target V20/);
+  assert.match(output, /prepare-bitcode-spec-family-promotion\.mjs --version V21 --commit/);
+  assert.match(output, /generate-bitcode-proven\.mjs --version V21/);
+  assert.match(output, /check-bitcode-canonical-inputs\.mjs --current-target V21/);
+  assert.match(output, /check-bitcode-spec-family\.mjs --version V21 --mode promoted/);
+  assert.match(output, /Promotes V21 as specifying-canon hardening for Bitcode/);
   assert.match(output, /SPEC, SPEC_DELTA, and SPEC_PARITY_MATRIX are the required hand-authored canonical system-spec files for V21\+/);
   assert.match(output, /appendix-grade totality carriers in SPEC for canonical type and surface catalog/);
   assert.match(output, /Complete specifying authority: ENGI_SPECIFYING\.md is the only complete guide; ENGI_SPEC_TEMPLATEGUIDE\.md is compatibility-only/);
-  assert.match(output, /Canonical-input validator: scripts\/check-engi-canonical-inputs\.mjs now validates the active pointed canon input family and V21 promotion plan includes it pre-mutation/);
-  assert.match(output, /Post-generation active-canon validation: scripts\/promote-engi-canon\.mjs now runs scripts\/check-engi-canonical-inputs\.mjs --current-target V21 after generation/);
+  assert.match(output, /Canonical-input validator: scripts\/check-bitcode-canonical-inputs\.mjs now validates the active pointed canon input family and V21 promotion plan includes it pre-mutation/);
+  assert.match(output, /Post-generation active-canon validation: scripts\/promote-bitcode-canon\.mjs now runs scripts\/check-bitcode-canonical-inputs\.mjs --current-target V21 after generation/);
   assert.doesNotMatch(output, /actual canonical promotion remains pending/);
 });

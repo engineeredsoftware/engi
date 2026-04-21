@@ -270,9 +270,9 @@ async function assertOperatorProjectionCell({ page, principal, scenarioId, branc
   const publicArtifactPaths = projectedRun.projectionPolicy.publicArtifactPaths || [];
   const privateArtifactPaths = projectedRun.projectionPolicy.privateArtifactPaths || [];
   const policyVisibleNonSourcePaths = [...new Set([...publicArtifactPaths, ...privateArtifactPaths])]
-    .filter((artifactPath) => !artifactPath.startsWith('.engi/source-material/'));
+    .filter((artifactPath) => !artifactPath.startsWith('.bitcode/source-material/'));
   const internalRawPaths = Object.keys(internalRun.branchArtifacts.files || {});
-  const nonSourceRawPaths = internalRawPaths.filter((artifactPath) => !artifactPath.startsWith('.engi/source-material/'));
+  const nonSourceRawPaths = internalRawPaths.filter((artifactPath) => !artifactPath.startsWith('.bitcode/source-material/'));
 
   assert.equal(projected.projectionPrincipal, principal, `${cellLabel} projected principal drift`);
   assert.equal(projectedRun.scenarioId, scenarioId, `${cellLabel} projected scenario drift`);
@@ -318,7 +318,7 @@ async function assertOperatorProjectionCell({ page, principal, scenarioId, branc
     return;
   }
 
-  assert.ok(internalRawPaths.some((artifactPath) => artifactPath.startsWith('.engi/source-material/')), `${cellLabel} internal lost source material`);
+  assert.ok(internalRawPaths.some((artifactPath) => artifactPath.startsWith('.bitcode/source-material/')), `${cellLabel} internal lost source material`);
   assert.ok(projectedRun.authorizationDecisions.length >= 1, `${cellLabel} internal lost authorization decisions`);
   assertSameStrings(Object.keys(projectedRun.branchArtifacts.files || {}), internalRawPaths, `${cellLabel} internal raw file exactness drift`);
   assertSameStrings(projectionSummary.visibleArtifactPaths, internalRawPaths, `${cellLabel} internal summary visible path drift`);
@@ -687,14 +687,14 @@ testAny('browser flow can inspect raw verification and proof JSON for a restrict
     assert.match(String(verificationRawText), /"useTier": "reject"/);
     assert.match(String(verificationRawText), /"policyRestrictions"/);
 
-    const exclusionsSurface = await surfaceBySubtitleInSection(page, 'branchArtifacts', '.engi/materialization-exclusions.json');
+    const exclusionsSurface = await surfaceBySubtitleInSection(page, 'branchArtifacts', '.bitcode/materialization-exclusions.json');
     await switchSurfaceToRaw(exclusionsSurface);
     await activeRawPanelPre(exclusionsSurface).waitFor();
     const exclusionsRawText = await activeRawPanelPre(exclusionsSurface).textContent();
     assert.match(String(exclusionsRawText), /"exclusionClass"/);
     assert.match(String(exclusionsRawText), /Use tier reject does not authorize patch branch materialization/);
 
-    const proofSurface = await surfaceBySubtitleInSection(page, 'settlement', '.engi/system-proof-bundle.json');
+    const proofSurface = await surfaceBySubtitleInSection(page, 'settlement', '.bitcode/system-proof-bundle.json');
     await switchSurfaceToRaw(proofSurface);
     await activeRawPanelPre(proofSurface).waitFor();
     const proofRawText = await activeRawPanelPre(proofSurface).textContent();
@@ -726,14 +726,14 @@ testAny('browser flow surfaces prompt and inference audit artifacts for internal
     assert.ok(await sectionSurfaceTitleCount(page, 'branchArtifacts', 'Prompt completeness family proof') >= 1);
     assert.ok(await sectionSurfaceTitleCount(page, 'branchArtifacts', 'Inference synthesis family proof') >= 1);
 
-    const registrySurface = await surfaceBySubtitleInSection(page, 'branchArtifacts', '.engi/prompt-family-registry.json');
+    const registrySurface = await surfaceBySubtitleInSection(page, 'branchArtifacts', '.bitcode/prompt-family-registry.json');
     await switchSurfaceToRaw(registrySurface);
     await activeRawPanelPre(registrySurface).waitFor();
     const registryRawText = await activeRawPanelPre(registrySurface).textContent();
     assert.match(String(registryRawText), /"closureCriteria"/);
     assert.match(String(registryRawText), /"ENGI_NEED\.md"/);
 
-    const inferenceSurface = await surfaceBySubtitleInSection(page, 'branchArtifacts', '.engi/inference-proofs.json');
+    const inferenceSurface = await surfaceBySubtitleInSection(page, 'branchArtifacts', '.bitcode/inference-proofs.json');
     await switchSurfaceToRaw(inferenceSurface);
     await activeRawPanelPre(inferenceSurface).waitFor();
     const inferenceRawText = await activeRawPanelPre(inferenceSurface).textContent();
@@ -760,27 +760,27 @@ testAny('browser flow surfaces static, authorization, and settlement family proo
     assert.ok(await sectionSurfaceTitleCount(page, 'branchArtifacts', 'Authorization and sensitive-flow family proof') >= 1);
     assert.ok(await sectionSurfaceTitleCount(page, 'settlement', 'Settlement source-to-shares family proof') >= 1);
 
-    const staticProofSurface = await surfaceBySubtitleInSection(page, 'branchArtifacts', '.engi/static-measurement-proof.json');
+    const staticProofSurface = await surfaceBySubtitleInSection(page, 'branchArtifacts', '.bitcode/static-measurement-proof.json');
     await switchSurfaceToRaw(staticProofSurface);
     await activeRawPanelPre(staticProofSurface).waitFor();
     const staticRawText = await activeRawPanelPre(staticProofSurface).textContent();
     assert.match(String(staticRawText), /static_code_analysis\.stage_domain_purity/);
     assert.match(String(staticRawText), /"allTheoremsPassed": true/);
 
-    const authProofSurface = await surfaceBySubtitleInSection(page, 'branchArtifacts', '.engi/authorization-and-sensitive-flow-proof.json');
+    const authProofSurface = await surfaceBySubtitleInSection(page, 'branchArtifacts', '.bitcode/authorization-and-sensitive-flow-proof.json');
     await switchSurfaceToRaw(authProofSurface);
     await activeRawPanelPre(authProofSurface).waitFor();
     const authRawText = await activeRawPanelPre(authProofSurface).textContent();
     assert.match(String(authRawText), /authorization_and_sensitive_flow\.policy_assignment_closure/);
     assert.match(String(authRawText), /authorization_and_sensitive_flow\.no_unauthorized_public_flow/);
 
-    const settlementParticipationSurface = await surfaceBySubtitleInSection(page, 'settlement', '.engi/settlement-participation.json');
+    const settlementParticipationSurface = await surfaceBySubtitleInSection(page, 'settlement', '.bitcode/settlement-participation.json');
     await switchSurfaceToRaw(settlementParticipationSurface);
     await activeRawPanelPre(settlementParticipationSurface).waitFor();
     const settlementParticipationRawText = await activeRawPanelPre(settlementParticipationSurface).textContent();
     assert.match(String(settlementParticipationRawText), /"zero-credit-participating"/);
 
-    const settlementProofSurface = await surfaceBySubtitleInSection(page, 'settlement', '.engi/settlement-source-to-shares-proof.json');
+    const settlementProofSurface = await surfaceBySubtitleInSection(page, 'settlement', '.bitcode/settlement-source-to-shares-proof.json');
     await switchSurfaceToRaw(settlementProofSurface);
     await activeRawPanelPre(settlementProofSurface).waitFor();
     const settlementRawText = await activeRawPanelPre(settlementProofSurface).textContent();
@@ -804,8 +804,8 @@ testAny('browser flow can switch projections and keep proof visibility bounded b
     const reviewerSummary = await readSummary(page);
     assert.equal(reviewerSummary['Projection'], 'reviewer');
     assert.ok(await page.locator('#branchArtifacts').getByText('Proof witness manifest').count() >= 1);
-    assert.ok(await page.locator('#branchArtifacts').getByText('.engi/proof-contract.json').count() >= 1);
-    assert.equal(await page.locator('#branchArtifacts details summary').getByText('.engi/source-material/').count(), 0);
+    assert.ok(await page.locator('#branchArtifacts').getByText('.bitcode/proof-contract.json').count() >= 1);
+    assert.equal(await page.locator('#branchArtifacts details summary').getByText('.bitcode/source-material/').count(), 0);
 
     await page.selectOption('#projectionPicker', 'public');
     await waitForStatus(page, 'Viewing public projection.');
@@ -836,7 +836,7 @@ testAny('browser flow can switch between internal and reviewer visibility withou
     assert.equal(internalSummary['Visible proof families'], '9');
     assert.ok(Number(internalSummary['Visible branch artifacts']) > 0);
     assert.ok(await page.locator('#branchArtifacts').getByText('raw branch files available').count() >= 1);
-    assert.ok(await page.locator('#branchArtifacts details summary').getByText('.engi/source-material/').count() >= 1);
+    assert.ok(await page.locator('#branchArtifacts details summary').getByText('.bitcode/source-material/').count() >= 1);
 
     await page.selectOption('#projectionPicker', 'reviewer');
     await waitForStatus(page, 'Viewing reviewer projection.');
@@ -846,7 +846,7 @@ testAny('browser flow can switch between internal and reviewer visibility withou
     assert.equal(reviewerSummary['Visible proof families'], '9');
     assert.ok(Number(reviewerSummary['Visible branch artifacts']) < Number(internalSummary['Visible branch artifacts']));
     assert.ok(await page.locator('#branchArtifacts').getByText('bounded projection only').count() >= 1);
-    assert.equal(await page.locator('#branchArtifacts details summary').getByText('.engi/source-material/').count(), 0);
+    assert.equal(await page.locator('#branchArtifacts details summary').getByText('.bitcode/source-material/').count(), 0);
     assert.ok(await sectionSurfaceTitleCount(page, 'branchArtifacts', 'Proof witness manifest') >= 1);
   });
 });

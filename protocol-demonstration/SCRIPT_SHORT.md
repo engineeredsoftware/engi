@@ -47,7 +47,7 @@ Bitcode measures a GitHub-bound engineering need, matches the right technical in
 - Scenario: auth issuer rollback / migration recovery
 - Expected strongest asset: `Enterprise auth migration rollback playbook`
 - V8-specific artifacts to mention if asked:
-  - `.engi/unit-catalog.json`
-  - `.engi/pipeline-telemetry.json`
-  - `.engi/policy-release.json`
-  - `.engi/system-proof-bundle.json`
+  - `.bitcode/unit-catalog.json`
+  - `.bitcode/pipeline-telemetry.json`
+  - `.bitcode/policy-release.json`
+  - `.bitcode/system-proof-bundle.json`

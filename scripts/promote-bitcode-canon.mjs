@@ -158,6 +158,21 @@ function trimTrailingPeriod(value) {
 }
 
 /**
+ * @param {string} value
+ */
+function normalizeActivePromotionLanguage(value) {
+  return value
+    .replaceAll('scripts/check-engi-canonical-inputs.mjs', 'scripts/check-bitcode-canonical-inputs.mjs')
+    .replaceAll('scripts/check-engi-spec-family.mjs', 'scripts/check-bitcode-spec-family.mjs')
+    .replaceAll('scripts/prepare-engi-spec-family-promotion.mjs', 'scripts/prepare-bitcode-spec-family-promotion.mjs')
+    .replaceAll('scripts/promote-engi-canon.mjs', 'scripts/promote-bitcode-canon.mjs')
+    .replaceAll('generate-engi-proven.mjs', 'generate-bitcode-proven.mjs')
+    .replaceAll('engi-demo/src/', 'protocol-demonstration/src/')
+    .replaceAll('engi-demo/', 'protocol-demonstration/')
+    .replaceAll('.engi/', '.bitcode/');
+}
+
+/**
  * @param {string[]} items
  */
 function joinHumanList(items) {
@@ -466,12 +481,12 @@ async function buildDerivedV21CommitMessageBody(commit) {
   const fileFamilyDecision = acceptedDecisions.find((item) =>
     normalize(item).includes('required hand-authored canonical system-spec files for v21+')
   );
-  if (fileFamilyDecision) bullets.push(trimTrailingPeriod(fileFamilyDecision));
+  if (fileFamilyDecision) bullets.push(normalizeActivePromotionLanguage(trimTrailingPeriod(fileFamilyDecision)));
 
   const specAloneDecision = acceptedDecisions.find((item) => item.includes('A promoted SPEC must itself be full-system, re-implementable, and auditable'));
-  if (specAloneDecision) bullets.push(trimTrailingPeriod(specAloneDecision));
+  if (specAloneDecision) bullets.push(normalizeActivePromotionLanguage(trimTrailingPeriod(specAloneDecision)));
 
-  if (carrierBullet) bullets.push(carrierBullet);
+  if (carrierBullet) bullets.push(normalizeActivePromotionLanguage(carrierBullet));
 
   const prioritizedAreas = [
     'Complete specifying authority',
@@ -491,7 +506,7 @@ async function buildDerivedV21CommitMessageBody(commit) {
     const closureSignal = trimTrailingPeriod(stripMarkdown(row['Closure signal'] || ''));
     if (!closureSignal) continue;
     if (/\bpending\b|blocked until|remains pending/i.test(closureSignal)) continue;
-    bullets.push(`${stripMarkdown(area)}: ${closureSignal}`);
+    bullets.push(normalizeActivePromotionLanguage(`${stripMarkdown(area)}: ${closureSignal}`));
   }
 
   return [

@@ -18,7 +18,7 @@ describe('normalizeApplicationDepositComposer', () => {
             inventoryEntryId: 'entry-1',
             title: 'rollback runbook',
             artifactKind: 'runbook',
-            sourcePath: '.engi/runbooks/rollback.md',
+            sourcePath: '.bitcode/runbooks/rollback.md',
           },
           {
             inventoryEntryId: 'entry-2',

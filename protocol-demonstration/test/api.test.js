@@ -451,18 +451,18 @@ testAny('POST /api/make-bitcode-branch defaults to bounded public projection', a
     );
     assert.ok(response.json.latestRun.repoToSettlementSurface.stages.length === 7);
     assert.ok(response.json.latestRun.boundedPublicProof.bundleId);
-    assert.ok(response.json.latestRun.publicArtifacts['.engi/bounded-public-proof.json']);
-    assert.ok(response.json.latestRun.publicArtifacts['.engi/needing-surface.json']);
-    assert.ok(response.json.latestRun.publicArtifacts['.engi/depositing-to-needing-surface.json']);
-    assert.ok(response.json.latestRun.publicArtifacts['.engi/match-report.json']);
-    assert.ok(response.json.latestRun.publicArtifacts['.engi/code-analysis-fact-registry.json']);
-    assert.ok(response.json.latestRun.publicArtifacts['.engi/static-heuristics-registry.json']);
-    assert.ok(response.json.latestRun.publicArtifacts['.engi/static-measurement-report.json']);
-    assert.ok(response.json.latestRun.publicArtifacts['.engi/static-measurement-proof.json']);
-    assert.ok(response.json.latestRun.publicArtifacts['.engi/materialization-proof.json']);
-    assert.ok(response.json.latestRun.publicArtifacts['.engi/materialization-visibility-proof.json']);
-    assert.ok(response.json.latestRun.publicArtifacts['.engi/scenario-fixture-manifest.json']);
-    assert.ok(response.json.latestRun.publicArtifacts['.engi/test-coverage-report.json']);
+    assert.ok(response.json.latestRun.publicArtifacts['.bitcode/bounded-public-proof.json']);
+    assert.ok(response.json.latestRun.publicArtifacts['.bitcode/needing-surface.json']);
+    assert.ok(response.json.latestRun.publicArtifacts['.bitcode/depositing-to-needing-surface.json']);
+    assert.ok(response.json.latestRun.publicArtifacts['.bitcode/match-report.json']);
+    assert.ok(response.json.latestRun.publicArtifacts['.bitcode/code-analysis-fact-registry.json']);
+    assert.ok(response.json.latestRun.publicArtifacts['.bitcode/static-heuristics-registry.json']);
+    assert.ok(response.json.latestRun.publicArtifacts['.bitcode/static-measurement-report.json']);
+    assert.ok(response.json.latestRun.publicArtifacts['.bitcode/static-measurement-proof.json']);
+    assert.ok(response.json.latestRun.publicArtifacts['.bitcode/materialization-proof.json']);
+    assert.ok(response.json.latestRun.publicArtifacts['.bitcode/materialization-visibility-proof.json']);
+    assert.ok(response.json.latestRun.publicArtifacts['.bitcode/scenario-fixture-manifest.json']);
+    assert.ok(response.json.latestRun.publicArtifacts['.bitcode/test-coverage-report.json']);
     assert.ok(response.json.latestRun.testCoverageReport.suiteCoverage.unit.entrypoints.includes('test/core.test.js'));
     assert.ok(response.json.latestRun.testCoverageReport.suiteCoverage.unit.entrypoints.includes('test/proven-generator.test.js'));
     assert.ok(response.json.latestRun.testCoverageReport.suiteCoverage.integration.entrypoints.includes('test/api.test.js'));
@@ -478,7 +478,7 @@ testAny('POST /api/make-bitcode-branch defaults to bounded public projection', a
       Object.keys(response.json.latestRun.branchArtifacts.publicFiles).sort(),
       response.json.latestRun.projectionPolicy.publicArtifactPaths.slice().sort()
     );
-    assert.match(response.json.latestRun.branchArtifacts.publicFiles['.engi/bounded-public-proof.json'], new RegExp(response.json.latestRun.boundedPublicProof.bundleId));
+    assert.match(response.json.latestRun.branchArtifacts.publicFiles['.bitcode/bounded-public-proof.json'], new RegExp(response.json.latestRun.boundedPublicProof.bundleId));
   });
 });
 
@@ -561,8 +561,8 @@ testAny('POST /api/make-bitcode-branch accepts V23 payment mode and projects bit
     assert.equal(buyerRun.json.latestRun.externalBoundaryManifest.actualityDisposition, 'stubbed-external-demonstration');
 
     assert.equal(publicState.statusCode, 200);
-    assert.ok(publicState.json.latestRun.publicArtifacts['.engi/bitcoin-bounded-public-anchor.json']);
-    assert.equal('.engi/bitcoin-anchor.json' in publicState.json.latestRun.publicArtifacts, false);
+    assert.ok(publicState.json.latestRun.publicArtifacts['.bitcode/bitcoin-bounded-public-anchor.json']);
+    assert.equal('.bitcode/bitcoin-anchor.json' in publicState.json.latestRun.publicArtifacts, false);
     assert.equal(publicState.json.latestRun.externalRealizationSummary.configuredEnvironmentMode, 'development');
     assert.equal(publicState.json.latestRun.externalRealizationSummary.interfaceIds.length, 6);
     assert.equal(publicState.json.latestRun.externalRealizationSummary.interfaceStates.length, 6);
@@ -848,7 +848,7 @@ testAny('POST /api/make-bitcode-branch realizes the V24 repeated-read payment ex
         'live-repeated-read-reconciled'
       );
       assert.ok(
-        JSON.parse(persisted.latestRun.branchArtifacts.files['.engi/repeated-read-payment-observation.json']).invoiceRef
+        JSON.parse(persisted.latestRun.branchArtifacts.files['.bitcode/repeated-read-payment-observation.json']).invoiceRef
       );
       assert.equal(persisted.latestRun.externalRealizationProof.allTheoremsPassed, true);
     });
@@ -881,8 +881,8 @@ testAny('POST /api/make-bitcode-branch persists V24 external continuity artifact
     });
 
     let persisted = readPersistedState(dataPath);
-    assert.ok(persisted.latestRun.branchArtifacts.files['.engi/external-execution-ledger.json']);
-    assert.ok(persisted.latestRun.branchArtifacts.files['.engi/external-reconciliation-log.json']);
+    assert.ok(persisted.latestRun.branchArtifacts.files['.bitcode/external-execution-ledger.json']);
+    assert.ok(persisted.latestRun.branchArtifacts.files['.bitcode/external-reconciliation-log.json']);
     assert.equal(
       persisted.latestRun.externalExecutionLedger.interfaceLedgerById['github-live-interface'].continuityState,
       'first-observation'
@@ -920,29 +920,29 @@ testAny('POST /api/make-bitcode-branch persists V24 external continuity artifact
       persisted.latestRun.externalTelemetrySummary.interfaceSummaries.find((entry) => entry.interfaceId === 'github-live-interface').continuityState,
       'binding-stable'
     );
-    assert.ok(persisted.latestRun.proofWitnessManifest.artifactDigestByPath['.engi/external-execution-ledger.json']);
-    assert.ok(persisted.latestRun.proofWitnessManifest.artifactDigestByPath['.engi/external-reconciliation-log.json']);
+    assert.ok(persisted.latestRun.proofWitnessManifest.artifactDigestByPath['.bitcode/external-execution-ledger.json']);
+    assert.ok(persisted.latestRun.proofWitnessManifest.artifactDigestByPath['.bitcode/external-reconciliation-log.json']);
     assert.ok(
-      persisted.latestRun.proofWitnessManifest.proofFamiliesByName['proof-contract'].witnessArtifactPaths.includes('.engi/external-execution-ledger.json')
+      persisted.latestRun.proofWitnessManifest.proofFamiliesByName['proof-contract'].witnessArtifactPaths.includes('.bitcode/external-execution-ledger.json')
     );
     assert.ok(
       persisted.latestRun.proofContract.evidenceChain
         .find((entry) => entry.stage === 'external-execution-continuity')
-        .artifactRefs.includes('.engi/external-reconciliation-log.json')
+        .artifactRefs.includes('.bitcode/external-reconciliation-log.json')
     );
     assert.ok(
-      persisted.latestRun.systemProofBundle.verifierEntrypoint.requiredArtifactPaths.includes('.engi/external-execution-ledger.json')
+      persisted.latestRun.systemProofBundle.verifierEntrypoint.requiredArtifactPaths.includes('.bitcode/external-execution-ledger.json')
     );
     assert.ok(
       persisted.latestRun.systemProofBundle.proofContract.evidenceChain
         .find((entry) => entry.stage === 'external-execution-continuity')
-        .artifactRefs.includes('.engi/external-reconciliation-log.json')
+        .artifactRefs.includes('.bitcode/external-reconciliation-log.json')
     );
     assert.ok(
-      persisted.latestRun.deliverablesManifest.deliverables.some((entry) => entry.path === '.engi/external-execution-ledger.json')
+      persisted.latestRun.deliverablesManifest.deliverables.some((entry) => entry.path === '.bitcode/external-execution-ledger.json')
     );
     assert.ok(
-      persisted.latestRun.deliverablesManifest.deliverables.some((entry) => entry.path === '.engi/external-reconciliation-log.json')
+      persisted.latestRun.deliverablesManifest.deliverables.some((entry) => entry.path === '.bitcode/external-reconciliation-log.json')
     );
 
     const reviewer = await invoke(app, { method: 'GET', url: '/api/state?principal=reviewer' });
@@ -1059,7 +1059,7 @@ testAny('POST /api/make-bitcode-branch realizes protocol-specific V24 remote ada
           executionId: 'exec_protocol_compute',
           attestationRef: 'attest_protocol_compute',
           imageDigest: 'sha256:protocol-compute-image',
-          outputArtifactRefs: ['.engi/system-proof-bundle.json', '.engi/proof-witness-manifest.json']
+          outputArtifactRefs: ['.bitcode/system-proof-bundle.json', '.bitcode/proof-witness-manifest.json']
         };
       }
       if (method === 'POST' && url === '/storage/publications') {
@@ -1264,11 +1264,11 @@ testAny('POST /api/make-bitcode-branch realizes live-configured V24 GitHub and s
             observationId: 'obs_live_github',
             executionClass: 'github-app-execution',
             affectedArtifactRefs: [
-              '.engi/github-live-session.json',
-              '.engi/github-inventory-fetch-receipt.json',
-              '.engi/github-artifact-fetch-receipt.json',
-              '.engi/github-branch-publication-receipt.json',
-              '.engi/github-pr-update-receipt.json'
+              '.bitcode/github-live-session.json',
+              '.bitcode/github-inventory-fetch-receipt.json',
+              '.bitcode/github-artifact-fetch-receipt.json',
+              '.bitcode/github-branch-publication-receipt.json',
+              '.bitcode/github-pr-update-receipt.json'
             ]
           },
           artifacts: {
@@ -1313,8 +1313,8 @@ testAny('POST /api/make-bitcode-branch realizes live-configured V24 GitHub and s
             observationId: 'obs_live_storage',
             executionClass: 'durable-storage-execution',
             affectedArtifactRefs: [
-              '.engi/storage-publication-receipt.json',
-              '.engi/storage-retrieval-receipt.json'
+              '.bitcode/storage-publication-receipt.json',
+              '.bitcode/storage-retrieval-receipt.json'
             ]
           },
           artifacts: {
@@ -1386,15 +1386,15 @@ testAny('POST /api/make-bitcode-branch realizes live-configured V24 GitHub and s
       assert.equal(persisted.latestRun.githubLiveInterfaceProof.allTheoremsPassed, true);
       assert.equal(persisted.latestRun.containerRealityProof.allTheoremsPassed, true);
       assert.equal(
-        JSON.parse(persisted.latestRun.branchArtifacts.files['.engi/github-pr-update-receipt.json']).prNumber,
+        JSON.parse(persisted.latestRun.branchArtifacts.files['.bitcode/github-pr-update-receipt.json']).prNumber,
         417
       );
       assert.equal(
-        JSON.parse(persisted.latestRun.branchArtifacts.files['.engi/storage-publication-receipt.json']).publicationState,
+        JSON.parse(persisted.latestRun.branchArtifacts.files['.bitcode/storage-publication-receipt.json']).publicationState,
         'live-storage-publication-observed'
       );
       assert.equal(
-        JSON.parse(persisted.latestRun.branchArtifacts.files['.engi/external-telemetry-summary.json']).interfaceSummaries
+        JSON.parse(persisted.latestRun.branchArtifacts.files['.bitcode/external-telemetry-summary.json']).interfaceSummaries
           .find((entry) => entry.interfaceId === 'github-live-interface').runtimeState,
         'live-observed'
       );
@@ -1418,8 +1418,8 @@ testAny('POST /api/make-bitcode-branch realizes live-configured V24 bitcoin, sid
             observationId: 'obs_live_bitcoin',
             executionClass: 'pre-production-network-execution',
             affectedArtifactRefs: [
-              '.engi/bitcoin-network-execution.json',
-              '.engi/bitcoin-network-observation.json'
+              '.bitcode/bitcoin-network-execution.json',
+              '.bitcode/bitcoin-network-observation.json'
             ]
           },
           artifacts: {
@@ -1463,7 +1463,7 @@ testAny('POST /api/make-bitcode-branch realizes live-configured V24 bitcoin, sid
             observationId: 'obs_live_sidechain',
             executionClass: 'pre-production-sidechain-execution',
             affectedArtifactRefs: [
-              '.engi/sidechain-execution-receipt.json'
+              '.bitcode/sidechain-execution-receipt.json'
             ]
           },
           artifacts: {
@@ -1491,7 +1491,7 @@ testAny('POST /api/make-bitcode-branch realizes live-configured V24 bitcoin, sid
             observationId: 'obs_live_compute',
             executionClass: 'containerized-execution',
             affectedArtifactRefs: [
-              '.engi/compute-container-execution.json'
+              '.bitcode/compute-container-execution.json'
             ]
           },
           artifacts: {
@@ -1566,7 +1566,7 @@ testAny('POST /api/make-bitcode-branch realizes live-configured V24 bitcoin, sid
       assert.equal(persisted.latestRun.externalRealizationProof.allTheoremsPassed, true);
       assert.equal(persisted.latestRun.containerRealityProof.allTheoremsPassed, true);
       assert.equal(
-        JSON.parse(persisted.latestRun.branchArtifacts.files['.engi/external-environment-profile.json']).interfaceRuntimeStateById['compute-container-execution'].runtimeState,
+        JSON.parse(persisted.latestRun.branchArtifacts.files['.bitcode/external-environment-profile.json']).interfaceRuntimeStateById['compute-container-execution'].runtimeState,
         'live-observed'
       );
     });
@@ -1719,14 +1719,14 @@ testAny('GET /api/state supports reviewer and internal projection differences', 
     assert.equal(reviewer.json.latestRun.projectionPrincipal, 'reviewer');
     assert.equal(internal.json.latestRun.projectionPrincipal, 'internal');
     assert.ok(reviewer.json.latestRun.proofWitnessManifest.proofFamilies.length === 9);
-    assert.ok(reviewer.json.latestRun.branchArtifacts.visibleFileInventory.includes('.engi/proof-contract.json'));
-    assert.equal(reviewer.json.latestRun.branchArtifacts.visibleFileInventory.some((/** @type {string} */ path) => path.startsWith('.engi/source-material/')), false);
+    assert.ok(reviewer.json.latestRun.branchArtifacts.visibleFileInventory.includes('.bitcode/proof-contract.json'));
+    assert.equal(reviewer.json.latestRun.branchArtifacts.visibleFileInventory.some((/** @type {string} */ path) => path.startsWith('.bitcode/source-material/')), false);
     assert.equal(reviewer.json.latestRun.authorizationDecisions, undefined);
     assert.equal(reviewer.json.latestRun.branchArtifacts.files, undefined);
-    assert.ok(internal.json.latestRun.branchArtifacts.files['.engi/proof-contract.json']);
-    assert.ok(Object.keys(internal.json.latestRun.branchArtifacts.files).some((path) => path.startsWith('.engi/source-material/')));
+    assert.ok(internal.json.latestRun.branchArtifacts.files['.bitcode/proof-contract.json']);
+    assert.ok(Object.keys(internal.json.latestRun.branchArtifacts.files).some((path) => path.startsWith('.bitcode/source-material/')));
     assert.ok(internal.json.latestRun.authorizationDecisions.length >= 1);
-    assert.ok(internal.json.latestRun.systemProofBundle.verifierEntrypoint.requiredArtifactPaths.includes('.engi/proof-witness-manifest.json'));
+    assert.ok(internal.json.latestRun.systemProofBundle.verifierEntrypoint.requiredArtifactPaths.includes('.bitcode/proof-witness-manifest.json'));
   });
 });
 

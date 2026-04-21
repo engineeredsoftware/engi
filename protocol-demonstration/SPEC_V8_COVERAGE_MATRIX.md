@@ -61,11 +61,11 @@ The audit in this file is grounded in:
 | Identity/auth separation | identity bindings and authorization decisions separate from settlement/proofs | branch artifact tests + UI surfaces | **Pass** | no material implementation gap found |
 | Signer separation | signer binding stays distinct from authz, GitHub, and settlement | asset creation tests + branch artifact surfaces | **Pass** | no material implementation gap found |
 | GitHub boundary separation | explicit local-modeled vs external-only GitHub boundary surface | branch artifact tests + UI surfaces | **Pass** | no material implementation gap found |
-| External boundary concretization | explicit contracts/manifests for formerly external-only areas | `.engi/external-boundary-manifest.json`, tests, UI surfaces | **Pass** | no material implementation gap found |
+| External boundary concretization | explicit contracts/manifests for formerly external-only areas | `.bitcode/external-boundary-manifest.json`, tests, UI surfaces | **Pass** | no material implementation gap found |
 | Artifact upload precision | kind/type, visual/raw, signer/binding metadata | deposit API tests + asset creation tests | **Pass** | no material implementation gap found |
 | Profile UX | Profile A vs B identity, operator meaning, and non-switchability surfaced | public state + UI artifacts | **Pass in runtime/UI; partial in repo docs** | update stale V7 repo docs and scripts to V8 language |
 | Asset pack / branch artifacts | lock files, manifests, policy, source material | branch artifact tests | **Pass** | no material implementation gap found |
-| Proof closure | proof contract, evidence chain, theorem checks, artifact bindings | `.engi/system-proof-bundle.json`, `.engi/settlement-proof.json`, proof tests | **Pass** | tighten wording for memo/demo polish only |
+| Proof closure | proof contract, evidence chain, theorem checks, artifact bindings | `.bitcode/system-proof-bundle.json`, `.bitcode/settlement-proof.json`, proof tests | **Pass** | tighten wording for memo/demo polish only |
 | Settlement | deterministic shares, exact accounting, exact theorem checks | settlement tests | **Pass formally; partial for demo semantics** | resolve / explain seeded zero-share selected settlement-eligible asset behavior |
 | Telemetry / proof surfaces | telemetry, unit catalog, prompt implementation surface, system proof bundle | proof and telemetry tests | **Pass** | no material implementation gap found |
 | Host capability documentation | durable host/runtime/tooling/network assumptions recorded | `HOST_CAPABILITIES.md`, `HOST_CAPABILITIES.json`, doc-presence test | **Pass** | no material implementation gap found |
@@ -113,7 +113,7 @@ Implemented strongly in Profile A:
 Main refs:
 - `buildPromptSurface()`
 - `promptSurfaces` produced in `measureNeedFromScenario()`
-- `.engi/prompt-surfaces.json`
+- `.bitcode/prompt-surfaces.json`
 - `public/app.js` prompt visualizations
 - prompt-lineage tests in `test/core.test.js`
 
@@ -197,8 +197,8 @@ Main refs:
 - `buildIdentityBindings()`
 - `buildAuthorizationDecisions()`
 - `buildBranchPolicyRelease()`
-- `.engi/identity-bindings.json`
-- `.engi/authorization-decisions.json`
+- `.bitcode/identity-bindings.json`
+- `.bitcode/authorization-decisions.json`
 
 Design conclusion:
 - no material implementation gap found
@@ -227,7 +227,7 @@ Implemented strongly in Profile A:
 
 Main refs:
 - `buildGithubBoundarySurface()`
-- `.engi/github-boundary.json`
+- `.bitcode/github-boundary.json`
 - tests referencing branch artifact presence
 
 Design conclusion:
@@ -247,7 +247,7 @@ Implemented strongly in Profile A as explicit boundary contracts for:
 
 Main refs:
 - `buildExternalBoundaryManifest()`
-- `.engi/external-boundary-manifest.json`
+- `.bitcode/external-boundary-manifest.json`
 - tests asserting manifest presence and interface coverage
 
 Design conclusion:

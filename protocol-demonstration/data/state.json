@@ -138,7 +138,7 @@
         "mode": "read-only-mounted-copy",
         "confidentiality": "private-required",
         "mutableInBranch": false,
-        "materializationRoot": ".engi/source-material/asset_enterprise-auth-migration-rollback-playbook_10f7ba132a"
+        "materializationRoot": ".bitcode/source-material/asset_enterprise-auth-migration-rollback-playbook_10f7ba132a"
       },
       "contentRoot": "sha256:85c8b0e97243e67b2dffbc32d46a83520ee09c9cd4c32ca50c89e85f415f178a",
       "contentUnits": [
@@ -2728,7 +2728,7 @@
         "mode": "read-only-mounted-copy",
         "confidentiality": "private-required",
         "mutableInBranch": false,
-        "materializationRoot": ".engi/source-material/asset_proof-carrying-session-validator-patch-kit_535567adae"
+        "materializationRoot": ".bitcode/source-material/asset_proof-carrying-session-validator-patch-kit_535567adae"
       },
       "contentRoot": "sha256:02ff670aa3d3d18e5ab05b87d738702d690eb9a56e29c9dd50033036ab23ce07",
       "contentUnits": [
@@ -5260,7 +5260,7 @@
         "mode": "read-only-mounted-copy",
         "confidentiality": "private-required",
         "mutableInBranch": false,
-        "materializationRoot": ".engi/source-material/asset_formal-replay-window-validator-proof-bundle_ebe682fd49"
+        "materializationRoot": ".bitcode/source-material/asset_formal-replay-window-validator-proof-bundle_ebe682fd49"
       },
       "contentRoot": "sha256:822f59eaccb5475f5459209801d1c2c6582ff4c32000ef539d897c085ec6a842",
       "contentUnits": [
@@ -7388,7 +7388,7 @@
         "mode": "read-only-mounted-copy",
         "confidentiality": "private-required",
         "mutableInBranch": false,
-        "materializationRoot": ".engi/source-material/asset_token-issuer-incident-escalation-notes_cdd908aa03"
+        "materializationRoot": ".bitcode/source-material/asset_token-issuer-incident-escalation-notes_cdd908aa03"
       },
       "contentRoot": "sha256:82be2233aa1e10524e34528069e419a484cf8447cb95f1d3ab0b80aa1843e8d7",
       "contentUnits": [
@@ -9225,7 +9225,7 @@
         "mode": "read-only-mounted-copy",
         "confidentiality": "private-required",
         "mutableInBranch": false,
-        "materializationRoot": ".engi/source-material/asset_policy-precedence-incident-governor-fixpack_24fd6bb39b"
+        "materializationRoot": ".bitcode/source-material/asset_policy-precedence-incident-governor-fixpack_24fd6bb39b"
       },
       "contentRoot": "sha256:52c0ba30d6b3a9704516a8b6f544f0be0db1823373035a9e1db279186ce04532",
       "contentUnits": [
@@ -11299,7 +11299,7 @@
         "mode": "read-only-mounted-copy",
         "confidentiality": "private-required",
         "mutableInBranch": false,
-        "materializationRoot": ".engi/source-material/asset_unsafe-patch-review-containment-checklist_d755cefe57"
+        "materializationRoot": ".bitcode/source-material/asset_unsafe-patch-review-containment-checklist_d755cefe57"
       },
       "contentRoot": "sha256:03a86093f6c9514f3993a48d79ab915f8097c6c7aac9acd6121a2b1f04915ee6",
       "contentUnits": [
@@ -13421,7 +13421,7 @@
         "mode": "read-only-mounted-copy",
         "confidentiality": "private-required",
         "mutableInBranch": false,
-        "materializationRoot": ".engi/source-material/asset_deployment-drift-rollback-release-playbook_06609384ae"
+        "materializationRoot": ".bitcode/source-material/asset_deployment-drift-rollback-release-playbook_06609384ae"
       },
       "contentRoot": "sha256:6d4e1c166d15ccab3335888635c488ccdeaf06a09610f75795c27df881b33eea",
       "contentUnits": [
@@ -15540,7 +15540,7 @@
         "mode": "read-only-mounted-copy",
         "confidentiality": "private-required",
         "mutableInBranch": false,
-        "materializationRoot": ".engi/source-material/asset_projection-safe-bounded-proof-export-notes_a74e682378"
+        "materializationRoot": ".bitcode/source-material/asset_projection-safe-bounded-proof-export-notes_a74e682378"
       },
       "contentRoot": "sha256:5644701f286b778c298232364547a0532583b6fa8efe43fded4a6057e402e983",
       "contentUnits": [
@@ -17211,7 +17211,7 @@
         "mode": "read-only-mounted-copy",
         "confidentiality": "private-required",
         "mutableInBranch": false,
-        "materializationRoot": ".engi/source-material/asset_session-validator-compatibility-witness-dossier_ced0ee25a5"
+        "materializationRoot": ".bitcode/source-material/asset_session-validator-compatibility-witness-dossier_ced0ee25a5"
       },
       "contentRoot": "sha256:8c3d7b4fe55d24601cc9e8536ce316dc7501594ac9435fbfd0eef6c699a754c5",
       "contentUnits": [
@@ -19505,7 +19505,7 @@
         "mode": "read-only-mounted-copy",
         "confidentiality": "private-required",
         "mutableInBranch": false,
-        "materializationRoot": ".engi/source-material/asset_auth-audit-receipt-reconciliation-patchset_7a12545802"
+        "materializationRoot": ".bitcode/source-material/asset_auth-audit-receipt-reconciliation-patchset_7a12545802"
       },
       "contentRoot": "sha256:9dd67dfebf4e379f9469192a8570c609bbcac1dbb4552e0c0e39f1a9ad7f92f8",
       "contentUnits": [
@@ -21613,7 +21613,7 @@
         "mode": "read-only-mounted-copy",
         "confidentiality": "private-required",
         "mutableInBranch": false,
-        "materializationRoot": ".engi/source-material/asset_polyglot-gateway-rollback-coordination-playbook_16aae88df7"
+        "materializationRoot": ".bitcode/source-material/asset_polyglot-gateway-rollback-coordination-playbook_16aae88df7"
       },
       "contentRoot": "sha256:5c2e3f277b958aedc2031d9b47efb24558bea01dd661feb8694c53e69d0ea587",
       "contentUnits": [
@@ -28483,7 +28483,7 @@
           "allow": true,
           "policyRef": "policy://bitcode/spec-v26-active-v27-system-draft/current",
           "reasons": [
-            "Bitcode branch materializer may stage selected source material under .engi/source-material/."
+            "Bitcode branch materializer may stage selected source material under .bitcode/source-material/."
           ]
         },
         "settle:journal-event": {

@@ -45,9 +45,9 @@ This matrix is grounded in:
 The first real V12 implementation pass now lands these concrete repo facts:
 - `src/bitcode-demo.js` emits `depositingSurface`, `needingSurface`, and `depositingToNeedingSurface` on `latestRun`
 - the same V12 surfaces are emitted as branch artifacts:
-  - `.engi/depositing-surface.json`
-  - `.engi/needing-surface.json`
-  - `.engi/depositing-to-needing-surface.json`
+  - `.bitcode/depositing-surface.json`
+  - `.bitcode/needing-surface.json`
+  - `.bitcode/depositing-to-needing-surface.json`
 - `publicState()` now exposes a `needingSurface` per seeded scenario so the shell can foreground need before a run
 - the repo-to-settlement stage order now starts:
   1. depositing

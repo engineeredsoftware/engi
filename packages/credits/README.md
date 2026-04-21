@@ -2,7 +2,7 @@
 
 ## Overview
 
-Industrial credit management system providing atomic credit operations, model-specific pricing, reservation-based escrow, and comprehensive ledger tracking for the ENGI platform. Implements robust credit lifecycle management with automatic top-up mechanisms and comprehensive audit trails.
+Industrial credit management system providing atomic credit operations, model-specific pricing, reservation-based escrow, and comprehensive ledger tracking for the Bitcode platform. Implements robust credit lifecycle management with automatic top-up mechanisms and comprehensive audit trails.
 
 ## Core Functionality
 

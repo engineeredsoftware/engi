@@ -10,7 +10,7 @@
 - Canonical proof-source commit: `9d0733fed5f63d2f977900384d4103f9fd887f03`
 - Prior canonical anchor: `/Users/garrettmaring/Developer/ENGI/_legacy/ENGI_SPEC_V25.md`
 - Prior generated proof appendix: `/Users/garrettmaring/Developer/ENGI/_legacy/ENGI_SPEC_V25_PROVEN.md`
-- Generated structured artifact inventory: active canonical `.engi/v19-*` reproducible reports, `.engi/v20-*` operator-quality reports, `.engi/v26-spec-family-report.json`, `.engi/v26-canonical-input-report.json`, `.engi/v26-gate-checkpoint-report.json`, `.engi/conversations-continuity-proof.json`, `.engi/runs-pipelines-totality-proof.json`, `.engi/persistence-schema-totality-proof.json`, `.engi/prompt-system-totality-proof.json`, `.engi/retained-package-admissibility-proof.json`, and `BITCODE_SPEC_V26_PROVEN.md`
+- Generated structured artifact inventory: active canonical `.bitcode/v19-*` reproducible reports, `.bitcode/v20-*` operator-quality reports, `.bitcode/v26-spec-family-report.json`, `.bitcode/v26-canonical-input-report.json`, `.bitcode/v26-gate-checkpoint-report.json`, `.bitcode/conversations-continuity-proof.json`, `.bitcode/runs-pipelines-totality-proof.json`, `.bitcode/persistence-schema-totality-proof.json`, `.bitcode/prompt-system-totality-proof.json`, `.bitcode/retained-package-admissibility-proof.json`, and `BITCODE_SPEC_V26_PROVEN.md`
 - Canonical companion delta: `/Users/garrettmaring/Developer/ENGI/BITCODE_SPEC_V26_DELTA.md`
 - Canonical companion parity ledger: `/Users/garrettmaring/Developer/ENGI/BITCODE_SPEC_V26_PARITY_MATRIX.md`
 - Canonical companion notes file: `/Users/garrettmaring/Developer/ENGI/BITCODE_SPEC_V26_NOTES.md`
@@ -598,7 +598,7 @@ Second-gate is accepted only when all of the following hold:
    - the active second-gate markdown set includes the root, package, route, and shared-component README carriers and is treated as required implementation scope rather than optional cleanup,
    - supplementary modular docs are identified wherever the canon is not the right long-form carrier,
    - active supplementary carriers such as `protocol-demonstration/V26_APPLICATION_SYSTEMS.md` and `protocol-demonstration/V26_PROOF_SURFACES.md` stay synchronized to the converged source topology,
-   - `.engi/v26-gate-checkpoint-report.json` exists and records first-gate closure, second-gate closure readiness, and explicit third-gate preparation before final V26 promotion,
+   - `.bitcode/v26-gate-checkpoint-report.json` exists and records first-gate closure, second-gate closure readiness, and explicit third-gate preparation before final V26 promotion,
    - the active internal module namespace is `@bitcode/*` across package manifests, path aliases, and active source imports,
    - and new second-gate code systems are assigned proof/test/spec coverage rather than being treated as unproven incidental glue.
 
@@ -688,17 +688,17 @@ V26 may be the active canon through fourth-gate while fifth through seventh rema
 
 | Proof family | Required artifact path | Closure obligation | Current source basis |
 | --- | --- | --- | --- |
-| second-gate application composition | `.engi/application-composition-proof.json` | prove that `/application` is route-local application composition while preserving first-gate Bitcode semantics | `uapi/app/application/*`, `protocol-demonstration/public/app.js` |
-| conversations continuity | `.engi/conversations-continuity-proof.json` | prove that conversations and the chat-based interface remain first-class and correctly port into V26 Bitcode system semantics | `uapi/app/conversations/components/*`, `packages/api/src/conversations/*`, `packages/conversations-generics/*` |
-| runs and pipelines totality | `.engi/runs-pipelines-totality-proof.json` | prove that retained run/pipeline systems totalize Bitcode operations coherently, including deliverable meaning and the compatibility APIs still required to keep retained execution selectors healthy | `uapi/app/executions/*`, `uapi/app/api/vcs/route.ts`, `uapi/app/api/templates/deliverables/route.ts`, `uapi/app/api/auxillaries/template-preferences/route.ts`, `packages/api/src/routes/deliverables.ts`, `packages/pipelines/*`, `packages/execution-generics/*` |
-| persistence and schema totality | `.engi/persistence-schema-totality-proof.json` | prove that PostgreSQL/Supabase persistence, `/edgetimes`, migrations, schema contracts, ORM/query carriers, and generated types form one coherent Bitcode storage system | `supabase/*`, `supabase/migrations/001_ga1_production.sql`, `packages/supabase/src/*`, `packages/orm/src/models/*`, `packages/orm/src/queries/*`, `packages/orm/src/types/database.generated.ts`, `packages/orm/src/types/database.ts`, `packages/orm/scripts/generate-db-types.ts`, retained storage-facing API carriers, and generated database types |
-| prompt system totality | `.engi/prompt-system-totality-proof.json` | prove that retained PromptPart/Prompt/PromptExecution carriers and old-world prompt ports remain explicit Bitcode-owned prompt infrastructure before later prompt-space completeness closure | `packages/prompts/src/*`, `packages/execution-generics/src/prompts/*`, `packages/agent-generics/src/prompts/*`, `packages/conversations-generics/src/prompts/*`, retained Jira prompt ports, and retained deliverable planning/measurement prompts |
-| prompt space completeness | `.engi/prompt-space-completeness-proof.json` | prove that retained prompt text routes through prompt abstraction and the proved prompt space | `packages/prompts/src/*`, `uapi/prompts/conversations-system-prompt.ts`, `protocol-demonstration/src/canonical/type-contracts.ts` |
-| retained package admissibility | `.engi/retained-package-admissibility-proof.json` | prove that each kept non-Bitcode package has an explicit V26 role, boundary, justification, and old-world port scope where applicable | retained `packages/*` admitted by V26 |
-| environment mode coherence | `.engi/environment-mode-coherence-proof.json` | prove debug/environment controls and production/staging/development mode behavior are coherent and refresh safely | app shell, debug controls, environment toggles, route/API posture |
-| sixth-gate system reform admissibility | `.engi/system-reform-admissibility-proof.json` | prove that retained old-world agentic systems are either cut, isolated, or repurposed into Bitcode need-measuring, settlement, or support roles rather than surviving as unexamined parallel product logic | retained web-search, webhooks, generic agent/tool ports, executions-adjacent agentic packages, and other old-world infrastructure still admitted after fifth-gate |
-| whole-repository production satisfaction | `.engi/whole-repository-production-satisfaction-proof.json` | prove that the retained and repurposed repository that remains in V26 production canon is proven up to Bitcode-grade satisfaction rather than leaving strong proof closure isolated to the former demo slice | all retained V26 routes, packages, components, proofs, docs, and generated artifacts |
-| v26 total closure | `.engi/v26-total-closure-proof.json` | prove that the gated V26 system closes as one coherent Bitcode system suitable for promotion | all promoted V26 systems and generated artifacts |
+| second-gate application composition | `.bitcode/application-composition-proof.json` | prove that `/application` is route-local application composition while preserving first-gate Bitcode semantics | `uapi/app/application/*`, `protocol-demonstration/public/app.js` |
+| conversations continuity | `.bitcode/conversations-continuity-proof.json` | prove that conversations and the chat-based interface remain first-class and correctly port into V26 Bitcode system semantics | `uapi/app/conversations/components/*`, `packages/api/src/conversations/*`, `packages/conversations-generics/*` |
+| runs and pipelines totality | `.bitcode/runs-pipelines-totality-proof.json` | prove that retained run/pipeline systems totalize Bitcode operations coherently, including deliverable meaning and the compatibility APIs still required to keep retained execution selectors healthy | `uapi/app/executions/*`, `uapi/app/api/vcs/route.ts`, `uapi/app/api/templates/deliverables/route.ts`, `uapi/app/api/auxillaries/template-preferences/route.ts`, `packages/api/src/routes/deliverables.ts`, `packages/pipelines/*`, `packages/execution-generics/*` |
+| persistence and schema totality | `.bitcode/persistence-schema-totality-proof.json` | prove that PostgreSQL/Supabase persistence, `/edgetimes`, migrations, schema contracts, ORM/query carriers, and generated types form one coherent Bitcode storage system | `supabase/*`, `supabase/migrations/001_ga1_production.sql`, `packages/supabase/src/*`, `packages/orm/src/models/*`, `packages/orm/src/queries/*`, `packages/orm/src/types/database.generated.ts`, `packages/orm/src/types/database.ts`, `packages/orm/scripts/generate-db-types.ts`, retained storage-facing API carriers, and generated database types |
+| prompt system totality | `.bitcode/prompt-system-totality-proof.json` | prove that retained PromptPart/Prompt/PromptExecution carriers and old-world prompt ports remain explicit Bitcode-owned prompt infrastructure before later prompt-space completeness closure | `packages/prompts/src/*`, `packages/execution-generics/src/prompts/*`, `packages/agent-generics/src/prompts/*`, `packages/conversations-generics/src/prompts/*`, retained Jira prompt ports, and retained deliverable planning/measurement prompts |
+| prompt space completeness | `.bitcode/prompt-space-completeness-proof.json` | prove that retained prompt text routes through prompt abstraction and the proved prompt space | `packages/prompts/src/*`, `uapi/prompts/conversations-system-prompt.ts`, `protocol-demonstration/src/canonical/type-contracts.ts` |
+| retained package admissibility | `.bitcode/retained-package-admissibility-proof.json` | prove that each kept non-Bitcode package has an explicit V26 role, boundary, justification, and old-world port scope where applicable | retained `packages/*` admitted by V26 |
+| environment mode coherence | `.bitcode/environment-mode-coherence-proof.json` | prove debug/environment controls and production/staging/development mode behavior are coherent and refresh safely | app shell, debug controls, environment toggles, route/API posture |
+| sixth-gate system reform admissibility | `.bitcode/system-reform-admissibility-proof.json` | prove that retained old-world agentic systems are either cut, isolated, or repurposed into Bitcode need-measuring, settlement, or support roles rather than surviving as unexamined parallel product logic | retained web-search, webhooks, generic agent/tool ports, executions-adjacent agentic packages, and other old-world infrastructure still admitted after fifth-gate |
+| whole-repository production satisfaction | `.bitcode/whole-repository-production-satisfaction-proof.json` | prove that the retained and repurposed repository that remains in V26 production canon is proven up to Bitcode-grade satisfaction rather than leaving strong proof closure isolated to the former demo slice | all retained V26 routes, packages, components, proofs, docs, and generated artifacts |
+| v26 total closure | `.bitcode/v26-total-closure-proof.json` | prove that the gated V26 system closes as one coherent Bitcode system suitable for promotion | all promoted V26 systems and generated artifacts |
 
 ### Fifth-gate formal acceptance rule
 
@@ -762,7 +762,7 @@ Current truth order for the active V26 canon is:
 4. `BITCODE_SPEC_V26_PARITY_MATRIX.md`
 5. `BITCODE_SPEC_V26_NOTES.md`
 6. `BITCODE_SPEC_V26_PROVEN.md`
-7. active canonical `.engi/v19-*`, `.engi/v20-*`, and `.engi/v26-*` artifacts
+7. active canonical `.bitcode/v19-*`, `.bitcode/v20-*`, and `.bitcode/v26-*` artifacts
 8. current source and tests explicitly referenced by active V26 canon
 9. historical prior specs
 
@@ -918,7 +918,7 @@ The V26 canonical domain model includes the following object and surface classes
 - recall and ranking: retrieval candidates, ranking receipts, use-tier signals, and candidate ordering stability.
 - verification decisions: issuance, provenance, sufficiency, and issuer-policy decisions plus supporting receipts.
 - selection and materialization: asset-pack locks, selected-source manifests, materialization proofs, branch artifact outputs, and application-visible operator artifacts.
-- branch artifacts and deliverables: `.engi/` outputs, witness manifests, generated reports, route-facing views, and publication receipts.
+- branch artifacts and deliverables: `.bitcode/` outputs, witness manifests, generated reports, route-facing views, and publication receipts.
 - identity, authority, signing, and policy: identity bindings, authorization decisions, wallet connection, signer or treasury policy, GitHub App binding, and external execution policy.
 - sensitive data and confidentiality flows: sensitive-data flow maps, disclosure classifications, retention policies, and publication controls.
 - projection, disclosure, and redaction: principal-scoped views over public, reviewer, buyer, and internal surfaces.
@@ -965,7 +965,7 @@ The workflow stages remain:
 
 ### Depositing and asset supply
 
-- Current canonical objects and emitted artifacts: repo supply and depositing are represented by authenticated repository bindings, deposit envelopes, `.engi/depositing-surface.json`, `.engi/github-boundary.json`, `.engi/github-live-session.json`, `.engi/github-inventory-fetch-receipt.json`, and `.engi/asset-pack.lock.json`.
+- Current canonical objects and emitted artifacts: repo supply and depositing are represented by authenticated repository bindings, deposit envelopes, `.bitcode/depositing-surface.json`, `.bitcode/github-boundary.json`, `.bitcode/github-live-session.json`, `.bitcode/github-inventory-fetch-receipt.json`, and `.bitcode/asset-pack.lock.json`.
 - Current algorithms and derivation rules: Bitcode admits repo-addressable deposits, normalizes deposit identity against repo-authenticated supply, and carries deposit lineage forward into fit, verification, materialization, proof, and GitHub live mutation surfaces. V26 adds the requirement that the primary operator route consume those surfaces through package-owned and app-owned composition rather than directly through demo-local owners.
 - Current invariants and fail-closed conditions: invalid deposit, stale repo addressing, missing GitHub inventory receipt, broken deposit lineage, or route-layer presentation that obscures deposit provenance fail closed.
 - Current proof obligations: deposit provenance, asset identity stability, repo-authenticated supply closure, and deposit-to-asset-pack continuity must be replayable.
@@ -975,7 +975,7 @@ The workflow stages remain:
 
 ### Needing and prompt/inference ownership
 
-- Current canonical objects and emitted artifacts: needing and prompt/inference/evaluator ownership are represented by `.engi/needing-surface.json`, `.engi/prompt-family-registry.json`, `.engi/prompt-contracts.json`, `.engi/prompt-surfaces.json`, `.engi/inference-moment-contracts.json`, `.engi/parsed-completion-envelopes.json`, and `.engi/eval-manifest.json`.
+- Current canonical objects and emitted artifacts: needing and prompt/inference/evaluator ownership are represented by `.bitcode/needing-surface.json`, `.bitcode/prompt-family-registry.json`, `.bitcode/prompt-contracts.json`, `.bitcode/prompt-surfaces.json`, `.bitcode/inference-moment-contracts.json`, `.bitcode/parsed-completion-envelopes.json`, and `.bitcode/eval-manifest.json`.
 - Current algorithms and derivation rules: Bitcode measures need from benchmark, parser, and repo reality, maps prompts and inference moments to that need, and binds evaluator ownership to replayable contracts. V26 preserves those semantics while moving ownership toward package-backed canon and app/API composition.
 - Current invariants and fail-closed conditions: prompt contract incompleteness, parsed-envelope inadmissibility, evaluator ambiguity, need drift, or route/UI layers that detach prompt lineage from need lineage fail closed.
 - Current proof obligations: prompt family completeness, inference synthesis closure, and evaluator provenance must stay witness-bound and replayable.
@@ -985,7 +985,7 @@ The workflow stages remain:
 
 ### Fit, recall, ranking, and verification
 
-- Current canonical objects and emitted artifacts: fit, recall, ranking, and verification are represented by `.engi/depositing-to-needing-surface.json`, `.engi/match-report.json`, `.engi/verification-report.json`, `.engi/verification-receipts.json`, and `.engi/verification-decisions-proof.json`.
+- Current canonical objects and emitted artifacts: fit, recall, ranking, and verification are represented by `.bitcode/depositing-to-needing-surface.json`, `.bitcode/match-report.json`, `.bitcode/verification-report.json`, `.bitcode/verification-receipts.json`, and `.bitcode/verification-decisions-proof.json`.
 - Current algorithms and derivation rules: Bitcode computes depositing-to-needing fit before deeper proof closure, then performs recall and ranking, and only then resolves verification decisions and use-tiering. V26 preserves that ordering and requires the app-native surface to present it without depending on demo-owned UI.
 - Current invariants and fail-closed conditions: no-survivor asset pack, ranking inconsistency, verification decision drift, non-replayable verification receipts, or UI-layer loss of verification provenance fail closed.
 - Current proof obligations: fit continuity, verification issuance/provenance/sufficiency closure, and ranked-candidate determinism must remain auditable.
@@ -995,7 +995,7 @@ The workflow stages remain:
 
 ### Selection and materialization
 
-- Current canonical objects and emitted artifacts: selection and materialization are represented by `.engi/asset-pack.lock.json`, `.engi/selected-source-material.json`, `.engi/selection-consistency-proof.json`, `.engi/materialization-proof.json`, `.engi/materialization-exclusions.json`, and `.engi/selection-and-materialization-proof.json`.
+- Current canonical objects and emitted artifacts: selection and materialization are represented by `.bitcode/asset-pack.lock.json`, `.bitcode/selected-source-material.json`, `.bitcode/selection-consistency-proof.json`, `.bitcode/materialization-proof.json`, `.bitcode/materialization-exclusions.json`, and `.bitcode/selection-and-materialization-proof.json`.
 - Current algorithms and derivation rules: Bitcode materializes only selected assets, preserves exclusion reasons, binds materialized artifacts to bundle, branch, and proof identities, and in V26 must expose those outcomes through application-facing components rather than the demo-local UI shell.
 - Current invariants and fail-closed conditions: materialization without selection closure, hidden exclusions, non-replayable selected-source lineage, or route/application drift from materialized truth fail closed.
 - Current proof obligations: selected-set closure, materialized-source closure, visibility closure, and exclusion closure must all be witness-bound.
@@ -1005,7 +1005,7 @@ The workflow stages remain:
 
 ### Identity, authorization, and sensitive flow
 
-- Current canonical objects and emitted artifacts: identity, authorization, and sensitive flow are represented by `.engi/identity-bindings.json`, `.engi/authorization-decisions.json`, `.engi/sensitive-data-flow.json`, `.engi/identity-authorization-proof.json`, `.engi/sensitive-data-flow-proof.json`, `.engi/authorization-and-sensitive-flow-proof.json`, `.engi/github-app-binding.json`, wallet-auth carriers in `packages/auth` and `packages/api`, and execution policy surfaces.
+- Current canonical objects and emitted artifacts: identity, authorization, and sensitive flow are represented by `.bitcode/identity-bindings.json`, `.bitcode/authorization-decisions.json`, `.bitcode/sensitive-data-flow.json`, `.bitcode/identity-authorization-proof.json`, `.bitcode/sensitive-data-flow-proof.json`, `.bitcode/authorization-and-sensitive-flow-proof.json`, `.bitcode/github-app-binding.json`, wallet-auth carriers in `packages/auth` and `packages/api`, and execution policy surfaces.
 - Current algorithms and derivation rules: Bitcode derives authorization from issuer, signer, wallet, and policy roots, binds external execution to those roots, and routes sensitive data only through classified surfaces. V26 strengthens wallet connection and production auth posture and requires that the application-native Bitcode page operate inside that auth model.
 - Current invariants and fail-closed conditions: authorization denial, stale signing roots, stale wallet verification, mis-bound GitHub App identities, or sensitive-flow leakage fail closed.
 - Current proof obligations: identity closure, authorization closure, policy closure, wallet verification closure, and sensitive-flow closure must remain replayable across live interfaces.
@@ -1015,7 +1015,7 @@ The workflow stages remain:
 
 ### Disclosure and projection
 
-- Current canonical objects and emitted artifacts: disclosure and projection are represented by `.engi/projection-policy.json`, `.engi/bounded-public-proof.json`, `.engi/redaction-proof.json`, `.engi/disclosure-proof.json`, `.engi/disclosure-boundary-proof.json`, public/reviewer/buyer/internal projection views, and storage publication and retrieval receipts.
+- Current canonical objects and emitted artifacts: disclosure and projection are represented by `.bitcode/projection-policy.json`, `.bitcode/bounded-public-proof.json`, `.bitcode/redaction-proof.json`, `.bitcode/disclosure-proof.json`, `.bitcode/disclosure-boundary-proof.json`, public/reviewer/buyer/internal projection views, and storage publication and retrieval receipts.
 - Current algorithms and derivation rules: Bitcode projects public, reviewer, buyer, and internal surfaces from the same underlying artifact set and preserves bounded-public proof as the only public-safe external projection. V26 additionally requires that the application-native operator surface and refurbished marketing surfaces present these boundaries clearly.
 - Current invariants and fail-closed conditions: public projection overexposure, mismatched redaction, storage publication beyond principal rights, retrieval without disclosure authorization, or product-surface copy that implies broader disclosure than policy allows fail closed.
 - Current proof obligations: projection policy closure, bounded-public closure, redaction alignment, disclosure verdict alignment, and storage-publication alignment must remain auditable.
@@ -1025,7 +1025,7 @@ The workflow stages remain:
 
 ### Settlement and exact accounting
 
-- Current canonical objects and emitted artifacts: settlement and exact accounting are represented by `.engi/source-to-shares.json`, `.engi/settlement-participation.json`, `.engi/accounting-precision-report.json`, `.engi/journal-diff.json`, `.engi/journal-completeness-proof.json`, `.engi/settlement-proof.json`, `.engi/settlement-source-to-shares-proof.json`, repeated-read payment receipts, bitcoin-network execution receipts, and sidechain execution receipts.
+- Current canonical objects and emitted artifacts: settlement and exact accounting are represented by `.bitcode/source-to-shares.json`, `.bitcode/settlement-participation.json`, `.bitcode/accounting-precision-report.json`, `.bitcode/journal-diff.json`, `.bitcode/journal-completeness-proof.json`, `.bitcode/settlement-proof.json`, `.bitcode/settlement-source-to-shares-proof.json`, repeated-read payment receipts, bitcoin-network execution receipts, and sidechain execution receipts.
 - Current algorithms and derivation rules: Bitcode allocates exact BTD base units, normalizes basis points deterministically, binds payment intent and observation to bundle and settlement identities, and finalizes journals only under policy-bound execution observation. V26 preserves that accounting core while moving runtime ownership out of demo-local concentration.
 - Current invariants and fail-closed conditions: settlement conservation drift, missing execution receipt, journal finalization without observation, stale reconciliation, or cross-mode treasury drift fail closed.
 - Current proof obligations: contribution totality, normalization exactness, journal completeness, settlement theorem integrity, and payment-observation coherence must remain replayable.
@@ -1035,7 +1035,7 @@ The workflow stages remain:
 
 ### Proof contract, witnesses, and replay
 
-- Current canonical objects and emitted artifacts: proof contract, witnesses, and replay are represented by `.engi/proof-contract.json`, `.engi/system-proof-bundle.json`, `.engi/proof-witness-manifest.json`, all proof-family artifacts, `.engi/external-realization-proof.json`, `.engi/container-reality-proof.json`, `.engi/github-live-interface-proof.json`, `.engi/external-telemetry-summary.json`, and the future V26 `_PROVEN_` appendix.
+- Current canonical objects and emitted artifacts: proof contract, witnesses, and replay are represented by `.bitcode/proof-contract.json`, `.bitcode/system-proof-bundle.json`, `.bitcode/proof-witness-manifest.json`, all proof-family artifacts, `.bitcode/external-realization-proof.json`, `.bitcode/container-reality-proof.json`, `.bitcode/github-live-interface-proof.json`, `.bitcode/external-telemetry-summary.json`, and the future V26 `_PROVEN_` appendix.
 - Current algorithms and derivation rules: Bitcode binds every proof family to witnessArtifactPaths, theoremIds, replayStepIds, and artifact digests, then carries them into the system proof bundle and witness manifest for replay. V26 adds the requirement that the proof contract remain coherent while ownership moves from demo-local concentration to package and app layers.
 - Current invariants and fail-closed conditions: missing witness artifacts, replay-step drift, container attestation drift, GitHub observation drift, stale generated appendix truth, or proof-family omission fail closed.
 - Current proof obligations: proof-family closure, theorem closure, replay closure, witness manifest coherence, and proof-contract bundle coherence must remain exact.
@@ -1077,23 +1077,23 @@ The family names below are the minimum V26 full-canon carriers even before promo
 
 | proofFamily | proofArtifactPath | memberIds | theoremIds | replayStepIds | witnessArtifactPaths | Current source basis |
 | --- | --- | --- | --- | --- | --- | --- |
-| inference-synthesis | `.engi/inference-synthesis-proof.json` | moment-contract-closure, inference-payload-closure, implementation-surface-closure, parsed-envelope-consistency | inference_synthesis.contract_closure, inference_synthesis.payload_closure, inference_synthesis.parsed_envelope_consistency | inference-synthesis.moment-contracts, inference-synthesis.payload-replay, inference-synthesis.parsed-envelope-replay | `.engi/inference-moment-contracts.json`, `.engi/inference-proofs.json`, `.engi/prompt-implementation-surface.json`, `.engi/parsed-completion-envelopes.json`, `.engi/inference-synthesis-proof.json` | `protocol-demonstration/src/canonical/evaluation-materialization.js`, `protocol-demonstration/src/canonical/proof-materialization.js` |
-| prompt-completeness | `.engi/prompt-completeness-proof.json` | member-set-reconciliation, parse-admissibility, consumer-closure, provenance-truth | prompt_completeness.member_set_reconciliation, prompt_completeness.consumer_closure, prompt_completeness.provenance_truth | prompt-completeness.member-set-reconciliation, prompt-completeness.parse-admissibility, prompt-completeness.consumer-closure, prompt-completeness.provenance-truth | `.engi/prompt-family-registry.json`, `.engi/prompt-contracts.json`, `.engi/prompt-surfaces.json`, `.engi/prompt-completeness-proof.json` | `protocol-demonstration/src/canonical/prompting.js`, `protocol-demonstration/src/canonical/proof-materialization.js` |
-| static-code-analysis | `.engi/static-measurement-proof.json` | stage-domain, stage-mapping, receipt-report-proof | static_code_analysis.stage_domain_purity, static_code_analysis.stage_mapping_closure, static_code_analysis.receipt_report_proof | static-code-analysis.stage-domain, static-code-analysis.stage-mapping, static-code-analysis.receipt-report-proof | `.engi/code-analysis-fact-registry.json`, `.engi/static-heuristics-registry.json`, `.engi/measurement-receipts.json`, `.engi/static-measurement-report.json`, `.engi/static-measurement-proof.json` | `protocol-demonstration/src/bitcode-demo.js`, `protocol-demonstration/src/canonical/proof-materialization.js` |
-| verification-decisions | `.engi/verification-decisions-proof.json` | issuance-closure, provenance-closure, sufficiency-closure, issuer-policy-closure | verification_decisions.issuance_closure, verification_decisions.provenance_closure, verification_decisions.sufficiency_closure, verification_decisions.issuer_policy_closure | verification-decisions.stage-mapping, verification-decisions.use-tier-consequence | `.engi/verification-report.json`, `.engi/verification-receipts.json`, `.engi/verification-decisions-proof.json` | `protocol-demonstration/src/bitcode-demo.js`, `protocol-demonstration/src/canonical/proof-materialization.js` |
-| selection-and-materialization | `.engi/selection-and-materialization-proof.json` | selected-asset-closure, lock-closure, materialized-source-closure, exclusion-closure, visibility-closure | selection_and_materialization.selected_asset_closure, selection_and_materialization.lock_closure, selection_and_materialization.materialized_source_closure, selection_and_materialization.exclusion_closure, selection_and_materialization.visibility_closure | selection-and-materialization.selected-set, selection-and-materialization.visibility | `.engi/asset-pack.lock.json`, `.engi/selected-source-material.json`, `.engi/selection-consistency-proof.json`, `.engi/materialization-proof.json`, `.engi/materialization-exclusions.json`, `.engi/materialization-visibility-proof.json`, `.engi/selection-and-materialization-proof.json` | `protocol-demonstration/src/bitcode-demo.js`, `protocol-demonstration/src/canonical/proof-materialization.js` |
-| authorization-and-sensitive-flow | `.engi/authorization-and-sensitive-flow-proof.json` | identity-closure, authorization-closure, sensitive-flow-closure, policy-release-closure | authorization_and_sensitive_flow.identity_closure, authorization_and_sensitive_flow.authorization_closure, authorization_and_sensitive_flow.sensitive_flow_closure, authorization_and_sensitive_flow.policy_release_closure | authorization-and-sensitive-flow.identity-bindings, authorization-and-sensitive-flow.sensitive-flow | `.engi/identity-bindings.json`, `.engi/authorization-decisions.json`, `.engi/sensitive-data-flow.json`, `.engi/identity-authorization-proof.json`, `.engi/sensitive-data-flow-proof.json`, `.engi/authorization-and-sensitive-flow-proof.json` | `protocol-demonstration/src/bitcode-demo.js`, `protocol-demonstration/src/canonical/proof-materialization.js`, `packages/auth` |
-| settlement-source-to-shares | `.engi/settlement-source-to-shares-proof.json` | contribution-totality, clipping-determinism, normalization-exactness, participation-totality, allocation-conservation, journal-completeness | settlement_source_to_shares.contribution_totality, settlement_source_to_shares.normalization_exactness, settlement_source_to_shares.allocation_conservation, settlement_source_to_shares.journal_completeness | settlement-source-to-shares.contribution-allocation, settlement-source-to-shares.journal-theorem | `.engi/source-to-shares.json`, `.engi/settlement-participation.json`, `.engi/accounting-precision-report.json`, `.engi/journal-diff.json`, `.engi/journal-completeness-proof.json`, `.engi/settlement-proof.json`, `.engi/settlement-source-to-shares-proof.json` | `protocol-demonstration/src/canonical/settlement.js`, `protocol-demonstration/src/canonical/proof-materialization.js` |
-| disclosure-boundary | `.engi/disclosure-boundary-proof.json` | projection-policy-closure, bounded-public-closure, redaction-alignment, disclosure-verdict-alignment | disclosure_boundary.projection_policy_closure, disclosure_boundary.redaction_alignment, disclosure_boundary.disclosure_verdict_alignment | disclosure-boundary.policy-bounded-public, disclosure-boundary.redaction-disclosure | `.engi/projection-policy.json`, `.engi/bounded-public-proof.json`, `.engi/redaction-proof.json`, `.engi/disclosure-proof.json`, `.engi/disclosure-boundary-proof.json` | `protocol-demonstration/src/bitcode-demo.js`, `protocol-demonstration/src/canonical/proof-materialization.js`, `protocol-demonstration/src/canonical/projections.js` |
-| proof-contract | `.engi/proof-contract.json` | contract-materialization, evidence-chain, bundle-witness, family-closure | proof_contract.contract_materialization, proof_contract.evidence_chain_closure, proof_contract.bundle_witness, proof_contract.family_closure | proof-contract.contract-materialization, proof-contract.evidence-chain, proof-contract.bundle-witness | `.engi/proof-contract.json`, `.engi/system-proof-bundle.json`, `.engi/proof-witness-manifest.json` | `protocol-demonstration/src/bitcode-demo.js`, `protocol-demonstration/src/canonical/run-artifacts.js`, `protocol-demonstration/src/canonical/proof-materialization.js` |
+| inference-synthesis | `.bitcode/inference-synthesis-proof.json` | moment-contract-closure, inference-payload-closure, implementation-surface-closure, parsed-envelope-consistency | inference_synthesis.contract_closure, inference_synthesis.payload_closure, inference_synthesis.parsed_envelope_consistency | inference-synthesis.moment-contracts, inference-synthesis.payload-replay, inference-synthesis.parsed-envelope-replay | `.bitcode/inference-moment-contracts.json`, `.bitcode/inference-proofs.json`, `.bitcode/prompt-implementation-surface.json`, `.bitcode/parsed-completion-envelopes.json`, `.bitcode/inference-synthesis-proof.json` | `protocol-demonstration/src/canonical/evaluation-materialization.js`, `protocol-demonstration/src/canonical/proof-materialization.js` |
+| prompt-completeness | `.bitcode/prompt-completeness-proof.json` | member-set-reconciliation, parse-admissibility, consumer-closure, provenance-truth | prompt_completeness.member_set_reconciliation, prompt_completeness.consumer_closure, prompt_completeness.provenance_truth | prompt-completeness.member-set-reconciliation, prompt-completeness.parse-admissibility, prompt-completeness.consumer-closure, prompt-completeness.provenance-truth | `.bitcode/prompt-family-registry.json`, `.bitcode/prompt-contracts.json`, `.bitcode/prompt-surfaces.json`, `.bitcode/prompt-completeness-proof.json` | `protocol-demonstration/src/canonical/prompting.js`, `protocol-demonstration/src/canonical/proof-materialization.js` |
+| static-code-analysis | `.bitcode/static-measurement-proof.json` | stage-domain, stage-mapping, receipt-report-proof | static_code_analysis.stage_domain_purity, static_code_analysis.stage_mapping_closure, static_code_analysis.receipt_report_proof | static-code-analysis.stage-domain, static-code-analysis.stage-mapping, static-code-analysis.receipt-report-proof | `.bitcode/code-analysis-fact-registry.json`, `.bitcode/static-heuristics-registry.json`, `.bitcode/measurement-receipts.json`, `.bitcode/static-measurement-report.json`, `.bitcode/static-measurement-proof.json` | `protocol-demonstration/src/bitcode-demo.js`, `protocol-demonstration/src/canonical/proof-materialization.js` |
+| verification-decisions | `.bitcode/verification-decisions-proof.json` | issuance-closure, provenance-closure, sufficiency-closure, issuer-policy-closure | verification_decisions.issuance_closure, verification_decisions.provenance_closure, verification_decisions.sufficiency_closure, verification_decisions.issuer_policy_closure | verification-decisions.stage-mapping, verification-decisions.use-tier-consequence | `.bitcode/verification-report.json`, `.bitcode/verification-receipts.json`, `.bitcode/verification-decisions-proof.json` | `protocol-demonstration/src/bitcode-demo.js`, `protocol-demonstration/src/canonical/proof-materialization.js` |
+| selection-and-materialization | `.bitcode/selection-and-materialization-proof.json` | selected-asset-closure, lock-closure, materialized-source-closure, exclusion-closure, visibility-closure | selection_and_materialization.selected_asset_closure, selection_and_materialization.lock_closure, selection_and_materialization.materialized_source_closure, selection_and_materialization.exclusion_closure, selection_and_materialization.visibility_closure | selection-and-materialization.selected-set, selection-and-materialization.visibility | `.bitcode/asset-pack.lock.json`, `.bitcode/selected-source-material.json`, `.bitcode/selection-consistency-proof.json`, `.bitcode/materialization-proof.json`, `.bitcode/materialization-exclusions.json`, `.bitcode/materialization-visibility-proof.json`, `.bitcode/selection-and-materialization-proof.json` | `protocol-demonstration/src/bitcode-demo.js`, `protocol-demonstration/src/canonical/proof-materialization.js` |
+| authorization-and-sensitive-flow | `.bitcode/authorization-and-sensitive-flow-proof.json` | identity-closure, authorization-closure, sensitive-flow-closure, policy-release-closure | authorization_and_sensitive_flow.identity_closure, authorization_and_sensitive_flow.authorization_closure, authorization_and_sensitive_flow.sensitive_flow_closure, authorization_and_sensitive_flow.policy_release_closure | authorization-and-sensitive-flow.identity-bindings, authorization-and-sensitive-flow.sensitive-flow | `.bitcode/identity-bindings.json`, `.bitcode/authorization-decisions.json`, `.bitcode/sensitive-data-flow.json`, `.bitcode/identity-authorization-proof.json`, `.bitcode/sensitive-data-flow-proof.json`, `.bitcode/authorization-and-sensitive-flow-proof.json` | `protocol-demonstration/src/bitcode-demo.js`, `protocol-demonstration/src/canonical/proof-materialization.js`, `packages/auth` |
+| settlement-source-to-shares | `.bitcode/settlement-source-to-shares-proof.json` | contribution-totality, clipping-determinism, normalization-exactness, participation-totality, allocation-conservation, journal-completeness | settlement_source_to_shares.contribution_totality, settlement_source_to_shares.normalization_exactness, settlement_source_to_shares.allocation_conservation, settlement_source_to_shares.journal_completeness | settlement-source-to-shares.contribution-allocation, settlement-source-to-shares.journal-theorem | `.bitcode/source-to-shares.json`, `.bitcode/settlement-participation.json`, `.bitcode/accounting-precision-report.json`, `.bitcode/journal-diff.json`, `.bitcode/journal-completeness-proof.json`, `.bitcode/settlement-proof.json`, `.bitcode/settlement-source-to-shares-proof.json` | `protocol-demonstration/src/canonical/settlement.js`, `protocol-demonstration/src/canonical/proof-materialization.js` |
+| disclosure-boundary | `.bitcode/disclosure-boundary-proof.json` | projection-policy-closure, bounded-public-closure, redaction-alignment, disclosure-verdict-alignment | disclosure_boundary.projection_policy_closure, disclosure_boundary.redaction_alignment, disclosure_boundary.disclosure_verdict_alignment | disclosure-boundary.policy-bounded-public, disclosure-boundary.redaction-disclosure | `.bitcode/projection-policy.json`, `.bitcode/bounded-public-proof.json`, `.bitcode/redaction-proof.json`, `.bitcode/disclosure-proof.json`, `.bitcode/disclosure-boundary-proof.json` | `protocol-demonstration/src/bitcode-demo.js`, `protocol-demonstration/src/canonical/proof-materialization.js`, `protocol-demonstration/src/canonical/projections.js` |
+| proof-contract | `.bitcode/proof-contract.json` | contract-materialization, evidence-chain, bundle-witness, family-closure | proof_contract.contract_materialization, proof_contract.evidence_chain_closure, proof_contract.bundle_witness, proof_contract.family_closure | proof-contract.contract-materialization, proof-contract.evidence-chain, proof-contract.bundle-witness | `.bitcode/proof-contract.json`, `.bitcode/system-proof-bundle.json`, `.bitcode/proof-witness-manifest.json` | `protocol-demonstration/src/bitcode-demo.js`, `protocol-demonstration/src/canonical/run-artifacts.js`, `protocol-demonstration/src/canonical/proof-materialization.js` |
 
 ### Inference-synthesis
 
-- `proofArtifactPath:` `.engi/inference-synthesis-proof.json`
+- `proofArtifactPath:` `.bitcode/inference-synthesis-proof.json`
 - `members:` `moment-contract-closure`, `inference-payload-closure`, `implementation-surface-closure`, `parsed-envelope-consistency`
 - `theoremIds:` `inference_synthesis.contract_closure`, `inference_synthesis.payload_closure`, `inference_synthesis.parsed_envelope_consistency`
 - `replayStepIds:` `inference-synthesis.moment-contracts`, `inference-synthesis.payload-replay`, `inference-synthesis.parsed-envelope-replay`
-- `witnessArtifactPaths:` `.engi/inference-moment-contracts.json`, `.engi/inference-proofs.json`, `.engi/prompt-implementation-surface.json`, `.engi/parsed-completion-envelopes.json`, `.engi/inference-synthesis-proof.json`
+- `witnessArtifactPaths:` `.bitcode/inference-moment-contracts.json`, `.bitcode/inference-proofs.json`, `.bitcode/prompt-implementation-surface.json`, `.bitcode/parsed-completion-envelopes.json`, `.bitcode/inference-synthesis-proof.json`
 - `current member closure criteria:` all moment contracts, inference payloads, implementation surfaces, and parsed envelopes resolve to the same need and prompt lineage even when the application owner changes.
 - `current member verdict shape:` per-member pass/fail verdict with witness artifact refs, replay step refs, and failure reasons.
 - `current theorem-by-theorem closure reading:` each theorem closes only when the same witness set supports contract, payload, and parsed-envelope coherence.
@@ -1105,11 +1105,11 @@ The family names below are the minimum V26 full-canon carriers even before promo
 
 ### Prompt-completeness
 
-- `proofArtifactPath:` `.engi/prompt-completeness-proof.json`
+- `proofArtifactPath:` `.bitcode/prompt-completeness-proof.json`
 - `members:` `member-set-reconciliation`, `parse-admissibility`, `consumer-closure`, `provenance-truth`
 - `theoremIds:` `prompt_completeness.member_set_reconciliation`, `prompt_completeness.consumer_closure`, `prompt_completeness.provenance_truth`
 - `replayStepIds:` `prompt-completeness.member-set-reconciliation`, `prompt-completeness.parse-admissibility`, `prompt-completeness.consumer-closure`, `prompt-completeness.provenance-truth`
-- `witnessArtifactPaths:` `.engi/prompt-family-registry.json`, `.engi/prompt-contracts.json`, `.engi/prompt-surfaces.json`, `.engi/prompt-completeness-proof.json`
+- `witnessArtifactPaths:` `.bitcode/prompt-family-registry.json`, `.bitcode/prompt-contracts.json`, `.bitcode/prompt-surfaces.json`, `.bitcode/prompt-completeness-proof.json`
 - `current member closure criteria:` every prompt family declared for the run is registered, surfaced, consumed, provenance-bound, and exposed through the application-native operator experience without semantic loss.
 - `current member verdict shape:` per-member pass/fail verdict with artifact refs, replay refs, and completeness failure reasons.
 - `current theorem-by-theorem closure reading:` theorem closure requires family registry, contract, surface, and consumer closure to agree.
@@ -1121,11 +1121,11 @@ The family names below are the minimum V26 full-canon carriers even before promo
 
 ### Static-code-analysis
 
-- `proofArtifactPath:` `.engi/static-measurement-proof.json`
+- `proofArtifactPath:` `.bitcode/static-measurement-proof.json`
 - `members:` `stage-domain`, `stage-mapping`, `receipt-report-proof`
 - `theoremIds:` `static_code_analysis.stage_domain_purity`, `static_code_analysis.stage_mapping_closure`, `static_code_analysis.receipt_report_proof`
 - `replayStepIds:` `static-code-analysis.stage-domain`, `static-code-analysis.stage-mapping`, `static-code-analysis.receipt-report-proof`
-- `witnessArtifactPaths:` `.engi/code-analysis-fact-registry.json`, `.engi/static-heuristics-registry.json`, `.engi/measurement-receipts.json`, `.engi/static-measurement-report.json`, `.engi/static-measurement-proof.json`
+- `witnessArtifactPaths:` `.bitcode/code-analysis-fact-registry.json`, `.bitcode/static-heuristics-registry.json`, `.bitcode/measurement-receipts.json`, `.bitcode/static-measurement-report.json`, `.bitcode/static-measurement-proof.json`
 - `current member closure criteria:` static facts, heuristics, receipts, and reports must reconcile to the same extracted code analysis domain regardless of whether the owner is still demo-local or has moved to packages.
 - `current member verdict shape:` per-member pass/fail verdict with receipt refs, report refs, and failure reasons.
 - `current theorem-by-theorem closure reading:` theorem closure requires domain purity, stage mapping coherence, and report proof coherence.
@@ -1137,11 +1137,11 @@ The family names below are the minimum V26 full-canon carriers even before promo
 
 ### Verification-decisions
 
-- `proofArtifactPath:` `.engi/verification-decisions-proof.json`
+- `proofArtifactPath:` `.bitcode/verification-decisions-proof.json`
 - `members:` `issuance-closure`, `provenance-closure`, `sufficiency-closure`, `issuer-policy-closure`
 - `theoremIds:` `verification_decisions.issuance_closure`, `verification_decisions.provenance_closure`, `verification_decisions.sufficiency_closure`, `verification_decisions.issuer_policy_closure`
 - `replayStepIds:` `verification-decisions.stage-mapping`, `verification-decisions.use-tier-consequence`
-- `witnessArtifactPaths:` `.engi/verification-report.json`, `.engi/verification-receipts.json`, `.engi/verification-decisions-proof.json`
+- `witnessArtifactPaths:` `.bitcode/verification-report.json`, `.bitcode/verification-receipts.json`, `.bitcode/verification-decisions-proof.json`
 - `current member closure criteria:` verification report, receipts, and issued decision families must reconcile to the same selected candidates and use-tier outcomes across package, API, and application layers.
 - `current member verdict shape:` per-member pass/fail verdict with receipt refs and theorem refs.
 - `current theorem-by-theorem closure reading:` issuance, provenance, sufficiency, and issuer-policy all require coherent receipt-backed verification results.
@@ -1153,11 +1153,11 @@ The family names below are the minimum V26 full-canon carriers even before promo
 
 ### Selection-and-materialization
 
-- `proofArtifactPath:` `.engi/selection-and-materialization-proof.json`
+- `proofArtifactPath:` `.bitcode/selection-and-materialization-proof.json`
 - `members:` `selected-asset-closure`, `lock-closure`, `materialized-source-closure`, `exclusion-closure`, `visibility-closure`
 - `theoremIds:` `selection_and_materialization.selected_asset_closure`, `selection_and_materialization.lock_closure`, `selection_and_materialization.materialized_source_closure`, `selection_and_materialization.exclusion_closure`, `selection_and_materialization.visibility_closure`
 - `replayStepIds:` `selection-and-materialization.selected-set`, `selection-and-materialization.visibility`
-- `witnessArtifactPaths:` `.engi/asset-pack.lock.json`, `.engi/selected-source-material.json`, `.engi/selection-consistency-proof.json`, `.engi/materialization-proof.json`, `.engi/materialization-exclusions.json`, `.engi/materialization-visibility-proof.json`, `.engi/selection-and-materialization-proof.json`
+- `witnessArtifactPaths:` `.bitcode/asset-pack.lock.json`, `.bitcode/selected-source-material.json`, `.bitcode/selection-consistency-proof.json`, `.bitcode/materialization-proof.json`, `.bitcode/materialization-exclusions.json`, `.bitcode/materialization-visibility-proof.json`, `.bitcode/selection-and-materialization-proof.json`
 - `current member closure criteria:` selected assets, locked pack, materialized sources, exclusions, and visibility summaries must all agree and remain faithfully exposed through the application-native operator route.
 - `current member verdict shape:` per-member pass/fail verdict with witness refs and selection consistency reasons.
 - `current theorem-by-theorem closure reading:` theorem closure requires both selected-set and visibility replay to agree with materialized outputs.
@@ -1169,11 +1169,11 @@ The family names below are the minimum V26 full-canon carriers even before promo
 
 ### Authorization-and-sensitive-flow
 
-- `proofArtifactPath:` `.engi/authorization-and-sensitive-flow-proof.json`
+- `proofArtifactPath:` `.bitcode/authorization-and-sensitive-flow-proof.json`
 - `members:` `identity-closure`, `authorization-closure`, `sensitive-flow-closure`, `policy-release-closure`
 - `theoremIds:` `authorization_and_sensitive_flow.identity_closure`, `authorization_and_sensitive_flow.authorization_closure`, `authorization_and_sensitive_flow.sensitive_flow_closure`, `authorization_and_sensitive_flow.policy_release_closure`
 - `replayStepIds:` `authorization-and-sensitive-flow.identity-bindings`, `authorization-and-sensitive-flow.sensitive-flow`
-- `witnessArtifactPaths:` `.engi/identity-bindings.json`, `.engi/authorization-decisions.json`, `.engi/sensitive-data-flow.json`, `.engi/identity-authorization-proof.json`, `.engi/sensitive-data-flow-proof.json`, `.engi/authorization-and-sensitive-flow-proof.json`
+- `witnessArtifactPaths:` `.bitcode/identity-bindings.json`, `.bitcode/authorization-decisions.json`, `.bitcode/sensitive-data-flow.json`, `.bitcode/identity-authorization-proof.json`, `.bitcode/sensitive-data-flow-proof.json`, `.bitcode/authorization-and-sensitive-flow-proof.json`
 - `current member closure criteria:` identity, authorization, wallet, and sensitive-flow artifacts must reconcile to the same policy and addressing roots.
 - `current member verdict shape:` per-member pass/fail verdict with policy refs and witness refs.
 - `current theorem-by-theorem closure reading:` theorem closure requires identity, authorization, wallet verification, and sensitive-data flow to agree without leakage.
@@ -1185,11 +1185,11 @@ The family names below are the minimum V26 full-canon carriers even before promo
 
 ### Settlement-source-to-shares
 
-- `proofArtifactPath:` `.engi/settlement-source-to-shares-proof.json`
+- `proofArtifactPath:` `.bitcode/settlement-source-to-shares-proof.json`
 - `members:` `contribution-totality`, `clipping-determinism`, `normalization-exactness`, `participation-totality`, `allocation-conservation`, `journal-completeness`
 - `theoremIds:` `settlement_source_to_shares.contribution_totality`, `settlement_source_to_shares.normalization_exactness`, `settlement_source_to_shares.allocation_conservation`, `settlement_source_to_shares.journal_completeness`
 - `replayStepIds:` `settlement-source-to-shares.contribution-allocation`, `settlement-source-to-shares.journal-theorem`
-- `witnessArtifactPaths:` `.engi/source-to-shares.json`, `.engi/settlement-participation.json`, `.engi/accounting-precision-report.json`, `.engi/journal-diff.json`, `.engi/journal-completeness-proof.json`, `.engi/settlement-proof.json`, `.engi/settlement-source-to-shares-proof.json`
+- `witnessArtifactPaths:` `.bitcode/source-to-shares.json`, `.bitcode/settlement-participation.json`, `.bitcode/accounting-precision-report.json`, `.bitcode/journal-diff.json`, `.bitcode/journal-completeness-proof.json`, `.bitcode/settlement-proof.json`, `.bitcode/settlement-source-to-shares-proof.json`
 - `current member closure criteria:` contributions, participation, exact BTD allocation, journals, and settlement proof must reconcile.
 - `current member verdict shape:` per-member pass/fail verdict with artifact refs, theorem refs, and conservation failure reasons.
 - `current theorem-by-theorem closure reading:` theorem closure requires contribution totality, normalization exactness, conservation, and journal completeness to agree.
@@ -1201,11 +1201,11 @@ The family names below are the minimum V26 full-canon carriers even before promo
 
 ### Disclosure-boundary
 
-- `proofArtifactPath:` `.engi/disclosure-boundary-proof.json`
+- `proofArtifactPath:` `.bitcode/disclosure-boundary-proof.json`
 - `members:` `projection-policy-closure`, `bounded-public-closure`, `redaction-alignment`, `disclosure-verdict-alignment`
 - `theoremIds:` `disclosure_boundary.projection_policy_closure`, `disclosure_boundary.redaction_alignment`, `disclosure_boundary.disclosure_verdict_alignment`
 - `replayStepIds:` `disclosure-boundary.policy-bounded-public`, `disclosure-boundary.redaction-disclosure`
-- `witnessArtifactPaths:` `.engi/projection-policy.json`, `.engi/bounded-public-proof.json`, `.engi/redaction-proof.json`, `.engi/disclosure-proof.json`, `.engi/disclosure-boundary-proof.json`
+- `witnessArtifactPaths:` `.bitcode/projection-policy.json`, `.bitcode/bounded-public-proof.json`, `.bitcode/redaction-proof.json`, `.bitcode/disclosure-proof.json`, `.bitcode/disclosure-boundary-proof.json`
 - `current member closure criteria:` projection policy, bounded-public proof, redaction, and disclosure verdicts must remain coherent per principal across packages, API, app, and marketing-facing surfaces.
 - `current member verdict shape:` per-member pass/fail verdict with witness refs and leakage reasons.
 - `current theorem-by-theorem closure reading:` theorem closure requires policy, redaction, and disclosure surfaces to agree without public overexposure.
@@ -1217,11 +1217,11 @@ The family names below are the minimum V26 full-canon carriers even before promo
 
 ### Proof-contract
 
-- `proofArtifactPath:` `.engi/proof-contract.json`
+- `proofArtifactPath:` `.bitcode/proof-contract.json`
 - `members:` `contract-materialization`, `evidence-chain`, `bundle-witness`, `family-closure`
 - `theoremIds:` `proof_contract.contract_materialization`, `proof_contract.evidence_chain_closure`, `proof_contract.bundle_witness`, `proof_contract.family_closure`
 - `replayStepIds:` `proof-contract.contract-materialization`, `proof-contract.evidence-chain`, `proof-contract.bundle-witness`
-- `witnessArtifactPaths:` `.engi/proof-contract.json`, `.engi/system-proof-bundle.json`, `.engi/proof-witness-manifest.json`
+- `witnessArtifactPaths:` `.bitcode/proof-contract.json`, `.bitcode/system-proof-bundle.json`, `.bitcode/proof-witness-manifest.json`
 - `current member closure criteria:` proof contract, bundle, and witness manifest must agree over all included proof families while owners move from demo-local to package and app surfaces.
 - `current member verdict shape:` per-member pass/fail verdict with witness refs and missing-family reasons.
 - `current theorem-by-theorem closure reading:` theorem closure requires contract materialization, evidence chain integrity, and witness manifest coherence.
@@ -1245,16 +1245,16 @@ V26 inherits the V20 operator-quality baseline as active generated evidence requ
 
 Current V26 generated artifact inventories must cover:
 - active inherited reproducible and operator-quality reports,
-- `.engi/v26-spec-family-report.json`,
-- `.engi/v26-canonical-input-report.json`,
-- any future `.engi/v26-canon-posture-drift-report.json` if V26 reopens posture-drift generation,
+- `.bitcode/v26-spec-family-report.json`,
+- `.bitcode/v26-canonical-input-report.json`,
+- any future `.bitcode/v26-canon-posture-drift-report.json` if V26 reopens posture-drift generation,
 - and `BITCODE_SPEC_V26_PROVEN.md`.
 
 ### V26 specifying generated artifacts
 
 V26 specifying artifacts are:
-- `.engi/v26-spec-family-report.json`
-- `.engi/v26-canonical-input-report.json`
+- `.bitcode/v26-spec-family-report.json`
+- `.bitcode/v26-canonical-input-report.json`
 - `BITCODE_SPEC_V26_PROVEN.md`
 
 ### Shared generated-artifact fields
@@ -1320,7 +1320,7 @@ Current validating commands and parity basis include:
 V26 promotion requires all of the following:
 - `BITCODE_SPEC.txt` advancing deliberately and only when V26 is the chosen active canon,
 - `BITCODE_SPEC_V26.md`, `BITCODE_SPEC_V26_DELTA.md`, `BITCODE_SPEC_V26_PARITY_MATRIX.md`, and `BITCODE_SPEC_V26_PROVEN.md` agreeing,
-- `.engi/v26-spec-family-report.json`, `.engi/v26-canonical-input-report.json`, and `.engi/v26-gate-checkpoint-report.json` existing and matching the promoted V26 structure,
+- `.bitcode/v26-spec-family-report.json`, `.bitcode/v26-canonical-input-report.json`, and `.bitcode/v26-gate-checkpoint-report.json` existing and matching the promoted V26 structure,
 - Bitcode application-native routing existing as source truth rather than as draft-target-only prose,
 - package extraction and existing-package convergence being reflected in source sufficiently to satisfy the parity ledger,
 - and no fail-closed condition remaining open for any interface V26 claims as hardened.
@@ -1365,8 +1365,8 @@ Each family closes only when its witnessArtifactPaths, theoremIds, replayStepIds
 
 The generated artifact contract catalog covers:
 - inherited reproducible-canon and operator-quality reports,
-- `.engi/v26-spec-family-report.json`,
-- `.engi/v26-canonical-input-report.json`,
+- `.bitcode/v26-spec-family-report.json`,
+- `.bitcode/v26-canonical-input-report.json`,
 - and `BITCODE_SPEC_V26_PROVEN.md`.
 
 These generated artifact inventories must include generated artifact inventories and scenario and run coverage matrices and must fail closed when regeneration is stale.
@@ -1471,8 +1471,8 @@ The canonical file-family and promotion contract catalog includes:
 - `BITCODE_SPEC_V26_PARITY_MATRIX.md`
 - `BITCODE_SPEC_V26_NOTES.md`
 - `BITCODE_SPEC_V26_PROVEN.md`
-- `.engi/v26-spec-family-report.json`
-- `.engi/v26-canonical-input-report.json`
+- `.bitcode/v26-spec-family-report.json`
+- `.bitcode/v26-canonical-input-report.json`
 
 Promotion requires the pointer, posture, generated reports, `_PROVEN_` appendix, and source parity state to agree.
 
@@ -1535,24 +1535,24 @@ Every named failure class is blocking for promotion when it applies to a claimed
 ## Appendix K. Source-bearing deliverable and artifact contract catalog
 
 The source-bearing deliverable and artifact contract catalog includes:
-- `.engi/asset-pack.lock.json`
-- `.engi/selected-source-material.json`
-- `.engi/verification-report.json`
-- `.engi/source-to-shares.json`
-- `.engi/projection-policy.json`
-- `.engi/system-proof-bundle.json`
-- `.engi/proof-contract.json`
-- `.engi/proof-witness-manifest.json`
-- `.engi/inference-synthesis-proof.json`
-- `.engi/prompt-completeness-proof.json`
-- `.engi/static-measurement-proof.json`
-- `.engi/verification-decisions-proof.json`
-- `.engi/selection-and-materialization-proof.json`
-- `.engi/authorization-and-sensitive-flow-proof.json`
-- `.engi/settlement-source-to-shares-proof.json`
-- `.engi/disclosure-boundary-proof.json`
-- `.engi/v26-spec-family-report.json`
-- `.engi/v26-canonical-input-report.json`
+- `.bitcode/asset-pack.lock.json`
+- `.bitcode/selected-source-material.json`
+- `.bitcode/verification-report.json`
+- `.bitcode/source-to-shares.json`
+- `.bitcode/projection-policy.json`
+- `.bitcode/system-proof-bundle.json`
+- `.bitcode/proof-contract.json`
+- `.bitcode/proof-witness-manifest.json`
+- `.bitcode/inference-synthesis-proof.json`
+- `.bitcode/prompt-completeness-proof.json`
+- `.bitcode/static-measurement-proof.json`
+- `.bitcode/verification-decisions-proof.json`
+- `.bitcode/selection-and-materialization-proof.json`
+- `.bitcode/authorization-and-sensitive-flow-proof.json`
+- `.bitcode/settlement-source-to-shares-proof.json`
+- `.bitcode/disclosure-boundary-proof.json`
+- `.bitcode/v26-spec-family-report.json`
+- `.bitcode/v26-canonical-input-report.json`
 - `BITCODE_SPEC_V26_PROVEN.md`
 
 ## accepted boundaries and reopen conditions
@@ -1580,5 +1580,5 @@ V26 is complete only when:
 4. Demonstration UX is preserved while demonstration UI is replaced by application-facing components.
 5. Bitcode system ownership is materially re-homed into packages and app/API owners rather than remaining concentrated in the former top-level demo owner.
 6. GitHub, auth, wallet, bitcoin, sidechain, repeated-read, compute, storage, telemetry, and reconciliation hardening are explicit, fail-closed, and test-backed.
-7. `.engi/v26-spec-family-report.json`, `.engi/v26-canonical-input-report.json`, `.engi/v26-gate-checkpoint-report.json`, and `BITCODE_SPEC_V26_PROVEN.md` exist and agree with the promoted V26 main spec.
+7. `.bitcode/v26-spec-family-report.json`, `.bitcode/v26-canonical-input-report.json`, `.bitcode/v26-gate-checkpoint-report.json`, and `BITCODE_SPEC_V26_PROVEN.md` exist and agree with the promoted V26 main spec.
 8. The promoted V26 main spec stands alone for re-implementation, audit, operator comprehension, and promotion without semantic dependence on prior versions.

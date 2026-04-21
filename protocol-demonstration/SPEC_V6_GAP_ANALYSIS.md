@@ -92,14 +92,14 @@ Spec V6 instead requires a much more explicit pipeline:
 
 ### 7. Deliverables gap
 **Spec V6:** remediation branch must contain:
-- `.engi/need.json`
-- `.engi/match-report.json`
-- `.engi/verification-report.json`
-- `.engi/eval-manifest.json`
-- `.engi/asset-pack.lock.json`
-- `.engi/settlement-preview.json`
-- `.engi/system-proof-bundle.json`
-- `.engi/source-material/`
+- `.bitcode/need.json`
+- `.bitcode/match-report.json`
+- `.bitcode/verification-report.json`
+- `.bitcode/eval-manifest.json`
+- `.bitcode/asset-pack.lock.json`
+- `.bitcode/settlement-preview.json`
+- `.bitcode/system-proof-bundle.json`
+- `.bitcode/source-material/`
 - `BITCODE_NEED.md`
 
 **Original demo:** receipts, proof log, schemas, and a private bundle payload.

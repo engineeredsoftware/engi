@@ -118,5 +118,5 @@ The old demo was best described as:
 - separate verification determinisms and propagated use tiers
 - asset pack assembly
 - Make Bitcode branch buyer UX
-- `.engi/*` remediation branch artifacts
+- `.bitcode/*` remediation branch artifacts
 - exact journal diff and system proof bundle

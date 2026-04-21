@@ -10,7 +10,7 @@
 - Canonical proof-source commit: `9d0733fed5f63d2f977900384d4103f9fd887f03`
 - Prior canonical anchor: `/Users/garrettmaring/Developer/ENGI/_legacy/ENGI_SPEC_V25.md`
 - Prior generated proof appendix: `/Users/garrettmaring/Developer/ENGI/_legacy/ENGI_SPEC_V25_PROVEN.md`
-- Generated structured artifact inventory: active canonical `.engi/v19-*` reproducible reports, `.engi/v20-*` operator-quality reports, `.engi/v26-spec-family-report.json`, `.engi/v26-canonical-input-report.json`, `.engi/v26-gate-checkpoint-report.json`, `.engi/conversations-continuity-proof.json`, `.engi/runs-pipelines-totality-proof.json`, `.engi/persistence-schema-totality-proof.json`, `.engi/prompt-system-totality-proof.json`, `.engi/retained-package-admissibility-proof.json`, and `BITCODE_SPEC_V26_PROVEN.md`
+- Generated structured artifact inventory: active canonical `.bitcode/v19-*` reproducible reports, `.bitcode/v20-*` operator-quality reports, `.bitcode/v26-spec-family-report.json`, `.bitcode/v26-canonical-input-report.json`, `.bitcode/v26-gate-checkpoint-report.json`, `.bitcode/conversations-continuity-proof.json`, `.bitcode/runs-pipelines-totality-proof.json`, `.bitcode/persistence-schema-totality-proof.json`, `.bitcode/prompt-system-totality-proof.json`, `.bitcode/retained-package-admissibility-proof.json`, and `BITCODE_SPEC_V26_PROVEN.md`
 - Spec companion: `/Users/garrettmaring/Developer/ENGI/BITCODE_SPEC_V26.md`
 - Parity companion: `/Users/garrettmaring/Developer/ENGI/BITCODE_SPEC_V26_PARITY_MATRIX.md`
 - Notes companion: `/Users/garrettmaring/Developer/ENGI/BITCODE_SPEC_V26_NOTES.md`
@@ -75,7 +75,7 @@ Its rule is:
 - and keep public product language aligned to Give, Need, transactions, conversations, and Auxillaries rather than demo or gate narration.
 
 The current V26 near-term checkpoint is explicitly earlier than third-gate closure:
-- first-gate and second-gate closure are carried by `.engi/v26-gate-checkpoint-report.json`,
+- first-gate and second-gate closure are carried by `.bitcode/v26-gate-checkpoint-report.json`,
 - that checkpoint must leave third-gate preparation explicit,
 - and third-gate promotion work must remain separate from second-gate application acceptance.
 

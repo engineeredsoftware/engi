@@ -473,50 +473,50 @@ export function createNeedMeasurementRuntime({
       };
     });
     const witnessArtifactPaths = [
-      '.engi/inference-moment-contracts.json',
-      '.engi/inference-proofs.json',
-      '.engi/prompt-implementation-surface.json',
-      '.engi/prompt-surfaces.json',
-      '.engi/parsed-completion-envelopes.json',
-      '.engi/inference-synthesis-proof.json'
+      '.bitcode/inference-moment-contracts.json',
+      '.bitcode/inference-proofs.json',
+      '.bitcode/prompt-implementation-surface.json',
+      '.bitcode/prompt-surfaces.json',
+      '.bitcode/parsed-completion-envelopes.json',
+      '.bitcode/inference-synthesis-proof.json'
     ];
     const replayArtifacts = [
-      '.engi/inference-moment-contracts.json',
-      '.engi/inference-proofs.json',
-      '.engi/prompt-implementation-surface.json',
-      '.engi/prompt-surfaces.json',
-      '.engi/parsed-completion-envelopes.json',
-      '.engi/eval-manifest.json',
-      '.engi/inference-synthesis-proof.json'
+      '.bitcode/inference-moment-contracts.json',
+      '.bitcode/inference-proofs.json',
+      '.bitcode/prompt-implementation-surface.json',
+      '.bitcode/prompt-surfaces.json',
+      '.bitcode/parsed-completion-envelopes.json',
+      '.bitcode/eval-manifest.json',
+      '.bitcode/inference-synthesis-proof.json'
     ];
     const replaySteps = [
       buildReplayStep({
         stepId: 'inference-synthesis.coverage-reconciliation',
         theoremIds: ['inference_synthesis.coverage_totality'],
-        requiredArtifactPaths: ['.engi/inference-moment-contracts.json', '.engi/inference-proofs.json', '.engi/inference-synthesis-proof.json', '.engi/prompt-surfaces.json'],
+        requiredArtifactPaths: ['.bitcode/inference-moment-contracts.json', '.bitcode/inference-proofs.json', '.bitcode/inference-synthesis-proof.json', '.bitcode/prompt-surfaces.json'],
         instruction: 'Reconcile classified inferred fields against covered field proofs and prompt surfaces.'
       }),
       buildReplayStep({
         stepId: 'inference-synthesis.evaluator-status-replay',
         theoremIds: ['inference_synthesis.evaluator_status_truth'],
-        requiredArtifactPaths: ['.engi/inference-moment-contracts.json', '.engi/inference-proofs.json', '.engi/prompt-surfaces.json', '.engi/eval-manifest.json'],
+        requiredArtifactPaths: ['.bitcode/inference-moment-contracts.json', '.bitcode/inference-proofs.json', '.bitcode/prompt-surfaces.json', '.bitcode/eval-manifest.json'],
         instruction: 'Replay evaluator status across field proofs, prompt surfaces, and eval manifest.'
       }),
       buildReplayStep({
         stepId: 'inference-synthesis.evidence-basis-replay',
         theoremIds: ['inference_synthesis.evidence_basis_closure', 'inference_synthesis.ownership_traceability_closure'],
-        requiredArtifactPaths: ['.engi/inference-moment-contracts.json', '.engi/inference-proofs.json', '.engi/prompt-surfaces.json', '.engi/parsed-completion-envelopes.json', '.engi/inference-synthesis-proof.json'],
+        requiredArtifactPaths: ['.bitcode/inference-moment-contracts.json', '.bitcode/inference-proofs.json', '.bitcode/prompt-surfaces.json', '.bitcode/parsed-completion-envelopes.json', '.bitcode/inference-synthesis-proof.json'],
         instruction: 'Reconcile field-proof evidence refs against prompt context and parsed envelopes.'
       })
     ];
     const artifactBindings = [
-      buildArtifactBinding({ artifactPath: '.engi/inference-moment-contracts.json', role: 'registry', theoremIds: ['inference_synthesis.coverage_totality', 'inference_synthesis.evaluator_status_truth', 'inference_synthesis.evidence_basis_closure'], requiredForWitness: true, requiredForReplay: true }),
-      buildArtifactBinding({ artifactPath: '.engi/inference-proofs.json', role: 'primary-proof', theoremIds: ['inference_synthesis.coverage_totality', 'inference_synthesis.evidence_basis_closure', 'inference_synthesis.ownership_traceability_closure'], requiredForWitness: true, requiredForReplay: true }),
-      buildArtifactBinding({ artifactPath: '.engi/prompt-implementation-surface.json', role: 'aggregate-surface', theoremIds: ['inference_synthesis.witness_materialization_closure'], requiredForWitness: true, requiredForReplay: true }),
-      buildArtifactBinding({ artifactPath: '.engi/prompt-surfaces.json', role: 'primary-proof', theoremIds: ['inference_synthesis.coverage_totality', 'inference_synthesis.evaluator_status_truth', 'inference_synthesis.ownership_traceability_closure'] }),
-      buildArtifactBinding({ artifactPath: '.engi/parsed-completion-envelopes.json', role: 'supporting-proof', theoremIds: ['inference_synthesis.evidence_basis_closure', 'inference_synthesis.replay_closure'] }),
-      buildArtifactBinding({ artifactPath: '.engi/eval-manifest.json', role: 'registry', theoremIds: ['inference_synthesis.evaluator_status_truth'], requiredForWitness: false, requiredForReplay: true }),
-      buildArtifactBinding({ artifactPath: '.engi/inference-synthesis-proof.json', role: 'primary-proof', theoremIds: ['inference_synthesis.witness_materialization_closure', 'inference_synthesis.replay_closure'] })
+      buildArtifactBinding({ artifactPath: '.bitcode/inference-moment-contracts.json', role: 'registry', theoremIds: ['inference_synthesis.coverage_totality', 'inference_synthesis.evaluator_status_truth', 'inference_synthesis.evidence_basis_closure'], requiredForWitness: true, requiredForReplay: true }),
+      buildArtifactBinding({ artifactPath: '.bitcode/inference-proofs.json', role: 'primary-proof', theoremIds: ['inference_synthesis.coverage_totality', 'inference_synthesis.evidence_basis_closure', 'inference_synthesis.ownership_traceability_closure'], requiredForWitness: true, requiredForReplay: true }),
+      buildArtifactBinding({ artifactPath: '.bitcode/prompt-implementation-surface.json', role: 'aggregate-surface', theoremIds: ['inference_synthesis.witness_materialization_closure'], requiredForWitness: true, requiredForReplay: true }),
+      buildArtifactBinding({ artifactPath: '.bitcode/prompt-surfaces.json', role: 'primary-proof', theoremIds: ['inference_synthesis.coverage_totality', 'inference_synthesis.evaluator_status_truth', 'inference_synthesis.ownership_traceability_closure'] }),
+      buildArtifactBinding({ artifactPath: '.bitcode/parsed-completion-envelopes.json', role: 'supporting-proof', theoremIds: ['inference_synthesis.evidence_basis_closure', 'inference_synthesis.replay_closure'] }),
+      buildArtifactBinding({ artifactPath: '.bitcode/eval-manifest.json', role: 'registry', theoremIds: ['inference_synthesis.evaluator_status_truth'], requiredForWitness: false, requiredForReplay: true }),
+      buildArtifactBinding({ artifactPath: '.bitcode/inference-synthesis-proof.json', role: 'primary-proof', theoremIds: ['inference_synthesis.witness_materialization_closure', 'inference_synthesis.replay_closure'] })
     ];
     const theoremIds = [
       'inference_synthesis.coverage_totality',
@@ -751,16 +751,16 @@ export function createNeedMeasurementRuntime({
         template: `You are measuring a ${ACTIVE_PROJECT_LABEL} remediation need for repo {{repo}} on branch {{baseRef}} after GitHub run {{benchmarkRunId}}. Failing cases: {{failingCases}}. Weak dimensions: {{weakDimensions}}. Touched paths: {{touchedPaths}}. Constraints: {{constraints}}. Produce a concise task statement that preserves rollback safety and session validity.`,
         values: { repo: scenario.repo, baseRef: scenario.baseRef, benchmarkRunId: scenario.benchmarkRunId, failingCases: canonicalBenchmarkOutputs.failingCases, weakDimensions: canonicalBenchmarkOutputs.weakDimensions, touchedPaths: repoCodeAnalysis.touchedPaths, constraints },
         contextInputs: [
-          { field: 'repo', value: scenario.repo, source: 'scenario.repo', evidenceRefs: [scenario.repo], artifactBindings: ['.engi/need.json'] },
-          { field: 'baseRef', value: scenario.baseRef, source: 'scenario.baseRef', evidenceRefs: [scenario.baseRef], artifactBindings: ['.engi/need.json'] },
-          { field: 'benchmarkRunId', value: scenario.benchmarkRunId, source: 'scenario.benchmarkRunId', evidenceRefs: summarizeStrings([scenario.canonicalRunEvidence?.runId]), artifactBindings: ['.engi/benchmark-target.json'] },
-          { field: 'failingCases', value: canonicalBenchmarkOutputs.failingCases, source: 'canonicalBenchmarkOutputs.failingCases', evidenceRefs: canonicalBenchmarkOutputs.failingCases, artifactBindings: ['.engi/need-measurement.json'] },
-          { field: 'weakDimensions', value: canonicalBenchmarkOutputs.weakDimensions, source: 'canonicalBenchmarkOutputs.weakDimensions', evidenceRefs: canonicalBenchmarkOutputs.weakDimensions, artifactBindings: ['.engi/need-measurement.json'] },
-          { field: 'touchedPaths', value: repoCodeAnalysis.touchedPaths, source: fieldDerivations.touchedPaths.source || 'repo-context-extraction', evidenceRefs: repoCodeAnalysis.touchedPaths, artifactBindings: ['.engi/need.json', '.engi/match-report.json'] },
-          { field: 'constraints', value: constraints, source: fieldDerivations.constraints.source || 'deterministic-synthesis', evidenceRefs: canonicalBenchmarkOutputs.weakDimensions, artifactBindings: ['.engi/need.json'] }
+          { field: 'repo', value: scenario.repo, source: 'scenario.repo', evidenceRefs: [scenario.repo], artifactBindings: ['.bitcode/need.json'] },
+          { field: 'baseRef', value: scenario.baseRef, source: 'scenario.baseRef', evidenceRefs: [scenario.baseRef], artifactBindings: ['.bitcode/need.json'] },
+          { field: 'benchmarkRunId', value: scenario.benchmarkRunId, source: 'scenario.benchmarkRunId', evidenceRefs: summarizeStrings([scenario.canonicalRunEvidence?.runId]), artifactBindings: ['.bitcode/benchmark-target.json'] },
+          { field: 'failingCases', value: canonicalBenchmarkOutputs.failingCases, source: 'canonicalBenchmarkOutputs.failingCases', evidenceRefs: canonicalBenchmarkOutputs.failingCases, artifactBindings: ['.bitcode/need-measurement.json'] },
+          { field: 'weakDimensions', value: canonicalBenchmarkOutputs.weakDimensions, source: 'canonicalBenchmarkOutputs.weakDimensions', evidenceRefs: canonicalBenchmarkOutputs.weakDimensions, artifactBindings: ['.bitcode/need-measurement.json'] },
+          { field: 'touchedPaths', value: repoCodeAnalysis.touchedPaths, source: fieldDerivations.touchedPaths.source || 'repo-context-extraction', evidenceRefs: repoCodeAnalysis.touchedPaths, artifactBindings: ['.bitcode/need.json', '.bitcode/match-report.json'] },
+          { field: 'constraints', value: constraints, source: fieldDerivations.constraints.source || 'deterministic-synthesis', evidenceRefs: canonicalBenchmarkOutputs.weakDimensions, artifactBindings: ['.bitcode/need.json'] }
         ],
         outputFields: ['task'],
-        downstreamArtifacts: ['.engi/need.json', '.engi/match-report.json', '.engi/system-proof-bundle.json', 'BITCODE_NEED.md']
+        downstreamArtifacts: ['.bitcode/need.json', '.bitcode/match-report.json', '.bitcode/system-proof-bundle.json', 'BITCODE_NEED.md']
       }),
       buildPromptSurface({
         promptId: 'need-measurement.failure-modes.v2',
@@ -768,12 +768,12 @@ export function createNeedMeasurementRuntime({
         template: `Given failing cases {{failingCases}} and weak dimensions {{weakDimensions}} for repo {{repo}}, derive the concrete failure modes that must be addressed in the private ${ACTIVE_PROJECT_LABEL} remediation branch.`,
         values: { failingCases: canonicalBenchmarkOutputs.failingCases, weakDimensions: canonicalBenchmarkOutputs.weakDimensions, repo: scenario.repo },
         contextInputs: [
-          { field: 'repo', value: scenario.repo, source: 'scenario.repo', evidenceRefs: [scenario.repo], artifactBindings: ['.engi/need.json'] },
-          { field: 'failingCases', value: canonicalBenchmarkOutputs.failingCases, source: 'canonicalBenchmarkOutputs.failingCases', evidenceRefs: canonicalBenchmarkOutputs.failingCases, artifactBindings: ['.engi/need-measurement.json'] },
-          { field: 'weakDimensions', value: canonicalBenchmarkOutputs.weakDimensions, source: 'canonicalBenchmarkOutputs.weakDimensions', evidenceRefs: canonicalBenchmarkOutputs.weakDimensions, artifactBindings: ['.engi/need-measurement.json'] }
+          { field: 'repo', value: scenario.repo, source: 'scenario.repo', evidenceRefs: [scenario.repo], artifactBindings: ['.bitcode/need.json'] },
+          { field: 'failingCases', value: canonicalBenchmarkOutputs.failingCases, source: 'canonicalBenchmarkOutputs.failingCases', evidenceRefs: canonicalBenchmarkOutputs.failingCases, artifactBindings: ['.bitcode/need-measurement.json'] },
+          { field: 'weakDimensions', value: canonicalBenchmarkOutputs.weakDimensions, source: 'canonicalBenchmarkOutputs.weakDimensions', evidenceRefs: canonicalBenchmarkOutputs.weakDimensions, artifactBindings: ['.bitcode/need-measurement.json'] }
         ],
         outputFields: ['failureModes'],
-        downstreamArtifacts: ['.engi/need.json', '.engi/match-report.json', '.engi/prompt-surfaces.json', 'BITCODE_NEED.md']
+        downstreamArtifacts: ['.bitcode/need.json', '.bitcode/match-report.json', '.bitcode/prompt-surfaces.json', 'BITCODE_NEED.md']
       }),
       buildPromptSurface({
         promptId: 'need-measurement.constraints.v2',
@@ -781,13 +781,13 @@ export function createNeedMeasurementRuntime({
         template: `Use weak dimensions {{weakDimensions}}, benchmark run {{benchmarkRunId}}, and repo privacy expectations to derive the non-negotiable constraints for this ${ACTIVE_PROJECT_LABEL} branch. Include rollback safety, privacy, and auditability where supported.`,
         values: { weakDimensions: canonicalBenchmarkOutputs.weakDimensions, benchmarkRunId: scenario.benchmarkRunId },
         contextInputs: [
-          { field: 'weakDimensions', value: canonicalBenchmarkOutputs.weakDimensions, source: 'canonicalBenchmarkOutputs.weakDimensions', evidenceRefs: canonicalBenchmarkOutputs.weakDimensions, artifactBindings: ['.engi/need-measurement.json'] },
-          { field: 'benchmarkRunId', value: scenario.benchmarkRunId, source: 'scenario.benchmarkRunId', evidenceRefs: summarizeStrings([scenario.canonicalRunEvidence?.runId]), artifactBindings: ['.engi/benchmark-target.json'] },
-          { field: 'repoPrivacy', value: 'private remediation branch until bounded public proof', source: 'spec policy', evidenceRefs: [scenario.repo], artifactBindings: ['.engi/policy-release.json'] }
+          { field: 'weakDimensions', value: canonicalBenchmarkOutputs.weakDimensions, source: 'canonicalBenchmarkOutputs.weakDimensions', evidenceRefs: canonicalBenchmarkOutputs.weakDimensions, artifactBindings: ['.bitcode/need-measurement.json'] },
+          { field: 'benchmarkRunId', value: scenario.benchmarkRunId, source: 'scenario.benchmarkRunId', evidenceRefs: summarizeStrings([scenario.canonicalRunEvidence?.runId]), artifactBindings: ['.bitcode/benchmark-target.json'] },
+          { field: 'repoPrivacy', value: 'private remediation branch until bounded public proof', source: 'spec policy', evidenceRefs: [scenario.repo], artifactBindings: ['.bitcode/policy-release.json'] }
         ],
         nonRenderedContextFields: ['repoPrivacy'],
         outputFields: ['constraints'],
-        downstreamArtifacts: ['.engi/need.json', '.engi/policy-release.json', '.engi/system-proof-bundle.json', 'BITCODE_NEED.md']
+        downstreamArtifacts: ['.bitcode/need.json', '.bitcode/policy-release.json', '.bitcode/system-proof-bundle.json', 'BITCODE_NEED.md']
       }),
       buildPromptSurface({
         promptId: 'need-measurement.target-artifact-kinds.v2',
@@ -795,12 +795,12 @@ export function createNeedMeasurementRuntime({
         template: 'From touched paths {{touchedPaths}}, symbols {{symbols}}, and repo context {{stackHints}}, determine which artifact kinds are needed to remediate the benchmark failures without widening scope.',
         values: { touchedPaths: repoCodeAnalysis.touchedPaths, symbols: repoCodeAnalysis.extractedSymbols, stackHints: repoCodeAnalysis.stackHints },
         contextInputs: [
-          { field: 'touchedPaths', value: repoCodeAnalysis.touchedPaths, source: 'buildRepoStaticCodeAnalysis.touchedPaths', evidenceRefs: repoCodeAnalysis.touchedPaths, artifactBindings: ['.engi/need.json'] },
-          { field: 'symbols', value: repoCodeAnalysis.extractedSymbols, source: 'buildRepoStaticCodeAnalysis.extractedSymbols', evidenceRefs: repoCodeAnalysis.extractedSymbols, artifactBindings: ['.engi/unit-catalog.json'] },
-          { field: 'stackHints', value: repoCodeAnalysis.stackHints, source: fieldDerivations.stackHints.source || 'repo-context-extraction', evidenceRefs: repoCodeAnalysis.stackHints, artifactBindings: ['.engi/eval-manifest.json'] }
+          { field: 'touchedPaths', value: repoCodeAnalysis.touchedPaths, source: 'buildRepoStaticCodeAnalysis.touchedPaths', evidenceRefs: repoCodeAnalysis.touchedPaths, artifactBindings: ['.bitcode/need.json'] },
+          { field: 'symbols', value: repoCodeAnalysis.extractedSymbols, source: 'buildRepoStaticCodeAnalysis.extractedSymbols', evidenceRefs: repoCodeAnalysis.extractedSymbols, artifactBindings: ['.bitcode/unit-catalog.json'] },
+          { field: 'stackHints', value: repoCodeAnalysis.stackHints, source: fieldDerivations.stackHints.source || 'repo-context-extraction', evidenceRefs: repoCodeAnalysis.stackHints, artifactBindings: ['.bitcode/eval-manifest.json'] }
         ],
         outputFields: ['targetArtifactKinds'],
-        downstreamArtifacts: ['.engi/need.json', '.engi/artifact-upload-manifest.json', 'BITCODE_NEED.md']
+        downstreamArtifacts: ['.bitcode/need.json', '.bitcode/artifact-upload-manifest.json', 'BITCODE_NEED.md']
       }),
       buildPromptSurface({
         promptId: 'need-measurement.closure-criteria.v2',
@@ -813,13 +813,13 @@ export function createNeedMeasurementRuntime({
           constraints
         },
         contextInputs: [
-          { field: 'failingCases', value: canonicalBenchmarkOutputs.failingCases, source: 'canonicalBenchmarkOutputs.failingCases', evidenceRefs: canonicalBenchmarkOutputs.failingCases, artifactBindings: ['.engi/need-measurement.json', 'BITCODE_NEED.md'] },
-          { field: 'weakDimensions', value: canonicalBenchmarkOutputs.weakDimensions, source: 'canonicalBenchmarkOutputs.weakDimensions', evidenceRefs: canonicalBenchmarkOutputs.weakDimensions, artifactBindings: ['.engi/need-measurement.json', 'BITCODE_NEED.md'] },
-          { field: 'targetArtifactKinds', value: targetArtifactKinds, source: fieldDerivations.targetArtifactKinds.source || 'deterministic-synthesis', evidenceRefs: repoCodeAnalysis.touchedPaths, artifactBindings: ['.engi/need.json', 'BITCODE_NEED.md'] },
-          { field: 'constraints', value: constraints, source: fieldDerivations.constraints.source || 'deterministic-synthesis', evidenceRefs: canonicalBenchmarkOutputs.weakDimensions, artifactBindings: ['.engi/need.json', '.engi/policy-release.json', 'BITCODE_NEED.md'] }
+          { field: 'failingCases', value: canonicalBenchmarkOutputs.failingCases, source: 'canonicalBenchmarkOutputs.failingCases', evidenceRefs: canonicalBenchmarkOutputs.failingCases, artifactBindings: ['.bitcode/need-measurement.json', 'BITCODE_NEED.md'] },
+          { field: 'weakDimensions', value: canonicalBenchmarkOutputs.weakDimensions, source: 'canonicalBenchmarkOutputs.weakDimensions', evidenceRefs: canonicalBenchmarkOutputs.weakDimensions, artifactBindings: ['.bitcode/need-measurement.json', 'BITCODE_NEED.md'] },
+          { field: 'targetArtifactKinds', value: targetArtifactKinds, source: fieldDerivations.targetArtifactKinds.source || 'deterministic-synthesis', evidenceRefs: repoCodeAnalysis.touchedPaths, artifactBindings: ['.bitcode/need.json', 'BITCODE_NEED.md'] },
+          { field: 'constraints', value: constraints, source: fieldDerivations.constraints.source || 'deterministic-synthesis', evidenceRefs: canonicalBenchmarkOutputs.weakDimensions, artifactBindings: ['.bitcode/need.json', '.bitcode/policy-release.json', 'BITCODE_NEED.md'] }
         ],
         outputFields: ['closureCriteria'],
-        downstreamArtifacts: ['.engi/need.json', '.engi/needing-surface.json', 'BITCODE_NEED.md']
+        downstreamArtifacts: ['.bitcode/need.json', '.bitcode/needing-surface.json', 'BITCODE_NEED.md']
       })
     ];
     const classifiedPromptOwnedFields = ['task', 'failureModes', 'constraints', 'targetArtifactKinds', 'closureCriteria'];
@@ -893,11 +893,11 @@ export function createNeedMeasurementRuntime({
       classifiedPromptOwnedFields,
       explicitExclusions: [],
       expectedDownstreamConsumersByField: {
-        task: ['.engi/need.json', '.engi/match-report.json', '.engi/system-proof-bundle.json', 'BITCODE_NEED.md'],
-        failureModes: ['.engi/need.json', '.engi/match-report.json', 'BITCODE_NEED.md'],
-        constraints: ['.engi/need.json', '.engi/policy-release.json', '.engi/system-proof-bundle.json', 'BITCODE_NEED.md'],
-        targetArtifactKinds: ['.engi/need.json', '.engi/artifact-upload-manifest.json', 'BITCODE_NEED.md'],
-        closureCriteria: ['.engi/need.json', '.engi/needing-surface.json', 'BITCODE_NEED.md']
+        task: ['.bitcode/need.json', '.bitcode/match-report.json', '.bitcode/system-proof-bundle.json', 'BITCODE_NEED.md'],
+        failureModes: ['.bitcode/need.json', '.bitcode/match-report.json', 'BITCODE_NEED.md'],
+        constraints: ['.bitcode/need.json', '.bitcode/policy-release.json', '.bitcode/system-proof-bundle.json', 'BITCODE_NEED.md'],
+        targetArtifactKinds: ['.bitcode/need.json', '.bitcode/artifact-upload-manifest.json', 'BITCODE_NEED.md'],
+        closureCriteria: ['.bitcode/need.json', '.bitcode/needing-surface.json', 'BITCODE_NEED.md']
       }
     });
     const inferenceSynthesisProof = buildInferenceSynthesisProof({

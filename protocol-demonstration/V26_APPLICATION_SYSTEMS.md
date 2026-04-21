@@ -642,7 +642,7 @@ Operational rule:
 ## First-and-second-gate checkpoint artifact
 
 Current active carriers:
-- `.engi/v26-gate-checkpoint-report.json`
+- `.bitcode/v26-gate-checkpoint-report.json`
 - `protocol-demonstration/src/canonical/proven-generator.js`
 - `protocol-demonstration/test/proven-generator.test.js`
 

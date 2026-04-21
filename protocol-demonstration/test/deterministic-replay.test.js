@@ -24,5 +24,5 @@ test('V19 deterministic replay renders byte-identical canonical output and artif
   assert.equal(first.data.v19.deterministicReplayReport.runCount, 2);
   assert.equal(first.data.v19.deterministicReplayReport.artifactComparisons.every((/** @type {any} */ entry) => entry.byteEqual), true);
   assert.equal(first.data.aggregate.fullyProven, true);
-  assert.ok(first.artifacts['.engi/v19-deterministic-replay-report.json']);
+  assert.ok(first.artifacts['.bitcode/v19-deterministic-replay-report.json']);
 });

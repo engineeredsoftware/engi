@@ -108,14 +108,14 @@ function rewritePromotionStatus(version, commit, content, kind) {
     throw new Error(`Promotion hand-authored family rewriting is currently implemented for V21, V22, V23, V24, and V25. Received ${version}.`);
   }
   const sharedInventory = version === 'V21'
-    ? 'active canonical `.engi/v19-*` reproducible reports, `.engi/v20-*` operator-quality reports, `.engi/v21-spec-family-report.json`, and `.engi/v21-canonical-input-report.json`; `ENGI_SPEC_V21_PROVEN.md` is the active generated proof appendix for V21'
+    ? 'active canonical `.bitcode/v19-*` reproducible reports, `.bitcode/v20-*` operator-quality reports, `.bitcode/v21-spec-family-report.json`, and `.bitcode/v21-canonical-input-report.json`; `ENGI_SPEC_V21_PROVEN.md` is the active generated proof appendix for V21'
     : version === 'V22'
-      ? 'active canonical `.engi/v19-*` reproducible reports, `.engi/v20-*` operator-quality reports, `.engi/v22-spec-family-report.json`, `.engi/v22-canonical-input-report.json`, and `.engi/v22-canon-posture-drift-report.json`; `ENGI_SPEC_V22_PROVEN.md` is the active generated proof appendix for V22'
+      ? 'active canonical `.bitcode/v19-*` reproducible reports, `.bitcode/v20-*` operator-quality reports, `.bitcode/v22-spec-family-report.json`, `.bitcode/v22-canonical-input-report.json`, and `.bitcode/v22-canon-posture-drift-report.json`; `ENGI_SPEC_V22_PROVEN.md` is the active generated proof appendix for V22'
       : version === 'V23'
-        ? 'active canonical `.engi/v19-*` reproducible reports, `.engi/v20-*` operator-quality reports, `.engi/v23-spec-family-report.json`, `.engi/v23-canonical-input-report.json`, and `.engi/v23-canon-posture-drift-report.json`; `ENGI_SPEC_V23_PROVEN.md` is the active generated proof appendix for V23'
+        ? 'active canonical `.bitcode/v19-*` reproducible reports, `.bitcode/v20-*` operator-quality reports, `.bitcode/v23-spec-family-report.json`, `.bitcode/v23-canonical-input-report.json`, and `.bitcode/v23-canon-posture-drift-report.json`; `ENGI_SPEC_V23_PROVEN.md` is the active generated proof appendix for V23'
         : version === 'V24'
-          ? 'active canonical `.engi/v19-*` reproducible reports, `.engi/v20-*` operator-quality reports, `.engi/v24-spec-family-report.json`, `.engi/v24-canonical-input-report.json`, and `.engi/v24-canon-posture-drift-report.json`; `ENGI_SPEC_V24_PROVEN.md` is the active generated proof appendix for V24'
-          : 'active canonical `.engi/v19-*` reproducible reports, `.engi/v20-*` operator-quality reports, `.engi/v25-spec-family-report.json`, `.engi/v25-canonical-input-report.json`, and `.engi/v25-canon-posture-drift-report.json`; `_legacy/ENGI_SPEC_V25_PROVEN.md` is the active generated proof appendix for V25';
+          ? 'active canonical `.bitcode/v19-*` reproducible reports, `.bitcode/v20-*` operator-quality reports, `.bitcode/v24-spec-family-report.json`, `.bitcode/v24-canonical-input-report.json`, and `.bitcode/v24-canon-posture-drift-report.json`; `ENGI_SPEC_V24_PROVEN.md` is the active generated proof appendix for V24'
+          : 'active canonical `.bitcode/v19-*` reproducible reports, `.bitcode/v20-*` operator-quality reports, `.bitcode/v25-spec-family-report.json`, `.bitcode/v25-canonical-input-report.json`, and `.bitcode/v25-canon-posture-drift-report.json`; `_legacy/ENGI_SPEC_V25_PROVEN.md` is the active generated proof appendix for V25';
   const sharedValues = {
     Scope:
       version === 'V21'

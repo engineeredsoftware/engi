@@ -223,6 +223,23 @@ function specPointerFilename(version) {
 }
 
 /**
+ * @param {string} repoRoot
+ * @param {string} version
+ * @returns {string}
+ */
+function resolveSpecPointerFilename(repoRoot, version) {
+  const preferred = specPointerFilename(version);
+  const preferredPath = path.join(repoRoot, preferred);
+  if (fileExists(preferredPath)) return preferred;
+
+  const fallback = preferred === 'BITCODE_SPEC.txt' ? 'ENGI_SPEC.txt' : 'BITCODE_SPEC.txt';
+  const fallbackPath = path.join(repoRoot, fallback);
+  if (fileExists(fallbackPath)) return fallback;
+
+  return preferred;
+}
+
+/**
  * @param {string} version
  * @returns {string}
  */
@@ -304,16 +321,16 @@ function buildV21LikeProfile(version) {
     ],
     requiredGeneratedAppendixContractPhrases: COMMON_REQUIRED_GENERATED_APPENDIX_CONTRACT_PHRASES,
     requiredGeneratedArtifactPaths: [
-      `.engi/${versionLower}-spec-family-report.json`,
-      `.engi/${versionLower}-canonical-input-report.json`,
+      `.bitcode/${versionLower}-spec-family-report.json`,
+      `.bitcode/${versionLower}-canonical-input-report.json`,
       ...(version === 'V26'
         ? [
-          '.engi/conversations-continuity-proof.json',
-          '.engi/v26-gate-checkpoint-report.json',
-          '.engi/runs-pipelines-totality-proof.json',
-          '.engi/persistence-schema-totality-proof.json',
-          '.engi/prompt-system-totality-proof.json',
-          '.engi/retained-package-admissibility-proof.json'
+          '.bitcode/conversations-continuity-proof.json',
+          '.bitcode/v26-gate-checkpoint-report.json',
+          '.bitcode/runs-pipelines-totality-proof.json',
+          '.bitcode/persistence-schema-totality-proof.json',
+          '.bitcode/prompt-system-totality-proof.json',
+          '.bitcode/retained-package-admissibility-proof.json'
         ]
         : [])
     ],
@@ -326,12 +343,12 @@ function buildV21LikeProfile(version) {
     requiredFailClosedAppendixPhrases: COMMON_REQUIRED_FAIL_CLOSED_APPENDIX_PHRASES,
     deliverableAppendixHeading: 'Appendix K. Source-bearing deliverable and artifact contract catalog',
     requiredDeliverableAppendixPhrases: [
-      '.engi/asset-pack.lock.json',
-      '.engi/selected-source-material.json',
-      '.engi/verification-report.json',
-      '.engi/source-to-shares.json',
-      '.engi/projection-policy.json',
-      '.engi/system-proof-bundle.json',
+      '.bitcode/asset-pack.lock.json',
+      '.bitcode/selected-source-material.json',
+      '.bitcode/verification-report.json',
+      '.bitcode/source-to-shares.json',
+      '.bitcode/projection-policy.json',
+      '.bitcode/system-proof-bundle.json',
       specRelativePath(version, '_PROVEN')
     ],
     requiredDeltaSections: [
@@ -378,11 +395,11 @@ function buildV22Profile() {
     ],
     requiredGeneratedArtifactPaths: [
       ...base.requiredGeneratedArtifactPaths,
-      '.engi/v22-canon-posture-drift-report.json'
+      '.bitcode/v22-canon-posture-drift-report.json'
     ],
     requiredDeliverableAppendixPhrases: [
       ...base.requiredDeliverableAppendixPhrases,
-      '.engi/v22-canon-posture-drift-report.json'
+      '.bitcode/v22-canon-posture-drift-report.json'
     ]
   };
 }
@@ -437,9 +454,9 @@ function buildV23Profile() {
       'V23 BTC artifact projection matrix'
     ],
     requiredGeneratedAppendixContractPhrases: [
-      '.engi/v23-spec-family-report.json',
-      '.engi/v23-canonical-input-report.json',
-      '.engi/v23-canon-posture-drift-report.json',
+      '.bitcode/v23-spec-family-report.json',
+      '.bitcode/v23-canonical-input-report.json',
+      '.bitcode/v23-canon-posture-drift-report.json',
       'ENGI_SPEC_V23_PROVEN.md',
       'compute-reality-manifest',
       'storage-reality-manifest',
@@ -448,9 +465,9 @@ function buildV23Profile() {
       'bitcoin-settlement-observation'
     ],
     requiredGeneratedArtifactPaths: [
-      '.engi/v23-spec-family-report.json',
-      '.engi/v23-canonical-input-report.json',
-      '.engi/v23-canon-posture-drift-report.json'
+      '.bitcode/v23-spec-family-report.json',
+      '.bitcode/v23-canonical-input-report.json',
+      '.bitcode/v23-canon-posture-drift-report.json'
     ],
     requiredSubsystemCoveragePhrases: [
       'authenticated repo supply',
@@ -475,16 +492,16 @@ function buildV23Profile() {
     ],
     deliverableAppendixHeading: 'V23 artifact family additions',
     requiredDeliverableAppendixPhrases: [
-      '.engi/compute-reality-manifest.json',
-      '.engi/storage-reality-manifest.json',
-      '.engi/bitcoin-commitment-manifest.json',
-      '.engi/bitcoin-treasury-policy.json',
-      '.engi/bitcoin-anchor.json',
-      '.engi/bitcoin-bounded-public-anchor.json',
-      '.engi/bitcoin-settlement-intent.json',
-      '.engi/bitcoin-settlement-observation.json',
-      '.engi/bitcoin-audit-anchor-proof.json',
-      '.engi/bitcoin-settlement-interface-proof.json'
+      '.bitcode/compute-reality-manifest.json',
+      '.bitcode/storage-reality-manifest.json',
+      '.bitcode/bitcoin-commitment-manifest.json',
+      '.bitcode/bitcoin-treasury-policy.json',
+      '.bitcode/bitcoin-anchor.json',
+      '.bitcode/bitcoin-bounded-public-anchor.json',
+      '.bitcode/bitcoin-settlement-intent.json',
+      '.bitcode/bitcoin-settlement-observation.json',
+      '.bitcode/bitcoin-audit-anchor-proof.json',
+      '.bitcode/bitcoin-settlement-interface-proof.json'
     ],
     requiredDeltaSections: [
       'Status',
@@ -555,9 +572,9 @@ function buildV24Profile() {
     ],
     requiredGeneratedAppendixContractPhrases: [
       ...COMMON_REQUIRED_GENERATED_APPENDIX_CONTRACT_PHRASES,
-      '.engi/v24-spec-family-report.json',
-      '.engi/v24-canonical-input-report.json',
-      '.engi/v24-canon-posture-drift-report.json',
+      '.bitcode/v24-spec-family-report.json',
+      '.bitcode/v24-canonical-input-report.json',
+      '.bitcode/v24-canon-posture-drift-report.json',
       'ENGI_SPEC_V24_PROVEN.md',
       'external-environment-profile',
       'external-telemetry-summary',
@@ -570,9 +587,9 @@ function buildV24Profile() {
       'github-live-session'
     ],
     requiredGeneratedArtifactPaths: [
-      '.engi/v24-spec-family-report.json',
-      '.engi/v24-canonical-input-report.json',
-      '.engi/v24-canon-posture-drift-report.json'
+      '.bitcode/v24-spec-family-report.json',
+      '.bitcode/v24-canonical-input-report.json',
+      '.bitcode/v24-canon-posture-drift-report.json'
     ],
     requiredSubsystemCoveragePhrases: [
       ...COMMON_REQUIRED_SUBSYSTEM_COVERAGE_PHRASES,
@@ -595,34 +612,34 @@ function buildV24Profile() {
     ],
     requiredDeliverableAppendixPhrases: [
       ...base.requiredDeliverableAppendixPhrases,
-      '.engi/external-environment-profile.json',
-      '.engi/external-execution-policy.json',
-      '.engi/external-telemetry-policy.json',
-      '.engi/external-telemetry-summary.json',
-      '.engi/external-execution-ledger.json',
-      '.engi/external-reconciliation-log.json',
-      '.engi/bitcoin-network-intent.json',
-      '.engi/bitcoin-network-execution.json',
-      '.engi/bitcoin-network-observation.json',
-      '.engi/repeated-read-payment-intent.json',
-      '.engi/repeated-read-payment-execution.json',
-      '.engi/repeated-read-payment-observation.json',
-      '.engi/sidechain-execution-receipt.json',
-      '.engi/compute-container-manifest.json',
-      '.engi/compute-container-execution.json',
-      '.engi/storage-container-manifest.json',
-      '.engi/storage-publication-receipt.json',
-      '.engi/storage-retrieval-receipt.json',
-      '.engi/github-app-binding.json',
-      '.engi/github-live-session.json',
-      '.engi/github-inventory-fetch-receipt.json',
-      '.engi/github-artifact-fetch-receipt.json',
-      '.engi/github-branch-publication-receipt.json',
-      '.engi/github-pr-update-receipt.json',
-      '.engi/external-realization-proof.json',
-      '.engi/container-reality-proof.json',
-      '.engi/github-live-interface-proof.json',
-      '.engi/v24-canon-posture-drift-report.json',
+      '.bitcode/external-environment-profile.json',
+      '.bitcode/external-execution-policy.json',
+      '.bitcode/external-telemetry-policy.json',
+      '.bitcode/external-telemetry-summary.json',
+      '.bitcode/external-execution-ledger.json',
+      '.bitcode/external-reconciliation-log.json',
+      '.bitcode/bitcoin-network-intent.json',
+      '.bitcode/bitcoin-network-execution.json',
+      '.bitcode/bitcoin-network-observation.json',
+      '.bitcode/repeated-read-payment-intent.json',
+      '.bitcode/repeated-read-payment-execution.json',
+      '.bitcode/repeated-read-payment-observation.json',
+      '.bitcode/sidechain-execution-receipt.json',
+      '.bitcode/compute-container-manifest.json',
+      '.bitcode/compute-container-execution.json',
+      '.bitcode/storage-container-manifest.json',
+      '.bitcode/storage-publication-receipt.json',
+      '.bitcode/storage-retrieval-receipt.json',
+      '.bitcode/github-app-binding.json',
+      '.bitcode/github-live-session.json',
+      '.bitcode/github-inventory-fetch-receipt.json',
+      '.bitcode/github-artifact-fetch-receipt.json',
+      '.bitcode/github-branch-publication-receipt.json',
+      '.bitcode/github-pr-update-receipt.json',
+      '.bitcode/external-realization-proof.json',
+      '.bitcode/container-reality-proof.json',
+      '.bitcode/github-live-interface-proof.json',
+      '.bitcode/v24-canon-posture-drift-report.json',
       'ENGI_SPEC_V24_PROVEN.md'
     ],
     requiredDeltaSections: [
@@ -675,22 +692,22 @@ function buildV25Profile() {
     requiredProofFamilyMatrixHeaders: [],
     requiredGeneratedArtifactCatalogSections: [],
     requiredGeneratedAppendixContractPhrases: [
-      '.engi/v25-spec-family-report.json',
-      '.engi/v25-canonical-input-report.json',
-      '.engi/v25-canon-posture-drift-report.json',
+      '.bitcode/v25-spec-family-report.json',
+      '.bitcode/v25-canonical-input-report.json',
+      '.bitcode/v25-canon-posture-drift-report.json',
       '_legacy/ENGI_SPEC_V25_PROVEN.md',
       'Bitcode',
       'BTD'
     ],
     requiredGeneratedArtifactPaths: [
-      '.engi/v25-spec-family-report.json',
-      '.engi/v25-canonical-input-report.json',
-      '.engi/v25-canon-posture-drift-report.json'
+      '.bitcode/v25-spec-family-report.json',
+      '.bitcode/v25-canonical-input-report.json',
+      '.bitcode/v25-canon-posture-drift-report.json'
     ],
     requiredSubsystemCoveragePhrases: [
       'Bitcode',
       'BTD',
-      '.engi/*',
+      '.bitcode/*',
       'ENGI_SPEC_V25*',
       'runtime',
       'API',
@@ -712,7 +729,7 @@ function buildV25Profile() {
     ],
     deliverableAppendixHeading: 'V25 rename surface catalog',
     requiredDeliverableAppendixPhrases: [
-      '.engi/*',
+      '.bitcode/*',
       'generated proof/report titles',
       'runtime posture strings',
       'API summary labels',
@@ -766,19 +783,19 @@ function buildV20ProperProfile() {
     ],
     requiredGeneratedAppendixContractPhrases: COMMON_REQUIRED_GENERATED_APPENDIX_CONTRACT_PHRASES,
     requiredGeneratedArtifactPaths: [
-      '.engi/v19-contract-change-ledger.json',
-      '.engi/v19-negative-proof-mutation-matrix.json',
-      '.engi/v19-proof-member-semantic-matrix.json',
-      '.engi/v19-theorem-evidence-matrix.json',
-      '.engi/v19-state-machine-matrix.json',
-      '.engi/v19-deterministic-replay-report.json',
-      '.engi/v19-volatility-inventory.json',
-      '.engi/v20-operator-acceptance-transcript.json',
-      '.engi/v20-visual-regression-report.json',
-      '.engi/v20-accessibility-report.json',
-      '.engi/v20-performance-budget-report.json',
-      '.engi/v20-projection-quality-smoke-matrix.json',
-      '.engi/v20-quality-summary.json',
+      '.bitcode/v19-contract-change-ledger.json',
+      '.bitcode/v19-negative-proof-mutation-matrix.json',
+      '.bitcode/v19-proof-member-semantic-matrix.json',
+      '.bitcode/v19-theorem-evidence-matrix.json',
+      '.bitcode/v19-state-machine-matrix.json',
+      '.bitcode/v19-deterministic-replay-report.json',
+      '.bitcode/v19-volatility-inventory.json',
+      '.bitcode/v20-operator-acceptance-transcript.json',
+      '.bitcode/v20-visual-regression-report.json',
+      '.bitcode/v20-accessibility-report.json',
+      '.bitcode/v20-performance-budget-report.json',
+      '.bitcode/v20-projection-quality-smoke-matrix.json',
+      '.bitcode/v20-quality-summary.json',
       'ENGI_SPEC_V20_PROVEN.md'
     ],
     requiredSubsystemCoveragePhrases: COMMON_REQUIRED_SUBSYSTEM_COVERAGE_PHRASES,
@@ -813,12 +830,12 @@ function buildV20ProperProfile() {
     ],
     deliverableAppendixHeading: 'Appendix K. Source-bearing deliverable and artifact contract catalog',
     requiredDeliverableAppendixPhrases: [
-      '.engi/asset-pack.lock.json',
-      '.engi/selected-source-material.json',
-      '.engi/verification-report.json',
-      '.engi/source-to-shares.json',
-      '.engi/projection-policy.json',
-      '.engi/system-proof-bundle.json',
+      '.bitcode/asset-pack.lock.json',
+      '.bitcode/selected-source-material.json',
+      '.bitcode/verification-report.json',
+      '.bitcode/source-to-shares.json',
+      '.bitcode/projection-policy.json',
+      '.bitcode/system-proof-bundle.json',
       'ENGI_SPEC_V20_PROVEN.md'
     ],
     requiredDeltaSections: [
@@ -838,8 +855,8 @@ function buildV20ProperProfile() {
       'completion condition'
     ],
     forbiddenPhrases: [
-      '.engi/v21-spec-family-report.json',
-      '.engi/v21-canonical-input-report.json',
+      '.bitcode/v21-spec-family-report.json',
+      '.bitcode/v21-canonical-input-report.json',
       'ENGI_SPEC_V21_PROVEN.md'
     ]
   };
@@ -1040,7 +1057,7 @@ export function buildV21SpecFamilyReport({
 } = {}) {
   const profile = resolveSpecFamilyProfile(version);
   const resolvedRepoRoot = path.resolve(repoRoot);
-  const pointerFile = specPointerFilename(version);
+  const pointerFile = resolveSpecPointerFilename(resolvedRepoRoot, version);
   const pointerPath = path.join(resolvedRepoRoot, pointerFile);
   const pointerVersion = readFileSync(pointerPath, 'utf8').trim();
   const expectedTarget = currentTarget || (mode === 'promoted' ? profile.defaultTarget : pointerVersion);
@@ -1305,23 +1322,23 @@ function buildRequiredCanonicalArtifacts(repoRoot, currentTarget) {
   const artifacts = [];
   if (currentTarget === 'V19') {
     artifacts.push(
-      '.engi/v19-contract-change-ledger.json',
-      '.engi/v19-deterministic-replay-report.json',
-      '.engi/v19-negative-proof-mutation-matrix.json',
-      '.engi/v19-proof-member-semantic-matrix.json',
-      '.engi/v19-state-machine-matrix.json',
-      '.engi/v19-theorem-evidence-matrix.json',
-      '.engi/v19-volatility-inventory.json'
+      '.bitcode/v19-contract-change-ledger.json',
+      '.bitcode/v19-deterministic-replay-report.json',
+      '.bitcode/v19-negative-proof-mutation-matrix.json',
+      '.bitcode/v19-proof-member-semantic-matrix.json',
+      '.bitcode/v19-state-machine-matrix.json',
+      '.bitcode/v19-theorem-evidence-matrix.json',
+      '.bitcode/v19-volatility-inventory.json'
     );
   }
   if (currentTarget === 'V20') {
     artifacts.push(
-      '.engi/v20-operator-acceptance-transcript.json',
-      '.engi/v20-visual-regression-report.json',
-      '.engi/v20-accessibility-report.json',
-      '.engi/v20-performance-budget-report.json',
-      '.engi/v20-projection-quality-smoke-matrix.json',
-      '.engi/v20-quality-summary.json'
+      '.bitcode/v20-operator-acceptance-transcript.json',
+      '.bitcode/v20-visual-regression-report.json',
+      '.bitcode/v20-accessibility-report.json',
+      '.bitcode/v20-performance-budget-report.json',
+      '.bitcode/v20-projection-quality-smoke-matrix.json',
+      '.bitcode/v20-quality-summary.json'
     );
   }
   if (currentTarget === 'V21') {
@@ -1362,7 +1379,7 @@ export function buildV21CanonicalInputReport({
   skipPointerCheck = false
 } = {}) {
   const resolvedRepoRoot = path.resolve(repoRoot);
-  const pointerFile = specPointerFilename(currentTarget || 'V26');
+  const pointerFile = resolveSpecPointerFilename(resolvedRepoRoot, currentTarget || 'V26');
   const pointerPath = path.join(resolvedRepoRoot, pointerFile);
   const pointerVersion = readFileSync(pointerPath, 'utf8').trim();
   const checkedTarget = currentTarget || pointerVersion;
@@ -1490,7 +1507,7 @@ export function buildV21GeneratedArtifactContents({
   };
 
   return {
-    [`.engi/${versionLower}-spec-family-report.json`]: `${JSON.stringify(specFamilyArtifact, null, 2)}\n`,
-    [`.engi/${versionLower}-canonical-input-report.json`]: `${JSON.stringify(canonicalInputArtifact, null, 2)}\n`
+    [`.bitcode/${versionLower}-spec-family-report.json`]: `${JSON.stringify(specFamilyArtifact, null, 2)}\n`,
+    [`.bitcode/${versionLower}-canonical-input-report.json`]: `${JSON.stringify(canonicalInputArtifact, null, 2)}\n`
   };
 }

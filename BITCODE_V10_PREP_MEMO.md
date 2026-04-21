@@ -38,7 +38,7 @@ Result:
 Observed in the local demo:
 
 - candidate assets expose `identitySurface.signerAddress` and `githubBoundary.sourceRepo/workflowRunId`,
-- branch artifacts persist `.engi/identity-bindings.json`, `.engi/github-boundary.json`, and `.engi/artifact-upload-manifest.json`,
+- branch artifacts persist `.bitcode/identity-bindings.json`, `.bitcode/github-boundary.json`, and `.bitcode/artifact-upload-manifest.json`,
 - `buildIdentityBindings()` and `buildIdentityAuthorizationProof()` prove basic principal/action closure.
 
 But the current shape still leaves gaps:

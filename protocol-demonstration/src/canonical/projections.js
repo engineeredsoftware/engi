@@ -140,7 +140,7 @@ export function buildBoundedPublicProofArtifact({ need, assetPack, settlement, p
 export function buildRedactionProof({ policyRelease, branchArtifacts, projectionPolicy, boundedPublicProof }) {
   const artifactRules = policyRelease?.artifactClasses || [];
   const redactedArtifactPaths = artifactRules.filter((entry) => !entry.disclosable).map((entry) => entry.path);
-  const sourceMaterialPaths = Object.keys(branchArtifacts?.files || {}).filter((path) => path.startsWith('.engi/source-material/'));
+  const sourceMaterialPaths = Object.keys(branchArtifacts?.files || {}).filter((path) => path.startsWith('.bitcode/source-material/'));
   return {
     conformanceProfile: PROFILE_A,
     productionIntentProfile: PROFILE_B,

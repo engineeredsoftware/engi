@@ -1,6 +1,6 @@
 // @ts-check
 
-import { readFileSync } from 'node:fs';
+import { existsSync, readFileSync } from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
@@ -70,6 +70,22 @@ function specFamilyPrefix(activeCanonVersion, draftTargetVersion = '') {
 }
 
 /**
+ * @param {string} repoRoot
+ * @param {string} activeCanonVersion
+ * @param {string} [draftTargetVersion='']
+ * @returns {string}
+ */
+function resolveSpecPointerFilename(repoRoot, activeCanonVersion, draftTargetVersion = '') {
+  const preferred = `${specFamilyPrefix(activeCanonVersion, draftTargetVersion)}.txt`;
+  if (existsSync(path.join(repoRoot, preferred))) return preferred;
+
+  const fallback = preferred === 'BITCODE_SPEC.txt' ? 'ENGI_SPEC.txt' : 'BITCODE_SPEC.txt';
+  if (existsSync(path.join(repoRoot, fallback))) return fallback;
+
+  return preferred;
+}
+
+/**
  * @param {{
  *   repoRoot?: string,
  *   version?: string,
@@ -93,7 +109,7 @@ export function buildCanonPostureDriftReport({
 } = {}) {
   const resolvedRepoRoot = path.resolve(repoRoot);
   const activeSpecFamilyPrefix = specFamilyPrefix(activeCanonVersion, draftTargetVersion);
-  const pointerFilename = `${activeSpecFamilyPrefix}.txt`;
+  const pointerFilename = resolveSpecPointerFilename(resolvedRepoRoot, activeCanonVersion, draftTargetVersion);
   const activeProvenAppendixPath = `${activeSpecFamilyPrefix}_${activeCanonVersion}_PROVEN.md`;
   const pointerVersion = readFileSync(path.join(resolvedRepoRoot, pointerFilename), 'utf8').trim();
   const readmePath = path.join(resolvedRepoRoot, 'protocol-demonstration', 'README.md');
@@ -303,7 +319,7 @@ export function buildCanonPostureGeneratedArtifactContents({
       specFamilyReport,
       canonicalInputReport
     }),
-    [`.engi/${version.toLowerCase()}-canon-posture-drift-report.json`]: `${JSON.stringify(canonPostureDriftReport, null, 2)}\n`
+    [`.bitcode/${version.toLowerCase()}-canon-posture-drift-report.json`]: `${JSON.stringify(canonPostureDriftReport, null, 2)}\n`
   };
 }
 

@@ -192,7 +192,7 @@ Main API:
 
 # 10. Demo-local artifact families
 
-The latest run emits branch-scoped artifacts under `.engi/`, including:
+The latest run emits branch-scoped artifacts under `.bitcode/`, including:
 - need and need-measurement artifacts,
 - depositing, needing, and fit surfaces,
 - match, verification, and eval manifests,

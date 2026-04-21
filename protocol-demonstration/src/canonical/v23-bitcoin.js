@@ -213,9 +213,9 @@ export function buildStorageRealityManifest({ branchName, paymentMode, deliverab
       rules: policyRelease.retentionRules || []
     },
     anchorBindingRefs: [
-      '.engi/bitcoin-commitment-manifest.json',
-      '.engi/bitcoin-anchor.json',
-      '.engi/bitcoin-bounded-public-anchor.json'
+      '.bitcode/bitcoin-commitment-manifest.json',
+      '.bitcode/bitcoin-anchor.json',
+      '.bitcode/bitcoin-bounded-public-anchor.json'
     ],
     prototypeDemonstrationOnly: true
   };
@@ -549,36 +549,36 @@ export function buildBitcoinAuditAnchorProof({
   proofContract
 }) {
   const witnessArtifactPaths = [
-    '.engi/storage-reality-manifest.json',
-    '.engi/bitcoin-commitment-manifest.json',
-    '.engi/bitcoin-treasury-policy.json',
-    '.engi/bitcoin-anchor.json',
-    '.engi/bitcoin-bounded-public-anchor.json',
-    '.engi/projection-policy.json',
-    '.engi/bounded-public-proof.json',
-    '.engi/disclosure-proof.json',
-    '.engi/proof-contract.json',
-    '.engi/system-proof-bundle.json',
-    '.engi/proof-witness-manifest.json'
+    '.bitcode/storage-reality-manifest.json',
+    '.bitcode/bitcoin-commitment-manifest.json',
+    '.bitcode/bitcoin-treasury-policy.json',
+    '.bitcode/bitcoin-anchor.json',
+    '.bitcode/bitcoin-bounded-public-anchor.json',
+    '.bitcode/projection-policy.json',
+    '.bitcode/bounded-public-proof.json',
+    '.bitcode/disclosure-proof.json',
+    '.bitcode/proof-contract.json',
+    '.bitcode/system-proof-bundle.json',
+    '.bitcode/proof-witness-manifest.json'
   ];
   const replayArtifacts = witnessArtifactPaths.slice();
   const replaySteps = [
     buildReplayStep({
       stepId: 'bitcoin-audit-anchor.commitment-scope-derivation',
       theoremIds: ['bitcoin_audit_anchor.public_scope_is_disclosable_only', 'bitcoin_audit_anchor.private_scope_binds_proof_contract'],
-      requiredArtifactPaths: ['.engi/bitcoin-commitment-manifest.json', '.engi/proof-contract.json'],
+      requiredArtifactPaths: ['.bitcode/bitcoin-commitment-manifest.json', '.bitcode/proof-contract.json'],
       instruction: 'Replay public and private commitment scope derivation from the declared artifact inventory.'
     }),
     buildReplayStep({
       stepId: 'bitcoin-audit-anchor.public-scope-disclosure-check',
       theoremIds: ['bitcoin_audit_anchor.storage_reality_binds_declared_scope'],
-      requiredArtifactPaths: ['.engi/storage-reality-manifest.json', '.engi/projection-policy.json', '.engi/bounded-public-proof.json', '.engi/disclosure-proof.json'],
+      requiredArtifactPaths: ['.bitcode/storage-reality-manifest.json', '.bitcode/projection-policy.json', '.bitcode/bounded-public-proof.json', '.bitcode/disclosure-proof.json'],
       instruction: 'Replay disclosability and storage binding checks for every declared commitment-scope artifact.'
     }),
     buildReplayStep({
       stepId: 'bitcoin-audit-anchor.anchor-receipt-binding',
       theoremIds: ['bitcoin_audit_anchor.anchor_receipt_matches_declared_root', 'bitcoin_audit_anchor.bounded_public_anchor_matches_full_anchor'],
-      requiredArtifactPaths: ['.engi/bitcoin-anchor.json', '.engi/bitcoin-bounded-public-anchor.json', '.engi/bitcoin-treasury-policy.json'],
+      requiredArtifactPaths: ['.bitcode/bitcoin-anchor.json', '.bitcode/bitcoin-bounded-public-anchor.json', '.bitcode/bitcoin-treasury-policy.json'],
       instruction: 'Replay anchor receipt and bounded public receipt binding against the declared roots and treasury policy.'
     })
   ];
@@ -587,8 +587,8 @@ export function buildBitcoinAuditAnchorProof({
     (entry) => entry.potentiallyDisclosable === true && entry.confidentialityClass === 'bounded-public-proof-metadata'
   ) && disclosureProof.publicDisclosureOnlyUsesBoundedMetadata === true;
   const privateScopeBindsProofContract = commitmentManifest.proofContractRef === proofContract.contractId
-    && (commitmentManifest.scopeEntries?.private || []).some((entry) => entry.path === '.engi/settlement-proof.json')
-    && (commitmentManifest.scopeEntries?.private || []).some((entry) => entry.path === '.engi/source-to-shares.json');
+    && (commitmentManifest.scopeEntries?.private || []).some((entry) => entry.path === '.bitcode/settlement-proof.json')
+    && (commitmentManifest.scopeEntries?.private || []).some((entry) => entry.path === '.bitcode/source-to-shares.json');
   const storageScopePaths = new Set((storageRealityManifest.scopeStorageBindings || []).flatMap((entry) => entry.artifactPaths || []));
   const storageRealityClosed = [...(commitmentManifest.scopeEntries?.public || []), ...(commitmentManifest.scopeEntries?.private || [])]
     .every((entry) => storageScopePaths.has(entry.path));
@@ -654,11 +654,11 @@ export function buildBitcoinAuditAnchorProof({
     ],
     theoremVerdicts,
     artifactBindings: [
-      buildArtifactBinding({ artifactPath: '.engi/storage-reality-manifest.json', role: 'storage-reality', theoremIds: theoremVerdicts.map((entry) => entry.theoremId) }),
-      buildArtifactBinding({ artifactPath: '.engi/bitcoin-commitment-manifest.json', role: 'commitment-manifest', theoremIds: theoremVerdicts.map((entry) => entry.theoremId) }),
-      buildArtifactBinding({ artifactPath: '.engi/bitcoin-treasury-policy.json', role: 'treasury-policy', theoremIds: theoremVerdicts.map((entry) => entry.theoremId) }),
-      buildArtifactBinding({ artifactPath: '.engi/bitcoin-anchor.json', role: 'anchor-record', theoremIds: theoremVerdicts.map((entry) => entry.theoremId) }),
-      buildArtifactBinding({ artifactPath: '.engi/bitcoin-bounded-public-anchor.json', role: 'bounded-public-anchor', theoremIds: theoremVerdicts.map((entry) => entry.theoremId) })
+      buildArtifactBinding({ artifactPath: '.bitcode/storage-reality-manifest.json', role: 'storage-reality', theoremIds: theoremVerdicts.map((entry) => entry.theoremId) }),
+      buildArtifactBinding({ artifactPath: '.bitcode/bitcoin-commitment-manifest.json', role: 'commitment-manifest', theoremIds: theoremVerdicts.map((entry) => entry.theoremId) }),
+      buildArtifactBinding({ artifactPath: '.bitcode/bitcoin-treasury-policy.json', role: 'treasury-policy', theoremIds: theoremVerdicts.map((entry) => entry.theoremId) }),
+      buildArtifactBinding({ artifactPath: '.bitcode/bitcoin-anchor.json', role: 'anchor-record', theoremIds: theoremVerdicts.map((entry) => entry.theoremId) }),
+      buildArtifactBinding({ artifactPath: '.bitcode/bitcoin-bounded-public-anchor.json', role: 'bounded-public-anchor', theoremIds: theoremVerdicts.map((entry) => entry.theoremId) })
     ],
     replaySteps,
     witnessArtifactPaths,
@@ -704,41 +704,41 @@ export function buildBitcoinSettlementInterfaceProof({
   externalBoundaryManifest
 }) {
   const witnessArtifactPaths = [
-    '.engi/compute-reality-manifest.json',
-    '.engi/bitcoin-settlement-intent.json',
-    '.engi/bitcoin-settlement-observation.json',
-    '.engi/bitcoin-treasury-policy.json',
-    '.engi/settlement-preview.json',
-    '.engi/source-to-shares.json',
-    '.engi/settlement-proof.json',
-    '.engi/journal-diff.json',
-    '.engi/external-boundary-manifest.json'
+    '.bitcode/compute-reality-manifest.json',
+    '.bitcode/bitcoin-settlement-intent.json',
+    '.bitcode/bitcoin-settlement-observation.json',
+    '.bitcode/bitcoin-treasury-policy.json',
+    '.bitcode/settlement-preview.json',
+    '.bitcode/source-to-shares.json',
+    '.bitcode/settlement-proof.json',
+    '.bitcode/journal-diff.json',
+    '.bitcode/external-boundary-manifest.json'
   ];
   const replayArtifacts = witnessArtifactPaths.slice();
   const replaySteps = [
     buildReplayStep({
       stepId: 'bitcoin-settlement-interface.intent-bundle-binding',
       theoremIds: ['bitcoin_settlement_interface.compute_reality_binds_declared_settlement_path', 'bitcoin_settlement_interface.intent_matches_settlement_preview'],
-      requiredArtifactPaths: ['.engi/compute-reality-manifest.json', '.engi/bitcoin-settlement-intent.json', '.engi/settlement-preview.json', '.engi/source-to-shares.json'],
+      requiredArtifactPaths: ['.bitcode/compute-reality-manifest.json', '.bitcode/bitcoin-settlement-intent.json', '.bitcode/settlement-preview.json', '.bitcode/source-to-shares.json'],
       instruction: 'Replay compute reality and payment intent closure against the declared settlement preview and source-to-shares refs.'
     }),
     buildReplayStep({
       stepId: 'bitcoin-settlement-interface.confirmation-policy',
       theoremIds: ['bitcoin_settlement_interface.observation_confirms_declared_value'],
-      requiredArtifactPaths: ['.engi/bitcoin-settlement-observation.json', '.engi/bitcoin-treasury-policy.json'],
+      requiredArtifactPaths: ['.bitcode/bitcoin-settlement-observation.json', '.bitcode/bitcoin-treasury-policy.json'],
       instruction: 'Replay mode-specific confirmation policy against the settlement observation surface.'
     }),
     buildReplayStep({
       stepId: 'bitcoin-settlement-interface.journal-effect-binding',
       theoremIds: ['bitcoin_settlement_interface.journal_binding_remains_exact', 'bitcoin_settlement_interface.external_boundary_contract_is_honest'],
-      requiredArtifactPaths: ['.engi/settlement-proof.json', '.engi/journal-diff.json', '.engi/external-boundary-manifest.json'],
+      requiredArtifactPaths: ['.bitcode/settlement-proof.json', '.bitcode/journal-diff.json', '.bitcode/external-boundary-manifest.json'],
       instruction: 'Replay journal binding and external boundary honesty against the observed payment surface.'
     })
   ];
 
   const selectedPolicy = treasuryPolicy.confirmationPolicyByMode?.[settlementIntent.paymentMode] || {};
-  const computeRealityClosed = summarizeStrings(computeRealityManifest.proofArtifactRefs || []).includes('.engi/settlement-proof.json')
-    && summarizeStrings(computeRealityManifest.settlementArtifactRefs || computeRealityManifest.replayBasis?.settlementArtifactRefs || []).includes('.engi/source-to-shares.json');
+  const computeRealityClosed = summarizeStrings(computeRealityManifest.proofArtifactRefs || []).includes('.bitcode/settlement-proof.json')
+    && summarizeStrings(computeRealityManifest.settlementArtifactRefs || computeRealityManifest.replayBasis?.settlementArtifactRefs || []).includes('.bitcode/source-to-shares.json');
   const intentMatchesPreview = settlementIntent.bundleId === settlementPreview.bundleId
     && settlementIntent.unitDenomination === 'BTD'
     && settlementIntent.meteredMicroUnits === settlementPreview.meteredMicroUnits
@@ -811,10 +811,10 @@ export function buildBitcoinSettlementInterfaceProof({
     ],
     theoremVerdicts,
     artifactBindings: [
-      buildArtifactBinding({ artifactPath: '.engi/compute-reality-manifest.json', role: 'compute-reality', theoremIds: theoremVerdicts.map((entry) => entry.theoremId) }),
-      buildArtifactBinding({ artifactPath: '.engi/bitcoin-settlement-intent.json', role: 'settlement-intent', theoremIds: theoremVerdicts.map((entry) => entry.theoremId) }),
-      buildArtifactBinding({ artifactPath: '.engi/bitcoin-settlement-observation.json', role: 'settlement-observation', theoremIds: theoremVerdicts.map((entry) => entry.theoremId) }),
-      buildArtifactBinding({ artifactPath: '.engi/bitcoin-treasury-policy.json', role: 'treasury-policy', theoremIds: theoremVerdicts.map((entry) => entry.theoremId) })
+      buildArtifactBinding({ artifactPath: '.bitcode/compute-reality-manifest.json', role: 'compute-reality', theoremIds: theoremVerdicts.map((entry) => entry.theoremId) }),
+      buildArtifactBinding({ artifactPath: '.bitcode/bitcoin-settlement-intent.json', role: 'settlement-intent', theoremIds: theoremVerdicts.map((entry) => entry.theoremId) }),
+      buildArtifactBinding({ artifactPath: '.bitcode/bitcoin-settlement-observation.json', role: 'settlement-observation', theoremIds: theoremVerdicts.map((entry) => entry.theoremId) }),
+      buildArtifactBinding({ artifactPath: '.bitcode/bitcoin-treasury-policy.json', role: 'treasury-policy', theoremIds: theoremVerdicts.map((entry) => entry.theoremId) })
     ],
     replaySteps,
     witnessArtifactPaths,

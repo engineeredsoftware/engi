@@ -1,5 +1,5 @@
 /**
- * Canonical ENGI enum-like constants for closed-case subsystem values.
+ * Canonical Bitcode enum-like constants for closed-case subsystem values.
  *
  * These are kept runtime-safe in JavaScript today while shaping the codebase
  * toward the richer TypeScript/discriminated-union target described in current canon.

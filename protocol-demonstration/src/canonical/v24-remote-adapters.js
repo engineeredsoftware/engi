@@ -282,11 +282,11 @@ async function executeGithubRestAdapter(payload, fetchImpl) {
     remoteRequestCount: 4,
     authMode: 'bearer-token',
     affectedArtifactRefs: [
-      '.engi/github-live-session.json',
-      '.engi/github-inventory-fetch-receipt.json',
-      '.engi/github-artifact-fetch-receipt.json',
-      '.engi/github-branch-publication-receipt.json',
-      '.engi/github-pr-update-receipt.json'
+      '.bitcode/github-live-session.json',
+      '.bitcode/github-inventory-fetch-receipt.json',
+      '.bitcode/github-artifact-fetch-receipt.json',
+      '.bitcode/github-branch-publication-receipt.json',
+      '.bitcode/github-pr-update-receipt.json'
     ]
   });
   const selectedSession = ensureRecord((supportArtifacts.githubBoundarySurface?.selectedAuthSessions || [])[0]);
@@ -438,11 +438,11 @@ async function executeGithubAppRestAdapter(payload, fetchImpl) {
     appJwtIssuer: resolveGithubAppJwtIssuer(binding),
     remoteAuthExchangeCount: 1,
     affectedArtifactRefs: [
-      '.engi/github-live-session.json',
-      '.engi/github-inventory-fetch-receipt.json',
-      '.engi/github-artifact-fetch-receipt.json',
-      '.engi/github-branch-publication-receipt.json',
-      '.engi/github-pr-update-receipt.json'
+      '.bitcode/github-live-session.json',
+      '.bitcode/github-inventory-fetch-receipt.json',
+      '.bitcode/github-artifact-fetch-receipt.json',
+      '.bitcode/github-branch-publication-receipt.json',
+      '.bitcode/github-pr-update-receipt.json'
     ]
   });
   const selectedSession = ensureRecord((supportArtifacts.githubBoundarySurface?.selectedAuthSessions || [])[0]);
@@ -577,8 +577,8 @@ async function executeJsonRpcSpendAdapter(payload, fetchImpl, config) {
     remoteRequestCount: 2,
     affectedArtifactRefs:
       config.kind === 'bitcoin-mainchain-execution'
-        ? ['.engi/bitcoin-network-execution.json', '.engi/bitcoin-network-observation.json']
-        : ['.engi/sidechain-execution-receipt.json']
+        ? ['.bitcode/bitcoin-network-execution.json', '.bitcode/bitcoin-network-observation.json']
+        : ['.bitcode/sidechain-execution-receipt.json']
   });
 
   if (config.kind === 'bitcoin-mainchain-execution') {
@@ -708,9 +708,9 @@ async function executeLightningHttpAdapter(payload, fetchImpl) {
     transportProtocol: 'lightning-http-v1',
     remoteRequestCount: 2,
     affectedArtifactRefs: [
-      '.engi/repeated-read-payment-intent.json',
-      '.engi/repeated-read-payment-execution.json',
-      '.engi/repeated-read-payment-observation.json'
+      '.bitcode/repeated-read-payment-intent.json',
+      '.bitcode/repeated-read-payment-execution.json',
+      '.bitcode/repeated-read-payment-observation.json'
     ]
   });
   return {
@@ -808,7 +808,7 @@ async function executeComputeHttpAdapter(payload, fetchImpl) {
     reconciliationState: 'live-compute-http-reconciled',
     transportProtocol: 'compute-http-v1',
     remoteRequestCount: 2,
-    affectedArtifactRefs: ['.engi/compute-container-execution.json']
+    affectedArtifactRefs: ['.bitcode/compute-container-execution.json']
   });
   const outputs = ensureRecord(observeResponse).outputArtifactRefs || artifacts.computeContainerExecution?.outputArtifactRefs || manifest.proofArtifactRefs || [];
   return {
@@ -873,8 +873,8 @@ async function executeStorageHttpAdapter(payload, fetchImpl) {
     transportProtocol: 'storage-http-v1',
     remoteRequestCount: 2,
     affectedArtifactRefs: [
-      '.engi/storage-publication-receipt.json',
-      '.engi/storage-retrieval-receipt.json'
+      '.bitcode/storage-publication-receipt.json',
+      '.bitcode/storage-retrieval-receipt.json'
     ]
   });
   return {

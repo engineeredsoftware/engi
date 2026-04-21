@@ -551,6 +551,11 @@ test('active root spec family is Bitcode-named and legacy spec family is preserv
   for (const fileUrl of preservedLegacyPaths) {
     assert.equal(existsSync(fileUrl), true, `${fileUrl.pathname} should remain preserved under _legacy`);
   }
+  assert.equal(
+    existsSync(new URL('../../.engi', import.meta.url)),
+    false,
+    `${new URL('../../.engi', import.meta.url).pathname} should not remain as an active root artifact namespace`
+  );
 });
 const genericVcsReadmeSource = readFileSync(new URL('../../packages/generic-tools/vcs/README.md', import.meta.url), 'utf8');
 const genericTaskComprehensionReadmeSource = readFileSync(new URL('../../packages/generic-tools/task-comprehension/README.md', import.meta.url), 'utf8');
@@ -2279,7 +2284,7 @@ test('active V26 retained package surfaces use Bitcode naming instead of Engi na
   assert.doesNotMatch(executionsMcpPipelineToolsSource, /engi:\/\/pipelines\/deliverable\/create/);
   assert.doesNotMatch(executionsMcpAnalysisToolsSource, /engi:\/\/analysis\/repository\/analyze/);
   assert.doesNotMatch(executionsMcpMonitoringToolsSource, /engi:\/\/monitoring\/pipeline\/status/);
-  assert.doesNotMatch(executionsMcpEnterpriseToolsSource, /https:\/\/api\.engi/);
+  assert.match(executionsMcpEnterpriseToolsSource, /https:\/\/api\.bitcode/);
   assert.doesNotMatch(executionsMcpEnterpriseToolsSource, /engi:\/\/enterprise\/webhook\/orchestrate/);
   assert.doesNotMatch(executionsMcpObservabilityToolsSource, /engi:\/\/observability\/metrics\/realtime/);
   assert.doesNotMatch(executionsMcpLspToolsSource, /engi:\/\/lsp\/semantic\/analyze/);

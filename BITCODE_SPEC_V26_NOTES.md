@@ -9,7 +9,7 @@
 - Main spec companion: `/Users/garrettmaring/Developer/ENGI/BITCODE_SPEC_V26.md`
 - Delta companion: `/Users/garrettmaring/Developer/ENGI/BITCODE_SPEC_V26_DELTA.md`
 - Parity companion: `/Users/garrettmaring/Developer/ENGI/BITCODE_SPEC_V26_PARITY_MATRIX.md`
-- Current through-fourth-gate checkpoint artifact: `/Users/garrettmaring/Developer/ENGI/.engi/v26-gate-checkpoint-report.json`
+- Current through-fourth-gate checkpoint artifact: `/Users/garrettmaring/Developer/ENGI/.bitcode/v26-gate-checkpoint-report.json`
 - V26 state: canonical promotion complete; fifth-, sixth-, and seventh-gate closure remain open
 
 ## Notes companion rule
@@ -36,7 +36,7 @@ The following items are no longer open draft questions:
 - mock-mode `/application` review is part of first-gate closure rather than second-gate work.
 - the earlier V26 checkpoint was first-gate plus second-gate closure with explicit third-gate preparation; V26 is now promoted through fourth gate while fifth through seventh gate remain open.
 - second-gate closure now includes route/package README refurbishment and user-facing preserved-runtime naming rather than treating those as optional cleanup after code lands.
-- fifth-gate closure now explicitly requires zero unreplaced `engi` product naming in active code/copy/route teaching unless the occurrence is historical lineage or a still-required structural namespace such as `.engi/` or `_legacy/ENGI_SPEC_*`.
+- fifth-gate closure now explicitly requires zero unreplaced `engi` product naming in active code/copy/route teaching unless the occurrence is historical lineage or a still-required structural namespace such as `.bitcode/` or `_legacy/ENGI_SPEC_*`.
 - the active root spec/toolchain family is now part of that same fifth-gate closure: `BITCODE_SPEC*.md`, `BITCODE_SPEC.txt`, and `scripts/check|generate|prepare|promote-bitcode-*.mjs` are canonical, while root `ENGI_SPEC_V26*` and root `ENGI_SPECIFYING.md` are no longer admissible outside `_legacy/`.
 - V26 remains the active testnet-ready, near-commercial-readiness canon; V27 is explicitly reserved for commercial-readiness hardening after fifth-gate rename closure, sixth-gate old-world reform, and seventh-gate provation close the V26 Bitcode transformation.
 - retained prompt-system package surfaces are now part of that active naming sweep: `packages/prompts/*` must read as Bitcode in package metadata, benchmarking/docs, promptpart examples, and active identity text while historical filename lineage may remain only where still-needed for safe fifth-gate porting.
@@ -411,7 +411,7 @@ Still open:
 ### 8. Compatibility-carrier treatment
 
 Still open:
-- whether `.engi/*` remains the emitted namespace in V26,
+- whether `.bitcode/*` remains the emitted namespace in V26,
 - whether repo-local `ENGI_SPEC_*` remains stable through V26 promotion,
 - how far directory names, script names, and other non-module compatibility carriers should follow the now-active `@bitcode/*` module namespace,
 - and which compatibility carriers are worth changing during a productionizing version versus later dedicated migration work.

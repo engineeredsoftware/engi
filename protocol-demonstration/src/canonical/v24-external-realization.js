@@ -14,37 +14,37 @@ export const V24_EXTERNAL_INTERFACE_IDS = [
 ];
 const V24_INTERFACE_ARTIFACT_REFS = {
   'bitcoin-mainchain-execution': [
-    '.engi/bitcoin-settlement-intent.json',
-    '.engi/bitcoin-settlement-observation.json',
-    '.engi/bitcoin-anchor.json',
-    '.engi/bitcoin-bounded-public-anchor.json'
+    '.bitcode/bitcoin-settlement-intent.json',
+    '.bitcode/bitcoin-settlement-observation.json',
+    '.bitcode/bitcoin-anchor.json',
+    '.bitcode/bitcoin-bounded-public-anchor.json'
   ],
   'repeated-read-payment-execution': [
-    '.engi/repeated-read-payment-intent.json',
-    '.engi/repeated-read-payment-execution.json',
-    '.engi/repeated-read-payment-observation.json',
-    '.engi/bitcoin-settlement-intent.json',
-    '.engi/bitcoin-settlement-observation.json'
+    '.bitcode/repeated-read-payment-intent.json',
+    '.bitcode/repeated-read-payment-execution.json',
+    '.bitcode/repeated-read-payment-observation.json',
+    '.bitcode/bitcoin-settlement-intent.json',
+    '.bitcode/bitcoin-settlement-observation.json'
   ],
   'sidechain-execution': [
-    '.engi/external-boundary-manifest.json',
-    '.engi/external-execution-policy.json',
-    '.engi/network-capability-manifest.json'
+    '.bitcode/external-boundary-manifest.json',
+    '.bitcode/external-execution-policy.json',
+    '.bitcode/network-capability-manifest.json'
   ],
   'compute-container-execution': [
-    '.engi/compute-reality-manifest.json',
-    '.engi/external-environment-profile.json',
-    '.engi/external-telemetry-summary.json'
+    '.bitcode/compute-reality-manifest.json',
+    '.bitcode/external-environment-profile.json',
+    '.bitcode/external-telemetry-summary.json'
   ],
   'storage-container-execution': [
-    '.engi/storage-reality-manifest.json',
-    '.engi/external-environment-profile.json',
-    '.engi/external-telemetry-summary.json'
+    '.bitcode/storage-reality-manifest.json',
+    '.bitcode/external-environment-profile.json',
+    '.bitcode/external-telemetry-summary.json'
   ],
   'github-live-interface': [
-    '.engi/github-app-binding.json',
-    '.engi/external-environment-profile.json',
-    '.engi/external-telemetry-summary.json'
+    '.bitcode/github-app-binding.json',
+    '.bitcode/external-environment-profile.json',
+    '.bitcode/external-telemetry-summary.json'
   ]
 };
 
@@ -926,7 +926,7 @@ export function buildV24ExternalRealizationArtifacts(input = {}) {
     branchMode: branchMode || null,
     scenarioId: scenarioId || null,
     paymentMode: input.paymentMode || null,
-    coreTelemetryRefs: ['.engi/pipeline-telemetry.json'],
+    coreTelemetryRefs: ['.bitcode/pipeline-telemetry.json'],
     surfacedAcross: ['core', 'demonstration', 'api', 'branch-artifacts'],
     pipelineStageIds: pipelineStages,
     interfaceSummaries: V24_EXTERNAL_INTERFACE_IDS.map((interfaceId) => {

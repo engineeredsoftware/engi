@@ -50,7 +50,7 @@ test('V19 contract-change ledger records inherited positive matrices and new rep
   assert.equal(ledger.toVersion, 'V19');
   assert.equal(ledger.proofCatalogDelta.status, 'unchanged-inherited-positive-baseline');
   assert.equal(ledger.matrixDeltas.length, 4);
-  assert.ok(ledger.artifactDeltas.some((/** @type {any} */ delta) => delta.artifactPath === '.engi/v19-deterministic-replay-report.json'));
+  assert.ok(ledger.artifactDeltas.some((/** @type {any} */ delta) => delta.artifactPath === '.bitcode/v19-deterministic-replay-report.json'));
   assert.equal(ledger.passed, true);
 });
 

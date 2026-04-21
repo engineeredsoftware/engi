@@ -41,7 +41,7 @@ export const DEFAULT_V24_PROVEN_PAYMENT_MODES = [...BITCOIN_PAYMENT_MODES];
 export const DEFAULT_V25_PROVEN_PAYMENT_MODES = [...BITCOIN_PAYMENT_MODES];
 export const DEFAULT_V26_PROVEN_PAYMENT_MODES = [...BITCOIN_PAYMENT_MODES];
 export const PROVEN_GENERATOR_ID = 'bitcode.proven-generator.v1';
-const NON_DIGESTED_RECURSIVE_ARTIFACT_PATHS = ['.engi/system-proof-bundle.json', '.engi/proof-witness-manifest.json'];
+const NON_DIGESTED_RECURSIVE_ARTIFACT_PATHS = ['.bitcode/system-proof-bundle.json', '.bitcode/proof-witness-manifest.json'];
 const PROVEN_PROFILE_ENABLED = process.env.BITCODE_PROVEN_PROFILE === '1';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -1167,11 +1167,11 @@ export function collectCanonicalProvenRuns({
         const { latestRun } = runMakeBitcodeBranchFn(buildInitialStateFn(), branchInput);
         invariant(latestRun?.branchArtifacts?.files, `Run ${formatRunId({ scenarioId, branchMode, paymentMode })} did not produce branch artifacts.`);
         const files = /** @type {Record<string, string>} */ (latestRun.branchArtifacts.files);
-        const bundle = parseArtifactJson(files, '.engi/system-proof-bundle.json');
-        const witnessManifest = parseArtifactJson(files, '.engi/proof-witness-manifest.json');
-        const deliverablesManifest = parseArtifactJson(files, '.engi/deliverables.json');
-        const policyRelease = parseArtifactJson(files, '.engi/policy-release.json');
-        const need = parseArtifactJson(files, '.engi/need.json');
+        const bundle = parseArtifactJson(files, '.bitcode/system-proof-bundle.json');
+        const witnessManifest = parseArtifactJson(files, '.bitcode/proof-witness-manifest.json');
+        const deliverablesManifest = parseArtifactJson(files, '.bitcode/deliverables.json');
+        const policyRelease = parseArtifactJson(files, '.bitcode/policy-release.json');
+        const need = parseArtifactJson(files, '.bitcode/need.json');
 
         /** @type {Record<string, any>} */
         const familyProofsByName = {};
@@ -2880,8 +2880,8 @@ function buildV21ProvenPackage(baseData, {
     currentTarget: 'V21',
     assumeExistingRelativePaths: [
       '_legacy/ENGI_SPEC_V21_PROVEN.md',
-      '.engi/v21-spec-family-report.json',
-      '.engi/v21-canonical-input-report.json'
+      '.bitcode/v21-spec-family-report.json',
+      '.bitcode/v21-canonical-input-report.json'
     ]
   });
   const artifacts = buildV21GeneratedArtifactContents({
@@ -2945,9 +2945,9 @@ function buildV22ProvenPackage(baseData, {
     reportVersion: 'V22',
     assumeExistingRelativePaths: [
       '_legacy/ENGI_SPEC_V22_PROVEN.md',
-      '.engi/v22-spec-family-report.json',
-      '.engi/v22-canonical-input-report.json',
-      '.engi/v22-canon-posture-drift-report.json'
+      '.bitcode/v22-spec-family-report.json',
+      '.bitcode/v22-canonical-input-report.json',
+      '.bitcode/v22-canon-posture-drift-report.json'
     ]
   });
   const canonPostureDriftReport = buildV22CanonPostureDriftReport({
@@ -3023,9 +3023,9 @@ function buildV23ProvenPackage(baseData, {
     reportVersion: 'V23',
     assumeExistingRelativePaths: [
       '_legacy/ENGI_SPEC_V23_PROVEN.md',
-      '.engi/v23-spec-family-report.json',
-      '.engi/v23-canonical-input-report.json',
-      '.engi/v23-canon-posture-drift-report.json'
+      '.bitcode/v23-spec-family-report.json',
+      '.bitcode/v23-canonical-input-report.json',
+      '.bitcode/v23-canon-posture-drift-report.json'
     ]
   });
   const canonPostureDriftReport = buildV23CanonPostureDriftReport({
@@ -3101,9 +3101,9 @@ function buildV24ProvenPackage(baseData, {
     reportVersion: 'V24',
     assumeExistingRelativePaths: [
       '_legacy/ENGI_SPEC_V24_PROVEN.md',
-      '.engi/v24-spec-family-report.json',
-      '.engi/v24-canonical-input-report.json',
-      '.engi/v24-canon-posture-drift-report.json'
+      '.bitcode/v24-spec-family-report.json',
+      '.bitcode/v24-canonical-input-report.json',
+      '.bitcode/v24-canon-posture-drift-report.json'
     ]
   });
   const canonPostureDriftReport = buildV24CanonPostureDriftReport({
@@ -3178,9 +3178,9 @@ function buildV25ProvenPackage(baseData, {
     reportVersion: 'V25',
     assumeExistingRelativePaths: [
       '_legacy/ENGI_SPEC_V25_PROVEN.md',
-      '.engi/v25-spec-family-report.json',
-      '.engi/v25-canonical-input-report.json',
-      '.engi/v25-canon-posture-drift-report.json'
+      '.bitcode/v25-spec-family-report.json',
+      '.bitcode/v25-canonical-input-report.json',
+      '.bitcode/v25-canon-posture-drift-report.json'
     ]
   });
   const canonPostureDriftReport = buildV25CanonPostureDriftReport({
@@ -3259,14 +3259,14 @@ function buildV26ProvenPackage(baseData, {
           skipPointerCheck: true,
           assumeExistingRelativePaths: [
             'BITCODE_SPEC_V26_PROVEN.md',
-            '.engi/v26-spec-family-report.json',
-            '.engi/v26-canonical-input-report.json',
-            '.engi/v26-gate-checkpoint-report.json',
-            '.engi/conversations-continuity-proof.json',
-            '.engi/runs-pipelines-totality-proof.json',
-            '.engi/persistence-schema-totality-proof.json',
-            '.engi/prompt-system-totality-proof.json',
-            '.engi/retained-package-admissibility-proof.json'
+            '.bitcode/v26-spec-family-report.json',
+            '.bitcode/v26-canonical-input-report.json',
+            '.bitcode/v26-gate-checkpoint-report.json',
+            '.bitcode/conversations-continuity-proof.json',
+            '.bitcode/runs-pipelines-totality-proof.json',
+            '.bitcode/persistence-schema-totality-proof.json',
+            '.bitcode/prompt-system-totality-proof.json',
+            '.bitcode/retained-package-admissibility-proof.json'
           ]
         }
       : {})
@@ -3315,12 +3315,12 @@ function buildV26ProvenPackage(baseData, {
       specFamilyReport,
       canonicalInputReport
     }),
-    '.engi/v26-gate-checkpoint-report.json': `${JSON.stringify(gateCheckpointReport, null, 2)}\n`,
-    '.engi/conversations-continuity-proof.json': `${JSON.stringify(conversationsContinuityProof, null, 2)}\n`,
-    '.engi/runs-pipelines-totality-proof.json': `${JSON.stringify(runsPipelinesTotalityProof, null, 2)}\n`,
-    '.engi/persistence-schema-totality-proof.json': `${JSON.stringify(persistenceSchemaTotalityProof, null, 2)}\n`,
-    '.engi/prompt-system-totality-proof.json': `${JSON.stringify(promptSystemTotalityProof, null, 2)}\n`,
-    '.engi/retained-package-admissibility-proof.json': `${JSON.stringify(retainedPackageAdmissibilityProof, null, 2)}\n`
+    '.bitcode/v26-gate-checkpoint-report.json': `${JSON.stringify(gateCheckpointReport, null, 2)}\n`,
+    '.bitcode/conversations-continuity-proof.json': `${JSON.stringify(conversationsContinuityProof, null, 2)}\n`,
+    '.bitcode/runs-pipelines-totality-proof.json': `${JSON.stringify(runsPipelinesTotalityProof, null, 2)}\n`,
+    '.bitcode/persistence-schema-totality-proof.json': `${JSON.stringify(persistenceSchemaTotalityProof, null, 2)}\n`,
+    '.bitcode/prompt-system-totality-proof.json': `${JSON.stringify(promptSystemTotalityProof, null, 2)}\n`,
+    '.bitcode/retained-package-admissibility-proof.json': `${JSON.stringify(retainedPackageAdmissibilityProof, null, 2)}\n`
   };
   const artifactSummaries = summarizeArtifactContents(artifacts);
   const checkpointReady = gateCheckpointReport.firstGate?.passed === true

@@ -33,7 +33,7 @@ describe('normalizeApplicationClosureState', () => {
           confidentiality: 'bounded-public',
           projectionPrincipal: 'buyer',
           visibleArtifactCount: 7,
-          visibleArtifacts: ['BITCODE_NEED.md', '.engi/settlement-preview.json'],
+          visibleArtifacts: ['BITCODE_NEED.md', '.bitcode/settlement-preview.json'],
           proofFamilyCount: 4,
           replayArtifactCount: 9,
           summary: 'Materialized closure bundle for the active projection.',
@@ -50,7 +50,7 @@ describe('normalizeApplicationClosureState', () => {
           proofFamilies: [
             {
               proofFamily: 'selection-materialization',
-              proofArtifactPath: '.engi/selection-and-materialization-proof.json',
+              proofArtifactPath: '.bitcode/selection-and-materialization-proof.json',
               allTheoremsPassed: true,
               replayArtifactCount: 3,
             },

@@ -72,7 +72,7 @@ const closureState: ApplicationClosureState = {
     summary: 'Branch summary.',
     metrics: [{ label: 'Visible artifacts', value: '7' }],
     rows: [{ label: 'Branch', value: 'bitcode/auth-rollback' }],
-    chips: ['BITCODE_NEED.md', '.engi/settlement-preview.json'],
+    chips: ['BITCODE_NEED.md', '.bitcode/settlement-preview.json'],
   },
   settlement: {
     id: 'settlement',
@@ -87,7 +87,7 @@ const closureState: ApplicationClosureState = {
     proofFamilies: [
       {
         label: 'selection-materialization',
-        artifactPath: '.engi/selection-and-materialization-proof.json',
+        artifactPath: '.bitcode/selection-and-materialization-proof.json',
         theoremStatus: 'passed',
         replayArtifacts: '3',
       },
@@ -150,11 +150,11 @@ describe('application-transaction-detail helpers', () => {
         { label: 'Credited assets', value: '2' },
         { label: 'Participating assets', value: '3' },
       ],
-      branchArtifacts: ['BITCODE_NEED.md', '.engi/settlement-preview.json'],
+      branchArtifacts: ['BITCODE_NEED.md', '.bitcode/settlement-preview.json'],
       proofFamilies: [
         {
           label: 'selection-materialization',
-          artifactPath: '.engi/selection-and-materialization-proof.json',
+          artifactPath: '.bitcode/selection-and-materialization-proof.json',
           theoremStatus: 'passed',
           replayArtifacts: '3',
         },
@@ -200,11 +200,11 @@ describe('application-transaction-detail helpers', () => {
           { label: 'Credited assets', value: '2' },
           { label: 'Participating assets', value: '3' },
         ],
-        branchArtifacts: ['BITCODE_NEED.md', '.engi/settlement-preview.json'],
+        branchArtifacts: ['BITCODE_NEED.md', '.bitcode/settlement-preview.json'],
         proofFamilies: [
           {
             label: 'selection-materialization',
-            artifactPath: '.engi/selection-and-materialization-proof.json',
+            artifactPath: '.bitcode/selection-and-materialization-proof.json',
             theoremStatus: 'passed',
             replayArtifacts: '3',
           },

@@ -115,8 +115,8 @@ In `src/bitcode-demo.js`:
   - placeholder completeness status
 
 ### Required artifacts
-- `.engi/prompt-contracts.json`
-- `.engi/prompt-completeness-proof.json`
+- `.bitcode/prompt-contracts.json`
+- `.bitcode/prompt-completeness-proof.json`
 
 ### Required tests
 Add tests that:
@@ -132,7 +132,7 @@ Add tests that:
 - Implemented in repo:
   - prompt contracts now fail closed on missing placeholders and undeclared non-rendered context
   - seeded `baseRef` and `repo` prompt mismatches are fixed
-  - prompt completeness proof is emitted as `.engi/prompt-completeness-proof.json`
+  - prompt completeness proof is emitted as `.bitcode/prompt-completeness-proof.json`
 
 ---
 
@@ -175,10 +175,10 @@ In `server.js`:
 - stop returning overly broad `latestRun` objects to public-equivalent callers by default
 
 ### Required artifacts
-- `.engi/projection-policy.json`
-- `.engi/bounded-public-proof.json`
-- `.engi/redaction-proof.json`
-- `.engi/disclosure-proof.json`
+- `.bitcode/projection-policy.json`
+- `.bitcode/bounded-public-proof.json`
+- `.bitcode/redaction-proof.json`
+- `.bitcode/disclosure-proof.json`
 
 ### Required tests
 Add tests that:
@@ -234,8 +234,8 @@ Implementation tasks:
 5. do **not** fake external static tooling yet; start by making local static stages receipt-backed and replayable
 
 ### Required artifacts
-- `.engi/measurement-receipts.json`
-- `.engi/static-measurement-report.json`
+- `.bitcode/measurement-receipts.json`
+- `.bitcode/static-measurement-report.json`
 
 ### Required tests
 Add tests that:
@@ -250,7 +250,7 @@ Add tests that:
 - Implemented in repo:
   - receipt-backed static stages now cover benchmark parser normalization, repo context extraction, asset signal extraction, and verification static checks
   - measurement provenance now references receipt IDs
-  - `.engi/static-measurement-report.json` closes receipt/provenance linkage in tests
+  - `.bitcode/static-measurement-report.json` closes receipt/provenance linkage in tests
 
 ---
 
@@ -282,7 +282,7 @@ In `src/bitcode-demo.js`:
   - registered facts are either consumed or intentionally unused
 
 ### Required artifacts
-- `.engi/code-analysis-fact-registry.json`
+- `.bitcode/code-analysis-fact-registry.json`
 
 ### Required tests
 Add tests that:
@@ -294,7 +294,7 @@ Add tests that:
 - every gathered code-analysis fact can be traced to storage and consumption
 - no silent dead code-analysis facts remain in the core V9 path
 - Implemented in repo:
-  - `.engi/code-analysis-fact-registry.json` now inventories gathered facts, consumer matrix, and audit closure
+  - `.bitcode/code-analysis-fact-registry.json` now inventories gathered facts, consumer matrix, and audit closure
   - need-match / benchmark-impact / actionability detail surfaces now list consumed code-analysis facts
   - registry audit fails if consumed facts are not registered
 
@@ -327,8 +327,8 @@ In `src/bitcode-demo.js`:
   - policy-derived restrictions
 
 ### Required artifacts
-- extend `.engi/verification-report.json`
-- emit `.engi/verification-receipts.json`
+- extend `.bitcode/verification-report.json`
+- emit `.bitcode/verification-receipts.json`
 
 ### Required tests
 Add tests that:
@@ -341,7 +341,7 @@ Add tests that:
 - Implemented in repo:
   - verification now emits issuance, provenance, sufficiency, and issuer-policy receipts
   - verification report surfaces claimed evidence, measured evidence, policy restrictions, and receipt refs
-  - buyer/reviewer projections expose `.engi/verification-receipts.json`
+  - buyer/reviewer projections expose `.bitcode/verification-receipts.json`
 
 ---
 
@@ -376,11 +376,11 @@ In `src/bitcode-demo.js`:
 - include prompt completeness proof, static-measurement proof, materialization visibility proof, and disclosure proof in the system proof bundle
 
 ### Required artifacts
-- `.engi/proof-witness-manifest.json`
-- `.engi/prompt-completeness-proof.json`
-- `.engi/static-measurement-proof.json`
-- `.engi/materialization-visibility-proof.json`
-- `.engi/disclosure-proof.json`
+- `.bitcode/proof-witness-manifest.json`
+- `.bitcode/prompt-completeness-proof.json`
+- `.bitcode/static-measurement-proof.json`
+- `.bitcode/materialization-visibility-proof.json`
+- `.bitcode/disclosure-proof.json`
 
 ### Required tests
 Add tests that:
@@ -391,10 +391,10 @@ Add tests that:
 ### Acceptance
 - proof bundle becomes witness-complete enough for V9 claims
 - Implemented in repo:
-  - `.engi/proof-witness-manifest.json` now enumerates proof families and witness refs
-  - `.engi/materialization-visibility-proof.json` now proves selected-source closure over the asset-pack lock and rejects unexpected materialized bindings
+  - `.bitcode/proof-witness-manifest.json` now enumerates proof families and witness refs
+  - `.bitcode/materialization-visibility-proof.json` now proves selected-source closure over the asset-pack lock and rejects unexpected materialized bindings
   - system proof bundle now carries prompt completeness, static measurement, verification receipts, materialization visibility, source-to-shares replay surfaces, redaction, and disclosure proofs
-  - proof witness digests now cover proof-relevant accounting artifacts including `.engi/source-to-shares.json`, `.engi/settlement-participation.json`, and `.engi/accounting-precision-report.json`
+  - proof witness digests now cover proof-relevant accounting artifacts including `.bitcode/source-to-shares.json`, `.bitcode/settlement-participation.json`, and `.bitcode/accounting-precision-report.json`
   - selection/journal/identity/data-flow proofs now include explicit witness refs and proof hashes instead of only bare booleans
 
 ---
@@ -431,9 +431,9 @@ In `src/bitcode-demo.js`:
   - raw-to-settled normalization receipts
 
 ### Required artifacts
-- `.engi/source-to-shares.json`
-- `.engi/settlement-participation.json`
-- `.engi/accounting-precision-report.json`
+- `.bitcode/source-to-shares.json`
+- `.bitcode/settlement-participation.json`
+- `.bitcode/accounting-precision-report.json`
 
 ### Required tests
 Add tests that:
@@ -445,9 +445,9 @@ Add tests that:
 ### Acceptance
 - end-to-end settlement semantics become replayable without floating-point ambiguity in critical paths
 - Implemented in repo:
-  - `.engi/source-to-shares.json` now records bundle scoring, marginal contribution deltas, selected-unit refs, clipping receipts, basis-point normalization ledgers, and deterministic tie-break order
-  - `.engi/settlement-participation.json` now distinguishes selected, settlement-participating, credited, zero-credit, and excluded assets
-  - `.engi/accounting-precision-report.json` now closes the replay loop from source contribution inputs and selected unit refs through micro-unit journal outputs
+  - `.bitcode/source-to-shares.json` now records bundle scoring, marginal contribution deltas, selected-unit refs, clipping receipts, basis-point normalization ledgers, and deterministic tie-break order
+  - `.bitcode/settlement-participation.json` now distinguishes selected, settlement-participating, credited, zero-credit, and excluded assets
+  - `.bitcode/accounting-precision-report.json` now closes the replay loop from source contribution inputs and selected unit refs through micro-unit journal outputs
 
 ---
 
@@ -490,8 +490,8 @@ At minimum:
 - multi-asset settlement/tie case
 
 ### Required artifacts
-- `.engi/scenario-fixture-manifest.json`
-- `.engi/test-coverage-report.json`
+- `.bitcode/scenario-fixture-manifest.json`
+- `.bitcode/test-coverage-report.json`
 
 ### Required tests
 Add tests that:
@@ -505,8 +505,8 @@ Add tests that:
 - V9 confidence is no longer based on one gold-path scenario alone
 - Implemented in repo:
   - seeded scenario corpus now covers monorepo auth rollback, proof-heavy Rust validator repair, config-policy precedence incident response, unsafe patch review recovery, infra deployment mismatch, privacy-boundary proof export, polyglot gateway rollback, and normalization-heavy auth settlement replay
-  - `.engi/scenario-fixture-manifest.json` now enumerates parser kind, stack hints, target artifact kinds, and normalization/polyglot negative fixtures in addition to the active corpus
-  - `.engi/test-coverage-report.json` now exposes scenario-family, parser-kind, polyglot, and normalization coverage surfaces across the seeded runs
+  - `.bitcode/scenario-fixture-manifest.json` now enumerates parser kind, stack hints, target artifact kinds, and normalization/polyglot negative fixtures in addition to the active corpus
+  - `.bitcode/test-coverage-report.json` now exposes scenario-family, parser-kind, polyglot, and normalization coverage surfaces across the seeded runs
 
 ---
 

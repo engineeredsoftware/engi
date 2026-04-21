@@ -282,7 +282,7 @@ test('measureNeedFromScenario materializes prompt surfaces with interpolated lin
   assert.equal(measurement.needDescriptor.promptSurfaces.length, measurement.promptSurfaces.length);
   assert.match(measurement.promptSurfaces[0].interpolatedPrompt, /frontier\/demo-auth/);
   assert.ok(measurement.promptSurfaces[0].contextInputs.length >= 3);
-  assert.ok(measurement.promptSurfaces[0].lineage.downstreamArtifacts.includes('.engi/need.json'));
+  assert.ok(measurement.promptSurfaces[0].lineage.downstreamArtifacts.includes('.bitcode/need.json'));
   assert.equal(measurement.promptCompletenessProof.allContractsComplete, true);
   assert.equal(measurement.promptCompletenessProof.allTheoremsPassed, true);
   assert.equal(measurement.inferenceSynthesisProof.allTheoremsPassed, true);
@@ -369,7 +369,7 @@ test('prompt contracts fail deterministically on missing placeholder bindings', 
       { field: 'repo', value: 'frontier/demo-auth', source: 'test' }
     ],
     outputFields: ['task'],
-    downstreamArtifacts: ['.engi/need.json']
+    downstreamArtifacts: ['.bitcode/need.json']
   });
 
   assert.equal(promptContract.completeness.ok, false);
@@ -387,7 +387,7 @@ test('prompt contracts require non-rendered context to be declared explicitly', 
       { field: 'repoPrivacy', value: 'private', source: 'test' }
     ],
     outputFields: ['task'],
-    downstreamArtifacts: ['.engi/need.json']
+    downstreamArtifacts: ['.bitcode/need.json']
   });
 
   assert.equal(promptContract.completeness.ok, false);
@@ -580,15 +580,15 @@ test('seeded scenario matrix preserves family closure and projection exactness a
         projectedPublic.projectionPolicy.publicArtifactPaths.slice().sort()
       );
 
-      assert.ok(reviewer.branchArtifacts.visibleFileInventory.includes('.engi/proof-contract.json'));
-      assert.equal(reviewer.branchArtifacts.visibleFileInventory.some((/** @type {string} */ path) => path.startsWith('.engi/source-material/')), false);
+      assert.ok(reviewer.branchArtifacts.visibleFileInventory.includes('.bitcode/proof-contract.json'));
+      assert.equal(reviewer.branchArtifacts.visibleFileInventory.some((/** @type {string} */ path) => path.startsWith('.bitcode/source-material/')), false);
       assert.equal(reviewer.branchArtifacts.files, undefined);
       assert.ok(reviewer.proofWitnessManifest.proofFamilies.length === 9);
 
-      assert.equal(buyer.branchArtifacts.visibleFileInventory.some((/** @type {string} */ path) => path.startsWith('.engi/source-material/')), false);
+      assert.equal(buyer.branchArtifacts.visibleFileInventory.some((/** @type {string} */ path) => path.startsWith('.bitcode/source-material/')), false);
       assert.equal(buyer.branchArtifacts.files, undefined);
       assert.ok(buyer.authorizationDecisions.length >= 1);
-      assert.ok(buyer.systemProofBundle.verifierEntrypoint.requiredArtifactPaths.includes('.engi/proof-witness-manifest.json'));
+      assert.ok(buyer.systemProofBundle.verifierEntrypoint.requiredArtifactPaths.includes('.bitcode/proof-witness-manifest.json'));
     }
   }
 });
@@ -625,16 +625,16 @@ test('runMakeBitcodeBranch emits V23 bitcoin and sidechain surfaces when payment
   assert.ok(latestRun.externalBoundaryManifest.interfaces.some((/** @type {any} */ entry) => entry.interfaceId === 'bitcoin-payment-observation'));
   assert.ok(latestRun.externalBoundaryManifest.interfaces.some((/** @type {any} */ entry) => entry.interfaceId === 'bitcoin-anchor-publication'));
   assert.ok(latestRun.proofContract.evidenceChain.some((/** @type {any} */ entry) => entry.stage === 'deployment-and-anchor'));
-  assert.ok(latestRun.branchArtifacts.files['.engi/compute-reality-manifest.json']);
-  assert.ok(latestRun.branchArtifacts.files['.engi/storage-reality-manifest.json']);
-  assert.ok(latestRun.branchArtifacts.files['.engi/bitcoin-commitment-manifest.json']);
-  assert.ok(latestRun.branchArtifacts.files['.engi/bitcoin-treasury-policy.json']);
-  assert.ok(latestRun.branchArtifacts.files['.engi/bitcoin-anchor.json']);
-  assert.ok(latestRun.branchArtifacts.files['.engi/bitcoin-bounded-public-anchor.json']);
-  assert.ok(latestRun.branchArtifacts.files['.engi/bitcoin-settlement-intent.json']);
-  assert.ok(latestRun.branchArtifacts.files['.engi/bitcoin-settlement-observation.json']);
-  assert.ok(latestRun.branchArtifacts.files['.engi/bitcoin-audit-anchor-proof.json']);
-  assert.ok(latestRun.branchArtifacts.files['.engi/bitcoin-settlement-interface-proof.json']);
+  assert.ok(latestRun.branchArtifacts.files['.bitcode/compute-reality-manifest.json']);
+  assert.ok(latestRun.branchArtifacts.files['.bitcode/storage-reality-manifest.json']);
+  assert.ok(latestRun.branchArtifacts.files['.bitcode/bitcoin-commitment-manifest.json']);
+  assert.ok(latestRun.branchArtifacts.files['.bitcode/bitcoin-treasury-policy.json']);
+  assert.ok(latestRun.branchArtifacts.files['.bitcode/bitcoin-anchor.json']);
+  assert.ok(latestRun.branchArtifacts.files['.bitcode/bitcoin-bounded-public-anchor.json']);
+  assert.ok(latestRun.branchArtifacts.files['.bitcode/bitcoin-settlement-intent.json']);
+  assert.ok(latestRun.branchArtifacts.files['.bitcode/bitcoin-settlement-observation.json']);
+  assert.ok(latestRun.branchArtifacts.files['.bitcode/bitcoin-audit-anchor-proof.json']);
+  assert.ok(latestRun.branchArtifacts.files['.bitcode/bitcoin-settlement-interface-proof.json']);
 });
 
 test('V23 payment modes preserve mode-specific observation policy and projection boundaries', () => {
@@ -666,8 +666,8 @@ test('V23 payment modes preserve mode-specific observation policy and projection
   assert.ok(sidechain.externalBoundaryManifest.interfaces.some((/** @type {any} */ entry) => entry.interfaceId === 'bitcoin-sidechain-bridge'));
   assert.ok(sidechain.externalBoundaryManifest.interfaces.some((/** @type {any} */ entry) => entry.status === 'implemented-as-stubbed-testnet-service'));
 
-  assert.ok(publicProjection.publicArtifacts['.engi/bitcoin-bounded-public-anchor.json']);
-  assert.equal('.engi/bitcoin-anchor.json' in publicProjection.publicArtifacts, false);
+  assert.ok(publicProjection.publicArtifacts['.bitcode/bitcoin-bounded-public-anchor.json']);
+  assert.equal('.bitcode/bitcoin-anchor.json' in publicProjection.publicArtifacts, false);
   assert.equal(publicProjection.bitcoinAnchor, undefined);
   assert.equal(reviewerProjection.bitcoinSettlementIntent, undefined);
   assert.equal(reviewerProjection.bitcoinBoundedPublicAnchor.anchorId, sidechain.bitcoinBoundedPublicAnchor.anchorId);
@@ -853,33 +853,33 @@ test('runMakeBitcodeBranch emits V24 draft-target external realization artifacts
   assert.equal(latestRun.externalRealizationProof.allTheoremsPassed, true);
   assert.equal(latestRun.containerRealityProof.allTheoremsPassed, true);
   assert.equal(latestRun.githubLiveInterfaceProof.allTheoremsPassed, true);
-  assert.ok(latestRun.deliverablesManifest.deliverables.some((entry) => entry.path === '.engi/external-environment-profile.json'));
-  assert.ok(latestRun.deliverablesManifest.deliverables.some((entry) => entry.path === '.engi/external-telemetry-summary.json'));
-  assert.ok(latestRun.deliverablesManifest.deliverables.some((entry) => entry.path === '.engi/bitcoin-network-intent.json'));
-  assert.ok(latestRun.deliverablesManifest.deliverables.some((entry) => entry.path === '.engi/external-realization-proof.json'));
-  assert.ok(latestRun.branchArtifacts.files['.engi/external-environment-profile.json']);
-  assert.ok(latestRun.branchArtifacts.files['.engi/external-execution-policy.json']);
-  assert.ok(latestRun.branchArtifacts.files['.engi/external-telemetry-policy.json']);
-  assert.ok(latestRun.branchArtifacts.files['.engi/external-telemetry-summary.json']);
-  assert.ok(latestRun.branchArtifacts.files['.engi/network-capability-manifest.json']);
-  assert.ok(latestRun.branchArtifacts.files['.engi/github-app-binding.json']);
-  assert.ok(latestRun.branchArtifacts.files['.engi/bitcoin-network-intent.json']);
-  assert.ok(latestRun.branchArtifacts.files['.engi/bitcoin-network-execution.json']);
-  assert.ok(latestRun.branchArtifacts.files['.engi/bitcoin-network-observation.json']);
-  assert.ok(latestRun.branchArtifacts.files['.engi/sidechain-execution-receipt.json']);
-  assert.ok(latestRun.branchArtifacts.files['.engi/compute-container-manifest.json']);
-  assert.ok(latestRun.branchArtifacts.files['.engi/compute-container-execution.json']);
-  assert.ok(latestRun.branchArtifacts.files['.engi/storage-container-manifest.json']);
-  assert.ok(latestRun.branchArtifacts.files['.engi/storage-publication-receipt.json']);
-  assert.ok(latestRun.branchArtifacts.files['.engi/storage-retrieval-receipt.json']);
-  assert.ok(latestRun.branchArtifacts.files['.engi/github-live-session.json']);
-  assert.ok(latestRun.branchArtifacts.files['.engi/github-inventory-fetch-receipt.json']);
-  assert.ok(latestRun.branchArtifacts.files['.engi/github-artifact-fetch-receipt.json']);
-  assert.ok(latestRun.branchArtifacts.files['.engi/github-branch-publication-receipt.json']);
-  assert.ok(latestRun.branchArtifacts.files['.engi/github-pr-update-receipt.json']);
-  assert.ok(latestRun.branchArtifacts.files['.engi/external-realization-proof.json']);
-  assert.ok(latestRun.branchArtifacts.files['.engi/container-reality-proof.json']);
-  assert.ok(latestRun.branchArtifacts.files['.engi/github-live-interface-proof.json']);
+  assert.ok(latestRun.deliverablesManifest.deliverables.some((entry) => entry.path === '.bitcode/external-environment-profile.json'));
+  assert.ok(latestRun.deliverablesManifest.deliverables.some((entry) => entry.path === '.bitcode/external-telemetry-summary.json'));
+  assert.ok(latestRun.deliverablesManifest.deliverables.some((entry) => entry.path === '.bitcode/bitcoin-network-intent.json'));
+  assert.ok(latestRun.deliverablesManifest.deliverables.some((entry) => entry.path === '.bitcode/external-realization-proof.json'));
+  assert.ok(latestRun.branchArtifacts.files['.bitcode/external-environment-profile.json']);
+  assert.ok(latestRun.branchArtifacts.files['.bitcode/external-execution-policy.json']);
+  assert.ok(latestRun.branchArtifacts.files['.bitcode/external-telemetry-policy.json']);
+  assert.ok(latestRun.branchArtifacts.files['.bitcode/external-telemetry-summary.json']);
+  assert.ok(latestRun.branchArtifacts.files['.bitcode/network-capability-manifest.json']);
+  assert.ok(latestRun.branchArtifacts.files['.bitcode/github-app-binding.json']);
+  assert.ok(latestRun.branchArtifacts.files['.bitcode/bitcoin-network-intent.json']);
+  assert.ok(latestRun.branchArtifacts.files['.bitcode/bitcoin-network-execution.json']);
+  assert.ok(latestRun.branchArtifacts.files['.bitcode/bitcoin-network-observation.json']);
+  assert.ok(latestRun.branchArtifacts.files['.bitcode/sidechain-execution-receipt.json']);
+  assert.ok(latestRun.branchArtifacts.files['.bitcode/compute-container-manifest.json']);
+  assert.ok(latestRun.branchArtifacts.files['.bitcode/compute-container-execution.json']);
+  assert.ok(latestRun.branchArtifacts.files['.bitcode/storage-container-manifest.json']);
+  assert.ok(latestRun.branchArtifacts.files['.bitcode/storage-publication-receipt.json']);
+  assert.ok(latestRun.branchArtifacts.files['.bitcode/storage-retrieval-receipt.json']);
+  assert.ok(latestRun.branchArtifacts.files['.bitcode/github-live-session.json']);
+  assert.ok(latestRun.branchArtifacts.files['.bitcode/github-inventory-fetch-receipt.json']);
+  assert.ok(latestRun.branchArtifacts.files['.bitcode/github-artifact-fetch-receipt.json']);
+  assert.ok(latestRun.branchArtifacts.files['.bitcode/github-branch-publication-receipt.json']);
+  assert.ok(latestRun.branchArtifacts.files['.bitcode/github-pr-update-receipt.json']);
+  assert.ok(latestRun.branchArtifacts.files['.bitcode/external-realization-proof.json']);
+  assert.ok(latestRun.branchArtifacts.files['.bitcode/container-reality-proof.json']);
+  assert.ok(latestRun.branchArtifacts.files['.bitcode/github-live-interface-proof.json']);
 });
 
 test('context-mode asset pack can admit context-only candidates while patch mode excludes them', () => {
@@ -912,13 +912,13 @@ test('branch artifacts separate identity, GitHub boundary, uploads, and profile 
   const { latestRun } = runMakeBitcodeBranchTest(state, {});
 
   assert.ok(latestRun.evaluatedCandidates[0].ranking.scoreGroups.penaltyMass);
-  assert.ok(latestRun.branchArtifacts.files['.engi/depositing-surface.json']);
-  assert.ok(latestRun.branchArtifacts.files['.engi/needing-surface.json']);
-  assert.ok(latestRun.branchArtifacts.files['.engi/depositing-to-needing-surface.json']);
-  assert.ok(latestRun.branchArtifacts.files['.engi/identity-bindings.json']);
-  assert.ok(latestRun.branchArtifacts.files['.engi/github-boundary.json']);
-  assert.ok(latestRun.branchArtifacts.files['.engi/artifact-upload-manifest.json']);
-  assert.ok(latestRun.branchArtifacts.files['.engi/profile-composition.json']);
+  assert.ok(latestRun.branchArtifacts.files['.bitcode/depositing-surface.json']);
+  assert.ok(latestRun.branchArtifacts.files['.bitcode/needing-surface.json']);
+  assert.ok(latestRun.branchArtifacts.files['.bitcode/depositing-to-needing-surface.json']);
+  assert.ok(latestRun.branchArtifacts.files['.bitcode/identity-bindings.json']);
+  assert.ok(latestRun.branchArtifacts.files['.bitcode/github-boundary.json']);
+  assert.ok(latestRun.branchArtifacts.files['.bitcode/artifact-upload-manifest.json']);
+  assert.ok(latestRun.branchArtifacts.files['.bitcode/profile-composition.json']);
 });
 
 test('latest run exposes depositing, needing, fit, and identity spine surfaces', () => {
@@ -943,12 +943,12 @@ test('runMakeBitcodeBranch produces branch artifacts and exact journal settlemen
   const { nextState, latestRun } = runMakeBitcodeBranchTest(state, {});
 
   assert.equal(latestRun.needLifecycle, 'settled');
-  assert.ok(latestRun.branchArtifacts.files['.engi/need.json']);
-  assert.ok(latestRun.branchArtifacts.files['.engi/depositing-surface.json']);
-  assert.ok(latestRun.branchArtifacts.files['.engi/needing-surface.json']);
-  assert.ok(latestRun.branchArtifacts.files['.engi/depositing-to-needing-surface.json']);
-  assert.ok(latestRun.branchArtifacts.files['.engi/system-proof-bundle.json']);
-  assert.ok(latestRun.branchArtifacts.files['.engi/policy-release.json']);
+  assert.ok(latestRun.branchArtifacts.files['.bitcode/need.json']);
+  assert.ok(latestRun.branchArtifacts.files['.bitcode/depositing-surface.json']);
+  assert.ok(latestRun.branchArtifacts.files['.bitcode/needing-surface.json']);
+  assert.ok(latestRun.branchArtifacts.files['.bitcode/depositing-to-needing-surface.json']);
+  assert.ok(latestRun.branchArtifacts.files['.bitcode/system-proof-bundle.json']);
+  assert.ok(latestRun.branchArtifacts.files['.bitcode/policy-release.json']);
   assert.ok(latestRun.branchArtifacts.files['BITCODE_NEED.md']);
   assert.equal(latestRun.settlementPreview.meteredMicroUnits, METERED_MICRO_UNITS);
   assert.equal(latestRun.journalDiff.invariants.debitsEqualCredits, true);
@@ -999,14 +999,14 @@ test('runMakeBitcodeBranch materializes prompt surfaces, external boundary manif
   assert.ok(latestRun.inferenceMomentContracts.length >= 5);
   assert.ok(latestRun.externalBoundaryManifest.interfaces.length >= 6);
   assert.ok(latestRun.proofContract.evidenceChain.length >= 4);
-  assert.ok(latestRun.branchArtifacts.files['.engi/prompt-family-registry.json']);
-  assert.ok(latestRun.branchArtifacts.files['.engi/prompt-surfaces.json']);
-  assert.ok(latestRun.branchArtifacts.files['.engi/inference-moment-contracts.json']);
-  assert.ok(latestRun.branchArtifacts.files['.engi/inference-proofs.json']);
-  assert.ok(latestRun.branchArtifacts.files['.engi/inference-synthesis-proof.json']);
-  assert.ok(latestRun.branchArtifacts.files['.engi/prompt-implementation-surface.json']);
-  assert.ok(latestRun.branchArtifacts.files['.engi/external-boundary-manifest.json']);
-  assert.ok(latestRun.branchArtifacts.files['.engi/proof-contract.json']);
+  assert.ok(latestRun.branchArtifacts.files['.bitcode/prompt-family-registry.json']);
+  assert.ok(latestRun.branchArtifacts.files['.bitcode/prompt-surfaces.json']);
+  assert.ok(latestRun.branchArtifacts.files['.bitcode/inference-moment-contracts.json']);
+  assert.ok(latestRun.branchArtifacts.files['.bitcode/inference-proofs.json']);
+  assert.ok(latestRun.branchArtifacts.files['.bitcode/inference-synthesis-proof.json']);
+  assert.ok(latestRun.branchArtifacts.files['.bitcode/prompt-implementation-surface.json']);
+  assert.ok(latestRun.branchArtifacts.files['.bitcode/external-boundary-manifest.json']);
+  assert.ok(latestRun.branchArtifacts.files['.bitcode/proof-contract.json']);
 });
 
 test('system proof bundle includes prompt, measurement, verification, materialization, and settlement witnesses', () => {
@@ -1047,49 +1047,49 @@ test('system proof bundle includes prompt, measurement, verification, materializ
   assert.ok(proofFamilies.includes('settlement-source-to-shares'));
   assert.ok(proofFamilies.includes('disclosure-boundary'));
   assert.ok(proofFamilies.includes('proof-contract'));
-  assert.ok(proof.proofWitnessManifest.artifactDigests.some((/** @type {any} */ entry) => entry.path === '.engi/code-analysis-fact-registry.json'));
-  assert.ok(artifactPaths.includes('.engi/prompt-family-registry.json'));
-  assert.ok(artifactPaths.includes('.engi/inference-moment-contracts.json'));
-  assert.ok(artifactPaths.includes('.engi/inference-proofs.json'));
-  assert.ok(artifactPaths.includes('.engi/prompt-surfaces.json'));
-  assert.ok(artifactPaths.includes('.engi/prompt-implementation-surface.json'));
-  assert.ok(artifactPaths.includes('.engi/inference-synthesis-proof.json'));
-  assert.ok(artifactPaths.includes('.engi/asset-pack.lock.json'));
-  assert.ok(artifactPaths.includes('.engi/selected-source-material.json'));
-  assert.ok(artifactPaths.includes('.engi/identity-bindings.json'));
-  assert.ok(artifactPaths.includes('.engi/authorization-decisions.json'));
-  assert.ok(artifactPaths.includes('.engi/sensitive-data-flow.json'));
-  assert.ok(artifactPaths.includes('.engi/verification-decisions-proof.json'));
-  assert.ok(artifactPaths.includes('.engi/selection-and-materialization-proof.json'));
-  assert.ok(artifactPaths.includes('.engi/authorization-and-sensitive-flow-proof.json'));
-  assert.ok(artifactPaths.includes('.engi/settlement-source-to-shares-proof.json'));
-  assert.ok(artifactPaths.includes('.engi/disclosure-boundary-proof.json'));
-  assert.ok(artifactPaths.includes('.engi/proof-contract.json'));
-  assert.ok(proof.verifierEntrypoint.requiredArtifactPaths.includes('.engi/inference-moment-contracts.json'));
-  assert.ok(proof.verifierEntrypoint.requiredArtifactPaths.includes('.engi/proof-contract.json'));
+  assert.ok(proof.proofWitnessManifest.artifactDigests.some((/** @type {any} */ entry) => entry.path === '.bitcode/code-analysis-fact-registry.json'));
+  assert.ok(artifactPaths.includes('.bitcode/prompt-family-registry.json'));
+  assert.ok(artifactPaths.includes('.bitcode/inference-moment-contracts.json'));
+  assert.ok(artifactPaths.includes('.bitcode/inference-proofs.json'));
+  assert.ok(artifactPaths.includes('.bitcode/prompt-surfaces.json'));
+  assert.ok(artifactPaths.includes('.bitcode/prompt-implementation-surface.json'));
+  assert.ok(artifactPaths.includes('.bitcode/inference-synthesis-proof.json'));
+  assert.ok(artifactPaths.includes('.bitcode/asset-pack.lock.json'));
+  assert.ok(artifactPaths.includes('.bitcode/selected-source-material.json'));
+  assert.ok(artifactPaths.includes('.bitcode/identity-bindings.json'));
+  assert.ok(artifactPaths.includes('.bitcode/authorization-decisions.json'));
+  assert.ok(artifactPaths.includes('.bitcode/sensitive-data-flow.json'));
+  assert.ok(artifactPaths.includes('.bitcode/verification-decisions-proof.json'));
+  assert.ok(artifactPaths.includes('.bitcode/selection-and-materialization-proof.json'));
+  assert.ok(artifactPaths.includes('.bitcode/authorization-and-sensitive-flow-proof.json'));
+  assert.ok(artifactPaths.includes('.bitcode/settlement-source-to-shares-proof.json'));
+  assert.ok(artifactPaths.includes('.bitcode/disclosure-boundary-proof.json'));
+  assert.ok(artifactPaths.includes('.bitcode/proof-contract.json'));
+  assert.ok(proof.verifierEntrypoint.requiredArtifactPaths.includes('.bitcode/inference-moment-contracts.json'));
+  assert.ok(proof.verifierEntrypoint.requiredArtifactPaths.includes('.bitcode/proof-contract.json'));
   assert.ok(proof.verifierEntrypoint.proofFamilyReplayCatalog.some((/** @type {any} */ entry) => entry.proofFamily === 'prompt-completeness'));
   assert.equal(proof.proofFamilies.every((/** @type {any} */ entry) => typeof entry.proofArtifactPath === 'string' && entry.proofArtifactPath.endsWith('.json')), true);
   assert.equal(proof.proofFamilies.every((/** @type {any} */ entry) => Array.isArray(entry.memberIds) && entry.memberIds.length >= 1), true);
-  assert.ok(proof.proofWitnessManifest.artifactDigests.some((/** @type {any} */ entry) => entry.path === '.engi/source-to-shares.json'));
-  assert.ok(proof.proofWitnessManifest.artifactDigests.some((/** @type {any} */ entry) => entry.path === '.engi/materialization-proof.json'));
-  assert.ok(proof.proofWitnessManifest.artifactDigests.some((/** @type {any} */ entry) => entry.path === '.engi/static-heuristics-registry.json'));
-  assert.equal(proof.proofWitnessManifest.artifactDigestByPath['.engi/prompt-family-registry.json'].proofFamilies.includes('prompt-completeness'), true);
+  assert.ok(proof.proofWitnessManifest.artifactDigests.some((/** @type {any} */ entry) => entry.path === '.bitcode/source-to-shares.json'));
+  assert.ok(proof.proofWitnessManifest.artifactDigests.some((/** @type {any} */ entry) => entry.path === '.bitcode/materialization-proof.json'));
+  assert.ok(proof.proofWitnessManifest.artifactDigests.some((/** @type {any} */ entry) => entry.path === '.bitcode/static-heuristics-registry.json'));
+  assert.equal(proof.proofWitnessManifest.artifactDigestByPath['.bitcode/prompt-family-registry.json'].proofFamilies.includes('prompt-completeness'), true);
   assert.deepEqual(proof.proofWitnessManifest.proofFamiliesByName['inference-synthesis'].witnessArtifactPaths, [
-    '.engi/inference-moment-contracts.json',
-    '.engi/inference-proofs.json',
-    '.engi/prompt-implementation-surface.json',
-    '.engi/prompt-surfaces.json',
-    '.engi/parsed-completion-envelopes.json',
-    '.engi/inference-synthesis-proof.json'
+    '.bitcode/inference-moment-contracts.json',
+    '.bitcode/inference-proofs.json',
+    '.bitcode/prompt-implementation-surface.json',
+    '.bitcode/prompt-surfaces.json',
+    '.bitcode/parsed-completion-envelopes.json',
+    '.bitcode/inference-synthesis-proof.json'
   ]);
-  assert.ok(artifactPaths.includes('.engi/journal-diff.json'));
+  assert.ok(artifactPaths.includes('.bitcode/journal-diff.json'));
   assert.deepEqual(inferenceSynthesisFamily?.witnessArtifactPaths, [
-    '.engi/inference-moment-contracts.json',
-    '.engi/inference-proofs.json',
-    '.engi/prompt-implementation-surface.json',
-    '.engi/prompt-surfaces.json',
-    '.engi/parsed-completion-envelopes.json',
-    '.engi/inference-synthesis-proof.json'
+    '.bitcode/inference-moment-contracts.json',
+    '.bitcode/inference-proofs.json',
+    '.bitcode/prompt-implementation-surface.json',
+    '.bitcode/prompt-surfaces.json',
+    '.bitcode/parsed-completion-envelopes.json',
+    '.bitcode/inference-synthesis-proof.json'
   ]);
   assert.ok(inferenceSynthesisFamily?.witnessRefs.length >= proof.promptImplementationSurface.inferredOutputs.length);
   assert.ok(proof.sourceToSharesArtifact.sourceContributionEntries.length >= 1);
@@ -1110,30 +1110,30 @@ test('projection principals preserve intended visibility boundaries for the late
 
   assert.notEqual(internal, nextState.latestRun);
   assert.equal(internal.projectionPrincipal, 'internal');
-  assert.ok(internal.branchArtifacts.files['.engi/proof-contract.json']);
-  assert.ok(Object.keys(internal.branchArtifacts.files).some((path) => path.startsWith('.engi/source-material/')));
+  assert.ok(internal.branchArtifacts.files['.bitcode/proof-contract.json']);
+  assert.ok(Object.keys(internal.branchArtifacts.files).some((path) => path.startsWith('.bitcode/source-material/')));
 
   assert.equal(reviewer.projectionPrincipal, 'reviewer');
   assert.ok(reviewer.proofWitnessManifest.proofFamilies.length === 9);
-  assert.ok(reviewer.systemProofBundle.verifierEntrypoint.requiredArtifactPaths.includes('.engi/proof-witness-manifest.json'));
+  assert.ok(reviewer.systemProofBundle.verifierEntrypoint.requiredArtifactPaths.includes('.bitcode/proof-witness-manifest.json'));
   assert.equal(reviewer.authorizationDecisions, undefined);
   assert.equal(reviewer.sourceToSharesArtifact, undefined);
   assert.equal(reviewer.branchArtifacts.files, undefined);
-  assert.equal(reviewer.branchArtifacts.visibleFileInventory.some((/** @type {string} */ path) => path.startsWith('.engi/source-material/')), false);
-  assert.ok(reviewer.branchArtifacts.visibleFileInventory.includes('.engi/proof-contract.json'));
+  assert.equal(reviewer.branchArtifacts.visibleFileInventory.some((/** @type {string} */ path) => path.startsWith('.bitcode/source-material/')), false);
+  assert.ok(reviewer.branchArtifacts.visibleFileInventory.includes('.bitcode/proof-contract.json'));
 
   assert.equal(buyer.projectionPrincipal, 'buyer');
   assert.ok(buyer.authorizationDecisions.length >= 1);
   assert.equal(buyer.branchArtifacts.files, undefined);
-  assert.equal(buyer.branchArtifacts.visibleFileInventory.some((/** @type {string} */ path) => path.startsWith('.engi/source-material/')), false);
+  assert.equal(buyer.branchArtifacts.visibleFileInventory.some((/** @type {string} */ path) => path.startsWith('.bitcode/source-material/')), false);
 
   assert.equal(projectedPublic.projectionPrincipal, 'public');
   assert.equal(projectedPublic.proofWitnessManifest, undefined);
   assert.equal(projectedPublic.systemProofBundle, undefined);
-  assert.ok(projectedPublic.publicArtifacts['.engi/bounded-public-proof.json']);
-  assert.ok(projectedPublic.publicArtifacts['.engi/match-report.json']);
-  assert.equal('.engi/proof-contract.json' in projectedPublic.publicArtifacts, false);
-  assert.equal(Object.keys(projectedPublic.branchArtifacts.publicFiles).some((/** @type {string} */ path) => path.startsWith('.engi/source-material/')), false);
+  assert.ok(projectedPublic.publicArtifacts['.bitcode/bounded-public-proof.json']);
+  assert.ok(projectedPublic.publicArtifacts['.bitcode/match-report.json']);
+  assert.equal('.bitcode/proof-contract.json' in projectedPublic.publicArtifacts, false);
+  assert.equal(Object.keys(projectedPublic.branchArtifacts.publicFiles).some((/** @type {string} */ path) => path.startsWith('.bitcode/source-material/')), false);
 });
 
 test('projection policy public artifact paths match surfaced public artifacts and public files exactly', () => {
@@ -1202,7 +1202,7 @@ test('system proof bundle replay catalog closes over proof families, witness pat
 
     for (const artifactPath of proofFamily.witnessArtifactPaths) {
       assert.ok(branchArtifactPaths.has(artifactPath));
-      if (artifactPath !== '.engi/system-proof-bundle.json' && artifactPath !== '.engi/proof-witness-manifest.json') {
+      if (artifactPath !== '.bitcode/system-proof-bundle.json' && artifactPath !== '.bitcode/proof-witness-manifest.json') {
         assert.ok(latestRun.proofWitnessManifest.artifactDigestByPath[artifactPath]);
       }
     }
@@ -1262,26 +1262,26 @@ test('policy release artifact classes cover verification, authz, and sensitive-d
   const { latestRun } = runMakeBitcodeBranchTest(state, {});
   const artifactPaths = latestRun.policyRelease.artifactClasses.map((entry) => entry.path);
 
-  assert.ok(artifactPaths.includes('.engi/verification-report.json'));
-  assert.ok(artifactPaths.includes('.engi/verification-receipts.json'));
-  assert.ok(artifactPaths.includes('.engi/authorization-decisions.json'));
-  assert.ok(artifactPaths.includes('.engi/sensitive-data-flow.json'));
-  assert.ok(artifactPaths.includes('.engi/code-analysis-fact-registry.json'));
-  assert.ok(artifactPaths.includes('.engi/static-heuristics-registry.json'));
-  assert.ok(artifactPaths.includes('.engi/materialization-proof.json'));
-  assert.ok(artifactPaths.includes('.engi/materialization-exclusions.json'));
-  assert.ok(artifactPaths.includes('.engi/static-measurement-proof.json'));
-  assert.ok(artifactPaths.includes('.engi/prompt-family-registry.json'));
-  assert.ok(artifactPaths.includes('.engi/inference-moment-contracts.json'));
-  assert.ok(artifactPaths.includes('.engi/inference-proofs.json'));
-  assert.ok(artifactPaths.includes('.engi/prompt-implementation-surface.json'));
-  assert.ok(artifactPaths.includes('.engi/inference-synthesis-proof.json'));
-  assert.ok(artifactPaths.includes('.engi/verification-decisions-proof.json'));
-  assert.ok(artifactPaths.includes('.engi/selection-and-materialization-proof.json'));
-  assert.ok(artifactPaths.includes('.engi/authorization-and-sensitive-flow-proof.json'));
-  assert.ok(artifactPaths.includes('.engi/settlement-source-to-shares-proof.json'));
-  assert.ok(artifactPaths.includes('.engi/disclosure-boundary-proof.json'));
-  assert.ok(artifactPaths.includes('.engi/proof-contract.json'));
+  assert.ok(artifactPaths.includes('.bitcode/verification-report.json'));
+  assert.ok(artifactPaths.includes('.bitcode/verification-receipts.json'));
+  assert.ok(artifactPaths.includes('.bitcode/authorization-decisions.json'));
+  assert.ok(artifactPaths.includes('.bitcode/sensitive-data-flow.json'));
+  assert.ok(artifactPaths.includes('.bitcode/code-analysis-fact-registry.json'));
+  assert.ok(artifactPaths.includes('.bitcode/static-heuristics-registry.json'));
+  assert.ok(artifactPaths.includes('.bitcode/materialization-proof.json'));
+  assert.ok(artifactPaths.includes('.bitcode/materialization-exclusions.json'));
+  assert.ok(artifactPaths.includes('.bitcode/static-measurement-proof.json'));
+  assert.ok(artifactPaths.includes('.bitcode/prompt-family-registry.json'));
+  assert.ok(artifactPaths.includes('.bitcode/inference-moment-contracts.json'));
+  assert.ok(artifactPaths.includes('.bitcode/inference-proofs.json'));
+  assert.ok(artifactPaths.includes('.bitcode/prompt-implementation-surface.json'));
+  assert.ok(artifactPaths.includes('.bitcode/inference-synthesis-proof.json'));
+  assert.ok(artifactPaths.includes('.bitcode/verification-decisions-proof.json'));
+  assert.ok(artifactPaths.includes('.bitcode/selection-and-materialization-proof.json'));
+  assert.ok(artifactPaths.includes('.bitcode/authorization-and-sensitive-flow-proof.json'));
+  assert.ok(artifactPaths.includes('.bitcode/settlement-source-to-shares-proof.json'));
+  assert.ok(artifactPaths.includes('.bitcode/disclosure-boundary-proof.json'));
+  assert.ok(artifactPaths.includes('.bitcode/proof-contract.json'));
 });
 
 test('eval manifest codifies evaluator interfaces and stand-in boundaries', () => {
@@ -1311,7 +1311,7 @@ test('sensitive data flow records cover all required V8 data classes', () => {
 test('branch artifacts materialize selected source material only with unit hashes bound', () => {
   const state = buildInitialStateTest();
   const { latestRun } = runMakeBitcodeBranchTest(state, {});
-  const materializedPaths = Object.keys(latestRun.branchArtifacts.files).filter((file) => file.startsWith('.engi/source-material/'));
+  const materializedPaths = Object.keys(latestRun.branchArtifacts.files).filter((file) => file.startsWith('.bitcode/source-material/'));
 
   assert.equal(materializedPaths.length, latestRun.assetPack.selectedAssets.length);
   for (const assetId of latestRun.assetPack.selectedAssets) {
@@ -1401,8 +1401,8 @@ test('telemetry artifacts explain the pipeline and prompt implementation surface
   assert.ok(latestRun.pipelineTelemetry.events.some((event) => event.stage === 'settlement-and-shares'));
   assert.ok(latestRun.unitCatalog.units.length >= latestRun.assetPack.selectedAssets.length);
   assert.ok(latestRun.systemProofBundle.promptImplementationSurface.inferredOutputs.length >= 1);
-  assert.ok(latestRun.branchArtifacts.files['.engi/pipeline-telemetry.json']);
-  assert.ok(latestRun.branchArtifacts.files['.engi/unit-catalog.json']);
+  assert.ok(latestRun.branchArtifacts.files['.bitcode/pipeline-telemetry.json']);
+  assert.ok(latestRun.branchArtifacts.files['.bitcode/unit-catalog.json']);
 });
 
 test('BITCODE_NEED markdown includes parser contract, conformance profiles, and settlement preview summary', () => {
@@ -1428,15 +1428,15 @@ test('publicState returns public projection including bounded public proof and p
   assert.ok(projected.latestRun.assetPack.assetPackId);
   assert.equal(projected.latestRun.projectionPrincipal, 'public');
   assert.ok(projected.latestRun.boundedPublicProof.bundleId);
-  assert.ok(projected.latestRun.publicArtifacts['.engi/code-analysis-fact-registry.json']);
-  assert.ok(projected.latestRun.publicArtifacts['.engi/static-heuristics-registry.json']);
-  assert.ok(projected.latestRun.publicArtifacts['.engi/materialization-proof.json']);
-  assert.ok(projected.latestRun.publicArtifacts['.engi/materialization-visibility-proof.json']);
-  assert.ok(projected.latestRun.publicArtifacts['.engi/scenario-fixture-manifest.json']);
-  assert.ok(projected.latestRun.publicArtifacts['.engi/test-coverage-report.json']);
-  assert.ok(projected.latestRun.publicArtifacts['.engi/needing-surface.json']);
-  assert.ok(projected.latestRun.publicArtifacts['.engi/depositing-to-needing-surface.json']);
-  assert.ok(projected.latestRun.publicArtifacts['.engi/redaction-proof.json']);
+  assert.ok(projected.latestRun.publicArtifacts['.bitcode/code-analysis-fact-registry.json']);
+  assert.ok(projected.latestRun.publicArtifacts['.bitcode/static-heuristics-registry.json']);
+  assert.ok(projected.latestRun.publicArtifacts['.bitcode/materialization-proof.json']);
+  assert.ok(projected.latestRun.publicArtifacts['.bitcode/materialization-visibility-proof.json']);
+  assert.ok(projected.latestRun.publicArtifacts['.bitcode/scenario-fixture-manifest.json']);
+  assert.ok(projected.latestRun.publicArtifacts['.bitcode/test-coverage-report.json']);
+  assert.ok(projected.latestRun.publicArtifacts['.bitcode/needing-surface.json']);
+  assert.ok(projected.latestRun.publicArtifacts['.bitcode/depositing-to-needing-surface.json']);
+  assert.ok(projected.latestRun.publicArtifacts['.bitcode/redaction-proof.json']);
   assert.ok(projected.latestRun.repoToSettlementSurface.stages.length === 7);
   assert.deepEqual(
     projected.latestRun.repoToSettlementSurface.stages.slice(0, 3).map((/** @type {any} */ stage) => stage.stageId),
@@ -1505,22 +1505,22 @@ test('deliverables manifest and journal receipts remain internally consistent', 
   const state = buildInitialStateTest();
   const { latestRun } = runMakeBitcodeBranchTest(state, {});
 
-  assert.ok(latestRun.deliverablesManifest.deliverables.some((entry) => entry.path === '.engi/need-measurement.json'));
-  assert.ok(latestRun.deliverablesManifest.deliverables.some((entry) => entry.path === '.engi/eval-manifest.json'));
-  assert.ok(latestRun.deliverablesManifest.deliverables.some((entry) => entry.path === '.engi/settlement-proof.json'));
-  assert.ok(latestRun.deliverablesManifest.deliverables.some((entry) => entry.path === '.engi/journal-diff.json'));
-  assert.ok(latestRun.deliverablesManifest.deliverables.some((entry) => entry.path === '.engi/authorization-decisions.json'));
-  assert.ok(latestRun.deliverablesManifest.deliverables.some((entry) => entry.path === '.engi/sensitive-data-flow.json'));
-  assert.ok(latestRun.deliverablesManifest.deliverables.some((entry) => entry.path === '.engi/proof-witness-manifest.json'));
-  assert.ok(latestRun.deliverablesManifest.deliverables.some((entry) => entry.path === '.engi/static-heuristics-registry.json'));
-  assert.ok(latestRun.deliverablesManifest.deliverables.some((entry) => entry.path === '.engi/prompt-family-registry.json'));
-  assert.ok(latestRun.deliverablesManifest.deliverables.some((entry) => entry.path === '.engi/inference-moment-contracts.json'));
-  assert.ok(latestRun.deliverablesManifest.deliverables.some((entry) => entry.path === '.engi/inference-proofs.json'));
-  assert.ok(latestRun.deliverablesManifest.deliverables.some((entry) => entry.path === '.engi/prompt-implementation-surface.json'));
-  assert.ok(latestRun.deliverablesManifest.deliverables.some((entry) => entry.path === '.engi/materialization-proof.json'));
-  assert.ok(latestRun.deliverablesManifest.deliverables.some((entry) => entry.path === '.engi/materialization-exclusions.json'));
-  assert.ok(latestRun.deliverablesManifest.deliverables.some((entry) => entry.path === '.engi/deliverables.json'));
-  assert.ok(latestRun.branchArtifacts.files['.engi/deliverables.json']);
+  assert.ok(latestRun.deliverablesManifest.deliverables.some((entry) => entry.path === '.bitcode/need-measurement.json'));
+  assert.ok(latestRun.deliverablesManifest.deliverables.some((entry) => entry.path === '.bitcode/eval-manifest.json'));
+  assert.ok(latestRun.deliverablesManifest.deliverables.some((entry) => entry.path === '.bitcode/settlement-proof.json'));
+  assert.ok(latestRun.deliverablesManifest.deliverables.some((entry) => entry.path === '.bitcode/journal-diff.json'));
+  assert.ok(latestRun.deliverablesManifest.deliverables.some((entry) => entry.path === '.bitcode/authorization-decisions.json'));
+  assert.ok(latestRun.deliverablesManifest.deliverables.some((entry) => entry.path === '.bitcode/sensitive-data-flow.json'));
+  assert.ok(latestRun.deliverablesManifest.deliverables.some((entry) => entry.path === '.bitcode/proof-witness-manifest.json'));
+  assert.ok(latestRun.deliverablesManifest.deliverables.some((entry) => entry.path === '.bitcode/static-heuristics-registry.json'));
+  assert.ok(latestRun.deliverablesManifest.deliverables.some((entry) => entry.path === '.bitcode/prompt-family-registry.json'));
+  assert.ok(latestRun.deliverablesManifest.deliverables.some((entry) => entry.path === '.bitcode/inference-moment-contracts.json'));
+  assert.ok(latestRun.deliverablesManifest.deliverables.some((entry) => entry.path === '.bitcode/inference-proofs.json'));
+  assert.ok(latestRun.deliverablesManifest.deliverables.some((entry) => entry.path === '.bitcode/prompt-implementation-surface.json'));
+  assert.ok(latestRun.deliverablesManifest.deliverables.some((entry) => entry.path === '.bitcode/materialization-proof.json'));
+  assert.ok(latestRun.deliverablesManifest.deliverables.some((entry) => entry.path === '.bitcode/materialization-exclusions.json'));
+  assert.ok(latestRun.deliverablesManifest.deliverables.some((entry) => entry.path === '.bitcode/deliverables.json'));
+  assert.ok(latestRun.branchArtifacts.files['.bitcode/deliverables.json']);
   assert.equal(latestRun.journalDiff.receipts.length, 2);
   assert.ok(latestRun.journalDiff.credits.every((entry) => entry.unitRefs.length > 0));
   assert.equal(latestRun.systemProofBundle.settlementProof.theoremChecks.stateRootIntegrity, true);

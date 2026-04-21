@@ -36,12 +36,12 @@ def summarize(path: Path, payload: dict):
 
 def main():
     parser = argparse.ArgumentParser(
-        description="Capture compact V12 shell sanity telemetry from the ENGI demo."
+        description="Capture compact V12 shell sanity telemetry from the Bitcode protocol demonstration."
     )
     parser.add_argument(
         "--base-url",
         default="http://127.0.0.1:4318",
-        help="Base ENGI demo URL (default: http://127.0.0.1:4318)",
+        help="Base Bitcode protocol demonstration URL (default: http://127.0.0.1:4318)",
     )
     parser.add_argument(
         "--out-dir",
@@ -63,7 +63,7 @@ def main():
         public_payload = fetch_json(public_url)
         buyer_payload = fetch_json(buyer_url)
     except urllib.error.URLError as exc:
-        print(f"ERROR: failed to fetch ENGI demo state from {args.base_url}: {exc}", file=sys.stderr)
+        print(f"ERROR: failed to fetch Bitcode protocol demonstration state from {args.base_url}: {exc}", file=sys.stderr)
         return 1
 
     public_path = out_dir / f"state-public-{args.suffix}.json"

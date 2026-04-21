@@ -84,15 +84,15 @@ What should be visible after the run:
 
 - [ ] Confirm an `assetPackId` is generated
 - [ ] Confirm branch artifacts include at least:
-  - [ ] `.engi/need.json`
-  - [ ] `.engi/verification-report.json`
-  - [ ] `.engi/asset-pack.lock.json`
-  - [ ] `.engi/authorization-decisions.json`
-  - [ ] `.engi/sensitive-data-flow.json`
-  - [ ] `.engi/policy-release.json`
-  - [ ] `.engi/unit-catalog.json`
-  - [ ] `.engi/pipeline-telemetry.json`
-  - [ ] `.engi/system-proof-bundle.json`
+  - [ ] `.bitcode/need.json`
+  - [ ] `.bitcode/verification-report.json`
+  - [ ] `.bitcode/asset-pack.lock.json`
+  - [ ] `.bitcode/authorization-decisions.json`
+  - [ ] `.bitcode/sensitive-data-flow.json`
+  - [ ] `.bitcode/policy-release.json`
+  - [ ] `.bitcode/unit-catalog.json`
+  - [ ] `.bitcode/pipeline-telemetry.json`
+  - [ ] `.bitcode/system-proof-bundle.json`
   - [ ] `BITCODE_NEED.md`
 
 ### E. Settlement / proof closure

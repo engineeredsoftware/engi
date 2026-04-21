@@ -15,12 +15,12 @@ export const V20_PROJECTION_QUALITY_SMOKE_MATRIX_ID = 'v20-projection-quality-sm
 export const V20_QUALITY_SUMMARY_REPORT_ID = 'v20-quality-summary';
 
 export const V20_ARTIFACT_PATHS = {
-  operatorAcceptanceTranscript: '.engi/v20-operator-acceptance-transcript.json',
-  visualRegressionReport: '.engi/v20-visual-regression-report.json',
-  accessibilityReport: '.engi/v20-accessibility-report.json',
-  performanceBudgetReport: '.engi/v20-performance-budget-report.json',
-  projectionQualitySmokeMatrix: '.engi/v20-projection-quality-smoke-matrix.json',
-  qualitySummary: '.engi/v20-quality-summary.json'
+  operatorAcceptanceTranscript: '.bitcode/v20-operator-acceptance-transcript.json',
+  visualRegressionReport: '.bitcode/v20-visual-regression-report.json',
+  accessibilityReport: '.bitcode/v20-accessibility-report.json',
+  performanceBudgetReport: '.bitcode/v20-performance-budget-report.json',
+  projectionQualitySmokeMatrix: '.bitcode/v20-projection-quality-smoke-matrix.json',
+  qualitySummary: '.bitcode/v20-quality-summary.json'
 };
 
 export const V20_PROJECTION_PRINCIPALS = ['public', 'reviewer', 'buyer', 'internal'];

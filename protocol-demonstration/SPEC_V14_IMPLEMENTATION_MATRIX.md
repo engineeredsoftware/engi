@@ -62,7 +62,7 @@ That means the right outcome for this pass is:
 
 The repo already preserves several earlier V14-oriented parity tightenings in source:
 1. Branch artifact completeness was tightened:
-   - `buildDeliverablesManifest(...)` enumerates additional emitted `.engi/*` artifacts
+   - `buildDeliverablesManifest(...)` enumerates additional emitted `.bitcode/*` artifacts
    - `assertRequiredBranchArtifacts(...)` checks the expanded artifact contract
 2. Canonical test coverage reporting was tightened:
    - `buildTestCoverageReport(...)` explicitly records unit, API, and browser e2e suite coverage

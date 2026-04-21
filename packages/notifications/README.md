@@ -1,6 +1,6 @@
 # @bitcode/notifications
 
-Event-driven notification system for ENGI platform. Provides email delivery, event processing, and background worker management with automatic startup.
+Event-driven notification system for the Bitcode platform. Provides email delivery, event processing, and background worker management with automatic startup.
 
 ## Core Components
 
@@ -25,11 +25,11 @@ import { sendEmail } from '@bitcode/notifications';
 // Send templated email
 await sendEmail({
   to: 'user@example.com',
-  subject: 'Welcome to ENGI',
+  subject: 'Welcome to Bitcode',
   template: 'welcome',
   vars: {
     userName: 'John Doe',
-    activationLink: 'https://app.engi.com/activate/...'
+    activationLink: 'https://app.bitcode.ai/activate/...'
   }
 });
 ```

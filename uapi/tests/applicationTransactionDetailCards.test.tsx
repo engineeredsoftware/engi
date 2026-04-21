@@ -59,7 +59,7 @@ describe('application transaction detail cards', () => {
           proofFamilies={[
             {
               label: 'selection-materialization',
-              artifactPath: '.engi/selection-and-materialization-proof.json',
+              artifactPath: '.bitcode/selection-and-materialization-proof.json',
               theoremStatus: 'passed',
               replayArtifacts: '3',
             },
@@ -68,7 +68,7 @@ describe('application transaction detail cards', () => {
             proofFamilies: [
               {
                 label: 'selection-materialization',
-                artifactPath: '.engi/selection-and-materialization-proof.json',
+                artifactPath: '.bitcode/selection-and-materialization-proof.json',
               },
             ],
           }}

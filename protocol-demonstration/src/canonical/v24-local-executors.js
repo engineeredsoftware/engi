@@ -126,8 +126,8 @@ function bitcoinMainchainExecutor(payload) {
   const telemetry = buildTelemetry(payload, {
     reconciliationState: 'live-mainchain-reconciled',
     affectedArtifactRefs: [
-      '.engi/bitcoin-network-execution.json',
-      '.engi/bitcoin-network-observation.json'
+      '.bitcode/bitcoin-network-execution.json',
+      '.bitcode/bitcoin-network-observation.json'
     ]
   });
   const networkRef = settlementObservation.networkRef || execution.networkRef || `btc://${binding.network || 'bitcoin-testnet4'}/${shortId(payload.bundleId || payload.needId || 'default', 16)}`;
@@ -209,9 +209,9 @@ function repeatedReadPaymentExecutor(payload) {
   const telemetry = buildTelemetry(payload, {
     reconciliationState: 'live-repeated-read-reconciled',
     affectedArtifactRefs: [
-      '.engi/repeated-read-payment-intent.json',
-      '.engi/repeated-read-payment-execution.json',
-      '.engi/repeated-read-payment-observation.json'
+      '.bitcode/repeated-read-payment-intent.json',
+      '.bitcode/repeated-read-payment-execution.json',
+      '.bitcode/repeated-read-payment-observation.json'
     ]
   });
   return {
@@ -293,7 +293,7 @@ function sidechainExecutor(payload) {
   const binding = ensureRecord(payload.binding);
   const telemetry = buildTelemetry(payload, {
     reconciliationState: 'live-sidechain-reconciled',
-    affectedArtifactRefs: ['.engi/sidechain-execution-receipt.json']
+    affectedArtifactRefs: ['.bitcode/sidechain-execution-receipt.json']
   });
   return {
     interfaceId: String(payload.interfaceId || 'sidechain-execution'),
@@ -330,7 +330,7 @@ function computeExecutor(payload) {
   const manifest = ensureRecord(ensureRecord(payload.supportArtifacts).computeContainerManifest);
   const telemetry = buildTelemetry(payload, {
     reconciliationState: 'live-container-reconciled',
-    affectedArtifactRefs: ['.engi/compute-container-execution.json']
+    affectedArtifactRefs: ['.bitcode/compute-container-execution.json']
   });
   return {
     interfaceId: String(payload.interfaceId || 'compute-container-execution'),
@@ -370,8 +370,8 @@ function storageExecutor(payload) {
   const telemetry = buildTelemetry(payload, {
     reconciliationState: 'live-storage-reconciled',
     affectedArtifactRefs: [
-      '.engi/storage-publication-receipt.json',
-      '.engi/storage-retrieval-receipt.json'
+      '.bitcode/storage-publication-receipt.json',
+      '.bitcode/storage-retrieval-receipt.json'
     ]
   });
   return {
@@ -428,11 +428,11 @@ function githubExecutor(payload) {
   const telemetry = buildTelemetry(payload, {
     reconciliationState: 'live-github-reconciled',
     affectedArtifactRefs: [
-      '.engi/github-live-session.json',
-      '.engi/github-inventory-fetch-receipt.json',
-      '.engi/github-artifact-fetch-receipt.json',
-      '.engi/github-branch-publication-receipt.json',
-      '.engi/github-pr-update-receipt.json'
+      '.bitcode/github-live-session.json',
+      '.bitcode/github-inventory-fetch-receipt.json',
+      '.bitcode/github-artifact-fetch-receipt.json',
+      '.bitcode/github-branch-publication-receipt.json',
+      '.bitcode/github-pr-update-receipt.json'
     ]
   });
   const sessionId = priorSession.sessionId || `session_${shortId(`${payload.branchName || 'branch'}:${payload.bundleId || 'bundle'}`, 16)}`;

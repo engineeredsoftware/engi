@@ -30,41 +30,41 @@ const V24_ACTIVE_BINDING_KEY_BY_INTERFACE = {
 };
 
 const V24_BRANCH_ARTIFACT_PATH_BY_KEY = {
-  externalEnvironmentProfile: '.engi/external-environment-profile.json',
-  externalTelemetrySummary: '.engi/external-telemetry-summary.json',
-  externalExecutionLedger: '.engi/external-execution-ledger.json',
-  externalReconciliationLog: '.engi/external-reconciliation-log.json',
-  bitcoinNetworkIntent: '.engi/bitcoin-network-intent.json',
-  bitcoinNetworkExecution: '.engi/bitcoin-network-execution.json',
-  bitcoinNetworkObservation: '.engi/bitcoin-network-observation.json',
-  repeatedReadPaymentIntent: '.engi/repeated-read-payment-intent.json',
-  repeatedReadPaymentExecution: '.engi/repeated-read-payment-execution.json',
-  repeatedReadPaymentObservation: '.engi/repeated-read-payment-observation.json',
-  sidechainExecutionReceipt: '.engi/sidechain-execution-receipt.json',
-  computeContainerManifest: '.engi/compute-container-manifest.json',
-  computeContainerExecution: '.engi/compute-container-execution.json',
-  storageContainerManifest: '.engi/storage-container-manifest.json',
-  storagePublicationReceipt: '.engi/storage-publication-receipt.json',
-  storageRetrievalReceipt: '.engi/storage-retrieval-receipt.json',
-  githubAppBinding: '.engi/github-app-binding.json',
-  githubLiveSession: '.engi/github-live-session.json',
-  githubInventoryFetchReceipt: '.engi/github-inventory-fetch-receipt.json',
-  githubArtifactFetchReceipt: '.engi/github-artifact-fetch-receipt.json',
-  githubBranchPublicationReceipt: '.engi/github-branch-publication-receipt.json',
-  githubPrUpdateReceipt: '.engi/github-pr-update-receipt.json',
-  externalBoundaryManifest: '.engi/external-boundary-manifest.json',
-  deliverablesManifest: '.engi/deliverables.json',
-  systemProofBundle: '.engi/system-proof-bundle.json',
-  proofWitnessManifest: '.engi/proof-witness-manifest.json',
-  proofContract: '.engi/proof-contract.json',
-  externalRealizationProof: '.engi/external-realization-proof.json',
-  containerRealityProof: '.engi/container-reality-proof.json',
-  githubLiveInterfaceProof: '.engi/github-live-interface-proof.json'
+  externalEnvironmentProfile: '.bitcode/external-environment-profile.json',
+  externalTelemetrySummary: '.bitcode/external-telemetry-summary.json',
+  externalExecutionLedger: '.bitcode/external-execution-ledger.json',
+  externalReconciliationLog: '.bitcode/external-reconciliation-log.json',
+  bitcoinNetworkIntent: '.bitcode/bitcoin-network-intent.json',
+  bitcoinNetworkExecution: '.bitcode/bitcoin-network-execution.json',
+  bitcoinNetworkObservation: '.bitcode/bitcoin-network-observation.json',
+  repeatedReadPaymentIntent: '.bitcode/repeated-read-payment-intent.json',
+  repeatedReadPaymentExecution: '.bitcode/repeated-read-payment-execution.json',
+  repeatedReadPaymentObservation: '.bitcode/repeated-read-payment-observation.json',
+  sidechainExecutionReceipt: '.bitcode/sidechain-execution-receipt.json',
+  computeContainerManifest: '.bitcode/compute-container-manifest.json',
+  computeContainerExecution: '.bitcode/compute-container-execution.json',
+  storageContainerManifest: '.bitcode/storage-container-manifest.json',
+  storagePublicationReceipt: '.bitcode/storage-publication-receipt.json',
+  storageRetrievalReceipt: '.bitcode/storage-retrieval-receipt.json',
+  githubAppBinding: '.bitcode/github-app-binding.json',
+  githubLiveSession: '.bitcode/github-live-session.json',
+  githubInventoryFetchReceipt: '.bitcode/github-inventory-fetch-receipt.json',
+  githubArtifactFetchReceipt: '.bitcode/github-artifact-fetch-receipt.json',
+  githubBranchPublicationReceipt: '.bitcode/github-branch-publication-receipt.json',
+  githubPrUpdateReceipt: '.bitcode/github-pr-update-receipt.json',
+  externalBoundaryManifest: '.bitcode/external-boundary-manifest.json',
+  deliverablesManifest: '.bitcode/deliverables.json',
+  systemProofBundle: '.bitcode/system-proof-bundle.json',
+  proofWitnessManifest: '.bitcode/proof-witness-manifest.json',
+  proofContract: '.bitcode/proof-contract.json',
+  externalRealizationProof: '.bitcode/external-realization-proof.json',
+  containerRealityProof: '.bitcode/container-reality-proof.json',
+  githubLiveInterfaceProof: '.bitcode/github-live-interface-proof.json'
 };
 
 const V24_RECONCILIATION_ARTIFACT_PATHS = [
-  '.engi/external-execution-ledger.json',
-  '.engi/external-reconciliation-log.json'
+  '.bitcode/external-execution-ledger.json',
+  '.bitcode/external-reconciliation-log.json'
 ];
 
 const V24_SUPPORT_ARTIFACT_KEYS_BY_INTERFACE = {
@@ -585,7 +585,7 @@ function augmentV24DeliverablesManifest(latestRun) {
   const requiredEntries = [
     latestRun.externalExecutionLedger
       ? {
-          path: '.engi/external-execution-ledger.json',
+          path: '.bitcode/external-execution-ledger.json',
           useTiersContributed: ['settlement-eligible'],
           confidentialityClass: 'private-proof-artifact',
           potentiallyDisclosable: false,
@@ -594,7 +594,7 @@ function augmentV24DeliverablesManifest(latestRun) {
       : null,
     latestRun.externalReconciliationLog
       ? {
-          path: '.engi/external-reconciliation-log.json',
+          path: '.bitcode/external-reconciliation-log.json',
           useTiersContributed: ['settlement-eligible'],
           confidentialityClass: 'private-proof-artifact',
           potentiallyDisclosable: false,
@@ -666,7 +666,7 @@ function parsedBranchArtifact(latestRun, artifactPath) {
  * @returns {Record<string, any>}
  */
 function buildProofWitnessManifestForLatestRun(latestRun) {
-  const settlementProof = latestRun.settlementProof || parsedBranchArtifact(latestRun, '.engi/settlement-proof.json');
+  const settlementProof = latestRun.settlementProof || parsedBranchArtifact(latestRun, '.bitcode/settlement-proof.json');
   return buildProofWitnessManifest({
     inferenceProofs: latestRun.inferenceProofs,
     inferenceSynthesisProof: latestRun.inferenceSynthesisProof,
@@ -740,7 +740,7 @@ function buildProofWitnessManifestForLatestRun(latestRun) {
  * @returns {Record<string, any>}
  */
 function buildSystemProofBundleForLatestRun(latestRun) {
-  const settlementProof = latestRun.settlementProof || parsedBranchArtifact(latestRun, '.engi/settlement-proof.json');
+  const settlementProof = latestRun.settlementProof || parsedBranchArtifact(latestRun, '.bitcode/settlement-proof.json');
   return buildSystemProofBundle(
     latestRun.need?.needId,
     latestRun.assetPack?.assetPackId,
