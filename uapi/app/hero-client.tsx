@@ -32,8 +32,6 @@ function HeroClientInner() {
   const searchParams = useSearchParams();
   const code = searchParams?.get('code') ?? '';
   const connectionId = searchParams?.get('connection_id') ?? '';
-  const successSessionId = searchParams?.get('successful_checkout_session_id');
-
   const [user, setUser] = useState(null);
   useEffect(() => {
     // Defer Supabase initialisation until the browser is idle so we don't

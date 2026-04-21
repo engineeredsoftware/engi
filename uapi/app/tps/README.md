@@ -12,5 +12,4 @@ Examples
 - `/tps/twilio/sms/[runId]` – SMS run viewer
 
 Transition policy
-- Legacy callback pages (`/login/callback`, `/checkout/callback`, `/github/callback`, `/sms/view/[runId]`) permanently redirect (308) to the new `/tps/...` routes.
-
+- Legacy callback pages (`/login/callback`, `/github/callback`, `/sms/view/[runId]`) permanently redirect (308) to the new `/tps/...` routes.

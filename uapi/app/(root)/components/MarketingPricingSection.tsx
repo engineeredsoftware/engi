@@ -34,27 +34,25 @@ const MarketingPricingSection: React.FC = () => {
    * BTD amount and keep everything – price field, slider, etc – in sync.
    */
 
-  const FLEXIBLE_PRICE_PER_CREDIT = 0.25;
-  const INDUSTRIAL_PRICE_PER_CREDIT = 0.22;
+  const FLEXIBLE_PRICE_PER_BTD = 0.25;
+  const INDUSTRIAL_PRICE_PER_BTD = 0.22;
 
   /* ------------------------------------------------------------------
    * Pricing / slider math helpers
    * ------------------------------------------------------------------ */
   const MAX_TOTAL_USD = 10_000;
-  // BTD where Flexible pricing hits exactly $10k
-  const FLEXIBLE_MAX_CREDITS = Math.floor(MAX_TOTAL_USD / FLEXIBLE_PRICE_PER_CREDIT); // 40 000
   // Industrial bundle size that also maps to ~$10k
-  const INDUSTRIAL_CREDITS = Math.floor(MAX_TOTAL_USD / INDUSTRIAL_PRICE_PER_CREDIT); // 45 454
+  const INDUSTRIAL_CREDITS = Math.floor(MAX_TOTAL_USD / INDUSTRIAL_PRICE_PER_BTD); // 45 454
 
   // Slider directly controls spend USD (0 – 10 000)
   const [spendUSD, setSpendUSD] = useState<number>(5_000);
 
   const isIndustrialTier = spendUSD === MAX_TOTAL_USD;
 
-  const perBtdCost = isIndustrialTier ? INDUSTRIAL_PRICE_PER_CREDIT : FLEXIBLE_PRICE_PER_CREDIT;
-  // Purchase flow state
-  const [purchasingPlan, setPurchasingPlan] = useState<string | null>(null);
-  const [purchaseError, setPurchaseError] = useState<string | null>(null);
+  const perBtdCost = isIndustrialTier ? INDUSTRIAL_PRICE_PER_BTD : FLEXIBLE_PRICE_PER_BTD;
+  // Acquisition flow state
+  const [activatingPlan, setActivatingPlan] = useState<string | null>(null);
+  const [acquisitionError, setAcquisitionError] = useState<string | null>(null);
   // Track authentication state
   const [isSignedIn, setIsSignedIn] = useState<boolean>(false);
 
@@ -76,47 +74,45 @@ const MarketingPricingSection: React.FC = () => {
     };
   }, [supabase]);
 
-  const handlePurchase = async (planId: string, btdAmount: number, price: number) => {
-    // Initialize purchase, clear errors, set loading
-    setPurchaseError(null);
-    setPurchasingPlan(planId);
+  const handleAcquireBtd = async (planId: string, btdAmount: number, usdAmount: number) => {
+    // Initialize acquisition, clear errors, set loading
+    setAcquisitionError(null);
+    setActivatingPlan(planId);
     // Check if user is authenticated; if not, trigger onboarding/login
     try {
       const { data: { user } } = await supabase.auth.getUser();
       if (!user) {
-        setPurchasingPlan(null);
+        setActivatingPlan(null);
         // start onboarding or login flow
         window.dispatchEvent(new Event('start-onboarding'));
         return;
       }
     } catch (authErr) {
       console.error('Auth check failed:', authErr);
-      setPurchasingPlan(null);
+      setActivatingPlan(null);
       window.dispatchEvent(new Event('start-onboarding'));
       return;
     }
     setSelectedPlan(planId);
     try {
-      const res = await fetch('/api/create-checkout-session', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ planId, customBtd: ['flexible', 'industrial', 'live_day', 'ultra'].includes(planId) ? btdAmount : undefined }),
-      });
-      const data = await res.json();
-      if (data.url) {
-        // Open Stripe Checkout in a new tab
-        window.open(data.url, '_blank', 'noopener,noreferrer');
-      } else {
-        const msg = data.error || 'Failed to create checkout session';
-        setPurchaseError(msg);
-        setPurchasingPlan(null);
-        console.error('Failed to create checkout session:', msg);
-      }
+      window.sessionStorage.setItem(
+        'bitcode:btd-acquisition-intent',
+        JSON.stringify({
+          source: 'marketing-pricing',
+          planId,
+          targetBtd: btdAmount,
+          estimatedUsd: usdAmount,
+          settlementAsset: 'BTC',
+          issuedAsset: 'BTD',
+          createdAt: new Date().toISOString(),
+        })
+      );
+      window.location.assign('/auxillaries/btd');
     } catch (err: any) {
-      const msg = err?.message || 'Error creating checkout session';
-      setPurchaseError(msg);
-      setPurchasingPlan(null);
-      console.error('Error creating checkout session:', err);
+      const msg = err?.message || 'Error opening BTD workspace';
+      setAcquisitionError(msg);
+      setActivatingPlan(null);
+      console.error('Error opening BTD workspace:', err);
     }
   };
 
@@ -129,14 +125,14 @@ const MarketingPricingSection: React.FC = () => {
 
   return (
     <MarketingSectionWrapper id="pricing" className={sectionPad}>
-      {/* Display purchase errors */}
-      {purchaseError && (
-        <div className="text-red-500 text-center mb-4">{purchaseError}</div>
+      {/* Display acquisition errors */}
+      {acquisitionError && (
+        <div className="text-red-500 text-center mb-4">{acquisitionError}</div>
       )}
-      {/* Loading overlay during checkout redirect */}
-      {purchasingPlan && (
+      {/* Loading overlay while entering the canonical BTD workspace */}
+      {activatingPlan && (
         <div className={overlayClass}>
-          <ProcessingIndicator label="Redirecting to Checkout" />
+          <ProcessingIndicator label="Opening BTD Workspace" />
         </div>
       )}
       <div className="max-w-6xl mx-auto px-4">
@@ -155,7 +151,7 @@ const MarketingPricingSection: React.FC = () => {
               onSelectPlan={setSelectedPlan}
               customBtd={spendUSD}
               onChangeCustomBtd={setSpendUSD}
-              onPurchase={handlePurchase}
+              onAcquireBtd={handleAcquireBtd}
               perBtdCost={perBtdCost}
               isSignedIn={isSignedIn}
             />

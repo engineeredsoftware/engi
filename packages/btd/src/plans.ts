@@ -1,8 +1,8 @@
 /**
  * BTD bundle definitions and helpers.
  *
- * This remains the shared source of truth for purchasable `$BTD` bundles even
- * while the checkout/storage layer still carries compatibility table names.
+ * This remains the shared source of truth for canonical `$BTD` bundle posture
+ * as Bitcode moves BTC settlement and BTD issuance through wallet-native flows.
  */
 
 /** Shape of a purchasable `$BTD` bundle. */
@@ -15,8 +15,6 @@ export interface BtdBundleConfig {
   description: string;
   /** Marks the bundle as highlighted / popular in the UI. */
   popular?: boolean;
-  /** Associated Stripe product ID when applicable. */
-  stripeProductId?: string;
 }
 
 export const btdBundles: Record<string, BtdBundleConfig> = {
@@ -55,7 +53,6 @@ export const btdBundles: Record<string, BtdBundleConfig> = {
     price: 111111 * 0.05,
     popular: true,
     description: 'Best for growing teams and complex projects',
-    stripeProductId: 'prod_SEXOckY4btd7vO',
   },
 };
 

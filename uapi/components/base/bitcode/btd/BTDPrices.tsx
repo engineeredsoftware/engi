@@ -9,9 +9,9 @@ export interface BTDPricesProps {
   onSelectPlan: (planId: string) => void;
   customBtd: number;
   onChangeCustomBtd: (btdAmount: number) => void;
-  onPurchase: (planId: string, btdAmount: number, price: number) => void;
+  onAcquireBtd: (planId: string, btdAmount: number, usdAmount: number) => void;
   perBtdCost: number;
-  /** Whether the user is signed in; disables purchase click if false */
+  /** Whether the user is signed in; disables acquisition click if false */
   isSignedIn: boolean;
 
   /** Force the main pricing card to appear before the flank cards (useful in
@@ -54,7 +54,7 @@ export const BTDPrices: React.FC<BTDPricesProps> = ({
   onSelectPlan,
   customBtd,
   onChangeCustomBtd,
-  onPurchase,
+  onAcquireBtd,
   perBtdCost,
   isSignedIn,
   centerFirst = false,
@@ -62,12 +62,12 @@ export const BTDPrices: React.FC<BTDPricesProps> = ({
   /* ------------------------------------------------------------------
    * Slider bounds – keeps marketing max to $10 001 at the industrial rate.
    * ------------------------------------------------------------------ */
-  const FLEXIBLE_PRICE_PER_CREDIT = 0.25;
-  const INDUSTRIAL_PRICE_PER_CREDIT = 0.22;
+  const FLEXIBLE_PRICE_PER_BTD = 0.25;
+  const INDUSTRIAL_PRICE_PER_BTD = 0.22;
   const MAX_TOTAL_USD = 10_000;
 
   // BTD when slider at max (industrial)
-  const INDUSTRIAL_CREDITS = Math.floor(MAX_TOTAL_USD / INDUSTRIAL_PRICE_PER_CREDIT); // 45 454
+  const INDUSTRIAL_CREDITS = Math.floor(MAX_TOTAL_USD / INDUSTRIAL_PRICE_PER_BTD); // 45 454
 
   // Slider bounds in USD now
   const sliderMinUSD = 0;
@@ -81,7 +81,7 @@ export const BTDPrices: React.FC<BTDPricesProps> = ({
   // Derived values
   const btdFromSpend = isIndustrial
     ? INDUSTRIAL_CREDITS
-    : Math.round(spendUSD / FLEXIBLE_PRICE_PER_CREDIT);
+    : Math.round(spendUSD / FLEXIBLE_PRICE_PER_BTD);
 
   const planLabel = isIndustrial ? 'Industrial' : 'Flexible';
   const planId = isIndustrial ? 'industrial' : 'flexible';
@@ -97,7 +97,7 @@ export const BTDPrices: React.FC<BTDPricesProps> = ({
    * Over-payment advisory logic
    * ------------------------------------------------------------------ */
   const flexibleCostUSD = spendUSD; // already dollars
-  const industrialEquivalentCostUSD = btdFromSpend * INDUSTRIAL_PRICE_PER_CREDIT;
+  const industrialEquivalentCostUSD = btdFromSpend * INDUSTRIAL_PRICE_PER_BTD;
   const savingsUSD = flexibleCostUSD - industrialEquivalentCostUSD;
 
   // Show advisory when user is still on Flexible tier and subtotal is ≥ 95% of $10k
@@ -156,7 +156,7 @@ export const BTDPrices: React.FC<BTDPricesProps> = ({
             isSignedIn
               ? () => {
                 onSelectPlan(planId);
-                onPurchase(planId, btdFromSpend, spendUSD);
+                onAcquireBtd(planId, btdFromSpend, spendUSD);
               }
               : undefined
           }
@@ -176,7 +176,7 @@ export const BTDPrices: React.FC<BTDPricesProps> = ({
                   : 'bg-emerald-500/30 text-emerald-200 border-emerald-400/50'
                   }`}
               >
-                {planLabel === 'Flexible' ? 'Per-Credit' : 'Volume'}
+                {planLabel === 'Flexible' ? 'Per-BTD' : 'Volume'}
               </span>
             </div>
             <div className="plan-segment text-center text-2xl laptop:text-3xl font-medium max-w-lg mx-auto leading-snug mb-1">

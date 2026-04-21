@@ -15,11 +15,11 @@ export function BTDTracker({ btdBalance }: BTDTrackerProps) {
   const [displayedBtdBalance, setDisplayedBtdBalance] = useState(btdBalance);
   const [isHovered, setIsHovered] = useState(false);
   const [isAnimating, setIsAnimating] = useState(false);
-  // Track buy action state: idle, loading, success, error
-  const [buyState, setBuyState] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
-  // Show Buy More only on hover
-  const shouldShowBuyNow = isHovered;
-  // Measure max text width of "Buy More" vs "XXX $BTD" for static sizing
+  // Track acquisition intent state: idle, loading, success, error
+  const [acquireState, setAcquireState] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
+  // Show acquisition affordance only on hover
+  const shouldShowAcquireNow = isHovered;
+  // Measure max text width of "Acquire $BTD" vs "XXX $BTD" for static sizing
   const buyRef = useRef<HTMLSpanElement>(null);
   const btdRef = useRef<HTMLSpanElement>(null);
   const [textWidth, setTextWidth] = useState(0);
@@ -147,23 +147,24 @@ export function BTDTracker({ btdBalance }: BTDTrackerProps) {
   }, [isHovered]);
 
   /**
-   * Handle Buy More click: check auth, update BTD balance, then open Stripe Checkout
+   * Handle acquisition click: check auth, refresh the displayed balance, then
+   * take the operator into the canonical BTD workspace.
    */
-  const handleBuyMore = async () => {
+  const handleAcquireBtd = async () => {
     // Prevent duplicate clicks and enter loading state
-    if (buyState !== 'idle') return;
-    setBuyState('loading');
+    if (acquireState !== 'idle') return;
+    setAcquireState('loading');
     // Ensure user is authenticated
     try {
       const { data: { user } } = await supabase.auth.getUser();
       if (!user) {
-        setBuyState('idle');
+        setAcquireState('idle');
         window.dispatchEvent(new Event('start-onboarding'));
         return;
       }
     } catch (err) {
       console.error('Auth check failed:', err);
-      setBuyState('idle');
+      setAcquireState('idle');
       window.dispatchEvent(new Event('start-onboarding'));
       return;
     }
@@ -181,31 +182,24 @@ export function BTDTracker({ btdBalance }: BTDTrackerProps) {
     } catch (err) {
       console.error('Error fetching user BTD balance:', err);
     }
-    // Create Stripe Checkout session for a default BTD purchase.
-    const defaultBtdBalance = 1000;
+
     try {
-      const response = await fetch('/api/create-checkout-session', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ planId: 'ultra', customBtd: defaultBtdBalance }),
-      });
-      const result = await response.json();
-      if (result.url) {
-        // Success: show confirmation and open Stripe Checkout
-        setBuyState('success');
-        window.open(result.url, '_blank', 'noopener,noreferrer');
-        setTimeout(() => setBuyState('idle'), 2000);
-      } else {
-        console.error('Failed to create checkout session:', result.error);
-        setBuyState('error');
-        setTimeout(() => setBuyState('idle'), 2000);
-        window.dispatchEvent(new Event('start-onboarding'));
-      }
+      window.sessionStorage.setItem(
+        'bitcode:btd-acquisition-intent',
+        JSON.stringify({
+          source: 'btd-tracker',
+          targetBtd: 1000,
+          settlementAsset: 'BTC',
+          issuedAsset: 'BTD',
+          createdAt: new Date().toISOString(),
+        })
+      );
+      setAcquireState('success');
+      window.location.assign('/auxillaries/btd');
     } catch (err) {
-      console.error('Error creating checkout session:', err);
-      setBuyState('error');
-      setTimeout(() => setBuyState('idle'), 2000);
-      window.dispatchEvent(new Event('start-onboarding'));
+      console.error('Error opening BTD workspace:', err);
+      setAcquireState('error');
+      setTimeout(() => setAcquireState('idle'), 2000);
     }
   };
 
@@ -214,7 +208,7 @@ export function BTDTracker({ btdBalance }: BTDTrackerProps) {
       className={`relative group inline-block ${isSignedIn ? 'cursor-pointer' : 'cursor-not-allowed opacity-50 pointer-events-none'}`}
       onHoverStart={handleHoverStart}
       onHoverEnd={handleHoverEnd}
-      onClick={isSignedIn ? handleBuyMore : undefined}
+      onClick={isSignedIn ? handleAcquireBtd : undefined}
       aria-disabled={!isSignedIn}
     >
       <motion.div
@@ -263,12 +257,12 @@ export function BTDTracker({ btdBalance }: BTDTrackerProps) {
         >
           {/* Hidden measurement spans */}
           <div style={{ position: 'absolute', visibility: 'hidden', pointerEvents: 'none' }}>
-            <span ref={buyRef} className="whitespace-nowrap font-normal tracking-wide text-sm">Buy More</span>
+            <span ref={buyRef} className="whitespace-nowrap font-normal tracking-wide text-sm">Acquire $BTD</span>
             <span ref={btdRef} className="whitespace-nowrap font-medium tracking-wide text-sm">{displayedBtdBalance.toLocaleString()} $BTD</span>
           </div>
           {/* Icon slot */}
           <AnimatePresence initial={false} mode="wait">
-            {buyState === 'loading' ? (
+            {acquireState === 'loading' ? (
               <motion.div
                 key="spinner"
                 className="flex items-center justify-center w-4 h-4"
@@ -307,7 +301,7 @@ export function BTDTracker({ btdBalance }: BTDTrackerProps) {
           </AnimatePresence>
           {/* Text slot */}
           <AnimatePresence initial={false} mode="wait">
-            {buyState === 'loading' ? (
+            {acquireState === 'loading' ? (
               <motion.span
                 key="loading"
                 className="w-full text-center whitespace-nowrap font-normal tracking-wide text-sm text-emerald-400/90"
@@ -315,8 +309,8 @@ export function BTDTracker({ btdBalance }: BTDTrackerProps) {
                 animate={{ opacity: 1, rotateX: 0 }}
                 exit={{ opacity: 0, rotateX: 90 }}
                 transition={{ duration: 0.3, ease: 'easeInOut' }}
-              >Preparing...</motion.span>
-            ) : buyState === 'idle' && shouldShowBuyNow ? (
+              >Opening BTD...</motion.span>
+            ) : acquireState === 'idle' && shouldShowAcquireNow ? (
               <motion.span
                 key="buy"
                 className="w-full text-center whitespace-nowrap font-normal tracking-wide text-sm text-emerald-400/90"
@@ -324,7 +318,7 @@ export function BTDTracker({ btdBalance }: BTDTrackerProps) {
                 animate={{ opacity: 1, rotateX: 0 }}
                 exit={{ opacity: 0, rotateX: 90 }}
                 transition={{ duration: 0.3, ease: 'easeInOut' }}
-              >Buy More</motion.span>
+              >Acquire $BTD</motion.span>
             ) : (
               <motion.span
                 key="btd"
