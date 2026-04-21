@@ -12,7 +12,7 @@ import glassyInputStyles from '@/components/base/bitcode/inputs/glassy-input.mod
 
 interface Token {
   id: string;
-  type: 'ai_document' | 'deliverable' | 'attachment' | 'source' | 'pipeline_run';
+  type: 'ai_document' | 'deliverable' | 'attachment' | 'source' | 'destination' | 'pipeline_run';
   text: string;
   data: any;
 }
@@ -116,7 +116,7 @@ export default function RichTextInput({
             setActivePicker('source');
             break;
           case '!':
-            setActivePicker('pipeline_run');
+            setActivePicker('destination');
             break;
         }
         setSearchTerm('');
@@ -127,7 +127,8 @@ export default function RichTextInput({
         activePicker === 'ai_document' ? '^' :
           activePicker === 'deliverable' ? '@' :
             activePicker === 'attachment' ? '+' :
-              activePicker === 'source' ? '#' : '!';
+              activePicker === 'source' ? '#' :
+                activePicker === 'destination' ? '!' : '!';
 
       // Find the last occurrence of the trigger character before cursor
       const lastTriggerIndex = newText.substring(0, currentCursorPosition).lastIndexOf(triggerChar);
@@ -216,14 +217,15 @@ export default function RichTextInput({
   const handleSelectPipelineRun = (target: any) => {
     insertToken({
       id: `pipeline-run-${Date.now()}`,
-      type: 'pipeline_run',
+      type: 'destination',
       text: `${target.conversationTitle}:${target.pipelineTitle}`,
       data: {
         conversationId: target.conversationId,
         pipelineId: target.pipelineId,
         conversationTitle: target.conversationTitle,
         pipelineTitle: target.pipelineTitle,
-        pipelineType: target.pipelineType
+        pipelineType: target.pipelineType,
+        type: target.type,
       }
     });
   };
@@ -237,6 +239,7 @@ export default function RichTextInput({
         token.type === 'deliverable' ? '@' :
           token.type === 'attachment' ? '+' :
             token.type === 'source' ? '#' :
+              token.type === 'destination' ? '!' :
               token.type === 'command' ? ':' : '!';
 
     // Find the last occurrence of the trigger character before cursor
@@ -318,6 +321,7 @@ export default function RichTextInput({
         return token.data?.provider ? `${token.data.provider} • ${token.data.path}` : token.data?.path || '';
       case 'command':
         return token.data?.shortcut ? token.data.shortcut : '';
+      case 'destination':
       case 'pipeline_run':
         if (!token.data?.pipelineType) return '';
         if (String(token.data.pipelineType).toLowerCase().includes('measure')) return 'need-measurement';
@@ -341,7 +345,69 @@ export default function RichTextInput({
     // This ensures we only send tokens that are actually in the text
     const validTokens = tokens.filter(token => text.includes(token.text));
 
-    onSend(text, validTokens);
+    const serializedTokens = validTokens.map((token) => {
+      if (token.type === 'source') {
+        return {
+          ...token,
+          value: token.text.trim(),
+          metadata: {
+            attachment_id: token.data?.id || token.data?.repoId || token.data?.path || token.text.trim(),
+            category: 'integration',
+            type: token.data?.type || 'github_repo',
+            ...token.data,
+          },
+        };
+      }
+
+      if (token.type === 'attachment') {
+        return {
+          ...token,
+          value: token.text.trim(),
+          metadata: {
+            attachment_id: token.data?.id || token.data?.path || token.text.trim(),
+            category: token.data?.category || 'file',
+            type: token.data?.type || 'attachment',
+            ...token.data,
+          },
+        };
+      }
+
+      if (token.type === 'destination' || token.type === 'pipeline_run') {
+        return {
+          ...token,
+          type: 'destination' as const,
+          value: token.text.trim(),
+          metadata: {
+            attachment_id: token.data?.pipelineId || token.data?.id || token.text.trim(),
+            category: token.data?.category || 'integration',
+            type: token.data?.type || 'output_destination',
+            ...token.data,
+          },
+        };
+      }
+
+      if (token.type === 'deliverable') {
+        return {
+          ...token,
+          type: 'asset_pack',
+          value: token.text.trim(),
+          metadata: {
+            kind: 'asset_pack',
+            ...token.data,
+          },
+        };
+      }
+
+      return {
+        ...token,
+        value: token.text.trim(),
+        metadata: {
+          ...token.data,
+        },
+      };
+    });
+
+    onSend(text, serializedTokens as Token[]);
     setText('');
     setTokens([]);
     setActivePicker(null);
@@ -449,6 +515,7 @@ export default function RichTextInput({
         return '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"></path></svg>';
       case 'command':
         return '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 3a3 3 0 0 0-3 3v12a3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3H6a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3V6a3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3h12a3 3 0 0 0 3-3 3 3 0 0 0-3-3z"></path></svg>';
+      case 'destination':
       case 'pipeline_run':
         return '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"></path></svg>';
       default:
@@ -469,6 +536,7 @@ export default function RichTextInput({
         return 'Connect source';
       case 'command':
         return 'Command';
+      case 'destination':
       case 'pipeline_run':
         return 'Output destination';
       default:
@@ -618,7 +686,7 @@ export default function RichTextInput({
 
       {/* Command picker removed - ':' trigger no longer used */}
 
-      {activePicker === 'pipeline_run' && (
+      {activePicker === 'destination' && (
         <PipelineRunPicker
           isOpen={true}
           onSelect={handleSelectPipelineRun}

@@ -703,6 +703,52 @@ Sixth-gate is the reform gate that adjudicates, cuts, or repurposes the final ol
 Seventh-gate is the final whole-repository provation and closure gate for V26.
 V26 may be the active canon through fourth-gate while fifth through seventh remain open, but no part of V26 is considered fully proven until those later-gate closure duties are explicit for the systems V26 keeps.
 
+### Fifth-gate minimum-functional north star
+
+Fifth-gate is not closed by rename cleanup alone.
+Its north star is the minimum functional Bitcode system:
+- one system,
+- Bitcode and only Bitcode in active product semantics,
+- practically usable through the `Bitcode Terminal` and the protocol interfaces it exposes,
+- and explicit about what belongs to fifth-gate versus later quality/commercialization work.
+
+For V26, minimum functional Bitcode means the repository can do exactly two primary things:
+1. make shares
+2. use shares
+
+`make shares` means:
+- a giver can bind admissible source material through `Connects`,
+- express give/need posture through the Bitcode Terminal or the equivalent protocol write interface,
+- trigger canonical need-measurement and branch-artifact execution on the retained execution substrate,
+- synthesize asset-pack/share candidates with attached proof and history,
+- and persist those results into the same activity/proof/history state read by the rest of the system.
+
+`use shares` means:
+- a needer or producer can read the Bitcode activity ledger,
+- inspect selected activity, asset-pack outputs, proofs, and history,
+- consume, route, trade, or produce against those outputs through the same Bitcode-owned state model,
+- and carry settlement-follow-through or output-destination behavior without falling back to demo-only or compatibility-only paths.
+
+The minimum functional system is therefore not website-only.
+It is the joined deployment of:
+- the `Bitcode Terminal` at `/application`,
+- the active API surfaces,
+- the admitted MCP and ChatGPT-style app surfaces,
+- and the retained protocol/runtime owners that those interfaces read from and write to.
+
+The following are required for fifth-gate minimum functionality:
+- activity-ledger master-detail read posture is searchable, filterable, paginatable, and stable,
+- conversations are a real rich-input write surface with source attachments, execution intent, and output destinations,
+- auxillaries hold the real preconditions for transacting and settling,
+- wallet identity in `Profile` plus GitHub or equivalent repository scope in `Connects` are enforced as the minimum transactional readiness posture,
+- retained persistence, ORM/query, and route carriers form one coherent state model rather than separate demo/app interpretations,
+- and active product semantics teach Bitcode shares of technical intelligence rather than a loose generic developer or agentic platform.
+
+The following are explicitly not required for fifth-gate closure:
+- final financial-product aesthetic tightening and high-polish interface refinement; that is later quality/commercial-readiness work,
+- a `mainnet` split or post-testnet deployment posture; that belongs to later V28-style addition work beyond the V26 minimum-functional target,
+- or whole-repository proof saturation beyond the closure families already assigned to V26 later gates.
+
 ### Fifth-gate proof families required for Bitcode rename completion and system completeness
 
 | Proof family | Required artifact path | Closure obligation | Current source basis |
@@ -731,7 +777,11 @@ Fifth-gate is closed only when:
 7. the kept system is described totalistically enough that Bitcode-era and Bitcode-first-gate reservoirs no longer require informal interpretation to fit together,
 8. unreplaced `engi` product naming is retired from active code, copy, and route teaching unless it remains as explicit historical lineage or a still-required structural namespace,
 9. newly admitted application, API, MCP, prompt, and retained package surfaces are proven to the same proof-bearing standard expected of the former top-level Bitcode demo core rather than being tolerated as lighter glue,
-10. and backward-compatibility carriers are cut or clearly isolated as temporary fifth-gate retirement work rather than silently teaching the merged-world product model.
+10. backward-compatibility carriers are cut or clearly isolated as temporary fifth-gate retirement work rather than silently teaching the merged-world product model,
+11. the minimum-functional north star is satisfied: the repository can make shares and use shares through Bitcode-owned interfaces and state,
+12. the Bitcode Terminal plus admitted API/MCP/app interfaces are coherently reading from and writing to the same protocol-owned system,
+13. active product semantics teach Bitcode and only Bitcode rather than a generic developer-platform or agentic-platform identity,
+14. and fifth-gate closure is not being falsely claimed by importing seventh-gate polish or post-V26 mainnet work into the acceptance boundary.
 
 ### Sixth-gate formal acceptance rule
 

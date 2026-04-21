@@ -938,6 +938,11 @@ Required closure posture:
   `uapi/tests/api/conversationsRouteRead.test.ts` and `uapi/tests/useConversationStream.firstWrite.test.ts`
   proof surface:
   fifth-gate persisted-conversation overlay closure so the Bitcode Terminal fullscreen write surface now bootstraps first write through the root conversation stream, promotes draft chat ids into persisted conversation ids from the streamed `message_complete` envelope, hydrates its history rail from `/api/conversations` with counts and last-message previews, and reads selected conversation detail through `/api/conversations/[conversationId]` instead of remaining a local-storage-only compatibility shell
+- `{uapi/app/conversations/components/{ConversationsEnhancedRichTextInput.tsx,ConversationsOverlay.tsx,conversation-chat-mapping.ts},uapi/tests/{conversationsEnhancedRichTextInput.test.tsx,conversationsOverlayMapping.test.ts}}`
+  test coverage:
+  `uapi/tests/conversationsEnhancedRichTextInput.test.tsx` and `uapi/tests/conversationsOverlayMapping.test.ts`
+  proof surface:
+  fifth-gate conversations destination-roundtrip closure so Bitcode Terminal rich input now serializes `!` selections as canonical output-destination tokens, persisted conversation detail rehydrates source/destination/execution attachments back into chat tokens for stable reread, and execution follow-through from the fullscreen overlay points back into the Bitcode activity ledger at `/application` rather than teaching the retained `/executions` peer surface as the primary destination
 
 ## Module namespace proof note
 

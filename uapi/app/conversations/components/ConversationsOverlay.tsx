@@ -75,6 +75,10 @@ import { ExecutionDetailsView } from '@/app/executions/components/ExecutionsDeta
 // Data hooks
 import { useConversationPages, type ConversationRow } from '@/hooks/useConversationPages';
 import { useConversationStream, StreamToken } from '@/hooks/useConversationStream';
+import {
+  mapConversationDetailToChat,
+  mapConversationRowToChat,
+} from './conversation-chat-mapping';
 
 // Backend types from generics packages
 import type { 
@@ -219,73 +223,6 @@ type ConversationDetailResponse = DBConversation & {
     }
   >;
 };
-
-function buildConversationPreviewMessages(chatId: string, content?: string | null, updatedAt?: string) {
-  const preview = String(content || '').trim();
-  if (!preview) {
-    return [];
-  }
-
-  return [
-    {
-      id: `preview-${chatId}`,
-      type: 'agent' as const,
-      content: preview,
-      status: 'sent' as const,
-      timestamp: updatedAt ? new Date(updatedAt) : new Date(),
-    },
-  ];
-}
-
-function mapConversationRowToChat(row: ConversationRow, existing?: Chat | null): Chat {
-  const messages =
-    existing?.loaded && existing.messages.length > 0
-      ? existing.messages
-      : existing?.messages.length
-        ? existing.messages
-        : buildConversationPreviewMessages(row.id, row.last_message, row.updated_at);
-
-  return {
-    id: row.id,
-    title: row.title || existing?.title || 'Untitled',
-    messages,
-    runs: existing?.runs || [],
-    latest_run: existing?.latest_run,
-    persisted: true,
-    loaded: existing?.loaded ?? false,
-    updatedAt: row.updated_at,
-    messageCount: row.message_count,
-    attachmentCount: row.attachment_count,
-    lastMessage: row.last_message,
-  };
-}
-
-function mapConversationDetailToChat(detail: ConversationDetailResponse, existing?: Chat | null): Chat {
-  const lastMessageContent =
-    detail.messages && detail.messages.length > 0
-      ? detail.messages[detail.messages.length - 1]?.content
-      : undefined;
-
-  return {
-    id: detail.id,
-    title: detail.title || existing?.title || 'Untitled',
-    messages: (detail.messages || []).map((message) => ({
-      id: String(message.id),
-      type: message.role === 'user' ? 'user' : 'agent',
-      content: String(message.content || ''),
-      status: 'sent',
-      timestamp: message.created_at ? new Date(message.created_at) : new Date(),
-    })),
-    runs: existing?.runs || [],
-    latest_run: existing?.latest_run,
-    persisted: true,
-    loaded: true,
-    updatedAt: detail.updated_at,
-    messageCount: detail.message_count ?? detail.messages?.length ?? existing?.messageCount,
-    attachmentCount: detail.attachment_count ?? existing?.attachmentCount,
-    lastMessage: detail.last_message || lastMessageContent || existing?.lastMessage,
-  };
-}
 
 // ---------------------------------------------------------------------------
 // Main Component Props
@@ -874,7 +811,7 @@ const Conversation = memo(function Conversation({
               onOpenDetails={(id) => setSelectedRunDetailsId(id)}
               onNavigateToExecution={(id) => {
                 if (typeof window !== 'undefined') {
-                  window.open(`/executions?runId=${id}`, '_blank', 'noopener');
+                  window.open(`/application?transactionId=${id}&transactionDetail=activity`, '_blank', 'noopener');
                 }
               }}
               onClose={() => {

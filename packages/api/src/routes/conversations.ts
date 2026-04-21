@@ -43,7 +43,7 @@ type BranchConversationRequest = {
 type ConversationStreamRequest = {
   content?: string;
   message?: string;
-  tokens?: Array<{ type?: string; value?: string; metadata?: Record<string, unknown> }>;
+  tokens?: Array<{ type?: string; value?: string; text?: string; metadata?: Record<string, unknown> }>;
   includeHistory?: boolean;
 };
 
@@ -82,6 +82,10 @@ function normalizeConversationText(value?: string | null) {
   return value?.trim() || '';
 }
 
+function resolveConversationTokenValue(token?: ConversationStreamToken | null) {
+  return normalizeConversationText(token?.value) || normalizeConversationText(token?.text);
+}
+
 function deriveConversationInput(body: ConversationStreamRequest) {
   return normalizeConversationText(body.content) || normalizeConversationText(body.message);
 }
@@ -99,7 +103,7 @@ function inferAttachmentCategory(token: ConversationStreamToken): AttachmentRefe
     return metadataCategory;
   }
 
-  const value = normalizeConversationText(token.value);
+  const value = resolveConversationTokenValue(token);
   if (value.startsWith('http://') || value.startsWith('https://')) {
     return 'url';
   }
@@ -118,7 +122,7 @@ function buildAttachmentReferences(tokens: ConversationStreamToken[]) {
       const attachmentId =
         (typeof token.metadata?.attachment_id === 'string' && normalizeConversationText(token.metadata.attachment_id)) ||
         (typeof token.metadata?.id === 'string' && normalizeConversationText(token.metadata.id)) ||
-        normalizeConversationText(token.value) ||
+        resolveConversationTokenValue(token) ||
         crypto.randomUUID();
 
       return {
@@ -129,7 +133,7 @@ function buildAttachmentReferences(tokens: ConversationStreamToken[]) {
           token.type ||
           'attachment',
         token_type: token.type || 'attachment',
-        title: token.value,
+        title: resolveConversationTokenValue(token),
         metadata: token.metadata || {},
       } satisfies AttachmentReference & Record<string, unknown>;
     });
@@ -139,7 +143,7 @@ function deriveConversationExecutionType(tokens: ConversationStreamToken[]) {
   for (const token of tokens) {
     const metadataPipelineType =
       typeof token.metadata?.pipelineType === 'string' ? token.metadata.pipelineType : undefined;
-    const candidate = metadataPipelineType || token.type || token.value;
+    const candidate = metadataPipelineType || token.type || resolveConversationTokenValue(token);
 
     if (candidate === 'need_measurement' || candidate === 'measure') {
       return normalizeAgenticExecutionType(candidate);
