@@ -15,9 +15,11 @@ export async function POST(
   context: { params: Promise<{ conversationId: string }> | { conversationId: string } },
 ) {
   const body = await request.json().catch(() => ({} as ConversationStreamRequest));
+  const params = await context.params;
 
   if (isConversationMockMode()) {
     return createMockConversationStreamResponse({
+      conversationId: params?.conversationId,
       content: body.content || body.message,
       tokens: body.tokens,
     });

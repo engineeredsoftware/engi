@@ -30,6 +30,12 @@ export interface Chat {
   title: string;
   messages: ChatMessage[];
   runs?: any[];
+  persisted?: boolean;
+  loaded?: boolean;
+  updatedAt?: string;
+  messageCount?: number;
+  attachmentCount?: number;
+  lastMessage?: string | null;
   latest_run?: {
     status: 'running' | 'completed' | 'error';
   };
@@ -95,10 +101,12 @@ export function useChatState(options: UseChatStateOptions = {}) {
   // Create new chat
   const createNewChat = useCallback((title?: string) => {
     const newChat: Chat = {
-      id: uuidv4(),
-      title: title || `Chat ${new Date().toLocaleString()}`,
+      id: `draft-${uuidv4()}`,
+      title: title || 'New Bitcode Terminal conversation',
       messages: [],
-      runs: []
+      runs: [],
+      persisted: false,
+      loaded: true,
     };
 
     setChats(prev => {
@@ -136,8 +144,9 @@ export function useChatState(options: UseChatStateOptions = {}) {
   }, [currentChat, persistToLocalStorage]);
 
   // Add message to current chat
-  const addMessage = useCallback((message: Omit<ChatMessage, 'id'>) => {
-    if (!currentChat) return;
+  const addMessage = useCallback((message: Omit<ChatMessage, 'id'> | ChatMessage, chatId?: string) => {
+    const targetChatId = chatId || currentChat?.id;
+    if (!targetChatId) return;
 
     const newMessage: ChatMessage = {
       ...message,
@@ -146,7 +155,7 @@ export function useChatState(options: UseChatStateOptions = {}) {
     };
 
     setChats(prev => prev.map(chat => {
-      if (chat.id === currentChat.id) {
+      if (chat.id === targetChatId) {
         return {
           ...chat,
           messages: [...chat.messages, newMessage]
@@ -157,7 +166,7 @@ export function useChatState(options: UseChatStateOptions = {}) {
 
     // Update current chat reference
     setCurrentChat(prev => {
-      if (!prev || prev.id !== currentChat.id) return prev;
+      if (!prev || prev.id !== targetChatId) return prev;
       return {
         ...prev,
         messages: [...prev.messages, newMessage]
@@ -168,11 +177,12 @@ export function useChatState(options: UseChatStateOptions = {}) {
   }, [currentChat]);
 
   // Update message in current chat
-  const updateMessage = useCallback((messageId: string, updates: Partial<ChatMessage>) => {
-    if (!currentChat) return;
+  const updateMessage = useCallback((messageId: string, updates: Partial<ChatMessage>, chatId?: string) => {
+    const targetChatId = chatId || currentChat?.id;
+    if (!targetChatId) return;
 
     setChats(prev => prev.map(chat => {
-      if (chat.id === currentChat.id) {
+      if (chat.id === targetChatId) {
         return {
           ...chat,
           messages: chat.messages.map(msg => 
@@ -185,7 +195,7 @@ export function useChatState(options: UseChatStateOptions = {}) {
 
     // Update current chat reference
     setCurrentChat(prev => {
-      if (!prev || prev.id !== currentChat.id) return prev;
+      if (!prev || prev.id !== targetChatId) return prev;
       return {
         ...prev,
         messages: prev.messages.map(msg => 

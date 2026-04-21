@@ -44,7 +44,7 @@ import { log } from '@bitcode/logger';
  */
 export type StreamEvent = 
   | { type: 'token'; data: string }
-  | { type: 'message_complete'; data: { messageId: string; content: string } }
+  | { type: 'message_complete'; data: { messageId: string; content: string; conversationId?: string } }
   | { type: 'pipeline_triggered'; data: { runId: string; pipelineType: string } }
   | { type: 'pipeline_event'; data: { runId: string; event: any } }
   | { type: 'pipeline_complete'; data: { runId: string; success: boolean; summary?: string } }
@@ -88,7 +88,7 @@ export interface StreamToken {
 interface UseConversationStreamOptions {
   conversationId: string;
   onToken?: (token: string) => void;
-  onMessageComplete?: (messageId: string, content: string) => void;
+  onMessageComplete?: (messageId: string, content: string, conversationId?: string) => void;
   onPipelineTriggered?: (runId: string, pipelineType: string) => void;
   onPipelineEvent?: (runId: string, event: any) => void;
   onPipelineComplete?: (runId: string, success: boolean, summary?: string) => void;
@@ -251,12 +251,25 @@ export function useConversationStream(options: UseConversationStreamOptions) {
     }
   }, []);
 
+  const resolveStreamPath = useCallback((targetConversationId?: string) => {
+    const normalizedConversationId = String(targetConversationId || conversationId).trim();
+    if (!normalizedConversationId || normalizedConversationId.startsWith('draft-')) {
+      return '/api/conversations/stream';
+    }
+    return `/api/conversations/${normalizedConversationId}/stream`;
+  }, [conversationId]);
+
   // Send message with streaming response
   const sendMessage = useCallback(async (
     content: string,
     tokens: StreamToken[] = [],
-    includeHistory = true
+    includeHistory = true,
+    targetConversationId?: string
   ) => {
+    if (!content.trim()) {
+      return;
+    }
+
     // Cleanup any existing stream
     cleanup();
 
@@ -270,14 +283,14 @@ export function useConversationStream(options: UseConversationStreamOptions) {
 
     try {
       log('[useConversationStream] Starting stream', 'info', {
-        conversationId,
+        conversationId: targetConversationId || conversationId,
         contentLength: content.length,
         tokensCount: tokens.length
       });
 
       abortControllerRef.current = new AbortController();
 
-      const response = await fetch(`/api/conversations/${conversationId}/stream`, {
+      const response = await fetch(resolveStreamPath(targetConversationId), {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -304,7 +317,7 @@ export function useConversationStream(options: UseConversationStreamOptions) {
 
       let buffer = '';
 
-      while (true) {
+      for (;;) {
         const { done, value } = await reader.read();
         
         if (done) break;
@@ -332,7 +345,7 @@ export function useConversationStream(options: UseConversationStreamOptions) {
                     isStreaming: false,
                     currentContent: event.data.content
                   }));
-                  onMessageComplete?.(event.data.messageId, event.data.content);
+                  onMessageComplete?.(event.data.messageId, event.data.content, event.data.conversationId);
                   break;
 
                 case 'pipeline_triggered':
@@ -404,7 +417,18 @@ export function useConversationStream(options: UseConversationStreamOptions) {
 
       onError?.(err.message, 'STREAM_ERROR');
     }
-  }, [conversationId, onToken, onMessageComplete, onPipelineTriggered, onPipelineEvent, onPipelineComplete, onError, throttledTokenUpdate, cleanup]);
+  }, [
+    conversationId,
+    onToken,
+    onMessageComplete,
+    onPipelineTriggered,
+    onPipelineEvent,
+    onPipelineComplete,
+    onError,
+    throttledTokenUpdate,
+    cleanup,
+    resolveStreamPath,
+  ]);
 
   // Cleanup on unmount or conversation change
   useEffect(() => {
@@ -445,7 +469,7 @@ export function useLegacyConversationStream(conversationId: string) {
     setCurrentContent('');
     setError(null);
     
-    await streamSendMessage(content, tokens);
+    await streamSendMessage(content, tokens, true, conversationId);
   }, [streamSendMessage]);
 
   return {

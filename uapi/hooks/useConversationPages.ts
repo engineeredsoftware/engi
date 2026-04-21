@@ -3,7 +3,7 @@
 import useSWRInfinite from 'swr/infinite';
 import { useMemo } from 'react';
 
-interface ConversationRow {
+export interface ConversationRow {
   id: string;
   user_id: string;
   title: string;

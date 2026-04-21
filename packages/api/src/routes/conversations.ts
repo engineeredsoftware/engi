@@ -20,6 +20,7 @@ import {
   createMessage,
   createStreamResponse,
   getConversation,
+  getConversationWithAll,
   listConversations,
 } from '../conversations';
 import {
@@ -439,6 +440,32 @@ export const getConversationsRoute = traceRoute('/conversations', async (request
     }),
   );
 });
+
+export const getConversationRoute = traceRoute(
+  '/conversations/[conversationId]',
+  async (
+    _request: Request,
+    context: { params: Promise<{ conversationId: string }> | { conversationId: string } },
+  ) => {
+    const userId = await getAuthenticatedConversationUserId();
+    if (!userId) {
+      return createJsonResponse({ error: 'Unauthorized' }, 401);
+    }
+
+    const params = await context.params;
+    const conversationId = normalizeConversationText(params?.conversationId);
+    if (!conversationId) {
+      return createJsonResponse({ error: 'conversationId is required' }, 400);
+    }
+
+    const conversation = await getConversationWithAll(conversationId, userId);
+    if (!conversation) {
+      return createJsonResponse({ error: 'Conversation not found' }, 404);
+    }
+
+    return createJsonResponse(conversation);
+  },
+);
 
 export const postConversationsRoute = traceRoute('/conversations', async (request: Request) => {
   const userId = await getAuthenticatedConversationUserId();

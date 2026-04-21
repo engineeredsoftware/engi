@@ -55,14 +55,28 @@ export async function listConversations(userId: string, options: {
   cursor?: string;
   search?: string;
 } = {}): Promise<{
-  data: Conversation[];
+  data: Array<Conversation & {
+    message_count: number;
+    last_message: string | null;
+    attachment_count: number;
+  }>;
   hasMore: boolean;
   nextCursor?: string;
 }> {
   const limit = options.limit || 50;
   let query = supabaseAdmin
     .from('conversations')
-    .select('*')
+    .select(`
+      *,
+      messages!conversation_id (
+        id,
+        content,
+        created_at,
+        message_attachments (
+          id
+        )
+      )
+    `)
     .eq('user_id', userId)
     .order('updated_at', { ascending: false })
     .limit(limit + 1);
@@ -86,9 +100,22 @@ export async function listConversations(userId: string, options: {
   const hasMore = data.length > limit;
   const conversations = hasMore ? data.slice(0, -1) : data;
   const nextCursor = hasMore ? conversations[conversations.length - 1].updated_at : undefined;
+  const enrichedConversations = conversations.map((conversation: any) => {
+    const messages = Array.isArray(conversation.messages) ? [...conversation.messages] : [];
+    const lastMessage = messages.sort((left, right) => right.created_at.localeCompare(left.created_at))[0];
+
+    return {
+      ...conversation,
+      message_count: messages.length,
+      last_message: lastMessage?.content || null,
+      attachment_count: messages.reduce((count, message) => {
+        return count + (Array.isArray(message.message_attachments) ? message.message_attachments.length : 0);
+      }, 0),
+    };
+  });
 
   return {
-    data: conversations,
+    data: enrichedConversations,
     hasMore,
     nextCursor
   };

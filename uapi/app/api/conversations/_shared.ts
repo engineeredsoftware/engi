@@ -117,6 +117,35 @@ export function createMockConversation(title?: string) {
   };
 }
 
+export function getMockConversation(conversationId?: string) {
+  const row = getMockConversationRows().find((candidate) => candidate.id === conversationId);
+  if (!row) {
+    return null;
+  }
+
+  return {
+    ...row,
+    messages: [
+      {
+        id: `msg-${row.id}-user`,
+        conversation_id: row.id,
+        role: 'user',
+        content: `Resume the ${row.title.toLowerCase()} workstream inside the Bitcode Terminal.`,
+        created_at: row.created_at,
+        message_attachments: [],
+      },
+      {
+        id: `msg-${row.id}-assistant`,
+        conversation_id: row.id,
+        role: 'assistant',
+        content: row.last_message || 'Bitcode mock mode is active for this conversation.',
+        created_at: row.updated_at,
+        message_attachments: [],
+      },
+    ],
+  };
+}
+
 export function branchMockConversation(sourceConversationId: string, title?: string) {
   const source = getMockConversationRows().find((row) => row.id === sourceConversationId);
   return createMockConversation(title || `${source?.title || 'Bitcode conversation'} (branch)`);
@@ -148,6 +177,14 @@ function buildMockAssistantReply(content: string) {
   }
 
   return `Bitcode mock mode received "${normalized}". The conversation surface is now mounted inside the Bitcode Terminal and can bind source attachments, asset packs, output destinations, and settlement-bound proofs as V26 converges.`;
+}
+
+function deriveConversationTitle(content: string) {
+  const normalized = content.trim();
+  if (!normalized) {
+    return 'New Bitcode Terminal conversation';
+  }
+  return normalized.length <= 72 ? normalized : `${normalized.slice(0, 69)}...`;
 }
 
 function normalizeConversationExecutionType(token?: ConversationToken) {
@@ -214,6 +251,7 @@ function buildPipelineEvents(tokens: ConversationToken[]) {
 export function createMockConversationStreamResponse(input: {
   content?: string;
   tokens?: ConversationToken[];
+  conversationId?: string;
 }) {
   const encoder = new TextEncoder();
   const envelope = buildMockConversationStreamEnvelope(input);
@@ -249,11 +287,13 @@ export function createMockConversationStreamResponse(input: {
 export function buildMockConversationStreamEnvelope(input: {
   content?: string;
   tokens?: ConversationToken[];
+  conversationId?: string;
 }) {
   const content = String(input.content || '');
   const tokens = Array.isArray(input.tokens) ? input.tokens : [];
   const assistantReply = buildMockAssistantReply(content);
   const messageId = `msg-${Date.now()}`;
+  const conversationId = String(input.conversationId || createMockConversation(deriveConversationTitle(content)).id);
   const pipeline = buildPipelineEvents(tokens);
   const tokenChunks = assistantReply.match(/.{1,28}/g) || [assistantReply];
   const queue = [
@@ -267,6 +307,7 @@ export function buildMockConversationStreamEnvelope(input: {
       data: {
         messageId,
         content: assistantReply,
+        conversationId,
       },
     },
   ];
@@ -274,6 +315,7 @@ export function buildMockConversationStreamEnvelope(input: {
   return {
     assistantReply,
     messageId,
+    conversationId,
     pipeline,
     queue,
   };

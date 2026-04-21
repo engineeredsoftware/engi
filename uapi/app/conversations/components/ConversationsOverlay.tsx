@@ -73,7 +73,7 @@ import { ExecutionDetailsView } from '@/app/executions/components/ExecutionsDeta
 // transform on an ancestor breaks position: sticky on header/input.
 
 // Data hooks
-import { useConversationPages } from '@/hooks/useConversationPages';
+import { useConversationPages, type ConversationRow } from '@/hooks/useConversationPages';
 import { useConversationStream, StreamToken } from '@/hooks/useConversationStream';
 
 // Backend types from generics packages
@@ -209,6 +209,84 @@ function renderTokenInMessageHelper(content: string, tokens?: any[]): string {
   return result;
 }
 
+type ConversationDetailResponse = DBConversation & {
+  message_count?: number;
+  attachment_count?: number;
+  last_message?: string | null;
+  messages?: Array<
+    DBMessage & {
+      message_attachments?: Array<Record<string, unknown>>;
+    }
+  >;
+};
+
+function buildConversationPreviewMessages(chatId: string, content?: string | null, updatedAt?: string) {
+  const preview = String(content || '').trim();
+  if (!preview) {
+    return [];
+  }
+
+  return [
+    {
+      id: `preview-${chatId}`,
+      type: 'agent' as const,
+      content: preview,
+      status: 'sent' as const,
+      timestamp: updatedAt ? new Date(updatedAt) : new Date(),
+    },
+  ];
+}
+
+function mapConversationRowToChat(row: ConversationRow, existing?: Chat | null): Chat {
+  const messages =
+    existing?.loaded && existing.messages.length > 0
+      ? existing.messages
+      : existing?.messages.length
+        ? existing.messages
+        : buildConversationPreviewMessages(row.id, row.last_message, row.updated_at);
+
+  return {
+    id: row.id,
+    title: row.title || existing?.title || 'Untitled',
+    messages,
+    runs: existing?.runs || [],
+    latest_run: existing?.latest_run,
+    persisted: true,
+    loaded: existing?.loaded ?? false,
+    updatedAt: row.updated_at,
+    messageCount: row.message_count,
+    attachmentCount: row.attachment_count,
+    lastMessage: row.last_message,
+  };
+}
+
+function mapConversationDetailToChat(detail: ConversationDetailResponse, existing?: Chat | null): Chat {
+  const lastMessageContent =
+    detail.messages && detail.messages.length > 0
+      ? detail.messages[detail.messages.length - 1]?.content
+      : undefined;
+
+  return {
+    id: detail.id,
+    title: detail.title || existing?.title || 'Untitled',
+    messages: (detail.messages || []).map((message) => ({
+      id: String(message.id),
+      type: message.role === 'user' ? 'user' : 'agent',
+      content: String(message.content || ''),
+      status: 'sent',
+      timestamp: message.created_at ? new Date(message.created_at) : new Date(),
+    })),
+    runs: existing?.runs || [],
+    latest_run: existing?.latest_run,
+    persisted: true,
+    loaded: true,
+    updatedAt: detail.updated_at,
+    messageCount: detail.message_count ?? detail.messages?.length ?? existing?.messageCount,
+    attachmentCount: detail.attachment_count ?? existing?.attachmentCount,
+    lastMessage: detail.last_message || lastMessageContent || existing?.lastMessage,
+  };
+}
+
 // ---------------------------------------------------------------------------
 // Main Component Props
 // ---------------------------------------------------------------------------
@@ -265,6 +343,11 @@ const Conversation = memo(function Conversation({
     markAsViewed
   } = useChatState();
 
+  const {
+    conversations,
+    mutate: mutateConversationPages,
+  } = useConversationPages('');
+
   // Processing state
   const [isProcessing, setIsProcessing] = useState(false);
   const [processError, setProcessError] = useState<Error | null>(null);
@@ -278,6 +361,7 @@ const Conversation = memo(function Conversation({
   const [splitBoxes, setSplitBoxes] = useState<any[]>([]);
   const [activeSplitId, setActiveSplitId] = useState<string>('');
   const [embedProcessLogs, setEmbedProcessLogs] = useState(false);
+  const activeStreamChatIdRef = useRef<string | null>(null);
   const [showThinkingLogs, setShowThinkingLogs] = useState(true);
   const [selectedRunDetailsId, setSelectedRunDetailsId] = useState<string | null>(null);
   const [lastInputForRetry, setLastInputForRetry] = useState<{message: string; tokens: StreamToken[]} | null>(null);
@@ -344,25 +428,151 @@ const Conversation = memo(function Conversation({
     onToggleSplitScreen: toggleSplitScreen
   });
 
+  useEffect(() => {
+    startTransition(() => {
+      setChats((prev) => {
+        const remoteConversationIds = new Set(conversations.map((conversation) => conversation.id));
+        const persistedById = new Map(
+          prev.filter((chat) => chat.persisted).map((chat) => [chat.id, chat]),
+        );
+        const localOnlyChats = prev.filter(
+          (chat) => !chat.persisted || !remoteConversationIds.has(chat.id),
+        );
+
+        return [
+          ...localOnlyChats,
+          ...conversations.map((conversation) =>
+            mapConversationRowToChat(conversation, persistedById.get(conversation.id) || null),
+          ),
+        ];
+      });
+
+      setCurrentChat((prev) => {
+        if (!prev?.persisted) {
+          return prev;
+        }
+
+        const matchingConversation = conversations.find((conversation) => conversation.id === prev.id);
+        if (!matchingConversation) {
+          return prev;
+        }
+
+        return mapConversationRowToChat(matchingConversation, prev);
+      });
+    });
+  }, [conversations, setChats, setCurrentChat]);
+
+  const hydrateConversation = useCallback(async (chat: Chat) => {
+    if (!chat.persisted) {
+      setCurrentChat(chat);
+      setShowHistory(false);
+      return chat;
+    }
+
+    if (chat.loaded && chat.messageCount !== undefined && chat.messages.length >= chat.messageCount) {
+      setCurrentChat(chat);
+      setShowHistory(false);
+      return chat;
+    }
+
+    const response = await fetch(`/api/conversations/${chat.id}`, {
+      credentials: 'include',
+    });
+
+    if (!response.ok) {
+      throw new Error(`Failed to load conversation ${chat.id}`);
+    }
+
+    const detail = (await response.json()) as ConversationDetailResponse;
+    const hydratedChat = mapConversationDetailToChat(detail, chat);
+
+    startTransition(() => {
+      setChats((prev) =>
+        prev.map((candidate) => (candidate.id === hydratedChat.id ? hydratedChat : candidate)),
+      );
+      setCurrentChat(hydratedChat);
+      setShowHistory(false);
+    });
+
+    return hydratedChat;
+  }, [setChats, setCurrentChat, setShowHistory]);
+
+  const appendAssistantToken = useCallback((chatId: string, token: string) => {
+    const updateChat = (chat: Chat) => {
+      const messages = [...chat.messages];
+      const lastMessage = messages[messages.length - 1];
+
+      if (!lastMessage || lastMessage.type !== 'agent' || lastMessage.status === 'sent') {
+        return chat;
+      }
+
+      messages[messages.length - 1] = {
+        ...lastMessage,
+        content: `${lastMessage.content || ''}${token}`,
+      };
+
+      return { ...chat, messages };
+    };
+
+    setChats((prev) => prev.map((chat) => (chat.id === chatId ? updateChat(chat) : chat)));
+    setCurrentChat((prev) => (prev?.id === chatId ? updateChat(prev) : prev));
+  }, [setChats, setCurrentChat]);
+
+  const finalizeStreamingAssistantMessage = useCallback((
+    chatId: string,
+    messageId: string,
+    content: string,
+    persistedConversationId?: string,
+  ) => {
+    const updateChat = (chat: Chat): Chat => {
+      const nextConversationId = persistedConversationId || chat.id;
+      const messages = [...chat.messages];
+      const lastMessage = messages[messages.length - 1];
+
+      if (lastMessage?.type === 'agent') {
+        messages[messages.length - 1] = {
+          ...lastMessage,
+          id: messageId,
+          content,
+          status: 'sent',
+        };
+      }
+
+      return {
+        ...chat,
+        id: nextConversationId,
+        messages,
+        persisted: true,
+        loaded: true,
+        updatedAt: new Date().toISOString(),
+        lastMessage: content,
+      };
+    };
+
+    startTransition(() => {
+      setChats((prev) => prev.map((chat) => (chat.id === chatId ? updateChat(chat) : chat)));
+      setCurrentChat((prev) => (prev?.id === chatId ? updateChat(prev) : prev));
+    });
+  }, [setChats, setCurrentChat]);
+
   // SSE Connection for streaming
   const conversationStream = useConversationStream({
     conversationId: currentChat?.id || '',
     onToken: (token) => {
-      // Add token to current streaming message
-      if (currentChat) {
-        setCurrentChat(prev => {
-          if (!prev) return prev;
-          const messages = [...prev.messages];
-          const lastMsg = messages[messages.length - 1];
-          
-          // UI uses 'agent' not 'assistant'
-          if (lastMsg && lastMsg.type === 'agent' && lastMsg.status !== 'sent') {
-            lastMsg.content = (lastMsg.content || '') + token;
-            return { ...prev, messages };
-          }
-          return prev;
-        });
+      const targetChatId = activeStreamChatIdRef.current || currentChat?.id;
+      if (targetChatId) {
+        appendAssistantToken(targetChatId, token);
       }
+    },
+    onMessageComplete: (messageId, content, persistedConversationId) => {
+      const targetChatId = activeStreamChatIdRef.current || currentChat?.id;
+      if (!targetChatId) {
+        return;
+      }
+
+      finalizeStreamingAssistantMessage(targetChatId, messageId, content, persistedConversationId);
+      activeStreamChatIdRef.current = persistedConversationId || targetChatId;
+      void mutateConversationPages();
     },
     onPipelineTriggered: (runId, pipelineType) => {
       startPipelineRun(runId, pipelineType);
@@ -417,7 +627,10 @@ const Conversation = memo(function Conversation({
 
   // Handle sending messages
   const handleSendMessageCallback = useCallback(async (message: string, tokens: StreamToken[]) => {
-    if (!message.trim() || !currentChat) return;
+    if (!message.trim()) return;
+
+    const activeChat = currentChat || createNewChat();
+    activeStreamChatIdRef.current = activeChat.id;
     
     setProcessError(null);
     setIsProcessing(true);
@@ -433,7 +646,7 @@ const Conversation = memo(function Conversation({
       tokens
     };
 
-    addMessage(newMsg);
+    addMessage(newMsg, activeChat.id);
 
     // Create agent message placeholder (UI uses 'agent' not 'assistant')
     const assistantMsg: ChatMessage = {
@@ -444,24 +657,25 @@ const Conversation = memo(function Conversation({
       timestamp: new Date()
     };
 
-    addMessage(assistantMsg);
+    addMessage(assistantMsg, activeChat.id);
 
     try {
       // Send via streaming API
-      await conversationStream.sendMessage(message, tokens || []);
+      await conversationStream.sendMessage(message, tokens || [], true, activeChat.id);
       
       // Mark user message as sent
-      updateMessage(newMsg.id, { status: 'sent' });
+      updateMessage(newMsg.id, { status: 'sent' }, activeChat.id);
+      void mutateConversationPages();
     } catch (error) {
       setProcessError(error as Error);
       updateMessage(assistantMsg.id, { 
         status: 'error',
         content: 'Failed to send message. Please try again.'
-      });
+      }, activeChat.id);
     } finally {
       setIsProcessing(false);
     }
-  }, [currentChat, addMessage, updateMessage, conversationStream]);
+  }, [currentChat, createNewChat, addMessage, updateMessage, conversationStream, mutateConversationPages]);
 
   // Handle source changes
   const handleSourceChange = useCallback((source: any) => {
@@ -569,8 +783,13 @@ const Conversation = memo(function Conversation({
           chats={chats}
           currentChat={currentChat}
           onSelectChat={(chat) => {
-            setCurrentChat(chat);
-            setShowHistory(false);
+            void hydrateConversation(chat)
+              .then(() => {
+                markAsViewed(chat.id);
+              })
+              .catch((error) => {
+                setProcessError(error as Error);
+              });
           }}
           onCreateChat={createNewChat}
           onDeleteChat={deleteChat}
@@ -598,10 +817,18 @@ const Conversation = memo(function Conversation({
               </button>
               <BranchMenuButton
                 onBranched={(c: any) => {
-                  const newChat = { id: c.id, title: c.title || 'Branched Conversation', messages: [], runs: [] };
+                  const newChat = {
+                    id: c.id,
+                    title: c.title || 'Branched Conversation',
+                    messages: [],
+                    runs: [],
+                    persisted: true,
+                    loaded: false,
+                  };
                   setChats(prev => [newChat, ...prev]);
                   setCurrentChat(newChat);
                   setShowHistory(false);
+                  void mutateConversationPages();
                 }}
               />
               <button className="fullscreen-button" title="Close" onClick={handleClose}>
