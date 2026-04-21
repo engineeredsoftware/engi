@@ -58,7 +58,7 @@ export class UserConnectionsModel extends BaseModel<'user_connections'> {
         .from(this.tableName)
         .select('*')
         .eq('provider', provider)
-        .eq('connection_data->>connectionId', providerUserId)
+        .eq('connection_data->>connectionId', String(providerUserId))
         .maybeSingle();
       
       if (result.error && result.error.code !== 'PGRST116') throw result.error;
@@ -114,7 +114,7 @@ export class UserConnectionsModel extends BaseModel<'user_connections'> {
       .from(this.tableName)
       .select('provider, connection_data')
       .eq('provider', 'github')
-      .eq('connection_data->>connectionId', installationId)
+      .eq('connection_data->>connectionId', String(installationId))
       .maybeSingle();
 
     if (error || !data) return null;
@@ -122,7 +122,7 @@ export class UserConnectionsModel extends BaseModel<'user_connections'> {
     return {
       provider: data.provider,
       installationId: installationId.toString(),
-      accessToken: data.connection_data?.access_token
+      accessToken: (data.connection_data as any)?.access_token
     };
   }
 

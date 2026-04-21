@@ -8,67 +8,75 @@
  * table: organization_members
  */
 
-import { BaseModel } from './base';
-import { Tables, Insertable, Updatable } from '../types/database';
+import type { Database } from '../../types/database';
+import type { SupabaseClient } from '@supabase/supabase-js';
 
-export type OrganizationMember = Tables<'organization_members'>;
-export type OrganizationMemberInsert = Insertable<'organization_members'>;
-export type OrganizationMemberUpdate = Updatable<'organization_members'>;
+export interface OrganizationMember {
+  organization_id: string;
+  user_id: string;
+  role: string;
+  permissions?: Record<string, unknown> | null;
+  joined_at?: string | null;
+  updated_at?: string | null;
+}
+
+export interface OrganizationMemberInsert extends Partial<OrganizationMember> {
+  organization_id: string;
+  user_id: string;
+}
+
+export type OrganizationMemberUpdate = Partial<OrganizationMember>;
 
 export type OrganizationRole = 'owner' | 'admin' | 'member' | 'viewer';
 
-export class OrganizationMembersModel extends BaseModel<'organization_members'> {
-  constructor() {
-    super('organization_members');
+export class OrganizationMembersModel {
+  constructor(supabase: SupabaseClient<Database>) {
+    this.supabase = supabase;
   }
+
+  private readonly supabase: SupabaseClient<Database>;
 
   /**
    * Get member by organization and user
    */
   async getMember(orgId: string, userId: string): Promise<OrganizationMember | null> {
-    const { data, error } = await this.client
-      .from(this.table)
+    const { data, error } = await this.supabase
+      .from('organization_members' as any)
       .select('*')
       .eq('organization_id', orgId)
       .eq('user_id', userId)
       .maybeSingle();
 
     if (error) throw error;
-    return data;
+    return (data as unknown as OrganizationMember | null) || null;
   }
 
   /**
    * List members for organization
    */
   async listByOrganization(orgId: string): Promise<OrganizationMember[]> {
-    const { data, error } = await this.client
-      .from(this.table)
-      .select(`
-        *,
-        user:user_profiles!inner(*)
-      `)
+    const { data, error } = await this.supabase
+      .from('organization_members' as any)
+      .select('*')
       .eq('organization_id', orgId)
       .order('joined_at');
 
     if (error) throw error;
-    return data || [];
+    return (data as unknown as OrganizationMember[]) || [];
   }
 
   /**
    * List organizations for user
    */
   async listByUser(userId: string): Promise<OrganizationMember[]> {
-    const { data, error } = await this.client
-      .from(this.table)
-      .select(`
-        *,
-        organization:organizations!inner(*)
-      `)
+    const { data, error } = await this.supabase
+      .from('organization_members' as any)
+      .select('*')
       .eq('user_id', userId)
       .order('joined_at', { ascending: false });
 
     if (error) throw error;
-    return data || [];
+    return (data as unknown as OrganizationMember[]) || [];
   }
 
   /**
@@ -79,8 +87,8 @@ export class OrganizationMembersModel extends BaseModel<'organization_members'> 
     userId: string, 
     role: OrganizationRole = 'member'
   ): Promise<OrganizationMember> {
-    const { data, error } = await this.client
-      .from(this.table)
+    const { data, error } = await this.supabase
+      .from('organization_members' as any)
       .insert({
         organization_id: orgId,
         user_id: userId,
@@ -90,7 +98,7 @@ export class OrganizationMembersModel extends BaseModel<'organization_members'> 
       .single();
 
     if (error) throw error;
-    return data;
+    return data as unknown as OrganizationMember;
   }
 
   /**
@@ -101,8 +109,8 @@ export class OrganizationMembersModel extends BaseModel<'organization_members'> 
     userId: string, 
     role: OrganizationRole
   ): Promise<OrganizationMember> {
-    const { data, error } = await this.client
-      .from(this.table)
+    const { data, error } = await this.supabase
+      .from('organization_members' as any)
       .update({ 
         role,
         updated_at: new Date().toISOString()
@@ -113,15 +121,15 @@ export class OrganizationMembersModel extends BaseModel<'organization_members'> 
       .single();
 
     if (error) throw error;
-    return data;
+    return data as unknown as OrganizationMember;
   }
 
   /**
    * Remove member
    */
   async removeMember(orgId: string, userId: string): Promise<void> {
-    const { error } = await this.client
-      .from(this.table)
+    const { error } = await this.supabase
+      .from('organization_members' as any)
       .delete()
       .eq('organization_id', orgId)
       .eq('user_id', userId);
@@ -145,8 +153,8 @@ export class OrganizationMembersModel extends BaseModel<'organization_members'> 
    * Count members by role
    */
   async countByRole(orgId: string): Promise<Record<string, number>> {
-    const { data, error } = await this.client
-      .from(this.table)
+    const { data, error } = await this.supabase
+      .from('organization_members' as any)
       .select('role')
       .eq('organization_id', orgId);
 
@@ -159,10 +167,14 @@ export class OrganizationMembersModel extends BaseModel<'organization_members'> 
       viewer: 0
     };
 
-    data?.forEach(m => {
+    (data as unknown as OrganizationMember[] | null)?.forEach(m => {
       counts[m.role] = (counts[m.role] || 0) + 1;
     });
 
     return counts;
+  }
+
+  async getMembership(orgId: string, userId: string): Promise<OrganizationMember | null> {
+    return this.getMember(orgId, userId);
   }
 }

@@ -127,10 +127,10 @@ export function factorySDIVSPipeline<TInput, TOutput>(
                           (result as any).ready === true;
       }
       
-      pipelineExec.store('iteration', iterations, {
+      pipelineExec.store('iteration', String(iterations), {
         passed: validationPassed,
         result: result
-      });
+      } as any);
       
       // If not passing and not last iteration, continue loop
       if (!validationPassed && iterations < maxIterations) {
@@ -161,7 +161,7 @@ export function factorySDIVSPipeline<TInput, TOutput>(
     pipelineExec.store('pipeline', 'endTime', Date.now());
     pipelineExec.store('pipeline', 'totalIterations', iterations);
     pipelineExec.store('pipeline', 'success', validationPassed);
-    pipelineExec.store('pipeline', 'output', output);
+    pipelineExec.store('pipeline', 'output', output as any);
     
     pipelineExec.store('pipeline', 'completion', { name, success: validationPassed });
     return output;

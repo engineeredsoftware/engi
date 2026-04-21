@@ -40,7 +40,7 @@ export function factoryPipeline<TInput, TOutput>(
     
     // Store completion
     pipelineExec.store('pipeline', 'endTime', Date.now());
-    pipelineExec.store('pipeline', 'output', result);
+    pipelineExec.store('pipeline', 'output', result as any);
     
     return result as TOutput;
   };
@@ -102,11 +102,10 @@ export function factoryPipelineWithDIVLoop<TInput, TOutput>(
     
     // Store completion
     pipelineExec.store('pipeline', 'endTime', Date.now());
-    pipelineExec.store('pipeline', 'output', output);
+    pipelineExec.store('pipeline', 'output', output as any);
     pipelineExec.store('pipeline', 'iterations', 
       pipelineExec.get('meta', 'iterations') || 1);
     
     return output;
   };
 }
-

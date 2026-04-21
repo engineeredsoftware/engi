@@ -5,7 +5,7 @@
  * Agents organize Actions, Actions sequence Steps, Steps sequence GenerationSteps.
  */
 
-import type { PreparedContext } from '@bitcode/context';
+export type { PreparedContext } from '@bitcode/context';
 import { Executor, Execution } from '@bitcode/execution-generics';
 import { Tool } from '@bitcode/tools-generics';
 

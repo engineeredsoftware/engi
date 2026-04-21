@@ -354,7 +354,7 @@ export class GenericStreamManager {
       SDIVSPhase.SHIPPING
     ];
     
-    const currentIndex = allPhases.indexOf(currentPhase);
+    const currentIndex = allPhases.indexOf(currentPhase as SDIVSPhase);
     return allPhases.slice(currentIndex + 1);
   }
 }

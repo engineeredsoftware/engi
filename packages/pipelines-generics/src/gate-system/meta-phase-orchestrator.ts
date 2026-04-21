@@ -49,15 +49,15 @@ export function attemptMetaPhaseTransition(execution: Execution): boolean {
  */
 export function storeMetaPhaseState(execution: Execution, state: MetaPhaseState): void {
   execution.store('meta', 'phase', state.current);
-  execution.store('meta', 'state', state);
-  execution.store('meta', 'config', META_PHASE_CONFIGS[state.current]);
+  execution.store('meta', 'state', state as any);
+  execution.store('meta', 'config', META_PHASE_CONFIGS[state.current] as any);
 }
 
 /**
  * Get meta-phase state from execution
  */
 export function getMetaPhaseState(execution: Execution): MetaPhaseState {
-  const state = execution.get<MetaPhaseState>('meta', 'state');
+  const state = execution.get<any>('meta', 'state') as MetaPhaseState | undefined;
   if (state) return state;
 
   // Initialize if not present
@@ -213,7 +213,7 @@ export function metaPhasePreprocess<TInput>(
  * Check if current meta-phase is collaborative
  */
 export function isCollaborativePhase(execution: Execution): boolean {
-  const config = execution.get('meta', 'config');
+  const config = execution.get<any>('meta', 'config');
   return config?.collaborative || false;
 }
 
@@ -221,6 +221,6 @@ export function isCollaborativePhase(execution: Execution): boolean {
  * Get self-instruct threshold for current meta-phase
  */
 export function getSelfInstructThreshold(execution: Execution): number | undefined {
-  const config = execution.get('meta', 'config');
+  const config = execution.get<any>('meta', 'config');
   return config?.selfInstructThreshold;
 }

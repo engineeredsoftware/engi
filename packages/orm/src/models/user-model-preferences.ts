@@ -9,11 +9,32 @@
  */
 
 import { BaseModel } from './base';
-import { Tables, Insertable, Updatable } from '../types/database';
+import { Tables, Insertable, Updatable, Json } from '../types/database';
 
-export type UserModelPreferences = Tables<'user_model_preferences'>;
-export type UserModelPreferencesInsert = Insertable<'user_model_preferences'>;
-export type UserModelPreferencesUpdate = Updatable<'user_model_preferences'>;
+export type UserModelPreference = Tables<'user_model_preferences'> & {
+  preferences?: Record<string, unknown>;
+};
+export type UserModelPreferenceInsert = Insertable<'user_model_preferences'> & {
+  preferences?: Record<string, unknown>;
+};
+export type UserModelPreferenceUpdate = Updatable<'user_model_preferences'> & {
+  preferences?: Record<string, unknown>;
+};
+
+function hydratePreferenceRow(
+  row: Tables<'user_model_preferences'> | null
+): UserModelPreference | null {
+  if (!row) return null;
+  const settings = ((row.settings as Record<string, unknown> | null) || {});
+  return {
+    ...row,
+    preferences: {
+      ...settings,
+      defaultProvider: row.model_provider,
+      defaultModel: row.model_name
+    }
+  };
+}
 
 export class UserModelPreferencesModel extends BaseModel<'user_model_preferences'> {
   constructor(supabase: any) {
@@ -23,34 +44,45 @@ export class UserModelPreferencesModel extends BaseModel<'user_model_preferences
   /**
    * Get preferences by user ID
    */
-  async getByUserId(userId: string): Promise<UserModelPreferences | null> {
+  async getByUserId(userId: string): Promise<UserModelPreference | null> {
     const { data, error } = await this.client
       .from(this.table)
       .select('*')
       .eq('user_id', userId)
+      .eq('is_default', true)
       .maybeSingle();
 
     if (error) throw error;
-    return data;
+    return hydratePreferenceRow(data);
   }
 
   /**
    * Upsert preferences
    */
-  async upsert(preferences: UserModelPreferencesInsert): Promise<UserModelPreferences> {
-    const { data, error } = await this.client
-      .from(this.table)
-      .upsert({
-        ...preferences,
-        updated_at: new Date().toISOString()
-      }, {
-        onConflict: 'user_id'
-      })
-      .select()
-      .single();
+  async upsert(preferences: UserModelPreferenceInsert): Promise<UserModelPreference> {
+    const existing = await this.getByUserId(preferences.user_id);
+    const compatibilityPreferences = preferences.preferences || {};
+    const payload: UserModelPreferenceUpdate & UserModelPreferenceInsert = {
+      user_id: preferences.user_id,
+      model_provider: preferences.model_provider || String(compatibilityPreferences.defaultProvider || existing?.model_provider || 'openai'),
+      model_name: preferences.model_name || String(compatibilityPreferences.defaultModel || existing?.model_name || 'gpt-4'),
+      settings: {
+        ...((existing?.settings as Record<string, unknown> | null) || {}),
+        ...((preferences.settings as Record<string, unknown> | undefined) || {}),
+        ...compatibilityPreferences
+      } as Json,
+      is_default: preferences.is_default ?? existing?.is_default ?? true,
+      updated_at: new Date().toISOString()
+    };
 
-    if (error) throw error;
-    return data;
+    const data = existing
+      ? await this.update(existing.id, payload)
+      : await this.create({
+          ...payload,
+          created_at: new Date().toISOString()
+        });
+
+    return hydratePreferenceRow(data)!;
   }
 
   /**
@@ -64,8 +96,8 @@ export class UserModelPreferencesModel extends BaseModel<'user_model_preferences
     if (!prefs?.preferences) return null;
 
     return {
-      provider: prefs.preferences.defaultProvider || 'openai',
-      model: prefs.preferences.defaultModel || 'gpt-4'
+      provider: String(prefs.preferences.defaultProvider || 'openai'),
+      model: String(prefs.preferences.defaultModel || 'gpt-4')
     };
   }
 
@@ -76,7 +108,7 @@ export class UserModelPreferencesModel extends BaseModel<'user_model_preferences
     userId: string, 
     key: string, 
     value: unknown
-  ): Promise<UserModelPreferences> {
+  ): Promise<UserModelPreference> {
     const current = await this.getByUserId(userId);
     const preferences = current?.preferences || {};
 
@@ -84,7 +116,9 @@ export class UserModelPreferencesModel extends BaseModel<'user_model_preferences
 
     return this.upsert({
       user_id: userId,
-      preferences
+      preferences,
+      model_provider: current?.model_provider || 'openai',
+      model_name: current?.model_name || 'gpt-4'
     });
   }
 }

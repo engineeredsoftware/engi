@@ -214,7 +214,7 @@ function factoryLLMSubStep<TInput, TOutput>(
     }
 
     // 5. Get LLM from execution's registry
-    const llm = execution.llms.getDefaultLLM();
+    const llm = (execution as any).llms?.getDefaultLLM?.();
     if (!llm) {
       throw new Error(`No default LLM configured for substep '${sequence}'`);
     }
@@ -640,10 +640,11 @@ export function factoryJudge<T>(): Executor<T, T & { judgment: Judgment }> {
     GenerationSubMetaSubStep.JUDGE,
     {
       buildUserPrompt: (input) => {
+        const typedInput = input as any;
         // Check if we're in a sum context
-        const isSum = input.chunkResults !== undefined;
+        const isSum = typedInput.chunkResults !== undefined;
         if (isSum) {
-          return `Judge the quality of these chunked results:\n\n${JSON.stringify(input.chunkResults, null, 2)}`;
+          return `Judge the quality of these chunked results:\n\n${JSON.stringify(typedInput.chunkResults, null, 2)}`;
         }
         return `Evaluate the quality and correctness of:\n\n${JSON.stringify(input, null, 2)}`;
       },
@@ -660,7 +661,7 @@ export function factoryJudge<T>(): Executor<T, T & { judgment: Judgment }> {
           })
         );
 
-        return { ...input, judgment };
+        return { ...(input as any), judgment };
       }
     }
   );
@@ -676,15 +677,16 @@ export function factoryReason<T>(): Executor<T, T & { reasoning: Reasoning }> {
     GenerationSubMetaSubStep.REASON,
     {
       buildUserPrompt: (input) => {
+        const typedInput = input as any;
         // Check context to provide appropriate reasoning prompt
-        const isStitch = input.partialOutput !== undefined;
-        const isSum = input.chunkResults !== undefined;
+        const isStitch = typedInput.partialOutput !== undefined;
+        const isSum = typedInput.chunkResults !== undefined;
 
         if (isStitch) {
-          return `Continue reasoning from this partial output:\n\n${JSON.stringify(input.partialOutput, null, 2)}`;
+          return `Continue reasoning from this partial output:\n\n${JSON.stringify(typedInput.partialOutput, null, 2)}`;
         }
         if (isSum) {
-          return `Reason about how to combine these chunk results:\n\n${JSON.stringify(input.chunkResults, null, 2)}`;
+          return `Reason about how to combine these chunk results:\n\n${JSON.stringify(typedInput.chunkResults, null, 2)}`;
         }
         return `Apply logical reasoning to solve:\n\n${JSON.stringify(input, null, 2)}`;
       },
@@ -701,7 +703,7 @@ export function factoryReason<T>(): Executor<T, T & { reasoning: Reasoning }> {
           })
         );
 
-        return { ...input, reasoning };
+        return { ...(input as any), reasoning };
       }
     }
   );
@@ -739,7 +741,7 @@ export function factoryStructuredOutput<T, TSchema>(
           schema,
           () => buildCoercedBySchema(schema)
         );
-        return { ...input, output: structured };
+        return { ...(input as any), output: structured };
       },
 
       enrichPrompt: (execution) => {
@@ -864,7 +866,7 @@ export function factoryToolsExecution<T extends { output?: { useTools?: UseTool[
 
     for (const toolToUse of useTools) {
       // Get tool from execution's registry
-      const tool = execution.tools.getTool(toolToUse.name);
+      const tool = (execution as any).tools?.getTool?.(toolToUse.name);
       // Resolve current PTRR meta/sub context from step-level store
       let currentFailsafe: any; let phase: any; let agent: any; let step: any;
       try { currentFailsafe = (substep as any).findUp?.('ptrr', 'failsafe'); } catch { currentFailsafe = undefined; }
@@ -1093,7 +1095,7 @@ function buildHierarchicalPrompt(execution: Execution): string {
   for (const exec of executions) {
     // Check if this execution has a prompt registry
     if ('prompt' in exec && exec.prompt) {
-      const formatted = exec.prompt.format();
+        const formatted = (exec as any).prompt.format();
       if (formatted && formatted.trim()) {
         prompts.push(formatted);
       }

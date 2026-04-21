@@ -1,9 +1,15 @@
-import { BaseDocCommentPlugin, DocComment, ValidationResult } from '@bitcode/doc-comment';
+import {
+  BaseDocCommentPlugin,
+  type DocComment,
+  type ValidationError,
+  type ValidationResult
+} from '@bitcode/doc-comment';
 
 /**
  * Metadata structure for @doc-code-tool
  */
 export interface DocCodeToolMetadata {
+  [key: string]: unknown;
   name: string;
   category: string;
   version: string;
@@ -18,7 +24,7 @@ export interface DocCodeToolMetadata {
 /**
  * Plugin for @doc-code-tool comments that enable runtime tool documentation
  */
-export class DocCodeToolPlugin extends BaseDocCommentPlugin {
+export class DocCodeToolPlugin extends BaseDocCommentPlugin<DocCodeToolMetadata> {
   name = 'doc-code-tool';
   pattern = /@doc-code-tool/;
   
@@ -61,22 +67,22 @@ export class DocCodeToolPlugin extends BaseDocCommentPlugin {
   }
   
   protected validateMetadata(metadata: DocCodeToolMetadata): ValidationResult {
-    const errors: string[] = [];
+    const errors: ValidationError[] = [];
     
     if (!metadata.name) {
-      errors.push('Tool name is required');
+      errors.push({ field: 'name', message: 'Tool name is required', severity: 'error' });
     }
     
     if (!metadata.category) {
-      errors.push('Tool category is required');
+      errors.push({ field: 'category', message: 'Tool category is required', severity: 'error' });
     }
     
     if (!['low', 'medium', 'high', 'critical'].includes(metadata.priority)) {
-      errors.push('Invalid priority value');
+      errors.push({ field: 'priority', message: 'Invalid priority value', severity: 'error' });
     }
     
     if (!['experimental', 'beta', 'stable', 'deprecated'].includes(metadata.stability)) {
-      errors.push('Invalid stability value');
+      errors.push({ field: 'stability', message: 'Invalid stability value', severity: 'error' });
     }
     
     return {
@@ -85,7 +91,7 @@ export class DocCodeToolPlugin extends BaseDocCommentPlugin {
     };
   }
   
-  protected getDefaultMetadata(): DocCodeToolMetadata {
+  protected getDefaultMetadata(_comment: DocComment): DocCodeToolMetadata {
     return {
       name: 'unnamed-tool',
       category: 'uncategorized',

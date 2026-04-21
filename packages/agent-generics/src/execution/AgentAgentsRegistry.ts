@@ -207,7 +207,7 @@ export class AgentAgentsRegistry extends RegistryImpl<ExecutionAgent> {
     
     // Track delegation
     childExec.store('delegation', 'agentKey', agentKey);
-    childExec.store('delegation', 'input', input);
+    childExec.store('delegation', 'input', input as any);
     childExec.store('delegation', 'startTime', Date.now());
     
     try {

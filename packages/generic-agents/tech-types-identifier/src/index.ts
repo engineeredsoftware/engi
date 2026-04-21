@@ -42,7 +42,7 @@ const TechTypesIdentifierInputSchema = z.object({
   contextHints: z.array(z.string()).optional().describe('Additional context about the technology stack')
 });
 
-const CanonicalTechnologyProfileSchema: z.ZodType<CanonicalTechnologyProfile> = z.object({
+const CanonicalTechnologyProfileSchema = z.object({
   // `technologyProfile` is the canonical Bitcode envelope for normalized stack evidence.
   stackHints: z.array(z.string()),
   languages: z.array(z.string()),
@@ -331,8 +331,8 @@ const quickTechIdentification = factoryAgentWithSingleStep<
     execution.store('variation', 'mode', 'quick');
     
     // Even simple variations can use the execution's registries
-    const llm = execution.llms.getDefaultLLM();
-    const codeAnalysisTool = execution.tools.getTool('code-analysis');
+    const llm = (execution as any).llms?.getDefaultLLM?.();
+    const codeAnalysisTool = (execution as any).tools?.getTool?.('code-analysis');
     
     // Quick identification logic here
     // Return matches the Retry schema for consistency
@@ -411,6 +411,7 @@ export type TechTypesIdentifierTryOutput = z.infer<typeof TechTypesIdentifierTry
 export type TechTypesIdentifierRefineOutput = z.infer<typeof TechTypesIdentifierRefineSchema>;
 export type TechTypesIdentifierRetryOutput = z.infer<typeof TechTypesIdentifierRetrySchema>;
 export type { CanonicalTechnologyProfile } from './technology-profile-contract';
+export { CanonicalTechnologyProfileSchema };
 export {
   buildEmptyTechnologyProfile,
   isCanonicalTechnologyProfile,

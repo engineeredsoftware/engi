@@ -43,7 +43,7 @@ export class VCSRepositoryModel {
       .select('*')
       .eq('user_id', userId)
       .eq('provider', provider)
-      .eq('full_name', fullName)
+      .eq('repo_full_name', fullName)
       .single();
 
     if (error) {
@@ -84,7 +84,7 @@ export class VCSRepositoryModel {
     const { data, error } = await this.supabase
       .from('vcs_repositories')
       .upsert(repo, {
-        onConflict: 'user_id,provider,full_name',
+        onConflict: 'user_id,provider,repo_full_name',
       })
       .select()
       .single();
@@ -102,7 +102,7 @@ export class VCSRepositoryModel {
   ): Promise<VCSRepository> {
     const { data, error } = await this.supabase
       .from('vcs_repositories')
-      .update({ metadata: metadata as any })
+      .update({ repo_data: metadata as any })
       .eq('id', id)
       .select()
       .single();
@@ -135,7 +135,7 @@ export class VCSRepositoryModel {
       .from('vcs_repositories')
       .select('*')
       .eq('user_id', userId)
-      .or(`full_name.ilike.%${query}%,name.ilike.%${query}%`)
+      .or(`repo_full_name.ilike.%${query}%,repo_name.ilike.%${query}%`)
       .limit(limit);
 
     if (error) throw error;

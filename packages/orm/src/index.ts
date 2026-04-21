@@ -53,21 +53,6 @@ export { NotificationsModel } from './models/notifications';
 export { VCSRepositoryModel, getVCSRepositoryModel } from './models/vcs-repositories';
 export type { VCSRepository, VCSRepositoryInsert, VCSRepositoryUpdate, VCSRepositoryMetadata } from './models/vcs-repositories';
 
-// Artifacts & Storage models
-export { ArtifactModel, getArtifactModel } from './models/artifacts';
-export type { Artifact, ArtifactInsert, ArtifactUpdate, ArtifactType, ArtifactMetadata } from './models/artifacts';
-
-// Generations (LLM Calls) models
-export { GenerationModel, getGenerationModel } from './models/generations';
-export type { Generation, GenerationInsert, GenerationUpdate, GenerationMetadata } from './models/generations';
-
-// ==================== QUERIES ====================
-export { VectorQuery } from './queries/vector';
-export type { VectorSearchParams, VectorSearchResult } from './queries/vector';
-
-export { FieldIntelligenceQuery } from './queries/field-intelligence';
-export type { FieldIntelligenceResult } from './queries/field-intelligence';
-
 // ==================== TYPES ====================
 export type { 
   Database, 
@@ -99,13 +84,11 @@ export type MessageAttachment = Tables<'message_attachments'>;
 
 // Deliverables Pipeline structured streaming tables (GA-1)
 // Structured persistence (Execution hierarchy)
-export { PhaseExecutionsModel } from './models/phase-executions';
 export type PhaseExecution = Tables<'phase_executions'>;
 
 // Conversation System models (GA-1)
 export { ConversationsModel } from './models/conversations';
 export { MessagesModel } from './models/messages';
-export { MessageAttachmentsModel } from './models/message-attachments';
 
 // ==================== POST-GA-1 EXPORTS (ARCHIVED) ====================
 // The following exports are commented out for GA-1 release.
@@ -117,7 +100,10 @@ export { MessageAttachmentsModel } from './models/message-attachments';
 // export { OrganizationCreditsModel } from './models/archived-post-ga1/organization-credits';
 // export { OrganizationInvitationsModel } from './models/archived-post-ga1/organization-invitations';
 //
-// Advanced features (Q4 2025): temporarily re-enabled for compatibility
+// Compatibility models still used by active MCP/auth surfaces
+export { UsersModel } from './models/archived-post-ga1/users';
+export { OrganizationsModel } from './models/archived-post-ga1/organizations';
+export { OrganizationMembersModel } from './models/archived-post-ga1/organization-members';
 export { UserApiKeysModel } from './models/archived-post-ga1/user-api-keys';
 
 /**
@@ -145,3 +131,5 @@ export { UserApiKeysModel } from './models/archived-post-ga1/user-api-keys';
  *   limit: 5
  * });
  */
+
+import type { Tables } from './types/database';

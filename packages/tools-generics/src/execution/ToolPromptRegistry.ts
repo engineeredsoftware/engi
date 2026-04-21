@@ -202,10 +202,4 @@ export class ToolPromptRegistry extends RegistryImpl<any> {
                  .replace('{{stack}}', error.stack || '');
   }
   
-  /**
-   * Set the wrapped prompt registry
-   */
-  setPromptRegistry(registry: PromptRegistry): void {
-    this.promptRegistry = registry;
-  }
 }

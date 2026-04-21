@@ -1,3 +1,10 @@
+import type {
+  DocComment,
+  DocCommentParser,
+  DocCommentPlugin
+} from './types';
+import type { ValidationError, ValidationResult } from './base-plugin';
+
 /**
  * DOC-COMMENTS - PURE BUILD-TIME PLUGIN INFRASTRUCTURE
  * 
@@ -140,7 +147,7 @@ export const WELL_KNOWN_PLUGIN_PACKAGES = [
  */
 export interface PluginExportConvention {
   /** Single plugin as named export */
-  [pluginName: string]: DocCommentPlugin;
+  [pluginName: string]: DocCommentPlugin | DocCommentPlugin[] | undefined;
   /** Single plugin as default */
   default?: DocCommentPlugin;
   /** Multiple plugins array */

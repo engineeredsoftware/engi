@@ -1,4 +1,4 @@
-import { PromptPart } from '../../parts/PromptPart';
+import type { PromptPart } from '../../parts/PromptPart';
 
 /**
  * @doc-comment-developing-promptpartdevelopment
@@ -11,8 +11,6 @@ import { PromptPart } from '../../parts/PromptPart';
  *   { "name": "implementation_ready", "test": "Provides clear actionable guidance", "score": 0.50 }
  * ]
  */
-
-import type { PromptPart } from '../../parts/PromptPart';
 
 export const PROMPTPART_SPECIFIC_AGENT_TECHTYPESIDENTIFIER_TRY_DIRECTIVES_INSTRUCTIONS: PromptPart = 
   'Provide concrete, domain‑appropriate content for this specific prompt segment. Use precise, operational language and ensure it integrates coherently with adjacent prompt parts.' as PromptPart;

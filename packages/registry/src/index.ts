@@ -236,6 +236,3 @@ export function isParentRegistryPath(parent: string, child: string): boolean {
 
 // Export factory function
 export { factoryRegistry };
-
-// Type exports
-export type { RegistryEntry, Registry };

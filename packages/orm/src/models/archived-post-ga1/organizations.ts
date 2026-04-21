@@ -7,20 +7,47 @@
  * capabilities: ["settings", "members", "billing"]
  */
 
-import { BaseModel } from './base';
-import { Tables, Database } from '../types/database';
-import { SupabaseClient } from '@supabase/supabase-js';
+import type { Database } from '../../types/database';
+import type { SupabaseClient } from '@supabase/supabase-js';
 
-export class OrganizationsModel extends BaseModel<'organizations'> {
+export interface OrganizationRecord {
+  id: string;
+  name: string;
+  slug?: string | null;
+  settings?: Record<string, unknown> | null;
+  created_at?: string | null;
+}
+
+export class OrganizationsModel {
   constructor(supabase: SupabaseClient<Database>) {
-    super(supabase, 'organizations');
+    this.supabase = supabase;
+  }
+
+  private readonly supabase: SupabaseClient<Database>;
+
+  async getById(id: string): Promise<OrganizationRecord | null> {
+    const { data, error } = await this.supabase
+      .from('organizations' as any)
+      .select('*')
+      .eq('id', id)
+      .maybeSingle();
+
+    if (error) throw error;
+    return (data as unknown as OrganizationRecord | null) || null;
   }
 
   /**
    * Find organization by slug
    */
-  async findBySlug(slug: string): Promise<Tables<'organizations'> | null> {
-    return this.findOneBy('slug', slug);
+  async findBySlug(slug: string): Promise<OrganizationRecord | null> {
+    const { data, error } = await this.supabase
+      .from('organizations' as any)
+      .select('*')
+      .eq('slug', slug)
+      .maybeSingle();
+
+    if (error) throw error;
+    return (data as unknown as OrganizationRecord | null) || null;
   }
 
   /**
@@ -29,13 +56,21 @@ export class OrganizationsModel extends BaseModel<'organizations'> {
   async updateSettings(
     organizationId: string, 
     settings: Record<string, unknown>
-  ): Promise<Tables<'organizations'>> {
-    const current = await this.findById(organizationId);
+  ): Promise<OrganizationRecord> {
+    const current = await this.getById(organizationId);
     if (!current) throw new Error('Organization not found');
 
-    return this.update(organizationId, {
-      settings: { ...current.settings, ...settings }
-    });
+    const { data, error } = await this.supabase
+      .from('organizations' as any)
+      .update({
+        settings: { ...(current.settings || {}), ...settings }
+      } as any)
+      .eq('id', organizationId)
+      .select('*')
+      .single();
+
+    if (error) throw error;
+    return data as unknown as OrganizationRecord;
   }
 
   /**
@@ -43,8 +78,8 @@ export class OrganizationsModel extends BaseModel<'organizations'> {
    */
   async getMemberCount(organizationId: string): Promise<number> {
     const { count, error } = await this.supabase
-      .from('users')
-      .select('id', { count: 'exact', head: true })
+      .from('organization_members' as any)
+      .select('user_id', { count: 'exact', head: true })
       .eq('organization_id', organizationId);
 
     if (error) throw error;
@@ -62,11 +97,14 @@ export class OrganizationsModel extends BaseModel<'organizations'> {
   /**
    * Get organizations by creation date
    */
-  async getRecent(limit = 10): Promise<Tables<'organizations'>[]> {
-    return this.findAll({
-      limit,
-      orderBy: 'created_at',
-      ascending: false
-    });
+  async getRecent(limit = 10): Promise<OrganizationRecord[]> {
+    const { data, error } = await this.supabase
+      .from('organizations' as any)
+      .select('*')
+      .order('created_at', { ascending: false })
+      .limit(limit);
+
+    if (error) throw error;
+    return ((data || []) as unknown) as OrganizationRecord[];
   }
 }

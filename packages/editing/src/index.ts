@@ -927,7 +927,7 @@ export class TransactionalFileEditor {
         );
       }
 
-      const updatedContent = originalContent.replaceAll(old_str, new_str);
+      const updatedContent = originalContent.split(old_str).join(new_str);
       operation.newContent = updatedContent;
 
       if (atomic) {
@@ -1165,7 +1165,7 @@ export class TransactionalFileEditor {
     try {
       // Context would come from execution-generics in real implementation
       const getGlobalContext = () => ({ repoPath: process.cwd() });
-      const gc = getGlobalContext();
+      const gc = getGlobalContext() as any;
       const fileTracker = gc?.repository?.fileTracker;
       
       if (fileTracker && typeof fileTracker.track === 'function') {
@@ -1234,9 +1234,4 @@ export const FILE_EDITOR_HISTORY = () => transactionManager.getOperationHistory(
 
 export {
   transactionManager as FileTransactionManager,
-  type FileOperation,
-  type FileTransaction,
-  type TextEdit,
-  type Position,
-  type Range,
 };

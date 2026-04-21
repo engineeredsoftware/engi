@@ -28,9 +28,9 @@ export interface GateExecutionContext {
  */
 export function storeGateState(execution: Execution, state: GateState): void {
   execution.store('gate', 'current', state.current);
-  execution.store('gate', 'state', state);
-  execution.store('gate', 'config', GATE_CONFIGS[state.current]);
-  execution.store('gate', 'history', state.history);
+  execution.store('gate', 'state', state as any);
+  execution.store('gate', 'config', GATE_CONFIGS[state.current] as any);
+  execution.store('gate', 'history', state.history as any);
 
   // Store file gates for enforcement
   const config = GATE_CONFIGS[state.current];
@@ -57,7 +57,7 @@ export function getCurrentGate(execution: Execution): Gate {
  * Get gate state from execution
  */
 export function getGateState(execution: Execution): GateState {
-  const state = execution.get<GateState>('gate', 'state');
+  const state = execution.get<any>('gate', 'state') as GateState | undefined;
   if (state) return state;
 
   // Initialize if not present
@@ -144,7 +144,7 @@ export function createGuidedPipelineExecution<TInput, TOutput>(
 
     // Use switchExecutor to route to gate-specific pipeline
     const gateRouter = switchExecutor<TInput, TOutput>(
-      (exec) => getCurrentGate(exec),
+      (_input, exec) => getCurrentGate(exec),
       {
         'Design': gatePipelines.Design || gatePipelines.Develop,
         'Develop': gatePipelines.Develop,
@@ -199,7 +199,7 @@ export function gatePreprocess<TInput>(
  * Check if current gate is collaborative
  */
 export function isCollaborativeGate(execution: Execution): boolean {
-  const config = execution.get('gate', 'config');
+  const config = execution.get<any>('gate', 'config') as GateConfig | undefined;
   return config?.collaborative || false;
 }
 
@@ -207,7 +207,7 @@ export function isCollaborativeGate(execution: Execution): boolean {
  * Get self-instruct threshold for current gate
  */
 export function getSelfInstructThreshold(execution: Execution): number | undefined {
-  const config = execution.get('gate', 'config');
+  const config = execution.get<any>('gate', 'config') as GateConfig | undefined;
   return config?.selfInstructThreshold;
 }
 

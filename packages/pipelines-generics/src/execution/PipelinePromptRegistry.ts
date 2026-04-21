@@ -80,6 +80,10 @@ export class PipelinePromptRegistry extends RegistryImpl<any> {
    * Get all prompts at this level (not including parents)
    */
   getAllLocalPrompts(): Map<string, any> {
-    return this.getAll();
+    return new Map(
+      this.getPaths()
+        .map((path) => [path, this.get(path)] as [string, any])
+        .filter((entry) => entry[1] !== undefined)
+    );
   }
 }

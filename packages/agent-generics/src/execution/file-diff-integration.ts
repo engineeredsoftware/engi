@@ -98,7 +98,7 @@ export function withFileDiffStreaming<TInput, TOutput>(
     const result = await stepExecutor(input, execution);
 
     // Extract agent name from execution
-    const agentName = execution.get('agent', 'name') || 'unknown';
+    const agentName = String(execution.get('agent', 'name') || 'unknown');
 
     // Stream file changes
     await streamFileChangesAfterStep(execution, result, {

@@ -1,6 +1,8 @@
-
-import { DataStream } from 'ai';
 import { supabaseAdmin } from '@bitcode/supabase';
+
+export interface DataStreamLike {
+  writeData(chunk: unknown): Promise<void>;
+}
 
 /**
  * SupabaseStream is a thin adapter that fulfils the `DataStream` interface
@@ -29,7 +31,7 @@ export interface SupabaseStreamOptions {
   flushIntervalMs?: number;
 }
 
-export class SupabaseStream implements DataStream {
+export class SupabaseStream implements DataStreamLike {
   private buffer: any[] = [];
   private timer?: NodeJS.Timeout;
   private readonly flushBatchSize: number;

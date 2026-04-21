@@ -41,9 +41,11 @@ export function getDocCodeToolPrompt(name: string): DocCodeToolPrompt | undefine
  * ```
  */
 export function DocCodeTool(promptName: string) {
-  return function <T extends { new(...args: any[]): Tool }>(constructor: T) {
+  return function <T extends { new(...args: any[]): Tool<any> }>(constructor: T) {
     // Create a new class that extends the original
     class DocCodeToolClass extends constructor {
+      use = (this as any).use;
+
       constructor(...args: any[]) {
         super(...args);
         

@@ -11,6 +11,7 @@ import { PROMPTPART_GENERIC_AGENT_GENERATION_IF_UNKNOWN_EMPTY } from '@bitcode/p
 import { PROMPTPART_GENERIC_AGENT_GENERATION_REASON } from '@bitcode/prompts/raw_promptparts/generic/promptpart_generic_agent_generation_reason';
 import { PROMPTPART_GENERIC_AGENT_GENERATION_JUDGE } from '@bitcode/prompts/raw_promptparts/generic/promptpart_generic_agent_generation_judge';
 import { PROMPTPART_GENERIC_AGENT_GENERATION_STRUCTURED_OUTPUT } from '@bitcode/prompts/raw_promptparts/generic/promptpart_generic_agent_generation_structured_output';
+import type { PromptPart } from '@bitcode/prompts';
 /**\n * @doc-comment-developing-promptdevelopment\n * domain: agent\n * intent: "(fill intent)"\n * current_version: "GA1.45.0"\n * dependencies: { }\n * benchmarks: [\n *   { "name": "technical_accuracy", "test": "Concrete directives and purpose", "score": 0.46 },\n *   { "name": "implementation_ready", "test": "Usable by registry formatter", "score": 0.46 }\n * ]\n */
 /**
  * AGENT PROMPT COMPOSITION - TECH TYPES IDENTIFIER AGENT
@@ -35,25 +36,6 @@ import { AgentPrompt } from '@bitcode/agent-generics';
 
 
 export const TECH_TYPES_IDENTIFIER_AGENT_PROMPT = new AgentPrompt({
-  // Metadata
-  name: 'Tech Types Identifier Agent',
-  category: 'Technology Classification',
-  version: '1.0.0',
-  specificity: 'Generic',
-  
-  // Core documentation
-  purpose: PROMPTPART_SPECIFIC_AGENT_TECHTYPESIDENTIFIER_PURPOSE_CORESTATEMENT,
-  capabilities: PROMPTPART_SPECIFIC_AGENT_TECHTYPESIDENTIFIER_CAPABILITIES_LIST,
-  
-  // Execution pattern
-  executionPattern: PROMPTPART_SPECIFIC_AGENT_TECHTYPESIDENTIFIER_EXECUTIONPATTERN_DETAILCONTENT,
-  
-  // PTRR Steps
-  steps: PROMPTPART_SPECIFIC_AGENT_TECHTYPESIDENTIFIER_PTRRSTEPS_LIST,
-  
-  // Tools used
-  tools: PROMPTPART_SPECIFIC_AGENT_TECHTYPESIDENTIFIER_TOOLS_LIST,
-  
-  // Integration details
-  integration: PROMPTPART_SPECIFIC_AGENT_TECHTYPESIDENTIFIER_INTEGRATION_DETAILCONTENT
+  name: 'Tech Types Identifier Agent' as PromptPart,
+  identity: PROMPTPART_SPECIFIC_AGENT_TECHTYPESIDENTIFIER_PURPOSE_CORESTATEMENT
 });

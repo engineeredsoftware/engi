@@ -106,7 +106,7 @@ export class ExecutionToolRegistry extends RegistryImpl<ExecutionTool> {
     // Walk up parent chain
     let current = execution.parent;
     while (current && !tool) {
-      tool = current.tools.get(key);
+      tool = (current as any).tools?.get?.(key);
       current = current.parent;
     }
     
@@ -129,9 +129,9 @@ export class ExecutionToolRegistry extends RegistryImpl<ExecutionTool> {
       }
       
       // Add tools from this level - get all paths and their values
-      const paths = exec.tools.getPaths();
+      const paths = (exec as any).tools?.getPaths?.() || [];
       for (const path of paths) {
-        const tool = exec.tools.get(path);
+        const tool = (exec as any).tools?.get?.(path);
         if (tool) {
           tools[path] = tool;
         }

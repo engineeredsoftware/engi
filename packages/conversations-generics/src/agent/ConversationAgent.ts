@@ -261,7 +261,7 @@ const quickResponseVariation = factoryAgentWithSingleStep<
     execution.store('variation', 'mode', 'quick');
     
     // Simple direct response
-    const llm = execution.llms.getDefaultLLM(execution);
+    const llm = (execution as any).llms?.getDefaultLLM?.(execution);
     
     // Quick response logic
     return {
@@ -308,7 +308,7 @@ export async function createConversationAgent(
   }
   
   // Run the agent
-  return conversationAgent.execute(input, execution);
+  return conversationAgent(input, execution);
 }
 
 /**
@@ -331,7 +331,7 @@ export async function* processMessageStream(
   });
   
   // Run the agent
-  const result = await conversationAgent.execute(input, execution);
+  const result = await conversationAgent(input, execution);
   
   // Yield the final response
   yield result.finalResponse;

@@ -6,6 +6,8 @@
   "types": "src/index.ts",
   "dependencies": {
     "@bitcode/editing": "workspace:*",
-    "@bitcode/tools-generics": "workspace:*"
+    "@bitcode/execution-generics": "workspace:*",
+    "@bitcode/tools-generics": "workspace:*",
+    "zod": "^3.22.4"
   }
 }

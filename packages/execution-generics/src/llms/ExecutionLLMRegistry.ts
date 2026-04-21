@@ -54,7 +54,7 @@ export class ExecutionLLMRegistry extends RegistryImpl<LLMConfig> {
     let current: Execution | undefined = execution;
     
     while (current && !config) {
-      config = current.llms.get(key);
+      config = (current as any).llms?.get?.(key);
       current = current.parent;
     }
     

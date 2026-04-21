@@ -250,11 +250,9 @@ export async function parseResponse<T>(
         } catch {}
         log('Schema Validation Error', 'warn', {
           ...errorDetails,
-          validationErrors: error.errors.map(err => ({
+          validationErrors: error.issues.map(err => ({
             path: err.path.join('.'),
             code: err.code,
-            expected: err.expected,
-            received: err.received,
             message: err.message
           })),
           schemaShape: Object.keys((schema as any)._def?.shape || {}),
@@ -284,10 +282,8 @@ export async function parseResponse<T>(
         lastError instanceof z.ZodError ? 'Schema Validation Error' :
           'Unknown Error',
       details: lastError instanceof z.ZodError ?
-        lastError.errors.map(err => ({
+        lastError.issues.map(err => ({
           path: err.path.join('.'),
-          expected: err.expected,
-          received: err.received,
           message: err.message
         })) : lastError?.message
     },
@@ -333,8 +329,8 @@ export async function parseResponse<T>(
   const fallbackResult = fallback();
   log('Using fallback result', 'info', {
     fallbackKeys: Object.keys(fallbackResult || {}),
-    fallbackHasSuccess: 'success' in fallbackResult,
-    fallbackSuccess: fallbackResult['success'],
+    fallbackHasSuccess: typeof fallbackResult === 'object' && fallbackResult !== null && 'success' in fallbackResult,
+    fallbackSuccess: (fallbackResult as any)?.success,
     schemaDescription: schema.description
   });
 

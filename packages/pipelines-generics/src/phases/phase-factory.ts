@@ -37,7 +37,7 @@ export function factoryPhaseDelegator<TInput, TOutput>(
     
     // Store completion
     phaseDelegation.store('phase', 'endTime', Date.now());
-    phaseDelegation.store('phase', 'output', result);
+    phaseDelegation.store('phase', 'output', result as any);
     
     return result;
   };
@@ -67,7 +67,7 @@ export function factorySequentialPhaseDelegator<TInput, TOutput>(
     
     // Store completion
     phaseDelegation.store('phase', 'endTime', Date.now());
-    phaseDelegation.store('phase', 'output', result);
+    phaseDelegation.store('phase', 'output', result as any);
     
     return result as TOutput;
   };
@@ -102,7 +102,7 @@ export function factoryParallelPhaseDelegator<TInput, TOutput>(
     
     // Store completion
     phaseDelegation.store('phase', 'endTime', Date.now());
-    phaseDelegation.store('phase', 'output', output);
+    phaseDelegation.store('phase', 'output', output as any);
     
     return output;
   };

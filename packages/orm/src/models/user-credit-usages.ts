@@ -9,10 +9,11 @@
  */
 
 import { BaseModel } from './base';
-import { Tables, Insertable } from '../types/database';
+import { Tables, Insertable, Updatable } from '../types/database';
 
 export type UserCreditUsage = Tables<'user_credit_usages'>;
 export type UserCreditUsageInsert = Insertable<'user_credit_usages'>;
+export type UserCreditUsageUpdate = Updatable<'user_credit_usages'>;
 
 export class UserCreditUsagesModel extends BaseModel<'user_credit_usages'> {
   constructor(supabase: any) {
@@ -43,23 +44,23 @@ export class UserCreditUsagesModel extends BaseModel<'user_credit_usages'> {
   }> {
     const { data, error } = await this.client
       .from(this.table)
-      .select('change, created_at')
+      .select('amount, created_at')
       .eq('user_id', userId)
-      .lt('change', 0) // Only debits
+      .lt('amount', 0) // Only debits
       .gte('created_at', startDate.toISOString())
       .order('created_at');
 
     if (error) throw error;
 
     // Calculate total
-    const total = data?.reduce((sum, u) => sum + Math.abs(u.change), 0) || 0;
+    const total = data?.reduce((sum, u: any) => sum + Math.abs(u.amount), 0) || 0;
 
     // Group by day
     const dailyMap = new Map<string, number>();
     data?.forEach(usage => {
       const date = new Date(usage.created_at).toISOString().split('T')[0];
       const current = dailyMap.get(date) || 0;
-      dailyMap.set(date, current + Math.abs(usage.change));
+      dailyMap.set(date, current + Math.abs((usage as any).amount));
     });
 
     const daily = Array.from(dailyMap.entries())
@@ -78,13 +79,13 @@ export class UserCreditUsagesModel extends BaseModel<'user_credit_usages'> {
 
     const { data, error } = await this.client
       .from(this.table)
-      .select('change')
+      .select('amount')
       .eq('user_id', userId)
-      .lt('change', 0) // Only debits
+      .lt('amount', 0) // Only debits
       .gte('created_at', startDate.toISOString());
 
     if (error) throw error;
     
-    return data?.reduce((sum, u) => sum + Math.abs(u.change), 0) || 0;
+    return data?.reduce((sum, u: any) => sum + Math.abs(u.amount), 0) || 0;
   }
 }

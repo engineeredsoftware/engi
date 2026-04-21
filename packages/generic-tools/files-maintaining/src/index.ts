@@ -73,8 +73,8 @@ async function runEditCommandWithGates(params: EditCommandParams): Promise<strin
 
     if (allowedPatterns && params.command !== 'view') {
       // Import gate checking logic
-      const { isFileAllowed } = await import('@bitcode/pipelines-generics/src/gate-system/file-gates');
-      const allowed = isFileAllowed(params.path, currentGate || 'Develop');
+      const { isFileAllowed } = await import('@bitcode/pipelines-generics/gate-system/file-gates');
+      const allowed = isFileAllowed(params.path, (currentGate as any) || 'Develop');
 
       if (!allowed) {
         const primaryDoc = execution.get('gates', 'primaryDocument');
@@ -263,14 +263,12 @@ export const directoryTool = textEditorTool as typeof textEditorTool;
 // Type aliases (using the shared Tool brand from @bitcode/tools-generics).
 // ---------------------------------------------------------------------------
 
-import type { Tool } from '@bitcode/tools-generics';
-
-export type TextEditorToolFn = Tool<typeof textEditorTool>;
-export type DeleteFileToolFn = Tool<typeof deleteFileTool>;
-export type CreateFileToolFn = Tool<typeof createFileTool>;
-export type ReplaceFileToolFn = Tool<typeof replaceFileTool>;
-export type RenameFileToolFn = Tool<typeof renameFileTool>;
-export type DirectoryToolFn = Tool<typeof directoryTool>;
-export type BeginTransactionToolFn = Tool<typeof beginTransactionTool>;
-export type CommitTransactionToolFn = Tool<typeof commitTransactionTool>;
-export type RollbackTransactionToolFn = Tool<typeof rollbackTransactionTool>;
+export type TextEditorToolFn = typeof textEditorTool;
+export type DeleteFileToolFn = typeof deleteFileTool;
+export type CreateFileToolFn = typeof createFileTool;
+export type ReplaceFileToolFn = typeof replaceFileTool;
+export type RenameFileToolFn = typeof renameFileTool;
+export type DirectoryToolFn = typeof directoryTool;
+export type BeginTransactionToolFn = typeof beginTransactionTool;
+export type CommitTransactionToolFn = typeof commitTransactionTool;
+export type RollbackTransactionToolFn = typeof rollbackTransactionTool;

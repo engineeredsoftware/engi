@@ -9,7 +9,8 @@ import { Execution, ExecutionStreamAdapter } from '@bitcode/execution-generics';
 import { toPhaseLower, toStepLower } from '../types/primitives';
 import { Streamer } from '@bitcode/streams';
 import { ExecutionEventsModel } from '@bitcode/orm';
-import { SupabaseClient } from '@supabase/supabase-js';
+
+type SupabaseClient = any;
 
 /**
  * Configuration for pipeline streaming
@@ -132,13 +133,13 @@ export function enablePipelineStreaming(
             status: 'running'
           } as any;
             const vrow = validate('phase_executions', row);
-            const { data, error } = await supabase.from('phase_executions').insert(vrow).select('id').single();
+            const { data, error } = await (supabase as any).from('phase_executions').insert(vrow as any).select('id').single();
           if (!error && data) { phaseState.currentPhaseId = data.id; phaseState.currentPhaseName = phaseName; }
         } else if (type === 'phase-complete') {
           if (phaseState.currentPhaseId) {
             const status = event?.shortCircuited ? 'short_circuited' : 'completed';
             await supabase
-              .from('phase_executions')
+              .from('phase_executions' as any)
               .update({ completed_at: now, status })
               .eq('id', phaseState.currentPhaseId);
           }
@@ -152,7 +153,7 @@ export function enablePipelineStreaming(
               status: 'running'
             } as any;
             const vrow = validate('step_executions', row);
-            const { data, error } = await supabase.from('step_executions').insert(vrow).select('id').single();
+            const { data, error } = await (supabase as any).from('step_executions').insert(vrow as any).select('id').single();
             if (!error && data) {
               agentStepMap.set(`${agentName}:${stepType}`, data.id);
             }
@@ -160,7 +161,7 @@ export function enablePipelineStreaming(
         } else if (type === 'agent-complete') {
           const key = `${agentName}:${stepType}`;
           const id = agentStepMap.get(key);
-          if (id) await supabase.from('step_executions').update({ completed_at: now, status: 'completed' }).eq('id', id);
+          if (id) await (supabase as any).from('step_executions').update({ completed_at: now, status: 'completed' }).eq('id', id);
         } else if (type === 'error') {
           // Mark run as failed (best-effort)
           try {
@@ -188,7 +189,7 @@ export function enablePipelineStreaming(
             created_at: now as any
           } as any;
           const vrow = validate('generations', row);
-          await supabase.from('generations').insert(vrow);
+          await (supabase as any).from('generations').insert(vrow as any);
         } else if (type === 'tool-use') {
           const key = `${agentName}:${stepType}`;
           const agentStepId = agentStepMap.get(key) || null;
@@ -206,7 +207,7 @@ export function enablePipelineStreaming(
             created_at: now as any
           } as any;
           const vrow = validate('tool_executions', row);
-          await supabase.from('tool_executions').insert(vrow);
+          await (supabase as any).from('tool_executions').insert(vrow as any);
         } else if (type === 'status') {
           // Optional enrichment: correlate llm.usage to latest generation for this agent step
           try {
@@ -214,7 +215,7 @@ export function enablePipelineStreaming(
               const key = `${agentName}:${stepType}`;
               const agentStepId = agentStepMap.get(key) || null;
               if (agentStepId) {
-                const { data: last, error: selErr } = await supabase
+                const { data: last, error: selErr } = await (supabase as any)
                   .from('generations')
                   .select('id')
                   .eq('agent_step_id', agentStepId)
@@ -269,7 +270,7 @@ export function enablePipelineStreaming(
 export function createStreamingExecution(
   config: PipelineStreamConfig & { parent?: Execution }
 ): Execution {
-  const execution = new Execution(config.parent);
+      const execution = new Execution(config.runId, config.parent);
   
   // Enable streaming
   enablePipelineStreaming(execution, config);

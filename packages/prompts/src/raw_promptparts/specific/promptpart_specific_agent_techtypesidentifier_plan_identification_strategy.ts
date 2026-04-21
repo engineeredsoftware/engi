@@ -1,4 +1,4 @@
-import { PromptPart } from '../../parts/PromptPart';
+import type { PromptPart } from '../../parts/PromptPart';
 
 /**
  * @doc-comment-developing-promptpartdevelopment
@@ -11,8 +11,6 @@ import { PromptPart } from '../../parts/PromptPart';
  *   { "name": "implementation_ready", "test": "Provides clear actionable guidance", "score": 0.50 }
  * ]
  */
-
-import type { PromptPart } from '../../parts/PromptPart';
 
 export const PROMPTPART_SPECIFIC_AGENT_TECHTYPESIDENTIFIER_PLAN_IDENTIFICATION_STRATEGY: PromptPart = 
   'Define an identification strategy: prioritized indicators, file globs, and tie‑breakers. Document assumptions and ambiguity handling.' as PromptPart;

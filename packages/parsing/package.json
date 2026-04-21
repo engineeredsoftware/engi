@@ -15,6 +15,7 @@
     "src"
   ],
   "dependencies": {
-    "@bitcode/logger": "workspace:*"
+    "@bitcode/logger": "workspace:*",
+    "zod": "^3.22.4"
   }
 }

@@ -14,6 +14,7 @@
       "@bitcode/pipeline-core/*": ["packages/pipelines-generics/src/*"],
 
       "@bitcode/types/*": ["packages/tech-types/src/*"],
+      "@bitcode/pipelines-generics": ["packages/pipelines-generics/src/index.ts"],
       "@bitcode/pipelines-generics/*": ["packages/pipelines-generics/src/*"],
       "@bitcode/pipeline-deliverable/*": ["packages/pipelines/deliverable/src/*"],
       "@bitcode/refactoring/*": ["packages/refactoring/src/*"],
@@ -27,6 +28,7 @@
       "@bitcode/pipelines/measure/*": ["packages/pipelines/measure/src/*"],
       "@bitcode/pipelines/obfuscate/*": ["packages/pipelines/obfuscate/src/*"],
       "@bitcode/pipelines/obfuscate": ["packages/pipelines/obfuscate/src/index.ts"],
+      "@bitcode/agent-generics": ["packages/agent-generics/src/index.ts"],
       "@bitcode/agent-generics/*": ["packages/agent-generics/src/*"],
       "@bitcode/generic-agents-language": ["packages/generic-agents/language/src/index.ts"],
       "@bitcode/generic-agents-ready-to-short-circuit": ["packages/generic-agents/ready-to-short-circuit/src/index.ts"],

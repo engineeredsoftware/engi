@@ -6,6 +6,9 @@
   "private": true,
   "description": "Conversation types and domain models matching GA-1 database schema exactly",
   "dependencies": {
-    "@bitcode/attachments-generics": "workspace:*"
+    "@bitcode/agent-generics": "workspace:*",
+    "@bitcode/attachments-generics": "workspace:*",
+    "@bitcode/prompts": "workspace:*",
+    "zod": "^3.24.1"
   }
 }

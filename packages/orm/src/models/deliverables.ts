@@ -26,7 +26,7 @@ export class DeliverablesModel extends BaseModel<'deliverables'> {
     let query = this.supabase
       .from(this.tableName)
       .select('*')
-      .eq('organization_id', organizationId)
+      .eq('user_id', organizationId)
       .order('updated_at', { ascending: false });
 
     if (options?.status) {
@@ -46,7 +46,7 @@ export class DeliverablesModel extends BaseModel<'deliverables'> {
    * Find deliverables by repository
    */
   async findByRepository(repositoryId: string): Promise<Tables<'deliverables'>[]> {
-    return this.findBy('repository_id', repositoryId);
+    return this.findBy('template_id', repositoryId);
   }
 
   /**
@@ -76,7 +76,8 @@ export class DeliverablesModel extends BaseModel<'deliverables'> {
    */
   async markAsRun(deliverableId: string): Promise<Tables<'deliverables'>> {
     return this.update(deliverableId, {
-      last_run_at: new Date().toISOString()
+      execution_count: 1,
+      updated_at: new Date().toISOString()
     });
   }
 
@@ -150,10 +151,10 @@ export class DeliverablesModel extends BaseModel<'deliverables'> {
     
     return this.create({
       ...cloneData,
-      name: `${cloneData.name} (Copy)`,
+      title: `${cloneData.title} (Copy)`,
       status: 'pending',
       effectiveness_score: null,
-      last_run_at: null,
+      execution_count: 0,
       ...overrides
     });
   }

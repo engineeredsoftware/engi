@@ -1,8 +1,8 @@
 import { Prompt } from '@bitcode/prompts';
 import { hierarchicalFormatter } from '@bitcode/prompts/formatters';
-import { PROMPTPART_SPECIFIC_SYSTEM_CONVERSATIONSPRODUCT_IDENTITY_CORESTATEMENT } from '@bitcode/prompts/src/raw_promptparts/specific/promptpart_specific_system_conversationsproduct_identity_corestatement';
-import { PROMPTPART_SPECIFIC_SYSTEM_CONVERSATIONSPRODUCT_CAPABILITIES_LIST } from '@bitcode/prompts/src/raw_promptparts/specific/promptpart_specific_system_conversationsproduct_capabilities_list';
-import { PROMPTPART_SPECIFIC_SYSTEM_CONVERSATIONSPRODUCT_USAGE_GUIDANCE } from '@bitcode/prompts/src/raw_promptparts/specific/promptpart_specific_system_conversationsproduct_usage_guidance';
+import { PROMPTPART_SPECIFIC_SYSTEM_CONVERSATIONSPRODUCT_IDENTITY_CORESTATEMENT } from '@bitcode/prompts/raw_promptparts/specific/promptpart_specific_system_conversationsproduct_identity_corestatement';
+import { PROMPTPART_SPECIFIC_SYSTEM_CONVERSATIONSPRODUCT_CAPABILITIES_LIST } from '@bitcode/prompts/raw_promptparts/specific/promptpart_specific_system_conversationsproduct_capabilities_list';
+import { PROMPTPART_SPECIFIC_SYSTEM_CONVERSATIONSPRODUCT_USAGE_GUIDANCE } from '@bitcode/prompts/raw_promptparts/specific/promptpart_specific_system_conversationsproduct_usage_guidance';
 
 /**
  * @doc-comment-developing-promptdevelopment

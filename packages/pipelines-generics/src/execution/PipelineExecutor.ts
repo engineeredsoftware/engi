@@ -69,7 +69,7 @@ export class PipelineExecutor {
     // Check for short-circuit signal
     if (hasShortCircuitSignal(output)) {
       // Store short-circuit information
-      this.execution.store('pipeline/short-circuit', 'signal', output.signal);
+      this.execution.store('pipeline/short-circuit', 'signal', output.signal as any);
       this.execution.store('pipeline/short-circuit', 'agent', agentName);
       this.execution.store('pipeline/short-circuit', 'timestamp', Date.now());
       // Step-level store emits handle agent-complete with step context

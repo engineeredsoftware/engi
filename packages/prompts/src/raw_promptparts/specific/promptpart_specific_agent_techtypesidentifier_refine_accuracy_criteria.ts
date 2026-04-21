@@ -1,4 +1,4 @@
-import { PromptPart } from '../../parts/PromptPart';
+import type { PromptPart } from '../../parts/PromptPart';
 
 /**
  * @doc-comment-developing-promptpartdevelopment
@@ -11,8 +11,6 @@ import { PromptPart } from '../../parts/PromptPart';
  *   { "name": "implementation_ready", "test": "Provides clear actionable guidance", "score": 0.50 }
  * ]
  */
-
-import type { PromptPart } from '../../parts/PromptPart';
 
 export const PROMPTPART_SPECIFIC_AGENT_TECHTYPESIDENTIFIER_REFINE_ACCURACY_CRITERIA: PromptPart = 
   'Accuracy criteria: precision/recall across tech labels, minimal misclassification, and explainability (why a label was chosen).' as PromptPart;

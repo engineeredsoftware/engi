@@ -19,6 +19,7 @@ import {
   retry,
   buildAgentStepWorkUpdate,
   storeAgentStepWorkUpdate,
+  getFileChangeStats,
   type ToolUsageUpdate,
 } from '@bitcode/execution-generics';
 import { Executor } from '@bitcode/execution-generics';
@@ -125,15 +126,15 @@ export function factoryPlanStep<TInput, TOutput>(
   });
   // Tools execution is a Step postprocess (not a failsafe)
   const withTools: Executor<any, any> = sequential(
-    core,
+    core as Executor<any, any>,
     conditional(
       (input: any) => input?.output?.useTools?.length > 0,
-      require('../substeps/factories').factoryToolsExecution(),
+      require('../substeps/factories').factoryToolsExecution() as Executor<any, any>,
       (input) => Promise.resolve(input)
-    )
+    ) as Executor<any, any>
   );
 
-  const wrapped: AgentStep<TInput, TOutput> = async (input, execution) => {
+  const wrapped: StepExecutor<TInput, TOutput> = async (input, execution) => {
     // Create a step execution node and attach step-level prompt if provided
     const stepExec = new (require('../execution').StepExecution)('plan', execution);
     // Explicitly store step name for downstream logging context
@@ -213,15 +214,15 @@ export function factoryTryStep<TInput, TOutput>(
     enableParallelChunks: options?.enableParallelChunks ?? true
   });
   const withTools: Executor<any, any> = sequential(
-    core,
+    core as Executor<any, any>,
     conditional(
       (input: any) => input?.output?.useTools?.length > 0,
-      require('../substeps/factories').factoryToolsExecution(),
+      require('../substeps/factories').factoryToolsExecution() as Executor<any, any>,
       (input) => Promise.resolve(input)
-    )
+    ) as Executor<any, any>
   );
   
-  const wrapped: AgentStep<TInput, TOutput> = async (input, execution) => {
+  const wrapped: StepExecutor<TInput, TOutput> = async (input, execution) => {
     const stepExec = new (require('../execution').StepExecution)('try', execution);
     try { stepExec.store('step', 'name', 'try'); } catch {}
     // Store agent step start so the stream adapter infers 'agent-start'
@@ -296,15 +297,15 @@ export function factoryRefineStep<TInput, TOutput>(
     enableParallelChunks: true
   });
   const withTools: Executor<any, any> = sequential(
-    core,
+    core as Executor<any, any>,
     conditional(
       (input: any) => input?.output?.useTools?.length > 0,
-      require('../substeps/factories').factoryToolsExecution(),
+      require('../substeps/factories').factoryToolsExecution() as Executor<any, any>,
       (input) => Promise.resolve(input)
-    )
+    ) as Executor<any, any>
   );
   
-  const wrapped: AgentStep<TInput, TOutput> = async (input, execution) => {
+  const wrapped: StepExecutor<TInput, TOutput> = async (input, execution) => {
     const stepExec = new (require('../execution').StepExecution)('refine', execution);
     try { stepExec.store('step', 'name', 'refine'); } catch {}
     // Store agent step start so the stream adapter infers 'agent-start'
@@ -382,7 +383,7 @@ export function factoryRetryStep<TInput, TOutput>(
   // Wrap in retry combinator
   // Zero retries by default: run once unless maxAttempts provided (>0 adds retries)
   const executorWithRetry = retry(
-    retryCore,
+    retryCore as Executor<any, any>,
     {
       // times counts attempts; default 1 means 0 retries
       times: (options?.maxAttempts ?? 0) + 1,
@@ -391,7 +392,7 @@ export function factoryRetryStep<TInput, TOutput>(
     }
   );
 
-  const wrapped: AgentStep<TInput, TOutput> = async (input, execution) => {
+  const wrapped: StepExecutor<TInput, TOutput> = async (input, execution) => {
     const stepExec = new (require('../execution').StepExecution)('retry', execution);
     try { stepExec.store('step', 'name', 'retry'); } catch {}
     // Store agent step start so the stream adapter infers 'agent-start'
@@ -457,7 +458,7 @@ export function factoryStep<TInput, TOutput>(
   type: AgentVariationStep,
   outputSchema: z.ZodType<TOutput>,
   options?: any
-): AgentStep<TInput, TOutput> {
+): StepExecutor<TInput, TOutput> {
   switch (type) {
     case AgentVariationStep.PLAN:
       return factoryPlanStep(outputSchema);
@@ -523,5 +524,11 @@ export function factoryPTRRAction<TInput, TOutput>(
     );
   }
   
-  return sequential(...steps);
+  return Object.assign(
+    sequential(...steps) as StepExecutor<TInput, TOutput>,
+    {
+      type: AgentVariationStep.TRY,
+      description: 'Execute the full PTRR action sequence'
+    }
+  ) as AgentStep<TInput, TOutput>;
 }

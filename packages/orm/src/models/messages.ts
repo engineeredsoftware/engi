@@ -30,7 +30,7 @@ export class MessagesModel extends BaseModel<'messages'> {
    */
   async listForConversation(
     conversationId: string,
-    options: MessageListOptions = {}
+    options: Partial<MessageListOptions> = {}
   ): Promise<MessageListResult> {
     const {
       limit = 50,
@@ -61,7 +61,7 @@ export class MessagesModel extends BaseModel<'messages'> {
     const messages = hasMore ? data.slice(0, limit) : (data || []);
 
     // Transform to MessageWithDetails if details included
-    const results = messages;
+    const results = messages as unknown as ConversationMessage[];
 
     const nextCursor = hasMore && results.length > 0
       ? results[results.length - 1].created_at
@@ -91,7 +91,7 @@ export class MessagesModel extends BaseModel<'messages'> {
       .update({ updated_at: new Date().toISOString() })
       .eq('id', input.conversation_id);
 
-    return message;
+    return message as unknown as ConversationMessage;
   }
 
   /**
@@ -120,7 +120,7 @@ export class MessagesModel extends BaseModel<'messages'> {
         .eq('id', message.conversation_id);
     }
 
-    return data as ConversationMessage;
+    return data as unknown as ConversationMessage;
   }
 
   /**
@@ -139,7 +139,7 @@ export class MessagesModel extends BaseModel<'messages'> {
       if (error.code === 'PGRST116') return null; // Not found
       throw error;
     }
-    return data;
+    return (data as unknown as ConversationMessage | null) || null;
   }
 
   /**

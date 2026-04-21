@@ -1482,6 +1482,8 @@ export type Database = {
 
 type DefaultSchema = Database[Extract<keyof Database, "public">]
 
+export type TableName = keyof DefaultSchema["Tables"];
+
 export type Tables<
   DefaultSchemaTableNameOrOptions extends
     | keyof (DefaultSchema["Tables"] & DefaultSchema["Views"])
@@ -1554,6 +1556,29 @@ export type TablesUpdate<
       ? U
       : never
     : never
+
+export type Insertable<T extends TableName> = TablesInsert<T>
+export type Updatable<T extends TableName> = TablesUpdate<T>
+
+export interface QueryOptions<T extends TableName = TableName> {
+  limit?: number
+  offset?: number
+  orderBy?: keyof Tables<T>
+  ascending?: boolean
+}
+
+export type UserProfileWithCredits = Tables<'user_profiles'> & {
+  credits?: Tables<'user_credits'> | null
+}
+
+export type DeliverableRunComplete = Tables<'pipeline_runs'> & {
+  execution?: Tables<'executions'> | null
+  events?: Tables<'execution_events'>[]
+}
+
+export type VCSRepositoryWithConnection = Tables<'vcs_repositories'> & {
+  connection?: Tables<'user_connections'> | null
+}
 
 export type Enums<
   DefaultSchemaEnumNameOrOptions extends

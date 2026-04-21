@@ -19,7 +19,6 @@ export { UserCreditUsagesModel } from './user-credit-usages';
 export { DeliverablesModel } from './deliverables';
 export { PipelineExecutionsModel } from './pipeline-executions';
 export { ExecutionEventsModel } from './execution-events';
-export { PhaseExecutionsModel } from './phase-executions';
 
 // Pipeline models (GA-1)
 export { PipelineRunsModel } from './pipeline-runs'; // generic metadata (legacy path)
@@ -47,9 +46,9 @@ export type {
 } from './user-model-preferences';
 
 export type {
-  UserCredit,
-  UserCreditInsert,
-  UserCreditUpdate,
+  UserCredits,
+  UserCreditsInsert,
+  UserCreditsUpdate,
 } from './user-credits';
 
 export type {

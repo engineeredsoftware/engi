@@ -16,20 +16,24 @@ import { log } from '@bitcode/logger';
 
 export abstract class BaseModel<T extends TableName> {
   protected readonly tableName: T;
+  protected readonly client: SupabaseClient<Database>;
+  protected readonly table: T;
   
   constructor(
     protected readonly supabase: SupabaseClient<Database>,
     tableName: T
   ) {
     this.tableName = tableName;
+    this.client = supabase;
+    this.table = tableName;
   }
 
   /**
    * Find a single record by ID
    */
   async findById(id: string): Promise<Tables<T> | null> {
-    const { data, error } = await this.supabase
-      .from(this.tableName)
+    const { data, error } = await (this.supabase as any)
+      .from(this.tableName as string)
       .select('*')
       .eq('id', id)
       .single();
@@ -60,7 +64,7 @@ export abstract class BaseModel<T extends TableName> {
     orderBy?: keyof Tables<T>;
     ascending?: boolean;
   }): Promise<Tables<T>[]> {
-    let query = this.supabase.from(this.tableName).select('*');
+    let query = (this.supabase as any).from(this.tableName as string).select('*');
 
     if (options?.orderBy) {
       query = query.order(options.orderBy as string, { 
@@ -87,15 +91,15 @@ export abstract class BaseModel<T extends TableName> {
    * Create a new record
    */
   async create(data: Insertable<T>): Promise<Tables<T>> {
-    const { data: created, error } = await this.supabase
-      .from(this.tableName)
-      .insert(data)
+    const { data: created, error } = await (this.supabase as any)
+      .from(this.tableName as string)
+      .insert(data as any)
       .select()
       .single();
 
     if (error) throw error;
 
-    log(`Created ${this.tableName} record`, 'info', { id: created.id });
+    log(`Created ${this.tableName} record`, 'info', { id: (created as any)?.id });
     
     return created as Tables<T>;
   }
@@ -104,9 +108,9 @@ export abstract class BaseModel<T extends TableName> {
    * Update a record by ID
    */
   async update(id: string, data: Updatable<T>): Promise<Tables<T>> {
-    const { data: updated, error } = await this.supabase
-      .from(this.tableName)
-      .update(data)
+    const { data: updated, error } = await (this.supabase as any)
+      .from(this.tableName as string)
+      .update(data as any)
       .eq('id', id)
       .select()
       .single();
@@ -122,8 +126,8 @@ export abstract class BaseModel<T extends TableName> {
    * Delete a record by ID
    */
   async delete(id: string): Promise<void> {
-    const { error } = await this.supabase
-      .from(this.tableName)
+    const { error } = await (this.supabase as any)
+      .from(this.tableName as string)
       .delete()
       .eq('id', id);
 
@@ -136,8 +140,8 @@ export abstract class BaseModel<T extends TableName> {
    * Count records with optional filtering
    */
   async count(filter?: Partial<Tables<T>>): Promise<number> {
-    let query = this.supabase
-      .from(this.tableName)
+    let query = (this.supabase as any)
+      .from(this.tableName as string)
       .select('id', { count: 'exact', head: true });
 
     // Apply filters
@@ -158,8 +162,8 @@ export abstract class BaseModel<T extends TableName> {
    * Check if a record exists
    */
   async exists(id: string): Promise<boolean> {
-    const { data, error } = await this.supabase
-      .from(this.tableName)
+    const { data, error } = await (this.supabase as any)
+      .from(this.tableName as string)
       .select('id')
       .eq('id', id)
       .single();
@@ -175,14 +179,14 @@ export abstract class BaseModel<T extends TableName> {
    * Batch create records
    */
   async createMany(data: Insertable<T>[]): Promise<Tables<T>[]> {
-    const { data: created, error } = await this.supabase
-      .from(this.tableName)
-      .insert(data)
+    const { data: created, error } = await (this.supabase as any)
+      .from(this.tableName as string)
+      .insert(data as any)
       .select();
 
     if (error) throw error;
 
-    log.info(`Batch created ${created?.length || 0} ${this.tableName} records`);
+    log(`Batch created ${created?.length || 0} ${this.tableName} records`, 'info');
     
     return (created || []) as Tables<T>[];
   }
@@ -194,8 +198,8 @@ export abstract class BaseModel<T extends TableName> {
     field: K,
     value: Tables<T>[K]
   ): Promise<Tables<T>[]> {
-    const { data, error } = await this.supabase
-      .from(this.tableName)
+    const { data, error } = await (this.supabase as any)
+      .from(this.tableName as string)
       .select('*')
       .eq(field as string, value);
 
@@ -222,7 +226,7 @@ export abstract class BaseModel<T extends TableName> {
     query: string,
     params?: unknown[]
   ): Promise<R[]> {
-    const { data, error } = await this.supabase.rpc('execute_sql', {
+    const { data, error } = await (this.supabase as any).rpc('execute_sql', {
       query,
       params
     });

@@ -30,7 +30,7 @@ function loadRealSdk(): SentryLike | null {
 
   // Check if we're in Edge Runtime - return null immediately (no eval in edge)
   if (process.env.NEXT_RUNTIME === 'edge') return null;
-  if (typeof EdgeRuntime !== 'undefined') return null;
+  if (typeof (globalThis as any).EdgeRuntime !== 'undefined') return null;
 
   // Prevent webpack from trying to bundle these modules during build
   if (typeof window !== 'undefined') return null;

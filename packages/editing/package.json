@@ -5,6 +5,7 @@
   "main": "src/index.ts",
   "types": "src/index.ts",
   "dependencies": {
-    "@bitcode/logger": "workspace:*"
+    "@bitcode/logger": "workspace:*",
+    "zod": "^3.22.4"
   }
 }

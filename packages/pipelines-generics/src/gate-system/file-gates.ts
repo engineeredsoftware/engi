@@ -9,9 +9,28 @@
  * @package @bitcode/pipelines-generics
  */
 
-import { minimatch } from 'minimatch';
 import type { MetaPhase, MetaPhaseConfig } from './types';
 import { META_PHASE_CONFIGS } from './types';
+
+function matchPattern(filePath: string, pattern: string): boolean {
+  if (pattern === '**/*') return true;
+  if (pattern.endsWith('/**')) {
+    return filePath.startsWith(pattern.slice(0, -3));
+  }
+  if (pattern.startsWith('**/')) {
+    return filePath.endsWith(pattern.slice(3));
+  }
+  if (pattern.includes('*')) {
+    const regex = new RegExp(
+      '^' + pattern
+        .replace(/[.+^${}()|[\]\\]/g, '\\$&')
+        .replace(/\*\*/g, '.*')
+        .replace(/\*/g, '[^/]*') + '$'
+    );
+    return regex.test(filePath);
+  }
+  return filePath === pattern;
+}
 
 /**
  * Check if a file path is allowed in the current meta-phase
@@ -25,13 +44,13 @@ export function isFileAllowed(filePath: string, metaPhase: MetaPhase): boolean {
     // Negation pattern (exclusion)
     if (pattern.startsWith('!')) {
       const negativePattern = pattern.slice(1);
-      if (minimatch(filePath, negativePattern)) {
+      if (matchPattern(filePath, negativePattern)) {
         return false;
       }
     }
     // Positive pattern (inclusion)
     else {
-      if (minimatch(filePath, pattern)) {
+      if (matchPattern(filePath, pattern)) {
         return true;
       }
     }

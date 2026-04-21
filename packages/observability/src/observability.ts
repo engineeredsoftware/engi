@@ -13,9 +13,9 @@ export async function trace<T>(name: string, fn: () => Promise<T>): Promise<T> {
 
 import { generateText as rawGenerateText } from 'ai';
 
-export async function generateTextTraced<T = any>(args: any): Promise<T> {
+export async function generateTextTraced(args: any): Promise<any> {
   const modelName = (args?.model?.model ?? args?.model?.id ?? 'unknown') as string;
-  return trace(`llm:generateText:${modelName}`, () => rawGenerateText<T>(args as any));
+  return trace(`llm:generateText:${modelName}`, () => rawGenerateText(args as any) as Promise<any>);
 }
 
 // ---------------------------------------------------------------------------

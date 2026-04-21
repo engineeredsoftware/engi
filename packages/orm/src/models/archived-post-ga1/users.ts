@@ -7,27 +7,62 @@
  * capabilities: ["auth", "profile", "organization"]
  */
 
-import { BaseModel } from './base';
-import { Tables, Database } from '../types/database';
-import { SupabaseClient } from '@supabase/supabase-js';
+import type { Database } from '../../types/database';
+import type { SupabaseClient } from '@supabase/supabase-js';
 
-export class UsersModel extends BaseModel<'users'> {
+export interface UserRecord {
+  id: string;
+  email?: string | null;
+  full_name?: string | null;
+  avatar_url?: string | null;
+  organization_id?: string | null;
+  updated_at?: string | null;
+  metadata?: Record<string, unknown> | null;
+}
+
+export class UsersModel {
   constructor(supabase: SupabaseClient<Database>) {
-    super(supabase, 'users');
+    this.supabase = supabase;
+  }
+
+  private readonly supabase: SupabaseClient<Database>;
+
+  async getById(id: string): Promise<UserRecord | null> {
+    const { data, error } = await this.supabase
+      .from('users' as any)
+      .select('*')
+      .eq('id', id)
+      .maybeSingle();
+
+    if (error) throw error;
+    return (data as unknown as UserRecord | null) || null;
   }
 
   /**
    * Find user by email
    */
-  async findByEmail(email: string): Promise<Tables<'users'> | null> {
-    return this.findOneBy('email', email);
+  async findByEmail(email: string): Promise<UserRecord | null> {
+    const { data, error } = await this.supabase
+      .from('users' as any)
+      .select('*')
+      .eq('email', email)
+      .maybeSingle();
+
+    if (error) throw error;
+    return (data as unknown as UserRecord | null) || null;
   }
 
   /**
    * Get users by organization
    */
-  async findByOrganization(organizationId: string): Promise<Tables<'users'>[]> {
-    return this.findBy('organization_id', organizationId);
+  async findByOrganization(organizationId: string): Promise<UserRecord[]> {
+    const { data, error } = await this.supabase
+      .from('users' as any)
+      .select('*')
+      .eq('organization_id', organizationId);
+
+    if (error) throw error;
+    return ((data || []) as unknown) as UserRecord[];
   }
 
   /**
@@ -37,8 +72,16 @@ export class UsersModel extends BaseModel<'users'> {
     full_name?: string;
     avatar_url?: string;
     metadata?: Record<string, unknown>;
-  }): Promise<Tables<'users'>> {
-    return this.update(userId, profile);
+  }): Promise<UserRecord> {
+    const { data, error } = await this.supabase
+      .from('users' as any)
+      .update(profile as any)
+      .eq('id', userId)
+      .select('*')
+      .single();
+
+    if (error) throw error;
+    return data as unknown as UserRecord;
   }
 
   /**
@@ -47,25 +90,25 @@ export class UsersModel extends BaseModel<'users'> {
   async assignToOrganization(
     userId: string, 
     organizationId: string
-  ): Promise<Tables<'users'>> {
-    return this.update(userId, { organization_id: organizationId });
+  ): Promise<UserRecord> {
+    return this.updateProfile(userId, { metadata: { organization_id: organizationId } });
   }
 
   /**
    * Get active users (logged in within last 30 days)
    */
-  async getActiveUsers(limit = 100): Promise<Tables<'users'>[]> {
+  async getActiveUsers(limit = 100): Promise<UserRecord[]> {
     const thirtyDaysAgo = new Date();
     thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
 
     const { data, error } = await this.supabase
-      .from(this.tableName)
+      .from('users' as any)
       .select('*')
       .gte('updated_at', thirtyDaysAgo.toISOString())
       .limit(limit)
       .order('updated_at', { ascending: false });
 
     if (error) throw error;
-    return data || [];
+    return ((data || []) as unknown) as UserRecord[];
   }
 }

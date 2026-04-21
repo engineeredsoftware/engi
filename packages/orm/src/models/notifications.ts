@@ -50,7 +50,7 @@ export class NotificationsModel extends BaseModel<'notifications'> {
       .order('created_at', { ascending: false });
 
     if (options?.unreadOnly) {
-      query = query.is('read_at', null);
+      query = query.neq('is_read', true);
     }
 
     if (options?.offset !== undefined) {
@@ -78,7 +78,7 @@ export class NotificationsModel extends BaseModel<'notifications'> {
     const { error } = await this.supabase
       .from(this.tableName)
       .update({ 
-        read_at: new Date().toISOString() 
+        is_read: true
       })
       .eq('id', notificationId)
       .eq('user_id', userId);
@@ -90,17 +90,17 @@ export class NotificationsModel extends BaseModel<'notifications'> {
    * Mark all notifications as read
    */
   async markAllAsRead(userId: string): Promise<number> {
-    const { count, error } = await this.supabase
+    const { data, error } = await this.supabase
       .from(this.tableName)
       .update({ 
-        read_at: new Date().toISOString() 
+        is_read: true
       })
       .eq('user_id', userId)
-      .is('read_at', null)
-      .select('*', { count: 'exact', head: true });
+      .neq('is_read', true)
+      .select('id');
 
     if (error) throw error;
-    return count || 0;
+    return (data || []).length;
   }
 
   /**
@@ -110,15 +110,25 @@ export class NotificationsModel extends BaseModel<'notifications'> {
     const cutoffDate = new Date();
     cutoffDate.setDate(cutoffDate.getDate() - daysOld);
 
-    const { count, error } = await this.supabase
+    const { data, error } = await this.supabase
       .from(this.tableName)
-      .delete({ count: 'exact' })
+      .select('id')
       .eq('user_id', userId)
-      .not('read_at', 'is', null)
-      .lt('read_at', cutoffDate.toISOString());
+      .eq('is_read', true)
+      .lt('created_at', cutoffDate.toISOString());
 
     if (error) throw error;
-    return count || 0;
+
+    const ids = (data || []).map((notification) => notification.id);
+    if (ids.length === 0) return 0;
+
+    const { error: deleteError } = await this.supabase
+      .from(this.tableName)
+      .delete()
+      .in('id', ids);
+
+    if (deleteError) throw deleteError;
+    return ids.length;
   }
 
   /**
@@ -129,7 +139,7 @@ export class NotificationsModel extends BaseModel<'notifications'> {
       .from(this.tableName)
       .select('*', { count: 'exact', head: true })
       .eq('user_id', userId)
-      .is('read_at', null);
+      .neq('is_read', true);
 
     if (error) throw error;
     return count || 0;
