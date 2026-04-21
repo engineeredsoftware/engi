@@ -18,6 +18,9 @@ interface ApplicationActionWorkbenchCardProps {
   chips?: string[];
   actionLabel: string;
   actionTarget: string;
+  secondaryActionLabel?: string;
+  secondaryActionDisabled?: boolean;
+  onSecondaryAction?: () => void;
 }
 
 export default function ApplicationActionWorkbenchCard({
@@ -30,6 +33,9 @@ export default function ApplicationActionWorkbenchCard({
   chips,
   actionLabel,
   actionTarget,
+  secondaryActionLabel,
+  secondaryActionDisabled = false,
+  onSecondaryAction,
 }: ApplicationActionWorkbenchCardProps) {
   return (
     <article id={id} className="rounded-[1.6rem] border border-white/8 bg-black/20 px-5 py-5">
@@ -38,13 +44,25 @@ export default function ApplicationActionWorkbenchCard({
           <p className="text-[0.66rem] uppercase tracking-[0.2em] text-emerald-300/75">{badge}</p>
           <h3 className="mt-2 text-xl font-semibold text-white">{title}</h3>
         </div>
-        <button
-          type="button"
-          onClick={() => jumpToShellSection(actionTarget)}
-          className="rounded-full border border-emerald-400/30 bg-emerald-400/10 px-3 py-2 text-[0.66rem] uppercase tracking-[0.18em] text-emerald-100 transition hover:border-emerald-300/50 hover:bg-emerald-400/15"
-        >
-          {actionLabel}
-        </button>
+        <div className="flex flex-wrap items-center justify-end gap-2">
+          {secondaryActionLabel && onSecondaryAction ? (
+            <button
+              type="button"
+              disabled={secondaryActionDisabled}
+              onClick={onSecondaryAction}
+              className="rounded-full border border-white/10 bg-white/5 px-3 py-2 text-[0.66rem] uppercase tracking-[0.18em] text-neutral-100 transition hover:border-white/18 hover:bg-white/10 disabled:cursor-not-allowed disabled:opacity-60"
+            >
+              {secondaryActionLabel}
+            </button>
+          ) : null}
+          <button
+            type="button"
+            onClick={() => jumpToShellSection(actionTarget)}
+            className="rounded-full border border-emerald-400/30 bg-emerald-400/10 px-3 py-2 text-[0.66rem] uppercase tracking-[0.18em] text-emerald-100 transition hover:border-emerald-300/50 hover:bg-emerald-400/15"
+          >
+            {actionLabel}
+          </button>
+        </div>
       </div>
 
       <p className="mt-3 text-sm leading-6 text-neutral-300">{summary}</p>

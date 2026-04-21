@@ -6,14 +6,26 @@ import BitcodeChipCloud from '@/components/base/bitcode/execution/BitcodeChipClo
 import BitcodeMetricGrid from '@/components/base/bitcode/execution/BitcodeMetricGrid';
 
 import ApplicationWorkspaceCard from './ApplicationWorkspaceCard';
+import {
+  buildApplicationSupplySelectionDraft,
+  type ApplicationActivityRecordDraft,
+} from './application-activity-history';
 import { APPLICATION_WORKSPACE_EXPLAINERS } from './application-workspace-explainers';
 import { normalizeApplicationSupplySelection, type ApplicationSupplySelectionState } from './application-supply-selection';
 import { useApplicationShellBridge } from './application-shell-bridge';
 import { jumpToShellSection } from './application-shell-reading';
 
-export default function ApplicationSupplySelectionPanel() {
+interface ApplicationSupplySelectionPanelProps {
+  onRecordActivity?: (draft: ApplicationActivityRecordDraft) => Promise<unknown>;
+}
+
+export default function ApplicationSupplySelectionPanel({
+  onRecordActivity,
+}: ApplicationSupplySelectionPanelProps) {
   const { snapshot, runControl } = useApplicationShellBridge();
   const [searchValue, setSearchValue] = useState('');
+  const [recordMessage, setRecordMessage] = useState<string | null>(null);
+  const [isRecording, setIsRecording] = useState(false);
   const selection = useMemo<ApplicationSupplySelectionState | null>(
     () => normalizeApplicationSupplySelection(snapshot),
     [snapshot],
@@ -27,6 +39,22 @@ export default function ApplicationSupplySelectionPanel() {
     () => selection?.filteredEntries.filter((entry) => entry.selected).slice(0, 6).map((entry) => entry.title) || [],
     [selection],
   );
+
+  const handleRecordSelection = async () => {
+    if (!selection || !onRecordActivity) return;
+
+    setIsRecording(true);
+    setRecordMessage(null);
+
+    try {
+      await onRecordActivity(buildApplicationSupplySelectionDraft(selection));
+      setRecordMessage('Selected give-side supply recorded into the Bitcode activity ledger.');
+    } catch (error) {
+      setRecordMessage(error instanceof Error ? error.message : 'Unable to record give-side selection.');
+    } finally {
+      setIsRecording(false);
+    }
+  };
 
   if (!selection) {
     return (
@@ -64,6 +92,11 @@ export default function ApplicationSupplySelectionPanel() {
         />
       }
     >
+      {recordMessage ? (
+        <div className="mt-4 rounded-[1.3rem] border border-white/8 bg-white/5 px-4 py-4 text-sm leading-6 text-neutral-200">
+          {recordMessage}
+        </div>
+      ) : null}
 
       <div className="mt-6 grid gap-4 xl:grid-cols-[minmax(0,1.2fr)_minmax(0,0.8fr)]">
         <div className="grid gap-4 lg:grid-cols-3">
@@ -135,6 +168,16 @@ export default function ApplicationSupplySelectionPanel() {
             className="mt-4 rounded-[1.3rem] border border-emerald-400/30 bg-emerald-400/10 px-4 py-3 text-sm font-medium text-emerald-100 transition hover:border-emerald-300/50 hover:bg-emerald-400/15"
           >
             Continue to Give flow
+          </button>
+          <button
+            type="button"
+            disabled={isRecording}
+            onClick={() => {
+              void handleRecordSelection();
+            }}
+            className="mt-3 rounded-[1.3rem] border border-white/10 bg-white/5 px-4 py-3 text-sm font-medium text-neutral-100 transition hover:border-white/18 hover:bg-white/10 disabled:cursor-not-allowed disabled:opacity-60"
+          >
+            {isRecording ? 'Recording selection…' : 'Record give selection'}
           </button>
         </div>
       </div>

@@ -943,6 +943,16 @@ Required closure posture:
   `uapi/tests/conversationsEnhancedRichTextInput.test.tsx` and `uapi/tests/conversationsOverlayMapping.test.ts`
   proof surface:
   fifth-gate conversations destination-roundtrip closure so Bitcode Terminal rich input now serializes `!` selections as canonical output-destination tokens, persisted conversation detail rehydrates source/destination/execution attachments back into chat tokens for stable reread, and execution follow-through from the fullscreen overlay points back into the Bitcode activity ledger at `/application` rather than teaching the retained `/executions` peer surface as the primary destination
+- `{uapi/app/application/{ApplicationPageClient.tsx,ApplicationCommandDeck.tsx,ApplicationDepositComposer.tsx,ApplicationClosureControlDeck.tsx,ApplicationTransactionWorkspace.tsx,ApplicationTransactionDetailSurface.tsx,application-activity-history.ts},uapi/tests/applicationActivityHistory.test.ts}`
+  test coverage:
+  `uapi/tests/applicationActivityHistory.test.ts`
+  proof surface:
+  fifth-gate application write-through closure so Bitcode Terminal command, deposit, closure, and selected-detail actions now record canonical Bitcode activity rows into retained execution history, immediately select those rows back into `/application`, and teach the application ledger as the reread surface instead of leaving protocol writes trapped in preserved shell controls or separate execution routes
+- `{uapi/app/application/{ApplicationPageClient.tsx,ApplicationGiveNeedWorkbench.tsx,ApplicationNeedScenarioPanel.tsx,ApplicationSupplySelectionPanel.tsx,ApplicationActionWorkbenchCard.tsx,application-activity-history.ts},uapi/tests/applicationActivityHistory.test.ts}`
+  test coverage:
+  `uapi/tests/applicationActivityHistory.test.ts`
+  proof surface:
+  fifth-gate give-need workbench closure so Bitcode Terminal give-side selection, active need measurement, and fit/settlement posture can all be explicitly recorded back into the same Bitcode activity ledger, keeping repository/supply/need/fit decision boundaries on the protocol-owned write/read path rather than leaving them as preserved-shell-only state
 
 ## Module namespace proof note
 

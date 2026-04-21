@@ -6,6 +6,10 @@ import BitcodeChipCloud from '@/components/base/bitcode/execution/BitcodeChipClo
 import BitcodeMetricGrid from '@/components/base/bitcode/execution/BitcodeMetricGrid';
 
 import ApplicationWorkspaceCard from './ApplicationWorkspaceCard';
+import {
+  type ApplicationActivityRecordDraft,
+  readApplicationRouteError,
+} from './application-activity-history';
 import { APPLICATION_WORKSPACE_EXPLAINERS } from './application-workspace-explainers';
 import {
   normalizeApplicationDepositComposer,
@@ -20,18 +24,13 @@ type SubmitState =
   | { kind: 'success'; message: string }
   | { kind: 'error'; message: string };
 
-async function parseErrorMessage(response: Response) {
-  try {
-    const payload = await response.json();
-    if (payload && typeof payload === 'object') {
-      const message = 'error' in payload ? payload.error : 'message' in payload ? payload.message : null;
-      if (typeof message === 'string' && message.trim()) return message;
-    }
-  } catch {}
-  return `Deposit failed with status ${response.status}.`;
+interface ApplicationDepositComposerProps {
+  onRecordActivity?: (draft: ApplicationActivityRecordDraft) => Promise<unknown>;
 }
 
-export default function ApplicationDepositComposer() {
+export default function ApplicationDepositComposer({
+  onRecordActivity,
+}: ApplicationDepositComposerProps) {
   const { snapshot, runControl } = useApplicationShellBridge();
   const [title, setTitle] = useState('');
   const [author, setAuthor] = useState('');
@@ -100,9 +99,13 @@ export default function ApplicationDepositComposer() {
       });
 
       if (!response.ok) {
-        setSubmitState({ kind: 'error', message: await parseErrorMessage(response) });
+        setSubmitState({ kind: 'error', message: await readApplicationRouteError(response, 'Deposit failed.') });
         return;
       }
+
+      const payload = (await response.json()) as {
+        asset?: { assetId?: string | null; title?: string | null };
+      };
 
       await runControl((controls) => controls.refresh?.());
       setTitle('');
@@ -116,10 +119,37 @@ export default function ApplicationDepositComposer() {
       setWorkingNote('');
       setTags('');
       setContent('');
+      try {
+        await onRecordActivity?.({
+          type: 'agentic-execution:branch-artifact',
+          detailSection: 'transaction',
+          summary:
+            payload.asset?.title ||
+            title.trim() ||
+            `Deposited ${composer.selectedCount || 1} candidate Bitcode asset pack${composer.selectedCount === 1 ? '' : 's'}.`,
+          context: {
+            source: 'application-deposit-composer',
+            authSessionId: composer.authSessionId || null,
+            selectedInventoryEntryIds: composer.selectedInventoryEntryIds,
+            selectedInventoryTitles: composer.selectedEntries.map((entry) => entry.title),
+            candidateAssetId: payload.asset?.assetId || null,
+          },
+          output: {
+            asset: payload.asset || null,
+          },
+        });
+      } catch (recordError) {
+        const message =
+          recordError instanceof Error
+            ? `${recordError.message} The deposit still landed in the Bitcode protocol state.`
+            : 'The deposit landed in the Bitcode protocol state, but the ledger row could not be recorded.';
+        setSubmitState({ kind: 'error', message });
+        return;
+      }
       setSubmitState({
         kind: 'success',
         message:
-          'Candidate asset deposited into the Bitcode repo-authenticated flow. Re-run Make Bitcode branch to inspect fit, proof, and settlement impact.',
+          'Candidate asset deposited into the Bitcode repo-authenticated flow and recorded into the Bitcode activity ledger.',
       });
     } catch (error) {
       const message = error instanceof Error ? error.message : 'Deposit failed.';

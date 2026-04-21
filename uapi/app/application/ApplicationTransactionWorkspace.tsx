@@ -18,6 +18,7 @@ import type { BitcodeDetailRow } from '@/components/base/bitcode/execution/Bitco
 import type { BitcodeMetric } from '@/components/base/bitcode/execution/BitcodeMetricGrid';
 
 import ApplicationTransactionDetailSurface from './ApplicationTransactionDetailSurface';
+import type { ApplicationActivityRecordDraft } from './application-activity-history';
 import ApplicationTransactionsTable from './ApplicationTransactionsTable';
 import type { ApplicationTransactionDetailSection } from './application-transaction-query';
 import {
@@ -197,6 +198,7 @@ interface ApplicationTransactionWorkspaceProps {
   runsError: string | null;
   transactionDataMode: TransactionDataMode;
   onSelectTransaction: (transactionId: string) => void;
+  onRecordActivity?: (draft: ApplicationActivityRecordDraft) => Promise<unknown>;
 }
 
 export default function ApplicationTransactionWorkspace({
@@ -213,6 +215,7 @@ export default function ApplicationTransactionWorkspace({
   runsError,
   transactionDataMode,
   onSelectTransaction,
+  onRecordActivity,
 }: ApplicationTransactionWorkspaceProps) {
   const mockDeliverables = selectedRun ? MOCK_RUN_DELIVERABLES[selectedRun.id] : null;
   const usesMockTransactions = isMockTransactionDataMode(transactionDataMode);
@@ -307,10 +310,10 @@ export default function ApplicationTransactionWorkspace({
                 {getTransactionDataModeLabel(transactionDataMode)}
               </span>
               <Link
-                href={`/executions?runId=${encodeURIComponent(selectedRun.id)}`}
+                href={`/application?transactionId=${encodeURIComponent(selectedRun.id)}&transactionDetail=activity`}
                 className="rounded-full border border-white/12 bg-white/5 px-3 py-2 text-[0.7rem] uppercase tracking-[0.2em] text-neutral-200 transition hover:border-white/20 hover:bg-white/10"
               >
-                Open execution route
+                Open in Bitcode Terminal
               </Link>
             </div>
           ) : null}
@@ -370,6 +373,7 @@ export default function ApplicationTransactionWorkspace({
               transactionDataMode={transactionDataMode}
               detailSection={detailSection}
               onDetailSectionChange={onDetailSectionChange}
+              onRecordActivity={onRecordActivity}
             />
           </div>
         )}

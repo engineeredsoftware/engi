@@ -5,6 +5,10 @@ import { useMemo, useState } from 'react';
 import BitcodeMetricGrid from '@/components/base/bitcode/execution/BitcodeMetricGrid';
 
 import ApplicationWorkspaceCard from './ApplicationWorkspaceCard';
+import {
+  readApplicationRouteError,
+  type ApplicationActivityRecordDraft,
+} from './application-activity-history';
 import { APPLICATION_WORKSPACE_EXPLAINERS } from './application-workspace-explainers';
 import { jumpToShellSection } from './application-shell-reading';
 import {
@@ -28,9 +32,16 @@ function toneClasses(tone: ApplicationClosureControlState['statusTone']) {
   return 'border-sky-500/25 bg-sky-500/10 text-sky-100';
 }
 
-export default function ApplicationClosureControlDeck() {
+interface ApplicationClosureControlDeckProps {
+  onRecordActivity?: (draft: ApplicationActivityRecordDraft) => Promise<unknown>;
+}
+
+export default function ApplicationClosureControlDeck({
+  onRecordActivity,
+}: ApplicationClosureControlDeckProps) {
   const { snapshot, runControl } = useApplicationShellBridge();
   const [isActing, setIsActing] = useState(false);
+  const [actionError, setActionError] = useState<string | null>(null);
   const commandState = useMemo<ApplicationCommandState | null>(
     () => normalizeApplicationCommandState(snapshot),
     [snapshot],
@@ -51,6 +62,54 @@ export default function ApplicationClosureControlDeck() {
   };
 
   const state = normalizeApplicationClosureControlState(commandState, closureState);
+  const handlePrimaryClosureAction = async () => {
+    setIsActing(true);
+    setActionError(null);
+
+    try {
+      const response = await fetch('/api/make-bitcode-branch', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          branchMode: commandState?.branchMode || undefined,
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error(
+          await readApplicationRouteError(response, 'Unable to run the closure branch activity.'),
+        );
+      }
+
+      const payload = (await response.json()) as Record<string, unknown>;
+      await runControl((controls) => controls.refresh?.());
+      await onRecordActivity?.({
+        type: 'agentic-execution:branch-artifact',
+        detailSection: 'closure',
+        summary: state.primaryActionSummary,
+        context: {
+          source: 'application-closure-control-deck',
+          branchMode: commandState?.branchMode || null,
+          scenario: commandState?.scenario || null,
+          specVersion: payload.specVersion ?? null,
+        },
+        output: {
+          protocol: {
+            ok: payload.ok ?? true,
+            latestRun: payload.latestRun ?? null,
+          },
+        },
+      });
+    } catch (error) {
+      setActionError(
+        error instanceof Error ? error.message : 'Unable to run the closure branch activity.',
+      );
+    } finally {
+      setIsActing(false);
+    }
+  };
 
   return (
     <ApplicationWorkspaceCard
@@ -111,7 +170,7 @@ export default function ApplicationClosureControlDeck() {
               type="button"
               disabled={isActing || !state.shellReady}
               onClick={() => {
-                void handleControlAction((controls) => controls.makeBranch?.());
+                void handlePrimaryClosureAction();
               }}
               className="rounded-[1.4rem] border border-emerald-400/30 bg-emerald-400/10 px-4 py-4 text-left text-sm font-medium text-emerald-100 transition hover:border-emerald-300/50 hover:bg-emerald-400/15 disabled:cursor-not-allowed disabled:opacity-50"
             >
@@ -144,6 +203,12 @@ export default function ApplicationClosureControlDeck() {
             <p className="mt-2 text-neutral-100">{state.status}</p>
             <p className="mt-3 text-neutral-500">Flow continuity</p>
             <p className="mt-1 text-neutral-100">{state.flowGuideDetail}</p>
+            {actionError ? (
+              <>
+                <p className="mt-3 text-neutral-500">Ledger write</p>
+                <p className="mt-1 text-red-200">{actionError}</p>
+              </>
+            ) : null}
           </div>
         </article>
 

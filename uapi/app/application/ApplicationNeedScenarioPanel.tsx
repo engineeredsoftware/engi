@@ -1,10 +1,14 @@
 'use client';
 
-import { useMemo } from 'react';
+import { useMemo, useState } from 'react';
 
 import BitcodeMetricGrid from '@/components/base/bitcode/execution/BitcodeMetricGrid';
 
 import ApplicationWorkspaceCard from './ApplicationWorkspaceCard';
+import {
+  buildApplicationNeedMeasurementDraft,
+  type ApplicationActivityRecordDraft,
+} from './application-activity-history';
 import { APPLICATION_WORKSPACE_EXPLAINERS } from './application-workspace-explainers';
 import {
   normalizeApplicationNeedScenarios,
@@ -13,8 +17,14 @@ import {
 import { useApplicationShellBridge } from './application-shell-bridge';
 import { jumpToShellSection } from './application-shell-reading';
 
-export default function ApplicationNeedScenarioPanel() {
+interface ApplicationNeedScenarioPanelProps {
+  onRecordActivity?: (draft: ApplicationActivityRecordDraft) => Promise<unknown>;
+}
+
+export default function ApplicationNeedScenarioPanel({ onRecordActivity }: ApplicationNeedScenarioPanelProps) {
   const { snapshot, runControl } = useApplicationShellBridge();
+  const [actionMessage, setActionMessage] = useState<string | null>(null);
+  const [isRecording, setIsRecording] = useState(false);
   const needState = useMemo<ApplicationNeedScenariosState | null>(
     () => normalizeApplicationNeedScenarios(snapshot),
     [snapshot],
@@ -22,6 +32,22 @@ export default function ApplicationNeedScenarioPanel() {
 
   const selectScenario = async (scenarioId: string) => {
     await runControl((controls) => controls.setScenario?.(scenarioId));
+  };
+
+  const handleRecordActiveNeed = async () => {
+    if (!needState || !onRecordActivity) return;
+
+    setIsRecording(true);
+    setActionMessage(null);
+
+    try {
+      await onRecordActivity(buildApplicationNeedMeasurementDraft(needState));
+      setActionMessage('Active need measurement recorded into the Bitcode activity ledger.');
+    } catch (error) {
+      setActionMessage(error instanceof Error ? error.message : 'Unable to record the active need measurement.');
+    } finally {
+      setIsRecording(false);
+    }
   };
 
   if (!needState) {
@@ -59,8 +85,23 @@ export default function ApplicationNeedScenarioPanel() {
         />
       }
     >
+      {actionMessage ? (
+        <div className="mt-4 rounded-[1.3rem] border border-white/8 bg-white/5 px-4 py-4 text-sm leading-6 text-neutral-200">
+          {actionMessage}
+        </div>
+      ) : null}
 
       <div className="mt-6 flex flex-wrap gap-3">
+        <button
+          type="button"
+          disabled={isRecording}
+          onClick={() => {
+            void handleRecordActiveNeed();
+          }}
+          className="rounded-[1.4rem] border border-white/10 bg-white/5 px-4 py-3 text-sm font-medium text-neutral-100 transition hover:border-white/18 hover:bg-white/10 disabled:cursor-not-allowed disabled:opacity-60"
+        >
+          {isRecording ? 'Recording need…' : 'Record active need'}
+        </button>
         <button
           type="button"
           onClick={() => jumpToShellSection('applicationNeedScenarios')}

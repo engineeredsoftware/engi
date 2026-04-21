@@ -738,9 +738,11 @@ It is the joined deployment of:
 
 The following are required for fifth-gate minimum functionality:
 - activity-ledger master-detail read posture is searchable, filterable, paginatable, and stable,
+- `/application` write surfaces for give, need, deposit, branch, and closure round-trip back into that same activity ledger rather than leaving the Bitcode Terminal for a separate write/read model,
 - conversations are a real rich-input write surface with source attachments, execution intent, and output destinations,
 - auxillaries hold the real preconditions for transacting and settling,
 - wallet identity in `Profile` plus GitHub or equivalent repository scope in `Connects` are enforced as the minimum transactional readiness posture,
+- protocol-owned routes like deposit and branch creation plus retained execution-history rows stay synchronized enough that a successful write can immediately be reread inside Bitcode Terminal detail,
 - retained persistence, ORM/query, and route carriers form one coherent state model rather than separate demo/app interpretations,
 - and active product semantics teach Bitcode shares of technical intelligence rather than a loose generic developer or agentic platform.
 
@@ -748,6 +750,27 @@ The following are explicitly not required for fifth-gate closure:
 - final financial-product aesthetic tightening and high-polish interface refinement; that is later quality/commercial-readiness work,
 - a `mainnet` split or post-testnet deployment posture; that belongs to later V28-style addition work beyond the V26 minimum-functional target,
 - or whole-repository proof saturation beyond the closure families already assigned to V26 later gates.
+
+### Remaining fifth-gate closure set
+
+The remaining fifth-gate closure set must be read through the two north-star abilities above.
+
+To close `make shares`, the repository still has to ensure:
+- repository anchoring, supply selection, need measurement, fit/settlement posture, deposit, branch creation, and closure controls can all write Bitcode activity back into the same ledger rather than stopping at preserved shell state,
+- those writes stay source-bearing and rerunnable through the Bitcode Terminal and admitted API surfaces,
+- and the retained execution substrate is teaching canonical Bitcode share-making semantics rather than generic transaction or pipeline posture.
+
+To close `use shares`, the repository still has to ensure:
+- the Bitcode activity ledger is the dominant searchable, filterable, paginatable, stable master-detail read surface,
+- selected activity detail exposes asset packs, proofs, history, and settlement follow-through without forcing a second primary surface,
+- conversations, APIs, MCPs, and admitted third-party app interfaces can read and continue the same Bitcode-owned state,
+- and auxillary readiness, wallet posture, repository scope, and destination routing remain part of the same system rather than side assumptions.
+
+To close fifth-gate as a whole, the repository still has to ensure:
+- protocol-owned writes, retained execution-history rows, persisted conversation state, and `/application` rereads remain coherently synchronized,
+- active product semantics teach Bitcode shares of technical intelligence and only Bitcode,
+- repository-wide active-source health is stable enough to support the minimum-functional claim,
+- and the fifth-gate proof families can be generated without unresolved blockers in the required proof path.
 
 ### Fifth-gate proof families required for Bitcode rename completion and system completeness
 

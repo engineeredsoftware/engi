@@ -1,14 +1,14 @@
 'use client';
 
-import { useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 
-import { buildAgenticExecutionSummary } from '@bitcode/api/src/executions/agentic-execution';
 import { mountBitcodeApplicationShell } from '@bitcode/protocol-demonstration/src/client-entry.js';
 import type { TransactionDataMode } from '@/components/base/bitcode/execution/bitcode-transaction-types';
 import ConversationsOverlay from '@/app/conversations/components/ConversationsOverlay';
 import { fetchPipelineExecutionHistory } from '@/networking/api-client';
 import { isUserOrbitalMockMode } from '@/lib/mock-review-mode';
+import type { PipelineExecution } from '@/types/api';
 
 import ApplicationCommandDeck from './ApplicationCommandDeck';
 import ApplicationClosureControlDeck from './ApplicationClosureControlDeck';
@@ -27,6 +27,13 @@ import ApplicationSurfaceSection from './ApplicationSurfaceSection';
 import ApplicationSupplySelectionPanel from './ApplicationSupplySelectionPanel';
 import ApplicationTransactionWorkspace from './ApplicationTransactionWorkspace';
 import ApplicationWorkspaceRail from './ApplicationWorkspaceRail';
+import {
+  buildApplicationExecutionHistoryRequest,
+  mapExecutionHistoryRunToWorkspaceRun,
+  readApplicationRouteError,
+  type ApplicationActivityRecordDraft,
+  upsertWorkspaceRun,
+} from './application-activity-history';
 import { APPLICATION_SURFACE_COPY } from './application-workspace-copy';
 import { ApplicationShellBridgeProvider } from './application-shell-bridge';
 import type { ApplicationRepositoryContextState } from './application-repository-context';
@@ -77,6 +84,16 @@ export default function ApplicationPageClient() {
   const runs = transactionSource.runs;
   const transactionDataMode: TransactionDataMode = transactionSource.dataMode;
   const runsError = transactionDataMode === 'review-fallback' ? null : runsLoadError;
+  const replaceApplicationRoute = useCallback(
+    (transactionId: string, detailSection = selectedTransactionDetailSection) => {
+      const nextParams = writeApplicationTransactionDetailSection(
+        writeApplicationTransactionId(searchParams, transactionId),
+        detailSection,
+      );
+      router.replace(`${pathname}?${nextParams.toString()}`, { scroll: false });
+    },
+    [pathname, router, searchParams, selectedTransactionDetailSection],
+  );
 
   useEffect(() => {
     let disposed = false;
@@ -110,81 +127,34 @@ export default function ApplicationPageClient() {
     };
   }, []);
 
-  useEffect(() => {
-    let disposed = false;
-
+  const refreshLiveRuns = useCallback(async () => {
     if (mockMode) {
       setLiveRuns([]);
       setIsLoadingRuns(false);
       setRunsLoadError(null);
-      return () => {
-        disposed = true;
-      };
+      return [];
     }
 
     setIsLoadingRuns(true);
     setRunsLoadError(null);
 
-    fetchPipelineExecutionHistory()
-      .then((history) => {
-        if (disposed) return;
-        setLiveRuns(
-          history.map((run) => {
-            const agenticExecution =
-              run.agentic_execution ||
-              buildAgenticExecutionSummary({
-                type: run.type,
-                status: run.status,
-              });
-
-            return {
-              id: run.id,
-              created_at: run.created_at,
-              status: run.status,
-              type: agenticExecution.canonicalType,
-              agentic_execution: agenticExecution,
-              summary:
-                run.summary || run.final_work_summary?.summary || run.final_work_summary?.deliverables?.summary || null,
-              repository:
-                run.repo_snapshot || run.final_work_summary?.repoSnapshot
-                  ? `${(run.repo_snapshot || run.final_work_summary?.repoSnapshot)?.org}/${(run.repo_snapshot || run.final_work_summary?.repoSnapshot)?.repo}`
-                  : null,
-              branch: (run.repo_snapshot || run.final_work_summary?.repoSnapshot)?.branch || null,
-              participant:
-                (run.repo_snapshot || run.final_work_summary?.repoSnapshot)?.org || 'connected account',
-              isOwnTransaction: true,
-              transactionLens: agenticExecution.lens,
-              itemCount: run.items?.length || 0,
-              tokenTotal:
-                run.processing_stats?.tokens?.total ?? run.final_work_summary?.processingStats?.tokens?.total ?? null,
-              btdUsed:
-                run.processing_stats?.btdUsed ??
-                run.final_work_summary?.processingStats?.btdUsed ??
-                null,
-              usdTotal: run.processing_stats?.usdTotal ?? run.final_work_summary?.processingStats?.usdTotal ?? null,
-              averageLatencyMs:
-                run.processing_stats?.averageLatencyMs ??
-                run.final_work_summary?.processingStats?.averageLatencyMs ??
-                null,
-              proofStatus: agenticExecution.proofStatus,
-              closureFocus: agenticExecution.closureFocus,
-            };
-          }),
-        );
-      })
-      .catch((error) => {
-        if (disposed) return;
-        setLiveRuns([]);
-        setRunsLoadError(error instanceof Error ? error.message : 'Unable to load recent runs.');
-      })
-      .finally(() => {
-        if (!disposed) setIsLoadingRuns(false);
-      });
-
-    return () => {
-      disposed = true;
-    };
+    try {
+      const history = await fetchPipelineExecutionHistory();
+      const nextRuns = history.map(mapExecutionHistoryRunToWorkspaceRun);
+      setLiveRuns(nextRuns);
+      return nextRuns;
+    } catch (error) {
+      setLiveRuns([]);
+      setRunsLoadError(error instanceof Error ? error.message : 'Unable to load recent runs.');
+      return [];
+    } finally {
+      setIsLoadingRuns(false);
+    }
   }, [mockMode]);
+
+  useEffect(() => {
+    void refreshLiveRuns();
+  }, [refreshLiveRuns]);
 
   useEffect(() => {
     if (!runs.length) return;
@@ -199,9 +169,45 @@ export default function ApplicationPageClient() {
   );
 
   const handleSelectTransaction = (transactionId: string) => {
-    const nextParams = writeApplicationTransactionId(searchParams, transactionId);
-    router.replace(`${pathname}?${nextParams.toString()}`, { scroll: false });
+    replaceApplicationRoute(transactionId);
   };
+
+  const handleRecordActivity = useCallback(
+    async (draft: ApplicationActivityRecordDraft) => {
+      if (mockMode) return null;
+
+      const response = await fetch('/api/executions/history', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(
+          buildApplicationExecutionHistoryRequest(draft, {
+            repositoryContext,
+            fallbackRun: selectedRun,
+          }),
+        ),
+      });
+
+      if (!response.ok) {
+        throw new Error(
+          await readApplicationRouteError(response, 'Unable to record Bitcode activity into the ledger.'),
+        );
+      }
+
+      const payload = (await response.json()) as { execution?: PipelineExecution };
+      if (!payload.execution) {
+        throw new Error('Bitcode activity response did not include an execution row.');
+      }
+
+      const nextRun = mapExecutionHistoryRunToWorkspaceRun(payload.execution);
+      setLiveRuns((currentRuns) => upsertWorkspaceRun(currentRuns, nextRun));
+      replaceApplicationRoute(nextRun.id, draft.detailSection || 'activity');
+      void refreshLiveRuns();
+      return nextRun;
+    },
+    [mockMode, refreshLiveRuns, replaceApplicationRoute, repositoryContext, selectedRun],
+  );
 
   const handleTransactionFiltersChange = (nextFilters: typeof transactionFilters) => {
     const nextParams = writeApplicationTransactionPagination(
@@ -287,6 +293,7 @@ export default function ApplicationPageClient() {
                 onPaginationChange={handleTransactionPaginationChange}
                 detailSection={selectedTransactionDetailSection}
                 onDetailSectionChange={handleTransactionDetailSectionChange}
+                onRecordActivity={handleRecordActivity}
               />
             </div>
             <aside className="min-w-0">
@@ -312,7 +319,7 @@ export default function ApplicationPageClient() {
                 <ApplicationExperienceFrame onOpenConversations={() => setIsConversationOverlayOpen(true)} />
                 <div className="grid gap-6 2xl:grid-cols-[minmax(0,1.05fr)_minmax(20rem,0.95fr)]">
                   <div className="space-y-6">
-                    <ApplicationCommandDeck />
+                    <ApplicationCommandDeck onRecordActivity={handleRecordActivity} />
                     <ApplicationLiveSummaryStrip />
                   </div>
                   <div className="space-y-6">
@@ -335,12 +342,15 @@ export default function ApplicationPageClient() {
                       preferredRepository={selectedRun?.repository || null}
                       onContextChange={setRepositoryContext}
                     />
-                    <ApplicationSupplySelectionPanel />
-                    <ApplicationDepositComposer />
+                    <ApplicationSupplySelectionPanel onRecordActivity={handleRecordActivity} />
+                    <ApplicationDepositComposer onRecordActivity={handleRecordActivity} />
                   </div>
                   <div className="space-y-6">
-                    <ApplicationNeedScenarioPanel />
-                    <ApplicationGiveNeedWorkbench repositoryContext={repositoryContext} />
+                    <ApplicationNeedScenarioPanel onRecordActivity={handleRecordActivity} />
+                    <ApplicationGiveNeedWorkbench
+                      repositoryContext={repositoryContext}
+                      onRecordActivity={handleRecordActivity}
+                    />
                     <ApplicationCoreNativeSections repositoryContext={repositoryContext} />
                   </div>
                 </div>
@@ -352,7 +362,7 @@ export default function ApplicationPageClient() {
                 title={APPLICATION_SURFACE_COPY.closure.title}
                 summary={APPLICATION_SURFACE_COPY.closure.summary}
               >
-                <ApplicationClosureControlDeck />
+                <ApplicationClosureControlDeck onRecordActivity={handleRecordActivity} />
                 <ApplicationClosureNativeSections />
                 <ApplicationPreservedShellSurface />
               </ApplicationSurfaceSection>

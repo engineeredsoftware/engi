@@ -1,8 +1,12 @@
 'use client';
 
-import { useMemo } from 'react';
+import { useMemo, useState } from 'react';
 
 import ApplicationWorkspaceCard from './ApplicationWorkspaceCard';
+import {
+  readApplicationRouteError,
+  type ApplicationActivityRecordDraft,
+} from './application-activity-history';
 import { APPLICATION_WORKSPACE_EXPLAINERS } from './application-workspace-explainers';
 import { APPLICATION_ACTIONS } from './application-experience-architecture';
 import { APPLICATION_SHELL_SECTIONS } from './application-shell-sections';
@@ -26,8 +30,14 @@ function optionLabel(
   return options.find((option) => option.value === value)?.label || fallback;
 }
 
-export default function ApplicationCommandDeck() {
+interface ApplicationCommandDeckProps {
+  onRecordActivity?: (draft: ApplicationActivityRecordDraft) => Promise<unknown>;
+}
+
+export default function ApplicationCommandDeck({ onRecordActivity }: ApplicationCommandDeckProps) {
   const { snapshot, runControl } = useApplicationShellBridge();
+  const [isActing, setIsActing] = useState(false);
+  const [actionMessage, setActionMessage] = useState<string | null>(null);
   const commandState = useMemo<ApplicationCommandState | null>(
     () => normalizeApplicationCommandState(snapshot),
     [snapshot],
@@ -56,6 +66,65 @@ export default function ApplicationCommandDeck() {
     () => deriveApplicationCommandPresentation(commandState),
     [commandState],
   );
+  const handleMakeBranch = async () => {
+    setIsActing(true);
+    setActionMessage(null);
+
+    try {
+      const response = await fetch('/api/make-bitcode-branch', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          scenarioId: scenario || undefined,
+          branchMode: branchMode || undefined,
+          principal: projection || undefined,
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error(
+          await readApplicationRouteError(response, 'Unable to materialize the Bitcode branch flow.'),
+        );
+      }
+
+      const payload = (await response.json()) as Record<string, unknown>;
+      await runControl((controls) => controls.refresh?.());
+
+      try {
+        await onRecordActivity?.({
+          type: 'agentic-execution:branch-artifact',
+          detailSection: 'activity',
+          summary: `Materialized a branch-artifact activity from the ${currentScenarioLabel} give/need posture.`,
+          context: {
+            source: 'application-command-deck',
+            scenarioId: scenario,
+            projection,
+            branchMode,
+            specVersion: payload.specVersion ?? null,
+          },
+          output: {
+            protocol: {
+              ok: payload.ok ?? true,
+              latestRun: payload.latestRun ?? null,
+            },
+          },
+        });
+        setActionMessage('Branch-artifact activity recorded into the Bitcode ledger.');
+      } catch (recordError) {
+        const message =
+          recordError instanceof Error
+            ? recordError.message
+            : 'The Bitcode branch ran, but the ledger activity row could not be recorded.';
+        setActionMessage(message);
+      }
+    } catch (error) {
+      setActionMessage(error instanceof Error ? error.message : 'Unable to materialize the Bitcode branch flow.');
+    } finally {
+      setIsActing(false);
+    }
+  };
 
   return (
     <ApplicationWorkspaceCard
@@ -149,15 +218,17 @@ export default function ApplicationCommandDeck() {
           <div className="grid gap-3 lg:grid-cols-3">
             <button
               type="button"
+              disabled={isActing || !shellReady}
               onClick={() => {
-                void runControl((controls) => controls.makeBranch?.());
+                void handleMakeBranch();
               }}
               className="rounded-[1.4rem] border border-emerald-400/30 bg-emerald-400/10 px-4 py-4 text-left text-sm font-medium text-emerald-100 transition hover:border-emerald-300/50 hover:bg-emerald-400/15"
             >
-              Make Bitcode branch
+              {isActing ? 'Materializing branch…' : 'Make Bitcode branch'}
             </button>
             <button
               type="button"
+              disabled={isActing}
               onClick={() => {
                 void runControl((controls) =>
                   controls.toggleFlowGuide?.() ?? controls.toggleTutorial?.(),
@@ -169,6 +240,7 @@ export default function ApplicationCommandDeck() {
             </button>
             <button
               type="button"
+              disabled={isActing}
               onClick={() => {
                 void runControl((controls) => controls.resetApplication?.());
               }}
@@ -177,6 +249,12 @@ export default function ApplicationCommandDeck() {
               Reset runtime
             </button>
           </div>
+
+          {actionMessage ? (
+            <div className="rounded-[1.3rem] border border-white/8 bg-white/5 px-4 py-4 text-sm leading-6 text-neutral-200">
+              {actionMessage}
+            </div>
+          ) : null}
 
           <div className="rounded-[1.5rem] border border-white/8 bg-black/20 px-5 py-5">
             <p className="text-[0.68rem] uppercase tracking-[0.24em] text-neutral-400">Jump links</p>

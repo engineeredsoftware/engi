@@ -22,6 +22,10 @@ import ApplicationTransactionDetailHero from './ApplicationTransactionDetailHero
 import ApplicationTransactionHistoryCard from './ApplicationTransactionHistoryCard';
 import ApplicationTransactionIdentityCard from './ApplicationTransactionIdentityCard';
 import ApplicationTransactionProofsCard from './ApplicationTransactionProofsCard';
+import {
+  readApplicationRouteError,
+  type ApplicationActivityRecordDraft,
+} from './application-activity-history';
 import { normalizeApplicationClosureState } from './application-closure-state';
 import {
   buildApplicationTransactionClosurePayload,
@@ -54,6 +58,7 @@ interface ApplicationTransactionDetailSurfaceProps {
   transactionDataMode: TransactionDataMode;
   detailSection: ApplicationTransactionDetailSection;
   onDetailSectionChange: (detailSection: ApplicationTransactionDetailSection) => void;
+  onRecordActivity?: (draft: ApplicationActivityRecordDraft) => Promise<unknown>;
 }
 
 export default function ApplicationTransactionDetailSurface({
@@ -64,9 +69,11 @@ export default function ApplicationTransactionDetailSurface({
   transactionDataMode,
   detailSection,
   onDetailSectionChange,
+  onRecordActivity,
 }: ApplicationTransactionDetailSurfaceProps) {
   const [summaryOpen, setSummaryOpen] = useState(true);
   const [isActing, setIsActing] = useState(false);
+  const [actionError, setActionError] = useState<string | null>(null);
   const { snapshot, runControl, controls } = useApplicationShellBridge();
   const usesMockTransactions = isMockTransactionDataMode(transactionDataMode);
   const closureState = useMemo(() => normalizeApplicationClosureState(snapshot), [snapshot]);
@@ -192,6 +199,52 @@ export default function ApplicationTransactionDetailSurface({
       setIsActing(false);
     }
   };
+  const handleRunClosure = async () => {
+    setIsActing(true);
+    setActionError(null);
+
+    try {
+      const response = await fetch('/api/make-bitcode-branch', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({}),
+      });
+
+      if (!response.ok) {
+        throw new Error(
+          await readApplicationRouteError(response, 'Unable to run the selected closure activity.'),
+        );
+      }
+
+      const payload = (await response.json()) as Record<string, unknown>;
+      await runControl((nextControls) => nextControls.refresh?.());
+      await onRecordActivity?.({
+        type: 'agentic-execution:branch-artifact',
+        detailSection: 'closure',
+        summary: `Re-ran closure from selected Bitcode activity ${selectedRun.id}.`,
+        context: {
+          source: 'application-transaction-detail',
+          selectedRunId: selectedRun.id,
+          selectedRunType: selectedRun.type || null,
+          specVersion: payload.specVersion ?? null,
+        },
+        output: {
+          protocol: {
+            ok: payload.ok ?? true,
+            latestRun: payload.latestRun ?? null,
+          },
+        },
+      });
+    } catch (error) {
+      setActionError(
+        error instanceof Error ? error.message : 'Unable to run the selected closure activity.',
+      );
+    } finally {
+      setIsActing(false);
+    }
+  };
 
   return (
     <div className="space-y-6">
@@ -215,7 +268,7 @@ export default function ApplicationTransactionDetailSurface({
             activeSection={detailSection}
             onChangeSection={onDetailSectionChange}
             onRunClosure={() => {
-              void handleClosureAction((nextControls) => nextControls.makeBranch?.());
+              void handleRunClosure();
             }}
             onRefreshDetail={() => {
               void handleClosureAction((nextControls) => nextControls.refresh?.());
@@ -256,6 +309,12 @@ export default function ApplicationTransactionDetailSurface({
             <div className="rounded-[1.5rem] border border-white/8 bg-black/20 px-5 py-5 text-sm leading-6 text-neutral-300">
               No materialized asset-pack surfaces are attached to this Bitcode activity yet. The same activity detail
               still keeps proofs, history, and closure reading available.
+            </div>
+          ) : null}
+
+          {actionError ? (
+            <div className="rounded-[1.4rem] border border-red-500/20 bg-red-500/10 px-4 py-4 text-sm text-red-200">
+              {actionError}
             </div>
           ) : null}
         </div>

@@ -1185,7 +1185,9 @@ test('active V26 canon posture and preserved runtime state use bitcode policy an
   assert.match(applicationWorkspaceExplainersSource, /Bitcode Terminal experience map/);
   assert.match(applicationWorkspaceExplainersSource, /Bitcode Terminal activity map/);
   assert.doesNotMatch(applicationWorkspaceExplainersSource, /Transactions experience map/);
-  assert.match(applicationPageClientSource, /buildAgenticExecutionSummary/);
+  assert.match(applicationPageClientSource, /buildApplicationExecutionHistoryRequest/);
+  assert.match(applicationPageClientSource, /mapExecutionHistoryRunToWorkspaceRun/);
+  assert.match(applicationPageClientSource, /\/api\/executions\/history/);
   assert.doesNotMatch(applicationPageClientSource, /deriveClosureFocus/);
   assert.doesNotMatch(applicationPageClientSource, /deriveProofStatus/);
   assert.doesNotMatch(applicationPageClientSource, /deriveTransactionLens/);
