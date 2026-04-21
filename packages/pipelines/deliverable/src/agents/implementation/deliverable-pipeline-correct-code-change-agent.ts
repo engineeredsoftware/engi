@@ -84,20 +84,16 @@ export const CorrectCodeChangeAgent = factoryAgentWithPTRR<
   
   // PTRR configuration
   plan: { 
-    chunkThreshold: 2000,
-    maxIterations: 2
+    chunkThreshold: 2000
   },
   try: { 
-    chunkThreshold: 5000,
-    timeout: 60000 // Might run tests/builds
+    chunkThreshold: 5000 // Might run tests/builds
   },
   refine: { 
-    maxAttempts: 2,
-    improvementThreshold: 0.95 // High bar for corrections
+    maxAttempts: 2 // High bar for corrections
   },
   retry: { 
-    maxAttempts: 1,
-    backoffMultiplier: 2
+    maxAttempts: 1
   }
 });
 

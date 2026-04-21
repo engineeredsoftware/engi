@@ -60,20 +60,16 @@ export const DivideCodeChangeAgent = factoryAgentWithPTRR<
   
   // PTRR configuration
   plan: { 
-    chunkThreshold: 2000,
-    maxIterations: 3
+    chunkThreshold: 2000
   },
   try: { 
-    chunkThreshold: 3000,
-    timeout: 30000
+    chunkThreshold: 3000
   },
   refine: { 
-    maxAttempts: 2,
-    improvementThreshold: 0.8
+    maxAttempts: 2
   },
   retry: { 
-    maxAttempts: 1,
-    backoffMultiplier: 2
+    maxAttempts: 1
   }
 });
 

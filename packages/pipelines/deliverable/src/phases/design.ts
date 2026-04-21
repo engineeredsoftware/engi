@@ -13,7 +13,6 @@ export const designPhase = createPhaseRunner({
   sequence: [
     {
       agent: 'design:iterate-product-md',
-      description: 'Iterating on PRODUCT.md specification',
       input: {
         requirements: '{{input.requirements}}',
         currentProductMd: '{{file:.ai/PRODUCT.md}}',
@@ -21,6 +20,5 @@ export const designPhase = createPhaseRunner({
       }
     }
   ],
-  allowShortCircuit: false,
-  parallelizationStrategy: 'sequential'
+  allowShortCircuit: false
 });

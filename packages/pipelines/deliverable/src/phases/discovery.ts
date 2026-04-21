@@ -11,6 +11,7 @@
  */
 
 import { createPhaseRunner, PhaseConfig } from '@bitcode/pipelines-generics';
+import { registerDiscoveryAgents as registerCanonicalDiscoveryAgents } from '../agents/discovery-agents';
 
 /**
  * Discovery phase configuration with parallel execution groups
@@ -37,29 +38,5 @@ export const runDiscoveryPhase = createPhaseRunner(discoveryPhaseConfig);
  * Called after setup phase to register discovery agents
  */
 export function registerDiscoveryAgents(agentRegistry: any): void {
-  // File selection (parallel)
-  agentRegistry.registerAgent(
-    'discovery:deliverable-pipeline-select-files-parallel-agent',
-    () => import('../agents/discovery/deliverable-pipeline-select-files-parallel-agent').then(m => m.default)
-  );
-  // Understand requirements
-  agentRegistry.registerAgent(
-    'discovery:deliverable-pipeline-understand-requirements-agent',
-    () => import('../agents/discovery-agents').then(m => m.DeliverablesPipelineDiscoveryPhaseUnderstandRequirementsAgent)
-  );
-  // Research approach
-  agentRegistry.registerAgent(
-    'discovery:deliverable-pipeline-research-approach-agent',
-    () => import('../agents/discovery-agents').then(m => m.DeliverablesPipelineDiscoveryPhaseResearchApproachAgent)
-  );
-  // Plan implementation
-  agentRegistry.registerAgent(
-    'discovery:deliverable-pipeline-plan-implementation-agent',
-    () => import('../agents/discovery-agents').then(m => m.DeliverablesPipelineDiscoveryPhasePlanImplementationAgent)
-  );
-  // Assess complexity
-  agentRegistry.registerAgent(
-    'discovery:deliverable-pipeline-assess-complexity-agent',
-    () => import('../agents/discovery-agents').then(m => m.DeliverablesPipelineDiscoveryPhaseAssessComplexityAgent)
-  );
+  registerCanonicalDiscoveryAgents(agentRegistry);
 }

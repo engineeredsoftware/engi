@@ -212,8 +212,8 @@ export function factorySDIVSExecutorPipeline<TInput, TOutput>(
   const div = sequential(discovery, implementation, validation);
 
   // Compose complete pipeline
-  const pipelineExec: Executor<TInput, TOutput> = sequential(
-    preprocess,
+  const pipelineExec: Executor<TInput, TOutput> = sequential<any>(
+    preprocess as any,
     // Optional resume-at marker for visibility before setup runs
     async (input, exec) => {
       try {
@@ -228,7 +228,7 @@ export function factorySDIVSExecutorPipeline<TInput, TOutput>(
       } catch {}
       return input;
     },
-    cfg.setup,
+    cfg.setup as any,
     // Repeat DIV sequence up to max iterations
     async (input, exec) => {
       let current: any = input;
@@ -241,9 +241,9 @@ export function factorySDIVSExecutorPipeline<TInput, TOutput>(
       }
       return current;
     },
-    shipping,
-    postprocess
-  );
+    shipping as any,
+    postprocess as any
+  ) as Executor<TInput, TOutput>;
 
   return pipelineExec;
 }

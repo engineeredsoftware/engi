@@ -178,8 +178,8 @@ export class PipelineExecutor {
  * Create a phase runner function
  */
 export function createPhaseRunner(config: PhaseConfig): Executor<any, PhaseResult> {
-  return async (input: any, execution: PipelineExecution): Promise<PhaseResult> => {
-    const executor = new PipelineExecutor(execution);
+  return async (input: any, execution: any): Promise<PhaseResult> => {
+    const executor = new PipelineExecutor(execution as PipelineExecution);
     return await executor.executePhase(config);
   };
 }

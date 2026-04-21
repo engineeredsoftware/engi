@@ -100,20 +100,16 @@ export const ReviewDesignDocumentAgent = factoryAgentWithPTRR<
   
   // PTRR configuration
   plan: { 
-    chunkThreshold: 2000,
-    maxIterations: 2
+    chunkThreshold: 2000
   },
   try: { 
-    chunkThreshold: 5000,
-    timeout: 30000
+    chunkThreshold: 5000
   },
   refine: { 
-    maxAttempts: 2,
-    improvementThreshold: 0.85
+    maxAttempts: 2
   },
   retry: { 
-    maxAttempts: 1,
-    backoffMultiplier: 2
+    maxAttempts: 1
   }
 });
 

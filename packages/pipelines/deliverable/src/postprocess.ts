@@ -42,7 +42,11 @@ export function buildDeliverablePostprocessedResult(
   const repoName = execution.get('source', 'name');
   const repoFull = execution.get('source', 'fullName');
   const repository =
-    (repoOwner && repoName ? `${repoOwner}/${repoName}` : repoFull) || undefined;
+    (repoOwner && repoName
+      ? `${String(repoOwner)}/${String(repoName)}`
+      : typeof repoFull === 'string'
+        ? repoFull
+        : undefined) || undefined;
 
   const finalSummary =
     (execution as any).get?.('shipping/final_work_summary', 'summary') ||

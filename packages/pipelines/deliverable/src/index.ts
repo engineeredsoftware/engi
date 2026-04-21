@@ -68,7 +68,7 @@ function storePreprocessedSnapshot(execution: Execution, processedInput: any, de
 
 function factoryPreprocess(): Executor<any, any> {
   return async (input, execution) => {
-    await initializeDeliverablePipeline(execution);
+    await initializeDeliverablePipeline(execution as any);
 
     // Apply gate preprocessing
     const processedInput = gatePreprocess(input, execution);
@@ -96,13 +96,13 @@ function factoryIterationPreprocess(): Executor<any, any> {
       .order('created_at', { ascending: true });
 
     if (instructions?.length) {
-      const normalizedInstructions = instructions.map((i) => ({
+      const normalizedInstructions = instructions.map((i: any) => ({
         id: i.id,
         createdAt: i.created_at,
         content: i.content,
       }));
       execution.store('instructions', 'list', normalizedInstructions);
-      input.userInstructions = normalizedInstructions.map(i => {
+      input.userInstructions = normalizedInstructions.map((i: any) => {
         try { return JSON.parse(i.content); } catch { return { text: i.content }; }
       });
     }
@@ -133,7 +133,7 @@ function factoryPostprocess(): Executor<any, any> {
   return async (output, execution) => {
     const norm = normalizeDeliverableOutput(output, execution);
     const snapshot = buildDeliverablePostprocessedResult(execution, norm);
-    execution.store('postprocessed', 'result', snapshot);
+    execution.store('postprocessed', 'result', snapshot as any);
     return output;
   };
 }

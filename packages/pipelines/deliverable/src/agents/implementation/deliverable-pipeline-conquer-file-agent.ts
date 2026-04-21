@@ -9,16 +9,6 @@ import { factoryAgentWithPTRR } from '@bitcode/agent-generics';
 import { z } from 'zod';
 import { ConquerFilePrompts } from '../prompts/conquer-file-prompt';
 
-// Check if we have a generic code-editor agent to extend
-let baseAgent;
-try {
-  // If there's a generic code-editor agent, we can compose with it
-  baseAgent = require('@bitcode/generic-agent-code-editor');
-} catch {
-  // No generic agent available, we'll create from scratch
-  baseAgent = null;
-}
-
 // Input schema - what we receive from divide agent
 const ConquerFileInputSchema = z.object({
   filePath: z.string(),
@@ -58,9 +48,6 @@ const baseConquerAgent = factoryAgentWithPTRR<
 
   outputSchema: ConquerFileOutputSchema,
 
-  // Extend base agent if available
-  ...(baseAgent ? { extends: baseAgent.codeEditorAgent } : {}),
-
   // Compose with modernized prompt wiring (overrides base prompts if extending)
   prompt: ConquerFilePrompts.system(),
   stepPrompts: {
@@ -75,20 +62,16 @@ const baseConquerAgent = factoryAgentWithPTRR<
 
   // PTRR configuration
   plan: {
-    chunkThreshold: 1000,
-    maxIterations: 2
+    chunkThreshold: 1000
   },
   try: {
-    chunkThreshold: 5000, // File content can be large
-    timeout: 20000
+    chunkThreshold: 5000 // File content can be large
   },
   refine: {
-    maxAttempts: 2,
-    improvementThreshold: 0.9
+    maxAttempts: 2
   },
   retry: {
-    maxAttempts: 1,
-    backoffMultiplier: 1.5
+    maxAttempts: 1
   }
 });
 

@@ -13,7 +13,6 @@ export const digestPhase = createPhaseRunner({
   sequence: [
     {
       agent: 'digest:capture-learnings',
-      description: 'Capturing learnings in AGENTS.md',
       input: {
         executionResults: '{{develop.results}}',
         fileChanges: '{{file-changes.stats}}',
@@ -22,6 +21,5 @@ export const digestPhase = createPhaseRunner({
       }
     }
   ],
-  allowShortCircuit: false,
-  parallelizationStrategy: 'sequential'
+  allowShortCircuit: false
 });

@@ -13,7 +13,7 @@ const setupPhaseConfig: PhaseConfig = {
   sequence: [
     { agent: 'setup:deliverable-pipeline-clone-vcs-repository-agent' },
     { agent: 'setup:deliverable-setup-plan-agent' },
-    { parallel: [
+    { agent: 'setup:parallel-context-bootstrap', parallel: [
       { agent: 'setup:deliverable-pipeline-comprehend-dod-agent' },
       // Optional when available:
       // { agent: 'setup:deliverable-pipeline-initialize-lsp-agent' }

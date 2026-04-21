@@ -39,8 +39,8 @@ const ComprehendDoDOutputSchema = z.object({
   comprehended_multimodal_attachments: z.array(z.object({
     name: z.string().optional(),
     comprehension: z.string().optional(),
-  })).optional().default([]),
-  deliverable_types: z.array(DeliverableTypeEnum).optional().default([]),
+  })).default([]),
+  deliverable_types: z.array(DeliverableTypeEnum).default([]),
 
   // Back-compat/extended fields for richer UI and downstream agents
   deliverableType: z.union([
@@ -49,22 +49,22 @@ const ComprehendDoDOutputSchema = z.object({
   ]).optional().describe('Classification inferred from DoD and attachments (single or multiple)'),
   comprehension: z.object({
     intent: z.string().optional(),
-    goals: z.array(z.string()).optional().default([]),
-    requirements: z.array(z.string()).optional().default([]),
-    constraints: z.array(z.string()).optional().default([]),
-    successCriteria: z.array(z.string()).optional().default([]),
+    goals: z.array(z.string()).default([]),
+    requirements: z.array(z.string()).default([]),
+    constraints: z.array(z.string()).default([]),
+    successCriteria: z.array(z.string()).default([]),
   }).optional(),
   entities: z.object({
-    files: z.array(z.string()).optional().default([]),
-    concepts: z.array(z.string()).optional().default([]),
-    technologies: z.array(z.string()).optional().default([]),
+    files: z.array(z.string()).default([]),
+    concepts: z.array(z.string()).default([]),
+    technologies: z.array(z.string()).default([]),
   }).optional(),
   attachmentsComprehension: z.array(z.object({
     name: z.string().optional(),
     type: z.string().optional(),
     summary: z.string().optional(),
     metadata: z.record(z.any()).optional()
-  })).optional().default([]),
+  })).default([]),
 });
 
 // -------------------- Prompts --------------------
@@ -121,7 +121,7 @@ export const DeliverablePipelineComprehendDoDAgent = factoryAgentWithPTRR<
 >({
   name: 'deliverable-pipeline-comprehend-dod-agent',
   description: 'Comprehend definition of done (DoD) and select deliverable type',
-  outputSchema: ComprehendDoDOutputSchema,
+  outputSchema: ComprehendDoDOutputSchema as z.ZodType<z.infer<typeof ComprehendDoDOutputSchema>>,
 
   prompt: systemPrompt,
   stepPrompts: {

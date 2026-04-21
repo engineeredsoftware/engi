@@ -115,12 +115,12 @@ export async function initializeDeliverablePipeline(execution: PipelineExecution
   // Register design gate agents
   try {
     const iterateProductMd = (await import('./agents/design/iterate-product-md-agent')).default;
-    execution.agents.registerAgent('design:iterate-product-md', iterateProductMd);
+    execution.agents.registerAgent('design:iterate-product-md', iterateProductMd as any);
   } catch {}
   // Register digest gate agents
   try {
     const captureLearnings = (await import('./agents/digest/capture-learnings-agent')).default;
-    execution.agents.registerAgent('digest:capture-learnings', captureLearnings);
+    execution.agents.registerAgent('digest:capture-learnings', captureLearnings as any);
   } catch {}
   // Register type-dependent implementation, validation, and shipping agents lazily when phases run.
 }

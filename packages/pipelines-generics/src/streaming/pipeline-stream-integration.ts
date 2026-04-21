@@ -134,7 +134,7 @@ export function enablePipelineStreaming(
           } as any;
             const vrow = validate('phase_executions', row);
             const { data, error } = await (supabase as any).from('phase_executions').insert(vrow as any).select('id').single();
-          if (!error && data) { phaseState.currentPhaseId = data.id; phaseState.currentPhaseName = phaseName; }
+          if (!error && data) { phaseState.currentPhaseId = data.id; phaseState.currentPhaseName = phaseName ?? null; }
         } else if (type === 'phase-complete') {
           if (phaseState.currentPhaseId) {
             const status = event?.shortCircuited ? 'short_circuited' : 'completed';

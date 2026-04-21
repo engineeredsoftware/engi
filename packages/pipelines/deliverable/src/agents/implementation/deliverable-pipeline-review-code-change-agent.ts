@@ -9,9 +9,6 @@ import { factoryAgentWithPTRR } from '@bitcode/agent-generics';
 import { z } from 'zod';
 import { ReviewCodeChangePrompts } from '../prompts/review-code-change-prompt';
 
-// Generic review agent not yet available
-const baseAgent = null;
-
 // Input schema
 const ReviewCodeChangeInputSchema = z.object({
   codeChange: z.object({
@@ -93,9 +90,6 @@ export const ReviewCodeChangeAgent = factoryAgentWithPTRR<
   
   outputSchema: ReviewCodeChangeOutputSchema,
   
-  // Extend base if available
-  ...(baseAgent ? { extends: baseAgent.codeReviewAgent } : {}),
-  
   // Compose with modernized prompt wiring
   prompt: ReviewCodeChangePrompts.system(),
   stepPrompts: {
@@ -116,20 +110,16 @@ export const ReviewCodeChangeAgent = factoryAgentWithPTRR<
   
   // PTRR configuration
   plan: { 
-    chunkThreshold: 2000,
-    maxIterations: 2
+    chunkThreshold: 2000
   },
   try: { 
-    chunkThreshold: 10000, // PRs can be large
-    timeout: 45000
+    chunkThreshold: 10000 // PRs can be large
   },
   refine: { 
-    maxAttempts: 2,
-    improvementThreshold: 0.85
+    maxAttempts: 2
   },
   retry: { 
-    maxAttempts: 1,
-    backoffMultiplier: 2
+    maxAttempts: 1
   }
 });
 

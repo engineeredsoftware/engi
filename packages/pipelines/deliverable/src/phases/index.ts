@@ -36,7 +36,7 @@ export const setupPhase = deliverablesPipelineSetupPhaseExecutor as unknown as P
  * Discovery Phase - Research and approach planning
  */
 // Disable other phases during bring-up (no-op delegators)
-export const discoveryPhase: PhaseDelegator<SetupOutput, DiscoveryOutput> = (async (input, execution) => {
+export const discoveryPhase: PhaseDelegator<SetupOutput, DiscoveryOutput> = (async (input: DeliverableInput, execution: any) => {
   try { registerDiscoveryAgents((execution as any).agents); } catch {}
   const exec: Executor<any, any> = sequential(
     createAgentExecutor('discovery:gather-context'),
@@ -58,7 +58,7 @@ export const discoveryPhase: PhaseDelegator<SetupOutput, DiscoveryOutput> = (asy
  * - Design Document: Create issue agent
  * - Design Review: Comment on issue agent
  */
-export const implementationPhase: PhaseDelegator<DiscoveryOutput, ImplementationOutput> = (async (input, execution) => {
+export const implementationPhase: PhaseDelegator<DiscoveryOutput, ImplementationOutput> = (async (input: any, execution: any) => {
   const deliverableType = (execution as any).findUp?.('pipeline', 'deliverableType') || (execution as any).get?.('pipeline','deliverableType') || 'code-change';
   try { registerImplementationAgentsForType(deliverableType, (execution as any).agents); } catch {}
 
@@ -113,7 +113,7 @@ export const implementationPhase: PhaseDelegator<DiscoveryOutput, Implementation
  * Validation Phase - Quality checks and completion verification
  * Danger-wall has been moved to Setup phase
  */
-export const validationPhase: PhaseDelegator<ImplementationOutput, ValidationOutput> = (async (input, execution) => {
+export const validationPhase: PhaseDelegator<ImplementationOutput, ValidationOutput> = (async (input: any, execution: any) => {
   const deliverableType = (execution as any).findUp?.('pipeline', 'deliverableType') || (execution as any).get?.('pipeline','deliverableType') || 'code-change';
   try { registerValidationAgentsForType(deliverableType, (execution as any).agents); } catch {}
   // Build implementation validator by type
@@ -174,7 +174,7 @@ export const validationPhase: PhaseDelegator<ImplementationOutput, ValidationOut
 /**
  * Shipping Phase - PR creation and delivery
  */
-export const shippingPhase: PhaseDelegator<ValidationOutput, DeliverablePhaseOutput> = (async (input, execution) => {
+export const shippingPhase: PhaseDelegator<ValidationOutput, DeliverablePhaseOutput> = (async (input: any, execution: any) => {
   const deliverableType = (execution as any).findUp?.('pipeline', 'deliverableType') || (execution as any).get?.('pipeline','deliverableType') || 'code-change';
   try { registerShippingAgentsForType(deliverableType, (execution as any).agents); } catch {}
   const exec: Executor<any, any> = sequential(
