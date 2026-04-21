@@ -73,7 +73,7 @@ async function runEditCommandWithGates(params: EditCommandParams): Promise<strin
 
     if (allowedPatterns && params.command !== 'view') {
       // Import gate checking logic
-      const { isFileAllowed } = await import('@bitcode/pipelines-generics/gate-system/file-gates');
+      const { isFileAllowed } = await import('@bitcode/pipelines-generics');
       const allowed = isFileAllowed(params.path, (currentGate as any) || 'Develop');
 
       if (!allowed) {

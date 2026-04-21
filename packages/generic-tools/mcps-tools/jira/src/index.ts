@@ -65,7 +65,7 @@ async function withJiraClient<T>(
   const startTime = Date.now();
   
   try {
-    let connection = context.connection;
+    let connection: JiraConnection | null | undefined = context.connection;
     
     if (!connection) {
       connection = await JiraConnections.validateConnection(context.user_id);
@@ -983,7 +983,13 @@ async function _jiraAddWorklog({ context, issueKey, comment, started, timeSpent,
     context,
     async (client) => {
       try {
-        const worklog = await client.addWorklog(issueKey, timeSpent, started, comment, visibility);
+        const worklog = await client.addWorklog(
+          issueKey,
+          timeSpent,
+          started ?? new Date().toISOString(),
+          comment,
+          visibility
+        );
         
         return {
           success: true,

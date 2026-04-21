@@ -52,6 +52,8 @@ export const MultimodalAnalysisResultSchema = z.object({
   })
 });
 
+type MultimodalAnalysis = z.infer<typeof MultimodalAnalysisResultSchema>['analysis'];
+
 /**
  * Determine the appropriate processing agent for multimodal content
  */
@@ -126,11 +128,11 @@ async function processWithAgent(
   attachment: z.infer<typeof AttachmentSchema>,
   agent: z.infer<typeof ProcessingAgentEnum>,
   processingOptions?: any
-): Promise<any> {
+): Promise<MultimodalAnalysis> {
   // This is a simplified implementation
   // In production, this would call specialized processing services
   
-  const baseAnalysis = {
+  const baseAnalysis: MultimodalAnalysis = {
     summary: `Processed ${attachment.name} using ${agent} agent`,
     keyElements: [`${agent}-content`],
     technicalContent: [`${agent}-technical-data`],

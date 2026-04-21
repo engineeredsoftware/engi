@@ -16,11 +16,6 @@ import { z } from 'zod';
 import { log } from '@bitcode/logger';
 // Do not import types from a non-existent path; Tool is imported above
 import { 
-  VCSProviderFactory,
-  VCSConnections,
-  type VCSProvider,
-  type VCSAuth,
-  type VCSRepository,
   type VCSProviderType
 } from '@bitcode/vcs';
 import { execSync } from 'child_process';
@@ -95,6 +90,19 @@ const FileAnalysisParamsSchema = z.object({
   content: z.string().optional(),
   analysisDepth: z.enum(['basic', 'detailed', 'comprehensive']).default('detailed')
 });
+
+function getCloneUrl(provider: VCSProviderType, owner: string, name: string): string {
+  switch (provider) {
+    case 'github':
+      return `https://github.com/${owner}/${name}.git`;
+    case 'gitlab':
+      return `https://gitlab.com/${owner}/${name}.git`;
+    case 'bitbucket':
+      return `https://bitbucket.org/${owner}/${name}.git`;
+    default:
+      throw new Error(`Unsupported VCS provider for cloning: ${provider}`);
+  }
+}
 
 // ==================== CORE IMPLEMENTATION FUNCTIONS ====================
 
@@ -217,19 +225,9 @@ async function executeRepositorySetup(params: z.infer<typeof RepositorySetupPara
           ref: repo.ref
         });
 
-        // Use VCS provider for repository operations
-        const provider = VCSProviderFactory.getProvider(repo.provider as VCSProviderType);
-        const auth: VCSAuth = {
-          type: 'connection',
-          connectionId: repo.connectionId
-        };
-        
-        // Get repository info via VCS abstraction
-        const repoInfo = await provider.getRepository(auth, repo.owner, repo.name);
-        
         // Clone repository using git command (provider-agnostic)
         const repoPath = `/tmp/repo_${repo.owner}_${repo.name}_${Date.now()}`;
-        const cloneUrl = repoInfo.cloneUrl;
+        const cloneUrl = getCloneUrl(repo.provider as VCSProviderType, repo.owner, repo.name);
         
         log('Cloning repository', 'info', {
           provider: repo.provider,
@@ -240,10 +238,10 @@ async function executeRepositorySetup(params: z.infer<typeof RepositorySetupPara
         });
         
         // Execute git clone with proper options
-        const cloneOptions = params.cloneOptions || {};
+        const cloneOptions = params.cloneOptions;
         let cloneCommand = `git clone ${cloneUrl} ${repoPath}`;
         
-        if (cloneOptions.shallow) {
+        if (cloneOptions?.shallow) {
           cloneCommand += ` --depth ${cloneOptions.maxDepth || 1}`;
         }
         

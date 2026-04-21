@@ -8,23 +8,22 @@
  */
 
 import { Tool } from '@bitcode/tools-generics';
-import { z } from 'zod';
-import { useComputerTool, UseComputerInputSchema, UseComputerOutputSchema } from '@bitcode/generic-tools/use-computer/src/index';
-
-// Reuse generic schemas
+import {
+  useComputerTool,
+  type UseComputerInput,
+  type UseComputerOutput
+} from '@bitcode/generic-tools/use-computer/src/index';
 
 /**
  * @doc-code-tool
  * intent: "Run a shell command with timeout; return stdout/stderr/exitCode/duration"
  */
-export class DeliverablePipelineUseComputerTool extends Tool<typeof UseComputerInputSchema> {
-  name = 'deliverable-pipeline-use-computer-tool';
-  description = 'Execute a shell command with timeout and capture stdio.';
-  inputSchema = UseComputerInputSchema;
-
-  async use(input: z.infer<typeof UseComputerInputSchema>) {
+export class DeliverablePipelineUseComputerTool extends Tool<
+  (input: UseComputerInput) => Promise<UseComputerOutput>
+> {
+  use = async (input: UseComputerInput) => {
     return await useComputerTool.use(input);
-  }
+  };
 }
 
 export const deliverablePipelineUseComputerTool = new DeliverablePipelineUseComputerTool();

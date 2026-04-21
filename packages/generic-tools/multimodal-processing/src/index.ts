@@ -7,7 +7,6 @@
 
 // Export the Tool class implementation
 export { 
-  MultimodalProcessingTool,
   multimodalProcessingTool 
 } from './MultimodalProcessingTool';
 

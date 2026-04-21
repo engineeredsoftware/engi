@@ -2,37 +2,54 @@
  * GENERIC TOOL: use-computer
  * Execute shell commands with timeout and capture stdio.
  */
-import { Tool } from '@bitcode/tools-generics';
+import { attachDocCodeToolPrompt, factoryTool } from '@bitcode/tools-generics';
 import { USE_COMPUTER_DOC_CODE_TOOL_PROMPT } from './prompts/UseComputerDocCodeToolPrompt';
-import { z } from 'zod';
 import { spawn } from 'child_process';
 
-export const UseComputerInputSchema = z.object({
-  command: z.union([z.string(), z.array(z.string())]).describe('Command (string or argv list)'),
-  cwd: z.string().optional().describe('Working directory'),
-  env: z.record(z.string(), z.string()).optional().describe('Environment overrides'),
-  stdin: z.string().optional().describe('Data to write to stdin'),
-  timeoutMs: z.number().optional().default(60_000).describe('Timeout in milliseconds')
-});
+export interface UseComputerInput {
+  command: string | string[];
+  cwd?: string;
+  env?: Record<string, string>;
+  stdin?: string;
+  timeoutMs?: number;
+}
 
-export const UseComputerOutputSchema = z.object({
-  exitCode: z.number().nullable(),
-  stdout: z.string(),
-  stderr: z.string(),
-  durationMs: z.number(),
-});
+export interface UseComputerOutput {
+  exitCode: number | null;
+  stdout: string;
+  stderr: string;
+  durationMs: number;
+}
+
+export const UseComputerInputSchema = {
+  type: 'object',
+  properties: {
+    command: { type: ['string', 'array'], description: 'Command (string or argv list)' },
+    cwd: { type: 'string', description: 'Working directory' },
+    env: { type: 'object', description: 'Environment overrides' },
+    stdin: { type: 'string', description: 'Data to write to stdin' },
+    timeoutMs: { type: 'number', description: 'Timeout in milliseconds', default: 60_000 }
+  },
+  required: ['command']
+} as const;
+
+export const UseComputerOutputSchema = {
+  type: 'object',
+  properties: {
+    exitCode: { type: ['number', 'null'] },
+    stdout: { type: 'string' },
+    stderr: { type: 'string' },
+    durationMs: { type: 'number' }
+  },
+  required: ['exitCode', 'stdout', 'stderr', 'durationMs']
+} as const;
 
 /**
  * @doc-code-tool
  * @prompt USE_COMPUTER_DOC_CODE_TOOL_PROMPT
  * intent: "Run a shell command with timeout; return stdout/stderr/exitCode/duration"
  */
-class UseComputerTool extends Tool<typeof UseComputerInputSchema> {
-  name = 'use-computer';
-  description = 'Execute a shell command with timeout and capture stdio.';
-  inputSchema = UseComputerInputSchema;
-
-  async use(input: z.infer<typeof UseComputerInputSchema>) {
+async function runUseComputer(input: UseComputerInput): Promise<UseComputerOutput> {
     const started = Date.now();
     const argv: string[] = Array.isArray(input.command)
       ? input.command as string[]
@@ -45,7 +62,7 @@ class UseComputerTool extends Tool<typeof UseComputerInputSchema> {
       args = ['-lc', argv[0]];
     }
 
-    return await new Promise<z.infer<typeof UseComputerOutputSchema>>((resolve) => {
+    return await new Promise<UseComputerOutput>((resolve) => {
       const child = spawn(cmd, args, {
         cwd: input.cwd || process.cwd(),
         env: { ...process.env, ...(input.env || {}) },
@@ -79,7 +96,16 @@ class UseComputerTool extends Tool<typeof UseComputerInputSchema> {
 
       child.on('close', () => { try { clearTimeout(to); } catch {} });
     });
-  }
 }
 
-export const useComputerTool = new UseComputerTool();
+export const useComputerTool = factoryTool(
+  'useComputerTool',
+  runUseComputer,
+  {
+    description: 'Execute a shell command with timeout and capture stdio.',
+    parameters: UseComputerInputSchema,
+    prompt: USE_COMPUTER_DOC_CODE_TOOL_PROMPT
+  }
+);
+
+attachDocCodeToolPrompt(useComputerTool, USE_COMPUTER_DOC_CODE_TOOL_PROMPT);

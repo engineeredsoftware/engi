@@ -5,7 +5,7 @@
  * full DocCodeToolPrompt integration.
  */
 
-import { Tool } from '@bitcode/tools-generics';
+import { attachDocCodeToolPrompt, factoryTool } from '@bitcode/tools-generics';
 import { z } from 'zod';
 import { log } from '@bitcode/logger';
 import { multimodalProcessingDocCodeToolPrompt } from './prompts/MultimodalProcessingDocCodeToolPrompt';
@@ -19,46 +19,9 @@ import {
   synthesizeMultimodalInsights
 } from './processing';
 
-/**
- * Multimodal Processing Tool
- * 
- * @doc-code-tool
- * @prompt MULTIMODAL_PROCESSING_DOC_CODE_TOOL_PROMPT
- */
-export class MultimodalProcessingTool extends Tool<
-  z.infer<typeof MultimodalProcessingParamsSchema>,
-  {
-    analysisResults: z.infer<typeof MultimodalAnalysisResultSchema>[];
-    synthesis: {
-      crossModalInsights: string[];
-      unifiedUnderstanding: string;
-      taskRelevance: number;
-      recommendations: string[];
-    };
-  }
-> {
-  constructor() {
-    super();
-    this.name = 'multimodal-processing';
-    this.description = 'Comprehensive multimodal attachment processing and analysis';
-    
-    // Store the doc-code-tool prompt for runtime access
-    this.metadata = {
-      version: '1.0.0',
-      categories: ['attachment-analysis', 'multimodal'],
-      capabilities: [
-        'audio-analysis',
-        'video-processing',
-        'image-analysis',
-        'document-parsing',
-        'text-synthesis',
-        'cross-modal-correlation'
-      ],
-      docCodeToolPrompt: multimodalProcessingDocCodeToolPrompt
-    };
-  }
-  
-  async use(params: z.infer<typeof MultimodalProcessingParamsSchema>) {
+async function runMultimodalProcessing(
+  params: z.infer<typeof MultimodalProcessingParamsSchema>
+) {
     log('Processing multimodal attachments', 'info', {
       attachmentCount: params.attachments.length,
       taskDescription: params.taskDescription.substring(0, 100) + '...'
@@ -93,8 +56,28 @@ export class MultimodalProcessingTool extends Tool<
       log('Multimodal processing failed', 'error', { error });
       throw error;
     }
-  }
 }
 
-// Export singleton instance
-export const multimodalProcessingTool = new MultimodalProcessingTool();
+export const multimodalProcessingTool = factoryTool(
+  'multimodalProcessingTool',
+  runMultimodalProcessing,
+  {
+    description: 'Comprehensive multimodal attachment processing and analysis',
+    parameters: MultimodalProcessingParamsSchema,
+    metadata: {
+      version: '1.0.0',
+      categories: ['attachment-analysis', 'multimodal'],
+      capabilities: [
+        'audio-analysis',
+        'video-processing',
+        'image-analysis',
+        'document-parsing',
+        'text-synthesis',
+        'cross-modal-correlation'
+      ]
+    },
+    prompt: multimodalProcessingDocCodeToolPrompt
+  }
+);
+
+attachDocCodeToolPrompt(multimodalProcessingTool, multimodalProcessingDocCodeToolPrompt);

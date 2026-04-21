@@ -1008,6 +1008,16 @@ Required closure posture:
   filtered `tsc` verification over the active `uapi` program for the retained VCS connection/provider corridor
   proof surface:
   fifth-gate retained repository-boundary compile-health closure so VCS connection persistence now normalizes JSON-backed `connection_data` before token/install-id access and writes, legacy installation auth maps back into canonical `VCSAuth`, and the abstract provider base no longer claims interface conformance it does not actually declare
+- `{packages/generic-tools/{files-maintaining/src/index.ts,multimodal-processing/src/{MultimodalProcessingTool.ts,processing.ts},repository-setup/src/index.ts}}`
+  test coverage:
+  filtered `tsc` verification over the active `uapi` program for the retained generic-tool caller corridor
+  proof surface:
+  fifth-gate retained caller-contract compile-health closure so file-maintaining uses the canonical pipelines-generics entrypoint, multimodal-processing uses the actual Bitcode `factoryTool` contract plus typed optional Figma context, and repository-setup no longer preserves the half-ported provider/auth shape assumptions that sat above the reusable VCS abstraction layer
+- `{packages/generic-tools/{mcps-tools/jira/src/index.ts,multimodal-processing/src/index.ts,use-computer/src/index.ts},packages/pipelines/deliverable/src/tools/DeliverablePipelineUseComputerTool.ts}`
+  test coverage:
+  filtered `tsc` verification over the active `uapi` program for the retained Jira/multimodal/use-computer caller corridor
+  proof surface:
+  fifth-gate retained caller-contract compile-health closure so Jira tool execution no longer preserves nullable connection or optional-started worklog drift, multimodal-processing re-exports only the kept factory-tool surface, and shell-execution tools plus the deliverable wrapper now use the actual Bitcode `Tool` property contract instead of the older schema-class pattern
 
 ## Module namespace proof note
 
