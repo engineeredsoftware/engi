@@ -55,7 +55,7 @@ test('V19 contract-change ledger records inherited positive matrices and new rep
 });
 
 test('V19 promotion command exposes the accepted first-gate plan in dry-run mode', () => {
-  const scriptPath = fileURLToPath(new URL('../../scripts/promote-engi-canon.mjs', import.meta.url));
+  const scriptPath = fileURLToPath(new URL('../../scripts/promote-bitcode-canon.mjs', import.meta.url));
   const output = execFileSync(process.execPath, [
     scriptPath,
     '--version',
@@ -69,9 +69,9 @@ test('V19 promotion command exposes the accepted first-gate plan in dry-run mode
   });
 
   assert.match(output, /V19 canonical promotion plan/);
-  assert.match(output, /npm --prefix engi-demo run test:deterministic-replay/);
-  assert.match(output, /npm --prefix engi-demo run test:negative-mutation-matrix/);
-  assert.match(output, /node scripts\/generate-engi-proven\.mjs --version V19/);
+  assert.match(output, /npm --prefix protocol-demonstration run test:deterministic-replay/);
+  assert.match(output, /npm --prefix protocol-demonstration run test:negative-mutation-matrix/);
+  assert.match(output, /node scripts\/generate-bitcode-proven\.mjs --version V19/);
   assert.match(output, /--worktree-state clean/);
   assert.match(output, /Canonical commit message body:/);
 });

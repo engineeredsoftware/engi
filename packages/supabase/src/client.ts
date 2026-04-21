@@ -1,7 +1,7 @@
 /**
  * @bitcode/supabase - Supabase client wrapper
  * 
- * Provides a singleton Supabase client for the engi system
+ * Provides a singleton Supabase client for the Bitcode system
  */
 
 import { createClient } from '@supabase/supabase-js';

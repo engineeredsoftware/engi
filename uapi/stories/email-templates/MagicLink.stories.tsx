@@ -20,10 +20,10 @@ type Story = StoryObj<typeof MagicLinkEmail>;
 
 export const Default: Story = {
   args: {
-    confirmationUrl: 'https://engi.dev/auth/confirm?token=abcdef',
+    confirmationUrl: 'https://app.bitcode.ai/auth/confirm?token=abcdef',
     firstName: 'Ada',
     email: 'ada@example.com',
-    siteUrl: 'https://engi.dev',
+    siteUrl: 'https://app.bitcode.ai',
   },
   render: createEmailStory(MagicLinkEmail),
 };

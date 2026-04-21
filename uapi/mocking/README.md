@@ -46,7 +46,7 @@ Your entire Bitcode application now has rich, realistic mock data automatically.
 
 ### Complete Bitcode Application Coverage (138+ Features)
 
-✅ **User Orbital** (25+ features): Authentication, profiles, onboarding, preferences  
+✅ **User Auxillaries** (25+ features): Authentication, profiles, onboarding, preferences  
 ✅ **Conversations** (10+ features): ChatGPT-style Bitcode conversations, tool responses, AI replies  
 ✅ **Deliverables/AI Documents** (16+ features): Main pipelines with 4 toggles, streaming  
 ✅ **Organizations** (8+ features): Enterprise teams, members, credits, invitations  

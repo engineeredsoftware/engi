@@ -118,6 +118,7 @@ const promptCodeStylesIdentitySource = readFileSync(new URL('../../packages/prom
 const promptCodeStylesBaseSource = readFileSync(new URL('../../packages/prompts/src/raw_promptparts/specific/promptpart_specific_tool_digest_codestyles_base_core.ts', import.meta.url), 'utf8');
 const bitcodeDemoSource = readFileSync(new URL('../src/bitcode-demo.js', import.meta.url), 'utf8');
 const bitcodeCoreSource = readFileSync(new URL('../src/bitcode-core.js', import.meta.url), 'utf8');
+const receiptSchemasSource = readFileSync(new URL('../src/receipt-schemas.js', import.meta.url), 'utf8');
 const seedSource = readFileSync(new URL('../src/seed.js', import.meta.url), 'utf8');
 const policyReleaseSource = readFileSync(new URL('../src/policy-release.js', import.meta.url), 'utf8');
 const surfacesSource = readFileSync(new URL('../src/canonical/surfaces.js', import.meta.url), 'utf8');
@@ -212,6 +213,7 @@ const emailReadmeSource = readFileSync(new URL('../../packages/email/README.md',
 const emailInvitationServiceSource = readFileSync(new URL('../../packages/email/src/services/invitationService.ts', import.meta.url), 'utf8');
 const makefileSource = readFileSync(new URL('../../Makefile', import.meta.url), 'utf8');
 const rootPackageSource = readFileSync(new URL('../../package.json', import.meta.url), 'utf8');
+const rootPackageLockSource = readFileSync(new URL('../../package-lock.json', import.meta.url), 'utf8');
 const rootPnpmLockSource = readFileSync(new URL('../../pnpm-lock.yaml', import.meta.url), 'utf8');
 const rootTsconfigSource = readFileSync(new URL('../../tsconfig.json', import.meta.url), 'utf8');
 const rootEnvSource = readFileSync(new URL('../../.env', import.meta.url), 'utf8');
@@ -219,12 +221,21 @@ const rootEnvLocalSource = readFileSync(new URL('../../.env.local', import.meta.
 const ga1EnvSource = readFileSync(new URL('../../.ga1.env', import.meta.url), 'utf8');
 const conversationsOpenApiSource = readFileSync(new URL('../../docs/api/conversations-openapi.yaml', import.meta.url), 'utf8');
 const rootProductSource = readFileSync(new URL('../../PRODUCT.md', import.meta.url), 'utf8');
+const webSearchProductionWorkflowSource = readFileSync(new URL('../../.github/workflows/web-search-production.yml', import.meta.url), 'utf8');
 const codelessCustomerExperienceDocSource = readFileSync(new URL('../../internal-docs/THE_CODELESS_CUSTOMER_EXPERIENCE.md', import.meta.url), 'utf8');
 const integrationsDocSource = readFileSync(new URL('../../internal-docs/INTEGRATIONS.md', import.meta.url), 'utf8');
 const chatDocSource = readFileSync(new URL('../../internal-docs/CHAT.md', import.meta.url), 'utf8');
 const apiDocSource = readFileSync(new URL('../../internal-docs/API.md', import.meta.url), 'utf8');
 const tpsDocSource = readFileSync(new URL('../../internal-docs/TPS.md', import.meta.url), 'utf8');
 const internalDocsReadmeSource = readFileSync(new URL('../../internal-docs/README.md', import.meta.url), 'utf8');
+const mysqlReadmeSource = readFileSync(new URL('../../packages/mysql/README.md', import.meta.url), 'utf8');
+const authReadmeSource = readFileSync(new URL('../../packages/auth/README.md', import.meta.url), 'utf8');
+const postgresqlReadmeSource = readFileSync(new URL('../../packages/postgresql/README.md', import.meta.url), 'utf8');
+const jiraReadmeSource = readFileSync(new URL('../../packages/jira/README.md', import.meta.url), 'utf8');
+const supabaseReadmeSource = readFileSync(new URL('../../packages/supabase/README.md', import.meta.url), 'utf8');
+const supabaseClientSource = readFileSync(new URL('../../packages/supabase/src/client.ts', import.meta.url), 'utf8');
+const templatesGenericsTypesSource = readFileSync(new URL('../../packages/templates-generics/src/types.ts', import.meta.url), 'utf8');
+const templatesGenericsPackageSource = readFileSync(new URL('../../packages/templates-generics/package.json', import.meta.url), 'utf8');
 const docCodingSource = readFileSync(new URL('../../internal-docs/DOC-CODING.md', import.meta.url), 'utf8');
 const promptEngineeringDocSource = readFileSync(new URL('../../internal-docs/PROMPT-ENGINEERING.md', import.meta.url), 'utf8');
 const llmRegistryDocSource = readFileSync(new URL('../../internal-docs/LLM_REGISTRY.md', import.meta.url), 'utf8');
@@ -247,6 +258,34 @@ const uapiArchitectureDocSource = readFileSync(new URL('../../uapi/ARCHITECTURE.
 const consolidatedSystemGuideSource = readFileSync(new URL('../../uapi/styles/CONSOLIDATED_SYSTEM_GUIDE.md', import.meta.url), 'utf8');
 const webSearchEnhancedResearchExampleSource = readFileSync(new URL('../../packages/web-search/examples/enhanced-research-example.ts', import.meta.url), 'utf8');
 const productGuideSource = readFileSync(new URL('../../.ai/PRODUCT.md', import.meta.url), 'utf8');
+const marketingTestimonialsCtaSource = readFileSync(new URL('../../uapi/app/(root)/components/MarketingTestimonialsCTA.tsx', import.meta.url), 'utf8');
+const marketingFeatureBentoSource = readFileSync(new URL('../../uapi/app/(root)/components/MarketingFeatureBento.tsx', import.meta.url), 'utf8');
+const marketingFeatureListSource = readFileSync(new URL('../../uapi/app/(root)/components/MarketingFeatureList.tsx', import.meta.url), 'utf8');
+const marketingStepsSource = readFileSync(new URL('../../uapi/app/(root)/components/MarketingSteps.tsx', import.meta.url), 'utf8');
+const marketingHeadlessMobileShowcaseSource = readFileSync(
+  new URL('../../uapi/app/(root)/components/MarketingHeadlessMobileShowcase.tsx', import.meta.url),
+  'utf8',
+);
+const uapiBaseReadmeSource = readFileSync(new URL('../../uapi/components/base/README.md', import.meta.url), 'utf8');
+const tailwindConfigSource = readFileSync(new URL('../../uapi/tailwind.config.ts', import.meta.url), 'utf8');
+const longRunnerWorkerSource = readFileSync(new URL('../../uapi/scripts/long-runner-worker.ts', import.meta.url), 'utf8');
+const dockerLongRunnerSource = readFileSync(new URL('../../Dockerfile.long-runner', import.meta.url), 'utf8');
+const emailLogoSource = readFileSync(new URL('../../uapi/public/email-logo.svg', import.meta.url), 'utf8');
+const magicLinkStorySource = readFileSync(new URL('../../uapi/stories/email-templates/MagicLink.stories.tsx', import.meta.url), 'utf8');
+const confirmStorySource = readFileSync(new URL('../../uapi/stories/email-templates/Confirm.stories.tsx', import.meta.url), 'utf8');
+const emailChangeStorySource = readFileSync(new URL('../../uapi/stories/email-templates/EmailChange.stories.tsx', import.meta.url), 'utf8');
+const inviteStorySource = readFileSync(new URL('../../uapi/stories/email-templates/Invite.stories.tsx', import.meta.url), 'utf8');
+const genericNotificationStorySource = readFileSync(new URL('../../uapi/stories/email-templates/GenericNotification.stories.tsx', import.meta.url), 'utf8');
+const passwordRecoveryStorySource = readFileSync(new URL('../../uapi/stories/email-templates/PasswordRecovery.stories.tsx', import.meta.url), 'utf8');
+const upgradeStatusStorySource = readFileSync(new URL('../../uapi/stories/email-templates/UpgradeStatus.stories.tsx', import.meta.url), 'utf8');
+const stylingReadmeSource = readFileSync(new URL('../../packages/styling/README.md', import.meta.url), 'utf8');
+const lspContextAwarenessCompositionSource = readFileSync(
+  new URL('../../packages/generic-tools/lsp-query/src/prompts/lsp-context-awareness-composition.ts', import.meta.url),
+  'utf8',
+);
+const vulnerabilityAuditSource = readFileSync(new URL('../../VULNERABILITY_AUDIT_2026-04-02.md', import.meta.url), 'utf8');
+const investorMemoSource = readFileSync(new URL('../../INVESTOR_MEMO.md', import.meta.url), 'utf8');
+const introPamphletSource = readFileSync(new URL('../../.sales/INTRO_PAMPHLET.md', import.meta.url), 'utf8');
 const uapiEnvExampleSource = readFileSync(new URL('../../uapi/.env.example', import.meta.url), 'utf8');
 const uapiEnvSource = readFileSync(new URL('../../uapi/.env', import.meta.url), 'utf8');
 const uapiTsconfigSource = readFileSync(new URL('../../uapi/tsconfig.json', import.meta.url), 'utf8');
@@ -255,6 +294,10 @@ const storybookPreviewSource = readFileSync(new URL('../../uapi/.storybook/previ
 const startBitcodeMcpScriptSource = readFileSync(new URL('../../scripts/start-bitcode-mcp.sh', import.meta.url), 'utf8');
 const phase2CompleteScriptSource = readFileSync(new URL('../../scripts/phase2-complete.sh', import.meta.url), 'utf8');
 const phase2NamingComplianceScriptSource = readFileSync(new URL('../../scripts/phase2-naming-compliance.py', import.meta.url), 'utf8');
+const userDeletionFunctionSource = readFileSync(new URL('../../scripts/user_deletion_function_with_cascading_cleanup.sql', import.meta.url), 'utf8');
+const contractChangeLedgerTestSource = readFileSync(new URL('./contract-change-ledger.test.js', import.meta.url), 'utf8');
+const v20QualityFixtureSource = readFileSync(new URL('./v20-quality-fixture.js', import.meta.url), 'utf8');
+const e2eTestSource = readFileSync(new URL('./e2e.test.js', import.meta.url), 'utf8');
 const verifyDeliverablesQualityScriptSource = readFileSync(new URL('../../scripts/verify-deliverables-quality.sh', import.meta.url), 'utf8');
 const cleanupRemainingDocsScriptSource = readFileSync(new URL('../../scripts/cleanup_remaining_docs.py', import.meta.url), 'utf8');
 const cleanupOutdatedDocsScriptSource = readFileSync(new URL('../../scripts/cleanup_outdated_docs.py', import.meta.url), 'utf8');
@@ -356,6 +399,9 @@ const procurementQualityAssessmentSource = readFileSync(new URL('../../packages/
 const executionsMcpProductionReadinessSource = readFileSync(new URL('../../packages/executions-mcp/src/mcp-server/PRODUCTION_READINESS_ASSESSMENT.md', import.meta.url), 'utf8');
 const executionsMcpPublicOverviewSource = readFileSync(new URL('../../packages/executions-mcp/src/mcp-server/docs/public/mcp-overview.md', import.meta.url), 'utf8');
 const executionsMcpPublicApiReferenceSource = readFileSync(new URL('../../packages/executions-mcp/src/mcp-server/docs/public/mcp-api-reference.md', import.meta.url), 'utf8');
+const executionsMcpSpecGeneratorSource = readFileSync(new URL('../../packages/executions-mcp/src/mcp-server/src/docs/mcp-spec-generator.ts', import.meta.url), 'utf8');
+const executionsMcpOpenApiGeneratorSource = readFileSync(new URL('../../packages/executions-mcp/src/mcp-server/src/docs/openapi-generator.ts', import.meta.url), 'utf8');
+const executionsMcpKubernetesDeploymentSource = readFileSync(new URL('../../packages/executions-mcp/src/mcp-server/deployment/kubernetes/deployment.yaml', import.meta.url), 'utf8');
 const executionsMcpOpenApiSource = readFileSync(new URL('../../packages/executions-mcp/src/mcp-server/docs/openapi/bitcode-mcp-openapi.json', import.meta.url), 'utf8');
 const executionsMcpPackageSource = readFileSync(new URL('../../packages/executions-mcp/src/mcp-server/package.json', import.meta.url), 'utf8');
 const executionsMcpConfigSource = readFileSync(new URL('../../packages/executions-mcp/src/mcp-server/config/production.json', import.meta.url), 'utf8');
@@ -367,6 +413,7 @@ const supabaseIndexJsSource = readFileSync(new URL('../../packages/supabase/src/
 const supabaseStreamsJsSource = readFileSync(new URL('../../packages/supabase/src/streams.js', import.meta.url), 'utf8');
 const procurementVectorizeSource = readFileSync(new URL('../../packages/procurement/src/vectorize.ts', import.meta.url), 'utf8');
 const securityPackageSource = readFileSync(new URL('../../packages/security/package.json', import.meta.url), 'utf8');
+const securityReadmeSource = readFileSync(new URL('../../packages/security/README.md', import.meta.url), 'utf8');
 const multimodalUtilsReadmeSource = readFileSync(new URL('../../packages/multimodal-utils/README.md', import.meta.url), 'utf8');
 const uniqueTechSource = readFileSync(new URL('../../packages/tech-types/src/uniqueTech.ts', import.meta.url), 'utf8');
 const supabaseStreamsSource = readFileSync(new URL('../../packages/supabase/src/streams.ts', import.meta.url), 'utf8');
@@ -529,6 +576,10 @@ test('active V26 runtime and package tests no longer admit the make-engi-branch 
     existsSync(new URL('../../uapi/app/api/make-engi-branch/route.ts', import.meta.url)),
     false,
   );
+  assert.equal(
+    existsSync(new URL('../../uapi/app/api/make-engi-branch', import.meta.url)),
+    false,
+  );
   assert.doesNotMatch(serverSource, /\/api\/make-engi-branch/);
   assert.doesNotMatch(serverSource, /ENGI_DEMO_DATA_PATH/);
   assert.doesNotMatch(serverSource, /ENGI_DEMO_PUBLIC_DIR/);
@@ -636,6 +687,7 @@ test('active V26 shared surface primitives use Bitcode naming instead of Engi na
   assert.match(mockingIndexSource, /mockAreas\.auxillaries/);
   assert.match(mockingReadmeSource, /Bitcode Mock System/);
   assert.match(mockingReadmeSource, /__bitcodeMockSystem/);
+  assert.match(mockingReadmeSource, /User Auxillaries/);
   assert.match(mockingIntegrationGuideSource, /Bitcode routes and experiences/);
   assert.match(mockingIntegrationGuideSource, /__bitcodeMockSystem/);
   assert.match(mockingQuickStartDemoSource, /showcasing Bitcode capabilities/);
@@ -654,15 +706,20 @@ test('active V26 shared surface primitives use Bitcode naming instead of Engi na
   assert.match(comprehensiveMockDataGeneratorsSource, /bitcode-labs\/auth-service/);
   assert.match(comprehensiveMockDataGeneratorsSource, /Bitcode Labs/);
   assert.match(comprehensiveMockDataGeneratorsSource, /developer@bitcode\.dev/);
+  assert.match(comprehensiveMockDataGeneratorsSource, /marketplace\.bitcode\.ai\/previews\/react-perf-1\.png/);
+  assert.match(comprehensiveMockDataGeneratorsSource, /Complete system coverage \(User Auxillaries, Conversations, Deliverables, Organizations, etc\.\)/);
+  assert.match(mockingSummarySource, /User Auxillaries/);
   assert.match(specializedMockMiddlewareSource, /User Auxillaries/);
   assert.match(specializedMockMiddlewareSource, /auxillaries:\s*\{\s*auth: mockAuth,\s*user: mockUser,\s*onboarding: mockOnboarding\s*\}/);
   assert.match(mockingTypesSource, /Bitcode system/);
   assert.doesNotMatch(mockingIndexSource, /\bEngiMockConfig\b/);
   assert.doesNotMatch(mockingIndexSource, /window\.__engiMockSystem/);
   assert.doesNotMatch(mockingReadmeSource, /\bEngi\b/);
+  assert.doesNotMatch(mockingReadmeSource, /User Orbital/);
   assert.doesNotMatch(mockingIntegrationGuideSource, /\bEngi\b/);
   assert.doesNotMatch(mockingQuickStartDemoSource, /\bEngi\b/);
   assert.doesNotMatch(mockingSummarySource, /\bEngi\b/);
+  assert.doesNotMatch(mockingSummarySource, /User Orbital/);
   assert.doesNotMatch(mockingScriptsPackageSource, /engi-mock-/);
   assert.doesNotMatch(mockingScriptsReadmeSource, /\bEngi\b/);
   assert.doesNotMatch(mockingSetupScriptSource, /\bEngi\b/);
@@ -678,6 +735,7 @@ test('active V26 shared surface primitives use Bitcode naming instead of Engi na
   assert.doesNotMatch(comprehensiveMockDataGeneratorsSource, /Engi Technologies/);
   assert.doesNotMatch(comprehensiveMockDataGeneratorsSource, /Engi Corporation/);
   assert.doesNotMatch(comprehensiveMockDataGeneratorsSource, /@engi\.com/);
+  assert.doesNotMatch(comprehensiveMockDataGeneratorsSource, /marketplace\.engi\.com/);
   assert.doesNotMatch(specializedMockMiddlewareSource, /User Orbital/);
   assert.doesNotMatch(mockingTypesSource, /Engi system/);
   assert.match(landingTestSource, /bitcode-pill/);
@@ -943,6 +1001,16 @@ test('active V26 canon posture and preserved runtime state use bitcode policy an
   assert.match(bitcodeCoreSource, /bitcode\.buildBundleIssuance/);
   assert.match(bitcodeCoreSource, /bitcode\.allocateUnits/);
   assert.match(bitcodeCoreSource, /bitcode\.utilityReceipt/);
+  assert.match(receiptSchemasSource, /https:\/\/bitcode\.ai\/receipt\/deposit\/v1/);
+  assert.match(receiptSchemasSource, /https:\/\/bitcode\.ai\/receipt\/bundle-issuance\/v1/);
+  assert.match(receiptSchemasSource, /https:\/\/bitcode\.ai\/receipt\/allocation\/v1/);
+  assert.match(receiptSchemasSource, /https:\/\/bitcode\.ai\/receipt\/utility\/v1/);
+  assert.match(v20QualityFixtureSource, /bitcode\.proven-generator\.v1/);
+  assert.match(contractChangeLedgerTestSource, /scripts\/promote-bitcode-canon\.mjs/);
+  assert.match(contractChangeLedgerTestSource, /npm --prefix protocol-demonstration run test:deterministic-replay/);
+  assert.match(contractChangeLedgerTestSource, /npm --prefix protocol-demonstration run test:negative-mutation-matrix/);
+  assert.match(contractChangeLedgerTestSource, /generate-bitcode-proven/);
+  assert.match(e2eTestSource, /protocol-demonstration-e2e-/);
   assert.doesNotMatch(bitcodeDemoSource, /engi-system:/);
   assert.doesNotMatch(bitcodeDemoSource, /engi-asset-intake-attestation\.v11/);
   assert.doesNotMatch(bitcodeDemoSource, /policy-release-engi-v11-demo-2026-04-03/);
@@ -953,6 +1021,13 @@ test('active V26 canon posture and preserved runtime state use bitcode policy an
   assert.doesNotMatch(bitcodeCoreSource, /engi\.buildBundleIssuance/);
   assert.doesNotMatch(bitcodeCoreSource, /engi\.allocateUnits/);
   assert.doesNotMatch(bitcodeCoreSource, /engi\.utilityReceipt/);
+  assert.doesNotMatch(receiptSchemasSource, /https:\/\/engi\.software\/receipt\//);
+  assert.doesNotMatch(v20QualityFixtureSource, /engi-demo\.proven-generator\.v1/);
+  assert.doesNotMatch(contractChangeLedgerTestSource, /scripts\/promote-engi-canon\.mjs/);
+  assert.doesNotMatch(contractChangeLedgerTestSource, /npm --prefix engi-demo run test:deterministic-replay/);
+  assert.doesNotMatch(contractChangeLedgerTestSource, /npm --prefix engi-demo run test:negative-mutation-matrix/);
+  assert.doesNotMatch(contractChangeLedgerTestSource, /generate-engi-proven/);
+  assert.doesNotMatch(e2eTestSource, /engi-demo-e2e-/);
   assert.match(attestationModelSource, /bitcode-demo-image/);
   assert.match(attestationModelSource, /bitcode-policy-release-v1/);
   assert.match(attestationModelSource, /bitcode-demo-verifier/);
@@ -1140,6 +1215,11 @@ test('active V26 auxillaries test ownership and retained examples use Bitcode na
   assert.match(promptQualityConfigSource, /BITCODE_MAX_CONCURRENCY/);
   assert.match(promptQualityReadmeSource, /Bitcode Prompt Quality Framework/);
   assert.match(promptQualityReadmeSource, /enterprise@bitcode\.dev/);
+  assert.match(promptQualityReadmeSource, /github\.com\/engineeredsoftware\/bitcode\.git/);
+  assert.match(promptQualityReadmeSource, /cd bitcode\/packages\/testing/);
+  assert.match(promptQualityReadmeSource, /docs\.bitcode\.dev\/prompt-quality-framework/);
+  assert.match(promptQualityReadmeSource, /github\.com\/engineeredsoftware\/bitcode\/issues/);
+  assert.match(promptQualityReadmeSource, /github\.com\/engineeredsoftware\/bitcode\/discussions/);
   assert.match(sourceDividerStorySource, /engineeredsoftware\/bitcode/);
   assert.match(sourceConfigStorySource, /engineeredsoftware\/bitcode/);
   assert.match(conversationDigestPipelineTestSource, /name: 'Bitcode'/);
@@ -1149,6 +1229,15 @@ test('active V26 auxillaries test ownership and retained examples use Bitcode na
   assert.match(executionsMcpReadmeSource, /bitcode\/mcp-server/);
   assert.match(executionsMcpReadmeSource, /namespace bitcode/);
   assert.match(executionsMcpPublicOverviewSource, /bitcode-engineering/);
+  assert.match(executionsMcpPublicOverviewSource, /bitcode\.mcp-integration/);
+  assert.match(executionsMcpPublicOverviewSource, /bitcode\.configure/);
+  assert.match(executionsMcpPublicOverviewSource, /bitcode\/mcp-server:latest/);
+  assert.match(executionsMcpPublicApiReferenceSource, /https:\/\/myapp\.com\/webhooks\/bitcode/);
+  assert.match(executionsMcpSpecGeneratorSource, /"bitcode": \{/);
+  assert.match(executionsMcpSpecGeneratorSource, /bitcode\/mcp-action@v1/);
+  assert.match(executionsMcpOpenApiGeneratorSource, /https:\/\/myapp\.com\/webhooks\/bitcode/);
+  assert.match(executionsMcpKubernetesDeploymentSource, /namespace: bitcode/);
+  assert.match(executionsMcpKubernetesDeploymentSource, /image: bitcode\/mcp-server:latest/);
   assert.match(executionsMcpAnalysisToolsSource, /bitcode-ai-v1\.0/);
   assert.doesNotMatch(docCommentExampleSource, /\bEngi\b/);
   assert.doesNotMatch(docCommentImplementationSource, /ENGI_IDENTITY_PROMPT/);
@@ -1177,6 +1266,10 @@ test('active V26 auxillaries test ownership and retained examples use Bitcode na
   assert.doesNotMatch(promptQualityConfigSource, /ENGI_QUALITY_GATES/);
   assert.doesNotMatch(promptQualityConfigSource, /ENGI_ENABLE_MONITORING/);
   assert.doesNotMatch(promptQualityReadmeSource, /\bEngi\b/);
+  assert.doesNotMatch(promptQualityReadmeSource, /github\.com\/engi\/engi/);
+  assert.doesNotMatch(promptQualityReadmeSource, /cd engi\/packages\/testing/);
+  assert.doesNotMatch(promptQualityReadmeSource, /docs\.engi\.ai\/prompt-quality-framework/);
+  assert.doesNotMatch(promptQualityReadmeSource, /stackoverflow\.com\/questions\/tagged\/engi/);
   assert.doesNotMatch(sourceDividerStorySource, /engi-ai\/engi-platform/);
   assert.doesNotMatch(sourceConfigStorySource, /engi-ai\/engi-platform/);
   assert.doesNotMatch(conversationDigestPipelineTestSource, /name: 'Engi'/);
@@ -1186,6 +1279,15 @@ test('active V26 auxillaries test ownership and retained examples use Bitcode na
   assert.doesNotMatch(executionsMcpReadmeSource, /engi\/mcp-server/);
   assert.doesNotMatch(executionsMcpReadmeSource, /namespace engi/);
   assert.doesNotMatch(executionsMcpPublicOverviewSource, /engi-engineering/);
+  assert.doesNotMatch(executionsMcpPublicOverviewSource, /engi\.mcp-integration/);
+  assert.doesNotMatch(executionsMcpPublicOverviewSource, /engi\.configure/);
+  assert.doesNotMatch(executionsMcpPublicOverviewSource, /engi\/mcp-server:latest/);
+  assert.doesNotMatch(executionsMcpPublicApiReferenceSource, /https:\/\/myapp\.com\/webhooks\/engi/);
+  assert.doesNotMatch(executionsMcpSpecGeneratorSource, /"engi": \{/);
+  assert.doesNotMatch(executionsMcpSpecGeneratorSource, /engi\/mcp-action@v1/);
+  assert.doesNotMatch(executionsMcpOpenApiGeneratorSource, /https:\/\/myapp\.com\/webhooks\/engi/);
+  assert.doesNotMatch(executionsMcpKubernetesDeploymentSource, /namespace: engi/);
+  assert.doesNotMatch(executionsMcpKubernetesDeploymentSource, /image: engi\/mcp-server:latest/);
   assert.doesNotMatch(executionsMcpAnalysisToolsSource, /engi-ai-v1\.0/);
 });
 
@@ -1245,6 +1347,8 @@ test('active V26 retained package surfaces use Bitcode naming instead of Engi na
   assert.match(webSearchSource, /BITCODE_MOCK_EXA/);
   assert.match(webSearchSource, /BITCODE_MOCK_EXTERNAL/);
   assert.match(webSearchReadmeSource, /for the Bitcode development platform/);
+  assert.match(webSearchReadmeSource, /github\.com\/engineeredsoftware\/bitcode\.git/);
+  assert.match(webSearchReadmeSource, /cd bitcode\/packages\/web-search/);
   assert.match(registryReadmeSource, /## How Bitcode Uses Registry/);
   assert.match(registryTldrSource, /makes configuration dynamic in Bitcode/);
   assert.match(registryTldrSource, /## How Bitcode Uses Registry/);
@@ -1362,6 +1466,7 @@ test('active V26 retained package surfaces use Bitcode naming instead of Engi na
   assert.match(modelsPricingSource, /BITCODE_LLM_PROVIDER/);
   assert.match(modelsPricingSource, /BITCODE_LLM_MODEL/);
   assert.match(securityPackageSource, /Bitcode Security Team/);
+  assert.match(securityReadmeSource, /security@bitcode\.dev/);
   assert.match(multimodalUtilsReadmeSource, /across the Bitcode platform/);
   assert.match(uniqueTechSource, /combinations that Bitcode actively/);
   assert.match(supabaseStreamsSource, /expected by Bitcode's streaming helpers/);
@@ -1394,6 +1499,8 @@ test('active V26 retained package surfaces use Bitcode naming instead of Engi na
   assert.doesNotMatch(webSearchSource, /ENGI_MOCK_EXA/);
   assert.doesNotMatch(webSearchSource, /ENGI_MOCK_EXTERNAL/);
   assert.doesNotMatch(webSearchReadmeSource, /for the Engi development platform/);
+  assert.doesNotMatch(webSearchReadmeSource, /github\.com\/engi\/engi\.git/);
+  assert.doesNotMatch(webSearchReadmeSource, /cd engi\/packages\/web-search/);
   assert.doesNotMatch(registryReadmeSource, /## How Engi Uses Registry/);
   assert.doesNotMatch(registryTldrSource, /makes configuration dynamic in Engi/);
   assert.doesNotMatch(registryTldrSource, /## How Engi Uses Registry/);
@@ -1475,6 +1582,7 @@ test('active V26 retained package surfaces use Bitcode naming instead of Engi na
   assert.doesNotMatch(modelsPricingSource, /ENGI_LLM_PROVIDER/);
   assert.doesNotMatch(modelsPricingSource, /ENGI_LLM_MODEL/);
   assert.doesNotMatch(securityPackageSource, /Engi Security Team/);
+  assert.doesNotMatch(securityReadmeSource, /security@engi\.com/);
   assert.doesNotMatch(multimodalUtilsReadmeSource, /across the Engi platform/);
   assert.doesNotMatch(uniqueTechSource, /combinations that Engi actively/);
   assert.doesNotMatch(supabaseStreamsSource, /expected by Engi's streaming helpers/);
@@ -1633,6 +1741,8 @@ test('active V26 retained package surfaces use Bitcode naming instead of Engi na
   assert.match(rootPnpmLockSource, /link:packages\/eslint-plugin-bitcode/);
   assert.match(rootProductSource, /# PRODUCT: BITCODE V26 GLOBAL PHENOMENON/);
   assert.match(rootProductSource, /Bitcode is not a tool/);
+  assert.match(webSearchProductionWorkflowSource, /https:\/\/staging\.bitcode\.ai/);
+  assert.match(webSearchProductionWorkflowSource, /https:\/\/bitcode\.ai/);
   assert.match(codelessCustomerExperienceDocSource, /Bitcode enables customers/);
   assert.match(codelessCustomerExperienceDocSource, /Bitcode produces four distinct deliverable types/);
   assert.match(codelessCustomerExperienceDocSource, /bitcode-avatars/);
@@ -1675,6 +1785,7 @@ test('active V26 retained package surfaces use Bitcode naming instead of Engi na
   assert.match(phase2NamingComplianceScriptSource, /Bitcode Excellence - prompt-system cleanup freedom/);
   assert.match(phase2NamingComplianceScriptSource, /PACKAGES_PATH = REPO_ROOT \/ "packages"/);
   assert.match(phase2NamingComplianceScriptSource, /Bitcode Excellence Mode Activated!/);
+  assert.match(userDeletionFunctionSource, /garrettmaring@bitcode\.dev/);
   assert.match(verifyDeliverablesQualityScriptSource, /@bitcode\\\/prompts\\\/raw_promptparts/);
   assert.match(cleanupRemainingDocsScriptSource, /remaining outdated Bitcode documentation files/);
   assert.match(cleanupRemainingDocsScriptSource, /BITCODE_FINAL_VERIFICATION_REPORT\.md/);
@@ -1736,6 +1847,8 @@ test('active V26 retained package surfaces use Bitcode naming instead of Engi na
   assert.doesNotMatch(rootPnpmLockSource, /link:packages\/eslint-plugin-engi/);
   assert.doesNotMatch(rootProductSource, /PRODUCT: ENGI/);
   assert.doesNotMatch(rootProductSource, /\bEngi is not a tool\b/);
+  assert.doesNotMatch(webSearchProductionWorkflowSource, /https:\/\/staging\.engi\.com/);
+  assert.doesNotMatch(webSearchProductionWorkflowSource, /https:\/\/engi\.com/);
   assert.doesNotMatch(codelessCustomerExperienceDocSource, /\bEngi\b/);
   assert.doesNotMatch(codelessCustomerExperienceDocSource, /engi-avatars/);
   assert.doesNotMatch(codelessCustomerExperienceDocSource, /\/Users\/g\/Developer\/engi\/engi/);
@@ -1777,6 +1890,7 @@ test('active V26 retained package surfaces use Bitcode naming instead of Engi na
   assert.doesNotMatch(phase2NamingComplianceScriptSource, /Engi Excellence - Pre-1.0 freedom!/);
   assert.doesNotMatch(phase2NamingComplianceScriptSource, /Developer\/engi\/engi\/packages/);
   assert.doesNotMatch(phase2NamingComplianceScriptSource, /Engi Excellence Mode Activated!/);
+  assert.doesNotMatch(userDeletionFunctionSource, /garrettmaring@engi\.software/);
   assert.doesNotMatch(verifyDeliverablesQualityScriptSource, /@engi\\\/prompts\\\/raw_promptparts/);
   assert.doesNotMatch(cleanupRemainingDocsScriptSource, /ENGI_FINAL_VERIFICATION_REPORT\.md/);
   assert.doesNotMatch(cleanupRemainingDocsScriptSource, /remaining outdated documentation files/);
@@ -2223,13 +2337,41 @@ test('active V26 env examples, Storybook config, internal docs, and canon workfl
   assert.doesNotMatch(internalDocsReadmeSource, /New to Engi\?/);
   assert.match(styleDocSource, /Bitcode primitives/);
   assert.match(styleDocSource, /`bitcode\/`: first‑party Bitcode primitives/);
+  assert.match(styleDocSource, /AuxillariesProvider\.tsx/);
+  assert.match(styleDocSource, /User Auxillaries/);
   assert.doesNotMatch(styleDocSource, /Engi primitives/);
   assert.doesNotMatch(styleDocSource, /Reusable Engi Components/);
+  assert.doesNotMatch(styleDocSource, /OrbitalsProvider\.tsx/);
+  assert.doesNotMatch(styleDocSource, /User Orbital/);
   assert.match(userOnboardingDocSource, /Compatibility note: the route still accepts `completedStep` while active callers converge on `completedPane`\./);
   assert.match(tpsDocSource, /upcoming need-measurement pipeline/);
+  assert.match(tpsDocSource, /AuxillariesConnectsPane\.tsx/);
   assert.match(frontendArchitectureDocSource, /need-measurement pipeline placeholder/);
   assert.match(databaseDocSource, /reserved need-measurement execution primitive still uses `type=pipeline:measure`/);
   assert.match(apiDocSource, /placeholder for the need-measurement pipeline primitive/);
+  assert.match(apiDocSource, /https:\/\/api\.bitcode\.ai/);
+  assert.doesNotMatch(apiDocSource, /https:\/\/api\.engi\.software/);
+  assert.doesNotMatch(tpsDocSource, /OrbitalsConnectsPane\.tsx/);
+  assert.match(mysqlReadmeSource, /Bitcode platform/);
+  assert.match(mysqlReadmeSource, /Bitcode data pipeline/);
+  assert.doesNotMatch(mysqlReadmeSource, /ENGI platform/);
+  assert.doesNotMatch(mysqlReadmeSource, /ENGI data pipeline/);
+  assert.match(authReadmeSource, /Bitcode platform/);
+  assert.doesNotMatch(authReadmeSource, /ENGI platform/);
+  assert.match(postgresqlReadmeSource, /Bitcode platform/);
+  assert.match(postgresqlReadmeSource, /Bitcode vector search and analytics workflows/);
+  assert.doesNotMatch(postgresqlReadmeSource, /ENGI platform/);
+  assert.doesNotMatch(postgresqlReadmeSource, /ENGI vector search and analytics workflows/);
+  assert.match(jiraReadmeSource, /Bitcode platform/);
+  assert.doesNotMatch(jiraReadmeSource, /ENGI platform/);
+  assert.match(supabaseReadmeSource, /Bitcode platform/);
+  assert.doesNotMatch(supabaseReadmeSource, /ENGI platform/);
+  assert.match(supabaseClientSource, /Bitcode system/);
+  assert.doesNotMatch(supabaseClientSource, /engi system/);
+  assert.match(templatesGenericsTypesSource, /Template Types for the Bitcode platform/);
+  assert.doesNotMatch(templatesGenericsTypesSource, /Template Types for ENGI Platform/);
+  assert.match(templatesGenericsPackageSource, /Bitcode platform/);
+  assert.doesNotMatch(templatesGenericsPackageSource, /ENGI platform/);
   assert.match(executionsDocSource, /reserved need-measurement placeholder that currently redirects to deliverables/);
   assert.match(styleDocSource, /need-measurement pipeline placeholder/);
   assert.doesNotMatch(tpsDocSource, /upcoming Measure pipeline/);
@@ -2247,4 +2389,75 @@ test('active V26 env examples, Storybook config, internal docs, and canon workfl
   assert.doesNotMatch(bitcodeCanonWorkflowSource, /npm --prefix engi-demo/);
   assert.equal(existsSync(new URL('../../.github/workflows/engi-canon-quality.yml', import.meta.url)), false);
   assert.equal(existsSync(new URL('../../.github/workflows/bitcode-canon-quality.yml', import.meta.url)), true);
+});
+
+test('active V26 marketing, styling, asset, and operator carriers use Bitcode naming and filesystem truth', () => {
+  assert.match(marketingTestimonialsCtaSource, /Bitcode is a great GitHub app/);
+  assert.match(marketingFeatureBentoSource, /Assign '<span className="font-light text-green-primary">bitcode<\/span>'/);
+  assert.match(marketingFeatureListSource, /parse-issue-with-comment-from-bitcode\.png/);
+  assert.match(marketingStepsSource, /subscribe to bitcode/);
+  assert.match(marketingHeadlessMobileShowcaseSource, /https:\/\/api\.bitcode\.ai\/v1\/mcp/);
+  assert.doesNotMatch(marketingTestimonialsCtaSource, /\bengi is a great gh app\b/i);
+  assert.doesNotMatch(marketingFeatureBentoSource, />engi</);
+  assert.doesNotMatch(marketingFeatureListSource, /parse-issue-with-comment-from-engi\.png/);
+  assert.doesNotMatch(marketingStepsSource, /subscribe to engi/);
+  assert.doesNotMatch(marketingHeadlessMobileShowcaseSource, /https:\/\/api\.engi\.sh\/v1\/mcp/);
+
+  assert.match(uapiBaseReadmeSource, /First‑party: `bitcode\/`/);
+  assert.match(uapiBaseReadmeSource, /flat under `bitcode\/`/);
+  assert.match(tailwindConfigSource, /BITCODE BRAND COLOR SYSTEM/);
+  assert.match(consolidatedSystemGuideSource, /# 🚀 BITCODE CONSOLIDATED DESIGN SYSTEM/);
+  assert.match(orbitalStylesSource, /\.roi-column\.bitcode/);
+  assert.match(orbitalStylesSource, /\.roi-column\.bitcode \.roi-metric-value/);
+  assert.match(stylingReadmeSource, /Tailwind CSS styling utilities for the Bitcode platform/);
+  assert.match(lspContextAwarenessCompositionSource, /BITCODE EXCELLENCE/);
+  assert.doesNotMatch(uapiBaseReadmeSource, /`engi\//);
+  assert.doesNotMatch(tailwindConfigSource, /ENGI BRAND COLOR SYSTEM/);
+  assert.doesNotMatch(consolidatedSystemGuideSource, /ENGI CONSOLIDATED DESIGN SYSTEM/);
+  assert.doesNotMatch(orbitalStylesSource, /\.roi-column\.engi/);
+  assert.doesNotMatch(stylingReadmeSource, /ENGI platform/);
+  assert.doesNotMatch(lspContextAwarenessCompositionSource, /ENGI EXCELLENCE/);
+
+  assert.match(longRunnerWorkerSource, /bitcode\/long-runner:latest/);
+  assert.match(dockerLongRunnerSource, /bitcode\/long-runner:latest/);
+  assert.match(rootPackageLockSource, /"name": "bitcode-monorepo"/);
+  assert.match(vulnerabilityAuditSource, /"name": "bitcode-monorepo"/);
+  assert.doesNotMatch(longRunnerWorkerSource, /engi\/long-runner:latest/);
+  assert.doesNotMatch(dockerLongRunnerSource, /engi\/long-runner:latest/);
+  assert.doesNotMatch(rootPackageLockSource, /"name": "engi"/);
+  assert.doesNotMatch(vulnerabilityAuditSource, /"name": "engi"/);
+
+  assert.match(emailLogoSource, />bitcode</);
+  assert.match(magicLinkStorySource, /https:\/\/app\.bitcode\.ai\/auth\/confirm/);
+  assert.match(confirmStorySource, /https:\/\/app\.bitcode\.ai\/auth\/confirm/);
+  assert.match(emailChangeStorySource, /https:\/\/app\.bitcode\.ai\/email-change/);
+  assert.match(inviteStorySource, /https:\/\/app\.bitcode\.ai\/invite/);
+  assert.match(genericNotificationStorySource, /https:\/\/status\.bitcode\.ai/);
+  assert.match(passwordRecoveryStorySource, /https:\/\/app\.bitcode\.ai\/reset/);
+  assert.match(upgradeStatusStorySource, /https:\/\/app\.bitcode\.ai\/executions/);
+  assert.doesNotMatch(emailLogoSource, />engi</);
+  assert.doesNotMatch(magicLinkStorySource, /https:\/\/engi\.dev/);
+  assert.doesNotMatch(confirmStorySource, /https:\/\/engi\.dev/);
+  assert.doesNotMatch(emailChangeStorySource, /https:\/\/engi\.dev/);
+  assert.doesNotMatch(inviteStorySource, /https:\/\/engi\.dev/);
+  assert.doesNotMatch(genericNotificationStorySource, /status\.engi\.dev/);
+  assert.doesNotMatch(passwordRecoveryStorySource, /https:\/\/engi\.dev/);
+  assert.doesNotMatch(upgradeStatusStorySource, /https:\/\/engi\.dev/);
+
+  assert.match(productGuideSource, /uapi\/components\/base\/bitcode\/execution\/WorkUpdatePanel\.tsx/);
+  assert.match(investorMemoSource, /raw\.githubusercontent\.com\/engineeredsoftware\/bitcode\/main/);
+  assert.match(introPamphletSource, /Bitcode technical intelligence/);
+  assert.match(introPamphletSource, /AES' Unique Offering with Bitcode/);
+  assert.doesNotMatch(productGuideSource, /uapi\/components\/base\/engi\/execution\/WorkUpdatePanel\.tsx/);
+  assert.doesNotMatch(investorMemoSource, /raw\.githubusercontent\.com\/engineeredsoftware\/ENGI\/main/);
+  assert.doesNotMatch(introPamphletSource, /'Engi Software Agents'/);
+  assert.doesNotMatch(introPamphletSource, /AES' Unique Offering with ESAs/);
+
+  assert.equal(existsSync(new URL('../../uapi/public/bitcode.svg', import.meta.url)), true);
+  assert.equal(existsSync(new URL('../../uapi/public/bitcode-typelogo.png', import.meta.url)), true);
+  assert.equal(existsSync(new URL('../../uapi/public/parse-issue-with-comment-from-bitcode.png', import.meta.url)), true);
+  assert.equal(existsSync(new URL('../../uapi/public/engi.svg', import.meta.url)), false);
+  assert.equal(existsSync(new URL('../../uapi/public/engi-typelogo.png', import.meta.url)), false);
+  assert.equal(existsSync(new URL('../../uapi/public/parse-issue-with-comment-from-engi.png', import.meta.url)), false);
+  assert.equal(existsSync(new URL('../../packages/eslint-plugin-engi', import.meta.url)), false);
 });

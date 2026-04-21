@@ -212,7 +212,7 @@
 ### Area-Based Organization
 
 ```typescript
-// User Orbital
+// User Auxillaries
 mockAreas.orbital.auth.github()           // GitHub authentication
 mockAreas.orbital.user.profile()          // User profile
 mockAreas.orbital.onboarding.steps()      // Onboarding

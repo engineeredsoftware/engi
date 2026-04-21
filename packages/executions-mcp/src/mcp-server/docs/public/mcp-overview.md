@@ -122,10 +122,10 @@ Bitcode MCP operates at the **absolute frontier** of AI-powered engineering. As 
 #### **VS Code Extension**
 ```bash
 # Install Bitcode MCP Extension
-code --install-extension engi.mcp-integration
+code --install-extension bitcode.mcp-integration
 
 # Configure with your API key
-code --command "engi.configure"
+code --command "bitcode.configure"
 ```
 
 #### **API Integration**
@@ -155,7 +155,7 @@ docker run -d \
   -e BITCODE_LICENSE_KEY=your-license \
   -e DATABASE_URL=your-database \
   -p 3000:3000 \
-  engi/mcp-server:latest
+  bitcode/mcp-server:latest
 ```
 
 #### **Cloud Deployment**
@@ -174,7 +174,7 @@ spec:
     spec:
       containers:
       - name: bitcode-mcp
-        image: engi/mcp-server:latest
+        image: bitcode/mcp-server:latest
         env:
         - name: BITCODE_LICENSE_KEY
           valueFrom:

@@ -475,7 +475,7 @@ This implementation supports compliance with:
 
 For security issues or questions:
 
-1. **Security vulnerabilities**: Report privately to security@engi.com
+1. **Security vulnerabilities**: Report privately to security@bitcode.dev
 2. **Implementation questions**: Create GitHub issue
 3. **Performance concerns**: Monitor with provided metrics
 4. **Configuration help**: Check environment variable documentation

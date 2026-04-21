@@ -1,6 +1,6 @@
 # @bitcode/postgresql
 
-PostgreSQL database management tools for ENGI platform. Provides schema introspection and query execution capabilities for PostgreSQL databases.
+PostgreSQL database management tools for the Bitcode platform. Provides schema introspection and query execution capabilities for PostgreSQL databases.
 
 ## Available Tools
 
@@ -45,4 +45,4 @@ const results = await postgresqlRunQueryTool({
 
 ## Architecture
 
-Tools provide PostgreSQL-specific database operations with advanced features like array types, JSON columns, and full-text search. Designed for integration with ENGI vector search and analytics workflows.
+Tools provide PostgreSQL-specific database operations with advanced features like array types, JSON columns, and full-text search. Designed for integration with Bitcode vector search and analytics workflows.

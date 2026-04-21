@@ -25,7 +25,7 @@ const APP_ROOT = path.resolve(TEST_DIR, '..');
  * @returns {Promise<any>}
  */
 async function withBrowserDemo(t, fn) {
-  const tempDir = fs.mkdtempSync(path.join(os.tmpdir(), 'engi-demo-e2e-'));
+  const tempDir = fs.mkdtempSync(path.join(os.tmpdir(), 'protocol-demonstration-e2e-'));
   const dataPath = path.join(tempDir, 'state.json');
   const publicDir = path.join(APP_ROOT, 'public');
   const { app, server } = await createServerAny({ dataPath, publicDir });

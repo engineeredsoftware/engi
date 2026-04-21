@@ -130,7 +130,7 @@ Note: Product page is `/executions?type=pipeline:deliverables`. The second tab i
 - Notion OAuth client id/secret (see `internal-docs/INTEGRATIONS.md` and public docs `public-docs/integration-notion.md`).
 
 ### Code & Routes
-- UI connects pane: `uapi/app/orbitals/components/OrbitalsConnectsPane.tsx` (endpoints under `/api/integrations/notion/*`).
+- UI connects pane: `uapi/app/auxillaries/components/AuxillariesConnectsPane.tsx` (endpoints under `/api/integrations/notion/*`).
 - Public docs and images under `public-docs/integration-notion.md`.
 
 ### Data & Sync

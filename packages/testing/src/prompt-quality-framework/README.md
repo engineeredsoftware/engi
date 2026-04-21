@@ -508,8 +508,8 @@ We welcome contributions! Please see our [Contributing Guide](CONTRIBUTING.md) f
 
 ```bash
 # Clone the repository
-git clone https://github.com/engi/engi
-cd engi/packages/testing
+git clone https://github.com/engineeredsoftware/bitcode.git
+cd bitcode/packages/testing
 
 # Install dependencies
 npm install
@@ -542,7 +542,7 @@ npm run test:regression
 
 ## 📖 API Documentation
 
-Comprehensive API documentation is available at [docs.engi.ai/prompt-quality-framework](https://docs.engi.ai/prompt-quality-framework).
+Comprehensive API documentation is available at [docs.bitcode.dev/prompt-quality-framework](https://docs.bitcode.dev/prompt-quality-framework).
 
 ### Core APIs
 
@@ -594,9 +594,9 @@ Comprehensive API documentation is available at [docs.engi.ai/prompt-quality-fra
 
 ### Community Support
 
-- [GitHub Issues](https://github.com/engi/engi/issues)
-- [Discussions](https://github.com/engi/engi/discussions)
-- [Stack Overflow](https://stackoverflow.com/questions/tagged/engi)
+- [GitHub Issues](https://github.com/engineeredsoftware/bitcode/issues)
+- [Discussions](https://github.com/engineeredsoftware/bitcode/discussions)
+- [Documentation](https://docs.bitcode.dev/prompt-quality-framework)
 
 ### Enterprise Support
 

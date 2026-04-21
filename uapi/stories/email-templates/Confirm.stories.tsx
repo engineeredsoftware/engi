@@ -14,7 +14,7 @@ type Story = StoryObj<typeof ConfirmEmail>;
 
 export const Default: Story = {
   args: {
-    confirmationUrl: 'https://engi.dev/auth/confirm?token=123',
+    confirmationUrl: 'https://app.bitcode.ai/auth/confirm?token=123',
     firstName: 'Grace',
   },
   render: createEmailStory(ConfirmEmail),

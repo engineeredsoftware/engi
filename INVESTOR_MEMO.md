@@ -472,10 +472,10 @@ Steps 2, 4, and 5 are grounded in current Bitcoin/Bitcode primitives; the overal
 
 The cleanest next move is drafting the new Section 6 in finished prose first, because that will lock the Bitcoin narrative before it leaks into the rest of the memo in a looser, less disciplined way.
 
-[1]: https://raw.githubusercontent.com/engineeredsoftware/ENGI/main/protocol-demonstration/README.md "https://raw.githubusercontent.com/engineeredsoftware/ENGI/main/protocol-demonstration/README.md"
-[2]: https://raw.githubusercontent.com/engineeredsoftware/ENGI/main/_legacy/ENGI_SPEC_V22.md "https://raw.githubusercontent.com/engineeredsoftware/ENGI/main/_legacy/ENGI_SPEC_V22.md"
-[3]: https://raw.githubusercontent.com/engineeredsoftware/ENGI/main/protocol-demonstration/src/canon-posture.js "https://raw.githubusercontent.com/engineeredsoftware/ENGI/main/protocol-demonstration/src/canon-posture.js"
-[4]: https://raw.githubusercontent.com/engineeredsoftware/ENGI/main/protocol-demonstration/public/app.js "https://raw.githubusercontent.com/engineeredsoftware/ENGI/main/protocol-demonstration/public/app.js"
+[1]: https://raw.githubusercontent.com/engineeredsoftware/bitcode/main/protocol-demonstration/README.md "https://raw.githubusercontent.com/engineeredsoftware/bitcode/main/protocol-demonstration/README.md"
+[2]: https://raw.githubusercontent.com/engineeredsoftware/bitcode/main/_legacy/ENGI_SPEC_V22.md "https://raw.githubusercontent.com/engineeredsoftware/bitcode/main/_legacy/ENGI_SPEC_V22.md"
+[3]: https://raw.githubusercontent.com/engineeredsoftware/bitcode/main/protocol-demonstration/src/canon-posture.js "https://raw.githubusercontent.com/engineeredsoftware/bitcode/main/protocol-demonstration/src/canon-posture.js"
+[4]: https://raw.githubusercontent.com/engineeredsoftware/bitcode/main/protocol-demonstration/public/app.js "https://raw.githubusercontent.com/engineeredsoftware/bitcode/main/protocol-demonstration/public/app.js"
 [5]: https://developer.bitcoin.org/devguide/block_chain.html?highlight=consensus "https://developer.bitcoin.org/devguide/block_chain.html?highlight=consensus"
 [6]: https://developer.bitcoin.org/devguide/transactions.html?highlight=p2pkh "https://developer.bitcoin.org/devguide/transactions.html?highlight=p2pkh"
 [7]: https://bips.dev/341 "https://bips.dev/341"

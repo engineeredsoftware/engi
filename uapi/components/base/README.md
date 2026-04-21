@@ -2,7 +2,7 @@
 
 This folder contains the canonical base layers for Bitcode UI. App code imports ONLY from here (and Bitcode primitives), never from vendored demo registries.
 
-- First‑party: `engi/` — Bitcode’s current shared base primitives (perf + layout + neutral composition)
+- First‑party: `bitcode/` — Bitcode’s current shared base primitives (perf + layout + neutral composition)
 - Vendor providers: `<provider>/` — Proper‑noun folders for vendored component families (e.g., `shadcn`)
 
 General Rules
@@ -43,18 +43,18 @@ export { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription };
 ## Bitcode Primitives (first‑party)
 
 Use these to standardize efficient behavior without imposing looks:
-- `engi/panels/ScrollContainer.tsx` — SSOT scrollbars for all scroll regions
-- `engi/perf/ContentVisibility.tsx` — content‑visibility wrapper for large off‑screen content
-- `engi/perf/GPUAcceleration.tsx` — GPU/compositor hints for animated containers
-- `engi/page-header/PageHeaderSection.tsx` — neutral header composition shell
+- `bitcode/panels/ScrollContainer.tsx` — SSOT scrollbars for all scroll regions
+- `bitcode/perf/ContentVisibility.tsx` — content‑visibility wrapper for large off‑screen content
+- `bitcode/perf/GPUAcceleration.tsx` — GPU/compositor hints for animated containers
+- `bitcode/page-header/PageHeaderSection.tsx` — neutral header composition shell
 
 See `internal-docs/STYLE.md` for full guidance.
 
 ## Bitcode Base Components (shared UI)
 
-Reusable Bitcode-branded UI that is shared across features lives flat under `engi/` (no `ui/` nesting):
-- `engi/typing-animation.tsx`, `engi/multi-line-typing-animation.tsx`
-- `engi/quantum-button.tsx`, `engi/word-rotate.tsx`
-- `engi/metal-plate.tsx`, `engi/dock.tsx`, `engi/multi-agents-icon.tsx`, `engi/particle-effect.tsx`
+Reusable Bitcode-branded UI that is shared across features lives flat under `bitcode/` (no `ui/` nesting):
+- `bitcode/typing-animation.tsx`, `bitcode/multi-line-typing-animation.tsx`
+- `bitcode/quantum-button.tsx`, `bitcode/word-rotate.tsx`
+- `bitcode/metal-plate.tsx`, `bitcode/dock.tsx`, `bitcode/multi-agents-icon.tsx`, `bitcode/particle-effect.tsx`
 
 App code may import these directly, and page-specific components should be colocated under the page (e.g., `app/executions/components/*`) while reusing these base components.

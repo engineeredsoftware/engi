@@ -1,6 +1,6 @@
 # @bitcode/jira
 
-Comprehensive Jira integration package for ENGI platform. Provides OAuth-authenticated client with full issue management, project operations, and JQL query capabilities.
+Comprehensive Jira integration package for the Bitcode platform. Provides OAuth-authenticated client with full issue management, project operations, and JQL query capabilities.
 
 ## Core Components
 

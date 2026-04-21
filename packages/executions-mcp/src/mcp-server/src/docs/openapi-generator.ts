@@ -849,7 +849,7 @@ Supports both synchronous and streaming execution modes.`,
                       type: 'string',
                       format: 'uri',
                       description: 'Webhook endpoint URL',
-                      example: 'https://myapp.com/webhooks/engi'
+                      example: 'https://myapp.com/webhooks/bitcode'
                     },
                     events: {
                       type: 'array',

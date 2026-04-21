@@ -274,8 +274,8 @@ GA‑1 specializations (intentionally retained to avoid visual change):
   - Component: `uapi/components/base/bitcode/effects/quantum-orb/QuantumOrb.tsx`
   - Styles: `uapi/styles/quantum-orb.css` (particles, orbitals, GPU hints)
 
-- User Orbital Overlay
-  - Provider: `uapi/app/orbitals/components/OrbitalsProvider.tsx` (class toggles + portal)
+- User Auxillaries Overlay
+  - Provider: `uapi/app/auxillaries/components/AuxillariesProvider.tsx` (class toggles + portal)
   - Styles: `uapi/styles/orbital.css` (overlay, sizing vars), `uapi/styles/orbital-rings.css` (tokens + pseudo glow)
 
 - Product Headers (Executions)
@@ -309,7 +309,7 @@ GA‑1 specializations (intentionally retained to avoid visual change):
 
 - Validation Greps
   - `rg -n "prefers-reduced-motion|will-change|content-visibility|contain:|backface-visibility|translateZ\(0\)" uapi/styles`
-  - Confirm presence on: User Orbital, Big‑O (both modes), Landing, Executions input/header, Navigation.
+  - Confirm presence on: User Auxillaries, Big‑O (both modes), Landing, Executions input/header, Navigation.
 
 ## Class Composition
 
@@ -400,7 +400,7 @@ PR Validation:
   - Styles: `radical-landing.css`, `marketing-animations.css`, `shiny-text.css`, `components.css`
   - Rules: Use tokenized emeralds and consolidated shiny text; scoped landing overrides under `.button-container`.
 
-- User Orbital
+- User Auxillaries
   - Styles: `orbital.css` (overlay + sizing vars), `orbital-rings.css` (SSOT rings)
   - Rules: Rings rely on SSOT keyframes; overlays use tokens; `orbital-global.css` controls page scroll lock.
 
@@ -623,7 +623,7 @@ Notes
     - Keep `quantum-button.css` as SSOT for core CTA visuals.
     - Reduce `radical-landing.css` to wrappers that leverage tokenized classes (no visual change).
 
-- Orbital Rings (User Orbital vs Quantum Orb)
+- Orbital Rings (User Auxillaries vs Quantum Orb)
   - Files:
     - `uapi/styles/orbital-rings.css` (theme tokens, pseudo‑glow, paused play‑state)
     - `uapi/styles/quantum-orb.css` (particles; ring keyframes removed to rely on SSOT; RGBA remains)

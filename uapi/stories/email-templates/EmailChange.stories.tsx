@@ -14,7 +14,7 @@ type Story = StoryObj<typeof EmailChangeEmail>;
 
 export const Default: Story = {
   args: {
-    confirmationUrl: 'https://engi.dev/email-change?token=def',
+    confirmationUrl: 'https://app.bitcode.ai/email-change?token=def',
     newEmail: 'new@example.com',
   },
   render: createEmailStory(EmailChangeEmail),

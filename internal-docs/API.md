@@ -482,7 +482,7 @@ useOnboarding() // Get onboarding status
 import { createClient } from '@bitcode/api-client';
 
 const client = createClient({
-  baseUrl: 'https://api.engi.software',
+  baseUrl: 'https://api.bitcode.ai',
   authToken: 'your-token'
 });
 
@@ -505,7 +505,7 @@ stream.on('progress', (event) => {
 ### Environment Variables
 ```env
 # API Configuration
-NEXT_PUBLIC_API_URL=https://api.engi.software
+NEXT_PUBLIC_API_URL=https://api.bitcode.ai
 API_RATE_LIMIT_WINDOW=60000
 API_RATE_LIMIT_MAX=100
 

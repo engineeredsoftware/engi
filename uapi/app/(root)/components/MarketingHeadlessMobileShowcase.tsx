@@ -1,4 +1,5 @@
 "use client";
+/* eslint-disable react/no-multi-comp */
 import { useState } from 'react';
 import SectionWrapper from "./SectionWrapper";
 
@@ -94,7 +95,7 @@ function TerminalCurl() {
   return (
     <div className="w-full max-w-md bg-[#0a132a]/40 border border-gray-400/30 rounded-lg p-6 font-mono text-gray-200 shadow-lg backdrop-blur-sm">
       <pre className="whitespace-pre-wrap text-[12px] leading-relaxed">
-        {`curl -X POST https://api.engi.sh/v1/mcp \
+        {`curl -X POST https://api.bitcode.ai/v1/mcp \
   -H "Authorization: Bearer <token>" \
   -H "Content-Type: application/json" \
   -d '{

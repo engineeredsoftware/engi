@@ -2,7 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: bitcode-mcp-server
-  namespace: engi
+  namespace: bitcode
   labels:
     app: mcp-server
     version: v1
@@ -28,7 +28,7 @@ spec:
         fsGroup: 1001
       containers:
       - name: mcp-server
-        image: engi/mcp-server:latest
+        image: bitcode/mcp-server:latest
         imagePullPolicy: IfNotPresent
         ports:
         - name: http
@@ -123,7 +123,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: mcp-server
-  namespace: engi
+  namespace: bitcode
   labels:
     app: mcp-server
 spec:
@@ -144,7 +144,7 @@ apiVersion: policy/v1
 kind: PodDisruptionBudget
 metadata:
   name: mcp-server-pdb
-  namespace: engi
+  namespace: bitcode
 spec:
   minAvailable: 2
   selector:
@@ -155,7 +155,7 @@ apiVersion: autoscaling/v2
 kind: HorizontalPodAutoscaler
 metadata:
   name: mcp-server-hpa
-  namespace: engi
+  namespace: bitcode
 spec:
   scaleTargetRef:
     apiVersion: apps/v1

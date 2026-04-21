@@ -66,7 +66,7 @@ async function claimNextJobFallback() {
 }
 
 async function loop() {
-  while (true) {
+  for (;;) {
     try {
       // Refresh queue depth metric
       await updateQueueMetrics();
@@ -113,7 +113,7 @@ async function executeJob(jobId: string, runId: string) {
     // resource isolation.  Otherwise fall back to an in-process child.
 
     if (process.env.DOCKER_LAUNCH?.toLowerCase() === 'true') {
-      const img = process.env.LONG_RUNNER_IMAGE || 'engi/long-runner:latest';
+      const img = process.env.LONG_RUNNER_IMAGE || 'bitcode/long-runner:latest';
       const docker = spawn('docker', [
         'run', '--rm',
         '-e', `SUPABASE_SERVICE_ROLE_KEY=${process.env.SUPABASE_SERVICE_ROLE_KEY}`,

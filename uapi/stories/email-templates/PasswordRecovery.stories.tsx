@@ -14,7 +14,7 @@ type Story = StoryObj<typeof PasswordRecoveryEmail>;
 
 export const Default: Story = {
   args: {
-    resetUrl: 'https://engi.dev/reset?token=xyz',
+    resetUrl: 'https://app.bitcode.ai/reset?token=xyz',
     firstName: 'Linus',
   },
   render: createEmailStory(PasswordRecoveryEmail),

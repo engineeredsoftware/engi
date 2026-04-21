@@ -4101,7 +4101,7 @@ to {
 .roi-column.traditional {
   border: 1px solid rgba(255, 100, 100, 0.3);
 }
-.roi-column.engi {
+.roi-column.bitcode {
   border: 1px solid rgba(103, 254, 183, 0.3);
 }
 .roi-column-header {
@@ -4124,7 +4124,7 @@ to {
 .roi-column.traditional .roi-metric-value {
   color: rgba(255, 100, 100, 0.9);
 }
-.roi-column.engi .roi-metric-value {
+.roi-column.bitcode .roi-metric-value {
   color: rgba(103, 254, 183, 0.95);
 }
 .roi-metric-label {

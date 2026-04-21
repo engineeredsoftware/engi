@@ -391,7 +391,7 @@ export class MCPSpecificationGenerator {
         setup: `Add to ~/.config/claude/mcp-servers.json:
 {
   "mcpServers": {
-    "engi": {
+    "bitcode": {
       "command": "npx",
       "args": ["@bitcode/mcp-server"],
       "env": { "BITCODE_API_KEY": "your-api-key" }
@@ -407,7 +407,7 @@ export class MCPSpecificationGenerator {
         features: ['IDE integration', 'Code actions', 'Inline suggestions']
       },
       'GitHub Actions': {
-        setup: `- uses: engi/mcp-action@v1
+        setup: `- uses: bitcode/mcp-action@v1
   with:
     tool: "bitcode://pipelines/deliverable/execute"
     token: \${{ secrets.BITCODE_API_KEY }}`,

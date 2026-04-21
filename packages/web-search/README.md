@@ -603,8 +603,8 @@ console.log(`Average Response Time: ${metrics.averageResponseTime}ms`);
 ### Development Setup
 
 ```bash
-git clone https://github.com/engi/engi.git
-cd engi/packages/web-search
+git clone https://github.com/engineeredsoftware/bitcode.git
+cd bitcode/packages/web-search
 npm install
 npm run dev
 ```

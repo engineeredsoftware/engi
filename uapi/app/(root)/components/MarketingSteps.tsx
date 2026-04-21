@@ -3,7 +3,7 @@ import React from 'react'
 
 const steps = [
   { name: 'create your account', href: '#', status: 'complete' },
-  { name: 'subscribe to engi', href: '#', status: 'current' },
+  { name: 'subscribe to bitcode', href: '#', status: 'current' },
   { name: 'install the app', href: '#', status: 'upcoming' },
 ]
 

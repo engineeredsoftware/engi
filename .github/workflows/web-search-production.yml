@@ -202,7 +202,7 @@ jobs:
     
     environment:
       name: staging
-      url: https://staging.engi.com
+      url: https://staging.bitcode.ai
     
     steps:
       - name: Checkout repository
@@ -241,7 +241,7 @@ jobs:
           
       - name: Run staging health checks
         env:
-          STAGING_URL: https://staging.engi.com
+          STAGING_URL: https://staging.bitcode.ai
         run: |
           npm run healthcheck:staging
           
@@ -253,7 +253,7 @@ jobs:
               issue_number: context.issue.number,
               owner: context.repo.owner,
               repo: context.repo.repo,
-              body: '🚀 Staging deployment completed! Test the changes at https://staging.engi.com'
+              body: '🚀 Staging deployment completed! Test the changes at https://staging.bitcode.ai'
             })
 
   # ============================================================================
@@ -267,7 +267,7 @@ jobs:
     
     environment:
       name: production
-      url: https://engi.com
+      url: https://bitcode.ai
     
     steps:
       - name: Checkout repository
@@ -332,14 +332,14 @@ jobs:
           
       - name: Run post-deployment health checks
         env:
-          PRODUCTION_URL: https://engi.com
+          PRODUCTION_URL: https://bitcode.ai
           HEALTH_CHECK_TIMEOUT: 300
         run: |
           npm run healthcheck:production
           
       - name: Run smoke tests
         env:
-          PRODUCTION_URL: https://engi.com
+          PRODUCTION_URL: https://bitcode.ai
           EXA_API_KEY: ${{ secrets.EXA_API_KEY_PRODUCTION }}
         run: |
           npm run test:smoke
@@ -390,7 +390,7 @@ jobs:
           
       - name: Verify rollback health
         env:
-          PRODUCTION_URL: https://engi.com
+          PRODUCTION_URL: https://bitcode.ai
         run: |
           npm run healthcheck:production
           

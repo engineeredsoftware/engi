@@ -419,7 +419,7 @@ Register webhooks to receive real-time notifications:
 
 ```javascript
 await client.createWebhook({
-  url: "https://myapp.com/webhooks/engi",
+  url: "https://myapp.com/webhooks/bitcode",
   events: [
     "pipeline.completed",
     "pipeline.failed", 

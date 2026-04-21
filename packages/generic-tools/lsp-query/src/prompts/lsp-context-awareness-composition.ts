@@ -5,7 +5,7 @@ import { PROMPTPART_SPECIFIC_TOOL_CONTEXT_AWARENESS_LSP_FOOTER } from '@bitcode/
 /**
  * LSP CONTEXT AWARENESS COMPOSITION
  * 
- * ENGI EXCELLENCE: Atomic prompt composition for LSP context awareness
+ * BITCODE EXCELLENCE: Atomic prompt composition for LSP context awareness
  * - Every word is an atomic, reusable PromptPart
  * - Maximum measurability and tunability
  * - Clear header/body/footer pattern

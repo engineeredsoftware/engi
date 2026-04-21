@@ -1,6 +1,6 @@
 # @bitcode/mysql
 
-MySQL database management tools for ENGI platform. Provides schema introspection and query execution capabilities for MySQL databases.
+MySQL database management tools for the Bitcode platform. Provides schema introspection and query execution capabilities for MySQL databases.
 
 ## Available Tools
 
@@ -43,4 +43,4 @@ Query tool implements parameterized queries and SQL injection protection. Schema
 
 ## Architecture
 
-Tools provide safe abstraction over MySQL database operations. Designed for integration with ENGI data pipeline and analytics workflows.
+Tools provide safe abstraction over MySQL database operations. Designed for integration with Bitcode data pipeline and analytics workflows.

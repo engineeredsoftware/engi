@@ -14,7 +14,7 @@ const fixtureContext = {
   canonicalCommitRecordedAt: '2026-04-09T00:00:00.000Z',
   generatedAt: '2026-04-09T00:00:00.000Z',
   worktreeState: 'clean',
-  generatorId: 'engi-demo.proven-generator.v1'
+  generatorId: 'bitcode.proven-generator.v1'
 };
 
 /** @type {any} */

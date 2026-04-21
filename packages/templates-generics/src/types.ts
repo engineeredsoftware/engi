@@ -1,5 +1,5 @@
 /**
- * Template Types for ENGI Platform
+ * Template Types for the Bitcode platform
  * GA-1 Production Ready
  */
 

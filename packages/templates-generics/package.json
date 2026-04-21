@@ -1,7 +1,7 @@
 {
   "name": "@bitcode/templates-generics",
   "version": "1.0.0",
-  "description": "Templates system types and business logic for ENGI platform",
+  "description": "Templates system types and business logic for the Bitcode platform",
   "main": "src/index.ts",
   "type": "module",
   "scripts": {

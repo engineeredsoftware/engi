@@ -1,6 +1,6 @@
 # @bitcode/supabase
 
-Supabase client utilities and MCP tools for ENGI platform. Provides centralized database access with SSR support and administrative operations.
+Supabase client utilities and MCP tools for the Bitcode platform. Provides centralized database access with SSR support and administrative operations.
 
 ## Client Types
 

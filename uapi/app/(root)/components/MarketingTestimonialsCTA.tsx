@@ -1,4 +1,5 @@
 
+/* eslint-disable react/no-multi-comp */
 import { buttonVariants } from "@/components/base/shadcn/button";
 import { cn } from '@bitcode/styling';
 import Marquee from "@/components/base/bitcode/magicui/marquee";
@@ -36,7 +37,7 @@ const reviews = [
   {
     name: "Riley Nguyen",
     username: "@rnguyen",
-    body: "really cool to the the evolution and refinement, engi is a great gh app",
+    body: "Really cool to see the evolution and refinement. Bitcode is a great GitHub app.",
     img: "https://avatar.vercel.sh/jenny",
   },
   {

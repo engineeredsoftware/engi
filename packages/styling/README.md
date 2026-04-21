@@ -1,6 +1,6 @@
 # @bitcode/styling
 
-Tailwind CSS styling utilities for ENGI platform. Provides optimized class composition with duplicate resolution and Tailwind CSS integration.
+Tailwind CSS styling utilities for the Bitcode platform. Provides optimized class composition with duplicate resolution and Tailwind CSS integration.
 
 ## Core Function
 

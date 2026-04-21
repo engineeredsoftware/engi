@@ -161,4 +161,4 @@ END;
 $$;
 
 -- To delete a user by email address, call the function:
-SELECT delete_user_by_email('garrettmaring@engi.software');
+SELECT delete_user_by_email('garrettmaring@bitcode.dev');

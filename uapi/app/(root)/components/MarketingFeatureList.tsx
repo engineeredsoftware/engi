@@ -1,3 +1,4 @@
+/* eslint-disable react/no-multi-comp */
 import { BoltIcon, WrenchScrewdriverIcon, ChartPieIcon } from '@heroicons/react/20/solid'
 import { AnimatedListWork } from './animated-list-of-work'
 import Image from 'next/image'
@@ -26,7 +27,7 @@ const features = [
 const FeatureListShots = () => (
   <div className='relative rounded-md overflow-hidden'>
     <div className='desktop:absolute -right-12 overflow-hidden top-6 rounded-md border [mask-image:linear-gradient(to_top_left,transparent,#000_40%)]'>
-      <Image src={"/parse-issue-with-comment-from-engi.png"} width={500} height={500} alt={'asd'} />
+      <Image src={"/parse-issue-with-comment-from-bitcode.png"} width={500} height={500} alt="Bitcode issue comment workflow" />
     </div>
     <div className='desktop:absolute -right-72 overflow-hidden rounded-md border [mask-image:linear-gradient(to_top_left,transparent,#000_80%)]'>
       <Image src={"/email-notif.jpg"} width={500} height={500} alt={'asd'} />

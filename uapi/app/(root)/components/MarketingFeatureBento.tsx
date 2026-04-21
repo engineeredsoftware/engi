@@ -1,5 +1,6 @@
 'use client';
 
+/* eslint-disable react/no-multi-comp */
 import { Button } from "@/components/base/shadcn/button";
 import { cn } from '@bitcode/styling';
 import { ReactNode } from "react";
@@ -162,7 +163,7 @@ const features = [
             <span className="font-light text-green-primary text-md mr-0.5">1</span>
           </span>
           <span className="flex flex-row gap-x-2 items-center justify-end leading-none">
-            <span className="text-md font-light">Label, Tag, Assign '<span className="font-light text-green-primary">engi</span>'</span>
+            <span className="text-md font-light">Label, Tag, Assign '<span className="font-light text-green-primary">bitcode</span>'</span>
             <span className="font-light text-green-primary text-md">2</span>
           </span>
           <span className="flex flex-row gap-x-2 items-center justify-end leading-none">

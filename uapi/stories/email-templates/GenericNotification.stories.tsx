@@ -17,7 +17,7 @@ export const Default: Story = {
     subject: 'Service maintenance on Saturday',
     body: `We’ll be performing a brief scheduled maintenance window on <strong>Saturday at 09:00 UTC</strong>. <br/><br/>No action is required on your part, but some API calls may return 503 for up to 3 minutes.`,
     actionLabel: 'View status page',
-    actionUrl: 'https://status.engi.dev',
+    actionUrl: 'https://status.bitcode.ai',
   },
   render: createEmailStory(GenericNotificationEmail),
 };

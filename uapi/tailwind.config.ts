@@ -80,7 +80,7 @@ const config = {
   			'green-primary': '#65FEB7',
         
         /* ====================================================================
-         * ENGI BRAND COLOR SYSTEM - Single source of truth
+         * BITCODE BRAND COLOR SYSTEM - Single source of truth
          * Consolidates 4+ variations of same colors into semantic tokens
          * ==================================================================== */
         brand: {

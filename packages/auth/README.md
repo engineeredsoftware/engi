@@ -2,7 +2,7 @@
 
 ## Overview
 
-Industrial authentication infrastructure providing dual-mode authentication capabilities for the ENGI platform. Implements Bearer token and session-based authentication with automatic fallback mechanisms, API key management, and comprehensive security validation.
+Industrial authentication infrastructure providing dual-mode authentication capabilities for the Bitcode platform. Implements Bearer token and session-based authentication with automatic fallback mechanisms, API key management, and comprehensive security validation.
 
 ## Core Functionality
 

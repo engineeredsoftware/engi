@@ -5,7 +5,7 @@
  * identified in the comprehensive Bitcode system audit.
  * 
  * Features:
- * - Complete system coverage (User Orbital, Conversations, Deliverables, Organizations, etc.)
+ * - Complete system coverage (User Auxillaries, Conversations, Deliverables, Organizations, etc.)
  * - Realistic data patterns with relationships
  * - Performance-optimized generation
  * - Scenario-aware complexity scaling
@@ -785,8 +785,8 @@ export class ComprehensiveMockDataGenerator {
         featured: true,
         tags: ['react', 'performance', 'optimization', 'monitoring'],
         preview_images: [
-          'https://marketplace.engi.com/previews/react-perf-1.png',
-          'https://marketplace.engi.com/previews/react-perf-2.png'
+          'https://marketplace.bitcode.ai/previews/react-perf-1.png',
+          'https://marketplace.bitcode.ai/previews/react-perf-2.png'
         ],
         demo_url: 'https://demo.react-perf-template.com',
         created_at: this.generateTimestamp(-60),

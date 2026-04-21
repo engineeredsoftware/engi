@@ -14,7 +14,7 @@ type Story = StoryObj<typeof InviteEmail>;
 
 export const Default: Story = {
   args: {
-    inviteUrl: 'https://engi.dev/invite?token=abc',
+    inviteUrl: 'https://app.bitcode.ai/invite?token=abc',
     inviterName: 'Grace Hopper',
     workspaceName: 'Compiler Team',
   },

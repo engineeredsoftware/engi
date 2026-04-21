@@ -48,7 +48,7 @@ The Develop gate is the only gate that mutates customer repositories. It is comp
 
 - `enablePipelineStreaming` writes execution state into `execution_events`; SSE polling endpoint streams them to the client (`uapi/app/api/executions/stream/route.ts`).
 - `parseStreamChunk` normalizes events (phase, agent, generation, tool-use, work-update) for UI consumption (`uapi/streaming/stream-parser.ts`).
-- `WorkUpdatePanel` renders agent and iteration updates between the log and instructions (`uapi/components/base/engi/execution/WorkUpdatePanel.tsx`).
+- `WorkUpdatePanel` renders agent and iteration updates between the log and instructions (`uapi/components/base/bitcode/execution/WorkUpdatePanel.tsx`).
 - Completion payloads surface PR/issue metadata, file diffs, duration, and metrics in `ExecutionsCompleteHeaderContent` (`uapi/app/executions/components/ExecutionsCompleteHeaderContent.tsx`).
 
 ## User Flow & UI Surfaces
