@@ -11,13 +11,13 @@ export default function AuxillariesConnectsPaneHeader({
       title="Connects Auxillary"
       completedTitle="Connects Auxillary"
       description={!isOnboardingComplete
-        ? 'Connect GitHub so Bitcode can operate on live repositories.'
-        : 'Manage GitHub and future repository connections from one auxillary.'}
+        ? 'Connect GitHub so Bitcode can measure need, synthesize asset packs, and settle against live repositories.'
+        : 'Manage GitHub and future repository or interface connections from one auxillary.'}
       stepNumber={2}
       isOnboardingComplete={isOnboardingComplete}
       showInfoBox
       infoTitle="Connect live repositories"
-      infoDescription="Attach GitHub so Bitcode can read source context, create deliverables, and stay aligned with your live workflow."
+      infoDescription="Attach GitHub so Bitcode can read source context, measure need, synthesize asset packs, and stay aligned with your live workflow."
     />
   );
 }

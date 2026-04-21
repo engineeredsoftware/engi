@@ -409,18 +409,30 @@ Parallel routes may remain during convergence for compatibility and migration, b
 The V26 application architecture is centered on exactly three main experiences:
 1. `master detail`
 2. `conversations`
-3. `orbitals`
+3. `auxillaries`
 
 For V26, those mean:
 - `master detail`
   The primary Bitcode application workspace inside `/application`, carrying the give/need operating chain, a rich transactions master surface, transaction detail, deliverables, proofs, history, and consequence reading.
 - `conversations`
   The fullscreen conversational workspace entered from within `/application`, retaining chat-based and ChatGPT-like interaction, tool usage, and run/pipeline attachment as first-class Bitcode behavior.
-- `orbitals`
-  The fullscreen orbital workspace entered from within `/application`, retaining the ringed overlay experience while owning Connects, Interfaces, Profile, and `$BTD`.
+- `auxillaries`
+  The fullscreen auxillary workspace entered from within `/application`, retaining the ringed overlay experience while owning Connects, Interfaces, Profile, and `$BTD`.
 
-V26 does not treat executions, deliverables, proofs, history, orbitals, or chat as separate peer product destinations once the converged architecture is closed.
+V26 does not treat executions, deliverables, proofs, history, auxillaries, or chat as separate peer product destinations once the converged architecture is closed.
 Those surfaces must resolve into one of the three experiences above.
+
+V26 also fixes Bitcode as one productized standard across protocol, product, and proofs:
+- `what`
+  A protocol, product, and proof system for measured shares of technical intelligence.
+- `how`
+  `Bitcode Mainnet`: a live Bitcode operating posture with exact `$BTD` settlement/accounting, replayable tests, immutable witness artifacts, and auditable specification-bearing closure.
+- `where`
+  The `Bitcode Terminal` at `/application`, plus APIs, MCPs, and third-party app surfaces such as the ChatGPT App.
+- `who`
+  Givers or IP holders supplying technical intelligence, and needers or token factories consuming measured technical intelligence for product or enterprise acceleration.
+- `why`
+  To convert otherwise idle or undervalued technical intelligence into auditable income for givers while steepening performance curves for needers through measured fit, selection, materialization, and settlement.
 
 Stepwise guidance inside the second-gate application is specified as a user-facing Give + Need flow guide and resumable working-flow continuity, not as tutorial/demo residue.
 Visible mode-entry controls inside the live operator shell must also use user-facing deeper-mode wording rather than narrating fullscreen mechanics to the operator.
@@ -437,16 +449,19 @@ For V26, those mean:
 
 The command frame, section decomposition, and master-detail workspace must make `give` and `need` legible as the two main Bitcode actions.
 The read experience is the transactions master-detail window inside `/application`.
-The write experience moves through `give`, `need`, and orbitals/interfaces posture via conversations and orbitals entered from application context.
+The write experience moves through `give`, `need`, and auxillaries/interfaces posture via conversations and auxillaries entered from application context.
 Verification, branch artifacts, settlement, proofs, deliverables, and history remain required, but they are consequence and closure stages of the give/need chain rather than additional top-level actions.
 Within that master-detail experience, V26 now treats `transactions`, `deliverables`, `proofs`, and `history` as the four required substructures rather than as optional auxiliary panels.
 The transactions master itself must stay query-owned, searchable, filterable, and paginatable rather than falling back to component-local table state.
 Selected-transaction proof, history, and identity detail must also support a reusable visual-vs-raw payload reading posture rather than leaving JSON-bearing detail stranded in ad hoc prose cards.
-The orbital ring model is also fixed for V26:
+The auxillary ring model is also fixed for V26:
 - `Connects` is the outer orbital and the closest retained canonical pane,
 - `Interfaces` owns application visual/default-behavioral posture for master-detail, conversations, and related reads,
 - `Profile` owns wallet identity, address/balance posture, organization roles, multi-sig membership, and authentication state,
 - `$BTD` is the inner orbital for share information, wallet-adjacent throughput posture, advanced `$BTD` controls, and `$BTD`-specific master-detail defaults.
+
+`Connects` also owns source-bearing inputability and interfacability for V26: GitHub attachment, repository scope, and future third-party bindings that Bitcode reuses for need measurement, asset-pack synthesis, settlement follow-through, and external application behavior.
+SSO providers remain admissible auth-entry posture, but Bitcode must not transact or settle until at minimum wallet identity is bound in `Profile` and GitHub or equivalent repository scope is attached in `Connects`.
 
 Signed-in orbital preference persistence is also application-owned for V26 through `/api/auxillaries/model-preferences`, and the active `Interfaces` and `$BTD` panes are no longer treated as transitional model or credits wrappers.
 Contained orbital reads inside `/application` and direct orbital routes should now read through shared panel/tabs carriers rather than floating sequence cards plus older absolute-position ring-label furniture.
@@ -459,8 +474,8 @@ The second-gate target structure is:
   The only primary Bitcode destination and the master-detail carrier for give/need operations, a rich transactions table, transaction detail, deliverables, proofs, and history.
 - `uapi/components/base/bitcode/layout/nav.tsx`
   The retained pre-Bitcode navigation frame that continues to anchor the application.
-- `uapi/app/orbitals/components/*`
-  The orbital overlay system mounted from within the application context.
+- `uapi/app/auxillaries/components/*`
+  The auxillary overlay system mounted from within the application context.
 - `uapi/app/conversations/components/*`
   The fullscreen conversation system mounted from within the application context.
 - `uapi/app/executions/components/*`

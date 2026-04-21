@@ -43,19 +43,19 @@ export default function AuxillariesConnectsPane({
             <div className="space-y-2">
               <h3 className="text-lg font-semibold text-white">Sign in to open Connects</h3>
               <p className="text-sm leading-7 text-white/68">
-                Sign in first, then attach GitHub so transactions, deliverables, and closure
-                follow-through can operate against a live repository source.
+                Sign in first, then attach GitHub so need measurement, asset-pack synthesis, and
+                settlement follow-through can operate against a live repository source.
               </p>
             </div>
 
               <div className="grid gap-3 tablet:grid-cols-2">
                 <div className="rounded-2xl border border-emerald-300/16 bg-emerald-400/8 p-4">
                   <p className="text-xs font-semibold uppercase tracking-[0.2em] text-emerald-200/78">
-                    Transaction prerequisite
+                    Execution prerequisite
                   </p>
                   <p className="mt-2 text-sm leading-7 text-white/74">
                     GitHub plus a connected wallet are the minimum live prerequisites before Bitcode
-                    should transact, settle, and deliver.
+                    should measure need, synthesize asset packs, settle, and deliver.
                   </p>
                 </div>
 
@@ -64,8 +64,8 @@ export default function AuxillariesConnectsPane({
                   Current posture
                 </p>
                 <p className="mt-2 text-sm leading-7 text-white/74">
-                  Email code or a linked provider gets you back into Bitcode first. Connects then
-                  takes over live repository attachment and scope review.
+                  Email code or a linked provider restores Bitcode access first. Connects then owns
+                  repository attachment, scope review, and external interface posture.
                 </p>
               </div>
             </div>
@@ -87,10 +87,10 @@ export default function AuxillariesConnectsPane({
                   <p className="text-xs font-semibold uppercase tracking-[0.22em] text-emerald-200/72">
                     Repository connection
                   </p>
-                  <h3 className="text-lg font-semibold text-white">Connect GitHub for live repository work</h3>
+                  <h3 className="text-lg font-semibold text-white">Connect GitHub for source-bearing input</h3>
                   <p className="text-sm leading-7 text-white/68">
-                    Manage the repository connection that Bitcode reuses across transactions,
-                    deliverables, conversations, and follow-through.
+                    Manage the repository attachment that Bitcode reuses across need measurement,
+                    asset-pack synthesis, conversations, and settlement follow-through.
                   </p>
                 </div>
 
@@ -111,7 +111,7 @@ export default function AuxillariesConnectsPane({
               <aside className="space-y-4">
                 <div className="rounded-[24px] border border-white/10 bg-white/5 p-5">
                   <p className="text-xs font-semibold uppercase tracking-[0.22em] text-emerald-200/72">
-                    Transaction readiness
+                    Mainnet readiness
                   </p>
                   <div className="mt-3 rounded-2xl border border-white/8 bg-black/20 p-4">
                     <p className="text-sm font-medium text-white">
@@ -123,8 +123,8 @@ export default function AuxillariesConnectsPane({
                     </p>
                     <p className="mt-2 text-sm leading-7 text-white/68">
                       {transactionReady
-                        ? 'Bitcode can now reuse live repository context and wallet posture across transactions, deliverables, and settlement follow-through.'
-                        : 'Transactions require both a live GitHub connection here and a wallet binding in Profile before Bitcode should move from review into settlement and delivery.'}
+                        ? 'Bitcode can now reuse live repository context and wallet posture across need measurement, asset-pack synthesis, and settlement follow-through.'
+                        : 'Bitcode may stay in review, but settlement requires both a live GitHub connection here and a wallet binding in Profile before it should move from evaluation into asset-pack delivery.'}
                     </p>
                   </div>
                   <div className="mt-3 grid gap-3 tablet:grid-cols-2">
@@ -162,9 +162,13 @@ export default function AuxillariesConnectsPane({
                     <p className="text-xs font-semibold uppercase tracking-[0.22em] text-white/72">
                       Connected scope
                     </p>
+                    <p className="mt-3 text-sm leading-7 text-white/68">
+                      These repository attachments define the live scope Bitcode can read when it
+                      measures need, synthesizes asset packs, and prepares settlement follow-through.
+                    </p>
 
                     {organizations.length > 0 && (
-                      <div className="mt-3 space-y-2">
+                      <div className="mt-4 space-y-2">
                         <p className="text-sm font-medium text-white">Organizations</p>
                         <div className="flex flex-wrap gap-2">
                           {organizations.map((organization: string) => (
@@ -210,9 +214,9 @@ export default function AuxillariesConnectsPane({
                     Additional connections
                   </p>
                   <ul className="mt-3 space-y-2 text-sm leading-7 text-white/68">
-                    <li>Wallet identity stays grouped in Profile while Connects owns repository attachment and connection review.</li>
-                    <li>Phone and email trigger surfaces will return here as Connects expands.</li>
-                    <li>GitHub plus wallet posture are the minimum live prerequisites before transaction execution.</li>
+                    <li>Wallet identity stays grouped in Profile while Connects owns repository attachment and interface scope.</li>
+                    <li>GitHub scope doubles as source-bearing inputability for need measurement, asset-pack synthesis, and proof follow-through.</li>
+                    <li>GitHub plus wallet posture are the minimum live prerequisites before Bitcode settles or writes.</li>
                   </ul>
                 </div>
               </aside>

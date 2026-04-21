@@ -38,6 +38,18 @@ const applicationTransactionActivitySurfaceSource = readFileSync(
   new URL('../../uapi/app/application/ApplicationTransactionActivitySurface.tsx', import.meta.url),
   'utf8',
 );
+const applicationGiveNeedWorkbenchSource = readFileSync(
+  new URL('../../uapi/app/application/ApplicationGiveNeedWorkbench.tsx', import.meta.url),
+  'utf8',
+);
+const applicationNeedScenarioPanelSource = readFileSync(
+  new URL('../../uapi/app/application/ApplicationNeedScenarioPanel.tsx', import.meta.url),
+  'utf8',
+);
+const applicationClosureNativeSectionsSource = readFileSync(
+  new URL('../../uapi/app/application/ApplicationClosureNativeSections.tsx', import.meta.url),
+  'utf8',
+);
 const applicationExperienceArchitectureSource = readFileSync(
   new URL('../../uapi/app/application/application-experience-architecture.ts', import.meta.url),
   'utf8',
@@ -1068,8 +1080,16 @@ test('active V26 canon posture and preserved runtime state use bitcode policy an
   assert.match(applicationRunDataSource, /agentic-execution:need-measurement/);
   assert.match(applicationRunDataSource, /agentic-execution:proof-refresh/);
   assert.match(applicationRunDataSource, /Bitcode Terminal/);
+  assert.match(applicationPageSource, /need measurement, asset packs, settlements/);
   assert.match(applicationWorkspaceCopySource, /Bitcode Terminal/);
+  assert.match(applicationWorkspaceCopySource, /asset-pack posture/);
+  assert.match(applicationWorkspaceCopySource, /asset pack, proofs, and history/);
   assert.match(applicationTransactionActivitySurfaceSource, /Bitcode Terminal/);
+  assert.match(applicationGiveNeedWorkbenchSource, /need measurement/);
+  assert.match(applicationGiveNeedWorkbenchSource, /Asset-pack fit and settlement intent/);
+  assert.match(applicationNeedScenarioPanelSource, /Choose the active need measurement/);
+  assert.match(applicationNeedScenarioPanelSource, /asset-pack fit, proof, or settlement posture/);
+  assert.match(applicationClosureNativeSectionsSource, /Verification, asset pack, settlement, and ledger/);
   assert.match(applicationExperienceArchitectureSource, /label: 'Bitcode Terminal'/);
   assert.match(bitcodePublicCopySource, /Open Bitcode Terminal/);
   assert.match(bitcodePublicCopySource, /Bitcode Terminal/);
@@ -1080,9 +1100,12 @@ test('active V26 canon posture and preserved runtime state use bitcode policy an
   assert.match(executionsPageClientSource, /Open Bitcode Terminal/);
   assert.doesNotMatch(executionsPageClientSource, /Open transactions/);
   assert.match(auxillariesConnectsPaneSource, /@\/app\/auxillaries\/components\/headers\/AuxillariesConnectsPaneHeader/);
+  assert.match(auxillariesConnectsPaneSource, /need measurement, asset-pack synthesis, and settlement follow-through/);
   assert.match(auxillariesInterfacesPaneSource, /@\/app\/auxillaries\/components\/headers\/AuxillariesInterfacesPaneHeader/);
   assert.match(auxillariesBtdPaneSource, /@\/app\/auxillaries\/components\/headers\/AuxillariesBTDPaneHeader/);
   assert.match(auxillaryPaneMetaSource, /Bitcode Terminal/);
+  assert.match(auxillaryPaneMetaSource, /need measurement, asset-pack synthesis, settlement follow-through/);
+  assert.match(auxillariesConnectsPaneHeaderSource, /measure need, synthesize asset packs, and settle against live repositories/);
   assert.match(auxillariesProfilePaneSource, /@\/app\/auxillaries\/components\/shared\/AfterOnboardingOverlay/);
   assert.match(auxillariesInterfacesPaneSource, /@\/app\/auxillaries\/components\/shared\/AuxillariesPreferenceCards/);
   assert.match(auxillariesInterfacesPaneSource, /@\/app\/auxillaries\/components\/shared\/AuxillariesStatGrid/);
@@ -1193,7 +1216,7 @@ test('active V26 canon posture and preserved runtime state use bitcode policy an
   assert.doesNotMatch(btdPlansSource, /stripeProductId/);
   assert.match(useUserDataSource, /hasWalletConnection/);
   assert.match(auxillariesConnectsPaneSource, /GitHub plus a connected wallet are the minimum live prerequisites/);
-  assert.match(auxillariesConnectsPaneSource, /Transactions require both a live GitHub connection here and a wallet binding in Profile/);
+  assert.match(auxillariesConnectsPaneSource, /settlement requires both a live GitHub connection here and a wallet binding in Profile/);
   assert.equal(existsSync(orbitalHelperPath), false);
   assert.equal(existsSync(orbitalConnectionsFlowsSpecPath), false);
   assert.equal(existsSync(orbitalProfileSpecPath), false);

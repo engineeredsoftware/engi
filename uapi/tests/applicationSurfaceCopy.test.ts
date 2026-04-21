@@ -2,9 +2,10 @@ import { APPLICATION_SURFACE_COPY } from '@/app/application/application-workspac
 import { APPLICATION_SURFACE_EXPLAINERS } from '@/app/application/application-workspace-explainers';
 
 describe('APPLICATION_SURFACE_COPY', () => {
-  it('keeps transactions-first detail copy without workspace-era naming', () => {
-    expect(APPLICATION_SURFACE_COPY.detail.emptySelection).toContain('Bitcode transaction');
-    expect(APPLICATION_SURFACE_COPY.detail.transactionSummaryFallback).toContain('transaction detail');
+  it('keeps Bitcode Terminal detail copy centered on activity, asset packs, and proof reading', () => {
+    expect(APPLICATION_SURFACE_COPY.supply.title).toContain('asset-pack posture');
+    expect(APPLICATION_SURFACE_COPY.detail.emptySelection).toContain('asset pack');
+    expect(APPLICATION_SURFACE_COPY.detail.transactionSummaryFallback).toContain('Bitcode Terminal detail');
   });
 });
 

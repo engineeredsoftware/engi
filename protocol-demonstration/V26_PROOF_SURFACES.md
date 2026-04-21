@@ -480,6 +480,11 @@ Current active assignments:
   `uapi/tests/{applicationTransactions,applicationTransactionDetail,applicationTransactionDetailSnapshot,applicationTransactionSource,bitcodeDetailPanel}.test.*`
   proof surface:
   active mock-run, detail-snapshot, and conversation-support carriers now keep branch-artifact execution typing and Bitcode Terminal wording canonical instead of teaching raw deliverables pipeline strings or generic transaction-surface language in the review substrate
+- `BITCODE_SPEC_V26.md`, `uapi/app/application/{ApplicationGiveNeedWorkbench.tsx,ApplicationNeedScenarioPanel.tsx,ApplicationClosureNativeSections.tsx,application-workspace-copy.ts,page.tsx}`, and `uapi/app/auxillaries/components/{AuxillariesConnectsPane.tsx,auxillary-pane-meta.ts,headers/AuxillariesConnectsPaneHeader.tsx}`
+  test coverage:
+  `uapi/tests/{applicationSurfaceCopy,connectionsStep.static}.test.*`
+  proof surface:
+  active V26 specification and live give/need/connects carriers now teach Bitcode as protocol, product, and proofs across `Bitcode Mainnet`, the `Bitcode Terminal`, need measurement, asset-pack synthesis, settlement follow-through, and wallet-plus-GitHub transacting prerequisites instead of generic transaction or deliverable posture
 - `uapi/app/application/ApplicationTransactionsTable.tsx`
   test coverage:
   lint plus localhost `/application` verification with the transactions master surface mounted

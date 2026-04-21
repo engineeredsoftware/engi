@@ -28,9 +28,9 @@ export default function ApplicationNeedScenarioPanel() {
     return (
       <ApplicationWorkspaceCard
         id="applicationNeedScenarios"
-        kicker="Need scenarios"
-        title="Choose the active demand frame"
-        summary="Reading the current demand frame, parser posture, and target structure."
+        kicker="Need measurement"
+        title="Choose the active need measurement"
+        summary="Reading the current needer demand frame, parser posture, and target structure."
         explainer={APPLICATION_WORKSPACE_EXPLAINERS.needScenarios}
       >
         <p className="mt-4 text-sm leading-6 text-neutral-300">Loading need scenarios…</p>
@@ -41,9 +41,9 @@ export default function ApplicationNeedScenarioPanel() {
   return (
     <ApplicationWorkspaceCard
       id="applicationNeedScenarios"
-      kicker="Need scenarios"
-      title="Choose the active demand frame"
-      summary="Keep the current need scenario explicit before reading fit, proof, or closure posture."
+      kicker="Need measurement"
+      title="Choose the active need measurement"
+      summary="Keep the current needer demand frame explicit before reading asset-pack fit, proof, or settlement posture."
       explainer={APPLICATION_WORKSPACE_EXPLAINERS.needScenarios}
       headerAside={
         <BitcodeMetricGrid
@@ -66,14 +66,14 @@ export default function ApplicationNeedScenarioPanel() {
           onClick={() => jumpToShellSection('applicationNeedScenarios')}
           className="rounded-[1.4rem] border border-emerald-400/30 bg-emerald-400/10 px-4 py-3 text-sm font-medium text-emerald-100 transition hover:border-emerald-300/50 hover:bg-emerald-400/15"
         >
-          Focus need scenarios
+          Focus need measurement
         </button>
         <button
           type="button"
           onClick={() => jumpToShellSection('applicationGiveNeedWorkbench')}
           className="rounded-[1.4rem] border border-white/10 bg-white/5 px-4 py-3 text-sm font-medium text-neutral-100 transition hover:border-white/18 hover:bg-white/10"
         >
-          Focus fit read
+          Focus asset-pack fit
         </button>
       </div>
 

@@ -38,8 +38,8 @@ export default function ApplicationGiveNeedWorkbench({
       <ApplicationWorkspaceCard
         id="applicationGiveNeedWorkbench"
         kicker="Give + need chain"
-        title="Read supply, demand, and fit together"
-        summary="Reading the live give-side source, demand frame, and fit posture."
+        title="Read supply, need measurement, and fit together"
+        summary="Reading the live giver-side source, need measurement, and asset-pack fit posture."
         explainer={APPLICATION_WORKSPACE_EXPLAINERS.giveNeedChain}
       >
         <p className="mt-4 text-sm leading-6 text-neutral-300">Reading the live Bitcode workbench…</p>
@@ -51,8 +51,8 @@ export default function ApplicationGiveNeedWorkbench({
     <ApplicationWorkspaceCard
       id="applicationGiveNeedWorkbench"
       kicker="Give + need chain"
-      title="Read supply, demand, and fit together"
-      summary="Keep the give-side source, active demand frame, and fit posture readable as one operating chain."
+      title="Read supply, need measurement, and fit together"
+      summary="Keep the giver-side source, active needer demand frame, and asset-pack fit posture readable as one operating chain."
       explainer={APPLICATION_WORKSPACE_EXPLAINERS.giveNeedChain}
       headerAside={
         <BitcodeMetricGrid
@@ -74,7 +74,7 @@ export default function ApplicationGiveNeedWorkbench({
         <ApplicationActionWorkbenchCard
           id="applicationGiveWorkbench"
           badge="give"
-          title="Repository supply and deposit posture"
+          title="Repository supply and technical-intelligence posture"
           summary={workbench.give.summary}
           metrics={workbench.give.metrics}
           rows={workbench.give.rows}
@@ -85,7 +85,7 @@ export default function ApplicationGiveNeedWorkbench({
         <ApplicationActionWorkbenchCard
           id="applicationNeedWorkbench"
           badge="need"
-          title="Measured demand and scenario posture"
+          title="Need measurement and scenario posture"
           summary={workbench.need.summary}
           metrics={workbench.need.metrics}
           rows={workbench.need.rows}
@@ -102,14 +102,14 @@ export default function ApplicationGiveNeedWorkbench({
         <div className="flex items-start justify-between gap-3">
           <div>
             <p className="text-[0.66rem] uppercase tracking-[0.2em] text-amber-200/80">fit</p>
-            <h3 className="mt-2 text-xl font-semibold text-white">Depositing-to-needing closure intent</h3>
+            <h3 className="mt-2 text-xl font-semibold text-white">Asset-pack fit and settlement intent</h3>
           </div>
           <button
             type="button"
             onClick={() => jumpToShellSection('applicationFitWorkbench')}
             className="rounded-full border border-amber-300/30 bg-amber-300/10 px-3 py-2 text-[0.66rem] uppercase tracking-[0.18em] text-amber-100 transition hover:border-amber-200/50 hover:bg-amber-300/15"
           >
-            Focus fit read
+            Focus asset-pack fit
           </button>
         </div>
         <p className="mt-3 text-sm leading-6 text-neutral-300">{workbench.fit.summary}</p>

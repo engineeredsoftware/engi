@@ -341,6 +341,7 @@ Mounted public-shell chrome is also now explicit:
 - the retained `/executions` route and its live callers now accept canonical `agentic-execution:branch-artifact` query posture while continuing to read through the preserved raw `pipeline:*` execution substrate underneath
 - the `/application` explainer layer, retained `/executions` bridge copy, and auxillary defaults now explicitly teach the `Bitcode Terminal` rather than a generic `transactions surface`, keeping fifth-gate product language aligned with V26 spec truth
 - the mock Bitcode Terminal run substrate now emits canonical `agentic-execution:*` types for branch-artifact, need-measurement, and proof-refresh review runs instead of teaching raw pipeline strings inside active `/application` review helpers and their direct tests
+- the V26 spec and active give/need/connects carriers now explicitly teach Bitcode as protocol, product, and proofs across `Bitcode Mainnet`, the `Bitcode Terminal`, need measurement, asset-pack synthesis, settlement follow-through, and wallet-plus-GitHub transacting prerequisites
 - the stable docs walkthrough now resolves one Bitcode-owned guide asset instead of carrying ordered `engi-demo` media compatibility
 - the mounted public footer now resolves the guide URL through Bitcode-owned route/env ownership instead of the removed legacy docs-walkthrough env fallback
 - the mounted public footer now links `Protocol spec` through the stable canonical pointer `BITCODE_SPEC.txt` instead of a version-specific public spec file path

@@ -32,8 +32,9 @@ describe('ConnectionsStep SSR Onboarding View', () => {
       />
     );
     expect(html).toContain('Connects Auxillary');
-    expect(html).toContain('Orbital step <!-- -->2');
+    expect(html).toContain('Auxillary step <!-- -->2');
     expect(html).toContain('Sign in to open Connects');
-    expect(html).toContain('Open Profile orbital');
+    expect(html).toContain('need measurement');
+    expect(html).toContain('Open Profile auxillary');
   });
 });

@@ -136,8 +136,8 @@ export default function ApplicationClosureNativeSections() {
       <ApplicationWorkspaceCard
         id="applicationClosureSequence"
         kicker="Closure map"
-        title="Verification, branch, settlement, and ledger"
-        summary="Reading the current closure sequence and runtime posture."
+        title="Verification, asset pack, settlement, and ledger"
+        summary="Reading the current closure sequence, asset-pack synthesis posture, and settlement runtime."
         explainer={APPLICATION_WORKSPACE_EXPLAINERS.closureMap}
       >
         <p className="mt-4 text-sm leading-6 text-neutral-300">Reading the live Bitcode closure snapshot…</p>
@@ -149,8 +149,8 @@ export default function ApplicationClosureNativeSections() {
     <ApplicationWorkspaceCard
       id="applicationClosureSequence"
       kicker="Closure map"
-      title="Verification, branch, settlement, and ledger"
-      summary="Read closure as one sequence from verification through ledger continuity, then open the exact proof view only when needed."
+      title="Verification, asset pack, settlement, and ledger"
+      summary="Read closure as one sequence from verification through asset-pack branch materialization and ledger continuity, then open the exact proof view only when needed."
       explainer={APPLICATION_WORKSPACE_EXPLAINERS.closureMap}
       headerAside={
         <BitcodeMetricGrid

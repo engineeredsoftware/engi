@@ -7,21 +7,21 @@ export const APPLICATION_SURFACE_COPY = {
   },
   supply: {
     kicker: 'Give and need systems',
-    title: 'Supply, need, and transaction posture',
+    title: 'Supply, need, and asset-pack posture',
     summary:
-      'Move from searchable supply into measured need, fit, and transaction posture without leaving the Bitcode Terminal.',
+      'Move from searchable supply into measured need, fit, and asset-pack settlement posture without leaving the Bitcode Terminal.',
   },
   closure: {
     kicker: 'Closure and provenance',
     title: 'Closure, proofs, and provenance',
     summary:
-      'Review verification, branch artifacts, settlement, and ledger continuity in one place, then continue into the exact closure stage only when you need deeper proof.',
+      'Review verification, branch artifacts, asset-pack settlement, and ledger continuity in one place, then continue into the exact closure stage only when you need deeper proof.',
   },
   detail: {
     emptySelection:
-      'Select a Bitcode transaction from the ledger to load its deliverables, proofs, and history.',
+      'Select Bitcode activity from the ledger to load its asset pack, proofs, and history.',
     transactionSummaryFallback:
-      'Inspect this Bitcode transaction from the central transaction detail.',
+      'Inspect this Bitcode activity from the central Bitcode Terminal detail.',
   },
   rail: {
     control: {
@@ -34,13 +34,13 @@ export const APPLICATION_SURFACE_COPY = {
       kicker: 'Transaction support',
       title: 'Ledger support rail',
       summary:
-        'Keep mode, count, and timing context close to the ledger without pulling attention away from the central execution detail.',
+        'Keep mode, count, and timing context close to the ledger without pulling attention away from the central execution and settlement detail.',
     },
     focus: {
       kicker: 'Selected transaction focus',
       title: 'Current detail anchor',
       summary:
-        'Use the rail for orientation and quick facts. Keep the deeper reading work in the central transaction detail where deliverables, proofs, and history stay together.',
+        'Use the rail for orientation and quick facts. Keep the deeper reading work in the central activity detail where asset packs, proofs, and history stay together.',
     },
   },
 } as const;

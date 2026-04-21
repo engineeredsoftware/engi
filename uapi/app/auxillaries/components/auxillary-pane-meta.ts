@@ -44,7 +44,7 @@ export const AUXILLARY_DESCRIPTORS: Record<ConcreteAuxillaryPane, AuxillaryPaneD
     labelPosition: 'top',
     routeTitle: 'Connects Auxillary',
     routeDescription:
-      'Attach GitHub and the live repository connections Bitcode reuses across transactions, executions, deliverables, and closure follow-through in one focused auxillary.',
+      'Attach GitHub and the live repository or interface bindings Bitcode reuses across need measurement, asset-pack synthesis, settlement follow-through, and third-party application behavior in one focused auxillary.',
   },
   interfaces: {
     label: 'Interfaces',
@@ -133,7 +133,7 @@ export function getAuxillariesWorkspaceHeading(mode: 'onboarding' | 'auxillaries
 
 export function getAuxillariesWorkspaceDescription(mode: 'onboarding' | 'auxillaries') {
   return mode === 'auxillaries'
-    ? 'The four-ring model stays visible while the active auxillary opens in a stable reading surface tuned for Bitcode transactions, executions, conversations, wallet posture, and auxillary follow-through.'
+    ? 'The four-ring model stays visible while the active auxillary opens in a stable reading surface tuned for the Bitcode Terminal, need measurement, settlements, interface posture, and auxillary follow-through.'
     : 'Open Bitcode access in a stable auxillary read, then move between Profile, Connects, Interfaces, and $BTD without losing the active pane or route context.';
 }
 
