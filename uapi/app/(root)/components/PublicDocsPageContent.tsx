@@ -145,7 +145,7 @@ export default function PublicDocsPageContent({ sourcePlayable }: PublicDocsPage
               href="/application"
               className="inline-flex items-center rounded-full border border-emerald-300/22 bg-emerald-400/12 px-4 py-2 text-[11px] font-semibold uppercase tracking-[0.18em] text-emerald-50 transition hover:border-emerald-300/38 hover:bg-emerald-400/18"
             >
-              Open transactions
+              Open Bitcode Terminal
             </Link>
             <Link
               href="/auxillaries/profile"

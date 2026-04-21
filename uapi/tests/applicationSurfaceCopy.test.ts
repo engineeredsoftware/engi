@@ -9,13 +9,13 @@ describe('APPLICATION_SURFACE_COPY', () => {
 });
 
 describe('APPLICATION_SURFACE_EXPLAINERS', () => {
-  it('uses an activity map instead of workspace-map naming', () => {
-    expect(APPLICATION_SURFACE_EXPLAINERS.activityMap.title).toBe('Transactions activity map');
+  it('uses Bitcode Terminal activity framing instead of workspace-map naming', () => {
+    expect(APPLICATION_SURFACE_EXPLAINERS.activityMap.title).toBe('Bitcode Terminal activity map');
     expect(APPLICATION_SURFACE_EXPLAINERS.activityMap.summary).toContain('give, need, fit, verification');
   });
 
-  it('keeps experience framing centered on transactions and auxillaries', () => {
-    expect(APPLICATION_SURFACE_EXPLAINERS.experienceMap.summary).toContain('transactions surface');
+  it('keeps experience framing centered on the Bitcode Terminal and auxillaries', () => {
+    expect(APPLICATION_SURFACE_EXPLAINERS.experienceMap.summary).toContain('Bitcode Terminal');
     expect(APPLICATION_SURFACE_EXPLAINERS.experienceMap.detail).toContain('Auxillaries');
   });
 });

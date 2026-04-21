@@ -6,12 +6,12 @@ function buildExplainer(explainer: BitcodeExplainer): BitcodeExplainer {
 
 export const APPLICATION_SURFACE_EXPLAINERS = {
   experienceMap: buildExplainer({
-    kicker: 'Transactions read model',
-    title: 'Transactions experience map',
+    kicker: 'Bitcode Terminal read model',
+    title: 'Bitcode Terminal experience map',
     summary:
-      'The transactions surface is organized around one central ledger window, with dedicated writing and auxillary modes available only when deeper action is needed.',
+      'The Bitcode Terminal is organized around one central ledger window, with dedicated writing and auxillary modes available only when deeper action is needed.',
     detail:
-      'Use this map to keep the main reading surface stable: transactions and selected detail stay primary, while conversations and Auxillaries remain deliberate mode changes instead of parallel destinations.',
+      'Use this map to keep the main Bitcode Terminal reading surface stable: transactions and selected detail stay primary, while conversations and Auxillaries remain deliberate mode changes instead of parallel destinations.',
     points: [
       'Keeps the ledger and selected transaction central',
       'Treats conversations and Auxillaries as deliberate follow-through modes',
@@ -40,7 +40,7 @@ export const APPLICATION_SURFACE_EXPLAINERS = {
       'This surface keeps the currently measured demand visible as a first-class transaction choice. You should be able to change the scenario, review parser and target posture, and keep moving without dropping into execution plumbing.',
     points: [
       'Keeps the active demand frame explicit',
-      'Makes scenario switching part of the main transactions surface',
+      'Makes scenario switching part of the Bitcode Terminal',
       'Preserves continuity into fit and closure reading',
     ],
   }),
@@ -52,7 +52,7 @@ export const APPLICATION_SURFACE_EXPLAINERS = {
     detail:
       'Use this surface to bind the current auth session, narrow the inventory, and keep only the supply you want in the active give draft before moving into deposit, fit, and closure.',
     points: [
-      'Keeps searchable supply inside the main transactions surface',
+      'Keeps searchable supply inside the Bitcode Terminal',
       'Makes selected inventory explicit before deposit drafting',
       'Preserves continuity into the give draft instead of forcing context rebuilds',
     ],
@@ -76,7 +76,7 @@ export const APPLICATION_SURFACE_EXPLAINERS = {
     summary:
       'Supply, demand, and fit should read as one operating chain so you can judge why the current transaction is or is not moving forward.',
     detail:
-      'This transactions surface is the short path for understanding what is being offered, what is being measured, and what still blocks a strong fit before closure work begins.',
+      'The Bitcode Terminal is the short path for understanding what is being offered, what is being measured, and what still blocks a strong fit before closure work begins.',
     points: [
       'Keeps give and need in one transactions read',
       'Makes fit legible before proof and settlement',
@@ -105,7 +105,7 @@ export const APPLICATION_SURFACE_EXPLAINERS = {
       'Use this map to preview the closure sequence, inspect the strongest metrics and rows for each stage, and open the exact proof view only when you need deeper proof.',
     points: [
       'Keeps closure stages in one readable sequence',
-      'Brings proof and history closer to the main transactions surface',
+      'Brings proof and history closer to the Bitcode Terminal',
       'Makes exact-detail reads deliberate instead of mandatory',
     ],
   }),
@@ -127,7 +127,7 @@ export const APPLICATION_SURFACE_EXPLAINERS = {
     summary:
       'Bitcode should show what is live, modeled, boundary-only, or blocked without making you infer that state from failures later in the flow.',
     detail:
-      'Use this read before trusting downstream deliverables or settlement. A healthy transactions surface keeps boundary truth visible and fail-closed.',
+      'Use this read before trusting downstream deliverables or settlement. A healthy Bitcode Terminal keeps boundary truth visible and fail-closed.',
     points: [
       'Shows blocked interfaces early',
       'Keeps modeled and live states separate',
@@ -136,11 +136,11 @@ export const APPLICATION_SURFACE_EXPLAINERS = {
   }),
   activityMap: buildExplainer({
     kicker: 'Section navigation',
-    title: 'Transactions activity map',
+    title: 'Bitcode Terminal activity map',
     summary:
       'Preview the deeper give, need, fit, verification, artifact, settlement, and ledger sections before opening them in the exact proof view.',
     detail:
-      'The map should act like a readable table of contents for the lower transactions flow, not like an internal engineering note.',
+      'The map should act like a readable table of contents for the lower Bitcode Terminal flow, not like an internal engineering note.',
     points: [
       'Supports quick section discovery',
       'Keeps exact-detail navigation legible',
@@ -165,7 +165,7 @@ export const APPLICATION_SURFACE_EXPLAINERS = {
     summary:
       'You should be able to read the live give-side source, measured need, and fit posture without dropping immediately into the exact proof view.',
     detail:
-      'This is the high-level map of why a repository, demand frame, and fit posture belong together in the active transactions surface.',
+      'This is the high-level map of why a repository, demand frame, and fit posture belong together in the active Bitcode Terminal.',
     points: [
       'Give stays tied to searchable supply',
       'Need stays tied to measured demand',
@@ -181,7 +181,7 @@ export const APPLICATION_SURFACE_EXPLAINERS = {
       'This runtime remains available for inspection, but it should feel like a deliberate follow-through surface rather than the main product experience.',
     points: [
       'Supports deep proof and flow inspection',
-      'Keeps the main transactions surface uncluttered',
+      'Keeps the Bitcode Terminal uncluttered',
     ],
   }),
   railModes: buildExplainer({
@@ -218,7 +218,7 @@ export const APPLICATION_SURFACE_EXPLAINERS = {
     detail:
       'This card keeps the transaction id and short summary close at hand so you can safely resume work after changing filters, modes, or detail tabs.',
     points: [
-      'Prevents context loss while moving around the transactions surface',
+      'Prevents context loss while moving around the Bitcode Terminal',
       'Keeps the active transaction obvious',
       'Supports resumable work',
     ],

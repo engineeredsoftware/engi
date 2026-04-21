@@ -23,7 +23,7 @@ export default function DeliverablePicker({ isOpen, onSelect, onClose, searchTer
   // fetch real deliverables once picker opens for first time
   useEffect(() => {
     if (!isOpen || deliverables.length > 0) return;
-    fetch('/api/executions?type=pipeline:deliverables')
+    fetch('/api/executions?type=agentic-execution:branch-artifact')
       .then(res => res.ok ? res.json() : [])
       .then(data => {
         if (Array.isArray(data)) {

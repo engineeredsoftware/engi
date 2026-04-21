@@ -12,7 +12,7 @@ export default function ApplicationPreservedShellSurface() {
       id="applicationLowerRuntime"
       kicker="Closure runtime"
       title="Open the proof and settlement runtime only when deeper closure detail is required"
-      summary="Stay in the transactions surface for normal reading and drafting. Open this runtime only when you need replay detail, mount-level verification, or dense proof follow-through."
+      summary="Stay in the Bitcode Terminal for normal reading and drafting. Open this runtime only when you need replay detail, mount-level verification, or dense proof follow-through."
       explainer={APPLICATION_WORKSPACE_EXPLAINERS.sourcePath}
       className="min-w-0"
       childrenClassName="space-y-5"
@@ -41,10 +41,10 @@ export default function ApplicationPreservedShellSurface() {
               </p>
               <h1>Inspect the live Bitcode runtime from give through settlement.</h1>
               <p className="lede" id="heroLede">
-                Use this view when you need deterministic follow-through beyond the main transactions surface.
+                Use this view when you need deterministic follow-through beyond the Bitcode Terminal.
               </p>
               <p className="meta hero-tip" id="heroTip">
-                The main transactions surface stays primary. This view is for exact inspection, replay, and closure follow-through.
+                The Bitcode Terminal stays primary. This view is for exact inspection, replay, and closure follow-through.
               </p>
               <div className="hero-actions">
                 <label>

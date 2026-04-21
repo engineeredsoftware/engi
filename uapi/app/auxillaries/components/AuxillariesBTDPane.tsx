@@ -175,7 +175,7 @@ export default function AuxillariesBTDPane({
           {
             value: "transactions",
             label: "Transactions",
-            hint: "Return to the main transactions surface first.",
+            hint: "Return to the Bitcode Terminal first.",
           },
           {
             value: "proofs",

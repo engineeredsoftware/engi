@@ -87,7 +87,7 @@ export default function LeftSidebar() {
   const handleLoadDeliverableItem = (item: any) => {
     const id = item.runId ?? item.run_id ?? '';
     const params = new URLSearchParams();
-    params.set('type', 'pipeline:deliverables');
+    params.set('type', 'agentic-execution:branch-artifact');
     params.set('executionId', id);
     params.set('runId', id); // maintain compatibility for embedded components
     params.set('itemId', item.id);
@@ -125,7 +125,7 @@ export default function LeftSidebar() {
                   className="w-4 h-4 text-gray-300 sidebar-text"
                 />
                 <FlipText
-                  text={'Pipeline Executions'}
+                  text={'Branch Artifact Executions'}
                   className="text-sm font-semibold text-emerald-300 sidebar-text"
                 />
               </div>
@@ -184,7 +184,7 @@ export default function LeftSidebar() {
                     <div key={run.id} className="w-full">
                       <button
                         className="block w-full px-3 py-2 rounded text-left bg-gray-800 text-gray-300 hover:bg-emerald-700 hover:text-white transition-colors"
-                        onClick={() => router.push(`/executions?type=pipeline:deliverables&postprocessingType=pipeline:deliverables&executionId=${run.id}&runId=${run.id}&highlight=postprocessed`)}
+                        onClick={() => router.push(`/executions?type=agentic-execution:branch-artifact&postprocessingType=agentic-execution:branch-artifact&executionId=${run.id}&runId=${run.id}&highlight=postprocessed`)}
                       >
                         <div className="flex items-center justify-between gap-2">
                           <div className="text-sm font-medium truncate">

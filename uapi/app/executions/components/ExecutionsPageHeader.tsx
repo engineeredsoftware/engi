@@ -270,7 +270,7 @@ interface ExecutionPageHeaderProps {
   /** Repository snapshot metadata */
   repoSnapshot?: { org: string; repo: string; branch: string; commit: string };
   /** Execution type to drive header visuals */
-  executionType?: 'pipeline:deliverables';
+  executionType?: 'agentic-execution:branch-artifact';
 }
 
 // Define our variants for the header content
@@ -1308,7 +1308,7 @@ export default function ExecutionsPageHeader({
                 variants={scaledChildVariants}
               >
                 <div className="relative inline-block">
-                  <ExecutionsHeaderTitle type={(executionType ?? 'pipeline:deliverables') as any} className="max-w-[100%]" />
+                  <ExecutionsHeaderTitle type={(executionType ?? 'agentic-execution:branch-artifact') as any} className="max-w-[100%]" />
                 </div>
               </motion.h1>
 

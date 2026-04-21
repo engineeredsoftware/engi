@@ -67,10 +67,10 @@ export function deriveApplicationFlowGuide(commandState: ApplicationCommandState
         : 'ready';
 
   const statusSummary = !commandState?.shellReady
-    ? 'The flow guide is syncing to the current transactions surface.'
+    ? 'The flow guide is syncing to the current Bitcode Terminal.'
     : guideStep
       ? `The flow guide is ${commandState.flowGuideOpen ? 'open' : 'saved'} at ${guideStep}.`
-      : 'Transactions are ready for a fresh give-to-closure flow.';
+      : 'The Bitcode Terminal is ready for a fresh give-to-closure flow.';
 
   const stages = FLOW_STAGE_BLUEPRINT.map((stage, index) => ({
     ...stage,

@@ -109,7 +109,7 @@ export function CompleteHeaderContent({
   processingStats?: HeaderProcessingStats;
   repoSnapshot?: RepoSnapshot;
   postprocessed?: any;
-  executionType?: 'pipeline:deliverables';
+  executionType?: 'agentic-execution:branch-artifact';
 }) {
   const router = useRouter();
   const search = useSearchParams();

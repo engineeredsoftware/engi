@@ -110,7 +110,9 @@ export const callDeliverablesAPI = async (
   /** Number of iterations for the pipeline */
   iterationCount: number = 3,
   /** Optional file uploads */
-  files?: File[]
+  files?: File[],
+  /** Canonical execution type for retained delivery substrate */
+  pipelineType: string = 'agentic-execution:branch-artifact'
 ): Promise<ReadableStream<Uint8Array> | null> => {
   const computeEnabledEffective = ENABLE_COMPUTE_TOGGLE ? computeEnabled : false;
   let body: BodyInit;
@@ -136,7 +138,8 @@ export const callDeliverablesAPI = async (
       attachments,
       computeEnabled: computeEnabledEffective,
       multiAgentEnabled,
-      iterationCount
+      iterationCount,
+      pipeline_type: pipelineType
     }));
     
     // Add files
@@ -162,7 +165,8 @@ export const callDeliverablesAPI = async (
       attachments,
       computeEnabled: computeEnabledEffective,
       multiAgentEnabled,
-      iterationCount
+      iterationCount,
+      pipeline_type: pipelineType
     });
   }
 

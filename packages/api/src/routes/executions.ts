@@ -10,7 +10,11 @@ import { createJsonResponse } from '@bitcode/responses';
 import { supabaseAdmin } from '@bitcode/supabase';
 import { createClient } from '@bitcode/supabase/ssr/server';
 
-import { buildAgenticExecutionSummary } from '../executions/agentic-execution';
+import {
+  buildAgenticExecutionSummary,
+  normalizeAgenticExecutionStorageType,
+  resolveAgenticExecutionQueryTypes,
+} from '../executions/agentic-execution';
 
 type JsonRecord = Record<string, unknown>;
 
@@ -261,6 +265,7 @@ export async function getExecutionHistoryRoute(request: Request) {
 
   const url = new URL(request.url);
   const requestedType = url.searchParams.get('type');
+  const requestedTypes = resolveAgenticExecutionQueryTypes(requestedType);
 
   let query = supabaseAdmin
     .from('executions')
@@ -270,8 +275,10 @@ export async function getExecutionHistoryRoute(request: Request) {
     .eq('user_id', userId)
     .order('created_at', { ascending: false });
 
-  if (requestedType) {
-    query = query.eq('type', requestedType);
+  if (requestedTypes.length === 1) {
+    query = query.eq('type', requestedTypes[0]);
+  } else if (requestedTypes.length > 1) {
+    query = query.in('type', requestedTypes);
   }
 
   const { data, error } = await query;
@@ -313,12 +320,13 @@ export async function postExecutionHistoryRoute(request: Request) {
     .from('executions')
     .insert({
       user_id: userId,
-      type:
+      type: normalizeAgenticExecutionStorageType(
         typeof body.pipeline_type === 'string'
           ? body.pipeline_type
           : typeof body.type === 'string'
             ? body.type
-            : 'pipeline:deliverables',
+            : 'agentic-execution:branch-artifact',
+      ),
       status: typeof body.status === 'string' ? body.status : 'pending',
       input: (body.input as Record<string, unknown> | null | undefined) || null,
       output,

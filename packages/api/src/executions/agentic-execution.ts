@@ -15,6 +15,14 @@ export interface AgenticExecutionSummary {
 }
 
 const DEFAULT_CANONICAL_TYPE = 'agentic-execution:branch-artifact';
+const DEFAULT_STORAGE_TYPE = 'pipeline:deliverables';
+
+const CANONICAL_TO_STORAGE_TYPE = {
+  'agentic-execution:branch-artifact': 'pipeline:deliverables',
+  'agentic-execution:need-measurement': 'pipeline:measure',
+  'agentic-execution:proof-refresh': 'pipeline:proof-refresh',
+  'agentic-execution:upgrade': 'pipeline:upgrades',
+} as const;
 
 function normalizeWhitespace(value?: string | null) {
   return value?.trim() || '';
@@ -33,6 +41,33 @@ export function normalizeAgenticExecutionType(value?: string | null) {
   }
 
   return DEFAULT_CANONICAL_TYPE;
+}
+
+export function normalizeAgenticExecutionStorageType(value?: string | null) {
+  const normalized = normalizeWhitespace(value).toLowerCase();
+
+  if (!normalized) return DEFAULT_STORAGE_TYPE;
+  if (normalized.startsWith('pipeline:')) return normalized;
+
+  const canonicalType = normalizeAgenticExecutionType(normalized);
+  return CANONICAL_TO_STORAGE_TYPE[canonicalType] ?? DEFAULT_STORAGE_TYPE;
+}
+
+export function resolveAgenticExecutionQueryTypes(value?: string | null) {
+  const normalized = normalizeWhitespace(value).toLowerCase();
+
+  if (!normalized) return [];
+
+  if (normalized.startsWith('pipeline:')) {
+    return Array.from(
+      new Set([normalized, normalizeAgenticExecutionType(normalized)]),
+    );
+  }
+
+  const canonicalType = normalizeAgenticExecutionType(normalized);
+  return Array.from(
+    new Set([canonicalType, normalizeAgenticExecutionStorageType(canonicalType)]),
+  );
 }
 
 export function formatAgenticExecutionLabel(value?: string | null) {

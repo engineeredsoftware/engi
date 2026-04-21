@@ -233,7 +233,7 @@ export function ExecutionsClient() {
   useEffect(() => {
     if (activeRunId && !runId) {
       const params = new URLSearchParams();
-      params.set('type', 'pipeline:deliverables');
+      params.set('type', 'agentic-execution:branch-artifact');
       params.set('runId', activeRunId);
       const newUrl = `/executions?${params.toString()}`;
       window.history.pushState({}, '', newUrl);
@@ -248,7 +248,7 @@ export function ExecutionsClient() {
     (async () => {
       if (!runId) { setHistoryFWS(null); return; }
       try {
-        const params = new URLSearchParams(); params.set('type', 'pipeline:deliverables');
+        const params = new URLSearchParams(); params.set('type', 'agentic-execution:branch-artifact');
         const res = await fetch(`/api/executions/history/${runId}?${params.toString()}`);
         if (!res.ok) return; const data = await res.json(); const run = data?.run || {};
         const runOutput = (run as any)?.output || run?.output_data || null;
@@ -419,11 +419,11 @@ export function ExecutionsClient() {
             Retained fourth-gate executions route
           </p>
           <h1 className="mt-4 max-w-3xl text-3xl font-semibold leading-tight text-white md:text-4xl">
-            The retained /executions path stays explicit so Bitcode execution primitives, pipeline runs, and need measurement continue reading cleanly while broader activity keeps growing around transactions, executions, and notifications.
+            The retained /executions path stays explicit so Bitcode execution primitives, branch-artifact runs, and need measurement continue reading cleanly while broader activity keeps growing around the Bitcode Terminal, executions, and notifications.
           </h1>
           <p className="mt-4 max-w-3xl text-sm leading-7 text-[#9db6c8] md:text-base">
             This route remains a live retained surface for run, deliverable, and pipeline inspection. Connect source
-            context in Auxillaries to execute here, or continue in Transactions when you want the converged Bitcode
+            context in Auxillaries to execute here, or continue in the Bitcode Terminal when you want the converged Bitcode
             master-detail flow.
           </p>
           <div className="mt-8 flex flex-wrap gap-3">
@@ -432,7 +432,7 @@ export function ExecutionsClient() {
               onClick={() => router.push('/application')}
               className="inline-flex items-center rounded-full border border-[#7fd0ff]/30 bg-[#0c1e29] px-5 py-3 text-sm font-medium text-white transition hover:border-[#7fd0ff]/60 hover:bg-[#133244]"
             >
-              Open transactions
+              Open Bitcode Terminal
             </button>
             <button
               type="button"
@@ -477,7 +477,7 @@ export function ExecutionsClient() {
         multiAgentEnabled,
         iterationCount,
         selectedFiles,
-        { pipelineType: 'pipeline:deliverables' }
+        { pipelineType: 'agentic-execution:branch-artifact' }
       );
       if (process.env.NODE_ENV === 'development') console.debug('[Execution] onExecuteSubmit completed', { hasCompletion: Boolean(completionResult) });
     } catch (err) { if (process.env.NODE_ENV === 'development') console.error('[Execution] onExecuteSubmit error', err); setUiError((err as Error).message); }
@@ -486,7 +486,7 @@ export function ExecutionsClient() {
   const onCancelPipeline = async () => {
     if (!activeRunId) return;
     try {
-      const res = await fetch(`/api/executions/${activeRunId}?type=pipeline:deliverables`, { method: 'DELETE' });
+      const res = await fetch(`/api/executions/${activeRunId}?type=agentic-execution:branch-artifact`, { method: 'DELETE' });
       if (!res.ok) console.warn('Cancel failed');
     } catch (e) {
       console.error('Cancel error', e);
@@ -508,7 +508,7 @@ export function ExecutionsClient() {
           renderCardsInsideHeader={false}
           onExecuteDeliverableClickSetDefinitionOfDone={handleSetDefinitionOfDone}
           executionStatus={isProcessing ? 'executing' : (!isProcessing && (isStreamingComplete || (!!runId && !!historyFWS))) ? 'executed' : 'execute'}
-          executionType={'pipeline:deliverables'}
+          executionType={'agentic-execution:branch-artifact'}
           postprocessed={headerPostprocessed || undefined}
           showSourceEdu={showSourceEdu}
           showAttachmentsEdu={showAttachmentsEdu}

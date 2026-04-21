@@ -5,7 +5,7 @@ import MultiLineTypingAnimation from '@/components/base/bitcode/multi-line-typin
 import '@/styles/smooth-typing.css';
 import { cn } from '@bitcode/styling';
 
-type ExecType = 'pipeline:deliverables';
+type ExecType = 'agentic-execution:branch-artifact';
 
 interface ExecutionHeaderTitleProps {
   type: ExecType;
@@ -77,4 +77,3 @@ export default function ExecutionHeaderTitle({
     </div>
   );
 }
-

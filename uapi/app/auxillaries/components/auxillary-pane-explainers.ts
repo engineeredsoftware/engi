@@ -10,9 +10,9 @@ export const auxillaryPaneExplainers: Record<
     kicker: "Interfaces auxillary",
     title: "Interface defaults",
     summary:
-      "Keep the transactions surface, conversations, and proof reading aligned to one operator posture.",
+      "Keep the Bitcode Terminal, conversations, and proof reading aligned to one operator posture.",
     detail:
-      "These defaults shape how the main transactions surface opens, how detail is emphasized, and how evidence is read before closure.",
+      "These defaults shape how the Bitcode Terminal opens, how detail is emphasized, and how evidence is read before closure.",
     points: [
       "Choose the master-detail density you want to read first",
       "Keep conversation entry and continuity predictable",
@@ -36,11 +36,11 @@ export const auxillaryPaneExplainers: Record<
     kicker: "Interfaces auxillary",
     title: "Model posture",
     summary:
-      "Global model posture lets you decide what provider family should anchor the current transactions surface by default.",
+      "Global model posture lets you decide what provider family should anchor the Bitcode Terminal by default.",
     detail:
       "This is not a hidden debugging panel. It is the place to set the baseline model mix the operator wants to reuse across master-detail and conversation work.",
     points: [
-      "Apply one default model family to the current transactions surface",
+      "Apply one default model family to the Bitcode Terminal",
       "Review visible cost and context posture before switching",
       "Keep model choice explicit rather than implicit",
     ],

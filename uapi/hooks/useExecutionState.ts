@@ -32,6 +32,8 @@ interface ExecutionState {
   iterationUpdates: any[];
 }
 
+const DEFAULT_BRANCH_ARTIFACT_EXECUTION_TYPE = 'agentic-execution:branch-artifact';
+
 // Initial default state for execution processing
 const initialExecutionState: ExecutionState = {
   definitionOfDone: '',
@@ -123,7 +125,8 @@ export const useExecutionState = () => {
     try {
       const computeEnabledEffective = ENABLE_COMPUTE_TOGGLE ? computeEnabled : false;
       dlog('Submitting pipeline', { connectionId, repoOwner, repoName, repoBranch, commitSha, issueNumber, modelProvider, modelId, attachmentsCount: attachments?.length || 0, computeEnabled: computeEnabledEffective, multiAgentEnabled, iterationCount });
-      const pipelineType = options?.pipelineType || 'pipeline:deliverables';
+      const pipelineType =
+        options?.pipelineType || DEFAULT_BRANCH_ARTIFACT_EXECUTION_TYPE;
       const stream = await callDeliverablesAPI(
             connectionId,
             repoOwner,
@@ -139,7 +142,8 @@ export const useExecutionState = () => {
             computeEnabledEffective,
             multiAgentEnabled,
             iterationCount,
-            files
+            files,
+            pipelineType
           );
 
       if (!stream) {
