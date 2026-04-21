@@ -583,7 +583,11 @@ export function factoryStitchUntilComplete<T>(
             break; // Valid complete output
           } catch (e) {
             // Output incomplete, needs stitching
-            failsafeExec.store('validation', 'error', e);
+            failsafeExec.store(
+              'validation',
+              'error',
+              e instanceof Error ? e.message : String(e)
+            );
           }
         } else {
           break; // No schema to validate against

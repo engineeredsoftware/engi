@@ -25,6 +25,30 @@ export interface SaveConnectionData {
   metadata?: Record<string, unknown>;
 }
 
+interface PersistedConnectionData {
+  connectionId?: unknown;
+  provider_user_id?: unknown;
+  provider_username?: unknown;
+  access_token?: unknown;
+  refresh_token?: unknown;
+  token_expires_at?: unknown;
+  installation_token_expires_at?: unknown;
+  oauth_token?: unknown;
+  instance_url?: unknown;
+  [key: string]: unknown;
+}
+
+function asConnectionData(value: unknown): PersistedConnectionData {
+  if (!value || typeof value !== 'object' || Array.isArray(value)) {
+    return {};
+  }
+  return value as PersistedConnectionData;
+}
+
+function readString(value: unknown): string | undefined {
+  return typeof value === 'string' && value.length > 0 ? value : undefined;
+}
+
 /**
  * Handles VCS connections in the database
  */
@@ -96,18 +120,19 @@ export class VCSConnections {
         log('No VCS connection found', 'info', { userId, provider });
         return null;
       }
+      const connectionData = asConnectionData(connection.connection_data);
       
       log('VCS connection found', 'info', { 
         userId, 
         provider: connection.provider,
         connectionId: connection.id,
-        hasAccessToken: !!connection.connection_data?.access_token,
-        providerUserId: connection.connection_data?.provider_user_id
+        hasAccessToken: !!readString(connectionData.access_token),
+        providerUserId: readString(connectionData.provider_user_id)
       });
       
       return {
         id: connection.id,
-        connectionData: connection.connection_data
+        connectionData
       };
     } catch (error) {
       log('Failed to get connection', 'error', { error, userId, provider });
@@ -142,12 +167,12 @@ export class VCSConnections {
         // If still not found, try the legacy approach with installation ID
         if (!connection) {
           const auth = await this.connections.getAuthFromConnectionByInstallationId(Number(connectionId));
-          if (auth) {
+          if (auth?.accessToken) {
             log('Found connection via legacy installation ID lookup', 'info', { connectionId });
-            // Convert the legacy auth format to our standard format
             return {
-              ...auth,
-              provider: auth.provider as VCSProviderType
+              accessToken: auth.accessToken,
+              provider: auth.provider as VCSProviderType,
+              connectionId: auth.installationId
             };
           }
         }
@@ -157,19 +182,21 @@ export class VCSConnections {
         log('Connection not found by any method', 'warn', { connectionId, isUUID });
         return null;
       }
+      const connectionData = asConnectionData(connection.connection_data);
       
       // Check for access_token or ability to generate one
-      let accessToken = connection.connection_data?.access_token;
+      let accessToken = readString(connectionData.access_token);
       
       // For GitHub App installations, regenerate token if expired or missing
-      if (connection.provider === 'github' && connection.connection_data?.connectionId) {
-        const tokenExpiresAt = connection.connection_data?.installation_token_expires_at;
+      const installationConnectionId = readString(connectionData.connectionId);
+      if (connection.provider === 'github' && installationConnectionId) {
+        const tokenExpiresAt = readString(connectionData.installation_token_expires_at);
         const isExpired = tokenExpiresAt ? new Date(tokenExpiresAt) < new Date() : true;
         
         if (!accessToken || accessToken === '' || isExpired) {
           log('GitHub installation token missing or expired, regenerating', 'info', {
             connectionId,
-            installationId: connection.connection_data.connectionId,
+            installationId: installationConnectionId,
             hadToken: !!accessToken,
             isExpired
           });
@@ -191,7 +218,7 @@ export class VCSConnections {
               // Don't request specific permissions - use whatever the installation has granted
               // This avoids 422 errors when requesting permissions not available to the installation
               const tokenData = await githubApp.generateInstallationToken(
-                Number(connection.connection_data.connectionId)
+                Number(installationConnectionId)
                 // Omitting permissions parameter to use installation's granted permissions
               );
               
@@ -214,7 +241,7 @@ export class VCSConnections {
               error
             });
             // Fall back to OAuth token if available
-            accessToken = connection.connection_data?.oauth_token;
+            accessToken = readString(connectionData.oauth_token);
           }
         }
       }
@@ -222,8 +249,8 @@ export class VCSConnections {
       if (!accessToken || accessToken === '') {
         log('Connection exists but has no valid access token', 'warn', { 
           connectionId,
-          hasConnectionData: !!connection.connection_data,
-          connectionDataKeys: connection.connection_data ? Object.keys(connection.connection_data) : [],
+          hasConnectionData: Object.keys(connectionData).length > 0,
+          connectionDataKeys: Object.keys(connectionData),
           accessTokenValue: accessToken === '' ? 'empty string' : typeof accessToken
         });
         return null;
@@ -232,15 +259,15 @@ export class VCSConnections {
       log('Auth retrieved successfully', 'info', { 
         connectionId,
         provider: connection.provider,
-        hasRefreshToken: !!connection.connection_data.refresh_token
+        hasRefreshToken: !!readString(connectionData.refresh_token)
       });
       
+      const refreshToken = readString(connectionData.refresh_token);
+      const tokenExpiresAt = readString(connectionData.token_expires_at);
       return {
         accessToken: accessToken,
-        refreshToken: connection.connection_data.refresh_token,
-        expiresAt: connection.connection_data.token_expires_at
-          ? new Date(connection.connection_data.token_expires_at)
-          : undefined,
+        refreshToken,
+        expiresAt: tokenExpiresAt ? new Date(tokenExpiresAt) : undefined,
         provider: connection.provider as VCSProviderType,
         connectionId: connection.id
       };
@@ -258,11 +285,12 @@ export class VCSConnections {
   ): Promise<VCSAuth | null> {
     try {
       const auth = await this.connections.getAuthFromConnectionByInstallationId(installationId);
-      if (!auth) return null;
+      if (!auth?.accessToken) return null;
       
       return {
-        ...auth,
-        provider: auth.provider as VCSProviderType
+        accessToken: auth.accessToken,
+        provider: auth.provider as VCSProviderType,
+        connectionId: auth.installationId
       };
     } catch (error) {
       log('Failed to get auth by installation ID', 'error', { error, installationId });
@@ -286,14 +314,16 @@ export class VCSConnections {
       if (!connection) {
         throw new VCSError('Connection not found', 'NOT_FOUND');
       }
+      const connectionData = asConnectionData(connection.connection_data);
+      const nextConnectionData = {
+        ...connectionData,
+        access_token: tokens.accessToken,
+        refresh_token: tokens.refreshToken || readString(connectionData.refresh_token),
+        token_expires_at: tokens.expiresAt?.toISOString()
+      } as Database['public']['Tables']['user_connections']['Update']['connection_data'];
       
       await this.connections.update(connectionId, {
-        connection_data: {
-          ...connection.connection_data,
-          access_token: tokens.accessToken,
-          refresh_token: tokens.refreshToken || connection.connection_data.refresh_token,
-          token_expires_at: tokens.expiresAt?.toISOString()
-        }
+        connection_data: nextConnectionData
       });
       
       log('Tokens updated', 'debug', { connectionId });
@@ -335,10 +365,18 @@ export class VCSConnections {
       const connections = await this.connections.listByUserId(userId);
       
       return connections.map(c => ({
+        ...(() => {
+          const connectionData = asConnectionData(c.connection_data);
+          return {
+            username:
+              readString(connectionData.provider_username) ||
+              readString(connectionData.provider_user_id) ||
+              c.provider
+          };
+        })(),
         id: c.id,
         provider: c.provider,
-        username: c.provider_username,
-        createdAt: new Date(c.created_at)
+        createdAt: new Date(c.created_at ?? Date.now())
       }));
     } catch (error) {
       log('Failed to list connections', 'error', { error, userId });

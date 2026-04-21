@@ -7,7 +7,7 @@
 
 import { Tool } from '@bitcode/tools-generics';
 import { z } from 'zod';
-import { VCSProviderFactory, VCSConnections } from '@bitcode/vcs';
+import { VCSProviderFactory, VCSConnections, type VCSAuth, type VCSConfig, type VCSProviderType } from '@bitcode/vcs';
 import { createClient as createSupabaseServerClient } from '@bitcode/supabase/ssr/server';
 // Utility functions for retry and timeout logic
 const withTimeout = async <T>(fn: () => Promise<T>, timeoutMs: number): Promise<T> => {
@@ -57,6 +57,108 @@ import {
 } from './prompts';
 import { executionContext } from '@bitcode/generic-tools/files-maintaining';
 
+type VcsInputBase = {
+  provider: VCSProviderType;
+  connectionId?: string;
+  userId?: string;
+};
+
+type ResolvedConnectionContext = {
+  auth: VCSAuth;
+  instanceUrl?: string;
+};
+
+async function createConnectionManager() {
+  const supabase = await createSupabaseServerClient();
+  return new VCSConnections(supabase);
+}
+
+async function resolveConnectionContext(input: VcsInputBase): Promise<ResolvedConnectionContext> {
+  const connectionManager = await createConnectionManager();
+  let auth: VCSAuth | null = null;
+  let instanceUrl: string | undefined;
+
+  if (input.connectionId) {
+    auth = await connectionManager.getAuthFromConnection(input.connectionId);
+  }
+
+  if (input.userId) {
+    const connection = await connectionManager.getConnection(input.userId, input.provider);
+    if (connection) {
+      instanceUrl = connection.connectionData?.instance_url as string | undefined;
+      auth ??= await connectionManager.getAuthFromConnection(connection.id);
+    }
+  }
+
+  if (!auth) {
+    throw new Error(`No ${input.provider} connection found`);
+  }
+
+  return { auth, instanceUrl };
+}
+
+function buildProviderConfig(
+  provider: VCSProviderType,
+  instanceUrl?: string,
+): VCSConfig {
+  const envPrefix = provider.toUpperCase();
+  return {
+    provider,
+    clientId: process.env[`${envPrefix}_CLIENT_ID`] || '',
+    clientSecret: process.env[`${envPrefix}_CLIENT_SECRET`] || '',
+    redirectUri: process.env[`${envPrefix}_REDIRECT_URI`] || '',
+    instanceUrl,
+  };
+}
+
+async function createProvider(provider: VCSProviderType, instanceUrl?: string) {
+  return VCSProviderFactory.create(buildProviderConfig(provider, instanceUrl));
+}
+
+async function enforceWriteGate(path: string): Promise<void> {
+  try {
+    const execution = executionContext?.getStore?.();
+    if (!execution) {
+      return;
+    }
+
+    const metaPhase =
+      execution.get?.('gate', 'current') ||
+      execution.get?.('meta', 'phase') ||
+      'Develop';
+    const { validateFileOperation } = await import('@bitcode/pipelines-generics/src/gate-system/file-gates');
+    const validation = validateFileOperation('write', path, metaPhase as any);
+    if (validation.allowed) {
+      return;
+    }
+
+    try {
+      execution.store?.('gates', 'lastViolation', {
+        metaPhase,
+        operation: 'write',
+        path,
+        reason: validation.reason,
+        timestamp: new Date().toISOString(),
+      });
+    } catch {}
+
+    const gateError = new Error(
+      validation.reason ||
+        `${metaPhase} phase can only modify designated files. Attempted: ${path}`,
+    );
+    (gateError as any).code = 'GATE_VIOLATION';
+    throw gateError;
+  } catch (gateCheckError) {
+    if ((gateCheckError as any)?.code === 'GATE_VIOLATION') {
+      throw gateCheckError;
+    }
+
+    throw new Error(
+      `Failed to evaluate gate permissions for ${path}: ${(gateCheckError as Error).message}`,
+    );
+  }
+}
+
 /**
  * Base schema for VCS operations
  */
@@ -86,65 +188,11 @@ class ListRepositoriesTool extends Tool<any> {
     direction: z.enum(['asc', 'desc']).optional()
   });
 
-  async use(input: z.infer<typeof this.inputSchema>) {
-    try {
-      const execution = executionContext?.getStore?.();
-      if (execution) {
-        const metaPhase =
-          execution.get?.('gate', 'current') ||
-          execution.get?.('meta', 'phase') ||
-          'Develop';
-        const { validateFileOperation } = await import('@bitcode/pipelines-generics/src/gate-system/file-gates');
-        const validation = validateFileOperation('write', input.path, metaPhase as any);
-        if (!validation.allowed) {
-          try {
-            execution.store?.('gates', 'lastViolation', {
-              metaPhase,
-              operation: 'write',
-              path: input.path,
-              reason: validation.reason,
-              timestamp: new Date().toISOString(),
-            });
-          } catch {}
-          const gateError = new Error(
-            validation.reason ||
-              `${metaPhase} phase can only modify designated files. Attempted: ${input.path}`
-          );
-          (gateError as any).code = 'GATE_VIOLATION';
-          throw gateError;
-        }
-      }
-    } catch (gateCheckError) {
-      if ((gateCheckError as any)?.code === 'GATE_VIOLATION') {
-        throw gateCheckError;
-      }
-      // If the gate check itself fails unexpectedly, surface a descriptive error
-      throw new Error(
-        `Failed to evaluate gate permissions for ${input.path}: ${(gateCheckError as Error).message}`
-      );
-    }
+  use = async (input: z.infer<typeof this.inputSchema>) => {
+    const { auth, instanceUrl } = await resolveConnectionContext(input);
+    const vcsProvider = await createProvider(input.provider, instanceUrl);
 
-    const supabase = createSupabaseServerClient();
-    const connectionManager = new VCSConnections(supabase);
-    
-    const connection = input.connectionId 
-      ? await connectionManager.getConnectionById(input.connectionId)
-      : await connectionManager.getConnection(input.userId!, input.provider);
-    
-    if (!connection) {
-      throw new Error(`No ${input.provider} connection found`);
-    }
-    
-    const auth = await connectionManager.getAuthFromConnection(connection.id);
-    const vcsProvider = await VCSProviderFactory.create({
-      provider: input.provider,
-      clientId: process.env[`${input.provider.toUpperCase()}_CLIENT_ID`]!,
-      clientSecret: process.env[`${input.provider.toUpperCase()}_CLIENT_SECRET`]!,
-      redirectUri: process.env[`${input.provider.toUpperCase()}_REDIRECT_URI`]!,
-      instanceUrl: connection.instanceUrl
-    });
-    
-    return await withTimeout(
+    return withTimeout(
       () => vcsProvider.listRepositories(auth, {
         page: input.page,
         perPage: input.perPage,
@@ -153,7 +201,7 @@ class ListRepositoriesTool extends Tool<any> {
       }),
       30000
     );
-  }
+  };
 }
 
 export const listRepositoriesTool = new ListRepositoriesTool();
@@ -174,28 +222,11 @@ class CreatePullRequestTool extends Tool<any> {
     draft: z.boolean().optional().describe('Create as draft PR')
   });
 
-  async use(input: z.infer<typeof this.inputSchema>) {
-    const supabase = createSupabaseServerClient();
-    const connectionManager = new VCSConnections(supabase);
-    
-    const connection = input.connectionId 
-      ? await connectionManager.getConnectionById(input.connectionId)
-      : await connectionManager.getConnection(input.userId!, input.provider);
-    
-    if (!connection) {
-      throw new Error(`No ${input.provider} connection found`);
-    }
-    
-    const auth = await connectionManager.getAuthFromConnection(connection.id);
-    const vcsProvider = await VCSProviderFactory.create({
-      provider: input.provider,
-      clientId: process.env[`${input.provider.toUpperCase()}_CLIENT_ID`]!,
-      clientSecret: process.env[`${input.provider.toUpperCase()}_CLIENT_SECRET`]!,
-      redirectUri: process.env[`${input.provider.toUpperCase()}_REDIRECT_URI`]!,
-      instanceUrl: connection.instanceUrl
-    });
-    
-    return await withRetry(
+  use = async (input: z.infer<typeof this.inputSchema>) => {
+    const { auth, instanceUrl } = await resolveConnectionContext(input);
+    const vcsProvider = await createProvider(input.provider, instanceUrl);
+
+    return withRetry(
       () => vcsProvider.createPullRequest(auth, input.owner, input.repo, {
         title: input.title,
         description: input.description,
@@ -212,7 +243,7 @@ class CreatePullRequestTool extends Tool<any> {
         }
       }
     );
-  }
+  };
 }
 
 export const createPullRequestTool = new CreatePullRequestTool();
@@ -233,28 +264,13 @@ class CreateOrUpdateFileTool extends Tool<any> {
     sha: z.string().optional().describe('Current file SHA (for updates)')
   });
 
-  async use(input: z.infer<typeof this.inputSchema>) {
-    const supabase = createSupabaseServerClient();
-    const connectionManager = new VCSConnections(supabase);
-    
-    const connection = input.connectionId 
-      ? await connectionManager.getConnectionById(input.connectionId)
-      : await connectionManager.getConnection(input.userId!, input.provider);
-    
-    if (!connection) {
-      throw new Error(`No ${input.provider} connection found`);
-    }
-    
-    const auth = await connectionManager.getAuthFromConnection(connection.id);
-    const vcsProvider = await VCSProviderFactory.create({
-      provider: input.provider,
-      clientId: process.env[`${input.provider.toUpperCase()}_CLIENT_ID`]!,
-      clientSecret: process.env[`${input.provider.toUpperCase()}_CLIENT_SECRET`]!,
-      redirectUri: process.env[`${input.provider.toUpperCase()}_REDIRECT_URI`]!,
-      instanceUrl: connection.instanceUrl
-    });
-    
-    return await withRetry(
+  use = async (input: z.infer<typeof this.inputSchema>) => {
+    await enforceWriteGate(input.path);
+
+    const { auth, instanceUrl } = await resolveConnectionContext(input);
+    const vcsProvider = await createProvider(input.provider, instanceUrl);
+
+    return withRetry(
       () => vcsProvider.createOrUpdateFile(auth, input.owner, input.repo, input.path, {
         content: Buffer.from(input.content).toString('base64'),
         message: input.message,
@@ -266,7 +282,7 @@ class CreateOrUpdateFileTool extends Tool<any> {
         delayMs: 1000
       }
     );
-  }
+  };
 }
 
 export const createOrUpdateFileTool = new CreateOrUpdateFileTool();
@@ -287,39 +303,22 @@ class CreateIssueTool extends Tool<any> {
     milestone: z.string().optional().describe('Milestone')
   });
 
-  async use(input: z.infer<typeof this.inputSchema>) {
-    const supabase = createSupabaseServerClient();
-    const connectionManager = new VCSConnections(supabase);
-    
-    const connection = input.connectionId 
-      ? await connectionManager.getConnectionById(input.connectionId)
-      : await connectionManager.getConnection(input.userId!, input.provider);
-    
-    if (!connection) {
-      throw new Error(`No ${input.provider} connection found`);
-    }
-    
-    const auth = await connectionManager.getAuthFromConnection(connection.id);
-    const vcsProvider = await VCSProviderFactory.create({
-      provider: input.provider,
-      clientId: process.env[`${input.provider.toUpperCase()}_CLIENT_ID`]!,
-      clientSecret: process.env[`${input.provider.toUpperCase()}_CLIENT_SECRET`]!,
-      redirectUri: process.env[`${input.provider.toUpperCase()}_REDIRECT_URI`]!,
-      instanceUrl: connection.instanceUrl
-    });
-    
+  use = async (input: z.infer<typeof this.inputSchema>) => {
+    const { auth, instanceUrl } = await resolveConnectionContext(input);
+    const vcsProvider = await createProvider(input.provider, instanceUrl);
+
     if (!vcsProvider.createIssue) {
       throw new Error(`Issue creation not supported by ${input.provider}`);
     }
     
-    return await vcsProvider.createIssue(auth, input.owner, input.repo, {
+    return vcsProvider.createIssue(auth, input.owner, input.repo, {
       title: input.title,
       body: input.body,
       labels: input.labels,
       assignees: input.assignees,
-      milestone: input.milestone
+      milestone: input.milestone ? Number(input.milestone) : undefined
     });
-  }
+  };
 }
 
 export const createIssueTool = new CreateIssueTool();
@@ -338,29 +337,12 @@ class CreateCommentTool extends Tool<any> {
     body: z.string().describe('Comment body')
   });
 
-  async use(input: z.infer<typeof this.inputSchema>) {
-    const supabase = createSupabaseServerClient();
-    const connectionManager = new VCSConnections(supabase);
-    
-    const connection = input.connectionId 
-      ? await connectionManager.getConnectionById(input.connectionId)
-      : await connectionManager.getConnection(input.userId!, input.provider);
-    
-    if (!connection) {
-      throw new Error(`No ${input.provider} connection found`);
-    }
-    
-    const auth = await connectionManager.getAuthFromConnection(connection.id);
-    const vcsProvider = await VCSProviderFactory.create({
-      provider: input.provider,
-      clientId: process.env[`${input.provider.toUpperCase()}_CLIENT_ID`]!,
-      clientSecret: process.env[`${input.provider.toUpperCase()}_CLIENT_SECRET`]!,
-      redirectUri: process.env[`${input.provider.toUpperCase()}_REDIRECT_URI`]!,
-      instanceUrl: connection.instanceUrl
-    });
-    
+  use = async (input: z.infer<typeof this.inputSchema>) => {
+    const { auth, instanceUrl } = await resolveConnectionContext(input);
+    const vcsProvider = await createProvider(input.provider, instanceUrl);
+
     if (input.type === 'issue' && vcsProvider.createIssueComment) {
-      return await vcsProvider.createIssueComment(
+      return vcsProvider.createIssueComment(
         auth,
         input.owner,
         input.repo,
@@ -368,7 +350,7 @@ class CreateCommentTool extends Tool<any> {
         input.body
       );
     } else if (input.type === 'pr' && vcsProvider.createPullRequestComment) {
-      return await vcsProvider.createPullRequestComment(
+      return vcsProvider.createPullRequestComment(
         auth,
         input.owner,
         input.repo,
@@ -378,7 +360,7 @@ class CreateCommentTool extends Tool<any> {
     }
     
     throw new Error(`${input.type} comments not supported by ${input.provider}`);
-  }
+  };
 }
 
 export const createCommentTool = new CreateCommentTool();
@@ -393,29 +375,11 @@ class ListBranchesTool extends Tool<any> {
   
   inputSchema = vcsBaseSchema;
 
-  async use(input: z.infer<typeof this.inputSchema>) {
-    const supabase = createSupabaseServerClient();
-    const connectionManager = new VCSConnections(supabase);
-    
-    const connection = input.connectionId 
-      ? await connectionManager.getConnectionById(input.connectionId)
-      : await connectionManager.getConnection(input.userId!, input.provider);
-    
-    if (!connection) {
-      throw new Error(`No ${input.provider} connection found`);
-    }
-    
-    const auth = await connectionManager.getAuthFromConnection(connection.id);
-    const vcsProvider = await VCSProviderFactory.create({
-      provider: input.provider,
-      clientId: process.env[`${input.provider.toUpperCase()}_CLIENT_ID`]!,
-      clientSecret: process.env[`${input.provider.toUpperCase()}_CLIENT_SECRET`]!,
-      redirectUri: process.env[`${input.provider.toUpperCase()}_REDIRECT_URI`]!,
-      instanceUrl: connection.instanceUrl
-    });
-    
-    return await vcsProvider.listBranches(auth, input.owner, input.repo);
-  }
+  use = async (input: z.infer<typeof this.inputSchema>) => {
+    const { auth, instanceUrl } = await resolveConnectionContext(input);
+    const vcsProvider = await createProvider(input.provider, instanceUrl);
+    return vcsProvider.listBranches(auth, input.owner, input.repo);
+  };
 }
 
 export const listBranchesTool = new ListBranchesTool();
@@ -433,36 +397,21 @@ class GetFileContentTool extends Tool<any> {
     ref: z.string().optional().describe('Branch, tag, or commit SHA')
   });
 
-  async use(input: z.infer<typeof this.inputSchema>) {
-    const supabase = createSupabaseServerClient();
-    const connectionManager = new VCSConnections(supabase);
-    
-    const connection = input.connectionId 
-      ? await connectionManager.getConnectionById(input.connectionId)
-      : await connectionManager.getConnection(input.userId!, input.provider);
-    
-    if (!connection) {
-      throw new Error(`No ${input.provider} connection found`);
-    }
-    
-    const auth = await connectionManager.getAuthFromConnection(connection.id);
-    const vcsProvider = await VCSProviderFactory.create({
-      provider: input.provider,
-      clientId: process.env[`${input.provider.toUpperCase()}_CLIENT_ID`]!,
-      clientSecret: process.env[`${input.provider.toUpperCase()}_CLIENT_SECRET`]!,
-      redirectUri: process.env[`${input.provider.toUpperCase()}_REDIRECT_URI`]!,
-      instanceUrl: connection.instanceUrl
-    });
-    
+  use = async (input: z.infer<typeof this.inputSchema>) => {
+    const { auth, instanceUrl } = await resolveConnectionContext(input);
+    const vcsProvider = await createProvider(input.provider, instanceUrl);
     const file = await vcsProvider.getFileContent(auth, input.owner, input.repo, input.path, input.ref);
     
     // Decode base64 content if present
     if (file.content && file.encoding === 'base64') {
-      file.decodedContent = Buffer.from(file.content, 'base64').toString('utf-8');
+      return {
+        ...file,
+        decodedContent: Buffer.from(file.content, 'base64').toString('utf-8'),
+      };
     }
     
     return file;
-  }
+  };
 }
 
 export const getFileContentTool = new GetFileContentTool();

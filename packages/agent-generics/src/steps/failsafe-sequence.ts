@@ -7,7 +7,7 @@
  * factories after this core.
  */
 
-import { conditional, sequential, type Executor } from '@bitcode/execution-generics';
+import { sequential, type Executor } from '@bitcode/execution-generics';
 import { z } from 'zod';
 import {
   factoryPrepareConciseContext,
@@ -33,13 +33,13 @@ export function createFailsafeGenerationSequence<TIn, TOut>(
   options: FailsafeGenerationOptions<TOut>
 ): FailsafeGenerationSequence<TIn, TOut> {
   // Single neutral typed generation (Reason→Judge→StructuredOutput)
-  const thricified = createThricifiedGeneration<TIn, TOut>(options.outputSchema) as any;
-  const children = [thricified];
+  const thricified = createThricifiedGeneration<TIn, TOut>(options.outputSchema);
+  const children: Executor<any, any>[] = [thricified as Executor<any, any>];
 
   // Optional debug filtering via env or passed arrays
   // Thricified generation handles internal filtering of reason/judge/structured
   // via BITCODE_DEBUG_ONLY_GENERATIONS. Always include it here.
-  const gens = children as any[];
+  const gens = children;
 
   const onlyFails = (options.onlyFailsafes && options.onlyFailsafes.length)
     ? options.onlyFailsafes
@@ -50,13 +50,22 @@ export function createFailsafeGenerationSequence<TIn, TOut>(
         .filter(Boolean);
 
   // Compose the 3 failsafes with optional filtering
-  const core = sequential(
-    ...(!onlyFails.length || onlyFails.includes('prepare') ? [factoryPrepareConciseContext(gens)] : []),
-    ...(!onlyFails.length || onlyFails.includes('chunk') ? [factoryChunkThenSum(gens, { parallel: options.enableParallelChunks ?? true })] : []),
-    ...(!onlyFails.length || onlyFails.includes('stitch') ? [factoryStitchUntilComplete(gens, options.outputSchema)] : [])
-  );
+  const failsafeExecutors: Executor<any, any>[] = [];
+  if (!onlyFails.length || onlyFails.includes('prepare')) {
+    failsafeExecutors.push(factoryPrepareConciseContext(gens) as Executor<any, any>);
+  }
+  if (!onlyFails.length || onlyFails.includes('chunk')) {
+    failsafeExecutors.push(
+      factoryChunkThenSum(gens, { parallel: options.enableParallelChunks ?? true }) as Executor<any, any>
+    );
+  }
+  if (!onlyFails.length || onlyFails.includes('stitch')) {
+    failsafeExecutors.push(factoryStitchUntilComplete(gens, options.outputSchema) as Executor<any, any>);
+  }
 
-  return core as FailsafeGenerationSequence<TIn, TOut>;
+  const core = sequential<any>(...failsafeExecutors);
+
+  return core as unknown as FailsafeGenerationSequence<TIn, TOut>;
 }
 
 // Alias with a name that fully conveys the sequence purpose

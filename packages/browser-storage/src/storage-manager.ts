@@ -2,22 +2,22 @@
  * Storage manager with multi-tab synchronization
  */
 
-import { StorageEvent } from './types';
+import { StorageEvent as PersistedStorageEvent } from './types';
 
 export class StorageManager {
-  private readonly listeners: Map<string, Set<(event: StorageEvent<any>) => void>>;
-  private readonly storageListener: (event: StorageEvent) => void;
+  private readonly listeners: Map<string, Set<(event: PersistedStorageEvent<any>) => void>>;
+  private readonly storageListener: (event: globalThis.StorageEvent) => void;
 
   constructor() {
     this.listeners = new Map();
     
     // Handle storage events for multi-tab sync
-    this.storageListener = (event: StorageEvent) => {
+    this.storageListener = (event: globalThis.StorageEvent) => {
       if (!event.key) return;
       
       const callbacks = this.listeners.get(event.key);
       if (callbacks) {
-        const parsedEvent: StorageEvent<any> = {
+        const parsedEvent: PersistedStorageEvent<any> = {
           key: event.key,
           oldValue: event.oldValue ? JSON.parse(event.oldValue) : null,
           newValue: event.newValue ? JSON.parse(event.newValue) : null,
@@ -38,7 +38,7 @@ export class StorageManager {
    */
   subscribe<T>(
     key: string,
-    callback: (event: StorageEvent<T>) => void
+    callback: (event: PersistedStorageEvent<T>) => void
   ): () => void {
     if (!this.listeners.has(key)) {
       this.listeners.set(key, new Set());
@@ -64,7 +64,7 @@ export class StorageManager {
   emit<T>(key: string, oldValue: T | null, newValue: T | null): void {
     const callbacks = this.listeners.get(key);
     if (callbacks) {
-      const event: StorageEvent<T> = {
+      const event: PersistedStorageEvent<T> = {
         key,
         oldValue,
         newValue,

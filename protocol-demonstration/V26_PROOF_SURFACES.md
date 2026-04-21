@@ -978,6 +978,16 @@ Required closure posture:
   `uapi/tests/navPublicShell.test.tsx` and `uapi/tests/navWorkspaceChrome.test.tsx`
   proof surface:
   fifth-gate active-source shell and conversation-helper compile-health closure so live conversation persistence helpers, GitHub execution selectors, execution-log rendering, shell feature-flag aliases, and core Bitcode shell components now typecheck cleanly under the active `uapi` program instead of remaining blocked on implicit-any residue, missing selector bindings, or shell-prop mismatches
+- `{packages/api/src/vcs/github-service.ts,packages/artifacts/src/artifacts.ts,packages/browser-storage/src/{persisted-state.ts,storage-manager.ts},uapi/types/{supabase-js-compat.d.ts,react-compat.d.ts}}`
+  test coverage:
+  filtered `tsc` verification over the active `uapi` program for the repository-scope VCS, artifact-storage, and browser-storage corridor
+  proof surface:
+  fifth-gate repository-scope compile-health closure so active GitHub repository service wiring, artifact storage fallback persistence, and browser-storage synchronization helpers now typecheck cleanly under the active `uapi` program instead of remaining blocked on optional-token narrowing, missing Supabase storage typing, or DOM/react compatibility drift
+- `{packages/generic-tools/vcs/src/index.ts}`
+  test coverage:
+  filtered `tsc` verification over the active `uapi` program for the retained repository-scope VCS tool package
+  proof surface:
+  fifth-gate retained VCS tool-package compile-health closure so repository listing, pull-request, issue, comment, branch, and file helpers now resolve through the actual async Supabase/VCS connection abstractions instead of remaining blocked on stale connection-manager methods, stale connection shape assumptions, or `Tool.use` contract drift
 - `{uapi/app/application/{ApplicationCommandDeck.tsx,ApplicationClosureControlDeck.tsx,ApplicationTransactionDetailSurface.tsx,application-activity-history.ts,application-transaction-detail-snapshot.ts,application-transaction-detail.ts},uapi/tests/{applicationActivityHistory.test.ts,applicationTransactionDetailSnapshot.test.ts,applicationTransactionDetail.test.ts}}`
   test coverage:
   `uapi/tests/applicationActivityHistory.test.ts`, `uapi/tests/applicationTransactionDetailSnapshot.test.ts`, and `uapi/tests/applicationTransactionDetail.test.ts`
@@ -988,6 +998,16 @@ Required closure posture:
   `uapi/tests/applicationTransactionActivitySurface.test.tsx`, `uapi/tests/applicationActivityHistory.test.ts`, `uapi/tests/applicationTransactionDetailSnapshot.test.ts`, and `uapi/tests/applicationTransactionDetail.test.ts`
   proof surface:
   fifth-gate persisted-share-use reread closure so saved repository-anchor, give, need, fit, and supply-selection posture now survives into selected detail and the Bitcode activity tab when no live execution stream is available, keeping the Bitcode Terminal ledger readable as one state system instead of a shell-plus-ledger split
+- `{packages/agent-generics/src/{diagnostics/instrumentation.ts,steps/{failsafe-sequence.ts,thricified-generation.ts},substeps/factories.ts}}`
+  test coverage:
+  filtered `tsc` verification over the active `uapi` program for the retained agent-generics diagnostics/failsafe/thricified corridor
+  proof surface:
+  fifth-gate retained runtime-contract compile-health closure so the active agent-generics corridor no longer preserves duplicate diagnostic-context merges, same-shape `sequential(...)` typing assumptions across heteromorphic generation/failsafe executors, or non-storable `unknown` validation payload writes in the Bitcode execution path
+- `{packages/vcs/src/{connections.ts,provider.ts}}`
+  test coverage:
+  filtered `tsc` verification over the active `uapi` program for the retained VCS connection/provider corridor
+  proof surface:
+  fifth-gate retained repository-boundary compile-health closure so VCS connection persistence now normalizes JSON-backed `connection_data` before token/install-id access and writes, legacy installation auth maps back into canonical `VCSAuth`, and the abstract provider base no longer claims interface conformance it does not actually declare
 
 ## Module namespace proof note
 

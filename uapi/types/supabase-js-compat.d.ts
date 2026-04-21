@@ -51,6 +51,23 @@ declare module '@supabase/supabase-js' {
     from(table: string): any;
     rpc(fn: string, params?: Record<string, unknown>): Promise<any>;
     auth: SupabaseAuthClient;
+    storage: {
+      from(bucket: string): {
+        upload(
+          path: string,
+          body: unknown,
+          options?: Record<string, unknown>,
+        ): Promise<{
+          data: { path: string } | null;
+          error?: Error | null;
+        }>;
+        getPublicUrl(path: string): {
+          data: {
+            publicUrl: string;
+          };
+        };
+      };
+    };
   }
 
   export function createClient<T = unknown>(

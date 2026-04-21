@@ -13,7 +13,6 @@
  * pattern: resilient-provider
  */
 
-import { AbstractVCSProvider } from './interface';
 import { VCSProviderType, VCSError, VCSConfig } from './types';
 import { log } from '@bitcode/logger';
 
@@ -53,7 +52,7 @@ async function withTimeout<T>(
 /**
  * Standard VCS provider implementation
  */
-export abstract class VCSProvider implements AbstractVCSProvider {
+export abstract class VCSProvider {
   abstract readonly type: VCSProviderType;
   
   protected readonly clientId: string;
@@ -154,7 +153,7 @@ export abstract class VCSProvider implements AbstractVCSProvider {
   protected normalizeError(error: unknown, operation: string): Error {
     // Handle undefined or null errors
     if (!error) {
-      return new VCSError(`${operation} failed: No error details available`);
+      return new VCSError(`${operation} failed: No error details available`, 'OPERATION_FAILED');
     }
     
     const err = error as { message?: string; status?: number; response?: { status?: number } };

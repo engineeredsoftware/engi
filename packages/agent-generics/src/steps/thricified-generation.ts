@@ -26,14 +26,20 @@ export function createThricifiedGeneration<TIn, TOut>(outputSchema: z.ZodType<TO
     .filter(Boolean);
 
   const include = (name: string) => !only.length || only.includes(name);
-  const parts: any[] = [];
-  if (include('reason')) parts.push(genReason);
-  if (include('judge')) parts.push(genJudge);
-  if (include('structured_output')) parts.push(genStructured);
+  const parts: Executor<any, any>[] = [];
+  if (include('reason')) parts.push(genReason as Executor<any, any>);
+  if (include('judge')) parts.push(genJudge as Executor<any, any>);
+  if (include('structured_output')) parts.push(genStructured as Executor<any, any>);
   // Fallback: if filter produced none, run all to avoid silent no-ops
-  const seq = parts.length ? parts : [genReason, genJudge, genStructured];
+  const seq: Executor<any, any>[] = parts.length
+    ? parts
+    : [
+        genReason as Executor<any, any>,
+        genJudge as Executor<any, any>,
+        genStructured as Executor<any, any>
+      ];
 
-  const fn = sequential(...seq) as ThricifiedGeneration<TIn, TOut>;
+  const fn = sequential<any>(...seq) as unknown as ThricifiedGeneration<TIn, TOut>;
   // Mark for introspection
   (fn as any).__gen = 'thricified';
   return fn;

@@ -50,7 +50,7 @@ export async function saveArtifact(buffer: Uint8Array | string, name: string, co
       contentType,
     });
     if (error) throw error;
-    const { data: publicUrlData } = supabaseStorage.storage.from('artifacts').getPublicUrl(data.path);
+    const { data: publicUrlData } = supabaseStorage.storage.from('artifacts').getPublicUrl(data?.path || key);
     return { url: publicUrlData.publicUrl, size: bytes.length, name };
   }
 

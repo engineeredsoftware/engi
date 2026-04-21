@@ -176,7 +176,7 @@ export function logStepTrace(stepExec: Execution, stepName: string) {
   };
   scan(trace);
   if (DIAG_ENABLED) {
-    log('[trace] step summary', 'debug', { step: stepName, provider, model, summary, ...ctx });
+    log('[trace] step summary', 'debug', { ...ctx, step: stepName, provider, model, summary });
   }
   if (DIAG_TRACES && DIAG_FULL_TRACES) {
     let traceForLog: any = trace;
@@ -190,7 +190,7 @@ export function logStepTrace(stepExec: Execution, stepName: string) {
       traceForLog = JSON.parse(JSON.stringify(trace));
       prune(traceForLog);
     }
-    log('[trace] step full', 'debug', { step: stepName, trace: traceForLog, ...ctx });
+    log('[trace] step full', 'debug', { ...ctx, step: stepName, trace: traceForLog });
   }
 
   // Optional: write JSON sidecar for programmatic analysis

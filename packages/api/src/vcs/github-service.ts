@@ -158,7 +158,7 @@ export class GitHubService {
         });
         
         return {
-          accessToken: connectionData.installation_token,
+          accessToken: connectionData.installation_token!,
           expiresAt
         };
       }
@@ -426,6 +426,10 @@ export class GitHubService {
     });
     
     // List commits - provider now has this method
+    if (!provider.listCommits) {
+      throw new Error('GitHub provider does not support commit listing');
+    }
+
     return provider.listCommits(auth, owner, repo, options);
   }
 }
