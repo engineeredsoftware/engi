@@ -2,52 +2,52 @@
 
 import React, { useState, useEffect, ChangeEvent } from 'react';
 
-export interface FlexibleCreditSelectorProps {
-  /** Current numeric value of credits */
+export interface FlexibleBtdSelectorProps {
+  /** Current numeric value of BTD */
   value: number;
   /** Callback when value changes (after clamp) */
   onChange: (newValue: number) => void;
-  /** Slider minimum credits */
+  /** Slider minimum BTD amount */
   min: number;
-  /** Slider maximum credits */
+  /** Slider maximum BTD amount */
   max: number;
-  /** Cost per credit in USD */
-  perCreditCost: number;
-  /** Factor for approximating deliverables count */
-  deliverablesFactor?: number;
+  /** Cost per BTD in USD */
+  perBtdCost: number;
+  /** Factor for approximating asset pack count */
+  assetPacksFactor?: number;
   /** Disable typing into inputs (industrial fixed) */
   inputDisabled?: boolean;
   /** accent color 'emerald' or 'purple' */
   accent?: 'emerald' | 'purple';
-  /** Treat the slider value as USD instead of credits */
+  /** Treat the slider value as USD instead of BTD */
   valueIsUSD?: boolean;
   /** When valueIsUSD and Industrial tier selected */
   isIndustrial?: boolean;
-  /** Credits granted when industrial */
-  industrialCredits?: number;
+  /** BTD granted when industrial */
+  industrialBtd?: number;
   /** Advisory content displayed just above the slider track */
   advisoryContent?: React.ReactNode;
   /** Controls visibility & animation of the advisory */
   showAdvisory?: boolean;
 }
 
-export const FlexibleCreditSelector: React.FC<FlexibleCreditSelectorProps> = ({
+export const FlexibleBtdSelector: React.FC<FlexibleBtdSelectorProps> = ({
   value,
   onChange,
   min,
   max,
-  perCreditCost,
-  deliverablesFactor = 100,
+  perBtdCost,
+  assetPacksFactor = 100,
   accent = 'emerald',
   inputDisabled = false,
   valueIsUSD = false,
   isIndustrial = false,
-  industrialCredits,
+  industrialBtd,
   advisoryContent,
   showAdvisory = false,
 }) => {
   // Format helpers
-  const formatCredits = (val: number) => val?.toLocaleString() ?? '0';
+  const formatBtd = (val: number) => val?.toLocaleString() ?? '0';
   const formatPrice = (val: number) => {
     if (val == null || isNaN(val)) return '0';
     // Show no decimals when value represents whole dollars
@@ -55,17 +55,17 @@ export const FlexibleCreditSelector: React.FC<FlexibleCreditSelectorProps> = ({
     return withDecimals.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
   };
 
-  // Derive credits & price based on interpretation of `value`
-  const derivedCredits = valueIsUSD
+  // Derive BTD & price based on interpretation of `value`
+  const derivedBtd = valueIsUSD
     ? isIndustrial
-      ? industrialCredits || 0
-      : Math.round(value / perCreditCost)
+      ? industrialBtd || 0
+      : Math.round(value / perBtdCost)
     : value;
-  const derivedPrice = valueIsUSD ? value : value * perCreditCost;
+  const derivedPrice = valueIsUSD ? value : value * perBtdCost;
   const clamp = (val: number) => Math.max(min, Math.min(max, val));
 
   // Local input states for freeform typing
-  const [creditInput, setCreditInput] = useState<string>(() => formatCredits(derivedCredits));
+  const [btdInput, setBtdInput] = useState<string>(() => formatBtd(derivedBtd));
   const [priceInput, setPriceInput] = useState<string>(() => formatPrice(derivedPrice));
   // Track whether user entered an invalid (out-of-range / NaN) amount
   const [isInvalidInput, setIsInvalidInput] = useState<boolean>(false);
@@ -74,15 +74,14 @@ export const FlexibleCreditSelector: React.FC<FlexibleCreditSelectorProps> = ({
   const [isEditingPrice, setIsEditingPrice] = useState<boolean>(false);
 
   // Sync inputs when external value changes, but avoid overwriting during user edit
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => {
     if (!isEditingCredit) {
-      setCreditInput(formatCredits(derivedCredits));
+      setBtdInput(formatBtd(derivedBtd));
     }
     if (!isEditingPrice) {
       setPriceInput(formatPrice(derivedPrice));
     }
-  }, [derivedCredits, derivedPrice, isEditingCredit, isEditingPrice]);
+  }, [derivedBtd, derivedPrice, isEditingCredit, isEditingPrice]);
 
   // Handle slider moves
   const handleSliderChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -92,9 +91,9 @@ export const FlexibleCreditSelector: React.FC<FlexibleCreditSelectorProps> = ({
     // Update display values
     if (valueIsUSD) {
       if (isIndustrial) {
-        setCreditInput(formatCredits(industrialCredits || 0));
+        setBtdInput(formatBtd(industrialBtd || 0));
       } else {
-        setCreditInput(formatCredits(Math.round(clamped / perCreditCost)));
+        setBtdInput(formatBtd(Math.round(clamped / perBtdCost)));
       }
       setPriceInput(formatPrice(clamped));
       setIsInvalidInput(false);
@@ -102,19 +101,19 @@ export const FlexibleCreditSelector: React.FC<FlexibleCreditSelectorProps> = ({
       setIsEditingCredit(false);
       setIsEditingPrice(false);
     } else {
-      setCreditInput(formatCredits(clamped));
-      setPriceInput(formatPrice(clamped * perCreditCost));
+      setBtdInput(formatBtd(clamped));
+      setPriceInput(formatPrice(clamped * perBtdCost));
     }
   };
 
-  // Freeform credit input when slider represents USD
-  const handleCreditInputChange = (e: ChangeEvent<HTMLInputElement>) => {
+  // Freeform BTD input when slider represents USD
+  const handleBtdInputChange = (e: ChangeEvent<HTMLInputElement>) => {
     if (isIndustrial) return;
     const txt = e.target.value;
-    setCreditInput(txt);
+    setBtdInput(txt);
     const parsed = parseInt(txt.replace(/,/g, ''), 10);
     if (!isNaN(parsed)) {
-      const usd = Math.round(parsed * perCreditCost);
+      const usd = Math.round(parsed * perBtdCost);
       if (usd >= min && usd <= max) {
         onChange(usd);
         setPriceInput(formatPrice(usd));
@@ -127,17 +126,17 @@ export const FlexibleCreditSelector: React.FC<FlexibleCreditSelectorProps> = ({
     }
   };
 
-  const handleCreditInputBlur = () => {
+  const handleBtdInputBlur = () => {
     if (isIndustrial) return;
-    const parsed = parseInt(creditInput.replace(/,/g, ''), 10);
+    const parsed = parseInt(btdInput.replace(/,/g, ''), 10);
     if (isNaN(parsed)) {
-      setCreditInput(formatCredits(derivedCredits));
+      setBtdInput(formatBtd(derivedBtd));
       setIsInvalidInput(false);
     } else {
-      const usd = Math.round(parsed * perCreditCost);
+      const usd = Math.round(parsed * perBtdCost);
       const clamped = clamp(usd);
       onChange(clamped);
-      setCreditInput(formatCredits(Math.round(clamped / perCreditCost)));
+      setBtdInput(formatBtd(Math.round(clamped / perBtdCost)));
       setPriceInput(formatPrice(clamped));
       setIsInvalidInput(false);
     }
@@ -153,7 +152,7 @@ export const FlexibleCreditSelector: React.FC<FlexibleCreditSelectorProps> = ({
       const usd = Math.round(parsed);
       if (usd >= min && usd <= max) {
         onChange(usd);
-        setCreditInput(formatCredits(Math.round(usd / perCreditCost)));
+        setBtdInput(formatBtd(Math.round(usd / perBtdCost)));
         setIsInvalidInput(false);
       } else {
         setIsInvalidInput(true);
@@ -173,7 +172,7 @@ export const FlexibleCreditSelector: React.FC<FlexibleCreditSelectorProps> = ({
       const usd = Math.round(parsed);
       const clamped = clamp(usd);
       onChange(clamped);
-      setCreditInput(formatCredits(Math.round(clamped / perCreditCost)));
+      setBtdInput(formatBtd(Math.round(clamped / perBtdCost)));
       setPriceInput(formatPrice(clamped));
     }
   };
@@ -217,7 +216,7 @@ export const FlexibleCreditSelector: React.FC<FlexibleCreditSelectorProps> = ({
       </div>
       {/* Wrapper for forms + info so card has 3 flex children */}
       <div className="flex flex-col items-center gap-4">
-        {/* First row: Credits | Dollars with vertical bar */}
+        {/* First row: $BTD | Dollars with vertical bar */}
         <div className="flex flex-col laptop:flex-row items-baseline justify-center w-full px-4 laptop:px-6">
           {/* Price FIRST */}
           <div className="flex items-baseline justify-center font-extrabold gap-x-2">
@@ -256,22 +255,22 @@ export const FlexibleCreditSelector: React.FC<FlexibleCreditSelectorProps> = ({
             />
           </div>
 
-          {/* Credits SECOND */}
+          {/* BTD SECOND */}
           <div className="flex items-baseline justify-center font-extrabold gap-x-2">
             <span
               className={`text-xl laptop:text-2xl font-medium drop-shadow-[0_0_6px_rgba(16,185,129,0.8)] ${accent === 'purple' ? 'text-purple-300' : 'text-emerald-300'
                 }`}
             >
-              Credits
+              $BTD
             </span>
             <input
               type="text"
-              value={creditInput}
+              value={btdInput}
               onFocus={() => setIsEditingCredit(true)}
-              onChange={!isIndustrial ? handleCreditInputChange : undefined}
+              onChange={!isIndustrial ? handleBtdInputChange : undefined}
               onBlur={e => {
                 if (!isIndustrial) {
-                  handleCreditInputBlur();
+                  handleBtdInputBlur();
                   setIsEditingCredit(false);
                 }
               }}
@@ -282,13 +281,13 @@ export const FlexibleCreditSelector: React.FC<FlexibleCreditSelectorProps> = ({
           </div>
         </div>
 
-        {/* Second row: price per credit + deliverables */}
+        {/* Second row: price per BTD + asset packs */}
         <div className="flex flex-col laptop:flex-row items-center justify-center gap-6 laptop:items-center">
           <div
             className="plan-value text-lg laptop:text-xl font-medium leading-tight flex items-center"
             style={{ marginBottom: 0 }}
           >
-            ${perCreditCost.toFixed(2)} per credit
+            ${perBtdCost.toFixed(2)} per BTD
           </div>
           <div
             className={`plan-deliverables inline-flex items-center w-fit px-3 py-1 rounded-md gap-1 text-lg laptop:text-xl ${accent === 'purple'
@@ -296,8 +295,8 @@ export const FlexibleCreditSelector: React.FC<FlexibleCreditSelectorProps> = ({
               : 'bg-emerald-500/10 text-emerald-300'
               }`}
           >
-            <span>≈ {Math.round(derivedCredits / deliverablesFactor).toLocaleString()} deliverables</span>
-            <div className="tooltip-icon text-white/70" title="100 Credits/Deliverable">ⓘ</div>
+            <span>≈ {Math.round(derivedBtd / assetPacksFactor).toLocaleString()} asset packs</span>
+            <div className="tooltip-icon text-white/70" title="100 BTD per asset pack baseline">ⓘ</div>
           </div>
         </div> {/* end info row */}
       </div> {/* end wrapper */}
@@ -305,4 +304,4 @@ export const FlexibleCreditSelector: React.FC<FlexibleCreditSelectorProps> = ({
   );
 };
 // Default export for convenience
-export default FlexibleCreditSelector;
+export default FlexibleBtdSelector;

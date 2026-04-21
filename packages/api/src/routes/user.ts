@@ -104,10 +104,10 @@ export const updateProfile = traceRoute('/user/profile', async (request: NextReq
 });
 
 /**
- * GET /api/user/credits
- * Get user credit balance and recent usage
+ * GET /api/user/btd
+ * Get user BTD balance and recent usage
  */
-export const getCredits = traceRoute('/user/credits', async (request: NextRequest) => {
+export const getBtdBalance = traceRoute('/user/btd', async (request: NextRequest) => {
   try {
     const supabase = await createClient();
     const { data: { user }, error: authError } = await supabase.auth.getUser();
@@ -125,20 +125,21 @@ export const getCredits = traceRoute('/user/credits', async (request: NextReques
 
     return createJsonResponse({
       balance,
+      btdBalance: balance,
       recentUsage: usage
     });
 
   } catch (error) {
-    log('[user/credits] Error', 'error', { error });
+    log('[user/btd] Error', 'error', { error });
     return createErrorResponse(error);
   }
 });
 
 /**
- * POST /api/user/credits
- * Add credits to user account (admin only)
+ * POST /api/user/btd
+ * Add BTD to user account (admin only)
  */
-export const addCredits = traceRoute('/user/credits', async (request: NextRequest) => {
+export const addBtdBalance = traceRoute('/user/btd', async (request: NextRequest) => {
   try {
     const supabase = await createClient();
     const { data: { user }, error: authError } = await supabase.auth.getUser();
@@ -160,25 +161,26 @@ export const addCredits = traceRoute('/user/credits', async (request: NextReques
       return createJsonResponse({ error: 'User ID and amount required' }, 400);
     }
 
-    // Add credits
+    // Add BTD using the existing balance storage model until the underlying
+    // persistence layer is renamed.
     const newBalance = await userCredits.addCredits(
       userId, 
       amount, 
-      description || `Admin credit adjustment by ${user.id}`
+      description || `Admin BTD adjustment by ${user.id}`
     );
 
     // Track event
-    await sendServerEvent('admin_credits_added', {
+    await sendServerEvent('admin_btd_added', {
       admin_id: user.id,
       target_user_id: userId,
       amount,
       new_balance: newBalance
     });
 
-    return createJsonResponse({ balance: newBalance });
+    return createJsonResponse({ balance: newBalance, btdBalance: newBalance });
 
   } catch (error) {
-    log('[user/credits] Add error', 'error', { error });
+    log('[user/btd] Add error', 'error', { error });
     return createErrorResponse(error);
   }
 });
@@ -445,6 +447,7 @@ export const getUsage = traceRoute('/user/usage', async (request: NextRequest) =
 
     return createJsonResponse({
       period,
+      btdSpent: creditUsage.total,
       creditsUsed: creditUsage.total,
       dailyStats: creditUsage.daily
     });

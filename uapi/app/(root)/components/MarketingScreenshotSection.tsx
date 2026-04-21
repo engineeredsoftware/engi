@@ -66,14 +66,14 @@ const MarketingScreenshotSection: React.FC = () => {
       description: 'Quickly connect your repo and configure Bitcode in the GitHub marketplace.'
     },
     {
-      id: 'setup-credits',
+      id: 'setup-btd',
       src: '/screenshots/setup-credits.png',
-      alt: 'Add credits',
+      alt: 'Acquire BTD',
       revealingSoon: true,
-      description: 'Fund your Bitcode account with build credits.'
+      description: 'Fund your Bitcode account with $BTD for protocol activity.'
     },
     {
-      id: 'setup-credits-balance',
+      id: 'setup-btd-balance',
       src: '/screenshots/setup-credits-balance.png',
       alt: 'Credits balance widget',
       revealingSoon: true,
@@ -121,12 +121,12 @@ const MarketingScreenshotSection: React.FC = () => {
       description: 'Stay in the loop with subtle Dock notifications.'
     },
     //{
-    //id: 'credits-tracker',
+    //id: 'btd-tracker',
     //src: '/screenshots/credits-tracker-widget.png',
-    //alt: 'Credits tracker',
+    //alt: 'BTD tracker',
     //type: 'component',
     //category: 'setup_steps',
-    //description: 'Real-time view of your remaining agent credits.'
+    //description: 'Real-time view of your remaining $BTD balance.'
     //},
     //{
     //id: 'deliverable-summary',

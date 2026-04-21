@@ -5,7 +5,7 @@ import { createClient } from '@bitcode/supabase/ssr/client';
 import MarketingSectionWrapper from './MarketingSectionWrapper';
 // Note: bundle presets removed from the UI – only dynamic Flexible pricing remains.
 import { ProcessingIndicator } from '@/components/base/bitcode/indicators/ProcessingIndicator';
-import CreditsPrices from '@/components/base/bitcode/credits/CreditsPrices';
+import BTDPrices from '@/components/base/bitcode/btd/BTDPrices';
 
 const MarketingPricingSection: React.FC = () => {
   // Supabase client for auth check
@@ -15,23 +15,23 @@ const MarketingPricingSection: React.FC = () => {
    * -------------------------------------------------------------------------
    * Dynamic slider limits for the Flexible plan
    * -------------------------------------------------------------------------
-   * We determine the minimum / maximum number of credits that can be selected
+   * We determine the minimum / maximum amount of $BTD that can be selected
    * based on the next smaller and larger *available* bundles. This ensures the
-   * slider only covers the range where choosing the Flexible (per-credit)
+   * slider only covers the range where choosing the Flexible (per-BTD)
    * option still makes economic sense.
    */
   // Retain bundle definitions for potential future cross-reference but we no
   // longer rely on them for the marketing pricing section layout.
-  // Flexible plan per-credit cost
+  // Flexible plan per-BTD cost
   /* ------------------------------------------------------------------
-   * Dynamic per-credit pricing
+   * Dynamic per-BTD pricing
    * ------------------------------------------------------------------
    * We support two price tiers for the single, unified Flexible plan:
-   *   – Flexible  : $0.25 per credit  (default)
-   *   – Industrial: $0.22 per credit  (discount once you buy ≥ 111,111 credits
+   *   – Flexible  : $0.25 per BTD  (default)
+   *   – Industrial: $0.22 per BTD  (discount once you buy ≥ 111,111 BTD
    *                                     or equivalently hit $5,555,555)
    * The UI should seamlessly switch between the two as the user adjusts the
-   * credit amount and keep everything – price field, slider, etc – in sync.
+   * BTD amount and keep everything – price field, slider, etc – in sync.
    */
 
   const FLEXIBLE_PRICE_PER_CREDIT = 0.25;
@@ -41,7 +41,7 @@ const MarketingPricingSection: React.FC = () => {
    * Pricing / slider math helpers
    * ------------------------------------------------------------------ */
   const MAX_TOTAL_USD = 10_000;
-  // Credits where Flexible pricing hits exactly $10k
+  // BTD where Flexible pricing hits exactly $10k
   const FLEXIBLE_MAX_CREDITS = Math.floor(MAX_TOTAL_USD / FLEXIBLE_PRICE_PER_CREDIT); // 40 000
   // Industrial bundle size that also maps to ~$10k
   const INDUSTRIAL_CREDITS = Math.floor(MAX_TOTAL_USD / INDUSTRIAL_PRICE_PER_CREDIT); // 45 454
@@ -51,7 +51,7 @@ const MarketingPricingSection: React.FC = () => {
 
   const isIndustrialTier = spendUSD === MAX_TOTAL_USD;
 
-  const perCreditCost = isIndustrialTier ? INDUSTRIAL_PRICE_PER_CREDIT : FLEXIBLE_PRICE_PER_CREDIT;
+  const perBtdCost = isIndustrialTier ? INDUSTRIAL_PRICE_PER_CREDIT : FLEXIBLE_PRICE_PER_CREDIT;
   // Purchase flow state
   const [purchasingPlan, setPurchasingPlan] = useState<string | null>(null);
   const [purchaseError, setPurchaseError] = useState<string | null>(null);
@@ -76,7 +76,7 @@ const MarketingPricingSection: React.FC = () => {
     };
   }, [supabase]);
 
-  const handlePurchase = async (planId: string, credits: number, price: number) => {
+  const handlePurchase = async (planId: string, btdAmount: number, price: number) => {
     // Initialize purchase, clear errors, set loading
     setPurchaseError(null);
     setPurchasingPlan(planId);
@@ -100,7 +100,7 @@ const MarketingPricingSection: React.FC = () => {
       const res = await fetch('/api/create-checkout-session', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ planId, customCredits: ['flexible', 'industrial', 'live_day', 'ultra'].includes(planId) ? credits : undefined }),
+        body: JSON.stringify({ planId, customCredits: ['flexible', 'industrial', 'live_day', 'ultra'].includes(planId) ? btdAmount : undefined }),
       });
       const data = await res.json();
       if (data.url) {
@@ -146,17 +146,17 @@ const MarketingPricingSection: React.FC = () => {
             <span className="block">Edge</span>
           </h2>
           <p className={subtitleClass}>
-            Agent Credits ignite self-optimizing, no-code AI—each credit fuels cycles of learning and refinement that compound insight, efficiency, and competitive advantage at enterprise scale.
+            $BTD powers self-optimizing, no-code AI exchange activity. Each share compounds learning, refinement, settlement, and reusable technical intelligence at enterprise scale.
           </p>
           {/* Pricing card */}
           <div className="mb-12">
-            <CreditsPrices
+            <BTDPrices
               selectedPlan={selectedPlan}
               onSelectPlan={setSelectedPlan}
-              customCredits={spendUSD}
-              onChangeCustomCredits={setSpendUSD}
+              customBtd={spendUSD}
+              onChangeCustomBtd={setSpendUSD}
               onPurchase={handlePurchase}
-              perCreditCost={perCreditCost}
+              perBtdCost={perBtdCost}
               isSignedIn={isSignedIn}
             />
           </div>

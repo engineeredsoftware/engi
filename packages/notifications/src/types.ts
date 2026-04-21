@@ -3,13 +3,13 @@
  *
  * NOTE:  This file purposefully lives inside the existing
  * `@bitcode/notifications` package so consumers can simply
- *   import { NotificationType, NotificationChannel, RunEvent, CreditEvent } from '@bitcode/email';
+ *   import { NotificationType, NotificationChannel, RunEvent, BtdBalanceEvent } from '@bitcode/notifications';
  * without having to learn yet-another alias.
  */
 
 // ---------------------------------------------------------------------------
 // High-level domain events – emitted by deliverable / measure services or
-// credit accounting code.  These are *not* persisted; they are fanned-out by
+// BTD balance accounting code.  These are *not* persisted; they are fanned-out by
 // the Notification Worker into one-or-many Notification records.
 // ---------------------------------------------------------------------------
 
@@ -24,16 +24,16 @@ export interface RunEvent {
   createdAt: string; // ISO-string for convenience
 }
 
-export interface CreditEvent {
-  kind: 'CREDIT';
-  type: 'LOW_BALANCE' | 'OUT_OF_CREDITS';
+export interface BtdBalanceEvent {
+  kind: 'BTD_BALANCE';
+  type: 'LOW_BALANCE' | 'ZERO_BALANCE';
   userId: string;
   balance: number;
   threshold?: number; // only present for low balance
   createdAt: string;
 }
 
-export type DomainEvent = RunEvent | CreditEvent;
+export type DomainEvent = RunEvent | BtdBalanceEvent;
 
 // ---------------------------------------------------------------------------
 // Notification records – persisted in the `notifications` table so that the
@@ -45,8 +45,8 @@ export type NotificationType =
   | 'RUN_START'
   | 'RUN_SUCCESS'
   | 'RUN_ERROR'
-  | 'LOW_CREDITS'
-  | 'OUT_OF_CREDITS';
+  | 'LOW_BTD_BALANCE'
+  | 'ZERO_BTD_BALANCE';
 
 export type NotificationChannel = 'in_app' | 'email' | 'slack' | 'sms';
 

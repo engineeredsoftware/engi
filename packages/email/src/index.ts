@@ -3,6 +3,6 @@ export { TeamEmailService, teamEmailService } from './services/teamEmailService'
 export type { 
   InvitationEmailData, 
   WelcomeEmailData, 
-  CreditAllocationEmailData,
+  BtdAllocationEmailData,
   TeamNotificationEmailData 
 } from './types'

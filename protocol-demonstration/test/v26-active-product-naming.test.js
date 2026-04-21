@@ -570,6 +570,26 @@ test('active root spec family is Bitcode-named and legacy spec family is preserv
     false,
     `${new URL('../../.engi', import.meta.url).pathname} should not remain as an active root artifact namespace`
   );
+  assert.equal(
+    existsSync(new URL('../../uapi/components/base/bitcode/credits', import.meta.url)),
+    false,
+    `${new URL('../../uapi/components/base/bitcode/credits', import.meta.url).pathname} should not remain as an active Bitcode UI directory`
+  );
+  assert.equal(
+    existsSync(new URL('../../uapi/components/base/bitcode/btd/btd-tracker.tsx', import.meta.url)),
+    true,
+    `${new URL('../../uapi/components/base/bitcode/btd/btd-tracker.tsx', import.meta.url).pathname} should exist under canonical BTD naming`
+  );
+  assert.equal(
+    existsSync(new URL('../../uapi/components/base/bitcode/btd/BTDPrices.tsx', import.meta.url)),
+    true,
+    `${new URL('../../uapi/components/base/bitcode/btd/BTDPrices.tsx', import.meta.url).pathname} should exist under canonical BTD naming`
+  );
+  assert.equal(
+    existsSync(new URL('../../uapi/components/base/bitcode/btd/FlexibleBtdSelector.tsx', import.meta.url)),
+    true,
+    `${new URL('../../uapi/components/base/bitcode/btd/FlexibleBtdSelector.tsx', import.meta.url).pathname} should exist under canonical BTD naming`
+  );
 });
 const genericVcsReadmeSource = readFileSync(new URL('../../packages/generic-tools/vcs/README.md', import.meta.url), 'utf8');
 const genericTaskComprehensionReadmeSource = readFileSync(new URL('../../packages/generic-tools/task-comprehension/README.md', import.meta.url), 'utf8');

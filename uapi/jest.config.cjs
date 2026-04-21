@@ -101,7 +101,17 @@ module.exports = {
     '<rootDir>/tests/deliverablesStreamRoute.test.ts',
     '<rootDir>/tests/deliverablesHistoryRoute.test.ts',
     '<rootDir>/tests/RunDetailsView.mapping.test.tsx',
-    '<rootDir>/tests/usePipelineExecution.test.tsx'
+    '<rootDir>/tests/usePipelineExecution.test.tsx',
+    // Fifth-gate BTD and auxillaries coverage
+    '<rootDir>/tests/userDataRoute.test.ts',
+    '<rootDir>/tests/orbitalsBTDPane.test.tsx',
+    '<rootDir>/tests/btdStep.static.test.tsx',
+    '<rootDir>/tests/btdStep.initialFlow.test.tsx',
+    '<rootDir>/tests/btdStep.test.tsx',
+    '<rootDir>/tests/btdStep.promoFlow.test.tsx',
+    '<rootDir>/tests/btdStep.integration.test.tsx',
+    '<rootDir>/tests/navPublicShell.test.tsx',
+    '<rootDir>/tests/navWorkspaceChrome.test.tsx'
   ],
   // Setup mocks and global configurations
   // Setup module mocks and globals before tests
@@ -113,8 +123,6 @@ module.exports = {
     '<rootDir>/tests/e2e/',
     // 'pipeline.*\.test\.[jt]sx?$', // allow pipelineDiscoveryGetAI Documents.test.ts
     'setupDeliverablesAgents.test.[jt]sx?$',
-    '.*Step.test.[jt]sx?$',
-    '.*.integration.test.[jt]sx?$',
     'fetchAI DocumentsAgent.test.[jt]sx?$',
     'deliverables.test.[jt]sx?$',
   ],

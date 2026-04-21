@@ -1,15 +1,16 @@
 "use client";
+/* eslint-disable react/no-multi-comp */
 
 import React from 'react';
-import FlexibleCreditSelector from './FlexibleCreditSelector';
+import FlexibleBtdSelector from './FlexibleBtdSelector';
 
-export interface CreditsPricesProps {
+export interface BTDPricesProps {
   selectedPlan: string | null;
   onSelectPlan: (planId: string) => void;
-  customCredits: number;
-  onChangeCustomCredits: (credits: number) => void;
-  onPurchase: (planId: string, credits: number, price: number) => void;
-  perCreditCost: number;
+  customBtd: number;
+  onChangeCustomBtd: (btdAmount: number) => void;
+  onPurchase: (planId: string, btdAmount: number, price: number) => void;
+  perBtdCost: number;
   /** Whether the user is signed in; disables purchase click if false */
   isSignedIn: boolean;
 
@@ -48,13 +49,13 @@ const SideInfoCard: React.FC<SideCardProps> = ({ title, accent, icon: Icon, chil
   </div>
 );
 
-export const CreditsPrices: React.FC<CreditsPricesProps> = ({
+export const BTDPrices: React.FC<BTDPricesProps> = ({
   selectedPlan,
   onSelectPlan,
-  customCredits,
-  onChangeCustomCredits,
+  customBtd,
+  onChangeCustomBtd,
   onPurchase,
-  perCreditCost,
+  perBtdCost,
   isSignedIn,
   centerFirst = false,
 }) => {
@@ -65,7 +66,7 @@ export const CreditsPrices: React.FC<CreditsPricesProps> = ({
   const INDUSTRIAL_PRICE_PER_CREDIT = 0.22;
   const MAX_TOTAL_USD = 10_000;
 
-  // Credits when slider at max (industrial)
+  // BTD when slider at max (industrial)
   const INDUSTRIAL_CREDITS = Math.floor(MAX_TOTAL_USD / INDUSTRIAL_PRICE_PER_CREDIT); // 45 454
 
   // Slider bounds in USD now
@@ -73,12 +74,12 @@ export const CreditsPrices: React.FC<CreditsPricesProps> = ({
   const sliderMaxUSD = MAX_TOTAL_USD;
 
   // value prop is spendUSD passed from parent
-  const spendUSD = customCredits; // rename conceptually but maintain variable to limit edits
+  const spendUSD = customBtd;
 
   const isIndustrial = spendUSD === sliderMaxUSD;
 
   // Derived values
-  const creditsFromSpend = isIndustrial
+  const btdFromSpend = isIndustrial
     ? INDUSTRIAL_CREDITS
     : Math.round(spendUSD / FLEXIBLE_PRICE_PER_CREDIT);
 
@@ -89,21 +90,21 @@ export const CreditsPrices: React.FC<CreditsPricesProps> = ({
 
   // Subtitle beneath heading changes based on tier
   const segmentText = isIndustrial
-    ? 'Save with discounted credits in bulk — best value at scale'
-    : 'Scale dynamically with transparent, per-credit pricing';
+    ? 'Save with discounted $BTD in bulk — best value at scale'
+    : 'Scale dynamically with transparent, per-BTD pricing';
 
   /* ------------------------------------------------------------------
    * Over-payment advisory logic
    * ------------------------------------------------------------------ */
   const flexibleCostUSD = spendUSD; // already dollars
-  const industrialEquivalentCostUSD = creditsFromSpend * INDUSTRIAL_PRICE_PER_CREDIT;
+  const industrialEquivalentCostUSD = btdFromSpend * INDUSTRIAL_PRICE_PER_CREDIT;
   const savingsUSD = flexibleCostUSD - industrialEquivalentCostUSD;
 
   // Show advisory when user is still on Flexible tier and subtotal is ≥ 95% of $10k
   const showAdvisory = !isIndustrial && flexibleCostUSD >= MAX_TOTAL_USD * 0.95;
 
   const handleJumpToIndustrial = () => {
-    onChangeCustomCredits(MAX_TOTAL_USD); // sets slider to max (Industrial)
+    onChangeCustomBtd(MAX_TOTAL_USD); // sets slider to max (Industrial)
   };
 
   // Build advisory when visible
@@ -120,7 +121,7 @@ export const CreditsPrices: React.FC<CreditsPricesProps> = ({
       >
         Industrial
       </button>{' '}
-      pricing, {creditsFromSpend.toLocaleString()} credits ≈$
+      pricing, {btdFromSpend.toLocaleString()} $BTD ≈$
       {industrialEquivalentCostUSD.toLocaleString('en-US', { maximumFractionDigits: 0 })}, saving you ≈$
       {savingsUSD.toLocaleString('en-US', { maximumFractionDigits: 0 })} at bulk.
     </>
@@ -155,7 +156,7 @@ export const CreditsPrices: React.FC<CreditsPricesProps> = ({
             isSignedIn
               ? () => {
                 onSelectPlan(planId);
-                onPurchase(planId, creditsFromSpend, spendUSD);
+                onPurchase(planId, btdFromSpend, spendUSD);
               }
               : undefined
           }
@@ -184,17 +185,17 @@ export const CreditsPrices: React.FC<CreditsPricesProps> = ({
           </div>
 
           {/* Forms & details */}
-          <FlexibleCreditSelector
+          <FlexibleBtdSelector
             min={sliderMinUSD}
             max={sliderMaxUSD}
             value={spendUSD}
-            onChange={onChangeCustomCredits}
-            perCreditCost={perCreditCost}
+            onChange={onChangeCustomBtd}
+            perBtdCost={perBtdCost}
             accent={accentColor}
             inputDisabled={false}
             valueIsUSD
             isIndustrial={isIndustrial}
-            industrialCredits={INDUSTRIAL_CREDITS}
+            industrialBtd={INDUSTRIAL_CREDITS}
             advisoryContent={advisoryContent}
             showAdvisory={showAdvisory}
           />
@@ -215,4 +216,4 @@ export const CreditsPrices: React.FC<CreditsPricesProps> = ({
   );
 };
 
-export default CreditsPrices;
+export default BTDPrices;

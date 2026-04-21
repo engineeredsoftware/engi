@@ -22,7 +22,7 @@ jest.mock('@/components/base/bitcode/auth/AuthProvider', () => ({
 }));
 
 jest.mock('@/hooks/useUserData', () => ({
-  useUserData: () => ({ credits: 0 }),
+  useUserData: () => ({ btdBalance: 0, credits: 0 }),
 }));
 
 jest.mock('@/app/auxillaries/components/AuxillariesProvider', () => ({
@@ -47,8 +47,8 @@ jest.mock('@/components/base/bitcode/layout/NavBrand', () => ({
   ),
 }));
 
-jest.mock('@/components/base/bitcode/credits/credits-tracker', () => ({
-  CreditsTracker: () => <div>Credits</div>,
+jest.mock('@/components/base/bitcode/btd/btd-tracker', () => ({
+  BTDTracker: () => <div>BTD</div>,
 }));
 
 jest.mock('@/components/base/bitcode/notifications/NotificationsWidget', () => ({

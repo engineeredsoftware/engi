@@ -2,7 +2,7 @@ import { createClient } from '@supabase/supabase-js'
 import type { 
   InvitationEmailData, 
   WelcomeEmailData, 
-  CreditAllocationEmailData, 
+  BtdAllocationEmailData, 
   EmailResponse,
   EmailServiceConfig 
 } from '../types'
@@ -105,18 +105,18 @@ export class InvitationEmailService {
   }
 
   /**
-   * Send credit allocation notification email
+   * Send BTD allocation notification email
    */
-  async sendCreditAllocationEmail(data: CreditAllocationEmailData): Promise<EmailResponse> {
+  async sendBtdAllocationEmail(data: BtdAllocationEmailData): Promise<EmailResponse> {
     try {
-      const { data: result, error } = await this.supabase.functions.invoke('send-credit-allocation-email', {
+      const { data: result, error } = await this.supabase.functions.invoke('send-btd-allocation-email', {
         body: {
           to: data.email,
-          subject: `Credit allocation update - ${data.organizationName}`,
+          subject: `BTD allocation update - ${data.organizationName}`,
           templateData: {
             memberName: data.memberName,
             organizationName: data.organizationName,
-            creditAmount: data.creditAmount.toLocaleString(),
+            btdAmount: data.btdAmount.toLocaleString(),
             reason: data.reason,
             dashboardUrl: data.dashboardUrl,
             appUrl: this.config.appUrl
@@ -125,7 +125,7 @@ export class InvitationEmailService {
       })
 
       if (error) {
-        console.error('Error sending credit allocation email:', error)
+        console.error('Error sending BTD allocation email:', error)
         return { success: false, error: error.message }
       }
 
@@ -134,7 +134,7 @@ export class InvitationEmailService {
         messageId: result?.messageId 
       }
     } catch (error: any) {
-      console.error('Failed to send credit allocation email:', error)
+      console.error('Failed to send BTD allocation email:', error)
       return { 
         success: false, 
         error: error.message || 'Unknown error occurred' 

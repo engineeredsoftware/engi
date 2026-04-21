@@ -7,41 +7,41 @@ import { createClient } from '@bitcode/supabase/ssr/client';
 import Logo from '@/components/base/bitcode/branding/logo';
 import { motion, AnimatePresence } from 'framer-motion';
 
-interface CreditsTrackerProps {
-  credits: number;
+interface BTDTrackerProps {
+  btdBalance: number;
 }
 
-export function CreditsTracker({ credits }: CreditsTrackerProps) {
-  const [displayedCredits, setDisplayedCredits] = useState(credits);
+export function BTDTracker({ btdBalance }: BTDTrackerProps) {
+  const [displayedBtdBalance, setDisplayedBtdBalance] = useState(btdBalance);
   const [isHovered, setIsHovered] = useState(false);
   const [isAnimating, setIsAnimating] = useState(false);
   // Track buy action state: idle, loading, success, error
   const [buyState, setBuyState] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
   // Show Buy More only on hover
   const shouldShowBuyNow = isHovered;
-  // Measure max text width of "Buy More" vs "XXX credits" for static sizing
+  // Measure max text width of "Buy More" vs "XXX $BTD" for static sizing
   const buyRef = useRef<HTMLSpanElement>(null);
-  const creditsRef = useRef<HTMLSpanElement>(null);
+  const btdRef = useRef<HTMLSpanElement>(null);
   const [textWidth, setTextWidth] = useState(0);
   useLayoutEffect(() => {
-    if (buyRef.current && creditsRef.current) {
+    if (buyRef.current && btdRef.current) {
       const buyW = buyRef.current.offsetWidth;
-      const creditsW = creditsRef.current.offsetWidth;
-      setTextWidth(Math.ceil(Math.max(buyW, creditsW)));
+      const btdW = btdRef.current.offsetWidth;
+      setTextWidth(Math.ceil(Math.max(buyW, btdW)));
     }
-  }, [displayedCredits]);
+  }, [displayedBtdBalance]);
   // Compute static container min-width: icon + gap + text + horizontal paddings
   const paddingPx = 24; // px-6
   const iconWidthPx = 16; // w-4
   const gapPx = 10; // gap-x-2.5
   const minWidth = iconWidthPx + gapPx + textWidth + paddingPx * 2;
 
-  // Animate credit changes
+  // Animate BTD balance changes
   useEffect(() => {
-    if (credits !== displayedCredits) {
-      setDisplayedCredits(credits);
+    if (btdBalance !== displayedBtdBalance) {
+      setDisplayedBtdBalance(btdBalance);
     }
-  }, [credits]);
+  }, [btdBalance, displayedBtdBalance]);
 
   // Ref to manage hover-end timeout
   const hoverEndTimeoutRef = useRef<number>();
@@ -147,7 +147,7 @@ export function CreditsTracker({ credits }: CreditsTrackerProps) {
   }, [isHovered]);
 
   /**
-   * Handle Buy More click: check auth, update credits, then open Stripe Checkout
+   * Handle Buy More click: check auth, update BTD balance, then open Stripe Checkout
    */
   const handleBuyMore = async () => {
     // Prevent duplicate clicks and enter loading state
@@ -167,25 +167,31 @@ export function CreditsTracker({ credits }: CreditsTrackerProps) {
       window.dispatchEvent(new Event('start-onboarding'));
       return;
     }
-    // Refresh displayed credits from server
+    // Refresh displayed BTD balance from server
     try {
       const res = await fetch('/api/auxillaries/data');
       if (res.ok) {
         const data = await res.json();
-        if (typeof data.credits === 'number') {
-          setDisplayedCredits(data.credits);
+        const nextBalance =
+          typeof data.btdBalance === 'number'
+            ? data.btdBalance
+            : typeof data.credits === 'number'
+              ? data.credits
+              : null;
+        if (typeof nextBalance === 'number') {
+          setDisplayedBtdBalance(nextBalance);
         }
       }
     } catch (err) {
-      console.error('Error fetching user credits:', err);
+      console.error('Error fetching user BTD balance:', err);
     }
-    // Create Stripe Checkout session for flexible plan
-    const defaultCredits = 1000;
+    // Create Stripe Checkout session for a default BTD purchase.
+    const defaultBtdBalance = 1000;
     try {
       const response = await fetch('/api/create-checkout-session', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ planId: 'ultra', customCredits: defaultCredits }),
+        body: JSON.stringify({ planId: 'ultra', customCredits: defaultBtdBalance }),
       });
       const result = await response.json();
       if (result.url) {
@@ -262,7 +268,7 @@ export function CreditsTracker({ credits }: CreditsTrackerProps) {
           {/* Hidden measurement spans */}
           <div style={{ position: 'absolute', visibility: 'hidden', pointerEvents: 'none' }}>
             <span ref={buyRef} className="whitespace-nowrap font-normal tracking-wide text-sm">Buy More</span>
-            <span ref={creditsRef} className="whitespace-nowrap font-medium tracking-wide text-sm">{displayedCredits.toLocaleString()} credits</span>
+            <span ref={btdRef} className="whitespace-nowrap font-medium tracking-wide text-sm">{displayedBtdBalance.toLocaleString()} $BTD</span>
           </div>
           {/* Icon slot */}
           <AnimatePresence initial={false} mode="wait">
@@ -325,13 +331,13 @@ export function CreditsTracker({ credits }: CreditsTrackerProps) {
               >Buy More</motion.span>
             ) : (
               <motion.span
-                key="credits"
+                key="btd"
                 className="w-full text-center whitespace-nowrap font-medium tracking-wide text-sm text-emerald-400/90 leading-none"
                 initial={{ opacity: 0, rotateX: -90 }}
                 animate={{ opacity: 1, rotateX: 0 }}
                 exit={{ opacity: 0, rotateX: 90 }}
                 transition={{ duration: 0.3, ease: 'easeInOut' }}
-              >{displayedCredits.toLocaleString()} credits</motion.span>
+              >{displayedBtdBalance.toLocaleString()} $BTD</motion.span>
             )}
           </AnimatePresence>
         </div>
@@ -418,7 +424,7 @@ const styles = `
   }
 
   /* Enhanced hover transition */
-  .credits-tracker-hover {
+  .btd-tracker-hover {
     transition: all 0.5s cubic-bezier(0.22, 1, 0.36, 1);
   }
 

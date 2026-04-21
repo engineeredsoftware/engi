@@ -17,11 +17,11 @@ export interface WelcomeEmailData {
   dashboardUrl: string
 }
 
-export interface CreditAllocationEmailData {
+export interface BtdAllocationEmailData {
   email: string
   memberName: string
   organizationName: string
-  creditAmount: number
+  btdAmount: number
   reason?: string
   dashboardUrl: string
 }

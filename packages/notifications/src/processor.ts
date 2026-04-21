@@ -15,8 +15,8 @@ export async function handleDomainEvent(event: DomainEvent): Promise<void> {
     case 'RUN':
       await fanoutRunEvent(event);
       break;
-    case 'CREDIT':
-      await fanoutCreditEvent(event);
+    case 'BTD_BALANCE':
+      await fanoutBtdBalanceEvent(event);
       break;
     default:
       // eslint-disable-next-line no-console
@@ -48,14 +48,14 @@ async function fanoutRunEvent(event: Extract<DomainEvent, { kind: 'RUN' }>): Pro
   await persistAndDispatch({ userId, notifType, payload });
 }
 
-async function fanoutCreditEvent(event: Extract<DomainEvent, { kind: 'CREDIT' }>): Promise<void> {
+async function fanoutBtdBalanceEvent(event: Extract<DomainEvent, { kind: 'BTD_BALANCE' }>): Promise<void> {
   const { type, userId, balance, threshold } = event;
 
-  const humanType = type === 'LOW_BALANCE' ? 'running low on credits' : 'out of credits';
-  const message = `Your account is ${humanType} (${balance} left)`;
+  const humanType = type === 'LOW_BALANCE' ? 'running low on $BTD' : 'out of $BTD';
+  const message = `Your account is ${humanType} (${balance} remaining)`;
   const payload: NotificationPayload = { message, balance, threshold };
 
-  const notifType: NotificationType = type === 'LOW_BALANCE' ? 'LOW_CREDITS' : 'OUT_OF_CREDITS';
+  const notifType: NotificationType = type === 'LOW_BALANCE' ? 'LOW_BTD_BALANCE' : 'ZERO_BTD_BALANCE';
 
   await persistAndDispatch({ userId, notifType, payload });
 }

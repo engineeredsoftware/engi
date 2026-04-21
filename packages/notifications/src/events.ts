@@ -30,14 +30,14 @@ export function emitRunLifecycle(params: {
   });
 }
 
-export function emitCreditEvent(params: {
-  type: 'LOW_BALANCE' | 'OUT_OF_CREDITS';
+export function emitBtdBalanceEvent(params: {
+  type: 'LOW_BALANCE' | 'ZERO_BALANCE';
   userId: string;
   balance: number;
   threshold?: number;
 }): void {
   publishDomainEvent({
-    kind: 'CREDIT',
+    kind: 'BTD_BALANCE',
     createdAt: new Date().toISOString(),
     ...params,
   } as any);

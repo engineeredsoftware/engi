@@ -6,7 +6,7 @@ Professional email service package for Bitcode team management and notifications
 
 - **Team Invitations**: Secure invitation emails with branded templates
 - **Welcome Messages**: Onboarding emails for new team members
-- **Credit Notifications**: Credit allocation and usage notifications
+- **BTD Notifications**: BTD allocation and usage notifications
 - **Role Changes**: Role update notifications with audit trail
 - **Organization Updates**: Bulk notifications for organizational changes
 - **Flexible Templates**: Customizable email templates with organization branding
@@ -46,14 +46,14 @@ await invitationEmailService.sendWelcomeEmail({
 })
 ```
 
-### Credit Allocation
+### BTD Allocation
 
 ```typescript
-await invitationEmailService.sendCreditAllocationEmail({
+await invitationEmailService.sendBtdAllocationEmail({
   email: 'user@company.com',
   memberName: 'Jane Smith',
   organizationName: 'Acme Corp',
-  creditAmount: 50000,
+  btdAmount: 50000,
   reason: 'Monthly allocation',
   dashboardUrl: 'https://app.bitcode.example/dashboard'
 })
@@ -115,7 +115,7 @@ The package uses Supabase Edge Functions with the following email templates:
 
 - `send-invitation-email` - Team invitation emails
 - `send-welcome-email` - Welcome emails for new members
-- `send-credit-allocation-email` - Credit allocation notifications
+- `send-btd-allocation-email` - BTD allocation notifications
 - `send-role-change-email` - Role change notifications
 - `send-member-removal-email` - Member removal notifications
 - `send-organization-update-email` - Organization update notifications
@@ -133,9 +133,9 @@ Send a team invitation email with secure token.
 
 Send a welcome email to newly joined team members.
 
-#### `sendCreditAllocationEmail(data: CreditAllocationEmailData): Promise<EmailResponse>`
+#### `sendBtdAllocationEmail(data: BtdAllocationEmailData): Promise<EmailResponse>`
 
-Send credit allocation notification email.
+Send BTD allocation notification email.
 
 #### `sendInvitationReminder(data: InvitationEmailData): Promise<EmailResponse>`
 

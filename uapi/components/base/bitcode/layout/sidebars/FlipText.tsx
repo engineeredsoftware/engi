@@ -5,7 +5,7 @@ import React from 'react';
 
 /**
  * Simple reusable flip-over text animation.
- * Matches the rotate-X pattern used in CreditsTracker & Orbital components.
+ * Matches the rotate-X pattern used in the BTD tracker and orbital components.
  */
 export default function FlipText({
   text,

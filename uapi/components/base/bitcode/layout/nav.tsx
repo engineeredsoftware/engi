@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState, useMemo } from "react";
 import Link from "next/link";
-import { CreditsTracker } from "@/components/base/bitcode/credits/credits-tracker";
+import { BTDTracker } from "@/components/base/bitcode/btd/btd-tracker";
 import { useAuth } from '@/components/base/bitcode/auth/AuthProvider';
 import { useUserData } from '@/hooks/useUserData';
 import { openAuxillaries, prefetchAuxillaries } from '@/app/auxillaries/components/AuxillariesProvider';
@@ -18,7 +18,7 @@ import { getPublicShellSurface, getWorkspaceSurface, usesPublicShellChrome } fro
 import BitcodeInlineExplainer from "@/components/base/bitcode/execution/BitcodeInlineExplainer";
 import { BITCODE_PUBLIC_EXPLAINERS } from "@/components/base/bitcode/layout/bitcode-public-explainers";
 
-const MemoCreditsTracker = React.memo(CreditsTracker);
+const MemoBTDTracker = React.memo(BTDTracker);
 const MemoNotificationsWidget = React.memo(NotificationsWidget);
 
 const baseShadow = '[text-shadow:_0_0_6px_rgba(255,255,255,0.33)]';
@@ -57,7 +57,7 @@ export default function Nav() {
   const pathname = usePathname();
   const router = useRouter();
   const { user } = useAuth();
-  const { credits } = useUserData();
+  const { btdBalance } = useUserData();
 
   const [showNavUse, setShowNavUse] = useState(false);
   const [isAnimated, setIsAnimated] = useState(false);
@@ -338,9 +338,8 @@ export default function Nav() {
             ) : user ? (
               <div className={isAnimated ? 'nav-controls-animated flex items-center space-x-3.5' : 'opacity-0 flex items-center space-x-3.5'}>
                 {!FEATURE_FLAGS.HIDE_CREDITS_TRACKER && (
-                  <MemoCreditsTracker
-                    credits={credits}
-                    isActive={credits > 0}
+                  <MemoBTDTracker
+                    btdBalance={btdBalance}
                   />
                 )}
 
