@@ -94,6 +94,18 @@
   animation: none !important;
 }
 
+:is(.orbital-portal, .auxillaries-portal) {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+}
+
+:is(.orbital-close-button, .auxillaries-close-button),
+:is(.orbital-toggle-button, .auxillaries-toggle-button) {
+  position: relative;
+  z-index: 10002;
+}
+
 .orbital-system-application .orbital-header-buttons,
 .orbital-system-route .orbital-header-buttons {
   left: auto;
@@ -405,33 +417,33 @@
   color: rgba(167, 243, 208, 0.8);
 }
 
-:is(.orbital-system-application, .orbital-system-route) .orbital-label.position-top {
+:is(.orbital-system-application, .orbital-system-route) :is(.orbital-label, .auxillaries-label).position-top {
   left: 50%;
   top: 0;
   transform: translate(-50%, -115%);
 }
 
-:is(.orbital-system-application, .orbital-system-route) .orbital-label.position-right {
+:is(.orbital-system-application, .orbital-system-route) :is(.orbital-label, .auxillaries-label).position-right {
   left: auto;
   right: 0;
   top: 50%;
   transform: translate(118%, -50%);
 }
 
-:is(.orbital-system-application, .orbital-system-route) .orbital-label.position-bottom {
+:is(.orbital-system-application, .orbital-system-route) :is(.orbital-label, .auxillaries-label).position-bottom {
   left: 50%;
   top: auto;
   bottom: 0;
   transform: translate(-50%, 115%);
 }
 
-:is(.orbital-system-application, .orbital-system-route) .orbital-label.position-left {
+:is(.orbital-system-application, .orbital-system-route) :is(.orbital-label, .auxillaries-label).position-left {
   left: 0;
   top: 50%;
   transform: translate(-118%, -50%);
 }
 
-:is(.orbital-system-application, .orbital-system-route) .orbital-label-active {
+:is(.orbital-system-application, .orbital-system-route) :is(.orbital-label-active, .auxillaries-label-active) {
   border-color: rgba(101, 254, 183, 0.42);
   color: rgba(236, 253, 245, 1);
   box-shadow:
@@ -782,7 +794,7 @@
 }
 
 /* Portal visibility control for instant open */
-.orbital-portal {
+:is(.orbital-portal, .auxillaries-portal) {
   position: fixed;
   inset: 0;
   z-index: 9999;
@@ -1009,7 +1021,7 @@
   overflow: visible;
 }
 /* Label styling */
-.orbital-label {
+:is(.orbital-label, .auxillaries-label) {
   position: absolute;
   padding: 8px 14px;
   background: rgba(10, 20, 35, 0.8);
@@ -1038,7 +1050,7 @@
   /* Each ring delayed by 0.04s per index for a rapid sequence */
   animation-delay: calc(var(--index, 0) * 0.04s);
 }
-.orbital-label-active {
+:is(.orbital-label-active, .auxillaries-label-active) {
   background: rgba(103, 254, 183, 0.12);
   border-color: rgba(103, 254, 183, 0.6);
   color: rgba(103, 254, 183, 0.95);
@@ -1048,10 +1060,10 @@
   z-index: 101;
 }
 /* Position all labels consistently on the left (west) side of each ring */
-.orbital-label.position-top,
-.orbital-label.position-right,
-.orbital-label.position-bottom,
-.orbital-label.position-left {
+:is(.orbital-label, .auxillaries-label).position-top,
+:is(.orbital-label, .auxillaries-label).position-right,
+:is(.orbital-label, .auxillaries-label).position-bottom,
+:is(.orbital-label, .auxillaries-label).position-left {
   left: 0;
   transform: translateX(-50%) translateY(-50%);
 }
@@ -1718,7 +1730,7 @@ to {
     grid-column: 1;
     grid-row: 2;
   }
-.orbital-label {
+:is(.orbital-label, .auxillaries-label) {
     font-size: 0.8rem;
     padding: 6px 10px;
   }

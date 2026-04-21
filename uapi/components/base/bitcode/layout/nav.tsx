@@ -7,7 +7,7 @@ import { useAuth } from '@/components/base/bitcode/auth/AuthProvider';
 import { useUserData } from '@/hooks/useUserData';
 import { openAuxillaries, prefetchAuxillaries } from '@/app/auxillaries/components/AuxillariesProvider';
 import { NotificationsWidget } from "@/components/base/bitcode/notifications/NotificationsWidget"
-import { OrbitalUseButton } from "@/components/base/bitcode/nav/OrbitalUseButton";
+import { AuxillariesUseButton } from "@/components/base/bitcode/nav/AuxillariesUseButton";
 import { FEATURE_FLAGS } from "@/config/features"
 import { UserMenu } from "@/components/base/bitcode/layout/user-menu";
 import NavBrand, { type NavSurface } from "@/components/base/bitcode/layout/NavBrand";
@@ -370,10 +370,10 @@ export default function Nav() {
                 <div className={isAnimated ? 'opacity-100 transition-opacity duration-500 delay-300' : 'opacity-0'}>
                   {FEATURE_FLAGS.DISABLE_USING ? (
                     <DisabledTooltipWrapper tooltip="Auxillaries access is refreshing" className="inline-block">
-                      <OrbitalUseButton isDisabled auxillaries={orbitalElements} particles={particleElements} />
+                      <AuxillariesUseButton isDisabled auxillaries={orbitalElements} particles={particleElements} />
                     </DisabledTooltipWrapper>
                   ) : (
-                    <OrbitalUseButton
+                    <AuxillariesUseButton
                       onHoverPrefetch={() => prefetchAuxillaries()}
                       onClick={() => openAuxillaries(user ? 'auxillaries' : 'login')}
                       auxillaries={orbitalElements}

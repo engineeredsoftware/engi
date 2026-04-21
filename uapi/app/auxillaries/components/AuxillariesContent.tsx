@@ -97,8 +97,8 @@ function AuxillariesContent(props: AuxillariesContentProps) {
           onClick={() => isAvailable && onStepClick(step)}
         >
           <div
-            className={`orbital-label position-${descriptor.labelPosition} ${
-              currentStep === step ? 'orbital-label-active' : ''
+            className={`auxillaries-label position-${descriptor.labelPosition} ${
+              currentStep === step ? 'auxillaries-label-active' : ''
             }`}
             style={{ '--index': ringIndex } as React.CSSProperties}
           >

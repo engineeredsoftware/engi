@@ -57,7 +57,7 @@ export default function AuxillariesProvider({ children }: { children: React.Reac
 
   useEffect(() => {
     const el = document.createElement('div');
-    el.id = 'orbital-portal';
+    el.id = 'auxillaries-portal';
     document.body.appendChild(el);
     setPortalContainer(el);
     return () => {
@@ -68,9 +68,9 @@ export default function AuxillariesProvider({ children }: { children: React.Reac
 
   useEffect(() => {
     if (isOpen) {
-      document.documentElement.classList.add('orbital-open', 'overflow-hidden');
+      document.documentElement.classList.add('auxillaries-open', 'overflow-hidden');
     } else {
-      document.documentElement.classList.remove('orbital-open', 'overflow-hidden');
+      document.documentElement.classList.remove('auxillaries-open', 'overflow-hidden');
     }
   }, [isOpen]);
 
@@ -136,7 +136,7 @@ export default function AuxillariesProvider({ children }: { children: React.Reac
       {children}
       {isOpen && portalContainer
         ? createPortal(
-            <div className="orbital-portal orbital-open">
+            <div className="auxillaries-portal auxillaries-open">
               <AuxillariesSurface
                 window={windowState}
                 onClose={closeAuxillaries}

@@ -466,9 +466,9 @@ export default function AuxillariesSurface({
       <div className="orbital-header-buttons">
         {onClose && (
           <button
-            data-orbital-testid="orbital-close-button"
+            data-auxillaries-testid="auxillaries-close-button"
             onClick={onClose}
-            className="orbital-close-button"
+            className="auxillaries-close-button"
             aria-label="Close"
           >
             <svg viewBox="0 0 24 24" width={24} height={24} fill="currentColor">
@@ -479,9 +479,9 @@ export default function AuxillariesSurface({
 
         {authLoaded && !sessionUser && (
           <button
-            data-orbital-testid="orbital-toggle-button"
+            data-auxillaries-testid="auxillaries-toggle-button"
             onClick={toggleWindow}
-            className="orbital-toggle-button"
+            className="auxillaries-toggle-button"
             aria-label={activeWindow === 'SignInWindow' ? 'Create Account' : 'Sign in'}
           >
             <FlipText

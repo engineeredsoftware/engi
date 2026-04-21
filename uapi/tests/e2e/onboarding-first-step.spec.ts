@@ -28,7 +28,7 @@ test.describe('Onboarding First Step Flow', () => {
     expect(await page.screenshot({ fullPage: true }))
       .toMatchSnapshot('onboarding-first-step-page-load.png');
     // Launch onboarding modal via use button
-    await page.click('[data-orbital-testid="orbital-open-button"]');
+    await page.click('[data-auxillaries-testid="auxillaries-open-button"]');
     await page.waitForSelector('[data-testid="profile-email-input"]');
     // Screenshot after opening onboarding modal
     expect(await page.screenshot({ fullPage: true }))
@@ -67,7 +67,7 @@ test.describe('Onboarding First Step Flow', () => {
     // Navigate and open onboarding
     await page.goto('/');
     await page.waitForLoadState('networkidle');
-    await page.click('[data-orbital-testid="orbital-open-button"]');
+    await page.click('[data-auxillaries-testid="auxillaries-open-button"]');
     // Enter email and attempt to send code
     await page.waitForSelector('[data-testid="profile-email-input"]');
     await page.fill('[data-testid="profile-email-input"]', 'test@playwright.com');
@@ -93,7 +93,7 @@ test.describe('Onboarding First Step Flow', () => {
     // Navigate and open onboarding
     await page.goto('/');
     await page.waitForLoadState('networkidle');
-    await page.click('[data-orbital-testid="orbital-open-button"]');
+    await page.click('[data-auxillaries-testid="auxillaries-open-button"]');
     // Enter email and send code
     await page.waitForSelector('[data-testid="profile-email-input"]');
     await page.fill('[data-testid="profile-email-input"]', 'test@playwright.com');

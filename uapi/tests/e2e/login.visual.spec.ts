@@ -3,7 +3,7 @@ import { test, expect } from '@playwright/test';
 test.describe('@profile UI Visual - Login Flows', () => {
   test('login-first-load', async ({ page }) => {
     await page.goto('/');
-    await page.click('[data-orbital-testid="orbital-open-button"]');
+    await page.click('[data-auxillaries-testid="auxillaries-open-button"]');
     await page.waitForSelector('[data-testid="login-email-input"]');
     await page.waitForTimeout(300);
     expect(await page.screenshot({ fullPage: true }))
@@ -12,7 +12,7 @@ test.describe('@profile UI Visual - Login Flows', () => {
 
   test('login-enter-email', async ({ page }) => {
     await page.goto('/');
-    await page.click('[data-orbital-testid="orbital-open-button"]');
+    await page.click('[data-auxillaries-testid="auxillaries-open-button"]');
     await page.fill('[data-testid="login-email-input"]', 'user@example.com');
     await page.waitForTimeout(300);
     expect(await page.screenshot({ fullPage: true }))
@@ -21,7 +21,7 @@ test.describe('@profile UI Visual - Login Flows', () => {
 
   test('login-hover-send-link', async ({ page }) => {
     await page.goto('/');
-    await page.click('[data-orbital-testid="orbital-open-button"]');
+    await page.click('[data-auxillaries-testid="auxillaries-open-button"]');
     await page.hover('[data-testid="login-send-code"]');
     await page.waitForTimeout(300);
     expect(await page.screenshot({ fullPage: true }))
@@ -111,7 +111,7 @@ test.describe('@profile UI Visual - Login Flows', () => {
     // Navigate to Deliverables history page
     await page.goto('/deliverables?runId=test-run');
     // Open login modal
-    await page.click('[data-orbital-testid="orbital-open-button"]');
+    await page.click('[data-auxillaries-testid="auxillaries-open-button"]');
     // Enter email and send code
     await page.fill('[data-testid="login-email-input"]', 'user@example.com');
     await page.click('[data-testid="login-send-code"]');

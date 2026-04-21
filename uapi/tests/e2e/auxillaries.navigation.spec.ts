@@ -19,21 +19,21 @@ test.describe('Auxillaries Navigation & Close Flows', () => {
     // Navigate to app
     await page.goto('/');
     // Open the auxillaries modal in login mode.
-    await page.click('[data-orbital-testid="orbital-open-button"]');
+    await page.click('[data-auxillaries-testid="auxillaries-open-button"]');
     // Wait for login send code button
     await page.waitForSelector('[data-testid="login-send-code"]');
     await page.waitForTimeout(300);
     expect(await page.screenshot({ fullPage: true }))
       .toMatchSnapshot('auxillaries-login-mode-login.png');
     // Toggle to onboarding (signup) view
-    await page.click('[data-orbital-testid="orbital-toggle-button"]');
+    await page.click('[data-auxillaries-testid="auxillaries-toggle-button"]');
     // Wait for profile step badge
     await page.waitForSelector('[data-testid="profile-step-badge"]');
     await page.waitForTimeout(300);
     expect(await page.screenshot({ fullPage: true }))
       .toMatchSnapshot('auxillaries-login-mode-signup.png');
     // Toggle back to login view
-    await page.click('[data-orbital-testid="orbital-toggle-button"]');
+    await page.click('[data-auxillaries-testid="auxillaries-toggle-button"]');
     await page.waitForSelector('[data-testid="login-send-code"]');
     await page.waitForTimeout(300);
     expect(await page.screenshot({ fullPage: true }))
@@ -44,7 +44,7 @@ test.describe('Auxillaries Navigation & Close Flows', () => {
     // Navigate to app
     await page.goto('/');
     // Login and OTP success to unlock onboarding
-    await page.click('[data-orbital-testid="orbital-open-button"]');
+    await page.click('[data-auxillaries-testid="auxillaries-open-button"]');
     await page.fill('[data-testid="login-email-input"]', 'x@x.com');
     await page.click('[data-testid="login-send-code"]');
     await page.fill('[data-testid="login-otp-input"]', '123456');
@@ -52,7 +52,7 @@ test.describe('Auxillaries Navigation & Close Flows', () => {
     // Steps: profile -> connects -> interfaces -> btd
     const steps = ['profile', 'connects', 'interfaces', 'btd'];
     for (const step of steps) {
-      await page.click(`[data-testid="orbital-label-${step}"]`);
+      await page.click(`[data-auxillaries-testid="auxillaries-label-${step}"]`);
       await page.waitForTimeout(300);
       expect(await page.screenshot({ fullPage: true }))
         .toMatchSnapshot(`auxillaries-step-nav-${step}.png`);
@@ -63,13 +63,13 @@ test.describe('Auxillaries Navigation & Close Flows', () => {
     // Navigate to app
     await page.goto('/');
     // Open login modal to get into onboarding
-    await page.click('[data-orbital-testid="orbital-open-button"]');
+    await page.click('[data-auxillaries-testid="auxillaries-open-button"]');
     await page.fill('[data-testid="login-email-input"]', 'x@x.com');
     await page.click('[data-testid="login-send-code"]');
     await page.fill('[data-testid="login-otp-input"]', '123456');
     await page.click('[data-testid="login-verify-code"]');
     // Close modal via close button
-    await page.click('[data-orbital-testid="orbital-close-button"]');
+    await page.click('[data-auxillaries-testid="auxillaries-close-button"]');
     await page.waitForTimeout(300);
     expect(await page.screenshot({ fullPage: true }))
       .toMatchSnapshot('auxillaries-onboarding-closed.png');
@@ -78,7 +78,7 @@ test.describe('Auxillaries Navigation & Close Flows', () => {
   test('close login modal with Escape key', async ({ page }) => {
     // Navigate to app
     await page.goto('/');
-    await page.click('[data-orbital-testid="orbital-open-button"]');
+    await page.click('[data-auxillaries-testid="auxillaries-open-button"]');
     // Wait for login input
     await page.waitForSelector('[data-testid="login-email-input"]');
     // Press Escape to close
@@ -91,9 +91,9 @@ test.describe('Auxillaries Navigation & Close Flows', () => {
   test('close onboarding modal with Escape key', async ({ page }) => {
     // Navigate to app
     await page.goto('/');
-    await page.click('[data-orbital-testid="orbital-open-button"]');
+    await page.click('[data-auxillaries-testid="auxillaries-open-button"]');
     // Open onboarding view
-    await page.click('[data-orbital-testid="orbital-toggle-button"]');
+    await page.click('[data-auxillaries-testid="auxillaries-toggle-button"]');
     await page.waitForSelector('[data-testid="profile-step-badge"]');
     // Press Escape to close
     await page.keyboard.press('Escape');

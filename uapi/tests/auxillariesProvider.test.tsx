@@ -5,7 +5,7 @@ jest.mock('next/dynamic', () => {
   const React = require('react');
 
   return () => {
-    const MockOrbital = ({
+    const MockAuxillaries = ({
       window,
       initialStep,
       onClose,
@@ -16,13 +16,13 @@ jest.mock('next/dynamic', () => {
     }) =>
       React.createElement(
         'div',
-        { 'data-testid': 'orbital-overlay' },
+        { 'data-testid': 'auxillaries-overlay' },
         `${window}:${initialStep ?? 'none'}`,
-        React.createElement('button', { onClick: onClose, type: 'button' }, 'Close orbital'),
+        React.createElement('button', { onClick: onClose, type: 'button' }, 'Close auxillaries'),
       );
 
-    MockOrbital.preload = jest.fn();
-    return MockOrbital;
+    MockAuxillaries.preload = jest.fn();
+    return MockAuxillaries;
   };
 });
 
@@ -33,7 +33,7 @@ import AuxillariesProvider, {
 
 describe('AuxillariesProvider', () => {
   beforeEach(() => {
-    Object.defineProperty(window, '__orbitalPrefetched', {
+    Object.defineProperty(window, '__auxillariesPrefetched', {
       configurable: true,
       value: true,
       writable: true,
@@ -53,23 +53,23 @@ describe('AuxillariesProvider', () => {
       </AuxillariesProvider>,
     );
 
-    expect(document.getElementById('orbital-portal')).toBeTruthy();
+    expect(document.getElementById('auxillaries-portal')).toBeTruthy();
 
     act(() => {
       openAuxillaries('auxillaries', 'connects');
     });
 
-    expect(document.documentElement.classList.contains('orbital-open')).toBe(true);
-    expect(screen.getByTestId('orbital-overlay').textContent).toContain('SignUpWindow:connects');
+    expect(document.documentElement.classList.contains('auxillaries-open')).toBe(true);
+    expect(screen.getByTestId('auxillaries-overlay').textContent).toContain('SignUpWindow:connects');
 
     act(() => {
       closeAuxillaries();
     });
 
-    expect(screen.queryByTestId('orbital-overlay')).toBeNull();
+    expect(screen.queryByTestId('auxillaries-overlay')).toBeNull();
   });
 
-  it('clears deep-linked pane state after close so later opens do not reuse a stale orbital pane', () => {
+  it('clears deep-linked pane state after close so later opens do not reuse a stale auxillaries pane', () => {
     render(
       <AuxillariesProvider>
         <div>Application</div>
@@ -80,7 +80,7 @@ describe('AuxillariesProvider', () => {
       openAuxillaries('auxillaries', 'connects');
     });
 
-    expect(screen.getByTestId('orbital-overlay').textContent).toContain('SignUpWindow:connects');
+    expect(screen.getByTestId('auxillaries-overlay').textContent).toContain('SignUpWindow:connects');
 
     act(() => {
       closeAuxillaries();
@@ -90,6 +90,6 @@ describe('AuxillariesProvider', () => {
       openAuxillaries('login');
     });
 
-    expect(screen.getByTestId('orbital-overlay').textContent).toContain('SignInWindow:none');
+    expect(screen.getByTestId('auxillaries-overlay').textContent).toContain('SignInWindow:none');
   });
 });

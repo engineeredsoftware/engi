@@ -68,6 +68,8 @@ export default function AuxillariesPaneTabs({
             <button
               key={step}
               type="button"
+              data-testid={`auxillaries-label-${step}`}
+              data-auxillaries-testid={`auxillaries-label-${step}`}
               onClick={() => {
                 if (isAvailable) {
                   onStepClick(step);

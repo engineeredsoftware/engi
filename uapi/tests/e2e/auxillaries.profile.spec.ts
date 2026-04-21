@@ -18,7 +18,7 @@ test.describe('@profile Auxillaries - Profile Step Variations', () => {
   test('login pane first load', async ({ page }) => {
     // Navigate to app and open login modal
     await page.goto('/');
-    await page.click('[data-orbital-testid="orbital-open-button"]');
+    await page.click('[data-auxillaries-testid="auxillaries-open-button"]');
     // Wait for login form email input to appear
     await page.waitForSelector('[data-testid="login-email-input"]');
     await page.waitForTimeout(300);
@@ -29,8 +29,8 @@ test.describe('@profile Auxillaries - Profile Step Variations', () => {
   test('login pane enter email', async ({ page }) => {
     // Navigate to app and open onboarding modal, then switch to login view
     await page.goto('/');
-    await page.click('[data-orbital-testid="orbital-open-button"]');
-    await page.click('[data-orbital-testid="orbital-toggle-button"]');
+    await page.click('[data-auxillaries-testid="auxillaries-open-button"]');
+    await page.click('[data-auxillaries-testid="auxillaries-toggle-button"]');
     await page.fill('[data-testid="login-email-input"]', 'test@playwright.com');
     await page.waitForTimeout(300);
     expect(await page.screenshot({ fullPage: true }))
@@ -40,8 +40,8 @@ test.describe('@profile Auxillaries - Profile Step Variations', () => {
   test('profile-onboarding-otp-input-focused', async ({ page }) => {
     // Navigate to app and open onboarding modal, then switch to login view
     await page.goto('/');
-    await page.click('[data-orbital-testid="orbital-open-button"]');
-    await page.click('[data-orbital-testid="orbital-toggle-button"]');
+    await page.click('[data-auxillaries-testid="auxillaries-open-button"]');
+    await page.click('[data-auxillaries-testid="auxillaries-toggle-button"]');
     await page.fill('[data-testid="login-email-input"]', 'test@playwright.com');
     // Send login code
     await page.click('[data-testid="login-send-code"]');
@@ -56,8 +56,8 @@ test.describe('@profile Auxillaries - Profile Step Variations', () => {
   test('profile-onboarding-otp-input-filled', async ({ page }) => {
     // Navigate to app and open onboarding modal, then switch to login view
     await page.goto('/');
-    await page.click('[data-orbital-testid="orbital-open-button"]');
-    await page.click('[data-orbital-testid="orbital-toggle-button"]');
+    await page.click('[data-auxillaries-testid="auxillaries-open-button"]');
+    await page.click('[data-auxillaries-testid="auxillaries-toggle-button"]');
     await page.fill('[data-testid="login-email-input"]', 'test@playwright.com');
     await page.click('[data-testid="login-send-code"]');
     await page.waitForSelector('[data-testid="login-otp-input"]');
@@ -75,8 +75,8 @@ test.describe('@profile Auxillaries - Profile Step Variations', () => {
     );
     // Navigate to app and open onboarding modal, then switch to login view
     await page.goto('/');
-    await page.click('[data-orbital-testid="orbital-open-button"]');
-    await page.click('[data-orbital-testid="orbital-toggle-button"]');
+    await page.click('[data-auxillaries-testid="auxillaries-open-button"]');
+    await page.click('[data-auxillaries-testid="auxillaries-toggle-button"]');
     await page.fill('[data-testid="login-email-input"]', 'test@playwright.com');
     await page.click('[data-testid="login-send-code"]');
     await page.fill('[data-testid="login-otp-input"]', '000000');
@@ -94,8 +94,8 @@ test.describe('@profile Auxillaries - Profile Step Variations', () => {
     );
     // Navigate to app and open onboarding modal, then switch to login view
     await page.goto('/');
-    await page.click('[data-orbital-testid="orbital-open-button"]');
-    await page.click('[data-orbital-testid="orbital-toggle-button"]');
+    await page.click('[data-auxillaries-testid="auxillaries-open-button"]');
+    await page.click('[data-auxillaries-testid="auxillaries-toggle-button"]');
     await page.fill('[data-testid="login-email-input"]', 'test@playwright.com');
     await page.click('[data-testid="login-send-code"]');
     await page.fill('[data-testid="login-otp-input"]', '123456');

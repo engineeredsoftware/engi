@@ -161,7 +161,7 @@ Focused Jest examples:
 ```bash
 cd uapi
 pnpm exec jest --runInBand --testMatch '<rootDir>/tests/applicationTransactionQuery.test.ts'
-pnpm exec jest --runInBand --testMatch '<rootDir>/tests/orbitalsProvider.test.tsx'
+pnpm exec jest --runInBand --testMatch '<rootDir>/tests/auxillariesProvider.test.tsx'
 ```
 
 ## README set required for second-gate closure

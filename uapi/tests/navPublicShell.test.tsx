@@ -78,8 +78,8 @@ jest.mock('@/components/base/bitcode/overlays/disabled-tooltip-wrapper', () => (
   DisabledTooltipWrapper: ({ children }: { children: React.ReactNode }) => <>{children}</>,
 }));
 
-jest.mock('@/components/base/bitcode/nav/OrbitalUseButton', () => ({
-  OrbitalUseButton: () => <div>Use button</div>,
+jest.mock('@/components/base/bitcode/nav/AuxillariesUseButton', () => ({
+  AuxillariesUseButton: () => <div>Use button</div>,
 }));
 
 describe('Nav public shell', () => {

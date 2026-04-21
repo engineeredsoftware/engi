@@ -14,7 +14,7 @@ test.describe('Full Onboarding Flow', () => {
     // Navigate to app and open onboarding
     await page.goto('/');
     await page.waitForLoadState('networkidle');
-    await page.click('[data-orbital-testid="orbital-open-button"]');
+    await page.click('[data-auxillaries-testid="auxillaries-open-button"]');
 
     // Profile Step
     await page.waitForSelector('[data-testid="profile-email-input"]');

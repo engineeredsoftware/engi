@@ -1,31 +1,31 @@
 /* Global adjustments when the Orbital overlay is open */
-.orbital-open .nav-container-global {
+:is(.orbital-open, .auxillaries-open) .nav-container-global {
   opacity: 0 !important;
   pointer-events: none !important;
 }
 
-.orbital-open .nav-container-global * {
+:is(.orbital-open, .auxillaries-open) .nav-container-global * {
   visibility: hidden !important;
 }
 /* Hide sidebars (toggles and panels) when the orbital overlay is open */
-.orbital-open [data-testid="sidebar-left-container"],
-.orbital-open [data-testid="sidebar-right-container"] {
+:is(.orbital-open, .auxillaries-open) [data-testid="sidebar-left-container"],
+:is(.orbital-open, .auxillaries-open) [data-testid="sidebar-right-container"] {
   opacity: 0 !important;
   pointer-events: none !important;
 }
 /* Hide background scroll when orbital overlay is open */
-html.orbital-open,
-html.orbital-open body {
+html:is(.orbital-open, .auxillaries-open),
+html:is(.orbital-open, .auxillaries-open) body {
   overflow: hidden !important;
   height: 100% !important;
 }
 /* Hide scrollbars completely */
-html.orbital-open::-webkit-scrollbar,
-html.orbital-open body::-webkit-scrollbar {
+html:is(.orbital-open, .auxillaries-open)::-webkit-scrollbar,
+html:is(.orbital-open, .auxillaries-open) body::-webkit-scrollbar {
   display: none !important;
 }
 /* Firefox scrollbar hide */
-html.orbital-open {
+html:is(.orbital-open, .auxillaries-open) {
   scrollbar-width: none !important;
   -ms-overflow-style: none !important;
 }
