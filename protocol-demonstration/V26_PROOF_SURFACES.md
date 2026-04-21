@@ -958,6 +958,11 @@ Required closure posture:
   `uapi/tests/applicationActivityHistory.test.ts`
   proof surface:
   fifth-gate repository-anchor and boundary-readiness closure so the Bitcode Terminal panels that establish repository supply anchoring and external-interface honesty can now be recorded into the same Bitcode activity ledger as the rest of the write surfaces, instead of remaining read-only orientation panels outside the protocol-owned reread path
+- `{uapi/lib/bitcode-transaction-readiness.ts,uapi/app/application/{ApplicationPageClient.tsx,ApplicationCommandDeck.tsx,ApplicationClosureControlDeck.tsx,ApplicationDepositComposer.tsx,ApplicationFlowGuideCard.tsx,application-flow-guide.ts},uapi/app/auxillaries/components/AuxillariesConnectsPane.tsx,uapi/tests/{bitcodeTransactionReadiness.test.ts,applicationFlowGuide.test.ts}}`
+  test coverage:
+  `uapi/tests/bitcodeTransactionReadiness.test.ts` and `uapi/tests/applicationFlowGuide.test.ts`
+  proof surface:
+  fifth-gate transactional-readiness closure so wallet identity in `Profile`, repository scope in `Connects`, and a selected repository anchor in the Bitcode Terminal now resolve through one shared review-only-vs-transactable contract, with deposit/branch/closure-bearing actions failing closed on that contract while read/review continuity remains available
 - `{uapi/app/application/{ApplicationPageClient.tsx,ApplicationTransactionWorkspace.tsx,application-transaction-source.ts,application-protocol-projection.ts,application-run-data.ts},uapi/tests/{applicationTransactionSource.test.ts,applicationProtocolProjection.test.ts}}`
   test coverage:
   `uapi/tests/applicationTransactionSource.test.ts` and `uapi/tests/applicationProtocolProjection.test.ts`

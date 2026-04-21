@@ -25,6 +25,7 @@ import {
   normalizeApplicationClosureControlState,
   type ApplicationClosureControlState,
 } from './application-closure-controls';
+import type { BitcodeTransactionReadiness } from './bitcode-transaction-readiness';
 
 function toneClasses(tone: ApplicationClosureControlState['statusTone']) {
   if (tone === 'settled') return 'border-emerald-500/25 bg-emerald-500/10 text-emerald-100';
@@ -35,10 +36,12 @@ function toneClasses(tone: ApplicationClosureControlState['statusTone']) {
 
 interface ApplicationClosureControlDeckProps {
   onRecordActivity?: (draft: ApplicationActivityRecordDraft) => Promise<unknown>;
+  transactionReadiness: BitcodeTransactionReadiness;
 }
 
 export default function ApplicationClosureControlDeck({
   onRecordActivity,
+  transactionReadiness,
 }: ApplicationClosureControlDeckProps) {
   const { snapshot, runControl } = useApplicationShellBridge();
   const [isActing, setIsActing] = useState(false);
@@ -64,6 +67,11 @@ export default function ApplicationClosureControlDeck({
 
   const state = normalizeApplicationClosureControlState(commandState, closureState);
   const handlePrimaryClosureAction = async () => {
+    if (!transactionReadiness.canTransact) {
+      setActionError(transactionReadiness.summary);
+      return;
+    }
+
     setIsActing(true);
     setActionError(null);
 
@@ -170,7 +178,7 @@ export default function ApplicationClosureControlDeck({
           <div className="mt-5 grid gap-3 lg:grid-cols-3">
             <button
               type="button"
-              disabled={isActing || !state.shellReady}
+              disabled={isActing || !state.shellReady || !transactionReadiness.canTransact}
               onClick={() => {
                 void handlePrimaryClosureAction();
               }}
@@ -203,6 +211,8 @@ export default function ApplicationClosureControlDeck({
           <div className="mt-4 rounded-[1.2rem] border border-white/8 bg-white/5 px-4 py-4 text-sm">
             <p className="text-neutral-500">Runtime status</p>
             <p className="mt-2 text-neutral-100">{state.status}</p>
+            <p className="mt-3 text-neutral-500">Transaction readiness</p>
+            <p className="mt-1 text-neutral-100">{transactionReadiness.summary}</p>
             <p className="mt-3 text-neutral-500">Flow continuity</p>
             <p className="mt-1 text-neutral-100">{state.flowGuideDetail}</p>
             {actionError ? (

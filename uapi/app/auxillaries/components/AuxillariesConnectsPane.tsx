@@ -5,6 +5,7 @@ import React, { useEffect } from 'react';
 
 import { useAuth } from '@/components/base/bitcode/auth/AuthProvider';
 import { VCSIntegrationPanel } from '@/components/base/bitcode/vcs/VCSIntegrationPanel';
+import { deriveBitcodeTransactionReadiness } from '@/app/application/bitcode-transaction-readiness';
 import { useUserData } from '@/hooks/useUserData';
 
 import AuxillariesConnectsPaneHeader from '@/app/auxillaries/components/headers/AuxillariesConnectsPaneHeader';
@@ -31,7 +32,11 @@ export default function AuxillariesConnectsPane({
 
   const repositories = Array.isArray((data as any)?.repositories) ? (data as any).repositories : [];
   const organizations = Array.isArray((data as any)?.organizations) ? (data as any).organizations : [];
-  const transactionReady = Boolean(user && hasGitHubConnection && hasWalletConnection);
+  const transactionReadiness = deriveBitcodeTransactionReadiness({
+    signedIn: Boolean(user),
+    hasRepositoryProvider: hasGitHubConnection,
+    hasWalletBinding: hasWalletConnection,
+  });
 
   return (
     <div data-testid="connects-pane-container">
@@ -117,14 +122,14 @@ export default function AuxillariesConnectsPane({
                     <p className="text-sm font-medium text-white">
                       {isLoading
                         ? 'Checking GitHub and wallet posture…'
-                        : transactionReady
+                        : transactionReadiness.canTransact
                           ? 'GitHub and wallet are ready'
                           : 'GitHub and wallet are not both ready yet'}
                     </p>
                     <p className="mt-2 text-sm leading-7 text-white/68">
-                      {transactionReady
+                      {transactionReadiness.canTransact
                         ? 'Bitcode can now reuse live repository context and wallet posture across need measurement, asset-pack synthesis, and settlement follow-through.'
-                        : 'Bitcode may stay in review, but settlement requires both a live GitHub connection here and a wallet binding in Profile before it should move from evaluation into asset-pack delivery.'}
+                        : `${transactionReadiness.summary} Bitcode may stay in review, but settlement requires both a live GitHub connection here and a wallet binding in Profile before it should move from evaluation into asset-pack delivery.`}
                     </p>
                   </div>
                   <div className="mt-3 grid gap-3 tablet:grid-cols-2">

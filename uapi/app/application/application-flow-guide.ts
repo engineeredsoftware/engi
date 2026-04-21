@@ -1,4 +1,5 @@
 import type { ApplicationCommandState } from './application-command-state';
+import type { BitcodeTransactionReadiness } from './bitcode-transaction-readiness';
 
 export type ApplicationFlowGuideStageStatus = 'done' | 'current' | 'next';
 
@@ -51,15 +52,21 @@ function resolveCurrentStageIndex(commandState: ApplicationCommandState | null) 
   return Math.min(FLOW_STAGE_BLUEPRINT.length - 1, Math.floor(progress * FLOW_STAGE_BLUEPRINT.length));
 }
 
-export function deriveApplicationFlowGuide(commandState: ApplicationCommandState | null): ApplicationFlowGuide {
+export function deriveApplicationFlowGuide(
+  commandState: ApplicationCommandState | null,
+  transactionReadiness?: Pick<BitcodeTransactionReadiness, 'canTransact' | 'summary'> | null,
+): ApplicationFlowGuide {
   const currentStageIndex = resolveCurrentStageIndex(commandState);
   const guideStep =
     commandState && commandState.flowGuideStepCount > 0
       ? `step ${Math.min(commandState.flowGuideStepIndex + 1, commandState.flowGuideStepCount)} of ${commandState.flowGuideStepCount}`
       : null;
+  const reviewOnly = Boolean(commandState?.shellReady && transactionReadiness && !transactionReadiness.canTransact);
 
   const readinessLabel = !commandState?.shellReady
     ? 'syncing'
+    : reviewOnly
+      ? 'review-only'
     : commandState.flowGuideOpen
       ? 'drafting'
       : guideStep
@@ -68,6 +75,8 @@ export function deriveApplicationFlowGuide(commandState: ApplicationCommandState
 
   const statusSummary = !commandState?.shellReady
     ? 'The flow guide is syncing to the current Bitcode Terminal.'
+    : reviewOnly
+      ? transactionReadiness?.summary || 'The Bitcode Terminal is in review-only mode until transactional readiness is complete.'
     : guideStep
       ? `The flow guide is ${commandState.flowGuideOpen ? 'open' : 'saved'} at ${guideStep}.`
       : 'The Bitcode Terminal is ready for a fresh give-to-closure flow.';

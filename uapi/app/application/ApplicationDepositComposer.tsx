@@ -17,6 +17,7 @@ import {
 } from './application-deposit-composer';
 import { useApplicationShellBridge } from './application-shell-bridge';
 import { jumpToShellSection } from './application-shell-reading';
+import type { BitcodeTransactionReadiness } from './bitcode-transaction-readiness';
 
 type SubmitState =
   | { kind: 'idle' }
@@ -26,10 +27,12 @@ type SubmitState =
 
 interface ApplicationDepositComposerProps {
   onRecordActivity?: (draft: ApplicationActivityRecordDraft) => Promise<unknown>;
+  transactionReadiness: BitcodeTransactionReadiness;
 }
 
 export default function ApplicationDepositComposer({
   onRecordActivity,
+  transactionReadiness,
 }: ApplicationDepositComposerProps) {
   const { snapshot, runControl } = useApplicationShellBridge();
   const [title, setTitle] = useState('');
@@ -63,12 +66,17 @@ export default function ApplicationDepositComposer({
     composer &&
       (composer.selectedCount > 0 || content.trim()) &&
       (title.trim() || composer.selectedCount > 0) &&
-      (author.trim() || composer.authSessionId),
+      (author.trim() || composer.authSessionId) &&
+      transactionReadiness.canTransact,
   );
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     if (!composer) return;
+    if (!transactionReadiness.canTransact) {
+      setSubmitState({ kind: 'error', message: transactionReadiness.summary });
+      return;
+    }
     setSubmitState({ kind: 'submitting' });
 
     try {
@@ -354,6 +362,24 @@ export default function ApplicationDepositComposer({
         </form>
 
         <aside className="space-y-4">
+          <div
+            className={`rounded-[1.5rem] border px-5 py-5 text-sm leading-6 ${
+              transactionReadiness.canTransact
+                ? 'border-emerald-400/25 bg-emerald-400/10 text-emerald-100'
+                : 'border-amber-400/25 bg-amber-400/10 text-amber-100'
+            }`}
+          >
+            <p className="text-[0.68rem] uppercase tracking-[0.24em] text-current/80">
+              Transaction readiness
+            </p>
+            <p className="mt-3 text-current">{transactionReadiness.summary}</p>
+            {transactionReadiness.blockers.length ? (
+              <p className="mt-3 text-xs uppercase tracking-[0.16em] text-current/80">
+                Pending: {transactionReadiness.blockers.map((entry) => entry.label).join(' · ')}
+              </p>
+            ) : null}
+          </div>
+
           <div className="rounded-[1.5rem] border border-white/8 bg-black/20 px-5 py-5">
             <p className="text-[0.68rem] uppercase tracking-[0.24em] text-neutral-400">Selected supply</p>
             <p className="mt-3 text-sm leading-6 text-neutral-300">

@@ -2,10 +2,12 @@
 
 import type { ApplicationCommandState } from './application-command-state';
 import { deriveApplicationFlowGuide } from './application-flow-guide';
+import type { BitcodeTransactionReadiness } from './bitcode-transaction-readiness';
 
 interface ApplicationFlowGuideCardProps {
   commandState: ApplicationCommandState | null;
   continuationTip: string;
+  transactionReadiness?: BitcodeTransactionReadiness | null;
 }
 
 function toneClasses(status: 'done' | 'current' | 'next') {
@@ -17,8 +19,9 @@ function toneClasses(status: 'done' | 'current' | 'next') {
 export default function ApplicationFlowGuideCard({
   commandState,
   continuationTip,
+  transactionReadiness,
 }: ApplicationFlowGuideCardProps) {
-  const guide = deriveApplicationFlowGuide(commandState);
+  const guide = deriveApplicationFlowGuide(commandState, transactionReadiness);
 
   return (
     <div className="rounded-[1.5rem] border border-white/8 bg-black/20 px-5 py-5">
@@ -30,6 +33,8 @@ export default function ApplicationFlowGuideCard({
               ? 'current'
               : guide.readinessLabel === 'ready'
                 ? 'done'
+                : guide.readinessLabel === 'review-only'
+                  ? 'next'
                 : 'next',
           )}`}
         >

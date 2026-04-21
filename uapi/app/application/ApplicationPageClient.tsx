@@ -5,7 +5,10 @@ import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 
 import { mountBitcodeApplicationShell, readBitcodeApplicationShellSnapshot } from '@bitcode/protocol-demonstration/src/client-entry.js';
 import type { TransactionDataMode } from '@/components/base/bitcode/execution/bitcode-transaction-types';
+import { useAuth } from '@/components/base/bitcode/auth/AuthProvider';
 import ConversationsOverlay from '@/app/conversations/components/ConversationsOverlay';
+import { deriveBitcodeTransactionReadiness } from '@/app/application/bitcode-transaction-readiness';
+import { useUserData } from '@/hooks/useUserData';
 import { fetchPipelineExecutionHistory } from '@/networking/api-client';
 import { isUserOrbitalMockMode } from '@/lib/mock-review-mode';
 import type { PipelineExecution } from '@/types/api';
@@ -56,6 +59,8 @@ const FIRST_GATE_STYLESHEET_ID = 'bitcode-first-gate-stylesheet';
 const FIRST_GATE_STYLESHEET_HREF = '/application/first-gate-styles';
 
 export default function ApplicationPageClient() {
+  const { user } = useAuth();
+  const { hasGitHubConnection, hasWalletConnection } = useUserData();
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
@@ -97,6 +102,17 @@ export default function ApplicationPageClient() {
   const runs = transactionSource.runs;
   const transactionDataMode: TransactionDataMode = transactionSource.dataMode;
   const runsError = transactionDataMode === 'review-fallback' ? null : runsLoadError;
+  const transactionReadiness = useMemo(
+    () =>
+      deriveBitcodeTransactionReadiness({
+        signedIn: Boolean(user),
+        hasRepositoryProvider: hasGitHubConnection,
+        hasWalletBinding: hasWalletConnection,
+        requiresRepositoryAnchor: true,
+        hasRepositoryAnchor: Boolean(repositoryContext?.selectedRepository),
+      }),
+    [hasGitHubConnection, hasWalletConnection, repositoryContext, user],
+  );
   const replaceApplicationRoute = useCallback(
     (transactionId: string, detailSection = selectedTransactionDetailSection) => {
       const nextParams = writeApplicationTransactionDetailSection(
@@ -365,7 +381,10 @@ export default function ApplicationPageClient() {
                 <ApplicationExperienceFrame onOpenConversations={() => setIsConversationOverlayOpen(true)} />
                 <div className="grid gap-6 2xl:grid-cols-[minmax(0,1.05fr)_minmax(20rem,0.95fr)]">
                   <div className="space-y-6">
-                    <ApplicationCommandDeck onRecordActivity={handleRecordActivity} />
+                    <ApplicationCommandDeck
+                      onRecordActivity={handleRecordActivity}
+                      transactionReadiness={transactionReadiness}
+                    />
                     <ApplicationLiveSummaryStrip />
                   </div>
                   <div className="space-y-6">
@@ -390,7 +409,10 @@ export default function ApplicationPageClient() {
                       onRecordActivity={handleRecordActivity}
                     />
                     <ApplicationSupplySelectionPanel onRecordActivity={handleRecordActivity} />
-                    <ApplicationDepositComposer onRecordActivity={handleRecordActivity} />
+                    <ApplicationDepositComposer
+                      onRecordActivity={handleRecordActivity}
+                      transactionReadiness={transactionReadiness}
+                    />
                   </div>
                   <div className="space-y-6">
                     <ApplicationNeedScenarioPanel onRecordActivity={handleRecordActivity} />
@@ -409,7 +431,10 @@ export default function ApplicationPageClient() {
                 title={APPLICATION_SURFACE_COPY.closure.title}
                 summary={APPLICATION_SURFACE_COPY.closure.summary}
               >
-                <ApplicationClosureControlDeck onRecordActivity={handleRecordActivity} />
+                <ApplicationClosureControlDeck
+                  onRecordActivity={handleRecordActivity}
+                  transactionReadiness={transactionReadiness}
+                />
                 <ApplicationClosureNativeSections />
                 <ApplicationPreservedShellSurface />
               </ApplicationSurfaceSection>

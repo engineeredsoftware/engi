@@ -19,6 +19,7 @@ import { normalizeApplicationClosureState } from './application-closure-state';
 import { deriveApplicationCommandPresentation } from './application-command-presentation';
 import ApplicationFlowGuideCard from './ApplicationFlowGuideCard';
 import { useApplicationShellBridge } from './application-shell-bridge';
+import type { BitcodeTransactionReadiness } from './bitcode-transaction-readiness';
 
 function jumpToShellSection(id: string) {
   document.getElementById(id)?.scrollIntoView({ behavior: 'auto', block: 'start' });
@@ -34,9 +35,13 @@ function optionLabel(
 
 interface ApplicationCommandDeckProps {
   onRecordActivity?: (draft: ApplicationActivityRecordDraft) => Promise<unknown>;
+  transactionReadiness: BitcodeTransactionReadiness;
 }
 
-export default function ApplicationCommandDeck({ onRecordActivity }: ApplicationCommandDeckProps) {
+export default function ApplicationCommandDeck({
+  onRecordActivity,
+  transactionReadiness,
+}: ApplicationCommandDeckProps) {
   const { snapshot, runControl } = useApplicationShellBridge();
   const [isActing, setIsActing] = useState(false);
   const [actionMessage, setActionMessage] = useState<string | null>(null);
@@ -69,7 +74,15 @@ export default function ApplicationCommandDeck({ onRecordActivity }: Application
     () => deriveApplicationCommandPresentation(commandState),
     [commandState],
   );
+  const readinessTone = transactionReadiness.canTransact
+    ? 'border-emerald-400/25 bg-emerald-400/10 text-emerald-100'
+    : 'border-amber-400/25 bg-amber-400/10 text-amber-100';
   const handleMakeBranch = async () => {
+    if (!transactionReadiness.canTransact) {
+      setActionMessage(transactionReadiness.summary);
+      return;
+    }
+
     setIsActing(true);
     setActionMessage(null);
 
@@ -222,11 +235,11 @@ export default function ApplicationCommandDeck({ onRecordActivity }: Application
           <div className="grid gap-3 lg:grid-cols-3">
             <button
               type="button"
-              disabled={isActing || !shellReady}
+              disabled={isActing || !shellReady || !transactionReadiness.canTransact}
               onClick={() => {
                 void handleMakeBranch();
               }}
-              className="rounded-[1.4rem] border border-emerald-400/30 bg-emerald-400/10 px-4 py-4 text-left text-sm font-medium text-emerald-100 transition hover:border-emerald-300/50 hover:bg-emerald-400/15"
+              className="rounded-[1.4rem] border border-emerald-400/30 bg-emerald-400/10 px-4 py-4 text-left text-sm font-medium text-emerald-100 transition hover:border-emerald-300/50 hover:bg-emerald-400/15 disabled:cursor-not-allowed disabled:opacity-50"
             >
               {isActing ? 'Materializing branch…' : 'Make Bitcode branch'}
             </button>
@@ -259,6 +272,18 @@ export default function ApplicationCommandDeck({ onRecordActivity }: Application
               {actionMessage}
             </div>
           ) : null}
+
+          <div className={`rounded-[1.3rem] border px-4 py-4 text-sm leading-6 ${readinessTone}`}>
+            <p className="text-[0.66rem] uppercase tracking-[0.18em] text-current/80">
+              Transaction readiness
+            </p>
+            <p className="mt-2 text-current">{transactionReadiness.summary}</p>
+            {transactionReadiness.blockers.length ? (
+              <p className="mt-3 text-xs uppercase tracking-[0.16em] text-current/80">
+                Pending: {transactionReadiness.blockers.map((entry) => entry.label).join(' · ')}
+              </p>
+            ) : null}
+          </div>
 
           <div className="rounded-[1.5rem] border border-white/8 bg-black/20 px-5 py-5">
             <p className="text-[0.68rem] uppercase tracking-[0.24em] text-neutral-400">Jump links</p>
@@ -317,6 +342,7 @@ export default function ApplicationCommandDeck({ onRecordActivity }: Application
           <ApplicationFlowGuideCard
             commandState={commandState}
             continuationTip={presentation.continuationTip}
+            transactionReadiness={transactionReadiness}
           />
         </div>
       </div>
