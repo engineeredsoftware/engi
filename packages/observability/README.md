@@ -2,7 +2,7 @@
 
 ## Overview
 
-Industrial observability platform providing distributed tracing, performance monitoring, dry-run capabilities, and telemetry integration for the ENGI platform. Implements comprehensive system observability with automatic instrumentation, error tracking, and operational intelligence.
+Industrial observability platform providing distributed tracing, performance monitoring, dry-run capabilities, and telemetry integration for the Bitcode platform. Implements comprehensive system observability with automatic instrumentation, error tracking, and operational intelligence.
 
 ## Core Functionality
 

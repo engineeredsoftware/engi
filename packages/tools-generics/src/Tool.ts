@@ -1,5 +1,5 @@
 /**
- * Base Tool class - the foundational primitive for all tools in engi.
+ * Base Tool class - the foundational primitive for all tools in Bitcode.
  * 
  * Tools are type-safe wrappers around functions that provide:
  * - Structured documentation via @doc-code-tool
@@ -7,7 +7,7 @@
  * - MCP (Model Context Protocol) integration
  * - Zero runtime overhead
  * 
- * Every tool in engi extends this class and implements the `use` method.
+ * Every tool in Bitcode extends this class and implements the `use` method.
  */
 
 // Type for any tool function

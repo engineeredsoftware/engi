@@ -143,6 +143,7 @@ Required coverage posture:
   fifth-gate active-product naming witnesses now also cover live marketing/style/operator carriers such as `uapi/app/(root)/components/{MarketingFeatureBento,MarketingFeatureList,MarketingHeadlessMobileShowcase,MarketingSteps,MarketingTestimonialsCTA}.tsx`, `uapi/{components/base/README.md,styles/{CONSOLIDATED_SYSTEM_GUIDE,orbital}.css,tailwind.config.ts,public/email-logo.svg,stories/email-templates/*}`, `uapi/scripts/long-runner-worker.ts`, `Dockerfile.long-runner`, `packages/styling/README.md`, `packages/generic-tools/lsp-query/src/prompts/lsp-context-awareness-composition.ts`, `.ai/PRODUCT.md`, `INVESTOR_MEMO.md`, `VULNERABILITY_AUDIT_2026-04-02.md`, and `.sales/INTRO_PAMPHLET.md`, so active repository truth does not preserve `Engi`, `engi.dev`, `api.engi.sh`, `engi/long-runner`, or `engi/` path ownership after Bitcode cut-over
   fifth-gate active-product naming witnesses now also cover active integration/example/doc carriers such as `internal-docs/{API,TPS,STYLE}.md`, `packages/mysql/README.md`, and `uapi/mocking/generators/ComprehensiveMockDataGenerators.ts`, so Bitcode-owned API hosts, auxillaries ownership, marketplace preview hosts, and package descriptions do not silently regress to `api.engi.software`, orbitals-owned connects-pane references, `marketplace.engi.com`, or `ENGI platform` wording
   fifth-gate active-product naming witnesses now also cover active platform-package and auxillary-teaching carriers such as `packages/{auth,postgresql,jira,supabase}/README.md`, `packages/supabase/src/client.ts`, `packages/templates-generics/{src/types.ts,package.json}`, `internal-docs/STYLE.md`, and `uapi/mocking/{README.md,COMPREHENSIVE_SYSTEM_SUMMARY.md,generators/ComprehensiveMockDataGenerators.ts}`, so Bitcode platform ownership and User Auxillaries wording do not silently regress to `ENGI platform`, `engi system`, or `User Orbital`
+  fifth-gate active-product naming witnesses now also cover active protocol/demo telemetry and root-artifact teaching carriers such as `protocol-demonstration/src/{demo-scenario,canonical/v23-bitcoin-demonstration-service,canonical/v20-quality}.js`, `README.md`, `packages/observability/README.md`, `packages/time/README.md`, and `packages/tools-generics/src/{Tool,doc-code-tool/index}.ts`, so Bitcode-owned telemetry ids, stubbed bitcoin carrier ids/examples, generated appendix names, `.bitcode/*` root artifact teaching, and shared package comments/docs do not silently regress to `engi.*`, `tb1qengi*`, `lnbcrt1engi*`, `make ENGI branch`, `.engi/*`, or `ENGI platform`
   fifth-gate active-product naming witnesses now also cover the canonical auxillary-onboarding contract and reserved need-measurement teaching layer such as `uapi/app/{application/application-run-data.ts,api/auxillaries/onboarding/route.ts,api/auxillaries/notifications/_shared.ts}`, `uapi/hooks/useConversationStream.ts`, `uapi/mocking/middleware/MockMiddleware.ts`, `uapi/tests/{orbitalsOnboardingRoute,applicationTransactions}.test.ts`, and `internal-docs/{USER-ONBOARDING-AND-SETTINGS,TPS,FRONTEND-ARCHITECTURE,DB,API,EXECUTIONS,EXECUTABLE-PIPELINES,STYLE}.md`, so active Bitcode proof also guards the canonical pane payloads, unauthorized onboarding response shape, and need-measurement placeholder posture instead of leaving stale step-only or Measure wording behind in code/docs/tests
 
 ### Gate 5: Bitcode rename completion, proof precision, and system completeness
@@ -581,7 +582,7 @@ Current active assignments:
   reusable action-pill carrier for selected-transaction verification, settlement, branch, and history follow-through inside transaction detail
 - `uapi/components/base/bitcode/execution/BitcodeExecutionStreamPanel.tsx`
   test coverage:
-  `uapi/tests/protocol-demonstrationExecutionStreamPanel.test.tsx`
+  `uapi/tests/bitcodeExecutionStreamPanel.test.tsx`
   proof surface:
   reusable execution-stream carrier for shared header/log/work-update composition across `/application`, conversations, and `/executions`
 - `uapi/components/base/bitcode/execution/bitcode-transaction-explainers.ts`
@@ -711,7 +712,7 @@ Current active assignments:
   deterministic normalization of retained execution events into application-owned Bitcode run-activity detail
 - `uapi/components/base/bitcode/activity/bitcode-activity-model.ts`
   test coverage:
-  `uapi/tests/protocol-demonstrationActivityModel.test.ts`
+  `uapi/tests/bitcodeActivityModel.test.ts`
   proof surface:
   shared fourth-gate activity vocabulary bridging transactions, retained execution primitives, and personal notification activity before later public/personal system usage joins the same family
 - `uapi/app/executions/page.tsx`, `uapi/app/executions/[runId]/page.tsx`, `uapi/app/auxillaries/[pane]/page.tsx`, `uapi/app/orbitals/*/page.tsx`
@@ -861,6 +862,11 @@ Required closure posture:
   `protocol-demonstration/test/v26-active-product-naming.test.js`
   proof surface:
   fifth-gate Bitcode-core primitive ownership closure so the shared core owner, telemetry namespaces, policy ids, seeded org ids, executor-class ids, architecture-map paths, and `bitcode-system:*` principal refs all converge on Bitcode naming instead of preserving `engi-core.js`, `engi.*`, `engi-policy-*`, `engi-demo.*`, or `engi-system:*` in active runtime truth
+- `{protocol-demonstration/src/{demo-scenario,canonical/v23-bitcoin-demonstration-service,canonical/v20-quality}.js,README.md,packages/{observability,time}/README.md,packages/tools-generics/src/{Tool,doc-code-tool/index}.ts}`
+  test coverage:
+  `protocol-demonstration/test/v26-active-product-naming.test.js`
+  proof surface:
+  fifth-gate protocol/demo telemetry and root-artifact teaching closure so active telemetry ids, stubbed bitcoin carrier ids/examples, operator transcript appendix references, root repository-map artifact names, and shared package comments/docs all converge on Bitcode naming instead of preserving `engi.*`, `tb1qengi*`, `lnbcrt1engi*`, `make ENGI branch`, `ENGI_SPEC_V20_PROVEN.md`, `.engi/*`, or `ENGI platform` in live runtime and operator-facing teaching
 - `packages/digest/{caching/index.ts,caching/__tests__/caching.test.ts,run/digest.ts,run/__tests__/generateDigest.test.ts,jest.config.cjs,tsconfig.test.json,__mocks__/protocol-demonstration/logger.ts,__mocks__/lib/git/git.ts,service/README.md}`
   test coverage:
   `packages/digest/caching/__tests__/caching.test.ts`, `packages/digest/run/__tests__/generateDigest.test.ts`, and `protocol-demonstration/test/v26-active-product-naming.test.js`

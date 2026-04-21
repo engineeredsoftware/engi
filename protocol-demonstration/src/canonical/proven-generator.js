@@ -43,6 +43,8 @@ export const DEFAULT_V26_PROVEN_PAYMENT_MODES = [...BITCOIN_PAYMENT_MODES];
 export const PROVEN_GENERATOR_ID = 'bitcode.proven-generator.v1';
 const NON_DIGESTED_RECURSIVE_ARTIFACT_PATHS = ['.bitcode/system-proof-bundle.json', '.bitcode/proof-witness-manifest.json'];
 const PROVEN_PROFILE_ENABLED = process.env.BITCODE_PROVEN_PROFILE === '1';
+const COLLECTED_PROVEN_RUN_CACHE = new Map();
+const BASE_PROVEN_DATA_CACHE = new Map();
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const REPO_ROOT = path.resolve(__dirname, '../../..');
@@ -221,7 +223,7 @@ const V26_FOURTH_GATE_ACTIVITY_FILES = [
   'uapi/app/api/auxillaries/usage/route.ts',
   'uapi/app/api/auxillaries/transactions/route.ts',
   'uapi/app/api/auxillaries/api-keys/route.ts',
-  'uapi/tests/protocol-demonstrationActivityModel.test.ts',
+  'uapi/tests/bitcodeActivityModel.test.ts',
   'uapi/tests/applicationTransactionActivity.test.ts',
   'uapi/tests/api/activityRoute.test.ts',
   'uapi/tests/api/orbitalsNotificationsRoute.test.ts',
@@ -266,7 +268,7 @@ const V26_FOURTH_GATE_RUNS_PIPELINES_FILES = [
   'uapi/tests/api/deliverableTemplatesRoute.test.ts',
   'uapi/tests/deliverablesHistoryRoute.test.ts',
   'uapi/tests/deliverablesHistoryRunRoute.test.ts',
-  'uapi/tests/protocol-demonstrationExecutionStreamPanel.test.tsx',
+  'uapi/tests/bitcodeExecutionStreamPanel.test.tsx',
   'uapi/tests/usePipelineExecution.test.tsx'
 ];
 const V26_FOURTH_GATE_PROMPT_SYSTEM_FILES = [
@@ -419,6 +421,76 @@ function beginProvenProfile(label) {
     const elapsedMs = Number(process.hrtime.bigint() - startedAt) / 1_000_000;
     process.stderr.write(`[proven-profile] ${label}: ${elapsedMs.toFixed(2)}ms\n`);
   };
+}
+
+/**
+ * Cache seeded proof collections only for the default runtime entrypoints.
+ * Test overrides may intentionally supply alternate builders and should stay uncached.
+ *
+ * @param {typeof buildInitialState} buildInitialStateFn
+ * @param {typeof runMakeBitcodeBranch} runMakeBitcodeBranchFn
+ * @returns {boolean}
+ */
+function canUseDefaultProvenCaches(buildInitialStateFn, runMakeBitcodeBranchFn) {
+  return buildInitialStateFn === buildInitialState && runMakeBitcodeBranchFn === runMakeBitcodeBranch;
+}
+
+/**
+ * @param {{
+ *   scenarioIds: string[],
+ *   branchModes: string[],
+ *   paymentModes: string[]
+ * }} input
+ * @returns {string}
+ */
+function buildCollectedProvenRunsCacheKey({
+  scenarioIds,
+  branchModes,
+  paymentModes
+}) {
+  return stableStringify({
+    scenarioIds,
+    branchModes,
+    paymentModes
+  });
+}
+
+/**
+ * @param {{
+ *   version: string,
+ *   canonicalCommit: string,
+ *   canonicalCommitRecordedAt: string | null,
+ *   generatedAt: string,
+ *   worktreeState: string,
+ *   generatorId: string,
+ *   scenarioIds?: string[] | undefined,
+ *   branchModes: string[],
+ *   paymentModes: string[]
+ * }} input
+ * @returns {string}
+ */
+function buildBaseProvenDataCacheKey({
+  version,
+  canonicalCommit,
+  canonicalCommitRecordedAt,
+  generatedAt,
+  worktreeState,
+  generatorId,
+  scenarioIds,
+  branchModes,
+  paymentModes
+}) {
+  return stableStringify({
+    version,
+    canonicalCommit,
+    canonicalCommitRecordedAt,
+    generatedAt,
+    worktreeState,
+    generatorId,
+    scenarioIds: scenarioIds || [],
+    branchModes,
+    paymentModes
+  });
 }
 
 /**
@@ -997,7 +1069,7 @@ function buildV26RunsPipelinesTotalityProof({
         'uapi/tests/api/deliverables.persistence.test.ts',
         'uapi/tests/deliverablesHistoryRoute.test.ts',
         'uapi/tests/deliverablesHistoryRunRoute.test.ts',
-        'uapi/tests/protocol-demonstrationExecutionStreamPanel.test.tsx',
+        'uapi/tests/bitcodeExecutionStreamPanel.test.tsx',
         'uapi/tests/usePipelineExecution.test.tsx'
       ]
     ),
@@ -1156,6 +1228,18 @@ export function collectCanonicalProvenRuns({
   for (const scenarioId of requestedScenarioIds) {
     invariant(availableScenarioIds.includes(scenarioId), `Unknown scenario id ${scenarioId}.`);
   }
+  const normalizedBranchModes = summarizeStrings(branchModes);
+  const normalizedPaymentModes = summarizeStrings(paymentModes);
+  const cacheKey = canUseDefaultProvenCaches(buildInitialStateFn, runMakeBitcodeBranchFn)
+    ? buildCollectedProvenRunsCacheKey({
+        scenarioIds: requestedScenarioIds,
+        branchModes: normalizedBranchModes,
+        paymentModes: normalizedPaymentModes
+      })
+    : null;
+  if (cacheKey && COLLECTED_PROVEN_RUN_CACHE.has(cacheKey)) {
+    return COLLECTED_PROVEN_RUN_CACHE.get(cacheKey);
+  }
 
   /** @type {any[]} */
   const runs = [];
@@ -1201,12 +1285,16 @@ export function collectCanonicalProvenRuns({
     }
   }
 
-  return {
+  const collected = {
     scenarioIds: requestedScenarioIds,
-    branchModes: summarizeStrings(branchModes),
-    paymentModes: summarizeStrings(paymentModes),
+    branchModes: normalizedBranchModes,
+    paymentModes: normalizedPaymentModes,
     runs
   };
+  if (cacheKey) {
+    COLLECTED_PROVEN_RUN_CACHE.set(cacheKey, collected);
+  }
+  return collected;
 }
 
 /**
@@ -2642,6 +2730,22 @@ function buildBaseCanonicalProvenData({
   buildInitialStateFn = buildInitialState,
   runMakeBitcodeBranchFn = runMakeBitcodeBranch
 }) {
+  const cacheKey = canUseDefaultProvenCaches(buildInitialStateFn, runMakeBitcodeBranchFn)
+    ? buildBaseProvenDataCacheKey({
+        version,
+        canonicalCommit,
+        canonicalCommitRecordedAt,
+        generatedAt,
+        worktreeState,
+        generatorId,
+        scenarioIds,
+        branchModes,
+        paymentModes
+      })
+    : null;
+  if (cacheKey && BASE_PROVEN_DATA_CACHE.has(cacheKey)) {
+    return BASE_PROVEN_DATA_CACHE.get(cacheKey);
+  }
   const finishCollectProfile = beginProvenProfile(`buildBaseCanonicalProvenData:${version}:collectCanonicalProvenRuns`);
   const collected = collectCanonicalProvenRuns({
     buildInitialStateFn,
@@ -2661,6 +2765,9 @@ function buildBaseCanonicalProvenData({
     generatorId
   });
   finishBuildProfile();
+  if (cacheKey) {
+    BASE_PROVEN_DATA_CACHE.set(cacheKey, data);
+  }
   return data;
 }
 

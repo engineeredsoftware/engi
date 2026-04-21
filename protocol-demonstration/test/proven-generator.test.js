@@ -270,8 +270,8 @@ test('V26 proven generator renders the active Bitcode appendix while fifth throu
   assert.equal(generated.data.v26.activeCanonicalTarget, ACTIVE_CANON_VERSION);
   assert.equal(generated.data.v26.draftPreview, ACTIVE_CANON_VERSION !== 'V26');
   assert.equal(generated.data.v26.checkpointReady, true);
-  assert.equal(generated.data.v26.throughFourthGateReady, false);
-  assert.equal(generated.data.v26.promotionReady, false);
+  assert.equal(generated.data.v26.throughFourthGateReady, true);
+  assert.equal(generated.data.v26.promotionReady, true);
   assert.equal(generated.data.v26.fifthGateClosurePassed, false);
   assert.equal(generated.data.v26.sixthGateClosurePassed, false);
   assert.equal(generated.data.v26.seventhGateClosurePassed, false);
@@ -283,9 +283,9 @@ test('V26 proven generator renders the active Bitcode appendix while fifth throu
     ),
     true
   );
-  assert.equal(generated.data.v26.gateCheckpointReport.passed, false);
+  assert.equal(generated.data.v26.gateCheckpointReport.passed, true);
   assert.equal(generated.data.v26.conversationsContinuityProof.passed, true);
-  assert.equal(generated.data.v26.runsPipelinesTotalityProof.passed, false);
+  assert.equal(generated.data.v26.runsPipelinesTotalityProof.passed, true);
   assert.equal(generated.data.v26.persistenceSchemaTotalityProof.passed, true);
   assert.equal(generated.data.v26.promptSystemTotalityProof.passed, true);
   assert.equal(generated.data.v26.retainedPackageAdmissibilityProof.passed, true);

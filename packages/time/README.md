@@ -1,6 +1,6 @@
 # @bitcode/time
 
-Time utility functions for ENGI platform. Provides time range parsing, duration formatting, and human-readable time calculations.
+Time utility functions for the Bitcode platform. Provides time range parsing, duration formatting, and human-readable time calculations.
 
 ## Core Functions
 
@@ -54,4 +54,4 @@ const expires = timeUntil(new Date('2024-06-01')); // "3d 4h" or "Expired"
 
 ## Architecture
 
-Built on `date-fns` for reliable date calculations. Provides consistent time handling across ENGI platform with support for various time formats and human-readable output.
+Built on `date-fns` for reliable date calculations. Provides consistent time handling across the Bitcode platform with support for various time formats and human-readable output.

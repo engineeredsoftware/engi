@@ -1,8 +1,8 @@
 {
   "reportId": "v26-gate-checkpoint-report",
   "version": "V26",
-  "proofSourceCommit": "1863945897f2e45f3f9db16fddf2b1f16c09e4b1",
-  "generatedAt": "2026-04-20T22:11:58-03:00",
+  "proofSourceCommit": "13cc65d0c885c535361124813297ac8c7b704254",
+  "generatedAt": "2026-04-20T22:15:48-03:00",
   "generatorId": "bitcode.proven-generator.v1",
   "worktreeState": "dirty-preview",
   "activeCanonicalTarget": "V26",
@@ -10,7 +10,7 @@
   "checkpointId": "v26-through-fourth-gate-promotion-boundary-on-seven-gate-v26",
   "checkpointFocus": "through-fourth-gate-promotion-boundary-on-seven-gate-v26",
   "nextGate": "Gate 5: Bitcode rename completion, proof precision, and system completeness",
-  "passed": false,
+  "passed": true,
   "firstGate": {
     "gateId": "gate-1",
     "label": "Ownership migration baseline",
@@ -206,7 +206,7 @@
   "fourthGate": {
     "gateId": "gate-4",
     "label": "Merged-world application and retained-system convergence",
-    "passed": false,
+    "passed": true,
     "checks": [
       {
         "checkId": "fourth-gate-conversations-continuity",
@@ -217,8 +217,8 @@
       {
         "checkId": "fourth-gate-runs-pipelines-totality",
         "label": "Fourth-gate runs and pipelines totality proof",
-        "passed": false,
-        "detail": "Runs and pipelines totality proof remains open"
+        "passed": true,
+        "detail": "Retained executions, activity, deliverables, and pipeline systems totalize under Bitcode"
       },
       {
         "checkId": "fourth-gate-persistence-schema-totality",

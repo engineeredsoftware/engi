@@ -67,7 +67,7 @@ Second-gate closure also requires the live product and docs to stay aligned:
   Preserved Bitcode protocol implementation, deterministic state engine, public runtime shell, and canonical proof generator inputs.
 - `packages/*`
   Retained package owners being converged upward into Bitcode-grade proof, packaging, and API/storage discipline during V26.
-- `.engi/`
+- `.bitcode/`
   Generated proof, checkpoint, and spec-family artifacts.
 
 ## Common commands
@@ -137,6 +137,6 @@ Current fourth-gate promotion boundary is now explicit too:
 - `/api/vcs`, `/api/templates/deliverables`, and `/api/auxillaries/template-preferences` are now explicit retained compatibility carriers that keep `/executions` healthy while run/pipeline patterns continue porting inward to `/application`
 - `/edgetimes` is a live Bitcode docs-branded storage/schema/package ownership route rather than draft-only intent
 - `/api/edgetimes` is the JSON witness for that same fourth-gate storage/API topology
-- `.engi/conversations-continuity-proof.json`, `.engi/runs-pipelines-totality-proof.json`, `.engi/persistence-schema-totality-proof.json`, `.engi/prompt-system-totality-proof.json`, and `.engi/retained-package-admissibility-proof.json` are the current generated fourth-gate promotion proofs
+- `.bitcode/conversations-continuity-proof.json`, `.bitcode/runs-pipelines-totality-proof.json`, `.bitcode/persistence-schema-totality-proof.json`, `.bitcode/prompt-system-totality-proof.json`, and `.bitcode/retained-package-admissibility-proof.json` are the current generated fourth-gate promotion proofs
 - retained Jira and GitHub old-world ports are now explicitly admitted only under Bitcode-owned fourth-gate roles: Jira as reader-first need ingestion and Git/GH as the initial settle-write boundary
 - the retained persistence, conversations, runs/pipelines, and old-world port basis is now surfaced through explicit route/API/package owners instead of living only in spec prose while fifth-gate proving remains open

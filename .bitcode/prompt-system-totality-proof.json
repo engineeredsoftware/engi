@@ -1,8 +1,8 @@
 {
   "reportId": "v26-prompt-system-totality-proof",
   "version": "V26",
-  "proofSourceCommit": "1863945897f2e45f3f9db16fddf2b1f16c09e4b1",
-  "generatedAt": "2026-04-20T22:11:58-03:00",
+  "proofSourceCommit": "13cc65d0c885c535361124813297ac8c7b704254",
+  "generatedAt": "2026-04-20T22:15:48-03:00",
   "generatorId": "bitcode.proven-generator.v1",
   "worktreeState": "dirty-preview",
   "passed": true,

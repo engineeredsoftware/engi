@@ -38,7 +38,7 @@ export function buildDemoScenario(state) {
     ]
   };
 
-  telemetry('engi.buildDemoScenario', {
+  telemetry('bitcode.buildDemoScenario', {
     defaultOrgId: scenario.defaultOrgId,
     stageIds: scenario.stages.map((/** @type {any} */ stage) => stage.id),
     assetCount: state.assets?.length,

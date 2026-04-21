@@ -3,7 +3,7 @@
 
 import crypto from 'node:crypto';
 
-export const BITCOIN_DEMONSTRATION_SERVICE_ID = 'engi.v23.bitcoin-demonstration-service';
+export const BITCOIN_DEMONSTRATION_SERVICE_ID = 'bitcode.v23.bitcoin-demonstration-service';
 export const BITCOIN_DEMONSTRATION_SERVICE_MODE = 'stubbed-testnet-demonstration-service';
 
 export const BITCOIN_DEMONSTRATION_NETWORKS = {
@@ -105,14 +105,14 @@ export function buildBitcoinDemonstrationPaymentCarrier({
             bundleId,
             meteredMicroUnits
           })).toString('base64'),
-          receiveAddress: `tb1qengi${shortId(intentId, 20)}`,
+          receiveAddress: `tb1qbitcode${shortId(intentId, 20)}`,
           changeAddress: `tb1qchange${shortId(buyerId, 18)}`
         }
       : carrierType === 'bolt11-invoice'
         ? {
             carrierType,
             network,
-            invoice: `lnbcrt1engi${shortId(`${intentId}:${bundleId}`, 28)}`,
+            invoice: `lnbcrt1bitcode${shortId(`${intentId}:${bundleId}`, 28)}`,
             paymentHash: sha256(`${intentId}:invoice`),
             descriptionHash: sha256(`${bundleId}:description`)
           }

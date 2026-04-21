@@ -2,7 +2,7 @@
  * Doc-Code-Tool Infrastructure
  * 
  * This directory contains all components related to the @doc-code-tool
- * documentation system for tools in engi.
+ * documentation system for tools in Bitcode.
  */
 
 // Plugin for parsing @doc-code-tool comments
