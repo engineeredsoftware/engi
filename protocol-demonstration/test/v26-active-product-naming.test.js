@@ -442,6 +442,8 @@ const llmGenericsReadmeSource = readFileSync(new URL('../../packages/llm-generic
 const llmGenericsIndexJsSource = readFileSync(new URL('../../packages/llm-generics/src/index.js', import.meta.url), 'utf8');
 const llmGenericsBitcodeRegistryMockSource = readFileSync(new URL('../../packages/llm-generics/__mocks__/bitcode-registry.ts', import.meta.url), 'utf8');
 const llmGenericsBitcodePromptsMockSource = readFileSync(new URL('../../packages/llm-generics/__mocks__/bitcode-prompts.ts', import.meta.url), 'utf8');
+const techTypesIdentifierIndexSource = readFileSync(new URL('../../packages/generic-agents/tech-types-identifier/src/index.ts', import.meta.url), 'utf8');
+const techTypesIdentifierReadmeSource = readFileSync(new URL('../../packages/generic-agents/tech-types-identifier/README.md', import.meta.url), 'utf8');
 const jestBaseSource = readFileSync(new URL('../../jest.base.cjs', import.meta.url), 'utf8');
 const pnpmWorkspaceSource = readFileSync(new URL('../../pnpm-workspace.yaml', import.meta.url), 'utf8');
 const accountOrbitalStorySource = readFileSync(new URL('../../uapi/stories/AccountOrbital.stories.tsx', import.meta.url), 'utf8');
@@ -1439,6 +1441,10 @@ test('active V26 retained package surfaces use Bitcode naming instead of Engi na
   assert.match(techTypesReadmeSource, /across the Bitcode platform/);
   assert.match(techTypesReadmeSource, /used to measure technical needs/);
   assert.match(techTypesReadmeSource, /need-measurement spine/);
+  assert.match(techTypesReadmeSource, /canonical V26 envelope/);
+  assert.match(techTypesReadmeSource, /technologyProfile/);
+  assert.match(techTypesIdentifierReadmeSource, /canonical `technologyProfile` emitted by Bitcode need-measurement/);
+  assert.match(techTypesIdentifierIndexSource, /technologyProfile: CanonicalTechnologyProfileSchema/);
   assert.match(streamsReadmeSource, /for the Bitcode platform/);
   assert.match(digestReadmeSource, /bitcode-corp/);
   assert.match(digestCachingSource, /\/tmp\/bitcode\/digest-cache/);
@@ -1602,6 +1608,7 @@ test('active V26 retained package surfaces use Bitcode naming instead of Engi na
   assert.doesNotMatch(techTypesReadmeSource, /for ENGI platform/);
   assert.doesNotMatch(techTypesReadmeSource, /across ENGI platform/);
   assert.doesNotMatch(techTypesReadmeSource, /generic taxonomy sidecar/i);
+  assert.doesNotMatch(techTypesIdentifierReadmeSource, /technologyProfile \/ `stackHints`/);
   assert.doesNotMatch(streamsReadmeSource, /for the ENGI platform/);
   assert.doesNotMatch(digestReadmeSource, /engi-corp/);
   assert.doesNotMatch(digestCachingSource, /\/tmp\/engi\/digest-cache/);

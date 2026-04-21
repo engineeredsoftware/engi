@@ -4,44 +4,79 @@ Technology and stack type definitions for the Bitcode platform. This package pro
 
 ## Core Exports
 
-- **Technology Types**: Brands, frameworks, languages, databases
-- **Unique Tech Identifiers**: Curated tech identifiers with explicit versions
-- **Stack Definitions**: Complete technology stack classifications
+- **Technology Vocabulary**: `Brand`, `Technology`, `Language`, `TechType`, `VersionedTech`, and `composeTechType`
+- **Unique Tech Identifiers**: `UniqueTechIdentifier`, `UniqueTech`, `getUniqueTechIdentifier`, `parseUniqueTechIdentifier`, and `getTechVersion`
+- **Signal Normalization**: `inferTechnologySignals` for repo/file/config evidence that must become canonical Bitcode `technologyProfile` fields without ad hoc stack-string drift
+- **Stack Definitions**: Complete technology stack classifications that productized Bitcode dependents can share without drift
 
 ## Technology Categories
 
 ```typescript
-import { TechType, Framework, Language, Database } from '@bitcode/tech-types';
+import {
+  Brand,
+  Technology,
+  Language,
+  TechType,
+  composeTechType,
+} from '@bitcode/tech-types';
 
 // Technology identification
-const techStack: TechType[] = [
-  'react',
-  'typescript', 
-  'postgresql',
-  'docker',
-  'kubernetes'
-];
+const frontendStack: TechType = composeTechType('Vercel', 'NextJS', 'TypeScript');
+const deploymentStack: TechType = composeTechType('CNCF', 'Kubernetes', 'YAML');
 
-// Framework-specific types
-const frontendFramework: Framework = 'nextjs';
-const backendLanguage: Language = 'typescript';
-const database: Database = 'postgresql';
+// Vocabulary segments used by dependent classifiers
+const provider: Brand = 'Vercel';
+const framework: Technology = 'NextJS';
+const language: Language = 'TypeScript';
 ```
 
 ## Unique Technology Identifiers
 
 ```typescript
-import { UniqueTech, getTechVersion } from '@bitcode/tech-types';
+import {
+  UniqueTech,
+  getTechVersion,
+  getUniqueTechIdentifier,
+  parseUniqueTechIdentifier,
+} from '@bitcode/tech-types';
 
-// Versioned technology identification
-const tech: UniqueTech = {
-  name: 'react',
-  version: '18.2.0',
-  category: 'frontend-framework'
-};
+// Curated versioned technology identification
+const tech: UniqueTech =
+  getUniqueTechIdentifier('Vercel', 'NextJS', 'TypeScript', '13.4.0')!;
 
 // Version management
-const version = getTechVersion('nextjs'); // '13.4.0'
+const version = getTechVersion(tech); // '13.4.0'
+
+// Parse the identifier back into need-measurement parts
+const parsed = parseUniqueTechIdentifier(tech);
+// {
+//   umbrella: 'Vercel',
+//   tech: 'NextJS',
+//   language: 'TypeScript',
+//   version: '13.4.0'
+// }
+```
+
+## Need-Measurement Signal Normalization
+
+`technologyProfile` is the canonical V26 envelope for normalized stack evidence. Package consumers and preserved-protocol need measurement should emit that name directly instead of inventing adjacent shapes.
+
+```typescript
+import { inferTechnologySignals } from '@bitcode/tech-types';
+
+const technologyProfile = inferTechnologySignals({
+  stackHints: ['typescript', 'github-actions'],
+  touchedPaths: ['src/routes/auth.ts', '.github/workflows/ci.yml', 'infra/main.tf'],
+  configKeys: ['auth.jwt.issuer'],
+});
+
+console.log(technologyProfile);
+// {
+//   stackHints: ['typescript', 'github-actions', 'yaml', 'terraform', 'hcl', 'auth', 'jwt'],
+//   languages: ['TypeScript', 'YAML', 'HCL'],
+//   technologies: ['GitHubActions', 'Terraform'],
+//   brands: ['GitHub', 'Hashicorp']
+// }
 ```
 
 ## Use Cases
@@ -56,4 +91,6 @@ const version = getTechVersion('nextjs'); // '13.4.0'
 
 ## Architecture
 
-Provides standardized technology taxonomy for consistent identification across the Bitcode platform. In V26, this package is part of the Bitcode need-measurement spine: the preserved protocol defines the measurement realities, while productized dependents use these types to classify stacks, requests, assets, and execution contexts without semantic drift.
+Provides standardized technology taxonomy and signal normalization for consistent identification across the Bitcode platform. In V26, this package is part of the Bitcode need-measurement spine: the preserved protocol defines the measurement realities, while productized dependents use these types and helpers to classify stacks, requests, assets, and execution contexts without semantic drift.
+
+Current dependent surfaces include the `tech-types-identifier` generic agent package and the deliverable pipeline setup chain, both of which rely on this package to keep inferred stack labels aligned with the preserved protocol's measured-need semantics.

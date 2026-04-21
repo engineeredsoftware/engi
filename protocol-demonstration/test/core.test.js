@@ -309,6 +309,20 @@ test('measureNeedFromScenario materializes prompt surfaces with interpolated lin
   assert.ok(measurement.measurementProvenance.filter((entry) => entry.mode === 'static').every((entry) => entry.receiptRefs.length >= 1));
 });
 
+test('measureNeedFromScenario materializes a canonical technology profile from repo and benchmark signals', () => {
+  const state = buildInitialStateTest();
+  const scenario = state.needScenarios.find((entry) => entry.scenarioFamily === 'proof-heavy-rust-validator');
+  const measurement = measureNeedFromScenarioTest(scenario);
+
+  assert.ok(measurement.needDescriptor.technologyProfile);
+  assert.ok(measurement.needDescriptor.technologyProfile.stackHints.includes('rust'));
+  assert.ok(measurement.needDescriptor.technologyProfile.stackHints.includes('cargo'));
+  assert.ok(measurement.needDescriptor.technologyProfile.languages.includes('Rust'));
+  assert.ok(measurement.needDescriptor.technologyProfile.technologies.includes('Cargo'));
+  assert.ok(measurement.needDescriptor.technologyProfile.brands.includes('RustFoundation'));
+  assert.equal(measurement.needDescriptor.fieldDerivations.technologyProfile.source, 'packages/tech-types.inferTechnologySignals');
+});
+
 test('measureNeedFromScenario makes prompt-owned source precedence truthful when scenario values are provided', () => {
   const state = buildInitialStateTest();
   const scenario = {

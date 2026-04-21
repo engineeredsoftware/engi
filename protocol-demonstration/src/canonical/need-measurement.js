@@ -64,6 +64,12 @@
  * @typedef {{
  *   touchedPaths: string[],
  *   stackHints: string[],
+ *   technologyProfile: {
+ *     stackHints: string[],
+ *     languages: string[],
+ *     technologies: string[],
+ *     brands: string[]
+ *   },
  *   extractedSymbols: string[],
  *   configKeys: string[],
  *   staticExecutionReceipts: StaticExecutionReceipt[]
@@ -128,6 +134,12 @@
  *   targetArtifactKinds: string[],
  *   closureCriteria: string[],
  *   stackHints: string[],
+ *   technologyProfile: {
+ *     stackHints: string[],
+ *     languages: string[],
+ *     technologies: string[],
+ *     brands: string[]
+ *   },
  *   touchedPaths: string[],
  *   extractedSymbols: string[],
  *   configKeys: string[],
@@ -145,6 +157,7 @@
  *     targetArtifactKinds: DerivationRecord,
  *     closureCriteria: DerivationRecord,
  *     stackHints: DerivationRecord,
+ *     technologyProfile: DerivationRecord,
  *     touchedPaths: DerivationRecord,
  *     extractedSymbols: DerivationRecord,
  *     configKeys: DerivationRecord,
@@ -699,6 +712,17 @@ export function createNeedMeasurementRuntime({
         source: 'repo-context-extraction',
         evidenceRefs: [scenario.repo, ...repoCodeAnalysis.stackHints]
       }),
+      technologyProfile: derivationRecord({
+        field: 'technologyProfile',
+        source: 'packages/tech-types.inferTechnologySignals',
+        evidenceRefs: [
+          scenario.repo,
+          ...repoCodeAnalysis.stackHints,
+          ...repoCodeAnalysis.technologyProfile.languages,
+          ...repoCodeAnalysis.technologyProfile.technologies,
+          ...repoCodeAnalysis.technologyProfile.brands
+        ]
+      }),
       touchedPaths: derivationRecord({
         field: 'touchedPaths',
         source: canonicalBenchmarkOutputs.touchedPaths.length ? 'canonicalBenchmarkOutputs.touchedPaths + repo-context-extraction' : 'repo-context-extraction',
@@ -955,6 +979,7 @@ export function createNeedMeasurementRuntime({
       targetArtifactKinds,
       closureCriteria,
       stackHints: repoCodeAnalysis.stackHints,
+      technologyProfile: repoCodeAnalysis.technologyProfile,
       touchedPaths: repoCodeAnalysis.touchedPaths,
       extractedSymbols: repoCodeAnalysis.extractedSymbols,
       configKeys: repoCodeAnalysis.configKeys,
@@ -974,6 +999,7 @@ export function createNeedMeasurementRuntime({
       },
       staticMeasurements: {
         touchedPaths: repoCodeAnalysis.touchedPaths,
+        technologyProfile: repoCodeAnalysis.technologyProfile,
         extractedSymbols: repoCodeAnalysis.extractedSymbols,
         configKeys: repoCodeAnalysis.configKeys,
         failingCases: canonicalBenchmarkOutputs.failingCases,

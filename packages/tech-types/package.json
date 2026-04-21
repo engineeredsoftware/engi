@@ -1,7 +1,11 @@
 {
   "name": "@bitcode/tech-types",
   "version": "0.0.1",
+  "type": "module",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
+  "scripts": {
+    "test": "jest --config jest.config.cjs --runInBand"
+  },
   "private": true
 }

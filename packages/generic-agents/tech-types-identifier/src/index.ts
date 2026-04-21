@@ -38,6 +38,14 @@ const TechTypesIdentifierInputSchema = z.object({
   contextHints: z.array(z.string()).optional().describe('Additional context about the technology stack')
 });
 
+const CanonicalTechnologyProfileSchema = z.object({
+  // `technologyProfile` is the canonical Bitcode envelope for normalized stack evidence.
+  stackHints: z.array(z.string()),
+  languages: z.array(z.string()),
+  technologies: z.array(z.string()),
+  brands: z.array(z.string()),
+});
+
 // ==================== PLAN STEP SCHEMA ====================
 const TechTypesIdentifierPlanSchema = z.object({
   // Analysis strategy
@@ -191,6 +199,9 @@ const TechTypesIdentifierRefineSchema = z.object({
 const TechTypesIdentifierRetrySchema = z.object({
   // Final comprehensive results
   finalResults: z.object({
+    technologyProfile: CanonicalTechnologyProfileSchema.describe(
+      'Canonical Bitcode technology profile derived from repo and config evidence'
+    ),
     identifiedTechnologies: z.array(z.object({
       name: z.string(),
       category: z.enum(['language', 'framework', 'library', 'tool', 'platform', 'database']),
@@ -323,6 +334,12 @@ const quickTechIdentification = factoryAgentWithSingleStep<
     // Return matches the Retry schema for consistency
     return {
       finalResults: {
+        technologyProfile: {
+          stackHints: [],
+          languages: [],
+          technologies: [],
+          brands: [],
+        },
         identifiedTechnologies: [],
         techStackSummary: {
           primaryStack: 'Unknown',

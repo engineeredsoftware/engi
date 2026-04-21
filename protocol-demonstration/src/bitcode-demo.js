@@ -53,6 +53,7 @@
 
 import { ExecutionReality, NormalizationPressure } from './canonical/enums.js';
 import './canonical/types.js';
+import { inferTechnologySignals } from '../../packages/tech-types/src/signals-runtime.js';
 import { buildRepoSupplySurface, buildDepositingSurface, buildNeedingSurface, buildDepositingToNeedingSurface, buildRepoToSettlementSurface, buildIdentityAuthSpineSurface, buildBoundaryRealitySurface, buildGithubBoundarySurface } from './canonical/surfaces.js';
 import { buildPipelineTelemetry, buildPromptImplementationSurface, buildSystemProofBundle, buildArtifactUploadManifest, buildDeliverablesManifest, buildScenarioFixtureManifest, buildTestCoverageReport } from './canonical/run-artifacts.js';
 import { createNeedMeasurementRuntime } from './canonical/need-measurement.js';
@@ -4045,11 +4046,31 @@ function inferClosureCriteria(scenario, benchmarkOutputs, targetArtifactKinds = 
  * @returns {string[]}
  */
 function inferStackHints(scenario, benchmarkOutputs) {
-  return summarizeStrings(union(scenario.repoContext?.stackHints || [], [
+  return inferNeedTechnologyProfile(scenario, benchmarkOutputs).stackHints;
+}
+
+/**
+ * Package-owned technology signal normalization keeps need measurement and
+ * downstream product surfaces on one canonical Bitcode vocabulary instead of
+ * letting protocol-local string heuristics drift over time.
+ *
+ * @param {any} scenario
+ * @param {any} benchmarkOutputs
+ * @returns {{ stackHints: string[], languages: string[], technologies: string[], brands: string[] }}
+ */
+function inferNeedTechnologyProfile(scenario, benchmarkOutputs) {
+  const seededHints = summarizeStrings(union(scenario.repoContext?.stackHints || [], [
     ...benchmarkOutputs.symbols.filter((/** @type {any} */ symbol) => /validator/i.test(symbol)).map(() => 'rust'),
     ...benchmarkOutputs.touchedPaths.filter((/** @type {any} */ item) => item.endsWith('.ts')).map(() => 'typescript'),
     ...benchmarkOutputs.configKeys.filter((/** @type {any} */ item) => item.startsWith('auth.')).map(() => 'auth')
   ]));
+
+  return inferTechnologySignals({
+    stackHints: seededHints,
+    touchedPaths: benchmarkOutputs.touchedPaths,
+    symbols: benchmarkOutputs.symbols,
+    configKeys: benchmarkOutputs.configKeys,
+  });
 }
 
 /**
@@ -4058,11 +4079,13 @@ function inferStackHints(scenario, benchmarkOutputs) {
  * @returns {any}
  */
 function buildRepoStaticCodeAnalysis(scenario, benchmarkOutputs) {
+  const technologyProfile = inferNeedTechnologyProfile(scenario, benchmarkOutputs);
   const normalizedOutputEnvelope = {
     touchedPaths: summarizeStrings(union(benchmarkOutputs.touchedPaths, scenario.repoContext?.repoTree?.filter((/** @type {any} */ item) => benchmarkOutputs.touchedPaths.includes(item)) || [])),
     extractedSymbols: summarizeStrings(union(benchmarkOutputs.symbols, scenario.repoContext?.symbols || [])),
     configKeys: summarizeStrings(union(benchmarkOutputs.configKeys, scenario.repoContext?.configKeys || [])),
-    stackHints: inferStackHints(scenario, benchmarkOutputs)
+    stackHints: technologyProfile.stackHints,
+    technologyProfile
   };
   const receipt = buildStaticExecutionReceipt({
     receiptKind: 'repo-context-static-measurement',

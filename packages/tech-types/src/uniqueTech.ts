@@ -143,6 +143,8 @@ export const UNIQUE_TECH = {
   //  Infrastructure / IaC / Observability                                 │
   // ───────────────────────────────────────────────────────────────────────
 
+  GitHubGitHubActionsYAML_1_0_0: 'GitHubGitHubActionsYAML@1.0.0',
+  RustFoundationCargoRust_1_77_0: 'RustFoundationCargoRust@1.77.0',
   HashicorpTerraformHCL_1_8_0: 'HashicorpTerraformHCL@1.8.0',
   DockerDockerYAML_26_0_0: 'DockerDockerYAML@26.0.0',
   PulumiPulumiTypeScript_3_111_0: 'PulumiPulumiTypeScript@3.111.0',
@@ -157,6 +159,7 @@ export const UNIQUE_TECH = {
 // Type helpers --------------------------------------------------------------
 
 export type UniqueTechIdentifier = typeof UNIQUE_TECH[keyof typeof UNIQUE_TECH];
+export type UniqueTech = UniqueTechIdentifier;
 
 /**
  * Convenience helper that returns the canonical `UniqueTechIdentifier` string
@@ -169,13 +172,20 @@ export function getUniqueTechIdentifier(
   language: ParsedUniqueTech['language'],
   version: SemVer,
 ): UniqueTechIdentifier | undefined {
-  const candidate = `${umbrella}${tech}${language}@${version}` as UniqueTechIdentifier;
-  // The cast above is speculative – we must verify the string is indeed part
-  // of the catalogue (otherwise the caller would end up with an invalid
-  // value that doesn’t narrow to the actual union type).
+  const candidate = `${umbrella}${tech}${language}@${version}`;
+  // Membership in the curated catalogue is the proof step that lets us narrow
+  // the runtime string to the exported union without forcing TypeScript to
+  // materialize the full cartesian product up front.
   return (Object.values(UNIQUE_TECH) as readonly string[]).includes(candidate)
-    ? candidate
+    ? candidate as UniqueTechIdentifier
     : undefined;
+}
+
+/**
+ * Return the SemVer segment from a curated unique technology identifier.
+ */
+export function getTechVersion(id: UniqueTechIdentifier): SemVer {
+  return parseUniqueTechIdentifier(id).version;
 }
 
 export interface ParsedUniqueTech {

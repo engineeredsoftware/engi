@@ -46,6 +46,7 @@ export const BRANDS = [
   // Big tech & cloud
   'Amazon',
   'Apple',
+  'GitHub',
   'Google',
   'Meta',
   'Microsoft',
@@ -243,8 +244,10 @@ export const TECHNOLOGIES = [
 
   // Containers / orchestration
   'Docker',
+  'GitHubActions',
   'Kubernetes',
   'Helm',
+  'Cargo',
 
   // Game engines
   'Unity',
@@ -380,13 +383,25 @@ export type StackIdentifier<
   L extends Language = Language,
 > = `${B}${T}${L}`;
 
-// A convenience alias for the full cartesian product of the currently listed
-// brands, technologies, and languages.  This expands to a *finite union type*
-// representing potentially tens of thousands of identifiers, yet still allows
-// “dot-completion” in supporting editors.
+// A convenience alias for the serialized technology identifier surface used by
+// downstream packages. In practice, the full cartesian product of the current
+// Brand × Technology × Language lists is too large for TypeScript to
+// materialize reliably across the whole workspace, so the package keeps the
+// precise segment vocabularies above and exposes `TechType` as the runtime
+// string surface that dependents actually pass around.
+export type TechType = string;
 
-// Be mindful: a very large cartesian product can slow&nbsp;down the TS server.
-export type TechType = StackIdentifier;
+/**
+ * Compose a serialized technology identifier from the canonical vocabulary
+ * segments that the Bitcode need-measurement spine uses.
+ */
+export function composeTechType<
+  B extends Brand = Brand,
+  T extends Technology = Technology,
+  L extends Language = Language,
+>(brand: B, technology: T, language: L): StackIdentifier<B, T, L> {
+  return `${brand}${technology}${language}` as StackIdentifier<B, T, L>;
+}
 
 // ────────────────────────────────────────────────────────────────────────────
 //  Versioning                                                               │
@@ -399,4 +414,3 @@ export interface VersionedTech<B extends Brand = Brand, T extends Technology = T
   id: StackIdentifier<B, T, L>;
   version: SemVer;
 }
-
