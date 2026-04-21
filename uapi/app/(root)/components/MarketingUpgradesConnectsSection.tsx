@@ -130,7 +130,7 @@ function generateCloudItems(): CloudItem[] {
   });
 }
 
-export default function MarketingAI DocumentsConnectsSection() {
+export default function MarketingAIDocumentsConnectsSection() {
   const cloudItems = useMemo(generateCloudItems, []);
 
   // Pause background icon rotation when the section is off-screen to reclaim

@@ -14,7 +14,7 @@ export interface AgenticExecutionSummary {
   closureFocus: string;
 }
 
-const DEFAULT_CANONICAL_TYPE = 'agentic-execution:branch-artifact';
+const DEFAULT_CANONICAL_TYPE = 'agentic-execution:branch-artifact' as const;
 const DEFAULT_STORAGE_TYPE = 'pipeline:deliverables';
 
 const CANONICAL_TO_STORAGE_TYPE = {
@@ -24,6 +24,8 @@ const CANONICAL_TO_STORAGE_TYPE = {
   'agentic-execution:upgrade': 'pipeline:upgrades',
 } as const;
 
+type CanonicalAgenticExecutionType = keyof typeof CANONICAL_TO_STORAGE_TYPE;
+
 function normalizeWhitespace(value?: string | null) {
   return value?.trim() || '';
 }
@@ -32,7 +34,11 @@ export function normalizeAgenticExecutionType(value?: string | null) {
   const normalized = normalizeWhitespace(value).toLowerCase();
 
   if (!normalized) return DEFAULT_CANONICAL_TYPE;
-  if (normalized.startsWith('agentic-execution:')) return normalized;
+  if (normalized.startsWith('agentic-execution:')) {
+    return normalized in CANONICAL_TO_STORAGE_TYPE
+      ? (normalized as CanonicalAgenticExecutionType)
+      : DEFAULT_CANONICAL_TYPE;
+  }
   if (normalized.includes('upgrade')) return 'agentic-execution:upgrade';
   if (normalized.includes('proof')) return 'agentic-execution:proof-refresh';
   if (normalized.includes('measure')) return 'agentic-execution:need-measurement';

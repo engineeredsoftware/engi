@@ -22,19 +22,22 @@ import { log } from '@bitcode/logger';
 interface CacheOptions {
   ttl?: number;
   maxSize?: number;
+  enabled?: boolean;
 }
 
 // Simple circuit breaker implementation
 function withCircuitBreaker<T>(fn: () => Promise<T>, options?: any): Promise<T> {
   return fn(); // For now, just pass through
 }
-import { SupabaseClient } from '@supabase/supabase-js';
+type SupabaseClientLike = {
+  from(table: string): unknown;
+};
 
 /**
  * VCS Service configuration
  */
 export interface VCSServiceConfig {
-  supabaseClient: SupabaseClient;
+  supabaseClient: SupabaseClientLike;
   cache?: CacheOptions;
   resilience?: {
     retry?: { attempts: number; backoff: 'linear' | 'exponential' };
@@ -59,7 +62,7 @@ export class VCSService {
 
   constructor(config: VCSServiceConfig) {
     this.config = config;
-    this.connections = new VCSConnections(config.supabaseClient);
+    this.connections = new VCSConnections(config.supabaseClient as any);
     
     if (config.cache?.enabled) {
       this.cache = new Map();
@@ -96,35 +99,39 @@ export class VCSService {
       provider: auth.provider,
       hasAccessToken: !!auth.accessToken
     });
+    if (!auth.provider) {
+      throw new Error(`VCS auth missing provider for connection ${connectionId}`);
+    }
+    const providerType = auth.provider;
 
     // Get or create provider instance (lazy loading)
-    const providerKey = `${auth.provider}-${auth.connectionId}`;
+    const providerKey = `${providerType}-${auth.connectionId || connectionId}`;
     let provider = this.providers.get(providerKey);
     
     if (!provider) {
       // Use GitHub App credentials when available for GitHub provider
-      const clientId = auth.provider === 'github' && process.env.GITHUB_APP_CLIENT_ID
+      const clientId = providerType === 'github' && process.env.GITHUB_APP_CLIENT_ID
         ? process.env.GITHUB_APP_CLIENT_ID
-        : process.env[`${auth.provider.toUpperCase()}_CLIENT_ID`] || '';
+        : process.env[`${providerType.toUpperCase()}_CLIENT_ID`] || '';
       
-      const clientSecret = auth.provider === 'github' && process.env.GITHUB_APP_CLIENT_SECRET
+      const clientSecret = providerType === 'github' && process.env.GITHUB_APP_CLIENT_SECRET
         ? process.env.GITHUB_APP_CLIENT_SECRET
-        : process.env[`${auth.provider.toUpperCase()}_CLIENT_SECRET`] || '';
+        : process.env[`${providerType.toUpperCase()}_CLIENT_SECRET`] || '';
       
       log('Creating new provider instance', 'info', { 
-        provider: auth.provider,
+        provider: providerType,
         hasClientId: !!clientId,
         hasClientSecret: !!clientSecret,
-        isGitHubApp: auth.provider === 'github' && !!process.env.GITHUB_APP_CLIENT_ID
+        isGitHubApp: providerType === 'github' && !!process.env.GITHUB_APP_CLIENT_ID
       });
       
       provider = await VCSProviderFactory.create({
-        provider: auth.provider,
+        provider: providerType,
         clientId,
         clientSecret,
         redirectUri: process.env.VCS_REDIRECT_URI || '',
         // Add GitHub App specific config
-        ...(auth.provider === 'github' ? {
+        ...(providerType === 'github' ? {
           appId: process.env.GITHUB_APP_ID,
           privateKey: process.env.GITHUB_PRIVATE_KEY,
           webhookSecret: process.env.GITHUB_WEBHOOK_SECRET
@@ -149,7 +156,6 @@ export class VCSService {
         const previousOp = resilientOperation;
         resilientOperation = () => withCircuitBreaker(
           previousOp,
-          providerKey,
           this.config.resilience!.circuitBreaker!
         );
       }
@@ -324,7 +330,7 @@ export class VCSService {
       return;
     }
 
-    for (const [key] of this.cache) {
+    for (const [key] of Array.from(this.cache.entries())) {
       if (key.includes(pattern)) {
         this.cache.delete(key);
       }

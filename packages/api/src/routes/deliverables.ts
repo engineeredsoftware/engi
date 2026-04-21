@@ -78,16 +78,33 @@ type ModelUsageStat = {
   averageLatencyMs: number | null;
 };
 
+type GenerationMetricsRow = {
+  model_provider?: string | null;
+  model_name?: string | null;
+  input_tokens?: number | null;
+  output_tokens?: number | null;
+  total_tokens?: number | null;
+  cost?: number | null;
+  latency_ms?: number | null;
+};
+
+function asRecord(value: unknown): Record<string, unknown> | null {
+  return value && typeof value === 'object' && !Array.isArray(value)
+    ? (value as Record<string, unknown>)
+    : null;
+}
+
 async function aggregateLLMMetrics(runId: string): Promise<{
   averageLatencyMs: number | null;
   modelUsage: ModelUsageStat[];
 }> {
   try {
     const supa = getAdminSupabase();
-    const { data: rows, error } = await supa
-      .from('generations')
+    const { data: rawRows, error } = await ((supa as any)
+      .from('generations'))
       .select('model_provider, model_name, input_tokens, output_tokens, total_tokens, cost, latency_ms')
       .eq('execution_id', runId);
+    const rows = Array.isArray(rawRows) ? (rawRows as GenerationMetricsRow[]) : [];
     if (error || !rows || rows.length === 0) {
       return { averageLatencyMs: null, modelUsage: [] };
     }
@@ -214,10 +231,11 @@ export const GET = traceRoute('/deliverables', async (request: NextRequest) => {
       // Return the current user's installation info
       // Optionally pull login from the connection record for display.
       const connection = await orm.userConnections.getByUserAndProvider(user.id, 'github');
+      const connectionData = asRecord(connection?.connection_data);
       return createJsonResponse({
         accounts: [{
           id: connectionId,
-          login: connection?.connection_data?.login || 'unknown',
+          login: typeof connectionData?.login === 'string' ? connectionData.login : 'unknown',
           type: 'User'
         }]
       });
@@ -313,21 +331,11 @@ export const GET = traceRoute('/deliverables', async (request: NextRequest) => {
           repo, 
           path || ''
         );
-        
-        let files = [];
-        if (Array.isArray(content)) {
-          files = content.map(item => ({ 
-            path: item.path, 
-            type: item.type, 
-            sha: item.sha 
-          }));
-        } else if (content && typeof content === 'object') {
-          files = [{ 
-            path: content.path, 
-            type: content.type, 
-            sha: content.sha 
-          }];
-        }
+        const files = content.map(item => ({
+          path: item.path,
+          type: item.type,
+          sha: item.sha,
+        }));
         
         return createJsonResponse({ files });
       } catch (error: any) {
@@ -401,7 +409,7 @@ export const GET = traceRoute('/deliverables', async (request: NextRequest) => {
 
     if (owner && repo && branch) {
       try {
-        const commits = await getVCSService().listCommits(connectionId, owner, repo, branch);
+        const commits = await getVCSService().listCommits(connectionId, owner, repo, { branch });
         return createJsonResponse({ commits });
       } catch (error: any) {
         log('[deliverables] Commits fetch error', 'error', { requestId, owner, repo, branch, error: error.message });
@@ -504,7 +512,7 @@ export const POST = traceRoute('/deliverables', async (request: NextRequest) => 
       
       // Process uploaded files
       const { saveArtifact } = await import('@bitcode/artifacts');
-      for (const [key, value] of formData.entries()) {
+      for (const [key, value] of Array.from(formData.entries())) {
         if (key.startsWith('file_') && value instanceof File) {
           log('[deliverables] Processing uploaded file', 'debug', {
             correlationId,
@@ -859,7 +867,7 @@ export const POST = traceRoute('/deliverables', async (request: NextRequest) => 
               log('[deliverables] Failed to parse event data', 'warn', { correlationId, data });
             }
           }
-        });
+        } as any);
         
         // Store context information
         // NOTE: Execution context is namespaced key-value storage
@@ -930,9 +938,10 @@ export const POST = traceRoute('/deliverables', async (request: NextRequest) => 
 
         // GA-2: Multi-deliverable support will be integrated into deliverablePipeline
         // For now, always use single deliverable pipeline
+        let finalWorkSummary: any = undefined;
         const result = await withBtdReservation(
           user.id,
-          () => deliverablePipeline(pipelineInput, execution),
+          async (_reservation) => deliverablePipeline(pipelineInput, execution!),
           { pipelineType: 'deliverable' }
         );
         
@@ -1026,7 +1035,6 @@ export const POST = traceRoute('/deliverables', async (request: NextRequest) => 
           }
         }
         // Enrich final work summary with token/$BTD aggregates and merge into execution output
-        let finalWorkSummary: any = undefined;
         try {
           finalWorkSummary = {
             summary: (execution as any).get?.('shipping/final_work_summary', 'summary'),
@@ -1134,7 +1142,9 @@ export const POST = traceRoute('/deliverables', async (request: NextRequest) => 
           }
         }
 
-        const gateState = execution?.get?.('gate', 'state');
+        const gateState = execution?.get?.('gate', 'state') as
+          | { history?: unknown }
+          | undefined;
 
         const completionMetadata: Record<string, any> = {
           ...(executionData?.namespaces ? { namespaces: executionData.namespaces } : {}),
@@ -1238,7 +1248,8 @@ export const POST = traceRoute('/deliverables', async (request: NextRequest) => 
         } as any);
         // If legacy pipeline_runs metadata table is present in the environment, best-effort update
         try {
-          await orm.pipelineRuns.update(runId, {
+          const legacyPipelineRuns = (orm as any).pipelineRuns;
+          await legacyPipelineRuns?.update?.(runId, {
             status: 'failed',
             metadata: {
               correlationId,
@@ -1323,12 +1334,13 @@ export const DELETE = traceRoute('/deliverables', async (request: NextRequest) =
       status: 'cancelled',
       completed_at: new Date().toISOString()
     } as any);
-    // If legacy pipeline_runs metadata table is present in the environment, best-effort update
-    try {
-      await orm.pipelineRuns.update(runId, {
-        status: 'cancelled',
-        metadata: {
-          correlationId,
+        // If legacy pipeline_runs metadata table is present in the environment, best-effort update
+        try {
+          const legacyPipelineRuns = (orm as any).pipelineRuns;
+          await legacyPipelineRuns?.update?.(runId, {
+            status: 'cancelled',
+            metadata: {
+              correlationId,
           cancelled_at: new Date().toISOString()
         } as any
       } as any);

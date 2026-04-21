@@ -962,12 +962,17 @@ Required closure posture:
   test coverage:
   `uapi/tests/applicationTransactionSource.test.ts` and `uapi/tests/applicationProtocolProjection.test.ts`
   proof surface:
-  fifth-gate protocol-ledger state-unification closure so the Bitcode Terminal central ledger can project live protocol posture into the same searchable master-detail activity window, suppress review-fallback collapse when protocol state is present, and treat projected rows as first-class selected detail even before retained execution-history persistence catches up
+  fifth-gate protocol-ledger state-unification closure so the Bitcode Terminal central ledger can project live protocol posture into the same searchable master-detail activity window, suppress review-fallback collapse when protocol state is present, and carry a projected-detail snapshot on protocol rows so selected detail keeps repository/give/need/fit/supply posture even before retained execution-history persistence catches up
 - `{uapi/app/application/{ApplicationCommandDeck.tsx,ApplicationClosureControlDeck.tsx,ApplicationTransactionDetailSurface.tsx,application-activity-history.ts,application-transaction-detail-snapshot.ts,application-transaction-detail.ts},uapi/tests/{applicationActivityHistory.test.ts,applicationTransactionDetailSnapshot.test.ts,applicationTransactionDetail.test.ts}}`
   test coverage:
   `uapi/tests/applicationActivityHistory.test.ts`, `uapi/tests/applicationTransactionDetailSnapshot.test.ts`, and `uapi/tests/applicationTransactionDetail.test.ts`
   proof surface:
   fifth-gate closure-follow-through persistence closure so branch/closure/detail-triggered Bitcode writes now persist settlement metrics, branch artifacts, proof families, and recent history into `final_work_summary`, allowing the Bitcode Terminal selected-detail surface to reread closure posture from saved activity rows instead of depending on a still-live shell snapshot
+- `{packages/api/src/{executions/agentic-execution.ts,conversations/streaming.ts,routes/{auth.ts,deliverables.ts}},packages/vcs/src/service.ts,uapi/{hooks/useConversationStream.ts,types/{next-server-compat.d.ts,supabase-js-compat.d.ts},tsconfig.json},uapi/tests/{useConversationStream.firstWrite.test.ts,api/{chatStreamRoute.test.ts,conversationThreadStreamRoute.test.ts}}}`
+  test coverage:
+  `uapi/tests/useConversationStream.firstWrite.test.ts`, `uapi/tests/api/chatStreamRoute.test.ts`, and `uapi/tests/api/conversationThreadStreamRoute.test.ts`
+  proof surface:
+  fifth-gate active-source compile-health closure for the live Bitcode stream/auth/deliverables corridor so canonical execution typing, SSE tracking, retained route handlers, and VCS service wiring now compile through the active `uapi` program instead of remaining blocked on old Next-host assumptions, schema drift, or downlevel iteration mismatches
 - `{uapi/app/application/{ApplicationCommandDeck.tsx,ApplicationClosureControlDeck.tsx,ApplicationTransactionDetailSurface.tsx,application-activity-history.ts,application-transaction-detail-snapshot.ts,application-transaction-detail.ts},uapi/tests/{applicationActivityHistory.test.ts,applicationTransactionDetailSnapshot.test.ts,applicationTransactionDetail.test.ts}}`
   test coverage:
   `uapi/tests/applicationActivityHistory.test.ts`, `uapi/tests/applicationTransactionDetailSnapshot.test.ts`, and `uapi/tests/applicationTransactionDetail.test.ts`

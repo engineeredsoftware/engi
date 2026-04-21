@@ -156,9 +156,9 @@ export const githubCallback = traceRoute('/auth/github/callback', async (request
     await userConnections.upsert({
       user_id: userId,
       provider: 'github',
-      provider_user_id: githubUser.id.toString(),
-      provider_username: githubUser.login,
       connection_data: {
+        provider_user_id: githubUser.id.toString(),
+        provider_username: githubUser.login,
         connectionId: installationId || githubUser.id,
         access_token: tokenData.access_token,
         login: githubUser.login,
@@ -268,9 +268,9 @@ export const metamaskCallback = traceRoute('/auth/metamask/callback', async (req
     await userConnections.upsert({
       user_id: userId,
       provider: 'metamask',
-      provider_user_id: address,
-      provider_username: address,
       connection_data: {
+        provider_user_id: address,
+        provider_username: address,
         address,
         signature,
         connected_at: new Date().toISOString()
@@ -382,9 +382,9 @@ export const chatgptCallback = traceRoute('/auth/chatgpt/callback', async (reque
     await userConnections.upsert({
       user_id: userId,
       provider: 'chatgpt',
-      provider_user_id: openaiUser.id,
-      provider_username: openaiUser.username || openaiUser.email,
       connection_data: {
+        provider_user_id: openaiUser.id,
+        provider_username: openaiUser.username || openaiUser.email,
         access_token: tokenData.access_token,
         refresh_token: tokenData.refresh_token,
         expires_at: new Date(Date.now() + tokenData.expires_in * 1000).toISOString(),

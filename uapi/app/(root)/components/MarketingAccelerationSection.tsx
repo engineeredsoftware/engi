@@ -202,7 +202,7 @@ const MarketingAccelerationSection: React.FC = () => {
   // Top-level group descriptions for hover info
   const groupDescriptions: Record<string, string> = useMemo(() => ({
     Deliverables: 'From auto-generated, Git-native design docs through merge-ready, CI-validated code, context-indexed discussions, and automated compliance reviews, Bitcode obliterates handoffs and friction across your entire SDLC.',
-    AI Documents: 'Continuous system evolution via data-driven feedback loops: Bitcode ingests developer and user signals, orchestrates MCP integrations, and applies domain-specific Extensions to ensure each iteration aligns with real-world results.',
+    'AI Documents': 'Continuous system evolution via data-driven feedback loops: Bitcode ingests developer and user signals, orchestrates MCP integrations, and applies domain-specific Extensions to ensure each iteration aligns with real-world results.',
   }), []);
 
   // Deliverable items for hover and EduBox content
@@ -394,7 +394,7 @@ const MarketingAccelerationSection: React.FC = () => {
             <div className="flex gap-8 relative px-6 py-4 rounded-xl border border-emerald-400/25">
               <div
                 className="absolute -top-2 left-1/2 -translate-x-1/2 flex items-center px-2 bg-[#020617] text-[10px] font-semibold uppercase tracking-wider text-emerald-300 cursor-pointer"
-                onMouseEnter={() => setActiveEdu({ title: 'AI Documents', body: groupDescriptions.AI Documents })}
+                onMouseEnter={() => setActiveEdu({ title: 'AI Documents', body: groupDescriptions['AI Documents'] })}
               >
                 <InformationCircleIcon className="w-3 h-3 mr-1 text-emerald-300" />
                 AI Documents

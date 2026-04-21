@@ -1,4 +1,5 @@
 import {
+  buildProtocolProjectedRunDetail,
   buildProtocolProjectedWorkspaceRun,
   mergeProtocolProjectedRun,
 } from '@/app/application/application-protocol-projection';
@@ -35,21 +36,81 @@ describe('application-protocol-projection', () => {
   };
 
   it('builds a canonical projected workspace run from live protocol posture', () => {
-    const projectedRun = buildProtocolProjectedWorkspaceRun(
-      {
-        scenario: {
+    const snapshot = {
+      scenario: {
+        scenarioId: 'scenario-1',
+        scenarioFamily: 'auth-remediation',
+        repo: 'bitcode/terminal',
+        profileShortLabel: 'Targeted deposit',
+      },
+      scenarios: [
+        {
+          scenarioId: 'scenario-1',
           scenarioFamily: 'auth-remediation',
+          repo: 'bitcode/terminal',
+          profileShortLabel: 'Targeted deposit',
+          selected: true,
         },
-        needingSurface: {
-          needSummary: 'Measure issuer-auth drift against the active repository boundary.',
-          parserKind: 'benchmark-parser',
+      ],
+      selection: {
+        projectionPrincipal: 'giver',
+        branchMode: 'patch',
+        authSessionId: 'session-1',
+        selectedInventoryEntryIds: ['entry-1'],
+      },
+      needingSurface: {
+        needSummary: 'Measure issuer-auth drift against the active repository boundary.',
+        parserKind: 'benchmark-parser',
+        closureCriteria: ['bound issuer auth'],
+        targetArtifactKinds: ['runbook'],
+      },
+      inventory: {
+        selectedCount: 3,
+        filteredCount: 5,
+        totalFilteredEntries: 12,
+        kind: 'all',
+        searchTerm: 'auth',
+        kindOptions: ['all', 'runbook'],
+        selectedEntries: [{ inventoryEntryId: 'entry-1', title: 'rollback runbook' }],
+        filteredEntries: [
+          {
+            inventoryEntryId: 'entry-1',
+            title: 'rollback runbook',
+            artifactKind: 'runbook',
+            selected: true,
+            tags: ['auth'],
+          },
+        ],
+      },
+      authSessions: [
+        {
+          authSessionId: 'session-1',
+          repo: 'bitcode/terminal',
+          installationId: 42,
+          selected: true,
         },
-        inventory: {
-          selectedCount: 3,
-        },
-      } as any,
-      repositoryContext,
-    );
+      ],
+      authSession: {
+        authSessionId: 'session-1',
+        repo: 'bitcode/terminal',
+        installationId: 42,
+        installationAccountLogin: 'bitcode',
+        defaultRef: 'main',
+      },
+      repoSupplySummary: {
+        repoCount: 1,
+        inventoryEntryCount: 3,
+        scenarioCount: 1,
+        candidateAssetCount: 3,
+      },
+      depositingSurface: {
+        depositIntentSummary: 'Prepare the active repository supply into a Bitcode share posture.',
+        selectedArtifactKindCounts: { runbook: 1 },
+        selectedOriginKindCounts: { repo: 1 },
+        repoSupplyRef: 'bitcode/terminal',
+      },
+    } as any;
+    const projectedRun = buildProtocolProjectedWorkspaceRun(snapshot, repositoryContext);
 
     expect(projectedRun).toMatchObject({
       type: 'agentic-execution:need-measurement',
@@ -62,6 +123,98 @@ describe('application-protocol-projection', () => {
       summary: 'Measure issuer-auth drift against the active repository boundary.',
     });
     expect(projectedRun?.id).toContain('protocol-live-posture::');
+    expect(projectedRun?.protocolProjectionDetail).toMatchObject({
+      repoSnapshot: {
+        org: 'bitcode',
+        repo: 'terminal',
+        branch: 'main',
+      },
+      bitcodeActivityState: {
+        giveWorkbench: {
+          projectionPrincipal: 'giver',
+          scenarioLabel: 'auth-remediation',
+        },
+        needMeasurement: {
+          parserKind: 'benchmark-parser',
+          targetKindCount: 1,
+        },
+        supplySelection: {
+          authSessionLabel: 'bitcode/terminal · 42',
+          selectedCount: 3,
+        },
+        repositoryAnchor: {
+          providerAccount: 'garrett',
+          repository: {
+            fullName: 'bitcode/terminal',
+          },
+        },
+      },
+    });
+  });
+
+  it('builds a projected detail snapshot directly from live protocol posture', () => {
+    const projectedDetail = buildProtocolProjectedRunDetail(
+      {
+        scenario: {
+          scenarioId: 'scenario-1',
+          scenarioFamily: 'auth-remediation',
+          repo: 'bitcode/terminal',
+          profileShortLabel: 'Targeted deposit',
+        },
+        scenarios: [
+          {
+            scenarioId: 'scenario-1',
+            scenarioFamily: 'auth-remediation',
+            repo: 'bitcode/terminal',
+            profileShortLabel: 'Targeted deposit',
+            selected: true,
+          },
+        ],
+        selection: {
+          projectionPrincipal: 'needer',
+          branchMode: 'patch',
+        },
+        needingSurface: {
+          needSummary: 'Measure issuer-auth drift against the active repository boundary.',
+          parserKind: 'benchmark-parser',
+          closureCriteria: ['bound issuer auth'],
+          targetArtifactKinds: ['runbook'],
+        },
+        inventory: {
+          selectedCount: 1,
+          filteredCount: 2,
+          totalFilteredEntries: 2,
+          kind: 'all',
+          searchTerm: '',
+          kindOptions: ['all', 'runbook'],
+          filteredEntries: [],
+        },
+        repoSupplySummary: {
+          repoCount: 1,
+          inventoryEntryCount: 3,
+          scenarioCount: 1,
+          candidateAssetCount: 3,
+        },
+      } as any,
+      repositoryContext,
+    );
+
+    expect(projectedDetail).toMatchObject({
+      summary: 'Measure issuer-auth drift against the active repository boundary.',
+      proofStatus: 'need-measurement witness in flight',
+      closureFocus: 'need measurement + verification posture',
+      bitcodeActivityState: {
+        needMeasurement: {
+          parserKind: 'benchmark-parser',
+          closureCriteriaCount: 1,
+        },
+        repositoryAnchor: {
+          repository: {
+            fullName: 'bitcode/terminal',
+          },
+        },
+      },
+    });
   });
 
   it('prefers a projected protocol row ahead of persisted execution history rows', () => {

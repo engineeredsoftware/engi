@@ -12,14 +12,12 @@
     "isolatedModules": true,
     "jsx": "preserve",
     "incremental": true,
+    "baseUrl": ".",
     "plugins": [
       { "name": "next" }
     ],
     "paths": {
       "@/*": ["./*"],
-
-      // Generic deep imports: allow any @bitcode/<pkg>/src/<path>
-      "@bitcode/*/src/*": ["../packages/*/src/*"],
 
       // Ensure deep prompt parts resolve before the generic @bitcode/* pattern
       "@bitcode/prompts": ["../packages/prompts/src/index.ts"],
@@ -277,6 +275,7 @@
     "next-env.d.ts",
     "app/**/*.ts",
     "app/**/*.tsx",
+    "types/**/*.d.ts",
     ".next/types/**/*.ts"
   ],
   "exclude": ["node_modules", "lib"]

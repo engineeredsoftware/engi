@@ -1,5 +1,6 @@
 import type { DeliverablesDoc } from '@/components/base/bitcode/execution/DeliverablesDocPanel';
 import type { PipelineExecution } from '@/types/api';
+import type { ApplicationRunDetailSnapshot } from './application-transaction-detail-snapshot';
 
 export type WorkspaceRun = Pick<PipelineExecution, 'id' | 'created_at' | 'type' | 'agentic_execution' | 'status'> & {
   summary?: string | null;
@@ -16,6 +17,7 @@ export type WorkspaceRun = Pick<PipelineExecution, 'id' | 'created_at' | 'type' 
   averageLatencyMs?: number | null;
   proofStatus?: string | null;
   closureFocus?: string | null;
+  protocolProjectionDetail?: ApplicationRunDetailSnapshot | null;
 };
 
 export const MOCK_RUNS: WorkspaceRun[] = [

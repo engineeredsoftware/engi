@@ -351,7 +351,9 @@ export function useConversationStream(options: UseConversationStreamOptions) {
                 case 'pipeline_triggered':
                   setState(prev => ({
                     ...prev,
-                    activePipelines: new Set([...prev.activePipelines, event.data.runId])
+                    activePipelines: new Set(
+                      Array.from(prev.activePipelines).concat(event.data.runId),
+                    )
                   }));
                   onPipelineTriggered?.(event.data.runId, event.data.pipelineType);
                   break;

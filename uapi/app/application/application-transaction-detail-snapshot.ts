@@ -479,6 +479,10 @@ export function buildApplicationRunDetailFromSelectedRun(
   selectedRun: WorkspaceRun,
   fallbackDeliverables?: DeliverablesDoc | null,
 ): ApplicationRunDetailSnapshot {
+  if (selectedRun.sourceModel === 'protocol-projection' && selectedRun.protocolProjectionDetail) {
+    return selectedRun.protocolProjectionDetail;
+  }
+
   return {
     summary: selectedRun.summary || fallbackDeliverables?.summary || null,
     deliverables: fallbackDeliverables || null,

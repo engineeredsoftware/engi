@@ -54,11 +54,24 @@ interface StreamConnection {
   id: string;
   userId: string;
   conversationId: string;
-  controller: ReadableStreamDefaultController;
-  heartbeatTimer?: NodeJS.Timer;
+  controller: ReadableStreamDefaultController<Uint8Array>;
+  heartbeatTimer?: ReturnType<typeof setInterval>;
   createdAt: Date;
   lastActivity: Date;
   eventCount: number;
+}
+
+interface StreamableExecution extends Execution {
+  on?(event: 'log', handler: (data: Record<string, unknown>) => void): void;
+  on?(event: 'phase', handler: (data: Record<string, unknown>) => void): void;
+  on?(
+    event: 'complete',
+    handler: (data: { success?: boolean; summary?: string }) => void,
+  ): void;
+  on?(
+    event: 'error',
+    handler: (error: { message?: string; code?: string }) => void,
+  ): void;
 }
 
 /**
@@ -91,7 +104,7 @@ export class ConversationStreamingService {
     userId: string,
     conversationId: string,
     requestId: string
-  ): ReadableStream {
+  ): ReadableStream<Uint8Array> {
     // Check connection limit
     const userCount = this.userConnectionCounts.get(userId) || 0;
     if (userCount >= this.config.maxConnections) {
@@ -225,6 +238,7 @@ export class ConversationStreamingService {
   ): void {
     const connection = this.connections.get(connectionId);
     if (!connection) return;
+    const streamableExecution = execution as StreamableExecution;
 
     // Emit pipeline triggered
     this.emitEvent(connectionId, {
@@ -232,8 +246,12 @@ export class ConversationStreamingService {
       data: { pipelineId, pipelineType }
     });
 
+    if (typeof streamableExecution.on !== 'function') {
+      return;
+    }
+
     // Forward execution events
-    execution.on('log', (data) => {
+    streamableExecution.on('log', (data) => {
       this.emitEvent(connectionId, {
         type: 'pipeline_event',
         data: {
@@ -243,7 +261,7 @@ export class ConversationStreamingService {
       });
     });
 
-    execution.on('phase', (data) => {
+    streamableExecution.on('phase', (data) => {
       this.emitEvent(connectionId, {
         type: 'pipeline_event',
         data: {
@@ -253,7 +271,7 @@ export class ConversationStreamingService {
       });
     });
 
-    execution.on('complete', (data) => {
+    streamableExecution.on('complete', (data) => {
       this.emitEvent(connectionId, {
         type: 'pipeline_complete',
         data: {
@@ -264,7 +282,7 @@ export class ConversationStreamingService {
       });
     });
 
-    execution.on('error', (error) => {
+    streamableExecution.on('error', (error) => {
       this.emitEvent(connectionId, {
         type: 'error',
         data: {
@@ -347,7 +365,7 @@ export class ConversationStreamingService {
     const staleThreshold = Date.now() - 5 * 60 * 1000; // 5 minutes
     const staleConnections: string[] = [];
 
-    for (const [id, connection] of this.connections) {
+    for (const [id, connection] of Array.from(this.connections.entries())) {
       if (connection.lastActivity.getTime() < staleThreshold) {
         staleConnections.push(id);
       }

@@ -42,6 +42,71 @@ describe('application-transaction-detail-snapshot helpers', () => {
     expect(snapshot.historyItemCount).toBe(4);
   });
 
+  it('uses embedded protocol projection detail for projected live rows', () => {
+    const snapshot = buildApplicationRunDetailFromSelectedRun({
+      ...baseRun,
+      sourceModel: 'protocol-projection',
+      protocolProjectionDetail: {
+        summary: 'Live projected Bitcode posture.',
+        deliverables: null,
+        repoSnapshot: {
+          org: 'bitcode',
+          repo: 'terminal',
+          branch: 'main',
+          commit: '',
+        },
+        processingStats: {
+          time: null,
+          tokenTotal: null,
+          btdUsed: null,
+          usdTotal: null,
+          averageLatencyMs: null,
+        },
+        proofStatus: 'verification witness refreshed',
+        closureFocus: 'need measurement + ledger refresh',
+        closureFollowThrough: null,
+        closureState: null,
+        bitcodeActivityState: {
+          repositoryAnchor: {
+            provider: 'github',
+            providerAccount: 'bitcode',
+            repository: {
+              id: 'repo-1',
+              fullName: 'bitcode/terminal',
+              defaultBranch: 'main',
+              private: true,
+              language: 'TypeScript',
+              topics: ['bitcode'],
+            },
+            connection: {
+              connected: true,
+              valid: true,
+              mode: 'live connection',
+            },
+          },
+        },
+        historyItemCount: 3,
+        eventCount: 0,
+      },
+    });
+
+    expect(snapshot).toMatchObject({
+      summary: 'Live projected Bitcode posture.',
+      repoSnapshot: {
+        org: 'bitcode',
+        repo: 'terminal',
+        branch: 'main',
+      },
+      proofStatus: 'verification witness refreshed',
+      bitcodeActivityState: {
+        repositoryAnchor: {
+          providerAccount: 'bitcode',
+        },
+      },
+      historyItemCount: 3,
+    });
+  });
+
   it('normalizes live history payload with final work summary deliverables', () => {
     const snapshot = normalizeApplicationRunDetailPayload(
       {
