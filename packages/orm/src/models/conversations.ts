@@ -10,7 +10,7 @@
  */
 
 import { BaseModel } from './base';
-import { Database, Tables, Insertable, Updatable } from '../types/database';
+import { Database } from '../types/database';
 import { SupabaseClient } from '@supabase/supabase-js';
 import {
   Conversation,
@@ -19,6 +19,16 @@ import {
   ConversationListResult,
   CreateConversationInput
 } from '@bitcode/conversations-generics';
+
+type ConversationMessageRow = {
+  id: string;
+  content: string;
+  created_at: string;
+};
+
+type ConversationWithMessagesRow = Conversation & {
+  messages?: ConversationMessageRow[] | null;
+};
 
 export class ConversationsModel extends BaseModel<'conversations'> {
   constructor(supabase: SupabaseClient<Database>) {
@@ -78,12 +88,12 @@ export class ConversationsModel extends BaseModel<'conversations'> {
     if (error) throw error;
 
     // Process results to match ConversationWithStats
-    const hasMore = data && data.length > limit;
-    const conversations = hasMore ? data.slice(0, limit) : (data || []);
+    const hasMore = Boolean(data && data.length > limit);
+    const conversations = (hasMore ? data.slice(0, limit) : (data || [])) as ConversationWithMessagesRow[];
     
-    const results: ConversationWithStats[] = conversations.map(conv => {
+    const results: ConversationWithStats[] = conversations.map((conv): ConversationWithStats => {
       const messages = conv.messages || [];
-      const lastMessage = messages.sort((a, b) => 
+      const lastMessage = [...messages].sort((a: ConversationMessageRow, b: ConversationMessageRow) => 
         new Date(b.created_at).getTime() - new Date(a.created_at).getTime()
       )[0];
 
@@ -126,7 +136,7 @@ export class ConversationsModel extends BaseModel<'conversations'> {
       if (error.code === 'PGRST116') return null; // Not found
       throw error;
     }
-    return data;
+    return (data as Conversation) || null;
   }
 
   /**
@@ -144,7 +154,7 @@ export class ConversationsModel extends BaseModel<'conversations'> {
     const conversation = await this.create({
       user_id: input.user_id,
       title: input.title || 'New Conversation'
-    });
+    }) as Conversation;
 
     // Create initial message if provided
     if (input.initialMessage) {
@@ -177,7 +187,7 @@ export class ConversationsModel extends BaseModel<'conversations'> {
       .limit(limit);
 
     if (error) throw error;
-    return data || [];
+    return (data || []) as Conversation[];
   }
 
   /**
@@ -190,7 +200,7 @@ export class ConversationsModel extends BaseModel<'conversations'> {
     return this.update(conversationId, {
       title,
       updated_at: new Date().toISOString()
-    });
+    }) as Promise<Conversation>;
   }
 
   /**
@@ -199,7 +209,7 @@ export class ConversationsModel extends BaseModel<'conversations'> {
   async touch(conversationId: string): Promise<Conversation> {
     return this.update(conversationId, {
       updated_at: new Date().toISOString()
-    });
+    }) as Promise<Conversation>;
   }
 
   /**

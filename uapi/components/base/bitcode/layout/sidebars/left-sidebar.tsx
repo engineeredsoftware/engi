@@ -103,7 +103,7 @@ export default function LeftSidebar() {
         onToggle={() => setIsSidebarOpen(!isSidebarOpen)}
         options={sidebarOptions}
         activeOption={activeSidebar}
-        onActiveOptionChange={setActiveSidebar}
+        onOptionChange={(optionId) => setActiveSidebar(optionId as 'deliverables' | 'measure')}
         onboardingLocked={onboardingLocked}
       />
       {/* Sticky header inside the sidebar when open */}

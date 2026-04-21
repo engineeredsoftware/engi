@@ -973,6 +973,11 @@ Required closure posture:
   `uapi/tests/useConversationStream.firstWrite.test.ts`, `uapi/tests/api/chatStreamRoute.test.ts`, and `uapi/tests/api/conversationThreadStreamRoute.test.ts`
   proof surface:
   fifth-gate active-source compile-health closure for the live Bitcode stream/auth/deliverables corridor so canonical execution typing, SSE tracking, retained route handlers, and VCS service wiring now compile through the active `uapi` program instead of remaining blocked on old Next-host assumptions, schema drift, or downlevel iteration mismatches
+- `{packages/api/src/conversations/{attachments.ts,conversations.ts},uapi/components/base/bitcode/{execution/{github-selectors.tsx,pipeline-execution-log.tsx,TagOverflowList.tsx},icons/LogoIcon.tsx,typing-animation.tsx,layout/{nav.tsx,sidebars/left-sidebar.tsx}},uapi/config/features.ts,uapi/tests/{navPublicShell.test.tsx,navWorkspaceChrome.test.tsx}}`
+  test coverage:
+  `uapi/tests/navPublicShell.test.tsx` and `uapi/tests/navWorkspaceChrome.test.tsx`
+  proof surface:
+  fifth-gate active-source shell and conversation-helper compile-health closure so live conversation persistence helpers, GitHub execution selectors, execution-log rendering, shell feature-flag aliases, and core Bitcode shell components now typecheck cleanly under the active `uapi` program instead of remaining blocked on implicit-any residue, missing selector bindings, or shell-prop mismatches
 - `{uapi/app/application/{ApplicationCommandDeck.tsx,ApplicationClosureControlDeck.tsx,ApplicationTransactionDetailSurface.tsx,application-activity-history.ts,application-transaction-detail-snapshot.ts,application-transaction-detail.ts},uapi/tests/{applicationActivityHistory.test.ts,applicationTransactionDetailSnapshot.test.ts,applicationTransactionDetail.test.ts}}`
   test coverage:
   `uapi/tests/applicationActivityHistory.test.ts`, `uapi/tests/applicationTransactionDetailSnapshot.test.ts`, and `uapi/tests/applicationTransactionDetail.test.ts`

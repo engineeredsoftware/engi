@@ -89,7 +89,7 @@ export async function getConversationAttachments(conversationId: string, options
     throw msgError;
   }
 
-  const messageIds = messages.map(m => m.id);
+  const messageIds = (messages ?? []).map((message: { id: string }) => message.id);
   
   if (messageIds.length === 0) {
     return { data: [], hasMore: false };

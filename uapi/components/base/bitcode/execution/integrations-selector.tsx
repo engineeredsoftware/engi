@@ -1,6 +1,7 @@
+/* eslint-disable react/no-multi-comp */
 "use client";
 import React, { useState } from 'react';
-import Select, { components } from 'react-select';
+import Select, { components, type GroupBase } from 'react-select';
 import { Plug } from 'lucide-react';
 import { glassyStyles, glassyPillStyles } from '@/components/base/bitcode/selects/glassy-select-styles';
 import { NoOptionsMessage } from './select-components';
@@ -141,16 +142,19 @@ export const IntegrationsSelector = ({
           ...option,
           value: option.id
         })))}
-        formatGroupLabel={(data) => (
-          <div className="px-2 py-1">
-            <div className="text-xs font-medium text-[#67feb7] mb-1">
-              {data.label}
-              {data.subLabel && (
-                <span className="ml-2 text-gray-400">• {data.subLabel}</span>
-              )}
+        formatGroupLabel={(data) => {
+          const group = data as GroupBase<IntegrationItem> & { subLabel?: string };
+          return (
+            <div className="px-2 py-1">
+              <div className="text-xs font-medium text-[#67feb7] mb-1">
+                {group.label}
+                {group.subLabel && (
+                  <span className="ml-2 text-gray-400">• {group.subLabel}</span>
+                )}
+              </div>
             </div>
-          </div>
-        )}
+          );
+        }}
         formatOptionLabel={formatItemLabel}
         isSearchable
         isDisabled={disabled}

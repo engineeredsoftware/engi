@@ -348,7 +348,7 @@ export default function ApplicationDepositComposer({
                     : 'border-white/10 bg-black/20 text-neutral-200'
               }`}
             >
-              {submitState.message}
+              {submitState.kind === 'submitting' ? 'Submitting the Bitcode deposit…' : submitState.message}
             </div>
           ) : null}
         </form>

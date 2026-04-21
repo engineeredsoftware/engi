@@ -72,7 +72,7 @@ export function deriveApplicationFlowGuide(commandState: ApplicationCommandState
       ? `The flow guide is ${commandState.flowGuideOpen ? 'open' : 'saved'} at ${guideStep}.`
       : 'The Bitcode Terminal is ready for a fresh give-to-closure flow.';
 
-  const stages = FLOW_STAGE_BLUEPRINT.map((stage, index) => ({
+  const stages = FLOW_STAGE_BLUEPRINT.map<ApplicationFlowGuideStage>((stage, index) => ({
     ...stage,
     status:
       index < currentStageIndex

@@ -1,3 +1,4 @@
+/* eslint-disable react/no-multi-comp */
 "use client";
 
 import React, { useRef, useState, useEffect, useLayoutEffect, forwardRef } from 'react';
@@ -62,6 +63,27 @@ function formatTime(ts?: string) {
   } catch {
     return '';
   }
+}
+
+function normalizeStepName(step: string | undefined): string {
+  if (!step) return '';
+
+  const stepLower = step.toLowerCase();
+
+  if (stepLower.includes('plan')) return 'Plan';
+  if (stepLower.includes('try')) return 'Try';
+  if (stepLower.includes('refine')) return 'Refine';
+  if (stepLower.includes('retry')) return 'Retry';
+  if (stepLower.includes('generate')) return 'Try';
+  if (stepLower.includes('intensify')) return 'Retry';
+  if (stepLower.includes('initialize')) return 'Initialize';
+  if (stepLower.includes('setup')) return 'Setup';
+  if (stepLower.includes('discovery')) return 'Discovery';
+  if (stepLower.includes('implementation')) return 'Implementation';
+  if (stepLower.includes('validation')) return 'Validation';
+  if (stepLower.includes('shipping')) return 'Shipping';
+
+  return step.charAt(0).toUpperCase() + step.slice(1);
 }
 
 import { PathPill } from './PathPill';
@@ -556,33 +578,6 @@ export const PipelineExecutionLog = forwardRef<HTMLDivElement, PipelineRunLogPro
     if (logLine.isSuccess || logLine.isComplete) return 'text-emerald-400';
     if (logLine.isInfo) return 'text-gray-300';
     return 'text-gray-400';
-  };
-
-  // Helper to normalize step name for display
-  const normalizeStepName = (step: string | undefined): string => {
-    if (!step) return '';
-
-    // Convert to lowercase for case-insensitive matching
-    const stepLower = step.toLowerCase();
-
-    // Map to PTRR steps first
-    if (stepLower.includes('plan')) return 'Plan';
-    if (stepLower.includes('try')) return 'Try';
-    if (stepLower.includes('refine')) return 'Refine';
-    if (stepLower.includes('retry')) return 'Retry';
-    if (stepLower.includes('generate')) return 'Try';
-    if (stepLower.includes('intensify')) return 'Retry';
-
-    // For other common steps we might see
-    if (stepLower.includes('initialize')) return 'Initialize';
-    if (stepLower.includes('setup')) return 'Setup';
-    if (stepLower.includes('discovery')) return 'Discovery';
-    if (stepLower.includes('implementation')) return 'Implementation';
-    if (stepLower.includes('validation')) return 'Validation';
-    if (stepLower.includes('shipping')) return 'Shipping';
-
-    // If no match, capitalize first letter for consistency
-    return step.charAt(0).toUpperCase() + step.slice(1);
   };
 
   return (

@@ -85,7 +85,7 @@ export function NotificationsWidget() {
           table: 'notifications',
           filter: `user_id=eq.${user.id}`,
         },
-        (payload) => {
+        (payload: any) => {
           const { eventType, new: newRow, old: oldRow } = payload as any;
           setNotifications((prev) => {
             if (eventType === 'INSERT' && newRow) return [normalize([newRow])[0], ...prev];

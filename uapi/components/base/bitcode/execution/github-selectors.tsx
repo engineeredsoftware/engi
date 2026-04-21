@@ -1,3 +1,4 @@
+/* eslint-disable react/no-multi-comp */
 "use client";
 import Image from 'next/image';
 import Select, { components } from 'react-select';
@@ -102,10 +103,10 @@ export const GitHubSelectors = ({
           isLoading={isLoadingRepos}
           isDisabled={!selectedAccount || isLoadingRepos}
           styles={{
-            ...customStyles,
+            ...glassyStyles,
             control: (base, state) => ({
-              ...customStyles.control(base, state),
-              ...pillStyles,
+              ...glassyStyles.control(base, state),
+              ...glassyPillStyles,
             }),
           }}
           components={{
@@ -147,10 +148,10 @@ export const GitHubSelectors = ({
           isLoading={isLoadingBranches}
           isDisabled={!selectedRepo || isLoadingBranches}
           styles={{
-            ...customStyles,
+            ...glassyStyles,
             control: (base, state) => ({
-              ...customStyles.control(base, state),
-              ...pillStyles,
+              ...glassyStyles.control(base, state),
+              ...glassyPillStyles,
             }),
           }}
           components={{
@@ -195,10 +196,10 @@ export const GitHubSelectors = ({
           isLoading={isLoadingCommits}
           isDisabled={!selectedBranch || isLoadingCommits}
           styles={{
-            ...customStyles,
+            ...glassyStyles,
             control: (base, state) => ({
-              ...customStyles.control(base, state),
-              ...pillStyles,
+              ...glassyStyles.control(base, state),
+              ...glassyPillStyles,
             }),
           }}
           components={{

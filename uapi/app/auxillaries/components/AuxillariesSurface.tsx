@@ -6,6 +6,7 @@ import { motion } from 'framer-motion';
 import { usePathname, useRouter } from 'next/navigation';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { createClient } from '@bitcode/supabase/ssr/client';
+import type { Session } from '@supabase/supabase-js';
 
 import { useOnboarding, useProfile, useUser } from '@/hooks/use-auth-query';
 import OrbitalRings from "@/components/base/bitcode/orbitals/orbital-rings";
@@ -26,11 +27,11 @@ import {
 export type { ConcreteAuxillaryPane, AuxillaryPane } from './auxillary-pane-meta';
 
 const trackEvent = (...args: any[]) => {
-  import('@bitcode/google-analytics').then((module) => module.trackEvent(...args));
+  import('@bitcode/google-analytics').then((module) => (module as any).trackEvent?.(...args));
 };
 
 const reportError = (...args: any[]) => {
-  import('@bitcode/errors').then((module) => module.reportError(...args));
+  import('@bitcode/errors').then((module) => (module as any).reportError?.(...args));
 };
 
 const FlipText = dynamic(() => import("@/components/base/bitcode/layout/sidebars/FlipText"), {
@@ -121,7 +122,9 @@ export default function AuxillariesSurface({
   const canonicalOnboardingComplete = onboardingData?.isOnboardingComplete || false;
   const isAuxillariesSurface = Boolean(sessionUser);
   const isUnlockedSurface = canonicalOnboardingComplete || isAuxillariesSurface;
-  const visibleSteps = isAuxillariesSurface ? AUXILLARY_RING_STEPS : AUXILLARY_FLOW_STEPS;
+  const visibleSteps: ConcreteAuxillaryPane[] = isAuxillariesSurface
+    ? [...AUXILLARY_RING_STEPS]
+    : [...AUXILLARY_FLOW_STEPS];
 
   useEffect(() => {
     requestAnimationFrame(() => {
@@ -131,7 +134,7 @@ export default function AuxillariesSurface({
   }, []);
 
   useEffect(() => {
-    const { data: authListener } = supabaseClient.auth.onAuthStateChange((_event, session) => {
+    const { data: authListener } = supabaseClient.auth.onAuthStateChange((_event: string, session: Session | null) => {
       queryClient.setQueryData(['auth', 'user'], session?.user ?? null);
 
       if (session?.user) {

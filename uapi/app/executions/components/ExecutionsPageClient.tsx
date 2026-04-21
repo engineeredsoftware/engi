@@ -10,11 +10,9 @@ import BitcodeExecutionStreamPanel from '@/components/base/bitcode/execution/Bit
 import { ErrorBox } from '@/components/base/bitcode/execution/error-box';
 import { PreprocessToggle } from '@/components/base/bitcode/execution/preprocess-toggle';
 import { VCSSourceSelectors as RawVCSSourceSelectors } from '@/components/base/bitcode/vcs/VCSSourceSelectors';
-import FileAttachments from '@/components/base/bitcode/execution/file-attachments';
 import { UrlAttachments } from '@/components/base/bitcode/execution/url-attachments';
 import { IntegrationsSelector, IntegrationItem } from '@/components/base/bitcode/execution/integrations-selector';
 import { SelectedAttachments } from '@/components/base/bitcode/execution/selected-attachments';
-import ExecutionsTaskInput from '@/components/base/bitcode/execution/ExecutionsTaskInput';
 import { OrbitalBackground } from '@/components/base/bitcode/execution/orbital-background';
 import { useVCSData } from '@/hooks/useVCSData';
 import { useVCSSelections } from '@/hooks/useVCSSelections';
@@ -208,7 +206,7 @@ export function ExecutionsClient() {
   const [showEnhanceEdu, setShowEnhanceEdu] = useState(false);
   const [showSaveTemplateEdu, setShowSaveTemplateEdu] = useState(false);
   const [showExecuteButtonEdu, setShowExecuteButtonEdu] = useState(false);
-  const [showIterationsEdu, setShowIterationsEdu] = useState<string | null>(null);
+  const [showIterationsEdu, setShowIterationsEdu] = useState<boolean | 'minimize' | 'maximize' | null>(null);
   const [summaryOpen, setSummaryOpen] = useState(true);
   const logContainerRef = useRef<HTMLDivElement>(null);
   const [userHasScrolled, setUserHasScrolled] = useState(false);
@@ -458,7 +456,7 @@ export function ExecutionsClient() {
         ...attachedUrls.map(u => ({ id: u.url, type: 'URL', content: u.url })),
         ...selectedFiles.map(f => ({ id: f.name, type: 'FILE', content: f.name })),
         ...selectedIssueOrPR.map(id => { const issue = issuesAndPRs.find(i => i.id === id); return { id, type: issue?.isPR ? 'PR' : 'ISSUE', content: issue?.url || id }; }),
-        ...selectedIntegrations.map(i => ({ id: i.id, type: 'INTEGRATION', content: i.name || i.id }))
+        ...selectedIntegrations.map(i => ({ id: i.id, type: 'INTEGRATION', content: i.label || i.id }))
       ];
       const completionResult = await handleDoSubmit(
         0,
@@ -517,9 +515,14 @@ export function ExecutionsClient() {
           showEnhanceEdu={showEnhanceEdu}
           showSaveTemplateEdu={showSaveTemplateEdu}
           showExecuteButtonEdu={showExecuteButtonEdu}
-          showIterationsEdu={showIterationsEdu}
+          showIterationsEdu={showIterationsEdu ?? undefined}
           templates={mergedTemplates}
-          onTemplateSelect={(templateId, deliverableType) => { const template = mergedTemplates[deliverableType].find(t => t.id === templateId); if (template) { handleSetTask(template.text); } }}
+          onTemplateSelect={(templateId, deliverableType) => {
+            const template = mergedTemplates[deliverableType].find((t) => t.id === templateId);
+            if (template) {
+              handleSetDefinitionOfDone(template.text);
+            }
+          }}
           deliverables={{
             pullRequest: undefined,
             pullRequestReviews: [],
@@ -603,7 +606,9 @@ export function ExecutionsClient() {
               }
               onEducationHover={(type) => {
                 setShowMultiAgentEdu(false); setShowSourceEdu(false); setShowAttachmentsEdu(false); setShowComputeEdu(false); setShowEnhanceEdu(false); setShowSaveTemplateEdu(false); setShowExecuteButtonEdu(false);
-                if (type === 'iterations' || type === 'minimize' || type === 'maximize') setShowIterationsEdu(type); else setShowIterationsEdu(null);
+                if (type === 'iterations') setShowIterationsEdu(true);
+                else if (type === 'minimize' || type === 'maximize') setShowIterationsEdu(type);
+                else setShowIterationsEdu(null);
               }}
             />
           </div>
@@ -638,7 +643,15 @@ export function ExecutionsClient() {
             </div>
           )}
         </div>
-        {combinedError && (<div className="max-w-4xl mx-auto mt-4"><ErrorBox message={combinedError.toString()} /></div>)}
+        {combinedError && (
+          <div className="max-w-4xl mx-auto mt-4">
+            <ErrorBox
+              error={combinedError.toString()}
+              onRetry={handleRetry}
+              onDismiss={handleDismissError}
+            />
+          </div>
+        )}
       </div>
     </>
   );

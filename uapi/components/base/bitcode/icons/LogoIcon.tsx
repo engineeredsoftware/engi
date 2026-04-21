@@ -24,7 +24,7 @@ function normalizeLogoColor(fill: string) {
 /**
  * LogoIcon: Bitcode icon sourced from the canonical filesystem asset, themable via fill color.
  */
-const LogoIcon: React.FC<LogoIconProps & React.SVGProps<SVGSVGElement>> = ({
+const LogoIcon: React.FC<LogoIconProps & React.HTMLAttributes<HTMLSpanElement>> = ({
   fill = '#65FEB7',
   width = 24,
   height = 24,

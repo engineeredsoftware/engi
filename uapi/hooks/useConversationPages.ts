@@ -49,7 +49,7 @@ export function useConversationPages(searchQuery: string) {
   });
 
   const conversations = useMemo(
-    () => (swr.data ? swr.data.flatMap((p) => p.data) : []),
+    () => (swr.data ? swr.data.flatMap((p: ConversationPage) => p.data) : []),
     [swr.data]
   );
 

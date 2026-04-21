@@ -13,6 +13,7 @@ interface TypingAnimationProps {
   delay?: number;
   className?: string;
   onComplete?: () => void;
+  loop?: boolean;
   showCursor?: boolean;
   highlightText?: string;
   highlightClass?: string;
@@ -26,6 +27,7 @@ const TypingAnimation: FC<TypingAnimationProps> = ({
   delay = 0,
   className = '',
   onComplete,
+  loop = false,
   showCursor = true,
   highlightText = '',
   highlightClass = '',
@@ -42,9 +44,20 @@ const TypingAnimation: FC<TypingAnimationProps> = ({
   useEffect(() => {
     let isMounted = true;
     let animationStarted = false;
+    const timeoutIds: number[] = [];
+
+    const schedule = (callback: () => void, timeout: number) => {
+      const id = window.setTimeout(callback, timeout);
+      timeoutIds.push(id);
+    };
+
     const startTyping = () => {
       if (animationStarted) return;
       animationStarted = true;
+      setDisplayedText('');
+      setIsComplete(false);
+      setHighlightVisible(initialHighlightVisible);
+      revealingHighlightRef.current = false;
       let currentIndex = 0;
       const typeNextChar = () => {
         if (!isMounted) return;
@@ -82,20 +95,25 @@ const TypingAnimation: FC<TypingAnimationProps> = ({
           if (currentIndex / text.length > 0.85) nextDelay *= 1.15;
           const jitter = 0.9 + Math.random() * 0.2;
           nextDelay *= jitter;
-          setTimeout(typeNextChar, nextDelay);
+          schedule(typeNextChar, nextDelay);
         } else {
           setIsComplete(true);
           if (onComplete && isMounted) onComplete();
+          if (loop && isMounted) {
+            animationStarted = false;
+            schedule(startTyping, Math.max(duration * 8, 400));
+          }
         }
       };
-      if (delay > 0) setTimeout(typeNextChar, delay);
+      if (delay > 0) schedule(typeNextChar, delay);
       else typeNextChar();
     };
     startTyping();
     return () => {
       isMounted = false;
+      timeoutIds.forEach((id) => window.clearTimeout(id));
     };
-  }, []);
+  }, [delay, duration, highlightText, initialHighlightVisible, loop, onComplete, text]);
 
   const renderText = () => {
     const renderPlain = (txt: string) =>

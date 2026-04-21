@@ -67,6 +67,7 @@ export const AUXILLARY_DESCRIPTORS: Record<ConcreteAuxillaryPane, AuxillaryPaneD
 };
 
 export { AUXILLARY_FLOW_STEPS, normalizeAuxillaryPane, normalizeAuxillarySteps };
+export type { ConcreteAuxillaryPane } from '@bitcode/api/src/routes/auxillaries-contract';
 
 export function labelForAuxillaryPane(step: AuxillaryPane) {
   if (!step) return '';

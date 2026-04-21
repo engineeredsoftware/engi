@@ -3,7 +3,7 @@
 import { createContext, useContext, useEffect, useMemo, useState } from "react";
 import { createClient } from "@bitcode/supabase/ssr/client";
 
-import type { User } from "@supabase/supabase-js";
+import type { Session, User } from "@supabase/supabase-js";
 
 import { buildMockReviewUser, isUserOrbitalMockMode } from "@/lib/mock-review-mode";
 
@@ -33,7 +33,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     let cancelled = false;
     supabase.auth
       .getUser()
-      .then(({ data: { user } }) => {
+      .then(({ data: { user } }: { data: { user: User | null } }) => {
         if (!cancelled) setUser(user ?? null);
       })
       .finally(() => {
@@ -50,7 +50,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       return;
     }
 
-    const { data: listener } = supabase.auth.onAuthStateChange((_event, session) => {
+    const { data: listener } = supabase.auth.onAuthStateChange((_event: string, session: Session | null) => {
       setUser(session?.user ?? null);
     });
     return () => listener.subscription.unsubscribe();

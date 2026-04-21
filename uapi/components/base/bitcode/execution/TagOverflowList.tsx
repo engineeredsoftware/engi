@@ -2,15 +2,7 @@
 
 import React, { useEffect, useLayoutEffect, useRef, useState } from 'react';
 
-import { PathPill } from './PathPill';
-
-export type PillType =
-  | 'phase'
-  | 'agent'
-  | 'step'
-  | 'metastep'
-  | 'substep'
-  | 'tool';
+import { PathPill, type PillType } from './PathPill';
 
 interface TagInfo {
   type: PillType;
@@ -51,7 +43,6 @@ export function TagOverflowList({
     window.addEventListener('resize', handleResize);
     recalc();
     return () => window.removeEventListener('resize', handleResize);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [tags]);
 
   const recalc = () => {
@@ -97,7 +88,6 @@ export function TagOverflowList({
     if (typeof window === 'undefined') return;
     const id = window.requestAnimationFrame(recalc);
     return () => window.cancelAnimationFrame(id);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [visibleCount]);
 
   const hiddenCount = tags.length - visibleCount;

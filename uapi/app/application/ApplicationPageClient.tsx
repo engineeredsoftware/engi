@@ -59,14 +59,24 @@ export default function ApplicationPageClient() {
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
+  const routeSearchParams = useMemo(() => new URLSearchParams(searchParams.toString()), [searchParams]);
   const mockMode = isUserOrbitalMockMode();
-  const selectedTransactionId = useMemo(() => readApplicationTransactionId(searchParams), [searchParams]);
-  const selectedTransactionDetailSection = useMemo(
-    () => readApplicationTransactionDetailSection(searchParams),
-    [searchParams],
+  const selectedTransactionId = useMemo(
+    () => readApplicationTransactionId(routeSearchParams),
+    [routeSearchParams],
   );
-  const transactionFilters = useMemo(() => readApplicationTransactionFilters(searchParams), [searchParams]);
-  const transactionPagination = useMemo(() => readApplicationTransactionPagination(searchParams), [searchParams]);
+  const selectedTransactionDetailSection = useMemo(
+    () => readApplicationTransactionDetailSection(routeSearchParams),
+    [routeSearchParams],
+  );
+  const transactionFilters = useMemo(
+    () => readApplicationTransactionFilters(routeSearchParams),
+    [routeSearchParams],
+  );
+  const transactionPagination = useMemo(
+    () => readApplicationTransactionPagination(routeSearchParams),
+    [routeSearchParams],
+  );
   const [isConversationOverlayOpen, setIsConversationOverlayOpen] = useState(false);
   const [liveRuns, setLiveRuns] = useState<WorkspaceRun[]>([]);
   const [isLoadingRuns, setIsLoadingRuns] = useState(!mockMode);
@@ -90,12 +100,12 @@ export default function ApplicationPageClient() {
   const replaceApplicationRoute = useCallback(
     (transactionId: string, detailSection = selectedTransactionDetailSection) => {
       const nextParams = writeApplicationTransactionDetailSection(
-        writeApplicationTransactionId(searchParams, transactionId),
+        writeApplicationTransactionId(routeSearchParams, transactionId),
         detailSection,
       );
       router.replace(`${pathname}?${nextParams.toString()}`, { scroll: false });
     },
-    [pathname, router, searchParams, selectedTransactionDetailSection],
+    [pathname, routeSearchParams, router, selectedTransactionDetailSection],
   );
 
   useEffect(() => {
@@ -195,9 +205,9 @@ export default function ApplicationPageClient() {
   useEffect(() => {
     if (!runs.length) return;
     if (selectedTransactionId && runs.some((run) => run.id === selectedTransactionId)) return;
-    const nextParams = writeApplicationTransactionId(searchParams, runs[0].id);
+    const nextParams = writeApplicationTransactionId(routeSearchParams, runs[0].id);
     router.replace(`${pathname}?${nextParams.toString()}`, { scroll: false });
-  }, [pathname, router, runs, searchParams, selectedTransactionId]);
+  }, [pathname, routeSearchParams, router, runs, selectedTransactionId]);
 
   const selectedRun = useMemo(
     () => runs.find((run) => run.id === selectedTransactionId) || runs[0] || null,
@@ -247,7 +257,7 @@ export default function ApplicationPageClient() {
 
   const handleTransactionFiltersChange = (nextFilters: typeof transactionFilters) => {
     const nextParams = writeApplicationTransactionPagination(
-      writeApplicationTransactionFilters(searchParams, nextFilters),
+      writeApplicationTransactionFilters(routeSearchParams, nextFilters),
       { page: 1, pageSize: transactionPagination.pageSize },
     );
     router.replace(`${pathname}?${nextParams.toString()}`, { scroll: false });
@@ -255,19 +265,19 @@ export default function ApplicationPageClient() {
 
   const handleTransactionFiltersReset = () => {
     const nextParams = writeApplicationTransactionPagination(
-      resetApplicationTransactionFilters(searchParams),
+      resetApplicationTransactionFilters(routeSearchParams),
       { page: 1, pageSize: transactionPagination.pageSize },
     );
     router.replace(`${pathname}?${nextParams.toString()}`, { scroll: false });
   };
 
   const handleTransactionPaginationChange = (nextPagination: typeof transactionPagination) => {
-    const nextParams = writeApplicationTransactionPagination(searchParams, nextPagination);
+    const nextParams = writeApplicationTransactionPagination(routeSearchParams, nextPagination);
     router.replace(`${pathname}?${nextParams.toString()}`, { scroll: false });
   };
 
   const handleTransactionDetailSectionChange = (detailSection: typeof selectedTransactionDetailSection) => {
-    const nextParams = writeApplicationTransactionDetailSection(searchParams, detailSection);
+    const nextParams = writeApplicationTransactionDetailSection(routeSearchParams, detailSection);
     router.replace(`${pathname}?${nextParams.toString()}`, { scroll: false });
   };
 

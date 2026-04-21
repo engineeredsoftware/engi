@@ -21,7 +21,7 @@ function unique(items: string[]) {
 }
 
 export function normalizeApplicationSectionAtlas(snapshot: ShellSnapshot): SectionPreview[] {
-  const corePanels = normalizeApplicationCorePanels(snapshot);
+  const corePanels = normalizeApplicationCorePanels(snapshot as Parameters<typeof normalizeApplicationCorePanels>[0]);
   const closureState = normalizeApplicationClosureState(snapshot as Parameters<typeof normalizeApplicationClosureState>[0]);
 
   const previews = new Map<string, SectionPreview>();

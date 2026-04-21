@@ -6,17 +6,18 @@ import MarketingButtonShimmer from '@/components/base/bitcode/effects/button-shi
 import MarketingTextShimmer from './MarketingTextShimmer'
 import { ChevronRight } from 'lucide-react'
 import { createClient } from '@bitcode/supabase/ssr/client'
+import type { Session, User } from '@supabase/supabase-js'
 import Steps from './MarketingSteps'
 
 export default function MarketingHero() {
   // Supabase client and user state for authentication CTA
   const supabase = useMemo(() => createClient(), [])
-  const [user, setUser] = useState<import('@supabase/supabase-js').User | null>(null)
+  const [user, setUser] = useState<User | null>(null)
   useEffect(() => {
-    supabase.auth.getSession().then(({ data: { session } }) => {
+    supabase.auth.getSession().then(({ data: { session } }: { data: { session: Session | null } }) => {
       setUser(session?.user ?? null)
     })
-    const { data: listener } = supabase.auth.onAuthStateChange((_event, session) => {
+    const { data: listener } = supabase.auth.onAuthStateChange((_event: string, session: Session | null) => {
       setUser(session?.user ?? null)
     })
     return () => listener.subscription.unsubscribe()

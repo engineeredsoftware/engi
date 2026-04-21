@@ -13,6 +13,7 @@ import Link from 'next/link';
 import { FEATURE_FLAGS } from '@/config/features';
 import { useEffect, useState, useMemo } from 'react';
 import { createClient } from '@bitcode/supabase/ssr/client';
+import type { Session, User } from '@supabase/supabase-js';
 import BitcodeSoftwareSvgLogo from '@/components/base/bitcode/branding/bitcode-software-svg-logo';
 import { openAuxillaries, prefetchAuxillaries } from '@/app/auxillaries/components/AuxillariesProvider';
 import { BITCODE_PUBLIC_COPY } from '@/components/base/bitcode/layout/bitcode-public-copy';
@@ -92,12 +93,12 @@ interface FooterProps {
 export default function Footer({ showPrimaryContent = true, className = '' }: FooterProps) {
   // Supabase client and user state for authentication CTA
   const supabase = useMemo(() => createClient(), []);
-  const [user, setUser] = useState<import('@supabase/supabase-js').User | null>(null);
+  const [user, setUser] = useState<User | null>(null);
   useEffect(() => {
-    supabase.auth.getSession().then(({ data: { session } }) => {
+    supabase.auth.getSession().then(({ data: { session } }: { data: { session: Session | null } }) => {
       setUser(session?.user ?? null);
     });
-    const { data: listener } = supabase.auth.onAuthStateChange((_event, session) => {
+    const { data: listener } = supabase.auth.onAuthStateChange((_event: string, session: Session | null) => {
       setUser(session?.user ?? null);
     });
     return () => {

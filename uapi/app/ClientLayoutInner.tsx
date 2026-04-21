@@ -5,6 +5,7 @@ import React, { ReactNode } from 'react'
 import dynamic from 'next/dynamic'
 import { usePathname } from 'next/navigation'
 import { createClient } from '@bitcode/supabase/ssr/client'
+import type { Session, User } from '@supabase/supabase-js'
 import { AuthProvider } from '@/components/base/bitcode/auth/AuthProvider'
 import AuxillariesProvider from '@/app/auxillaries/components/AuxillariesProvider'
 import { useQueryClient } from '@tanstack/react-query'
@@ -199,14 +200,14 @@ export default function ClientLayoutInner({ children }: { children: ReactNode })
     }
 
     // Get initial user from Supabase (React Query will cache this)
-    supabase.auth.getUser().then(({ data }) => {
+    supabase.auth.getUser().then(({ data }: { data: { user: User | null } }) => {
       setUser(data.user)
       setAuthLoaded(true)
     }).catch(() => {
       setAuthLoaded(true)
     })
     // Listen for auth changes and update React Query cache
-    const { data: listener } = supabase.auth.onAuthStateChange((_event, session) => {
+    const { data: listener } = supabase.auth.onAuthStateChange((_event: string, session: Session | null) => {
       setUser(session?.user ?? null)
       updateCachedUser(queryClient, session?.user ?? null)
       setAuthLoaded(true)

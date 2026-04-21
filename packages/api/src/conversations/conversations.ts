@@ -8,6 +8,22 @@ import { Conversation } from '@bitcode/conversations-generics';
 import { log } from '@bitcode/logger';
 import * as crypto from 'crypto';
 
+interface ConversationMessageAttachmentRow {
+  id: string;
+}
+
+interface ConversationMessageRow {
+  id: string;
+  content: string | null;
+  role: string;
+  created_at: string;
+  message_attachments?: ConversationMessageAttachmentRow[] | null;
+}
+
+interface ConversationRowWithMessages extends Conversation {
+  messages?: ConversationMessageRow[] | null;
+}
+
 export async function createConversation(userId: string, title?: string): Promise<Conversation> {
   const id = crypto.randomUUID();
   
@@ -100,7 +116,7 @@ export async function listConversations(userId: string, options: {
   const hasMore = data.length > limit;
   const conversations = hasMore ? data.slice(0, -1) : data;
   const nextCursor = hasMore ? conversations[conversations.length - 1].updated_at : undefined;
-  const enrichedConversations = conversations.map((conversation: any) => {
+  const enrichedConversations = (conversations as ConversationRowWithMessages[]).map((conversation) => {
     const messages = Array.isArray(conversation.messages) ? [...conversation.messages] : [];
     const lastMessage = messages.sort((left, right) => right.created_at.localeCompare(left.created_at))[0];
 
@@ -178,22 +194,30 @@ export async function branchConversation(
         log('[api/conversations] Branch warning: could not load source messages', 'warn', { userId, sourceConversationId, error: msgsErr });
     } else {
       const untilId = options.branchMessageId;
-      const toCopy = untilId ? msgs.filter(m => true).reduce<{copy:boolean; arr:any[]}>((acc, m) => {
-        if (!acc.copy) acc.copy = true; // always true until we hit untilId and include it
-        acc.arr.push(m);
-        if (m.id === untilId) acc.copy = false;
-        return acc;
-      }, { copy: true, arr: [] as any[] }).arr : msgs;
+      const orderedMessages = (msgs ?? []) as ConversationMessageRow[];
+      const toCopy = untilId
+        ? orderedMessages.reduce<{ copying: boolean; rows: ConversationMessageRow[] }>((acc, message) => {
+            if (!acc.copying) {
+              return acc;
+            }
+
+            acc.rows.push(message);
+            if (message.id === untilId) {
+              acc.copying = false;
+            }
+            return acc;
+          }, { copying: true, rows: [] }).rows
+        : orderedMessages;
 
       if (toCopy.length) {
         // Insert copied messages; generate new IDs and set destination conversation
-      const rows = toCopy.map(m => ({
-        id: crypto.randomUUID(),
-        conversation_id: dest.id,
-        role: m.role,
-        content: m.content,
-        created_at: m.created_at
-      }));
+        const rows = toCopy.map((message) => ({
+          id: crypto.randomUUID(),
+          conversation_id: dest.id,
+          role: message.role,
+          content: message.content,
+          created_at: message.created_at
+        }));
         const { error: insertErr } = await supabaseAdmin
           .from('messages')
           .insert(rows);

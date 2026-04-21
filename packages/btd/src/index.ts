@@ -6,6 +6,8 @@
  * is re-cut, but the package/API contract is canonical Bitcode `$BTD`.
  */
 
+import { randomUUID } from 'node:crypto';
+
 import { supabaseAdmin } from '@bitcode/supabase';
 import { getUsdPricingForApiModel } from '@bitcode/models/src/pricing';
 import { log } from '@bitcode/logger';
@@ -59,6 +61,26 @@ export class InsufficientBtdBalanceError extends Error {
 // Core balance mutations
 // ---------------------------------------------------------------------------
 
+export async function getBtdBalance(userId: string): Promise<number> {
+  const { data, error } = await supabaseAdmin
+    .from('user_credits')
+    .select('balance')
+    .eq('user_id', userId)
+    .single();
+
+  if (error) {
+    if (error.code === 'PGRST116') {
+      return 0;
+    }
+
+    throw new Error(`Error fetching BTD balance for user ${userId}: ${error.message}`);
+  }
+
+  return data?.balance ?? 0;
+}
+
+export const getBalance = getBtdBalance;
+
 /**
  * Enforces hard limits on `$BTD` operations to prevent negative balances.
  * Returns whether the operation is allowed and the user's current available balance.
@@ -72,7 +94,7 @@ export async function enforceBtdHardLimit(
   requestedAmount: number
 ): Promise<{ allowed: boolean; available: number; shortfall?: number }> {
   // Get current balance
-  const balance = await getBalance(userId);
+  const balance = await getBtdBalance(userId);
 
   if (balance < requestedAmount) {
     const shortfall = requestedAmount - balance;
@@ -99,7 +121,7 @@ export async function alertLowBtdBalance(
   userId: string,
   threshold: number = 100
 ): Promise<void> {
-  const balance = await getBalance(userId);
+  const balance = await getBtdBalance(userId);
 
   if (balance <= threshold) {
     log('[btd] Low balance alert triggered', 'warn', {
@@ -388,8 +410,6 @@ export async function deductLlmBtdByModel(
 // BTD escrow / reservation helpers
 // ---------------------------------------------------------------------------
 
-import { v4 as uuidv4 } from 'uuid';
-
 // The reservation record mirrors what will eventually live in a dedicated
 // compatibility `credit_reservations` table. We create it optimistically - the DB
 // migration can follow later without requiring code changes.
@@ -445,7 +465,7 @@ export async function reserveBtdBalance(
     );
   }
 
-  const reservationId = uuidv4();
+  const reservationId = randomUUID();
 
   // Deduct first so that the balance always reflects the held funds.
   await deductBtdBalance(userId, amount);

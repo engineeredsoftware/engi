@@ -105,6 +105,7 @@ export const useExecutionState = () => {
       mcpConfig?: Record<string, any>;
       autoSync?: boolean;
       autoAlike?: boolean;
+      pipelineType?: string;
     }
   ): Promise<import('../types/api').CompletionData | null> => {
     setState(prev => ({
@@ -205,9 +206,10 @@ export const useExecutionState = () => {
 
               if (parsedChunk.status) {
           // Capture runId from parsed chunk
-          if (parsedChunk.runId) {
-            dlog('RunId detected', parsedChunk.runId);
-            setState(prev => ({ ...prev, runId: parsedChunk.runId }));
+          const nextRunId = parsedChunk.runId;
+          if (typeof nextRunId === 'string' && nextRunId) {
+            dlog('RunId detected', nextRunId);
+            setState(prev => ({ ...prev, runId: nextRunId }));
           }
           if (typeof parsedChunk.guide === 'string') {
             setState(prev => ({ ...prev, currentGuide: parsedChunk.guide || prev.currentGuide }));

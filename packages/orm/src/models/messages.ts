@@ -10,7 +10,7 @@
  */
 
 import { BaseModel } from './base';
-import { Database, Tables } from '../types/database';
+import { Database } from '../types/database';
 import { SupabaseClient } from '@supabase/supabase-js';
 import {
   ConversationMessage,
@@ -186,9 +186,9 @@ export class MessagesModel extends BaseModel<'messages'> {
     if (error) throw error;
 
     const counts = { user: 0, assistant: 0 };
-    (data || []).forEach(msg => {
+    (data || []).forEach((msg: Pick<ConversationMessage, 'role'>) => {
       if (msg.role === 'user' || msg.role === 'assistant') {
-        counts[msg.role]++;
+        counts[msg.role] += 1;
       }
     });
 

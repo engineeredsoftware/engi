@@ -1,3 +1,4 @@
+/* eslint-disable react/no-multi-comp */
 "use client";
 import React, { useCallback, useMemo } from 'react';
 import Image from 'next/image';
@@ -186,7 +187,7 @@ export const VCSSourceSelectors = React.memo((props: VCSSourceSelectorsProps) =>
   // Notify parent when branches load  
   React.useEffect(() => {
     if (branches.length > 0 && onBranchesLoaded) {
-      onBranchesLoaded(branches, defaultBranch);
+      onBranchesLoaded(branches, defaultBranch ?? null);
     }
   }, [branches, defaultBranch, onBranchesLoaded]);
 

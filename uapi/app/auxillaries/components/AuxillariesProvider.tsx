@@ -8,7 +8,7 @@ import dynamic from 'next/dynamic';
 const AuxillariesSurface = dynamic(() => import('@/app/auxillaries/components/AuxillariesSurface'), { ssr: false });
 
 if (typeof window !== 'undefined') {
-  AuxillariesSurface.preload?.();
+  (AuxillariesSurface as typeof AuxillariesSurface & { preload?: () => void }).preload?.();
 }
 
 const prefetchAuxillaries = () => {
