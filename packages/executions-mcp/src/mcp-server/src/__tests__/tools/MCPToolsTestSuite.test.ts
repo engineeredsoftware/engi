@@ -57,7 +57,7 @@ const TOOL_TEST_CONFIGS: ToolTestConfig[] = [
       {
         name: 'E-commerce Checkout Flow',
         inputs: {
-          task: 'Create complete e-commerce checkout flow with Stripe integration',
+          task: 'Create a settlement-ready asset pack for a wallet-gated Bitcode transaction flow',
           repository: REPOSITORY_CONTEXTS.NEXT_JS_PROJECT,
           attachments: [ATTACHMENTS.FIGMA_DESIGN],
           subtype: 'pull_request',

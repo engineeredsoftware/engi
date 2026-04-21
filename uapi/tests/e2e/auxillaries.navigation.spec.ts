@@ -3,7 +3,7 @@ import * as dotenv from 'dotenv';
 dotenv.config();
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
 
-test.describe('Orbital Navigation & Close Flows', () => {
+test.describe('Auxillaries Navigation & Close Flows', () => {
   test.beforeEach(async ({ page, context }) => {
     // Stub OTP and verify endpoints
     await context.route(`${supabaseUrl}/auth/v1/otp`, r => r.fulfill({ status: 200, contentType: 'application/json', body: JSON.stringify({ data: {}, error: null }) }));
@@ -11,33 +11,33 @@ test.describe('Orbital Navigation & Close Flows', () => {
     // Stub user data
     await context.route('**/api/auxillaries/data', r => r.fulfill({ status: 200, contentType: 'application/json', body: JSON.stringify({
       profile: { user_id: 'u1', username: 'tester', display_name: 'Tester', bio: '', company_name: '', avatar_url: '', team_members: [] },
-      githubConnection: { installationId: 42 }, credits: 0, modelPreferences: {}
+      githubConnection: { installationId: 42 }, btdBalance: 0, modelPreferences: {}
     }) }));
   });
 
   test('toggle between Login and Signup in modal', async ({ page }) => {
     // Navigate to app
     await page.goto('/');
-    // Open Orbital modal in login mode
+    // Open the auxillaries modal in login mode.
     await page.click('[data-orbital-testid="orbital-open-button"]');
     // Wait for login send code button
     await page.waitForSelector('[data-testid="login-send-code"]');
     await page.waitForTimeout(300);
     expect(await page.screenshot({ fullPage: true }))
-      .toMatchSnapshot('orbital-login-mode-login.png');
+      .toMatchSnapshot('auxillaries-login-mode-login.png');
     // Toggle to onboarding (signup) view
     await page.click('[data-orbital-testid="orbital-toggle-button"]');
     // Wait for profile step badge
     await page.waitForSelector('[data-testid="profile-step-badge"]');
     await page.waitForTimeout(300);
     expect(await page.screenshot({ fullPage: true }))
-      .toMatchSnapshot('orbital-login-mode-signup.png');
+      .toMatchSnapshot('auxillaries-login-mode-signup.png');
     // Toggle back to login view
     await page.click('[data-orbital-testid="orbital-toggle-button"]');
     await page.waitForSelector('[data-testid="login-send-code"]');
     await page.waitForTimeout(300);
     expect(await page.screenshot({ fullPage: true }))
-      .toMatchSnapshot('orbital-login-mode-login-back.png');
+      .toMatchSnapshot('auxillaries-login-mode-login-back.png');
   });
 
   test('navigate steps via sidebar labels', async ({ page }) => {
@@ -49,13 +49,13 @@ test.describe('Orbital Navigation & Close Flows', () => {
     await page.click('[data-testid="login-send-code"]');
     await page.fill('[data-testid="login-otp-input"]', '123456');
     await page.click('[data-testid="login-verify-code"]');
-    // Steps: profile -> connections -> models -> credits
-    const steps = ['profile', 'connections', 'models', 'credits'];
+    // Steps: profile -> connects -> interfaces -> btd
+    const steps = ['profile', 'connects', 'interfaces', 'btd'];
     for (const step of steps) {
       await page.click(`[data-testid="orbital-label-${step}"]`);
       await page.waitForTimeout(300);
       expect(await page.screenshot({ fullPage: true }))
-        .toMatchSnapshot(`orbital-step-nav-${step}.png`);
+        .toMatchSnapshot(`auxillaries-step-nav-${step}.png`);
     }
   });
 
@@ -72,7 +72,7 @@ test.describe('Orbital Navigation & Close Flows', () => {
     await page.click('[data-orbital-testid="orbital-close-button"]');
     await page.waitForTimeout(300);
     expect(await page.screenshot({ fullPage: true }))
-      .toMatchSnapshot('orbital-onboarding-closed.png');
+      .toMatchSnapshot('auxillaries-onboarding-closed.png');
   });
   
   test('close login modal with Escape key', async ({ page }) => {
@@ -85,7 +85,7 @@ test.describe('Orbital Navigation & Close Flows', () => {
     await page.keyboard.press('Escape');
     await page.waitForTimeout(300);
     expect(await page.screenshot({ fullPage: true }))
-      .toMatchSnapshot('orbital-login-closed-escape.png');
+      .toMatchSnapshot('auxillaries-login-closed-escape.png');
   });
   
   test('close onboarding modal with Escape key', async ({ page }) => {
@@ -99,6 +99,6 @@ test.describe('Orbital Navigation & Close Flows', () => {
     await page.keyboard.press('Escape');
     await page.waitForTimeout(300);
     expect(await page.screenshot({ fullPage: true }))
-      .toMatchSnapshot('orbital-onboarding-closed-escape.png');
+      .toMatchSnapshot('auxillaries-onboarding-closed-escape.png');
   });
 });

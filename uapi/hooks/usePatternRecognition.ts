@@ -37,7 +37,7 @@ interface PatternHistory {
   timestamp: number;
   success: boolean;
   actualComplexity?: 'simple' | 'moderate' | 'complex';
-  creditsUsed?: number;
+  btdUsed?: number;
   timeToComplete?: number;
 }
 
@@ -57,14 +57,14 @@ interface UsePatternRecognitionReturn {
   isAnalyzing: boolean;
   error: string | null;
   confidence: number; // Overall confidence 0-1
-  suggestedCredits: number;
+  suggestedBtd: number;
   suggestedDuration: number; // minutes
   learningInsights: string[];
   patternHistory: PatternHistory[];
   
   // Actions
   analyzePatterns: (dod: string) => Promise<void>;
-  recordPatternSuccess: (pattern: RecognizedPattern, metrics: { creditsUsed: number; timeToComplete: number }) => void;
+  recordPatternSuccess: (pattern: RecognizedPattern, metrics: { btdUsed: number; timeToComplete: number }) => void;
   recordPatternFailure: (pattern: RecognizedPattern, reason: string) => void;
   clearAnalysis: () => void;
 }
@@ -301,12 +301,12 @@ export const usePatternRecognition = (
   }, [dodText, minLength, debounceMs, analyzePatterns]);
   
   // Record pattern success
-  const recordPatternSuccess = useCallback((pattern: RecognizedPattern, metrics: { creditsUsed: number; timeToComplete: number }) => {
+  const recordPatternSuccess = useCallback((pattern: RecognizedPattern, metrics: { btdUsed: number; timeToComplete: number }) => {
     const historyEntry: PatternHistory = {
       pattern,
       timestamp: Date.now(),
       success: true,
-      creditsUsed: metrics.creditsUsed,
+      btdUsed: metrics.btdUsed,
       timeToComplete: metrics.timeToComplete
     };
     
@@ -348,10 +348,10 @@ export const usePatternRecognition = (
     return Math.min(avgConfidence + historyBonus, 1.0);
   }, [patterns]);
   
-  // Calculate suggested credits and duration
-  const { suggestedCredits, suggestedDuration } = useMemo(() => {
+  // Calculate suggested $BTD and duration
+  const { suggestedBtd, suggestedDuration } = useMemo(() => {
     if (patterns.length === 0) {
-      return { suggestedCredits: 50, suggestedDuration: 5 };
+      return { suggestedBtd: 50, suggestedDuration: 5 };
     }
     
     const baseCredits = 40;
@@ -366,7 +366,7 @@ export const usePatternRecognition = (
     const riskMultiplier = patterns.some(p => p.riskLevel === 'high') ? 1.3 : patterns.some(p => p.riskLevel === 'medium') ? 1.1 : 1.0;
     
     return {
-      suggestedCredits: Math.round(baseCredits * complexityMultiplier * confidenceMultiplier * riskMultiplier),
+      suggestedBtd: Math.round(baseCredits * complexityMultiplier * confidenceMultiplier * riskMultiplier),
       suggestedDuration: Math.round(baseDuration * complexityMultiplier * riskMultiplier)
     };
   }, [patterns, confidence]);
@@ -376,7 +376,7 @@ export const usePatternRecognition = (
     isAnalyzing,
     error,
     confidence,
-    suggestedCredits,
+    suggestedBtd,
     suggestedDuration,
     learningInsights,
     patternHistory,
@@ -409,8 +409,8 @@ const generateLearningInsights = (
   // Success rate insights
   const successfulPatterns = history.filter(h => h.success);
   if (successfulPatterns.length > 5) {
-    const avgCredits = successfulPatterns.reduce((sum, h) => sum + (h.creditsUsed || 0), 0) / successfulPatterns.length;
-    insights.push(`Your average successful deliverable uses ${Math.round(avgCredits)} credits`);
+    const avgBtd = successfulPatterns.reduce((sum, h) => sum + (h.btdUsed || 0), 0) / successfulPatterns.length;
+    insights.push(`Your average successful deliverable uses ${Math.round(avgBtd)} $BTD`);
   }
   
   // Architecture insights

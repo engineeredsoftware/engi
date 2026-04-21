@@ -674,7 +674,7 @@ export class StreamingPipelineEngine {
           output: 500,
           total: 1500
         },
-        credits: 10
+        btdUsed: 10
       },
       repoSnapshot: {
         org: 'mock-org',

@@ -43,7 +43,7 @@ test.describe('Profile Flows', () => {
           { id: 'u1', username: 'tester', displayName: 'Tester', avatarUrl: '', role: 'owner' },
           { id: 'u2', username: 'alice', displayName: 'Alice', avatarUrl: '', role: 'admin' }
         ] },
-        githubConnection: { installationId: 42 }, credits: 0, modelPreferences: {}
+        githubConnection: { installationId: 42 }, btdBalance: 0, modelPreferences: {}
       })
     }));
     // Login & open account

@@ -1,9 +1,9 @@
 import type { Page } from '@playwright/test';
 
 /**
- * Sets up the localStorage onboarding state for Orbital tests.
+ * Sets up the localStorage onboarding state for auxillaries tests.
  * @param page Playwright Page object
- * @param step Current onboarding step ('profile'|'connections'|'models'|'credits')
+ * @param step Current onboarding step ('profile'|'connects'|'interfaces'|'btd')
  * @param completedSteps Array of steps already completed
  */
 export async function setOnboardingState(

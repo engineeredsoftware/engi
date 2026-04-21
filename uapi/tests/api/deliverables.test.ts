@@ -31,12 +31,6 @@ jest.mock('@bitcode/btd', () => {
 jest.mock('@bitcode/engine/pipeline', () => ({
   runSDIVSPipeline: jest.fn().mockResolvedValue({}),
 }));
-jest.mock('@bitcode/pipeline-ai_document/src/tools/vectorize', () => ({
-  searchRelevantAI Documents: jest.fn().mockResolvedValue([])
-}));
-jest.mock('@bitcode/pipeline-deliverable/src/tools/search', () => ({
-  searchRelevantDeliverables: jest.fn().mockResolvedValue([])
-}));
 
 describe('Deliverables API POST', () => {
   beforeEach(() => {
@@ -45,12 +39,12 @@ describe('Deliverables API POST', () => {
     process.env.EXA_API_KEY = 'test';
   });
 
-  it('returns 402 when insufficient credits', async () => {
+  it('returns 402 when insufficient $BTD balance', async () => {
     // Mock auth: user exists
     (createClient as jest.Mock).mockResolvedValue({
       auth: { getUser: jest.fn().mockResolvedValue({ data: { user: { id: 'user1' } }, error: null }) }
     });
-    // Mock existing credits = 50
+    // Mock existing BTD balance = 50
     (deductBtdBalance as jest.Mock).mockImplementation(() => {
       throw new InsufficientBtdBalanceError('balance too low');
     });
@@ -65,7 +59,7 @@ describe('Deliverables API POST', () => {
     const res = await POST(createRequest(body));
     expect(res.status).toBe(402);
     const json = await res.json();
-    expect(json.error).toBe('Insufficient credits');
+    expect(json.error).toBe('balance too low');
     expect(json.required).toBe(100);
   });
 

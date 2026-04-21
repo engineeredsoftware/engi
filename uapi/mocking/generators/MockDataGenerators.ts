@@ -391,7 +391,7 @@ class GitHubIssueGenerator extends BaseDataGenerator {
       'Implement real-time notifications',
       'Optimize database queries',
       'Update dependencies to latest versions',
-      'Add unit tests for payment processing',
+      'Add unit tests for wallet settlement and BTD issuance',
       'Improve error handling in API endpoints',
       'Enhance mobile responsiveness',
       'Add support for multiple languages',

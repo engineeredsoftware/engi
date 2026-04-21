@@ -208,7 +208,7 @@ async function initializeTestData(): Promise<void> {
         id: 'test-org-001',
         name: 'Test Organization',
         subscription: 'enterprise',
-        credits: 50000
+        btdBalance: 50000
       }
     ]
   };

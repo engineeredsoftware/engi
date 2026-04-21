@@ -23,7 +23,7 @@ jest.mock('@/components/base/bitcode/auth/AuthProvider', () => ({
 }));
 
 jest.mock('@/hooks/useUserData', () => ({
-  useUserData: () => ({ btdBalance: 0, credits: 0 }),
+  useUserData: () => ({ btdBalance: 0 }),
 }));
 
 jest.mock('@/app/auxillaries/components/AuxillariesProvider', () => ({

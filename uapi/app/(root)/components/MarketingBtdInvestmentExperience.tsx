@@ -6,9 +6,13 @@ import { motion, AnimatePresence } from 'framer-motion';
 interface BtdInvestment {
   id: string;
   deliverableName: string;
-  estimatedCredits: number;
-  actualCredits: number;
-  efficiency: number; // 0-1, calculated as estimatedCredits / actualCredits
+  // Canonical V26 spend planning is expressed directly in $BTD.
+  estimatedBtd?: number;
+  actualBtd?: number;
+  // Compatibility aliases survive only while story/devex carriers converge.
+  estimatedCredits?: number;
+  actualCredits?: number;
+  efficiency: number; // 0-1, calculated as estimatedBtd / actualBtd
   timeSpent: number; // in seconds
   complexity: 'simple' | 'moderate' | 'complex' | 'epic';
   category: 'component' | 'service' | 'feature' | 'refactor' | 'test' | 'documentation';
@@ -80,8 +84,16 @@ interface BtdInvestmentExperienceProps {
   onMagicalMoment?: (moment: string) => void;
   onValueInsight?: (insight: string) => void;
   onBtdProjection?: (projection: number) => void;
+  /** Compatibility alias for older host surfaces that have not yet renamed. */
   onCreditProjection?: (projection: number) => void;
 }
+
+// Normalize legacy story and demo carriers onto the canonical V26 $BTD contract.
+const getEstimatedBtd = (investment: BtdInvestment): number =>
+  investment.estimatedBtd ?? investment.estimatedCredits ?? 0;
+
+const getActualBtd = (investment: BtdInvestment): number =>
+  investment.actualBtd ?? investment.actualCredits ?? 0;
 
 // Magical formulas for value calculation
 const calculateMagicalMultiplier = (investment: BtdInvestment): number => {
@@ -136,13 +148,17 @@ const generateEfficiencyCoaching = (
   if (avgEfficiency < 0.7) {
     insight = 'Your magical energy is dispersing inefficiently across recent endeavors';
     suggestion = 'Focus on smaller, well-defined deliverables to build momentum and confidence';
-    potentialSavings = Math.round(recentInvestments.reduce((sum, inv) => sum + (inv.actualCredits - inv.estimatedCredits), 0) * 0.3);
+    potentialSavings = Math.round(
+      recentInvestments.reduce((sum, inv) => sum + (getActualBtd(inv) - getEstimatedBtd(inv)), 0) * 0.3
+    );
     enchantmentLevel = 'transcendence';
     magicalWisdom = '✨ Master the small spells before attempting grand enchantments';
   } else if (avgEfficiency < 0.9) {
     insight = `Pattern detected: ${topInefficient?.[0] || 'certain types'} of work consuming more energy than anticipated`;
     suggestion = `Consider breaking down ${topInefficient?.[0] || 'complex'} deliverables into smaller, more predictable components`;
-    potentialSavings = Math.round(recentInvestments.reduce((sum, inv) => sum + Math.max(0, inv.actualCredits - inv.estimatedCredits), 0) * 0.2);
+    potentialSavings = Math.round(
+      recentInvestments.reduce((sum, inv) => sum + Math.max(0, getActualBtd(inv) - getEstimatedBtd(inv)), 0) * 0.2
+    );
     enchantmentLevel = 'radiance';
     magicalWisdom = '🔮 Precision in planning multiplies the power of execution';
   } else if (avgEfficiency > 1.3) {
@@ -154,7 +170,9 @@ const generateEfficiencyCoaching = (
   } else {
     insight = 'Your magical investment patterns show balanced efficiency and growth';
     suggestion = 'Continue current practices while watching for optimization opportunities';
-    potentialSavings = Math.round(recentInvestments.reduce((sum, inv) => sum + Math.max(0, inv.actualCredits - inv.estimatedCredits), 0) * 0.1);
+    potentialSavings = Math.round(
+      recentInvestments.reduce((sum, inv) => sum + Math.max(0, getActualBtd(inv) - getEstimatedBtd(inv)), 0) * 0.1
+    );
     enchantmentLevel = 'glow';
     magicalWisdom = '💫 Steady progress illuminates the path to mastery';
   }
@@ -201,6 +219,7 @@ export const MarketingBtdInvestmentExperience = ({
   onInvestmentOptimized,
   onMagicalMoment,
   onValueInsight,
+  onBtdProjection,
   onCreditProjection
 }: BtdInvestmentExperienceProps) => {
   const projectedUpcomingBtd =
@@ -227,11 +246,11 @@ export const MarketingBtdInvestmentExperience = ({
     const cutoffDate = new Date(Date.now() - timeframeDays * 24 * 60 * 60 * 1000);
     const relevantInvestments = investments.filter(inv => inv.timestamp >= cutoffDate);
     
-    const totalInvested = relevantInvestments.reduce((sum, inv) => sum + inv.actualCredits, 0);
+    const totalInvested = relevantInvestments.reduce((sum, inv) => sum + getActualBtd(inv), 0);
     
     // Calculate magical return value
     const totalReturned = relevantInvestments.reduce((sum, inv) => {
-      const baseValue = inv.actualCredits;
+      const baseValue = getActualBtd(inv);
       const learningValue = baseValue * inv.learningValue * 0.5;
       const reuseValue = baseValue * inv.reuseablilityPotential * 0.3;
       const businessValue = baseValue * inv.businessImpact * 0.7;
@@ -290,7 +309,7 @@ export const MarketingBtdInvestmentExperience = ({
       color: investment.efficiency > 1.5 ? '#f59e0b' : 
              investment.efficiency > 1.2 ? '#8b5cf6' :
              investment.efficiency > 1.0 ? '#10b981' : '#06b6d4',
-      value: investment.actualCredits
+      value: getActualBtd(investment)
     }));
     
     setMagicalParticles(particles);
@@ -358,6 +377,12 @@ export const MarketingBtdInvestmentExperience = ({
       onMagicalMoment?.(`✨ Magical moment achieved in ${latestMagical.deliverableName}! ${latestMagical.magicalMultiplier.toFixed(1)}x value multiplier!`);
     }
   }, [investments, onMagicalMoment]);
+
+  useEffect(() => {
+    if (projectedUpcomingBtd === null) return;
+    onBtdProjection?.(projectedUpcomingBtd);
+    onCreditProjection?.(projectedUpcomingBtd);
+  }, [onBtdProjection, onCreditProjection, projectedUpcomingBtd]);
   
   // Calculate magical enhancement factor
   const magicalEnhancement = magicalIntensity === 'transcendent' ? 1.0 :
@@ -411,9 +436,9 @@ export const MarketingBtdInvestmentExperience = ({
             {/* Investment metrics */}
             <div className="grid grid-cols-2 gap-4 mb-4">
               <div className="space-y-2">
-                <div className="text-xs text-emerald-300">Credits Invested</div>
+                <div className="text-xs text-emerald-300">$BTD Invested</div>
                 <div className="text-xl font-bold text-emerald-100">
-                  {valueVisualization.totalInvested.toLocaleString()}c
+                  {valueVisualization.totalInvested.toLocaleString()} $BTD
                 </div>
               </div>
               
@@ -426,7 +451,7 @@ export const MarketingBtdInvestmentExperience = ({
                     animate={{ scale: 1, opacity: 1 }}
                     transition={{ duration: 0.3 }}
                   >
-                    {Math.round(animatingValue).toLocaleString()}c
+                    {Math.round(animatingValue).toLocaleString()} $BTD
                   </motion.span>
                 </div>
               </div>
@@ -550,7 +575,7 @@ export const MarketingBtdInvestmentExperience = ({
                   </div>
                   {efficiencyCoaching.potentialSavings > 0 && (
                     <div className="text-sm text-green-400 mb-3">
-                      <strong>Potential Savings:</strong> {efficiencyCoaching.potentialSavings}c
+                      <strong>Potential Savings:</strong> {efficiencyCoaching.potentialSavings} $BTD
                     </div>
                   )}
                   <div className="text-sm italic text-purple-300 border-l-2 border-purple-400/30 pl-3">
@@ -667,7 +692,7 @@ export const MarketingBtdInvestmentExperience = ({
             boxShadow: `0 0 20px rgba(34, 197, 94, ${enhancementGlow * 0.4})`
           }}
         >
-          <div className="text-xs text-green-300 mb-1">Available Credits</div>
+          <div className="text-xs text-green-300 mb-1">Available $BTD</div>
           <div className="text-2xl font-bold text-green-100 flex items-center justify-center space-x-2">
             <span>💎</span>
             <span>{currentBalance.toLocaleString()}</span>

@@ -71,7 +71,7 @@ export const DodInput = ({
     isAnalyzing,
     error: patternError,
     confidence,
-    suggestedCredits,
+    suggestedBtd,
     suggestedDuration,
     learningInsights,
   } = usePatternRecognition(value, attachments, repositoryContext, {
@@ -108,8 +108,8 @@ export const DodInput = ({
   }, [confidence, onConfidenceChange]);
   
   useEffect(() => {
-    onBtdEstimated?.(suggestedCredits);
-  }, [suggestedCredits, onBtdEstimated]);
+    onBtdEstimated?.(suggestedBtd);
+  }, [suggestedBtd, onBtdEstimated]);
   
   // Mouse tracking for interactive effects
   useEffect(() => {
@@ -363,9 +363,9 @@ export const DodInput = ({
                   )}
                   
                   {/* Cost estimation */}
-                  {suggestedCredits && (
+                  {suggestedBtd && (
                     <div className="flex items-center justify-between text-xs text-gray-400">
-                      <span>Estimated: {suggestedCredits} $BTD, ~{suggestedDuration}min</span>
+                      <span>Estimated: {suggestedBtd} $BTD, ~{suggestedDuration}min</span>
                       <span className={`
                         px-2 py-1 rounded
                         ${confidence > 0.8 ? 'bg-green-500/20 text-green-400' :

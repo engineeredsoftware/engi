@@ -47,7 +47,6 @@ interface Organization {
   }
   subscriptionTier: 'free' | 'pro' | 'enterprise'
   btdBalance?: number
-  creditBalance?: number
   memberCount: number
   createdAt: string
   updatedAt: string
@@ -119,7 +118,7 @@ export default function OrganizationSettings({
   const canManageOrganization = ['owner', 'admin'].includes(userRole)
   const canDeleteOrganization = userRole === 'owner'
   const operatingTier = operatingTiers[organization.subscriptionTier]
-  const btdBalance = organization.btdBalance ?? organization.creditBalance ?? 0
+  const btdBalance = organization.btdBalance ?? 0
 
   const handleUpdateOrganization = async () => {
     if (!canManageOrganization) return

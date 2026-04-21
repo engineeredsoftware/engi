@@ -1,13 +1,13 @@
 /**
  * ORGANIZATIONS MODEL - Organization management
- * 
+ *
  * @doc-code
  * type: orm-model
  * table: organizations
  * capabilities: ["settings", "members", "billing"]
  */
 
-import type { Database } from '../../types/database';
+import type { Database } from '../types/database';
 import type { SupabaseClient } from '@supabase/supabase-js';
 
 export interface OrganizationRecord {
@@ -36,9 +36,6 @@ export class OrganizationsModel {
     return (data as unknown as OrganizationRecord | null) || null;
   }
 
-  /**
-   * Find organization by slug
-   */
   async findBySlug(slug: string): Promise<OrganizationRecord | null> {
     const { data, error } = await this.supabase
       .from('organizations' as any)
@@ -50,11 +47,8 @@ export class OrganizationsModel {
     return (data as unknown as OrganizationRecord | null) || null;
   }
 
-  /**
-   * Update organization settings
-   */
   async updateSettings(
-    organizationId: string, 
+    organizationId: string,
     settings: Record<string, unknown>
   ): Promise<OrganizationRecord> {
     const current = await this.getById(organizationId);
@@ -73,9 +67,6 @@ export class OrganizationsModel {
     return data as unknown as OrganizationRecord;
   }
 
-  /**
-   * Get organization member count
-   */
   async getMemberCount(organizationId: string): Promise<number> {
     const { count, error } = await this.supabase
       .from('organization_members' as any)
@@ -86,17 +77,11 @@ export class OrganizationsModel {
     return count || 0;
   }
 
-  /**
-   * Check if slug is available
-   */
   async isSlugAvailable(slug: string): Promise<boolean> {
     const existing = await this.findBySlug(slug);
     return !existing;
   }
 
-  /**
-   * Get organizations by creation date
-   */
   async getRecent(limit = 10): Promise<OrganizationRecord[]> {
     const { data, error } = await this.supabase
       .from('organizations' as any)

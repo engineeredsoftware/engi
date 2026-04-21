@@ -1,44 +1,33 @@
 import { test, expect } from '@playwright/test';
+import { setOnboardingState } from './auxillaries.helpers';
 
-// Helper to set onboarding state
-async function setOnboardingState(page, step, completed = []) {
-  await page.evaluate(([step, completed]) => {
-    localStorage.setItem('onboardingState', JSON.stringify({
-      isOnboarding: true,
-      currentOnboardingStep: step,
-      completedSteps: completed,
-      isFirstTimeUser: true
-    }));
-  }, [step, completed]);
-}
-
-test.describe('@profile Orbital - Connections Step', () => {
-  test('orbital-connections-first-load', async ({ page }) => {
+test.describe('@profile Auxillaries - Connects Step', () => {
+  test('auxillaries-connects-first-load', async ({ page }) => {
     await page.goto('/');
-    await setOnboardingState(page, 'connections', ['profile']);
+    await setOnboardingState(page, 'connects', ['profile']);
     await page.reload();
-    // Wait for connections step badge to appear
+    // Wait for connects step badge to appear
     await page.waitForSelector('[data-testid="connections-step-badge"]');
     await page.waitForTimeout(300);
     expect(await page.screenshot({ fullPage: true }))
-      .toMatchSnapshot('orbital-connections-first-load.png');
+      .toMatchSnapshot('auxillaries-connects-first-load.png');
   });
 
-  test('orbital-connections-github-connect-hover', async ({ page }) => {
+  test('auxillaries-connects-github-connect-hover', async ({ page }) => {
     await page.goto('/');
-    await setOnboardingState(page, 'connections', ['profile']);
+    await setOnboardingState(page, 'connects', ['profile']);
     await page.reload();
     // Hover over GitHub connect button
     await page.waitForSelector('[data-testid="connections-github-button"]');
     await page.hover('[data-testid="connections-github-button"]');
     await page.waitForTimeout(300);
     expect(await page.screenshot({ fullPage: true }))
-      .toMatchSnapshot('orbital-connections-github-connect-hover.png');
+      .toMatchSnapshot('auxillaries-connects-github-connect-hover.png');
   });
 
-  test('orbital-connections-github-connected', async ({ page }) => {
+  test('auxillaries-connects-github-connected', async ({ page }) => {
     await page.goto('/');
-    await setOnboardingState(page, 'connections', ['profile']);
+    await setOnboardingState(page, 'connects', ['profile']);
     await page.reload();
     // Simulate GitHub connect click
     await page.click('[data-testid="connections-github-button"]');
@@ -50,32 +39,32 @@ test.describe('@profile Orbital - Connections Step', () => {
     // Capture connected UI
     await page.waitForTimeout(300);
     expect(await page.screenshot({ fullPage: true }))
-      .toMatchSnapshot('orbital-connections-github-connected.png');
+      .toMatchSnapshot('auxillaries-connects-github-connected.png');
   });
   
-  test.skip('orbital-connections-figma-connected', async ({ page }) => {
+  test.skip('auxillaries-connects-figma-connected', async ({ page }) => {
     await page.goto('/?dev=true');
-    await setOnboardingState(page, 'connections', ['profile']);
+    await setOnboardingState(page, 'connects', ['profile']);
     await page.reload();
     // Click Figma connect button
     await page.click('[data-testid="connections-figma-button"]');
     await page.waitForTimeout(1500);
     expect(await page.screenshot({ fullPage: true }))
-      .toMatchSnapshot('orbital-connections-figma-connected.png');
+      .toMatchSnapshot('auxillaries-connects-figma-connected.png');
   });
   
-  test.skip('orbital-connections-notion-connected', async ({ page }) => {
+  test.skip('auxillaries-connects-notion-connected', async ({ page }) => {
     await page.goto('/?dev=true');
-    await setOnboardingState(page, 'connections', ['profile']);
+    await setOnboardingState(page, 'connects', ['profile']);
     await page.reload();
     // Click Notion connect button
     await page.click('[data-testid="connections-notion-button"]');
     await page.waitForTimeout(1500);
     expect(await page.screenshot({ fullPage: true }))
-      .toMatchSnapshot('orbital-connections-notion-connected.png');
+      .toMatchSnapshot('auxillaries-connects-notion-connected.png');
   });
   
-  test('orbital-connections-api-keys-generate', async ({ page, context }) => {
+  test('auxillaries-connects-api-keys-generate', async ({ page, context }) => {
     // Stub API keys endpoints
     await context.route('**/api/auxillaries/api-keys', route => {
       const method = route.request().method();
@@ -94,7 +83,7 @@ test.describe('@profile Orbital - Connections Step', () => {
       }
     });
     await page.goto('/?dev=true');
-    await setOnboardingState(page, 'connections', ['profile']);
+    await setOnboardingState(page, 'connects', ['profile']);
     await page.reload();
     // Generate new API key
     await page.click('[data-testid="connections-generate-apikey-button"]');
@@ -106,7 +95,7 @@ test.describe('@profile Orbital - Connections Step', () => {
     await expect(page.locator('[data-testid="connections-apikey-output"]')).toContainText('test-key-123');
   });
 
-  test('orbital-connections-github-verify-failure', async ({ page, context }) => {
+  test('auxillaries-connects-github-verify-failure', async ({ page, context }) => {
     // Stub GitHub verify to return error
     await context.route('**/api/auxillaries/connections/github', route =>
       route.fulfill({
@@ -116,7 +105,7 @@ test.describe('@profile Orbital - Connections Step', () => {
       })
     );
     await page.goto('/');
-    await setOnboardingState(page, 'connections', ['profile']);
+    await setOnboardingState(page, 'connects', ['profile']);
     await page.reload();
     // Enter fake verification code
     await page.fill('[data-testid="connections-verify-input"]', '12345-abcde');
@@ -128,10 +117,10 @@ test.describe('@profile Orbital - Connections Step', () => {
     // Capture visual
     await page.waitForTimeout(300);
     expect(await page.screenshot({ fullPage: true }))
-      .toMatchSnapshot('orbital-connections-github-verify-failure.png');
+      .toMatchSnapshot('auxillaries-connects-github-verify-failure.png');
   });
 
-  test('orbital-connections-api-keys-delete', async ({ page, context }) => {
+  test('auxillaries-connects-api-keys-delete', async ({ page, context }) => {
     // Initial GET returns two keys
     await context.route('**/api/auxillaries/api-keys', route => {
       if (route.request().method() === 'GET') {
@@ -150,7 +139,7 @@ test.describe('@profile Orbital - Connections Step', () => {
       route.fulfill({ status: 200, contentType: 'application/json', body: '[]' })
     );
     await page.goto('/');
-    await setOnboardingState(page, 'connections', ['profile']);
+    await setOnboardingState(page, 'connects', ['profile']);
     await page.reload();
     // Wait for API key list
     const item1 = page.locator('[data-testid="connections-apikey-item-key1"]');
@@ -159,7 +148,7 @@ test.describe('@profile Orbital - Connections Step', () => {
     await expect(item2).toBeVisible();
     // Capture initial state
     expect(await page.screenshot({ fullPage: true }))
-      .toMatchSnapshot('orbital-connections-apikey-list.png');
+      .toMatchSnapshot('auxillaries-connects-apikey-list.png');
     // Delete first key
     await page.click('[data-testid="connections-delete-apikey-button-key1"]');
     // Wait for removal
@@ -167,6 +156,6 @@ test.describe('@profile Orbital - Connections Step', () => {
     // Capture after deletion
     await page.waitForTimeout(300);
     expect(await page.screenshot({ fullPage: true }))
-      .toMatchSnapshot('orbital-connections-apikey-after-delete.png');
+      .toMatchSnapshot('auxillaries-connects-apikey-after-delete.png');
   });
 });

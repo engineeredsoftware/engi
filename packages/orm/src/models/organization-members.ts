@@ -1,14 +1,14 @@
 /**
  * Organization Members Model
- * 
+ *
  * Manages organization membership and roles.
- * 
+ *
  * @doc-code
  * type: model
  * table: organization_members
  */
 
-import type { Database } from '../../types/database';
+import type { Database } from '../types/database';
 import type { SupabaseClient } from '@supabase/supabase-js';
 
 export interface OrganizationMember {
@@ -36,9 +36,6 @@ export class OrganizationMembersModel {
 
   private readonly supabase: SupabaseClient<Database>;
 
-  /**
-   * Get member by organization and user
-   */
   async getMember(orgId: string, userId: string): Promise<OrganizationMember | null> {
     const { data, error } = await this.supabase
       .from('organization_members' as any)
@@ -51,9 +48,6 @@ export class OrganizationMembersModel {
     return (data as unknown as OrganizationMember | null) || null;
   }
 
-  /**
-   * List members for organization
-   */
   async listByOrganization(orgId: string): Promise<OrganizationMember[]> {
     const { data, error } = await this.supabase
       .from('organization_members' as any)
@@ -65,9 +59,6 @@ export class OrganizationMembersModel {
     return (data as unknown as OrganizationMember[]) || [];
   }
 
-  /**
-   * List organizations for user
-   */
   async listByUser(userId: string): Promise<OrganizationMember[]> {
     const { data, error } = await this.supabase
       .from('organization_members' as any)
@@ -79,12 +70,9 @@ export class OrganizationMembersModel {
     return (data as unknown as OrganizationMember[]) || [];
   }
 
-  /**
-   * Add member to organization
-   */
   async addMember(
-    orgId: string, 
-    userId: string, 
+    orgId: string,
+    userId: string,
     role: OrganizationRole = 'member'
   ): Promise<OrganizationMember> {
     const { data, error } = await this.supabase
@@ -101,17 +89,14 @@ export class OrganizationMembersModel {
     return data as unknown as OrganizationMember;
   }
 
-  /**
-   * Update member role
-   */
   async updateRole(
-    orgId: string, 
-    userId: string, 
+    orgId: string,
+    userId: string,
     role: OrganizationRole
   ): Promise<OrganizationMember> {
     const { data, error } = await this.supabase
       .from('organization_members' as any)
-      .update({ 
+      .update({
         role,
         updated_at: new Date().toISOString()
       })
@@ -124,9 +109,6 @@ export class OrganizationMembersModel {
     return data as unknown as OrganizationMember;
   }
 
-  /**
-   * Remove member
-   */
   async removeMember(orgId: string, userId: string): Promise<void> {
     const { error } = await this.supabase
       .from('organization_members' as any)
@@ -137,21 +119,15 @@ export class OrganizationMembersModel {
     if (error) throw error;
   }
 
-  /**
-   * Check if user has permission
-   */
   async hasPermission(
-    orgId: string, 
-    userId: string, 
+    orgId: string,
+    userId: string,
     requiredRoles: OrganizationRole[]
   ): Promise<boolean> {
     const member = await this.getMember(orgId, userId);
     return member ? requiredRoles.includes(member.role as OrganizationRole) : false;
   }
 
-  /**
-   * Count members by role
-   */
   async countByRole(orgId: string): Promise<Record<string, number>> {
     const { data, error } = await this.supabase
       .from('organization_members' as any)
@@ -167,8 +143,8 @@ export class OrganizationMembersModel {
       viewer: 0
     };
 
-    (data as unknown as OrganizationMember[] | null)?.forEach(m => {
-      counts[m.role] = (counts[m.role] || 0) + 1;
+    (data as unknown as OrganizationMember[] | null)?.forEach((member) => {
+      counts[member.role] = (counts[member.role] || 0) + 1;
     });
 
     return counts;

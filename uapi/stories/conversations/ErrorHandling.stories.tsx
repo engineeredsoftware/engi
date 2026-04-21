@@ -85,18 +85,18 @@ export const InsufficientCreditsError: Story = {
       {
         id: 'msg-2',
         role: 'assistant' as const,
-        content: 'I cannot start this deliverable pipeline because you have insufficient credits. This deliverable requires 500 credits, but you currently have 45 credits available.',
+        content: 'I cannot start this deliverable pipeline because you have insufficient $BTD. This deliverable requires 500 $BTD, but you currently have 45 $BTD available.',
         created_at: '2024-01-15T10:02:00Z',
         error: {
-          message: 'Insufficient credits for deliverable pipeline',
+          message: 'Insufficient $BTD for deliverable pipeline',
           code: 'INSUFFICIENT_CREDITS',
           details: {
             required: 500,
             current: 45,
             billingUrl: '/billing',
-            creditPackages: [
-              { name: 'Micro', credits: 100, price: 10 },
-              { name: 'Industry', credits: 1000, price: 100 }
+            btdPackages: [
+              { name: 'Micro', btd: 100, price: 10 },
+              { name: 'Industry', btd: 1000, price: 100 }
             ]
           }
         }
@@ -107,7 +107,7 @@ export const InsufficientCreditsError: Story = {
     activePipelines: new Set(),
     completedPipelines: new Set(),
     pipelineEvents: [],
-    error: 'Insufficient credits for deliverable pipeline'
+    error: 'Insufficient $BTD for deliverable pipeline'
   }
 };
 

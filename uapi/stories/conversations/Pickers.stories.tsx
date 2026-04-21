@@ -298,14 +298,14 @@ const mockDeliverables = [
   },
   {
     id: 'del-3',
-    title: 'Payment Integration',
-    description: 'Integrate Stripe payment processing with subscription management',
+    title: 'Wallet Settlement Flow',
+    description: 'Implement wallet-gated BTC settlement with audited $BTD issuance and GitHub delivery gating',
     status: 'pending' as const,
     priority: 'low' as const,
     estimatedCredits: 180,
     createdAt: '2024-01-15T09:00:00Z',
-    text: 'Payment Integration',
-    displayInfo: 'Pending • Stripe • 3h ago'
+    text: 'Wallet Settlement Flow',
+    displayInfo: 'Pending • Wallet + GitHub • 3h ago'
   },
   {
     id: 'del-4',

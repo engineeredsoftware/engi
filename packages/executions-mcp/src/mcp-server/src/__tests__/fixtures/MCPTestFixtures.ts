@@ -327,11 +327,12 @@ export const CUSTOMER_SCENARIOS = {
     description: 'A solo developer building an MVP for their startup',
     userContext: AUTH_CONTEXTS.DEVELOPER,
     inputs: {
-      task: 'Create a complete e-commerce checkout flow with Stripe integration',
+      task: 'Create a settlement-ready asset pack for a wallet-gated Bitcode transaction flow',
       repository: REPOSITORY_CONTEXTS.NEXT_JS_PROJECT,
       attachments: [ATTACHMENTS.FIGMA_DESIGN, ATTACHMENTS.REQUIREMENTS_DOC],
       mcpConfig: {
-        stripe: { secretKey: 'mock-stripe-key' },
+        github: { appId: 'mock-github-app-id' },
+        wallet: { provider: 'mock-metamask', network: 'bitcoin-testnet' },
         supabase: { url: 'mock-supabase-url', anonKey: 'mock-anon-key' }
       }
     },
@@ -373,9 +374,9 @@ export const CUSTOMER_SCENARIOS = {
     businessValue: 'Deliver complex mobile features 3x faster with native performance'
   },
   
-  FREELANCER_LIMITED_CREDITS: {
-    name: 'Freelancer with Limited Credits',
-    description: 'A freelancer with limited credits trying to complete a project',
+  FREELANCER_LIMITED_BTD: {
+    name: 'Freelancer with Limited $BTD',
+    description: 'A freelancer with limited $BTD trying to complete a project',
     userContext: AUTH_CONTEXTS.LIMITED_USER,
     inputs: {
       task: 'Build a complete landing page with contact form and animations',
@@ -701,7 +702,7 @@ export const TEST_CONFIGURATIONS = {
     },
     customerScenarios: [
       CUSTOMER_SCENARIOS.SECURITY_AUDIT_SCENARIO,
-      CUSTOMER_SCENARIOS.FREELANCER_LIMITED_CREDITS
+      CUSTOMER_SCENARIOS.FREELANCER_LIMITED_BTD
     ]
   } as MCPTestConfig
 };

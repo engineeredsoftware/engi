@@ -91,7 +91,7 @@ interface MCPAuthContext {
     organization: { manageMembers: boolean; viewAnalytics: boolean };
     resources: { read: boolean; export: boolean };
   };
-  creditBalance: number;
+  btdBalance: number;
   mcpCredentials: Record<string, any>;
 }
 ```
@@ -106,7 +106,7 @@ interface MCPAuthContext {
 - Comprehensive audit logging
 - Rate limiting and abuse prevention
 - Role-based access control (RBAC)
-- Credit balance validation
+- `$BTD` balance validation
 
 ### 3. Pipeline Tools (`src/tools/pipeline-tools.ts`)
 
@@ -342,7 +342,7 @@ import { runUpgradesPipeline } from '@bitcode/pipeline-ai_document';
 
 // MCP tools wrap pipeline execution with:
 // - Authentication and authorization
-// - Credit management and billing
+// - $BTD treasury management and settlement visibility
 // - Real-time streaming and monitoring
 // - Error handling and recovery
 // - Comprehensive logging and metrics
@@ -362,15 +362,15 @@ const supabaseAdmin = createAdminClient(); // Server/admin client
 // - analysis_results, ai_documents, security_audit_log
 ```
 
-### 3. Credit System Integration
+### 3. $BTD Treasury Integration
 
 ```typescript
-// Integrated credit management
-interface CreditManagement {
-  estimateCredits(operation: MCPOperation): Promise<number>;
-  reserveCredits(userId: string, amount: number): Promise<CreditReservation>;
-  trackUsage(reservationId: string, actualUsage: number): Promise<void>;
-  refundCredits(reservationId: string, reason: string): Promise<void>;
+// Integrated Bitcode treasury management
+interface BtdTreasuryManagement {
+  estimateBtd(operation: MCPOperation): Promise<number>;
+  reserveBtd(userId: string, amount: number): Promise<BtdReservation>;
+  trackBtdUsage(reservationId: string, actualUsage: number): Promise<void>;
+  refundBtd(reservationId: string, reason: string): Promise<void>;
 }
 ```
 

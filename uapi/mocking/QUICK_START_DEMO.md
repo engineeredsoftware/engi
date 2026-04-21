@@ -19,7 +19,7 @@ yarn dev
 ### 2. Visit Any Page - Mocking is Now Active!
 - **Deliverables:** Rich demo data automatically loads
 - **Conversations Chat:** Realistic conversation history
-- **User Profile:** Complete user data with credits, usage, etc.
+- **User Profile:** Complete user data with `$BTD`, usage, etc.
 - **GitHub Integration:** Full repository, branch, and commit data
 - **Organizations:** Team and member management data
 

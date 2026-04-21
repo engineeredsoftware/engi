@@ -27,7 +27,6 @@ describe('BtdStep SSR Onboarding View', () => {
       data: null,
       hasGitHubConnection: false,
       btdBalance: 0,
-      credits: 0,
       isLoading: false,
       error: null,
       refresh: jest.fn(),

@@ -23,7 +23,7 @@ export default function AuxillariesConnectsPane({
   onCompletionStatusChange,
 }: AuxillariesConnectsPaneProps) {
   const { user } = useAuth();
-  const { data, hasGitHubConnection, isLoading, refresh } = useUserData();
+  const { data, hasGitHubConnection, hasWalletConnection, isLoading, refresh } = useUserData();
 
   useEffect(() => {
     onCompletionStatusChange?.(Boolean(user && hasGitHubConnection));
@@ -31,6 +31,7 @@ export default function AuxillariesConnectsPane({
 
   const repositories = Array.isArray((data as any)?.repositories) ? (data as any).repositories : [];
   const organizations = Array.isArray((data as any)?.organizations) ? (data as any).organizations : [];
+  const transactionReady = Boolean(user && hasGitHubConnection && hasWalletConnection);
 
   return (
     <div data-testid="connects-pane-container">
@@ -47,15 +48,16 @@ export default function AuxillariesConnectsPane({
               </p>
             </div>
 
-            <div className="grid gap-3 tablet:grid-cols-2">
-              <div className="rounded-2xl border border-emerald-300/16 bg-emerald-400/8 p-4">
-                <p className="text-xs font-semibold uppercase tracking-[0.2em] text-emerald-200/78">
-                  Primary connection
-                </p>
-                <p className="mt-2 text-sm leading-7 text-white/74">
-                  GitHub is the first required connection for live repository work in Bitcode.
-                </p>
-              </div>
+              <div className="grid gap-3 tablet:grid-cols-2">
+                <div className="rounded-2xl border border-emerald-300/16 bg-emerald-400/8 p-4">
+                  <p className="text-xs font-semibold uppercase tracking-[0.2em] text-emerald-200/78">
+                    Transaction prerequisite
+                  </p>
+                  <p className="mt-2 text-sm leading-7 text-white/74">
+                    GitHub plus a connected wallet are the minimum live prerequisites before Bitcode
+                    should transact, settle, and deliver.
+                  </p>
+                </div>
 
               <div className="rounded-2xl border border-white/10 bg-white/5 p-4">
                 <p className="text-xs font-semibold uppercase tracking-[0.2em] text-white/72">
@@ -109,18 +111,50 @@ export default function AuxillariesConnectsPane({
               <aside className="space-y-4">
                 <div className="rounded-[24px] border border-white/10 bg-white/5 p-5">
                   <p className="text-xs font-semibold uppercase tracking-[0.22em] text-emerald-200/72">
-                    Connection status
+                    Transaction readiness
                   </p>
                   <div className="mt-3 rounded-2xl border border-white/8 bg-black/20 p-4">
                     <p className="text-sm font-medium text-white">
-                      {isLoading ? 'Checking GitHub connection…' : hasGitHubConnection ? 'GitHub is connected' : 'GitHub is not connected yet'}
+                      {isLoading
+                        ? 'Checking GitHub and wallet posture…'
+                        : transactionReady
+                          ? 'GitHub and wallet are ready'
+                          : 'GitHub and wallet are not both ready yet'}
                     </p>
                     <p className="mt-2 text-sm leading-7 text-white/68">
-                      {hasGitHubConnection
-                        ? 'Bitcode can now reuse this repository context across transactions.'
-                        : 'Connect GitHub to let Bitcode read and act against live repository context from the application.'}
+                      {transactionReady
+                        ? 'Bitcode can now reuse live repository context and wallet posture across transactions, deliverables, and settlement follow-through.'
+                        : 'Transactions require both a live GitHub connection here and a wallet binding in Profile before Bitcode should move from review into settlement and delivery.'}
                     </p>
                   </div>
+                  <div className="mt-3 grid gap-3 tablet:grid-cols-2">
+                    <div className="rounded-2xl border border-white/8 bg-white/5 p-4">
+                      <p className="text-xs font-semibold uppercase tracking-[0.18em] text-white/64">
+                        GitHub
+                      </p>
+                      <p className="mt-2 text-sm font-medium text-white">
+                        {hasGitHubConnection ? 'Connected' : 'Pending'}
+                      </p>
+                    </div>
+                    <div className="rounded-2xl border border-white/8 bg-white/5 p-4">
+                      <p className="text-xs font-semibold uppercase tracking-[0.18em] text-white/64">
+                        Wallet
+                      </p>
+                      <p className="mt-2 text-sm font-medium text-white">
+                        {hasWalletConnection ? 'Connected' : 'Pending in Profile'}
+                      </p>
+                    </div>
+                  </div>
+                  {!hasWalletConnection && (
+                    <div className="mt-3">
+                      <Link
+                        href="/auxillaries/profile"
+                        className="inline-flex items-center justify-center rounded-full border border-white/10 bg-white/5 px-4 py-2 text-[11px] font-semibold uppercase tracking-[0.18em] text-white/82 transition-colors hover:border-white/20 hover:bg-white/10"
+                      >
+                        Open Profile for wallet binding
+                      </Link>
+                    </div>
+                  )}
                 </div>
 
                 {(organizations.length > 0 || repositories.length > 0) && (
@@ -176,9 +210,9 @@ export default function AuxillariesConnectsPane({
                     Additional connections
                   </p>
                   <ul className="mt-3 space-y-2 text-sm leading-7 text-white/68">
-                    <li>Wallet identity and share posture stay grouped across Profile and $BTD.</li>
+                    <li>Wallet identity stays grouped in Profile while Connects owns repository attachment and connection review.</li>
                     <li>Phone and email trigger surfaces will return here as Connects expands.</li>
-                    <li>GitHub stays the required live repository connection today.</li>
+                    <li>GitHub plus wallet posture are the minimum live prerequisites before transaction execution.</li>
                   </ul>
                 </div>
               </aside>

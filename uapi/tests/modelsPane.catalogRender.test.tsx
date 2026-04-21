@@ -19,7 +19,7 @@ describe('Models Pane uses centralized model catalog', () => {
         modelPreferences: {},
       },
       hasGitHubConnection: true,
-      credits: 1200,
+      btdBalance: 1200,
       isLoading: false,
       error: null,
       refresh: jest.fn(),

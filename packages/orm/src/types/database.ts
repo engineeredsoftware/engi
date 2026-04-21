@@ -1567,8 +1567,8 @@ export interface QueryOptions<T extends TableName = TableName> {
   ascending?: boolean
 }
 
-export type UserProfileWithCredits = Tables<'user_profiles'> & {
-  credits?: Tables<'user_credits'> | null
+export type UserProfileWithBtd = Tables<'user_profiles'> & {
+  btdBalance?: Tables<'user_credits'> | null
 }
 
 export type DeliverableRunComplete = Tables<'pipeline_runs'> & {

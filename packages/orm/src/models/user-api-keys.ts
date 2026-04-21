@@ -1,14 +1,14 @@
 /**
  * User API Keys Model
- * 
+ *
  * Manages API keys for programmatic access.
- * 
+ *
  * @doc-code
  * type: model
  * table: user_api_keys
  */
 
-import type { Database } from '../../types/database';
+import type { Database } from '../types/database';
 import type { SupabaseClient } from '@supabase/supabase-js';
 import * as crypto from 'crypto';
 
@@ -35,9 +35,6 @@ export class UserApiKeysModel {
 
   private readonly supabase: SupabaseClient<Database>;
 
-  /**
-   * List API keys for user
-   */
   async listByUserId(userId: string): Promise<UserApiKey[]> {
     const { data, error } = await this.supabase
       .from('user_api_keys' as any)
@@ -49,9 +46,6 @@ export class UserApiKeysModel {
     return ((data || []) as unknown) as UserApiKey[];
   }
 
-  /**
-   * Get API key by hash
-   */
   async getByKeyHash(keyHash: string): Promise<UserApiKey | null> {
     const { data, error } = await this.supabase
       .from('user_api_keys' as any)
@@ -63,9 +57,6 @@ export class UserApiKeysModel {
     return (data as unknown as UserApiKey | null) || null;
   }
 
-  /**
-   * Validate API key
-   */
   async validateKey(apiKey: string): Promise<{
     valid: boolean;
     userId?: string;
@@ -77,17 +68,15 @@ export class UserApiKeysModel {
       .digest('hex');
 
     const key = await this.getByKeyHash(keyHash);
-    
+
     if (!key) {
       return { valid: false };
     }
 
-    // Check expiration
     if (key.expires_at && new Date(key.expires_at) < new Date()) {
       return { valid: false };
     }
 
-    // Update last used
     await this.update(key.id, {
       last_used_at: new Date().toISOString()
     });
@@ -99,9 +88,6 @@ export class UserApiKeysModel {
     };
   }
 
-  /**
-   * Delete by ID and user
-   */
   async deleteByIdAndUser(keyId: string, userId: string): Promise<void> {
     const { error } = await this.supabase
       .from('user_api_keys' as any)
@@ -112,9 +98,6 @@ export class UserApiKeysModel {
     if (error) throw error;
   }
 
-  /**
-   * Delete expired keys
-   */
   async deleteExpired(): Promise<number> {
     const { data, error } = await this.supabase
       .from('user_api_keys' as any)
@@ -134,9 +117,6 @@ export class UserApiKeysModel {
     return ids.length;
   }
 
-  /**
-   * Get active key count for user
-   */
   async getActiveCount(userId: string): Promise<number> {
     const { count, error } = await this.supabase
       .from('user_api_keys' as any)

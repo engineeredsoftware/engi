@@ -140,6 +140,13 @@ export function useUserData() {
   const hasGitHubConnection = Boolean(
     data?.githubConnection || data?.vcsConnections?.some(conn => conn.provider === 'github')
   );
+  // Wallet readiness still arrives through the profile payload while the
+  // storage layer converges on explicitly Bitcode-named wallet tables.
+  const hasWalletConnection = Boolean(
+    data?.profile?.wallet_address
+      || data?.profile?.btc_balance
+      || data?.profile?.provider === 'metamask'
+  );
   const btdBalance = typeof data?.btdBalance === 'number' ? data.btdBalance : hydratedBtdBalance;
 
   const onboardedSteps = normalizeAuxillarySteps(data?.onboardedPanes ?? data?.onboarded_steps ?? []);
@@ -148,6 +155,7 @@ export function useUserData() {
   return {
     data,
     hasGitHubConnection,
+    hasWalletConnection,
     btdBalance,
     isLoading,
     error,

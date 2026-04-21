@@ -2,7 +2,7 @@ import { test, expect } from '@playwright/test';
 
 // Full end-to-end onboarding drive-through
 test.describe('Full Onboarding Flow', () => {
-  test('should complete profile, connections, models, and credits steps', async ({ page, context }) => {
+  test('should complete profile, connects, interfaces, and btd steps', async ({ page, context }) => {
     const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
     // Stub OTP request and verify
     await context.route(`${supabaseUrl}/auth/v1/otp`, route =>
@@ -40,11 +40,11 @@ test.describe('Full Onboarding Flow', () => {
     await page.waitForTimeout(300);
     expect(await page.screenshot({ fullPage: true })).toMatchSnapshot('onboarding-full-models.png');
 
-    // Models Step (auto-advances)
-    // Wait for Credits Step
+    // Interfaces step auto-advances.
+    // Wait for the BTD step.
     await page.waitForSelector('[data-testid="btd-step-badge"]');
     await expect(page.locator('[data-testid="btd-step-badge"]')).toHaveText('Step 4 of 4');
     await page.waitForTimeout(300);
-    expect(await page.screenshot({ fullPage: true })).toMatchSnapshot('onboarding-full-credits.png');
+    expect(await page.screenshot({ fullPage: true })).toMatchSnapshot('onboarding-full-btd.png');
   });
 });

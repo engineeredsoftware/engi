@@ -1,8 +1,8 @@
 /**
  * ORM Models Index - GA-1 Tables Only
  * 
- * This file exports only models for tables included in GA-1.
- * Non-GA-1 models have been moved to archived-post-ga1/ directory.
+ * This file exports the active GA-1 plus retained compatibility owners that
+ * still back live Bitcode surfaces.
  */
 
 // Base model
@@ -25,6 +25,12 @@ export { PipelineRunsModel } from './pipeline-runs'; // generic metadata (legacy
 
 // System models (GA-1)
 export { NotificationsModel } from './notifications';
+
+// Retained compatibility models
+export { UsersModel } from './users';
+export { OrganizationsModel } from './organizations';
+export { OrganizationMembersModel } from './organization-members';
+export { UserApiKeysModel } from './user-api-keys';
 
 // Type exports for convenience
 export type {

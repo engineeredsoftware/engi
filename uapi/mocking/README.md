@@ -49,7 +49,7 @@ Your entire Bitcode application now has rich, realistic mock data automatically.
 ✅ **User Auxillaries** (25+ features): Authentication, profiles, onboarding, preferences  
 ✅ **Conversations** (10+ features): ChatGPT-style Bitcode conversations, tool responses, AI replies  
 ✅ **Deliverables/AI Documents** (16+ features): Main pipelines with 4 toggles, streaming  
-✅ **Organizations** (8+ features): Enterprise teams, members, credits, invitations  
+✅ **Organizations** (8+ features): Enterprise teams, members, treasury, invitations  
 ✅ **Integrations** (25+ features): GitHub, GitLab, Bitbucket, Figma, Notion  
 ✅ **Marketplace** (5+ features): Listings, orders, ticker, categories  
 ✅ **MCP Tools** (4+ features): AWS, Supabase, Vercel integrations  

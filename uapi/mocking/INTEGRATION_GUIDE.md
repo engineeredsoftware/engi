@@ -91,8 +91,8 @@ export const GET = mockAreas.orbital.auth.chatgpt()(originalHandler);
 // /api/user/profile/route.ts
 export const GET = mockAreas.orbital.user.profile()(originalHandler);
 
-// /api/user/credits/route.ts  
-export const GET = mockAreas.orbital.user.credits()(originalHandler);
+// /api/user/btd/route.ts
+export const GET = mockAreas.orbital.user.btd()(originalHandler);
 
 // /api/user/usage/route.ts
 export const GET = mockAreas.orbital.user.usage()(originalHandler);
@@ -124,8 +124,8 @@ export const GET = mockAreas.organizations.main()(originalHandler);
 // /api/organizations/[orgId]/members/route.ts
 export const GET = mockAreas.organizations.members()(originalHandler);
 
-// /api/organizations/[orgId]/credits/route.ts
-export const GET = mockAreas.organizations.credits()(originalHandler);
+// /api/organizations/[orgId]/btd/route.ts
+export const GET = mockAreas.organizations.btd()(originalHandler);
 ```
 
 ## 5. 🔗 EXTERNAL INTEGRATIONS

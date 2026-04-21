@@ -20,7 +20,7 @@ type Story = StoryObj<typeof meta>;
 const completeConversationData = {
   conversation: {
     id: 'conv-complete',
-    title: 'Full-Stack E-Commerce Platform Development',
+    title: 'Bitcode Transaction Workspace Development',
     created_at: '2024-01-15T08:00:00Z',
     updated_at: '2024-01-15T12:30:00Z'
   },
@@ -28,14 +28,14 @@ const completeConversationData = {
     {
       id: 'msg-1',
       role: 'user' as const,
-      content: 'I want to build a complete e-commerce platform with modern stack #mycompany/ecommerce-platform +requirements.pdf +ui-mockups.figma',
+      content: 'I want to build a complete Bitcode transaction workspace with modern stack #mycompany/bitcode-transaction-workspace +requirements.pdf +ui-mockups.figma',
       created_at: '2024-01-15T08:00:00Z',
       tokens: [
         {
           type: 'source' as const,
-          value: 'mycompany/ecommerce-platform',
+          value: 'mycompany/bitcode-transaction-workspace',
           metadata: {
-            repoSlug: 'mycompany/ecommerce-platform',
+            repoSlug: 'mycompany/bitcode-transaction-workspace',
             branch: 'main',
             selectedFiles: ['package.json', 'src/App.js', 'src/components/Layout.js']
           }
@@ -48,7 +48,7 @@ const completeConversationData = {
             name: 'requirements.pdf',
             type: 'file',
             size: 2048000,
-            preview: 'E-commerce platform requirements: user auth, product catalog, shopping cart, payment processing...'
+            preview: 'Bitcode transaction workspace requirements: auth, wallet settlement, treasury posture, GitHub delivery...'
           }
         },
         {
@@ -58,8 +58,8 @@ const completeConversationData = {
             id: 'att-figma',
             name: 'ui-mockups.figma',
             type: 'url',
-            url: 'https://figma.com/file/123/ecommerce-mockups',
-            preview: 'Complete UI/UX mockups for e-commerce platform'
+            url: 'https://figma.com/file/123/bitcode-transaction-mockups',
+            preview: 'Complete UI/UX mockups for Bitcode transaction workspace'
           }
         }
       ]
@@ -67,7 +67,7 @@ const completeConversationData = {
     {
       id: 'msg-2',
       role: 'assistant' as const,
-      content: "Excellent! I'll help you build a complete e-commerce platform. Based on your requirements document and UI mockups, I can see you need:\n\n**Core Features:**\n- User authentication and profiles\n- Product catalog with search/filtering\n- Shopping cart and wishlist\n- Secure payment processing\n- Order management and tracking\n- Admin dashboard\n\n**Technology Stack Analysis:**\nFrom your repository, I can see you're using React. I'll enhance it with:\n- Next.js for SSR and API routes\n- TypeScript for type safety\n- Prisma for database management\n- Stripe for payment processing\n- Tailwind CSS for styling\n\n🚀 **Starting multiple pipelines** to build this comprehensively:",
+      content: "Excellent! I'll help you build a complete Bitcode transaction workspace. Based on your requirements document and UI mockups, I can see you need:\n\n**Core Features:**\n- User authentication and profiles\n- Wallet-gated BTC settlement\n- Issued $BTD treasury posture\n- GitHub-connected delivery flow\n- Need and asset-pack tracking\n- Admin dashboard\n\n**Technology Stack Analysis:**\nFrom your repository, I can see you're using React. I'll enhance it with:\n- Next.js for SSR and API routes\n- TypeScript for type safety\n- Prisma for database management\n- Wallet and GitHub connection flows\n- Tailwind CSS for styling\n\n🚀 **Starting multiple pipelines** to build this comprehensively:",
       created_at: '2024-01-15T08:02:00Z'
     },
     {
@@ -105,7 +105,7 @@ const completeConversationData = {
     {
       id: 'msg-4',
       role: 'assistant' as const,
-      content: "Perfect! I've started three parallel deliverable pipelines:\n\n✅ **User Authentication System** (Pipeline #1)\n- OAuth integration (Google, GitHub, Apple)\n- JWT token management\n- Role-based access control\n- User profile management\n\n✅ **Product Catalog with Search** (Pipeline #2) \n- Product CRUD operations\n- Advanced search with filters\n- Category management\n- Image upload and optimization\n\n✅ **Shopping Cart & Checkout** (Pipeline #3)\n- Cart state management\n- Stripe payment integration\n- Order processing workflow\n- Email notifications\n\nAll pipelines are running with full context from your repository and requirements. You can monitor progress in the sidebar!",
+      content: "Perfect! I've started three parallel deliverable pipelines:\n\n✅ **User Authentication System** (Pipeline #1)\n- OAuth integration (Google, GitHub, Apple)\n- JWT token management\n- Role-based access control\n- User profile management\n\n✅ **Need + Asset Pack Catalog** (Pipeline #2) \n- Need CRUD operations\n- Advanced search with filters\n- Asset pack grouping\n- Evidence upload and optimization\n\n✅ **Wallet Settlement & Treasury Flow** (Pipeline #3)\n- Wallet state management\n- BTC settlement and issued $BTD flow\n- GitHub-before-transacting gating\n- Notification and receipt workflow\n\nAll pipelines are running with full context from your repository and requirements. You can monitor progress in the sidebar!",
       created_at: '2024-01-15T08:07:00Z'
     },
     {
@@ -127,7 +127,7 @@ const completeConversationData = {
     {
       id: 'msg-6',
       role: 'assistant' as const,
-      content: "📊 **Pipeline Status Report**\n\n**✅ Completed:**\n- **User Authentication System** (del-auth) - Completed in 25 minutes\n  - Created 12 files, 1,240 lines of code\n  - Pull Request: #156 (Ready for review)\n  - Features: OAuth, JWT, RBAC, profiles\n\n**🚀 Active:**\n- **Product Catalog** (del-catalog) - 75% complete (Implementation phase)\n  - ETA: 10 minutes remaining\n  - Current: Implementing search functionality\n  - Created 8 files so far\n\n- **Shopping Cart & Checkout** (del-cart) - 45% complete (Discovery phase)\n  - ETA: 20 minutes remaining  \n  - Current: Analyzing Stripe integration patterns\n  - Processed payment requirements\n\n**💳 Credits Used:** 425 of 530 estimated\n**🎯 Success Rate:** 100% (all pipelines on track)",
+      content: "📊 **Pipeline Status Report**\n\n**✅ Completed:**\n- **User Authentication System** (del-auth) - Completed in 25 minutes\n  - Created 12 files, 1,240 lines of code\n  - Pull Request: #156 (Ready for review)\n  - Features: OAuth, JWT, RBAC, profiles\n\n**🚀 Active:**\n- **Need + Asset Pack Catalog** (del-catalog) - 75% complete (Implementation phase)\n  - ETA: 10 minutes remaining\n  - Current: Implementing search functionality\n  - Created 8 files so far\n\n- **Wallet Settlement & Treasury Flow** (del-cart) - 45% complete (Discovery phase)\n  - ETA: 20 minutes remaining  \n  - Current: Analyzing wallet settlement and issuance patterns\n  - Processed treasury requirements\n\n**💎 $BTD Used:** 425 of 530 estimated\n**🎯 Success Rate:** 100% (all pipelines on track)",
       created_at: '2024-01-15T09:31:00Z'
     },
     {
@@ -239,7 +239,7 @@ const completeConversationData = {
           id: 'evt-cart-current',
           timestamp: '09:25:00',
           phase: 'Discovery',
-          message: '💳 Analyzing Stripe payment integration patterns',
+          message: '₿ Analyzing wallet settlement and $BTD issuance patterns',
           level: 'info' as const
         }
       ]
@@ -433,7 +433,7 @@ export const RealTimeStreamingDemo: Story = {
       props: {
         ...completeConversationData,
         isStreaming: true,
-        currentContent: "I'm analyzing your e-commerce platform requirements and creating a comprehensive implementation plan. This includes:\n\n1. **Database Schema Design**\n   - User tables with authentication\n   - Product catalog with categories\n   - Order and payment tracking\n\n2. **API Architecture**\n   - RESTful endpoints for all operations\n   - Real-time inventory updates\n   - Secure payment processing\n\n3. **Frontend Components**\n   - Responsive product grids\n   - Interactive shopping cart\n   - Checkout flow with validation\n\nI'm now implementing these features across multiple parallel pipelines to deliver your complete e-commerce solution efficiently.",
+        currentContent: "I'm analyzing your Bitcode transaction workspace requirements and creating a comprehensive implementation plan. This includes:\n\n1. **Database Schema Design**\n   - User tables with authentication\n   - Need and asset pack catalog tables\n   - Treasury and settlement tracking\n\n2. **API Architecture**\n   - RESTful endpoints for all operations\n   - Real-time activity updates\n   - Wallet settlement and issued $BTD flow\n\n3. **Frontend Components**\n   - Responsive need and asset pack surfaces\n   - Interactive transaction workspace\n   - Wallet and GitHub gating with validation\n\nI'm now implementing these features across multiple parallel pipelines to deliver your complete Bitcode solution efficiently.",
         activePipelines: new Set(['del-streaming'])
       }
     },

@@ -25,7 +25,7 @@ test.describe('Profile Editing in Account Modal', () => {
           team_members: []
         },
         githubConnection: { installationId: 42 },
-        credits: 0,
+        btdBalance: 0,
         modelPreferences: {}
       })
     }));

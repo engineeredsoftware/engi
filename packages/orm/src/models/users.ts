@@ -1,13 +1,13 @@
 /**
  * USERS MODEL - User management with production features
- * 
+ *
  * @doc-code
  * type: orm-model
  * table: users
  * capabilities: ["auth", "profile", "organization"]
  */
 
-import type { Database } from '../../types/database';
+import type { Database } from '../types/database';
 import type { SupabaseClient } from '@supabase/supabase-js';
 
 export interface UserRecord {
@@ -38,9 +38,6 @@ export class UsersModel {
     return (data as unknown as UserRecord | null) || null;
   }
 
-  /**
-   * Find user by email
-   */
   async findByEmail(email: string): Promise<UserRecord | null> {
     const { data, error } = await this.supabase
       .from('users' as any)
@@ -52,9 +49,6 @@ export class UsersModel {
     return (data as unknown as UserRecord | null) || null;
   }
 
-  /**
-   * Get users by organization
-   */
   async findByOrganization(organizationId: string): Promise<UserRecord[]> {
     const { data, error } = await this.supabase
       .from('users' as any)
@@ -65,9 +59,6 @@ export class UsersModel {
     return ((data || []) as unknown) as UserRecord[];
   }
 
-  /**
-   * Update user profile
-   */
   async updateProfile(userId: string, profile: {
     full_name?: string;
     avatar_url?: string;
@@ -84,19 +75,13 @@ export class UsersModel {
     return data as unknown as UserRecord;
   }
 
-  /**
-   * Assign user to organization
-   */
   async assignToOrganization(
-    userId: string, 
+    userId: string,
     organizationId: string
   ): Promise<UserRecord> {
     return this.updateProfile(userId, { metadata: { organization_id: organizationId } });
   }
 
-  /**
-   * Get active users (logged in within last 30 days)
-   */
   async getActiveUsers(limit = 100): Promise<UserRecord[]> {
     const thirtyDaysAgo = new Date();
     thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);

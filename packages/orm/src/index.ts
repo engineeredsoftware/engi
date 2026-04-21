@@ -62,7 +62,7 @@ export type {
   TableName,
   QueryOptions,
   // GA-1 specific types
-  UserProfileWithCredits,
+  UserProfileWithBtd,
   DeliverableRunComplete,
   VCSRepositoryWithConnection
 } from './types/database';
@@ -90,21 +90,13 @@ export type PhaseExecution = Tables<'phase_executions'>;
 export { ConversationsModel } from './models/conversations';
 export { MessagesModel } from './models/messages';
 
-// ==================== POST-GA-1 EXPORTS (ARCHIVED) ====================
-// The following exports are commented out for GA-1 release.
-// They can be restored when the features are activated.
-//
-// Organization models (Q2 2025):
-// export { OrganizationsModel } from './models/archived-post-ga1/organizations';
-// export { OrganizationMembersModel } from './models/archived-post-ga1/organization-members';
-// export { OrganizationCreditsModel } from './models/archived-post-ga1/organization-credits';
-// export { OrganizationInvitationsModel } from './models/archived-post-ga1/organization-invitations';
-//
-// Compatibility models still used by active MCP/auth surfaces
-export { UsersModel } from './models/archived-post-ga1/users';
-export { OrganizationsModel } from './models/archived-post-ga1/organizations';
-export { OrganizationMembersModel } from './models/archived-post-ga1/organization-members';
-export { UserApiKeysModel } from './models/archived-post-ga1/user-api-keys';
+// ==================== COMPATIBILITY MODEL EXPORTS ====================
+// These retained owners still back active MCP/auth/organization surfaces, but
+// they now live under canonical model paths rather than an archived owner family.
+export { UsersModel } from './models/users';
+export { OrganizationsModel } from './models/organizations';
+export { OrganizationMembersModel } from './models/organization-members';
+export { UserApiKeysModel } from './models/user-api-keys';
 
 /**
  * Example usage:

@@ -247,10 +247,10 @@ export const ErrorHandling: Story = {
       {
         id: 'msg-2',
         role: 'assistant' as const,
-        content: 'I encountered an error while trying to deploy your application. It appears there are insufficient credits in your account. Please add credits to continue with the deployment pipeline.',
+        content: 'I encountered an error while trying to deploy your application. It appears there is insufficient $BTD in your account. Acquire more $BTD to continue with the deployment pipeline.',
         created_at: '2024-01-15T12:01:00Z',
         error: {
-          message: 'Insufficient credits for deployment pipeline',
+          message: 'Insufficient $BTD for deployment pipeline',
           code: 'INSUFFICIENT_CREDITS',
           details: {
             required: 150,
@@ -264,7 +264,7 @@ export const ErrorHandling: Story = {
     activePipelines: new Set(),
     completedPipelines: new Set(),
     pipelineEvents: [],
-    error: 'Insufficient credits for deployment pipeline'
+    error: 'Insufficient $BTD for deployment pipeline'
   }
 };
 

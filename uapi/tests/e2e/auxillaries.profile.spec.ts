@@ -4,7 +4,7 @@ dotenv.config();
 
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
 
-test.describe('@profile Orbital - Profile Step Variations', () => {
+test.describe('@profile Auxillaries - Profile Step Variations', () => {
   test.beforeEach(async ({ context }) => {
     // Stub OTP send and verify endpoints
     await context.route(`${supabaseUrl}/auth/v1/otp`, (route) =>
@@ -23,7 +23,7 @@ test.describe('@profile Orbital - Profile Step Variations', () => {
     await page.waitForSelector('[data-testid="login-email-input"]');
     await page.waitForTimeout(300);
     expect(await page.screenshot({ fullPage: true }))
-      .toMatchSnapshot('orbital-login-first-load.png');
+      .toMatchSnapshot('auxillaries-login-first-load.png');
   });
 
   test('login pane enter email', async ({ page }) => {
@@ -34,7 +34,7 @@ test.describe('@profile Orbital - Profile Step Variations', () => {
     await page.fill('[data-testid="login-email-input"]', 'test@playwright.com');
     await page.waitForTimeout(300);
     expect(await page.screenshot({ fullPage: true }))
-      .toMatchSnapshot('orbital-login-enter-email.png');
+      .toMatchSnapshot('auxillaries-login-enter-email.png');
   });
   
   test('profile-onboarding-otp-input-focused', async ({ page }) => {
@@ -84,7 +84,7 @@ test.describe('@profile Orbital - Profile Step Variations', () => {
     await page.waitForSelector('[data-testid="login-error"]');
     await page.waitForTimeout(300);
     expect(await page.screenshot({ fullPage: true }))
-      .toMatchSnapshot('orbital-login-invalid-otp.png');
+      .toMatchSnapshot('auxillaries-login-invalid-otp.png');
   });
 
   test('login pane success transitions to profile', async ({ page, context }) => {
@@ -104,6 +104,6 @@ test.describe('@profile Orbital - Profile Step Variations', () => {
     await page.waitForSelector('[data-testid="profile-step-badge"]');
     await page.waitForTimeout(300);
     expect(await page.screenshot({ fullPage: true }))
-      .toMatchSnapshot('orbital-profile-step-initial.png');
+      .toMatchSnapshot('auxillaries-profile-step-initial.png');
   });
 });

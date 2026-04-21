@@ -297,7 +297,7 @@ export const DEFAULT_CIRCUIT_BREAKERS = {
     resetTimeout: 30 * 1000,    // 30 seconds
     monitoringPeriod: 60 * 1000, // 1 minute
     halfOpenRequests: 3,
-    excludeErrors: ['User cancelled', 'Insufficient credits']
+    excludeErrors: ['User cancelled', 'Insufficient $BTD balance']
   },
   
   // Database operations

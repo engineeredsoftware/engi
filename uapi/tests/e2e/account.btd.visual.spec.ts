@@ -3,9 +3,8 @@ import * as dotenv from 'dotenv';
 dotenv.config();
 
 test.describe.skip('@profile UI Visual - Account BTD Flow (skipped - focusing on onboarding only)', () => {
-  test('account-credits-massive-balance', async ({ page, context }) => {
+  test('account-btd-massive-balance', async ({ page, context }) => {
     // Stub user data with large BTD balance and usage
-    const supa = process.env.NEXT_PUBLIC_SUPABASE_URL!;
     await context.route('**/api/auxillaries/data', route =>
       route.fulfill({
         status: 200,
@@ -26,6 +25,6 @@ test.describe.skip('@profile UI Visual - Account BTD Flow (skipped - focusing on
     await page.waitForSelector('canvas'); // usage chart
     await page.waitForTimeout(300);
     expect(await page.screenshot({ fullPage: true }))
-      .toMatchSnapshot('account-credits-massive-balance.png');
+      .toMatchSnapshot('account-btd-massive-balance.png');
   });
 });

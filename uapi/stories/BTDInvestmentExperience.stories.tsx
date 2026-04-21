@@ -63,8 +63,8 @@ export const EfficientInvestor: Story = {
       {
         id: 'inv-001',
         deliverableName: 'User Authentication Component',
-        estimatedCredits: 120,
-        actualCredits: 95,
+        estimatedBtd: 120,
+        actualBtd: 95,
         efficiency: 1.26, // Spent 26% less than estimated
         timeSpent: 1800, // 30 minutes
         complexity: 'moderate',
@@ -79,8 +79,8 @@ export const EfficientInvestor: Story = {
       {
         id: 'inv-002',
         deliverableName: 'Dashboard Layout System',
-        estimatedCredits: 200,
-        actualCredits: 160,
+        estimatedBtd: 200,
+        actualBtd: 160,
         efficiency: 1.25,
         timeSpent: 2700, // 45 minutes
         complexity: 'complex',
@@ -95,8 +95,8 @@ export const EfficientInvestor: Story = {
       {
         id: 'inv-003',
         deliverableName: 'API Integration Service',
-        estimatedCredits: 300,
-        actualCredits: 280,
+        estimatedBtd: 300,
+        actualBtd: 280,
         efficiency: 1.07,
         timeSpent: 3600, // 1 hour
         complexity: 'complex',
@@ -111,10 +111,10 @@ export const EfficientInvestor: Story = {
     ],
     currentBalance: 2450,
     upcomingDeliverable: {
-      name: 'Payment Processing Integration',
-      estimatedCredits: 250,
+      name: 'Wallet Settlement Coordination',
+      estimatedBtd: 250,
       complexity: 'complex',
-      patterns: ['payment-gateway', 'security', 'error-handling']
+      patterns: ['wallet-settlement', 'security', 'error-handling']
     },
     investmentPatterns: {
       averageEfficiency: 1.19,
@@ -144,8 +144,8 @@ export const LearningFocused: Story = {
       {
         id: 'learn-001',
         deliverableName: 'GraphQL API Explorer',
-        estimatedCredits: 180,
-        actualCredits: 220,
+        estimatedBtd: 180,
+        actualBtd: 220,
         efficiency: 0.82, // Spent more than estimated (learning curve)
         timeSpent: 4200, // 70 minutes
         complexity: 'complex',
@@ -160,8 +160,8 @@ export const LearningFocused: Story = {
       {
         id: 'learn-002',
         deliverableName: 'WebSocket Real-time Chat',
-        estimatedCredits: 150,
-        actualCredits: 190,
+        estimatedBtd: 150,
+        actualBtd: 190,
         efficiency: 0.79,
         timeSpent: 3900, // 65 minutes
         complexity: 'complex',
@@ -176,8 +176,8 @@ export const LearningFocused: Story = {
       {
         id: 'learn-003',
         deliverableName: 'Docker Deployment Pipeline',
-        estimatedCredits: 100,
-        actualCredits: 140,
+        estimatedBtd: 100,
+        actualBtd: 140,
         efficiency: 0.71,
         timeSpent: 3000, // 50 minutes
         complexity: 'moderate',
@@ -193,7 +193,7 @@ export const LearningFocused: Story = {
     currentBalance: 1850,
     upcomingDeliverable: {
       name: 'Kubernetes Orchestration Setup',
-      estimatedCredits: 200,
+      estimatedBtd: 200,
       complexity: 'epic',
       patterns: ['kubernetes', 'orchestration', 'scaling']
     },
@@ -225,8 +225,8 @@ export const MagicalMoments: Story = {
       {
         id: 'magic-001',
         deliverableName: 'Component Library Foundation',
-        estimatedCredits: 400,
-        actualCredits: 180,
+        estimatedBtd: 400,
+        actualBtd: 180,
         efficiency: 2.22, // Spent 55% less than estimated!
         timeSpent: 2400, // 40 minutes
         complexity: 'epic',
@@ -241,8 +241,8 @@ export const MagicalMoments: Story = {
       {
         id: 'magic-002',
         deliverableName: 'Automated Testing Suite',
-        estimatedCredits: 250,
-        actualCredits: 120,
+        estimatedBtd: 250,
+        actualBtd: 120,
         efficiency: 2.08,
         timeSpent: 1800, // 30 minutes
         complexity: 'complex',
@@ -257,8 +257,8 @@ export const MagicalMoments: Story = {
       {
         id: 'magic-003',
         deliverableName: 'Performance Optimization Bundle',
-        estimatedCredits: 300,
-        actualCredits: 150,
+        estimatedBtd: 300,
+        actualBtd: 150,
         efficiency: 2.0,
         timeSpent: 2100, // 35 minutes
         complexity: 'complex',
@@ -274,7 +274,7 @@ export const MagicalMoments: Story = {
     currentBalance: 3200,
     upcomingDeliverable: {
       name: 'Micro-Frontend Architecture',
-      estimatedCredits: 500,
+      estimatedBtd: 500,
       complexity: 'epic',
       patterns: ['micro-frontends', 'module-federation', 'scalability']
     },
@@ -306,8 +306,8 @@ export const ConservativeInvestor: Story = {
       {
         id: 'cons-001',
         deliverableName: 'Simple Contact Form',
-        estimatedCredits: 50,
-        actualCredits: 55,
+        estimatedBtd: 50,
+        actualBtd: 55,
         efficiency: 0.91,
         timeSpent: 1200, // 20 minutes
         complexity: 'simple',
@@ -322,8 +322,8 @@ export const ConservativeInvestor: Story = {
       {
         id: 'cons-002',
         deliverableName: 'CSS Styling Updates',
-        estimatedCredits: 30,
-        actualCredits: 35,
+        estimatedBtd: 30,
+        actualBtd: 35,
         efficiency: 0.86,
         timeSpent: 900, // 15 minutes
         complexity: 'simple',
@@ -338,8 +338,8 @@ export const ConservativeInvestor: Story = {
       {
         id: 'cons-003',
         deliverableName: 'Documentation Update',
-        estimatedCredits: 40,
-        actualCredits: 42,
+        estimatedBtd: 40,
+        actualBtd: 42,
         efficiency: 0.95,
         timeSpent: 1500, // 25 minutes
         complexity: 'simple',
@@ -355,7 +355,7 @@ export const ConservativeInvestor: Story = {
     currentBalance: 980,
     upcomingDeliverable: {
       name: 'Button Component Variants',
-      estimatedCredits: 60,
+      estimatedBtd: 60,
       complexity: 'simple',
       patterns: ['components', 'variants', 'design-system']
     },
@@ -395,8 +395,8 @@ export const InvestmentJourney: Story = {
           {
             id: 'beginner-1',
             deliverableName: 'Hello World Component',
-            estimatedCredits: 20,
-            actualCredits: 25,
+            estimatedBtd: 20,
+            actualBtd: 25,
             efficiency: 0.8,
             timeSpent: 900,
             complexity: 'simple' as const,
@@ -423,8 +423,8 @@ export const InvestmentJourney: Story = {
           {
             id: 'skilled-1',
             deliverableName: 'User Dashboard',
-            estimatedCredits: 180,
-            actualCredits: 150,
+            estimatedBtd: 180,
+            actualBtd: 150,
             efficiency: 1.2,
             timeSpent: 2400,
             complexity: 'moderate' as const,
@@ -439,8 +439,8 @@ export const InvestmentJourney: Story = {
           {
             id: 'skilled-2',
             deliverableName: 'API Integration Layer',
-            estimatedCredits: 220,
-            actualCredits: 190,
+            estimatedBtd: 220,
+            actualBtd: 190,
             efficiency: 1.16,
             timeSpent: 3000,
             complexity: 'complex' as const,
@@ -467,8 +467,8 @@ export const InvestmentJourney: Story = {
           {
             id: 'wizard-1',
             deliverableName: 'Micro-Frontend System',
-            estimatedCredits: 600,
-            actualCredits: 320,
+            estimatedBtd: 600,
+            actualBtd: 320,
             efficiency: 1.875,
             timeSpent: 4800,
             complexity: 'epic' as const,
@@ -483,8 +483,8 @@ export const InvestmentJourney: Story = {
           {
             id: 'wizard-2',
             deliverableName: 'Performance Optimization Suite',
-            estimatedCredits: 400,
-            actualCredits: 180,
+            estimatedBtd: 400,
+            actualBtd: 180,
             efficiency: 2.22,
             timeSpent: 3600,
             complexity: 'complex' as const,
@@ -579,7 +579,7 @@ export const InvestmentJourney: Story = {
             name: selectedInvestor === 0 ? 'Simple Button Component' :
                   selectedInvestor === 1 ? 'Advanced Form System' :
                   'Distributed Architecture Platform',
-            estimatedCredits: selectedInvestor === 0 ? 40 :
+            estimatedBtd: selectedInvestor === 0 ? 40 :
                              selectedInvestor === 1 ? 200 : 800,
             complexity: selectedInvestor === 0 ? 'simple' :
                        selectedInvestor === 1 ? 'moderate' : 'epic',
@@ -637,8 +637,8 @@ export const MagicalEnhancementComparison: Story = {
       {
         id: 'enhance-001',
         deliverableName: 'Component Library System',
-        estimatedCredits: 300,
-        actualCredits: 200,
+        estimatedBtd: 300,
+        actualBtd: 200,
         efficiency: 1.5,
         timeSpent: 3600,
         complexity: 'complex' as const,
@@ -653,8 +653,8 @@ export const MagicalEnhancementComparison: Story = {
       {
         id: 'enhance-002',
         deliverableName: 'Performance Analytics Dashboard',
-        estimatedCredits: 250,
-        actualCredits: 180,
+        estimatedBtd: 250,
+        actualBtd: 180,
         efficiency: 1.39,
         timeSpent: 2700,
         complexity: 'complex' as const,
@@ -711,7 +711,7 @@ export const MagicalEnhancementComparison: Story = {
           currentBalance={3500}
           upcomingDeliverable={{
             name: 'AI-Powered Code Assistant',
-            estimatedCredits: 400,
+            estimatedBtd: 400,
             complexity: 'epic',
             patterns: ['ai-integration', 'natural-language', 'code-analysis']
           }}

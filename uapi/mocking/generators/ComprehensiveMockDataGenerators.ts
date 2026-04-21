@@ -388,7 +388,7 @@ export class ComprehensiveMockDataGenerator {
         id: 'hist_' + this.generateId(),
         run_id: 'run_' + this.generateId(),
         created_at: this.generateTimestamp(-3),
-        summary: 'Enhanced mobile responsiveness for checkout flow',
+        summary: 'Enhanced mobile responsiveness for BTC-to-$BTD acquisition flow',
         status: 'completed',
         duration: '156s',
         deliverables_count: 2,
@@ -551,8 +551,8 @@ export class ComprehensiveMockDataGenerator {
       total_used: 1653,
       last_purchase: this.generateTimestamp(-30),
       usage_this_month: 234,
-      plan_credits_included: 500,
-      bonus_credits: 47,
+      plan_btd_included: 500,
+      bonus_btd: 47,
       expiring_soon: 0,
       transaction_history: this.generateUserTransactions()
     };

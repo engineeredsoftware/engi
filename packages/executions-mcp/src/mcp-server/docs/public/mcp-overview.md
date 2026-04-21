@@ -48,14 +48,14 @@ AI-powered capabilities that learn and adapt:
 
 ### **Conversational Engineering**
 ```
-Human: "Create a complete e-commerce checkout flow with Stripe integration, 
+Human: "Create a settlement-ready asset pack for a wallet-gated Bitcode transaction flow,
         including mobile-responsive design, comprehensive testing, and security audits"
 
 Bitcode MCP: ✅ Pull request with 15 files
           ✅ 12 comprehensive tests (98% coverage)
           ✅ Security audit report (0 vulnerabilities)
           ✅ Mobile-responsive implementation
-          ✅ Stripe integration with webhook handling
+          ✅ Wallet + GitHub transaction gating
           ✅ Complete documentation
           
           Delivered in 8 minutes with 92% confidence
@@ -246,15 +246,15 @@ Bitcode MCP: 📈 Analyzed 2.3M requests across 48 endpoints
 - **HIPAA Available**: Healthcare compliance for sensitive applications
 - **ISO 27001**: Information security management system certification
 
-## 📈 Credits & Usage
+## 📈 $BTD & Usage
 
-Bitcode uses a credit-based model across the platform, including MCP-invoked operations. For Deliverable pipelines executed via MCP:
+Bitcode uses BTC settlement and `$BTD` share accounting across the platform, including MCP-invoked operations. For Deliverable pipelines executed via MCP:
 
-- Credits are reserved up front based on an estimate.
-- Actual credits consumed are finalized after execution; unused credits are automatically refunded.
-- Insufficient credits result in an explicit error response.
+- `$BTD` is reserved up front based on an estimate.
+- Actual `$BTD` consumed is finalized after execution; unused `$BTD` is automatically refunded.
+- Insufficient `$BTD` results in an explicit error response.
 
-Refer to your organization’s credits page for balances and top-ups.
+Refer to your organization’s treasury surface for balances and acquisition posture.
 
 ## 🤝 Support & Community
 

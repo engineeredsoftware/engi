@@ -487,14 +487,14 @@ export const PipelineRecovery: Story = {
             id: 'evt-r4',
             timestamp: '14:07:00',
             phase: 'Implementation',
-            message: '🔄 Pipeline resumed - implementing Stripe webhooks',
+            message: '🔄 Pipeline resumed - implementing wallet settlement and treasury receipt flow',
             level: 'info' as const
           },
           {
             id: 'evt-r5',
             timestamp: '14:10:00',
             phase: 'Implementation',
-            message: '💳 Payment processing endpoints created successfully',
+            message: '₿ Wallet settlement endpoints and $BTD issuance receipts created successfully',
             level: 'success' as const
           }
         ]
