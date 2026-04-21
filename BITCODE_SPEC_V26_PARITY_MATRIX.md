@@ -160,6 +160,41 @@ This ledger is grounded in:
 | External hardening | GitHub, bitcoin, sidechain, repeated-read, compute, storage, telemetry, and reconciliation are hardened under the new ownership model | implemented |
 | Documentation refresh | active V26 docs and second-gate readmes show the new file structure, route model, orbital model, and package roles precisely | implemented |
 
+## Fifth-gate exhaustive acceptance parity matrix
+
+This table is the parity-side execution plan for fifth-gate closure.
+It mirrors the main V26 acceptance matrix, but records implementation-bearing judgment rather than only the design target.
+
+| Fifth-gate subsystem | `SPEC` acceptance requirement | `PARITY` implementation requirement | Current judgment | Remaining closure condition |
+| --- | --- | --- | --- | --- |
+| Activity-ledger master-detail | `/application` is the dominant searchable/filterable/paginatable Bitcode activity read surface | list, filters, selection, and reread stay stable across live/projection/persisted rows | implemented in active slices | browser/read proof and wider route verification remain required |
+| Selected activity detail | selected detail teaches Bitcode activity, asset packs, proofs, history, and settlement follow-through | detail fallback reconstructs persisted and projected state rather than relying on shell-only runtime | implemented in active slices | proof family generation and wider end-to-end validation remain required |
+| Give/need/deposit/branch/closure writes | all Bitcode write surfaces round-trip into the same ledger | application write controls record canonical activity/history and reread immediately | implemented in active slices | acceptance remains open until whole fifth-gate matrix closes |
+| Conversations rich input | conversations are the real rich-input Bitcode write surface | first write, persistence, attachment/destination roundtrip, and `ad hoc` continuity all behave as one system | implemented in active slices | acceptance remains open until interface parity and proof families close |
+| Auxillaries readiness | `Profile`, `Connects`, `Interfaces`, and `$BTD` are the real readiness carriers | readiness state is connected to repository/provider/wallet posture rather than decorative copy | partially implemented | signed-transaction posture and final readiness acceptance still need explicit closure |
+| Repository anchor / VCS scope | repository anchoring is explicit and Bitcode-owned | VCS/provider callers compile and align to the stable abstraction; repository anchor can write into Bitcode activity | materially implemented | wider repository-boundary route/runtime verification remains required |
+| Wallet / signed transaction posture | fifth-gate explicitly includes testnet wallet-connected and signed-transaction readiness | auth/wallet/profile carriers must carry real transactional preconditions, not deferred prose alone | partially implemented | explicit signed-transaction closure remains open |
+| Agentic execution posture | `ad hoc` is the admitted live pipeline; old implementations are references only | retained pipeline implementations can remain as cleaned references, but Bitcode-native implementations own future behavior | partially implemented | Bitcode-native pipeline specification/replacement still open |
+| Asset-pack/share semantics | retained outputs must be taught as Bitcode shares/asset packs | retained execution/deliverable readers no longer teach generic developer-platform meaning | materially implemented | full semantic closure across all retained carriers remains open |
+| Settlement follow-through | settlement and closure state stay in the same reread model | persisted closure/share-use posture survives selected-detail reread | implemented in active slices | parity proof generation still open |
+| API / MCP / third-party parity | admitted interfaces are not parallel products | APIs and admitted app/MCP interfaces read/write the same Bitcode-owned state | partially implemented | full interface acceptance and verification remain open |
+| Persistence / schema convergence | storage carriers form one coherent Bitcode storage model | active ORM/query/provider/schema corridors compile and read as one system | materially implemented | full persistence proof family and remaining compile backlog remain open |
+| Prompt-system explicitness | prompt infrastructure is explicit and Bitcode-owned | prompt carriers compile/admit as infrastructure instead of silent string debt | partially implemented | prompt raw-part duplicate-id cluster and prompt proof closure remain open |
+| Active-source health | minimum-functional claim requires stable active-source health | targeted compile/runtime seams in active Bitcode corridors are progressively cleared | materially implemented | full active-source closure remains open |
+| Environment/debug/proof closure | debug/environment truth and proof generation are part of the gate | proof families and environment controls must close without unresolved blockers | partially implemented | `generate-bitcode-proven` hang and remaining proof-path blockers remain open |
+
+## Fifth-gate closure plan order
+
+The parity order for closure is:
+1. `Bitcode Terminal` read/write loop
+2. conversations and `ad hoc` execution continuity
+3. transactional readiness and repository anchor
+4. persistence/schema and active-source health
+5. prompt-system and retained-package admissibility
+6. proof-family generation and environment-mode closure
+
+No subsystem above may be marked `accepted boundary` for fifth-gate if it still blocks the minimum-functional ability to `make shares` or `use shares`.
+
 ## Accepted boundaries
 
 | Boundary | Rationale | Reopen condition |

@@ -773,6 +773,73 @@ To close fifth-gate as a whole, the repository still has to ensure:
 - repository-wide active-source health is stable enough to support the minimum-functional claim,
 - and the fifth-gate proof families can be generated without unresolved blockers in the required proof path.
 
+### Fifth-gate exhaustive acceptance matrix
+
+The remaining fifth-gate closure work is accepted only through the following matrix.
+This matrix is the complete planning surface for the minimum-functional Bitcode target.
+Each row names:
+- the required interface design visible to operators or admitted protocol consumers,
+- the required implementation/parity condition in current source,
+- the code families that must carry the behavior,
+- and the closure evidence needed before fifth-gate can be accepted.
+
+| Acceptance domain | Required interface design (`SPEC`) | Required implementation/parity (`PARITY`) | Active source basis / owning families | Fifth-gate closure evidence |
+| --- | --- | --- | --- | --- |
+| Bitcode Terminal activity ledger | `/application` exposes one dominant searchable, filterable, paginatable activity ledger with stable selected-detail posture | list, filters, selection, and reread are one Bitcode-owned read model even when retained persistence lags | `uapi/app/application/*`, retained execution-history readers, application transaction projection helpers | stable browser/read verification plus activity-ledger proof artifact coverage |
+| Selected activity detail | selected activity exposes identity, asset packs, proofs, history, closure follow-through, and settlement posture without forcing a second primary product surface | selected-detail fallback can reread both persisted and projected protocol posture; no shell-only detail dependency remains | `uapi/app/application/{ApplicationTransaction*,application-transaction-detail*,application-protocol-projection*}` | selected-detail proof coverage and deterministic detail snapshot tests |
+| Give/need/write surfaces | `give`, `need`, `fit`, `deposit`, `branch`, and `closure` controls all write through the Bitcode Terminal rather than redirecting to a separate product model | every write materializes back into the same ledger with immediate rereadability | `uapi/app/application/{ApplicationCommandDeck,ApplicationGiveNeedWorkbench,ApplicationDepositComposer,ApplicationClosureControlDeck,ApplicationPageClient,application-activity-history}.tsx` | write-through proof, targeted route/browser checks, and ledger reread tests |
+| Conversations as Bitcode rich input | conversations are a first-class fullscreen and popup-capable Bitcode write surface with attachments, execution intent, destinations, and persisted reread | conversation routes no longer stop at mock-only or local-only state; first write, reread, and destination roundtrip behave as one system | `uapi/app/conversations/*`, `packages/api/src/conversations/*`, `packages/api/src/routes/conversations.ts`, `packages/conversations-generics/*` | conversations continuity proof family, route tests, and persisted overlay/readback checks |
+| Auxillaries transactional readiness | `Profile`, `Connects`, `Interfaces`, and `$BTD` remain the real readiness carriers for wallet, repository, provider, and transactional posture | readiness state is not ornamental; it gates or informs transacting and settling behavior through shared state | `uapi/app/auxillaries/*`, relevant `uapi/app/api/auxillaries/*`, wallet/repository/VCS integration carriers | readiness proof and route/browser validation on the live auxillary pane owners |
+| Repository anchor and VCS scope | repository anchoring is explicit, Bitcode-owned, and admitted through `Connects` / `/application` / API surfaces | repository context no longer depends on stale Engi-era drift in provider callers; Bitcode write flows can bind repository scope coherently | `packages/vcs/*`, `packages/github/*`, `packages/api/src/vcs/*`, `uapi/app/api/vcs/*`, repository context application panels | repository-boundary compile health plus repository-anchor behavior proof |
+| Wallet and signed transaction posture | fifth-gate interfaces explicitly teach testnet wallet-connected transactional readiness and signed transaction intent for Bitcode activity | signing/signed-transaction readiness is named and wired as an active precondition even if later-gate commercial hardening remains open | wallet/auth/profile carriers, `$BTD` pane owners, transaction readiness state readers/writers | readiness proof plus explicit route/interface acceptance coverage |
+| Bitcode agentic execution | `ad hoc` remains the admitted live pipeline for conversation-driven agency, and future Bitcode pipelines are specified as Bitcode-owned actions/activity rather than Engi deliverable/upgrades carry-over | old pipeline implementations are reference-only unless explicitly repurposed; primitives survive, stale orchestration does not | `packages/pipelines/*`, `packages/agent-generics/*`, `packages/tools-generics/*`, `packages/execution-generics/*`, `packages/generic-agents/*` where retained | runs/pipelines totality proof family and active-source compile/admissibility coverage |
+| Asset-pack/share synthesis | share candidates, proofs, and history are represented as Bitcode outputs rather than generic deliverables in operator teaching | retained execution substrate can still be reused, but output meaning is canonicalized to Bitcode shares/asset packs/activity | `/application` detail/read surfaces, retained execution and deliverable carriers, spec/proof families | proof surface coverage tying retained execution outputs to Bitcode share semantics |
+| Settlement and follow-through | settlement posture, branch artifacts, proof state, and closure metrics remain in the same Bitcode-owned reread model | closure-bearing writes persist meaningful follow-through instead of thin execution notes; selected detail can reconstruct saved settlement state | `application-activity-history`, `application-transaction-detail-snapshot`, closure/detail cards, retained execution-history rows | closure-follow-through persistence proof and reread tests |
+| API and third-party interface parity | active APIs, admitted MCPs, and third-party app surfaces are not parallel products; they read/write the same Bitcode-owned state model | API carriers are synchronized with terminal writes/reads and preserve Bitcode-only semantics | `uapi/app/api/*`, `packages/api/src/routes/*`, MCP/app integration carriers, ChatGPT-style surfaces | conversations continuity, runs/pipelines totality, and endpoint verification coverage |
+| Persistence/schema convergence | schema, ORM, migrations, Supabase carriers, and generated types form one coherent Bitcode storage interpretation | active persistence carriers cannot preserve null-key drift, stale naming, or separate demo/app meanings on the same records | `supabase/*`, `packages/supabase/*`, `packages/orm/*`, retained storage-facing route carriers | persistence and schema totality proof family plus filtered compile health on active storage corridors |
+| Prompt-system explicitness | prompts, prompt parts, prompt execution, and retained prompt ports remain explicit infrastructure, not silent string debt | prompt space must be Bitcode-owned and compile/admissible even where old prompt reservoirs survive as references | `packages/prompts/*`, prompt carriers in executions/agents/conversations/deliverables | prompt-system totality and prompt-space completeness proofs |
+| Active-source health | the active fifth-gate claim is invalid if the live Bitcode corridor still fails compile or runtime checks in admitted systems | targeted compile/runtime seams across application, conversations, executions, VCS, ORM, prompts, and retained package callers are brought to stable health | active `uapi` program, retained package corridors admitted by V26 | compile-health witness rows in parity/proof surfaces and required route/test checks |
+| Environment/debug/proof closure | environment posture is explicit inside the application and proof generation is part of the gate, not a post-hoc narrative | debug controls, environment-mode truth, and required proof families are generated without unresolved blockers | debug widget, environment toggles, proof-generation scripts, `.bitcode/*` artifacts | environment-mode coherence plus fifth-gate proof-family generation |
+
+### Fifth-gate closure work packages
+
+The exhaustive acceptance matrix is executed through the following work packages.
+These are the complete planning units for fifth-gate.
+
+1. `Bitcode Terminal read closure`
+   - close activity-ledger search/filter/pagination/selection/detail stability
+   - prove selected-detail persistence and projected-live fallback
+2. `Bitcode Terminal write closure`
+   - close give/need/fit/deposit/branch/closure write-through
+   - prove immediate reread into the same ledger
+3. `Conversation and ad hoc execution closure`
+   - close rich-input, attachment, destination, persisted conversation, and `ad hoc` execution continuity
+   - specify Bitcode-native future pipeline replacement while keeping retained implementations reference-only
+4. `Transactional readiness closure`
+   - close wallet, repository, provider, and signed-transaction readiness across `Profile`, `Connects`, `Interfaces`, and `$BTD`
+   - prove that readiness is operative rather than decorative
+5. `Repository and persistence closure`
+   - close VCS/provider, ORM/schema, migration, and storage seams on the active Bitcode path
+   - prove one coherent Bitcode state model
+6. `Prompt and retained-package admissibility closure`
+   - close prompt-system explicitness
+   - classify retained packages as primitive, reference, repurposed, or cut
+7. `Proof and environment closure`
+   - generate required fifth-gate proof families
+   - close environment/debug mode coherence and remove unresolved blockers from the proof path
+
+### Fifth-gate implementation ordering rule
+
+The implementation order for fifth-gate is strict:
+1. stabilize the Bitcode Terminal read/write loop,
+2. stabilize conversations and `ad hoc` execution as the live agentic write surface,
+3. stabilize transactional readiness and repository scope,
+4. stabilize persistence/schema and active-source health,
+5. generate fifth-gate proofs and environment-mode closure,
+6. and only then claim minimum-functional closure.
+
+Later-gate polish, commercialization, and `mainnet` posture are not allowed to be used as substitutes for any row in the matrix above.
+
 ### Fifth-gate proof families required for Bitcode rename completion and system completeness
 
 | Proof family | Required artifact path | Closure obligation | Current source basis |
