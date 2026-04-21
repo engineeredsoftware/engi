@@ -486,6 +486,11 @@ Current active assignments:
   proof surface:
   active V26 specification and live give/need/connects carriers now teach Bitcode as protocol, product, and proofs across `Bitcode Mainnet`, the `Bitcode Terminal`, need measurement, asset-pack synthesis, settlement follow-through, and wallet-plus-GitHub transacting prerequisites instead of generic transaction or deliverable posture
   active V26 specification and live give/need/connects carriers now teach Bitcode as protocol, product, and proofs across `Bitcode Mainnet`, the `Bitcode Terminal`, need measurement, asset-pack synthesis, settlement follow-through, and wallet-plus-GitHub transacting prerequisites instead of generic transaction or deliverable posture
+- `uapi/app/application/{ApplicationTransactionDetailSurface.tsx,ApplicationTransactionDetailHero.tsx,ApplicationTransactionIdentityCard.tsx,ApplicationTransactionClosureCard.tsx,ApplicationTransactionProofsCard.tsx,ApplicationTransactionHistoryCard.tsx,ApplicationTransactionDetailActionBar.tsx,ApplicationClosureControlDeck.tsx,ApplicationTransactionActivitySurface.tsx,ApplicationExperienceFrame.tsx,ApplicationWorkspaceRail.tsx,ApplicationMockTransactionDetails.tsx,application-command-presentation.ts,application-flow-guide.ts,README.md}`, `uapi/components/base/bitcode/execution/{BitcodeTransactionsTable.tsx,BitcodeTransactionsActiveFilters.tsx,BitcodeTransactionsOverview.tsx,README.md}`, and `uapi/app/application/application-transaction-detail.ts`
+  test coverage:
+  `uapi/tests/{applicationTransactionDetail,applicationTransactionDetailCards,applicationCommandPresentation,applicationWorkspaceRailCard,bitcodeTransactionsOverview,bitcodeDetailRowList,bitcodePayloadRowsCard,bitcodePayloadDetailCard,bitcodeDetailPanel}.test.*`
+  proof surface:
+  the selected-activity detail family and shared execution/activity-ledger carriers now teach Bitcode activity, activity identity, asset packs, inline proof/history closure, and Bitcode Terminal ledger posture instead of selected-transaction / deliverable operator wording while the retained route ids and payload substrate remain reusable underneath
 - `uapi/app/application/ApplicationTransactionsTable.tsx`
   test coverage:
   lint plus localhost `/application` verification with the transactions master surface mounted

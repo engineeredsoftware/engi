@@ -38,6 +38,58 @@ const applicationTransactionActivitySurfaceSource = readFileSync(
   new URL('../../uapi/app/application/ApplicationTransactionActivitySurface.tsx', import.meta.url),
   'utf8',
 );
+const applicationTransactionDetailSurfaceSource = readFileSync(
+  new URL('../../uapi/app/application/ApplicationTransactionDetailSurface.tsx', import.meta.url),
+  'utf8',
+);
+const applicationTransactionDetailHeroSource = readFileSync(
+  new URL('../../uapi/app/application/ApplicationTransactionDetailHero.tsx', import.meta.url),
+  'utf8',
+);
+const applicationTransactionIdentityCardSource = readFileSync(
+  new URL('../../uapi/app/application/ApplicationTransactionIdentityCard.tsx', import.meta.url),
+  'utf8',
+);
+const applicationTransactionClosureCardSource = readFileSync(
+  new URL('../../uapi/app/application/ApplicationTransactionClosureCard.tsx', import.meta.url),
+  'utf8',
+);
+const applicationTransactionProofsCardSource = readFileSync(
+  new URL('../../uapi/app/application/ApplicationTransactionProofsCard.tsx', import.meta.url),
+  'utf8',
+);
+const applicationTransactionHistoryCardSource = readFileSync(
+  new URL('../../uapi/app/application/ApplicationTransactionHistoryCard.tsx', import.meta.url),
+  'utf8',
+);
+const applicationTransactionDetailActionBarSource = readFileSync(
+  new URL('../../uapi/app/application/ApplicationTransactionDetailActionBar.tsx', import.meta.url),
+  'utf8',
+);
+const applicationClosureControlDeckSource = readFileSync(
+  new URL('../../uapi/app/application/ApplicationClosureControlDeck.tsx', import.meta.url),
+  'utf8',
+);
+const applicationExperienceFrameSource = readFileSync(
+  new URL('../../uapi/app/application/ApplicationExperienceFrame.tsx', import.meta.url),
+  'utf8',
+);
+const applicationWorkspaceRailSource = readFileSync(
+  new URL('../../uapi/app/application/ApplicationWorkspaceRail.tsx', import.meta.url),
+  'utf8',
+);
+const applicationMockTransactionDetailsSource = readFileSync(
+  new URL('../../uapi/app/application/ApplicationMockTransactionDetails.tsx', import.meta.url),
+  'utf8',
+);
+const applicationCommandPresentationSource = readFileSync(
+  new URL('../../uapi/app/application/application-command-presentation.ts', import.meta.url),
+  'utf8',
+);
+const applicationFlowGuideSource = readFileSync(
+  new URL('../../uapi/app/application/application-flow-guide.ts', import.meta.url),
+  'utf8',
+);
 const applicationTransactionWorkspaceSource = readFileSync(
   new URL('../../uapi/app/application/ApplicationTransactionWorkspace.tsx', import.meta.url),
   'utf8',
@@ -62,8 +114,25 @@ const applicationWorkspaceExplainersSource = readFileSync(
   new URL('../../uapi/app/application/application-workspace-explainers.ts', import.meta.url),
   'utf8',
 );
+const applicationReadmeSource = readFileSync(new URL('../../uapi/app/application/README.md', import.meta.url), 'utf8');
 const agenticExecutionSource = readFileSync(
   new URL('../../packages/api/src/executions/agentic-execution.ts', import.meta.url),
+  'utf8',
+);
+const bitcodeTransactionsTableSource = readFileSync(
+  new URL('../../uapi/components/base/bitcode/execution/BitcodeTransactionsTable.tsx', import.meta.url),
+  'utf8',
+);
+const bitcodeTransactionsActiveFiltersSource = readFileSync(
+  new URL('../../uapi/components/base/bitcode/execution/BitcodeTransactionsActiveFilters.tsx', import.meta.url),
+  'utf8',
+);
+const bitcodeTransactionsOverviewSource = readFileSync(
+  new URL('../../uapi/components/base/bitcode/execution/BitcodeTransactionsOverview.tsx', import.meta.url),
+  'utf8',
+);
+const executionReadmeSource = readFileSync(
+  new URL('../../uapi/components/base/bitcode/execution/README.md', import.meta.url),
   'utf8',
 );
 const marketingScreenshotSectionSource = readFileSync(new URL('../../uapi/app/(root)/components/MarketingScreenshotSection.tsx', import.meta.url), 'utf8');
@@ -1085,10 +1154,23 @@ test('active V26 canon posture and preserved runtime state use bitcode policy an
   assert.match(applicationRunDataSource, /agentic-execution:proof-refresh/);
   assert.match(applicationRunDataSource, /Bitcode Terminal/);
   assert.match(applicationPageSource, /need measurement, asset packs, settlements/);
+  assert.match(applicationPageClientSource, /activity into asset packs, proofs, and history/);
   assert.match(applicationWorkspaceCopySource, /Bitcode Terminal/);
   assert.match(applicationWorkspaceCopySource, /asset-pack posture/);
   assert.match(applicationWorkspaceCopySource, /asset pack, proofs, and history/);
   assert.match(applicationTransactionActivitySurfaceSource, /Bitcode Terminal/);
+  assert.match(applicationTransactionActivitySurfaceSource, /selected Bitcode activity/);
+  assert.match(applicationTransactionDetailSurfaceSource, /selected Bitcode activity/);
+  assert.match(applicationTransactionDetailSurfaceSource, /Asset packs attached to this activity/);
+  assert.match(applicationTransactionDetailHeroSource, /Bitcode Terminal activity detail/);
+  assert.match(applicationTransactionIdentityCardSource, /Selected activity/);
+  assert.match(applicationTransactionIdentityCardSource, /Activity payload/);
+  assert.match(applicationTransactionClosureCardSource, /selected Bitcode activity/);
+  assert.match(applicationTransactionProofsCardSource, /Bounded proof stays in activity detail/);
+  assert.match(applicationTransactionHistoryCardSource, /Recent activity history stays inline/);
+  assert.match(applicationTransactionDetailActionBarSource, /Asset packs/);
+  assert.match(applicationTransactionDetailActionBarSource, /selected Bitcode activity/);
+  assert.match(applicationClosureControlDeckSource, /active Bitcode activity detail/);
   assert.match(applicationTransactionWorkspaceSource, /Master-detail activity, asset packs, proofs, and history/);
   assert.match(applicationTransactionWorkspaceSource, /select Bitcode activity, inspect its asset packs/);
   assert.match(applicationGiveNeedWorkbenchSource, /need measurement/);
@@ -1098,9 +1180,25 @@ test('active V26 canon posture and preserved runtime state use bitcode policy an
   assert.match(applicationClosureNativeSectionsSource, /Verification, asset pack, settlement, and ledger/);
   assert.match(applicationExperienceArchitectureSource, /label: 'Bitcode Terminal'/);
   assert.match(applicationExperienceArchitectureSource, /Bitcode activity ledger/);
+  assert.match(applicationExperienceArchitectureSource, /current Bitcode activity context/);
   assert.match(applicationExperienceArchitectureSource, /label: 'Asset packs'/);
   assert.match(applicationWorkspaceExplainersSource, /selected activity/);
+  assert.match(applicationWorkspaceExplainersSource, /current Bitcode activity chain/);
   assert.match(applicationWorkspaceExplainersSource, /asset packs or settlement/);
+  assert.match(applicationExperienceFrameSource, /activity ledger \+ selected detail/);
+  assert.match(applicationExperienceFrameSource, /asset packs, and history stay connected/);
+  assert.match(applicationWorkspaceRailSource, /Activity id/);
+  assert.match(applicationWorkspaceRailSource, /selected Bitcode activity is now loaded/);
+  assert.match(applicationMockTransactionDetailsSource, /Mock activity detail/);
+  assert.match(applicationCommandPresentationSource, /current Bitcode activity/);
+  assert.match(applicationFlowGuideSource, /selected Bitcode activity context/);
+  assert.match(applicationFlowGuideSource, /asset-pack, and history follow-through/);
+  assert.match(applicationReadmeSource, /activity ledger as the master surface/);
+  assert.match(applicationReadmeSource, /selected activity detail as the detail surface/);
+  assert.match(bitcodeTransactionsTableSource, /Rich Bitcode activity ledger/);
+  assert.match(bitcodeTransactionsActiveFiltersSource, /Bitcode activity window/);
+  assert.match(bitcodeTransactionsOverviewSource, /activity active/);
+  assert.match(executionReadmeSource, /selected-activity detail/);
   assert.match(bitcodePublicCopySource, /Open Bitcode Terminal/);
   assert.match(bitcodePublicCopySource, /Bitcode Terminal/);
   assert.doesNotMatch(bitcodePublicCopySource, /Open transactions/);

@@ -83,10 +83,10 @@ export default function ApplicationTransactionDetailSurface({
   const showActivity = detailSection === 'activity';
   const showConsole = detailSection === 'console' && !usesMockTransactions;
   const normalizedSummary =
-    detail?.summary || 'The selected transaction is loaded into the main Bitcode transaction detail.';
+    detail?.summary || 'The selected Bitcode activity is loaded into the main Bitcode Terminal detail.';
   const sectionSummary = useMemo(() => {
     if (showTransaction) {
-      return `${normalizedSummary} Transaction identity, repository, and timing posture are the active detail focus.`;
+      return `${normalizedSummary} Activity identity, repository, and timing posture are the active detail focus.`;
     }
     if (showClosure) {
       return `${normalizedSummary} Closure proof, settlement follow-through, and re-run controls are the active detail focus.`;
@@ -95,7 +95,7 @@ export default function ApplicationTransactionDetailSurface({
       return `${normalizedSummary} Proof families and bounded verification posture are the active detail focus.`;
     }
     if (showHistory) {
-      return `${normalizedSummary} Ledger-linked transaction history and recent closure continuity are the active detail focus.`;
+      return `${normalizedSummary} Ledger-linked activity history and recent closure continuity are the active detail focus.`;
     }
     if (showActivity) {
       return `${normalizedSummary} Activity streaming, work updates, and retained execution posture are the active detail focus.`;
@@ -103,7 +103,7 @@ export default function ApplicationTransactionDetailSurface({
     if (showConsole) {
       return `${normalizedSummary} The execution console remains available when you need the lower-level runtime view.`;
     }
-    return `${normalizedSummary} Deliverables, reviews, issues, comments, and summary text are the active detail focus.`;
+    return `${normalizedSummary} Asset packs, reviews, issues, comments, and summary text are the active detail focus.`;
   }, [normalizedSummary, showActivity, showClosure, showConsole, showHistory, showProofs, showTransaction]);
   const transactionPayload = useMemo(
     () => ({
@@ -167,7 +167,7 @@ export default function ApplicationTransactionDetailSurface({
   if (isLoadingDetail && !detail) {
     return (
       <div className="rounded-[1.5rem] border border-white/8 bg-black/20 px-5 py-10 text-sm text-neutral-400">
-        Loading transaction detail…
+        Loading Bitcode activity detail…
       </div>
     );
   }
@@ -175,7 +175,7 @@ export default function ApplicationTransactionDetailSurface({
   if (!detail) {
     return (
       <div className="rounded-[1.5rem] border border-white/8 bg-black/20 px-5 py-10 text-sm text-neutral-400">
-        Selected transaction detail is not available yet for this application context.
+        Selected Bitcode activity detail is not available yet for this application context.
       </div>
     );
   }
@@ -231,10 +231,10 @@ export default function ApplicationTransactionDetailSurface({
               className="space-y-6 rounded-[1.5rem] border border-white/8 bg-[rgba(5,10,20,0.88)] px-4 py-5"
             >
               <div className="px-2">
-                <p className="text-[0.68rem] uppercase tracking-[0.24em] text-emerald-300/75">Deliverable surfaces</p>
-                <h3 className="mt-2 text-lg font-semibold text-white">Deliverables attached to this transaction</h3>
+                <p className="text-[0.68rem] uppercase tracking-[0.24em] text-emerald-300/75">Asset-pack surfaces</p>
+                <h3 className="mt-2 text-lg font-semibold text-white">Asset packs attached to this activity</h3>
                 <p className="mt-2 text-sm leading-6 text-neutral-300">
-                  Pull requests, reviews, issues, comments, and summary text stay attached to the selected transaction in
+                  Pull requests, reviews, issues, comments, and summary text stay attached to the selected Bitcode activity in
                   both mock and live posture.
                 </p>
               </div>
@@ -254,8 +254,8 @@ export default function ApplicationTransactionDetailSurface({
             </section>
           ) : showDeliverables ? (
             <div className="rounded-[1.5rem] border border-white/8 bg-black/20 px-5 py-5 text-sm leading-6 text-neutral-300">
-              No materialized deliverable surfaces are attached to this transaction yet. The same transaction detail still
-              keeps proofs, history, and closure reading available.
+              No materialized asset-pack surfaces are attached to this Bitcode activity yet. The same activity detail
+              still keeps proofs, history, and closure reading available.
             </div>
           ) : null}
         </div>
@@ -326,7 +326,7 @@ export default function ApplicationTransactionDetailSurface({
             <p className="text-[0.68rem] uppercase tracking-[0.24em] text-neutral-400">Execution console</p>
             <h3 className="mt-2 text-lg font-semibold text-white">Detailed execution console</h3>
             <p className="mt-2 text-sm leading-6 text-neutral-300">
-              Use this execution view when you need exact runtime detail beyond the main transaction cards.
+              Use this execution view when you need exact runtime detail beyond the main activity cards.
             </p>
           </div>
           <div className="p-5">

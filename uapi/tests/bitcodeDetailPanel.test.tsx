@@ -11,13 +11,13 @@ describe('BitcodeDetailPanel', () => {
       <BitcodeDetailPanel
         badge="master"
         title="Bitcode Terminal"
-        summary="Search, filter, and inspect Bitcode transactions inside the Bitcode Terminal."
+        summary="Search, filter, and inspect Bitcode activity inside the Bitcode Terminal."
         metrics={[
           { label: 'Status', value: 'completed' },
           { label: 'Started', value: 'Apr 16, 12:00 PM' },
         ]}
         rows={[
-          { label: 'Transaction id', value: 'tx-001' },
+          { label: 'Activity id', value: 'tx-001' },
           { label: 'Repository', value: 'bitcode/bitcode' },
         ]}
         tagLabel="substructure"
@@ -28,10 +28,10 @@ describe('BitcodeDetailPanel', () => {
 
     expect(screen.getByText('master')).toBeTruthy();
     expect(screen.getByText('Bitcode Terminal')).toBeTruthy();
-    expect(screen.getByText('Search, filter, and inspect Bitcode transactions inside the Bitcode Terminal.')).toBeTruthy();
+    expect(screen.getByText('Search, filter, and inspect Bitcode activity inside the Bitcode Terminal.')).toBeTruthy();
     expect(screen.getByText('Status')).toBeTruthy();
     expect(screen.getByText('completed')).toBeTruthy();
-    expect(screen.getByText('Transaction id')).toBeTruthy();
+    expect(screen.getByText('Activity id')).toBeTruthy();
     expect(screen.getByText('tx-001')).toBeTruthy();
 
     fireEvent.click(screen.getByRole('button', { name: 'Open Bitcode Terminal' }));

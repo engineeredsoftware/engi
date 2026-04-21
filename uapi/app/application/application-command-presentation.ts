@@ -20,9 +20,9 @@ export function deriveApplicationCommandPresentation(
   if (!commandState || !commandState.shellReady) {
     return {
       draftSummary: 'Loading the current Bitcode working flow.',
-      continuationStatus: 'Controls are syncing to the current transaction state.',
+      continuationStatus: 'Controls are syncing to the current Bitcode activity.',
       continuationTip:
-        'Stay in transactions while scenario, projection, and branch mode become available.',
+        'Stay in the Bitcode Terminal while scenario, projection, and branch mode become available.',
     };
   }
 
@@ -39,11 +39,11 @@ export function deriveApplicationCommandPresentation(
       : null;
 
   return {
-    draftSummary: `Work from ${scenarioLabel} with ${projectionLabel} projection and ${branchLabel} branch handling while the selected transaction stays in view.`,
+    draftSummary: `Work from ${scenarioLabel} with ${projectionLabel} projection and ${branchLabel} branch handling while the selected Bitcode activity stays in view.`,
     continuationStatus: guideStep
       ? `${commandState.flowGuideOpen ? 'Flow guide is open' : 'Flow guide is saved'} at ${guideStep}.`
       : 'Controls are ready. Continue into give, need, or closure from the Bitcode Terminal.',
     continuationTip:
-      'Use the flow guide when you want stepwise give-to-closure follow-through, or jump directly into give, need, and closure when the current transaction already has enough context.',
+      'Use the flow guide when you want stepwise give-to-closure follow-through, or jump directly into give, need, and closure when the current Bitcode activity already has enough context.',
   };
 }

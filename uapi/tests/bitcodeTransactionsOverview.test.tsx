@@ -15,10 +15,10 @@ describe('BitcodeTransactionsOverview', () => {
       />,
     );
 
-    expect(screen.getByText('Transactions')).toBeTruthy();
+    expect(screen.getByText('Activity')).toBeTruthy();
     expect(screen.getByText('3')).toBeTruthy();
     expect(screen.getByText('mode review fallback')).toBeTruthy();
     expect(screen.getByText(/live history is empty here/i)).toBeTruthy();
-    expect(screen.getByText('selected transaction active')).toBeTruthy();
+    expect(screen.getByText('selected activity active')).toBeTruthy();
   });
 });

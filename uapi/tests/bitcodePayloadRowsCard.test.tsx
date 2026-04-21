@@ -9,25 +9,25 @@ describe('BitcodePayloadRowsCard', () => {
 
     render(
       <BitcodePayloadRowsCard
-        kicker="Transaction"
+        kicker="Activity"
         title="Identity"
         summary="Shared rows carrier."
         payload={{ transactionId: 'txn-001', status: 'completed' }}
-        rawLabel="Transaction payload"
+        rawLabel="Activity payload"
         rows={[
-          { label: 'Transaction id', value: 'txn-001' },
+          { label: 'Activity id', value: 'txn-001' },
           { label: 'Status', value: 'completed' },
         ]}
-        actions={[{ label: 'Inspect transaction', onClick: onInspect }]}
+        actions={[{ label: 'Inspect activity', onClick: onInspect }]}
       />,
     );
 
-    expect(screen.getByText('Transaction')).toBeTruthy();
+    expect(screen.getByText('Activity')).toBeTruthy();
     expect(screen.getByText('Identity')).toBeTruthy();
-    expect(screen.getByText('Transaction id')).toBeTruthy();
+    expect(screen.getByText('Activity id')).toBeTruthy();
     expect(screen.getAllByText('txn-001').length).toBeGreaterThan(0);
 
-    fireEvent.click(screen.getByRole('button', { name: 'Inspect transaction' }));
+    fireEvent.click(screen.getByRole('button', { name: 'Inspect activity' }));
     expect(onInspect).toHaveBeenCalled();
 
     fireEvent.click(screen.getByRole('button', { name: 'Raw JSON' }));

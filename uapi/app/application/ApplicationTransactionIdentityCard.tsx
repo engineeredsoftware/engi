@@ -19,11 +19,11 @@ export default function ApplicationTransactionIdentityCard({
 
   return (
     <BitcodePayloadRowsCard
-      kicker="Selected transaction"
-      title="Transaction identity and payload"
-      summary="Read the transaction identity in one compact card, then switch straight into the raw Bitcode payload when you need the underlying shape."
+      kicker="Selected activity"
+      title="Activity identity and payload"
+      summary="Read the Bitcode activity identity in one compact card, then switch straight into the raw payload when you need the underlying shape."
       payload={payload}
-      rawLabel="Transaction payload"
+      rawLabel="Activity payload"
       rows={identityRows}
     />
   );

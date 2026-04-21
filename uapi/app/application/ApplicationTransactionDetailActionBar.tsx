@@ -8,12 +8,12 @@ type DetailAction = {
 };
 
 const DETAIL_ACTIONS: DetailAction[] = [
-  { id: 'deliverables', label: 'Deliverables' },
-  { id: 'transaction', label: 'Transaction' },
+  { id: 'deliverables', label: 'Asset packs' },
+  { id: 'transaction', label: 'Identity' },
   { id: 'closure', label: 'Closure' },
   { id: 'proofs', label: 'Proofs' },
   { id: 'history', label: 'History' },
-  { id: 'activity', label: 'Activity' },
+  { id: 'activity', label: 'Execution stream' },
   { id: 'console', label: 'Console' },
 ];
 
@@ -42,10 +42,10 @@ export default function ApplicationTransactionDetailActionBar({
     <section className="rounded-[1.5rem] border border-white/8 bg-black/20 px-5 py-5">
       <div className="flex flex-col gap-4 xl:flex-row xl:items-end xl:justify-between">
         <div>
-          <p className="text-[0.68rem] uppercase tracking-[0.24em] text-neutral-400">Transaction interaction</p>
+          <p className="text-[0.68rem] uppercase tracking-[0.24em] text-neutral-400">Activity interaction</p>
           <h3 className="mt-2 text-lg font-semibold text-white">Route-owned detail focus and closure actions</h3>
           <p className="mt-2 max-w-3xl text-sm leading-6 text-neutral-300">
-            Switch detail focus, rerun closure, and refresh the selected transaction from the same place you read it.
+            Switch detail focus, rerun closure, and refresh the selected Bitcode activity from the same place you read it.
           </p>
         </div>
 

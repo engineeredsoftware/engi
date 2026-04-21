@@ -26,13 +26,13 @@ export default function ApplicationTransactionHistoryCard({
   return (
     <BitcodePayloadCollectionCard
       kicker="History"
-      title="Recent transaction history stays inline"
-      summary="Ledger-linked run history remains part of the same transaction detail space so consequence reading does not fragment into a separate route."
+      title="Recent activity history stays inline"
+      summary="Ledger-linked run history remains part of the same activity detail space so consequence reading does not fragment into a separate route."
       payload={payload}
       rawLabel="History payload"
       items={historyItems}
       actions={[{ label: 'Open history', onClick: onOpenHistory }]}
-      emptyMessage="No recent history is surfaced on the selected transaction yet. The ledger and bounded proof chain remain part of the same Bitcode detail path."
+      emptyMessage="No recent history is surfaced on the selected Bitcode activity yet. The ledger and bounded proof chain remain part of the same Bitcode detail path."
     />
   );
 }

@@ -32,7 +32,7 @@ export default function ApplicationTransactionClosureCard({
     <BitcodePayloadDetailCard
       kicker="Closure posture"
       title="Closure summary, settlement, and branch follow-through"
-      summary="Closure now stays inspectable inside the selected transaction with the same visual-versus-raw posture used for identity, proofs, and history."
+      summary="Closure now stays inspectable inside the selected Bitcode activity with the same visual-versus-raw posture used for identity, proofs, and history."
       payload={payload}
       rawLabel="Closure payload"
       actions={[

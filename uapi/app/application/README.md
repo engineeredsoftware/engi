@@ -3,8 +3,8 @@
 `/application` is the primary Bitcode route and the center of V26 second-gate closure.
 
 Its job is to keep one operator route coherent:
-- transactions as the master surface,
-- selected transaction detail as the detail surface,
+- the activity ledger as the master surface,
+- selected activity detail as the detail surface,
 - give and need as the primary write actions,
 - fullscreen conversations and auxillaries as deeper modes entered from within the route,
 - and the preserved lower runtime available only when dense proof/settlement inspection is required.
@@ -25,11 +25,11 @@ V26 locks two actions:
 ## Main route systems
 
 - `ApplicationPageClient.tsx`
-  Route owner, transaction query state owner, and shell/orbital/conversation entry owner.
+  Route owner, activity-query state owner, and shell/auxillary/conversation entry owner.
 - `ApplicationTransactionWorkspace.tsx`
-  Main transactions master-detail shell.
+  Main activity-ledger master-detail shell.
 - `application-transaction-query.ts`
-  Route-owned filter, paging, and selected-transaction state.
+  Route-owned filter, paging, and selected-activity state.
 - `ApplicationCommandDeck.tsx`
   Scenario, projection, branch mode, reset, and flow-guide entry posture.
 - `ApplicationGiveNeedWorkbench.tsx`
@@ -43,11 +43,11 @@ V26 locks two actions:
 
 First-and-second-gate checkpoint confidence requires `/application` to be:
 - renderable in mock-mode review,
-- route-query owned for transaction selection and filtering,
+- route-query owned for activity selection and filtering,
 - user-facing in copy and help posture,
 - free of demo/tutorial/gate narration in the visible product surface,
 - free of generic settings/configuration language when the live surface is really expressing auxillary or interface posture,
-- able to reopen auxillaries as a full-width contained auxillary shell without collapsing transactions into modal-width account furniture,
+- able to reopen auxillaries as a full-width contained auxillary shell without collapsing the activity ledger into modal-width account furniture,
 - supported by shared execution carriers instead of growing page-local duplication,
 - documented alongside the root/package/shared-component README family as required second-gate implementation scope,
 - and backed by proof/test/doc carriers that reflect the real route shape.

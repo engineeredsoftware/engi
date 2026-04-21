@@ -19,8 +19,8 @@ describe('BitcodePayloadDetailCard', () => {
     render(
       <BitcodePayloadDetailCard
         kicker="Proof families"
-        title="Bounded proof stays in transaction detail"
-        summary="Shared payload detail card for transaction-proof reading."
+        title="Bounded proof stays in activity detail"
+        summary="Shared payload detail card for activity-proof reading."
         payload={{ proofStatus: 'ready', proofFamilies: [] }}
         rawLabel="Proof payload"
         actions={[{ label: 'Open verification', onClick: onOpenVerification }]}

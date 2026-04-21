@@ -16,13 +16,13 @@ export default function ApplicationExperienceFrame({ onOpenConversations }: Appl
     <ApplicationWorkspaceCard
       kicker="Mode map"
       title="Read the ledger, then open deeper modes only when needed"
-      summary="Keep transactions and selected detail primary, then move into conversations or Auxillaries only when you need drafting, coordination, or interface changes."
+      summary="Keep the activity ledger and selected detail primary, then move into conversations or Auxillaries only when you need drafting, coordination, or interface changes."
       explainer={APPLICATION_WORKSPACE_EXPLAINERS.experienceMap}
     >
       <div className="grid gap-3 text-xs uppercase tracking-[0.22em] text-neutral-400 tablet:grid-cols-2">
         <div className="rounded-2xl border border-white/8 bg-black/20 px-4 py-4">
           <p className="text-emerald-300/85">Read window</p>
-          <p className="mt-2 text-neutral-200">transactions + selected detail</p>
+          <p className="mt-2 text-neutral-200">activity ledger + selected detail</p>
         </div>
         <div className="rounded-2xl border border-white/8 bg-black/20 px-4 py-4">
           <p className="text-emerald-300/85">Write posture</p>
@@ -50,7 +50,7 @@ export default function ApplicationExperienceFrame({ onOpenConversations }: Appl
                   onClick={() => jumpToShellSection(experience.targetId)}
                   className="rounded-[1.3rem] border border-emerald-400/30 bg-emerald-400/10 px-4 py-3 text-sm font-medium text-emerald-100 transition hover:border-emerald-300/50 hover:bg-emerald-400/15"
                 >
-                  Focus transactions
+                  Focus activity ledger
                 </button>
               ) : experience.id === 'conversations' ? (
                 <ApplicationOpenConversationsButton
@@ -99,7 +99,7 @@ export default function ApplicationExperienceFrame({ onOpenConversations }: Appl
       <div className="mt-6 rounded-[1.6rem] border border-white/8 bg-black/20 px-5 py-5">
         <p className="text-[0.68rem] uppercase tracking-[0.24em] text-neutral-400">Closure stages</p>
         <p className="mt-3 text-sm leading-6 text-neutral-300">
-          Verification, branch artifacts, settlement, proofs, deliverables, and history stay connected as one working
+          Verification, branch artifacts, settlement, proofs, asset packs, and history stay connected as one working
           chain instead of scattering across separate destinations.
         </p>
       </div>

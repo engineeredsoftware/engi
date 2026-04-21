@@ -90,14 +90,14 @@ export const MOCK_RUN_DELIVERABLES: Record<string, DeliverablesDoc> = {
       number: 268,
       title: 'Refactor Bitcode application branch-artifact detail surface',
       description:
-        'Pulls the remediated branch artifact pack into the selected transaction detail and tightens bounded proof grouping.',
+        'Pulls the remediated branch artifact pack into the selected activity detail and tightens bounded proof grouping.',
     },
     pullRequestReviews: [
       {
         url: 'https://github.com/bitcode/bitcode/pull/268#pullrequestreview-1',
         number: 1,
         title: 'Review remediation transactions wiring',
-        description: 'Confirms branch visibility, proof grouping, and the current transaction-detail posture.',
+        description: 'Confirms branch visibility, proof grouping, and the current activity-detail posture.',
       },
     ],
     issues: [

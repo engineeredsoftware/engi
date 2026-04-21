@@ -29,7 +29,7 @@ export default function BitcodeTransactionsActiveFilters({
         <div>
           <p className="text-[0.62rem] uppercase tracking-[0.18em] text-neutral-500">Active filter posture</p>
           <p className="mt-2 text-sm text-neutral-200">
-            {activeChips.length} active {activeChips.length === 1 ? 'filter' : 'filters'} shaping the Bitcode transaction window.
+            {activeChips.length} active {activeChips.length === 1 ? 'filter' : 'filters'} shaping the Bitcode activity window.
           </p>
         </div>
 

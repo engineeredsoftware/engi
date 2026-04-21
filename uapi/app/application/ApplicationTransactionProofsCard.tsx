@@ -29,8 +29,8 @@ export default function ApplicationTransactionProofsCard({
   return (
     <BitcodePayloadCollectionCard
       kicker="Proof families"
-      title="Bounded proof stays in transaction detail"
-      summary="Verification and settlement proof families remain readable inside the selected transaction instead of forcing a separate detail detour."
+      title="Bounded proof stays in activity detail"
+      summary="Verification and settlement proof families remain readable inside the selected Bitcode activity instead of forcing a separate detail detour."
       payload={payload}
       rawLabel="Proof payload"
       items={proofItems}
@@ -38,7 +38,7 @@ export default function ApplicationTransactionProofsCard({
         { label: 'Open verification', onClick: onOpenVerification },
         { label: 'Open settlement', onClick: onOpenSettlement, tone: 'accent' },
       ]}
-      emptyMessage="No proof families are surfaced on the selected transaction yet. Verification and settlement still remain part of the same Bitcode closure path."
+      emptyMessage="No proof families are surfaced on the selected Bitcode activity yet. Verification and settlement still remain part of the same Bitcode closure path."
     />
   );
 }

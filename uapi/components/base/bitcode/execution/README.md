@@ -1,13 +1,13 @@
 # Shared Execution Carriers
 
-This directory holds the reusable execution-level components that power Bitcode transactions master-detail, selected-transaction detail, explainers, and payload reading.
+This directory holds the reusable execution-level components that power the Bitcode activity ledger, selected-activity detail, explainers, and payload reading.
 
 The V26 second-gate rule for this layer is simple:
-- if a transaction/detail/payload pattern appears repeatedly across `/application`, conversations, or related retained workspaces, it should converge here as a typed, testable carrier.
+- if an activity/detail/payload pattern appears repeatedly across `/application`, conversations, or related retained workspaces, it should converge here as a typed, testable carrier.
 
 ## Main component groups
 
-- transactions master
+- activity-ledger master
   - `BitcodeTransactionsTable.tsx`
   - `BitcodeTransactionsFilterBar.tsx`
   - `BitcodeTransactionsActiveFilters.tsx`
@@ -40,10 +40,10 @@ The V26 second-gate rule for this layer is simple:
 - consistent explainers and payload posture
 - stable accessibility and test selectors
 - no fallback to raw page-local `<pre>` blocks for important JSON-bearing detail
-- markdown/documentation parity with the active transaction-detail and payload carriers during second-gate closure
+- markdown/documentation parity with the active activity-detail and payload carriers during second-gate closure
 
 ## Used by
 
 - [../../../app/application/README.md](../../../app/application/README.md)
-- transaction detail cards under `uapi/app/application/*`
+- activity detail cards under `uapi/app/application/*`
 - retained execution/log readers that continue to converge inward during V26

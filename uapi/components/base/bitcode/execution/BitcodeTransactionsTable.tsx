@@ -58,11 +58,11 @@ export default function BitcodeTransactionsTable({
     <section className="rounded-[1.6rem] border border-white/8 bg-black/20 px-5 py-5">
       <div className="flex flex-col gap-5 xl:flex-row xl:items-end xl:justify-between">
         <div className="max-w-3xl">
-          <p className="text-[0.68rem] uppercase tracking-[0.24em] text-emerald-300/75">Transaction master</p>
-          <h3 className="mt-2 text-xl font-semibold text-white">Rich Bitcode transactions table</h3>
+          <p className="text-[0.68rem] uppercase tracking-[0.24em] text-emerald-300/75">Activity ledger</p>
+          <h3 className="mt-2 text-xl font-semibold text-white">Rich Bitcode activity ledger</h3>
           <p className="mt-3 text-sm leading-6 text-neutral-300">
-            Master detail is concretely a searchable, filterable table of Bitcode transactions. Select any row to load
-            transaction detail, deliverables, proofs, history, and activity in the central Bitcode Terminal.
+            Master detail is concretely a searchable, filterable ledger of Bitcode activity. Select any row to load
+            activity detail, asset packs, proofs, history, and execution updates in the central Bitcode Terminal.
           </p>
         </div>
 

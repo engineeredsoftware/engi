@@ -57,7 +57,7 @@ export default function ApplicationClosureControlDeck() {
       id="applicationClosureControls"
       kicker="Closure controls"
       title="Run closure and settlement follow-through"
-      summary="Keep verification, branch execution, settlement review, and ledger follow-through adjacent to the active transaction detail."
+      summary="Keep verification, branch execution, settlement review, and ledger follow-through adjacent to the active Bitcode activity detail."
       explainer={APPLICATION_WORKSPACE_EXPLAINERS.closureControls}
       headerAside={
         <BitcodeMetricGrid

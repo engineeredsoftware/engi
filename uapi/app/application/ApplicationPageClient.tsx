@@ -250,7 +250,7 @@ export default function ApplicationPageClient() {
                 <p className="mt-3 max-w-3xl text-sm leading-7 text-neutral-300 tablet:text-base">
                   The Bitcode Terminal keeps branch-artifact execution, need measurement,
                   proof refresh, and closure reading in one ledger window. Open the selected
-                  execution into deliverables, proofs, and history, then move into conversations
+                  activity into asset packs, proofs, and history, then move into conversations
                   or Auxillaries without losing your place.
                 </p>
               </div>

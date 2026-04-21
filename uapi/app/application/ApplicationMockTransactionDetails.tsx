@@ -27,7 +27,7 @@ export default function ApplicationMockTransactionDetails({ run }: { run: Worksp
     <div className="space-y-4 rounded-[1.5rem] border border-white/10 bg-[rgba(6,10,20,0.92)] p-5 text-sm text-neutral-200 shadow-[0_30px_80px_rgba(0,0,0,0.45)]">
       <div className="flex items-start justify-between gap-3">
         <div>
-          <p className="text-[0.68rem] uppercase tracking-[0.28em] text-emerald-300/80">Mock transaction detail</p>
+          <p className="text-[0.68rem] uppercase tracking-[0.28em] text-emerald-300/80">Mock activity detail</p>
           <h3 className="mt-2 text-lg font-semibold text-white">
             {run.agentic_execution?.label || formatAgenticExecutionLabel(run.type)}
           </h3>
@@ -38,7 +38,7 @@ export default function ApplicationMockTransactionDetails({ run }: { run: Worksp
       </div>
       <dl className="grid gap-3 text-xs text-neutral-400 sm:grid-cols-2">
         <div>
-          <dt className="uppercase tracking-[0.2em] text-neutral-500">Transaction id</dt>
+          <dt className="uppercase tracking-[0.2em] text-neutral-500">Activity id</dt>
           <dd className="mt-1 font-mono text-neutral-200">{run.id}</dd>
         </div>
         <div>

@@ -115,7 +115,7 @@ export const APPLICATION_SURFACE_EXPLAINERS = {
     summary:
       'Keep the few live signals that most quickly change your judgment visible without reopening the exact proof view.',
     detail:
-      'These signals should help answer whether the current transaction chain is moving, blocked, proving, or ready for closure before you open proofs, history, or source-path detail.',
+      'These signals should help answer whether the current Bitcode activity chain is moving, blocked, proving, or ready for closure before you open proofs, history, or source-path detail.',
     points: [
       'Keeps high-signal posture close to the ledger',
       'Separates quick reading from deep inspection',

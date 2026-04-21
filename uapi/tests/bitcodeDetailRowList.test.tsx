@@ -8,21 +8,21 @@ describe('BitcodeDetailRowList', () => {
     render(
       <BitcodeDetailRowList
         rows={[
-          { label: 'Transaction id', value: 'tx-001' },
+          { label: 'Activity id', value: 'tx-001' },
           { label: 'Branch', value: 'bitcode/refit' },
         ]}
       />,
     );
 
-    expect(screen.getByText('Transaction id')).toBeTruthy();
+    expect(screen.getByText('Activity id')).toBeTruthy();
     expect(screen.getByText('tx-001')).toBeTruthy();
     expect(screen.getByText('Branch')).toBeTruthy();
     expect(screen.getByText('bitcode/refit')).toBeTruthy();
   });
 
   it('renders the empty message when no rows are present', () => {
-    render(<BitcodeDetailRowList rows={[]} emptyMessage="No transaction rows are available." />);
+    render(<BitcodeDetailRowList rows={[]} emptyMessage="No activity rows are available." />);
 
-    expect(screen.getByText('No transaction rows are available.')).toBeTruthy();
+    expect(screen.getByText('No activity rows are available.')).toBeTruthy();
   });
 });

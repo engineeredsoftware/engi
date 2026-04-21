@@ -7,7 +7,7 @@ import ApplicationTransactionIdentityCard from '@/app/application/ApplicationTra
 import ApplicationTransactionProofsCard from '@/app/application/ApplicationTransactionProofsCard';
 
 describe('application transaction detail cards', () => {
-  it('renders closure, proofs, and history as distinct transaction detail carriers', () => {
+  it('renders closure, proofs, and history as distinct activity detail carriers', () => {
     const onOpenVerification = jest.fn();
     const onOpenBranch = jest.fn();
     const onOpenSettlement = jest.fn();
@@ -45,7 +45,7 @@ describe('application transaction detail cards', () => {
         <ApplicationTransactionIdentityCard
           startedAt="Apr 17, 10:45 AM"
           rows={[
-            { label: 'Transaction id', value: 'txn-001' },
+            { label: 'Activity id', value: 'txn-001' },
             { label: 'Status', value: 'completed' },
           ]}
           payload={{
@@ -96,7 +96,7 @@ describe('application transaction detail cards', () => {
     );
 
     expect(screen.getByText('Closure posture')).toBeTruthy();
-    expect(screen.getByText('Selected transaction')).toBeTruthy();
+    expect(screen.getByText('Selected activity')).toBeTruthy();
     expect(screen.getByText('Proof families')).toBeTruthy();
     expect(screen.getByText('History')).toBeTruthy();
     expect(screen.getAllByText('Structured payload shape').length).toBeGreaterThanOrEqual(3);
@@ -107,7 +107,7 @@ describe('application transaction detail cards', () => {
       .getByText('Closure summary, settlement, and branch follow-through')
       .closest('div.rounded-\\[1\\.5rem\\]');
     const proofsCard = screen
-      .getByText('Bounded proof stays in transaction detail')
+      .getByText('Bounded proof stays in activity detail')
       .closest('div.rounded-\\[1\\.5rem\\]');
 
     expect(closureCard).toBeTruthy();

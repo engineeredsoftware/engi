@@ -102,7 +102,7 @@ export default function ApplicationWorkspaceRail({
                     {selectedRun.agentic_execution?.label || formatAgenticExecutionLabel(selectedRun.type)}
                   </p>
                   <p className="mt-1 text-xs leading-5 text-neutral-400">
-                    {selectedRun.summary || 'The selected Bitcode transaction is now loaded in the central detail surface.'}
+                    {selectedRun.summary || 'The selected Bitcode activity is now loaded in the central detail surface.'}
                   </p>
                 </div>
                 <span className={`shrink-0 rounded-full border px-2 py-0.5 text-[0.62rem] uppercase tracking-[0.18em] ${getRunStatusTone(selectedRun.status)}`}>
@@ -133,13 +133,13 @@ export default function ApplicationWorkspaceRail({
         >
           <dl className="mt-4 space-y-3 text-sm">
             <div>
-              <dt className="text-neutral-500">Transaction id</dt>
+              <dt className="text-neutral-500">Activity id</dt>
               <dd className="mt-1 font-mono text-neutral-100">{selectedRun.id}</dd>
             </div>
             <div>
               <dt className="text-neutral-500">Summary</dt>
               <dd className="mt-1 text-neutral-100">
-                {selectedRun.summary || 'Select the central Bitcode detail surface to inspect this transaction.'}
+                {selectedRun.summary || 'Select the central Bitcode detail surface to inspect this activity.'}
               </dd>
             </div>
           </dl>

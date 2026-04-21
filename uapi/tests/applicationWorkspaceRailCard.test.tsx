@@ -10,7 +10,7 @@ describe('ApplicationWorkspaceRailCard', () => {
       <ApplicationWorkspaceRailCard
         kicker="Reading modes"
         title="Read here, open deeper modes when needed"
-        summary="Stay in transactions by default."
+        summary="Stay in the activity ledger by default."
         explainer={APPLICATION_OPERATOR_EXPLAINERS.railModes}
       >
         <button type="button">Open conversations</button>
@@ -19,7 +19,7 @@ describe('ApplicationWorkspaceRailCard', () => {
 
     expect(screen.getAllByText('Reading modes').length).toBeGreaterThan(0);
     expect(screen.getByRole('heading', { name: 'Read here, open deeper modes when needed' })).toBeTruthy();
-    expect(screen.getByText('Stay in transactions by default.')).toBeTruthy();
+    expect(screen.getByText('Stay in the activity ledger by default.')).toBeTruthy();
     expect(screen.getByRole('button', { name: 'Open conversations' })).toBeTruthy();
     expect(screen.getByRole('button', { name: 'Explain Read here, open deeper modes when needed' })).toBeTruthy();
   });

@@ -19,7 +19,7 @@ const FLOW_STAGE_BLUEPRINT: Array<Pick<ApplicationFlowGuideStage, 'id' | 'label'
   {
     id: 'context',
     label: 'Source',
-    summary: 'Confirm repository source, selected transaction context, and the working posture before you continue the flow.',
+    summary: 'Confirm repository source, selected Bitcode activity context, and the working posture before you continue the flow.',
   },
   {
     id: 'give',
@@ -39,7 +39,7 @@ const FLOW_STAGE_BLUEPRINT: Array<Pick<ApplicationFlowGuideStage, 'id' | 'label'
   {
     id: 'closure',
     label: 'Closure',
-    summary: 'Run branch, settlement, deliverables, and history follow-through without losing the selected transaction.',
+    summary: 'Run branch, settlement, asset-pack, and history follow-through without losing the selected Bitcode activity.',
   },
 ];
 

@@ -74,7 +74,7 @@ export function buildApplicationTransactionOverviewMetrics(
   const deliverableSurfaceCount = countApplicationTransactionDeliverableSurfaces(detail) || selectedRun.itemCount || 0;
 
   return [
-    { label: 'Deliverable surfaces', value: formatNumber(deliverableSurfaceCount) },
+    { label: 'Asset-pack surfaces', value: formatNumber(deliverableSurfaceCount) },
     { label: 'History items', value: formatNumber(detail?.historyItemCount) },
     { label: 'Event count', value: formatNumber(detail?.eventCount) },
     { label: 'Proof posture', value: detail?.proofStatus || 'closure state in flight' },
@@ -86,7 +86,7 @@ export function buildApplicationTransactionIdentityRows(
   detail: ApplicationRunDetailSnapshot | null,
 ): ApplicationTransactionDetailRow[] {
   const rows: ApplicationTransactionDetailRow[] = [
-    { label: 'Transaction id', value: selectedRun.id },
+    { label: 'Activity id', value: selectedRun.id },
   ];
 
   if (detail?.repoSnapshot) {

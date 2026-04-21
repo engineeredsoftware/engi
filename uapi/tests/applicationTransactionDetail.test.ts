@@ -114,25 +114,25 @@ describe('application-transaction-detail helpers', () => {
     expect(countApplicationTransactionDeliverableSurfaces(detail)).toBe(2);
   });
 
-  it('builds overview metrics from selected transaction and detail', () => {
+  it('builds overview metrics from selected activity and detail', () => {
     expect(buildApplicationTransactionOverviewMetrics(selectedTransaction, detail)).toEqual([
-      { label: 'Deliverable surfaces', value: '2' },
+      { label: 'Asset-pack surfaces', value: '2' },
       { label: 'History items', value: '5' },
       { label: 'Event count', value: '3' },
       { label: 'Proof posture', value: 'proof witness ready' },
     ]);
   });
 
-  it('builds identity rows for the selected transaction', () => {
+  it('builds identity rows for the selected activity', () => {
     expect(buildApplicationTransactionIdentityRows(selectedTransaction, detail)).toEqual([
-      { label: 'Transaction id', value: 'tx-001' },
+      { label: 'Activity id', value: 'tx-001' },
       { label: 'Repository', value: 'bitcode/bitcode' },
       { label: 'Branch', value: 'main' },
       { label: 'Commit', value: 'abc123' },
     ]);
   });
 
-  it('builds closure rows for the selected transaction', () => {
+  it('builds closure rows for the selected activity', () => {
     expect(buildApplicationTransactionClosureRows(detail)).toEqual([
       { label: 'Proof posture', value: 'proof witness ready' },
       { label: 'Closure focus', value: 'bounded disclosure' },

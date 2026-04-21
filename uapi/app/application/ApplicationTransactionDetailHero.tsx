@@ -23,7 +23,7 @@ export default function ApplicationTransactionDetailHero({
     <article className="rounded-[1.5rem] border border-white/8 bg-black/20 px-5 py-5">
       <div className="flex items-start justify-between gap-4">
         <div>
-          <p className="text-[0.68rem] uppercase tracking-[0.24em] text-emerald-300/75">Application-owned transaction detail</p>
+          <p className="text-[0.68rem] uppercase tracking-[0.24em] text-emerald-300/75">Bitcode Terminal activity detail</p>
           <h3 className="mt-2 text-xl font-semibold text-white">{title}</h3>
           <p className="mt-3 text-sm leading-6 text-neutral-300">{summary}</p>
         </div>
@@ -42,7 +42,7 @@ export default function ApplicationTransactionDetailHero({
       />
 
       <div className="mt-4 rounded-[1.15rem] border border-white/8 bg-white/5 px-4 py-4 text-sm">
-        <p className="text-neutral-500">Transaction posture</p>
+        <p className="text-neutral-500">Activity posture</p>
         <p className="mt-2 text-neutral-100">{proofPosture}</p>
       </div>
     </article>
