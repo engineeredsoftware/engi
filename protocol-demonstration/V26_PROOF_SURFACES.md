@@ -973,6 +973,11 @@ Required closure posture:
   `uapi/tests/applicationActivityHistory.test.ts`, `uapi/tests/applicationTransactionDetailSnapshot.test.ts`, and `uapi/tests/applicationTransactionDetail.test.ts`
   proof surface:
   fifth-gate persisted-closure-panel reread closure so the Bitcode Terminal selected-detail surface can reconstruct verification, branch, settlement, and ledger panels from persisted activity rows when live shell state is absent, reducing the split between runtime shell truth and saved activity truth
+- `{uapi/app/application/{ApplicationTransactionActivitySurface.tsx,ApplicationTransactionDetailSurface.tsx,application-activity-history.ts,application-transaction-detail-snapshot.ts,application-transaction-detail.ts},uapi/tests/{applicationTransactionActivitySurface.test.tsx,applicationActivityHistory.test.ts,applicationTransactionDetailSnapshot.test.ts,applicationTransactionDetail.test.ts}}`
+  test coverage:
+  `uapi/tests/applicationTransactionActivitySurface.test.tsx`, `uapi/tests/applicationActivityHistory.test.ts`, `uapi/tests/applicationTransactionDetailSnapshot.test.ts`, and `uapi/tests/applicationTransactionDetail.test.ts`
+  proof surface:
+  fifth-gate persisted-share-use reread closure so saved repository-anchor, give, need, fit, and supply-selection posture now survives into selected detail and the Bitcode activity tab when no live execution stream is available, keeping the Bitcode Terminal ledger readable as one state system instead of a shell-plus-ledger split
 
 ## Module namespace proof note
 

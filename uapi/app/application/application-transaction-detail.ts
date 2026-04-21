@@ -41,6 +41,13 @@ export type ApplicationTransactionClosurePayload = {
   };
 };
 
+export type ApplicationTransactionPersistedActivitySnapshot = {
+  metrics: Array<{ label: string; value: string }>;
+  rows: ApplicationTransactionDetailRow[];
+  chips: string[];
+  payload: unknown;
+};
+
 export function countApplicationTransactionDeliverableSurfaces(detail: ApplicationRunDetailSnapshot | null) {
   const deliverables = detail?.deliverables;
   if (!deliverables) return 0;
@@ -81,6 +88,64 @@ export function buildApplicationTransactionOverviewMetrics(
   ];
 }
 
+function dedupeChips(chips: Array<string | null | undefined>) {
+  return Array.from(new Set(chips.map((chip) => chip?.trim()).filter((chip): chip is string => Boolean(chip))));
+}
+
+export function buildApplicationTransactionPersistedActivitySnapshot(
+  detail: ApplicationRunDetailSnapshot | null,
+): ApplicationTransactionPersistedActivitySnapshot | null {
+  const activityState = detail?.bitcodeActivityState;
+  if (!activityState) return null;
+
+  const workbench = activityState.giveWorkbench || activityState.fitWorkbench || null;
+  const needMeasurement = activityState.needMeasurement || null;
+  const supplySelection = activityState.supplySelection || null;
+  const repositoryAnchor = activityState.repositoryAnchor || null;
+
+  const metrics = [
+    workbench ? { label: 'Projection', value: workbench.projectionPrincipal } : null,
+    supplySelection ? { label: 'Selected refs', value: formatNumber(supplySelection.selectedCount) } : null,
+    needMeasurement ? { label: 'Target kinds', value: formatNumber(needMeasurement.targetKindCount) } : null,
+    needMeasurement ? { label: 'Closure criteria', value: formatNumber(needMeasurement.closureCriteriaCount) } : null,
+    supplySelection ? { label: 'Filtered refs', value: formatNumber(supplySelection.filteredCount) } : null,
+  ].filter((metric): metric is { label: string; value: string } => Boolean(metric));
+
+  const rows = [
+    repositoryAnchor?.repository
+      ? { label: 'Repository anchor', value: repositoryAnchor.repository.fullName }
+      : null,
+    repositoryAnchor?.connection ? { label: 'Connection mode', value: repositoryAnchor.connection.mode } : null,
+    workbench?.give?.summary ? { label: 'Give posture', value: workbench.give.summary } : null,
+    workbench?.need?.summary ? { label: 'Need posture', value: workbench.need.summary } : null,
+    workbench?.fit?.summary ? { label: 'Fit posture', value: workbench.fit.summary } : null,
+    needMeasurement ? { label: 'Need scenario', value: needMeasurement.scenario.label } : null,
+    needMeasurement ? { label: 'Need parser', value: needMeasurement.parserKind } : null,
+    supplySelection ? { label: 'Auth session', value: supplySelection.authSessionLabel } : null,
+    supplySelection?.searchTerm ? { label: 'Search filter', value: supplySelection.searchTerm } : null,
+  ].filter((row): row is ApplicationTransactionDetailRow => Boolean(row));
+
+  const chips = dedupeChips([
+    ...(workbench?.give?.artifactKinds || []),
+    ...(workbench?.need?.targetKinds || []),
+    ...(workbench?.need?.closureCriteria || []),
+    ...(supplySelection?.selectedEntries.map((entry) => entry.title) || []),
+  ]);
+
+  if (!metrics.length && !rows.length && !chips.length) return null;
+
+  return {
+    metrics,
+    rows,
+    chips,
+    payload: {
+      summary: detail?.summary || null,
+      processingStats: detail?.processingStats || null,
+      bitcodeActivityState: activityState,
+    },
+  };
+}
+
 export function buildApplicationTransactionIdentityRows(
   selectedRun: WorkspaceRun,
   detail: ApplicationRunDetailSnapshot | null,
@@ -88,12 +153,48 @@ export function buildApplicationTransactionIdentityRows(
   const rows: ApplicationTransactionDetailRow[] = [
     { label: 'Activity id', value: selectedRun.id },
   ];
+  const activityState = detail?.bitcodeActivityState;
 
   if (detail?.repoSnapshot) {
     rows.push(
       { label: 'Repository', value: `${detail.repoSnapshot.org}/${detail.repoSnapshot.repo}` },
       { label: 'Branch', value: detail.repoSnapshot.branch || 'n/a' },
       { label: 'Commit', value: detail.repoSnapshot.commit || 'n/a' },
+    );
+  } else if (activityState?.repositoryAnchor?.repository) {
+    rows.push(
+      { label: 'Repository', value: activityState.repositoryAnchor.repository.fullName },
+      { label: 'Branch', value: activityState.repositoryAnchor.repository.defaultBranch || 'main' },
+    );
+  }
+
+  if (activityState?.repositoryAnchor?.providerAccount) {
+    rows.push({ label: 'Provider account', value: activityState.repositoryAnchor.providerAccount });
+  }
+
+  const workbench = activityState?.giveWorkbench || activityState?.fitWorkbench;
+  if (workbench) {
+    rows.push(
+      { label: 'Projection', value: workbench.projectionPrincipal },
+      { label: 'Scenario', value: workbench.scenarioLabel },
+      { label: 'Profile', value: workbench.profileLabel },
+    );
+  }
+
+  if (activityState?.needMeasurement) {
+    rows.push(
+      { label: 'Need parser', value: activityState.needMeasurement.parserKind },
+      { label: 'Need scenario', value: activityState.needMeasurement.scenario.label },
+    );
+  }
+
+  if (activityState?.supplySelection) {
+    rows.push(
+      { label: 'Auth session', value: activityState.supplySelection.authSessionLabel },
+      {
+        label: 'Selected refs',
+        value: String(activityState.supplySelection.selectedCount),
+      },
     );
   }
 

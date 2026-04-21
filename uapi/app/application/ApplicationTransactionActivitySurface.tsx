@@ -1,23 +1,32 @@
 'use client';
 
+import React from 'react';
 import { useMemo, useState } from 'react';
 
 import { getBitcodeActivityKindLabel } from '@/components/base/bitcode/activity/bitcode-activity-model';
+import BitcodeChipCloud from '@/components/base/bitcode/execution/BitcodeChipCloud';
+import BitcodeDetailRowList from '@/components/base/bitcode/execution/BitcodeDetailRowList';
 import { isMockTransactionDataMode } from '@/components/base/bitcode/execution/bitcode-transaction-data-mode';
 import BitcodeExecutionStreamPanel from '@/components/base/bitcode/execution/BitcodeExecutionStreamPanel';
+import BitcodeMetricGrid from '@/components/base/bitcode/execution/BitcodeMetricGrid';
+import BitcodePayloadDetailCard from '@/components/base/bitcode/execution/BitcodePayloadDetailCard';
 import type { TransactionDataMode } from '@/components/base/bitcode/execution/bitcode-transaction-types';
 import { usePipelineExecution } from '@/hooks/usePipelineExecution';
 
 import { buildApplicationRunActivityFromEvents, buildApplicationRunActivityFromMock } from './application-run-activity';
 import { MOCK_RUN_ACTIVITY, type WorkspaceRun } from './application-run-data';
+import type { ApplicationRunDetailSnapshot } from './application-transaction-detail-snapshot';
+import { buildApplicationTransactionPersistedActivitySnapshot } from './application-transaction-detail';
 
 interface ApplicationTransactionActivitySurfaceProps {
   selectedRun: WorkspaceRun;
+  detail: ApplicationRunDetailSnapshot | null;
   transactionDataMode: TransactionDataMode;
 }
 
 export default function ApplicationTransactionActivitySurface({
   selectedRun,
+  detail,
   transactionDataMode,
 }: ApplicationTransactionActivitySurfaceProps) {
   const [userHasScrolled, setUserHasScrolled] = useState(false);
@@ -36,6 +45,39 @@ export default function ApplicationTransactionActivitySurface({
       liveRun.error,
     );
   }, [liveRun.error, liveRun.events, liveRun.iterationUpdates, liveRun.latestWorkUpdate, selectedRun.id, usesMockTransactions]);
+  const persistedActivity = useMemo(
+    () => buildApplicationTransactionPersistedActivitySnapshot(detail),
+    [detail],
+  );
+  const hasLiveActivity = Boolean(
+    activity &&
+      (activity.output ||
+        activity.activityRecords.length ||
+        activity.activityKinds.length ||
+        activity.iterationUpdates.length ||
+        activity.latestWorkUpdate ||
+        activity.error ||
+        activity.generationCount ||
+        activity.isStreamingComplete),
+  );
+
+  if (!usesMockTransactions && !hasLiveActivity && persistedActivity) {
+    return (
+      <BitcodePayloadDetailCard
+        kicker="Bitcode activity"
+        title="Persisted Bitcode posture"
+        summary="Live execution updates are unavailable for this selected activity, so the Bitcode Terminal is rereading the saved give, need, fit, and selection posture directly from the ledger."
+        payload={persistedActivity.payload}
+        rawLabel="Persisted activity payload"
+      >
+        <>
+          <BitcodeMetricGrid metrics={persistedActivity.metrics} columnsClassName="sm:grid-cols-2 xl:grid-cols-3" />
+          <BitcodeDetailRowList rows={persistedActivity.rows} className="mt-4" />
+          <BitcodeChipCloud chips={persistedActivity.chips} className="mt-4" />
+        </>
+      </BitcodePayloadDetailCard>
+    );
+  }
 
   if (!activity) {
     return (

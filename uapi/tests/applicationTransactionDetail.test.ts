@@ -4,6 +4,7 @@ import {
   buildApplicationTransactionClosureRows,
   buildApplicationTransactionIdentityRows,
   buildApplicationTransactionOverviewMetrics,
+  buildApplicationTransactionPersistedActivitySnapshot,
   countApplicationTransactionDeliverableSurfaces,
 } from '@/app/application/application-transaction-detail';
 import type { ApplicationClosureState } from '@/app/application/application-closure-state';
@@ -117,6 +118,73 @@ const detail: ApplicationRunDetailSnapshot = {
       ],
     },
   },
+  bitcodeActivityState: {
+    repositoryAnchor: {
+      provider: 'github',
+      providerAccount: 'bitcode',
+      repository: {
+        id: 'repo-1',
+        fullName: 'bitcode/bitcode',
+        defaultBranch: 'main',
+        private: true,
+        language: 'TypeScript',
+        topics: ['bitcode'],
+      },
+      connection: {
+        connected: true,
+        valid: true,
+        mode: 'live connection',
+      },
+    },
+    giveWorkbench: {
+      canonLabel: 'Bitcode active posture',
+      projectionPrincipal: 'giver',
+      branchMode: 'patch',
+      scenarioLabel: 'auth-remediation',
+      profileLabel: 'Targeted deposit',
+      give: {
+        summary: 'Give summary.',
+        metrics: [{ label: 'Selected refs', value: '2' }],
+        rows: [{ label: 'Repository', value: 'bitcode/bitcode' }],
+        selectedEntries: [{ id: 'entry-1', label: 'rollback runbook' }],
+        artifactKinds: ['runbook (1)'],
+      },
+      need: {
+        summary: 'Need summary.',
+        metrics: [{ label: 'Target kinds', value: '3' }],
+        rows: [{ label: 'Scenario', value: 'auth-remediation' }],
+        closureCriteria: ['bound issuer auth'],
+        targetKinds: ['runbook'],
+      },
+      fit: {
+        summary: 'Fit summary.',
+        metrics: [{ label: 'Pressure', value: 'low' }],
+        rows: [{ label: 'Projection', value: 'giver' }],
+      },
+    },
+    needMeasurement: {
+      scenario: {
+        id: 'scenario-1',
+        label: 'auth-remediation',
+        repo: 'bitcode/bitcode',
+        profile: 'Targeted deposit',
+        selected: true,
+      },
+      parserKind: 'benchmark-parser',
+      closureCriteriaCount: 2,
+      targetKindCount: 3,
+    },
+    supplySelection: {
+      authSessionLabel: 'bitcode/bitcode · 42',
+      selectedAuthSessionId: 'session-1',
+      selectedKind: 'all',
+      searchTerm: 'auth',
+      selectedCount: 2,
+      filteredCount: 4,
+      totalFilteredEntries: 12,
+      selectedEntries: [{ id: 'entry-1', title: 'rollback runbook', kind: 'runbook', tags: ['auth'] }],
+    },
+  },
   historyItemCount: 5,
   eventCount: 3,
 };
@@ -197,7 +265,50 @@ describe('application-transaction-detail helpers', () => {
       { label: 'Repository', value: 'bitcode/bitcode' },
       { label: 'Branch', value: 'main' },
       { label: 'Commit', value: 'abc123' },
+      { label: 'Provider account', value: 'bitcode' },
+      { label: 'Projection', value: 'giver' },
+      { label: 'Scenario', value: 'auth-remediation' },
+      { label: 'Profile', value: 'Targeted deposit' },
+      { label: 'Need parser', value: 'benchmark-parser' },
+      { label: 'Need scenario', value: 'auth-remediation' },
+      { label: 'Auth session', value: 'bitcode/bitcode · 42' },
+      { label: 'Selected refs', value: '2' },
     ]);
+  });
+
+  it('builds a persisted activity snapshot from saved Bitcode posture', () => {
+    expect(buildApplicationTransactionPersistedActivitySnapshot(detail)).toEqual({
+      metrics: [
+        { label: 'Projection', value: 'giver' },
+        { label: 'Selected refs', value: '2' },
+        { label: 'Target kinds', value: '3' },
+        { label: 'Closure criteria', value: '2' },
+        { label: 'Filtered refs', value: '4' },
+      ],
+      rows: [
+        { label: 'Repository anchor', value: 'bitcode/bitcode' },
+        { label: 'Connection mode', value: 'live connection' },
+        { label: 'Give posture', value: 'Give summary.' },
+        { label: 'Need posture', value: 'Need summary.' },
+        { label: 'Fit posture', value: 'Fit summary.' },
+        { label: 'Need scenario', value: 'auth-remediation' },
+        { label: 'Need parser', value: 'benchmark-parser' },
+        { label: 'Auth session', value: 'bitcode/bitcode · 42' },
+        { label: 'Search filter', value: 'auth' },
+      ],
+      chips: ['runbook (1)', 'runbook', 'bound issuer auth', 'rollback runbook'],
+      payload: {
+        summary: 'Normalized detail summary.',
+        processingStats: {
+          time: '4m 12s',
+          tokenTotal: 2200,
+          btdUsed: 24.5,
+          usdTotal: 1.62,
+          averageLatencyMs: 930,
+        },
+        bitcodeActivityState: detail.bitcodeActivityState,
+      },
+    });
   });
 
   it('builds closure rows for the selected activity', () => {

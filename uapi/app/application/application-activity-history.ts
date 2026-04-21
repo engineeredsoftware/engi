@@ -23,6 +23,75 @@ export interface ApplicationActivityRecordDraft {
   items?: unknown[];
 }
 
+function buildBitcodeWorkbenchState(workbench: ApplicationGiveNeedWorkbench) {
+  return {
+    canonLabel: workbench.canonLabel,
+    projectionPrincipal: workbench.projectionPrincipal,
+    branchMode: workbench.branchMode,
+    scenarioLabel: workbench.scenarioLabel,
+    profileLabel: workbench.profileLabel,
+    give: workbench.give,
+    need: workbench.need,
+    fit: workbench.fit,
+  };
+}
+
+function buildNeedMeasurementState(
+  needState: ApplicationNeedScenariosState,
+  scenario: ApplicationNeedScenariosState['scenarios'][number],
+) {
+  return {
+    scenario,
+    parserKind: needState.parserKind,
+    closureCriteriaCount: needState.closureCriteriaCount,
+    targetKindCount: needState.targetKindCount,
+  };
+}
+
+function buildSupplySelectionState(selection: ApplicationSupplySelectionState, authSessionLabel: string) {
+  return {
+    authSessionLabel,
+    selectedAuthSessionId: selection.selectedAuthSessionId,
+    selectedKind: selection.selectedKind,
+    searchTerm: selection.searchTerm,
+    selectedCount: selection.selectedCount,
+    filteredCount: selection.filteredCount,
+    totalFilteredEntries: selection.totalFilteredEntries,
+    selectedEntries: selection.filteredEntries
+      .filter((entry) => entry.selected)
+      .map((entry) => ({
+        id: entry.id,
+        title: entry.title,
+        kind: entry.kind,
+        tags: entry.tags,
+      })),
+  };
+}
+
+function buildRepositoryAnchorState(repositoryContext: ApplicationRepositoryContextState, providerAccount: string) {
+  const selectedRepository = repositoryContext.selectedRepository;
+  const connectionStatus = repositoryContext.connectionStatus;
+  return {
+    provider: repositoryContext.provider,
+    providerAccount,
+    repository: selectedRepository
+      ? {
+          id: selectedRepository.id,
+          fullName: selectedRepository.fullName,
+          defaultBranch: selectedRepository.defaultBranch || 'main',
+          private: Boolean(selectedRepository.private),
+          language: selectedRepository.language || null,
+          topics: selectedRepository.topics || [],
+        }
+      : null,
+    connection: {
+      connected: Boolean(connectionStatus?.connected),
+      valid: Boolean(connectionStatus?.valid),
+      mode: connectionStatus?.metadata?.mock_mode ? 'mock review' : 'live connection',
+    },
+  };
+}
+
 function normalizeWhitespace(value?: string | null) {
   return value?.trim() || '';
 }
@@ -186,6 +255,11 @@ export function buildApplicationGiveWorkbenchDraft(
         metrics: workbench.give.metrics,
         rows: workbench.give.rows,
       },
+      finalWorkSummary: {
+        bitcodeActivityState: {
+          giveWorkbench: buildBitcodeWorkbenchState(workbench),
+        },
+      },
     },
     context: {
       source: 'application-give-need-workbench',
@@ -226,6 +300,11 @@ export function buildApplicationNeedMeasurementDraft(
         closureCriteriaCount: needState.closureCriteriaCount,
         targetKindCount: needState.targetKindCount,
         scenario,
+      },
+      finalWorkSummary: {
+        bitcodeActivityState: {
+          needMeasurement: buildNeedMeasurementState(needState, scenario),
+        },
       },
     },
     context: {
@@ -268,6 +347,11 @@ export function buildApplicationSupplySelectionDraft(
         filteredCount: selection.filteredCount,
         totalFilteredEntries: selection.totalFilteredEntries,
       },
+      finalWorkSummary: {
+        bitcodeActivityState: {
+          supplySelection: buildSupplySelectionState(selection, authSessionLabel),
+        },
+      },
     },
     context: {
       source: 'application-supply-selection-panel',
@@ -290,6 +374,11 @@ export function buildApplicationFitWorkbenchDraft(
         summary: workbench.fit.summary,
         metrics: workbench.fit.metrics,
         rows: workbench.fit.rows,
+      },
+      finalWorkSummary: {
+        bitcodeActivityState: {
+          fitWorkbench: buildBitcodeWorkbenchState(workbench),
+        },
       },
     },
     context: {
@@ -332,6 +421,11 @@ export function buildApplicationRepositoryAnchorDraft(
           connected: Boolean(connectionStatus?.connected),
           valid: Boolean(connectionStatus?.valid),
           mode: connectionStatus?.metadata?.mock_mode ? 'mock review' : 'live connection',
+        },
+      },
+      finalWorkSummary: {
+        bitcodeActivityState: {
+          repositoryAnchor: buildRepositoryAnchorState(repositoryContext, providerAccount),
         },
       },
     },

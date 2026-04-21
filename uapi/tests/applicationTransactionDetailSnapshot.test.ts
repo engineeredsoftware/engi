@@ -60,6 +60,75 @@ describe('application-transaction-detail-snapshot helpers', () => {
           output: {
             final_work_summary: {
               summary: 'Final work summary.',
+              bitcodeActivityState: {
+                repositoryAnchor: {
+                  provider: 'github',
+                  providerAccount: 'bitcode',
+                  repository: {
+                    id: 'repo-1',
+                    fullName: 'bitcode/bitcode',
+                    defaultBranch: 'main',
+                    private: true,
+                    language: 'TypeScript',
+                    topics: ['bitcode', 'terminal'],
+                  },
+                  connection: {
+                    connected: true,
+                    valid: true,
+                    mode: 'live connection',
+                  },
+                },
+                giveWorkbench: {
+                  canonLabel: 'Bitcode active posture',
+                  projectionPrincipal: 'giver',
+                  branchMode: 'patch',
+                  scenarioLabel: 'auth-remediation',
+                  profileLabel: 'Targeted deposit',
+                  give: {
+                    summary: 'Give summary.',
+                    metrics: [{ label: 'Selected refs', value: '2' }],
+                    rows: [{ label: 'Repository', value: 'bitcode/bitcode' }],
+                    selectedEntries: [{ id: 'entry-1', label: 'rollback runbook' }],
+                    artifactKinds: ['runbook (1)'],
+                  },
+                  need: {
+                    summary: 'Need summary.',
+                    metrics: [{ label: 'Target kinds', value: '2' }],
+                    rows: [{ label: 'Scenario', value: 'auth-remediation' }],
+                    closureCriteria: ['bound issuer auth'],
+                    targetKinds: ['runbook'],
+                  },
+                  fit: {
+                    summary: 'Fit summary.',
+                    metrics: [{ label: 'Pressure', value: 'low' }],
+                    rows: [{ label: 'Projection', value: 'giver' }],
+                  },
+                },
+                needMeasurement: {
+                  scenario: {
+                    id: 'scenario-1',
+                    label: 'auth-remediation',
+                    repo: 'bitcode/bitcode',
+                    profile: 'Targeted deposit',
+                    selected: true,
+                  },
+                  parserKind: 'benchmark-parser',
+                  closureCriteriaCount: 2,
+                  targetKindCount: 3,
+                },
+                supplySelection: {
+                  authSessionLabel: 'bitcode/bitcode · 42',
+                  selectedAuthSessionId: 'session-1',
+                  selectedKind: 'all',
+                  searchTerm: 'auth',
+                  selectedCount: 2,
+                  filteredCount: 4,
+                  totalFilteredEntries: 12,
+                  selectedEntries: [
+                    { id: 'entry-1', title: 'rollback runbook', kind: 'runbook', tags: ['auth'] },
+                  ],
+                },
+              },
               closurePanels: {
                 canonLabel: 'Bitcode active posture',
                 verification: {
@@ -137,6 +206,28 @@ describe('application-transaction-detail-snapshot helpers', () => {
     expect(snapshot.repoSnapshot?.branch).toBe('main');
     expect(snapshot.processingStats.time).toBe('4m 12s');
     expect(snapshot.processingStats.tokenTotal).toBe(2200);
+    expect(snapshot.bitcodeActivityState).toMatchObject({
+      repositoryAnchor: {
+        provider: 'github',
+        providerAccount: 'bitcode',
+        repository: {
+          fullName: 'bitcode/bitcode',
+          defaultBranch: 'main',
+        },
+      },
+      giveWorkbench: {
+        projectionPrincipal: 'giver',
+        scenarioLabel: 'auth-remediation',
+      },
+      needMeasurement: {
+        parserKind: 'benchmark-parser',
+        targetKindCount: 3,
+      },
+      supplySelection: {
+        authSessionLabel: 'bitcode/bitcode · 42',
+        selectedCount: 2,
+      },
+    });
     expect(snapshot.closureState).toMatchObject({
       canonLabel: 'Bitcode active posture',
       verification: {

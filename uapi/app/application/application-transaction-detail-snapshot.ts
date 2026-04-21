@@ -8,6 +8,8 @@ import type {
   ApplicationClosureProofFamily,
   ApplicationClosureState,
 } from './application-closure-state';
+import type { ApplicationGiveNeedWorkbench } from './application-give-need-workbench';
+import type { ApplicationRepositoryContextState } from './application-repository-context';
 import type { WorkspaceRun } from './application-run-data';
 
 export type ApplicationRunDetailClosureFollowThrough = {
@@ -47,6 +49,43 @@ export interface ApplicationRunDetailSnapshot {
   closureFocus: string | null;
   closureFollowThrough: ApplicationRunDetailClosureFollowThrough | null;
   closureState: ApplicationClosureState | null;
+  bitcodeActivityState: {
+    giveWorkbench?: ApplicationGiveNeedWorkbench | null;
+    fitWorkbench?: ApplicationGiveNeedWorkbench | null;
+    needMeasurement?: {
+      scenario: { id: string; label: string; repo: string; profile: string; selected: boolean };
+      parserKind: string;
+      closureCriteriaCount: number;
+      targetKindCount: number;
+    } | null;
+    supplySelection?: {
+      authSessionLabel: string;
+      selectedAuthSessionId: string;
+      selectedKind: string;
+      searchTerm: string;
+      selectedCount: number;
+      filteredCount: number;
+      totalFilteredEntries: number;
+      selectedEntries: Array<{ id: string; title: string; kind: string; tags: string[] }>;
+    } | null;
+    repositoryAnchor?: {
+      provider: ApplicationRepositoryContextState['provider'];
+      providerAccount: string;
+      repository: {
+        id: string;
+        fullName: string;
+        defaultBranch: string;
+        private: boolean;
+        language: string | null;
+        topics: string[];
+      } | null;
+      connection: {
+        connected: boolean;
+        valid: boolean;
+        mode: string;
+      };
+    } | null;
+  } | null;
   historyItemCount: number;
   eventCount: number;
 }
@@ -290,6 +329,145 @@ function coerceClosureState(value: unknown): ApplicationClosureState | null {
   };
 }
 
+function coerceGiveNeedWorkbenchState(value: unknown): ApplicationGiveNeedWorkbench | null {
+  if (!isRecord(value)) return null;
+  const give = isRecord(value.give) ? value.give : null;
+  const need = isRecord(value.need) ? value.need : null;
+  const fit = isRecord(value.fit) ? value.fit : null;
+  if (!give || !need || !fit) return null;
+
+  const coerceSelectionEntries = (entries: unknown) =>
+    Array.isArray(entries)
+      ? entries
+          .filter(isRecord)
+          .map((entry) => ({
+            id: coerceString(entry.id) || '',
+            label: coerceString(entry.label) || '',
+          }))
+          .filter((entry) => entry.id && entry.label)
+      : [];
+
+  return {
+    canonLabel: coerceString(value.canonLabel) || 'Bitcode active posture',
+    projectionPrincipal: coerceString(value.projectionPrincipal) || 'buyer',
+    branchMode: coerceString(value.branchMode) || 'patch',
+    scenarioLabel: coerceString(value.scenarioLabel) || 'No active scenario',
+    profileLabel: coerceString(value.profileLabel) || 'Pending profile',
+    give: {
+      summary: coerceString(give.summary) || 'n/a',
+      metrics: coerceMetrics(give.metrics),
+      rows: coerceRows(give.rows),
+      selectedEntries: coerceSelectionEntries(give.selectedEntries),
+      artifactKinds: coerceChips(give.artifactKinds),
+    },
+    need: {
+      summary: coerceString(need.summary) || 'n/a',
+      metrics: coerceMetrics(need.metrics),
+      rows: coerceRows(need.rows),
+      closureCriteria: coerceChips(need.closureCriteria),
+      targetKinds: coerceChips(need.targetKinds),
+    },
+    fit: {
+      summary: coerceString(fit.summary) || 'n/a',
+      metrics: coerceMetrics(fit.metrics),
+      rows: coerceRows(fit.rows),
+    },
+  };
+}
+
+function coerceBitcodeActivityState(value: unknown): ApplicationRunDetailSnapshot['bitcodeActivityState'] {
+  if (!isRecord(value)) return null;
+
+  const needMeasurement = isRecord(value.needMeasurement)
+    ? {
+        scenario: isRecord(value.needMeasurement.scenario)
+          ? {
+              id: coerceString(value.needMeasurement.scenario.id) || 'unselected-scenario',
+              label: coerceString(value.needMeasurement.scenario.label) || 'Unselected scenario',
+              repo: coerceString(value.needMeasurement.scenario.repo) || '—',
+              profile: coerceString(value.needMeasurement.scenario.profile) || 'profile pending',
+              selected: Boolean(value.needMeasurement.scenario.selected),
+            }
+          : {
+              id: 'unselected-scenario',
+              label: 'Unselected scenario',
+              repo: '—',
+              profile: 'profile pending',
+              selected: false,
+            },
+        parserKind: coerceString(value.needMeasurement.parserKind) || '—',
+        closureCriteriaCount: coerceNumber(value.needMeasurement.closureCriteriaCount) || 0,
+        targetKindCount: coerceNumber(value.needMeasurement.targetKindCount) || 0,
+      }
+    : null;
+
+  const supplySelection = isRecord(value.supplySelection)
+    ? {
+        authSessionLabel: coerceString(value.supplySelection.authSessionLabel) || 'No auth session',
+        selectedAuthSessionId: coerceString(value.supplySelection.selectedAuthSessionId) || '',
+        selectedKind: coerceString(value.supplySelection.selectedKind) || 'all',
+        searchTerm: coerceString(value.supplySelection.searchTerm) || '',
+        selectedCount: coerceNumber(value.supplySelection.selectedCount) || 0,
+        filteredCount: coerceNumber(value.supplySelection.filteredCount) || 0,
+        totalFilteredEntries: coerceNumber(value.supplySelection.totalFilteredEntries) || 0,
+        selectedEntries: Array.isArray(value.supplySelection.selectedEntries)
+          ? value.supplySelection.selectedEntries
+              .filter(isRecord)
+              .map((entry) => ({
+                id: coerceString(entry.id) || '',
+                title: coerceString(entry.title) || '',
+                kind: coerceString(entry.kind) || 'artifact',
+                tags: coerceChips(entry.tags),
+              }))
+              .filter((entry) => entry.id && entry.title)
+          : [],
+      }
+    : null;
+
+  const repositoryAnchor = isRecord(value.repositoryAnchor)
+    ? {
+        provider:
+          coerceString(value.repositoryAnchor.provider) === 'gitlab' ||
+          coerceString(value.repositoryAnchor.provider) === 'bitbucket'
+            ? (coerceString(value.repositoryAnchor.provider) as ApplicationRepositoryContextState['provider'])
+            : 'github',
+        providerAccount: coerceString(value.repositoryAnchor.providerAccount) || 'connected account',
+        repository: isRecord(value.repositoryAnchor.repository)
+          ? {
+              id: coerceString(value.repositoryAnchor.repository.id) || '',
+              fullName: coerceString(value.repositoryAnchor.repository.fullName) || '',
+              defaultBranch: coerceString(value.repositoryAnchor.repository.defaultBranch) || 'main',
+              private: Boolean(value.repositoryAnchor.repository.private),
+              language: coerceString(value.repositoryAnchor.repository.language),
+              topics: coerceChips(value.repositoryAnchor.repository.topics),
+            }
+          : null,
+        connection: isRecord(value.repositoryAnchor.connection)
+          ? {
+              connected: Boolean(value.repositoryAnchor.connection.connected),
+              valid: Boolean(value.repositoryAnchor.connection.valid),
+              mode: coerceString(value.repositoryAnchor.connection.mode) || 'live connection',
+            }
+          : { connected: false, valid: false, mode: 'live connection' },
+      }
+    : null;
+
+  const giveWorkbench = coerceGiveNeedWorkbenchState(value.giveWorkbench);
+  const fitWorkbench = coerceGiveNeedWorkbenchState(value.fitWorkbench);
+
+  if (!giveWorkbench && !fitWorkbench && !needMeasurement && !supplySelection && !repositoryAnchor) {
+    return null;
+  }
+
+  return {
+    ...(giveWorkbench ? { giveWorkbench } : {}),
+    ...(fitWorkbench ? { fitWorkbench } : {}),
+    ...(needMeasurement ? { needMeasurement } : {}),
+    ...(supplySelection ? { supplySelection } : {}),
+    ...(repositoryAnchor ? { repositoryAnchor } : {}),
+  };
+}
+
 function readFinalWorkSummary(run: Record<string, unknown>) {
   if (isRecord(run.output) && isRecord(run.output.final_work_summary)) return run.output.final_work_summary;
   if (isRecord(run.output_data) && isRecord(run.output_data.final_work_summary)) return run.output_data.final_work_summary;
@@ -316,6 +494,7 @@ export function buildApplicationRunDetailFromSelectedRun(
     closureFocus: selectedRun.closureFocus || null,
     closureFollowThrough: null,
     closureState: null,
+    bitcodeActivityState: null,
     historyItemCount: selectedRun.itemCount || 0,
     eventCount: 0,
   };
@@ -341,6 +520,8 @@ export function normalizeApplicationRunDetailPayload(
   const closureFollowThrough =
     coerceClosureFollowThrough(finalWorkSummary?.closureFollowThrough) || base.closureFollowThrough;
   const closureState = coerceClosureState(finalWorkSummary?.closurePanels) || base.closureState;
+  const bitcodeActivityState =
+    coerceBitcodeActivityState(finalWorkSummary?.bitcodeActivityState) || base.bitcodeActivityState;
   const runProcessingStats = coerceProcessingStats(run.processing_stats);
   const finalWorkSummaryProcessingStats = coerceProcessingStats(finalWorkSummary?.processingStats);
   const hasRunProcessingStats =
@@ -366,6 +547,7 @@ export function normalizeApplicationRunDetailPayload(
     closureFocus: base.closureFocus,
     closureFollowThrough,
     closureState,
+    bitcodeActivityState,
     historyItemCount: Array.isArray(run.items) ? run.items.length : base.historyItemCount,
     eventCount: Array.isArray((payload as ApplicationRunHistoryPayload).events)
       ? (payload as ApplicationRunHistoryPayload).events!.length

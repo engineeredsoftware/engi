@@ -136,6 +136,7 @@ export default function ApplicationTransactionDetailSurface({
       processingStats: detail?.processingStats || null,
       proofStatus: detail?.proofStatus || selectedRun.proofStatus || null,
       closureFocus: detail?.closureFocus || selectedRun.closureFocus || null,
+      bitcodeActivityState: detail?.bitcodeActivityState || null,
       historyItemCount: detail?.historyItemCount ?? selectedRun.itemCount ?? 0,
       eventCount: detail?.eventCount ?? 0,
     }),
@@ -376,6 +377,7 @@ export default function ApplicationTransactionDetailSurface({
         <div id="applicationTransactionActivity">
           <ApplicationTransactionActivitySurface
             selectedRun={selectedRun}
+            detail={detail}
             transactionDataMode={transactionDataMode}
           />
         </div>

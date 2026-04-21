@@ -278,6 +278,18 @@ describe('application-activity-history', () => {
       selectedEntryLabels: ['rollback runbook', 'issuer patch'],
       artifactKinds: ['runbook (1)', 'patch (1)'],
     });
+    expect(draft.output).toMatchObject({
+      finalWorkSummary: {
+        bitcodeActivityState: {
+          giveWorkbench: {
+            canonLabel: 'Bitcode active posture',
+            projectionPrincipal: 'giver',
+            scenarioLabel: 'auth-remediation',
+            profileLabel: 'Targeted deposit',
+          },
+        },
+      },
+    });
   });
 
   it('builds need-measurement drafts from the active scenario state', () => {
@@ -307,6 +319,18 @@ describe('application-activity-history', () => {
         parserKind: 'benchmark-parser',
         closureCriteriaCount: 2,
         targetKindCount: 3,
+      },
+      finalWorkSummary: {
+        bitcodeActivityState: {
+          needMeasurement: {
+            parserKind: 'benchmark-parser',
+            closureCriteriaCount: 2,
+            targetKindCount: 3,
+            scenario: {
+              label: 'auth-remediation',
+            },
+          },
+        },
       },
     });
   });
@@ -376,10 +400,34 @@ describe('application-activity-history', () => {
       selectedKind: 'all',
       searchTerm: 'auth',
     });
+    expect(selectionDraft.output).toMatchObject({
+      finalWorkSummary: {
+        bitcodeActivityState: {
+          supplySelection: {
+            authSessionLabel: 'bitcode/terminal · 42',
+            selectedCount: 2,
+            selectedEntries: [
+              { id: 'entry-1', title: 'rollback runbook', kind: 'runbook' },
+              { id: 'entry-2', title: 'issuer patch', kind: 'patch' },
+            ],
+          },
+        },
+      },
+    });
     expect(fitDraft).toMatchObject({
       type: 'agentic-execution:proof-refresh',
       detailSection: 'closure',
       summary: 'Recorded asset-pack fit and settlement posture for auth-remediation.',
+    });
+    expect(fitDraft.output).toMatchObject({
+      finalWorkSummary: {
+        bitcodeActivityState: {
+          fitWorkbench: {
+            projectionPrincipal: 'needer',
+            scenarioLabel: 'auth-remediation',
+          },
+        },
+      },
     });
   });
 
@@ -426,6 +474,18 @@ describe('application-activity-history', () => {
         repository: {
           fullName: 'bitcode/terminal',
           defaultBranch: 'main',
+        },
+      },
+      finalWorkSummary: {
+        bitcodeActivityState: {
+          repositoryAnchor: {
+            provider: 'github',
+            providerAccount: 'bitcode',
+            repository: {
+              fullName: 'bitcode/terminal',
+              defaultBranch: 'main',
+            },
+          },
         },
       },
     });
