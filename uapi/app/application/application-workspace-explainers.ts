@@ -4,6 +4,19 @@ function buildExplainer(explainer: BitcodeExplainer): BitcodeExplainer {
   return explainer;
 }
 
+const APPLICATION_CANON_REFS = [
+  'BITCODE_SPEC_V26.md § Fifth-gate exhaustive acceptance matrix',
+  'BITCODE_SPEC_V26.md § Fifth-gate closure work packages',
+  'BITCODE_SPEC_V26_PARITY_MATRIX.md § Fifth-gate exhaustive acceptance parity matrix',
+] as const;
+
+const TERMINAL_SOURCE_REFS = [
+  'uapi/app/application/ApplicationPageClient.tsx',
+  'uapi/app/application/application-activity-history.ts',
+  'uapi/components/base/bitcode/execution/BitcodeInlineExplainer.tsx',
+  'protocol-demonstration/public/app.js',
+] as const;
+
 export const APPLICATION_SURFACE_EXPLAINERS = {
   experienceMap: buildExplainer({
     kicker: 'Bitcode Terminal read model',
@@ -17,6 +30,16 @@ export const APPLICATION_SURFACE_EXPLAINERS = {
       'Treats conversations and Auxillaries as deliberate follow-through modes',
       'Keeps Give and Need legible as the two primary actions',
     ],
+    references: {
+      source: [
+        ...TERMINAL_SOURCE_REFS,
+        'uapi/app/application/ApplicationExperienceFrame.tsx',
+      ],
+      canon: [
+        ...APPLICATION_CANON_REFS,
+        'BITCODE_SPEC_V26.md § Fifth-gate minimum-functional north star',
+      ],
+    },
   }),
   controls: buildExplainer({
     kicker: 'Flow control posture',
@@ -30,6 +53,14 @@ export const APPLICATION_SURFACE_EXPLAINERS = {
       'Scenario, projection, and branch mode remain explicit',
       'Closure control stays adjacent to the active working posture',
     ],
+    references: {
+      source: [
+        ...TERMINAL_SOURCE_REFS,
+        'uapi/app/application/ApplicationCommandDeck.tsx',
+        'uapi/app/application/ApplicationFlowGuideCard.tsx',
+      ],
+      canon: APPLICATION_CANON_REFS,
+    },
   }),
   needScenarios: buildExplainer({
     kicker: 'Need measurement',
@@ -43,6 +74,14 @@ export const APPLICATION_SURFACE_EXPLAINERS = {
       'Makes scenario switching part of the Bitcode Terminal',
       'Preserves continuity into fit and closure reading',
     ],
+    references: {
+      source: [
+        ...TERMINAL_SOURCE_REFS,
+        'uapi/app/application/ApplicationNeedScenarioPanel.tsx',
+        'uapi/app/application/application-need-scenarios.ts',
+      ],
+      canon: APPLICATION_CANON_REFS,
+    },
   }),
   supplyInventory: buildExplainer({
     kicker: 'Give-side inventory',
@@ -56,6 +95,14 @@ export const APPLICATION_SURFACE_EXPLAINERS = {
       'Makes selected inventory explicit before deposit drafting',
       'Preserves continuity into the give draft instead of forcing context rebuilds',
     ],
+    references: {
+      source: [
+        ...TERMINAL_SOURCE_REFS,
+        'uapi/app/application/ApplicationSupplySelectionPanel.tsx',
+        'uapi/app/application/application-supply-selection.ts',
+      ],
+      canon: APPLICATION_CANON_REFS,
+    },
   }),
   depositComposer: buildExplainer({
     kicker: 'Give-side intake',
@@ -69,6 +116,14 @@ export const APPLICATION_SURFACE_EXPLAINERS = {
       'Keeps selected supply and issuer continuity visible',
       'Feeds directly into fit, proof, and settlement follow-through',
     ],
+    references: {
+      source: [
+        ...TERMINAL_SOURCE_REFS,
+        'uapi/app/application/ApplicationDepositComposer.tsx',
+        'uapi/app/api/deposits/route.ts',
+      ],
+      canon: APPLICATION_CANON_REFS,
+    },
   }),
   giveNeedChain: buildExplainer({
     kicker: 'Operating chain',
@@ -82,6 +137,14 @@ export const APPLICATION_SURFACE_EXPLAINERS = {
       'Makes asset-pack fit legible before proof and settlement',
       'Supports quick orientation before opening the exact proof view',
     ],
+    references: {
+      source: [
+        ...TERMINAL_SOURCE_REFS,
+        'uapi/app/application/ApplicationGiveNeedWorkbench.tsx',
+        'uapi/app/application/ApplicationActionWorkbenchCard.tsx',
+      ],
+      canon: APPLICATION_CANON_REFS,
+    },
   }),
   closureControls: buildExplainer({
     kicker: 'Closure operation',
@@ -95,6 +158,14 @@ export const APPLICATION_SURFACE_EXPLAINERS = {
       'Makes refresh and reset explicit instead of hidden',
       'Preserves continuity into verification, branch, settlement, and ledger reads',
     ],
+    references: {
+      source: [
+        ...TERMINAL_SOURCE_REFS,
+        'uapi/app/application/ApplicationClosureControlDeck.tsx',
+        'uapi/app/application/application-closure-controls.ts',
+      ],
+      canon: APPLICATION_CANON_REFS,
+    },
   }),
   closureMap: buildExplainer({
     kicker: 'Closure reading',
@@ -108,6 +179,14 @@ export const APPLICATION_SURFACE_EXPLAINERS = {
       'Brings proof and history closer to the Bitcode Terminal',
       'Makes exact-detail reads deliberate instead of mandatory',
     ],
+    references: {
+      source: [
+        ...TERMINAL_SOURCE_REFS,
+        'uapi/app/application/ApplicationTransactionDetailSurface.tsx',
+        'uapi/app/application/application-transaction-detail-snapshot.ts',
+      ],
+      canon: APPLICATION_CANON_REFS,
+    },
   }),
   ledgerPulse: buildExplainer({
     kicker: 'At-a-glance read',
@@ -120,6 +199,13 @@ export const APPLICATION_SURFACE_EXPLAINERS = {
       'Keeps high-signal posture close to the ledger',
       'Separates quick reading from deep inspection',
     ],
+    references: {
+      source: [
+        ...TERMINAL_SOURCE_REFS,
+        'uapi/app/application/ApplicationTransactionActivitySurface.tsx',
+      ],
+      canon: APPLICATION_CANON_REFS,
+    },
   }),
   boundaryRuntime: buildExplainer({
     kicker: 'Boundary honesty',
@@ -133,6 +219,17 @@ export const APPLICATION_SURFACE_EXPLAINERS = {
       'Keeps modeled and live states separate',
       'Supports trust before deeper review',
     ],
+    references: {
+      source: [
+        ...TERMINAL_SOURCE_REFS,
+        'uapi/app/application/ApplicationExternalInterfacingPanel.tsx',
+        'uapi/app/auxillaries/components/AuxillariesConnectsPane.tsx',
+      ],
+      canon: [
+        ...APPLICATION_CANON_REFS,
+        'BITCODE_SPEC_V26.md § Auxillaries transactional readiness',
+      ],
+    },
   }),
   activityMap: buildExplainer({
     kicker: 'Section navigation',
@@ -145,6 +242,13 @@ export const APPLICATION_SURFACE_EXPLAINERS = {
       'Supports quick section discovery',
       'Keeps exact-detail navigation legible',
     ],
+    references: {
+      source: [
+        ...TERMINAL_SOURCE_REFS,
+        'uapi/app/application/ApplicationTransactionWorkspace.tsx',
+      ],
+      canon: APPLICATION_CANON_REFS,
+    },
   }),
   repositorySupply: buildExplainer({
     kicker: 'Give-side source',
@@ -158,6 +262,17 @@ export const APPLICATION_SURFACE_EXPLAINERS = {
       'Keeps provider posture visible',
       'Supports continuing straight into deposit and need',
     ],
+    references: {
+      source: [
+        ...TERMINAL_SOURCE_REFS,
+        'uapi/app/application/ApplicationRepositoryContextPanel.tsx',
+        'uapi/app/application/application-repository-context.ts',
+      ],
+      canon: [
+        ...APPLICATION_CANON_REFS,
+        'BITCODE_SPEC_V26.md § Repository and VCS boundary',
+      ],
+    },
   }),
   supplyFit: buildExplainer({
     kicker: 'Give and need map',
@@ -171,6 +286,13 @@ export const APPLICATION_SURFACE_EXPLAINERS = {
       'Need stays tied to measured demand',
       'Fit stays explicit before proof and settlement',
     ],
+    references: {
+      source: [
+        ...TERMINAL_SOURCE_REFS,
+        'uapi/app/application/ApplicationGiveNeedWorkbench.tsx',
+      ],
+      canon: APPLICATION_CANON_REFS,
+    },
   }),
   sourcePath: buildExplainer({
     kicker: 'Closure runtime',
@@ -183,6 +305,14 @@ export const APPLICATION_SURFACE_EXPLAINERS = {
       'Supports deep proof and flow inspection',
       'Keeps the Bitcode Terminal uncluttered',
     ],
+    references: {
+      source: [
+        ...TERMINAL_SOURCE_REFS,
+        'uapi/app/application/ApplicationTransactionDetailSurface.tsx',
+        'uapi/app/application/ApplicationSourcePathPanel.tsx',
+      ],
+      canon: APPLICATION_CANON_REFS,
+    },
   }),
   railModes: buildExplainer({
     kicker: 'Reading modes',
@@ -196,6 +326,13 @@ export const APPLICATION_SURFACE_EXPLAINERS = {
       'Avoids splitting attention away from the activity ledger',
       'Preserves orientation when switching modes',
     ],
+    references: {
+      source: [
+        ...TERMINAL_SOURCE_REFS,
+        'uapi/app/application/ApplicationSupportRail.tsx',
+      ],
+      canon: APPLICATION_CANON_REFS,
+    },
   }),
   railSupport: buildExplainer({
     kicker: 'Support context',
@@ -209,6 +346,13 @@ export const APPLICATION_SURFACE_EXPLAINERS = {
       'Keeps the main reading surface primary',
       'Makes selected activity context easy to recover',
     ],
+    references: {
+      source: [
+        ...TERMINAL_SOURCE_REFS,
+        'uapi/app/application/ApplicationSupportRail.tsx',
+      ],
+      canon: APPLICATION_CANON_REFS,
+    },
   }),
   railFocus: buildExplainer({
     kicker: 'Selected detail anchor',
@@ -222,7 +366,260 @@ export const APPLICATION_SURFACE_EXPLAINERS = {
       'Keeps the active activity obvious',
       'Supports resumable work',
     ],
+    references: {
+      source: [
+        ...TERMINAL_SOURCE_REFS,
+        'uapi/app/application/ApplicationSupportRail.tsx',
+        'uapi/app/application/ApplicationSelectedActivityCard.tsx',
+      ],
+      canon: APPLICATION_CANON_REFS,
+    },
   }),
 } as const;
 
 export const APPLICATION_WORKSPACE_EXPLAINERS = APPLICATION_SURFACE_EXPLAINERS;
+
+export const APPLICATION_INLINE_EXPLAINERS = {
+  readWindow: buildExplainer({
+    title: 'Read window',
+    summary:
+      'The main Bitcode Terminal read window is the activity ledger plus selected detail, not a generic dashboard tile.',
+    detail:
+      'Keep the master-detail read loop centered here. Deeper proof, conversation, and auxillary surfaces should remain deliberate follow-through rather than parallel primaries.',
+    references: {
+      source: [
+        'uapi/app/application/ApplicationExperienceFrame.tsx',
+        ...TERMINAL_SOURCE_REFS,
+      ],
+      canon: APPLICATION_CANON_REFS,
+    },
+  }),
+  writePosture: buildExplainer({
+    title: 'Write posture',
+    summary:
+      'Give, need, and transactional follow-through are the active write posture of the Bitcode Terminal.',
+    detail:
+      'This is where click-based and chat-based write paths meet. Conversations can draft, but the ledger-facing write posture still belongs to give, need, deposit, branch, and closure.',
+    references: {
+      source: [
+        'uapi/app/application/ApplicationExperienceFrame.tsx',
+        'uapi/app/conversations/components/ConversationsOverlay.tsx',
+        ...TERMINAL_SOURCE_REFS,
+      ],
+      canon: APPLICATION_CANON_REFS,
+    },
+  }),
+  scenario: buildExplainer({
+    title: 'Scenario',
+    summary:
+      'Scenario chooses the currently measured need or operating frame that the rest of the Bitcode flow should honor.',
+    detail:
+      'Changing the scenario should immediately change what give, fit, branch, and closure are reasoning against. It is not a cosmetic filter.',
+    references: {
+      source: [
+        'uapi/app/application/ApplicationCommandDeck.tsx',
+        'uapi/app/application/ApplicationNeedScenarioPanel.tsx',
+      ],
+      canon: APPLICATION_CANON_REFS,
+    },
+  }),
+  projection: buildExplainer({
+    title: 'Projection',
+    summary:
+      'Projection determines how the current Bitcode flow is read and staged before materialization.',
+    detail:
+      'It keeps the operator honest about whether the terminal is previewing, staging, or readying a stronger materialized posture.',
+    references: {
+      source: ['uapi/app/application/ApplicationCommandDeck.tsx'],
+      canon: APPLICATION_CANON_REFS,
+    },
+  }),
+  branchMode: buildExplainer({
+    title: 'Branch mode',
+    summary:
+      'Branch mode sets the exact branch-artifact execution posture that the terminal will materialize when you commit the flow.',
+    detail:
+      'This keeps branch creation as a visible Bitcode decision with direct settlement and proof consequences instead of a hidden runtime default.',
+    references: {
+      source: [
+        'uapi/app/application/ApplicationCommandDeck.tsx',
+        'uapi/app/application/ApplicationClosureControlDeck.tsx',
+      ],
+      canon: APPLICATION_CANON_REFS,
+    },
+  }),
+  transactionReadiness: buildExplainer({
+    title: 'Transaction readiness',
+    summary:
+      'Transaction readiness is the shared operator contract for wallet, repository scope, identity, and anchor posture.',
+    detail:
+      'When readiness is incomplete, review continuity can stay open but branch, deposit, and closure should fail closed. This explainer should always describe the exact blocker set.',
+    references: {
+      source: [
+        'uapi/app/application/bitcode-transaction-readiness.ts',
+        'uapi/app/application/ApplicationCommandDeck.tsx',
+        'uapi/app/application/ApplicationDepositComposer.tsx',
+        'uapi/app/application/ApplicationClosureControlDeck.tsx',
+        'uapi/app/auxillaries/components/AuxillariesConnectsPane.tsx',
+      ],
+      canon: [
+        ...APPLICATION_CANON_REFS,
+        'BITCODE_SPEC_V26.md § Wallet and signed transaction posture',
+      ],
+    },
+  }),
+  providerRepository: buildExplainer({
+    title: 'Provider and repository',
+    summary:
+      'This is the give-side boundary selector for the repository supply that Bitcode can actually work against.',
+    detail:
+      'Provider and repository are not incidental settings. They determine the source perimeter for searchable supply, deposit provenance, and later signed transaction follow-through.',
+    references: {
+      source: [
+        'uapi/app/application/ApplicationRepositoryContextPanel.tsx',
+        'uapi/app/application/application-repository-context.ts',
+      ],
+      canon: APPLICATION_CANON_REFS,
+    },
+  }),
+  repositoryAnchor: buildExplainer({
+    title: 'Record repository anchor',
+    summary:
+      'Recording the repository anchor writes the selected source perimeter into the Bitcode activity ledger.',
+    detail:
+      'This keeps source posture rereadable in the Bitcode activity ledger alongside give, need, proof, and settlement instead of leaving the repository choice as ephemeral UI state.',
+    references: {
+      source: [
+        'uapi/app/application/ApplicationRepositoryContextPanel.tsx',
+        'uapi/app/application/application-activity-history.ts',
+      ],
+      canon: APPLICATION_CANON_REFS,
+    },
+  }),
+  authSession: buildExplainer({
+    title: 'Auth session',
+    summary:
+      'The auth session is the current repo-bound execution identity for give-side supply selection.',
+    detail:
+      'Changing the session changes which authenticated inventory Bitcode can read and later cite in deposit and branch records.',
+    references: {
+      source: [
+        'uapi/app/application/ApplicationSupplySelectionPanel.tsx',
+        'uapi/app/application/application-supply-selection.ts',
+      ],
+      canon: APPLICATION_CANON_REFS,
+    },
+  }),
+  artifactKind: buildExplainer({
+    title: 'Artifact kind',
+    summary:
+      'Artifact kind narrows the give-side inventory to the kinds of share candidates you actually want to work with.',
+    detail:
+      'It should help the operator shape the selected supply set before deposit, not act as hidden backend filtering.',
+    references: {
+      source: [
+        'uapi/app/application/ApplicationSupplySelectionPanel.tsx',
+        'uapi/app/application/ApplicationDepositComposer.tsx',
+      ],
+      canon: APPLICATION_CANON_REFS,
+    },
+  }),
+  inventorySearch: buildExplainer({
+    title: 'Inventory search',
+    summary:
+      'Inventory search is the fast path for narrowing repository supply inside the Bitcode Terminal.',
+    detail:
+      'It should preserve continuity with repository anchor and selected supply so the operator can move from search straight into give without rebuilding context.',
+    references: {
+      source: [
+        'uapi/app/application/ApplicationSupplySelectionPanel.tsx',
+      ],
+      canon: APPLICATION_CANON_REFS,
+    },
+  }),
+  activeNeed: buildExplainer({
+    title: 'Record active need',
+    summary:
+      'Recording the active need writes the currently measured demand frame into the Bitcode activity ledger.',
+    detail:
+      'This makes the selected need rereadable from the same master-detail system that later shows fit, proof, and settlement.',
+    references: {
+      source: [
+        'uapi/app/application/ApplicationNeedScenarioPanel.tsx',
+        'uapi/app/application/application-activity-history.ts',
+      ],
+      canon: APPLICATION_CANON_REFS,
+    },
+  }),
+  sourceRepo: buildExplainer({
+    title: 'Source repo',
+    summary:
+      'Source repo keeps deposit provenance and repository anchor aligned when a draft needs an explicit repo override.',
+    detail:
+      'Use it only when the deposit must name a more exact repo boundary than the current selection already provides.',
+    references: {
+      source: [
+        'uapi/app/application/ApplicationDepositComposer.tsx',
+        'uapi/app/application/ApplicationRepositoryContextPanel.tsx',
+      ],
+      canon: APPLICATION_CANON_REFS,
+    },
+  }),
+  sourceCommit: buildExplainer({
+    title: 'Source commit / ref',
+    summary:
+      'Source commit or ref pins the give-side deposit to a concrete revision when provenance must be exact.',
+    detail:
+      'This is one of the operator-visible bridges between repository posture, deposit materialization, and later proof or settlement follow-through.',
+    references: {
+      source: ['uapi/app/application/ApplicationDepositComposer.tsx'],
+      canon: APPLICATION_CANON_REFS,
+    },
+  }),
+  signerAddress: buildExplainer({
+    title: 'Signer address',
+    summary:
+      'Signer address ties the deposit posture to the wallet-connected identity expected for signed Bitcode transactions.',
+    detail:
+      'It is a readiness-bearing field, not free metadata. Once signed transaction closure lands fully, this field remains part of the operator-visible provenance chain.',
+    references: {
+      source: [
+        'uapi/app/application/ApplicationDepositComposer.tsx',
+        'uapi/app/application/bitcode-transaction-readiness.ts',
+      ],
+      canon: [
+        ...APPLICATION_CANON_REFS,
+        'BITCODE_SPEC_V26.md § Wallet and signed transaction posture',
+      ],
+    },
+  }),
+  depositSubmission: buildExplainer({
+    title: 'Deposit into Bitcode',
+    summary:
+      'Deposit submission should bind selected supply, provenance, and optional raw content into the same Bitcode activity chain.',
+    detail:
+      'The operator should be able to submit, reread the ledger row, and continue into fit and closure without leaving the Bitcode Terminal model.',
+    references: {
+      source: [
+        'uapi/app/application/ApplicationDepositComposer.tsx',
+        'uapi/app/api/deposits/route.ts',
+        'uapi/app/application/application-activity-history.ts',
+      ],
+      canon: APPLICATION_CANON_REFS,
+    },
+  }),
+  closureAction: buildExplainer({
+    title: 'Closure action',
+    summary:
+      'Closure action is the visible bridge from review posture into verification, branch, settlement, and ledger follow-through.',
+    detail:
+      'It should remain adjacent to status, readiness, and closure follow-through links so the operator always understands what the next write will do.',
+    references: {
+      source: [
+        'uapi/app/application/ApplicationClosureControlDeck.tsx',
+        'uapi/app/application/application-closure-controls.ts',
+      ],
+      canon: APPLICATION_CANON_REFS,
+    },
+  }),
+} as const;

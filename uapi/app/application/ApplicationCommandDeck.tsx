@@ -2,13 +2,18 @@
 
 import { useMemo, useState } from 'react';
 
+import BitcodeInlineExplainer from '@/components/base/bitcode/execution/BitcodeInlineExplainer';
+
 import ApplicationWorkspaceCard from './ApplicationWorkspaceCard';
 import {
   buildApplicationClosureFinalWorkSummary,
   readApplicationRouteError,
   type ApplicationActivityRecordDraft,
 } from './application-activity-history';
-import { APPLICATION_WORKSPACE_EXPLAINERS } from './application-workspace-explainers';
+import {
+  APPLICATION_INLINE_EXPLAINERS,
+  APPLICATION_WORKSPACE_EXPLAINERS,
+} from './application-workspace-explainers';
 import { APPLICATION_ACTIONS } from './application-experience-architecture';
 import { APPLICATION_SHELL_SECTIONS } from './application-shell-sections';
 import {
@@ -165,8 +170,11 @@ export default function ApplicationCommandDeck({
       <div className="mt-6 grid gap-6 xl:grid-cols-[minmax(0,1.35fr)_minmax(20rem,0.65fr)]">
         <div className="space-y-5">
           <div className="grid gap-4 lg:grid-cols-3">
-            <label className="rounded-[1.5rem] border border-white/8 bg-black/20 px-4 py-4">
-              <span className="text-[0.66rem] uppercase tracking-[0.24em] text-neutral-400">Scenario</span>
+            <div className="rounded-[1.5rem] border border-white/8 bg-black/20 px-4 py-4">
+              <span className="flex items-center gap-2 text-[0.66rem] uppercase tracking-[0.24em] text-neutral-400">
+                <span>Scenario</span>
+                <BitcodeInlineExplainer explainer={APPLICATION_INLINE_EXPLAINERS.scenario} />
+              </span>
               <select
                 value={scenario}
                 onChange={(event) => {
@@ -185,10 +193,13 @@ export default function ApplicationCommandDeck({
                   <option value="">Waiting for shell…</option>
                 )}
               </select>
-            </label>
+            </div>
 
-            <label className="rounded-[1.5rem] border border-white/8 bg-black/20 px-4 py-4">
-              <span className="text-[0.66rem] uppercase tracking-[0.24em] text-neutral-400">Projection</span>
+            <div className="rounded-[1.5rem] border border-white/8 bg-black/20 px-4 py-4">
+              <span className="flex items-center gap-2 text-[0.66rem] uppercase tracking-[0.24em] text-neutral-400">
+                <span>Projection</span>
+                <BitcodeInlineExplainer explainer={APPLICATION_INLINE_EXPLAINERS.projection} />
+              </span>
               <select
                 value={projection}
                 onChange={(event) => {
@@ -207,10 +218,13 @@ export default function ApplicationCommandDeck({
                   <option value="">Waiting for shell…</option>
                 )}
               </select>
-            </label>
+            </div>
 
-            <label className="rounded-[1.5rem] border border-white/8 bg-black/20 px-4 py-4">
-              <span className="text-[0.66rem] uppercase tracking-[0.24em] text-neutral-400">Branch mode</span>
+            <div className="rounded-[1.5rem] border border-white/8 bg-black/20 px-4 py-4">
+              <span className="flex items-center gap-2 text-[0.66rem] uppercase tracking-[0.24em] text-neutral-400">
+                <span>Branch mode</span>
+                <BitcodeInlineExplainer explainer={APPLICATION_INLINE_EXPLAINERS.branchMode} />
+              </span>
               <select
                 value={branchMode}
                 onChange={(event) => {
@@ -229,7 +243,7 @@ export default function ApplicationCommandDeck({
                   <option value="">Waiting for shell…</option>
                 )}
               </select>
-            </label>
+            </div>
           </div>
 
           <div className="grid gap-3 lg:grid-cols-3">
@@ -274,9 +288,15 @@ export default function ApplicationCommandDeck({
           ) : null}
 
           <div className={`rounded-[1.3rem] border px-4 py-4 text-sm leading-6 ${readinessTone}`}>
-            <p className="text-[0.66rem] uppercase tracking-[0.18em] text-current/80">
-              Transaction readiness
-            </p>
+            <div className="flex items-center gap-2">
+              <p className="text-[0.66rem] uppercase tracking-[0.18em] text-current/80">
+                Transaction readiness
+              </p>
+              <BitcodeInlineExplainer
+                explainer={APPLICATION_INLINE_EXPLAINERS.transactionReadiness}
+                triggerClassName="h-4.5 w-4.5 border-current/20 bg-current/10 text-[0.58rem] text-current"
+              />
+            </div>
             <p className="mt-2 text-current">{transactionReadiness.summary}</p>
             {transactionReadiness.blockers.length ? (
               <p className="mt-3 text-xs uppercase tracking-[0.16em] text-current/80">
@@ -286,7 +306,10 @@ export default function ApplicationCommandDeck({
           </div>
 
           <div className="rounded-[1.5rem] border border-white/8 bg-black/20 px-5 py-5">
-            <p className="text-[0.68rem] uppercase tracking-[0.24em] text-neutral-400">Jump links</p>
+            <div className="flex items-center gap-2">
+              <p className="text-[0.68rem] uppercase tracking-[0.24em] text-neutral-400">Jump links</p>
+              <BitcodeInlineExplainer explainer={APPLICATION_WORKSPACE_EXPLAINERS.activityMap} />
+            </div>
             <div className="mt-4 flex flex-wrap gap-2">
               {APPLICATION_ACTIONS.map((action) => (
                 <button

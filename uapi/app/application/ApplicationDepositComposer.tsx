@@ -3,6 +3,7 @@
 import { useEffect, useMemo, useState } from 'react';
 
 import BitcodeChipCloud from '@/components/base/bitcode/execution/BitcodeChipCloud';
+import BitcodeInlineExplainer from '@/components/base/bitcode/execution/BitcodeInlineExplainer';
 import BitcodeMetricGrid from '@/components/base/bitcode/execution/BitcodeMetricGrid';
 
 import ApplicationWorkspaceCard from './ApplicationWorkspaceCard';
@@ -10,7 +11,10 @@ import {
   type ApplicationActivityRecordDraft,
   readApplicationRouteError,
 } from './application-activity-history';
-import { APPLICATION_WORKSPACE_EXPLAINERS } from './application-workspace-explainers';
+import {
+  APPLICATION_INLINE_EXPLAINERS,
+  APPLICATION_WORKSPACE_EXPLAINERS,
+} from './application-workspace-explainers';
 import {
   normalizeApplicationDepositComposer,
   type ApplicationDepositComposerState,
@@ -243,25 +247,31 @@ export default function ApplicationDepositComposer({
               />
             </label>
 
-            <label className="rounded-[1.5rem] border border-white/8 bg-black/20 px-4 py-4">
-              <span className="text-[0.66rem] uppercase tracking-[0.24em] text-neutral-400">Source repo</span>
+            <div className="rounded-[1.5rem] border border-white/8 bg-black/20 px-4 py-4">
+              <span className="flex items-center gap-2 text-[0.66rem] uppercase tracking-[0.24em] text-neutral-400">
+                <span>Source repo</span>
+                <BitcodeInlineExplainer explainer={APPLICATION_INLINE_EXPLAINERS.sourceRepo} />
+              </span>
               <input
                 value={sourceRepo}
                 onChange={(event) => setSourceRepo(event.target.value)}
                 placeholder="repo boundary override"
                 className="mt-3 w-full rounded-xl border border-white/10 bg-[rgba(10,15,30,0.88)] px-3 py-3 text-sm text-white outline-none transition placeholder:text-neutral-500 focus:border-emerald-400/40"
               />
-            </label>
+            </div>
 
-            <label className="rounded-[1.5rem] border border-white/8 bg-black/20 px-4 py-4">
-              <span className="text-[0.66rem] uppercase tracking-[0.24em] text-neutral-400">Source commit / ref</span>
+            <div className="rounded-[1.5rem] border border-white/8 bg-black/20 px-4 py-4">
+              <span className="flex items-center gap-2 text-[0.66rem] uppercase tracking-[0.24em] text-neutral-400">
+                <span>Source commit / ref</span>
+                <BitcodeInlineExplainer explainer={APPLICATION_INLINE_EXPLAINERS.sourceCommit} />
+              </span>
               <input
                 value={sourceCommit}
                 onChange={(event) => setSourceCommit(event.target.value)}
                 placeholder="commit or branch override"
                 className="mt-3 w-full rounded-xl border border-white/10 bg-[rgba(10,15,30,0.88)] px-3 py-3 text-sm text-white outline-none transition placeholder:text-neutral-500 focus:border-emerald-400/40"
               />
-            </label>
+            </div>
 
             <label className="rounded-[1.5rem] border border-white/8 bg-black/20 px-4 py-4">
               <span className="text-[0.66rem] uppercase tracking-[0.24em] text-neutral-400">Workflow run override</span>
@@ -273,15 +283,18 @@ export default function ApplicationDepositComposer({
               />
             </label>
 
-            <label className="rounded-[1.5rem] border border-white/8 bg-black/20 px-4 py-4">
-              <span className="text-[0.66rem] uppercase tracking-[0.24em] text-neutral-400">Signer address</span>
+            <div className="rounded-[1.5rem] border border-white/8 bg-black/20 px-4 py-4">
+              <span className="flex items-center gap-2 text-[0.66rem] uppercase tracking-[0.24em] text-neutral-400">
+                <span>Signer address</span>
+                <BitcodeInlineExplainer explainer={APPLICATION_INLINE_EXPLAINERS.signerAddress} />
+              </span>
               <input
                 value={signerAddress}
                 onChange={(event) => setSignerAddress(event.target.value)}
                 placeholder="signer address"
                 className="mt-3 w-full rounded-xl border border-white/10 bg-[rgba(10,15,30,0.88)] px-3 py-3 text-sm text-white outline-none transition placeholder:text-neutral-500 focus:border-emerald-400/40"
               />
-            </label>
+            </div>
           </div>
 
           <label className="rounded-[1.5rem] border border-white/8 bg-black/20 px-4 py-4">
@@ -330,6 +343,10 @@ export default function ApplicationDepositComposer({
           </div>
 
           <div className="flex flex-wrap gap-3">
+            <div className="flex items-center gap-2 rounded-full border border-white/8 bg-white/5 px-3 py-2 text-[0.66rem] uppercase tracking-[0.2em] text-neutral-300">
+              <span>Submission</span>
+              <BitcodeInlineExplainer explainer={APPLICATION_INLINE_EXPLAINERS.depositSubmission} />
+            </div>
             <button
               type="submit"
               disabled={!canSubmit || submitState.kind === 'submitting'}
@@ -369,9 +386,15 @@ export default function ApplicationDepositComposer({
                 : 'border-amber-400/25 bg-amber-400/10 text-amber-100'
             }`}
           >
-            <p className="text-[0.68rem] uppercase tracking-[0.24em] text-current/80">
-              Transaction readiness
-            </p>
+            <div className="flex items-center gap-2">
+              <p className="text-[0.68rem] uppercase tracking-[0.24em] text-current/80">
+                Transaction readiness
+              </p>
+              <BitcodeInlineExplainer
+                explainer={APPLICATION_INLINE_EXPLAINERS.transactionReadiness}
+                triggerClassName="h-4.5 w-4.5 border-current/20 bg-current/10 text-[0.58rem] text-current"
+              />
+            </div>
             <p className="mt-3 text-current">{transactionReadiness.summary}</p>
             {transactionReadiness.blockers.length ? (
               <p className="mt-3 text-xs uppercase tracking-[0.16em] text-current/80">

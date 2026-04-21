@@ -2,6 +2,7 @@
 
 import { useMemo, useState } from 'react';
 
+import BitcodeInlineExplainer from '@/components/base/bitcode/execution/BitcodeInlineExplainer';
 import BitcodeMetricGrid from '@/components/base/bitcode/execution/BitcodeMetricGrid';
 
 import ApplicationWorkspaceCard from './ApplicationWorkspaceCard';
@@ -9,7 +10,10 @@ import {
   buildApplicationNeedMeasurementDraft,
   type ApplicationActivityRecordDraft,
 } from './application-activity-history';
-import { APPLICATION_WORKSPACE_EXPLAINERS } from './application-workspace-explainers';
+import {
+  APPLICATION_INLINE_EXPLAINERS,
+  APPLICATION_WORKSPACE_EXPLAINERS,
+} from './application-workspace-explainers';
 import {
   normalizeApplicationNeedScenarios,
   type ApplicationNeedScenariosState,
@@ -92,6 +96,10 @@ export default function ApplicationNeedScenarioPanel({ onRecordActivity }: Appli
       ) : null}
 
       <div className="mt-6 flex flex-wrap gap-3">
+        <div className="flex items-center gap-2 rounded-full border border-white/8 bg-white/5 px-3 py-2 text-[0.66rem] uppercase tracking-[0.2em] text-neutral-300">
+          <span>Ledger write</span>
+          <BitcodeInlineExplainer explainer={APPLICATION_INLINE_EXPLAINERS.activeNeed} />
+        </div>
         <button
           type="button"
           disabled={isRecording}

@@ -4,24 +4,25 @@ import { render, screen } from '@testing-library/react';
 import BitcodeInlineExplainer from '@/components/base/bitcode/execution/BitcodeInlineExplainer';
 
 describe('BitcodeInlineExplainer', () => {
-  it('renders an accessible explainer trigger with tooltip content', () => {
+  it('renders current source and current canon reference groups', () => {
     render(
       <BitcodeInlineExplainer
         explainer={{
-          kicker: 'Closure column',
-          title: 'Proof posture',
-          summary: 'Explains the current bounded-proof state carried by the transaction row.',
-          detail: 'Use this when you need exact closure posture before opening detail.',
-          points: ['Shows witness readiness', 'Shows settlement or replay posture'],
+          title: 'Transaction readiness',
+          summary: 'Shared readiness posture for Bitcode branch, deposit, and closure actions.',
+          detail: 'Review continuity stays open, but transactable actions fail closed until readiness is complete.',
+          references: {
+            source: ['uapi/app/application/bitcode-transaction-readiness.ts'],
+            canon: ['BITCODE_SPEC_V26.md § Wallet and signed transaction posture'],
+          },
         }}
       />,
     );
 
-    expect(screen.getByRole('button', { name: 'Explain Proof posture' })).toBeTruthy();
-    expect(screen.getByRole('tooltip')).toBeTruthy();
-    expect(screen.getByText('Closure column')).toBeTruthy();
-    expect(screen.getByText('Explains the current bounded-proof state carried by the transaction row.')).toBeTruthy();
-    expect(screen.getByText('Use this to')).toBeTruthy();
-    expect(screen.getByText('Shows witness readiness')).toBeTruthy();
+    expect(screen.getByLabelText('Explain Transaction readiness')).toBeTruthy();
+    expect(screen.getByText('Current source')).toBeTruthy();
+    expect(screen.getByText('uapi/app/application/bitcode-transaction-readiness.ts')).toBeTruthy();
+    expect(screen.getByText('Current canon')).toBeTruthy();
+    expect(screen.getByText('BITCODE_SPEC_V26.md § Wallet and signed transaction posture')).toBeTruthy();
   });
 });

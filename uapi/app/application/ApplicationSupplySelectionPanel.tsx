@@ -3,6 +3,7 @@
 import { useEffect, useMemo, useState } from 'react';
 
 import BitcodeChipCloud from '@/components/base/bitcode/execution/BitcodeChipCloud';
+import BitcodeInlineExplainer from '@/components/base/bitcode/execution/BitcodeInlineExplainer';
 import BitcodeMetricGrid from '@/components/base/bitcode/execution/BitcodeMetricGrid';
 
 import ApplicationWorkspaceCard from './ApplicationWorkspaceCard';
@@ -10,7 +11,10 @@ import {
   buildApplicationSupplySelectionDraft,
   type ApplicationActivityRecordDraft,
 } from './application-activity-history';
-import { APPLICATION_WORKSPACE_EXPLAINERS } from './application-workspace-explainers';
+import {
+  APPLICATION_INLINE_EXPLAINERS,
+  APPLICATION_WORKSPACE_EXPLAINERS,
+} from './application-workspace-explainers';
 import { normalizeApplicationSupplySelection, type ApplicationSupplySelectionState } from './application-supply-selection';
 import { useApplicationShellBridge } from './application-shell-bridge';
 import { jumpToShellSection } from './application-shell-reading';
@@ -100,8 +104,11 @@ export default function ApplicationSupplySelectionPanel({
 
       <div className="mt-6 grid gap-4 xl:grid-cols-[minmax(0,1.2fr)_minmax(0,0.8fr)]">
         <div className="grid gap-4 lg:grid-cols-3">
-          <label className="rounded-[1.5rem] border border-white/8 bg-black/20 px-4 py-4">
-            <span className="text-[0.66rem] uppercase tracking-[0.24em] text-neutral-400">Auth session</span>
+          <div className="rounded-[1.5rem] border border-white/8 bg-black/20 px-4 py-4">
+            <span className="flex items-center gap-2 text-[0.66rem] uppercase tracking-[0.24em] text-neutral-400">
+              <span>Auth session</span>
+              <BitcodeInlineExplainer explainer={APPLICATION_INLINE_EXPLAINERS.authSession} />
+            </span>
             <select
               value={selection.selectedAuthSessionId}
               onChange={(event) => {
@@ -115,10 +122,13 @@ export default function ApplicationSupplySelectionPanel({
                 </option>
               ))}
             </select>
-          </label>
+          </div>
 
-          <label className="rounded-[1.5rem] border border-white/8 bg-black/20 px-4 py-4">
-            <span className="text-[0.66rem] uppercase tracking-[0.24em] text-neutral-400">Artifact kind</span>
+          <div className="rounded-[1.5rem] border border-white/8 bg-black/20 px-4 py-4">
+            <span className="flex items-center gap-2 text-[0.66rem] uppercase tracking-[0.24em] text-neutral-400">
+              <span>Artifact kind</span>
+              <BitcodeInlineExplainer explainer={APPLICATION_INLINE_EXPLAINERS.artifactKind} />
+            </span>
             <select
               value={selection.selectedKind}
               onChange={(event) => {
@@ -132,10 +142,13 @@ export default function ApplicationSupplySelectionPanel({
                 </option>
               ))}
             </select>
-          </label>
+          </div>
 
-          <label className="rounded-[1.5rem] border border-white/8 bg-black/20 px-4 py-4">
-            <span className="text-[0.66rem] uppercase tracking-[0.24em] text-neutral-400">Inventory search</span>
+          <div className="rounded-[1.5rem] border border-white/8 bg-black/20 px-4 py-4">
+            <span className="flex items-center gap-2 text-[0.66rem] uppercase tracking-[0.24em] text-neutral-400">
+              <span>Inventory search</span>
+              <BitcodeInlineExplainer explainer={APPLICATION_INLINE_EXPLAINERS.inventorySearch} />
+            </span>
             <input
               value={searchValue}
               onChange={(event) => {
@@ -146,11 +159,14 @@ export default function ApplicationSupplySelectionPanel({
               placeholder="Search repo supply..."
               className="mt-3 w-full rounded-xl border border-white/10 bg-[rgba(10,15,30,0.88)] px-3 py-3 text-sm text-white outline-none transition placeholder:text-neutral-500 focus:border-emerald-400/40"
             />
-          </label>
+          </div>
         </div>
 
         <div className="rounded-[1.5rem] border border-white/8 bg-black/20 px-5 py-5">
-          <p className="text-[0.68rem] uppercase tracking-[0.24em] text-neutral-400">Flow continuity</p>
+          <div className="flex items-center gap-2">
+            <p className="text-[0.68rem] uppercase tracking-[0.24em] text-neutral-400">Flow continuity</p>
+            <BitcodeInlineExplainer explainer={APPLICATION_WORKSPACE_EXPLAINERS.giveNeedChain} />
+          </div>
           <p className="mt-3 text-sm leading-6 text-neutral-300">
             Selected supply stays attached to the current give flow. Continue into Give when you are ready to describe
             issuer, provenance, and intent.

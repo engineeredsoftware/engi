@@ -3,8 +3,9 @@
 import { useEffect, useMemo, useState } from 'react';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { ArrowUpRight, CheckCircle2, FolderGit2, GitBranch, Lock, RefreshCw, ShieldCheck } from 'lucide-react';
-import type { VCSProviderType, VCSRepository } from '@bitcode/vcs-core';
+import type { VCSRepository } from '@bitcode/vcs-core';
 
+import BitcodeInlineExplainer from '@/components/base/bitcode/execution/BitcodeInlineExplainer';
 import { VCSRepositorySelector } from '@/components/base/bitcode/vcs/VCSRepositorySelector';
 
 import ApplicationOpenOrbitalsButton from './ApplicationOpenOrbitalsButton';
@@ -13,7 +14,10 @@ import {
   buildApplicationRepositoryAnchorDraft,
   type ApplicationActivityRecordDraft,
 } from './application-activity-history';
-import { APPLICATION_WORKSPACE_EXPLAINERS } from './application-workspace-explainers';
+import {
+  APPLICATION_INLINE_EXPLAINERS,
+  APPLICATION_WORKSPACE_EXPLAINERS,
+} from './application-workspace-explainers';
 import {
   APPLICATION_REPOSITORY_PROVIDERS,
   type ApplicationRepositoryConnectionStatus,
@@ -228,7 +232,10 @@ export default function ApplicationRepositoryContextPanel({
       <div className="mt-6 grid gap-6 xl:grid-cols-[minmax(0,1.3fr)_minmax(19rem,0.7fr)]">
         <div className="space-y-5">
           <div className="rounded-[1.5rem] border border-white/8 bg-black/20 px-5 py-5">
-            <p className="text-[0.68rem] uppercase tracking-[0.24em] text-neutral-400">Provider and repository</p>
+            <div className="flex items-center gap-2">
+              <p className="text-[0.68rem] uppercase tracking-[0.24em] text-neutral-400">Provider and repository</p>
+              <BitcodeInlineExplainer explainer={APPLICATION_INLINE_EXPLAINERS.providerRepository} />
+            </div>
             <div className="mt-4 flex flex-wrap gap-2">
               {APPLICATION_REPOSITORY_PROVIDERS.map((option) => {
                 const isActive = provider === option;
@@ -278,23 +285,26 @@ export default function ApplicationRepositoryContextPanel({
                 className="w-full"
               />
 
-              <button
-                type="button"
-                onClick={() => jumpToShellSection('applicationSupplySelection')}
-                className="rounded-[1.2rem] border border-emerald-400/30 bg-emerald-400/10 px-4 py-3 text-sm font-medium text-emerald-100 transition hover:border-emerald-300/45 hover:bg-emerald-400/15"
-              >
-                Continue to give
-              </button>
-              <button
-                type="button"
-                disabled={!selectedRepository || isRecording}
-                onClick={() => {
-                  void handleRecordRepositoryAnchor();
-                }}
-                className="rounded-[1.2rem] border border-white/10 bg-white/5 px-4 py-3 text-sm font-medium text-neutral-100 transition hover:border-white/18 hover:bg-white/10 disabled:cursor-not-allowed disabled:opacity-60"
-              >
-                {isRecording ? 'Recording anchor…' : 'Record repository anchor'}
-              </button>
+              <div className="flex flex-wrap items-center gap-3">
+                <button
+                  type="button"
+                  onClick={() => jumpToShellSection('applicationSupplySelection')}
+                  className="rounded-[1.2rem] border border-emerald-400/30 bg-emerald-400/10 px-4 py-3 text-sm font-medium text-emerald-100 transition hover:border-emerald-300/45 hover:bg-emerald-400/15"
+                >
+                  Continue to give
+                </button>
+                <button
+                  type="button"
+                  disabled={!selectedRepository || isRecording}
+                  onClick={() => {
+                    void handleRecordRepositoryAnchor();
+                  }}
+                  className="rounded-[1.2rem] border border-white/10 bg-white/5 px-4 py-3 text-sm font-medium text-neutral-100 transition hover:border-white/18 hover:bg-white/10 disabled:cursor-not-allowed disabled:opacity-60"
+                >
+                  {isRecording ? 'Recording anchor…' : 'Record repository anchor'}
+                </button>
+                <BitcodeInlineExplainer explainer={APPLICATION_INLINE_EXPLAINERS.repositoryAnchor} />
+              </div>
             </div>
           </div>
 

@@ -1,5 +1,8 @@
 import { APPLICATION_SURFACE_COPY } from '@/app/application/application-workspace-copy';
-import { APPLICATION_SURFACE_EXPLAINERS } from '@/app/application/application-workspace-explainers';
+import {
+  APPLICATION_INLINE_EXPLAINERS,
+  APPLICATION_SURFACE_EXPLAINERS,
+} from '@/app/application/application-workspace-explainers';
 
 describe('APPLICATION_SURFACE_COPY', () => {
   it('keeps Bitcode Terminal detail copy centered on activity, asset packs, and proof reading', () => {
@@ -21,5 +24,22 @@ describe('APPLICATION_SURFACE_EXPLAINERS', () => {
     expect(APPLICATION_SURFACE_EXPLAINERS.experienceMap.detail).toContain('Auxillaries');
     expect(APPLICATION_SURFACE_EXPLAINERS.giveNeedChain.summary).toContain('need measurement');
     expect(APPLICATION_SURFACE_EXPLAINERS.boundaryRuntime.detail).toContain('asset packs');
+  });
+
+  it('keeps explainers grounded in current source and canon references', () => {
+    expect(APPLICATION_SURFACE_EXPLAINERS.controls.references?.source).toContain(
+      'uapi/app/application/ApplicationCommandDeck.tsx',
+    );
+    expect(APPLICATION_SURFACE_EXPLAINERS.controls.references?.canon).toContain(
+      'BITCODE_SPEC_V26.md § Fifth-gate exhaustive acceptance matrix',
+    );
+  });
+
+  it('defines field-adjacent explainers for transactional and repository posture', () => {
+    expect(APPLICATION_INLINE_EXPLAINERS.transactionReadiness.summary).toContain('shared operator contract');
+    expect(APPLICATION_INLINE_EXPLAINERS.repositoryAnchor.detail).toContain('Bitcode activity ledger');
+    expect(APPLICATION_INLINE_EXPLAINERS.depositSubmission.references?.canon).toContain(
+      'BITCODE_SPEC_V26_PARITY_MATRIX.md § Fifth-gate exhaustive acceptance parity matrix',
+    );
   });
 });

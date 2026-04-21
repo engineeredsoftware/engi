@@ -2,6 +2,7 @@
 
 import { useMemo, useState } from 'react';
 
+import BitcodeInlineExplainer from '@/components/base/bitcode/execution/BitcodeInlineExplainer';
 import BitcodeMetricGrid from '@/components/base/bitcode/execution/BitcodeMetricGrid';
 
 import ApplicationWorkspaceCard from './ApplicationWorkspaceCard';
@@ -10,7 +11,10 @@ import {
   readApplicationRouteError,
   type ApplicationActivityRecordDraft,
 } from './application-activity-history';
-import { APPLICATION_WORKSPACE_EXPLAINERS } from './application-workspace-explainers';
+import {
+  APPLICATION_INLINE_EXPLAINERS,
+  APPLICATION_WORKSPACE_EXPLAINERS,
+} from './application-workspace-explainers';
 import { jumpToShellSection } from './application-shell-reading';
 import {
   normalizeApplicationClosureState,
@@ -146,7 +150,10 @@ export default function ApplicationClosureControlDeck({
         <article className="rounded-[1.6rem] border border-white/8 bg-black/20 px-5 py-5">
           <div className="flex items-start justify-between gap-3">
             <div>
-              <p className="text-[0.66rem] uppercase tracking-[0.2em] text-emerald-300/75">Closure status</p>
+              <div className="flex items-center gap-2">
+                <p className="text-[0.66rem] uppercase tracking-[0.2em] text-emerald-300/75">Closure status</p>
+                <BitcodeInlineExplainer explainer={APPLICATION_INLINE_EXPLAINERS.closureAction} />
+              </div>
               <h3 className="mt-2 text-xl font-semibold text-white">{state.primaryActionLabel}</h3>
             </div>
             <span className={`rounded-full border px-2.5 py-1 text-[0.66rem] uppercase tracking-[0.18em] ${toneClasses(state.statusTone)}`}>
@@ -211,7 +218,10 @@ export default function ApplicationClosureControlDeck({
           <div className="mt-4 rounded-[1.2rem] border border-white/8 bg-white/5 px-4 py-4 text-sm">
             <p className="text-neutral-500">Runtime status</p>
             <p className="mt-2 text-neutral-100">{state.status}</p>
-            <p className="mt-3 text-neutral-500">Transaction readiness</p>
+            <div className="mt-3 flex items-center gap-2">
+              <p className="text-neutral-500">Transaction readiness</p>
+              <BitcodeInlineExplainer explainer={APPLICATION_INLINE_EXPLAINERS.transactionReadiness} />
+            </div>
             <p className="mt-1 text-neutral-100">{transactionReadiness.summary}</p>
             <p className="mt-3 text-neutral-500">Flow continuity</p>
             <p className="mt-1 text-neutral-100">{state.flowGuideDetail}</p>
@@ -225,7 +235,10 @@ export default function ApplicationClosureControlDeck({
         </article>
 
         <article className="rounded-[1.6rem] border border-white/8 bg-black/20 px-5 py-5">
-          <p className="text-[0.68rem] uppercase tracking-[0.24em] text-neutral-400">Closure follow-through</p>
+          <div className="flex items-center gap-2">
+            <p className="text-[0.68rem] uppercase tracking-[0.24em] text-neutral-400">Closure follow-through</p>
+            <BitcodeInlineExplainer explainer={APPLICATION_WORKSPACE_EXPLAINERS.closureMap} />
+          </div>
           <div className="mt-4 grid gap-3">
             <button
               type="button"

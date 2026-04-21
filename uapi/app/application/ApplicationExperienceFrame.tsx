@@ -1,9 +1,14 @@
 'use client';
 
+import BitcodeInlineExplainer from '@/components/base/bitcode/execution/BitcodeInlineExplainer';
+
 import ApplicationWorkspaceCard from './ApplicationWorkspaceCard';
 import ApplicationOpenConversationsButton from './ApplicationOpenConversationsButton';
 import ApplicationOpenOrbitalsButton from './ApplicationOpenOrbitalsButton';
-import { APPLICATION_WORKSPACE_EXPLAINERS } from './application-workspace-explainers';
+import {
+  APPLICATION_INLINE_EXPLAINERS,
+  APPLICATION_WORKSPACE_EXPLAINERS,
+} from './application-workspace-explainers';
 import { APPLICATION_ACTIONS, APPLICATION_EXPERIENCES } from './application-experience-architecture';
 import { jumpToShellSection } from './application-shell-reading';
 
@@ -21,11 +26,17 @@ export default function ApplicationExperienceFrame({ onOpenConversations }: Appl
     >
       <div className="grid gap-3 text-xs uppercase tracking-[0.22em] text-neutral-400 tablet:grid-cols-2">
         <div className="rounded-2xl border border-white/8 bg-black/20 px-4 py-4">
-          <p className="text-emerald-300/85">Read window</p>
+          <div className="flex items-center gap-2">
+            <p className="text-emerald-300/85">Read window</p>
+            <BitcodeInlineExplainer explainer={APPLICATION_INLINE_EXPLAINERS.readWindow} />
+          </div>
           <p className="mt-2 text-neutral-200">activity ledger + selected detail</p>
         </div>
         <div className="rounded-2xl border border-white/8 bg-black/20 px-4 py-4">
-          <p className="text-emerald-300/85">Write posture</p>
+          <div className="flex items-center gap-2">
+            <p className="text-emerald-300/85">Write posture</p>
+            <BitcodeInlineExplainer explainer={APPLICATION_INLINE_EXPLAINERS.writePosture} />
+          </div>
           <p className="mt-2 text-neutral-200">give + need + Auxillaries</p>
         </div>
       </div>
@@ -97,7 +108,10 @@ export default function ApplicationExperienceFrame({ onOpenConversations }: Appl
       </div>
 
       <div className="mt-6 rounded-[1.6rem] border border-white/8 bg-black/20 px-5 py-5">
-        <p className="text-[0.68rem] uppercase tracking-[0.24em] text-neutral-400">Closure stages</p>
+        <div className="flex items-center gap-2">
+          <p className="text-[0.68rem] uppercase tracking-[0.24em] text-neutral-400">Closure stages</p>
+          <BitcodeInlineExplainer explainer={APPLICATION_INLINE_EXPLAINERS.closureAction} />
+        </div>
         <p className="mt-3 text-sm leading-6 text-neutral-300">
           Verification, branch artifacts, settlement, proofs, asset packs, and history stay connected as one working
           chain instead of scattering across separate destinations.
@@ -105,7 +119,10 @@ export default function ApplicationExperienceFrame({ onOpenConversations }: Appl
       </div>
 
       <div className="mt-6 rounded-[1.6rem] border border-emerald-400/15 bg-[linear-gradient(180deg,rgba(8,14,28,0.92),rgba(5,10,20,0.9))] px-5 py-5">
-        <p className="text-[0.68rem] uppercase tracking-[0.24em] text-emerald-300/80">Production realism</p>
+        <div className="flex items-center gap-2">
+          <p className="text-[0.68rem] uppercase tracking-[0.24em] text-emerald-300/80">Production realism</p>
+          <BitcodeInlineExplainer explainer={APPLICATION_WORKSPACE_EXPLAINERS.boundaryRuntime} />
+        </div>
         <p className="mt-3 text-sm leading-6 text-neutral-300">
           Bitcode is built for open, auditable, formal operation across producers, consumers, investors, partners, and
           researchers, with modular and observable system surfaces tuned toward throughput, quality, cost, and trust.

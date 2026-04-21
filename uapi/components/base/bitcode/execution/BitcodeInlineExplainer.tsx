@@ -22,6 +22,8 @@ export default function BitcodeInlineExplainer({
   const summary = explainer.summary;
   const detail = explainer.detail;
   const points = explainer.points || [];
+  const sourceRefs = explainer.references?.source || [];
+  const canonRefs = explainer.references?.canon || [];
 
   return (
     <span className={cn('group/bitcode-explainer relative inline-flex items-center', className)}>
@@ -73,6 +75,44 @@ export default function BitcodeInlineExplainer({
               </li>
             ))}
             </ul>
+          </div>
+        ) : null}
+        {sourceRefs.length || canonRefs.length ? (
+          <div className="relative mt-3 border-t border-white/8 pt-3">
+            {sourceRefs.length ? (
+              <div className="mt-2">
+                <span className="block text-[0.62rem] uppercase tracking-[0.18em] text-emerald-300/75">
+                  Current source
+                </span>
+                <div className="mt-2 flex flex-wrap gap-1.5">
+                  {sourceRefs.map((ref) => (
+                    <span
+                      key={`${title}-source-${ref}`}
+                      className="rounded-full border border-white/10 bg-white/5 px-2 py-1 text-[0.58rem] uppercase tracking-[0.14em] text-neutral-200"
+                    >
+                      {ref}
+                    </span>
+                  ))}
+                </div>
+              </div>
+            ) : null}
+            {canonRefs.length ? (
+              <div className="mt-2">
+                <span className="block text-[0.62rem] uppercase tracking-[0.18em] text-emerald-300/75">
+                  Current canon
+                </span>
+                <div className="mt-2 flex flex-wrap gap-1.5">
+                  {canonRefs.map((ref) => (
+                    <span
+                      key={`${title}-canon-${ref}`}
+                      className="rounded-full border border-white/10 bg-white/5 px-2 py-1 text-[0.58rem] uppercase tracking-[0.14em] text-neutral-200"
+                    >
+                      {ref}
+                    </span>
+                  ))}
+                </div>
+              </div>
+            ) : null}
           </div>
         ) : null}
       </span>

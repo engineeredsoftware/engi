@@ -963,6 +963,11 @@ Required closure posture:
   `uapi/tests/bitcodeTransactionReadiness.test.ts` and `uapi/tests/applicationFlowGuide.test.ts`
   proof surface:
   fifth-gate transactional-readiness closure so wallet identity in `Profile`, repository scope in `Connects`, and a selected repository anchor in the Bitcode Terminal now resolve through one shared review-only-vs-transactable contract, with deposit/branch/closure-bearing actions failing closed on that contract while read/review continuity remains available
+- `{uapi/components/base/bitcode/execution/BitcodeInlineExplainer.tsx,uapi/app/application/{application-workspace-explainers.ts,ApplicationExperienceFrame.tsx,ApplicationCommandDeck.tsx,ApplicationRepositoryContextPanel.tsx,ApplicationSupplySelectionPanel.tsx,ApplicationNeedScenarioPanel.tsx,ApplicationDepositComposer.tsx,ApplicationClosureControlDeck.tsx},uapi/tests/{applicationSurfaceCopy.test.ts,bitcodeInlineExplainer.test.tsx}}`
+  test coverage:
+  `uapi/tests/applicationSurfaceCopy.test.ts` and `uapi/tests/bitcodeInlineExplainer.test.tsx`
+  proof surface:
+  fifth-gate operator-guidance adjacency closure so the Bitcode Terminal now carries protocol-demonstration-style field- and action-adjacent explainers for read/write posture, repository anchoring, supply selection, need measurement, readiness, deposit provenance, and closure follow-through, with `Current source` and `Current canon` references preserved directly in the inline help contract
 - `{uapi/app/application/{ApplicationPageClient.tsx,ApplicationTransactionWorkspace.tsx,application-transaction-source.ts,application-protocol-projection.ts,application-run-data.ts},uapi/tests/{applicationTransactionSource.test.ts,applicationProtocolProjection.test.ts}}`
   test coverage:
   `uapi/tests/applicationTransactionSource.test.ts` and `uapi/tests/applicationProtocolProjection.test.ts`

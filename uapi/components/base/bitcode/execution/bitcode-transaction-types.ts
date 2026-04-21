@@ -8,8 +8,8 @@ export const BITCODE_TRANSACTION_PAGE_SIZES = [10, 25, 50] as const;
 export type TransactionPageSize = typeof BITCODE_TRANSACTION_PAGE_SIZES[number];
 
 export interface BitcodeExplainerReferences {
-  source?: string[];
-  canon?: string[];
+  source?: readonly string[];
+  canon?: readonly string[];
 }
 
 export interface BitcodeExplainer {
