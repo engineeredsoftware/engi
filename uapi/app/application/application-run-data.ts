@@ -21,7 +21,7 @@ export const MOCK_RUNS: WorkspaceRun[] = [
   {
     id: 'mock-run-branch-remediation',
     created_at: '2026-04-16T12:00:00.000Z',
-    type: 'pipeline:deliverables',
+    type: 'agentic-execution:branch-artifact',
     status: 'completed',
     summary: 'Prepared the active branch artifact pack and bounded proof bundle for review.',
     repository: 'bitcode/bitcode',
@@ -40,7 +40,7 @@ export const MOCK_RUNS: WorkspaceRun[] = [
   {
     id: 'mock-run-need-measurement-pass',
     created_at: '2026-04-16T11:12:00.000Z',
-    type: 'pipeline:measure',
+    type: 'agentic-execution:need-measurement',
     status: 'completed',
     summary: 'Ran a need-measurement pass, surfaced ranked verification evidence, and refreshed ledger posture.',
     repository: 'bitcode/bitcode',
@@ -59,7 +59,7 @@ export const MOCK_RUNS: WorkspaceRun[] = [
   {
     id: 'mock-run-proof-refresh',
     created_at: '2026-04-16T10:34:00.000Z',
-    type: 'pipeline:proof',
+    type: 'agentic-execution:proof-refresh',
     status: 'running',
     summary: 'Refreshing proof-family witnesses for the current Bitcode operating posture.',
     repository: 'bitcode/bitcode',
@@ -123,7 +123,7 @@ export const MOCK_RUN_DELIVERABLES: Record<string, DeliverablesDoc> = {
       paths: ['uapi/app/application/ApplicationTransactionWorkspace.tsx', 'uapi/app/application/ApplicationPageClient.tsx'],
     },
     summary:
-      'The branch remediation pack now reads as one transactions surface. You can inspect the proposed pull request, reviews, issues, and disclosure notes without abandoning the main ledger window.',
+      'The branch remediation pack now reads as one Bitcode Terminal surface. You can inspect the proposed pull request, reviews, issues, and disclosure notes without abandoning the main ledger window.',
   },
   'mock-run-need-measurement-pass': {
     pullRequest: null,
@@ -145,7 +145,7 @@ export const MOCK_RUN_DELIVERABLES: Record<string, DeliverablesDoc> = {
       },
     ],
     summary:
-      'Measurement results were refreshed and tied back into the Bitcode fit-reading model so verification pressure stays readable without leaving the main transactions read.',
+      'Measurement results were refreshed and tied back into the Bitcode fit-reading model so verification pressure stays readable without leaving the Bitcode Terminal.',
   },
   'mock-run-proof-refresh': {
     pullRequest: null,
@@ -153,7 +153,7 @@ export const MOCK_RUN_DELIVERABLES: Record<string, DeliverablesDoc> = {
     issues: null,
     comments: null,
     summary:
-      'Proof-family witnesses are still refreshing. Mock review keeps transactions legible while the final proof bundle remains in-flight.',
+      'Proof-family witnesses are still refreshing. Mock review keeps the Bitcode Terminal legible while the final proof bundle remains in-flight.',
   },
 };
 

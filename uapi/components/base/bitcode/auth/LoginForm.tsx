@@ -388,7 +388,7 @@ function LoginFormInner({ onClose, onToggle, surfaceVariant = 'default' }: Login
             completedOnboarding = false
           }
           if (completedOnboarding) {
-            // Return to the live transactions surface instead of the legacy demo route.
+            // Return to the live Bitcode Terminal instead of the legacy demo route.
             onClose?.()
             try {
               router.push(nextWorkspacePath)

@@ -465,6 +465,21 @@ Current active assignments:
   `uapi/tests/{applicationTransactions,navPublicShell,footerPublicShell,marketingLandingPage,marketingOperatorGuideCard,edgetimesPageContent,conversationsRouteClient,orbitalsRouteClient}.test.*`
   proof surface:
   one shared agentic-execution grammar now repurposes the retained pipeline substrate into canonical Bitcode Terminal execution labels, lenses, proof posture, and closure focus across API history rows, `/application`, and the public shell
+- `packages/api/src/executions/agentic-execution.ts`, `packages/api/src/routes/executions.ts`, `uapi/networking/api-client.ts`, `uapi/hooks/useExecutionState.ts`, `uapi/app/executions/components/ExecutionsPageClient.tsx`, and `uapi/components/base/bitcode/layout/sidebars/left-sidebar.tsx`
+  test coverage:
+  focused lint on retained execution carriers plus `uapi/tests/applicationSurfaceCopy.test.ts`
+  proof surface:
+  canonical `agentic-execution:branch-artifact` route/query posture now reaches the retained `/executions` surface and live callers while mapping back onto the preserved raw `pipeline:*` storage substrate, proving that Bitcode product routing can be canonical without discarding the reusable execution implementation basis
+- `uapi/app/application/application-workspace-explainers.ts`, `uapi/app/application/{ApplicationCommandDeck.tsx,application-flow-guide.ts,application-command-presentation.ts,ApplicationCoreNativeSections.tsx,ApplicationDepositComposer.tsx,ApplicationPreservedShellSurface.tsx}`, `uapi/components/base/bitcode/execution/{BitcodeTransactionsTable.tsx,bitcode-transaction-explainers.ts}`, and `uapi/app/auxillaries/components/{auxillary-pane-explainers.ts,AuxillariesBTDPane.tsx}`
+  test coverage:
+  `uapi/tests/applicationSurfaceCopy.test.ts`
+  proof surface:
+  active `/application`, retained `/executions`, and auxillary product copy now teach the `Bitcode Terminal` directly instead of a generic `transactions surface`, keeping live product language aligned with V26 specification canon
+- `uapi/app/application/{application-run-data.ts,ApplicationLiveSummaryStrip.tsx,ApplicationTransactionActivitySurface.tsx,application-workspace-copy.ts}`, `uapi/app/auxillaries/components/auxillary-pane-meta.ts`, and `uapi/app/api/conversations/_shared.ts`
+  test coverage:
+  `uapi/tests/{applicationTransactions,applicationTransactionDetail,applicationTransactionDetailSnapshot,applicationTransactionSource,bitcodeDetailPanel}.test.*`
+  proof surface:
+  active mock-run, detail-snapshot, and conversation-support carriers now keep branch-artifact execution typing and Bitcode Terminal wording canonical instead of teaching raw deliverables pipeline strings or generic transaction-surface language in the review substrate
 - `uapi/app/application/ApplicationTransactionsTable.tsx`
   test coverage:
   lint plus localhost `/application` verification with the transactions master surface mounted
@@ -489,7 +504,7 @@ Current active assignments:
   test coverage:
   `uapi/tests/protocol-demonstrationTransactionsActiveFilters.test.tsx`
   proof surface:
-  reusable active-filter chip carrier for the transactions surface, keeping the shaped master window explicit and individually clearable
+  reusable active-filter chip carrier for the Bitcode Terminal, keeping the shaped master window explicit and individually clearable
 - `uapi/app/application/ApplicationTransactionDetailActionBar.tsx`
   test coverage:
   lint plus localhost `/application` verification with route-owned detail focus and closure actions mounted
@@ -564,7 +579,7 @@ Current active assignments:
   test coverage:
   `uapi/tests/protocol-demonstrationInlineExplainer.test.tsx`
   proof surface:
-  reusable second-gate explainer/tooltip carrier for the transactions surface
+  reusable second-gate explainer/tooltip carrier for the Bitcode Terminal
 - `uapi/components/base/bitcode/execution/BitcodePayloadInspector.tsx`
   test coverage:
   `uapi/tests/protocol-demonstrationPayloadInspector.test.tsx`

@@ -10,8 +10,8 @@ describe('BitcodeDetailPanel', () => {
     render(
       <BitcodeDetailPanel
         badge="master"
-        title="Transactions"
-        summary="Search, filter, and inspect Bitcode transactions inside the application."
+        title="Bitcode Terminal"
+        summary="Search, filter, and inspect Bitcode transactions inside the Bitcode Terminal."
         metrics={[
           { label: 'Status', value: 'completed' },
           { label: 'Started', value: 'Apr 16, 12:00 PM' },
@@ -21,20 +21,20 @@ describe('BitcodeDetailPanel', () => {
           { label: 'Repository', value: 'bitcode/bitcode' },
         ]}
         tagLabel="substructure"
-        actionLabel="Open transactions"
+        actionLabel="Open Bitcode Terminal"
         onAction={onAction}
       />,
     );
 
     expect(screen.getByText('master')).toBeTruthy();
-    expect(screen.getByText('Transactions')).toBeTruthy();
-    expect(screen.getByText('Search, filter, and inspect Bitcode transactions inside the application.')).toBeTruthy();
+    expect(screen.getByText('Bitcode Terminal')).toBeTruthy();
+    expect(screen.getByText('Search, filter, and inspect Bitcode transactions inside the Bitcode Terminal.')).toBeTruthy();
     expect(screen.getByText('Status')).toBeTruthy();
     expect(screen.getByText('completed')).toBeTruthy();
     expect(screen.getByText('Transaction id')).toBeTruthy();
     expect(screen.getByText('tx-001')).toBeTruthy();
 
-    fireEvent.click(screen.getByRole('button', { name: 'Open transactions' }));
+    fireEvent.click(screen.getByRole('button', { name: 'Open Bitcode Terminal' }));
 
     expect(onAction).toHaveBeenCalled();
   });

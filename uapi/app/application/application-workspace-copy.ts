@@ -9,7 +9,7 @@ export const APPLICATION_SURFACE_COPY = {
     kicker: 'Give and need systems',
     title: 'Supply, need, and transaction posture',
     summary:
-      'Move from searchable supply into measured need, fit, and transaction posture without leaving the main transactions surface.',
+      'Move from searchable supply into measured need, fit, and transaction posture without leaving the Bitcode Terminal.',
   },
   closure: {
     kicker: 'Closure and provenance',

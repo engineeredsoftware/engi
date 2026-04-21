@@ -51,7 +51,7 @@ export default function ApplicationTransactionActivitySurface({
         <p className="text-[0.68rem] uppercase tracking-[0.24em] text-emerald-300/75">Bitcode activity</p>
         <h3 className="mt-2 text-lg font-semibold text-white">Execution activity and work updates</h3>
         <p className="mt-2 text-sm leading-6 text-neutral-300">
-          Read the selected transaction&apos;s execution stream, state, and iteration updates directly from the transactions surface.
+          Read the selected transaction&apos;s execution stream, state, and iteration updates directly from the Bitcode Terminal.
           Fourth-gate convergence keeps execution primitives explicit here while the broader Bitcode activity family also admits
           transactions, notifications, and later public or personal system usage.
         </p>

@@ -20,10 +20,9 @@ import {
   fetchPipelineExecutionHistory,
 } from '@/networking/api-client';
 
-// Placeholder DocToggleIcon component
-const DocToggleIcon = ({ variant, className }: { variant: string; className?: string }) => (
-  <div className={className}>📄</div>
-);
+function renderDocToggleIcon(className?: string) {
+  return <div className={className}>📄</div>;
+}
 import type {
   PipelineExecution,
 } from '@/types/api';
@@ -31,12 +30,12 @@ const sidebarOptions: [SidebarOption, SidebarOption] = [
   {
     id: 'deliverables',
     label: 'Deliverables',
-    icon: <DocToggleIcon variant="multi" />,
+    icon: renderDocToggleIcon(),
   },
   {
     id: 'measure',
     label: 'Need Measurement',
-    icon: <DocToggleIcon variant="single" />,
+    icon: renderDocToggleIcon(),
   }
 ];
 
@@ -120,10 +119,7 @@ export default function LeftSidebar() {
           >
             {activeSidebar === 'deliverables' ? (
               <div className="flex items-center gap-2">
-                <DocToggleIcon
-                  variant="single"
-                  className="w-4 h-4 text-gray-300 sidebar-text"
-                />
+                {renderDocToggleIcon("w-4 h-4 text-gray-300 sidebar-text")}
                 <FlipText
                   text={'Branch Artifact Executions'}
                   className="text-sm font-semibold text-emerald-300 sidebar-text"
@@ -131,10 +127,7 @@ export default function LeftSidebar() {
               </div>
             ) : (
               <div className="flex items-center gap-2">
-                <DocToggleIcon
-                  variant="single"
-                  className="w-4 h-4 text-gray-300 sidebar-text"
-                />
+                {renderDocToggleIcon("w-4 h-4 text-gray-300 sidebar-text")}
                 <FlipText
                   text={'Need Measurement Executions'}
                   className="text-sm font-semibold text-emerald-300 sidebar-text"

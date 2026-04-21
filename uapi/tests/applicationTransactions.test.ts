@@ -11,7 +11,7 @@ describe('application-transactions', () => {
     {
       id: 'tx-1',
       created_at: '2026-04-16T12:00:00.000Z',
-      type: 'pipeline:deliverables',
+      type: 'agentic-execution:branch-artifact',
       status: 'completed',
       summary: 'Materialized a give-side transaction.',
       repository: 'bitcode/bitcode',
@@ -27,7 +27,7 @@ describe('application-transactions', () => {
     {
       id: 'tx-2',
       created_at: '2026-04-16T11:00:00.000Z',
-      type: 'pipeline:measure',
+      type: 'agentic-execution:need-measurement',
       status: 'running',
       summary: 'Completed a need-measurement pass.',
       repository: 'bitcode/research',

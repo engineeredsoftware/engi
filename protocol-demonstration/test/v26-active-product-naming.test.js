@@ -26,8 +26,24 @@ const applicationTransactionsSource = readFileSync(
   new URL('../../uapi/app/application/application-transactions.ts', import.meta.url),
   'utf8',
 );
+const applicationRunDataSource = readFileSync(
+  new URL('../../uapi/app/application/application-run-data.ts', import.meta.url),
+  'utf8',
+);
+const applicationWorkspaceCopySource = readFileSync(
+  new URL('../../uapi/app/application/application-workspace-copy.ts', import.meta.url),
+  'utf8',
+);
+const applicationTransactionActivitySurfaceSource = readFileSync(
+  new URL('../../uapi/app/application/ApplicationTransactionActivitySurface.tsx', import.meta.url),
+  'utf8',
+);
 const applicationExperienceArchitectureSource = readFileSync(
   new URL('../../uapi/app/application/application-experience-architecture.ts', import.meta.url),
+  'utf8',
+);
+const applicationWorkspaceExplainersSource = readFileSync(
+  new URL('../../uapi/app/application/application-workspace-explainers.ts', import.meta.url),
   'utf8',
 );
 const agenticExecutionSource = readFileSync(
@@ -75,6 +91,7 @@ const pipelineExecutionLogSource = readFileSync(new URL('../../uapi/components/b
 const auxillariesProviderSource = readFileSync(new URL('../../uapi/app/auxillaries/components/AuxillariesProvider.tsx', import.meta.url), 'utf8');
 const auxillariesSurfaceSource = readFileSync(new URL('../../uapi/app/auxillaries/components/AuxillariesSurface.tsx', import.meta.url), 'utf8');
 const auxillariesContentSource = readFileSync(new URL('../../uapi/app/auxillaries/components/AuxillariesContent.tsx', import.meta.url), 'utf8');
+const auxillaryPaneMetaSource = readFileSync(new URL('../../uapi/app/auxillaries/components/auxillary-pane-meta.ts', import.meta.url), 'utf8');
 const auxillariesLoginPaneSource = readFileSync(new URL('../../uapi/app/auxillaries/components/AuxillariesLoginPane.tsx', import.meta.url), 'utf8');
 const auxillariesProfilePaneSource = readFileSync(new URL('../../uapi/app/auxillaries/components/AuxillariesProfilePane.tsx', import.meta.url), 'utf8');
 const auxillariesConnectsPaneSource = readFileSync(new URL('../../uapi/app/auxillaries/components/AuxillariesConnectsPane.tsx', import.meta.url), 'utf8');
@@ -1032,25 +1049,40 @@ test('active V26 canon posture and preserved runtime state use bitcode policy an
   assert.match(auxillariesProfilePaneSource, /@\/app\/auxillaries\/components\/headers\/AuxillariesProfilePaneHeader/);
   assert.match(agenticExecutionSource, /agentic-execution:branch-artifact/);
   assert.match(agenticExecutionSource, /agentic-execution:need-measurement/);
+  assert.match(agenticExecutionSource, /resolveAgenticExecutionQueryTypes/);
+  assert.match(agenticExecutionSource, /pipeline:deliverables/);
   assert.match(agenticExecutionSource, /branch artifact execution/);
   assert.match(agenticExecutionSource, /need measurement execution/);
   assert.match(applicationPageSource, /Bitcode Terminal/);
   assert.match(applicationPageClientSource, /Bitcode Terminal/);
+  assert.match(applicationWorkspaceExplainersSource, /Bitcode Terminal experience map/);
+  assert.match(applicationWorkspaceExplainersSource, /Bitcode Terminal activity map/);
+  assert.doesNotMatch(applicationWorkspaceExplainersSource, /Transactions experience map/);
   assert.match(applicationPageClientSource, /buildAgenticExecutionSummary/);
   assert.doesNotMatch(applicationPageClientSource, /deriveClosureFocus/);
   assert.doesNotMatch(applicationPageClientSource, /deriveProofStatus/);
   assert.doesNotMatch(applicationPageClientSource, /deriveTransactionLens/);
   assert.match(applicationTransactionsSource, /buildAgenticExecutionSummary/);
   assert.match(applicationTransactionsSource, /typeLabel/);
+  assert.match(applicationRunDataSource, /agentic-execution:branch-artifact/);
+  assert.match(applicationRunDataSource, /agentic-execution:need-measurement/);
+  assert.match(applicationRunDataSource, /agentic-execution:proof-refresh/);
+  assert.match(applicationRunDataSource, /Bitcode Terminal/);
+  assert.match(applicationWorkspaceCopySource, /Bitcode Terminal/);
+  assert.match(applicationTransactionActivitySurfaceSource, /Bitcode Terminal/);
   assert.match(applicationExperienceArchitectureSource, /label: 'Bitcode Terminal'/);
   assert.match(bitcodePublicCopySource, /Open Bitcode Terminal/);
   assert.match(bitcodePublicCopySource, /Bitcode Terminal/);
   assert.doesNotMatch(bitcodePublicCopySource, /Open transactions/);
   assert.match(bitcodePublicExplainersSource, /title: 'Bitcode Terminal'/);
   assert.doesNotMatch(bitcodePublicExplainersSource, /title: 'Transactions'/);
+  assert.match(executionsPageClientSource, /agentic-execution:branch-artifact/);
+  assert.match(executionsPageClientSource, /Open Bitcode Terminal/);
+  assert.doesNotMatch(executionsPageClientSource, /Open transactions/);
   assert.match(auxillariesConnectsPaneSource, /@\/app\/auxillaries\/components\/headers\/AuxillariesConnectsPaneHeader/);
   assert.match(auxillariesInterfacesPaneSource, /@\/app\/auxillaries\/components\/headers\/AuxillariesInterfacesPaneHeader/);
   assert.match(auxillariesBtdPaneSource, /@\/app\/auxillaries\/components\/headers\/AuxillariesBTDPaneHeader/);
+  assert.match(auxillaryPaneMetaSource, /Bitcode Terminal/);
   assert.match(auxillariesProfilePaneSource, /@\/app\/auxillaries\/components\/shared\/AfterOnboardingOverlay/);
   assert.match(auxillariesInterfacesPaneSource, /@\/app\/auxillaries\/components\/shared\/AuxillariesPreferenceCards/);
   assert.match(auxillariesInterfacesPaneSource, /@\/app\/auxillaries\/components\/shared\/AuxillariesStatGrid/);

@@ -57,7 +57,7 @@ describe('application-transaction-source', () => {
       {
         id: 'live-run-123',
         created_at: '2026-04-16T12:00:00.000Z',
-        type: 'pipeline:deliverables',
+        type: 'agentic-execution:branch-artifact',
         status: 'completed',
       },
     ];

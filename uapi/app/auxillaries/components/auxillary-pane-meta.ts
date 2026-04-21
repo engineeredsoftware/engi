@@ -53,7 +53,7 @@ export const AUXILLARY_DESCRIPTORS: Record<ConcreteAuxillaryPane, AuxillaryPaneD
     labelPosition: 'right',
     routeTitle: 'Interfaces Auxillary',
     routeDescription:
-      'Shape how the transactions surface, conversations, proofs, and default application behavior read and operate through one focused auxillary.',
+      'Shape how the Bitcode Terminal, conversations, proofs, and default application behavior read and operate through one focused auxillary.',
   },
   btd: {
     label: '$BTD',
