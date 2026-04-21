@@ -108,8 +108,8 @@ async function getOrganizationAnalytics(
       })
     );
 
-    // Get organization credits
-    const credits = await organizationCredits.getByOrganizationId(organizationId);
+    // Get organization treasury balance
+    const btdTreasury = await organizationCredits.getByOrganizationId(organizationId);
 
     // Get repository connections
     const connections = await userConnections.getByOrganization(organizationId);
@@ -128,7 +128,7 @@ async function getOrganizationAnalytics(
       members: memberProfiles,
       runs: orgRuns,
       connections,
-      credits,
+      btdTreasury,
       options
     });
 
@@ -137,7 +137,7 @@ async function getOrganizationAnalytics(
         id: organization.id,
         name: organization.name,
         slug: organization.slug,
-        btdBalance: credits?.balance || 0,
+        btdBalance: btdTreasury?.balance || 0,
         memberCount: members.length,
         activeRepositories: connections.filter(c => c.is_active).length,
         createdAt: organization.created_at
@@ -177,10 +177,10 @@ function analyzeOrganizationData(data: {
   members: any[];
   runs: any[];
   connections: any[];
-  credits: any;
+  btdTreasury: any;
   options: any;
 }): any {
-  const { members, runs, connections, credits, options } = data;
+  const { members, runs, connections, btdTreasury, options } = data;
 
   // Team analytics
   const teamAnalytics = {
@@ -222,12 +222,12 @@ function analyzeOrganizationData(data: {
     }, {} as Record<string, number>),
     
     totalBtdUsed: runs.reduce((sum, run) => 
-      sum + (((run.metadata as any)?.btdUsed ?? (run.metadata as any)?.creditsUsed) || 0), 0
+      sum + (((run.metadata as any)?.btdUsed) || 0), 0
     ),
     
     averageBtdPerPipeline: runs.length > 0 
       ? runs.reduce((sum, run) => 
-          sum + (((run.metadata as any)?.btdUsed ?? (run.metadata as any)?.creditsUsed) || 0), 0
+          sum + (((run.metadata as any)?.btdUsed) || 0), 0
         ) / runs.length
       : 0,
     
@@ -550,12 +550,12 @@ function generateOrganizationRecommendations(metrics: any): any[] {
     recommendations.push({
       category: 'cost',
       priority: 'medium',
-      title: 'Optimize Credit Usage',
-      description: `Average of ${Math.round(metrics.pipelineAnalytics.averageCreditsPerPipeline)} credits per pipeline could be optimized`,
+      title: 'Optimize $BTD Usage',
+      description: `Average of ${Math.round(metrics.pipelineAnalytics.averageCreditsPerPipeline)} $BTD per pipeline could be optimized`,
       actions: [
         'Review prompt optimization strategies',
         'Train team on efficient pipeline usage',
-        'Implement credit budgets and monitoring'
+        'Implement $BTD budgets and monitoring'
       ],
       impact: 'medium',
       effort: 'low'

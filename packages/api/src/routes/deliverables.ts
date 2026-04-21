@@ -683,7 +683,7 @@ export const POST = traceRoute('/deliverables', async (request: NextRequest) => 
       repo_name: repoName,
       model_provider: modelProvider,
       model_id: modelId,
-      credits_used: cost,
+      btd_used: cost,
       iteration_count: iterationCount
     });
 
@@ -919,7 +919,7 @@ export const POST = traceRoute('/deliverables', async (request: NextRequest) => 
           execution.store('route/preprocessed', 'deliverables', preprocessing);
         } catch {}
 
-        // Execute pipeline with credit reservation
+        // Execute pipeline with canonical $BTD reservation
         log('[deliverables] Starting pipeline execution', 'info', {
           correlationId,
           phases: ['setup', 'discovery', 'implementation', 'validation', 'shipping'],
@@ -1025,7 +1025,7 @@ export const POST = traceRoute('/deliverables', async (request: NextRequest) => 
             executionData.data[namespace] = Object.fromEntries(namespaceData.entries());
           }
         }
-        // Enrich final work summary with token/credit aggregates and merge into execution output
+        // Enrich final work summary with token/$BTD aggregates and merge into execution output
         let finalWorkSummary: any = undefined;
         try {
           finalWorkSummary = {
@@ -1060,7 +1060,6 @@ export const POST = traceRoute('/deliverables', async (request: NextRequest) => 
               const btdUsed = Math.max(1, Math.ceil(tokens.usd * 10)); // 10 $BTD per USD
               finalWorkSummary.processingStats.tokens = { input: tokens.input, output: tokens.output, total: tokens.total };
               finalWorkSummary.processingStats.btdUsed = btdUsed;
-              finalWorkSummary.processingStats.credits = btdUsed;
               finalWorkSummary.processingStats.usdTotal = Number(tokens.usd.toFixed(2));
             }
           } catch {}

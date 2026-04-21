@@ -430,7 +430,7 @@ Supports organization-scoped access control and user permissions.`,
 
 Safely cancels pipeline execution with proper cleanup:
 • Stops all running agents and phases
-• Refunds unused credits
+• Refunds unused $BTD
 • Records cancellation reason and timestamp
 • Maintains audit trail for compliance
 

@@ -87,7 +87,7 @@ function coerceProcessingStats(value: unknown): ProcessingStats {
   return {
     time: coerceString(value.time),
     tokenTotal: coerceNumber(tokens?.total),
-    btdUsed: coerceNumber(value.btdUsed) ?? coerceNumber(value.credits),
+    btdUsed: coerceNumber(value.btdUsed),
     usdTotal: coerceNumber(value.usdTotal),
     averageLatencyMs: coerceNumber(value.averageLatencyMs),
   };

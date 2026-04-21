@@ -9,7 +9,7 @@ interface CompletionMilestone {
   category: 'component' | 'service' | 'test' | 'refactor' | 'feature' | 'bug' | 'documentation';
   complexity: 'simple' | 'moderate' | 'complex' | 'epic';
   timeSpent: number; // in seconds
-  creditsUsed: number;
+  btdUsed: number;
   patterns: string[];
   quality: number; // 0-1
   timestamp: Date;
@@ -180,8 +180,8 @@ export const MarketingCompletionCelebration = ({
       achievements.push('streak-warrior');
     }
     
-    // Efficiency guru (low credits for complexity)
-    if (milestone.complexity === 'complex' && milestone.creditsUsed < 150) {
+    // Efficiency guru (low $BTD for complexity)
+    if (milestone.complexity === 'complex' && milestone.btdUsed < 150) {
       achievements.push('efficiency-guru');
     }
     
@@ -421,7 +421,7 @@ export const MarketingCompletionCelebration = ({
                 <div className="bg-brand-cosmic-dark/50 rounded-lg p-3">
                   <div className="text-gray-400">$BTD</div>
                   <div className="text-brand-emerald font-medium">
-                    {milestone.creditsUsed} $BTD
+                    {milestone.btdUsed} $BTD
                   </div>
                 </div>
                 

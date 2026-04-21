@@ -75,8 +75,6 @@ export interface CompletionData {
     };
     /** Canonical $BTD consumed */
     btdUsed?: number;
-    /** @deprecated Compatibility-only legacy balance unit */
-    credits?: number;
   };
   /** Snapshot of the repository at time of execution */
   repoSnapshot?: {
@@ -133,8 +131,6 @@ export interface PipelineExecution {
     time: string;
     tokens?: { input: number; output: number; total: number };
     btdUsed?: number;
-    /** @deprecated Compatibility-only legacy balance unit */
-    credits?: number;
     usdTotal?: number;
     averageLatencyMs?: number | null;
     modelUsage?: Array<{
@@ -160,8 +156,6 @@ export interface PipelineExecution {
       time: string;
       tokens?: { input: number; output: number; total: number };
       btdUsed?: number;
-      /** @deprecated Compatibility-only legacy balance unit */
-      credits?: number;
       usdTotal?: number;
       averageLatencyMs?: number | null;
       modelUsage?: Array<{
@@ -199,8 +193,6 @@ export interface AIDocumentRun {
     time: string;
     tokens?: { input: number; output: number; total: number };
     btdUsed?: number;
-    /** @deprecated Compatibility-only legacy balance unit */
-    credits?: number;
     usdTotal?: number;
     averageLatencyMs?: number | null;
     modelUsage?: Array<{
@@ -222,8 +214,6 @@ export interface AIDocumentRun {
       time: string;
       tokens?: { input: number; output: number; total: number };
       btdUsed?: number;
-      /** @deprecated Compatibility-only legacy balance unit */
-      credits?: number;
       usdTotal?: number;
       averageLatencyMs?: number | null;
       modelUsage?: Array<{

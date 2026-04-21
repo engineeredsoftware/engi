@@ -168,7 +168,7 @@ async function performIntelligenceSynthesis(pipelines: any[], options: any): Pro
 
   // Calculate BTD usage patterns
   const btdUsage = pipelines
-    .map(p => (p.metrics?.btdUsed ?? p.metrics?.creditsUsed) || 0)
+    .map(p => p.metrics?.btdUsed || 0)
     .filter((btd: number) => btd > 0);
   
   const totalBtdUsed = btdUsage.reduce((sum, btd) => sum + btd, 0);
@@ -245,7 +245,7 @@ function analyzeTimeBasedTrends(pipelines: any[]): any {
   return {
     productivityTrend: calculateTrend(Object.values(weeklyGroups).map(g => g.length)),
     costTrend: calculateTrend(Object.values(weeklyGroups).map(g => 
-      g.reduce((sum, p) => sum + ((p.metrics?.btdUsed ?? p.metrics?.creditsUsed) || 0), 0)
+      g.reduce((sum, p) => sum + (p.metrics?.btdUsed || 0), 0)
     )),
     qualityTrend: calculateTrend(Object.values(weeklyGroups).map(g => {
       const successful = g.filter(p => p.status === 'completed').length;

@@ -24,7 +24,7 @@ export interface HealthStatus {
     pipelines: HealthCheck;
     circuitBreakers: CircuitBreakerStatus[];
     memory: MemoryStatus;
-    credits: HealthCheck;
+    btd: HealthCheck;
   };
   environment?: string;
   serverId?: string;
@@ -79,7 +79,7 @@ export async function performHealthCheck(
       pipelines: await checkPipelines(),
       circuitBreakers: checkCircuitBreakers(circuitBreakers),
       memory: checkMemory(),
-      credits: await checkCredits()
+      btd: await checkCredits()
     },
     environment: process.env.NODE_ENV,
     serverId: process.env.SERVER_ID

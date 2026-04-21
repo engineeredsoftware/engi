@@ -57,7 +57,7 @@
 **User Profile & Data Management (14 Features)**
 - `USER_PROFILE` - User profile data
 - `USER_DATA` - General user data
-- `USER_CREDITS` - Credit management
+- `USER_BTD` - `$BTD` balance management
 - `USER_USAGE` - Usage analytics
 - `USER_TRANSACTIONS` - Transaction history
 - `USER_API_KEYS` - API key management
@@ -78,12 +78,12 @@
 
 - `ORGANIZATIONS` - Organization management
 - `ORGANIZATION_MEMBERS` - Member management
-- `ORGANIZATION_CREDITS` - Organization credits
+- `ORGANIZATION_BTD` - Organization treasury `$BTD`
 - `ORGANIZATION_INVITATIONS` - Team invitations
 - `TEAM_INVITATIONS` - Team invitation system
 - `TEAM_MEMBERSHIPS` - Membership management
 - `INVITATION_ACCEPTANCE` - Invitation handling
-- `CREDIT_TRANSACTIONS` - Credit transactions
+- `BTD_TRANSACTIONS` - `$BTD` transactions
 
 ### 🔗 EXTERNAL INTEGRATIONS (25 Features)
 
@@ -134,11 +134,11 @@
 - `MARKETPLACE_CATEGORIES` - Category management
 
 **Payment & Credits System (5 Features)**
-- `STRIPE_CHECKOUT` - Checkout sessions
-- `STRIPE_FULFILLMENT` - Payment fulfillment
-- `STRIPE_WEBHOOKS` - Payment webhooks
-- `CREDIT_PURCHASES` - Credit purchases
-- `PAYMENT_METHODS` - Payment methods
+- `BTC_SETTLEMENTS` - Wallet-settled BTC observations
+- `BTD_ISSUANCES` - `$BTD` issuance events
+- `WALLET_OBSERVATIONS` - Wallet/network observation events
+- `BTD_ACQUISITIONS` - BTC→`$BTD` acquisition records
+- `WALLET_CONNECTIONS` - Wallet connection posture
 
 ### 📋 TEMPLATES & PREFERENCES SYSTEM (4 Features)
 
@@ -238,9 +238,9 @@ mockAreas.integrations.figma.teams()          // Figma teams
 mockAreas.marketplace.listings()              // Marketplace listings
 mockAreas.marketplace.orders()                // Order management
 
-// Payments
-mockAreas.payments.stripe.checkout()          // Stripe checkout
-mockAreas.payments.credits()                  // Credit management
+// Treasury
+mockAreas.payments.treasury.settlements()     // BTC settlement observations
+mockAreas.payments.acquisitions()             // BTC to $BTD acquisition flow
 
 // MCP Tools
 mockAreas.mcp.aws()                          // AWS integration

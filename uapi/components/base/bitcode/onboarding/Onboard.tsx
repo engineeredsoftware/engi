@@ -13,12 +13,10 @@ export const useOnboardCTA = () => {
       const { publicMetadata: { isCustomer, isInstalled }, ...t } = user
       console.log(t)
 
-      // TODO: disabling customer check for demo !
+      // V26 keeps acquisition wallet-native; onboarding only steers to sign-in or installation surfaces.
       if (subscriptionFlowEnabled) {
-        //if (!isCustomer) {
         setText('Mint Bitcode')
         setHref('SUBSCRIBE')
-        //setHref('https://buy.stripe.com/6oE9Bx0d05yugpO4gh')
       } else {
         if (isInstalled) {
           setText('Configure App')
@@ -30,7 +28,6 @@ export const useOnboardCTA = () => {
     } else {
       setText('Get Started')
       setHref('SIGNIN')
-      //setHref('https://accounts.engi.exchange/sign-up')
     }
   }, [subscriptionFlowEnabled, user])
 

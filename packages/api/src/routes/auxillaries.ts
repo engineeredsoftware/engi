@@ -168,7 +168,6 @@ export function buildGetAuxillaryDataRoute(options: AuxillaryRouteBuilderOptions
         profile,
         githubConnection,
         btdBalance,
-        credits: btdBalance,
         modelPreferences,
         onboardedSteps: (profile as { onboarded_steps?: unknown } | null)?.onboarded_steps,
       }),
@@ -207,8 +206,7 @@ export function buildPostAuxillaryBtdRoute(options: AuxillaryRouteBuilderOptions
       return createJsonResponse({ error: 'Invalid JSON body' }, 400);
     }
 
-    const rawRequestedBalance =
-      body.btdBalance ?? body.totalBtd ?? body.credits ?? body.totalCredits;
+    const rawRequestedBalance = body.btdBalance ?? body.totalBtd;
     const requestedBtdBalance = Number(rawRequestedBalance);
 
     if (!Number.isFinite(requestedBtdBalance) || requestedBtdBalance < 0) {

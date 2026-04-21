@@ -186,7 +186,6 @@ export const DeliverButton = ({
         style={{
           '--confidence': overallConfidence,
           '--estimated-btd': estimatedBalanceUnit || 50,
-          '--estimated-credits': estimatedBalanceUnit || 50,
           '--estimated-duration': estimatedDuration || 3,
         } as React.CSSProperties}
         onMouseEnter={() => setIsHovered(true)}

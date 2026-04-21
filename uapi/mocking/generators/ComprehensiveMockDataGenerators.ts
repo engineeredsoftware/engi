@@ -126,7 +126,7 @@ export class ComprehensiveMockDataGenerator {
     // User Profile & Data
     this.generators.set('USER_PROFILE', () => this.generateUserProfile());
     this.generators.set('USER_DATA', () => this.generateUserData());
-    this.generators.set('USER_CREDITS', () => this.generateUserCredits());
+    this.generators.set('USER_BTD', () => this.generateUserBtd());
     this.generators.set('USER_USAGE', () => this.generateUserUsage());
     this.generators.set('USER_TRANSACTIONS', () => this.generateUserTransactions());
     this.generators.set('USER_API_KEYS', () => this.generateUserApiKeys());
@@ -149,12 +149,12 @@ export class ComprehensiveMockDataGenerator {
 
     this.generators.set('ORGANIZATIONS', () => this.generateOrganizations());
     this.generators.set('ORGANIZATION_MEMBERS', () => this.generateOrganizationMembers());
-    this.generators.set('ORGANIZATION_CREDITS', () => this.generateOrganizationCredits());
+    this.generators.set('ORGANIZATION_BTD', () => this.generateOrganizationBtd());
     this.generators.set('ORGANIZATION_INVITATIONS', () => this.generateOrganizationInvitations());
     this.generators.set('TEAM_INVITATIONS', () => this.generateTeamInvitations());
     this.generators.set('TEAM_MEMBERSHIPS', () => this.generateTeamMemberships());
     this.generators.set('INVITATION_ACCEPTANCE', () => this.generateInvitationAcceptance());
-    this.generators.set('CREDIT_TRANSACTIONS', () => this.generateCreditTransactions());
+    this.generators.set('BTD_TRANSACTIONS', () => this.generateBtdTransactions());
 
     // ========================================================================
     // EXTERNAL INTEGRATIONS
@@ -208,14 +208,14 @@ export class ComprehensiveMockDataGenerator {
     this.generators.set('MARKETPLACE_CATEGORIES', () => this.generateMarketplaceCategories());
 
     // ========================================================================
-    // PAYMENT & CREDITS
+    // BTC / $BTD TREASURY
     // ========================================================================
 
-    this.generators.set('STRIPE_CHECKOUT', () => this.generateStripeCheckout());
-    this.generators.set('STRIPE_FULFILLMENT', () => this.generateStripeFulfillment());
-    this.generators.set('STRIPE_WEBHOOKS', () => this.generateStripeWebhooks());
-    this.generators.set('CREDIT_PURCHASES', () => this.generateCreditPurchases());
-    this.generators.set('PAYMENT_METHODS', () => this.generatePaymentMethods());
+    this.generators.set('BTC_SETTLEMENTS', () => this.generateBitcoinSettlements());
+    this.generators.set('BTD_ISSUANCES', () => this.generateBtdIssuances());
+    this.generators.set('WALLET_OBSERVATIONS', () => this.generateWalletObservations());
+    this.generators.set('BTD_ACQUISITIONS', () => this.generateBtdAcquisitions());
+    this.generators.set('WALLET_CONNECTIONS', () => this.generateWalletConnections());
 
     // ========================================================================
     // TEMPLATES & PREFERENCES
@@ -824,7 +824,7 @@ export class ComprehensiveMockDataGenerator {
       checks: {
         database: { status: 'healthy', latency: '12ms', last_check: this.generateTimestamp() },
         redis: { status: 'healthy', latency: '3ms', last_check: this.generateTimestamp() },
-        stripe: { status: 'healthy', latency: '145ms', last_check: this.generateTimestamp() },
+        wallet_observer: { status: 'healthy', latency: '145ms', last_check: this.generateTimestamp() },
         github: { status: 'healthy', latency: '89ms', last_check: this.generateTimestamp() },
         openai: { status: 'degraded', latency: '2341ms', last_check: this.generateTimestamp() },
         anthropic: { status: 'healthy', latency: '567ms', last_check: this.generateTimestamp() }
@@ -1009,7 +1009,7 @@ export class ComprehensiveMockDataGenerator {
 
   // User Data (continued)
   private generateUserData() { return this.generateUserProfile(); }
-  private generateUserUsage() { return { runs_this_month: 23, credits_used: 567, api_calls: 1247 }; }
+  private generateUserUsage() { return { runs_this_month: 23, btd_used: 567, api_calls: 1247 }; }
   private generateUserApiKeys() { return [{ id: 'key_' + this.generateId(), name: 'Production API', key: 'bitcode_pk_' + this.generateId(), created_at: this.generateTimestamp(-30) }]; }
   private generateUserPreferences() { return { theme: 'dark', notifications: true, auto_save: true }; }
   private generateUserModelPreferences() { return { preferred_model: 'claude-3-sonnet', temperature: 0.7, max_tokens: 2000 }; }
@@ -1025,12 +1025,12 @@ export class ComprehensiveMockDataGenerator {
   private generateOnboardingLock() { return { locked: false, reason: null, unlock_conditions: [] }; }
 
   // Organization & Enterprise (continued)
-  private generateOrganizationCredits() { return { org_id: 'org_123', balance: 5000, plan_included: 2000, purchased: 3000 }; }
+  private generateOrganizationBtd() { return { org_id: 'org_123', btd_balance: 5000, treasury_issued: 2000, treasury_received: 3000 }; }
   private generateOrganizationInvitations() { return [{ id: 'inv_' + this.generateId(), email: 'new@example.com', role: 'member', status: 'pending' }]; }
   private generateTeamInvitations() { return this.generateOrganizationInvitations(); }
   private generateTeamMemberships() { return this.generateOrganizationMembers(); }
   private generateInvitationAcceptance() { return { invitation_id: 'inv_123', accepted: true, joined_at: this.generateTimestamp() }; }
-  private generateCreditTransactions() { return this.generateUserTransactions(); }
+  private generateBtdTransactions() { return this.generateUserTransactions(); }
 
   // GitHub (continued)
   private generateGitHubBranches() { return [{ name: 'main', commit: { sha: 'abc123', url: 'https://api.github.com/commits/abc123' } }]; }
@@ -1070,12 +1070,12 @@ export class ComprehensiveMockDataGenerator {
   private generateMarketplaceTicker() { return { trending: ['react-template'], new_releases: ['api-security-kit'], top_sellers: ['performance-optimizer'] }; }
   private generateMarketplaceCategories() { return [{ id: 'templates', name: 'Templates', count: 145 }, { id: 'tools', name: 'Tools', count: 89 }]; }
 
-  // Payment & Credits (continued)
-  private generateStripeCheckout() { return { session_id: 'cs_test_123', url: 'https://checkout.stripe.com/cs_test_123' }; }
-  private generateStripeFulfillment() { return { session_id: 'cs_test_123', status: 'complete', credits_added: 500 }; }
-  private generateStripeWebhooks() { return { event_type: 'checkout.session.completed', processed: true }; }
-  private generateCreditPurchases() { return [{ amount: 500, cost: 49.99, currency: 'USD', status: 'completed' }]; }
-  private generatePaymentMethods() { return [{ id: 'pm_123', type: 'card', last4: '4242', exp_month: 12, exp_year: 2026 }]; }
+  // BTC / $BTD Treasury (continued)
+  private generateBitcoinSettlements() { return [{ settlement_id: 'btc_settlement_123', txid: '000000000000000000000000000000000000000000000000000000000000beef', btc_amount: 0.0025, status: 'observed' }]; }
+  private generateBtdIssuances() { return [{ issuance_id: 'btd_issuance_123', btd_amount: 500, status: 'complete' }]; }
+  private generateWalletObservations() { return { event_type: 'wallet.observation.confirmed', processed: true }; }
+  private generateBtdAcquisitions() { return [{ btd_amount: 500, btc_amount: 0.0025, network: 'bitcoin-testnet', status: 'completed' }]; }
+  private generateWalletConnections() { return [{ id: 'wallet_123', provider: 'metamask', network: 'bitcoin-testnet', status: 'connected' }]; }
 
   // Templates & Preferences
   private generateDeliverableTemplates() { return [{ id: 'tpl_123', name: 'React Component', category: 'frontend', usage_count: 1247 }]; }
@@ -1121,7 +1121,7 @@ export class ComprehensiveMockDataGenerator {
   private generateAdminOrganizations() { return this.generateOrganizations(); }
   private generateAdminRuns() { return [{ id: 'run_123', user_id: 'user_456', status: 'completed', cost: 0.25, duration: '120s' }]; }
   private generateAdminAnalytics() { return { users: { total: 1247, active: 567, new_this_month: 89 }, runs: { total: 5432, success_rate: 0.94 } }; }
-  private generateUsageAnalytics() { return { api_calls: 12470, credits_used: 5678, popular_features: ['deliverables', 'chat'] }; }
+  private generateUsageAnalytics() { return { api_calls: 12470, btd_used: 5678, popular_features: ['deliverables', 'chat'] }; }
   private generateFinancialAnalytics() { return { revenue: { monthly: 12450, annual: 149400 }, costs: { infrastructure: 2300, ai_models: 5600 } }; }
   private generateRunMonitoring() { return [{ run_id: 'run_123', status: 'running', progress: 0.75, eta: '2 minutes' }]; }
 

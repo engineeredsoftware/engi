@@ -120,7 +120,7 @@ function buildProcessingStats(row: ExecutionHistoryRow) {
   const inputTokens = asNumber(sourceTokens?.input);
   const outputTokens = asNumber(sourceTokens?.output);
   const usdTotal = asNumber(source?.usdTotal) ?? row.total_cost;
-  const credits = asNumber(source?.credits);
+  const btdUsed = asNumber(source?.btdUsed);
   const averageLatencyMs = asNumber(source?.averageLatencyMs);
   const time = asString(source?.time) || formatDuration(row.duration_ms);
   const modelUsage = Array.isArray(source?.modelUsage) ? source.modelUsage : undefined;
@@ -128,7 +128,7 @@ function buildProcessingStats(row: ExecutionHistoryRow) {
   if (
     !time &&
     totalTokens === null &&
-    credits === null &&
+    btdUsed === null &&
     usdTotal === null &&
     averageLatencyMs === null &&
     !modelUsage
@@ -146,7 +146,7 @@ function buildProcessingStats(row: ExecutionHistoryRow) {
             total: totalTokens,
           }
         : undefined,
-    credits: credits ?? undefined,
+    btdUsed: btdUsed ?? undefined,
     usdTotal: usdTotal ?? undefined,
     averageLatencyMs: averageLatencyMs ?? undefined,
     modelUsage,

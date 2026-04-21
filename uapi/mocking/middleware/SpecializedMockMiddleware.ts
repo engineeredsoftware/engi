@@ -155,8 +155,8 @@ export const mockUser = {
     cacheControl: { enabled: true, ttlSeconds: 600 }
   }),
   
-  credits: () => createSpecializedMiddleware({
-    feature: 'USER_CREDITS',
+  btd: () => createSpecializedMiddleware({
+    feature: 'USER_BTD',
     timing: 'fast',
     performanceTracking: true
   }),
@@ -379,8 +379,8 @@ export const mockOrganizations = {
     performanceTracking: true
   }),
   
-  credits: () => createSpecializedMiddleware({
-    feature: 'ORGANIZATION_CREDITS',
+  btd: () => createSpecializedMiddleware({
+    feature: 'ORGANIZATION_BTD',
     timing: 'fast',
     performanceTracking: true
   }),
@@ -526,35 +526,41 @@ export const mockMarketplace = {
 };
 
 // ============================================================================
-// PAYMENT & CREDITS MIDDLEWARE
+// BTC / $BTD TREASURY MIDDLEWARE
 // ============================================================================
 
 /**
- * Payment and credits system middleware
+ * Treasury and wallet system middleware
  */
 export const mockPayments = {
-  stripe: {
-    checkout: () => createSpecializedMiddleware({
-      feature: 'STRIPE_CHECKOUT',
+  treasury: {
+    settlements: () => createSpecializedMiddleware({
+      feature: 'BTC_SETTLEMENTS',
       timing: 'realistic',
       performanceTracking: true
     }),
     
-    fulfillment: () => createSpecializedMiddleware({
-      feature: 'STRIPE_FULFILLMENT',
+    issuances: () => createSpecializedMiddleware({
+      feature: 'BTD_ISSUANCES',
       timing: 'realistic',
       performanceTracking: true
     }),
     
-    webhooks: () => createSpecializedMiddleware({
-      feature: 'STRIPE_WEBHOOKS',
+    observations: () => createSpecializedMiddleware({
+      feature: 'WALLET_OBSERVATIONS',
       timing: 'fast',
       performanceTracking: true
     })
   },
   
-  credits: () => createSpecializedMiddleware({
-    feature: 'CREDIT_PURCHASES',
+  acquisitions: () => createSpecializedMiddleware({
+    feature: 'BTD_ACQUISITIONS',
+    timing: 'realistic',
+    performanceTracking: true
+  }),
+
+  wallets: () => createSpecializedMiddleware({
+    feature: 'WALLET_CONNECTIONS',
     timing: 'realistic',
     performanceTracking: true
   })
@@ -671,7 +677,7 @@ export const mockAdmin = {
 export const mockLegacy = {
   deliverables: () => mockDeliverables.main(),
   github: (type: 'repos' | 'issues' | 'accounts' = 'repos') => mockGitHub[type](),
-  userData: (type: 'profile' | 'credits' | 'usage' = 'profile') => mockUser[type]()
+  userData: (type: 'profile' | 'btd' | 'usage' = 'profile') => mockUser[type]()
 };
 
 // ============================================================================

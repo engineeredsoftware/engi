@@ -38,7 +38,6 @@ interface DodInputProps {
   onPatternRecognized?: (patterns: any[]) => void;
   onConfidenceChange?: (confidence: number) => void;
   onBtdEstimated?: (btdAmount: number) => void;
-  onCreditsEstimated?: (credits: number) => void;
   
   /** Styling */
   className?: string;
@@ -58,7 +57,6 @@ export const DodInput = ({
   onPatternRecognized,
   onConfidenceChange,
   onBtdEstimated,
-  onCreditsEstimated,
   className = ''
 }: DodInputProps) => {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -111,8 +109,7 @@ export const DodInput = ({
   
   useEffect(() => {
     onBtdEstimated?.(suggestedCredits);
-    onCreditsEstimated?.(suggestedCredits);
-  }, [suggestedCredits, onBtdEstimated, onCreditsEstimated]);
+  }, [suggestedCredits, onBtdEstimated]);
   
   // Mouse tracking for interactive effects
   useEffect(() => {

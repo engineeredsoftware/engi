@@ -16,10 +16,9 @@ const POSTHandler = async function POST(request: Request) {
     senderName,
     btdAmount,
     newBtdBalance,
-    credits,
     newBalance,
   } = body;
-  const resolvedBtdAmount = btdAmount ?? credits;
+  const resolvedBtdAmount = btdAmount;
   const resolvedNewBtdBalance = newBtdBalance ?? newBalance;
 
   if (!recipientEmail || !senderName || resolvedBtdAmount == null || resolvedNewBtdBalance == null) {

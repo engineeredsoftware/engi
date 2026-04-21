@@ -108,7 +108,7 @@ interface DeliverableResponse {
     metadata?: any;              // Additional information
   }>;
   metrics: {
-    creditsUsed: number;
+    btdUsed: number;
     tokensProcessed: number;
     confidence: number;          // 0-1 confidence score
     duration: number;            // Execution time in milliseconds

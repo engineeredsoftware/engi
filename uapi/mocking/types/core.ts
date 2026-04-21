@@ -89,7 +89,7 @@ export type MockableFeature =
   // User Profile & Data Management
   | 'USER_PROFILE'
   | 'USER_DATA'
-  | 'USER_CREDITS'
+  | 'USER_BTD'
   | 'USER_USAGE'
   | 'USER_TRANSACTIONS'
   | 'USER_API_KEYS'
@@ -112,12 +112,12 @@ export type MockableFeature =
   
   | 'ORGANIZATIONS'
   | 'ORGANIZATION_MEMBERS'
-  | 'ORGANIZATION_CREDITS'
+  | 'ORGANIZATION_BTD'
   | 'ORGANIZATION_INVITATIONS'
   | 'TEAM_INVITATIONS'
   | 'TEAM_MEMBERSHIPS'
   | 'INVITATION_ACCEPTANCE'
-  | 'CREDIT_TRANSACTIONS'
+  | 'BTD_TRANSACTIONS'
   
   // ============================================================================
   // EXTERNAL INTEGRATIONS (Git Providers & Tools)
@@ -171,14 +171,14 @@ export type MockableFeature =
   | 'MARKETPLACE_CATEGORIES'
   
   // ============================================================================
-  // PAYMENT & CREDITS SYSTEM
+  // BTC / $BTD TREASURY SYSTEM
   // ============================================================================
   
-  | 'STRIPE_CHECKOUT'
-  | 'STRIPE_FULFILLMENT'
-  | 'STRIPE_WEBHOOKS'
-  | 'CREDIT_PURCHASES'
-  | 'PAYMENT_METHODS'
+  | 'BTC_SETTLEMENTS'
+  | 'BTD_ISSUANCES'
+  | 'WALLET_OBSERVATIONS'
+  | 'BTD_ACQUISITIONS'
+  | 'WALLET_CONNECTIONS'
   
   // ============================================================================
   // TEMPLATES & PREFERENCES SYSTEM

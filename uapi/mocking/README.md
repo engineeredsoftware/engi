@@ -54,7 +54,7 @@ Your entire Bitcode application now has rich, realistic mock data automatically.
 ✅ **Marketplace** (5+ features): Listings, orders, ticker, categories  
 ✅ **MCP Tools** (4+ features): AWS, Supabase, Vercel integrations  
 ✅ **System Health** (15+ features): Monitoring, analytics, admin dashboards  
-✅ **Payments** (5+ features): Stripe, credits, transactions  
+✅ **Treasury** (5+ features): BTC settlement, `$BTD` issuance, wallets  
 ✅ **Vector/AI** (5+ features): Embeddings, pattern recognition, semantic search  
 
 ## ⚙️ Setup Options
@@ -223,7 +223,7 @@ initializeMockSystem({
 ### Business Features
 - **Organizations:** Team management, billing, invitations
 - **Marketplace:** Listings, orders, categories, ticker
-- **Payments:** Stripe integration, credits, transactions
+- **Treasury:** BTC settlement, `$BTD` issuance, wallet posture
 
 ### Developer Tools
 - **Integrations:** GitHub, GitLab, Bitbucket, Figma, Notion

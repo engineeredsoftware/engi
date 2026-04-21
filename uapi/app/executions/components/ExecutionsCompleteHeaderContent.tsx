@@ -48,7 +48,6 @@ export type HeaderProcessingStats = {
   time: string;
   tokens?: { input: number; output: number; total: number };
   btdUsed?: number;
-  credits?: number;
   usdTotal?: number;
   averageLatencyMs?: number | null;
   modelUsage?: HeaderModelUsageStat[];
@@ -254,7 +253,7 @@ export function CompleteHeaderContent({
           </div>
           <div className="flex items-center justify-between">
             <span className="text-gray-400 text-sm">$BTD</span>
-            <span className="text-emerald-300 font-medium text-sm">{processingStats?.btdUsed ?? processingStats?.credits ?? 1}</span>
+            <span className="text-emerald-300 font-medium text-sm">{processingStats?.btdUsed ?? 1}</span>
           </div>
           {typeof processingStats?.usdTotal === 'number' && (
             <div className="flex items-center justify-between">

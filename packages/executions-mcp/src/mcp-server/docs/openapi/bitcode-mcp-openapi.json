@@ -114,9 +114,9 @@
       "ExecutionMetrics": {
         "type": "object",
         "properties": {
-          "creditsUsed": {
+          "btdUsed": {
             "type": "integer",
-            "description": "Number of credits consumed",
+            "description": "Amount of $BTD consumed",
             "example": 150
           },
           "tokensProcessed": {

@@ -534,7 +534,7 @@ export class MCPSpecificationGenerator {
       for (const [toolName, tool] of Object.entries(category.tools)) {
         docs += `#### \`${tool.name}\`\n\n`;
         docs += `${tool.description}\n\n`;
-        docs += `**Complexity**: ${tool.complexity} | **Estimated Cost**: ${tool.creditCost.estimated} credits\n\n`;
+        docs += `**Complexity**: ${tool.complexity} | **Estimated Cost**: ${tool.creditCost.estimated} $BTD\n\n`;
         
         if (tool.examples.length > 0) {
           docs += `**Example**:\n\`\`\`json\n${JSON.stringify(tool.examples[0].input, null, 2)}\n\`\`\`\n\n`;

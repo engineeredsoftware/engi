@@ -158,7 +158,7 @@ export class MockDataGeneratorEngine {
 
     // User data generators
     this.generators.set('USER_PROFILE', new UserProfileGenerator());
-    this.generators.set('USER_CREDITS', new UserCreditsGenerator());
+    this.generators.set('USER_BTD', new UserCreditsGenerator());
     this.generators.set('USER_NOTIFICATIONS', new UserNotificationGenerator());
     this.generators.set('USER_CONNECTIONS', new UserConnectionGenerator());
 
@@ -189,7 +189,7 @@ export class MockDataGeneratorEngine {
       influences: ['COMPLETION_DATA', 'PIPELINE_LOGS']
     });
 
-    this.relationships.set('USER_CREDITS', {
+    this.relationships.set('USER_BTD', {
       dependsOn: ['USER_PROFILE'],
       influences: ['DELIVERABLES', 'UPGRADES']
     });
@@ -449,7 +449,7 @@ class DeliverableGenerator extends BaseDataGenerator {
             output: Math.floor(Math.random() * 1000) + 200,
             total: 0
           },
-          credits: Math.floor(Math.random() * 50) + 10
+          btdUsed: Math.floor(Math.random() * 50) + 10
         },
         repo_snapshot: {
           org: 'mock-org',
@@ -503,7 +503,7 @@ class CompletionDataGenerator extends BaseDataGenerator {
           output: Math.floor(Math.random() * 1500) + 500,
           total: 0
         },
-        credits: Math.floor(Math.random() * 100) + 25
+        btdUsed: Math.floor(Math.random() * 100) + 25
       },
       repoSnapshot: {
         org: 'mock-org',
@@ -670,9 +670,9 @@ class UserCreditsGenerator extends BaseDataGenerator {
     };
 
     return {
-      credits: baseCredits[complexity] || 500,
+      btdBalance: baseCredits[complexity] || 500,
       usage_this_month: Math.floor(Math.random() * 200),
-      last_purchase: this.generateRealisticTimestamp(30)
+      lastAcquisition: this.generateRealisticTimestamp(30)
     };
   }
 }

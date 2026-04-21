@@ -168,10 +168,10 @@ export function ExecutionDetailsView({ runId, executionId }: ExecutionDetailsVie
                   <span className="text-gray-300">{fws.processingStats.tokens.total} (in {fws.processingStats.tokens.input} / out {fws.processingStats.tokens.output})</span>
                 </div>
               )}
-              {typeof (fws.processingStats.btdUsed ?? fws.processingStats.credits) === 'number' && (
+              {typeof fws.processingStats.btdUsed === 'number' && (
                 <div>
                   <span className="text-gray-500">$BTD: </span>
-                  <span className="text-gray-300">{fws.processingStats.btdUsed ?? fws.processingStats.credits}</span>
+                  <span className="text-gray-300">{fws.processingStats.btdUsed}</span>
                 </div>
               )}
               {fws.repoSnapshot && (

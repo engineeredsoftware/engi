@@ -156,7 +156,7 @@ const pipelineDependencySchema = z.object({
     resources: z.object({
       cpu: z.number().optional(),
       memory: z.number().optional(),
-      credits: z.number().optional()
+      btd: z.number().optional()
     }).optional(),
     estimatedDuration: z.number().optional()
   })).optional().describe('Pipeline definitions for analysis'),

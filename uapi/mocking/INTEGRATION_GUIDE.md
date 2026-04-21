@@ -186,7 +186,7 @@ import { useMockData, MockOnly, RealOnly } from '@/mocking';
 
 function Header() {
   const { data: user } = useMockData('USER_PROFILE');
-  const { data: credits } = useMockData('USER_CREDITS');
+  const { data: btd } = useMockData('USER_BTD');
   
   return (
     <header>
@@ -197,7 +197,7 @@ function Header() {
       </MockOnly>
       
       {/* Your existing header logic works exactly the same */}
-      <UserMenu user={user} credits={credits} />
+      <UserMenu user={user} btd={btd} />
     </header>
   );
 }

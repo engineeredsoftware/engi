@@ -10,7 +10,7 @@
  * - Marketplace: business listings and orders (5+ features)
  * - MCP Tools: pure API integrations (4+ features)
  * - System Health: monitoring and admin (15+ features)
- * - Payments: Stripe, credits, transactions (5+ features)
+ * - Treasury: BTC settlement, $BTD issuance, wallet posture (5+ features)
  * - Vector/AI: embeddings and intelligence (5+ features)
  * 
  * 🚀 ENTERPRISE FEATURES:
@@ -90,7 +90,7 @@ export type { MockMiddlewareConfig, MockRequestContext, MockResponseOptions } fr
 // User Auxillaries (Onboarding, Auth, Profile) - 25+ Features
 export {
   mockAuth,           // GitHub, ChatGPT, Metamask, NextAuth, Sessions
-  mockUser,           // Profile, Credits, Usage, API Keys, Preferences
+  mockUser,           // Profile, $BTD, Usage, API Keys, Preferences
   mockOnboarding      // Steps, Progress, Lock
 } from './middleware/SpecializedMockMiddleware';
 
@@ -107,7 +107,7 @@ export {
 
 // Organization & Enterprise - 8+ Features
 export {
-  mockOrganizations   // Teams, Members, Credits, Invitations
+  mockOrganizations   // Teams, Members, Treasury, Invitations
 } from './middleware/SpecializedMockMiddleware';
 
 // External Integrations - 25+ Features
@@ -120,7 +120,7 @@ export {
 // Business Features - 5+ Features
 export {
   mockMarketplace,    // Listings, Orders, Ticker, Categories
-  mockPayments        // Stripe, Credits, Transactions
+  mockPayments        // BTC settlement, $BTD issuance, Wallets
 } from './middleware/SpecializedMockMiddleware';
 
 // MCP Tools (Pure API) - 4+ Features
@@ -292,14 +292,14 @@ function loadFeatureOverrides(): Partial<Record<MockableFeature, any>> {
     
     // User Auxillaries features (25 features)
     'AUTH_GITHUB', 'AUTH_CHATGPT', 'AUTH_METAMASK', 'AUTH_SESSIONS', 'AUTH_CALLBACKS', 'AUTH_NEXTAUTH', 'AUTH_UNLINK', 'AUTH_CONFIRM',
-    'USER_PROFILE', 'USER_DATA', 'USER_CREDITS', 'USER_USAGE', 'USER_TRANSACTIONS', 'USER_API_KEYS', 
+    'USER_PROFILE', 'USER_DATA', 'USER_BTD', 'USER_USAGE', 'USER_TRANSACTIONS', 'USER_API_KEYS', 
     'USER_PREFERENCES', 'USER_MODEL_PREFERENCES', 'USER_TEMPLATE_PREFERENCES', 'USER_NOTIFICATIONS', 
     'USER_CONNECTIONS', 'USER_REPOSITORIES', 'USER_DATA_SHARE',
     'ONBOARDING_STEPS', 'ONBOARDING_PROGRESS', 'ONBOARDING_LOCK',
     
     // Organization Features (8 features)
-    'ORGANIZATIONS', 'ORGANIZATION_MEMBERS', 'ORGANIZATION_CREDITS', 'ORGANIZATION_INVITATIONS',
-    'TEAM_INVITATIONS', 'TEAM_MEMBERSHIPS', 'INVITATION_ACCEPTANCE', 'CREDIT_TRANSACTIONS',
+    'ORGANIZATIONS', 'ORGANIZATION_MEMBERS', 'ORGANIZATION_BTD', 'ORGANIZATION_INVITATIONS',
+    'TEAM_INVITATIONS', 'TEAM_MEMBERSHIPS', 'INVITATION_ACCEPTANCE', 'BTD_TRANSACTIONS',
     
     // External Integrations (25 features)
     'GITHUB_ACCOUNTS', 'GITHUB_REPOS', 'GITHUB_BRANCHES', 'GITHUB_COMMITS', 'GITHUB_ISSUES', 'GITHUB_FILES', 'GITHUB_CONNECTIONS', 'GITHUB_INTERACTIONS',
@@ -310,7 +310,7 @@ function loadFeatureOverrides(): Partial<Record<MockableFeature, any>> {
     
     // Business Features (10 features)
     'MARKETPLACE_LISTINGS', 'MARKETPLACE_STREAM', 'MARKETPLACE_ORDERS', 'MARKETPLACE_TICKER', 'MARKETPLACE_CATEGORIES',
-    'STRIPE_CHECKOUT', 'STRIPE_FULFILLMENT', 'STRIPE_WEBHOOKS', 'CREDIT_PURCHASES', 'PAYMENT_METHODS',
+    'BTC_SETTLEMENTS', 'BTD_ISSUANCES', 'WALLET_OBSERVATIONS', 'BTD_ACQUISITIONS', 'WALLET_CONNECTIONS',
     
     // Templates & MCP (8 features)
     'DELIVERABLE_TEMPLATES', 'UPGRADE_TEMPLATES', 'TEMPLATE_PREFERENCES', 'TEMPLATE_CATEGORIES',

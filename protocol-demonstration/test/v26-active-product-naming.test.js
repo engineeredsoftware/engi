@@ -19,7 +19,8 @@ const webhookRouteSource = readFileSync(new URL('../../uapi/app/api/webhook/rout
 const webhookVerifySource = readFileSync(new URL('../../uapi/app/api/webhook/verify.ts', import.meta.url), 'utf8');
 const webhookRouteTestSource = readFileSync(new URL('../../uapi/tests/webhookRoute.test.ts', import.meta.url), 'utf8');
 const uapiPackageSource = readFileSync(new URL('../../uapi/package.json', import.meta.url), 'utf8');
-const uapiPackageLockSource = readFileSync(new URL('../../uapi/package-lock.json', import.meta.url), 'utf8');
+const uapiPackageLockPath = new URL('../../uapi/package-lock.json', import.meta.url);
+const uapiPnpmLockPath = new URL('../../uapi/pnpm-lock.yaml', import.meta.url);
 const landingTestSource = readFileSync(new URL('../../uapi/tests/marketingLandingPage.test.tsx', import.meta.url), 'utf8');
 const footerTestSource = readFileSync(new URL('../../uapi/tests/footerPublicShell.test.tsx', import.meta.url), 'utf8');
 const externalRealizationSource = readFileSync(new URL('../src/canonical/v24-external-realization.js', import.meta.url), 'utf8');
@@ -61,6 +62,14 @@ const auxillariesProfilePaneHeaderSource = readFileSync(new URL('../../uapi/app/
 const auxillariesConnectsPaneHeaderSource = readFileSync(new URL('../../uapi/app/auxillaries/components/headers/AuxillariesConnectsPaneHeader.tsx', import.meta.url), 'utf8');
 const auxillariesInterfacesPaneHeaderSource = readFileSync(new URL('../../uapi/app/auxillaries/components/headers/AuxillariesInterfacesPaneHeader.tsx', import.meta.url), 'utf8');
 const auxillariesBtdPaneHeaderSource = readFileSync(new URL('../../uapi/app/auxillaries/components/headers/AuxillariesBTDPaneHeader.tsx', import.meta.url), 'utf8');
+const auxillariesOrganizationSettingsSource = readFileSync(
+  new URL('../../uapi/app/auxillaries/components/organization/OrganizationSettings.tsx', import.meta.url),
+  'utf8',
+);
+const auxillariesBtdTreasuryManagementSource = readFileSync(
+  new URL('../../uapi/app/auxillaries/components/organization/BTDTreasuryManagement.tsx', import.meta.url),
+  'utf8',
+);
 const auxillariesPaneTitleSource = readFileSync(new URL('../../uapi/app/auxillaries/components/shared/PaneTitle.tsx', import.meta.url), 'utf8');
 const auxillariesOnboardingInfoBoxSource = readFileSync(new URL('../../uapi/app/auxillaries/components/shared/OnboardingInfoBox.tsx', import.meta.url), 'utf8');
 const auxillariesAfterOnboardingOverlaySource = readFileSync(new URL('../../uapi/app/auxillaries/components/shared/AfterOnboardingOverlay.tsx', import.meta.url), 'utf8');
@@ -502,6 +511,10 @@ const orbitalsProfilePaneSource = readFileSync(new URL('../../uapi/app/orbitals/
 const orbitalsConnectsPaneSource = readFileSync(new URL('../../uapi/app/orbitals/components/OrbitalsConnectsPane.tsx', import.meta.url), 'utf8');
 const orbitalsInterfacesPaneSource = readFileSync(new URL('../../uapi/app/orbitals/components/OrbitalsInterfacesPane.tsx', import.meta.url), 'utf8');
 const orbitalsBtdPaneSource = readFileSync(new URL('../../uapi/app/orbitals/components/OrbitalsBTDPane.tsx', import.meta.url), 'utf8');
+const orbitalsOrganizationSettingsSource = readFileSync(
+  new URL('../../uapi/app/orbitals/components/organization/OrganizationSettings.tsx', import.meta.url),
+  'utf8',
+);
 const orbitalsModelsPaneSource = readFileSync(new URL('../../uapi/app/orbitals/components/OrbitalsModelsPane.tsx', import.meta.url), 'utf8');
 const auxillariesConnectsSource = readFileSync(new URL('../../uapi/app/auxillaries/components/AuxillariesConnects.tsx', import.meta.url), 'utf8');
 const auxillariesModelsSource = readFileSync(new URL('../../uapi/app/auxillaries/components/AuxillariesModels.tsx', import.meta.url), 'utf8');
@@ -531,6 +544,7 @@ const figmaIntegrationSource = readFileSync(new URL('../../packages/figma/INTEGR
 const multimodalProcessingPackageSource = readFileSync(new URL('../../packages/generic-tools/multimodal-processing/package.json', import.meta.url), 'utf8');
 const multimodalProcessingReadmeSource = readFileSync(new URL('../../packages/generic-tools/multimodal-processing/README.md', import.meta.url), 'utf8');
 const systemGrepReadmeSource = readFileSync(new URL('../../packages/system-grep/README.md', import.meta.url), 'utf8');
+const marketingSetupFormSource = readFileSync(new URL('../../uapi/app/(root)/components/MarketingSetupForm.tsx', import.meta.url), 'utf8');
 
 test('active root spec family is Bitcode-named and legacy spec family is preserved under _legacy', () => {
   const activeSpecPaths = [
@@ -589,6 +603,11 @@ test('active root spec family is Bitcode-named and legacy spec family is preserv
     `${new URL('../../.engi', import.meta.url).pathname} should not remain as an active root artifact namespace`
   );
   assert.equal(
+    existsSync(new URL('../../uapi/app/_legacy', import.meta.url)),
+    false,
+    `${new URL('../../uapi/app/_legacy', import.meta.url).pathname} should not remain as an active application subtree`
+  );
+  assert.equal(
     existsSync(new URL('../../uapi/components/base/bitcode/credits', import.meta.url)),
     false,
     `${new URL('../../uapi/components/base/bitcode/credits', import.meta.url).pathname} should not remain as an active Bitcode UI directory`
@@ -607,6 +626,16 @@ test('active root spec family is Bitcode-named and legacy spec family is preserv
     existsSync(new URL('../../uapi/components/base/bitcode/btd/FlexibleBtdSelector.tsx', import.meta.url)),
     true,
     `${new URL('../../uapi/components/base/bitcode/btd/FlexibleBtdSelector.tsx', import.meta.url).pathname} should exist under canonical BTD naming`
+  );
+  assert.equal(
+    existsSync(new URL('../../uapi/app/orbitals/components/organization/CreditManagement.tsx', import.meta.url)),
+    false,
+    `${new URL('../../uapi/app/orbitals/components/organization/CreditManagement.tsx', import.meta.url).pathname} should not remain as an active credit-named organization carrier`
+  );
+  assert.equal(
+    existsSync(new URL('../../uapi/app/auxillaries/components/organization/BTDTreasuryManagement.tsx', import.meta.url)),
+    true,
+    `${new URL('../../uapi/app/auxillaries/components/organization/BTDTreasuryManagement.tsx', import.meta.url).pathname} should exist under canonical BTD treasury naming`
   );
 });
 const genericVcsReadmeSource = readFileSync(new URL('../../packages/generic-tools/vcs/README.md', import.meta.url), 'utf8');
@@ -681,12 +710,15 @@ test('active V26 shared surface primitives use Bitcode naming instead of Engi na
   assert.match(footerSource, /engineeredsoftware\/bitcode\/blob\/main\/BITCODE_SPEC\.txt/);
   assert.match(publicDocsPageContentSource, /engineeredsoftware\/bitcode\/blob\/main\/BITCODE_SPEC\.txt/);
   assert.match(uapiPackageSource, /"name": "bitcode-uapi"/);
-  assert.match(uapiPackageLockSource, /"name": "bitcode-uapi"/);
+  assert.equal(existsSync(uapiPackageLockPath), false);
+  assert.equal(existsSync(uapiPnpmLockPath), false);
   assert.doesNotMatch(footerSource, /engi-software-svg-logo/);
   assert.doesNotMatch(footerSource, /engineeredsoftware\/ENGI\/blob\/main\/ENGI_SPEC\.txt/);
   assert.doesNotMatch(publicDocsPageContentSource, /engineeredsoftware\/ENGI\/blob\/main\/ENGI_SPEC\.txt/);
   assert.doesNotMatch(uapiPackageSource, /"name": "engi-uapi"/);
-  assert.doesNotMatch(uapiPackageLockSource, /"name": "engi-uapi"/);
+  assert.doesNotMatch(uapiPackageSource, /@stripe\/react-stripe-js/);
+  assert.doesNotMatch(uapiPackageSource, /@stripe\/stripe-js/);
+  assert.doesNotMatch(uapiPackageSource, /"stripe":/);
   assert.match(footerSource, /bitcode-text/);
   assert.match(footerAnimationsSource, /\.bitcode-text/);
   assert.match(footerAnimationsSource, /\.bitcode-text-glow/);
@@ -753,11 +785,13 @@ test('active V26 shared surface primitives use Bitcode naming instead of Engi na
   assert.match(mockingReadmeSource, /Bitcode Mock System/);
   assert.match(mockingReadmeSource, /__bitcodeMockSystem/);
   assert.match(mockingReadmeSource, /User Auxillaries/);
+  assert.match(mockingReadmeSource, /BTC settlement/);
   assert.match(mockingIntegrationGuideSource, /Bitcode routes and experiences/);
   assert.match(mockingIntegrationGuideSource, /__bitcodeMockSystem/);
   assert.match(mockingQuickStartDemoSource, /showcasing Bitcode capabilities/);
   assert.match(mockingQuickStartDemoSource, /__bitcodeMockSystem/);
   assert.match(mockingSummarySource, /BITCODE MOCK SYSTEM/);
+  assert.match(mockingSummarySource, /BTC_SETTLEMENTS/);
   assert.match(mockingValidateSystemSource, /Starting Bitcode Mock System Validation/);
   assert.match(mockingScriptsPackageSource, /bitcode-mock-setup/);
   assert.match(mockingScriptsReadmeSource, /Bitcode Mock System Scripts/);
@@ -772,19 +806,26 @@ test('active V26 shared surface primitives use Bitcode naming instead of Engi na
   assert.match(comprehensiveMockDataGeneratorsSource, /Bitcode Labs/);
   assert.match(comprehensiveMockDataGeneratorsSource, /developer@bitcode\.dev/);
   assert.match(comprehensiveMockDataGeneratorsSource, /marketplace\.bitcode\.ai\/previews\/react-perf-1\.png/);
+  assert.match(comprehensiveMockDataGeneratorsSource, /BTC_SETTLEMENTS/);
+  assert.match(comprehensiveMockDataGeneratorsSource, /wallet_observer/);
   assert.match(comprehensiveMockDataGeneratorsSource, /Complete system coverage \(User Auxillaries, Conversations, Deliverables, Organizations, etc\.\)/);
   assert.match(mockingSummarySource, /User Auxillaries/);
   assert.match(specializedMockMiddlewareSource, /User Auxillaries/);
   assert.match(specializedMockMiddlewareSource, /auxillaries:\s*\{\s*auth: mockAuth,\s*user: mockUser,\s*onboarding: mockOnboarding\s*\}/);
+  assert.match(specializedMockMiddlewareSource, /BTC \/ \$BTD TREASURY MIDDLEWARE/);
+  assert.match(specializedMockMiddlewareSource, /feature: 'BTC_SETTLEMENTS'/);
   assert.match(mockingTypesSource, /Bitcode system/);
   assert.doesNotMatch(mockingIndexSource, /\bEngiMockConfig\b/);
   assert.doesNotMatch(mockingIndexSource, /window\.__engiMockSystem/);
   assert.doesNotMatch(mockingReadmeSource, /\bEngi\b/);
   assert.doesNotMatch(mockingReadmeSource, /User Orbital/);
+  assert.doesNotMatch(mockingReadmeSource, /\bStripe\b/);
   assert.doesNotMatch(mockingIntegrationGuideSource, /\bEngi\b/);
   assert.doesNotMatch(mockingQuickStartDemoSource, /\bEngi\b/);
   assert.doesNotMatch(mockingSummarySource, /\bEngi\b/);
   assert.doesNotMatch(mockingSummarySource, /User Orbital/);
+  assert.doesNotMatch(mockingSummarySource, /STRIPE_CHECKOUT/);
+  assert.doesNotMatch(mockingSummarySource, /CREDIT_PURCHASES/);
   assert.doesNotMatch(mockingScriptsPackageSource, /engi-mock-/);
   assert.doesNotMatch(mockingScriptsReadmeSource, /\bEngi\b/);
   assert.doesNotMatch(mockingSetupScriptSource, /\bEngi\b/);
@@ -801,8 +842,15 @@ test('active V26 shared surface primitives use Bitcode naming instead of Engi na
   assert.doesNotMatch(comprehensiveMockDataGeneratorsSource, /Engi Corporation/);
   assert.doesNotMatch(comprehensiveMockDataGeneratorsSource, /@engi\.com/);
   assert.doesNotMatch(comprehensiveMockDataGeneratorsSource, /marketplace\.engi\.com/);
+  assert.doesNotMatch(comprehensiveMockDataGeneratorsSource, /STRIPE_CHECKOUT/);
+  assert.doesNotMatch(comprehensiveMockDataGeneratorsSource, /CREDIT_PURCHASES/);
+  assert.doesNotMatch(comprehensiveMockDataGeneratorsSource, /\bstripe\b/);
   assert.doesNotMatch(specializedMockMiddlewareSource, /User Orbital/);
+  assert.doesNotMatch(specializedMockMiddlewareSource, /STRIPE_CHECKOUT/);
+  assert.doesNotMatch(specializedMockMiddlewareSource, /CREDIT_PURCHASES/);
   assert.doesNotMatch(mockingTypesSource, /Engi system/);
+  assert.doesNotMatch(mockingTypesSource, /STRIPE_CHECKOUT/);
+  assert.doesNotMatch(mockingTypesSource, /CREDIT_PURCHASES/);
   assert.match(landingTestSource, /bitcode-pill/);
   assert.match(landingTestSource, /bitcode-software-svg-logo/);
   assert.match(footerTestSource, /bitcode-software-svg-logo/);
@@ -1007,6 +1055,7 @@ test('active V26 canon posture and preserved runtime state use bitcode policy an
   assert.doesNotMatch(useUserDataSource, /credits:\s*btdBalance/);
   assert.equal(existsSync(checkoutCallbackClientPath), false);
   assert.equal(existsSync(checkoutCallbackPagePath), false);
+  assert.equal(existsSync(new URL('../../uapi/app/checkout/callback/head.tsx', import.meta.url)), false);
   assert.equal(existsSync(createCheckoutSessionRoutePath), false);
   assert.equal(existsSync(fulfillCheckoutSessionRoutePath), false);
   assert.doesNotMatch(heroClientSource, /successful_checkout_session_id/);
@@ -1018,7 +1067,24 @@ test('active V26 canon posture and preserved runtime state use bitcode policy an
   assert.match(marketingPricingSectionSource, /\/auxillaries\/btd/);
   assert.doesNotMatch(marketingPricingSectionSource, /create-checkout-session/);
   assert.doesNotMatch(marketingPricingSectionSource, /\bStripe\b/);
+  assert.match(marketingSetupFormSource, /BTC settles\./);
+  assert.match(marketingSetupFormSource, /\/auxillaries\/btd/);
+  assert.match(marketingSetupFormSource, /\/auxillaries\/connects/);
+  assert.doesNotMatch(marketingSetupFormSource, /PaymentElement/);
+  assert.doesNotMatch(marketingSetupFormSource, /\bStripe\b/);
   assert.doesNotMatch(btdPlansSource, /stripeProductId/);
+  assert.match(auxillariesBtdTreasuryManagementSource, /Bitcode does not buy credits or settle with Stripe/);
+  assert.match(auxillariesBtdTreasuryManagementSource, /GitHub required before transacting/);
+  assert.match(auxillariesBtdTreasuryManagementSource, /Open \$BTD Auxillary/);
+  assert.doesNotMatch(auxillariesBtdTreasuryManagementSource, /\/api\/organizations\/\$\{organizationId\}\/credits/);
+  assert.doesNotMatch(auxillariesBtdTreasuryManagementSource, /Purchase Credits/);
+  assert.match(auxillariesOrganizationSettingsSource, /Bitcode does not use Stripe or credit checkout/);
+  assert.match(auxillariesOrganizationSettingsSource, /Open Connects Auxillary/);
+  assert.match(auxillariesOrganizationSettingsSource, /GitHub before transacting/);
+  assert.doesNotMatch(auxillariesOrganizationSettingsSource, /paymentMethod:\s*'stripe'/);
+  assert.doesNotMatch(auxillariesOrganizationSettingsSource, /Purchase Credits/);
+  assert.match(orbitalsOrganizationSettingsSource, /auxillaries\/components\/organization\/OrganizationSettings/);
+  assert.doesNotMatch(orbitalsOrganizationSettingsSource, /paymentMethod:\s*'stripe'/);
   assert.match(lowBtdReminderRouteSource, /low-btd-reminder/);
   assert.match(lowBtdReminderRouteSource, /low_btd_reminder/);
   assert.match(outOfBtdRouteSource, /out-of-btd/);

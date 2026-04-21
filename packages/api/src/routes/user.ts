@@ -449,7 +449,6 @@ export const getUsage = traceRoute('/user/usage', async (request: NextRequest) =
       period,
       btdSpent: btdUsage.total,
       btdUsed: btdUsage.total,
-      creditsUsed: btdUsage.total,
       dailyStats: btdUsage.daily
     });
 

@@ -311,7 +311,7 @@ export async function monitorPipelineExecution(
     completedAt: run.completed_at ? new Date(run.completed_at) : undefined,
     result: run.result,
     error: run.error_message || undefined,
-    btdUsed: run.metadata?.btdUsed ?? run.metadata?.creditsUsed,
+    btdUsed: run.metadata?.btdUsed,
     events: runEvents.map(e => ({
       type: e.event_type,
       data: e.event_data,

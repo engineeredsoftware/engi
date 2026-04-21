@@ -158,7 +158,7 @@ export const mockGitHub = (feature: 'GITHUB_ACCOUNTS' | 'GITHUB_REPOS' | 'GITHUB
     cacheControl: { enabled: true, ttlSeconds: 300 }
   }, handler);
 
-export const mockUserData = (feature: 'USER_PROFILE' | 'USER_CREDITS' | 'USER_NOTIFICATIONS' | 'USER_CONNECTIONS') =>
+export const mockUserData = (feature: 'USER_PROFILE' | 'USER_BTD' | 'USER_NOTIFICATIONS' | 'USER_CONNECTIONS') =>
   (handler: any) => withMocking({
     feature,
     performanceTracking: true,
@@ -497,10 +497,10 @@ export const createMockMiddleware = {
     });
   },
   
-  user: (subFeature: 'profile' | 'credits' | 'notifications' | 'connections') => {
+  user: (subFeature: 'profile' | 'btd' | 'notifications' | 'connections') => {
     const featureMap = {
       'profile': 'USER_PROFILE',
-      'credits': 'USER_CREDITS',
+      'btd': 'USER_BTD',
       'notifications': 'USER_NOTIFICATIONS',
       'connections': 'USER_CONNECTIONS'
     } as const;
