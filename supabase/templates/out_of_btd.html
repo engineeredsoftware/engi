@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Low Credits Reminder</title>
+  <title>Out of $BTD</title>
   <style>
     body { 
       margin: 0; 
@@ -36,27 +36,23 @@
       margin: 0 0 16px;
       color: #4a4a4a;
     }
-    .warning-box {
-      background: #fff7ed;
-      border-left: 4px solid #f59e0b;
+    .alert-box {
+      background: #fef2f2;
+      border-left: 4px solid #dc2626;
       border-radius: 8px;
       padding: 24px;
       margin: 32px 0;
+      text-align: center;
     }
-    .balance-amount {
-      font-size: 36px;
+    .zero-credits {
+      font-size: 48px;
       font-weight: 700;
-      color: #f59e0b;
+      color: #dc2626;
       margin-bottom: 8px;
     }
-    .balance-label {
+    .zero-label {
       font-size: 14px;
-      color: #6a6a6a;
-      margin-bottom: 16px;
-    }
-    .threshold-info {
-      font-size: 13px;
-      color: #92400e;
+      color: #991b1b;
     }
     .button {
       display: inline-block;
@@ -86,22 +82,21 @@
       </svg>
     </div>
 
-    <h1>Low Credits Alert</h1>
+    <h1>Out of $BTD</h1>
     
     <p>Hello {{name}},</p>
     
-    <p>Your credit balance is running low and approaching your configured threshold.</p>
+    <p>Your $BTD balance has reached zero. You need $BTD to run Bitcode deliveries and agentic updates.</p>
 
-    <div class="warning-box">
-      <div class="balance-amount">{{balance}}</div>
-      <div class="balance-label">Credits Remaining</div>
-      <div class="threshold-info">Below your threshold of {{threshold}} credits</div>
+    <div class="alert-box">
+      <div class="zero-credits">0</div>
+      <div class="zero-label">$BTD Remaining</div>
     </div>
 
-    <p>To avoid interruption in running deliverables and AI Document updates, please add more credits to your account.</p>
+    <p>Add $BTD now to continue using Bitcode's software agents for your projects.</p>
 
     <p style="text-align: center;">
-      <a href="{{purchaseUrl}}" class="button">Purchase Credits</a>
+      <a href="{{purchaseUrl}}" class="button">Add $BTD Now</a>
     </p>
 
     <div class="footer">

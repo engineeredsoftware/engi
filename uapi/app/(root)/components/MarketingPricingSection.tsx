@@ -100,7 +100,7 @@ const MarketingPricingSection: React.FC = () => {
       const res = await fetch('/api/create-checkout-session', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ planId, customCredits: ['flexible', 'industrial', 'live_day', 'ultra'].includes(planId) ? btdAmount : undefined }),
+        body: JSON.stringify({ planId, customBtd: ['flexible', 'industrial', 'live_day', 'ultra'].includes(planId) ? btdAmount : undefined }),
       });
       const data = await res.json();
       if (data.url) {

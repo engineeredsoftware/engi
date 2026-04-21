@@ -1,3 +1,4 @@
+/* eslint-disable react/no-multi-comp */
 import { cn } from '@bitcode/styling';
 import Marquee from "@/components/base/bitcode/magicui/marquee";
 import { useState } from 'react';
@@ -118,7 +119,7 @@ const reviews: Review[] = [
   {
     name: 'Carlos Mendes',
     username: '@carlosm',
-    body: 'The FAQ section answered all my questions on tokens, credits, and security. Bitcode’s transparency made the decision easy.',
+    body: 'The FAQ section answered all my questions on Bitcoin, $BTD, and security. Bitcode’s transparency made the decision easy.',
     img: 'https://avatar.vercel.sh/carlosm',
     rating: 5,
     jobTitle: 'CTO',

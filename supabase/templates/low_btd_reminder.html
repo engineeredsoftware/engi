@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Credits Transferred</title>
+  <title>Low $BTD Reminder</title>
   <style>
     body { 
       margin: 0; 
@@ -36,39 +36,37 @@
       margin: 0 0 16px;
       color: #4a4a4a;
     }
-    .transfer-box {
-      background: #fafafa;
+    .warning-box {
+      background: #fff7ed;
+      border-left: 4px solid #f59e0b;
       border-radius: 8px;
-      padding: 32px;
+      padding: 24px;
       margin: 32px 0;
-      text-align: center;
-    }
-    .transfer-amount {
-      font-size: 36px;
-      font-weight: 700;
-      color: #BA54EC;
-      margin-bottom: 8px;
-    }
-    .transfer-label {
-      font-size: 14px;
-      color: #6a6a6a;
-      margin-bottom: 24px;
-    }
-    .balance {
-      padding-top: 24px;
-      border-top: 1px solid #e0e0e0;
-    }
-    .balance-label {
-      font-size: 12px;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-      color: #6a6a6a;
-      margin-bottom: 4px;
     }
     .balance-amount {
-      font-size: 24px;
-      font-weight: 600;
-      color: #1a1a1a;
+      font-size: 36px;
+      font-weight: 700;
+      color: #f59e0b;
+      margin-bottom: 8px;
+    }
+    .balance-label {
+      font-size: 14px;
+      color: #6a6a6a;
+      margin-bottom: 16px;
+    }
+    .threshold-info {
+      font-size: 13px;
+      color: #92400e;
+    }
+    .button {
+      display: inline-block;
+      padding: 14px 32px;
+      background: #BA54EC;
+      color: white;
+      text-decoration: none;
+      border-radius: 8px;
+      font-weight: 500;
+      margin: 24px 0;
     }
     .footer {
       margin-top: 40px;
@@ -88,22 +86,22 @@
       </svg>
     </div>
 
-    <h1>Credits Received</h1>
+    <h1>Low $BTD Alert</h1>
     
-    <p>{{senderName}} has transferred credits to your account.</p>
+    <p>Hello {{name}},</p>
+    
+    <p>Your $BTD balance is running low and approaching your configured threshold.</p>
 
-    <div class="transfer-box">
-      <div class="transfer-amount">+{{credits}}</div>
-      <div class="transfer-label">Credits Transferred</div>
-      
-      <div class="balance">
-        <div class="balance-label">New Balance</div>
-        <div class="balance-amount">{{newBalance}} credits</div>
-      </div>
+    <div class="warning-box">
+      <div class="balance-amount">{{balance}}</div>
+      <div class="balance-label">$BTD Remaining</div>
+      <div class="threshold-info">Below your threshold of {{threshold}} $BTD</div>
     </div>
 
-    <p style="text-align: center; color: #6a6a6a; font-size: 14px;">
-      You can now use these credits to run deliverables and AI Document updates in Bitcode.
+    <p>To avoid interruption in running Bitcode deliveries and agentic runs, please add more $BTD to your account.</p>
+
+    <p style="text-align: center;">
+      <a href="{{purchaseUrl}}" class="button">Purchase $BTD</a>
     </p>
 
     <div class="footer">

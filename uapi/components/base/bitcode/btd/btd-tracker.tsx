@@ -187,7 +187,7 @@ export function BTDTracker({ btdBalance }: BTDTrackerProps) {
       const response = await fetch('/api/create-checkout-session', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ planId: 'ultra', customCredits: defaultBtdBalance }),
+        body: JSON.stringify({ planId: 'ultra', customBtd: defaultBtdBalance }),
       });
       const result = await response.json();
       if (result.url) {

@@ -1,6 +1,5 @@
 import dynamic from 'next/dynamic';
 
-// Reuse existing client UI for Stripe checkout callback
 const CheckoutCallbackClient = dynamic(
   () => import('@/app/checkout/callback/CheckoutCallbackClient'),
   {
@@ -26,6 +25,7 @@ const CheckoutCallbackClient = dynamic(
 interface CheckoutCallbackPageProps {
   searchParams: {
     success?: string | string[];
+    btd?: string | string[];
     credits?: string | string[];
     session_id?: string | string[];
   };
@@ -35,9 +35,13 @@ export default function CheckoutCallbackPage({ searchParams }: CheckoutCallbackP
   const rawSuccess = searchParams.success;
   const success = Array.isArray(rawSuccess) ? rawSuccess[0] === 'true' : rawSuccess === 'true';
 
+  const rawBtd = searchParams.btd;
+  const btdString = Array.isArray(rawBtd) ? rawBtd[0] : rawBtd;
+  const btdAmount = btdString ? parseInt(btdString, 10) : undefined;
+
   const rawCredits = searchParams.credits;
   const creditsString = Array.isArray(rawCredits) ? rawCredits[0] : rawCredits;
-  const credits = creditsString ? parseInt(creditsString, 10) : undefined;
+  const legacyCredits = creditsString ? parseInt(creditsString, 10) : undefined;
 
   const rawSessionId = searchParams.session_id;
   const sessionId = Array.isArray(rawSessionId) ? rawSessionId[0] : rawSessionId;
@@ -56,7 +60,13 @@ export default function CheckoutCallbackPage({ searchParams }: CheckoutCallbackP
         pointerEvents: 'auto',
       }}
     >
-      <CheckoutCallbackClient success={success} credits={credits} sessionId={sessionId} />
+      <CheckoutCallbackClient
+        success={success}
+        btdAmount={btdAmount}
+        legacyCredits={legacyCredits}
+        sessionId={sessionId}
+      />
     </div>
   );
 }
+

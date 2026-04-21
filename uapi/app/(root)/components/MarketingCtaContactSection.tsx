@@ -185,7 +185,7 @@ const MarketingCtaContactSection: React.FC = () => {
                       <span className="text-3xl font-semibold text-gray-200">≈ $0.10</span>
                     </div>
                   </div>
-                  {/* Explain what the credit equivalency represents */}
+                  {/* Explain what the BTD equivalency represents */}
                   <div className="flex justify-center my-6 overflow-visible">
                     <span className="super-shiny-text-orange font-semibold leading-none tracking-tight text-2xl">
                       worth of tokens &amp; compute
@@ -193,7 +193,7 @@ const MarketingCtaContactSection: React.FC = () => {
                   </div>
 
                   <div className="text-gray-400 text-base -mb-4">
-                    Agentic Short-Circuits Will Refund Credits
+                    Agentic Short-Circuits Will Refund $BTD
                   </div>
                 </div>
               </div>

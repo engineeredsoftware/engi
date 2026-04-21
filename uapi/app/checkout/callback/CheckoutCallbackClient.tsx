@@ -9,7 +9,8 @@ import OrbitalLogo from '@/components/base/bitcode/branding/OrbitalLogo';
 interface CheckoutCallbackClientProps {
   success: boolean;
   btdAmount?: number;
-  credits?: number;
+  /** @deprecated Compatibility-only fallback for old checkout links */
+  legacyCredits?: number;
   sessionId?: string;
 }
 
@@ -18,9 +19,9 @@ interface CheckoutCallbackClientProps {
  * It handles both success and cancellation states, mirroring the aesthetic of
  * the other callback pages while changing colours / content appropriately.
  */
-export default function CheckoutCallbackClient({ success, btdAmount, credits, sessionId }: CheckoutCallbackClientProps) {
-  const resolvedBtdAmount = btdAmount ?? credits;
-  // Fallback fulfillment: trigger server-side credit update if webhook failed
+export default function CheckoutCallbackClient({ success, btdAmount, legacyCredits, sessionId }: CheckoutCallbackClientProps) {
+  const resolvedBtdAmount = btdAmount ?? legacyCredits;
+  // Fallback fulfillment: trigger server-side BTD balance update if webhook failed
   React.useEffect(() => {
     if (success && sessionId) {
       fetch(`/api/fulfill-checkout-session?session_id=${encodeURIComponent(sessionId)}`, { method: 'POST' })

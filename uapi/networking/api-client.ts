@@ -239,14 +239,21 @@ export const postDeliverableInstruction = async (
 // -----------------------------------------------------------------------------
 // Notifications wrappers
 // -----------------------------------------------------------------------------
-export const notifyCreditTransfer = async (
-  params: { recipientEmail: string; recipientName?: string; senderName: string; credits: number; newBalance: number; }
+export const notifyBtdTransfer = async (
+  params: { recipientEmail: string; recipientName?: string; senderName: string; btdAmount: number; newBtdBalance: number; }
 ): Promise<void> => {
-  const res = await fetch('/api/notifications/credit-transfer', {
+  const res = await fetch('/api/notifications/btd-transfer', {
     method: 'POST', headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(params),
-  }); if (!res.ok) throw new Error('Notification credit-transfer failed');
+    body: JSON.stringify({
+      recipientEmail: params.recipientEmail,
+      recipientName: params.recipientName,
+      senderName: params.senderName,
+      btdAmount: params.btdAmount,
+      newBtdBalance: params.newBtdBalance,
+    }),
+  }); if (!res.ok) throw new Error('Notification btd-transfer failed');
 };
+export const notifyCreditTransfer = notifyBtdTransfer;
 export const notifyNewsletter = async (
   params: { email: string; name?: string; subject: string; headline: string; body: string; buttonText?: string; buttonUrl?: string; unsubscribeUrl?: string; }
 ): Promise<void> => {
@@ -271,19 +278,21 @@ export const notifyDeliverableCompleted = async (
     body: JSON.stringify(params),
   }); if (!res.ok) throw new Error('Notification deliverable-completed failed');
 };
-export const notifyLowCreditsReminder = async (
+export const notifyLowBtdReminder = async (
   params: { email: string; name?: string; balance: number; threshold: number; purchaseUrl?: string; }
 ): Promise<void> => {
-  const res = await fetch('/api/notifications/low-credits-reminder', {
+  const res = await fetch('/api/notifications/low-btd-reminder', {
     method: 'POST', headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(params),
-  }); if (!res.ok) throw new Error('Notification low-credits-reminder failed');
+  }); if (!res.ok) throw new Error('Notification low-btd-reminder failed');
 };
-export const notifyOutOfCredits = async (
+export const notifyLowCreditsReminder = notifyLowBtdReminder;
+export const notifyOutOfBtd = async (
   params: { email: string; name?: string; purchaseUrl?: string; }
 ): Promise<void> => {
-  const res = await fetch('/api/notifications/out-of-credits', {
+  const res = await fetch('/api/notifications/out-of-btd', {
     method: 'POST', headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(params),
-  }); if (!res.ok) throw new Error('Notification out-of-credits failed');
+  }); if (!res.ok) throw new Error('Notification out-of-btd failed');
 };
+export const notifyOutOfCredits = notifyOutOfBtd;

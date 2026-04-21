@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Out of Credits</title>
+  <title>$BTD Transferred</title>
   <style>
     body { 
       margin: 0; 
@@ -36,33 +36,39 @@
       margin: 0 0 16px;
       color: #4a4a4a;
     }
-    .alert-box {
-      background: #fef2f2;
-      border-left: 4px solid #dc2626;
+    .transfer-box {
+      background: #fafafa;
       border-radius: 8px;
-      padding: 24px;
+      padding: 32px;
       margin: 32px 0;
       text-align: center;
     }
-    .zero-credits {
-      font-size: 48px;
+    .transfer-amount {
+      font-size: 36px;
       font-weight: 700;
-      color: #dc2626;
+      color: #BA54EC;
       margin-bottom: 8px;
     }
-    .zero-label {
+    .transfer-label {
       font-size: 14px;
-      color: #991b1b;
+      color: #6a6a6a;
+      margin-bottom: 24px;
     }
-    .button {
-      display: inline-block;
-      padding: 14px 32px;
-      background: #BA54EC;
-      color: white;
-      text-decoration: none;
-      border-radius: 8px;
-      font-weight: 500;
-      margin: 24px 0;
+    .balance {
+      padding-top: 24px;
+      border-top: 1px solid #e0e0e0;
+    }
+    .balance-label {
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: #6a6a6a;
+      margin-bottom: 4px;
+    }
+    .balance-amount {
+      font-size: 24px;
+      font-weight: 600;
+      color: #1a1a1a;
     }
     .footer {
       margin-top: 40px;
@@ -82,21 +88,22 @@
       </svg>
     </div>
 
-    <h1>Out of Credits</h1>
+    <h1>$BTD Received</h1>
     
-    <p>Hello {{name}},</p>
-    
-    <p>Your credit balance has reached zero. You need credits to run deliverables and AI Document updates in Bitcode.</p>
+    <p>{{senderName}} has transferred $BTD to your account.</p>
 
-    <div class="alert-box">
-      <div class="zero-credits">0</div>
-      <div class="zero-label">Credits Remaining</div>
+    <div class="transfer-box">
+      <div class="transfer-amount">+{{btdAmount}}</div>
+      <div class="transfer-label">$BTD Transferred</div>
+      
+      <div class="balance">
+        <div class="balance-label">New Balance</div>
+        <div class="balance-amount">{{newBtdBalance}} $BTD</div>
+      </div>
     </div>
 
-    <p>Add credits now to continue using Bitcode's software agents for your projects.</p>
-
-    <p style="text-align: center;">
-      <a href="{{purchaseUrl}}" class="button">Add Credits Now</a>
+    <p style="text-align: center; color: #6a6a6a; font-size: 14px;">
+      You can now use this $BTD to run Bitcode deliveries and agentic updates.
     </p>
 
     <div class="footer">

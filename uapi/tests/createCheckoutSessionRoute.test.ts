@@ -1,10 +1,9 @@
 // Mock Stripe SDK
 const mockCreate = jest.fn();
-jest.mock('stripe', () => {
-  return jest.fn().mockImplementation(() => ({
-    checkout: { sessions: { create: mockCreate } },
-  }));
-});
+const mockStripeConstructor = jest.fn().mockImplementation(() => ({
+  checkout: { sessions: { create: mockCreate } },
+}));
+jest.mock('stripe', () => mockStripeConstructor);
 
 import { POST } from '@/app/api/create-checkout-session/route';
 jest.mock('@bitcode/supabase/ssr/server', () => ({ createClient: jest.fn() }));
@@ -18,6 +17,9 @@ describe('POST /api/create-checkout-session', () => {
   const mockGetUser = jest.fn();
   beforeEach(() => {
     jest.resetAllMocks();
+    mockStripeConstructor.mockImplementation(() => ({
+      checkout: { sessions: { create: mockCreate } },
+    }));
     process.env = {
       ...ORIGINAL_ENV,
       STRIPE_SECRET_KEY: 'sk_test',
@@ -64,14 +66,14 @@ describe('POST /api/create-checkout-session', () => {
     expect(body).toEqual({ error: 'Unknown planId: foo' });
   });
 
-  it('returns 400 on ultra plan with invalid customCredits', async () => {
+  it('returns 400 on ultra plan with invalid customBtd', async () => {
     mockGetUser.mockResolvedValue({ data: { user: mockUser }, error: null });
     const res = await POST(new Request('http://localhost/api/create-checkout-session', {
-      method: 'POST', body: JSON.stringify({ planId: 'ultra', customCredits: -5 })
+      method: 'POST', body: JSON.stringify({ planId: 'ultra', customBtd: -5 })
     }));
     expect(res.status).toBe(400);
     const body = await res.json();
-    expect(body).toEqual({ error: 'customCredits must be a positive number for ultra plan' });
+    expect(body).toEqual({ error: 'customBtd must be a positive number for ultra plan' });
   });
 
   it('creates session for standard plan', async () => {
@@ -88,7 +90,7 @@ describe('POST /api/create-checkout-session', () => {
   it('creates session for ultra plan', async () => {
     mockGetUser.mockResolvedValue({ data: { user: mockUser }, error: null });
     mockCreate.mockResolvedValue({ id: 'sess-2', url: 'https://checkout.ultra' });
-    const req = new Request('http://localhost/api/create-checkout-session', { method: 'POST', headers: { origin: 'https://app.test' }, body: JSON.stringify({ planId: 'ultra', customCredits: 100 }) });
+    const req = new Request('http://localhost/api/create-checkout-session', { method: 'POST', headers: { origin: 'https://app.test' }, body: JSON.stringify({ planId: 'ultra', customBtd: 100 }) });
     const res = await POST(req);
     expect(mockCreate).toHaveBeenCalled();
     expect(res.status).toBe(200);

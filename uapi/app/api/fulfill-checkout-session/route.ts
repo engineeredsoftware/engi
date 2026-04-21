@@ -1,7 +1,7 @@
 import { NextRequest } from 'next/server';
-import { createClient } from '@engi/supabase/ssr/server';
-import { createJsonResponse, createErrorResponse, createAuthErrorResponse } from '@engi/responses';
-import { traceRoute } from '@engi/observability';
+import { createClient } from '@bitcode/supabase/ssr/server';
+import { createJsonResponse, createErrorResponse, createAuthErrorResponse } from '@bitcode/responses';
+import { traceRoute } from '@bitcode/observability';
 
 export const POST = traceRoute('/fulfill-checkout-session', async (request: NextRequest) => {
   const supabase = await createClient();
@@ -14,9 +14,12 @@ export const POST = traceRoute('/fulfill-checkout-session', async (request: Next
       return createErrorResponse(new Error('session_id required'), 400);
     }
 
-    // TODO: Lookup Stripe session and credit user. For now respond OK so GA-1 UI flow completes.
+    // TODO: Lookup the Stripe session and credit the user's BTD balance.
+    // The callback currently only needs an explicit success ack so the UI can
+    // complete gracefully if the webhook path lags behind.
     return createJsonResponse({ success: true });
   } catch (error) {
     return createErrorResponse(error);
   }
 });
+
