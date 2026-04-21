@@ -10,6 +10,8 @@ import { createJsonResponse } from '@bitcode/responses';
 import { supabaseAdmin } from '@bitcode/supabase';
 import { createClient } from '@bitcode/supabase/ssr/server';
 
+import { buildAgenticExecutionSummary } from '../executions/agentic-execution';
+
 type JsonRecord = Record<string, unknown>;
 
 type ExecutionHistoryRow = {
@@ -205,6 +207,11 @@ function buildMetadata(row: ExecutionHistoryRow) {
 }
 
 export function normalizeExecutionHistoryRow(row: ExecutionHistoryRow) {
+  const agenticExecution = buildAgenticExecutionSummary({
+    type: row.type,
+    status: row.status,
+  });
+
   return {
     id: row.id,
     created_at: row.created_at || new Date().toISOString(),
@@ -212,6 +219,7 @@ export function normalizeExecutionHistoryRow(row: ExecutionHistoryRow) {
     completed_at: row.completed_at,
     status: row.status,
     type: row.type,
+    agentic_execution: agenticExecution,
     guide: buildGuide(row),
     output: readOutputRecord(row),
     metadata: buildMetadata(row),

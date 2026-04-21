@@ -140,7 +140,7 @@ export default function Footer({ showPrimaryContent = true, className = '' }: Fo
       ),
     },
     {
-      ariaLabel: 'Transactions',
+      ariaLabel: BITCODE_PUBLIC_COPY.footer.links.transactions,
       label: BITCODE_PUBLIC_COPY.footer.links.transactions,
       meta: 'Bitcode app',
       href: APPLICATION_URL,

@@ -54,7 +54,7 @@ describe('ConversationsRouteClient', () => {
         name: /Keep the chat-based Bitcode read as a first-class application mode\./i,
       }),
     ).toBeTruthy();
-    expect(screen.getByRole('link', { name: /Open transactions/i })).toHaveAttribute(
+    expect(screen.getByRole('link', { name: /Open Bitcode Terminal/i })).toHaveAttribute(
       'href',
       '/application',
     );

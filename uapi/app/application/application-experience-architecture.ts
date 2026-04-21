@@ -49,10 +49,10 @@ export const APPLICATION_ACTIONS = [
 export const MASTER_DETAIL_SUBSTRUCTURES = [
   {
     id: 'transactions',
-    label: 'Transactions',
+    label: 'Bitcode Terminal',
     badge: 'master',
     description:
-      'Search, filter, and inspect Bitcode transactions from one ledger window without breaking the selected detail read.',
+      'Search, filter, and inspect Bitcode agentic executions from one ledger window without breaking the selected detail read.',
     targetId: 'applicationTransactionWorkspace',
   },
   {

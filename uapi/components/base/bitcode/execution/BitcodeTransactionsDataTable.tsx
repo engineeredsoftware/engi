@@ -2,6 +2,8 @@
 
 import React from 'react';
 
+import { formatAgenticExecutionLabel } from '@bitcode/api/src/executions/agentic-execution';
+
 import BitcodeInlineExplainer from './BitcodeInlineExplainer';
 import { BITCODE_TRANSACTION_COLUMN_EXPLAINERS } from './bitcode-transaction-explainers';
 import type { TransactionRecord } from './bitcode-transaction-types';
@@ -19,8 +21,8 @@ function formatTimestamp(value: string) {
   }
 }
 
-function formatTypeLabel(value: string) {
-  return value.replace(/^pipeline:/, '').replace(/[-_]/g, ' ');
+function formatTypeLabel(value: string, label?: string) {
+  return label || formatAgenticExecutionLabel(value);
 }
 
 function statusTone(status: string) {
@@ -112,7 +114,7 @@ export default function BitcodeTransactionsDataTable({
                     <td className="px-4 py-4 align-top">
                       <button type="button" onClick={() => onSelectTransaction(record.id)} className="w-full text-left">
                         <p className="font-mono text-[0.72rem] uppercase tracking-[0.16em] text-neutral-500">{record.id}</p>
-                        <p className="mt-2 text-sm font-medium text-white">{formatTypeLabel(record.type)}</p>
+                        <p className="mt-2 text-sm font-medium text-white">{formatTypeLabel(record.type, record.typeLabel)}</p>
                         <p className="mt-1 max-w-[24rem] text-sm leading-6 text-neutral-300">{record.summary}</p>
                       </button>
                     </td>

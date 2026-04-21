@@ -22,6 +22,15 @@ export interface RepoFile {
   sha: string;
 }
 
+export interface AgenticExecutionSummary {
+  canonicalType: string;
+  family: 'branch-artifact' | 'need-measurement' | 'proof-refresh' | 'upgrade' | 'agentic-execution';
+  label: string;
+  lens: 'give' | 'need' | 'closure';
+  proofStatus: string;
+  closureFocus: string;
+}
+
 /** Response from GET /api/executions?action=installations */
 export interface InstallationResponse {
   accounts: Account[];
@@ -111,6 +120,7 @@ export interface PipelineExecution {
   created_at: string;
   guide?: string | null;
   type?: string | null;
+  agentic_execution?: AgenticExecutionSummary | null;
   status?: string;
   output?: Record<string, any> | null;
   metadata?: Record<string, any> | null;

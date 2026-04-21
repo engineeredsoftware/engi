@@ -19,7 +19,7 @@ describe('MarketingOperatorGuideCard', () => {
     ).toBeInTheDocument();
     expect(
       screen.getByText(
-        'Use the walkthrough when you want the Bitcode flow narrated before you move into live transactions.',
+        'Use the walkthrough when you want the Bitcode flow narrated before you move into the Bitcode Terminal.',
       ),
     ).toBeInTheDocument();
   });
@@ -30,11 +30,11 @@ describe('MarketingOperatorGuideCard', () => {
     expect(await screen.findByText('Walkthrough')).toBeInTheDocument();
     expect(
       await screen.findByText(
-        'The recorded walkthrough is being refreshed. Use the docs panels and the transactions surface while the next capture is published.',
+        'The recorded walkthrough is being refreshed. Use the docs panels and the Bitcode Terminal while the next capture is published.',
       ),
     ).toBeInTheDocument();
     expect(
-      screen.getByRole('link', { name: 'Open transactions' }),
+      screen.getByRole('link', { name: 'Open Bitcode Terminal' }),
     ).toHaveAttribute('href', '/application');
   });
 

@@ -1,5 +1,6 @@
 "use client";
 
+import { formatAgenticExecutionLabel } from '@bitcode/api/src/executions/agentic-execution';
 import {
   getTransactionDataModeLabel,
   isMockTransactionDataMode,
@@ -97,7 +98,9 @@ export default function ApplicationWorkspaceRail({
             <div className="rounded-2xl border border-white/6 bg-black/20 px-4 py-4">
               <div className="flex items-start justify-between gap-3">
                 <div className="min-w-0">
-                  <p className="truncate text-sm font-medium text-white">{selectedRun.type || 'pipeline:deliverables'}</p>
+                  <p className="truncate text-sm font-medium text-white">
+                    {selectedRun.agentic_execution?.label || formatAgenticExecutionLabel(selectedRun.type)}
+                  </p>
                   <p className="mt-1 text-xs leading-5 text-neutral-400">
                     {selectedRun.summary || 'The selected Bitcode transaction is now loaded in the central detail surface.'}
                   </p>
@@ -108,7 +111,7 @@ export default function ApplicationWorkspaceRail({
               </div>
               <div className="mt-4 grid gap-3 sm:grid-cols-2">
                 <div className="rounded-[1rem] border border-white/8 bg-white/5 px-3 py-3">
-                  <p className="text-[0.62rem] uppercase tracking-[0.16em] text-neutral-500">Transactions loaded</p>
+                  <p className="text-[0.62rem] uppercase tracking-[0.16em] text-neutral-500">Terminal runs loaded</p>
                   <p className="mt-2 text-sm font-semibold text-white">{runs.length}</p>
                 </div>
                 <div className="rounded-[1rem] border border-white/8 bg-white/5 px-3 py-3">

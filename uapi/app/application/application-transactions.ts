@@ -1,3 +1,4 @@
+import { buildAgenticExecutionSummary } from '@bitcode/api/src/executions/agentic-execution';
 import { DEFAULT_TRANSACTION_FILTERS } from '@/components/base/bitcode/execution/bitcode-transaction-types';
 
 import type { WorkspaceRun } from './application-run-data';
@@ -10,6 +11,7 @@ export interface ApplicationTransactionRecord {
   id: string;
   summary: string;
   type: string;
+  typeLabel: string;
   status: string;
   repository: string;
   branch: string;
@@ -42,40 +44,37 @@ function normalizeWhitespace(value?: string | null) {
 }
 
 function normalizeRunType(value?: string | null) {
-  return normalizeWhitespace(value) || 'pipeline:deliverables';
+  return normalizeWhitespace(value) || 'agentic-execution:branch-artifact';
 }
 
 function normalizeStatus(value?: string | null) {
   return normalizeWhitespace(value) || 'running';
 }
 
-function inferTransactionLens(run: WorkspaceRun): ApplicationTransactionRecord['transactionLens'] {
-  if (run.transactionLens === 'give' || run.transactionLens === 'need' || run.transactionLens === 'closure') {
-    return run.transactionLens;
-  }
-
-  const type = normalizeRunType(run.type).toLowerCase();
-  if (type.includes('deliverable')) return 'give';
-  if (type.includes('measure')) return 'need';
-  return 'closure';
-}
-
 export function normalizeApplicationTransactions(runs: WorkspaceRun[]): ApplicationTransactionRecord[] {
   return runs.map((run) => {
+    const agenticExecution =
+      run.agentic_execution ||
+      buildAgenticExecutionSummary({
+        type: run.type,
+        status: run.status,
+      });
     const repository = normalizeWhitespace(run.repository) || 'bitcode/bitcode';
     const branch = normalizeWhitespace(run.branch) || 'n/a';
     const participant = normalizeWhitespace(run.participant) || repository.split('/')[0] || 'connected account';
     const summary =
-      normalizeWhitespace(run.summary) || 'Inspect this Bitcode transaction from the central detail surface.';
+      normalizeWhitespace(run.summary) || 'Inspect this Bitcode execution from the central Bitcode Terminal detail surface.';
     const status = normalizeStatus(run.status);
-    const proofStatus = normalizeWhitespace(run.proofStatus) || 'closure state in flight';
-    const closureFocus = normalizeWhitespace(run.closureFocus) || 'closure consequence reading';
-    const transactionLens = inferTransactionLens(run);
-    const type = normalizeRunType(run.type);
+    const proofStatus = normalizeWhitespace(run.proofStatus) || agenticExecution.proofStatus;
+    const closureFocus = normalizeWhitespace(run.closureFocus) || agenticExecution.closureFocus;
+    const transactionLens = run.transactionLens || agenticExecution.lens;
+    const type = normalizeRunType(agenticExecution.canonicalType);
+    const typeLabel = agenticExecution.label;
     const searchableText = [
       run.id,
       summary,
       type,
+      typeLabel,
       status,
       repository,
       branch,
@@ -91,6 +90,7 @@ export function normalizeApplicationTransactions(runs: WorkspaceRun[]): Applicat
       id: run.id,
       summary,
       type,
+      typeLabel,
       status,
       repository,
       branch,

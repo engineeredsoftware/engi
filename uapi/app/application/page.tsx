@@ -3,9 +3,9 @@ import type { Metadata } from 'next';
 import ApplicationPageClient from './ApplicationPageClient';
 
 export const metadata: Metadata = {
-  title: 'Bitcode Transactions',
+  title: 'Bitcode Terminal',
   description:
-    'Bitcode transactions for deliverables, proofs, history, conversations, and Auxillaries.',
+    'The Bitcode Terminal for agentic executions, deliverables, proofs, history, conversations, and Auxillaries.',
   alternates: {
     canonical: '/application',
   },

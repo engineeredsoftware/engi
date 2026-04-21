@@ -94,7 +94,7 @@ function buildMasterDetailSubstructures(
         summary:
           detail?.summary ||
           selectedRun.summary ||
-          'This selected transaction is the active detail surface inside Bitcode transactions.',
+          'This selected transaction is the active detail surface inside the Bitcode Terminal.',
         metrics: [
           { label: 'Status', value: selectedRun.status || 'running' },
           { label: 'Started', value: formatRunTimestamp(selectedRun.created_at) },
@@ -158,7 +158,7 @@ function buildMasterDetailSubstructures(
     return {
       ...substructure,
       summary:
-        'Transaction history, ledger reading, and processing posture remain part of the same Bitcode transactions surface.',
+        'Transaction history, ledger reading, and processing posture remain part of the same Bitcode Terminal surface.',
       metrics: [
         { label: 'History items', value: formatNumber(detail?.historyItemCount ?? selectedRun.itemCount) },
         {
@@ -287,7 +287,7 @@ export default function ApplicationTransactionWorkspace({
       <div className="border-b border-white/8 px-6 py-5">
         <div className="flex flex-col gap-5 xl:flex-row xl:items-end xl:justify-between">
           <div className="max-w-4xl">
-            <p className="text-[0.7rem] uppercase tracking-[0.28em] text-neutral-400">Transactions</p>
+            <p className="text-[0.7rem] uppercase tracking-[0.28em] text-neutral-400">Bitcode Terminal</p>
             <h2 className="mt-2 text-2xl font-semibold tracking-tight text-white">
               Master-detail transactions, deliverables, proofs, and history
             </h2>
@@ -320,7 +320,7 @@ export default function ApplicationTransactionWorkspace({
       <div className="px-6 py-6">
         {isLoadingRuns ? (
           <div className="rounded-[1.5rem] border border-white/6 bg-black/20 px-5 py-10 text-sm text-neutral-400">
-            Loading Bitcode transactions…
+            Loading Bitcode Terminal…
           </div>
         ) : runsError ? (
           <div className="rounded-[1.5rem] border border-red-500/20 bg-red-500/10 px-5 py-5 text-sm text-red-200">

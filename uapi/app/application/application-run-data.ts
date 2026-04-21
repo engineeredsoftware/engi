@@ -1,7 +1,7 @@
 import type { DeliverablesDoc } from '@/components/base/bitcode/execution/DeliverablesDocPanel';
 import type { PipelineExecution } from '@/types/api';
 
-export type WorkspaceRun = Pick<PipelineExecution, 'id' | 'created_at' | 'type' | 'status'> & {
+export type WorkspaceRun = Pick<PipelineExecution, 'id' | 'created_at' | 'type' | 'agentic_execution' | 'status'> & {
   summary?: string | null;
   repository?: string | null;
   branch?: string | null;

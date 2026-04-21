@@ -55,7 +55,7 @@ describe('Footer public shell', () => {
       'href',
       '/',
     );
-    expect(screen.getByRole('link', { name: 'Transactions' })).toHaveAttribute(
+    expect(screen.getByRole('link', { name: 'Bitcode Terminal' })).toHaveAttribute(
       'href',
       '/application',
     );
@@ -68,7 +68,7 @@ describe('Footer public shell', () => {
       'https://github.com/engineeredsoftware/bitcode',
     );
     expect(screen.getByRole('button', { name: 'Explain Network' })).toBeInTheDocument();
-    expect(screen.getByRole('button', { name: 'Explain Transactions' })).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: 'Explain Bitcode Terminal' })).toBeInTheDocument();
     expect(screen.getByRole('button', { name: 'Explain Docs' })).toBeInTheDocument();
     expect(screen.getByText('Public route')).toBeInTheDocument();
     expect(screen.getByText('Bitcode app')).toBeInTheDocument();

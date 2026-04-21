@@ -2,6 +2,7 @@
 
 import { useEffect, useMemo, useState } from 'react';
 
+import { formatAgenticExecutionLabel } from '@bitcode/api/src/executions/agentic-execution';
 import { ExecutionDetailsView } from '@/app/executions/components/ExecutionsDetailsView';
 import {
   getTransactionDataModeLabel,
@@ -203,7 +204,7 @@ export default function ApplicationTransactionDetailSurface({
       <div className="grid gap-6 2xl:grid-cols-[minmax(0,1.15fr)_minmax(20rem,0.85fr)]">
         <div className="space-y-5">
           <ApplicationTransactionDetailHero
-            title={selectedRun.type || 'pipeline:deliverables'}
+            title={selectedRun.agentic_execution?.label || formatAgenticExecutionLabel(selectedRun.type)}
             summary={sectionSummary}
             proofPosture={detail.proofStatus || 'closure state in flight'}
             modeLabel={getTransactionDataModeLabel(transactionDataMode)}

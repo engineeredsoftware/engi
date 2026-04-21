@@ -1,5 +1,6 @@
 "use client";
 
+import { formatAgenticExecutionLabel } from '@bitcode/api/src/executions/agentic-execution';
 import type { WorkspaceRun } from './application-run-data';
 
 function formatRunTimestamp(value: string) {
@@ -27,7 +28,9 @@ export default function ApplicationMockTransactionDetails({ run }: { run: Worksp
       <div className="flex items-start justify-between gap-3">
         <div>
           <p className="text-[0.68rem] uppercase tracking-[0.28em] text-emerald-300/80">Mock transaction detail</p>
-          <h3 className="mt-2 text-lg font-semibold text-white">{run.type || 'pipeline:deliverables'}</h3>
+          <h3 className="mt-2 text-lg font-semibold text-white">
+            {run.agentic_execution?.label || formatAgenticExecutionLabel(run.type)}
+          </h3>
         </div>
         <span className={`rounded-full border px-2.5 py-1 text-[0.68rem] uppercase tracking-[0.2em] ${getRunStatusTone(run.status)}`}>
           {run.status || 'running'}
@@ -65,8 +68,8 @@ export default function ApplicationMockTransactionDetails({ run }: { run: Worksp
         <div className="rounded-2xl border border-white/6 bg-black/20 p-4">
           <p className="text-[0.68rem] uppercase tracking-[0.24em] text-neutral-400">Carry forward</p>
           <p className="mt-2 leading-6 text-neutral-200">
-            This panel stands in for the inward-ported executions and deliverables detail surface that lives directly
-            in the main transactions surface.
+            This panel stands in for the inward-ported execution and asset-pack detail surface that lives directly
+            in the Bitcode Terminal.
           </p>
         </div>
         <div className="rounded-2xl border border-white/6 bg-black/20 p-4">

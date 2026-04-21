@@ -7,11 +7,33 @@ const apiTestSource = readFileSync(new URL('./api.test.js', import.meta.url), 'u
 const workflowTestSource = readFileSync(new URL('./workflow.integration.test.js', import.meta.url), 'utf8');
 const sonnerSource = readFileSync(new URL('../../uapi/components/base/shadcn/sonner.tsx', import.meta.url), 'utf8');
 const footerSource = readFileSync(new URL('../../uapi/components/base/bitcode/layout/footer.tsx', import.meta.url), 'utf8');
+const bitcodePublicCopySource = readFileSync(
+  new URL('../../uapi/components/base/bitcode/layout/bitcode-public-copy.ts', import.meta.url),
+  'utf8',
+);
+const bitcodePublicExplainersSource = readFileSync(
+  new URL('../../uapi/components/base/bitcode/layout/bitcode-public-explainers.ts', import.meta.url),
+  'utf8',
+);
 const publicDocsPageContentSource = readFileSync(new URL('../../uapi/app/(root)/components/PublicDocsPageContent.tsx', import.meta.url), 'utf8');
 const footerAnimationsSource = readFileSync(new URL('../../uapi/styles/footer-animations.css', import.meta.url), 'utf8');
 const fillGapsSource = readFileSync(new URL('../../uapi/app/fill-gaps.tsx', import.meta.url), 'utf8');
 const featureFlagsSource = readFileSync(new URL('../../uapi/config/features.ts', import.meta.url), 'utf8');
 const heroClientSource = readFileSync(new URL('../../uapi/app/hero-client.tsx', import.meta.url), 'utf8');
+const applicationPageSource = readFileSync(new URL('../../uapi/app/application/page.tsx', import.meta.url), 'utf8');
+const applicationPageClientSource = readFileSync(new URL('../../uapi/app/application/ApplicationPageClient.tsx', import.meta.url), 'utf8');
+const applicationTransactionsSource = readFileSync(
+  new URL('../../uapi/app/application/application-transactions.ts', import.meta.url),
+  'utf8',
+);
+const applicationExperienceArchitectureSource = readFileSync(
+  new URL('../../uapi/app/application/application-experience-architecture.ts', import.meta.url),
+  'utf8',
+);
+const agenticExecutionSource = readFileSync(
+  new URL('../../packages/api/src/executions/agentic-execution.ts', import.meta.url),
+  'utf8',
+);
 const marketingScreenshotSectionSource = readFileSync(new URL('../../uapi/app/(root)/components/MarketingScreenshotSection.tsx', import.meta.url), 'utf8');
 const conversationsStylesSource = readFileSync(new URL('../../uapi/styles/conversations.css', import.meta.url), 'utf8');
 const orbitalStylesSource = readFileSync(new URL('../../uapi/styles/orbital.css', import.meta.url), 'utf8');
@@ -1008,6 +1030,24 @@ test('active V26 canon posture and preserved runtime state use bitcode policy an
   assert.doesNotMatch(auxillariesInterfacesPaneSource, /@\/app\/orbitals\/components\/OrbitalsInterfacesPane/);
   assert.doesNotMatch(auxillariesBtdPaneSource, /@\/app\/orbitals\/components\/OrbitalsBTDPane/);
   assert.match(auxillariesProfilePaneSource, /@\/app\/auxillaries\/components\/headers\/AuxillariesProfilePaneHeader/);
+  assert.match(agenticExecutionSource, /agentic-execution:branch-artifact/);
+  assert.match(agenticExecutionSource, /agentic-execution:need-measurement/);
+  assert.match(agenticExecutionSource, /branch artifact execution/);
+  assert.match(agenticExecutionSource, /need measurement execution/);
+  assert.match(applicationPageSource, /Bitcode Terminal/);
+  assert.match(applicationPageClientSource, /Bitcode Terminal/);
+  assert.match(applicationPageClientSource, /buildAgenticExecutionSummary/);
+  assert.doesNotMatch(applicationPageClientSource, /deriveClosureFocus/);
+  assert.doesNotMatch(applicationPageClientSource, /deriveProofStatus/);
+  assert.doesNotMatch(applicationPageClientSource, /deriveTransactionLens/);
+  assert.match(applicationTransactionsSource, /buildAgenticExecutionSummary/);
+  assert.match(applicationTransactionsSource, /typeLabel/);
+  assert.match(applicationExperienceArchitectureSource, /label: 'Bitcode Terminal'/);
+  assert.match(bitcodePublicCopySource, /Open Bitcode Terminal/);
+  assert.match(bitcodePublicCopySource, /Bitcode Terminal/);
+  assert.doesNotMatch(bitcodePublicCopySource, /Open transactions/);
+  assert.match(bitcodePublicExplainersSource, /title: 'Bitcode Terminal'/);
+  assert.doesNotMatch(bitcodePublicExplainersSource, /title: 'Transactions'/);
   assert.match(auxillariesConnectsPaneSource, /@\/app\/auxillaries\/components\/headers\/AuxillariesConnectsPaneHeader/);
   assert.match(auxillariesInterfacesPaneSource, /@\/app\/auxillaries\/components\/headers\/AuxillariesInterfacesPaneHeader/);
   assert.match(auxillariesBtdPaneSource, /@\/app\/auxillaries\/components\/headers\/AuxillariesBTDPaneHeader/);

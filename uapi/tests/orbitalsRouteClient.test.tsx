@@ -17,7 +17,7 @@ describe('OrbitalsRouteClient', () => {
     expect(
       screen.getByRole('heading', { name: /Profile in one contained auxillary read\./i }),
     ).toBeTruthy();
-    expect(screen.getByRole('link', { name: /Open transactions/i })).toHaveAttribute(
+    expect(screen.getByRole('link', { name: /Open Bitcode Terminal/i })).toHaveAttribute(
       'href',
       '/application',
     );

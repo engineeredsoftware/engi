@@ -12,7 +12,7 @@ export const AUXILLARIES_LABEL = 'Auxillaries';
 export const AUXILLARIES_LIST_LABEL = 'Connects, Interfaces, Profile, and $BTD';
 export const AUXILLARIES_LIST_COMPACT_LABEL = 'Connects, Interfaces, Profile, $BTD';
 export const OPEN_AUXILLARIES_FULLSCREEN_LABEL = 'Open Auxillaries fullscreen';
-export const OPEN_TRANSACTIONS_LABEL = 'Open transactions';
+export const OPEN_TRANSACTIONS_LABEL = 'Open Bitcode Terminal';
 export const AUXILLARIES_ROUTE_ROOT = '/auxillaries';
 export const ORBITALS_COMPATIBILITY_ROUTE_ROOT = '/orbitals';
 

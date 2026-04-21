@@ -1,9 +1,9 @@
 export const APPLICATION_SURFACE_COPY = {
   frame: {
     kicker: 'Operating picture',
-    title: 'Transactions, modes, and orchestration',
+    title: 'Bitcode Terminal, modes, and orchestration',
     summary:
-      'Keep transactions centered while orchestration, runtime posture, and navigation stay visible in shared Bitcode surfaces around them.',
+      'Keep the Bitcode Terminal centered while orchestration, runtime posture, and navigation stay visible in shared Bitcode surfaces around it.',
   },
   supply: {
     kicker: 'Give and need systems',
@@ -28,13 +28,13 @@ export const APPLICATION_SURFACE_COPY = {
       kicker: 'Reading modes',
       title: 'Read here, open deeper modes when needed',
       summary:
-        'Stay in transactions by default, then open conversations or Auxillaries when you need deeper writing or interface changes.',
+        'Stay in the Bitcode Terminal by default, then open conversations or Auxillaries when you need deeper writing or interface changes.',
     },
     support: {
       kicker: 'Transaction support',
       title: 'Ledger support rail',
       summary:
-        'Keep mode, count, and timing context close to the ledger without pulling attention away from the central transaction detail.',
+        'Keep mode, count, and timing context close to the ledger without pulling attention away from the central execution detail.',
     },
     focus: {
       kicker: 'Selected transaction focus',

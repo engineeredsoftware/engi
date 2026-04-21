@@ -64,6 +64,7 @@ export interface TransactionRecord {
   id: string;
   summary: string;
   type: string;
+  typeLabel?: string;
   status: string;
   participant: string;
   repository: string;

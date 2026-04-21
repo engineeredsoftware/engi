@@ -48,6 +48,8 @@ describe('application-transactions', () => {
     expect(records).toHaveLength(2);
     expect(records[0]).toMatchObject({
       id: 'tx-1',
+      type: 'agentic-execution:branch-artifact',
+      typeLabel: 'branch artifact execution',
       transactionLens: 'give',
       participant: 'garrett',
       repository: 'bitcode/bitcode',
@@ -55,6 +57,8 @@ describe('application-transactions', () => {
     });
     expect(records[1]).toMatchObject({
       id: 'tx-2',
+      type: 'agentic-execution:need-measurement',
+      typeLabel: 'need measurement execution',
       transactionLens: 'need',
       participant: 'research-partner',
       repository: 'bitcode/research',

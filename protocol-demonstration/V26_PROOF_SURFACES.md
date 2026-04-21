@@ -459,7 +459,12 @@ Current active assignments:
   test coverage:
   `uapi/tests/applicationTransactions.test.ts`
   proof surface:
-  deterministic normalization and filtering of Bitcode transactions into a searchable master-detail table carrier, including participant/proof-posture filters and explicit sort posture
+  deterministic normalization and filtering of Bitcode Terminal executions into a searchable master-detail table carrier, including raw-pipeline-to-agentic-execution normalization, participant/proof-posture filters, and explicit sort posture
+- `packages/api/src/executions/agentic-execution.ts`, `packages/api/src/routes/executions.ts`, `uapi/app/application/ApplicationPageClient.tsx`, and `uapi/components/base/bitcode/layout/{bitcode-public-copy,bitcode-public-explainers}.ts`
+  test coverage:
+  `uapi/tests/{applicationTransactions,navPublicShell,footerPublicShell,marketingLandingPage,marketingOperatorGuideCard,edgetimesPageContent,conversationsRouteClient,orbitalsRouteClient}.test.*`
+  proof surface:
+  one shared agentic-execution grammar now repurposes the retained pipeline substrate into canonical Bitcode Terminal execution labels, lenses, proof posture, and closure focus across API history rows, `/application`, and the public shell
 - `uapi/app/application/ApplicationTransactionsTable.tsx`
   test coverage:
   lint plus localhost `/application` verification with the transactions master surface mounted
