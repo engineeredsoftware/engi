@@ -54,14 +54,14 @@ export class UserBtdTransactionsModel extends BaseModel<'user_credit_usages'> {
     if (error) throw error;
 
     // Calculate total
-    const total = data?.reduce((sum, u: any) => sum + Math.abs(u.amount), 0) || 0;
+    const total = data?.reduce((sum: number, usage: { amount: number }) => sum + Math.abs(usage.amount), 0) || 0;
 
     // Group by day
     const dailyMap = new Map<string, number>();
-    data?.forEach(usage => {
+    data?.forEach((usage: { created_at: string; amount: number }) => {
       const date = new Date(usage.created_at).toISOString().split('T')[0];
       const current = dailyMap.get(date) || 0;
-      dailyMap.set(date, current + Math.abs((usage as any).amount));
+      dailyMap.set(date, current + Math.abs(usage.amount));
     });
 
     const daily = Array.from(dailyMap.entries())
@@ -87,6 +87,6 @@ export class UserBtdTransactionsModel extends BaseModel<'user_credit_usages'> {
 
     if (error) throw error;
     
-    return data?.reduce((sum, u: any) => sum + Math.abs(u.amount), 0) || 0;
+    return data?.reduce((sum: number, usage: { amount: number }) => sum + Math.abs(usage.amount), 0) || 0;
   }
 }

@@ -1023,6 +1023,16 @@ Required closure posture:
   filtered `tsc` verification over the active `uapi` program for the retained deliverable-tool wrapper and shipping corridor
   proof surface:
   fifth-gate retained caller-contract compile-health closure so deliverable tool wrappers now forward through the current single-input Bitcode tool contract, optional validation/shipping tools no longer leak `undefined` into typed registries, and the shipping agent no longer preserves raw-string prompt-part drift or duplicate-Zod output-schema identity mismatches
+- `{packages/pipelines/deliverable/src/{agents/{implementation/*.ts,setup/deliverable-pipeline-comprehend-task-agent.ts},phases/{setup.ts,design.ts,digest.ts,discovery.ts,implementation.ts,index.ts},index.ts,preprocess.ts,postprocess.ts},packages/pipelines-generics/src/{execution/PipelineExecutor.ts,phases/sdivs-factory.ts,streaming/pipeline-stream-integration.ts}}`
+  test coverage:
+  filtered `tsc` verification over the active `uapi` program for the retained deliverable phase/index/setup corridor
+  proof surface:
+  fifth-gate retained caller-contract compile-health closure so the deliverable bring-up path no longer preserves dead declarative phase-runner metadata, unsupported PTRR config keys, wrong discovery-registration aliases, `PipelineExecution` over-narrowing in `createPhaseRunner`, or stale setup-schema default variance where the active deliverable corridor rereads through the Bitcode pipeline primitives
+- `{packages/{generic-agents/vcs/src/index.ts,github/src/providers/github-provider.ts,orm/src/models/{user-btd-transactions.ts,deliverables.ts,notifications.ts}}}`
+  test coverage:
+  filtered `tsc` verification over the active `uapi` program for the retained repository-boundary VCS and ORM persistence corridor
+  proof surface:
+  fifth-gate retained repository/persistence compile-health closure so the VCS agent layer no longer uses schema values as types, the GitHub provider now emits canonical `VCSCommit.parents` and a synchronous webhook-verification contract, and the active `$BTD` transaction plus deliverable/notification ORM carriers no longer preserve implicit-`any` reducers or null-key statistics drift
 
 ## Module namespace proof note
 

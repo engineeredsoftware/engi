@@ -12,7 +12,6 @@
 
 import { Octokit } from '@octokit/rest';
 import { createAppAuth } from '@octokit/auth-app';
-import { verify } from '@octokit/webhooks-methods';
 import {
   VCSProvider,
   VCSAuth,
@@ -479,7 +478,7 @@ export default class GitHubProvider extends VCSProvider {
           date: new Date(commit.commit.author?.date || Date.now())
         },
         url: commit.html_url,
-        parentShas: commit.parents.map(p => p.sha)
+        parents: commit.parents.map(p => p.sha)
       }));
     }, {
       operationName: 'listCommits'
@@ -503,7 +502,7 @@ export default class GitHubProvider extends VCSProvider {
           date: new Date(data.commit.author?.date || Date.now())
         },
         url: data.html_url,
-        parentShas: data.parents.map(p => p.sha),
+        parents: data.parents.map(p => p.sha),
         stats: {
           additions: data.stats?.additions || 0,
           deletions: data.stats?.deletions || 0,
@@ -926,7 +925,15 @@ export default class GitHubProvider extends VCSProvider {
    */
   verifyWebhookSignature(payload: string, signature: string, secret: string): boolean {
     try {
-      return verify(secret, payload, signature);
+      const crypto = require('crypto');
+      const expectedSignature = 'sha256=' + crypto
+        .createHmac('sha256', secret)
+        .update(payload)
+        .digest('hex');
+      return crypto.timingSafeEqual(
+        Buffer.from(signature),
+        Buffer.from(expectedSignature)
+      );
     } catch {
       return false;
     }

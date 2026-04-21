@@ -255,7 +255,7 @@ async function planVCSOperation(input: VCSInput): Promise<{
 async function tryVCSOperation(
   planResult: { validatedInput: VCSInput; strategy: string; requiredPermissions: string[]; estimatedTime: number },
   input: VCSInput
-): Promise<VCSResultSchema> {
+): Promise<VCSResult> {
   log('Executing VCS operation', 'info', {
     operation: input.operation,
     strategy: planResult.strategy,
@@ -317,8 +317,8 @@ async function tryVCSOperation(
  * REFINE: Validate operation results and handle any issues
  */
 async function refineVCSResult(
-  vcsResult: VCSResultSchema
-): Promise<VCSResultSchema> {
+  vcsResult: VCSResult
+): Promise<VCSResult> {
   log('Refining VCS operation result', 'info', {
     operation: vcsResult.operation,
     success: vcsResult.success,
@@ -370,9 +370,9 @@ async function refineVCSResult(
  * RETRY: Finalize VCS operation with comprehensive status
  */
 async function retryVCSFinalization(
-  refinedResult: VCSResultSchema,
+  refinedResult: VCSResult,
   input: VCSInput
-): Promise<VCSResultSchema> {
+): Promise<VCSResult> {
   log('Finalizing VCS operation', 'info', {
     operation: refinedResult.operation,
     success: refinedResult.success
@@ -449,7 +449,7 @@ export const vcsStepPrompts = {
 /**
  * Comprehensive VCS Agent using full PTRR cycle
  */
-export const vcsComprehensiveAgent = factoryAgentWithPTRR<VCSInput, VCSResultSchema>({
+export const vcsComprehensiveAgent = factoryAgentWithPTRR<VCSInput, VCSResult>({
   name: 'comprehensive-vcs',
   description: 'Complete VCS operation with validation and status tracking',
   prompt: vcsPrompt,
@@ -469,7 +469,7 @@ export const vcsComprehensiveAgent = factoryAgentWithPTRR<VCSInput, VCSResultSch
 /**
  * Quick VCS Agent for simple operations
  */
-export const vcsQuickAgent = factoryAgentWithSingleStep<VCSInput, VCSResultSchema>({
+export const vcsQuickAgent = factoryAgentWithSingleStep<VCSInput, VCSResult>({
   name: 'quick-vcs',
   description: 'Fast VCS operation for simple tasks',
   execute: async (input, execution) => {

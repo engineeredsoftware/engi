@@ -121,7 +121,8 @@ export class DeliverablesModel extends BaseModel<'deliverables'> {
     const deliverables = await this.findByOrganization(organizationId);
     
     const byStatus = deliverables.reduce((acc, d) => {
-      acc[d.status] = (acc[d.status] || 0) + 1;
+      const status = d.status || 'unknown';
+      acc[status] = (acc[status] || 0) + 1;
       return acc;
     }, {} as Record<string, number>);
 

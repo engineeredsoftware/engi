@@ -75,7 +75,7 @@ export class PipelineExecutor {
       // Step-level store emits handle agent-complete with step context
       
       // Throw short-circuit error for phase runner to catch
-      throw new ShortCircuitError(output.signal);
+      throw new ShortCircuitError(output.signal!);
     }
     
     // Emit end

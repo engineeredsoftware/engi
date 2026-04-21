@@ -119,7 +119,7 @@ export class NotificationsModel extends BaseModel<'notifications'> {
 
     if (error) throw error;
 
-    const ids = (data || []).map((notification) => notification.id);
+    const ids = (data || []).map((notification: { id: string }) => notification.id);
     if (ids.length === 0) return 0;
 
     const { error: deleteError } = await this.supabase
