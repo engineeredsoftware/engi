@@ -18,6 +18,10 @@ export interface CreateMessageOptions {
   pipeline_run_id?: string;
 }
 
+function resolveAttachmentReferenceId(attachment: AttachmentReference & { id?: string }) {
+  return attachment.attachment_id || attachment.id || crypto.randomUUID();
+}
+
 export async function createMessage(options: CreateMessageOptions): Promise<Message> {
   const messageId = crypto.randomUUID();
   
@@ -44,7 +48,7 @@ export async function createMessage(options: CreateMessageOptions): Promise<Mess
     const attachmentRecords = options.attachments.map(att => ({
       id: crypto.randomUUID(),
       message_id: messageId,
-      attachment_id: att.id,
+      attachment_id: resolveAttachmentReferenceId(att as AttachmentReference & { id?: string }),
       attachment_category: att.category,
       attachment_type: att.type,
       metadata: att
@@ -208,13 +212,6 @@ export async function createPipelineCompletionMessage(options: {
     conversation_id: options.conversation_id,
     role: 'assistant',
     content,
-    pipeline_run_id: options.pipeline_id,
-    metadata: {
-      type: options.type,
-      pipeline_id: options.pipeline_id,
-      success: options.success,
-      result_summary: options.result_summary,
-      error: options.error
-    }
+    pipeline_run_id: options.pipeline_id
   });
 }

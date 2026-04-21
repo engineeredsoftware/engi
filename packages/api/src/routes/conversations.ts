@@ -5,11 +5,28 @@
  * Lower-level conversation behavior stays in ../conversations/*.
  */
 
+import * as crypto from 'crypto';
+
+import { createAdminClient } from '@bitcode/orm';
+import type { AttachmentReference } from '@bitcode/attachments-generics';
+import { validateAttachmentCategory } from '@bitcode/attachments-generics';
 import { createClient } from '@bitcode/supabase/ssr/server';
 import { traceRoute } from '@bitcode/observability';
 import { createJsonResponse } from '@bitcode/responses';
 
-import { branchConversation, createConversation, listConversations } from '../conversations';
+import {
+  branchConversation,
+  createConversation,
+  createMessage,
+  createStreamResponse,
+  getConversation,
+  listConversations,
+} from '../conversations';
+import {
+  formatAgenticExecutionLabel,
+  normalizeAgenticExecutionStorageType,
+  normalizeAgenticExecutionType,
+} from '../executions/agentic-execution';
 
 type CreateConversationRequest = {
   title?: string;
@@ -26,6 +43,16 @@ type ConversationStreamRequest = {
   content?: string;
   message?: string;
   tokens?: Array<{ type?: string; value?: string; metadata?: Record<string, unknown> }>;
+  includeHistory?: boolean;
+};
+
+type ConversationStreamToken = NonNullable<ConversationStreamRequest['tokens']>[number];
+
+type ConversationStreamExecution = {
+  runId: string;
+  canonicalType: string;
+  storageType: string;
+  label: string;
 };
 
 function parseLimit(value: string | null) {
@@ -48,6 +75,344 @@ async function getAuthenticatedConversationUserId() {
   }
 
   return user.id;
+}
+
+function normalizeConversationText(value?: string | null) {
+  return value?.trim() || '';
+}
+
+function deriveConversationInput(body: ConversationStreamRequest) {
+  return normalizeConversationText(body.content) || normalizeConversationText(body.message);
+}
+
+function deriveConversationTitle(content: string) {
+  const normalized = normalizeConversationText(content);
+  if (!normalized) return 'New Bitcode Terminal conversation';
+  if (normalized.length <= 72) return normalized;
+  return `${normalized.slice(0, 69)}...`;
+}
+
+function inferAttachmentCategory(token: ConversationStreamToken): AttachmentReference['category'] {
+  const metadataCategory = token.metadata?.category;
+  if (typeof metadataCategory === 'string' && validateAttachmentCategory(metadataCategory)) {
+    return metadataCategory;
+  }
+
+  const value = normalizeConversationText(token.value);
+  if (value.startsWith('http://') || value.startsWith('https://')) {
+    return 'url';
+  }
+
+  if (token.type === 'source') return 'integration';
+  if (token.type === 'destination') return 'integration';
+  if (token.type === 'attachment') return 'file';
+
+  return 'integration';
+}
+
+function buildAttachmentReferences(tokens: ConversationStreamToken[]) {
+  return tokens
+    .filter((token) => token.type === 'attachment' || token.type === 'source' || token.type === 'destination')
+    .map((token) => {
+      const attachmentId =
+        (typeof token.metadata?.attachment_id === 'string' && normalizeConversationText(token.metadata.attachment_id)) ||
+        (typeof token.metadata?.id === 'string' && normalizeConversationText(token.metadata.id)) ||
+        normalizeConversationText(token.value) ||
+        crypto.randomUUID();
+
+      return {
+        attachment_id: attachmentId,
+        category: inferAttachmentCategory(token),
+        type:
+          (typeof token.metadata?.type === 'string' && normalizeConversationText(token.metadata.type)) ||
+          token.type ||
+          'attachment',
+        token_type: token.type || 'attachment',
+        title: token.value,
+        metadata: token.metadata || {},
+      } satisfies AttachmentReference & Record<string, unknown>;
+    });
+}
+
+function deriveConversationExecutionType(tokens: ConversationStreamToken[]) {
+  for (const token of tokens) {
+    const metadataPipelineType =
+      typeof token.metadata?.pipelineType === 'string' ? token.metadata.pipelineType : undefined;
+    const candidate = metadataPipelineType || token.type || token.value;
+
+    if (candidate === 'need_measurement' || candidate === 'measure') {
+      return normalizeAgenticExecutionType(candidate);
+    }
+
+    if (candidate === 'asset_pack' || candidate === 'deliverable' || candidate === 'ai_document') {
+      return normalizeAgenticExecutionType(candidate);
+    }
+  }
+
+  return null;
+}
+
+function countTokenTypes(tokens: ConversationStreamToken[]) {
+  return tokens.reduce(
+    (acc, token) => {
+      const normalized = normalizeConversationText(token.type);
+      if (normalized === 'attachment') acc.attachments += 1;
+      if (normalized === 'source') acc.sources += 1;
+      if (normalized === 'destination') acc.destinations += 1;
+      if (normalized === 'asset_pack' || normalized === 'deliverable' || normalized === 'ai_document') {
+        acc.assetPacks += 1;
+      }
+      return acc;
+    },
+    { attachments: 0, sources: 0, destinations: 0, assetPacks: 0 },
+  );
+}
+
+function pluralize(count: number, singular: string, plural = `${singular}s`) {
+  return count === 1 ? singular : plural;
+}
+
+function buildAssistantReply(input: {
+  content: string;
+  tokens: ConversationStreamToken[];
+  execution?: ConversationStreamExecution | null;
+}) {
+  const counts = countTokenTypes(input.tokens);
+  const parts = ['Bitcode Terminal write path accepted the instruction.'];
+
+  if (counts.sources > 0) {
+    parts.push(`Bound ${counts.sources} Connects ${pluralize(counts.sources, 'source')}.`);
+  }
+
+  if (counts.attachments > 0) {
+    parts.push(`Captured ${counts.attachments} rich ${pluralize(counts.attachments, 'attachment')}.`);
+  }
+
+  if (counts.assetPacks > 0) {
+    parts.push(`Aligned ${counts.assetPacks} ${pluralize(counts.assetPacks, 'asset pack')} for synthesis and fit review.`);
+  }
+
+  if (counts.destinations > 0) {
+    parts.push(
+      `Recorded ${counts.destinations} output ${pluralize(counts.destinations, 'destination')} for settlement follow-through.`,
+    );
+  }
+
+  if (input.execution) {
+    parts.push(`Started ${input.execution.label} ${input.execution.runId} for the current conversation context.`);
+  }
+
+  if (normalizeConversationText(input.content)) {
+    parts.push('Use the Bitcode activity ledger to inspect proofs, history, and closure once this write is committed.');
+  }
+
+  return parts.join(' ');
+}
+
+function chunkAssistantReply(content: string) {
+  return content.match(/\S+\s*/g) || [content];
+}
+
+function encodeSseChunk(payload: unknown) {
+  return new TextEncoder().encode(`data: ${JSON.stringify(payload)}\n\n`);
+}
+
+async function createConversationExecution(options: {
+  userId: string;
+  conversationId: string;
+  content: string;
+  tokens: ConversationStreamToken[];
+  canonicalType: string;
+}) {
+  try {
+    const nowIso = new Date().toISOString();
+    const storageType = normalizeAgenticExecutionStorageType(options.canonicalType);
+    const runId = crypto.randomUUID();
+    const admin = createAdminClient();
+
+    await admin.pipelineExecutions.create({
+      id: runId,
+      user_id: options.userId,
+      type: storageType,
+      status: 'running',
+      guide: options.canonicalType.includes('need-measurement') ? 'Need' : 'Develop',
+      input: {
+        conversationId: options.conversationId,
+        content: options.content,
+        tokens: options.tokens,
+      } as any,
+      output: null,
+      metadata: {
+        canonical_type: options.canonicalType,
+        entrypoint: 'conversations',
+      } as any,
+      started_at: nowIso,
+      created_at: nowIso,
+      updated_at: nowIso,
+      completed_at: null,
+    } as any);
+
+    return {
+      runId,
+      canonicalType: normalizeAgenticExecutionType(options.canonicalType),
+      storageType,
+      label: formatAgenticExecutionLabel(options.canonicalType),
+    } satisfies ConversationStreamExecution;
+  } catch (error) {
+    return null;
+  }
+}
+
+async function finalizeConversationExecution(
+  execution: ConversationStreamExecution | null | undefined,
+  options: {
+    success: boolean;
+    summary: string;
+    error?: string;
+  },
+) {
+  if (!execution) return;
+
+  try {
+    const admin = createAdminClient();
+    await admin.pipelineExecutions.update(execution.runId, {
+      status: options.success ? 'completed' : 'failed',
+      output: { summary: options.summary } as any,
+      error: options.error || null,
+      completed_at: new Date().toISOString(),
+      updated_at: new Date().toISOString(),
+    } as any);
+  } catch (_error) {
+    // Fail closed on execution finalization. The write path should not crash
+    // after the message stream has already been emitted.
+  }
+}
+
+async function createConversationWriteStreamResponse(options: {
+  conversationId: string;
+  userId: string;
+  content: string;
+  tokens: ConversationStreamToken[];
+}) {
+  const attachments = buildAttachmentReferences(options.tokens);
+  await createMessage({
+    conversation_id: options.conversationId,
+    role: 'user',
+    content: options.content,
+    attachments,
+  });
+
+  const canonicalExecutionType = deriveConversationExecutionType(options.tokens);
+  const execution = canonicalExecutionType
+    ? await createConversationExecution({
+        userId: options.userId,
+        conversationId: options.conversationId,
+        content: options.content,
+        tokens: options.tokens,
+        canonicalType: canonicalExecutionType,
+      })
+    : null;
+
+  const assistantReply = buildAssistantReply({
+    content: options.content,
+    tokens: options.tokens,
+    execution,
+  });
+
+  const stream = new ReadableStream<Uint8Array>({
+    async start(controller) {
+      try {
+        if (execution) {
+          controller.enqueue(
+            encodeSseChunk({
+              type: 'pipeline_triggered',
+              data: {
+                runId: execution.runId,
+                pipelineType: execution.canonicalType,
+              },
+            }),
+          );
+          controller.enqueue(
+            encodeSseChunk({
+              type: 'pipeline_event',
+              data: {
+                runId: execution.runId,
+                event: {
+                  status: 'running',
+                  summary: `${execution.label} is in flight.`,
+                },
+              },
+            }),
+          );
+        }
+
+        for (const chunk of chunkAssistantReply(assistantReply)) {
+          controller.enqueue(
+            encodeSseChunk({
+              type: 'token',
+              data: chunk,
+            }),
+          );
+        }
+
+        const assistantMessage = await createMessage({
+          conversation_id: options.conversationId,
+          role: 'assistant',
+          content: assistantReply,
+          pipeline_run_id: execution?.runId,
+        });
+
+        await finalizeConversationExecution(execution, {
+          success: true,
+          summary: assistantReply,
+        });
+
+        if (execution) {
+          controller.enqueue(
+            encodeSseChunk({
+              type: 'pipeline_complete',
+              data: {
+                runId: execution.runId,
+                success: true,
+                summary: assistantReply,
+              },
+            }),
+          );
+        }
+
+        controller.enqueue(
+          encodeSseChunk({
+            type: 'message_complete',
+            data: {
+              messageId: assistantMessage.id,
+              content: assistantReply,
+              conversationId: options.conversationId,
+            },
+          }),
+        );
+      } catch (error) {
+        await finalizeConversationExecution(execution, {
+          success: false,
+          summary: 'Conversation write failed closed.',
+          error: error instanceof Error ? error.message : 'Conversation write failed.',
+        });
+
+        controller.enqueue(
+          encodeSseChunk({
+            type: 'error',
+            data: {
+              message: error instanceof Error ? error.message : 'Conversation write failed.',
+              code: 'CONVERSATION_STREAM_ERROR',
+            },
+          }),
+        );
+      } finally {
+        controller.close();
+      }
+    },
+  });
+
+  return createStreamResponse(stream);
 }
 
 export const getConversationsRoute = traceRoute('/conversations', async (request: Request) => {
@@ -109,28 +474,59 @@ export const postConversationBranchRoute = traceRoute('/conversations/branch', a
   );
 });
 
-function createConversationStreamingNotMountedResponse(scope: 'global' | 'thread', conversationId?: string) {
-  return createJsonResponse(
-    {
-      error:
-        scope === 'thread'
-          ? `Conversation streaming is not yet mounted outside mock mode in the App Router surface for conversation ${conversationId || 'unknown'}.`
-          : 'Conversation streaming is not yet mounted outside mock mode in the App Router surface.',
-    },
-    501,
-  );
-}
-
 export const postConversationStreamRoute = traceRoute('/conversations/stream', async (request: Request) => {
-  await request.json().catch(() => ({} as ConversationStreamRequest));
-  return createConversationStreamingNotMountedResponse('global');
+  const body = await request.json().catch(() => ({} as ConversationStreamRequest));
+  const userId = await getAuthenticatedConversationUserId();
+
+  if (!userId) {
+    return createJsonResponse({ error: 'Unauthorized' }, 401);
+  }
+
+  const content = deriveConversationInput(body);
+  if (!content) {
+    return createJsonResponse({ error: 'content is required' }, 400);
+  }
+
+  const conversation = await createConversation(userId, deriveConversationTitle(content));
+  return createConversationWriteStreamResponse({
+    conversationId: conversation.id,
+    userId,
+    content,
+    tokens: body.tokens || [],
+  });
 });
 
 export const postConversationThreadStreamRoute = traceRoute(
   '/conversations/[conversationId]/stream',
   async (request: Request, context: { params: Promise<{ conversationId: string }> | { conversationId: string } }) => {
-    await request.json().catch(() => ({} as ConversationStreamRequest));
     const params = await context.params;
-    return createConversationStreamingNotMountedResponse('thread', params?.conversationId);
+    const body = await request.json().catch(() => ({} as ConversationStreamRequest));
+    const userId = await getAuthenticatedConversationUserId();
+
+    if (!userId) {
+      return createJsonResponse({ error: 'Unauthorized' }, 401);
+    }
+
+    const conversationId = normalizeConversationText(params?.conversationId);
+    if (!conversationId) {
+      return createJsonResponse({ error: 'conversationId is required' }, 400);
+    }
+
+    const conversation = await getConversation(conversationId, userId);
+    if (!conversation) {
+      return createJsonResponse({ error: 'Conversation not found' }, 404);
+    }
+
+    const content = deriveConversationInput(body);
+    if (!content) {
+      return createJsonResponse({ error: 'content is required' }, 400);
+    }
+
+    return createConversationWriteStreamResponse({
+      conversationId: conversation.id,
+      userId,
+      content,
+      tokens: body.tokens || [],
+    });
   },
 );

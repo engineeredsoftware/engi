@@ -2,19 +2,30 @@
  * @jest-environment node
  */
 
+jest.mock('@bitcode/supabase/ssr/server', () => ({ createClient: jest.fn() }));
+jest.mock('@bitcode/supabase', () => ({ supabaseAdmin: { from: jest.fn() } }));
 
-// Helper to read text from a ReadableStream produced by the route handler
-async function readStream(res: Response): Promise<string> {
-  const reader = res.body!.getReader();
-  const decoder = new TextDecoder();
-  let out = '';
-  while (true) {
-    const { done, value } = await reader.read();
-    if (done) break;
-    out += decoder.decode(value);
-  }
-  return out;
-}
+const pipelineExecutionsCreate = jest.fn();
+const pipelineExecutionsUpdate = jest.fn();
+const createAdminClient = jest.fn(() => ({
+  pipelineExecutions: {
+    create: pipelineExecutionsCreate,
+    update: pipelineExecutionsUpdate,
+  },
+}));
+
+jest.mock('@bitcode/orm', () => ({
+  createAdminClient,
+}));
+
+let conversationCreateBuilder: any;
+let conversationUpdateBuilder: any;
+let userMessageBuilder: any;
+let assistantMessageBuilder: any;
+let messageAttachmentsInsert: jest.Mock;
+let messageAttachmentsBuilder: any;
+let createClientMock: jest.Mock;
+let supabaseFromMock: jest.Mock;
 
 describe('/api/conversations/stream POST (mock mode)', () => {
   const envBackup = { ...process.env };
@@ -54,5 +65,149 @@ describe('/api/conversations/stream POST (mock mode)', () => {
     }
 
     expect(res.status).toBe(200);
+  });
+});
+
+describe('/api/conversations/stream POST (non-mock mode)', () => {
+  const envBackup = { ...process.env };
+
+  beforeEach(() => {
+    jest.resetModules();
+    jest.clearAllMocks();
+    process.env.NEXT_PUBLIC_ENABLE_MOCKS = 'false';
+    process.env.NEXT_PUBLIC_MOCK_CHAT_STREAM = 'false';
+
+    createClientMock = require('@bitcode/supabase/ssr/server').createClient;
+    supabaseFromMock = require('@bitcode/supabase').supabaseAdmin.from;
+
+    createClientMock.mockResolvedValue({
+      auth: {
+        getUser: jest.fn().mockResolvedValue({
+          data: { user: { id: 'user-1', email: 'user@example.com' } },
+          error: null,
+        }),
+      },
+    });
+    pipelineExecutionsCreate.mockResolvedValue({ id: 'run-measure-1' });
+    pipelineExecutionsUpdate.mockResolvedValue({ id: 'run-measure-1' });
+
+    conversationCreateBuilder = {
+      insert: jest.fn().mockReturnThis(),
+      select: jest.fn().mockReturnThis(),
+      single: jest.fn().mockResolvedValue({
+        data: {
+          id: 'conv-new-1',
+          user_id: 'user-1',
+          title: 'Measure fit for an attached repo against the current need posture.',
+        },
+        error: null,
+      }),
+    };
+    conversationUpdateBuilder = {
+      update: jest.fn().mockReturnThis(),
+      eq: jest.fn().mockResolvedValue({ error: null }),
+    };
+    userMessageBuilder = {
+      insert: jest.fn().mockReturnThis(),
+      select: jest.fn().mockReturnThis(),
+      single: jest.fn().mockResolvedValue({
+        data: { id: 'msg-user-1', conversation_id: 'conv-new-1' },
+        error: null,
+      }),
+    };
+    assistantMessageBuilder = {
+      insert: jest.fn().mockReturnThis(),
+      select: jest.fn().mockReturnThis(),
+      single: jest.fn().mockResolvedValue({
+        data: { id: 'msg-assistant-1', conversation_id: 'conv-new-1' },
+        error: null,
+      }),
+    };
+    messageAttachmentsInsert = jest.fn().mockResolvedValue({ error: null });
+    messageAttachmentsBuilder = {
+      insert: messageAttachmentsInsert,
+    };
+
+    let conversationsCall = 0;
+    let messagesCall = 0;
+    supabaseFromMock.mockImplementation((table: string) => {
+      switch (table) {
+        case 'conversations':
+          conversationsCall += 1;
+          return conversationsCall === 1 ? conversationCreateBuilder : conversationUpdateBuilder;
+        case 'messages':
+          messagesCall += 1;
+          return messagesCall === 1 ? userMessageBuilder : assistantMessageBuilder;
+        case 'message_attachments':
+          return messageAttachmentsBuilder;
+        default:
+          throw new Error(`Unexpected table: ${table}`);
+      }
+    });
+  });
+
+  afterAll(() => {
+    process.env = envBackup;
+  });
+
+  it('creates a new conversation and mounts a canonical need-measurement execution', async () => {
+    const { POST } = await import('@/app/api/conversations/stream/route');
+
+    const res = await POST(
+      new Request('https://example.com/api/conversations/stream', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          message: 'Measure fit for an attached repo against the current need posture.',
+          tokens: [
+            {
+              type: 'attachment',
+              value: 'spec-v26.pdf',
+              metadata: { attachment_id: 'file-1', category: 'file', type: 'pdf' },
+            },
+            { type: 'need_measurement', value: 'fit review' },
+          ],
+        }),
+      }),
+    );
+
+    expect(res.status).toBe(200);
+    expect(conversationCreateBuilder.insert).toHaveBeenCalledWith(
+      expect.objectContaining({
+        user_id: 'user-1',
+        title: 'Measure fit for an attached repo against the current need posture.',
+      }),
+    );
+    expect(userMessageBuilder.insert).toHaveBeenCalledWith(
+      expect.objectContaining({
+        conversation_id: 'conv-new-1',
+        role: 'user',
+      }),
+    );
+    expect(messageAttachmentsInsert).toHaveBeenNthCalledWith(
+      1,
+      expect.arrayContaining([
+        expect.objectContaining({
+          attachment_id: 'file-1',
+          attachment_category: 'file',
+          attachment_type: 'pdf',
+        }),
+      ]),
+    );
+    expect(pipelineExecutionsCreate).toHaveBeenCalledWith(
+      expect.objectContaining({
+        user_id: 'user-1',
+        type: 'pipeline:measure',
+        metadata: expect.objectContaining({
+          canonical_type: 'agentic-execution:need-measurement',
+        }),
+      }),
+    );
+    expect(assistantMessageBuilder.insert).toHaveBeenCalledWith(
+      expect.objectContaining({
+        conversation_id: 'conv-new-1',
+        role: 'assistant',
+      }),
+    );
   });
 });

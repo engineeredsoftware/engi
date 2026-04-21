@@ -18,6 +18,10 @@ export interface MessageAttachment {
   created_at: string;
 }
 
+function resolveAttachmentReferenceId(attachment: AttachmentReference & { id?: string }) {
+  return attachment.attachment_id || attachment.id || crypto.randomUUID();
+}
+
 export async function createMessageAttachment(options: {
   message_id: string;
   attachment: AttachmentReference;
@@ -28,7 +32,7 @@ export async function createMessageAttachment(options: {
     .insert({
       id: crypto.randomUUID(),
       message_id: options.message_id,
-      attachment_id: options.attachment.id,
+      attachment_id: resolveAttachmentReferenceId(options.attachment as AttachmentReference & { id?: string }),
       attachment_category: options.attachment.category,
       attachment_type: options.attachment.type,
       metadata: {
