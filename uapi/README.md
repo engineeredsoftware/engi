@@ -106,7 +106,7 @@ Fourth-gate retained `/executions` health also now depends on explicit compatibi
   Deliverable-template compatibility carrier for retained execution composition.
 - `app/api/auxillaries/template-preferences/route.ts`
   Saved template-preference compatibility carrier for retained execution personalization.
-- `app/api/auxillaries/profile/route.ts`, `app/api/auxillaries/connections/github/route.ts`, `app/api/auxillaries/credits/route.ts`, `app/api/auxillaries/usage/route.ts`, `app/api/auxillaries/transactions/route.ts`, `app/api/auxillaries/api-keys/route.ts`
+- `app/api/auxillaries/profile/route.ts`, `app/api/auxillaries/connections/github/route.ts`, `app/api/auxillaries/btd/route.ts`, `app/api/auxillaries/usage/route.ts`, `app/api/auxillaries/transactions/route.ts`, `app/api/auxillaries/api-keys/route.ts`
   Canonical auxillary API owners for profile, Connects, $BTD balance history, BTD transaction history, and API-key management; active product code should prefer these over compatibility `orbitals` API aliases.
 
 Those routes are not brochure compatibility leftovers.

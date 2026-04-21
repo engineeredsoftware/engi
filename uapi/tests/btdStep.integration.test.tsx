@@ -2,7 +2,7 @@ import React from 'react';
 import '@testing-library/jest-dom';
 import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 
-import CreditsStep from '@/app/auxillaries/components/AuxillariesCredits';
+import BtdStep from '@/app/auxillaries/components/AuxillariesBTDPane';
 import { useAuth } from '@/components/base/bitcode/auth/AuthProvider';
 import { useUserData } from '@/hooks/useUserData';
 
@@ -17,7 +17,7 @@ jest.mock('@/hooks/useUserData', () => ({
 const mockUseAuth = useAuth as jest.MockedFunction<typeof useAuth>;
 const mockUseUserData = useUserData as jest.MockedFunction<typeof useUserData>;
 
-describe('CreditsStep interactions', () => {
+describe('BtdStep interactions', () => {
   beforeEach(() => {
     global.fetch = jest.fn().mockResolvedValue({
       ok: true,
@@ -37,9 +37,7 @@ describe('CreditsStep interactions', () => {
         profile: {
           wallet_address: 'bc1qbitcodeoperator',
           btc_balance: '0.125',
-          team_members: [
-            { id: 'tm-1', display_name: 'Lin Ortega', role: 'admin' },
-          ],
+          team_members: [{ id: 'tm-1', display_name: 'Lin Ortega', role: 'admin' }],
         },
         modelPreferences: {
           existingSetting: 'keep-me',
@@ -53,6 +51,7 @@ describe('CreditsStep interactions', () => {
         },
       },
       hasGitHubConnection: true,
+      btdBalance: 1200,
       credits: 1200,
       isLoading: false,
       error: null,
@@ -66,12 +65,12 @@ describe('CreditsStep interactions', () => {
     jest.restoreAllMocks();
   });
 
-  it('submits merged $BTD defaults through the auxillaries alias', async () => {
+  it('submits merged $BTD defaults through the auxillaries pane', async () => {
     const onSave = jest.fn();
     const onCompletionStatusChange = jest.fn();
 
     render(
-      <CreditsStep
+      <BtdStep
         onSave={onSave}
         loading={false}
         onCompletionStatusChange={onCompletionStatusChange}

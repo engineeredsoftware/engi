@@ -54,6 +54,7 @@ describe('AuxillariesBTDPane', () => {
         },
       },
       hasGitHubConnection: true,
+      btdBalance: 1200,
       credits: 1200,
       isLoading: false,
       error: null,

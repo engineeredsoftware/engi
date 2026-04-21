@@ -1,8 +1,8 @@
 {
   "reportId": "v26-runs-pipelines-totality-proof",
   "version": "V26",
-  "proofSourceCommit": "a197818f053169c33bd75b27987b73ade3e231dc",
-  "generatedAt": "2026-04-20T23:32:28-03:00",
+  "proofSourceCommit": "9818ab89b6be10aa32b1da70c0809250107f501c",
+  "generatedAt": "2026-04-21T01:19:03-03:00",
   "generatorId": "bitcode.proven-generator.v1",
   "worktreeState": "dirty-preview",
   "passed": true,
@@ -94,7 +94,7 @@
         "uapi/app/api/auxillaries/template-preferences/route.ts",
         "uapi/app/api/auxillaries/profile/route.ts",
         "uapi/app/api/auxillaries/connections/github/route.ts",
-        "uapi/app/api/auxillaries/credits/route.ts",
+        "uapi/app/api/auxillaries/btd/route.ts",
         "uapi/app/api/auxillaries/usage/route.ts",
         "uapi/app/api/auxillaries/transactions/route.ts",
         "uapi/app/api/auxillaries/api-keys/route.ts",
@@ -107,7 +107,7 @@
         "uapi/tests/api/deliverableTemplatesRoute.test.ts",
         "uapi/tests/apiKeysRoutes.test.ts",
         "uapi/tests/userConnectionsGithubRoute.test.ts",
-        "uapi/tests/api/userCreditsRoute.test.ts"
+        "uapi/tests/api/userBtdRoute.test.ts"
       ],
       "missingFiles": []
     },
@@ -150,7 +150,7 @@
         "uapi/app/api/auxillaries/notifications/[notificationId]/route.ts",
         "uapi/app/api/auxillaries/profile/route.ts",
         "uapi/app/api/auxillaries/connections/github/route.ts",
-        "uapi/app/api/auxillaries/credits/route.ts",
+        "uapi/app/api/auxillaries/btd/route.ts",
         "uapi/app/api/auxillaries/usage/route.ts",
         "uapi/app/api/auxillaries/transactions/route.ts",
         "uapi/app/api/auxillaries/api-keys/route.ts",
@@ -162,7 +162,7 @@
         "uapi/tests/api/orbitalUsageRoute.test.ts",
         "uapi/tests/api/auxillariesTransactionsRoute.test.ts",
         "uapi/tests/userConnectionsGithubRoute.test.ts",
-        "uapi/tests/api/userCreditsRoute.test.ts",
+        "uapi/tests/api/userBtdRoute.test.ts",
         "uapi/tests/apiKeysRoutes.test.ts",
         "uapi/tests/mcpSmoke.test.ts",
         "uapi/tests/notificationsWidget.test.tsx"

@@ -2,7 +2,7 @@ import React from 'react';
 import '@testing-library/jest-dom';
 import { render } from '@testing-library/react';
 
-import CreditsStep from '@/app/auxillaries/components/AuxillariesCredits';
+import BtdStep from '@/app/auxillaries/components/AuxillariesBTDPane';
 import { useAuth } from '@/components/base/bitcode/auth/AuthProvider';
 import { useUserData } from '@/hooks/useUserData';
 
@@ -24,7 +24,7 @@ jest.mock('@/hooks/useUserData', () => ({
 const mockUseAuth = useAuth as jest.MockedFunction<typeof useAuth>;
 const mockUseUserData = useUserData as jest.MockedFunction<typeof useUserData>;
 
-describe('CreditsStep Returning User Flow', () => {
+describe('BtdStep Returning User Flow', () => {
   beforeEach(() => {
     global.fetch = jest.fn().mockResolvedValue({
       ok: true,
@@ -41,6 +41,7 @@ describe('CreditsStep Returning User Flow', () => {
         modelPreferences: {},
       },
       hasGitHubConnection: true,
+      btdBalance: 200,
       credits: 200,
       isLoading: false,
       error: null,
@@ -65,7 +66,7 @@ describe('CreditsStep Returning User Flow', () => {
 
     const onCompletionStatusChange = jest.fn();
     render(
-      <CreditsStep
+      <BtdStep
         onSave={() => {}}
         loading={false}
         onCompletionStatusChange={onCompletionStatusChange}
@@ -83,7 +84,7 @@ describe('CreditsStep Returning User Flow', () => {
 
     const onCompletionStatusChange = jest.fn();
     render(
-      <CreditsStep
+      <BtdStep
         onSave={() => {}}
         loading={false}
         onCompletionStatusChange={onCompletionStatusChange}

@@ -28,11 +28,19 @@ export interface AuxillaryOnboardingUpdatePayload {
 export interface AuxillaryDataPayload {
   profile: unknown | null;
   githubConnection: unknown | null;
+  btdBalance: number;
   credits: number;
   modelPreferences: unknown | null;
   onboardedPanes: ConcreteAuxillaryPane[];
   onboarded_steps: ConcreteAuxillaryPane[];
   isOnboardingComplete: boolean;
+}
+
+export interface AuxillaryBtdUpdatePayload {
+  btdBalance?: number;
+  totalBtd?: number;
+  credits?: number;
+  totalCredits?: number;
 }
 
 export function normalizeAuxillaryPane(value: string | null | undefined): ConcreteAuxillaryPane | null {
@@ -101,6 +109,7 @@ export function buildAnonymousAuxillaryData(): AuxillaryDataPayload {
   return {
     profile: null,
     githubConnection: null,
+    btdBalance: 0,
     credits: 0,
     modelPreferences: null,
     onboardedPanes,
@@ -112,22 +121,33 @@ export function buildAnonymousAuxillaryData(): AuxillaryDataPayload {
 export function buildAuxillaryDataPayload({
   profile,
   githubConnection,
+  btdBalance,
   credits,
   modelPreferences,
   onboardedSteps,
 }: {
   profile: unknown | null;
   githubConnection: unknown | null;
+  btdBalance?: number;
   credits: number;
   modelPreferences: unknown | null;
   onboardedSteps: unknown;
 }): AuxillaryDataPayload {
   const onboardedPanes = parseStoredAuxillarySteps(onboardedSteps);
+  const resolvedBtdBalance =
+    typeof btdBalance === 'number'
+      ? btdBalance
+      : typeof credits === 'number'
+        ? credits
+        : 0;
 
   return {
     profile,
     githubConnection,
-    credits,
+    btdBalance: resolvedBtdBalance,
+    // Keep the old key during fifth-gate so older consumers keep working
+    // while the canonical contract moves to BTC/BTD-owned naming.
+    credits: resolvedBtdBalance,
     modelPreferences,
     onboardedPanes,
     onboarded_steps: onboardedPanes,

@@ -1,7 +1,7 @@
 import React from 'react';
 import { renderToString } from 'react-dom/server';
 
-import CreditsStep from '@/app/auxillaries/components/AuxillariesCredits';
+import BtdStep from '@/app/auxillaries/components/AuxillariesBTDPane';
 import { useAuth } from '@/components/base/bitcode/auth/AuthProvider';
 import { useUserData } from '@/hooks/useUserData';
 
@@ -16,7 +16,7 @@ jest.mock('@/hooks/useUserData', () => ({
 const mockUseAuth = useAuth as jest.MockedFunction<typeof useAuth>;
 const mockUseUserData = useUserData as jest.MockedFunction<typeof useUserData>;
 
-describe('CreditsStep SSR Onboarding View', () => {
+describe('BtdStep SSR Onboarding View', () => {
   beforeEach(() => {
     mockUseAuth.mockReturnValue({
       user: null,
@@ -26,6 +26,7 @@ describe('CreditsStep SSR Onboarding View', () => {
     mockUseUserData.mockReturnValue({
       data: null,
       hasGitHubConnection: false,
+      btdBalance: 0,
       credits: 0,
       isLoading: false,
       error: null,
@@ -37,7 +38,7 @@ describe('CreditsStep SSR Onboarding View', () => {
 
   it('renders the unauthenticated $BTD auxillary posture', () => {
     const html = renderToString(
-      <CreditsStep
+      <BtdStep
         onSave={() => {}}
         loading={false}
         onCompletionStatusChange={() => {}}
@@ -46,6 +47,6 @@ describe('CreditsStep SSR Onboarding View', () => {
 
     expect(html).toContain('$BTD Auxillary');
     expect(html).toContain('Sign in before opening $BTD posture');
-    expect(html).toContain('Open Profile orbital');
+    expect(html).toContain('Open Profile auxillary');
   });
 });

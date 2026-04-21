@@ -219,7 +219,7 @@ const V26_FOURTH_GATE_ACTIVITY_FILES = [
   'uapi/app/api/auxillaries/notifications/[notificationId]/route.ts',
   'uapi/app/api/auxillaries/profile/route.ts',
   'uapi/app/api/auxillaries/connections/github/route.ts',
-  'uapi/app/api/auxillaries/credits/route.ts',
+  'uapi/app/api/auxillaries/btd/route.ts',
   'uapi/app/api/auxillaries/usage/route.ts',
   'uapi/app/api/auxillaries/transactions/route.ts',
   'uapi/app/api/auxillaries/api-keys/route.ts',
@@ -231,7 +231,7 @@ const V26_FOURTH_GATE_ACTIVITY_FILES = [
   'uapi/tests/api/orbitalUsageRoute.test.ts',
   'uapi/tests/api/auxillariesTransactionsRoute.test.ts',
   'uapi/tests/userConnectionsGithubRoute.test.ts',
-  'uapi/tests/api/userCreditsRoute.test.ts',
+  'uapi/tests/api/userBtdRoute.test.ts',
   'uapi/tests/apiKeysRoutes.test.ts',
   'uapi/tests/mcpSmoke.test.ts',
   'uapi/tests/notificationsWidget.test.tsx'
@@ -1036,7 +1036,7 @@ function buildV26RunsPipelinesTotalityProof({
         'uapi/app/api/auxillaries/template-preferences/route.ts',
         'uapi/app/api/auxillaries/profile/route.ts',
         'uapi/app/api/auxillaries/connections/github/route.ts',
-        'uapi/app/api/auxillaries/credits/route.ts',
+        'uapi/app/api/auxillaries/btd/route.ts',
         'uapi/app/api/auxillaries/usage/route.ts',
         'uapi/app/api/auxillaries/transactions/route.ts',
         'uapi/app/api/auxillaries/api-keys/route.ts',
@@ -1049,7 +1049,7 @@ function buildV26RunsPipelinesTotalityProof({
         'uapi/tests/api/deliverableTemplatesRoute.test.ts',
         'uapi/tests/apiKeysRoutes.test.ts',
         'uapi/tests/userConnectionsGithubRoute.test.ts',
-        'uapi/tests/api/userCreditsRoute.test.ts'
+        'uapi/tests/api/userBtdRoute.test.ts'
       ]
     ),
     buildV26FilePresenceCheck(

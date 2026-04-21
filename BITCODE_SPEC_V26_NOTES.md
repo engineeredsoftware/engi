@@ -194,7 +194,7 @@ The current source now reflects that architecture more directly:
 - `uapi/components/base/bitcode/activity/bitcode-activity-model.ts`, `application-run-activity.ts`, and `NotificationsWidget.tsx` now share one fourth-gate activity vocabulary so transactions remain dominant while notifications are admitted as the next converged activity class,
 - `ApplicationClosureNativeSections.tsx` plus `application-closure-state.ts` now read verification, branch, settlement, and ledger semantics from the mounted Bitcode shell snapshot rather than from rendered closure panel markup,
 - and `ApplicationWorkspaceRail.tsx` now frames conversations and orbitals as the other two experiences rather than as loose utility exits.
-- `OrbitalsProvider.tsx`, `OrbitalsCreditsPane.tsx`, `app/orbitals/components/api.ts`, `credits-tracker.tsx`, `ExecutionsPageClient.tsx`, `useUserData.ts`, `use-auth-query.ts`, and `UserDataContext.tsx` now use the canonical app-owned `/api/auxillaries/data` route, with `/api/orbitals/data` retained only as a thin compatibility wrapper.
+- `OrbitalsProvider.tsx`, `app/orbitals/components/api.ts`, `credits-tracker.tsx`, `ExecutionsPageClient.tsx`, `useUserData.ts`, `use-auth-query.ts`, and `UserDataContext.tsx` now use the canonical app-owned `/api/auxillaries/data` route, with `/api/orbitals/data` retained only as a thin compatibility wrapper.
 - live browser verification now confirms the architecture frame is visible, `give` focus lands on the live deposit section, and both conversations and orbitals open from `/application` without console or request failures.
 - `uapi/app/api/vcs/[provider]/*` now exists as an app-owned VCS carrier family for connection status, OAuth entry, PAT fallback connection, and repository listing instead of letting active Bitcode UI fall through to missing HTML routes.
 - `ApplicationRepositoryContextPanel.tsx` now makes provider connection posture and selected repository supply explicit inside `/application` before the preserved deposit chain, using the app-owned `/api/vcs/*` contract and route state.
@@ -458,7 +458,7 @@ The following remain non-goals for this notes companion:
 
 Current fourth-gate reminders:
 - retained `/executions` health now explicitly depends on `/api/vcs`, `/api/templates/deliverables`, and `/api/auxillaries/template-preferences` as compatibility API owners rather than invisible glue, and those carriers are part of the promotion boundary
-- canonical auxillary health now explicitly depends on `/api/auxillaries/profile`, `/api/auxillaries/connections/github`, `/api/auxillaries/credits`, `/api/auxillaries/usage`, `/api/auxillaries/transactions`, and `/api/auxillaries/api-keys` as active owners rather than pane-side assumptions
+- canonical auxillary health now explicitly depends on `/api/auxillaries/profile`, `/api/auxillaries/connections/github`, `/api/auxillaries/btd`, `/api/auxillaries/usage`, `/api/auxillaries/transactions`, and `/api/auxillaries/api-keys` as active owners rather than pane-side assumptions
 - old-world port scope is explicit in draft posture too: Jira remains reader-first Bitcode need ingestion while Git/GH remains the initial admitted settle-write boundary for fourth-gate testnet-ready promotion
 
 Current fifth-gate reminders:

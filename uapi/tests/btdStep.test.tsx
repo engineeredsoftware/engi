@@ -1,7 +1,7 @@
 import React from 'react';
 import { renderToString } from 'react-dom/server';
 
-import CreditsStep from '@/app/auxillaries/components/AuxillariesCredits';
+import BtdStep from '@/app/auxillaries/components/AuxillariesBTDPane';
 import { useAuth } from '@/components/base/bitcode/auth/AuthProvider';
 import { useUserData } from '@/hooks/useUserData';
 
@@ -16,7 +16,7 @@ jest.mock('@/hooks/useUserData', () => ({
 const mockUseAuth = useAuth as jest.MockedFunction<typeof useAuth>;
 const mockUseUserData = useUserData as jest.MockedFunction<typeof useUserData>;
 
-describe('CreditsStep (SSR)', () => {
+describe('BtdStep (SSR)', () => {
   beforeEach(() => {
     mockUseAuth.mockReturnValue({
       user: {
@@ -31,9 +31,7 @@ describe('CreditsStep (SSR)', () => {
         profile: {
           wallet_address: 'bc1qbitcodeoperator',
           btc_balance: '0.250',
-          team_members: [
-            { id: 'tm-1', display_name: 'Lin Ortega', role: 'admin' },
-          ],
+          team_members: [{ id: 'tm-1', display_name: 'Lin Ortega', role: 'admin' }],
         },
         modelPreferences: {
           btdDefaults: {
@@ -46,6 +44,7 @@ describe('CreditsStep (SSR)', () => {
         },
       },
       hasGitHubConnection: true,
+      btdBalance: 250,
       credits: 250,
       isLoading: false,
       error: null,
@@ -57,7 +56,7 @@ describe('CreditsStep (SSR)', () => {
 
   it('renders the authenticated $BTD auxillary summary and need-space controls', () => {
     const html = renderToString(
-      <CreditsStep
+      <BtdStep
         onSave={() => {}}
         loading={false}
         isOnboardingComplete

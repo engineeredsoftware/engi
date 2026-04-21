@@ -5,6 +5,7 @@ import React, { ReactNode, useState, useEffect, createContext, useContext } from
 export interface UserData {
   profile: any;
   vcsConnections: any[];
+  btdBalance: number;
   credits: number;
   modelPreferences: any;
 }
@@ -54,7 +55,7 @@ export function UserDataProvider({ children }: { children: ReactNode }) {
 }
 
 /**
- * Hook to access user data (profile, GitHub connection, credits, model prefs).
+ * Hook to access user data (profile, GitHub connection, BTD balance, model prefs).
  */
 export function useUserData(): UserDataContextValue {
   return useContext(UserDataContext);

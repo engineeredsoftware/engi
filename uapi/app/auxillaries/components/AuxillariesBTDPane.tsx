@@ -44,8 +44,8 @@ const DEFAULT_BTD_DEFAULTS: BtdDefaults = {
   walletSync: "manual",
 };
 
-function formatBtdBalance(credits: number) {
-  return `${credits.toLocaleString()} BTD`;
+function formatBtdBalance(btdBalance: number) {
+  return `${btdBalance.toLocaleString()} BTD`;
 }
 
 function resolveWalletAddress(profile: Record<string, any> | null, userId: string | undefined) {
@@ -67,7 +67,7 @@ export default function AuxillariesBTDPane({
   onCompletionStatusChange,
 }: AuxillariesBTDPaneProps) {
   const { user } = useAuth();
-  const { data, credits } = useUserData();
+  const { data, btdBalance = 0 } = useUserData();
   const hasCalledCompletionRef = useRef(false);
   const savedPreferences = (data?.modelPreferences as Record<string, any> | null) || null;
   const profile = (data?.profile as Record<string, any> | null) || null;
@@ -300,7 +300,7 @@ export default function AuxillariesBTDPane({
                 items={[
                   {
                     label: "BTD balance",
-                    value: formatBtdBalance(credits),
+                    value: formatBtdBalance(btdBalance),
                     detail: "Current inner-auxillary throughput balance visible to the account.",
                     tone: "amber",
                   },

@@ -28,16 +28,16 @@ export const connectGitHub = async (connectionData: any) => {
   return res.json();
 };
 
-// Purchase credits
-export const purchaseCredits = async (purchaseData: any) => {
-  const res = await fetch('/api/auxillaries/credits', {
+// Update the canonical BTD balance posture.
+export const updateBtdBalance = async (balanceData: any) => {
+  const res = await fetch('/api/auxillaries/btd', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(purchaseData)
+    body: JSON.stringify(balanceData)
   });
   if (!res.ok) {
     const errorData = await res.json().catch(() => null);
-    throw new Error(errorData?.error || 'Failed to purchase credits');
+    throw new Error(errorData?.error || 'Failed to update BTD balance');
   }
   return res.json();
 };

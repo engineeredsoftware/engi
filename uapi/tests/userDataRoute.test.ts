@@ -25,6 +25,7 @@ describe('GET /api/auxillaries/data', () => {
     expect(body).toEqual({
       profile: null,
       githubConnection: null,
+      btdBalance: 0,
       credits: 0,
       modelPreferences: null,
       onboardedPanes: [],
@@ -37,7 +38,7 @@ describe('GET /api/auxillaries/data', () => {
   it('returns user data with only GitHub connection', async () => {
     mockGetUser.mockResolvedValue({ data: { user: mockUser }, error: null });
     // Mock profile
-    const profileData = { user_id: 'user-1', name: 'Test', onboarded_steps: '["profile","models","credits"]' };
+    const profileData = { user_id: 'user-1', name: 'Test', onboarded_steps: '["profile","interfaces","btd"]' };
     const profileBuilder: any = {
       select: jest.fn().mockReturnThis(), eq: jest.fn().mockReturnThis(), maybeSingle: jest.fn().mockResolvedValue({ data: profileData, error: null })
     };
@@ -46,10 +47,10 @@ describe('GET /api/auxillaries/data', () => {
     const connectionBuilder: any = {
       select: jest.fn().mockReturnThis(), eq: jest.fn().mockReturnThis(), maybeSingle: jest.fn().mockResolvedValue({ data: { connection_data: connectionData }, error: null })
     };
-    // Mock credits
-    const creditsData = { credits: 50 };
+    // Mock BTD balance
+    const creditsData = { balance: 50 };
     const creditsBuilder: any = {
-      select: jest.fn().mockReturnThis(), eq: jest.fn().mockReturnThis(), single: jest.fn().mockResolvedValue({ data: creditsData, error: null })
+      select: jest.fn().mockReturnThis(), eq: jest.fn().mockReturnThis(), maybeSingle: jest.fn().mockResolvedValue({ data: creditsData, error: null })
     };
     // Mock model preferences
     const prefData = { preferences: { model: 'gpt' } };
@@ -71,6 +72,7 @@ describe('GET /api/auxillaries/data', () => {
     expect(body).toEqual({
       profile: profileData,
       githubConnection: connectionData,
+      btdBalance: 50,
       credits: 50,
       modelPreferences: prefData.preferences,
       onboardedPanes: ['profile', 'interfaces', 'btd'],

@@ -7,6 +7,7 @@ import {
   buildAnonymousAuxillaryData,
   buildAuxillaryDataPayload,
   buildAuxillaryOnboardingPayload,
+  type AuxillaryBtdUpdatePayload,
   type AuxillaryOnboardingUpdatePayload,
   normalizeCompletedAuxillaryPane,
   parseStoredAuxillarySteps,
@@ -145,7 +146,7 @@ export function buildGetAuxillaryDataRoute(options: AuxillaryRouteBuilderOptions
       return createJsonResponse(buildAnonymousAuxillaryData());
     }
 
-    const [profileResult, githubConnectionResult, creditsResult, preferencesResult] = await Promise.all([
+    const [profileResult, githubConnectionResult, balanceResult, preferencesResult] = await Promise.all([
       supabase.from('user_profiles').select('*').eq('user_id', user.id).maybeSingle(),
       supabase
         .from('user_connections')
@@ -153,24 +154,100 @@ export function buildGetAuxillaryDataRoute(options: AuxillaryRouteBuilderOptions
         .eq('user_id', user.id)
         .eq('provider', 'github')
         .maybeSingle(),
-      supabase.from('user_credits').select('credits').eq('user_id', user.id).single(),
+      supabase.from('user_credits').select('balance').eq('user_id', user.id).maybeSingle(),
       supabase.from('user_model_preferences').select('preferences').eq('user_id', user.id).single(),
     ]);
 
     const profile = profileResult.data ?? null;
     const githubConnection = githubConnectionResult.data?.connection_data ?? null;
-    const credits = typeof creditsResult.data?.credits === 'number' ? creditsResult.data.credits : 0;
+    const btdBalance = typeof balanceResult.data?.balance === 'number' ? balanceResult.data.balance : 0;
     const modelPreferences = preferencesResult.data?.preferences ?? null;
 
     return createJsonResponse(
       buildAuxillaryDataPayload({
         profile,
         githubConnection,
-        credits,
+        btdBalance,
+        credits: btdBalance,
         modelPreferences,
         onboardedSteps: (profile as { onboarded_steps?: unknown } | null)?.onboarded_steps,
       }),
     );
+  });
+}
+
+export function buildPostAuxillaryBtdRoute(options: AuxillaryRouteBuilderOptions = {}) {
+  return traceRoute('/auxillaries/btd', async (request: Request) => {
+    if (options.isMockMode?.()) {
+      return createJsonResponse({
+        success: true,
+        btdBalance: 0,
+        newBalance: 0,
+        credits: 0,
+      });
+    }
+
+    const user = await getAuthenticatedUser();
+    if (!user) {
+      return createJsonResponse({ error: 'Unauthorized' }, 401);
+    }
+
+    const { role, error: roleError } = await getProfileRole(user.id);
+    if (roleError) {
+      return createJsonResponse({ error: roleError.message }, 500);
+    }
+
+    if (role !== 'lead' && role !== 'admin') {
+      return createJsonResponse({ error: 'Forbidden' }, 403);
+    }
+
+    let body: AuxillaryBtdUpdatePayload = {};
+    try {
+      body = await request.json();
+    } catch {
+      return createJsonResponse({ error: 'Invalid JSON body' }, 400);
+    }
+
+    const rawRequestedBalance =
+      body.btdBalance ?? body.totalBtd ?? body.credits ?? body.totalCredits;
+    const requestedBtdBalance = Number(rawRequestedBalance);
+
+    if (!Number.isFinite(requestedBtdBalance) || requestedBtdBalance < 0) {
+      return createJsonResponse({ error: 'btdBalance must be a non-negative number' }, 400);
+    }
+
+    const { data, error } = await supabaseAdmin
+      .from('user_credits')
+      .upsert(
+        {
+          user_id: user.id,
+          balance: requestedBtdBalance,
+          updated_at: new Date().toISOString(),
+        },
+        { onConflict: 'user_id' },
+      )
+      .select('balance')
+      .single();
+
+    if (error) {
+      return createJsonResponse({ error: error.message }, 500);
+    }
+
+    await supabaseAdmin
+      .from('user_profiles')
+      .update({ updated_at: new Date().toISOString() })
+      .eq('user_id', user.id);
+
+    const resolvedBalance =
+      typeof data?.balance === 'number' ? data.balance : requestedBtdBalance;
+
+    return createJsonResponse({
+      success: true,
+      btdBalance: resolvedBalance,
+      // Keep old payload keys until the remaining compatibility carriers are retired.
+      newBalance: resolvedBalance,
+      credits: resolvedBalance,
+    });
   });
 }
 

@@ -72,6 +72,7 @@ export function buildMockOrbitalData() {
       repositories: 7,
       mock_mode: true,
     },
+    btdBalance: 1200,
     credits: 1200,
     modelPreferences: {
       preferred_model: 'claude-3-7-sonnet',

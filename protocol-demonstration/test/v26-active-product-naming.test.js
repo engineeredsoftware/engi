@@ -463,8 +463,8 @@ const sourceConfigStorySource = readFileSync(new URL('../../uapi/stories/SourceC
 const conversationDigestPipelineTestSource = readFileSync(new URL('../../uapi/tests/e2e/conversation-digest-pipeline.test.ts', import.meta.url), 'utf8');
 const killBugStoryFixtureSource = readFileSync(new URL('../../uapi/tests/e2e/fixtures/stories/killBug.json', import.meta.url), 'utf8');
 const pipelineMeasureSmokeSource = readFileSync(new URL('../../uapi/tests/pipelineMeasureSmoke.test.ts', import.meta.url), 'utf8');
-const creditsStepStaticTestSource = readFileSync(new URL('../../uapi/tests/creditsStep.static.test.tsx', import.meta.url), 'utf8');
-const creditsStepInitialFlowTestSource = readFileSync(new URL('../../uapi/tests/creditsStep.initialFlow.test.tsx', import.meta.url), 'utf8');
+const btdStepStaticTestSource = readFileSync(new URL('../../uapi/tests/btdStep.static.test.tsx', import.meta.url), 'utf8');
+const btdStepInitialFlowTestSource = readFileSync(new URL('../../uapi/tests/btdStep.initialFlow.test.tsx', import.meta.url), 'utf8');
 const connectionsStepTestSource = readFileSync(new URL('../../uapi/tests/connectionsStep.test.tsx', import.meta.url), 'utf8');
 const modelsStepTestSource = readFileSync(new URL('../../uapi/tests/modelsStep.test.tsx', import.meta.url), 'utf8');
 const profileStepTestSource = readFileSync(new URL('../../uapi/tests/profileStep.test.tsx', import.meta.url), 'utf8');
@@ -485,8 +485,6 @@ const orbitalsConnectsPaneSource = readFileSync(new URL('../../uapi/app/orbitals
 const orbitalsInterfacesPaneSource = readFileSync(new URL('../../uapi/app/orbitals/components/OrbitalsInterfacesPane.tsx', import.meta.url), 'utf8');
 const orbitalsBtdPaneSource = readFileSync(new URL('../../uapi/app/orbitals/components/OrbitalsBTDPane.tsx', import.meta.url), 'utf8');
 const orbitalsModelsPaneSource = readFileSync(new URL('../../uapi/app/orbitals/components/OrbitalsModelsPane.tsx', import.meta.url), 'utf8');
-const orbitalsCreditsPaneSource = readFileSync(new URL('../../uapi/app/orbitals/components/OrbitalsCreditsPane.tsx', import.meta.url), 'utf8');
-const auxillariesCreditsSource = readFileSync(new URL('../../uapi/app/auxillaries/components/AuxillariesCredits.tsx', import.meta.url), 'utf8');
 const auxillariesConnectsSource = readFileSync(new URL('../../uapi/app/auxillaries/components/AuxillariesConnects.tsx', import.meta.url), 'utf8');
 const auxillariesModelsSource = readFileSync(new URL('../../uapi/app/auxillaries/components/AuxillariesModels.tsx', import.meta.url), 'utf8');
 const auxillariesProfileStepSource = readFileSync(new URL('../../uapi/app/auxillaries/components/AuxillariesProfileStep.tsx', import.meta.url), 'utf8');
@@ -1168,7 +1166,7 @@ test('active V26 auxillaries ownership and llm-generics harness use Bitcode nami
 });
 
 test('active V26 auxillaries test ownership and retained examples use Bitcode naming instead of Engi residue', () => {
-  assert.match(auxillariesCreditsSource, /AuxillariesBTDPane/);
+  assert.match(auxillariesBtdPaneSource, /AuxillariesWorkspaceSection/);
   assert.match(auxillariesConnectsSource, /AuxillariesConnectsPane/);
   assert.match(auxillariesModelsSource, /AuxillariesInterfacesPane/);
   assert.match(auxillariesProfileStepSource, /AuxillariesProfilePane/);
@@ -1185,8 +1183,7 @@ test('active V26 auxillaries test ownership and retained examples use Bitcode na
   assert.match(orbitalsInterfacesPaneSource, /@\/app\/auxillaries\/components\/AuxillariesInterfacesPane/);
   assert.match(orbitalsBtdPaneSource, /@\/app\/auxillaries\/components\/AuxillariesBTDPane/);
   assert.match(orbitalsModelsPaneSource, /@\/app\/auxillaries\/components\/AuxillariesInterfacesPane/);
-  assert.match(orbitalsCreditsPaneSource, /@\/app\/auxillaries\/components\/AuxillariesBTDPane/);
-  assert.match(creditsStepStaticTestSource, /@\/app\/auxillaries\/components\/AuxillariesCredits/);
+  assert.match(btdStepStaticTestSource, /@\/app\/auxillaries\/components\/AuxillariesBTDPane/);
   assert.match(connectionsStepTestSource, /@\/app\/auxillaries\/components\/AuxillariesConnects/);
   assert.match(modelsStepTestSource, /@\/app\/auxillaries\/components\/AuxillariesModels/);
   assert.match(profileStepTestSource, /@\/app\/auxillaries\/components\/AuxillariesProfileStep/);
@@ -1202,7 +1199,7 @@ test('active V26 auxillaries test ownership and retained examples use Bitcode na
   assert.match(loginPaneStorySource, /\.\.\/app\/auxillaries\/components\/AuxillariesLoginPane/);
   assert.match(onboardingPaneStorySource, /\.\.\/app\/auxillaries\/components\/AuxillariesContent/);
   assert.match(onboardingUserStorySource, /@\/app\/auxillaries\/components\/AuxillariesContent/);
-  assert.doesNotMatch(creditsStepStaticTestSource, /@\/app\/orbitals\/components\/OrbitalsCredits/);
+  assert.doesNotMatch(btdStepStaticTestSource, /@\/app\/orbitals\/components\/OrbitalsCredits/);
   assert.doesNotMatch(connectionsStepTestSource, /@\/app\/orbitals\/components\/OrbitalsConnects/);
   assert.doesNotMatch(modelsStepTestSource, /@\/app\/orbitals\/components\/OrbitalsModels/);
   assert.doesNotMatch(profileStepTestSource, /@\/app\/orbitals\/components\/OrbitalsProfileStep/);
@@ -1212,7 +1209,7 @@ test('active V26 auxillaries test ownership and retained examples use Bitcode na
   assert.doesNotMatch(orbitalsInterfacesPaneTestSource, /@\/app\/orbitals\/components\/models\/GlobalModelSelection/);
   assert.match(orbitalsInterfacesPaneTestSource, /Auxillary step 3/);
   assert.match(orbitalsBtdPaneTestSource, /Auxillary step 4/);
-  assert.match(creditsStepInitialFlowTestSource, /@\/app\/auxillaries\/components\/AuxillariesDataSharingPanel/);
+  assert.match(btdStepInitialFlowTestSource, /@\/app\/auxillaries\/components\/AuxillariesDataSharingPanel/);
   assert.match(orbitalsOnboardingRouteTestSource, /completedPanes/);
   assert.match(userDataRouteTestSource, /onboardedPanes/);
   assert.match(externalRealizationRouteTestSource, /BITCODE_V24_ENVIRONMENT_MODE/);
@@ -1221,7 +1218,7 @@ test('active V26 auxillaries test ownership and retained examples use Bitcode na
   assert.match(bitcodeScriptSource, /BITCODE_NEED\.md/);
   assert.match(bitcodeDemoSpecV15Source, /BITCODE_NEED\.md/);
   assert.match(specV6GapAnalysisSource, /BITCODE_NEED\.md/);
-  assert.doesNotMatch(creditsStepInitialFlowTestSource, /@\/app\/orbitals\/components\/OrbitalsDataSharingPanel/);
+  assert.doesNotMatch(btdStepInitialFlowTestSource, /@\/app\/orbitals\/components\/OrbitalsDataSharingPanel/);
   assert.doesNotMatch(externalRealizationRouteTestSource, /ENGI_V24_ENVIRONMENT_MODE/);
   assert.doesNotMatch(applicationExternalRuntimeTestSource, /ENGI_V24_BITCOIN_MAINCHAIN_RPC_PASSWORD/);
   assert.doesNotMatch(bitcodeChecklistSource, /ENGI_NEED\.md/);

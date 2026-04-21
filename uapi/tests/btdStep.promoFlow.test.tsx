@@ -2,7 +2,7 @@ import React from 'react';
 import '@testing-library/jest-dom';
 import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 
-import CreditsStep from '@/app/auxillaries/components/AuxillariesCredits';
+import BtdStep from '@/app/auxillaries/components/AuxillariesBTDPane';
 import { useAuth } from '@/components/base/bitcode/auth/AuthProvider';
 import { useUserData } from '@/hooks/useUserData';
 
@@ -17,7 +17,7 @@ jest.mock('@/hooks/useUserData', () => ({
 const mockUseAuth = useAuth as jest.MockedFunction<typeof useAuth>;
 const mockUseUserData = useUserData as jest.MockedFunction<typeof useUserData>;
 
-describe('CreditsStep Promo Code Flow', () => {
+describe('BtdStep Promo Code Flow', () => {
   beforeEach(() => {
     global.fetch = jest
       .fn()
@@ -58,6 +58,7 @@ describe('CreditsStep Promo Code Flow', () => {
         modelPreferences: {},
       },
       hasGitHubConnection: true,
+      btdBalance: 1200,
       credits: 1200,
       isLoading: false,
       error: null,
@@ -72,13 +73,7 @@ describe('CreditsStep Promo Code Flow', () => {
   });
 
   it('enables continuous need-space repository sharing from the $BTD alias', async () => {
-    render(
-      <CreditsStep
-        onSave={() => {}}
-        loading={false}
-        isOnboardingComplete
-      />,
-    );
+    render(<BtdStep onSave={() => {}} loading={false} isOnboardingComplete />);
 
     await waitFor(() => {
       expect(screen.queryByText('loading…')).not.toBeInTheDocument();
@@ -96,9 +91,7 @@ describe('CreditsStep Promo Code Flow', () => {
 
     expect(global.fetch).toHaveBeenCalledWith(
       '/api/auxillaries/user/data-share',
-      expect.objectContaining({
-        method: 'POST',
-      }),
+      expect.objectContaining({ method: 'POST' }),
     );
   });
 });

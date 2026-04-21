@@ -1,8 +1,8 @@
 "use client";
 
-// Centralised user data fetch & cache so all UI surfaces (Nav, CreditsTracker,
-// orbitals, etc.) share a single source of truth and avoid inconsistent
-// intermediate states.
+// Centralised user data fetch & cache so all UI surfaces (Nav, the BTD balance
+// tracker, auxillaries, etc.) share a single source of truth and avoid
+// inconsistent intermediate states.
 
 import { useState, useEffect, useCallback } from 'react';
 
@@ -12,6 +12,7 @@ export interface AggregatedUserData {
   profile?: any | null;
   vcsConnections?: any[];
   githubConnection?: any | null;
+  btdBalance?: number;
   credits?: number;
   modelPreferences?: any | null;
   onboardedPanes?: string[];
@@ -22,6 +23,7 @@ export interface AggregatedUserData {
 const ANONYMOUS_USER_DATA: AggregatedUserData = {
   profile: null,
   githubConnection: null,
+  btdBalance: 0,
   credits: 0,
   modelPreferences: null,
   onboardedPanes: [],
@@ -80,12 +82,14 @@ export async function mutateUserData(): Promise<AggregatedUserData> {
  * “flipping” nav bug where different widgets would overwrite each other.
  */
 export function useUserData() {
-  // Seed credits from localStorage synchronously so we can render an immediate
+  // Seed the BTD balance from localStorage synchronously so we can render an immediate
   // non-zero balance while the network request is pending.
-  const hydratedCredits = (() => {
+  const hydratedBtdBalance = (() => {
     try {
       if (typeof window === 'undefined') return 0;
-      const raw = localStorage.getItem('credits_cached');
+      const raw =
+        localStorage.getItem('btd_balance_cached') ??
+        localStorage.getItem('credits_cached');
       return raw ? parseInt(raw, 10) || 0 : 0;
     } catch {
       return 0;
@@ -100,9 +104,15 @@ export function useUserData() {
     try {
       const fresh = await mutateUserData();
       setData(fresh);
-      if (typeof fresh.credits === 'number') {
+      const balance =
+        typeof fresh.btdBalance === 'number'
+          ? fresh.btdBalance
+          : typeof fresh.credits === 'number'
+            ? fresh.credits
+            : null;
+      if (typeof balance === 'number') {
         try {
-          localStorage.setItem('credits_cached', String(fresh.credits));
+          localStorage.setItem('btd_balance_cached', String(balance));
         } catch {
           // ignore quota / privacy errors
         }
@@ -118,9 +128,15 @@ export function useUserData() {
       .then((d) => {
         if (!cancelled) {
           setData(d);
-          if (typeof d.credits === 'number') {
+          const balance =
+            typeof d.btdBalance === 'number'
+              ? d.btdBalance
+              : typeof d.credits === 'number'
+                ? d.credits
+                : null;
+          if (typeof balance === 'number') {
             try {
-              localStorage.setItem('credits_cached', String(d.credits));
+              localStorage.setItem('btd_balance_cached', String(balance));
             } catch {
               // ignore
             }
@@ -138,7 +154,12 @@ export function useUserData() {
   const hasGitHubConnection = Boolean(
     data?.githubConnection || data?.vcsConnections?.some(conn => conn.provider === 'github')
   );
-  const credits = typeof data?.credits === 'number' ? data.credits : hydratedCredits;
+  const btdBalance =
+    typeof data?.btdBalance === 'number'
+      ? data.btdBalance
+      : typeof data?.credits === 'number'
+        ? data.credits
+        : hydratedBtdBalance;
 
   const onboardedSteps = normalizeAuxillarySteps(data?.onboardedPanes ?? data?.onboarded_steps ?? []);
   const isOnboardingComplete = data?.isOnboardingComplete || false;
@@ -146,7 +167,9 @@ export function useUserData() {
   return {
     data,
     hasGitHubConnection,
-    credits,
+    btdBalance,
+    // Keep the old field during fifth-gate while callers converge.
+    credits: btdBalance,
     isLoading,
     error,
     refresh,
