@@ -1018,6 +1018,11 @@ Required closure posture:
   filtered `tsc` verification over the active `uapi` program for the retained Jira/multimodal/use-computer caller corridor
   proof surface:
   fifth-gate retained caller-contract compile-health closure so Jira tool execution no longer preserves nullable connection or optional-started worklog drift, multimodal-processing re-exports only the kept factory-tool surface, and shell-execution tools plus the deliverable wrapper now use the actual Bitcode `Tool` property contract instead of the older schema-class pattern
+- `{packages/pipelines/deliverable/src/{tools/{DeliverablePipelineCloneVCSRepositoryTool.ts,DeliverablePipelineMultimodalProcessingTool.ts,DeliverablePipelineAudioComprehensionTool.ts,DeliverablePipelineImageComprehensionTool.ts,DeliverablePipelinePDFComprehensionTool.ts,DeliverablePipelineVideoComprehensionTool.ts,index.ts},agents/shipping/deliverable-pipeline-ship-agent.ts}}`
+  test coverage:
+  filtered `tsc` verification over the active `uapi` program for the retained deliverable-tool wrapper and shipping corridor
+  proof surface:
+  fifth-gate retained caller-contract compile-health closure so deliverable tool wrappers now forward through the current single-input Bitcode tool contract, optional validation/shipping tools no longer leak `undefined` into typed registries, and the shipping agent no longer preserves raw-string prompt-part drift or duplicate-Zod output-schema identity mismatches
 
 ## Module namespace proof note
 

@@ -29,7 +29,7 @@ export const DP_PDF_TOOL_PROMPT: Prompt = (() => {
  * @prompt DP_PDF_TOOL_PROMPT
  */
 export class DeliverablePipelinePDFComprehensionTool extends Tool<typeof multimodalProcessingTool.use> {
-  use = (...args: Parameters<typeof multimodalProcessingTool.use>) => multimodalProcessingTool.use(...args as any);
+  use = (input: Parameters<typeof multimodalProcessingTool.use>[0]) => multimodalProcessingTool.use(input);
 }
 
 export const deliverablePipelinePDFComprehensionTool = new DeliverablePipelinePDFComprehensionTool();

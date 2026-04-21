@@ -34,22 +34,22 @@ const systemPrompt = (() => {
 })();
 
 const stepPrompts = {
-  plan: () => { const p = new Prompt(); p.set('step:purpose', 'Plan the exact shipping actions based on deliverable type.'); return p; },
+  plan: () => { const p = new Prompt(); p.set('step:purpose', 'Plan the exact shipping actions based on deliverable type.' as any); return p; },
   try: () => {
     const p = new Prompt();
-    p.set('step:purpose', 'Execute shipping actions. Prefer VCS tools. For code-change, commit+push with use-computer then create PR.');
+    p.set('step:purpose', 'Execute shipping actions. Prefer VCS tools. For code-change, commit+push with use-computer then create PR.' as any);
     // Instruction for tool selection
-    p.set('tools:policy', 'If deliverable type is code-change: use use-computer to run git commands in workspacePath, then call vcs_create_pull_request. For design-document: call vcs_create_issue. For reviews: call vcs_create_comment with appropriate target.');
+    p.set('tools:policy', 'If deliverable type is code-change: use use-computer to run git commands in workspacePath, then call vcs_create_pull_request. For design-document: call vcs_create_issue. For reviews: call vcs_create_comment with appropriate target.' as any);
     return p;
   },
-  refine: () => { const p = new Prompt(); p.set('step:purpose', 'Adjust actions if initial attempts failed (e.g., branch exists).'); return p; },
-  retry: () => { const p = new Prompt(); p.set('step:purpose', 'Retry shipping with fallback strategies.'); return p; }
+  refine: () => { const p = new Prompt(); p.set('step:purpose', 'Adjust actions if initial attempts failed (e.g., branch exists).' as any); return p; },
+  retry: () => { const p = new Prompt(); p.set('step:purpose', 'Retry shipping with fallback strategies.' as any); return p; }
 };
 
 export const DeliverablePipelineShippingPhaseShipAgent = factoryAgentWithPTRR<any, z.infer<typeof ShipOutputSchema>>({
   name: 'shipping:deliverable-pipeline-ship-agent',
   description: 'Perform final shipping actions per deliverable type',
-  outputSchema: ShipOutputSchema,
+  outputSchema: ShipOutputSchema as any,
   // Tools available to this agent
   tools: [
     'deliverable-pipeline-use-computer-tool',

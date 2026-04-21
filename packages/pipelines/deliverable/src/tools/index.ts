@@ -41,6 +41,7 @@ try {
 } catch { }
 
 const present = (t: Tool | undefined): t is Tool => Boolean(t);
+const optionalTools = (...tools: Array<Tool | undefined>): Tool[] => tools.filter(present);
 
 // ==================== PHASE-SPECIFIC TOOL SETS ====================
 
@@ -146,10 +147,10 @@ export function getDeliverablePipelineToolsForAgent(agentName: string): Tool[] {
     //'review-design-document': [lspSemanticAnalysisEngine],
 
     // Validation Phase
-    'deliverable-pipeline-validation-validate-code-changes-agent': [lspSemanticAnalysisEngine],
-    'deliverable-pipeline-validation-validate-code-changesreview-agent': [lspSemanticAnalysisEngine],
-    'deliverable-pipeline-validation-validate-design-document-agent': [lspSemanticAnalysisEngine],
-    'deliverable-pipeline-validation-validate-design-document-review-agent': [lspSemanticAnalysisEngine],
+    'deliverable-pipeline-validation-validate-code-changes-agent': optionalTools(lspSemanticAnalysisEngine),
+    'deliverable-pipeline-validation-validate-code-changesreview-agent': optionalTools(lspSemanticAnalysisEngine),
+    'deliverable-pipeline-validation-validate-design-document-agent': optionalTools(lspSemanticAnalysisEngine),
+    'deliverable-pipeline-validation-validate-design-document-review-agent': optionalTools(lspSemanticAnalysisEngine),
     'deliverable-pipeline-validation-ready-to-ship': [],
     'deliverable-pipeline-validation-ready-to-ship-agent': [],
     'deliverable-pipeline-validation-ready-to-ship-code-change-agent': [],

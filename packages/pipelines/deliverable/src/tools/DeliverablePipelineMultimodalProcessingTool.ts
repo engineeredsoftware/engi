@@ -35,7 +35,7 @@ export const DELIVERABLES_MULTIMODAL_TOOL_PROMPT: Prompt = (() => {
  * @prompt DELIVERABLES_MULTIMODAL_TOOL_PROMPT
  */
 export class DeliverablePipelineMultimodalProcessingTool extends Tool<typeof multimodalProcessingTool.use> {
-  use = (...args: Parameters<typeof multimodalProcessingTool.use>) => multimodalProcessingTool.use(...args as any);
+  use = (input: Parameters<typeof multimodalProcessingTool.use>[0]) => multimodalProcessingTool.use(input);
 }
 
 export const deliverablePipelineMultimodalProcessingTool = new DeliverablePipelineMultimodalProcessingTool();

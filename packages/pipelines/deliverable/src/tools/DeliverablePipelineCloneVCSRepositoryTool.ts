@@ -53,7 +53,7 @@ export const DELIVERABLES_CLONE_REPOSITORY_TOOL_PROMPT: Prompt = (() => {
  * @prompt DELIVERABLES_CLONE_REPOSITORY_TOOL_PROMPT
  */
 export class DeliverablePipelineCloneVCSRepositoryTool extends Tool<typeof cloneRepositoryTool.use> {
-  use = (...args: Parameters<typeof cloneRepositoryTool.use>) => cloneRepositoryTool.use(...args as any);
+  use = (input: Parameters<typeof cloneRepositoryTool.use>[0]) => cloneRepositoryTool.use(input);
 }
 
 // Create instance and assign a stable registry key used by agents
