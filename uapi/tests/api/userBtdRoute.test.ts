@@ -55,7 +55,6 @@ describe('POST /api/auxillaries/btd RBAC', () => {
     const body = await res.json();
     expect(body.btdBalance).toBe(42);
     expect(body.newBalance).toBe(42);
-    expect(body.credits).toBe(42);
   });
 
   it('forbids non-admin user with 403', async () => {

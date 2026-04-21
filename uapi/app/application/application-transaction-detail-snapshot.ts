@@ -13,7 +13,7 @@ type RepoSnapshot = {
 type ProcessingStats = {
   time: string | null;
   tokenTotal: number | null;
-  credits: number | null;
+  btdUsed: number | null;
   usdTotal: number | null;
   averageLatencyMs: number | null;
 };
@@ -76,7 +76,7 @@ function coerceProcessingStats(value: unknown): ProcessingStats {
     return {
       time: null,
       tokenTotal: null,
-      credits: null,
+      btdUsed: null,
       usdTotal: null,
       averageLatencyMs: null,
     };
@@ -87,7 +87,7 @@ function coerceProcessingStats(value: unknown): ProcessingStats {
   return {
     time: coerceString(value.time),
     tokenTotal: coerceNumber(tokens?.total),
-    credits: coerceNumber(value.credits),
+    btdUsed: coerceNumber(value.btdUsed) ?? coerceNumber(value.credits),
     usdTotal: coerceNumber(value.usdTotal),
     averageLatencyMs: coerceNumber(value.averageLatencyMs),
   };
@@ -149,7 +149,7 @@ export function buildApplicationRunDetailFromSelectedRun(
     processingStats: {
       time: null,
       tokenTotal: selectedRun.tokenTotal ?? null,
-      credits: selectedRun.creditsTotal ?? null,
+      btdUsed: selectedRun.btdUsed ?? null,
       usdTotal: selectedRun.usdTotal ?? null,
       averageLatencyMs: selectedRun.averageLatencyMs ?? null,
     },
@@ -182,7 +182,7 @@ export function normalizeApplicationRunDetailPayload(
   const hasRunProcessingStats =
     runProcessingStats.time ||
     runProcessingStats.tokenTotal !== null ||
-    runProcessingStats.credits !== null ||
+    runProcessingStats.btdUsed !== null ||
     runProcessingStats.usdTotal !== null ||
     runProcessingStats.averageLatencyMs !== null;
   const processingStats = hasRunProcessingStats ? runProcessingStats : finalWorkSummaryProcessingStats;
@@ -194,7 +194,7 @@ export function normalizeApplicationRunDetailPayload(
     processingStats: {
       time: processingStats.time || base.processingStats.time,
       tokenTotal: processingStats.tokenTotal ?? base.processingStats.tokenTotal,
-      credits: processingStats.credits ?? base.processingStats.credits,
+      btdUsed: processingStats.btdUsed ?? base.processingStats.btdUsed,
       usdTotal: processingStats.usdTotal ?? base.processingStats.usdTotal,
       averageLatencyMs: processingStats.averageLatencyMs ?? base.processingStats.averageLatencyMs,
     },

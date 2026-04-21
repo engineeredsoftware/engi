@@ -137,7 +137,7 @@ async function getOrganizationAnalytics(
         id: organization.id,
         name: organization.name,
         slug: organization.slug,
-        creditBalance: credits?.balance || 0,
+        btdBalance: credits?.balance || 0,
         memberCount: members.length,
         activeRepositories: connections.filter(c => c.is_active).length,
         createdAt: organization.created_at
@@ -221,13 +221,13 @@ function analyzeOrganizationData(data: {
       return acc;
     }, {} as Record<string, number>),
     
-    totalCreditsUsed: runs.reduce((sum, run) => 
-      sum + ((run.metadata as any)?.creditsUsed || 0), 0
+    totalBtdUsed: runs.reduce((sum, run) => 
+      sum + (((run.metadata as any)?.btdUsed ?? (run.metadata as any)?.creditsUsed) || 0), 0
     ),
     
-    averageCreditsPerPipeline: runs.length > 0 
+    averageBtdPerPipeline: runs.length > 0 
       ? runs.reduce((sum, run) => 
-          sum + ((run.metadata as any)?.creditsUsed || 0), 0
+          sum + (((run.metadata as any)?.btdUsed ?? (run.metadata as any)?.creditsUsed) || 0), 0
         ) / runs.length
       : 0,
     

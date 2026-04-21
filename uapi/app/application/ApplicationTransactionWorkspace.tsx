@@ -163,7 +163,7 @@ function buildMasterDetailSubstructures(
         { label: 'History items', value: formatNumber(detail?.historyItemCount ?? selectedRun.itemCount) },
         {
           label: 'BTD throughput',
-          value: formatNumber(detail?.processingStats.credits ?? selectedRun.creditsTotal, { maximumFractionDigits: 1 }),
+          value: formatNumber(detail?.processingStats.btdUsed ?? selectedRun.btdUsed, { maximumFractionDigits: 1 }),
         },
       ],
       rows: [

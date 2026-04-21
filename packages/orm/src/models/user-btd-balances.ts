@@ -1,8 +1,9 @@
 /**
- * User Credits Model
- * 
- * Manages user credit balances.
- * 
+ * User BTD Balances Model
+ *
+ * Manages user `$BTD` balances through the compatibility table `user_credits`
+ * until the persistence schema is renamed forward.
+ *
  * @doc-code
  * type: model
  * table: user_credits
@@ -11,24 +12,24 @@
 import { BaseModel } from './base';
 import { Tables, Insertable, Updatable, Database } from '../types/database';
 import { SupabaseClient } from '@supabase/supabase-js';
-import { UserCreditUsagesModel } from './user-credit-usages';
+import { UserBtdTransactionsModel } from './user-btd-transactions';
 
-export type UserCredits = Tables<'user_credits'>;
-export type UserCreditsInsert = Insertable<'user_credits'>;
-export type UserCreditsUpdate = Updatable<'user_credits'>;
+export type UserBtdBalance = Tables<'user_credits'>;
+export type UserBtdBalanceInsert = Insertable<'user_credits'>;
+export type UserBtdBalanceUpdate = Updatable<'user_credits'>;
 
-export class UserCreditsModel extends BaseModel<'user_credits'> {
-  private usages: UserCreditUsagesModel;
+export class UserBtdBalancesModel extends BaseModel<'user_credits'> {
+  private transactions: UserBtdTransactionsModel;
 
   constructor(supabase: SupabaseClient<Database>) {
     super(supabase, 'user_credits');
-    this.usages = new UserCreditUsagesModel(supabase);
+    this.transactions = new UserBtdTransactionsModel(supabase);
   }
 
   /**
-   * Get credits by user ID
+   * Get BTD balance by user ID
    */
-  async getByUserId(userId: string): Promise<UserCredits | null> {
+  async getByUserId(userId: string): Promise<UserBtdBalance | null> {
     const { data, error } = await this.supabase
       .from(this.tableName)
       .select('*')
@@ -40,9 +41,9 @@ export class UserCreditsModel extends BaseModel<'user_credits'> {
   }
 
   /**
-   * Get or create credits for user
+   * Get or create a BTD balance record for a user
    */
-  async getOrCreate(userId: string): Promise<UserCredits> {
+  async getOrCreate(userId: string): Promise<UserBtdBalance> {
     const existing = await this.getByUserId(userId);
     if (existing) return existing;
 
@@ -60,9 +61,9 @@ export class UserCreditsModel extends BaseModel<'user_credits'> {
   }
 
   /**
-   * Add credits to user account
+   * Add BTD to user account
    */
-  async addCredits(userId: string, amount: number, description: string): Promise<number> {
+  async addBtdBalance(userId: string, amount: number, description: string): Promise<number> {
     // Get current balance
     const current = await this.getOrCreate(userId);
     const newBalance = (current.balance || 0) + amount;
@@ -79,7 +80,7 @@ export class UserCreditsModel extends BaseModel<'user_credits'> {
     if (error) throw error;
 
     // Record usage
-    await this.usages.create({
+    await this.transactions.create({
       user_id: userId,
       amount,
       operation_type: amount >= 0 ? 'ADD' : 'DEDUCT',
@@ -90,17 +91,17 @@ export class UserCreditsModel extends BaseModel<'user_credits'> {
   }
 
   /**
-   * Deduct credits from user account
+   * Deduct BTD from user account
    */
-  async deductCredits(userId: string, amount: number, description: string): Promise<number> {
-    return this.addCredits(userId, -amount, description);
+  async deductBtdBalance(userId: string, amount: number, description: string): Promise<number> {
+    return this.addBtdBalance(userId, -amount, description);
   }
 
   /**
-   * Check if user has sufficient credits
+   * Check if user has sufficient BTD
    */
-  async hasCredits(userId: string, amount: number): Promise<boolean> {
-    const credits = await this.getByUserId(userId);
-    return (credits?.balance || 0) >= amount;
+  async hasAvailableBtd(userId: string, amount: number): Promise<boolean> {
+    const balance = await this.getByUserId(userId);
+    return (balance?.balance || 0) >= amount;
   }
 }

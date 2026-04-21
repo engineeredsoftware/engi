@@ -1,19 +1,15 @@
 /**
- * Credit bundle definitions and helpers.
+ * BTD bundle definitions and helpers.
  *
- * Migrated from `uapi/utils/credit-plans.ts` so that both the uapi frontend
- * and any other packages can share a single source of truth.
+ * This remains the shared source of truth for purchasable `$BTD` bundles even
+ * while the checkout/storage layer still carries compatibility table names.
  */
 
-// ---------------------------------------------------------------------------
-// Types
-// ---------------------------------------------------------------------------
-
-/** Shape of a purchasable credit bundle. */
-export interface CreditBundleConfig {
+/** Shape of a purchasable `$BTD` bundle. */
+export interface BtdBundleConfig {
   id: string;
   name: string;
-  credits: number;
+  btdAmount: number;
   /** Price in USD (without currency symbols). */
   price: number;
   description: string;
@@ -23,45 +19,39 @@ export interface CreditBundleConfig {
   stripeProductId?: string;
 }
 
-// ---------------------------------------------------------------------------
-// Bundles
-// ---------------------------------------------------------------------------
-
-export const creditBundles: Record<string, CreditBundleConfig> = {
+export const btdBundles: Record<string, BtdBundleConfig> = {
   micro: {
     id: 'micro',
     name: 'Micro',
-    credits: 100,
-    // $0.15 per credit
+    btdAmount: 100,
     price: 100 * 0.15,
     description: 'Try Bitcode with a small project or quick fix',
   },
   mini: {
     id: 'mini',
     name: 'Mini',
-    credits: 1000,
+    btdAmount: 1000,
     price: 100,
     description: 'Perfect for individual developers and small tasks',
   },
   starter: {
     id: 'starter',
     name: 'Starter',
-    credits: 2500,
+    btdAmount: 2500,
     price: 250,
     description: 'Great for small projects and quick fixes',
   },
   production: {
     id: 'production',
     name: 'Production',
-    credits: 10000,
+    btdAmount: 10000,
     price: 1000,
     description: 'Ideal for mid-sized startups and ongoing development',
   },
   industry: {
     id: 'industry',
     name: 'Industrial',
-    credits: 111111,
-    // $0.05 per credit
+    btdAmount: 111111,
     price: 111111 * 0.05,
     popular: true,
     description: 'Best for growing teams and complex projects',
@@ -70,4 +60,4 @@ export const creditBundles: Record<string, CreditBundleConfig> = {
 };
 
 /** Convenience list version for iteration/rendering. */
-export const creditBundleList: CreditBundleConfig[] = Object.values(creditBundles);
+export const btdBundleList: BtdBundleConfig[] = Object.values(btdBundles);

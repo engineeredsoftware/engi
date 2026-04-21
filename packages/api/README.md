@@ -148,7 +148,7 @@ interface MiddlewareOptions {
 ```typescript
 // Core infrastructure dependencies
 import { authenticateRequest } from '@bitcode/auth';
-import { deductCredits } from '@bitcode/credits';
+import { deductBtdBalance } from '@bitcode/btd';
 import { log } from '@bitcode/logger';
 import { writeStreamMessage } from '@bitcode/streams';
 ```

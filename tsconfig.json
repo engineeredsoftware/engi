@@ -246,7 +246,7 @@
       // import paths to their new package-based locations. Inserted above the
       // generic `@/*` catch-all so they take precedence.
       // -------------------------------------------------------------------
-      "@/utils/credit-plans": ["packages/credits/src/plans.ts"],
+      "@/utils/btd-plans": ["packages/btd/src/plans.ts"],
       "@/utils/model-pricing": ["packages/models/src/pricing.ts"],
 
       "@/*": ["uapi/*"],

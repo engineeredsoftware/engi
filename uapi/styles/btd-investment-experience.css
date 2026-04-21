@@ -7,7 +7,7 @@
 
 @layer components {
   /* Main credit investment experience container */
-  .credit-investment-experience {
+  .btd-investment-experience {
     position: fixed;
     bottom: 1.5rem;
     right: 1.5rem;
@@ -620,7 +620,7 @@
 
 /* Responsive design - mobile optimizations */
 @media (max-width: 768px) {
-  .credit-investment-experience {
+  .btd-investment-experience {
     bottom: 1rem;
     right: 1rem;
     left: 1rem;
@@ -702,7 +702,7 @@
 
 /* Reduced motion preferences */
 @media (prefers-reduced-motion: reduce) {
-  .credit-investment-experience,
+  .btd-investment-experience,
   .investment-alchemy-panel,
   .coaching-icon,
   .value-particle,

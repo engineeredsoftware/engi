@@ -56,7 +56,7 @@ Direct auxillary routes should prefer:
 - `/auxillaries/interfaces`
 - `/auxillaries/btd`
 
-Compatibility aliases such as `/orbitals/users`, `/orbitals/models`, and `/orbitals/credits` may survive only as redirect-only convergence carriers into `/auxillaries/*` until later cleanup removes them entirely.
+Compatibility aliases such as `/orbitals/users`, `/orbitals/models`, and `/orbitals/btd` may survive only as redirect-only convergence carriers into `/auxillaries/*` until later cleanup removes them entirely.
 
 Sixth-gate deepening now has an explicit post-cut-over application target:
 - `activity`

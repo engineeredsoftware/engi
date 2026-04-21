@@ -1,7 +1,7 @@
 import { PIPELINE_CONSTANTS } from '@/lib/engine/constants';
 import { callGemini } from '@/llm/geminiClient';
 import { callAnthropic } from '@/llm/anthropicClient';
-import { estimateTokens, deductGenerationCredits, GenerationTokens } from '@bitcode/credits';
+import { estimateTokens, deductGenerationBtd, GenerationTokens } from '@bitcode/btd';
 import { createClient } from '@bitcode/supabase';
 import { log } from '@bitcode/logger';
 

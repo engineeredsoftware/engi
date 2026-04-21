@@ -2,7 +2,7 @@
  * Pipeline Execution Adapter - ORM Integration
  * 
  * Updated to use ORM models for all database operations.
- * Manages pipeline execution lifecycle with proper credit management.
+ * Manages pipeline execution lifecycle with proper BTD management.
  * 
  * @doc-code
  * type: adapter
@@ -18,8 +18,7 @@ import {
   DeliverablesModel,
   PipelineExecutionsModel,
   ExecutionEventsModel,
-  UserCreditsModel,
-  UserCreditUsagesModel,
+  UserBtdBalancesModel,
   OrganizationCreditsModel
 } from '@bitcode/orm';
 import deliverablePipeline from '@bitcode/pipelines/deliverable';
@@ -33,7 +32,7 @@ export interface PipelineJobOptions {
   userId: string;
   organizationId?: string;
   apiKeyId?: string;
-  estimatedCredits: number;
+  estimatedBtd: number;
   priority?: 'low' | 'normal' | 'high' | 'critical';
   metadata?: Record<string, any>;
 }
@@ -45,7 +44,7 @@ export interface PipelineExecutionResult {
   completedAt?: Date;
   result?: any;
   error?: string;
-  creditsUsed?: number;
+  btdUsed?: number;
   events?: Array<{
     type: string;
     data: any;
@@ -69,31 +68,25 @@ export async function queuePipelineJob(
     const supabase = createClient();
     const deliverables = new DeliverablesModel(supabase);
     const runs = new PipelineExecutionsModel(supabase);
-    const userCredits = new UserCreditsModel(supabase);
-    const creditUsages = new UserCreditUsagesModel(supabase);
+    const userBtdBalances = new UserBtdBalancesModel(supabase);
 
-    // Check and reserve credits
-    const credits = await userCredits.getByUserId(options.userId);
-    if (!credits || credits.balance < options.estimatedCredits) {
+    // Check and reserve BTD
+    const btdBalance = await userBtdBalances.getByUserId(options.userId);
+    if (!btdBalance || btdBalance.balance < options.estimatedBtd) {
       throw new Error(
-        `Insufficient credits. Required: ${options.estimatedCredits}, Available: ${credits?.balance || 0}`
+        `Insufficient BTD. Required: ${options.estimatedBtd}, Available: ${btdBalance?.balance || 0}`
       );
     }
 
-    // Reserve credits
-    const reserved = await userCredits.deduct(
+    // Reserve BTD
+    const reservedBalance = await userBtdBalances.deductBtdBalance(
       options.userId,
-      options.estimatedCredits,
+      options.estimatedBtd,
       'pipeline_reservation',
-      {
-        pipeline: options.pipeline,
-        task: options.task,
-        apiKeyId: options.apiKeyId
-      }
     );
 
-    if (!reserved) {
-      throw new Error('Failed to reserve credits');
+    if (typeof reservedBalance !== 'number') {
+      throw new Error('Failed to reserve BTD');
     }
 
     // Create deliverable if needed
@@ -124,7 +117,7 @@ export async function queuePipelineJob(
         userId: options.userId,
         organizationId: options.organizationId,
         apiKeyId: options.apiKeyId,
-        estimatedCredits: options.estimatedCredits,
+        estimatedBtd: options.estimatedBtd,
         priority: options.priority || 'normal',
         ...options.metadata
       }
@@ -179,8 +172,7 @@ async function executePipelineJob(
   const supabase = createClient();
   const runs = new PipelineExecutionsModel(supabase);
   const events = new ExecutionEventsModel(supabase);
-  const userCredits = new UserCreditsModel(supabase);
-  const creditUsages = new UserCreditUsagesModel(supabase);
+  const userBtdBalances = new UserBtdBalancesModel(supabase);
 
   try {
     // Update run status to running
@@ -201,7 +193,7 @@ async function executePipelineJob(
 
     // Execute pipeline based on type
     let result: any;
-    let actualCreditsUsed = options.estimatedCredits;
+    let actualBtdUsed = options.estimatedBtd;
 
     switch (options.pipeline) {
       case 'deliverable': {
@@ -219,23 +211,18 @@ async function executePipelineJob(
         throw new Error(`Unsupported pipeline type: ${options.pipeline}`);
     }
 
-    // Calculate actual credits used (could be based on tokens, time, etc.)
+    // Calculate actual BTD used (could be based on tokens, time, etc.)
     if (result.tokensUsed) {
-      actualCreditsUsed = Math.ceil(result.tokensUsed / 1000); // 1 credit per 1000 tokens
+      actualBtdUsed = Math.ceil(result.tokensUsed / 1000); // 1 BTD per 1000 tokens
     }
 
-    // Refund unused credits if we overestimated
-    if (actualCreditsUsed < options.estimatedCredits) {
-      const refundAmount = options.estimatedCredits - actualCreditsUsed;
-      await userCredits.add(
+    // Refund unused BTD if we overestimated
+    if (actualBtdUsed < options.estimatedBtd) {
+      const refundAmount = options.estimatedBtd - actualBtdUsed;
+      await userBtdBalances.addBtdBalance(
         options.userId,
         refundAmount,
         'pipeline_refund',
-        {
-          runId,
-          estimatedCredits: options.estimatedCredits,
-          actualCredits: actualCreditsUsed
-        }
       );
     }
 
@@ -247,7 +234,8 @@ async function executePipelineJob(
       result: result.data || result,
       metadata: {
         ...result.metadata,
-        creditsUsed: actualCreditsUsed
+        btdUsed: actualBtdUsed,
+        estimatedBtd: options.estimatedBtd
       }
     });
 
@@ -256,7 +244,7 @@ async function executePipelineJob(
       run_id: runId,
       event_type: 'pipeline_completed',
       event_data: {
-        creditsUsed: actualCreditsUsed,
+        btdUsed: actualBtdUsed,
         executionTimeMs: result.executionTimeMs
       }
     });
@@ -264,7 +252,7 @@ async function executePipelineJob(
     logger.info('Pipeline execution completed', {
       runId,
       pipeline: options.pipeline,
-      creditsUsed: actualCreditsUsed
+      btdUsed: actualBtdUsed
     });
   } catch (error) {
     span.recordException(error as Error);
@@ -286,7 +274,7 @@ async function executePipelineJob(
       }
     });
 
-    // No refund on failure - credits were consumed attempting execution
+    // No refund on failure - reserved BTD was consumed attempting execution
     logger.error('Pipeline execution failed', {
       runId,
       pipeline: options.pipeline,
@@ -323,7 +311,7 @@ export async function monitorPipelineExecution(
     completedAt: run.completed_at ? new Date(run.completed_at) : undefined,
     result: run.result,
     error: run.error_message || undefined,
-    creditsUsed: run.metadata?.creditsUsed,
+    btdUsed: run.metadata?.btdUsed ?? run.metadata?.creditsUsed,
     events: runEvents.map(e => ({
       type: e.event_type,
       data: e.event_data,

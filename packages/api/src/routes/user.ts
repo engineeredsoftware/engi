@@ -21,8 +21,8 @@ import * as crypto from 'crypto';
 // Initialize ORM models (admin client for server routes)
 const orm = createAdminClient();
 const userProfiles = orm.userProfiles;
-const userCredits = orm.userCredits;
-const creditUsages = orm.userCreditUsages;
+const userBtdBalances = orm.userBtdBalances;
+const userBtdTransactions = orm.userBtdTransactions;
 const modelPreferences = orm.userModelPreferences;
 const apiKeys = new (require('@bitcode/orm').UserApiKeysModel as any)( (require('@bitcode/supabase').supabaseAdmin) );
 const notifications = orm.notifications;
@@ -117,11 +117,11 @@ export const getBtdBalance = traceRoute('/user/btd', async (request: NextRequest
     }
 
     // Get balance
-    const credits = await userCredits.getByUserId(user.id);
-    const balance = credits?.credits || 0;
+    const balanceRecord = await userBtdBalances.getByUserId(user.id);
+    const balance = balanceRecord?.balance || 0;
 
     // Get recent usage
-    const usage = await creditUsages.getRecentByUserId(user.id, 10);
+    const usage = await userBtdTransactions.getRecentByUserId(user.id, 10);
 
     return createJsonResponse({
       balance,
@@ -163,7 +163,7 @@ export const addBtdBalance = traceRoute('/user/btd', async (request: NextRequest
 
     // Add BTD using the existing balance storage model until the underlying
     // persistence layer is renamed.
-    const newBalance = await userCredits.addCredits(
+    const newBalance = await userBtdBalances.addBtdBalance(
       userId, 
       amount, 
       description || `Admin BTD adjustment by ${user.id}`
@@ -443,13 +443,14 @@ export const getUsage = traceRoute('/user/usage', async (request: NextRequest) =
     startDate.setDate(startDate.getDate() - periodDays);
 
     // Get usage stats
-    const creditUsage = await creditUsages.getUsageStats(user.id, startDate);
+    const btdUsage = await userBtdTransactions.getUsageStats(user.id, startDate);
 
     return createJsonResponse({
       period,
-      btdSpent: creditUsage.total,
-      creditsUsed: creditUsage.total,
-      dailyStats: creditUsage.daily
+      btdSpent: btdUsage.total,
+      btdUsed: btdUsage.total,
+      creditsUsed: btdUsage.total,
+      dailyStats: btdUsage.daily
     });
 
   } catch (error) {

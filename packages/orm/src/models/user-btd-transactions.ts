@@ -1,8 +1,9 @@
 /**
- * User Credit Usages Model
- * 
- * Tracks credit transaction history.
- * 
+ * User BTD Transactions Model
+ *
+ * Tracks `$BTD` transaction history through the compatibility table
+ * `user_credit_usages` until the persistence schema is renamed forward.
+ *
  * @doc-code
  * type: model
  * table: user_credit_usages
@@ -11,11 +12,11 @@
 import { BaseModel } from './base';
 import { Tables, Insertable, Updatable } from '../types/database';
 
-export type UserCreditUsage = Tables<'user_credit_usages'>;
-export type UserCreditUsageInsert = Insertable<'user_credit_usages'>;
-export type UserCreditUsageUpdate = Updatable<'user_credit_usages'>;
+export type UserBtdTransaction = Tables<'user_credit_usages'>;
+export type UserBtdTransactionInsert = Insertable<'user_credit_usages'>;
+export type UserBtdTransactionUpdate = Updatable<'user_credit_usages'>;
 
-export class UserCreditUsagesModel extends BaseModel<'user_credit_usages'> {
+export class UserBtdTransactionsModel extends BaseModel<'user_credit_usages'> {
   constructor(supabase: any) {
     super(supabase, 'user_credit_usages');
   }
@@ -23,7 +24,7 @@ export class UserCreditUsagesModel extends BaseModel<'user_credit_usages'> {
   /**
    * Get recent usage for user
    */
-  async getRecentByUserId(userId: string, limit = 20): Promise<UserCreditUsage[]> {
+  async getRecentByUserId(userId: string, limit = 20): Promise<UserBtdTransaction[]> {
     const { data, error } = await this.client
       .from(this.table)
       .select('*')
@@ -71,7 +72,7 @@ export class UserCreditUsagesModel extends BaseModel<'user_credit_usages'> {
   }
 
   /**
-   * Get total credits used in period
+   * Get total `$BTD` used in period
    */
   async getTotalUsed(userId: string, days: number): Promise<number> {
     const startDate = new Date();

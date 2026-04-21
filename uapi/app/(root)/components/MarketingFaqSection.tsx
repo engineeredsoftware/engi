@@ -52,9 +52,9 @@ const faqs = [
       "Currently, S-tier reasoning models average ~$20/million tokens. Completing realistic engineering tasks typically require millions of tokens to consistently produce complete, correct, and high-quality deliverables. Opt-in compute typically roughly doubles the cost and time though is calculated precisely per use.",
   },
   {
-    question: "What are 'coins', 'tokens', and 'credits'?",
+    question: "What are 'coins', 'tokens', and '$BTD'?",
     answer:
-      "Currently, currency coins, text tokens, and cost credits are all distinct yet correlated entities.",
+      "Currently, currency coins, text tokens, and Bitcode-denominated $BTD are all distinct yet correlated entities.",
   },
   {
     question: "Who is Advanced Engineered Software, Inc.?",

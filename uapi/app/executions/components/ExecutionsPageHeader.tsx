@@ -11,6 +11,8 @@
 //
 "use client";
 
+/* eslint-disable react/no-multi-comp */
+
 import React, { useEffect, useState, useRef, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import dynamic from "next/dynamic";
@@ -372,7 +374,7 @@ const mockDeliverables = {
       url: "https://github.com/rustdb/distributed-db/pull/118#pullrequestreview-122",
       number: 118,
       title: "Review for storage engine optimizations",
-      content: "The B-tree implementation looks efficient, but I'm concerned about the memory usage during large range scans. Consider implementing a cursor-based approach:\n\n\`\`\`rust\npub struct BTreeCursor<K, V> {\n    tree: Arc<BTree<K, V>>,\n    current_node: NodeId,\n    position: usize,\n    _phantom: PhantomData<(K, V)>,\n}\n\nimpl<K: Ord + Clone, V: Clone> BTreeCursor<K, V> {\n    pub fn new(tree: Arc<BTree<K, V>>) -> Self {\n        let root_id = tree.root_id();\n        Self {\n            tree,\n            current_node: root_id,\n            position: 0,\n            _phantom: PhantomData,\n        }\n    }\n    \n    pub fn next(&mut self) -> Option<(K, V)> {\n        // Implementation details...\n    }\n}\n\`\`\`\n\nThis would reduce memory pressure during large scans.",
+      content: "The B-tree implementation looks efficient, but I'm concerned about the memory usage during large range scans. Consider implementing a cursor-based approach:\n\n```rust\npub struct BTreeCursor<K, V> {\n    tree: Arc<BTree<K, V>>,\n    current_node: NodeId,\n    position: usize,\n    _phantom: PhantomData<(K, V)>,\n}\n\nimpl<K: Ord + Clone, V: Clone> BTreeCursor<K, V> {\n    pub fn new(tree: Arc<BTree<K, V>>) -> Self {\n        let root_id = tree.root_id();\n        Self {\n            tree,\n            current_node: root_id,\n            position: 0,\n            _phantom: PhantomData,\n        }\n    }\n    \n    pub fn next(&mut self) -> Option<(K, V)> {\n        // Implementation details...\n    }\n}\n```\n\nThis would reduce memory pressure during large scans.",
       status: 'open' as const,
       createdAt: "2025-04-05"
     },
@@ -1125,7 +1127,6 @@ export default function ExecutionsPageHeader({
   if (tldrItems.length === 0) {
     tldrItems.push(<span key="none">No deliverables to summarize</span>);
   }
-  ;
   return (
     <section data-experience="deliverables">
       <div
@@ -1426,7 +1427,7 @@ export default function ExecutionsPageHeader({
 function EducationBodyWithLogo() {
   return (
     <div>
-      <span><span className="font-bold">This action costs <span className="text-green-primary font-black">credits</span>!</span> The source, attachments, and task will be iterated on until you receive a single high-quality deliverable. (<span className="font-normal">~200-500&nbsp;</span>
+      <span><span className="font-bold">This action costs <span className="text-green-primary font-black">$BTD</span>!</span> The source, attachments, and task will be iterated on until you receive a single high-quality deliverable. (<span className="font-normal">~200-500&nbsp;</span>
         <Logo width="w-3.5" height="h-3.5" beta={false} className="inline-block align-middle relative -top-0.5" />
         <span className="font-normal">&nbsp;/&nbsp;Deliverable</span>)</span>
     </div>

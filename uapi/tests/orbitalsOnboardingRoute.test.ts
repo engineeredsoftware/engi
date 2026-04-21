@@ -22,7 +22,7 @@ describe('/api/auxillaries/onboarding', () => {
       select: jest.fn().mockReturnThis(),
       eq: jest.fn().mockReturnThis(),
       maybeSingle: jest.fn().mockResolvedValue({
-        data: { onboarded_steps: '["profile","connects","models","credits"]' },
+        data: { onboarded_steps: '["profile","connects","models","btd"]' },
         error: null,
       }),
     };

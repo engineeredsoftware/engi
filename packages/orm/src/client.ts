@@ -8,14 +8,14 @@ import { createClient as createSupabaseClient } from '@supabase/supabase-js';
 import { Database } from './types/database';
 import { UserProfilesModel } from './models/user-profiles';
 import { UserModelPreferencesModel } from './models/user-model-preferences';
-import { UserCreditUsagesModel } from './models/user-credit-usages';
+import { UserBtdTransactionsModel } from './models/user-btd-transactions';
 import { PipelineExecutionsModel } from './models/pipeline-executions';
 import { PipelineExecution } from './models/pipeline-executions';
 import { DeliverablesModel } from './models/deliverables';
 import { ExecutionEventsModel } from './models/execution-events';
 import { NotificationsModel } from './models/notifications';
 import { UserConnectionsModel } from './models/user-connections';
-import { UserCreditsModel } from './models/user-credits';
+import { UserBtdBalancesModel } from './models/user-btd-balances';
 
 /**
  * Standard client interface
@@ -23,13 +23,13 @@ import { UserCreditsModel } from './models/user-credits';
 export interface EngiClient {
   userProfiles: UserProfilesModel;
   userModelPreferences: UserModelPreferencesModel;
-  userCreditUsages: UserCreditUsagesModel;
+  userBtdTransactions: UserBtdTransactionsModel;
   pipelineExecutions: PipelineExecutionsModel;
   deliverables: DeliverablesModel;
   executionEvents: ExecutionEventsModel;
   notifications: NotificationsModel;
   userConnections: UserConnectionsModel;
-  userCredits: UserCreditsModel;
+  userBtdBalances: UserBtdBalancesModel;
 }
 
 /**
@@ -60,13 +60,13 @@ export function createClient(authToken?: string): EngiClient {
   return {
     userProfiles: new UserProfilesModel(supabase),
     userModelPreferences: new UserModelPreferencesModel(supabase),
-    userCreditUsages: new UserCreditUsagesModel(supabase),
+    userBtdTransactions: new UserBtdTransactionsModel(supabase),
     pipelineExecutions: new PipelineExecutionsModel(supabase),
     deliverables: new DeliverablesModel(supabase),
     executionEvents: new ExecutionEventsModel(supabase),
     notifications: new NotificationsModel(supabase),
     userConnections: new UserConnectionsModel(supabase),
-    userCredits: new UserCreditsModel(supabase)
+    userBtdBalances: new UserBtdBalancesModel(supabase)
   };
 }
 
@@ -88,13 +88,13 @@ export function createAdminClient(): AdminClient {
   const baseClient = {
     userProfiles: new UserProfilesModel(supabase),
     userModelPreferences: new UserModelPreferencesModel(supabase),
-    userCreditUsages: new UserCreditUsagesModel(supabase),
+    userBtdTransactions: new UserBtdTransactionsModel(supabase),
     pipelineExecutions: new PipelineExecutionsModel(supabase),
     deliverables: new DeliverablesModel(supabase),
     executionEvents: new ExecutionEventsModel(supabase),
     notifications: new NotificationsModel(supabase),
     userConnections: new UserConnectionsModel(supabase),
-    userCredits: new UserCreditsModel(supabase)
+    userBtdBalances: new UserBtdBalancesModel(supabase)
   };
 
   return {

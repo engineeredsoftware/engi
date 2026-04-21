@@ -3,7 +3,7 @@
 import { useState, useEffect, useRef, useMemo, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 
-interface CreditInvestment {
+interface BtdInvestment {
   id: string;
   deliverableName: string;
   estimatedCredits: number;
@@ -28,7 +28,7 @@ interface ValueVisualization {
   learningAcceleration: number; // 0-1
   patternMastery: number; // 0-1
   magicalMoments: number; // Count of exceptional investments
-  cosmicValue: number; // Transcendent value beyond mere credits
+  cosmicValue: number; // Transcendent value beyond mere $BTD throughput
 }
 
 interface EfficiencyCoaching {
@@ -39,17 +39,18 @@ interface EfficiencyCoaching {
   enchantmentLevel: 'spark' | 'glow' | 'radiance' | 'transcendence';
 }
 
-interface CreditInvestmentExperienceProps {
-  /** Recent credit investments */
-  investments: CreditInvestment[];
+interface BtdInvestmentExperienceProps {
+  /** Recent BTD investments */
+  investments: BtdInvestment[];
   
-  /** Current credit balance */
+  /** Current BTD balance */
   currentBalance: number;
   
   /** Upcoming deliverable estimation */
   upcomingDeliverable?: {
     name: string;
-    estimatedCredits: number;
+    estimatedBtd: number;
+    estimatedCredits?: number;
     complexity: string;
     patterns: string[];
   };
@@ -78,11 +79,12 @@ interface CreditInvestmentExperienceProps {
   onInvestmentOptimized?: (optimization: EfficiencyCoaching) => void;
   onMagicalMoment?: (moment: string) => void;
   onValueInsight?: (insight: string) => void;
+  onBtdProjection?: (projection: number) => void;
   onCreditProjection?: (projection: number) => void;
 }
 
 // Magical formulas for value calculation
-const calculateMagicalMultiplier = (investment: CreditInvestment): number => {
+const calculateMagicalMultiplier = (investment: BtdInvestment): number => {
   let multiplier = 1;
   
   // Efficiency bonus
@@ -108,7 +110,7 @@ const calculateMagicalMultiplier = (investment: CreditInvestment): number => {
 
 // Generate efficiency coaching insights
 const generateEfficiencyCoaching = (
-  investments: CreditInvestment[],
+  investments: BtdInvestment[],
   patterns: any
 ): EfficiencyCoaching => {
   const recentInvestments = investments.slice(-10);
@@ -185,7 +187,7 @@ const MAGICAL_QUALITY = (() => {
   return (lowSpec ? 0.6 : 1) * timeMultiplier;
 })();
 
-export const MarketingCreditInvestmentExperience = ({
+export const MarketingBtdInvestmentExperience = ({
   investments,
   currentBalance,
   upcomingDeliverable,
@@ -200,7 +202,10 @@ export const MarketingCreditInvestmentExperience = ({
   onMagicalMoment,
   onValueInsight,
   onCreditProjection
-}: CreditInvestmentExperienceProps) => {
+}: BtdInvestmentExperienceProps) => {
+  const projectedUpcomingBtd =
+    upcomingDeliverable?.estimatedBtd ?? upcomingDeliverable?.estimatedCredits ?? null;
+
   const [selectedTimeframe, setSelectedTimeframe] = useState<'week' | 'month' | 'quarter'>('month');
   const [showCoachingInsight, setShowCoachingInsight] = useState(false);
   const [magicalParticles, setMagicalParticles] = useState<Array<{
@@ -362,7 +367,7 @@ export const MarketingCreditInvestmentExperience = ({
   const enhancementGlow = MAGICAL_QUALITY * magicalEnhancement;
   
   return (
-    <div className="credit-investment-experience fixed bottom-6 right-6 z-30 pointer-events-none">
+    <div className="btd-investment-experience fixed bottom-6 right-6 z-30 pointer-events-none">
       {/* Value Visualization Panel */}
       {showValueVisualization && (
         <motion.div
@@ -590,14 +595,17 @@ export const MarketingCreditInvestmentExperience = ({
                 <div>
                   <div className="text-xs text-indigo-300">Estimated Cost</div>
                   <div className="text-lg font-bold text-indigo-100">
-                    {upcomingDeliverable.estimatedCredits}c
+                    {projectedUpcomingBtd} $BTD
                   </div>
                 </div>
                 
                 <div>
                   <div className="text-xs text-indigo-300">Projected Value</div>
                   <div className="text-lg font-bold text-green-400">
-                    {Math.round(upcomingDeliverable.estimatedCredits * (1 + valueVisualization.roi))}c
+                    {projectedUpcomingBtd !== null
+                      ? Math.round(projectedUpcomingBtd * (1 + valueVisualization.roi))
+                      : 'n/a'}{' '}
+                    $BTD
                   </div>
                 </div>
               </div>
@@ -675,4 +683,4 @@ export const MarketingCreditInvestmentExperience = ({
   );
 };
 
-export default MarketingCreditInvestmentExperience;
+export default MarketingBtdInvestmentExperience;

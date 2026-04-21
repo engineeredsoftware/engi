@@ -8,6 +8,7 @@ import OrbitalLogo from '@/components/base/bitcode/branding/OrbitalLogo';
 
 interface CheckoutCallbackClientProps {
   success: boolean;
+  btdAmount?: number;
   credits?: number;
   sessionId?: string;
 }
@@ -17,7 +18,8 @@ interface CheckoutCallbackClientProps {
  * It handles both success and cancellation states, mirroring the aesthetic of
  * the other callback pages while changing colours / content appropriately.
  */
-export default function CheckoutCallbackClient({ success, credits, sessionId }: CheckoutCallbackClientProps) {
+export default function CheckoutCallbackClient({ success, btdAmount, credits, sessionId }: CheckoutCallbackClientProps) {
+  const resolvedBtdAmount = btdAmount ?? credits;
   // Fallback fulfillment: trigger server-side credit update if webhook failed
   React.useEffect(() => {
     if (success && sessionId) {
@@ -65,8 +67,8 @@ export default function CheckoutCallbackClient({ success, credits, sessionId }: 
       <div className="login-header tracking-tighter text-white font-light">
         {success ? (
           <TypingAnimation
-            text={`successfully purchased ${credits ? `${credits} ` : ''}credits!`}
-            highlightText="credits"
+            text={`successfully purchased ${resolvedBtdAmount ? `${resolvedBtdAmount} ` : ''}$BTD!`}
+            highlightText="$BTD"
             highlightClass={highlightClassSuccess}
             showCursor={false}
           />
@@ -83,7 +85,7 @@ export default function CheckoutCallbackClient({ success, credits, sessionId }: 
       {/* Subtitle */}
       <div className="absolute inset-x-0 z-30 text-center top-6 text-sm text-gray-400 pointer-events-none">
         {success
-          ? 'You can close this tab – your credits are ready to use.'
+          ? 'You can close this tab – your $BTD is ready to use.'
           : 'Something went wrong – try the purchase again.'}
       </div>
 

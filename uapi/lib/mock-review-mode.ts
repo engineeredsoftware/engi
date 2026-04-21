@@ -73,7 +73,6 @@ export function buildMockOrbitalData() {
       mock_mode: true,
     },
     btdBalance: 1200,
-    credits: 1200,
     modelPreferences: {
       preferred_model: 'claude-3-7-sonnet',
       temperature: 0.4,

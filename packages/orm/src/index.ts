@@ -25,8 +25,8 @@ export { BaseModel } from './models/base';
 export { UserProfilesModel } from './models/user-profiles';
 export { UserConnectionsModel } from './models/user-connections';
 export { UserModelPreferencesModel } from './models/user-model-preferences';
-export { UserCreditsModel } from './models/user-credits';
-export { UserCreditUsagesModel } from './models/user-credit-usages';
+export { UserBtdBalancesModel } from './models/user-btd-balances';
+export { UserBtdTransactionsModel } from './models/user-btd-transactions';
 
 // Deliverables System models
 export { DeliverablesModel } from './models/deliverables';
@@ -71,8 +71,8 @@ export type {
 export type UserProfile = Tables<'user_profiles'>;
 export type UserConnection = Tables<'user_connections'>;
 export type UserModelPreference = Tables<'user_model_preferences'>;
-export type UserCredits = Tables<'user_credits'>;
-export type UserCreditUsage = Tables<'user_credit_usages'>;
+export type UserBtdBalance = Tables<'user_credits'>;
+export type UserBtdTransaction = Tables<'user_credit_usages'>;
 export type Deliverable = Tables<'deliverables'>;
 export type PipelineExecution = Tables<'executions'>;
 export type ExecutionEvent = Tables<'execution_events'>;

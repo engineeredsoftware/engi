@@ -94,7 +94,7 @@ importers:
       '@bitcode/conversations-generics':
         specifier: workspace:*
         version: link:../conversations-generics
-      '@bitcode/credits':
+      '@bitcode/btd':
         specifier: workspace:*
         version: link:../credits
       '@bitcode/email':
@@ -316,7 +316,7 @@ importers:
         specifier: ^3.24.1
         version: 3.24.1
 
-  packages/credits:
+  packages/btd:
     dependencies:
       '@bitcode/supabase':
         specifier: workspace:*
@@ -455,7 +455,7 @@ importers:
       '@bitcode/auth':
         specifier: workspace:*
         version: link:../../../auth
-      '@bitcode/credits':
+      '@bitcode/btd':
         specifier: workspace:*
         version: link:../../../credits
       '@bitcode/errors':

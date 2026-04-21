@@ -76,14 +76,14 @@ export const EDGETIMES_TOPOLOGY = {
   ] as const satisfies readonly EdgetimesOwnershipBand[],
   modelGroups: [
     {
-      title: 'Identity and credits',
-      detail: 'User identity, profile, credit, and preference posture already exposed through typed models.',
+      title: 'Identity and BTD balances',
+      detail: 'User identity, profile, BTD balance, and preference posture already exposed through typed models.',
       models: [
         'UserProfilesModel',
         'UserConnectionsModel',
         'UserModelPreferencesModel',
-        'UserCreditsModel',
-        'UserCreditUsagesModel',
+        'UserBtdBalancesModel',
+        'UserBtdTransactionsModel',
       ],
     },
     {

@@ -70,7 +70,7 @@ export function SmsPhonePreview() {
               <div className="bg-gray-200 rounded-2xl px-4 py-2 max-w-[80%]">
                 <p className="text-sm">✅ Complete!</p>
                 <p className="text-sm">📁 5 files created</p>
-                <p className="text-sm">📊 45 credits • 92% confidence</p>
+                <p className="text-sm">📊 45 $BTD • 92% confidence</p>
                 <p className="text-sm">⏱️ 32 seconds</p>
               </div>
             </div>

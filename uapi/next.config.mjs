@@ -173,11 +173,6 @@ let nextConfig = {
         destination: '/auxillaries/btd',
         permanent: false,
       },
-      {
-        source: '/orbitals/credits',
-        destination: '/auxillaries/btd',
-        permanent: false,
-      },
     ];
   },
   webpack: (config, { dev, isServer, nextRuntime }) => {

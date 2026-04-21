@@ -10,7 +10,7 @@ export type WorkspaceRun = Pick<PipelineExecution, 'id' | 'created_at' | 'type' 
   transactionLens?: 'give' | 'need' | 'closure';
   itemCount?: number;
   tokenTotal?: number | null;
-  creditsTotal?: number | null;
+  btdUsed?: number | null;
   usdTotal?: number | null;
   averageLatencyMs?: number | null;
   proofStatus?: string | null;
@@ -31,7 +31,7 @@ export const MOCK_RUNS: WorkspaceRun[] = [
     transactionLens: 'give',
     itemCount: 6,
     tokenTotal: 18420,
-    creditsTotal: 148.4,
+    btdUsed: 148.4,
     usdTotal: 6.72,
     averageLatencyMs: 1180,
     proofStatus: 'bounded proof bundle ready',
@@ -50,7 +50,7 @@ export const MOCK_RUNS: WorkspaceRun[] = [
     transactionLens: 'need',
     itemCount: 4,
     tokenTotal: 10980,
-    creditsTotal: 82.1,
+    btdUsed: 82.1,
     usdTotal: 3.11,
     averageLatencyMs: 920,
     proofStatus: 'verification witness refreshed',
@@ -69,7 +69,7 @@ export const MOCK_RUNS: WorkspaceRun[] = [
     transactionLens: 'closure',
     itemCount: 3,
     tokenTotal: 7640,
-    creditsTotal: 54.6,
+    btdUsed: 54.6,
     usdTotal: 2.08,
     averageLatencyMs: 1325,
     proofStatus: 'proof-family refresh in flight',

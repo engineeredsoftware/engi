@@ -238,7 +238,7 @@ export const SCREENSHOTS_BY_MODE: Record<string, Screenshot[]> = {
     },
     {
       id: 'headless-2',
-      src: '/screenshots/setup-credits.png',
+      src: '/screenshots/setup-btd.png',
       alt: 'Headless BTD panel',
       type: 'component',
       category: 'btd',
@@ -246,7 +246,7 @@ export const SCREENSHOTS_BY_MODE: Record<string, Screenshot[]> = {
     },
     {
       id: 'headless-3',
-      src: '/screenshots/credits-tracker-widget.png',
+      src: '/screenshots/btd-tracker-widget.png',
       alt: 'Headless BTD tracker widget',
       type: 'component',
       category: 'btd',
@@ -407,8 +407,8 @@ export const SCREENSHOTS_BY_MODE: Record<string, Screenshot[]> = {
     },
     {
       id: 'market-2',
-      src: '/screenshots/setup-credits.png',
-      alt: 'Credits setup',
+      src: '/screenshots/setup-btd.png',
+      alt: 'BTD setup',
       type: 'setup',
       category: 'marketplace',
       revealingSoon: true,
@@ -417,8 +417,8 @@ export const SCREENSHOTS_BY_MODE: Record<string, Screenshot[]> = {
   token: [
     {
       id: 'token-1',
-      src: '/screenshots/setup-credits-balance.png',
-      alt: 'Credits balance',
+      src: '/screenshots/setup-btd-balance.png',
+      alt: 'BTD balance',
       type: 'component',
       category: 'token',
       revealingSoon: true,
@@ -454,7 +454,7 @@ export const SCREENSHOTS_BY_MODE: Record<string, Screenshot[]> = {
   webhooks: [
     {
       id: 'wh-1',
-      src: '/screenshots/setup-credits-balance.png',
+      src: '/screenshots/setup-btd-balance.png',
       alt: 'Webhook setup screenshot',
       type: 'setup',
       category: 'webhook',

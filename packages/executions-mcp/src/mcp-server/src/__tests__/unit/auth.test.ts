@@ -9,7 +9,7 @@ import {
   OrganizationsModel,
   OrganizationMembersModel,
   UserApiKeysModel,
-  UserCreditsModel,
+  UserBtdBalancesModel,
   UsersModel
 } from '@bitcode/orm';
 
@@ -21,7 +21,7 @@ jest.mock('@bitcode/orm', () => ({
   UsersModel: jest.fn(),
   UserProfilesModel: jest.fn(),
   UserApiKeysModel: jest.fn(),
-  UserCreditsModel: jest.fn(),
+  UserBtdBalancesModel: jest.fn(),
   OrganizationsModel: jest.fn(),
   OrganizationMembersModel: jest.fn()
 }));
@@ -44,7 +44,7 @@ const resetOrmMocks = () => {
     getById: mockGetById
   }));
 
-  (UserCreditsModel as unknown as jest.Mock).mockImplementation(() => ({
+  (UserBtdBalancesModel as unknown as jest.Mock).mockImplementation(() => ({
     getByUserId: mockGetCreditsByUserId
   }));
 
@@ -112,7 +112,7 @@ describe('Authentication Middleware', () => {
         apiKeyName: 'Bitcode Test Key',
         organizationName: 'Bitcode Labs',
         organizationSlug: 'bitcode-labs',
-        creditBalance: 120
+        btdBalance: 120
       });
       expect(result.context?.permissions.pipelines.create).toBe(true);
       expect(result.context?.permissions.organization.viewAnalytics).toBe(true);
@@ -191,7 +191,7 @@ describe('Authentication Middleware', () => {
       expect(result.error?.message).toContain('pipelines.create');
     });
 
-    it('fails closed when minimum credits are not satisfied', async () => {
+    it('fails closed when minimum BTD is not satisfied', async () => {
       mockGetByKeyHash.mockResolvedValue({
         id: 'key123',
         user_id: 'user123',
@@ -209,12 +209,12 @@ describe('Authentication Middleware', () => {
       mockGetCreditsByUserId.mockResolvedValue({ balance: 10 });
 
       const result = await authenticateMCPRequest('Bearer key_test123', {
-        minimumCredits: 100
+        minimumBtd: 100
       });
 
       expect(result.success).toBe(false);
       expect(result.error).toMatchObject({
-        code: 'INSUFFICIENT_CREDITS',
+        code: 'INSUFFICIENT_BTD',
         statusCode: 402
       });
     });
@@ -233,7 +233,7 @@ describe('Authentication Middleware', () => {
           organization: {
             manageMembers: false,
             viewAnalytics: true,
-            manageCredits: false
+            manageBtd: false
           },
           resources: {
             read: true,
@@ -268,7 +268,7 @@ describe('Authentication Middleware', () => {
           organization: {
             manageMembers: false,
             viewAnalytics: false,
-            manageCredits: false
+            manageBtd: false
           },
           resources: {
             read: false,

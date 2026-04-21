@@ -45,7 +45,6 @@ describe('BtdStep (SSR)', () => {
       },
       hasGitHubConnection: true,
       btdBalance: 250,
-      credits: 250,
       isLoading: false,
       error: null,
       refresh: jest.fn(),

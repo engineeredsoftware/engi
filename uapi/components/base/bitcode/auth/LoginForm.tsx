@@ -382,7 +382,7 @@ function LoginFormInner({ onClose, onToggle, surfaceVariant = 'default' }: Login
             const res = await fetch('/api/auxillaries/data')
             if (res.ok) {
               const data = await res.json()
-              completedOnboarding = Boolean(data.githubConnection && data.credits > 0)
+              completedOnboarding = Boolean(data.githubConnection && data.btdBalance > 0)
             }
           } catch {
             completedOnboarding = false

@@ -173,11 +173,7 @@ export function BTDTracker({ btdBalance }: BTDTrackerProps) {
       if (res.ok) {
         const data = await res.json();
         const nextBalance =
-          typeof data.btdBalance === 'number'
-            ? data.btdBalance
-            : typeof data.credits === 'number'
-              ? data.credits
-              : null;
+          typeof data.btdBalance === 'number' ? data.btdBalance : null;
         if (typeof nextBalance === 'number') {
           setDisplayedBtdBalance(nextBalance);
         }

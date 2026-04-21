@@ -1,5 +1,9 @@
 /**
- * Credit management utilities – migrated from `uapi/lib/credits.ts`.
+ * `$BTD` balance management utilities.
+ *
+ * The database layer still uses compatibility carriers such as `user_credits`,
+ * `user_credit_usages`, and `credit_reservations` until the persistence schema
+ * is re-cut, but the package/API contract is canonical Bitcode `$BTD`.
  */
 
 import { supabaseAdmin } from '@bitcode/supabase';
@@ -11,12 +15,12 @@ import { log } from '@bitcode/logger';
 // ---------------------------------------------------------------------------
 
 /**
- * How many credits should remain in the escrow before we pre-emptively pull in
+ * How much `$BTD` should remain in the escrow before we pre-emptively pull in
  * another TOP_UP_INCREMENT block.  Can be tuned at runtime via env vars so ops
  * can react to traffic patterns without redeploying.
  */
-export const SAFETY_MARGIN_CREDITS: number = Number.parseInt(
-  process.env.CREDIT_SAFETY_MARGIN ?? '10',
+export const BTD_SAFETY_MARGIN: number = Number.parseInt(
+  process.env.BTD_SAFETY_MARGIN ?? process.env.CREDIT_SAFETY_MARGIN ?? '10',
   10,
 );
 
@@ -24,13 +28,13 @@ export const SAFETY_MARGIN_CREDITS: number = Number.parseInt(
  * The deterministic chunk we debit when the buffer runs low.  Defaults to the
  * same value we reserve at start (100) but can be overridden via env.
  */
-export const TOP_UP_INCREMENT: number = Number.parseInt(
-  process.env.CREDIT_TOP_UP ?? '100',
+export const BTD_TOP_UP_INCREMENT: number = Number.parseInt(
+  process.env.BTD_TOP_UP ?? process.env.CREDIT_TOP_UP ?? '100',
   10,
 );
 
 /**
- * Deducts a specified number of credits from a user's balance.
+ * Deducts a specified amount of `$BTD` from a user's balance.
  * Throws if amount <= 0, if insufficient balance, or on DB errors.
  */
 // ---------------------------------------------------------------------------
@@ -38,16 +42,16 @@ export const TOP_UP_INCREMENT: number = Number.parseInt(
 // ---------------------------------------------------------------------------
 
 /**
- * Thrown when a user does not have enough credits to cover the requested
+ * Thrown when a user does not have enough `$BTD` to cover the requested
  * operation.  Callers can catch this specific error to return a 402 /
  * payment-required style response without relying on brittle string matches.
  */
-export class InsufficientCreditsError extends Error {
-  public readonly code = 'INSUFFICIENT_CREDITS';
+export class InsufficientBtdBalanceError extends Error {
+  public readonly code = 'INSUFFICIENT_BTD_BALANCE';
 
   constructor(message: string) {
     super(message);
-    this.name = 'InsufficientCreditsError';
+    this.name = 'InsufficientBtdBalanceError';
   }
 }
 
@@ -56,14 +60,14 @@ export class InsufficientCreditsError extends Error {
 // ---------------------------------------------------------------------------
 
 /**
- * Enforces hard limits on credit operations to prevent negative balances.
+ * Enforces hard limits on `$BTD` operations to prevent negative balances.
  * Returns whether the operation is allowed and the user's current available balance.
  *
  * @param userId - The user's ID
- * @param requestedAmount - Amount of credits requested
+ * @param requestedAmount - Amount of `$BTD` requested
  * @returns Object with allowed status and available balance
  */
-export async function enforceHardLimit(
+export async function enforceBtdHardLimit(
   userId: string,
   requestedAmount: number
 ): Promise<{ allowed: boolean; available: number; shortfall?: number }> {
@@ -72,7 +76,7 @@ export async function enforceHardLimit(
 
   if (balance < requestedAmount) {
     const shortfall = requestedAmount - balance;
-    log('[credits] Hard limit enforcement: insufficient balance', 'warn', {
+    log('[btd] Hard limit enforcement: insufficient balance', 'warn', {
       userId,
       requested: requestedAmount,
       available: balance,
@@ -86,19 +90,19 @@ export async function enforceHardLimit(
 
 /**
  * Alerts when user balance falls below a threshold.
- * Useful for proactive credit management and user notifications.
+ * Useful for proactive `$BTD` management and user notifications.
  *
  * @param userId - The user's ID
- * @param threshold - Credit threshold for alerting (defaults to 100)
+ * @param threshold - `$BTD` threshold for alerting (defaults to 100)
  */
-export async function alertLowBalance(
+export async function alertLowBtdBalance(
   userId: string,
   threshold: number = 100
 ): Promise<void> {
   const balance = await getBalance(userId);
 
   if (balance <= threshold) {
-    log('[credits] Low balance alert triggered', 'warn', {
+    log('[btd] Low balance alert triggered', 'warn', {
       userId,
       balance,
       threshold
@@ -109,7 +113,7 @@ export async function alertLowBalance(
   }
 }
 
-export async function deductCredits(userId: string, amount: number): Promise<number> {
+export async function deductBtdBalance(userId: string, amount: number): Promise<number> {
   if (amount <= 0) {
     throw new Error(`Invalid deduction amount: ${amount}. Must be positive.`);
   }
@@ -124,7 +128,7 @@ export async function deductCredits(userId: string, amount: number): Promise<num
 
   // Handle insufficient balance propagated from SQL function (SQLSTATE PAYS0).
   if (rpcError && rpcError.code === 'PAYS0') {
-    throw new InsufficientCreditsError(rpcError.message);
+    throw new InsufficientBtdBalanceError(rpcError.message);
   }
 
   // Undefined function fallback detection (Postgres or PostgREST layer)
@@ -140,12 +144,12 @@ export async function deductCredits(userId: string, amount: number): Promise<num
 
   // If not an undefined-function scenario, bubble the error.
   if (!isUndefinedFn) {
-    throw new Error(`Error deducting credits for user ${userId}: ${rpcError.message || rpcError.details}`);
+    throw new Error(`Error deducting BTD for user ${userId}: ${rpcError.message || rpcError.details}`);
   }
 
   // Fallback path: log once per call at debug for observability
   try {
-    log('[credits] Falling back to GA-1 balance deduction (RPC missing)', 'debug', {
+    log('[btd] Falling back to GA-1 balance deduction (RPC missing)', 'debug', {
       userId,
       amount,
       rpcCode: rpcError.code,
@@ -157,7 +161,7 @@ export async function deductCredits(userId: string, amount: number): Promise<num
   // Fallback for environments that have not yet run the new migration.
   // ------------------------------------------------------------------
 
-  // Fetch existing credit balance
+  // Fetch existing balance from the compatibility carrier.
   const { data: existing, error: fetchErr } = await supabaseAdmin
     .from('user_credits')
     .select('balance')
@@ -165,13 +169,13 @@ export async function deductCredits(userId: string, amount: number): Promise<num
     .single();
 
   if (fetchErr && fetchErr.code !== 'PGRST116') {
-    throw new Error(`Error fetching credits for user ${userId}: ${fetchErr.message}`);
+    throw new Error(`Error fetching BTD balance for user ${userId}: ${fetchErr.message}`);
   }
 
   const previous = existing?.balance ?? 0;
   if (previous < amount) {
-    throw new InsufficientCreditsError(
-      `Insufficient credits for user ${userId}: have ${previous}, need ${amount}`,
+    throw new InsufficientBtdBalanceError(
+      `Insufficient BTD for user ${userId}: have ${previous}, need ${amount}`,
     );
   }
 
@@ -188,7 +192,7 @@ export async function deductCredits(userId: string, amount: number): Promise<num
     .single();
 
   if (upsertErr) {
-    throw new Error(`Error updating credits for user ${userId}: ${upsertErr.message}`);
+    throw new Error(`Error updating BTD balance for user ${userId}: ${upsertErr.message}`);
   }
 
   // Record usage event – best-effort (non-critical)
@@ -197,12 +201,12 @@ export async function deductCredits(userId: string, amount: number): Promise<num
       user_id: userId,
       amount: -amount,
       operation_type: 'DEDUCT',
-      metadata: { reason: 'Credit deduction', balance: upserted.balance },
+      metadata: { reason: 'BTD deduction', balance: upserted.balance },
       created_at: new Date().toISOString(),
     });
   } catch (usageErr) {
     // eslint-disable-next-line no-console
-    console.error(`Failed to record credit usage for user ${userId}:`, usageErr);
+    console.error(`Failed to record BTD usage for user ${userId}:`, usageErr);
   }
 
   return newBalance;
@@ -213,12 +217,12 @@ export async function deductCredits(userId: string, amount: number): Promise<num
 // ---------------------------------------------------------------------------
 
 /**
- * Adds (credits) funds to the user’s balance.  Mirrors `deductCredits` logic
+ * Adds `$BTD` to the user’s balance. Mirrors `deductBtdBalance` logic
  * but for positive balance changes.
  */
-export async function addCredits(userId: string, amount: number): Promise<number> {
+export async function addBtdBalance(userId: string, amount: number): Promise<number> {
   if (amount <= 0) {
-    throw new Error(`Invalid addCredits amount: ${amount}. Must be positive.`);
+    throw new Error(`Invalid addBtdBalance amount: ${amount}. Must be positive.`);
   }
 
   const { data: rpcRes, error: rpcErr } = await supabaseAdmin.rpc('add_credits', {
@@ -236,12 +240,12 @@ export async function addCredits(userId: string, amount: number): Promise<number
 
   // If not an undefined-function scenario, bubble the error.
   if (!addUndefinedFn) {
-    throw new Error(`Error adding credits for user ${userId}: ${rpcErr.message || rpcErr.details}`);
+    throw new Error(`Error adding BTD for user ${userId}: ${rpcErr.message || rpcErr.details}`);
   }
 
   // Fallback path: log once per call at debug for observability
   try {
-    log('[credits] Falling back to GA-1 balance addition (RPC missing)', 'debug', {
+    log('[btd] Falling back to GA-1 balance addition (RPC missing)', 'debug', {
       userId,
       amount,
       rpcCode: rpcErr.code,
@@ -256,7 +260,7 @@ export async function addCredits(userId: string, amount: number): Promise<number
     .single();
 
   if (fetchErr && fetchErr.code !== 'PGRST116') {
-    throw new Error(`Error fetching credits for user ${userId}: ${fetchErr.message}`);
+    throw new Error(`Error fetching BTD balance for user ${userId}: ${fetchErr.message}`);
   }
 
   const previous = existing?.balance ?? 0;
@@ -272,7 +276,7 @@ export async function addCredits(userId: string, amount: number): Promise<number
     .single();
 
   if (upsertErr) {
-    throw new Error(`Error updating credits for user ${userId}: ${upsertErr.message}`);
+    throw new Error(`Error updating BTD balance for user ${userId}: ${upsertErr.message}`);
   }
 
   try {
@@ -280,12 +284,12 @@ export async function addCredits(userId: string, amount: number): Promise<number
       user_id: userId,
       amount: amount,
       operation_type: 'ADD',
-      metadata: { reason: 'Credit addition', balance: upserted.balance },
+      metadata: { reason: 'BTD addition', balance: upserted.balance },
       created_at: new Date().toISOString(),
     });
   } catch (usageErr) {
     // eslint-disable-next-line no-console
-    console.error(`Failed to record credit addition for user ${userId}:`, usageErr);
+    console.error(`Failed to record BTD addition for user ${userId}:`, usageErr);
   }
 
   return newBalance;
@@ -306,12 +310,12 @@ export function estimateTokens(text: string): number {
 }
 
 /**
- * Deduct credits based on generation token usage.
+ * Deduct `$BTD` based on generation token usage.
  * Uses ~$0.15 per 1M input tokens and $1.15 per 1M output tokens,
- * with $0.10 per credit conversion (10 credits per USD).
+ * with $0.10 per-BTD conversion (10 BTD per USD).
  */
-export async function deductGenerationCredits(userId: string, tokens: GenerationTokens): Promise<number> {
-  return deductLLMCreditsByModel(userId, {
+export async function deductGenerationBtd(userId: string, tokens: GenerationTokens): Promise<number> {
+  return deductLlmBtdByModel(userId, {
     model: 'gpt-3.5-turbo',
     ...tokens,
   });
@@ -338,58 +342,58 @@ export const MODEL_PRICING_USD_PER_MILLION: Record<string, { input: number; outp
   'claude-3-haiku': { input: 0.25, output: 1.25 },
 };
 
-/** Credits ⇆ USD conversion helpers */
-const USD_PER_CREDIT = 0.10; // 10¢ per credit (1 credit per $0.10)
-const CREDITS_PER_USD = 1 / USD_PER_CREDIT; // 10 credits per USD
+/** `$BTD` ⇆ USD conversion helpers */
+const USD_PER_BTD = 0.10;
+const BTD_PER_USD = 1 / USD_PER_BTD;
 
 /**
- * Computes the number of credits necessary to cover a given generation.
+ * Computes the amount of `$BTD` necessary to cover a given generation.
  * – Looks up model-specific USD pricing.
- * – Multiplies by `CREDITS_PER_USD` (10).
- * – Always rounds **up** to the nearest whole credit so we never under-charge.
+ * – Multiplies by `BTD_PER_USD` (10).
+ * – Always rounds **up** to the nearest whole unit so we never under-charge.
  */
-export function calculateLLMCredits(
+export function calculateLlmBtdDebit(
   model: string,
   tokens: GenerationTokens,
-): { usd: number; credits: number } {
+): { usd: number; btdAmount: number } {
   // Prefer centralized catalog
   const pricing = getUsdPricingForApiModel(model) || MODEL_PRICING_USD_PER_MILLION[model];
   if (!pricing) {
-    throw new Error(`Unsupported / unknown model for credit calculation: ${model}`);
+    throw new Error(`Unsupported / unknown model for BTD calculation: ${model}`);
   }
 
   const usd =
     ((tokens.inputTokens * pricing.input + tokens.outputTokens * pricing.output) /
       1_000_000);
 
-  const credits = Math.max(1, Math.ceil(usd * CREDITS_PER_USD));
+  const btdAmount = Math.max(1, Math.ceil(usd * BTD_PER_USD));
 
-  return { usd, credits };
+  return { usd, btdAmount };
 }
 
 /**
- * Deduct credits from a user for a single generation, using model-specific
+ * Deduct `$BTD` from a user for a single generation, using model-specific
  * pricing.  If the model isn’t recognised, the function throws so that callers
  * can decide whether to block the request or fall back to a safe default.
  */
-export async function deductLLMCreditsByModel(
+export async function deductLlmBtdByModel(
   userId: string,
   params: { model: string } & GenerationTokens,
 ): Promise<number> {
-  const { credits } = calculateLLMCredits(params.model, params);
-  return deductCredits(userId, credits);
+  const { btdAmount } = calculateLlmBtdDebit(params.model, params);
+  return deductBtdBalance(userId, btdAmount);
 }
 
 // ---------------------------------------------------------------------------
-// Credit escrow / reservation helpers
+// BTD escrow / reservation helpers
 // ---------------------------------------------------------------------------
 
 import { v4 as uuidv4 } from 'uuid';
 
 // The reservation record mirrors what will eventually live in a dedicated
-// `credit_reservations` table.  We create it optimistically – the DB
+// compatibility `credit_reservations` table. We create it optimistically - the DB
 // migration can follow later without requiring code changes.
-interface CreditReservation {
+interface BtdReservation {
   id: string;
   user_id: string;
   reserved: number;
@@ -399,54 +403,54 @@ interface CreditReservation {
   closed_at?: string | null;
 }
 
-// In-memory fallback when the `credit_reservations` table is unavailable (e.g.
-// in local tests or CI where the DB migrations haven’t been applied yet).
-const inMemoryReservations = new Map<string, CreditReservation>();
+// In-memory fallback when the `credit_reservations` table is unavailable
+// in local tests or CI where the DB migrations have not been applied yet.
+const inMemoryReservations = new Map<string, BtdReservation>();
 
 /**
  * Estimates the reservation amount for a brand-new pipeline execution / user action.
- * For now we default to 100 credits – tweak once we have real usage stats.
+ * For now we default to 100 `$BTD` – tweak once we have real usage stats.
  */
-export const DEFAULT_RESERVATION_CREDITS = 100;
+export const DEFAULT_BTD_RESERVATION = 100;
 
 /**
- * Minimum credits each pipeline must escrow before starting.  Values chosen
- * from historical median usage (rounded up to nearest 10 credits).
+ * Minimum `$BTD` each pipeline must escrow before starting. Values are chosen
+ * from historical median usage.
  */
-export const PIPELINE_ESCROW_REQUIREMENTS: Record<string, number> = {
+export const PIPELINE_BTD_ESCROW_REQUIREMENTS: Record<string, number> = {
   'deliverable': 50,
 };
 
 /** Helper – returns reservation or DEFAULT if unknown */
-export function reservationForPipeline(pipelineType: string): number {
-  return PIPELINE_ESCROW_REQUIREMENTS[pipelineType] ?? DEFAULT_RESERVATION_CREDITS;
+export function btdReservationForPipeline(pipelineType: string): number {
+  return PIPELINE_BTD_ESCROW_REQUIREMENTS[pipelineType] ?? DEFAULT_BTD_RESERVATION;
 }
 
 /**
- * Reserve (escrow) a block of credits.  If the user’s available balance is
+ * Reserve (escrow) a block of `$BTD`. If the user’s available balance is
  * lower than the requested amount this function throws.  Internally it simply
- * calls `deductCredits` to *move* funds out of the available pool so they
+ * calls `deductBtdBalance` to *move* funds out of the available pool so they
  * can’t be spent twice, then records the reservation for later settlement.
  */
-export async function reserveCredits(
+export async function reserveBtdBalance(
   userId: string,
-  amount: number = DEFAULT_RESERVATION_CREDITS,
-): Promise<CreditReservation> {
+  amount: number = DEFAULT_BTD_RESERVATION,
+): Promise<BtdReservation> {
   // Enforce hard limits before attempting reservation
-  const { allowed, available, shortfall } = await enforceHardLimit(userId, amount);
+  const { allowed, available, shortfall } = await enforceBtdHardLimit(userId, amount);
 
   if (!allowed) {
-    throw new InsufficientCreditsError(
-      `Cannot reserve ${amount} credits. User has ${available} credits available (shortfall: ${shortfall})`
+    throw new InsufficientBtdBalanceError(
+      `Cannot reserve ${amount} BTD. User has ${available} BTD available (shortfall: ${shortfall})`
     );
   }
 
   const reservationId = uuidv4();
 
   // Deduct first so that the balance always reflects the held funds.
-  await deductCredits(userId, amount);
+  await deductBtdBalance(userId, amount);
 
-  const reservation: CreditReservation = {
+  const reservation: BtdReservation = {
     id: reservationId,
     user_id: userId,
     reserved: amount,
@@ -460,7 +464,7 @@ export async function reserveCredits(
     await supabaseAdmin.from('credit_reservations').insert(reservation);
   } catch (err: any) {
     // eslint-disable-next-line no-console
-    console.error('[credits] Failed to insert credit_reservations row', err?.message || err);
+    console.error('[btd] Failed to insert credit_reservations row', err?.message || err);
   }
 
   // Always keep in-memory copy for local fallback.
@@ -471,10 +475,10 @@ export async function reserveCredits(
 
 /**
  * During a long-running job callers can *incrementally* record usage so that
- * we can keep the credits ledger accurate in near-real-time and pull in extra
+ * we can keep the BTD ledger accurate in near-real-time and pull in extra
  * funds if the job exceeds its initial estimate.
  */
-export async function recordReservationUsage(
+export async function recordBtdReservationUsage(
   reservationId: string,
   additionalUsed: number,
 ): Promise<void> {
@@ -488,13 +492,13 @@ export async function recordReservationUsage(
       {
         p_reservation_id: reservationId,
         p_additional_used: additionalUsed,
-        p_safety_margin: SAFETY_MARGIN_CREDITS,
-        p_top_up: TOP_UP_INCREMENT,
+        p_safety_margin: BTD_SAFETY_MARGIN,
+        p_top_up: BTD_TOP_UP_INCREMENT,
       },
     );
 
     if (!rpcErr) {
-      inMemoryReservations.set(reservationId, rpcRow as CreditReservation);
+      inMemoryReservations.set(reservationId, rpcRow as BtdReservation);
       return; // success path finished
     }
 
@@ -508,7 +512,7 @@ export async function recordReservationUsage(
     // Else fall through to legacy logic below
   }
 
-  let row: CreditReservation | null = null;
+  let row: BtdReservation | null = null;
   try {
     const { data, error } = await supabaseAdmin
       .from('credit_reservations')
@@ -521,10 +525,10 @@ export async function recordReservationUsage(
       throw error;
     }
 
-    row = (data as CreditReservation) ?? null;
+    row = (data as BtdReservation) ?? null;
   } catch (dbErr: any) {
     // eslint-disable-next-line no-console
-    console.warn('[credits] Falling back to in-memory reservations for', reservationId);
+    console.warn('[btd] Falling back to in-memory reservations for', reservationId);
   }
 
   if (!row) {
@@ -550,13 +554,13 @@ export async function recordReservationUsage(
   if (remaining < 0) {
     // Already overspent → pull exact overage plus one full increment so the
     // caller immediately has headroom again.
-    const amountToPull = Math.abs(remaining) + TOP_UP_INCREMENT;
-    await deductCredits(row.user_id as string, amountToPull);
+    const amountToPull = Math.abs(remaining) + BTD_TOP_UP_INCREMENT;
+    await deductBtdBalance(row.user_id as string, amountToPull);
     row.reserved += amountToPull;
-  } else if (remaining <= SAFETY_MARGIN_CREDITS) {
+  } else if (remaining <= BTD_SAFETY_MARGIN) {
     // Buffer running low → proactively top up.
-    await deductCredits(row.user_id as string, TOP_UP_INCREMENT);
-    row.reserved += TOP_UP_INCREMENT;
+    await deductBtdBalance(row.user_id as string, BTD_TOP_UP_INCREMENT);
+    row.reserved += BTD_TOP_UP_INCREMENT;
   }
 
   // Persist change (DB and in-mem) – best effort.
@@ -578,50 +582,50 @@ export async function recordReservationUsage(
 // ---------------------------------------------------------------------------
 
 /**
- * Runs an asynchronous job wrapped in a credit reservation.  Handles happy
- * path, mid-run credit depletion and final settlement automatically.
+ * Runs an asynchronous job wrapped in a `$BTD` reservation. Handles happy
+ * path, mid-run balance depletion and final settlement automatically.
  *
  * Typical usage:
  *
- *   return withCreditReservation(user.id, async (escrow) => {
- *     await recordReservationUsage(escrow.id, 20);
+ *   return withBtdReservation(user.id, async (escrow) => {
+ *     await recordBtdReservationUsage(escrow.id, 20);
  *     … heavy LLM calls …
- *     await recordReservationUsage(escrow.id, 50);
+ *     await recordBtdReservationUsage(escrow.id, 50);
  *     return deliverable;
  *   });
  */
-export async function withCreditReservation<T>(
+export async function withBtdReservation<T>(
   userId: string,
-  run: (reservation: CreditReservation) => Promise<T>,
+  run: (reservation: BtdReservation) => Promise<T>,
   {
     pipelineType,
-    initialCredits,
-  }: { pipelineType?: string; initialCredits?: number } = {},
+    initialBtd,
+  }: { pipelineType?: string; initialBtd?: number } = {},
 ): Promise<T> {
   const reserveAmount =
-    initialCredits ?? (pipelineType ? reservationForPipeline(pipelineType) : DEFAULT_RESERVATION_CREDITS);
+    initialBtd ?? (pipelineType ? btdReservationForPipeline(pipelineType) : DEFAULT_BTD_RESERVATION);
 
-  // Reserve – will throw InsufficientCreditsError if balance too low.
-  const reservation = await reserveCredits(userId, reserveAmount);
+  // Reserve – will throw InsufficientBtdBalanceError if balance too low.
+  const reservation = await reserveBtdBalance(userId, reserveAmount);
 
   try {
     const result = await run(reservation);
-    await closeReservation(reservation.id); // refund unused delta
+    await closeBtdReservation(reservation.id); // refund unused delta
     return result;
   } catch (err: any) {
     // Distinguish business-logic “not enough balance” from other failures.
     if (
-      err?.code === 'INSUFFICIENT_CREDITS' ||
-      err instanceof InsufficientCreditsError ||
+      err?.code === 'INSUFFICIENT_BTD_BALANCE' ||
+      err instanceof InsufficientBtdBalanceError ||
       err?.code === 'SHORT_CIRCUIT' ||
       /SHORT_CIRCUIT/.test(err?.message || '')
     ) {
       // Short-circuit or insufficient balance: refund entire reservation.
-      await closeReservation(reservation.id, { refundAll: true });
+      await closeBtdReservation(reservation.id, { refundAll: true });
     } else {
       // Runtime error inside pipeline → refund unused, but keep spent usage.
       try {
-        await closeReservation(reservation.id);
+        await closeBtdReservation(reservation.id);
       } catch (_) {/* ignore */}
     }
     throw err; // re-throw so caller can decide how to surface
@@ -629,17 +633,17 @@ export async function withCreditReservation<T>(
 }
 
 /**
- * Finalises a reservation and returns any *unused* credits back to the user.
+ * Finalises a reservation and returns any unused `$BTD` back to the user.
  *
  * Pass `refundAll = true` to short-circuit a run and refund the entire amount
- * (regardless of recorded usage).  This will *always* prevent negative charge
+ * (regardless of recorded usage). This will always prevent negative charge
  * scenarios by never refunding more than initially reserved.
  */
-export async function closeReservation(
+export async function closeBtdReservation(
   reservationId: string,
   { refundAll = false }: { refundAll?: boolean } = {},
 ): Promise<void> {
-  let row: CreditReservation | null = null;
+  let row: BtdReservation | null = null;
   try {
     const { data, error } = await supabaseAdmin
       .from('credit_reservations')
@@ -651,7 +655,7 @@ export async function closeReservation(
       throw error;
     }
 
-    row = (data as CreditReservation) ?? null;
+    row = (data as BtdReservation) ?? null;
   } catch (_) {
     // ignore – will handle below
   }
@@ -667,12 +671,12 @@ export async function closeReservation(
   const unused = refundAll ? row.reserved : Math.max(0, row.reserved - row.used);
 
   if (unused > 0) {
-    // Negative amount → credits go back to user.
+    // Unused reservation amount returns to the available balance.
     try {
-      await addCredits(row.user_id as string, unused);
+      await addBtdBalance(row.user_id as string, unused);
     } catch (refundErr: any) {
       // eslint-disable-next-line no-console
-      console.error('[credits] Failed to refund unused credits:', refundErr);
+      console.error('[btd] Failed to refund unused BTD:', refundErr);
     }
   }
 
@@ -698,7 +702,7 @@ import { ShortCircuitSignal } from '@bitcode/execution-generics';
  * Process refund based on short-circuit signal
  * This is the centralized refund handler for all pipelines
  */
-export async function processShortCircuitRefund(
+export async function processShortCircuitBtdRefund(
   signal: ShortCircuitSignal,
   reservationId: string
 ): Promise<void> {
@@ -707,7 +711,7 @@ export async function processShortCircuitRefund(
   }
   
   // Get reservation details
-  let reservation: CreditReservation | null = null;
+  let reservation: BtdReservation | null = null;
   try {
     const { data, error } = await supabaseAdmin
       .from('credit_reservations')
@@ -716,7 +720,7 @@ export async function processShortCircuitRefund(
       .single();
     
     if (!error) {
-      reservation = data as CreditReservation;
+      reservation = data as BtdReservation;
     }
   } catch (_) {
     // Try in-memory fallback
@@ -731,7 +735,7 @@ export async function processShortCircuitRefund(
   const refundAll = signal.refundType === 'full';
   
   // Close reservation with appropriate refund
-  await closeReservation(reservationId, { refundAll });
+  await closeBtdReservation(reservationId, { refundAll });
   
   // Log the refund event
   try {
@@ -740,7 +744,7 @@ export async function processShortCircuitRefund(
       .insert({
         user_id: reservation.user_id,
         change: refundAll ? reservation.reserved : Math.max(0, reservation.reserved - reservation.used),
-        balance: 0, // Will be updated by closeReservation
+        balance: 0, // Updated by closeBtdReservation
         description: `Pipeline short-circuit refund: ${signal.reason}`,
         metadata: {
           reservation_id: reservationId,
@@ -751,7 +755,7 @@ export async function processShortCircuitRefund(
         created_at: new Date().toISOString()
       });
   } catch (err) {
-    console.error('[credits] Failed to log refund event:', err);
+      console.error('[btd] Failed to log refund event:', err);
   }
 }
 
@@ -761,6 +765,6 @@ export async function processShortCircuitRefund(
 
 export * from './plans';
 
-// Note: Other exported symbols (InsufficientCreditsError, withCreditReservation,
+// Note: Other exported symbols (InsufficientBtdBalanceError, withBtdReservation,
 // constants, helpers…) are exported at their declaration sites above to avoid
 // duplicate export clashes.

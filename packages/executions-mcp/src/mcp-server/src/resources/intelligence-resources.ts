@@ -166,13 +166,13 @@ async function performIntelligenceSynthesis(pipelines: any[], options: any): Pro
     return acc;
   }, {} as Record<string, number>);
 
-  // Calculate credit usage patterns
-  const creditUsage = pipelines
-    .map(p => p.metrics?.creditsUsed || 0)
-    .filter(credits => credits > 0);
+  // Calculate BTD usage patterns
+  const btdUsage = pipelines
+    .map(p => (p.metrics?.btdUsed ?? p.metrics?.creditsUsed) || 0)
+    .filter((btd: number) => btd > 0);
   
-  const totalCreditsUsed = creditUsage.reduce((sum, credits) => sum + credits, 0);
-  const avgCreditsPerPipeline = creditUsage.length > 0 ? totalCreditsUsed / creditUsage.length : 0;
+  const totalBtdUsed = btdUsage.reduce((sum, btd) => sum + btd, 0);
+  const avgBtdPerPipeline = btdUsage.length > 0 ? totalBtdUsed / btdUsage.length : 0;
 
   // Identify trends
   const timeBasedAnalysis = analyzeTimeBasedTrends(pipelines);
@@ -189,8 +189,8 @@ async function performIntelligenceSynthesis(pipelines: any[], options: any): Pro
       },
       
       efficiency: {
-        averageCreditsPerPipeline: Math.round(avgCreditsPerPipeline),
-        totalCreditsUsed: totalCreditsUsed,
+        averageBtdPerPipeline: Math.round(avgBtdPerPipeline),
+        totalBtdUsed: totalBtdUsed,
         costEfficiencyTrend: timeBasedAnalysis.costTrend,
         resourceUtilization: calculateResourceUtilization(pipelines)
       },
@@ -214,7 +214,7 @@ async function performIntelligenceSynthesis(pipelines: any[], options: any): Pro
     recommendations: generateRecommendations(pipelines, {
       successRate,
       avgExecutionTime,
-      avgCreditsPerPipeline,
+      avgBtdPerPipeline,
       repositoryActivity
     }),
     
@@ -228,7 +228,7 @@ async function performIntelligenceSynthesis(pipelines: any[], options: any): Pro
       industryComparison: {
         successRate: { yours: successRate, industry: 0.85 },
         avgExecutionTime: { yours: avgExecutionTime, industry: 900000 }, // 15 min
-        costEfficiency: { yours: avgCreditsPerPipeline, industry: 120 }
+        costEfficiency: { yours: avgBtdPerPipeline, industry: 120 }
       }
     }
   };
@@ -245,7 +245,7 @@ function analyzeTimeBasedTrends(pipelines: any[]): any {
   return {
     productivityTrend: calculateTrend(Object.values(weeklyGroups).map(g => g.length)),
     costTrend: calculateTrend(Object.values(weeklyGroups).map(g => 
-      g.reduce((sum, p) => sum + (p.metrics?.creditsUsed || 0), 0)
+      g.reduce((sum, p) => sum + ((p.metrics?.btdUsed ?? p.metrics?.creditsUsed) || 0), 0)
     )),
     qualityTrend: calculateTrend(Object.values(weeklyGroups).map(g => {
       const successful = g.filter(p => p.status === 'completed').length;
@@ -541,7 +541,7 @@ function generateUpgradeRecommendations(upgradeData: any[], options: any): any[]
         effort: 'medium',
         reason: `Performance improvements and new features in ${pkg} ${pattern.to}`,
         repositories: [`example/repo-${Math.floor(Math.random() * 5) + 1}`],
-        estimatedCredits: 75 + Math.floor(Math.random() * 75),
+        estimatedBtd: 75 + Math.floor(Math.random() * 75),
         breakingChanges: true,
         migrationGuide: `https://${pkg}.dev/ai_document`,
         confidence: 0.75 + Math.random() * 0.15

@@ -73,7 +73,9 @@ export interface CompletionData {
       output: number;
       total: number;
     };
-    /** Credits consumed */
+    /** Canonical $BTD consumed */
+    btdUsed?: number;
+    /** @deprecated Compatibility-only legacy balance unit */
     credits?: number;
   };
   /** Snapshot of the repository at time of execution */
@@ -126,10 +128,12 @@ export interface PipelineExecution {
   /** Optional markdown summary stored by backend */
   summary?: string | null;
 
-  /** Execution metrics (time, tokens, credits, spend, latency) */
+  /** Execution metrics (time, tokens, $BTD, spend, latency) */
   processing_stats?: {
     time: string;
     tokens?: { input: number; output: number; total: number };
+    btdUsed?: number;
+    /** @deprecated Compatibility-only legacy balance unit */
     credits?: number;
     usdTotal?: number;
     averageLatencyMs?: number | null;
@@ -155,6 +159,8 @@ export interface PipelineExecution {
     processingStats?: {
       time: string;
       tokens?: { input: number; output: number; total: number };
+      btdUsed?: number;
+      /** @deprecated Compatibility-only legacy balance unit */
       credits?: number;
       usdTotal?: number;
       averageLatencyMs?: number | null;
@@ -173,7 +179,7 @@ export interface PipelineExecution {
   } | null;
 }
 // Record type for a single ai_document history item
-export interface AI DocumentHistoryItem {
+export interface AIDocumentHistoryItem {
   id: string;
   title: string;
   output?: string | null;
@@ -184,14 +190,16 @@ export interface AI DocumentHistoryItem {
   run_id: string;
 }
 // Wrapper object representing a single user 'run' that may contain multiple ai_documents
-export interface AI DocumentRun {
+export interface AIDocumentRun {
   id: string;
   created_at: string;
-  items: AI DocumentHistoryItem[];
+  items: AIDocumentHistoryItem[];
   summary?: string | null;
   processing_stats?: {
     time: string;
     tokens?: { input: number; output: number; total: number };
+    btdUsed?: number;
+    /** @deprecated Compatibility-only legacy balance unit */
     credits?: number;
     usdTotal?: number;
     averageLatencyMs?: number | null;
@@ -213,6 +221,8 @@ export interface AI DocumentRun {
     processingStats?: {
       time: string;
       tokens?: { input: number; output: number; total: number };
+      btdUsed?: number;
+      /** @deprecated Compatibility-only legacy balance unit */
       credits?: number;
       usdTotal?: number;
       averageLatencyMs?: number | null;

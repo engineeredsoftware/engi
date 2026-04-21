@@ -40,28 +40,28 @@ interface MCPTool {
 }
 
 /**
- * Estimate credits required for pipeline execution
+ * Estimate BTD required for pipeline execution
  */
-async function estimatePipelineCredits(
+async function estimatePipelineBtd(
   pipeline: PipelineName,
   task: string,
   attachments: any[] = []
 ): Promise<number> {
-  // Base credit estimation based on pipeline type and complexity
+  // Base BTD estimation based on pipeline type and complexity
   const baseCosts = { deliverable: 100 } as const;
 
-  let estimatedCredits = (baseCosts as Record<string, number>)[pipeline] || 100;
+  let estimatedBtd = (baseCosts as Record<string, number>)[pipeline] || 100;
 
   // Adjust for task complexity (rough heuristic)
   const taskLength = task.length;
-  if (taskLength > 1000) estimatedCredits *= 1.5;
-  if (taskLength > 2000) estimatedCredits *= 2;
+  if (taskLength > 1000) estimatedBtd *= 1.5;
+  if (taskLength > 2000) estimatedBtd *= 2;
 
   // Adjust for attachments
-  estimatedCredits += attachments.length * 25;
+  estimatedBtd += attachments.length * 25;
 
   // Add buffer for safety
-  return Math.ceil(estimatedCredits * 1.2);
+  return Math.ceil(estimatedBtd * 1.2);
 }
 
 /**
@@ -74,8 +74,8 @@ async function executePipelineWithMonitoring(
 ): Promise<any> {
   const startTime = Date.now();
 
-  // Estimate credits
-  const estimatedCredits = await estimatePipelineCredits(
+  // Estimate BTD
+  const estimatedBtd = await estimatePipelineBtd(
     pipelineType,
     params.task,
     params.attachments
@@ -85,7 +85,7 @@ async function executePipelineWithMonitoring(
     pipeline: pipelineType,
     userId: context.userId,
     organizationId: context.organizationId,
-    estimatedCredits,
+    estimatedBtd,
     task: params.task.substring(0, 100) + '...'
   });
 
@@ -104,7 +104,7 @@ async function executePipelineWithMonitoring(
       userId: context.userId,
       organizationId: context.organizationId,
       apiKeyId: context.apiKeyId,
-      estimatedCredits,
+      estimatedBtd,
       priority: params.priority || 'normal',
       metadata: {
         source: 'mcp',
@@ -137,7 +137,7 @@ async function executePipelineWithMonitoring(
       pipeline: pipelineType,
       subtype: params.subtype,
       duration,
-      creditsUsed: executionResult.creditsUsed || estimatedCredits,
+      btdUsed: executionResult.btdUsed || estimatedBtd,
       success: executionResult.status === 'completed',
       userId: context.userId,
       organizationId: context.organizationId
@@ -148,7 +148,7 @@ async function executePipelineWithMonitoring(
       pipeline: pipelineType,
       duration,
       status: executionResult.status,
-      creditsUsed: executionResult.creditsUsed
+      btdUsed: executionResult.btdUsed
     });
 
     return {
@@ -157,7 +157,7 @@ async function executePipelineWithMonitoring(
       status: executionResult.status,
       result: executionResult.result,
       error: executionResult.error,
-      creditsUsed: executionResult.creditsUsed,
+      btdUsed: executionResult.btdUsed,
       startedAt: executionResult.startedAt,
       completedAt: executionResult.completedAt,
       events: executionResult.events

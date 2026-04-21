@@ -21,7 +21,7 @@ jest.mock('ai', () => ({ generateText: jest.fn() }));
 jest.mock('@bitcode/parsing', () => ({ extractJsonFromResponse: jest.fn(), parseResponse: jest.fn() }));
 jest.mock('@bitcode/streams', () => ({ writeStreamMessage: jest.fn(), writeStreamGeneration: jest.fn() }));
 jest.mock('@bitcode/models', () => ({ getModelInstance: jest.fn(() => ({ provider: 'testModel' })) }));
-jest.mock('@bitcode/credits', () => ({ estimateTokens: jest.fn(() => 1), deductLLMCredits: jest.fn() }));
+jest.mock('@bitcode/btd', () => ({ estimateTokens: jest.fn(() => 1), deductLlmBtdByModel: jest.fn() }));
 
 describe('structuredLLMCall dry-run', () => {
   beforeEach(() => jest.clearAllMocks());

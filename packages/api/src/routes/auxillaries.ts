@@ -183,7 +183,6 @@ export function buildPostAuxillaryBtdRoute(options: AuxillaryRouteBuilderOptions
         success: true,
         btdBalance: 0,
         newBalance: 0,
-        credits: 0,
       });
     }
 
@@ -244,9 +243,7 @@ export function buildPostAuxillaryBtdRoute(options: AuxillaryRouteBuilderOptions
     return createJsonResponse({
       success: true,
       btdBalance: resolvedBalance,
-      // Keep old payload keys until the remaining compatibility carriers are retired.
       newBalance: resolvedBalance,
-      credits: resolvedBalance,
     });
   });
 }

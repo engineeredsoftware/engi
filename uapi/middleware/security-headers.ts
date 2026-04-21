@@ -123,7 +123,7 @@ function isSensitiveEndpoint(pathname: string): boolean {
   const sensitivePatterns = [
     '/api/auth',
     '/api/user',
-    '/api/credits',
+    '/api/auxillaries/btd',
     '/api/organizations',
     '/api/pipelines',
     '/api/conversations'

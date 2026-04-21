@@ -67,15 +67,15 @@ const MarketingScreenshotSection: React.FC = () => {
     },
     {
       id: 'setup-btd',
-      src: '/screenshots/setup-credits.png',
+      src: '/screenshots/setup-btd.png',
       alt: 'Acquire BTD',
       revealingSoon: true,
       description: 'Fund your Bitcode account with $BTD for protocol activity.'
     },
     {
       id: 'setup-btd-balance',
-      src: '/screenshots/setup-credits-balance.png',
-      alt: 'Credits balance widget',
+      src: '/screenshots/setup-btd-balance.png',
+      alt: 'BTD balance widget',
       revealingSoon: true,
       description: 'Real-time balance overview.'
     },
@@ -122,7 +122,7 @@ const MarketingScreenshotSection: React.FC = () => {
     },
     //{
     //id: 'btd-tracker',
-    //src: '/screenshots/credits-tracker-widget.png',
+    //src: '/screenshots/btd-tracker-widget.png',
     //alt: 'BTD tracker',
     //type: 'component',
     //category: 'setup_steps',
@@ -318,7 +318,7 @@ const MarketingScreenshotSection: React.FC = () => {
               { src: '/screenshots/conversations-fullscreen.png', alt: 'Conversations fullscreen chat screenshot' },
               { src: '/screenshots/sidebar-ai_documents.png', alt: 'Sidebar ai_documents panel screenshot' },
               { src: '/screenshots/setup-marketplace.png', alt: 'Marketplace setup screenshot' },
-              { src: '/screenshots/setup-credits-balance.png', alt: 'Credits balance panel screenshot' },
+              { src: '/screenshots/setup-btd-balance.png', alt: 'BTD balance panel screenshot' },
             ] as const;
 
             const [large, medium1, medium2, small1, small2, small3] = shots;
@@ -492,7 +492,7 @@ const MarketingScreenshotSection: React.FC = () => {
                     style: { left: '5.5rem', bottom: '3.5rem', zIndex: 90 },
                   },
                   {
-                    src: '/screenshots/setup-credits-balance.png',
+                    src: '/screenshots/setup-btd-balance.png',
                     border: 'border-green-400',
                     glow: 'rgba(52,211,153,0.6)',
                     rotate: 0,
@@ -860,7 +860,7 @@ const MarketingScreenshotSection: React.FC = () => {
                     {[
                       { label: 'Confirm email', icon: EnvelopeIcon },
                       { label: 'Install GitHub App', icon: ArrowDownTrayIcon },
-                      { label: 'Buy credits', icon: CreditCardIcon },
+                      { label: 'Acquire $BTD', icon: CreditCardIcon },
                     ].map(({ label, icon: Icon }, idx) => (
                       <li
                         key={label}

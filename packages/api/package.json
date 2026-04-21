@@ -14,7 +14,7 @@
     "@bitcode/auth": "workspace:*",
     "@bitcode/bitbucket": "workspace:*",
     "@bitcode/conversations-generics": "workspace:*",
-    "@bitcode/credits": "workspace:*",
+    "@bitcode/btd": "workspace:*",
     "@bitcode/email": "workspace:*",
     "@bitcode/execution-generics": "workspace:*",
     "@bitcode/errors": "workspace:*",

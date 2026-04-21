@@ -20,8 +20,8 @@ export default function MarketingEngineeringIntelligenceVisualization() {
   const screenshotsByMode: Record<'headless' | 'mobile' | 'operator' | 'api', Screenshot[]> = {
     headless: [
       { id: 'headless-1', src: '/screenshots/setup-marketplace.png', alt: 'Marketplace setup integration', type: 'full_page', category: 'setup', revealingSoon: true },
-      { id: 'headless-2', src: '/screenshots/setup-credits.png', alt: 'Setup BTD panel', type: 'component', category: 'btd', revealingSoon: true },
-      { id: 'headless-3', src: '/screenshots/credits-tracker-widget.png', alt: 'BTD tracker widget', type: 'component', category: 'btd', revealingSoon: true },
+      { id: 'headless-2', src: '/screenshots/setup-btd.png', alt: 'Setup BTD panel', type: 'component', category: 'btd', revealingSoon: true },
+      { id: 'headless-3', src: '/screenshots/btd-tracker-widget.png', alt: 'BTD tracker widget', type: 'component', category: 'btd', revealingSoon: true },
     ],
     mobile: [
       { id: 'mobile-1', src: '/screenshots/sidebar-deliverables.png', alt: 'Mobile deliverables sidebar', type: 'component', category: 'sidebar', revealingSoon: true },

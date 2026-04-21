@@ -163,9 +163,9 @@ The Model Context Protocol (MCP) server exposing Bitcode’s engineering intelli
         ExecutionMetrics: {
           type: 'object',
           properties: {
-            creditsUsed: {
+            btdUsed: {
               type: 'integer',
-              description: 'Number of credits consumed',
+              description: 'Amount of `$BTD` consumed',
               example: 150
             },
             tokensProcessed: {
@@ -632,7 +632,7 @@ Supports both synchronous and streaming execution modes.`,
                           }
                         ],
                         metrics: {
-                          creditsUsed: 150,
+                          btdUsed: 150,
                           tokensProcessed: 25000,
                           confidence: 0.92,
                           duration: 480000,

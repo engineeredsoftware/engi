@@ -236,10 +236,10 @@ export class BitcodeMCPServer {
           role: 'owner',
           permissions: {
             pipelines: { create: true, read: true, cancel: true, retry: true },
-            organization: { manageMembers: true, viewAnalytics: true, manageCredits: true },
+            organization: { manageMembers: true, viewAnalytics: true, manageBtd: true },
             resources: { read: true, export: true }
           },
-          creditBalance: 10000,
+          btdBalance: 10000,
           mcpCredentials: {}
         } as MCPAuthContext
       };

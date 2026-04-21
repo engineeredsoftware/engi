@@ -20,7 +20,7 @@ Canonical direct routes:
 Compatibility redirects may still exist for convergence:
 - `/orbitals/users` -> `profile`
 - `/orbitals/models` -> `interfaces`
-- `/orbitals/credits` -> `btd`
+- `/orbitals/btd` -> `btd`
 
 Those aliases are not the enduring V26 naming model.
 

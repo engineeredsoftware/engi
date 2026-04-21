@@ -6,7 +6,6 @@ export interface UserData {
   profile: any;
   vcsConnections: any[];
   btdBalance: number;
-  credits: number;
   modelPreferences: any;
 }
 

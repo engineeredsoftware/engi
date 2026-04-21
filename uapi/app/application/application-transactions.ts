@@ -19,7 +19,7 @@ export interface ApplicationTransactionRecord {
   createdAt: string;
   tokenTotal: number | null;
   usdTotal: number | null;
-  creditsTotal: number | null;
+  btdUsed: number | null;
   itemCount: number;
   isOwnTransaction: boolean;
   transactionLens: Exclude<ApplicationTransactionLens, 'all'>;
@@ -100,7 +100,7 @@ export function normalizeApplicationTransactions(runs: WorkspaceRun[]): Applicat
       createdAt: run.created_at,
       tokenTotal: run.tokenTotal ?? null,
       usdTotal: run.usdTotal ?? null,
-      creditsTotal: run.creditsTotal ?? null,
+      btdUsed: run.btdUsed ?? null,
       itemCount: run.itemCount || 0,
       isOwnTransaction: Boolean(run.isOwnTransaction),
       transactionLens,

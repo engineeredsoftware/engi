@@ -108,7 +108,7 @@ export function buildApplicationTransactionClosureRows(detail: ApplicationRunDet
     { label: 'Token total', value: formatNumber(detail?.processingStats.tokenTotal) },
     {
       label: 'BTD throughput',
-      value: formatNumber(detail?.processingStats.credits, { maximumFractionDigits: 1 }),
+      value: formatNumber(detail?.processingStats.btdUsed, { maximumFractionDigits: 1 }),
     },
     { label: 'Spend', value: formatUsd(detail?.processingStats.usdTotal) },
     {

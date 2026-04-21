@@ -8,7 +8,7 @@
 // Mocks for dependency modules
 import { createClient } from '@bitcode/supabase/ssr/server';
 import { supabaseAdmin } from '@bitcode/supabase';
-import { deductCredits } from '@bitcode/credits';
+import { deductBtdBalance } from '@bitcode/btd';
 import { runSDIVSPipeline } from '@bitcode/engine/pipeline';
 import { getGlobalContext, initializeContext } from '@bitcode/context';
 
@@ -20,8 +20,8 @@ jest.mock('@bitcode/supabase', () => ({
   supabaseAdmin: { from: jest.fn() },
 }));
 
-jest.mock('@bitcode/credits', () => ({
-  deductCredits: jest.fn(),
+jest.mock('@bitcode/btd', () => ({
+  deductBtdBalance: jest.fn(),
 }));
 
 jest.mock('@bitcode/engine/pipeline', () => ({
@@ -74,7 +74,7 @@ describe('/api/executions POST (streaming)', () => {
       }
     });
     // Stub credit deduction
-    (deductCredits as jest.Mock).mockResolvedValue(50);
+    (deductBtdBalance as jest.Mock).mockResolvedValue(50);
 
     // Stub Supabase admin calls for run creation and other tables
     const runId = 'run-abc';

@@ -26,7 +26,7 @@ Active canon remains `V26`.
 - `/auxillaries/btd`
   Canonical auxillary routes for direct auxillary reading without losing the application framing.
 
-Compatibility orbital aliases such as `/orbitals/users`, `/orbitals/models`, and `/orbitals/credits` are redirect-only convergence entry points and should not be treated as the enduring V26 naming model.
+Compatibility orbital aliases such as `/orbitals/users`, `/orbitals/models`, and `/orbitals/btd` are redirect-only convergence entry points and should not be treated as the enduring V26 naming model.
 Canonical `/auxillaries/*` routes and contained entry shells should teach auxillaries as the merged-world target, read as contained auxillary reads, and avoid regressing to generic workspace/settings/account language.
 Selected `/application` and `/auxillaries` review surfaces should also keep live product wording on `Transactions` and `Auxillaries` instead of drifting back toward `workspace` or `transaction terminal`.
 The shared auxillary metadata layer in `app/auxillaries/components/auxillary-pane-meta.ts` is the active owner for fullscreen auxillary-entry wording such as `Open Auxillaries fullscreen`, targeted auxillary-open actions, and the direct-route return action `Open transactions`.

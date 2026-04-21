@@ -29,7 +29,6 @@ export interface AuxillaryDataPayload {
   profile: unknown | null;
   githubConnection: unknown | null;
   btdBalance: number;
-  credits: number;
   modelPreferences: unknown | null;
   onboardedPanes: ConcreteAuxillaryPane[];
   onboarded_steps: ConcreteAuxillaryPane[];
@@ -110,7 +109,6 @@ export function buildAnonymousAuxillaryData(): AuxillaryDataPayload {
     profile: null,
     githubConnection: null,
     btdBalance: 0,
-    credits: 0,
     modelPreferences: null,
     onboardedPanes,
     onboarded_steps: onboardedPanes,
@@ -129,7 +127,7 @@ export function buildAuxillaryDataPayload({
   profile: unknown | null;
   githubConnection: unknown | null;
   btdBalance?: number;
-  credits: number;
+  credits?: number;
   modelPreferences: unknown | null;
   onboardedSteps: unknown;
 }): AuxillaryDataPayload {
@@ -145,9 +143,6 @@ export function buildAuxillaryDataPayload({
     profile,
     githubConnection,
     btdBalance: resolvedBtdBalance,
-    // Keep the old key during fifth-gate so older consumers keep working
-    // while the canonical contract moves to BTC/BTD-owned naming.
-    credits: resolvedBtdBalance,
     modelPreferences,
     onboardedPanes,
     onboarded_steps: onboardedPanes,

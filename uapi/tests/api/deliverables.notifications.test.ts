@@ -41,7 +41,7 @@ jest.mock('@bitcode/models', () => ({
   getModelPricing: () => ({ multiplier: 1 }),
   defaultModelPricing: { provider: 'openai', model: 'gpt-4o' },
 }));
-jest.mock('@bitcode/credits', () => ({ withCreditReservation: (_u: any, fn: any) => fn() }));
+jest.mock('@bitcode/btd', () => ({ withBtdReservation: (_u: any, fn: any) => fn() }));
 jest.mock('@bitcode/logger', () => ({
   log: jest.fn(),
   reinitLoggerFile: jest.fn(),

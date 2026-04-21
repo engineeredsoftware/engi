@@ -281,10 +281,10 @@ describe('Bitcode MCP Server Test Suite', () => {
           ...TEST_CONFIGURATIONS.COMPREHENSIVE_INTEGRATION.mocks,
           auth: {
             ...AUTH_CONTEXTS.LIMITED_USER,
-            creditBalance: 0,
+            btdBalance: 0,
             permissions: {
               pipelines: { create: false, read: false, cancel: false, retry: false },
-              organization: { manageMembers: false, viewAnalytics: false, manageCredits: false },
+              organization: { manageMembers: false, viewAnalytics: false, manageBtd: false },
               resources: { read: false, export: false }
             }
           }

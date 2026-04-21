@@ -20,7 +20,7 @@ const selectedTransaction: WorkspaceRun = {
   branch: 'application/refit',
   itemCount: 4,
   tokenTotal: 1200,
-  creditsTotal: 18.5,
+  btdUsed: 18.5,
   usdTotal: 0.84,
   averageLatencyMs: 850,
   proofStatus: 'bounded proof ready',
@@ -43,7 +43,7 @@ const detail: ApplicationRunDetailSnapshot = {
   processingStats: {
     time: '4m 12s',
     tokenTotal: 2200,
-    credits: 24.5,
+    btdUsed: 24.5,
     usdTotal: 1.62,
     averageLatencyMs: 930,
   },
@@ -183,7 +183,7 @@ describe('application-transaction-detail helpers', () => {
         processingStats: {
           time: '4m 12s',
           tokenTotal: 2200,
-          credits: 24.5,
+          btdUsed: 24.5,
           usdTotal: 1.62,
           averageLatencyMs: 930,
         },

@@ -70,7 +70,7 @@ const InterfacesPane = dynamic(() => import("./AuxillariesInterfacesPane"), {
 
 function parseAuxillaryPath(pathname: string | null): ConcreteAuxillaryPane | null {
   if (!pathname) return null;
-  const match = pathname.match(/\/(?:auxillaries|orbitals)\/(profile|users|connects|interfaces|btd|models|credits)\b/i);
+  const match = pathname.match(/\/(?:auxillaries|orbitals)\/(profile|users|connects|interfaces|btd|models)\b/i);
   if (!match) return null;
   return normalizeAuxillaryPane(match[1]);
 }

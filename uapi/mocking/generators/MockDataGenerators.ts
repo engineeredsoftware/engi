@@ -21,7 +21,7 @@ import type {
 import type {
   CompletionData,
   PipelineExecution,
-  AI DocumentRun,
+  AIDocumentRun,
   Account,
   Repository,
   IssueOrPR,
@@ -30,7 +30,7 @@ import type {
   DeliverableHistoryItem
 } from '@/types/api';
 
-import type { DeliverableTemplates, AI DocumentTemplates } from '@/types/templates';
+import type { DeliverableTemplates, AIDocumentTemplates } from '@/types/templates';
 import type { IntegrationOption } from '@/types/integrations';
 import type { Issue } from '@/types/issues';
 
@@ -152,7 +152,7 @@ export class MockDataGeneratorEngine {
 
     // Pipeline generators
     this.generators.set('DELIVERABLES', new DeliverableGenerator());
-    this.generators.set('UPGRADES', new AI DocumentGenerator());
+    this.generators.set('UPGRADES', new AIDocumentGenerator());
     this.generators.set('COMPLETION_DATA', new CompletionDataGenerator());
     this.generators.set('PIPELINE_LOGS', new PipelineLogGenerator());
 
@@ -678,8 +678,8 @@ class UserCreditsGenerator extends BaseDataGenerator {
 }
 
 // Placeholder generators for remaining features
-class AI DocumentGenerator extends BaseDataGenerator {
-  async generate(context: GeneratorContext, config: GeneratorConfig): Promise<AI DocumentRun[]> {
+class AIDocumentGenerator extends BaseDataGenerator {
+  async generate(context: GeneratorContext, config: GeneratorConfig): Promise<AIDocumentRun[]> {
     return []; // Implementation similar to DeliverableGenerator
   }
 }

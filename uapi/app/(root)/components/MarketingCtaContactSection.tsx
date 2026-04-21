@@ -179,7 +179,7 @@ const MarketingCtaContactSection: React.FC = () => {
                         src="/icons/logo.svg"
                         width={47}
                         height={47}
-                        alt="Bitcode credit"
+                        alt="Bitcode BTD unit"
                         className="w-[47px] h-[47px] drop-shadow-[0_0_14px_rgba(145,251,188,0.9)] animate-pulse-slow"
                       />
                       <span className="text-3xl font-semibold text-gray-200">≈ $0.10</span>

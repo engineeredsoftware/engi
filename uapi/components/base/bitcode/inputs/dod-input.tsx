@@ -37,6 +37,7 @@ interface DodInputProps {
   /** Callbacks */
   onPatternRecognized?: (patterns: any[]) => void;
   onConfidenceChange?: (confidence: number) => void;
+  onBtdEstimated?: (btdAmount: number) => void;
   onCreditsEstimated?: (credits: number) => void;
   
   /** Styling */
@@ -56,6 +57,7 @@ export const DodInput = ({
   placeholder = "Define what you want to create...",
   onPatternRecognized,
   onConfidenceChange,
+  onBtdEstimated,
   onCreditsEstimated,
   className = ''
 }: DodInputProps) => {
@@ -108,8 +110,9 @@ export const DodInput = ({
   }, [confidence, onConfidenceChange]);
   
   useEffect(() => {
+    onBtdEstimated?.(suggestedCredits);
     onCreditsEstimated?.(suggestedCredits);
-  }, [suggestedCredits, onCreditsEstimated]);
+  }, [suggestedCredits, onBtdEstimated, onCreditsEstimated]);
   
   // Mouse tracking for interactive effects
   useEffect(() => {
@@ -365,7 +368,7 @@ export const DodInput = ({
                   {/* Cost estimation */}
                   {suggestedCredits && (
                     <div className="flex items-center justify-between text-xs text-gray-400">
-                      <span>Estimated: {suggestedCredits} credits, ~{suggestedDuration}min</span>
+                      <span>Estimated: {suggestedCredits} $BTD, ~{suggestedDuration}min</span>
                       <span className={`
                         px-2 py-1 rounded
                         ${confidence > 0.8 ? 'bg-green-500/20 text-green-400' :

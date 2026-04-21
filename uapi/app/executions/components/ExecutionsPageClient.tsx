@@ -185,7 +185,7 @@ export function ExecutionsClient() {
         const res = await fetch('/api/auxillaries/data');
         if (res.ok && !cancelled) {
           const data = await res.json();
-          if (data.vcsConnections?.length > 0 && data.credits > 0) setOnboardingAllowed(true);
+          if (data.vcsConnections?.length > 0 && data.btdBalance > 0) setOnboardingAllowed(true);
         }
       } catch {}
       if (!cancelled) setOnboardingChecked(true);

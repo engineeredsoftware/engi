@@ -262,7 +262,7 @@
       // Legacy utils aliases – `uapi/utils` folder has been removed. These
       // mappings keep existing import paths working without code changes.
       // -----------------------------------------------------------------
-      "@/utils/credit-plans": ["../packages/credits/src/plans.ts"],
+      "@/utils/btd-plans": ["../packages/btd/src/plans.ts"],
       "@/utils/model-pricing": ["../packages/models/src/pricing.ts"],
       "@/lib/git": ["../packages/git/src"],
       "@/lib/git/*": ["../packages/git/src/*"],

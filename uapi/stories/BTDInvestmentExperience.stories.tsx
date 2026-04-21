@@ -1,18 +1,18 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import { useState, useEffect } from 'react';
-import { CreditInvestmentExperience } from '../app/components/credit-investment-experience';
+import { MarketingBtdInvestmentExperience } from '../app/(root)/components/MarketingBtdInvestmentExperience';
 
-const meta: Meta<typeof CreditInvestmentExperience> = {
-  title: 'Bitcode/Surprise & Delight/Credit Investment Experience',
-  component: CreditInvestmentExperience,
+const meta: Meta<typeof MarketingBtdInvestmentExperience> = {
+  title: 'Bitcode/Surprise & Delight/BTD Investment Experience',
+  component: MarketingBtdInvestmentExperience,
   parameters: {
     layout: 'fullscreen',
     docs: {
       description: {
         component: `
-### 💰 Credit Investment Experience - Magical Value Alchemy
+### 💰 BTD Investment Experience - Magical Value Alchemy
 
-Transforms credit allocation into intelligent value visualization with magical enhancement effects:
+Transforms BTD allocation into intelligent value visualization with magical enhancement effects:
 
 - **Investment alchemy** - Calculates magical value multipliers based on efficiency, learning, and reusability
 - **ROI visualization** - Shows return on investment trends with animated value counters and efficiency charts
@@ -20,10 +20,10 @@ Transforms credit allocation into intelligent value visualization with magical e
 - **Value projection** - Predicts future deliverable value based on historical performance patterns
 - **Magical moments** - Celebrates exceptional efficiency achievements with particle effects
 - **Pattern mastery tracking** - Visualizes learning acceleration and skill development over time
-- **Cosmic value calculation** - Transcendent metrics beyond mere credit counting
+- **Cosmic value calculation** - Transcendent metrics beyond mere BTD counting
 - **Investment optimization** - Suggests potential savings and efficiency improvements
 
-The system transforms mundane resource allocation into **magical value alchemy** - making every credit investment feel meaningful and every efficiency gain a celebration of growing mastery.
+The system transforms mundane resource allocation into **magical value alchemy** - making every BTD investment feel meaningful and every efficiency gain a celebration of growing mastery.
         `,
       },
     },
@@ -572,7 +572,7 @@ export const InvestmentJourney: Story = {
         </div>
         
         {/* Credit Investment Experience */}
-        <CreditInvestmentExperience
+        <MarketingBtdInvestmentExperience
           investments={currentProfile.investments}
           currentBalance={currentProfile.balance}
           upcomingDeliverable={{
@@ -706,7 +706,7 @@ export const MagicalEnhancementComparison: Story = {
           </div>
         </div>
         
-        <CreditInvestmentExperience
+        <MarketingBtdInvestmentExperience
           investments={sampleInvestments}
           currentBalance={3500}
           upcomingDeliverable={{

@@ -3,7 +3,7 @@ import { MODEL_CONFIGS, BATCH_SUMMARY_MODEL, logInfo, logError, SupportedModel }
 import { PIPELINE_CONSTANTS } from '@/lib/engine/constants';
 import { callGemini } from '@/llm/geminiClient';
 import { callAnthropic } from '@/llm/anthropicClient';
-import { estimateTokens, deductGenerationCredits, GenerationTokens } from '@bitcode/credits';
+import { estimateTokens, deductGenerationBtd, GenerationTokens } from '@bitcode/btd';
 import { createClient } from '@bitcode/supabase';
 import { log } from '@bitcode/logger';
 
@@ -62,7 +62,7 @@ export async function callLLMAPI(
       data: { user }
     } = await supabase.auth.getUser();
     if (user?.id) {
-      await deductGenerationCredits(user.id, tokens);
+      await deductGenerationBtd(user.id, tokens);
       log(`Deducted credits for generation in digest`, 'info', { userId: user.id, ...tokens });
     }
   } catch (err) {

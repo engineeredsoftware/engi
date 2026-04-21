@@ -40,6 +40,8 @@ const marketingMultiAgentShowcaseSource = readFileSync(new URL('../../uapi/app/(
 const marketingFeaturesGridSource = readFileSync(new URL('../../uapi/app/(root)/components/MarketingFeaturesGrid.tsx', import.meta.url), 'utf8');
 const marketingComputeSectionSource = readFileSync(new URL('../../uapi/app/(root)/components/MarketingComputeSection.tsx', import.meta.url), 'utf8');
 const marketingMarketplaceSectionSource = readFileSync(new URL('../../uapi/app/(root)/components/MarketingMarketplaceSection.tsx', import.meta.url), 'utf8');
+const marketingFaqSectionSource = readFileSync(new URL('../../uapi/app/(root)/components/MarketingFaqSection.tsx', import.meta.url), 'utf8');
+const marketingSmsPhonePreviewSource = readFileSync(new URL('../../uapi/app/(root)/components/MarketingSmsPhonePreview.tsx', import.meta.url), 'utf8');
 const marketingCompetitorTableSectionSource = readFileSync(new URL('../../uapi/app/(root)/components/MarketingCompetitorTableSection.tsx', import.meta.url), 'utf8');
 const marketingCompetitorTableStylesSource = readFileSync(new URL('../../uapi/app/(root)/components/marketing-competitor-table-section.module.css', import.meta.url), 'utf8');
 const executionsPageClientSource = readFileSync(new URL('../../uapi/app/executions/components/ExecutionsPageClient.tsx', import.meta.url), 'utf8');
@@ -71,6 +73,11 @@ const auxillariesDataSharingPanelSource = readFileSync(new URL('../../uapi/app/a
 const auxillaryPaneExplainersSource = readFileSync(new URL('../../uapi/app/auxillaries/components/auxillary-pane-explainers.ts', import.meta.url), 'utf8');
 const auxillariesProfilePaneStylesSource = readFileSync(new URL('../../uapi/app/auxillaries/components/profile-pane.module.css', import.meta.url), 'utf8');
 const auxillaryOnboardingContractSource = readFileSync(new URL('../../uapi/app/auxillaries/auxillary-onboarding-contract.ts', import.meta.url), 'utf8');
+const userDataContextSource = readFileSync(new URL('../../uapi/context/UserDataContext.tsx', import.meta.url), 'utf8');
+const useUserDataSource = readFileSync(new URL('../../uapi/hooks/useUserData.ts', import.meta.url), 'utf8');
+const checkoutCallbackClientSource = readFileSync(new URL('../../uapi/app/checkout/callback/CheckoutCallbackClient.tsx', import.meta.url), 'utf8');
+const nextConfigSource = readFileSync(new URL('../../uapi/next.config.mjs', import.meta.url), 'utf8');
+const securityHeadersSource = readFileSync(new URL('../../uapi/middleware/security-headers.ts', import.meta.url), 'utf8');
 const mockingIndexSource = readFileSync(new URL('../../uapi/mocking/index.ts', import.meta.url), 'utf8');
 const mockingReadmeSource = readFileSync(new URL('../../uapi/mocking/README.md', import.meta.url), 'utf8');
 const mockingIntegrationGuideSource = readFileSync(new URL('../../uapi/mocking/INTEGRATION_GUIDE.md', import.meta.url), 'utf8');
@@ -118,6 +125,7 @@ const promptCodeStylesIdentitySource = readFileSync(new URL('../../packages/prom
 const promptCodeStylesBaseSource = readFileSync(new URL('../../packages/prompts/src/raw_promptparts/specific/promptpart_specific_tool_digest_codestyles_base_core.ts', import.meta.url), 'utf8');
 const bitcodeDemoSource = readFileSync(new URL('../src/bitcode-demo.js', import.meta.url), 'utf8');
 const bitcodeCoreSource = readFileSync(new URL('../src/bitcode-core.js', import.meta.url), 'utf8');
+const settlementSource = readFileSync(new URL('../src/canonical/settlement.js', import.meta.url), 'utf8');
 const demoScenarioSource = readFileSync(new URL('../src/demo-scenario.js', import.meta.url), 'utf8');
 const receiptSchemasSource = readFileSync(new URL('../src/receipt-schemas.js', import.meta.url), 'utf8');
 const seedSource = readFileSync(new URL('../src/seed.js', import.meta.url), 'utf8');
@@ -194,8 +202,8 @@ const attachmentsGenericsPackageSource = readFileSync(new URL('../../packages/at
 const attachmentsGenericsReadmeSource = readFileSync(new URL('../../packages/attachments-generics/README.md', import.meta.url), 'utf8');
 const attachmentsGenericsIndexSource = readFileSync(new URL('../../packages/attachments-generics/src/index.ts', import.meta.url), 'utf8');
 const attachmentsGenericsTypesSource = readFileSync(new URL('../../packages/attachments-generics/src/types.ts', import.meta.url), 'utf8');
-const creditsIndexSource = readFileSync(new URL('../../packages/credits/src/index.ts', import.meta.url), 'utf8');
-const creditsPlansSource = readFileSync(new URL('../../packages/credits/src/plans.ts', import.meta.url), 'utf8');
+const btdIndexSource = readFileSync(new URL('../../packages/btd/src/index.ts', import.meta.url), 'utf8');
+const btdPlansSource = readFileSync(new URL('../../packages/btd/src/plans.ts', import.meta.url), 'utf8');
 const digestReadmeSource = readFileSync(new URL('../../packages/digest/README.md', import.meta.url), 'utf8');
 const digestCachingSource = readFileSync(new URL('../../packages/digest/caching/index.ts', import.meta.url), 'utf8');
 const digestCachingTestSource = readFileSync(new URL('../../packages/digest/caching/__tests__/caching.test.ts', import.meta.url), 'utf8');
@@ -454,7 +462,8 @@ const errorRecoveryGraceStorySource = readFileSync(new URL('../../uapi/stories/E
 const memoryManifestationStorySource = readFileSync(new URL('../../uapi/stories/MemoryManifestation.stories.tsx', import.meta.url), 'utf8');
 const pipelinePhasePoetryStorySource = readFileSync(new URL('../../uapi/stories/PipelinePhasePoetry.stories.tsx', import.meta.url), 'utf8');
 const consciousConversationsOrbStorySource = readFileSync(new URL('../../uapi/stories/ConsciousConversationsOrb.stories.tsx', import.meta.url), 'utf8');
-const creditInvestmentExperienceStorySource = readFileSync(new URL('../../uapi/stories/CreditInvestmentExperience.stories.tsx', import.meta.url), 'utf8');
+const btdInvestmentExperienceStorySource = readFileSync(new URL('../../uapi/stories/BTDInvestmentExperience.stories.tsx', import.meta.url), 'utf8');
+const marketingBtdInvestmentExperienceSource = readFileSync(new URL('../../uapi/app/(root)/components/MarketingBtdInvestmentExperience.tsx', import.meta.url), 'utf8');
 const intelligentProcessingIndicatorStorySource = readFileSync(new URL('../../uapi/stories/IntelligentProcessingIndicator.stories.tsx', import.meta.url), 'utf8');
 const userAccountOrbitalStorySource = readFileSync(new URL('../../uapi/stories/user/AccountOrbital.stories.tsx', import.meta.url), 'utf8');
 const markdownElementsStorySource = readFileSync(new URL('../../uapi/stories/docs/MarkdownElements.stories.tsx', import.meta.url), 'utf8');
@@ -800,7 +809,10 @@ test('active V26 shared surface primitives use Bitcode naming instead of Engi na
   assert.match(marketingFeaturesGridSource, /bitcode@feature:~\//);
   assert.match(marketingFeaturesGridSource, /bitcode\.feature\.load/);
   assert.match(marketingComputeSectionSource, /s3:\/\/bitcode-runs\/42GPU\/checkout\//);
-  assert.match(marketingMarketplaceSectionSource, /Amount of Bitcode credits involved in this listing/);
+  assert.match(marketingMarketplaceSectionSource, /Amount of Bitcode `?\$BTD`? involved in this listing/);
+  assert.match(marketingMarketplaceSectionSource, /settling \$BTD/);
+  assert.match(marketingFaqSectionSource, /coins', 'tokens', and '\$BTD'/);
+  assert.match(marketingSmsPhonePreviewSource, /45 \$BTD/);
   assert.doesNotMatch(marketingMultiAgentShowcaseSource, /engi@terminal:~\/api/);
   assert.doesNotMatch(marketingMultiAgentShowcaseSource, /marketplace\/engi-github-app/);
   assert.doesNotMatch(marketingMultiAgentShowcaseSource, /engi-deliver-/);
@@ -808,6 +820,9 @@ test('active V26 shared surface primitives use Bitcode naming instead of Engi na
   assert.doesNotMatch(marketingFeaturesGridSource, /engi\.feature\.load/);
   assert.doesNotMatch(marketingComputeSectionSource, /s3:\/\/engi-runs\/42GPU\/checkout\//);
   assert.doesNotMatch(marketingMarketplaceSectionSource, /Amount of Engi credits involved in this listing/);
+  assert.doesNotMatch(marketingMarketplaceSectionSource, /spending credits to acquire/);
+  assert.doesNotMatch(marketingFaqSectionSource, /coins', 'tokens', and 'credits'/);
+  assert.doesNotMatch(marketingSmsPhonePreviewSource, /45 credits/);
   assert.match(marketingCompetitorTableSectionSource, /\bBitcodeAdvantageCard\b/);
   assert.match(marketingCompetitorTableSectionSource, /\bBITCODE_CRUSH_COPY\b/);
   assert.match(marketingCompetitorTableSectionSource, /marketing-bitcode-row-glow/);
@@ -978,6 +993,13 @@ test('active V26 canon posture and preserved runtime state use bitcode policy an
   assert.match(orbitalsPaneExplainersSource, /auxillaryPaneExplainers as orbitalsPaneExplainers/);
   assert.doesNotMatch(auxillaryOnboardingContractSource, /"models","credits"/);
   assert.doesNotMatch(auxillaryOnboardingContractSource, /\? 'credits'/);
+  assert.doesNotMatch(userDataContextSource, /\bcredits:\s*number/);
+  assert.doesNotMatch(useUserDataSource, /credits_cached/);
+  assert.doesNotMatch(useUserDataSource, /credits:\s*btdBalance/);
+  assert.doesNotMatch(checkoutCallbackClientSource, /successfully purchased .*credits/i);
+  assert.doesNotMatch(checkoutCallbackClientSource, /your credits are ready to use/i);
+  assert.doesNotMatch(nextConfigSource, /source:\s*'\/orbitals\/credits'/);
+  assert.doesNotMatch(securityHeadersSource, /\/api\/credits/);
 
   assert.match(canonPostureSource, /policy:\/\/bitcode\//);
   assert.match(canonPostureSource, /const CURRENT_PROJECT_LABEL = 'Bitcode'/);
@@ -1452,8 +1474,8 @@ test('active V26 retained package surfaces use Bitcode naming instead of Engi na
   assert.match(attachmentsGenericsReadmeSource, /attachments in Bitcode fall into exactly 4 categories/);
   assert.match(attachmentsGenericsIndexSource, /across the entire Bitcode codebase/);
   assert.match(attachmentsGenericsTypesSource, /Universal attachment definitions for Bitcode/);
-  assert.match(creditsIndexSource, /when Bitcode supports new models or vendors/);
-  assert.match(creditsPlansSource, /Try Bitcode with a small project or quick fix/);
+  assert.match(btdIndexSource, /when Bitcode supports new models or vendors/);
+  assert.match(btdPlansSource, /Try Bitcode with a small project or quick fix/);
   assert.match(techTypesReadmeSource, /definitions for the Bitcode platform/);
   assert.match(techTypesReadmeSource, /across the Bitcode platform/);
   assert.match(techTypesReadmeSource, /used to measure technical needs/);
@@ -1569,7 +1591,9 @@ test('active V26 retained package surfaces use Bitcode naming instead of Engi na
   assert.match(memoryManifestationStorySource, /Bitcode\/Surprise & Delight\/Memory Manifestation/);
   assert.match(pipelinePhasePoetryStorySource, /Bitcode\/Surprise & Delight\/Pipeline Phase Poetry/);
   assert.match(consciousConversationsOrbStorySource, /Bitcode\/Surprise & Delight\/Conscious Conversations Orb/);
-  assert.match(creditInvestmentExperienceStorySource, /Bitcode\/Surprise & Delight\/Credit Investment Experience/);
+  assert.match(btdInvestmentExperienceStorySource, /Bitcode\/Surprise & Delight\/BTD Investment Experience/);
+  assert.match(marketingBtdInvestmentExperienceSource, /btd-investment-experience/);
+  assert.match(marketingBtdInvestmentExperienceSource, /\$BTD/);
   assert.match(intelligentProcessingIndicatorStorySource, /Bitcode\/Surprise & Delight\/Intelligent Processing Indicator/);
   assert.match(userAccountOrbitalStorySource, /Bitcode\/Auxillaries\/Account Orbital/);
   assert.match(userAccountOrbitalStorySource, /Bitcode Engineer/);
@@ -1620,8 +1644,8 @@ test('active V26 retained package surfaces use Bitcode naming instead of Engi na
   assert.doesNotMatch(attachmentsGenericsReadmeSource, /attachments in Engi fall into exactly 4 categories/);
   assert.doesNotMatch(attachmentsGenericsIndexSource, /across the entire Engi codebase/);
   assert.doesNotMatch(attachmentsGenericsTypesSource, /Universal attachment definitions for Engi/);
-  assert.doesNotMatch(creditsIndexSource, /when Engi supports new models or vendors/);
-  assert.doesNotMatch(creditsPlansSource, /Try Engi with a small project or quick fix/);
+  assert.doesNotMatch(btdIndexSource, /when Engi supports new models or vendors/);
+  assert.doesNotMatch(btdPlansSource, /Try Engi with a small project or quick fix/);
   assert.doesNotMatch(techTypesReadmeSource, /for ENGI platform/);
   assert.doesNotMatch(techTypesReadmeSource, /across ENGI platform/);
   assert.doesNotMatch(techTypesReadmeSource, /generic taxonomy sidecar/i);
@@ -1657,6 +1681,8 @@ test('active V26 retained package surfaces use Bitcode naming instead of Engi na
   assert.doesNotMatch(apiAuxillariesRouteSource, /\bENGI\b/);
   assert.doesNotMatch(apiAuxillariesContractSource, /"models","credits"/);
   assert.doesNotMatch(apiAuxillariesContractSource, /\? 'credits'/);
+  assert.match(settlementSource, /journalDiff\.credits/);
+  assert.match(settlementSource, /journalDiff\.debits/);
   assert.doesNotMatch(auxillariesOnboardingApiRouteSource, /supabaseAdmin/);
   assert.doesNotMatch(auxillariesOnboardingApiRouteSource, /createClient/);
   assert.doesNotMatch(auxillariesDataApiRouteSource, /supabaseAdmin/);
@@ -1697,7 +1723,9 @@ test('active V26 retained package surfaces use Bitcode naming instead of Engi na
   assert.doesNotMatch(memoryManifestationStorySource, /Engi\/Surprise & Delight\/Memory Manifestation/);
   assert.doesNotMatch(pipelinePhasePoetryStorySource, /Engi\/Surprise & Delight\/Pipeline Phase Poetry/);
   assert.doesNotMatch(consciousConversationsOrbStorySource, /Engi\/Surprise & Delight\/Conscious Conversations Orb/);
-  assert.doesNotMatch(creditInvestmentExperienceStorySource, /Engi\/Surprise & Delight\/Credit Investment Experience/);
+  assert.doesNotMatch(btdInvestmentExperienceStorySource, /Engi\/Surprise & Delight\/Credit Investment Experience/);
+  assert.doesNotMatch(marketingBtdInvestmentExperienceSource, /credit-investment-experience/);
+  assert.doesNotMatch(nextConfigSource, /\/orbitals\/credits/);
   assert.doesNotMatch(intelligentProcessingIndicatorStorySource, /Engi\/Surprise & Delight\/Intelligent Processing Indicator/);
   assert.doesNotMatch(userAccountOrbitalStorySource, /Engi Engineer/);
   assert.doesNotMatch(markdownElementsStorySource, /Hello, Engi!/);
@@ -2094,7 +2122,7 @@ test('active V26 retained package surfaces use Bitcode naming instead of Engi na
   assert.match(productGuideSource, /Auxillaries live under `\/auxillaries\/\*`/);
   assert.doesNotMatch(productGuideSource, /# Engi GA-1 Product Guide/);
 
-  assert.match(uapiEnvExampleSource, /one Bitcode credit/);
+  assert.match(uapiEnvExampleSource, /one Bitcode `?\$BTD`? unit/);
   assert.doesNotMatch(uapiEnvExampleSource, /one Engi credit/);
 
   assert.match(loggerPackageSource, /Shared logging utilities for the Bitcode monorepo/);

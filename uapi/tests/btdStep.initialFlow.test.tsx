@@ -42,7 +42,6 @@ describe('BtdStep Returning User Flow', () => {
       },
       hasGitHubConnection: true,
       btdBalance: 200,
-      credits: 200,
       isLoading: false,
       error: null,
       refresh: jest.fn(),

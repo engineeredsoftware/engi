@@ -16,7 +16,7 @@ import {
   UsersModel,
   UserProfilesModel,
   UserApiKeysModel,
-  UserCreditsModel,
+  UserBtdBalancesModel,
   OrganizationsModel,
   OrganizationMembersModel
 } from '@bitcode/orm';
@@ -44,11 +44,11 @@ export interface MCPAuthOptions {
   requireOrganization?: boolean;
   requiredPermissions?: {
     pipelines?: Array<'create' | 'read' | 'cancel' | 'retry'>;
-    organization?: Array<'manageMembers' | 'viewAnalytics' | 'manageCredits'>;
+    organization?: Array<'manageMembers' | 'viewAnalytics' | 'manageBtd'>;
     resources?: Array<'read' | 'export'>;
   };
   minimumRole?: 'viewer' | 'member' | 'admin' | 'owner';
-  minimumCredits?: number;
+  minimumBtd?: number;
 }
 
 export const authCache = new LRUCache<string, MCPAuthContext>(10000);
@@ -100,7 +100,7 @@ export async function authenticateMCPRequest(
     const supabase = createClient();
     const users = new UsersModel(supabase);
     const userApiKeys = new UserApiKeysModel(supabase);
-    const userCredits = new UserCreditsModel(supabase);
+    const userBtdBalances = new UserBtdBalancesModel(supabase);
     const organizations = new OrganizationsModel(supabase);
     const organizationMembers = new OrganizationMembersModel(supabase);
 
@@ -159,10 +159,10 @@ export async function authenticateMCPRequest(
       // conservative defaults; will be updated below
       permissions: {
         pipelines: { create: false, read: true, cancel: false, retry: false },
-        organization: { manageMembers: false, viewAnalytics: false, manageCredits: false },
+        organization: { manageMembers: false, viewAnalytics: false, manageBtd: false },
         resources: { read: true, export: false }
       },
-      creditBalance: 0,
+      btdBalance: 0,
       mcpCredentials: {}
     } as MCPAuthContext;
 
@@ -219,9 +219,9 @@ export async function authenticateMCPRequest(
 
     // Check credit requirements
     // Always fetch credit balance for context (and optionally enforce minimum)
-    const credits = await userCredits.getByUserId(user.id);
-    const balance = credits?.balance || 0;
-    context.creditBalance = balance;
+    const btdBalanceRecord = await userBtdBalances.getByUserId(user.id);
+    const balance = btdBalanceRecord?.balance || 0;
+    context.btdBalance = balance;
 
     // Compute permissions from role/scopes/org permissions
     context.permissions = derivePermissions(context);
@@ -279,12 +279,12 @@ function validateAuthenticatedContext(
     }
   }
 
-  if (options.minimumCredits && options.minimumCredits > 0 && context.creditBalance < options.minimumCredits) {
+  if (options.minimumBtd && options.minimumBtd > 0 && context.btdBalance < options.minimumBtd) {
     return {
       success: false,
       error: {
-        code: 'INSUFFICIENT_CREDITS',
-        message: `Requires at least ${options.minimumCredits} credits (current balance: ${context.creditBalance})`,
+        code: 'INSUFFICIENT_BTD',
+        message: `Requires at least ${options.minimumBtd} BTD (current balance: ${context.btdBalance})`,
         statusCode: 402
       }
     };
@@ -403,7 +403,7 @@ function derivePermissions(context: MCPAuthContext): MCPAuthContext['permissions
     organization: {
       manageMembers: has('organization', 'manageMembers'),
       viewAnalytics: has('organization', 'viewAnalytics'),
-      manageCredits: has('organization', 'manageCredits')
+      manageBtd: has('organization', 'manageBtd')
     },
     resources: {
       read: has('resources', 'read') || true,

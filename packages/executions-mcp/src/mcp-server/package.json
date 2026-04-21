@@ -32,7 +32,7 @@
     "@bitcode/pipeline-deliverable": "workspace:*",
     "@bitcode/supabase": "workspace:*",
     "@bitcode/auth": "workspace:*",
-    "@bitcode/credits": "workspace:*",
+    "@bitcode/btd": "workspace:*",
     "@bitcode/logger": "workspace:*",
     "@bitcode/observability": "workspace:*",
     "@bitcode/networking": "workspace:*",

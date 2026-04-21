@@ -222,7 +222,7 @@ async function getPipelineHistory(context: MCPAuthContext, filters: any = {}): P
           startTime: r.started_at,
           endTime: r.completed_at,
           duration: r.execution_time_ms,
-          creditsUsed: metadata?.creditsUsed || 0,
+          btdUsed: (metadata?.btdUsed ?? metadata?.creditsUsed) || 0,
           confidence: metadata?.confidence || 0,
           hasError: !!r.error_message
         };

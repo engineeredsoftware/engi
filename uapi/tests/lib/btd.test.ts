@@ -2,7 +2,7 @@
  * @jest-environment node
  */
 import { supabaseAdmin } from '@bitcode/supabase';
-import { deductCredits, InsufficientCreditsError } from '@bitcode/credits';
+import { deductBtdBalance, InsufficientBtdBalanceError } from '@bitcode/btd';
 
 jest.mock('@bitcode/supabase', () => ({
   supabaseAdmin: {
@@ -11,7 +11,7 @@ jest.mock('@bitcode/supabase', () => ({
   }
 }));
 
-describe('deductCredits()', () => {
+describe('deductBtdBalance()', () => {
   const userId = 'user-1';
 
   beforeEach(() => {
@@ -20,7 +20,7 @@ describe('deductCredits()', () => {
 
   it('uses RPC path when function exists and returns new balance', async () => {
     (supabaseAdmin.rpc as jest.Mock).mockResolvedValue({ data: 80, error: null });
-    const bal = await deductCredits(userId, 20);
+    const bal = await deductBtdBalance(userId, 20);
     expect(bal).toBe(80);
     expect(supabaseAdmin.rpc).toHaveBeenCalledWith('deduct_credits', { p_user_id: userId, p_amount: 20 });
   });
@@ -43,7 +43,7 @@ describe('deductCredits()', () => {
       return {};
     });
 
-    const bal = await deductCredits(userId, 30); // previous 50 => new 20
+    const bal = await deductBtdBalance(userId, 30); // previous 50 => new 20
     expect(bal).toBe(20);
     expect(upsertMock).toHaveBeenCalled();
     expect(insertMock).toHaveBeenCalled();
@@ -62,6 +62,6 @@ describe('deductCredits()', () => {
       return {};
     });
 
-    await expect(deductCredits(userId, 30)).rejects.toThrow(InsufficientCreditsError);
+    await expect(deductBtdBalance(userId, 30)).rejects.toThrow(InsufficientBtdBalanceError);
   });
 });

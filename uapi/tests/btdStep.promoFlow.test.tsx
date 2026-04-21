@@ -59,7 +59,6 @@ describe('BtdStep Promo Code Flow', () => {
       },
       hasGitHubConnection: true,
       btdBalance: 1200,
-      credits: 1200,
       isLoading: false,
       error: null,
       refresh: jest.fn(),

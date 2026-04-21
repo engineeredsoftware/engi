@@ -50,10 +50,10 @@ describe('Bitcode MCP Server Integration Tests', () => {
         role: 'owner',
         permissions: {
           pipelines: { create: true, read: true, cancel: true, retry: true },
-          organization: { manageMembers: true, viewAnalytics: true, manageCredits: true },
+          organization: { manageMembers: true, viewAnalytics: true, manageBtd: true },
           resources: { read: true, export: true }
         },
-        creditBalance: 1000,
+        btdBalance: 1000,
         mcpCredentials: {}
       }
     );
@@ -81,10 +81,10 @@ describe('Bitcode MCP Server Integration Tests', () => {
           role: 'owner',
           permissions: {
             pipelines: { create: true, read: true, cancel: true, retry: true },
-            organization: { manageMembers: true, viewAnalytics: true, manageCredits: true },
+            organization: { manageMembers: true, viewAnalytics: true, manageBtd: true },
             resources: { read: true, export: true }
           },
-          creditBalance: 1000,
+          btdBalance: 1000,
           mcpCredentials: {}
         },
         { maxExecutionTime: 5 }

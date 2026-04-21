@@ -30,10 +30,10 @@ export const AUTH_CONTEXTS = {
     role: 'owner',
     permissions: {
       pipelines: { create: true, read: true, cancel: true, retry: true },
-      organization: { manageMembers: true, viewAnalytics: true, manageCredits: true },
+      organization: { manageMembers: true, viewAnalytics: true, manageBtd: true },
       resources: { read: true, export: true }
     },
-    creditBalance: 10000,
+    btdBalance: 10000,
     mcpCredentials: {
       github: { token: 'mock-github-token' },
       aws: { accessKeyId: 'mock-aws-key', secretAccessKey: 'mock-aws-secret' },
@@ -47,10 +47,10 @@ export const AUTH_CONTEXTS = {
     role: 'admin',
     permissions: {
       pipelines: { create: true, read: true, cancel: true, retry: true },
-      organization: { manageMembers: true, viewAnalytics: true, manageCredits: false },
+      organization: { manageMembers: true, viewAnalytics: true, manageBtd: false },
       resources: { read: true, export: true }
     },
-    creditBalance: 5000,
+    btdBalance: 5000,
     mcpCredentials: {
       github: { token: 'mock-github-token' },
       figma: { token: 'mock-figma-token' }
@@ -63,10 +63,10 @@ export const AUTH_CONTEXTS = {
     role: 'dev',
     permissions: {
       pipelines: { create: true, read: true, cancel: false, retry: false },
-      organization: { manageMembers: false, viewAnalytics: false, manageCredits: false },
+      organization: { manageMembers: false, viewAnalytics: false, manageBtd: false },
       resources: { read: true, export: false }
     },
-    creditBalance: 1000,
+    btdBalance: 1000,
     mcpCredentials: {
       github: { token: 'mock-github-token' }
     }
@@ -78,10 +78,10 @@ export const AUTH_CONTEXTS = {
     role: 'dev',
     permissions: {
       pipelines: { create: false, read: true, cancel: false, retry: false },
-      organization: { manageMembers: false, viewAnalytics: false, manageCredits: false },
+      organization: { manageMembers: false, viewAnalytics: false, manageBtd: false },
       resources: { read: false, export: false }
     },
-    creditBalance: 0,
+    btdBalance: 0,
     mcpCredentials: {}
   } as MCPAuthContext
 };
@@ -210,7 +210,7 @@ export const PIPELINE_RESULTS = {
       }
     ],
     metrics: {
-      creditsUsed: 150,
+      btdUsed: 150,
       tokensProcessed: 25000,
       confidence: 0.92,
       phases: {
@@ -306,7 +306,7 @@ export const STREAMING_EVENTS = {
       message: 'Pipeline completed successfully',
       metadata: {
         totalDuration: 900000,
-        creditsUsed: 150,
+        btdUsed: 150,
         deliverables: 2
       },
       confidence: 0.92

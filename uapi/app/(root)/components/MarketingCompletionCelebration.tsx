@@ -419,9 +419,9 @@ export const MarketingCompletionCelebration = ({
                 </div>
                 
                 <div className="bg-brand-cosmic-dark/50 rounded-lg p-3">
-                  <div className="text-gray-400">Credits</div>
+                  <div className="text-gray-400">$BTD</div>
                   <div className="text-brand-emerald font-medium">
-                    {milestone.creditsUsed}c
+                    {milestone.creditsUsed} $BTD
                   </div>
                 </div>
                 

@@ -12,8 +12,8 @@ export { BaseModel } from './base';
 export { UserProfilesModel } from './user-profiles';
 export { UserConnectionsModel } from './user-connections';
 export { UserModelPreferencesModel } from './user-model-preferences';
-export { UserCreditsModel } from './user-credits';
-export { UserCreditUsagesModel } from './user-credit-usages';
+export { UserBtdBalancesModel } from './user-btd-balances';
+export { UserBtdTransactionsModel } from './user-btd-transactions';
 
 // Deliverable models (GA-1)
 export { DeliverablesModel } from './deliverables';
@@ -46,16 +46,16 @@ export type {
 } from './user-model-preferences';
 
 export type {
-  UserCredits,
-  UserCreditsInsert,
-  UserCreditsUpdate,
-} from './user-credits';
+  UserBtdBalance,
+  UserBtdBalanceInsert,
+  UserBtdBalanceUpdate,
+} from './user-btd-balances';
 
 export type {
-  UserCreditUsage,
-  UserCreditUsageInsert,
-  UserCreditUsageUpdate,
-} from './user-credit-usages';
+  UserBtdTransaction,
+  UserBtdTransactionInsert,
+  UserBtdTransactionUpdate,
+} from './user-btd-transactions';
 
 export type {
   PipelineRun,

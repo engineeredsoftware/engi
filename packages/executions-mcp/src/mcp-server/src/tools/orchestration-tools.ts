@@ -553,7 +553,7 @@ async function executeSinglePipeline(pipeline: any, previousResult: any, context
     success: Math.random() > 0.1, // 90% success rate
     pipelineId: pipeline.id || uuidv4(),
     duration: Math.floor(Math.random() * 30000) + 5000,
-    creditsUsed: Math.floor(Math.random() * 100) + 20,
+    btdUsed: Math.floor(Math.random() * 100) + 20,
     results: { message: 'Pipeline executed successfully' }
   };
 }

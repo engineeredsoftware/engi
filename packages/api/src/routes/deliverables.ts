@@ -13,7 +13,7 @@ import { VCSService } from '@bitcode/vcs';
 import { createAdminClient, type Database } from '@bitcode/orm';
 import { createClient as createSupabaseClient } from '@supabase/supabase-js';
 import { DEFAULT_PROVIDER, DEFAULT_MODEL_API, getUsdPricingForApiModel } from '@bitcode/models';
-import { withCreditReservation } from '@bitcode/credits';
+import { withBtdReservation } from '@bitcode/btd';
 import { Execution, ExecutionStreamAdapter, NS_EXEC_DELIVERABLE_VALIDATION_RTS } from '@bitcode/execution-generics';
 import { PipelineExecution } from '@bitcode/pipelines-generics/src/execution/PipelineExecution';
 import { deliverablePipeline } from '@bitcode/pipeline-deliverable';
@@ -450,13 +450,13 @@ export const GET = traceRoute('/deliverables', async (request: NextRequest) => {
  * Flow:
  * 1. Parse request (JSON or multipart with file uploads)
  * 2. Save uploaded files using saveArtifact
- * 3. Validate user auth & credits
+ * 3. Validate user auth & BTD balance
  * 4. Create pipeline execution in database
  * 5. Initialize SSE stream for real-time updates
  * 6. Store context in Execution (VCS, attachments, OTF instructions)
  * 7. Execute SDIVS pipeline (Setup → Discovery → Implementation → Validation → Shipping)
  * 8. Stream events to client and persist to database
- * 9. Handle completion or failure with credit refunds.
+ * 9. Handle completion or failure with BTD balance refunds.
  * Returns streaming response with pipeline events.
  */
 export const POST = traceRoute('/deliverables', async (request: NextRequest) => {
@@ -930,7 +930,7 @@ export const POST = traceRoute('/deliverables', async (request: NextRequest) => 
 
         // GA-2: Multi-deliverable support will be integrated into deliverablePipeline
         // For now, always use single deliverable pipeline
-        const result = await withCreditReservation(
+        const result = await withBtdReservation(
           user.id,
           () => deliverablePipeline(pipelineInput, execution),
           { pipelineType: 'deliverable' }
@@ -1037,7 +1037,7 @@ export const POST = traceRoute('/deliverables', async (request: NextRequest) => 
           if (!finalWorkSummary?.summary && !finalWorkSummary?.deliverables?.summary) finalWorkSummary = undefined;
         } catch {}
 
-        // Aggregate token usage and credits if possible
+        // Aggregate token usage and BTD spend if possible
         if (finalWorkSummary) {
           if (!finalWorkSummary.processingStats) finalWorkSummary.processingStats = {};
           if (!finalWorkSummary.summary && finalWorkSummary.deliverables?.summary) {
@@ -1057,9 +1057,10 @@ export const POST = traceRoute('/deliverables', async (request: NextRequest) => 
                 acc.usd += r.usd_cost || 0;
                 return acc;
               }, { input: 0, output: 0, total: 0, usd: 0 });
-              const credits = Math.max(1, Math.ceil(tokens.usd * 10)); // 10 credits per USD
+              const btdUsed = Math.max(1, Math.ceil(tokens.usd * 10)); // 10 $BTD per USD
               finalWorkSummary.processingStats.tokens = { input: tokens.input, output: tokens.output, total: tokens.total };
-              finalWorkSummary.processingStats.credits = credits;
+              finalWorkSummary.processingStats.btdUsed = btdUsed;
+              finalWorkSummary.processingStats.credits = btdUsed;
               finalWorkSummary.processingStats.usdTotal = Number(tokens.usd.toFixed(2));
             }
           } catch {}
@@ -1251,7 +1252,7 @@ export const POST = traceRoute('/deliverables', async (request: NextRequest) => 
           } as any);
         } catch {}
 
-        // Refunds are handled by withCreditReservation/closeReservation.
+        // Refunds are handled by withBtdReservation/closeBtdReservation.
         // Avoid double-refunds or credit inflation here.
 
         // Send failure telemetry

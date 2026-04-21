@@ -1,7 +1,7 @@
 import { POST } from '@/app/api/executions/route';
 import { createClient } from '@bitcode/supabase/ssr/server';
 import { supabaseAdmin } from '@bitcode/supabase';
-import { deductCredits, InsufficientCreditsError } from '@bitcode/credits';
+import { deductBtdBalance, InsufficientBtdBalanceError } from '@bitcode/btd';
 
 // Mock Next.js Request
 function createRequest(body: any) {
@@ -21,11 +21,11 @@ jest.mock('@bitcode/supabase', () => ({
     rpc: jest.fn(),
   }
 }));
-jest.mock('@bitcode/credits', () => {
-  const actual = jest.requireActual('@bitcode/credits');
+jest.mock('@bitcode/btd', () => {
+  const actual = jest.requireActual('@bitcode/btd');
   return {
     ...actual,
-    deductCredits: jest.fn(),
+    deductBtdBalance: jest.fn(),
   };
 });
 jest.mock('@bitcode/engine/pipeline', () => ({
@@ -51,8 +51,8 @@ describe('Deliverables API POST', () => {
       auth: { getUser: jest.fn().mockResolvedValue({ data: { user: { id: 'user1' } }, error: null }) }
     });
     // Mock existing credits = 50
-    (deductCredits as jest.Mock).mockImplementation(() => {
-      throw new InsufficientCreditsError('balance too low');
+    (deductBtdBalance as jest.Mock).mockImplementation(() => {
+      throw new InsufficientBtdBalanceError('balance too low');
     });
 
     const body = {
@@ -74,7 +74,7 @@ describe('Deliverables API POST', () => {
       auth: { getUser: jest.fn().mockResolvedValue({ data: { user: { id: 'user2' } }, error: null }) }
     });
     const insertMock = jest.fn().mockReturnValue(Promise.resolve());
-    (deductCredits as jest.Mock).mockResolvedValue(80); // after deduction
+    (deductBtdBalance as jest.Mock).mockResolvedValue(80); // after deduction
     (supabaseAdmin.from as jest.Mock).mockImplementation((table: string) => {
       if (table === 'executions') return {
         insert: insertMock,
@@ -94,6 +94,6 @@ describe('Deliverables API POST', () => {
     const res = await POST(createRequest(body));
     // Should return streaming response (200)
     expect(res.status).toBe(200);
-    expect(deductCredits).toHaveBeenCalled();
+    expect(deductBtdBalance).toHaveBeenCalled();
   });
 });

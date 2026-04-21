@@ -22,7 +22,7 @@ describe('application-transactions', () => {
       closureFocus: 'branch artifacts',
       tokenTotal: 400,
       usdTotal: 1.5,
-      creditsTotal: 12,
+      btdUsed: 12,
     },
     {
       id: 'tx-2',
@@ -38,7 +38,7 @@ describe('application-transactions', () => {
       closureFocus: 'need measurement',
       tokenTotal: 200,
       usdTotal: 0.75,
-      creditsTotal: 6,
+      btdUsed: 6,
     },
   ];
 

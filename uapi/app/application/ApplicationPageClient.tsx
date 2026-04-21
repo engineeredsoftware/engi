@@ -171,7 +171,12 @@ export default function ApplicationPageClient() {
             itemCount: run.items?.length || 0,
             tokenTotal:
               run.processing_stats?.tokens?.total ?? run.final_work_summary?.processingStats?.tokens?.total ?? null,
-            creditsTotal: run.processing_stats?.credits ?? run.final_work_summary?.processingStats?.credits ?? null,
+            btdUsed:
+              run.processing_stats?.btdUsed ??
+              run.processing_stats?.credits ??
+              run.final_work_summary?.processingStats?.btdUsed ??
+              run.final_work_summary?.processingStats?.credits ??
+              null,
             usdTotal: run.processing_stats?.usdTotal ?? run.final_work_summary?.processingStats?.usdTotal ?? null,
             averageLatencyMs:
               run.processing_stats?.averageLatencyMs ?? run.final_work_summary?.processingStats?.averageLatencyMs ?? null,
