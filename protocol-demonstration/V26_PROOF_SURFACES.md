@@ -928,6 +928,11 @@ Required closure posture:
   `uapi/tests/{conversationsRouteClient,conversationMockShared}.test.ts*` and `protocol-demonstration/test/v26-active-product-naming.test.js`
   proof surface:
   fifth-gate conversations write-surface closure so the Bitcode Terminal fullscreen route, mock stream carrier, rich-input labels, and execution-log selectors now teach source attachments, asset packs, output destinations, and canonical `agentic-execution:*` posture while preserving retained deliverable/measure primitives as the compatibility substrate
+- `{packages/api/src/routes/conversations.ts,packages/api/src/conversations/{messages.ts,attachments.ts},uapi/tests/{api/conversationThreadStreamRoute.test.ts,api/chatStreamRoute.test.ts,conversationMessages.test.ts}}`
+  test coverage:
+  `uapi/tests/api/conversationThreadStreamRoute.test.ts`, `uapi/tests/api/chatStreamRoute.test.ts`, and `uapi/tests/conversationMessages.test.ts`
+  proof surface:
+  fifth-gate non-mock conversations write-path closure so the App Router conversation stream carriers now resolve or create conversations, persist user writes, bind structured-token attachments through retained message primitives, and start canonical agentic-execution rows on the preserved execution substrate instead of failing closed at `501`
 
 ## Module namespace proof note
 

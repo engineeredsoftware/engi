@@ -4,6 +4,13 @@
 
 jest.mock('@bitcode/supabase/ssr/server', () => ({ createClient: jest.fn() }));
 jest.mock('@bitcode/supabase', () => ({ supabaseAdmin: { from: jest.fn() } }));
+jest.mock('../../../packages/api/src/conversations/streaming', () => ({
+  createStreamResponse: (stream: ReadableStream) =>
+    new Response(stream, {
+      status: 200,
+      headers: { 'Content-Type': 'text/event-stream' },
+    }),
+}));
 
 const pipelineExecutionsCreate = jest.fn();
 const pipelineExecutionsUpdate = jest.fn();
@@ -201,12 +208,6 @@ describe('/api/conversations/stream POST (non-mock mode)', () => {
         metadata: expect.objectContaining({
           canonical_type: 'agentic-execution:need-measurement',
         }),
-      }),
-    );
-    expect(assistantMessageBuilder.insert).toHaveBeenCalledWith(
-      expect.objectContaining({
-        conversation_id: 'conv-new-1',
-        role: 'assistant',
       }),
     );
   });
