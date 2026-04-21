@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# ENGI CODE REVIEW FRAMEWORK
+# BITCODE CODE REVIEW FRAMEWORK
 # Interactive full-screen code review system for optimal feedback collection
 
 set -euo pipefail
@@ -170,7 +170,7 @@ run_sub_review() {
     clear_screen
     
     # Header
-    print_header "🔍 ENGI CODE REVIEW - SUB-REVIEW ${sub_review_id}/${TOTAL_SUB_REVIEWS}"
+    print_header "🔍 BITCODE CODE REVIEW - SUB-REVIEW ${sub_review_id}/${TOTAL_SUB_REVIEWS}"
     print_separator
     
     printf "\n${WHITE}📋 %s${NC}\n" "$title"

@@ -168,6 +168,7 @@ const auxillariesTemplatePreferencesApiRouteSource = readFileSync(
 );
 const webSearchSource = readFileSync(new URL('../../packages/web-search/src/index.ts', import.meta.url), 'utf8');
 const webSearchReadmeSource = readFileSync(new URL('../../packages/web-search/README.md', import.meta.url), 'utf8');
+const googleAnalyticsReadmeSource = readFileSync(new URL('../../packages/google-analytics/README.md', import.meta.url), 'utf8');
 const registryReadmeSource = readFileSync(new URL('../../packages/registry/README.md', import.meta.url), 'utf8');
 const registryTldrSource = readFileSync(new URL('../../packages/registry/TLDR.md', import.meta.url), 'utf8');
 const registryTodoSource = readFileSync(new URL('../../packages/registry/TODO.md', import.meta.url), 'utf8');
@@ -181,7 +182,12 @@ const notionReadmeSource = readFileSync(new URL('../../packages/notion/README.md
 const observabilityPackageSource = readFileSync(new URL('../../packages/observability/package.json', import.meta.url), 'utf8');
 const observabilityReadmeSource = readFileSync(new URL('../../packages/observability/README.md', import.meta.url), 'utf8');
 const observabilityJsSource = readFileSync(new URL('../../packages/observability/src/observability.js', import.meta.url), 'utf8');
+const sentryReadmeSource = readFileSync(new URL('../../packages/sentry/README.md', import.meta.url), 'utf8');
+const kubernetesReadmeSource = readFileSync(new URL('../../packages/kubernetes/README.md', import.meta.url), 'utf8');
+const loggerReadmeSource = readFileSync(new URL('../../packages/logger/README.md', import.meta.url), 'utf8');
 const ormPackageSource = readFileSync(new URL('../../packages/orm/package.json', import.meta.url), 'utf8');
+const ormReadmeSource = readFileSync(new URL('../../packages/orm/README.md', import.meta.url), 'utf8');
+const ormIndexSource = readFileSync(new URL('../../packages/orm/src/index.ts', import.meta.url), 'utf8');
 const ormDatabaseGeneratedSource = readFileSync(new URL('../../packages/orm/src/types/database.generated.ts', import.meta.url), 'utf8');
 const ormFieldIntelligenceSource = readFileSync(new URL('../../packages/orm/src/queries/field-intelligence.ts', import.meta.url), 'utf8');
 const attachmentsGenericsPackageSource = readFileSync(new URL('../../packages/attachments-generics/package.json', import.meta.url), 'utf8');
@@ -313,6 +319,7 @@ const fixRemainingImportsScriptSource = readFileSync(new URL('../../scripts/fix-
 const fixBarrelImportsScriptSource = readFileSync(new URL('../../scripts/fix-barrel-imports.sh', import.meta.url), 'utf8');
 const fixMultilineImportsScriptSource = readFileSync(new URL('../../scripts/fix-multiline-imports.sh', import.meta.url), 'utf8');
 const fixCorruptedImportsScriptSource = readFileSync(new URL('../../scripts/fix-corrupted-imports.sh', import.meta.url), 'utf8');
+const codeReviewReadmeSource = readFileSync(new URL('../../scripts/code-review/README.md', import.meta.url), 'utf8');
 const baseReviewScriptSource = readFileSync(new URL('../../scripts/code-review/base-review.sh', import.meta.url), 'utf8');
 const reviewExcellenceGuideSource = readFileSync(new URL('../../scripts/code-review/REVIEW_EXCELLENCE_GUIDE.md', import.meta.url), 'utf8');
 const reviewPromptPrimitivesEvolutionSource = readFileSync(new URL('../../scripts/code-review/reviews/review_prompt_primitives_evolution.sh', import.meta.url), 'utf8');
@@ -583,6 +590,8 @@ const promptQualityEngineSource = readFileSync(new URL('../../packages/testing/s
 const promptQualityConfigSource = readFileSync(new URL('../../packages/testing/src/prompt-quality-framework/config/FrameworkConfig.ts', import.meta.url), 'utf8');
 const promptQualityReadmeSource = readFileSync(new URL('../../packages/testing/src/prompt-quality-framework/README.md', import.meta.url), 'utf8');
 const timeReadmeSource = readFileSync(new URL('../../packages/time/README.md', import.meta.url), 'utf8');
+const techTypesReadmeSource = readFileSync(new URL('../../packages/tech-types/README.md', import.meta.url), 'utf8');
+const streamsReadmeSource = readFileSync(new URL('../../packages/streams/README.md', import.meta.url), 'utf8');
 const toolsGenericsToolSource = readFileSync(new URL('../../packages/tools-generics/src/Tool.ts', import.meta.url), 'utf8');
 const toolsGenericsDocCodeToolIndexSource = readFileSync(
   new URL('../../packages/tools-generics/src/doc-code-tool/index.ts', import.meta.url),
@@ -951,12 +960,14 @@ test('active V26 canon posture and preserved runtime state use bitcode policy an
   assert.doesNotMatch(auxillaryOnboardingContractSource, /\? 'credits'/);
 
   assert.match(canonPostureSource, /policy:\/\/bitcode\//);
-  assert.match(canonPostureSource, /CURRENT_SPEC_FAMILY_PREFIX = CURRENT_PROJECT_LABEL === 'Bitcode' \? 'BITCODE_SPEC' : 'ENGI_SPEC'/);
+  assert.match(canonPostureSource, /const CURRENT_PROJECT_LABEL = 'Bitcode'/);
+  assert.match(canonPostureSource, /const CURRENT_SPEC_FAMILY_PREFIX = 'BITCODE_SPEC'/);
   assert.match(canonPostureSource, /ACTIVE_PROVEN_APPENDIX_PATH = `\$\{CURRENT_SPEC_FAMILY_PREFIX\}_\$\{ACTIVE_CANON_VERSION\}_PROVEN\.md`/);
   assert.match(canonPostureSource, /DRAFT_SPEC_PATH = `\$\{CURRENT_SPEC_FAMILY_PREFIX\}_\$\{DRAFT_TARGET_VERSION\}\.md`/);
   assert.match(canonPostureSource, /DRAFT_DELTA_PATH = `\$\{CURRENT_SPEC_FAMILY_PREFIX\}_\$\{DRAFT_TARGET_VERSION\}_DELTA\.md`/);
   assert.match(canonPostureSource, /DRAFT_PARITY_PATH = `\$\{CURRENT_SPEC_FAMILY_PREFIX\}_\$\{DRAFT_TARGET_VERSION\}_PARITY_MATRIX\.md`/);
   assert.doesNotMatch(canonPostureSource, /policy:\/\/engi\//);
+  assert.doesNotMatch(canonPostureSource, /ENGI_SPEC/);
   assert.doesNotMatch(canonPostureSource, /ACTIVE_PROVEN_APPENDIX_PATH = `ENGI_SPEC_/);
   assert.doesNotMatch(canonPostureSource, /DRAFT_SPEC_PATH = `ENGI_SPEC_/);
   assert.doesNotMatch(canonPostureSource, /DRAFT_DELTA_PATH = `ENGI_SPEC_/);
@@ -1029,11 +1040,14 @@ test('active V26 canon posture and preserved runtime state use bitcode policy an
   assert.match(contractChangeLedgerTestSource, /npm --prefix protocol-demonstration run test:negative-mutation-matrix/);
   assert.match(contractChangeLedgerTestSource, /generate-bitcode-proven/);
   assert.match(e2eTestSource, /protocol-demonstration-e2e-/);
+  assert.match(bitcodeDemoSource, /bitcode\/remediation-/);
+  assert.match(e2eTestSource, /Created bitcode\/remediation-/);
   assert.doesNotMatch(bitcodeDemoSource, /engi-system:/);
   assert.doesNotMatch(bitcodeDemoSource, /engi-asset-intake-attestation\.v11/);
   assert.doesNotMatch(bitcodeDemoSource, /policy-release-engi-v11-demo-2026-04-03/);
   assert.doesNotMatch(bitcodeDemoSource, /ENGI_NEED\.md/);
   assert.doesNotMatch(bitcodeDemoSource, /'engi-system-principal'/);
+  assert.doesNotMatch(bitcodeDemoSource, /engi\/remediation-/);
   assert.doesNotMatch(bitcodeCoreSource, /engi\.makeAssetCommitment/);
   assert.doesNotMatch(bitcodeCoreSource, /engi\.rankChunksForQuery/);
   assert.doesNotMatch(bitcodeCoreSource, /engi\.buildBundleIssuance/);
@@ -1046,6 +1060,7 @@ test('active V26 canon posture and preserved runtime state use bitcode policy an
   assert.doesNotMatch(contractChangeLedgerTestSource, /npm --prefix engi-demo run test:negative-mutation-matrix/);
   assert.doesNotMatch(contractChangeLedgerTestSource, /generate-engi-proven/);
   assert.doesNotMatch(e2eTestSource, /engi-demo-e2e-/);
+  assert.doesNotMatch(e2eTestSource, /Created engi\/remediation-/);
   assert.match(attestationModelSource, /bitcode-demo-image/);
   assert.match(attestationModelSource, /bitcode-policy-release-v1/);
   assert.match(attestationModelSource, /bitcode-demo-verifier/);
@@ -1056,7 +1071,7 @@ test('active V26 canon posture and preserved runtime state use bitcode policy an
   assert.match(v20QualitySource, /bitcode-demo\.v20-quality-runner\.v1/);
   assert.match(v20QualitySource, /bitcode-demo-v20-quality-fixture-v1/);
   assert.match(v20QualitySource, /make Bitcode branch/);
-  assert.match(v20QualitySource, /BITCODE_SPEC_V20_PROVEN\.md/);
+  assert.match(v20QualitySource, /_legacy\/ENGI_SPEC_V20_PROVEN\.md/);
   assert.match(demoScenarioSource, /bitcode\.buildDemoScenario/);
   assert.match(v23BitcoinDemonstrationServiceSource, /bitcode\.v23\.bitcoin-demonstration-service/);
   assert.match(v23BitcoinDemonstrationServiceSource, /tb1qbitcode/);
@@ -1081,7 +1096,7 @@ test('active V26 canon posture and preserved runtime state use bitcode policy an
   assert.doesNotMatch(v20QualitySource, /engi-demo\.v20-quality-runner\.v1/);
   assert.doesNotMatch(v20QualitySource, /engi-demo-v20-quality-fixture-v1/);
   assert.doesNotMatch(v20QualitySource, /make ENGI branch/);
-  assert.doesNotMatch(v20QualitySource, /ENGI_SPEC_V20_PROVEN\.md/);
+  assert.doesNotMatch(v20QualitySource, /(?<!_legacy\/)ENGI_SPEC_V20_PROVEN\.md/);
   assert.doesNotMatch(demoScenarioSource, /engi\.buildDemoScenario/);
   assert.doesNotMatch(v23BitcoinDemonstrationServiceSource, /engi\.v23\.bitcoin-demonstration-service/);
   assert.doesNotMatch(v23BitcoinDemonstrationServiceSource, /tb1qengi/);
@@ -1379,6 +1394,7 @@ test('active V26 retained package surfaces use Bitcode naming instead of Engi na
   assert.match(webSearchReadmeSource, /for the Bitcode development platform/);
   assert.match(webSearchReadmeSource, /github\.com\/engineeredsoftware\/bitcode\.git/);
   assert.match(webSearchReadmeSource, /cd bitcode\/packages\/web-search/);
+  assert.match(googleAnalyticsReadmeSource, /wrapper for the Bitcode platform/);
   assert.match(registryReadmeSource, /## How Bitcode Uses Registry/);
   assert.match(registryTldrSource, /makes configuration dynamic in Bitcode/);
   assert.match(registryTldrSource, /## How Bitcode Uses Registry/);
@@ -1404,7 +1420,13 @@ test('active V26 retained package surfaces use Bitcode naming instead of Engi na
   assert.match(observabilityReadmeSource, /for the Bitcode platform/);
   assert.match(observabilityJsSource, /@bitcode\/sentry/);
   assert.match(observabilityJsSource, /@bitcode\/errors/);
+  assert.match(sentryReadmeSource, /for the Bitcode platform/);
+  assert.match(kubernetesReadmeSource, /for the Bitcode platform/);
+  assert.match(kubernetesReadmeSource, /Bitcode pipeline monitoring/);
+  assert.match(loggerReadmeSource, /for the Bitcode platform/);
   assert.match(ormPackageSource, /Bitcode ORM - Database access layer with vector search/);
+  assert.match(ormReadmeSource, /for the Bitcode platform/);
+  assert.match(ormIndexSource, /Bitcode ORM - GA-1 Database Access Layer/);
   assert.match(ormFieldIntelligenceSource, /Queries the Bitcode network to understand how code is performing/);
   assert.match(attachmentsGenericsPackageSource, /Universal attachment types for Bitcode/);
   assert.match(attachmentsGenericsReadmeSource, /utilities for the Bitcode platform/);
@@ -1413,6 +1435,11 @@ test('active V26 retained package surfaces use Bitcode naming instead of Engi na
   assert.match(attachmentsGenericsTypesSource, /Universal attachment definitions for Bitcode/);
   assert.match(creditsIndexSource, /when Bitcode supports new models or vendors/);
   assert.match(creditsPlansSource, /Try Bitcode with a small project or quick fix/);
+  assert.match(techTypesReadmeSource, /definitions for the Bitcode platform/);
+  assert.match(techTypesReadmeSource, /across the Bitcode platform/);
+  assert.match(techTypesReadmeSource, /used to measure technical needs/);
+  assert.match(techTypesReadmeSource, /need-measurement spine/);
+  assert.match(streamsReadmeSource, /for the Bitcode platform/);
   assert.match(digestReadmeSource, /bitcode-corp/);
   assert.match(digestCachingSource, /\/tmp\/bitcode\/digest-cache/);
   assert.match(digestCachingTestSource, /\/tmp\/bitcode\/digest-cache\/github\/org\/repo\/files/);
@@ -1532,6 +1559,7 @@ test('active V26 retained package surfaces use Bitcode naming instead of Engi na
   assert.doesNotMatch(webSearchReadmeSource, /for the Engi development platform/);
   assert.doesNotMatch(webSearchReadmeSource, /github\.com\/engi\/engi\.git/);
   assert.doesNotMatch(webSearchReadmeSource, /cd engi\/packages\/web-search/);
+  assert.doesNotMatch(googleAnalyticsReadmeSource, /wrapper for ENGI platform/);
   assert.doesNotMatch(registryReadmeSource, /## How Engi Uses Registry/);
   assert.doesNotMatch(registryTldrSource, /makes configuration dynamic in Engi/);
   assert.doesNotMatch(registryTldrSource, /## How Engi Uses Registry/);
@@ -1556,6 +1584,12 @@ test('active V26 retained package surfaces use Bitcode naming instead of Engi na
   assert.doesNotMatch(observabilityReadmeSource, /for the ENGI platform/);
   assert.doesNotMatch(observabilityJsSource, /@engi\/sentry/);
   assert.doesNotMatch(observabilityJsSource, /@engi\/errors/);
+  assert.doesNotMatch(sentryReadmeSource, /for ENGI platform/);
+  assert.doesNotMatch(kubernetesReadmeSource, /for ENGI platform/);
+  assert.doesNotMatch(kubernetesReadmeSource, /ENGI pipeline monitoring/);
+  assert.doesNotMatch(loggerReadmeSource, /for the ENGI platform/);
+  assert.doesNotMatch(ormReadmeSource, /for ENGI platform/);
+  assert.doesNotMatch(ormIndexSource, /ENGI ORM - GA-1 Database Access Layer/);
   assert.doesNotMatch(ormPackageSource, /Engi ORM - Database access layer with vector search/);
   assert.doesNotMatch(ormFieldIntelligenceSource, /Queries the Engi network to understand how code is performing/);
   assert.doesNotMatch(attachmentsGenericsPackageSource, /Universal attachment types for Engi/);
@@ -1565,6 +1599,10 @@ test('active V26 retained package surfaces use Bitcode naming instead of Engi na
   assert.doesNotMatch(attachmentsGenericsTypesSource, /Universal attachment definitions for Engi/);
   assert.doesNotMatch(creditsIndexSource, /when Engi supports new models or vendors/);
   assert.doesNotMatch(creditsPlansSource, /Try Engi with a small project or quick fix/);
+  assert.doesNotMatch(techTypesReadmeSource, /for ENGI platform/);
+  assert.doesNotMatch(techTypesReadmeSource, /across ENGI platform/);
+  assert.doesNotMatch(techTypesReadmeSource, /generic taxonomy sidecar/i);
+  assert.doesNotMatch(streamsReadmeSource, /for the ENGI platform/);
   assert.doesNotMatch(digestReadmeSource, /engi-corp/);
   assert.doesNotMatch(digestCachingSource, /\/tmp\/engi\/digest-cache/);
   assert.doesNotMatch(digestCachingTestSource, /\/tmp\/engi\/digest-cache/);
@@ -1834,6 +1872,7 @@ test('active V26 retained package surfaces use Bitcode naming instead of Engi na
   assert.match(baseReviewScriptSource, /BITCODE PROMPT PRIMITIVES EVOLUTION REVIEW RESULTS/);
   assert.match(baseReviewScriptSource, /\/tmp\/bitcode_review_/);
   assert.match(baseReviewScriptSource, /🚀 BITCODE CODE REVIEW SYSTEM/);
+  assert.match(codeReviewReadmeSource, /# 🔍 BITCODE CODE REVIEW FRAMEWORK/);
   assert.match(bitcodeChecklistSource, /Developer\/ENGI\/protocol-demonstration/);
   assert.match(bitcodeChecklistSource, /Make Bitcode branch/);
   assert.match(bitcodeChecklistSource, /BITCODE-auth-issuer-rollback/);
@@ -1941,6 +1980,7 @@ test('active V26 retained package surfaces use Bitcode naming instead of Engi na
   assert.doesNotMatch(baseReviewScriptSource, /ENGI PROMPT PRIMITIVES EVOLUTION REVIEW RESULTS/);
   assert.doesNotMatch(baseReviewScriptSource, /\/tmp\/engi_review_/);
   assert.doesNotMatch(baseReviewScriptSource, /🚀 ENGI CODE REVIEW SYSTEM/);
+  assert.doesNotMatch(codeReviewReadmeSource, /# 🔍 ENGI CODE REVIEW FRAMEWORK/);
   assert.doesNotMatch(bitcodeChecklistSource, /Developer\/ENGI\/engi-demo/);
   assert.doesNotMatch(bitcodeChecklistSource, /Make ENGI branch/);
   assert.doesNotMatch(bitcodeChecklistSource, /ENGI-auth-issuer-rollback/);

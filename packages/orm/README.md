@@ -1,6 +1,6 @@
 # @bitcode/orm
 
-Type-safe database access layer for ENGI platform. Provides 1:1 mapping with Supabase migrations, vector search support, and consistent read/write helpers.
+Type-safe database access layer for the Bitcode platform. Provides 1:1 mapping with Supabase migrations, vector search support, and consistent read/write helpers.
 
 ## Core Architecture
 

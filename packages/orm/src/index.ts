@@ -1,5 +1,5 @@
 /**
- * ENGI ORM - GA-1 Database Access Layer
+ * Bitcode ORM - GA-1 Database Access Layer
  * 
  * Provides type-safe database access for GA-1 schema with:
  * - Type-safe Supabase client wrapper

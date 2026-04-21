@@ -1,6 +1,6 @@
 # @bitcode/sentry
 
-Error monitoring and performance tracking for ENGI platform. Provides graceful Sentry SDK wrapper with automatic instrumentation and environment detection.
+Error monitoring and performance tracking for the Bitcode platform. Provides graceful Sentry SDK wrapper with automatic instrumentation and environment detection.
 
 ## Core Features
 

@@ -9,15 +9,8 @@ export const CURRENT_CANON_OPERATOR_LABEL = `${ACTIVE_CANON_VERSION} active cano
  * @param {string} draftTargetVersion
  * @returns {boolean}
  */
-function shouldUseBitcodeIdentity(activeCanonVersion, draftTargetVersion) {
-  const activeNumeric = Number.parseInt(String(activeCanonVersion || '').replace(/^V/u, ''), 10);
-  const draftNumeric = Number.parseInt(String(draftTargetVersion || '').replace(/^V/u, ''), 10);
-  return (Number.isInteger(activeNumeric) && activeNumeric >= 25)
-    || (Number.isInteger(draftNumeric) && draftNumeric >= 25);
-}
-
-const CURRENT_PROJECT_LABEL = shouldUseBitcodeIdentity(ACTIVE_CANON_VERSION, DRAFT_TARGET_VERSION) ? 'Bitcode' : 'ENGI';
-const CURRENT_SPEC_FAMILY_PREFIX = CURRENT_PROJECT_LABEL === 'Bitcode' ? 'BITCODE_SPEC' : 'ENGI_SPEC';
+const CURRENT_PROJECT_LABEL = 'Bitcode';
+const CURRENT_SPEC_FAMILY_PREFIX = 'BITCODE_SPEC';
 export const ACTIVE_PROVEN_APPENDIX_PATH = `${CURRENT_SPEC_FAMILY_PREFIX}_${ACTIVE_CANON_VERSION}_PROVEN.md`;
 export const DRAFT_SPEC_PATH = `${CURRENT_SPEC_FAMILY_PREFIX}_${DRAFT_TARGET_VERSION}.md`;
 export const DRAFT_DELTA_PATH = `${CURRENT_SPEC_FAMILY_PREFIX}_${DRAFT_TARGET_VERSION}_DELTA.md`;

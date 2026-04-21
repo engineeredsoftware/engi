@@ -131,7 +131,7 @@ The current first-gate V26 structure is:
 - `protocol-demonstration/public/styles.css`
   The preserved first-gate shell stylesheet now serves the app-owned route.
 - `protocol-demonstration/server.js`
-  The deterministic runtime/context remains available as preserved protocol HTTP/runtime composition instead of as `engi-demo/server.js`.
+  The deterministic runtime/context remains available as preserved protocol HTTP/runtime composition under `protocol-demonstration/server.js`; the old `engi-demo/server.js` ownership is retired.
 - `protocol-demonstration/test/*`
   First-gate proof/runtime validation moved with the preserved protocol owner.
 - `uapi/app/application/page.tsx`

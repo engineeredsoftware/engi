@@ -338,7 +338,7 @@ export function buildV20OperatorAcceptanceTranscript(data, context) {
       projectionPrincipal: 'buyer',
       action: 'inspect report references in V20 quality summary and generated appendix',
       visibleTruths: [
-        'BITCODE_SPEC_V20_PROVEN.md is the generated appendix target',
+        '_legacy/ENGI_SPEC_V20_PROVEN.md is the generated appendix target',
         'all six V20 quality artifacts are referenced',
         'V19 inherited proof closure remains linked'
       ],
@@ -415,7 +415,7 @@ export function buildV20VisualRegressionReport(data, context) {
     ['internal-privacy-boundary-projection', privacyScenarioId, 'patch', 'internal', ['text=Selected source material manifest', 'text=Authorization decisions']],
     ['invalid-deposit-error', targetedScenarioId, 'patch', 'buyer', ['#status', 'text=Raw content or repo artifact selection is required']],
     ['no-survivor-conflict', targetedScenarioId, 'patch', 'buyer', ['#status', 'text=No candidates survived into the asset pack']],
-    ['generated-appendix-report-reference', targetedScenarioId, 'patch', 'buyer', ['text=BITCODE_SPEC_V20_PROVEN.md', 'text=v20-quality-summary']]
+    ['generated-appendix-report-reference', targetedScenarioId, 'patch', 'buyer', ['text=_legacy/ENGI_SPEC_V20_PROVEN.md', 'text=v20-quality-summary']]
   ].map(([stateId, scenarioId, branchMode, projectionPrincipal, requiredVisibleSelectors, requiredAbsentPrivateSurfaces]) => {
     const signature = visualSignature({
       stateId,

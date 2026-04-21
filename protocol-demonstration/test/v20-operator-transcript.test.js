@@ -25,6 +25,6 @@ test('V20 operator transcript covers every required first-gate flow', () => {
 
   const discoveryStep = transcript.steps.find((/** @type {any} */ step) => step.stepId === 'generated-proof-and-quality-report-reference-visible');
   assert.ok(discoveryStep);
-  assert.ok(discoveryStep.visibleTruths.some((/** @type {string} */ truth) => truth.includes('ENGI_SPEC_V20_PROVEN.md')));
+  assert.ok(discoveryStep.visibleTruths.some((/** @type {string} */ truth) => truth.includes('_legacy/ENGI_SPEC_V20_PROVEN.md')));
   assert.deepEqual(discoveryStep.generatedEvidenceRefs.sort(), Object.values(V20_ARTIFACT_PATHS).sort());
 });

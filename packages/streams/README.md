@@ -2,7 +2,7 @@
 
 ## Overview
 
-Industrial real-time communication infrastructure providing pipeline streaming, execution state tracking, and intelligent message routing for the ENGI platform. Implements comprehensive stream management with automatic persistence, intelligent buffering, and pipeline-aware coordination.
+Industrial real-time communication infrastructure providing pipeline streaming, execution state tracking, and intelligent message routing for the Bitcode platform. Implements comprehensive stream management with automatic persistence, intelligent buffering, and pipeline-aware coordination.
 
 ## Core Functionality
 

@@ -2,7 +2,7 @@
 
 ## Overview
 
-Industrial logging infrastructure providing structured logging, correlation tracking, execution context awareness, and automatic error reporting integration for the ENGI platform. Implements comprehensive log aggregation with file persistence, console output, and external monitoring system integration.
+Industrial logging infrastructure providing structured logging, correlation tracking, execution context awareness, and automatic error reporting integration for the Bitcode platform. Implements comprehensive log aggregation with file persistence, console output, and external monitoring system integration.
 
 ## Core Functionality
 

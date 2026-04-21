@@ -5775,7 +5775,7 @@ export function runMakeBitcodeBranch(state, input = {}) {
   });
   const needingSurface = buildNeedingSurface(need);
 
-  const branchName = `engi/remediation-${need.needId}-${toSlug(scenario.scenarioId)}`;
+  const branchName = `bitcode/remediation-${need.needId}-${toSlug(scenario.scenarioId)}`;
   const matchReport = buildMatchReport(need, evaluatedCandidates, assetPack);
   const verificationReport = buildVerificationReport(need, evaluatedCandidates, branchMode);
   const evalManifest = buildEvalManifest(need, evaluatedCandidates, promptSurfaces, parsedCompletionEnvelopes);

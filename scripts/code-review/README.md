@@ -1,4 +1,4 @@
-# 🔍 ENGI CODE REVIEW FRAMEWORK
+# 🔍 BITCODE CODE REVIEW FRAMEWORK
 
 Interactive full-screen code review system for optimal feedback collection and rapid iteration.
 

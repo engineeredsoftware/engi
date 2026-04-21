@@ -1,6 +1,6 @@
 # @bitcode/kubernetes
 
-Kubernetes cluster management tools for ENGI platform. Provides essential cluster introspection and resource management capabilities.
+Kubernetes cluster management tools for the Bitcode platform. Provides essential cluster introspection and resource management capabilities.
 
 ## Available Tools
 
@@ -39,4 +39,4 @@ All tools return structured data with resource information:
 
 ## Architecture
 
-Tools provide abstracted access to Kubernetes API resources. Designed for integration with ENGI pipeline monitoring and infrastructure management workflows.
+Tools provide abstracted access to Kubernetes API resources. Designed for integration with Bitcode pipeline monitoring and infrastructure management workflows.

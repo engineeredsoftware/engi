@@ -1,6 +1,6 @@
 # @bitcode/google-analytics
 
-Type-safe Google Analytics (GA4) wrapper for ENGI platform. Provides robust analytics tracking with graceful degradation and server-side support.
+Type-safe Google Analytics (GA4) wrapper for the Bitcode platform. Provides robust analytics tracking with graceful degradation and server-side support.
 
 ## Core Features
 
