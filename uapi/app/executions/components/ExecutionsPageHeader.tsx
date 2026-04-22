@@ -1,12 +1,22 @@
-// header of agent page including inline template selection
+// Header of the execution page including inline shipping-template selection for
+// retained compatibility categories.
 //
 // how the template selection experience should be:
-// - terms: "deliverable categories" (explicitly the words 'pull request', 'pull request review', 'issue', 'issue comment'), "non-hover" (how the paragraph looks at right ie the state of the previously-interacted-with deliverable categories selected template(s)
+// - terms: "shipping categories" (explicitly the words 'pull request',
+//   'pull request review', 'issue', 'issue comment'), "non-hover" (how the
+//   paragraph looks at right, i.e. the state of the previously interacted with
+//   shipping-category selected template(s))
 // - behaviors:
-//  - each deliverable category is itself an interactive element that when clicked, populates some template text
+//  - each shipping category is itself an interactive element that when clicked,
+//    populates some template text
 //  - templates are provided and include basic/default ones (it is always possible to click)
-//  - there are 2 sub-interactive elements, the word of the deliverable category is clickable to use the template that was last selected, and the element to change the selected template
-//  - whenever the user is in the mode where they are changing the selected template for the deliverable category, it should show that name in the place of the deliverable category word. we should also use a placeholder in the mode the first time to make it clear that the selection experience is in progress
+//  - there are 2 sub-interactive elements, the word of the shipping category
+//    is clickable to use the template that was last selected, and the element
+//    to change the selected template
+//  - whenever the user is in the mode where they are changing the selected
+//    template for the shipping category, it should show that name in the place
+//    of the shipping-category word. we should also use a placeholder in the
+//    mode the first time to make it clear that the selection experience is in progress
 //  - from a UI perspective, it is imperative that these 2 interactive elements are clear easy to interact with and integrate seamlessly into what should look like effectively a partial interactive/live paragraph of text
 //
 "use client";
@@ -173,7 +183,7 @@ const markdownComponents = {
   ),
 }
 
-interface Deliverable {
+interface ShippingSurface {
   url: string;
   number?: number;
   title?: string;
@@ -202,7 +212,7 @@ interface EduContent {
   body: string | React.ReactNode;
 }
 
-interface DeliverableTemplate {
+interface ShippingTemplate {
   id: string;
   name: string;
   text: string;
@@ -231,11 +241,11 @@ type ExtendedProcessingStats = HeaderProcessingStats & {
   };
 };
 
-interface DeliverableTemplates {
-  pullRequests: DeliverableTemplate[];
-  pullRequestReviews: DeliverableTemplate[];
-  issues: DeliverableTemplate[];
-  comments: DeliverableTemplate[];
+interface ShippingTemplateSets {
+  pullRequests: ShippingTemplate[];
+  pullRequestReviews: ShippingTemplate[];
+  issues: ShippingTemplate[];
+  comments: ShippingTemplate[];
 }
 
 interface ExecutionPageHeaderProps {
@@ -255,13 +265,14 @@ interface ExecutionPageHeaderProps {
   showSaveTemplateEdu?: boolean;
   showExecuteButtonEdu?: boolean;
   showIterationsEdu?: boolean | 'minimize' | 'maximize';
-  templates?: DeliverableTemplates;
-  onTemplateSelect?: (templateId: string, deliverableType: keyof DeliverableTemplates) => void;
+  templates?: ShippingTemplateSets;
+  onTemplateSelect?: (templateId: string, deliverableType: keyof ShippingTemplateSets) => void;
+  /** Compatibility shipping wrapper. Bitcode-owned meaning lives in written assets / asset packs. */
   deliverables?: {
-    pullRequest?: Deliverable | null; // why isn't this list?
-    pullRequestReviews?: Deliverable[] | null;
-    comments?: Deliverable[] | null;
-    issues?: Deliverable[] | null;
+    pullRequest?: ShippingSurface | null; // Compatibility wrapper stays singular for PR delivery.
+    pullRequestReviews?: ShippingSurface[] | null;
+    comments?: ShippingSurface[] | null;
+    issues?: ShippingSurface[] | null;
     fileChanges?: FileChanges | null;
     summary?: string | null;
   };
@@ -345,7 +356,11 @@ const childVariants = {
 // (lineItemVariants & staggerContainerVariants now declared near top imports)
 
 /**
- * DeliverablesPageHeader
+ * ExecutionsPageHeader
+ *
+ * Retained compatibility shell for choosing shipping mechanisms and reading
+ * post-run summaries while Bitcode-owned asset-pack meaning lives in the
+ * written-asset surfaces rendered below.
  * Final styling updates:
  * - Perfect corner dot alignment
  * - Clean file changes sub-columns
@@ -1048,10 +1063,10 @@ export default function ExecutionsPageHeader({
     }
   }, [showSourceEdu, showAttachmentsEdu, showComputeEdu, showMultiAgentEdu, showEnhanceEdu, showSaveTemplateEdu, showExecuteButtonEdu, showIterationsEdu]);
 
-  // Prepare TL;DR items for summary of deliverables
+  // Prepare TL;DR items for summary of shipping surfaces.
   const tldrItems: React.ReactNode[] = [];
 
-  // Individual deliverable links with icons and titles (works for both real and
+  // Individual shipping-surface links with icons and titles (works for both real and
   // mock data).  We no longer fall back to the older single‑sentence mock
   // summary so that the rich format is always shown when mock data is enabled.
 
@@ -1125,7 +1140,7 @@ export default function ExecutionsPageHeader({
   });
 
   if (tldrItems.length === 0) {
-    tldrItems.push(<span key="none">No deliverables to summarize</span>);
+    tldrItems.push(<span key="none">No shipping surfaces to summarize</span>);
   }
   return (
     <section data-experience="deliverables">
@@ -1331,7 +1346,7 @@ export default function ExecutionsPageHeader({
                             subtitle: executionType?.includes('ai_documents') ? 'Targeted Enhancement' : 'Success Criteria',
                             body: executionType?.includes('ai_documents')
                               ? 'Describe what you intend to improve and why — focused, actionable, and beneficial to users or maintainers.'
-                              : 'Articulate the precise outcome that defines success. Clear criteria ensure shared understanding of the expected deliverable.'
+                              : 'Articulate the precise outcome that defines success. Clear criteria ensure shared understanding of the expected written asset pack and shipping result.'
                           })}
                         >
                           {executionType?.includes('ai_documents') ? 'Intent to Improve' : 'Definition of Done'}
@@ -1343,7 +1358,7 @@ export default function ExecutionsPageHeader({
                   <div className="text-gray-400 text-lg self-start">
                     {!executionType?.includes('ai_documents') ? (
                       <>
-                        A deliverable is a{' '}
+                        A shipping delivery mechanism can be a{' '}
                     <DeliverableTemplateText
                       text="pull request"
                       templates={templates?.pullRequests}
@@ -1386,13 +1401,13 @@ export default function ExecutionsPageHeader({
                       duration={3.2}
                       delay={2.4}
                       width={250}
-                    />, always supplemented by a final work summary.
+                    />, each shipping a stable asset pack and always supplemented by a final work summary.
                       </>
                     ) : (
                       <>
                         An ai_document can be a{' '}
                         <span className="text-gray-300">knowledge extension</span>,{' '}
-                        <span className="text-gray-300">deliverable feedback</span>, or{' '}
+                        <span className="text-gray-300">asset-pack feedback</span>, or{' '}
                         <span className="text-gray-300">MCP Config</span> — keep the intent focused and actionable.
                       </>
                     )}
@@ -1427,9 +1442,9 @@ export default function ExecutionsPageHeader({
 function EducationBodyWithLogo() {
   return (
     <div>
-      <span><span className="font-bold">This action costs <span className="text-green-primary font-black">$BTD</span>!</span> The source, attachments, and task will be iterated on until you receive a single high-quality deliverable. (<span className="font-normal">~200-500&nbsp;</span>
+      <span><span className="font-bold">This action costs <span className="text-green-primary font-black">$BTD</span>!</span> The source, attachments, and task will be iterated on until you receive a single high-quality asset pack and its shipping result. (<span className="font-normal">~200-500&nbsp;</span>
         <Logo width="w-3.5" height="h-3.5" beta={false} className="inline-block align-middle relative -top-0.5" />
-        <span className="font-normal">&nbsp;/&nbsp;Deliverable</span>)</span>
+        <span className="font-normal">&nbsp;/&nbsp;Pipeline Run</span>)</span>
     </div>
   );
 }

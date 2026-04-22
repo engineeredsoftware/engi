@@ -63,6 +63,22 @@ const finalSummarySource = readFileSync(
   new URL('../../packages/pipelines/deliverable/src/agents/shipping/deliverable-pipeline-final-work-summary-agent.ts', import.meta.url),
   'utf8'
 );
+const semanticPayloadSource = readFileSync(
+  new URL('../../packages/api/src/routes/deliverables-semantic-payload.ts', import.meta.url),
+  'utf8'
+);
+const executionsPageHeaderSource = readFileSync(
+  new URL('../../uapi/app/executions/components/ExecutionsPageHeader.tsx', import.meta.url),
+  'utf8'
+);
+const deliverablesRouteSource = readFileSync(
+  new URL('../../packages/api/src/routes/deliverables.ts', import.meta.url),
+  'utf8'
+);
+const streamParserSource = readFileSync(
+  new URL('../../uapi/streaming/stream-parser.ts', import.meta.url),
+  'utf8'
+);
 
 test('V26 deliverable reform supplement requires semantic mirrors beyond retained compatibility naming', () => {
   assert.match(reformSource, /`deliverable` survives only as a retained compatibility path\/name/u);
@@ -145,4 +161,28 @@ test('phase and shipping carriers resolve semantic written-asset type and need b
   assert.match(selectFilesSource, /need: resolveExpressedNeedFromExecution\(execution\)/u);
   assert.match(finalSummarySource, /resolveExpressedNeedFromExecution\(execution\)/u);
   assert.match(finalSummarySource, /resolveWrittenAssetTypeFromExecution\(execution\)/u);
+});
+
+test('operator-facing execution header and retained route teach shipping-mechanism compatibility semantics', () => {
+  assert.match(executionsPageHeaderSource, /shipping-template selection/u);
+  assert.match(executionsPageHeaderSource, /Compatibility shipping wrapper\. Bitcode-owned meaning lives in written assets \/ asset packs\./u);
+  assert.match(executionsPageHeaderSource, /No shipping surfaces to summarize/u);
+  assert.match(executionsPageHeaderSource, /expected written asset pack and shipping result/u);
+  assert.match(executionsPageHeaderSource, /A shipping delivery mechanism can be a/u);
+  assert.match(executionsPageHeaderSource, /each shipping a stable asset pack and always supplemented by a final work summary/u);
+  assert.match(executionsPageHeaderSource, /single high-quality asset pack and its shipping result/u);
+  assert.match(deliverablesRouteSource, /Retained compatibility route handlers for asset-pack shipping pipeline runs\./u);
+  assert.match(deliverablesRouteSource, /Create and execute the retained compatibility route for an asset-pack/u);
+  assert.match(deliverablesRouteSource, /execution\.store\('route\/preprocessed', 'assetPackWrittenAsset', preprocessing\);/u);
+  assert.match(deliverablesRouteSource, /semanticKind: 'asset-pack-written-asset' as const/u);
+  assert.match(deliverablesRouteSource, /need: finalWorkSummary\?\.need \|\| preprocessedSnapshot\?\.need \|\| definition_of_done/u);
+  assert.match(deliverablesRouteSource, /assetPack: finalWorkSummary\?\.assetPack \|\| preprocessedSnapshot\?\.assetPack \|\| null/u);
+  assert.match(deliverablesRouteSource, /buildSemanticCompletionResult/u);
+  assert.match(semanticPayloadSource, /semanticKind: 'asset-pack-written-asset'/u);
+  assert.match(semanticPayloadSource, /writtenAssets/u);
+  assert.match(semanticPayloadSource, /deliveryMechanism/u);
+  assert.match(semanticPayloadSource, /assetPack/u);
+  assert.match(streamParserSource, /writtenAssets,/u);
+  assert.match(streamParserSource, /deliveryMechanism,/u);
+  assert.match(streamParserSource, /semanticKind: data\.result\.semanticKind \|\|/u);
 });

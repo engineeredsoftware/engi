@@ -28,7 +28,7 @@ import {
 } from './application-transaction-detail-snapshot';
 import { MASTER_DETAIL_SUBSTRUCTURES } from './application-experience-architecture';
 import { APPLICATION_SURFACE_COPY } from './application-workspace-copy';
-import { MOCK_RUN_DELIVERABLES, type WorkspaceRun } from './application-run-data';
+import { MOCK_RUN_ASSET_PACK_SURFACES, type WorkspaceRun } from './application-run-data';
 import { jumpToShellSection } from './application-shell-reading';
 
 function formatRunTimestamp(value: string) {
@@ -235,7 +235,7 @@ export default function ApplicationTransactionWorkspace({
   onSelectTransaction,
   onRecordActivity,
 }: ApplicationTransactionWorkspaceProps) {
-  const mockDeliverables = selectedRun ? MOCK_RUN_DELIVERABLES[selectedRun.id] : null;
+  const mockAssetPackSurface = selectedRun ? MOCK_RUN_ASSET_PACK_SURFACES[selectedRun.id] : null;
   const usesMockTransactions = isMockTransactionDataMode(transactionDataMode);
   const [runDetail, setRunDetail] = useState<ApplicationRunDetailSnapshot | null>(null);
   const [isLoadingRunDetail, setIsLoadingRunDetail] = useState(false);
@@ -253,7 +253,7 @@ export default function ApplicationTransactionWorkspace({
       };
     }
 
-    const fallbackDetail = buildApplicationRunDetailFromSelectedRun(selectedRun, mockDeliverables);
+    const fallbackDetail = buildApplicationRunDetailFromSelectedRun(selectedRun, mockAssetPackSurface);
     setRunDetail(fallbackDetail);
     setRunDetailError(null);
 
@@ -276,7 +276,7 @@ export default function ApplicationTransactionWorkspace({
       })
       .then((payload) => {
         if (disposed) return;
-        setRunDetail(normalizeApplicationRunDetailPayload(payload, selectedRun, mockDeliverables));
+        setRunDetail(normalizeApplicationRunDetailPayload(payload, selectedRun, mockAssetPackSurface));
       })
       .catch((error) => {
         if (disposed) return;
@@ -294,7 +294,7 @@ export default function ApplicationTransactionWorkspace({
     return () => {
       disposed = true;
     };
-  }, [mockDeliverables, selectedRun, usesMockTransactions]);
+  }, [mockAssetPackSurface, selectedRun, usesMockTransactions]);
 
   const masterDetailSubstructures = useMemo(
     () => (selectedRun ? buildMasterDetailSubstructures(selectedRun, runDetail) : []),

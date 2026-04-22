@@ -112,20 +112,82 @@ export const parseStreamChunk = (chunk: string): ParsedStreamData => {
         }
         case 'completion': {
           if (data.result) {
-            // Build deliverables payload
-            const deliverables = {
+            const topLevelFileChanges = data.fileChanges || null;
+            const explicitWrittenAssets = data.result.writtenAssets || null;
+            const explicitDeliveryMechanism = data.result.deliveryMechanism || null;
+            const explicitDeliverables = data.result.deliverables || null;
+            const actionsFileChanges = data.result.actions?.files || null;
+
+            const semanticFileChanges =
+              explicitWrittenAssets?.fileChanges ||
+              topLevelFileChanges ||
+              explicitDeliveryMechanism?.fileChanges ||
+              explicitDeliverables?.fileChanges ||
+              actionsFileChanges ||
+              null;
+
+            const compatibilityFileChanges =
+              explicitDeliverables?.fileChanges ||
+              topLevelFileChanges ||
+              actionsFileChanges ||
+              explicitDeliveryMechanism?.fileChanges ||
+              explicitWrittenAssets?.fileChanges ||
+              null;
+
+            const actionsSurface = {
               pullRequest: data.result.actions?.pullRequest || null,
               pullRequestReviews: data.result.actions?.pullRequestReviews || null,
               comments: data.result.actions?.comments || null,
               issues: data.result.actions?.issues || null,
-              // Prefer top-level fileChanges if provided (telemetry), fallback to actions.files
-              fileChanges: data.fileChanges || data.result.actions?.files || null
+              fileChanges:
+                topLevelFileChanges ||
+                actionsFileChanges ||
+                explicitDeliverables?.fileChanges ||
+                explicitDeliveryMechanism?.fileChanges ||
+                explicitWrittenAssets?.fileChanges ||
+                null,
+              summary: data.result.summary || null,
             };
+
+            const writtenAssets =
+              explicitWrittenAssets ||
+              explicitDeliverables ||
+              (data.result.summary || semanticFileChanges
+                ? {
+                    ...(data.result.summary ? { summary: data.result.summary } : {}),
+                    ...(semanticFileChanges ? { fileChanges: semanticFileChanges } : {}),
+                  }
+                : null);
+
+            const deliveryMechanism =
+              explicitDeliveryMechanism ||
+              explicitDeliverables ||
+              actionsSurface;
+
+            const deliverables =
+              explicitDeliverables ||
+              (deliveryMechanism || writtenAssets
+                ? {
+                    pullRequest: deliveryMechanism?.pullRequest ?? writtenAssets?.pullRequest ?? null,
+                    pullRequestReviews:
+                      deliveryMechanism?.pullRequestReviews ?? writtenAssets?.pullRequestReviews ?? null,
+                    comments: deliveryMechanism?.comments ?? writtenAssets?.comments ?? null,
+                    issues: deliveryMechanism?.issues ?? writtenAssets?.issues ?? null,
+                    fileChanges: compatibilityFileChanges,
+                    summary: writtenAssets?.summary ?? deliveryMechanism?.summary ?? null,
+                  }
+                : null);
 
             parsedData.completion = {
               ...data.result,
               display: data.result.summary || data.result.message || 'Task completed',
               deliverables,
+              writtenAssets,
+              deliveryMechanism,
+              semanticKind: data.result.semanticKind || (writtenAssets || deliveryMechanism ? 'asset-pack-written-asset' : undefined),
+              need: data.result.need || null,
+              writtenAssetType: data.result.writtenAssetType || null,
+              assetPack: data.result.assetPack || null,
               duration: data.duration || data.result.duration,
               taskType: data.result.taskType,
               processingStats: data.result.processingStats,

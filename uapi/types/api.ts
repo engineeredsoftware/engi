@@ -72,6 +72,53 @@ export interface CompletionData {
       };
     } | null;
   };
+  /** Stable Bitcode-owned written asset / asset-pack projection. */
+  writtenAssets?: {
+    pullRequest?: Deliverable | null;
+    pullRequestReviews?: Deliverable[] | null;
+    comments?: Deliverable[] | null;
+    issues?: Deliverable[] | null;
+    fileChanges?: {
+      edited: number;
+      created: number;
+      deleted: number;
+      paths?: string[];
+      charDiff?: {
+        edited: number;
+        created: number;
+        deleted: number;
+      };
+    } | null;
+    summary?: string | null;
+  } | null;
+  /** Shipping wrapper projected onto connected interfaces. */
+  deliveryMechanism?: {
+    pullRequest?: Deliverable | null;
+    pullRequestReviews?: Deliverable[] | null;
+    comments?: Deliverable[] | null;
+    issues?: Deliverable[] | null;
+    fileChanges?: {
+      edited: number;
+      created: number;
+      deleted: number;
+      paths?: string[];
+      charDiff?: {
+        edited: number;
+        created: number;
+        deleted: number;
+      };
+    } | null;
+    summary?: string | null;
+  } | null;
+  semanticKind?: 'asset-pack-written-asset';
+  need?: string | null;
+  writtenAssetType?: string | null;
+  assetPack?: {
+    need?: string | null;
+    writtenAssetType?: string | null;
+    definitionOfDone?: string | null;
+    deliveryTarget?: string | null;
+  } | null;
   /** Total time in milliseconds */
   duration: number;
   /** Type of task executed */

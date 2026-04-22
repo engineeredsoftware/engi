@@ -1,7 +1,7 @@
 /**
  * Deliverables API Route Handlers
- * 
- * Clean orchestration for deliverable pipeline operations.
+ *
+ * Retained compatibility route handlers for asset-pack shipping pipeline runs.
  * All database operations use ORM, all VCS operations use VCS service.
  */
 
@@ -28,6 +28,7 @@ import { BitcodeError, reportError } from '@bitcode/errors';
 import { sendEmail } from '@bitcode/email';
 import { createPipelineCompletionMessage, findOrCreateConversationForPipeline } from '../conversations';
 import { createJsonResponse, createErrorResponse, createAuthErrorResponse } from '@bitcode/responses';
+import { buildSemanticCompletionResult } from './deliverables-semantic-payload';
 import * as crypto from 'crypto';
 import { Streamer } from '@bitcode/streams';
 
@@ -456,7 +457,8 @@ export const GET = traceRoute('/deliverables', async (request: NextRequest) => {
 /**
  * POST /api/deliverables
  * 
- * Create and execute a deliverable pipeline
+ * Create and execute the retained compatibility route for an asset-pack
+ * shipping pipeline run.
  * 
  * Flow:
  * 1. Parse request (JSON or multipart with file uploads)
@@ -923,14 +925,23 @@ export const POST = traceRoute('/deliverables', async (request: NextRequest) => 
           gate: gate as 'Design' | 'Develop' | 'Digest'
         };
 
-        // ROUTE PIPELINE EXECUTION: Preprocess (deliverables)
+        // ROUTE PIPELINE EXECUTION: Preprocess the retained compatibility
+        // route while storing the Bitcode-owned asset-pack run snapshot.
         try {
           const preprocessing = {
             multi: !!multiDeliverable,
             compute: computeEnabled,
             selectedPipeline: multiDeliverable ? 'multi' : 'standard',
-            provisioning: computeEnabled ? 'requested' : 'skipped'
+            provisioning: computeEnabled ? 'requested' : 'skipped',
+            need: definition_of_done,
+            deliveryTarget: 'pr',
+            semanticKind: 'asset-pack-written-asset' as const,
+            assetPack: {
+              need: definition_of_done,
+              deliveryTarget: 'pr',
+            },
           };
+          execution.store('route/preprocessed', 'assetPackWrittenAsset', preprocessing);
           execution.store('route/preprocessed', 'deliverables', preprocessing);
         } catch {}
 
@@ -987,48 +998,6 @@ export const POST = traceRoute('/deliverables', async (request: NextRequest) => 
             deleted: Array.from(deleted),
           };
         } catch {}
-
-        // Build client-facing result with FinalWorkSummary if available
-        let clientResult: any = result;
-        try {
-          const fws = finalWorkSummary;
-          if (fws) {
-            const writtenAssets = fws.writtenAssets || fws.deliverables;
-            const deliveryMechanism = fws.deliveryMechanism || fws.deliverables || writtenAssets;
-            clientResult = {
-              ...result,
-              summary: fws.summary || writtenAssets?.summary,
-              processingStats: fws.processingStats,
-              repoSnapshot: fws.repoSnapshot,
-              actions: {
-                pullRequest: deliveryMechanism?.pullRequest || null,
-                pullRequestReviews: deliveryMechanism?.pullRequestReviews || null,
-                comments: deliveryMechanism?.comments || null,
-                issues: deliveryMechanism?.issues || null,
-                files: writtenAssets?.fileChanges || null,
-              },
-            };
-            // Prefer fileChanges from FWS when present
-            if (writtenAssets?.fileChanges) {
-              fileChanges = writtenAssets.fileChanges as any;
-            }
-          }
-        } catch {}
-
-        const completionEvent = {
-          type: 'completion',
-          result: clientResult,
-          duration: totalDuration,
-          correlationId,
-          fileChanges
-        };
-        
-        await writer.write(encoder.encode(`data: ${JSON.stringify(completionEvent)}\n\n`));
-        await orm.executionEvents.create({
-          execution_id: runId,
-          event_type: completionEvent.type,
-          event_data: { ...completionEvent, runId } as any
-        } as any);
 
         // Update run status - serialize execution data
         const executionData: any = {
@@ -1207,6 +1176,32 @@ export const POST = traceRoute('/deliverables', async (request: NextRequest) => 
           }
         }
 
+        // Build client-facing result only after semantic final-work-summary mirrors
+        // have been extracted so the streamed completion payload can carry the
+        // same Bitcode-owned meaning as persisted reread.
+        const semanticCompletion = buildSemanticCompletionResult({
+          result,
+          finalWorkSummary,
+          fileChanges: fileChanges as any,
+        });
+        const clientResult: any = semanticCompletion.clientResult;
+        fileChanges = (semanticCompletion.fileChanges as any) || fileChanges;
+
+        const completionEvent = {
+          type: 'completion',
+          result: clientResult,
+          duration: totalDuration,
+          correlationId,
+          fileChanges
+        };
+
+        await writer.write(encoder.encode(`data: ${JSON.stringify(completionEvent)}\n\n`));
+        await orm.executionEvents.create({
+          execution_id: runId,
+          event_type: completionEvent.type,
+          event_data: { ...completionEvent, runId } as any
+        } as any);
+
         const gateState = execution?.get?.('gate', 'state') as
           | { history?: unknown }
           | undefined;
@@ -1219,7 +1214,15 @@ export const POST = traceRoute('/deliverables', async (request: NextRequest) => 
           durationMs: Date.now() - startTime,
           guide: execution?.get('meta', 'phase') || gate,
           deliverableType,
-          writtenAssetType: finalWorkSummary?.writtenAssetType || deliverableType
+          writtenAssetType: finalWorkSummary?.writtenAssetType || deliverableType,
+          need: finalWorkSummary?.need || preprocessedSnapshot?.need || definition_of_done,
+          assetPack: finalWorkSummary?.assetPack || preprocessedSnapshot?.assetPack || null,
+          semanticKind:
+            finalWorkSummary?.writtenAssets ||
+            finalWorkSummary?.deliveryMechanism ||
+            finalWorkSummary?.assetPack
+              ? 'asset-pack-written-asset'
+              : null,
         };
 
         if (gateState?.history) {
