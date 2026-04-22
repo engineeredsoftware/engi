@@ -14,6 +14,7 @@ For V26 fifth-gate and the reopened fourth-gate truth:
 - `packages/generic-doc-comment-plugins/*` is a `reference-only` plugin corridor.
 - `packages/prompts/src/developing/*` remains prompt-package internal experimentation, not a public import surface for retained doc-comment consumers.
 - `packages/doc-comment/examples/*` may survive as illustrative reference material, but they do not define live Bitcode Exchange, Bitcode Terminal, or admitted inference-runtime behavior.
+- generic corridor-by-corridor reform tactics remain governed by `protocol-demonstration/V26_REFORM_STRATEGY.md`.
 
 ## Why this corridor needs careful reform
 

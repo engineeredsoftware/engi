@@ -119,6 +119,7 @@ export const EXECUTION_NAMESPACES = {
   ],
   'route/preprocessed': [
     'deliverables',  // object — route preprocess snapshot
+    'assetPackWrittenAsset', // object — semantic asset-pack snapshot
     'ai_documents',  // object — route preprocess snapshot
   ],
   'shipping/final_work_summary': [
@@ -126,6 +127,9 @@ export const EXECUTION_NAMESPACES = {
     'processingStats',  // { time, tokens?, credits? }
     'repoSnapshot',     // { org, repo, branch, commit }
     'deliverables',     // deliverable-specific rollups
+    'writtenAssets',    // semantic written-asset rollups
+    'need',             // semantic expressed need
+    'writtenAssetType', // semantic written-asset type
   ],
   postprocessed: [
     'result',       // normalized postprocessed (deliverable/multi/measure)

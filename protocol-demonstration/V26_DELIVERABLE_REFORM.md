@@ -5,6 +5,7 @@
 - Scope: supplementary V26 reform note for the retained `packages/pipelines/deliverable/*` corridor
 - Canonical pointer: `/Users/garrettmaring/Developer/ENGI/BITCODE_SPEC.txt -> V26`
 - Purpose: keep the old-world `deliverable` family legible while making Bitcode's actual semantic ownership precise
+- Generic strategy companion: `protocol-demonstration/V26_REFORM_STRATEGY.md`
 
 ## Rule
 

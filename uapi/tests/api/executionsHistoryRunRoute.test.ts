@@ -56,6 +56,16 @@ describe('GET /api/executions/history/[runId]', () => {
             output: {
               final_work_summary: {
                 summary: 'Persisted closure posture.',
+                writtenAssets: {
+                  summary: 'Persisted closure posture.',
+                },
+                need: 'Refresh closure proofs and reopen fourth-gate truth honestly.',
+                writtenAssetType: 'proof-refresh',
+                assetPack: {
+                  need: 'Refresh closure proofs and reopen fourth-gate truth honestly.',
+                  writtenAssetType: 'proof-refresh',
+                  deliveryTarget: 'proof',
+                },
                 repoSnapshot: {
                   org: 'bitcode',
                   repo: 'terminal',
@@ -147,8 +157,28 @@ describe('GET /api/executions/history/[runId]', () => {
           usdTotal: 0.91,
           averageLatencyMs: 880,
         },
+        written_assets: {
+          summary: 'Persisted closure posture.',
+        },
+        need: 'Refresh closure proofs and reopen fourth-gate truth honestly.',
+        written_asset_type: 'proof-refresh',
+        asset_pack: {
+          need: 'Refresh closure proofs and reopen fourth-gate truth honestly.',
+          writtenAssetType: 'proof-refresh',
+          deliveryTarget: 'proof',
+        },
         final_work_summary: expect.objectContaining({
           summary: 'Persisted closure posture.',
+          writtenAssets: {
+            summary: 'Persisted closure posture.',
+          },
+          need: 'Refresh closure proofs and reopen fourth-gate truth honestly.',
+          writtenAssetType: 'proof-refresh',
+          assetPack: {
+            need: 'Refresh closure proofs and reopen fourth-gate truth honestly.',
+            writtenAssetType: 'proof-refresh',
+            deliveryTarget: 'proof',
+          },
         }),
       }),
     );

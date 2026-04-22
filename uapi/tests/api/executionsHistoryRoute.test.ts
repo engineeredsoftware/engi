@@ -53,6 +53,16 @@ describe('GET /api/executions/history', () => {
           summary: 'Recorded closure posture.',
           final_work_summary: {
             summary: 'Recorded closure posture.',
+            writtenAssets: {
+              summary: 'Recorded closure posture.',
+            },
+            need: 'Refresh fifth-gate proof posture and closure evidence.',
+            writtenAssetType: 'proof-refresh',
+            assetPack: {
+              need: 'Refresh fifth-gate proof posture and closure evidence.',
+              writtenAssetType: 'proof-refresh',
+              deliveryTarget: 'proof',
+            },
             processingStats: {
               time: '4m 12s',
               tokens: {
@@ -91,8 +101,20 @@ describe('GET /api/executions/history', () => {
         type: 'agentic-execution:branch-artifact',
         input: {},
         output: {
+          preprocessed: {
+            need: 'Materialize a branch-ready asset pack for settlement follow-through.',
+            writtenAssetType: 'branch-artifact',
+            assetPack: {
+              need: 'Materialize a branch-ready asset pack for settlement follow-through.',
+              writtenAssetType: 'branch-artifact',
+              deliveryTarget: 'pr',
+            },
+          },
           final_work_summary: {
             summary: 'Branch artifact persisted.',
+            deliverables: {
+              summary: 'Branch artifact persisted.',
+            },
             repoSnapshot: {
               org: 'bitcode',
               repo: 'terminal',
@@ -152,8 +174,28 @@ describe('GET /api/executions/history', () => {
           usdTotal: 1.62,
           averageLatencyMs: 930,
         },
+        written_assets: {
+          summary: 'Recorded closure posture.',
+        },
+        need: 'Refresh fifth-gate proof posture and closure evidence.',
+        written_asset_type: 'proof-refresh',
+        asset_pack: {
+          need: 'Refresh fifth-gate proof posture and closure evidence.',
+          writtenAssetType: 'proof-refresh',
+          deliveryTarget: 'proof',
+        },
         final_work_summary: expect.objectContaining({
           summary: 'Recorded closure posture.',
+          writtenAssets: {
+            summary: 'Recorded closure posture.',
+          },
+          need: 'Refresh fifth-gate proof posture and closure evidence.',
+          writtenAssetType: 'proof-refresh',
+          assetPack: {
+            need: 'Refresh fifth-gate proof posture and closure evidence.',
+            writtenAssetType: 'proof-refresh',
+            deliveryTarget: 'proof',
+          },
         }),
       }),
       expect.objectContaining({
@@ -175,8 +217,28 @@ describe('GET /api/executions/history', () => {
             total: 80,
           },
         },
+        written_assets: {
+          summary: 'Branch artifact persisted.',
+        },
+        need: 'Materialize a branch-ready asset pack for settlement follow-through.',
+        written_asset_type: 'branch-artifact',
+        asset_pack: {
+          need: 'Materialize a branch-ready asset pack for settlement follow-through.',
+          writtenAssetType: 'branch-artifact',
+          deliveryTarget: 'pr',
+        },
         final_work_summary: expect.objectContaining({
           summary: 'Branch artifact persisted.',
+          writtenAssets: {
+            summary: 'Branch artifact persisted.',
+          },
+          need: 'Materialize a branch-ready asset pack for settlement follow-through.',
+          writtenAssetType: 'branch-artifact',
+          assetPack: {
+            need: 'Materialize a branch-ready asset pack for settlement follow-through.',
+            writtenAssetType: 'branch-artifact',
+            deliveryTarget: 'pr',
+          },
         }),
       }),
     ]);

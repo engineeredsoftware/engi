@@ -112,6 +112,7 @@ function buildMasterDetailSubstructures(
       return {
         ...substructure,
         summary:
+          (detail as typeof detail & { writtenAssets?: { summary?: string | null } })?.writtenAssets?.summary ||
           detail?.deliverables?.summary ||
           'Asset-pack surfaces stay inside the selected Bitcode activity context so you can inspect output without leaving the Bitcode Terminal.',
         metrics: [

@@ -993,22 +993,23 @@ export const POST = traceRoute('/deliverables', async (request: NextRequest) => 
         try {
           const fws = finalWorkSummary;
           if (fws) {
+            const writtenAssets = fws.writtenAssets || fws.deliverables;
             clientResult = {
               ...result,
-              summary: fws.summary || fws.deliverables?.summary,
+              summary: fws.summary || writtenAssets?.summary,
               processingStats: fws.processingStats,
               repoSnapshot: fws.repoSnapshot,
               actions: {
-                pullRequest: fws.deliverables?.pullRequest || null,
-                pullRequestReviews: fws.deliverables?.pullRequestReviews || null,
-                comments: fws.deliverables?.comments || null,
-                issues: fws.deliverables?.issues || null,
-                files: fws.deliverables?.fileChanges || null,
+                pullRequest: writtenAssets?.pullRequest || null,
+                pullRequestReviews: writtenAssets?.pullRequestReviews || null,
+                comments: writtenAssets?.comments || null,
+                issues: writtenAssets?.issues || null,
+                files: writtenAssets?.fileChanges || null,
               },
             };
             // Prefer fileChanges from FWS when present
-            if (fws.deliverables?.fileChanges) {
-              fileChanges = fws.deliverables.fileChanges as any;
+            if (writtenAssets?.fileChanges) {
+              fileChanges = writtenAssets.fileChanges as any;
             }
           }
         } catch {}
@@ -1042,19 +1043,62 @@ export const POST = traceRoute('/deliverables', async (request: NextRequest) => 
           }
         }
         // Enrich final work summary with token/$BTD aggregates and merge into execution output
+        let preprocessedSnapshot: any = undefined;
         try {
+          preprocessedSnapshot =
+            (execution as any).get?.('route/preprocessed', 'assetPackWrittenAsset') ||
+            (execution as any).get?.('route/preprocessed', 'deliverables') ||
+            undefined;
+          const writtenAssets =
+            (execution as any).get?.('shipping/final_work_summary', 'writtenAssets') ||
+            (execution as any).get?.('shipping/final_work_summary', 'deliverables') ||
+            undefined;
+          const need =
+            (execution as any).get?.('shipping/final_work_summary', 'need') ||
+            (execution as any).get?.('pipeline', 'expressedNeed') ||
+            preprocessedSnapshot?.need ||
+            undefined;
+          const writtenAssetType =
+            (execution as any).get?.('shipping/final_work_summary', 'writtenAssetType') ||
+            (execution as any).get?.('pipeline', 'writtenAssetType') ||
+            (execution as any).get?.('pipeline', 'deliverableType') ||
+            preprocessedSnapshot?.writtenAssetType ||
+            preprocessedSnapshot?.deliverableType ||
+            undefined;
+
           finalWorkSummary = {
             summary: (execution as any).get?.('shipping/final_work_summary', 'summary'),
             processingStats: (execution as any).get?.('shipping/final_work_summary', 'processingStats'),
             repoSnapshot: (execution as any).get?.('shipping/final_work_summary', 'repoSnapshot'),
             deliverables: (execution as any).get?.('shipping/final_work_summary', 'deliverables'),
+            writtenAssets,
+            need,
+            writtenAssetType,
+            assetPack:
+              preprocessedSnapshot?.assetPack ||
+              (need || writtenAssetType || preprocessedSnapshot?.deliveryTarget
+                ? {
+                    ...(need ? { need } : {}),
+                    ...(writtenAssetType ? { writtenAssetType } : {}),
+                    ...(preprocessedSnapshot?.deliveryTarget
+                      ? { deliveryTarget: preprocessedSnapshot.deliveryTarget }
+                      : {}),
+                  }
+                : undefined),
           };
-          if (!finalWorkSummary?.summary && !finalWorkSummary?.deliverables?.summary) finalWorkSummary = undefined;
+          if (
+            !finalWorkSummary?.summary &&
+            !finalWorkSummary?.writtenAssets?.summary &&
+            !finalWorkSummary?.deliverables?.summary
+          ) finalWorkSummary = undefined;
         } catch {}
 
         // Aggregate token usage and BTD spend if possible
         if (finalWorkSummary) {
           if (!finalWorkSummary.processingStats) finalWorkSummary.processingStats = {};
+          if (!finalWorkSummary.summary && finalWorkSummary.writtenAssets?.summary) {
+            finalWorkSummary.summary = finalWorkSummary.writtenAssets.summary;
+          }
           if (!finalWorkSummary.summary && finalWorkSummary.deliverables?.summary) {
             finalWorkSummary.summary = finalWorkSummary.deliverables.summary;
           }
@@ -1092,9 +1136,12 @@ export const POST = traceRoute('/deliverables', async (request: NextRequest) => 
 
         // Attach postprocessed result for unified read, enriched with RTS
         let postprocessed: any = undefined;
-        const deliverableSnapshot = (execution as any).get?.('route/preprocessed', 'deliverables');
+        const deliverableSnapshot =
+          preprocessedSnapshot || (execution as any).get?.('route/preprocessed', 'deliverables');
         const deliverableType =
+          (execution as any).get?.('pipeline', 'writtenAssetType') ||
           (execution as any).get?.('pipeline', 'deliverableType') ||
+          deliverableSnapshot?.writtenAssetType ||
           deliverableSnapshot?.deliverableType ||
           undefined;
         let digestStatus: any = undefined;
@@ -1160,7 +1207,8 @@ export const POST = traceRoute('/deliverables', async (request: NextRequest) => 
           definitionOfDone: definition_of_done,
           durationMs: Date.now() - startTime,
           guide: execution?.get('meta', 'phase') || gate,
-          deliverableType
+          deliverableType,
+          writtenAssetType: finalWorkSummary?.writtenAssetType || deliverableType
         };
 
         if (gateState?.history) {
@@ -1174,7 +1222,7 @@ export const POST = traceRoute('/deliverables', async (request: NextRequest) => 
         await orm.pipelineExecutions.update(runId, {
           status: 'completed',
           output: { ...(result as any),
-            ...(execution?.get('route/preprocessed','deliverables') ? { preprocessed: execution.get('route/preprocessed','deliverables') } : {}),
+            ...(preprocessedSnapshot ? { preprocessed: preprocessedSnapshot } : {}),
             ...(finalWorkSummary ? { final_work_summary: finalWorkSummary } : {}),
             ...(postprocessed ? { postprocessed } : {})
           } as any,

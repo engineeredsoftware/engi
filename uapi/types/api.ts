@@ -157,11 +157,29 @@ export interface PipelineExecution {
 
   /** Repository snapshot meta */
   repo_snapshot?: { org: string; repo: string; branch: string; commit: string } | null;
+  written_assets?: { summary?: string | null } | null;
+  need?: string | null;
+  written_asset_type?: string | null;
+  asset_pack?: {
+    need?: string | null;
+    writtenAssetType?: string | null;
+    definitionOfDone?: string | null;
+    deliveryTarget?: string | null;
+  } | null;
 
   /** Canonical Final Work Summary payload */
   final_work_summary?: {
     summary?: string | null;
     deliverables?: { summary?: string | null };
+    writtenAssets?: { summary?: string | null };
+    need?: string | null;
+    writtenAssetType?: string | null;
+    assetPack?: {
+      need?: string | null;
+      writtenAssetType?: string | null;
+      definitionOfDone?: string | null;
+      deliveryTarget?: string | null;
+    };
     processingStats?: {
       time: string;
       tokens?: { input: number; output: number; total: number };
@@ -217,9 +235,27 @@ export interface AIDocumentRun {
     }>;
   } | null;
   repo_snapshot?: { org: string; repo: string; branch: string; commit: string } | null;
+  written_assets?: { summary?: string | null } | null;
+  need?: string | null;
+  written_asset_type?: string | null;
+  asset_pack?: {
+    need?: string | null;
+    writtenAssetType?: string | null;
+    definitionOfDone?: string | null;
+    deliveryTarget?: string | null;
+  } | null;
   final_work_summary?: {
     summary?: string | null;
     deliverables?: { summary?: string | null };
+    writtenAssets?: { summary?: string | null };
+    need?: string | null;
+    writtenAssetType?: string | null;
+    assetPack?: {
+      need?: string | null;
+      writtenAssetType?: string | null;
+      definitionOfDone?: string | null;
+      deliveryTarget?: string | null;
+    };
     processingStats?: {
       time: string;
       tokens?: { input: number; output: number; total: number };

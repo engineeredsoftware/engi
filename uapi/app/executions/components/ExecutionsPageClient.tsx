@@ -529,7 +529,7 @@ export function ExecutionsClient() {
             issues: [],
             comments: [],
             fileChanges: null,
-            summary: historyFWS?.deliverables?.summary || undefined
+            summary: historyFWS?.writtenAssets?.summary || historyFWS?.deliverables?.summary || undefined
           }}
           processingStats={combinedProcessingStats}
           repoSnapshot={historyFWS?.repoSnapshot || undefined}

@@ -78,6 +78,15 @@ export type RepoSnapshot = { org: string; repo: string; branch: string; commit: 
 export type HeaderFinalWorkSummary = {
   summary?: string | null;
   deliverables?: HeaderDeliverables;
+  writtenAssets?: HeaderDeliverables;
+  need?: string | null;
+  writtenAssetType?: string | null;
+  assetPack?: {
+    need?: string | null;
+    writtenAssetType?: string | null;
+    definitionOfDone?: string | null;
+    deliveryTarget?: string | null;
+  };
   processingStats?: HeaderProcessingStats;
   repoSnapshot?: RepoSnapshot;
   guide?: string | null;

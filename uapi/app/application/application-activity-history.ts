@@ -485,7 +485,11 @@ export function mapExecutionHistoryRunToWorkspaceRun(run: PipelineExecution): Wo
     agentic_execution: agenticExecution,
     sourceModel: 'execution-history',
     summary:
-      run.summary || run.final_work_summary?.summary || run.final_work_summary?.deliverables?.summary || null,
+      run.summary ||
+      run.final_work_summary?.summary ||
+      run.final_work_summary?.writtenAssets?.summary ||
+      run.final_work_summary?.deliverables?.summary ||
+      null,
     repository:
       run.repo_snapshot || run.final_work_summary?.repoSnapshot
         ? `${(run.repo_snapshot || run.final_work_summary?.repoSnapshot)?.org}/${(run.repo_snapshot || run.final_work_summary?.repoSnapshot)?.repo}`

@@ -1,8 +1,8 @@
 {
   "reportId": "v26-system-reform-admissibility-proof",
   "version": "V26",
-  "proofSourceCommit": "daf8edb9081381b9498ccd08ce435a22028c5599",
-  "generatedAt": "2026-04-22T16:35:40-03:00",
+  "proofSourceCommit": "a1b6933b1828e27dfb0f8ece5b8457036eb92da9",
+  "generatedAt": "2026-04-22T17:17:24-03:00",
   "generatorId": "bitcode.proven-generator.v1",
   "worktreeState": "dirty-preview",
   "passed": true,
@@ -26,13 +26,15 @@
       "checkId": "system-reform-governance-witnesses",
       "label": "System-reform governance remains explicit in the active V26 family",
       "passed": true,
-      "detail": "5 required files present",
+      "detail": "7 required files present",
       "requiredFiles": [
         "BITCODE_SPEC_V26.md",
         "BITCODE_SPEC_V26_PARITY_MATRIX.md",
         "BITCODE_SPEC_V26_NOTES.md",
         "protocol-demonstration/V26_APPLICATION_SYSTEMS.md",
-        "protocol-demonstration/V26_PROOF_SURFACES.md"
+        "protocol-demonstration/V26_PROOF_SURFACES.md",
+        "protocol-demonstration/V26_REFORM_STRATEGY.md",
+        "protocol-demonstration/test/v26-reform-strategy.test.js"
       ],
       "missingFiles": [],
       "reformClass": "governance",

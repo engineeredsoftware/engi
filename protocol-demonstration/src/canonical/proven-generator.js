@@ -1475,7 +1475,9 @@ const V26_SYSTEM_REFORM_DECISIONS = [
       'BITCODE_SPEC_V26_PARITY_MATRIX.md',
       'BITCODE_SPEC_V26_NOTES.md',
       'protocol-demonstration/V26_APPLICATION_SYSTEMS.md',
-      'protocol-demonstration/V26_PROOF_SURFACES.md'
+      'protocol-demonstration/V26_PROOF_SURFACES.md',
+      'protocol-demonstration/V26_REFORM_STRATEGY.md',
+      'protocol-demonstration/test/v26-reform-strategy.test.js'
     ]
   },
   {

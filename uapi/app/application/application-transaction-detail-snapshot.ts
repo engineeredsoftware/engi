@@ -518,7 +518,10 @@ export function normalizeApplicationRunDetailPayload(
   if (!run) return base;
 
   const finalWorkSummary = readFinalWorkSummary(run);
-  const deliverables = coerceDeliverables(finalWorkSummary?.deliverables) || base.deliverables;
+  const deliverables =
+    coerceDeliverables(finalWorkSummary?.writtenAssets) ||
+    coerceDeliverables(finalWorkSummary?.deliverables) ||
+    base.deliverables;
   const repoSnapshot =
     coerceRepoSnapshot(run.repo_snapshot) || coerceRepoSnapshot(finalWorkSummary?.repoSnapshot) || base.repoSnapshot;
   const closureFollowThrough =

@@ -108,6 +108,83 @@ function readFinalWorkSummary(row: ExecutionHistoryRow) {
   return output ? asRecord(output.final_work_summary) : null;
 }
 
+function readPreprocessedRecord(row: ExecutionHistoryRow) {
+  const output = readOutputRecord(row);
+  return output ? asRecord(output.preprocessed) : null;
+}
+
+function buildWrittenAssets(row: ExecutionHistoryRow) {
+  const output = readOutputRecord(row);
+  const finalWorkSummary = readFinalWorkSummary(row);
+
+  return (
+    asRecord(finalWorkSummary?.writtenAssets) ||
+    asRecord(finalWorkSummary?.deliverables) ||
+    asRecord(output?.writtenAssets)
+  );
+}
+
+function buildNeed(row: ExecutionHistoryRow) {
+  const output = readOutputRecord(row);
+  const context = readContextRecord(row);
+  const finalWorkSummary = readFinalWorkSummary(row);
+  const preprocessed = readPreprocessedRecord(row);
+
+  return (
+    asString(finalWorkSummary?.need) ||
+    asString(output?.need) ||
+    asString(preprocessed?.need) ||
+    asString(context?.need) ||
+    null
+  );
+}
+
+function buildWrittenAssetType(row: ExecutionHistoryRow) {
+  const output = readOutputRecord(row);
+  const context = readContextRecord(row);
+  const finalWorkSummary = readFinalWorkSummary(row);
+  const preprocessed = readPreprocessedRecord(row);
+
+  return (
+    asString(finalWorkSummary?.writtenAssetType) ||
+    asString(output?.writtenAssetType) ||
+    asString(preprocessed?.writtenAssetType) ||
+    asString(output?.deliverableType) ||
+    asString(preprocessed?.deliverableType) ||
+    asString(context?.writtenAssetType) ||
+    asString(context?.deliverableType) ||
+    null
+  );
+}
+
+function buildAssetPack(row: ExecutionHistoryRow) {
+  const output = readOutputRecord(row);
+  const finalWorkSummary = readFinalWorkSummary(row);
+  const preprocessed = readPreprocessedRecord(row);
+  const directAssetPack =
+    asRecord(finalWorkSummary?.assetPack) ||
+    asRecord(output?.assetPack) ||
+    asRecord(preprocessed?.assetPack);
+
+  if (directAssetPack) return directAssetPack;
+
+  const need = buildNeed(row);
+  const writtenAssetType = buildWrittenAssetType(row);
+  const definitionOfDone = asString(preprocessed?.definitionOfDone);
+  const deliveryTarget = asString(preprocessed?.deliveryTarget);
+
+  if (!need && !writtenAssetType && !definitionOfDone && !deliveryTarget) {
+    return null;
+  }
+
+  return {
+    ...(need ? { need } : {}),
+    ...(writtenAssetType ? { writtenAssetType } : {}),
+    ...(definitionOfDone ? { definitionOfDone } : {}),
+    ...(deliveryTarget ? { deliveryTarget } : {}),
+  };
+}
+
 function readProcessingStatsSource(row: ExecutionHistoryRow) {
   const output = readOutputRecord(row);
   const finalWorkSummary = readFinalWorkSummary(row);
@@ -188,12 +265,12 @@ function buildSummary(row: ExecutionHistoryRow) {
   const output = readOutputRecord(row);
   const context = readContextRecord(row);
   const finalWorkSummary = readFinalWorkSummary(row);
-  const deliverables = asRecord(finalWorkSummary?.deliverables);
+  const writtenAssets = buildWrittenAssets(row);
 
   return (
     asString(output?.summary) ||
     asString(finalWorkSummary?.summary) ||
-    asString(deliverables?.summary) ||
+    asString(writtenAssets?.summary) ||
     asString(context?.summary) ||
     null
   );
@@ -208,6 +285,47 @@ function buildGuide(row: ExecutionHistoryRow) {
 
 function buildMetadata(row: ExecutionHistoryRow) {
   return readContextRecord(row);
+}
+
+function buildNormalizedFinalWorkSummary(row: ExecutionHistoryRow) {
+  const finalWorkSummary = readFinalWorkSummary(row);
+  const writtenAssets = buildWrittenAssets(row);
+  const need = buildNeed(row);
+  const writtenAssetType = buildWrittenAssetType(row);
+  const assetPack = buildAssetPack(row);
+  const processingStats = buildProcessingStats(row);
+  const repoSnapshot = buildRepoSnapshot(row);
+  const summary =
+    asString(finalWorkSummary?.summary) || asString(writtenAssets?.summary) || null;
+
+  if (
+    !finalWorkSummary &&
+    !writtenAssets &&
+    !need &&
+    !writtenAssetType &&
+    !assetPack &&
+    !processingStats &&
+    !repoSnapshot &&
+    !summary
+  ) {
+    return null;
+  }
+
+  return {
+    ...(finalWorkSummary || {}),
+    ...(summary ? { summary } : {}),
+    ...(writtenAssets ? { writtenAssets } : {}),
+    ...((asRecord(finalWorkSummary?.deliverables) || writtenAssets)
+      ? { deliverables: asRecord(finalWorkSummary?.deliverables) || writtenAssets }
+      : {}),
+    ...(need ? { need } : {}),
+    ...(writtenAssetType ? { writtenAssetType } : {}),
+    ...(assetPack ? { assetPack } : {}),
+    ...(processingStats
+      ? { processingStats: asRecord(finalWorkSummary?.processingStats) || processingStats }
+      : {}),
+    ...(repoSnapshot ? { repoSnapshot: asRecord(finalWorkSummary?.repoSnapshot) || repoSnapshot } : {}),
+  };
 }
 
 export function normalizeExecutionHistoryRow(row: ExecutionHistoryRow) {
@@ -232,7 +350,11 @@ export function normalizeExecutionHistoryRow(row: ExecutionHistoryRow) {
     summary: buildSummary(row),
     processing_stats: buildProcessingStats(row),
     repo_snapshot: buildRepoSnapshot(row),
-    final_work_summary: readFinalWorkSummary(row),
+    written_assets: buildWrittenAssets(row),
+    need: buildNeed(row),
+    written_asset_type: buildWrittenAssetType(row),
+    asset_pack: buildAssetPack(row),
+    final_work_summary: buildNormalizedFinalWorkSummary(row),
     error: row.error ?? null,
   };
 }

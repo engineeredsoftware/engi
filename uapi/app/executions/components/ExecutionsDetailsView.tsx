@@ -130,9 +130,9 @@ export function ExecutionDetailsView({ runId, executionId }: ExecutionDetailsVie
       {fws && (
         <div className={panelClass}>
           <h2 className="text-lg font-semibold mb-3">Summary</h2>
-          {fws.deliverables?.summary && (
+          {(fws.writtenAssets?.summary || fws.deliverables?.summary) && (
             <div className="prose prose-invert max-w-none prose-p:my-2 prose-ul:my-2 prose-li:my-1 text-sm">
-              <ReactMarkdown>{String(fws.deliverables.summary)}</ReactMarkdown>
+              <ReactMarkdown>{String(fws.writtenAssets?.summary || fws.deliverables?.summary)}</ReactMarkdown>
             </div>
           )}
           {/* TL;DR chips */}

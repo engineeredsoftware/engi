@@ -57,8 +57,8 @@ export declare const EXECUTION_NAMESPACES: {
     readonly config: readonly ["computeEnabled", "multiAgentEnabled", "iterationCount", "mcpConfig"];
     readonly attachments: readonly ["list"];
     readonly ai_documents: readonly ["list"];
-    readonly 'route/preprocessed': readonly ["deliverables", "ai_documents"];
-    readonly 'shipping/final_work_summary': readonly ["summary", "processingStats", "repoSnapshot", "deliverables"];
+    readonly 'route/preprocessed': readonly ["deliverables", "assetPackWrittenAsset", "ai_documents"];
+    readonly 'shipping/final_work_summary': readonly ["summary", "processingStats", "repoSnapshot", "deliverables", "writtenAssets", "need", "writtenAssetType"];
     readonly postprocessed: readonly ["result"];
     readonly "execution-deliverable-pipeline-phase-validation-ready-to-ship-agent": readonly ["approved", "confidence", "assessment", "result", "timestamp"];
     readonly "execution-measure-pipeline-phase-validation-ready-to-ship-agent": readonly ["approved", "confidence", "assessment", "result", "timestamp"];
