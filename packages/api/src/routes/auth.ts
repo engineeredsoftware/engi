@@ -228,8 +228,8 @@ export const metamaskCallback = traceRoute('/auth/metamask/callback', async (req
       return createJsonResponse({ error: 'Missing required parameters' }, 400);
     }
 
-    // Verify signature
-    // TODO: Implement actual signature verification with ethers.js
+    // Signature verification remains staged until an admitted Ethereum recovery
+    // primitive lands on the active Bitcode path.
     
     // Get or create user
     const supabase = await createClient();
@@ -263,7 +263,7 @@ export const metamaskCallback = traceRoute('/auth/metamask/callback', async (req
         display_name: `MetaMask User`,
         wallet_address: address,
         wallet_provider: 'metamask',
-        wallet_binding_status: 'bound',
+        wallet_binding_status: 'pending',
       });
     }
 
@@ -272,7 +272,7 @@ export const metamaskCallback = traceRoute('/auth/metamask/callback', async (req
         user_id: userId,
         wallet_address: address,
         wallet_provider: 'metamask',
-        wallet_binding_status: 'bound',
+        wallet_binding_status: 'pending',
       });
     }
 
@@ -284,18 +284,18 @@ export const metamaskCallback = traceRoute('/auth/metamask/callback', async (req
         provider_user_id: address,
         provider_username: address,
         address,
-        signature,
+        verification_state: 'pending',
+        message,
         connected_at: new Date().toISOString()
       }
     });
 
-    // Track connection
-    await sendServerEvent('metamask_connected', {
+    await sendServerEvent('metamask_connection_staged', {
       user_id: userId,
       wallet_address: address
     });
 
-    log('[auth/metamask] Connection successful', 'info', { 
+    log('[auth/metamask] Verification staged', 'info', { 
       requestId, 
       userId, 
       address 
@@ -303,6 +303,8 @@ export const metamaskCallback = traceRoute('/auth/metamask/callback', async (req
 
     return createJsonResponse({ 
       success: true,
+      staged: true,
+      verificationStatus: 'pending',
       userId
     });
 

@@ -156,14 +156,14 @@ export default function SocialLoginButton({ provider, iconOnly = false, nextPath
   } as const
 
   const { label, shortLabel, icon, className: providerClass } = config[provider]
-  const inactiveLabel = isStagedProvider ? 'Wallet unavailable' : `${shortLabel} unavailable`
+  const inactiveLabel = isStagedProvider ? 'Wallet staged' : `${shortLabel} unavailable`
   const displayLabel = disabled
     ? inactiveLabel
     : variant === 'signup'
     ? shortLabel
     : label
   const disabledReason = isStagedProvider
-    ? 'Wallet connection is not yet available for direct account access'
+    ? 'Wallet-provider verification remains staged in Profile; direct wallet sign-in is not yet active here'
     : `${shortLabel} is not active in the current Bitcode application surface`
   // Icon element, override size/color for iconOnly
   let iconElement = icon

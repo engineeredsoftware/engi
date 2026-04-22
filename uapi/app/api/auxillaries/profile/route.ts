@@ -23,7 +23,7 @@ async function requireUser() {
   return user;
 }
 
-type WalletBindingStatus = 'pending' | 'bound';
+type WalletBindingStatus = 'pending' | 'manual' | 'verified';
 
 function hasOwn(body: Record<string, unknown>, key: string) {
   return Object.prototype.hasOwnProperty.call(body, key);
@@ -103,8 +103,12 @@ function readArrayField(
 }
 
 function normalizeWalletBindingStatus(value: string | null): WalletBindingStatus | null {
-  if (value === 'pending' || value === 'bound') {
+  if (value === 'pending' || value === 'manual' || value === 'verified') {
     return value;
+  }
+
+  if (value === 'bound') {
+    return 'manual';
   }
 
   return null;
@@ -149,7 +153,7 @@ function normalizeProfilePayload(body: Record<string, unknown>) {
     return {
       username,
       invalid: true,
-      error: 'walletBindingStatus must be "pending" or "bound" when provided',
+      error: 'walletBindingStatus must be "pending", "manual", or "verified" when provided',
     };
   }
 
@@ -175,7 +179,7 @@ function normalizeProfilePayload(body: Record<string, unknown>) {
     wallet_provider: walletProviderField.provided ? walletProviderField.value : undefined,
     wallet_binding_status:
       walletStatusField.provided || walletAddressField.provided
-        ? walletBindingStatus ?? (walletAddressField.value ? 'bound' : null)
+        ? walletBindingStatus ?? (walletAddressField.value ? 'manual' : null)
         : undefined,
     wallet_bound_at: walletBoundAtField.provided ? walletBoundAtField.value : undefined,
   };
@@ -247,7 +251,7 @@ export async function POST(request: Request) {
           ? {
               address: normalized.wallet_address,
               provider: normalized.wallet_provider ?? null,
-              status: normalized.wallet_binding_status ?? 'bound',
+              status: normalized.wallet_binding_status ?? 'manual',
               boundAt: normalized.wallet_bound_at ?? new Date().toISOString(),
             }
           : null,

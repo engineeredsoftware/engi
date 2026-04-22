@@ -24,7 +24,15 @@ export default function AuxillariesConnectsPane({
   onCompletionStatusChange,
 }: AuxillariesConnectsPaneProps) {
   const { user } = useAuth();
-  const { data, hasGitHubConnection, hasWalletConnection, isLoading, refresh } = useUserData();
+  const {
+    data,
+    hasGitHubConnection,
+    hasWalletConnection,
+    hasVerifiedWalletConnection,
+    walletBindingStatus,
+    isLoading,
+    refresh,
+  } = useUserData();
 
   useEffect(() => {
     onCompletionStatusChange?.(Boolean(user && hasGitHubConnection));
@@ -36,6 +44,7 @@ export default function AuxillariesConnectsPane({
     signedIn: Boolean(user),
     hasRepositoryProvider: hasGitHubConnection,
     hasWalletBinding: hasWalletConnection,
+    hasVerifiedWalletBinding: hasVerifiedWalletConnection,
   });
 
   return (
@@ -48,8 +57,7 @@ export default function AuxillariesConnectsPane({
             <div className="space-y-2">
               <h3 className="text-lg font-semibold text-white">Sign in to open Connects</h3>
               <p className="text-sm leading-7 text-white/68">
-                Sign in first, then attach GitHub so need measurement, asset-pack synthesis, and
-                settlement follow-through can operate against a live repository source.
+                Sign in first, then attach GitHub so need measurement, asset-pack synthesis, and settlement follow-through can operate against a live repository source.
               </p>
             </div>
 
@@ -94,8 +102,7 @@ export default function AuxillariesConnectsPane({
                   </p>
                   <h3 className="text-lg font-semibold text-white">Connect GitHub for source-bearing input</h3>
                   <p className="text-sm leading-7 text-white/68">
-                    Manage the repository attachment that Bitcode reuses across need measurement,
-                    asset-pack synthesis, conversations, and settlement follow-through.
+                    Manage the repository attachment that Bitcode reuses across need measurement, asset-pack synthesis, conversations, and settlement follow-through.
                   </p>
                 </div>
 
@@ -122,13 +129,17 @@ export default function AuxillariesConnectsPane({
                     <p className="text-sm font-medium text-white">
                       {isLoading
                         ? 'Checking GitHub and wallet posture…'
+                        : transactionReadiness.canSettle
+                          ? 'GitHub and verified wallet are ready'
                         : transactionReadiness.canTransact
-                          ? 'GitHub and wallet are ready'
+                          ? 'GitHub and wallet identity are ready'
                           : 'GitHub and wallet are not both ready yet'}
                     </p>
                     <p className="mt-2 text-sm leading-7 text-white/68">
-                      {transactionReadiness.canTransact
-                        ? 'Bitcode can now reuse live repository context and wallet posture across need measurement, asset-pack synthesis, and settlement follow-through.'
+                      {transactionReadiness.canSettle
+                        ? 'Bitcode can now reuse live repository context and verified wallet posture across need measurement, asset-pack synthesis, and signed settlement follow-through.'
+                        : transactionReadiness.canTransact
+                        ? 'Bitcode can now reuse live repository context and Profile-owned wallet identity across need measurement, asset-pack synthesis, and transaction drafting. Signed settlement still waits on verified wallet-provider access.'
                         : `${transactionReadiness.summary} Bitcode may stay in review, but settlement requires both a live GitHub connection here and a wallet binding in Profile before it should move from evaluation into asset-pack delivery.`}
                     </p>
                   </div>
@@ -146,7 +157,13 @@ export default function AuxillariesConnectsPane({
                         Wallet
                       </p>
                       <p className="mt-2 text-sm font-medium text-white">
-                        {hasWalletConnection ? 'Connected' : 'Pending in Profile'}
+                        {!hasWalletConnection
+                          ? 'Pending in Profile'
+                          : hasVerifiedWalletConnection
+                            ? 'Verified signer'
+                            : walletBindingStatus === 'pending'
+                              ? 'Verification staged'
+                              : 'Identity bound'}
                       </p>
                     </div>
                   </div>

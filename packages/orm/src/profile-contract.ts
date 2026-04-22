@@ -1,12 +1,18 @@
 type UnknownRecord = Record<string, unknown>;
 
-export type BitcodeWalletBindingStatus = 'pending' | 'bound';
+export type BitcodeWalletBindingStatus = 'pending' | 'manual' | 'verified';
 
 export interface BitcodeWalletBinding {
   address: string | null;
   provider: string | null;
   status: BitcodeWalletBindingStatus | null;
   boundAt: string | null;
+}
+
+export interface BitcodeWalletCapability {
+  binding: BitcodeWalletBinding | null;
+  hasIdentity: boolean;
+  isVerifiedSigner: boolean;
 }
 
 export interface BitcodeProfileSettings {
@@ -75,10 +81,12 @@ function normalizeWalletBinding(
     normalizeString(fallbackRecord?.wallet_binding_status) ??
     normalizeString(fallbackRecord?.walletBindingStatus);
   const status: BitcodeWalletBindingStatus | null =
-    rawStatus === 'pending' || rawStatus === 'bound'
+    rawStatus === 'pending' || rawStatus === 'manual' || rawStatus === 'verified'
       ? rawStatus
+      : rawStatus === 'bound'
+        ? 'manual'
       : address
-        ? 'bound'
+        ? 'manual'
         : null;
   const boundAt =
     normalizeString(bindingRecord?.boundAt) ??
@@ -183,8 +191,26 @@ export function readBitcodeWalletBindingFromProfile(
   return readBitcodeProfileSettings(profile.settings).walletBinding;
 }
 
+export function readBitcodeWalletCapabilityFromProfile(
+  profile: ({ settings?: unknown } & UnknownRecord) | null | undefined,
+): BitcodeWalletCapability {
+  const binding = readBitcodeWalletBindingFromProfile(profile);
+
+  return {
+    binding,
+    hasIdentity: Boolean(binding?.address),
+    isVerifiedSigner: binding?.status === 'verified',
+  };
+}
+
 export function profileHasWalletBinding(
   profile: ({ settings?: unknown } & UnknownRecord) | null | undefined,
 ): boolean {
-  return Boolean(readBitcodeWalletBindingFromProfile(profile)?.address);
+  return readBitcodeWalletCapabilityFromProfile(profile).hasIdentity;
+}
+
+export function profileHasVerifiedWalletBinding(
+  profile: ({ settings?: unknown } & UnknownRecord) | null | undefined,
+): boolean {
+  return readBitcodeWalletCapabilityFromProfile(profile).isVerifiedSigner;
 }

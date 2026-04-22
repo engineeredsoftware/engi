@@ -62,7 +62,11 @@ export default function SocialAccountLinker({ provider, compact = false }: Socia
 
   const handleLink = async () => {
     if (!isSupported) {
-      toast.error(`${providerLabel} account linking is not yet available in the active application surface`)
+      toast.error(
+        provider === 'metamask'
+          ? 'Wallet-provider verification remains staged through Profile and is not yet available as direct account linking'
+          : `${providerLabel} account linking is not yet available in the active application surface`,
+      )
       return
     }
     setLoading(true)
@@ -204,7 +208,9 @@ export default function SocialAccountLinker({ provider, compact = false }: Socia
               ? 'Connected to your Bitcode account'
               : isSupported
               ? 'Available for sign-in and account linking'
-              : 'Not yet available from this orbital surface'}
+              : provider === 'metamask'
+                ? 'Wallet-provider verification remains staged through Profile'
+                : 'Not yet available from this orbital surface'}
           </div>
         </div>
       </div>

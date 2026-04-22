@@ -85,11 +85,14 @@ export {
   hydrateBitcodeProfile,
   mergeBitcodeProfileSettings,
   profileHasWalletBinding,
+  profileHasVerifiedWalletBinding,
   readBitcodeProfileSettings,
+  readBitcodeWalletCapabilityFromProfile,
   readBitcodeWalletBindingFromProfile,
 } from './profile-contract';
 export type {
   BitcodeProfileSettings,
+  BitcodeWalletCapability,
   BitcodeWalletBinding,
   BitcodeWalletBindingStatus,
   HydratedBitcodeProfileFields,

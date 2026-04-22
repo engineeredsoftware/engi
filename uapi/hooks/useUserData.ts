@@ -7,7 +7,7 @@
 import { useState, useEffect, useCallback } from 'react';
 
 import { normalizeAuxillarySteps } from '@/app/auxillaries/components/auxillary-pane-meta';
-import { profileHasWalletBinding } from '@bitcode/orm/src/profile-contract';
+import { readBitcodeWalletCapabilityFromProfile } from '@bitcode/orm/src/profile-contract';
 
 export interface AggregatedUserData {
   profile?: any | null;
@@ -141,9 +141,12 @@ export function useUserData() {
   const hasGitHubConnection = Boolean(
     data?.githubConnection || data?.vcsConnections?.some(conn => conn.provider === 'github')
   );
-  const hasWalletConnection = profileHasWalletBinding(
+  const walletCapability = readBitcodeWalletCapabilityFromProfile(
     (data?.profile as Record<string, unknown> | null | undefined) ?? null,
   );
+  const hasWalletConnection = walletCapability.hasIdentity;
+  const hasVerifiedWalletConnection = walletCapability.isVerifiedSigner;
+  const walletBindingStatus = walletCapability.binding?.status ?? null;
   const btdBalance = typeof data?.btdBalance === 'number' ? data.btdBalance : hydratedBtdBalance;
 
   const onboardedSteps = normalizeAuxillarySteps(data?.onboardedPanes ?? data?.onboarded_steps ?? []);
@@ -153,6 +156,8 @@ export function useUserData() {
     data,
     hasGitHubConnection,
     hasWalletConnection,
+    hasVerifiedWalletConnection,
+    walletBindingStatus,
     btdBalance,
     isLoading,
     error,

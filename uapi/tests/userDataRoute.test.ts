@@ -50,7 +50,7 @@ describe('GET /api/auxillaries/data', () => {
           walletBinding: {
             address: 'bc1qbitcodeoperator',
             provider: 'manual',
-            status: 'bound',
+            status: 'manual',
             boundAt: '2026-04-22T00:00:00.000Z',
           },
         },
@@ -96,7 +96,7 @@ describe('GET /api/auxillaries/data', () => {
         is_verified: true,
         wallet_address: 'bc1qbitcodeoperator',
         wallet_provider: 'manual',
-        wallet_binding_status: 'bound',
+        wallet_binding_status: 'manual',
       }),
       githubConnection: connectionData,
       btdBalance: 50,

@@ -73,6 +73,7 @@ export default function AuxillariesBTDPane({
   const hasCalledCompletionRef = useRef(false);
   const savedPreferences = (data?.modelPreferences as Record<string, any> | null) || null;
   const profile = (data?.profile as Record<string, any> | null) || null;
+  const walletBinding = readBitcodeWalletBindingFromProfile(profile);
   const teamMembers = Array.isArray(profile?.team_members) ? profile.team_members : [];
   const [defaults, setDefaults] = useState<BtdDefaults>(() => ({
     ...DEFAULT_BTD_DEFAULTS,
@@ -311,13 +312,19 @@ export default function AuxillariesBTDPane({
                     value: profile?.btc_balance ? `${profile.btc_balance} BTC` : "Binding pending",
                     detail: profile?.btc_balance
                       ? "Live BTC balance supplied by the connected wallet posture."
-                      : "Attach a wallet binding to surface live BTC posture here.",
+                      : walletBinding?.status === 'verified'
+                        ? "Verified wallet-provider posture is present, but live BTC balance has not populated yet."
+                        : walletBinding?.address
+                          ? "Wallet identity is present, but verified wallet-provider signing is still staged before live BTC posture should settle here."
+                          : "Attach a wallet binding to surface live BTC posture here.",
                     tone: "sky",
                   },
                   {
                     label: "Wallet address",
                     value: resolveWalletAddress(profile, user.id),
-                    detail: "The address posture the application will use once wallet binding is complete.",
+                    detail: walletBinding?.status === 'verified'
+                      ? "The verified signer posture the application will use for signed settlement follow-through."
+                      : "The address posture the application will use once wallet identity is bound; verified wallet-provider signing still stages separately.",
                     tone: "violet",
                   },
                   {

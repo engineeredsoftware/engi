@@ -76,6 +76,7 @@ export interface AuxillariesProfilePaneProps {
   initialAvatarUrl?: string;
   initialWalletAddress?: string;
   initialWalletProvider?: string;
+  initialWalletBindingStatus?: 'pending' | 'manual' | 'verified' | null;
   /** Initial email for account creation and verification */
   initialEmail?: string;
   /** Initial email verification status */
@@ -95,6 +96,7 @@ export default function AuxillariesProfilePane({ onSave,
   initialAvatarUrl = '',
   initialWalletAddress = '',
   initialWalletProvider = '',
+  initialWalletBindingStatus = null,
   initialEmail = '',
   initialIsVerified = false,
   isOnboardingComplete = false,
@@ -279,13 +281,17 @@ export default function AuxillariesProfilePane({ onSave,
   const [walletProvider, setWalletProvider] = useState(
     initialWalletProvider || (initialWalletAddress ? 'manual' : ''),
   );
+  const [walletBindingStatus, setWalletBindingStatus] = useState<'pending' | 'manual' | 'verified' | null>(
+    initialWalletBindingStatus ?? (initialWalletAddress ? 'manual' : null),
+  );
   const [selectedAvatar, setSelectedAvatar] = useState(0);
   const [showAvatarSelector, setShowAvatarSelector] = useState(false);
 
   useEffect(() => {
     setWalletAddress(initialWalletAddress);
     setWalletProvider(initialWalletProvider || (initialWalletAddress ? 'manual' : ''));
-  }, [initialWalletAddress, initialWalletProvider]);
+    setWalletBindingStatus(initialWalletBindingStatus ?? (initialWalletAddress ? 'manual' : null));
+  }, [initialWalletAddress, initialWalletBindingStatus, initialWalletProvider]);
 
   // Repository knowledge sharing now lives under the $BTD auxillary.
 
@@ -333,7 +339,7 @@ export default function AuxillariesProfilePane({ onSave,
       isVerified, // Include verification status
       walletAddress: walletAddress || null,
       walletProvider: walletAddress ? walletProvider || 'manual' : null,
-      walletBindingStatus: walletAddress ? 'bound' : null,
+      walletBindingStatus: walletAddress ? walletBindingStatus || 'manual' : null,
     });
   };
 
@@ -939,8 +945,8 @@ export default function AuxillariesProfilePane({ onSave,
             <p style={{ margin: '0 0 14px 0', fontSize: '14px', lineHeight: '1.6', color: 'rgba(255, 255, 255, 0.72)' }}>
               Profile owns the wallet identity that transaction readiness, the Bitcode Terminal, and
               <span style={{ color: 'rgba(103, 254, 183, 0.88)' }}> $BTD</span> reread. Manual
-              binding is active here now; cryptographic wallet-provider verification remains staged
-              until the live signing primitive is admitted.
+              identity binding is active here now; verified wallet-provider signing remains staged
+              until the live signature primitive is admitted.
             </p>
             <div className="orbitals-users-input-container enterprise">
               <input
@@ -951,6 +957,7 @@ export default function AuxillariesProfilePane({ onSave,
                 onChange={(e) => {
                   const nextValue = e.target.value;
                   setWalletAddress(nextValue);
+                  setWalletBindingStatus(nextValue.trim() ? 'manual' : null);
                   setWalletProvider((current) =>
                     current || nextValue.trim() ? (current || 'manual') : '',
                   );
@@ -962,7 +969,11 @@ export default function AuxillariesProfilePane({ onSave,
             </div>
             <div style={{ marginTop: '10px', fontSize: '13px', color: 'rgba(255, 255, 255, 0.6)' }}>
               {walletAddress
-                ? `Binding source: ${walletProvider || 'manual'}`
+                ? walletBindingStatus === 'verified'
+                  ? `Verified wallet-provider signer: ${walletProvider || 'wallet provider'}`
+                  : walletBindingStatus === 'pending'
+                    ? `Wallet-provider verification is staged. Current provider: ${walletProvider || 'wallet provider'}`
+                    : `Manual wallet identity saved from ${walletProvider || 'manual'}; signed settlement still waits on provider verification.`
                 : 'No wallet identity is bound yet. Transaction-bearing actions remain review-only until one is saved here.'}
             </div>
           </div>

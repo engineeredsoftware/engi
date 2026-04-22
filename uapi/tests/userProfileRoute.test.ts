@@ -49,7 +49,7 @@ describe('GET /api/auxillaries/profile', () => {
           walletBinding: {
             address: 'bc1qbitcodeoperator',
             provider: 'manual',
-            status: 'bound',
+            status: 'manual',
             boundAt: '2026-04-22T00:00:00.000Z',
           },
         },
@@ -70,7 +70,7 @@ describe('GET /api/auxillaries/profile', () => {
         is_verified: true,
         wallet_address: 'bc1qbitcodeoperator',
         wallet_provider: 'manual',
-        wallet_binding_status: 'bound',
+        wallet_binding_status: 'manual',
       }),
     );
     expect(supabaseAdmin.eq).toHaveBeenCalledWith('id', 'user-1');
@@ -179,7 +179,7 @@ describe('POST /api/auxillaries/profile', () => {
             walletBinding: expect.objectContaining({
               address: 'bc1qbitcodeoperator',
               provider: 'manual',
-              status: 'bound',
+              status: 'manual',
             }),
           }),
         }),

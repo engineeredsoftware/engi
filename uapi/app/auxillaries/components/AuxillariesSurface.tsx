@@ -365,6 +365,7 @@ export default function AuxillariesSurface({
             initialIsVerified={profileData?.is_verified ?? !!sessionUser?.email_confirmed_at}
             initialWalletAddress={profileData?.wallet_address}
             initialWalletProvider={profileData?.wallet_provider}
+            initialWalletBindingStatus={profileData?.wallet_binding_status}
             isOnboardingComplete={isUnlockedSurface}
             onCompletionStatusChange={
               isAuxillariesSurface ? undefined : (isComplete) => handleStepCompletionChange('profile', isComplete)

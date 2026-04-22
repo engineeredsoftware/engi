@@ -52,8 +52,8 @@ export class UserProfilesModel extends BaseModel<'user_profiles'> {
       walletAddress?: string | null;
       wallet_provider?: string | null;
       walletProvider?: string | null;
-      wallet_binding_status?: 'pending' | 'bound' | null;
-      walletBindingStatus?: 'pending' | 'bound' | null;
+      wallet_binding_status?: 'pending' | 'manual' | 'verified' | null;
+      walletBindingStatus?: 'pending' | 'manual' | 'verified' | null;
       wallet_bound_at?: string | null;
       walletBoundAt?: string | null;
       isVerified?: boolean;
@@ -70,8 +70,8 @@ export class UserProfilesModel extends BaseModel<'user_profiles'> {
       (profile.wallet_provider as string | null | undefined) ??
       (profile.walletProvider as string | null | undefined);
     const walletBindingStatus =
-      (profile.wallet_binding_status as 'pending' | 'bound' | null | undefined) ??
-      (profile.walletBindingStatus as 'pending' | 'bound' | null | undefined);
+      (profile.wallet_binding_status as 'pending' | 'manual' | 'verified' | null | undefined) ??
+      (profile.walletBindingStatus as 'pending' | 'manual' | 'verified' | null | undefined);
     const walletBoundAt =
       (profile.wallet_bound_at as string | null | undefined) ??
       (profile.walletBoundAt as string | null | undefined);
@@ -96,7 +96,7 @@ export class UserProfilesModel extends BaseModel<'user_profiles'> {
               ? {
                   address: walletAddress,
                   provider: walletProvider ?? null,
-                  status: walletBindingStatus ?? 'bound',
+                  status: walletBindingStatus ?? 'manual',
                   boundAt: walletBoundAt ?? new Date().toISOString(),
                 }
               : null,

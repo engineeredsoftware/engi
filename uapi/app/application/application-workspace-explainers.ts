@@ -451,9 +451,9 @@ export const APPLICATION_INLINE_EXPLAINERS = {
   transactionReadiness: buildExplainer({
     title: 'Transaction readiness',
     summary:
-      'Transaction readiness is the shared operator contract for wallet, repository scope, identity, and anchor posture.',
+      'Transaction readiness is the shared operator contract for wallet identity, verified signing access, repository scope, and anchor posture.',
     detail:
-      'When readiness is incomplete, review continuity can stay open but branch, deposit, and closure should fail closed. This explainer should always describe the exact blocker set because signed-transaction posture is a Bitcode Exchange precondition taught by Bitcode Protocol canon.',
+      'When readiness is incomplete, review continuity can stay open but branch, deposit, and closure should fail closed. Manual wallet identity can still support drafting, but signed settlement stays staged until verified wallet-provider access is present. This explainer should always describe the exact blocker set because signed-transaction posture is a Bitcode Exchange precondition taught by Bitcode Protocol canon.',
     references: {
       source: [
         'uapi/app/application/bitcode-transaction-readiness.ts',

@@ -4,12 +4,14 @@ export type BitcodeTransactionReadinessStatus =
   | 'wallet-binding-pending'
   | 'wallet-and-repository-pending'
   | 'repository-anchor-pending'
+  | 'wallet-verification-pending'
   | 'ready';
 
 export type BitcodeTransactionReadinessBlockerId =
   | 'sign-in'
   | 'repository-provider'
   | 'wallet-binding'
+  | 'wallet-verification'
   | 'repository-anchor';
 
 export interface BitcodeTransactionReadinessBlocker {
@@ -21,6 +23,7 @@ export interface BitcodeTransactionReadinessInput {
   signedIn: boolean;
   hasRepositoryProvider: boolean;
   hasWalletBinding: boolean;
+  hasVerifiedWalletBinding?: boolean;
   requiresRepositoryAnchor?: boolean;
   hasRepositoryAnchor?: boolean;
 }
@@ -37,6 +40,7 @@ export interface BitcodeTransactionReadiness {
   signedIn: boolean;
   hasRepositoryProvider: boolean;
   hasWalletBinding: boolean;
+  hasVerifiedWalletBinding: boolean;
   hasRepositoryAnchor: boolean;
   requiresRepositoryAnchor: boolean;
 }
@@ -53,12 +57,13 @@ export function deriveBitcodeTransactionReadiness(
   const signedIn = Boolean(input.signedIn);
   const hasRepositoryProvider = Boolean(input.hasRepositoryProvider);
   const hasWalletBinding = Boolean(input.hasWalletBinding);
+  const hasVerifiedWalletBinding = Boolean(input.hasVerifiedWalletBinding);
 
   let status: BitcodeTransactionReadinessStatus = 'ready';
   let label = 'ready';
   let summary =
-    'Wallet identity and repository scope are ready. Bitcode can move from review into transaction-bearing settlement and signed activity.';
-  let nextAction = 'Transact or settle from the Bitcode Terminal.';
+    'Wallet identity, signing capability, and repository scope are ready. Bitcode can move from review into signed settlement and closure-bearing activity.';
+  let nextAction = 'Transact, sign, or settle from the Bitcode Terminal.';
   let blockers: BitcodeTransactionReadinessBlocker[] = [];
 
   if (!signedIn) {
@@ -103,6 +108,13 @@ export function deriveBitcodeTransactionReadiness(
       'Bitcode is in review-only mode. Select a repository anchor in the Bitcode Terminal before you transact, settle, or sign Bitcode activity.';
     nextAction = 'Choose a repository anchor inside the Bitcode Terminal.';
     blockers = [blocker('repository-anchor', 'Selected repository anchor in the Bitcode Terminal')];
+  } else if (!hasVerifiedWalletBinding) {
+    status = 'wallet-verification-pending';
+    label = 'wallet verification pending';
+    summary =
+      'Bitcode can draft transaction-bearing activity from the wallet identity saved in Profile, but signed settlement remains staged until a verified wallet provider is connected.';
+    nextAction = 'Keep drafting in the Bitcode Terminal or return to Profile when verified wallet-provider signing becomes available.';
+    blockers = [blocker('wallet-verification', 'Verified wallet-provider signing access')];
   }
 
   return {
@@ -112,11 +124,12 @@ export function deriveBitcodeTransactionReadiness(
     nextAction,
     blockers,
     canReview: true,
-    canTransact: status === 'ready',
+    canTransact: status === 'ready' || status === 'wallet-verification-pending',
     canSettle: status === 'ready',
     signedIn,
     hasRepositoryProvider,
     hasWalletBinding,
+    hasVerifiedWalletBinding,
     hasRepositoryAnchor,
     requiresRepositoryAnchor,
   };

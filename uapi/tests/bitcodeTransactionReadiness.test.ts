@@ -22,6 +22,7 @@ describe('deriveBitcodeTransactionReadiness', () => {
       signedIn: true,
       hasRepositoryProvider: true,
       hasWalletBinding: true,
+      hasVerifiedWalletBinding: true,
       requiresRepositoryAnchor: true,
       hasRepositoryAnchor: false,
     });
@@ -31,11 +32,28 @@ describe('deriveBitcodeTransactionReadiness', () => {
     expect(readiness.summary).toContain('Select a repository anchor');
   });
 
-  it('becomes ready once wallet identity and repository scope are both bound', () => {
+  it('keeps settlement staged when wallet identity exists without verified provider signing', () => {
     const readiness = deriveBitcodeTransactionReadiness({
       signedIn: true,
       hasRepositoryProvider: true,
       hasWalletBinding: true,
+      hasVerifiedWalletBinding: false,
+      requiresRepositoryAnchor: true,
+      hasRepositoryAnchor: true,
+    });
+
+    expect(readiness.status).toBe('wallet-verification-pending');
+    expect(readiness.canTransact).toBe(true);
+    expect(readiness.canSettle).toBe(false);
+    expect(readiness.summary).toContain('signed settlement remains staged');
+  });
+
+  it('becomes ready once wallet identity, verified signing, and repository scope are all present', () => {
+    const readiness = deriveBitcodeTransactionReadiness({
+      signedIn: true,
+      hasRepositoryProvider: true,
+      hasWalletBinding: true,
+      hasVerifiedWalletBinding: true,
       requiresRepositoryAnchor: true,
       hasRepositoryAnchor: true,
     });
