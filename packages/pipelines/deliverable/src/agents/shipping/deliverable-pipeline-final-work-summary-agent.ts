@@ -1,6 +1,10 @@
 import { factoryAgentWithSingleStep } from '@bitcode/agent-generics';
 import type { PromptPart } from '@bitcode/prompts/parts/PromptPart';
 import { z } from 'zod';
+import {
+  resolveExpressedNeedFromExecution,
+  resolveWrittenAssetTypeFromExecution,
+} from '../../semantic-resolution';
 
 // Header-expected shapes (aligned to DeliverablesPageHeader complete mode)
 export const DeliverableSchema = z.object({
@@ -99,11 +103,7 @@ const FinalWorkSummaryAgent = factoryAgentWithSingleStep<any, FinalWorkSummaryOu
     const repoSnapshot = { org, repo, branch, commit };
 
     // Expressed need
-    const need =
-      (execution as any).get?.('need', 'description') ||
-      (execution as any).get?.('pipeline', 'expressedNeed') ||
-      (execution as any).get?.('task', 'description') ||
-      '';
+    const need = resolveExpressedNeedFromExecution(execution);
 
     // Phase timings (derive total duration best-effort)
     const phases = ['setup', 'discovery', 'implementation', 'validation', 'shipping'];
@@ -145,11 +145,7 @@ const FinalWorkSummaryAgent = factoryAgentWithSingleStep<any, FinalWorkSummaryOu
     let pullRequestReviews: any[] | null = null;
     let comments: any[] | null = null;
     let issues: any[] | null = null;
-    const dtype =
-      (execution as any).findUp?.('pipeline', 'writtenAssetType') ||
-      (execution as any).get?.('pipeline', 'writtenAssetType') ||
-      (execution as any).findUp?.('pipeline', 'deliverableType') ||
-      (execution as any).get?.('pipeline', 'deliverableType');
+    const dtype = resolveWrittenAssetTypeFromExecution(execution);
     try {
       if (dtype === 'code-change') {
         const prUrl = (execution as any).get?.('shipping', 'pullRequestUrl') || '';

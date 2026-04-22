@@ -18,6 +18,7 @@ import {
 } from '@bitcode/agent-generics';
 import { AgentPrompt, AgentStepPrompt } from '@bitcode/agent-generics';
 import { ExecutionTool } from '@bitcode/execution-generics';
+import { createPromptPart } from '@bitcode/prompts/parts/PromptPart';
 import { 
   TransactionalFileEditor,
   type EditCommandParams,
@@ -38,7 +39,7 @@ class AtomicEditTool extends ExecutionTool<(params: EditCommandParams) => Promis
   
   private editor = new TransactionalFileEditor();
   
-  async execute(params: EditCommandParams): Promise<string> {
+  use = async (params: EditCommandParams): Promise<string> => {
     if (this.execution) {
       this.execution.store('tool', 'transactionalEdit:start', {
         command: params.command,
@@ -59,7 +60,7 @@ class AtomicEditTool extends ExecutionTool<(params: EditCommandParams) => Promis
     }
     
     return result;
-  }
+  };
 }
 
 const transactionalEditTool = new AtomicEditTool();
@@ -264,8 +265,8 @@ export type CodeEditorOutput = z.infer<typeof CodeEditorOutputSchema>;
 // ==================== PROMPTS ====================
 
 export const codeEditorPrompt = new AgentPrompt({
-  name: 'code-editor',
-  identity: `You are a precision code editing agent that implements the Divide|Conquer|Correct pattern for reliable code modifications.
+  name: createPromptPart('code-editor'),
+  identity: createPromptPart(`You are a precision code editing agent that implements the Divide|Conquer|Correct pattern for reliable code modifications.
   
 Your approach:
 - DIVIDE: Analyze the required changes and create a detailed, atomic edit plan
@@ -277,21 +278,21 @@ You ensure:
 - File backups are created before modifications
 - Syntax validation occurs after edits
 - Dependencies between files are respected
-- Changes are applied in the correct order`
+- Changes are applied in the correct order`)
 });
 
 export const codeEditorStepPrompts = {
   divide: new AgentStepPrompt({ 
-    purpose: 'Analyze the required code changes and create a detailed edit plan broken down by file and patch' 
+    purpose: createPromptPart('Analyze the required code changes and create a detailed edit plan broken down by file and patch')
   }),
   conquer: new AgentStepPrompt({ 
-    purpose: 'Execute the edit plan using atomic file operations, ensuring each edit is applied correctly' 
+    purpose: createPromptPart('Execute the edit plan using atomic file operations, ensuring each edit is applied correctly')
   }),
   correct: new AgentStepPrompt({ 
-    purpose: 'Validate all edits, check syntax, and apply corrections if needed' 
+    purpose: createPromptPart('Validate all edits, check syntax, and apply corrections if needed')
   }),
   finalize: new AgentStepPrompt({ 
-    purpose: 'Finalize all edits, summarize changes, and prepare rollback information if needed' 
+    purpose: createPromptPart('Finalize all edits, summarize changes, and prepare rollback information if needed')
   })
 };
 
@@ -315,21 +316,7 @@ export const codeEditorComprehensiveAgent = factoryAgentWithPTRR<
   },
   
   outputSchema: CodeEditorOutputSchema,
-  
-  schemas: {
-    plan: CodeEditorDivideSchema,    // DIVIDE phase
-    try: CodeEditorConquerSchema,    // CONQUER phase
-    refine: CodeEditorCorrectSchema, // CORRECT phase
-    retry: CodeEditorOutputSchema     // FINALIZE phase
-  },
-  
-  prompts: {
-    plan: codeEditorStepPrompts.divide,
-    try: codeEditorStepPrompts.conquer,
-    refine: codeEditorStepPrompts.correct,
-    retry: codeEditorStepPrompts.finalize
-  },
-  
+
   plan: {
     chunkThreshold: 1000
   },
@@ -363,7 +350,7 @@ export const codeEditorQuickAgent = factoryAgentWithSingleStep<
     }
     
     // Get the atomic edit tool
-    const tool = execution.tools.getTool('transactionalEdit');
+    const tool = (execution as any).tools?.getTool('transactionalEdit', execution as any);
     if (!tool) {
       throw new Error('transactionalEdit tool not registered');
     }

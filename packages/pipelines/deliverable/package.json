@@ -14,6 +14,7 @@
     "@bitcode/pipelines-generics": "workspace:*",
     "@bitcode/agent-generics": "workspace:*",
     "@bitcode/execution-generics": "workspace:*",
+    "@bitcode/generic-llms": "workspace:*",
     "@bitcode/generic-agent-code-editor": "workspace:*",
     "@bitcode/generic-agents-web-research": "workspace:*",
     "@bitcode/generic-agents-rag-snippets": "workspace:*",
@@ -22,8 +23,13 @@
     "@bitcode/generic-agents-tech-types-identifier": "workspace:*",
     "@bitcode/generic-agents-file-pick": "workspace:*",
     "@bitcode/generic-agents-danger-wall": "workspace:*",
+    "@bitcode/llm-generics": "workspace:*",
+    "@bitcode/logger": "workspace:*",
     "@bitcode/prompts": "workspace:*",
     "@bitcode/registry": "workspace:*",
+    "@bitcode/supabase": "workspace:*",
+    "@bitcode/tools-generics": "workspace:*",
+    "openai": "^4.0.0",
     "zod": "^3.22.4"
   },
   "devDependencies": {

@@ -16,7 +16,7 @@ import { createPhaseRunner, PhaseConfig } from '@bitcode/pipelines-generics';
   * TODO: this isn't modern executor/execution pattern (registry keys fine mostly but not seeing functional componsition of the exeuctors of these agents.
   * TODO: very last agent should be a FinalWorkSummary agent which is a special Quick agent implementation (seeing definition(s), 'stepless'). however quick still have 1 step/stepless they still run the 3 Failsafes to ultimately get output
  */
-function createShippingSequence(_deliverableType: string): any[] {
+function createShippingSequence(_writtenAssetType: string): any[] {
   // Exactly two agents: Ship (PTRR) then FinalWorkSummary (Quick)
   return [
     { agent: 'shipping:deliverable-pipeline-ship-agent' },
@@ -27,10 +27,10 @@ function createShippingSequence(_deliverableType: string): any[] {
 /**
  * Shipping phase configuration
  */
-export function createShippingPhaseConfig(deliverableType: string): PhaseConfig {
+export function createShippingPhaseConfig(writtenAssetType: string): PhaseConfig {
   return {
     phaseName: 'shipping',
-    sequence: createShippingSequence(deliverableType),
+    sequence: createShippingSequence(writtenAssetType),
     allowShortCircuit: false // Shipping never short-circuits
   };
 }
@@ -38,8 +38,8 @@ export function createShippingPhaseConfig(deliverableType: string): PhaseConfig 
 /**
  * Create the shipping phase runner
  */
-export function runShippingPhase(deliverableType: string) {
-  return createPhaseRunner(createShippingPhaseConfig(deliverableType));
+export function runShippingPhase(writtenAssetType: string) {
+  return createPhaseRunner(createShippingPhaseConfig(writtenAssetType));
 }
 
 /**
@@ -47,7 +47,7 @@ export function runShippingPhase(deliverableType: string) {
  * Called after validation phase
  */
 export function registerShippingAgentsForType(
-  deliverableType: string,
+  _writtenAssetType: string,
   agentRegistry: any
 ): void {
   // Register Ship agent and Final work summary (common for all types)

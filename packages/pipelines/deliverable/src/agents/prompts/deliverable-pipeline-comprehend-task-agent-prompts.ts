@@ -25,9 +25,9 @@ import { PROMPTPART_SPECIFIC_AGENT_DELIVERABLESETUPCOMPREHENDTASK_TRY_MODALITY_A
 import { PROMPTPART_SPECIFIC_AGENT_DELIVERABLESETUPCOMPREHENDTASK_TRY_MODALITY_VIDEO_EXECUTION } from '@bitcode/prompts/raw_promptparts/specific/promptpart_specific_agent_deliverablesetupcomprehendtask_try_modality_video_execution';
 import { PROMPTPART_SPECIFIC_AGENT_DELIVERABLESETUPCOMPREHENDTASK_REFINE_UNIFICATION_GUIDANCE } from '@bitcode/prompts/raw_promptparts/specific/promptpart_specific_agent_deliverablesetupcomprehendtask_refine_unification_guidance';
 /**
- * Deliverables Pipeline – Comprehend Task agent prompts (overlay only)
+ * Deliverables Pipeline – Comprehend Need agent prompts (overlay only)
  *
- * These prompts provide Deliverables-specific Prompt entries intended to be
+ * These prompts provide retained-corridor Prompt entries intended to be
  * merged via Prompt.clone().merge() semantics. Where no generic base exists,
  * these overlays can be used directly as the effective prompts.
  */
@@ -181,3 +181,11 @@ export const DP_COMPREHEND_NEED_PLAN_PROMPT = DP_COMPREHEND_TASK_PLAN_PROMPT;
 export const DP_COMPREHEND_NEED_TRY_PROMPT = DP_COMPREHEND_TASK_TRY_PROMPT;
 export const DP_COMPREHEND_NEED_REFINE_PROMPT = DP_COMPREHEND_TASK_REFINE_PROMPT;
 export const DP_COMPREHEND_NEED_RETRY_PROMPT = DP_COMPREHEND_TASK_RETRY_PROMPT;
+
+export const DP_COMPREHEND_NEED_PROMPTS = {
+  system: DP_COMPREHEND_NEED_SYSTEM_PROMPT,
+  plan: DP_COMPREHEND_NEED_PLAN_PROMPT,
+  try: DP_COMPREHEND_NEED_TRY_PROMPT,
+  refine: DP_COMPREHEND_NEED_REFINE_PROMPT,
+  retry: DP_COMPREHEND_NEED_RETRY_PROMPT,
+};

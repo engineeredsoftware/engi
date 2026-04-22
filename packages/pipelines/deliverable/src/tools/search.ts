@@ -1,8 +1,6 @@
 /**
  * Deliverable Search Tools (moved from deliverables-generics)
  */
-import 'openai/shims/node';
-import OpenAI from 'openai';
 import { supabaseAdmin } from '@bitcode/supabase';
 import { log } from '@bitcode/logger';
 
@@ -34,6 +32,8 @@ export async function searchRelevantDeliverables(params: {
   ];
   const contextText = contextLines.join('\n');
 
+  require('openai/shims/node');
+  const OpenAI = require('openai');
   const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY! });
   const embedRes = await openai.embeddings.create({ model: 'text-embedding-ada-002', input: contextText });
   const queryEmbedding = embedRes.data[0].embedding as any;
@@ -50,4 +50,3 @@ export async function searchRelevantDeliverables(params: {
     similarity: row.similarity,
   }));
 }
-

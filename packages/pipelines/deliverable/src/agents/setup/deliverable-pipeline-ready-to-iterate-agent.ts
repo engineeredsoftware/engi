@@ -10,6 +10,10 @@ import { createDeliverablesPipelineSetupPhaseReadyToIterateAgentPrompt, Delivera
 import { ShortCircuitSignal } from '@bitcode/execution-generics';
 import { getDeliverablePipelineToolsForAgent } from '../../tools';
 import { z } from 'zod';
+import {
+  resolveNeedComprehensionFromExecution,
+  resolveWrittenAssetTypeFromExecution,
+} from '../../semantic-resolution';
 
 /**
  * Input schema - aggregates all setup phase results
@@ -75,9 +79,9 @@ export default async function readyToIterateWithShortCircuit(input: any, executi
     lspInitialized: execution.get('setup/lsp', 'initialized') || false,
     dangerWallResult: execution.get('setup/danger-wall', 'result'),
     taskComprehension: execution.get('setup/task', 'comprehension'),
-    needComprehension: execution.get('setup/need', 'comprehension') || execution.get('setup/task', 'comprehension'),
-    deliverableType: execution.get('setup', 'deliverableType'),
-    writtenAssetType: execution.get('setup', 'writtenAssetType') || execution.get('setup', 'deliverableType'),
+    needComprehension: resolveNeedComprehensionFromExecution(execution),
+    deliverableType: resolveWrittenAssetTypeFromExecution(execution),
+    writtenAssetType: resolveWrittenAssetTypeFromExecution(execution),
     codebaseAnalysis: execution.get('setup/codebase', 'analysis')
   };
 
@@ -88,8 +92,8 @@ export default async function readyToIterateWithShortCircuit(input: any, executi
   const criticalBlockers = [
     'Repository clone failed',
     'LSP initialization failed',
-    'Task incomprehensible',
-    'Deliverable type unknown',
+    'Need incomprehensible',
+    'Written-asset type unknown',
     'Codebase inaccessible'
   ];
 

@@ -11,6 +11,7 @@ import { registerDiscoveryAgents } from './discovery';
 import { registerImplementationAgentsForType } from './implementation';
 import { registerValidationAgentsForType } from './validation';
 import { registerShippingAgentsForType } from './shipping';
+import { resolveWrittenAssetTypeFromExecution } from '../semantic-resolution';
 import type {
   DeliverableInput,
   DeliverableOutput as DeliverablePhaseOutput,
@@ -51,7 +52,7 @@ export const discoveryPhase: PhaseDelegator<SetupOutput, DiscoveryOutput> = (asy
 // ==================== IMPLEMENTATION PHASE ====================
 
 /**
- * Implementation Phase - Dynamic execution based on deliverable type
+ * Implementation Phase - Dynamic execution based on written-asset type
  * Determined by setup phase, executes appropriate agent sequence:
  * - Code Change: Divide → Conquer → Correct pattern
  * - Code Review: Review agent
@@ -59,10 +60,10 @@ export const discoveryPhase: PhaseDelegator<SetupOutput, DiscoveryOutput> = (asy
  * - Design Review: Comment on issue agent
  */
 export const implementationPhase: PhaseDelegator<DiscoveryOutput, ImplementationOutput> = (async (input: any, execution: any) => {
-  const deliverableType = (execution as any).findUp?.('pipeline', 'deliverableType') || (execution as any).get?.('pipeline','deliverableType') || 'code-change';
-  try { registerImplementationAgentsForType(deliverableType, (execution as any).agents); } catch {}
+  const writtenAssetType = resolveWrittenAssetTypeFromExecution(execution);
+  try { registerImplementationAgentsForType(writtenAssetType, (execution as any).agents); } catch {}
 
-  if (deliverableType === 'code-change') {
+  if (writtenAssetType === 'code-change') {
     // 1) Divide
     const divide = createAgentExecutor('implementation:deliverable-pipeline-divide-code-change-agent');
     const divideOut = await divide(input, execution);
@@ -92,19 +93,19 @@ export const implementationPhase: PhaseDelegator<DiscoveryOutput, Implementation
     }, execution);
   }
 
-  if (deliverableType === 'code-change-review') {
+  if (writtenAssetType === 'code-change-review') {
     const review = createAgentExecutor('implementation:deliverable-pipeline-review-code-change-agent');
     return await review(input, execution);
   }
-  if (deliverableType === 'design-document') {
+  if (writtenAssetType === 'design-document') {
     const createDoc = createAgentExecutor('implementation:deliverable-pipeline-create-design-document-agent');
     return await createDoc(input, execution);
   }
-  if (deliverableType === 'design-document-review') {
+  if (writtenAssetType === 'design-document-review') {
     const reviewDoc = createAgentExecutor('implementation:deliverable-pipeline-review-design-document-agent');
     return await reviewDoc(input, execution);
   }
-  throw new Error(`Unknown deliverable type: ${deliverableType}`);
+  throw new Error(`Unknown written-asset type: ${writtenAssetType}`);
 }) as unknown as PhaseDelegator<DiscoveryOutput, ImplementationOutput>;
 
 // ==================== VALIDATION PHASE ====================
@@ -114,8 +115,8 @@ export const implementationPhase: PhaseDelegator<DiscoveryOutput, Implementation
  * Danger-wall has been moved to Setup phase
  */
 export const validationPhase: PhaseDelegator<ImplementationOutput, ValidationOutput> = (async (input: any, execution: any) => {
-  const deliverableType = (execution as any).findUp?.('pipeline', 'deliverableType') || (execution as any).get?.('pipeline','deliverableType') || 'code-change';
-  try { registerValidationAgentsForType(deliverableType, (execution as any).agents); } catch {}
+  const writtenAssetType = resolveWrittenAssetTypeFromExecution(execution);
+  try { registerValidationAgentsForType(writtenAssetType, (execution as any).agents); } catch {}
   // Build implementation validator by type
   // Implementation validator agent is type‑specific but writes to the same store
   // (validation/implementation:issues) for cohesive downstream consumption.
@@ -125,9 +126,9 @@ export const validationPhase: PhaseDelegator<ImplementationOutput, ValidationOut
   //  - 'design-document'       → 'validation:validate-implementation-phase-design-document'
   //  - 'design-document-review'→ 'validation:validate-implementation-phase-design-document-review'
   const implKey = (
-    deliverableType === 'code-change' ? 'validation:validate-implementation-phase-code-change'
-    : deliverableType === 'code-change-review' ? 'validation:validate-implementation-phase-code-change-review'
-    : deliverableType === 'design-document' ? 'validation:validate-implementation-phase-design-document'
+    writtenAssetType === 'code-change' ? 'validation:validate-implementation-phase-code-change'
+    : writtenAssetType === 'code-change-review' ? 'validation:validate-implementation-phase-code-change-review'
+    : writtenAssetType === 'design-document' ? 'validation:validate-implementation-phase-design-document'
     : 'validation:validate-implementation-phase-design-document-review'
   );
 
@@ -175,8 +176,8 @@ export const validationPhase: PhaseDelegator<ImplementationOutput, ValidationOut
  * Shipping Phase - PR creation and delivery
  */
 export const shippingPhase: PhaseDelegator<ValidationOutput, DeliverablePhaseOutput> = (async (input: any, execution: any) => {
-  const deliverableType = (execution as any).findUp?.('pipeline', 'deliverableType') || (execution as any).get?.('pipeline','deliverableType') || 'code-change';
-  try { registerShippingAgentsForType(deliverableType, (execution as any).agents); } catch {}
+  const writtenAssetType = resolveWrittenAssetTypeFromExecution(execution);
+  try { registerShippingAgentsForType(writtenAssetType, (execution as any).agents); } catch {}
   const exec: Executor<any, any> = sequential(
     createAgentExecutor('shipping:deliverable-pipeline-ship-agent'),
     createAgentExecutor('shipping:final-work-summary')

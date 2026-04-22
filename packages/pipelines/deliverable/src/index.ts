@@ -11,48 +11,12 @@ import { deliverablePhases } from './phases';
 import { initializeDeliverablePipeline } from './preprocess';
 import { normalizeDeliverableOutput, buildDeliverablePostprocessedResult } from './postprocess';
 import { DeliverableType } from './types/DeliverableType';
+import { resolveExpressedNeed, resolveWrittenAssetType } from './semantic-resolution';
 
 // ==================== FACTORIES ====================
 
-const DEFAULT_DELIVERABLE_TYPE = DeliverableType.CodeChange;
-
-function inferDeliverableType(input: any): DeliverableType {
-  const candidate =
-    input?.writtenAssetType ||
-    input?.writtenAsset?.type ||
-    input?.deliverableType ||
-    input?.deliverable?.type ||
-    input?.type ||
-    input?.classification;
-  if (typeof candidate === 'string') {
-    const normalized = candidate.toLowerCase();
-    if (normalized.includes('review')) {
-      return normalized.includes('design')
-        ? DeliverableType.DesignDocumentReview
-        : DeliverableType.CodeChangeReview;
-    }
-    if (normalized.includes('design')) {
-      return DeliverableType.DesignDocument;
-    }
-    if (normalized.includes('code')) {
-      return DeliverableType.CodeChange;
-    }
-  }
-  return DEFAULT_DELIVERABLE_TYPE;
-}
-
-function extractExpressedNeed(input: any): string {
-  const candidate =
-    input?.need ||
-    input?.definitionOfDone ||
-    input?.taskDescription ||
-    input?.task ||
-    '';
-  return typeof candidate === 'string' ? candidate : '';
-}
-
 function storePreprocessedSnapshot(execution: Execution, processedInput: any, deliverableType: DeliverableType) {
-  const need = extractExpressedNeed(processedInput);
+  const need = resolveExpressedNeed(processedInput);
   const repo = processedInput?.repository || {};
   const snapshot = {
     definitionOfDone: need,
@@ -90,9 +54,9 @@ function factoryPreprocess(): Executor<any, any> {
 
     // Apply gate preprocessing
     const processedInput = gatePreprocess(input, execution);
-    const expressedNeed = extractExpressedNeed(processedInput);
+    const expressedNeed = resolveExpressedNeed(processedInput);
 
-    const deliverableType = inferDeliverableType(processedInput);
+    const deliverableType = resolveWrittenAssetType(processedInput);
     try { processedInput.need = expressedNeed; } catch {}
     try { processedInput.writtenAssetType = deliverableType; } catch {}
     try { processedInput.deliverableType = deliverableType; } catch {}
@@ -165,25 +129,66 @@ function factoryPostprocess(): Executor<any, any> {
 
 function factoryDevelopPhase(): Executor<any, any> {
   const maxIterations = 3;
-  const isTest = String(process?.env?.NODE_ENV || '').toLowerCase() === 'test';
+  const setupPhase: Executor<any, any> = async (input, execution) => {
+    const isTest = String(process?.env?.NODE_ENV || '').toLowerCase() === 'test';
+    const enableSetupRuntimeInTest =
+      process?.env?.BITCODE_ENABLE_DELIVERABLE_SETUP_PHASE_RUNTIME_IN_TEST === '1';
+    if (isTest && !enableSetupRuntimeInTest) {
+      return input;
+    }
+    return deliverablePhases.setup(input, execution);
+  };
+  const discoveryPhase: Executor<any, any> = async (input, execution) => {
+    const isTest = String(process?.env?.NODE_ENV || '').toLowerCase() === 'test';
+    if (isTest) {
+      return input;
+    }
+    return deliverablePhases.discovery(input, execution);
+  };
+  const implementationPhase: Executor<any, any> = async (input, execution) => {
+    const isTest = String(process?.env?.NODE_ENV || '').toLowerCase() === 'test';
+    if (isTest) {
+      return input;
+    }
+    return deliverablePhases.implementation(input, execution);
+  };
+  const validationPhase: Executor<any, any> = async (input, execution) => {
+    const isTest = String(process?.env?.NODE_ENV || '').toLowerCase() === 'test';
+    if (isTest) {
+      return input;
+    }
+    return deliverablePhases.validation(input, execution);
+  };
+  const shippingPhase: Executor<any, any> = async (input, execution) => {
+    const isTest = String(process?.env?.NODE_ENV || '').toLowerCase() === 'test';
+    if (isTest) {
+      return {
+        success: true,
+        deliverable: { prUrl: 'https://github.com/test/repo/pull/1' },
+        artifacts: { filesCreated: [], filesModified: [], testsAdded: 1, testsPassing: 1, documentation: [] },
+        metrics: { duration: 0, tokensUsed: 0, creditsUsed: 0, confidence: 1, phases: {} },
+        summary: 'test'
+      };
+    }
+    return deliverablePhases.shipping(input, execution);
+  };
 
-  return factorySDIVSExecutorPipeline('develop', {
+  const developExecutor = factorySDIVSExecutorPipeline('develop', {
     preprocess: factoryPreprocess(),
-    setup: isTest ? (async x => x) : deliverablePhases.setup,
-    discovery: isTest ? (async x => x) : deliverablePhases.discovery,
-    implementation: isTest ? (async x => x) : deliverablePhases.implementation,
-    validation: isTest ? (async x => x) : deliverablePhases.validation,
-    shipping: isTest ? (async () => ({
-      success: true,
-      deliverable: { prUrl: 'https://github.com/test/repo/pull/1' },
-      artifacts: { filesCreated: [], filesModified: [], testsAdded: 1, testsPassing: 1, documentation: [] },
-      metrics: { duration: 0, tokensUsed: 0, creditsUsed: 0, confidence: 1, phases: {} },
-      summary: 'test'
-    })) : deliverablePhases.shipping,
+    setup: setupPhase,
+    discovery: discoveryPhase,
+    implementation: implementationPhase,
+    validation: validationPhase,
+    shipping: shippingPhase,
     maxIterations,
     iterationPreprocess: factoryIterationPreprocess(),
     postprocess: factoryPostprocess()
   });
+
+  return async (input, execution) => {
+    await initializeDeliverablePipeline(execution as any);
+    return developExecutor(input, execution);
+  };
 }
 
 // ==================== DDD GATE ROUTER ====================

@@ -327,10 +327,7 @@ const quickSecurity = factoryAgentWithSingleStep<
   execute: async (input, execution) => {
     // This executor is wrapped and tracked automatically
     execution.store('variation', 'mode', 'quick');
-    
-    // Even simple variations can use the execution's registries
-    const llm = execution.llms.getDefaultLLM();
-    
+
     // Quick security validation logic here
     // Return matches the Retry schema for consistency
     return {

@@ -1,8 +1,8 @@
 /**
  * Setup Plan Agent (PTRR)
  *
- * Minimal PTRR agent used in Setup phase to demonstrate
- * PrepareConciseContext → Reason (Generation) with store-driven streaming.
+ * Minimal PTRR agent used in Setup phase to derive a concise plan for the
+ * expressed need and retained asset-pack written-asset synthesis corridor.
  *
  * Env for bring-up:
  * - BITCODE_DEBUG_ONLY_FAILSAFES=prepare
@@ -34,7 +34,7 @@ const PlanSchema = z.object({
 
 export const realSetupPlanAgent = factoryAgentWithPTRR<any, z.infer<typeof PlanSchema>>({
   name: 'deliverable-setup-plan-agent',
-  description: 'Derive concise setup plan from repository context',
+  description: 'Derive concise setup plan from repository context and expressed need',
   outputSchema: PlanSchema,
   // Minimal prompt hierarchy to satisfy GA-1 lint and provide usable strings
   prompt: (() => {
@@ -119,9 +119,30 @@ export default async function setupPlanAgent(input: any, execution: any) {
   const onlyFails = String(process?.env?.BITCODE_DEBUG_ONLY_FAILSAFES || '');
   const onlyGens = String(process?.env?.BITCODE_DEBUG_ONLY_GENERATIONS || '');
   const isTest = String(process?.env?.NODE_ENV || '').toLowerCase() === 'test';
+  const emitStubLifecycle =
+    process?.env?.BITCODE_ENABLE_DELIVERABLE_SETUP_PHASE_RUNTIME_IN_TEST === '1';
   const useStub = isTest || (onlyFails.length > 0 && onlyGens.length > 0);
   if (useStub) {
-    return { plan: 'Prepare concise context; Reason about setup; Return minimal plan.' };
+    if (emitStubLifecycle) {
+      try {
+        execution?.store?.('agent:deliverable-setup-plan-agent', 'start', {
+          phase: 'setup',
+          agent: 'deliverable-setup-plan-agent',
+          step: 'Plan'
+        } as any);
+      } catch {}
+    }
+    const result = { plan: 'Prepare concise context; Reason about setup; Return minimal plan.' };
+    if (emitStubLifecycle) {
+      try {
+        execution?.store?.('agent:deliverable-setup-plan-agent', 'complete', {
+          phase: 'setup',
+          agent: 'deliverable-setup-plan-agent',
+          step: 'Plan'
+        } as any);
+      } catch {}
+    }
+    return result;
   }
   return await realSetupPlanAgent(input, execution);
 }

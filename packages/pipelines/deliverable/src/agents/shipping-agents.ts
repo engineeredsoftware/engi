@@ -28,6 +28,7 @@ import {
   createDeliverablesPipelineShippingPhaseFinalizeShipmentAgentPrompt,
   DeliverablesPipelineShippingPhaseFinalizeShipmentAgentPromptSteps
 } from './prompts/finalize-shipment-prompt';
+import { normalizeWrittenAssetType } from '../semantic-resolution';
 
 // ==================== CREATE PULL REQUEST AGENT ====================
 
@@ -267,7 +268,9 @@ const FinalizeShipmentInputSchema = z.object({
   shippingResults: z.any(), // From type-specific shipping agent
   validationResults: z.any(),
   discoveryMetrics: z.any(),
-  deliverableType: z.string()
+  need: z.string().optional(),
+  deliverableType: z.string().optional(),
+  writtenAssetType: z.string().optional()
 });
 
 const FinalizeShipmentOutputSchema = z.object({
@@ -323,7 +326,7 @@ export const DeliverablesPipelineShippingPhaseFinalizeShipmentAgent = factoryAge
 // ==================== DYNAMIC AGENT REGISTRATION ====================
 
 /**
- * Registers shipping agents based on deliverable type.
+ * Registers shipping agents based on written-asset type.
  * Called after validation phase completes.
  * 
  * Sequence:
@@ -331,11 +334,11 @@ export const DeliverablesPipelineShippingPhaseFinalizeShipmentAgent = factoryAge
  * 2. Generic finalize (FinalizeShipment) - ALWAYS LAST
  */
 export function registerShippingAgentsForType(
-  deliverableType: string,
+  writtenAssetType: string,
   agentRegistry: any // AgentAgentsRegistry from PipelineExecution
 ): void {
   // Register type-specific shipping agent
-  switch (deliverableType) {
+  switch (normalizeWrittenAssetType(writtenAssetType)) {
     case 'code-change':
       agentRegistry.registerAgent(
         'shipping:create-pr',
@@ -365,7 +368,7 @@ export function registerShippingAgentsForType(
       break;
       
     default:
-      throw new Error(`Unknown deliverable type for shipping: ${deliverableType}`);
+      throw new Error(`Unknown written-asset type for shipping: ${writtenAssetType}`);
   }
   
   // ALWAYS register the generic finalize agent LAST
@@ -378,21 +381,21 @@ export function registerShippingAgentsForType(
 /**
  * Creates the shipping phase sequence.
  * 
- * @param deliverableType The type of deliverable being shipped
+ * @param writtenAssetType The written-asset kind being shipped
  * @returns Array defining the execution order
  */
 export function createShippingExecutorSequence(
-  deliverableType: string
+  writtenAssetType: string
 ): any[] {
   const typeSpecificAgent = {
     'code-change': 'shipping:create-pr',
     'code-change-review': 'shipping:deliverable-pipeline-submit-review-agent',
     'design-document': 'shipping:deliverable-pipeline-create-issue-agent',
     'design-document-review': 'shipping:deliverable-pipeline-add-comment-agent'
-  }[deliverableType];
+  }[normalizeWrittenAssetType(writtenAssetType)];
   
   if (!typeSpecificAgent) {
-    throw new Error(`Unknown deliverable type for shipping: ${deliverableType}`);
+    throw new Error(`Unknown written-asset type for shipping: ${writtenAssetType}`);
   }
   
   return [

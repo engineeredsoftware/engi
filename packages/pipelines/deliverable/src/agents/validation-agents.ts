@@ -41,6 +41,7 @@ import {
   createDeliverablesPipelineValidationPhaseReadyToShipAgentPrompt,
   DeliverablesPipelineValidationPhaseReadyToShipAgentPromptSteps
 } from './prompts/ready-to-ship-prompt';
+import { normalizeWrittenAssetType } from '../semantic-resolution';
 
 import { Prompt } from '@bitcode/prompts/prompt';
 import { PROMPTPART_GENERIC_AGENT_GENERATION_JSON_ONLY_HEADER } from '@bitcode/prompts/raw_promptparts/generic/promptpart_generic_agent_generation_json_only_header';
@@ -421,7 +422,7 @@ export const DeliverablesPipelineValidationPhaseReadyToShipAgent = factoryAgentW
  * 3. Generic final readiness (ReadyToShip) - ALWAYS LAST
  */
 export function registerValidationAgentsForType(
-  deliverableType: string,
+  writtenAssetType: string,
   agentRegistry: any // AgentAgentsRegistry from PipelineExecution
 ): void {
   // Always register iteration/discovery validators (issues‑only contracts). These agents
@@ -447,12 +448,12 @@ export function registerValidationAgentsForType(
 
   // First register type-specific validation agents
   // Implementation validation agent is type-specific but ALL variants write to
-  // the same cohesive store: validation/implementation:issues. The four deliverable types map to:
+  // the same cohesive store: validation/implementation:issues. The four written-asset types map to:
   //  - code-change            → validation:validate-implementation-phase-code-change
   //  - code-change-review     → validation:validate-implementation-phase-code-change-review
   //  - design-document        → validation:validate-implementation-phase-design-document
   //  - design-document-review → validation:validate-implementation-phase-design-document-review
-  switch (deliverableType) {
+  switch (normalizeWrittenAssetType(writtenAssetType)) {
     case 'code-change':
       agentRegistry.registerAgent(
         'validation:validate-implementation-phase-code-change',
@@ -549,7 +550,7 @@ export function registerValidationAgentsForType(
       break;
       
     default:
-      throw new Error(`Unknown deliverable type for validation: ${deliverableType}`);
+      throw new Error(`Unknown written-asset type for validation: ${writtenAssetType}`);
   }
   
   // ALWAYS register ready-to-instruct (generates selfInstructConfidence at DIV loop end)
@@ -571,7 +572,7 @@ export function registerValidationAgentsForType(
  * @returns Array defining the execution order
  */
 export function createValidationExecutorSequence(
-  deliverableType: string
+  _writtenAssetType: string
 ): any[] {
   return [
     { agent: 'validation:validate-*' }, // Type-specific validation

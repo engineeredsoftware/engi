@@ -1,6 +1,7 @@
 import { factoryAgentWithPTRR } from '@bitcode/agent-generics';
 import { z } from 'zod';
 import { Prompt } from '@bitcode/prompts/prompt';
+import { createPromptPart } from '@bitcode/prompts/parts/PromptPart';
 
 const GatherMetricsOutputSchema = z.object({
   metrics: z.object({
@@ -13,7 +14,7 @@ export const DeliverablePipelineGatherMetricsAgent = factoryAgentWithPTRR<any, z
   name: 'shipping:deliverable-pipeline-gather-metrics-agent',
   description: 'Gather execution metrics for finalization',
   outputSchema: GatherMetricsOutputSchema,
-  prompt: (() => { const p = new Prompt(); p.set('agent:identity','You summarize metrics from execution.'); return p; })(),
+  prompt: (() => { const p = new Prompt(); p.set('agent:identity', createPromptPart('You summarize metrics from execution.')); return p; })(),
   stepPrompts: { plan: () => new Prompt(), try: () => new Prompt(), refine: () => new Prompt(), retry: () => new Prompt() }
 });
 

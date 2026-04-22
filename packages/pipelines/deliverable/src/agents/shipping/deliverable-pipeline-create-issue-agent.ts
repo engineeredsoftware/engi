@@ -1,6 +1,7 @@
 import { factoryAgentWithPTRR } from '@bitcode/agent-generics';
 import { z } from 'zod';
 import { Prompt } from '@bitcode/prompts/prompt';
+import { createPromptPart } from '@bitcode/prompts/parts/PromptPart';
 import { PROMPTPART_GENERIC_AGENT_GENERATION_JSON_ONLY_HEADER } from '@bitcode/prompts/raw_promptparts/generic/promptpart_generic_agent_generation_json_only_header';
 import { PROMPTPART_GENERIC_AGENT_GENERATION_USE_THIS_STRUCTURED_SCHEMA } from '@bitcode/prompts/raw_promptparts/generic/promptpart_generic_agent_generation_use_this_structured_schema';
 import { PROMPTPART_GENERIC_AGENT_FAILSAFE_PREPARE_CONTEXT } from '@bitcode/prompts/raw_promptparts/generic/promptpart_generic_agent_failsafe_prepare_context';
@@ -20,7 +21,7 @@ const CreateIssueOutputSchema = z.object({ status: z.literal('created').default(
 
 const systemPrompt = (() => { 
   const p = new Prompt(); 
-  p.set('agent:identity','You create a design document issue.'); 
+  p.set('agent:identity', createPromptPart('You create a design document issue.'));
   p.set('generation:json_only_header', PROMPTPART_GENERIC_AGENT_GENERATION_JSON_ONLY_HEADER as any);
   p.set('generation:use_this_structure', PROMPTPART_GENERIC_AGENT_GENERATION_USE_THIS_STRUCTURED_SCHEMA as any);
   p.set('failsafe:prepare_context', PROMPTPART_GENERIC_AGENT_FAILSAFE_PREPARE_CONTEXT as any);
@@ -50,5 +51,9 @@ export default async function deliverablePipelineCreateIssueAgent(input: any, ex
   const args = CreateIssueInputSchema.parse({ provider, connectionId, owner, repo, title, body });
   const result = await DeliverablePipelineCreateIssueAgent(args, execution);
   try { if (result?.url) execution.store('shipping','issueUrl', result.url); if (result?.title) execution.store('shipping','issueTitle', result.title); } catch {}
-  return { deliverableType: 'design-document', ...result };
+  return {
+    writtenAssetType: 'design-document',
+    deliverableType: 'design-document',
+    ...result,
+  };
 }

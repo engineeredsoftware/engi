@@ -53,7 +53,7 @@ import { PROMPTPART_GENERIC_FORMATTING_EXECUTETHE_FOLLOWING } from '@bitcode/pro
 /**
  * @doc-comment-developing-promptdevelopment
  * domain: pipeline
- * intent: "Deliverables compatibility corridor – Comprehend Need agent system prompt"
+ * intent: "Retained asset-pack written-asset synthesis corridor – Comprehend Need agent system prompt"
  * current_version: "GA1.50.0"
  * dependencies: {
  *   "PROMPTPART_GENERIC_AGENT_FAILSAFE_PREPARE_CONTEXT": "GA1.50.0",
@@ -203,7 +203,7 @@ export function createComprehendTaskRetryPrompt(): Prompt {
 export const createComprehendNeedRetryPrompt = createComprehendTaskRetryPrompt;
 
 /**
- * Main export: Complete prompt set
+ * Main export: Complete prompt sets
  */
 export const ComprehendTaskPrompts = {
   system: createComprehendTaskSystemPrompt,
@@ -220,3 +220,5 @@ export const ComprehendNeedPrompts = {
   refine: createComprehendNeedRefinePrompt,
   retry: createComprehendNeedRetryPrompt
 };
+
+export const createComprehendNeedPromptSet = () => ComprehendNeedPrompts;

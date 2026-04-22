@@ -13,9 +13,11 @@ import { Prompt } from '@bitcode/prompts/prompt';
 import { PROMPTPART_GENERIC_AGENT_GENERATION_JSON_ONLY_HEADER } from '@bitcode/prompts/raw_promptparts/generic/promptpart_generic_agent_generation_json_only_header';
 import { PROMPTPART_GENERIC_AGENT_FAILSAFE_PREPARE_CONTEXT } from '@bitcode/prompts/raw_promptparts/generic/promptpart_generic_agent_failsafe_prepare_context';
 import { PROMPTPART_GENERIC_AGENT_GENERATION_USE_THIS_STRUCTURED_SCHEMA } from '@bitcode/prompts/raw_promptparts/generic/promptpart_generic_agent_generation_use_this_structured_schema';
+import { resolveWrittenAssetTypeFromExecution } from '../../semantic-resolution';
 
 const ShipOutputSchema = z.object({
   status: z.enum(['shipped','partial']).default('shipped'),
+  writtenAssetType: z.string().optional(),
   deliverableType: z.string().optional(),
   prUrl: z.string().optional(),
   issueUrl: z.string().optional(),
@@ -24,7 +26,7 @@ const ShipOutputSchema = z.object({
 
 const systemPrompt = (() => {
   const p = new Prompt();
-  p.set('agent:identity', 'You are the Ship agent. Based on deliverable type, perform final delivery actions using available tools.' as any);
+  p.set('agent:identity', 'You are the Ship agent. Based on written-asset type, perform final delivery actions using available tools.' as any);
   p.set('generation:json_only_header', PROMPTPART_GENERIC_AGENT_GENERATION_JSON_ONLY_HEADER as any);
   p.set('generation:use_this_structure', PROMPTPART_GENERIC_AGENT_GENERATION_USE_THIS_STRUCTURED_SCHEMA as any);
   p.set('failsafe:prepare_context', PROMPTPART_GENERIC_AGENT_FAILSAFE_PREPARE_CONTEXT as any);
@@ -32,12 +34,12 @@ const systemPrompt = (() => {
 })();
 
 const stepPrompts = {
-  plan: () => { const p = new Prompt(); p.set('step:purpose', 'Plan the exact shipping actions based on deliverable type.' as any); return p; },
+  plan: () => { const p = new Prompt(); p.set('step:purpose', 'Plan the exact shipping actions based on written-asset type.' as any); return p; },
   try: () => {
     const p = new Prompt();
     p.set('step:purpose', 'Execute shipping actions. Prefer VCS tools. For code-change, commit+push with use-computer then create PR.' as any);
     // Instruction for tool selection
-    p.set('tools:policy', 'If deliverable type is code-change: use use-computer to run git commands in workspacePath, then call vcs_create_pull_request. For design-document: call vcs_create_issue. For reviews: call vcs_create_comment with appropriate target.' as any);
+    p.set('tools:policy', 'If written-asset type is code-change: use use-computer to run git commands in workspacePath, then call vcs_create_pull_request. For design-document: call vcs_create_issue. For reviews: call vcs_create_comment with appropriate target.' as any);
     return p;
   },
   refine: () => { const p = new Prompt(); p.set('step:purpose', 'Adjust actions if initial attempts failed (e.g., branch exists).' as any); return p; },
@@ -61,7 +63,7 @@ export const DeliverablePipelineShippingPhaseShipAgent = factoryAgentWithPTRR<an
 
 export default async function ship(input: any, execution: any) {
   // Prepare context from execution
-  const dtype = execution.findUp?.('pipeline','deliverableType') || execution.get?.('pipeline','deliverableType') || execution.get?.('setup','deliverableType') || 'code-change';
+  const dtype = resolveWrittenAssetTypeFromExecution(execution);
   const workspacePath = execution.get?.('repository','workspacePath');
   const owner = execution.get?.('repository','owner') || '';
   const repo = execution.get?.('repository','name') || '';
@@ -70,7 +72,19 @@ export default async function ship(input: any, execution: any) {
 
   // Build tool plan via output.useTools using agent PTRR Try step instructions
   // This wrapper just calls the agent; ToolsExecution handles the rest. Afterward, store useful URLs.
-  const result = await DeliverablePipelineShippingPhaseShipAgent({ deliverableType: dtype, workspacePath, owner, repo, provider, connectionId, input }, execution);
+  const result = await DeliverablePipelineShippingPhaseShipAgent(
+    {
+      writtenAssetType: dtype,
+      deliverableType: dtype,
+      workspacePath,
+      owner,
+      repo,
+      provider,
+      connectionId,
+      input,
+    },
+    execution
+  );
 
   // Best-effort: infer URLs from usedTools (if any)
   try {
@@ -93,5 +107,12 @@ export default async function ship(input: any, execution: any) {
     }
   } catch {}
 
-  return { status: result?.status || 'shipped', deliverableType: dtype, prUrl: (result as any)?.prUrl, issueUrl: (result as any)?.issueUrl, commentUrl: (result as any)?.commentUrl };
+  return {
+    status: result?.status || 'shipped',
+    writtenAssetType: dtype,
+    deliverableType: dtype,
+    prUrl: (result as any)?.prUrl,
+    issueUrl: (result as any)?.issueUrl,
+    commentUrl: (result as any)?.commentUrl,
+  };
 }

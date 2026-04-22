@@ -10,6 +10,9 @@
 import { PipelineExecution, enableExecutionDebug } from '@bitcode/pipelines-generics';
 import type { Tool } from '@bitcode/tools-generics';
 import { PipelineLLMRegistry } from '@bitcode/pipelines-generics/src/execution/PipelineLLMRegistry';
+import { PipelinePromptRegistry } from '@bitcode/pipelines-generics/src/execution/PipelinePromptRegistry';
+import { PipelineToolRegistry } from '@bitcode/pipelines-generics/src/execution/PipelineToolRegistry';
+import { PipelineAgentRegistry } from '@bitcode/pipelines-generics/src/execution/PipelineAgentRegistry';
 import { PipelineExecution as PE } from '@bitcode/pipelines-generics/src/execution/PipelineExecution';
 import { factoryLLMRegistryWithProviders } from '@bitcode/generic-llms';
 import { LLMRegistry } from '@bitcode/llm-generics';
@@ -25,8 +28,17 @@ function assertDocCodePrompt(tool: Tool, key: string) {
 export async function initializeDeliverablePipeline(execution: PipelineExecution) {
   // 0) Hard guard: ensure this execution has LLM registry and child() creates PipelineExecution children
   try {
+    if (!(execution as any).prompts) {
+      (execution as any).prompts = new PipelinePromptRegistry(execution as any);
+    }
+    if (!(execution as any).tools) {
+      (execution as any).tools = new PipelineToolRegistry(execution as any);
+    }
     if (!(execution as any).llms) {
       (execution as any).llms = new PipelineLLMRegistry(execution as any);
+    }
+    if (!(execution as any).agents) {
+      (execution as any).agents = new PipelineAgentRegistry(execution as any);
     }
     // Ensure child executions remain PipelineExecution instances
     const originalChild = (execution as any).child?.bind(execution);
@@ -104,9 +116,13 @@ export async function initializeDeliverablePipeline(execution: PipelineExecution
     execution.agents.registerAgent('setup:deliverable-setup-plan-agent', setupPlan);
   } catch {}
   try {
-    const comprehendAgent = (await import('./agents/setup/deliverable-pipeline-comprehend-task-agent')).default as any;
+    const comprehendAgent = (await import('./agents/setup/deliverable-pipeline-comprehend-need-agent')).default as any;
     execution.agents.registerAgent('setup:deliverable-pipeline-comprehend-need-agent', comprehendAgent);
     execution.agents.registerAgent('setup:deliverable-pipeline-comprehend-dod-agent', comprehendAgent);
+  } catch {}
+  try {
+    const initializeMcpsToolsAgent = (await import('./agents/setup/initialize-mcps-tools-agent')).default as any;
+    execution.agents.registerAgent('setup:deliverable-pipeline-initialize-mcps-tools-agent', initializeMcpsToolsAgent);
   } catch {}
   // Register discovery agents
   try {

@@ -1207,6 +1207,7 @@ function buildV26PromptSystemTotalityProof({
         'packages/pipelines/deliverable/src/agents/prompts/plan-implementation-prompt.ts',
         'packages/pipelines/deliverable/src/agents/prompts/comprehend-task-prompt.ts',
         'packages/pipelines/deliverable/src/agents/prompts/deliverable-pipeline-comprehend-task-agent-prompts.ts',
+        'packages/pipelines/deliverable/src/agents/setup/deliverable-pipeline-comprehend-need-agent.ts',
         'packages/pipelines/deliverable/src/agents/setup/deliverable-pipeline-comprehend-task-agent.ts',
         'packages/pipelines/deliverable/src/agents/setup/deliverable-pipeline-ready-to-iterate-agent.ts',
         'packages/pipelines/deliverable/src/agents/setup/deliverable-pipeline-setup-plan-agent.ts',

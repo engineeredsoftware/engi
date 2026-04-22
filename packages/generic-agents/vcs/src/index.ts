@@ -197,11 +197,16 @@ async function planVCSOperation(input: VCSInput): Promise<{
   });
   
   try {
+    const repository = {
+      owner: input.repository.owner ?? '',
+      name: input.repository.name ?? '',
+    };
+
     // Validate repository access
-    const access = await validateRepositoryAccess(input.provider, input.repository);
+    const access = await validateRepositoryAccess(input.provider, repository);
     
     if (!access.hasAccess) {
-      throw new Error(`No access to repository ${input.repository.owner}/${input.repository.name}`);
+      throw new Error(`No access to repository ${repository.owner}/${repository.name}`);
     }
     
     // Determine execution strategy
@@ -269,22 +274,32 @@ async function tryVCSOperation(
   const startTime = Date.now();
   
   try {
+    const repository = {
+      owner: input.repository.owner ?? '',
+      name: input.repository.name ?? '',
+    };
+    const files = input.files?.map((file) => ({
+      path: file.path ?? '',
+      content: file.content ?? '',
+      action: file.action ?? 'update',
+    }));
+
     // Execute the VCS operation
     const operationResult = await executeVCSOperation(
       input.operation,
       input.provider,
-      input.repository,
+      repository,
       {
         branch: input.branch,
         title: input.title,
         description: input.description,
-        files: input.files,
+        files,
         baseBranch: input.baseBranch
       }
     );
     
     // Calculate change statistics if files were modified
-    const changes = input.files ? calculateChangeStats(input.files) : undefined;
+    const changes = files ? calculateChangeStats(files) : undefined;
     
     const processingTime = Date.now() - startTime;
     
@@ -294,7 +309,7 @@ async function tryVCSOperation(
       result: operationResult,
       metadata: {
         provider: input.provider,
-        repository: `${input.repository.owner}/${input.repository.name}`,
+        repository: `${repository.owner}/${repository.name}`,
         timestamp: new Date().toISOString(),
         author: 'system' // Would be actual user in real implementation
       },

@@ -32,8 +32,10 @@ import {
 // ==================== UNDERSTAND REQUIREMENTS AGENT ====================
 
 const UnderstandRequirementsInputSchema = z.object({
-  taskDescription: z.string(),
-  deliverableType: z.string(),
+  taskDescription: z.string().optional(),
+  need: z.string().optional(),
+  deliverableType: z.string().optional(),
+  writtenAssetType: z.string().optional(),
   codebaseAnalysis: z.any(), // From setup phase
   attachments: z.array(z.any()).optional()
 });
@@ -83,7 +85,9 @@ export const DeliverablesPipelineDiscoveryPhaseUnderstandRequirementsAgent = fac
 
 const ResearchApproachInputSchema = z.object({
   requirements: z.any(), // From understand requirements
-  deliverableType: z.string(),
+  need: z.string().optional(),
+  deliverableType: z.string().optional(),
+  writtenAssetType: z.string().optional(),
   codebaseAnalysis: z.any()
 });
 
@@ -141,7 +145,9 @@ export const DeliverablesPipelineDiscoveryPhaseResearchApproachAgent = factoryAg
 const PlanImplementationInputSchema = z.object({
   requirements: z.any(),
   approach: z.any(),
-  deliverableType: z.string(),
+  need: z.string().optional(),
+  deliverableType: z.string().optional(),
+  writtenAssetType: z.string().optional(),
   codebaseAnalysis: z.any()
 });
 
@@ -195,10 +201,12 @@ export const DeliverablesPipelineDiscoveryPhasePlanImplementationAgent = factory
 
 // --- GATHER CONTEXT AGENT (RUNS FIRST) ---
 const GatherContextInputSchema = z.object({
-  taskDescription: z.string(),
+  taskDescription: z.string().optional(),
+  need: z.string().optional(),
   codebaseAnalysis: z.any(),
   attachments: z.array(z.any()).optional(),
-  deliverableType: z.string()
+  deliverableType: z.string().optional(),
+  writtenAssetType: z.string().optional()
 });
 
 const GatherContextOutputSchema = z.object({
@@ -247,7 +255,9 @@ const AssessComplexityInputSchema = z.object({
   approach: z.any(),
   implementationPlan: z.any(),
   context: z.any(),
-  deliverableType: z.string()
+  need: z.string().optional(),
+  deliverableType: z.string().optional(),
+  writtenAssetType: z.string().optional()
 });
 
 const AssessComplexityOutputSchema = z.object({

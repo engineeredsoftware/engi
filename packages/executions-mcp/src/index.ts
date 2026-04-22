@@ -77,14 +77,17 @@ export const McpConfigSchema = {
 export function validateMcpConfig(config: unknown) {
   const result = McpConfigSchema.safeParse(config);
 
-  return result.success
-    ? { success: true, reasons: [] as string[] }
-    : {
-        success: false,
-        reasons: result.error.issues.map((issue) =>
-          issue.path.length ? `${issue.path.join('.')}: ${issue.message}` : issue.message,
-        ),
-      };
+  if (result.success) {
+    return { success: true, reasons: [] as string[] };
+  }
+
+  const { error } = result as Extract<McpConfigSafeParseResult, { success: false }>;
+  return {
+    success: false,
+    reasons: error.issues.map((issue) =>
+      issue.path.length ? `${issue.path.join('.')}: ${issue.message}` : issue.message,
+    ),
+  };
 }
 
 export default McpConfigSchema;

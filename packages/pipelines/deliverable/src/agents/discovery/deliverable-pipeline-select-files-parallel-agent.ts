@@ -9,6 +9,10 @@ import { factoryAgentWithPTRR } from '@bitcode/agent-generics';
 import { createDeliverablesPipelineDiscoveryPhaseSelectFilesParallelAgentPrompt, DeliverablesPipelineDiscoveryPhaseSelectFilesParallelAgentPromptSteps } from '../prompts/select-files-parallel-prompt';
 import { getDeliverablePipelineToolsForAgent } from '../../tools';
 import { z } from 'zod';
+import {
+  resolveExpressedNeedFromExecution,
+  resolveWrittenAssetTypeFromExecution,
+} from '../../semantic-resolution';
 
 /**
  * Input schema for file selection
@@ -19,6 +23,7 @@ const SelectFilesInputSchema = z.object({
     functions: z.array(z.string()),
     concepts: z.array(z.string())
   }),
+  need: z.string().optional(),
   codebaseStructure: z.object({
     directories: z.array(z.object({
       path: z.string(),
@@ -30,7 +35,8 @@ const SelectFilesInputSchema = z.object({
       relevance: z.number()
     }))
   }),
-  deliverableType: z.string(),
+  deliverableType: z.string().optional(),
+  writtenAssetType: z.string().optional(),
   attachmentRequirements: z.array(z.any()).optional()
 });
 
@@ -104,15 +110,13 @@ export default async function selectFilesParallel(input: any, execution: any) {
     taskEntities:
       execution.get('setup/need', 'entities') ||
       execution.get('setup/task', 'entities'),
+    need: resolveExpressedNeedFromExecution(execution),
     codebaseStructure: {
       directories: execution.get('setup/codebase', 'structure.directories'),
       relevantFiles: execution.get('setup/codebase', 'relevantFiles')
     },
-    deliverableType:
-      execution.get('setup/written-asset-type', 'type') ||
-      execution.get('setup/deliverable-type', 'type') ||
-      execution.get('setup', 'writtenAssetType') ||
-      execution.get('setup', 'deliverableType'),
+    writtenAssetType: resolveWrittenAssetTypeFromExecution(execution),
+    deliverableType: resolveWrittenAssetTypeFromExecution(execution),
     attachmentRequirements: execution.get('discovery/attachments', 'designRequirements')
   };
 

@@ -16,7 +16,43 @@ const postprocessSource = readFileSync(
   'utf8'
 );
 const comprehendNeedSource = readFileSync(
+  new URL('../../packages/pipelines/deliverable/src/agents/setup/deliverable-pipeline-comprehend-need-agent.ts', import.meta.url),
+  'utf8'
+);
+const comprehendNeedAliasSource = readFileSync(
   new URL('../../packages/pipelines/deliverable/src/agents/setup/deliverable-pipeline-comprehend-task-agent.ts', import.meta.url),
+  'utf8'
+);
+const semanticResolutionSource = readFileSync(
+  new URL('../../packages/pipelines/deliverable/src/semantic-resolution.ts', import.meta.url),
+  'utf8'
+);
+const phaseIndexSource = readFileSync(
+  new URL('../../packages/pipelines/deliverable/src/phases/index.ts', import.meta.url),
+  'utf8'
+);
+const setupPhaseSource = readFileSync(
+  new URL('../../packages/pipelines/deliverable/src/phases/setup.ts', import.meta.url),
+  'utf8'
+);
+const preprocessSource = readFileSync(
+  new URL('../../packages/pipelines/deliverable/src/preprocess.ts', import.meta.url),
+  'utf8'
+);
+const shipAgentSource = readFileSync(
+  new URL('../../packages/pipelines/deliverable/src/agents/shipping/deliverable-pipeline-ship-agent.ts', import.meta.url),
+  'utf8'
+);
+const createPullRequestSource = readFileSync(
+  new URL('../../packages/pipelines/deliverable/src/agents/shipping/deliverable-pipeline-create-pull-request-agent.ts', import.meta.url),
+  'utf8'
+);
+const discoveryAgentsSource = readFileSync(
+  new URL('../../packages/pipelines/deliverable/src/agents/discovery-agents.ts', import.meta.url),
+  'utf8'
+);
+const selectFilesSource = readFileSync(
+  new URL('../../packages/pipelines/deliverable/src/agents/discovery/deliverable-pipeline-select-files-parallel-agent.ts', import.meta.url),
   'utf8'
 );
 const finalSummarySource = readFileSync(
@@ -29,6 +65,8 @@ test('V26 deliverable reform supplement requires semantic mirrors beyond retaine
   assert.match(reformSource, /`asset pack`/u);
   assert.match(reformSource, /`written asset`/u);
   assert.match(reformSource, /execution stores and postprocessed artifacts should mirror compatibility keys with semantic `need`, `writtenAssetType`, and asset-pack-shaped snapshots/u);
+  assert.match(reformSource, /shapes live protocol behavior through Bitcode's commercial infrastructure/u);
+  assert.match(reformSource, /hydrate a registry-bearing pipeline execution context when callers still enter through a bare `Execution`/u);
 });
 
 test('retained deliverable schemas expose asset-pack written-asset semantic aliases', () => {
@@ -40,8 +78,8 @@ test('retained deliverable schemas expose asset-pack written-asset semantic alia
 });
 
 test('deliverable preprocess stores need and written-asset semantic mirrors alongside compatibility keys', () => {
-  assert.match(deliverablePipelineSource, /input\?\.writtenAssetType/u);
-  assert.match(deliverablePipelineSource, /function extractExpressedNeed/u);
+  assert.match(deliverablePipelineSource, /resolveWrittenAssetType\(processedInput\)/u);
+  assert.match(deliverablePipelineSource, /resolveExpressedNeed/u);
   assert.match(deliverablePipelineSource, /execution\.store\('pipeline', 'writtenAssetType', deliverableType\);/u);
   assert.match(deliverablePipelineSource, /execution\.store\('pipeline', 'expressedNeed', expressedNeed\);/u);
   assert.match(deliverablePipelineSource, /execution\.store\('need', 'description', expressedNeed\);/u);
@@ -60,8 +98,31 @@ test('deliverable postprocess and shipping summary carry asset-pack written-asse
 });
 
 test('setup comprehension path mirrors semantic need and written-asset keys for downstream phases', () => {
+  assert.match(comprehendNeedSource, /name: 'deliverable-pipeline-comprehend-need-agent'/u);
+  assert.match(comprehendNeedAliasSource, /deliverable-pipeline-comprehend-need-agent/u);
+  assert.match(setupPhaseSource, /deliverable-pipeline-comprehend-need-agent/u);
+  assert.match(preprocessSource, /deliverable-pipeline-comprehend-need-agent/u);
+  assert.match(preprocessSource, /new PipelinePromptRegistry/u);
+  assert.match(preprocessSource, /new PipelineToolRegistry/u);
+  assert.match(preprocessSource, /new PipelineAgentRegistry/u);
   assert.match(comprehendNeedSource, /execution\.store\('setup', 'writtenAssetType', types\);/u);
   assert.match(comprehendNeedSource, /execution\.store\('setup\/written-asset-type', 'type', types\);/u);
   assert.match(comprehendNeedSource, /execution\.store\('setup\/need', 'comprehension', out\.comprehension\);/u);
   assert.match(comprehendNeedSource, /execution\.store\('setup\/need', 'entities', out\.entities\);/u);
+});
+
+test('phase and shipping carriers resolve semantic written-asset type and need before compatibility fields', () => {
+  assert.match(semanticResolutionSource, /export function resolveWrittenAssetTypeFromExecution/u);
+  assert.match(semanticResolutionSource, /export function resolveExpressedNeedFromExecution/u);
+  assert.match(deliverablePipelineSource, /BITCODE_ENABLE_DELIVERABLE_SETUP_PHASE_RUNTIME_IN_TEST/u);
+  assert.match(phaseIndexSource, /resolveWrittenAssetTypeFromExecution\(execution\)/u);
+  assert.match(phaseIndexSource, /Unknown written-asset type/u);
+  assert.match(shipAgentSource, /writtenAssetType: dtype/u);
+  assert.match(createPullRequestSource, /writtenAssetType: 'code-change'/u);
+  assert.match(discoveryAgentsSource, /writtenAssetType: z\.string\(\)\.optional\(\)/u);
+  assert.match(discoveryAgentsSource, /need: z\.string\(\)\.optional\(\)/u);
+  assert.match(selectFilesSource, /writtenAssetType: z\.string\(\)\.optional\(\)/u);
+  assert.match(selectFilesSource, /need: resolveExpressedNeedFromExecution\(execution\)/u);
+  assert.match(finalSummarySource, /resolveExpressedNeedFromExecution\(execution\)/u);
+  assert.match(finalSummarySource, /resolveWrittenAssetTypeFromExecution\(execution\)/u);
 });

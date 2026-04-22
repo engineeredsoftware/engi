@@ -7,9 +7,10 @@
  */
 
 import { createPhaseRunner, type AgentStep, type PhaseConfig } from '@bitcode/pipelines-generics';
+import { normalizeWrittenAssetType } from '../semantic-resolution';
 
-function createImplementationSequence(deliverableType: string): AgentStep[] {
-  switch (deliverableType) {
+function createImplementationSequence(writtenAssetType: string): AgentStep[] {
+  switch (normalizeWrittenAssetType(writtenAssetType)) {
     case 'code-change':
       // Dynamic divide/conquer/correct execution is handled in phases/index.ts.
       return [];
@@ -20,27 +21,27 @@ function createImplementationSequence(deliverableType: string): AgentStep[] {
     case 'design-document-review':
       return [{ agent: 'implementation:deliverable-pipeline-review-design-document-agent' }];
     default:
-      throw new Error(`Unknown deliverable type: ${deliverableType}`);
+      throw new Error(`Unknown written-asset type: ${writtenAssetType}`);
   }
 }
 
-export function createImplementationPhaseConfig(deliverableType: string): PhaseConfig {
+export function createImplementationPhaseConfig(writtenAssetType: string): PhaseConfig {
   return {
     phaseName: 'implementation',
-    sequence: createImplementationSequence(deliverableType),
+    sequence: createImplementationSequence(writtenAssetType),
     allowShortCircuit: false
   };
 }
 
-export function runImplementationPhase(deliverableType: string) {
-  return createPhaseRunner(createImplementationPhaseConfig(deliverableType));
+export function runImplementationPhase(writtenAssetType: string) {
+  return createPhaseRunner(createImplementationPhaseConfig(writtenAssetType));
 }
 
 export function registerImplementationAgentsForType(
-  deliverableType: string,
+  writtenAssetType: string,
   agentRegistry: any
 ): void {
-  switch (deliverableType) {
+  switch (normalizeWrittenAssetType(writtenAssetType)) {
     case 'code-change':
       agentRegistry.registerAgent(
         'implementation:deliverable-pipeline-divide-code-change-agent',
@@ -74,6 +75,6 @@ export function registerImplementationAgentsForType(
       );
       break;
     default:
-      throw new Error(`Unknown deliverable type for implementation: ${deliverableType}`);
+      throw new Error(`Unknown written-asset type for implementation: ${writtenAssetType}`);
   }
 }

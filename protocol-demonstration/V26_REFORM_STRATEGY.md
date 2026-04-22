@@ -10,6 +10,7 @@
 
 Broad V26 reform is not naming cleanup.
 It is corridor-by-corridor first-principals analysis of what Bitcode actually requires, followed by the minimum change set that implements exactly that meaning and no more.
+In V26, that work shapes the Bitcode protocol together with the commercial infrastructure until the repository can read as one full-repository-as-proven-products canon rather than a protocol core wrapped by unreformed product carriers.
 
 Every retained corridor must therefore be classified before it is edited:
 - `direct-product`
@@ -47,7 +48,7 @@ Every retained corridor must therefore be classified before it is edited:
 - `prompt` and execution boundaries
   Active inference carriers now consume `PromptPart`, `Prompt`, `PromptExecution`, `Execution`, and `ExecutionPrompt` through public Bitcode package seams instead of repo-relative reach-through.
 - `deliverable` reform
-  The retained corridor is now explicitly interpreted as asset-pack written-asset synthesis, with `need`, `writtenAssetType`, and asset-pack snapshots mirrored alongside compatibility `deliverable*` naming.
+  The retained corridor is now explicitly interpreted as asset-pack written-asset synthesis, with `need`, `writtenAssetType`, and asset-pack snapshots mirrored alongside compatibility `deliverable*` naming, registry-bearing runtime hydration on bare-execution entry, and an honest package-local typecheck boundary through the remaining retained support graph.
 - `field-intelligence`
   A clearly experimental old-world corridor was removed from live Bitcode and documented only under `_legacy/field-intelligence`.
 

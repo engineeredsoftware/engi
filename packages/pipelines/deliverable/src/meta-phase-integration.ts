@@ -16,6 +16,12 @@ import {
   metaPhasePreprocess,
 } from '@bitcode/pipelines-generics';
 
+type MetaPhaseConfig = {
+  collaborative?: boolean;
+  primaryDocument?: string;
+  allowedFilePatterns?: string[];
+};
+
 /**
  * Add meta-phase support to existing deliverable pipeline
  *
@@ -90,18 +96,18 @@ export function createMetaPhaseIterationPreprocessor<T>(
 
     // Apply meta-phase configuration
     const metaPhase = getCurrentMetaPhase(execution);
-    const config = execution.get('meta', 'config');
+    const config = execution.get<MetaPhaseConfig>('meta', 'config') || {};
 
     // Store meta-phase info for agents to access
     execution.store('meta', 'currentPhase', metaPhase);
-    execution.store('meta', 'collaborative', config?.collaborative || false);
+    execution.store('meta', 'collaborative', config.collaborative || false);
 
     // Add meta-phase context to input
     (current as any).metaPhaseContext = {
       phase: metaPhase,
-      collaborative: config?.collaborative,
-      primaryDocument: config?.primaryDocument,
-      allowedFiles: config?.allowedFilePatterns,
+      collaborative: config.collaborative,
+      primaryDocument: config.primaryDocument,
+      allowedFiles: config.allowedFilePatterns,
     };
 
     return current;

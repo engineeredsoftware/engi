@@ -44,6 +44,10 @@ While the path/package may remain `deliverable` during V26 for compatibility and
 - spec text must teach `asset pack` and `written asset` as the Bitcode semantics
 - comments, descriptions, and exported aliases inside the retained corridor should prefer `comprehend need` over `comprehend task` where behavior is truly about need understanding
 - execution stores and postprocessed artifacts should mirror compatibility keys with semantic `need`, `writtenAssetType`, and asset-pack-shaped snapshots so later-gate reform can remove the retained names without losing continuity
+- internal phase, validation, shipping, and reread logic should resolve semantic `writtenAssetType` and `need` first so the retained corridor shapes live protocol behavior through Bitcode's commercial infrastructure rather than silently recentering old-world `deliverableType` logic
+- setup/bootstrap entry points should prefer canonical `comprehend-need` module paths and discovery carriers should admit semantic `need` / `writtenAssetType` directly, with `deliverable-pipeline-comprehend-need-agent` acting as the active setup owner while retained `comprehend-task` / `deliverableType` modules remain only as compatibility shells
+- retained corridor entry initialization must also hydrate a registry-bearing pipeline execution context when callers still enter through a bare `Execution`, so the commercial runtime remains phase/agent/prompt/tool legible instead of depending on hidden `PipelineExecution` assumptions
+- the retained package itself must clear an honest local typecheck boundary through the MCP/VCS/prompt/search support graph it still traverses, so runtime proof and asset-pack semantics are backed by a truthful source boundary rather than broad monorepo success alone
 - new-world semantic aliases should be added before broad destructive renames
 - old names may remain as compatibility aliases until later-gate convergence removes the corridor entirely
 

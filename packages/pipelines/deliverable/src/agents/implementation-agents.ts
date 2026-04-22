@@ -24,6 +24,7 @@ import {
   createDeliverablesPipelineImplementationPhaseCommentOnIssueAgentPrompt,
   DeliverablesPipelineImplementationPhaseCommentOnIssueAgentPromptSteps
 } from './prompts/comment-on-issue-prompt';
+import { normalizeWrittenAssetType } from '../semantic-resolution';
 
 // Import code editor for file operations
 import { codeEditorAgent } from '@bitcode/generic-agent-code-editor';
@@ -325,14 +326,14 @@ export const DeliverablesPipelineImplementationPhaseCommentOnIssueAgent = factor
 // ==================== DYNAMIC AGENT REGISTRATION ====================
 
 /**
- * Registers implementation agents based on deliverable type.
- * Called after setup phase determines the deliverable type.
+ * Registers implementation agents based on written-asset type.
+ * Called after setup phase determines the compatibility corridor classification.
  */
 export function registerImplementationAgentsForType(
-  deliverableType: string,
+  writtenAssetType: string,
   agentRegistry: any // AgentAgentsRegistry from PipelineExecution
 ): void {
-  switch (deliverableType) {
+  switch (normalizeWrittenAssetType(writtenAssetType)) {
     case 'code-change':
       // Register Divide|Conquer|Correct agents
       agentRegistry.registerAgent(
@@ -372,7 +373,7 @@ export function registerImplementationAgentsForType(
       break;
       
     default:
-      throw new Error(`Unknown deliverable type: ${deliverableType}`);
+      throw new Error(`Unknown written-asset type: ${writtenAssetType}`);
   }
 }
 
@@ -380,15 +381,15 @@ export function registerImplementationAgentsForType(
  * Creates the executor sequence for the implementation phase.
  * This demonstrates how Divide|Conquer|Correct works with parallel file processing.
  * 
- * @param deliverableType The type of deliverable being created
+ * @param writtenAssetType The written-asset kind being synthesized
  * @param divideResults Results from divide agent (only for code-change)
  * @returns Array defining the execution order
  */
 export function createImplementationExecutorSequence(
-  deliverableType: string,
+  writtenAssetType: string,
   divideResults?: any // Results from divide phase
 ): any[] {
-  switch (deliverableType) {
+  switch (normalizeWrittenAssetType(writtenAssetType)) {
     case 'code-change':
       if (!divideResults) {
         // First run - just execute divide
@@ -428,6 +429,6 @@ export function createImplementationExecutorSequence(
       return [{ agent: 'implementation:comment' }];
       
     default:
-      throw new Error(`Unknown deliverable type for implementation: ${deliverableType}`);
+      throw new Error(`Unknown written-asset type for implementation: ${writtenAssetType}`);
   }
 }

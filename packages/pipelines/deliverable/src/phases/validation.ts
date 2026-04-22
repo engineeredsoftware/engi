@@ -1,5 +1,6 @@
 import { createPhaseRunner, PhaseConfig } from '@bitcode/pipelines-generics';
 import { registerValidationAgentsForType as registerAgents } from '../agents/validation-agents';
+import { normalizeWrittenAssetType } from '../semantic-resolution';
 
 /**
  * Validation phase configuration placeholder.
@@ -19,6 +20,6 @@ export const runValidationPhase = createPhaseRunner(validationPhaseConfig);
 /**
  * Register validation agents (delegates to the canonical agents module).
  */
-export function registerValidationAgentsForType(deliverableType: string, agentRegistry: any): void {
-  registerAgents(deliverableType, agentRegistry);
+export function registerValidationAgentsForType(writtenAssetType: string, agentRegistry: any): void {
+  registerAgents(normalizeWrittenAssetType(writtenAssetType), agentRegistry);
 }
