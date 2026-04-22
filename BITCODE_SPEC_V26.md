@@ -852,6 +852,7 @@ These are the complete planning units for fifth-gate.
 1. `Bitcode Terminal read closure`
    - close activity-ledger search/filter/pagination/selection/detail stability
    - prove selected-detail persistence and projected-live fallback
+   - prove authenticated `/api/activity` and `/api/executions/history{,/[:runId]}` reread against persisted execution rows, notifications, `final_work_summary`, repo snapshots, processing stats, and execution events rather than relying on mock-mode or unauthenticated fallback alone
 2. `Bitcode Terminal write closure`
    - close give/need/fit/deposit/branch/closure write-through
    - prove immediate reread into the same ledger

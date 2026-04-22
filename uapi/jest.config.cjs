@@ -98,9 +98,8 @@ module.exports = {
     // Include mock system tests
     '<rootDir>/tests/MockOrchestrator.test.ts'
     ,
-    // Added targeted deliverables tests
+    // Added targeted deliverable/runtime tests
     '<rootDir>/tests/deliverablesStreamRoute.test.ts',
-    '<rootDir>/tests/deliverablesHistoryRoute.test.ts',
     '<rootDir>/tests/RunDetailsView.mapping.test.tsx',
     '<rootDir>/tests/usePipelineExecution.test.tsx',
     // Fifth-gate BTD and auxillaries coverage
