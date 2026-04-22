@@ -20,10 +20,13 @@ describe('APPLICATION_SURFACE_EXPLAINERS', () => {
 
   it('keeps experience framing centered on the Bitcode Terminal and auxillaries', () => {
     expect(APPLICATION_SURFACE_EXPLAINERS.experienceMap.summary).toContain('Bitcode Terminal');
+    expect(APPLICATION_SURFACE_EXPLAINERS.experienceMap.summary).toContain('Bitcode Exchange');
     expect(APPLICATION_SURFACE_EXPLAINERS.experienceMap.detail).toContain('activity');
     expect(APPLICATION_SURFACE_EXPLAINERS.experienceMap.detail).toContain('Auxillaries');
+    expect(APPLICATION_SURFACE_EXPLAINERS.experienceMap.detail).toContain('Bitcode Protocol');
     expect(APPLICATION_SURFACE_EXPLAINERS.giveNeedChain.summary).toContain('need measurement');
     expect(APPLICATION_SURFACE_EXPLAINERS.boundaryRuntime.detail).toContain('asset packs');
+    expect(APPLICATION_SURFACE_EXPLAINERS.boundaryRuntime.detail).toContain('ingress/input context');
   });
 
   it('keeps explainers grounded in current source and canon references', () => {

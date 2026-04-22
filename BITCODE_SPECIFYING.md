@@ -1,7 +1,7 @@
 # Bitcode Specifying
 
-Status: complete V21 draft standard for Bitcode system specifying
-Scope: canonical system-specification requirements, full-canon structure, delta discipline, parity discipline, generated artifact requirements, proof appendix rules, promotion gates, and content-quality standards for future Bitcode versions
+Status: active Bitcode metaspec standard aligned through V26 canon
+Scope: canonical system-specification requirements, full-canon structure, delta discipline, parity discipline, generated artifact requirements, proof appendix rules, promotion gates, code-documentation patterns, formal product/interface coverage, and content-quality standards for future Bitcode versions
 Supersedes: `/Users/garrettmaring/Developer/ENGI/BITCODE_SPEC_TEMPLATEGUIDE.md`
 Applies to:
 - future canonical Bitcode system specification versions,
@@ -21,9 +21,13 @@ Historical guides and prior specs remain evidence of evolution, but they are not
 
 Bitcode specifying exists so a correct implementation, audit, generated proof appendix, and canonical promotion can be derived from the current specification family without reconstructing missing meaning from source code, older specs, or conversation history.
 
+From V26 onward, that derivability requirement explicitly includes both:
+- Bitcode as protocol and canonical market semantics,
+- and Bitcode as formal product implementation surfaces when those surfaces are admitted canon, such as Bitcode Exchange, Bitcode Terminal, canonical APIs, Bitcode MCP, and other admitted interface families.
+
 The central rule is:
 
-> A promoted `BITCODE_SPEC_VN.md` must itself be a full-system, full-reimplementability, full-auditability specification. An implementer, reviewer, operator, or auditor must be able to derive the current Bitcode system behavior, contracts, artifacts, proofs, tests, promotion gates, accepted boundaries, and generated canon requirements from that version's canonical file family alone, without using older specs, source code, parity ledgers, or generated artifacts to recover missing whole-system meaning omitted from `SPEC`.
+> A promoted `BITCODE_SPEC_VN.md` must itself be a full-system, full-reimplementability, full-auditability specification. An implementer, reviewer, operator, or auditor must be able to derive the current Bitcode protocol semantics, formal product implementations, interface contracts, behavior, artifacts, proofs, tests, promotion gates, accepted boundaries, and generated canon requirements from that version's canonical file family alone, without using older specs, source code, parity ledgers, or generated artifacts to recover missing whole-system meaning omitted from `SPEC`.
 
 This standard defines how to write that family.
 It does not define Bitcode product semantics by itself.
@@ -116,7 +120,8 @@ Each normative system claim must answer, directly or by a nearby table:
 7. What generated or runtime artifact carries the evidence?
 8. What tests or promotion gates fail if it drifts?
 9. What source or realization surface currently implements it?
-10. What accepted boundary remains, if any?
+10. What formal protocol/product/interface surface carries it today, if one is admitted canon?
+11. What accepted boundary remains, if any?
 
 If a section cannot answer those questions, it is not implementation-derivable enough.
 
@@ -184,12 +189,14 @@ Full-system totality is not satisfied by having the right high-level section nam
 A promoted `SPEC` must make omission visible through named, appendix-grade coverage carriers.
 At minimum, the main `SPEC` must contain, directly or through appendices:
 - a canonical type and surface catalog,
+- a canonical implementation and interface surface catalog,
 - a subsystem totality and derivability matrix,
 - a proof family closure catalog,
 - a generated artifact contract catalog,
 - a current-version generated artifact family inventory or an explicit no-new-family statement,
 - a validation and checking gate catalog,
 - a current canonical source map,
+- a canonical code-documentation and package-teaching contract catalog,
 - and an accepted boundary ledger.
 
 Those carriers are not optional density improvements.
@@ -412,14 +419,15 @@ Required top-level structure:
 6. Whole operator chain
 7. System architecture and layer boundaries
 8. Canonical domain model
-9. Subsystem canon
-10. Proof canon
-11. Generated canon
-12. Validation canon
-13. Promotion canon
-14. Accepted boundaries and reopen conditions
-15. Completion condition
-16. Appendices
+9. Formal product implementations and interface canon
+10. Subsystem canon
+11. Proof canon
+12. Generated canon
+13. Validation canon
+14. Promotion canon
+15. Accepted boundaries and reopen conditions
+16. Completion condition
+17. Appendices
 
 The exact heading names may vary, but every promoted full spec must cover these responsibilities.
 The appendices are required totality carriers, not optional overflow.
@@ -447,6 +455,7 @@ The canonical Bitcode summary states what Bitcode is now.
 
 It must summarize:
 - product/system identity,
+- formal implementation identity where the current canon includes it,
 - deposited asset flow,
 - need measurement,
 - fit/evaluation/verification,
@@ -456,6 +465,7 @@ It must summarize:
 - projection/disclosure boundaries,
 - source-to-shares settlement,
 - generated canonical artifacts,
+- canonical product/interface surfaces and how they embody the protocol when admitted,
 - and operator/reviewer experience.
 
 This summary should remain stable unless product semantics change.
@@ -502,6 +512,7 @@ They do not by themselves satisfy full-system totality.
 Every promoted `SPEC` must also contain explicit appendix-grade carriers that let an auditor check for omission.
 For V21+ those carriers must, at minimum, cover:
 - canonical type and surface inventory,
+- canonical implementation and interface surface inventory,
 - subsystem totality and derivability,
 - proof family closure,
 - an exact proof-family inventory matrix,
@@ -515,6 +526,7 @@ For V21+ those carriers must, at minimum, cover:
 - generated appendix regeneration and fail-closed posture,
 - validation gates,
 - current canonical source surfaces,
+- code-documentation and package-teaching contract catalog,
 - and accepted boundaries.
 
 When the version is changing specifying, promotion, or operator-quality canon directly, the appendix-grade carriers must also include:
@@ -547,7 +559,10 @@ Minimum subsystem coverage:
 15. host/runtime capability truth,
 16. operator experience and pedagogy,
 17. validation and test stack,
-18. generated artifacts and canonical promotion.
+18. generated artifacts and canonical promotion,
+19. formal product implementations admitted by current canon,
+20. interface families and ingress/egress semantics admitted by current canon,
+21. canonical code-documentation and package-teaching surfaces.
 
 ## 6.1 Required Section Schema
 
@@ -564,6 +579,8 @@ Each major subsystem section must include:
 - failure semantics,
 - operator meaning,
 - source references,
+- implementation/interface embodiments where admitted canon depends on them,
+- code-documentation or package-teaching surfaces where those surfaces carry active product truth,
 - validating tests,
 - parity matrix references,
 - accepted boundaries.
@@ -632,6 +649,8 @@ Every full `SPEC` must therefore make the following visible in appendix-grade ca
 - current scenario ids to branch-mode coverage where branch mode changes proof, settlement, visibility, or operator meaning,
 - projection principals to disclosure/projection coverage,
 - operator workflow stages to surfaced truths and emitted evidence,
+- interface ingress/input contexts to operator/runtime meaning,
+- interface egress/output meanings to emitted artifact/share semantics,
 - fail-closed contract and error postures across the major subsystems,
 - and current source-bearing deliverables/artifacts plus their generators, consumers, and fail-closed meaning.
 
@@ -833,7 +852,7 @@ At minimum, the generator or its checker must fail closed when:
 - the proof-source commit does not match the rendered appendix,
 - or the committed appendix diverges from generator output in check mode.
 
-## 8.2 Structured `.engi` Artifacts
+## 8.2 Structured `.bitcode` Artifacts
 
 Every canonical generated JSON artifact must have:
 - stable filename,
@@ -997,7 +1016,7 @@ The parity matrix must include rows for:
 - file-family completeness,
 - stale draft language,
 - generated `_PROVEN_`,
-- generated `.engi` artifacts,
+- generated `.bitcode/vN-*` artifacts,
 - test gates,
 - promotion command,
 - canonical commit message body,
@@ -1099,6 +1118,9 @@ The spec must define:
 - required operator workflow order,
 - required visible concepts,
 - labels and explainers that carry canonical meaning,
+- field- and action-adjacent explainer requirements when operator misunderstanding would distort use,
+- click-based and chat-based read/write usage patterns where both are admitted,
+- master-detail, settings/readiness, and other primary interaction postures when those are canonical product truth,
 - projection posture,
 - generated appendix/report discoverability,
 - visual/raw/JSON dual surfaces,
@@ -1110,32 +1132,37 @@ Pedagogy is correctness when operator misunderstanding would distort review, pro
 
 ---
 
-# 14. System-vs-Realization Separation
+# 14. System-vs-Adjunct Realization Separation
 
-System canon and realization/demo canon must remain separate.
+System canon and adjunct realization/demo canon must remain separate.
+That separation does not mean the main `SPEC` is protocol-only.
+When the current version canonically includes formal product implementations, those product implementations belong inside the main `SPEC` as part of current Bitcode truth.
 
 The system spec defines:
 - universal Bitcode semantics,
+- formal product implementations when those products are current canonical embodiments of the protocol,
+- canonical interface families when those interfaces are admitted product truth,
 - invariants,
 - proof obligations,
 - generated canon,
 - promotion requirements,
 - and implementation derivability targets.
 
-Realization docs define:
+Adjunct realization docs define:
 - current demo ordering,
-- current UI shell,
-- current persistence details,
-- current host/runtime setup,
-- current implementation gaps,
+- local walkthrough ordering,
+- non-canonical setup detail,
+- non-canonical implementation gaps,
 - and realization-local matrices.
 
-A demo may realize canon.
-A demo must not silently define canon.
+A demo or adjunct implementation may realize canon.
+An adjunct realization must not silently define canon.
+A formal implementation surface such as Bitcode Exchange, Bitcode Terminal, canonical APIs, or Bitcode MCP may be both implementation and canon when the active `SPEC` admits it as such.
 
 If current source only exists under a demo directory, the spec must still distinguish:
 - current implementation location,
-- canonical system expectation,
+- canonical protocol expectation,
+- canonical product/interface expectation where admitted,
 - and future non-demo implementation portability.
 
 ---
@@ -1189,9 +1216,27 @@ They should identify:
 - function or builder,
 - generated output path,
 - test entrypoint,
-- and whether the surface is system, realization, generated, or operator-facing.
+- and whether the surface is protocol, Exchange, Terminal, API, MCP, third-party interface, adjunct realization, generated, or operator-facing.
 
-## 15.3 Boundary Honesty
+## 15.3 Code Documentation Patterns
+
+Because current Bitcode canon now includes formal product implementations and active interface families, code-documentation surfaces can carry canonical truth and must be specified accordingly.
+
+The metaspec therefore requires the active `SPEC` to define current expectations for:
+- package headers and inline module identity comments,
+- package `README.md` and package manifest descriptions where they teach active behavior,
+- route/interface readmes and operator-facing implementation docs,
+- component-level or field/action-adjacent explainer content when those explainers are active product truth,
+- primitive/reference/live/compatibility posture labels where retained systems are being repurposed,
+- and comment/readme hygiene rules that prevent preserved historical narration from silently redefining current Bitcode behavior.
+
+When a code-documentation surface teaches active behavior, the current `SPEC` must make clear:
+- whether that surface is canonical or merely explanatory,
+- what subsystem or interface it belongs to,
+- what product posture it carries,
+- and what parity or proof surface validates it.
+
+## 15.4 Boundary Honesty
 
 Accepted boundaries are allowed.
 Silent boundaries are not.
@@ -1216,9 +1261,11 @@ Required organization principles:
 4. generated artifact requirements are grouped and cross-referenced,
 5. proof-family sections share a common pattern,
 6. source references are deliberate,
-7. status truth is repeated consistently across the file family,
-8. delta and parity do not contradict the spec,
-9. historical provenance is separated from current requirements.
+7. formal protocol/product/interface truth is separated clearly rather than collapsed into generic implementation prose,
+8. code-documentation requirements are grouped where they affect active product truth,
+9. status truth is repeated consistently across the file family,
+10. delta and parity do not contradict the spec,
+11. historical provenance is separated from current requirements.
 
 ---
 
@@ -1226,11 +1273,13 @@ Required organization principles:
 
 A full `SPEC` must include appendices or appendix-equivalent sections for:
 - canonical type and surface catalog,
+- canonical implementation and interface surface catalog,
 - subsystem totality and derivability matrix,
 - proof family closure catalog,
 - generated artifact contract catalog,
 - validation and checking gate catalog,
 - current canonical source map,
+- code-documentation and package-teaching contract catalog,
 - scenario, workflow, and cross-product contract catalog,
 - fail-closed contract and error posture matrix,
 - source-bearing deliverable and artifact contract catalog,
@@ -1275,21 +1324,24 @@ A full Bitcode `SPEC` is structurally complete only when:
 7. promotion gates are named,
 8. source references are parity-bearing,
 9. operator surfaces are specified where canonical,
+10. formal product implementations and interface families are specified where canonical,
+11. code-documentation surfaces that carry active truth are specified where canonical,
 10. accepted boundaries have reopen conditions,
-11. `DELTA` contains version-local decisions only,
-12. `PARITY_MATRIX` honestly records source/generated/test/promotion truth,
-13. `_PROVEN_` is generated and checkable when promoted,
-14. `.bitcode/vN-*` artifacts are generated and checkable when required,
-15. stale draft language is absent after promotion,
-16. required appendix-grade coverage carriers exist and are populated with current canon,
-17. scenario/workflow/principal/branch cross-products are explicit where current canon depends on them,
-18. fail-closed contract posture is cataloged rather than implied,
-19. source-bearing deliverables and artifacts are enumerated with generators and consumers,
-20. and `BITCODE_SPEC.txt` points to the promoted version only in the same commit that includes required generated canon.
+12. `DELTA` contains version-local decisions only,
+13. `PARITY_MATRIX` honestly records source/generated/test/promotion truth,
+14. `_PROVEN_` is generated and checkable when promoted,
+15. `.bitcode/vN-*` artifacts are generated and checkable when required,
+16. stale draft language is absent after promotion,
+17. required appendix-grade coverage carriers exist and are populated with current canon,
+18. scenario/workflow/principal/branch cross-products are explicit where current canon depends on them,
+19. interface ingress/input and egress/output meaning are explicit where current canon depends on them,
+20. fail-closed contract posture is cataloged rather than implied,
+21. source-bearing deliverables and artifacts are enumerated with generators and consumers,
+22. and `BITCODE_SPEC.txt` points to the promoted version only in the same commit that includes required generated canon.
 
 When the version is changing specifying itself, completion should also include:
-21. at least one historical `PROPER` family or equivalent full-canon reconstruction validates the new specifying rules against an already-promoted target,
-22. the historical reconstruction remains free of future-version truth imports,
-23. and any failure exposed by that reconstruction has been pushed back into `SPECIFYING`, the active `SPEC`, or the active parity matrix.
+23. at least one historical `PROPER` family or equivalent full-canon reconstruction validates the new specifying rules against an already-promoted target,
+24. the historical reconstruction remains free of future-version truth imports,
+25. and any failure exposed by that reconstruction has been pushed back into `SPECIFYING`, the active `SPEC`, or the active parity matrix.
 
 If any item fails, the version may still be a useful draft, but it is not a complete canonical system specification.

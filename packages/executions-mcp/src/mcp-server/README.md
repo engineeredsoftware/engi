@@ -1,6 +1,13 @@
-# Bitcode MCP Server - Production Ready
+# Bitcode MCP Server - Bitcode Exchange interface
 
-The **Bitcode MCP Server** is a production-grade Model Context Protocol implementation that exposes Bitcode's sophisticated engineering intelligence platform through standardized interfaces.
+The **Bitcode MCP Server** is the Exchange-facing Model Context Protocol interface admitted by V26.
+
+- `Bitcode Protocol`: the canonical specification, proofs, tests, and promotional audit system
+- `Bitcode Exchange`: the backend implementation of Bitcode mainnet, including ledgers, transactions, schemas, routes, and utilities
+- `Bitcode Terminal`: the primary UX/UI for reading and writing Bitcode Exchange activity
+- `Bitcode MCP Server`: one machine interface over Bitcode Exchange for MCP-capable clients and admitted third-party application surfaces
+
+This server should teach Bitcode activity, repository scope, attachments/connections as ingress/input context, and asset packs as output meaning. It should not read like a parallel product or a generic engineering-intelligence platform.
 
 ## 🚀 Features
 

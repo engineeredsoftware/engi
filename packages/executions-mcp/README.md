@@ -6,6 +6,15 @@ Model Context Protocol (MCP) base types and configuration validation utilities.
 This package is the primitive `@bitcode/mcp` layer, not the full Bitcode Exchange-facing MCP server.
 It provides foundational validation and type utilities used by higher MCP interfaces, including Bitcode's own MCP server and admitted third-party MCP ingress.
 
+## Canonical posture
+
+- `Bitcode Protocol`: the specification, proofs, tests, and promotional audit system
+- `Bitcode Exchange`: the backend implementation of Bitcode mainnet, including ledgers, transactions, schemas, routes, and utilities
+- `Bitcode Terminal`: the primary UX/UI over Bitcode Exchange state
+- `Bitcode MCP`: one admitted Bitcode Exchange machine interface for MCP-capable clients
+
+This package stays below that surface as a reusable primitive. It should remain product-neutral even while Bitcode Exchange and Bitcode Terminal rely on it.
+
 ## Core Functionality
 
 - **Configuration Validation**: Primitive runtime validation for MCP configurations

@@ -1,9 +1,9 @@
 {
   "openapi": "3.0.3",
   "info": {
-    "title": "Bitcode MCP Server API",
+    "title": "Bitcode MCP Interface API",
     "version": "1.0.0",
-    "description": "# Bitcode MCP Server API\n\nThe Model Context Protocol (MCP) server exposing Bitcode’s engineering intelligence via standardized tools, resources, and prompts.\n\n## Features\n\n- Tools interface for Deliverable pipeline execution\n- Real-time streaming (WebSocket)\n- Multi‑modal attachments (Figma, documents, images, audio, video)\n- Credit‑based usage (reserve → finalize → refund)\n\n## Getting Started\n\n1. **Get API Key**: Create an API key in your Bitcode account\n2. **Connect a Client**: Use an MCP‑capable client (e.g., Claude Desktop)\n3. **Call a Tool**: Invoke `bitcode://pipelines/deliverable/execute` with your task\n\n## Support\n\n- **Documentation**: https://docs.bitcode.dev/mcp\n- **Community**: https://discord.gg/bitcode-mcp\n- **Support**: mcp-support@bitcode.dev",
+    "description": "# Bitcode MCP Interface API\n\nThe Bitcode Exchange-facing Model Context Protocol interface for need measurement, repository operations, activity continuation, and asset-pack/output workflows.\n\n## Boundary\n\n- `Bitcode Protocol` defines the canon, proofs, tests, and promotional audit system\n- `Bitcode Exchange` owns the backend ledgers, transactions, schemas, routes, and utilities\n- `Bitcode Terminal` is the primary human UX/UI\n- `Bitcode MCP` is one admitted machine interface over Bitcode Exchange\n\n## Interface semantics\n\n- third-party MCPs, repository connections, and attachments are ingress/input context\n- asset packs, proofs, history, and settlement follow-through are output meaning\n- clients should read and write the same Bitcode-owned state model as the Terminal\n\n## Getting Started\n\n1. **Get API Key**: Create an API key in your Bitcode account\n2. **Connect a Client**: Use an MCP-capable client (e.g., Claude Desktop)\n3. **Call a Tool**: Invoke an admitted `bitcode://` tool against Bitcode Exchange state\n\n## Support\n\n- **Documentation**: https://docs.bitcode.dev/mcp\n- **Community**: https://discord.gg/bitcode-mcp\n- **Support**: mcp-support@bitcode.dev",
     "contact": {
       "name": "Bitcode API Support",
       "url": "https://bitcode.dev/support",

@@ -428,7 +428,7 @@ V26 also fixes Bitcode as one productized standard across protocol, product, and
 - `how`
   `Bitcode Mainnet`: a live Bitcode operating posture with exact `$BTD` settlement/accounting, replayable tests, immutable witness artifacts, and auditable specification-bearing closure.
 - `where`
-  The `Bitcode Terminal` at `/application`, plus APIs, MCPs, and third-party app surfaces such as the ChatGPT App.
+  `Bitcode Exchange` as the backend implementation, surfaced through the `Bitcode Terminal` at `/application`, plus admitted APIs, `Bitcode MCP`, and third-party app surfaces such as the ChatGPT App.
 - `who`
   Givers or IP holders supplying technical intelligence, and needers or token factories consuming measured technical intelligence for product or enterprise acceleration.
 - `why`
@@ -731,10 +731,12 @@ For V26, minimum functional Bitcode means the repository can do exactly two prim
 
 The minimum functional system is therefore not website-only.
 It is the joined deployment of:
+- the `Bitcode Exchange` backend implementation,
 - the `Bitcode Terminal` at `/application`,
 - the active API surfaces,
-- the admitted MCP and ChatGPT-style app surfaces,
-- and the retained protocol/runtime owners that those interfaces read from and write to.
+- the admitted `Bitcode MCP` and ChatGPT-style app surfaces,
+- the retained protocol/runtime owners that those interfaces read from and write to,
+- and the `Bitcode Protocol` specification/proof/test family that audits those interfaces as one canonical system.
 
 The following are required for fifth-gate minimum functionality:
 - activity-ledger master-detail read posture is searchable, filterable, paginatable, and stable,
@@ -797,7 +799,7 @@ Each row names:
 | Execution-core primitive boundary | execution primitives, registries, prompts, sequence/state/sub-execution carriers, and provider abstractions remain the reusable Bitcode substrate, while retained orchestration families are taught as reference-only until explicitly repurposed | package headers, metadata, promptparts, and retained execution comments must not present SDIVS/PTRR/meta-phase deliverable families as the current Bitcode product implementation or preserve old-world platform narration in the live execution stack, and live execution/pipeline prompt classes must bind directly to prompt primitives rather than route through the retained raw-promptpart barrel | `packages/{execution-generics,agent-generics,pipelines-generics,pipelines/deliverable,prompts,executions-mcp}/*` | active-source compile health plus package/spec/proof admissibility witnesses showing a clean primitive/reference split |
 | Asset-pack/share synthesis | share candidates, proofs, and history are represented as Bitcode outputs rather than generic deliverables in operator teaching | retained execution substrate can still be reused, but output meaning is canonicalized to Bitcode shares/asset packs/activity | `/application` detail/read surfaces, retained execution and deliverable carriers, spec/proof families | proof surface coverage tying retained execution outputs to Bitcode share semantics |
 | Settlement and follow-through | settlement posture, branch artifacts, proof state, and closure metrics remain in the same Bitcode-owned reread model | closure-bearing writes persist meaningful follow-through instead of thin execution notes; selected detail can reconstruct saved settlement state | `application-activity-history`, `application-transaction-detail-snapshot`, closure/detail cards, retained execution-history rows | closure-follow-through persistence proof and reread tests |
-| API and third-party interface parity | active APIs, admitted MCPs, and third-party app surfaces are not parallel products; they read/write the same Bitcode-owned state model | API carriers are synchronized with terminal writes/reads and preserve Bitcode-only semantics; third-party MCPs plus repository/provider connections and attachments are admitted as ingress/input context, while the Bitcode Exchange-facing MCP surface normalizes outputs toward asset-pack/share meaning | `uapi/app/api/*`, `packages/api/src/routes/*`, MCP/app integration carriers, ChatGPT-style surfaces | conversations continuity, runs/pipelines totality, and endpoint verification coverage |
+| API and third-party interface parity | active APIs, admitted `Bitcode MCP`, and third-party app surfaces are not parallel products; they are admitted interfaces over the same Bitcode Exchange state model that the Bitcode Terminal uses | API carriers are synchronized with terminal writes/reads and preserve Bitcode-only semantics; third-party MCPs plus repository/provider connections and attachments are admitted as ingress/input context, while the Bitcode Exchange-facing MCP surface normalizes outputs toward asset-pack/share meaning and remains auditable against Bitcode Protocol canon | `uapi/app/api/*`, `packages/api/src/routes/*`, MCP/app integration carriers, ChatGPT-style surfaces | conversations continuity, runs/pipelines totality, and endpoint verification coverage |
 | Persistence/schema convergence | schema, ORM, migrations, Supabase carriers, and generated types form one coherent Bitcode storage interpretation | active persistence carriers cannot preserve null-key drift, stale naming, or separate demo/app meanings on the same records | `supabase/*`, `packages/supabase/*`, `packages/orm/*`, retained storage-facing route carriers | persistence and schema totality proof family plus filtered compile health on active storage corridors |
 | Prompt-system explicitness | prompts, prompt parts, prompt execution, and retained prompt ports remain explicit infrastructure, not silent string debt | prompt space must be Bitcode-owned and compile/admissible even where old prompt reservoirs survive as references, and those retained reservoirs must stay off the live execution primitive path unless explicitly repurposed | `packages/prompts/*`, prompt carriers in executions/agents/conversations/deliverables | prompt-system totality and prompt-space completeness proofs |
 | Active-source health | the active fifth-gate claim is invalid if the live Bitcode corridor still fails compile or runtime checks in admitted systems | targeted compile/runtime seams across application, conversations, executions, VCS, ORM, prompts, and retained package callers are brought to stable health | active `uapi` program, retained package corridors admitted by V26 | compile-health witness rows in parity/proof surfaces and required route/test checks |

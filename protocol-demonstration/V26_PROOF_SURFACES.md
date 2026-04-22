@@ -1008,11 +1008,11 @@ Required closure posture:
   filtered `tsc` verification over the active `uapi` program for the execution-core package corridor
   proof surface:
   fifth-gate execution primitive/reference admissibility closure so canonical Bitcode execution primitives remain teachable reusable infrastructure, while retained SDIVS/PTRR/meta-phase and deliverable pipeline families are explicitly contained as reference orchestration instead of being narrated as the live Bitcode product implementation
-- `{packages/executions-mcp/{README.md,src/mcp-server/src/{types/index.ts,pipeline-execution/adapter.ts}}}`
+- `{packages/executions-mcp/{README.md,src/mcp-server/{README.md,src/{index.ts,server.ts,types/index.ts,pipeline-execution/adapter.ts},docs/{public/mcp-overview.md,openapi/bitcode-mcp-openapi.json},package.json}}}`
   test coverage:
   filtered `tsc` verification over the active `uapi` program for the MCP interface corridor
   proof surface:
-  fifth-gate MCP interface-precision closure so primitive `@bitcode/mcp` utilities stay distinct from the Bitcode Exchange-facing MCP server, third-party MCPs plus repository/provider connections and attachments are modeled as ingress/input context, and retained deliverable-style outputs are normalized toward Bitcode asset-pack meaning instead of remaining generic deliverable egress
+  fifth-gate MCP interface-precision closure so primitive `@bitcode/mcp` utilities stay distinct from the Bitcode Exchange-facing MCP server, the active docs/source carriers teach `Bitcode Protocol` / `Bitcode Exchange` / `Bitcode Terminal` as one canonical hierarchy, third-party MCPs plus repository/provider connections and attachments are modeled as ingress/input context, and retained deliverable-style outputs are normalized toward Bitcode asset-pack meaning instead of remaining generic deliverable egress
 - `{uapi/app/application/{ApplicationCommandDeck.tsx,ApplicationClosureControlDeck.tsx,ApplicationTransactionDetailSurface.tsx,application-activity-history.ts,application-transaction-detail-snapshot.ts,application-transaction-detail.ts},uapi/tests/{applicationActivityHistory.test.ts,applicationTransactionDetailSnapshot.test.ts,applicationTransactionDetail.test.ts}}`
   test coverage:
   `uapi/tests/applicationActivityHistory.test.ts`, `uapi/tests/applicationTransactionDetailSnapshot.test.ts`, and `uapi/tests/applicationTransactionDetail.test.ts`

@@ -22,9 +22,9 @@ export const APPLICATION_SURFACE_EXPLAINERS = {
     kicker: 'Bitcode Terminal read model',
     title: 'Bitcode Terminal experience map',
     summary:
-      'The Bitcode Terminal is organized around one central ledger window, with dedicated writing and auxillary modes available only when deeper action is needed.',
+      'The Bitcode Terminal is the primary UX/UI over Bitcode Exchange: one central ledger window, with dedicated writing and auxillary modes available only when deeper action is needed.',
     detail:
-      'Use this map to keep the main Bitcode Terminal reading surface stable: Bitcode activity and selected detail stay primary, while conversations and Auxillaries remain deliberate mode changes instead of parallel destinations.',
+      'Use this map to keep the main Bitcode Terminal reading surface stable: Bitcode activity and selected detail stay primary, while conversations and Auxillaries remain deliberate mode changes instead of parallel destinations, and every one of those reads stays grounded in Bitcode Exchange state and Bitcode Protocol canon.',
     points: [
       'Keeps the ledger and selected activity central',
       'Treats conversations and Auxillaries as deliberate follow-through modes',
@@ -213,7 +213,7 @@ export const APPLICATION_SURFACE_EXPLAINERS = {
     summary:
       'Bitcode should show what is live, modeled, boundary-only, or blocked without making you infer that state from failures later in the flow.',
     detail:
-      'Use this read before trusting downstream asset packs or settlement. A healthy Bitcode Terminal keeps boundary truth visible and fail-closed.',
+      'Use this read before trusting downstream asset packs or settlement. A healthy Bitcode Terminal keeps Bitcode Exchange boundary truth visible, makes third-party connections and attachments legible as ingress/input context, and stays aligned with Bitcode Protocol fail-closed rules.',
     points: [
       'Shows blocked interfaces early',
       'Keeps modeled and live states separate',
@@ -237,7 +237,7 @@ export const APPLICATION_SURFACE_EXPLAINERS = {
     summary:
       'Preview the deeper give, need, fit, verification, artifact, settlement, and ledger sections before opening them in the exact proof view.',
     detail:
-      'The map should act like a readable table of contents for the lower Bitcode Terminal flow, not like an internal engineering note.',
+      'The map should act like a readable table of contents for the lower Bitcode Terminal flow so you can move from Bitcode Exchange reread into Bitcode Protocol proof without losing context, not like an internal engineering note.',
     points: [
       'Supports quick section discovery',
       'Keeps exact-detail navigation legible',
@@ -385,7 +385,7 @@ export const APPLICATION_INLINE_EXPLAINERS = {
     summary:
       'The main Bitcode Terminal read window is the activity ledger plus selected detail, not a generic dashboard tile.',
     detail:
-      'Keep the master-detail read loop centered here. Deeper proof, conversation, and auxillary surfaces should remain deliberate follow-through rather than parallel primaries.',
+      'Keep the master-detail read loop centered here. Deeper proof, conversation, and auxillary surfaces should remain deliberate follow-through rather than parallel primaries, and this read window should stay visibly tied to Bitcode Exchange state plus Bitcode Protocol proof posture.',
     references: {
       source: [
         'uapi/app/application/ApplicationExperienceFrame.tsx',
@@ -399,7 +399,7 @@ export const APPLICATION_INLINE_EXPLAINERS = {
     summary:
       'Give, need, and transactional follow-through are the active write posture of the Bitcode Terminal.',
     detail:
-      'This is where click-based and chat-based write paths meet. Conversations can draft, but the ledger-facing write posture still belongs to give, need, deposit, branch, and closure.',
+      'This is where click-based and chat-based write paths meet. Conversations can draft, but the ledger-facing write posture still belongs to give, need, deposit, branch, and closure so writes land in Bitcode Exchange and remain auditable against Bitcode Protocol canon.',
     references: {
       source: [
         'uapi/app/application/ApplicationExperienceFrame.tsx',
@@ -453,7 +453,7 @@ export const APPLICATION_INLINE_EXPLAINERS = {
     summary:
       'Transaction readiness is the shared operator contract for wallet, repository scope, identity, and anchor posture.',
     detail:
-      'When readiness is incomplete, review continuity can stay open but branch, deposit, and closure should fail closed. This explainer should always describe the exact blocker set.',
+      'When readiness is incomplete, review continuity can stay open but branch, deposit, and closure should fail closed. This explainer should always describe the exact blocker set because signed-transaction posture is a Bitcode Exchange precondition taught by Bitcode Protocol canon.',
     references: {
       source: [
         'uapi/app/application/bitcode-transaction-readiness.ts',
@@ -473,7 +473,7 @@ export const APPLICATION_INLINE_EXPLAINERS = {
     summary:
       'This is the give-side boundary selector for the repository supply that Bitcode can actually work against.',
     detail:
-      'Provider and repository are not incidental settings. They determine the source perimeter for searchable supply, deposit provenance, and later signed transaction follow-through.',
+      'Provider and repository are not incidental settings. They determine the source perimeter for searchable supply, deposit provenance, and later signed transaction follow-through, while third-party connections and attachments enter here as ingress/input context rather than redefining Bitcode outputs.',
     references: {
       source: [
         'uapi/app/application/ApplicationRepositoryContextPanel.tsx',

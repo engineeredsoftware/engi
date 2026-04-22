@@ -1,8 +1,9 @@
 /**
- * Bitcode MCP Server - Bitcode market infrastructure over Model Context Protocol
- * 
- * A Model Context Protocol server that exposes Bitcode's pipeline system,
- * multi-modal processing capabilities, and AI agents through standardized MCP interfaces.
+ * Bitcode MCP Server - Bitcode Exchange interface over Model Context Protocol
+ *
+ * A Model Context Protocol server that exposes one Bitcode Exchange interface
+ * surface for need measurement, repository operations, activity continuation,
+ * and asset-pack/output workflows defined by the Bitcode Protocol.
  * Now fully integrated with ORM for all database operations.
  * 
  * @doc-code
@@ -87,7 +88,8 @@ interface BitcodeMCPServerConfig {
 const DEFAULT_CONFIG: BitcodeMCPServerConfig = {
   name: 'bitcode-market-infrastructure',
   version: '1.0.0',
-  description: 'Bitcode market infrastructure - AI-powered need measurement, executions, and engineering workflows',
+  description:
+    'Bitcode Exchange-facing MCP interface for need measurement, activity continuation, repository workflows, and asset-pack outputs',
   capabilities: {
     tools: true,
     resources: true,
