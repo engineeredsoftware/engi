@@ -1,16 +1,16 @@
 {
   "reportId": "v26-gate-checkpoint-report",
   "version": "V26",
-  "proofSourceCommit": "1219ac8cdbacd8c6e72ed31f3fe2f92fd389bb85",
-  "generatedAt": "2026-04-22T11:13:46-03:00",
+  "proofSourceCommit": "80b96b8f807f361bbe6ff4f5362369f1f18e13cd",
+  "generatedAt": "2026-04-22T11:23:45-03:00",
   "generatorId": "bitcode.proven-generator.v1",
   "worktreeState": "dirty-preview",
   "activeCanonicalTarget": "V26",
   "draftPreview": false,
-  "checkpointId": "v26-through-fourth-gate-promotion-boundary-on-eight-gate-v26",
-  "checkpointFocus": "through-fourth-gate-promotion-boundary-on-eight-gate-v26",
-  "nextGate": "Gate 5: minimum-functional Bitcode Exchange, Bitcode Terminal, and broad old-world reform baseline",
-  "passed": true,
+  "checkpointId": "v26-fourth-gate-reopened-and-fifth-gate-active-on-eight-gate-v26",
+  "checkpointFocus": "fourth-gate-reopened-and-fifth-gate-active-on-eight-gate-v26",
+  "nextGate": "Gate 4 reopen: honest retained-system convergence closure while fifth-gate implementation continues",
+  "passed": false,
   "firstGate": {
     "gateId": "gate-1",
     "label": "Ownership migration baseline",
@@ -44,7 +44,7 @@
         "checkId": "v26-spec-family",
         "label": "V26 spec-family report",
         "passed": true,
-        "detail": "Spec-family report passes in promoted mode"
+        "detail": "Spec-family report passes in draft mode"
       },
       {
         "checkId": "v26-canonical-input",
@@ -206,7 +206,8 @@
   "fourthGate": {
     "gateId": "gate-4",
     "label": "Merged-world application and retained-system convergence",
-    "passed": true,
+    "passed": false,
+    "reopened": true,
     "checks": [
       {
         "checkId": "fourth-gate-conversations-continuity",
@@ -237,6 +238,12 @@
         "label": "Fourth-gate prompt system totality proof",
         "passed": true,
         "detail": "PromptPart/Prompt/PromptExecution and retained prompt ports remain explicit"
+      },
+      {
+        "checkId": "fourth-gate-promotion-honesty",
+        "label": "Fourth-gate promotion honesty and procedural closure",
+        "passed": false,
+        "detail": "Prior through-fourth-gate promotion claims were overstated; fourth-gate acceptance is procedurally reopened until retained-system convergence, active-source health, and interface truth are reclosed honestly."
       }
     ]
   },
@@ -245,7 +252,7 @@
     "label": "Minimum-functional Bitcode Exchange, Bitcode Terminal, and total old-world reform baseline",
     "passed": false,
     "open": true,
-    "detail": "Fifth-gate remains open after through-fourth-gate promotion and owns minimum-functional Bitcode Exchange and Terminal closure plus the broad old-world reform baseline required to make the kept repository read as Bitcode-native."
+    "detail": "Fifth-gate drafting and implementation remain active, but procedural promotion is withheld until reopened fourth-gate truth is reclosed honestly. Fifth-gate still owns minimum-functional Bitcode Exchange and Terminal closure plus the broad old-world reform baseline required to make the kept repository read as Bitcode-native."
   },
   "sixthGate": {
     "gateId": "gate-6",

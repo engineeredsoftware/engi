@@ -81,6 +81,126 @@ function normalizeAssetPacks(result: any): any[] {
   return [];
 }
 
+function sameOptionalString(left?: string, right?: string): boolean {
+  return left === undefined || right === undefined || left === right;
+}
+
+function sameOptionalNumber(left?: number, right?: number): boolean {
+  return left === undefined || right === undefined || left === right;
+}
+
+function hasProviderCredential(context: MCPAuthContext, provider: string): boolean {
+  const credentials = context.mcpCredentials?.[provider];
+
+  if (!credentials) {
+    return false;
+  }
+
+  if (typeof credentials !== 'object') {
+    return true;
+  }
+
+  return Object.keys(credentials).length > 0;
+}
+
+function repositoryConnectionMatchesRepository(
+  repository: Record<string, any>,
+  connection: Record<string, any>
+): boolean {
+  const provider = repository.provider || 'github';
+
+  if (connection.kind !== 'repository_connection' || connection.provider !== provider) {
+    return false;
+  }
+
+  if (!sameOptionalNumber(repository.connectionId, connection.connectionId)) {
+    return false;
+  }
+
+  if (!sameOptionalString(repository.branch, connection.branch)) {
+    return false;
+  }
+
+  if (!sameOptionalString(repository.path, connection.path)) {
+    return false;
+  }
+
+  if (provider === 'local') {
+    return connection.path === repository.path &&
+      (connection.name === undefined || connection.name === repository.name);
+  }
+
+  if (!sameOptionalString(repository.owner, connection.owner)) {
+    return false;
+  }
+
+  if (!sameOptionalString(repository.name, connection.name)) {
+    return false;
+  }
+
+  const anchoredByConnectionId = typeof repository.connectionId === 'number' &&
+    typeof connection.connectionId === 'number' &&
+    repository.connectionId === connection.connectionId;
+  const anchoredByCoordinates = connection.owner === repository.owner &&
+    connection.name === repository.name;
+
+  return anchoredByConnectionId || anchoredByCoordinates;
+}
+
+function assertPipelineWriteAdmission(
+  params: any,
+  context: MCPAuthContext,
+  interfaceSurface: 'bitcode_mcp'
+): void {
+  if (!context.permissions.pipelines.create) {
+    throw new Error(
+      'Bitcode MCP write admission requires pipelines.create permission before any pipeline job can be queued.'
+    );
+  }
+
+  const repository = params.repository;
+  const provider = repository?.provider || 'github';
+  const repositoryConnections = Array.isArray(params.connections)
+    ? params.connections.filter((connection: unknown) =>
+        Boolean(connection) &&
+        typeof connection === 'object' &&
+        (connection as Record<string, any>).kind === 'repository_connection',
+      )
+    : [];
+  const matchingConnection = repositoryConnections.find((connection: unknown) =>
+    repositoryConnectionMatchesRepository(
+      repository as Record<string, any>,
+      connection as Record<string, any>,
+    ),
+  );
+
+  if (repositoryConnections.length > 0 && !matchingConnection) {
+    logger.warn('Rejected incoherent Bitcode MCP repository/provider ingress', {
+      interfaceSurface,
+      userId: context.userId,
+      organizationId: context.organizationId,
+      repository,
+      repositoryConnections,
+    });
+    throw new Error(
+      'Bitcode MCP write admission rejected the repository/provider ingress because no supplied repository_connection matches the requested repository anchor.'
+    );
+  }
+
+  if (provider !== 'local' && !matchingConnection && !hasProviderCredential(context, provider)) {
+    logger.warn('Rejected Bitcode MCP pipeline write without provider-bound ingress', {
+      interfaceSurface,
+      userId: context.userId,
+      organizationId: context.organizationId,
+      provider,
+      repository,
+    });
+    throw new Error(
+      'Bitcode MCP write admission requires a repository-scoped provider binding. Supply a matching repository_connection or authenticate the repository provider in MCP credentials.'
+    );
+  }
+}
+
 /**
  * Execute pipeline with comprehensive error handling and monitoring
  */
@@ -97,6 +217,8 @@ async function executePipelineWithMonitoring(
     connections: params.connections,
     mcpConfig: params.mcpConfig,
   });
+
+  assertPipelineWriteAdmission(params, context, interfaceSurface);
 
   // Estimate BTD
   const estimatedBtd = await estimatePipelineBtd(

@@ -37,6 +37,24 @@ const AUTH_CONTEXT: MCPAuthContext = {
   mcpCredentials: {},
 };
 
+const AUTH_CONTEXT_WITH_GITHUB_CREDENTIAL: MCPAuthContext = {
+  ...AUTH_CONTEXT,
+  mcpCredentials: {
+    github: { token: 'github-token' },
+  },
+};
+
+const AUTH_CONTEXT_WITHOUT_PIPELINE_CREATE: MCPAuthContext = {
+  ...AUTH_CONTEXT,
+  permissions: {
+    ...AUTH_CONTEXT.permissions,
+    pipelines: {
+      ...AUTH_CONTEXT.permissions.pipelines,
+      create: false,
+    },
+  },
+};
+
 describe('Bitcode MCP pipeline ingress contract', () => {
   beforeEach(() => {
     mockedQueuePipelineJob.mockReset();
@@ -153,6 +171,104 @@ describe('Bitcode MCP pipeline ingress contract', () => {
     );
   });
 
+  it('rejects MCP pipeline writes without pipelines.create permission', async () => {
+    const tool = registerPipelineTools().find(
+      (candidate) => candidate.name === 'bitcode://pipelines/deliverable/create',
+    );
+
+    await expect(
+      tool!.execute!(
+        {
+          task: 'Create a settlement-ready asset pack for a wallet-gated Bitcode transaction flow',
+          repository: {
+            owner: 'bitcode-labs',
+            name: 'application',
+            provider: 'github',
+          },
+          attachments: [],
+          connections: [],
+          subtype: 'pull_request',
+          streaming: true,
+        },
+        AUTH_CONTEXT_WITHOUT_PIPELINE_CREATE,
+      ),
+    ).rejects.toThrow(
+      'Bitcode MCP write admission requires pipelines.create permission before any pipeline job can be queued.',
+    );
+    expect(mockedQueuePipelineJob).not.toHaveBeenCalled();
+  });
+
+  it('rejects incoherent repository/provider ingress before queueing MCP work', async () => {
+    const tool = registerPipelineTools().find(
+      (candidate) => candidate.name === 'bitcode://pipelines/deliverable/create',
+    );
+
+    await expect(
+      tool!.execute!(
+        {
+          task: 'Create a settlement-ready asset pack for a wallet-gated Bitcode transaction flow',
+          repository: {
+            owner: 'bitcode-labs',
+            name: 'application',
+            provider: 'github',
+          },
+          attachments: [],
+          connections: [
+            {
+              kind: 'repository_connection',
+              provider: 'github',
+              connectionId: 42,
+              owner: 'bitcode-labs',
+              name: 'different-repository',
+              branch: 'main',
+            },
+          ],
+          subtype: 'pull_request',
+          streaming: true,
+        },
+        AUTH_CONTEXT_WITH_GITHUB_CREDENTIAL,
+      ),
+    ).rejects.toThrow(
+      'Bitcode MCP write admission rejected the repository/provider ingress because no supplied repository_connection matches the requested repository anchor.',
+    );
+    expect(mockedQueuePipelineJob).not.toHaveBeenCalled();
+  });
+
+  it('admits provider-authenticated repository ingress without explicit repository_connection', async () => {
+    mockedQueuePipelineJob.mockResolvedValue({
+      runId: 'run-credential',
+      deliverableId: 'deliv-credential',
+    });
+
+    const tool = registerPipelineTools().find(
+      (candidate) => candidate.name === 'bitcode://pipelines/deliverable/create',
+    );
+
+    const result = await tool!.execute!(
+      {
+        task: 'Create a settlement-ready asset pack for a wallet-gated Bitcode transaction flow',
+        repository: {
+          owner: 'bitcode-labs',
+          name: 'application',
+          provider: 'github',
+        },
+        attachments: [],
+        connections: [],
+        subtype: 'pull_request',
+        streaming: true,
+      },
+      AUTH_CONTEXT_WITH_GITHUB_CREDENTIAL,
+    );
+
+    expect(result).toMatchObject({
+      runId: 'run-credential',
+      deliverableId: 'deliv-credential',
+      status: 'queued',
+      interfaceSurface: 'bitcode_mcp',
+      outputMeaning: 'asset_packs',
+    });
+  });
+
   it('returns asset-pack-normalized results for completed MCP writes', async () => {
     mockedQueuePipelineJob.mockResolvedValue({
       runId: 'run-2',
@@ -192,7 +308,7 @@ describe('Bitcode MCP pipeline ingress contract', () => {
         subtype: 'pull_request',
         streaming: false,
       },
-      AUTH_CONTEXT,
+      AUTH_CONTEXT_WITH_GITHUB_CREDENTIAL,
     );
 
     expect(result).toMatchObject({

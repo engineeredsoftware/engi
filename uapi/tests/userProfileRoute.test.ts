@@ -1,3 +1,55 @@
+jest.mock('@bitcode/orm', () => {
+  const readBitcodeWalletBindingFromProfile = (profile: any) =>
+    profile?.settings?.bitcodeProfile?.walletBinding ?? null;
+
+  const mergeBitcodeProfileSettings = (existingSettings: any, patch: any) => {
+    const existingBitcodeProfile = existingSettings?.bitcodeProfile ?? {};
+    const walletBinding =
+      patch.walletBinding === undefined ? existingBitcodeProfile.walletBinding ?? null : patch.walletBinding;
+
+    return {
+      ...(existingSettings ?? {}),
+      bitcodeProfile: {
+        companyName:
+          patch.companyName === undefined ? existingBitcodeProfile.companyName ?? null : patch.companyName,
+        teamMembers:
+          patch.teamMembers === undefined ? existingBitcodeProfile.teamMembers ?? [] : patch.teamMembers,
+        email: patch.email === undefined ? existingBitcodeProfile.email ?? null : patch.email,
+        isVerified:
+          patch.isVerified === undefined ? existingBitcodeProfile.isVerified ?? null : patch.isVerified,
+        walletBinding,
+      },
+    };
+  };
+
+  const hydrateBitcodeProfile = (profile: any) => {
+    if (!profile) {
+      return null;
+    }
+
+    const walletBinding = readBitcodeWalletBindingFromProfile(profile);
+
+    return {
+      ...profile,
+      company_name: profile?.settings?.bitcodeProfile?.companyName ?? null,
+      team_members: profile?.settings?.bitcodeProfile?.teamMembers ?? [],
+      email: profile?.settings?.bitcodeProfile?.email ?? null,
+      is_verified: profile?.settings?.bitcodeProfile?.isVerified ?? null,
+      wallet_address: walletBinding?.address ?? null,
+      wallet_provider: walletBinding?.provider ?? null,
+      wallet_binding_status: walletBinding?.status ?? null,
+      wallet_bound_at: walletBinding?.boundAt ?? null,
+      wallet_binding: walletBinding,
+    };
+  };
+
+  return {
+    hydrateBitcodeProfile,
+    mergeBitcodeProfileSettings,
+    readBitcodeWalletBindingFromProfile,
+  };
+});
+
 import { GET } from '@/app/api/auxillaries/profile/route';
 
 jest.mock('@bitcode/supabase/ssr/server', () => ({
@@ -202,5 +254,89 @@ describe('POST /api/auxillaries/profile', () => {
     expect(res.status).toBe(400);
     const body = await res.json();
     expect(body.error).toContain('walletBindingStatus');
+  });
+
+  it('rejects provider-managed wallet signer assertions from the generic profile route', async () => {
+    mockGetUser.mockResolvedValue({ data: { user: mockUser }, error: null });
+    const builder: any = {
+      select: jest.fn().mockReturnThis(),
+      eq: jest.fn().mockReturnThis(),
+      maybeSingle: jest.fn().mockResolvedValue({ data: null, error: null }),
+      upsert: jest.fn().mockReturnThis(),
+    };
+    (supabaseAdmin.from as jest.Mock).mockReturnValue(builder);
+
+    const req = new Request('http://localhost/api/auxillaries/profile', {
+      method: 'POST',
+      body: JSON.stringify({
+        username: 'bob',
+        walletAddress: 'bc1qbitcodeoperator',
+        walletProvider: 'metamask',
+        walletBindingStatus: 'verified',
+      }),
+    });
+
+    const res = await POST(req as any);
+    expect(res.status).toBe(400);
+    const body = await res.json();
+    expect(body.error).toContain('Provider-managed wallet signer posture');
+    expect(builder.upsert).not.toHaveBeenCalled();
+  });
+
+  it('preserves an existing verified wallet signer when profile edits keep the same binding', async () => {
+    mockGetUser.mockResolvedValue({ data: { user: mockUser }, error: null });
+    const builder: any = {
+      select: jest.fn().mockReturnThis(),
+      eq: jest.fn().mockReturnThis(),
+      maybeSingle: jest.fn().mockResolvedValue({
+        data: {
+          id: 'user-1',
+          username: 'bob',
+          bio: 'before',
+          settings: {
+            bitcodeProfile: {
+              walletBinding: {
+                address: 'bc1qverifiedoperator',
+                provider: 'metamask',
+                status: 'verified',
+                boundAt: '2026-04-22T00:00:00.000Z',
+              },
+            },
+          },
+        },
+        error: null,
+      }),
+      upsert: jest.fn().mockReturnThis(),
+    };
+    (supabaseAdmin.from as jest.Mock).mockReturnValue(builder);
+
+    const req = new Request('http://localhost/api/auxillaries/profile', {
+      method: 'POST',
+      body: JSON.stringify({
+        username: 'bob',
+        bio: 'after',
+        walletAddress: 'bc1qverifiedoperator',
+        walletProvider: 'metamask',
+      }),
+    });
+
+    const res = await POST(req as any);
+    expect(res.status).toBe(201);
+    expect(builder.upsert).toHaveBeenCalledWith(
+      expect.objectContaining({
+        bio: 'after',
+        settings: expect.objectContaining({
+          bitcodeProfile: expect.objectContaining({
+            walletBinding: expect.objectContaining({
+              address: 'bc1qverifiedoperator',
+              provider: 'metamask',
+              status: 'verified',
+              boundAt: '2026-04-22T00:00:00.000Z',
+            }),
+          }),
+        }),
+      }),
+      { onConflict: 'id' },
+    );
   });
 });

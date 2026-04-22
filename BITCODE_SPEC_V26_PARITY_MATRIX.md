@@ -2,7 +2,7 @@
 
 ## Status
 
-- Scope: V26 canonical parity ledger for Bitcode productionizing hardening, first-gate application migration, second-gate application-facing refit, interface hardening, package-first repository refurbishment, through-fourth-gate promotion, and later-gate closure
+- Scope: V26 canonical parity ledger for Bitcode productionizing hardening, first-gate application migration, second-gate application-facing refit, interface hardening, package-first repository refurbishment, reopened fourth-gate convergence truth, and later-gate closure
 - Current canonical/latest target: `V26`
 - Canonical pointer: `/Users/garrettmaring/Developer/ENGI/BITCODE_SPEC.txt` -> `V26`
 - Active canonical anchor: `/Users/garrettmaring/Developer/ENGI/BITCODE_SPEC_V26.md`
@@ -14,14 +14,14 @@
 - Specification target: `/Users/garrettmaring/Developer/ENGI/BITCODE_SPEC_V26.md`
 - Delta companion: `/Users/garrettmaring/Developer/ENGI/BITCODE_SPEC_V26_DELTA.md`
 - Notes companion: `/Users/garrettmaring/Developer/ENGI/BITCODE_SPEC_V26_NOTES.md`
-- Source parity state: through-fourth-gate promotion closure is now materially implemented while fifth-, sixth-, seventh-, and eighth-gate closure remain open
-- V26 state: canonical promotion complete; parity truth is active through fourth gate while fifth-, sixth-, seventh-, and eighth-gate closure remain open
+- Source parity state: first-through-third-gate closure is implemented and fourth-gate retained-system convergence is materially advanced, but prior through-fourth-gate promotion claims were overstated and the procedural closure boundary is reopened while fifth-, sixth-, seventh-, and eighth-gate closure remain open
+- V26 state: V26 remains the active canon, but parity truth no longer treats fourth-gate promotion as accepted today; fifth-, sixth-, seventh-, and eighth-gate closure remain open
 
 ## Purpose
 
 This file records the current parity gap between:
 - active V26 canon and current source truth,
-- the landed through-fourth-gate V26 source changes,
+- the landed V26 source changes including the materially advanced but procedurally reopened fourth-gate retained-system work,
 - the still-open fifth-, sixth-, seventh-, and eighth-gate closure targets,
 - and the intended longer-term package-first ownership model.
 
@@ -151,9 +151,9 @@ This ledger is grounded in:
 | Second-gate application experience | preserved shell is replaced with deeper app-facing component composition and stable external interfacing behavior, according to the explicit design/acceptance contract | implemented |
 | Single primary application route and overlay posture | `/application` is the primary Bitcode destination and conversations/auxillaries/runs flow inward from that context | implemented |
 | Third-gate marketing refurbishment | mounted public-shell owners now inherit application vocabulary through shared public copy while the broader marketing surface remains a later-gate refurbishment | implemented |
-| Fourth-gate retained-system convergence | conversations, runs/pipelines, deliverables, prompts, retained abstractions, persistence, and prompt-system ports are materially ported into the V26 total system | implemented |
+| Fourth-gate retained-system convergence | conversations, runs/pipelines, deliverables, prompts, retained abstractions, persistence, and prompt-system ports are materially ported into the V26 total system, but earlier closure claims overstated how honest that promotion boundary was | reopened |
 | Fifth-gate minimum-functional Bitcode north star | fifth-gate is explicitly scoped as the minimum functional Bitcode system that can make shares and use shares through Bitcode-owned interfaces and state, rather than as generic cleanup | implemented |
-| Fifth-gate debug/environment and proof closure | application includes the debug widget, environment toggle, proof-family closure, retained-package admissibility, and final cleanup controls needed for full provation beyond fourth-gate promotion | accepted boundary |
+| Fifth-gate debug/environment and proof closure | application includes the debug widget, environment toggle, proof-family closure, retained-package admissibility, and final cleanup controls needed for full provation beyond reopened fourth-gate truth work | implemented; promotion pending |
 | Orbital ring rehabilitation | orbitals behave like the real Connects/Interfaces/Profile/`$BTD` owner while preserving the ring overlay shell | implemented |
 | Wallet/auth hardening | production wallet connection and auth posture are explicit | implemented |
 | Credits carrier cutover | current credits surfaces remain transitional while orbitals still expose legacy credits posture; V26 end state cuts credits as a primary carrier and replaces it with wallet-connected Bitcoin for auth, share ownership, and token transfers | accepted boundary |
@@ -199,7 +199,7 @@ This matrix records the current implementation-bearing footing of the package co
 | Persistence, storage, and schema coherence | `supabase/*`, `packages/{supabase,orm}/*`, `/edgetimes`, storage-facing API carriers | materially implemented | broader compile-health backlog and full persistence proof interpretation remain open |
 | Conversations and rich-input continuity | `uapi/app/conversations/*`, `packages/api/src/conversations/*`, `packages/conversations-generics/*` | implemented in active slices | full fifth-gate acceptance still depends on interface parity and proof-family closure |
 | Execution/prompt substrate | `packages/{execution-generics,pipelines,pipelines-generics,prompts,agent-generics,attachments-generics,templates-generics,tools-generics,llm-generics}/*` | materially implemented | retained prompt-space and Bitcode-native pipeline replacement remain open |
-| Bitcode MCP and execution-facing external interface | `packages/executions-mcp/*`, `uapi/components/base/bitcode/execution/*`, admitted MCP integration carriers | materially implemented | Bitcode MCP write acceptance and end-to-end Exchange-state parity remain open |
+| Bitcode MCP and execution-facing external interface | `packages/executions-mcp/*`, `uapi/components/base/bitcode/execution/*`, admitted MCP integration carriers | materially implemented | create admission is now fail-closed on MCP permission plus repository/provider ingress coherence; end-to-end Exchange-state parity and broader write/read coverage remain open |
 | Observability, runtime health, and error intake | `uapi/app/api/client-error/route.ts`, retained runtime telemetry carriers, `packages/{observability,logger,repository-health,testing}/*` | materially implemented | broader runtime and browser coverage still need to prove the corridor under live operator use |
 | Public/docs and product-teaching corridor | `uapi/app/(root)/*`, `uapi/app/docs/*`, shared public-copy carriers | implemented | later-gate marketing refinement remains open but no longer blocks fifth-gate teaching posture |
 | Retained generic/reference corridors | `packages/{generic-agents,generic-tools,generic-llms,web-search,doc-code,doc-comment,editing,lsp,refactoring,figma,vercel,jira,notion}/*` | implemented as classified baseline | retained-package admissibility stays open until every admitted live-path dependency is explicitly justified and bounded |
@@ -247,7 +247,7 @@ No subsystem above may be marked `accepted boundary` for fifth-gate if it still 
 
 This parity file is complete for the current V26 pass only when:
 1. V26-active discipline is explicit,
-2. through-fourth-gate implementation closure is explicit,
+2. reopened fourth-gate truth and the reasons earlier closure claims were overstated are explicit,
 3. retained-system convergence is explicit,
 4. generated proof posture is explicit,
 5. auth/wallet and interface-hardening remainder is explicit,

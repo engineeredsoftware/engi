@@ -3,7 +3,8 @@ import { NextResponse } from 'next/server';
 import {
   hydrateBitcodeProfile,
   mergeBitcodeProfileSettings,
-} from '@bitcode/orm/src/profile-contract';
+  readBitcodeWalletBindingFromProfile,
+} from '@bitcode/orm';
 import { supabaseAdmin } from '@bitcode/supabase';
 import { createClient } from '@bitcode/supabase/ssr/server';
 
@@ -114,6 +115,12 @@ function normalizeWalletBindingStatus(value: string | null): WalletBindingStatus
   return null;
 }
 
+function isProviderManagedWalletBindingStatus(
+  value: WalletBindingStatus | null | undefined,
+): value is 'pending' | 'verified' {
+  return value === 'pending' || value === 'verified';
+}
+
 function normalizeProfilePayload(body: Record<string, unknown>) {
   const username =
     typeof body.username === 'string' && body.username.trim()
@@ -176,12 +183,16 @@ function normalizeProfilePayload(body: Record<string, unknown>) {
     email: emailField.provided ? emailField.value : undefined,
     is_verified: isVerifiedField.provided ? isVerifiedField.value : undefined,
     wallet_address: walletAddressField.provided ? walletAddressField.value : undefined,
+    wallet_address_provided: walletAddressField.provided,
     wallet_provider: walletProviderField.provided ? walletProviderField.value : undefined,
+    wallet_provider_provided: walletProviderField.provided,
     wallet_binding_status:
       walletStatusField.provided || walletAddressField.provided
         ? walletBindingStatus ?? (walletAddressField.value ? 'manual' : null)
         : undefined,
+    wallet_binding_status_provided: walletStatusField.provided,
     wallet_bound_at: walletBoundAtField.provided ? walletBoundAtField.value : undefined,
+    wallet_bound_at_provided: walletBoundAtField.provided,
   };
 }
 
@@ -236,25 +247,68 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: profileReadError.message }, { status: 500 });
   }
 
+  const existingWalletBinding = readBitcodeWalletBindingFromProfile(existingProfile);
+  const walletBindingTouched =
+    normalized.wallet_address_provided ||
+    normalized.wallet_provider_provided ||
+    normalized.wallet_binding_status_provided ||
+    normalized.wallet_bound_at_provided;
+  const preservingProviderManagedWalletBinding =
+    Boolean(existingWalletBinding) &&
+    isProviderManagedWalletBindingStatus(existingWalletBinding?.status) &&
+    (!normalized.wallet_address_provided || normalized.wallet_address === existingWalletBinding?.address) &&
+    (!normalized.wallet_provider_provided || normalized.wallet_provider === existingWalletBinding?.provider) &&
+    (!normalized.wallet_bound_at_provided || normalized.wallet_bound_at === existingWalletBinding?.boundAt) &&
+    (!normalized.wallet_binding_status_provided || normalized.wallet_binding_status === existingWalletBinding?.status);
+
+  if (
+    normalized.wallet_binding_status_provided &&
+    isProviderManagedWalletBindingStatus(normalized.wallet_binding_status) &&
+    !preservingProviderManagedWalletBinding
+  ) {
+    return NextResponse.json(
+      {
+        error:
+          'Provider-managed wallet signer posture cannot be asserted from the Profile route. Connect a wallet provider to stage or verify signing.',
+      },
+      { status: 400 },
+    );
+  }
+
+  const nextWalletBinding =
+    !walletBindingTouched
+      ? undefined
+      : normalized.wallet_address
+        ? preservingProviderManagedWalletBinding
+          ? {
+              address: existingWalletBinding?.address ?? normalized.wallet_address,
+              provider: existingWalletBinding?.provider ?? normalized.wallet_provider ?? null,
+              status: existingWalletBinding?.status ?? normalized.wallet_binding_status ?? 'manual',
+              boundAt:
+                existingWalletBinding?.boundAt ??
+                normalized.wallet_bound_at ??
+                new Date().toISOString(),
+            }
+          : {
+              address: normalized.wallet_address,
+              provider: normalized.wallet_provider ?? existingWalletBinding?.provider ?? null,
+              status: normalized.wallet_binding_status ?? 'manual',
+              boundAt:
+                normalized.wallet_bound_at ??
+                (existingWalletBinding?.status === 'manual' &&
+                existingWalletBinding.address === normalized.wallet_address &&
+                existingWalletBinding.provider === (normalized.wallet_provider ?? existingWalletBinding?.provider ?? null)
+                  ? existingWalletBinding.boundAt
+                  : new Date().toISOString()),
+            }
+        : null;
+
   const settings = mergeBitcodeProfileSettings(existingProfile?.settings, {
     companyName: normalized.company_name,
-    teamMembers: normalized.team_members,
+    teamMembers: normalized.team_members as any,
     email: normalized.email,
     isVerified: normalized.is_verified,
-    walletBinding:
-      normalized.wallet_address === undefined &&
-      normalized.wallet_provider === undefined &&
-      normalized.wallet_binding_status === undefined &&
-      normalized.wallet_bound_at === undefined
-        ? undefined
-        : normalized.wallet_address
-          ? {
-              address: normalized.wallet_address,
-              provider: normalized.wallet_provider ?? null,
-              status: normalized.wallet_binding_status ?? 'manual',
-              boundAt: normalized.wallet_bound_at ?? new Date().toISOString(),
-            }
-          : null,
+    walletBinding: nextWalletBinding,
   });
 
   const { error } = await supabaseAdmin.from('user_profiles').upsert(

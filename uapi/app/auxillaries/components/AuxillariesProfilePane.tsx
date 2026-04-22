@@ -42,6 +42,12 @@ interface DataShareRepo {
   latestAnalysisResult: any;
 }
 
+type SupabaseAuthSession = {
+  user?: {
+    email?: string | null;
+  } | null;
+} | null;
+
 function buildAvatarDataUri(seed: string, background: string, accent: string) {
   const svg = `
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 96 96" fill="none">
@@ -169,7 +175,7 @@ export default function AuxillariesProfilePane({ onSave,
 
     // Subscribe to future auth changes so we react when the callback page
     // sets the session in localStorage/BroadcastChannel.
-    const { data: listener } = supabase.auth.onAuthStateChange((_event, session) => {
+    const { data: listener } = supabase.auth.onAuthStateChange((_event: unknown, session: SupabaseAuthSession) => {
       if (session?.user?.email) {
         setEmail(session.user.email);
         if (!verifiedRef.current) {
@@ -327,8 +333,14 @@ export default function AuxillariesProfilePane({ onSave,
     }
   }, [isVerified, onCompletionStatusChange]);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = (e: { preventDefault: () => void }) => {
     e.preventDefault();
+    const walletBindingStatusForSave =
+      !walletAddress
+        ? null
+        : walletBindingStatus === 'manual' || walletBindingStatus === null
+          ? 'manual'
+          : undefined;
     onSave({
       username,
       displayName,
@@ -339,7 +351,7 @@ export default function AuxillariesProfilePane({ onSave,
       isVerified, // Include verification status
       walletAddress: walletAddress || null,
       walletProvider: walletAddress ? walletProvider || 'manual' : null,
-      walletBindingStatus: walletAddress ? walletBindingStatus || 'manual' : null,
+      walletBindingStatus: walletBindingStatusForSave,
     });
   };
 
@@ -946,7 +958,8 @@ export default function AuxillariesProfilePane({ onSave,
               Profile owns the wallet identity that transaction readiness, the Bitcode Terminal, and
               <span style={{ color: 'rgba(103, 254, 183, 0.88)' }}> $BTD</span> reread. Manual
               identity binding is active here now; verified wallet-provider signing remains staged
-              until the live signature primitive is admitted.
+              until the live signature primitive is admitted. Provider-managed pending or verified
+              signer posture can be reflected here, but this form does not assert it.
             </p>
             <div className="orbitals-users-input-container enterprise">
               <input

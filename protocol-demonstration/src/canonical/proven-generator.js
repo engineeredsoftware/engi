@@ -348,7 +348,7 @@ const V26_RETAINED_PACKAGE_ADMISSIONS = [
   },
   {
     packageName: '@bitcode/jira-tools',
-    rationale: 'retained Jira MCP tools remain admitted only as reader-first need-ingestion and need-measurement carriers during fourth-gate promotion',
+    rationale: 'retained Jira MCP tools remain admitted only as reader-first need-ingestion and need-measurement carriers during fourth-gate convergence',
     role: 'old-world Jira read-first ingestion port',
     writeBoundary: 'default scope is authenticated read and normalization; expansive settle-write to Jira comments or attachments is deferred beyond fourth-gate',
     requiredFiles: [
@@ -375,7 +375,7 @@ const V26_RETAINED_PACKAGE_ADMISSIONS = [
   },
   {
     packageName: '@bitcode/generic-tools-mcps-github',
-    rationale: 'retained GitHub MCP tooling remains admitted as the initial Git/GH-centric settle-write and repository-read boundary for fourth-gate testnet-ready Bitcode',
+    rationale: 'retained GitHub MCP tooling remains admitted as the initial Git/GH-centric settle-write and repository-read boundary for reopened fourth-gate and later fifth-gate Bitcode work',
     role: 'Git/GH-centric initial settle-write port',
     writeBoundary: 'Git/GH branch and PR settlement is admitted in fourth-gate; multi-surface settle writes to other systems remain later-gate work',
     requiredFiles: [
@@ -708,6 +708,12 @@ function buildV26GateCheckpointReport({
   const secondGatePassed = secondGateChecks.every((check) => check.passed === true);
   const thirdGatePrepared = thirdGatePreparationChecks.every((check) => check.passed === true);
   const thirdGatePassed = thirdGateChecks.every((check) => check.passed === true);
+  fourthGateChecks.push({
+    checkId: 'fourth-gate-promotion-honesty',
+    label: 'Fourth-gate promotion honesty and procedural closure',
+    passed: false,
+    detail: 'Prior through-fourth-gate promotion claims were overstated; fourth-gate acceptance is procedurally reopened until retained-system convergence, active-source health, and interface truth are reclosed honestly.'
+  });
   const fourthGatePassed = fourthGateChecks.every((check) => check.passed === true);
 
   const fifthGatePassed = false;
@@ -724,9 +730,9 @@ function buildV26GateCheckpointReport({
     worktreeState: baseData.worktreeState,
     activeCanonicalTarget: ACTIVE_CANON_VERSION,
     draftPreview,
-    checkpointId: 'v26-through-fourth-gate-promotion-boundary-on-eight-gate-v26',
-    checkpointFocus: 'through-fourth-gate-promotion-boundary-on-eight-gate-v26',
-    nextGate: 'Gate 5: minimum-functional Bitcode Exchange, Bitcode Terminal, and broad old-world reform baseline',
+    checkpointId: 'v26-fourth-gate-reopened-and-fifth-gate-active-on-eight-gate-v26',
+    checkpointFocus: 'fourth-gate-reopened-and-fifth-gate-active-on-eight-gate-v26',
+    nextGate: 'Gate 4 reopen: honest retained-system convergence closure while fifth-gate implementation continues',
     passed: firstGatePassed && secondGatePassed && thirdGatePassed && fourthGatePassed,
     firstGate: {
       gateId: 'gate-1',
@@ -756,6 +762,7 @@ function buildV26GateCheckpointReport({
       gateId: 'gate-4',
       label: 'Merged-world application and retained-system convergence',
       passed: fourthGatePassed,
+      reopened: true,
       checks: fourthGateChecks
     },
     fifthGate: {
@@ -763,7 +770,7 @@ function buildV26GateCheckpointReport({
       label: 'Minimum-functional Bitcode Exchange, Bitcode Terminal, and total old-world reform baseline',
       passed: fifthGatePassed,
       open: true,
-      detail: 'Fifth-gate remains open after through-fourth-gate promotion and owns minimum-functional Bitcode Exchange and Terminal closure plus the broad old-world reform baseline required to make the kept repository read as Bitcode-native.'
+      detail: 'Fifth-gate drafting and implementation remain active, but procedural promotion is withheld until reopened fourth-gate truth is reclosed honestly. Fifth-gate still owns minimum-functional Bitcode Exchange and Terminal closure plus the broad old-world reform baseline required to make the kept repository read as Bitcode-native.'
     },
     sixthGate: {
       gateId: 'gate-6',
@@ -3707,10 +3714,11 @@ function buildV26ProvenPackage(baseData, {
   inheritedV20
 }) {
   const draftPreview = ACTIVE_CANON_VERSION !== 'V26';
+  const proceduralPromotionReopened = true;
   const specFamilyReport = buildV21SpecFamilyReport({
     version: 'V26',
-    mode: draftPreview ? 'draft' : 'promoted',
-    ...(draftPreview ? { currentTarget: ACTIVE_CANON_VERSION } : {})
+    mode: (draftPreview || proceduralPromotionReopened) ? 'draft' : 'promoted',
+    ...((draftPreview || proceduralPromotionReopened) ? { currentTarget: ACTIVE_CANON_VERSION } : {})
   });
   const canonicalInputReport = buildV21CanonicalInputReport({
     currentTarget: 'V26',

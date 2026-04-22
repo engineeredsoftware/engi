@@ -15,16 +15,17 @@
 - Canonical companion parity ledger: `/Users/garrettmaring/Developer/ENGI/BITCODE_SPEC_V26_PARITY_MATRIX.md`
 - Canonical companion notes file: `/Users/garrettmaring/Developer/ENGI/BITCODE_SPEC_V26_NOTES.md`
 - Draft posture source: `/Users/garrettmaring/Developer/ENGI/protocol-demonstration/src/canon-posture.js` keeps `ACTIVE_CANON_VERSION = 'V26'` and `DRAFT_TARGET_VERSION = 'V27'`
-- Source parity state: through-fourth-gate V26 promotion closure is now canonicalized in source across application routes, auxillary compatibility redirects, retained-system convergence, persistence witnesses, prompt-system ports, and generated proof artifacts; fifth-through-eighth-gate closure remains open
-- V26 state: canonical promotion complete; V26 is the active Bitcode canon through fourth gate and remains the current productization target while fifth-, sixth-, seventh-, and eighth-gate closure remain open
+- Source parity state: first-through-third-gate closure and large portions of retained-system convergence are canonicalized in source, but prior through-fourth-gate promotion claims were overstated and fourth-gate procedural closure is reopened while fifth-through-eighth-gate work remains active
+- V26 state: V26 remains the singular active Bitcode canon and current productization target, but fourth-gate promotion/closure is not honestly claimable today and fifth-, sixth-, seventh-, and eighth-gate closure remain open
 
 ## Acceptance and remaining-open state
 
 V26 is not a rename-first version and it is not a light cleanup pass.
 V26 is the productionizing hardening version that reorganizes Bitcode from a transitional demo/site split into a package-owned, application-native, live-operation-ready system.
 
-With V26 promoted through fourth gate:
+With V26 active as the singular draft canon while fourth-gate promotion is procedurally reopened:
 - V26 is active canonical truth,
+- fourth-gate retained-system convergence is materially advanced but not accepted as an honestly closed promotion boundary,
 - fifth-gate minimum-functional Bitcode Exchange and Bitcode Terminal closure plus broad old-world reform baseline remain intentionally open and must not be hand-waved as complete,
 - sixth-gate minimal viable product elevation remains intentionally open,
 - seventh-gate initial commercially-viable testnet live-launch refinement remains intentionally open,
@@ -47,7 +48,7 @@ V26 therefore centers eight coordinated gates:
 1. first-gate ownership migration,
 2. second-gate application UX/UI plus external interfacing hardening,
 3. third-gate marketing refurbishment,
-4. fourth-gate retained-system convergence and through-fourth-gate promotion,
+4. fourth-gate retained-system convergence and the now-reopened question of truthful fourth-gate closure,
 5. fifth-gate minimum-functional Bitcode Exchange and Bitcode Terminal closure together with the maximally finished old-world reform baseline,
 6. sixth-gate minimal viable product elevation across Exchange, Terminal, Protocol, Proofs, and admitted interfaces,
 7. seventh-gate initial commercially-viable testnet live-launch refinement,
@@ -334,7 +335,7 @@ Third-gate acceptance is reached only when:
 
 Fourth-gate is the retained-system convergence gate.
 It ports the retained non-Bitcode-first-gate application systems into the V26 Bitcode total system instead of leaving them as adjacent Bitcode-era reservoirs.
-It is also the intended canonical V26 promotion boundary: once first through fourth gates hold, V26 may promote as the active Bitcode canon even while later proving/finalization work remains open.
+It is still the intended canonical V26 promotion boundary, but previous claims that this boundary had already been crossed were overstated. V26 remains the active canon while fourth-gate closure is procedurally reopened and must be reclosed honestly before promotion can be claimed.
 It includes:
 - conversations and the chat-based / ChatGPT-like application interface,
 - executions, runs, pipelines, and the new Bitcode meaning of deliverables,
@@ -347,8 +348,9 @@ It includes:
 
 ### Fifth-gate
 
-Fifth-gate is the post-promotion proof precision, schema refinement, and full provation gate.
-V26 may promote through fourth-gate, but it is not fully proven until fifth-gate closure is explicit across the gates and retained packages it keeps.
+Fifth-gate is not a substitute for a false fourth-gate claim.
+It is the next major minimum-functional Bitcode Exchange and Bitcode Terminal gate, but it proceeds alongside an honest reopening of fourth-gate promotion posture.
+V26 may continue fifth-gate drafting and implementation before fourth-gate is procedurally reclosed, but it may not claim promotion through fourth-gate until that reopened closure work is satisfied.
 It includes:
 - proof closure for the retained and repurposed whole repository that survives into V26 production canon rather than only the old demo-equivalent core,
 - proof closure for migrations, schema contracts, ORM/query carriers, generated types, storage/API contracts, and retained package boundaries,
@@ -696,7 +698,8 @@ Fourth-gate is accepted only when:
 13. canonical auxillary APIs are explicit active owners rather than latent pane-side dependencies,
 14. retained `/executions` and `/orbitals` compatibility routes visibly teach `executions` and `auxillaries` as the merged-world target, with `/orbitals/*` reduced to redirect-only compatibility that no longer renders canonical HTML,
 15. retained transaction, execution-event, and notification surfaces share one typed Bitcode activity vocabulary rather than drifting into separate activity semantics,
-16. and fourth-gate proof obligations are assigned to generated proof families rather than left informal.
+16. fourth-gate proof obligations are assigned to generated proof families rather than left informal,
+17. and generated checkpoint/proven/promotion artifacts do not overclaim fourth-gate closure when retained-system convergence remains procedurally reopened.
 
 ## V26 fifth-through-eighth-gate closure contract
 
@@ -704,7 +707,7 @@ Fifth-gate is the minimum-functional Bitcode Exchange and Bitcode Terminal gate 
 Sixth-gate is the minimal viable product elevation gate for Exchange, Terminal, Protocol, Proofs, and admitted interfaces.
 Seventh-gate is the initial commercially-viable testnet live-launch refinement gate.
 Eighth-gate is the final whole-repository provation and closure gate for V26.
-V26 may be the active canon through fourth-gate while fifth through eighth remain open, but no part of V26 is considered fully proven until those later-gate closure duties are explicit for the systems V26 keeps.
+V26 remains the active canon while fourth-gate closure is procedurally reopened and fifth through eighth remain open, but no part of V26 is considered fully proven until fourth-gate is honestly reclosed and those later-gate closure duties are explicit for the systems V26 keeps.
 
 ### Fifth-gate minimum-functional north star
 
@@ -833,6 +836,7 @@ The production architecture is therefore fixed as the following joined system:
 The production architecture above is constrained by the following fifth-gate rules:
 - no write-bearing interface may rely on client-only readiness judgment when the server can determine readiness from auth, wallet, provider, and repository state;
 - repository anchor, wallet verification, and provider bindings must be legible at the product layer, enforced at the route layer, and explainable at the spec/proof layer using the same Bitcode semantics;
+- admitted `Bitcode MCP` write carriers must reject pipeline creation before queueing or reserving `BTD` whenever `pipelines.create` permission is absent or the repository/provider ingress is not coherently anchored by a matching repository connection or authenticated provider binding;
 - admitted APIs, MCPs, and third-party app surfaces are Bitcode Exchange interfaces, not sibling products, so they inherit the same readiness, persistence, proof, and disclosure boundaries;
 - retained infrastructure packages may remain where they genuinely accelerate V26, but their role must be named as direct-product, support, ingress, compatibility, reference-only, or cut-target rather than left implicit;
 - and observability, testing, proof generation, and generated appendix refresh are not optional afterthoughts because Bitcode’s commercial claim depends on provable runtime and deployment posture.
@@ -977,7 +981,7 @@ Current truth order for the active V26 canon is:
 8. current source and tests explicitly referenced by active V26 canon
 9. historical prior specs
 
-V26 is therefore the active canonical runtime truth through fourth gate, while fifth-, sixth-, seventh-, and eighth-gate closure remain deliberate active work inside V26 before later-version reopening.
+V26 is therefore the active canonical runtime truth even while fourth-gate promotion is procedurally reopened, and fifth-, sixth-, seventh-, and eighth-gate closure remain deliberate active work inside V26 before later-version reopening.
 
 ## full-system, re-implementation, and audit rule
 
@@ -1804,8 +1808,8 @@ The source-bearing deliverable and artifact contract catalog includes:
 
 ## accepted boundaries and reopen conditions
 
-V26 accepts the following boundaries after through-fourth-gate promotion:
-- V26 is active canonical truth while fifth-gate proof/finalization remains open.
+V26 accepts the following boundaries while fourth-gate promotion is procedurally reopened:
+- V26 is active canonical truth while honest fourth-gate reclosure and fifth-gate proof/finalization remain open.
 - The useful Bitcode operator UX chain is preserved while the demonstration UI owner is replaced.
 - Package extraction may proceed incrementally so long as parity truth keeps the gap explicit.
 - Existing packages should be reused when they already fit the responsibility.
@@ -1816,6 +1820,7 @@ The following reopen conditions apply:
 - if the extraction matrix requires materially different package topology,
 - if auth, wallet, GitHub, or external hardening requirements force a broader or narrower version center,
 - if a compatibility-carrier migration becomes central enough to require its own explicit restatement,
+- if prior closure or promotion claims prove overstated and must be reopened procedurally,
 - or if generated evidence and source truth diverge during promotion work.
 
 ## completion condition

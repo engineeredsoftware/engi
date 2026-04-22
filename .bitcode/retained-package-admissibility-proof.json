@@ -1,8 +1,8 @@
 {
   "reportId": "v26-retained-package-admissibility-proof",
   "version": "V26",
-  "proofSourceCommit": "1219ac8cdbacd8c6e72ed31f3fe2f92fd389bb85",
-  "generatedAt": "2026-04-22T11:13:46-03:00",
+  "proofSourceCommit": "80b96b8f807f361bbe6ff4f5362369f1f18e13cd",
+  "generatedAt": "2026-04-22T11:23:45-03:00",
   "generatorId": "bitcode.proven-generator.v1",
   "worktreeState": "dirty-preview",
   "passed": true,
@@ -77,7 +77,7 @@
     },
     {
       "packageName": "@bitcode/jira-tools",
-      "rationale": "retained Jira MCP tools remain admitted only as reader-first need-ingestion and need-measurement carriers during fourth-gate promotion",
+      "rationale": "retained Jira MCP tools remain admitted only as reader-first need-ingestion and need-measurement carriers during fourth-gate convergence",
       "role": "old-world Jira read-first ingestion port",
       "writeBoundary": "default scope is authenticated read and normalization; expansive settle-write to Jira comments or attachments is deferred beyond fourth-gate",
       "requiredFiles": [
@@ -108,7 +108,7 @@
     },
     {
       "packageName": "@bitcode/generic-tools-mcps-github",
-      "rationale": "retained GitHub MCP tooling remains admitted as the initial Git/GH-centric settle-write and repository-read boundary for fourth-gate testnet-ready Bitcode",
+      "rationale": "retained GitHub MCP tooling remains admitted as the initial Git/GH-centric settle-write and repository-read boundary for reopened fourth-gate and later fifth-gate Bitcode work",
       "role": "Git/GH-centric initial settle-write port",
       "writeBoundary": "Git/GH branch and PR settlement is admitted in fourth-gate; multi-surface settle writes to other systems remain later-gate work",
       "requiredFiles": [

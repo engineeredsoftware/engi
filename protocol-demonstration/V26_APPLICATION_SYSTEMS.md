@@ -12,7 +12,7 @@
 This file is not canonical system truth.
 Canonical V26 truth lives only in the active `BITCODE_SPEC_V26*` family.
 This document exists to keep the repository’s modular architecture legible while the V26 productionizing pass lands.
-V26 is promoted through fourth gate, with fifth-gate minimum-functional Exchange/Terminal closure plus broad old-world reform baseline still active, followed by sixth-gate MVP elevation, seventh-gate commercial testnet refinement, and eighth-gate whole-repository provation.
+V26 remains the active canon, but earlier through-fourth-gate promotion claims were overstated. Fourth-gate closure is procedurally reopened while fifth-gate minimum-functional Exchange/Terminal closure plus the broad old-world reform baseline stay active, followed by sixth-gate MVP elevation, seventh-gate commercial testnet refinement, and eighth-gate whole-repository provation.
 
 ## Retained old-world reform baseline
 
@@ -746,6 +746,8 @@ Operational rule:
 - app-owned write routes are no longer allowed to trust client-only readiness posture when auth, wallet, provider, and repository scope can be re-derived on the server
 - `deposits` and `make-bitcode-branch` are application-owned Bitcode write boundaries and therefore must fail closed unless signed-settlement readiness and repository anchor posture are satisfied
 - application write controls may expose drafting posture before settlement posture, but they may not overclaim that staged drafting readiness is equivalent to verified signing readiness
+- the generic `Profile` write route may preserve an already provider-managed wallet signer state when rereading the same bound identity, but it may not assert new `pending` or `verified` signer posture on behalf of the client
+- the admitted `Bitcode MCP` deliverable-create boundary must fail closed before queueing or reserving `BTD` when `pipelines.create` permission is absent or the requested repository/provider ingress is not coherently anchored by a matching repository connection or authenticated provider credential
 
 ## Commercial infrastructure topology
 
