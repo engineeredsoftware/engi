@@ -1,5 +1,5 @@
 import { factoryAgentWithSingleStep } from '@bitcode/agent-generics';
-import type { PromptPart } from '@bitcode/prompts';
+import type { PromptPart } from '@bitcode/prompts/parts/PromptPart';
 import { z } from 'zod';
 
 // Header-expected shapes (aligned to DeliverablesPageHeader complete mode)
@@ -23,6 +23,15 @@ export const FileChangesSchema = z.object({
     .optional(),
 });
 
+const WrittenAssetsSchema = z.object({
+  pullRequest: DeliverableSchema.nullable().optional(),
+  pullRequestReviews: z.array(DeliverableSchema).nullable().optional(),
+  comments: z.array(DeliverableSchema).nullable().optional(),
+  issues: z.array(DeliverableSchema).nullable().optional(),
+  fileChanges: FileChangesSchema.nullable().optional(),
+  summary: z.string().nullable().optional(),
+});
+
 export const FinalWorkSummaryOutputSchema = z.object({
   deliverables: z.object({
     pullRequest: DeliverableSchema.nullable().optional(),
@@ -32,6 +41,9 @@ export const FinalWorkSummaryOutputSchema = z.object({
     fileChanges: FileChangesSchema.nullable().optional(),
     summary: z.string().nullable().optional(),
   }),
+  writtenAssets: WrittenAssetsSchema.optional(),
+  need: z.string().optional(),
+  writtenAssetType: z.string().optional(),
   processingStats: z.object({
     time: z.string(),
     tokens: z
@@ -56,15 +68,15 @@ function formatDuration(ms: number): string {
 /**
  * FinalWorkSummary Quick Agent (single-step)
  *
- * Prepares the final work summary for a completed execution by reading the
- * execution state (repository, task, phase timings, basic metrics) and
- * producing a concise markdown summary plus structured metadata. Stores the
+ * Prepares the final work summary for a completed retained written-asset execution
+ * by reading the execution state (repository, need, phase timings, basic metrics)
+ * and producing a concise markdown summary plus structured metadata. Stores the
  * result under `shipping/final_work_summary/*` in the execution store for
  * API layers to persist into `executions.output`.
  */
 const FinalWorkSummaryAgent = factoryAgentWithSingleStep<any, FinalWorkSummaryOutput>({
   name: 'shipping:final-work-summary',
-  description: 'Prepare final work summary (markdown + metadata) from execution state',
+  description: 'Prepare final asset-pack written-asset summary (markdown + metadata) from execution state',
   execute: async (_input, execution) => {
     // Minimal system prompt alignment (for logging/trace and future LLM)
     try {
@@ -86,8 +98,12 @@ const FinalWorkSummaryAgent = factoryAgentWithSingleStep<any, FinalWorkSummaryOu
     const commit = (execution as any).get?.('repository', 'commit') || '';
     const repoSnapshot = { org, repo, branch, commit };
 
-    // Task
-    const task = (execution as any).get?.('task', 'description') || '';
+    // Expressed need
+    const need =
+      (execution as any).get?.('need', 'description') ||
+      (execution as any).get?.('pipeline', 'expressedNeed') ||
+      (execution as any).get?.('task', 'description') ||
+      '';
 
     // Phase timings (derive total duration best-effort)
     const phases = ['setup', 'discovery', 'implementation', 'validation', 'shipping'];
@@ -110,9 +126,9 @@ const FinalWorkSummaryAgent = factoryAgentWithSingleStep<any, FinalWorkSummaryOu
 
     // Compose a minimal markdown summary
     const lines: string[] = [];
-    lines.push(`# Pipeline Execution Summary`);
-    if (task) {
-      lines.push('', `## Task`, task.trim());
+    lines.push(`# Asset Pack Written Asset Summary`);
+    if (need) {
+      lines.push('', `## Need`, need.trim());
     }
     lines.push('', `## Repository`, `${org}/${repo} (${branch}@${commit ? commit.slice(0,7) : 'HEAD'})`);
     lines.push('', `## Processing`, `Total time: ${processingStats.time}`);
@@ -129,11 +145,15 @@ const FinalWorkSummaryAgent = factoryAgentWithSingleStep<any, FinalWorkSummaryOu
     let pullRequestReviews: any[] | null = null;
     let comments: any[] | null = null;
     let issues: any[] | null = null;
-    const dtype = (execution as any).findUp?.('pipeline', 'deliverableType') || (execution as any).get?.('pipeline', 'deliverableType');
+    const dtype =
+      (execution as any).findUp?.('pipeline', 'writtenAssetType') ||
+      (execution as any).get?.('pipeline', 'writtenAssetType') ||
+      (execution as any).findUp?.('pipeline', 'deliverableType') ||
+      (execution as any).get?.('pipeline', 'deliverableType');
     try {
       if (dtype === 'code-change') {
         const prUrl = (execution as any).get?.('shipping', 'pullRequestUrl') || '';
-        const prTitle = (execution as any).get?.('shipping', 'pullRequestTitle') || (task || 'Pull Request');
+        const prTitle = (execution as any).get?.('shipping', 'pullRequestTitle') || (need || 'Pull Request');
         const prNumber = (execution as any).get?.('shipping', 'pullRequestNumber');
         pullRequest = prUrl ? { url: prUrl, title: prTitle, number: prNumber } : null;
       } else if (dtype === 'code-change-review') {
@@ -159,10 +179,16 @@ const FinalWorkSummaryAgent = factoryAgentWithSingleStep<any, FinalWorkSummaryOu
       fileChanges: undefined,
       summary,
     };
+    const writtenAssets = {
+      ...deliverables,
+    };
 
     // Validate and finalize output
     const validated = FinalWorkSummaryOutputSchema.parse({
       deliverables,
+      writtenAssets,
+      need: need || undefined,
+      writtenAssetType: dtype || undefined,
       processingStats,
       repoSnapshot,
     });
@@ -172,6 +198,9 @@ const FinalWorkSummaryAgent = factoryAgentWithSingleStep<any, FinalWorkSummaryOu
     // Store for API persistence
     try {
       (execution as any).store?.('shipping/final_work_summary', 'deliverables', deliverables as any);
+      (execution as any).store?.('shipping/final_work_summary', 'writtenAssets', writtenAssets as any);
+      (execution as any).store?.('shipping/final_work_summary', 'need', need || undefined);
+      (execution as any).store?.('shipping/final_work_summary', 'writtenAssetType', dtype || undefined);
       (execution as any).store?.('shipping/final_work_summary', 'processingStats', processingStats as any);
       (execution as any).store?.('shipping/final_work_summary', 'repoSnapshot', repoSnapshot as any);
     } catch {}

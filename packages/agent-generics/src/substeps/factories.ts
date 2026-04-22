@@ -52,7 +52,9 @@ import { PROMPTPART_GENERIC_AGENT_GENERATION_TOP_LEVEL_KEYS_HINT } from '@bitcod
  */
 
 import { createContextSelectors, prepareConciseContext } from '@bitcode/context';
-import { Executor, Execution, sequential, parallel, conditional } from '@bitcode/execution-generics';
+import { sequential, parallel, conditional } from '@bitcode/execution-generics';
+import type { Executor } from '@bitcode/execution-generics';
+import type { Execution } from '@bitcode/execution-generics/Execution';
 import { SubStepExecution, AgentExecution, FailsafeExecution, GenerationExecution } from '../execution';
 import { LLMInput } from '@bitcode/llm-generics';
 import { parseResponse } from '@bitcode/parsing';

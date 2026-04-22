@@ -13,7 +13,7 @@ import { PROMPTPART_SPECIFIC_TOOL_REPOSITORYSETUP_DELIVERABLES_CAPABILITIES_ADDE
  */
 
 import { Tool } from '@bitcode/tools-generics';
-import type { Prompt } from '@bitcode/prompts';
+import type { Prompt } from '@bitcode/prompts/prompt';
 
 // Base generic tool + its DocCodeToolPrompt
 import {

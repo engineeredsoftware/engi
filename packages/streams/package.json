@@ -3,18 +3,21 @@
   "version": "0.1.0",
   "private": true,
   "description": "Streaming helpers (JS stub build).",
-  "main": "src/streams.ts",
-  "types": "src/streams.ts",
+  "main": "src/index.js",
+  "types": "src/index.ts",
   "exports": {
     ".": {
-      "require": "./src/streams.ts",
-      "default": "./src/streams.ts"
+      "types": "./src/index.ts",
+      "require": "./src/index.js",
+      "default": "./src/index.js"
     },
     "./src/streams": {
-      "require": "./src/streams.ts",
-      "default": "./src/streams.ts"
+      "types": "./src/streams.ts",
+      "require": "./src/streams.js",
+      "default": "./src/streams.js"
     },
-    "./src/*": "./src/*"
+    "./src/*": "./src/*",
+    "./package.json": "./package.json"
   },
   "files": [
     "src"

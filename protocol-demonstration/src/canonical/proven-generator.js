@@ -1098,7 +1098,7 @@ function buildV26PromptSystemTotalityProof({
     ),
     buildV26FilePresenceCheck(
       'execution-agent-and-conversation-prompt-extensions',
-      'Execution-aware prompt carriers and conversation bootstrap remain explicit through narrow public prompt/execution subpaths',
+      'Execution-aware prompt carriers, broader active execution-bearing runtime carriers, and conversation bootstrap remain explicit through narrow public prompt/execution subpaths',
       [
         'packages/execution-generics/package.json',
         'packages/execution-generics/README.md',
@@ -1106,12 +1106,29 @@ function buildV26PromptSystemTotalityProof({
         'packages/agent-generics/src/prompts/AgentPrompt.ts',
         'packages/agent-generics/src/execution/AgentExecution.ts',
         'packages/agent-generics/src/execution/index.ts',
+        'packages/agent-generics/src/agents/factories.ts',
+        'packages/agent-generics/src/diagnostics/trace.ts',
+        'packages/agent-generics/src/diagnostics/instrumentation.ts',
+        'packages/agent-generics/src/execution/file-diff-integration.ts',
+        'packages/agent-generics/src/substeps/factories.ts',
+        'packages/agent-generics/src/types.ts',
         'packages/pipelines-generics/src/prompts/PipelinePrompt.ts',
+        'packages/pipelines-generics/src/execution/Metrics.ts',
         'packages/pipelines-generics/src/execution/PipelineExecution.ts',
         'packages/pipelines-generics/src/execution/PipelinePromptRegistry.ts',
         'packages/pipelines-generics/src/execution/PipelineToolRegistry.ts',
         'packages/pipelines-generics/src/execution/PipelineLLMRegistry.ts',
         'packages/pipelines-generics/src/execution/PipelineAgentRegistry.ts',
+        'packages/pipelines-generics/src/execution/pipeline-types.ts',
+        'packages/pipelines-generics/src/execution/resume.ts',
+        'packages/pipelines-generics/src/execution/route-pipeline-execution.ts',
+        'packages/pipelines-generics/src/phases/phase-factory.ts',
+        'packages/pipelines-generics/src/phases/sdivs-factory.ts',
+        'packages/pipelines-generics/src/pipeline-factory.ts',
+        'packages/pipelines-generics/src/gate-system/meta-phase-orchestrator.ts',
+        'packages/pipelines-generics/src/gate-system/types.ts',
+        'packages/pipelines-generics/src/executors/wait-for-instruction.ts',
+        'packages/pipelines-generics/src/streaming/pipeline-stream-integration.ts',
         'packages/conversations-generics/package.json',
         'packages/conversations-generics/README.md',
         'packages/conversations-generics/src/prompts/ConversationSystemPrompt.ts',
@@ -1120,13 +1137,17 @@ function buildV26PromptSystemTotalityProof({
     ),
     buildV26FilePresenceCheck(
       'support-prompt-consumer-boundaries',
-      'Support prompt consumers remain explicit on the public prompt boundary',
+      'Support prompt consumers plus prompt-primitive support carriers remain explicit on the public prompt boundary',
       [
         'packages/digest/package.json',
         'packages/digest/prompts/digest-prompts.ts',
         'packages/digest/prompts/task-guides-prompts.ts',
         'packages/digest/prompts/code-styles-prompts.ts',
-        'packages/digest/prompts/doc-code-tool.generate-digest.ts'
+        'packages/digest/prompts/doc-code-tool.generate-digest.ts',
+        'packages/tools-generics/src/types.ts',
+        'packages/tools-generics/src/doc-code-tool/formatUsableTools.ts',
+        'packages/llm-generics/src/generation.ts',
+        'packages/time/src/doc-prompts/time-prompt-doc.ts'
       ]
     ),
     buildV26FilePresenceCheck(
@@ -1173,12 +1194,25 @@ function buildV26PromptSystemTotalityProof({
     ),
     buildV26FilePresenceCheck(
       'need-ingestion-and-deliverable-prompt-ports',
-      'Need-ingestion and deliverable prompt ports remain explicit under Bitcode ownership',
+      'Need-ingestion and admitted deliverable compatibility ports remain explicit under Bitcode ownership, narrow public prompt subpaths, and semantic need/written-asset mirrors',
       [
+        'protocol-demonstration/V26_DELIVERABLE_REFORM.md',
+        'protocol-demonstration/test/v26-deliverable-reform.test.js',
         'packages/generic-agents/jira-processor/src/prompts/system-prompt-jira-processor.ts',
         'packages/generic-agents/jira-processor/src/prompts/agent-prompt-jira-processor.ts',
+        'packages/pipelines/deliverable/src/types/PipelineSchemas.ts',
+        'packages/pipelines/deliverable/src/index.ts',
+        'packages/pipelines/deliverable/src/postprocess.ts',
         'packages/pipelines/deliverable/src/agents/prompts/understand-requirements-prompt.ts',
-        'packages/pipelines/deliverable/src/agents/prompts/plan-implementation-prompt.ts'
+        'packages/pipelines/deliverable/src/agents/prompts/plan-implementation-prompt.ts',
+        'packages/pipelines/deliverable/src/agents/prompts/comprehend-task-prompt.ts',
+        'packages/pipelines/deliverable/src/agents/prompts/deliverable-pipeline-comprehend-task-agent-prompts.ts',
+        'packages/pipelines/deliverable/src/agents/setup/deliverable-pipeline-comprehend-task-agent.ts',
+        'packages/pipelines/deliverable/src/agents/setup/deliverable-pipeline-ready-to-iterate-agent.ts',
+        'packages/pipelines/deliverable/src/agents/setup/deliverable-pipeline-setup-plan-agent.ts',
+        'packages/pipelines/deliverable/src/agents/shipping/deliverable-pipeline-create-pull-request-agent.ts',
+        'packages/pipelines/deliverable/src/agents/shipping/deliverable-pipeline-final-work-summary-agent.ts',
+        'packages/pipelines/deliverable/src/tools/DeliverablePipelineCloneVCSRepositoryTool.ts'
       ]
     )
   ];

@@ -1,4 +1,4 @@
-import { Prompt } from '@bitcode/prompts';
+import { Prompt } from '@bitcode/prompts/prompt';
 import { PROMPTPART_SPECIFIC_AGENT_DELIVERABLEDISCOVERYUNDERSTANDREQUIREMENTS_IDENTITY_DEFINITION } from '@bitcode/prompts/raw_promptparts/specific/promptpart_specific_agent_deliverablediscoveryunderstandrequirements_identity_definition';
 import { PROMPTPART_SPECIFIC_AGENT_DELIVERABLEDISCOVERYUNDERSTANDREQUIREMENTS_PURPOSE_CORESTATEMENT } from '@bitcode/prompts/raw_promptparts/specific/promptpart_specific_agent_deliverablediscoveryunderstandrequirements_purpose_corestatement';
 import { PROMPTPART_SPECIFIC_AGENT_DELIVERABLEDISCOVERYUNDERSTANDREQUIREMENTS_CAPABILITIES_LIST } from '@bitcode/prompts/raw_promptparts/specific/promptpart_specific_agent_deliverablediscoveryunderstandrequirements_capabilities_list';

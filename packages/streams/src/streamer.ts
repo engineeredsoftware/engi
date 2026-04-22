@@ -64,6 +64,24 @@ export class Streamer {
   }
 
   /**
+   * Compatibility entrypoint for retained callers that still write serialized
+   * stream payloads directly instead of calling emit().
+   */
+  async writeData(data: string | Record<string, unknown>): Promise<void> {
+    let event = data;
+
+    if (typeof data === 'string') {
+      try {
+        event = JSON.parse(data);
+      } catch {
+        event = { type: 'data', payload: data };
+      }
+    }
+
+    await this.emit(event);
+  }
+
+  /**
    * Mark stream as complete
    */
   complete(): void {

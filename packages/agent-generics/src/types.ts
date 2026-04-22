@@ -6,7 +6,8 @@
  */
 
 export type { PreparedContext } from '@bitcode/context';
-import { Executor, Execution } from '@bitcode/execution-generics';
+import type { Executor } from '@bitcode/execution-generics';
+import type { Execution } from '@bitcode/execution-generics/Execution';
 import { Tool } from '@bitcode/tools-generics';
 
 // ==================== PTRR ENUMS ====================

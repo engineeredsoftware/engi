@@ -10,7 +10,7 @@
  * @package @bitcode/pipelines-generics
  */
 import type { Gate, MetaPhase } from '../types/primitives';
-import type { Execution } from '@bitcode/execution-generics';
+import type { Execution } from '@bitcode/execution-generics/Execution';
 export type { Gate, MetaPhase };
 /**
  * Gate configuration

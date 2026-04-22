@@ -13,10 +13,30 @@ class MockSupabase {
     tool_executions: [],
   };
   from = (table: string) => ({
-    insert: (row: any) => ({
-      then: (cb: any) => { (this.tables[table] ||= []).push(row); cb(); return { catch: () => ({}) }; },
-      catch: () => ({})
-    }),
+    insert: (row: any) => {
+      let inserted = false;
+      const pushRow = () => {
+        if (!inserted) {
+          (this.tables[table] ||= []).push(row);
+          inserted = true;
+        }
+      };
+
+      return {
+        then: (cb: any) => {
+          pushRow();
+          cb();
+          return { catch: () => ({}) };
+        },
+        catch: () => ({}),
+        select: () => ({
+          single: async () => {
+            pushRow();
+            return { data: row, error: null };
+          }
+        })
+      };
+    },
     update: (_: any) => ({ eq: () => ({}) }),
     select: (_?: string) => ({ single: async () => ({ data: null, error: null }) })
   });

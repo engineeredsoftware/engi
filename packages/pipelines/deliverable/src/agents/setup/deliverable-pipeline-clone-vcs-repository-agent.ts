@@ -7,7 +7,7 @@
  */
 
 import { factoryAgentWithPTRR } from '@bitcode/agent-generics';
-import { Prompt } from '@bitcode/prompts';
+import { Prompt } from '@bitcode/prompts/prompt';
 
 // Import generic VCS agent prompts to extend (system + step prompts)
 import {

@@ -2,7 +2,7 @@
  * Select Files Parallel Agent - Discovery Phase
  * 
  * Parallel file selection combining filtering and picking.
- * Identifies relevant files for the task at hand.
+ * Identifies relevant files for the expressed need and its written-asset shape.
  */
 
 import { factoryAgentWithPTRR } from '@bitcode/agent-generics';
@@ -101,12 +101,18 @@ const selectFilesAgent = factoryAgentWithPTRR<
 export default async function selectFilesParallel(input: any, execution: any) {
   // Prepare input from prior phases
   const selectionInput = {
-    taskEntities: execution.get('setup/task', 'entities'),
+    taskEntities:
+      execution.get('setup/need', 'entities') ||
+      execution.get('setup/task', 'entities'),
     codebaseStructure: {
       directories: execution.get('setup/codebase', 'structure.directories'),
       relevantFiles: execution.get('setup/codebase', 'relevantFiles')
     },
-    deliverableType: execution.get('setup/deliverable-type', 'type'),
+    deliverableType:
+      execution.get('setup/written-asset-type', 'type') ||
+      execution.get('setup/deliverable-type', 'type') ||
+      execution.get('setup', 'writtenAssetType') ||
+      execution.get('setup', 'deliverableType'),
     attachmentRequirements: execution.get('discovery/attachments', 'designRequirements')
   };
 

@@ -16,6 +16,7 @@ test('V26 prompt surface map keeps active, support, and reference corridors expl
   assert.match(promptSurfaceSource, /packages\/pipelines-generics\/src\/prompts\/PipelinePrompt\.ts/u);
   assert.match(promptSurfaceSource, /packages\/agent-generics\/src\/\{prompts\/\*,execution\/prompt-overlays\.ts,substeps\/factories\.ts\}/u);
   assert.match(promptSurfaceSource, /packages\/\{agent-generics\/src\/execution\/\{AgentExecution\.ts,Agent\*Registry\.ts\},pipelines-generics\/src\/execution\/\{PipelineExecution\.ts,Pipeline\*Registry\.ts\},conversations-generics\/src\/agent\/ConversationAgent\.ts\}/u);
+  assert.match(promptSurfaceSource, /packages\/\{agent-generics\/src\/\{agents\/factories\.ts,diagnostics\/\{trace\.ts,instrumentation\.ts\},execution\/file-diff-integration\.ts,substeps\/factories\.ts,types\.ts\},pipelines-generics\/src\/\{execution\/\{Metrics\.ts,pipeline-types\.ts,resume\.ts,route-pipeline-execution\.ts\},phases\/\{phase-factory\.ts,sdivs-factory\.ts\},pipeline-factory\.ts,gate-system\/\{meta-phase-orchestrator\.ts,types\.ts\},executors\/wait-for-instruction\.ts,streaming\/pipeline-stream-integration\.ts\}\}/u);
   assert.match(promptSurfaceSource, /packages\/conversations-generics\/src\/\{prompts\/ConversationSystemPrompt\.ts,agent\/ConversationAgent\.ts\}/u);
   assert.match(promptSurfaceSource, /uapi\/prompts\/conversations-system-prompt\.ts/u);
   assert.match(promptSurfaceSource, /packages\/\{doc-comment,doc-code\}\/\*/u);
@@ -26,6 +27,7 @@ test('V26 prompt surface map keeps active, support, and reference corridors expl
   assert.match(promptSurfaceSource, /protocol-demonstration\/V26_DOC_COMMENT_REFORM\.md/u);
   assert.match(promptSurfaceSource, /prefer `@bitcode\/prompts\/prompt` and `@bitcode\/prompts\/parts\/PromptPart`/u);
   assert.match(promptSurfaceSource, /prefer `@bitcode\/execution-generics\/Execution` and `@bitcode\/execution-generics\/prompts\/ExecutionPrompt`/u);
+  assert.match(promptSurfaceSource, /broader active execution-bearing runtime carriers/u);
   assert.match(promptSurfaceSource, /retained reference test\/build configs should use exact public prompt subpath maps/u);
   assert.match(promptSurfaceSource, /Jira remains reader-first need-ingestion\/reference posture/u);
 });

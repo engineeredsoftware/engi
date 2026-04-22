@@ -7,7 +7,7 @@ import { PROMPTPART_GENERIC_DOCCODE_METADATA_LABEL } from '@bitcode/prompts/raw_
  */
 
 import { Tool } from '@bitcode/tools-generics';
-import type { Prompt } from '@bitcode/prompts';
+import type { Prompt } from '@bitcode/prompts/prompt';
 
 import { multimodalProcessingTool } from '@bitcode/generic-tools-multimodal-processing';
 import { multimodalProcessingDocCodeToolPrompt as MULTIMODAL_PROCESSING_DOC_CODE_TOOL_PROMPT } from '@bitcode/generic-tools-multimodal-processing';

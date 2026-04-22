@@ -7,7 +7,8 @@
  * @package @bitcode/pipelines-generics
 */
 
-import { Execution, Executor, sequential } from '@bitcode/execution-generics';
+import type { Executor } from '@bitcode/execution-generics';
+import type { Execution } from '@bitcode/execution-generics/Execution';
 import type { MetaPhase, MetaPhaseState } from './types';
 import {
   initializeMetaPhaseState,

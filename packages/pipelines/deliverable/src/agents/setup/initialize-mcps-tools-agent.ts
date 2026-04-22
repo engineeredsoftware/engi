@@ -1,5 +1,5 @@
 import { factoryAgentWithSingleStep } from '@bitcode/agent-generics';
-import type { PromptPart } from '@bitcode/prompts';
+import type { PromptPart } from '@bitcode/prompts/parts/PromptPart';
 import { McpConfigSchema } from '@bitcode/mcp';
 import {
   entriesToAIDocumentList,

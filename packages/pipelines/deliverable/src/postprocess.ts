@@ -5,9 +5,14 @@ export function normalizeDeliverableOutput(output: DeliverableOutput, execution:
   const enhanced = { ...output };
 
   // 1) Ensure deliverable links are populated if available on execution
-  const prUrl = enhanced.deliverable?.prUrl || (execution.get('shipping', 'prUrl') as string) || (execution.get('shipping', 'pullRequestUrl') as string);
+  const prUrl =
+    enhanced.writtenAsset?.prUrl ||
+    enhanced.deliverable?.prUrl ||
+    (execution.get('shipping', 'prUrl') as string) ||
+    (execution.get('shipping', 'pullRequestUrl') as string);
   if (prUrl) {
     enhanced.deliverable = { ...(enhanced.deliverable || {}), prUrl } as any;
+    enhanced.writtenAsset = { ...(enhanced.writtenAsset || enhanced.deliverable || {}), prUrl } as any;
   }
 
   // 2) Backfill artifacts from execution if missing
@@ -24,10 +29,26 @@ export function normalizeDeliverableOutput(output: DeliverableOutput, execution:
   // 3) Ensure a human-readable summary exists
   if (!enhanced.summary || !enhanced.summary.trim()) {
     const parts: string[] = [];
-    parts.push(enhanced.success ? 'Deliverable completed.' : 'Deliverable finished with issues.');
+    parts.push(enhanced.success ? 'Written asset completed.' : 'Written asset finished with issues.');
     if (prUrl) parts.push(`PR: ${prUrl}`);
     if (filesModified?.length) parts.push(`Files modified: ${filesModified.length}`);
     enhanced.summary = parts.join(' ');
+  }
+
+  enhanced.semanticKind = 'asset-pack-written-asset';
+  enhanced.need =
+    enhanced.need ||
+    (execution.get('pipeline', 'expressedNeed') as string) ||
+    (execution.get('need', 'description') as string) ||
+    undefined;
+  enhanced.writtenAssetType =
+    enhanced.writtenAssetType ||
+    enhanced.deliverableType ||
+    (execution.get('pipeline', 'writtenAssetType') as any) ||
+    (execution.get('pipeline', 'deliverableType') as any) ||
+    undefined;
+  if (!enhanced.writtenAsset && enhanced.deliverable) {
+    enhanced.writtenAsset = { ...enhanced.deliverable };
   }
 
   return enhanced;
@@ -50,11 +71,14 @@ export function buildDeliverablePostprocessedResult(
 
   const finalSummary =
     (execution as any).get?.('shipping/final_work_summary', 'summary') ||
+    (execution as any).get?.('shipping/final_work_summary', 'writtenAssets')?.summary ||
     (execution as any).get?.('shipping/final_work_summary', 'deliverables')?.summary ||
     normalized.summary ||
     undefined;
 
-  const shippingArtifacts = (execution as any).get?.('shipping/final_work_summary', 'deliverables');
+  const shippingArtifacts =
+    (execution as any).get?.('shipping/final_work_summary', 'writtenAssets') ||
+    (execution as any).get?.('shipping/final_work_summary', 'deliverables');
   const filesCreated =
     normalized.artifacts?.filesCreated ??
     shippingArtifacts?.fileChanges?.created ??
@@ -82,17 +106,47 @@ export function buildDeliverablePostprocessedResult(
   return {
     executionId,
     kind: 'deliverable',
+    semanticKind: 'asset-pack-written-asset',
     title:
+      normalized.writtenAsset?.title ||
       normalized.deliverable?.title ||
       normalized.summary ||
-      'Deliverable',
+      'Written Asset',
     repository,
     summary: finalSummary,
     artifacts,
     deliverableType:
       normalized.deliverableType ||
+      normalized.writtenAssetType ||
+      (execution.get('pipeline', 'writtenAssetType') as any) ||
       (execution.get('pipeline', 'deliverableType') as any) ||
       (execution as any).get?.('route/preprocessed', 'deliverables')?.deliverableType,
+    writtenAssetType:
+      normalized.writtenAssetType ||
+      normalized.deliverableType ||
+      (execution.get('pipeline', 'writtenAssetType') as any) ||
+      (execution.get('pipeline', 'deliverableType') as any) ||
+      (execution as any).get?.('route/preprocessed', 'assetPackWrittenAsset')?.writtenAssetType ||
+      (execution as any).get?.('route/preprocessed', 'deliverables')?.deliverableType,
+    need:
+      normalized.need ||
+      (execution.get('pipeline', 'expressedNeed') as string) ||
+      (execution.get('need', 'description') as string) ||
+      undefined,
+    assetPack: {
+      need:
+        normalized.need ||
+        (execution.get('pipeline', 'expressedNeed') as string) ||
+        (execution.get('need', 'description') as string) ||
+        undefined,
+      writtenAssetType:
+        normalized.writtenAssetType ||
+        normalized.deliverableType ||
+        (execution.get('pipeline', 'writtenAssetType') as any) ||
+        (execution.get('pipeline', 'deliverableType') as any) ||
+        (execution as any).get?.('route/preprocessed', 'assetPackWrittenAsset')?.writtenAssetType ||
+        (execution as any).get?.('route/preprocessed', 'deliverables')?.deliverableType,
+    },
     ...(validationReady
       ? {
           validationReady: {

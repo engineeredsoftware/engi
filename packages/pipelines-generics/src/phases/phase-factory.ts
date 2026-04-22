@@ -9,7 +9,9 @@
  * it into live product behavior.
  */
 
-import { Executor, Execution, sequential, parallel } from '@bitcode/execution-generics';
+import { sequential, parallel } from '@bitcode/execution-generics';
+import type { Executor } from '@bitcode/execution-generics';
+import type { Execution } from '@bitcode/execution-generics/Execution';
 import { Agent } from '@bitcode/agent-generics';
 import { PhaseDelegation, factoryPhaseDelegation } from '../execution/pipeline-types';
 

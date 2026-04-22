@@ -14,7 +14,7 @@ const setupPhaseConfig: PhaseConfig = {
     { agent: 'setup:deliverable-pipeline-clone-vcs-repository-agent' },
     { agent: 'setup:deliverable-setup-plan-agent' },
     { agent: 'setup:parallel-context-bootstrap', parallel: [
-      { agent: 'setup:deliverable-pipeline-comprehend-dod-agent' },
+      { agent: 'setup:deliverable-pipeline-comprehend-need-agent' },
       // Optional when available:
       // { agent: 'setup:deliverable-pipeline-initialize-lsp-agent' }
     ]},
@@ -44,7 +44,7 @@ export function registerSetupAgents(agentRegistry: any): void {
     () => import('../agents/setup/deliverable-pipeline-clone-vcs-repository-agent').then(m => m.default)
   );
 
-  // Second sequence, init lsp and comprehend task
+  // Second sequence, init lsp and comprehend need
   agentRegistry.registerAgent(
     'setup:deliverable-pipeline-initialize-lsp-agent',
     () => import('../agents/setup/deliverable-pipeline-initialize-lsp-agent').then(m => m.default)
@@ -52,6 +52,10 @@ export function registerSetupAgents(agentRegistry: any): void {
   agentRegistry.registerAgent(
     'setup:deliverable-setup-plan-agent',
     () => import('../agents/setup/deliverable-pipeline-setup-plan-agent').then(m => m.default)
+  );
+  agentRegistry.registerAgent(
+    'setup:deliverable-pipeline-comprehend-need-agent',
+    () => import('../agents/setup/deliverable-pipeline-comprehend-task-agent').then(m => m.default)
   );
   agentRegistry.registerAgent(
     'setup:deliverable-pipeline-comprehend-dod-agent',

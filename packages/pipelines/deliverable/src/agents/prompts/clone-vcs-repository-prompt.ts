@@ -1,4 +1,4 @@
-import { Prompt } from '@bitcode/prompts';
+import { Prompt } from '@bitcode/prompts/prompt';
 import { PROMPTPART_SPECIFIC_AGENT_DELIVERABLESETUPCLONEREPOSITORY_IDENTITY_DEFINITION } from '@bitcode/prompts/raw_promptparts/specific/promptpart_specific_agent_deliverablesetupclonerepository_identity_definition';
 import { PROMPTPART_SPECIFIC_AGENT_DELIVERABLESETUPCLONEREPOSITORY_PURPOSE_CORESTATEMENT } from '@bitcode/prompts/raw_promptparts/specific/promptpart_specific_agent_deliverablesetupclonerepository_purpose_corestatement';
 import { PROMPTPART_SPECIFIC_AGENT_DELIVERABLESETUPCLONEREPOSITORY_CAPABILITIES_LIST } from '@bitcode/prompts/raw_promptparts/specific/promptpart_specific_agent_deliverablesetupclonerepository_capabilities_list';

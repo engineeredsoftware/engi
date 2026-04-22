@@ -9,7 +9,8 @@
  * purpose: Create type-safe agent executors
  * pattern: factory-functions
  */
-import { Executor, Execution } from '@bitcode/execution-generics';
+import { Executor } from '@bitcode/execution-generics';
+import { Execution } from '@bitcode/execution-generics/Execution';
 import { Agent, AgentStep } from '../types';
 import { z } from 'zod';
 /**

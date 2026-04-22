@@ -6,7 +6,8 @@
  *
  * @package @bitcode/pipelines-generics
 */
-import { Execution, Executor } from '@bitcode/execution-generics';
+import { Executor } from '@bitcode/execution-generics';
+import { Execution } from '@bitcode/execution-generics/Execution';
 import type { MetaPhase, MetaPhaseState } from './types';
 /**
  * Attempt a meta-phase transition based on execution state.

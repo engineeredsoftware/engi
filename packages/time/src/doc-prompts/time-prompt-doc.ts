@@ -8,7 +8,7 @@
  */
 
 import { DocPromptBase } from '@bitcode/doc-prompt';
-import { PromptPart } from '@bitcode/prompts';
+import type { PromptPart } from '@bitcode/prompts/parts/PromptPart';
 
 // ==================== TIME-SPECIFIC DOC-PROMPT TYPES ====================
 

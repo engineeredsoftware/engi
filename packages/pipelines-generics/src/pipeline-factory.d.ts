@@ -4,7 +4,8 @@
  * Pipelines are the top-level Executors that orchestrate the entire
  * SDIVS phase sequence. They are just sequential executors of phases.
  */
-import { Executor, Execution } from '@bitcode/execution-generics';
+import { Executor } from '@bitcode/execution-generics';
+import { Execution } from '@bitcode/execution-generics/Execution';
 import { PhaseDelegator } from './phases/phase-factory';
 /**
  * Pipeline - The top-level Executor that sequences Phases

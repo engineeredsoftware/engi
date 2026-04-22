@@ -34,7 +34,7 @@ import { PROMPTPART_SPECIFIC_AGENT_DELIVERABLESETUPCOMPREHENDTASK_REFINE_UNIFICA
 /**
  * @doc-comment-developing-promptdevelopment
  * domain: agent
- * intent: "Deliverables overlay prompts for comprehend-task agent"
+ * intent: "Deliverables compatibility corridor overlay prompts for the comprehend-need agent"
  * current_version: "GA1.50.0"
   * benchmarks: [
  *   { "name": "technical_accuracy", "test": "Concrete directives and purpose", "score": 0.50 },
@@ -42,13 +42,11 @@ import { PROMPTPART_SPECIFIC_AGENT_DELIVERABLESETUPCOMPREHENDTASK_REFINE_UNIFICA
  * ]
  */
 
-import { Prompt } from '@bitcode/prompts';
-
-import { // System overlays
-  PROMPTPART_SPECIFIC_AGENT_DELIVERABLESETUPCOMPREHENDTASK_IDENTITY_DEFINITION, // Step overlays (PTRR purposes)
-  PROMPTPART_SPECIFIC_AGENT_DELIVERABLESETUPCOMPREHENDTASK_PTRRPLAN_PURPOSE, // Attachment comprehension guidance (reuse discovery agent parts where useful)
-  PROMPTPART_SPECIFIC_AGENT_COMPREHENDATTACHMENTS_PLAN_STRATEGY, // Modality-specific strategies (plan/try)
-  PROMPTPART_SPECIFIC_AGENT_DELIVERABLESETUPCOMPREHENDTASK_PLAN_MODALITY_IMAGE_STRATEGY } from '@bitcode/prompts';
+import { Prompt } from '@bitcode/prompts/prompt';
+import { PROMPTPART_SPECIFIC_AGENT_DELIVERABLESETUPCOMPREHENDTASK_IDENTITY_DEFINITION } from '@bitcode/prompts/raw_promptparts/specific/promptpart_specific_agent_deliverablesetupcomprehendtask_identity_definition';
+import { PROMPTPART_SPECIFIC_AGENT_DELIVERABLESETUPCOMPREHENDTASK_PTRRPLAN_PURPOSE } from '@bitcode/prompts/raw_promptparts/specific/promptpart_specific_agent_deliverablesetupcomprehendtask_ptrrplan_purpose';
+import { PROMPTPART_SPECIFIC_AGENT_COMPREHENDATTACHMENTS_PLAN_STRATEGY } from '@bitcode/prompts/raw_promptparts/specific/promptpart_specific_agent_comprehendattachments_plan_strategy';
+import { PROMPTPART_SPECIFIC_AGENT_DELIVERABLESETUPCOMPREHENDTASK_PLAN_MODALITY_IMAGE_STRATEGY } from '@bitcode/prompts/raw_promptparts/specific/promptpart_specific_agent_deliverablesetupcomprehendtask_plan_modality_image_strategy';
 
 export const DP_COMPREHEND_TASK_SYSTEM_PROMPT: Prompt = (() => {
   const p = new Prompt();
@@ -177,3 +175,9 @@ export const DP_COMPREHEND_TASK_RETRY_PROMPT: Prompt = (() => {
   p.set('failsafe:prepare_context', PROMPTPART_GENERIC_AGENT_FAILSAFE_PREPARE_CONTEXT as any);
   return p;
 })();
+
+export const DP_COMPREHEND_NEED_SYSTEM_PROMPT = DP_COMPREHEND_TASK_SYSTEM_PROMPT;
+export const DP_COMPREHEND_NEED_PLAN_PROMPT = DP_COMPREHEND_TASK_PLAN_PROMPT;
+export const DP_COMPREHEND_NEED_TRY_PROMPT = DP_COMPREHEND_TASK_TRY_PROMPT;
+export const DP_COMPREHEND_NEED_REFINE_PROMPT = DP_COMPREHEND_TASK_REFINE_PROMPT;
+export const DP_COMPREHEND_NEED_RETRY_PROMPT = DP_COMPREHEND_TASK_RETRY_PROMPT;

@@ -1,4 +1,4 @@
-import { Prompt } from '@bitcode/prompts';
+import { Prompt } from '@bitcode/prompts/prompt';
 import { PROMPTPART_GENERIC_AGENT_FAILSAFE_PREPARE_CONTEXT } from '@bitcode/prompts/raw_promptparts/generic/promptpart_generic_agent_failsafe_prepare_context';
 import { PROMPTPART_GENERIC_AGENT_GENERATION_JSON_ONLY_HEADER } from '@bitcode/prompts/raw_promptparts/generic/promptpart_generic_agent_generation_json_only_header';
 import { PROMPTPART_GENERIC_AGENT_GENERATION_USE_THIS_STRUCTURED_SCHEMA } from '@bitcode/prompts/raw_promptparts/generic/promptpart_generic_agent_generation_use_this_structured_schema';
@@ -53,7 +53,7 @@ import { PROMPTPART_GENERIC_FORMATTING_EXECUTETHE_FOLLOWING } from '@bitcode/pro
 /**
  * @doc-comment-developing-promptdevelopment
  * domain: pipeline
- * intent: "Deliverables – ComprehendTask agent system prompt"
+ * intent: "Deliverables compatibility corridor – Comprehend Need agent system prompt"
  * current_version: "GA1.50.0"
  * dependencies: {
  *   "PROMPTPART_GENERIC_AGENT_FAILSAFE_PREPARE_CONTEXT": "GA1.50.0",
@@ -91,6 +91,8 @@ export function createComprehendTaskSystemPrompt(): Prompt {
   return prompt;
 }
 
+export const createComprehendNeedSystemPrompt = createComprehendTaskSystemPrompt;
+
 /**
  * PLAN step prompt
  */
@@ -117,6 +119,8 @@ export function createComprehendTaskPlanPrompt(): Prompt {
   return prompt;
 }
 
+export const createComprehendNeedPlanPrompt = createComprehendTaskPlanPrompt;
+
 /**
  * TRY step prompt
  */
@@ -140,6 +144,8 @@ export function createComprehendTaskTryPrompt(): Prompt {
   
   return prompt;
 }
+
+export const createComprehendNeedTryPrompt = createComprehendTaskTryPrompt;
 
 /**
  * REFINE step prompt
@@ -165,6 +171,8 @@ export function createComprehendTaskRefinePrompt(): Prompt {
   
   return prompt;
 }
+
+export const createComprehendNeedRefinePrompt = createComprehendTaskRefinePrompt;
 
 /**
  * RETRY step prompt
@@ -192,6 +200,8 @@ export function createComprehendTaskRetryPrompt(): Prompt {
   return prompt;
 }
 
+export const createComprehendNeedRetryPrompt = createComprehendTaskRetryPrompt;
+
 /**
  * Main export: Complete prompt set
  */
@@ -201,4 +211,12 @@ export const ComprehendTaskPrompts = {
   try: createComprehendTaskTryPrompt,
   refine: createComprehendTaskRefinePrompt,
   retry: createComprehendTaskRetryPrompt
+};
+
+export const ComprehendNeedPrompts = {
+  system: createComprehendNeedSystemPrompt,
+  plan: createComprehendNeedPlanPrompt,
+  try: createComprehendNeedTryPrompt,
+  refine: createComprehendNeedRefinePrompt,
+  retry: createComprehendNeedRetryPrompt
 };

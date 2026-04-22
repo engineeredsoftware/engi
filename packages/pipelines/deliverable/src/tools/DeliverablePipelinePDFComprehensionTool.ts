@@ -1,5 +1,5 @@
 import { Tool } from '@bitcode/tools-generics';
-import type { Prompt } from '@bitcode/prompts';
+import type { Prompt } from '@bitcode/prompts/prompt';
 import { multimodalProcessingTool } from '@bitcode/generic-tools-multimodal-processing';
 import { multimodalProcessingDocCodeToolPrompt as MULTIMODAL_PROMPT } from '@bitcode/generic-tools-multimodal-processing';
 

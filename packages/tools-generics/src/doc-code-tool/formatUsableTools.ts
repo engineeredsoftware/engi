@@ -10,7 +10,7 @@
 
 import { Tool } from '../Tool';
 import { DocCodeToolPrompt } from './DocCodeToolPrompt';
-import { PromptFormatter } from '@bitcode/prompts';
+import type { PromptFormatter } from '@bitcode/prompts/formatters';
 
 function isDocCodeToolPromptLike(prompt: unknown): prompt is DocCodeToolPrompt {
   return !!prompt && typeof (prompt as { format?: unknown }).format === 'function';

@@ -1,4 +1,4 @@
-import { Execution } from '@bitcode/execution-generics';
+import { Execution } from '@bitcode/execution-generics/Execution';
 export interface ResumeDescriptor {
     path: string[];
     state?: {

@@ -26,6 +26,11 @@ export declare class Streamer {
      */
     emit(event: any): Promise<void>;
     /**
+     * Compatibility entrypoint for retained callers that still write
+     * serialized stream payloads directly.
+     */
+    writeData(data: string | Record<string, unknown>): Promise<void>;
+    /**
      * Mark stream as complete
      */
     complete(): void;

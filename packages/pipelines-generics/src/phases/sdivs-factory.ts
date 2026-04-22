@@ -9,7 +9,9 @@
  * Bitcode-native pipeline canon.
  */
 
-import { Executor, Execution, sequential } from '@bitcode/execution-generics';
+import { sequential } from '@bitcode/execution-generics';
+import type { Executor } from '@bitcode/execution-generics';
+import type { Execution } from '@bitcode/execution-generics/Execution';
 import { PhaseDelegator } from './phase-factory';
 import { PipelineExecution, factoryPipelineExecution } from '../execution/pipeline-types';
 import { Pipeline } from '../pipeline-factory';

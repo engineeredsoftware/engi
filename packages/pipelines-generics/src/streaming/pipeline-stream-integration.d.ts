@@ -4,7 +4,7 @@
  * Provides helpers to wire up pipeline executions with stream managers
  * for real-time event emission during pipeline executions.
  */
-import { Execution } from '@bitcode/execution-generics';
+import { Execution } from '@bitcode/execution-generics/Execution';
 import { Streamer } from '@bitcode/streams';
 type SupabaseClient = any;
 /**

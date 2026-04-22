@@ -8,6 +8,7 @@ module.exports = {
   roots: ['<rootDir>'],
   moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx', 'json', 'node'],
   moduleNameMapper: {
+    '^@bitcode/pipelines-generics$': '<rootDir>/src/index.ts',
     '^@bitcode/execution-generics$': '<rootDir>/../execution-generics/src/index.ts',
     '^@bitcode/registry$': '<rootDir>/../registry/src/index.ts',
     '^@bitcode/prompts$': '<rootDir>/../prompts/src/index.ts',
@@ -15,6 +16,11 @@ module.exports = {
     '^@bitcode/tools-generics$': '<rootDir>/src/__mocks__/tools-generics.ts',
     '^@bitcode/llm-generics$': '<rootDir>/../llm-generics/src/index.ts',
     '^@bitcode/orm$': '<rootDir>/../orm/src/index.ts',
+    '^@bitcode/streams$': '<rootDir>/../streams/src/index.ts',
+    '^@bitcode/logger$': '<rootDir>/../logger/src/index.ts',
+    '^@bitcode/parsing$': '<rootDir>/../parsing/src/parsing.ts',
+    '^@bitcode/supabase$': '<rootDir>/../supabase/src/index.ts',
+    '^@bitcode/artifacts$': '<rootDir>/../artifacts/src/artifacts.ts',
   },
   globals: {
     'ts-jest': {

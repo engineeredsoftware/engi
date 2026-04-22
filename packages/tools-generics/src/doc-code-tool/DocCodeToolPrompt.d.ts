@@ -1,4 +1,5 @@
-import { Prompt, PromptPart } from '@bitcode/prompts';
+import { Prompt } from '@bitcode/prompts/prompt';
+import type { PromptPart } from '@bitcode/prompts/parts/PromptPart';
 /**
  * Structured prompt for doc-code-tool documentation.
  * Composes atomic PromptParts for each documentation section.

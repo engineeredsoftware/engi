@@ -97,6 +97,17 @@ const ACTIVE_PROMPT_PRIMITIVE_CARRIERS = [
   'packages/conversations-generics/src/prompts/ConversationSystemPrompt.d.ts',
   'packages/conversations-generics/src/agent/ConversationAgent.ts',
 ];
+const ADMITTED_PROMPT_PRIMITIVE_CORRIDORS = [
+  'packages/pipelines/deliverable/src',
+];
+const ADMITTED_PROMPT_PRIMITIVE_FILES = [
+  'packages/tools-generics/src/types.ts',
+  'packages/tools-generics/src/doc-code-tool/formatUsableTools.ts',
+  'packages/tools-generics/src/doc-code-tool/formatUsableTools.d.ts',
+  'packages/llm-generics/src/generation.ts',
+  'packages/llm-generics/src/generation.d.ts',
+  'packages/time/src/doc-prompts/time-prompt-doc.ts',
+];
 const ACTIVE_EXECUTION_PROMPT_CARRIERS = [
   'packages/agent-generics/src/execution/AgentExecution.ts',
   'packages/agent-generics/src/execution/AgentExecution.js',
@@ -125,6 +136,40 @@ const ACTIVE_EXECUTION_PROMPT_CARRIERS = [
   'packages/pipelines-generics/src/execution/PipelineLLMRegistry.d.ts',
   'packages/pipelines-generics/src/execution/PipelineAgentRegistry.ts',
   'packages/pipelines-generics/src/execution/PipelineAgentRegistry.d.ts',
+];
+const ACTIVE_EXECUTION_TREE_CARRIERS = [
+  'packages/agent-generics/src/agents/factories.ts',
+  'packages/agent-generics/src/agents/factories.d.ts',
+  'packages/agent-generics/src/diagnostics/trace.ts',
+  'packages/agent-generics/src/diagnostics/trace.d.ts',
+  'packages/agent-generics/src/diagnostics/instrumentation.ts',
+  'packages/agent-generics/src/diagnostics/instrumentation.d.ts',
+  'packages/agent-generics/src/execution/file-diff-integration.ts',
+  'packages/agent-generics/src/execution/file-diff-integration.d.ts',
+  'packages/agent-generics/src/substeps/factories.ts',
+  'packages/agent-generics/src/substeps/factories.d.ts',
+  'packages/agent-generics/src/types.ts',
+  'packages/pipelines-generics/src/execution/resume.ts',
+  'packages/pipelines-generics/src/execution/resume.d.ts',
+  'packages/pipelines-generics/src/execution/Metrics.ts',
+  'packages/pipelines-generics/src/execution/Metrics.d.ts',
+  'packages/pipelines-generics/src/execution/pipeline-types.ts',
+  'packages/pipelines-generics/src/execution/pipeline-types.d.ts',
+  'packages/pipelines-generics/src/execution/pipeline-types.js',
+  'packages/pipelines-generics/src/execution/route-pipeline-execution.ts',
+  'packages/pipelines-generics/src/execution/route-pipeline-execution.d.ts',
+  'packages/pipelines-generics/src/phases/phase-factory.ts',
+  'packages/pipelines-generics/src/phases/sdivs-factory.ts',
+  'packages/pipelines-generics/src/pipeline-factory.ts',
+  'packages/pipelines-generics/src/pipeline-factory.d.ts',
+  'packages/pipelines-generics/src/gate-system/meta-phase-orchestrator.ts',
+  'packages/pipelines-generics/src/gate-system/meta-phase-orchestrator.d.ts',
+  'packages/pipelines-generics/src/gate-system/types.ts',
+  'packages/pipelines-generics/src/gate-system/types.d.ts',
+  'packages/pipelines-generics/src/executors/wait-for-instruction.ts',
+  'packages/pipelines-generics/src/streaming/pipeline-stream-integration.ts',
+  'packages/pipelines-generics/src/streaming/pipeline-stream-integration.d.ts',
+  'packages/pipelines-generics/src/streaming/pipeline-stream-integration.js',
 ];
 const DISALLOWED_REFERENCE_PROMPT_CONFIG_PATTERNS = [
   /"@bitcode\/prompts\/\*"\s*:\s*\["packages\/prompts\/src\/\*"\]/u,
@@ -158,6 +203,25 @@ function listFilesRecursively(targetPath) {
   }
 
   return files;
+}
+
+function importsExecutionFromRootBarrel(source) {
+  if (importExecutionFromRoot(source)) {
+    return true;
+  }
+
+  const requireMatch = source.match(/const\s+(\w+)\s*=\s*require\(['"]@bitcode\/execution-generics['"]\);/u);
+  if (requireMatch) {
+    const requireBinding = requireMatch[1];
+    return new RegExp(`\\b${requireBinding}\\.Execution\\b`, 'u').test(source);
+  }
+
+  return false;
+}
+
+function importExecutionFromRoot(source) {
+  return /import(?:\s+type)?\s*\{[^}]*\bExecution\b[^}]*\}\s*from\s*['"]@bitcode\/execution-generics['"]/u.test(source)
+    || /import\(['"]@bitcode\/execution-generics['"]\)[\s\S]*?\.Execution\b/u.test(source);
 }
 
 test('V26 prompt system keeps a public package boundary for active inference carriers', () => {
@@ -207,6 +271,23 @@ test('V26 active prompt primitive carriers prefer narrow public prompt subpaths'
   );
 });
 
+test('V26 source-bearing admitted deliverable and prompt-primitive support carriers prefer narrow public prompt subpaths', () => {
+  const violations = [
+    ...ADMITTED_PROMPT_PRIMITIVE_CORRIDORS
+      .flatMap((corridor) => listFilesRecursively(corridor))
+      .filter((filePath) => !filePath.endsWith('.js')),
+    ...ADMITTED_PROMPT_PRIMITIVE_FILES,
+  ].filter((filePath) =>
+    DISALLOWED_PROMPT_ROOT_BARREL_IMPORT.test(readFileSync(path.join(repoRoot, filePath), 'utf8'))
+  );
+
+  assert.deepEqual(
+    violations,
+    [],
+    `Source-bearing admitted deliverable and prompt-primitive support carriers must use narrow public prompt subpaths instead of the root @bitcode/prompts barrel: ${violations.join(', ')}`
+  );
+});
+
 test('V26 execution-aware prompt carriers prefer narrow public execution subpaths', () => {
   const violations = ACTIVE_EXECUTION_PROMPT_CARRIERS.filter((filePath) =>
     DISALLOWED_EXECUTION_ROOT_BARREL_IMPORT.test(readFileSync(path.join(repoRoot, filePath), 'utf8'))
@@ -216,6 +297,18 @@ test('V26 execution-aware prompt carriers prefer narrow public execution subpath
     violations,
     [],
     `Execution-aware prompt carriers must use @bitcode/execution-generics public subpaths instead of the broad execution barrel: ${violations.join(', ')}`
+  );
+});
+
+test('V26 broader active execution-bearing carriers keep base Execution on the public Execution subpath', () => {
+  const violations = ACTIVE_EXECUTION_TREE_CARRIERS.filter((filePath) =>
+    importsExecutionFromRootBarrel(readFileSync(path.join(repoRoot, filePath), 'utf8'))
+  );
+
+  assert.deepEqual(
+    violations,
+    [],
+    `Broader active execution-bearing carriers must import Execution from @bitcode/execution-generics/Execution and keep the root barrel only for needed utilities: ${violations.join(', ')}`
   );
 });
 

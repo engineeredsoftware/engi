@@ -1,4 +1,4 @@
-import { Execution } from '@bitcode/execution-generics';
+import type { Execution } from '@bitcode/execution-generics/Execution';
 
 export interface ExecutionTraceNode {
   id: string;

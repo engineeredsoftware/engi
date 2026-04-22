@@ -1,5 +1,6 @@
 /**
- * DeliverableType - Canonical enum of deliverable outputs for the Deliverables Pipeline
+ * DeliverableType is a retained compatibility enum for the written-asset kinds
+ * emitted by the asset-pack synthesis corridor.
  */
 
 export enum DeliverableType {
@@ -10,4 +11,5 @@ export enum DeliverableType {
 }
 
 export type DeliverableTypeSingleOrMany = DeliverableType | DeliverableType[];
-
+export type AssetPackWrittenAssetType = DeliverableType;
+export type AssetPackWrittenAssetTypeSingleOrMany = DeliverableTypeSingleOrMany;

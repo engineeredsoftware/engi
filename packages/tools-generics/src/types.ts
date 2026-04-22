@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import { PromptPart } from '@bitcode/prompts';
+import type { PromptPart } from '@bitcode/prompts/parts/PromptPart';
 
 /**
  * Core types for the tools-generics package

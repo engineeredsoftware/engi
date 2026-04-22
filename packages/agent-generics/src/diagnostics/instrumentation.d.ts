@@ -1,4 +1,4 @@
-import { Execution } from '@bitcode/execution-generics';
+import { Execution } from '@bitcode/execution-generics/Execution';
 export declare function logLLMSubstepStart(execution: Execution, sequence: string, systemPrompt: string, userPrompt: string, combinedPrompt: string, llmConfig?: {
     model?: string;
     provider?: string;

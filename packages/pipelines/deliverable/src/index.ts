@@ -1,7 +1,7 @@
 /**
  * Deliverable Pipeline
  *
- * DDD gate router using Guided Pipeline Execution.
+ * Retained compatibility corridor for Bitcode asset-pack written-asset synthesis.
  * Routes to Design/Develop/Digest gates based on execution.get('gate', 'current').
  */
 
@@ -18,6 +18,8 @@ const DEFAULT_DELIVERABLE_TYPE = DeliverableType.CodeChange;
 
 function inferDeliverableType(input: any): DeliverableType {
   const candidate =
+    input?.writtenAssetType ||
+    input?.writtenAsset?.type ||
     input?.deliverableType ||
     input?.deliverable?.type ||
     input?.type ||
@@ -39,14 +41,22 @@ function inferDeliverableType(input: any): DeliverableType {
   return DEFAULT_DELIVERABLE_TYPE;
 }
 
-function storePreprocessedSnapshot(execution: Execution, processedInput: any, deliverableType: DeliverableType) {
-  const definitionOfDone =
-    processedInput?.definitionOfDone ||
-    processedInput?.task ||
+function extractExpressedNeed(input: any): string {
+  const candidate =
+    input?.need ||
+    input?.definitionOfDone ||
+    input?.taskDescription ||
+    input?.task ||
     '';
+  return typeof candidate === 'string' ? candidate : '';
+}
+
+function storePreprocessedSnapshot(execution: Execution, processedInput: any, deliverableType: DeliverableType) {
+  const need = extractExpressedNeed(processedInput);
   const repo = processedInput?.repository || {};
   const snapshot = {
-    definitionOfDone,
+    definitionOfDone: need,
+    need,
     repository: {
       url: repo.url || null,
       owner: repo.owner || null,
@@ -54,6 +64,13 @@ function storePreprocessedSnapshot(execution: Execution, processedInput: any, de
       branch: repo.branch || null,
     },
     deliverableType,
+    writtenAssetType: deliverableType,
+    semanticKind: 'asset-pack-written-asset' as const,
+    assetPack: {
+      need,
+      writtenAssetType: deliverableType,
+      deliveryTarget: processedInput?.deliveryTarget || null,
+    },
     requirements: processedInput?.requirements || null,
     config: {
       computeEnabled: !!execution.get('config', 'computeEnabled'),
@@ -63,6 +80,7 @@ function storePreprocessedSnapshot(execution: Execution, processedInput: any, de
 
   try {
     execution.store('route/preprocessed', 'deliverables', snapshot);
+    execution.store('route/preprocessed', 'assetPackWrittenAsset', snapshot);
   } catch {}
 }
 
@@ -72,11 +90,18 @@ function factoryPreprocess(): Executor<any, any> {
 
     // Apply gate preprocessing
     const processedInput = gatePreprocess(input, execution);
+    const expressedNeed = extractExpressedNeed(processedInput);
 
     const deliverableType = inferDeliverableType(processedInput);
+    try { processedInput.need = expressedNeed; } catch {}
+    try { processedInput.writtenAssetType = deliverableType; } catch {}
     try { processedInput.deliverableType = deliverableType; } catch {}
     execution.store('pipeline', 'input', processedInput);
     execution.store('pipeline', 'deliverableType', deliverableType);
+    execution.store('pipeline', 'writtenAssetType', deliverableType);
+    execution.store('pipeline', 'expressedNeed', expressedNeed);
+    execution.store('need', 'description', expressedNeed);
+    execution.store('task', 'description', expressedNeed);
     storePreprocessedSnapshot(execution, processedInput, deliverableType);
     return processedInput;
   };
@@ -164,7 +189,7 @@ function factoryDevelopPhase(): Executor<any, any> {
 // ==================== DDD GATE ROUTER ====================
 
 /**
- * Main deliverable pipeline with Guided gate execution
+ * Main retained asset-pack written-asset synthesis pipeline with Guided gate execution
  * Routes execution through Design → Develop → Digest gates
  */
 export const deliverablePipeline: Executor<any, any> = createGuidedPipelineExecution({

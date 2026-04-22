@@ -11,24 +11,22 @@
 
 import { z } from 'zod';
 import { factoryAgentWithPTRR } from '@bitcode/agent-generics';
-import { Prompt } from '@bitcode/prompts';
-import {
-  PROMPTPART_GENERIC_AGENT_GENERATION_JSON_ONLY_HEADER,
-  PROMPTPART_GENERIC_AGENT_GENERATION_USE_THIS_STRUCTURED_SCHEMA,
-  PROMPTPART_GENERIC_AGENT_GENERATION_REASON,
-  PROMPTPART_GENERIC_AGENT_GENERATION_JUDGE,
-  PROMPTPART_GENERIC_AGENT_GENERATION_STRUCTURED_OUTPUT,
-  PROMPTPART_GENERIC_AGENT_GENERATION_IF_UNKNOWN_EMPTY,
-  PROMPTPART_GENERIC_AGENT_FAILSAFE_PREPARE_CONTEXT,
-  PROMPTPART_GENERIC_PTRR_PLAN_OBJECTIVE,
-  PROMPTPART_GENERIC_PTRR_TRY_OBJECTIVE,
-  PROMPTPART_GENERIC_PTRR_REFINE_OBJECTIVE,
-  PROMPTPART_GENERIC_PTRR_RETRY_OBJECTIVE,
-  PROMPTPART_GENERIC_FORMATTING_GIVENTHEFOLLOWING,
-  PROMPTPART_GENERIC_FORMATTING_EXECUTETHE_FOLLOWING,
-  PROMPTPART_GENERIC_FORMATTING_BASEDONTHE,
-  PROMPTPART_GENERIC_FORMATTING_AFTERENCOUNTERING
-} from '@bitcode/prompts';
+import { Prompt } from '@bitcode/prompts/prompt';
+import { PROMPTPART_GENERIC_AGENT_GENERATION_JSON_ONLY_HEADER } from '@bitcode/prompts/raw_promptparts/generic/promptpart_generic_agent_generation_json_only_header';
+import { PROMPTPART_GENERIC_AGENT_GENERATION_USE_THIS_STRUCTURED_SCHEMA } from '@bitcode/prompts/raw_promptparts/generic/promptpart_generic_agent_generation_use_this_structured_schema';
+import { PROMPTPART_GENERIC_AGENT_GENERATION_REASON } from '@bitcode/prompts/raw_promptparts/generic/promptpart_generic_agent_generation_reason';
+import { PROMPTPART_GENERIC_AGENT_GENERATION_JUDGE } from '@bitcode/prompts/raw_promptparts/generic/promptpart_generic_agent_generation_judge';
+import { PROMPTPART_GENERIC_AGENT_GENERATION_STRUCTURED_OUTPUT } from '@bitcode/prompts/raw_promptparts/generic/promptpart_generic_agent_generation_structured_output';
+import { PROMPTPART_GENERIC_AGENT_GENERATION_IF_UNKNOWN_EMPTY } from '@bitcode/prompts/raw_promptparts/generic/promptpart_generic_agent_generation_if_unknown_empty';
+import { PROMPTPART_GENERIC_AGENT_FAILSAFE_PREPARE_CONTEXT } from '@bitcode/prompts/raw_promptparts/generic/promptpart_generic_agent_failsafe_prepare_context';
+import { PROMPTPART_GENERIC_PTRR_PLAN_OBJECTIVE } from '@bitcode/prompts/raw_promptparts/generic/promptpart_generic_ptrr_plan_objective';
+import { PROMPTPART_GENERIC_PTRR_TRY_OBJECTIVE } from '@bitcode/prompts/raw_promptparts/generic/promptpart_generic_ptrr_try_objective';
+import { PROMPTPART_GENERIC_PTRR_REFINE_OBJECTIVE } from '@bitcode/prompts/raw_promptparts/generic/promptpart_generic_ptrr_refine_objective';
+import { PROMPTPART_GENERIC_PTRR_RETRY_OBJECTIVE } from '@bitcode/prompts/raw_promptparts/generic/promptpart_generic_ptrr_retry_objective';
+import { PROMPTPART_GENERIC_FORMATTING_GIVENTHEFOLLOWING } from '@bitcode/prompts/raw_promptparts/generic/promptpart_generic_formatting_giventhefollowing';
+import { PROMPTPART_GENERIC_FORMATTING_EXECUTETHE_FOLLOWING } from '@bitcode/prompts/raw_promptparts/generic/promptpart_generic_formatting_executethe_following';
+import { PROMPTPART_GENERIC_FORMATTING_BASEDONTHE } from '@bitcode/prompts/raw_promptparts/generic/promptpart_generic_formatting_basedonthe';
+import { PROMPTPART_GENERIC_FORMATTING_AFTERENCOUNTERING } from '@bitcode/prompts/raw_promptparts/generic/promptpart_generic_formatting_afterencountering';
 
 const PlanSchema = z.object({
   plan: z.string().describe('High-level plan for Setup context')

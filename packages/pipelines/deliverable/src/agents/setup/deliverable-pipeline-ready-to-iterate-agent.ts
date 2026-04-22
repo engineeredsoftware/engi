@@ -1,5 +1,5 @@
 /**
- * Deliverable Pipeline - Ready to Iterate Agent (Setup Phase)
+ * Retained deliverable compatibility corridor - Ready to Iterate Agent (Setup Phase)
  * 
  * Determines if pipeline should continue after setup phase.
  * Can short-circuit with full refund if prerequisites not met.
@@ -18,8 +18,10 @@ const ReadyToIterateInputSchema = z.object({
   cloneResult: z.any(), // From clone-vcs-repository
   lspInitialized: z.boolean(), // From initialize-lsp
   dangerWallResult: z.any(), // From danger-wall
-  taskComprehension: z.any(), // From comprehend-task
-  deliverableType: z.union([z.string(), z.array(z.string())]).optional(), // From comprehend-task
+  taskComprehension: z.any(), // Compatibility mirror for older prompt contracts
+  needComprehension: z.any().optional(), // Semantic mirror from comprehend-need
+  deliverableType: z.union([z.string(), z.array(z.string())]).optional(), // Compatibility mirror
+  writtenAssetType: z.union([z.string(), z.array(z.string())]).optional(), // Semantic mirror
   codebaseAnalysis: z.any() // From analyze-codebase
 });
 
@@ -53,7 +55,7 @@ const readyToIterateAgent = factoryAgentWithPTRR<
   stepPrompts: DeliverablesPipelineSetupPhaseReadyToIterateAgentPromptSteps,
 
   name: 'deliverable-pipeline-ready-to-iterate-agent',
-  description: 'Determines if pipeline should continue after setup',
+  description: 'Determines if retained asset-pack written-asset synthesis should continue after setup',
 
   outputSchema: ReadyToIterateOutputSchema,
 
@@ -73,7 +75,9 @@ export default async function readyToIterateWithShortCircuit(input: any, executi
     lspInitialized: execution.get('setup/lsp', 'initialized') || false,
     dangerWallResult: execution.get('setup/danger-wall', 'result'),
     taskComprehension: execution.get('setup/task', 'comprehension'),
+    needComprehension: execution.get('setup/need', 'comprehension') || execution.get('setup/task', 'comprehension'),
     deliverableType: execution.get('setup', 'deliverableType'),
+    writtenAssetType: execution.get('setup', 'writtenAssetType') || execution.get('setup', 'deliverableType'),
     codebaseAnalysis: execution.get('setup/codebase', 'analysis')
   };
 

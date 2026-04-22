@@ -11,7 +11,7 @@
  */
 
 import type { Gate, MetaPhase } from '../types/primitives';
-import type { Execution } from '@bitcode/execution-generics';
+import type { Execution } from '@bitcode/execution-generics/Execution';
 export type { Gate, MetaPhase };
 
 /**

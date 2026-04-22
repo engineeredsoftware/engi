@@ -7,7 +7,7 @@
  * @package @bitcode/agent-generics
  */
 
-import type { Execution } from '@bitcode/execution-generics';
+import type { Execution } from '@bitcode/execution-generics/Execution';
 import { extractFileChangesFromToolResults, getFileChangeStats } from '@bitcode/execution-generics';
 
 /**

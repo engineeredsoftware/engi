@@ -105,6 +105,7 @@ export async function initializeDeliverablePipeline(execution: PipelineExecution
   } catch {}
   try {
     const comprehendAgent = (await import('./agents/setup/deliverable-pipeline-comprehend-task-agent')).default as any;
+    execution.agents.registerAgent('setup:deliverable-pipeline-comprehend-need-agent', comprehendAgent);
     execution.agents.registerAgent('setup:deliverable-pipeline-comprehend-dod-agent', comprehendAgent);
   } catch {}
   // Register discovery agents

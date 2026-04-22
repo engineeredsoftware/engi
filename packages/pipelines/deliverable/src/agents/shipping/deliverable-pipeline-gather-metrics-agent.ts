@@ -1,6 +1,6 @@
 import { factoryAgentWithPTRR } from '@bitcode/agent-generics';
 import { z } from 'zod';
-import { Prompt } from '@bitcode/prompts';
+import { Prompt } from '@bitcode/prompts/prompt';
 
 const GatherMetricsOutputSchema = z.object({
   metrics: z.object({
