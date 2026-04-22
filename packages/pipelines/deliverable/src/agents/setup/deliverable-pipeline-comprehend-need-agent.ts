@@ -18,7 +18,7 @@ import {
   DP_COMPREHEND_NEED_TRY_PROMPT,
   DP_COMPREHEND_NEED_REFINE_PROMPT,
   DP_COMPREHEND_NEED_RETRY_PROMPT,
-} from '../prompts/deliverable-pipeline-comprehend-task-agent-prompts';
+} from '../prompts/deliverable-pipeline-comprehend-need-agent-prompts';
 
 // -------------------- Schemas --------------------
 

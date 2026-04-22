@@ -97,7 +97,8 @@ const ResearchApproachOutputSchema = z.object({
     phases: z.array(z.object({
       name: z.string(),
       description: z.string(),
-      deliverables: z.array(z.string())
+      deliverables: z.array(z.string()),
+      writtenAssets: z.array(z.string()).optional()
     })),
     tools: z.array(z.string()),
     estimatedEffort: z.string()
@@ -116,12 +117,27 @@ const ResearchApproachOutputSchema = z.object({
   recommendation: z.string()
 });
 
+export function applyResearchApproachSemanticMirrors(
+  output: z.infer<typeof ResearchApproachOutputSchema>
+): z.infer<typeof ResearchApproachOutputSchema> {
+  return {
+    ...output,
+    approach: {
+      ...output.approach,
+      phases: output.approach.phases.map((phase) => ({
+        ...phase,
+        writtenAssets: phase.writtenAssets ?? phase.deliverables,
+      })),
+    },
+  };
+}
+
 /**
  * DeliverablesPipelineDiscoveryPhaseResearchApproachAgent
  * 
  * Researches and determines the best approach.
  */
-export const DeliverablesPipelineDiscoveryPhaseResearchApproachAgent = factoryAgentWithPTRR<
+const DeliverablesPipelineDiscoveryPhaseResearchApproachAgentCore = factoryAgentWithPTRR<
   z.infer<typeof ResearchApproachInputSchema>,
   z.infer<typeof ResearchApproachOutputSchema>
 >({
@@ -139,6 +155,15 @@ export const DeliverablesPipelineDiscoveryPhaseResearchApproachAgent = factoryAg
   refine: { maxAttempts: 2 },
   retry: { maxAttempts: 1 }
 });
+
+export async function DeliverablesPipelineDiscoveryPhaseResearchApproachAgent(
+  input: z.infer<typeof ResearchApproachInputSchema>,
+  execution: any
+): Promise<z.infer<typeof ResearchApproachOutputSchema>> {
+  return applyResearchApproachSemanticMirrors(
+    await DeliverablesPipelineDiscoveryPhaseResearchApproachAgentCore(input, execution)
+  );
+}
 
 // ==================== PLAN IMPLEMENTATION AGENT ====================
 
@@ -171,15 +196,25 @@ const PlanImplementationOutputSchema = z.object({
     coverage: z.string()
   }),
   validationCriteria: z.array(z.string()),
-  definitionOfDone: z.array(z.string())
+  definitionOfDone: z.array(z.string()),
+  needSatisfactionCriteria: z.array(z.string()).optional()
 });
+
+export function applyPlanImplementationSemanticMirrors(
+  output: z.infer<typeof PlanImplementationOutputSchema>
+): z.infer<typeof PlanImplementationOutputSchema> {
+  return {
+    ...output,
+    needSatisfactionCriteria: output.needSatisfactionCriteria ?? output.definitionOfDone,
+  };
+}
 
 /**
  * DeliverablesPipelineDiscoveryPhasePlanImplementationAgent
  * 
  * Creates detailed implementation plan.
  */
-export const DeliverablesPipelineDiscoveryPhasePlanImplementationAgent = factoryAgentWithPTRR<
+const DeliverablesPipelineDiscoveryPhasePlanImplementationAgentCore = factoryAgentWithPTRR<
   z.infer<typeof PlanImplementationInputSchema>,
   z.infer<typeof PlanImplementationOutputSchema>
 >({
@@ -196,6 +231,15 @@ export const DeliverablesPipelineDiscoveryPhasePlanImplementationAgent = factory
   refine: { maxAttempts: 2 },
   retry: { maxAttempts: 1 }
 });
+
+export async function DeliverablesPipelineDiscoveryPhasePlanImplementationAgent(
+  input: z.infer<typeof PlanImplementationInputSchema>,
+  execution: any
+): Promise<z.infer<typeof PlanImplementationOutputSchema>> {
+  return applyPlanImplementationSemanticMirrors(
+    await DeliverablesPipelineDiscoveryPhasePlanImplementationAgentCore(input, execution)
+  );
+}
 
 // ==================== GENERIC DISCOVERY AGENTS (RUN FOR ALL TYPES) ====================
 

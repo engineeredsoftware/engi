@@ -23,6 +23,10 @@ const comprehendNeedAliasSource = readFileSync(
   new URL('../../packages/pipelines/deliverable/src/agents/setup/deliverable-pipeline-comprehend-task-agent.ts', import.meta.url),
   'utf8'
 );
+const comprehendNeedPromptSource = readFileSync(
+  new URL('../../packages/pipelines/deliverable/src/agents/prompts/deliverable-pipeline-comprehend-need-agent-prompts.ts', import.meta.url),
+  'utf8'
+);
 const semanticResolutionSource = readFileSync(
   new URL('../../packages/pipelines/deliverable/src/semantic-resolution.ts', import.meta.url),
   'utf8'
@@ -99,7 +103,9 @@ test('deliverable postprocess and shipping summary carry asset-pack written-asse
 
 test('setup comprehension path mirrors semantic need and written-asset keys for downstream phases', () => {
   assert.match(comprehendNeedSource, /name: 'deliverable-pipeline-comprehend-need-agent'/u);
+  assert.match(comprehendNeedSource, /deliverable-pipeline-comprehend-need-agent-prompts/u);
   assert.match(comprehendNeedAliasSource, /deliverable-pipeline-comprehend-need-agent/u);
+  assert.match(comprehendNeedPromptSource, /export \* from '\.\/deliverable-pipeline-comprehend-task-agent-prompts';/u);
   assert.match(setupPhaseSource, /deliverable-pipeline-comprehend-need-agent/u);
   assert.match(preprocessSource, /deliverable-pipeline-comprehend-need-agent/u);
   assert.match(preprocessSource, /new PipelinePromptRegistry/u);
@@ -119,6 +125,10 @@ test('phase and shipping carriers resolve semantic written-asset type and need b
   assert.match(phaseIndexSource, /Unknown written-asset type/u);
   assert.match(shipAgentSource, /writtenAssetType: dtype/u);
   assert.match(createPullRequestSource, /writtenAssetType: 'code-change'/u);
+  assert.match(discoveryAgentsSource, /writtenAssets: z\.array\(z\.string\(\)\)\.optional\(\)/u);
+  assert.match(discoveryAgentsSource, /needSatisfactionCriteria: z\.array\(z\.string\(\)\)\.optional\(\)/u);
+  assert.match(discoveryAgentsSource, /applyResearchApproachSemanticMirrors/u);
+  assert.match(discoveryAgentsSource, /applyPlanImplementationSemanticMirrors/u);
   assert.match(discoveryAgentsSource, /writtenAssetType: z\.string\(\)\.optional\(\)/u);
   assert.match(discoveryAgentsSource, /need: z\.string\(\)\.optional\(\)/u);
   assert.match(selectFilesSource, /writtenAssetType: z\.string\(\)\.optional\(\)/u);

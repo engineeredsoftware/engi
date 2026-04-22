@@ -48,7 +48,7 @@ Every retained corridor must therefore be classified before it is edited:
 - `prompt` and execution boundaries
   Active inference carriers now consume `PromptPart`, `Prompt`, `PromptExecution`, `Execution`, and `ExecutionPrompt` through public Bitcode package seams instead of repo-relative reach-through.
 - `deliverable` reform
-  The retained corridor is now explicitly interpreted as asset-pack written-asset synthesis, with `need`, `writtenAssetType`, and asset-pack snapshots mirrored alongside compatibility `deliverable*` naming, registry-bearing runtime hydration on bare-execution entry, and an honest package-local typecheck boundary through the remaining retained support graph.
+  The retained corridor is now explicitly interpreted as asset-pack written-asset synthesis, with `need`, `writtenAssetType`, `writtenAssets`, `needSatisfactionCriteria`, and asset-pack snapshots mirrored alongside compatibility `deliverable*` naming, registry-bearing runtime hydration on bare-execution entry, canonical `comprehend-need` module paths on the live setup corridor, and an honest package-local typecheck boundary through the remaining retained support graph.
 - `field-intelligence`
   A clearly experimental old-world corridor was removed from live Bitcode and documented only under `_legacy/field-intelligence`.
 
