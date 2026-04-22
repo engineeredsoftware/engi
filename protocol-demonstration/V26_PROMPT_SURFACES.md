@@ -80,6 +80,7 @@ These corridors still consume prompt abstractions or raw promptparts, but they a
 Operational rule:
 
 - reference-only prompt corridors may keep older prompt inventories where they accelerate reform work
+- reference-only prompt corridors should prefer `@bitcode/prompts/prompt` and `@bitcode/prompts/parts/PromptPart` for primitive access rather than the root `@bitcode/prompts` barrel unless they actually need the full prompt execution surface
 - they may not define live Exchange/Terminal semantics unless they are explicitly repurposed and promoted into the active rows above
 - if a retained corridor becomes necessary for live product behavior, it must move into the active or support tables and satisfy the public prompt contract
 

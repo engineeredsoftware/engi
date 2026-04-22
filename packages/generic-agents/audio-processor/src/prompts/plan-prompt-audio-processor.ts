@@ -16,7 +16,7 @@ import { PROMPTPART_GENERIC_AGENT_GENERATION_STRUCTURED_OUTPUT } from '@bitcode/
  * analysis, and insight extraction from audio content.
  */
 
-import { Prompt } from '@bitcode/prompts';
+import { Prompt } from '@bitcode/prompts/prompt';
 
 
 

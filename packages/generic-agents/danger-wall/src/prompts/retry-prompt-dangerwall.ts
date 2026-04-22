@@ -1,4 +1,4 @@
-import { Prompt } from '@bitcode/prompts';
+import { Prompt } from '@bitcode/prompts/prompt';
 import { PROMPTPART_SPECIFIC_AGENT_DANGERWALL_SYSTEM_CONTEXT } from '@bitcode/prompts/raw_promptparts/specific/promptpart_specific_agent_dangerwall_system_context';
 import { PROMPTPART_SPECIFIC_AGENT_DANGERWALL_EXECUTIONPATTERN_DETAILCONTENT } from '@bitcode/prompts/raw_promptparts/specific/promptpart_specific_agent_dangerwall_executionpattern_detailcontent';
 import { PROMPTPART_GENERIC_AGENT_FAILSAFE_PREPARE_CONTEXT } from '@bitcode/prompts/raw_promptparts/generic/promptpart_generic_agent_failsafe_prepare_context';

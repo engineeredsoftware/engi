@@ -15,7 +15,7 @@ import { PROMPTPART_SPECIFIC_AGENT_TECHTYPESIDENTIFIER_PLAN_IDENTIFICATION_STRAT
  * This defines how the agent analyzes technology patterns and plans type identification workflows.
  */
 
-import { Prompt } from '@bitcode/prompts';
+import { Prompt } from '@bitcode/prompts/prompt';
 
 
 

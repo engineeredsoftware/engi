@@ -35,7 +35,7 @@ import { PROMPTPART_GENERIC_AGENT_GENERATION_STRUCTURED_OUTPUT } from '@bitcode/
  * This defines how the agent handles research failures and recovers from information gathering errors.
  */
 
-import { Prompt } from '@bitcode/prompts';
+import { Prompt } from '@bitcode/prompts/prompt';
 
 
 

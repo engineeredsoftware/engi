@@ -34,7 +34,7 @@ import { PROMPTPART_SPECIFIC_AGENT_JIRAPROCESSOR_PLAN_WORKFLOW_STRATEGY } from '
  * This defines how the agent analyzes project management data and plans Jira workflows.
  */
 
-import { Prompt } from '@bitcode/prompts';
+import { Prompt } from '@bitcode/prompts/prompt';
 
 
 

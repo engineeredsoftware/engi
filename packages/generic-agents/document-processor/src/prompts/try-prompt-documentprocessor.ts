@@ -1,4 +1,4 @@
-import { Prompt } from '@bitcode/prompts';
+import { Prompt } from '@bitcode/prompts/prompt';
 import { PROMPTPART_SPECIFIC_AGENT_DOCUMENTPROCESSOR_SYSTEM_INSTRUCTIONS } from '@bitcode/prompts/raw_promptparts/specific/promptpart_specific_agent_documentprocessor_system_instructions';
 import { PROMPTPART_SPECIFIC_AGENT_DOCUMENTPROCESSOR_TOOLS_LIST } from '@bitcode/prompts/raw_promptparts/specific/promptpart_specific_agent_documentprocessor_tools_list';
 import { PROMPTPART_GENERIC_AGENT_FAILSAFE_PREPARE_CONTEXT } from '@bitcode/prompts/raw_promptparts/generic/promptpart_generic_agent_failsafe_prepare_context';

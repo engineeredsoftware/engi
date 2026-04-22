@@ -15,7 +15,7 @@ import { PROMPTPART_SPECIFIC_AGENT_VIDEOPROCESSOR_TRY_PROCESSING_TECHNIQUES } fr
  * This defines how the agent executes video processing operations and content analysis.
  */
 
-import { Prompt } from '@bitcode/prompts';
+import { Prompt } from '@bitcode/prompts/prompt';
 
 
 

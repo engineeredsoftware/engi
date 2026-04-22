@@ -15,7 +15,7 @@ import { PROMPTPART_SPECIFIC_AGENT_TECHTYPESIDENTIFIER_TRY_PATTERN_MATCHING } fr
  * This defines how the agent executes technology identification and pattern matching.
  */
 
-import { Prompt } from '@bitcode/prompts';
+import { Prompt } from '@bitcode/prompts/prompt';
 
 
 

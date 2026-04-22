@@ -15,7 +15,7 @@ import { PROMPTPART_SPECIFIC_AGENT_LANGUAGE_PLAN_PROCESSING_STRATEGY } from '@bi
  * This defines how the agent analyzes linguistic patterns and plans language processing workflows.
  */
 
-import { Prompt } from '@bitcode/prompts';
+import { Prompt } from '@bitcode/prompts/prompt';
 
 
 

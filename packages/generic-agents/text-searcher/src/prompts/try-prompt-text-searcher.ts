@@ -35,7 +35,7 @@ import { PROMPTPART_SPECIFIC_AGENT_TEXTSEARCHER_TRY_SEARCH_TECHNIQUES } from '@b
  * This defines how the agent executes text search operations and pattern matching.
  */
 
-import { Prompt } from '@bitcode/prompts';
+import { Prompt } from '@bitcode/prompts/prompt';
 
 
 

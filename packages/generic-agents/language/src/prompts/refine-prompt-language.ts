@@ -15,7 +15,7 @@ import { PROMPTPART_SPECIFIC_AGENT_LANGUAGE_REFINE_SEMANTIC_ENHANCEMENT } from '
  * This defines how the agent optimizes language processing results and enhances semantic understanding.
  */
 
-import { Prompt } from '@bitcode/prompts';
+import { Prompt } from '@bitcode/prompts/prompt';
 
 
 

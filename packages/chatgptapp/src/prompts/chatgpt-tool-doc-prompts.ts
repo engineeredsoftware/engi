@@ -1,5 +1,5 @@
 import { DocCodeToolPrompt } from '@bitcode/tools-generics';
-import { PromptPart } from '@bitcode/prompts';
+import { PromptPart } from '@bitcode/prompts/parts/PromptPart';
 import { PROMPTPART_SPECIFIC_TOOL_DEPICTDESIGNASSET_DOCCODETOOLNAME } from '@bitcode/prompts/raw_promptparts/specific/promptpart_specific_tool_depictdesignasset_doccodetoolname';
 import { PROMPTPART_SPECIFIC_TOOL_DEPICTDESIGNASSET_DOCCODETOOLPURPOSE } from '@bitcode/prompts/raw_promptparts/specific/promptpart_specific_tool_depictdesignasset_doccodetoolpurpose';
 import { PROMPTPART_SPECIFIC_TOOL_DEPICTDESIGNASSET_DOCCODETOOLCAPABILITIES } from '@bitcode/prompts/raw_promptparts/specific/promptpart_specific_tool_depictdesignasset_doccodetoolcapabilities';

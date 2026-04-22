@@ -15,7 +15,7 @@ import { PROMPTPART_SPECIFIC_AGENT_IMAGEPROCESSOR_TRY_PROCESSING_TECHNIQUES } fr
  * This defines how the agent executes image processing operations and visual analysis.
  */
 
-import { Prompt } from '@bitcode/prompts';
+import { Prompt } from '@bitcode/prompts/prompt';
 
 
 

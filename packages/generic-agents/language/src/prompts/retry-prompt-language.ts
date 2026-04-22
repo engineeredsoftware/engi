@@ -15,7 +15,7 @@ import { PROMPTPART_SPECIFIC_AGENT_LANGUAGE_RETRY_RECOVERY_STRATEGY } from '@bit
  * This defines how the agent handles language processing failures and recovers from semantic errors.
  */
 
-import { Prompt } from '@bitcode/prompts';
+import { Prompt } from '@bitcode/prompts/prompt';
 
 
 

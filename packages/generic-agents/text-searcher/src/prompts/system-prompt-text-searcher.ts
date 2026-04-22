@@ -27,7 +27,7 @@ import { PROMPTPART_SPECIFIC_AGENT_TEXT_SEARCHER_SYSTEM_INSTRUCTIONS } from '@bi
  * ]
  */
 
-import { Prompt } from '@bitcode/prompts';
+import { Prompt } from '@bitcode/prompts/prompt';
 
 
 

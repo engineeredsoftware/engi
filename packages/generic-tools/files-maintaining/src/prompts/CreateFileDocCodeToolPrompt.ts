@@ -11,7 +11,7 @@ import { PROMPTPART_SPECIFIC_TOOL_CREATEFILE_DOCCODETOOLPARAMETERS } from '@bitc
 import { PROMPTPART_SPECIFIC_TOOL_CREATEFILE_DOCCODETOOLOUTPUT } from '@bitcode/prompts/raw_promptparts/specific/promptpart_specific_tool_createfile_doccodetooloutput';
 
 import { DocCodeToolPrompt } from '@bitcode/tools-generics';
-import { PromptPart } from '@bitcode/prompts';
+import { PromptPart } from '@bitcode/prompts/parts/PromptPart';
 
 /**
  * Create File tool-specific DocCodeToolPrompt

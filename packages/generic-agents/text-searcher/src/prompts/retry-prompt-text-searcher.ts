@@ -15,7 +15,7 @@ import { PROMPTPART_SPECIFIC_AGENT_TEXTSEARCHER_RETRY_RECOVERY_STRATEGY } from '
  * This defines how the agent handles search failures and recovers from text matching errors.
  */
 
-import { Prompt } from '@bitcode/prompts';
+import { Prompt } from '@bitcode/prompts/prompt';
 
 
 

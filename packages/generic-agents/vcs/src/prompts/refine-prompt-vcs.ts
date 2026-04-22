@@ -15,7 +15,7 @@ import { PROMPTPART_GENERIC_AGENT_GENERATION_STRUCTURED_OUTPUT } from '@bitcode/
  * This defines how the agent optimizes VCS operations and resolves conflicts.
  */
 
-import { Prompt } from '@bitcode/prompts';
+import { Prompt } from '@bitcode/prompts/prompt';
 // Using general agent capabilities since VCS-specific refine parts don't exist yet
 
 

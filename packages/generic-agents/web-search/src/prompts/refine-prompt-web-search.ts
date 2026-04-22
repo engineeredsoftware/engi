@@ -21,7 +21,7 @@ import { PROMPTPART_SPECIFIC_AGENT_WEBSEARCH_REFINE_RESULT_ENHANCEMENT } from '@
  * ]
  */
 
-import { Prompt } from '@bitcode/prompts';
+import { Prompt } from '@bitcode/prompts/prompt';
 
 
 

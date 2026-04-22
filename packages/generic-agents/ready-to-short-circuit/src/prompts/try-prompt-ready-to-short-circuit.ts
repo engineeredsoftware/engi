@@ -15,7 +15,7 @@ import { PROMPTPART_SPECIFIC_AGENT_READYTOSHORTCIRCUIT_TRY_EVALUATION_CRITERIA }
  * This defines how the agent executes early completion checks and short-circuit decisions.
  */
 
-import { Prompt } from '@bitcode/prompts';
+import { Prompt } from '@bitcode/prompts/prompt';
 
 
 

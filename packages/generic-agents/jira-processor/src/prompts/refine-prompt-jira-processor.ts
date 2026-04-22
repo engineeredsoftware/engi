@@ -34,7 +34,7 @@ import { PROMPTPART_SPECIFIC_AGENT_JIRAPROCESSOR_REFINE_WORKFLOW_ENHANCEMENT } f
  * This defines how the agent optimizes project management workflows and enhances Jira processes.
  */
 
-import { Prompt } from '@bitcode/prompts';
+import { Prompt } from '@bitcode/prompts/prompt';
 
 
 

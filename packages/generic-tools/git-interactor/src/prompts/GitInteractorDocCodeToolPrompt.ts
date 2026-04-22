@@ -26,7 +26,7 @@ import { PROMPTPART_SPECIFIC_TOOL_GITINTERACTOR_DOCCODETOOLMIGRATION } from '@bi
  */
 
 import { DocCodeToolPrompt } from '@bitcode/tools-generics';
-import { PromptPart } from '@bitcode/prompts';
+import { PromptPart } from '@bitcode/prompts/parts/PromptPart';
 
 // Import generic labels from /raw_promptparts/generic/
 

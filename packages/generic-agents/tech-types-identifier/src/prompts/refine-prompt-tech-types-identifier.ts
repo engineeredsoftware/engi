@@ -15,7 +15,7 @@ import { PROMPTPART_SPECIFIC_AGENT_TECHTYPESIDENTIFIER_REFINE_RECOGNITION_ENHANC
  * This defines how the agent optimizes technology identification and enhances pattern recognition.
  */
 
-import { Prompt } from '@bitcode/prompts';
+import { Prompt } from '@bitcode/prompts/prompt';
 
 
 

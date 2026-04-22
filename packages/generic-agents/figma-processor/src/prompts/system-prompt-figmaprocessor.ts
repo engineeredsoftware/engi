@@ -1,4 +1,4 @@
-import { Prompt } from '@bitcode/prompts';
+import { Prompt } from '@bitcode/prompts/prompt';
 import { PROMPTPART_SPECIFIC_AGENT_FIGMAPROCESSOR_SYSTEM_IDENTITY } from '@bitcode/prompts/raw_promptparts/specific/promptpart_specific_agent_figmaprocessor_system_identity';
 import { PROMPTPART_SPECIFIC_AGENT_FIGMAPROCESSOR_SYSTEM_ROLE } from '@bitcode/prompts/raw_promptparts/specific/promptpart_specific_agent_figmaprocessor_system_role';
 import { PROMPTPART_SPECIFIC_AGENT_FIGMAPROCESSOR_SYSTEM_INSTRUCTIONS } from '@bitcode/prompts/raw_promptparts/specific/promptpart_specific_agent_figmaprocessor_system_instructions';

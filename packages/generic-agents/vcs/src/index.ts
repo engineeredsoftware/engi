@@ -10,7 +10,7 @@ import {
   factoryAgentWithSingleStep
 } from '@bitcode/agent-generics';
 import { AgentPrompt, AgentStepPrompt } from '@bitcode/agent-generics';
-import type { PromptPart } from '@bitcode/prompts';
+import type { PromptPart } from '@bitcode/prompts/parts/PromptPart';
 import { z } from 'zod';
 import { log } from '@bitcode/logger';
 export { SYSTEM_PROMPT_VCS } from './prompts/system-prompt-vcs';

@@ -27,7 +27,7 @@ import { PROMPTPART_SPECIFIC_AGENT_TECH_TYPES_IDENTIFIER_SYSTEM_INSTRUCTIONS } f
  * ]
  */
 
-import { Prompt } from '@bitcode/prompts';
+import { Prompt } from '@bitcode/prompts/prompt';
 
 
 

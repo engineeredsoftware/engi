@@ -6,6 +6,7 @@ import path from 'node:path';
 const repoRoot = path.resolve(new URL('..', import.meta.url).pathname, '..');
 
 const DISALLOWED_PROMPT_INTERNAL_IMPORT = /(?:from\s+['"][^'"]*prompts\/src\/|require\(['"][^'"]*prompts\/src\/)/u;
+const DISALLOWED_PROMPT_ROOT_BARREL_IMPORT = /(?:from\s+['"]@bitcode\/prompts['"]|require\(['"]@bitcode\/prompts['"]\))/u;
 const ACTIVE_PROMPT_CORRIDORS = [
   'packages/execution-generics/src',
   'packages/pipelines-generics/src',
@@ -16,6 +17,12 @@ const ACTIVE_PROMPT_CORRIDORS = [
 ];
 const SUPPORT_PROMPT_CORRIDORS = [
   'packages/digest/prompts',
+];
+const REFERENCE_PROMPT_CORRIDORS = [
+  'packages/generic-agents',
+  'packages/generic-tools',
+  'packages/chatgptapp/src/prompts',
+  'packages/doc-comment/examples',
 ];
 
 function listFilesRecursively(targetPath) {
@@ -79,5 +86,17 @@ test('V26 prompt support consumers keep promptpart access on the public package 
     violations,
     [],
     `Support prompt consumers must use @bitcode/prompts/raw_promptparts or @bitcode/prompts, not sibling prompts/src reach-through: ${violations.join(', ')}`
+  );
+});
+
+test('V26 retained reference prompt consumers use narrow public prompt subpaths instead of the root barrel', () => {
+  const violations = REFERENCE_PROMPT_CORRIDORS
+    .flatMap((corridor) => listFilesRecursively(corridor))
+    .filter((filePath) => DISALLOWED_PROMPT_ROOT_BARREL_IMPORT.test(readFileSync(path.join(repoRoot, filePath), 'utf8')));
+
+  assert.deepEqual(
+    violations,
+    [],
+    `Reference prompt consumers must use narrow public prompt subpaths instead of the root @bitcode/prompts barrel: ${violations.join(', ')}`
   );
 });

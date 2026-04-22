@@ -1,4 +1,4 @@
-import { Prompt } from '@bitcode/prompts';
+import { Prompt } from '@bitcode/prompts/prompt';
 import { PROMPTPART_SPECIFIC_AGENT_FIGMAPROCESSOR_SYSTEM_INSTRUCTIONS } from '@bitcode/prompts/raw_promptparts/specific/promptpart_specific_agent_figmaprocessor_system_instructions';
 import { PROMPTPART_SPECIFIC_AGENT_FIGMAPROCESSOR_TOOLS_LIST } from '@bitcode/prompts/raw_promptparts/specific/promptpart_specific_agent_figmaprocessor_tools_list';
 import { PROMPTPART_GENERIC_AGENT_FAILSAFE_PREPARE_CONTEXT } from '@bitcode/prompts/raw_promptparts/generic/promptpart_generic_agent_failsafe_prepare_context';

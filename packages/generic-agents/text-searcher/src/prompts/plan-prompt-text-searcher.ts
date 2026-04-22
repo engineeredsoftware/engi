@@ -34,7 +34,7 @@ import { PROMPTPART_SPECIFIC_AGENT_TEXTSEARCHER_PLAN_SEARCH_STRATEGY } from '@bi
  * This defines how the agent analyzes textual content and plans search strategies.
  */
 
-import { Prompt } from '@bitcode/prompts';
+import { Prompt } from '@bitcode/prompts/prompt';
 
 
 

@@ -27,7 +27,7 @@ import { PROMPTPART_SPECIFIC_AGENT_READY_TO_SHORT_CIRCUIT_SYSTEM_INSTRUCTIONS } 
  * ]
  */
 
-import { Prompt } from '@bitcode/prompts';
+import { Prompt } from '@bitcode/prompts/prompt';
 
 
 

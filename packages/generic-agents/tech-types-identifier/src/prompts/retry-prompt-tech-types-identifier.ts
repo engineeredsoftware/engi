@@ -15,7 +15,7 @@ import { PROMPTPART_SPECIFIC_AGENT_TECHTYPESIDENTIFIER_RETRY_RECOVERY_STRATEGY }
  * This defines how the agent handles identification failures and recovers from pattern recognition errors.
  */
 
-import { Prompt } from '@bitcode/prompts';
+import { Prompt } from '@bitcode/prompts/prompt';
 
 
 

@@ -15,7 +15,7 @@ import { PROMPTPART_SPECIFIC_AGENT_IMAGEPROCESSOR_PLAN_PROCESSING_STRATEGY } fro
  * This defines how the agent analyzes visual content and plans image processing workflows.
  */
 
-import { Prompt } from '@bitcode/prompts';
+import { Prompt } from '@bitcode/prompts/prompt';
 
 
 

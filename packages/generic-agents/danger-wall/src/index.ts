@@ -19,7 +19,7 @@ import { z } from 'zod';
 
 // ==================== IMPORTS ====================
 import { AgentPrompt, AgentStepPrompt } from '@bitcode/agent-generics';
-import type { PromptPart } from '@bitcode/prompts';
+import type { PromptPart } from '@bitcode/prompts/parts/PromptPart';
 
 // ==================== TOOLS ====================
 // Tools this agent can use for security validation

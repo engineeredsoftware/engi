@@ -14,7 +14,7 @@ import { PROMPTPART_SPECIFIC_TOOL_USECOMPUTER_DOCCODETOOLEXAMPLE1 } from '@bitco
 import { PROMPTPART_SPECIFIC_TOOL_USECOMPUTER_DOCCODETOOLEXAMPLE2 } from '@bitcode/prompts/raw_promptparts/specific/promptpart_specific_tool_usecomputer_doccodetoolexample2';
 
 import { DocCodeToolPrompt } from '@bitcode/tools-generics';
-import { PromptPart } from '@bitcode/prompts';
+import { PromptPart } from '@bitcode/prompts/parts/PromptPart';
 
 /**
  * Use Computer tool-specific DocCodeToolPrompt

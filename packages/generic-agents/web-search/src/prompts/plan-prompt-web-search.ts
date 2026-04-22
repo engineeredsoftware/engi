@@ -21,7 +21,7 @@ import { PROMPTPART_SPECIFIC_AGENT_WEBSEARCH_PLAN_SEARCH_STRATEGY } from '@bitco
  * ]
  */
 
-import { Prompt } from '@bitcode/prompts';
+import { Prompt } from '@bitcode/prompts/prompt';
 
 
 

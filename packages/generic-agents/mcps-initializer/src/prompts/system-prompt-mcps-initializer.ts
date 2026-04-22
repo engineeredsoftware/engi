@@ -27,7 +27,7 @@ import { PROMPTPART_SPECIFIC_AGENT_MCPS_INITIALIZER_SYSTEM_INSTRUCTIONS } from '
  * ]
  */
 
-import { Prompt } from '@bitcode/prompts';
+import { Prompt } from '@bitcode/prompts/prompt';
 
 
 

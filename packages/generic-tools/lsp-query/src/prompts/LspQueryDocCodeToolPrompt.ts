@@ -16,7 +16,7 @@ import { PROMPTPART_SPECIFIC_TOOL_LSPQUERY_DOCCODETOOLOUTPUT } from '@bitcode/pr
  */
 
 import { DocCodeToolPrompt } from '@bitcode/tools-generics';
-import { PromptPart } from '@bitcode/prompts';
+import { PromptPart } from '@bitcode/prompts/parts/PromptPart';
 
 // Import generic labels from individual files
 

@@ -25,7 +25,7 @@ import { PROMPTPART_SPECIFIC_TOOL_AWSMCP_DOCCODETOOLEXAMPLE3 } from '@bitcode/pr
  */
 
 import { DocCodeToolPrompt } from '@bitcode/tools-generics';
-import { PromptPart } from '@bitcode/prompts';
+import { PromptPart } from '@bitcode/prompts/parts/PromptPart';
 
 
 

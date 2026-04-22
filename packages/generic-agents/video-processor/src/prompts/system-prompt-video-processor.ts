@@ -27,7 +27,7 @@ import { PROMPTPART_SPECIFIC_AGENT_VIDEO_PROCESSOR_SYSTEM_INSTRUCTIONS } from '@
  * ]
  */
 
-import { Prompt } from '@bitcode/prompts';
+import { Prompt } from '@bitcode/prompts/prompt';
 
 
 

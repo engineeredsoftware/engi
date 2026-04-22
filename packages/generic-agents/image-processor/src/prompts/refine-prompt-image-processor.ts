@@ -15,7 +15,7 @@ import { PROMPTPART_SPECIFIC_AGENT_IMAGEPROCESSOR_REFINE_ENHANCEMENT_TECHNIQUES 
  * This defines how the agent optimizes image processing results and enhances visual outputs.
  */
 
-import { Prompt } from '@bitcode/prompts';
+import { Prompt } from '@bitcode/prompts/prompt';
 
 
 

@@ -9,7 +9,7 @@ import {
   factoryAgentWithPTRR
 } from '@bitcode/agent-generics';
 import { AgentPrompt, AgentStepPrompt } from '@bitcode/agent-generics';
-import type { PromptPart } from '@bitcode/prompts';
+import type { PromptPart } from '@bitcode/prompts/parts/PromptPart';
 import { z } from 'zod';
 
 // ==================== INPUT SCHEMA ====================

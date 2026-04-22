@@ -34,7 +34,7 @@ import { PROMPTPART_SPECIFIC_AGENT_TEXTSEARCHER_REFINE_ACCURACY_ENHANCEMENT } fr
  * This defines how the agent optimizes search results and enhances text matching accuracy.
  */
 
-import { Prompt } from '@bitcode/prompts';
+import { Prompt } from '@bitcode/prompts/prompt';
 
 
 

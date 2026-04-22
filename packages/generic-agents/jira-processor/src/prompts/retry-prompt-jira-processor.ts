@@ -15,7 +15,7 @@ import { PROMPTPART_SPECIFIC_AGENT_JIRAPROCESSOR_RETRY_RECOVERY_STRATEGY } from 
  * This defines how the agent handles project management failures and recovers from API errors.
  */
 
-import { Prompt } from '@bitcode/prompts';
+import { Prompt } from '@bitcode/prompts/prompt';
 
 
 

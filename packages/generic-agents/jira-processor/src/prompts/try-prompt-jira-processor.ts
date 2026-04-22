@@ -35,7 +35,7 @@ import { PROMPTPART_SPECIFIC_AGENT_JIRAPROCESSOR_TRY_API_STRATEGY } from '@bitco
  * This defines how the agent executes Jira API operations and project management tasks.
  */
 
-import { Prompt } from '@bitcode/prompts';
+import { Prompt } from '@bitcode/prompts/prompt';
 
 
 

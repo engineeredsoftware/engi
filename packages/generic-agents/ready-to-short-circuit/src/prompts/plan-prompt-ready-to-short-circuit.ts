@@ -15,7 +15,7 @@ import { PROMPTPART_SPECIFIC_AGENT_READYTOSHORTCIRCUIT_PLAN_SHORTCIRCUIT_STRATEG
  * This defines how the agent analyzes early completion conditions and plans short-circuit workflows.
  */
 
-import { Prompt } from '@bitcode/prompts';
+import { Prompt } from '@bitcode/prompts/prompt';
 
 
 

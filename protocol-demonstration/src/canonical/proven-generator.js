@@ -285,10 +285,16 @@ const V26_FOURTH_GATE_PROMPT_SYSTEM_FILES = [
   'packages/conversations-generics/src/prompts/ConversationSystemPrompt.ts',
   'packages/generic-agents/jira-processor/src/prompts/system-prompt-jira-processor.ts',
   'packages/generic-agents/jira-processor/src/prompts/agent-prompt-jira-processor.ts',
+  'packages/generic-agents/web-researcher/src/index.ts',
+  'packages/generic-agents/web-researcher/src/prompts/system-prompt-web-researcher.ts',
   'packages/digest/prompts/digest-prompts.ts',
   'packages/digest/prompts/task-guides-prompts.ts',
   'packages/digest/prompts/code-styles-prompts.ts',
   'packages/digest/prompts/doc-code-tool.generate-digest.ts',
+  'packages/generic-tools/files-maintaining/src/prompts/tool-prompt-transaction-begin.ts',
+  'packages/generic-tools/vcs/src/prompts/ListRepositoriesDocCodeToolPrompt.ts',
+  'packages/chatgptapp/src/prompts/chatgpt-tool-doc-prompts.ts',
+  'packages/doc-comment/examples/doc-comments-as-prompts.ts',
   'packages/pipelines/deliverable/src/agents/prompts/understand-requirements-prompt.ts',
   'packages/pipelines/deliverable/src/agents/prompts/plan-implementation-prompt.ts'
 ];
@@ -702,7 +708,7 @@ function buildV26GateCheckpointReport({
       label: 'Fourth-gate prompt system totality proof',
       passed: promptSystemTotalityProof?.passed === true,
       detail: promptSystemTotalityProof?.passed === true
-        ? 'PromptPart/Prompt/PromptExecution and retained prompt ports remain explicit through the public @bitcode/prompts boundary with package-by-package prompt surface mapping across active and support consumers'
+        ? 'PromptPart/Prompt/PromptExecution and retained prompt ports remain explicit through the public @bitcode/prompts boundary with package-by-package prompt surface mapping across active, support, and retained reference consumers'
         : 'Prompt system totality proof remains open'
     }
   ];
@@ -1028,6 +1034,18 @@ function buildV26PromptSystemTotalityProof({
       ]
     ),
     buildV26FilePresenceCheck(
+      'reference-prompt-consumer-boundaries',
+      'Retained reference prompt consumers stay explicit on narrow public prompt primitive subpaths',
+      [
+        'packages/generic-agents/web-researcher/src/index.ts',
+        'packages/generic-agents/web-researcher/src/prompts/system-prompt-web-researcher.ts',
+        'packages/generic-tools/files-maintaining/src/prompts/tool-prompt-transaction-begin.ts',
+        'packages/generic-tools/vcs/src/prompts/ListRepositoriesDocCodeToolPrompt.ts',
+        'packages/chatgptapp/src/prompts/chatgpt-tool-doc-prompts.ts',
+        'packages/doc-comment/examples/doc-comments-as-prompts.ts'
+      ]
+    ),
+    buildV26FilePresenceCheck(
       'need-ingestion-and-deliverable-prompt-ports',
       'Need-ingestion and deliverable prompt ports remain explicit under Bitcode ownership',
       [
@@ -1051,7 +1069,8 @@ function buildV26PromptSystemTotalityProof({
     packageWitnesses: [
       '@bitcode/prompts',
       '@bitcode/execution-generics',
-      '@bitcode/conversations-generics'
+      '@bitcode/conversations-generics',
+      '@bitcode/digest'
     ],
     checks
   };

@@ -15,7 +15,7 @@ import { PROMPTPART_SPECIFIC_AGENT_LANGUAGE_TRY_PROCESSING_TECHNIQUES } from '@b
  * This defines how the agent executes language processing operations and semantic analysis.
  */
 
-import { Prompt } from '@bitcode/prompts';
+import { Prompt } from '@bitcode/prompts/prompt';
 
 
 

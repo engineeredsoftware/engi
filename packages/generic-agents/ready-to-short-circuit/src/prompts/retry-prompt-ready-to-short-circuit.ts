@@ -15,7 +15,7 @@ import { PROMPTPART_SPECIFIC_AGENT_READYTOSHORTCIRCUIT_RETRY_RECOVERY_STRATEGY }
  * This defines how the agent handles evaluation failures and recovers from detection errors.
  */
 
-import { Prompt } from '@bitcode/prompts';
+import { Prompt } from '@bitcode/prompts/prompt';
 
 
 

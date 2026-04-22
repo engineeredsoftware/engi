@@ -21,7 +21,7 @@ import { PROMPTPART_SPECIFIC_AGENT_MCPSINITIALIZER_REFINE_PROTOCOL_ENHANCEMENT }
  * ]
  */
 
-import { Prompt } from '@bitcode/prompts';
+import { Prompt } from '@bitcode/prompts/prompt';
 
 
 

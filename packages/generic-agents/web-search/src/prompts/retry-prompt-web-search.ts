@@ -22,7 +22,7 @@ import { PROMPTPART_SPECIFIC_AGENT_WEBSEARCH_RETRY_RECOVERY_STRATEGY } from '@bi
  * ]
  */
 
-import { Prompt } from '@bitcode/prompts';
+import { Prompt } from '@bitcode/prompts/prompt';
 
 
 

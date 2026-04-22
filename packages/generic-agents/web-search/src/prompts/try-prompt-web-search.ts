@@ -22,7 +22,7 @@ import { PROMPTPART_SPECIFIC_AGENT_WEBSEARCH_TRY_SEARCH_TECHNIQUES } from '@bitc
  * ]
  */
 
-import { Prompt } from '@bitcode/prompts';
+import { Prompt } from '@bitcode/prompts/prompt';
 
 
 

@@ -22,7 +22,7 @@ import { PROMPTPART_SPECIFIC_AGENT_MCPSINITIALIZER_TRY_PROTOCOL_SETUP } from '@b
  * ]
  */
 
-import { Prompt } from '@bitcode/prompts';
+import { Prompt } from '@bitcode/prompts/prompt';
 
 
 

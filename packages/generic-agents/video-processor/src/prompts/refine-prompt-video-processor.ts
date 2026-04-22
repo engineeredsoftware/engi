@@ -15,7 +15,7 @@ import { PROMPTPART_SPECIFIC_AGENT_VIDEOPROCESSOR_REFINE_ANALYSIS_ENHANCEMENT } 
  * This defines how the agent optimizes video processing results and enhances content analysis.
  */
 
-import { Prompt } from '@bitcode/prompts';
+import { Prompt } from '@bitcode/prompts/prompt';
 
 
 

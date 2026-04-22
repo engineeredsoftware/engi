@@ -24,7 +24,7 @@ import { PROMPTPART_SPECIFIC_TOOL_RENAMESYMBOL_DOCCODETOOLEXAMPLE3 } from '@bitc
  */
 
 import { DocCodeToolPrompt } from '@bitcode/tools-generics';
-import { PromptPart } from '@bitcode/prompts';
+import { PromptPart } from '@bitcode/prompts/parts/PromptPart';
 
 // Import generic labels from /raw_promptparts/generic/
 

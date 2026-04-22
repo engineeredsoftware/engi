@@ -15,7 +15,7 @@ import { PROMPTPART_SPECIFIC_AGENT_IMAGEPROCESSOR_RETRY_RECOVERY_STRATEGY } from
  * This defines how the agent handles processing failures and recovers from visual analysis errors.
  */
 
-import { Prompt } from '@bitcode/prompts';
+import { Prompt } from '@bitcode/prompts/prompt';
 
 
 

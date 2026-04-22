@@ -15,7 +15,7 @@ import { PROMPTPART_GENERIC_AGENT_GENERATION_STRUCTURED_OUTPUT } from '@bitcode/
  * This defines how the agent handles failures and learns from VCS operation outcomes.
  */
 
-import { Prompt } from '@bitcode/prompts';
+import { Prompt } from '@bitcode/prompts/prompt';
 // Using general agent capabilities since VCS-specific retry parts don't exist yet
 
 

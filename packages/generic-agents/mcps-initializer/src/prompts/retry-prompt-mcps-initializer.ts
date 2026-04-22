@@ -22,7 +22,7 @@ import { PROMPTPART_SPECIFIC_AGENT_MCPSINITIALIZER_RETRY_RECOVERY_STRATEGY } fro
  * ]
  */
 
-import { Prompt } from '@bitcode/prompts';
+import { Prompt } from '@bitcode/prompts/prompt';
 
 
 

@@ -15,7 +15,7 @@ import { PROMPTPART_SPECIFIC_AGENT_READYTOSHORTCIRCUIT_REFINE_DETECTION_ENHANCEM
  * This defines how the agent optimizes short-circuit conditions and enhances completion detection.
  */
 
-import { Prompt } from '@bitcode/prompts';
+import { Prompt } from '@bitcode/prompts/prompt';
 
 
 

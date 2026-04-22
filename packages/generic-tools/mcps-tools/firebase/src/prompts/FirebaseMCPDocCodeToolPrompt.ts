@@ -25,7 +25,7 @@ import { PROMPTPART_SPECIFIC_TOOL_FIREBASEMCP_DOCCODETOOLEXAMPLE3 } from '@bitco
  */
 
 import { DocCodeToolPrompt } from '@bitcode/tools-generics';
-import { PromptPart } from '@bitcode/prompts';
+import { PromptPart } from '@bitcode/prompts/parts/PromptPart';
 
 // Import generic labels from /raw_promptparts/generic/
 

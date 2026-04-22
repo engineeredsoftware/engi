@@ -16,7 +16,7 @@ import { PROMPTPART_SPECIFIC_TOOL_REPLACEFILE_DOCCODETOOLOUTPUT } from '@bitcode
  */
 
 import { DocCodeToolPrompt } from '@bitcode/tools-generics';
-import { PromptPart } from '@bitcode/prompts';
+import { PromptPart } from '@bitcode/prompts/parts/PromptPart';
 
 // Import meaningful PromptParts from /raw_promptparts/specific/
 
