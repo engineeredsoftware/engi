@@ -7,15 +7,14 @@ import { supabaseAdmin } from '@bitcode/supabase';
 
 export const runtime = 'nodejs';
 
-function unauthorizedResponse(result: Response | { userId: string }) {
-  return result instanceof Response ? result : null;
+function isAuthFailure(result: Awaited<ReturnType<typeof authenticateRequest>>): result is Response {
+  return result instanceof Response;
 }
 
 export async function GET(request: Request) {
   const authResult = await authenticateRequest(request);
-  const authFailure = unauthorizedResponse(authResult);
-  if (authFailure) {
-    return authFailure;
+  if (isAuthFailure(authResult)) {
+    return authResult;
   }
 
   const { data, error } = await supabaseAdmin
@@ -40,9 +39,8 @@ export async function GET(request: Request) {
 
 export async function POST(request: Request) {
   const authResult = await authenticateRequest(request);
-  const authFailure = unauthorizedResponse(authResult);
-  if (authFailure) {
-    return authFailure;
+  if (isAuthFailure(authResult)) {
+    return authResult;
   }
 
   let body: { name?: string; expireAt?: string | null } = {};
@@ -77,9 +75,8 @@ export async function POST(request: Request) {
 
 export async function DELETE(request: Request) {
   const authResult = await authenticateRequest(request);
-  const authFailure = unauthorizedResponse(authResult);
-  if (authFailure) {
-    return authFailure;
+  if (isAuthFailure(authResult)) {
+    return authResult;
   }
 
   const id = new URL(request.url).searchParams.get('id');

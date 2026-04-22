@@ -14,7 +14,7 @@ interface Props {
   align?: 'left' | 'center';
   onComplete?: () => void;
   highlightText?: string;
-  highlightTexts?: Array<string | { text: string; className?: string }>;
+  highlightTexts?: ReadonlyArray<string | { text: string; className?: string }>;
   highlightClass?: string;
   showCursor?: boolean;
   disableParticleEffect?: boolean;

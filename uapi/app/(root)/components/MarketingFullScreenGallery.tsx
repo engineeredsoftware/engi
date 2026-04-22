@@ -1,36 +1,42 @@
 "use client";
 
 import React from 'react';
+import type { Screenshot } from './marketing-types';
 
-interface Screenshot {
-  src: string;
-  alt?: string;
-  title?: string;
-}
-
-interface FullScreenGalleryProps {
-  images: Screenshot[];
-  currentIndex: number;
-  isOpen: boolean;
-  onClose: () => void;
+export interface FullScreenGalleryProps {
+  images?: readonly Screenshot[];
+  screenshots?: readonly Screenshot[];
+  currentIndex?: number;
+  initialIndex?: number;
+  isOpen?: boolean;
+  onClose?: () => void;
   onNext?: () => void;
   onPrev?: () => void;
+  layout?: string;
+  maxItems?: number;
+  autoPlay?: boolean;
+  className?: string;
 }
 
 const MarketingFullScreenGallery: React.FC<FullScreenGalleryProps> = ({
   images,
+  screenshots,
   currentIndex,
+  initialIndex,
   isOpen,
   onClose,
   onNext,
-  onPrev
+  onPrev,
+  className = '',
 }) => {
   if (!isOpen) return null;
 
-  const currentImage = images[currentIndex];
+  const resolvedImages = screenshots ?? images ?? [];
+  const activeIndex = currentIndex ?? initialIndex ?? 0;
+  const currentImage = resolvedImages[activeIndex];
 
   return (
-    <div className="fixed inset-0 z-50 bg-black/90 flex items-center justify-center">
+    <div className={`fixed inset-0 z-50 flex items-center justify-center bg-black/90 ${className}`}>
       <div className="relative max-w-7xl max-h-full p-4">
         <button
           onClick={onClose}
@@ -47,7 +53,7 @@ const MarketingFullScreenGallery: React.FC<FullScreenGalleryProps> = ({
           />
         )}
 
-        {images.length > 1 && (
+        {resolvedImages.length > 1 && (
           <>
             <button
               onClick={onPrev}

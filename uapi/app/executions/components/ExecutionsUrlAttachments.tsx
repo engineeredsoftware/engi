@@ -1,2 +1,1 @@
-export { UrlAttachments as default } from '@/components/deliverables/url-attachments';
-
+export { UrlAttachments as default } from '@/components/base/bitcode/execution/url-attachments';

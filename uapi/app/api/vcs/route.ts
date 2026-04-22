@@ -184,11 +184,8 @@ export async function GET(request: Request) {
 
   if (resource === 'accounts') {
     const username =
-      connection.provider_username ||
       connection.connectionData?.provider_username ||
       connection.connectionData?.login ||
-      connection.connection_data?.provider_username ||
-      connection.connection_data?.login ||
       'connected-account';
 
     return NextResponse.json({

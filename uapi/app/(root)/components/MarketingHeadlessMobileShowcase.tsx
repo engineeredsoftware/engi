@@ -1,7 +1,12 @@
 "use client";
 /* eslint-disable react/no-multi-comp */
 import { useState } from 'react';
-import SectionWrapper from "./SectionWrapper";
+import MarketingSectionWrapper from "./MarketingSectionWrapper";
+
+const cardFrameEmerald =
+  "relative overflow-hidden rounded-lg border border-emerald-400/20 bg-emerald-500/5 shadow-[0_0_28px_rgba(16,185,129,0.14)]";
+const cardFramePurple =
+  "relative overflow-hidden rounded-lg border border-purple-400/20 bg-purple-500/5 shadow-[0_0_28px_rgba(168,85,247,0.14)]";
 
 
 // A wrapper image component showing a pulsing skeleton until the image loads or fails

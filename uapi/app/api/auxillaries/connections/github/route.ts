@@ -57,7 +57,7 @@ export async function GET(_request: Request) {
 
   try {
     const { app } = await import('@/app/octokit');
-    const octokit = await app.getInstallationOctokit(installationId);
+    const octokit = await app.getInstallationOctokit(installationId) as any;
     const repositories = await octokit.paginate(octokit.rest.apps.listReposAccessibleToInstallation);
     const organizations = Array.from(
       new Set(

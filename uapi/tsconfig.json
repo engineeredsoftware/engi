@@ -278,8 +278,7 @@
     "next-env.d.ts",
     "app/**/*.ts",
     "app/**/*.tsx",
-    "types/**/*.d.ts",
-    ".next/types/**/*.ts"
+    "types/**/*.d.ts"
   ],
-  "exclude": ["node_modules", "lib"]
+  "exclude": ["node_modules", "lib", ".next"]
 }

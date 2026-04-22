@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import React, { useEffect, useMemo, useRef, useState } from "react";
-import { readBitcodeWalletBindingFromProfile } from '@bitcode/orm/src/profile-contract';
+import { readBitcodeWalletBindingFromProfile } from '@bitcode/orm';
 
 import { useAuth } from "@/components/base/bitcode/auth/AuthProvider";
 import { useUserData } from "@/hooks/useUserData";

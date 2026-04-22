@@ -13,9 +13,10 @@ function instrumentModel(provider: string, modelName: string, base: any) {
       const orig = Reflect.get(target, prop, receiver);
       if (typeof orig !== 'function') return orig;
       // Wrap function so that its execution is traced once.
-      return async function(...args: any[]) {
+      return async function instrumentedModelMethod(this: unknown, ...args: any[]) {
         const spanName = `llm:${provider}:${modelName}:${String(prop)}`;
-        return trace(spanName, () => orig.apply(this, args));
+        const activeThis = this ?? target;
+        return trace(spanName, () => orig.apply(activeThis, args));
       };
     },
   };

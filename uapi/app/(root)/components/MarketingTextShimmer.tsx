@@ -3,13 +3,13 @@ import { cn } from '@bitcode/styling';
 import { ArrowRightIcon } from "@radix-ui/react-icons";
 import { CSSProperties, FC, ReactNode } from "react";
 
-interface TextShimmerProps {
+export interface MarketingTextShimmerProps {
   children: ReactNode;
   className?: string;
   shimmerWidth?: number;
 }
 
-const TextShimmer: FC<MarketingTextShimmerProps> = ({
+export const MarketingTextShimmer: FC<MarketingTextShimmerProps> = ({
   children,
   className,
   shimmerWidth = 100,
@@ -39,7 +39,7 @@ const TextShimmer: FC<MarketingTextShimmerProps> = ({
   );
 };
 
-const TextShimmerDemo: FC<MarketingTextShimmerProps> = ({
+const MarketingTextShimmerDemo: FC<MarketingTextShimmerProps> = ({
   children,
   className
 }) => {
@@ -56,6 +56,6 @@ const TextShimmerDemo: FC<MarketingTextShimmerProps> = ({
       </MarketingTextShimmer>
     </div>
   );
-}
+};
 
-export default MarketingTextShimmerDemo
+export default MarketingTextShimmerDemo;

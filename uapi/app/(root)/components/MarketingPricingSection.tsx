@@ -62,7 +62,7 @@ const MarketingPricingSection: React.FC = () => {
     // get initial user state
     supabase.auth.getUser()
       .then(({ data: { user } }) => setIsSignedIn(!!user))
-      .catch((err) => console.error('Failed to get auth user:', err));
+      .catch((err: unknown) => console.error('Failed to get auth user:', err));
     // listen to auth state changes
     const {
       data: { subscription },
@@ -108,8 +108,8 @@ const MarketingPricingSection: React.FC = () => {
         })
       );
       window.location.assign('/auxillaries/btd');
-    } catch (err: any) {
-      const msg = err?.message || 'Error opening BTD workspace';
+    } catch (err: unknown) {
+      const msg = err instanceof Error ? err.message : 'Error opening BTD workspace';
       setAcquisitionError(msg);
       setActivatingPlan(null);
       console.error('Error opening BTD workspace:', err);

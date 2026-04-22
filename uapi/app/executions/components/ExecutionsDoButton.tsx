@@ -1,2 +1,1 @@
-export { ExecuteDeliverButton as default } from '@/components/deliverables/do-button';
-
+export { ExecuteDeliverButton as default } from '@/components/base/bitcode/execution/execute-button';

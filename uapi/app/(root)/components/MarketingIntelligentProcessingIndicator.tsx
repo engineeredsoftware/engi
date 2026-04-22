@@ -265,13 +265,4 @@ export const MarketingIntelligentProcessingIndicator = ({
 };
 
 // Export with memoization for performance
-export default memo(IntelligentProcessingIndicator, (prevProps, nextProps) => {
-  // Only re-render if processing state or context changes significantly
-  return (
-    prevProps.isProcessing === nextProps.isProcessing &&
-    prevProps.currentAgent === nextProps.currentAgent &&
-    prevProps.repositoryContext?.language === nextProps.repositoryContext?.language &&
-    prevProps.repositoryContext?.componentCount === nextProps.repositoryContext?.componentCount &&
-    prevProps.phase === nextProps.phase
-  );
-});
+export default memo(MarketingIntelligentProcessingIndicator);

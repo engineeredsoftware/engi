@@ -109,7 +109,8 @@ const ConversationsMessageWaterfall = memo(function ConversationsMessageWaterfal
         typeof window !== 'undefined' && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
       if (!prefersReduced) {
         // cloneNode to allow overlapping plays
-        audioRef.current.cloneNode(true).play().catch(() => {});
+        const audioClone = audioRef.current.cloneNode(true) as HTMLAudioElement;
+        audioClone.play().catch(() => {});
       }
     }
   }, [messages]);

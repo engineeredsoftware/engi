@@ -11,18 +11,16 @@ interface ConversationsChatInputProps {
   className?: string;
 }
 
-const ConversationsChatInput = React.forwardRef<HTMLTextAreaElement, ConversationsChatInputProps>(function ConversationsChatInput({
+export default function ConversationsChatInput({
   onSend,
   disabled,
   placeholder,
   currentConversationId,
   className = '',
-}, ref) {
+}: ConversationsChatInputProps) {
   return (
     <div className={`conversations-input ${className}`}>
-      {/* Rich text input container */}
       <ConversationsEnhancedRichTextInput
-        ref={ref as any}
         onSend={onSend}
         currentConversationId={currentConversationId}
         disabled={disabled}
@@ -30,6 +28,4 @@ const ConversationsChatInput = React.forwardRef<HTMLTextAreaElement, Conversatio
       />
     </div>
   );
-});
-
-export default ConversationsChatInput;
+}

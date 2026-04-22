@@ -1,6 +1,6 @@
 
 export interface QuantumOrbConfig {
-  backgroundColors: string[];
+  backgroundColors: readonly string[];
   glowColor: string;
   particleColor: string;
   coreGlowIntensity: number;

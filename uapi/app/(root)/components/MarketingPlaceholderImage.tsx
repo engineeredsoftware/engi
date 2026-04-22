@@ -2,13 +2,17 @@
 
 import React from 'react';
 
-interface PlaceholderImageProps {
+export interface PlaceholderImageProps {
   src?: string;
   alt?: string;
   className?: string;
   width?: number | string;
   height?: number | string;
   onClick?: () => void;
+  type?: string;
+  category?: string;
+  text?: string;
+  stretch?: boolean;
 }
 
 const MarketingPlaceholderImage: React.FC<PlaceholderImageProps> = ({
@@ -17,7 +21,11 @@ const MarketingPlaceholderImage: React.FC<PlaceholderImageProps> = ({
   className = '',
   width = '100%',
   height = 'auto',
-  onClick
+  onClick,
+  type,
+  category,
+  text,
+  stretch = false,
 }) => {
   if (src) {
     return (
@@ -28,7 +36,7 @@ const MarketingPlaceholderImage: React.FC<PlaceholderImageProps> = ({
         width={width}
         height={height}
         onClick={onClick}
-        style={{ cursor: onClick ? 'pointer' : 'default' }}
+        style={{ cursor: onClick ? 'pointer' : 'default', objectFit: stretch ? 'cover' : undefined }}
       />
     );
   }
@@ -45,7 +53,12 @@ const MarketingPlaceholderImage: React.FC<PlaceholderImageProps> = ({
     >
       <div className="text-gray-500 text-center">
         <div className="text-4xl mb-2">📷</div>
-        <div className="text-sm">{alt}</div>
+        <div className="text-sm">{text || alt}</div>
+        {(type || category) && (
+          <div className="mt-1 text-[11px] uppercase tracking-[0.18em] text-gray-400">
+            {[type, category].filter(Boolean).join(' • ')}
+          </div>
+        )}
       </div>
     </div>
   );

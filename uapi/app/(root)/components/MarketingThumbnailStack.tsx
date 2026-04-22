@@ -3,28 +3,33 @@
 import React from 'react';
 import type { Screenshot } from './marketing-types';
 
-interface ThumbnailStackProps {
-  images: Screenshot[] | string[];
+export interface ThumbnailStackProps {
+  images: readonly Screenshot[] | readonly string[];
   onThumbClick?: (index: number) => void;
   className?: string;
   maxVisible?: number;
+  pad?: boolean;
+  animationPaused?: boolean;
 }
 
 const MarketingThumbnailStack: React.FC<ThumbnailStackProps> = ({
   images,
   onThumbClick,
   className = '',
-  maxVisible = 3
+  maxVisible = 3,
+  pad = false,
 }) => {
   const normalizedImages = images.map((img, index) =>
-    typeof img === 'string' ? { id: `${index}`, src: img, alt: `Image ${index + 1}` } : img
+    typeof img === 'string'
+      ? { id: `${index}`, src: img, alt: `Image ${index + 1}` }
+      : { ...img, id: img.id || `${index}`, alt: img.alt || img.title || `Image ${index + 1}` }
   );
 
   const displayImages = normalizedImages.slice(0, maxVisible);
   const remainingCount = Math.max(0, normalizedImages.length - maxVisible);
 
   return (
-    <div className={`flex items-center space-x-2 ${className}`}>
+    <div className={`flex items-center space-x-2 ${pad ? 'p-2' : ''} ${className}`}>
       {displayImages.map((image, index) => (
         <div
           key={image.id || index}

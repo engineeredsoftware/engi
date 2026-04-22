@@ -1,2 +1,1 @@
-export { default } from '@/components/deliverables/DeliverablesDocPanel';
-
+export { default } from '@/components/base/bitcode/execution/DeliverablesDocPanel';

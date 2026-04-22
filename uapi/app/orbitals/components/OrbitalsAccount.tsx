@@ -1,1 +1,2 @@
-export { default } from './OrbitalsAccount';
+export { default } from './OrbitalsProfilePane';
+export type { OrbitalsProfilePaneProps as OrbitalsAccountProps } from './OrbitalsProfilePane';

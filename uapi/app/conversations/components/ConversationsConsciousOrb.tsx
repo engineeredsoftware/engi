@@ -28,7 +28,8 @@ interface ConversationContext {
   satisfactionScore: number; // 0-1
 }
 
-interface ConsciousOrbState extends QuantumOrbState {
+interface ConsciousOrbState {
+  orbState?: QuantumOrbState;
   consciousness: 'dormant' | 'awakening' | 'aware' | 'engaged' | 'enlightened';
   repositoryFamiliarity: number; // 0-1
   userPatternConfidence: number; // 0-1
@@ -98,7 +99,7 @@ export const ConsciousConversationsOrb = ({
   onConsciousnessChange,
   onRepositoryWhisper,
   onEmotionalStateChange,
-}: ConsciousConversationOrbProps) => {
+}: ConsciousConversationsOrbProps) => {
   const [consciousState, setConsciousState] = useState<ConsciousOrbState>({
     consciousness: 'dormant',
     repositoryFamiliarity: 0,
@@ -478,10 +479,9 @@ export default memo(ConsciousConversationOrb, (prevProps, nextProps) => {
   // Only re-render if critical props change
   return (
     prevProps.isProcessing === nextProps.isProcessing &&
-    prevProps.executionPhase === nextProps.executionPhase &&
     prevProps.repositoryContext?.language === nextProps.repositoryContext?.language &&
     prevProps.repositoryContext?.componentCount === nextProps.repositoryContext?.componentCount &&
-    prevProps.conversationContext?.messageCount === nextProps.conversationContext?.messageCount &&
+    prevProps.conversationHistory?.messageCount === nextProps.conversationHistory?.messageCount &&
     prevProps.intensityLevel === nextProps.intensityLevel
   );
 });

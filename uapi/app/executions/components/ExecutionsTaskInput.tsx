@@ -1,2 +1,1 @@
-export { TaskInput as default } from '@/components/deliverables/task-input';
-
+export { ExecutionTaskInput as default } from '@/components/base/bitcode/execution/ExecutionTaskInput';

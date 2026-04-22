@@ -1,2 +1,1 @@
-export { default } from '@/components/deliverables/RunInstructions.fixed';
-
+export { default } from './ExecutionsInstructions';

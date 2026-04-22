@@ -7,7 +7,7 @@
 import { useState, useEffect, useCallback } from 'react';
 
 import { normalizeAuxillarySteps } from '@/app/auxillaries/components/auxillary-pane-meta';
-import { readBitcodeWalletCapabilityFromProfile } from '@bitcode/orm/src/profile-contract';
+import { readBitcodeWalletCapabilityFromProfile } from '@bitcode/orm';
 
 export interface AggregatedUserData {
   profile?: any | null;

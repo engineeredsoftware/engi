@@ -1,6 +1,6 @@
 import type {
   Conversation as DBConversation,
-  ConversationsMessage as DBMessage,
+  ConversationMessage as DBMessage,
 } from '@bitcode/conversations-generics';
 
 import type { Chat } from './hooks/useChatState';
@@ -153,7 +153,9 @@ export function mapConversationDetailToChat(detail: ConversationDetailResponse, 
       type: message.role === 'user' ? 'user' : 'agent',
       content: String(message.content || ''),
       tokens: (message.message_attachments || [])
-        .map((attachment) => mapConversationMessageAttachmentToToken(attachment as ConversationMessageAttachment))
+        .map((attachment: Record<string, unknown>) =>
+          mapConversationMessageAttachmentToToken(attachment as ConversationMessageAttachment),
+        )
         .filter(Boolean),
       status: 'sent',
       timestamp: message.created_at ? new Date(message.created_at) : new Date(),

@@ -9,7 +9,7 @@ interface ConversationsChatMessagesProps {
   containerRef?: React.Ref<HTMLDivElement>;
   embedProcessLogs?: boolean;
   processLogOutputDetails?: Record<string, any>;
-  renderTokenInMessage?: (token: any) => React.ReactNode;
+  renderTokenInMessage?: (content: string, tokens?: any[]) => string;
   onScroll?: (e: React.UIEvent<HTMLDivElement>) => void;
 }
 
@@ -22,11 +22,13 @@ export default function ConversationsChatMessages({
   renderTokenInMessage,
   onScroll,
 }: ConversationsChatMessagesProps) {
+  const renderMessageTokens = renderTokenInMessage ?? ((content: string) => content);
+
   return (
     <div ref={containerRef} className={`conversations-messages custom-scrollbar ${className}`} onScroll={onScroll}>
       <ConversationsMessageWaterfall
         messages={messages}
-        renderTokenInMessage={renderTokenInMessage}
+        renderTokenInMessage={renderMessageTokens}
         embedProcessLogs={embedProcessLogs}
         processLogOutputDetails={processLogOutputDetails}
       />

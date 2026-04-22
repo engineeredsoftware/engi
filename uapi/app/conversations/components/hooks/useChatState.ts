@@ -9,7 +9,14 @@
  */
 
 import { useState, useEffect, useCallback } from 'react';
-import { v4 as uuidv4 } from 'uuid';
+
+function createChatId() {
+  if (typeof crypto !== 'undefined' && typeof crypto.randomUUID === 'function') {
+    return crypto.randomUUID();
+  }
+
+  return `id-${Date.now()}-${Math.random().toString(36).slice(2, 10)}`;
+}
 
 export interface ChatMessage {
   id: string;
@@ -102,6 +109,7 @@ export function useChatState(options: UseChatStateOptions = {}) {
   const createNewChat = useCallback((title?: string) => {
     const newChat: Chat = {
       id: `draft-${uuidv4()}`,
+      id: `draft-${createChatId()}`,
       title: title || 'New Bitcode Terminal conversation',
       messages: [],
       runs: [],
@@ -150,7 +158,7 @@ export function useChatState(options: UseChatStateOptions = {}) {
 
     const newMessage: ChatMessage = {
       ...message,
-      id: uuidv4(),
+      id: createChatId(),
       timestamp: message.timestamp || new Date()
     };
 

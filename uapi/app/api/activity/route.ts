@@ -126,10 +126,10 @@ export async function GET(request: Request) {
   }
 
   const records = [
-    ...(executionsResult.data || []).map((row) =>
+    ...(executionsResult.data || []).map((row: any) =>
       buildBitcodeActivityRecordFromExecutionHistory(normalizeExecutionHistoryRow(row)),
     ),
-    ...(notificationsResult.data || []).map((row) =>
+    ...(notificationsResult.data || []).map((row: any) =>
       buildBitcodeActivityRecordFromNotification({
         id: row.id,
         type: row.type,

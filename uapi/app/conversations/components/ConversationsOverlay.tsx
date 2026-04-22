@@ -83,7 +83,7 @@ import {
 // Backend types from generics packages
 import type { 
   Conversation as DBConversation, 
-  ConversationsMessage as DBMessage
+  ConversationMessage as DBMessage
 } from '@bitcode/conversations-generics';
 
 // UI types from local hooks - these intentionally differ from DB types
@@ -661,6 +661,7 @@ const Conversation = memo(function Conversation({
     const newBox = {
       id: `box-${Date.now()}`,
       type,
+      chatId: currentChat?.id ?? '',
       width: 50,
       height: 100,
       x: splitBoxes.length * 10,
@@ -668,7 +669,7 @@ const Conversation = memo(function Conversation({
     };
     setSplitBoxes(prev => [...prev, newBox]);
     setActiveSplitId(newBox.id);
-  }, [splitBoxes]);
+  }, [currentChat?.id, splitBoxes]);
 
   // Handle retry after error
   const handleRetry = useCallback(() => {
@@ -871,11 +872,22 @@ const Conversation = memo(function Conversation({
           {splitScreenMode ? (
             <SplitGrid
               boxes={splitBoxes}
-              activeId={activeSplitId}
-              onBoxUpdate={(id, updates) => {
-                setSplitBoxes(prev => prev.map(box => 
-                  box.id === id ? { ...box, ...updates } : box
-                ));
+              chats={chats}
+              activeSplitId={activeSplitId}
+              embedProcessLogs={embedProcessLogs}
+              renderLog={() => null}
+              onSelectChatInBox={(id, chatId) => {
+                setSplitBoxes((prev) =>
+                  prev.map((box) => (box.id === id ? { ...box, chatId } : box)),
+                );
+                const nextChat = chats.find((chat) => chat.id === chatId) ?? null;
+                if (nextChat) {
+                  setCurrentChat(nextChat);
+                }
+                setActiveSplitId(id);
+              }}
+              onActivateBox={(id) => {
+                setActiveSplitId(id);
               }}
               onRemoveBox={(id) => {
                 setSplitBoxes(prev => prev.filter(box => box.id !== id));
@@ -890,10 +902,19 @@ const Conversation = memo(function Conversation({
           )}
           
           <FullscreenControls
-            isFullscreen={isFullscreen}
-            splitScreenMode={splitScreenMode}
-            onToggleFullscreen={toggleFullscreen}
-            onToggleSplitScreen={toggleSplitScreen}
+            onNewChat={() => {
+              const chat = createNewChat();
+              setCurrentChat(chat);
+            }}
+            onSplit={toggleSplitScreen}
+            onToggleLogs={() => {
+              setEmbedProcessLogs((prev) => !prev);
+            }}
+            logsToggleDisabled={!activeRunId}
+            onToggleSize={toggleFullscreen}
+            onExit={handleClose}
+            splitActive={splitScreenMode}
+            logsEmbedded={embedProcessLogs}
           />
         </>
       </FullscreenPortal>

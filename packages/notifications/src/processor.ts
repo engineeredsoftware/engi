@@ -70,6 +70,15 @@ interface PersistParams {
   payload: NotificationPayload;
 }
 
+type AuthAdminGetUserResponse = {
+  data: {
+    user?: {
+      email?: string | null;
+    } | null;
+  } | null;
+  error: Error | null;
+};
+
 async function persistAndDispatch(params: PersistParams): Promise<void> {
   const { userId, notifType, payload } = params;
 
@@ -121,7 +130,18 @@ const emailCache: Record<string, string | undefined> = {};
 async function fetchUserEmail(userId: string): Promise<string | undefined> {
   if (userId in emailCache) return emailCache[userId];
   try {
-    const { data, error } = await supabase.auth.admin.getUserById(userId);
+    const authAdmin = (supabase.auth as typeof supabase.auth & {
+      admin?: {
+        getUserById(id: string): Promise<AuthAdminGetUserResponse>;
+      };
+    }).admin;
+    if (!authAdmin) {
+      console.warn('[notifications] auth admin client unavailable');
+      emailCache[userId] = undefined;
+      return undefined;
+    }
+
+    const { data, error } = await authAdmin.getUserById(userId);
     if (error) throw error;
     const email = data?.user?.email;
     emailCache[userId] = email ?? undefined;
