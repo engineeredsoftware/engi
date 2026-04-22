@@ -293,7 +293,7 @@ export function pageToText(page: NotionPage, blocks?: NotionBlock[]): string {
         const propValue = extractPropertyValue(value);
         return propValue ? `**${key}**: ${propValue}` : null;
       })
-      .filter(Boolean);
+      .filter((value): value is string => Boolean(value));
     
     if (properties.length > 0) {
       lines.push('## Properties');

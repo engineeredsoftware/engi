@@ -12,7 +12,7 @@ import {
   useComputerTool,
   type UseComputerInput,
   type UseComputerOutput
-} from '@bitcode/generic-tools/use-computer/src/index';
+} from '@bitcode/generic-tools/use-computer';
 
 /**
  * @doc-code-tool

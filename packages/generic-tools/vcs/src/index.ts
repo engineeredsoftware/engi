@@ -8,7 +8,7 @@
 import { Tool } from '@bitcode/tools-generics';
 import { z } from 'zod';
 import { VCSProviderFactory, VCSConnections, type VCSAuth, type VCSConfig, type VCSProviderType } from '@bitcode/vcs';
-import { createClient as createSupabaseServerClient } from '@bitcode/supabase/ssr/server';
+import { supabaseAdmin } from '@bitcode/supabase';
 // Utility functions for retry and timeout logic
 const withTimeout = async <T>(fn: () => Promise<T>, timeoutMs: number): Promise<T> => {
   return new Promise((resolve, reject) => {
@@ -58,7 +58,7 @@ import {
 import { executionContext } from '@bitcode/generic-tools/files-maintaining';
 
 type VcsInputBase = {
-  provider: VCSProviderType;
+  provider?: VCSProviderType;
   connectionId?: string;
   userId?: string;
 };
@@ -69,11 +69,14 @@ type ResolvedConnectionContext = {
 };
 
 async function createConnectionManager() {
-  const supabase = await createSupabaseServerClient();
-  return new VCSConnections(supabase);
+  return new VCSConnections(supabaseAdmin);
 }
 
 async function resolveConnectionContext(input: VcsInputBase): Promise<ResolvedConnectionContext> {
+  if (!input.provider) {
+    throw new Error('VCS provider is required');
+  }
+
   const connectionManager = await createConnectionManager();
   let auth: VCSAuth | null = null;
   let instanceUrl: string | undefined;
@@ -126,7 +129,7 @@ async function enforceWriteGate(path: string): Promise<void> {
       execution.get?.('gate', 'current') ||
       execution.get?.('meta', 'phase') ||
       'Develop';
-    const { validateFileOperation } = await import('@bitcode/pipelines-generics/src/gate-system/file-gates');
+    const { validateFileOperation } = await import('@bitcode/pipelines-generics');
     const validation = validateFileOperation('write', path, metaPhase as any);
     if (validation.allowed) {
       return;

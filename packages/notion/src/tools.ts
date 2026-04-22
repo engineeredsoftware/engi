@@ -23,13 +23,15 @@ async function withNotionClient<T>(
     let connection = context.connection;
     
     if (!connection) {
-      connection = await NotionConnections.validateConnection(context.user_id);
-      if (!connection) {
+      const validatedConnection = await NotionConnections.validateConnection(context.user_id);
+      if (!validatedConnection) {
         return {
           success: false,
           error: 'No valid Notion connection found. Please connect your Notion account first.'
         };
       }
+
+      connection = validatedConnection;
     }
     
     const client = new NotionClient(connection);
@@ -371,13 +373,19 @@ export async function notionGetPageContentTool(
     // Get page details
     const pageResult = await client.getPage(normalizedId);
     if (!pageResult.success || !pageResult.data) {
-      return pageResult;
+      return {
+        success: false,
+        error: pageResult.error || 'Failed to retrieve page details'
+      };
     }
     
     // Get all blocks in the page
     const blocksResult = await client.getAllBlocksInPage(normalizedId);
     if (!blocksResult.success || !blocksResult.data) {
-      return blocksResult;
+      return {
+        success: false,
+        error: blocksResult.error || 'Failed to retrieve page blocks'
+      };
     }
     
     const page = pageResult.data;

@@ -19,6 +19,54 @@ import type {
   NotionToolResult
 } from './types';
 
+function normalizeCreatePageParent(parent: CreatePageInput['parent']) {
+  if (parent.page_id) {
+    return { page_id: parent.page_id, type: 'page_id' as const };
+  }
+
+  if (parent.database_id) {
+    return { database_id: parent.database_id, type: 'database_id' as const };
+  }
+
+  throw new Error('CreatePageInput.parent must include either page_id or database_id');
+}
+
+function normalizePageIcon(icon: CreatePageInput['icon'] | UpdatePageInput['icon']) {
+  if (!icon) {
+    return icon;
+  }
+
+  if (icon.type === 'emoji') {
+    return {
+      type: 'emoji' as const,
+      emoji: icon.emoji as any,
+    };
+  }
+
+  return icon;
+}
+
+function normalizeQuerySorts(sorts: QueryDatabaseInput['sorts']) {
+  if (!sorts) {
+    return undefined;
+  }
+
+  const normalized: Array<Record<string, string>> = [];
+
+  for (const sort of sorts) {
+    if (sort.property) {
+      normalized.push({ property: sort.property, direction: sort.direction });
+      continue;
+    }
+
+    if (sort.timestamp) {
+      normalized.push({ timestamp: sort.timestamp, direction: sort.direction });
+    }
+  }
+
+  return normalized;
+}
+
 export class NotionClient {
   private client: Client;
   private connection: NotionConnection;
@@ -117,7 +165,11 @@ export class NotionClient {
   async createPage(input: CreatePageInput): Promise<NotionToolResult<NotionPage>> {
     return this.handleRequest(
       async () => {
-        const response = await this.client.pages.create(input);
+        const response = await this.client.pages.create({
+          ...input,
+          parent: normalizeCreatePageParent(input.parent),
+          icon: normalizePageIcon(input.icon),
+        } as any);
         return response as NotionPage;
       },
       'Create page'
@@ -129,8 +181,9 @@ export class NotionClient {
       async () => {
         const response = await this.client.pages.update({
           page_id: pageId,
-          ...input
-        });
+          ...input,
+          icon: normalizePageIcon(input.icon),
+        } as any);
         return response as NotionPage;
       },
       `Update page ${pageId}`
@@ -151,7 +204,10 @@ export class NotionClient {
   async queryDatabase(input: QueryDatabaseInput): Promise<NotionToolResult<PaginatedResponse<NotionPage>>> {
     return this.handleRequest(
       async () => {
-        const response = await this.client.databases.query(input);
+        const response = await this.client.databases.query({
+          ...input,
+          sorts: normalizeQuerySorts(input.sorts),
+        } as any);
         return response as PaginatedResponse<NotionPage>;
       },
       `Query database ${input.database_id}`
@@ -202,7 +258,11 @@ export class NotionClient {
   async appendBlockChildren(input: AppendBlockChildrenInput): Promise<NotionToolResult<PaginatedResponse<NotionBlock>>> {
     return this.handleRequest(
       async () => {
-        const response = await this.client.blocks.children.append(input);
+        const response = await this.client.blocks.children.append({
+          block_id: input.block_id,
+          children: input.children as any,
+          after: input.after,
+        } as any);
         return response as PaginatedResponse<NotionBlock>;
       },
       `Append blocks to ${input.block_id}`

@@ -15,6 +15,7 @@ import type {
   JiraPriority,
   JiraComponent,
   JiraVersion,
+  JiraWorklog,
 } from './types';
 import { JiraAuth } from './auth';
 
@@ -446,7 +447,7 @@ export class JiraClient {
       const blob = new Blob([file]);
       formData.append('file', blob, filename);
     } else {
-      formData.append('file', file);
+      formData.append('file', file as Blob, filename);
     }
 
     const baseUrl = this.getBaseUrl();

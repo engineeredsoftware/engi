@@ -58,8 +58,10 @@ export class UserBtdTransactionsModel extends BaseModel<'user_credit_usages'> {
 
     // Group by day
     const dailyMap = new Map<string, number>();
-    data?.forEach((usage: { created_at: string; amount: number }) => {
-      const date = new Date(usage.created_at).toISOString().split('T')[0];
+    data?.forEach((usage: { created_at: string | null; amount: number }) => {
+      const date = usage.created_at
+        ? new Date(usage.created_at).toISOString().split('T')[0]
+        : 'unknown';
       const current = dailyMap.get(date) || 0;
       dailyMap.set(date, current + Math.abs(usage.amount));
     });

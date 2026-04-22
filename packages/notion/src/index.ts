@@ -1,3 +1,6 @@
+import { NotionClient } from './client';
+import { NotionConnections } from './connections';
+
 // Re-export all types
 export * from './types';
 

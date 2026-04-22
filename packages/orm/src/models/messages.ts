@@ -186,7 +186,7 @@ export class MessagesModel extends BaseModel<'messages'> {
     if (error) throw error;
 
     const counts = { user: 0, assistant: 0 };
-    (data || []).forEach((msg: Pick<ConversationMessage, 'role'>) => {
+    (data || []).forEach((msg: { role: string }) => {
       if (msg.role === 'user' || msg.role === 'assistant') {
         counts[msg.role] += 1;
       }
