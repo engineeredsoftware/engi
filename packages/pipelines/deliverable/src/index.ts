@@ -1,7 +1,9 @@
 /**
  * Deliverable Pipeline
  *
- * Retained compatibility corridor for Bitcode asset-pack written-asset synthesis.
+ * Retained compatibility corridor for Bitcode agentic pipeline runs that satisfy
+ * needs, synthesize written assets / asset-packs, and use shipping-phase
+ * deliverables only as connected-interface delivery mechanisms.
  * Routes to Design/Develop/Digest gates based on execution.get('gate', 'current').
  */
 

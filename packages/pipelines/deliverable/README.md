@@ -1,10 +1,16 @@
 # Deliverable Pipeline
 
+Retained compatibility path for the Bitcode agentic pipeline-run corridor.
+In V26, the live meaning is:
+- a pipeline run satisfies a Bitcode need
+- the run synthesizes stable written assets / asset-packs
+- the shipping phase emits `deliverables` only as connected-interface delivery mechanisms such as a GitHub pull request or Jira comment
+
 Production software delivery pipeline implementing **SDIVS** pattern with **DIV iteration** for reliable code generation and deployment.
 
 ## Overview
 
-The Deliverable Pipeline transforms natural language definitions of done into production-ready code through a systematic 5-phase process with built-in iteration and quality gates.
+The Deliverable Pipeline transforms Bitcode need / definition-of-done input into a need-satisfying pipeline run whose stable output is a written asset or asset-pack, with shipping handling delivery mechanisms through connected interfaces.
 
 ### SDIVS Pattern
 
@@ -12,7 +18,7 @@ The Deliverable Pipeline transforms natural language definitions of done into pr
 2. **Discovery** - Research, solution exploration, and approach planning  
 3. **Implementation** - Code editing using Divide|Conquer|Correct pattern
 4. **Validation** - Quality checks and completion verification
-5. **Shipping** - Pull request creation and delivery
+5. **Shipping** - Delivery mechanism creation and final handling
 
 ### DIV Iteration
 
@@ -45,7 +51,7 @@ DeliverablePipeline (SDIVS with DIV iteration)
 │   └── Validation Phase
 │       └── Ready to Short Circuit - Check completion
 └── Shipping Phase (runs once)
-    └── VCS Agent - Create PR
+    └── VCS Agent - Create PR / other delivery mechanism
 ```
 
 ### Input/Output Schemas
@@ -71,6 +77,17 @@ interface DeliverableInput {
 interface DeliverableOutput {
   success: boolean;
   deliverable: {
+    prUrl?: string;
+    branch?: string;
+    deploymentUrl?: string;
+    mechanism?: string;
+    payload?: Record<string, unknown>;
+  };
+  deliveryMechanism?: {
+    mechanism?: string; // github-pull-request, jira-comment, etc.
+    payload?: Record<string, unknown>;
+  };
+  writtenAsset?: {
     prUrl?: string;
     branch?: string;
     deploymentUrl?: string;
@@ -118,9 +135,9 @@ interface DeliverableOutput {
 - Simple pass/fail check without complex decision logic
 
 ### Shipping Phase
-- Creates pull request with full description
-- Handles deployment if requested
-- Generates delivery report
+- Creates a connected-interface delivery mechanism with full description
+- Handles deployment or other delivery targets if requested
+- Generates delivery report for the written asset / asset-pack
 - Uses: Custom `pr-creator`, `deployment` agents
 
 ## Usage

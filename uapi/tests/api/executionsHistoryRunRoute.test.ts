@@ -59,6 +59,9 @@ describe('GET /api/executions/history/[runId]', () => {
                 writtenAssets: {
                   summary: 'Persisted closure posture.',
                 },
+                deliveryMechanism: {
+                  comments: [{ title: 'Proof note', url: 'https://example.com/comments/9', number: 9 }],
+                },
                 need: 'Refresh closure proofs and reopen fourth-gate truth honestly.',
                 writtenAssetType: 'proof-refresh',
                 assetPack: {
@@ -160,6 +163,9 @@ describe('GET /api/executions/history/[runId]', () => {
         written_assets: {
           summary: 'Persisted closure posture.',
         },
+        delivery_mechanism: {
+          comments: [{ title: 'Proof note', url: 'https://example.com/comments/9', number: 9 }],
+        },
         need: 'Refresh closure proofs and reopen fourth-gate truth honestly.',
         written_asset_type: 'proof-refresh',
         asset_pack: {
@@ -171,6 +177,9 @@ describe('GET /api/executions/history/[runId]', () => {
           summary: 'Persisted closure posture.',
           writtenAssets: {
             summary: 'Persisted closure posture.',
+          },
+          deliveryMechanism: {
+            comments: [{ title: 'Proof note', url: 'https://example.com/comments/9', number: 9 }],
           },
           need: 'Refresh closure proofs and reopen fourth-gate truth honestly.',
           writtenAssetType: 'proof-refresh',

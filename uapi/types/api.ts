@@ -48,7 +48,11 @@ export interface CompletionData {
   summary: string;
   /** Primary display string or title */
   display: string;
-  /** Generated deliverables categories */
+  /**
+   * Compatibility shipping surface.
+   * Bitcode-owned reread should prefer `written_assets` / `final_work_summary.writtenAssets`
+   * for stable asset-pack meaning and treat these categories as delivery wrappers.
+   */
   deliverables: {
     pullRequest: Deliverable | null;
     /** Reviews of pull requests */
@@ -157,7 +161,24 @@ export interface PipelineExecution {
 
   /** Repository snapshot meta */
   repo_snapshot?: { org: string; repo: string; branch: string; commit: string } | null;
-  written_assets?: { summary?: string | null } | null;
+  /** Stable Bitcode-owned written asset / asset-pack projection. */
+  written_assets?: {
+    pullRequest?: any;
+    pullRequestReviews?: any[] | null;
+    comments?: any[] | null;
+    issues?: any[] | null;
+    fileChanges?: any;
+    summary?: string | null;
+  } | null;
+  /** Shipping wrapper projected onto connected interfaces like PRs, comments, and issues. */
+  delivery_mechanism?: {
+    pullRequest?: any;
+    pullRequestReviews?: any[] | null;
+    comments?: any[] | null;
+    issues?: any[] | null;
+    fileChanges?: any;
+    summary?: string | null;
+  } | null;
   need?: string | null;
   written_asset_type?: string | null;
   asset_pack?: {
@@ -170,8 +191,33 @@ export interface PipelineExecution {
   /** Canonical Final Work Summary payload */
   final_work_summary?: {
     summary?: string | null;
-    deliverables?: { summary?: string | null };
-    writtenAssets?: { summary?: string | null };
+    /** Compatibility shipping wrapper kept for retained consumers. */
+    deliverables?: {
+      pullRequest?: any;
+      pullRequestReviews?: any[] | null;
+      comments?: any[] | null;
+      issues?: any[] | null;
+      fileChanges?: any;
+      summary?: string | null;
+    };
+    /** Stable Bitcode-owned written asset / asset-pack projection. */
+    writtenAssets?: {
+      pullRequest?: any;
+      pullRequestReviews?: any[] | null;
+      comments?: any[] | null;
+      issues?: any[] | null;
+      fileChanges?: any;
+      summary?: string | null;
+    };
+    /** Shipping wrapper projected onto connected interfaces. */
+    deliveryMechanism?: {
+      pullRequest?: any;
+      pullRequestReviews?: any[] | null;
+      comments?: any[] | null;
+      issues?: any[] | null;
+      fileChanges?: any;
+      summary?: string | null;
+    };
     need?: string | null;
     writtenAssetType?: string | null;
     assetPack?: {

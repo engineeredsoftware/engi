@@ -4,6 +4,7 @@ import type {
   ApplicationClosureProofFamily,
   ApplicationClosureState,
 } from './application-closure-state';
+import type { DeliverablesDoc } from '@/components/base/bitcode/execution/DeliverablesDocPanel';
 import type { ApplicationRunDetailSnapshot } from './application-transaction-detail-snapshot';
 import type { WorkspaceRun } from './application-run-data';
 
@@ -48,8 +49,20 @@ export type ApplicationTransactionPersistedActivitySnapshot = {
   payload: unknown;
 };
 
+export function getApplicationTransactionWrittenAssets(
+  detail: ApplicationRunDetailSnapshot | null,
+): DeliverablesDoc | null {
+  return detail?.writtenAssets || detail?.deliverables || null;
+}
+
+export function getApplicationTransactionDeliveryMechanism(
+  detail: ApplicationRunDetailSnapshot | null,
+): DeliverablesDoc | null {
+  return detail?.deliveryMechanism || detail?.deliverables || getApplicationTransactionWrittenAssets(detail);
+}
+
 export function countApplicationTransactionDeliverableSurfaces(detail: ApplicationRunDetailSnapshot | null) {
-  const deliverables = detail?.deliverables;
+  const deliverables = getApplicationTransactionDeliveryMechanism(detail);
   if (!deliverables) return 0;
 
   let count = 0;

@@ -211,6 +211,37 @@ describe('application-activity-history', () => {
     });
   });
 
+  it('prefers delivery mechanism summary when written assets are absent during workspace reread', () => {
+    const run = mapExecutionHistoryRunToWorkspaceRun({
+      id: 'run-2',
+      created_at: '2026-04-21T13:00:00.000Z',
+      type: 'pipeline:ship',
+      agentic_execution: null,
+      status: 'completed',
+      output: null,
+      metadata: null,
+      items: [],
+      summary: null,
+      repo_snapshot: {
+        org: 'bitcode',
+        repo: 'terminal',
+        branch: 'ship',
+        commit: 'def456',
+      },
+      processing_stats: null,
+      final_work_summary: {
+        summary: null,
+        writtenAssets: null,
+        deliveryMechanism: {
+          summary: 'Opened the connected-interface shipping wrapper for the asset pack.',
+        },
+        deliverables: null,
+      },
+    } as PipelineExecution);
+
+    expect(run.summary).toBe('Opened the connected-interface shipping wrapper for the asset pack.');
+  });
+
   it('upserts workspace runs and keeps newest first', () => {
     const currentRuns: WorkspaceRun[] = [
       {

@@ -994,16 +994,17 @@ export const POST = traceRoute('/deliverables', async (request: NextRequest) => 
           const fws = finalWorkSummary;
           if (fws) {
             const writtenAssets = fws.writtenAssets || fws.deliverables;
+            const deliveryMechanism = fws.deliveryMechanism || fws.deliverables || writtenAssets;
             clientResult = {
               ...result,
               summary: fws.summary || writtenAssets?.summary,
               processingStats: fws.processingStats,
               repoSnapshot: fws.repoSnapshot,
               actions: {
-                pullRequest: writtenAssets?.pullRequest || null,
-                pullRequestReviews: writtenAssets?.pullRequestReviews || null,
-                comments: writtenAssets?.comments || null,
-                issues: writtenAssets?.issues || null,
+                pullRequest: deliveryMechanism?.pullRequest || null,
+                pullRequestReviews: deliveryMechanism?.pullRequestReviews || null,
+                comments: deliveryMechanism?.comments || null,
+                issues: deliveryMechanism?.issues || null,
                 files: writtenAssets?.fileChanges || null,
               },
             };
@@ -1053,6 +1054,11 @@ export const POST = traceRoute('/deliverables', async (request: NextRequest) => 
             (execution as any).get?.('shipping/final_work_summary', 'writtenAssets') ||
             (execution as any).get?.('shipping/final_work_summary', 'deliverables') ||
             undefined;
+          const deliveryMechanism =
+            (execution as any).get?.('shipping/final_work_summary', 'deliveryMechanism') ||
+            (execution as any).get?.('shipping/final_work_summary', 'deliverables') ||
+            writtenAssets ||
+            undefined;
           const need =
             (execution as any).get?.('shipping/final_work_summary', 'need') ||
             (execution as any).get?.('pipeline', 'expressedNeed') ||
@@ -1072,6 +1078,7 @@ export const POST = traceRoute('/deliverables', async (request: NextRequest) => 
             repoSnapshot: (execution as any).get?.('shipping/final_work_summary', 'repoSnapshot'),
             deliverables: (execution as any).get?.('shipping/final_work_summary', 'deliverables'),
             writtenAssets,
+            deliveryMechanism,
             need,
             writtenAssetType,
             assetPack:
@@ -1089,6 +1096,7 @@ export const POST = traceRoute('/deliverables', async (request: NextRequest) => 
           if (
             !finalWorkSummary?.summary &&
             !finalWorkSummary?.writtenAssets?.summary &&
+            !finalWorkSummary?.deliveryMechanism?.summary &&
             !finalWorkSummary?.deliverables?.summary
           ) finalWorkSummary = undefined;
         } catch {}
@@ -1098,6 +1106,9 @@ export const POST = traceRoute('/deliverables', async (request: NextRequest) => 
           if (!finalWorkSummary.processingStats) finalWorkSummary.processingStats = {};
           if (!finalWorkSummary.summary && finalWorkSummary.writtenAssets?.summary) {
             finalWorkSummary.summary = finalWorkSummary.writtenAssets.summary;
+          }
+          if (!finalWorkSummary.summary && finalWorkSummary.deliveryMechanism?.summary) {
+            finalWorkSummary.summary = finalWorkSummary.deliveryMechanism.summary;
           }
           if (!finalWorkSummary.summary && finalWorkSummary.deliverables?.summary) {
             finalWorkSummary.summary = finalWorkSummary.deliverables.summary;

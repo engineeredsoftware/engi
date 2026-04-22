@@ -19,6 +19,7 @@ describe('normalizeDeliverableOutput', () => {
 
     const normalized = normalizeDeliverableOutput(output, exec);
     expect(normalized.deliverable.prUrl).toContain('/pull/123');
+    expect(normalized.deliveryMechanism?.prUrl).toContain('/pull/123');
     expect(normalized.writtenAsset.prUrl).toContain('/pull/123');
     expect(normalized.artifacts.filesModified).toEqual(['a.ts', 'b.ts']);
     expect(normalized.need).toBe('Need a repository-backed pull request');
@@ -50,9 +51,44 @@ describe('normalizeDeliverableOutput', () => {
     expect(result.semanticKind).toBe('asset-pack-written-asset');
     expect(result.need).toBe('Need a review-ready written asset');
     expect(result.writtenAssetType).toBe('design-document-review');
+    expect(result.deliveryMechanism).toBeUndefined();
     expect(result.assetPack).toEqual({
       need: 'Need a review-ready written asset',
       writtenAssetType: 'design-document-review',
+    });
+  });
+
+  it('preserves delivery mechanisms as compatibility mirrors on top of the written asset', () => {
+    const exec = new Execution('pipeline:deliverable');
+    exec.store('execution', 'id', 'exec-2');
+
+    const result = buildDeliverablePostprocessedResult(exec, {
+      success: true,
+      summary: 'Written asset delivered through Jira comment.',
+      writtenAsset: {
+        title: 'Need satisfaction summary',
+      },
+      deliveryMechanism: {
+        title: 'Jira comment delivery',
+        mechanism: 'jira-comment',
+        payload: {
+          jira_comment_payload: {
+            issueKey: 'BIT-26',
+          },
+        },
+      },
+      semanticKind: 'asset-pack-written-asset',
+    } as any);
+
+    expect(result.title).toBe('Need satisfaction summary');
+    expect(result.deliveryMechanism).toEqual({
+      title: 'Jira comment delivery',
+      mechanism: 'jira-comment',
+      payload: {
+        jira_comment_payload: {
+          issueKey: 'BIT-26',
+        },
+      },
     });
   });
 });

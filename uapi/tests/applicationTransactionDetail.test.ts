@@ -6,6 +6,8 @@ import {
   buildApplicationTransactionOverviewMetrics,
   buildApplicationTransactionPersistedActivitySnapshot,
   countApplicationTransactionDeliverableSurfaces,
+  getApplicationTransactionDeliveryMechanism,
+  getApplicationTransactionWrittenAssets,
 } from '@/app/application/application-transaction-detail';
 import type { ApplicationClosureState } from '@/app/application/application-closure-state';
 import type { ApplicationRunDetailSnapshot } from '@/app/application/application-transaction-detail-snapshot';
@@ -32,6 +34,19 @@ const detail: ApplicationRunDetailSnapshot = {
   summary: 'Normalized detail summary.',
   deliverables: {
     summary: 'Deliverable summary.',
+    pullRequest: { title: 'PR', url: 'https://example.com/pr/1', number: 1 },
+    comments: [{ title: 'Comment', url: 'https://example.com/comment/1', number: 1 }],
+  },
+  writtenAssets: {
+    summary: 'Written asset summary.',
+    fileChanges: {
+      edited: 2,
+      created: 1,
+      deleted: 0,
+      paths: ['src/index.ts'],
+    },
+  },
+  deliveryMechanism: {
     pullRequest: { title: 'PR', url: 'https://example.com/pr/1', number: 1 },
     comments: [{ title: 'Comment', url: 'https://example.com/comment/1', number: 1 }],
   },
@@ -248,6 +263,20 @@ const closureState: ApplicationClosureState = {
 describe('application-transaction-detail helpers', () => {
   it('counts transaction deliverable surfaces', () => {
     expect(countApplicationTransactionDeliverableSurfaces(detail)).toBe(2);
+  });
+
+  it('prefers written assets and delivery mechanisms through explicit helpers', () => {
+    expect(getApplicationTransactionWrittenAssets(detail)?.summary).toBe('Written asset summary.');
+    expect(getApplicationTransactionDeliveryMechanism(detail)?.pullRequest?.title).toBe('PR');
+  });
+
+  it('counts delivery surfaces even when compatibility deliverables are absent', () => {
+    expect(
+      countApplicationTransactionDeliverableSurfaces({
+        ...detail,
+        deliverables: null,
+      }),
+    ).toBe(2);
   });
 
   it('builds overview metrics from selected activity and detail', () => {

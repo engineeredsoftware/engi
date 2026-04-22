@@ -36,6 +36,14 @@ const WrittenAssetsSchema = z.object({
   summary: z.string().nullable().optional(),
 });
 
+const DeliveryMechanismSchema = z.object({
+  pullRequest: DeliverableSchema.nullable().optional(),
+  pullRequestReviews: z.array(DeliverableSchema).nullable().optional(),
+  comments: z.array(DeliverableSchema).nullable().optional(),
+  issues: z.array(DeliverableSchema).nullable().optional(),
+  summary: z.string().nullable().optional(),
+});
+
 export const FinalWorkSummaryOutputSchema = z.object({
   deliverables: z.object({
     pullRequest: DeliverableSchema.nullable().optional(),
@@ -46,6 +54,7 @@ export const FinalWorkSummaryOutputSchema = z.object({
     summary: z.string().nullable().optional(),
   }),
   writtenAssets: WrittenAssetsSchema.optional(),
+  deliveryMechanism: DeliveryMechanismSchema.optional(),
   need: z.string().optional(),
   writtenAssetType: z.string().optional(),
   processingStats: z.object({
@@ -91,7 +100,7 @@ const FinalWorkSummaryAgent = factoryAgentWithSingleStep<any, FinalWorkSummaryOu
       (execution as any).prompt?.setSpecificExecution(
         'specific_execution:output:shape',
         (
-          'Output JSON with keys: deliverables{pullRequest,pullRequestReviews,comments,issues,fileChanges,summary}, processingStats{time,tokens?,credits?}, repoSnapshot{org,repo,branch,commit}'
+          'Output JSON with keys: deliverables{pullRequest,pullRequestReviews,comments,issues,fileChanges,summary}, writtenAssets{pullRequest,pullRequestReviews,comments,issues,fileChanges,summary}, deliveryMechanism{pullRequest,pullRequestReviews,comments,issues,summary}, processingStats{time,tokens?,credits?}, repoSnapshot{org,repo,branch,commit}'
         ) as unknown as PromptPart
       );
     } catch {}
@@ -178,11 +187,19 @@ const FinalWorkSummaryAgent = factoryAgentWithSingleStep<any, FinalWorkSummaryOu
     const writtenAssets = {
       ...deliverables,
     };
+    const deliveryMechanism = {
+      pullRequest,
+      pullRequestReviews: pullRequestReviews || undefined,
+      comments: comments || undefined,
+      issues: issues || undefined,
+      summary,
+    };
 
     // Validate and finalize output
     const validated = FinalWorkSummaryOutputSchema.parse({
       deliverables,
       writtenAssets,
+      deliveryMechanism,
       need: need || undefined,
       writtenAssetType: dtype || undefined,
       processingStats,
@@ -195,6 +212,7 @@ const FinalWorkSummaryAgent = factoryAgentWithSingleStep<any, FinalWorkSummaryOu
     try {
       (execution as any).store?.('shipping/final_work_summary', 'deliverables', deliverables as any);
       (execution as any).store?.('shipping/final_work_summary', 'writtenAssets', writtenAssets as any);
+      (execution as any).store?.('shipping/final_work_summary', 'deliveryMechanism', deliveryMechanism as any);
       (execution as any).store?.('shipping/final_work_summary', 'need', need || undefined);
       (execution as any).store?.('shipping/final_work_summary', 'writtenAssetType', dtype || undefined);
       (execution as any).store?.('shipping/final_work_summary', 'processingStats', processingStats as any);

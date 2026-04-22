@@ -79,6 +79,7 @@ export type HeaderFinalWorkSummary = {
   summary?: string | null;
   deliverables?: HeaderDeliverables;
   writtenAssets?: HeaderDeliverables;
+  deliveryMechanism?: HeaderDeliverables;
   need?: string | null;
   writtenAssetType?: string | null;
   assetPack?: {
@@ -157,7 +158,7 @@ export function CompleteHeaderContent({
     );
   });
 
-  const headerTitle = 'Deliverable Ready';
+  const headerTitle = 'Written Asset Ready';
   const digestStatus = processingStats?.digest || null;
 
   return (
@@ -206,7 +207,7 @@ export function CompleteHeaderContent({
                   </React.Fragment>
                 ))
               ) : (
-                <span className="text-gray-400">No deliverables to summarize</span>
+                <span className="text-gray-400">No shipping surfaces to summarize</span>
               )}
               <span>.</span>
             </div>
@@ -366,6 +367,39 @@ export function CompleteHeaderContent({
       </div>
     </div>
   );
+}
+
+export function getHeaderWrittenAssets(
+  finalWorkSummary?: HeaderFinalWorkSummary | null,
+): HeaderDeliverables | null {
+  return finalWorkSummary?.writtenAssets || finalWorkSummary?.deliverables || null;
+}
+
+export function getHeaderDeliveryMechanism(
+  finalWorkSummary?: HeaderFinalWorkSummary | null,
+): HeaderDeliverables | null {
+  return (
+    finalWorkSummary?.deliveryMechanism ||
+    finalWorkSummary?.deliverables ||
+    getHeaderWrittenAssets(finalWorkSummary)
+  );
+}
+
+export function mergeHeaderDeliverables(
+  writtenAssets?: HeaderDeliverables | null,
+  deliveryMechanism?: HeaderDeliverables | null,
+): HeaderDeliverables | null {
+  if (!writtenAssets && !deliveryMechanism) return null;
+
+  return {
+    pullRequest: deliveryMechanism?.pullRequest ?? writtenAssets?.pullRequest ?? null,
+    pullRequestReviews:
+      deliveryMechanism?.pullRequestReviews ?? writtenAssets?.pullRequestReviews ?? null,
+    comments: deliveryMechanism?.comments ?? writtenAssets?.comments ?? null,
+    issues: deliveryMechanism?.issues ?? writtenAssets?.issues ?? null,
+    fileChanges: writtenAssets?.fileChanges ?? deliveryMechanism?.fileChanges ?? null,
+    summary: writtenAssets?.summary ?? deliveryMechanism?.summary ?? null,
+  };
 }
 
 function PostprocessedSummary({ postprocessed }: { postprocessed: any }) {

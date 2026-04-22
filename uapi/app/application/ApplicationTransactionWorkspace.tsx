@@ -86,7 +86,21 @@ function buildMasterDetailSubstructures(
   selectedRun: WorkspaceRun,
   detail: ApplicationRunDetailSnapshot | null,
 ): ApplicationMasterDetailSubstructure[] {
-  const deliverableSurfaceCount = countDeliverableSurfaces(detail?.deliverables) || detail?.historyItemCount || selectedRun.itemCount || 0;
+  const writtenAssets = detail?.writtenAssets || detail?.deliverables || null;
+  const deliveryMechanism = detail?.deliveryMechanism || detail?.deliverables || writtenAssets;
+  const mergedAssetPackSurface = {
+    pullRequest: deliveryMechanism?.pullRequest ?? writtenAssets?.pullRequest ?? null,
+    pullRequestReviews: deliveryMechanism?.pullRequestReviews ?? writtenAssets?.pullRequestReviews ?? null,
+    comments: deliveryMechanism?.comments ?? writtenAssets?.comments ?? null,
+    issues: deliveryMechanism?.issues ?? writtenAssets?.issues ?? null,
+    fileChanges: writtenAssets?.fileChanges ?? deliveryMechanism?.fileChanges ?? null,
+    summary: writtenAssets?.summary ?? deliveryMechanism?.summary ?? null,
+  };
+  const deliverableSurfaceCount =
+    countDeliverableSurfaces(deliveryMechanism || writtenAssets) ||
+    detail?.historyItemCount ||
+    selectedRun.itemCount ||
+    0;
 
   return MASTER_DETAIL_SUBSTRUCTURES.map((substructure) => {
     if (substructure.id === 'transactions') {
@@ -112,21 +126,24 @@ function buildMasterDetailSubstructures(
       return {
         ...substructure,
         summary:
-          (detail as typeof detail & { writtenAssets?: { summary?: string | null } })?.writtenAssets?.summary ||
-          detail?.deliverables?.summary ||
+          mergedAssetPackSurface.summary ||
           'Asset-pack surfaces stay inside the selected Bitcode activity context so you can inspect output without leaving the Bitcode Terminal.',
         metrics: [
           { label: 'Surfaced outputs', value: formatNumber(deliverableSurfaceCount) },
           { label: 'Closure focus', value: detail?.closureFocus || selectedRun.closureFocus || 'materialized output' },
         ],
         rows: [
-          ...(detail?.deliverables?.pullRequest ? [{ label: 'Pull request', value: `#${detail.deliverables.pullRequest.number}` }] : []),
-          ...(detail?.deliverables?.pullRequestReviews
-            ? [{ label: 'Reviews', value: formatNumber(detail.deliverables.pullRequestReviews.length) }]
+          ...(mergedAssetPackSurface.pullRequest
+            ? [{ label: 'Pull request', value: `#${mergedAssetPackSurface.pullRequest.number}` }]
             : []),
-          ...(detail?.deliverables?.issues ? [{ label: 'Issues', value: formatNumber(detail.deliverables.issues.length) }] : []),
-          ...(detail?.deliverables?.comments
-            ? [{ label: 'Comments', value: formatNumber(detail.deliverables.comments.length) }]
+          ...(mergedAssetPackSurface.pullRequestReviews
+            ? [{ label: 'Reviews', value: formatNumber(mergedAssetPackSurface.pullRequestReviews.length) }]
+            : []),
+          ...(mergedAssetPackSurface.issues
+            ? [{ label: 'Issues', value: formatNumber(mergedAssetPackSurface.issues.length) }]
+            : []),
+          ...(mergedAssetPackSurface.comments
+            ? [{ label: 'Comments', value: formatNumber(mergedAssetPackSurface.comments.length) }]
             : []),
         ],
       };

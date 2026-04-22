@@ -43,6 +43,8 @@ type ProcessingStats = {
 export interface ApplicationRunDetailSnapshot {
   summary: string | null;
   deliverables: DeliverablesDoc | null;
+  writtenAssets?: DeliverablesDoc | null;
+  deliveryMechanism?: DeliverablesDoc | null;
   repoSnapshot: RepoSnapshot | null;
   processingStats: ProcessingStats;
   proofStatus: string | null;
@@ -486,6 +488,8 @@ export function buildApplicationRunDetailFromSelectedRun(
   return {
     summary: selectedRun.summary || fallbackDeliverables?.summary || null,
     deliverables: fallbackDeliverables || null,
+    writtenAssets: fallbackDeliverables || null,
+    deliveryMechanism: fallbackDeliverables || null,
     repoSnapshot: parseRepository(selectedRun.repository, selectedRun.branch),
     processingStats: {
       time: null,
@@ -518,9 +522,23 @@ export function normalizeApplicationRunDetailPayload(
   if (!run) return base;
 
   const finalWorkSummary = readFinalWorkSummary(run);
-  const deliverables =
+  const writtenAssets =
     coerceDeliverables(finalWorkSummary?.writtenAssets) ||
+    coerceDeliverables(run.written_assets) ||
     coerceDeliverables(finalWorkSummary?.deliverables) ||
+    base.writtenAssets ||
+    base.deliverables;
+  const deliveryMechanism =
+    coerceDeliverables(finalWorkSummary?.deliveryMechanism) ||
+    coerceDeliverables(run.delivery_mechanism) ||
+    coerceDeliverables(finalWorkSummary?.deliverables) ||
+    base.deliveryMechanism ||
+    base.deliverables ||
+    writtenAssets;
+  const deliverables =
+    coerceDeliverables(finalWorkSummary?.deliverables) ||
+    deliveryMechanism ||
+    writtenAssets ||
     base.deliverables;
   const repoSnapshot =
     coerceRepoSnapshot(run.repo_snapshot) || coerceRepoSnapshot(finalWorkSummary?.repoSnapshot) || base.repoSnapshot;
@@ -544,9 +562,12 @@ export function normalizeApplicationRunDetailPayload(
       coerceString(run.summary) ||
       coerceString(finalWorkSummary?.summary) ||
       base.summary ||
+      writtenAssets?.summary ||
       deliverables?.summary ||
       null,
     deliverables,
+    writtenAssets,
+    deliveryMechanism,
     repoSnapshot,
     processingStats: {
       time: processingStats.time || base.processingStats.time,

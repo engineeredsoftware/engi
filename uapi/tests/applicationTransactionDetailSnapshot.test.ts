@@ -33,6 +33,8 @@ describe('application-transaction-detail-snapshot helpers', () => {
 
     expect(snapshot.summary).toBe('Fallback selected-run summary.');
     expect(snapshot.deliverables?.pullRequest?.title).toBe('Fallback PR');
+    expect(snapshot.writtenAssets?.pullRequest?.title).toBe('Fallback PR');
+    expect(snapshot.deliveryMechanism?.pullRequest?.title).toBe('Fallback PR');
     expect(snapshot.repoSnapshot).toMatchObject({
       org: 'bitcode',
       repo: 'bitcode',
@@ -268,6 +270,8 @@ describe('application-transaction-detail-snapshot helpers', () => {
     expect(snapshot.summary).toBe('Live execution summary.');
     expect(snapshot.deliverables?.summary).toBe('Deliverable bundle summary.');
     expect(snapshot.deliverables?.pullRequest?.title).toBe('Live PR');
+    expect(snapshot.writtenAssets?.summary).toBe('Deliverable bundle summary.');
+    expect(snapshot.deliveryMechanism?.pullRequest?.title).toBe('Live PR');
     expect(snapshot.repoSnapshot?.branch).toBe('main');
     expect(snapshot.processingStats.time).toBe('4m 12s');
     expect(snapshot.processingStats.tokenTotal).toBe(2200);
@@ -357,8 +361,44 @@ describe('application-transaction-detail-snapshot helpers', () => {
     expect(snapshot.summary).toBe('Fallback selected-run summary.');
     expect(snapshot.deliverables?.summary).toBe('Fallback deliverable summary.');
     expect(snapshot.deliverables?.comments?.[0]?.title).toBe('Operator comment');
+    expect(snapshot.writtenAssets?.summary).toBe('Fallback deliverable summary.');
+    expect(snapshot.deliveryMechanism?.comments?.[0]?.title).toBe('Operator comment');
     expect(snapshot.processingStats.time).toBe('2m 08s');
     expect(snapshot.proofStatus).toBe('bounded proof ready');
+  });
+
+  it('separates written assets from delivery mechanisms when both are present', () => {
+    const snapshot = normalizeApplicationRunDetailPayload(
+      {
+        run: {
+          id: 'run-1',
+          items: [],
+          final_work_summary: {
+            summary: 'Semantic shipping summary.',
+            writtenAssets: {
+              summary: 'Stable written asset summary.',
+              fileChanges: {
+                edited: 2,
+                created: 1,
+                deleted: 0,
+                paths: ['src/index.ts'],
+              },
+            },
+            deliveryMechanism: {
+              pullRequest: { title: 'Delivery PR', url: 'https://example.com/pr/3', number: 3 },
+            },
+          },
+        },
+        events: [],
+      },
+      baseRun,
+    );
+
+    expect(snapshot.summary).toBe('Semantic shipping summary.');
+    expect(snapshot.writtenAssets?.summary).toBe('Stable written asset summary.');
+    expect(snapshot.writtenAssets?.fileChanges?.edited).toBe(2);
+    expect(snapshot.deliveryMechanism?.pullRequest?.title).toBe('Delivery PR');
+    expect(snapshot.deliverables?.pullRequest?.title).toBe('Delivery PR');
   });
 
   it('rejects invalid payloads', () => {

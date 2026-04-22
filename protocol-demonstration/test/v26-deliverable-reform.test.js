@@ -66,14 +66,19 @@ const finalSummarySource = readFileSync(
 
 test('V26 deliverable reform supplement requires semantic mirrors beyond retained compatibility naming', () => {
   assert.match(reformSource, /`deliverable` survives only as a retained compatibility path\/name/u);
+  assert.match(reformSource, /live Bitcode meaning is a need-satisfying agentic pipeline run/u);
+  assert.match(reformSource, /shipping phase may then emit `deliverables` only as connected-interface delivery mechanisms/u);
   assert.match(reformSource, /`asset pack`/u);
   assert.match(reformSource, /`written asset`/u);
+  assert.match(reformSource, /workspace-run summaries, mock reread projections, and active UI detail surfaces should prefer semantic `writtenAssets`/u);
   assert.match(reformSource, /execution stores and postprocessed artifacts should mirror compatibility keys with semantic `need`, `writtenAssetType`, and asset-pack-shaped snapshots/u);
   assert.match(reformSource, /shapes live protocol behavior through Bitcode's commercial infrastructure/u);
   assert.match(reformSource, /hydrate a registry-bearing pipeline execution context when callers still enter through a bare `Execution`/u);
 });
 
 test('retained deliverable schemas expose asset-pack written-asset semantic aliases', () => {
+  assert.match(pipelineSchemasSource, /type DeliveryMechanismMeta = DeliverableResultMeta;/u);
+  assert.match(pipelineSchemasSource, /deliveryMechanism\?: DeliveryMechanismMeta;/u);
   assert.match(pipelineSchemasSource, /export type WrittenAssetResultMeta = DeliverableResultMeta;/u);
   assert.match(pipelineSchemasSource, /writtenAssetType\?: DeliverableType;/u);
   assert.match(pipelineSchemasSource, /semanticKind\?: 'asset-pack-written-asset';/u);
@@ -91,13 +96,18 @@ test('deliverable preprocess stores need and written-asset semantic mirrors alon
 });
 
 test('deliverable postprocess and shipping summary carry asset-pack written-asset meaning', () => {
+  assert.match(postprocessSource, /const shippingMechanism = enhanced\.deliveryMechanism \|\| enhanced\.deliverable;/u);
   assert.match(postprocessSource, /enhanced\.semanticKind = 'asset-pack-written-asset';/u);
+  assert.match(postprocessSource, /enhanced\.deliveryMechanism = \{ \.\.\.\(shippingMechanism \|\| \{\}\), prUrl \} as any;/u);
+  assert.match(postprocessSource, /deliveryMechanism: normalized\.deliveryMechanism \|\| normalized\.deliverable,/u);
   assert.match(postprocessSource, /enhanced\.writtenAssetType/u);
   assert.match(postprocessSource, /kind: 'deliverable'/u);
   assert.match(postprocessSource, /semanticKind: 'asset-pack-written-asset'/u);
   assert.match(finalSummarySource, /writtenAssets: WrittenAssetsSchema\.optional\(\)/u);
+  assert.match(finalSummarySource, /deliveryMechanism: DeliveryMechanismSchema\.optional\(\)/u);
   assert.match(finalSummarySource, /lines\.push\('', `## Need`, need\.trim\(\)\);/u);
   assert.match(finalSummarySource, /store\?\.\('shipping\/final_work_summary', 'writtenAssets', writtenAssets as any\);/u);
+  assert.match(finalSummarySource, /store\?\.\('shipping\/final_work_summary', 'deliveryMechanism', deliveryMechanism as any\);/u);
   assert.match(finalSummarySource, /store\?\.\('shipping\/final_work_summary', 'writtenAssetType', dtype \|\| undefined\);/u);
 });
 

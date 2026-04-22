@@ -171,6 +171,20 @@ export default function ApplicationTransactionDetailSurface({
     () => buildApplicationTransactionClosurePayload(selectedRun, detail, closureState, closureFollowThrough),
     [closureFollowThrough, closureState, detail, selectedRun],
   );
+  const writtenAssets = detail?.writtenAssets || detail?.deliverables || null;
+  const deliveryMechanism = detail?.deliveryMechanism || detail?.deliverables || writtenAssets;
+  const mergedAssetPackSurface =
+    writtenAssets || deliveryMechanism
+      ? {
+          pullRequest: deliveryMechanism?.pullRequest ?? writtenAssets?.pullRequest ?? null,
+          pullRequestReviews:
+            deliveryMechanism?.pullRequestReviews ?? writtenAssets?.pullRequestReviews ?? null,
+          comments: deliveryMechanism?.comments ?? writtenAssets?.comments ?? null,
+          issues: deliveryMechanism?.issues ?? writtenAssets?.issues ?? null,
+          fileChanges: writtenAssets?.fileChanges ?? deliveryMechanism?.fileChanges ?? null,
+          summary: writtenAssets?.summary ?? deliveryMechanism?.summary ?? null,
+        }
+      : null;
 
   useEffect(() => {
     setSummaryOpen(true);
@@ -284,7 +298,7 @@ export default function ApplicationTransactionDetailSurface({
             mockMode={usesMockTransactions}
           />
 
-          {showDeliverables && detail.deliverables ? (
+          {showDeliverables && mergedAssetPackSurface ? (
             <section
               id="applicationTransactionDeliverables"
               className="space-y-6 rounded-[1.5rem] border border-white/8 bg-[rgba(5,10,20,0.88)] px-4 py-5"
@@ -293,28 +307,28 @@ export default function ApplicationTransactionDetailSurface({
                 <p className="text-[0.68rem] uppercase tracking-[0.24em] text-emerald-300/75">Asset-pack surfaces</p>
                 <h3 className="mt-2 text-lg font-semibold text-white">Asset packs attached to this activity</h3>
                 <p className="mt-2 text-sm leading-6 text-neutral-300">
-                  Pull requests, reviews, issues, comments, and summary text stay attached to the selected Bitcode activity in
-                  both mock and live posture.
+                  Written-asset summaries and file changes remain Bitcode-owned, while pull requests, reviews, issues, and
+                  comments stay legible as shipping delivery mechanisms attached to the selected activity in both mock and live posture.
                 </p>
               </div>
               <DeliverablesDocPanel
-                deliverables={detail.deliverables}
+                deliverables={mergedAssetPackSurface}
                 summaryOpen={summaryOpen}
                 onToggleSummary={() => setSummaryOpen((current) => !current)}
               />
               <DeliverablesCardsPanel
                 deliverables={{
-                  pullRequest: detail.deliverables.pullRequest ?? null,
-                  pullRequestReviews: detail.deliverables.pullRequestReviews ?? null,
-                  comments: detail.deliverables.comments ?? null,
-                  issues: detail.deliverables.issues ?? null,
+                  pullRequest: mergedAssetPackSurface.pullRequest ?? null,
+                  pullRequestReviews: mergedAssetPackSurface.pullRequestReviews ?? null,
+                  comments: mergedAssetPackSurface.comments ?? null,
+                  issues: mergedAssetPackSurface.issues ?? null,
                 }}
               />
             </section>
           ) : showDeliverables ? (
             <div className="rounded-[1.5rem] border border-white/8 bg-black/20 px-5 py-5 text-sm leading-6 text-neutral-300">
-              No materialized asset-pack surfaces are attached to this Bitcode activity yet. The same activity detail
-              still keeps proofs, history, and closure reading available.
+              No materialized written asset or shipping delivery mechanism is attached to this Bitcode activity yet. The same
+              activity detail still keeps proofs, history, and closure reading available.
             </div>
           ) : null}
 

@@ -5,6 +5,11 @@ import dynamic from 'next/dynamic';
 import { useRouter } from 'next/navigation';
 import { usePipelineExecution } from '@/hooks/usePipelineExecution';
 import BitcodeExecutionStreamPanel from '@/components/base/bitcode/execution/BitcodeExecutionStreamPanel';
+import {
+  getHeaderDeliveryMechanism,
+  getHeaderWrittenAssets,
+  mergeHeaderDeliverables,
+} from '@/app/executions/components/ExecutionsCompleteHeaderContent';
 
 interface ExecutionDetailsViewProps {
   runId?: string;
@@ -53,6 +58,9 @@ export function ExecutionDetailsView({ runId, executionId }: ExecutionDetailsVie
   // Final Work Summary (if present)
   const runOutput = (run as any).output || (run as any).output_data || {};
   const fws = runOutput?.final_work_summary || (run as any).final_work_summary || null;
+  const writtenAssets = getHeaderWrittenAssets(fws);
+  const deliveryMechanism = getHeaderDeliveryMechanism(fws);
+  const mergedAssetPackSurface = mergeHeaderDeliverables(writtenAssets, deliveryMechanism);
   const ReactMarkdown = dynamic(() => import('react-markdown'), { ssr: false });
 
   // Extract execution state and output from events
@@ -130,28 +138,28 @@ export function ExecutionDetailsView({ runId, executionId }: ExecutionDetailsVie
       {fws && (
         <div className={panelClass}>
           <h2 className="text-lg font-semibold mb-3">Summary</h2>
-          {(fws.writtenAssets?.summary || fws.deliverables?.summary) && (
+          {(writtenAssets?.summary || mergedAssetPackSurface?.summary) && (
             <div className="prose prose-invert max-w-none prose-p:my-2 prose-ul:my-2 prose-li:my-1 text-sm">
-              <ReactMarkdown>{String(fws.writtenAssets?.summary || fws.deliverables?.summary)}</ReactMarkdown>
+              <ReactMarkdown>{String(writtenAssets?.summary || mergedAssetPackSurface?.summary)}</ReactMarkdown>
             </div>
           )}
           {/* TL;DR chips */}
           <div className="mt-3 flex flex-wrap gap-2">
-            {fws.deliverables?.pullRequest && (
+            {deliveryMechanism?.pullRequest && (
               <a
-                href={fws.deliverables.pullRequest.url}
+                href={deliveryMechanism.pullRequest.url}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex items-center px-2.5 py-1 rounded-md bg-emerald-500/10 text-emerald-300 border border-emerald-500/20 hover:bg-emerald-500/20 text-xs"
-              >PR: {fws.deliverables.pullRequest.title || 'Open'}</a>
+              >PR: {deliveryMechanism.pullRequest.title || 'Open'}</a>
             )}
-            {(fws.deliverables?.pullRequestReviews || []).map((r: any, i: number) => (
+            {(deliveryMechanism?.pullRequestReviews || []).map((r: any, i: number) => (
               <a key={`review-${i}`} href={r.url} target="_blank" rel="noopener noreferrer" className="inline-flex items-center px-2.5 py-1 rounded-md bg-purple-500/10 text-purple-300 border border-purple-500/20 hover:bg-purple-500/20 text-xs">Review: {r.title || `#${r.number || ''}`}</a>
             ))}
-            {(fws.deliverables?.issues || []).map((it: any, i: number) => (
+            {(deliveryMechanism?.issues || []).map((it: any, i: number) => (
               <a key={`issue-${i}`} href={it.url} target="_blank" rel="noopener noreferrer" className="inline-flex items-center px-2.5 py-1 rounded-md bg-amber-500/10 text-amber-300 border border-amber-500/20 hover:bg-amber-500/20 text-xs">Issue: {it.title || `#${it.number || ''}`}</a>
             ))}
-            {(fws.deliverables?.comments || []).map((c: any, i: number) => (
+            {(deliveryMechanism?.comments || []).map((c: any, i: number) => (
               <a key={`comment-${i}`} href={c.url} target="_blank" rel="noopener noreferrer" className="inline-flex items-center px-2.5 py-1 rounded-md bg-blue-500/10 text-blue-300 border border-blue-500/20 hover:bg-blue-500/20 text-xs">Comment: {c.title || `#${c.number || ''}`}</a>
             ))}
           </div>

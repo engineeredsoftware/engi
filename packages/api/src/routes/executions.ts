@@ -124,6 +124,18 @@ function buildWrittenAssets(row: ExecutionHistoryRow) {
   );
 }
 
+function buildDeliveryMechanism(row: ExecutionHistoryRow) {
+  const output = readOutputRecord(row);
+  const finalWorkSummary = readFinalWorkSummary(row);
+
+  return (
+    asRecord(finalWorkSummary?.deliveryMechanism) ||
+    asRecord(finalWorkSummary?.deliverables) ||
+    asRecord(output?.deliveryMechanism) ||
+    buildWrittenAssets(row)
+  );
+}
+
 function buildNeed(row: ExecutionHistoryRow) {
   const output = readOutputRecord(row);
   const context = readContextRecord(row);
@@ -290,6 +302,7 @@ function buildMetadata(row: ExecutionHistoryRow) {
 function buildNormalizedFinalWorkSummary(row: ExecutionHistoryRow) {
   const finalWorkSummary = readFinalWorkSummary(row);
   const writtenAssets = buildWrittenAssets(row);
+  const deliveryMechanism = buildDeliveryMechanism(row);
   const need = buildNeed(row);
   const writtenAssetType = buildWrittenAssetType(row);
   const assetPack = buildAssetPack(row);
@@ -301,6 +314,7 @@ function buildNormalizedFinalWorkSummary(row: ExecutionHistoryRow) {
   if (
     !finalWorkSummary &&
     !writtenAssets &&
+    !deliveryMechanism &&
     !need &&
     !writtenAssetType &&
     !assetPack &&
@@ -315,6 +329,7 @@ function buildNormalizedFinalWorkSummary(row: ExecutionHistoryRow) {
     ...(finalWorkSummary || {}),
     ...(summary ? { summary } : {}),
     ...(writtenAssets ? { writtenAssets } : {}),
+    ...(deliveryMechanism ? { deliveryMechanism } : {}),
     ...((asRecord(finalWorkSummary?.deliverables) || writtenAssets)
       ? { deliverables: asRecord(finalWorkSummary?.deliverables) || writtenAssets }
       : {}),
@@ -351,6 +366,7 @@ export function normalizeExecutionHistoryRow(row: ExecutionHistoryRow) {
     processing_stats: buildProcessingStats(row),
     repo_snapshot: buildRepoSnapshot(row),
     written_assets: buildWrittenAssets(row),
+    delivery_mechanism: buildDeliveryMechanism(row),
     need: buildNeed(row),
     written_asset_type: buildWrittenAssetType(row),
     asset_pack: buildAssetPack(row),

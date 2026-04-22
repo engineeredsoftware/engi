@@ -38,7 +38,7 @@ export const MOCK_RUNS: WorkspaceRun[] = [
     usdTotal: 6.72,
     averageLatencyMs: 1180,
     proofStatus: 'bounded proof bundle ready',
-    closureFocus: 'branch artifacts + deliverables',
+    closureFocus: 'branch artifacts + shipping delivery mechanisms',
   },
   {
     id: 'mock-run-need-measurement-pass',
@@ -86,7 +86,7 @@ export function isMockWorkspaceRunId(runId?: string | null) {
   return !!runId && MOCK_RUN_IDS.has(runId);
 }
 
-export const MOCK_RUN_DELIVERABLES: Record<string, DeliverablesDoc> = {
+export const MOCK_RUN_ASSET_PACK_SURFACES: Record<string, DeliverablesDoc> = {
   'mock-run-branch-remediation': {
     pullRequest: {
       url: 'https://github.com/bitcode/bitcode/pull/268',
@@ -159,6 +159,8 @@ export const MOCK_RUN_DELIVERABLES: Record<string, DeliverablesDoc> = {
       'Proof-family witnesses are still refreshing. Mock review keeps the Bitcode Terminal legible while the final proof bundle remains in-flight.',
   },
 };
+
+export const MOCK_RUN_DELIVERABLES = MOCK_RUN_ASSET_PACK_SURFACES;
 
 export const MOCK_RUN_ACTIVITY: Record<
   string,

@@ -3,16 +3,18 @@ import { Execution, getValidationReadyToShip } from '@bitcode/execution-generics
 
 export function normalizeDeliverableOutput(output: DeliverableOutput, execution: Execution): DeliverableOutput {
   const enhanced = { ...output };
+  const shippingMechanism = enhanced.deliveryMechanism || enhanced.deliverable;
 
   // 1) Ensure deliverable links are populated if available on execution
   const prUrl =
     enhanced.writtenAsset?.prUrl ||
-    enhanced.deliverable?.prUrl ||
+    shippingMechanism?.prUrl ||
     (execution.get('shipping', 'prUrl') as string) ||
     (execution.get('shipping', 'pullRequestUrl') as string);
   if (prUrl) {
-    enhanced.deliverable = { ...(enhanced.deliverable || {}), prUrl } as any;
-    enhanced.writtenAsset = { ...(enhanced.writtenAsset || enhanced.deliverable || {}), prUrl } as any;
+    enhanced.deliveryMechanism = { ...(shippingMechanism || {}), prUrl } as any;
+    enhanced.deliverable = { ...(enhanced.deliverable || enhanced.deliveryMechanism || {}), prUrl } as any;
+    enhanced.writtenAsset = { ...(enhanced.writtenAsset || enhanced.deliveryMechanism || {}), prUrl } as any;
   }
 
   // 2) Backfill artifacts from execution if missing
@@ -47,6 +49,12 @@ export function normalizeDeliverableOutput(output: DeliverableOutput, execution:
     (execution.get('pipeline', 'writtenAssetType') as any) ||
     (execution.get('pipeline', 'deliverableType') as any) ||
     undefined;
+  if (!enhanced.deliveryMechanism && enhanced.deliverable) {
+    enhanced.deliveryMechanism = { ...enhanced.deliverable };
+  }
+  if (!enhanced.deliverable && enhanced.deliveryMechanism) {
+    enhanced.deliverable = { ...enhanced.deliveryMechanism };
+  }
   if (!enhanced.writtenAsset && enhanced.deliverable) {
     enhanced.writtenAsset = { ...enhanced.deliverable };
   }
@@ -109,11 +117,13 @@ export function buildDeliverablePostprocessedResult(
     semanticKind: 'asset-pack-written-asset',
     title:
       normalized.writtenAsset?.title ||
+      normalized.deliveryMechanism?.title ||
       normalized.deliverable?.title ||
       normalized.summary ||
       'Written Asset',
     repository,
     summary: finalSummary,
+    deliveryMechanism: normalized.deliveryMechanism || normalized.deliverable,
     artifacts,
     deliverableType:
       normalized.deliverableType ||

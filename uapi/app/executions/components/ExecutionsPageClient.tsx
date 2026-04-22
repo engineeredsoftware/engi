@@ -33,7 +33,12 @@ import { templates as defaultTemplates } from '@/config/templates';
 import type { DeliverableTemplates } from '@/types/templates';
 import { useTemplatePreferences } from '@/hooks/useTemplatePreferences';
 import { useDeliverableTemplates } from '@/hooks/useDeliverableTemplates';
-import type { HeaderFinalWorkSummary } from '@/app/executions/components/ExecutionsCompleteHeaderContent';
+import {
+  getHeaderDeliveryMechanism,
+  getHeaderWrittenAssets,
+  mergeHeaderDeliverables,
+  type HeaderFinalWorkSummary,
+} from '@/app/executions/components/ExecutionsCompleteHeaderContent';
 
 const VCSSourceSelectors = React.memo(RawVCSSourceSelectors);
 
@@ -349,8 +354,20 @@ export function ExecutionsClient() {
     latestWorkUpdate,
   ]);
 
-
-  const deliverablesForPanels = historyFWS?.deliverables || headerPostprocessed?.deliverables || null;
+  const writtenAssetsForPanels =
+    getHeaderWrittenAssets(historyFWS) ||
+    headerPostprocessed?.writtenAssets ||
+    headerPostprocessed?.deliverables ||
+    null;
+  const deliveryMechanismForPanels =
+    getHeaderDeliveryMechanism(historyFWS) ||
+    headerPostprocessed?.deliveryMechanism ||
+    headerPostprocessed?.deliverables ||
+    writtenAssetsForPanels;
+  const deliverablesForPanels = mergeHeaderDeliverables(
+    writtenAssetsForPanels,
+    deliveryMechanismForPanels,
+  );
   const runLog = typeof output === 'string' ? output : '';
   const processLogOutputDetails = useMemo(() => {
     const map: Record<string, any> = {};
@@ -524,12 +541,16 @@ export function ExecutionsClient() {
             }
           }}
           deliverables={{
-            pullRequest: undefined,
-            pullRequestReviews: [],
-            issues: [],
-            comments: [],
-            fileChanges: null,
-            summary: historyFWS?.writtenAssets?.summary || historyFWS?.deliverables?.summary || undefined
+            pullRequest: deliveryMechanismForPanels?.pullRequest ?? null,
+            pullRequestReviews: deliveryMechanismForPanels?.pullRequestReviews ?? [],
+            issues: deliveryMechanismForPanels?.issues ?? [],
+            comments: deliveryMechanismForPanels?.comments ?? [],
+            fileChanges: writtenAssetsForPanels?.fileChanges ?? deliveryMechanismForPanels?.fileChanges ?? null,
+            summary:
+              writtenAssetsForPanels?.summary ||
+              historyFWS?.summary ||
+              deliveryMechanismForPanels?.summary ||
+              undefined,
           }}
           processingStats={combinedProcessingStats}
           repoSnapshot={historyFWS?.repoSnapshot || undefined}

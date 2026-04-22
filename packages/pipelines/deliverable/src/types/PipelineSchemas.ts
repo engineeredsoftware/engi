@@ -1,5 +1,11 @@
 import { DeliverableType } from './DeliverableType';
 
+/**
+ * During V26 this retained package/path stays named `deliverable` for compatibility,
+ * but the live Bitcode meaning is a need-satisfying agentic pipeline run whose shipping
+ * phase emits connected-interface delivery mechanisms on top of stable written assets.
+ */
+
 export interface DeliverableArtifacts {
   filesCreated: string[];
   filesModified: string[];
@@ -20,14 +26,18 @@ export interface DeliverableResultMeta {
   branch?: string;
   deploymentUrl?: string;
   title?: string;
+  mechanism?: string;
+  payload?: Record<string, unknown>;
 }
 
+export type DeliveryMechanismMeta = DeliverableResultMeta;
 export type WrittenAssetResultMeta = DeliverableResultMeta;
 
 export interface DeliverableOutput {
   success: boolean;
   summary?: string;
   deliverable?: DeliverableResultMeta;
+  deliveryMechanism?: DeliveryMechanismMeta;
   writtenAsset?: WrittenAssetResultMeta;
   artifacts?: Partial<DeliverableArtifacts>;
   metrics?: Partial<DeliverableMetrics>;
@@ -47,6 +57,7 @@ export interface DeliverablePostprocessed {
   title: string;
   repository?: string;
   summary?: string;
+  deliveryMechanism?: DeliveryMechanismMeta;
   artifacts?: Partial<DeliverableArtifacts> | null;
   deliverableType?: DeliverableType;
   writtenAssetType?: DeliverableType;

@@ -56,6 +56,9 @@ describe('GET /api/executions/history', () => {
             writtenAssets: {
               summary: 'Recorded closure posture.',
             },
+            deliveryMechanism: {
+              comments: [{ title: 'Proof note', url: 'https://example.com/comments/1', number: 1 }],
+            },
             need: 'Refresh fifth-gate proof posture and closure evidence.',
             writtenAssetType: 'proof-refresh',
             assetPack: {
@@ -177,6 +180,9 @@ describe('GET /api/executions/history', () => {
         written_assets: {
           summary: 'Recorded closure posture.',
         },
+        delivery_mechanism: {
+          comments: [{ title: 'Proof note', url: 'https://example.com/comments/1', number: 1 }],
+        },
         need: 'Refresh fifth-gate proof posture and closure evidence.',
         written_asset_type: 'proof-refresh',
         asset_pack: {
@@ -188,6 +194,9 @@ describe('GET /api/executions/history', () => {
           summary: 'Recorded closure posture.',
           writtenAssets: {
             summary: 'Recorded closure posture.',
+          },
+          deliveryMechanism: {
+            comments: [{ title: 'Proof note', url: 'https://example.com/comments/1', number: 1 }],
           },
           need: 'Refresh fifth-gate proof posture and closure evidence.',
           writtenAssetType: 'proof-refresh',
@@ -220,6 +229,9 @@ describe('GET /api/executions/history', () => {
         written_assets: {
           summary: 'Branch artifact persisted.',
         },
+        delivery_mechanism: {
+          summary: 'Branch artifact persisted.',
+        },
         need: 'Materialize a branch-ready asset pack for settlement follow-through.',
         written_asset_type: 'branch-artifact',
         asset_pack: {
@@ -230,6 +242,9 @@ describe('GET /api/executions/history', () => {
         final_work_summary: expect.objectContaining({
           summary: 'Branch artifact persisted.',
           writtenAssets: {
+            summary: 'Branch artifact persisted.',
+          },
+          deliveryMechanism: {
             summary: 'Branch artifact persisted.',
           },
           need: 'Materialize a branch-ready asset pack for settlement follow-through.',
