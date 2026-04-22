@@ -177,6 +177,15 @@ test('operator-facing execution header and retained route teach shipping-mechani
   assert.match(deliverablesRouteSource, /semanticKind: 'asset-pack-written-asset' as const/u);
   assert.match(deliverablesRouteSource, /need: finalWorkSummary\?\.need \|\| preprocessedSnapshot\?\.need \|\| definition_of_done/u);
   assert.match(deliverablesRouteSource, /assetPack: finalWorkSummary\?\.assetPack \|\| preprocessedSnapshot\?\.assetPack \|\| null/u);
+  assert.match(deliverablesRouteSource, /semantic_event_type: 'asset_pack_run_created'/u);
+  assert.match(deliverablesRouteSource, /semantic_event_type: 'asset_pack_run_completed'/u);
+  assert.match(deliverablesRouteSource, /semantic_event_type: 'asset_pack_run_failed'/u);
+  assert.match(deliverablesRouteSource, /semantic_event_type: 'asset_pack_run_cancelled'/u);
+  assert.match(deliverablesRouteSource, /Bitcode Asset-Pack Run Started/u);
+  assert.match(deliverablesRouteSource, /Bitcode Asset-Pack Run Completed/u);
+  assert.match(deliverablesRouteSource, /Bitcode Asset-Pack Run Cancelled/u);
+  assert.match(deliverablesRouteSource, /Your Bitcode asset-pack run #\$\{runId\} has started/u);
+  assert.match(deliverablesRouteSource, /Your Bitcode asset-pack run #\$\{runId\} is complete/u);
   assert.match(deliverablesRouteSource, /buildSemanticCompletionResult/u);
   assert.match(semanticPayloadSource, /semanticKind: 'asset-pack-written-asset'/u);
   assert.match(semanticPayloadSource, /writtenAssets/u);

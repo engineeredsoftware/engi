@@ -686,6 +686,11 @@ export const POST = traceRoute('/deliverables', async (request: NextRequest) => 
     // Switch log file to run-scoped file for pipeline execution
     try { if (process.env.BITCODE_LOG_TO_FILE === '1') reinitLoggerFile(runId, { prefix: 'deliverables-run' }); } catch {}
 
+    const routeSemanticAssetPack = {
+      need: definition_of_done,
+      deliveryTarget: 'pr' as const,
+    };
+
     // Send telemetry
     log('[deliverables] Sending creation telemetry', 'debug', { correlationId, runId });
     await sendServerEvent('deliverable_created', {
@@ -697,7 +702,12 @@ export const POST = traceRoute('/deliverables', async (request: NextRequest) => 
       model_provider: modelProvider,
       model_id: modelId,
       btd_used: cost,
-      iteration_count: iterationCount
+      iteration_count: iterationCount,
+      semantic_event_type: 'asset_pack_run_created',
+      semantic_kind: 'asset-pack-written-asset',
+      need: definition_of_done,
+      asset_pack: routeSemanticAssetPack,
+      delivery_target: routeSemanticAssetPack.deliveryTarget,
     });
 
     // Notifications and emails are gated for GA-1; skip unless explicitly enabled
@@ -705,16 +715,22 @@ export const POST = traceRoute('/deliverables', async (request: NextRequest) => 
       await orm.notifications.create({
         user_id: user.id,
         type: 'pipeline_execution_started',
-        title: `Pipeline Execution Started`,
-        message: `Your pipeline execution (${runId}) has started.`,
-        data: { runId }
+        title: `Bitcode Asset-Pack Run Started`,
+        message: `Your Bitcode asset-pack run (${runId}) has started.`,
+        data: {
+          runId,
+          semanticEventType: 'asset_pack_run_started',
+          semanticKind: 'asset-pack-written-asset',
+          need: definition_of_done,
+          assetPack: routeSemanticAssetPack,
+        }
       });
 
       try {
         const origin = new URL(request.url).origin;
         await sendEmail({
           to: user.email || '',
-          subject: `Your pipeline execution #${runId} has started`,
+          subject: `Your Bitcode asset-pack run #${runId} has started`,
           template: 'deliverable_started',
           vars: {
             name: user.user_metadata?.full_name || '',
@@ -1247,18 +1263,39 @@ export const POST = traceRoute('/deliverables', async (request: NextRequest) => 
 
         // Completion notifications/emails gated by flag
         if (process.env.BITCODE_ENABLE_NOTIFICATIONS === 'true') {
+          const completionAssetPack =
+            finalWorkSummary?.assetPack ||
+            preprocessedSnapshot?.assetPack ||
+            routeSemanticAssetPack;
+          const completionNeed =
+            finalWorkSummary?.need ||
+            preprocessedSnapshot?.need ||
+            definition_of_done;
+          const completionWrittenAssetType =
+            finalWorkSummary?.writtenAssetType ||
+            preprocessedSnapshot?.writtenAssetType ||
+            deliverableType ||
+            null;
+
           await orm.notifications.create({
             user_id: user.id,
             type: 'pipeline_execution_completed',
-            title: `Pipeline Execution Completed`,
-            message: `Your pipeline execution (${runId}) has completed.`,
-            data: { runId }
+            title: `Bitcode Asset-Pack Run Completed`,
+            message: `Your Bitcode asset-pack run (${runId}) has completed.`,
+            data: {
+              runId,
+              semanticEventType: 'asset_pack_run_completed',
+              semanticKind: 'asset-pack-written-asset',
+              need: completionNeed,
+              writtenAssetType: completionWrittenAssetType,
+              assetPack: completionAssetPack,
+            }
           });
 
           const origin = new URL(request.url).origin;
           await sendEmail({
             to: user.email || '',
-            subject: `Your pipeline execution #${runId} is complete`,
+            subject: `Your Bitcode asset-pack run #${runId} is complete`,
             template: 'deliverable_completed',
             vars: {
               name: user.user_metadata?.full_name || '',
@@ -1276,7 +1313,19 @@ export const POST = traceRoute('/deliverables', async (request: NextRequest) => 
           run_id: runId,
           user_id: user.id,
           duration_ms: Date.now() - startTime,
-          success: true
+          success: true,
+          semantic_event_type: 'asset_pack_run_completed',
+          semantic_kind: 'asset-pack-written-asset',
+          need: finalWorkSummary?.need || preprocessedSnapshot?.need || definition_of_done,
+          written_asset_type:
+            finalWorkSummary?.writtenAssetType ||
+            preprocessedSnapshot?.writtenAssetType ||
+            deliverableType ||
+            null,
+          asset_pack:
+            finalWorkSummary?.assetPack ||
+            preprocessedSnapshot?.assetPack ||
+            routeSemanticAssetPack,
         });
 
       } catch (error) {
@@ -1340,7 +1389,12 @@ export const POST = traceRoute('/deliverables', async (request: NextRequest) => 
           user_id: user.id,
           duration_ms: Date.now() - startTime,
           error_code: reportedError.code,
-          error_message: reportedError.message
+          error_message: reportedError.message,
+          semantic_event_type: 'asset_pack_run_failed',
+          semantic_kind: 'asset-pack-written-asset',
+          need: finalWorkSummary?.need || definition_of_done,
+          written_asset_type: finalWorkSummary?.writtenAssetType || null,
+          asset_pack: finalWorkSummary?.assetPack || routeSemanticAssetPack,
         });
 
       } finally {
@@ -1420,9 +1474,13 @@ export const DELETE = traceRoute('/deliverables', async (request: NextRequest) =
       await orm.notifications.create({
         user_id: user.id,
         type: 'pipeline_execution_cancelled',
-        title: `Pipeline Execution Cancelled`,
-        message: `Your pipeline execution (${runId}) has been cancelled.`,
-        data: { runId }
+        title: `Bitcode Asset-Pack Run Cancelled`,
+        message: `Your Bitcode asset-pack run (${runId}) has been cancelled.`,
+        data: {
+          runId,
+          semanticEventType: 'asset_pack_run_cancelled',
+          semanticKind: 'asset-pack-written-asset',
+        }
       });
     }
     
@@ -1430,7 +1488,9 @@ export const DELETE = traceRoute('/deliverables', async (request: NextRequest) =
     await sendServerEvent('deliverable_cancelled', {
       run_id: runId,
       user_id: user.id,
-      correlation_id: correlationId
+      correlation_id: correlationId,
+      semantic_event_type: 'asset_pack_run_cancelled',
+      semantic_kind: 'asset-pack-written-asset',
     });
     
     return createJsonResponse({
