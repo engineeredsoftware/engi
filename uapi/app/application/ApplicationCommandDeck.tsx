@@ -41,11 +41,13 @@ function optionLabel(
 
 interface ApplicationCommandDeckProps {
   onRecordActivity?: (draft: ApplicationActivityRecordDraft) => Promise<unknown>;
+  repositoryAnchor?: string | null;
   transactionReadiness: BitcodeTransactionReadiness;
 }
 
 export default function ApplicationCommandDeck({
   onRecordActivity,
+  repositoryAnchor,
   transactionReadiness,
 }: ApplicationCommandDeckProps) {
   const { snapshot, runControl } = useApplicationShellBridge();
@@ -103,6 +105,7 @@ export default function ApplicationCommandDeck({
           scenarioId: scenario || undefined,
           branchMode: branchMode || undefined,
           principal: projection || undefined,
+          repositoryAnchor: repositoryAnchor || undefined,
         }),
       });
 

@@ -31,11 +31,13 @@ type SubmitState =
 
 interface ApplicationDepositComposerProps {
   onRecordActivity?: (draft: ApplicationActivityRecordDraft) => Promise<unknown>;
+  repositoryAnchor?: string | null;
   transactionReadiness: BitcodeTransactionReadiness;
 }
 
 export default function ApplicationDepositComposer({
   onRecordActivity,
+  repositoryAnchor,
   transactionReadiness,
 }: ApplicationDepositComposerProps) {
   const { snapshot, runControl } = useApplicationShellBridge();
@@ -97,6 +99,7 @@ export default function ApplicationDepositComposer({
           artifactType,
           authSessionId: composer.authSessionId || undefined,
           inventoryEntryIds: composer.selectedInventoryEntryIds,
+          repositoryAnchor: repositoryAnchor || composer.sourceRepo || undefined,
           sourceRepo: sourceRepo || undefined,
           sourceCommit,
           workflowRunId,

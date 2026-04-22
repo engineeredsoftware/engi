@@ -109,7 +109,10 @@ const baseTransactionReadiness = {
 describe('ApplicationDepositComposer', () => {
   it('keeps deposit submission disabled until settlement readiness is complete', () => {
     const { rerender } = render(
-      <ApplicationDepositComposer transactionReadiness={baseTransactionReadiness} />,
+      <ApplicationDepositComposer
+        repositoryAnchor="bitcode/bitcode"
+        transactionReadiness={baseTransactionReadiness}
+      />,
     );
 
     expect(screen.getByRole('button', { name: 'Deposit into Bitcode' })).toBeDisabled();
@@ -119,6 +122,7 @@ describe('ApplicationDepositComposer', () => {
 
     rerender(
       <ApplicationDepositComposer
+        repositoryAnchor="bitcode/bitcode"
         transactionReadiness={{
           ...baseTransactionReadiness,
           status: 'ready',

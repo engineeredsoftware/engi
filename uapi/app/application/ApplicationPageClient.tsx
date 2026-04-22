@@ -418,6 +418,7 @@ export default function ApplicationPageClient() {
                   <div className="space-y-6">
                     <ApplicationCommandDeck
                       onRecordActivity={handleRecordActivity}
+                      repositoryAnchor={repositoryContext?.selectedRepository?.fullName || null}
                       transactionReadiness={transactionReadiness}
                     />
                     <ApplicationLiveSummaryStrip />
@@ -449,6 +450,7 @@ export default function ApplicationPageClient() {
                     <ApplicationSupplySelectionPanel onRecordActivity={handleRecordActivity} />
                     <ApplicationDepositComposer
                       onRecordActivity={handleRecordActivity}
+                      repositoryAnchor={repositoryContext?.selectedRepository?.fullName || null}
                       transactionReadiness={transactionReadiness}
                     />
                   </div>

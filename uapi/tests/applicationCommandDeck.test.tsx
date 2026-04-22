@@ -121,7 +121,10 @@ const baseTransactionReadiness = {
 describe('ApplicationCommandDeck', () => {
   it('keeps branch creation disabled until settlement readiness is complete', () => {
     const { rerender } = render(
-      <ApplicationCommandDeck transactionReadiness={baseTransactionReadiness} />,
+      <ApplicationCommandDeck
+        repositoryAnchor="bitcode/bitcode"
+        transactionReadiness={baseTransactionReadiness}
+      />,
     );
 
     expect(screen.getByRole('button', { name: 'Make Bitcode branch' })).toBeDisabled();
@@ -131,6 +134,7 @@ describe('ApplicationCommandDeck', () => {
 
     rerender(
       <ApplicationCommandDeck
+        repositoryAnchor="bitcode/bitcode"
         transactionReadiness={{
           ...baseTransactionReadiness,
           status: 'ready',
