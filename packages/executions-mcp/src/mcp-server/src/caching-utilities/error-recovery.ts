@@ -66,7 +66,7 @@ export const DEFAULT_RETRY_CONFIGS: Record<string, RetryConfig> = {
  * Classify error type for recovery strategy
  */
 export function classifyError(error: any): ErrorType {
-  const message = error?.message || String(error);
+  const message = String(error?.message || error).toLowerCase();
   const code = error?.code;
   
   // Rate limit errors
@@ -91,8 +91,8 @@ export function classifyError(error: any): ErrorType {
   
   // Network/transient errors
   if (
-    message.includes('ECONNREFUSED') ||
-    message.includes('ETIMEDOUT') ||
+    message.includes('econnrefused') ||
+    message.includes('etimedout') ||
     message.includes('network') ||
     code === 502 ||
     code === 504

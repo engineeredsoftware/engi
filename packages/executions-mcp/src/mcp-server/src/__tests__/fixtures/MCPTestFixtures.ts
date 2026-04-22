@@ -389,6 +389,21 @@ export const CUSTOMER_SCENARIOS = {
     expectedOutcome: 'partial',
     businessValue: 'Enable cost-effective development for budget-conscious users'
   },
+  FREELANCER_LIMITED_CREDITS: {
+    name: 'Freelancer with Limited $BTD',
+    description: 'A freelancer with limited $BTD trying to complete a project',
+    userContext: AUTH_CONTEXTS.LIMITED_USER,
+    inputs: {
+      task: 'Build a complete landing page with contact form and animations',
+      repository: REPOSITORY_CONTEXTS.NEXT_JS_PROJECT,
+      attachments: [ATTACHMENTS.FIGMA_DESIGN],
+      mcpConfig: {
+        emailjs: { serviceId: 'mock-email-service' }
+      }
+    },
+    expectedOutcome: 'partial',
+    businessValue: 'Enable cost-effective development for budget-conscious users'
+  },
   
   SECURITY_AUDIT_SCENARIO: {
     name: 'Security Team Conducting Code Audit',

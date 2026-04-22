@@ -66,6 +66,7 @@ export const ExecutionTaskInput = ({
 
   // Determine mode from explicit type prop (preferred) or fallback to path sniffing
   useEffect(() => {
+    if (type === 'knowledge' || type === 'mcp') {
       setTemplateCategories([
         { id: 'knowledgeExtension', name: 'Knowledge Extension', checked: true },
         { id: 'deliverableFeedback', name: 'Deliverable Feedback', checked: false },

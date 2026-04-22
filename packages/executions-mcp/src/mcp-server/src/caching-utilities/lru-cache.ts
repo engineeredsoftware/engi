@@ -4,8 +4,8 @@
 
 export class LRUCache<K, V> {
   private maxSize: number;
-  private cache: Map<K, V>;
-  private accessOrder: K[];
+  protected cache: Map<K, V>;
+  protected accessOrder: K[];
 
   constructor(maxSize: number = 1000) {
     this.maxSize = maxSize;
@@ -41,6 +41,24 @@ export class LRUCache<K, V> {
     // Add new entry
     this.cache.set(key, value);
     this.accessOrder.push(key);
+  }
+
+  has(key: K): boolean {
+    return this.cache.has(key);
+  }
+
+  delete(key: K): boolean {
+    const deleted = this.cache.delete(key);
+    if (!deleted) {
+      return false;
+    }
+
+    const index = this.accessOrder.indexOf(key);
+    if (index > -1) {
+      this.accessOrder.splice(index, 1);
+    }
+
+    return true;
   }
 
   private updateAccessOrder(key: K): void {
@@ -90,11 +108,25 @@ export class TTLCache<K, V> extends LRUCache<K, ExpiringCacheEntry<V>> {
     if (!entry) return undefined;
     
     if (Date.now() > entry.expires) {
-      super.set(key, undefined as any);
+      this.delete(key);
       return undefined;
     }
     
     return entry.value;
+  }
+
+  has(key: K): boolean {
+    const entry = this.cache.get(key);
+    if (!entry) {
+      return false;
+    }
+
+    if (Date.now() > entry.expires) {
+      this.delete(key);
+      return false;
+    }
+
+    return true;
   }
 
   set(key: K, value: V, customTTL?: number): void {
@@ -108,18 +140,14 @@ export class TTLCache<K, V> extends LRUCache<K, ExpiringCacheEntry<V>> {
     
     // Note: This is not the most efficient but works for our use case
     // In production, consider using a priority queue for expiration times
-    for (const [key, entry] of (this as any).cache) {
+    for (const [key, entry] of this.cache) {
       if (now > entry.expires) {
         keysToDelete.push(key);
       }
     }
     
     keysToDelete.forEach(key => {
-      (this as any).cache.delete(key);
-      const index = (this as any).accessOrder.indexOf(key);
-      if (index > -1) {
-        (this as any).accessOrder.splice(index, 1);
-      }
+      this.delete(key);
     });
   }
 

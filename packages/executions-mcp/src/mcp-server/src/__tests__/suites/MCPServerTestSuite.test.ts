@@ -64,7 +64,7 @@ describe('Bitcode MCP Server Test Suite', () => {
     jest.clearAllMocks();
     
     // Reset mock orchestrator state
-    const { MockOrchestrator } = require('../../../uapi/app/mocking/core/MockOrchestrator');
+    const { MockOrchestrator } = require('../../../../../../../uapi/mocking/core/MockOrchestrator');
     MockOrchestrator.getInstance().reset();
   });
 

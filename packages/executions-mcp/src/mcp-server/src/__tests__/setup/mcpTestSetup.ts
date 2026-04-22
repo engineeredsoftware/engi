@@ -249,8 +249,8 @@ jest.mock('figma-api', () => ({
 }), { virtual: true });
 
 // Mock Supabase
-jest.mock('@supabase/supabase-js', () => ({
-  createClient: jest.fn().mockReturnValue({
+jest.mock('@supabase/supabase-js', () => {
+  const createClient = jest.fn().mockReturnValue({
     from: jest.fn().mockReturnValue({
       select: jest.fn().mockReturnValue({
         eq: jest.fn().mockReturnValue({
@@ -301,8 +301,12 @@ jest.mock('@supabase/supabase-js', () => ({
         error: null
       })
     }
-  }))
-}));
+  });
+
+  return {
+    createClient
+  };
+});
 
 // Mock Bitcode Supabase package root used by retained package callers
 jest.mock('@bitcode/supabase', () => {

@@ -11,7 +11,7 @@ import {
   ErrorRecovery,
   withErrorRecovery,
   DEFAULT_RETRY_CONFIGS
-} from '../../utils/error-recovery';
+} from '../../caching-utilities/error-recovery';
 
 describe('Error Recovery', () => {
   beforeEach(() => {

@@ -3,7 +3,7 @@
  */
 
 import { describe, it, expect, jest, beforeEach, afterEach } from '@jest/globals';
-import { TTLCache } from '../../utils/lru-cache';
+import { TTLCache } from '../../caching-utilities/lru-cache';
 
 describe('TTLCache', () => {
   let cache: TTLCache<string, any>;
@@ -136,8 +136,8 @@ describe('TTLCache', () => {
     
     it('should clean up expired entries periodically', () => {
       cache.set('key1', 'value1', 1000);
-      cache.set('key2', 'value2', 2000);
-      cache.set('key3', 'value3', 3000);
+      cache.set('key2', 'value2', 70000);
+      cache.set('key3', 'value3', 80000);
       
       // Advance time to expire key1
       jest.advanceTimersByTime(1500);
