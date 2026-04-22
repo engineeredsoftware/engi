@@ -126,13 +126,7 @@ export const FloatingOrb = memo(function FloatingOrb({
     >
       <QuantumOrb
         size={size}
-        intensity={orbIntensity}
-        colorScheme="emerald"
-        pulseSpeed="normal"
-        showParticles={true}
-        showGlow={true}
-        animate={true}
-        responsive={true}
+        initialState={orbIntensity === 'awakening' ? 'hover' : 'active'}
         className="conversations-orb"
         data-testid="conversations-orb"
       />

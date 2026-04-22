@@ -12,15 +12,16 @@ export default function MarketingBannerHeightSync({ targetId }: Props) {
   useEffect(() => {
     const el = document.getElementById(targetId);
     if (!el) return;
+    const element = el;
 
     function update() {
-      document.documentElement.style.setProperty('--banner-offset', `${el.getBoundingClientRect().height}px`);
+      document.documentElement.style.setProperty('--banner-offset', `${element.getBoundingClientRect().height}px`);
     }
 
     update();
 
     const ro = new ResizeObserver(() => update());
-    ro.observe(el);
+    ro.observe(element);
 
     return () => ro.disconnect();
   }, [targetId]);

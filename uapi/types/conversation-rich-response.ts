@@ -4,7 +4,16 @@
  * Type definitions for dynamic rich responses rendered inside the Conversations experience.
  */
 
-export interface ConversationRichMessage extends Message {
+export interface BaseConversationRichMessage {
+  id: string;
+  role?: 'user' | 'assistant' | 'system';
+  type?: 'user' | 'agent' | 'divider';
+  content?: string;
+  createdAt?: string;
+  timestamp?: Date;
+}
+
+export interface ConversationRichMessage extends BaseConversationRichMessage {
   /** Rich content attachments - can contain multiple rich responses */
   richResponses?: ConversationRichResponse[];
   

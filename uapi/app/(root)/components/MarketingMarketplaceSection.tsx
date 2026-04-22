@@ -154,7 +154,7 @@ function generateListing(): Listing {
     side,
     price: randomInt(80, 600),
     title: randomElement(titles[asset]),
-    tech: techSets[chosen],
+    tech: [...techSets[chosen]],
     tokens: randomInt(40, 600),
     available: randomInt(1, 20),
     measure: randomInt(60, 99),

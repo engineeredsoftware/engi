@@ -475,7 +475,7 @@ export const ConsciousConversationsOrb = ({
 };
 
 // Memoize the component with custom comparison for performance
-export default memo(ConsciousConversationOrb, (prevProps, nextProps) => {
+export default memo(ConsciousConversationsOrb, (prevProps, nextProps) => {
   // Only re-render if critical props change
   return (
     prevProps.isProcessing === nextProps.isProcessing &&

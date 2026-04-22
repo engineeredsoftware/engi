@@ -1,2 +1,1 @@
-export { default } from '../ConversationsGitHubSourceSelector';
-
+export { default } from '../ConversationsSourcePicker';

@@ -147,7 +147,8 @@ export class ConversationEdgeCaseHandler {
           return { isValid: false, errors };
       }
     } catch (error) {
-      errors.push(`Validation failed: ${error.message}`);
+      const message = error instanceof Error ? error.message : String(error);
+      errors.push(`Validation failed: ${message}`);
       return { isValid: false, errors };
     }
   }

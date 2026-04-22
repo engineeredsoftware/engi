@@ -77,7 +77,7 @@ const INSTRUCTION_CONFIDENCE_LOW = 0.4;
 const markdownComponents = {
 
   // Enhanced table styling
-  table: ({ node, ...props }) => (
+  table: ({ node, ...props }: any) => (
     <div className="overflow-x-auto my-6 rounded-md border border-purple-500/20 bg-black/20">
       <table {...props} className="min-w-full">
         {props.children}
@@ -85,7 +85,7 @@ const markdownComponents = {
     </div>
   ),
   // Enhanced code block styling with syntax highlighting
-  code: ({ node, className, children, ...props }) => {
+  code: ({ node, className, children, ...props }: any) => {
     const match = /language-(\w+)/.exec(className || '');
     return match ? (
       <CodeBlock language={match[1]} className={className}>
@@ -98,7 +98,7 @@ const markdownComponents = {
     );
   },
   // Enhanced blockquote styling
-  blockquote: ({ node, ...props }) => (
+  blockquote: ({ node, ...props }: any) => (
     <motion.blockquote
       variants={lineItemVariants}
       {...props}
@@ -108,7 +108,7 @@ const markdownComponents = {
     </motion.blockquote>
   ),
   // Enhanced image styling
-  img: ({ node, ...props }) => (
+  img: ({ node, ...props }: any) => (
     <div className="my-6 flex justify-center">
       <img
         {...props}
@@ -117,7 +117,7 @@ const markdownComponents = {
     </div>
   ),
   // Enhanced heading styling
-  h1: ({ node, ...props }) => (
+  h1: ({ node, ...props }: any) => (
     <motion.h1
       variants={lineItemVariants}
       {...props}
@@ -126,7 +126,7 @@ const markdownComponents = {
       {props.children}
     </motion.h1>
   ),
-  h2: ({ node, ...props }) => (
+  h2: ({ node, ...props }: any) => (
     <motion.h2
       variants={lineItemVariants}
       {...props}
@@ -136,7 +136,7 @@ const markdownComponents = {
     </motion.h2>
   ),
   // Enhanced list styling
-  ul: ({ node, ...props }) => (
+  ul: ({ node, ...props }: any) => (
     <motion.ul
       variants={lineItemVariants}
       {...props}
@@ -145,7 +145,7 @@ const markdownComponents = {
       {props.children}
     </motion.ul>
   ),
-  ol: ({ node, ...props }) => (
+  ol: ({ node, ...props }: any) => (
     <motion.ol
       variants={lineItemVariants}
       {...props}
@@ -154,7 +154,7 @@ const markdownComponents = {
       {props.children}
     </motion.ol>
   ),
-  li: ({ node, ...props }) => (
+  li: ({ node, ...props }: any) => (
     <motion.li
       variants={lineItemVariants}
       {...props}
@@ -163,7 +163,7 @@ const markdownComponents = {
       {props.children}
     </motion.li>
   ),
-  p: ({ node, ...props }) => (
+  p: ({ node, ...props }: any) => (
     <motion.p
       variants={lineItemVariants}
       {...props}
@@ -1248,7 +1248,7 @@ export default function ExecutionsPageHeader({
                       confidenceLevel={confidenceLevel}
                       isActive={awaitingInstruction}
                       currentPhase={processingStats?.phase || "Implementation"}
-                      currentAgent={processingStats?.agent}
+                      currentAgent={processingStats?.agent || undefined}
                       onTimerExpire={() => {
                         console.log('[Confidence] Timer expired, agent proceeding autonomously');
                       }}

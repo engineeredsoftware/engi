@@ -780,7 +780,9 @@ const Conversation = memo(function Conversation({
         <ConversationsChat
           containerRef={chatContainerRef}
           messages={currentChat?.messages || []}
-          onSend={handleSendMessageCallback}
+          onSend={(message, tokens) => {
+            void handleSendMessageCallback(message, (tokens ?? []) as StreamToken[]);
+          }}
           currentConversationId={currentChat?.id}
           disabled={isProcessing}
           placeholder={isProcessing ? 'Processing...' : 'Type a message or /command'}

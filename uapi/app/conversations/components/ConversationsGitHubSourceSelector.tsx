@@ -428,12 +428,15 @@ export default function ConversationsGitHubSourceSelector({
         // base components
         const ctrl = {
           NoOptionsMessage,
-          Control: ({ children, ...props }) => (
-            <components.Control {...props}>
+          Control: (props: any) => {
+            const { children, ...rest } = props;
+            return (
+            <components.Control {...rest}>
               <SelectIcon isLoading={isLoading} icon={icon} />
               {variant === "icon" ? null : children}
             </components.Control>
-          ),
+            );
+          },
         } as any;
 
         if (variant === "icon") {

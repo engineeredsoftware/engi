@@ -265,7 +265,6 @@ export function createPipelineMetadata(
   return {
     run_id: runId,
     user_id: userId,
-    run_kind: runKind,
     ...additionalMetadata
   };
 }

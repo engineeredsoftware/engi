@@ -20,6 +20,7 @@ interface DeliverableTemplateTextProps {
   onMouseEnter: () => void;
   duration: number;
   delay?: number;
+  width?: number;
 }
 
 export default function DeliverableTemplateText({
@@ -31,6 +32,7 @@ export default function DeliverableTemplateText({
   onMouseEnter,
   duration,
   delay,
+  width,
 }: DeliverableTemplateTextProps) {
   const [showTemplates, setShowTemplates] = useState(false);
   const [hoveredTemplate, setHoveredTemplate] = useState<string | null>(null);
@@ -55,8 +57,8 @@ export default function DeliverableTemplateText({
     ctx.font = `${style.fontWeight} ${style.fontSize} ${style.fontFamily}`;
     let widest = 0;
     possibleStrings.forEach((str) => { widest = Math.max(widest, ctx.measureText(str).width); });
-    setMaxWidth(Math.ceil(widest));
-  }, [possibleStrings]);
+    setMaxWidth(Math.ceil(Math.max(widest, width ?? 0)));
+  }, [possibleStrings, width]);
 
   useEffect(() => {
     if (!showTemplates) return;

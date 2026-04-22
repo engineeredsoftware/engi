@@ -13,7 +13,7 @@ import "@/styles/conversations/conversation-card.css";
 
 interface MessageToken {
   id: string;
-  type: "ai_document" | "deliverable" | "attachment" | "source" | "command";
+  type: "ai_document" | "deliverable" | "attachment" | "source" | "command" | "destination" | "pipeline_run";
   text: string;
   data: any;
 }

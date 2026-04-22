@@ -12,9 +12,10 @@ import glassyInputStyles from '@/components/base/bitcode/inputs/glassy-input.mod
 
 interface Token {
   id: string;
-  type: 'ai_document' | 'deliverable' | 'attachment' | 'source' | 'destination' | 'pipeline_run';
+  type: 'ai_document' | 'deliverable' | 'attachment' | 'source' | 'destination' | 'pipeline_run' | 'command';
   text: string;
   data: any;
+  displayInfo?: string;
 }
 
 interface RichTextInputProps {

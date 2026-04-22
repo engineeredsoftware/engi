@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState, useMemo, useEffect } from 'react';
+import type { Session, User } from '@supabase/supabase-js';
 import { createClient } from '@bitcode/supabase/ssr/client';
 import MarketingSectionWrapper from './MarketingSectionWrapper';
 // Note: bundle presets removed from the UI – only dynamic Flexible pricing remains.
@@ -61,12 +62,12 @@ const MarketingPricingSection: React.FC = () => {
   useEffect(() => {
     // get initial user state
     supabase.auth.getUser()
-      .then(({ data: { user } }) => setIsSignedIn(!!user))
+      .then(({ data: { user } }: { data: { user: User | null } }) => setIsSignedIn(!!user))
       .catch((err: unknown) => console.error('Failed to get auth user:', err));
     // listen to auth state changes
     const {
       data: { subscription },
-    } = supabase.auth.onAuthStateChange((_event, session) => {
+    } = supabase.auth.onAuthStateChange((_event: string, session: Session | null) => {
       setIsSignedIn(!!session?.user);
     });
     return () => {

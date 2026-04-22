@@ -57,7 +57,10 @@ export function buildBitcodeTransactionActiveFilterChips(
     chips.push({
       key: 'ownership',
       label: 'Ownership',
-      value: OWNERSHIP_LABELS[filters.ownership],
+      value:
+        filters.ownership === 'all'
+          ? 'All transactions'
+          : OWNERSHIP_LABELS[filters.ownership],
     });
   }
 
@@ -65,7 +68,10 @@ export function buildBitcodeTransactionActiveFilterChips(
     chips.push({
       key: 'transactionLens',
       label: 'Lens',
-      value: LENS_LABELS[filters.transactionLens],
+      value:
+        filters.transactionLens === 'all'
+          ? 'All activity'
+          : LENS_LABELS[filters.transactionLens],
     });
   }
 

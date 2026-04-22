@@ -108,7 +108,6 @@ export function useChatState(options: UseChatStateOptions = {}) {
   // Create new chat
   const createNewChat = useCallback((title?: string) => {
     const newChat: Chat = {
-      id: `draft-${uuidv4()}`,
       id: `draft-${createChatId()}`,
       title: title || 'New Bitcode Terminal conversation',
       messages: [],

@@ -75,6 +75,7 @@ function buildPayloadShape(
         id: 'remaining-array-items',
         title: `+${arrayPayload.length - maxItems} more items`,
         summary: 'Additional array items are present in the payload.',
+        supportingText: 'type: summary',
       });
     }
 
@@ -109,6 +110,7 @@ function buildPayloadShape(
         id: 'remaining-object-fields',
         title: `+${entries.length - maxItems} more fields`,
         summary: 'Additional fields are present in the payload.',
+        supportingText: 'type: summary',
       });
     }
 

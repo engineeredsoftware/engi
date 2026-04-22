@@ -4,7 +4,7 @@ import React from 'react';
 import ConversationsEnhancedRichTextInput from '../ConversationsEnhancedRichTextInput';
 
 interface ConversationsChatInputProps {
-  onSend: (text: string, tokens?: any[]) => void;
+  onSend: (text: string, tokens?: any[]) => void | Promise<void>;
   disabled?: boolean;
   placeholder?: string;
   currentConversationId?: string;

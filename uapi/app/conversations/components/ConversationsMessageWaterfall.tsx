@@ -44,6 +44,8 @@ const POP_AUDIO_B64 =
 interface Props {
   messages: Message[];
   renderTokenInMessage: (content: string, tokens?: Token[]) => string;
+  embedProcessLogs?: boolean;
+  processLogOutputDetails?: Record<string, unknown>;
   /** When true, auto-scrolls to newest unless user scrolled away */
   enableAutoScroll?: boolean;
   /** Callback to set a flag when user manually scrolls */
@@ -67,6 +69,8 @@ interface Props {
 const ConversationsMessageWaterfall = memo(function ConversationsMessageWaterfall({
   messages,
   renderTokenInMessage,
+  embedProcessLogs: _embedProcessLogs,
+  processLogOutputDetails: _processLogOutputDetails,
   enableAutoScroll = true,
   onUserScroll,
   onLoadMore,

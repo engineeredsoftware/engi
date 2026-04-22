@@ -51,7 +51,6 @@ export default function MarketingAgentNetworkVisualization() {
       if (typeof ctx.setTransform === 'function') {
         // Safari <16 does not support resetTransform but does expose
         // setTransform(1,0,0,1,0,0) which achieves the same effect.
-        // @ts-expect-error – typed signature expects a DOMMatrix in TS 5.4
         ctx.setTransform(1, 0, 0, 1, 0, 0);
       } else if (typeof (ctx as any).resetTransform === 'function') {
         // Fallback for older Chromium-based implementations.

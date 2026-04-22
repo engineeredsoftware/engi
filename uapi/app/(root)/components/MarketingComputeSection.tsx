@@ -343,7 +343,9 @@ export default function MarketingComputeSection() {
         {columns.map((col, i) => (
           <CodeColumn
             key={`fg-${i}`}
-            ref={(el: HTMLPreElement | null) => (columnRefs.current[i] = el)}
+            ref={(el: HTMLPreElement | null) => {
+              columnRefs.current[i] = el;
+            }}
             className={`${styles.codeColumn} font-mono text-[11px] leading-[13px] text-cyan-100/10 whitespace-pre`}
             style={fgStyles[i]}
             col={col}

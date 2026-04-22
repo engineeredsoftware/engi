@@ -225,7 +225,9 @@ const features = [
     ),
   },
   {
-    Icon: ({ className, ...props }) => <ScaleIcon className={"!text-green-primary " + className} {...props} />,
+    Icon: ({ className = "", ...props }: { className?: string }) => (
+      <ScaleIcon className={"!text-green-primary " + className} {...props} />
+    ),
     name: (<span className="text-green-primary">$BTD-Data Marketplace</span>),
     description: (
       <>

@@ -44,14 +44,15 @@ export default function LoginCallbackClient({ code, nextPath = '/' }: LoginCallb
   useEffect(() => {
     const root = containerRef.current;
     if (!root) return;
+    const focusRoot = root;
 
     // Focus the container so screen-readers announce it
-    root.tabIndex = -1;
-    root.focus({ preventScroll: true });
+    focusRoot.tabIndex = -1;
+    focusRoot.focus({ preventScroll: true });
 
     function handleKey(e: KeyboardEvent) {
       if (e.key !== 'Tab') return;
-      const focusable = root.querySelectorAll<HTMLElement>(
+      const focusable = focusRoot.querySelectorAll<HTMLElement>(
         'a[href], button:not([disabled]), textarea, input, select, [tabindex]:not([tabindex="-1"])'
       );
       if (focusable.length === 0) return;
@@ -71,8 +72,8 @@ export default function LoginCallbackClient({ code, nextPath = '/' }: LoginCallb
         }
       }
     }
-    root.addEventListener('keydown', handleKey);
-    return () => root.removeEventListener('keydown', handleKey);
+    focusRoot.addEventListener('keydown', handleKey);
+    return () => focusRoot.removeEventListener('keydown', handleKey);
   }, []);
 
   /* ------------------------------------------------------------------
@@ -137,7 +138,7 @@ export default function LoginCallbackClient({ code, nextPath = '/' }: LoginCallb
 
       // 3️⃣ Event listener – fires when Supabase processes the hash in the
       // background (or when the user gets logged in via another tab).
-      const { data: listener } = supabase.auth.onAuthStateChange((event) => {
+      const { data: listener } = supabase.auth.onAuthStateChange((event: string) => {
         if (event === 'SIGNED_IN') complete();
       });
 

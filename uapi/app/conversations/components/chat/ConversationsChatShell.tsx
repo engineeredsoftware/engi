@@ -6,13 +6,13 @@ import ConversationsChatInput from './ConversationsChatInput';
 
 interface ConversationsChatShellProps {
   messages: any[];
-  onSend: (text: string, tokens?: any[]) => void;
+  onSend: (text: string, tokens?: any[]) => void | Promise<void>;
   disabled?: boolean;
   placeholder?: string;
   currentConversationId?: string;
   className?: string;
   containerRef?: React.Ref<HTMLDivElement>;
-  renderTokenInMessage?: (token: any) => React.ReactNode;
+  renderTokenInMessage?: (content: string, tokens?: any[]) => string;
   processLogOutputDetails?: Record<string, any>;
   onScroll?: (e: React.UIEvent<HTMLDivElement>) => void;
 }
