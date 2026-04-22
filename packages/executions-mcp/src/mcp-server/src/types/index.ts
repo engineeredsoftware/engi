@@ -116,6 +116,16 @@ export interface PipelineConnectionInput {
   path?: string;
 }
 
+export const PipelineConnectionInputSchema = z.object({
+  kind: z.literal('repository_connection'),
+  provider: z.string().describe('Connected repository provider'),
+  connectionId: z.number().optional().describe('Provider connection identifier'),
+  owner: z.string().optional().describe('Repository owner for remote providers'),
+  name: z.string().optional().describe('Repository name or local directory name'),
+  branch: z.string().optional().describe('Repository branch'),
+  path: z.string().optional().describe('Local repository path when applicable'),
+});
+
 /**
  * Inbound interface context for pipeline execution.
  * Attachments and connections are inputs, not outputs.
@@ -240,6 +250,8 @@ export const BasePipelineToolSchema = z.object({
   repository: RepositoryContextSchema,
   attachments: z.array(AttachmentSchema).optional().default([])
     .describe('Optional attachments for multimodal processing'),
+  connections: z.array(PipelineConnectionInputSchema).optional().default([])
+    .describe('Optional repository/provider connections admitted as ingress/input context'),
   mcpConfig: z.record(z.any()).optional().default({})
     .describe('MCP provider configuration for external integrations'),
   streaming: z.boolean().optional().default(true)

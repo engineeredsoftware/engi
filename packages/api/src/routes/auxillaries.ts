@@ -1,4 +1,5 @@
 import { traceRoute } from '@bitcode/observability';
+import { hydrateBitcodeProfile } from '@bitcode/orm/src/profile-contract';
 import { createJsonResponse } from '@bitcode/responses';
 import { supabaseAdmin } from '@bitcode/supabase';
 import { createClient } from '@bitcode/supabase/ssr/server';
@@ -46,7 +47,7 @@ async function getProfileRole(userId: string) {
   const { data: profile, error } = await supabaseAdmin
     .from('user_profiles')
     .select('role')
-    .eq('user_id', userId)
+    .eq('id', userId)
     .maybeSingle();
 
   if (error) {
@@ -73,7 +74,7 @@ export function buildGetAuxillaryOnboardingRoute(options: AuxillaryRouteBuilderO
     const { data: profile } = await supabaseAdmin
       .from('user_profiles')
       .select('onboarded_steps')
-      .eq('user_id', user.id)
+      .eq('id', user.id)
       .maybeSingle();
 
     return createJsonResponse(
@@ -105,7 +106,7 @@ export function buildPostAuxillaryOnboardingRoute(options: AuxillaryRouteBuilder
     const { data: profile } = await supabaseAdmin
       .from('user_profiles')
       .select('onboarded_steps')
-      .eq('user_id', user.id)
+      .eq('id', user.id)
       .maybeSingle();
 
     const completedSteps = parseStoredAuxillarySteps(profile?.onboarded_steps);
@@ -120,7 +121,7 @@ export function buildPostAuxillaryOnboardingRoute(options: AuxillaryRouteBuilder
         onboarded_steps: serializeAuxillarySteps(nextCompletedSteps),
         updated_at: new Date().toISOString(),
       })
-      .eq('user_id', user.id);
+      .eq('id', user.id);
 
     if (updateError) {
       return createJsonResponse({ error: updateError.message }, 500);
@@ -147,7 +148,7 @@ export function buildGetAuxillaryDataRoute(options: AuxillaryRouteBuilderOptions
     }
 
     const [profileResult, githubConnectionResult, balanceResult, preferencesResult] = await Promise.all([
-      supabase.from('user_profiles').select('*').eq('user_id', user.id).maybeSingle(),
+      supabase.from('user_profiles').select('*').eq('id', user.id).maybeSingle(),
       supabase
         .from('user_connections')
         .select('connection_data')
@@ -158,7 +159,7 @@ export function buildGetAuxillaryDataRoute(options: AuxillaryRouteBuilderOptions
       supabase.from('user_model_preferences').select('preferences').eq('user_id', user.id).single(),
     ]);
 
-    const profile = profileResult.data ?? null;
+    const profile = hydrateBitcodeProfile(profileResult.data ?? null);
     const githubConnection = githubConnectionResult.data?.connection_data ?? null;
     const btdBalance = typeof balanceResult.data?.balance === 'number' ? balanceResult.data.balance : 0;
     const modelPreferences = preferencesResult.data?.preferences ?? null;
@@ -233,7 +234,7 @@ export function buildPostAuxillaryBtdRoute(options: AuxillaryRouteBuilderOptions
     await supabaseAdmin
       .from('user_profiles')
       .update({ updated_at: new Date().toISOString() })
-      .eq('user_id', user.id);
+      .eq('id', user.id);
 
     const resolvedBalance =
       typeof data?.balance === 'number' ? data.balance : requestedBtdBalance;

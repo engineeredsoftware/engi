@@ -1,5 +1,9 @@
 import { NextResponse } from 'next/server';
 
+import {
+  hydrateBitcodeProfile,
+  mergeBitcodeProfileSettings,
+} from '@bitcode/orm/src/profile-contract';
 import { supabaseAdmin } from '@bitcode/supabase';
 import { createClient } from '@bitcode/supabase/ssr/server';
 
@@ -19,6 +23,93 @@ async function requireUser() {
   return user;
 }
 
+type WalletBindingStatus = 'pending' | 'bound';
+
+function hasOwn(body: Record<string, unknown>, key: string) {
+  return Object.prototype.hasOwnProperty.call(body, key);
+}
+
+function readStringField(
+  body: Record<string, unknown>,
+  ...keys: string[]
+): { provided: boolean; value: string | null; invalid: boolean } {
+  for (const key of keys) {
+    if (!hasOwn(body, key)) {
+      continue;
+    }
+
+    const value = body[key];
+    if (value === null) {
+      return { provided: true, value: null, invalid: false };
+    }
+
+    if (typeof value !== 'string') {
+      return { provided: true, value: null, invalid: true };
+    }
+
+    const trimmed = value.trim();
+    return { provided: true, value: trimmed || null, invalid: false };
+  }
+
+  return { provided: false, value: null, invalid: false };
+}
+
+function readBooleanField(
+  body: Record<string, unknown>,
+  ...keys: string[]
+): { provided: boolean; value: boolean | null; invalid: boolean } {
+  for (const key of keys) {
+    if (!hasOwn(body, key)) {
+      continue;
+    }
+
+    const value = body[key];
+    if (value === null) {
+      return { provided: true, value: null, invalid: false };
+    }
+
+    if (typeof value !== 'boolean') {
+      return { provided: true, value: null, invalid: true };
+    }
+
+    return { provided: true, value, invalid: false };
+  }
+
+  return { provided: false, value: null, invalid: false };
+}
+
+function readArrayField(
+  body: Record<string, unknown>,
+  ...keys: string[]
+): { provided: boolean; value: unknown[] | null; invalid: boolean } {
+  for (const key of keys) {
+    if (!hasOwn(body, key)) {
+      continue;
+    }
+
+    const value = body[key];
+    if (value === null) {
+      return { provided: true, value: [], invalid: false };
+    }
+
+    if (!Array.isArray(value)) {
+      return { provided: true, value: null, invalid: true };
+    }
+
+    return { provided: true, value, invalid: false };
+  }
+
+  return { provided: false, value: null, invalid: false };
+}
+
+function normalizeWalletBindingStatus(value: string | null): WalletBindingStatus | null {
+  if (value === 'pending' || value === 'bound') {
+    return value;
+  }
+
+  return null;
+}
+
 function normalizeProfilePayload(body: Record<string, unknown>) {
   const username =
     typeof body.username === 'string' && body.username.trim()
@@ -27,20 +118,66 @@ function normalizeProfilePayload(body: Record<string, unknown>) {
         ? body.email.split('@')[0]
         : '';
 
+  const displayNameField = readStringField(body, 'displayName', 'display_name');
+  const bioField = readStringField(body, 'bio');
+  const avatarUrlField = readStringField(body, 'avatarUrl', 'avatar_url');
+  const companyNameField = readStringField(body, 'companyName', 'company_name');
+  const emailField = readStringField(body, 'email');
+  const isVerifiedField = readBooleanField(body, 'isVerified', 'is_verified');
+  const teamMembersField = readArrayField(body, 'teamMembers', 'team_members');
+  const walletAddressField = readStringField(body, 'walletAddress', 'wallet_address');
+  const walletProviderField = readStringField(body, 'walletProvider', 'wallet_provider');
+  const walletStatusField = readStringField(body, 'walletBindingStatus', 'wallet_binding_status');
+  const walletBoundAtField = readStringField(body, 'walletBoundAt', 'wallet_bound_at');
+
+  const invalidField =
+    displayNameField.invalid ||
+    bioField.invalid ||
+    avatarUrlField.invalid ||
+    companyNameField.invalid ||
+    emailField.invalid ||
+    isVerifiedField.invalid ||
+    teamMembersField.invalid ||
+    walletAddressField.invalid ||
+    walletProviderField.invalid ||
+    walletStatusField.invalid ||
+    walletBoundAtField.invalid;
+
+  const walletBindingStatus = normalizeWalletBindingStatus(walletStatusField.value);
+
+  if (walletStatusField.provided && !walletBindingStatus && walletStatusField.value !== null) {
+    return {
+      username,
+      invalid: true,
+      error: 'walletBindingStatus must be "pending" or "bound" when provided',
+    };
+  }
+
+  if (invalidField) {
+    return {
+      username,
+      invalid: true,
+      error: 'Profile fields must use the expected string, boolean, or array shapes',
+    };
+  }
+
   return {
     username,
-    display_name: typeof body.displayName === 'string' ? body.displayName : body.display_name,
-    bio: typeof body.bio === 'string' ? body.bio : null,
-    company_name: typeof body.companyName === 'string' ? body.companyName : body.company_name,
-    avatar_url: typeof body.avatarUrl === 'string' ? body.avatarUrl : body.avatar_url,
-    team_members: Array.isArray(body.teamMembers) ? body.teamMembers : body.team_members,
-    email: typeof body.email === 'string' ? body.email : null,
-    is_verified:
-      typeof body.isVerified === 'boolean'
-        ? body.isVerified
-        : typeof body.is_verified === 'boolean'
-          ? body.is_verified
-          : null,
+    invalid: false,
+    display_name: displayNameField.provided ? displayNameField.value : undefined,
+    bio: bioField.provided ? bioField.value : undefined,
+    avatar_url: avatarUrlField.provided ? avatarUrlField.value : undefined,
+    company_name: companyNameField.provided ? companyNameField.value : undefined,
+    team_members: teamMembersField.provided ? teamMembersField.value : undefined,
+    email: emailField.provided ? emailField.value : undefined,
+    is_verified: isVerifiedField.provided ? isVerifiedField.value : undefined,
+    wallet_address: walletAddressField.provided ? walletAddressField.value : undefined,
+    wallet_provider: walletProviderField.provided ? walletProviderField.value : undefined,
+    wallet_binding_status:
+      walletStatusField.provided || walletAddressField.provided
+        ? walletBindingStatus ?? (walletAddressField.value ? 'bound' : null)
+        : undefined,
+    wallet_bound_at: walletBoundAtField.provided ? walletBoundAtField.value : undefined,
   };
 }
 
@@ -53,14 +190,14 @@ export async function GET(_request: Request) {
   const { data, error } = await supabaseAdmin
     .from('user_profiles')
     .select('*')
-    .eq('user_id', user.id)
+    .eq('id', user.id)
     .maybeSingle();
 
   if (error) {
     return NextResponse.json({ error: error.message }, { status: 500 });
   }
 
-  return NextResponse.json(data);
+  return NextResponse.json(hydrateBitcodeProfile(data));
 }
 
 export async function POST(request: Request) {
@@ -77,17 +214,59 @@ export async function POST(request: Request) {
   }
 
   const normalized = normalizeProfilePayload(body);
+  if (normalized.invalid) {
+    return NextResponse.json({ error: normalized.error }, { status: 400 });
+  }
+
   if (!normalized.username) {
     return NextResponse.json({ error: 'Username is required' }, { status: 400 });
   }
 
+  const { data: existingProfile, error: profileReadError } = await supabaseAdmin
+    .from('user_profiles')
+    .select('*')
+    .eq('id', user.id)
+    .maybeSingle();
+
+  if (profileReadError) {
+    return NextResponse.json({ error: profileReadError.message }, { status: 500 });
+  }
+
+  const settings = mergeBitcodeProfileSettings(existingProfile?.settings, {
+    companyName: normalized.company_name,
+    teamMembers: normalized.team_members,
+    email: normalized.email,
+    isVerified: normalized.is_verified,
+    walletBinding:
+      normalized.wallet_address === undefined &&
+      normalized.wallet_provider === undefined &&
+      normalized.wallet_binding_status === undefined &&
+      normalized.wallet_bound_at === undefined
+        ? undefined
+        : normalized.wallet_address
+          ? {
+              address: normalized.wallet_address,
+              provider: normalized.wallet_provider ?? null,
+              status: normalized.wallet_binding_status ?? 'bound',
+              boundAt: normalized.wallet_bound_at ?? new Date().toISOString(),
+            }
+          : null,
+  });
+
   const { error } = await supabaseAdmin.from('user_profiles').upsert(
     {
-      user_id: user.id,
-      ...normalized,
+      id: user.id,
+      username: normalized.username,
+      display_name: normalized.display_name ?? existingProfile?.display_name ?? null,
+      bio: normalized.bio ?? existingProfile?.bio ?? null,
+      avatar_url: normalized.avatar_url ?? existingProfile?.avatar_url ?? null,
+      role: existingProfile?.role ?? 'user',
+      onboarded_steps: existingProfile?.onboarded_steps ?? null,
+      settings,
       updated_at: new Date().toISOString(),
+      created_at: existingProfile?.created_at ?? new Date().toISOString(),
     },
-    { onConflict: 'user_id' },
+    { onConflict: 'id' },
   );
 
   if (error) {

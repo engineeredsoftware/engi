@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import React, { useEffect, useMemo, useRef, useState } from "react";
+import { readBitcodeWalletBindingFromProfile } from '@bitcode/orm/src/profile-contract';
 
 import { useAuth } from "@/components/base/bitcode/auth/AuthProvider";
 import { useUserData } from "@/hooks/useUserData";
@@ -49,8 +50,9 @@ function formatBtdBalance(btdBalance: number) {
 }
 
 function resolveWalletAddress(profile: Record<string, any> | null, userId: string | undefined) {
-  if (profile?.wallet_address) {
-    return String(profile.wallet_address);
+  const walletBinding = readBitcodeWalletBindingFromProfile(profile);
+  if (walletBinding?.address) {
+    return String(walletBinding.address);
   }
 
   if (!userId) {

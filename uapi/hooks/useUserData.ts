@@ -7,6 +7,7 @@
 import { useState, useEffect, useCallback } from 'react';
 
 import { normalizeAuxillarySteps } from '@/app/auxillaries/components/auxillary-pane-meta';
+import { profileHasWalletBinding } from '@bitcode/orm/src/profile-contract';
 
 export interface AggregatedUserData {
   profile?: any | null;
@@ -140,12 +141,8 @@ export function useUserData() {
   const hasGitHubConnection = Boolean(
     data?.githubConnection || data?.vcsConnections?.some(conn => conn.provider === 'github')
   );
-  // Wallet readiness still arrives through the profile payload while the
-  // storage layer converges on explicitly Bitcode-named wallet tables.
-  const hasWalletConnection = Boolean(
-    data?.profile?.wallet_address
-      || data?.profile?.btc_balance
-      || data?.profile?.provider === 'metamask'
+  const hasWalletConnection = profileHasWalletBinding(
+    (data?.profile as Record<string, unknown> | null | undefined) ?? null,
   );
   const btdBalance = typeof data?.btdBalance === 'number' ? data.btdBalance : hydratedBtdBalance;
 

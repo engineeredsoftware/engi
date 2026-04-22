@@ -963,6 +963,11 @@ Required closure posture:
   `uapi/tests/bitcodeTransactionReadiness.test.ts` and `uapi/tests/applicationFlowGuide.test.ts`
   proof surface:
   fifth-gate transactional-readiness closure so wallet identity in `Profile`, repository scope in `Connects`, and a selected repository anchor in the Bitcode Terminal now resolve through one shared review-only-vs-transactable contract, with deposit/branch/closure-bearing actions failing closed on that contract while read/review continuity remains available
+- `{packages/orm/src/{profile-contract.ts,models/user-profiles.ts},packages/api/src/routes/{auxillaries.ts,user.ts,auth.ts},uapi/app/api/auxillaries/profile/route.ts,uapi/app/auxillaries/components/{AuxillariesSurface.tsx,AuxillariesProfilePane.tsx,AuxillariesBTDPane.tsx},uapi/hooks/useUserData.ts,uapi/tests/{userProfileRoute.test.ts,userDataRoute.test.ts}}`
+  test coverage:
+  `uapi/tests/userProfileRoute.test.ts` and `uapi/tests/userDataRoute.test.ts`
+  proof surface:
+  fifth-gate profile-wallet-binding persistence closure so Profile-owned wallet identity, organization/profile extras, and auxillary reread now persist through `user_profiles.settings.bitcodeProfile`, the active auxillary/profile routes read `user_profiles` by its real `id` key instead of stale `user_id` drift, and hydrated compatibility fields reread that one Exchange-owned settings carrier back into the Bitcode Terminal, `Connects`, and `$BTD`
 - `{uapi/components/base/bitcode/execution/BitcodeInlineExplainer.tsx,uapi/app/application/{application-workspace-explainers.ts,ApplicationExperienceFrame.tsx,ApplicationCommandDeck.tsx,ApplicationRepositoryContextPanel.tsx,ApplicationSupplySelectionPanel.tsx,ApplicationNeedScenarioPanel.tsx,ApplicationDepositComposer.tsx,ApplicationClosureControlDeck.tsx},uapi/tests/{applicationSurfaceCopy.test.ts,bitcodeInlineExplainer.test.tsx}}`
   test coverage:
   `uapi/tests/applicationSurfaceCopy.test.ts` and `uapi/tests/bitcodeInlineExplainer.test.tsx`
@@ -1013,6 +1018,11 @@ Required closure posture:
   filtered `tsc` verification over the active `uapi` program for the MCP interface corridor
   proof surface:
   fifth-gate MCP interface-precision closure so primitive `@bitcode/mcp` utilities stay distinct from the Bitcode Exchange-facing MCP server, the active docs/source carriers teach `Bitcode Protocol` / `Bitcode Exchange` / `Bitcode Terminal` as one canonical hierarchy, third-party MCPs plus repository/provider connections and attachments are modeled as ingress/input context, and retained deliverable-style outputs are normalized toward Bitcode asset-pack meaning instead of remaining generic deliverable egress
+- `{packages/executions-mcp/src/mcp-server/src/{types/index.ts,tools/pipeline-tools.ts,pipeline-execution/adapter.ts,__tests__/unit/pipeline-ingress-contract.test.ts}}`
+  test coverage:
+  `packages/executions-mcp/src/mcp-server/src/__tests__/unit/pipeline-ingress-contract.test.ts`
+  proof surface:
+  fifth-gate Bitcode MCP write-acceptance closure so the live deliverable tool schema admits explicit repository/provider connection ingress, queued and completed MCP responses preserve normalized `interfaceSurface` plus `inputContext`, and output meaning stays asset-pack-normalized at the active tool boundary rather than only in notes or retained execution metadata
 - `{uapi/app/application/{ApplicationCommandDeck.tsx,ApplicationClosureControlDeck.tsx,ApplicationTransactionDetailSurface.tsx,application-activity-history.ts,application-transaction-detail-snapshot.ts,application-transaction-detail.ts},uapi/tests/{applicationActivityHistory.test.ts,applicationTransactionDetailSnapshot.test.ts,applicationTransactionDetail.test.ts}}`
   test coverage:
   `uapi/tests/applicationActivityHistory.test.ts`, `uapi/tests/applicationTransactionDetailSnapshot.test.ts`, and `uapi/tests/applicationTransactionDetail.test.ts`

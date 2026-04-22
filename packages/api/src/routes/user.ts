@@ -12,6 +12,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { createClient } from '@bitcode/supabase/ssr/server';
 import { traceRoute } from '@bitcode/observability';
+import { hydrateBitcodeProfile } from '@bitcode/orm';
 import { log } from '@bitcode/logger';
 import { createAdminClient } from '@bitcode/orm';
 import { sendServerEvent } from '@bitcode/google-analytics';
@@ -44,7 +45,7 @@ export const getProfile = traceRoute('/user/profile', async (request: NextReques
     }
 
     const profile = await userProfiles.getByUserId(user.id);
-    return createJsonResponse(profile || {});
+    return createJsonResponse(hydrateBitcodeProfile(profile as Record<string, unknown> | null) || {});
 
   } catch (error) {
     log('[user/profile] Error', 'error', { requestId, error });
@@ -69,7 +70,20 @@ export const updateProfile = traceRoute('/user/profile', async (request: NextReq
     }
 
     const body = await request.json();
-    const { username, displayName, bio, companyName, avatarUrl, teamMembers, isVerified } = body;
+    const {
+      username,
+      displayName,
+      bio,
+      companyName,
+      avatarUrl,
+      teamMembers,
+      isVerified,
+      email,
+      walletAddress,
+      walletProvider,
+      walletBindingStatus,
+      walletBoundAt,
+    } = body;
 
     // Validate required fields
     if (!username) {
@@ -84,7 +98,13 @@ export const updateProfile = traceRoute('/user/profile', async (request: NextReq
       bio,
       company_name: companyName,
       avatar_url: avatarUrl,
-      team_members: teamMembers
+      team_members: teamMembers,
+      email,
+      isVerified,
+      wallet_address: walletAddress,
+      wallet_provider: walletProvider,
+      wallet_binding_status: walletBindingStatus,
+      wallet_bound_at: walletBoundAt,
     });
 
     // Track update
@@ -92,7 +112,8 @@ export const updateProfile = traceRoute('/user/profile', async (request: NextReq
       user_id: user.id,
       has_company: !!companyName,
       has_bio: !!bio,
-      team_size: teamMembers || 0
+      team_size: Array.isArray(teamMembers) ? teamMembers.length : 0,
+      has_wallet_binding: Boolean(walletAddress),
     });
 
     return createJsonResponse({ success: true }, 201);
@@ -149,8 +170,8 @@ export const addBtdBalance = traceRoute('/user/btd', async (request: NextRequest
     }
 
     // Check admin status
-    const profile = await userProfiles.getByUserId(user.id);
-    if (!profile?.is_admin) {
+    const isAdmin = await userProfiles.isAdmin(user.id);
+    if (!isAdmin) {
       return createJsonResponse({ error: 'Admin access required' }, 403);
     }
 

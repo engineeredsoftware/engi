@@ -39,7 +39,22 @@ describe('GET /api/auxillaries/profile', () => {
   });
 
   it('returns profile data on success', async () => {
-    const profileData = { user_id: 'user-1', username: 'alice' };
+    const profileData = {
+      id: 'user-1',
+      username: 'alice',
+      settings: {
+        bitcodeProfile: {
+          email: 'alice@example.com',
+          isVerified: true,
+          walletBinding: {
+            address: 'bc1qbitcodeoperator',
+            provider: 'manual',
+            status: 'bound',
+            boundAt: '2026-04-22T00:00:00.000Z',
+          },
+        },
+      },
+    };
     const mockSupabase = { auth: { getUser: jest.fn().mockResolvedValue({ data: { user: mockUser }, error: null }) } };
     (createClient as jest.Mock).mockResolvedValue(mockSupabase);
     (supabaseAdmin.from().select().eq().maybeSingle as jest.Mock).mockResolvedValue({ data: profileData, error: null });
@@ -47,7 +62,18 @@ describe('GET /api/auxillaries/profile', () => {
     const response = await GET(request);
     expect(response.status).toBe(200);
     const data = await response.json();
-    expect(data).toEqual(profileData);
+    expect(data).toEqual(
+      expect.objectContaining({
+        id: 'user-1',
+        username: 'alice',
+        email: 'alice@example.com',
+        is_verified: true,
+        wallet_address: 'bc1qbitcodeoperator',
+        wallet_provider: 'manual',
+        wallet_binding_status: 'bound',
+      }),
+    );
+    expect(supabaseAdmin.eq).toHaveBeenCalledWith('id', 'user-1');
   });
 });
 
@@ -85,7 +111,12 @@ describe('POST /api/auxillaries/profile', () => {
 
   it('upserts profile on valid input', async () => {
     mockGetUser.mockResolvedValue({ data: { user: mockUser }, error: null });
-    const builder: any = { upsert: jest.fn().mockReturnThis() };
+    const builder: any = {
+      select: jest.fn().mockReturnThis(),
+      eq: jest.fn().mockReturnThis(),
+      maybeSingle: jest.fn().mockResolvedValue({ data: null, error: null }),
+      upsert: jest.fn().mockReturnThis(),
+    };
     (supabaseAdmin.from as jest.Mock).mockReturnValue(builder);
     const req = new Request('http://localhost/api/auxillaries/profile', { method: 'POST', body: JSON.stringify({ username: 'bob', bio: 'hello' }) });
     const res = await POST(req as any);
@@ -93,6 +124,83 @@ describe('POST /api/auxillaries/profile', () => {
     const body = await res.json();
     expect(body).toEqual({ success: true });
     expect(supabaseAdmin.from).toHaveBeenCalledWith('user_profiles');
-    expect(builder.upsert).toHaveBeenCalledWith(expect.objectContaining({ username: 'bob', bio: 'hello' }), { onConflict: 'user_id' });
+    expect(builder.eq).toHaveBeenCalledWith('id', 'user-1');
+    expect(builder.upsert).toHaveBeenCalledWith(
+      expect.objectContaining({
+        id: 'user-1',
+        username: 'bob',
+        bio: 'hello',
+        settings: expect.objectContaining({
+          bitcodeProfile: expect.objectContaining({
+            companyName: null,
+            teamMembers: [],
+            email: null,
+            isVerified: null,
+            walletBinding: null,
+          }),
+        }),
+      }),
+      { onConflict: 'id' },
+    );
+  });
+
+  it('persists wallet binding inside canonical profile settings', async () => {
+    mockGetUser.mockResolvedValue({ data: { user: mockUser }, error: null });
+    const builder: any = {
+      select: jest.fn().mockReturnThis(),
+      eq: jest.fn().mockReturnThis(),
+      maybeSingle: jest.fn().mockResolvedValue({
+        data: {
+          id: 'user-1',
+          username: 'bob',
+          settings: {},
+        },
+        error: null,
+      }),
+      upsert: jest.fn().mockReturnThis(),
+    };
+    (supabaseAdmin.from as jest.Mock).mockReturnValue(builder);
+
+    const req = new Request('http://localhost/api/auxillaries/profile', {
+      method: 'POST',
+      body: JSON.stringify({
+        username: 'bob',
+        walletAddress: 'bc1qbitcodeoperator',
+        walletProvider: 'manual',
+      }),
+    });
+    const res = await POST(req as any);
+
+    expect(res.status).toBe(201);
+    expect(builder.upsert).toHaveBeenCalledWith(
+      expect.objectContaining({
+        settings: expect.objectContaining({
+          bitcodeProfile: expect.objectContaining({
+            walletBinding: expect.objectContaining({
+              address: 'bc1qbitcodeoperator',
+              provider: 'manual',
+              status: 'bound',
+            }),
+          }),
+        }),
+      }),
+      { onConflict: 'id' },
+    );
+  });
+
+  it('rejects malformed wallet binding status', async () => {
+    mockGetUser.mockResolvedValue({ data: { user: mockUser }, error: null });
+    const req = new Request('http://localhost/api/auxillaries/profile', {
+      method: 'POST',
+      body: JSON.stringify({
+        username: 'bob',
+        walletBindingStatus: 'live',
+      }),
+    });
+
+    const res = await POST(req as any);
+    expect(res.status).toBe(400);
+    const body = await res.json();
+    expect(body.error).toContain('walletBindingStatus');
   });
 });

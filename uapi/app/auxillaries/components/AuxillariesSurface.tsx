@@ -23,6 +23,7 @@ import {
   type ConcreteAuxillaryPane,
   type AuxillaryPane,
 } from './auxillary-pane-meta';
+import { mutateUserData } from '@/hooks/useUserData';
 
 export type { ConcreteAuxillaryPane, AuxillaryPane } from './auxillary-pane-meta';
 
@@ -263,6 +264,8 @@ export default function AuxillariesSurface({
     },
     onSuccess: (updated) => {
       queryClient.setQueryData(['auth', 'profile'], (old: any) => ({ ...old, ...updated }));
+      void mutateUserData();
+      void queryClient.invalidateQueries({ queryKey: ['auth', 'profile'] });
     },
   });
 
@@ -360,6 +363,8 @@ export default function AuxillariesSurface({
             initialAvatarUrl={profileData?.avatar_url}
             initialTeamMembers={profileData?.team_members}
             initialIsVerified={profileData?.is_verified ?? !!sessionUser?.email_confirmed_at}
+            initialWalletAddress={profileData?.wallet_address}
+            initialWalletProvider={profileData?.wallet_provider}
             isOnboardingComplete={isUnlockedSurface}
             onCompletionStatusChange={
               isAuxillariesSurface ? undefined : (isComplete) => handleStepCompletionChange('profile', isComplete)

@@ -37,7 +37,25 @@ describe('GET /api/auxillaries/data', () => {
   it('returns user data with only GitHub connection', async () => {
     mockGetUser.mockResolvedValue({ data: { user: mockUser }, error: null });
     // Mock profile
-    const profileData = { user_id: 'user-1', name: 'Test', onboarded_steps: '["profile","interfaces","btd"]' };
+    const profileData = {
+      id: 'user-1',
+      username: 'test',
+      onboarded_steps: '["profile","interfaces","btd"]',
+      settings: {
+        bitcodeProfile: {
+          companyName: 'Bitcode Labs',
+          teamMembers: [{ id: 'tm-1', displayName: 'Lin Ortega', role: 'admin' }],
+          email: 'test@example.com',
+          isVerified: true,
+          walletBinding: {
+            address: 'bc1qbitcodeoperator',
+            provider: 'manual',
+            status: 'bound',
+            boundAt: '2026-04-22T00:00:00.000Z',
+          },
+        },
+      },
+    };
     const profileBuilder: any = {
       select: jest.fn().mockReturnThis(), eq: jest.fn().mockReturnThis(), maybeSingle: jest.fn().mockResolvedValue({ data: profileData, error: null })
     };
@@ -69,7 +87,17 @@ describe('GET /api/auxillaries/data', () => {
     expect(res.status).toBe(200);
     const body = await res.json();
     expect(body).toEqual({
-      profile: profileData,
+      profile: expect.objectContaining({
+        id: 'user-1',
+        username: 'test',
+        company_name: 'Bitcode Labs',
+        team_members: [{ id: 'tm-1', displayName: 'Lin Ortega', role: 'admin' }],
+        email: 'test@example.com',
+        is_verified: true,
+        wallet_address: 'bc1qbitcodeoperator',
+        wallet_provider: 'manual',
+        wallet_binding_status: 'bound',
+      }),
       githubConnection: connectionData,
       btdBalance: 50,
       modelPreferences: prefData.preferences,
@@ -78,7 +106,7 @@ describe('GET /api/auxillaries/data', () => {
       isOnboardingComplete: false,
     });
     // Ensure queries were scoped correctly
-    expect(profileBuilder.eq).toHaveBeenCalledWith('user_id', 'user-1');
+    expect(profileBuilder.eq).toHaveBeenCalledWith('id', 'user-1');
     expect(connectionBuilder.eq).toHaveBeenCalledWith('provider', 'github');
   });
 });

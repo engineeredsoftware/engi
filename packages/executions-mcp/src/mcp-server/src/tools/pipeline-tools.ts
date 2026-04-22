@@ -21,6 +21,7 @@ import {
   monitorPipelineExecution, 
   cancelPipelineExecution,
   getPipelineMetrics,
+  buildPipelineInputContext,
   type PipelineJobOptions,
   type PipelineExecutionResult
 } from '../pipeline-execution/adapter';
@@ -64,6 +65,22 @@ async function estimatePipelineBtd(
   return Math.ceil(estimatedBtd * 1.2);
 }
 
+function normalizeAssetPacks(result: any): any[] {
+  if (!result || typeof result !== 'object') {
+    return [];
+  }
+
+  if (Array.isArray(result.assetPacks)) {
+    return result.assetPacks;
+  }
+
+  if (Array.isArray(result.deliverables)) {
+    return result.deliverables;
+  }
+
+  return [];
+}
+
 /**
  * Execute pipeline with comprehensive error handling and monitoring
  */
@@ -73,6 +90,13 @@ async function executePipelineWithMonitoring(
   pipelineType: PipelineName
 ): Promise<any> {
   const startTime = Date.now();
+  const interfaceSurface = 'bitcode_mcp' as const;
+  const inputContext = buildPipelineInputContext(interfaceSurface, {
+    repository: params.repository,
+    attachments: params.attachments,
+    connections: params.connections,
+    mcpConfig: params.mcpConfig,
+  });
 
   // Estimate BTD
   const estimatedBtd = await estimatePipelineBtd(
@@ -99,6 +123,7 @@ async function executePipelineWithMonitoring(
         subtype: params.subtype,
         repository: params.repository,
         attachments: params.attachments,
+        connections: params.connections,
         streaming: params.streaming
       },
       userId: context.userId,
@@ -108,7 +133,9 @@ async function executePipelineWithMonitoring(
       priority: params.priority || 'normal',
       metadata: {
         source: 'mcp',
-        mcpToolName: `bitcode://pipelines/${pipelineType}/create`
+        mcpToolName: `bitcode://pipelines/${pipelineType}/create`,
+        interfaceSurface,
+        outputMeaning: 'asset_packs',
       }
     };
 
@@ -121,6 +148,9 @@ async function executePipelineWithMonitoring(
         runId,
         deliverableId,
         status: 'queued',
+        interfaceSurface,
+        inputContext,
+        outputMeaning: 'asset_packs',
         message: 'Pipeline job queued for execution. Monitor using the runId.',
         streaming: true,
         monitoringUrl: `/api/pipelines/runs/${runId}`
@@ -151,11 +181,18 @@ async function executePipelineWithMonitoring(
       btdUsed: executionResult.btdUsed
     });
 
+    const assetPacks = normalizeAssetPacks(executionResult.result);
+
     return {
       runId,
       deliverableId,
       status: executionResult.status,
+      interfaceSurface,
+      inputContext,
+      outputMeaning: 'asset_packs',
       result: executionResult.result,
+      assetPacks,
+      deliverables: assetPacks,
       error: executionResult.error,
       btdUsed: executionResult.btdUsed,
       startedAt: executionResult.startedAt,
@@ -175,13 +212,6 @@ async function executePipelineWithMonitoring(
       error: error instanceof Error ? error.message : String(error),
       userId: context.userId,
       organizationId: context.organizationId
-    });
-
-    logger.error('Pipeline execution failed', {
-      pipelineId,
-      pipeline: pipelineType,
-      error: error instanceof Error ? error.message : String(error),
-      duration
     });
 
     logger.error('Pipeline execution failed', {

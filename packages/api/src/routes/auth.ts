@@ -260,7 +260,19 @@ export const metamaskCallback = traceRoute('/auth/metamask/callback', async (req
       await userProfiles.upsert({
         user_id: userId,
         username: `metamask_${address.substring(0, 8)}`,
-        display_name: `MetaMask User`
+        display_name: `MetaMask User`,
+        wallet_address: address,
+        wallet_provider: 'metamask',
+        wallet_binding_status: 'bound',
+      });
+    }
+
+    if (existingConnection) {
+      await userProfiles.upsert({
+        user_id: userId,
+        wallet_address: address,
+        wallet_provider: 'metamask',
+        wallet_binding_status: 'bound',
       });
     }
 

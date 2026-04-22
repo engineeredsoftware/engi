@@ -30,6 +30,7 @@ import type {
   AssetPackResult,
   Attachment,
   InterfaceIngressSurface,
+  PipelineConnectionInput,
   PipelineInputContext,
   PipelineName,
   RepositoryContext
@@ -68,7 +69,22 @@ function asRecord(value: unknown): Record<string, any> | null {
     : null;
 }
 
-function buildPipelineInputContext(
+function sameConnection(
+  left: PipelineConnectionInput,
+  right: PipelineConnectionInput
+): boolean {
+  return (
+    left.kind === right.kind &&
+    left.provider === right.provider &&
+    left.connectionId === right.connectionId &&
+    left.owner === right.owner &&
+    left.name === right.name &&
+    left.branch === right.branch &&
+    left.path === right.path
+  );
+}
+
+export function buildPipelineInputContext(
   ingress: InterfaceIngressSurface,
   config: Record<string, any>
 ): PipelineInputContext {
@@ -76,7 +92,13 @@ function buildPipelineInputContext(
   const attachments = Array.isArray(config.attachments)
     ? (config.attachments as Attachment[])
     : [];
-  const connections = repository
+  const explicitConnections = Array.isArray(config.connections)
+    ? (config.connections as PipelineConnectionInput[]).filter((connection) => {
+        const record = asRecord(connection);
+        return record?.kind === 'repository_connection' && typeof record?.provider === 'string';
+      })
+    : [];
+  const repositoryConnection = repository
     ? [{
         kind: 'repository_connection' as const,
         provider: repository.provider || 'github',
@@ -87,6 +109,13 @@ function buildPipelineInputContext(
         path: repository.path,
       }]
     : [];
+  const connections = [...explicitConnections];
+
+  for (const connection of repositoryConnection) {
+    if (!connections.some((existing) => sameConnection(existing, connection))) {
+      connections.push(connection);
+    }
+  }
 
   return {
     ingress,
@@ -471,7 +500,7 @@ export async function cancelPipelineExecution(
  */
 export async function getPipelineMetrics(
   organizationId: string,
-  pipeline?: Pipeline,
+  pipeline?: PipelineName,
   days: number = 30
 ): Promise<{
   totalRuns: number;

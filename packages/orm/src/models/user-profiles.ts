@@ -10,6 +10,7 @@
 
 import { BaseModel } from './base';
 import { Tables, Insertable, Updatable } from '../types/database';
+import { mergeBitcodeProfileSettings } from '../profile-contract';
 
 export type UserProfile = Tables<'user_profiles'>;
 export type UserProfileInsert = Insertable<'user_profiles'>;
@@ -44,8 +45,17 @@ export class UserProfilesModel extends BaseModel<'user_profiles'> {
       avatarUrl?: string;
       company_name?: string;
       companyName?: string;
-      team_members?: number;
-      teamMembers?: number;
+      team_members?: unknown[];
+      teamMembers?: unknown[];
+      email?: string | null;
+      wallet_address?: string | null;
+      walletAddress?: string | null;
+      wallet_provider?: string | null;
+      walletProvider?: string | null;
+      wallet_binding_status?: 'pending' | 'bound' | null;
+      walletBindingStatus?: 'pending' | 'bound' | null;
+      wallet_bound_at?: string | null;
+      walletBoundAt?: string | null;
       isVerified?: boolean;
       is_admin?: boolean;
       [key: string]: unknown;
@@ -53,14 +63,45 @@ export class UserProfilesModel extends BaseModel<'user_profiles'> {
   ): Promise<UserProfile> {
     const id = String(profile.id ?? profile.user_id);
     const existing = await this.getByUserId(id);
-    const nextSettings = {
-      ...((existing?.settings as Record<string, unknown> | null) || {}),
-      ...(profile.settings as Record<string, unknown> | undefined),
-      companyName: profile.company_name ?? profile.companyName ?? (existing?.settings as any)?.companyName,
-      teamMembers: profile.team_members ?? profile.teamMembers ?? (existing?.settings as any)?.teamMembers,
-      isVerified: profile.isVerified ?? (existing?.settings as any)?.isVerified,
-      is_admin: profile.is_admin ?? (existing?.settings as any)?.is_admin
-    };
+    const walletAddress =
+      (profile.wallet_address as string | null | undefined) ??
+      (profile.walletAddress as string | null | undefined);
+    const walletProvider =
+      (profile.wallet_provider as string | null | undefined) ??
+      (profile.walletProvider as string | null | undefined);
+    const walletBindingStatus =
+      (profile.wallet_binding_status as 'pending' | 'bound' | null | undefined) ??
+      (profile.walletBindingStatus as 'pending' | 'bound' | null | undefined);
+    const walletBoundAt =
+      (profile.wallet_bound_at as string | null | undefined) ??
+      (profile.walletBoundAt as string | null | undefined);
+    const nextSettings = mergeBitcodeProfileSettings(
+      {
+        ...((existing?.settings as Record<string, unknown> | null) || {}),
+        ...(profile.settings as Record<string, unknown> | undefined),
+        is_admin: profile.is_admin ?? (existing?.settings as Record<string, unknown> | undefined)?.is_admin,
+      },
+      {
+        companyName: profile.company_name ?? profile.companyName,
+        teamMembers: profile.team_members ?? profile.teamMembers,
+        email: (profile.email as string | null | undefined) ?? undefined,
+        isVerified: profile.isVerified,
+        walletBinding:
+          walletAddress === undefined &&
+          walletProvider === undefined &&
+          walletBindingStatus === undefined &&
+          walletBoundAt === undefined
+            ? undefined
+            : walletAddress
+              ? {
+                  address: walletAddress,
+                  provider: walletProvider ?? null,
+                  status: walletBindingStatus ?? 'bound',
+                  boundAt: walletBoundAt ?? new Date().toISOString(),
+                }
+              : null,
+      },
+    );
 
     const payload: UserProfileUpdate & UserProfileInsert = {
       id,

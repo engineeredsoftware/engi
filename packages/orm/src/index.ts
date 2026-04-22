@@ -81,6 +81,19 @@ export type Notification = Tables<'notifications'>;
 export type Conversation = Tables<'conversations'>;
 export type Message = Tables<'messages'>;
 export type MessageAttachment = Tables<'message_attachments'>;
+export {
+  hydrateBitcodeProfile,
+  mergeBitcodeProfileSettings,
+  profileHasWalletBinding,
+  readBitcodeProfileSettings,
+  readBitcodeWalletBindingFromProfile,
+} from './profile-contract';
+export type {
+  BitcodeProfileSettings,
+  BitcodeWalletBinding,
+  BitcodeWalletBindingStatus,
+  HydratedBitcodeProfileFields,
+} from './profile-contract';
 
 // Deliverables Pipeline structured streaming tables (GA-1)
 // Structured persistence (Execution hierarchy)

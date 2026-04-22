@@ -1,0 +1,190 @@
+type UnknownRecord = Record<string, unknown>;
+
+export type BitcodeWalletBindingStatus = 'pending' | 'bound';
+
+export interface BitcodeWalletBinding {
+  address: string | null;
+  provider: string | null;
+  status: BitcodeWalletBindingStatus | null;
+  boundAt: string | null;
+}
+
+export interface BitcodeProfileSettings {
+  companyName: string | null;
+  teamMembers: unknown[];
+  email: string | null;
+  isVerified: boolean | null;
+  walletBinding: BitcodeWalletBinding | null;
+}
+
+export interface HydratedBitcodeProfileFields {
+  company_name: string | null;
+  team_members: unknown[];
+  email: string | null;
+  is_verified: boolean | null;
+  wallet_address: string | null;
+  wallet_provider: string | null;
+  wallet_binding_status: BitcodeWalletBindingStatus | null;
+  wallet_bound_at: string | null;
+  wallet_binding: BitcodeWalletBinding | null;
+}
+
+function asRecord(value: unknown): UnknownRecord | null {
+  if (!value || typeof value !== 'object' || Array.isArray(value)) {
+    return null;
+  }
+
+  return value as UnknownRecord;
+}
+
+function normalizeString(value: unknown): string | null {
+  if (typeof value !== 'string') {
+    return null;
+  }
+
+  const trimmed = value.trim();
+  return trimmed ? trimmed : null;
+}
+
+function normalizeBoolean(value: unknown): boolean | null {
+  return typeof value === 'boolean' ? value : null;
+}
+
+function normalizeTeamMembers(value: unknown): unknown[] {
+  return Array.isArray(value) ? value : [];
+}
+
+function normalizeWalletBinding(
+  value: unknown,
+  fallbackRecord: UnknownRecord | null,
+): BitcodeWalletBinding | null {
+  const bindingRecord = asRecord(value);
+  const address =
+    normalizeString(bindingRecord?.address) ??
+    normalizeString(bindingRecord?.wallet_address) ??
+    normalizeString(fallbackRecord?.wallet_address) ??
+    normalizeString(fallbackRecord?.walletAddress);
+  const provider =
+    normalizeString(bindingRecord?.provider) ??
+    normalizeString(bindingRecord?.wallet_provider) ??
+    normalizeString(fallbackRecord?.wallet_provider) ??
+    normalizeString(fallbackRecord?.walletProvider);
+  const rawStatus =
+    normalizeString(bindingRecord?.status) ??
+    normalizeString(bindingRecord?.wallet_binding_status) ??
+    normalizeString(fallbackRecord?.wallet_binding_status) ??
+    normalizeString(fallbackRecord?.walletBindingStatus);
+  const status: BitcodeWalletBindingStatus | null =
+    rawStatus === 'pending' || rawStatus === 'bound'
+      ? rawStatus
+      : address
+        ? 'bound'
+        : null;
+  const boundAt =
+    normalizeString(bindingRecord?.boundAt) ??
+    normalizeString(bindingRecord?.bound_at) ??
+    normalizeString(fallbackRecord?.wallet_bound_at) ??
+    normalizeString(fallbackRecord?.walletBoundAt);
+
+  if (!address && !provider && !status && !boundAt) {
+    return null;
+  }
+
+  return {
+    address,
+    provider,
+    status,
+    boundAt,
+  };
+}
+
+export function readBitcodeProfileSettings(settings: unknown): BitcodeProfileSettings {
+  const settingsRecord = asRecord(settings);
+  const bitcodeProfile = asRecord(settingsRecord?.bitcodeProfile);
+  const source = bitcodeProfile ?? settingsRecord ?? {};
+  const walletBinding = normalizeWalletBinding(source.walletBinding, settingsRecord);
+
+  return {
+    companyName:
+      normalizeString(source.companyName) ??
+      normalizeString(source.company_name) ??
+      normalizeString(settingsRecord?.companyName) ??
+      normalizeString(settingsRecord?.company_name),
+    teamMembers: normalizeTeamMembers(
+      source.teamMembers ?? source.team_members ?? settingsRecord?.teamMembers ?? settingsRecord?.team_members,
+    ),
+    email:
+      normalizeString(source.email) ??
+      normalizeString(settingsRecord?.email),
+    isVerified:
+      normalizeBoolean(source.isVerified) ??
+      normalizeBoolean(source.is_verified) ??
+      normalizeBoolean(settingsRecord?.isVerified) ??
+      normalizeBoolean(settingsRecord?.is_verified),
+    walletBinding,
+  };
+}
+
+export function mergeBitcodeProfileSettings(
+  existingSettings: unknown,
+  patch: Partial<BitcodeProfileSettings>,
+): UnknownRecord {
+  const existingRecord = asRecord(existingSettings) ?? {};
+  const existing = readBitcodeProfileSettings(existingSettings);
+  const nextWalletBinding =
+    patch.walletBinding === undefined ? existing.walletBinding : patch.walletBinding;
+
+  return {
+    ...existingRecord,
+    bitcodeProfile: {
+      companyName: patch.companyName === undefined ? existing.companyName : patch.companyName,
+      teamMembers: patch.teamMembers === undefined ? existing.teamMembers : patch.teamMembers,
+      email: patch.email === undefined ? existing.email : patch.email,
+      isVerified: patch.isVerified === undefined ? existing.isVerified : patch.isVerified,
+      walletBinding: nextWalletBinding,
+    },
+  };
+}
+
+export function hydrateBitcodeProfile<T extends { settings?: unknown } & UnknownRecord>(
+  profile: T | null,
+): (T & HydratedBitcodeProfileFields) | null {
+  if (!profile) {
+    return null;
+  }
+
+  const settings = readBitcodeProfileSettings(profile.settings);
+
+  return {
+    ...profile,
+    company_name: settings.companyName,
+    team_members: settings.teamMembers,
+    email: settings.email,
+    is_verified: settings.isVerified,
+    wallet_address: settings.walletBinding?.address ?? null,
+    wallet_provider: settings.walletBinding?.provider ?? null,
+    wallet_binding_status: settings.walletBinding?.status ?? null,
+    wallet_bound_at: settings.walletBinding?.boundAt ?? null,
+    wallet_binding: settings.walletBinding,
+  };
+}
+
+export function readBitcodeWalletBindingFromProfile(
+  profile: ({ settings?: unknown } & UnknownRecord) | null | undefined,
+): BitcodeWalletBinding | null {
+  if (!profile) {
+    return null;
+  }
+
+  if (asRecord(profile.wallet_binding)) {
+    return normalizeWalletBinding(profile.wallet_binding, asRecord(profile)) ?? null;
+  }
+
+  return readBitcodeProfileSettings(profile.settings).walletBinding;
+}
+
+export function profileHasWalletBinding(
+  profile: ({ settings?: unknown } & UnknownRecord) | null | undefined,
+): boolean {
+  return Boolean(readBitcodeWalletBindingFromProfile(profile)?.address);
+}

@@ -74,6 +74,8 @@ export interface AuxillariesProfilePaneProps {
   initialBio?: string;
   initialCompanyName?: string;
   initialAvatarUrl?: string;
+  initialWalletAddress?: string;
+  initialWalletProvider?: string;
   /** Initial email for account creation and verification */
   initialEmail?: string;
   /** Initial email verification status */
@@ -91,6 +93,8 @@ export default function AuxillariesProfilePane({ onSave,
   initialBio = '',
   initialCompanyName = '',
   initialAvatarUrl = '',
+  initialWalletAddress = '',
+  initialWalletProvider = '',
   initialEmail = '',
   initialIsVerified = false,
   isOnboardingComplete = false,
@@ -271,8 +275,17 @@ export default function AuxillariesProfilePane({ onSave,
   const [bio, setBio] = useState(initialBio);
   const [companyName, setCompanyName] = useState(initialCompanyName); // Add company name field
   const [avatarUrl, setAvatarUrl] = useState(initialAvatarUrl);
+  const [walletAddress, setWalletAddress] = useState(initialWalletAddress);
+  const [walletProvider, setWalletProvider] = useState(
+    initialWalletProvider || (initialWalletAddress ? 'manual' : ''),
+  );
   const [selectedAvatar, setSelectedAvatar] = useState(0);
   const [showAvatarSelector, setShowAvatarSelector] = useState(false);
+
+  useEffect(() => {
+    setWalletAddress(initialWalletAddress);
+    setWalletProvider(initialWalletProvider || (initialWalletAddress ? 'manual' : ''));
+  }, [initialWalletAddress, initialWalletProvider]);
 
   // Repository knowledge sharing now lives under the $BTD auxillary.
 
@@ -318,6 +331,9 @@ export default function AuxillariesProfilePane({ onSave,
       avatarUrl: avatarUrl || avatarOptions[selectedAvatar],
       teamMembers, // Include team members in save data
       isVerified, // Include verification status
+      walletAddress: walletAddress || null,
+      walletProvider: walletAddress ? walletProvider || 'manual' : null,
+      walletBindingStatus: walletAddress ? 'bound' : null,
     });
   };
 
@@ -902,6 +918,52 @@ export default function AuxillariesProfilePane({ onSave,
                   </div>
                 </div>
               </AfterOnboardingOverlay>
+            </div>
+          </div>
+
+          <div
+            className="orbital-section mt-8"
+            style={{
+              background: 'linear-gradient(145deg, rgba(12, 24, 39, 0.82), rgba(9, 19, 31, 0.82))',
+              border: '1px solid rgba(103, 254, 183, 0.22)',
+              borderRadius: '18px',
+              padding: '20px',
+              boxShadow: '0 18px 40px rgba(0, 0, 0, 0.18)',
+            }}
+          >
+            <div className="bio-label-container" style={{ marginBottom: '12px' }}>
+              <label htmlFor="walletAddress" className="form-label">
+                Wallet identity
+              </label>
+            </div>
+            <p style={{ margin: '0 0 14px 0', fontSize: '14px', lineHeight: '1.6', color: 'rgba(255, 255, 255, 0.72)' }}>
+              Profile owns the wallet identity that transaction readiness, the Bitcode Terminal, and
+              <span style={{ color: 'rgba(103, 254, 183, 0.88)' }}> $BTD</span> reread. Manual
+              binding is active here now; cryptographic wallet-provider verification remains staged
+              until the live signing primitive is admitted.
+            </p>
+            <div className="orbitals-users-input-container enterprise">
+              <input
+                data-testid="profile-wallet-address-input"
+                id="walletAddress"
+                type="text"
+                value={walletAddress}
+                onChange={(e) => {
+                  const nextValue = e.target.value;
+                  setWalletAddress(nextValue);
+                  setWalletProvider((current) =>
+                    current || nextValue.trim() ? (current || 'manual') : '',
+                  );
+                }}
+                className="form-input"
+                placeholder="Bind the wallet address Bitcode should treat as operator identity"
+              />
+              <div className="input-focus-indicator"></div>
+            </div>
+            <div style={{ marginTop: '10px', fontSize: '13px', color: 'rgba(255, 255, 255, 0.6)' }}>
+              {walletAddress
+                ? `Binding source: ${walletProvider || 'manual'}`
+                : 'No wallet identity is bound yet. Transaction-bearing actions remain review-only until one is saved here.'}
             </div>
           </div>
 
