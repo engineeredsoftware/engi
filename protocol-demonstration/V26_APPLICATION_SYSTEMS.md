@@ -750,6 +750,7 @@ Operational rule:
 - the admitted `Bitcode MCP` deliverable-create boundary must fail closed before queueing or reserving `BTD` when `pipelines.create` permission is absent or the requested repository/provider ingress is not coherently anchored by a matching repository connection or authenticated provider credential
 - the active `executions-mcp` runtime at fifth-gate now admits only the narrowed Exchange-facing tool families (`pipeline`, `analysis`, `intelligence`, `enterprise`, `lsp`, `observability`); `field-intelligence` is removed from Bitcode and archived only as `_legacy/field-intelligence`, while retained monitoring, orchestration, and Jira-specific tool carriers remain non-admitted reference-only corridors until they are rebuilt to current package/runtime contracts
 - the admitted `executions-mcp` package boundary must typecheck locally through every retained dependency it still traverses; V26 no longer treats missing `zod`/`supabase` links, Next-only `supabase/ssr/server` leakage, or deep-import-only package seams as acceptable “old-world residue” once that corridor is claimed active
+- the admitted direct-product `uapi` corridor must likewise typecheck locally through product, public/docs, auth/UI, and visualization/effects carriers; fifth-gate no longer treats stale wrapper drift or public-shell compatibility seams as acceptable residue once those routes are claimed active
 
 ## Commercial infrastructure topology
 

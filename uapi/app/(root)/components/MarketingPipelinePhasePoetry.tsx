@@ -236,11 +236,11 @@ export const MarketingPipelinePhasePoetry = ({
 
   // Generate contextual poetry based on phase and deliverable
   const generatePoetry = useMemo(() => {
-    const templates = PHASE_POETRY_TEMPLATES[currentPhase];
+    const templates = PHASE_POETRY_TEMPLATES[currentPhase] as Record<string, string[]> | undefined;
     if (!templates) return [];
 
     // Choose poetry type based on deliverable context
-    let poetryType: keyof typeof templates;
+    let poetryType = '';
     
     switch (currentPhase) {
       case 'planning':
@@ -268,7 +268,7 @@ export const MarketingPipelinePhasePoetry = ({
                     timeInPhase > 1800 ? 'fulfillment' : 'gratitude'; // 30+ minutes total
         break;
       default:
-        poetryType = Object.keys(templates)[0] as keyof typeof templates;
+        poetryType = Object.keys(templates)[0] || '';
     }
 
     setActiveEmotion(poetryType);

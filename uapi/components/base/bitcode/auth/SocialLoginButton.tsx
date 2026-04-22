@@ -43,7 +43,15 @@ interface SocialLoginButtonProps {
 
 export default function SocialLoginButton({ provider, iconOnly = false, nextPath, variant = 'default', disabled: disabledProp }: SocialLoginButtonProps) {
   // Click handler: open Supabase OAuth authorize endpoint in popup
-  const ReactClone = React.cloneElement
+  type IconElement = React.ReactElement<{ className?: string }>
+
+  const cloneIconWithClassName = (element: React.ReactElement, className: string) =>
+    React.cloneElement(element as IconElement, { className })
+
+  const readIconClassName = (element: React.ReactElement) =>
+    typeof (element.props as { className?: unknown }).className === 'string'
+      ? ((element.props as { className?: string }).className ?? '')
+      : ''
 
   const activeProviders = new Set<SocialProvider>(['github', 'google'])
   const stagedProviders = new Set<SocialProvider>(['metamask'])
@@ -172,19 +180,22 @@ export default function SocialLoginButton({ provider, iconOnly = false, nextPath
     const base = disabled ? `${sizeClass} opacity-50 grayscale` : sizeClass
     switch (provider) {
       case 'github':
-        iconElement = ReactClone(icon, { className: `${base} text-white` });
+        iconElement = cloneIconWithClassName(icon, `${base} text-white`);
         break;
       case 'chatgpt':
-        iconElement = ReactClone(icon, { className: `${base} invert brightness-200` });
+        iconElement = cloneIconWithClassName(icon, `${base} invert brightness-200`);
         break;
       default:
-        iconElement = ReactClone(icon, { className: base });
+        iconElement = cloneIconWithClassName(icon, base);
     }
   }
 
   // For full-width buttons, apply grayscale/opacity when disabled
   if (!iconOnly && disabled && React.isValidElement(icon)) {
-    iconElement = ReactClone(icon, { className: `${icon.props.className || ''} opacity-60 grayscale` })
+    iconElement = cloneIconWithClassName(
+      icon,
+      `${readIconClassName(icon)} opacity-60 grayscale`.trim(),
+    )
   }
   // button classes
   let baseClass: string

@@ -49,14 +49,14 @@ export function ParticleLayer({ color, count, speed, state, isAnimating = true }
 
   // Struct-of-arrays typed-array store for particle properties.  This improves
   // memory locality and avoids per-particle JS object allocations.
-  const positionsX = useRef<Float32Array>();
-  const positionsY = useRef<Float32Array>();
-  const sizes = useRef<Float32Array>();
-  const speeds = useRef<Float32Array>();
-  const angles = useRef<Float32Array>();
-  const opacities = useRef<Float32Array>();
-  const life = useRef<Uint16Array>();
-  const maxLife = useRef<Uint16Array>();
+  const positionsX = useRef<Float32Array | null>(null);
+  const positionsY = useRef<Float32Array | null>(null);
+  const sizes = useRef<Float32Array | null>(null);
+  const speeds = useRef<Float32Array | null>(null);
+  const angles = useRef<Float32Array | null>(null);
+  const opacities = useRef<Float32Array | null>(null);
+  const life = useRef<Uint16Array | null>(null);
+  const maxLife = useRef<Uint16Array | null>(null);
   const lastFrameRef = useRef<number>(0);
 
   // Pre-parsed RGB so we can compose RGBA strings cheaply per frame.
@@ -72,6 +72,32 @@ export function ParticleLayer({ color, count, speed, state, isAnimating = true }
   }, [color]);
 
   const subscribe = useContext(OrbLoopContext);
+
+  const getParticleBuffers = () => {
+    if (
+      !positionsX.current ||
+      !positionsY.current ||
+      !sizes.current ||
+      !speeds.current ||
+      !angles.current ||
+      !opacities.current ||
+      !life.current ||
+      !maxLife.current
+    ) {
+      return null;
+    }
+
+    return {
+      positionsX: positionsX.current,
+      positionsY: positionsY.current,
+      sizes: sizes.current,
+      speeds: speeds.current,
+      angles: angles.current,
+      opacities: opacities.current,
+      life: life.current,
+      maxLife: maxLife.current,
+    };
+  };
 
   /* --------------------------------------------------------------------- */
   /* OffscreenCanvas fast-path (runs drawing in a dedicated worker)        */
@@ -242,17 +268,30 @@ export function ParticleLayer({ color, count, speed, state, isAnimating = true }
 
   // Fill a particle slot at index `i` with fresh randomised values.
   const initParticle = (i: number) => {
+    const buffers = getParticleBuffers();
+    if (!buffers) return;
+
+    const {
+      positionsX: positionsXData,
+      positionsY: positionsYData,
+      sizes: sizesData,
+      speeds: speedsData,
+      angles: anglesData,
+      opacities: opacitiesData,
+      life: lifeData,
+      maxLife: maxLifeData,
+    } = buffers;
     const ang = Math.random() * Math.PI * 2;
     const dist = Math.random() * 0.5;
 
-    positionsX.current[i] = 0.5 + Math.cos(ang) * dist;
-    positionsY.current[i] = 0.5 + Math.sin(ang) * dist;
-    sizes.current[i] = 0.5 + Math.random() * 1.5;
-    speeds.current[i] = (0.01 + Math.random() * 0.02) * (speed / 60);
-    angles.current[i] = Math.random() * Math.PI * 2;
-    opacities.current[i] = 0;
-    life.current[i] = 0;
-    maxLife.current[i] = 100 + Math.floor(Math.random() * 100);
+    positionsXData[i] = 0.5 + Math.cos(ang) * dist;
+    positionsYData[i] = 0.5 + Math.sin(ang) * dist;
+    sizesData[i] = 0.5 + Math.random() * 1.5;
+    speedsData[i] = (0.01 + Math.random() * 0.02) * (speed / 60);
+    anglesData[i] = Math.random() * Math.PI * 2;
+    opacitiesData[i] = 0;
+    lifeData[i] = 0;
+    maxLifeData[i] = 100 + Math.floor(Math.random() * 100);
   };
 
   // Allocate / reallocate typed arrays when the particle count or speed
@@ -277,10 +316,24 @@ export function ParticleLayer({ color, count, speed, state, isAnimating = true }
   useEffect(() => {
     if (workerRef.current) return; // Worker path already set up context
     if (!canvasRef.current) return;
-    if (!positionsX.current) return; // arrays not ready yet
+    const buffers = getParticleBuffers();
+    if (!buffers) return; // arrays not ready yet
     const canvas = canvasRef.current;
-    const ctx = canvas.getContext('2d', { alpha: true, desynchronized: true } as any);
+    const ctx = canvas.getContext('2d', {
+      alpha: true,
+      desynchronized: true,
+    } as any) as CanvasRenderingContext2D | null;
     if (!ctx) return;
+    const {
+      positionsX: positionsXData,
+      positionsY: positionsYData,
+      sizes: sizesData,
+      speeds: speedsData,
+      angles: anglesData,
+      opacities: opacitiesData,
+      life: lifeData,
+      maxLife: maxLifeData,
+    } = buffers;
 
     const drawFrame = () => {
       const now = performance.now();
@@ -289,17 +342,17 @@ export function ParticleLayer({ color, count, speed, state, isAnimating = true }
 
       ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-      const len = positionsX.current.length;
+      const len = positionsXData.length;
       const [rr, gg, bb] = rgbRef.current;
       const stateOpacityMultiplier =
         state === 'active' ? 1 : state === 'hover' ? 0.8 : 0.6;
 
       for (let i = 0; i < len; i++) {
-        life.current[i]++;
+        lifeData[i]++;
 
         // Calculate opacity easing based on life span
-        const l = life.current[i];
-        const maxL = maxLife.current[i];
+        const l = lifeData[i];
+        const maxL = maxLifeData[i];
 
         let o: number;
         if (l < maxL * 0.2) {
@@ -310,29 +363,29 @@ export function ParticleLayer({ color, count, speed, state, isAnimating = true }
           o = 0.8;
         }
 
-        opacities.current[i] = o;
+        opacitiesData[i] = o;
 
         const finalOpacity = o * stateOpacityMultiplier;
 
         // Update position
-        positionsX.current[i] += Math.cos(angles.current[i]) * speeds.current[i];
-        positionsY.current[i] += Math.sin(angles.current[i]) * speeds.current[i];
+        positionsXData[i] += Math.cos(anglesData[i]) * speedsData[i];
+        positionsYData[i] += Math.sin(anglesData[i]) * speedsData[i];
 
         // Respawn if dead or out of bounds
         if (
           l >= maxL ||
-          positionsX.current[i] < 0 ||
-          positionsX.current[i] > 1 ||
-          positionsY.current[i] < 0 ||
-          positionsY.current[i] > 1
+          positionsXData[i] < 0 ||
+          positionsXData[i] > 1 ||
+          positionsYData[i] < 0 ||
+          positionsYData[i] > 1
         ) {
           initParticle(i);
           continue;
         }
 
-        const x = positionsX.current[i] * canvas.width;
-        const y = positionsY.current[i] * canvas.height;
-        const sz = sizes.current[i] * (canvas.width / 100);
+        const x = positionsXData[i] * canvas.width;
+        const y = positionsYData[i] * canvas.height;
+        const sz = sizesData[i] * (canvas.width / 100);
 
         const rgba = rgbToRgbaString(rr, gg, bb, finalOpacity);
 
@@ -375,7 +428,10 @@ export function ParticleLayer({ color, count, speed, state, isAnimating = true }
       const dynamicCap = state === 'active' ? 1 : 1.5;
       const dprCap = lowEnd ? 1 : dynamicCap;
       const dpr = Math.min(deviceDpr, dprCap);
-      const ctx2 = canvas.getContext('2d', { alpha: true, desynchronized: true } as any);
+      const ctx2 = canvas.getContext('2d', {
+        alpha: true,
+        desynchronized: true,
+      } as any) as CanvasRenderingContext2D | null;
       if (!ctx2) return;
 
       canvas.width = width * dpr;
@@ -404,7 +460,10 @@ export function ParticleLayer({ color, count, speed, state, isAnimating = true }
     const dprCap = lowEnd ? 1 : dynamicCap;
     const pixelRatio = Math.min(deviceDpr, dprCap);
 
-    const ctx = canvas.getContext('2d', { alpha: true, desynchronized: true } as any);
+    const ctx = canvas.getContext('2d', {
+      alpha: true,
+      desynchronized: true,
+    } as any) as CanvasRenderingContext2D | null;
     if (!ctx) return;
 
     // Apply the new DPR

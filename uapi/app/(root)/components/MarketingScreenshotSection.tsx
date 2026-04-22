@@ -37,6 +37,12 @@ import { motion, useInView } from "framer-motion";
 // routing, Suspense boundaries, etc.).
 let screenshotsAnimated = false;
 
+declare global {
+  interface Window {
+    __bitcodeRevealScreenshotsFired?: boolean;
+  }
+}
+
 const MarketingScreenshotSection: React.FC = () => {
   const ref = useRef<HTMLDivElement>(null);
 
@@ -150,7 +156,7 @@ const MarketingScreenshotSection: React.FC = () => {
   // component remounts it would start from `false` again.  By coupling this
   // with the module-level `screenshotsAnimated` flag we guarantee at most one
   // full animation for the entire session.
-  const isInView = useInView(ref, { once: true, rootMargin: "0px 0px -75% 0px" });
+  const isInView = useInView(ref, { once: true, margin: "0px 0px -75% 0px" });
   // (Parallax removed)
 
   // The hero fires a global `revealScreenshots` event when it decides the
@@ -268,7 +274,6 @@ const MarketingScreenshotSection: React.FC = () => {
   // we don’t miss the cue when the dynamic import for this section lags.
 
   useEffect(() => {
-    // @ts-expect-error – untyped global
     if (typeof window !== 'undefined' && window.__bitcodeRevealScreenshotsFired) {
       setCanAnimate(true);
     }

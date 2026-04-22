@@ -8,6 +8,7 @@ import ChatGPTIcon from '@/components/base/bitcode/icons/social/ChatGPTIcon'
 import MetamaskIcon from '@/components/base/bitcode/icons/social/MetamaskIcon'
 import { toast } from '@/components/base/shadcn/sonner'
 import dynamic from 'next/dynamic'
+import type { AuthChangeEvent, Session } from '@supabase/supabase-js'
 
 // Lazy load ConfirmModal to avoid adding framer-motion earlier than needed
 const ConfirmModal = dynamic(() => import('../overlays/ConfirmModal'))
@@ -27,6 +28,18 @@ interface SocialAccountLinkerProps {
 
 const oauthLinkableProviders = new Set<SocialAccountLinkerProps['provider']>(['github', 'google'])
 
+type SupabaseIdentity = {
+  id?: string
+  provider?: string
+}
+
+function resolveIdentity(
+  identities: SupabaseIdentity[] | undefined,
+  provider: SocialAccountLinkerProps['provider'],
+) {
+  return (identities || []).find((identity) => identity.provider === provider) ?? null
+}
+
 export default function SocialAccountLinker({ provider, compact = false }: SocialAccountLinkerProps) {
   const supabase = createClient()
   const [linked, setLinked] = useState<boolean | null>(null) // null = loading
@@ -40,8 +53,7 @@ export default function SocialAccountLinker({ provider, compact = false }: Socia
   useEffect(() => {
     (async () => {
       const { data } = await supabase.auth.getUser()
-      const identities = data.user?.identities || []
-      const match = identities.find((i: any) => i.provider === provider)
+      const match = resolveIdentity(data.user?.identities, provider)
       setLinked(Boolean(match))
       setIdentityId(match?.id ?? null)
     })()
@@ -49,10 +61,12 @@ export default function SocialAccountLinker({ provider, compact = false }: Socia
 
   // Refresh identities when auth session changes (e.g., after linking)
   useEffect(() => {
-    const { data: sub } = supabase.auth.onAuthStateChange((_evt, _session) => {
-      supabase.auth.getUser().then(({ data }) => {
-        const identities = data.user?.identities || []
-        const match = identities.find((i: any) => i.provider === provider)
+    const { data: sub } = supabase.auth.onAuthStateChange((
+      _evt: AuthChangeEvent,
+      _session: Session | null,
+    ) => {
+      supabase.auth.getUser().then(({ data }: { data: { user: { identities?: SupabaseIdentity[] } | null } }) => {
+        const match = resolveIdentity(data.user?.identities, provider)
         setLinked(Boolean(match))
         setIdentityId(match?.id ?? null)
       })
@@ -111,7 +125,7 @@ export default function SocialAccountLinker({ provider, compact = false }: Socia
           throw new Error(payload?.error || 'Failed to disconnect account')
         }
       }
-      toast('Account disconnected')
+      toast.success('Account disconnected')
       setLinked(false)
       setIdentityId(null)
     } catch (err: any) {

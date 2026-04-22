@@ -52,18 +52,18 @@ type CollapsibleTriggerProps = React.ComponentPropsWithoutRef<"button"> & {
   asChild?: boolean
 }
 
-const CollapsibleTrigger = React.forwardRef<HTMLElement, CollapsibleTriggerProps>(
+const CollapsibleTrigger = React.forwardRef<HTMLButtonElement, CollapsibleTriggerProps>(
   ({ asChild = false, onClick, type, ...props }, ref) => {
     const { open, setOpen } = useCollapsibleContext()
-    const Comp = asChild ? Slot : "button"
+    const Comp: React.ElementType = asChild ? Slot : "button"
 
     return (
       <Comp
-        ref={ref}
+        ref={ref as React.Ref<any>}
         aria-expanded={open}
         data-state={open ? "open" : "closed"}
-        onClick={(event: React.MouseEvent<HTMLElement>) => {
-          onClick?.(event as never)
+        onClick={(event: React.MouseEvent<HTMLButtonElement>) => {
+          onClick?.(event)
           if (!event.defaultPrevented) {
             setOpen(!open)
           }

@@ -616,14 +616,14 @@ export default function MarketingWalkthroughSection() {
   // Stable refs reused across scenario switches so <AnimatedBeam> doesn’t
   // get re-mounted (and restart its gradient animation) unnecessarily.
   // ---------------------------------------------------------------------
-  const iconRefs = React.useRef<React.RefObject<HTMLElement>[]>(
-    Array.from({ length: 4 }, () => React.createRef<HTMLElement>())
+  const iconRefs = React.useRef<React.RefObject<HTMLDivElement>[]>(
+    Array.from({ length: 4 }, () => React.createRef<HTMLDivElement>())
   ).current;
 
   // Anchor at the very bottom-centre of each top step column (launch point
   // for the vertical beam)
-  const topAnchorRefs = React.useRef<React.RefObject<HTMLElement>[]>(
-    Array.from({ length: 4 }, () => React.createRef<HTMLElement>())
+  const topAnchorRefs = React.useRef<React.RefObject<HTMLSpanElement>[]>(
+    Array.from({ length: 4 }, () => React.createRef<HTMLSpanElement>())
   ).current;
 
 

@@ -167,7 +167,13 @@ type TabId =
   | 'web'
   | 'mobile'
   | 'webhooks'
-  | 'api';
+  | 'api'
+  | 'chat'
+  | 'headless'
+  | 'operator'
+  | 'marketplace'
+  | 'token'
+  | 'editor';
 
 type TabGroup = 'chat' | 'touch' | 'trigger' | 'script';
 

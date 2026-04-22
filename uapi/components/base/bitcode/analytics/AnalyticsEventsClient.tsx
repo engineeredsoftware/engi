@@ -21,8 +21,7 @@ export default function AnalyticsEventsClient() {
   useEffect(() => {
     const handler = (e: Event) => {
       if (typeof window === 'undefined') return;
-      // @ts-expect-error – mouse/keyboard events share target definition
-      const target: HTMLElement | null = e.target as any;
+      const target = e.target instanceof HTMLElement ? e.target : null;
       if (!target) return;
 
       // Walk up the DOM until body to find explicit marker.

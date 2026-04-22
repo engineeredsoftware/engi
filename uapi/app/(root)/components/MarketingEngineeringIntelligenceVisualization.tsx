@@ -6,18 +6,27 @@ import MarketingSectionWrapper from './MarketingSectionWrapper';
 import MarketingFullScreenGallery from './MarketingFullScreenGallery';
 import type { Screenshot } from './marketing-types';
 
+type VisualizationMode =
+  | 'headless'
+  | 'mobile'
+  | 'operator'
+  | 'api'
+  | 'autonomous'
+  | 'adaptive'
+  | 'integration';
+
 export default function MarketingEngineeringIntelligenceVisualization() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   // Tab state for interface modes
-  const [activeTab, setActiveTab] = useState<'headless' | 'mobile' | 'operator' | 'api'>('headless');
+  const [activeTab, setActiveTab] = useState<VisualizationMode>('headless');
   const tabs = [
     { key: 'headless', label: 'Headless' },
     { key: 'mobile', label: 'Mobile' },
     { key: 'operator', label: 'Operator' },
     { key: 'api', label: 'MCP API' },
-  ];
+  ] as const;
   // Screenshot mappings for each interface mode
-  const screenshotsByMode: Record<'headless' | 'mobile' | 'operator' | 'api', Screenshot[]> = {
+  const screenshotsByMode: Record<VisualizationMode, Screenshot[]> = {
     headless: [
       { id: 'headless-1', src: '/screenshots/setup-marketplace.png', alt: 'Marketplace setup integration', type: 'full_page', category: 'setup', revealingSoon: true },
       { id: 'headless-2', src: '/screenshots/setup-btd.png', alt: 'Setup BTD panel', type: 'component', category: 'btd', revealingSoon: true },
@@ -38,6 +47,9 @@ export default function MarketingEngineeringIntelligenceVisualization() {
       { id: 'api-2', src: '/screenshots/api-interface.png', alt: 'API endpoints documentation', type: 'component', category: 'api', revealingSoon: true },
       { id: 'api-3', src: '/screenshots/api-interface.png', alt: 'API integration example', type: 'component', category: 'api', revealingSoon: true },
     ],
+    autonomous: [],
+    adaptive: [],
+    integration: [],
   };
 
   useEffect(() => {
@@ -46,20 +58,22 @@ export default function MarketingEngineeringIntelligenceVisualization() {
 
     const ctx = canvas.getContext('2d');
     if (!ctx) return;
+    const canvasElement = canvas;
+    const context = ctx;
 
     // Set canvas dimensions
     const resizeCanvas = () => {
-      const { width, height } = canvas.getBoundingClientRect();
-      canvas.width = width * window.devicePixelRatio;
-      canvas.height = height * window.devicePixelRatio;
-      ctx.scale(window.devicePixelRatio, window.devicePixelRatio);
+      const { width, height } = canvasElement.getBoundingClientRect();
+      const dpr = window.devicePixelRatio || 1;
+      canvasElement.width = width * dpr;
+      canvasElement.height = height * dpr;
+      context.setTransform(dpr, 0, 0, dpr, 0, 0);
     };
 
     resizeCanvas();
     window.addEventListener('resize', resizeCanvas);
 
-    // Particle system
-    interface Particle {
+    class Particle {
       x: number;
       y: number;
       size: number;
@@ -68,11 +82,7 @@ export default function MarketingEngineeringIntelligenceVisualization() {
       color: string;
       pulseSize: number;
       pulseSpeed: number;
-      update: () => void;
-      draw: () => void;
-    }
 
-    class Particle {
       constructor(x: number, y: number, size: number) {
         this.x = x;
         this.y = y;
@@ -93,27 +103,27 @@ export default function MarketingEngineeringIntelligenceVisualization() {
           this.pulseSize = 0;
         }
 
-        if (this.x > canvas.width) this.x = 0;
-        if (this.x < 0) this.x = canvas.width;
-        if (this.y > canvas.height) this.y = 0;
-        if (this.y < 0) this.y = canvas.height;
+        if (this.x > canvasElement.width) this.x = 0;
+        if (this.x < 0) this.x = canvasElement.width;
+        if (this.y > canvasElement.height) this.y = 0;
+        if (this.y < 0) this.y = canvasElement.height;
       }
 
       draw() {
         // Pulsing effect
         const pulseFactor = 0.3 * Math.sin(this.pulseSize) + 1;
 
-        ctx.beginPath();
-        ctx.arc(this.x, this.y, this.size * pulseFactor, 0, Math.PI * 2);
-        ctx.fillStyle = this.color;
-        ctx.fill();
+        context.beginPath();
+        context.arc(this.x, this.y, this.size * pulseFactor, 0, Math.PI * 2);
+        context.fillStyle = this.color;
+        context.fill();
 
         // Only apply shadow effects to larger particles to reduce rendering cost
         if (this.size > 2) {
-          ctx.shadowBlur = 10;
-          ctx.shadowColor = 'rgba(103, 254, 183, 0.5)';
+          context.shadowBlur = 10;
+          context.shadowColor = 'rgba(103, 254, 183, 0.5)';
         } else {
-          ctx.shadowBlur = 0;
+          context.shadowBlur = 0;
         }
       }
     }
@@ -124,8 +134,8 @@ export default function MarketingEngineeringIntelligenceVisualization() {
 
     for (let i = 0; i < particleCount; i++) {
       const size = Math.random() * 3 + 1;
-      const x = Math.random() * canvas.width;
-      const y = Math.random() * canvas.height;
+      const x = Math.random() * canvasElement.width;
+      const y = Math.random() * canvasElement.height;
       particles.push(new Particle(x, y, size));
     }
 
@@ -135,9 +145,7 @@ export default function MarketingEngineeringIntelligenceVisualization() {
       isInViewport = entries[0].isIntersecting;
     }, { threshold: 0.1 });
 
-    if (canvas) {
-      observer.observe(canvas);
-    }
+    observer.observe(canvasElement);
 
     // Animation loop
     let last = 0;
@@ -152,25 +160,25 @@ export default function MarketingEngineeringIntelligenceVisualization() {
       last = now || 0;
 
       if (isInViewport) {
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        context.clearRect(0, 0, canvasElement.width, canvasElement.height);
 
         // Draw grid - simplified to improve performance
-        ctx.strokeStyle = 'rgba(103, 254, 183, 0.08)';
-        ctx.lineWidth = 0.5;
+        context.strokeStyle = 'rgba(103, 254, 183, 0.08)';
+        context.lineWidth = 0.5;
 
         const gridSize = 80; // Increased grid size for fewer lines
-        for (let x = 0; x < canvas.width; x += gridSize) {
-          ctx.beginPath();
-          ctx.moveTo(x, 0);
-          ctx.lineTo(x, canvas.height);
-          ctx.stroke();
+        for (let x = 0; x < canvasElement.width; x += gridSize) {
+          context.beginPath();
+          context.moveTo(x, 0);
+          context.lineTo(x, canvasElement.height);
+          context.stroke();
         }
 
-        for (let y = 0; y < canvas.height; y += gridSize) {
-          ctx.beginPath();
-          ctx.moveTo(0, y);
-          ctx.lineTo(canvas.width, y);
-          ctx.stroke();
+        for (let y = 0; y < canvasElement.height; y += gridSize) {
+          context.beginPath();
+          context.moveTo(0, y);
+          context.lineTo(canvasElement.width, y);
+          context.stroke();
         }
 
         // Update and draw particles
@@ -189,12 +197,12 @@ export default function MarketingEngineeringIntelligenceVisualization() {
             const distanceSquared = dx * dx + dy * dy;
 
             if (distanceSquared < 14400) { // 120^2 = 14400
-              ctx.beginPath();
-              ctx.strokeStyle = `rgba(103, 254, 183, ${0.15 * (1 - Math.sqrt(distanceSquared) / 120)})`;
-              ctx.lineWidth = 0.6;
-              ctx.moveTo(particles[i].x, particles[i].y);
-              ctx.lineTo(particles[j].x, particles[j].y);
-              ctx.stroke();
+              context.beginPath();
+              context.strokeStyle = `rgba(103, 254, 183, ${0.15 * (1 - Math.sqrt(distanceSquared) / 120)})`;
+              context.lineWidth = 0.6;
+              context.moveTo(particles[i].x, particles[i].y);
+              context.lineTo(particles[j].x, particles[j].y);
+              context.stroke();
             }
           }
         }

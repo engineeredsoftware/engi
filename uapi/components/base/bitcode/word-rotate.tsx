@@ -99,7 +99,7 @@ export default function WordRotate({
         duration: baseDuration / marqueeSpeed,
         ease: "linear",
         repeat: Infinity,
-        repeatType: "loop",
+        repeatType: "loop" as const,
         delay: 0.2,
       }
     },
@@ -166,4 +166,3 @@ export default function WordRotate({
     </div>
   );
 }
-

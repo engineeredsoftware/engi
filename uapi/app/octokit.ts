@@ -6,13 +6,94 @@
  */
 
 import { supabaseAdmin } from '@bitcode/supabase';
-import { VCSService, VCSConnections, VCSProviderFactory } from '@bitcode/vcs';
+import {
+  VCSService,
+  VCSConnections,
+  VCSProviderFactory,
+  type AbstractVCSProvider,
+  type VCSAuth,
+  type VCSBranch,
+  type VCSComment,
+  type VCSIssue,
+  type VCSRepository,
+} from '@bitcode/vcs';
 // Removed vcsAgent import - using VCS primitives directly
 import { log } from '@bitcode/logger';
 import fs from 'fs';
 import path from 'path';
 import os from 'os';
 import decompress from 'decompress';
+
+type LegacyRepositoryLike = {
+  name: string;
+  owner: {
+    login: string;
+  };
+};
+
+type LegacyIssueLike = {
+  number: number;
+};
+
+type LegacyConnectionRecord = {
+  id: string;
+  user_id: string;
+};
+
+function createGitHubProvider(): Promise<AbstractVCSProvider> {
+  return VCSProviderFactory.create({
+    provider: 'github',
+    clientId: config.oauth.clientId,
+    clientSecret: config.oauth.clientSecret,
+    redirectUri: process.env.GITHUB_REDIRECT_URI || process.env.VCS_REDIRECT_URI || '',
+  });
+}
+
+function requireProviderMethod<T>(
+  method: T | undefined,
+  capability: string,
+): T {
+  if (!method) {
+    throw new Error(`GitHub provider does not support ${capability}`);
+  }
+  return method;
+}
+
+async function getGitHubConnectionByInstallationId(
+  connectionId: number,
+): Promise<LegacyConnectionRecord> {
+  const { data: connection } = await supabaseAdmin
+    .from('user_connections')
+    .select('id, user_id')
+    .eq('provider', 'github')
+    .eq('connection_data->>connectionId', String(connectionId))
+    .single();
+
+  if (!connection) {
+    throw new Error(`No GitHub connection found for installation ${connectionId}`);
+  }
+
+  return connection;
+}
+
+async function getGitHubProviderAndAuth(connectionId: number): Promise<{
+  auth: VCSAuth;
+  provider: AbstractVCSProvider;
+  connection: LegacyConnectionRecord;
+}> {
+  const connection = await getGitHubConnectionByInstallationId(connectionId);
+  const auth = await new VCSConnections(supabaseAdmin).getAuthFromConnection(connection.id);
+
+  if (!auth) {
+    throw new Error(`No GitHub auth found for installation ${connectionId}`);
+  }
+
+  return {
+    auth,
+    provider: await createGitHubProvider(),
+    connection,
+  };
+}
 
 // Legacy configuration for backward compatibility
 export const config = {
@@ -29,52 +110,46 @@ export const config = {
 export const app = {
   async getInstallationOctokit(connectionId: number) {
     log('DEPRECATED: app.getInstallationOctokit called, using VCS abstraction', 'warn', { connectionId });
-    
-    // Find user by installation ID (legacy GitHub-specific)
-    const { data: connection } = await supabaseAdmin
-      .from('user_connections')
-      .select('*')
-      .eq('provider', 'github')
-      .eq('connection_data->>connectionId', connectionId)
-      .single();
-    
-    if (!connection) {
-      throw new Error(`No GitHub connection found for installation ${connectionId}`);
-    }
-    
-    // Return a proxy that mimics Octokit interface but uses VCS underneath
-    const provider = await VCSProviderFactory.create({
-      provider: 'github',
-      clientId: config.oauth.clientId,
-      clientSecret: config.oauth.clientSecret,
-      redirectUri: process.env.GITHUB_REDIRECT_URI || ''
-    });
-    
-    const auth = await new VCSConnectionManager(supabaseAdmin).getAuthFromConnection(connection.id);
+    const { auth, provider } = await getGitHubProviderAndAuth(connectionId);
+    const listIssues = requireProviderMethod(provider.listIssues, 'issue listing');
+    const listIssueComments = requireProviderMethod(
+      provider.listIssueComments,
+      'issue comment listing',
+    );
+    const createIssueComment = requireProviderMethod(
+      provider.createIssueComment,
+      'issue comment creation',
+    );
+    const createBranch = requireProviderMethod(provider.createBranch, 'branch creation');
     
     return {
       request: async (route: string, options: any) => {
         // Map common Octokit routes to VCS methods
         if (route === 'GET /repos/{owner}/{repo}/issues') {
-          const issues = await provider.listIssues(auth, options.owner, options.repo, {
+          const issues = await listIssues(auth, options.owner, options.repo, {
             state: 'open',
-            perPage: 100
+            perPage: 100,
           });
           return { data: issues };
         }
         
         if (route === 'GET /repos/{owner}/{repo}/issues/{issue_number}/comments') {
-          const comments = await provider.listIssueComments(auth, options.owner, options.repo, options.issue_number);
-          return { data: comments };
-        }
-        
-        if (route === 'POST /repos/{owner}/{repo}/issues/{issue_number}/comments') {
-          const comment = await provider.createIssueComment(
+          const comments = await listIssueComments(
             auth,
             options.owner,
             options.repo,
             options.issue_number,
-            options.body
+          );
+          return { data: comments };
+        }
+        
+        if (route === 'POST /repos/{owner}/{repo}/issues/{issue_number}/comments') {
+          const comment = await createIssueComment(
+            auth,
+            options.owner,
+            options.repo,
+            options.issue_number,
+            options.body,
           );
           return { data: comment };
         }
@@ -90,12 +165,12 @@ export const app = {
         }
         
         if (route === 'POST /repos/{owner}/{repo}/git/refs') {
-          const branch = await provider.createBranch(
+          const branch = await createBranch(
             auth,
             options.owner,
             options.repo,
             options.ref.replace('refs/heads/', ''),
-            options.sha
+            options.sha,
           );
           return { data: branch };
         }
@@ -108,32 +183,13 @@ export const app = {
   eachRepository: {
     async *iterator({ connectionId }: { connectionId: number }) {
       log('DEPRECATED: app.eachRepository.iterator called, using VCS abstraction', 'warn', { connectionId });
-      
-      // Find user by installation ID
-      const { data: connection } = await supabaseAdmin
-        .from('user_connections')
-        .select('*')
-        .eq('provider', 'github')
-        .eq('connection_data->>connectionId', connectionId)
-        .single();
-      
-      if (!connection) {
-        return;
-      }
-      
-      const provider = await VCSProviderFactory.create({
-        provider: 'github',
-        clientId: config.oauth.clientId,
-        clientSecret: config.oauth.clientSecret,
-        redirectUri: process.env.GITHUB_REDIRECT_URI || ''
-      });
-      
-      const auth = await new VCSConnectionManager(supabaseAdmin).getAuthFromConnection(connection.id);
+      const { auth, provider } = await getGitHubProviderAndAuth(connectionId);
+      const octokit = await app.getInstallationOctokit(connectionId);
       const repos = await provider.listRepositories(auth, { perPage: 100 });
       
       for (const repo of repos) {
         yield {
-          octokit: await vcsProvider.getClient(connectionId),
+          octokit,
           repository: {
             name: repo.name,
             owner: { login: repo.owner.username },
@@ -161,7 +217,7 @@ export const getUsersRepositories = async () => {
     return {};
   }
   
-  const usersRepositories: Record<string, any> = {};
+  const usersRepositories: Record<string, { repositories: Array<{ name: string; owner: { login: string } }> }> = {};
   
   for (const conn of connections) {
     const userId = conn.user_id;
@@ -172,7 +228,7 @@ export const getUsersRepositories = async () => {
       const repositories = await vcsService.listRepositories(userId);
       
       // Store in database for caching
-      const upsertData = repositories.map((repo: any) => ({
+      const upsertData = repositories.map((repo: VCSRepository) => ({
         user_id: userId,
         provider: 'github',
         provider_provider_repo_id: repo.id.toString(),
@@ -205,7 +261,7 @@ export const getUsersRepositories = async () => {
           .eq('provider', 'github');
           
         usersRepositories[userId] = {
-          repositories: repos?.map(r => ({
+          repositories: repos?.map((r: { repo_name: string; repo_owner: string }) => ({
             name: r.repo_name,
             owner: { login: r.repo_owner },
             // Map other fields
@@ -223,119 +279,82 @@ export const getUsersRepositories = async () => {
 /**
  * Get issues for repository using VCS abstraction
  */
-export const getIssuesForRepository = async (connectionId: number, repository: any) => {
+export const getIssuesForRepository = async (
+  connectionId: number,
+  repository: LegacyRepositoryLike,
+): Promise<VCSIssue[]> => {
   log('Getting issues via VCS abstraction', 'info', { 
     connectionId, 
     repo: `${repository.owner.login}/${repository.name}` 
   });
   
-  // Find connection by installation ID
-  const { data: connection } = await supabaseAdmin
-    .from('user_connections')
-    .select('*')
-    .eq('provider', 'github')
-    .eq('connection_data->>connectionId', connectionId)
-    .single();
-    
-  if (!connection) {
-    throw new Error(`No GitHub connection found for installation ${connectionId}`);
-  }
-  
-  const provider = await VCSProviderFactory.create({
-    provider: 'github',
-    clientId: config.oauth.clientId,
-    clientSecret: config.oauth.clientSecret,
-    redirectUri: process.env.GITHUB_REDIRECT_URI || ''
-  });
-  
-  const auth = await new VCSConnectionManager(supabaseAdmin).getAuthFromConnection(connection.id);
-  return await provider.listIssues(auth, repository.owner.login, repository.name, {
+  const { auth, provider } = await getGitHubProviderAndAuth(connectionId);
+  const listIssues = requireProviderMethod(provider.listIssues, 'issue listing');
+  return await listIssues(auth, repository.owner.login, repository.name, {
     state: 'open',
-    perPage: 100
+    perPage: 100,
   });
 };
 
 /**
  * Get comments for issue using VCS abstraction
  */
-export const getCommentsForIssue = async (connectionId: number, repository: any, issue: any) => {
+export const getCommentsForIssue = async (
+  connectionId: number,
+  repository: LegacyRepositoryLike,
+  issue: LegacyIssueLike,
+): Promise<VCSComment[]> => {
   log('Getting issue comments via VCS abstraction', 'info', { 
     connectionId, 
     repo: `${repository.owner.login}/${repository.name}`,
     issue: issue.number 
   });
   
-  const { data: connection } = await supabaseAdmin
-    .from('user_connections')
-    .select('*')
-    .eq('provider', 'github')
-    .eq('connection_data->>connectionId', connectionId)
-    .single();
-    
-  if (!connection) {
-    throw new Error(`No GitHub connection found for installation ${connectionId}`);
-  }
-  
-  const provider = await VCSProviderFactory.create({
-    provider: 'github',
-    clientId: config.oauth.clientId,
-    clientSecret: config.oauth.clientSecret,
-    redirectUri: process.env.GITHUB_REDIRECT_URI || ''
-  });
-  
-  const auth = await new VCSConnectionManager(supabaseAdmin).getAuthFromConnection(connection.id);
-  return await provider.listIssueComments(auth, repository.owner.login, repository.name, issue.number);
+  const { auth, provider } = await getGitHubProviderAndAuth(connectionId);
+  const listIssueComments = requireProviderMethod(
+    provider.listIssueComments,
+    'issue comment listing',
+  );
+  return await listIssueComments(auth, repository.owner.login, repository.name, issue.number);
 };
 
 /**
  * Leave issue comment using VCS abstraction
  */
-export const leaveIssueComment = async (connectionId: number, repository: any, issue: any, body: string) => {
+export const leaveIssueComment = async (
+  connectionId: number,
+  repository: LegacyRepositoryLike,
+  issue: LegacyIssueLike,
+  body: string,
+): Promise<void> => {
   log('Creating issue comment via VCS abstraction', 'info', { 
     connectionId, 
     repo: `${repository.owner.login}/${repository.name}`,
     issue: issue.number 
   });
   
-  const { data: connection } = await supabaseAdmin
-    .from('user_connections')
-    .select('*')
-    .eq('provider', 'github')
-    .eq('connection_data->>connectionId', connectionId)
-    .single();
-    
-  if (!connection) {
-    throw new Error(`No GitHub connection found for installation ${connectionId}`);
-  }
-  
-  // Use VCS provider for comment creation
-  const vcsConnections = new VCSConnections(supabaseAdmin);
-  const auth = await vcsConnections.getAuthFromConnection(connection.id);
-  
-  if (!auth) {
-    throw new Error('No auth found for connection');
-  }
-  
-  const provider = await VCSProviderFactory.create({
-    provider: 'github',
-    clientId: process.env.GITHUB_CLIENT_ID || '',
-    clientSecret: process.env.GITHUB_CLIENT_SECRET || '',
-    redirectUri: process.env.VCS_REDIRECT_URI || ''
-  });
-  
-  await provider.createIssueComment(
+  const { auth, provider } = await getGitHubProviderAndAuth(connectionId);
+  const createIssueComment = requireProviderMethod(
+    provider.createIssueComment,
+    'issue comment creation',
+  );
+
+  await createIssueComment(
     auth,
     repository.owner.login,
     repository.name,
     issue.number,
-    body
+    body,
   );
 };
 
 /**
  * Download repository - This remains GitHub-specific as VCS doesn't provide zipball
  */
-export const downloadRepository = async (connectionId: number, repository: any) => {
+export const downloadRepository = async (
+  connectionId: number,
+  repository: LegacyRepositoryLike,
+): Promise<string> => {
   log('Downloading repository', 'info', { 
     connectionId, 
     repo: `${repository.owner.login}/${repository.name}` 
@@ -351,18 +370,7 @@ export const downloadRepository = async (connectionId: number, repository: any) 
   const zipPath = path.join(zipDirPath, `${repository.name}.zip`);
   
   // Get auth token for download
-  const { data: connection } = await supabaseAdmin
-    .from('user_connections')
-    .select('*')
-    .eq('provider', 'github')
-    .eq('connection_data->>connectionId', connectionId)
-    .single();
-    
-  if (!connection) {
-    throw new Error(`No GitHub connection found for installation ${connectionId}`);
-  }
-  
-  const auth = await new VCSConnectionManager(supabaseAdmin).getAuthFromConnection(connection.id);
+  const { auth } = await getGitHubProviderAndAuth(connectionId);
   
   const response = await fetch(downloadUrl, {
     headers: {
@@ -382,47 +390,28 @@ export const downloadRepository = async (connectionId: number, repository: any) 
 /**
  * Create branch using VCS abstraction
  */
-export const createBranch = async (connectionId: number, repository: any, name: string) => {
+export const createBranch = async (
+  connectionId: number,
+  repository: LegacyRepositoryLike,
+  name: string,
+): Promise<VCSBranch> => {
   log('Creating branch via VCS abstraction', 'info', { 
     connectionId, 
     repo: `${repository.owner.login}/${repository.name}`,
     branch: name 
   });
   
-  const { data: connection } = await supabaseAdmin
-    .from('user_connections')
-    .select('*')
-    .eq('provider', 'github')
-    .eq('connection_data->>connectionId', connectionId)
-    .single();
-    
-  if (!connection) {
-    throw new Error(`No GitHub connection found for installation ${connectionId}`);
-  }
-  
-  // Use VCS provider for branch creation
-  const vcsConnections = new VCSConnections(supabaseAdmin);
-  const auth = await vcsConnections.getAuthFromConnection(connection.id);
-  
-  if (!auth) {
-    throw new Error('No auth found for connection');
-  }
-  
-  const provider = await VCSProviderFactory.create({
-    provider: 'github',
-    clientId: process.env.GITHUB_CLIENT_ID || '',
-    clientSecret: process.env.GITHUB_CLIENT_SECRET || '',
-    redirectUri: process.env.VCS_REDIRECT_URI || ''
-  });
+  const { auth, provider } = await getGitHubProviderAndAuth(connectionId);
+  const createBranchMethod = requireProviderMethod(provider.createBranch, 'branch creation');
   
   // Get the SHA of the source branch first
   const sourceBranch = await provider.getBranch(auth, repository.owner.login, repository.name, 'main');
   
-  return await provider.createBranch(
+  return await createBranchMethod(
     auth,
     repository.owner.login,
     repository.name,
     name,
-    sourceBranch.commit.sha
+    sourceBranch.commit.sha,
   );
 };

@@ -70,7 +70,7 @@ const BitcodeExecutionStreamPanel = forwardRef<HTMLDivElement, BitcodeExecutionS
   ) {
     const errorMessage = normalizeErrorMessage(error);
     const orderedIterationUpdates = useMemo(
-      () => [...iterationUpdates].sort((a, b) => (b?.iteration ?? 0) - (a?.iteration ?? 0)),
+      () => [...iterationUpdates].sort((a, b) => Number(b?.iteration ?? 0) - Number(a?.iteration ?? 0)),
       [iterationUpdates],
     );
 

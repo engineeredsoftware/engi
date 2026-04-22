@@ -59,6 +59,7 @@ const ShimmerButton = React.forwardRef<HTMLButtonElement, ShimmerButtonProps>(
       variant,
       className,
       children,
+      style,
       ...props
     },
     ref,
@@ -79,6 +80,9 @@ const ShimmerButton = React.forwardRef<HTMLButtonElement, ShimmerButtonProps>(
             "--speed": shimmerDuration,
             "--cut": shimmerSize,
             "--bg": finalBackground,
+            willChange: 'transform',
+            backfaceVisibility: 'hidden',
+            ...style,
           } as CSSProperties
         }
         className={cn(
@@ -86,10 +90,6 @@ const ShimmerButton = React.forwardRef<HTMLButtonElement, ShimmerButtonProps>(
           "transform-gpu transition-transform duration-300 ease-in-out active:translate-y-[1px]",
           className,
         )}
-        style={{
-          willChange: 'transform',
-          backfaceVisibility: 'hidden'
-        }}
         ref={ref}
         {...props}
       >
@@ -180,4 +180,3 @@ ShimmerButtonDemoBase.displayName = "ShimmerButton";
 const ShimmerButtonDemo = React.memo(ShimmerButtonDemoBase);
 
 export default ShimmerButtonDemo;
-

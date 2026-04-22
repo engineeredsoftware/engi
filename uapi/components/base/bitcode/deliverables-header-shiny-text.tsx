@@ -21,7 +21,7 @@ const DeliverablesHeaderShinyText: FC<DeliverablesHeaderShinyTextProps> = ({
   style,
   ...rest
 }) => {
-  const textRef = useRef<HTMLElement>(null);
+  const textRef = useRef<HTMLElement | null>(null);
   const [textContent, setTextContent] = useState<string>('');
 
   useEffect(() => {
@@ -34,7 +34,7 @@ const DeliverablesHeaderShinyText: FC<DeliverablesHeaderShinyTextProps> = ({
   const Component = as;
   return (
     <Component
-      ref={textRef}
+      ref={textRef as React.Ref<any>}
       className={cn('deliverables-header-text', enable3dEffect && 'deliverables-header-text-3d', className)}
       data-text={enable3dEffect ? textContent : undefined}
       style={{ position: 'relative', display: 'inline-block', ...style }}
