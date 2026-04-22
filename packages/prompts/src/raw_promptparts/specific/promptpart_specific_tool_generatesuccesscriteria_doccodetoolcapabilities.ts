@@ -18,7 +18,7 @@
  * ]
  */
 
-import { PromptPart } from '@bitcode/prompts';
+import type { PromptPart } from '../../parts/PromptPart';
 
 export const PROMPTPART_SPECIFIC_TOOL_GENERATESUCCESSCRITERIA_DOCCODETOOLCAPABILITIES: PromptPart = 
   'SMART criteria generation (Specific, Measurable, Achievable, Relevant, Time-bound), acceptance criteria template creation based on user story patterns, test case generation from functional requirements using Gherkin syntax, KPI definition with baseline and target values, quality gate configuration for CI/CD pipelines, performance benchmark creation with latency and throughput thresholds, security criteria generation based on OWASP guidelines, accessibility validation using WCAG 2.1 standards, usability metrics definition with user experience benchmarks, code quality criteria using static analysis rules, documentation completeness validation with coverage metrics, and compliance verification checklists for regulatory requirements' as PromptPart;

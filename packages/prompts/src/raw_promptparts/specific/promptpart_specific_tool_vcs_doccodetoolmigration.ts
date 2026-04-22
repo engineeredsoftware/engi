@@ -11,7 +11,7 @@
  * ]
  */
 
-import { PromptPart } from '@bitcode/prompts';
+import type { PromptPart } from '../../parts/PromptPart';
 
 export const PROMPTPART_SPECIFIC_TOOL_VCS_DOCCODETOOLMIGRATION: PromptPart = 
   'MIGRATION GUIDE: Replace all git-interactor imports with @bitcode/generic-tools/vcs. The VCS abstraction provides provider-agnostic operations supporting GitHub, GitLab, and Bitbucket with consistent APIs.' as PromptPart;

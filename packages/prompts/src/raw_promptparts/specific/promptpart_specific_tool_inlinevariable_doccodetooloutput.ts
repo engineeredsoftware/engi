@@ -11,7 +11,7 @@
  * ]
  */
 
-import { PromptPart } from '@bitcode/prompts';
+import type { PromptPart } from '../../parts/PromptPart';
 
 export const PROMPTPART_SPECIFIC_TOOL_INLINEVARIABLE_DOCCODETOOLOUTPUT: PromptPart = 
   'Inline operation report with replacement count, affected locations, and validation results' as PromptPart;

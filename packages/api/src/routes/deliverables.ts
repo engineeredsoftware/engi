@@ -15,7 +15,10 @@ import { createClient as createSupabaseClient } from '@supabase/supabase-js';
 import { DEFAULT_PROVIDER, DEFAULT_MODEL_API, getUsdPricingForApiModel } from '@bitcode/models';
 import { withBtdReservation } from '@bitcode/btd';
 import { Execution, ExecutionStreamAdapter, NS_EXEC_DELIVERABLE_VALIDATION_RTS } from '@bitcode/execution-generics';
-import { PipelineExecution } from '@bitcode/pipelines-generics/src/execution/PipelineExecution';
+import {
+  PipelineExecution,
+  inferPipelineExecutionLineage
+} from '@bitcode/pipelines-generics/src/execution/PipelineExecution';
 import { deliverablePipeline } from '@bitcode/pipeline-deliverable';
 // GA-2: Multi-deliverable will be integrated into main pipeline
 // import multiDeliverablesPipeline from '@bitcode/pipelines/multi';
@@ -820,7 +823,11 @@ export const POST = traceRoute('/deliverables', async (request: NextRequest) => 
         // Create execution context
         log('[deliverables] Creating execution context', 'debug', { correlationId, runId });
         // Use PipelineExecution to ensure prompts/tools/llms/agents registries are available
-        execution = new PipelineExecution(runId);
+        execution = new PipelineExecution(
+          runId,
+          undefined,
+          inferPipelineExecutionLineage('deliverable')
+        );
         // Bridge execution store events to stream
         try { ExecutionStreamAdapter.registerStreamer(runId, streamer); } catch {}
 

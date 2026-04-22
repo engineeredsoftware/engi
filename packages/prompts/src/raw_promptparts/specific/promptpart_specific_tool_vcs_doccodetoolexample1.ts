@@ -10,7 +10,7 @@
  * ]
  */
 
-import { PromptPart } from '@bitcode/prompts';
+import type { PromptPart } from '../../parts/PromptPart';
 
 export const PROMPTPART_SPECIFIC_TOOL_VCS_DOCCODETOOLEXAMPLE1: PromptPart = 
   'Example 1 - DEPRECATED repository clone: Use vcsTools.cloneRepository({ provider: "github", owner, repo, branch }) instead of cloneRepositoryTool' as PromptPart;

@@ -2,7 +2,9 @@
 
 ## Overview
 
-Model Context Protocol (MCP) base types and configuration validation utilities. Provides foundational primitive validation functions for MCP server integration with zero-dependency type safety and extensible configuration patterns.
+Model Context Protocol (MCP) base types and configuration validation utilities.
+This package is the primitive `@bitcode/mcp` layer, not the full Bitcode Exchange-facing MCP server.
+It provides foundational validation and type utilities used by higher MCP interfaces, including Bitcode's own MCP server and admitted third-party MCP ingress.
 
 ## Core Functionality
 
@@ -11,6 +13,17 @@ Model Context Protocol (MCP) base types and configuration validation utilities. 
 - **Extensible Schema**: Generic configuration structure supporting arbitrary MCP types
 - **Validation Pipeline**: Production-ready validation with detailed error reporting
 - **Zero Dependencies**: Minimal footprint with no runtime schema dependency
+
+## Interface boundary
+
+- `@bitcode/mcp`: primitive MCP configuration and validation utilities
+- `@bitcode/mcp-server`: the Bitcode Exchange-facing MCP interface surface
+- Third-party MCPs: admitted external interface inputs that can provide attachments, repository connections, or config context into Bitcode execution
+
+This distinction matters in V26:
+- attachments and connections are input context
+- asset packs are output meaning
+- the base MCP package should stay reusable and product-neutral
 
 ## API Reference
 
@@ -32,8 +45,10 @@ Validates MCP configuration objects with comprehensive error checking.
 ```
 
 **Current Implementation:**
-- Always returns `{ success: true, reasons: [] }`
-- Placeholder for future validation logic expansion
+- Validates that config is a plain object
+- Requires string `id` and `type`
+- Accepts optional object `config`
+- Returns explicit failure reasons for malformed input
 
 ### Schema Definitions
 

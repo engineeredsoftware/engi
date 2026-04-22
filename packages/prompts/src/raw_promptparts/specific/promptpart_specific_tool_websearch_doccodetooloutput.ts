@@ -11,7 +11,7 @@
  * ]
  */
 
-import { PromptPart } from '@bitcode/prompts';
+import type { PromptPart } from '../../parts/PromptPart';
 
 export const PROMPTPART_SPECIFIC_TOOL_WEBSEARCH_DOCCODETOOLOUTPUT: PromptPart = 
   'Array of search results containing title, url, snippet, relevance score, source provider, timestamp, and enriched metadata with content extraction when requested' as PromptPart;

@@ -11,7 +11,7 @@
  * ]
  */
 
-import { PromptPart } from '@bitcode/prompts';
+import type { PromptPart } from '../../parts/PromptPart';
 
 export const PROMPTPART_SPECIFIC_TOOL_REPLACEFILE_DOCCODETOOLPURPOSE: PromptPart = 
   'Atomically replace entire file contents with validation, backup creation, and rollback capability for safe file content management' as PromptPart;

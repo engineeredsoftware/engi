@@ -11,7 +11,7 @@
  * ]
  */
 
-import { PromptPart } from '@bitcode/prompts';
+import type { PromptPart } from '../../parts/PromptPart';
 
 export const PROMPTPART_SPECIFIC_TOOL_GETFILECONTENT_DOCCODETOOLEXAMPLE2: PromptPart = 
   'Ecosystem-wide architecture analysis: getFileContent({ file_path: "config/**/*.{yml,json,env}", content_format: "vector_embedded", relationship_mapping: "enterprise", intelligence_level: "advanced", analysis_scope: "full_ecosystem" }) → Processes 47 configuration files across microservices architecture, constructs knowledge graph revealing 12 inconsistent security policies, predicts 3 potential failure modes based on configuration drift patterns, generates automated remediation plan affecting 23 services, and provides executive dashboard with risk assessment and modernization roadmap for cloud-native transformation' as PromptPart;

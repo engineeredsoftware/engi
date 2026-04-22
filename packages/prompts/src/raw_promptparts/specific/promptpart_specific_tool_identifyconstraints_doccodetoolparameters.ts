@@ -12,7 +12,7 @@
  * ]
  */
 
-import { PromptPart } from '@bitcode/prompts';
+import type { PromptPart } from '../../parts/PromptPart';
 
 export const PROMPTPART_SPECIFIC_TOOL_IDENTIFYCONSTRAINTS_DOCCODETOOLPARAMETERS: PromptPart = 
   'taskContext: SystemContext, analysisScope: ArchitecturalBoundary, constraintTypes: DimensionArray, systemArchitecture: StructuralModel, resourceInventory: CapacityProfile, temporalFramework: TimeConstraints, regulatoryContext: ComplianceSpace, interdependencyDepth: SystemicLevel, outputGranularity: ConstraintSchema' as PromptPart;

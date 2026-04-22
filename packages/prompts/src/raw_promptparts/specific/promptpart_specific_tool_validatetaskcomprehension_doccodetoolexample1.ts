@@ -12,7 +12,7 @@
  * ]
  */
 
-import { PromptPart } from '@bitcode/prompts';
+import type { PromptPart } from '../../parts/PromptPart';
 
 export const PROMPTPART_SPECIFIC_TOOL_VALIDATETASKCOMPREHENSION_DOCCODETOOLEXAMPLE1: PromptPart = 
   'Example 1 - Microservices Architecture Migration Validation: validateTaskComprehension({ comprehensionArtifacts: [requirements: "extracted-requirements.json", constraints: "system-constraints.yaml", criteria: "success-criteria.xml"], validationDepth: "meta-cognitive", coherenceThreshold: "high-alignment", integrationScope: "cross-dimensional", gapDetectionSensitivity: "comprehensive", verificationFramework: "holistic-assessment" }) → Returns ValidationReport with 97% comprehension completeness, requirement-constraint coherence verification, success criteria alignment confirmation, identified cognitive gaps in service mesh understanding, meta-cognitive assessment of architectural comprehension depth, and readiness indicators for migration planning' as PromptPart;

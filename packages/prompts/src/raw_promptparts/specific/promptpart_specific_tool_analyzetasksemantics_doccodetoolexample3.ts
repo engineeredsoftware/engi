@@ -12,7 +12,7 @@
  * ]
  */
 
-import { PromptPart } from '@bitcode/prompts';
+import type { PromptPart } from '../../parts/PromptPart';
 
 export const PROMPTPART_SPECIFIC_TOOL_ANALYZETASKSEMANTICS_DOCCODETOOLEXAMPLE3: PromptPart = 
   'Example 3 - Pipeline Integration with Cognitive Layers: analyzeTaskSemantics({ taskDescription: "Implement AI-driven user personalization engine", analysisDepth: "cognitive", contextualMetadata: { domain: "machine-learning", stakeholders: ["users", "data-scientists", "product"] }, outputGranularity: "layered" }) → Returns stratified semantic analysis with surface intent (feature implementation), semantic layer (personalization architecture), cognitive layer (user behavior modeling), enabling downstream Task Comprehension Agent to apply PTRR methodology with full dimensional understanding' as PromptPart;

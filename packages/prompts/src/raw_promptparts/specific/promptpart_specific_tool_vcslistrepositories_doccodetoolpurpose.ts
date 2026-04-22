@@ -11,7 +11,7 @@
  * ]
  */
 
-import { PromptPart } from '@bitcode/prompts';
+import type { PromptPart } from '../../parts/PromptPart';
 
 export const PROMPTPART_SPECIFIC_TOOL_VCSLISTREPOSITORIES_DOCCODETOOLPURPOSE: PromptPart = 
   'List repositories from VCS providers (GitHub, GitLab, Bitbucket) with unified interface and comprehensive filtering options' as PromptPart;

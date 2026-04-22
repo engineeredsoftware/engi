@@ -11,7 +11,7 @@
  * ]
  */
 
-import { PromptPart } from '@bitcode/prompts';
+import type { PromptPart } from '../../parts/PromptPart';
 
 export const PROMPTPART_SPECIFIC_TOOL_TEXTEDITOR_DOCCODETOOLPARAMETERS: PromptPart = 
   'filePath: string (required) - Absolute path to file; operation: "create" | "update" | "delete" | "replace" | "append" | "prepend" | "search_replace" - Operation type; content: string (conditional) - Content for operation; position: number (optional) - Line number for insertions; pattern: string (optional) - Search pattern for replacements; transactionId: string (optional) - Transaction ID for multi-file operations' as PromptPart;

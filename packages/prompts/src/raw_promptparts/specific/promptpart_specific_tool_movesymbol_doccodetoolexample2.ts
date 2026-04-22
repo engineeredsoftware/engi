@@ -11,7 +11,7 @@
  * ]
  */
 
-import { PromptPart } from '@bitcode/prompts';
+import type { PromptPart } from '../../parts/PromptPart';
 
 export const PROMPTPART_SPECIFIC_TOOL_MOVESYMBOL_DOCCODETOOLEXAMPLE2: PromptPart = 
   'Reorganizing architecture by moving "UserService" class to dedicated services directory: transfers class with all methods, updates 12 import statements, resolves circular dependencies, improves module organization and separation of concerns' as PromptPart;

@@ -11,7 +11,7 @@
  * ]
  */
 
-import { PromptPart } from '@bitcode/prompts';
+import type { PromptPart } from '../../parts/PromptPart';
 
 export const PROMPTPART_SPECIFIC_TOOL_ORGANIZEIMPORTS_DOCCODETOOLPARAMETERS: PromptPart = 
   'filePath (target file), sortStyle (import ordering), removeUnused (cleanup unused), groupByType (grouping strategy)' as PromptPart;

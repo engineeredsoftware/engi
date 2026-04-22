@@ -11,7 +11,7 @@
  * ]
  */
 
-import { PromptPart } from '@bitcode/prompts';
+import type { PromptPart } from '../../parts/PromptPart';
 
 export const PROMPTPART_SPECIFIC_TOOL_SCRAPEURL_DOCCODETOOLPARAMETERS: PromptPart = 
   'url: string (required) - Target webpage URL; options.formats: string[] (optional) - Output formats ["markdown", "html", "screenshot", "links"]; options.timeout: number (optional) - Request timeout ms; options.waitFor: number (optional) - Page load wait ms; options.headers: object (optional) - Custom HTTP headers; options.includeTags: string[] (optional) - Tags to include; options.excludeTags: string[] (optional) - Tags to exclude; options.onlyMainContent: boolean (optional) - Extract main content only' as PromptPart;

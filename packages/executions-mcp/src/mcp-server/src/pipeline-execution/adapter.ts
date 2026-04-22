@@ -22,8 +22,18 @@ import {
   OrganizationCreditsModel
 } from '@bitcode/orm';
 import deliverablePipeline from '@bitcode/pipelines/deliverable';
-import { Execution } from '@bitcode/execution-generics';
-import type { PipelineName } from '../types';
+import {
+  PipelineExecution,
+  inferPipelineExecutionLineage
+} from '@bitcode/pipelines-generics';
+import type {
+  AssetPackResult,
+  Attachment,
+  InterfaceIngressSurface,
+  PipelineInputContext,
+  PipelineName,
+  RepositoryContext
+} from '../types';
 
 export interface PipelineJobOptions {
   pipeline: PipelineName;
@@ -50,6 +60,82 @@ export interface PipelineExecutionResult {
     data: any;
     timestamp: Date;
   }>;
+}
+
+function asRecord(value: unknown): Record<string, any> | null {
+  return value && typeof value === 'object' && !Array.isArray(value)
+    ? (value as Record<string, any>)
+    : null;
+}
+
+function buildPipelineInputContext(
+  ingress: InterfaceIngressSurface,
+  config: Record<string, any>
+): PipelineInputContext {
+  const repository = asRecord(config.repository) as RepositoryContext | null;
+  const attachments = Array.isArray(config.attachments)
+    ? (config.attachments as Attachment[])
+    : [];
+  const connections = repository
+    ? [{
+        kind: 'repository_connection' as const,
+        provider: repository.provider || 'github',
+        connectionId: repository.connectionId,
+        owner: repository.owner,
+        name: repository.name,
+        branch: repository.branch,
+        path: repository.path,
+      }]
+    : [];
+
+  return {
+    ingress,
+    repository: repository || undefined,
+    attachments,
+    connections,
+    mcpConfig: asRecord(config.mcpConfig) || {},
+  };
+}
+
+function normalizeAssetPacks(result: unknown): AssetPackResult[] {
+  const record = asRecord(result);
+  const raw = Array.isArray(record?.assetPacks)
+    ? record?.assetPacks
+    : Array.isArray(record?.deliverables)
+      ? record?.deliverables
+      : [];
+
+  return raw.map((item) => {
+    const pack = asRecord(item) || {};
+    return {
+      kind: 'asset_pack' as const,
+      type: typeof pack.type === 'string' ? pack.type : 'artifact',
+      url: typeof pack.url === 'string' ? pack.url : undefined,
+      content: typeof pack.content === 'string' ? pack.content : undefined,
+      metadata: asRecord(pack.metadata) || pack.metadata,
+    };
+  });
+}
+
+function enrichPipelineResult(
+  result: unknown,
+  ingress: InterfaceIngressSurface,
+  inputContext: PipelineInputContext
+): Record<string, any> {
+  const record = asRecord(result) || { value: result };
+  const assetPacks = normalizeAssetPacks(record);
+
+  return {
+    ...record,
+    interfaceSurface: ingress,
+    inputContext,
+    assetPacks,
+    deliverables: assetPacks,
+    metadata: {
+      ...(asRecord(record.metadata) || {}),
+      outputMeaning: 'asset_packs',
+    },
+  };
 }
 
 /**
@@ -197,13 +283,25 @@ async function executePipelineJob(
 
     switch (options.pipeline) {
       case 'deliverable': {
-        const execution = new Execution(runId);
+        const inputContext = buildPipelineInputContext('bitcode_mcp', options.config);
+        const execution = new PipelineExecution(
+          runId,
+          undefined,
+          inferPipelineExecutionLineage('deliverable')
+        );
+        execution.store('interface', 'ingress', {
+          surface: 'bitcode_mcp',
+          interfaceKind: 'bitcode_exchange_interface',
+          pipeline: options.pipeline,
+        } as any);
+        execution.store('inputs', 'context', inputContext as any);
         result = await deliverablePipeline({
           task: options.task,
           config: options.config,
           userId: options.userId,
           organizationId: options.organizationId
         }, execution);
+        result = enrichPipelineResult(result, 'bitcode_mcp', inputContext);
         break;
       }
 

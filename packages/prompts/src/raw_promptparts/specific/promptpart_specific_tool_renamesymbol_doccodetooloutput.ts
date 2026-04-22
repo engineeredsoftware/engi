@@ -11,7 +11,7 @@
  * ]
  */
 
-import { PromptPart } from '@bitcode/prompts';
+import type { PromptPart } from '../../parts/PromptPart';
 
 export const PROMPTPART_SPECIFIC_TOOL_RENAMESYMBOL_DOCCODETOOLOUTPUT: PromptPart = 
   'Detailed rename report including: affected files list with change counts, total symbols renamed, dependency analysis results, success/failure status, rollback information if needed, and any conflicts or warnings encountered during the rename operation' as PromptPart;

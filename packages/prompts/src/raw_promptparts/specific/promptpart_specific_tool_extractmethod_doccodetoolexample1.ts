@@ -11,7 +11,7 @@
  * ]
  */
 
-import { PromptPart } from '@bitcode/prompts';
+import type { PromptPart } from '../../parts/PromptPart';
 
 export const PROMPTPART_SPECIFIC_TOOL_EXTRACTMETHOD_DOCCODETOOLEXAMPLE1: PromptPart = 
   'Example 1: Extract duplicate validation logic into a method\nInput: { filePath: "/src/user/validation.ts", startLine: 15, endLine: 22, methodName: "validateUserInput", targetLocation: "after" }\nOutput: Successfully extracted 8 lines into validateUserInput method with parameters (email: string, password: string) and return type boolean. Method placed after line 30.' as PromptPart;

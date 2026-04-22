@@ -10,7 +10,7 @@
  * ]
  */
 
-import { PromptPart } from '@bitcode/prompts';
+import type { PromptPart } from '../../parts/PromptPart';
 
 export const PROMPTPART_SPECIFIC_TOOL_TEXTEDITOR_DOCCODETOOLNAME: PromptPart = 
   'Text Editor Tool' as PromptPart;

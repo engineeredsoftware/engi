@@ -11,7 +11,7 @@
  * ]
  */
 
-import { PromptPart } from '@bitcode/prompts';
+import type { PromptPart } from '../../parts/PromptPart';
 
 export const PROMPTPART_SPECIFIC_TOOL_CREATECOMMENT_DOCCODETOOLEXAMPLE1: PromptPart = 
   'Code review feedback: createComment({ target_context: "PR-123", content: "Great refactoring of the authentication logic! Consider extracting the token validation into a separate utility function for better testability.", comment_type: "suggestion", target_line: 45, mentions: ["@auth-team"], sentiment_tone: "professional" }) → Creates review comment with positive sentiment analysis, automatically mentions relevant team members, and suggests code improvement with constructive tone optimization' as PromptPart;

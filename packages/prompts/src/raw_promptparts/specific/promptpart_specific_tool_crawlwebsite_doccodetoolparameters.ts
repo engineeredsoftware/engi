@@ -11,7 +11,7 @@
  * ]
  */
 
-import { PromptPart } from '@bitcode/prompts';
+import type { PromptPart } from '../../parts/PromptPart';
 
 export const PROMPTPART_SPECIFIC_TOOL_CRAWLWEBSITE_DOCCODETOOLPARAMETERS: PromptPart = 
   'url: string (required) - Starting URL for crawl; options.limit: number (optional) - Max pages to crawl; options.allowedDomains: string[] (optional) - Domains to include; options.blockedDomains: string[] (optional) - Domains to exclude; options.maxDepth: number (optional) - Max link depth; options.mode: "default"|"fast" (optional) - Crawling mode; options.followSitemap: boolean (optional) - Use sitemap.xml' as PromptPart;

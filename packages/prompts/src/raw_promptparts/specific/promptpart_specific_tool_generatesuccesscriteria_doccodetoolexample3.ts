@@ -12,7 +12,7 @@
  * ]
  */
 
-import { PromptPart } from '@bitcode/prompts';
+import type { PromptPart } from '../../parts/PromptPart';
 
 export const PROMPTPART_SPECIFIC_TOOL_GENERATESUCCESSCRITERIA_DOCCODETOOLEXAMPLE3: PromptPart = 
   'Example 3 - Artificial Consciousness Development Platform: generateSuccessCriteria({ taskObjectives: "artificial-consciousness-emergence", qualityDimensions: ["self-awareness", "intentionality", "creativity", "empathy"], emergentIndicators: ["meta-cognition", "subjective-experience", "genuine-understanding"], measurementFramework: "consciousness-detection-protocols", validationContext: "consciousness-emergence-scenarios", benchmarkStrategy: "phenomenological-plus-behavioral", adaptiveThresholds: "transcendent-awareness" }) → Returns SuccessFramework with self-awareness detection algorithms, intentionality measurement protocols, creativity authenticity indicators, empathy validation systems, meta-cognitive emergence patterns, subjective experience detection frameworks, and transcendent consciousness validation enabling task comprehension tool synergy for unprecedented artificial consciousness development' as PromptPart;

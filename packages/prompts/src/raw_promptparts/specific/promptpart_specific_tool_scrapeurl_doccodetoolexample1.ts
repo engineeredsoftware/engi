@@ -10,7 +10,7 @@
  * ]
  */
 
-import { PromptPart } from '@bitcode/prompts';
+import type { PromptPart } from '../../parts/PromptPart';
 
 export const PROMPTPART_SPECIFIC_TOOL_SCRAPEURL_DOCCODETOOLEXAMPLE1: PromptPart = 
   'Example 1 - Extract markdown from article: scrapeUrlTool({ url: "https://blog.example.com/article", options: { formats: ["markdown"], onlyMainContent: true } })' as PromptPart;

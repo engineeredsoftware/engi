@@ -10,7 +10,7 @@
  * ]
  */
 
-import { PromptPart } from '@bitcode/prompts';
+import type { PromptPart } from '../../parts/PromptPart';
 
 export const PROMPTPART_SPECIFIC_TOOL_REPLACEFILE_DOCCODETOOLOUTPUT: PromptPart = 
   'Returns object with success (boolean), backupPath (string path to backup file), transactionId (string for tracking), bytesWritten (number), and on failure includes error (string description) and canRollback (boolean)' as PromptPart;

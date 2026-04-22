@@ -11,7 +11,7 @@
  * ]
  */
 
-import { PromptPart } from '@bitcode/prompts';
+import type { PromptPart } from '../../parts/PromptPart';
 
 export const PROMPTPART_SPECIFIC_TOOL_VCSLISTREPOSITORIES_DOCCODETOOLCAPABILITIES: PromptPart = 
   'Provider-agnostic repository listing, pagination support, sorting by created/updated/pushed date, direction control (asc/desc), automatic authentication handling, connection fallback, timeout protection' as PromptPart;

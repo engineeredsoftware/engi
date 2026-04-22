@@ -11,7 +11,7 @@
  * ]
  */
 
-import { PromptPart } from '@bitcode/prompts';
+import type { PromptPart } from '../../parts/PromptPart';
 
 export const PROMPTPART_SPECIFIC_TOOL_CREATEORUPDATEFILE_DOCCODETOOLEXAMPLE3: PromptPart = 
   'Multi-file coordinated update with dependency tracking: createOrUpdateFile({ file_path: "microservices/user-service/api/schema.graphql", content: updatedSchema, operation_mode: "update", backup_strategy: "incremental", conflict_resolution: "merge", validation_rules: ["graphql-schema", "breaking-change-analysis", "downstream-compatibility"], atomic: true, lock_timeout: 30000, metadata: { "change_ticket": "SCHEMA-456", "impact_services": ["auth", "profile", "notifications"], "migration_required": true, "api_version_bump": "minor" } }) → Performs coordinated schema update with dependency analysis across 12 microservices, generates migration scripts, validates backward compatibility, creates atomic backups, and triggers downstream service notifications for API contract changes' as PromptPart;

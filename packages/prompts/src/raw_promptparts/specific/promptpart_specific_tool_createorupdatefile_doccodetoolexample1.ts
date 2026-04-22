@@ -11,7 +11,7 @@
  * ]
  */
 
-import { PromptPart } from '@bitcode/prompts';
+import type { PromptPart } from '../../parts/PromptPart';
 
 export const PROMPTPART_SPECIFIC_TOOL_CREATEORUPDATEFILE_DOCCODETOOLEXAMPLE1: PromptPart = 
   'Configuration file update: createOrUpdateFile({ file_path: "config/database.yml", content: "production:\\n  host: db.company.com\\n  port: 5432", operation_mode: "update", backup_strategy: "timestamp", encoding: "utf-8" }) → Updates database configuration with automatic backup to config/database.yml.backup.20240802-143022, preserves file permissions and validates YAML syntax' as PromptPart;

@@ -29,6 +29,12 @@ export {
   factoryPipelineExecution,
   factoryPhaseDelegation
 } from './execution/pipeline-types';
+export {
+  type PipelineExecutionLineage,
+  type PipelineExecutionFamily,
+  type PipelineExecutionPosture,
+  inferPipelineExecutionLineage
+} from './execution/PipelineExecution';
 
 // Pipeline factories
 export {

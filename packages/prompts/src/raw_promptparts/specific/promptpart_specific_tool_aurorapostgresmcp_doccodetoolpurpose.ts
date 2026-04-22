@@ -11,7 +11,7 @@
  * ]
  */
 
-import { PromptPart } from '@bitcode/prompts';
+import type { PromptPart } from '../../parts/PromptPart';
 
 export const PROMPTPART_SPECIFIC_TOOL_AURORAPOSTGRESMCP_DOCCODETOOLPURPOSE: PromptPart = 
   'Provides enterprise-grade Aurora PostgreSQL cloud database integration with automatic scaling, high availability, and performance optimization for mission-critical applications requiring 99.99% uptime and global data consistency across distributed cloud infrastructure.' as PromptPart;

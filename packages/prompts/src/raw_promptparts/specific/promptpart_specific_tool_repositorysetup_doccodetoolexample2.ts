@@ -11,7 +11,7 @@
  * ]
  */
 
-import { PromptPart } from '@bitcode/prompts';
+import type { PromptPart } from '../../parts/PromptPart';
 
 export const PROMPTPART_SPECIFIC_TOOL_REPOSITORYSETUP_DOCCODETOOLEXAMPLE2: PromptPart = 
   'Example 2 - Shallow clone specific commit: cloneRepositoryTool({ provider: "gitlab", owner: "gitlab-org", name: "gitlab", ref: "abc123def", connectionId: 67890, shallow: true, depth: 10 })' as PromptPart;

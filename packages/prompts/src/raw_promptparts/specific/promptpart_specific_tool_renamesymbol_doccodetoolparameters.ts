@@ -11,7 +11,7 @@
  * ]
  */
 
-import { PromptPart } from '@bitcode/prompts';
+import type { PromptPart } from '../../parts/PromptPart';
 
 export const PROMPTPART_SPECIFIC_TOOL_RENAMESYMBOL_DOCCODETOOLPARAMETERS: PromptPart = 
   'filePath: absolute path to the file containing the symbol; position: line and column location of the symbol to rename; newName: the new name for the symbol (must be valid identifier); atomic: boolean for atomic operation mode (true for all-or-nothing); validateReferences: boolean to check all references before renaming' as PromptPart;

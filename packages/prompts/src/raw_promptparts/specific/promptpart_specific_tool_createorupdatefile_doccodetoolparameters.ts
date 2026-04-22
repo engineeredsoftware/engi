@@ -11,7 +11,7 @@
  * ]
  */
 
-import { PromptPart } from '@bitcode/prompts';
+import type { PromptPart } from '../../parts/PromptPart';
 
 export const PROMPTPART_SPECIFIC_TOOL_CREATEORUPDATEFILE_DOCCODETOOLPARAMETERS: PromptPart = 
   'file_path: string (target file location with path resolution), content: string | Buffer (file content with encoding support), operation_mode: "create" | "update" | "upsert" (operation type), encoding?: string (character encoding, auto-detected if omitted), backup_strategy?: "none" | "timestamp" | "incremental" (backup approach), conflict_resolution?: "fail" | "merge" | "overwrite" | "prompt" (conflict handling), template_variables?: Record<string, any> (variable substitution map), metadata?: object (custom file metadata), permissions?: string (file permission mode), validation_rules?: string[] (content validation requirements), atomic?: boolean (transaction guarantees), and lock_timeout?: number (concurrent access timeout in milliseconds)' as PromptPart;

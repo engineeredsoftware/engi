@@ -11,7 +11,7 @@
  * ]
  */
 
-import { PromptPart } from '@bitcode/prompts';
+import type { PromptPart } from '../../parts/PromptPart';
 
 export const PROMPTPART_SPECIFIC_TOOL_CREATECOMMENT_DOCCODETOOLPURPOSE: PromptPart = 
   'Elevates collaborative development through intelligent comment orchestration, providing context-aware communication that bridges code reviews, issue discussions, and project coordination with natural language processing for sentiment analysis, automated threading, stakeholder routing, and integration across development platforms to foster productive team interactions and knowledge transfer' as PromptPart;

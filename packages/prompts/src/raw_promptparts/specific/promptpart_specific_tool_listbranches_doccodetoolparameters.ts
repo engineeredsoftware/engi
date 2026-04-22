@@ -11,7 +11,7 @@
  * ]
  */
 
-import { PromptPart } from '@bitcode/prompts';
+import type { PromptPart } from '../../parts/PromptPart';
 
 export const PROMPTPART_SPECIFIC_TOOL_LISTBRANCHES_DOCCODETOOLPARAMETERS: PromptPart = 
   'repository: string (target repository identifier), branch_types?: "all" | "active" | "merged" | "stale" | "feature" | "hotfix" (branch categorization filter), include_remote?: boolean (include remote branch references), author_filter?: string[] (filter by specific authors or teams), date_range?: { start: Date, end: Date } (activity time window), sort_criteria?: "activity" | "name" | "created" | "updated" (ordering preference), include_metadata?: boolean (detailed branch information), merge_status?: "ahead" | "behind" | "diverged" | "up_to_date" (merge state filter), pipeline_status?: "passing" | "failing" | "pending" (CI/CD status filter), limit?: number (maximum results with pagination), search_pattern?: string (regex or fuzzy search), and analysis_depth?: "basic" | "detailed" | "comprehensive" (analysis level for insights and recommendations)' as PromptPart;

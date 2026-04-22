@@ -11,7 +11,7 @@
  * ]
  */
 
-import { PromptPart } from '@bitcode/prompts';
+import type { PromptPart } from '../../parts/PromptPart';
 
 export const PROMPTPART_SPECIFIC_TOOL_MULTIPROVIDERSEARCH_DOCCODETOOLPURPOSE: PromptPart = 
   'Multi-provider search orchestration with automatic failover, result aggregation, and provider selection optimization for enterprise-grade information discovery' as PromptPart;

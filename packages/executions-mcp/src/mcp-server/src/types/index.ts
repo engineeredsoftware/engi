@@ -1,8 +1,8 @@
 /**
  * Bitcode MCP Server Type System
- * 
+ *
  * Comprehensive type definitions for the Model Context Protocol server
- * that exposes Bitcode's engineering intelligence platform.
+ * that exposes one Bitcode Exchange interface surface.
  */
 
 import { z } from 'zod';
@@ -15,6 +15,12 @@ export type PipelinePhase =
   | 'shipping';
 export type PipelineSubType = string;
 export type DeliverablesSubType = string;
+export type InterfaceIngressSurface =
+  | 'bitcode_mcp'
+  | 'third_party_mcp'
+  | 'rest_api'
+  | 'terminal'
+  | 'conversation';
 
 // Supported pipeline names exposed via MCP (align with supported pipelines only)
 export const PipelineNameValues = ['deliverable'] as const;
@@ -61,7 +67,7 @@ export interface MCPAuthContext {
 }
 
 /**
- * Repository context for pipeline operations
+ * Repository/provider connection context supplied as pipeline input.
  */
 export const RepositoryContextSchema = z.object({
   owner: z.string().optional().describe('Repository owner (user or organization) - not needed for local repos'),
@@ -85,7 +91,7 @@ export const RepositoryContextSchema = z.object({
 export type RepositoryContext = z.infer<typeof RepositoryContextSchema>;
 
 /**
- * Attachment context for multimodal processing
+ * Attachment context supplied as pipeline input.
  */
 export const AttachmentSchema = z.object({
   type: z.enum(['image', 'document', 'audio', 'video', 'url', 'figma', 'file'])
@@ -95,6 +101,45 @@ export const AttachmentSchema = z.object({
 });
 
 export type Attachment = z.infer<typeof AttachmentSchema>;
+
+/**
+ * Connection-style input context for an execution.
+ * Distinguishes provider/repository ingress from output artifacts.
+ */
+export interface PipelineConnectionInput {
+  kind: 'repository_connection';
+  provider: string;
+  connectionId?: number;
+  owner?: string;
+  name?: string;
+  branch?: string;
+  path?: string;
+}
+
+/**
+ * Inbound interface context for pipeline execution.
+ * Attachments and connections are inputs, not outputs.
+ */
+export interface PipelineInputContext {
+  ingress: InterfaceIngressSurface;
+  repository?: RepositoryContext;
+  attachments?: Attachment[];
+  connections?: PipelineConnectionInput[];
+  mcpConfig?: Record<string, any>;
+}
+
+/**
+ * Canonical output meaning for retained deliverable-style results.
+ * The legacy `deliverables` array is preserved as a compatibility alias,
+ * but the product meaning is an asset pack emitted by Bitcode.
+ */
+export interface AssetPackResult {
+  kind: 'asset_pack';
+  type: string;
+  url?: string;
+  content?: string;
+  metadata?: any;
+}
 
 /**
  * Pipeline execution status
@@ -117,6 +162,8 @@ export interface PipelineExecutionResult {
   subtype?: PipelineSubType;
   task: string;
   repository: RepositoryContext;
+  interfaceSurface?: InterfaceIngressSurface;
+  inputContext?: PipelineInputContext;
   
   // Execution metadata
   startTime: string;
@@ -125,12 +172,8 @@ export interface PipelineExecutionResult {
   
   // Results and outputs
   results?: any;
-  deliverables?: Array<{
-    type: string;
-    url?: string;
-    content?: string;
-    metadata?: any;
-  }>;
+  assetPacks?: AssetPackResult[];
+  deliverables?: AssetPackResult[];
   
   // Performance metrics
   metrics: {

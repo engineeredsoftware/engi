@@ -11,7 +11,7 @@
  * ]
  */
 
-import { PromptPart } from '@bitcode/prompts';
+import type { PromptPart } from '../../parts/PromptPart';
 
 export const PROMPTPART_SPECIFIC_TOOL_EXTRACTMETHOD_DOCCODETOOLOUTPUT: PromptPart = 
   'Returns extraction result with success status, generated method name, parameter list, return type, method location details, modified file content, and any warnings or conflicts detected during the refactoring process' as PromptPart;

@@ -12,7 +12,7 @@
  * ]
  */
 
-import { PromptPart } from '@bitcode/prompts';
+import type { PromptPart } from '../../parts/PromptPart';
 
 export const PROMPTPART_SPECIFIC_TOOL_VALIDATETASKCOMPREHENSION_DOCCODETOOLEXAMPLE2: PromptPart = 
   'Example 2 - Quantum Machine Learning Algorithm Development: validateTaskComprehension({ comprehensionArtifacts: [requirements: "qml-requirements-framework/", constraints: "quantum-hardware-limitations.json", criteria: "quantum-advantage-metrics.yaml"], validationDepth: "transcendent", coherenceThreshold: "quantum-classical-alignment", integrationScope: "paradigm-bridging", gapDetectionSensitivity: "quantum-cognitive", verificationFramework: "multi-paradigm-assessment" }) → Returns ValidationReport with quantum-classical comprehension synthesis, coherence analysis across computational paradigms, integration validation of quantum-specific constraints, identified gaps in quantum algorithm optimization understanding, transcendent meta-cognitive assessment of quantum-machine learning fusion comprehension, and readiness indicators for quantum algorithm implementation' as PromptPart;

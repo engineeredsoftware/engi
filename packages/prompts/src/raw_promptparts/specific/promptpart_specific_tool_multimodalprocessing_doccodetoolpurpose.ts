@@ -11,7 +11,7 @@
  * ]
  */
 
-import { PromptPart } from '@bitcode/prompts';
+import type { PromptPart } from '../../parts/PromptPart';
 
 export const PROMPTPART_SPECIFIC_TOOL_MULTIMODALPROCESSING_DOCCODETOOLPURPOSE: PromptPart = 
   'Process and analyze content across multiple modalities including text, images, audio, and video for comprehensive content understanding and transformation' as PromptPart;

@@ -12,7 +12,7 @@
  * ]
  */
 
-import { PromptPart } from '@bitcode/prompts';
+import type { PromptPart } from '../../parts/PromptPart';
 
 export const PROMPTPART_SPECIFIC_TOOL_GENERATESUCCESSCRITERIA_DOCCODETOOLEXAMPLE1: PromptPart = 
   'Example 1 - Large Language Model Training Success: generateSuccessCriteria({ taskObjectives: "train-conversational-ai-model", qualityDimensions: ["accuracy", "coherence", "safety", "creativity"], emergentIndicators: ["emergent-reasoning", "contextual-awareness", "ethical-behavior"], measurementFramework: "multi-dimensional-evaluation", validationContext: "human-ai-interaction", benchmarkStrategy: "adaptive-thresholds", adaptiveThresholds: "dynamic-improvement" }) → Returns SuccessFramework with 95% accuracy floor, coherence consistency metrics, safety violation ceiling, creativity diversity indices, emergent reasoning detection protocols, contextual awareness benchmarks, and adaptive quality thresholds for comprehensive AI model validation' as PromptPart;

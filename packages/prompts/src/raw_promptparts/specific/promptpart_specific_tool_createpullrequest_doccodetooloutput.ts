@@ -11,7 +11,7 @@
  * ]
  */
 
-import { PromptPart } from '@bitcode/prompts';
+import type { PromptPart } from '../../parts/PromptPart';
 
 export const PROMPTPART_SPECIFIC_TOOL_CREATEPULLREQUEST_DOCCODETOOLOUTPUT: PromptPart = 
   'Returns comprehensive PR creation result including: pull_request_id (unique identifier), pull_request_url (direct link), status (created/draft/error), assigned_reviewers (confirmed reviewer list), applied_template (template used), detected_conflicts (conflict summary), ci_status (initial pipeline status), estimated_review_time (ML-predicted review duration), linked_items (connected issues/milestones), merge_requirements (approval/check requirements), and creation_metadata (timestamp, platform details, automation decisions)' as PromptPart;

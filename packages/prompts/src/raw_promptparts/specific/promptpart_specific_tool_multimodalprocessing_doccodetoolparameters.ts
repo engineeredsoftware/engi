@@ -11,7 +11,7 @@
  * ]
  */
 
-import { PromptPart } from '@bitcode/prompts';
+import type { PromptPart } from '../../parts/PromptPart';
 
 export const PROMPTPART_SPECIFIC_TOOL_MULTIMODALPROCESSING_DOCCODETOOLPARAMETERS: PromptPart = 
   'content (required): Input content or file path, processingType (required): analysis|extraction|conversion|synthesis, modalities (optional): Array of target modalities to process, outputFormat (optional): Desired output format, options (optional): Processing-specific configuration object' as PromptPart;

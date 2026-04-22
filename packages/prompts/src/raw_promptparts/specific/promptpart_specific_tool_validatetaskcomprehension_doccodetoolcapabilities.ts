@@ -18,7 +18,7 @@
  * ]
  */
 
-import { PromptPart } from '@bitcode/prompts';
+import type { PromptPart } from '../../parts/PromptPart';
 
 export const PROMPTPART_SPECIFIC_TOOL_VALIDATETASKCOMPREHENSION_DOCCODETOOLCAPABILITIES: PromptPart = 
   'Natural language processing for requirement extraction using spaCy or NLTK, semantic similarity analysis through BERT embeddings, requirement completeness checking with predefined checklists, constraint validation using rule-based logic engines, success criteria mapping with traceability matrices, dependency analysis through requirement parsing, ambiguity detection using linguistic analysis tools, consistency verification across requirement documents, stakeholder alignment validation through structured interviews, acceptance criteria generation from user stories, test case derivation from functional requirements, and requirement change impact analysis with version control integration' as PromptPart;

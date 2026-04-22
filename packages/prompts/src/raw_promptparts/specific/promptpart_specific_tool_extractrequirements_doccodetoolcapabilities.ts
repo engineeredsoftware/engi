@@ -18,7 +18,7 @@
  * ]
  */
 
-import { PromptPart } from '@bitcode/prompts';
+import type { PromptPart } from '../../parts/PromptPart';
 
 export const PROMPTPART_SPECIFIC_TOOL_EXTRACTREQUIREMENTS_DOCCODETOOLCAPABILITIES: PromptPart = 
   'Natural language processing for requirement text analysis using spaCy and NLTK, functional requirement extraction through keyword pattern matching, non-functional requirement identification including performance, security, and usability specifications, user story parsing with role-goal-benefit structure analysis, acceptance criteria generation from requirement statements, business rule extraction through logical condition parsing, data requirement identification including entity relationships and constraints, API requirement specification through endpoint and parameter analysis, integration requirement detection across system boundaries, compliance requirement mapping to regulatory standards, stakeholder need categorization by role and priority, requirement traceability matrix generation with forward and backward linking' as PromptPart;

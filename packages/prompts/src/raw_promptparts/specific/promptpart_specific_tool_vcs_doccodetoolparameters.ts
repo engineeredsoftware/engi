@@ -10,7 +10,7 @@
  * ]
  */
 
-import { PromptPart } from '@bitcode/prompts';
+import type { PromptPart } from '../../parts/PromptPart';
 
 export const PROMPTPART_SPECIFIC_TOOL_VCS_DOCCODETOOLPARAMETERS: PromptPart = 
   'DEPRECATED: Tool-specific parameters vary. See VCS tools documentation for modern equivalent operations.' as PromptPart;

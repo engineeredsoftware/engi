@@ -12,7 +12,7 @@
  * ]
  */
 
-import { PromptPart } from '@bitcode/prompts';
+import type { PromptPart } from '../../parts/PromptPart';
 
 export const PROMPTPART_SPECIFIC_TOOL_IDENTIFYCONSTRAINTS_DOCCODETOOLEXAMPLE2: PromptPart = 
   'Example 2 - Smart City IoT Infrastructure: identifyConstraints({ taskContext: "smart-city-deployment", analysisScope: "metropolitan-scale", constraintTypes: ["power", "connectivity", "privacy", "scalability", "interoperability"], systemArchitecture: "mesh-network-topology/", resourceInventory: "city-infrastructure-audit.db", temporalFramework: "5-year-lifecycle", regulatoryContext: "GDPR-smart-city-ordinances", interdependencyDepth: "ecosystem-wide" }) → Returns ConstraintMatrix with power grid limitations, 5G coverage gaps, privacy regulation boundaries, device lifecycle constraints, protocol compatibility matrices, emergent traffic pattern restrictions, and systemic interdependency mapping for architectural constraint optimization' as PromptPart;

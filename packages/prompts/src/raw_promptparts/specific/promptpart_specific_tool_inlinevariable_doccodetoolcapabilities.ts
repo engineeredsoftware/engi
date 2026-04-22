@@ -11,7 +11,7 @@
  * ]
  */
 
-import { PromptPart } from '@bitcode/prompts';
+import type { PromptPart } from '../../parts/PromptPart';
 
 export const PROMPTPART_SPECIFIC_TOOL_INLINEVARIABLE_DOCCODETOOLCAPABILITIES: PromptPart = 
   'Variable usage analysis, definition extraction, scope validation, inline replacement, and semantic safety checks' as PromptPart;

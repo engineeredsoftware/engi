@@ -10,7 +10,7 @@
  * ]
  */
 
-import { PromptPart } from '@bitcode/prompts';
+import type { PromptPart } from '../../parts/PromptPart';
 
 export const PROMPTPART_SPECIFIC_TOOL_WEBSEARCH_DOCCODETOOLEXAMPLE3: PromptPart = 
   'Example 3 - Urgent resilient search: search({ query: "production outage kubernetes", options: { urgency: "high", retryCount: 3, fallbackProviders: true, timeout: 5000 } })' as PromptPart;

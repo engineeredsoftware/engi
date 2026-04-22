@@ -11,7 +11,7 @@
  * ]
  */
 
-import { PromptPart } from '@bitcode/prompts';
+import type { PromptPart } from '../../parts/PromptPart';
 
 export const PROMPTPART_SPECIFIC_TOOL_CRAWLWEBSITE_DOCCODETOOLOUTPUT: PromptPart = 
   'Success status with data array containing each crawled page (url, markdown/html content, links, metadata with title/description/language), comprehensive crawl statistics (total/successful/failed pages, duration), and error details if any failures occur' as PromptPart;

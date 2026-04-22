@@ -11,7 +11,7 @@
  * ]
  */
 
-import { PromptPart } from '@bitcode/prompts';
+import type { PromptPart } from '../../parts/PromptPart';
 
 export const PROMPTPART_SPECIFIC_TOOL_RENAMESYMBOL_DOCCODETOOLEXAMPLE3: PromptPart = 
   'Example 3: Rename TypeScript interface with import updates\nInput: { filePath: "/src/types/api.ts", position: { line: 1, column: 18 }, newName: "APIResponse", atomic: true }\nOutput: Renamed interface Response to APIResponse: Updated 127 files, 384 import statements modified, 512 type references updated. All TypeScript compilation checks passed.' as PromptPart;

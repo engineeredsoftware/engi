@@ -10,6 +10,6 @@
  * ]
  */
 
-import { PromptPart } from '@bitcode/prompts';
+import type { PromptPart } from '../../parts/PromptPart';
 export const PROMPTPART_SPECIFIC_TOOL_GITREPORESEARCHMCP_DOCCODETOOLNAME: PromptPart =
   'Git Repo Research MCP Tool' as PromptPart;

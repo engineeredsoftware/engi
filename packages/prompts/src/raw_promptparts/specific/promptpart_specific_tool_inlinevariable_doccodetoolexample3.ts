@@ -11,7 +11,7 @@
  * ]
  */
 
-import { PromptPart } from '@bitcode/prompts';
+import type { PromptPart } from '../../parts/PromptPart';
 
 export const PROMPTPART_SPECIFIC_TOOL_INLINEVARIABLE_DOCCODETOOLEXAMPLE3: PromptPart = 
   'Refactoring an API response handler: inlines "const processedData = response.data.map(item => item.value).filter(Boolean)" used immediately in return statement, streamlining data processing pipeline and removing intermediary assignment' as PromptPart;

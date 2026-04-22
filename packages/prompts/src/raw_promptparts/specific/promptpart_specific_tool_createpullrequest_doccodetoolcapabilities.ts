@@ -11,7 +11,7 @@
  * ]
  */
 
-import { PromptPart } from '@bitcode/prompts';
+import type { PromptPart } from '../../parts/PromptPart';
 
 export const PROMPTPART_SPECIFIC_TOOL_CREATEPULLREQUEST_DOCCODETOOLCAPABILITIES: PromptPart = 
   'Cross-platform VCS integration (GitHub, GitLab, Bitbucket, Azure DevOps), intelligent branch analysis and diff generation, automated commit message parsing and categorization, smart reviewer assignment using CODEOWNERS and team topology, template auto-application with customizable fields, conflict detection and resolution suggestions, CI/CD pipeline integration and status monitoring, draft PR creation with progressive enhancement, linked issue detection and auto-referencing, approval workflow optimization, merge strategy recommendation, and comprehensive audit logging' as PromptPart;

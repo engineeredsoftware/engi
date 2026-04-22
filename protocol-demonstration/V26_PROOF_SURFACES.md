@@ -1002,12 +1002,17 @@ Required closure posture:
   test coverage:
   filtered `tsc` verification over the active `uapi` program for the prompt-space and MCP primitive corridor
   proof surface:
-  fifth-gate prompt-and-execution primitive compile-health closure so the raw promptpart reservoir no longer compiles as a duplicate-import global-script swarm and the retained `@bitcode/mcp` primitive no longer drags an unnecessary schema dependency into the active compile path, keeping prompt-system explicitness and MCP config normalization admissible as Bitcode-owned primitives
+  fifth-gate prompt-and-execution primitive compile-health closure so the raw promptpart reservoir no longer compiles as a duplicate-import global-script swarm, live execution/pipeline prompt classes no longer route through the retained prompt barrel, and the retained `@bitcode/mcp` primitive no longer drags an unnecessary schema dependency into the active compile path, keeping prompt-system explicitness and MCP config normalization admissible as Bitcode-owned primitives
 - `{packages/execution-generics/src/{index.ts,executors/conditional_executor.ts},packages/agent-generics/src/index.ts,packages/pipelines-generics/src/{index.ts,phases/phase-factory.ts,phases/sdivs-factory.ts,gate-system/meta-phase-orchestrator.ts},packages/pipelines/deliverable/package.json,packages/executions-mcp/src/mcp-server/{src/index.ts,package.json},packages/prompts/src/raw_promptparts/specific/promptpart_specific_pipeline_deliverable_purpose_corestatement.ts}`
   test coverage:
   filtered `tsc` verification over the active `uapi` program for the execution-core package corridor
   proof surface:
   fifth-gate execution primitive/reference admissibility closure so canonical Bitcode execution primitives remain teachable reusable infrastructure, while retained SDIVS/PTRR/meta-phase and deliverable pipeline families are explicitly contained as reference orchestration instead of being narrated as the live Bitcode product implementation
+- `{packages/executions-mcp/{README.md,src/mcp-server/src/{types/index.ts,pipeline-execution/adapter.ts}}}`
+  test coverage:
+  filtered `tsc` verification over the active `uapi` program for the MCP interface corridor
+  proof surface:
+  fifth-gate MCP interface-precision closure so primitive `@bitcode/mcp` utilities stay distinct from the Bitcode Exchange-facing MCP server, third-party MCPs plus repository/provider connections and attachments are modeled as ingress/input context, and retained deliverable-style outputs are normalized toward Bitcode asset-pack meaning instead of remaining generic deliverable egress
 - `{uapi/app/application/{ApplicationCommandDeck.tsx,ApplicationClosureControlDeck.tsx,ApplicationTransactionDetailSurface.tsx,application-activity-history.ts,application-transaction-detail-snapshot.ts,application-transaction-detail.ts},uapi/tests/{applicationActivityHistory.test.ts,applicationTransactionDetailSnapshot.test.ts,applicationTransactionDetail.test.ts}}`
   test coverage:
   `uapi/tests/applicationActivityHistory.test.ts`, `uapi/tests/applicationTransactionDetailSnapshot.test.ts`, and `uapi/tests/applicationTransactionDetail.test.ts`

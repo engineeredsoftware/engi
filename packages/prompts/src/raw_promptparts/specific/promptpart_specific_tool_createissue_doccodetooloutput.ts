@@ -11,7 +11,7 @@
  * ]
  */
 
-import { PromptPart } from '@bitcode/prompts';
+import type { PromptPart } from '../../parts/PromptPart';
 
 export const PROMPTPART_SPECIFIC_TOOL_CREATEISSUE_DOCCODETOOLOUTPUT: PromptPart = 
   'Returns comprehensive issue creation result including: issue_id (unique identifier across platforms), issue_url (direct link to issue), issue_number (platform-specific numbering), assigned_team_members (final assignee list with roles), applied_labels (categorization tags), ai_recommendations (priority, assignment, and workflow suggestions), duplicate_analysis (similarity scores with existing issues), estimated_effort (AI-predicted work hours), dependency_graph (related issues and blockers), sla_targets (deadline and escalation timelines), workflow_position (current state in project workflow), notification_recipients (stakeholder list), and creation_analytics (metadata, source attribution, and process metrics)' as PromptPart;

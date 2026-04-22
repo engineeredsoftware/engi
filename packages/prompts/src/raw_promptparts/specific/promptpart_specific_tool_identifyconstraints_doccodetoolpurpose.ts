@@ -12,7 +12,7 @@
  * ]
  */
 
-import { PromptPart } from '@bitcode/prompts';
+import type { PromptPart } from '../../parts/PromptPart';
 
 export const PROMPTPART_SPECIFIC_TOOL_IDENTIFYCONSTRAINTS_DOCCODETOOLPURPOSE: PromptPart = 
   'Comprehensive identification and systematic analysis of multi-dimensional constraints affecting task implementation, including technical limitations, resource boundaries, temporal restrictions, regulatory requirements, architectural dependencies, and emergent system behaviors to enable constraint-aware planning and risk mitigation strategies' as PromptPart;

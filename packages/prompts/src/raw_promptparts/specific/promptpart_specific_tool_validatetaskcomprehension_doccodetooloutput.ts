@@ -12,7 +12,7 @@
  * ]
  */
 
-import { PromptPart } from '@bitcode/prompts';
+import type { PromptPart } from '../../parts/PromptPart';
 
 export const PROMPTPART_SPECIFIC_TOOL_VALIDATETASKCOMPREHENSION_DOCCODETOOLOUTPUT: PromptPart = 
   'Structured ValidationReport containing: comprehensionCompleteness with cognitive coverage assessment, coherenceAnalysis with alignment verification results, integrationValidation with cross-dimensional consistency checks, gapIdentification with cognitive deficiency mapping, metaCognitiveAssessment with awareness depth evaluation, holisticSynthesis with unified understanding confirmation, readinessIndicators with implementation preparation status, and transcendentValidationMetrics with comprehension quality indicators for task planning readiness' as PromptPart;

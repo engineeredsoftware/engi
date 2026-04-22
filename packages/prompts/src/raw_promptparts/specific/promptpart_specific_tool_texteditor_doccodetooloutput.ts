@@ -11,7 +11,7 @@
  * ]
  */
 
-import { PromptPart } from '@bitcode/prompts';
+import type { PromptPart } from '../../parts/PromptPart';
 
 export const PROMPTPART_SPECIFIC_TOOL_TEXTEDITOR_DOCCODETOOLOUTPUT: PromptPart = 
   'Success status boolean, transaction ID for multi-file operations, operation details including affected lines and changes made, backup file location for safety, and detailed error information if operation fails' as PromptPart;

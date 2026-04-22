@@ -11,7 +11,7 @@
  * ]
  */
 
-import { PromptPart } from '@bitcode/prompts';
+import type { PromptPart } from '../../parts/PromptPart';
 
 export const PROMPTPART_SPECIFIC_TOOL_AURORAPOSTGRESMCP_DOCCODETOOLCAPABILITIES: PromptPart = 
   'Advanced PostgreSQL cluster management, automated failover and recovery, read replica orchestration, connection pooling optimization, query performance tuning, backup and restore automation, encryption at rest and in transit, multi-region replication, serverless scaling, performance insights analytics, database parameter optimization, schema migration management, monitoring and alerting integration, cost optimization recommendations, and compliance audit trail generation.' as PromptPart;

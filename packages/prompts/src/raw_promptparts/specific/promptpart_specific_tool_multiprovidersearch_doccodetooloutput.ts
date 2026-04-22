@@ -11,7 +11,7 @@
  * ]
  */
 
-import { PromptPart } from '@bitcode/prompts';
+import type { PromptPart } from '../../parts/PromptPart';
 
 export const PROMPTPART_SPECIFIC_TOOL_MULTIPROVIDERSEARCH_DOCCODETOOLOUTPUT: PromptPart = 
   'Aggregated search results with provider attribution, relevance scores, deduplication status, failover history, and comprehensive metadata including timestamps, source URLs, and provider performance metrics' as PromptPart;

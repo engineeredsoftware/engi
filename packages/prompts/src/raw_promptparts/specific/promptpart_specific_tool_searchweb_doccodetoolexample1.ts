@@ -10,7 +10,7 @@
  * ]
  */
 
-import { PromptPart } from '@bitcode/prompts';
+import type { PromptPart } from '../../parts/PromptPart';
 
 export const PROMPTPART_SPECIFIC_TOOL_SEARCHWEB_DOCCODETOOLEXAMPLE1: PromptPart = 
   'Example 1 - Research recent AI developments: searchWebTool({ query: "artificial intelligence breakthroughs 2024", options: { limit: 10, tbs: "qdr:m" } })' as PromptPart;

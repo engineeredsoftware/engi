@@ -11,7 +11,7 @@
  * ]
  */
 
-import { PromptPart } from '@bitcode/prompts';
+import type { PromptPart } from '../../parts/PromptPart';
 
 export const PROMPTPART_SPECIFIC_TOOL_SCRAPEURL_DOCCODETOOLOUTPUT: PromptPart = 
   'Success status with extracted content in requested formats (markdown, HTML, screenshot base64, links array), comprehensive metadata including title, description, language, OpenGraph properties (ogTitle, ogDescription, ogUrl, ogImage), source URL, HTTP status code, and error details if extraction fails' as PromptPart;

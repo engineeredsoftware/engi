@@ -11,7 +11,7 @@
  * ]
  */
 
-import { PromptPart } from '@bitcode/prompts';
+import type { PromptPart } from '../../parts/PromptPart';
 
 export const PROMPTPART_SPECIFIC_TOOL_CRAWLWEBSITE_DOCCODETOOLPURPOSE: PromptPart = 
   'Recursively crawl entire websites to extract structured content from all accessible pages for comprehensive web data collection and analysis' as PromptPart;

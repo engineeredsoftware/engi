@@ -12,7 +12,7 @@
  * ]
  */
 
-import { PromptPart } from '@bitcode/prompts';
+import type { PromptPart } from '../../parts/PromptPart';
 
 export const PROMPTPART_SPECIFIC_TOOL_EXTRACTREQUIREMENTS_DOCCODETOOLPURPOSE: PromptPart = 
   'Systematic extraction and structural analysis of task requirements from multi-modal inputs, transforming implicit specifications into explicit, categorized, hierarchical requirement frameworks that enable precise task comprehension and downstream planning optimization' as PromptPart;

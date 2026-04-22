@@ -11,7 +11,7 @@
  * ]
  */
 
-import { PromptPart } from '@bitcode/prompts';
+import type { PromptPart } from '../../parts/PromptPart';
 
 export const PROMPTPART_SPECIFIC_TOOL_REPOSITORYSETUP_DOCCODETOOLPURPOSE: PromptPart = 
   'Clone repositories from any VCS provider (GitHub, GitLab, Bitbucket) with intelligent caching, authentication management, and safety validation for comprehensive repository setup' as PromptPart;

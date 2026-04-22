@@ -18,7 +18,7 @@
  * ]
  */
 
-import { PromptPart } from '@bitcode/prompts';
+import type { PromptPart } from '../../parts/PromptPart';
 
 export const PROMPTPART_SPECIFIC_TOOL_IDENTIFYCONSTRAINTS_DOCCODETOOLCAPABILITIES: PromptPart = 
   'Technical constraint detection through system architecture analysis, resource limitation identification including CPU, memory, and storage boundaries, time constraint parsing from project schedules and deadlines, budget constraint analysis with cost estimation models, regulatory compliance verification using industry standards (GDPR, HIPAA, SOX), dependency constraint mapping through software architecture analysis, performance constraint identification with latency and throughput requirements, security constraint recognition based on threat modeling, scalability constraint assessment using load testing metrics, integration constraint detection through API compatibility analysis, platform constraint identification across operating systems and environments, and legal constraint verification through licensing and intellectual property analysis' as PromptPart;

@@ -11,7 +11,7 @@
  * ]
  */
 
-import { PromptPart } from '@bitcode/prompts';
+import type { PromptPart } from '../../parts/PromptPart';
 
 export const PROMPTPART_SPECIFIC_TOOL_ORGANIZEIMPORTS_DOCCODETOOLEXAMPLE3: PromptPart = 
   'Organizing imports across an entire project module with 25 files: applies consistent sorting rules, removes 18 unused imports, standardizes import syntax, groups external vs internal dependencies, reducing overall bundle size by 8% and improving build time by 15%' as PromptPart;

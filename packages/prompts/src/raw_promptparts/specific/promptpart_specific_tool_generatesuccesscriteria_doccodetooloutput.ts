@@ -12,7 +12,7 @@
  * ]
  */
 
-import { PromptPart } from '@bitcode/prompts';
+import type { PromptPart } from '../../parts/PromptPart';
 
 export const PROMPTPART_SPECIFIC_TOOL_GENERATESUCCESSCRITERIA_DOCCODETOOLOUTPUT: PromptPart = 
   'Structured SuccessFramework containing: quantitativeMetrics with measurable thresholds, qualitativeIndicators with assessment criteria, emergentBehaviors with adaptive validation patterns, cognitivePerformance with intelligence benchmarks, validationProtocols with testing procedures, adaptiveBenchmarks with dynamic adjustment mechanisms, continuousImprovement with iterative enhancement strategies, and transcendentQualityMetrics with emergent success pattern indicators for comprehensive task validation' as PromptPart;

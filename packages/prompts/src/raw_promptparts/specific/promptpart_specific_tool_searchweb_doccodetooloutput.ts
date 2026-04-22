@@ -11,7 +11,7 @@
  * ]
  */
 
-import { PromptPart } from '@bitcode/prompts';
+import type { PromptPart } from '../../parts/PromptPart';
 
 export const PROMPTPART_SPECIFIC_TOOL_SEARCHWEB_DOCCODETOOLOUTPUT: PromptPart = 
   'Success status with search results array containing url, title, description, extracted markdown/HTML content, metadata with source URL/language/date, original query, total results count, and error details if search or scraping fails' as PromptPart;

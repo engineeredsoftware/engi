@@ -10,6 +10,6 @@
  * ]
  */
 
-import { PromptPart } from '@bitcode/prompts';
+import type { PromptPart } from '../../parts/PromptPart';
 export const PROMPTPART_SPECIFIC_TOOL_AWSTERRAFORMMCP_DOCCODETOOLNAME: PromptPart =
   'AWS Terraform MCP Tool' as PromptPart;

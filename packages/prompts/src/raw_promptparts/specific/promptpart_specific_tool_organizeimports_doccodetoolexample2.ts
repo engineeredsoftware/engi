@@ -11,7 +11,7 @@
  * ]
  */
 
-import { PromptPart } from '@bitcode/prompts';
+import type { PromptPart } from '../../parts/PromptPart';
 
 export const PROMPTPART_SPECIFIC_TOOL_ORGANIZEIMPORTS_DOCCODETOOLEXAMPLE2: PromptPart = 
   'Processing a TypeScript service file with duplicate imports and mixed formatting: consolidates 4 duplicate lodash imports, standardizes quote styles, groups by module type, removes 2 unused utilities, improving bundle efficiency by 12%' as PromptPart;

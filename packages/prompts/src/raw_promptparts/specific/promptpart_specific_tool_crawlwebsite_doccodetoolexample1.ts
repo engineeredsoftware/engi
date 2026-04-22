@@ -11,7 +11,7 @@
  * ]
  */
 
-import { PromptPart } from '@bitcode/prompts';
+import type { PromptPart } from '../../parts/PromptPart';
 
 export const PROMPTPART_SPECIFIC_TOOL_CRAWLWEBSITE_DOCCODETOOLEXAMPLE1: PromptPart = 
   'Example 1 - Crawl documentation site with limit: crawlWebsiteTool({ url: "https://docs.example.com", options: { limit: 100, followSitemap: true } })' as PromptPart;

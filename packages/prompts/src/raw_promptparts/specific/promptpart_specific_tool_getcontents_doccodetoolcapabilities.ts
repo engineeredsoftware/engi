@@ -11,7 +11,7 @@
  * ]
  */
 
-import { PromptPart } from '@bitcode/prompts';
+import type { PromptPart } from '../../parts/PromptPart';
 
 export const PROMPTPART_SPECIFIC_TOOL_GETCONTENTS_DOCCODETOOLCAPABILITIES: PromptPart = 
   'Direct URL content extraction with markdown conversion, HTML parsing, plain text extraction, metadata retrieval including title and description, link extraction, image detection, and intelligent content cleaning for optimal readability' as PromptPart;

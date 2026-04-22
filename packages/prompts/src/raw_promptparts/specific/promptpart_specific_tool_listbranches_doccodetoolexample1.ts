@@ -11,7 +11,7 @@
  * ]
  */
 
-import { PromptPart } from '@bitcode/prompts';
+import type { PromptPart } from '../../parts/PromptPart';
 
 export const PROMPTPART_SPECIFIC_TOOL_LISTBRANCHES_DOCCODETOOLEXAMPLE1: PromptPart = 
   'Active branch discovery: listBranches({ repository: "company/frontend-app", branch_types: "active", include_metadata: true, sort_criteria: "activity" }) → Returns 23 active branches sorted by recent activity, including feature/user-dashboard (updated 2h ago), hotfix/login-issue (updated 4h ago), and develop (updated 6h ago), with commit counts, author information, and merge status for each branch' as PromptPart;

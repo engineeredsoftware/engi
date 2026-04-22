@@ -11,7 +11,7 @@
  * ]
  */
 
-import { PromptPart } from '@bitcode/prompts';
+import type { PromptPart } from '../../parts/PromptPart';
 
 export const PROMPTPART_SPECIFIC_TOOL_MULTIMODALPROCESSING_DOCCODETOOLEXAMPLE1: PromptPart = 
   'Example 1 - Image Analysis: multimodalProcessingTool({ content: "/uploads/product-image.jpg", processingType: "analysis", modalities: ["image", "text"], outputFormat: "structured" }) → Returns detailed image description, detected objects, and suggested alt-text' as PromptPart;

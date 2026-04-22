@@ -11,7 +11,7 @@
  * ]
  */
 
-import { PromptPart } from '@bitcode/prompts';
+import type { PromptPart } from '../../parts/PromptPart';
 
 export const PROMPTPART_SPECIFIC_TOOL_VCSLISTREPOSITORIES_DOCCODETOOLOUTPUT: PromptPart = 
   'Array of repository objects containing: id, name, fullName, description, private status, owner info, urls (clone/html), default branch, size, language, timestamps, star/fork counts' as PromptPart;

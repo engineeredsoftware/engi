@@ -11,7 +11,7 @@
  * ]
  */
 
-import { PromptPart } from '@bitcode/prompts';
+import type { PromptPart } from '../../parts/PromptPart';
 
 export const PROMPTPART_SPECIFIC_TOOL_EXTRACTMETHOD_DOCCODETOOLPURPOSE: PromptPart = 
   'Extracts selected code blocks into new methods or functions to improve code readability, reduce duplication, and create reusable components while maintaining existing functionality and preserving variable scope' as PromptPart;

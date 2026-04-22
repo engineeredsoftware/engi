@@ -16,6 +16,63 @@ import { PipelineToolRegistry } from './PipelineToolRegistry';
 import { PipelineLLMRegistry } from './PipelineLLMRegistry';
 import { PipelineAgentRegistry } from './PipelineAgentRegistry';
 
+export type PipelineExecutionPosture = 'live' | 'reference' | 'compatibility';
+export type PipelineExecutionFamily =
+  | 'ad_hoc'
+  | 'deliverable'
+  | 'multi_deliverable'
+  | 'quick'
+  | 'custom';
+
+export interface PipelineExecutionLineage {
+  pipelineName: string;
+  family: PipelineExecutionFamily;
+  posture: PipelineExecutionPosture;
+  admittedSurface: string;
+}
+
+function normalizePipelineName(name: string): string {
+  return name.trim().toLowerCase().replace(/[\s-]+/g, '_');
+}
+
+export function inferPipelineExecutionLineage(name: string): PipelineExecutionLineage {
+  const normalized = normalizePipelineName(name);
+
+  if (normalized === 'ad_hoc' || normalized === 'adhoc') {
+    return {
+      pipelineName: name,
+      family: 'ad_hoc',
+      posture: 'live',
+      admittedSurface: 'conversations'
+    };
+  }
+
+  if (normalized === 'deliverable') {
+    return {
+      pipelineName: name,
+      family: 'deliverable',
+      posture: 'reference',
+      admittedSurface: 'retained_deliverable_reference'
+    };
+  }
+
+  if (normalized === 'multi_deliverables' || normalized === 'multi_deliverable') {
+    return {
+      pipelineName: name,
+      family: 'multi_deliverable',
+      posture: 'reference',
+      admittedSurface: 'retained_multi_deliverable_reference'
+    };
+  }
+
+  return {
+    pipelineName: name,
+    family: normalized === 'quick' ? 'quick' : 'custom',
+    posture: 'compatibility',
+    admittedSurface: 'custom_pipeline'
+  };
+}
+
 /**
  * PipelineExecution - Complete execution context for pipelines
  * 
@@ -30,8 +87,9 @@ export class PipelineExecution extends Execution {
   readonly tools: PipelineToolRegistry;
   readonly llms: PipelineLLMRegistry;
   readonly agents: PipelineAgentRegistry;
-  
-  constructor(id: string, parent?: Execution) {
+  readonly lineage: PipelineExecutionLineage;
+
+  constructor(id: string, parent?: Execution, lineage?: PipelineExecutionLineage) {
     super(id, parent);
 
     // Initialize all 4 registries with parent chain awareness
@@ -39,6 +97,10 @@ export class PipelineExecution extends Execution {
     this.tools = new PipelineToolRegistry(this);
     this.llms = new PipelineLLMRegistry(this);
     this.agents = new PipelineAgentRegistry(this);
+    this.lineage = lineage
+      ?? (parent instanceof PipelineExecution
+        ? parent.lineage
+        : inferPipelineExecutionLineage(id.replace(/^pipeline:/, '')));
 
     // Register root executions for instruction API access
     // Child executions are not registered (only root runId is used)
@@ -51,19 +113,29 @@ export class PipelineExecution extends Execution {
       // Tools, LLMs, and Agents can inherit from parent
       // but start with empty registries (lookup walks up chain)
     }
+
+    this.store('execution', 'lineage', this.lineage as any);
+    this.store('pipeline', 'lineage', this.lineage as any);
+    this.store('pipeline', 'family', this.lineage.family);
+    this.store('pipeline', 'posture', this.lineage.posture);
+    this.store('pipeline', 'admittedSurface', this.lineage.admittedSurface);
   }
   
   /**
    * Override child to maintain PipelineExecution type
    */
   child(id: string): PipelineExecution {
-    return new PipelineExecution(`${this.id}/${id}`, this);
+    return new PipelineExecution(`${this.id}/${id}`, this, this.lineage);
   }
 }
 
 /**
  * Factory function for creating pipeline executions
  */
-export function createPipelineExecution(id: string, parent?: Execution): PipelineExecution {
-  return new PipelineExecution(id, parent);
+export function createPipelineExecution(
+  id: string,
+  parent?: Execution,
+  lineage?: PipelineExecutionLineage
+): PipelineExecution {
+  return new PipelineExecution(id, parent, lineage);
 }

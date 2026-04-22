@@ -11,7 +11,7 @@
  * ]
  */
 
-import { PromptPart } from '@bitcode/prompts';
+import type { PromptPart } from '../../parts/PromptPart';
 
 export const PROMPTPART_SPECIFIC_TOOL_MOVESYMBOL_DOCCODETOOLEXAMPLE1: PromptPart = 
   'Moving a utility function from main component file to shared utils module: relocates "formatCurrency" function, updates 8 import statements across project files, maintains all references and type safety' as PromptPart;

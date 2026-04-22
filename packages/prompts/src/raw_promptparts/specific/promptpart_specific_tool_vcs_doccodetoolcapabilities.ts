@@ -11,7 +11,7 @@
  * ]
  */
 
-import { PromptPart } from '@bitcode/prompts';
+import type { PromptPart } from '../../parts/PromptPart';
 
 export const PROMPTPART_SPECIFIC_TOOL_VCS_DOCCODETOOLCAPABILITIES: PromptPart = 
   'DEPRECATED: This toolkit previously provided GitHub-specific operations for repositories, branches, pull requests, issues, and files. All capabilities are now available through VCS tools with support for GitHub, GitLab, and Bitbucket.' as PromptPart;

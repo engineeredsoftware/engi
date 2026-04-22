@@ -10,6 +10,6 @@
  * ]
  */
 
-import { PromptPart } from '@bitcode/prompts';
+import type { PromptPart } from '../../parts/PromptPart';
 export const PROMPTPART_SPECIFIC_TOOL_CREATEISSUE_DOCCODETOOLNAME: PromptPart =
   'Create Issue Tool' as PromptPart;

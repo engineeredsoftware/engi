@@ -11,7 +11,7 @@
  * ]
  */
 
-import { PromptPart } from '@bitcode/prompts';
+import type { PromptPart } from '../../parts/PromptPart';
 
 export const PROMPTPART_SPECIFIC_TOOL_LISTBRANCHES_DOCCODETOOLEXAMPLE2: PromptPart = 
   'Comprehensive repository analysis: listBranches({ repository: "enterprise/microservices-platform", branch_types: "all", include_remote: true, analysis_depth: "comprehensive", pipeline_status: "failing", date_range: { start: new Date("2024-07-01"), end: new Date("2024-08-02") } }) → Analyzes 147 branches across 8 remote repositories, identifies 12 stale branches ready for cleanup, highlights 5 branches with failing CI/CD pipelines requiring attention, provides merge conflict predictions for 3 feature branches, and generates team coordination recommendations to optimize parallel development workflows' as PromptPart;

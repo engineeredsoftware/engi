@@ -10,7 +10,7 @@
  * ]
  */
 
-import { PromptPart } from '@bitcode/prompts';
+import type { PromptPart } from '../../parts/PromptPart';
 
 export const PROMPTPART_SPECIFIC_TOOL_SCRAPEURL_DOCCODETOOLEXAMPLE2: PromptPart = 
   'Example 2 - Authenticated scrape with screenshot: scrapeUrlTool({ url: "https://app.example.com/dashboard", options: { formats: ["markdown", "screenshot"], headers: { "Authorization": "Bearer token123" }, waitFor: 2000 } })' as PromptPart;

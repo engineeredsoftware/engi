@@ -10,7 +10,7 @@
  * ]
  */
 
-import { PromptPart } from '@bitcode/prompts';
+import type { PromptPart } from '../../parts/PromptPart';
 
 export const PROMPTPART_SPECIFIC_TOOL_VCS_DOCCODETOOLEXAMPLE2: PromptPart = 
   'Example 2 - DEPRECATED pull request creation: Use vcsTools.createPullRequest({ provider: "github", owner, repo, title, body, head, base }) instead of createPullRequestTool' as PromptPart;

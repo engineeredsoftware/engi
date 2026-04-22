@@ -12,7 +12,7 @@
  * ]
  */
 
-import { PromptPart } from '@bitcode/prompts';
+import type { PromptPart } from '../../parts/PromptPart';
 
 export const PROMPTPART_SPECIFIC_TOOL_ANALYZETASKSEMANTICS_DOCCODETOOLPURPOSE: PromptPart = 
   'Deep semantic analysis of task descriptions to extract multi-dimensional intent, scope, complexity, dependencies, and cognitive patterns for foundational task understanding that feeds higher-order planning and execution systems' as PromptPart;

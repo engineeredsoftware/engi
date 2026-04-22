@@ -12,7 +12,7 @@
  * ]
  */
 
-import { PromptPart } from '@bitcode/prompts';
+import type { PromptPart } from '../../parts/PromptPart';
 
 export const PROMPTPART_SPECIFIC_TOOL_IDENTIFYCONSTRAINTS_DOCCODETOOLEXAMPLE1: PromptPart = 
   'Example 1 - Real-Time Trading System Constraints: identifyConstraints({ taskContext: "high-frequency-trading-platform", analysisScope: "system-wide", constraintTypes: ["latency", "throughput", "regulatory", "financial"], systemArchitecture: "distributed-microservices.yaml", resourceInventory: "aws-infrastructure.json", temporalFramework: "sub-millisecond", regulatoryContext: "SEC-FINRA-compliance", interdependencyDepth: "cross-system" }) → Returns ConstraintMatrix with 15ms latency ceiling, 100K TPS throughput floor, regulatory halt conditions, memory allocation limits, network topology constraints, and architectural interdependency cascades for systemic optimization' as PromptPart;

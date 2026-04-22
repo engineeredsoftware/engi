@@ -11,7 +11,7 @@
  * ]
  */
 
-import { PromptPart } from '@bitcode/prompts';
+import type { PromptPart } from '../../parts/PromptPart';
 
 export const PROMPTPART_SPECIFIC_TOOL_ORGANIZEIMPORTS_DOCCODETOOLEXAMPLE1: PromptPart = 
   'Cleaning up a React component file with 15 mixed imports: organizes into groups (React, third-party, internal), removes 3 unused imports, sorts alphabetically within groups, resulting in 40% cleaner import section' as PromptPart;

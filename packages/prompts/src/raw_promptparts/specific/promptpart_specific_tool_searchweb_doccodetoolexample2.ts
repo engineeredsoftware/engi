@@ -10,7 +10,7 @@
  * ]
  */
 
-import { PromptPart } from '@bitcode/prompts';
+import type { PromptPart } from '../../parts/PromptPart';
 
 export const PROMPTPART_SPECIFIC_TOOL_SEARCHWEB_DOCCODETOOLEXAMPLE2: PromptPart = 
   'Example 2 - Localized news search: searchWebTool({ query: "climate change policies", options: { lang: "fr", country: "FR", limit: 5, tbs: "qdr:w" } })' as PromptPart;

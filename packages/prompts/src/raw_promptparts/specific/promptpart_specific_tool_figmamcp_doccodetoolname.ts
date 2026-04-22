@@ -10,6 +10,6 @@
  * ]
  */
 
-import { PromptPart } from '@bitcode/prompts';
+import type { PromptPart } from '../../parts/PromptPart';
 export const PROMPTPART_SPECIFIC_TOOL_FIGMAMCP_DOCCODETOOLNAME: PromptPart =
   'Figma MCP Tool' as PromptPart;

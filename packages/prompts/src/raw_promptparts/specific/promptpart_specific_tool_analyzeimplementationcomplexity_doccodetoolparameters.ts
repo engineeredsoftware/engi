@@ -12,7 +12,7 @@
  * ]
  */
 
-import { PromptPart } from '@bitcode/prompts';
+import type { PromptPart } from '../../parts/PromptPart';
 
 export const PROMPTPART_SPECIFIC_TOOL_ANALYZEIMPLEMENTATIONCOMPLEXITY_DOCCODETOOLPARAMETERS: PromptPart = 
   'implementationScope: ArchitecturalSpace, complexityDimensions: AnalysisVector, strategicContext: PlanningFramework, resourceConstraints: CapacityModel, temporalFactors: TimeComplexity, riskProfile: UncertaintySpace, optimizationTargets: StrategicGoals, outputGranularity: ComplexitySchema' as PromptPart;

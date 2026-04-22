@@ -11,7 +11,7 @@
  * ]
  */
 
-import { PromptPart } from '@bitcode/prompts';
+import type { PromptPart } from '../../parts/PromptPart';
 
 export const PROMPTPART_SPECIFIC_TOOL_CREATEISSUE_DOCCODETOOLEXAMPLE1: PromptPart = 
   'Bug report creation: createIssue({ project_id: "company/mobile-app", title: "Login fails with OAuth providers", description: "Users cannot authenticate using Google/Facebook OAuth on iOS devices", issue_type: "bug", priority: "high", labels: ["mobile", "authentication", "ios"], auto_assign: true }) → Creates bug issue #284 with automatic assignment to mobile team lead based on expertise analysis, applies severity classification, and generates SLA targets for P2 bug resolution' as PromptPart;

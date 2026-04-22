@@ -6,7 +6,11 @@
  */
 
 import { Executor, Execution } from '@bitcode/execution-generics';
-import { PipelineExecution as PipelineExecutionBase } from './PipelineExecution';
+import {
+  PipelineExecution as PipelineExecutionBase,
+  type PipelineExecutionLineage,
+  inferPipelineExecutionLineage
+} from './PipelineExecution';
 
 // Re-export the new PipelineExecution
 export { PipelineExecution } from './PipelineExecution';
@@ -41,8 +45,16 @@ export class PhaseDelegation extends Execution {
 /**
  * Create a pipeline execution
  */
-export function factoryPipelineExecution(name: string, parent?: Execution): PipelineExecutionBase {
-  return new PipelineExecutionBase(`pipeline:${name}`, parent);
+export function factoryPipelineExecution(
+  name: string,
+  parent?: Execution,
+  lineage?: PipelineExecutionLineage
+): PipelineExecutionBase {
+  return new PipelineExecutionBase(
+    `pipeline:${name}`,
+    parent,
+    lineage ?? inferPipelineExecutionLineage(name)
+  );
 }
 
 /**

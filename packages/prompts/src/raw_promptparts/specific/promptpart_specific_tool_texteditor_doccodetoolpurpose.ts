@@ -11,7 +11,7 @@
  * ]
  */
 
-import { PromptPart } from '@bitcode/prompts';
+import type { PromptPart } from '../../parts/PromptPart';
 
 export const PROMPTPART_SPECIFIC_TOOL_TEXTEDITOR_DOCCODETOOLPURPOSE: PromptPart = 
   'Atomic file editing operations with transaction support, content validation, and rollback capability for safe and reliable file system modifications' as PromptPart;

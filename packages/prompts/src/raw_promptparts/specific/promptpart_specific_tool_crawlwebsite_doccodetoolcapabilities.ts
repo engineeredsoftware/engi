@@ -11,7 +11,7 @@
  * ]
  */
 
-import { PromptPart } from '@bitcode/prompts';
+import type { PromptPart } from '../../parts/PromptPart';
 
 export const PROMPTPART_SPECIFIC_TOOL_CRAWLWEBSITE_DOCCODETOOLCAPABILITIES: PromptPart = 
   'Recursive website crawling with configurable depth and page limits, domain-based scoping with allow/block lists, sitemap.xml support for efficient discovery, subdomain inclusion control, fast mode optimization, automatic duplicate detection, rate limit handling, progress tracking, and content extraction in markdown/HTML formats with metadata' as PromptPart;

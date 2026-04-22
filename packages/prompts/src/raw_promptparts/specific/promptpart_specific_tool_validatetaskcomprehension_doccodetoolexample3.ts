@@ -12,7 +12,7 @@
  * ]
  */
 
-import { PromptPart } from '@bitcode/prompts';
+import type { PromptPart } from '../../parts/PromptPart';
 
 export const PROMPTPART_SPECIFIC_TOOL_VALIDATETASKCOMPREHENSION_DOCCODETOOLEXAMPLE3: PromptPart = 
   'Example 3 - AGI Consciousness Integration Platform Validation: validateTaskComprehension({ comprehensionArtifacts: [requirements: "agi-consciousness-framework/", constraints: "ethical-consciousness-boundaries/", criteria: "consciousness-emergence-indicators/"], validationDepth: "consciousness-aware", coherenceThreshold: "transcendent-alignment", integrationScope: "consciousness-system-wide", gapDetectionSensitivity: "consciousness-cognitive", verificationFramework: "consciousness-emergence-assessment" }) → Returns ValidationReport with consciousness-integrated comprehension synthesis, transcendent coherence analysis across cognitive architectures, integration validation of consciousness emergence constraints, identified gaps in self-awareness system understanding, consciousness-aware meta-cognitive assessment of AGI comprehension depth, and readiness indicators enabling task comprehension tool synergy for consciousness-integrated AGI development' as PromptPart;

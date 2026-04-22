@@ -11,7 +11,7 @@
  * ]
  */
 
-import { PromptPart } from '@bitcode/prompts';
+import type { PromptPart } from '../../parts/PromptPart';
 
 export const PROMPTPART_SPECIFIC_TOOL_RENAMESYMBOL_DOCCODETOOLPURPOSE: PromptPart = 
   'Safely rename symbols (variables, functions, classes, types) across an entire codebase, automatically updating all references while preserving behavior and maintaining consistency' as PromptPart;

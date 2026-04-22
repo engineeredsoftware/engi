@@ -10,7 +10,7 @@
  * ]
  */
 
-import { PromptPart } from '@bitcode/prompts';
+import type { PromptPart } from '../../parts/PromptPart';
 
 export const PROMPTPART_SPECIFIC_TOOL_GETCONTENTS_DOCCODETOOLEXAMPLE1: PromptPart = 
   'Example 1 - Extract documentation page: getContents({ url: "https://docs.example.com/api/guide", format: "markdown" })' as PromptPart;

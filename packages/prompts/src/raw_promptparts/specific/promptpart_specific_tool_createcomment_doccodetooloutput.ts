@@ -11,7 +11,7 @@
  * ]
  */
 
-import { PromptPart } from '@bitcode/prompts';
+import type { PromptPart } from '../../parts/PromptPart';
 
 export const PROMPTPART_SPECIFIC_TOOL_CREATECOMMENT_DOCCODETOOLOUTPUT: PromptPart = 
   'Returns comprehensive comment creation result including: comment_id (unique identifier), comment_url (direct link), thread_position (location in conversation), mentioned_users (confirmed mentions and notifications), sentiment_score (AI-analyzed tone and reception likelihood), translation_versions (multilingual comment variations), suggested_follow_ups (recommended next actions), visibility_scope (actual access permissions), notification_recipients (delivery confirmation), conversation_impact (thread influence metrics), escalation_triggers (potential issue identification), and collaboration_metrics (engagement predictions, response time estimates, and team communication health indicators)' as PromptPart;

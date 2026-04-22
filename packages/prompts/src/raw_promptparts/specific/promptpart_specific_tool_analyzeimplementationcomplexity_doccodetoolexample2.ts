@@ -12,7 +12,7 @@
  * ]
  */
 
-import { PromptPart } from '@bitcode/prompts';
+import type { PromptPart } from '../../parts/PromptPart';
 
 export const PROMPTPART_SPECIFIC_TOOL_ANALYZEIMPLEMENTATIONCOMPLEXITY_DOCCODETOOLEXAMPLE2: PromptPart = 
   'Example 2 - Neural Architecture Search for Multi-Modal AI: analyzeImplementationComplexity({ implementationScope: "multi-modal-neural-architecture-search", complexityDimensions: ["computational", "architectural", "optimization", "emergent", "cognitive"], strategicContext: "AI-research-breakthrough", resourceConstraints: "distributed-gpu-clusters", temporalFactors: "architecture-evolution-timeline", riskProfile: "research-innovation", optimizationTargets: ["accuracy", "efficiency", "generalization"] }) → Returns ComplexityIntelligence with computational complexity optimization pathways, architectural search space stratification, optimization landscape analysis, emergent behavior prediction models, cognitive complexity assessment, distributed training complexity management, and strategic recommendations for neural architecture discovery acceleration' as PromptPart;

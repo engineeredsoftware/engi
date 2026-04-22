@@ -11,7 +11,7 @@
  * ]
  */
 
-import { PromptPart } from '@bitcode/prompts';
+import type { PromptPart } from '../../parts/PromptPart';
 
 export const PROMPTPART_SPECIFIC_TOOL_AWSMCP_DOCCODETOOLPARAMETERS: PromptPart = 
   `**Required Parameters:**

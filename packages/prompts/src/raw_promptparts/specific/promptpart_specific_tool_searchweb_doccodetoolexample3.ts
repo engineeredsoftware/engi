@@ -10,7 +10,7 @@
  * ]
  */
 
-import { PromptPart } from '@bitcode/prompts';
+import type { PromptPart } from '../../parts/PromptPart';
 
 export const PROMPTPART_SPECIFIC_TOOL_SEARCHWEB_DOCCODETOOLEXAMPLE3: PromptPart = 
   'Example 3 - Location-based tech events: searchWebTool({ query: "tech conferences", options: { location: "San Francisco", limit: 15, scrapeOptions: { formats: ["markdown", "links"] } } })' as PromptPart;

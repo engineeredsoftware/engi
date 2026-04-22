@@ -12,7 +12,7 @@
  * ]
  */
 
-import { PromptPart } from '@bitcode/prompts';
+import type { PromptPart } from '../../parts/PromptPart';
 
 export const PROMPTPART_SPECIFIC_TOOL_ANALYZEIMPLEMENTATIONCOMPLEXITY_DOCCODETOOLPURPOSE: PromptPart = 
   'Strategic analysis of implementation complexity across all architectural dimensions, generating actionable intelligence for optimization strategies, risk mitigation approaches, resource allocation decisions, and timeline projections to enable intelligent task planning, execution pathway selection, and adaptive implementation management' as PromptPart;

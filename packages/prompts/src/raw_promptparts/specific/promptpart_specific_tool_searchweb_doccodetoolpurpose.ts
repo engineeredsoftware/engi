@@ -11,7 +11,7 @@
  * ]
  */
 
-import { PromptPart } from '@bitcode/prompts';
+import type { PromptPart } from '../../parts/PromptPart';
 
 export const PROMPTPART_SPECIFIC_TOOL_SEARCHWEB_DOCCODETOOLPURPOSE: PromptPart = 
   'Search the web and automatically extract content from top results with integrated scraping for comprehensive information gathering' as PromptPart;
