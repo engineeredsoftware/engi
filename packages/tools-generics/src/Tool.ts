@@ -39,6 +39,13 @@ export abstract class Tool<T extends ToolFunction = ToolFunction> {
    * @internal
    */
   __docCodePrompt?: any; // Using any to avoid circular dependency with DocCodeToolPrompt
+
+  /**
+   * Prompt parts compatibility carrier attached alongside __docCodePrompt.
+   * Preserves older prompt-part-aware consumption paths during convergence.
+   * @internal
+   */
+  __promptParts?: any;
   
   /**
    * Execute the tool function.

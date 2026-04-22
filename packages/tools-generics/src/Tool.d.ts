@@ -36,6 +36,12 @@ export declare abstract class Tool<T extends ToolFunction = ToolFunction> {
      */
     __docCodePrompt?: any;
     /**
+     * Prompt parts compatibility carrier attached alongside __docCodePrompt.
+     * Preserves older prompt-part-aware consumption paths during convergence.
+     * @internal
+     */
+    __promptParts?: any;
+    /**
      * Execute the tool function.
      * Provides a runtime execution method that can be enhanced with
      * tracking, logging, or other cross-cutting concerns.

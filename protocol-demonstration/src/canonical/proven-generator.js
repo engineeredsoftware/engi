@@ -294,7 +294,29 @@ const V26_FOURTH_GATE_PROMPT_SYSTEM_FILES = [
   'packages/generic-tools/files-maintaining/src/prompts/tool-prompt-transaction-begin.ts',
   'packages/generic-tools/vcs/src/prompts/ListRepositoriesDocCodeToolPrompt.ts',
   'packages/chatgptapp/src/prompts/chatgpt-tool-doc-prompts.ts',
+  'packages/chatgptapp/tsconfig.test.json',
+  'packages/chatgptapp/jest.config.cjs',
+  'protocol-demonstration/V26_DOC_COMMENT_REFORM.md',
+  'packages/doc-comment/README.md',
+  'packages/doc-comment/IMPLEMENTATION.md',
+  'packages/doc-comment/src/build-plugin.ts',
+  'packages/doc-code/README.md',
+  'packages/doc-code/package.json',
+  'packages/doc-code/tsconfig.typecheck.json',
+  'packages/doc-code/src/index.ts',
+  'packages/doc-code/src/index.js',
+  'packages/doc-code/src/loaders/doc-code-tool-loader.ts',
+  'packages/doc-code/src/loaders/doc-code-tool-loader.js',
+  'packages/doc-code/src/transformDocCodeTools.ts',
+  'packages/doc-code/src/transformDocCodeTools.js',
+  'packages/doc-code/src/__tests__/transform.test.ts',
+  'packages/tools-generics/src/Tool.ts',
+  'packages/tools-generics/src/doc-code-tool/index.ts',
+  'packages/tools-generics/src/doc-code-tool/DocCodeToolDecorator.ts',
   'packages/doc-comment/examples/doc-comments-as-prompts.ts',
+  'packages/generic-doc-comment-plugins/doc-developing/README.md',
+  'packages/generic-doc-comment-plugins/doc-developing/TLDR.md',
+  'packages/generic-doc-comment-plugins/doc-developing/tsconfig.json',
   'packages/pipelines/deliverable/src/agents/prompts/understand-requirements-prompt.ts',
   'packages/pipelines/deliverable/src/agents/prompts/plan-implementation-prompt.ts'
 ];
@@ -708,7 +730,7 @@ function buildV26GateCheckpointReport({
       label: 'Fourth-gate prompt system totality proof',
       passed: promptSystemTotalityProof?.passed === true,
       detail: promptSystemTotalityProof?.passed === true
-        ? 'PromptPart/Prompt/PromptExecution and retained prompt ports remain explicit through the public @bitcode/prompts boundary with package-by-package prompt surface mapping across active, support, and retained reference consumers'
+        ? 'PromptPart/Prompt/PromptExecution and retained prompt ports remain explicit through the public @bitcode/prompts boundary with package-by-package prompt surface mapping across active, support, and retained reference consumers, including retained config boundaries that avoid broad prompts/src catchalls'
         : 'Prompt system totality proof remains open'
     }
   ];
@@ -1034,6 +1056,28 @@ function buildV26PromptSystemTotalityProof({
       ]
     ),
     buildV26FilePresenceCheck(
+      'doc-comment-doc-code-tool-injection-support',
+      'Doc-comment and doc-code keep tool prompt injection explicit under Bitcode ownership',
+      [
+        'protocol-demonstration/V26_DOC_COMMENT_REFORM.md',
+        'packages/doc-comment/README.md',
+        'packages/doc-comment/src/build-plugin.ts',
+        'packages/doc-code/README.md',
+        'packages/doc-code/package.json',
+        'packages/doc-code/tsconfig.typecheck.json',
+        'packages/doc-code/src/index.ts',
+        'packages/doc-code/src/index.js',
+        'packages/doc-code/src/loaders/doc-code-tool-loader.ts',
+        'packages/doc-code/src/loaders/doc-code-tool-loader.js',
+        'packages/doc-code/src/transformDocCodeTools.ts',
+        'packages/doc-code/src/transformDocCodeTools.js',
+        'packages/doc-code/src/__tests__/transform.test.ts',
+        'packages/tools-generics/src/Tool.ts',
+        'packages/tools-generics/src/doc-code-tool/index.ts',
+        'packages/tools-generics/src/doc-code-tool/DocCodeToolDecorator.ts'
+      ]
+    ),
+    buildV26FilePresenceCheck(
       'reference-prompt-consumer-boundaries',
       'Retained reference prompt consumers stay explicit on narrow public prompt primitive subpaths',
       [
@@ -1042,7 +1086,15 @@ function buildV26PromptSystemTotalityProof({
         'packages/generic-tools/files-maintaining/src/prompts/tool-prompt-transaction-begin.ts',
         'packages/generic-tools/vcs/src/prompts/ListRepositoriesDocCodeToolPrompt.ts',
         'packages/chatgptapp/src/prompts/chatgpt-tool-doc-prompts.ts',
-        'packages/doc-comment/examples/doc-comments-as-prompts.ts'
+        'packages/chatgptapp/tsconfig.test.json',
+        'packages/chatgptapp/jest.config.cjs',
+        'protocol-demonstration/V26_DOC_COMMENT_REFORM.md',
+        'packages/doc-comment/README.md',
+        'packages/doc-comment/IMPLEMENTATION.md',
+        'packages/doc-comment/examples/doc-comments-as-prompts.ts',
+        'packages/generic-doc-comment-plugins/doc-developing/README.md',
+        'packages/generic-doc-comment-plugins/doc-developing/TLDR.md',
+        'packages/generic-doc-comment-plugins/doc-developing/tsconfig.json'
       ]
     ),
     buildV26FilePresenceCheck(

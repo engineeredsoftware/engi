@@ -3,6 +3,10 @@
  * 
  * This file demonstrates how doc-comments ARE prompts in the Bitcode system.
  * Every doc-comment here becomes part of the prompt intelligence.
+ *
+ * V26 note:
+ * This file is preserved as reference-only example material for old-world reform analysis.
+ * It does not by itself define admitted live Bitcode runtime behavior.
  */
 
 import { PromptPart } from '@bitcode/prompts/parts/PromptPart';

@@ -12,8 +12,7 @@
 import { 
   DocCommentPlugin, 
   DocComment, 
-  DocCommentMetadata,
-  ParseLocation 
+  DocCommentMetadata
 } from '@bitcode/doc-comment';
 
 export interface BenchmarkMetadata extends DocCommentMetadata {
@@ -36,12 +35,12 @@ export class DocBenchmarkPlugin implements DocCommentPlugin {
   name = 'doc-benchmark';
   pattern = /@doc-benchmark/;
 
-  matches(comment: string): boolean {
-    return this.pattern.test(comment);
+  matches(comment: DocComment): boolean {
+    return this.pattern.test(comment.raw);
   }
 
-  parse(comment: DocComment, context: ParseLocation): DocCommentMetadata | null {
-    if (!this.matches(comment.raw)) {
+  parse(comment: DocComment): DocCommentMetadata | null {
+    if (!this.matches(comment)) {
       return null;
     }
 
@@ -63,7 +62,15 @@ export class DocBenchmarkPlugin implements DocCommentPlugin {
     return metadata;
   }
 
-  transform(metadata: DocCommentMetadata, context: ParseLocation): string {
+  validate(parsed: DocCommentMetadata): boolean {
+    const metadata = parsed as BenchmarkMetadata;
+    return (
+      metadata.type === 'benchmark' &&
+      ['performance', 'memory', 'throughput', 'latency'].includes(metadata.category)
+    );
+  }
+
+  transform(metadata: DocCommentMetadata): string {
     const benchMeta = metadata as BenchmarkMetadata;
     
     const parts = [`// BENCHMARK: ${benchMeta.category}`];
@@ -124,6 +131,5 @@ export class DocBenchmarkPlugin implements DocCommentPlugin {
 
 export const docBenchmarkPlugin = new DocBenchmarkPlugin();
 
-// Auto-register when imported
 import { registerPlugin } from '@bitcode/doc-comment';
 registerPlugin(docBenchmarkPlugin);

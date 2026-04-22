@@ -11,10 +11,8 @@
  */
 
 import * as ts from 'typescript';
-import * as path from 'path';
 import { DocCommentParser } from './parser';
 import { DocCommentPlugin } from './types';
-import { docTypeScriptPlugin } from './plugins/doc-typescript';
 
 /**
  * The master registry of doc-comment plugins
@@ -24,10 +22,7 @@ export class DocCommentPluginRegistry {
   private static instance: DocCommentPluginRegistry;
   private plugins: Map<string, DocCommentPlugin> = new Map();
   
-  private constructor() {
-    // Register core plugins
-    this.register(docTypeScriptPlugin);
-  }
+  private constructor() {}
   
   static getInstance(): DocCommentPluginRegistry {
     if (!this.instance) {
@@ -62,6 +57,7 @@ export function docCommentTransformerFactory(
   config?: DocCommentConfig
 ): ts.TransformerFactory<ts.SourceFile> {
   const typeChecker = program.getTypeChecker();
+  void config;
   const registry = DocCommentPluginRegistry.getInstance();
   
   return (context: ts.TransformationContext) => {
@@ -90,7 +86,7 @@ export function docCommentTransformerFactory(
             if (comment.label === '@doc-typescript') {
               const plugin = registry.getPlugin('doc-typescript');
               if (plugin && 'introspect' in plugin) {
-                const introspection = (plugin as any).introspect(node, typeChecker);
+                const introspection = (plugin as { introspect?: (target: ts.Node, checker: ts.TypeChecker) => unknown }).introspect?.(node, typeChecker);
                 injections.push({
                   property: 'docTypeScript',
                   value: introspection,
@@ -106,7 +102,7 @@ export function docCommentTransformerFactory(
                 injections.push({
                   property: comment.label.replace('@doc-', 'doc').replace(/-([a-z])/g, (_, l) => l.toUpperCase()),
                   value: parsed,
-                  strategy: determineInjectionStrategy(node)
+                  method: determineInjectionMethod(node)
                 });
               }
             }
@@ -116,17 +112,18 @@ export function docCommentTransformerFactory(
           injections.push({
             property: '_allDocComments',
             value: nodeComments,
-            strategy: determineInjectionStrategy(node)
+            method: determineInjectionMethod(node)
           });
           
           // Transform the node with injections
-          return transformNodeWithInjections(node, injections, context);
+          const visitedNode = ts.visitEachChild(node, visit, context);
+          return transformNodeWithInjections(visitedNode, injections, context);
         }
         
         return ts.visitEachChild(node, visit, context);
       }
       
-      return ts.visitNode(sourceFile, visit);
+      return ts.visitNode(sourceFile, visit) as ts.SourceFile;
     };
   };
 }
@@ -167,13 +164,13 @@ interface InjectionSpec {
  * Check if a comment belongs to a specific node
  */
 function isCommentForNode(
-  comment: any,
+  comment: { end?: number },
   node: ts.Node,
   sourceFile: ts.SourceFile
 ): boolean {
   // Simple heuristic: comment must be immediately before the node
   const nodeStart = node.getStart(sourceFile);
-  const commentEnd = comment.end;
+  const commentEnd = comment.end ?? 0;
   
   // Check if comment ends just before node starts (allowing for whitespace)
   const textBetween = sourceFile.text.substring(commentEnd, nodeStart);
@@ -184,7 +181,7 @@ function isCommentForNode(
  * Find the right plugin for a comment
  */
 function findPluginForComment(
-  comment: any,
+  comment: { label: string } & Parameters<DocCommentPlugin['matches']>[0],
   registry: DocCommentPluginRegistry
 ): DocCommentPlugin | undefined {
   // Try exact match first
@@ -220,54 +217,13 @@ function transformNodeWithInjections(
   injections: InjectionSpec[],
   context: ts.TransformationContext
 ): ts.Node {
-  // For now, we add a dummy statement after the node
-  // In production, this would generate actual injection code
-  
-  if (ts.isTypeAliasDeclaration(node) || ts.isInterfaceDeclaration(node)) {
-    // For types/interfaces, we need to generate runtime code
-    const nodeName = (node as any).name?.text;
-    if (!nodeName) return node;
-    
-    // Generate injection statements
-    const statements: ts.Statement[] = [];
-    
-    // Create IIFE for injection
-    const injectionCode = generateInjectionCode(nodeName, injections);
-    const injectionStatement = ts.factory.createExpressionStatement(
-      ts.factory.createCallExpression(
-        ts.factory.createParenthesizedExpression(
-          ts.factory.createFunctionExpression(
-            undefined,
-            undefined,
-            undefined,
-            undefined,
-            [],
-            undefined,
-            ts.factory.createBlock([
-              // This would contain the actual injection logic
-              ts.factory.createExpressionStatement(
-                ts.factory.createCallExpression(
-                  ts.factory.createPropertyAccessExpression(
-                    ts.factory.createIdentifier('console'),
-                    'log'
-                  ),
-                  undefined,
-                  [ts.factory.createStringLiteral(`[Doc-Comment] Injecting intelligence into ${nodeName}`)]
-                )
-              )
-            ])
-          )
-        ),
-        undefined,
-        []
-      )
-    );
-    
-    // Return both the original node and the injection
-    return ts.factory.createNodeArray([node, injectionStatement] as any) as any;
-  }
-  
-  // For other node types, return as-is for now
+  void injections;
+  void context;
+  // V26 note:
+  // This retained transformer is a typed placeholder. The reference-only
+  // doc-comment corridor preserves the injection design, but does not claim
+  // admitted live transformation behavior unless later promotion rewrites this
+  // path against the active Bitcode runtime and proof boundaries.
   return node;
 }
 
@@ -320,21 +276,13 @@ function generateInjectionCode(
 export function createDocCommentWebpackPlugin(config?: DocCommentConfig) {
   return {
     apply(compiler: any) {
+      void config;
       compiler.hooks.beforeCompile.tap('DocCommentPlugin', () => {
         console.log('[Doc-Comment] Preparing to inject intelligence...');
       });
     }
   };
 }
-
-/**
- * Export everything needed for build integration
- */
-export {
-  DocCommentPluginRegistry,
-  DocCommentPlugin,
-  DocCommentConfig
-};
 
 /**
  * The future of programming:

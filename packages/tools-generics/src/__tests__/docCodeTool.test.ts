@@ -38,6 +38,7 @@ describe('DocCode tool infrastructure', () => {
     expect(getDocCodeToolPrompt('DECORATOR_PROMPT')).toBe(prompt);
     expect(hasDocCodePrompt(tool)).toBe(true);
     expect(tool.__docCodePrompt).toBe(prompt);
+    expect(tool.__promptParts).toBe(prompt);
   });
 
   it('attachDocCodeToolPrompt manually associates prompt instances', () => {
@@ -49,6 +50,7 @@ describe('DocCode tool infrastructure', () => {
     attachDocCodeToolPrompt(tool, prompt);
     expect(hasDocCodePrompt(tool)).toBe(true);
     expect(tool.__docCodePrompt).toBe(prompt);
+    expect(tool.__promptParts).toBe(prompt);
   });
 
   it('formatUsableTools renders documentation and handles undocumented tools', () => {

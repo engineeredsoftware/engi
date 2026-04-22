@@ -6,6 +6,7 @@
     "types": ["jest", "node"],
     "noEmit": true,
     "paths": {
+      "@bitcode/tools-generics": ["packages/chatgptapp/src/__stubs__/tools-generics.ts"],
       "@bitcode/generic-tools-simple-system-text-search": ["packages/chatgptapp/src/__stubs__/generic-tools-simple-system-text-search.ts"],
       "@bitcode/generic-tools-web-search": ["packages/chatgptapp/src/__stubs__/generic-tools-web-search.ts"],
       "@bitcode/digest/run": ["packages/chatgptapp/src/__stubs__/digest-run.ts"],
@@ -19,8 +20,11 @@
       "@bitcode/generic-tools-mcps-aws/src/prompts/AWSMCPDocCodeToolPrompt": ["packages/chatgptapp/src/__stubs__/aws-doc-prompt.ts"],
       "@bitcode/generic-tools-simple-system-text-search/src/prompts/SimpleSystemTextSearchDocCodeToolPrompt": ["packages/chatgptapp/src/__stubs__/ssts-doc-prompt.ts"],
       "@bitcode/generic-tools-web-search/src/prompts/WebSearchDocCodeToolPrompt": ["packages/chatgptapp/src/__stubs__/web-search-doc-prompt.ts"],
-      "@bitcode/prompts/*": ["packages/prompts/src/*"],
-      "@bitcode/prompts": ["packages/prompts/src/index.ts"]
+      "@bitcode/prompts/prompt": ["packages/prompts/src/prompt.ts"],
+      "@bitcode/prompts/parts/PromptPart": ["packages/prompts/src/parts/PromptPart.ts"],
+      "@bitcode/prompts/formatters": ["packages/prompts/src/formatters/index.ts"],
+      "@bitcode/prompts/execution/PromptExecution": ["packages/prompts/src/execution/PromptExecution.ts"],
+      "@bitcode/prompts/raw_promptparts/*": ["packages/prompts/src/raw_promptparts/*"]
     }
   },
   "include": ["src/**/*.ts", "src/types/**/*.d.ts"],

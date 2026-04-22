@@ -15,6 +15,6 @@ class MyTool extends Tool { }
 
 **Where**: All descriptive fields go in DocCodeToolPrompt class
 
-**Result**: `tool.__docCodePrompt = PROMPT_NAME` injected at build time
+**Result**: `tool.__docCodePrompt = PROMPT_NAME` and `tool.__promptParts = PROMPT_NAME` injected at build time
 
 **Usage**: Automatic via webpack - no manual steps

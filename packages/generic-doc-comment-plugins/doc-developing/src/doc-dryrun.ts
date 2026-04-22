@@ -12,8 +12,7 @@
 import { 
   DocCommentPlugin, 
   DocComment, 
-  DocCommentMetadata,
-  ParseLocation 
+  DocCommentMetadata
 } from '@bitcode/doc-comment';
 
 export interface DryRunMetadata extends DocCommentMetadata {
@@ -28,12 +27,12 @@ export class DocDryRunPlugin implements DocCommentPlugin {
   name = 'doc-dryrun';
   pattern = /@doc-dryrun/;
 
-  matches(comment: string): boolean {
-    return this.pattern.test(comment);
+  matches(comment: DocComment): boolean {
+    return this.pattern.test(comment.raw);
   }
 
-  parse(comment: DocComment, location: ParseLocation): DocCommentMetadata | null {
-    if (!this.matches(comment.raw)) {
+  parse(comment: DocComment): DocCommentMetadata | null {
+    if (!this.matches(comment)) {
       return null;
     }
 
@@ -55,7 +54,15 @@ export class DocDryRunPlugin implements DocCommentPlugin {
     return metadata;
   }
 
-  transform(metadata: DocCommentMetadata, location: ParseLocation): string {
+  validate(parsed: DocCommentMetadata): boolean {
+    const metadata = parsed as DryRunMetadata;
+    return (
+      metadata.type === 'dryrun' &&
+      ['simulate', 'test', 'preview'].includes(metadata.mode)
+    );
+  }
+
+  transform(metadata: DocCommentMetadata): string {
     const dryRunMeta = metadata as DryRunMetadata;
     
     return `
@@ -100,6 +107,5 @@ ${dryRunMeta.sideEffects ? `// Side Effects: ${dryRunMeta.sideEffects.join(', ')
 
 export const docDryRunPlugin = new DocDryRunPlugin();
 
-// Auto-register when imported
 import { registerPlugin } from '@bitcode/doc-comment';
 registerPlugin(docDryRunPlugin);

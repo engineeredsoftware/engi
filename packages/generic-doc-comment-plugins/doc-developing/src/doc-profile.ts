@@ -12,8 +12,7 @@
 import { 
   DocCommentPlugin, 
   DocComment, 
-  DocCommentMetadata,
-  ParseLocation 
+  DocCommentMetadata
 } from '@bitcode/doc-comment';
 
 export interface ProfileMetadata extends DocCommentMetadata {
@@ -31,12 +30,12 @@ export class DocProfilePlugin implements DocCommentPlugin {
   name = 'doc-profile';
   pattern = /@doc-profile/;
 
-  matches(comment: string): boolean {
-    return this.pattern.test(comment);
+  matches(comment: DocComment): boolean {
+    return this.pattern.test(comment.raw);
   }
 
-  parse(comment: DocComment, context: ParseLocation): DocCommentMetadata | null {
-    if (!this.matches(comment.raw)) {
+  parse(comment: DocComment): DocCommentMetadata | null {
+    if (!this.matches(comment)) {
       return null;
     }
 
@@ -65,7 +64,16 @@ export class DocProfilePlugin implements DocCommentPlugin {
     return metadata;
   }
 
-  transform(metadata: DocCommentMetadata, context: ParseLocation): string {
+  validate(parsed: DocCommentMetadata): boolean {
+    const metadata = parsed as ProfileMetadata;
+    return (
+      metadata.type === 'profile' &&
+      ['function', 'class', 'module', 'pipeline'].includes(metadata.scope) &&
+      ['console', 'file', 'telemetry'].includes(metadata.output || 'console')
+    );
+  }
+
+  transform(metadata: DocCommentMetadata): string {
     const profileMeta = metadata as ProfileMetadata;
     
     const parts = [`// PROFILING: ${profileMeta.scope}`];

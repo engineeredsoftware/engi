@@ -2,6 +2,10 @@
 
 Development-time doc-comment plugins for testing and profiling. This package contains utility plugins for development workflows.
 
+V26 status: `reference-only`.
+This package is retained for reform analysis and bounded development utilities.
+It is not part of the admitted live Bitcode runtime or prompt ownership path.
+
 ## Plugins
 
 ### @doc-comment-dryrun
@@ -36,8 +40,9 @@ Profiling markers for performance analysis:
 
 ## Important Note
 
-The prompt-specific developing plugins (@doc-comment-developing-promptpartdevelopment and @doc-comment-developing-promptdevelopment) are located in:
-`@bitcode/prompts/src/developing/doc-comment-developing.ts`
+Prompt-specific developing experiments remain prompt-package internal and reference-only.
+Retained consumers in this corridor must not treat `packages/prompts/src/*` or `@bitcode/prompts/src/*` locations as public API.
+See `protocol-demonstration/V26_DOC_COMMENT_REFORM.md` for the active V26 reform boundary.
 
 ## Usage
 

@@ -24,6 +24,16 @@ const REFERENCE_PROMPT_CORRIDORS = [
   'packages/chatgptapp/src/prompts',
   'packages/doc-comment/examples',
 ];
+const REFERENCE_PROMPT_CONFIG_FILES = [
+  'packages/chatgptapp/tsconfig.test.json',
+  'packages/chatgptapp/jest.config.cjs',
+];
+const DISALLOWED_REFERENCE_PROMPT_CONFIG_PATTERNS = [
+  /"@bitcode\/prompts\/\*"\s*:\s*\["packages\/prompts\/src\/\*"\]/u,
+  /"@bitcode\/prompts"\s*:\s*\["packages\/prompts\/src\/index\.ts"\]/u,
+  /\^@bitcode\/prompts\/\(\.\*\)\$\s*['"]?\s*:\s*['"][^'"]*prompts\/src\/\$1['"]/u,
+  /\^@bitcode\/prompts\$\s*['"]?\s*:\s*['"][^'"]*prompts\/src\/index\.ts['"]/u,
+];
 
 function listFilesRecursively(targetPath) {
   const absolutePath = path.join(repoRoot, targetPath);
@@ -98,5 +108,18 @@ test('V26 retained reference prompt consumers use narrow public prompt subpaths 
     violations,
     [],
     `Reference prompt consumers must use narrow public prompt subpaths instead of the root @bitcode/prompts barrel: ${violations.join(', ')}`
+  );
+});
+
+test('V26 retained reference prompt configs avoid broad prompts source catchalls', () => {
+  const violations = REFERENCE_PROMPT_CONFIG_FILES.filter((filePath) => {
+    const source = readFileSync(path.join(repoRoot, filePath), 'utf8');
+    return DISALLOWED_REFERENCE_PROMPT_CONFIG_PATTERNS.some((pattern) => pattern.test(source));
+  });
+
+  assert.deepEqual(
+    violations,
+    [],
+    `Reference prompt configs must prefer exact public prompt subpath maps over broad prompts/src catchalls: ${violations.join(', ')}`
   );
 });

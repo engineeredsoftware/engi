@@ -16,10 +16,14 @@ test('V26 prompt surface map keeps active, support, and reference corridors expl
   assert.match(promptSurfaceSource, /packages\/agent-generics\/src\/\{prompts\/\*,execution\/prompt-overlays\.ts,substeps\/factories\.ts\}/u);
   assert.match(promptSurfaceSource, /packages\/conversations-generics\/src\/\{prompts\/ConversationSystemPrompt\.ts,agent\/ConversationAgent\.ts\}/u);
   assert.match(promptSurfaceSource, /uapi\/prompts\/conversations-system-prompt\.ts/u);
+  assert.match(promptSurfaceSource, /packages\/\{doc-comment,doc-code\}\/\*/u);
+  assert.match(promptSurfaceSource, /packages\/tools-generics\/src\/doc-code-tool\/\*/u);
 
   assert.match(promptSurfaceSource, /packages\/generic-agents\/\*/u);
   assert.match(promptSurfaceSource, /packages\/generic-tools\/\*/u);
+  assert.match(promptSurfaceSource, /protocol-demonstration\/V26_DOC_COMMENT_REFORM\.md/u);
   assert.match(promptSurfaceSource, /prefer `@bitcode\/prompts\/prompt` and `@bitcode\/prompts\/parts\/PromptPart`/u);
+  assert.match(promptSurfaceSource, /retained reference test\/build configs should use exact public prompt subpath maps/u);
   assert.match(promptSurfaceSource, /Jira remains reader-first need-ingestion\/reference posture/u);
 });
 

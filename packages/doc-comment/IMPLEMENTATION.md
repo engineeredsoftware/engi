@@ -1,5 +1,10 @@
 # Doc-Comments Implementation: How Comments Become Prompts
 
+V26 note:
+This document is preserved as a retained implementation sketch for old-world doc-comment behavior.
+The base parsing abstraction remains admitted support when Bitcode-owned build-time injection corridors consume it, but this document does not by itself describe an admitted live Bitcode runtime.
+Where this document shows transformation or injection flows beyond the explicit `doc-code` tool prompt path, read them as illustrative tactics unless the active package source, spec, and proofs explicitly promote them.
+
 ## The Build-Time Transformation Pipeline
 
 This document shows the actual implementation of how doc-comments become prompts at build time.
@@ -7,7 +12,7 @@ This document shows the actual implementation of how doc-comments become prompts
 ## 1. AST Parsing and Extraction
 
 ```typescript
-// packages/doc-comments/src/parser.ts
+// packages/doc-comment/src/parser.ts
 
 export class DocCommentParser {
   /**
@@ -95,7 +100,7 @@ export class DocCommentParser {
 ## 2. Plugin System for Different Doc-Comment Types
 
 ```typescript
-// packages/doc-comments/src/plugins/doc-promptpart.ts
+// packages/doc-comment/src/plugins/doc-promptpart.ts
 
 export class DocPromptPartPlugin implements DocCommentPlugin {
   name = 'doc-promptpart';
@@ -125,7 +130,7 @@ export class DocPromptPartPlugin implements DocCommentPlugin {
 ## 3. Build-Time Code Generation
 
 ```typescript
-// packages/doc-comments/src/build-plugin.ts
+// packages/doc-comment/src/build-plugin.ts
 
 /**
  * Transform a node to include doc-comment injections

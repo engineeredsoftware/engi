@@ -1,10 +1,10 @@
 {
   "reportId": "v26-total-closure-proof",
   "version": "V26",
-  "proofSourceCommit": "f0a47401243f086548dee7f8c3447ab4835bccaf",
-  "generatedAt": "2026-04-22T14:31:01-03:00",
+  "proofSourceCommit": "942903e4633930f4bbb5a1ccccdf895fa25b4ebe",
+  "generatedAt": "2026-04-22T14:36:05-03:00",
   "generatorId": "bitcode.proven-generator.v1",
-  "worktreeState": "clean",
+  "worktreeState": "dirty-preview",
   "passed": false,
   "openReason": "V26 total closure remains an eighth-gate proof until the kept repository is fully proven as one Bitcode system.",
   "checks": [

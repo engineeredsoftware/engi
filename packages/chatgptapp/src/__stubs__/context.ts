@@ -1,10 +1,8 @@
-export function prepareConciseContext(input: any) {
+export function prepareConciseContext(input: any, _options?: any) {
   return {
     preparedContexts: [],
-    preparedContextStats: {
-      chunked: [],
-      chunkCount: 0,
-      contextSize: 0
-    }
+    chunked: false,
+    chunkCount: 0,
+    contextSize: 0
   };
 }

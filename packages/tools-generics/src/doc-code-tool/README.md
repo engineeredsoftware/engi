@@ -35,6 +35,7 @@ Into:
 // After build
 export const myTool = new MyTool();
 myTool.__docCodePrompt = MY_TOOL_PROMPT;
+myTool.__promptParts = MY_TOOL_PROMPT;
 ```
 
 ## DocCodeToolPrompt Class
@@ -62,6 +63,8 @@ import { formatUsableTools } from '@bitcode/tools-generics';
 const tools = [myTool, otherTool];
 const documentation = formatUsableTools(tools);
 // Returns formatted documentation from __docCodePrompt
+
+The same prompt is also attached to `__promptParts` as a compatibility carrier for older prompt-part-aware paths.
 ```
 
 ## Type Safety

@@ -28,10 +28,13 @@ describe('createTransform', () => {
 
     const firstPass = await transform.transform(TOOL_SOURCE, filePath);
     expect(firstPass).toContain('__docCodePrompt');
+    expect(firstPass).toContain('__promptParts');
     expect(firstPass.match(/__docCodePrompt/g)).toHaveLength(1);
+    expect(firstPass.match(/__promptParts/g)).toHaveLength(1);
 
     const secondPass = await transform.transform(firstPass, filePath);
     expect(secondPass.match(/__docCodePrompt/g)).toHaveLength(1);
+    expect(secondPass.match(/__promptParts/g)).toHaveLength(1);
   });
 
   it('skips files outside generic-tools or tools-generics', async () => {
@@ -62,9 +65,11 @@ describe('docCodeToolLoader', () => {
     const path = '/workspace/packages/generic-tools/example/src/tool.ts';
     const transformed = runLoader(TOOL_SOURCE, path, { test: /\.ts$/ });
     expect(transformed.match(/__docCodePrompt/g)).toHaveLength(1);
+    expect(transformed.match(/__promptParts/g)).toHaveLength(1);
 
     const secondPass = runLoader(transformed, path, { test: /\.ts$/ });
     expect(secondPass.match(/__docCodePrompt/g)).toHaveLength(1);
+    expect(secondPass.match(/__promptParts/g)).toHaveLength(1);
   });
 
   it('skips transformation when test pattern does not match', () => {

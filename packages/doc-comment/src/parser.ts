@@ -58,6 +58,7 @@ export class DocCommentParser {
       
       comments.push({
         label: raw.label,
+        raw: sourceFile.getFullText().substring(raw.pos, raw.end),
         content: raw.content,
         fields,
         pos: raw.pos,
@@ -285,6 +286,7 @@ export function parseDocComment(text: string): DocComment | null {
   
   return {
     label,
+    raw: text,
     content,
     fields
   };
@@ -296,4 +298,3 @@ export function parseDocComment(text: string): DocComment | null {
 export function isDocComment(text: string): boolean {
   return /\/\*\*\s*@doc-/.test(text);
 }
-
