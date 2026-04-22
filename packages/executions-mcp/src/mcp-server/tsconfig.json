@@ -24,6 +24,11 @@
   "exclude": [
     "dist",
     "node_modules",
+    "src/__tests__/**/*",
+    "src/tools/field-intelligence.ts",
+    "src/tools/jira-tools.ts",
+    "src/tools/monitoring-tools.ts",
+    "src/tools/orchestration-tools.ts",
     "src/**/*.test.ts",
     "src/**/*.spec.ts"
   ]

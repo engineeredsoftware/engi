@@ -16,6 +16,8 @@ export interface OrganizationMember {
   user_id: string;
   role: string;
   permissions?: Record<string, unknown> | null;
+  credit_budget?: number | null;
+  is_active?: boolean | null;
   joined_at?: string | null;
   updated_at?: string | null;
 }
@@ -152,5 +154,9 @@ export class OrganizationMembersModel {
 
   async getMembership(orgId: string, userId: string): Promise<OrganizationMember | null> {
     return this.getMember(orgId, userId);
+  }
+
+  async getMembers(orgId: string): Promise<OrganizationMember[]> {
+    return this.listByOrganization(orgId);
   }
 }

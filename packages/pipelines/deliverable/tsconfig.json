@@ -12,6 +12,10 @@
     "composite": false,
     "baseUrl": "../../../",
     "paths": {
+      "@bitcode/mcp": ["packages/executions-mcp/src/index.ts"],
+      "@bitcode/vcs-tools": ["packages/generic-tools/vcs/src/index.ts"],
+      "@bitcode/generic-tools/use-computer": ["packages/generic-tools/use-computer/src/index.ts"],
+      "@bitcode/generic-tools/use-computer/*": ["packages/generic-tools/use-computer/src/*"],
       "@bitcode/*": ["packages/*/src/index.ts"],
       "@bitcode/generic-agents/*": ["packages/generic-agents/*/src/index.ts"],
       "@bitcode/prompts/raw_promptparts/*": ["packages/prompts/src/raw_promptparts/*"]

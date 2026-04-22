@@ -37,7 +37,7 @@ export interface CircuitBreakerConfig {
 enum CircuitState {
   CLOSED = 'closed',
   OPEN = 'open',
-  HALF_OPEN = 'half_open'
+  HALF_OPEN = 'half-open'
 }
 
 /**
@@ -132,6 +132,7 @@ export class RateLimiter {
 export class CircuitBreaker {
   private state: CircuitState = CircuitState.CLOSED;
   private failures = 0;
+  private successes = 0;
   private lastFailureTime = 0;
   private halfOpenRequests = 0;
   private stateChangeCallbacks: Array<(state: CircuitState) => void> = [];
@@ -183,6 +184,7 @@ export class CircuitBreaker {
     }
     this.failures = 0;
     this.halfOpenRequests = 0;
+    this.successes++;
   }
   
   /**
@@ -247,6 +249,15 @@ export class CircuitBreaker {
    */
   getState(): CircuitState {
     return this.state;
+  }
+
+  getStats(): { failures: number; successes: number; successRate: number } {
+    const total = this.failures + this.successes;
+    return {
+      failures: this.failures,
+      successes: this.successes,
+      successRate: total > 0 ? this.successes / total : 1,
+    };
   }
   
   /**

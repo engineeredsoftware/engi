@@ -35,6 +35,14 @@ interface MCPResource {
   read?: (uri: string, context: MCPAuthContext) => Promise<any>;
 }
 
+function getTimestamp(value: string | null | undefined): number {
+  return value ? new Date(value).getTime() : 0;
+}
+
+function getRunMetadata(run: { metadata?: unknown }): Record<string, any> {
+  return (run.metadata as Record<string, any> | null) || {};
+}
+
 /**
  * Extract organization ID from URI
  */
@@ -116,10 +124,11 @@ async function getOrganizationAnalytics(
 
     // Get pipeline runs for analytics
     const allRuns = await runs.getAll();
-    const orgRuns = allRuns.filter(run => {
-      const metadata = run.metadata as any;
-      return metadata?.organizationId === organizationId &&
-             new Date(run.created_at) >= getTimeframeStart(options.timeframe || '30d');
+    const timeframeStart = getTimeframeStart(options.timeframe || '30d').getTime();
+    const orgRuns = allRuns.filter((run) => {
+      const metadata = getRunMetadata(run);
+      return metadata.organizationId === organizationId &&
+             getTimestamp(run.created_at) >= timeframeStart;
     });
 
     // Analyze the data
@@ -257,7 +266,7 @@ function analyzeOrganizationData(data: {
       : 0,
     
     creditsPerMember: teamAnalytics.totalMembers > 0 
-      ? pipelineAnalytics.totalCreditsUsed / teamAnalytics.totalMembers
+      ? pipelineAnalytics.totalBtdUsed / teamAnalytics.totalMembers
       : 0,
     
     repositoriesPerMember: teamAnalytics.totalMembers > 0 
@@ -322,8 +331,8 @@ function getMostActiveUser(runs: any[], members: any[]): any {
     return acc;
   }, {} as Record<string, number>);
 
-  const mostActiveUserId = Object.entries(userActivity)
-    .sort(([,a], [,b]) => b - a)[0]?.[0];
+  const mostActiveUserId = (Object.entries(userActivity) as Array<[string, number]>)
+    .sort(([, a], [, b]) => b - a)[0]?.[0];
 
   if (!mostActiveUserId) return null;
 
@@ -338,7 +347,9 @@ function getMostActiveUser(runs: any[], members: any[]): any {
 
 function getDailyActivity(runs: any[]): Record<string, number> {
   return runs.reduce((acc, run) => {
-    const date = new Date(run.created_at).toISOString().split('T')[0];
+    const date = run.created_at
+      ? new Date(run.created_at).toISOString().split('T')[0]
+      : 'unknown';
     acc[date] = (acc[date] || 0) + 1;
     return acc;
   }, {} as Record<string, number>);
@@ -354,7 +365,7 @@ function getRepositoryActivity(runs: any[], connections: any[]): any[] {
     return acc;
   }, {} as Record<string, number>);
 
-  return Object.entries(repoActivity)
+  return (Object.entries(repoActivity) as Array<[string, number]>)
     .map(([repo, count]) => ({
       repository: repo,
       pipelineCount: count,
@@ -373,8 +384,8 @@ function getMostActiveRepository(runs: any[]): string | null {
     return acc;
   }, {} as Record<string, number>);
 
-  return Object.entries(repoActivity)
-    .sort(([,a], [,b]) => b - a)[0]?.[0] || null;
+  return (Object.entries(repoActivity) as Array<[string, number]>)
+    .sort(([, a], [, b]) => b - a)[0]?.[0] || null;
 }
 
 function getLastActivityForRepo(repo: string, runs: any[]): string | null {
@@ -387,7 +398,7 @@ function getLastActivityForRepo(repo: string, runs: any[]): string | null {
   if (repoRuns.length === 0) return null;
   
   return repoRuns
-    .sort((a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime())[0]
+    .sort((a, b) => getTimestamp(b.created_at) - getTimestamp(a.created_at))[0]
     .created_at;
 }
 
@@ -546,12 +557,12 @@ function generateOrganizationRecommendations(metrics: any): any[] {
   }
 
   // Cost optimization recommendation
-  if (metrics.pipelineAnalytics.averageCreditsPerPipeline > 150) {
+  if (metrics.pipelineAnalytics.averageBtdPerPipeline > 150) {
     recommendations.push({
       category: 'cost',
       priority: 'medium',
       title: 'Optimize $BTD Usage',
-      description: `Average of ${Math.round(metrics.pipelineAnalytics.averageCreditsPerPipeline)} $BTD per pipeline could be optimized`,
+      description: `Average of ${Math.round(metrics.pipelineAnalytics.averageBtdPerPipeline)} $BTD per pipeline could be optimized`,
       actions: [
         'Review prompt optimization strategies',
         'Train team on efficient pipeline usage',
@@ -572,7 +583,7 @@ async function getTeamMembers(organizationId: string, context: MCPAuthContext): 
   const supabase = createClient();
   const organizationMembers = new OrganizationMembersModel(supabase);
   const userProfiles = new UserProfilesModel(supabase);
-  const runs = new DeliverableRunsModel(supabase);
+  const runs = new PipelineExecutionsModel(supabase);
 
   try {
     // Verify organization access
@@ -592,10 +603,10 @@ async function getTeamMembers(organizationId: string, context: MCPAuthContext): 
         
         // Get recent activity
         const allRuns = await runs.getAll();
-        const memberRuns = allRuns.filter(run => {
-          const metadata = run.metadata as any;
-          return metadata?.userId === member.user_id &&
-                 new Date(run.created_at) >= getTimeframeStart('30d');
+        const memberRuns = allRuns.filter((run) => {
+          const metadata = getRunMetadata(run);
+          return metadata.userId === member.user_id &&
+                 getTimestamp(run.created_at) >= getTimeframeStart('30d').getTime();
         });
 
         return {
@@ -610,10 +621,10 @@ async function getTeamMembers(organizationId: string, context: MCPAuthContext): 
           recentActivity: {
             pipelineCount: memberRuns.length,
             successRate: memberRuns.length > 0
-              ? memberRuns.filter(r => r.status === 'completed').length / memberRuns.length
+              ? memberRuns.filter((run) => run.status === 'completed').length / memberRuns.length
               : 0,
             lastActive: memberRuns.length > 0
-              ? memberRuns.sort((a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime())[0].created_at
+              ? memberRuns.sort((a, b) => getTimestamp(b.created_at) - getTimestamp(a.created_at))[0].created_at
               : null
           }
         };

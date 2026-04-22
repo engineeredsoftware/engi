@@ -90,12 +90,13 @@ export interface ExpiringCacheEntry<T> {
 /**
  * LRU Cache with TTL support
  */
-export class TTLCache<K, V> extends LRUCache<K, ExpiringCacheEntry<V>> {
+export class TTLCache<K, V> {
   private ttl: number;
   private cleanupInterval: NodeJS.Timeout | null = null;
+  private readonly store: LRUCache<K, ExpiringCacheEntry<V>>;
 
   constructor(maxSize: number = 1000, ttlMs: number = 5 * 60 * 1000) {
-    super(maxSize);
+    this.store = new LRUCache<K, ExpiringCacheEntry<V>>(maxSize);
     this.ttl = ttlMs;
     
     // Run cleanup every minute
@@ -104,7 +105,7 @@ export class TTLCache<K, V> extends LRUCache<K, ExpiringCacheEntry<V>> {
   }
 
   get(key: K): V | undefined {
-    const entry = super.get(key);
+    const entry = this.store.get(key);
     if (!entry) return undefined;
     
     if (Date.now() > entry.expires) {
@@ -116,7 +117,7 @@ export class TTLCache<K, V> extends LRUCache<K, ExpiringCacheEntry<V>> {
   }
 
   has(key: K): boolean {
-    const entry = this.cache.get(key);
+    const entry = this.store.get(key);
     if (!entry) {
       return false;
     }
@@ -131,7 +132,19 @@ export class TTLCache<K, V> extends LRUCache<K, ExpiringCacheEntry<V>> {
 
   set(key: K, value: V, customTTL?: number): void {
     const expires = Date.now() + (customTTL || this.ttl);
-    super.set(key, { value, expires });
+    this.store.set(key, { value, expires });
+  }
+
+  delete(key: K): boolean {
+    return this.store.delete(key);
+  }
+
+  clear(): void {
+    this.store.clear();
+  }
+
+  size(): number {
+    return this.store.size();
   }
 
   private cleanup(): void {
@@ -140,7 +153,7 @@ export class TTLCache<K, V> extends LRUCache<K, ExpiringCacheEntry<V>> {
     
     // Note: This is not the most efficient but works for our use case
     // In production, consider using a priority queue for expiration times
-    for (const [key, entry] of this.cache) {
+    for (const [key, entry] of this.store['cache'].entries()) {
       if (now > entry.expires) {
         keysToDelete.push(key);
       }
@@ -156,6 +169,6 @@ export class TTLCache<K, V> extends LRUCache<K, ExpiringCacheEntry<V>> {
       clearInterval(this.cleanupInterval);
       this.cleanupInterval = null;
     }
-    this.clear();
+    this.store.clear();
   }
 }

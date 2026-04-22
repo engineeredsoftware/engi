@@ -74,10 +74,10 @@ ${args.framework ? `- **Framework**: ${args.framework}` : ''}
 ${args.database ? `- **Database**: ${args.database}` : ''}
 
 ${args.endpoints.length > 0 ? `## Required Endpoints
-${args.endpoints.map(ep => `- ${ep.method} ${ep.path} - ${ep.description}`).join('\n')}` : ''}
+${args.endpoints.map((ep: { method: string; path: string; description: string }) => `- ${ep.method} ${ep.path} - ${ep.description}`).join('\n')}` : ''}
 
 ${args.requirements.length > 0 ? `## Additional Requirements
-${args.requirements.map(req => `- ${req}`).join('\n')}` : ''}
+${args.requirements.map((req: string) => `- ${req}`).join('\n')}` : ''}
 
 Please help me develop this API using Bitcode's deliverable pipeline with the following comprehensive approach:
 
@@ -127,7 +127,7 @@ Please help me develop this API using Bitcode's deliverable pipeline with the fo
    - Set up usage tracking and analytics` : ''}
 
    **Core Endpoints Implementation**:
-   ${args.endpoints.length > 0 ? args.endpoints.map(ep => `
+   ${args.endpoints.length > 0 ? args.endpoints.map((ep: { method: string; path: string; description: string }) => `
    - **${ep.method} ${ep.path}**: ${ep.description}
      - Implement request validation and sanitization
      - Add proper error handling and response formatting
@@ -250,7 +250,7 @@ ${args.stateManagement ? `- **State Management**: ${args.stateManagement}` : ''}
 ${args.designSystem ? `- **Design System**: ${args.designSystem}` : ''}
 
 ${args.features.length > 0 ? `## Required Features
-${args.features.map(feature => `- ${feature.charAt(0).toUpperCase() + feature.slice(1)}`).join('\n')}` : ''}
+${args.features.map((feature: string) => `- ${feature.charAt(0).toUpperCase() + feature.slice(1)}`).join('\n')}` : ''}
 
 Please help me scaffold this frontend application using Bitcode's deliverable pipeline:
 
@@ -473,14 +473,14 @@ ${args.orm ? `- **ORM/ODM**: ${args.orm}` : ''}
 - **Environment**: ${args.environment}
 
 ${args.entities.length > 0 ? `## Database Entities
-${args.entities.map(entity => `
+${args.entities.map((entity: { name: string; description: string; fields: Array<{ name: string; type: string; required?: boolean }> }) => `
 ### ${entity.name}
 ${entity.description}
 Fields:
-${entity.fields.map(field => `- ${field.name}: ${field.type}${field.required ? ' (required)' : ''}`).join('\n')}`).join('\n')}` : ''}
+${entity.fields.map((field: { name: string; type: string; required?: boolean }) => `- ${field.name}: ${field.type}${field.required ? ' (required)' : ''}`).join('\n')}`).join('\n')}` : ''}
 
 ## Required Features
-${args.features.map(feature => `- ${feature.charAt(0).toUpperCase() + feature.slice(1)}`).join('\n')}
+${args.features.map((feature: string) => `- ${feature.charAt(0).toUpperCase() + feature.slice(1)}`).join('\n')}
 
 Please help me implement comprehensive database integration using Bitcode's deliverable pipeline:
 
@@ -544,7 +544,7 @@ Please help me implement comprehensive database integration using Bitcode's deli
    - Set up aggregation pipelines and indexing` : ''}
 
 3. **Schema Design & Data Modeling**:
-   ${args.entities.length > 0 ? args.entities.map(entity => `
+   ${args.entities.length > 0 ? args.entities.map((entity: { name: string; description: string }) => `
    **${entity.name} Entity**:
    - Design table/collection structure for ${entity.description}
    - Implement proper field types and constraints

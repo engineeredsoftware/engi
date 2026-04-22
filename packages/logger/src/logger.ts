@@ -182,8 +182,25 @@ export async function log(message: string, level: LogLevel = 'info', data?: Reco
   } catch {}
 }
 
-// Backwards-compatible alias
-export const logger = log;
+type LoggerMethod = (message: string, data?: Record<string, any>) => Promise<void>;
+type LoggerFn = typeof log & {
+  debug: LoggerMethod;
+  info: LoggerMethod;
+  warn: LoggerMethod;
+  error: LoggerMethod;
+};
+
+function withLevel(level: LogLevel): LoggerMethod {
+  return (message, data) => log(message, level, data);
+}
+
+// Backwards-compatible callable logger with level helpers.
+export const logger: LoggerFn = Object.assign(log, {
+  debug: withLevel('debug'),
+  info: withLevel('info'),
+  warn: withLevel('warn'),
+  error: withLevel('error'),
+});
 
 // ------------------------------------------------------------
 // Prompt I/O sidecar writer (debug utility)

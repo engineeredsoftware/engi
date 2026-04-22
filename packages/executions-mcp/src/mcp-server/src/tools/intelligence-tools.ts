@@ -8,7 +8,6 @@
 import { z } from 'zod';
 import { logger } from '@bitcode/logger';
 import { createClient as createAdminClient } from '@bitcode/supabase';
-import { createFieldIntelligenceTool } from './field-intelligence';
 import type { MCPAuthContext } from '../types';
 
 /**
@@ -710,8 +709,6 @@ Enables intelligent procurement with risk mitigation and value optimization.`,
           recommendations: []
         };
       }
-    },
-    // Add the field intelligence tool
-    createFieldIntelligenceTool() as unknown as MCPTool
+    }
   ];
 }

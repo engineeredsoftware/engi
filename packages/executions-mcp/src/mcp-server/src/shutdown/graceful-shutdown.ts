@@ -36,7 +36,7 @@ export const DEFAULT_SHUTDOWN_CONFIG: ShutdownConfig = {
  * Graceful shutdown manager
  */
 export class GracefulShutdownManager {
-  private isShuttingDown = false;
+  private shuttingDown = false;
   private activeRequests = new Set<string>();
   private shutdownPromise?: Promise<void>;
   private forceShutdownTimer?: NodeJS.Timeout;
@@ -109,11 +109,11 @@ export class GracefulShutdownManager {
    * Initiate graceful shutdown
    */
   async shutdown(reason: string, exitCode: number = 0): Promise<void> {
-    if (this.isShuttingDown) {
+    if (this.shuttingDown) {
       return this.shutdownPromise!;
     }
     
-    this.isShuttingDown = true;
+    this.shuttingDown = true;
     logger.info('Initiating graceful shutdown', {
       reason,
       activeRequests: this.activeRequests.size,
@@ -323,7 +323,7 @@ export class GracefulShutdownManager {
    * Check if server is shutting down
    */
   isShuttingDown(): boolean {
-    return this.isShuttingDown;
+    return this.shuttingDown;
   }
 }
 

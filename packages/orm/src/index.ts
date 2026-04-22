@@ -113,6 +113,8 @@ export { UsersModel } from './models/users';
 export { OrganizationsModel } from './models/organizations';
 export { OrganizationMembersModel } from './models/organization-members';
 export { UserApiKeysModel } from './models/user-api-keys';
+export { OrganizationCreditsModel } from './models/organization-credits';
+export { OrganizationCreditUsagesModel } from './models/organization-credit-usages';
 
 /**
  * Example usage:

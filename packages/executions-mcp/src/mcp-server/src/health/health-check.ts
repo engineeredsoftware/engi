@@ -273,6 +273,16 @@ function checkCircuitBreakers(
   });
 }
 
+export async function isReady(): Promise<boolean> {
+  const database = await checkDatabase();
+  const memory = checkMemory();
+  return database.status !== 'error' && memory.status !== 'error';
+}
+
+export async function isAlive(): Promise<boolean> {
+  return checkMemory().status !== 'error';
+}
+
 /**
  * Check memory usage
  */

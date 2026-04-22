@@ -15,6 +15,19 @@ import { mergeBitcodeProfileSettings } from '../profile-contract';
 export type UserProfile = Tables<'user_profiles'>;
 export type UserProfileInsert = Insertable<'user_profiles'>;
 export type UserProfileUpdate = Updatable<'user_profiles'>;
+export type UserProfileCompatibility = UserProfile & {
+  email?: string | null;
+  full_name?: string | null;
+};
+
+function normalizeProfile(row: UserProfile): UserProfileCompatibility {
+  const settings = (row.settings as Record<string, unknown> | null) || {};
+  return {
+    ...row,
+    email: typeof settings.email === 'string' ? settings.email : null,
+    full_name: row.display_name,
+  };
+}
 
 export class UserProfilesModel extends BaseModel<'user_profiles'> {
   constructor(supabase: any) {
@@ -24,7 +37,7 @@ export class UserProfilesModel extends BaseModel<'user_profiles'> {
   /**
    * Get profile by user ID
    */
-  async getByUserId(userId: string): Promise<UserProfile | null> {
+  async getByUserId(userId: string): Promise<UserProfileCompatibility | null> {
     const { data, error } = await this.client
       .from(this.table)
       .select('*')
@@ -32,7 +45,7 @@ export class UserProfilesModel extends BaseModel<'user_profiles'> {
       .maybeSingle();
 
     if (error) throw error;
-    return data;
+    return data ? normalizeProfile(data) : null;
   }
 
   /**

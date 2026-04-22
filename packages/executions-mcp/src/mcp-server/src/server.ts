@@ -28,14 +28,11 @@ import { observability } from '@bitcode/observability';
 
 // Import our MCP implementations
 import { registerPipelineTools } from './tools/pipeline-tools';
-import { registerMonitoringTools } from './tools/monitoring-tools';
 import { registerAnalysisTools } from './tools/analysis-tools';
 import { registerIntelligenceTools } from './tools/intelligence-tools';
-import { registerOrchestrationTools } from './tools/orchestration-tools';
 import { registerEnterpriseTools } from './tools/enterprise-tools';
 import { registerLspTools } from './tools/lsp-tools';
 import { registerObservabilityTools } from './tools/observability-tools';
-import { registerJiraTools } from './tools/jira-tools';
 import { registerPipelineResources } from './resources/pipeline-resources';
 import { registerIntelligenceResources } from './resources/intelligence-resources';
 import { registerOrganizationResources } from './resources/organization-resources';
@@ -57,6 +54,7 @@ import { GracefulShutdownManager } from './shutdown/graceful-shutdown';
 import * as fs from 'fs';
 import * as path from 'path';
 import type { MCPAuthContext } from './types';
+import type { RepositoryContext } from './types';
 
 /**
  * Bitcode MCP Server Configuration
@@ -106,6 +104,14 @@ const DEFAULT_CONFIG: BitcodeMCPServerConfig = {
     tracing: true
   }
 };
+
+function readAuthorizationMeta(meta: unknown): string | undefined {
+  if (meta && typeof meta === 'object' && 'authorization' in meta) {
+    const authorization = (meta as { authorization?: unknown }).authorization;
+    return typeof authorization === 'string' ? authorization : undefined;
+  }
+  return undefined;
+}
 
 /**
  * Bitcode MCP Server Class
@@ -291,7 +297,7 @@ export class BitcodeMCPServer {
       const validationResult = tool.inputSchema.safeParse(args);
       if (!validationResult.success) {
         const errors = validationResult.error.errors
-          .map(e => `${e.path.join('.')}: ${e.message}`)
+          .map((e: { path: Array<string | number>; message: string }) => `${e.path.join('.')}: ${e.message}`)
           .join(', ');
         throw new Error(`Invalid arguments: ${errors}`);
       }
@@ -316,14 +322,11 @@ export class BitcodeMCPServer {
       // Safely register each tool category
       const toolCategories = [
         { name: 'pipeline', register: registerPipelineTools },
-        { name: 'monitoring', register: registerMonitoringTools },
         { name: 'analysis', register: registerAnalysisTools },
         { name: 'intelligence', register: registerIntelligenceTools },
-        { name: 'orchestration', register: registerOrchestrationTools },
         { name: 'enterprise', register: registerEnterpriseTools },
         { name: 'lsp', register: registerLspTools },
-        { name: 'observability', register: registerObservabilityTools },
-        { name: 'jira', register: registerJiraTools }
+        { name: 'observability', register: registerObservabilityTools }
       ];
       
       for (const category of toolCategories) {
@@ -356,7 +359,7 @@ export class BitcodeMCPServer {
     // Execute tool calls
     this.server.setRequestHandler(CallToolRequestSchema, async (request) => {
       const { name, arguments: args } = request.params;
-      const authHeader = request.meta?.authorization;
+      const authHeader = readAuthorizationMeta(request.params?._meta);
 
       logger.info('MCP tool call received', { tool: name, args: Object.keys(args || {}) });
 
@@ -390,14 +393,15 @@ export class BitcodeMCPServer {
           return await enforceResourceLimits(
             async () => {
               // Handle local repository preparation if needed
-              if (args && args.repository?.provider === 'local') {
-                const localPrep = await prepareLocalRepository(args.repository);
+              const repository = (args?.repository || null) as RepositoryContext | null;
+              if (repository?.provider === 'local') {
+                const localPrep = await prepareLocalRepository(repository);
                 if (!localPrep.success) {
                   throw new Error(`Local repository preparation failed: ${localPrep.error}`);
                 }
                 // Update args with prepared local path
-                args.repository.metadata = {
-                  ...args.repository.metadata,
+                repository.metadata = {
+                  ...repository.metadata,
                   ...localPrep.metadata
                 };
               }
@@ -405,14 +409,11 @@ export class BitcodeMCPServer {
               // Route tool execution based on name prefix
               const toolRoutes = [
                 { prefix: 'bitcode://pipelines/', register: registerPipelineTools },
-                { prefix: 'bitcode://monitoring/', register: registerMonitoringTools },
                 { prefix: 'bitcode://analysis/', register: registerAnalysisTools },
                 { prefix: 'bitcode://intelligence/', register: registerIntelligenceTools },
-                { prefix: 'bitcode://orchestration/', register: registerOrchestrationTools },
                 { prefix: 'bitcode://enterprise/', register: registerEnterpriseTools },
                 { prefix: 'bitcode://lsp/', register: registerLspTools },
-                { prefix: 'bitcode://observability/', register: registerObservabilityTools },
-                { prefix: 'bitcode://jira/', register: registerJiraTools }
+                { prefix: 'bitcode://observability/', register: registerObservabilityTools }
               ];
               
               let toolExecuted = false;
@@ -537,7 +538,7 @@ export class BitcodeMCPServer {
     // Read resource content
     this.server.setRequestHandler(ReadResourceRequestSchema, async (request) => {
       const { uri } = request.params;
-      const authHeader = request.meta?.authorization;
+      const authHeader = readAuthorizationMeta(request.params?._meta);
 
       logger.info('MCP resource read requested', { uri });
 
@@ -621,7 +622,7 @@ export class BitcodeMCPServer {
     // Get prompt content
     this.server.setRequestHandler(GetPromptRequestSchema, async (request) => {
       const { name, arguments: args } = request.params;
-      const authHeader = request.meta?.authorization;
+      const authHeader = readAuthorizationMeta(request.params?._meta);
 
       logger.info('MCP prompt requested', { prompt: name, args: Object.keys(args || {}) });
 
@@ -807,5 +808,3 @@ if (require.main === module) {
 
 // Export for testing without creating a long-lived timer on module import.
 export const authCache = new LRUCache<string, MCPAuthContext>(10000);
-
-export { BitcodeMCPServer };

@@ -11,6 +11,7 @@
 import { BaseModel } from './base';
 import { Tables, Insertable, Updatable, Database } from '../types/database';
 import { SupabaseClient } from '@supabase/supabase-js';
+import { OrganizationMembersModel } from './organization-members';
 
 export type UserConnection = Tables<'user_connections'>;
 export type UserConnectionInsert = Insertable<'user_connections'>;
@@ -76,6 +77,24 @@ export class UserConnectionsModel extends BaseModel<'user_connections'> {
       .from(this.tableName)
       .select('*')
       .eq('user_id', userId)
+      .order('created_at', { ascending: false });
+
+    if (error) throw error;
+    return data || [];
+  }
+
+  async getByOrganization(organizationId: string): Promise<UserConnection[]> {
+    const memberships = await new OrganizationMembersModel(this.supabase).listByOrganization(organizationId);
+    const userIds = memberships.map((membership) => membership.user_id).filter(Boolean);
+
+    if (userIds.length === 0) {
+      return [];
+    }
+
+    const { data, error } = await this.supabase
+      .from(this.tableName)
+      .select('*')
+      .in('user_id', userIds)
       .order('created_at', { ascending: false });
 
     if (error) throw error;

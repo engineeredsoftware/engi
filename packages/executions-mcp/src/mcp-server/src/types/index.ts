@@ -74,9 +74,11 @@ export const RepositoryContextSchema = z.object({
   name: z.string().describe('Repository name or local directory name'),
   branch: z.string().optional().default('main').describe('Git branch to work on'),
   path: z.string().optional().describe('Local file system path (e.g., /Users/garrettmaring/Developer/ENGI)'),
+  url: z.string().optional().describe('Optional canonical repository URL or local file URI'),
   connectionId: z.number().optional().describe('GitHub App installation ID'),
   provider: z.enum(['github', 'gitlab', 'bitbucket', 'local']).optional().default('github')
-    .describe('Repository provider - use "local" for local directories')
+    .describe('Repository provider - use "local" for local directories'),
+  metadata: z.record(z.any()).optional().describe('Optional repository metadata admitted through app/MCP ingress')
 }).refine((data) => {
   // For local provider, path is required and owner is not needed
   if (data.provider === 'local') {
@@ -214,7 +216,22 @@ export interface PipelineExecutionResult {
  * Real-time pipeline event for streaming
  */
 export interface PipelineStreamEvent {
-  type: 'phase' | 'agent' | 'step' | 'tool' | 'completion' | 'error';
+  type:
+    | 'phase'
+    | 'agent'
+    | 'step'
+    | 'tool'
+    | 'completion'
+    | 'error'
+    | 'phase_start'
+    | 'phase_complete'
+    | 'agent_start'
+    | 'agent_complete'
+    | 'step_start'
+    | 'step_complete'
+    | 'tool_execution'
+    | 'progress_update'
+    | 'cancellation';
   timestamp: string;
   pipelineId: string;
   

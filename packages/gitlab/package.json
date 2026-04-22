@@ -11,7 +11,8 @@
   "dependencies": {
     "@bitcode/vcs": "workspace:*",
     "@bitcode/logger": "workspace:*",
-    "@bitcode/supabase": "workspace:*"
+    "@bitcode/supabase": "workspace:*",
+    "zod": "^3.20.0"
   },
   "devDependencies": {
     "@types/node": "^20.0.0",

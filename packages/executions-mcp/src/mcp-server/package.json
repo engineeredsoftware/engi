@@ -20,7 +20,7 @@
     "test:dry-run": "DRY_RUN_MODE=true npm run test:mcp",
     "test:report": "npm run test:mcp:ci && echo 'Test reports available in tmp/test-reports/'",
     "lint": "eslint src --ext .ts,.tsx",
-    "type-check": "tsc --noEmit",
+    "type-check": "tsc -p tsconfig.typecheck.json --noEmit",
     "docs:generate": "tsx src/docs/mcp-spec-generator.ts",
     "docs:openapi": "tsx src/docs/openapi-build.ts",
     "docs:serve": "http-server docs/mcp -p 8080 -o",

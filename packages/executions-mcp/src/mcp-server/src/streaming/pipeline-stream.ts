@@ -390,7 +390,7 @@ export class PipelineStreamManager extends EventEmitter {
       // Authenticate using Bearer token or API key
       const authResult = await authenticateMCPRequest(
         token.startsWith('Bearer ') ? token : `Bearer ${token}`,
-        { resources: ['read'] } // Minimal permissions for streaming
+        { requiredPermissions: { resources: ['read'] } } // Minimal permissions for streaming
       );
       
       if (!authResult.success || !authResult.context) {
@@ -431,7 +431,7 @@ export class PipelineStreamManager extends EventEmitter {
       return (
         context.permissions.organization.viewAnalytics ||
         pipeline.user_id === context.userId ||
-        (context.organizationId && pipeline.organization_id === context.organizationId)
+        Boolean(context.organizationId && pipeline.organization_id === context.organizationId)
       );
     } catch (error) {
       logger.error('Error verifying pipeline access', { pipelineId, error });

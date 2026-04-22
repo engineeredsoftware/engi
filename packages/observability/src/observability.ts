@@ -45,3 +45,99 @@ export function traceRoute<T extends (...args: any[]) => any>(name: string, fn: 
 export async function traceStep<T>(name: string, fn: () => Promise<T>): Promise<T> {
   return trace(`step:${name}`, fn);
 }
+
+type ObservabilityPayload = Record<string, unknown> | number | string | boolean | Error | undefined;
+
+function toPayloadObject(payload: ObservabilityPayload): Record<string, unknown> {
+  if (payload instanceof Error) {
+    return {
+      message: payload.message,
+      stack: payload.stack,
+      name: payload.name,
+    };
+  }
+  if (typeof payload === 'number') {
+    return { value: payload };
+  }
+  if (typeof payload === 'string' || typeof payload === 'boolean') {
+    return { value: payload };
+  }
+  if (payload && typeof payload === 'object') {
+    return payload;
+  }
+  return {};
+}
+
+async function init(config?: Record<string, unknown>): Promise<void> {
+  void config;
+}
+
+function recordMetric(name: string, payload?: ObservabilityPayload): void {
+  void name;
+  void payload;
+}
+
+function recordError(name: string, payload?: ObservabilityPayload): void {
+  void name;
+  void payload;
+}
+
+function recordEvent(name: string, payload?: ObservabilityPayload): void {
+  void name;
+  void payload;
+}
+
+type CompatibilitySpan = {
+  id: string;
+  name: string;
+  payload: Record<string, unknown>;
+  recordException: (error: Error) => void;
+  setAttribute: (key: string, value: unknown) => void;
+  setStatus: (status: string) => void;
+  end: () => void;
+  finish: () => void;
+};
+
+function startCompatibilitySpan(name: string, payload?: ObservabilityPayload): CompatibilitySpan {
+  return {
+    id: `${name}:${Date.now()}`,
+    name,
+    payload: toPayloadObject(payload),
+    recordException: (_error: Error) => {},
+    setAttribute: (_key: string, _value: unknown) => {},
+    setStatus: (_status: string) => {},
+    end: () => {},
+    finish: () => {},
+  };
+}
+
+function createSpan(name: string, payload?: ObservabilityPayload): CompatibilitySpan {
+  return startCompatibilitySpan(name, payload);
+}
+
+export const observability = {
+  init,
+  recordMetric,
+  recordError,
+  recordEvent,
+  startSpan: startCompatibilitySpan,
+  createSpan,
+};
+
+export const metrics = {
+  increment(name: string, value = 1, tags?: Record<string, unknown>) {
+    recordMetric(name, { value, ...(tags || {}) });
+  },
+  recordToolExecution(payload: Record<string, unknown>) {
+    recordMetric('tool_execution', payload);
+  },
+  recordMetric,
+  recordEvent,
+  recordError,
+};
+
+export const telemetry = {
+  recordEvent,
+  recordMetric,
+  recordError,
+};

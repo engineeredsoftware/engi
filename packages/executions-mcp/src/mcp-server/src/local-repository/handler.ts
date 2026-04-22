@@ -375,5 +375,5 @@ export function transformLocalToRemote(
       localPath,
       isLocal: true
     }
-  };
+  } satisfies RepositoryContext;
 }

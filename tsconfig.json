@@ -268,6 +268,11 @@
       "@/lib/dockerUtils": ["packages/docker/src/index.ts"],
       "@/lib/git": ["packages/git/src"],
       "@/lib/git/*": ["packages/git/src/*"],
+      "@bitcode/mcp": ["packages/executions-mcp/src/index.ts"],
+      "@bitcode/notion": ["packages/notion/src/index.ts"],
+      "@bitcode/vcs-tools": ["packages/generic-tools/vcs/src/index.ts"],
+      "@bitcode/generic-tools/use-computer": ["packages/generic-tools/use-computer/src/index.ts"],
+      "@bitcode/generic-tools/use-computer/*": ["packages/generic-tools/use-computer/src/*"],
 
       // Generic catch-all for internal packages so TypeScript resolves to
       // source folders when no more specific alias exists.

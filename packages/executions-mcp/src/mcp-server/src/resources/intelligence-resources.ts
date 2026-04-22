@@ -33,6 +33,35 @@ interface MCPResource {
   read?: (uri: string, context: MCPAuthContext) => Promise<any>;
 }
 
+type PipelineRun = Awaited<ReturnType<PipelineExecutionsModel['getAll']>>[number];
+type DeliverableRecord = Awaited<ReturnType<DeliverablesModel['getAll']>>[number];
+type UpgradeRecommendationInput = {
+  deliverable: DeliverableRecord;
+  runs: PipelineRun[];
+};
+
+function getTimestamp(value: string | null | undefined): number {
+  return value ? new Date(value).getTime() : 0;
+}
+
+function getMetadata(run: PipelineRun): Record<string, any> {
+  return (run.metadata as Record<string, any> | null) || {};
+}
+
+function getRepositoryKey(metadata: Record<string, any>): string | null {
+  const repository = metadata.repository;
+  if (
+    repository &&
+    typeof repository === 'object' &&
+    typeof repository.owner === 'string' &&
+    typeof repository.name === 'string'
+  ) {
+    return `${repository.owner}/${repository.name}`;
+  }
+
+  return null;
+}
+
 /**
  * Parse query parameters from URI
  */
@@ -65,8 +94,7 @@ async function synthesizeIntelligence(
   options: any = {}
 ): Promise<any> {
   const supabase = createClient();
-  const runs = new PipelineExecutionsModel(supabase);
-  const deliverables = new DeliverablesModel(supabase);
+  const pipelineRuns = new PipelineExecutionsModel(supabase);
 
   try {
     logger.info('Synthesizing engineering intelligence', {
@@ -76,14 +104,14 @@ async function synthesizeIntelligence(
     });
 
     // Get all runs
-    let allRuns = await runs.getAll();
+    let allRuns = await pipelineRuns.getAll();
 
     // Filter by timeframe
     if (options.timeframe && options.timeframe !== 'all') {
       const days = parseInt(options.timeframe.replace('d', ''));
       const cutoffDate = new Date();
       cutoffDate.setDate(cutoffDate.getDate() - days);
-      allRuns = allRuns.filter(run => new Date(run.created_at) >= cutoffDate);
+      allRuns = allRuns.filter((run) => getTimestamp(run.created_at) >= cutoffDate.getTime());
     }
 
     // Apply scope filtering based on metadata
@@ -104,17 +132,14 @@ async function synthesizeIntelligence(
       );
     }
 
-    // Filter for completed runs
-    const completedRuns = allRuns.filter(run => run.status === 'completed');
-
     // Perform intelligence synthesis
-    const intelligence = await performIntelligenceSynthesis(completedRuns, options);
+    const intelligence = await performIntelligenceSynthesis(allRuns, options);
 
     return {
       scope: options.scope || 'organization',
       timeframe: options.timeframe || '30d',
       synthesisDate: new Date().toISOString(),
-      dataPoints: completedRuns.length,
+      dataPoints: allRuns.length,
       
       ...intelligence,
       
@@ -122,7 +147,7 @@ async function synthesizeIntelligence(
         synthesisId: `intel_${Date.now()}`,
         confidence: 0.87,
         completeness: 0.92,
-        dataSourcesAnalyzed: pipelines?.length || 0,
+        dataSourcesAnalyzed: allRuns.length,
         synthesisVersion: '1.0.0'
       }
     };
@@ -136,31 +161,36 @@ async function synthesizeIntelligence(
 /**
  * Perform actual intelligence synthesis from pipeline data
  */
-async function performIntelligenceSynthesis(pipelines: any[], options: any): Promise<any> {
+async function performIntelligenceSynthesis(
+  pipelines: PipelineRun[],
+  _options: Record<string, unknown>,
+): Promise<any> {
   // Calculate pipeline success rates
   const totalPipelines = pipelines.length;
-  const successfulPipelines = pipelines.filter(p => p.status === 'completed').length;
+  const successfulPipelines = pipelines.filter((pipeline) => pipeline.status === 'completed').length;
   const successRate = totalPipelines > 0 ? successfulPipelines / totalPipelines : 0;
 
   // Analyze pipeline types usage
-  const pipelineTypeUsage = pipelines.reduce((acc, p) => {
-    acc[p.pipeline] = (acc[p.pipeline] || 0) + 1;
+  const pipelineTypeUsage = pipelines.reduce((acc, pipeline) => {
+    const metadata = getMetadata(pipeline);
+    const pipelineType = typeof metadata.pipeline === 'string' ? metadata.pipeline : 'deliverable';
+    acc[pipelineType] = (acc[pipelineType] || 0) + 1;
     return acc;
   }, {} as Record<string, number>);
 
   // Calculate average execution times
   const executionTimes = pipelines
-    .filter(p => p.completed_at)
-    .map(p => new Date(p.completed_at).getTime() - new Date(p.created_at).getTime());
+    .filter((pipeline) => pipeline.completed_at && pipeline.created_at)
+    .map((pipeline) => getTimestamp(pipeline.completed_at) - getTimestamp(pipeline.created_at));
   
   const avgExecutionTime = executionTimes.length > 0 
     ? executionTimes.reduce((sum, time) => sum + time, 0) / executionTimes.length
     : 0;
 
   // Analyze repository activity
-  const repositoryActivity = pipelines.reduce((acc, p) => {
-    if (p.repository) {
-      const repoKey = `${p.repository.owner}/${p.repository.name}`;
+  const repositoryActivity = pipelines.reduce((acc, pipeline) => {
+    const repoKey = getRepositoryKey(getMetadata(pipeline));
+    if (repoKey) {
       acc[repoKey] = (acc[repoKey] || 0) + 1;
     }
     return acc;
@@ -168,7 +198,15 @@ async function performIntelligenceSynthesis(pipelines: any[], options: any): Pro
 
   // Calculate BTD usage patterns
   const btdUsage = pipelines
-    .map(p => p.metrics?.btdUsed || 0)
+    .map((pipeline) => {
+      const metadata = getMetadata(pipeline);
+      const metrics = (metadata.metrics as Record<string, unknown> | undefined) || {};
+      return typeof metrics.btdUsed === 'number'
+        ? metrics.btdUsed
+        : typeof metadata.btdUsed === 'number'
+          ? metadata.btdUsed
+          : 0;
+    })
     .filter((btd: number) => btd > 0);
   
   const totalBtdUsed = btdUsage.reduce((sum, btd) => sum + btd, 0);
@@ -177,13 +215,16 @@ async function performIntelligenceSynthesis(pipelines: any[], options: any): Pro
   // Identify trends
   const timeBasedAnalysis = analyzeTimeBasedTrends(pipelines);
 
+  const pipelineTypeEntries = Object.entries(pipelineTypeUsage) as Array<[string, number]>;
+  const repositoryActivityEntries = Object.entries(repositoryActivity) as Array<[string, number]>;
+
   return {
     insights: {
       productivity: {
         pipelinesExecuted: totalPipelines,
         successRate: Math.round(successRate * 100) / 100,
         averageExecutionTime: Math.round(avgExecutionTime / 1000 / 60), // minutes
-        mostUsedPipeline: Object.entries(pipelineTypeUsage)
+        mostUsedPipeline: pipelineTypeEntries
           .sort(([,a], [,b]) => b - a)[0]?.[0] || 'none',
         trend: timeBasedAnalysis.productivityTrend
       },
@@ -196,15 +237,15 @@ async function performIntelligenceSynthesis(pipelines: any[], options: any): Pro
       },
       
       quality: {
-        pipelineQualityScore: calculateQualityScore(runs),
-        confidenceScore: calculateAverageConfidence(runs),
+        pipelineQualityScore: calculateQualityScore(pipelines),
+        confidenceScore: calculateAverageConfidence(pipelines),
         errorRate: 1 - successRate,
         qualityTrend: timeBasedAnalysis.qualityTrend
       },
       
       repositories: {
         activeRepositories: Object.keys(repositoryActivity).length,
-        mostActiveRepository: Object.entries(repositoryActivity)
+        mostActiveRepository: repositoryActivityEntries
           .sort(([,a], [,b]) => b - a)[0]?.[0] || 'none',
         repositoryDistribution: repositoryActivity,
         collaborationScore: calculateCollaborationScore(repositoryActivity)
@@ -237,7 +278,7 @@ async function performIntelligenceSynthesis(pipelines: any[], options: any): Pro
 /**
  * Analyze time-based trends
  */
-function analyzeTimeBasedTrends(pipelines: any[]): any {
+function analyzeTimeBasedTrends(pipelines: PipelineRun[]): any {
   // Group pipelines by week and month
   const weeklyGroups = groupPipelinesByPeriod(pipelines, 'week');
   const monthlyGroups = groupPipelinesByPeriod(pipelines, 'month');
@@ -245,7 +286,16 @@ function analyzeTimeBasedTrends(pipelines: any[]): any {
   return {
     productivityTrend: calculateTrend(Object.values(weeklyGroups).map(g => g.length)),
     costTrend: calculateTrend(Object.values(weeklyGroups).map(g => 
-      g.reduce((sum, p) => sum + (p.metrics?.btdUsed || 0), 0)
+      g.reduce((sum, pipeline) => {
+        const metadata = getMetadata(pipeline);
+        const metrics = (metadata.metrics as Record<string, unknown> | undefined) || {};
+        const btdUsed = typeof metrics.btdUsed === 'number'
+          ? metrics.btdUsed
+          : typeof metadata.btdUsed === 'number'
+            ? metadata.btdUsed
+            : 0;
+        return sum + btdUsed;
+      }, 0)
     )),
     qualityTrend: calculateTrend(Object.values(weeklyGroups).map(g => {
       const successful = g.filter(p => p.status === 'completed').length;
@@ -260,9 +310,12 @@ function analyzeTimeBasedTrends(pipelines: any[]): any {
 /**
  * Group pipelines by time period
  */
-function groupPipelinesByPeriod(pipelines: any[], period: 'week' | 'month'): Record<string, any[]> {
+function groupPipelinesByPeriod(
+  pipelines: PipelineRun[],
+  period: 'week' | 'month',
+): Record<string, PipelineRun[]> {
   return pipelines.reduce((groups, pipeline) => {
-    const date = new Date(pipeline.created_at);
+    const date = new Date(pipeline.created_at || Date.now());
     let key: string;
     
     if (period === 'week') {
@@ -276,7 +329,7 @@ function groupPipelinesByPeriod(pipelines: any[], period: 'week' | 'month'): Rec
     groups[key] = groups[key] || [];
     groups[key].push(pipeline);
     return groups;
-  }, {} as Record<string, any[]>);
+  }, {} as Record<string, PipelineRun[]>);
 }
 
 /**
@@ -290,6 +343,10 @@ function calculateTrend(values: number[]): 'increasing' | 'decreasing' | 'stable
   
   const firstAvg = firstHalf.reduce((sum, val) => sum + val, 0) / firstHalf.length;
   const secondAvg = secondHalf.reduce((sum, val) => sum + val, 0) / secondHalf.length;
+
+  if (firstAvg === 0) {
+    return secondAvg === 0 ? 'stable' : 'increasing';
+  }
   
   const changeThreshold = 0.1; // 10% change threshold
   const changeRatio = Math.abs(secondAvg - firstAvg) / firstAvg;
@@ -301,7 +358,7 @@ function calculateTrend(values: number[]): 'increasing' | 'decreasing' | 'stable
 /**
  * Calculate various quality and efficiency scores
  */
-function calculateQualityScore(runs: any[]): number {
+function calculateQualityScore(runs: PipelineRun[]): number {
   if (runs.length === 0) return 0;
   
   const factors = {
@@ -313,21 +370,24 @@ function calculateQualityScore(runs: any[]): number {
   return Math.round((factors.successRate * 0.4 + factors.avgConfidence * 0.4 + factors.consistencyScore * 0.2) * 100);
 }
 
-function calculateAverageConfidence(runs: any[]): number {
+function calculateAverageConfidence(runs: PipelineRun[]): number {
   const confidenceScores = runs
-    .map(r => (r.metadata as any)?.confidence || 0)
-    .filter(c => c > 0);
+    .map((run) => {
+      const confidence = getMetadata(run).confidence;
+      return typeof confidence === 'number' ? confidence : 0;
+    })
+    .filter((confidence) => confidence > 0);
   
   return confidenceScores.length > 0 
     ? confidenceScores.reduce((sum, c) => sum + c, 0) / confidenceScores.length
     : 0;
 }
 
-function calculateConsistencyScore(pipelines: any[]): number {
+function calculateConsistencyScore(pipelines: PipelineRun[]): number {
   // Track consistency in execution times and success rates
   const executionTimes = pipelines
-    .filter(p => p.completed_at)
-    .map(p => new Date(p.completed_at).getTime() - new Date(p.created_at).getTime());
+    .filter((pipeline) => pipeline.completed_at && pipeline.created_at)
+    .map((pipeline) => getTimestamp(pipeline.completed_at) - getTimestamp(pipeline.created_at));
   
   if (executionTimes.length < 2) return 1;
   
@@ -341,8 +401,23 @@ function calculateConsistencyScore(pipelines: any[]): number {
 }
 
 function calculateResourceUtilization(pipelines: any[]): number {
-  // Mock calculation - in reality would analyze actual resource usage
-  return Math.random() * 0.3 + 0.7; // 70-100%
+  if (pipelines.length === 0) {
+    return 0;
+  }
+
+  const utilizationSignals = pipelines.map((pipeline) => {
+    const metadata = getMetadata(pipeline as PipelineRun);
+    const metrics = (metadata.metrics as Record<string, unknown> | undefined) || {};
+    if (typeof metrics.resourceUtilization === 'number') {
+      return metrics.resourceUtilization;
+    }
+    if (typeof metadata.confidence === 'number') {
+      return metadata.confidence;
+    }
+    return pipeline.status === 'completed' ? 0.8 : pipeline.status === 'running' ? 0.6 : 0.3;
+  });
+
+  return utilizationSignals.reduce((sum, value) => sum + value, 0) / utilizationSignals.length;
 }
 
 function calculateCollaborationScore(repositoryActivity: Record<string, number>): number {
@@ -359,24 +434,26 @@ function calculateCollaborationScore(repositoryActivity: Record<string, number>)
   return Math.max(0, 1 - (variance / (averageActivity * averageActivity)));
 }
 
-function identifyUsagePatterns(pipelines: any[]): any {
+function identifyUsagePatterns(pipelines: PipelineRun[]): any {
   // Analyze patterns in pipeline usage
-  const hourlyUsage = pipelines.reduce((acc, p) => {
-    const hour = new Date(p.created_at).getHours();
+  const hourlyUsage = pipelines.reduce((acc, pipeline) => {
+    const hour = new Date(pipeline.created_at || Date.now()).getHours();
     acc[hour] = (acc[hour] || 0) + 1;
     return acc;
   }, {} as Record<number, number>);
 
-  const peakHour = Object.entries(hourlyUsage)
+  const hourlyEntries = Object.entries(hourlyUsage) as Array<[string, number]>;
+
+  const peakHour = hourlyEntries
     .sort(([,a], [,b]) => b - a)[0]?.[0];
 
   return {
     peakUsageHour: peakHour ? parseInt(peakHour) : null,
     hourlyDistribution: hourlyUsage,
-    workingHoursUsage: Object.entries(hourlyUsage)
+    workingHoursUsage: hourlyEntries
       .filter(([hour]) => parseInt(hour) >= 9 && parseInt(hour) <= 17)
       .reduce((sum, [,count]) => sum + count, 0),
-    afterHoursUsage: Object.entries(hourlyUsage)
+    afterHoursUsage: hourlyEntries
       .filter(([hour]) => parseInt(hour) < 9 || parseInt(hour) > 17)
       .reduce((sum, [,count]) => sum + count, 0)
   };
@@ -385,8 +462,16 @@ function identifyUsagePatterns(pipelines: any[]): any {
 /**
  * Generate AI recommendations based on analysis
  */
-function generateRecommendations(pipelines: any[], metrics: any): any[] {
-  const recommendations = [];
+function generateRecommendations(
+  pipelines: PipelineRun[],
+  metrics: {
+    successRate: number;
+    avgExecutionTime: number;
+    avgBtdPerPipeline: number;
+    repositoryActivity: Record<string, number>;
+  },
+): Array<Record<string, unknown>> {
+  const recommendations: Array<Record<string, unknown>> = [];
 
   // Success rate recommendations
   if (metrics.successRate < 0.8) {
@@ -423,12 +508,12 @@ function generateRecommendations(pipelines: any[], metrics: any): any[] {
   }
 
   // Cost optimization recommendations
-  if (metrics.avgCreditsPerPipeline > 150) {
+  if (metrics.avgBtdPerPipeline > 150) {
     recommendations.push({
       category: 'cost',
       priority: 'medium',
       title: 'Optimize Credit Usage',
-      description: `Average credit usage of ${metrics.avgCreditsPerPipeline} per pipeline is above optimal range.`,
+      description: `Average credit usage of ${Math.round(metrics.avgBtdPerPipeline)} per pipeline is above optimal range.`,
       impact: 'medium',
       effort: 'low',
       actions: [
@@ -466,32 +551,32 @@ function generateRecommendations(pipelines: any[], metrics: any): any[] {
 async function getUpgradeRecommendations(context: MCPAuthContext, options: any = {}): Promise<any> {
   const supabase = createClient();
   const deliverables = new DeliverablesModel(supabase);
-  const runs = new PipelineExecutionsModel(supabase);
+  const pipelineRuns = new PipelineExecutionsModel(supabase);
 
   try {
     // Get deliverables with ai_document metadata
     let allDeliverables = await deliverables.getAll();
     
-    // Filter for upgrade-related deliverables
-    const upgradeDeliverables = allDeliverables.filter(d => {
-      const metadata = d.metadata as any;
-      return metadata?.type === 'ai_document' || 
-             metadata?.pipeline === 'ai_document' ||
-             d.name?.toLowerCase().includes('ai_document');
-    });
-
     // Apply organization filtering
     if (context.organizationRole !== 'admin' && 
         context.organizationRole !== 'owner' && 
         context.organizationId) {
-      upgradeDeliverables.filter(d => d.organization_id === context.organizationId);
+      allDeliverables = allDeliverables.filter((deliverable) => deliverable.organization_id === context.organizationId);
     }
 
+    // Filter for upgrade-related deliverables
+    const upgradeDeliverables = allDeliverables.filter((deliverable) => {
+      const metadata = deliverable.metadata as Record<string, any> | null;
+      return metadata?.type === 'ai_document' ||
+             metadata?.pipeline === 'ai_document' ||
+             deliverable.name?.toLowerCase().includes('ai_document');
+    });
+
     // Get runs for these deliverables to analyze effectiveness
-    const upgradeRuns = await Promise.all(
+    const upgradeRuns: UpgradeRecommendationInput[] = await Promise.all(
       upgradeDeliverables.slice(0, 50).map(async (d) => {
-        const runs = await runs.getByDeliverableId(d.id);
-        return { deliverable: d, runs };
+        const deliverableRuns = await pipelineRuns.getByDeliverableId(d.id);
+        return { deliverable: d, runs: deliverableRuns };
       })
     );
 
@@ -516,40 +601,64 @@ async function getUpgradeRecommendations(context: MCPAuthContext, options: any =
 /**
  * Generate ai_document recommendations
  */
-function generateUpgradeRecommendations(upgradeData: any[], options: any): any[] {
-  // Analyze ai_document patterns and generate recommendations
-  const recommendations = [];
+function generateUpgradeRecommendations(
+  upgradeData: UpgradeRecommendationInput[],
+  _options: Record<string, unknown>,
+): Array<Record<string, unknown>> {
+  const recommendations: Array<Record<string, unknown>> = [];
 
-  // Common ai_document patterns
-  const commonPatterns = {
-    react: { from: '17.x', to: '18.x', frequency: 0.35 },
-    vue: { from: '2.x', to: '3.x', frequency: 0.25 },
-    angular: { from: '13.x', to: '15.x', frequency: 0.20 },
-    webpack: { from: '4.x', to: '5.x', frequency: 0.15 }
-  };
+  for (const upgrade of upgradeData) {
+    const metadata = (upgrade.deliverable.metadata as Record<string, any> | null) || {};
+    const packageName =
+      (typeof metadata.package === 'string' && metadata.package) ||
+      (typeof metadata.dependency === 'string' && metadata.dependency) ||
+      (typeof metadata.framework === 'string' && metadata.framework) ||
+      null;
 
-  // Generate recommendations based on patterns
-  Object.entries(commonPatterns).forEach(([pkg, pattern]) => {
-    if (Math.random() < pattern.frequency) {
-      recommendations.push({
-        type: 'dependency_upgrade',
-        package: pkg,
-        currentVersion: pattern.from,
-        recommendedVersion: pattern.to,
-        priority: 'high',
-        impact: 'medium',
-        effort: 'medium',
-        reason: `Performance improvements and new features in ${pkg} ${pattern.to}`,
-        repositories: [`example/repo-${Math.floor(Math.random() * 5) + 1}`],
-        estimatedBtd: 75 + Math.floor(Math.random() * 75),
-        breakingChanges: true,
-        migrationGuide: `https://${pkg}.dev/ai_document`,
-        confidence: 0.75 + Math.random() * 0.15
-      });
+    if (!packageName) {
+      continue;
     }
-  });
 
-  return recommendations.slice(0, 5); // Return top 5 recommendations
+    const repository = getRepositoryKey(metadata);
+    const successfulRuns = upgrade.runs.filter((run) => run.status === 'completed').length;
+    const successRate = upgrade.runs.length > 0 ? successfulRuns / upgrade.runs.length : 0;
+    const estimatedBtd = upgrade.runs.reduce((sum, run) => {
+      const runMetadata = getMetadata(run);
+      const metrics = (runMetadata.metrics as Record<string, unknown> | undefined) || {};
+      const btdUsed = typeof metrics.btdUsed === 'number'
+        ? metrics.btdUsed
+        : typeof runMetadata.btdUsed === 'number'
+          ? runMetadata.btdUsed
+          : 0;
+      return sum + btdUsed;
+    }, 0);
+
+    recommendations.push({
+      type: 'dependency_upgrade',
+      package: packageName,
+      currentVersion:
+        (typeof metadata.fromVersion === 'string' && metadata.fromVersion) ||
+        (typeof metadata.currentVersion === 'string' && metadata.currentVersion) ||
+        'unknown',
+      recommendedVersion:
+        (typeof metadata.toVersion === 'string' && metadata.toVersion) ||
+        (typeof metadata.targetVersion === 'string' && metadata.targetVersion) ||
+        'unspecified',
+      priority: successRate < 0.8 ? 'high' : 'medium',
+      impact: successRate < 0.5 ? 'high' : 'medium',
+      effort: typeof metadata.estimatedEffort === 'string' ? metadata.estimatedEffort : 'medium',
+      reason:
+        (typeof metadata.reason === 'string' && metadata.reason) ||
+        `Observed upgrade deliverable activity for ${packageName}`,
+      repositories: repository ? [repository] : [],
+      estimatedBtd,
+      breakingChanges: Boolean(metadata.breakingChanges),
+      migrationGuide: typeof metadata.migrationGuide === 'string' ? metadata.migrationGuide : null,
+      confidence: successRate > 0 ? successRate : 0.5,
+    });
+  }
+
+  return recommendations.slice(0, 5);
 }
 
 /**

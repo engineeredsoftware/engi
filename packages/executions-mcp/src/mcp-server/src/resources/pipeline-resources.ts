@@ -32,6 +32,25 @@ interface MCPResource {
   read?: (uri: string, context: MCPAuthContext) => Promise<any>;
 }
 
+type PipelineRun = Awaited<ReturnType<PipelineExecutionsModel['getAll']>>[number];
+
+function getTimestamp(value: string | null | undefined): number {
+  return value ? new Date(value).getTime() : 0;
+}
+
+function isWithinRange(
+  value: string | null | undefined,
+  start: Date,
+  end: Date,
+): boolean {
+  if (!value) {
+    return false;
+  }
+
+  const timestamp = new Date(value).getTime();
+  return timestamp >= start.getTime() && timestamp <= end.getTime();
+}
+
 /**
  * Extract run ID from URI
  */
@@ -187,10 +206,7 @@ async function getPipelineHistory(context: MCPAuthContext, filters: any = {}): P
     if (filters.dateRange?.start && filters.dateRange?.end) {
       const startDate = new Date(filters.dateRange.start);
       const endDate = new Date(filters.dateRange.end);
-      allRuns = allRuns.filter(r => {
-        const runDate = new Date(r.created_at);
-        return runDate >= startDate && runDate <= endDate;
-      });
+      allRuns = allRuns.filter((run) => isWithinRange(run.created_at, startDate, endDate));
     }
 
     // Apply access control
@@ -203,7 +219,7 @@ async function getPipelineHistory(context: MCPAuthContext, filters: any = {}): P
     });
 
     // Sort by creation date descending
-    allRuns.sort((a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime());
+    allRuns.sort((a, b) => getTimestamp(b.created_at) - getTimestamp(a.created_at));
 
     // Apply pagination
     const paginatedRuns = allRuns.slice(offset, offset + limit);
@@ -277,7 +293,7 @@ async function getActivePipelines(context: MCPAuthContext): Promise<any> {
     });
 
     // Sort by creation date descending
-    accessibleRuns.sort((a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime());
+    accessibleRuns.sort((a, b) => getTimestamp(b.created_at) - getTimestamp(a.created_at));
 
     // Limit to 50 most recent
     const limitedRuns = accessibleRuns.slice(0, 50);
@@ -319,7 +335,7 @@ async function getActivePipelines(context: MCPAuthContext): Promise<any> {
 /**
  * Calculate pipeline progress based on status and metadata
  */
-function calculateProgress(status: string, metadata: any): number {
+function calculateProgress(status: string | null | undefined, metadata: any): number {
   switch (status) {
     case 'pending':
       return 0;
@@ -327,7 +343,7 @@ function calculateProgress(status: string, metadata: any): number {
       // Estimate progress based on completed phases
       const phases = metadata?.phases || {};
       const totalPhases = 5; // setup, discovery, implementation, validation, shipping
-      const completedPhases = Object.keys(phases).filter(p => phases[p]?.completed).length;
+      const completedPhases = Object.keys(phases).filter((phase) => phases[phase]?.completed).length;
       return Math.min((completedPhases / totalPhases) * 80, 80); // Max 80% for running
     case 'completed':
       return 100;

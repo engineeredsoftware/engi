@@ -67,7 +67,7 @@ ${args.timeline ? `- **Timeline**: ${args.timeline}` : ''}
 ${args.stakeholders.length > 0 ? `- **Stakeholders**: ${args.stakeholders.join(', ')}` : ''}
 
 ${args.constraints.length > 0 ? `## Constraints
-${args.constraints.map(c => `- ${c}`).join('\n')}` : ''}
+${args.constraints.map((constraint: string) => `- ${constraint}`).join('\n')}` : ''}
 
 Please help me implement this feature using Bitcode's deliverable pipeline with the following approach:
 
@@ -148,7 +148,7 @@ ${args.expectedBehavior ? `### Expected Behavior
 ${args.expectedBehavior}` : ''}
 
 ${args.reproductionSteps.length > 0 ? `### Reproduction Steps
-${args.reproductionSteps.map((step, i) => `${i + 1}. ${step}`).join('\n')}` : ''}
+${args.reproductionSteps.map((step: string, i: number) => `${i + 1}. ${step}`).join('\n')}` : ''}
 
 ${args.errorLogs ? `### Error Logs
 \`\`\`
@@ -245,10 +245,10 @@ ${args.commitHash ? `- **Commit**: ${args.commitHash}` : ''}
 - **Review Depth**: ${args.reviewDepth}
 
 ## Focus Areas
-${args.focusAreas.map(area => `- ${area.charAt(0).toUpperCase() + area.slice(1)}`).join('\n')}
+${args.focusAreas.map((area: string) => `- ${area.charAt(0).toUpperCase() + area.slice(1)}`).join('\n')}
 
 ${args.compliance.length > 0 ? `## Compliance Standards
-${args.compliance.map(std => `- ${std}`).join('\n')}` : ''}
+${args.compliance.map((std: string) => `- ${std}`).join('\n')}` : ''}
 
 Please conduct a thorough code review using Bitcode's deliverable pipeline with the following approach:
 
@@ -344,13 +344,13 @@ Perfect for architecture decisions, modernization planning, and design reviews.`
 - **Review Scope**: ${args.scope}
 
 ## Primary Concerns
-${args.concerns.map(concern => `- ${concern.charAt(0).toUpperCase() + concern.slice(1)}`).join('\n')}
+${args.concerns.map((concern: string) => `- ${concern.charAt(0).toUpperCase() + concern.slice(1)}`).join('\n')}
 
 ${args.futureRequirements ? `## Future Requirements
 ${args.futureRequirements}` : ''}
 
 ${args.constraints.length > 0 ? `## Current Constraints
-${args.constraints.map(constraint => `- ${constraint}`).join('\n')}` : ''}
+${args.constraints.map((constraint: string) => `- ${constraint}`).join('\n')}` : ''}
 
 Please conduct a thorough architecture review using Bitcode's analysis tools and deliverable pipeline with the following comprehensive analysis:
 
@@ -454,13 +454,13 @@ Ideal for performance issues, optimization requests, and efficiency improvements
 - **Environment**: ${args.environment}
 
 ${args.performanceIssues.length > 0 ? `## Known Performance Issues
-${args.performanceIssues.map(issue => `- ${issue}`).join('\n')}` : ''}
+${args.performanceIssues.map((issue: string) => `- ${issue}`).join('\n')}` : ''}
 
 ${Object.keys(args.targetMetrics).length > 0 ? `## Target Metrics
 ${Object.entries(args.targetMetrics).map(([metric, target]) => `- ${metric}: ${target}`).join('\n')}` : ''}
 
 ${args.constraints.length > 0 ? `## Constraints
-${args.constraints.map(constraint => `- ${constraint}`).join('\n')}` : ''}
+${args.constraints.map((constraint: string) => `- ${constraint}`).join('\n')}` : ''}
 
 Please help me optimize the application performance using Bitcode's analysis and implementation capabilities:
 

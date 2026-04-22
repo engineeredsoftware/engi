@@ -87,6 +87,15 @@ export abstract class BaseModel<T extends TableName> {
     return (data || []) as Tables<T>[];
   }
 
+  async getAll(options?: {
+    limit?: number;
+    offset?: number;
+    orderBy?: keyof Tables<T>;
+    ascending?: boolean;
+  }): Promise<Tables<T>[]> {
+    return this.findAll(options);
+  }
+
   /**
    * Create a new record
    */

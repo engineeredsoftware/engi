@@ -10,11 +10,9 @@ import { writeFileSync, mkdirSync } from 'fs';
 import { join } from 'path';
 import { registerPipelineTools } from '../tools/pipeline-tools';
 import { registerIntelligenceTools } from '../tools/intelligence-tools';
-import { registerOrchestrationTools } from '../tools/orchestration-tools';
 import { registerEnterpriseTools } from '../tools/enterprise-tools';
 import { registerLspTools } from '../tools/lsp-tools';
 import { registerObservabilityTools } from '../tools/observability-tools';
-import { registerMonitoringTools } from '../tools/monitoring-tools';
 import { registerAnalysisTools } from '../tools/analysis-tools';
 
 /**
@@ -121,11 +119,9 @@ export class MCPSpecificationGenerator {
     const toolCategories = [
       { name: 'Pipeline Management', tools: registerPipelineTools() },
       { name: 'Advanced Intelligence', tools: registerIntelligenceTools() },
-      { name: 'Pipeline Orchestration', tools: registerOrchestrationTools() },
       { name: 'Enterprise Integration', tools: registerEnterpriseTools() },
       { name: 'LSP Integration', tools: registerLspTools() },
       { name: 'Observability', tools: registerObservabilityTools() },
-      { name: 'Monitoring', tools: registerMonitoringTools() },
       { name: 'Analysis', tools: registerAnalysisTools() }
     ];
 
@@ -368,7 +364,7 @@ export class MCPSpecificationGenerator {
    * Get category description
    */
   private getCategoryDescription(category: string): string {
-    const descriptions = {
+    const descriptions: Record<string, string> = {
       'Pipeline Management': 'Core SDIVS pipeline execution with PTRR agent coordination',
       'Advanced Intelligence': 'ML-powered effectiveness tracking and cross-repository learning',
       'Pipeline Orchestration': 'Complex workflow management with chaining and automation',

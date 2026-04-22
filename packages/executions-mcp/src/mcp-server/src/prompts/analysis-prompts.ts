@@ -61,10 +61,10 @@ Perfect for security audits, penetration testing preparation, and compliance rev
 - **Environment**: ${args.environment}
 
 ## Compliance Requirements
-${args.complianceStandards.map(std => `- ${std}`).join('\n')}
+${args.complianceStandards.map((std: string) => `- ${std}`).join('\n')}
 
 ${args.criticalAssets.length > 0 ? `## Critical Assets
-${args.criticalAssets.map(asset => `- ${asset}`).join('\n')}` : ''}
+${args.criticalAssets.map((asset: string) => `- ${asset}`).join('\n')}` : ''}
 
 ${args.threatModel ? `## Threat Model
 ${args.threatModel}` : ''}
@@ -203,7 +203,7 @@ Ideal for technical debt audits, refactoring planning, and code quality initiati
 - **Analysis Depth**: ${args.analysisDepth}
 
 ## Focus Areas
-${args.focusAreas.map(area => `- ${area.charAt(0).toUpperCase() + area.slice(1)}`).join('\n')}
+${args.focusAreas.map((area: string) => `- ${area.charAt(0).toUpperCase() + area.slice(1)}`).join('\n')}
 
 ${args.businessImpact ? `## Business Context
 ${args.businessImpact}` : ''}
@@ -212,7 +212,7 @@ ${args.timeframe ? `## Timeline
 ${args.timeframe}` : ''}
 
 ${args.constraints.length > 0 ? `## Constraints
-${args.constraints.map(constraint => `- ${constraint}`).join('\n')}` : ''}
+${args.constraints.map((constraint: string) => `- ${constraint}`).join('\n')}` : ''}
 
 Please conduct a thorough technical debt analysis using Bitcode's analysis capabilities:
 

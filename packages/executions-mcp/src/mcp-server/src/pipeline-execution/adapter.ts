@@ -18,8 +18,7 @@ import {
   DeliverablesModel,
   PipelineExecutionsModel,
   ExecutionEventsModel,
-  UserBtdBalancesModel,
-  OrganizationCreditsModel
+  UserBtdBalancesModel
 } from '@bitcode/orm';
 import deliverablePipeline from '@bitcode/pipelines/deliverable';
 import {
@@ -187,7 +186,7 @@ export async function queuePipelineJob(
 
     // Check and reserve BTD
     const btdBalance = await userBtdBalances.getByUserId(options.userId);
-    if (!btdBalance || btdBalance.balance < options.estimatedBtd) {
+    if (!btdBalance || (btdBalance.balance || 0) < options.estimatedBtd) {
       throw new Error(
         `Insufficient BTD. Required: ${options.estimatedBtd}, Available: ${btdBalance?.balance || 0}`
       );
@@ -210,7 +209,8 @@ export async function queuePipelineJob(
       const deliverable = await deliverables.create({
         name: options.task,
         description: `Deliverable created via MCP: ${options.task}`,
-        organization_id: options.organizationId!,
+        user_id: options.userId,
+        organization_id: options.organizationId ?? null,
         status: 'pending',
         metadata: {
           ...options.metadata,
@@ -224,6 +224,7 @@ export async function queuePipelineJob(
     // Create run record
     const run = await runs.create({
       deliverable_id: deliverableId || uuidv4(), // Use dummy ID for non-deliverable pipelines
+      user_id: options.userId,
       status: 'pending',
       metadata: {
         pipeline: options.pipeline,
@@ -433,7 +434,7 @@ export async function monitorPipelineExecution(
 
   return {
     runId: run.id,
-    status: run.status,
+    status: (run.status as PipelineExecutionResult['status']) || 'queued',
     startedAt: run.started_at ? new Date(run.started_at) : undefined,
     completedAt: run.completed_at ? new Date(run.completed_at) : undefined,
     result: run.result,
@@ -442,7 +443,7 @@ export async function monitorPipelineExecution(
     events: runEvents.map(e => ({
       type: e.event_type,
       data: e.event_data,
-      timestamp: new Date(e.created_at)
+      timestamp: new Date(e.created_at || Date.now())
     }))
   };
 }

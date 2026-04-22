@@ -212,8 +212,8 @@ export async function authenticateMCPRequest(
       // Add organization info to context
       context.organizationId = organization.id;
       context.organizationName = organization.name;
-      context.organizationSlug = organization.slug;
-      context.organizationRole = membership.role;
+      context.organizationSlug = organization.slug ?? undefined;
+      context.organizationRole = (membership.role as MCPAuthContext['organizationRole']) || 'member';
       context.organizationPermissions = membership.permissions || {};
     }
 
@@ -363,7 +363,7 @@ function hasPermission(
 
   // Check API key scopes
   const scopeKey = `${resource}:${action}`;
-  if (context.scopes.includes(scopeKey) || context.scopes.includes('*')) {
+  if (context.scopes?.includes(scopeKey) || context.scopes?.includes('*')) {
     return true;
   }
 
