@@ -1,9 +1,12 @@
 /**
  * Phase Factory - Creates PhaseDelegator Executors that delegate to Agents
- * 
+ *
  * PhaseDelegators are Executors that coordinate agent execution within
- * a pipeline phase (Setup, Discovery, Implementation, Validation, Shipping).
- * They delegate work to agents and accumulate results.
+ * a pipeline phase. They delegate work to agents and accumulate results.
+ *
+ * The generic phase abstraction is reusable. The retained SDIVS phase family
+ * below is a reference orchestration family until Bitcode explicitly promotes
+ * it into live product behavior.
  */
 
 import { Executor, Execution, sequential, parallel } from '@bitcode/execution-generics';
@@ -109,7 +112,7 @@ export function factoryParallelPhaseDelegator<TInput, TOutput>(
 }
 
 /**
- * The 5 standard SDIVS phases
+ * The retained SDIVS reference phases
  */
 export enum SDIVSPhase {
   SETUP = 'setup',
@@ -120,7 +123,7 @@ export enum SDIVSPhase {
 }
 
 /**
- * Create the standard SDIVS phase delegators
+ * Create retained SDIVS reference phase delegators
  */
 export function factorySDIVSPhaseDelegators<TInput, TOutput>(config: {
   setup: Agent<TInput, any>;

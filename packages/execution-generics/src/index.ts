@@ -1,22 +1,22 @@
 /**
- * EXECUTION GENERICS - Pure execution primitives for engi
- * 
- * The foundation of all intelligence in the engi platform.
- * Two primitives that compose infinitely:
+ * EXECUTION GENERICS - Pure Bitcode execution primitives
+ *
+ * Canonical reusable execution infrastructure for Bitcode.
+ * Two primitives that compose broadly:
  * 
  * 1. Execution - State accumulation with storage control
  * 2. Executor - Pure functions that transform input to output
  * 
- * From these, we build:
- * - Agents that execute PTRR patterns
- * - Tools that perform operations
- * - Phases that coordinate agents
- * - Pipelines that orchestrate everything
+ * From these, the repository can build:
+ * - agents and tool invocations
+ * - phase and pipeline orchestrators
+ * - live `ad hoc` execution
+ * - retained reference execution families admitted for porting
  * 
  * @doc-package
  * version: 1.0.0
  * pattern: executor-composition
- * philosophy: "Everything is an executor - pure functions that compose infinitely"
+ * philosophy: "Execution and Executor are the stable primitives; orchestration families are layered above them"
  */
 
 // ==================== CORE PRIMITIVES ====================
@@ -194,7 +194,7 @@ export {
  * const risks = execution.get<RiskProfile>('classification', 'risks');
  * ```
  * 
- * Every agent, tool, phase, and pipeline in engi is built on these primitives.
+ * Bitcode execution, retained agent/tool orchestration, and admitted reference pipelines all build on these primitives.
  * 
  * ARCHITECTURAL PRINCIPLES:
  * 1. Everything is an executor - pure async functions

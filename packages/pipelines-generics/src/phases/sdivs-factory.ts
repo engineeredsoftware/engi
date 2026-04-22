@@ -1,8 +1,12 @@
 /**
- * SDIVS Pipeline Factory with Built-in DIV Iteration
- * 
- * Creates the standard Setup-[Discovery-Implementation-Validation]*-Shipping pattern
- * with automatic iteration support.
+ * Retained SDIVS reference pipeline factory with built-in DIV iteration
+ *
+ * Creates the retained Setup-[Discovery-Implementation-Validation]*-Shipping
+ * pattern with automatic iteration support.
+ *
+ * This file survives as a reference orchestration family for Bitcode pipeline
+ * porting and admissibility work. It is not itself the proof of current
+ * Bitcode-native pipeline canon.
  */
 
 import { Executor, Execution, sequential } from '@bitcode/execution-generics';
@@ -36,8 +40,8 @@ export interface SDIVSConfig<TInput = any, TOutput = any> {
 // ==================== SDIVS PIPELINE FACTORY ====================
 
 /**
- * Create an SDIVS Pipeline with built-in DIV iteration
- * 
+ * Create a retained SDIVS reference pipeline with built-in DIV iteration
+ *
  * Pattern: Setup -> [Discovery -> Implementation -> Validation]* -> Shipping
  * 
  * The DIV loop iterates until:
@@ -187,8 +191,8 @@ export interface SDIVSExecutorConfig<TInput = any, TOutput = any> {
 }
 
 /**
- * factorySDIVSExecutorPipeline - Build a complete SDIVS pipeline as a pure
- * Executor using execution-generics composition. This mirrors the intended
+ * factorySDIVSExecutorPipeline - Build a complete retained SDIVS reference
+ * pipeline as a pure Executor using execution-generics composition. This mirrors the intended
  * [preprocess] -> Setup -> [Discovery → Implementation → Validation]* -> Shipping -> [postprocess]
  * pattern without requiring call-site abstractions.
  */

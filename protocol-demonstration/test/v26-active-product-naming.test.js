@@ -2801,7 +2801,7 @@ test('active V26 retained package surfaces use Bitcode naming instead of Engi na
   assert.match(executionsMcpPublicOverviewSource, /wallet-gated Bitcode transaction flow/);
   assert.match(executionsMcpPublicApiReferenceSource, /# Bitcode MCP API Reference/);
   assert.match(executionsMcpOpenApiSource, /Bitcode MCP Server API/);
-  assert.match(executionsMcpPackageSource, /Bitcode's Model Context Protocol server - market infrastructure for need measurement and engineering workflows/);
+  assert.match(executionsMcpPackageSource, /Bitcode's Model Context Protocol server - market infrastructure for need measurement, activity, and repository workflows/);
   assert.match(executionsMcpArchitectureSource, /\$BTD Treasury Integration/);
   assert.match(executionsMcpArchitectureSource, /\bBtdTreasuryManagement\b/);
   assert.match(executionsMcpTestFixturesSource, /wallet-gated Bitcode transaction flow/);

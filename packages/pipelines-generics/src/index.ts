@@ -1,14 +1,18 @@
 /**
  * PIPELINES-GENERICS - Pipeline Execution Primitives
- * 
+ *
  * This package provides the foundational abstractions for building
  * pipelines. Pipelines are Executors that sequence PhaseDelegators.
  * PhaseDelegators are Executors that delegate to Agents.
+ *
+ * These are reusable orchestration primitives. Retained orchestration families
+ * such as SDIVS and meta-phase flows remain reference patterns unless they are
+ * explicitly repurposed into Bitcode-owned behavior.
  * 
  * Core Concepts:
  * - Pipeline: Top-level Executor orchestrating phases (EE)
  * - PhaseDelegator: Executor that delegates work to Agents
- * - SDIVS: Setup, Discovery, Implementation, Validation, Shipping
+ * - SDIVS: retained setup/discovery/implementation/validation/shipping reference family
  * 
  * @doc-code
  * type: package
@@ -38,7 +42,7 @@ export {
   type QuickPhase
 } from './quick-pipeline';
 
-// Phase factories and SDIVS
+// Phase factories and retained SDIVS reference helpers
 export {
   factoryPhaseDelegator,
   factorySequentialPhaseDelegator,
@@ -47,7 +51,7 @@ export {
   SDIVSPhase
 } from './phases/phase-factory';
 
-// SDIVS Pipeline factory
+// Retained SDIVS reference pipeline factories
 export {
   factorySDIVSPipeline,
   type SDIVSConfig
@@ -122,7 +126,7 @@ export type {
   DPToolExecInsert
 } from './types/db';
 
-// Legacy exports for backward compatibility
+// Retained exports for backward compatibility/reference porting
 export {
   createPhaseRunner,
   type PhaseConfig,

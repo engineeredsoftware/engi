@@ -1,9 +1,10 @@
 /**
  * Bitcode MCP Server - Main Entry Point with ORM Integration
- * 
- * The ultimate engineering intelligence platform exposed through
- * Model Context Protocol for seamless AI integration.
- * Now fully integrated with ORM for all database operations.
+ *
+ * Bitcode market-infrastructure surface exposed through Model Context Protocol.
+ * Admits need measurement, repository operations, activity continuation, and
+ * retained execution families through one machine interface.
+ * Now integrated with ORM for database-backed operations.
  * 
  * @doc-code
  * type: entry

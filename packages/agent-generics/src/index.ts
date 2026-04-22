@@ -1,8 +1,12 @@
 /**
- * AGENT-GENERICS - INTELLIGENT ORCHESTRATION WITH EXCELLENCE
- * 
- * Agents are Executors that sequence PTRR steps. No variations - just different
- * agent implementations selected from registries dynamically.
+ * AGENT-GENERICS - Retained agent orchestration primitives
+ *
+ * Agents are Executors that sequence retained PTRR-style steps.
+ * This package survives as reusable orchestration infrastructure and as a
+ * reference surface for Bitcode-native pipelines; it is not itself proof that
+ * the old agent families remain live Bitcode canon.
+ *
+ * Different agent implementations are selected from registries dynamically.
  * Each step runs 3 failsafe parents sequentially, each running 3 generation children.
  * Tools execute AFTER all failsafes complete (conditional on reasoning + judgment output).
  * 
@@ -14,7 +18,7 @@
  * @doc-package
  * version: 1.0.0
  * pattern: ptrr-orchestration
- * philosophy: "Intelligence emerges from Plan-Try-Refine-Retry patterns"
+ * philosophy: "Retained orchestration families remain reusable, but Bitcode decides which ones are admitted as live product behavior"
  */
 
 // ==================== CORE TYPES ====================

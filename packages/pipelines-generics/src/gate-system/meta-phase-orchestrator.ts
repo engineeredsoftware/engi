@@ -1,11 +1,11 @@
 /**
- * Meta-Phase Orchestrator
+ * Retained meta-phase orchestrator
  *
  * Sequences Design → Develop → Digest meta-phases.
- * Each meta-phase runs full SDIVS with appropriate file gates.
+ * Each meta-phase runs the retained SDIVS reference family with appropriate file gates.
  *
  * @package @bitcode/pipelines-generics
- */
+*/
 
 import { Execution, Executor, sequential } from '@bitcode/execution-generics';
 import type { MetaPhase, MetaPhaseState } from './types';
@@ -117,9 +117,9 @@ export function transitionToNextMetaPhase(
 }
 
 /**
- * Create meta-phase aware SDIVS pipeline
+ * Create meta-phase aware retained SDIVS reference pipeline
  *
- * This wraps a standard SDIVS pipeline to add meta-phase orchestration.
+ * This wraps a retained SDIVS reference pipeline to add meta-phase orchestration.
  */
 export function createMetaPhasePipeline<TInput, TOutput>(
   sdivsPipeline: Executor<TInput, TOutput>

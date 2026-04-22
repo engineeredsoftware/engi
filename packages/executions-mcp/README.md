@@ -2,15 +2,15 @@
 
 ## Overview
 
-Model Context Protocol (MCP) base types and configuration validation utilities. Provides foundational schemas and validation functions for MCP server integration with zero-dependency type safety and extensible configuration patterns.
+Model Context Protocol (MCP) base types and configuration validation utilities. Provides foundational primitive validation functions for MCP server integration with zero-dependency type safety and extensible configuration patterns.
 
 ## Core Functionality
 
-- **Configuration Validation**: Zod-based schema validation for MCP configurations
+- **Configuration Validation**: Primitive runtime validation for MCP configurations
 - **Type Safety**: TypeScript-first design with runtime validation
 - **Extensible Schema**: Generic configuration structure supporting arbitrary MCP types
 - **Validation Pipeline**: Production-ready validation with detailed error reporting
-- **Zero Dependencies**: Minimal footprint with only Zod for schema validation
+- **Zero Dependencies**: Minimal footprint with no runtime schema dependency
 
 ## API Reference
 
@@ -39,7 +39,7 @@ Validates MCP configuration objects with comprehensive error checking.
 
 #### `McpConfigSchema`
 
-Zod schema defining the structure of MCP configurations.
+Primitive schema-like contract defining the structure of MCP configurations.
 
 **Schema Structure:**
 ```typescript
@@ -93,11 +93,7 @@ console.log('Validated config:', parsed);
 
 ### Type-Safe Configuration
 ```typescript
-import { z } from 'zod';
-import { McpConfigSchema } from '@bitcode/mcp';
-
-// Define type from schema
-type McpConfig = z.infer<typeof McpConfigSchema>;
+import type { McpConfig } from '@bitcode/mcp';
 
 // Use in application
 function initializeMcp(config: McpConfig): void {
@@ -183,7 +179,7 @@ for (const config of mcpConfigs) {
 ## Performance Characteristics
 
 ### Validation Performance
-- **Schema Parsing**: O(1) validation with Zod's optimized parsing
+- **Schema Parsing**: O(1) validation over the primitive MCP config contract
 - **Memory Usage**: Minimal overhead with schema caching
 - **Error Reporting**: Detailed validation errors with path information
 - **Type Inference**: Zero-runtime cost TypeScript type generation
@@ -209,21 +205,15 @@ for (const config of mcpConfigs) {
 - **Version Compatibility**: Schema designed for forward compatibility
 
 ### Validation Strategy
-- **Runtime Safety**: Zod validation prevents runtime type errors
+- **Runtime Safety**: primitive validation prevents runtime type errors
 - **Developer Experience**: Clear error messages with field-level details
 - **Performance**: Optimized validation with minimal overhead
 - **Extensibility**: Easy addition of new MCP types and validations
 
 ### Future Extensions
-```typescript
-// Planned schema enhancements
-const ExtendedMcpConfigSchema = McpConfigSchema.extend({
-  version?: z.string(),           // MCP version compatibility
-  capabilities?: z.array(z.string()), // Supported capabilities
-  metadata?: z.record(z.any()),   // Additional metadata
-  enabled?: z.boolean()           // Runtime enable/disable
-});
-```
+- Add optional version metadata when MCP compatibility needs to be modeled explicitly.
+- Add capability arrays when the primitive config contract needs to express advertised tool/resource surfaces.
+- Add enable/disable flags only when runtime orchestration requires them, not preemptively.
 
 ## Configuration Examples
 

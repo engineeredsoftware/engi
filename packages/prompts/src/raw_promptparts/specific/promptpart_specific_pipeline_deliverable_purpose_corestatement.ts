@@ -12,4 +12,4 @@ import { PromptPart } from '../../parts/PromptPart';
  * ]
  */
 export const PROMPTPART_SPECIFIC_PIPELINE_DELIVERABLE_PURPOSE_CORESTATEMENT: PromptPart = 
-  'Transform task descriptions into production-ready VCS pull requests using SDIVS phase execution pattern' as PromptPart;
+  'Use the retained deliverable reference pipeline to turn task descriptions into Bitcode-aligned repository change proposals through the SDIVS execution pattern' as PromptPart;

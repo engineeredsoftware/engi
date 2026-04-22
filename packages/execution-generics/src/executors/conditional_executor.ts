@@ -1,7 +1,7 @@
 /**
  * CONDITIONAL EXECUTOR - Branch based on condition
- * 
- * Core of intelligent decision-making in engi:
+ *
+ * Core Bitcode execution control:
  * - Skip steps when not needed
  * - Choose strategies based on context
  * - Handle errors gracefully

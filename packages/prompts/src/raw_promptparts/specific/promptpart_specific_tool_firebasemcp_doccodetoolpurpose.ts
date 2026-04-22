@@ -1,5 +1,3 @@
-import { PromptPart } from '../../parts/PromptPart';
-
 /**
  * @doc-comment-developing-promptpartdevelopment
  * domain: tool
