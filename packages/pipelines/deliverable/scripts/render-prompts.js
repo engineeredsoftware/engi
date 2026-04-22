@@ -8,11 +8,10 @@ const fs_1 = __importDefault(require("fs"));
 const path_1 = __importDefault(require("path"));
 // Resolve repo root: this file is at packages/pipelines/deliverable/scripts/
 const repoRoot = path_1.default.resolve(__dirname, '../../..', '..'); // go to repo root from package
-// Import hierarchical formatter from prompts src
-// Relative from this script to packages/prompts/src/formatters/hierarchical
-// packages/pipelines/deliverable/scripts -> ../../../prompts/src/formatters/hierarchical
+// Import the public prompt formatter boundary rather than reaching into
+// prompts package internals from a retained deliverable script.
 // eslint-disable-next-line @typescript-eslint/no-var-requires
-const { hierarchicalFormatter } = require('../../../prompts/src/formatters/hierarchical');
+const { hierarchicalFormatter } = require('@bitcode/prompts');
 function listDeliverablesPromptFiles() {
     const dir = path_1.default.resolve(__dirname, '../src/agents/prompts');
     if (!fs_1.default.existsSync(dir))

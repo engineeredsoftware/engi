@@ -20,6 +20,7 @@
 export type { PromptPart } from './parts/PromptPart';
 export { createPromptPart, isPromptPart, EMPTY_PROMPT_PART } from './parts/PromptPart';
 export { Prompt, createPrompt } from './prompt';
+export { PromptExecution, createPromptExecution } from './execution/PromptExecution';
 export { hierarchicalFormatter } from './formatters';
 export type { PromptFormatter } from './prompt';
 /**
@@ -32,7 +33,11 @@ export type { PromptFormatter } from './prompt';
  *    const prompt = new Prompt();
  *    prompt.set('identity', createPromptPart('You are Bitcode.'));
  *
- * 3. For formatting:
+ * 3. For prompt-aware executions:
+ *    const execution = new PromptExecution('bitcode/run');
+ *    execution.prompts.set('system:identity', createPromptPart('You are Bitcode.'));
+ *
+ * 4. For formatting:
  *    const formatted = prompt.format(hierarchicalFormatter);
  *
  * RAW PROMPT ORGANIZATION:
@@ -41,6 +46,11 @@ export type { PromptFormatter } from './prompt';
  *
  * Each raw prompt file contains a single PromptPart with doc-promptpart metadata.
  * There are 500+ raw prompts - import only what you need!
+ *
+ * PUBLIC BOUNDARY RULE:
+ * - Active inference packages must import PromptPart, Prompt, PromptExecution,
+ *   and shared formatters from `@bitcode/prompts`, not by reaching into
+ *   `packages/prompts/src/*` internals.
  */
 export { PROMPTPART_GENERIC_PTRR_PLAN_OBJECTIVE } from './raw_promptparts/generic/promptpart_generic_ptrr_plan_objective';
 export { PROMPTPART_GENERIC_PTRR_TRY_OBJECTIVE } from './raw_promptparts/generic/promptpart_generic_ptrr_try_objective';

@@ -20,6 +20,27 @@ The prompts package provides:
 - **Dry Run**: Mocked LLM responses for testing and development
 - **Raw Prompts**: All PromptParts live in /raw_promptparts/ directory
 
+## Public Boundary Rule
+
+Active Bitcode inference carriers must import prompt primitives through the
+public `@bitcode/prompts` boundary:
+
+```typescript
+import {
+  Prompt,
+  PromptExecution,
+  createPrompt,
+  createPromptExecution,
+  createPromptPart,
+  hierarchicalFormatter,
+  type PromptPart,
+} from '@bitcode/prompts';
+```
+
+Do not deep-import `packages/prompts/src/*` from active execution, pipeline,
+conversation, MCP, or route-owned inference carriers. Raw prompt content remains
+available through the explicit `@bitcode/prompts/raw_promptparts/*` subpath.
+
 ## Architectural Rule
 
 Use this package when a Bitcode surface needs formal prompt ownership.
@@ -163,8 +184,7 @@ base.merge(extensions);
 ### Complete Example: Building a Tool Prompt
 
 ```typescript
-import { Prompt } from '@bitcode/prompts';
-import { hierarchicalFormatter } from '@bitcode/prompts/formatting';
+import { Prompt, hierarchicalFormatter } from '@bitcode/prompts';
 
 // Import specific PromptParts
 import { PROMPTPART_GENERIC_FORMATTING_YOUARE } 

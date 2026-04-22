@@ -4,8 +4,7 @@
  * Pipelines are the top-level EEs that orchestrate phase sequences.
  * This prompt provides the base abstraction for pipeline-level prompting.
  */
-import { Prompt } from '../../../prompts/src/prompt';
-import { type PromptPart } from '../../../prompts/src/parts/PromptPart';
+import { Prompt, type PromptPart } from '@bitcode/prompts';
 /**
  * Base Pipeline Prompt
  *

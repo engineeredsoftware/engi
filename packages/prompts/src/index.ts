@@ -31,6 +31,10 @@ export {
   Prompt,
   createPrompt
 } from './prompt';
+export {
+  PromptExecution,
+  createPromptExecution
+} from './execution/PromptExecution';
 
 // ==================== FORMATTERS ====================
 export {
@@ -54,16 +58,25 @@ export type { PromptFormatter } from './prompt';
  * 2. For prompt composition:
  *    const prompt = new Prompt();
  *    prompt.set('identity', createPromptPart('You are Bitcode.'));
- * 
- * 3. For formatting:
+ *
+ * 3. For prompt-aware executions:
+ *    const execution = new PromptExecution('bitcode/run');
+ *    execution.prompts.set('system:identity', createPromptPart('You are Bitcode.'));
+ *
+ * 4. For formatting:
  *    const formatted = prompt.format(hierarchicalFormatter);
- * 
+ *
  * RAW PROMPT ORGANIZATION:
  * - /raw_promptparts/generic/: Domain-agnostic, reusable prompts
  * - /raw_promptparts/specific/: Pipeline and agent-specific prompts
  * 
  * Each raw prompt file contains a single PromptPart with doc-promptpart metadata.
  * There are 500+ raw prompts - import only what you need!
+ *
+ * PUBLIC BOUNDARY RULE:
+ * - Active inference packages must import PromptPart, Prompt, PromptExecution,
+ *   and shared formatters from `@bitcode/prompts`, not by reaching into
+ *   `packages/prompts/src/*` internals.
  */
 
 // ==================== DOC-COMMENT PLUGINS ====================
