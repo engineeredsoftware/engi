@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 
 import BitcodeChipCloud from '@/components/base/bitcode/execution/BitcodeChipCloud';
 import BitcodeInlineExplainer from '@/components/base/bitcode/execution/BitcodeInlineExplainer';
@@ -65,19 +65,20 @@ export default function ApplicationDepositComposer({
   const selectedEntryLabels = useMemo(() => {
     return composer?.selectedEntries.slice(0, 5).map((entry) => entry.title) || [];
   }, [composer]);
+  const settlementReady = transactionReadiness.canSettle;
 
   const canSubmit = Boolean(
     composer &&
       (composer.selectedCount > 0 || content.trim()) &&
       (title.trim() || composer.selectedCount > 0) &&
       (author.trim() || composer.authSessionId) &&
-      transactionReadiness.canTransact,
+      settlementReady,
   );
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     if (!composer) return;
-    if (!transactionReadiness.canTransact) {
+    if (!settlementReady) {
       setSubmitState({ kind: 'error', message: transactionReadiness.summary });
       return;
     }
@@ -381,7 +382,7 @@ export default function ApplicationDepositComposer({
         <aside className="space-y-4">
           <div
             className={`rounded-[1.5rem] border px-5 py-5 text-sm leading-6 ${
-              transactionReadiness.canTransact
+              settlementReady
                 ? 'border-emerald-400/25 bg-emerald-400/10 text-emerald-100'
                 : 'border-amber-400/25 bg-amber-400/10 text-amber-100'
             }`}

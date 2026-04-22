@@ -11,7 +11,7 @@ export type ApplicationFlowGuideStage = {
 };
 
 export type ApplicationFlowGuide = {
-  readinessLabel: string;
+  readinessLabel: 'syncing' | 'review-only' | 'draft-only' | 'drafting' | 'saved' | 'ready';
   statusSummary: string;
   stages: ApplicationFlowGuideStage[];
 };
@@ -54,7 +54,7 @@ function resolveCurrentStageIndex(commandState: ApplicationCommandState | null) 
 
 export function deriveApplicationFlowGuide(
   commandState: ApplicationCommandState | null,
-  transactionReadiness?: Pick<BitcodeTransactionReadiness, 'canTransact' | 'summary'> | null,
+  transactionReadiness?: Pick<BitcodeTransactionReadiness, 'canTransact' | 'canSettle' | 'summary'> | null,
 ): ApplicationFlowGuide {
   const currentStageIndex = resolveCurrentStageIndex(commandState);
   const guideStep =
@@ -62,11 +62,19 @@ export function deriveApplicationFlowGuide(
       ? `step ${Math.min(commandState.flowGuideStepIndex + 1, commandState.flowGuideStepCount)} of ${commandState.flowGuideStepCount}`
       : null;
   const reviewOnly = Boolean(commandState?.shellReady && transactionReadiness && !transactionReadiness.canTransact);
+  const draftOnly = Boolean(
+    commandState?.shellReady &&
+      transactionReadiness &&
+      transactionReadiness.canTransact &&
+      !transactionReadiness.canSettle,
+  );
 
   const readinessLabel = !commandState?.shellReady
     ? 'syncing'
     : reviewOnly
       ? 'review-only'
+    : draftOnly
+      ? 'draft-only'
     : commandState.flowGuideOpen
       ? 'drafting'
       : guideStep
@@ -77,6 +85,11 @@ export function deriveApplicationFlowGuide(
     ? 'The flow guide is syncing to the current Bitcode Terminal.'
     : reviewOnly
       ? transactionReadiness?.summary || 'The Bitcode Terminal is in review-only mode until transactional readiness is complete.'
+    : draftOnly
+      ? guideStep
+        ? `The flow guide is ${commandState.flowGuideOpen ? 'open' : 'saved'} at ${guideStep}. ${transactionReadiness?.summary || 'Bitcode can keep drafting, but branch, deposit, and closure remain fail-closed until signed settlement readiness is complete.'}`
+        : transactionReadiness?.summary ||
+          'Bitcode can keep drafting, but branch, deposit, and closure remain fail-closed until signed settlement readiness is complete.'
     : guideStep
       ? `The flow guide is ${commandState.flowGuideOpen ? 'open' : 'saved'} at ${guideStep}.`
       : 'The Bitcode Terminal is ready for a fresh give-to-closure flow.';

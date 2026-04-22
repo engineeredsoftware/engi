@@ -70,4 +70,39 @@ describe('deriveApplicationFlowGuide', () => {
     expect(guide.readinessLabel).toBe('review-only');
     expect(guide.statusSummary).toContain('review-only mode');
   });
+
+  it('keeps a draft-only posture when verified signing is still staged', () => {
+    const commandState: ApplicationCommandState = {
+      scenario: 'need-1',
+      projection: 'reviewer',
+      branchMode: 'patch',
+      scenarioOptions: [{ value: 'need-1', label: 'priority need · producer' }],
+      projectionOptions: [{ value: 'reviewer', label: 'reviewer' }],
+      branchOptions: [{ value: 'patch', label: 'patch' }],
+      heroLede: 'shell posture',
+      heroTip: 'shell tip',
+      status: 'ready',
+      flowGuideLabel: 'Flow guide',
+      flowGuideOpen: true,
+      flowGuideStepIndex: 4,
+      flowGuideStepCount: 10,
+      shellReady: true,
+    };
+
+    const guide = deriveApplicationFlowGuide(
+      commandState,
+      deriveBitcodeTransactionReadiness({
+        signedIn: true,
+        hasRepositoryProvider: true,
+        hasWalletBinding: true,
+        hasVerifiedWalletBinding: false,
+        requiresRepositoryAnchor: true,
+        hasRepositoryAnchor: true,
+      }),
+    );
+
+    expect(guide.readinessLabel).toBe('draft-only');
+    expect(guide.statusSummary).toContain('signed settlement remains staged');
+    expect(guide.statusSummary).toContain('step 5 of 10');
+  });
 });

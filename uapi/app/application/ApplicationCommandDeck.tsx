@@ -80,11 +80,12 @@ export default function ApplicationCommandDeck({
     () => deriveApplicationCommandPresentation(commandState),
     [commandState],
   );
-  const readinessTone = transactionReadiness.canTransact
+  const settlementReady = transactionReadiness.canSettle;
+  const readinessTone = settlementReady
     ? 'border-emerald-400/25 bg-emerald-400/10 text-emerald-100'
     : 'border-amber-400/25 bg-amber-400/10 text-amber-100';
   const handleMakeBranch = async () => {
-    if (!transactionReadiness.canTransact) {
+    if (!settlementReady) {
       setActionMessage(transactionReadiness.summary);
       return;
     }
@@ -250,7 +251,7 @@ export default function ApplicationCommandDeck({
           <div className="grid gap-3 lg:grid-cols-3">
             <button
               type="button"
-              disabled={isActing || !shellReady || !transactionReadiness.canTransact}
+              disabled={isActing || !shellReady || !settlementReady}
               onClick={() => {
                 void handleMakeBranch();
               }}

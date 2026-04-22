@@ -16,6 +16,17 @@ function toneClasses(status: 'done' | 'current' | 'next') {
   return 'border-white/10 bg-white/5 text-neutral-200';
 }
 
+function readinessToneClasses(
+  readinessLabel: 'syncing' | 'review-only' | 'draft-only' | 'drafting' | 'saved' | 'ready',
+) {
+  if (readinessLabel === 'ready') return toneClasses('done');
+  if (readinessLabel === 'drafting') return toneClasses('current');
+  if (readinessLabel === 'draft-only' || readinessLabel === 'review-only') {
+    return 'border-amber-400/25 bg-amber-400/10 text-amber-100';
+  }
+  return toneClasses('next');
+}
+
 export default function ApplicationFlowGuideCard({
   commandState,
   continuationTip,
@@ -28,15 +39,7 @@ export default function ApplicationFlowGuideCard({
       <div className="flex items-center gap-2">
         <p className="text-[0.68rem] uppercase tracking-[0.24em] text-neutral-400">Give + Need flow guide</p>
         <span
-          className={`rounded-full border px-2 py-1 text-[0.58rem] uppercase tracking-[0.18em] ${toneClasses(
-            guide.readinessLabel === 'drafting'
-              ? 'current'
-              : guide.readinessLabel === 'ready'
-                ? 'done'
-                : guide.readinessLabel === 'review-only'
-                  ? 'next'
-                : 'next',
-          )}`}
+          className={`rounded-full border px-2 py-1 text-[0.58rem] uppercase tracking-[0.18em] ${readinessToneClasses(guide.readinessLabel)}`}
         >
           {guide.readinessLabel}
         </span>
