@@ -10,7 +10,10 @@
  * pattern: registry-extension
  */
 
-import { Execution } from '@bitcode/execution-generics';
+// Use a source-relative import here so PromptExecution stays loadable through
+// the public @bitcode/prompts package even when the workspace has not been
+// freshly linked package-by-package.
+import { Execution } from '../../../execution-generics/src/index';
 import { Prompt } from '../prompt';
 
 /**

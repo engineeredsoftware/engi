@@ -5,7 +5,7 @@ import path from 'node:path';
 
 const repoRoot = path.resolve(new URL('..', import.meta.url).pathname, '..');
 
-const DISALLOWED_PROMPT_INTERNAL_IMPORT = /prompts\/src\/(?:parts\/PromptPart|prompt|formatters\/hierarchical)/u;
+const DISALLOWED_PROMPT_INTERNAL_IMPORT = /(?:from\s+['"][^'"]*prompts\/src\/|require\(['"][^'"]*prompts\/src\/)/u;
 const ACTIVE_PROMPT_CORRIDORS = [
   'packages/execution-generics/src',
   'packages/pipelines-generics/src',
@@ -13,6 +13,9 @@ const ACTIVE_PROMPT_CORRIDORS = [
   'packages/conversations-generics/src',
   'packages/tools-generics/src',
   'packages/pipelines/deliverable/scripts',
+];
+const SUPPORT_PROMPT_CORRIDORS = [
+  'packages/digest/prompts',
 ];
 
 function listFilesRecursively(targetPath) {
@@ -43,10 +46,18 @@ function listFilesRecursively(targetPath) {
 
 test('V26 prompt system keeps a public package boundary for active inference carriers', () => {
   const promptIndexSource = readFileSync(path.join(repoRoot, 'packages/prompts/src/index.ts'), 'utf8');
+  const promptPackageJson = JSON.parse(
+    readFileSync(path.join(repoRoot, 'packages/prompts/package.json'), 'utf8')
+  );
 
   assert.match(promptIndexSource, /PromptExecution/u);
   assert.match(promptIndexSource, /createPromptExecution/u);
   assert.match(promptIndexSource, /Active inference packages must import PromptPart, Prompt, PromptExecution/u);
+  assert.ok(promptPackageJson.exports['./prompt']);
+  assert.ok(promptPackageJson.exports['./parts/PromptPart']);
+  assert.ok(promptPackageJson.exports['./execution/PromptExecution']);
+  assert.ok(promptPackageJson.exports['./formatters']);
+  assert.ok(promptPackageJson.exports['./raw_promptparts/*']);
 
   const violations = ACTIVE_PROMPT_CORRIDORS
     .flatMap((corridor) => listFilesRecursively(corridor))
@@ -56,5 +67,17 @@ test('V26 prompt system keeps a public package boundary for active inference car
     violations,
     [],
     `Active prompt consumers must use @bitcode/prompts, not internal prompts/src reach-through: ${violations.join(', ')}`
+  );
+});
+
+test('V26 prompt support consumers keep promptpart access on the public package boundary', () => {
+  const violations = SUPPORT_PROMPT_CORRIDORS
+    .flatMap((corridor) => listFilesRecursively(corridor))
+    .filter((filePath) => DISALLOWED_PROMPT_INTERNAL_IMPORT.test(readFileSync(path.join(repoRoot, filePath), 'utf8')));
+
+  assert.deepEqual(
+    violations,
+    [],
+    `Support prompt consumers must use @bitcode/prompts/raw_promptparts or @bitcode/prompts, not sibling prompts/src reach-through: ${violations.join(', ')}`
   );
 });

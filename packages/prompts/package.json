@@ -3,11 +3,37 @@
   "version": "1.0.0",
   "description": "The fundamental prompt primitives package for the Bitcode prompt system",
   "private": true,
-  "main": "src/index.ts",
+  "main": "src/index.js",
   "types": "src/index.ts",
   "exports": {
-    ".": "./src/index.ts",
-    "./raw_promptparts/*": "./src/raw_promptparts/*.ts",
+    ".": {
+      "types": "./src/index.ts",
+      "default": "./src/index.js"
+    },
+    "./prompt": {
+      "types": "./src/prompt.ts",
+      "default": "./src/prompt.js"
+    },
+    "./parts/PromptPart": {
+      "types": "./src/parts/PromptPart.ts",
+      "default": "./src/parts/PromptPart.js"
+    },
+    "./execution/PromptExecution": {
+      "types": "./src/execution/PromptExecution.ts",
+      "default": "./src/execution/PromptExecution.js"
+    },
+    "./raw_promptparts/*": {
+      "types": "./src/raw_promptparts/*.ts",
+      "default": "./src/raw_promptparts/*.js"
+    },
+    "./formatters": {
+      "types": "./src/formatters/index.d.ts",
+      "default": "./src/formatters/index.js"
+    },
+    "./formatters/*": {
+      "types": "./src/formatters/*.d.ts",
+      "default": "./src/formatters/*.js"
+    },
     "./package.json": "./package.json"
   },
   

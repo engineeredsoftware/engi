@@ -285,6 +285,10 @@ const V26_FOURTH_GATE_PROMPT_SYSTEM_FILES = [
   'packages/conversations-generics/src/prompts/ConversationSystemPrompt.ts',
   'packages/generic-agents/jira-processor/src/prompts/system-prompt-jira-processor.ts',
   'packages/generic-agents/jira-processor/src/prompts/agent-prompt-jira-processor.ts',
+  'packages/digest/prompts/digest-prompts.ts',
+  'packages/digest/prompts/task-guides-prompts.ts',
+  'packages/digest/prompts/code-styles-prompts.ts',
+  'packages/digest/prompts/doc-code-tool.generate-digest.ts',
   'packages/pipelines/deliverable/src/agents/prompts/understand-requirements-prompt.ts',
   'packages/pipelines/deliverable/src/agents/prompts/plan-implementation-prompt.ts'
 ];
@@ -698,7 +702,7 @@ function buildV26GateCheckpointReport({
       label: 'Fourth-gate prompt system totality proof',
       passed: promptSystemTotalityProof?.passed === true,
       detail: promptSystemTotalityProof?.passed === true
-        ? 'PromptPart/Prompt/PromptExecution and retained prompt ports remain explicit'
+        ? 'PromptPart/Prompt/PromptExecution and retained prompt ports remain explicit through the public @bitcode/prompts boundary with package-by-package prompt surface mapping across active and support consumers'
         : 'Prompt system totality proof remains open'
     }
   ];
@@ -988,14 +992,17 @@ function buildV26PromptSystemTotalityProof({
   const checks = [
     buildV26FilePresenceCheck(
       'prompt-package-core',
-      'PromptPart, Prompt, PromptExecution, tests, and package docs remain explicit',
+      'PromptPart, Prompt, PromptExecution, public-boundary proof, prompt surface map, tests, and package docs remain explicit',
       [
         'packages/prompts/README.md',
         'packages/prompts/src/index.ts',
         'packages/prompts/src/prompt.ts',
         'packages/prompts/src/execution/PromptExecution.ts',
         'packages/prompts/src/parts/PromptPart.ts',
-        'packages/prompts/src/__tests__/prompt.test.ts'
+        'packages/prompts/src/__tests__/prompt.test.ts',
+        'protocol-demonstration/V26_PROMPT_SURFACES.md',
+        'protocol-demonstration/test/v26-prompt-system-boundary.test.js',
+        'protocol-demonstration/test/v26-prompt-surface-map.test.js'
       ]
     ),
     buildV26FilePresenceCheck(
@@ -1007,6 +1014,17 @@ function buildV26PromptSystemTotalityProof({
         'packages/agent-generics/src/prompts/AgentPrompt.ts',
         'packages/conversations-generics/README.md',
         'packages/conversations-generics/src/prompts/ConversationSystemPrompt.ts'
+      ]
+    ),
+    buildV26FilePresenceCheck(
+      'support-prompt-consumer-boundaries',
+      'Support prompt consumers remain explicit on the public prompt boundary',
+      [
+        'packages/digest/package.json',
+        'packages/digest/prompts/digest-prompts.ts',
+        'packages/digest/prompts/task-guides-prompts.ts',
+        'packages/digest/prompts/code-styles-prompts.ts',
+        'packages/digest/prompts/doc-code-tool.generate-digest.ts'
       ]
     ),
     buildV26FilePresenceCheck(

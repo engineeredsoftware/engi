@@ -1,10 +1,10 @@
-import { Prompt } from '@bitcode/prompts';
+import { Prompt } from '@bitcode/prompts/prompt';
 import {
   PROMPTPART_SPECIFIC_TOOL_DIGEST_FILESUMMARIES_BASEPROMPT_CORE,
-} from '../../prompts/src/raw_promptparts/specific/promptpart_specific_tool_digest_filesummaries_baseprompt_core';
-import { PROMPTPART_SPECIFIC_TOOL_DIGESTGENERATOR_IDENTITY_CORESTATEMENT } from '../../prompts/src/raw_promptparts/specific/promptpart_specific_tool_digestgenerator_identity_corestatement';
-import { PROMPTPART_SPECIFIC_TOOL_DIGESTGENERATOR_PURPOSE_CORESTATEMENT } from '../../prompts/src/raw_promptparts/specific/promptpart_specific_tool_digestgenerator_purpose_corestatement';
-import { PROMPTPART_SPECIFIC_TOOL_DIGESTGENERATOR_CONSTRAINTS_JSON_DETAILCONTENT } from '../../prompts/src/raw_promptparts/specific/promptpart_specific_tool_digestgenerator_constraints_json_detailcontent';
+} from '@bitcode/prompts/raw_promptparts/specific/promptpart_specific_tool_digest_filesummaries_baseprompt_core';
+import { PROMPTPART_SPECIFIC_TOOL_DIGESTGENERATOR_IDENTITY_CORESTATEMENT } from '@bitcode/prompts/raw_promptparts/specific/promptpart_specific_tool_digestgenerator_identity_corestatement';
+import { PROMPTPART_SPECIFIC_TOOL_DIGESTGENERATOR_PURPOSE_CORESTATEMENT } from '@bitcode/prompts/raw_promptparts/specific/promptpart_specific_tool_digestgenerator_purpose_corestatement';
+import { PROMPTPART_SPECIFIC_TOOL_DIGESTGENERATOR_CONSTRAINTS_JSON_DETAILCONTENT } from '@bitcode/prompts/raw_promptparts/specific/promptpart_specific_tool_digestgenerator_constraints_json_detailcontent';
 
 /**
  * @doc-code-tool

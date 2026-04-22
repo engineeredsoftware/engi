@@ -11,7 +11,7 @@ const repoRoot = path_1.default.resolve(__dirname, '../../..', '..'); // go to r
 // Import the public prompt formatter boundary rather than reaching into
 // prompts package internals from a retained deliverable script.
 // eslint-disable-next-line @typescript-eslint/no-var-requires
-const { hierarchicalFormatter } = require('@bitcode/prompts');
+const { hierarchicalFormatter } = require('@bitcode/prompts/formatters');
 function listDeliverablesPromptFiles() {
     const dir = path_1.default.resolve(__dirname, '../src/agents/prompts');
     if (!fs_1.default.existsSync(dir))

@@ -37,6 +37,16 @@ import {
 } from '@bitcode/prompts';
 ```
 
+For narrower runtime consumers, the same boundary also exposes stable public
+subpaths:
+
+```typescript
+import { Prompt } from '@bitcode/prompts/prompt';
+import type { PromptPart } from '@bitcode/prompts/parts/PromptPart';
+import { PromptExecution } from '@bitcode/prompts/execution/PromptExecution';
+import { hierarchicalFormatter } from '@bitcode/prompts/formatters';
+```
+
 Do not deep-import `packages/prompts/src/*` from active execution, pipeline,
 conversation, MCP, or route-owned inference carriers. Raw prompt content remains
 available through the explicit `@bitcode/prompts/raw_promptparts/*` subpath.

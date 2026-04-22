@@ -8,28 +8,28 @@
 
 import {
   PROMPTPART_SPECIFIC_TOOL_DIGEST_FILESUMMARIES_BASEPROMPT_CORE,
-} from '../../prompts/src/raw_promptparts/specific/promptpart_specific_tool_digest_filesummaries_baseprompt_core';
+} from '@bitcode/prompts/raw_promptparts/specific/promptpart_specific_tool_digest_filesummaries_baseprompt_core';
 import {
   PROMPTPART_SPECIFIC_TOOL_DIGEST_TYPE_API_ROUTE_REQUIREMENTS,
-} from '../../prompts/src/raw_promptparts/specific/promptpart_specific_tool_digest_type_api_route_requirements';
+} from '@bitcode/prompts/raw_promptparts/specific/promptpart_specific_tool_digest_type_api_route_requirements';
 import {
   PROMPTPART_SPECIFIC_TOOL_DIGEST_TYPE_UI_COMPONENT_REQUIREMENTS,
-} from '../../prompts/src/raw_promptparts/specific/promptpart_specific_tool_digest_type_ui_component_requirements';
+} from '@bitcode/prompts/raw_promptparts/specific/promptpart_specific_tool_digest_type_ui_component_requirements';
 import {
   PROMPTPART_SPECIFIC_TOOL_DIGEST_TYPE_CODE_REQUIREMENTS,
-} from '../../prompts/src/raw_promptparts/specific/promptpart_specific_tool_digest_type_code_requirements';
+} from '@bitcode/prompts/raw_promptparts/specific/promptpart_specific_tool_digest_type_code_requirements';
 import {
   PROMPTPART_SPECIFIC_TOOL_DIGEST_TYPE_DOCUMENTATION_REQUIREMENTS,
-} from '../../prompts/src/raw_promptparts/specific/promptpart_specific_tool_digest_type_documentation_requirements';
+} from '@bitcode/prompts/raw_promptparts/specific/promptpart_specific_tool_digest_type_documentation_requirements';
 import {
   PROMPTPART_SPECIFIC_TOOL_DIGEST_TYPE_CONFIG_REQUIREMENTS,
-} from '../../prompts/src/raw_promptparts/specific/promptpart_specific_tool_digest_type_config_requirements';
+} from '@bitcode/prompts/raw_promptparts/specific/promptpart_specific_tool_digest_type_config_requirements';
 import {
   PROMPTPART_SPECIFIC_TOOL_DIGEST_TYPE_NOTEBOOK_REQUIREMENTS,
-} from '../../prompts/src/raw_promptparts/specific/promptpart_specific_tool_digest_type_notebook_requirements';
+} from '@bitcode/prompts/raw_promptparts/specific/promptpart_specific_tool_digest_type_notebook_requirements';
 import {
   PROMPTPART_SPECIFIC_TOOL_DIGEST_TYPE_UNKNOWN_REQUIREMENTS,
-} from '../../prompts/src/raw_promptparts/specific/promptpart_specific_tool_digest_type_unknown_requirements';
+} from '@bitcode/prompts/raw_promptparts/specific/promptpart_specific_tool_digest_type_unknown_requirements';
 
 export const BATCH_SUMMARY_PROMPT: string = PROMPTPART_SPECIFIC_TOOL_DIGEST_FILESUMMARIES_BASEPROMPT_CORE;
 

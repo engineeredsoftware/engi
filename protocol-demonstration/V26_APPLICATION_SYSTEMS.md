@@ -751,6 +751,7 @@ Operational rule:
 - the admitted `Bitcode MCP` deliverable-create boundary must fail closed before queueing or reserving `BTD` when `pipelines.create` permission is absent or the requested repository/provider ingress is not coherently anchored by a matching repository connection or authenticated provider credential
 - the active `executions-mcp` runtime at fifth-gate now admits only the narrowed Exchange-facing tool families (`pipeline`, `analysis`, `intelligence`, `enterprise`, `lsp`, `observability`); `field-intelligence` is removed from Bitcode and archived only as `_legacy/field-intelligence`, while retained monitoring, orchestration, and Jira-specific tool carriers remain non-admitted reference-only corridors until they are rebuilt to current package/runtime contracts
 - the admitted `executions-mcp` package boundary must typecheck locally through every retained dependency it still traverses; V26 no longer treats missing `zod`/`supabase` links, Next-only `supabase/ssr/server` leakage, or deep-import-only package seams as acceptable “old-world residue” once that corridor is claimed active
+- active and admitted-support prompt-bearing inference carriers must import `PromptPart`, `Prompt`, `PromptExecution`, and shared formatters through the public `@bitcode/prompts` boundary or its stable narrow subpaths; deep imports into `packages/prompts/src/*` are no longer admissible on the live path except inside the prompts package itself, and the package-by-package prompt consumer map is maintained in `protocol-demonstration/V26_PROMPT_SURFACES.md`
 - the admitted direct-product `uapi` corridor must likewise typecheck locally through product, public/docs, auth/UI, and visualization/effects carriers; fifth-gate no longer treats stale wrapper drift or public-shell compatibility seams as acceptable residue once those routes are claimed active
 
 ## Commercial infrastructure topology
@@ -787,7 +788,7 @@ Current corridor map:
 | Product and response ownership | `packages/{api,auth,btd,context,models,registry,responses}` | direct Bitcode product, account, and response composition |
 | Repository/provider boundary | `packages/{github,vcs,git,gitlab,bitbucket,browser-storage,security}` | repository anchor, provider connection, and provider-specific support/integration |
 | Persistence and data contract | `packages/{supabase,orm,aurora-postgres,postgresql,mysql,files}` | storage, schema, query, and generated type ownership |
-| Execution, prompts, conversations, and MCP | `packages/{conversations-generics,execution-generics,executions-mcp,pipelines,pipelines-generics,prompts,agent-generics,attachments-generics,templates-generics,tools-generics,llm-generics,streams}` | admitted execution substrate for Bitcode activity, conversations, `ad hoc`, prompts, tools, and MCP behavior |
+| Execution, prompts, conversations, and MCP | `packages/{conversations-generics,execution-generics,executions-mcp,pipelines,pipelines-generics,prompts,agent-generics,attachments-generics,templates-generics,tools-generics,llm-generics,streams}` | admitted execution substrate for Bitcode activity, conversations, `ad hoc`, prompts, tools, and MCP behavior, with `@bitcode/prompts` as the public prompt contract for active inference carriers |
 | Artifact, proof, and health support | `packages/{artifacts,digest,errors,logger,observability,parsing,repository-health,testing,tech-types,time,objects-arrays}` | proof-bearing support, telemetry, diagnostics, typing, parsing, and analysis substrate |
 | Provider/deployment/support integrations | `packages/{aws,circleci,cloudflare,docker,email,firebase,firecrawl,google-analytics,jira,kubernetes,networking,notion,notifications,sentry,styling,vercel}` | ingress, support, telemetry, deployment, or bounded reference carriers |
 | Retained generic/reference corridors | `packages/{generic-agents,generic-doc-comment-plugins,generic-llms,generic-tools,doc-code,doc-comment,editing,figma,lsp,multimodal-utils,obfuscate-generics,procurement,refactoring,web-search}` | retained acceleration, tooling, or auxiliary-input/reference-only corridors that may not silently own the live Bitcode product path |
@@ -811,7 +812,8 @@ Current major retained owners:
 - `packages/api/src/routes/conversations.ts`, `packages/api/src/conversations/*`
   Current conversation route-orchestration plus message/streaming backend surface, with `uapi/app/api/conversations/*` kept as thin interface bindings.
 - `packages/prompts/src/*`
-  Prompt abstraction and future proved prompt-space carrier.
+  Prompt abstraction and future proved prompt-space carrier; `PromptPart`, `Prompt`, `PromptExecution`, shared formatters, and explicit raw promptpart subpaths form the live public boundary for active inference packages.
+  The active/support/reference consumer map for those prompt carriers is maintained in `protocol-demonstration/V26_PROMPT_SURFACES.md`.
 - `packages/vcs/*`
   Version-control provider abstraction and connection ownership.
 - `packages/execution-generics/*`, `packages/pipelines-generics/*`, `packages/pipelines/*`

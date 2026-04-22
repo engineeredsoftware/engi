@@ -8,7 +8,7 @@ const repoRoot = path.resolve(__dirname, '../../..', '..'); // go to repo root f
 // Import the public prompt formatter boundary rather than reaching into
 // prompts package internals from a retained deliverable script.
 // eslint-disable-next-line @typescript-eslint/no-var-requires
-const { hierarchicalFormatter } = require('@bitcode/prompts');
+const { hierarchicalFormatter } = require('@bitcode/prompts/formatters');
 
 type Scope = 'deliverables' | 'generic-agents' | 'generic-tools' | 'all';
 

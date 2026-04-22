@@ -4,18 +4,19 @@
  * intent: "Prompt for generating Task Guides (JSON output)"
  * current_version: "GA1.00.0"
  */
-import { Prompt, hierarchicalFormatter } from '@bitcode/prompts';
-import { PROMPTPART_SPECIFIC_TOOL_DIGEST_TASKGUIDES_BASE_CORE } from '../../prompts/src/raw_promptparts/specific/promptpart_specific_tool_digest_taskguides_base_core';
-import { PROMPTPART_SPECIFIC_TOOL_DIGEST_TASKGUIDES_IDENTITY_CORESTATEMENT } from '../../prompts/src/raw_promptparts/specific/promptpart_specific_tool_digest_taskguides_identity_corestatement';
-import { PROMPTPART_SPECIFIC_TOOL_DIGEST_TASKGUIDES_PHASE_TITLES_DIRECTIVE_DETAILCONTENT } from '../../prompts/src/raw_promptparts/specific/promptpart_specific_tool_digest_taskguides_phase_titles_directive_detailcontent';
-import { PROMPTPART_SPECIFIC_TOOL_DIGEST_TASKGUIDES_STRUCTURE_TASK_TITLE_LABEL } from '../../prompts/src/raw_promptparts/specific/promptpart_specific_tool_digest_taskguides_structure_task_title_label';
-import { PROMPTPART_SPECIFIC_TOOL_DIGEST_TASKGUIDES_STRUCTURE_TASK_GOAL_LABEL } from '../../prompts/src/raw_promptparts/specific/promptpart_specific_tool_digest_taskguides_structure_task_goal_label';
-import { PROMPTPART_SPECIFIC_TOOL_DIGEST_TASKGUIDES_STRUCTURE_TASK_CONTEXT_LABEL } from '../../prompts/src/raw_promptparts/specific/promptpart_specific_tool_digest_taskguides_structure_task_context_label';
-import { PROMPTPART_SPECIFIC_TOOL_DIGEST_TASKGUIDES_STRUCTURE_TASK_PREREQS_LABEL } from '../../prompts/src/raw_promptparts/specific/promptpart_specific_tool_digest_taskguides_structure_task_prereqs_label';
-import { PROMPTPART_SPECIFIC_TOOL_DIGEST_TASKGUIDES_STRUCTURE_TASK_STEPS_LABEL } from '../../prompts/src/raw_promptparts/specific/promptpart_specific_tool_digest_taskguides_structure_task_steps_label';
-import { PROMPTPART_SPECIFIC_TOOL_DIGEST_TASKGUIDES_STRUCTURE_TASK_TESTING_LABEL } from '../../prompts/src/raw_promptparts/specific/promptpart_specific_tool_digest_taskguides_structure_task_testing_label';
-import { PROMPTPART_SPECIFIC_TOOL_DIGEST_TASKGUIDES_STRUCTURE_TASK_DOCS_LABEL } from '../../prompts/src/raw_promptparts/specific/promptpart_specific_tool_digest_taskguides_structure_task_docs_label';
-import { PROMPTPART_SPECIFIC_TOOL_DIGEST_TASKGUIDES_CONSTRAINTS_JSON_DETAILCONTENT } from '../../prompts/src/raw_promptparts/specific/promptpart_specific_tool_digest_taskguides_constraints_json_detailcontent';
+import { Prompt } from '@bitcode/prompts/prompt';
+import { hierarchicalFormatter } from '@bitcode/prompts/formatters';
+import { PROMPTPART_SPECIFIC_TOOL_DIGEST_TASKGUIDES_BASE_CORE } from '@bitcode/prompts/raw_promptparts/specific/promptpart_specific_tool_digest_taskguides_base_core';
+import { PROMPTPART_SPECIFIC_TOOL_DIGEST_TASKGUIDES_IDENTITY_CORESTATEMENT } from '@bitcode/prompts/raw_promptparts/specific/promptpart_specific_tool_digest_taskguides_identity_corestatement';
+import { PROMPTPART_SPECIFIC_TOOL_DIGEST_TASKGUIDES_PHASE_TITLES_DIRECTIVE_DETAILCONTENT } from '@bitcode/prompts/raw_promptparts/specific/promptpart_specific_tool_digest_taskguides_phase_titles_directive_detailcontent';
+import { PROMPTPART_SPECIFIC_TOOL_DIGEST_TASKGUIDES_STRUCTURE_TASK_TITLE_LABEL } from '@bitcode/prompts/raw_promptparts/specific/promptpart_specific_tool_digest_taskguides_structure_task_title_label';
+import { PROMPTPART_SPECIFIC_TOOL_DIGEST_TASKGUIDES_STRUCTURE_TASK_GOAL_LABEL } from '@bitcode/prompts/raw_promptparts/specific/promptpart_specific_tool_digest_taskguides_structure_task_goal_label';
+import { PROMPTPART_SPECIFIC_TOOL_DIGEST_TASKGUIDES_STRUCTURE_TASK_CONTEXT_LABEL } from '@bitcode/prompts/raw_promptparts/specific/promptpart_specific_tool_digest_taskguides_structure_task_context_label';
+import { PROMPTPART_SPECIFIC_TOOL_DIGEST_TASKGUIDES_STRUCTURE_TASK_PREREQS_LABEL } from '@bitcode/prompts/raw_promptparts/specific/promptpart_specific_tool_digest_taskguides_structure_task_prereqs_label';
+import { PROMPTPART_SPECIFIC_TOOL_DIGEST_TASKGUIDES_STRUCTURE_TASK_STEPS_LABEL } from '@bitcode/prompts/raw_promptparts/specific/promptpart_specific_tool_digest_taskguides_structure_task_steps_label';
+import { PROMPTPART_SPECIFIC_TOOL_DIGEST_TASKGUIDES_STRUCTURE_TASK_TESTING_LABEL } from '@bitcode/prompts/raw_promptparts/specific/promptpart_specific_tool_digest_taskguides_structure_task_testing_label';
+import { PROMPTPART_SPECIFIC_TOOL_DIGEST_TASKGUIDES_STRUCTURE_TASK_DOCS_LABEL } from '@bitcode/prompts/raw_promptparts/specific/promptpart_specific_tool_digest_taskguides_structure_task_docs_label';
+import { PROMPTPART_SPECIFIC_TOOL_DIGEST_TASKGUIDES_CONSTRAINTS_JSON_DETAILCONTENT } from '@bitcode/prompts/raw_promptparts/specific/promptpart_specific_tool_digest_taskguides_constraints_json_detailcontent';
 
 export const TASK_GUIDE_PROMPT = (() => {
   const p = new Prompt();

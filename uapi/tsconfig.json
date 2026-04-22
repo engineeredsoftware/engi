@@ -20,14 +20,13 @@
     "paths": {
       "@/*": ["./*"],
 
-      // Ensure deep prompt parts resolve before the generic @bitcode/* pattern
+      // Keep the public prompt contract explicit on the active app path.
+      // `@bitcode/prompts/*` covers approved subpaths such as
+      // `raw_promptparts/*` and `formatters`, but we do not retain a
+      // compatibility alias for `@bitcode/prompts/src/*`.
       "@bitcode/prompts": ["../packages/prompts/src/index.ts"],
       "@bitcode/prompts/*": ["../packages/prompts/src/*"],
       "@bitcode/prompts/raw_promptparts/*": ["../packages/prompts/src/raw_promptparts/*"],
-      "@bitcode/prompts/src/raw_promptparts/*": ["../packages/prompts/src/raw_promptparts/*"],
-      "@bitcode/prompts/src/*": ["../packages/prompts/src/*"],
-      // Keep the generic mapping after specific ones so it doesn't hijack
-      // deep imports like @bitcode/prompts/src/... and duplicate /src
       "@bitcode/*": ["../packages/*/src", "../packages/*"],
       "@bitcode/agent-generics/*": ["../packages/agent-generics/*"],
 
@@ -225,8 +224,7 @@
       "@bitcode/digest/*": ["../packages/digest/*"],
       "@bitcode/email": ["../packages/notifications/src/index.ts"],
       "@bitcode/prompts": ["../packages/prompts/src/index.ts"],
-      "@bitcode/prompts/src/*": ["../packages/prompts/src/*"],
-      "@bitcode/prompts/src/raw_promptparts/*": ["../packages/prompts/src/raw_promptparts/*"],
+      "@bitcode/prompts/*": ["../packages/prompts/src/*"],
       "@bitcode/system_prompt.txt": ["../packages/prompts/src/system_prompt.txt"],
       "@bitcode/responses": ["../packages/networking/src/responses.ts"],
       "@bitcode/sse": ["../packages/networking/src/sse.ts"],
