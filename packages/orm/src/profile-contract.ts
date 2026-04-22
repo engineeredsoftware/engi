@@ -1,8 +1,12 @@
+import type { Json } from './types/database';
+
 type UnknownRecord = Record<string, unknown>;
+type JsonRecord = { [key: string]: Json | undefined };
 
 export type BitcodeWalletBindingStatus = 'pending' | 'manual' | 'verified';
 
 export interface BitcodeWalletBinding {
+  [key: string]: Json | undefined;
   address: string | null;
   provider: string | null;
   status: BitcodeWalletBindingStatus | null;
@@ -17,7 +21,7 @@ export interface BitcodeWalletCapability {
 
 export interface BitcodeProfileSettings {
   companyName: string | null;
-  teamMembers: unknown[];
+  teamMembers: Json[];
   email: string | null;
   isVerified: boolean | null;
   walletBinding: BitcodeWalletBinding | null;
@@ -25,7 +29,7 @@ export interface BitcodeProfileSettings {
 
 export interface HydratedBitcodeProfileFields {
   company_name: string | null;
-  team_members: unknown[];
+  team_members: Json[];
   email: string | null;
   is_verified: boolean | null;
   wallet_address: string | null;
@@ -56,8 +60,8 @@ function normalizeBoolean(value: unknown): boolean | null {
   return typeof value === 'boolean' ? value : null;
 }
 
-function normalizeTeamMembers(value: unknown): unknown[] {
-  return Array.isArray(value) ? value : [];
+function normalizeTeamMembers(value: unknown): Json[] {
+  return Array.isArray(value) ? (value as Json[]) : [];
 }
 
 function normalizeWalletBinding(
@@ -136,7 +140,7 @@ export function readBitcodeProfileSettings(settings: unknown): BitcodeProfileSet
 export function mergeBitcodeProfileSettings(
   existingSettings: unknown,
   patch: Partial<BitcodeProfileSettings>,
-): UnknownRecord {
+): JsonRecord {
   const existingRecord = asRecord(existingSettings) ?? {};
   const existing = readBitcodeProfileSettings(existingSettings);
   const nextWalletBinding =

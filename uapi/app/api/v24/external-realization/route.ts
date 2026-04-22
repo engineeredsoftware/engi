@@ -4,9 +4,14 @@ import { getBitcodeAppContext, toBitcodeErrorResponse } from '@/lib/bitcode-app-
 
 export const runtime = 'nodejs';
 
-export async function GET() {
+export async function GET(request: Request) {
   try {
-    return NextResponse.json(getBitcodeAppContext().getExternalRealization());
+    const url = new URL(request.url);
+    return NextResponse.json(
+      getBitcodeAppContext().getExternalRealization({
+        environmentMode: url.searchParams.get('environmentMode'),
+      }),
+    );
   } catch (error) {
     return toBitcodeErrorResponse(error);
   }

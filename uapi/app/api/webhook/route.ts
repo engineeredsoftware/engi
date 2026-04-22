@@ -1,3 +1,8 @@
+/**
+ * Retained external automation ingress for V26 fifth-gate reform.
+ * This route can trigger admitted pipeline automation from GitHub events, but
+ * it is not the canonical Bitcode Exchange state owner.
+ */
 import 'server-only';
 
 import { exec } from 'child_process';

@@ -589,9 +589,10 @@ export function createAppContext({
   }
 
   /**
+   * @param {{ environmentMode?: string | null | undefined }} [input]
    * @returns {{ ok: true, specVersion: string, externalRealization: unknown, activeRuntime: unknown }}
    */
-  function getExternalRealization() {
+  function getExternalRealization(input = {}) {
     const state = readState();
     const externalRealization = buildV24ExternalRealizationDescriptor({
       githubAppSessions: state.githubAppSessions
@@ -600,7 +601,7 @@ export function createAppContext({
       ok: true,
       specVersion: SPEC_VERSION,
       externalRealization,
-      activeRuntime: resolveV24ActiveExternalRuntime(externalRealization)
+      activeRuntime: resolveV24ActiveExternalRuntime(externalRealization, input)
     };
   }
 
@@ -656,8 +657,15 @@ export function createAppContext({
         return sendJson(res, 200, getBitcoinDemonstrationService());
       }
 
-      if (req.method === 'GET' && req.url === '/api/v24/external-realization') {
-        return sendJson(res, 200, getExternalRealization());
+      if (req.method === 'GET' && req.url?.startsWith('/api/v24/external-realization')) {
+        const url = new URL(req.url, 'http://127.0.0.1');
+        return sendJson(
+          res,
+          200,
+          getExternalRealization({
+            environmentMode: url.searchParams.get('environmentMode'),
+          }),
+        );
       }
 
       if (req.method === 'POST' && req.url?.startsWith('/api/v24/executors/')) {

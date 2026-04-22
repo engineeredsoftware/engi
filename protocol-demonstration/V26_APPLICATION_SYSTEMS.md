@@ -12,7 +12,31 @@
 This file is not canonical system truth.
 Canonical V26 truth lives only in the active `BITCODE_SPEC_V26*` family.
 This document exists to keep the repository’s modular architecture legible while the V26 productionizing pass lands.
-V26 is promoted through fourth gate, with fifth-gate rename/proof closure, sixth-gate old-world system reform, and seventh-gate whole-repository provation still active.
+V26 is promoted through fourth gate, with fifth-gate minimum-functional Exchange/Terminal closure plus broad old-world reform baseline still active, followed by sixth-gate MVP elevation, seventh-gate commercial testnet refinement, and eighth-gate whole-repository provation.
+
+## Retained old-world reform baseline
+
+Fifth-gate does not permit silent old-world survival on the live Bitcode path.
+Every retained pre-Bitcode family must already be one of the following:
+- `ingress-only`
+  External entry or trigger carriers that can feed Bitcode-owned systems but do not own Exchange state.
+- `compatibility-only`
+  Narrow exports or aliases kept only to avoid breaking admitted callers while the live Bitcode path converges.
+- `reference-only`
+  Retained automation/tooling families that may still support bring-up or historical orchestration, but are not the primary Bitcode product model.
+- `auxiliary-input`
+  Admitted external-context providers that can enrich Bitcode work without becoming Bitcode’s state authority.
+
+Current fifth-gate retained-system classification:
+
+| Retained family | Classification | Fifth-gate boundary |
+| --- | --- | --- |
+| `uapi/app/api/webhook/{route,verify}.ts` | `ingress-only` | GitHub-triggered automation ingress that may schedule work but does not own Bitcode Exchange reads/writes |
+| `packages/pipelines/deliverable/src/run.ts` | `compatibility-only` | legacy path export preserved for admitted callers while canonical Bitcode behavior stays elsewhere |
+| `packages/generic-agents/vcs/src/index.ts` | `reference-only` | VCS automation helper for retained agentic/pipeline callers, not the Bitcode Terminal repository-state owner |
+| `packages/generic-tools/use-computer/src/index.ts` | `reference-only` | shell execution primitive for admitted tooling paths, not Bitcode product state |
+| `packages/generic-tools/mcps-tools/jira/src/index.ts` | `reference-only` | Jira integration ingress/reference layer, not Exchange-state ownership |
+| `packages/web-search/src/index.ts` | `auxiliary-input` | external search context provider that may enrich admitted interfaces without becoming Bitcode’s source of truth |
 
 ## Primary application architecture
 

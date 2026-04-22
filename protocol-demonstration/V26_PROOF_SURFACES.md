@@ -161,13 +161,15 @@ Required coverage posture:
   fifth-gate active-product naming witnesses now also cover preserved-protocol runtime posture carriers such as `protocol-demonstration/{src/bitcode-demo.js,src/canon-posture.js,test/e2e.test.js}`, so active runtime branch namespaces, operator wait states, and canon/spec-family posture remain Bitcode-only and do not silently regress to `engi/remediation-*` or an `ENGI_SPEC` fallback in live runtime and interface proof
   fifth-gate active-product naming witnesses now also cover the canonical auxillary-onboarding contract and reserved need-measurement teaching layer such as `uapi/app/{application/application-run-data.ts,api/auxillaries/onboarding/route.ts,api/auxillaries/notifications/_shared.ts}`, `uapi/hooks/useConversationStream.ts`, `uapi/mocking/middleware/MockMiddleware.ts`, `uapi/tests/{orbitalsOnboardingRoute,applicationTransactions}.test.ts`, and `internal-docs/{USER-ONBOARDING-AND-SETTINGS,TPS,FRONTEND-ARCHITECTURE,DB,API,EXECUTIONS,EXECUTABLE-PIPELINES,STYLE}.md`, so active Bitcode proof also guards the canonical pane payloads, unauthorized onboarding response shape, and need-measurement placeholder posture instead of leaving stale step-only or Measure wording behind in code/docs/tests
 
-### Gate 5: Bitcode rename completion, proof precision, and system completeness
+### Gate 5: minimum-functional Bitcode Exchange, Bitcode Terminal, and broad old-world reform baseline
 
 Required system families:
+- minimum-functional Exchange/Terminal read-write closure
 - environment/debug coherence
 - production/staging/development mode completeness
 - migration/schema/type/API closure for retained storage systems
 - retained-package admissibility proof
+- retained old-world kept/cut/isolated reform baseline
 - active-source product naming retirement
 - fifth-gate closure witnesses for retained app/package/runtime carriers
 - proof-bearing closure for newly admitted application, API, MCP, prompt, ChatGPT-app, and retained package systems at the same standard as the earlier proved Bitcode core
@@ -180,29 +182,41 @@ Required coverage posture:
 - proof surface:
   generated V26 proof appendix and reports become fifth-gate blockers
 
-### Gate 6: old-world system reform into Bitcode market infrastructure
+### Gate 6: minimal viable product elevation
 
 Required system families:
-- retained old-world system admissibility and cut decisions
-- need-measuring agency reform for retained execution/tool/agent carriers
-- webhook and web-search role adjudication
-- compatibility-carrier retirement where reform does not justify survival
-- explicit post-cut-over Bitcode application map:
+- explicit post-fifth-gate Bitcode application map:
   - `activity`
   - `transactions`
   - `conversations`
   - `auxillaries`
+- MVP quality/reread/operator-stability elevation across Exchange, Terminal, Protocol, Proofs, API, MCP, and admitted app surfaces
 - ChatGPT-style parity expectations for the in-app conversations surface and the retained ChatGPT app surface
 
 Required coverage posture:
 - spec:
-  retained old-world systems have explicit Bitcode roles or cut decisions
+  MVP elevation obligations are explicit
 - tests:
-  reformed systems are still exercised where admitted, cut systems are not silently required by active carriers, and the post-cut-over application map is covered as explicit Bitcode product truth rather than residual route glue
+  MVP product paths are exercised as one coherent Bitcode product rather than a minimum-functional bring-up baseline
 - proof surface:
-  later-gate reform artifacts explicitly name what was kept, cut, or isolated
+  later-gate MVP artifacts explicitly name what was elevated beyond fifth-gate minimum functionality
 
-### Gate 7: whole-repository provation and final V26 closure
+### Gate 7: initial commercially-viable testnet live-launch refinement
+
+Required system families:
+- commercially-credible operator and launch posture on testnet
+- Exchange/Terminal/Protocol/Proof/API/MCP/app alignment as one launch-ready product story
+- live-launch quality refinement beyond MVP sufficiency
+
+Required coverage posture:
+- spec:
+  commercial testnet refinement obligations are explicit
+- tests:
+  launch-critical operator and interface paths are exercised as one product story
+- proof surface:
+  later-gate launch artifacts explicitly name what was refined beyond MVP quality
+
+### Gate 8: whole-repository provation and final V26 closure
 
 Required system families:
 - whole-repository production satisfaction

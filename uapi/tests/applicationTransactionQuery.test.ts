@@ -1,9 +1,13 @@
 import {
+  readApplicationDebugEnabled,
+  readApplicationEnvironmentMode,
   readApplicationTransactionDetailSection,
   readApplicationTransactionFilters,
   readApplicationTransactionId,
   readApplicationTransactionPagination,
   resetApplicationTransactionFilters,
+  writeApplicationDebugEnabled,
+  writeApplicationEnvironmentMode,
   writeApplicationTransactionDetailSection,
   writeApplicationTransactionFilters,
   writeApplicationTransactionId,
@@ -15,6 +19,28 @@ describe('application-transaction-query', () => {
     expect(readApplicationTransactionId(new URLSearchParams('transactionId=tx-123'))).toBe('tx-123');
     expect(readApplicationTransactionId(new URLSearchParams('runId=legacy-run'))).toBe('legacy-run');
     expect(readApplicationTransactionId(new URLSearchParams(''))).toBeNull();
+  });
+
+  it('reads and writes environment-mode and debug route state', () => {
+    expect(readApplicationEnvironmentMode(new URLSearchParams('environmentMode=staging'))).toBe('staging');
+    expect(readApplicationEnvironmentMode(new URLSearchParams('environmentMode=invalid'))).toBeNull();
+    expect(readApplicationDebugEnabled(new URLSearchParams('bitcodeDebug=1'))).toBe(true);
+    expect(readApplicationDebugEnabled(new URLSearchParams(''))).toBe(false);
+
+    const nextParams = writeApplicationEnvironmentMode(
+      new URLSearchParams('transactionId=tx-123'),
+      'development',
+    );
+    expect(nextParams.get('environmentMode')).toBe('development');
+
+    const clearedMode = writeApplicationEnvironmentMode(nextParams, null);
+    expect(clearedMode.get('environmentMode')).toBeNull();
+
+    const debugParams = writeApplicationDebugEnabled(new URLSearchParams('transactionId=tx-123'), true);
+    expect(debugParams.get('bitcodeDebug')).toBe('1');
+
+    const clearedDebug = writeApplicationDebugEnabled(debugParams, false);
+    expect(clearedDebug.get('bitcodeDebug')).toBeNull();
   });
 
   it('reads transaction filters from route query params', () => {

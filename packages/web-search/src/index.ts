@@ -1,3 +1,8 @@
+/**
+ * Retained auxiliary-input search primitive for V26 fifth-gate reform.
+ * This package may source search context into admitted Bitcode interfaces,
+ * but it does not own Bitcode Exchange state, settlement, or Terminal truth.
+ */
 // Polyfill fetch for the OpenAI library in non-browser test environments.
 import 'openai/shims/node';
 

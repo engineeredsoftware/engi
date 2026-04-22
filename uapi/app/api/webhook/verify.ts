@@ -1,3 +1,8 @@
+/**
+ * Signature helper for the retained webhook ingress boundary.
+ * Verification here protects external automation ingress only and does not own
+ * Bitcode Exchange state semantics.
+ */
 import crypto from 'crypto';
 
 interface VerifyGitHubSignatureArgs {

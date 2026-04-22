@@ -1,5 +1,6 @@
 'use client';
 
+import React from 'react';
 import { useMemo, useState } from 'react';
 
 import BitcodeInlineExplainer from '@/components/base/bitcode/execution/BitcodeInlineExplainer';
@@ -70,8 +71,9 @@ export default function ApplicationClosureControlDeck({
   };
 
   const state = normalizeApplicationClosureControlState(commandState, closureState);
+  const settlementReady = transactionReadiness.canSettle;
   const handlePrimaryClosureAction = async () => {
-    if (!transactionReadiness.canTransact) {
+    if (!settlementReady) {
       setActionError(transactionReadiness.summary);
       return;
     }
@@ -185,7 +187,7 @@ export default function ApplicationClosureControlDeck({
           <div className="mt-5 grid gap-3 lg:grid-cols-3">
             <button
               type="button"
-              disabled={isActing || !state.shellReady || !transactionReadiness.canTransact}
+              disabled={isActing || !state.shellReady || !settlementReady}
               onClick={() => {
                 void handlePrimaryClosureAction();
               }}

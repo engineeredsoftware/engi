@@ -1,5 +1,8 @@
 #!/usr/bin/env node
 
+import { readFileSync } from 'node:fs';
+import path from 'node:path';
+
 import { buildV21SpecFamilyReport } from '../protocol-demonstration/src/canonical/v21-specifying.js';
 
 function projectLabel(version) {
@@ -35,10 +38,10 @@ function parseArgs(argv) {
 function printHelp() {
   process.stdout.write(
     [
-      'Usage: node scripts/check-bitcode-spec-family.mjs --version V21 [options]',
+      'Usage: node scripts/check-bitcode-spec-family.mjs [options]',
       '',
       'Options:',
-      '  --version <VN>          Version to validate. Supported: V21+, V20_PROPER.',
+      '  --version <VN>          Version to validate. Defaults to BITCODE_SPEC.txt. Supported: V21+, V20_PROPER.',
       '  --mode <draft|promoted> Validation mode. Defaults to draft.',
       '  --current-target <VN>   Expected `Current canonical/latest target` line. Defaults to BITCODE_SPEC.txt in draft mode and the version in promoted mode.',
       '  --repo-root <path>      Override repo root for fixture testing.',
@@ -55,7 +58,8 @@ function main() {
     return;
   }
 
-  const version = args.version || '';
+  const resolvedRepoRoot = path.resolve(args.repoRoot || process.cwd());
+  const version = args.version || readFileSync(path.join(resolvedRepoRoot, 'BITCODE_SPEC.txt'), 'utf8').trim();
   const mode = args.mode || 'draft';
   if (!['draft', 'promoted'].includes(mode)) {
     throw new Error(`Unsupported mode ${mode}. Expected draft or promoted.`);

@@ -92,7 +92,7 @@ const V26_SECOND_GATE_APPLICATION_FILES = [
 ];
 const V26_SECOND_GATE_PROOF_FILES = [
   'protocol-demonstration/test/v26-public-copy.test.js',
-  'uapi/tests/orbitalsProvider.test.tsx',
+  'uapi/tests/auxillariesProvider.test.tsx',
   'uapi/tests/orbitalsInterfacesPane.test.tsx',
   'uapi/tests/orbitalsBTDPane.test.tsx',
   'uapi/tests/navWorkspaceChrome.test.tsx',
@@ -713,6 +713,7 @@ function buildV26GateCheckpointReport({
   const fifthGatePassed = false;
   const sixthGatePrepared = false;
   const seventhGatePrepared = false;
+  const eighthGatePrepared = false;
 
   return {
     reportId: 'v26-gate-checkpoint-report',
@@ -723,9 +724,9 @@ function buildV26GateCheckpointReport({
     worktreeState: baseData.worktreeState,
     activeCanonicalTarget: ACTIVE_CANON_VERSION,
     draftPreview,
-    checkpointId: 'v26-through-fourth-gate-promotion-boundary-on-seven-gate-v26',
-    checkpointFocus: 'through-fourth-gate-promotion-boundary-on-seven-gate-v26',
-    nextGate: 'Gate 5: Bitcode rename completion, proof precision, and system completeness',
+    checkpointId: 'v26-through-fourth-gate-promotion-boundary-on-eight-gate-v26',
+    checkpointFocus: 'through-fourth-gate-promotion-boundary-on-eight-gate-v26',
+    nextGate: 'Gate 5: minimum-functional Bitcode Exchange, Bitcode Terminal, and broad old-world reform baseline',
     passed: firstGatePassed && secondGatePassed && thirdGatePassed && fourthGatePassed,
     firstGate: {
       gateId: 'gate-1',
@@ -759,24 +760,31 @@ function buildV26GateCheckpointReport({
     },
     fifthGate: {
       gateId: 'gate-5',
-      label: 'Bitcode rename completion, proof precision, and system completeness',
+      label: 'Minimum-functional Bitcode Exchange, Bitcode Terminal, and total old-world reform baseline',
       passed: fifthGatePassed,
       open: true,
-      detail: 'Fifth-gate remains open after through-fourth-gate promotion and owns active-source Bitcode rename completion plus heavier proof/system-completeness closure.'
+      detail: 'Fifth-gate remains open after through-fourth-gate promotion and owns minimum-functional Bitcode Exchange and Terminal closure plus the broad old-world reform baseline required to make the kept repository read as Bitcode-native.'
     },
     sixthGate: {
       gateId: 'gate-6',
-      label: 'Old-world system reform into Bitcode market infrastructure',
+      label: 'Minimal viable product elevation',
       prepared: sixthGatePrepared,
       open: true,
-      detail: 'Sixth-gate remains open and will adjudicate retained old-world pure-agentic systems into Bitcode roles or cut decisions.'
+      detail: 'Sixth-gate remains open and will elevate the fifth-gate baseline into a coherent minimal viable product across Exchange, Terminal, Protocol, Proofs, and admitted interfaces.'
     },
     seventhGate: {
       gateId: 'gate-7',
-      label: 'Whole-repository provation and final V26 closure',
+      label: 'Initial commercially-viable testnet live-launch refinement',
       prepared: seventhGatePrepared,
       open: true,
-      detail: 'Seventh-gate remains open and owns final whole-repository Bitcode provation and closure.'
+      detail: 'Seventh-gate remains open and will refine the minimal viable Bitcode product into an initial commercially-viable testnet launch posture.'
+    },
+    eighthGate: {
+      gateId: 'gate-8',
+      label: 'Whole-repository provation and final V26 closure',
+      prepared: eighthGatePrepared,
+      open: true,
+      detail: 'Eighth-gate remains open and owns final whole-repository Bitcode provation, prompt-space closure, and the definition-of-done for V26 productization.'
     }
   };
 }
@@ -814,6 +822,111 @@ function buildV26PersistenceSchemaTotalityProof({
       '/api/edgetimes'
     ],
     unresolvedTables: V26_FOURTH_GATE_UNRESOLVED_TABLES,
+    checks
+  };
+}
+
+/**
+ * @param {{
+ *   generatedAt: string,
+ *   baseData: any
+ * }} input
+ */
+function buildV26ApplicationCompositionProof({
+  generatedAt,
+  baseData
+}) {
+  const checks = [
+    buildV26FilePresenceCheck(
+      'application-route-and-shell-owners',
+      'Application route, shell bridge, and native surface owners remain explicit',
+      [
+        'uapi/app/application/page.tsx',
+        'uapi/app/application/ApplicationPageClient.tsx',
+        'uapi/app/application/application-shell-bridge.tsx',
+        'uapi/app/application/ApplicationExperienceFrame.tsx',
+        'uapi/app/application/ApplicationTransactionWorkspace.tsx',
+        'uapi/app/application/ApplicationWorkspaceRail.tsx',
+        'uapi/app/application/ApplicationPreservedShellSurface.tsx',
+        'protocol-demonstration/public/app.js',
+        'protocol-demonstration/src/client-entry.js'
+      ]
+    ),
+    buildV26FilePresenceCheck(
+      'application-route-state-and-debug-owners',
+      'Route query state, environment controls, and floating debug-widget owners remain explicit',
+      [
+        'uapi/app/application/application-transaction-query.ts',
+        'uapi/app/application/ApplicationExternalInterfacingPanel.tsx',
+        'uapi/app/application/ApplicationFloatingDebugWidget.tsx',
+        'uapi/tests/applicationTransactionQuery.test.ts',
+        'uapi/tests/applicationExternalInterfacingPanel.test.tsx',
+        'uapi/tests/applicationFloatingDebugWidget.test.tsx'
+      ]
+    )
+  ];
+  const passed = checks.every((check) => check.passed === true);
+
+  return {
+    reportId: 'v26-application-composition-proof',
+    version: 'V26',
+    proofSourceCommit: baseData.canonicalCommit,
+    generatedAt,
+    generatorId: baseData.generatorId,
+    worktreeState: baseData.worktreeState,
+    passed,
+    routeWitnesses: [
+      '/application'
+    ],
+    checks
+  };
+}
+
+/**
+ * @param {{
+ *   generatedAt: string,
+ *   baseData: any
+ * }} input
+ */
+function buildV26EnvironmentModeCoherenceProof({
+  generatedAt,
+  baseData
+}) {
+  const checks = [
+    buildV26FilePresenceCheck(
+      'environment-runtime-resolution',
+      'Protocol runtime and external-realization resolution remain explicit',
+      [
+        'protocol-demonstration/src/canonical/v24-external-realization.js',
+        'protocol-demonstration/server.js',
+        'uapi/app/api/v24/external-realization/route.ts'
+      ]
+    ),
+    buildV26FilePresenceCheck(
+      'environment-application-controls-and-tests',
+      'Application environment controls and route-local proof carriers remain explicit',
+      [
+        'uapi/app/application/application-external-runtime.ts',
+        'uapi/app/application/ApplicationExternalInterfacingPanel.tsx',
+        'uapi/app/application/ApplicationFloatingDebugWidget.tsx',
+        'uapi/tests/api/externalRealizationRoute.test.ts',
+        'uapi/tests/applicationExternalRuntime.test.ts',
+        'uapi/tests/applicationExternalInterfacingPanel.test.tsx',
+        'uapi/tests/applicationFloatingDebugWidget.test.tsx'
+      ]
+    )
+  ];
+  const passed = checks.every((check) => check.passed === true);
+
+  return {
+    reportId: 'v26-environment-mode-coherence-proof',
+    version: 'V26',
+    proofSourceCommit: baseData.canonicalCommit,
+    generatedAt,
+    generatorId: baseData.generatorId,
+    worktreeState: baseData.worktreeState,
+    passed,
+    supportedModes: ['mock', 'development', 'staging', 'production'],
     checks
   };
 }
@@ -915,6 +1028,43 @@ function buildV26PromptSystemTotalityProof({
       '@bitcode/execution-generics',
       '@bitcode/conversations-generics'
     ],
+    checks
+  };
+}
+
+/**
+ * @param {{
+ *   generatedAt: string,
+ *   baseData: any
+ * }} input
+ */
+function buildV26PromptSpaceCompletenessProof({
+  generatedAt,
+  baseData
+}) {
+  const checks = [
+    buildV26FilePresenceCheck(
+      'prompt-space-witness-family',
+      'Prompt-space witness files remain explicit while later-gate completeness stays open',
+      [
+        'packages/prompts/src/index.ts',
+        'packages/prompts/src/prompt.ts',
+        'packages/prompts/src/parts/PromptPart.ts',
+        'uapi/prompts/conversations-system-prompt.ts',
+        'protocol-demonstration/src/canonical/type-contracts.ts'
+      ]
+    )
+  ];
+
+  return {
+    reportId: 'v26-prompt-space-completeness-proof',
+    version: 'V26',
+    proofSourceCommit: baseData.canonicalCommit,
+    generatedAt,
+    generatorId: baseData.generatorId,
+    worktreeState: baseData.worktreeState,
+    passed: false,
+    openReason: 'Prompt-space completeness remains an eighth-gate closure proof even while the witness family is generated now.',
     checks
   };
 }
@@ -1102,6 +1252,208 @@ function buildV26RunsPipelinesTotalityProof({
       '/api/templates/deliverables'
     ],
     requiredFiles: V26_FOURTH_GATE_RUNS_PIPELINES_FILES,
+    checks
+  };
+}
+
+const V26_SYSTEM_REFORM_DECISIONS = [
+  {
+    checkId: 'system-reform-governance-witnesses',
+    label: 'System-reform governance remains explicit in the active V26 family',
+    reformClass: 'governance',
+    livePathRole: 'The canonical spec family and supplementary architecture/proof docs classify retained old-world families rather than leaving them implicit.',
+    requiredFiles: [
+      'BITCODE_SPEC_V26.md',
+      'BITCODE_SPEC_V26_PARITY_MATRIX.md',
+      'BITCODE_SPEC_V26_NOTES.md',
+      'protocol-demonstration/V26_APPLICATION_SYSTEMS.md',
+      'protocol-demonstration/V26_PROOF_SURFACES.md'
+    ]
+  },
+  {
+    checkId: 'webhook-ingress-boundary',
+    label: 'Retained webhook carriers are explicit ingress-only automation boundaries',
+    reformClass: 'ingress-only',
+    livePathRole: 'GitHub-triggered automation ingress may schedule work, but it does not own Bitcode Exchange state semantics.',
+    requiredFiles: [
+      'uapi/app/api/webhook/route.ts',
+      'uapi/app/api/webhook/verify.ts',
+      'uapi/tests/api/webhookSignature.test.ts'
+    ]
+  },
+  {
+    checkId: 'deliverable-compatibility-export-boundary',
+    label: 'Deliverable pipeline run export remains explicit compatibility-only carry-through',
+    reformClass: 'compatibility-only',
+    livePathRole: 'Legacy path exports stay available for admitted callers while canonical Bitcode behavior remains elsewhere.',
+    requiredFiles: [
+      'packages/pipelines/deliverable/src/run.ts',
+      'packages/pipelines/deliverable/src/index.ts'
+    ]
+  },
+  {
+    checkId: 'vcs-agent-reference-boundary',
+    label: 'Retained VCS agent layer remains explicit reference-only automation',
+    reformClass: 'reference-only',
+    livePathRole: 'The VCS agent layer can support retained callers, but repository scope in the Bitcode product belongs to Connects and application-owned panels.',
+    requiredFiles: [
+      'packages/generic-agents/vcs/src/index.ts',
+      'uapi/app/application/ApplicationRepositoryContextPanel.tsx',
+      'uapi/app/auxillaries/components/AuxillariesConnectsPane.tsx'
+    ]
+  },
+  {
+    checkId: 'use-computer-reference-boundary',
+    label: 'Retained shell-execution tooling remains explicit reference-only automation',
+    reformClass: 'reference-only',
+    livePathRole: 'Shell execution may support admitted tooling paths, but it is not a Bitcode state owner.',
+    requiredFiles: [
+      'packages/generic-tools/use-computer/src/index.ts',
+      'packages/pipelines/deliverable/src/tools/DeliverablePipelineUseComputerTool.ts'
+    ]
+  },
+  {
+    checkId: 'jira-tool-reference-boundary',
+    label: 'Retained Jira tooling remains explicit reference-only ingress/integration support',
+    reformClass: 'reference-only',
+    livePathRole: 'Jira tooling can contribute admitted integration context without becoming Bitcode Exchange ownership.',
+    requiredFiles: [
+      'packages/generic-tools/mcps-tools/jira/src/index.ts',
+      'packages/jira/src/index.ts'
+    ]
+  },
+  {
+    checkId: 'web-search-auxiliary-input-boundary',
+    label: 'Retained search carriers remain explicit auxiliary-input providers',
+    reformClass: 'auxiliary-input',
+    livePathRole: 'External search/research context may enrich admitted interfaces without becoming Bitcode Terminal or Exchange truth.',
+    requiredFiles: [
+      'packages/web-search/src/index.ts',
+      'packages/chatgptapp/src/tools.ts',
+      'protocol-demonstration/test/v26-active-product-naming.test.js'
+    ]
+  }
+];
+
+/**
+ * @param {{
+ *   generatedAt: string,
+ *   baseData: any
+ * }} input
+ */
+function buildV26SystemReformAdmissibilityProof({
+  generatedAt,
+  baseData
+}) {
+  const checks = V26_SYSTEM_REFORM_DECISIONS.map((decision) => {
+    const check = buildV26FilePresenceCheck(
+      decision.checkId,
+      decision.label,
+      decision.requiredFiles
+    );
+
+    return {
+      ...check,
+      reformClass: decision.reformClass,
+      livePathRole: decision.livePathRole
+    };
+  });
+  const passed = checks.every((check) => check.passed === true);
+  const classificationCounts = V26_SYSTEM_REFORM_DECISIONS.reduce((counts, decision) => {
+    counts[decision.reformClass] = (counts[decision.reformClass] || 0) + 1;
+    return counts;
+  }, {});
+
+  return {
+    reportId: 'v26-system-reform-admissibility-proof',
+    version: 'V26',
+    proofSourceCommit: baseData.canonicalCommit,
+    generatedAt,
+    generatorId: baseData.generatorId,
+    worktreeState: baseData.worktreeState,
+    passed,
+    classificationCounts,
+    reformClasses: Object.keys(classificationCounts),
+    closureBasis: 'Retained old-world families are admissible for fifth-gate only when their live-path role is explicitly classified as governance, ingress-only, compatibility-only, reference-only, or auxiliary-input rather than surviving as parallel product ownership.',
+    checks
+  };
+}
+
+/**
+ * @param {{
+ *   generatedAt: string,
+ *   baseData: any
+ * }} input
+ */
+function buildV26WholeRepositoryProductionSatisfactionProof({
+  generatedAt,
+  baseData
+}) {
+  const checks = [
+    buildV26FilePresenceCheck(
+      'whole-repository-closure-witnesses',
+      'Canonical spec family, generated proofs, and active route/package witnesses remain explicit for later full-repository provation',
+      [
+        'BITCODE_SPEC_V26.md',
+        'BITCODE_SPEC_V26_DELTA.md',
+        'BITCODE_SPEC_V26_PARITY_MATRIX.md',
+        'BITCODE_SPEC_V26_NOTES.md',
+        'protocol-demonstration/V26_PROOF_SURFACES.md',
+        'uapi/app/application/ApplicationPageClient.tsx',
+        'uapi/app/conversations/ConversationsRouteClient.tsx',
+        'packages/api/src/routes/conversations.ts'
+      ]
+    )
+  ];
+
+  return {
+    reportId: 'v26-whole-repository-production-satisfaction-proof',
+    version: 'V26',
+    proofSourceCommit: baseData.canonicalCommit,
+    generatedAt,
+    generatorId: baseData.generatorId,
+    worktreeState: baseData.worktreeState,
+    passed: false,
+    openReason: 'Whole-repository production satisfaction remains an eighth-gate closure proof after fifth-gate and later product-elevation gates complete.',
+    checks
+  };
+}
+
+/**
+ * @param {{
+ *   generatedAt: string,
+ *   baseData: any
+ * }} input
+ */
+function buildV26TotalClosureProof({
+  generatedAt,
+  baseData
+}) {
+  const checks = [
+    buildV26FilePresenceCheck(
+      'v26-total-closure-family',
+      'The V26 spec family, proof family, and active promoted route witnesses remain explicit for final closure',
+      [
+        'BITCODE_SPEC_V26.md',
+        'BITCODE_SPEC_V26_DELTA.md',
+        'BITCODE_SPEC_V26_PARITY_MATRIX.md',
+        'BITCODE_SPEC_V26_NOTES.md',
+        'BITCODE_SPEC_V26_PROVEN.md',
+        'uapi/app/application/ApplicationPageClient.tsx',
+        'protocol-demonstration/src/canonical/proven-generator.js'
+      ]
+    )
+  ];
+
+  return {
+    reportId: 'v26-total-closure-proof',
+    version: 'V26',
+    proofSourceCommit: baseData.canonicalCommit,
+    generatedAt,
+    generatorId: baseData.generatorId,
+    worktreeState: baseData.worktreeState,
+    passed: false,
+    openReason: 'V26 total closure remains an eighth-gate proof until the kept repository is fully proven as one Bitcode system.',
     checks
   };
 }
@@ -2375,6 +2727,7 @@ export function renderCanonicalProvenMarkdown(data) {
     lines.push(`- fifthGateClosurePassed: ${markdownCode(String(v26.fifthGateClosurePassed === true))}`);
     lines.push(`- sixthGateClosurePassed: ${markdownCode(String(v26.sixthGateClosurePassed === true))}`);
     lines.push(`- seventhGateClosurePassed: ${markdownCode(String(v26.seventhGateClosurePassed === true))}`);
+    lines.push(`- eighthGateClosurePassed: ${markdownCode(String(v26.eighthGateClosurePassed === true))}`);
     lines.push(`- operatorSurfaceTarget: ${markdownCode(v26.operatorSurfaceTarget)}`);
     lines.push('');
     lines.push('### V26 Generated Artifact Inventory');
@@ -2436,7 +2789,8 @@ export function renderCanonicalProvenMarkdown(data) {
     lines.push(`- fifthGatePassed: ${markdownCode(String(v26.gateCheckpointReport.fifthGate.passed === true))}`);
     lines.push(`- sixthGatePrepared: ${markdownCode(String(v26.gateCheckpointReport.sixthGate.prepared === true))}`);
     lines.push(`- seventhGatePrepared: ${markdownCode(String(v26.gateCheckpointReport.seventhGate.prepared === true))}`);
-    lines.push(`- subsequentGatesOpen: ${markdownCode(String(v26.gateCheckpointReport.fifthGate.open === true && v26.gateCheckpointReport.sixthGate.open === true && v26.gateCheckpointReport.seventhGate.open === true))}`);
+    lines.push(`- eighthGatePrepared: ${markdownCode(String(v26.gateCheckpointReport.eighthGate.prepared === true))}`);
+    lines.push(`- subsequentGatesOpen: ${markdownCode(String(v26.gateCheckpointReport.fifthGate.open === true && v26.gateCheckpointReport.sixthGate.open === true && v26.gateCheckpointReport.seventhGate.open === true && v26.gateCheckpointReport.eighthGate.open === true))}`);
     lines.push('');
     lines.push(renderMarkdownTable(
       ['gate', 'checkId', 'passed', 'detail'],
@@ -3366,6 +3720,8 @@ function buildV26ProvenPackage(baseData, {
           skipPointerCheck: true,
           assumeExistingRelativePaths: [
             'BITCODE_SPEC_V26_PROVEN.md',
+            '.bitcode/application-composition-proof.json',
+            '.bitcode/environment-mode-coherence-proof.json',
             '.bitcode/v26-spec-family-report.json',
             '.bitcode/v26-canonical-input-report.json',
             '.bitcode/v26-gate-checkpoint-report.json',
@@ -3373,12 +3729,24 @@ function buildV26ProvenPackage(baseData, {
             '.bitcode/runs-pipelines-totality-proof.json',
             '.bitcode/persistence-schema-totality-proof.json',
             '.bitcode/prompt-system-totality-proof.json',
-            '.bitcode/retained-package-admissibility-proof.json'
+            '.bitcode/prompt-space-completeness-proof.json',
+            '.bitcode/retained-package-admissibility-proof.json',
+            '.bitcode/system-reform-admissibility-proof.json',
+            '.bitcode/whole-repository-production-satisfaction-proof.json',
+            '.bitcode/v26-total-closure-proof.json'
           ]
         }
       : {})
   });
+  const applicationCompositionProof = buildV26ApplicationCompositionProof({
+    generatedAt,
+    baseData
+  });
   const conversationsContinuityProof = buildV26ConversationsContinuityProof({
+    generatedAt,
+    baseData
+  });
+  const environmentModeCoherenceProof = buildV26EnvironmentModeCoherenceProof({
     generatedAt,
     baseData
   });
@@ -3394,7 +3762,23 @@ function buildV26ProvenPackage(baseData, {
     generatedAt,
     baseData
   });
+  const promptSpaceCompletenessProof = buildV26PromptSpaceCompletenessProof({
+    generatedAt,
+    baseData
+  });
   const retainedPackageAdmissibilityProof = buildV26RetainedPackageAdmissibilityProof({
+    generatedAt,
+    baseData
+  });
+  const systemReformAdmissibilityProof = buildV26SystemReformAdmissibilityProof({
+    generatedAt,
+    baseData
+  });
+  const wholeRepositoryProductionSatisfactionProof = buildV26WholeRepositoryProductionSatisfactionProof({
+    generatedAt,
+    baseData
+  });
+  const v26TotalClosureProof = buildV26TotalClosureProof({
     generatedAt,
     baseData
   });
@@ -3422,12 +3806,18 @@ function buildV26ProvenPackage(baseData, {
       specFamilyReport,
       canonicalInputReport
     }),
+    '.bitcode/application-composition-proof.json': `${JSON.stringify(applicationCompositionProof, null, 2)}\n`,
+    '.bitcode/environment-mode-coherence-proof.json': `${JSON.stringify(environmentModeCoherenceProof, null, 2)}\n`,
     '.bitcode/v26-gate-checkpoint-report.json': `${JSON.stringify(gateCheckpointReport, null, 2)}\n`,
     '.bitcode/conversations-continuity-proof.json': `${JSON.stringify(conversationsContinuityProof, null, 2)}\n`,
     '.bitcode/runs-pipelines-totality-proof.json': `${JSON.stringify(runsPipelinesTotalityProof, null, 2)}\n`,
     '.bitcode/persistence-schema-totality-proof.json': `${JSON.stringify(persistenceSchemaTotalityProof, null, 2)}\n`,
     '.bitcode/prompt-system-totality-proof.json': `${JSON.stringify(promptSystemTotalityProof, null, 2)}\n`,
-    '.bitcode/retained-package-admissibility-proof.json': `${JSON.stringify(retainedPackageAdmissibilityProof, null, 2)}\n`
+    '.bitcode/prompt-space-completeness-proof.json': `${JSON.stringify(promptSpaceCompletenessProof, null, 2)}\n`,
+    '.bitcode/retained-package-admissibility-proof.json': `${JSON.stringify(retainedPackageAdmissibilityProof, null, 2)}\n`,
+    '.bitcode/system-reform-admissibility-proof.json': `${JSON.stringify(systemReformAdmissibilityProof, null, 2)}\n`,
+    '.bitcode/whole-repository-production-satisfaction-proof.json': `${JSON.stringify(wholeRepositoryProductionSatisfactionProof, null, 2)}\n`,
+    '.bitcode/v26-total-closure-proof.json': `${JSON.stringify(v26TotalClosureProof, null, 2)}\n`
   };
   const artifactSummaries = summarizeArtifactContents(artifacts);
   const checkpointReady = gateCheckpointReport.firstGate?.passed === true
@@ -3437,6 +3827,7 @@ function buildV26ProvenPackage(baseData, {
   const fifthGateClosurePassed = false;
   const sixthGateClosurePassed = false;
   const seventhGateClosurePassed = false;
+  const eighthGateClosurePassed = false;
   const data = {
     ...baseData,
     v19: inheritedV19,
@@ -3444,12 +3835,18 @@ function buildV26ProvenPackage(baseData, {
     v26: {
       specFamilyReport,
       canonicalInputReport,
+      applicationCompositionProof,
       gateCheckpointReport,
       conversationsContinuityProof,
+      environmentModeCoherenceProof,
       runsPipelinesTotalityProof,
       persistenceSchemaTotalityProof,
       promptSystemTotalityProof,
+      promptSpaceCompletenessProof,
       retainedPackageAdmissibilityProof,
+      systemReformAdmissibilityProof,
+      wholeRepositoryProductionSatisfactionProof,
+      v26TotalClosureProof,
       artifactSummaries,
       draftPreview,
       checkpointReady,
@@ -3458,6 +3855,7 @@ function buildV26ProvenPackage(baseData, {
       fifthGateClosurePassed,
       sixthGateClosurePassed,
       seventhGateClosurePassed,
+      eighthGateClosurePassed,
       activeCanonicalTarget: ACTIVE_CANON_VERSION,
       operatorSurfaceTarget: 'application-native-full-page'
     },
@@ -3472,6 +3870,7 @@ function buildV26ProvenPackage(baseData, {
         && fifthGateClosurePassed
         && sixthGateClosurePassed
         && seventhGateClosurePassed
+        && eighthGateClosurePassed
     }
   };
   return {

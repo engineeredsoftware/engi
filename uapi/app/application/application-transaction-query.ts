@@ -16,6 +16,8 @@ const SEARCH_PARAM_KEYS = {
   transactionId: 'transactionId',
   legacyRunId: 'runId',
   detailSection: 'transactionDetail',
+  environmentMode: 'environmentMode',
+  debug: 'bitcodeDebug',
   search: 'transactionSearch',
   status: 'transactionStatus',
   ownership: 'transactionOwnership',
@@ -31,6 +33,13 @@ const SEARCH_PARAM_KEYS = {
 const TRANSACTION_OWNERSHIP_VALUES: TransactionOwnership[] = ['all', 'mine', 'network'];
 const TRANSACTION_LENS_VALUES: TransactionLens[] = ['all', 'give', 'need', 'closure'];
 const TRANSACTION_SORT_VALUES: TransactionSort[] = ['newest', 'oldest', 'most-tokens', 'highest-usd'];
+export type ApplicationEnvironmentMode = 'mock' | 'development' | 'staging' | 'production';
+const APPLICATION_ENVIRONMENT_MODE_VALUES: ApplicationEnvironmentMode[] = [
+  'mock',
+  'development',
+  'staging',
+  'production',
+];
 export type ApplicationTransactionDetailSection =
   | 'deliverables'
   | 'transaction'
@@ -71,6 +80,17 @@ export function readApplicationTransactionId(searchParams: URLSearchParams) {
     || searchParams.get(SEARCH_PARAM_KEYS.legacyRunId)
     || null
   );
+}
+
+export function readApplicationEnvironmentMode(searchParams: URLSearchParams): ApplicationEnvironmentMode | null {
+  const rawValue = searchParams.get(SEARCH_PARAM_KEYS.environmentMode);
+  return APPLICATION_ENVIRONMENT_MODE_VALUES.includes(rawValue as ApplicationEnvironmentMode)
+    ? (rawValue as ApplicationEnvironmentMode)
+    : null;
+}
+
+export function readApplicationDebugEnabled(searchParams: URLSearchParams) {
+  return searchParams.get(SEARCH_PARAM_KEYS.debug) === '1';
 }
 
 export function readApplicationTransactionDetailSection(searchParams: URLSearchParams) {
@@ -121,6 +141,29 @@ export function writeApplicationTransactionId(searchParams: URLSearchParams, tra
   const nextParams = new URLSearchParams(searchParams.toString());
   nextParams.set(SEARCH_PARAM_KEYS.transactionId, transactionId);
   nextParams.delete(SEARCH_PARAM_KEYS.legacyRunId);
+  return nextParams;
+}
+
+export function writeApplicationEnvironmentMode(
+  searchParams: URLSearchParams,
+  environmentMode: ApplicationEnvironmentMode | null,
+) {
+  const nextParams = new URLSearchParams(searchParams.toString());
+  if (!environmentMode) {
+    nextParams.delete(SEARCH_PARAM_KEYS.environmentMode);
+    return nextParams;
+  }
+  nextParams.set(SEARCH_PARAM_KEYS.environmentMode, environmentMode);
+  return nextParams;
+}
+
+export function writeApplicationDebugEnabled(searchParams: URLSearchParams, enabled: boolean) {
+  const nextParams = new URLSearchParams(searchParams.toString());
+  if (!enabled) {
+    nextParams.delete(SEARCH_PARAM_KEYS.debug);
+    return nextParams;
+  }
+  nextParams.set(SEARCH_PARAM_KEYS.debug, '1');
   return nextParams;
 }
 

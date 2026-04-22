@@ -1,5 +1,9 @@
 
-
+/**
+ * Retained reference-only VCS automation layer for V26 fifth-gate reform.
+ * This module can support compatibility agents and pipeline bring-up, but it
+ * is not the Bitcode owner of repository scope, Exchange state, or settlement.
+ */
 import { 
   factoryAgent, 
   factoryAgentWithPTRR,

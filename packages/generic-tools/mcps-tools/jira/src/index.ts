@@ -3,6 +3,8 @@
  * 
  * This module provides production-grade Jira MCP tools built on the evolved tools architecture
  * with proper Tool objects from the 'ai' package and sophisticated prompt primitives integration.
+ * Under V26 fifth-gate reform it is an admitted ingress/reference integration,
+ * not a Bitcode Exchange state owner or primary product surface.
  * 
  * Key Features:
  * ✅ Proper Tool objects using Tool class from '@bitcode/tools-generics'

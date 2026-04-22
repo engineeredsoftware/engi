@@ -325,12 +325,18 @@ function buildV21LikeProfile(version) {
       `.bitcode/${versionLower}-canonical-input-report.json`,
       ...(version === 'V26'
         ? [
+          '.bitcode/application-composition-proof.json',
           '.bitcode/conversations-continuity-proof.json',
+          '.bitcode/environment-mode-coherence-proof.json',
           '.bitcode/v26-gate-checkpoint-report.json',
           '.bitcode/runs-pipelines-totality-proof.json',
           '.bitcode/persistence-schema-totality-proof.json',
           '.bitcode/prompt-system-totality-proof.json',
-          '.bitcode/retained-package-admissibility-proof.json'
+          '.bitcode/prompt-space-completeness-proof.json',
+          '.bitcode/retained-package-admissibility-proof.json',
+          '.bitcode/system-reform-admissibility-proof.json',
+          '.bitcode/whole-repository-production-satisfaction-proof.json',
+          '.bitcode/v26-total-closure-proof.json'
         ]
         : [])
     ],

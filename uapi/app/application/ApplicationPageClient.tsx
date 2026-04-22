@@ -20,6 +20,7 @@ import ApplicationCoreNativeSections from './ApplicationCoreNativeSections';
 import ApplicationDepositComposer from './ApplicationDepositComposer';
 import ApplicationExperienceFrame from './ApplicationExperienceFrame';
 import ApplicationExternalInterfacingPanel from './ApplicationExternalInterfacingPanel';
+import ApplicationFloatingDebugWidget from './ApplicationFloatingDebugWidget';
 import ApplicationGiveNeedWorkbench from './ApplicationGiveNeedWorkbench';
 import ApplicationLiveSummaryStrip from './ApplicationLiveSummaryStrip';
 import ApplicationNeedScenarioPanel from './ApplicationNeedScenarioPanel';
@@ -41,11 +42,15 @@ import { APPLICATION_SURFACE_COPY } from './application-workspace-copy';
 import { ApplicationShellBridgeProvider } from './application-shell-bridge';
 import type { ApplicationRepositoryContextState } from './application-repository-context';
 import {
+  readApplicationDebugEnabled,
+  readApplicationEnvironmentMode,
   readApplicationTransactionDetailSection,
   readApplicationTransactionFilters,
   readApplicationTransactionId,
   readApplicationTransactionPagination,
   writeApplicationTransactionDetailSection,
+  writeApplicationDebugEnabled,
+  writeApplicationEnvironmentMode,
   resetApplicationTransactionFilters,
   writeApplicationTransactionFilters,
   writeApplicationTransactionId,
@@ -82,6 +87,14 @@ export default function ApplicationPageClient() {
     () => readApplicationTransactionPagination(routeSearchParams),
     [routeSearchParams],
   );
+  const environmentMode = useMemo(
+    () => readApplicationEnvironmentMode(routeSearchParams),
+    [routeSearchParams],
+  );
+  const debugEnabled = useMemo(
+    () => readApplicationDebugEnabled(routeSearchParams),
+    [routeSearchParams],
+  );
   const [isConversationOverlayOpen, setIsConversationOverlayOpen] = useState(false);
   const [liveRuns, setLiveRuns] = useState<WorkspaceRun[]>([]);
   const [isLoadingRuns, setIsLoadingRuns] = useState(!mockMode);
@@ -114,15 +127,22 @@ export default function ApplicationPageClient() {
       }),
     [hasGitHubConnection, hasVerifiedWalletConnection, hasWalletConnection, repositoryContext, user],
   );
+  const replaceApplicationSearchParams = useCallback(
+    (nextParams: URLSearchParams) => {
+      const nextQuery = nextParams.toString();
+      router.replace(nextQuery ? `${pathname}?${nextQuery}` : pathname, { scroll: false });
+    },
+    [pathname, router],
+  );
   const replaceApplicationRoute = useCallback(
     (transactionId: string, detailSection = selectedTransactionDetailSection) => {
       const nextParams = writeApplicationTransactionDetailSection(
         writeApplicationTransactionId(routeSearchParams, transactionId),
         detailSection,
       );
-      router.replace(`${pathname}?${nextParams.toString()}`, { scroll: false });
+      replaceApplicationSearchParams(nextParams);
     },
-    [pathname, routeSearchParams, router, selectedTransactionDetailSection],
+    [replaceApplicationSearchParams, routeSearchParams, selectedTransactionDetailSection],
   );
 
   useEffect(() => {
@@ -223,8 +243,8 @@ export default function ApplicationPageClient() {
     if (!runs.length) return;
     if (selectedTransactionId && runs.some((run) => run.id === selectedTransactionId)) return;
     const nextParams = writeApplicationTransactionId(routeSearchParams, runs[0].id);
-    router.replace(`${pathname}?${nextParams.toString()}`, { scroll: false });
-  }, [pathname, routeSearchParams, router, runs, selectedTransactionId]);
+    replaceApplicationSearchParams(nextParams);
+  }, [replaceApplicationSearchParams, routeSearchParams, runs, selectedTransactionId]);
 
   const selectedRun = useMemo(
     () => runs.find((run) => run.id === selectedTransactionId) || runs[0] || null,
@@ -277,7 +297,7 @@ export default function ApplicationPageClient() {
       writeApplicationTransactionFilters(routeSearchParams, nextFilters),
       { page: 1, pageSize: transactionPagination.pageSize },
     );
-    router.replace(`${pathname}?${nextParams.toString()}`, { scroll: false });
+    replaceApplicationSearchParams(nextParams);
   };
 
   const handleTransactionFiltersReset = () => {
@@ -285,18 +305,32 @@ export default function ApplicationPageClient() {
       resetApplicationTransactionFilters(routeSearchParams),
       { page: 1, pageSize: transactionPagination.pageSize },
     );
-    router.replace(`${pathname}?${nextParams.toString()}`, { scroll: false });
+    replaceApplicationSearchParams(nextParams);
   };
 
   const handleTransactionPaginationChange = (nextPagination: typeof transactionPagination) => {
     const nextParams = writeApplicationTransactionPagination(routeSearchParams, nextPagination);
-    router.replace(`${pathname}?${nextParams.toString()}`, { scroll: false });
+    replaceApplicationSearchParams(nextParams);
   };
 
   const handleTransactionDetailSectionChange = (detailSection: typeof selectedTransactionDetailSection) => {
     const nextParams = writeApplicationTransactionDetailSection(routeSearchParams, detailSection);
-    router.replace(`${pathname}?${nextParams.toString()}`, { scroll: false });
+    replaceApplicationSearchParams(nextParams);
   };
+
+  const handleEnvironmentModeChange = useCallback(
+    (nextEnvironmentMode: ReturnType<typeof readApplicationEnvironmentMode>) => {
+      replaceApplicationSearchParams(writeApplicationEnvironmentMode(routeSearchParams, nextEnvironmentMode));
+    },
+    [replaceApplicationSearchParams, routeSearchParams],
+  );
+
+  const handleDebugEnabledChange = useCallback(
+    (enabled: boolean) => {
+      replaceApplicationSearchParams(writeApplicationDebugEnabled(routeSearchParams, enabled));
+    },
+    [replaceApplicationSearchParams, routeSearchParams],
+  );
 
   return (
     <>
@@ -389,7 +423,10 @@ export default function ApplicationPageClient() {
                     <ApplicationLiveSummaryStrip />
                   </div>
                   <div className="space-y-6">
-                    <ApplicationExternalInterfacingPanel onRecordActivity={handleRecordActivity} />
+                    <ApplicationExternalInterfacingPanel
+                      environmentMode={environmentMode}
+                      onRecordActivity={handleRecordActivity}
+                    />
                     <ApplicationSectionAtlas />
                   </div>
                 </div>
@@ -443,6 +480,16 @@ export default function ApplicationPageClient() {
           </div>
           </div>
         </div>
+        <ApplicationFloatingDebugWidget
+          debugEnabled={debugEnabled}
+          environmentMode={environmentMode}
+          transactionDataMode={transactionDataMode}
+          selectedTransactionId={selectedRun?.id || null}
+          hasRepositoryAnchor={Boolean(repositoryContext?.selectedRepository)}
+          hasVerifiedWalletBinding={hasVerifiedWalletConnection}
+          onDebugEnabledChange={handleDebugEnabledChange}
+          onEnvironmentModeChange={handleEnvironmentModeChange}
+        />
       </ApplicationShellBridgeProvider>
     </>
   );

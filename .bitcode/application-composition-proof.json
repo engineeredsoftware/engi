@@ -1,0 +1,47 @@
+{
+  "reportId": "v26-application-composition-proof",
+  "version": "V26",
+  "proofSourceCommit": "2c3eb724c2a131d597712c5cab11e2ff139cbc7c",
+  "generatedAt": "2026-04-22T09:27:17-03:00",
+  "generatorId": "bitcode.proven-generator.v1",
+  "worktreeState": "dirty-preview",
+  "passed": true,
+  "routeWitnesses": [
+    "/application"
+  ],
+  "checks": [
+    {
+      "checkId": "application-route-and-shell-owners",
+      "label": "Application route, shell bridge, and native surface owners remain explicit",
+      "passed": true,
+      "detail": "9 required files present",
+      "requiredFiles": [
+        "uapi/app/application/page.tsx",
+        "uapi/app/application/ApplicationPageClient.tsx",
+        "uapi/app/application/application-shell-bridge.tsx",
+        "uapi/app/application/ApplicationExperienceFrame.tsx",
+        "uapi/app/application/ApplicationTransactionWorkspace.tsx",
+        "uapi/app/application/ApplicationWorkspaceRail.tsx",
+        "uapi/app/application/ApplicationPreservedShellSurface.tsx",
+        "protocol-demonstration/public/app.js",
+        "protocol-demonstration/src/client-entry.js"
+      ],
+      "missingFiles": []
+    },
+    {
+      "checkId": "application-route-state-and-debug-owners",
+      "label": "Route query state, environment controls, and floating debug-widget owners remain explicit",
+      "passed": true,
+      "detail": "6 required files present",
+      "requiredFiles": [
+        "uapi/app/application/application-transaction-query.ts",
+        "uapi/app/application/ApplicationExternalInterfacingPanel.tsx",
+        "uapi/app/application/ApplicationFloatingDebugWidget.tsx",
+        "uapi/tests/applicationTransactionQuery.test.ts",
+        "uapi/tests/applicationExternalInterfacingPanel.test.tsx",
+        "uapi/tests/applicationFloatingDebugWidget.test.tsx"
+      ],
+      "missingFiles": []
+    }
+  ]
+}

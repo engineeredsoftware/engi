@@ -2,7 +2,7 @@
 
 ## Status
 
-- Scope: working-note companion for the active V26 canonical family centered on Bitcode productionizing hardening, first-gate application migration, second-gate application UX/UI plus external hardening, third-gate marketing refurbishment, fourth-gate retained-system convergence, and fifth-through-seventh-gate closure
+- Scope: working-note companion for the active V26 canonical family centered on Bitcode productionizing hardening, first-gate application migration, second-gate application UX/UI plus external hardening, third-gate marketing refurbishment, fourth-gate retained-system convergence, and fifth-through-eighth-gate closure
 - Canonical pointer: `/Users/garrettmaring/Developer/ENGI/BITCODE_SPEC.txt` -> `V26`
 - Active canonical anchor: `/Users/garrettmaring/Developer/ENGI/BITCODE_SPEC_V26.md`
 - Active generated proof appendix: `/Users/garrettmaring/Developer/ENGI/BITCODE_SPEC_V26_PROVEN.md`
@@ -10,7 +10,7 @@
 - Delta companion: `/Users/garrettmaring/Developer/ENGI/BITCODE_SPEC_V26_DELTA.md`
 - Parity companion: `/Users/garrettmaring/Developer/ENGI/BITCODE_SPEC_V26_PARITY_MATRIX.md`
 - Current through-fourth-gate checkpoint artifact: `/Users/garrettmaring/Developer/ENGI/.bitcode/v26-gate-checkpoint-report.json`
-- V26 state: canonical promotion complete; fifth-, sixth-, and seventh-gate closure remain open
+- V26 state: canonical promotion complete; fifth-, sixth-, seventh-, and eighth-gate closure remain open
 
 ## Notes companion rule
 
@@ -34,11 +34,11 @@ The following items are no longer open draft questions:
 - the preserved late-stage navbar remains the integrated application navigation frame for Bitcode.
 - homepage embedded-demo posture remains removed.
 - mock-mode `/application` review is part of first-gate closure rather than second-gate work.
-- the earlier V26 checkpoint was first-gate plus second-gate closure with explicit third-gate preparation; V26 is now promoted through fourth gate while fifth through seventh gate remain open.
+- the earlier V26 checkpoint was first-gate plus second-gate closure with explicit third-gate preparation; V26 is now promoted through fourth gate while fifth through eighth gate remain open.
 - second-gate closure now includes route/package README refurbishment and user-facing preserved-runtime naming rather than treating those as optional cleanup after code lands.
 - fifth-gate closure now explicitly requires zero unreplaced `engi` product naming in active code/copy/route teaching unless the occurrence is historical lineage or a still-required structural namespace such as `.bitcode/` or `_legacy/ENGI_SPEC_*`.
 - the active root spec/toolchain family is now part of that same fifth-gate closure: `BITCODE_SPEC*.md`, `BITCODE_SPEC.txt`, and `scripts/check|generate|prepare|promote-bitcode-*.mjs` are canonical, while root `ENGI_SPEC_V26*` and root `ENGI_SPECIFYING.md` are no longer admissible outside `_legacy/`.
-- V26 remains the active testnet-ready, near-commercial-readiness canon; V27 is explicitly reserved for commercial-readiness hardening after fifth-gate rename closure, sixth-gate old-world reform, and seventh-gate provation close the V26 Bitcode transformation.
+- V26 remains the active productization canon; V27 is explicitly reserved for post-productization successor work after fifth-gate minimum-functional closure, sixth-gate MVP elevation, seventh-gate commercial testnet refinement, and eighth-gate provation close the V26 Bitcode transformation.
 - retained prompt-system package surfaces are now part of that active naming sweep: `packages/prompts/*` must read as Bitcode in package metadata, benchmarking/docs, promptpart examples, and active identity text while historical filename lineage may remain only where still-needed for safe fifth-gate porting.
 - active prompt-system JS carry-through and review-tooling carriers are part of that same fifth-gate proof boundary too: `packages/prompts/src/{index.js,parts/PromptPart.js}` and `scripts/code-review/{REVIEW_EXCELLENCE_GUIDE.md,reviews/review_prompt_primitives_evolution*.sh}` plus `scripts/phase2-naming-compliance.py` must use Bitcode-owned comments, examples, repo paths, and current `raw_promptparts/*` file references rather than silently preserving old-brand wording or dead prompt file paths.
 - active prompt/tooling repair scripts are part of that same fifth-gate proof boundary too: `scripts/{fix-remaining-imports,fix-barrel-imports,fix-multiline-imports,fix-corrupted-imports}.sh` and `scripts/code-review/base-review.sh` must rewrite toward `@bitcode/*` carriers and Bitcode-owned review output paths rather than preserving `@engi/*` repair targets or `/tmp/engi_review_*` runtime artifacts.
@@ -453,10 +453,11 @@ The current sequencing bias is:
 4. execute second-gate application UX/UI plus external hardening,
 5. execute third-gate marketing refurbishment,
 6. execute fourth-gate retained-system convergence,
-7. execute fifth-gate rename/proof/system-completeness closure including debug/environment controls,
-8. execute sixth-gate old-world system reform into Bitcode market infrastructure,
-9. execute seventh-gate total-repository provation and final closure,
-10. then refresh generated evidence and promotion checks.
+7. execute fifth-gate minimum-functional Exchange/Terminal closure plus broad old-world reform baseline including debug/environment controls,
+8. execute sixth-gate minimal viable product elevation,
+9. execute seventh-gate initial commercially-viable testnet live-launch refinement,
+10. execute eighth-gate total-repository provation and final closure,
+11. then refresh generated evidence and promotion checks.
 
 ## Non-goals for these notes
 
@@ -473,6 +474,7 @@ Current fourth-gate reminders:
 
 Current fifth-gate reminders:
 - fifth-gate is the minimum-functional Bitcode gate, not a generic residue-cleanup gate; the north star is the repository being able to make shares and use shares through Bitcode-owned interfaces and state
+- fifth-gate now also owns the broad old-world reform baseline: anything retained from the old world has to be cut, isolated, or Bitcode-repurposed enough that the live Bitcode path already reads as a new-world product rather than a renamed compatibility shell
 - `make shares` means authenticated source-bearing give/need writes can produce need measurement, branch artifacts, asset packs, proof, and history without falling back to demo-only or compatibility-only posture
 - `use shares` means those outputs can be read, inspected, routed, settled, consumed, traded, or produced against through the Bitcode Terminal and admitted protocol interfaces rather than living as inert artifacts
 - the website application and the protocol deployment have to be treated together for fifth-gate: `/application`, APIs, MCPs, and admitted third-party app surfaces must all read/write the same Bitcode-owned system
@@ -566,12 +568,14 @@ Current fifth-gate reminders:
 - repository anchoring and boundary-runtime honesty now count as explicit fifth-gate write surfaces too: the repository-supply anchor and external-readiness posture visible in `/application` are not complete if they only orient the operator; they must also be recordable into the same Bitcode activity ledger that deposit/branch/closure already use
 
 Current sixth-gate reminders:
-- retained old-world agentic systems should not survive because they are “useful”; they survive only if they have a precise Bitcode role after need-measuring, transaction-linked, or support-system reform
-- retained webhook systems must be reviewed for canonical place versus later-version or cut scope rather than silently surviving as generic automation
-- retained web-search behavior must be evaluated the same way: if it is not part of Bitcode need measurement, support tooling, or other explicit market-infrastructure behavior, it is sixth-gate cut pressure
-- the post-cut-over application map must become explicit and stable: `activity` as the dominant searchable transaction master/detail surface, `transactions` as the write-space for Bitcode operations, `conversations` as the ChatGPT-style Bitcode read/write surface, and `auxillaries` as the non-duplicative settings/connections/identity/`$BTD` system around the network core
+- sixth-gate is no longer where broad reform first happens; it is where the already-reformed fifth-gate baseline is elevated into an actual minimal viable product
+- the post-fifth-gate application map must become explicit and stable as an MVP: `activity` as the dominant searchable transaction master/detail surface, `transactions` as the write-space for Bitcode operations, `conversations` as the ChatGPT-style Bitcode read/write surface, and `auxillaries` as the non-duplicative settings/connections/identity/`$BTD` system around the network core
 - conversations should aim for interface and tool-registration parity with the ChatGPT app surface rather than drifting into a lesser in-app chat adjunct
 
 Current seventh-gate reminders:
-- V26 is not fully done when fifth-gate naming residue reaches zero; the whole repository still has to prove as one Bitcode system
-- sixth-gate cuts and reforms must be reflected in proof space, docs, and generated artifacts before seventh-gate can close
+- seventh-gate is where the MVP is refined into an initial commercially-viable live-launch posture on testnet rather than where whole-repository provation first happens
+- launch readiness has to be visible across Exchange, Terminal, Protocol, Proofs, API, MCP, and admitted app surfaces together
+
+Current eighth-gate reminders:
+- V26 is not fully done when fifth-gate naming residue reaches zero or when seventh-gate launch quality is good enough; the whole repository still has to prove as one Bitcode system
+- sixth- and seventh-gate elevation/refinement work must be reflected in proof space, docs, and generated artifacts before eighth-gate can close

@@ -2,7 +2,9 @@
  * Legacy compatibility export for @bitcode/engine/pipeline/pipelineSDIVS
  * 
  * This file exists to maintain backward compatibility with existing imports
- * that use the @bitcode/engine/pipeline/pipelineSDIVS path mapping.
+ * that use the @bitcode/engine/pipeline/pipelineSDIVS path mapping. Under V26
+ * fifth-gate reform this carrier is compatibility-only and does not define the
+ * Bitcode Exchange or Bitcode Terminal product model.
  * 
  * The actual implementation is in index.ts
  */

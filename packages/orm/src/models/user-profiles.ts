@@ -9,7 +9,7 @@
  */
 
 import { BaseModel } from './base';
-import { Tables, Insertable, Updatable } from '../types/database';
+import { Tables, Insertable, Updatable, type Json } from '../types/database';
 import { mergeBitcodeProfileSettings } from '../profile-contract';
 
 export type UserProfile = Tables<'user_profiles'>;
@@ -45,8 +45,8 @@ export class UserProfilesModel extends BaseModel<'user_profiles'> {
       avatarUrl?: string;
       company_name?: string;
       companyName?: string;
-      team_members?: unknown[];
-      teamMembers?: unknown[];
+      team_members?: Json[];
+      teamMembers?: Json[];
       email?: string | null;
       wallet_address?: string | null;
       walletAddress?: string | null;

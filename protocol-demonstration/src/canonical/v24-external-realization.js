@@ -749,6 +749,7 @@ function buildInterfaceRuntimeState(executionPolicy, interfaceId, binding, confi
 /**
  * @param {Record<string, unknown>} descriptor
  * @param {{
+ *   environmentMode?: string | null | undefined,
  *   paymentMode?: string | null | undefined
  * }} [input]
  * @returns {{
@@ -763,7 +764,10 @@ function buildInterfaceRuntimeState(executionPolicy, interfaceId, binding, confi
  */
 export function resolveV24ActiveExternalRuntime(descriptor, input = {}) {
   const fallbackMode = input.paymentMode ? 'development' : 'mock';
-  const configuredEnvironmentMode = normalizeEnvironmentMode(envString('BITCODE_V24_ENVIRONMENT_MODE'), fallbackMode);
+  const configuredEnvironmentMode = normalizeEnvironmentMode(
+    typeof input.environmentMode === 'string' ? input.environmentMode : envString('BITCODE_V24_ENVIRONMENT_MODE'),
+    fallbackMode,
+  );
   const activeProfile = /** @type {any[]} */ (descriptor.environmentProfiles || []).find((profile) => profile.environmentMode === configuredEnvironmentMode)
     || /** @type {any[]} */ (descriptor.environmentProfiles || [])[0]
     || {};

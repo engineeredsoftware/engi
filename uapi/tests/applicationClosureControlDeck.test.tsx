@@ -1,0 +1,141 @@
+import '@testing-library/jest-dom';
+import React from 'react';
+import { render, screen } from '@testing-library/react';
+
+import ApplicationClosureControlDeck from '@/app/application/ApplicationClosureControlDeck';
+
+jest.mock('@/app/application/ApplicationWorkspaceCard', () => ({
+  __esModule: true,
+  default: function MockApplicationWorkspaceCard({
+    title,
+    children,
+  }: {
+    title: string;
+    children: React.ReactNode;
+  }) {
+    return (
+      <section>
+        <h2>{title}</h2>
+        {children}
+      </section>
+    );
+  },
+}));
+
+jest.mock('@/components/base/bitcode/execution/BitcodeInlineExplainer', () => ({
+  __esModule: true,
+  default: function MockBitcodeInlineExplainer() {
+    return null;
+  },
+}));
+
+jest.mock('@/components/base/bitcode/execution/BitcodeMetricGrid', () => ({
+  __esModule: true,
+  default: function MockBitcodeMetricGrid() {
+    return null;
+  },
+}));
+
+jest.mock('@/app/application/application-workspace-explainers', () => ({
+  APPLICATION_WORKSPACE_EXPLAINERS: {
+    closureControls: [],
+    closureMap: [],
+  },
+  APPLICATION_INLINE_EXPLAINERS: {
+    closureAction: [],
+    transactionReadiness: [],
+  },
+}));
+
+jest.mock('@/app/application/application-shell-reading', () => ({
+  jumpToShellSection: jest.fn(),
+}));
+
+jest.mock('@/app/application/application-shell-bridge', () => ({
+  useApplicationShellBridge: () => ({
+    snapshot: {},
+    runControl: jest.fn(),
+  }),
+}));
+
+jest.mock('@/app/application/application-command-state', () => ({
+  normalizeApplicationCommandState: () => ({
+    scenario: 'need-1',
+    branchMode: 'patch',
+    shellReady: true,
+  }),
+}));
+
+jest.mock('@/app/application/application-closure-state', () => ({
+  normalizeApplicationClosureState: () => ({
+    bundleId: 'bundle-1',
+  }),
+}));
+
+jest.mock('@/app/application/application-closure-controls', () => ({
+  normalizeApplicationClosureControlState: () => ({
+    primaryActionLabel: 'Run closure',
+    primaryActionSummary: 'Close and settle the active Bitcode branch.',
+    statusTone: 'settled',
+    scenario: 'need-1',
+    branchMode: 'patch',
+    visibleArtifactCount: 3,
+    proofFamilyCount: 2,
+    creditedAssetCount: 1,
+    bundleId: 'bundle-1',
+    shellReady: true,
+    status: 'ready',
+    flowGuideDetail: 'guide ready',
+  }),
+}));
+
+jest.mock('@/app/application/application-activity-history', () => ({
+  buildApplicationClosureFinalWorkSummary: jest.fn(() => null),
+  readApplicationRouteError: jest.fn(async () => 'route error'),
+}));
+
+const baseTransactionReadiness = {
+  status: 'wallet-verification-pending' as const,
+  label: 'wallet verification pending',
+  summary: 'Signed settlement remains staged until verified wallet-provider signing is present.',
+  nextAction: 'Return to Profile for verified signing.',
+  blockers: [{ id: 'wallet-verification' as const, label: 'Verified wallet-provider signing access' }],
+  canReview: true as const,
+  canTransact: true,
+  canSettle: false,
+  signedIn: true,
+  hasRepositoryProvider: true,
+  hasWalletBinding: true,
+  hasVerifiedWalletBinding: false,
+  hasRepositoryAnchor: true,
+  requiresRepositoryAnchor: true,
+};
+
+describe('ApplicationClosureControlDeck', () => {
+  it('keeps closure-bearing actions disabled until settlement readiness is complete', () => {
+    const { rerender } = render(
+      <ApplicationClosureControlDeck transactionReadiness={baseTransactionReadiness} />,
+    );
+
+    expect(screen.getByRole('button', { name: 'Run closure' })).toBeDisabled();
+    expect(
+      screen.getByText('Signed settlement remains staged until verified wallet-provider signing is present.'),
+    ).toBeInTheDocument();
+
+    rerender(
+      <ApplicationClosureControlDeck
+        transactionReadiness={{
+          ...baseTransactionReadiness,
+          status: 'ready',
+          label: 'ready',
+          summary: 'Wallet identity, verified signing, and repository scope are ready.',
+          blockers: [],
+          canSettle: true,
+          hasVerifiedWalletBinding: true,
+        }}
+      />,
+    );
+
+    expect(screen.getByRole('button', { name: 'Run closure' })).toBeEnabled();
+  });
+});

@@ -1,0 +1,26 @@
+{
+  "reportId": "v26-prompt-space-completeness-proof",
+  "version": "V26",
+  "proofSourceCommit": "2c3eb724c2a131d597712c5cab11e2ff139cbc7c",
+  "generatedAt": "2026-04-22T09:27:17-03:00",
+  "generatorId": "bitcode.proven-generator.v1",
+  "worktreeState": "dirty-preview",
+  "passed": false,
+  "openReason": "Prompt-space completeness remains an eighth-gate closure proof even while the witness family is generated now.",
+  "checks": [
+    {
+      "checkId": "prompt-space-witness-family",
+      "label": "Prompt-space witness files remain explicit while later-gate completeness stays open",
+      "passed": true,
+      "detail": "5 required files present",
+      "requiredFiles": [
+        "packages/prompts/src/index.ts",
+        "packages/prompts/src/prompt.ts",
+        "packages/prompts/src/parts/PromptPart.ts",
+        "uapi/prompts/conversations-system-prompt.ts",
+        "protocol-demonstration/src/canonical/type-contracts.ts"
+      ],
+      "missingFiles": []
+    }
+  ]
+}

@@ -14,8 +14,8 @@
 - Spec companion: `/Users/garrettmaring/Developer/ENGI/BITCODE_SPEC_V26.md`
 - Parity companion: `/Users/garrettmaring/Developer/ENGI/BITCODE_SPEC_V26_PARITY_MATRIX.md`
 - Notes companion: `/Users/garrettmaring/Developer/ENGI/BITCODE_SPEC_V26_NOTES.md`
-- Source parity state: through-fourth-gate promotion closure is now materially in place across application routes, auxillary compatibility redirects, retained-system convergence, persistence witnesses, prompt-system ports, and documentation/spec synchronization; fifth through seventh gate remain open
-- V26 state: canonical promotion complete; V26 is the active Bitcode canon while fifth-, sixth-, and seventh-gate closure remain open
+- Source parity state: through-fourth-gate promotion closure is now materially in place across application routes, auxillary compatibility redirects, retained-system convergence, persistence witnesses, prompt-system ports, and documentation/spec synchronization; fifth through eighth gate remain open
+- V26 state: canonical promotion complete; V26 is the active Bitcode canon while fifth-, sixth-, seventh-, and eighth-gate closure remain open
 
 ## Why V26 exists
 
@@ -450,49 +450,65 @@ Fourth-gate acceptance is reached only when:
 ## Precise fifth-gate specification targets
 
 Fifth-gate is now specified as:
-- complete active-source Bitcode rename closure, proof precision, and system completeness for the kept V26 system,
+- minimum-functional Bitcode Exchange and Bitcode Terminal closure for the kept V26 system,
+- complete active-source Bitcode rename closure, proof precision, and system completeness for that minimum-functional system,
+- maximally finished old-world reform baseline for everything that still survives on the live Bitcode path,
 - debug/environment controls required for proving mode coherence,
 - full production/staging/development mode completeness,
 - retained-package admissibility proof,
 - and post-promotion proof-bearing cleanup of any still-kept system.
 
 Fifth-gate acceptance is reached only when:
+- the repository can make shares and use shares through Bitcode-owned interfaces and state,
 - the required proof families are generated,
 - their closure verdicts are explicit,
 - debug/environment behavior is proven coherent,
 - unreplaced active `engi` product naming is retired from active code/copy/route teaching,
+- retained old-world systems are already cut, isolated, or Bitcode-repurposed enough that the live path reads as a new-world Bitcode product baseline,
 - newly admitted application, API, MCP, prompt, and retained package systems are proven to the same Bitcode-grade standard expected of the former proved core,
 - and the kept V26 system can be treated as Bitcode-complete without relying on informal interpretation across merged systems.
 
 ## Precise sixth-gate specification targets
 
 Sixth-gate is now specified as:
-- reforming the final retained old-world pure-agentic system into Bitcode market infrastructure,
-- explicitly cutting or isolating retained systems that do not belong in Bitcode,
-- keeping retained executions primitives only where they support need-measuring agency, runs, pipelines, and transaction-linked system behavior,
-- deepening the Bitcode application into explicit `activity`, `transactions`, `conversations`, and `auxillaries` experiences after cut-over,
-- and removing silent compatibility ownership from old-world tool, webhook, and generic agent surfaces.
+- elevating the fifth-gate minimum-functional Bitcode baseline into a minimal viable product,
+- deepening the Bitcode application into explicit `activity`, `transactions`, `conversations`, and `auxillaries` experiences with stable real operator posture,
+- strengthening Exchange, Terminal, Protocol, Proofs, API, MCP, and admitted app surfaces until they behave as one coherent MVP,
+- and removing the remaining gaps between truthful minimum functionality and an actually viable product.
 
 Sixth-gate acceptance is reached only when:
 - fifth-gate acceptance holds,
-- retained old-world systems have explicit Bitcode roles or explicit cut decisions,
-- admitted agent/tool systems read as Bitcode need-measuring/support infrastructure rather than a parallel Engi automation product,
 - `activity` is the dominant searchable transaction-master/detail application surface,
 - `transactions` is the explicit write-space for Bitcode operations,
 - `conversations` is aligned to the ChatGPT-style interface/tool surface rather than drifting into a second-class chat widget,
 - `auxillaries` holds non-duplicative settings, connections, identity, and deep wallet/`$BTD` controls around the network core,
-- and repository architecture is simpler and more legible after the reform.
+- the dominant product paths are stable enough for repeated real operator use on testnet,
+- and repository architecture is simpler and more legible after MVP elevation.
 
 ## Precise seventh-gate specification targets
 
 Seventh-gate is now specified as:
-- whole-repository Bitcode provation,
-- final V26 closure across application GUI, conversations, ChatGPT-style surfaces, ChatGPT app, API, MCP, packages, schemas, proofs, and docs,
-- and promotion-grade confirmation that no silent legacy ownership remains in active source.
+- refining the minimal viable Bitcode product into an initial commercially-viable live-launch posture on testnet,
+- tightening operator quality, launch readiness, and product credibility across Exchange, Terminal, Protocol, Proofs, API, MCP, and admitted app surfaces,
+- and proving that the live product story no longer depends on compatibility explanations for core journeys.
 
 Seventh-gate acceptance is reached only when:
 - fifth-gate acceptance holds,
 - sixth-gate acceptance holds,
+- the kept repository is ready for an initial commercial testnet launch,
+- and Bitcode reads as a commercially-credible product while still remaining inside the V26 testnet boundary.
+
+## Precise eighth-gate specification targets
+
+Eighth-gate is now specified as:
+- whole-repository Bitcode provation,
+- final V26 closure across application GUI, conversations, ChatGPT-style surfaces, ChatGPT app, API, MCP, packages, schemas, proofs, and docs,
+- and promotion-grade confirmation that no silent legacy ownership remains in active source.
+
+Eighth-gate acceptance is reached only when:
+- fifth-gate acceptance holds,
+- sixth-gate acceptance holds,
+- seventh-gate acceptance holds,
 - total-repository proof families have explicit closure verdicts,
 - and V26 can be treated as fully proven Bitcode canon rather than a promoted-through-fourth-gate checkpoint with later closure work still pending.
 
@@ -513,11 +529,12 @@ The current V26 sequencing is now:
 4. execute second-gate application UX/UI plus external-interfacing hardening,
 5. execute third-gate marketing refurbishment,
 6. execute fourth-gate retained-system convergence,
-7. execute fifth-gate rename/proof/system-completeness closure including debug/environment controls,
-8. execute sixth-gate old-world system reform into Bitcode market infrastructure,
-9. execute seventh-gate total-repository provation and final closure,
-10. refresh generated evidence and promotion checks,
-11. and declare V26 fully proven only after seventh-gate closure is explicit end-to-end.
+7. execute fifth-gate minimum-functional Exchange/Terminal closure plus broad old-world reform baseline including debug/environment controls,
+8. execute sixth-gate minimal viable product elevation,
+9. execute seventh-gate initial commercially-viable testnet live-launch refinement,
+10. execute eighth-gate total-repository provation and final closure,
+11. refresh generated evidence and promotion checks,
+12. and declare V26 fully proven only after eighth-gate closure is explicit end-to-end.
 
 ## Commit-Body Direction
 

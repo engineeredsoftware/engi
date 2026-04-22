@@ -1,0 +1,28 @@
+{
+  "reportId": "v26-total-closure-proof",
+  "version": "V26",
+  "proofSourceCommit": "2c3eb724c2a131d597712c5cab11e2ff139cbc7c",
+  "generatedAt": "2026-04-22T09:27:17-03:00",
+  "generatorId": "bitcode.proven-generator.v1",
+  "worktreeState": "dirty-preview",
+  "passed": false,
+  "openReason": "V26 total closure remains an eighth-gate proof until the kept repository is fully proven as one Bitcode system.",
+  "checks": [
+    {
+      "checkId": "v26-total-closure-family",
+      "label": "The V26 spec family, proof family, and active promoted route witnesses remain explicit for final closure",
+      "passed": true,
+      "detail": "7 required files present",
+      "requiredFiles": [
+        "BITCODE_SPEC_V26.md",
+        "BITCODE_SPEC_V26_DELTA.md",
+        "BITCODE_SPEC_V26_PARITY_MATRIX.md",
+        "BITCODE_SPEC_V26_NOTES.md",
+        "BITCODE_SPEC_V26_PROVEN.md",
+        "uapi/app/application/ApplicationPageClient.tsx",
+        "protocol-demonstration/src/canonical/proven-generator.js"
+      ],
+      "missingFiles": []
+    }
+  ]
+}

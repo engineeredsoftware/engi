@@ -15,8 +15,8 @@
 - Canonical companion parity ledger: `/Users/garrettmaring/Developer/ENGI/BITCODE_SPEC_V26_PARITY_MATRIX.md`
 - Canonical companion notes file: `/Users/garrettmaring/Developer/ENGI/BITCODE_SPEC_V26_NOTES.md`
 - Draft posture source: `/Users/garrettmaring/Developer/ENGI/protocol-demonstration/src/canon-posture.js` keeps `ACTIVE_CANON_VERSION = 'V26'` and `DRAFT_TARGET_VERSION = 'V27'`
-- Source parity state: through-fourth-gate V26 promotion closure is now canonicalized in source across application routes, auxillary compatibility redirects, retained-system convergence, persistence witnesses, prompt-system ports, and generated proof artifacts; fifth-through-seventh-gate closure remains open
-- V26 state: canonical promotion complete; V26 is the active Bitcode canon through fourth gate and remains the current testnet-ready, near-commercial-readiness canonical target while fifth-, sixth-, and seventh-gate closure remain open
+- Source parity state: through-fourth-gate V26 promotion closure is now canonicalized in source across application routes, auxillary compatibility redirects, retained-system convergence, persistence witnesses, prompt-system ports, and generated proof artifacts; fifth-through-eighth-gate closure remains open
+- V26 state: canonical promotion complete; V26 is the active Bitcode canon through fourth gate and remains the current productization target while fifth-, sixth-, seventh-, and eighth-gate closure remain open
 
 ## Acceptance and remaining-open state
 
@@ -25,9 +25,10 @@ V26 is the productionizing hardening version that reorganizes Bitcode from a tra
 
 With V26 promoted through fourth gate:
 - V26 is active canonical truth,
-- fifth-gate active-source Bitcode rename completion, proof precision, and system completeness remain intentionally open and must not be hand-waved as complete,
-- sixth-gate old-world system reform into Bitcode market infrastructure remains intentionally open,
-- seventh-gate whole-repository provation and final closure remain intentionally open,
+- fifth-gate minimum-functional Bitcode Exchange and Bitcode Terminal closure plus broad old-world reform baseline remain intentionally open and must not be hand-waved as complete,
+- sixth-gate minimal viable product elevation remains intentionally open,
+- seventh-gate initial commercially-viable testnet live-launch refinement remains intentionally open,
+- eighth-gate whole-repository provation and final closure remain intentionally open,
 - the current source-bearing implementation basis now includes the landed first-through-fourth-gate package/app migration surfaces cited below,
 - and the V26 main spec remains full-system and re-implementation-grade even while later version work may reopen ownership after this promotion.
 - the retained active repository systems outside first-gate Bitcode ownership must be elevated to Bitcode-grade auditability, proof-bearing precision, and knowability rather than pulling Bitcode down to older application looseness.
@@ -42,23 +43,24 @@ V26 opens because the renamed system still has an architectural split that is to
 - the application route had to replace the embedded-demo posture,
 - and several external and internal interfaces still remain short of the level expected of a live application.
 
-V26 therefore centers seven coordinated gates:
+V26 therefore centers eight coordinated gates:
 1. first-gate ownership migration,
 2. second-gate application UX/UI plus external interfacing hardening,
 3. third-gate marketing refurbishment,
 4. fourth-gate retained-system convergence and through-fourth-gate promotion,
-5. fifth-gate active-source Bitcode rename completion, proof precision, and system completeness after promotion,
-6. sixth-gate old-world system reform into Bitcode market infrastructure,
-7. seventh-gate whole-repository provation and final V26 closure.
+5. fifth-gate minimum-functional Bitcode Exchange and Bitcode Terminal closure together with the maximally finished old-world reform baseline,
+6. sixth-gate minimal viable product elevation across Exchange, Terminal, Protocol, Proofs, and admitted interfaces,
+7. seventh-gate initial commercially-viable testnet live-launch refinement,
+8. eighth-gate whole-repository provation and final V26 closure.
 
 V26 is the most complex canonical promotion in the repository because it simultaneously:
-- elevates the demo into a testnet-ready, near-commercial Bitcode product/application,
+- elevates the demo into a Bitcode product/application on the path to minimum functionality, MVP, and eventual commercial testnet readiness,
 - absorbs real-world inputs, outputs, and interface obligations into the canonical source map,
 - reorganizes active source around tighter package/app abstractions and proof-bearing modular topology,
 - and completes the repository-wide Bitcode transformation without relaxing spec-to-source parity density.
 
-V27 then becomes the commercial-readiness successor.
-V26 is the testnet-ready, near-commercial-readiness canon; V27 must not be treated as a continuation of rename cleanup, but as the commercialization and market-readiness version built on a fully Bitcode-owned V26 base.
+V27 then becomes the post-productization successor.
+V26 must not be treated as a rename cleanup continuation; it is the full productization program that turns the retained repository into Bitcode-owned product truth through eighth-gate closure.
 
 The intended result is not "micro-app the demo into `uapi/`."
 The intended result is:
@@ -75,7 +77,7 @@ The intended result is:
 
 ## V26 gate structure
 
-V26 is now explicitly split into seven gates.
+V26 is now explicitly split into eight gates.
 
 ### First-gate
 
@@ -696,12 +698,13 @@ Fourth-gate is accepted only when:
 15. retained transaction, execution-event, and notification surfaces share one typed Bitcode activity vocabulary rather than drifting into separate activity semantics,
 16. and fourth-gate proof obligations are assigned to generated proof families rather than left informal.
 
-## V26 fifth-through-seventh-gate closure contract
+## V26 fifth-through-eighth-gate closure contract
 
-Fifth-gate is the formal post-promotion Bitcode-rename, proof-precision, and system-completeness gate for V26.
-Sixth-gate is the reform gate that adjudicates, cuts, or repurposes the final old-world pure-agentic system carriers into Bitcode market infrastructure.
-Seventh-gate is the final whole-repository provation and closure gate for V26.
-V26 may be the active canon through fourth-gate while fifth through seventh remain open, but no part of V26 is considered fully proven until those later-gate closure duties are explicit for the systems V26 keeps.
+Fifth-gate is the minimum-functional Bitcode Exchange and Bitcode Terminal gate for V26, and it also owns the broad old-world reform baseline that must already be complete before V26 can claim a Bitcode-native product foundation.
+Sixth-gate is the minimal viable product elevation gate for Exchange, Terminal, Protocol, Proofs, and admitted interfaces.
+Seventh-gate is the initial commercially-viable testnet live-launch refinement gate.
+Eighth-gate is the final whole-repository provation and closure gate for V26.
+V26 may be the active canon through fourth-gate while fifth through eighth remain open, but no part of V26 is considered fully proven until those later-gate closure duties are explicit for the systems V26 keeps.
 
 ### Fifth-gate minimum-functional north star
 
@@ -710,7 +713,8 @@ Its north star is the minimum functional Bitcode system:
 - one system,
 - Bitcode and only Bitcode in active product semantics,
 - practically usable through the `Bitcode Terminal` and the protocol interfaces it exposes,
-- and explicit about what belongs to fifth-gate versus later quality/commercialization work.
+- explicit about what belongs to fifth-gate versus later quality/commercialization work,
+- and already reformed enough that the retained old-world repository no longer survives as a parallel product worldview on the live Bitcode path.
 
 For V26, minimum functional Bitcode means the repository can do exactly two primary things:
 1. make shares
@@ -747,6 +751,7 @@ The following are required for fifth-gate minimum functionality:
 - wallet identity in `Profile` plus GitHub or equivalent repository scope in `Connects` are enforced as the minimum transactional readiness posture,
 - protocol-owned routes like deposit and branch creation plus retained execution-history rows stay synchronized enough that a successful write can immediately be reread inside Bitcode Terminal detail,
 - retained persistence, ORM/query, and route carriers form one coherent state model rather than separate demo/app interpretations,
+- retained old-world systems that survive into V26 are already cut, isolated, or Bitcode-repurposed enough that they no longer teach or power a parallel Engi/old-world product model,
 - and active product semantics teach Bitcode shares of technical intelligence rather than a loose generic developer or agentic platform.
 
 The following are explicitly not required for fifth-gate closure:
@@ -773,6 +778,7 @@ To close fifth-gate as a whole, the repository still has to ensure:
 - protocol-owned writes, retained execution-history rows, persisted conversation state, and `/application` rereads remain coherently synchronized,
 - active product semantics teach Bitcode shares of technical intelligence and only Bitcode,
 - repository-wide active-source health is stable enough to support the minimum-functional claim,
+- broad old-world reform is already complete enough that the live Bitcode path reads as a new-world Bitcode system rather than a renamed compatibility shell over unreformed old-world centers,
 - and the fifth-gate proof families can be generated without unresolved blockers in the required proof path.
 
 ### Fifth-gate exhaustive acceptance matrix
@@ -800,6 +806,7 @@ Each row names:
 | Asset-pack/share synthesis | share candidates, proofs, and history are represented as Bitcode outputs rather than generic deliverables in operator teaching | retained execution substrate can still be reused, but output meaning is canonicalized to Bitcode shares/asset packs/activity | `/application` detail/read surfaces, retained execution and deliverable carriers, spec/proof families | proof surface coverage tying retained execution outputs to Bitcode share semantics |
 | Settlement and follow-through | settlement posture, branch artifacts, proof state, and closure metrics remain in the same Bitcode-owned reread model | closure-bearing writes persist meaningful follow-through instead of thin execution notes; selected detail can reconstruct saved settlement state | `application-activity-history`, `application-transaction-detail-snapshot`, closure/detail cards, retained execution-history rows | closure-follow-through persistence proof and reread tests |
 | API and third-party interface parity | active APIs, admitted `Bitcode MCP`, and third-party app surfaces are not parallel products; they are admitted interfaces over the same Bitcode Exchange state model that the Bitcode Terminal uses | API carriers are synchronized with terminal writes/reads and preserve Bitcode-only semantics; third-party MCPs plus repository/provider connections and attachments are admitted as ingress/input context, while the Bitcode Exchange-facing MCP surface normalizes outputs toward asset-pack/share meaning and remains auditable against Bitcode Protocol canon | `uapi/app/api/*`, `packages/api/src/routes/*`, MCP/app integration carriers, ChatGPT-style surfaces | conversations continuity, runs/pipelines totality, and endpoint verification coverage |
+| Old-world reform baseline | fifth-gate is not closed while retained old-world systems still survive as parallel live product logic; anything kept must already be cut, isolated, or Bitcode-repurposed enough to fit the new-world baseline | retained web-search, webhook, generic-agent, generic-tool, and orchestration carriers no longer silently define or backdoor the live Bitcode product model even if some reference owners remain for later refinement | retained old-world packages/routes admitted by V26, especially search/webhook/agent/tool/pipeline carriers | system reform admissibility proof plus explicit kept/cut/isolated classification on the live path |
 | Persistence/schema convergence | schema, ORM, migrations, Supabase carriers, and generated types form one coherent Bitcode storage interpretation | active persistence carriers cannot preserve null-key drift, stale naming, or separate demo/app meanings on the same records | `supabase/*`, `packages/supabase/*`, `packages/orm/*`, retained storage-facing route carriers | persistence and schema totality proof family plus filtered compile health on active storage corridors |
 | Prompt-system explicitness | prompts, prompt parts, prompt execution, and retained prompt ports remain explicit infrastructure, not silent string debt | prompt space must be Bitcode-owned and compile/admissible even where old prompt reservoirs survive as references, and those retained reservoirs must stay off the live execution primitive path unless explicitly repurposed | `packages/prompts/*`, prompt carriers in executions/agents/conversations/deliverables | prompt-system totality and prompt-space completeness proofs |
 | Active-source health | the active fifth-gate claim is invalid if the live Bitcode corridor still fails compile or runtime checks in admitted systems | targeted compile/runtime seams across application, conversations, executions, VCS, ORM, prompts, and retained package callers are brought to stable health | active `uapi` program, retained package corridors admitted by V26 | compile-health witness rows in parity/proof surfaces and required route/test checks |
@@ -825,9 +832,10 @@ These are the complete planning units for fifth-gate.
 5. `Repository and persistence closure`
    - close VCS/provider, ORM/schema, migration, and storage seams on the active Bitcode path
    - prove one coherent Bitcode state model
-6. `Prompt and retained-package admissibility closure`
+6. `Old-world reform baseline and retained-package admissibility closure`
    - close prompt-system explicitness
    - close the execution primitive/reference boundary so reusable execution infrastructure is kept and retained pipeline families are contained as references unless Bitcode explicitly repurposes them
+   - close the broad old-world reform baseline so retained search, webhook, agent, tool, and orchestration carriers are already cut, isolated, or Bitcode-repurposed on the live path
    - classify retained packages as primitive, reference, repurposed, or cut
 7. `Proof and environment closure`
    - generate required fifth-gate proof families
@@ -840,8 +848,9 @@ The implementation order for fifth-gate is strict:
 2. stabilize conversations and `ad hoc` execution as the live agentic write surface,
 3. stabilize transactional readiness and repository scope,
 4. stabilize persistence/schema and active-source health,
-5. generate fifth-gate proofs and environment-mode closure,
-6. and only then claim minimum-functional closure.
+5. stabilize the old-world reform baseline and retained-package admissibility on the live path,
+6. generate fifth-gate proofs and environment-mode closure,
+7. and only then claim minimum-functional closure.
 
 Later-gate polish, commercialization, and `mainnet` posture are not allowed to be used as substitutes for any row in the matrix above.
 
@@ -854,12 +863,12 @@ Later-gate polish, commercialization, and `mainnet` posture are not allowed to b
 | runs and pipelines totality | `.bitcode/runs-pipelines-totality-proof.json` | prove that retained run/pipeline systems totalize Bitcode operations coherently, including deliverable meaning and the compatibility APIs still required to keep retained execution selectors healthy | `uapi/app/executions/*`, `uapi/app/api/vcs/route.ts`, `uapi/app/api/templates/deliverables/route.ts`, `uapi/app/api/auxillaries/template-preferences/route.ts`, `packages/api/src/routes/deliverables.ts`, `packages/pipelines/*`, `packages/execution-generics/*` |
 | persistence and schema totality | `.bitcode/persistence-schema-totality-proof.json` | prove that PostgreSQL/Supabase persistence, `/edgetimes`, migrations, schema contracts, ORM/query carriers, and generated types form one coherent Bitcode storage system | `supabase/*`, `supabase/migrations/001_ga1_production.sql`, `packages/supabase/src/*`, `packages/orm/src/models/*`, `packages/orm/src/queries/*`, `packages/orm/src/types/database.generated.ts`, `packages/orm/src/types/database.ts`, `packages/orm/scripts/generate-db-types.ts`, retained storage-facing API carriers, and generated database types |
 | prompt system totality | `.bitcode/prompt-system-totality-proof.json` | prove that retained PromptPart/Prompt/PromptExecution carriers and old-world prompt ports remain explicit Bitcode-owned prompt infrastructure before later prompt-space completeness closure | `packages/prompts/src/*`, `packages/execution-generics/src/prompts/*`, `packages/agent-generics/src/prompts/*`, `packages/conversations-generics/src/prompts/*`, retained Jira prompt ports, and retained deliverable planning/measurement prompts |
-| prompt space completeness | `.bitcode/prompt-space-completeness-proof.json` | prove that retained prompt text routes through prompt abstraction and the proved prompt space | `packages/prompts/src/*`, `uapi/prompts/conversations-system-prompt.ts`, `protocol-demonstration/src/canonical/type-contracts.ts` |
+| prompt space completeness | `.bitcode/prompt-space-completeness-proof.json` | generate the later-gate prompt-space witness family now so eighth-gate completeness can close without inventing a new artifact family late | `packages/prompts/src/*`, `uapi/prompts/conversations-system-prompt.ts`, `protocol-demonstration/src/canonical/type-contracts.ts` |
 | retained package admissibility | `.bitcode/retained-package-admissibility-proof.json` | prove that each kept non-Bitcode package has an explicit V26 role, boundary, justification, and old-world port scope where applicable | retained `packages/*` admitted by V26 |
 | environment mode coherence | `.bitcode/environment-mode-coherence-proof.json` | prove debug/environment controls and production/staging/development mode behavior are coherent and refresh safely | app shell, debug controls, environment toggles, route/API posture |
-| sixth-gate system reform admissibility | `.bitcode/system-reform-admissibility-proof.json` | prove that retained old-world agentic systems are either cut, isolated, or repurposed into Bitcode need-measuring, settlement, or support roles rather than surviving as unexamined parallel product logic | retained web-search, webhooks, generic agent/tool ports, executions-adjacent agentic packages, and other old-world infrastructure still admitted after fifth-gate |
-| whole-repository production satisfaction | `.bitcode/whole-repository-production-satisfaction-proof.json` | prove that the retained and repurposed repository that remains in V26 production canon is proven up to Bitcode-grade satisfaction rather than leaving strong proof closure isolated to the former demo slice | all retained V26 routes, packages, components, proofs, docs, and generated artifacts |
-| v26 total closure | `.bitcode/v26-total-closure-proof.json` | prove that the gated V26 system closes as one coherent Bitcode system suitable for promotion | all promoted V26 systems and generated artifacts |
+| fifth-gate system reform admissibility | `.bitcode/system-reform-admissibility-proof.json` | prove that retained old-world agentic systems are already cut, isolated, or repurposed enough to satisfy the fifth-gate Bitcode-native baseline rather than surviving as unexamined parallel product logic | retained web-search, webhooks, generic agent/tool ports, executions-adjacent agentic packages, and other old-world infrastructure still admitted after fourth-gate |
+| whole-repository production satisfaction | `.bitcode/whole-repository-production-satisfaction-proof.json` | generate the later-gate whole-repository witness family now so eighth-gate provation can close without inventing a new artifact family late | all retained V26 routes, packages, components, proofs, docs, and generated artifacts |
+| v26 total closure | `.bitcode/v26-total-closure-proof.json` | generate the later-gate total-closure witness family now so eighth-gate definition-of-done can close without inventing a new artifact family late | all promoted V26 systems and generated artifacts |
 
 ### Fifth-gate formal acceptance rule
 
@@ -877,32 +886,44 @@ Fifth-gate is closed only when:
 11. the minimum-functional north star is satisfied: the repository can make shares and use shares through Bitcode-owned interfaces and state,
 12. the Bitcode Terminal plus admitted API/MCP/app interfaces are coherently reading from and writing to the same protocol-owned system,
 13. active product semantics teach Bitcode and only Bitcode rather than a generic developer-platform or agentic-platform identity,
-14. and fifth-gate closure is not being falsely claimed by importing seventh-gate polish or post-V26 mainnet work into the acceptance boundary.
+14. retained old-world systems are already cut, isolated, or Bitcode-repurposed enough that the live path reads as a new-world Bitcode product rather than a renamed old-world compatibility stack,
+15. and fifth-gate closure is not being falsely claimed by importing sixth-/seventh-/eighth-gate polish or post-V26 mainnet work into the acceptance boundary.
 
 ### Sixth-gate formal acceptance rule
 
 Sixth-gate is closed only when:
 1. fifth-gate acceptance holds,
-2. retained old-world pure-agentic systems have explicit Bitcode roles or explicit cut decisions,
-3. need-measuring agency is the governing interpretation for retained execution, pipeline, tool, and prompt carriers,
-4. the post-cut-over Bitcode application map is explicit and implemented as:
+2. the Bitcode Exchange, Bitcode Terminal, Bitcode Protocol, proof families, and admitted API/MCP/app surfaces are stable enough to be called a minimal viable product rather than only a minimum-functional baseline,
+3. the post-fifth-gate Bitcode application map is explicit and implemented as:
    - `activity`: the dominant master-detail transaction activity surface with searchable, filterable, live-updating tables and activity detail
    - `transactions`: the write-space for making transactions and executing give/need/system operations
    - `conversations`: the rich ChatGPT-style read/write Bitcode interface, popup-capable and fullscreen-capable, with tool registration kept aligned to the ChatGPT app surface
    - `auxillaries`: non-duplicative settings, preferences, connections, identity, and deep wallet/`$BTD` surfaces around the network core
-5. systems with no stable Bitcode place, such as purely old-world search/automation or webhook behaviors, are cut or isolated instead of silently surviving,
-6. retained executions primitives remain only where they support Bitcode need measurement, runs, pipelines, and transaction-linked market behavior rather than surviving as a parallel product center,
-7. and the repository-level architecture is cleaner after reform, not broader or more compatibility-heavy.
+4. the dominant read, write, readiness, proof, and interface paths are stable enough to support real repeated operator use on testnet,
+5. admitted interface surfaces are no longer merely aligned in principle but demonstrably behave like one product,
+6. quality, reliability, and operator usability are high enough that Bitcode can be presented as a minimal viable product rather than a canonical bring-up baseline,
+7. and the repository-level architecture remains cleaner after MVP elevation, not broader or more compatibility-heavy.
 
 ### Seventh-gate formal acceptance rule
+
+Seventh-gate is closed only when:
+1. fifth-gate acceptance holds,
+2. sixth-gate acceptance holds,
+3. Bitcode is refined into an initial commercially-viable live-launch posture while remaining testnet-first,
+4. the Exchange, Terminal, Protocol, Proofs, API, MCP, and admitted app surfaces are commercially legible and operationally credible together,
+5. launch-critical readiness around wallet, settlement, repository scope, proof/state reread, and operator flows is refined beyond bare MVP sufficiency,
+6. and the kept repository is ready for an initial commercial testnet launch without falling back to old-world compatibility explanations for core user journeys.
+
+### Eighth-gate formal acceptance rule
 
 V26 is fully proven only when:
 1. fifth-gate acceptance holds,
 2. sixth-gate acceptance holds,
-3. whole-repository production satisfaction is generated with an explicit closure verdict,
-4. prompt space completeness and total repository closure proofs are generated with explicit closure verdicts,
-5. the kept repository is application-ready Bitcode canon without legacy product naming or silent compatibility ownership,
-6. and V26 total closure is explicit enough that promotion no longer depends on interpretive notes.
+3. seventh-gate acceptance holds,
+4. whole-repository production satisfaction is generated with an explicit closure verdict,
+5. prompt space completeness and total repository closure proofs are generated with explicit closure verdicts,
+6. the kept repository is application-ready Bitcode canon without legacy product naming or silent compatibility ownership,
+7. and V26 total closure is explicit enough that promotion no longer depends on interpretive notes.
 
 ## Canonical Bitcode executive summary
 
@@ -931,7 +952,7 @@ Current truth order for the active V26 canon is:
 8. current source and tests explicitly referenced by active V26 canon
 9. historical prior specs
 
-V26 is therefore the active canonical runtime truth through fourth gate, while fifth-, sixth-, and seventh-gate closure remain deliberate active work inside V26 before later-version reopening.
+V26 is therefore the active canonical runtime truth through fourth gate, while fifth-, sixth-, seventh-, and eighth-gate closure remain deliberate active work inside V26 before later-version reopening.
 
 ## full-system, re-implementation, and audit rule
 

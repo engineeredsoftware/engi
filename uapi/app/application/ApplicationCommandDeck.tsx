@@ -1,5 +1,6 @@
 'use client';
 
+import React from 'react';
 import { useMemo, useState } from 'react';
 
 import BitcodeInlineExplainer from '@/components/base/bitcode/execution/BitcodeInlineExplainer';

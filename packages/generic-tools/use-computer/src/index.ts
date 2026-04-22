@@ -1,6 +1,7 @@
 /**
- * GENERIC TOOL: use-computer
- * Execute shell commands with timeout and capture stdio.
+ * Retained tooling-only shell execution primitive for V26 fifth-gate reform.
+ * It supports admitted automation paths, but it is not a Bitcode Exchange or
+ * Bitcode Terminal state owner.
  */
 import { attachDocCodeToolPrompt, factoryTool } from '@bitcode/tools-generics';
 import { USE_COMPUTER_DOC_CODE_TOOL_PROMPT } from './prompts/UseComputerDocCodeToolPrompt';

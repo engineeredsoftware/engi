@@ -1,6 +1,6 @@
 'use client';
 
-import { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { ShieldAlert, ShieldCheck } from 'lucide-react';
 
 import ApplicationWorkspaceCard from './ApplicationWorkspaceCard';
@@ -14,6 +14,7 @@ import {
   normalizeExternalRuntimePayload,
   type ApplicationExternalRuntimeSnapshot,
 } from './application-external-runtime';
+import type { ApplicationEnvironmentMode } from './application-transaction-query';
 
 async function readJsonResponse(response: Response) {
   const contentType = response.headers?.get?.('content-type') || '';
@@ -29,6 +30,16 @@ function formatLabel(value: string) {
     .replace(/\b\w/g, (match) => match.toUpperCase());
 }
 
+function buildExternalRealizationRequestPath(environmentMode: ApplicationEnvironmentMode | null) {
+  if (!environmentMode) {
+    return '/api/v24/external-realization';
+  }
+
+  const params = new URLSearchParams();
+  params.set('environmentMode', environmentMode);
+  return `/api/v24/external-realization?${params.toString()}`;
+}
+
 function runtimeTone(runtimeState: string, blocking: boolean) {
   if (blocking) return 'border-red-500/25 bg-red-500/10 text-red-100';
   if (runtimeState === 'live-configured') return 'border-emerald-500/25 bg-emerald-500/10 text-emerald-100';
@@ -37,10 +48,12 @@ function runtimeTone(runtimeState: string, blocking: boolean) {
 }
 
 interface ApplicationExternalInterfacingPanelProps {
+  environmentMode?: ApplicationEnvironmentMode | null;
   onRecordActivity?: (draft: ApplicationActivityRecordDraft) => Promise<unknown>;
 }
 
 export default function ApplicationExternalInterfacingPanel({
+  environmentMode = null,
   onRecordActivity,
 }: ApplicationExternalInterfacingPanelProps) {
   const [snapshot, setSnapshot] = useState<ApplicationExternalRuntimeSnapshot | null>(null);
@@ -57,7 +70,7 @@ export default function ApplicationExternalInterfacingPanel({
       setSnapshot(null);
     }
 
-    fetch('/api/v24/external-realization')
+    fetch(buildExternalRealizationRequestPath(environmentMode))
       .then(async (response) => {
         const payload = await readJsonResponse(response);
         if (!response.ok || !payload) {
@@ -83,7 +96,7 @@ export default function ApplicationExternalInterfacingPanel({
     return () => {
       disposed = true;
     };
-  }, []);
+  }, [environmentMode]);
 
   useEffect(() => {
     let disposeFetch = refresh();
@@ -181,6 +194,9 @@ export default function ApplicationExternalInterfacingPanel({
                 <div className="rounded-[1.3rem] border border-white/8 bg-white/5 px-4 py-4">
                   <p className="text-[0.66rem] uppercase tracking-[0.18em] text-neutral-500">Environment mode</p>
                   <p className="mt-3 text-lg font-semibold text-white">{snapshot.configuredEnvironmentMode}</p>
+                  <p className="mt-2 text-[0.66rem] uppercase tracking-[0.14em] text-neutral-500">
+                    {environmentMode ? 'Route override active' : 'Runtime default'}
+                  </p>
                 </div>
                 <div className="rounded-[1.3rem] border border-white/8 bg-white/5 px-4 py-4">
                   <p className="text-[0.66rem] uppercase tracking-[0.18em] text-neutral-500">Actuality</p>

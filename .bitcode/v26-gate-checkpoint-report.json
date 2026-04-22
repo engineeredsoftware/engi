@@ -1,16 +1,16 @@
 {
   "reportId": "v26-gate-checkpoint-report",
   "version": "V26",
-  "proofSourceCommit": "672629c81c6918da033791f8850ef57e7c373739",
-  "generatedAt": "2026-04-21T12:47:04-03:00",
+  "proofSourceCommit": "2c3eb724c2a131d597712c5cab11e2ff139cbc7c",
+  "generatedAt": "2026-04-22T09:27:17-03:00",
   "generatorId": "bitcode.proven-generator.v1",
   "worktreeState": "dirty-preview",
   "activeCanonicalTarget": "V26",
   "draftPreview": false,
-  "checkpointId": "v26-through-fourth-gate-promotion-boundary-on-seven-gate-v26",
-  "checkpointFocus": "through-fourth-gate-promotion-boundary-on-seven-gate-v26",
-  "nextGate": "Gate 5: Bitcode rename completion, proof precision, and system completeness",
-  "passed": false,
+  "checkpointId": "v26-through-fourth-gate-promotion-boundary-on-eight-gate-v26",
+  "checkpointFocus": "through-fourth-gate-promotion-boundary-on-eight-gate-v26",
+  "nextGate": "Gate 5: minimum-functional Bitcode Exchange, Bitcode Terminal, and broad old-world reform baseline",
+  "passed": true,
   "firstGate": {
     "gateId": "gate-1",
     "label": "Ownership migration baseline",
@@ -57,7 +57,7 @@
   "secondGate": {
     "gateId": "gate-2",
     "label": "Application UX/UI and external interfacing hardening",
-    "passed": false,
+    "passed": true,
     "checks": [
       {
         "checkId": "second-gate-application-carriers",
@@ -85,11 +85,11 @@
       {
         "checkId": "second-gate-proof-carriers",
         "label": "Second-gate proof and test carriers",
-        "passed": false,
-        "detail": "1 files missing",
+        "passed": true,
+        "detail": "12 required files present",
         "requiredFiles": [
           "protocol-demonstration/test/v26-public-copy.test.js",
-          "uapi/tests/orbitalsProvider.test.tsx",
+          "uapi/tests/auxillariesProvider.test.tsx",
           "uapi/tests/orbitalsInterfacesPane.test.tsx",
           "uapi/tests/orbitalsBTDPane.test.tsx",
           "uapi/tests/navWorkspaceChrome.test.tsx",
@@ -101,9 +101,7 @@
           "uapi/tests/userMenu.test.tsx",
           "uapi/tests/workspaceSurface.test.ts"
         ],
-        "missingFiles": [
-          "uapi/tests/orbitalsProvider.test.tsx"
-        ]
+        "missingFiles": []
       },
       {
         "checkId": "second-gate-documentation-carriers",
@@ -244,23 +242,30 @@
   },
   "fifthGate": {
     "gateId": "gate-5",
-    "label": "Bitcode rename completion, proof precision, and system completeness",
+    "label": "Minimum-functional Bitcode Exchange, Bitcode Terminal, and total old-world reform baseline",
     "passed": false,
     "open": true,
-    "detail": "Fifth-gate remains open after through-fourth-gate promotion and owns active-source Bitcode rename completion plus heavier proof/system-completeness closure."
+    "detail": "Fifth-gate remains open after through-fourth-gate promotion and owns minimum-functional Bitcode Exchange and Terminal closure plus the broad old-world reform baseline required to make the kept repository read as Bitcode-native."
   },
   "sixthGate": {
     "gateId": "gate-6",
-    "label": "Old-world system reform into Bitcode market infrastructure",
+    "label": "Minimal viable product elevation",
     "prepared": false,
     "open": true,
-    "detail": "Sixth-gate remains open and will adjudicate retained old-world pure-agentic systems into Bitcode roles or cut decisions."
+    "detail": "Sixth-gate remains open and will elevate the fifth-gate baseline into a coherent minimal viable product across Exchange, Terminal, Protocol, Proofs, and admitted interfaces."
   },
   "seventhGate": {
     "gateId": "gate-7",
+    "label": "Initial commercially-viable testnet live-launch refinement",
+    "prepared": false,
+    "open": true,
+    "detail": "Seventh-gate remains open and will refine the minimal viable Bitcode product into an initial commercially-viable testnet launch posture."
+  },
+  "eighthGate": {
+    "gateId": "gate-8",
     "label": "Whole-repository provation and final V26 closure",
     "prepared": false,
     "open": true,
-    "detail": "Seventh-gate remains open and owns final whole-repository Bitcode provation and closure."
+    "detail": "Eighth-gate remains open and owns final whole-repository Bitcode provation, prompt-space closure, and the definition-of-done for V26 productization."
   }
 }
