@@ -186,6 +186,42 @@ It mirrors the main V26 acceptance matrix, but records implementation-bearing ju
 | Active-source health | minimum-functional claim requires stable active-source health | targeted compile/runtime seams in active Bitcode corridors are progressively cleared | materially implemented | full active-source closure remains open |
 | Environment/debug/proof closure | debug/environment truth and proof generation are part of the gate | proof families and environment controls must close without unresolved blockers | implemented in active proof/tooling slices | non-preview clean-worktree promotion evidence remains the remaining formal closure step |
 
+## Package, interface, and commercial infrastructure parity matrix
+
+This matrix records the current implementation-bearing footing of the package corridors and product interfaces that now define Bitcode V26 as a commercialized, production-shaped system rather than a renamed demonstration shell.
+
+| Corridor | Active source basis | Current parity judgment | Remaining closure condition |
+| --- | --- | --- | --- |
+| Product route ownership | `uapi/app/{application,conversations,auxillaries,(root),docs,executions}/*` | materially implemented | browser-driven whole-flow verification and later-gate refinement remain open |
+| App-owned protocol/API ownership | `uapi/app/api/{activity,state,deposits,make-bitcode-branch,conversations,auxillaries,vcs,v24,webhook,edgetimes,client-error,executions}/*`, `packages/api/src/routes/*` | materially implemented | whole-interface parity remains open until the remaining admitted write/read surfaces carry the same readiness and reread guarantees |
+| Transactional readiness and signed-settlement admission | `uapi/app/application/{bitcode-transaction-readiness,bitcode-transaction-route-readiness}.ts`, `ApplicationCommandDeck.tsx`, `ApplicationDepositComposer.tsx`, `ApplicationClosureControlDeck.tsx`, related route tests | materially implemented | provider-backed signed-settlement acceptance and broader route/browser verification remain required |
+| Repository anchor and provider scope | `packages/{github,vcs}/*`, app-owned `/api/vcs/*`, repository-context application carriers | materially implemented | remaining repository-boundary runtime and third-party ingress proof remain open |
+| Persistence, storage, and schema coherence | `supabase/*`, `packages/{supabase,orm}/*`, `/edgetimes`, storage-facing API carriers | materially implemented | broader compile-health backlog and full persistence proof interpretation remain open |
+| Conversations and rich-input continuity | `uapi/app/conversations/*`, `packages/api/src/conversations/*`, `packages/conversations-generics/*` | implemented in active slices | full fifth-gate acceptance still depends on interface parity and proof-family closure |
+| Execution/prompt substrate | `packages/{execution-generics,pipelines,pipelines-generics,prompts,agent-generics,attachments-generics,templates-generics,tools-generics,llm-generics}/*` | materially implemented | retained prompt-space and Bitcode-native pipeline replacement remain open |
+| Bitcode MCP and execution-facing external interface | `packages/executions-mcp/*`, `uapi/components/base/bitcode/execution/*`, admitted MCP integration carriers | materially implemented | Bitcode MCP write acceptance and end-to-end Exchange-state parity remain open |
+| Observability, runtime health, and error intake | `uapi/app/api/client-error/route.ts`, retained runtime telemetry carriers, `packages/{observability,logger,repository-health,testing}/*` | materially implemented | broader runtime and browser coverage still need to prove the corridor under live operator use |
+| Public/docs and product-teaching corridor | `uapi/app/(root)/*`, `uapi/app/docs/*`, shared public-copy carriers | implemented | later-gate marketing refinement remains open but no longer blocks fifth-gate teaching posture |
+| Retained generic/reference corridors | `packages/{generic-agents,generic-tools,generic-llms,web-search,doc-code,doc-comment,editing,lsp,refactoring,figma,vercel,jira,notion}/*` | implemented as classified baseline | retained-package admissibility stays open until every admitted live-path dependency is explicitly justified and bounded |
+
+## Proof and generated-evidence parity matrix
+
+This matrix records the current generated proof/evidence footing for the fifth-gate and later-gate families already present in source.
+
+| Proof or evidence family | Active artifact path | Current parity judgment | Remaining closure condition |
+| --- | --- | --- | --- |
+| Application composition | `.bitcode/application-composition-proof.json` | generated in current source | semantic gate closure still depends on `/application` read/write/interface rows closing together |
+| Conversations continuity | `.bitcode/conversations-continuity-proof.json` | generated in current source | closure still depends on persisted rich-input, destination, and interface-parity acceptance |
+| Runs/pipelines totality | `.bitcode/runs-pipelines-totality-proof.json` | generated in current source | Bitcode-native pipeline ownership and retained reference bounds remain open |
+| Persistence/schema totality | `.bitcode/persistence-schema-totality-proof.json` | generated in current source | active compile backlog and storage-corridor convergence still need broader closure |
+| Prompt-system totality | `.bitcode/prompt-system-totality-proof.json` | generated in current source | prompt-space and consumer-surface completeness remain open |
+| Prompt-space completeness | `.bitcode/prompt-space-completeness-proof.json` | generated in current source | later-gate completeness interpretation remains open until prompt corridors fully converge |
+| Retained-package admissibility | `.bitcode/retained-package-admissibility-proof.json` | generated in current source | catalog and proof still need whole-repository package-by-package closure to finish fifth-gate honestly |
+| Environment-mode coherence | `.bitcode/environment-mode-coherence-proof.json` | generated in current source | clean-worktree, non-preview promotion evidence remains open |
+| System reform admissibility | `.bitcode/system-reform-admissibility-proof.json` | generated in current source | live-path classification is explicit, but the rest of fifth-gate still must close around it |
+| Whole-repository production satisfaction | `.bitcode/whole-repository-production-satisfaction-proof.json` | generated in current source as later-gate witness family | eighth-gate by definition remains open |
+| V26 total closure | `.bitcode/v26-total-closure-proof.json` | generated in current source as later-gate witness family | eighth-gate definition-of-done remains open by definition |
+
 ## Fifth-gate closure plan order
 
 The parity order for closure is:

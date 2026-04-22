@@ -735,6 +735,62 @@ Current active V26-facing API surfaces include:
 - `uapi/app/api/v24/external-realization/route.ts`
 - `uapi/app/api/v24/executors/[interfaceId]/route.ts`
 
+Current active readiness and transaction-admission carriers include:
+- `uapi/app/application/bitcode-transaction-readiness.ts`
+- `uapi/app/application/bitcode-transaction-route-readiness.ts`
+- `uapi/app/application/ApplicationCommandDeck.tsx`
+- `uapi/app/application/ApplicationDepositComposer.tsx`
+- `uapi/app/application/ApplicationClosureControlDeck.tsx`
+
+Operational rule:
+- app-owned write routes are no longer allowed to trust client-only readiness posture when auth, wallet, provider, and repository scope can be re-derived on the server
+- `deposits` and `make-bitcode-branch` are application-owned Bitcode write boundaries and therefore must fail closed unless signed-settlement readiness and repository anchor posture are satisfied
+- application write controls may expose drafting posture before settlement posture, but they may not overclaim that staged drafting readiness is equivalent to verified signing readiness
+
+## Commercial infrastructure topology
+
+V26 now needs to be legible not only as a route/application map but also as a production-shaped commercial infrastructure topology.
+
+The active topology is:
+- `product surfaces`
+  `/application`, `/conversations`, `/auxillaries`, `/(root)`, `/docs`, and `/executions`
+- `protocol and ingress routes`
+  app-owned `/api/*` carriers for state, write actions, conversations, auxillaries, VCS, storage, telemetry, webhooks, and external realization
+- `identity and admission`
+  auth, wallet, `$BTD`, repository anchor, provider connection, and signed-settlement readiness
+- `persistence and state`
+  PostgreSQL/Supabase, ORM/query carriers, generated database types, and execution/activity history
+- `execution and prompt substrate`
+  prompt, execution, conversations, attachments, templates, pipelines, and MCP substrate packages
+- `proof and observability`
+  `.bitcode/*` proof artifacts, `_PROVEN_`, telemetry intake, logger/observability packages, and repository-health/testing carriers
+
+Operational rule:
+- no layer above may silently redefine Bitcode semantics owned by a lower canonical layer
+- product routes are the only operator-facing product centers, while protocol and ingress routes remain server-owned admissions into the same Bitcode state model
+- identity/admission, persistence/state, execution/prompt, and proof/observability are all first-class product infrastructure and may not remain hidden as demo-local implementation residue
+
+## Package corridor responsibility map
+
+This document groups the repository packages by the role they currently play in V26 application convergence.
+
+Current corridor map:
+
+| Corridor | Current package families | Current role in V26 |
+| --- | --- | --- |
+| Product and response ownership | `packages/{api,auth,btd,context,models,registry,responses}` | direct Bitcode product, account, and response composition |
+| Repository/provider boundary | `packages/{github,vcs,git,gitlab,bitbucket,browser-storage,security}` | repository anchor, provider connection, and provider-specific support/integration |
+| Persistence and data contract | `packages/{supabase,orm,aurora-postgres,postgresql,mysql,files}` | storage, schema, query, and generated type ownership |
+| Execution, prompts, conversations, and MCP | `packages/{conversations-generics,execution-generics,executions-mcp,pipelines,pipelines-generics,prompts,agent-generics,attachments-generics,templates-generics,tools-generics,llm-generics,streams}` | admitted execution substrate for Bitcode activity, conversations, `ad hoc`, prompts, tools, and MCP behavior |
+| Artifact, proof, and health support | `packages/{artifacts,digest,errors,logger,observability,parsing,repository-health,testing,tech-types,time,objects-arrays}` | proof-bearing support, telemetry, diagnostics, typing, parsing, and analysis substrate |
+| Provider/deployment/support integrations | `packages/{aws,circleci,cloudflare,docker,email,firebase,firecrawl,google-analytics,jira,kubernetes,networking,notion,notifications,sentry,styling,vercel}` | ingress, support, telemetry, deployment, or bounded reference carriers |
+| Retained generic/reference corridors | `packages/{generic-agents,generic-doc-comment-plugins,generic-llms,generic-tools,doc-code,doc-comment,editing,figma,lsp,multimodal-utils,obfuscate-generics,procurement,refactoring,web-search}` | retained acceleration, tooling, or auxiliary-input/reference-only corridors that may not silently own the live Bitcode product path |
+
+Operational rule:
+- every admitted package corridor must read as either direct-product, commercial-infrastructure, ingress/support, compatibility, or reference-only
+- the same corridor role must be visible in spec, parity, retained-package admissibility proof, and README/system documentation
+- the package map is repository-wide architecture guidance, not permission to keep all retained corridors equally central to the live Bitcode product path
+
 ## Retained package convergence
 
 V26 still reuses older package reservoirs, but only under explicit Bitcode roles.
@@ -779,6 +835,30 @@ Required convergence rule:
 - V26 may not leave PostgreSQL/Supabase ownership implicit across migrations, package helpers, and route glue.
 - One explicit Bitcode storage contract must name the migration baseline, active schema owners, ORM or query-layer owners, generated database types, and the API boundaries that expose them.
 - Tests, comments, docs, and proof-surface ownership must follow those storage carriers rather than accumulating as infrastructure residue.
+
+## Proof, generated-evidence, and observability carriers
+
+Current active proof and evidence carriers include:
+- `.bitcode/application-composition-proof.json`
+- `.bitcode/conversations-continuity-proof.json`
+- `.bitcode/runs-pipelines-totality-proof.json`
+- `.bitcode/persistence-schema-totality-proof.json`
+- `.bitcode/prompt-system-totality-proof.json`
+- `.bitcode/prompt-space-completeness-proof.json`
+- `.bitcode/retained-package-admissibility-proof.json`
+- `.bitcode/environment-mode-coherence-proof.json`
+- `.bitcode/system-reform-admissibility-proof.json`
+- `.bitcode/whole-repository-production-satisfaction-proof.json`
+- `.bitcode/v26-total-closure-proof.json`
+- `BITCODE_SPEC_V26_PROVEN.md`
+- `uapi/app/api/client-error/route.ts`
+- retained telemetry carriers under `protocol-demonstration/public/*`
+- `packages/{logger,observability,repository-health,testing}/*`
+
+Operational rule:
+- generated proof families are part of the live production architecture because Bitcode requires a provable static codebase and deployed financial system
+- later-gate witness families may already be generated in source, but they must not be mistaken for later-gate completion while the underlying subsystem matrix remains open
+- observability and runtime-health carriers must remain Bitcode-facing and fail closed, not generic product-agnostic telemetry residue
 
 ## Module namespace direction
 

@@ -812,6 +812,31 @@ Each row names:
 | Active-source health | the active fifth-gate claim is invalid if the live Bitcode corridor still fails compile or runtime checks in admitted systems | targeted compile/runtime seams across application, conversations, executions, VCS, ORM, prompts, and retained package callers are brought to stable health | active `uapi` program, retained package corridors admitted by V26 | compile-health witness rows in parity/proof surfaces and required route/test checks |
 | Environment/debug/proof closure | environment posture is explicit inside the application and proof generation is part of the gate, not a post-hoc narrative | debug controls, environment-mode truth, and required proof families are generated without unresolved blockers | debug widget, environment toggles, proof-generation scripts, `.bitcode/*` artifacts | environment-mode coherence plus fifth-gate proof-family generation |
 
+### Fifth-gate commercial infrastructure and production architecture
+
+Fifth-gate is also the point where V26 stops being describable as a route and UI convergence project alone.
+To support the minimum-functional Bitcode Exchange and Bitcode Terminal claim, the repository must already describe and operate as a commercial product architecture with explicit product, infrastructure, persistence, execution, observability, and proof layers.
+
+The production architecture is therefore fixed as the following joined system:
+
+| Production layer | Required fifth-gate role | Active source basis / owning families | Required fifth-gate closure property |
+| --- | --- | --- | --- |
+| Product routes and operator surfaces | `/application`, `/conversations`, `/auxillaries`, `/(root)`, `/docs`, `/executions`, and admitted compatibility deep links are the only user-facing route owners of the Bitcode product model | `uapi/app/application/*`, `uapi/app/conversations/*`, `uapi/app/auxillaries/*`, `uapi/app/(root)/*`, `uapi/app/docs/*`, `uapi/app/executions/*` | no live route may teach a parallel old-world product center or bypass Bitcode-owned semantics |
+| App-owned protocol and ingress routes | the application owns HTTP and SSE admission into Bitcode Exchange state, including activity, state, deposits, branches, conversations, auxillaries, VCS, external-realization, executor, webhook, storage, and telemetry intake routes | `uapi/app/api/{activity,state,deposits,make-bitcode-branch,conversations,auxillaries,vcs,v24,webhook,edgetimes,client-error,executions}/*` plus `packages/api/src/routes/*` | routes must be server-owned admission carriers, not thin client-only illusions, and must fail closed when readiness, policy, or repository scope is absent |
+| Identity, readiness, and transactional admission | wallet identity, verified wallet-provider signing, repository anchoring, auth session posture, provider bindings, and `$BTD`/profile state compose one transactional admission model | `packages/{auth,btd,github,vcs}/*`, `uapi/app/application/{bitcode-transaction-readiness,bitcode-transaction-route-readiness}.ts`, `uapi/app/auxillaries/*`, related app/API auth routes | drafting, reread, and signed settlement must remain explicitly distinct, and settlement-bearing routes must not bypass server-owned `canSettle` checks |
+| Persistence and state coherence | PostgreSQL/Supabase storage, ORM/query carriers, generated database types, storage-facing API routes, and execution/history rows form one Bitcode storage interpretation | `supabase/*`, `packages/{supabase,orm}/*`, `/edgetimes`, retained storage-facing route owners | Bitcode Exchange state may not split into route-local, shell-local, and persistence-local meanings on the same records |
+| Execution, conversation, and prompt substrate | conversations, `ad hoc` execution, execution primitives, prompt parts, prompt execution, attachments, templates, tool calling, and pipeline compatibility carriers remain explicit infrastructure for Bitcode activity | `packages/{conversations-generics,execution-generics,executions-mcp,pipelines,pipelines-generics,prompts,agent-generics,attachments-generics,templates-generics,tools-generics,llm-generics,streams}/*` | primitives may survive, but retained orchestration reservoirs must not silently define the live product model and the Bitcode MCP corridor must remain auditable |
+| External realization and settlement runtime | bitcoin, sidechain, repeated-read, compute, GitHub realization, storage publication, and settlement observation remain explicit production architecture rather than invisible demo substrate | `protocol-demonstration/src/canonical/{v23-bitcoin.js,v23-bitcoin-demonstration-service.js,v24-external-realization.js,v24-external-execution.js,v24-live-execution.js,v24-local-executors.js,v24-remote-adapters.js,settlement.js}`, `packages/github/*` | external realization, execution observation, and settlement proof must remain fail-closed even while ownership refits from demo-local reservoirs toward packages and app routes |
+| Observability, error intake, and runtime health | runtime failures, telemetry, repository-health, logger, and operator-visible diagnostics remain part of the production contract rather than incidental engineering residue | `uapi/app/api/client-error/route.ts`, `packages/{observability,logger,repository-health,testing}/*`, retained telemetry carriers in `protocol-demonstration` | the live Bitcode path must accept, classify, and audit errors and health posture without reverting to Engi-era diagnostics or silent client failures |
+| Proof, generated evidence, and promotion control | generated proof families, spec-family reports, canonical-input reports, `_PROVEN_`, and promotion scripts are first-class production architecture because Bitcode requires a provable static codebase and deployed financial system | `.bitcode/*`, `BITCODE_SPEC_V26_PROVEN.md`, `scripts/{check-bitcode-canonical-inputs.mjs,check-bitcode-spec-family.mjs,generate-bitcode-proven.mjs}`, proof generators under `protocol-demonstration/src/canonical/*` | fifth-gate is invalid if the product architecture is not described, generated, and replayable as one witness-bearing system |
+
+The production architecture above is constrained by the following fifth-gate rules:
+- no write-bearing interface may rely on client-only readiness judgment when the server can determine readiness from auth, wallet, provider, and repository state;
+- repository anchor, wallet verification, and provider bindings must be legible at the product layer, enforced at the route layer, and explainable at the spec/proof layer using the same Bitcode semantics;
+- admitted APIs, MCPs, and third-party app surfaces are Bitcode Exchange interfaces, not sibling products, so they inherit the same readiness, persistence, proof, and disclosure boundaries;
+- retained infrastructure packages may remain where they genuinely accelerate V26, but their role must be named as direct-product, support, ingress, compatibility, reference-only, or cut-target rather than left implicit;
+- and observability, testing, proof generation, and generated appendix refresh are not optional afterthoughts because Bitcode’s commercial claim depends on provable runtime and deployment posture.
+
 ### Fifth-gate closure work packages
 
 The exhaustive acceptance matrix is executed through the following work packages.
@@ -1254,6 +1279,41 @@ These target owners remain draft targets, not yet promoted truth.
 | `protocol-demonstration/server.js` | standalone demo HTTP server and API composition | `packages/api` plus `uapi` application routes | move Bitcode API composition into package and app owners; the standalone demo server stops being the primary product surface | P0 |
 | `protocol-demonstration/public/index.html`, `protocol-demonstration/public/app.js`, `protocol-demonstration/public/styles.css` | demo-owned UI shell and rendering | `uapi/app/*` plus `uapi/components/base/*` | replace the demo UI implementation with application-facing components while preserving operator UX | P0 |
 | `protocol-demonstration/test/*` | demo-local runtime, proof, quality, and external-realization validation | package-local tests plus API and app integration tests | follow the extracted ownership model and keep fail-closed validation across package, API, and app layers | P0 |
+
+## V26 package corridor role catalog
+
+The extraction matrix above records the planned split of the preserved Bitcode reservoir.
+V26 also needs a repository-wide package corridor catalog so package admissibility, commercial infrastructure posture, and proof coverage can be read at a glance.
+
+Every package admitted to V26 must fit one primary role:
+- `direct-product`
+  Bitcode product logic or operator-facing system behavior.
+- `commercial-infrastructure`
+  storage, auth, execution, prompt, observability, or other runtime substrate required by the live Bitcode system.
+- `ingress-or-support`
+  external provider or support package that may feed the live Bitcode system without owning Bitcode Exchange semantics itself.
+- `compatibility`
+  a bounded transition carrier preserved for admitted callers during convergence.
+- `reference-only`
+  retained old-world implementation or tooling kept for acceleration, historical continuity, or bounded bring-up, but not as the live product worldview.
+
+| Package corridor | Current package families | Primary V26 role | V26 production expectation |
+| --- | --- | --- | --- |
+| Product and route composition | `packages/{api,auth,btd,context,models,registry,responses}` | `direct-product` | these packages must teach Bitcode Exchange, Bitcode Terminal, readiness, account, and response semantics directly rather than indirectly through preserved demo naming or old-world abstractions |
+| Repository, provider, and identity boundary | `packages/{github,vcs,git,gitlab,bitbucket,browser-storage,security}` | `commercial-infrastructure` plus `ingress-or-support` where provider-specific | repository and provider posture must stay explicit, typed, fail-closed, and aligned to Bitcode repository-anchor semantics instead of generic SCM connection posture |
+| Persistence, schema, and storage | `packages/{supabase,orm,aurora-postgres,postgresql,mysql,files}` | `commercial-infrastructure` | storage packages must converge on one Bitcode data contract, with only one live interpretation of auth, profile, repository, activity, and settlement records |
+| Execution, conversations, prompts, and attachments | `packages/{conversations-generics,execution-generics,executions-mcp,pipelines,pipelines-generics,prompts,agent-generics,attachments-generics,templates-generics,tools-generics,llm-generics,streams}` | `commercial-infrastructure` | these packages form the admitted execution substrate for conversations, `ad hoc`, prompt ownership, tool invocation, and Bitcode MCP behavior, with retained orchestration made explicit as reference-only where not yet repurposed |
+| Artifact, proof, and code-analysis support | `packages/{artifacts,digest,errors,logger,observability,parsing,registry,repository-health,testing,tech-types,time,objects-arrays}` | `commercial-infrastructure` | artifacts, diagnostics, and structural helpers must remain source-bearing and proof-compatible rather than miscellaneous utility residue |
+| Product UI and route support | `packages/{styling,middleware,notifications,email,networking}` | `ingress-or-support` | support packages may improve delivery, styling, notification, or network posture, but they may not define Bitcode semantics independently of app/API/proof ownership |
+| External-provider and deployment integrations | `packages/{aws,circleci,cloudflare,docker,firebase,firecrawl,google-analytics,jira,kubernetes,notion,sentry,vercel}` | `ingress-or-support` or `reference-only` depending on live path classification | provider and deployment packages are admitted only when they are explicit ingress, telemetry, or support carriers rather than parallel control planes for Bitcode product state |
+| Retained generic and transformation corridors | `packages/{generic-agents,generic-doc-comment-plugins,generic-llms,generic-tools,doc-code,doc-comment,editing,figma,lsp,multimodal-utils,obfuscate-generics,procurement,refactoring,web-search}` | mostly `reference-only` with explicit `ingress-or-support` exceptions | retained generic reservoirs may accelerate V26 only if their role is named in admissibility proof and they do not silently survive as the live Bitcode product center |
+
+The package corridor catalog must stay synchronized with:
+- the fifth-gate commercial architecture matrix,
+- retained-package admissibility proof,
+- system reform admissibility proof,
+- active package README and supplementary architecture documents,
+- and the parity judgments for package-specific compile health, interface ownership, and proof coverage.
 
 ## proof-family canon
 
