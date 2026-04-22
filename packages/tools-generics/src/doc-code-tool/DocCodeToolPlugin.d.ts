@@ -1,4 +1,5 @@
-import { BaseDocCommentPlugin, type DocComment, type ValidationResult } from '@bitcode/doc-comment';
+import { BaseDocCommentPlugin, type ValidationResult } from '@bitcode/doc-comment/base-plugin';
+import type { DocComment } from '@bitcode/doc-comment/types';
 /**
  * Metadata structure for @doc-code-tool
  */

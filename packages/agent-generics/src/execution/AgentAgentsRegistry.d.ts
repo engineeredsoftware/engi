@@ -11,7 +11,7 @@
  */
 import { RegistryImpl } from '@bitcode/registry';
 import { Agent } from '../types';
-import { Execution } from '@bitcode/execution-generics';
+import { Execution } from '@bitcode/execution-generics/Execution';
 /**
  * ExecutionAgent - Agent that can be bound to execution context
  *

@@ -4,7 +4,7 @@
  * Revolutionary design: Prompt IS a Registry.
  * This enables hierarchical prompt composition with typed paths.
  */
-import { RegistryImpl } from '../../registry/src/index';
+import { RegistryImpl } from '@bitcode/registry';
 import { PromptPart } from './parts/PromptPart';
 /**
  * PromptFormatter - Function type for formatting prompts

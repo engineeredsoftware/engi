@@ -2,8 +2,31 @@
   "name": "@bitcode/doc-comment",
   "version": "1.0.0",
   "description": "Ultra-generic doc comment parsing and build-time type injection primitive",
-  "main": "dist/index.js",
-  "types": "dist/index.d.ts",
+  "main": "src/index.js",
+  "types": "src/index.ts",
+  "exports": {
+    ".": {
+      "types": "./src/index.ts",
+      "default": "./src/index.js"
+    },
+    "./base-plugin": {
+      "types": "./src/base-plugin.ts",
+      "default": "./src/base-plugin.js"
+    },
+    "./types": {
+      "types": "./src/types.ts",
+      "default": "./src/types.js"
+    },
+    "./parser": {
+      "types": "./src/parser.ts",
+      "default": "./src/parser.js"
+    },
+    "./build-plugin": {
+      "types": "./src/build-plugin.ts",
+      "default": "./src/build-plugin.js"
+    },
+    "./package.json": "./package.json"
+  },
   "scripts": {
     "build": "tsc",
     "dev": "tsc --watch",

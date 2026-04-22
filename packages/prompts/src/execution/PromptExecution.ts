@@ -10,10 +10,10 @@
  * pattern: registry-extension
  */
 
-// Use the narrow pure Execution primitive instead of the full execution barrel
+// Use the narrow public Execution subpath instead of the full execution barrel
 // so prompt-bearing runtime carriers do not pull storage or resilience stacks
 // when they only need the base execution tree.
-import { Execution } from '../../../execution-generics/src/Execution';
+import { Execution } from '@bitcode/execution-generics/Execution';
 import { Prompt } from '../prompt';
 
 /**

@@ -1,9 +1,9 @@
 import {
   BaseDocCommentPlugin,
-  type DocComment,
   type ValidationError,
   type ValidationResult
-} from '../../../doc-comment/src/index';
+} from '@bitcode/doc-comment/base-plugin';
+import type { DocComment } from '@bitcode/doc-comment/types';
 
 /**
  * Metadata structure for @doc-code-tool

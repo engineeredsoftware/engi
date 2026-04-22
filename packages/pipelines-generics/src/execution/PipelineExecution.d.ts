@@ -9,7 +9,7 @@
  * purpose: Provide complete registry set for pipeline execution
  * pattern: registry-aggregation
  */
-import { Execution } from '@bitcode/execution-generics';
+import { Execution } from '@bitcode/execution-generics/Execution';
 import { PipelinePromptRegistry } from './PipelinePromptRegistry';
 import { PipelineToolRegistry } from './PipelineToolRegistry';
 import { PipelineLLMRegistry } from './PipelineLLMRegistry';

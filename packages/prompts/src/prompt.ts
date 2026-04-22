@@ -5,8 +5,9 @@
  * This enables hierarchical prompt composition with typed paths.
  */
 
-// Use relative import to registry to support ts-node rendering without full install
-import { RegistryImpl } from '../../registry/src/index';
+// Keep the prompt contract on the public registry package boundary rather than
+// depending on repo-relative source reach-through.
+import { RegistryImpl } from '@bitcode/registry';
 import { PromptPart } from './parts/PromptPart';
 
 /**

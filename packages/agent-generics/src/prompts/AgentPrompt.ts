@@ -14,8 +14,8 @@
  * current_version: "GA1.50.0"
  */
 
-import { Prompt } from '@bitcode/prompts';
-import type { PromptPart } from '@bitcode/prompts';
+import { Prompt } from '@bitcode/prompts/prompt';
+import type { PromptPart } from '@bitcode/prompts/parts/PromptPart';
 
 export interface AgentPromptConfig {
   // Minimal fields - only what applies to EVERY call

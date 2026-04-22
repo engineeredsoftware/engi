@@ -9,8 +9,8 @@
  * - StepExecution: Step-level execution (Plan/Try/Refine/Retry)
  * - SubStepExecution: SubStep-level execution (7 substeps)
  */
-import { Execution } from '@bitcode/execution-generics';
-import { ExecutionPrompt } from '@bitcode/execution-generics';
+import { Execution } from '@bitcode/execution-generics/Execution';
+import { ExecutionPrompt } from '@bitcode/execution-generics/prompts/ExecutionPrompt';
 export { AgentExecution, createAgentExecution } from './AgentExecution';
 export { AgentPromptsRegistry } from './AgentPromptsRegistry';
 export { AgentToolsRegistry, ExecutionTool } from './AgentToolsRegistry';

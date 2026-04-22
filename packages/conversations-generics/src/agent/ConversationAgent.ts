@@ -21,7 +21,7 @@ import {
   AgentStepPrompt
 } from '@bitcode/agent-generics';
 import { z } from 'zod';
-import type { PromptPart } from '@bitcode/prompts';
+import type { PromptPart } from '@bitcode/prompts/parts/PromptPart';
 
 // Import VCS tools - we'll register these in the agent
 // Note: The actual tools will be imported where the agent is used
@@ -303,7 +303,7 @@ export async function createConversationAgent(
 ): Promise<ConversationResult> {
   // Create execution if not provided
   if (!execution) {
-    const { Execution } = await import('@bitcode/execution-generics');
+    const { Execution } = await import('@bitcode/execution-generics/Execution');
     execution = new Execution(`conversation-${input.conversationId}`);
   }
   
@@ -321,7 +321,7 @@ export async function* processMessageStream(
 ): AsyncGenerator<string> {
   // Create execution if not provided
   if (!execution) {
-    const { Execution } = await import('@bitcode/execution-generics');
+    const { Execution } = await import('@bitcode/execution-generics/Execution');
     execution = new Execution(`conversation-${input.conversationId}`);
   }
   

@@ -1,4 +1,4 @@
-import { Prompt } from '@bitcode/prompts';
+import { Prompt } from '@bitcode/prompts/prompt';
 /**
  * @doc-comment-developing-promptdevelopment
  * domain: system

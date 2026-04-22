@@ -56,7 +56,7 @@ import { Executor, Execution, sequential, parallel, conditional } from '@bitcode
 import { SubStepExecution, AgentExecution, FailsafeExecution, GenerationExecution } from '../execution';
 import { LLMInput } from '@bitcode/llm-generics';
 import { parseResponse } from '@bitcode/parsing';
-import { PromptPart } from '@bitcode/prompts';
+import type { PromptPart } from '@bitcode/prompts/parts/PromptPart';
 
 // Import generic agent PromptParts directly from their files
 // TODO: why are these imports used but below unused?

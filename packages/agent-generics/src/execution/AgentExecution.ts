@@ -16,9 +16,9 @@
  * pattern: layered-registry-execution
  */
 
-import { Execution } from '@bitcode/execution-generics';
-import { ExecutionPrompt } from '@bitcode/execution-generics';
-import type { PromptPart } from '@bitcode/prompts';
+import { Execution } from '@bitcode/execution-generics/Execution';
+import { ExecutionPrompt } from '@bitcode/execution-generics/prompts/ExecutionPrompt';
+import type { PromptPart } from '@bitcode/prompts/parts/PromptPart';
 import { AgentPromptsRegistry } from './AgentPromptsRegistry';
 import { AgentToolsRegistry } from './AgentToolsRegistry';
 import { AgentLLMsRegistry } from './AgentLLMsRegistry';

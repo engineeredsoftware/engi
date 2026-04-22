@@ -11,7 +11,7 @@
  */
 
 import { RegistryImpl } from '@bitcode/registry';
-import { Execution } from '@bitcode/execution-generics';
+import { Execution } from '@bitcode/execution-generics/Execution';
 
 /**
  * AgentPromptsRegistry - Hierarchical prompt registry for agents

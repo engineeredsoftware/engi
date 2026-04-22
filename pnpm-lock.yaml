@@ -72,10 +72,10 @@ importers:
         version: 29.5.14
       jest:
         specifier: ^29.0.0
-        version: 29.7.0(@types/node@25.6.0)(babel-plugin-macros@3.1.0)(ts-node@10.9.2(@types/node@25.6.0)(typescript@5.8.3))
+        version: 29.7.0(@types/node@20.19.2)(babel-plugin-macros@3.1.0)(ts-node@10.9.2(@types/node@20.19.2)(typescript@5.8.3))
       ts-jest:
         specifier: ^29.0.0
-        version: 29.4.0(@babel/core@7.27.7)(@jest/transform@29.7.0)(@jest/types@29.6.3)(babel-jest@29.7.0(@babel/core@7.27.7))(jest-util@29.7.0)(jest@29.7.0(@types/node@25.6.0)(babel-plugin-macros@3.1.0)(ts-node@10.9.2(@types/node@25.6.0)(typescript@5.8.3)))(typescript@5.8.3)
+        version: 29.4.0(@babel/core@7.27.7)(@jest/transform@29.7.0)(@jest/types@29.6.3)(babel-jest@29.7.0(@babel/core@7.27.7))(esbuild@0.25.5)(jest-util@29.7.0)(jest@29.7.0(@types/node@20.19.2)(babel-plugin-macros@3.1.0)(ts-node@10.9.2(@types/node@20.19.2)(typescript@5.8.3)))(typescript@5.8.3)
       typescript:
         specifier: ^5.0.0
         version: 5.8.3
@@ -327,6 +327,9 @@ importers:
       '@bitcode/attachments-generics':
         specifier: workspace:*
         version: link:../attachments-generics
+      '@bitcode/execution-generics':
+        specifier: workspace:*
+        version: link:../execution-generics
       '@bitcode/prompts':
         specifier: workspace:*
         version: link:../prompts
@@ -447,6 +450,9 @@ importers:
       '@bitcode/prompts':
         specifier: workspace:*
         version: link:../prompts
+      '@bitcode/registry':
+        specifier: workspace:*
+        version: link:../registry
       zod:
         specifier: ^3.22.4
         version: 3.24.1
@@ -1961,6 +1967,9 @@ importers:
       '@bitcode/doc-comment':
         specifier: workspace:*
         version: link:../doc-comment
+      '@bitcode/execution-generics':
+        specifier: workspace:*
+        version: link:../execution-generics
       '@bitcode/registry':
         specifier: workspace:*
         version: link:../registry
@@ -2130,9 +2139,18 @@ importers:
       '@bitcode/doc-code':
         specifier: workspace:*
         version: link:../doc-code
+      '@bitcode/doc-comment':
+        specifier: workspace:*
+        version: link:../doc-comment
+      '@bitcode/execution-generics':
+        specifier: workspace:*
+        version: link:../execution-generics
       '@bitcode/prompts':
         specifier: workspace:*
         version: link:../prompts
+      '@bitcode/registry':
+        specifier: workspace:*
+        version: link:../registry
       zod:
         specifier: ^3.22.4
         version: 3.24.1

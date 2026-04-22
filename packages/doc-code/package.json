@@ -2,16 +2,22 @@
   "name": "@bitcode/doc-code",
   "version": "1.0.0",
   "description": "Runtime documentation injection system - makes docs available IN CODE",
-  "main": "dist/index.js",
-  "types": "dist/index.d.ts",
+  "main": "src/index.js",
+  "types": "src/index.ts",
   "exports": {
     ".": {
-      "types": "./dist/index.d.ts",
-      "default": "./dist/index.js"
+      "types": "./src/index.ts",
+      "default": "./src/index.js"
     },
     "./loader": {
-      "default": "./dist/loaders/doc-code-tool-loader.js"
-    }
+      "types": "./src/loaders/doc-code-tool-loader.ts",
+      "default": "./src/loaders/doc-code-tool-loader.js"
+    },
+    "./transformDocCodeTools": {
+      "types": "./src/transformDocCodeTools.ts",
+      "default": "./src/transformDocCodeTools.js"
+    },
+    "./package.json": "./package.json"
   },
   "scripts": {
     "build": "tsc -b",

@@ -9,8 +9,8 @@
  * intent: "Provide step-specific purpose that applies to all substeps"
  * current_version: "GA1.50.0"
  */
-import { Prompt } from '@bitcode/prompts';
-import type { PromptPart } from '@bitcode/prompts';
+import { Prompt } from '@bitcode/prompts/prompt';
+import type { PromptPart } from '@bitcode/prompts/parts/PromptPart';
 export interface AgentStepPromptConfig {
     purpose: PromptPart;
 }

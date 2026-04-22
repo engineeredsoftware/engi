@@ -1,8 +1,8 @@
 {
   "reportId": "v26-prompt-space-completeness-proof",
   "version": "V26",
-  "proofSourceCommit": "43f7493623788c8904ecd261593884a83eba7c9d",
-  "generatedAt": "2026-04-22T15:11:43-03:00",
+  "proofSourceCommit": "830bd5da681b1b11e63876c5ddf0843c3e8ce63c",
+  "generatedAt": "2026-04-22T15:24:10-03:00",
   "generatorId": "bitcode.proven-generator.v1",
   "worktreeState": "dirty-preview",
   "passed": false,

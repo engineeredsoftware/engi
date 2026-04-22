@@ -60,6 +60,7 @@
     "directory": "packages/prompts"
   },
   "dependencies": {
+    "@bitcode/execution-generics": "workspace:*",
     "@bitcode/registry": "workspace:*",
     "@bitcode/doc-comment": "workspace:*"
   },

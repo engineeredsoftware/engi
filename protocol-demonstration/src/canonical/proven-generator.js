@@ -1038,6 +1038,7 @@ function buildV26PromptSystemTotalityProof({
         'packages/prompts/README.md',
         'packages/prompts/src/index.ts',
         'packages/prompts/src/prompt.ts',
+        'packages/prompts/src/prompt.js',
         'packages/prompts/src/execution/PromptExecution.ts',
         'packages/prompts/src/execution/PromptExecution.js',
         'packages/prompts/src/parts/PromptPart.ts',
@@ -1050,12 +1051,20 @@ function buildV26PromptSystemTotalityProof({
     ),
     buildV26FilePresenceCheck(
       'prompt-runtime-loadability',
-      'Prompt and doc-code runtime carriers stay loadable without the full execution storage/runtime stack',
+      'Prompt, execution-aware prompt, and doc-code runtime carriers stay loadable through public package boundaries without the full execution storage/runtime stack',
       [
+        'packages/prompts/package.json',
         'packages/prompts/src/execution/PromptExecution.ts',
         'packages/prompts/src/execution/PromptExecution.js',
+        'packages/execution-generics/package.json',
         'packages/execution-generics/src/Execution.ts',
         'packages/execution-generics/src/Execution.js',
+        'packages/execution-generics/src/prompts/ExecutionPrompt.ts',
+        'packages/execution-generics/src/prompts/ExecutionPrompt.js',
+        'packages/registry/package.json',
+        'packages/doc-comment/package.json',
+        'packages/doc-code/package.json',
+        'packages/tools-generics/package.json',
         'packages/tools-generics/src/index.js',
         'packages/tools-generics/src/execution/ToolExecution.ts',
         'packages/tools-generics/src/execution/ToolExecution.js',
@@ -1070,14 +1079,43 @@ function buildV26PromptSystemTotalityProof({
       ]
     ),
     buildV26FilePresenceCheck(
-      'execution-agent-and-conversation-prompt-extensions',
-      'Execution, agent, and conversation prompt carriers remain explicit',
+      'support-package-public-subpaths',
+      'Support-package manifests and runtime carriers keep public source-backed subpaths explicit',
       [
+        'packages/prompts/src/prompt.ts',
+        'packages/prompts/src/prompt.js',
+        'packages/execution-generics/package.json',
+        'packages/registry/package.json',
+        'packages/doc-comment/package.json',
+        'packages/doc-code/package.json',
+        'packages/tools-generics/package.json',
+        'packages/tools-generics/src/execution/ToolPromptRegistry.ts',
+        'packages/tools-generics/src/execution/ToolPromptRegistry.js',
+        'packages/tools-generics/src/doc-code-tool/DocCodeToolPlugin.ts',
+        'packages/tools-generics/src/doc-code-tool/DocCodeToolPlugin.js',
+        'protocol-demonstration/test/v26-prompt-system-boundary.test.js'
+      ]
+    ),
+    buildV26FilePresenceCheck(
+      'execution-agent-and-conversation-prompt-extensions',
+      'Execution-aware prompt carriers and conversation bootstrap remain explicit through narrow public prompt/execution subpaths',
+      [
+        'packages/execution-generics/package.json',
         'packages/execution-generics/README.md',
         'packages/execution-generics/src/prompts/ExecutionPrompt.ts',
         'packages/agent-generics/src/prompts/AgentPrompt.ts',
+        'packages/agent-generics/src/execution/AgentExecution.ts',
+        'packages/agent-generics/src/execution/index.ts',
+        'packages/pipelines-generics/src/prompts/PipelinePrompt.ts',
+        'packages/pipelines-generics/src/execution/PipelineExecution.ts',
+        'packages/pipelines-generics/src/execution/PipelinePromptRegistry.ts',
+        'packages/pipelines-generics/src/execution/PipelineToolRegistry.ts',
+        'packages/pipelines-generics/src/execution/PipelineLLMRegistry.ts',
+        'packages/pipelines-generics/src/execution/PipelineAgentRegistry.ts',
+        'packages/conversations-generics/package.json',
         'packages/conversations-generics/README.md',
-        'packages/conversations-generics/src/prompts/ConversationSystemPrompt.ts'
+        'packages/conversations-generics/src/prompts/ConversationSystemPrompt.ts',
+        'packages/conversations-generics/src/agent/ConversationAgent.ts'
       ]
     ),
     buildV26FilePresenceCheck(
@@ -1157,6 +1195,10 @@ function buildV26PromptSystemTotalityProof({
     packageWitnesses: [
       '@bitcode/prompts',
       '@bitcode/execution-generics',
+      '@bitcode/registry',
+      '@bitcode/doc-comment',
+      '@bitcode/doc-code',
+      '@bitcode/tools-generics',
       '@bitcode/conversations-generics',
       '@bitcode/digest'
     ],

@@ -12,7 +12,7 @@
 
 import { RegistryImpl } from '@bitcode/registry';
 import { Tool } from '@bitcode/tools-generics';
-import { Execution } from '@bitcode/execution-generics';
+import { Execution } from '@bitcode/execution-generics/Execution';
 
 /**
  * ExecutionTool - Tool that integrates with execution context

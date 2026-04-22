@@ -2,16 +2,33 @@
   "name": "@bitcode/tools-generics",
   "version": "0.0.1",
   "private": true,
-  "main": "dist/index.js",
-  "types": "dist/index.d.ts",
+  "main": "src/index.js",
+  "types": "src/index.ts",
+  "exports": {
+    ".": {
+      "types": "./src/index.ts",
+      "default": "./src/index.js"
+    },
+    "./execution": {
+      "types": "./src/execution/index.ts",
+      "default": "./src/execution/index.js"
+    },
+    "./doc-code-tool": {
+      "types": "./src/doc-code-tool/index.ts",
+      "default": "./src/doc-code-tool/index.js"
+    },
+    "./package.json": "./package.json"
+  },
   "scripts": {
     "build": "tsc",
-    "test": "vitest run --passWithNoTests",
-    "typecheck": "tsc --noEmit"
+    "test": "vitest run --passWithNoTests"
   },
   "dependencies": {
+    "@bitcode/doc-comment": "workspace:*",
     "@bitcode/doc-code": "workspace:*",
+    "@bitcode/execution-generics": "workspace:*",
     "@bitcode/prompts": "workspace:*",
+    "@bitcode/registry": "workspace:*",
     "zod": "^3.22.4"
   },
   "devDependencies": {

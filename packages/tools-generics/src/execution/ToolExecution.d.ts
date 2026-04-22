@@ -12,7 +12,7 @@
  * purpose: Tool execution with prompt support
  * pattern: layered-registry-execution
  */
-import { Execution } from '@bitcode/execution-generics';
+import { Execution } from '@bitcode/execution-generics/Execution';
 import { ToolPromptRegistry } from './ToolPromptRegistry';
 /**
  * ToolExecution - Tool-level execution with prompt registry

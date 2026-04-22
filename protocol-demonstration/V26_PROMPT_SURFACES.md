@@ -28,6 +28,8 @@ The public Bitcode prompt contract is:
   `PromptPart`, `createPromptPart`, `Prompt`, `createPrompt`, `PromptExecution`, `createPromptExecution`
 - `@bitcode/prompts/prompt`, `@bitcode/prompts/parts/PromptPart`, `@bitcode/prompts/execution/PromptExecution`
   narrow public runtime-safe prompt primitive subpaths for consumers that should not load the full root barrel
+- `@bitcode/execution-generics/Execution`, `@bitcode/execution-generics/prompts/ExecutionPrompt`
+  narrow public execution-aware prompt subpaths for carriers that only need execution ancestry or prompt-hierarchy ownership
 - `@bitcode/prompts/formatters`
   shared prompt formatters such as `hierarchicalFormatter`
 - `@bitcode/prompts/raw_promptparts/*`
@@ -38,6 +40,8 @@ Operational rules:
 - active prompt-bearing inference carriers must import prompt primitives through the public contract above
 - active app/package configs must not preserve `@bitcode/prompts/src/*` compatibility aliases
 - retained reference test/build configs should use exact public prompt subpath maps such as `@bitcode/prompts/parts/PromptPart`, `@bitcode/prompts/prompt`, and `@bitcode/prompts/raw_promptparts/*` rather than broad `@bitcode/prompts/* -> packages/prompts/src/*` catchalls
+- execution-aware prompt carriers that only need prompt hierarchy or execution ancestry should prefer `@bitcode/execution-generics/Execution` and `@bitcode/execution-generics/prompts/ExecutionPrompt` rather than the broad execution barrel
+- support primitives that prompt/doc-code runtime carriers depend on, including `@bitcode/registry`, `@bitcode/execution-generics/{Execution,prompts/ExecutionPrompt}`, `@bitcode/doc-comment/{base-plugin,types}`, `@bitcode/doc-code`, and `@bitcode/tools-generics`, must expose honest source-backed public package subpaths and direct dependency declarations rather than relying on repo-relative cross-package imports
 - prompt-bearing runtime carriers that only need the base execution tree must stay loadable without dragging the full execution storage/logging stack through a broad execution barrel
 - raw promptparts may stay explicit and file-granular, but route-local ad hoc strings may not silently replace prompt-owned product logic
 - prompt behavior that remains old-world, experimental, or pre-Bitcode may survive only as reference-only or auxiliary-input corridors
@@ -53,6 +57,7 @@ These corridors currently participate in the live Bitcode or admitted fifth-gate
 | Execution prompt hierarchy | `packages/execution-generics/src/prompts/ExecutionPrompt.ts` | active execution prompt registry with Bitcode hierarchy rules |
 | Pipeline prompt hierarchy | `packages/pipelines-generics/src/prompts/PipelinePrompt.ts` | active pipeline/phase/agent prompt registry |
 | Agent prompt composition | `packages/agent-generics/src/{prompts/*,execution/prompt-overlays.ts,substeps/factories.ts}` | active agent prompt composition, structured-output, and tool-doc injection |
+| Execution-aware prompt runtime carriers | `packages/{agent-generics/src/execution/{AgentExecution.ts,Agent*Registry.ts},pipelines-generics/src/execution/{PipelineExecution.ts,Pipeline*Registry.ts},conversations-generics/src/agent/ConversationAgent.ts}` | active execution bootstrapping, prompt-aware registries, and conversation bootstrap through narrow `Execution`/`ExecutionPrompt` public subpaths |
 | Conversation prompt system | `packages/conversations-generics/src/{prompts/ConversationSystemPrompt.ts,agent/ConversationAgent.ts}` | active conversations system prompt and conversation-agent prompt posture |
 | Tool prompt composition | `packages/tools-generics/src/doc-code-tool/DocCodeToolPrompt.ts` | active prompt-bearing tool documentation composition |
 | Deliverable prompt ports | `packages/pipelines/deliverable/src/{agents/prompts/*,tools/*}` | retained-but-admitted deliverable prompt ports shaping active execution compatibility |
@@ -66,9 +71,9 @@ These corridors do not define the live product center directly, but they remain 
 | Corridor | Current owners | Current role |
 | --- | --- | --- |
 | Digest and analysis prompt helpers | `packages/digest/prompts/*` | support prompt composition for repository guidance/digest output through the public `@bitcode/prompts` and `@bitcode/prompts/raw_promptparts/*` boundary rather than sibling source reach-through |
-| Doc-comment/doc-code tool prompt injection | `packages/{doc-comment,doc-code}/*`, `packages/tools-generics/src/doc-code-tool/*` | support and compatibility bridge for parsing doc annotations and attaching `DocCodeToolPrompt` instances onto tool runs through explicit Bitcode-owned build/runtime carriers |
+| Doc-comment/doc-code tool prompt injection | `packages/{doc-comment,doc-code}/*`, `packages/tools-generics/src/doc-code-tool/*`, `packages/{execution-generics,registry}/*` | support and compatibility bridge for parsing doc annotations and attaching `DocCodeToolPrompt` instances onto tool runs through explicit Bitcode-owned build/runtime carriers and honest public support-package subpaths |
 | Prompt contracts and theorem language | `protocol-demonstration/src/canonical/type-contracts.ts`, `protocol-demonstration/src/canonical/proven-generator.js` | prompt contract/proof interpretation and generated witness language |
-| Prompt proof/test surfaces | `protocol-demonstration/test/{v26-prompt-system-boundary.test.js,v26-prompt-surface-map.test.js,v26-prompt-runtime-loadability.test.js}` | procedural witnesses that the prompt corridor stays explicit and runtime-loadable |
+| Prompt proof/test surfaces | `protocol-demonstration/test/{v26-prompt-system-boundary.test.js,v26-prompt-surface-map.test.js,v26-prompt-runtime-loadability.test.js}` | procedural witnesses that the prompt corridor stays explicit, package-bounded, and runtime-loadable |
 
 ## Reference-only or retained old-world prompt ports
 

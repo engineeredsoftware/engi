@@ -11,7 +11,7 @@
  */
 import { RegistryImpl } from '@bitcode/registry';
 import { LLM, LLMConfig, LLMRegistry } from '@bitcode/llm-generics';
-import { Execution } from '@bitcode/execution-generics';
+import { Execution } from '@bitcode/execution-generics/Execution';
 /**
  * AgentLLMsRegistry - Hierarchical LLM configuration registry for agents
  *

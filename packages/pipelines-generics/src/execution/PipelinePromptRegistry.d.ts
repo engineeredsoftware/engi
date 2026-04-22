@@ -10,7 +10,7 @@
  * pattern: registry-with-execution-context
  */
 import { RegistryImpl } from '@bitcode/registry';
-import { Execution } from '@bitcode/execution-generics';
+import { Execution } from '@bitcode/execution-generics/Execution';
 /**
  * PipelinePromptRegistry - Hierarchical prompt registry for pipelines
  *

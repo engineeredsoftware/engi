@@ -2,8 +2,39 @@
   "name": "@bitcode/execution-generics",
   "version": "1.0.0",
   "description": "Core execution primitives and combinators",
-  "main": "dist/index.js",
-  "types": "dist/index.d.ts",
+  "main": "src/index.js",
+  "types": "src/index.ts",
+  "exports": {
+    ".": {
+      "types": "./src/index.ts",
+      "default": "./src/index.js"
+    },
+    "./Execution": {
+      "types": "./src/Execution.ts",
+      "default": "./src/Execution.js"
+    },
+    "./prompts/ExecutionPrompt": {
+      "types": "./src/prompts/ExecutionPrompt.ts",
+      "default": "./src/prompts/ExecutionPrompt.js"
+    },
+    "./execution-registry": {
+      "types": "./src/execution-registry.ts",
+      "default": "./src/execution-registry.js"
+    },
+    "./store/registry": {
+      "types": "./src/store/registry.ts",
+      "default": "./src/store/registry.js"
+    },
+    "./storage/StorageDestination": {
+      "types": "./src/storage/StorageDestination.ts",
+      "default": "./src/storage/StorageDestination.js"
+    },
+    "./signals/ShortCircuitSignal": {
+      "types": "./src/signals/ShortCircuitSignal.ts",
+      "default": "./src/signals/ShortCircuitSignal.js"
+    },
+    "./package.json": "./package.json"
+  },
   "scripts": {
     "build": "tsc --noEmit",
     "typecheck": "tsc --noEmit",
@@ -16,6 +47,7 @@
   "license": "ISC",
   "dependencies": {
     "@bitcode/prompts": "workspace:*",
+    "@bitcode/registry": "workspace:*",
     "zod": "^3.22.4"
   },
   "devDependencies": {
