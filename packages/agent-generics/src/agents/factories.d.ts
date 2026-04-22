@@ -1,0 +1,124 @@
+/**
+ * Agent Factories - Factory functions for agents
+ *
+ * These factories create agent executors that implement
+ * the PTRR pattern with 7 substeps.
+ *
+ * @doc-code
+ * type: agent-factories
+ * purpose: Create type-safe agent executors
+ * pattern: factory-functions
+ */
+import { Executor, Execution } from '@bitcode/execution-generics';
+import { Agent, AgentStep } from '../types';
+import { z } from 'zod';
+/**
+ * Create an Agent - Builds an executor that sequences PTRR steps
+ */
+export declare function factoryAgent<TInput = any, TOutput = any>(config: {
+    name: string;
+    description?: string;
+    steps: AgentStep<any, any>[];
+}): Agent<TInput, TOutput>;
+/**
+ * Create Agent with PTRR Steps - Creates a complete agent implementation
+ *
+ * This factory creates an Agent that implements the full PTRR pattern.
+ * Agents are executors that sequence PTRR steps with 7 substeps.
+ */
+export declare function factoryAgentWithPTRR<TInput, TOutput>(config: {
+    name: string;
+    description?: string;
+    outputSchema: z.ZodType<TOutput>;
+    prompt?: any;
+    stepPrompts?: {
+        plan?: () => any;
+        try?: () => any;
+        refine?: () => any;
+        retry?: () => any;
+    };
+    tools?: any[];
+    requiredTools?: string[];
+    enforceLLM?: boolean;
+    plan?: {
+        chunkThreshold?: number;
+    };
+    try?: {
+        chunkThreshold?: number;
+        enableParallelChunks?: boolean;
+    };
+    refine?: {
+        maxAttempts?: number;
+    };
+    retry?: {
+        maxAttempts?: number;
+        backoff?: number;
+    };
+}): Agent<TInput, TOutput>;
+/**
+ * Create Agent with Single Step - Creates a minimal agent implementation
+ *
+ * This factory creates an Agent with a single execution step.
+ * For simple agents that don't need full PTRR.
+ */
+export declare function factoryAgentWithSingleStep<TInput, TOutput>(config: {
+    name: string;
+    description?: string;
+    execute: (input: TInput, execution: Execution) => Promise<TOutput>;
+}): Agent<TInput, TOutput>;
+/**
+ * factoryAgentWithGenerations - Preferred ergonomic: pass Generations directly.
+ * Back-compat: also sets 'steps' to the same array.
+ */
+export declare function factoryAgentWithGenerations<TInput, TOutput>(config: {
+    name: string;
+    description?: string;
+    generations: AgentStep<any, any>[];
+}): Agent<TInput, TOutput>;
+/**
+ * factoryAgentWithPTRRGenerations - Same as factoryAgentWithPTRR but accepts
+ * generationPrompts instead of stepPrompts. Internally maps to PTRR factories.
+ */
+export declare function factoryAgentWithPTRRGenerations<TInput, TOutput>(config: {
+    name: string;
+    description?: string;
+    outputSchema: z.ZodType<TOutput>;
+    generationPrompts?: {
+        plan?: () => any;
+        try?: () => any;
+        refine?: () => any;
+        retry?: () => any;
+    };
+    tools?: any[];
+    requiredTools?: string[];
+    enforceLLM?: boolean;
+    plan?: {
+        chunkThreshold?: number;
+    };
+    try?: {
+        chunkThreshold?: number;
+        enableParallelChunks?: boolean;
+    };
+    refine?: {
+        maxAttempts?: number;
+    };
+    retry?: {
+        maxAttempts?: number;
+        backoff?: number;
+    };
+}): Agent<TInput, TOutput>;
+/**
+ * factoryQuickAgent - Preferred minimal agent for simple, single-step behaviors.
+ *
+ * This formalizes the "QuickAgent" concept: an executor with a name/description
+ * that does not orchestrate PTRR. It wraps a single typed executor and uses
+ * standard AgentExecution/StepExecution for consistent statefulness.
+ *
+ * Note: factoryAgentWithSingleStep remains for compatibility; this is the
+ * canonical name to use going forward.
+ */
+export declare function factoryQuickAgent<TInput, TOutput>(config: {
+    name: string;
+    description?: string;
+    execute: (input: TInput, execution: Execution) => Promise<TOutput>;
+}): Executor<TInput, TOutput>;

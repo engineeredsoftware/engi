@@ -19,13 +19,11 @@ export default defineConfig({
   // Automatically start both the main app and Storybook server for component visual tests
   webServer: [
     {
-      // Double "--" ensures the "-p" flag is forwarded to the underlying
-      // "dev:local" npm-script instead of being consumed by the pnpm CLI.
-      // Without it the port number is forwarded as a plain positional arg
-      // ("3001"), which Next.js then treats as a directory and crashes with
-      //   "Invalid project directory provided, no such directory: …/uapi/3001".
-      // See https://docs.npmjs.com/cli/v10/commands/npm-run-script for details.
-      command: `pnpm dev -- -- -p ${devPort}`,
+      // Browser-driven route verification should boot the public Next.js app
+      // directly rather than the heavier workspace `dev` chain, which also
+      // triggers unrelated prebuilds and local-service startup before the
+      // product route under test can even load.
+      command: `pnpm dev:remote -- -p ${devPort}`,
       port: devPort,
       reuseExistingServer: true,
     },
