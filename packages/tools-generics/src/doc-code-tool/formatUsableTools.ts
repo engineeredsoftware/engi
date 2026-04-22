@@ -12,6 +12,10 @@ import { Tool } from '../Tool';
 import { DocCodeToolPrompt } from './DocCodeToolPrompt';
 import { PromptFormatter } from '@bitcode/prompts';
 
+function isDocCodeToolPromptLike(prompt: unknown): prompt is DocCodeToolPrompt {
+  return !!prompt && typeof (prompt as { format?: unknown }).format === 'function';
+}
+
 /**
  * Format an array of tools (Tools with doc-code-tools) into documentation suitable for LLM consumption
  * 
@@ -30,7 +34,7 @@ export function formatToolsWithDocCodeToolsIntoUsableTools(tools: Tool[], format
     // Check if tool has attached DocCodeToolPrompt
     const docCodePrompt = tool.__docCodePrompt;
 
-    if (docCodePrompt && docCodePrompt instanceof DocCodeToolPrompt) {
+    if (isDocCodeToolPromptLike(docCodePrompt)) {
       // Use the prompt's format method to get formatted documentation
       const formatted = docCodePrompt.format(formatter);
       formattedTools.push(formatted);
@@ -61,7 +65,7 @@ export function extractToolMetadata(tools: Tool[]): Array<{
   return tools.map(tool => {
     const docCodePrompt = tool.__docCodePrompt;
 
-    if (docCodePrompt && docCodePrompt instanceof DocCodeToolPrompt) {
+    if (isDocCodeToolPromptLike(docCodePrompt)) {
       return {
         name: tool.constructor.name,
         documentation: docCodePrompt.format(),
@@ -83,5 +87,5 @@ export function extractToolMetadata(tools: Tool[]): Array<{
  * Type guard to check if a tool has doc-code documentation
  */
 export function hasDocCodePrompt(tool: Tool): tool is Tool & { __docCodePrompt: DocCodeToolPrompt } {
-  return tool.__docCodePrompt instanceof DocCodeToolPrompt;
+  return isDocCodeToolPromptLike(tool.__docCodePrompt);
 }

@@ -1,8 +1,8 @@
 {
   "reportId": "v26-prompt-system-totality-proof",
   "version": "V26",
-  "proofSourceCommit": "942903e4633930f4bbb5a1ccccdf895fa25b4ebe",
-  "generatedAt": "2026-04-22T14:36:05-03:00",
+  "proofSourceCommit": "43f7493623788c8904ecd261593884a83eba7c9d",
+  "generatedAt": "2026-04-22T15:11:43-03:00",
   "generatorId": "bitcode.proven-generator.v1",
   "worktreeState": "dirty-preview",
   "passed": true,
@@ -17,17 +17,43 @@
       "checkId": "prompt-package-core",
       "label": "PromptPart, Prompt, PromptExecution, public-boundary proof, prompt surface map, tests, and package docs remain explicit",
       "passed": true,
-      "detail": "9 required files present",
+      "detail": "11 required files present",
       "requiredFiles": [
         "packages/prompts/README.md",
         "packages/prompts/src/index.ts",
         "packages/prompts/src/prompt.ts",
         "packages/prompts/src/execution/PromptExecution.ts",
+        "packages/prompts/src/execution/PromptExecution.js",
         "packages/prompts/src/parts/PromptPart.ts",
         "packages/prompts/src/__tests__/prompt.test.ts",
         "protocol-demonstration/V26_PROMPT_SURFACES.md",
         "protocol-demonstration/test/v26-prompt-system-boundary.test.js",
-        "protocol-demonstration/test/v26-prompt-surface-map.test.js"
+        "protocol-demonstration/test/v26-prompt-surface-map.test.js",
+        "protocol-demonstration/test/v26-prompt-runtime-loadability.test.js"
+      ],
+      "missingFiles": []
+    },
+    {
+      "checkId": "prompt-runtime-loadability",
+      "label": "Prompt and doc-code runtime carriers stay loadable without the full execution storage/runtime stack",
+      "passed": true,
+      "detail": "15 required files present",
+      "requiredFiles": [
+        "packages/prompts/src/execution/PromptExecution.ts",
+        "packages/prompts/src/execution/PromptExecution.js",
+        "packages/execution-generics/src/Execution.ts",
+        "packages/execution-generics/src/Execution.js",
+        "packages/tools-generics/src/index.js",
+        "packages/tools-generics/src/execution/ToolExecution.ts",
+        "packages/tools-generics/src/execution/ToolExecution.js",
+        "packages/tools-generics/src/execution/ToolPromptRegistry.ts",
+        "packages/tools-generics/src/execution/ToolPromptRegistry.js",
+        "packages/tools-generics/src/doc-code-tool/DocCodeToolPrompt.ts",
+        "packages/tools-generics/src/doc-code-tool/DocCodeToolPlugin.ts",
+        "packages/tools-generics/src/doc-code-tool/DocCodeToolPlugin.js",
+        "packages/tools-generics/src/doc-code-tool/formatUsableTools.ts",
+        "packages/tools-generics/src/doc-code-tool/formatUsableTools.js",
+        "protocol-demonstration/test/v26-prompt-runtime-loadability.test.js"
       ],
       "missingFiles": []
     },

@@ -19,11 +19,19 @@ import {
   DEFAULT_EXECUTION_STORAGE_OPTIONS
 } from './storage/StorageDestination';
 import { StorableValue } from './types';
-import { ExecutionStorageAdapter } from './storage/ExecutionStorageAdapter';
-import { ExecutionStreamAdapter } from './storage/ExecutionStreamAdapter';
 
 // No external dependencies needed for pure Execution
 // All domain-specific registries moved to higher layers
+
+async function loadExecutionStorageAdapter() {
+  const module = await import('./storage/ExecutionStorageAdapter');
+  return module.ExecutionStorageAdapter;
+}
+
+async function loadExecutionStreamAdapter() {
+  const module = await import('./storage/ExecutionStreamAdapter');
+  return module.ExecutionStreamAdapter;
+}
 
 /**
  * EXECUTION - Pure state accumulation
@@ -88,14 +96,18 @@ export class Execution {
       // Fire-and-forget: streaming failures must not affect execution.
       try {
         const rootId = this.getRoot().id;
-        void ExecutionStreamAdapter.onStore(
-          rootId,
-          namespace,
-          key,
-          value,
-          [ExecutionStorageDestination.EPHEMERAL],
-          { nodeId: this.id, rootId, path: this.getPath() }
-        ).catch(() => {});
+        void loadExecutionStreamAdapter()
+          .then((ExecutionStreamAdapter) =>
+            ExecutionStreamAdapter.onStore(
+              rootId,
+              namespace,
+              key,
+              value,
+              [ExecutionStorageDestination.EPHEMERAL],
+              { nodeId: this.id, rootId, path: this.getPath() }
+            )
+          )
+          .catch(() => {});
       } catch {}
       return;
     }
@@ -144,6 +156,7 @@ export class Execution {
     if (opts.destinations!.includes(ExecutionStorageDestination.PERSISTENT)) {
       try {
         const storageKey = this.buildStorageKey(namespace, key);
+        const ExecutionStorageAdapter = await loadExecutionStorageAdapter();
         const artifactResult = await ExecutionStorageAdapter.store(
           storageKey,
           value,
@@ -163,6 +176,7 @@ export class Execution {
     
     // Emit stream event if adapter is registered
     if (result.stored) {
+      const ExecutionStreamAdapter = await loadExecutionStreamAdapter();
       await ExecutionStreamAdapter.onStore(
         this.getRoot().id,
         namespace,

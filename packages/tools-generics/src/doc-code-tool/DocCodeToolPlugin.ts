@@ -3,7 +3,7 @@ import {
   type DocComment,
   type ValidationError,
   type ValidationResult
-} from '@bitcode/doc-comment';
+} from '../../../doc-comment/src/index';
 
 /**
  * Metadata structure for @doc-code-tool

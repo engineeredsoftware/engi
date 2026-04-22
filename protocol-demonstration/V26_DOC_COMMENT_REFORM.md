@@ -43,7 +43,7 @@ The currently admissible V26 use of this corridor is:
 
 - build-time parsing of doc-comment metadata through `packages/doc-comment/*`,
 - build-time attachment of `DocCodeToolPrompt` instances through `packages/doc-code/*`,
-- runtime consumption of those attached tool prompts through `packages/tools-generics/src/doc-code-tool/*`,
+- runtime consumption of those attached tool prompts through `packages/tools-generics/src/doc-code-tool/*` while the prompt/doc-code carriers remain loadable without pulling the full execution storage/logging stack,
 - reading old-world implementation ideas,
 - preserving examples that explain how prompt-bearing metadata once composed,
 - and supporting careful reform analysis.
@@ -64,4 +64,5 @@ This supplement is expected to stay synchronized with:
 - `protocol-demonstration/V26_PROMPT_SURFACES.md`
 - `packages/doc-code/tsconfig.typecheck.json`
 - `protocol-demonstration/test/v26-doc-comment-reform.test.js`
+- `protocol-demonstration/test/v26-prompt-runtime-loadability.test.js`
 - `.bitcode/prompt-system-totality-proof.json`

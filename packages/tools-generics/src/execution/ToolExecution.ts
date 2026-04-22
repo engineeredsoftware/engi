@@ -13,7 +13,9 @@
  * pattern: layered-registry-execution
  */
 
-import { Execution } from '@bitcode/execution-generics';
+// Use the narrow pure Execution primitive so tools-generics stays loadable
+// without requiring the full execution-generics workspace package link.
+import { Execution } from '../../../execution-generics/src/Execution';
 import { ToolPromptRegistry } from './ToolPromptRegistry';
 
 /**

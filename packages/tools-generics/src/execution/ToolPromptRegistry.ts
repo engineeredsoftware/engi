@@ -10,8 +10,10 @@
  * pattern: registry-with-execution-context
  */
 
-import { RegistryImpl } from '@bitcode/registry';
-import { Execution } from '@bitcode/execution-generics';
+// Keep registry/tool prompt carriers runtime-loadable without a fresh
+// workspace link for every retained package boundary.
+import { RegistryImpl } from '../../../registry/src/index';
+import { Execution } from '../../../execution-generics/src/Execution';
 
 /**
  * ToolPromptRegistry - Hierarchical prompt registry for tools

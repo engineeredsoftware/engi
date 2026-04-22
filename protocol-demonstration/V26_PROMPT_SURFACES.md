@@ -38,6 +38,7 @@ Operational rules:
 - active prompt-bearing inference carriers must import prompt primitives through the public contract above
 - active app/package configs must not preserve `@bitcode/prompts/src/*` compatibility aliases
 - retained reference test/build configs should use exact public prompt subpath maps such as `@bitcode/prompts/parts/PromptPart`, `@bitcode/prompts/prompt`, and `@bitcode/prompts/raw_promptparts/*` rather than broad `@bitcode/prompts/* -> packages/prompts/src/*` catchalls
+- prompt-bearing runtime carriers that only need the base execution tree must stay loadable without dragging the full execution storage/logging stack through a broad execution barrel
 - raw promptparts may stay explicit and file-granular, but route-local ad hoc strings may not silently replace prompt-owned product logic
 - prompt behavior that remains old-world, experimental, or pre-Bitcode may survive only as reference-only or auxiliary-input corridors
 - the base `doc-comment` primitive plus `doc-code` tool prompt injection may remain admitted support/compatibility infrastructure where Bitcode still needs build-time prompt attachment for tool runs, but `generic-doc-comment-plugins`, `doc-comment` examples, and prompt-package developing experiments remain reference-only reform material under `protocol-demonstration/V26_DOC_COMMENT_REFORM.md`; package docs in those corridors must not present prompt-package internal paths as public consumer APIs
@@ -67,7 +68,7 @@ These corridors do not define the live product center directly, but they remain 
 | Digest and analysis prompt helpers | `packages/digest/prompts/*` | support prompt composition for repository guidance/digest output through the public `@bitcode/prompts` and `@bitcode/prompts/raw_promptparts/*` boundary rather than sibling source reach-through |
 | Doc-comment/doc-code tool prompt injection | `packages/{doc-comment,doc-code}/*`, `packages/tools-generics/src/doc-code-tool/*` | support and compatibility bridge for parsing doc annotations and attaching `DocCodeToolPrompt` instances onto tool runs through explicit Bitcode-owned build/runtime carriers |
 | Prompt contracts and theorem language | `protocol-demonstration/src/canonical/type-contracts.ts`, `protocol-demonstration/src/canonical/proven-generator.js` | prompt contract/proof interpretation and generated witness language |
-| Prompt proof/test surfaces | `protocol-demonstration/test/{v26-prompt-system-boundary.test.js,v26-prompt-surface-map.test.js}` | procedural witnesses that the prompt corridor stays explicit |
+| Prompt proof/test surfaces | `protocol-demonstration/test/{v26-prompt-system-boundary.test.js,v26-prompt-surface-map.test.js,v26-prompt-runtime-loadability.test.js}` | procedural witnesses that the prompt corridor stays explicit and runtime-loadable |
 
 ## Reference-only or retained old-world prompt ports
 
@@ -106,3 +107,4 @@ The current prompt surface map is expected to align with:
 - `.bitcode/prompt-system-totality-proof.json`
 - `protocol-demonstration/test/v26-prompt-system-boundary.test.js`
 - `protocol-demonstration/test/v26-prompt-surface-map.test.js`
+- `protocol-demonstration/test/v26-prompt-runtime-loadability.test.js`
