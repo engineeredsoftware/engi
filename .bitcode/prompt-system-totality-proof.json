@@ -1,15 +1,16 @@
 {
   "reportId": "v26-prompt-system-totality-proof",
   "version": "V26",
-  "proofSourceCommit": "a70c065f37f927527ae77fd9660036643bcda0ec",
-  "generatedAt": "2026-04-22T14:01:32-03:00",
+  "proofSourceCommit": "f0a47401243f086548dee7f8c3447ab4835bccaf",
+  "generatedAt": "2026-04-22T14:31:01-03:00",
   "generatorId": "bitcode.proven-generator.v1",
-  "worktreeState": "dirty-preview",
+  "worktreeState": "clean",
   "passed": true,
   "packageWitnesses": [
     "@bitcode/prompts",
     "@bitcode/execution-generics",
-    "@bitcode/conversations-generics"
+    "@bitcode/conversations-generics",
+    "@bitcode/digest"
   ],
   "checks": [
     {
@@ -55,6 +56,21 @@
         "packages/digest/prompts/task-guides-prompts.ts",
         "packages/digest/prompts/code-styles-prompts.ts",
         "packages/digest/prompts/doc-code-tool.generate-digest.ts"
+      ],
+      "missingFiles": []
+    },
+    {
+      "checkId": "reference-prompt-consumer-boundaries",
+      "label": "Retained reference prompt consumers stay explicit on narrow public prompt primitive subpaths",
+      "passed": true,
+      "detail": "6 required files present",
+      "requiredFiles": [
+        "packages/generic-agents/web-researcher/src/index.ts",
+        "packages/generic-agents/web-researcher/src/prompts/system-prompt-web-researcher.ts",
+        "packages/generic-tools/files-maintaining/src/prompts/tool-prompt-transaction-begin.ts",
+        "packages/generic-tools/vcs/src/prompts/ListRepositoriesDocCodeToolPrompt.ts",
+        "packages/chatgptapp/src/prompts/chatgpt-tool-doc-prompts.ts",
+        "packages/doc-comment/examples/doc-comments-as-prompts.ts"
       ],
       "missingFiles": []
     },
