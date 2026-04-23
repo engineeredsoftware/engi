@@ -67,7 +67,7 @@ export function normalizeApplicationClosureControlState(
   const primaryActionLabel = hasClosureArtifacts ? 'Re-run closure' : 'Make Bitcode branch';
   const primaryActionSummary = hasSettlementBundle
     ? 'Re-run the closure path if the give/need state changed, or continue into proof and ledger review from the current bundle.'
-    : 'Run the Bitcode closure path from verification through branch materialization, settlement, and proof.';
+    : 'Run the Bitcode closure path from Need review through verification, branch materialization, settlement, and proof.';
 
   return {
     shellReady: Boolean(commandState?.shellReady),

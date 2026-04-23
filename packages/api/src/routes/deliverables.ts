@@ -690,6 +690,7 @@ export const POST = traceRoute('/deliverables', async (request: NextRequest) => 
       need: definition_of_done,
       deliveryTarget: 'pr' as const,
     };
+    let finalWorkSummary: any = undefined;
 
     // Send telemetry
     log('[deliverables] Sending creation telemetry', 'debug', { correlationId, runId });
@@ -972,7 +973,6 @@ export const POST = traceRoute('/deliverables', async (request: NextRequest) => 
 
         // GA-2: Multi-deliverable support will be integrated into deliverablePipeline
         // For now, always use single deliverable pipeline
-        let finalWorkSummary: any = undefined;
         const result = await withBtdReservation(
           user.id,
           async (_reservation) => deliverablePipeline(pipelineInput, execution!),

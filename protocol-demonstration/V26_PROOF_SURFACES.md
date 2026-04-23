@@ -167,8 +167,9 @@ Required coverage posture:
 
 Required system families:
 - minimum-functional Exchange/Terminal read-write closure
-- post-measurement pre-fit Need review with accept/reject/remeasure-with-feedback admission
+- post-measurement pre-fit Need review with accept/reject/remeasure-with-feedback admission through protocol artifacts, app API, and Terminal controls
 - present-fit-for-settlement-review surfaces with quantized source-to-shares fit qualities carried into settlement receipts
+- Terminal closure-map presentation of Need review before verification plus present-fit-for-settlement-review fit qualities inside the settlement card and selected-detail payload
 - environment/debug coherence
 - production/staging/development mode completeness
 - migration/schema/type/API closure for retained storage systems
@@ -178,6 +179,7 @@ Required system families:
 - fifth-gate closure witnesses for retained app/package/runtime carriers
 - proof-bearing closure for newly admitted application, API, MCP, prompt, ChatGPT-app, and retained package systems at the same standard as the earlier proved Bitcode core
 - protocol proof closure for `.bitcode/need-review.json`, `.bitcode/settlement-preview.json`, `.bitcode/source-to-shares.json`, settlement AssetPack fit-quality receipts, and `settlement_source_to_shares.quantized_fit_quality_receipting`
+- application/API proof closure for `protocol-demonstration/public/app.js`, `protocol-demonstration/server.js`, `uapi/app/api/need-review/route.ts`, `uapi/app/api/make-bitcode-branch/route.ts`, `uapi/app/application/ApplicationNeedScenarioPanel.tsx`, `uapi/app/application/application-closure-state.ts`, `ApplicationClosureNativeSections.tsx`, `application-section-atlas.ts`, `application-transaction-detail.ts`, and `application-activity-history.ts` so review admission and quantized fit-quality rows remain reviewable, writable, parity-tested against protocol behavior, and readable through the Bitcode Terminal and app API rather than only through raw artifacts
 
 Required coverage posture:
 - spec:
@@ -702,9 +704,9 @@ Current active assignments:
   deterministic normalization of active scenario cards, parser posture, closure counts, and target-kind counts into route-local need-scenario state
 - `uapi/app/application/ApplicationNeedScenarioPanel.tsx`
   test coverage:
-  lint plus localhost `/application` verification with route-local scenario selection mounted
+  lint plus localhost `/application` verification with route-local scenario selection mounted, `uapi/tests/api/{needReviewRoute.test.ts,needReviewProtocolParity.test.ts}`, and `protocol-demonstration/test/v26-need-review-source-to-shares.test.js`
   proof surface:
-  second-gate application-owned native need selection through the Bitcode shell control bridge
+  second/fifth-gate application-owned native need selection and pre-fit Need-review controls through the Bitcode shell control bridge and app-owned `/api/need-review` boundary
 - `uapi/app/application/application-closure-state.ts`
   test coverage:
   `uapi/tests/applicationClosureState.test.ts`
@@ -1012,6 +1014,11 @@ Required closure posture:
   `uapi/tests/applicationTransactionSource.test.ts` and `uapi/tests/applicationProtocolProjection.test.ts`
   proof surface:
   fifth-gate protocol-ledger state-unification closure so the Bitcode Terminal central ledger can project live protocol posture into the same searchable master-detail activity window, suppress review-fallback collapse when protocol state is present, and carry a projected-detail snapshot on protocol rows so selected detail keeps repository/give/need/fit/supply posture even before retained execution-history persistence catches up
+- `{protocol-demonstration/{server.js,src/{bitcode-demo.js,bitcode-runtime.js,index.d.ts},test/v26-need-review-source-to-shares.test.js},uapi/{app/api/need-review/route.ts,app/application/ApplicationNeedScenarioPanel.tsx,lib/bitcode-app-context.ts,tests/api/{needReviewRoute.test.ts,needReviewProtocolParity.test.ts}}}`
+  test coverage:
+  `node --test protocol-demonstration/test/v26-need-review-source-to-shares.test.js`, `uapi/tests/api/{needReviewRoute.test.ts,needReviewProtocolParity.test.ts}`, and `pnpm exec tsc --noEmit --pretty false --project tsconfig.json` from `uapi`
+  proof surface:
+  fifth-gate pre-fit Need-review API/control closure so the protocol runtime can present a measured source-to-shares Need before fit search, app-owned `/api/need-review` can record accept/reject/remeasure-with-feedback decisions, explicit non-accept decisions fail closed before branch materialization, accepted `/api/make-bitcode-branch` responses carry source-to-shares artifacts plus present-fit settlement and quantized fit-quality receipt evidence, the commercial route boundary is parity-tested against the protocol implementation, and the Bitcode Terminal exposes the same review boundary from native need-scenario controls rather than leaving review admission as artifact-only proof
 - `{uapi/app/application/{ApplicationCommandDeck.tsx,ApplicationClosureControlDeck.tsx,ApplicationTransactionDetailSurface.tsx,application-activity-history.ts,application-transaction-detail-snapshot.ts,application-transaction-detail.ts},uapi/tests/{applicationActivityHistory.test.ts,applicationTransactionDetailSnapshot.test.ts,applicationTransactionDetail.test.ts}}`
   test coverage:
   `uapi/tests/applicationActivityHistory.test.ts`, `uapi/tests/applicationTransactionDetailSnapshot.test.ts`, and `uapi/tests/applicationTransactionDetail.test.ts`
@@ -1022,6 +1029,11 @@ Required closure posture:
   `uapi/tests/useConversationStream.firstWrite.test.ts`, `uapi/tests/api/chatStreamRoute.test.ts`, and `uapi/tests/api/conversationThreadStreamRoute.test.ts`
   proof surface:
   fifth-gate active-source compile-health closure for the live Bitcode stream/auth/deliverables corridor so canonical execution typing, SSE tracking, retained route handlers, and VCS service wiring now compile through the active `uapi` program instead of remaining blocked on old Next-host assumptions, schema drift, or downlevel iteration mismatches
+- `{packages/api/src/routes/deliverables.ts,packages/pipelines/deliverable/src/agents/{design/iterate-product-md-agent.ts,digest/capture-learnings-agent.ts,validation/deliverable-pipeline-ready-to-instruct-agent.ts}}`
+  test coverage:
+  `pnpm exec tsc --noEmit --pretty false --project tsconfig.json` from `uapi`, plus `node --check` on the mirrored JavaScript carriers
+  proof surface:
+  fifth-gate retained prompt-carrier and failure-telemetry compile-health closure so retained design/digest/validation PTRR agents now provide explicit Bitcode `Prompt` / `PromptPart` system and step registries, and `/api/deliverables` failure telemetry keeps semantic `need`, `writtenAssetType`, and `assetPack` context available across catch paths
 - `{packages/api/src/conversations/{attachments.ts,conversations.ts},uapi/components/base/bitcode/{execution/{github-selectors.tsx,pipeline-execution-log.tsx,TagOverflowList.tsx},icons/LogoIcon.tsx,typing-animation.tsx,layout/{nav.tsx,sidebars/left-sidebar.tsx}},uapi/config/features.ts,uapi/tests/{navPublicShell.test.tsx,navWorkspaceChrome.test.tsx}}`
   test coverage:
   `uapi/tests/navPublicShell.test.tsx` and `uapi/tests/navWorkspaceChrome.test.tsx`

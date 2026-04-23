@@ -6,6 +6,8 @@
  */
 
 import { factoryAgentWithPTRR } from '@bitcode/agent-generics';
+import { Prompt } from '@bitcode/prompts/prompt';
+import { createPromptPart } from '@bitcode/prompts/parts/PromptPart';
 import { z } from 'zod';
 
 const CaptureLearningsInputSchema = z.object({
@@ -35,16 +37,56 @@ const CaptureLearningsOutputSchema = z.object({
   })).optional()
 });
 
+function createCaptureLearningsStepPrompt(purpose: string): Prompt {
+  const prompt = new Prompt();
+  prompt.set('step/purpose', createPromptPart(purpose));
+  prompt.require('step/purpose');
+  return prompt;
+}
+
+const captureLearningsPrompt = (() => {
+  const prompt = new Prompt();
+  prompt.set(
+    'agent/identity',
+    createPromptPart('Bitcode digest-phase agent for converting execution evidence into reviewable AGENTS.md knowledge and AssetPack follow-through notes.')
+  );
+  prompt.set(
+    'agent/purpose',
+    createPromptPart('Summarize what the Bitcode inference run learned, which questions it answered, and which durable patterns should be written back for future source-to-shares runs.')
+  );
+  prompt.set(
+    'agent/constraints',
+    createPromptPart('Do not treat observed behavior as proof unless backed by source or verification evidence; preserve operator feedback as an explicit review input.')
+  );
+  prompt.set('ptrr/plan/purpose', createPromptPart('Plan the digest around execution results, changed files, answered questions, and reusable Bitcode operating patterns.'));
+  prompt.set('ptrr/try/purpose', createPromptPart('Draft AGENTS.md updates and learning records with source-backed specificity.'));
+  prompt.set('ptrr/refine/purpose', createPromptPart('Refine learning records against operator feedback, missing evidence, and future-run usefulness.'));
+  prompt.set('ptrr/retry/purpose', createPromptPart('Recover by emitting conservative documented patterns and unresolved questions without overclaiming closure.'));
+  prompt.require('agent/identity');
+  prompt.require('agent/purpose');
+  prompt.requirePattern('ptrr/*/purpose');
+  return prompt;
+})();
+
+const captureLearningsStepPrompts = {
+  plan: () => createCaptureLearningsStepPrompt('Plan source-backed AGENTS.md learning updates from the completed Bitcode run evidence.'),
+  try: () => createCaptureLearningsStepPrompt('Draft AGENTS.md updates, answered questions, and reusable patterns from execution evidence.'),
+  refine: () => createCaptureLearningsStepPrompt('Tighten learning records against feedback, source references, and proof-boundary honesty.'),
+  retry: () => createCaptureLearningsStepPrompt('Return conservative learning updates and unresolved questions when digest evidence is incomplete.'),
+};
+
 const captureLearningsAgent = factoryAgentWithPTRR<
   z.infer<typeof CaptureLearningsInputSchema>,
   z.infer<typeof CaptureLearningsOutputSchema>
 >({
   name: 'digest-capture-learnings',
-  description: 'Captures execution learnings in AGENTS.md based on code changes and user feedback',
+  description: 'Bitcode digest-phase agent for writing source-backed AGENTS.md learning records from run evidence and operator feedback',
 
   outputSchema: CaptureLearningsOutputSchema,
+  prompt: captureLearningsPrompt,
+  stepPrompts: captureLearningsStepPrompts,
 
-  tools: ['Write', 'Edit'], // Can edit .ai/AGENTS.md
+  tools: ['Write', 'Edit'], // Can edit the AGENTS.md learning asset.
 
   plan: { chunkThreshold: 2000 },
   try: { chunkThreshold: 5000 },

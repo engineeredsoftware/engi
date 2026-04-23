@@ -375,6 +375,73 @@ function compactApplicationPanel(panel, fallbackLabel) {
   };
 }
 
+function compactNeedReviewSurface(run) {
+  const needReview = /** @type {LooseRecord} */ (run.needReview || {});
+  const reviewDecision = /** @type {LooseRecord} */ (needReview.reviewDecision || {});
+  const fitSearchAdmission = /** @type {LooseRecord} */ (needReview.fitSearchAdmission || reviewDecision.fitSearchAdmission || {});
+  const measuredNeedSnapshot = /** @type {LooseRecord} */ (needReview.measuredNeedSnapshot || {});
+  const measurementRefs = /** @type {LooseRecord} */ (needReview.measurementRefs || {});
+  const allowedActions = Array.isArray(reviewDecision.allowedActions)
+    ? reviewDecision.allowedActions
+    : Array.isArray(needReview.allowedActions)
+      ? needReview.allowedActions
+      : [];
+
+  return {
+    label: 'Need review before fit search',
+    needId: needReview.needId || run.need?.needId || '',
+    protocolFocus: needReview.protocolFocus || reviewDecision.protocolFocus || 'source-to-shares',
+    reviewStage: needReview.reviewStage || reviewDecision.reviewStage || 'post-measurement-pre-fit',
+    reviewAction: reviewDecision.action || '',
+    reviewStatus: reviewDecision.status || needReview.status || '',
+    reviewer: reviewDecision.actorId || '',
+    decisionMode: reviewDecision.decisionMode || '',
+    fitSearchAdmitted: fitSearchAdmission.admitted === true,
+    admissionReason: fitSearchAdmission.admissionReason || '',
+    allowedActions: allowedActions.map((entry) => String(entry || '').trim()).filter(Boolean),
+    measuredTask: measuredNeedSnapshot.task || run.need?.task || '',
+    measurementHash: reviewDecision.measurementHash || measurementRefs.measurementHash || '',
+    reviewableNeedRef: reviewDecision.reviewableNeedRef || needReview.reviewableNeedHash || ''
+  };
+}
+
+function compactFitQuality(quality) {
+  if (!quality || typeof quality !== 'object') return null;
+  return {
+    label: String(quality.label || quality.qualityId || 'Source-to-shares fit quality').trim(),
+    qualityId: String(quality.qualityId || '').trim(),
+    value: String(quality.quantizedDecimal || quality.quantizedUnits || '0').trim(),
+    weightBp: Number.isFinite(Number(quality.weightBp)) ? Number(quality.weightBp) : 0,
+    evidenceClass: String(quality.evidenceClass || '').trim()
+  };
+}
+
+function compactSettlementFitQualitySurface(settlementPreview) {
+  const presentFitForSettlementReview = /** @type {LooseRecord} */ (settlementPreview.presentFitForSettlementReview || {});
+  const fitQualities = /** @type {LooseRecord} */ (
+    presentFitForSettlementReview.fitQualities || settlementPreview.quantizedFitQualities || {}
+  );
+  const qualities = Array.isArray(fitQualities.qualities)
+    ? fitQualities.qualities.map(compactFitQuality).filter(Boolean)
+    : [];
+
+  return {
+    protocolFocus: presentFitForSettlementReview.protocolFocus || settlementPreview.protocolFocus || 'source-to-shares',
+    reviewStage: presentFitForSettlementReview.stageId || fitQualities.reviewStage || 'present-fit-for-settlement-review',
+    objectiveContractId:
+      presentFitForSettlementReview.objectiveContractId ||
+      settlementPreview.quantizedObjectiveContractId ||
+      fitQualities.objectiveContractId ||
+      '',
+    sourceToSharesRef: presentFitForSettlementReview.sourceToSharesRef || settlementPreview.sourceToSharesRef || '',
+    fitQualityHash: fitQualities.fitQualityHash || '',
+    receiptRefs: Array.isArray(presentFitForSettlementReview.receiptRefs)
+      ? presentFitForSettlementReview.receiptRefs.map((entry) => String(entry || '').trim()).filter(Boolean)
+      : [],
+    qualities
+  };
+}
+
 function compactClosureSurface(state) {
   const run = /** @type {LatestRunShape} */ (state.latestRun || {});
   const verificationReport = /** @type {LooseRecord} */ (run.verificationReport || {});
@@ -391,8 +458,11 @@ function compactClosureSurface(state) {
   const participatingAssetIds = Array.isArray(settlementParticipationArtifact.participatingAssetIds)
     ? settlementParticipationArtifact.participatingAssetIds
     : [];
+  const needReview = compactNeedReviewSurface(run);
+  const fitQualitySurface = compactSettlementFitQualitySurface(settlementPreview);
 
   return {
+    needReview,
     verification: {
       label: 'Verification + ranked candidates',
       candidateCount: evaluatedCandidates.length,
@@ -444,6 +514,13 @@ function compactClosureSurface(state) {
       creditCount: Array.isArray(journalDiff.credits) ? journalDiff.credits.length : 0,
       proofFamilyCount: proofCatalog?.proofFamilyCount || 0,
       proofFamilies: (proofCatalog?.proofFamilies || []).map(compactProofFamily).filter(Boolean).slice(0, 6),
+      protocolFocus: fitQualitySurface.protocolFocus,
+      reviewStage: fitQualitySurface.reviewStage,
+      quantizedObjectiveContractId: fitQualitySurface.objectiveContractId,
+      sourceToSharesRef: fitQualitySurface.sourceToSharesRef,
+      fitQualityHash: fitQualitySurface.fitQualityHash,
+      receiptRefs: fitQualitySurface.receiptRefs,
+      fitQualities: fitQualitySurface.qualities.slice(0, 6),
       settlementIntentSummary:
         fitSurface?.settlementIntentSummary
         || run.settlementPreview?.summary

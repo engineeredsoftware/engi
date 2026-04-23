@@ -18,6 +18,7 @@ import {
 } from './application-closure-state';
 
 const PANEL_IDS: Record<ApplicationClosurePanel['id'], string> = {
+  'need-review': 'panelNeeding',
   verification: 'panelEvaluations',
   branch: 'panelBranchArtifacts',
   settlement: 'panelSettlement',
@@ -41,6 +42,15 @@ function panelRows(panel: ApplicationClosurePanel) {
       extras.push({
         label: family.label,
         value: `${family.theoremStatus} · replay ${family.replayArtifacts} · ${family.artifactPath}`,
+      });
+    });
+  }
+
+  if (panel.fitQualities?.length) {
+    panel.fitQualities.forEach((quality) => {
+      extras.push({
+        label: quality.label,
+        value: `${quality.value} · ${quality.detail}`,
       });
     });
   }
@@ -128,7 +138,13 @@ export default function ApplicationClosureNativeSections() {
 
   const panels = useMemo(() => {
     if (!closureState) return [];
-    return [closureState.verification, closureState.branch, closureState.settlement, closureState.ledger];
+    return [
+      closureState.needReview,
+      closureState.verification,
+      closureState.branch,
+      closureState.settlement,
+      closureState.ledger,
+    ];
   }, [closureState]);
 
   if (!closureState) {
@@ -136,8 +152,8 @@ export default function ApplicationClosureNativeSections() {
       <ApplicationWorkspaceCard
         id="applicationClosureSequence"
         kicker="Closure map"
-        title="Verification, asset pack, settlement, and ledger"
-        summary="Reading the current closure sequence, asset-pack synthesis posture, and settlement runtime."
+        title="Need review, verification, asset pack, settlement, and ledger"
+        summary="Reading the current review-to-settlement sequence, asset-pack synthesis posture, and source-to-shares runtime."
         explainer={APPLICATION_WORKSPACE_EXPLAINERS.closureMap}
       >
         <p className="mt-4 text-sm leading-6 text-neutral-300">Reading the live Bitcode closure snapshot…</p>
@@ -149,8 +165,8 @@ export default function ApplicationClosureNativeSections() {
     <ApplicationWorkspaceCard
       id="applicationClosureSequence"
       kicker="Closure map"
-      title="Verification, asset pack, settlement, and ledger"
-      summary="Read closure as one sequence from verification through asset-pack branch materialization and ledger continuity, then open the exact proof view only when needed."
+      title="Need review, verification, asset pack, settlement, and ledger"
+      summary="Read closure as one sequence from reviewable Need admission through verification, asset-pack branch materialization, source-to-shares settlement, and ledger continuity."
       explainer={APPLICATION_WORKSPACE_EXPLAINERS.closureMap}
       headerAside={
         <BitcodeMetricGrid

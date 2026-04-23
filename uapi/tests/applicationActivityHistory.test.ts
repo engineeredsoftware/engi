@@ -39,6 +39,14 @@ describe('application-activity-history', () => {
 
   const closureState: ApplicationClosureState = {
     canonLabel: 'Bitcode active posture',
+    needReview: {
+      id: 'need-review',
+      label: 'Need review before fit search',
+      summary: 'Measured Need accepted for source-to-shares fit search.',
+      metrics: [{ label: 'Fit search admitted', value: 'yes' }],
+      rows: [{ label: 'Review stage', value: 'post-measurement-pre-fit' }],
+      chips: ['source-to-shares'],
+    },
     verification: {
       id: 'verification',
       label: 'Verification',
@@ -144,6 +152,10 @@ describe('application-activity-history', () => {
         summary: 'Recorded closure posture.',
         closurePanels: {
           canonLabel: 'Bitcode active posture',
+          needReview: {
+            id: 'need-review',
+            label: 'Need review before fit search',
+          },
           verification: {
             id: 'verification',
             label: 'Verification',

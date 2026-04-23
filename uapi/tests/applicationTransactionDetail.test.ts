@@ -206,6 +206,17 @@ const detail: ApplicationRunDetailSnapshot = {
 
 const closureState: ApplicationClosureState = {
   canonLabel: 'production workspace posture',
+  needReview: {
+    id: 'need-review',
+    label: 'Need review before fit search',
+    summary: 'Measured Need accepted for source-to-shares fit search.',
+    metrics: [
+      { label: 'Review action', value: 'accept' },
+      { label: 'Fit search admitted', value: 'yes' },
+    ],
+    rows: [{ label: 'Need', value: 'need-auth-rollback' }],
+    chips: ['post-measurement-pre-fit', 'source-to-shares'],
+  },
   verification: {
     id: 'verification',
     label: 'Verification + ranked candidates',
@@ -235,6 +246,13 @@ const closureState: ApplicationClosureState = {
     ],
     rows: [{ label: 'Bundle', value: 'bundle-001' }],
     chips: ['selection-materialization'],
+    fitQualities: [
+      {
+        label: 'Weighted source-to-shares bundle fit',
+        value: '0.328991',
+        detail: '10000 bp · source-to-shares-weighted-objective',
+      },
+    ],
     proofFamilies: [
       {
         label: 'selection-materialization',
@@ -423,6 +441,7 @@ describe('application-transaction-detail helpers', () => {
             summary: 'bitcode/bitcode · bitcode/auth-rollback · completed · credited 2',
           },
         ],
+        needReview: closureState.needReview,
         verification: closureState.verification,
         branch: closureState.branch,
         settlement: closureState.settlement,

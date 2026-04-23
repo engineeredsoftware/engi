@@ -7,6 +7,7 @@ import {
   reviewNeedForFitSearch,
   runMakeBitcodeBranch
 } from '../src/bitcode-demo.js';
+import { createAppContext } from '../server.js';
 
 function parseBranchArtifact(latestRun, path) {
   return JSON.parse(latestRun.branchArtifacts.files[path]);
@@ -61,6 +62,31 @@ test('V26 branch runs materialize accepted need review before ranking and AssetP
   assert.ok(latestRun.needMeasurement.needReview.proofHash);
   assert.ok(eventStages.indexOf('need-measurement') < eventStages.indexOf('need-review'));
   assert.ok(eventStages.indexOf('need-review') < eventStages.indexOf('recall-and-ranking'));
+});
+
+test('V26 app context exposes reviewable Need API and blocks explicit non-accept fit search', () => {
+  const app = createAppContext({
+    dataPath: `/tmp/bitcode-need-review-${Date.now()}.json`
+  });
+  app.ensureState();
+
+  const preview = app.getNeedReview({});
+  assert.equal(preview.protocolFocus, 'source-to-shares');
+  assert.equal(preview.reviewableNeed.status, 'ready-for-review');
+  assert.equal(preview.fitSearchAdmission.admitted, false);
+
+  const remeasure = app.reviewNeed({
+    needReviewAction: 'remeasure-with-feedback',
+    needReviewFeedback: ['Narrow the source-to-shares Need before fitting.']
+  });
+  assert.equal(remeasure.needReview.status, 'remeasure-requested');
+  assert.equal(remeasure.fitSearchAdmission.admitted, false);
+  assert.equal(app.readState().latestNeedReview.status, 'remeasure-requested');
+
+  assert.throws(
+    () => runMakeBitcodeBranch(buildInitialState(), { needReviewAction: 'reject' }),
+    /fit search cannot proceed/u
+  );
 });
 
 test('V26 settlement review and receipts show quantized source-to-shares fit qualities', () => {

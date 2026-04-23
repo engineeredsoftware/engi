@@ -35,6 +35,7 @@ export type ApplicationTransactionClosurePayload = {
     branchArtifacts: ApplicationTransactionClosureFollowThrough['branchArtifacts'];
     proofFamilies: ApplicationTransactionClosureFollowThrough['proofFamilies'];
     recentHistory: ApplicationTransactionClosureFollowThrough['recentHistory'];
+    needReview: ApplicationClosurePanel | null;
     verification: ApplicationClosurePanel | null;
     branch: ApplicationClosurePanel | null;
     settlement: ApplicationClosurePanel | null;
@@ -264,6 +265,7 @@ export function buildApplicationTransactionClosurePayload(
       branchArtifacts: closureFollowThrough.branchArtifacts,
       proofFamilies: closureFollowThrough.proofFamilies,
       recentHistory: closureFollowThrough.recentHistory,
+      needReview: closureState?.needReview || null,
       verification: closureState?.verification || null,
       branch: closureState?.branch || null,
       settlement: closureState?.settlement || null,

@@ -8,6 +8,7 @@ import BitcodeMetricGrid from '@/components/base/bitcode/execution/BitcodeMetric
 import ApplicationWorkspaceCard from './ApplicationWorkspaceCard';
 import {
   buildApplicationNeedMeasurementDraft,
+  readApplicationRouteError,
   type ApplicationActivityRecordDraft,
 } from './application-activity-history';
 import {
@@ -29,6 +30,8 @@ export default function ApplicationNeedScenarioPanel({ onRecordActivity }: Appli
   const { snapshot, runControl } = useApplicationShellBridge();
   const [actionMessage, setActionMessage] = useState<string | null>(null);
   const [isRecording, setIsRecording] = useState(false);
+  const [isReviewing, setIsReviewing] = useState(false);
+  const [reviewFeedback, setReviewFeedback] = useState('');
   const needState = useMemo<ApplicationNeedScenariosState | null>(
     () => normalizeApplicationNeedScenarios(snapshot),
     [snapshot],
@@ -51,6 +54,66 @@ export default function ApplicationNeedScenarioPanel({ onRecordActivity }: Appli
       setActionMessage(error instanceof Error ? error.message : 'Unable to record the active need measurement.');
     } finally {
       setIsRecording(false);
+    }
+  };
+
+  const handleReviewNeed = async (action: 'accept' | 'reject' | 'remeasure-with-feedback') => {
+    if (!needState) return;
+
+    setIsReviewing(true);
+    setActionMessage(null);
+
+    try {
+      const response = await fetch('/api/need-review', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          scenarioId: needState.selectedScenarioId || undefined,
+          needReviewAction: action,
+          needReviewFeedback: reviewFeedback.trim() ? [reviewFeedback.trim()] : [],
+          needReviewActorId: 'bitcode-terminal:need-review',
+          needReviewDecisionMode: 'operator-terminal-review',
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error(await readApplicationRouteError(response, 'Unable to review the active Need.'));
+      }
+
+      const payload = (await response.json()) as Record<string, unknown>;
+      const fitSearchAdmission = payload.fitSearchAdmission as { admitted?: boolean } | undefined;
+      const nextProtocolAction = String(payload.nextProtocolAction || 'Continue from the Bitcode Terminal.');
+      await onRecordActivity?.({
+        type: 'agentic-execution:need-measurement',
+        detailSection: 'activity',
+        summary: `Reviewed the active Need with action ${action}.`,
+        context: {
+          source: 'application-need-scenario-panel',
+          scenarioId: needState.selectedScenarioId,
+          reviewAction: action,
+          fitSearchAdmitted: fitSearchAdmission?.admitted === true,
+        },
+        output: {
+          needReview: payload.needReview ?? null,
+          reviewDecision: payload.reviewDecision ?? null,
+          finalWorkSummary: {
+            bitcodeActivityState: {
+              needReview: payload,
+            },
+          },
+        },
+      });
+      setActionMessage(
+        fitSearchAdmission?.admitted
+          ? `Need accepted for source-to-shares fit search. Next: ${nextProtocolAction}.`
+          : `Need review recorded. Fit search remains blocked. Next: ${nextProtocolAction}.`,
+      );
+    } catch (error) {
+      setActionMessage(error instanceof Error ? error.message : 'Unable to review the active Need.');
+    } finally {
+      setIsReviewing(false);
     }
   };
 
@@ -112,6 +175,36 @@ export default function ApplicationNeedScenarioPanel({ onRecordActivity }: Appli
         </button>
         <button
           type="button"
+          disabled={isReviewing}
+          onClick={() => {
+            void handleReviewNeed('accept');
+          }}
+          className="rounded-[1.4rem] border border-emerald-400/30 bg-emerald-400/10 px-4 py-3 text-sm font-medium text-emerald-100 transition hover:border-emerald-300/50 hover:bg-emerald-400/15 disabled:cursor-not-allowed disabled:opacity-60"
+        >
+          {isReviewing ? 'Reviewing Need…' : 'Accept Need for fit search'}
+        </button>
+        <button
+          type="button"
+          disabled={isReviewing}
+          onClick={() => {
+            void handleReviewNeed('reject');
+          }}
+          className="rounded-[1.4rem] border border-red-400/25 bg-red-400/10 px-4 py-3 text-sm font-medium text-red-100 transition hover:border-red-300/45 hover:bg-red-400/15 disabled:cursor-not-allowed disabled:opacity-60"
+        >
+          Reject Need
+        </button>
+        <button
+          type="button"
+          disabled={isReviewing}
+          onClick={() => {
+            void handleReviewNeed('remeasure-with-feedback');
+          }}
+          className="rounded-[1.4rem] border border-amber-400/25 bg-amber-400/10 px-4 py-3 text-sm font-medium text-amber-100 transition hover:border-amber-300/45 hover:bg-amber-400/15 disabled:cursor-not-allowed disabled:opacity-60"
+        >
+          Remeasure with feedback
+        </button>
+        <button
+          type="button"
           onClick={() => jumpToShellSection('applicationNeedScenarios')}
           className="rounded-[1.4rem] border border-emerald-400/30 bg-emerald-400/10 px-4 py-3 text-sm font-medium text-emerald-100 transition hover:border-emerald-300/50 hover:bg-emerald-400/15"
         >
@@ -125,6 +218,19 @@ export default function ApplicationNeedScenarioPanel({ onRecordActivity }: Appli
           Focus asset-pack fit
         </button>
       </div>
+
+      <label className="mt-4 block rounded-[1.3rem] border border-white/8 bg-black/20 px-4 py-4">
+        <span className="text-[0.66rem] uppercase tracking-[0.2em] text-neutral-400">
+          Need-review feedback
+        </span>
+        <textarea
+          value={reviewFeedback}
+          onChange={(event) => setReviewFeedback(event.target.value)}
+          rows={3}
+          placeholder="Optional feedback for reject or remeasure decisions."
+          className="mt-3 w-full resize-none rounded-[1rem] border border-white/8 bg-black/30 px-3 py-3 text-sm leading-6 text-neutral-100 outline-none transition placeholder:text-neutral-600 focus:border-emerald-300/35"
+        />
+      </label>
 
       <div className="mt-6 grid gap-3 md:grid-cols-2 xl:grid-cols-3">
         {needState.scenarios.map((scenario) => (

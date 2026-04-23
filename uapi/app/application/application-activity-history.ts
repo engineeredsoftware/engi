@@ -224,6 +224,7 @@ export function buildApplicationClosureFinalWorkSummary(
       ? {
           closurePanels: {
             canonLabel: closureState.canonLabel,
+            needReview: closureState.needReview,
             verification: closureState.verification,
             branch: closureState.branch,
             settlement: closureState.settlement,

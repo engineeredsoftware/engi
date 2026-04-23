@@ -12,6 +12,8 @@
  */
 
 import { factoryAgentWithPTRR } from '@bitcode/agent-generics';
+import { Prompt } from '@bitcode/prompts/prompt';
+import { createPromptPart } from '@bitcode/prompts/parts/PromptPart';
 import { z } from 'zod';
 import {
   buildSDIVSPipelineUpdate,
@@ -60,14 +62,54 @@ const ReadyToInstructOutputSchema = z.object({
   summary: z.string() // "High confidence, proceeding autonomously" or "Medium confidence, instruction may help"
 });
 
+function createReadyToInstructStepPrompt(purpose: string): Prompt {
+  const prompt = new Prompt();
+  prompt.set('step/purpose', createPromptPart(purpose));
+  prompt.require('step/purpose');
+  return prompt;
+}
+
+const readyToInstructPrompt = (() => {
+  const prompt = new Prompt();
+  prompt.set(
+    'agent/identity',
+    createPromptPart('Bitcode validation-phase agent for deciding whether an AssetPack-producing inference run needs operator instruction before the next DIV iteration or Finish.')
+  );
+  prompt.set(
+    'agent/purpose',
+    createPromptPart('Measure validation issues, iteration progress, complexity, and remaining uncertainty so the run can continue autonomously only when source-to-shares evidence is sufficient.')
+  );
+  prompt.set(
+    'agent/constraints',
+    createPromptPart('Prefer honest operator review over false progress; do not promote a run toward Finish when missing evidence, unresolved implementation issues, or unclear Need alignment remain.')
+  );
+  prompt.set('ptrr/plan/purpose', createPromptPart('Plan the self-instruction decision from validation issue counts, iteration bounds, file-change evidence, and run complexity.'));
+  prompt.set('ptrr/try/purpose', createPromptPart('Calculate confidence factors and decide whether operator instruction is needed before the next iteration.'));
+  prompt.set('ptrr/refine/purpose', createPromptPart('Refine the confidence judgment against unresolved issues, proof gaps, and risk of false closure.'));
+  prompt.set('ptrr/retry/purpose', createPromptPart('Recover with conservative instruction suggestions and a bounded continue-or-Finish decision.'));
+  prompt.require('agent/identity');
+  prompt.require('agent/purpose');
+  prompt.requirePattern('ptrr/*/purpose');
+  return prompt;
+})();
+
+const readyToInstructStepPrompts = {
+  plan: () => createReadyToInstructStepPrompt('Plan the Bitcode self-instruction decision from validation state and remaining proof obligations.'),
+  try: () => createReadyToInstructStepPrompt('Compute confidence factors, instruction need, continuation posture, and a concise operator-facing summary.'),
+  refine: () => createReadyToInstructStepPrompt('Tighten the confidence judgment against unresolved issues and source-to-shares closure risk.'),
+  retry: () => createReadyToInstructStepPrompt('Return conservative instruction suggestions when confidence evidence is incomplete.'),
+};
+
 export const ReadyToInstructAgent = factoryAgentWithPTRR<
   z.infer<typeof ReadyToInstructInputSchema>,
   z.infer<typeof ReadyToInstructOutputSchema>
 >({
   name: 'deliverable-pipeline-ready-to-instruct',
-  description: 'Determines self-instruct confidence at end of DIV loop iteration',
+  description: 'Bitcode validation-phase agent for deciding whether the DIV loop can continue autonomously or needs operator instruction before Finish',
 
   outputSchema: ReadyToInstructOutputSchema,
+  prompt: readyToInstructPrompt,
+  stepPrompts: readyToInstructStepPrompts,
 
   tools: [], // Pure reasoning agent, no tools needed
 

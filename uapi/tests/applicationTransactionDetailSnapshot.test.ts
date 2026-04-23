@@ -299,6 +299,10 @@ describe('application-transaction-detail-snapshot helpers', () => {
     });
     expect(snapshot.closureState).toMatchObject({
       canonLabel: 'Bitcode active posture',
+      needReview: {
+        id: 'need-review',
+        label: 'Need review before fit search',
+      },
       verification: {
         id: 'verification',
         label: 'Verification + ranked candidates',

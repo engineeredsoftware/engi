@@ -104,6 +104,14 @@
  *   scenarioId?: string | undefined,
  *   branchMode?: string | undefined,
  *   paymentMode?: string | undefined,
+ *   needReviewAction?: string | undefined,
+ *   needReviewFeedback?: string[] | string | undefined,
+ *   needReviewActorId?: string | undefined,
+ *   needReviewDecisionMode?: string | undefined,
+ *   reviewAction?: string | undefined,
+ *   reviewFeedback?: string[] | string | undefined,
+ *   actorId?: string | undefined,
+ *   decisionMode?: string | undefined,
  *   principal?: string | undefined
  * }} RequestBodyShape
  */
@@ -114,7 +122,9 @@ import { fileURLToPath } from 'node:url';
 import {
   buildInitialState,
   makeCandidateAsset,
+  measureNeedFromScenario,
   publicState as buildPublicState,
+  reviewNeedForFitSearch,
   runMakeBitcodeBranch,
   SPEC_VERSION
 } from './src/bitcode-runtime.js';
@@ -246,6 +256,66 @@ export function createAppContext({
       throw badRequest(`Unsupported payment mode: ${paymentMode}`);
     }
     return normalized;
+  }
+
+  /**
+   * @param {unknown} feedback
+   * @returns {string[]}
+   */
+  function normalizeReviewFeedback(feedback) {
+    if (Array.isArray(feedback)) return uniqueStrings(feedback);
+    const normalized = String(feedback || '').trim();
+    return normalized ? [normalized] : [];
+  }
+
+  /**
+   * @param {AppState} state
+   * @param {unknown} scenarioId
+   * @returns {any}
+   */
+  function resolveNeedReviewScenario(state, scenarioId) {
+    const normalizedScenarioId = String(scenarioId || '').trim();
+    const scenario = state.needScenarios?.find((entry) => String(/** @type {any} */ (entry)?.scenarioId || '') === normalizedScenarioId)
+      || (!normalizedScenarioId ? state.needScenarios?.[0] : null);
+    if (!scenario) throw badRequest('Need scenario not found.');
+    return scenario;
+  }
+
+  /**
+   * @param {AppState} state
+   * @param {RequestBodyShape} body
+   * @returns {Record<string, unknown>}
+   */
+  function buildNeedReviewPayload(state, body = {}) {
+    const scenario = resolveNeedReviewScenario(state, body.scenarioId);
+    const measurement = measureNeedFromScenario(scenario);
+    const reviewableNeed = measurement.reviewableNeed;
+    return {
+      ok: true,
+      specVersion: SPEC_VERSION,
+      protocolFocus: 'source-to-shares',
+      reviewStage: reviewableNeed.reviewStage,
+      scenario: {
+        scenarioId: scenario.scenarioId,
+        scenarioFamily: scenario.scenarioFamily,
+        repo: scenario.repo,
+        baseRef: scenario.baseRef
+      },
+      measurement: {
+        needId: measurement.needDescriptor.needId,
+        task: measurement.needDescriptor.task,
+        failureModes: measurement.needDescriptor.failureModes,
+        constraints: measurement.needDescriptor.constraints,
+        targetArtifactKinds: measurement.needDescriptor.targetArtifactKinds,
+        closureCriteria: measurement.needDescriptor.closureCriteria,
+        measurementHash: reviewableNeed.measurementRefs?.measurementHash || null,
+        reviewableNeedRef: reviewableNeed.reviewableNeedHash || null
+      },
+      reviewableNeed,
+      allowedActions: reviewableNeed.allowedActions,
+      fitSearchAdmission: reviewableNeed.fitSearchAdmission,
+      nextProtocolAction: 'POST /api/need-review with action=accept|reject|remeasure-with-feedback'
+    };
   }
 
   /**
@@ -496,6 +566,69 @@ export function createAppContext({
 
   /**
    * @param {RequestBodyShape} body
+   * @returns {Record<string, unknown>}
+   */
+  function getNeedReview(body = {}) {
+    return buildNeedReviewPayload(readState(), body);
+  }
+
+  /**
+   * @param {RequestBodyShape} body
+   * @returns {Record<string, unknown>}
+   */
+  function reviewNeed(body = {}) {
+    const state = readState();
+    const payload = buildNeedReviewPayload(state, body);
+    const action = String(body.needReviewAction || body.reviewAction || 'accept').trim() || 'accept';
+    const feedback = normalizeReviewFeedback(body.needReviewFeedback || body.reviewFeedback || []);
+    const needReview = reviewNeedForFitSearch(/** @type {any} */ (payload.reviewableNeed), {
+      action,
+      feedback,
+      actorId: body.needReviewActorId || body.actorId || 'bitcode-terminal:need-review',
+      decisionMode: body.needReviewDecisionMode || body.decisionMode || 'operator-review-api'
+    });
+    const reviewDecision = /** @type {any} */ (needReview).reviewDecision || {};
+    const historyEntry = {
+      reviewId: `need_review_${Date.now().toString(36)}`,
+      protocolFocus: 'source-to-shares',
+      scenario: payload.scenario,
+      measurement: payload.measurement,
+      action: reviewDecision.action,
+      status: needReview.status,
+      fitSearchAdmission: needReview.fitSearchAdmission,
+      actorId: reviewDecision.actorId,
+      decisionMode: reviewDecision.decisionMode,
+      feedback,
+      needReview,
+      createdAt: new Date().toISOString()
+    };
+    const stateRecord = /** @type {any} */ (state);
+    writeState({
+      ...state,
+      latestNeedReview: historyEntry,
+      needReviewHistory: [...(Array.isArray(stateRecord.needReviewHistory) ? stateRecord.needReviewHistory : []), historyEntry].slice(-20)
+    });
+
+    return {
+      ...payload,
+      ok: true,
+      needReview,
+      reviewDecision,
+      fitSearchAdmission: needReview.fitSearchAdmission,
+      stateWrite: {
+        latestNeedReviewRef: historyEntry.reviewId,
+        fitSearchAdmitted: needReview.fitSearchAdmission?.admitted === true
+      },
+      nextProtocolAction: needReview.fitSearchAdmission?.admitted
+        ? 'POST /api/make-bitcode-branch'
+        : action === 'remeasure-with-feedback'
+          ? 'GET /api/need-review after revising the Need measurement input'
+          : 'Select a different Need or reject this source-to-shares fit search'
+    };
+  }
+
+  /**
+   * @param {RequestBodyShape} body
    * @returns {{ ok: true, asset: unknown }}
    */
   function createDeposit(body) {
@@ -529,7 +662,11 @@ export function createAppContext({
       buyerId,
       scenarioId,
       branchMode,
-      paymentMode
+      paymentMode,
+      needReviewAction: body.needReviewAction || body.reviewAction,
+      needReviewFeedback: body.needReviewFeedback || body.reviewFeedback,
+      needReviewActorId: body.needReviewActorId || body.actorId,
+      needReviewDecisionMode: body.needReviewDecisionMode || body.decisionMode
     };
     const { nextState, latestRun } = runMakeBitcodeBranch(state, branchRequest);
     const stateRecord = /** @type {any} */ (state);
@@ -649,6 +786,18 @@ export function createAppContext({
         return sendJson(res, 200, await makeBitcodeBranch(body));
       }
 
+      if (req.method === 'GET' && req.url?.startsWith('/api/need-review')) {
+        const url = new URL(req.url, 'http://127.0.0.1');
+        return sendJson(res, 200, getNeedReview({
+          scenarioId: url.searchParams.get('scenarioId') || undefined
+        }));
+      }
+
+      if (req.method === 'POST' && req.url === '/api/need-review') {
+        const body = await readBody(req);
+        return sendJson(res, 200, reviewNeed(body));
+      }
+
       if (req.method === 'POST' && req.url === '/api/reset') {
         return sendJson(res, 200, resetState());
       }
@@ -692,6 +841,9 @@ export function createAppContext({
       if (!resolvedError.statusCode && /No candidates survived into the asset pack/i.test(resolvedError.message || '')) {
         resolvedError.statusCode = 409;
       }
+      if (!resolvedError.statusCode && /fit search cannot proceed/i.test(resolvedError.message || '')) {
+        resolvedError.statusCode = 409;
+      }
       return sendJson(res, resolvedError.statusCode || 500, { error: resolvedError.message || 'Unknown error.' });
     }
   }
@@ -704,6 +856,8 @@ export function createAppContext({
     writeState,
     publicState: buildPublicState,
     getState,
+    getNeedReview,
+    reviewNeed,
     createDeposit,
     makeBitcodeBranch,
     resetState,

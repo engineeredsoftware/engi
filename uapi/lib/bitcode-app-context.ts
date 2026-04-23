@@ -26,6 +26,9 @@ export function toBitcodeErrorResponse(error: unknown) {
   if (!resolvedError.statusCode && /No candidates survived into the asset pack/i.test(resolvedError.message || '')) {
     resolvedError.statusCode = 409;
   }
+  if (!resolvedError.statusCode && /fit search cannot proceed/i.test(resolvedError.message || '')) {
+    resolvedError.statusCode = 409;
+  }
   return NextResponse.json(
     { error: resolvedError.message || 'Unknown error.' },
     { status: resolvedError.statusCode || 500 }

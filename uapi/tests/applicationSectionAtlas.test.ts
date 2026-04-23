@@ -44,6 +44,15 @@ describe('normalizeApplicationSectionAtlas', () => {
         },
       },
       closureSurface: {
+        needReview: {
+          label: 'Need review before fit search',
+          reviewAction: 'accept',
+          reviewStatus: 'accepted',
+          protocolFocus: 'source-to-shares',
+          fitSearchAdmitted: true,
+          allowedActions: ['accept', 'reject', 'remeasure-with-feedback'],
+          admissionReason: 'Measured Need accepted for source-to-shares fit search.',
+        },
         verification: {
           label: 'Verification + ranked candidates',
           summary: 'Verification remains the gate between fit and downstream branch or settlement rights.',
@@ -74,6 +83,7 @@ describe('normalizeApplicationSectionAtlas', () => {
           proofFamilyCount: 4,
           bundleId: 'bundle-001',
           settlementIntentSummary: 'Settlement closes the active fit with replayable source-to-shares and proof-bearing accounting.',
+          fitQualities: [{ label: 'Weighted source-to-shares bundle fit', qualityId: 'bundle-share-score', value: '0.32' }],
           proofFamilies: [{ proofFamily: 'selection-materialization', allTheoremsPassed: true, replayArtifactCount: 6 }],
         },
         ledger: {
@@ -90,6 +100,8 @@ describe('normalizeApplicationSectionAtlas', () => {
     expect(atlas[0]?.label).toBe('Operating picture');
     expect(atlas[0]?.subheads).toContain('Repo supply');
     expect(atlas[1]?.badge).toBe('Targeted deposit');
+    expect(atlas[2]?.label).toBe('Need review before fit search');
+    expect(atlas[2]?.subheads).toContain('Fit search admitted');
     expect(atlas[4]?.label).toBe('Verification + ranked candidates');
     expect(atlas[4]?.subheads).toContain('Candidates');
     expect(atlas[6]?.badge).toBe('selection-materialization');

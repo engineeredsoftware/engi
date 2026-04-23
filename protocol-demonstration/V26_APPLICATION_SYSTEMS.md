@@ -721,6 +721,7 @@ Current active V26-facing API surfaces include:
 - `uapi/app/api/state/route.ts`
 - `uapi/app/api/deposits/route.ts`
 - `uapi/app/api/make-bitcode-branch/route.ts`
+- `uapi/app/api/need-review/route.ts`
 - `uapi/app/api/reset/route.ts`
 - `uapi/app/api/bitcoin-demonstration-service/route.ts`
 - `uapi/app/api/auxillaries/data/route.ts`
@@ -746,7 +747,9 @@ Current active readiness and transaction-admission carriers include:
 Operational rule:
 - app-owned write routes are no longer allowed to trust client-only readiness posture when auth, wallet, provider, and repository scope can be re-derived on the server
 - app-owned read routes for `activity` and `executions/history` must also prove authenticated persisted reread of execution rows, notifications, `final_work_summary`, repo snapshots, processing stats, and execution events rather than relying on mock-mode or unauthenticated fallback as the only tested behavior
-- `deposits` and `make-bitcode-branch` are application-owned Bitcode write boundaries and therefore must fail closed unless signed-settlement readiness and repository anchor posture are satisfied
+- `need-review` is the application-owned Bitcode pre-fit review boundary: it must present the measured source-to-shares Need before fitting, persist accept/reject/remeasure-with-feedback decisions, and keep explicit non-accept decisions from being bypassed by branch materialization
+- commercial route tests for `need-review` and `make-bitcode-branch` must include a protocol-demonstration parity seam, proving the `uapi` routes preserve the low-level reviewable-Need, branch-blocking, accepted source-to-shares artifact, present-fit settlement review, and quantized fit-quality receipt contracts rather than approximating them with route-local fixture behavior
+- `deposits` and `make-bitcode-branch` are application-owned Bitcode write boundaries and therefore must fail closed unless signed-settlement readiness, repository anchor posture, and accepted Need-review admission are satisfied where those preconditions apply
 - application write controls may expose drafting posture before settlement posture, but they may not overclaim that staged drafting readiness is equivalent to verified signing readiness
 - the generic `Profile` write route may preserve an already provider-managed wallet signer state when rereading the same bound identity, but it may not assert new `pending` or `verified` signer posture on behalf of the client
 - the admitted `Bitcode MCP` deliverable-create boundary must fail closed before queueing or reserving `BTD` when `pipelines.create` permission is absent or the requested repository/provider ingress is not coherently anchored by a matching repository connection or authenticated provider credential

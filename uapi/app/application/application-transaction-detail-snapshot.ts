@@ -259,7 +259,7 @@ function coerceRecentHistory(value: unknown): ApplicationClosureHistoryEntry[] |
 function coerceClosurePanel(value: unknown): ApplicationClosurePanel | null {
   if (!isRecord(value)) return null;
   const id = coerceString(value.id);
-  if (id !== 'verification' && id !== 'branch' && id !== 'settlement' && id !== 'ledger') return null;
+  if (id !== 'need-review' && id !== 'verification' && id !== 'branch' && id !== 'settlement' && id !== 'ledger') return null;
 
   return {
     id,
@@ -270,8 +270,20 @@ function coerceClosurePanel(value: unknown): ApplicationClosurePanel | null {
     chips: coerceChips(value.chips),
     candidates: coerceCandidates(value.candidates),
     proofFamilies: coerceProofFamilies(value.proofFamilies),
+    fitQualities: coerceFitQualities(value.fitQualities),
     recentRuns: coerceRecentHistory(value.recentRuns),
   };
+}
+
+function coerceFitQualities(value: unknown): ApplicationClosurePanel['fitQualities'] {
+  if (!Array.isArray(value)) return undefined;
+  return value
+    .filter(isRecord)
+    .map((entry) => ({
+      label: coerceString(entry.label) || 'Source-to-shares fit quality',
+      value: coerceString(entry.value) || '0',
+      detail: coerceString(entry.detail) || 'n/a',
+    }));
 }
 
 function coerceClosureFollowThrough(value: unknown): ApplicationRunDetailClosureFollowThrough | null {
@@ -316,6 +328,14 @@ function coerceClosureFollowThrough(value: unknown): ApplicationRunDetailClosure
 function coerceClosureState(value: unknown): ApplicationClosureState | null {
   if (!isRecord(value)) return null;
   const verification = coerceClosurePanel(value.verification);
+  const needReview = coerceClosurePanel(value.needReview) || {
+    id: 'need-review' as const,
+    label: 'Need review before fit search',
+    summary: 'Need review was not persisted on this older closure snapshot.',
+    metrics: [],
+    rows: [],
+    chips: [],
+  };
   const branch = coerceClosurePanel(value.branch);
   const settlement = coerceClosurePanel(value.settlement);
   const ledger = coerceClosurePanel(value.ledger);
@@ -324,6 +344,7 @@ function coerceClosureState(value: unknown): ApplicationClosureState | null {
 
   return {
     canonLabel: coerceString(value.canonLabel) || 'Bitcode active posture',
+    needReview,
     verification,
     branch,
     settlement,

@@ -20,6 +20,31 @@ type ClosureProofFamilySnapshot = {
   replayArtifactCount?: number | null;
 };
 
+type ClosureNeedReviewSnapshot = {
+  label?: string | null;
+  needId?: string | null;
+  protocolFocus?: string | null;
+  reviewStage?: string | null;
+  reviewAction?: string | null;
+  reviewStatus?: string | null;
+  reviewer?: string | null;
+  decisionMode?: string | null;
+  fitSearchAdmitted?: boolean | null;
+  admissionReason?: string | null;
+  allowedActions?: string[] | null;
+  measuredTask?: string | null;
+  measurementHash?: string | null;
+  reviewableNeedRef?: string | null;
+};
+
+type ClosureFitQualitySnapshot = {
+  label?: string | null;
+  qualityId?: string | null;
+  value?: string | null;
+  weightBp?: number | null;
+  evidenceClass?: string | null;
+};
+
 type ClosureLedgerAccountSnapshot = {
   label?: string | null;
   value?: string | null;
@@ -35,6 +60,7 @@ type ClosureRunHistorySnapshot = {
 };
 
 type ClosureSurfaceSnapshot = {
+  needReview?: ClosureNeedReviewSnapshot | null;
   verification?: {
     label?: string | null;
     candidateCount?: number | null;
@@ -67,6 +93,13 @@ type ClosureSurfaceSnapshot = {
     creditCount?: number | null;
     proofFamilyCount?: number | null;
     proofFamilies?: ClosureProofFamilySnapshot[] | null;
+    protocolFocus?: string | null;
+    reviewStage?: string | null;
+    quantizedObjectiveContractId?: string | null;
+    sourceToSharesRef?: string | null;
+    fitQualityHash?: string | null;
+    receiptRefs?: string[] | null;
+    fitQualities?: ClosureFitQualitySnapshot[] | null;
     settlementIntentSummary?: string | null;
   } | null;
   ledger?: {
@@ -98,13 +131,19 @@ export type ApplicationClosureProofFamily = {
   replayArtifacts: string;
 };
 
+export type ApplicationClosureFitQuality = {
+  label: string;
+  value: string;
+  detail: string;
+};
+
 export type ApplicationClosureHistoryEntry = {
   label: string;
   summary: string;
 };
 
 export type ApplicationClosurePanel = {
-  id: 'verification' | 'branch' | 'settlement' | 'ledger';
+  id: 'need-review' | 'verification' | 'branch' | 'settlement' | 'ledger';
   label: string;
   summary: string;
   metrics: Metric[];
@@ -112,11 +151,13 @@ export type ApplicationClosurePanel = {
   chips: string[];
   candidates?: ApplicationClosureCandidate[];
   proofFamilies?: ApplicationClosureProofFamily[];
+  fitQualities?: ApplicationClosureFitQuality[];
   recentRuns?: ApplicationClosureHistoryEntry[];
 };
 
 export type ApplicationClosureState = {
   canonLabel: string;
+  needReview: ApplicationClosurePanel;
   verification: ApplicationClosurePanel;
   branch: ApplicationClosurePanel;
   settlement: ApplicationClosurePanel;
@@ -140,17 +181,49 @@ function listValue(values: (string | null | undefined)[] | null | undefined, fal
 export function normalizeApplicationClosureState(snapshot: ShellSnapshot): ApplicationClosureState | null {
   if (!snapshot?.closureSurface) return null;
 
+  const needReview = snapshot.closureSurface.needReview || {};
   const verification = snapshot.closureSurface.verification || {};
   const branch = snapshot.closureSurface.branch || {};
   const settlement = snapshot.closureSurface.settlement || {};
   const ledger = snapshot.closureSurface.ledger || {};
   const proofFamilies = (settlement.proofFamilies || []).filter(Boolean);
+  const fitQualities = (settlement.fitQualities || []).filter(Boolean);
+  const reviewActions = (needReview.allowedActions || []).map((entry) => String(entry || '').trim()).filter(Boolean);
+  const receiptRefs = (settlement.receiptRefs || []).map((entry) => String(entry || '').trim()).filter(Boolean);
   const visibleArtifacts = (branch.visibleArtifacts || []).map((entry) => String(entry || '').trim()).filter(Boolean);
   const ledgerAccounts = (ledger.accounts || []).filter(Boolean);
   const recentRuns = (ledger.recentRuns || []).filter(Boolean);
 
   return {
     canonLabel: stringValue(snapshot.canonLabel, 'Bitcode active posture'),
+    needReview: {
+      id: 'need-review',
+      label: stringValue(needReview.label, 'Need review before fit search'),
+      summary: stringValue(
+        needReview.admissionReason || needReview.measuredTask,
+        'Measured Need must be accepted, rejected, or sent back for remeasurement before Bitcode can search for fitting AssetPacks.',
+      ),
+      metrics: [
+        { label: 'Review action', value: stringValue(needReview.reviewAction) },
+        { label: 'Review status', value: stringValue(needReview.reviewStatus) },
+        { label: 'Fit search admitted', value: needReview.fitSearchAdmitted === true ? 'yes' : 'no' },
+        { label: 'Protocol focus', value: stringValue(needReview.protocolFocus, 'source-to-shares') },
+      ],
+      rows: [
+        { label: 'Need', value: stringValue(needReview.needId) },
+        { label: 'Review stage', value: stringValue(needReview.reviewStage, 'post-measurement-pre-fit') },
+        { label: 'Reviewer', value: stringValue(needReview.reviewer) },
+        { label: 'Decision mode', value: stringValue(needReview.decisionMode) },
+        { label: 'Allowed actions', value: listValue(reviewActions) },
+        { label: 'Measurement hash', value: stringValue(needReview.measurementHash) },
+        { label: 'Reviewable Need ref', value: stringValue(needReview.reviewableNeedRef) },
+      ],
+      chips: [
+        stringValue(needReview.reviewStage, ''),
+        stringValue(needReview.protocolFocus, ''),
+        ...reviewActions,
+      ].filter(Boolean),
+    },
     verification: {
       id: 'verification',
       label: stringValue(verification.label, 'Verification + ranked candidates'),
@@ -224,11 +297,15 @@ export function normalizeApplicationClosureState(snapshot: ShellSnapshot): Appli
       metrics: [
         { label: 'Credited assets', value: numberValue(settlement.creditedAssetCount) },
         { label: 'Participating assets', value: numberValue(settlement.participatingAssetCount) },
-        { label: 'Debit lines', value: numberValue(settlement.debitCount) },
-        { label: 'Credit lines', value: numberValue(settlement.creditCount) },
+        { label: 'Fit qualities', value: numberValue(fitQualities.length) },
+        { label: 'Receipts', value: numberValue(receiptRefs.length) },
       ],
       rows: [
         { label: 'Bundle', value: stringValue(settlement.bundleId) },
+        { label: 'Present-fit review', value: stringValue(settlement.reviewStage, 'present-fit-for-settlement-review') },
+        { label: 'Objective contract', value: stringValue(settlement.quantizedObjectiveContractId) },
+        { label: 'Source-to-shares ref', value: stringValue(settlement.sourceToSharesRef) },
+        { label: 'Fit-quality hash', value: stringValue(settlement.fitQualityHash) },
         { label: 'Proof families', value: numberValue(settlement.proofFamilyCount) },
         {
           label: 'Proof posture',
@@ -241,6 +318,7 @@ export function normalizeApplicationClosureState(snapshot: ShellSnapshot): Appli
       ],
       chips: proofFamilies
         .map((entry) => stringValue(entry?.proofFamily, ''))
+        .concat(fitQualities.map((entry) => stringValue(entry?.qualityId || entry?.label, '')))
         .filter((value) => value !== '—')
         .slice(0, 8),
       proofFamilies: proofFamilies.slice(0, 4).map((entry) => ({
@@ -248,6 +326,14 @@ export function normalizeApplicationClosureState(snapshot: ShellSnapshot): Appli
         artifactPath: stringValue(entry?.proofArtifactPath),
         theoremStatus: entry?.allTheoremsPassed === true ? 'passed' : 'drift',
         replayArtifacts: numberValue(entry?.replayArtifactCount),
+      })),
+      fitQualities: fitQualities.slice(0, 5).map((entry) => ({
+        label: stringValue(entry?.label || entry?.qualityId, 'Source-to-shares fit quality'),
+        value: stringValue(entry?.value, '0'),
+        detail: listValue([
+          entry?.weightBp === null || entry?.weightBp === undefined ? '' : `${entry.weightBp} bp`,
+          stringValue(entry?.evidenceClass, ''),
+        ]),
       })),
     },
     ledger: {

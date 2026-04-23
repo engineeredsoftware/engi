@@ -156,7 +156,7 @@ export const APPLICATION_SURFACE_EXPLAINERS = {
     points: [
       'Keeps closure controls near the active activity',
       'Makes refresh and reset explicit instead of hidden',
-      'Preserves continuity into verification, branch, settlement, and ledger reads',
+      'Preserves continuity into Need review, verification, branch, settlement, and ledger reads',
     ],
     references: {
       source: [
@@ -169,15 +169,15 @@ export const APPLICATION_SURFACE_EXPLAINERS = {
   }),
   closureMap: buildExplainer({
     kicker: 'Closure reading',
-    title: 'Verification, branch, settlement, and ledger map',
+    title: 'Need review, branch, settlement, and ledger map',
     summary:
-      'Closure should read as one sequence from verification through ledger continuity rather than as isolated panels.',
+      'Closure should read as one sequence from reviewable Need admission through source-to-shares settlement and ledger continuity rather than as isolated panels.',
     detail:
-      'Use this map to preview the closure sequence, inspect the strongest metrics and rows for each stage, and open the exact proof view only when you need deeper proof.',
+      'Use this map to preview the review-to-settlement sequence, inspect the strongest metrics and rows for each stage, and open the exact proof view only when you need deeper proof.',
     points: [
-      'Keeps closure stages in one readable sequence',
+      'Keeps Need review and closure stages in one readable sequence',
       'Brings proof and history closer to the Bitcode Terminal',
-      'Makes exact-detail reads deliberate instead of mandatory',
+      'Makes fit-quality and exact-detail reads deliberate instead of mandatory',
     ],
     references: {
       source: [
@@ -611,7 +611,7 @@ export const APPLICATION_INLINE_EXPLAINERS = {
   closureAction: buildExplainer({
     title: 'Closure action',
     summary:
-      'Closure action is the visible bridge from review posture into verification, branch, settlement, and ledger follow-through.',
+      'Closure action is the visible bridge from Need-review posture into verification, branch, settlement, and ledger follow-through.',
     detail:
       'It should remain adjacent to status, readiness, and closure follow-through links so the operator always understands what the next write will do.',
     references: {

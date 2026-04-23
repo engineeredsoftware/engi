@@ -46,6 +46,7 @@ export function normalizeApplicationSectionAtlas(snapshot: ShellSnapshot): Secti
 
   if (closureState) {
     const closurePanels = [
+      { id: 'panelNeeding', panel: closureState.needReview },
       { id: 'panelEvaluations', panel: closureState.verification },
       { id: 'panelBranchArtifacts', panel: closureState.branch },
       { id: 'panelSettlement', panel: closureState.settlement },
@@ -62,6 +63,7 @@ export function normalizeApplicationSectionAtlas(snapshot: ShellSnapshot): Secti
           ...panel.metrics.map((metric) => metric.label),
           ...(panel.candidates || []).map((candidate) => candidate.title),
           ...(panel.proofFamilies || []).map((family) => family.label),
+          ...(panel.fitQualities || []).map((quality) => quality.label),
           ...(panel.recentRuns || []).map((run) => run.label),
         ]).slice(0, 4),
         itemCount:
@@ -70,6 +72,7 @@ export function normalizeApplicationSectionAtlas(snapshot: ShellSnapshot): Secti
           panel.chips.length +
           (panel.candidates?.length || 0) +
           (panel.proofFamilies?.length || 0) +
+          (panel.fitQualities?.length || 0) +
           (panel.recentRuns?.length || 0),
       });
     });

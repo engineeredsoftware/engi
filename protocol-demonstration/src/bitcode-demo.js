@@ -5855,9 +5855,10 @@ export function runMakeBitcodeBranch(state, input = {}) {
     reviewableNeed
   } = needMeasurement;
   const needReview = reviewNeedForFitSearch(reviewableNeed, {
-    action: 'accept',
-    actorId: 'bitcode-system:need-review',
-    decisionMode: 'deterministic-fifth-gate-local-review'
+    action: input.needReviewAction || input.reviewAction || 'accept',
+    feedback: input.needReviewFeedback || input.reviewFeedback || [],
+    actorId: input.needReviewActorId || input.actorId || 'bitcode-system:need-review',
+    decisionMode: input.needReviewDecisionMode || input.decisionMode || 'deterministic-fifth-gate-local-review'
   });
   if (!needReview.fitSearchAdmission?.admitted) {
     throw new Error('Bitcode fit search cannot proceed before the measured Need is accepted for source-to-shares review.');
