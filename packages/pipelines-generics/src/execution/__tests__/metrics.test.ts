@@ -35,7 +35,7 @@ describe('computePipelineMetrics', () => {
     root.store('phase/validation', 'completed', start + 4500);
     root.store('metrics/phase:validation', 'agentsExecuted', 1);
 
-    // Shipping phase
+    // Finish phase through legacy shipping stores
     root.store('phase/shipping', 'started', start + 4500);
     root.store('phase/shipping', 'completed', start + 5000);
     root.store('metrics/phase:shipping', 'agentsExecuted', 1);

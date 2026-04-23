@@ -1,7 +1,7 @@
 /**
- * Deliverables Shipping Phase – Ship Agent (PTRR)
+ * Deliverable Finish Phase - Deliver Agent (PTRR)
  *
- * Executes final delivery actions depending on deliverable type:
+ * Executes final Delivering actions depending on written-asset type:
  * - code-change: commit + push with use-computer (git), then create PR via VCS tool
  * - code-change-review: submit review comment via VCS tool
  * - design-document: create issue via VCS tool
@@ -15,8 +15,8 @@ import { PROMPTPART_GENERIC_AGENT_FAILSAFE_PREPARE_CONTEXT } from '@bitcode/prom
 import { PROMPTPART_GENERIC_AGENT_GENERATION_USE_THIS_STRUCTURED_SCHEMA } from '@bitcode/prompts/raw_promptparts/generic/promptpart_generic_agent_generation_use_this_structured_schema';
 import { resolveWrittenAssetTypeFromExecution } from '../../semantic-resolution';
 
-const ShipOutputSchema = z.object({
-  status: z.enum(['shipped','partial']).default('shipped'),
+const FinishDeliveryOutputSchema = z.object({
+  status: z.enum(['delivered','partial']).default('delivered'),
   writtenAssetType: z.string().optional(),
   deliverableType: z.string().optional(),
   prUrl: z.string().optional(),
@@ -26,7 +26,7 @@ const ShipOutputSchema = z.object({
 
 const systemPrompt = (() => {
   const p = new Prompt();
-  p.set('agent:identity', 'You are the Ship agent. Based on written-asset type, perform final delivery actions using available tools.' as any);
+  p.set('agent:identity', 'You are the Finish Deliver agent. Based on written-asset type, save useful result state and provide AssetPacks or AssetPackPartials to requested third-party destinations using available tools.' as any);
   p.set('generation:json_only_header', PROMPTPART_GENERIC_AGENT_GENERATION_JSON_ONLY_HEADER as any);
   p.set('generation:use_this_structure', PROMPTPART_GENERIC_AGENT_GENERATION_USE_THIS_STRUCTURED_SCHEMA as any);
   p.set('failsafe:prepare_context', PROMPTPART_GENERIC_AGENT_FAILSAFE_PREPARE_CONTEXT as any);
@@ -34,22 +34,22 @@ const systemPrompt = (() => {
 })();
 
 const stepPrompts = {
-  plan: () => { const p = new Prompt(); p.set('step:purpose', 'Plan the exact shipping actions based on written-asset type.' as any); return p; },
+  plan: () => { const p = new Prompt(); p.set('step:purpose', 'Plan the exact Finish/Delivering actions based on written-asset type and requested delivery destination.' as any); return p; },
   try: () => {
     const p = new Prompt();
-    p.set('step:purpose', 'Execute shipping actions. Prefer VCS tools. For code-change, commit+push with use-computer then create PR.' as any);
+    p.set('step:purpose', 'Execute Delivering actions. Prefer VCS tools. For code-change, commit+push with use-computer then create PR.' as any);
     // Instruction for tool selection
     p.set('tools:policy', 'If written-asset type is code-change: use use-computer to run git commands in workspacePath, then call vcs_create_pull_request. For design-document: call vcs_create_issue. For reviews: call vcs_create_comment with appropriate target.' as any);
     return p;
   },
   refine: () => { const p = new Prompt(); p.set('step:purpose', 'Adjust actions if initial attempts failed (e.g., branch exists).' as any); return p; },
-  retry: () => { const p = new Prompt(); p.set('step:purpose', 'Retry shipping with fallback strategies.' as any); return p; }
+  retry: () => { const p = new Prompt(); p.set('step:purpose', 'Retry Delivering with fallback strategies.' as any); return p; }
 };
 
-export const DeliverablePipelineShippingPhaseShipAgent = factoryAgentWithPTRR<any, z.infer<typeof ShipOutputSchema>>({
-  name: 'shipping:deliverable-pipeline-ship-agent',
-  description: 'Perform final shipping actions per deliverable type',
-  outputSchema: ShipOutputSchema as any,
+export const DeliverablePipelineFinishPhaseDeliverAgent = factoryAgentWithPTRR<any, z.infer<typeof FinishDeliveryOutputSchema>>({
+  name: 'finish:deliver-asset-pack-to-destination-agent',
+  description: 'Perform final Delivering actions per written-asset type',
+  outputSchema: FinishDeliveryOutputSchema as any,
   // Tools available to this agent
   tools: [
     'deliverable-pipeline-use-computer-tool',
@@ -72,7 +72,7 @@ export default async function ship(input: any, execution: any) {
 
   // Build tool plan via output.useTools using agent PTRR Try step instructions
   // This wrapper just calls the agent; ToolsExecution handles the rest. Afterward, store useful URLs.
-  const result = await DeliverablePipelineShippingPhaseShipAgent(
+  const result = await DeliverablePipelineFinishPhaseDeliverAgent(
     {
       writtenAssetType: dtype,
       deliverableType: dtype,
@@ -92,14 +92,17 @@ export default async function ship(input: any, execution: any) {
     if (Array.isArray(used)) {
       for (const u of used) {
         if (u?.tool === 'vcs_create_pull_request' && u?.output?.url) {
+          execution.store('finish','pullRequestUrl', String(u.output.url));
           execution.store('shipping','pullRequestUrl', String(u.output.url));
           result.prUrl = String(u.output.url);
         }
         if (u?.tool === 'vcs_create_issue' && u?.output?.url) {
+          execution.store('finish','issueUrl', String(u.output.url));
           execution.store('shipping','issueUrl', String(u.output.url));
           result.issueUrl = String(u.output.url);
         }
         if (u?.tool === 'vcs_create_comment' && u?.output?.url) {
+          execution.store('finish','commentUrl', String(u.output.url));
           execution.store('shipping','commentUrl', String(u.output.url));
           result.commentUrl = String(u.output.url);
         }
@@ -108,7 +111,7 @@ export default async function ship(input: any, execution: any) {
   } catch {}
 
   return {
-    status: result?.status || 'shipped',
+    status: result?.status || 'delivered',
     writtenAssetType: dtype,
     deliverableType: dtype,
     prUrl: (result as any)?.prUrl,

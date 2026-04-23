@@ -422,7 +422,9 @@ function extractJsPromptPart(source, name) {
 test('V26 deliverable reform supplement requires semantic mirrors beyond retained compatibility naming', () => {
   assert.match(reformSource, /`deliverable` survives only as a retained compatibility path\/name/u);
   assert.match(reformSource, /live Bitcode meaning is a need-satisfying agentic pipeline run/u);
-  assert.match(reformSource, /shipping phase may then emit `deliverables` only as connected-interface delivery mechanisms/u);
+  assert.match(reformSource, /canonical broad final phase is now `Finish`/u);
+  assert.match(reformSource, /`Delivering` is the narrower Finish subresponsibility/u);
+  assert.match(reformSource, /Finish phase may then emit `deliverables` only as connected-interface delivery mechanisms/u);
   assert.match(reformSource, /`asset pack`/u);
   assert.match(reformSource, /`written asset`/u);
   assert.match(reformSource, /workspace-run summaries, mock reread projections, and active UI detail surfaces should prefer semantic `writtenAssets`/u);
@@ -458,10 +460,11 @@ test('deliverable preprocess stores need and written-asset semantic mirrors alon
   assert.match(deliverablePipelineSource, /execution\.store\('route\/preprocessed', 'assetPackWrittenAsset', snapshot\);/u);
 });
 
-test('deliverable postprocess and shipping summary carry asset-pack written-asset meaning', () => {
-  assert.match(postprocessSource, /const shippingMechanism = enhanced\.deliveryMechanism \|\| enhanced\.deliverable;/u);
+test('deliverable postprocess and finish summary carry asset-pack written-asset meaning', () => {
+  assert.match(postprocessSource, /const deliveryMechanism = enhanced\.deliveryMechanism \|\| enhanced\.deliverable;/u);
   assert.match(postprocessSource, /enhanced\.semanticKind = 'asset-pack-written-asset';/u);
-  assert.match(postprocessSource, /enhanced\.deliveryMechanism = \{ \.\.\.\(shippingMechanism \|\| \{\}\), prUrl \} as any;/u);
+  assert.match(postprocessSource, /enhanced\.deliveryMechanism = \{ \.\.\.\(deliveryMechanism \|\| \{\}\), prUrl \} as any;/u);
+  assert.match(postprocessSource, /execution\.get\('finish', 'pullRequestUrl'\)/u);
   assert.match(postprocessSource, /deliveryMechanism: normalized\.deliveryMechanism \|\| normalized\.deliverable,/u);
   assert.match(postprocessSource, /enhanced\.writtenAssetType/u);
   assert.match(postprocessSource, /kind: 'deliverable'/u);
@@ -469,9 +472,10 @@ test('deliverable postprocess and shipping summary carry asset-pack written-asse
   assert.match(finalSummarySource, /writtenAssets: WrittenAssetsSchema\.optional\(\)/u);
   assert.match(finalSummarySource, /deliveryMechanism: DeliveryMechanismSchema\.optional\(\)/u);
   assert.match(finalSummarySource, /lines\.push\('', `## Need`, need\.trim\(\)\);/u);
+  assert.match(finalSummarySource, /store\?\.\('finish\/final_work_summary', 'writtenAssets', writtenAssets as any\);/u);
+  assert.match(finalSummarySource, /store\?\.\('finish\/final_work_summary', 'deliveryMechanism', deliveryMechanism as any\);/u);
+  assert.match(finalSummarySource, /store\?\.\('finish\/final_work_summary', 'writtenAssetType', dtype \|\| undefined\);/u);
   assert.match(finalSummarySource, /store\?\.\('shipping\/final_work_summary', 'writtenAssets', writtenAssets as any\);/u);
-  assert.match(finalSummarySource, /store\?\.\('shipping\/final_work_summary', 'deliveryMechanism', deliveryMechanism as any\);/u);
-  assert.match(finalSummarySource, /store\?\.\('shipping\/final_work_summary', 'writtenAssetType', dtype \|\| undefined\);/u);
 });
 
 test('setup comprehension path mirrors semantic need and written-asset keys for downstream phases', () => {

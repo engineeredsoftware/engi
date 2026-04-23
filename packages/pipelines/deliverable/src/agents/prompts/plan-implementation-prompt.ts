@@ -28,15 +28,15 @@ import { PROMPTPART_GENERIC_AGENT_GENERATION_STRUCTURED_OUTPUT } from '@bitcode/
 /**
  * @doc-comment-developing-promptdevelopment
  * domain: pipeline
- * intent: "Deliverables Discovery – Plan Implementation agent prompt"
- * current_version: "GA1.50.0"
+ * intent: "Bitcode discovery prompt for planning implementation from Need, writtenAssetType, and AssetPack criteria"
+ * current_version: "0.50.0"
  * dependencies: {
- *   "PROMPTPART_GENERIC_AGENT_FAILSAFE_PREPARE_CONTEXT": "GA1.50.0",
- *   "PROMPTPART_GENERIC_AGENT_GENERATION_JSON_ONLY_HEADER": "GA1.50.0",
- *   "PROMPTPART_GENERIC_AGENT_GENERATION_USE_THIS_STRUCTURED_SCHEMA": "GA1.50.0",
- *   "PROMPTPART_GENERIC_AGENT_GENERATION_REASON": "GA1.50.0",
- *   "PROMPTPART_GENERIC_AGENT_GENERATION_JUDGE": "GA1.50.0",
- *   "PROMPTPART_GENERIC_AGENT_GENERATION_STRUCTURED_OUTPUT": "GA1.50.0"
+ *   "PROMPTPART_GENERIC_AGENT_FAILSAFE_PREPARE_CONTEXT": "0.50.0",
+ *   "PROMPTPART_GENERIC_AGENT_GENERATION_JSON_ONLY_HEADER": "0.50.0",
+ *   "PROMPTPART_GENERIC_AGENT_GENERATION_USE_THIS_STRUCTURED_SCHEMA": "0.50.0",
+ *   "PROMPTPART_GENERIC_AGENT_GENERATION_REASON": "0.50.0",
+ *   "PROMPTPART_GENERIC_AGENT_GENERATION_JUDGE": "0.50.0",
+ *   "PROMPTPART_GENERIC_AGENT_GENERATION_STRUCTURED_OUTPUT": "0.50.0"
  * }
  * benchmarks: [
  *   { "name": "technical_accuracy", "test": "Concrete directives and purpose", "score": 0.46 },

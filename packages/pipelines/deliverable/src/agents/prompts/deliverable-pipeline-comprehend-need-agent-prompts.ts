@@ -34,8 +34,8 @@ import { PROMPTPART_SPECIFIC_AGENT_DELIVERABLESETUPCOMPREHENDNEED_REFINE_UNIFICA
 /**
  * @doc-comment-developing-promptdevelopment
  * domain: agent
- * intent: "Deliverables compatibility corridor overlay prompts for the comprehend-need agent"
- * current_version: "GA1.50.0"
+ * intent: "Bitcode retained deliverable-corridor overlays for mapping legacy request carriers to Need and AssetPack evidence"
+ * current_version: "0.50.0"
   * benchmarks: [
  *   { "name": "technical_accuracy", "test": "Concrete directives and purpose", "score": 0.50 },
  *   { "name": "implementation_ready", "test": "Usable by registry formatter", "score": 0.50 }

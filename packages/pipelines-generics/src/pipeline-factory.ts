@@ -2,7 +2,7 @@
  * Pipeline Factory - Creates Pipeline Executors that sequence Phases
  * 
  * Pipelines are the top-level Executors that orchestrate the entire
- * SDIVS phase sequence. They are just sequential executors of phases.
+ * SDIVF phase sequence. They are just sequential executors of phases.
  */
 
 import { sequential, conditional, repeat } from '@bitcode/execution-generics';
@@ -54,14 +54,14 @@ export function factoryPipeline<TInput, TOutput>(
  * The DIV (Discovery-Implementation-Validation) loop can iterate
  * multiple times until validation passes or max iterations reached.
  */
-export function factoryPipelineWithDIVLoop<TInput, TOutput>(
+export function factoryPipelineWithDIVFinishLoop<TInput, TOutput>(
   name: string,
   config: {
     setup: PhaseDelegator<TInput, any>;
     discovery: PhaseDelegator<any, any>;
     implementation: PhaseDelegator<any, any>;
     validation: PhaseDelegator<any, any>;
-    shipping: PhaseDelegator<any, TOutput>;
+    finish: PhaseDelegator<any, TOutput>;
     maxIterations?: number;
     validationPredicate?: (result: any, execution: Execution) => boolean;
   }
@@ -99,8 +99,8 @@ export function factoryPipelineWithDIVLoop<TInput, TOutput>(
     // Execute DIV loop
     result = await divLoop(result, pipelineExec);
     
-    // Execute shipping phase
-    const output = await config.shipping(result, pipelineExec);
+    // Execute Finish phase: save the run result and optionally deliver assets.
+    const output = await config.finish(result, pipelineExec);
     
     // Store completion
     pipelineExec.store('pipeline', 'endTime', Date.now());
@@ -110,4 +110,25 @@ export function factoryPipelineWithDIVLoop<TInput, TOutput>(
     
     return output;
   };
+}
+
+/**
+ * Deprecated compatibility wrapper for the old shipping-named DIV-loop helper.
+ */
+export function factoryPipelineWithDIVLoop<TInput, TOutput>(
+  name: string,
+  config: {
+    setup: PhaseDelegator<TInput, any>;
+    discovery: PhaseDelegator<any, any>;
+    implementation: PhaseDelegator<any, any>;
+    validation: PhaseDelegator<any, any>;
+    shipping: PhaseDelegator<any, TOutput>;
+    maxIterations?: number;
+    validationPredicate?: (result: any, execution: Execution) => boolean;
+  }
+): Pipeline<TInput, TOutput> {
+  return factoryPipelineWithDIVFinishLoop(name, {
+    ...config,
+    finish: config.shipping,
+  });
 }

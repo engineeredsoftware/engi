@@ -1,6 +1,7 @@
 /* -------------------------------------------------------------------------------------------------
- * Production-grade LSP helper wrappers around vscode-languageserver-node for Bitcode code editing.
- * Provides robust error handling, input validation, language detection, and atomic operations.
+ * Production-grade LSP helper wrappers around vscode-languageserver-node for Bitcode static measurement.
+ * Retained LSP behavior is admitted when it produces replayable Need/AssetPack evidence such as
+ * symbols, definitions, references, paths, diagnostics, and type context.
  *
  * Features:
  * - Comprehensive error handling with specific error types and recovery strategies
@@ -10,7 +11,8 @@
  * - Timeout handling and cancellation support
  * - Detailed logging and metrics
  *
- * NOTE: Uses in-memory Language Server for optimal performance in Bitcode pipeline tasks.
+ * NOTE: Uses in-memory Language Server for deterministic performance in Bitcode Need measurement
+ * and compatibility pipeline tasks.
  * ------------------------------------------------------------------------------------------------- */
 
 import {

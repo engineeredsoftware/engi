@@ -29,22 +29,22 @@ import { PROMPTPART_SPECIFIC_AGENT_DELIVERABLEVALIDATIONREADYTOSHIPCODECHANGE_PT
 /**
  * @doc-comment-developing-promptdevelopment
  * domain: pipeline
- * intent: "Deliverables – ReadyToShipCodeChange agent prompt"
- * current_version: "GA1.50.0"
+ * intent: "Bitcode validation compatibility prompt for deciding whether code-change AssetPack evidence is ready to enter Finish"
+ * current_version: "0.50.0"
  * dependencies: {
- *   "PROMPTPART_GENERIC_AGENT_FAILSAFE_PREPARE_CONTEXT": "GA1.50.0",
- *   "PROMPTPART_GENERIC_AGENT_GENERATION_JSON_ONLY_HEADER": "GA1.50.0",
- *   "PROMPTPART_GENERIC_AGENT_GENERATION_USE_THIS_STRUCTURED_SCHEMA": "GA1.50.0",
- *   "PROMPTPART_GENERIC_AGENT_GENERATION_REASON": "GA1.50.0",
- *   "PROMPTPART_GENERIC_AGENT_GENERATION_JUDGE": "GA1.50.0",
- *   "PROMPTPART_GENERIC_AGENT_GENERATION_STRUCTURED_OUTPUT": "GA1.50.0"
+ *   "PROMPTPART_GENERIC_AGENT_FAILSAFE_PREPARE_CONTEXT": "0.50.0",
+ *   "PROMPTPART_GENERIC_AGENT_GENERATION_JSON_ONLY_HEADER": "0.50.0",
+ *   "PROMPTPART_GENERIC_AGENT_GENERATION_USE_THIS_STRUCTURED_SCHEMA": "0.50.0",
+ *   "PROMPTPART_GENERIC_AGENT_GENERATION_REASON": "0.50.0",
+ *   "PROMPTPART_GENERIC_AGENT_GENERATION_JUDGE": "0.50.0",
+ *   "PROMPTPART_GENERIC_AGENT_GENERATION_STRUCTURED_OUTPUT": "0.50.0"
  * }
  * benchmarks: [
  *   { "name": "technical_accuracy", "test": "Concrete directives and purpose", "score": 0.46 },
  *   { "name": "implementation_ready", "test": "Usable by registry formatter", "score": 0.46 }
  * ]
  */
-export function createDeliverablesPipelineValidationPhaseReadyToShipCodeChangeAgentPrompt(): Prompt {
+export function createDeliverablesPipelineValidationPhaseReadyToFinishCodeChangeAgentPrompt(): Prompt {
   const prompt = new Prompt();
   
   // Agent identity and purpose
@@ -78,7 +78,7 @@ export function createDeliverablesPipelineValidationPhaseReadyToShipCodeChangeAg
 /**
  * Get step-specific prompts
  */
-export const DeliverablesPipelineValidationPhaseReadyToShipCodeChangeAgentPromptSteps = {
+export const DeliverablesPipelineValidationPhaseReadyToFinishCodeChangeAgentPromptSteps = {
   plan: () => {
     const prompt = new Prompt();
     prompt.set('step', PROMPTPART_SPECIFIC_AGENT_DELIVERABLEVALIDATIONREADYTOSHIPCODECHANGE_PTRRPLAN_PURPOSE);
@@ -126,3 +126,17 @@ export const DeliverablesPipelineValidationPhaseReadyToShipCodeChangeAgentPrompt
     return prompt;
   }
 };
+
+/**
+ * @deprecated V26 compatibility alias for old ReadyToShipCodeChange callers.
+ * Use createDeliverablesPipelineValidationPhaseReadyToFinishCodeChangeAgentPrompt.
+ */
+export const createDeliverablesPipelineValidationPhaseReadyToShipCodeChangeAgentPrompt =
+  createDeliverablesPipelineValidationPhaseReadyToFinishCodeChangeAgentPrompt;
+
+/**
+ * @deprecated V26 compatibility alias for old ReadyToShipCodeChange callers.
+ * Use DeliverablesPipelineValidationPhaseReadyToFinishCodeChangeAgentPromptSteps.
+ */
+export const DeliverablesPipelineValidationPhaseReadyToShipCodeChangeAgentPromptSteps =
+  DeliverablesPipelineValidationPhaseReadyToFinishCodeChangeAgentPromptSteps;

@@ -2,7 +2,7 @@
 import deliverablePipeline from '../index';
 import { Execution } from '@bitcode/execution-generics';
 
-describe('Deliverable pipeline - attachments and DoD variants (enabled when full SDIVS is active)', () => {
+describe('Deliverable pipeline - attachments and DoD variants (enabled when full SDIVF is active)', () => {
   const baseInput = {
     taskDescription: 'Implement feature X',
     repository: { url: 'https://github.com/acme/repo', branch: 'main' },

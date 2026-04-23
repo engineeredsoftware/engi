@@ -8,7 +8,8 @@
 
 import { factoryAgentWithPTRR } from '@bitcode/agent-generics';
 import { z } from 'zod';
-// Prompts for validation agents (GA-1 prompt + stepPrompts shape)
+// Prompts for validation agents. Retained raw PromptParts are composed through
+// Bitcode-specific prompt builders before any agent enters Finish.
 import {
   createDeliverablesPipelineValidationPhaseValidateCodeChangesAgentPrompt,
   DeliverablesPipelineValidationPhaseValidateCodeChangesAgentPromptSteps
@@ -22,24 +23,24 @@ import {
   DeliverablesPipelineValidationPhaseValidateDocumentAgentPromptSteps
 } from './prompts/validate-document-prompt';
 import {
-  createDeliverablesPipelineValidationPhaseReadyToShipCodeChangeAgentPrompt,
-  DeliverablesPipelineValidationPhaseReadyToShipCodeChangeAgentPromptSteps
+  createDeliverablesPipelineValidationPhaseReadyToFinishCodeChangeAgentPrompt,
+  DeliverablesPipelineValidationPhaseReadyToFinishCodeChangeAgentPromptSteps
 } from './prompts/ready-to-ship-code-change-prompt';
 import {
-  createDeliverablesPipelineValidationPhaseReadyToShipCodeChangeReviewAgentPrompt,
-  DeliverablesPipelineValidationPhaseReadyToShipCodeChangeReviewAgentPromptSteps
+  createDeliverablesPipelineValidationPhaseReadyToFinishCodeChangeReviewAgentPrompt,
+  DeliverablesPipelineValidationPhaseReadyToFinishCodeChangeReviewAgentPromptSteps
 } from './prompts/ready-to-ship-code-change-review-prompt';
 import {
-  createDeliverablesPipelineValidationPhaseReadyToShipDesignDocumentAgentPrompt,
-  DeliverablesPipelineValidationPhaseReadyToShipDesignDocumentAgentPromptSteps
+  createDeliverablesPipelineValidationPhaseReadyToFinishDesignDocumentAgentPrompt,
+  DeliverablesPipelineValidationPhaseReadyToFinishDesignDocumentAgentPromptSteps
 } from './prompts/ready-to-ship-design-document-prompt';
 import {
-  createDeliverablesPipelineValidationPhaseReadyToShipDesignDocumentReviewAgentPrompt,
-  DeliverablesPipelineValidationPhaseReadyToShipDesignDocumentReviewAgentPromptSteps
+  createDeliverablesPipelineValidationPhaseReadyToFinishDesignDocumentReviewAgentPrompt,
+  DeliverablesPipelineValidationPhaseReadyToFinishDesignDocumentReviewAgentPromptSteps
 } from './prompts/ready-to-ship-design-document-review-prompt';
 import {
-  createDeliverablesPipelineValidationPhaseReadyToShipAgentPrompt,
-  DeliverablesPipelineValidationPhaseReadyToShipAgentPromptSteps
+  createDeliverablesPipelineValidationPhaseReadyToFinishAgentPrompt,
+  DeliverablesPipelineValidationPhaseReadyToFinishAgentPromptSteps
 } from './prompts/ready-to-ship-prompt';
 import { normalizeWrittenAssetType } from '../semantic-resolution';
 
@@ -256,15 +257,15 @@ export const DeliverablesPipelineValidationPhaseValidateDocumentAgent = factoryA
   retry: { maxAttempts: 1 }
 });
 
-// ==================== TYPE-SPECIFIC READY TO SHIP AGENTS ====================
+// ==================== TYPE-SPECIFIC READY TO FINISH AGENTS ====================
 
-const ReadyToShipCodeChangeInputSchema = z.object({
+const ReadyToFinishCodeChangeInputSchema = z.object({
   validationResults: z.any(),
   implementationResults: z.any(),
   discoveryConfidence: z.number()
 });
 
-const ReadyToShipCodeChangeOutputSchema = z.object({
+const ReadyToFinishCodeChangeOutputSchema = z.object({
   ready: z.boolean(),
   confidence: z.number(),
   blockers: z.array(z.string()),
@@ -273,21 +274,21 @@ const ReadyToShipCodeChangeOutputSchema = z.object({
 });
 
 /**
- * DeliverablesPipelineValidationPhaseReadyToShipCodeChangeAgent
+ * Bitcode validation agent that decides whether a code-change AssetPack can enter Finish.
  * 
  * Type-specific readiness check for code changes.
  */
-export const DeliverablesPipelineValidationPhaseReadyToShipCodeChangeAgent = factoryAgentWithPTRR<
-  z.infer<typeof ReadyToShipCodeChangeInputSchema>,
-  z.infer<typeof ReadyToShipCodeChangeOutputSchema>
+export const DeliverablesPipelineValidationPhaseReadyToFinishCodeChangeAgent = factoryAgentWithPTRR<
+  z.infer<typeof ReadyToFinishCodeChangeInputSchema>,
+  z.infer<typeof ReadyToFinishCodeChangeOutputSchema>
 >({
   name: 'deliverable-pipeline-ready-code-change-agent',
-  description: 'Validates code change is ready to ship',
+  description: 'Validates code change is ready to finish',
   
-  prompt: createDeliverablesPipelineValidationPhaseReadyToShipCodeChangeAgentPrompt(),
-  stepPrompts: DeliverablesPipelineValidationPhaseReadyToShipCodeChangeAgentPromptSteps,
+  prompt: createDeliverablesPipelineValidationPhaseReadyToFinishCodeChangeAgentPrompt(),
+  stepPrompts: DeliverablesPipelineValidationPhaseReadyToFinishCodeChangeAgentPromptSteps,
   
-  outputSchema: ReadyToShipCodeChangeOutputSchema,
+  outputSchema: ReadyToFinishCodeChangeOutputSchema,
   
   plan: { chunkThreshold: 1000 },
   try: { chunkThreshold: 2000 },
@@ -296,19 +297,19 @@ export const DeliverablesPipelineValidationPhaseReadyToShipCodeChangeAgent = fac
 });
 
 /**
- * DeliverablesPipelineValidationPhaseReadyToShipCodeChangeReviewAgent
+ * Bitcode validation agent that decides whether a code-review AssetPack can enter Finish.
  */
-export const DeliverablesPipelineValidationPhaseReadyToShipCodeChangeReviewAgent = factoryAgentWithPTRR<
-  z.infer<typeof ReadyToShipCodeChangeInputSchema>,
-  z.infer<typeof ReadyToShipCodeChangeOutputSchema>
+export const DeliverablesPipelineValidationPhaseReadyToFinishCodeChangeReviewAgent = factoryAgentWithPTRR<
+  z.infer<typeof ReadyToFinishCodeChangeInputSchema>,
+  z.infer<typeof ReadyToFinishCodeChangeOutputSchema>
 >({
   name: 'deliverable-pipeline-ready-code-review-agent',
   description: 'Validates code review is ready to submit',
   
-  prompt: createDeliverablesPipelineValidationPhaseReadyToShipCodeChangeReviewAgentPrompt(),
-  stepPrompts: DeliverablesPipelineValidationPhaseReadyToShipCodeChangeReviewAgentPromptSteps,
+  prompt: createDeliverablesPipelineValidationPhaseReadyToFinishCodeChangeReviewAgentPrompt(),
+  stepPrompts: DeliverablesPipelineValidationPhaseReadyToFinishCodeChangeReviewAgentPromptSteps,
   
-  outputSchema: ReadyToShipCodeChangeOutputSchema,
+  outputSchema: ReadyToFinishCodeChangeOutputSchema,
   
   plan: { chunkThreshold: 800 },
   try: { chunkThreshold: 1500 },
@@ -317,19 +318,19 @@ export const DeliverablesPipelineValidationPhaseReadyToShipCodeChangeReviewAgent
 });
 
 /**
- * DeliverablesPipelineValidationPhaseReadyToShipDesignDocumentAgent
+ * Bitcode validation agent that decides whether a design-document AssetPack can enter Finish.
  */
-export const DeliverablesPipelineValidationPhaseReadyToShipDesignDocumentAgent = factoryAgentWithPTRR<
-  z.infer<typeof ReadyToShipCodeChangeInputSchema>,
-  z.infer<typeof ReadyToShipCodeChangeOutputSchema>
+export const DeliverablesPipelineValidationPhaseReadyToFinishDesignDocumentAgent = factoryAgentWithPTRR<
+  z.infer<typeof ReadyToFinishCodeChangeInputSchema>,
+  z.infer<typeof ReadyToFinishCodeChangeOutputSchema>
 >({
   name: 'deliverable-pipeline-ready-design-doc-agent',
   description: 'Validates design document is ready to publish',
   
-  prompt: createDeliverablesPipelineValidationPhaseReadyToShipDesignDocumentAgentPrompt(),
-  stepPrompts: DeliverablesPipelineValidationPhaseReadyToShipDesignDocumentAgentPromptSteps,
+  prompt: createDeliverablesPipelineValidationPhaseReadyToFinishDesignDocumentAgentPrompt(),
+  stepPrompts: DeliverablesPipelineValidationPhaseReadyToFinishDesignDocumentAgentPromptSteps,
   
-  outputSchema: ReadyToShipCodeChangeOutputSchema,
+  outputSchema: ReadyToFinishCodeChangeOutputSchema,
   
   plan: { chunkThreshold: 800 },
   try: { chunkThreshold: 1500 },
@@ -338,19 +339,19 @@ export const DeliverablesPipelineValidationPhaseReadyToShipDesignDocumentAgent =
 });
 
 /**
- * DeliverablesPipelineValidationPhaseReadyToShipDesignDocumentReviewAgent
+ * Bitcode validation agent that decides whether a design-review AssetPack can enter Finish.
  */
-export const DeliverablesPipelineValidationPhaseReadyToShipDesignDocumentReviewAgent = factoryAgentWithPTRR<
-  z.infer<typeof ReadyToShipCodeChangeInputSchema>,
-  z.infer<typeof ReadyToShipCodeChangeOutputSchema>
+export const DeliverablesPipelineValidationPhaseReadyToFinishDesignDocumentReviewAgent = factoryAgentWithPTRR<
+  z.infer<typeof ReadyToFinishCodeChangeInputSchema>,
+  z.infer<typeof ReadyToFinishCodeChangeOutputSchema>
 >({
   name: 'deliverable-pipeline-ready-design-review-agent',
   description: 'Validates design review comment is ready to post',
   
-  prompt: createDeliverablesPipelineValidationPhaseReadyToShipDesignDocumentReviewAgentPrompt(),
-  stepPrompts: DeliverablesPipelineValidationPhaseReadyToShipDesignDocumentReviewAgentPromptSteps,
+  prompt: createDeliverablesPipelineValidationPhaseReadyToFinishDesignDocumentReviewAgentPrompt(),
+  stepPrompts: DeliverablesPipelineValidationPhaseReadyToFinishDesignDocumentReviewAgentPromptSteps,
   
-  outputSchema: ReadyToShipCodeChangeOutputSchema,
+  outputSchema: ReadyToFinishCodeChangeOutputSchema,
   
   plan: { chunkThreshold: 800 },
   try: { chunkThreshold: 1500 },
@@ -358,9 +359,9 @@ export const DeliverablesPipelineValidationPhaseReadyToShipDesignDocumentReviewA
   retry: { maxAttempts: 1 }
 });
 
-// ==================== GENERIC READY TO SHIP AGENT (RUNS LAST) ====================
+// ==================== GENERIC READY TO FINISH AGENT (RUNS LAST) ====================
 
-const ReadyToShipInputSchema = z.object({
+const ReadyToFinishInputSchema = z.object({
   typeSpecificReadiness: z.any(), // From type-specific ready agent
   allValidationResults: z.any(),
   discoveryConfidence: z.number(),
@@ -368,7 +369,7 @@ const ReadyToShipInputSchema = z.object({
   implementationMetrics: z.any()
 });
 
-const ReadyToShipOutputSchema = z.object({
+const ReadyToFinishOutputSchema = z.object({
   finalApproval: z.boolean(),
   overallConfidence: z.number(), // 0-1
   qualityScore: z.number(), // 0-100
@@ -386,29 +387,49 @@ const ReadyToShipOutputSchema = z.object({
 });
 
 /**
- * DeliverablesPipelineValidationPhaseReadyToShipAgent
+ * Bitcode validation agent that makes the final readiness decision before Finish.
  * 
- * GENERIC final validation that runs for ALL deliverable types.
+ * GENERIC final validation that runs for ALL written-asset types.
  * This is the LAST agent in the validation phase sequence.
  * Checks type-specific readiness output and general quality metrics.
  */
-export const DeliverablesPipelineValidationPhaseReadyToShipAgent = factoryAgentWithPTRR<
-  z.infer<typeof ReadyToShipInputSchema>,
-  z.infer<typeof ReadyToShipOutputSchema>
+export const DeliverablesPipelineValidationPhaseReadyToFinishAgent = factoryAgentWithPTRR<
+  z.infer<typeof ReadyToFinishInputSchema>,
+  z.infer<typeof ReadyToFinishOutputSchema>
 >({
   name: 'deliverable-pipeline-ready-to-ship-agent',
-  description: 'Final validation check for any deliverable type',
+  description: 'Final validation check before the Finish phase',
   
-  prompt: createDeliverablesPipelineValidationPhaseReadyToShipAgentPrompt(),
-  stepPrompts: DeliverablesPipelineValidationPhaseReadyToShipAgentPromptSteps,
+  prompt: createDeliverablesPipelineValidationPhaseReadyToFinishAgentPrompt(),
+  stepPrompts: DeliverablesPipelineValidationPhaseReadyToFinishAgentPromptSteps,
   
-  outputSchema: ReadyToShipOutputSchema,
+  outputSchema: ReadyToFinishOutputSchema,
   
   plan: { chunkThreshold: 1500 },
   try: { chunkThreshold: 3000 },
   refine: { maxAttempts: 2 },
   retry: { maxAttempts: 1 }
 });
+
+/** @deprecated V26 compatibility alias. Use DeliverablesPipelineValidationPhaseReadyToFinishCodeChangeAgent. */
+export const DeliverablesPipelineValidationPhaseReadyToShipCodeChangeAgent =
+  DeliverablesPipelineValidationPhaseReadyToFinishCodeChangeAgent;
+
+/** @deprecated V26 compatibility alias. Use DeliverablesPipelineValidationPhaseReadyToFinishCodeChangeReviewAgent. */
+export const DeliverablesPipelineValidationPhaseReadyToShipCodeChangeReviewAgent =
+  DeliverablesPipelineValidationPhaseReadyToFinishCodeChangeReviewAgent;
+
+/** @deprecated V26 compatibility alias. Use DeliverablesPipelineValidationPhaseReadyToFinishDesignDocumentAgent. */
+export const DeliverablesPipelineValidationPhaseReadyToShipDesignDocumentAgent =
+  DeliverablesPipelineValidationPhaseReadyToFinishDesignDocumentAgent;
+
+/** @deprecated V26 compatibility alias. Use DeliverablesPipelineValidationPhaseReadyToFinishDesignDocumentReviewAgent. */
+export const DeliverablesPipelineValidationPhaseReadyToShipDesignDocumentReviewAgent =
+  DeliverablesPipelineValidationPhaseReadyToFinishDesignDocumentReviewAgent;
+
+/** @deprecated V26 compatibility alias. Use DeliverablesPipelineValidationPhaseReadyToFinishAgent. */
+export const DeliverablesPipelineValidationPhaseReadyToShipAgent =
+  DeliverablesPipelineValidationPhaseReadyToFinishAgent;
 
 // ==================== DYNAMIC AGENT REGISTRATION ====================
 
@@ -418,8 +439,8 @@ export const DeliverablesPipelineValidationPhaseReadyToShipAgent = factoryAgentW
  * 
  * Sequence:
  * 1. Type-specific validation (ValidateCodeChanges, ValidateReview, etc.)
- * 2. Type-specific readiness (ReadyToShipCodeChange, etc.) 
- * 3. Generic final readiness (ReadyToShip) - ALWAYS LAST
+ * 2. Type-specific readiness (ReadyToFinishCodeChange, etc.)
+ * 3. Generic final readiness (ReadyToFinish) - ALWAYS LAST
  */
 export function registerValidationAgentsForType(
   writtenAssetType: string,
@@ -472,7 +493,7 @@ export function registerValidationAgentsForType(
       );
       agentRegistry.registerAgent(
         'validation:ready-type-specific',
-        DeliverablesPipelineValidationPhaseReadyToShipCodeChangeAgent
+        DeliverablesPipelineValidationPhaseReadyToFinishCodeChangeAgent
       );
       break;
       
@@ -503,7 +524,7 @@ export function registerValidationAgentsForType(
       );
       agentRegistry.registerAgent(
         'validation:ready-type-specific',
-        DeliverablesPipelineValidationPhaseReadyToShipCodeChangeReviewAgent
+        DeliverablesPipelineValidationPhaseReadyToFinishCodeChangeReviewAgent
       );
       break;
       
@@ -524,7 +545,7 @@ export function registerValidationAgentsForType(
       );
       agentRegistry.registerAgent(
         'validation:ready-type-specific',
-        DeliverablesPipelineValidationPhaseReadyToShipDesignDocumentAgent
+        DeliverablesPipelineValidationPhaseReadyToFinishDesignDocumentAgent
       );
       break;
       
@@ -545,7 +566,7 @@ export function registerValidationAgentsForType(
       );
       agentRegistry.registerAgent(
         'validation:ready-type-specific',
-        DeliverablesPipelineValidationPhaseReadyToShipDesignDocumentReviewAgent
+        DeliverablesPipelineValidationPhaseReadyToFinishDesignDocumentReviewAgent
       );
       break;
       
@@ -559,10 +580,10 @@ export function registerValidationAgentsForType(
     () => import('./validation/deliverable-pipeline-ready-to-instruct-agent').then(m => m.default)
   );
 
-  // ALWAYS register the generic ready-to-ship agent LAST (canonical key only)
+  // ALWAYS register the generic ReadyToFinish agent LAST under the compatibility key.
   agentRegistry.registerAgent(
     'validation:deliverable-pipeline-ready-to-ship-agent',
-    DeliverablesPipelineValidationPhaseReadyToShipAgent
+    DeliverablesPipelineValidationPhaseReadyToFinishAgent
   );
 }
 
@@ -577,6 +598,6 @@ export function createValidationExecutorSequence(
   return [
     { agent: 'validation:validate-*' }, // Type-specific validation
     { agent: 'validation:ready-type-specific' }, // Type-specific readiness
-    { agent: 'validation:deliverable-pipeline-ready-to-ship-agent' } // Generic final check - ALWAYS LAST
+    { agent: 'validation:deliverable-pipeline-ready-to-ship-agent' } // Generic ReadyToFinish check - ALWAYS LAST
   ];
 }

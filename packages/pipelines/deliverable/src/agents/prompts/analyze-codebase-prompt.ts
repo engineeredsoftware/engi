@@ -57,13 +57,13 @@ import { PROMPTPART_GENERIC_FORMATTING_EXECUTETHE_FOLLOWING } from '@bitcode/pro
 /**
  * @doc-comment-developing-promptdevelopment
  * domain: agent
- * intent: "System prompt for AnalyzeCodebase agent"
- * current_version: "GA1.50.0"
+ * intent: "Bitcode discovery system prompt for analyzing repository structure as Need and AssetPack context evidence"
+ * current_version: "0.50.0"
  * dependencies: {
- *   "PROMPTPART_SPECIFIC_AGENT_ANALYZECODEBASE_SYSTEM_IDENTITY": "GA1.00.0",
- *   "PROMPTPART_SPECIFIC_AGENT_ANALYZECODEBASE_SYSTEM_ROLE": "GA1.00.0",
- *   "PROMPTPART_SPECIFIC_AGENT_ANALYZECODEBASE_SYSTEM_INSTRUCTIONS": "GA1.00.0",
- *   "PROMPTPART_SPECIFIC_AGENT_ANALYZECODEBASE_PURPOSE_CORESTATEMENT": "GA1.00.0"
+ *   "PROMPTPART_SPECIFIC_AGENT_ANALYZECODEBASE_SYSTEM_IDENTITY": "0.50.0",
+ *   "PROMPTPART_SPECIFIC_AGENT_ANALYZECODEBASE_SYSTEM_ROLE": "0.50.0",
+ *   "PROMPTPART_SPECIFIC_AGENT_ANALYZECODEBASE_SYSTEM_INSTRUCTIONS": "0.50.0",
+ *   "PROMPTPART_SPECIFIC_AGENT_ANALYZECODEBASE_PURPOSE_CORESTATEMENT": "0.50.0"
  * }
  * benchmarks: [
  *   { "name": "technical_accuracy", "test": "Concrete directives and purpose", "score": 0.46 },
@@ -96,12 +96,12 @@ export function createAnalyzeCodebaseSystemPrompt(): Prompt {
 /**
  * @doc-comment-developing-promptdevelopment
  * domain: agent
- * intent: "Plan step for AnalyzeCodebase agent"
- * current_version: "GA1.50.0"
+ * intent: "Bitcode discovery plan-step prompt for choosing repository analysis paths that clarify Need and AssetPack scope"
+ * current_version: "0.50.0"
  * dependencies: {
- *   "PROMPTPART_GENERIC_PTRR_PLAN_OBJECTIVE": "GA1.00.0",
- *   "PROMPTPART_SPECIFIC_AGENT_ANALYZECODEBASE_PLAN_STRATEGY": "GA1.00.0",
- *   "PROMPTPART_SPECIFIC_AGENT_ANALYZECODEBASE_PLAN_ANALYSIS": "GA1.00.0"
+ *   "PROMPTPART_GENERIC_PTRR_PLAN_OBJECTIVE": "0.50.0",
+ *   "PROMPTPART_SPECIFIC_AGENT_ANALYZECODEBASE_PLAN_STRATEGY": "0.50.0",
+ *   "PROMPTPART_SPECIFIC_AGENT_ANALYZECODEBASE_PLAN_ANALYSIS": "0.50.0"
  * }
  * benchmarks: [
  *   { "name": "technical_accuracy", "test": "Concrete directives and purpose", "score": 0.46 },
@@ -138,11 +138,11 @@ export function createAnalyzeCodebasePlanPrompt(): Prompt {
 /**
  * @doc-comment-developing-promptdevelopment
  * domain: agent
- * intent: "Try step for AnalyzeCodebase agent"
- * current_version: "GA1.50.0"
+ * intent: "Bitcode discovery try-step prompt for extracting source evidence that supports writtenAssetType and proof planning"
+ * current_version: "0.50.0"
  * dependencies: {
- *   "PROMPTPART_GENERIC_PTRR_TRY_OBJECTIVE": "GA1.00.0",
- *   "PROMPTPART_SPECIFIC_AGENT_ANALYZECODEBASE_TRY_DIRECTIVES": "GA1.00.0"
+ *   "PROMPTPART_GENERIC_PTRR_TRY_OBJECTIVE": "0.50.0",
+ *   "PROMPTPART_SPECIFIC_AGENT_ANALYZECODEBASE_TRY_DIRECTIVES": "0.50.0"
  * }
  * benchmarks: [
  *   { "name": "technical_accuracy", "test": "Concrete directives and purpose", "score": 0.46 },
@@ -172,12 +172,12 @@ export function createAnalyzeCodebaseTryPrompt(): Prompt {
 /**
  * @doc-comment-developing-promptdevelopment
  * domain: agent
- * intent: "Refine step for AnalyzeCodebase agent"
- * current_version: "GA1.50.0"
+ * intent: "Bitcode discovery refine-step prompt for correcting repository analysis gaps before implementation planning"
+ * current_version: "0.50.0"
  * dependencies: {
- *   "PROMPTPART_GENERIC_PTRR_REFINE_OBJECTIVE": "GA1.00.0",
- *   "PROMPTPART_SPECIFIC_AGENT_ANALYZECODEBASE_REFINE_ASSESSMENT": "GA1.00.0",
- *   "PROMPTPART_SPECIFIC_AGENT_ANALYZECODEBASE_REFINE_OPTIMIZATION": "GA1.00.0"
+ *   "PROMPTPART_GENERIC_PTRR_REFINE_OBJECTIVE": "0.50.0",
+ *   "PROMPTPART_SPECIFIC_AGENT_ANALYZECODEBASE_REFINE_ASSESSMENT": "0.50.0",
+ *   "PROMPTPART_SPECIFIC_AGENT_ANALYZECODEBASE_REFINE_OPTIMIZATION": "0.50.0"
  * }
  * benchmarks: [
  *   { "name": "technical_accuracy", "test": "Concrete directives and purpose", "score": 0.46 },
@@ -208,12 +208,12 @@ export function createAnalyzeCodebaseRefinePrompt(): Prompt {
 /**
  * @doc-comment-developing-promptdevelopment
  * domain: agent
- * intent: "Retry step for AnalyzeCodebase agent"
- * current_version: "GA1.50.0"
+ * intent: "Bitcode discovery retry-step prompt for recovering missing repository context without losing Need alignment"
+ * current_version: "0.50.0"
  * dependencies: {
- *   "PROMPTPART_GENERIC_PTRR_RETRY_OBJECTIVE": "GA1.00.0",
- *   "PROMPTPART_SPECIFIC_AGENT_ANALYZECODEBASE_RETRY_ERRORHANDLING": "GA1.00.0",
- *   "PROMPTPART_SPECIFIC_AGENT_ANALYZECODEBASE_RETRY_STRATEGY": "GA1.00.0"
+ *   "PROMPTPART_GENERIC_PTRR_RETRY_OBJECTIVE": "0.50.0",
+ *   "PROMPTPART_SPECIFIC_AGENT_ANALYZECODEBASE_RETRY_ERRORHANDLING": "0.50.0",
+ *   "PROMPTPART_SPECIFIC_AGENT_ANALYZECODEBASE_RETRY_STRATEGY": "0.50.0"
  * }
  * benchmarks: [
  *   { "name": "technical_accuracy", "test": "Concrete directives and purpose", "score": 0.46 },

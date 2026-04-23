@@ -1,8 +1,8 @@
 /**
- * Shipping Phase - Deliverables Pipeline
+ * Finish Phase - Deliverables Pipeline
  * 
- * Final phase that ships the deliverable:
- * 1. Type-specific shipping (create PR, submit review, etc.)
+ * Final phase that saves the run result and performs Delivering when requested:
+ * 1. Provide AssetPacks/AssetPackPartials to third-party destinations
  * 2. Gather metrics from all phases
  * 3. Generate human-readable final response
  * 4. Finalize pipeline execution
@@ -11,46 +11,55 @@
 import { createPhaseRunner, PhaseConfig } from '@bitcode/pipelines-generics';
 
 /**
- * Create shipping sequence based on deliverable type
+ * Create Finish sequence based on written-asset type.
 *
   * TODO: this isn't modern executor/execution pattern (registry keys fine mostly but not seeing functional componsition of the exeuctors of these agents.
   * TODO: very last agent should be a FinalWorkSummary agent which is a special Quick agent implementation (seeing definition(s), 'stepless'). however quick still have 1 step/stepless they still run the 3 Failsafes to ultimately get output
  */
-function createShippingSequence(_writtenAssetType: string): any[] {
-  // Exactly two agents: Ship (PTRR) then FinalWorkSummary (Quick)
+function createFinishSequence(_writtenAssetType: string): any[] {
+  // Exactly two agents: Deliver (PTRR) then FinalWorkSummary (Quick).
   return [
-    { agent: 'shipping:deliverable-pipeline-ship-agent' },
-    { agent: 'shipping:final-work-summary' }
+    { agent: 'finish:deliver-asset-pack-to-destination-agent' },
+    { agent: 'finish:final-work-summary' }
   ];
 }
 
 /**
- * Shipping phase configuration
+ * Finish phase configuration.
  */
-export function createShippingPhaseConfig(writtenAssetType: string): PhaseConfig {
+export function createFinishPhaseConfig(writtenAssetType: string): PhaseConfig {
   return {
-    phaseName: 'shipping',
-    sequence: createShippingSequence(writtenAssetType),
-    allowShortCircuit: false // Shipping never short-circuits
+    phaseName: 'finish',
+    sequence: createFinishSequence(writtenAssetType),
+    allowShortCircuit: false // Finish never short-circuits
   };
 }
 
 /**
- * Create the shipping phase runner
+ * Create the Finish phase runner.
  */
-export function runShippingPhase(writtenAssetType: string) {
-  return createPhaseRunner(createShippingPhaseConfig(writtenAssetType));
+export function runFinishPhase(writtenAssetType: string) {
+  return createPhaseRunner(createFinishPhaseConfig(writtenAssetType));
 }
 
 /**
- * Register shipping agents based on deliverable type
- * Called after validation phase
+ * Register Finish agents based on written-asset type.
+ * Called after validation phase.
  */
-export function registerShippingAgentsForType(
+export function registerFinishAgentsForType(
   _writtenAssetType: string,
   agentRegistry: any
 ): void {
-  // Register Ship agent and Final work summary (common for all types)
+  // Register canonical Finish agents and legacy shipping aliases to the same
+  // implementations while promptpart filenames are being migrated.
+  agentRegistry.registerAgent(
+    'finish:deliver-asset-pack-to-destination-agent',
+    () => import('../agents/shipping/deliverable-pipeline-ship-agent').then(m => m.default)
+  );
+  agentRegistry.registerAgent(
+    'finish:final-work-summary',
+    () => import('../agents/shipping/deliverable-pipeline-final-work-summary-agent').then(m => m.default)
+  );
   agentRegistry.registerAgent(
     'shipping:deliverable-pipeline-ship-agent',
     () => import('../agents/shipping/deliverable-pipeline-ship-agent').then(m => m.default)
@@ -60,3 +69,7 @@ export function registerShippingAgentsForType(
     () => import('../agents/shipping/deliverable-pipeline-final-work-summary-agent').then(m => m.default)
   );
 }
+
+export const createShippingPhaseConfig = createFinishPhaseConfig;
+export const runShippingPhase = runFinishPhase;
+export const registerShippingAgentsForType = registerFinishAgentsForType;

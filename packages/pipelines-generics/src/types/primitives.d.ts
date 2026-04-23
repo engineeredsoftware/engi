@@ -1,7 +1,7 @@
 export type Gate = 'Design' | 'Develop' | 'Digest';
 export type MetaPhase = Gate;
-export type PhaseLower = 'setup' | 'discovery' | 'implementation' | 'validation' | 'shipping';
-export type PhaseTitle = 'Setup' | 'Discovery' | 'Implementation' | 'Validation' | 'Shipping';
+export type PhaseLower = 'setup' | 'discovery' | 'implementation' | 'validation' | 'finish' | 'shipping';
+export type PhaseTitle = 'Setup' | 'Discovery' | 'Implementation' | 'Validation' | 'Finish' | 'Shipping';
 export type StepLower = 'plan' | 'try' | 'refine' | 'retry';
 export type StepTitle = 'Plan' | 'Try' | 'Refine' | 'Retry';
 export type MetaStep = 'prepare_concise_context' | 'chunk_then_sum' | 'stitch_until_complete';

@@ -1,7 +1,7 @@
 /**
  * Deliverable Pipeline Phases
  * 
- * Implements the 5 SDIVS phases using generic agents.
+ * Implements the 5 canonical SDIVF phases using generic agents.
  */
 
 import { type PhaseDelegator, createAgentExecutor } from '@bitcode/pipelines-generics';
@@ -10,7 +10,7 @@ import { deliverablesPipelineSetupPhaseExecutor } from './setup';
 import { registerDiscoveryAgents } from './discovery';
 import { registerImplementationAgentsForType } from './implementation';
 import { registerValidationAgentsForType } from './validation';
-import { registerShippingAgentsForType } from './shipping';
+import { registerFinishAgentsForType } from './shipping';
 import { resolveWrittenAssetTypeFromExecution } from '../semantic-resolution';
 import type {
   DeliverableInput,
@@ -141,10 +141,10 @@ export const validationPhase: PhaseDelegator<ImplementationOutput, ValidationOut
   //  - validation/last:issues
   //  - validation/discovery:issues
   //  - validation/implementation:issues
-  // The final ready-to-ship agent reads from these stores to decide.
-  // Sequential: validators → ready-to-instruct → wait (if needed) → ready-to-ship
+  // The final ready-to-ship compatibility agent reads from these stores to decide.
+  // Sequential: validators -> ready-to-instruct -> wait (if needed) -> ready-to-ship
   const readyToInstruct = createAgentExecutor('validation:deliverable-pipeline-ready-to-instruct');
-  const readyToShip = createAgentExecutor('validation:deliverable-pipeline-ready-to-ship-agent');
+  const readyToFinish = createAgentExecutor('validation:deliverable-pipeline-ready-to-ship-agent');
 
   // Wait for instruction if confidence < threshold
   const waitIfNeeded = async (input: any, exec: any) => {
@@ -165,25 +165,28 @@ export const validationPhase: PhaseDelegator<ImplementationOutput, ValidationOut
     parallelValidators as any,
     readyToInstruct,  // Generates selfInstructConfidence
     waitIfNeeded,     // Pauses if confidence < 0.8
-    readyToShip       // Final go/no-go
+    readyToFinish     // Final go/no-go before Finish
   );
   return await exec(input, execution);
 }) as unknown as PhaseDelegator<ImplementationOutput, ValidationOutput>;
 
-// ==================== SHIPPING PHASE ====================
+// ==================== FINISH PHASE ====================
 
 /**
- * Shipping Phase - PR creation and delivery
+ * Finish Phase - save the pipeline result and optionally Deliver AssetPacks /
+ * AssetPackPartials to connected third-party destinations.
  */
-export const shippingPhase: PhaseDelegator<ValidationOutput, DeliverablePhaseOutput> = (async (input: any, execution: any) => {
+export const finishPhase: PhaseDelegator<ValidationOutput, DeliverablePhaseOutput> = (async (input: any, execution: any) => {
   const writtenAssetType = resolveWrittenAssetTypeFromExecution(execution);
-  try { registerShippingAgentsForType(writtenAssetType, (execution as any).agents); } catch {}
+  try { registerFinishAgentsForType(writtenAssetType, (execution as any).agents); } catch {}
   const exec: Executor<any, any> = sequential(
-    createAgentExecutor('shipping:deliverable-pipeline-ship-agent'),
-    createAgentExecutor('shipping:final-work-summary')
+    createAgentExecutor('finish:deliver-asset-pack-to-destination-agent'),
+    createAgentExecutor('finish:final-work-summary')
   );
   return await exec(input, execution);
 }) as unknown as PhaseDelegator<ValidationOutput, DeliverablePhaseOutput>;
+
+export const shippingPhase = finishPhase;
 
 // ==================== EXPORT ALL PHASES ====================
 
@@ -192,5 +195,6 @@ export const deliverablePhases = {
   discovery: discoveryPhase,
   implementation: implementationPhase,
   validation: validationPhase,
-  shipping: shippingPhase,
+  finish: finishPhase,
+  shipping: finishPhase,
 };

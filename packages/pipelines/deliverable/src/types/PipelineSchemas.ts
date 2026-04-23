@@ -2,8 +2,9 @@ import { DeliverableType } from './DeliverableType';
 
 /**
  * During V26 this retained package/path stays named `deliverable` for compatibility,
- * but the live Bitcode meaning is a need-satisfying agentic pipeline run whose shipping
- * phase emits connected-interface delivery mechanisms on top of stable written assets.
+ * but the live Bitcode meaning is a need-satisfying agentic pipeline run whose
+ * Finish phase saves results and whose Delivering subresponsibility emits
+ * connected-interface delivery mechanisms on top of stable written assets.
  */
 
 export interface DeliverableArtifacts {

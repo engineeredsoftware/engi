@@ -53,7 +53,7 @@ const ReadyToInstructOutputSchema = z.object({
   uncertainAreas: z.array(z.string()).optional(), // Where AI is uncertain
 
   // Iteration decision
-  shouldContinueIterating: z.boolean(), // If false, ready to move to shipping
+  shouldContinueIterating: z.boolean(), // If false, ready to move to Finish
   estimatedIterationsNeeded: z.number().optional(),
 
   // For UI display

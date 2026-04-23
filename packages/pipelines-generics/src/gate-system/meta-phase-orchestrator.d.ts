@@ -2,7 +2,7 @@
  * Retained meta-phase orchestrator
  *
  * Sequences Design → Develop → Digest meta-phases.
- * Each meta-phase runs the retained SDIVS reference family with appropriate file gates.
+ * Each meta-phase runs the retained SDIVF reference family with appropriate file gates.
  *
  * @package @bitcode/pipelines-generics
 */
@@ -27,21 +27,21 @@ export declare function getMetaPhaseState(execution: Execution): MetaPhaseState;
  */
 export declare function getCurrentMetaPhase(execution: Execution): MetaPhase;
 /**
- * Transition meta-phase (USER-TRIGGERED in GA-1)
- * Called when user clicks "Ready to Develop" / "Ready to Digest" / "Ship"
+ * Transition meta-phase (operator-triggered)
+ * Called when user clicks "Ready to Develop" / "Ready to Digest" / "Finish"
  */
 export declare function transitionToNextMetaPhase(execution: Execution, nextPhase: MetaPhase): void;
 /**
- * Create meta-phase aware retained SDIVS reference pipeline
+ * Create meta-phase aware retained SDIVF reference pipeline
  *
- * This wraps a retained SDIVS reference pipeline to add meta-phase orchestration.
+ * This wraps a retained SDIVF reference pipeline to add meta-phase orchestration.
  */
-export declare function createMetaPhasePipeline<TInput, TOutput>(sdivsPipeline: Executor<TInput, TOutput>): Executor<TInput, TOutput>;
+export declare function createMetaPhasePipeline<TInput, TOutput>(sdivfPipeline: Executor<TInput, TOutput>): Executor<TInput, TOutput>;
 /**
  * Meta-phase preprocess hook
  *
  * Sets up file gates and configuration for the current meta-phase.
- * Use this in your SDIVS pipeline's preprocess step.
+ * Use this in your SDIVF pipeline's preprocess step.
  */
 export declare function metaPhasePreprocess<TInput>(input: TInput, execution: Execution): TInput;
 /**

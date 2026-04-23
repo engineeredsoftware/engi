@@ -1,8 +1,8 @@
 {
   "reportId": "v26-inference-implementation-records-proof",
   "version": "V26",
-  "proofSourceCommit": "5a570fe9720a64f270f26cb9b7ec0e6fac9b4324",
-  "generatedAt": "2026-04-23T12:08:44-03:00",
+  "proofSourceCommit": "6640818700c4174dbfdb9347b5d646076563105b",
+  "generatedAt": "2026-04-23T12:16:50-03:00",
   "generatorId": "bitcode.proven-generator.v1",
   "worktreeState": "dirty-preview",
   "passed": true,
@@ -468,6 +468,8 @@
         "packages/pipelines/deliverable/src/tools/search.ts",
         "packages/pipelines/deliverable/src/agents/setup/deliverable-pipeline-comprehend-need-agent.ts",
         "packages/pipelines/deliverable/src/agents/setup/deliverable-pipeline-ready-to-iterate-agent.ts",
+        "packages/pipelines/deliverable/src/phases/index.ts",
+        "packages/pipelines/deliverable/src/phases/shipping.ts",
         "packages/pipelines/deliverable/src/agents/shipping/deliverable-pipeline-final-work-summary-agent.ts",
         "packages/pipelines/deliverable/src/index.ts",
         "packages/pipelines/deliverable/src/postprocess.ts",
@@ -476,8 +478,12 @@
       "missingImplementationOwnerRefs": [],
       "sourceEvidenceRefs": [
         "protocol-demonstration/V26_DELIVERABLE_REFORM.md",
+        "protocol-demonstration/V26_PIPELINE_FINISH_REFORM.md",
         "protocol-demonstration/test/v26-deliverable-reform.test.js",
+        "protocol-demonstration/test/v26-pipeline-finish-reform.test.js",
         "packages/pipelines/deliverable/src/index.ts",
+        "packages/pipelines/deliverable/src/phases/index.ts",
+        "packages/pipelines/deliverable/src/phases/shipping.ts",
         "packages/pipelines/deliverable/src/postprocess.ts",
         "packages/pipelines/deliverable/src/types/PipelineSchemas.ts",
         "packages/pipelines/deliverable/src/agents/prompts/comprehend-need-prompt.ts",
@@ -486,12 +492,18 @@
       "missingSourceEvidenceRefs": [],
       "verificationSet": [
         "node --test protocol-demonstration/test/v26-deliverable-reform.test.js",
+        "node --test protocol-demonstration/test/v26-pipeline-finish-reform.test.js",
         ".bitcode/runs-pipelines-totality-proof.json",
         ".bitcode/prompt-system-totality-proof.json"
       ],
       "verificationEvidence": [
         {
           "value": "node --test protocol-demonstration/test/v26-deliverable-reform.test.js",
+          "evidenceType": "executable-command",
+          "refPath": null
+        },
+        {
+          "value": "node --test protocol-demonstration/test/v26-pipeline-finish-reform.test.js",
           "evidenceType": "executable-command",
           "refPath": null
         },
@@ -507,7 +519,7 @@
         }
       ],
       "verificationEvidenceTypeCounts": {
-        "executable-command": 1,
+        "executable-command": 2,
         "generated-artifact": 2
       },
       "missingVerificationEvidenceRefs": [],
@@ -517,7 +529,7 @@
     },
     {
       "recordId": "need-comprehension-compatibility",
-      "canonicalNeed": "Repurpose task-named retained tool prompts into Bitcode need, written-asset, asset-pack, proof, and shipping-wrapper comprehension.",
+      "canonicalNeed": "Repurpose task-named retained tool prompts into Bitcode need, written-asset, asset-pack, proof, and delivery-wrapper comprehension.",
       "boundaryPosture": "compatibility",
       "missingFields": [],
       "invalidBoundaryPosture": null,
@@ -1001,9 +1013,11 @@
         "owners": [
           "packages/pipelines/deliverable/src/agents/setup/deliverable-pipeline-comprehend-need-agent.ts",
           "packages/pipelines/deliverable/src/agents/setup/deliverable-pipeline-ready-to-iterate-agent.ts",
+          "packages/pipelines/deliverable/src/phases/index.ts",
+          "packages/pipelines/deliverable/src/phases/shipping.ts",
           "packages/pipelines/deliverable/src/agents/shipping/deliverable-pipeline-final-work-summary-agent.ts"
         ],
-        "contract": "Setup, iteration, validation, and shipping agents must resolve semantic need/writtenAsset fields before compatibility deliverable fields."
+        "contract": "Setup, iteration, validation, and Finish agents must resolve semantic need/writtenAsset fields before compatibility deliverable fields; Delivering is only the third-party AssetPack/partial handoff inside Finish."
       },
       "executionImplementation": {
         "owners": [
@@ -1018,19 +1032,24 @@
         ]
       },
       "assetPackImplementation": {
-        "outputKind": "asset pack and shipping wrapper",
+        "outputKind": "asset pack and delivery wrapper",
         "effect": "Stable written assets and asset-pack snapshots are primary; PRs, Jira comments, reviews, and route payloads are delivery mechanisms."
       },
       "boundaryPosture": "compatibility",
       "verificationSet": [
         "node --test protocol-demonstration/test/v26-deliverable-reform.test.js",
+        "node --test protocol-demonstration/test/v26-pipeline-finish-reform.test.js",
         ".bitcode/runs-pipelines-totality-proof.json",
         ".bitcode/prompt-system-totality-proof.json"
       ],
       "sourceEvidenceRefs": [
         "protocol-demonstration/V26_DELIVERABLE_REFORM.md",
+        "protocol-demonstration/V26_PIPELINE_FINISH_REFORM.md",
         "protocol-demonstration/test/v26-deliverable-reform.test.js",
+        "protocol-demonstration/test/v26-pipeline-finish-reform.test.js",
         "packages/pipelines/deliverable/src/index.ts",
+        "packages/pipelines/deliverable/src/phases/index.ts",
+        "packages/pipelines/deliverable/src/phases/shipping.ts",
         "packages/pipelines/deliverable/src/postprocess.ts",
         "packages/pipelines/deliverable/src/types/PipelineSchemas.ts",
         "packages/pipelines/deliverable/src/agents/prompts/comprehend-need-prompt.ts",
@@ -1039,7 +1058,7 @@
     },
     {
       "recordId": "need-comprehension-compatibility",
-      "canonicalNeed": "Repurpose task-named retained tool prompts into Bitcode need, written-asset, asset-pack, proof, and shipping-wrapper comprehension.",
+      "canonicalNeed": "Repurpose task-named retained tool prompts into Bitcode need, written-asset, asset-pack, proof, and delivery-wrapper comprehension.",
       "promptImplementation": {
         "owners": [
           "packages/generic-tools/task-comprehension/src/prompts/AnalyzeTaskSemanticsDocCodeToolPrompt.ts",
@@ -1073,7 +1092,7 @@
       },
       "assetPackImplementation": {
         "outputKind": "need-comprehension support evidence",
-        "effect": "Compatibility analysis produces need, written-asset, asset-pack, proof, and shipping-wrapper hints for parent runs."
+        "effect": "Compatibility analysis produces need, written-asset, asset-pack, proof, and delivery-wrapper hints for parent runs."
       },
       "boundaryPosture": "compatibility",
       "verificationSet": [

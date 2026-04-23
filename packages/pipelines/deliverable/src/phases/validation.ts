@@ -5,7 +5,8 @@ import { normalizeWrittenAssetType } from '../semantic-resolution';
 /**
  * Validation phase configuration placeholder.
  * The actual execution composition for validation lives in phases/index.ts
- * where three validators run in parallel followed by ready-to-ship.
+ * where three validators run in parallel followed by the compatibility-named
+ * ready-to-ship agent that now gates the canonical Finish phase.
  */
 const validationPhaseConfig: PhaseConfig = {
   phaseName: 'validation',

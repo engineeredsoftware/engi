@@ -84,11 +84,12 @@ function formatDuration(ms: number): string {
  * Prepares the final work summary for a completed retained written-asset execution
  * by reading the execution state (repository, need, phase timings, basic metrics)
  * and producing a concise markdown summary plus structured metadata. Stores the
- * result under `shipping/final_work_summary/*` in the execution store for
- * API layers to persist into `executions.output`.
+ * result under `finish/final_work_summary/*` in the execution store for API
+ * layers to persist into `executions.output`. The old shipping namespace is
+ * also written during V26 migration for compatibility.
  */
 const FinalWorkSummaryAgent = factoryAgentWithSingleStep<any, FinalWorkSummaryOutput>({
-  name: 'shipping:final-work-summary',
+  name: 'finish:final-work-summary',
   description: 'Prepare final asset-pack written-asset summary (markdown + metadata) from execution state',
   execute: async (_input, execution) => {
     // Minimal system prompt alignment (for logging/trace and future LLM)
@@ -115,12 +116,16 @@ const FinalWorkSummaryAgent = factoryAgentWithSingleStep<any, FinalWorkSummaryOu
     const need = resolveExpressedNeedFromExecution(execution);
 
     // Phase timings (derive total duration best-effort)
-    const phases = ['setup', 'discovery', 'implementation', 'validation', 'shipping'];
+    const phases = ['setup', 'discovery', 'implementation', 'validation', 'finish'];
     let totalMs = 0;
     const phaseDurations: Record<string, number> = {};
     for (const p of phases) {
-      const started = (execution as any).get?.(`phase/${p}`, 'started');
-      const completed = (execution as any).get?.(`phase/${p}`, 'completed');
+      const started =
+        (execution as any).get?.(`phase/${p}`, 'started') ??
+        (p === 'finish' ? (execution as any).get?.('phase/shipping', 'started') : undefined);
+      const completed =
+        (execution as any).get?.(`phase/${p}`, 'completed') ??
+        (p === 'finish' ? (execution as any).get?.('phase/shipping', 'completed') : undefined);
       if (started && completed && completed >= started) {
         const d = completed - started;
         phaseDurations[p] = d;
@@ -157,21 +162,21 @@ const FinalWorkSummaryAgent = factoryAgentWithSingleStep<any, FinalWorkSummaryOu
     const dtype = resolveWrittenAssetTypeFromExecution(execution);
     try {
       if (dtype === 'code-change') {
-        const prUrl = (execution as any).get?.('shipping', 'pullRequestUrl') || '';
-        const prTitle = (execution as any).get?.('shipping', 'pullRequestTitle') || (need || 'Pull Request');
-        const prNumber = (execution as any).get?.('shipping', 'pullRequestNumber');
+        const prUrl = (execution as any).get?.('finish', 'pullRequestUrl') || (execution as any).get?.('shipping', 'pullRequestUrl') || '';
+        const prTitle = (execution as any).get?.('finish', 'pullRequestTitle') || (execution as any).get?.('shipping', 'pullRequestTitle') || (need || 'Pull Request');
+        const prNumber = (execution as any).get?.('finish', 'pullRequestNumber') || (execution as any).get?.('shipping', 'pullRequestNumber');
         pullRequest = prUrl ? { url: prUrl, title: prTitle, number: prNumber } : null;
       } else if (dtype === 'code-change-review') {
-        const reviewUrl = (execution as any).get?.('shipping', 'reviewUrl') || '';
-        const reviewTitle = (execution as any).get?.('shipping', 'reviewTitle') || 'PR Review';
+        const reviewUrl = (execution as any).get?.('finish', 'reviewUrl') || (execution as any).get?.('shipping', 'reviewUrl') || '';
+        const reviewTitle = (execution as any).get?.('finish', 'reviewTitle') || (execution as any).get?.('shipping', 'reviewTitle') || 'PR Review';
         pullRequestReviews = reviewUrl ? [{ url: reviewUrl, title: reviewTitle }] : null;
       } else if (dtype === 'design-document') {
-        const issueUrl = (execution as any).get?.('shipping', 'issueUrl') || '';
-        const issueTitle = (execution as any).get?.('shipping', 'issueTitle') || 'Design Document';
+        const issueUrl = (execution as any).get?.('finish', 'issueUrl') || (execution as any).get?.('shipping', 'issueUrl') || '';
+        const issueTitle = (execution as any).get?.('finish', 'issueTitle') || (execution as any).get?.('shipping', 'issueTitle') || 'Design Document';
         issues = issueUrl ? [{ url: issueUrl, title: issueTitle }] : null;
       } else if (dtype === 'design-document-review') {
-        const commentUrl = (execution as any).get?.('shipping', 'commentUrl') || '';
-        const commentTitle = (execution as any).get?.('shipping', 'commentTitle') || 'Design Review Comment';
+        const commentUrl = (execution as any).get?.('finish', 'commentUrl') || (execution as any).get?.('shipping', 'commentUrl') || '';
+        const commentTitle = (execution as any).get?.('finish', 'commentTitle') || (execution as any).get?.('shipping', 'commentTitle') || 'Design Review Comment';
         comments = commentUrl ? [{ url: commentUrl, title: commentTitle }] : null;
       }
     } catch {}
@@ -210,6 +215,13 @@ const FinalWorkSummaryAgent = factoryAgentWithSingleStep<any, FinalWorkSummaryOu
 
     // Store for API persistence
     try {
+      (execution as any).store?.('finish/final_work_summary', 'deliverables', deliverables as any);
+      (execution as any).store?.('finish/final_work_summary', 'writtenAssets', writtenAssets as any);
+      (execution as any).store?.('finish/final_work_summary', 'deliveryMechanism', deliveryMechanism as any);
+      (execution as any).store?.('finish/final_work_summary', 'need', need || undefined);
+      (execution as any).store?.('finish/final_work_summary', 'writtenAssetType', dtype || undefined);
+      (execution as any).store?.('finish/final_work_summary', 'processingStats', processingStats as any);
+      (execution as any).store?.('finish/final_work_summary', 'repoSnapshot', repoSnapshot as any);
       (execution as any).store?.('shipping/final_work_summary', 'deliverables', deliverables as any);
       (execution as any).store?.('shipping/final_work_summary', 'writtenAssets', writtenAssets as any);
       (execution as any).store?.('shipping/final_work_summary', 'deliveryMechanism', deliveryMechanism as any);

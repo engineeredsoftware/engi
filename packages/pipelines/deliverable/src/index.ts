@@ -2,13 +2,13 @@
  * Deliverable Pipeline
  *
  * Retained compatibility corridor for Bitcode agentic pipeline runs that satisfy
- * needs, synthesize written assets / asset-packs, and use shipping-phase
- * deliverables only as connected-interface delivery mechanisms.
+ * needs, synthesize written assets / asset-packs, and use Finish-phase
+ * Delivering only as connected-interface delivery mechanisms.
  * Routes to Design/Develop/Digest gates based on execution.get('gate', 'current').
  */
 
 import { Executor, Execution } from '@bitcode/execution-generics';
-import { factorySDIVSExecutorPipeline, createGuidedPipelineExecution, gatePreprocess } from '@bitcode/pipelines-generics';
+import { factorySDIVFExecutorPipeline, createGuidedPipelineExecution, gatePreprocess } from '@bitcode/pipelines-generics';
 import { deliverablePhases } from './phases';
 import { initializeDeliverablePipeline } from './preprocess';
 import { normalizeDeliverableOutput, buildDeliverablePostprocessedResult } from './postprocess';
@@ -161,27 +161,28 @@ function factoryDevelopPhase(): Executor<any, any> {
     }
     return deliverablePhases.validation(input, execution);
   };
-  const shippingPhase: Executor<any, any> = async (input, execution) => {
+  const finishPhase: Executor<any, any> = async (input, execution) => {
     const isTest = String(process?.env?.NODE_ENV || '').toLowerCase() === 'test';
     if (isTest) {
       return {
         success: true,
+        deliveryMechanism: { prUrl: 'https://github.com/test/repo/pull/1' },
         deliverable: { prUrl: 'https://github.com/test/repo/pull/1' },
         artifacts: { filesCreated: [], filesModified: [], testsAdded: 1, testsPassing: 1, documentation: [] },
         metrics: { duration: 0, tokensUsed: 0, creditsUsed: 0, confidence: 1, phases: {} },
         summary: 'test'
       };
     }
-    return deliverablePhases.shipping(input, execution);
+    return deliverablePhases.finish(input, execution);
   };
 
-  const developExecutor = factorySDIVSExecutorPipeline('develop', {
+  const developExecutor = factorySDIVFExecutorPipeline('develop', {
     preprocess: factoryPreprocess(),
     setup: setupPhase,
     discovery: discoveryPhase,
     implementation: implementationPhase,
     validation: validationPhase,
-    shipping: shippingPhase,
+    finish: finishPhase,
     maxIterations,
     iterationPreprocess: factoryIterationPreprocess(),
     postprocess: factoryPostprocess()
@@ -216,4 +217,5 @@ export const deliverablePipeline: Executor<any, any> = createGuidedPipelineExecu
 export * from './phases';
 export * from './types/DeliverableType';
 export default deliverablePipeline;
+export const runSDIVFPipeline = deliverablePipeline;
 export const runSDIVSPipeline = deliverablePipeline;

@@ -1,7 +1,8 @@
 /**
- * Shipping Phase Agents for Deliverable Pipeline
+ * Finish/Delivering Agents for the retained deliverable compatibility corridor
  * 
- * Pattern: DeliverablesPipelineShippingPhase{Action}Agent
+ * Pattern: old Shipping-named agent carriers remain compatibility wrappers
+ * around Finish-phase Delivering actions.
  * 
  * ALL agents use PTRR (Plan-Try-Refine-Retry) - no exceptions
  */
@@ -302,15 +303,15 @@ const FinalizeShipmentOutputSchema = z.object({
  * DeliverablesPipelineShippingPhaseFinalizeShipmentAgent
  * 
  * GENERIC final agent that runs for ALL deliverable types.
- * This is the LAST agent in the shipping phase (and entire pipeline).
- * Wraps up the deliverable and provides final summary.
+ * This is the LAST compatibility agent in the Finish phase.
+ * Wraps up the written asset / delivery mechanism and provides final summary.
  */
 export const DeliverablesPipelineShippingPhaseFinalizeShipmentAgent = factoryAgentWithPTRR<
   z.infer<typeof FinalizeShipmentInputSchema>,
   z.infer<typeof FinalizeShipmentOutputSchema>
 >({
   name: 'deliverable-pipeline-finalize-agent',
-  description: 'Finalizes shipment for any deliverable type',
+  description: 'Finalizes Finish delivery evidence for any written-asset type',
   
   prompt: createDeliverablesPipelineShippingPhaseFinalizeShipmentAgentPrompt(),
   stepPrompts: DeliverablesPipelineShippingPhaseFinalizeShipmentAgentPromptSteps,
@@ -326,18 +327,18 @@ export const DeliverablesPipelineShippingPhaseFinalizeShipmentAgent = factoryAge
 // ==================== DYNAMIC AGENT REGISTRATION ====================
 
 /**
- * Registers shipping agents based on written-asset type.
+ * Registers Finish/Delivering agents based on written-asset type.
  * Called after validation phase completes.
  * 
  * Sequence:
- * 1. Type-specific shipping (CreatePR, SubmitReview, CreateIssue, AddComment)
+ * 1. Type-specific Delivering (CreatePR, SubmitReview, CreateIssue, AddComment)
  * 2. Generic finalize (FinalizeShipment) - ALWAYS LAST
  */
 export function registerShippingAgentsForType(
   writtenAssetType: string,
   agentRegistry: any // AgentAgentsRegistry from PipelineExecution
 ): void {
-  // Register type-specific shipping agent
+  // Register type-specific Delivering agent under legacy shipping keys.
   switch (normalizeWrittenAssetType(writtenAssetType)) {
     case 'code-change':
       agentRegistry.registerAgent(
@@ -368,7 +369,7 @@ export function registerShippingAgentsForType(
       break;
       
     default:
-      throw new Error(`Unknown written-asset type for shipping: ${writtenAssetType}`);
+      throw new Error(`Unknown written-asset type for Finish/Delivering: ${writtenAssetType}`);
   }
   
   // ALWAYS register the generic finalize agent LAST
@@ -379,9 +380,9 @@ export function registerShippingAgentsForType(
 }
 
 /**
- * Creates the shipping phase sequence.
+ * Creates the Finish/Delivering sequence.
  * 
- * @param writtenAssetType The written-asset kind being shipped
+ * @param writtenAssetType The written-asset kind being delivered
  * @returns Array defining the execution order
  */
 export function createShippingExecutorSequence(
@@ -395,11 +396,14 @@ export function createShippingExecutorSequence(
   }[normalizeWrittenAssetType(writtenAssetType)];
   
   if (!typeSpecificAgent) {
-    throw new Error(`Unknown written-asset type for shipping: ${writtenAssetType}`);
+    throw new Error(`Unknown written-asset type for Finish/Delivering: ${writtenAssetType}`);
   }
   
   return [
-    { agent: typeSpecificAgent }, // Type-specific shipping
+    { agent: typeSpecificAgent }, // Type-specific Delivering
     { agent: 'shipping:deliverable-pipeline-finalize-agent' } // Generic finalize - ALWAYS LAST
   ];
 }
+
+export const registerFinishAgentsForType = registerShippingAgentsForType;
+export const createFinishExecutorSequence = createShippingExecutorSequence;

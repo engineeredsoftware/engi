@@ -33,8 +33,8 @@ export declare function getCurrentGate(execution: Execution): Gate;
  */
 export declare function getGateState(execution: Execution): GateState;
 /**
- * Transition to next gate (USER-TRIGGERED in GA-1)
- * Called when user clicks "Ready to Develop" / "Ready to Digest" / "Ship"
+ * Transition to next gate (operator-triggered)
+ * Called when user clicks "Ready to Develop" / "Ready to Digest" / "Finish"
  */
 export declare function transitionToNextGate(execution: Execution, nextGate: Gate): void;
 /**

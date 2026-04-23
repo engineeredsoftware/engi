@@ -2,7 +2,7 @@
 import { factorySDIVSPipeline } from '../sdivs-factory';
 import { Execution } from '../../../../execution-generics/src/Execution';
 
-describe('SDIVS pipeline event emission (integration)', () => {
+describe('SDIVF pipeline event emission through SDIVS compatibility import (integration)', () => {
   it('emits pipeline start/end and phase/agent events in sequence', async () => {
     const root = new Execution('root');
     const events: any[] = [];
@@ -32,5 +32,6 @@ describe('SDIVS pipeline event emission (integration)', () => {
     const keys = events.map(e => e.type + (e.status ? ':'+e.status : ''));
     expect(keys[0]).toBe('pipeline:start');
     expect(keys[keys.length-1]).toBe('pipeline:end');
+    expect(root.get('pipeline', 'pattern')).not.toBe('SDIVS');
   });
 });

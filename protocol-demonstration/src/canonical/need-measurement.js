@@ -51,6 +51,14 @@
  *   touchedPaths: string[],
  *   symbols: string[],
  *   configKeys: string[]
+ *   lspMeasurement?: {
+ *     toolPurpose?: string | undefined,
+ *     measuredFields?: string[] | undefined,
+ *     symbolQueries?: string[] | undefined,
+ *     pathEvidence?: string[] | undefined,
+ *     configEvidence?: string[] | undefined,
+ *     outputContract?: string | undefined
+ *   } | undefined
  * }} CanonicalBenchmarkOutputs
  *
  * @typedef {{
@@ -72,6 +80,14 @@
  *   },
  *   extractedSymbols: string[],
  *   configKeys: string[],
+ *   lspMeasurement?: {
+ *     toolPurpose?: string | undefined,
+ *     measuredFields?: string[] | undefined,
+ *     symbolQueries?: string[] | undefined,
+ *     pathEvidence?: string[] | undefined,
+ *     configEvidence?: string[] | undefined,
+ *     outputContract?: string | undefined
+ *   } | undefined,
  *   staticExecutionReceipts: StaticExecutionReceipt[]
  * }} RepoCodeAnalysis
  *
@@ -941,6 +957,21 @@ export function createNeedMeasurementRuntime({
         ...canonicalBenchmarkOutputs.consumedInputs.artifactNames
       ]), { receiptRefs: [parserReceipt.receiptId] }),
       measurementTrace('static', 'github.repo-context.extract.v2', [scenario.repo, ...repoCodeAnalysis.touchedPaths], { receiptRefs: repoCodeAnalysis.staticExecutionReceipts.map((receipt) => receipt.receiptId) }),
+      measurementTrace(
+        'static',
+        'bitcode.lsp.measure-need-static.v26',
+        [
+          scenario.repo,
+          ...repoCodeAnalysis.touchedPaths,
+          ...repoCodeAnalysis.extractedSymbols,
+          ...repoCodeAnalysis.configKeys
+        ],
+        {
+          receiptRefs: repoCodeAnalysis.staticExecutionReceipts
+            .filter((receipt) => String((/** @type {any} */ (receipt)).toolId || '').includes('bitcode.lsp.measure-need-static.v26'))
+            .map((receipt) => receipt.receiptId)
+        }
+      ),
       measurementTrace('inferred', 'need-measurement.task.v2', evidenceRefs),
       measurementTrace('inferred', 'need-measurement.failure-modes.v2', [...evidenceRefs, ...canonicalBenchmarkOutputs.failingCases]),
       measurementTrace('inferred', 'need-measurement.constraints.v2', [...evidenceRefs, ...canonicalBenchmarkOutputs.weakDimensions]),
@@ -993,7 +1024,7 @@ export function createNeedMeasurementRuntime({
       fieldDerivations,
       measurementProvenance,
       measurementClassInventory: {
-        staticExecuted: ['canonicalBenchmarkOutputs', 'buildRepoStaticCodeAnalysis'],
+        staticExecuted: ['canonicalBenchmarkOutputs', 'buildRepoStaticCodeAnalysis', 'bitcode.lsp.measure-need-static.v26'],
         inferredDerived: ['task', 'failureModes', 'constraints', 'targetArtifactKinds', 'closureCriteria'],
         hybridComposed: ['fieldDerivations']
       },
@@ -1002,6 +1033,7 @@ export function createNeedMeasurementRuntime({
         technologyProfile: repoCodeAnalysis.technologyProfile,
         extractedSymbols: repoCodeAnalysis.extractedSymbols,
         configKeys: repoCodeAnalysis.configKeys,
+        lspMeasurement: repoCodeAnalysis.lspMeasurement,
         failingCases: canonicalBenchmarkOutputs.failingCases,
         weakDimensions: canonicalBenchmarkOutputs.weakDimensions
       },
@@ -1024,9 +1056,9 @@ export function createNeedMeasurementRuntime({
       analysisFactLifecycle: {
         determined: {
           lexical: 'tokenize over need.task/failureModes/constraints/weakDimensions',
-          symbolic: 'benchmark parser + repo-context extraction + asset unit signal extraction',
-          path: 'canonical benchmark touchedPaths plus repo-context extraction',
-          config: 'canonical benchmark configKeys plus repo-context extraction',
+          symbolic: 'benchmark parser + repo-context extraction + Bitcode LSP static measurement + asset unit signal extraction',
+          path: 'canonical benchmark touchedPaths plus repo-context extraction plus Bitcode LSP path evidence',
+          config: 'canonical benchmark configKeys plus repo-context extraction plus Bitcode LSP config evidence',
           semanticVector: 'deterministic stand-in embeddings over task/failure-mode/context texts'
         },
         recorded: {

@@ -2,7 +2,7 @@
 import deliverablePipeline from '../index';
 import { Execution } from '@bitcode/execution-generics';
 
-describe('Deliverable pipeline - formal DoD acceptance criteria (pending full SDIVS enablement)', () => {
+describe('Deliverable pipeline - formal DoD acceptance criteria (pending full SDIVF enablement)', () => {
   const base = {
     taskDescription: 'Implement feature Y',
     repository: { url: 'https://github.com/acme/repo', branch: 'main' },

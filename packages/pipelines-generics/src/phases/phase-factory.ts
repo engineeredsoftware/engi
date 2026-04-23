@@ -4,9 +4,9 @@
  * PhaseDelegators are Executors that coordinate agent execution within
  * a pipeline phase. They delegate work to agents and accumulate results.
  *
- * The generic phase abstraction is reusable. The retained SDIVS phase family
- * below is a reference orchestration family until Bitcode explicitly promotes
- * it into live product behavior.
+ * The generic phase abstraction is reusable. The canonical retained phased
+ * family is now SDIVF: Setup -> Discovery -> Implementation -> Validation
+ * -> Finish. SDIVS survives only as a compatibility import surface.
  */
 
 import { sequential, parallel } from '@bitcode/execution-generics';
@@ -114,18 +114,49 @@ export function factoryParallelPhaseDelegator<TInput, TOutput>(
 }
 
 /**
- * The retained SDIVS reference phases
+ * The canonical retained SDIVF reference phases.
+ */
+export enum SDIVFPhase {
+  SETUP = 'setup',
+  DISCOVERY = 'discovery',
+  IMPLEMENTATION = 'implementation',
+  VALIDATION = 'validation',
+  FINISH = 'finish'
+}
+
+/**
+ * Deprecated SDIVS spelling retained for external callers. Its final member
+ * resolves to the canonical Finish phase.
  */
 export enum SDIVSPhase {
   SETUP = 'setup',
   DISCOVERY = 'discovery',
   IMPLEMENTATION = 'implementation',
   VALIDATION = 'validation',
-  SHIPPING = 'shipping'
+  SHIPPING = 'finish'
 }
 
 /**
- * Create retained SDIVS reference phase delegators
+ * Create canonical retained SDIVF reference phase delegators.
+ */
+export function factorySDIVFPhaseDelegators<TInput, TOutput>(config: {
+  setup: Agent<TInput, any>;
+  discovery: Agent<any, any>;
+  implementation: Agent<any, any>;
+  validation: Agent<any, any>;
+  finish: Agent<any, TOutput>;
+}): PhaseDelegator<TInput, TOutput>[] {
+  return [
+    factoryPhaseDelegator(SDIVFPhase.SETUP, config.setup),
+    factoryPhaseDelegator(SDIVFPhase.DISCOVERY, config.discovery),
+    factoryPhaseDelegator(SDIVFPhase.IMPLEMENTATION, config.implementation),
+    factoryPhaseDelegator(SDIVFPhase.VALIDATION, config.validation),
+    factoryPhaseDelegator(SDIVFPhase.FINISH, config.finish)
+  ];
+}
+
+/**
+ * Deprecated compatibility wrapper for the old SDIVS final-phase name.
  */
 export function factorySDIVSPhaseDelegators<TInput, TOutput>(config: {
   setup: Agent<TInput, any>;
@@ -134,11 +165,11 @@ export function factorySDIVSPhaseDelegators<TInput, TOutput>(config: {
   validation: Agent<any, any>;
   shipping: Agent<any, TOutput>;
 }): PhaseDelegator<TInput, TOutput>[] {
-  return [
-    factoryPhaseDelegator(SDIVSPhase.SETUP, config.setup),
-    factoryPhaseDelegator(SDIVSPhase.DISCOVERY, config.discovery),
-    factoryPhaseDelegator(SDIVSPhase.IMPLEMENTATION, config.implementation),
-    factoryPhaseDelegator(SDIVSPhase.VALIDATION, config.validation),
-    factoryPhaseDelegator(SDIVSPhase.SHIPPING, config.shipping)
-  ];
+  return factorySDIVFPhaseDelegators({
+    setup: config.setup,
+    discovery: config.discovery,
+    implementation: config.implementation,
+    validation: config.validation,
+    finish: config.shipping,
+  });
 }

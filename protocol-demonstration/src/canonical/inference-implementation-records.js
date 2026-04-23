@@ -382,9 +382,11 @@ export const V26_INFERENCE_IMPLEMENTATION_RECORDS = Object.freeze([
       owners: [
         'packages/pipelines/deliverable/src/agents/setup/deliverable-pipeline-comprehend-need-agent.ts',
         'packages/pipelines/deliverable/src/agents/setup/deliverable-pipeline-ready-to-iterate-agent.ts',
+        'packages/pipelines/deliverable/src/phases/index.ts',
+        'packages/pipelines/deliverable/src/phases/shipping.ts',
         'packages/pipelines/deliverable/src/agents/shipping/deliverable-pipeline-final-work-summary-agent.ts'
       ],
-      contract: 'Setup, iteration, validation, and shipping agents must resolve semantic need/writtenAsset fields before compatibility deliverable fields.'
+      contract: 'Setup, iteration, validation, and Finish agents must resolve semantic need/writtenAsset fields before compatibility deliverable fields; Delivering is only the third-party AssetPack/partial handoff inside Finish.'
     },
     executionImplementation: {
       owners: [
@@ -395,19 +397,24 @@ export const V26_INFERENCE_IMPLEMENTATION_RECORDS = Object.freeze([
       carriers: ['PipelineExecution compatibility entry', 'postprocess read model', 'execution history projections']
     },
     assetPackImplementation: {
-      outputKind: 'asset pack and shipping wrapper',
+      outputKind: 'asset pack and delivery wrapper',
       effect: 'Stable written assets and asset-pack snapshots are primary; PRs, Jira comments, reviews, and route payloads are delivery mechanisms.'
     },
     boundaryPosture: 'compatibility',
     verificationSet: [
       'node --test protocol-demonstration/test/v26-deliverable-reform.test.js',
+      'node --test protocol-demonstration/test/v26-pipeline-finish-reform.test.js',
       '.bitcode/runs-pipelines-totality-proof.json',
       '.bitcode/prompt-system-totality-proof.json'
     ],
     sourceEvidenceRefs: [
       'protocol-demonstration/V26_DELIVERABLE_REFORM.md',
+      'protocol-demonstration/V26_PIPELINE_FINISH_REFORM.md',
       'protocol-demonstration/test/v26-deliverable-reform.test.js',
+      'protocol-demonstration/test/v26-pipeline-finish-reform.test.js',
       'packages/pipelines/deliverable/src/index.ts',
+      'packages/pipelines/deliverable/src/phases/index.ts',
+      'packages/pipelines/deliverable/src/phases/shipping.ts',
       'packages/pipelines/deliverable/src/postprocess.ts',
       'packages/pipelines/deliverable/src/types/PipelineSchemas.ts',
       'packages/pipelines/deliverable/src/agents/prompts/comprehend-need-prompt.ts',
@@ -416,7 +423,7 @@ export const V26_INFERENCE_IMPLEMENTATION_RECORDS = Object.freeze([
   },
   {
     recordId: 'need-comprehension-compatibility',
-    canonicalNeed: 'Repurpose task-named retained tool prompts into Bitcode need, written-asset, asset-pack, proof, and shipping-wrapper comprehension.',
+    canonicalNeed: 'Repurpose task-named retained tool prompts into Bitcode need, written-asset, asset-pack, proof, and delivery-wrapper comprehension.',
     promptImplementation: {
       owners: [
         'packages/generic-tools/task-comprehension/src/prompts/AnalyzeTaskSemanticsDocCodeToolPrompt.ts',
@@ -448,7 +455,7 @@ export const V26_INFERENCE_IMPLEMENTATION_RECORDS = Object.freeze([
     },
     assetPackImplementation: {
       outputKind: 'need-comprehension support evidence',
-      effect: 'Compatibility analysis produces need, written-asset, asset-pack, proof, and shipping-wrapper hints for parent runs.'
+      effect: 'Compatibility analysis produces need, written-asset, asset-pack, proof, and delivery-wrapper hints for parent runs.'
     },
     boundaryPosture: 'compatibility',
     verificationSet: [

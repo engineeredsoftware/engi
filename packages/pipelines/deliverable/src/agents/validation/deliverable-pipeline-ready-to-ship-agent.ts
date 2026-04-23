@@ -1,7 +1,7 @@
 /**
  * Ready to Ship Agent - Final Validation Phase Decision
  * 
- * Final go/no-go decision after all validation passes.
+ * Compatibility-named final go/no-go decision before the canonical Finish phase.
  * Can short-circuit with partial refund if not production-ready.
  */
 
@@ -185,7 +185,7 @@ export default async function readyToShipWithShortCircuit(input: any, execution:
     } catch {}
     // Build comprehensive reason
     const reasons = [];
-    if (!result.ready) reasons.push('Not ready to ship');
+    if (!result.ready) reasons.push('Not ready to finish');
     if (CRITICAL_RISK) reasons.push('Critical risk level');
     if (POOR_QUALITY) reasons.push('Poor quality assessment');
     if (LOW_CONFIDENCE) reasons.push(`Low confidence (${result.confidence.toFixed(2)})`);

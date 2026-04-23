@@ -48,6 +48,16 @@ function findPhaseExecution(root: Execution, phase: string): Execution | undefin
   return undefined;
 }
 
+function getPhaseNumber(exe: Execution, phase: string, key: string): number | undefined {
+  const value = exe.get<number>(`phase/${phase}`, key);
+  if (typeof value === 'number') return value;
+  if (phase === 'finish') {
+    const legacy = exe.get<number>('phase/shipping', key);
+    if (typeof legacy === 'number') return legacy;
+  }
+  return undefined;
+}
+
 export function computePipelineMetrics(pipelineExec: Execution): PipelineMetrics {
   // Total duration
   const start = getNumber(pipelineExec, 'pipeline', 'startTime', Date.now());
@@ -55,23 +65,33 @@ export function computePipelineMetrics(pipelineExec: Execution): PipelineMetrics
   const totalDuration = Math.max(0, end - start);
 
   // Phase durations gathered from phase registries
-  const phases = ['setup', 'discovery', 'implementation', 'validation', 'shipping'];
+  const phases = ['setup', 'discovery', 'implementation', 'validation', 'finish'];
   const phaseDurations: Record<string, number> = {};
   const phasesDetail: Record<string, PhaseMetric> = {};
   for (const phase of phases) {
-    const started = pipelineExec.get<number>(`phase/${phase}`, 'started');
-    const completed = pipelineExec.get<number>(`phase/${phase}`, 'completed');
+    const started = getPhaseNumber(pipelineExec, phase, 'started');
+    const completed = getPhaseNumber(pipelineExec, phase, 'completed');
     if (typeof started === 'number' && typeof completed === 'number') {
       phaseDurations[phase] = Math.max(0, completed - started);
     }
-    const phaseAgents = getNumber(pipelineExec, `metrics/phase:${phase}`, 'agentsExecuted', 0);
-    const phaseExec = findPhaseExecution(pipelineExec, phase);
+    const phaseAgents = getNumber(
+      pipelineExec,
+      `metrics/phase:${phase}`,
+      'agentsExecuted',
+      phase === 'finish' ? getNumber(pipelineExec, 'metrics/phase:shipping', 'agentsExecuted', 0) : 0
+    );
+    const phaseExec = findPhaseExecution(pipelineExec, phase) ||
+      (phase === 'finish' ? findPhaseExecution(pipelineExec, 'shipping') : undefined);
     const phaseTokens = phaseExec ? sumLLMTokens(phaseExec) : 0;
     phasesDetail[phase] = {
       duration: phaseDurations[phase] || 0,
       agentsExecuted: phaseAgents,
       tokensUsed: phaseTokens,
     };
+    if (phase === 'finish') {
+      phaseDurations.shipping = phaseDurations.finish || 0;
+      phasesDetail.shipping = phasesDetail.finish;
+    }
   }
 
   // Agents executed counter maintained during execution (fallback to 0)

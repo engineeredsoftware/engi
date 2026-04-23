@@ -2,7 +2,7 @@
  * Retained meta-phase orchestrator
  *
  * Sequences Design → Develop → Digest meta-phases.
- * Each meta-phase runs the retained SDIVS reference family with appropriate file gates.
+ * Each meta-phase runs the retained SDIVF reference family with appropriate file gates.
  *
  * @package @bitcode/pipelines-generics
 */
@@ -76,8 +76,8 @@ export function getCurrentMetaPhase(execution: Execution): MetaPhase {
 }
 
 /**
- * Transition meta-phase (USER-TRIGGERED in GA-1)
- * Called when user clicks "Ready to Develop" / "Ready to Digest" / "Ship"
+ * Transition meta-phase (operator-triggered)
+ * Called when user clicks "Ready to Develop" / "Ready to Digest" / "Finish"
  */
 export function transitionToNextMetaPhase(
   execution: Execution,
@@ -118,12 +118,12 @@ export function transitionToNextMetaPhase(
 }
 
 /**
- * Create meta-phase aware retained SDIVS reference pipeline
+ * Create meta-phase aware retained SDIVF reference pipeline
  *
- * This wraps a retained SDIVS reference pipeline to add meta-phase orchestration.
+ * This wraps a retained SDIVF reference pipeline to add meta-phase orchestration.
  */
 export function createMetaPhasePipeline<TInput, TOutput>(
-  sdivsPipeline: Executor<TInput, TOutput>
+  sdivfPipeline: Executor<TInput, TOutput>
 ): Executor<TInput, TOutput> {
   return async (input: TInput, execution: Execution): Promise<TOutput> => {
     // Initialize meta-phase state
@@ -140,8 +140,8 @@ export function createMetaPhasePipeline<TInput, TOutput>(
 
       console.log(`[Meta-Phase] Starting ${currentMetaPhase} phase (iteration ${iteration + 1})`);
 
-      // Run SDIVS pipeline for current meta-phase
-      result = await sdivsPipeline(input, execution);
+      // Run SDIVF pipeline for current meta-phase
+      result = await sdivfPipeline(input, execution);
 
       // Check if we should transition
       const transitioned = attemptMetaPhaseTransition(execution);
@@ -164,7 +164,7 @@ export function createMetaPhasePipeline<TInput, TOutput>(
       // Check if we've completed all phases
       if (newMetaPhase === 'Digest') {
         // Run Digest phase
-        result = await sdivsPipeline(input, execution);
+        result = await sdivfPipeline(input, execution);
 
         // Check if another iteration is needed
         const anotherIteration = attemptMetaPhaseTransition(execution);
@@ -184,7 +184,7 @@ export function createMetaPhasePipeline<TInput, TOutput>(
  * Meta-phase preprocess hook
  *
  * Sets up file gates and configuration for the current meta-phase.
- * Use this in your SDIVS pipeline's preprocess step.
+ * Use this in your SDIVF pipeline's preprocess step.
  */
 export function metaPhasePreprocess<TInput>(
   input: TInput,

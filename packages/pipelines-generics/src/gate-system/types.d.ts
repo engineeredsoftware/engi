@@ -2,7 +2,7 @@
  * Gate Types
  *
  * Design → Develop → Digest (DDD) gate system.
- * Each gate runs the full SDIVS pipeline with different file access controls.
+ * Each gate runs the full SDIVF pipeline with different file access controls.
  *
  * NOTE: Gate type is defined in ./types/primitives.ts (SSOT)
  * Import from there or from package root.
@@ -41,8 +41,8 @@ export type MetaPhaseConfig = GateConfig;
 export declare const GATE_CONFIGS: Record<Gate, GateConfig>;
 export declare const META_PHASE_CONFIGS: Record<Gate, GateConfig>;
 /**
- * Gate transitions are USER-GATED in GA-1
- * User clicks "Ready to Develop" / "Ready to Digest" / "Ship"
+ * Gate transitions are operator-gated.
+ * User clicks "Ready to Develop" / "Ready to Digest" / "Finish"
  * No automatic validation-based transitions
  */
 export interface GateTransition {

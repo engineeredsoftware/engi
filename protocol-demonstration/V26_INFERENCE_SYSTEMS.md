@@ -37,7 +37,7 @@ Every active or admitted-support inference system must answer the following befo
 | Tool ownership | Identify callable tools, schema inputs/outputs, capability limits, and fail-closed behavior. |
 | Agent ownership | Identify agent role, phase, step/substep structure, structured output, tool usage, and retry/refine behavior. |
 | Execution ownership | Identify where runtime state is stored, streamed, persisted, reread, and proven. |
-| Asset ownership | Identify whether the output is a stable written asset, asset pack, proof artifact, state mutation, or shipping wrapper. |
+| Asset ownership | Identify whether the output is a stable written asset, asset pack, proof artifact, state mutation, or delivery wrapper. |
 | Boundary posture | Classify as active, admitted support, ingress, compatibility, reference-only, or cut-target. |
 | Verification | Name concrete tests, typechecks, runtime load checks, generated proof artifacts, or manual verification gaps. |
 
@@ -86,10 +86,10 @@ Fifth-gate prompt closure requires every prompt/tool/agent/execution system to l
 | Tool prompt infrastructure | `DocCodeToolPrompt`, `formatUsableTools`, doc-code prompt labels, tool prompt registries | `Tool`, `ToolExecution`, `ToolPromptRegistry`, doc-code decorators/loaders | tool descriptions can be injected into agent runs but do not own the agent | `ToolExecution` and prompt registry evidence | support package subpath tests, doc-code transform tests, package manifests |
 | Agent infrastructure | `AgentPrompt`, `AgentStepPrompt`, generation/failsafe/tool prompt overlays | tool registries and bounded callable capabilities | agent factories, substeps, structured outputs, retry/refine limits | `AgentExecution`, agent registries, diagnostics, file-diff evidence | prompt boundary tests, agent/pipeline typechecks, proof artifacts |
 | Execution infrastructure | `ExecutionPrompt` and public prompt primitive imports | execution-level tool registry support, with mutating tool behavior owned by tool records | none directly; agents layer above base execution | `Execution`, execution registry, storage/stream adapters, typed stores, and work updates | execution package typecheck, prompt boundary tests, runs-pipelines proof |
-| Pipeline infrastructure | `PipelinePrompt`, phase prompts, prompt registries | pipeline tool registries and MCP-facing callable adapters | phase factory, meta-phase orchestrator, setup/discovery/implementation/validation/shipping agents | `PipelineExecution`, phase/subexecution, metrics, resume, streams | runs-pipelines proof, deliverable reform tests, package-local checks |
+| Pipeline infrastructure | `PipelinePrompt`, phase prompts, prompt registries | pipeline tool registries and MCP-facing callable adapters | phase factory, meta-phase orchestrator, setup/discovery/implementation/validation/finish agents | `PipelineExecution`, phase/subexecution, metrics, resume, streams | runs-pipelines proof, deliverable reform tests, package-local checks |
 | Conversation inference | `ConversationSystemPrompt` and app-level conversation prompt binding | conversation tool registration and attachment/destination tool posture | `ConversationAgent` and rich-input write surface | conversation persistence, stream events, ad hoc execution continuity | conversation tests, prompt surface tests, persistence proof |
-| Asset-pack synthesis compatibility | deliverable-corridor prompts, `comprehend-need` overlays, raw PromptParts, prompt renderer | clone/VCS, PR, review, issue/comment, template, and shipping-wrapper tools | setup, ready-to-iterate, validation, shipping, final-summary agents | registry-bearing pipeline runtime, postprocess/read models, execution history | `v26-deliverable-reform`, package typecheck boundary, prompt-system proof |
-| Need-comprehension compatibility | task-named DocCode prompts with `need-comprehension` metadata and reformed raw PromptParts | retained task-named tool APIs mapped to need, written asset, asset pack, proof, and shipping-wrapper outputs | no independent live agent; may feed setup/comprehension agents as admitted support | no independent execution owner; evidence is consumed by parent `ToolExecution`/pipeline records | package-local no-emit typecheck, prompt boundary test, raw PromptPart TS/JS carry-through |
+| Asset-pack synthesis compatibility | deliverable-corridor prompts, `comprehend-need` overlays, raw PromptParts, prompt renderer | clone/VCS, PR, review, issue/comment, template, and delivery-wrapper tools | setup, ready-to-iterate, validation, finish, final-summary agents | registry-bearing pipeline runtime, postprocess/read models, execution history | `v26-deliverable-reform`, `v26-pipeline-finish-reform`, package typecheck boundary, prompt-system proof |
+| Need-comprehension compatibility | task-named DocCode prompts with `need-comprehension` metadata and reformed raw PromptParts | retained task-named tool APIs mapped to need, written asset, asset pack, proof, and delivery-wrapper outputs | no independent live agent; may feed setup/comprehension agents as admitted support | no independent execution owner; evidence is consumed by parent `ToolExecution`/pipeline records | package-local no-emit typecheck, prompt boundary test, raw PromptPart TS/JS carry-through |
 | MCP and external ingress | MCP prompt/tool descriptions where admitted | narrowed Exchange-facing tool families and fail-closed create admission | no invisible agent promotion without a record | queue/run/execution creation, provider/repository ingress, operator reread | MCP tests, package-local typechecks, retained-package admissibility proof |
 
 ## Prompt Requirements
@@ -111,7 +111,7 @@ Tool-bearing systems must:
 - expose public package subpaths for any support primitive they expect others to consume;
 - describe exact parameter and output shapes in prompt content or schema source;
 - define fail-closed behavior for missing auth, readiness, repository anchoring, permissions, or provider bindings where the tool can mutate state or spend `$BTD`;
-- separate stable written assets from connected-interface shipping wrappers.
+- separate stable written assets from connected-interface delivery wrappers.
 
 ## Agentic Requirements
 

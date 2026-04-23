@@ -7,10 +7,10 @@ export type Gate = 'Design' | 'Develop' | 'Digest';
 // Legacy alias for backwards compatibility - DELETE after migration
 export type MetaPhase = Gate;
 
-// Lowercase phase for DB
-export type PhaseLower = 'setup' | 'discovery' | 'implementation' | 'validation' | 'shipping';
-// Title case phase for Streams
-export type PhaseTitle = 'Setup' | 'Discovery' | 'Implementation' | 'Validation' | 'Shipping';
+// Lowercase phase for DB. `shipping` is retained only as a legacy input alias.
+export type PhaseLower = 'setup' | 'discovery' | 'implementation' | 'validation' | 'finish' | 'shipping';
+// Title case phase for Streams. `Shipping` is retained only as a legacy input alias.
+export type PhaseTitle = 'Setup' | 'Discovery' | 'Implementation' | 'Validation' | 'Finish' | 'Shipping';
 
 export type StepLower = 'plan' | 'try' | 'refine' | 'retry';
 export type StepTitle = 'Plan' | 'Try' | 'Refine' | 'Retry';
@@ -35,7 +35,8 @@ export interface ExecutionState {
 export function toPhaseLower(p?: string): PhaseLower | undefined {
   if (!p) return undefined;
   const s = p.toLowerCase();
-  if (['setup','discovery','implementation','validation','shipping'].includes(s)) return s as PhaseLower;
+  if (s === 'shipping') return 'finish';
+  if (['setup','discovery','implementation','validation','finish'].includes(s)) return s as PhaseLower;
   return undefined;
 }
 
@@ -46,7 +47,8 @@ export function toPhaseTitle(p?: string): PhaseTitle | undefined {
     case 'discovery': return 'Discovery';
     case 'implementation': return 'Implementation';
     case 'validation': return 'Validation';
-    case 'shipping': return 'Shipping';
+    case 'finish': return 'Finish';
+    case 'shipping': return 'Finish';
     default: return undefined;
   }
 }
@@ -70,4 +72,3 @@ export function isMetaStep(v: any): v is MetaStep {
 export function isSubStep(v: any): v is SubStep {
   return v === 'reason' || v === 'judge' || v === 'structured_output';
 }
-

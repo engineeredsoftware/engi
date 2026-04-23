@@ -10,6 +10,8 @@ export {
   factoryPhaseDelegator,
   factorySequentialPhaseDelegator,
   factoryParallelPhaseDelegator,
+  factorySDIVFPhaseDelegators,
   factorySDIVSPhaseDelegators,
+  SDIVFPhase,
   SDIVSPhase
 } from './phase-factory';

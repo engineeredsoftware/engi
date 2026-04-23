@@ -6,6 +6,7 @@
 - Canonical pointer: `/Users/garrettmaring/Developer/ENGI/BITCODE_SPEC.txt -> V26`
 - Purpose: keep the old-world `deliverable` family legible while making Bitcode's actual semantic ownership precise
 - Generic strategy companion: `protocol-demonstration/V26_REFORM_STRATEGY.md`
+- Pipeline phase companion: `protocol-demonstration/V26_PIPELINE_FINISH_REFORM.md`
 
 ## Rule
 
@@ -43,18 +44,20 @@ The retained `packages/pipelines/deliverable/*` corridor is therefore interprete
 While the path/package may remain `deliverable` during V26 for compatibility and implementation-speed reasons:
 - the live Bitcode meaning is a need-satisfying agentic pipeline run, not a product concept named `deliverable`
 - each run synthesizes stable written assets / asset-packs first
-- the shipping phase may then emit `deliverables` only as connected-interface delivery mechanisms such as `Deliverable.GitHubPullRequest`, `Deliverable.JiraComment`, or similar wrappers around the stable asset-pack output
+- the canonical broad final phase is now `Finish`; old `Shipping` phase names may remain only as compatibility aliases while source migrates to `SDIVF`
+- `Delivering` is the narrower Finish subresponsibility that provides AssetPacks or AssetPackPartials to third-party tools and destinations
+- the Finish phase may then emit `deliverables` only as connected-interface delivery mechanisms such as `Deliverable.GitHubPullRequest`, `Deliverable.JiraComment`, or similar wrappers around the stable asset-pack output
 - spec text must teach `asset pack` and `written asset` as the Bitcode semantics
 - comments, descriptions, and exported aliases inside the retained corridor should prefer `comprehend need` over `comprehend task` where behavior is truly about need understanding
 - execution stores and postprocessed artifacts should mirror compatibility keys with semantic `need`, `writtenAssetType`, and asset-pack-shaped snapshots so later-gate reform can remove the retained names without losing continuity
-- internal phase, validation, shipping, and reread logic should resolve semantic `writtenAssetType` and `need` first so the retained corridor shapes live protocol behavior through Bitcode's commercial infrastructure rather than silently recentering old-world `deliverableType` logic
+- internal phase, validation, Finish/Delivering, and reread logic should resolve semantic `writtenAssetType` and `need` first so the retained corridor shapes live protocol behavior through Bitcode's commercial infrastructure rather than silently recentering old-world `deliverableType` logic
 - read routes, workspace-run summaries, mock reread projections, and active UI detail surfaces should prefer semantic `writtenAssets` for Bitcode-owned summary and file-change meaning, then fall back through `deliveryMechanism` and only finally compatibility `deliverables`, while PR/review/comment/issue surfaces remain shipping wrappers
-- the operator-facing executions header and the retained `/api/deliverables` route should teach this corridor as asset-pack synthesis plus shipping mechanisms even while their compatibility names remain in place
+- the operator-facing executions header and the retained `/api/deliverables` route should teach this corridor as asset-pack synthesis plus Finish/Delivering mechanisms even while their compatibility names remain in place
 - the retained `/api/deliverables` streamed completion payload should emit semantic `writtenAssets`, `deliveryMechanism`, `need`, `writtenAssetType`, and `assetPack` aliases alongside compatibility `actions` / `deliverables`, so client convergence does not depend on reread-only recovery
 - the retained `/api/deliverables` route should also dual-store route-preprocess snapshots and completion metadata under semantic `assetPackWrittenAsset` / `need` / `assetPack` / `writtenAssetType` aliases, so route entry, persistence, and reread all carry Bitcode-owned meaning even while the public route name remains compatibility-only
 - retained `/api/deliverables` telemetry, notifications, and email-subject copy should keep compatibility identifiers only as wrappers; payloads and user-facing wording should explicitly describe Bitcode `asset-pack run` semantics and emit semantic event aliases / `assetPack` / `need` / `writtenAssetType` data
-- retained email-template filenames and promptpart identifiers should also remain compatibility wrappers only; rendered copy and prompt content should describe asset-pack runs, written-asset synthesis, and shipping delivery mechanisms rather than teaching `deliverable` as the primary Bitcode object
-- retained raw promptparts and promptpart-generation scripts should likewise describe the corridor in asset-pack-run, need-satisfaction, written-asset, and shipping-wrapper terms, even when compatibility filenames and identifiers still include `deliverable`; this includes phase-purpose, setup-comprehension, shipping-finalization, deliverables-system, implementation-divider, create-code-change, PR-packaging, create-pull-request, ready-to-ship, code-change-readiness, and code-change-review-readiness promptparts, which should no longer teach PR-first, deployment-ceremony-first, or GA-1-first semantics where Bitcode now requires need-first asset-pack synthesis plus shipping wrappers
+- retained email-template filenames and promptpart identifiers should also remain compatibility wrappers only; rendered copy and prompt content should describe asset-pack runs, written-asset synthesis, and Delivering delivery mechanisms rather than teaching `deliverable` as the primary Bitcode object
+- retained raw promptparts and promptpart-generation scripts should likewise describe the corridor in asset-pack-run, need-satisfaction, written-asset, and delivery-wrapper terms, even when compatibility filenames and identifiers still include `deliverable`; this includes phase-purpose, setup-comprehension, finish-finalization, deliverables-system, implementation-divider, create-code-change, PR-packaging, create-pull-request, ready-to-ship, code-change-readiness, and code-change-review-readiness promptparts, which should no longer teach PR-first, deployment-ceremony-first, or GA-1-first semantics where Bitcode now requires need-first asset-pack synthesis plus delivery wrappers
 - all retained deliverable-family raw PromptPart doc-comment metadata must move to Bitcode-native intent and version language across agent, phase, pipeline, tool, setup, discovery, implementation, validation, and shipping compatibility files; `Agent semantic unit`, `Define purpose of ... deliverables`, `Adds Deliverables-specific ...`, and `Canonical deliverables ...` metadata strings may not survive as active metadata even when filenames remain compatibility wrappers
 - retained deliverable substep PromptParts such as `*_substep_reason`, `*_substep_prepare_concise_context`, `*_substep_chunk_then_sum`, `*_substep_tools_execution`, `*_substep_structured_output`, `*_substep_stitch_until_complete`, and `*_substep_judge` must no longer use generic old-world agent phrasing; each substep must explicitly carry Bitcode need, written-asset, asset-pack, proof-evidence, delivery-wrapper, and execution-history reread semantics appropriate to its role
 - retained raw PromptPart TypeScript files, generated declaration metadata, and runtime JavaScript carry-through must remain parseable and content-equivalent after broad reform, so malformed benchmark score metadata or stale runtime PromptPart strings cannot preserve old-world behavior after canonical source text has moved
@@ -67,6 +70,7 @@ While the path/package may remain `deliverable` during V26 for compatibility and
 - the retained package itself must clear an honest local typecheck boundary through the MCP/VCS/prompt/search support graph it still traverses, so runtime proof and asset-pack semantics are backed by a truthful source boundary rather than broad monorepo success alone
 - new-world semantic aliases should be added before broad destructive renames
 - old names may remain as compatibility aliases until later-gate convergence removes the corridor entirely
+- `SDIVS` / `shipping` compatibility APIs must forward to `SDIVF` / `finish` behavior rather than preserving old broad Shipping semantics
 
 ## Non-goal
 

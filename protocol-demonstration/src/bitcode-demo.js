@@ -295,10 +295,10 @@ const CODE_ANALYSIS_FACT_REGISTRY_SPECS = {
   'need.failureModes': { measurementClass: 'inferred-derived', gatheredFrom: ['need-measurement.failure-modes.v2'], storedOn: ['need.failureModes'], factClass: 'need-analysis' },
   'need.constraints': { measurementClass: 'inferred-derived', gatheredFrom: ['need-measurement.constraints.v2'], storedOn: ['need.constraints'], factClass: 'need-analysis' },
   'need.targetArtifactKinds': { measurementClass: 'inferred-derived', gatheredFrom: ['need-measurement.target-artifact-kinds.v2'], storedOn: ['need.targetArtifactKinds'], factClass: 'need-analysis' },
-  'need.touchedPaths': { measurementClass: 'static-executed', gatheredFrom: ['github-actions.benchmark-parser.v15', 'github.repo-context.extract.v15'], storedOn: ['need.touchedPaths'], factClass: 'repo-code-analysis' },
-  'need.extractedSymbols': { measurementClass: 'static-executed', gatheredFrom: ['github-actions.benchmark-parser.v15', 'github.repo-context.extract.v15'], storedOn: ['need.extractedSymbols'], factClass: 'repo-code-analysis' },
-  'need.configKeys': { measurementClass: 'static-executed', gatheredFrom: ['github-actions.benchmark-parser.v15', 'github.repo-context.extract.v15'], storedOn: ['need.configKeys'], factClass: 'repo-code-analysis' },
-  'need.stackHints': { measurementClass: 'hybrid-composed', gatheredFrom: ['github.repo-context.extract.v15', 'inferStackHints()'], storedOn: ['need.stackHints'], factClass: 'repo-code-analysis' },
+  'need.touchedPaths': { measurementClass: 'static-executed', gatheredFrom: ['github-actions.benchmark-parser.v15', 'github.repo-context.extract.v15', 'bitcode.lsp.measure-need-static.v26'], storedOn: ['need.touchedPaths'], factClass: 'repo-code-analysis' },
+  'need.extractedSymbols': { measurementClass: 'static-executed', gatheredFrom: ['github-actions.benchmark-parser.v15', 'github.repo-context.extract.v15', 'bitcode.lsp.measure-need-static.v26'], storedOn: ['need.extractedSymbols'], factClass: 'repo-code-analysis' },
+  'need.configKeys': { measurementClass: 'static-executed', gatheredFrom: ['github-actions.benchmark-parser.v15', 'github.repo-context.extract.v15', 'bitcode.lsp.measure-need-static.v26'], storedOn: ['need.configKeys'], factClass: 'repo-code-analysis' },
+  'need.stackHints': { measurementClass: 'hybrid-composed', gatheredFrom: ['github.repo-context.extract.v15', 'bitcode.lsp.measure-need-static.v26', 'inferStackHints()'], storedOn: ['need.stackHints'], factClass: 'repo-code-analysis' },
   'need.failingCases': { measurementClass: 'static-executed', gatheredFrom: ['github-actions.benchmark-parser.v15'], storedOn: ['need.failingCases'], factClass: 'benchmark-analysis' },
   'need.weakDimensions': { measurementClass: 'static-executed', gatheredFrom: ['github-actions.benchmark-parser.v15'], storedOn: ['need.weakDimensions'], factClass: 'benchmark-analysis' },
   'need.lexicalNeedTerms': { measurementClass: 'hybrid-composed', gatheredFrom: ['tokenize(need.task/failureModes/constraints/weakDimensions)'], storedOn: ['recall.lexicalTerms'], factClass: 'derived-tokenization' },
@@ -4080,14 +4080,23 @@ function inferNeedTechnologyProfile(scenario, benchmarkOutputs) {
  */
 function buildRepoStaticCodeAnalysis(scenario, benchmarkOutputs) {
   const technologyProfile = inferNeedTechnologyProfile(scenario, benchmarkOutputs);
-  const normalizedOutputEnvelope = {
-    touchedPaths: summarizeStrings(union(benchmarkOutputs.touchedPaths, scenario.repoContext?.repoTree?.filter((/** @type {any} */ item) => benchmarkOutputs.touchedPaths.includes(item)) || [])),
-    extractedSymbols: summarizeStrings(union(benchmarkOutputs.symbols, scenario.repoContext?.symbols || [])),
-    configKeys: summarizeStrings(union(benchmarkOutputs.configKeys, scenario.repoContext?.configKeys || [])),
-    stackHints: technologyProfile.stackHints,
-    technologyProfile
+  const lspMeasurementEnvelope = {
+    toolPurpose: 'static Need measurement through symbol, path, and config evidence',
+    measuredFields: ['need.touchedPaths', 'need.extractedSymbols', 'need.configKeys', 'need.stackHints'],
+    symbolQueries: summarizeStrings(benchmarkOutputs.symbols),
+    pathEvidence: summarizeStrings(union(benchmarkOutputs.touchedPaths, scenario.repoContext?.repoTree?.filter((/** @type {any} */ item) => benchmarkOutputs.touchedPaths.includes(item)) || [])),
+    configEvidence: summarizeStrings(union(benchmarkOutputs.configKeys, scenario.repoContext?.configKeys || [])),
+    outputContract: 'feeds NeedDescriptor.staticMeasurements and AssetPack ranking evidence'
   };
-  const receipt = buildStaticExecutionReceipt({
+  const normalizedOutputEnvelope = {
+    touchedPaths: lspMeasurementEnvelope.pathEvidence,
+    extractedSymbols: summarizeStrings(union(benchmarkOutputs.symbols, scenario.repoContext?.symbols || [])),
+    configKeys: lspMeasurementEnvelope.configEvidence,
+    stackHints: technologyProfile.stackHints,
+    technologyProfile,
+    lspMeasurement: lspMeasurementEnvelope
+  };
+  const repoContextReceipt = buildStaticExecutionReceipt({
     receiptKind: 'repo-context-static-measurement',
     stageId: 'github.repo-context.extract.v15',
     toolId: 'github.repo-context.extract.v15',
@@ -4100,9 +4109,28 @@ function buildRepoStaticCodeAnalysis(scenario, benchmarkOutputs) {
     evidenceRefs: [scenario.repo, ...normalizedOutputEnvelope.touchedPaths],
     replayInputClosure: [scenario.repo, scenario.canonicalRunEvidence?.runId]
   });
+  const lspMeasurementReceipt = buildStaticExecutionReceipt({
+    receiptKind: 'lsp-need-static-measurement',
+    stageId: 'lsp.semantic-measurement.v26',
+    toolId: 'bitcode.lsp.measure-need-static.v26',
+    inputs: {
+      repo: scenario.repo,
+      benchmarkOutputs,
+      repoContext: scenario.repoContext || null,
+      measuredFields: lspMeasurementEnvelope.measuredFields
+    },
+    normalizedOutputEnvelope: lspMeasurementEnvelope,
+    evidenceRefs: [
+      scenario.repo,
+      ...normalizedOutputEnvelope.touchedPaths,
+      ...normalizedOutputEnvelope.extractedSymbols,
+      ...normalizedOutputEnvelope.configKeys
+    ],
+    replayInputClosure: [scenario.repo, scenario.canonicalRunEvidence?.runId]
+  });
   return {
     ...normalizedOutputEnvelope,
-    staticExecutionReceipts: [receipt]
+    staticExecutionReceipts: [repoContextReceipt, lspMeasurementReceipt]
   };
 }
 

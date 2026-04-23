@@ -3,7 +3,7 @@
  *
  * User-gated iteration on AGENTS.md with captured learnings.
  * Agent proposes Q&A updates, user reviews, provides feedback.
- * When satisfied, user clicks "Ship" → execution complete.
+ * When satisfied, user clicks "Finish" -> execution complete.
  */
 
 import { createPhaseRunner } from '@bitcode/pipelines-generics';

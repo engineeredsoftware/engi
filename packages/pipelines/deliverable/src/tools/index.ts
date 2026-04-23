@@ -99,7 +99,7 @@ export const VALIDATION_PHASE_TOOLS: Tool[] = [
 ].filter(present);
 
 /**
- * Shipping Phase Tools
+ * Finish/Delivering Tools
  * VCS operations, PR/Issue creation, finalization
  */
 export const SHIPPING_PHASE_TOOLS: Tool[] = [
@@ -158,7 +158,11 @@ export function getDeliverablePipelineToolsForAgent(agentName: string): Tool[] {
     'deliverable-pipeline-validation-ready-to-ship-design-document-agent': [],
     'deliverable-pipeline-validation-ready-to-ship-design-document-review-agent': [],
 
-    // Shipping Phase
+    // Finish Phase / Delivering destination tools
+    'finish:deliver-asset-pack-to-destination-agent': [deliverablePipelineUseComputerTool, createPullRequestTool, createIssueTool, createCommentTool],
+    'finish:final-work-summary': [],
+
+    // Legacy Shipping aliases
     'shipping:deliverable-pipeline-ship-agent': [deliverablePipelineUseComputerTool, createPullRequestTool, createIssueTool, createCommentTool],
     'shipping:deliverable-pipeline-create-pull-request-agent': [createPullRequestTool],
     'shipping:deliverable-pipeline-submit-review-agent': [createCommentTool],

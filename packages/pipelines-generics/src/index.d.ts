@@ -6,13 +6,13 @@
  * PhaseDelegators are Executors that delegate to Agents.
  *
  * These are reusable orchestration primitives. Retained orchestration families
- * such as SDIVS and meta-phase flows remain reference patterns unless they are
+ * such as SDIVF and meta-phase flows remain reference patterns unless they are
  * explicitly repurposed into Bitcode-owned behavior.
  *
  * Core Concepts:
  * - Pipeline: Top-level Executor orchestrating phases (EE)
  * - PhaseDelegator: Executor that delegates work to Agents
- * - SDIVS: retained setup/discovery/implementation/validation/shipping reference family
+ * - SDIVF: retained setup/discovery/implementation/validation/finish reference family
  *
  * @doc-code
  * type: package
@@ -21,11 +21,11 @@
  */
 export { type Pipeline, PipelineExecution, type PhaseDelegator, PhaseDelegation, factoryPipelineExecution, factoryPhaseDelegation } from './execution/pipeline-types';
 export { type PipelineExecutionLineage, type PipelineExecutionFamily, type PipelineExecutionPosture, inferPipelineExecutionLineage } from './execution/PipelineExecution';
-export { factoryPipeline, factoryPipelineWithDIVLoop } from './pipeline-factory';
+export { factoryPipeline, factoryPipelineWithDIVFinishLoop, factoryPipelineWithDIVLoop } from './pipeline-factory';
 export { factoryQuickPipeline, type QuickPhase } from './quick-pipeline';
-export { factoryPhaseDelegator, factorySequentialPhaseDelegator, factoryParallelPhaseDelegator, factorySDIVSPhaseDelegators, SDIVSPhase } from './phases/phase-factory';
-export { factorySDIVSPipeline, type SDIVSConfig } from './phases/sdivs-factory';
-export { factorySDIVSExecutorPipeline, type SDIVSExecutorConfig } from './phases/sdivs-factory';
+export { factoryPhaseDelegator, factorySequentialPhaseDelegator, factoryParallelPhaseDelegator, factorySDIVFPhaseDelegators, factorySDIVSPhaseDelegators, SDIVFPhase, SDIVSPhase } from './phases/phase-factory';
+export { factorySDIVFPipeline, factorySDIVSPipeline, type SDIVFConfig, type SDIVSConfig } from './phases/sdivs-factory';
+export { factorySDIVFExecutorPipeline, factorySDIVSExecutorPipeline, type SDIVFExecutorConfig, type SDIVSExecutorConfig } from './phases/sdivs-factory';
 export { enablePipelineStreaming, createStreamingExecution, emitPhaseTransition, emitAgentActivity, emitToolUsage, type PipelineStreamConfig } from './streaming/pipeline-stream-integration';
 export { PipelinePrompt } from './prompts/PipelinePrompt';
 export { computePipelineMetrics } from './execution/Metrics';

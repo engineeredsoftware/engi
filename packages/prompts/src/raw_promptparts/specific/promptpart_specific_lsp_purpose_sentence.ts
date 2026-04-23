@@ -3,8 +3,8 @@ import { PromptPart } from '../../parts/PromptPart';
 /**
  * @doc-comment-developing-promptpartdevelopment
  * domain: lsp
- * intent: "Purpose sentence for LSP tool suite"
- * current_version: "GA1.50.0"
+ * intent: "Bitcode LSP static-measurement purpose sentence for Need and AssetPack evidence"
+ * current_version: "0.50.0"
  * versions: []
   * benchmarks: [
  *   { "name": "technical_accuracy", "test": "Uses concrete technical language", "score": 0.50 },
@@ -12,4 +12,4 @@ import { PromptPart } from '../../parts/PromptPart';
  * ]
  */
 export const PROMPTPART_SPECIFIC_LSP_PURPOSE_SENTENCE: PromptPart =
-  'Language Server Protocol intelligence integrated with Bitcode' as PromptPart;
+  'Language Server Protocol static measurement for Bitcode Need and AssetPack evidence' as PromptPart;

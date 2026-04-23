@@ -1,9 +1,9 @@
 /**
  * QuickPipeline - Minimal pipeline wrapper around a single "QuickPhase".
  *
- * Intent: formalize non-SDIVS pipelines that consist of a single executor
+ * Intent: formalize non-SDIVF pipelines that consist of a single executor
  * (often an agent sequence or loop) without introducing phase semantics.
- * Phase is SDIVS-specific; QuickPipeline has no phases.
+ * Phase is SDIVF-specific; QuickPipeline has no phases.
  */
 import type { Executor } from '@bitcode/execution-generics';
 import type { Pipeline } from './pipeline-factory';

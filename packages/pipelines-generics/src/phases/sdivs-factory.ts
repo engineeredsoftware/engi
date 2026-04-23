@@ -1,12 +1,13 @@
 /**
- * Retained SDIVS reference pipeline factory with built-in DIV iteration
+ * Retained SDIVF reference pipeline factory with built-in DIV iteration
  *
- * Creates the retained Setup-[Discovery-Implementation-Validation]*-Shipping
- * pattern with automatic iteration support.
+ * Creates the retained Setup-[Discovery-Implementation-Validation]*-Finish
+ * pattern with automatic iteration support. Finish is the broad final phase:
+ * save the run result, preserve useful Need/AssetPack state, and optionally
+ * deliver AssetPacks or AssetPackPartials to third-party destinations.
  *
- * This file survives as a reference orchestration family for Bitcode pipeline
- * porting and admissibility work. It is not itself the proof of current
- * Bitcode-native pipeline canon.
+ * SDIVS survives here only as a deprecated compatibility spelling for callers
+ * that still pass a `shipping` executor.
  */
 
 import { sequential } from '@bitcode/execution-generics';
@@ -17,43 +18,44 @@ import { PipelineExecution, factoryPipelineExecution } from '../execution/pipeli
 import { Pipeline } from '../pipeline-factory';
 import { descendExecution } from '../execution/resume';
 
-// ==================== SDIVS CONFIGURATION ====================
+// ==================== SDIVF CONFIGURATION ====================
 
-export interface SDIVSConfig<TInput = any, TOutput = any> {
-  // Required phases
+interface SDIVBaseConfig<TInput = any> {
   setup: PhaseDelegator<TInput, any>;
   discovery: PhaseDelegator<any, any>;
   implementation: PhaseDelegator<any, any>;
   validation: PhaseDelegator<any, any>;
-  shipping: PhaseDelegator<any, TOutput>;
-  
-  // Optional decision agents
-  readyToIterate?: Executor<any, boolean>; // After Setup - decides if we should iterate
-  readyToShip?: Executor<any, boolean>;     // After Validation - decides if ready to ship
-  
-  // Iteration configuration
-  maxIterations?: number;  // Max DIV iterations (default: 3)
-  iterationStrategy?: 'sequential' | 'adaptive'; // How to iterate (default: sequential)
-  
-  // Optional: Initialization hook to configure registries/prompts/tools
+  readyToIterate?: Executor<any, boolean>;
+  maxIterations?: number;
+  iterationStrategy?: 'sequential' | 'adaptive';
   initialize?: (execution: PipelineExecution, input: TInput) => void | Promise<void>;
 }
 
-// ==================== SDIVS PIPELINE FACTORY ====================
+export interface SDIVFConfig<TInput = any, TOutput = any> extends SDIVBaseConfig<TInput> {
+  finish: PhaseDelegator<any, TOutput>;
+  readyToFinish?: Executor<any, boolean>;
+}
+
+export interface SDIVSConfig<TInput = any, TOutput = any> extends SDIVBaseConfig<TInput> {
+  shipping: PhaseDelegator<any, TOutput>;
+  readyToShip?: Executor<any, boolean>;
+}
+
+// ==================== SDIVF PIPELINE FACTORY ====================
 
 /**
- * Create a retained SDIVS reference pipeline with built-in DIV iteration
+ * Create a retained SDIVF reference pipeline with built-in DIV iteration.
  *
- * Pattern: Setup -> [Discovery -> Implementation -> Validation]* -> Shipping
+ * Pattern: Setup -> [Discovery -> Implementation -> Validation]* -> Finish
  * 
  * The DIV loop iterates until:
- * 1. Validation passes (readyToShip returns true)
+ * 1. Validation passes (readyToFinish returns true)
  * 2. Max iterations reached
  * 3. Error occurs (handled gracefully)
  */
-export function factorySDIVSPipeline<TInput, TOutput>(
+export function factorySDIVFPipeline<TInput, TOutput>(
   name: string,
-  config: SDIVSConfig<TInput, TOutput>
+  config: SDIVFConfig<TInput, TOutput>
 ): Pipeline<TInput, TOutput> {
   const maxIterations = config.maxIterations || 3;
   
@@ -81,8 +83,9 @@ export function factorySDIVSPipeline<TInput, TOutput>(
       await config.initialize(pipelineExec, input);
     }
     
-    // Store SDIVS metadata
-    pipelineExec.store('pipeline', 'pattern', 'SDIVS');
+    // Store SDIVF metadata
+    pipelineExec.store('pipeline', 'pattern', 'SDIVF');
+    pipelineExec.store('pipeline', 'phaseModel', 'Setup-[Discovery-Implementation-Validation]*-Finish');
     pipelineExec.store('pipeline', 'name', name);
     pipelineExec.store('pipeline', 'startTime', Date.now());
     pipelineExec.store('pipeline', 'maxIterations', maxIterations);
@@ -123,9 +126,9 @@ export function factorySDIVSPipeline<TInput, TOutput>(
       pipelineExec.store('phase', 'iteration', iterations);
       result = await config.validation(result, pipelineExec);
       
-      // Check if ready to ship
-      if (config.readyToShip) {
-        validationPassed = await config.readyToShip(result, pipelineExec);
+      // Check if ready to finish
+      if (config.readyToFinish) {
+        validationPassed = await config.readyToFinish(result, pipelineExec);
       } else {
         // Default: check if validation.passed is true
         validationPassed = pipelineExec.get('validation', 'passed') === true ||
@@ -155,13 +158,14 @@ export function factorySDIVSPipeline<TInput, TOutput>(
     // Check if we succeeded
     if (!validationPassed) {
       pipelineExec.store('pipeline', 'maxIterationsReached', true);
-      // Could throw or continue to shipping with partial results
+      // Could throw or continue to finish with partial results.
       // throw new Error(`Max iterations (${maxIterations}) reached without validation passing`);
     }
     
-    // ========== SHIPPING PHASE ==========
-    pipelineExec.store('phase', 'current', 'shipping');
-    const output = await config.shipping(result, pipelineExec);
+    // ========== FINISH PHASE ==========
+    pipelineExec.store('phase', 'current', 'finish');
+    pipelineExec.store('finish', 'responsibility', 'save-results-and-deliver-asset-packs');
+    const output = await config.finish(result, pipelineExec);
     
     // Store completion metadata
     pipelineExec.store('pipeline', 'endTime', Date.now());
@@ -174,15 +178,29 @@ export function factorySDIVSPipeline<TInput, TOutput>(
   };
 }
 
-// ==================== COMPOSED SDIVS EXECUTOR ====================
+/**
+ * Deprecated compatibility wrapper for old SDIVS callers.
+ */
+export function factorySDIVSPipeline<TInput, TOutput>(
+  name: string,
+  config: SDIVSConfig<TInput, TOutput>
+): Pipeline<TInput, TOutput> {
+  return factorySDIVFPipeline(name, {
+    ...config,
+    finish: config.shipping,
+    readyToFinish: config.readyToShip,
+  });
+}
 
-export interface SDIVSExecutorConfig<TInput = any, TOutput = any> {
+// ==================== COMPOSED SDIVF EXECUTOR ====================
+
+export interface SDIVFExecutorConfig<TInput = any, TOutput = any> {
   // Phase executors (already-resolved functions)
   setup: Executor<TInput, any>;
   discovery?: Executor<any, any>;
   implementation?: Executor<any, any>;
   validation?: Executor<any, any>;
-  shipping?: Executor<any, TOutput>;
+  finish?: Executor<any, TOutput>;
   // Loop controls
   maxIterations?: number; // default: 3
   // Optional preprocess/postprocess hooks
@@ -192,15 +210,19 @@ export interface SDIVSExecutorConfig<TInput = any, TOutput = any> {
   postprocess?: Executor<TOutput, TOutput>;
 }
 
+export interface SDIVSExecutorConfig<TInput = any, TOutput = any> extends Omit<SDIVFExecutorConfig<TInput, TOutput>, 'finish'> {
+  shipping?: Executor<any, TOutput>;
+}
+
 /**
- * factorySDIVSExecutorPipeline - Build a complete retained SDIVS reference
+ * factorySDIVFExecutorPipeline - Build a complete retained SDIVF reference
  * pipeline as a pure Executor using execution-generics composition. This mirrors the intended
- * [preprocess] -> Setup -> [Discovery → Implementation → Validation]* -> Shipping -> [postprocess]
+ * [preprocess] -> Setup -> [Discovery -> Implementation -> Validation]* -> Finish -> [postprocess]
  * pattern without requiring call-site abstractions.
  */
-export function factorySDIVSExecutorPipeline<TInput, TOutput>(
+export function factorySDIVFExecutorPipeline<TInput, TOutput>(
   name: string,
-  cfg: SDIVSExecutorConfig<TInput, TOutput>
+  cfg: SDIVFExecutorConfig<TInput, TOutput>
 ): Executor<TInput, TOutput> {
   const maxIter = cfg.maxIterations ?? 3;
 
@@ -212,7 +234,7 @@ export function factorySDIVSExecutorPipeline<TInput, TOutput>(
   const discovery = cfg.discovery ?? (async (x) => x);
   const implementation = cfg.implementation ?? (async (x) => x);
   const validation = cfg.validation ?? (async (x) => x);
-  const shipping = cfg.shipping ?? (async (x) => x as TOutput);
+  const finish = cfg.finish ?? (async (x) => x as TOutput);
 
   // DIV loop executor
   const div = sequential(discovery, implementation, validation);
@@ -247,9 +269,22 @@ export function factorySDIVSExecutorPipeline<TInput, TOutput>(
       }
       return current;
     },
-    shipping as any,
+    finish as any,
     postprocess as any
   ) as Executor<TInput, TOutput>;
 
   return pipelineExec;
+}
+
+/**
+ * Deprecated compatibility wrapper for old SDIVS executor callers.
+ */
+export function factorySDIVSExecutorPipeline<TInput, TOutput>(
+  name: string,
+  cfg: SDIVSExecutorConfig<TInput, TOutput>
+): Executor<TInput, TOutput> {
+  return factorySDIVFExecutorPipeline(name, {
+    ...cfg,
+    finish: cfg.shipping,
+  });
 }

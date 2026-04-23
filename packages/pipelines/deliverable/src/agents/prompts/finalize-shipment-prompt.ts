@@ -29,22 +29,22 @@ import { PROMPTPART_SPECIFIC_AGENT_DELIVERABLESHIPPINGFINALIZESHIPMENT_PTRRRETRY
 /**
  * @doc-comment-developing-promptdevelopment
  * domain: pipeline
- * intent: "Deliverables – FinalizeShipment agent prompt"
- * current_version: "GA1.50.0"
+ * intent: "Bitcode Finish compatibility prompt for finalizing saved AssetPack and delivery-mechanism evidence"
+ * current_version: "0.50.0"
  * dependencies: {
- *   "PROMPTPART_GENERIC_AGENT_FAILSAFE_PREPARE_CONTEXT": "GA1.50.0",
- *   "PROMPTPART_GENERIC_AGENT_GENERATION_JSON_ONLY_HEADER": "GA1.50.0",
- *   "PROMPTPART_GENERIC_AGENT_GENERATION_USE_THIS_STRUCTURED_SCHEMA": "GA1.50.0",
- *   "PROMPTPART_GENERIC_AGENT_GENERATION_REASON": "GA1.50.0",
- *   "PROMPTPART_GENERIC_AGENT_GENERATION_JUDGE": "GA1.50.0",
- *   "PROMPTPART_GENERIC_AGENT_GENERATION_STRUCTURED_OUTPUT": "GA1.50.0"
+ *   "PROMPTPART_GENERIC_AGENT_FAILSAFE_PREPARE_CONTEXT": "0.50.0",
+ *   "PROMPTPART_GENERIC_AGENT_GENERATION_JSON_ONLY_HEADER": "0.50.0",
+ *   "PROMPTPART_GENERIC_AGENT_GENERATION_USE_THIS_STRUCTURED_SCHEMA": "0.50.0",
+ *   "PROMPTPART_GENERIC_AGENT_GENERATION_REASON": "0.50.0",
+ *   "PROMPTPART_GENERIC_AGENT_GENERATION_JUDGE": "0.50.0",
+ *   "PROMPTPART_GENERIC_AGENT_GENERATION_STRUCTURED_OUTPUT": "0.50.0"
  * }
  * benchmarks: [
  *   { "name": "technical_accuracy", "test": "Concrete directives and purpose", "score": 0.46 },
  *   { "name": "implementation_ready", "test": "Usable by registry formatter", "score": 0.46 }
  * ]
  */
-export function createDeliverablesPipelineShippingPhaseFinalizeShipmentAgentPrompt(): Prompt {
+export function createDeliverablesPipelineFinishPhaseFinalizeAssetPackDeliveryEvidenceAgentPrompt(): Prompt {
   const prompt = new Prompt();
   
   // Agent identity and purpose
@@ -78,7 +78,7 @@ export function createDeliverablesPipelineShippingPhaseFinalizeShipmentAgentProm
 /**
  * Get step-specific prompts
  */
-export const DeliverablesPipelineShippingPhaseFinalizeShipmentAgentPromptSteps = {
+export const DeliverablesPipelineFinishPhaseFinalizeAssetPackDeliveryEvidenceAgentPromptSteps = {
   plan: () => {
     const prompt = new Prompt();
     prompt.set('step', PROMPTPART_SPECIFIC_AGENT_DELIVERABLESHIPPINGFINALIZESHIPMENT_PTRRPLAN_PURPOSE);
@@ -126,3 +126,17 @@ export const DeliverablesPipelineShippingPhaseFinalizeShipmentAgentPromptSteps =
     return prompt;
   }
 };
+
+/**
+ * @deprecated V26 compatibility alias for old Shipping/FinalizeShipment callers.
+ * Use createDeliverablesPipelineFinishPhaseFinalizeAssetPackDeliveryEvidenceAgentPrompt.
+ */
+export const createDeliverablesPipelineShippingPhaseFinalizeShipmentAgentPrompt =
+  createDeliverablesPipelineFinishPhaseFinalizeAssetPackDeliveryEvidenceAgentPrompt;
+
+/**
+ * @deprecated V26 compatibility alias for old Shipping/FinalizeShipment callers.
+ * Use DeliverablesPipelineFinishPhaseFinalizeAssetPackDeliveryEvidenceAgentPromptSteps.
+ */
+export const DeliverablesPipelineShippingPhaseFinalizeShipmentAgentPromptSteps =
+  DeliverablesPipelineFinishPhaseFinalizeAssetPackDeliveryEvidenceAgentPromptSteps;

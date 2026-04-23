@@ -25,8 +25,8 @@ import { PROMPTPART_SPECIFIC_AGENT_DELIVERABLESPIPELINE_CLONEVCSREPOSITORY_RETRY
 /**
  * @doc-comment-developing-promptdevelopment
  * domain: agent
- * intent: "Deliverables overlay prompts for VCS clone agent"
- * current_version: "GA1.50.0"
+ * intent: "Bitcode setup compatibility overlays for cloning repository context into the AssetPack execution workspace"
+ * current_version: "0.50.0"
   * benchmarks: [
  *   { "name": "technical_accuracy", "test": "Concrete directives and purpose", "score": 0.50 },
  *   { "name": "implementation_ready", "test": "Usable by registry formatter", "score": 0.50 }
