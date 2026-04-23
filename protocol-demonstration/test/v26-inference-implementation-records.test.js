@@ -91,6 +91,18 @@ test('V26 inference implementation registry binds records to canonical Bitcode s
   assert.match(recordsById['prompt-primitives'].promptImplementation.registryLayering, /raw_promptparts\/specific holds concrete Bitcode implementation PromptParts/u);
   assert.match(recordsById['asset-pack-synthesis-compatibility'].promptImplementation.registryLayering, /Generic PTRR and formatting PromptParts form base layers/u);
   assert.match(recordsById['asset-pack-synthesis-compatibility'].promptImplementation.registryLayering, /specific deliverable\/setup\/validation\/finish PromptParts implement Bitcode need/u);
+  assert.match(recordsById['asset-pack-synthesis-compatibility'].promptImplementation.rawPromptPartBoundary, /SYSTEMTEXTSEARCH PromptParts/u);
+  assert.match(recordsById['asset-pack-synthesis-compatibility'].toolImplementation.contract, /repository-evidence search tools are bounded grep-backed support/u);
+  assert.ok(
+    recordsById['asset-pack-synthesis-compatibility'].promptImplementation.owners.includes(
+      'packages/generic-tools/simple-system-text-search/src/prompts/BitcodeRepositoryEvidenceSearchDocCodeToolPrompt.ts'
+    )
+  );
+  assert.ok(
+    recordsById['asset-pack-synthesis-compatibility'].toolImplementation.owners.includes(
+      'packages/generic-tools/simple-system-text-search/src/index.ts'
+    )
+  );
   assert.deepEqual(recordsById['need-comprehension-compatibility'].toolImplementation.owners, [
     'packages/generic-tools/task-comprehension/src/AnalyzeNeedSemanticsTool.ts',
     'packages/generic-tools/task-comprehension/src/need-comprehension-primitives.ts',

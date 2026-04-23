@@ -1725,7 +1725,7 @@ test('active V26 auxillaries test ownership and retained examples use Bitcode na
   assert.match(figmaIntegrationSource, /Figma Integration for Bitcode/);
   assert.match(multimodalProcessingPackageSource, /Bitcode pipelines/);
   assert.match(multimodalProcessingReadmeSource, /Bitcode pipeline context/);
-  assert.match(systemGrepReadmeSource, /Bitcode platform/);
+  assert.match(systemGrepReadmeSource, /Bitcode repository-evidence search/);
   assert.match(genericVcsReadmeSource, /Bitcode pipeline/);
   assert.match(genericTaskComprehensionReadmeSource, /Bitcode's prompt primitives architecture/);
   assert.match(genericLspPurposeSource, /Bitcode LSP purpose composition for static Need measurement and AssetPack evidence/);
@@ -2799,8 +2799,9 @@ test('active V26 retained package surfaces use Bitcode naming instead of Engi na
 
   assert.match(genericRepositorySetupPackageSource, /Repository setup and analysis tools for Bitcode pipelines/);
   assert.match(genericRepositorySetupSource, /Bitcode's prompt primitives architecture/);
-  assert.match(genericSimpleSystemTextSearchSource, /Bitcode's grep-based recursive analysis engine/);
-  assert.match(genericSimpleSystemTextSearchReadmeSource, /Integration with Bitcode pipeline for comprehensive codebase analysis/);
+  assert.match(genericSimpleSystemTextSearchSource, /Bitcode repository-evidence search support/);
+  assert.match(genericSimpleSystemTextSearchReadmeSource, /Bitcode repository-evidence search support/);
+  assert.match(genericSimpleSystemTextSearchReadmeSource, /BitcodeRepositoryEvidenceSearchDocCodeToolPrompt/);
   assert.match(genericFilesMaintainingSource, /Bitcode written-asset file mutation support/);
   assert.match(genericFilesMaintainingSource, /proof-facing operation evidence/);
   assert.match(genericFilesMaintainingSource, /asset-pack synthesis runs/);

@@ -1,23 +1,26 @@
 /**
- * System text search and pattern matching with Bitcode's grep-based recursive analysis engine, regex pattern processing, and high-performance content discovery for comprehensive codebase intelligence gathering
- * 
- * @purpose System text search and pattern matching with Bitcode's grep-based recursive analysis engine, regex pattern processing, and high-performance content discovery for comprehensive codebase intelligence gathering
- * @capabilities Advanced grep-based recursive text search with regex pattern support, case-insensitive matching, result limiting, directory targeting, and comprehensive file content analysis for intelligent codebase discovery and pattern recognition
- * @specificity Generic
+ * Bitcode repository-evidence search support backed by the retained grep primitive.
+ *
+ * @purpose Need-directed repository evidence search for measurement, source-grounding, and asset-pack synthesis context inside Bitcode agentic runs.
+ * @capabilities Recursive grep-backed pattern search with bounded results, repository-root targeting, case-insensitive matching, and line-level evidence for written-asset planning.
+ * @specificity Admitted Bitcode support
  */
 
 import { Tool } from '@bitcode/tools-generics';
 import { simpleSystemTextSearch as _simpleSystemTextSearch } from '@bitcode/system-grep';
-import { SIMPLE_SYSTEM_TEXT_SEARCH_DOC_CODE_TOOL_PROMPT } from './prompts/SimpleSystemTextSearchDocCodeToolPrompt';
+import {
+  BITCODE_REPOSITORY_EVIDENCE_SEARCH_DOC_CODE_TOOL_PROMPT
+} from './prompts/BitcodeRepositoryEvidenceSearchDocCodeToolPrompt';
 
 /**
  * @doc-code-tool
- * @prompt SIMPLE_SYSTEM_TEXT_SEARCH_DOC_CODE_TOOL_PROMPT
+ * @prompt BITCODE_REPOSITORY_EVIDENCE_SEARCH_DOC_CODE_TOOL_PROMPT
+ * @compatibility simpleSystemTextSearch remains the stable callable wrapper for the retained grep-backed primitive.
  */
-class SimpleSystemTextSearchTool extends Tool<typeof _simpleSystemTextSearch> {
+class BitcodeRepositoryEvidenceSearchTool extends Tool<typeof _simpleSystemTextSearch> {
   use = _simpleSystemTextSearch;
 }
 
-export const simpleSystemTextSearch = new SimpleSystemTextSearchTool();
+export const simpleSystemTextSearch = new BitcodeRepositoryEvidenceSearchTool();
 
 export type SimpleSystemTextSearchToolFn = typeof simpleSystemTextSearch;

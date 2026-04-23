@@ -109,7 +109,7 @@ These corridors still consume prompt abstractions or raw promptparts, but they a
 | Corridor | Current owners | Current role |
 | --- | --- | --- |
 | Generic retained agents | `packages/generic-agents/*` including `jira-processor`, `web-search`, `web-researcher`, `danger-wall`, `ready-to-short-circuit` | reference-only/retained acceleration corridors; Jira remains reader-first need-ingestion/reference posture rather than live Bitcode product ownership |
-| Generic retained tools | `packages/generic-tools/*` including `mcps-tools/*`, `task-comprehension`, `lsp-query`, `web-search`, `vcs`, `use-computer`, `repository-setup` | retained prompt-bearing tool reservoirs and doc-code ports; `task-comprehension` is now a compatibility package whose active prompts and placeholder primitives are interpreted as Bitcode need-comprehension, written-asset, asset-pack, and shipping-wrapper analysis |
+| Generic retained tools | `packages/generic-tools/*` including `mcps-tools/*`, `task-comprehension`, `simple-system-text-search`, `lsp-query`, `web-search`, `vcs`, `use-computer`, `repository-setup` | retained prompt-bearing tool reservoirs and doc-code ports; `task-comprehension` is now a compatibility package whose active prompts and placeholder primitives are interpreted as Bitcode need-comprehension, written-asset, asset-pack, and shipping-wrapper analysis; `simple-system-text-search` is now admitted only as bounded repository-evidence search support for need measurement and asset-pack source-grounding |
 | ChatGPT-era prompt documentation | `packages/chatgptapp/src/prompts/*` | retained prompt documentation/reference corridor |
 | Prompt/doc-comment experimentation | `packages/generic-doc-comment-plugins/*`, `packages/doc-comment/examples/*`, `packages/prompts/src/developing/*` | experimental/reference prompt authoring and prompt-doc tooling; see `protocol-demonstration/V26_DOC_COMMENT_REFORM.md` for the V26 reform boundary |
 
@@ -140,6 +140,13 @@ Runtime JavaScript PromptPart carry-through must match the TypeScript content so
 The retained `packages/generic-tools/repository-setup` corridor is another package-level admissibility example:
 repository preparation is admitted only as support for Bitcode need understanding and written-asset synthesis, so active file-filtering contracts must resolve `expressedNeed` / `needDescription` before `taskDescription`, and `taskDescription` must be documented as a compatibility carrier rather than the owning semantic field.
 Its `RepositorySetupDocCodeToolPrompt` metadata must also be Bitcode-native and package-local, describing repository-preparation support rather than GA1-era repository-management lineage.
+
+The retained `packages/generic-tools/simple-system-text-search` corridor is admitted as Bitcode repository-evidence search support:
+the callable `simpleSystemTextSearch` and `SYSTEMTEXTSEARCH` raw PromptPart filenames remain compatibility surfaces, but active prompt ownership must move through `BitcodeRepositoryEvidenceSearchDocCodeToolPrompt`.
+Its DocCode prompt metadata must be `V26`, categorized as `repository-evidence-search`, and must state that grep output is line-level evidence for need measurement, source-grounding, proof inspection, and AssetPack planning.
+It must not present itself as broad codebase intelligence, generic task analysis, mutation authority, delivery authority, or proof completion by itself.
+The same TS/JS carry-through rule applies to its raw PromptParts: runtime `.js` PromptPart content must match the canonical TypeScript strings so injected tool descriptions cannot retain GA-era text.
+Its package manifest must directly declare `@bitcode/prompts` because the canonical prompt owner imports raw PromptParts rather than receiving them transitively through the tool primitive.
 
 The retained `packages/generic-tools/files-maintaining` corridor is admitted as written-asset mutation support for asset-pack synthesis:
 text editing, create, replace, delete, and transaction prompts may remain generic tool package surfaces, but their DocCode prompt metadata must describe Bitcode written-asset file mutation and proof-facing transaction evidence rather than generic file-system or GA1 lineage.

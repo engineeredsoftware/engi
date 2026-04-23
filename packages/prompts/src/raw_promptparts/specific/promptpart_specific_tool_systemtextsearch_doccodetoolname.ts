@@ -1,10 +1,10 @@
 /**
- * PROMPTPART: System Text Search Tool Name
+ * PROMPTPART: Bitcode Repository Evidence Search Tool Name
  * 
  * @doc-comment-developing-promptpartdevelopment
  * domain: tool
- * intent: "Tool name for system text search operations"
- * current_version: "GA1.50.0"
+ * intent: "Compatibility-named tool label for Bitcode repository-evidence search support"
+ * current_version: "V26"
  * versions: []
  * benchmarks: [
    { "name": "clarity", "test": "Does '{{content}}' clearly identify the tool?", "score": 0.50 },
@@ -12,12 +12,12 @@
    { "name": "descriptiveness", "test": "Does the name describe the tool's function?", "score": 0.50 }
  ]
  * 
- * @domain content-discovery
- * @intent Identifies the System Text Search tool for codebase analysis
- * @benchmarks v2.0.0 industrial language patterns
+ * @domain bitcode-repository-evidence-search
+ * @intent Identifies the retained grep-backed tool as Bitcode repository-evidence search support
+ * @benchmarks V26 Bitcode prompt-support specificity
  */
 
 import { PromptPart } from '../../parts/PromptPart';
 
 export const PROMPTPART_SPECIFIC_TOOL_SYSTEMTEXTSEARCH_DOCCODETOOLNAME: PromptPart = 
-  'System Text Search Tool' as PromptPart;
+  'Bitcode Repository Evidence Search Tool' as PromptPart;

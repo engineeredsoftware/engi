@@ -1,8 +1,8 @@
 /**
  * @doc-comment-developing-promptpartdevelopment
  * domain: tool
- * intent: "Describes structured output format for text search results with context information"
- * current_version: "GA1.50.0"
+ * intent: "Describes line-level repository evidence output for Bitcode inference support"
+ * current_version: "V26"
  * versions: []
  * benchmarks: [
  *   { "name": "output_completeness", "test": "Does '{{content}}' describe all possible search output formats? Rate 0-1", "score": 0.50 },
@@ -14,4 +14,4 @@
 import { PromptPart } from '../../parts/PromptPart';
 
 export const PROMPTPART_SPECIFIC_TOOL_SYSTEMTEXTSEARCH_DOCCODETOOLOUTPUT: PromptPart = 
-  'Array of search results containing: file path, line number, line content, and match context' as PromptPart;
+  'Array of repository evidence matches containing relative file path, zero-based line number, matched line text, and caller-selected evidence pattern context' as PromptPart;

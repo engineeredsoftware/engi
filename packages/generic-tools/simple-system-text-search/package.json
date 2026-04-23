@@ -5,6 +5,7 @@
   "main": "src/index.ts",
   "types": "src/index.ts",
   "dependencies": {
+    "@bitcode/prompts": "workspace:*",
     "@bitcode/tools-generics": "workspace:*",
     "@bitcode/simple-system-text-search": "workspace:*"
   }

@@ -848,11 +848,11 @@ Required closure posture:
   `protocol-demonstration/test/v26-active-product-naming.test.js`
   proof surface:
   fifth-gate retained package fixture/doc closure so Bitcode-facing ChatGPT App and Vercel fixture surfaces no longer present old-brand team/org/product strings
-- `packages/generic-tools/{repository-setup/package.json,repository-setup/src/index.ts,simple-system-text-search/src/index.ts,files-maintaining/src/index.ts,git-interactor/src/index.ts}`
+- `packages/generic-tools/{repository-setup/package.json,repository-setup/src/index.ts,simple-system-text-search/src/index.ts,simple-system-text-search/src/prompts/BitcodeRepositoryEvidenceSearchDocCodeToolPrompt.ts,files-maintaining/src/index.ts,git-interactor/src/index.ts}`
   test coverage:
   `protocol-demonstration/test/v26-active-product-naming.test.js`
   proof surface:
-  fifth-gate retained tool-package closure so active package metadata and doc-code teaching no longer present old-brand product identity
+  fifth-gate retained tool-package closure so active package metadata and doc-code teaching no longer present old-brand product identity, and so grep-backed search is admitted only as Bitcode repository-evidence support rather than broad codebase intelligence
 - `uapi/{config/features.ts,app/hero-client.tsx,app/(root)/components/MarketingScreenshotSection.tsx,styles/conversations.css,styles/orbital.css,components/base/bitcode/layout/footer.tsx,app/fill-gaps.tsx,tests/footerPublicShell.test.tsx}`
   test coverage:
   `uapi/tests/footerPublicShell.test.tsx`, targeted `next lint`, and `protocol-demonstration/test/v26-active-product-naming.test.js`

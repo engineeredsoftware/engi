@@ -1,4 +1,4 @@
-// Migrated from `uapi/lib/tools/simpleSystemTextSearch.ts`
+// Retained grep-backed primitive for Bitcode repository-evidence search support.
 
 // Server-side only helper – ensure this file never ends up in the browser
 import 'server-only';
@@ -7,7 +7,7 @@ import { exec } from 'child_process';
 import * as path from 'path';
 
 /**
- * Result item for a grep search
+ * Line-level repository evidence returned by a grep search.
  */
 export interface GrepMatch {
   file: string;
@@ -16,7 +16,9 @@ export interface GrepMatch {
 }
 
 /**
- * Executes a recursive grep search starting from `cwd` (defaults to repository root).
+ * Executes bounded recursive grep search starting from `cwd` (defaults to the process root).
+ * Callers use this as evidence collection for need measurement and asset-pack context,
+ * not as an independent product or inference owner.
  */
 export async function simpleSystemTextSearch(params: {
   pattern: string | string[];
@@ -72,4 +74,3 @@ export async function simpleSystemTextSearch(params: {
     });
   });
 }
-

@@ -373,16 +373,20 @@ export const V26_INFERENCE_IMPLEMENTATION_RECORDS = Object.freeze([
       owners: [
         'packages/pipelines/deliverable/src/agents/prompts/comprehend-need-prompt.ts',
         'packages/pipelines/deliverable/src/agents/prompts/deliverable-pipeline-comprehend-need-agent-prompts.ts',
-        'packages/pipelines/deliverable/scripts/render-prompts.ts'
+        'packages/pipelines/deliverable/scripts/render-prompts.ts',
+        'packages/generic-tools/simple-system-text-search/src/prompts/BitcodeRepositoryEvidenceSearchDocCodeToolPrompt.ts',
+        'packages/generic-tools/simple-system-text-search/src/prompts/SimpleSystemTextSearchDocCodeToolPrompt.ts'
       ],
-      rawPromptPartBoundary: 'COMPREHENDNEED and DELIVERABLESETUPCOMPREHENDNEED PromptParts before compatibility COMPREHENDTASK wrappers',
+      rawPromptPartBoundary: 'COMPREHENDNEED, DELIVERABLESETUPCOMPREHENDNEED, and compatibility-named SYSTEMTEXTSEARCH PromptParts before compatibility COMPREHENDTASK wrappers',
       registryLayering: 'Generic PTRR and formatting PromptParts form base layers while specific deliverable/setup/validation/finish PromptParts implement Bitcode need, written-asset, asset-pack, proof, and delivery-wrapper behavior through retained prompt registries.',
-      runtimeCarryThrough: 'Deliverable-corridor runtime promptparts must teach need-first asset-pack synthesis and shipping wrappers.'
+      runtimeCarryThrough: 'Deliverable-corridor and repository-evidence runtime promptparts must teach need-first asset-pack synthesis, source-grounding, and shipping wrappers.'
     },
     toolImplementation: {
       owners: [
         'packages/pipelines/deliverable/src/tools/DeliverablePipelineCloneVCSRepositoryTool.ts',
         'packages/pipelines/deliverable/src/tools/search.ts',
+        'packages/system-grep/src/index.ts',
+        'packages/generic-tools/simple-system-text-search/src/index.ts',
         'packages/generic-tools/files-maintaining/src/index.ts',
         'packages/generic-tools/files-maintaining/src/prompts/TextEditorDocCodeToolPrompt.ts',
         'packages/generic-tools/files-maintaining/src/prompts/CreateFileDocCodeToolPrompt.ts',
@@ -390,7 +394,7 @@ export const V26_INFERENCE_IMPLEMENTATION_RECORDS = Object.freeze([
         'packages/generic-tools/files-maintaining/src/prompts/DeleteFileDocCodeToolPrompt.ts',
         'packages/generic-tools/files-maintaining/src/prompts/tool-prompt-transaction-begin.ts'
       ],
-      contract: 'Retained VCS/PR/comment/review tools are shipping mechanisms on top of stable written assets; retained file-maintaining tools are written-asset mutation support and must expose Bitcode asset-pack semantics rather than generic file-system lineage.'
+      contract: 'Retained VCS/PR/comment/review tools are shipping mechanisms on top of stable written assets; retained repository-evidence search tools are bounded grep-backed support for need measurement and source-grounding; retained file-maintaining tools are written-asset mutation support and must expose Bitcode asset-pack semantics rather than generic file-system lineage.'
     },
     agentImplementation: {
       owners: [
@@ -426,6 +430,7 @@ export const V26_INFERENCE_IMPLEMENTATION_RECORDS = Object.freeze([
       'protocol-demonstration/V26_PIPELINE_FINISH_REFORM.md',
       'protocol-demonstration/test/v26-deliverable-reform.test.js',
       'protocol-demonstration/test/v26-pipeline-finish-reform.test.js',
+      'protocol-demonstration/test/v26-simple-system-text-search-compatibility.test.js',
       'packages/pipelines/deliverable/src/index.ts',
       'packages/pipelines/deliverable/src/phases/index.ts',
       'packages/pipelines/deliverable/src/phases/shipping.ts',
@@ -433,6 +438,21 @@ export const V26_INFERENCE_IMPLEMENTATION_RECORDS = Object.freeze([
       'packages/pipelines/deliverable/src/types/PipelineSchemas.ts',
       'packages/pipelines/deliverable/src/agents/prompts/comprehend-need-prompt.ts',
       'packages/pipelines/deliverable/src/agents/setup/deliverable-pipeline-comprehend-need-agent.ts',
+      'packages/system-grep/README.md',
+      'packages/system-grep/src/index.ts',
+      'packages/generic-tools/simple-system-text-search/package.json',
+      'packages/generic-tools/simple-system-text-search/README.md',
+      'packages/generic-tools/simple-system-text-search/src/index.ts',
+      'packages/generic-tools/simple-system-text-search/src/prompts/BitcodeRepositoryEvidenceSearchDocCodeToolPrompt.ts',
+      'packages/generic-tools/simple-system-text-search/src/prompts/SimpleSystemTextSearchDocCodeToolPrompt.ts',
+      'packages/prompts/src/raw_promptparts/specific/promptpart_specific_tool_systemtextsearch_doccodetoolname.ts',
+      'packages/prompts/src/raw_promptparts/specific/promptpart_specific_tool_systemtextsearch_doccodetoolpurpose.ts',
+      'packages/prompts/src/raw_promptparts/specific/promptpart_specific_tool_systemtextsearch_doccodetoolcapabilities.ts',
+      'packages/prompts/src/raw_promptparts/specific/promptpart_specific_tool_systemtextsearch_doccodetoolparameters.ts',
+      'packages/prompts/src/raw_promptparts/specific/promptpart_specific_tool_systemtextsearch_doccodetooloutput.ts',
+      'packages/prompts/src/raw_promptparts/specific/promptpart_specific_tool_systemtextsearch_doccodetoolexample1.ts',
+      'packages/prompts/src/raw_promptparts/specific/promptpart_specific_tool_systemtextsearch_doccodetoolexample2.ts',
+      'packages/prompts/src/raw_promptparts/specific/promptpart_specific_tool_systemtextsearch_doccodetoolexample3.ts',
       'packages/generic-tools/files-maintaining/README.md',
       'packages/generic-tools/files-maintaining/src/index.ts',
       'packages/generic-tools/files-maintaining/src/prompts/TextEditorDocCodeToolPrompt.ts',
