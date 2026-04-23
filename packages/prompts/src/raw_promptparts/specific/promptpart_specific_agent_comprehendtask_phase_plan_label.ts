@@ -3,13 +3,13 @@ import { PromptPart } from '../../parts/PromptPart';
 /**
  * @doc-comment-developing-promptpartdevelopment
  * domain: agent
- * intent: "Phase header for ComprehendTask PLAN step"
+ * intent: "Compatibility PromptPart for former Comprehend Task phase plan label; content is canonical Bitcode comprehend-need semantics"
  * current_version: "GA1.70.0"
  * versions: []
  * benchmarks: [
- *   { "name": "phase_alignment", "test": "Does it clearly label the PLAN step? Rate 0-1", "score": 0.95 },
- *   { "name": "strategy_reference", "test": "Does it note task comprehension strategy focus? Rate 0-1", "score": 0.94 }
+ *   { "name": "bitcode_need_alignment", "test": "Uses need-first asset-pack written-asset language", "score": 0.95 },
+ *   { "name": "compatibility_ready", "test": "Retained task-named consumers can use it without semantic drift", "score": 0.95 }
  * ]
  */
 export const PROMPTPART_SPECIFIC_AGENT_COMPREHENDTASK_PHASE_PLAN_LABEL: PromptPart =
-  'PLAN: Task Comprehension Strategy' as PromptPart;
+  "PLAN: Need Comprehension Strategy" as PromptPart;

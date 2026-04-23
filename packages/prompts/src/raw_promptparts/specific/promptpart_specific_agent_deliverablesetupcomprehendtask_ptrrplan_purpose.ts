@@ -1,26 +1,15 @@
-/**
- * @doc-comment-developing-promptpartdevelopment
- * domain: agent
- * intent: "Agent semantic unit: Deliverablesetupcomprehendtask Ptrrplan Purpose"
- * current_version: "GA1.50.0"
- * versions: []
- * benchmarks: [
- *   { "name": "technical_accuracy", "test": "Uses concrete technical language", "score": 0.50 },
- *   { "name": "implementation_ready", "test": "Provides clear actionable guidance", "score": 0.50 }
- * ]
- */
-
 import { PromptPart } from '../../parts/PromptPart';
 
 /**
  * @doc-comment-developing-promptpartdevelopment
  * domain: agent
- * intent: "PTRR plan step purpose for Comprehend Task agent"
+ * intent: "Compatibility PromptPart for the former deliverables setup comprehend-task PTRR plan purpose; content is canonical comprehend-need semantics."
  * current_version: "GA1.50.0"
  * versions: []
  * benchmarks: [
- *   { "name": "step_plan_clarity", "test": "Clear plan purpose?", "score": 0.95 }
+ *   { "name": "bitcode_need_semantics", "test": "Uses need-first asset-pack written-asset language", "score": 0.95 },
+ *   { "name": "compatibility_ready", "test": "Retained deliverable corridor can consume it without semantic drift", "score": 0.95 }
  * ]
  */
-export const PROMPTPART_SPECIFIC_AGENT_DELIVERABLESETUPCOMPREHENDTASK_PTRRPLAN_PURPOSE: PromptPart = 
-  'PTRR Plan Step: analyze context and create strategic approach for understand user requirements context and deliverable expectations' as PromptPart;
+export const PROMPTPART_SPECIFIC_AGENT_DELIVERABLESETUPCOMPREHENDTASK_PTRRPLAN_PURPOSE: PromptPart =
+  "PTRR Plan Step: inspect the expressed need, attachments, repository context, and shipping intent; plan how to derive need satisfaction criteria, written-asset type candidates, and asset-pack context." as PromptPart;

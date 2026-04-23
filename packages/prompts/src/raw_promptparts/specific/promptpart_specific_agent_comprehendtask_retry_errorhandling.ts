@@ -3,14 +3,13 @@ import { PromptPart } from '../../parts/PromptPart';
 /**
  * @doc-comment-developing-promptpartdevelopment
  * domain: agent
- * intent: "Define RETRY step error handling for Comprehend Task agent"
- * current_version: "GA1.50.0"
+ * intent: "Compatibility PromptPart for former Comprehend Task retry errorhandling; content is canonical Bitcode comprehend-need semantics"
+ * current_version: "GA1.70.0"
  * versions: []
  * benchmarks: [
- *   { "name": "error_categorization", "test": "Are comprehension errors categorized?", "score": 0.50 },
- *   { "name": "diagnostic_quality", "test": "Are error diagnostics helpful?", "score": 0.50 },
- *   { "name": "recovery_guidance", "test": "Does it provide recovery guidance?", "score": 0.50 }
+ *   { "name": "bitcode_need_alignment", "test": "Uses need-first asset-pack written-asset language", "score": 0.95 },
+ *   { "name": "compatibility_ready", "test": "Retained task-named consumers can use it without semantic drift", "score": 0.95 }
  * ]
  */
-export const PROMPTPART_SPECIFIC_AGENT_COMPREHENDTASK_RETRY_ERRORHANDLING: PromptPart = 
-  'Handle comprehension failures through: ambiguity isolation with specific clarification needs, contradiction resolution through priority rules, missing context identification with information requests, domain mismatch detection with expertise requirements, complexity overload mitigation through task decomposition, language barrier handling with terminology mapping' as PromptPart;
+export const PROMPTPART_SPECIFIC_AGENT_COMPREHENDTASK_RETRY_ERRORHANDLING: PromptPart =
+  "Handle need-comprehension failures through: isolating ambiguity, identifying missing context, detecting impossible or contradictory constraints, preserving partial understanding with confidence markers, and surfacing precise clarification requests before downstream synthesis." as PromptPart;

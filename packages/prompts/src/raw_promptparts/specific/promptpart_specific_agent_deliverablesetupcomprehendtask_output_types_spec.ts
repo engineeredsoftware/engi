@@ -3,15 +3,13 @@ import { PromptPart } from '../../parts/PromptPart';
 /**
  * @doc-comment-developing-promptpartdevelopment
  * domain: agent
- * intent: "Specify deliverable types output expectations for deliverables comprehend-task agent"
+ * intent: "Compatibility PromptPart for the former deliverables setup comprehend-task written-asset type output specification; content is canonical comprehend-need semantics."
  * current_version: "GA1.50.0"
- * versions: [
- *   { "version": "GA1.30.0", "score": 0.50, "content": "Return the type", "reason": "No mention of enum or multiple types" }
- * ]
+ * versions: []
  * benchmarks: [
- *   { "name": "technical_accuracy", "test": "Mentions enum-backed values, multiplicity?", "score": 0.50 },
- *   { "name": "implementation_ready", "test": "Clear mapping to enum and array?", "score": 0.50 }
+ *   { "name": "bitcode_need_semantics", "test": "Uses need-first asset-pack written-asset language", "score": 0.95 },
+ *   { "name": "compatibility_ready", "test": "Retained deliverable corridor can consume it without semantic drift", "score": 0.95 }
  * ]
  */
 export const PROMPTPART_SPECIFIC_AGENT_DELIVERABLESETUPCOMPREHENDTASK_OUTPUT_TYPES_SPEC: PromptPart =
-  'deliverable_types: Array of enum values [CodeChange | CodeChangeReview | DesignDocument | DesignDocumentReview] inferred from DoD wording' as PromptPart;
+  "written_asset_types: Array of enum values [CodeChange | CodeChangeReview | DesignDocument | DesignDocumentReview] inferred from need wording, attachments, and requested shipping wrapper; mirror these into compatibility deliverable_types while the retained schema remains active." as PromptPart;

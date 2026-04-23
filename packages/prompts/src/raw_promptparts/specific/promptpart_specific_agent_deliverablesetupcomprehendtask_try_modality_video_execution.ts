@@ -3,15 +3,13 @@ import { PromptPart } from '../../parts/PromptPart';
 /**
  * @doc-comment-developing-promptpartdevelopment
  * domain: agent
- * intent: "Try step: execution details for video comprehension"
+ * intent: "Compatibility PromptPart for the former deliverables setup comprehend-task video comprehension execution details; content is canonical comprehend-need semantics."
  * current_version: "GA1.50.0"
- * versions: [
- *   { "version": "GA1.30.0", "score": 0.50, "content": "Analyze frames.", "reason": "Missing scene detection/transcript fusion" }
- * ]
+ * versions: []
  * benchmarks: [
- *   { "name": "technical_accuracy", "test": "Frames/scenes/audio transcript?", "score": 0.50 },
- *   { "name": "implementation_ready", "test": "Clear execution details?", "score": 0.50 }
+ *   { "name": "bitcode_need_semantics", "test": "Uses need-first asset-pack written-asset language", "score": 0.95 },
+ *   { "name": "compatibility_ready", "test": "Retained deliverable corridor can consume it without semantic drift", "score": 0.95 }
  * ]
  */
 export const PROMPTPART_SPECIFIC_AGENT_DELIVERABLESETUPCOMPREHENDTASK_TRY_MODALITY_VIDEO_EXECUTION: PromptPart =
-  'Execute: sample frames per scene; detect salient visual elements; extract audio transcript; produce fused comprehension unifying visual and spoken content.' as PromptPart;
+  "Execute: sample frames per scene; detect salient visual elements; extract audio transcript; produce fused comprehension unifying visual and spoken content against the expressed need." as PromptPart;

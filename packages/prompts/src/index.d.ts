@@ -1,21 +1,23 @@
 /**
- * PROMPTS PACKAGE - REGISTRY-BASED PROMPT COMPOSITION
+ * BITCODE PROMPTS PACKAGE - CANONICAL INFERENCE PROMPT INFRASTRUCTURE
  *
- * This package provides the foundational prompt system for Bitcode:
- * - PromptPart: Branded string type for type-safe prompts
- * - Prompt: Registry-based prompt composition
- * - Formatters: Transform prompt registries to strings
- * - Primitives: Core prompt building blocks
+ * This package provides the public prompt primitives for Bitcode inference.
+ * It remains the foundational prompt system for Bitcode:
+ * - PromptPart: Branded string type for audited prompt fragments
+ * - Prompt: Registry-backed prompt composition for agents, tools, phases, and pipelines
+ * - PromptExecution: Execution-bound prompt registry carrier
+ * - Formatters: Pure transforms from prompt registries to model-ready strings
  *
  * version: 1.0.0
  * pattern: registry-composition
  * philosophy: "Prompts are the language through which intelligence flows"
  *
  * ARCHITECTURAL PRINCIPLES:
- * 1. Barrel Exports for PromptParts - Import PromptParts from package root
- * 2. Registry Pattern - Prompts compose through hierarchical registries
- * 3. Type Safety - PromptPart prevents string pollution
- * 4. Pure Functions - All formatters are pure transformations
+ * 1. Canonical root exports for public primitives only
+ * 2. Narrow promptpart imports for raw prompt assets unless a curated root re-export exists
+ * 3. Registry Pattern - Prompts compose through hierarchical registries
+ * 4. Type Safety - PromptPart prevents string pollution
+ * 5. Pure Functions - All formatters are pure transformations
  */
 export type { PromptPart } from './parts/PromptPart';
 export { createPromptPart, isPromptPart, EMPTY_PROMPT_PART } from './parts/PromptPart';
@@ -26,26 +28,29 @@ export type { PromptFormatter } from './prompt';
 /**
  * USAGE GUIDELINES:
  *
- * 1. For raw prompts, import directly:
- *    import { PROMPT_NAME } from '@bitcode/prompts';
+ * 1. For public primitives, import from the package root:
+ *    import { Prompt, createPromptPart, hierarchicalFormatter } from '@bitcode/prompts';
  *
- * 2. For prompt composition:
+ * 2. For raw PromptParts, prefer narrow subpath imports or an existing curated root re-export:
+ *    import { PROMPTPART_NAME } from '@bitcode/prompts/raw_promptparts/specific/...';
+ *
+ * 3. For prompt composition:
  *    const prompt = new Prompt();
  *    prompt.set('identity', createPromptPart('You are Bitcode.'));
  *
- * 3. For prompt-aware executions:
+ * 4. For prompt-aware executions:
  *    const execution = new PromptExecution('bitcode/run');
  *    execution.prompts.set('system:identity', createPromptPart('You are Bitcode.'));
  *
- * 4. For formatting:
+ * 5. For formatting:
  *    const formatted = prompt.format(hierarchicalFormatter);
  *
  * RAW PROMPT ORGANIZATION:
- * - /raw_promptparts/generic/: Domain-agnostic, reusable prompts
- * - /raw_promptparts/specific/: Pipeline and agent-specific prompts
+ * - /raw_promptparts/generic/: Domain-agnostic reusable inference prompts
+ * - /raw_promptparts/specific/: Pipeline, phase, agent, tool, and product prompts
  *
  * Each raw prompt file contains a single PromptPart with doc-promptpart metadata.
- * There are 500+ raw prompts - import only what you need!
+ * The raw catalog is large; import only the PromptParts needed by the active run.
  *
  * PUBLIC BOUNDARY RULE:
  * - Active inference packages must import PromptPart, Prompt, PromptExecution,
@@ -93,6 +98,9 @@ export { PROMPTPART_SPECIFIC_AGENT_DELIVERABLESPIPELINE_CLONEVCSREPOSITORY_REFIN
 export { PROMPTPART_SPECIFIC_AGENT_DELIVERABLESPIPELINE_CLONEVCSREPOSITORY_RETRY_LABEL } from './raw_promptparts/specific/promptpart_specific_agent_deliverablespipeline_clonevcsrepository_retry_label';
 export { PROMPTPART_SPECIFIC_AGENT_DELIVERABLESPIPELINE_CLONEVCSREPOSITORY_RETRY_DETAILS } from './raw_promptparts/specific/promptpart_specific_agent_deliverablespipeline_clonevcsrepository_retry_details';
 export { PROMPTPART_SPECIFIC_AGENT_COMPREHENDATTACHMENTS_PLAN_STRATEGY } from './raw_promptparts/specific/promptpart_specific_agent_comprehendattachments_plan_strategy';
+export { PROMPTPART_SPECIFIC_AGENT_DELIVERABLESETUPCOMPREHENDNEED_IDENTITY_DEFINITION } from './raw_promptparts/specific/promptpart_specific_agent_deliverablesetupcomprehendneed_identity_definition';
+export { PROMPTPART_SPECIFIC_AGENT_DELIVERABLESETUPCOMPREHENDNEED_PTRRPLAN_PURPOSE } from './raw_promptparts/specific/promptpart_specific_agent_deliverablesetupcomprehendneed_ptrrplan_purpose';
+export { PROMPTPART_SPECIFIC_AGENT_DELIVERABLESETUPCOMPREHENDNEED_PLAN_MODALITY_IMAGE_STRATEGY } from './raw_promptparts/specific/promptpart_specific_agent_deliverablesetupcomprehendneed_plan_modality_image_strategy';
 export { PROMPTPART_SPECIFIC_AGENT_DELIVERABLESETUPCOMPREHENDTASK_IDENTITY_DEFINITION } from './raw_promptparts/specific/promptpart_specific_agent_deliverablesetupcomprehendtask_identity_definition';
 export { PROMPTPART_SPECIFIC_AGENT_DELIVERABLESETUPCOMPREHENDTASK_PTRRPLAN_PURPOSE } from './raw_promptparts/specific/promptpart_specific_agent_deliverablesetupcomprehendtask_ptrrplan_purpose';
 export { PROMPTPART_SPECIFIC_AGENT_DELIVERABLESETUPCOMPREHENDTASK_PLAN_MODALITY_IMAGE_STRATEGY } from './raw_promptparts/specific/promptpart_specific_agent_deliverablesetupcomprehendtask_plan_modality_image_strategy';

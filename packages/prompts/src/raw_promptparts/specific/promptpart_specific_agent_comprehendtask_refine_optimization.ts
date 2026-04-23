@@ -3,14 +3,13 @@ import { PromptPart } from '../../parts/PromptPart';
 /**
  * @doc-comment-developing-promptpartdevelopment
  * domain: agent
- * intent: "Define REFINE step optimization for Comprehend Task agent"
- * current_version: "GA1.50.0"
+ * intent: "Compatibility PromptPart for former Comprehend Task refine optimization; content is canonical Bitcode comprehend-need semantics"
+ * current_version: "GA1.70.0"
  * versions: []
  * benchmarks: [
- *   { "name": "optimization_effectiveness", "test": "Does it optimize comprehension?", "score": 0.50 },
- *   { "name": "clarity_improvement", "test": "Does it improve understanding clarity?", "score": 0.50 },
- *   { "name": "ambiguity_reduction", "test": "Are ambiguities reduced?", "score": 0.50 }
+ *   { "name": "bitcode_need_alignment", "test": "Uses need-first asset-pack written-asset language", "score": 0.95 },
+ *   { "name": "compatibility_ready", "test": "Retained task-named consumers can use it without semantic drift", "score": 0.95 }
  * ]
  */
-export const PROMPTPART_SPECIFIC_AGENT_COMPREHENDTASK_REFINE_OPTIMIZATION: PromptPart = 
-  'Refine comprehension by: cross-referencing extracted requirements for consistency, resolving conflicting interpretations through context analysis, enriching specifications with domain knowledge, clarifying ambiguous terms using contextual hints, validating requirement completeness against templates, enhancing success criteria with measurable metrics' as PromptPart;
+export const PROMPTPART_SPECIFIC_AGENT_COMPREHENDTASK_REFINE_OPTIMIZATION: PromptPart =
+  "Refine need comprehension by: resolving conflicting interpretations, strengthening written-asset and asset-pack semantics, separating delivery wrapper details from primary need satisfaction, enriching missing domain context, and tightening measurable success criteria." as PromptPart;

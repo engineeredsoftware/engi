@@ -3,15 +3,13 @@ import { PromptPart } from '../../parts/PromptPart';
 /**
  * @doc-comment-developing-promptpartdevelopment
  * domain: agent
- * intent: "Specify DoD analysis output expectations for deliverables comprehend-task agent"
+ * intent: "Compatibility PromptPart for the former deliverables setup comprehend-task need satisfaction output specification; content is canonical comprehend-need semantics."
  * current_version: "GA1.50.0"
- * versions: [
- *   { "version": "GA1.30.0", "score": 0.50, "content": "Return a summary", "reason": "Too vague, missing required fields and format" }
- * ]
+ * versions: []
  * benchmarks: [
- *   { "name": "technical_accuracy", "test": "Explicit, minimal, implementable format?", "score": 0.50 },
- *   { "name": "implementation_ready", "test": "Actionable for LLM formatting?", "score": 0.50 }
+ *   { "name": "bitcode_need_semantics", "test": "Uses need-first asset-pack written-asset language", "score": 0.95 },
+ *   { "name": "compatibility_ready", "test": "Retained deliverable corridor can consume it without semantic drift", "score": 0.95 }
  * ]
  */
 export const PROMPTPART_SPECIFIC_AGENT_DELIVERABLESETUPCOMPREHENDTASK_OUTPUT_DODANALYSIS_SPEC: PromptPart =
-  'dod_analysis: concise analysis of the task/DoD covering intent, scope boundaries, implicit requirements, and key success conditions' as PromptPart;
+  "need_satisfaction_criteria: concise analysis of the expressed need covering intent, scope boundaries, implicit requirements, acceptance criteria, and key success conditions; mirror this into compatibility dod_analysis while the retained schema remains active." as PromptPart;

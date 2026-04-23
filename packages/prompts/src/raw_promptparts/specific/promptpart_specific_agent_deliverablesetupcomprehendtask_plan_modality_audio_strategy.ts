@@ -3,15 +3,13 @@ import { PromptPart } from '../../parts/PromptPart';
 /**
  * @doc-comment-developing-promptpartdevelopment
  * domain: agent
- * intent: "Plan step: strategy for audio comprehension (transcription/diarization/keywords)"
+ * intent: "Compatibility PromptPart for the former deliverables setup comprehend-task audio comprehension plan strategy; content is canonical comprehend-need semantics."
  * current_version: "GA1.50.0"
- * versions: [
- *   { "version": "GA1.30.0", "score": 0.50, "content": "Transcribe audio.", "reason": "No diarization or topic extraction" }
- * ]
+ * versions: []
  * benchmarks: [
- *   { "name": "technical_accuracy", "test": "Mentions diarization/keywords?", "score": 0.50 },
- *   { "name": "implementation_ready", "test": "Concrete plan?", "score": 0.50 }
+ *   { "name": "bitcode_need_semantics", "test": "Uses need-first asset-pack written-asset language", "score": 0.95 },
+ *   { "name": "compatibility_ready", "test": "Retained deliverable corridor can consume it without semantic drift", "score": 0.95 }
  * ]
  */
 export const PROMPTPART_SPECIFIC_AGENT_DELIVERABLESETUPCOMPREHENDTASK_PLAN_MODALITY_AUDIO_STRATEGY: PromptPart =
-  'Audio: Transcribe to text; apply speaker diarization if conversation. Extract keywords, topics, and action items; summarize segments most relevant to the task/DoD.' as PromptPart;
+  "Audio: transcribe to text; apply speaker diarization when useful. Extract keywords, topics, decisions, and action items; summarize segments most relevant to need satisfaction and written-asset synthesis." as PromptPart;

@@ -1,26 +1,15 @@
-/**
- * @doc-comment-developing-promptpartdevelopment
- * domain: auto
- * intent: "Agent semantic unit: Deliverablesetupcomprehendtask Ptrrrefine Purpose"
- * current_version: "GA1.50.0"
- * versions: []
- * benchmarks: [
- *   { "name": "technical_accuracy", "test": "Uses concrete technical language", "score": 0.50.50 },
- *   { "name": "implementation_ready", "test": "Provides clear actionable guidance", "score": 0.50.50 }
- * ]
- */
-
 import { PromptPart } from '../../parts/PromptPart';
 
 /**
  * @doc-comment-developing-promptpartdevelopment
  * domain: agent
- * intent: "PTRR refine step purpose for Comprehend Task agent"
+ * intent: "Compatibility PromptPart for the former deliverables setup comprehend-task PTRR refine purpose; content is canonical comprehend-need semantics."
  * current_version: "GA1.50.0"
  * versions: []
  * benchmarks: [
- *   { "name": "step_refine_clarity", "test": "Clear refine purpose?", "score": 0.50.95 }
+ *   { "name": "bitcode_need_semantics", "test": "Uses need-first asset-pack written-asset language", "score": 0.95 },
+ *   { "name": "compatibility_ready", "test": "Retained deliverable corridor can consume it without semantic drift", "score": 0.95 }
  * ]
  */
-export const PROMPTPART_SPECIFIC_AGENT_DELIVERABLESETUPCOMPREHENDTASK_PTRRREFINE_PURPOSE: PromptPart = 
-  'PTRR Refine Step: improve results based on validation feedback for understand user requirements context and deliverable expectations' as PromptPart;
+export const PROMPTPART_SPECIFIC_AGENT_DELIVERABLESETUPCOMPREHENDTASK_PTRRREFINE_PURPOSE: PromptPart =
+  "PTRR Refine Step: improve the need model by resolving ambiguity, tightening satisfaction criteria, checking attachment comprehension, and ensuring written-asset expectations remain distinct from shipping wrappers." as PromptPart;

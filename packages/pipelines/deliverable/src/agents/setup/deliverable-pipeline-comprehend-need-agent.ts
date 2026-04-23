@@ -34,7 +34,12 @@ const ComprehendNeedInputSchema = z.object({
 });
 
 const ComprehendNeedOutputSchema = z.object({
-  // GA-1 minimal final output fields (primary contract)
+  // V26 semantic fields. Compatibility fields remain while this retained
+  // corridor still serves old callers.
+  need_satisfaction_criteria: z.string().optional().describe('Need-first analysis of intent, scope, acceptance shape, and success conditions'),
+  written_asset_types: z.array(DeliverableTypeEnum).default([]).describe('Canonical written-asset classifications inferred from the need'),
+
+  // GA-1 minimal compatibility fields
   dod_analysis: z.string().optional().describe('Compatibility field for concise analysis of the expressed need'),
   comprehended_multimodal_attachments: z.array(z.object({
     name: z.string().optional(),
@@ -150,7 +155,9 @@ export const DeliverablePipelineComprehendNeedAgent = factoryAgentWithPTRR<
 export async function runComprehendNeedAgent(input: any, execution: any) {
   const out = await DeliverablePipelineComprehendNeedAgent(input, execution);
   try {
-    const types = Array.isArray(out?.deliverable_types)
+    const types = Array.isArray(out?.written_asset_types) && out?.written_asset_types.length
+      ? out?.written_asset_types
+      : Array.isArray(out?.deliverable_types)
       ? out?.deliverable_types
       : (Array.isArray(out?.deliverableType) ? out?.deliverableType : (out?.deliverableType ? [out?.deliverableType] : []));
     if (types && types.length) {
@@ -160,7 +167,11 @@ export async function runComprehendNeedAgent(input: any, execution: any) {
       execution.store('setup/written-asset-type', 'type', types);
     }
 
-    if (out?.dod_analysis) execution.store('setup/dod', 'analysis', out.dod_analysis);
+    const needSatisfactionCriteria = out?.need_satisfaction_criteria || out?.dod_analysis;
+    if (needSatisfactionCriteria) {
+      execution.store('setup/need', 'satisfactionCriteria', needSatisfactionCriteria);
+      execution.store('setup/dod', 'analysis', needSatisfactionCriteria);
+    }
     if (out?.comprehension) {
       execution.store('setup/dod', 'comprehension', out.comprehension);
       execution.store('setup/task', 'comprehension', out.comprehension);

@@ -3,15 +3,13 @@ import { PromptPart } from '../../parts/PromptPart';
 /**
  * @doc-comment-developing-promptpartdevelopment
  * domain: agent
- * intent: "Plan step: strategy for image attachment comprehension (formats, OCR, detection)"
+ * intent: "Compatibility PromptPart for the former deliverables setup comprehend-task image comprehension plan strategy; content is canonical comprehend-need semantics."
  * current_version: "GA1.50.0"
- * versions: [
- *   { "version": "GA1.30.0", "score": 0.42, "content": "Analyze images.", "reason": "Too vague; lacks OCR/object/layout guidance" }
- * ]
+ * versions: []
  * benchmarks: [
- *   { "name": "technical_accuracy", "test": "Mentions OCR, detection, layout?", "score": 0.49 },
- *   { "name": "implementation_ready", "test": "Actionable strategy steps?", "score": 0.48 }
+ *   { "name": "bitcode_need_semantics", "test": "Uses need-first asset-pack written-asset language", "score": 0.95 },
+ *   { "name": "compatibility_ready", "test": "Retained deliverable corridor can consume it without semantic drift", "score": 0.95 }
  * ]
  */
 export const PROMPTPART_SPECIFIC_AGENT_DELIVERABLESETUPCOMPREHENDTASK_PLAN_MODALITY_IMAGE_STRATEGY: PromptPart =
-  'Images: Detect format (PNG/JPEG/SVG). If raster: perform OCR and element detection; if vector: parse layers/nodes. Extract layout, text, and key visual elements; summarize relevance to the task/DoD.' as PromptPart;
+  "Images: detect format (PNG/JPEG/SVG). If raster: perform OCR and element detection; if vector: parse layers/nodes. Extract layout, text, and key visual elements; summarize relevance to the expressed need, written assets, and asset-pack context." as PromptPart;

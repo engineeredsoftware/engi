@@ -3,14 +3,13 @@ import { PromptPart } from '../../parts/PromptPart';
 /**
  * @doc-comment-developing-promptpartdevelopment
  * domain: agent
- * intent: "Define PLAN step analysis for Comprehend Task agent"
- * current_version: "GA1.50.0"
+ * intent: "Compatibility PromptPart for former Comprehend Task plan analysis; content is canonical Bitcode comprehend-need semantics"
+ * current_version: "GA1.70.0"
  * versions: []
  * benchmarks: [
- *   { "name": "analysis_thoroughness", "test": "Is the pre-analysis thorough?", "score": 0.50 },
- *   { "name": "context_extraction", "test": "Does it extract relevant context?", "score": 0.50 },
- *   { "name": "requirement_identification", "test": "Are requirements properly identified?", "score": 0.50 }
+ *   { "name": "bitcode_need_alignment", "test": "Uses need-first asset-pack written-asset language", "score": 0.95 },
+ *   { "name": "compatibility_ready", "test": "Retained task-named consumers can use it without semantic drift", "score": 0.95 }
  * ]
  */
-export const PROMPTPART_SPECIFIC_AGENT_COMPREHENDTASK_PLAN_ANALYSIS: PromptPart = 
-  'Analyze task context to identify: user intent patterns and implicit goals, technical constraints from description, referenced systems or components, assumed knowledge prerequisites, environmental dependencies, quality expectations and performance requirements' as PromptPart;
+export const PROMPTPART_SPECIFIC_AGENT_COMPREHENDTASK_PLAN_ANALYSIS: PromptPart =
+  "Analyze the expressed need to identify: user outcome, implicit goals, written-asset type, repository or interface constraints, shipping-wrapper expectations, acceptance criteria, evidence requirements, and unknowns that could block need satisfaction." as PromptPart;

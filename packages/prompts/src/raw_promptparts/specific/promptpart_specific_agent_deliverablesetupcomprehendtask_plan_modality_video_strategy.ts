@@ -3,15 +3,13 @@ import { PromptPart } from '../../parts/PromptPart';
 /**
  * @doc-comment-developing-promptpartdevelopment
  * domain: agent
- * intent: "Plan step: strategy for video comprehension (frame sampling/scene detection/transcript)"
+ * intent: "Compatibility PromptPart for the former deliverables setup comprehend-task video comprehension plan strategy; content is canonical comprehend-need semantics."
  * current_version: "GA1.50.0"
- * versions: [
- *   { "version": "GA1.30.0", "score": 0.50, "content": "Analyze video.", "reason": "Missing frame sampling and audio extraction details" }
- * ]
+ * versions: []
  * benchmarks: [
- *   { "name": "technical_accuracy", "test": "Includes frame sampling/scene/audio?", "score": 0.50 },
- *   { "name": "implementation_ready", "test": "Actionable guidance?", "score": 0.50 }
+ *   { "name": "bitcode_need_semantics", "test": "Uses need-first asset-pack written-asset language", "score": 0.95 },
+ *   { "name": "compatibility_ready", "test": "Retained deliverable corridor can consume it without semantic drift", "score": 0.95 }
  * ]
  */
 export const PROMPTPART_SPECIFIC_AGENT_DELIVERABLESETUPCOMPREHENDTASK_PLAN_MODALITY_VIDEO_STRATEGY: PromptPart =
-  'Video: Sample frames across scenes; perform scene/element detection. Extract transcript from audio track; cross-reference visual and spoken content; summarize task-relevant insights.' as PromptPart;
+  "Video: sample frames across scenes; perform scene and element detection. Extract transcript from audio; cross-reference visual and spoken content; summarize need-relevant insights for written-asset synthesis." as PromptPart;

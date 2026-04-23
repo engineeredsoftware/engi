@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { readFileSync } from 'node:fs';
+import { readFileSync, readdirSync } from 'node:fs';
 
 const reformSource = readFileSync(new URL('../V26_DELIVERABLE_REFORM.md', import.meta.url), 'utf8');
 const pipelineSchemasSource = readFileSync(
@@ -25,6 +25,22 @@ const comprehendNeedAliasSource = readFileSync(
 );
 const comprehendNeedPromptSource = readFileSync(
   new URL('../../packages/pipelines/deliverable/src/agents/prompts/deliverable-pipeline-comprehend-need-agent-prompts.ts', import.meta.url),
+  'utf8'
+);
+const comprehendTaskOverlayCompatibilitySource = readFileSync(
+  new URL('../../packages/pipelines/deliverable/src/agents/prompts/deliverable-pipeline-comprehend-task-agent-prompts.ts', import.meta.url),
+  'utf8'
+);
+const comprehendNeedBasePromptSource = readFileSync(
+  new URL('../../packages/pipelines/deliverable/src/agents/prompts/comprehend-need-prompt.ts', import.meta.url),
+  'utf8'
+);
+const comprehendTaskBaseCompatibilitySource = readFileSync(
+  new URL('../../packages/pipelines/deliverable/src/agents/prompts/comprehend-task-prompt.ts', import.meta.url),
+  'utf8'
+);
+const comprehendNeedRawIdentityPromptSource = readFileSync(
+  new URL('../../packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_comprehendneed_system_identity.ts', import.meta.url),
   'utf8'
 );
 const semanticResolutionSource = readFileSync(
@@ -155,6 +171,14 @@ const setupComprehendTaskIdentityPromptSource = readFileSync(
   new URL('../../packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_deliverablesetupcomprehendtask_identity_definition.ts', import.meta.url),
   'utf8'
 );
+const setupComprehendNeedPurposePromptSource = readFileSync(
+  new URL('../../packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_deliverablesetupcomprehendneed_purpose_corestatement.ts', import.meta.url),
+  'utf8'
+);
+const setupComprehendNeedIdentityPromptSource = readFileSync(
+  new URL('../../packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_deliverablesetupcomprehendneed_identity_definition.ts', import.meta.url),
+  'utf8'
+);
 const finalizeShipmentPurposePromptSource = readFileSync(
   new URL('../../packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_deliverableshippingfinalizeshipment_purpose_corestatement.ts', import.meta.url),
   'utf8'
@@ -263,6 +287,85 @@ const readyToShipCodeChangeReviewPlanPromptSource = readFileSync(
   new URL('../../packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_readytoshipcodechangereview_plan_strategy.ts', import.meta.url),
   'utf8'
 );
+const promptPackageIndexSource = readFileSync(
+  new URL('../../packages/prompts/src/index.ts', import.meta.url),
+  'utf8'
+);
+const promptPackageTypesSource = readFileSync(
+  new URL('../../packages/prompts/src/index.d.ts', import.meta.url),
+  'utf8'
+);
+const promptPackageRuntimeSource = readFileSync(
+  new URL('../../packages/prompts/src/index.js', import.meta.url),
+  'utf8'
+);
+const reformedRuntimePromptJsSources = [
+  '../../packages/prompts/src/raw_promptparts/specific/promptpart_specific_deliverables_system_base.js',
+  '../../packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_createcodechange_system_instructions.js',
+  '../../packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_readytoship_system_identity.js',
+  '../../packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_readytoshipcodechange_system_instructions.js',
+  '../../packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_readytoshipcodechangereview_system_instructions.js',
+].map((relativePath) => readFileSync(new URL(relativePath, import.meta.url), 'utf8'));
+
+const rawPromptPartDirs = [
+  '../../packages/prompts/src/raw_promptparts/specific/',
+  '../../packages/prompts/src/raw_promptparts/generic/',
+].map((relativePath) => new URL(relativePath, import.meta.url));
+
+const exportNamePattern = /export const ([A-Za-z0-9_]+)(?:: PromptPart)?\s*=/m;
+
+function unescapePromptLiteral(value, quote) {
+  if (quote === '`') return value;
+
+  return value
+    .replace(/\\n/g, '\n')
+    .replace(/\\r/g, '\r')
+    .replace(/\\t/g, '\t')
+    .replace(/\\'/g, "'")
+    .replace(/\\"/g, '"')
+    .replace(/\\\\/g, '\\');
+}
+
+function extractFirstPromptLiteral(source, offset) {
+  for (let index = offset; index < source.length; index += 1) {
+    const quote = source[index];
+    if (quote !== '`' && quote !== "'" && quote !== '"') continue;
+
+    let content = '';
+    for (let cursor = index + 1; cursor < source.length; cursor += 1) {
+      const character = source[cursor];
+      if (character === '\\') {
+        content += character;
+        cursor += 1;
+        if (cursor < source.length) content += source[cursor];
+        continue;
+      }
+      if (character === quote) {
+        return unescapePromptLiteral(content, quote);
+      }
+      content += character;
+    }
+  }
+
+  return null;
+}
+
+function extractTsPromptPart(source) {
+  const match = source.match(exportNamePattern);
+  if (!match || match.index === undefined) return null;
+
+  return {
+    name: match[1],
+    content: extractFirstPromptLiteral(source, match.index + match[0].length),
+  };
+}
+
+function extractJsPromptPart(source, name) {
+  const assignment = new RegExp(`exports\\.${name}\\s*=(?!\\s*void\\s+0)`, 'm').exec(source);
+  if (!assignment || assignment.index === undefined) return null;
+
+  return extractFirstPromptLiteral(source, assignment.index + assignment[0].length);
+}
 
 test('V26 deliverable reform supplement requires semantic mirrors beyond retained compatibility naming', () => {
   assert.match(reformSource, /`deliverable` survives only as a retained compatibility path\/name/u);
@@ -314,8 +417,24 @@ test('deliverable postprocess and shipping summary carry asset-pack written-asse
 test('setup comprehension path mirrors semantic need and written-asset keys for downstream phases', () => {
   assert.match(comprehendNeedSource, /name: 'deliverable-pipeline-comprehend-need-agent'/u);
   assert.match(comprehendNeedSource, /deliverable-pipeline-comprehend-need-agent-prompts/u);
+  assert.match(comprehendNeedSource, /need_satisfaction_criteria/u);
+  assert.match(comprehendNeedSource, /written_asset_types/u);
   assert.match(comprehendNeedAliasSource, /deliverable-pipeline-comprehend-need-agent/u);
-  assert.match(comprehendNeedPromptSource, /export \* from '\.\/deliverable-pipeline-comprehend-task-agent-prompts';/u);
+  assert.match(comprehendNeedPromptSource, /DP_COMPREHEND_NEED_SYSTEM_PROMPT/u);
+  assert.match(comprehendNeedPromptSource, /PROMPTPART_SPECIFIC_AGENT_DELIVERABLESETUPCOMPREHENDNEED_IDENTITY_DEFINITION/u);
+  assert.doesNotMatch(comprehendNeedPromptSource, /PROMPTPART_SPECIFIC_AGENT_DELIVERABLESETUPCOMPREHENDTASK_IDENTITY_DEFINITION/u);
+  assert.match(comprehendNeedPromptSource, /pipeline:compatibility/u);
+  assert.match(comprehendNeedPromptSource, /asset-pack-written-asset/u);
+  assert.match(comprehendNeedPromptSource, /DP_COMPREHEND_TASK_SYSTEM_PROMPT = DP_COMPREHEND_NEED_SYSTEM_PROMPT/u);
+  assert.match(comprehendTaskOverlayCompatibilitySource, /Compatibility entry point for the former task-named deliverable setup overlay/u);
+  assert.match(comprehendTaskOverlayCompatibilitySource, /export \* from '\.\/deliverable-pipeline-comprehend-need-agent-prompts';/u);
+  assert.match(comprehendNeedBasePromptSource, /createComprehendNeedSystemPrompt/u);
+  assert.match(comprehendNeedBasePromptSource, /PROMPTPART_SPECIFIC_AGENT_COMPREHENDNEED_SYSTEM_IDENTITY/u);
+  assert.match(comprehendNeedBasePromptSource, /ComprehendTaskPrompts = ComprehendNeedPrompts/u);
+  assert.match(comprehendTaskBaseCompatibilitySource, /Compatibility entry point for the former task-named prompt module/u);
+  assert.match(comprehendTaskBaseCompatibilitySource, /export \* from '\.\/comprehend-need-prompt';/u);
+  assert.match(comprehendNeedRawIdentityPromptSource, /Bitcode Comprehend Need Agent/u);
+  assert.match(comprehendNeedRawIdentityPromptSource, /asset-pack synthesis and connected-interface shipping/u);
   assert.match(setupPhaseSource, /deliverable-pipeline-comprehend-need-agent/u);
   assert.match(preprocessSource, /deliverable-pipeline-comprehend-need-agent/u);
   assert.match(preprocessSource, /new PipelinePromptRegistry/u);
@@ -323,6 +442,7 @@ test('setup comprehension path mirrors semantic need and written-asset keys for 
   assert.match(preprocessSource, /new PipelineAgentRegistry/u);
   assert.match(comprehendNeedSource, /execution\.store\('setup', 'writtenAssetType', types\);/u);
   assert.match(comprehendNeedSource, /execution\.store\('setup\/written-asset-type', 'type', types\);/u);
+  assert.match(comprehendNeedSource, /execution\.store\('setup\/need', 'satisfactionCriteria', needSatisfactionCriteria\);/u);
   assert.match(comprehendNeedSource, /execution\.store\('setup\/need', 'comprehension', out\.comprehension\);/u);
   assert.match(comprehendNeedSource, /execution\.store\('setup\/need', 'entities', out\.entities\);/u);
 });
@@ -411,8 +531,12 @@ test('retained templates and promptparts keep compatibility names but teach asse
   assert.match(phaseImplementationPurposePromptSource, /Synthesize written assets using VCS-compatible operations/u);
   assert.match(phaseValidationPurposePromptSource, /verify need satisfaction and written-asset integrity/u);
   assert.match(phaseShippingPurposePromptSource, /Emit connected-interface delivery mechanisms for validated written assets/u);
-  assert.match(setupComprehendTaskPurposePromptSource, /Interpret the expressed need to extract constraints, satisfaction criteria, shipping expectations/u);
-  assert.match(setupComprehendTaskIdentityPromptSource, /Bitcode need, satisfaction, and shipping expectations/u);
+  assert.match(setupComprehendNeedPurposePromptSource, /written-asset expectations, shipping-wrapper expectations, asset-pack context/u);
+  assert.match(setupComprehendNeedIdentityPromptSource, /Bitcode need, satisfaction criteria, written-asset expectations, asset-pack context/u);
+  assert.match(setupComprehendTaskPurposePromptSource, /Compatibility PromptPart for the former deliverables setup comprehend-task/u);
+  assert.match(setupComprehendTaskPurposePromptSource, /written-asset expectations, shipping-wrapper expectations, asset-pack context/u);
+  assert.match(setupComprehendTaskIdentityPromptSource, /Compatibility PromptPart for the former deliverables setup comprehend-task/u);
+  assert.match(setupComprehendTaskIdentityPromptSource, /Bitcode need, satisfaction criteria, written-asset expectations, asset-pack context/u);
   assert.match(finalizeShipmentPurposePromptSource, /finalize shipping delivery mechanisms for validated written assets/u);
   assert.match(finalizeShipmentIdentityPromptSource, /finalizing shipping delivery mechanisms for validated written assets/u);
   assert.match(deliverablesSystemBasePromptSource, /satisfy an expressed need by synthesizing stable written assets \/ asset-packs/u);
@@ -441,4 +565,74 @@ test('retained templates and promptparts keep compatibility names but teach asse
   assert.match(readyToShipCodeChangeReviewIdentityPromptSource, /final validation of review readiness for code written assets/u);
   assert.match(readyToShipCodeChangeReviewInstructionsPromptSource, /written assets and the shipping wrapper remain coherent/u);
   assert.match(readyToShipCodeChangeReviewPlanPromptSource, /written-asset coherence checks/u);
+});
+
+test('raw promptpart runtime JavaScript carries canonical TypeScript PromptPart content', () => {
+  const mismatches = [];
+  const missingRuntimeFiles = [];
+  const skippedNonPromptPartFiles = [];
+  let checkedPromptParts = 0;
+
+  for (const directoryUrl of rawPromptPartDirs) {
+    for (const filename of readdirSync(directoryUrl).sort()) {
+      if (!filename.endsWith('.ts') || filename.endsWith('.d.ts')) continue;
+
+      const sourceUrl = new URL(filename, directoryUrl);
+      const sourceText = readFileSync(sourceUrl, 'utf8');
+      const promptPart = extractTsPromptPart(sourceText);
+      if (!promptPart) {
+        skippedNonPromptPartFiles.push(filename);
+        continue;
+      }
+      assert.ok(promptPart.content, `${filename} should expose literal PromptPart content`);
+
+      const runtimeUrl = new URL(filename.replace(/\.ts$/u, '.js'), directoryUrl);
+      let runtimeText = '';
+      try {
+        runtimeText = readFileSync(runtimeUrl, 'utf8');
+      } catch {
+        missingRuntimeFiles.push(runtimeUrl.pathname);
+        continue;
+      }
+
+      const runtimeContent = extractJsPromptPart(runtimeText, promptPart.name);
+      if (runtimeContent !== promptPart.content) {
+        mismatches.push(runtimeUrl.pathname);
+      } else {
+        checkedPromptParts += 1;
+      }
+    }
+  }
+
+  assert.deepEqual(missingRuntimeFiles, []);
+  assert.deepEqual(mismatches, []);
+  assert.deepEqual(skippedNonPromptPartFiles, ['index.ts', 'index.ts']);
+  assert.ok(checkedPromptParts >= 1700, `expected broad promptpart carry-through coverage, checked ${checkedPromptParts}`);
+});
+
+test('reformed runtime promptpart JavaScript teaches Bitcode written-asset shipping semantics', () => {
+  const runtimePromptText = reformedRuntimePromptJsSources.join('\n');
+
+  assert.match(runtimePromptText, /retained Bitcode deliverable-compatibility pipeline AI system/u);
+  assert.match(runtimePromptText, /written assets \/ asset-packs/u);
+  assert.match(runtimePromptText, /Create a pull request shipping wrapper by leveraging full execution context/u);
+  assert.match(runtimePromptText, /final readiness orchestration for validated written assets/u);
+  assert.match(runtimePromptText, /pull request shipping-wrapper emission/u);
+  assert.match(runtimePromptText, /written assets and the shipping wrapper remain coherent/u);
+});
+
+test('prompt package public boundary documentation reflects canonical Bitcode prompt infrastructure', () => {
+  const promptPackageSurface = [
+    promptPackageIndexSource,
+    promptPackageTypesSource,
+    promptPackageRuntimeSource,
+  ].join('\n');
+
+  assert.match(promptPackageSurface, /CANONICAL INFERENCE PROMPT INFRASTRUCTURE/u);
+  assert.match(promptPackageSurface, /PromptExecution: Execution-bound prompt registry carrier/u);
+  assert.match(promptPackageSurface, /Canonical root exports for public primitives only/u);
+  assert.match(promptPackageSurface, /Narrow promptpart imports for raw prompt assets/u);
+  assert.match(promptPackageSurface, /curated compatibility surface, not the default import style/u);
+  assert.doesNotMatch(promptPackageSurface, /Barrel Exports for PromptParts - Import PromptParts from package root/u);
+  assert.doesNotMatch(promptPackageSurface, /There are 500\+ raw prompts/u);
 });

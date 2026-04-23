@@ -44,6 +44,7 @@ Operational rules:
 - support primitives that prompt/doc-code runtime carriers depend on, including `@bitcode/registry`, `@bitcode/execution-generics/{Execution,prompts/ExecutionPrompt}`, `@bitcode/doc-comment/{base-plugin,types}`, `@bitcode/doc-code`, and `@bitcode/tools-generics`, must expose honest source-backed public package subpaths and direct dependency declarations rather than relying on repo-relative cross-package imports
 - prompt-bearing runtime carriers and adjacent execution/phase/diagnostic carriers that only need the base execution tree must stay loadable without dragging the full execution storage/logging stack through a broad execution barrel
 - raw promptparts may stay explicit and file-granular, but route-local ad hoc strings may not silently replace prompt-owned product logic
+- raw promptpart TypeScript sources and runtime JavaScript carry-through files must stay content-equivalent so commercial runtime imports cannot silently use old prompt text after the canonical TS prompt has been reformed
 - prompt behavior that remains old-world, experimental, or pre-Bitcode may survive only as reference-only or auxiliary-input corridors
 - the base `doc-comment` primitive plus `doc-code` tool prompt injection may remain admitted support/compatibility infrastructure where Bitcode still needs build-time prompt attachment for tool runs, but `generic-doc-comment-plugins`, `doc-comment` examples, and prompt-package developing experiments remain reference-only reform material under `protocol-demonstration/V26_DOC_COMMENT_REFORM.md`; package docs in those corridors must not present prompt-package internal paths as public consumer APIs
 
@@ -102,7 +103,8 @@ The remaining honest prompt-side closure work is:
 1. prompt-space completeness across retained consumer families, not just active boundary hygiene
 2. package-by-package admissibility for retained prompt-bearing generic agents/tools
 3. narrowing or cutting prompt reservoirs that still imply parallel old-world product logic
-4. proving that app- and MCP-facing inference behavior is fully explainable from the explicit prompt substrate rather than hidden composition seams
+4. continued canonicalization of retained compatibility names after semantic mirrors exist, exemplified by `comprehend-need` becoming the active setup prompt carrier while task-named modules remain compatibility re-exports only, and `DELIVERABLESETUPCOMPREHENDNEED` PromptParts owning the active deliverable-corridor overlay while `DELIVERABLESETUPCOMPREHENDTASK` PromptParts remain compatibility wrappers
+5. proving that app- and MCP-facing inference behavior is fully explainable from the explicit prompt substrate rather than hidden composition seams
 
 ## Verification posture
 

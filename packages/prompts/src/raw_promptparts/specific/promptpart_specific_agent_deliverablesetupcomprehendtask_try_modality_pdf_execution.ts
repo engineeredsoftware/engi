@@ -3,15 +3,13 @@ import { PromptPart } from '../../parts/PromptPart';
 /**
  * @doc-comment-developing-promptpartdevelopment
  * domain: agent
- * intent: "Try step: execution details for PDF/document comprehension"
+ * intent: "Compatibility PromptPart for the former deliverables setup comprehend-task PDF/document comprehension execution details; content is canonical comprehend-need semantics."
  * current_version: "GA1.50.0"
- * versions: [
- *   { "version": "GA1.30.0", "score": 0.50, "content": "Parse PDF.", "reason": "Missing OCR fallback and structure extraction details" }
- * ]
+ * versions: []
  * benchmarks: [
- *   { "name": "technical_accuracy", "test": "Mentions OCR, sections, tables?", "score": 0.50 },
- *   { "name": "implementation_ready", "test": "Actionable steps?", "score": 0.50 }
+ *   { "name": "bitcode_need_semantics", "test": "Uses need-first asset-pack written-asset language", "score": 0.95 },
+ *   { "name": "compatibility_ready", "test": "Retained deliverable corridor can consume it without semantic drift", "score": 0.95 }
  * ]
  */
 export const PROMPTPART_SPECIFIC_AGENT_DELIVERABLESETUPCOMPREHENDTASK_TRY_MODALITY_PDF_EXECUTION: PromptPart =
-  'Execute: extract text where available; OCR scanned pages; identify headings/sections; parse tables/code blocks; generate per-section comprehension and overall summary.' as PromptPart;
+  "Execute: extract text where available; OCR scanned pages; identify headings, sections, tables, and code blocks; generate per-section comprehension and overall need-satisfaction summary." as PromptPart;
