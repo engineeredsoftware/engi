@@ -6,7 +6,7 @@ import { PromptPart } from '../../parts/PromptPart';
  * current_version: "GA1.50.0"
  * versions: []
  * benchmarks: [
- *   { "name": "context_specificity", "test": "Clarifies pipeline context without ambiguity", "score": 0.50.5 }
+ *   { "name": "context_specificity", "test": "Clarifies pipeline context without ambiguity", "score": 0.5 }
  * ]
  */
 export declare const PROMPTPART_SPECIFIC_TOOL_REPOSITORYSETUP_DELIVERABLES_METADATA_PIPELINE: PromptPart;

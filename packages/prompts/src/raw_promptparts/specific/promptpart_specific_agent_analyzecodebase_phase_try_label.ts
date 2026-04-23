@@ -4,7 +4,7 @@ import { PromptPart } from '../../parts/PromptPart';
  * @doc-comment-developing-promptpartdevelopment
  * domain: agent
  * intent: "Phase header for AnalyzeCodebase TRY step"
- * current_version: "GA1.70.0"
+ * current_version: "0.50.0"
  * versions: []
  * benchmarks: [
  *   { "name": "phase_alignment", "test": "Does it clearly communicate the TRY execution phase? Rate 0-1", "score": 0.95 },

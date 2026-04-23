@@ -113,12 +113,14 @@ The remaining honest prompt-side closure work is:
 1. prompt-space completeness across retained consumer families, not just active boundary hygiene
 2. package-by-package admissibility for retained prompt-bearing generic agents/tools
 3. narrowing or cutting prompt reservoirs that still imply parallel old-world product logic
-4. continued canonicalization of retained compatibility names after semantic mirrors exist, exemplified by `comprehend-need` becoming the active setup prompt carrier while task-named modules remain compatibility re-exports only, and `DELIVERABLESETUPCOMPREHENDNEED` PromptParts owning the active deliverable-corridor overlay while `DELIVERABLESETUPCOMPREHENDTASK` PromptParts remain compatibility wrappers
+4. continued canonicalization of retained compatibility names after semantic mirrors exist, exemplified by `comprehend-need` becoming the active setup prompt carrier while task-named modules remain compatibility re-exports only, `DELIVERABLESETUPCOMPREHENDNEED` PromptParts owning the active deliverable-corridor overlay while `DELIVERABLESETUPCOMPREHENDTASK` PromptParts remain compatibility wrappers, and retained deliverable substep PromptParts carrying Bitcode need / written-asset / asset-pack / proof / delivery-wrapper semantics instead of generic old-world agent boilerplate
 5. proving that app- and MCP-facing inference behavior is fully explainable from the explicit prompt substrate rather than hidden composition seams
 
 The retained `packages/generic-tools/task-comprehension` family is the next generic-tool example of this rule:
 task-named package/class/input names remain compatibility carriers, but `DocCodeToolPrompt` metadata, raw PromptPart content, package docs, and placeholder outputs must describe `need`, `written asset`, `asset pack`, `shipping wrapper`, and `need satisfaction criteria`.
 Runtime JavaScript PromptPart carry-through must match the TypeScript content so old task-first text cannot remain live after the TypeScript surface is reformed.
+The same runtime carry-through rule applies to retained deliverable substep PromptParts and their generated declarations: broad prompt normalization must be idempotent, benchmark metadata must stay parseable, and runtime `.js` PromptPart strings must synchronize from canonical `.ts` PromptPart source.
+Their doc-comment metadata must also be Bitcode-native: `current_version` cannot preserve GA1 lineage, and every retained deliverable substep `intent` must name the need-first written-asset / asset-pack / proof / delivery-wrapper role represented by that PromptPart.
 Its package-local build boundary must typecheck those prompt/tool imports without emitting generated artifacts, and must declare direct dependencies on `@bitcode/prompts` and `@bitcode/tools-generics` rather than relying on transitive workspace reach-through.
 
 ## Verification posture

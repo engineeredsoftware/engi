@@ -4,7 +4,7 @@ import { PromptPart } from '../../parts/PromptPart';
  * @doc-comment-developing-promptpartdevelopment
  * domain: agent
  * intent: "Define Correct Code Change agent system identity"
- * current_version: "GA1.50.0"
+ * current_version: "0.50.0"
  * versions: []
  * benchmarks: [
  *   { "name": "identity_specificity", "test": "Does it specify agent identity with precision?", "score": 0.50 },

@@ -1,8 +1,8 @@
 /**
  * @doc-comment-developing-promptpartdevelopment
  * domain: agent
- * intent: "Agent semantic unit: Deliverableimplementationdividepullrequest Plan Substep Tools Execution"
- * current_version: "GA1.50.0"
+ * intent: "Bitcode tool-execution substep for written-asset inspection, change, validation, and proof capture: deliverableimplementationdividepullrequest plan substep tools execution"
+ * current_version: "0.50.0"
  * versions: []
  * benchmarks: [
  *   { "name": "technical_accuracy", "test": "Uses concrete technical language", "score": 0.50 },
@@ -15,12 +15,12 @@ import { PromptPart } from '../../parts/PromptPart';
 /**
  * @doc-comment-developing-promptpartdevelopment
  * domain: agent
- * intent: "tools_execution substep for deliverableimplementationdividepullrequest agent plan step"
- * current_version: "GA1.50.0"
+ * intent: "Bitcode tool-execution substep for written-asset inspection, change, validation, and proof capture: deliverableimplementationdividepullrequest plan substep tools execution"
+ * current_version: "0.50.0"
  * versions: []
  * benchmarks: [
  *   { "name": "agent_specific", "test": "Agent-specific guidance?", "score": 0.96 }
  * ]
  */
 export const PROMPTPART_SPECIFIC_AGENT_DELIVERABLEIMPLEMENTATIONDIVIDEPULLREQUEST_PLAN_SUBSTEP_TOOLS_EXECUTION: PromptPart = 
-  'deliverableimplementationdividepullrequest plan tools_execution: execute required tools with appropriate parameters' as PromptPart;
+  'deliverableimplementationdividepullrequest plan substep tools execution: invoke only tools required to inspect, change, validate, or package the written asset; preserve parameters and results for Bitcode execution records and proof reread.' as PromptPart;

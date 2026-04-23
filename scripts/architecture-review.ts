@@ -9,7 +9,6 @@
 
 import * as fs from 'node:fs';
 import * as path from 'node:path';
-import { fileURLToPath } from 'node:url';
 
 type Status = 'PASS' | 'FAIL';
 
@@ -20,11 +19,8 @@ interface ValidationResult {
   violations: string[];
 }
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
-
 class ArchitectureReviewer {
-  private readonly basePath = path.resolve(__dirname, '..');
+  private readonly basePath = findRepoRoot(process.cwd());
   private readonly results: ValidationResult[] = [];
 
   review(): void {
@@ -457,6 +453,23 @@ class ArchitectureReviewer {
     }
 
     console.log('Bitcode V26 prompt and inference architecture boundary is coherent.');
+  }
+}
+
+function findRepoRoot(startPath: string): string {
+  let current = path.resolve(startPath);
+
+  while (true) {
+    if (fs.existsSync(path.join(current, 'BITCODE_SPEC.txt'))) {
+      return current;
+    }
+
+    const parent = path.dirname(current);
+    if (parent === current) {
+      throw new Error(`Could not find Bitcode repo root from ${startPath}.`);
+    }
+
+    current = parent;
   }
 }
 

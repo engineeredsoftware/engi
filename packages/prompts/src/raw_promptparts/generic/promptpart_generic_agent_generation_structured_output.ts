@@ -2,11 +2,11 @@
  * @doc-comment-developing-promptpartdevelopment
  * domain: agent
  * intent: "Instruct substep to format reasoning and judgment into required type without additional thinking"
- * current_version: "GA1.50.0"
+ * current_version: "0.50.0"
  * versions: []
  * benchmarks: [
- *   { "name": "technical_accuracy", "test": "Uses concrete technical language", "score": 0.50.50 },
- *   { "name": "implementation_ready", "test": "Provides clear actionable guidance", "score": 0.50.50 }
+ *   { "name": "technical_accuracy", "test": "Uses concrete technical language", "score": 0.50 },
+ *   { "name": "implementation_ready", "test": "Provides clear actionable guidance", "score": 0.50 }
  * ]
  */
 

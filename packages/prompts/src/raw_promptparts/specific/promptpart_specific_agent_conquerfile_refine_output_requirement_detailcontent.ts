@@ -4,7 +4,7 @@ import { PromptPart } from '../../parts/PromptPart';
  * @doc-comment-developing-promptpartdevelopment
  * domain: agent
  * intent: "REFINE-step output requirement for ConquerFile agent"
- * current_version: "GA1.70.0"
+ * current_version: "0.50.0"
  * versions: []
  * benchmarks: [
  *   { "name": "improvement_focus", "test": "Does it demand quality/performance/maintainability improvements? Rate 0-1", "score": 0.95 },

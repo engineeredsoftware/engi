@@ -6,7 +6,7 @@ import { PromptPart } from '../../parts/PromptPart';
  * current_version: "GA1.50.0"
  * versions: []
  * benchmarks: [
- *   { "name": "label_clarity", "test": "Label communicates step purpose", "score": 0.50.5 }
+ *   { "name": "label_clarity", "test": "Label communicates step purpose", "score": 0.5 }
  * ]
  */
 export declare const PROMPTPART_SPECIFIC_AGENT_DELIVERABLESPIPELINE_CLONEVCSREPOSITORY_RETRY_LABEL: PromptPart;

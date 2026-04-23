@@ -4,7 +4,7 @@ import { PromptPart } from '../../parts/PromptPart';
  * @doc-comment-developing-promptpartdevelopment
  * domain: agent
  * intent: "Define PLAN step pre-analysis for Analyze Codebase agent"
- * current_version: "GA1.50.0"
+ * current_version: "0.50.0"
  * versions: []
  * benchmarks: [
  *   { "name": "analysis_depth", "test": "Does it enable deep pre-analysis?", "score": 0.50 },

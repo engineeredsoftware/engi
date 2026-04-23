@@ -4,7 +4,7 @@ import { PromptPart } from '../../parts/PromptPart';
  * @doc-comment-developing-promptpartdevelopment
  * domain: agent
  * intent: "Context awareness for CorrectCodeChange agent describing integration gate"
- * current_version: "GA1.70.0"
+ * current_version: "0.50.0"
  * versions: []
  * benchmarks: [
  *   { "name": "handoff_context", "test": "Does it explain receiving conquered file results? Rate 0-1", "score": 0.95 },

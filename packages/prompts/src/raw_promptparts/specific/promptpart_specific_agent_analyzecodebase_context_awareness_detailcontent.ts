@@ -4,7 +4,7 @@ import { PromptPart } from '../../parts/PromptPart';
  * @doc-comment-developing-promptpartdevelopment
  * domain: agent
  * intent: "Context awareness statement for AnalyzeCodebase agent system prompt"
- * current_version: "GA1.70.0"
+ * current_version: "0.50.0"
  * versions: []
  * benchmarks: [
  *   { "name": "context_scope", "test": "Does it enumerate what the agent inspects (structure, patterns, dependencies, technologies)? Rate 0-1", "score": 0.95 },

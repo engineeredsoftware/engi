@@ -4,7 +4,7 @@ import { PromptPart } from '../../parts/PromptPart';
  * @doc-comment-developing-promptpartdevelopment
  * domain: agent
  * intent: "TRY-step output requirement for ReviewCodeChange agent"
- * current_version: "GA1.70.0"
+ * current_version: "0.50.0"
  * versions: []
  * benchmarks: [
  *   { "name": "detail_requirement", "test": "Does it require file-level + line-level comments, approval, suggestions? Rate 0-1", "score": 0.95 },

@@ -6,7 +6,7 @@ import { PromptPart } from '../../parts/PromptPart';
  * current_version: "GA1.50.0"
  * versions: []
  * benchmarks: [
- *   { "name": "industrial_language", "test": "Uses concrete, technical instructions", "score": 0.50.5 }
+ *   { "name": "industrial_language", "test": "Uses concrete, technical instructions", "score": 0.5 }
  * ]
  */
 export declare const PROMPTPART_SPECIFIC_TOOL_REPOSITORYSETUP_DELIVERABLES_PURPOSE_ADDENDUM: PromptPart;

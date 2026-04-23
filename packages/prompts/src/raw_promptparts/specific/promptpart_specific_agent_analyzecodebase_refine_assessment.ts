@@ -4,7 +4,7 @@ import { PromptPart } from '../../parts/PromptPart';
  * @doc-comment-developing-promptpartdevelopment
  * domain: agent
  * intent: "Define REFINE step assessment for Analyze Codebase agent"
- * current_version: "GA1.50.0"
+ * current_version: "0.50.0"
  * versions: []
  * benchmarks: [
  *   { "name": "assessment_accuracy", "test": "Is the assessment accurate and thorough?", "score": 0.50 },

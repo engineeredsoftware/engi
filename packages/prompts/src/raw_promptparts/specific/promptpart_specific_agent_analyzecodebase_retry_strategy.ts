@@ -4,7 +4,7 @@ import { PromptPart } from '../../parts/PromptPart';
  * @doc-comment-developing-promptpartdevelopment
  * domain: agent
  * intent: "Define RETRY step strategy for Analyze Codebase agent"
- * current_version: "GA1.50.0"
+ * current_version: "0.50.0"
  * versions: []
  * benchmarks: [
  *   { "name": "recovery_coverage", "test": "Does it cover all failure recovery scenarios?", "score": 0.50 },

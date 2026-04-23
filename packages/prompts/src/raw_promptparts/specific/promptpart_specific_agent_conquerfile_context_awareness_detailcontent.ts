@@ -4,7 +4,7 @@ import { PromptPart } from '../../parts/PromptPart';
  * @doc-comment-developing-promptpartdevelopment
  * domain: agent
  * intent: "Context awareness for ConquerFile agent describing single-file focus"
- * current_version: "GA1.70.0"
+ * current_version: "0.50.0"
  * versions: []
  * benchmarks: [
  *   { "name": "scope_specificity", "test": "Does it state the agent handles one file from divided work? Rate 0-1", "score": 0.95 },

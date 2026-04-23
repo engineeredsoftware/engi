@@ -4,7 +4,7 @@ import { PromptPart } from '../../parts/PromptPart';
  * @doc-comment-developing-promptpartdevelopment
  * domain: agent
  * intent: "PLAN-step output requirement for ReviewCodeChange agent"
- * current_version: "GA1.70.0"
+ * current_version: "0.50.0"
  * versions: []
  * benchmarks: [
  *   { "name": "coverage", "test": "Does it demand a comprehensive review plan covering all aspects? Rate 0-1", "score": 0.95 },

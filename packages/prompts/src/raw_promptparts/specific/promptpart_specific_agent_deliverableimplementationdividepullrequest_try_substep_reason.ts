@@ -1,8 +1,8 @@
 /**
  * @doc-comment-developing-promptpartdevelopment
  * domain: agent
- * intent: "Agent semantic unit: Deliverableimplementationdividepullrequest Try Substep Reason"
- * current_version: "GA1.50.0"
+ * intent: "Bitcode need-grounding substep for written-asset / asset-pack execution: deliverableimplementationdividepullrequest try substep reason"
+ * current_version: "0.50.0"
  * versions: []
  * benchmarks: [
  *   { "name": "technical_accuracy", "test": "Uses concrete technical language", "score": 0.50 },
@@ -15,12 +15,12 @@ import { PromptPart } from '../../parts/PromptPart';
 /**
  * @doc-comment-developing-promptpartdevelopment
  * domain: agent
- * intent: "reason substep for deliverableimplementationdividepullrequest agent try step"
- * current_version: "GA1.50.0"
+ * intent: "Bitcode need-grounding substep for written-asset / asset-pack execution: deliverableimplementationdividepullrequest try substep reason"
+ * current_version: "0.50.0"
  * versions: []
  * benchmarks: [
  *   { "name": "agent_specific", "test": "Agent-specific guidance?", "score": 0.96 }
  * ]
  */
 export const PROMPTPART_SPECIFIC_AGENT_DELIVERABLEIMPLEMENTATIONDIVIDEPULLREQUEST_TRY_SUBSTEP_REASON: PromptPart = 
-  'Create atomic file change plan with dependencies and execution order' as PromptPart;
+  'deliverableimplementationdividepullrequest try substep reason: ground the step in the expressed Bitcode need, current execution state, written-asset target, proof obligations, and delivery-wrapper limits before selecting the next action.' as PromptPart;

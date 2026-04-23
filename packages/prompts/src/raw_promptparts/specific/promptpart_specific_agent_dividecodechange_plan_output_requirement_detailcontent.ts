@@ -4,7 +4,7 @@ import { PromptPart } from '../../parts/PromptPart';
  * @doc-comment-developing-promptpartdevelopment
  * domain: agent
  * intent: "PLAN-step output requirement text for DivideCodeChange agent"
- * current_version: "GA1.70.0"
+ * current_version: "0.50.0"
  * versions: []
  * benchmarks: [
  *   { "name": "granularity", "test": "Does it require atomic operations with dependency ordering? Rate 0-1", "score": 0.95 },

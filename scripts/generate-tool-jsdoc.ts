@@ -116,8 +116,9 @@ function generateToolJSDoc(toolKey: string): string {
 
 function generateToolTemplate(toolKey: string, primitive: string): string {
   const jsdoc = generateToolJSDoc(toolKey);
-  const className = `${toolKey.charAt(0).toUpperCase()}${toolKey.slice(1)}Tool`;
-  const exportName = `${toolKey}Tool`;
+  const baseName = toPascalCase(toolKey);
+  const exportName = `${toCamelCase(toolKey)}Tool`;
+  const className = `${baseName}Tool`;
 
   return `import { Tool } from '@bitcode/tools-generics';
 import { ${primitive} } from '@bitcode/your-primitive-package';
@@ -129,6 +130,19 @@ class ${className} extends Tool<typeof ${primitive}> {
 
 export const ${exportName} = new ${className}();
 export type ${className}Fn = Tool<typeof ${exportName}.use>;`;
+}
+
+function toPascalCase(value: string): string {
+  return value
+    .split(/[^a-zA-Z0-9]+/u)
+    .filter(Boolean)
+    .map((part) => `${part.charAt(0).toUpperCase()}${part.slice(1)}`)
+    .join('');
+}
+
+function toCamelCase(value: string): string {
+  const pascal = toPascalCase(value);
+  return `${pascal.charAt(0).toLowerCase()}${pascal.slice(1)}`;
 }
 
 function main(): void {

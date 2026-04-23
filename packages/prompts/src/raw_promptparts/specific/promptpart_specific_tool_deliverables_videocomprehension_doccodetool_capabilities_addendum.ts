@@ -4,7 +4,7 @@ import { PromptPart } from '../../parts/PromptPart';
  * @doc-comment-developing-promptpartdevelopment
  * domain: tool
  * intent: "Deliverables-specific capabilities addendum describing video comprehension focus"
- * current_version: "GA1.50.0"
+ * current_version: "0.50.0"
  * versions: [
  *   { "version": "GA1.20.0", "score": 0.50, "content": "Understands video", "reason": "Missing mention of frame analysis or audio track extraction" }
  * ]

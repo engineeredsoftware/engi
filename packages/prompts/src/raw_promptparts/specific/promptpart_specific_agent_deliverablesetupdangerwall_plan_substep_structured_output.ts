@@ -1,8 +1,8 @@
 /**
  * @doc-comment-developing-promptpartdevelopment
  * domain: agent
- * intent: "Agent semantic unit: Deliverablesetupdangerwall Plan Substep Structured Output"
- * current_version: "GA1.50.0"
+ * intent: "Bitcode structured-output substep for need satisfaction, writtenAssets, assetPack, and deliveryMechanism fields: deliverablesetupdangerwall plan substep structured output"
+ * current_version: "0.50.0"
  * versions: []
  * benchmarks: [
  *   { "name": "technical_accuracy", "test": "Uses concrete technical language", "score": 0.50 },
@@ -15,12 +15,12 @@ import { PromptPart } from '../../parts/PromptPart';
 /**
  * @doc-comment-developing-promptpartdevelopment
  * domain: agent
- * intent: "structured_output substep for deliverablesetupdangerwall agent plan step"
- * current_version: "GA1.50.0"
+ * intent: "Bitcode structured-output substep for need satisfaction, writtenAssets, assetPack, and deliveryMechanism fields: deliverablesetupdangerwall plan substep structured output"
+ * current_version: "0.50.0"
  * versions: []
  * benchmarks: [
  *   { "name": "agent_specific", "test": "Agent-specific guidance?", "score": 0.96 }
  * ]
  */
 export const PROMPTPART_SPECIFIC_AGENT_DELIVERABLESETUPDANGERWALL_PLAN_SUBSTEP_STRUCTURED_OUTPUT: PromptPart = 
-  'deliverablesetupdangerwall plan structured_output: format results into schema-compliant structured output' as PromptPart;
+  'deliverablesetupdangerwall plan substep structured output: return structured output with need satisfaction, writtenAssetType, writtenAssets, assetPack evidence, validation status, and deliveryMechanism wrapper fields when shipping is needed.' as PromptPart;

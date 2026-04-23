@@ -6,7 +6,7 @@ import { PromptPart } from '../../parts/PromptPart';
  * current_version: "GA1.50.0"
  * versions: []
  * benchmarks: [
- *   { "name": "role_specificity", "test": "States agent identity precisely", "score": 0.50.5 }
+ *   { "name": "role_specificity", "test": "States agent identity precisely", "score": 0.5 }
  * ]
  */
 export declare const PROMPTPART_SPECIFIC_AGENT_DELIVERABLESPIPELINE_CLONEVCSREPOSITORY_SYSTEM_IDENTITY: PromptPart;

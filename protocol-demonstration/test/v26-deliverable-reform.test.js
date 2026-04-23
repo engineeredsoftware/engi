@@ -336,6 +336,26 @@ const rawPromptPartDirs = [
   '../../packages/prompts/src/raw_promptparts/generic/',
 ].map((relativePath) => new URL(relativePath, import.meta.url));
 
+const deliverableSubstepPromptPartSources = readdirSync(rawPromptPartDirs[0])
+  .filter((filename) => /^promptpart_specific_agent_deliverable.*_substep_.*\.ts$/u.test(filename))
+  .sort()
+  .map((filename) => [filename, readFileSync(new URL(filename, rawPromptPartDirs[0]), 'utf8')]);
+
+const rawPromptPartSourceEntries = rawPromptPartDirs.flatMap((directoryUrl) =>
+  readdirSync(directoryUrl)
+    .filter((filename) => filename.endsWith('.ts') || filename.endsWith('.d.ts'))
+    .sort()
+    .map((filename) => [filename, readFileSync(new URL(filename, directoryUrl), 'utf8')])
+);
+
+const oldWorldDeliverableSubstepLanguage =
+  /combine partial outputs into complete coherent response|format results into schema-compliant structured output|break large inputs into manageable chunks and summarize for processing|extract and organize relevant context from execution state minimizing noise|execute required tools with appropriate parameters|evaluate quality and correctness of reasoning output/u;
+
+const bitcodeSubstepDocCommentIntent =
+  /intent:\s*"Bitcode [^"]*(need|written-asset|asset-pack|proof|deliveryMechanism|delivery-wrapper|writtenAssets|execution-history)/u;
+
+const malformedPromptPartBenchmarkScorePattern = /"score"\s*:\s*0\.[0-9]+\.[0-9]+/u;
+
 const exportNamePattern = /export const ([A-Za-z0-9_]+)(?:: PromptPart)?\s*=/m;
 
 function unescapePromptLiteral(value, quote) {
@@ -404,6 +424,10 @@ test('V26 deliverable reform supplement requires semantic mirrors beyond retaine
   assert.match(reformSource, /retained maintenance\/audit scripts that operate on this corridor/u);
   assert.match(reformSource, /teach `comprehend-need` \/ asset-pack-run semantics/u);
   assert.match(reformSource, /retained repair, generation, and export-verification scripts/u);
+  assert.match(reformSource, /retained deliverable substep PromptParts/u);
+  assert.match(reformSource, /Bitcode need, written-asset, asset-pack, proof-evidence, delivery-wrapper/u);
+  assert.match(reformSource, /runtime JavaScript carry-through must remain parseable and content-equivalent/u);
+  assert.match(reformSource, /substep doc-comment metadata must also be reauthored as Bitcode metadata/u);
 });
 
 test('retained deliverable schemas expose asset-pack written-asset semantic aliases', () => {
@@ -592,6 +616,37 @@ test('retained templates and promptparts keep compatibility names but teach asse
   assert.match(readyToShipCodeChangeReviewIdentityPromptSource, /final validation of review readiness for code written assets/u);
   assert.match(readyToShipCodeChangeReviewInstructionsPromptSource, /written assets and the shipping wrapper remain coherent/u);
   assert.match(readyToShipCodeChangeReviewPlanPromptSource, /written-asset coherence checks/u);
+});
+
+test('deliverable substep PromptParts express Bitcode need, written-asset, and asset-pack semantics', () => {
+  assert.equal(deliverableSubstepPromptPartSources.length, 49);
+
+  const combinedPromptText = deliverableSubstepPromptPartSources
+    .map(([_filename, source]) => source)
+    .join('\n');
+
+  for (const [filename, source] of deliverableSubstepPromptPartSources) {
+    assert.doesNotMatch(source, oldWorldDeliverableSubstepLanguage, `${filename} still uses generic old-world substep language`);
+    assert.doesNotMatch(source, /current_version:\s*"GA1/u, `${filename} still carries GA1 current_version metadata`);
+    assert.match(source, /current_version:\s*"0\.50\.0"/u, `${filename} should carry Bitcode current_version metadata`);
+    assert.match(source, bitcodeSubstepDocCommentIntent, `${filename} should carry Bitcode doc-comment intent metadata`);
+  }
+
+  assert.match(combinedPromptText, /Bitcode need/u);
+  assert.match(combinedPromptText, /written-asset/u);
+  assert.match(combinedPromptText, /asset-pack/u);
+  assert.match(combinedPromptText, /delivery-wrapper|deliveryMechanism/u);
+  assert.match(combinedPromptText, /proof obligations|proof reread|proof evidence/u);
+  assert.match(combinedPromptText, /writtenAssets/u);
+  assert.match(combinedPromptText, /assetPack/u);
+});
+
+test('raw PromptPart benchmark metadata stays parseable after broad normalization', () => {
+  assert.ok(rawPromptPartSourceEntries.length >= 1800, `expected broad raw PromptPart coverage, saw ${rawPromptPartSourceEntries.length}`);
+
+  for (const [filename, source] of rawPromptPartSourceEntries) {
+    assert.doesNotMatch(source, malformedPromptPartBenchmarkScorePattern, `${filename} has malformed benchmark score metadata`);
+  }
 });
 
 test('retained maintenance scripts audit current Bitcode prompt and asset-pack-run semantics', () => {

@@ -4,7 +4,7 @@ import { PromptPart } from '../../parts/PromptPart';
  * @doc-comment-developing-promptpartdevelopment
  * domain: agent
  * intent: "Context awareness for ReviewCodeChange agent describing review expertise"
- * current_version: "GA1.70.0"
+ * current_version: "0.50.0"
  * versions: []
  * benchmarks: [
  *   { "name": "expertise_scope", "test": "Does it enumerate security/performance/maintainability/best practices? Rate 0-1", "score": 0.95 },

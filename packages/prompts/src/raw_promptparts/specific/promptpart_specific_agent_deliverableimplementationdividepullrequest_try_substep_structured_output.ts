@@ -1,8 +1,8 @@
 /**
  * @doc-comment-developing-promptpartdevelopment
  * domain: agent
- * intent: "Agent semantic unit: Deliverableimplementationdividepullrequest Try Substep Structured Output"
- * current_version: "GA1.50.0"
+ * intent: "Bitcode structured-output substep for need satisfaction, writtenAssets, assetPack, and deliveryMechanism fields: deliverableimplementationdividepullrequest try substep structured output"
+ * current_version: "0.50.0"
  * versions: []
  * benchmarks: [
  *   { "name": "technical_accuracy", "test": "Uses concrete technical language", "score": 0.50 },
@@ -15,12 +15,12 @@ import { PromptPart } from '../../parts/PromptPart';
 /**
  * @doc-comment-developing-promptpartdevelopment
  * domain: agent
- * intent: "structured_output substep for deliverableimplementationdividepullrequest agent try step"
- * current_version: "GA1.50.0"
+ * intent: "Bitcode structured-output substep for need satisfaction, writtenAssets, assetPack, and deliveryMechanism fields: deliverableimplementationdividepullrequest try substep structured output"
+ * current_version: "0.50.0"
  * versions: []
  * benchmarks: [
  *   { "name": "agent_specific", "test": "Agent-specific guidance?", "score": 0.96 }
  * ]
  */
 export const PROMPTPART_SPECIFIC_AGENT_DELIVERABLEIMPLEMENTATIONDIVIDEPULLREQUEST_TRY_SUBSTEP_STRUCTURED_OUTPUT: PromptPart = 
-  'deliverableimplementationdividepullrequest try structured_output: format results into schema-compliant structured output' as PromptPart;
+  'deliverableimplementationdividepullrequest try substep structured output: return structured output with need satisfaction, writtenAssetType, writtenAssets, assetPack evidence, validation status, and deliveryMechanism wrapper fields when shipping is needed.' as PromptPart;

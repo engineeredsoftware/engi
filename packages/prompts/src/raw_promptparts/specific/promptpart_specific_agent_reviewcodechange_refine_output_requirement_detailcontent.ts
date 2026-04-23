@@ -4,7 +4,7 @@ import { PromptPart } from '../../parts/PromptPart';
  * @doc-comment-developing-promptpartdevelopment
  * domain: agent
  * intent: "REFINE-step output requirement for ReviewCodeChange agent"
- * current_version: "GA1.70.0"
+ * current_version: "0.50.0"
  * versions: []
  * benchmarks: [
  *   { "name": "insight_depth", "test": "Does it demand deeper insights and actionable feedback? Rate 0-1", "score": 0.95 },

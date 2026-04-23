@@ -1,8 +1,8 @@
 /**
  * @doc-comment-developing-promptpartdevelopment
  * domain: agent
- * intent: "Agent semantic unit: Deliverablesetupreadytoiterate Try Substep Chunk Then Sum"
- * current_version: "GA1.50.0"
+ * intent: "Bitcode chunking substep for asset-pack constraints, risks, and proof evidence: deliverablesetupreadytoiterate try substep chunk then sum"
+ * current_version: "0.50.0"
  * versions: []
  * benchmarks: [
  *   { "name": "technical_accuracy", "test": "Uses concrete technical language", "score": 0.50 },
@@ -15,12 +15,12 @@ import { PromptPart } from '../../parts/PromptPart';
 /**
  * @doc-comment-developing-promptpartdevelopment
  * domain: agent
- * intent: "chunk_then_sum substep for deliverablesetupreadytoiterate agent try step"
- * current_version: "GA1.50.0"
+ * intent: "Bitcode chunking substep for asset-pack constraints, risks, and proof evidence: deliverablesetupreadytoiterate try substep chunk then sum"
+ * current_version: "0.50.0"
  * versions: []
  * benchmarks: [
  *   { "name": "agent_specific", "test": "Agent-specific guidance?", "score": 0.96 }
  * ]
  */
 export const PROMPTPART_SPECIFIC_AGENT_DELIVERABLESETUPREADYTOITERATE_TRY_SUBSTEP_CHUNK_THEN_SUM: PromptPart = 
-  'deliverablesetupreadytoiterate try chunk_then_sum: break large inputs into manageable chunks and summarize for processing' as PromptPart;
+  'deliverablesetupreadytoiterate try substep chunk then sum: chunk large inputs by need, file, proof, and delivery-wrapper concern; summarize each chunk as written-asset constraints, risks, and acceptance evidence for asset-pack synthesis.' as PromptPart;

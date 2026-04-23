@@ -4,7 +4,7 @@ import { PromptPart } from '../../parts/PromptPart';
  * @doc-comment-developing-promptpartdevelopment
  * domain: ptrr
  * intent: "Generic RETRY step objective statement"
- * current_version: "GA1.50.0"
+ * current_version: "0.50.0"
  * versions: []
  * benchmarks: [
  *   { "name": "objective_clarity", "test": "Does it clearly state RETRY step purpose?", "score": 0.50 },

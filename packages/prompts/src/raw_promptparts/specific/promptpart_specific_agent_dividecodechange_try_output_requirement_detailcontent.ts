@@ -4,7 +4,7 @@ import { PromptPart } from '../../parts/PromptPart';
  * @doc-comment-developing-promptpartdevelopment
  * domain: agent
  * intent: "TRY-step output requirement text for DivideCodeChange agent"
- * current_version: "GA1.70.0"
+ * current_version: "0.50.0"
  * versions: []
  * benchmarks: [
  *   { "name": "coverage", "test": "Does it demand every file, change type, purpose, complexity, and order? Rate 0-1", "score": 0.95 },

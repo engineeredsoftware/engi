@@ -2,11 +2,11 @@
  * @doc-comment-developing-promptpartdevelopment
  * domain: auto
  * intent: "Agent semantic unit: Deliverablevalidationreadytoshipcodechange Tools Available"
- * current_version: "GA1.50.0"
+ * current_version: "0.50.0"
  * versions: []
  * benchmarks: [
- *   { "name": "technical_accuracy", "test": "Uses concrete technical language", "score": 0.50.50 },
- *   { "name": "implementation_ready", "test": "Provides clear actionable guidance", "score": 0.50.50 }
+ *   { "name": "technical_accuracy", "test": "Uses concrete technical language", "score": 0.50 },
+ *   { "name": "implementation_ready", "test": "Provides clear actionable guidance", "score": 0.50 }
  * ]
  */
 
@@ -16,10 +16,10 @@ import { PromptPart } from '../../parts/PromptPart';
  * @doc-comment-developing-promptpartdevelopment
  * domain: agent
  * intent: "tools available for Ready to Ship Code Change agent"
- * current_version: "GA1.50.0"
+ * current_version: "0.50.0"
  * versions: []
  * benchmarks: [
- *   { "name": "tools_available_clarity", "test": "Clear tools available?", "score": 0.50.95 }
+ *   { "name": "tools_available_clarity", "test": "Clear tools available?", "score": 0.95 }
  * ]
  */
 export const PROMPTPART_SPECIFIC_AGENT_DELIVERABLEVALIDATIONREADYTOSHIPCODECHANGE_TOOLS_AVAILABLE: PromptPart = 
