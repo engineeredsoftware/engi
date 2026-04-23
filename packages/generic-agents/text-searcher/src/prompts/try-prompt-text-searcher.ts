@@ -8,37 +8,15 @@ import { PROMPTPART_GENERIC_AGENT_GENERATION_STRUCTURED_OUTPUT } from '@bitcode/
 import { PROMPTPART_SPECIFIC_AGENT_TEXTSEARCHER_TRY_DIRECTIVES_INSTRUCTIONS } from '@bitcode/prompts/raw_promptparts/specific/promptpart_specific_agent_textsearcher_try_directives_instructions';
 import { PROMPTPART_SPECIFIC_AGENT_TEXTSEARCHER_TRY_SEARCH_TECHNIQUES } from '@bitcode/prompts/raw_promptparts/specific/promptpart_specific_agent_textsearcher_try_search_techniques';
 /**
+ * Bitcode repository-evidence search Try prompt.
+ *
  * @doc-comment-developing-promptdevelopment
  * domain: agent
- * intent: "Try step prompt for Text Searcher — execute search with directives and techniques"
- * current_version: "GA1.50.0"
- * dependencies: {
- *   "PROMPTPART_SPECIFIC_AGENT_TEXTSEARCHER_TRY_DIRECTIVES_INSTRUCTIONS": "GA1.45.0",
- *   "PROMPTPART_SPECIFIC_AGENT_TEXTSEARCHER_TRY_SEARCH_TECHNIQUES": "GA1.45.0",
- *   "PROMPTPART_GENERIC_AGENT_FAILSAFE_PREPARE_CONTEXT": "GA1.50.0",
- *   "PROMPTPART_GENERIC_AGENT_GENERATION_JSON_ONLY_HEADER": "GA1.50.0",
- *   "PROMPTPART_GENERIC_AGENT_GENERATION_USE_THIS_STRUCTURED_SCHEMA": "GA1.50.0",
- *   "PROMPTPART_GENERIC_AGENT_GENERATION_IF_UNKNOWN_EMPTY": "GA1.50.0",
- *   "PROMPTPART_GENERIC_AGENT_GENERATION_REASON": "GA1.50.0",
- *   "PROMPTPART_GENERIC_AGENT_GENERATION_JUDGE": "GA1.50.0",
- *   "PROMPTPART_GENERIC_AGENT_GENERATION_STRUCTURED_OUTPUT": "GA1.50.0"
- * }
- * benchmarks: [
- *   { "name": "technical_accuracy", "test": "Concrete directives and purpose", "score": 0.46 },
- *   { "name": "implementation_ready", "test": "Usable by registry formatter", "score": 0.46 }
- * ]
- */
-/**
- * TRY PROMPT COMPOSITION - TEXT SEARCHER AGENT
- * 
- * Composed try step prompt for Text Searcher agent using atomic prompt parts.
- * This defines how the agent executes text search operations and pattern matching.
+ * intent: "Execute grep-backed repository evidence search without mutation, delivery, or proof-closure claims"
+ * current_version: "V26"
  */
 
 import { Prompt } from '@bitcode/prompts/prompt';
-
-
-
 
 export const TEXT_SEARCHER_TRY_PROMPT = new Prompt()
   .set('instructions', PROMPTPART_SPECIFIC_AGENT_TEXTSEARCHER_TRY_DIRECTIVES_INSTRUCTIONS)

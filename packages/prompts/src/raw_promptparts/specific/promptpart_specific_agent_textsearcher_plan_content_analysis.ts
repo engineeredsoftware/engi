@@ -1,16 +1,15 @@
 /**
  * @doc-comment-developing-promptpartdevelopment
  * domain: agent
- * intent: "Agent-specific semantic unit (PROMPTPART_SPECIFIC_AGENT_TEXTSEARCHER_PLAN_CONTENT_ANALYSIS)"
- * current_version: "GA1.50.0"
+ * intent: "Plan which Bitcode need, proof, prompt, tool, schema, or AssetPack terms require source evidence"
+ * current_version: "V26"
  * versions: []
  * benchmarks: [
- *   { "name": "technical_accuracy", "test": "Uses concrete technical language", "score": 0.50 },
- *   { "name": "implementation_ready", "test": "Provides clear actionable guidance", "score": 0.50 }
+ *   { "name": "evidence_planning", "test": "Plans source-grounding patterns from Bitcode semantics", "score": 1.00 }
  * ]
  */
 
 import type { PromptPart } from '../../parts/PromptPart';
 
-export const PROMPTPART_SPECIFIC_AGENT_TEXTSEARCHER_PLAN_CONTENT_ANALYSIS: PromptPart = 
-  'Provide concrete, domain‑appropriate content for this specific prompt segment. Use precise, operational language and ensure it integrates coherently with adjacent prompt parts.' as PromptPart;
+export const PROMPTPART_SPECIFIC_AGENT_TEXTSEARCHER_PLAN_CONTENT_ANALYSIS: PromptPart =
+  'Identify the Bitcode need, source owner, proof surface, prompt registry, tool boundary, schema, or AssetPack term that requires repository evidence; record why each pattern is needed before running search.' as PromptPart;

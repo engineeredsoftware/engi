@@ -1,43 +1,21 @@
 import { PROMPTPART_GENERIC_AGENT_FAILSAFE_PREPARE_CONTEXT } from '@bitcode/prompts/raw_promptparts/generic/promptpart_generic_agent_failsafe_prepare_context';
 import { PROMPTPART_GENERIC_AGENT_GENERATION_JSON_ONLY_HEADER } from '@bitcode/prompts/raw_promptparts/generic/promptpart_generic_agent_generation_json_only_header';
 import { PROMPTPART_GENERIC_AGENT_GENERATION_USE_THIS_STRUCTURED_SCHEMA } from '@bitcode/prompts/raw_promptparts/generic/promptpart_generic_agent_generation_use_this_structured_schema';
-import { PROMPTPART_GENERIC_AGENT_GENERATION_IF_UNKNOWN_EMPTY } from '@bitcode/prompts/raw_promptparts/generic/promptpart_generic_agent_generation_if_unknown_empty';
 import { PROMPTPART_GENERIC_AGENT_GENERATION_REASON } from '@bitcode/prompts/raw_promptparts/generic/promptpart_generic_agent_generation_reason';
 import { PROMPTPART_GENERIC_AGENT_GENERATION_JUDGE } from '@bitcode/prompts/raw_promptparts/generic/promptpart_generic_agent_generation_judge';
 import { PROMPTPART_GENERIC_AGENT_GENERATION_STRUCTURED_OUTPUT } from '@bitcode/prompts/raw_promptparts/generic/promptpart_generic_agent_generation_structured_output';
 import { PROMPTPART_SPECIFIC_AGENT_TEXTSEARCHER_REFINE_RELEVANCE_CRITERIA } from '@bitcode/prompts/raw_promptparts/specific/promptpart_specific_agent_textsearcher_refine_relevance_criteria';
 import { PROMPTPART_SPECIFIC_AGENT_TEXTSEARCHER_REFINE_ACCURACY_ENHANCEMENT } from '@bitcode/prompts/raw_promptparts/specific/promptpart_specific_agent_textsearcher_refine_accuracy_enhancement';
 /**
+ * Bitcode repository-evidence search Refine prompt.
+ *
  * @doc-comment-developing-promptdevelopment
  * domain: agent
- * intent: "Refine step prompt for Text Searcher — enhance quality and relevance"
- * current_version: "GA1.50.0"
- * dependencies: {
- *   "PROMPTPART_SPECIFIC_AGENT_TEXTSEARCHER_REFINE_RELEVANCE_CRITERIA": "GA1.45.0",
- *   "PROMPTPART_SPECIFIC_AGENT_TEXTSEARCHER_REFINE_ACCURACY_ENHANCEMENT": "GA1.45.0",
- *   "PROMPTPART_GENERIC_AGENT_FAILSAFE_PREPARE_CONTEXT": "GA1.50.0",
- *   "PROMPTPART_GENERIC_AGENT_GENERATION_JSON_ONLY_HEADER": "GA1.50.0",
- *   "PROMPTPART_GENERIC_AGENT_GENERATION_USE_THIS_STRUCTURED_SCHEMA": "GA1.50.0",
- *   "PROMPTPART_GENERIC_AGENT_GENERATION_REASON": "GA1.50.0",
- *   "PROMPTPART_GENERIC_AGENT_GENERATION_JUDGE": "GA1.50.0",
- *   "PROMPTPART_GENERIC_AGENT_GENERATION_STRUCTURED_OUTPUT": "GA1.50.0"
- * }
- * benchmarks: [
- *   { "name": "technical_accuracy", "test": "Concrete directives and purpose", "score": 0.46 },
- *   { "name": "implementation_ready", "test": "Usable by registry formatter", "score": 0.46 }
- * ]
- */
-/**
- * REFINE PROMPT COMPOSITION - TEXT SEARCHER AGENT
- * 
- * Composed refine step prompt for Text Searcher agent using atomic prompt parts.
- * This defines how the agent optimizes search results and enhances text matching accuracy.
+ * intent: "Refine repository evidence into source-grounding context for Bitcode needs and AssetPack planning"
+ * current_version: "V26"
  */
 
 import { Prompt } from '@bitcode/prompts/prompt';
-
-
-
 
 export const TEXT_SEARCHER_REFINE_PROMPT = new Prompt()
   .set('relevance', PROMPTPART_SPECIFIC_AGENT_TEXTSEARCHER_REFINE_RELEVANCE_CRITERIA)

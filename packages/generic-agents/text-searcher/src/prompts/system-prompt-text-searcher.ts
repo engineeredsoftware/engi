@@ -9,29 +9,15 @@ import { PROMPTPART_SPECIFIC_AGENT_TEXT_SEARCHER_SYSTEM_IDENTITY } from '@bitcod
 import { PROMPTPART_SPECIFIC_AGENT_TEXT_SEARCHER_SYSTEM_ROLE } from '@bitcode/prompts/raw_promptparts/specific/promptpart_specific_agent_text_searcher_system_role';
 import { PROMPTPART_SPECIFIC_AGENT_TEXT_SEARCHER_SYSTEM_INSTRUCTIONS } from '@bitcode/prompts/raw_promptparts/specific/promptpart_specific_agent_text_searcher_system_instructions';
 /**
- * Text Searcher Agent - System Prompt
- * 
- * System-level configuration for text-searcher operations.
- * 
+ * Bitcode repository-evidence search system prompt.
+ *
  * @doc-comment-developing-promptdevelopment
  * domain: agent
- * intent: "System prompt for Text Searcher agent"
- * current_version: "GA1.50.0"
- * versions: [
- *   { "version": "1.0.0", "score": 0.45, "reason": "Initial implementation with industrial language" }
- * ]
- * benchmarks: [
- *   { "name": "system_coherence", "test": "Does the system prompt provide coherent instructions?", "score": 0.45 },
- *   { "name": "completeness", "test": "Does it cover all requirements?", "score": 0.45 },
- *   { "name": "operational_clarity", "test": "Are operational boundaries and capabilities clearly defined?", "score": 0.45 }
- * ]
+ * intent: "System prompt for bounded Bitcode repository-evidence search support"
+ * current_version: "V26"
  */
 
 import { Prompt } from '@bitcode/prompts/prompt';
-
-
-
-
 
 export const TEXT_SEARCHER_SYSTEM_PROMPT = new Prompt()
   .set('identity', PROMPTPART_SPECIFIC_AGENT_TEXT_SEARCHER_SYSTEM_IDENTITY)

@@ -1,86 +1,64 @@
 /**
- * Text Searcher Agent - Declarative Pattern
- * 
- * This agent uses the CORRECT declarative pattern:
- * - Define schemas for each PTRR step
- * - Define prompts for agent and each step
- * - Let factories handle ALL execution
- * - No manual step implementations needed!
+ * Bitcode Repository Evidence Search Agent - Declarative PTRR compatibility pattern.
+ *
+ * The retained text-searcher package name remains a compatibility path. V26
+ * semantics are repository-evidence collection for need measurement,
+ * source-grounding, proof inspection, and AssetPack planning.
  */
 
-import { 
-   
+import {
   factoryAgentWithPTRR,
-  factoryAgentWithSingleStep
+  factoryAgentWithSingleStep,
+  AgentPrompt,
+  AgentStepPrompt
 } from '@bitcode/agent-generics';
-import { AgentPrompt, AgentStepPrompt } from '@bitcode/agent-generics';
 import type { PromptPart } from '@bitcode/prompts/parts/PromptPart';
+import { simpleSystemTextSearch } from '@bitcode/generic-tools-simple-system-text-search';
 import { z } from 'zod';
 
-// ==================== TOOLS ====================
-// Tools this agent can use for text searching
-import { grepTool } from '@bitcode/generic-tools/grep';
-import { globTool } from '@bitcode/generic-tools/glob';
-import { fileSystemTool } from '@bitcode/generic-tools/file-system';
-
-// ==================== INPUT SCHEMA ====================
-const TextSearcherInputSchema = z.object({
-  query: z.string().describe('Search query or keywords'),
-  searchPath: z.string().optional().describe('Directory path to search'),
-  fileTypes: z.array(z.string()).optional().describe('File extensions to include'),
-  excludePatterns: z.array(z.string()).optional().describe('Patterns to exclude'),
-  caseSensitive: z.boolean().default(false).describe('Case sensitive search'),
-  maxResults: z.number().default(100).describe('Maximum results to return'),
-  includeContext: z.boolean().default(true).describe('Include surrounding context lines'),
+const BitcodeRepositoryEvidenceSearchInputSchema = z.object({
+  query: z.string().describe('Need-grounding evidence pattern or keywords'),
+  searchPath: z.string().optional().describe('Repository or package directory path to search'),
+  fileTypes: z.array(z.string()).optional().describe('File extensions to treat as evidence candidates'),
+  excludePatterns: z.array(z.string()).optional().describe('Patterns to exclude from evidence gathering'),
+  caseSensitive: z.boolean().default(false).describe('Case-sensitive evidence search'),
+  maxResults: z.number().default(100).describe('Maximum evidence matches to return'),
+  includeContext: z.boolean().default(true).describe('Include surrounding context intent when downstream prompts request it'),
   searchDepth: z.enum(['shallow', 'deep']).default('deep'),
-  regexMode: z.boolean().default(false).describe('Use regex patterns')
+  regexMode: z.boolean().default(false).describe('Treat query as a grep-compatible evidence regex')
 });
 
-// ==================== PLAN STEP SCHEMA ====================
-const TextSearcherPlanSchema = z.object({
-  // Search strategy
-  searchStrategy: z.string().describe('How to execute the search'),
+const BitcodeRepositoryEvidenceSearchPlanSchema = z.object({
+  searchStrategy: z.string().describe('How to collect repository evidence without claiming final proof'),
   keywordAnalysis: z.object({
     primaryTerms: z.array(z.string()),
     secondaryTerms: z.array(z.string()),
     searchPatterns: z.array(z.string())
   }),
-  
-  // File targeting
-  targetPaths: z.array(z.string()).describe('Paths to search'),
+  targetPaths: z.array(z.string()).describe('Repository/package paths to search for evidence'),
   fileFilters: z.object({
     includeTypes: z.array(z.string()),
     excludePatterns: z.array(z.string()),
     sizeLimit: z.number().optional()
   }),
-  
-  // Expected results
   estimatedMatches: z.number(),
   relevanceCriteria: z.array(z.string()),
-  
-  // Tool planning
   useTools: z.array(z.object({
     name: z.string(),
     input: z.any(),
     reason: z.string()
-  })).optional().describe('Tools to use in plan phase'),
-  
-  // Success tracking
+  })).optional().describe('Evidence tools to use in plan phase'),
   confidence: z.number().min(0).max(1),
   complexity: z.enum(['simple', 'moderate', 'complex'])
 });
 
-// ==================== TRY STEP SCHEMA ====================
-const TextSearcherTrySchema = z.object({
-  // Core search execution
+const BitcodeRepositoryEvidenceSearchTrySchema = z.object({
   searchExecution: z.object({
     toolsUsed: z.array(z.string()),
     searchCommands: z.array(z.string()),
     executionTime: z.number(),
     filesScanned: z.number()
   }),
-  
-  // Raw results
   rawMatches: z.array(z.object({
     file: z.string(),
     line: z.number(),
@@ -89,30 +67,22 @@ const TextSearcherTrySchema = z.object({
     matchType: z.enum(['exact', 'partial', 'regex']),
     confidence: z.number()
   })),
-  
-  // Initial processing
   initialAnalysis: z.object({
     totalMatches: z.number(),
     uniqueFiles: z.number(),
     fileTypeDistribution: z.record(z.number()),
     searchCoverage: z.number()
   }),
-  
-  // Tool usage for searching
   useTools: z.array(z.object({
     name: z.string(),
     input: z.any(),
     reason: z.string()
-  })).optional().describe('Tools to use for text searching'),
-  
-  // Status
+  })).optional().describe('Repository-evidence tool requests'),
   searchComplete: z.boolean(),
   errors: z.array(z.string()).optional()
 });
 
-// ==================== REFINE STEP SCHEMA ====================
-const TextSearcherRefineSchema = z.object({
-  // Enhanced results
+const BitcodeRepositoryEvidenceSearchRefineSchema = z.object({
   refinedMatches: z.array(z.object({
     file: z.string(),
     line: z.number(),
@@ -125,38 +95,28 @@ const TextSearcherRefineSchema = z.object({
     matchQuality: z.enum(['high', 'medium', 'low']),
     tags: z.array(z.string()).optional()
   })),
-  
-  // Quality improvements
   qualityMetrics: z.object({
     averageRelevance: z.number(),
     duplicatesRemoved: z.number(),
     contextEnriched: z.number(),
     falsePositivesFiltered: z.number()
   }),
-  
-  // Pattern analysis
   patterns: z.object({
     commonTerms: z.array(z.string()),
     filePatterns: z.array(z.string()),
     codePatterns: z.array(z.string()).optional(),
     recommendations: z.array(z.string())
   }),
-  
-  // Refinement tools
   useTools: z.array(z.object({
     name: z.string(),
     input: z.any(),
     reason: z.string()
-  })).optional().describe('Tools for refinement'),
-  
-  // Improvements made
+  })).optional().describe('Evidence refinement tools'),
   refinements: z.array(z.string()),
   confidence: z.number()
 });
 
-// ==================== RETRY STEP SCHEMA ====================
-const TextSearcherRetrySchema = z.object({
-  // Final comprehensive results
+const BitcodeRepositoryEvidenceSearchRetrySchema = z.object({
   searchResults: z.object({
     matches: z.array(z.object({
       file: z.string(),
@@ -182,85 +142,63 @@ const TextSearcherRetrySchema = z.object({
     }),
     processingTime: z.number()
   }),
-  
-  // Query analysis
   queryInsights: z.object({
     queryComplexity: z.string(),
     searchEffectiveness: z.number(),
     suggestedRefinements: z.array(z.string()),
     alternativeQueries: z.array(z.string()).optional()
   }),
-  
-  // Performance metrics
   performance: z.object({
     searchSpeed: z.number(),
     accuracyScore: z.number(),
     completionRate: z.number()
   }),
-  
-  // Final recommendations
   recommendations: z.array(z.string()),
   nextSteps: z.array(z.string()).optional(),
-  
-  // Recovery tools if needed
   useTools: z.array(z.object({
     name: z.string(),
     input: z.any(),
     reason: z.string()
-  })).optional().describe('Recovery tools if retry needed'),
-  
-  // Overall success
+  })).optional().describe('Recovery evidence tool requests'),
   success: z.boolean(),
   completionMessage: z.string()
 });
 
-// ==================== PROMPTS ====================
-
-export const textSearcherPrompt = new AgentPrompt({
-  name: 'text-searcher' as PromptPart,
-  identity: 'Text search specialist' as PromptPart
+export const bitcodeRepositoryEvidenceSearcherPrompt = new AgentPrompt({
+  name: 'bitcode-repository-evidence-searcher' as PromptPart,
+  identity: 'Bitcode repository-evidence search agent for source-grounded need and AssetPack context' as PromptPart
 });
 
-export const textSearcherStepPrompts = {
-  plan: new AgentStepPrompt({ purpose: 'Plan search' as PromptPart }),
-  try: new AgentStepPrompt({ purpose: 'Execute search' as PromptPart }),
-  refine: new AgentStepPrompt({ purpose: 'Enhance results' as PromptPart }),
-  retry: new AgentStepPrompt({ purpose: 'Finalize search' as PromptPart })
+export const bitcodeRepositoryEvidenceSearcherStepPrompts = {
+  plan: new AgentStepPrompt({ purpose: 'Plan bounded repository-evidence search for a Bitcode need' as PromptPart }),
+  try: new AgentStepPrompt({ purpose: 'Execute grep-backed evidence search without mutating source' as PromptPart }),
+  refine: new AgentStepPrompt({ purpose: 'Refine evidence snippets into source-grounding context' as PromptPart }),
+  retry: new AgentStepPrompt({ purpose: 'Finalize repository evidence and expose gaps without claiming proof closure' as PromptPart })
 };
 
-// ==================== AGENT CONFIGURATION ====================
+export const textSearcherPrompt = bitcodeRepositoryEvidenceSearcherPrompt;
+export const textSearcherStepPrompts = bitcodeRepositoryEvidenceSearcherStepPrompts;
 
-/**
- * Comprehensive text search variation
- * Uses full PTRR cycle for thorough search and analysis
- */
-const comprehensiveSearchVariation = factoryAgentWithPTRR<
-  z.infer<typeof TextSearcherInputSchema>,
-  z.infer<typeof TextSearcherRetrySchema>
+const bitcodeRepositoryEvidenceSearchVariation = factoryAgentWithPTRR<
+  z.infer<typeof BitcodeRepositoryEvidenceSearchInputSchema>,
+  z.infer<typeof BitcodeRepositoryEvidenceSearchRetrySchema>
 >({
-  name: 'comprehensive-search',
-  description: 'Full text search with deep analysis and result refinement',
-  prompt: textSearcherPrompt,
+  name: 'bitcode-repository-evidence-search',
+  description: 'Repository evidence search for Bitcode need measurement, proof inspection, and AssetPack planning',
+  prompt: bitcodeRepositoryEvidenceSearcherPrompt,
   stepPrompts: {
-    plan: () => textSearcherStepPrompts.plan,
-    try: () => textSearcherStepPrompts.try,
-    refine: () => textSearcherStepPrompts.refine,
-    retry: () => textSearcherStepPrompts.retry
+    plan: () => bitcodeRepositoryEvidenceSearcherStepPrompts.plan,
+    try: () => bitcodeRepositoryEvidenceSearcherStepPrompts.try,
+    refine: () => bitcodeRepositoryEvidenceSearcherStepPrompts.refine,
+    retry: () => bitcodeRepositoryEvidenceSearcherStepPrompts.retry
   },
-  
-  // The factories use these schemas to:
-  // 1. Create typed executors for each step
-  // 2. Run the 7-substep sequence automatically
-  // 3. Store all results to execution state
-  // 4. Handle tool execution when useTools is present
-  outputSchema: TextSearcherRetrySchema,
-  
-  // Optional configurations per step
+  tools: [simpleSystemTextSearch],
+  outputSchema: BitcodeRepositoryEvidenceSearchRetrySchema,
   plan: {
-    chunkThreshold: 1000  // Search plans are typically small
+    chunkThreshold: 1000
   },
   try: {
-    chunkThreshold: 50000,  // Search results can be large
+    chunkThreshold: 50000,
     enableParallelChunks: true
   },
   refine: {
@@ -272,103 +210,87 @@ const comprehensiveSearchVariation = factoryAgentWithPTRR<
   }
 });
 
-/**
- * Quick search variation
- * Single-step execution for simple search tasks
- */
-const quickSearchVariation = factoryAgentWithSingleStep<
-  z.infer<typeof TextSearcherInputSchema>,
-  z.infer<typeof TextSearcherRetrySchema>
+const quickBitcodeRepositoryEvidenceSearchVariation = factoryAgentWithSingleStep<
+  z.infer<typeof BitcodeRepositoryEvidenceSearchInputSchema>,
+  z.infer<typeof BitcodeRepositoryEvidenceSearchRetrySchema>
 >({
-  name: 'quick-search',
-  description: 'Fast text search for simple queries',
-  
-  // Single executor - still runs through execution system
+  name: 'quick-bitcode-repository-evidence-search',
+  description: 'Bounded grep-backed repository-evidence lookup for simple Bitcode source-grounding needs',
   execute: async (input, execution) => {
-    // This executor is wrapped and tracked automatically
-    execution.store('variation', 'mode', 'quick');
-    
-    // Even simple variations can use the execution's registries
-    const llm = execution.llms.getDefaultLLM();
-    const grepTool = execution.tools.getTool('grep');
-    
-    // Quick search logic here
-    // Return matches the Retry schema for consistency
+    execution.store('variation', 'mode', 'quick-bitcode-repository-evidence-search');
+
+    const startedAt = Date.now();
+    const matches = await simpleSystemTextSearch.execute({
+      pattern: input.query,
+      cwd: input.searchPath ?? process.cwd(),
+      maxResults: input.maxResults,
+      ignoreCase: !input.caseSensitive
+    });
+    const filesWithMatches = new Set(matches.map((match) => match.file));
+    const distribution = matches.reduce<Record<string, number>>((acc, match) => {
+      const extension = match.file.includes('.') ? match.file.split('.').pop() || 'unknown' : 'unknown';
+      acc[extension] = (acc[extension] ?? 0) + 1;
+      return acc;
+    }, {});
+
     return {
       searchResults: {
-        matches: [],
+        matches: matches.map((match) => ({
+          file: match.file,
+          line: match.line,
+          content: match.text,
+          relevanceScore: 1
+        })),
         summary: {
-          totalMatches: 0,
-          filesSearched: 0,
-          filesWithMatches: 0,
-          topFileTypes: [],
-          keywordsFound: input.query.split(' ').slice(0, 5)
+          totalMatches: matches.length,
+          filesSearched: filesWithMatches.size,
+          filesWithMatches: filesWithMatches.size,
+          topFileTypes: Object.keys(distribution),
+          keywordsFound: input.query.split(/\s+/u).filter(Boolean).slice(0, 5)
         },
         analysis: {
-          patterns: [],
-          distribution: {},
-          recommendations: ['Use comprehensive search for detailed analysis']
+          patterns: [input.query],
+          distribution,
+          recommendations: [
+            'Treat these matches as repository evidence only; need interpretation, mutation, proof generation, and delivery remain owned by downstream Bitcode systems.'
+          ]
         },
-        processingTime: 0
+        processingTime: Date.now() - startedAt
       },
       queryInsights: {
-        queryComplexity: 'simple',
-        searchEffectiveness: 0.5,
-        suggestedRefinements: []
+        queryComplexity: input.regexMode ? 'regex-evidence-pattern' : 'literal-evidence-pattern',
+        searchEffectiveness: matches.length > 0 ? 1 : 0,
+        suggestedRefinements: matches.length > 0 ? [] : ['Try a narrower Bitcode term, package owner, prompt name, or proof identifier.']
       },
       performance: {
-        searchSpeed: 1.0,
-        accuracyScore: 0.7,
-        completionRate: 1.0
+        searchSpeed: matches.length,
+        accuracyScore: 1,
+        completionRate: 1
       },
-      recommendations: ['Quick search completed - use comprehensive search for better results'],
+      recommendations: [
+        'Use matched lines as source-grounding context, not as final proof closure.'
+      ],
       success: true,
-      completionMessage: 'Quick text search completed'
+      completionMessage: 'Bitcode repository-evidence search completed'
     };
   }
 });
 
-// ==================== AGENT DEFINITION ====================
+export const bitcodeRepositoryEvidenceSearcher = bitcodeRepositoryEvidenceSearchVariation;
+export const quickBitcodeRepositoryEvidenceSearcher = quickBitcodeRepositoryEvidenceSearchVariation;
 
-/**
- * Text Searcher Agent
- * 
- * This agent demonstrates the CORRECT declarative pattern:
- * - Schemas define WHAT each step produces
- * - Factories create HOW it's executed (7-substep sequence)
- * - Execution handles WHERE it's stored (automatic state management)
- * - Prompts guide WHEN tools are used (through useTools in schemas)
- */
-export const textSearcher = comprehensiveSearchVariation;
-export const quickTextSearcher = quickSearchVariation;
+export const textSearcher = bitcodeRepositoryEvidenceSearcher;
+export const quickTextSearcher = quickBitcodeRepositoryEvidenceSearcher;
+export const SIMPLE_TEXT_SEARCH_AGENT = bitcodeRepositoryEvidenceSearcher;
 
-// ==================== TYPE EXPORTS ====================
-export type TextSearcherInput = z.infer<typeof TextSearcherInputSchema>;
-export type TextSearcherPlanOutput = z.infer<typeof TextSearcherPlanSchema>;
-export type TextSearcherTryOutput = z.infer<typeof TextSearcherTrySchema>;
-export type TextSearcherRefineOutput = z.infer<typeof TextSearcherRefineSchema>;
-export type TextSearcherRetryOutput = z.infer<typeof TextSearcherRetrySchema>;
+export type BitcodeRepositoryEvidenceSearchInput = z.infer<typeof BitcodeRepositoryEvidenceSearchInputSchema>;
+export type BitcodeRepositoryEvidenceSearchPlanOutput = z.infer<typeof BitcodeRepositoryEvidenceSearchPlanSchema>;
+export type BitcodeRepositoryEvidenceSearchTryOutput = z.infer<typeof BitcodeRepositoryEvidenceSearchTrySchema>;
+export type BitcodeRepositoryEvidenceSearchRefineOutput = z.infer<typeof BitcodeRepositoryEvidenceSearchRefineSchema>;
+export type BitcodeRepositoryEvidenceSearchRetryOutput = z.infer<typeof BitcodeRepositoryEvidenceSearchRetrySchema>;
 
-/**
- * THE MAGIC EXPLAINED:
- * 
- * When textSearcherAgent is called:
- * 1. selectVariation picks comprehensive or quick
- * 2. If comprehensive:
- *    - factoryPlanGeneration(schema) creates Plan generation (failsafed thricified)
- *    - factoryTryGeneration(schema) creates Try generation (failsafed thricified)
- *    - factoryRefineGeneration(schema) creates Refine generation (failsafed thricified)
- *    - factoryRetryGeneration(schema) creates Retry generation (failsafed thricified)
- * 3. Each executor automatically:
- *    - Runs PrepareConciseContext→ChunkThenSum→StitchUntilComplete
- *    - Each parent runs Reason→Judge→StructuredOutput
- *    - Stores everything to execution.store()
- *    - Executes tools if useTools is in output
- * 4. The execution tree accumulates:
- *    - Every LLM call result
- *    - Every tool execution
- *    - Every substep output
- *    - All in namespaced stores!
- * 
- * We just defined schemas - the framework does EVERYTHING else!
- */
+export type TextSearcherInput = BitcodeRepositoryEvidenceSearchInput;
+export type TextSearcherPlanOutput = BitcodeRepositoryEvidenceSearchPlanOutput;
+export type TextSearcherTryOutput = BitcodeRepositoryEvidenceSearchTryOutput;
+export type TextSearcherRefineOutput = BitcodeRepositoryEvidenceSearchRefineOutput;
+export type TextSearcherRetryOutput = BitcodeRepositoryEvidenceSearchRetryOutput;

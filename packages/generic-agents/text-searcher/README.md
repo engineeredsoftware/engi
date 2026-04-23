@@ -1,76 +1,43 @@
-# Text Searcher Agent
+# Bitcode Repository Evidence Search Agent
 
 ## Overview
 
-Repository text search specialist that performs exact-match text searches across codebases using system grep commands. Provides deterministic search results for keyword discovery and content location within project files.
+This package admits the retained `text-searcher` path as a Bitcode repository-evidence search agent.
+It is not an autonomous search product, task-analysis product, semantic-search engine, or content-indexing system.
+Its V26 role is to orchestrate bounded grep-backed evidence collection so downstream Bitcode agents can measure a need, inspect source/proof owners, and ground AssetPack or written-asset planning.
 
-## Core Capabilities
+The compatibility package name remains `@bitcode/generic-agents-text-search`.
+The active semantic owner is `bitcodeRepositoryEvidenceSearcher`; `textSearcher`, `quickTextSearcher`, and `SIMPLE_TEXT_SEARCH_AGENT` remain compatibility aliases for old imports.
 
-- **Exact Text Matching**: Uses system grep for precise string matching without fuzzy logic
-- **Keyword Extraction**: Automatically derives search terms from task descriptions
-- **Result Deduplication**: Consolidates multiple matches from same locations
-- **Context Generation**: Provides file type and location context for each match
-- **Relevance Scoring**: Ranks results based on keyword frequency and file types
+## Canonical V26 Boundary
 
-## Technical Implementation
+- Inputs remain query-shaped for compatibility, but the query represents a need-grounding evidence pattern.
+- Output matches are evidence snippets, not conclusions and not proof closure by themselves.
+- The agent may use `simpleSystemTextSearch` as the only admitted repository-evidence tool.
+- File mutation, proof generation, delivery mechanisms, and canonical need interpretation remain owned by their respective Bitcode tools, pipelines, and proof generators.
 
-### Architecture
-- Built on GenericAgent base with PTRR execution methodology
-- Integrates with simple-system-text-search tool for grep operations
-- Implements 4-step processing pipeline with result refinement
-- Provides structured output with confidence metrics
+## Prompt Structure
 
-### Processing Pipeline
-1. **Plan**: Extract significant keywords from task description using stop-word filtering
-2. **Try**: Execute parallel grep searches for each extracted keyword
-3. **Refine**: Consolidate results, remove duplicates, apply relevance scoring
-4. **Intensify**: Synthesize findings with file type analysis and insights generation
+Prompt implementations stay local to the package usage site and compose through Registry-backed prompt primitives:
 
-### Search Strategy
-- Automatic keyword extraction with length filtering (>3 characters)
-- Stop-word removal for improved relevance
-- Configurable result limits per keyword
-- File type classification for context awareness
+- `src/prompts/agent-prompt-text-searcher.ts` carries the agent-level prompt registry.
+- `src/prompts/system-prompt-text-searcher.ts` carries the system-level support prompt registry.
+- `src/prompts/{plan,try,refine,retry}-prompt-text-searcher.ts` carry PTRR step prompt registries.
+- `packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_textsearcher_*` and `promptpart_specific_agent_text_searcher_*` retain compatibility filenames, but their content is V26 Bitcode repository-evidence search content.
+- Generic generation and failsafe PromptParts remain reusable base layers; the specific PromptParts define this agent's implementation semantics.
 
-## Output Structure
+## Agent Variations
 
-### Search Result Schema
-```typescript
-{
-  finalMatches: Array<{
-    file: string,
-    line: number,
-    text: string,
-    keywords: string[],
-    relevance: number,
-    context: string
-  }>,
-  searchSummary: {
-    totalMatches: number,
-    keywordsUsed: string[],
-    topFiles: string[],
-    searchCoverage: number
-  },
-  insights: string[]
-}
-```
+- `bitcodeRepositoryEvidenceSearcher`: PTRR evidence-search variation for source-grounded repository investigation.
+- `quickBitcodeRepositoryEvidenceSearcher`: single-step grep-backed variation for bounded evidence lookups.
+- `textSearcher`, `quickTextSearcher`, and `SIMPLE_TEXT_SEARCH_AGENT`: compatibility aliases only.
 
-### Quality Metrics
-- Unique matches after deduplication
-- File coverage statistics
-- Keyword effectiveness ratios
-- Search completion rates
+## Verification
 
-## Performance Characteristics
+The V26 proof family checks this package through:
 
-- **Execution Time**: 5-30 seconds depending on repository size
-- **Memory Usage**: Minimal - processes results incrementally
-- **Accuracy**: 100% for exact string matches
-- **Coverage**: Limited to textual file content (no binary analysis)
-- **Scalability**: Performance scales with repository size and keyword count
-
-### Search Optimization
-- Maximum 5 keywords per search to prevent over-expansion
-- Configurable result limits (default 100 per keyword)
-- Parallel keyword processing for improved speed
-- Intelligent fallback to basic terms on extraction failure
+- `protocol-demonstration/test/v26-text-searcher-agent-compatibility.test.js`
+- `protocol-demonstration/test/v26-prompt-system-boundary.test.js`
+- `protocol-demonstration/test/v26-inference-implementation-records.test.js`
+- `.bitcode/prompt-space-completeness-proof.json`
+- `.bitcode/inference-implementation-records-proof.json`

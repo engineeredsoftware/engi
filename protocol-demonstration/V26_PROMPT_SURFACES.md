@@ -108,7 +108,7 @@ These corridors still consume prompt abstractions or raw promptparts, but they a
 
 | Corridor | Current owners | Current role |
 | --- | --- | --- |
-| Generic retained agents | `packages/generic-agents/*` including `jira-processor`, `web-search`, `web-researcher`, `danger-wall`, `ready-to-short-circuit` | reference-only/retained acceleration corridors; Jira remains reader-first need-ingestion/reference posture rather than live Bitcode product ownership |
+| Generic retained agents | `packages/generic-agents/*` including `jira-processor`, `text-searcher`, `web-search`, `web-researcher`, `danger-wall`, `ready-to-short-circuit` | reference-only/retained acceleration corridors unless promoted as admitted support; Jira remains reader-first need-ingestion/reference posture rather than live Bitcode product ownership; `text-searcher` is admitted only as Bitcode repository-evidence search support for need measurement, proof inspection, and AssetPack source-grounding |
 | Generic retained tools | `packages/generic-tools/*` including `mcps-tools/*`, `task-comprehension`, `simple-system-text-search`, `lsp-query`, `web-search`, `vcs`, `use-computer`, `repository-setup` | retained prompt-bearing tool reservoirs and doc-code ports; `task-comprehension` is now a compatibility package whose active prompts and placeholder primitives are interpreted as Bitcode need-comprehension, written-asset, asset-pack, and shipping-wrapper analysis; `simple-system-text-search` is now admitted only as bounded repository-evidence search support for need measurement and asset-pack source-grounding |
 | ChatGPT-era prompt documentation | `packages/chatgptapp/src/prompts/*` | retained prompt documentation/reference corridor |
 | Prompt/doc-comment experimentation | `packages/generic-doc-comment-plugins/*`, `packages/doc-comment/examples/*`, `packages/prompts/src/developing/*` | experimental/reference prompt authoring and prompt-doc tooling; see `protocol-demonstration/V26_DOC_COMMENT_REFORM.md` for the V26 reform boundary |
@@ -147,6 +147,11 @@ Its DocCode prompt metadata must be `V26`, categorized as `repository-evidence-s
 It must not present itself as broad codebase intelligence, generic task analysis, mutation authority, delivery authority, or proof completion by itself.
 The same TS/JS carry-through rule applies to its raw PromptParts: runtime `.js` PromptPart content must match the canonical TypeScript strings so injected tool descriptions cannot retain GA-era text.
 Its package manifest must directly declare `@bitcode/prompts` because the canonical prompt owner imports raw PromptParts rather than receiving them transitively through the tool primitive.
+
+The retained `packages/generic-agents/text-searcher` corridor is admitted only as the agentic layer above that repository-evidence search tool:
+`bitcodeRepositoryEvidenceSearcher` is the active semantic export, while `textSearcher`, `quickTextSearcher`, `SIMPLE_TEXT_SEARCH_AGENT`, and `TEXTSEARCHER` raw PromptPart filenames remain compatibility carriers.
+Its agent, system, Plan, Try, Refine, and Retry prompt files must all carry `V26` metadata and must teach evidence-only support for need measurement, proof inspection, source-grounding, and AssetPack planning.
+It may select and organize evidence, but it must not claim mutation authority, proof closure, delivery ownership, generic task analysis, indexing-product ownership, or live Exchange/Terminal product semantics.
 
 The retained `packages/generic-tools/files-maintaining` corridor is admitted as written-asset mutation support for asset-pack synthesis:
 text editing, create, replace, delete, and transaction prompts may remain generic tool package surfaces, but their DocCode prompt metadata must describe Bitcode written-asset file mutation and proof-facing transaction evidence rather than generic file-system or GA1 lineage.

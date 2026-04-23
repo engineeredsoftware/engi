@@ -1,16 +1,15 @@
 /**
  * @doc-comment-developing-promptpartdevelopment
  * domain: agent
- * intent: "Agent-specific semantic unit (PROMPTPART_SPECIFIC_AGENT_TEXTSEARCHER_RETRY_RECOVERY_STRATEGY)"
- * current_version: "GA1.50.0"
+ * intent: "Recover Bitcode repository-evidence search with bounded pattern changes"
+ * current_version: "V26"
  * versions: []
  * benchmarks: [
- *   { "name": "technical_accuracy", "test": "Uses concrete technical language", "score": 0.50 },
- *   { "name": "implementation_ready", "test": "Provides clear actionable guidance", "score": 0.50 }
+ *   { "name": "bounded_recovery", "test": "Recovers evidence search without broad old-world expansion", "score": 1.00 }
  * ]
  */
 
 import type { PromptPart } from '../../parts/PromptPart';
 
-export const PROMPTPART_SPECIFIC_AGENT_TEXTSEARCHER_RETRY_RECOVERY_STRATEGY: PromptPart = 
-  'Recovery: broaden queries, split composite patterns, or sample additional paths. Document trade‑offs and confirm final matches.' as PromptPart;
+export const PROMPTPART_SPECIFIC_AGENT_TEXTSEARCHER_RETRY_RECOVERY_STRATEGY: PromptPart =
+  'Recover by trying canonical Bitcode names, compatibility filenames, package owners, prompt constants, schema fields, proof artifact names, and AssetPack terms; stop when evidence is sufficient or the remaining gap is explicit.' as PromptPart;

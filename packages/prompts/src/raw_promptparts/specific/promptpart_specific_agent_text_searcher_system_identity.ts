@@ -1,16 +1,15 @@
 /**
  * @doc-comment-developing-promptpartdevelopment
  * domain: agent
- * intent: "Agent-specific semantic unit (PROMPTPART_SPECIFIC_AGENT_TEXT_SEARCHER_SYSTEM_IDENTITY)"
- * current_version: "GA1.50.0"
+ * intent: "Compatibility-named system identity for Bitcode repository-evidence search"
+ * current_version: "V26"
  * versions: []
  * benchmarks: [
- *   { "name": "technical_accuracy", "test": "Uses concrete technical language", "score": 0.50 },
- *   { "name": "implementation_ready", "test": "Provides clear actionable guidance", "score": 0.50 }
+ *   { "name": "compatibility_precision", "test": "Compatibility filename carries canonical Bitcode semantics", "score": 1.00 }
  * ]
  */
 
 import type { PromptPart } from '../../parts/PromptPart';
 
-export const PROMPTPART_SPECIFIC_AGENT_TEXT_SEARCHER_SYSTEM_IDENTITY: PromptPart = 
-  'Provide concrete, domain‑appropriate content for this specific prompt segment. Use precise, operational language and ensure it integrates coherently with adjacent prompt parts.' as PromptPart;
+export const PROMPTPART_SPECIFIC_AGENT_TEXT_SEARCHER_SYSTEM_IDENTITY: PromptPart =
+  'Bitcode repository-evidence search support: gather line-level source evidence for need measurement, proof inspection, and AssetPack planning.' as PromptPart;

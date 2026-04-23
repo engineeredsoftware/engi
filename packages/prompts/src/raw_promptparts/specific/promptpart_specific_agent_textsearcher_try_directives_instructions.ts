@@ -1,16 +1,15 @@
 /**
  * @doc-comment-developing-promptpartdevelopment
  * domain: agent
- * intent: "Agent-specific semantic unit (PROMPTPART_SPECIFIC_AGENT_TEXTSEARCHER_TRY_DIRECTIVES_INSTRUCTIONS)"
- * current_version: "GA1.50.0"
+ * intent: "Try directives for Bitcode repository-evidence search"
+ * current_version: "V26"
  * versions: []
  * benchmarks: [
- *   { "name": "technical_accuracy", "test": "Uses concrete technical language", "score": 0.50 },
- *   { "name": "implementation_ready", "test": "Provides clear actionable guidance", "score": 0.50 }
+ *   { "name": "execution_boundary", "test": "Executes search as evidence collection only", "score": 1.00 }
  * ]
  */
 
 import type { PromptPart } from '../../parts/PromptPart';
 
-export const PROMPTPART_SPECIFIC_AGENT_TEXTSEARCHER_TRY_DIRECTIVES_INSTRUCTIONS: PromptPart = 
-  'Search text within provided inputs using exact, regex, and fuzzy strategies as needed. Respect case sensitivity flags and path filters; do not read outside allowed scope.' as PromptPart;
+export const PROMPTPART_SPECIFIC_AGENT_TEXTSEARCHER_TRY_DIRECTIVES_INSTRUCTIONS: PromptPart =
+  'Use simpleSystemTextSearch to collect exact or regex repository evidence inside the allowed scope. Return matched file paths and lines, record misses, and avoid reading outside the requested repository/package boundary.' as PromptPart;

@@ -5,7 +5,10 @@
   "main": "src/index.ts",
   "types": "src/index.ts",
   "dependencies": {
+    "@bitcode/agent-generics": "workspace:*",
+    "@bitcode/generic-tools-simple-system-text-search": "workspace:*",
     "@bitcode/logger": "workspace:*",
-    "@bitcode/generic-tools-simple-system-text-search": "workspace:*"
+    "@bitcode/prompts": "workspace:*",
+    "zod": "^3.22.4"
   }
 }

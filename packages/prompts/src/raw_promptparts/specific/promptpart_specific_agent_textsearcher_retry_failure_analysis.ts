@@ -1,16 +1,15 @@
 /**
  * @doc-comment-developing-promptpartdevelopment
  * domain: agent
- * intent: "Agent-specific semantic unit (PROMPTPART_SPECIFIC_AGENT_TEXTSEARCHER_RETRY_FAILURE_ANALYSIS)"
- * current_version: "GA1.50.0"
+ * intent: "Analyze Bitcode repository-evidence search failure modes"
+ * current_version: "V26"
  * versions: []
  * benchmarks: [
- *   { "name": "technical_accuracy", "test": "Uses concrete technical language", "score": 0.50 },
- *   { "name": "implementation_ready", "test": "Provides clear actionable guidance", "score": 0.50 }
+ *   { "name": "gap_visibility", "test": "Turns misses into explicit evidence gaps", "score": 1.00 }
  * ]
  */
 
 import type { PromptPart } from '../../parts/PromptPart';
 
-export const PROMPTPART_SPECIFIC_AGENT_TEXTSEARCHER_RETRY_FAILURE_ANALYSIS: PromptPart = 
-  'Analyze mismatches: encoding differences, binary files, or incorrect assumptions. Propose revised patterns and exclusions.' as PromptPart;
+export const PROMPTPART_SPECIFIC_AGENT_TEXTSEARCHER_RETRY_FAILURE_ANALYSIS: PromptPart =
+  'Analyze evidence misses as scoped gaps: wrong package path, overly broad or narrow Bitcode term, compatibility filename mismatch, absent proof owner, or unavailable repository source. Do not invent evidence.' as PromptPart;
