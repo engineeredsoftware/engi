@@ -1463,7 +1463,16 @@ const V26_PROMPT_SPACE_WITNESS_SETS = [
       'packages/agent-generics/TLDR.md',
       'packages/eslint-plugin-bitcode/src/requirePromptHierarchy.ts',
       'packages/conversations-generics/src/prompts/ConversationSystemPrompt.ts',
-      'packages/conversations-generics/src/agent/ConversationAgent.ts'
+      'packages/conversations-generics/src/agent/ConversationAgent.ts',
+      'packages/prompts/src/raw_promptparts/specific/promptpart_specific_system_bitcodeterminalconversation_identity_corestatement.ts',
+      'packages/prompts/src/raw_promptparts/specific/promptpart_specific_system_bitcodeterminalconversation_capabilities_list.ts',
+      'packages/prompts/src/raw_promptparts/specific/promptpart_specific_system_bitcodeterminalconversation_usage_guidance.ts',
+      'packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_conversationagent_name.ts',
+      'packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_conversationagent_identity_definition.ts',
+      'packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_conversationagent_ptrrplan_purpose.ts',
+      'packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_conversationagent_ptrrtry_purpose.ts',
+      'packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_conversationagent_ptrrrefine_purpose.ts',
+      'packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_conversationagent_ptrrretry_purpose.ts'
     ]
   },
   {

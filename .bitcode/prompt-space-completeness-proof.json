@@ -1,8 +1,8 @@
 {
   "reportId": "v26-prompt-space-completeness-proof",
   "version": "V26",
-  "proofSourceCommit": "7aa2c63cf105490ce6e638fcfd9ba7ff5eb3fa75",
-  "generatedAt": "2026-04-23T13:14:02-03:00",
+  "proofSourceCommit": "e24543c55fb886cc41d9eac1dc8651dc9c7878d3",
+  "generatedAt": "2026-04-23T14:11:03-03:00",
   "generatorId": "bitcode.proven-generator.v1",
   "worktreeState": "dirty-preview",
   "passed": false,
@@ -46,7 +46,7 @@
       "checkId": "active-agent-execution-prompt-carriers",
       "label": "Active agent, execution, pipeline, and conversation prompt carriers stay explicit",
       "passed": true,
-      "detail": "10 required files present",
+      "detail": "19 required files present",
       "requiredFiles": [
         "packages/execution-generics/src/prompts/ExecutionPrompt.ts",
         "packages/pipelines-generics/src/prompts/PipelinePrompt.ts",
@@ -57,7 +57,16 @@
         "packages/agent-generics/TLDR.md",
         "packages/eslint-plugin-bitcode/src/requirePromptHierarchy.ts",
         "packages/conversations-generics/src/prompts/ConversationSystemPrompt.ts",
-        "packages/conversations-generics/src/agent/ConversationAgent.ts"
+        "packages/conversations-generics/src/agent/ConversationAgent.ts",
+        "packages/prompts/src/raw_promptparts/specific/promptpart_specific_system_conversationsproduct_identity_corestatement.ts",
+        "packages/prompts/src/raw_promptparts/specific/promptpart_specific_system_conversationsproduct_capabilities_list.ts",
+        "packages/prompts/src/raw_promptparts/specific/promptpart_specific_system_conversationsproduct_usage_guidance.ts",
+        "packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_conversationagent_name.ts",
+        "packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_conversationagent_identity_definition.ts",
+        "packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_conversationagent_ptrrplan_purpose.ts",
+        "packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_conversationagent_ptrrtry_purpose.ts",
+        "packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_conversationagent_ptrrrefine_purpose.ts",
+        "packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_conversationagent_ptrrretry_purpose.ts"
       ],
       "missingFiles": [],
       "promptSpaceRole": "active-inference-carriers",

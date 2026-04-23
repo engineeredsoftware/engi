@@ -31,6 +31,8 @@ test('V26 prompt surface map keeps active, support, and reference corridors expl
   assert.match(promptSurfaceSource, /may not instruct callers to assign `execution\.prompt = \.\.\.` directly/u);
   assert.match(promptSurfaceSource, /`factoryAgentWithPTRR` must fail closed at the runtime\/type boundary/u);
   assert.match(promptSurfaceSource, /omits the Registry-backed agent prompt carrier or any of the plan\/try\/refine\/retry step Prompt registries/u);
+  assert.match(promptSurfaceSource, /active conversation and Terminal prompt carriers must compose agent identity plus PTRR step purposes from specific raw PromptParts/u);
+  assert.match(promptSurfaceSource, /rather than inline string-cast prompt fragments/u);
   assert.match(promptSurfaceSource, /## Active fifth-gate prompt consumers/u);
   assert.match(promptSurfaceSource, /## Support prompt consumers/u);
   assert.match(promptSurfaceSource, /## Reference-only or retained old-world prompt ports/u);
@@ -42,6 +44,7 @@ test('V26 prompt surface map keeps active, support, and reference corridors expl
   assert.match(promptSurfaceSource, /packages\/\{agent-generics\/src\/execution\/\{AgentExecution\.ts,Agent\*Registry\.ts\},pipelines-generics\/src\/execution\/\{PipelineExecution\.ts,Pipeline\*Registry\.ts\},conversations-generics\/src\/agent\/ConversationAgent\.ts\}/u);
   assert.match(promptSurfaceSource, /packages\/\{agent-generics\/src\/\{agents\/factories\.ts,diagnostics\/\{trace\.ts,instrumentation\.ts\},execution\/file-diff-integration\.ts,substeps\/factories\.ts,types\.ts\},pipelines-generics\/src\/\{execution\/\{Metrics\.ts,pipeline-types\.ts,resume\.ts,route-pipeline-execution\.ts\},phases\/\{phase-factory\.ts,sdivs-factory\.ts\},pipeline-factory\.ts,gate-system\/\{meta-phase-orchestrator\.ts,types\.ts\},executors\/wait-for-instruction\.ts,streaming\/pipeline-stream-integration\.ts\}\}/u);
   assert.match(promptSurfaceSource, /packages\/conversations-generics\/src\/\{prompts\/ConversationSystemPrompt\.ts,agent\/ConversationAgent\.ts\}/u);
+  assert.match(promptSurfaceSource, /promptpart_specific_\{system_bitcodeterminalconversation_\*,agent_conversationagent_\*\}/u);
   assert.match(promptSurfaceSource, /uapi\/prompts\/conversations-system-prompt\.ts/u);
   assert.match(promptSurfaceSource, /packages\/\{doc-comment,doc-code\}\/\*/u);
   assert.match(promptSurfaceSource, /packages\/tools-generics\/src\/doc-code-tool\/\*/u);
@@ -134,6 +137,7 @@ test('V26 inference systems spec binds prompts, tools, agents, and executions to
   assert.match(inferenceSystemsSource, /enforce agent prompt hierarchy through verifier code and runtime\/type boundaries where available/u);
   assert.match(inferenceSystemsSource, /complete plan\/try\/refine\/retry step Prompt registries/u);
   assert.match(inferenceSystemsSource, /must fail closed when that carrier is absent or partial/u);
+  assert.match(inferenceSystemsSource, /active Terminal conversation agents to source agent identity and PTRR step purposes from specific raw PromptParts/u);
   assert.match(inferenceSystemsSource, /keep active documentation and source comments aligned with that verifier/u);
   assert.match(inferenceSystemsSource, /manual `execution\.prompt = \.\.\.` assignment/u);
   assert.match(inferenceSystemsSource, /Prompt-type Registry carrier, generic base PromptParts, and specific implementation PromptParts are explicitly mapped/u);
@@ -197,6 +201,22 @@ test('V26 prompt-space proof proves the fifth-gate baseline without claiming eig
       'packages/eslint-plugin-bitcode/__tests__/requirePromptHierarchy.test.ts',
       'packages/agent-generics/src/__tests__/factory-agent-ptrr-prompt-hierarchy.test.ts'
     ].every((requiredFile) => proofSpecificationWitness.requiredFiles.includes(requiredFile)),
+    true
+  );
+
+  const activeCarrierWitness = promptSpaceCompletenessProof.checks.find(
+    (check) => check.checkId === 'active-agent-execution-prompt-carriers'
+  );
+  assert.ok(activeCarrierWitness);
+  assert.deepEqual(
+    [
+      'packages/prompts/src/raw_promptparts/specific/promptpart_specific_system_bitcodeterminalconversation_identity_corestatement.ts',
+      'packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_conversationagent_identity_definition.ts',
+      'packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_conversationagent_ptrrplan_purpose.ts',
+      'packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_conversationagent_ptrrtry_purpose.ts',
+      'packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_conversationagent_ptrrrefine_purpose.ts',
+      'packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_conversationagent_ptrrretry_purpose.ts'
+    ].every((requiredFile) => activeCarrierWitness.requiredFiles.includes(requiredFile)),
     true
   );
 });

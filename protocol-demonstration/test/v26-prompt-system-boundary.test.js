@@ -95,6 +95,17 @@ const ACTIVE_AGENT_PROMPT_DOC_COMMENT_FILES = [
   'packages/conversations-generics/src/prompts/ConversationSystemPrompt.ts',
   'packages/conversations-generics/src/prompts/ConversationSystemPrompt.d.ts',
 ];
+const CONVERSATION_RAW_PROMPTPART_FILES = [
+  'packages/prompts/src/raw_promptparts/specific/promptpart_specific_system_bitcodeterminalconversation_identity_corestatement.ts',
+  'packages/prompts/src/raw_promptparts/specific/promptpart_specific_system_bitcodeterminalconversation_capabilities_list.ts',
+  'packages/prompts/src/raw_promptparts/specific/promptpart_specific_system_bitcodeterminalconversation_usage_guidance.ts',
+  'packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_conversationagent_name.ts',
+  'packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_conversationagent_identity_definition.ts',
+  'packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_conversationagent_ptrrplan_purpose.ts',
+  'packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_conversationagent_ptrrtry_purpose.ts',
+  'packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_conversationagent_ptrrrefine_purpose.ts',
+  'packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_conversationagent_ptrrretry_purpose.ts',
+];
 const ACTIVE_PROMPT_PRIMITIVE_CARRIERS = [
   'packages/execution-generics/src/prompts/ExecutionPrompt.ts',
   'packages/execution-generics/src/prompts/ExecutionPrompt.js',
@@ -347,6 +358,33 @@ test('V26 active agent prompt hierarchy docs align with factory-owned Registry-b
   assert.match(agentReadmeSource, /Read the prompt registry that the factory attached/u);
   assert.match(agentReadmeSource, /Keep prompts factory-owned/u);
   assert.match(agentTldrSource, /Prompts are attached by the factory/u);
+});
+
+test('V26 Terminal conversation prompts are specific raw PromptPart-backed registries', () => {
+  const conversationAgentSource = readFileSync(
+    path.join(repoRoot, 'packages/conversations-generics/src/agent/ConversationAgent.ts'),
+    'utf8'
+  );
+  const conversationSystemPromptSource = readFileSync(
+    path.join(repoRoot, 'packages/conversations-generics/src/prompts/ConversationSystemPrompt.ts'),
+    'utf8'
+  );
+  const conversationPromptPartSource = CONVERSATION_RAW_PROMPTPART_FILES
+    .map((filePath) => readFileSync(path.join(repoRoot, filePath), 'utf8'))
+    .join('\n');
+
+  assert.doesNotMatch(conversationAgentSource, /as PromptPart/u);
+  assert.match(conversationAgentSource, /PROMPTPART_SPECIFIC_AGENT_CONVERSATIONAGENT_NAME/u);
+  assert.match(conversationAgentSource, /PROMPTPART_SPECIFIC_AGENT_CONVERSATIONAGENT_PTRRPLAN_PURPOSE/u);
+  assert.match(conversationAgentSource, /PROMPTPART_SPECIFIC_AGENT_CONVERSATIONAGENT_PTRRTRY_PURPOSE/u);
+  assert.match(conversationAgentSource, /PROMPTPART_SPECIFIC_AGENT_CONVERSATIONAGENT_PTRRREFINE_PURPOSE/u);
+  assert.match(conversationAgentSource, /PROMPTPART_SPECIFIC_AGENT_CONVERSATIONAGENT_PTRRRETRY_PURPOSE/u);
+  assert.match(conversationSystemPromptSource, /Bitcode Terminal conversation system prompt assembled from specific PromptParts/u);
+  assert.doesNotMatch(conversationPromptPartSource, /GA1|AI-powered full product operator|Conversations product|Automated generation of deliverables/u);
+  assert.match(conversationPromptPartSource, /BITCODE_V26_CONVERSATION_AGENT_PROMPTPART\.1/u);
+  assert.match(conversationPromptPartSource, /BITCODE_V26_CONVERSATION_SYSTEM_PROMPTPART\.1/u);
+  assert.match(conversationPromptPartSource, /Bitcode Terminal response/u);
+  assert.match(conversationPromptPartSource, /do not detach Conversations from Bitcode/u);
 });
 
 test('V26 source-bearing admitted deliverable and prompt-primitive support carriers prefer narrow public prompt subpaths', () => {

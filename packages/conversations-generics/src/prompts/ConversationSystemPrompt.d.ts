@@ -2,7 +2,7 @@ import { Prompt } from '@bitcode/prompts/prompt';
 /**
  * @doc-comment-developing-promptdevelopment
  * domain: system
- * intent: "Conversations product system prompt assembled from PromptParts"
+ * intent: "Bitcode Terminal conversation system prompt assembled from specific PromptParts"
  * current_version: "BITCODE_V26_CONVERSATION_SYSTEM_PROMPT_REGISTRY.1"
  * versions: []
  * benchmarks: [

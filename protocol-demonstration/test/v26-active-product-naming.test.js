@@ -2805,7 +2805,8 @@ test('active V26 retained package surfaces use Bitcode naming instead of Engi na
   assert.match(genericFilesMaintainingSource, /Bitcode's comprehensive file system safety engine/);
   assert.match(genericFilesMaintainingSource, /Bitcode's comprehensive file system validation engine/);
   assert.match(genericGitInteractorSource, /Bitcode's distributed version control intelligence/);
-  assert.match(conversationsGenericsAgentSource, /Bitcode conversational AI assistant/);
+  assert.match(conversationsGenericsAgentSource, /PROMPTPART_SPECIFIC_AGENT_CONVERSATIONAGENT_IDENTITY_DEFINITION/);
+  assert.doesNotMatch(conversationsGenericsAgentSource, /Bitcode conversational AI assistant/);
   assert.match(useConversationStreamSource, /@author Bitcode Team/);
   assert.match(lspIndexSource, /Bitcode static measurement/);
   assert.match(lspIndexSource, /Need\/AssetPack evidence/);

@@ -21,7 +21,12 @@ import {
   AgentStepPrompt
 } from '@bitcode/agent-generics';
 import { z } from 'zod';
-import type { PromptPart } from '@bitcode/prompts/parts/PromptPart';
+import { PROMPTPART_SPECIFIC_AGENT_CONVERSATIONAGENT_IDENTITY_DEFINITION } from '@bitcode/prompts/raw_promptparts/specific/promptpart_specific_agent_conversationagent_identity_definition';
+import { PROMPTPART_SPECIFIC_AGENT_CONVERSATIONAGENT_NAME } from '@bitcode/prompts/raw_promptparts/specific/promptpart_specific_agent_conversationagent_name';
+import { PROMPTPART_SPECIFIC_AGENT_CONVERSATIONAGENT_PTRRPLAN_PURPOSE } from '@bitcode/prompts/raw_promptparts/specific/promptpart_specific_agent_conversationagent_ptrrplan_purpose';
+import { PROMPTPART_SPECIFIC_AGENT_CONVERSATIONAGENT_PTRRTRY_PURPOSE } from '@bitcode/prompts/raw_promptparts/specific/promptpart_specific_agent_conversationagent_ptrrtry_purpose';
+import { PROMPTPART_SPECIFIC_AGENT_CONVERSATIONAGENT_PTRRREFINE_PURPOSE } from '@bitcode/prompts/raw_promptparts/specific/promptpart_specific_agent_conversationagent_ptrrrefine_purpose';
+import { PROMPTPART_SPECIFIC_AGENT_CONVERSATIONAGENT_PTRRRETRY_PURPOSE } from '@bitcode/prompts/raw_promptparts/specific/promptpart_specific_agent_conversationagent_ptrrretry_purpose';
 
 // Import VCS tools - we'll register these in the agent
 // Note: The actual tools will be imported where the agent is used
@@ -193,8 +198,8 @@ export type ConversationResult = z.infer<typeof ConversationRetrySchema>;
  * Only what applies to every LLM call in this agent.
  */
 export const conversationAgentPrompt = new AgentPrompt({
-  name: 'conversation-agent' as PromptPart,
-  identity: 'Bitcode conversational AI assistant' as PromptPart
+  name: PROMPTPART_SPECIFIC_AGENT_CONVERSATIONAGENT_NAME,
+  identity: PROMPTPART_SPECIFIC_AGENT_CONVERSATIONAGENT_IDENTITY_DEFINITION
 });
 
 /**
@@ -202,16 +207,16 @@ export const conversationAgentPrompt = new AgentPrompt({
  */
 export const conversationStepPrompts = {
   plan: new AgentStepPrompt({
-    purpose: 'Understand user intent and plan response' as PromptPart
+    purpose: PROMPTPART_SPECIFIC_AGENT_CONVERSATIONAGENT_PTRRPLAN_PURPOSE
   }),
   try: new AgentStepPrompt({
-    purpose: 'Generate helpful response with code understanding' as PromptPart
+    purpose: PROMPTPART_SPECIFIC_AGENT_CONVERSATIONAGENT_PTRRTRY_PURPOSE
   }),
   refine: new AgentStepPrompt({
-    purpose: 'Enhance response quality and formatting' as PromptPart
+    purpose: PROMPTPART_SPECIFIC_AGENT_CONVERSATIONAGENT_PTRRREFINE_PURPOSE
   }),
   retry: new AgentStepPrompt({
-    purpose: 'Finalize response and trigger actions' as PromptPart
+    purpose: PROMPTPART_SPECIFIC_AGENT_CONVERSATIONAGENT_PTRRRETRY_PURPOSE
   })
 };
 
