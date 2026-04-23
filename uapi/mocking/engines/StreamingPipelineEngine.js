@@ -541,25 +541,41 @@ class StreamingPipelineEngine {
         };
     }
     generateCompletionData() {
-        return {
+        const writtenAssets = {
             summary: 'Mock pipeline execution completed successfully',
-            display: 'Mock Deliverable',
-            deliverables: {
-                pullRequest: {
-                    url: 'https://github.com/mock/repo/pull/123',
-                    number: 123,
-                    title: 'Mock Pull Request',
-                    type: 'pr'
-                },
-                pullRequestReviews: null,
-                comments: null,
-                issues: null,
-                fileChanges: {
-                    edited: 5,
-                    created: 2,
-                    deleted: 1,
-                    paths: ['src/mock.ts', 'README.md']
-                }
+            fileChanges: {
+                edited: 5,
+                created: 2,
+                deleted: 1,
+                paths: ['src/mock.ts', 'README.md']
+            }
+        };
+        const deliveryMechanism = {
+            pullRequest: {
+                url: 'https://github.com/mock/repo/pull/123',
+                number: 123,
+                title: 'Mock Pull Request',
+                type: 'pr'
+            },
+            pullRequestReviews: null,
+            comments: null,
+            issues: null,
+            fileChanges: writtenAssets.fileChanges,
+            summary: writtenAssets.summary,
+        };
+        return {
+            summary: writtenAssets.summary,
+            display: 'Mock Asset Pack',
+            deliverables: deliveryMechanism,
+            writtenAssets,
+            deliveryMechanism,
+            semanticKind: 'asset-pack-written-asset',
+            need: 'Mock retained corridor need',
+            writtenAssetType: 'code-change',
+            assetPack: {
+                need: 'Mock retained corridor need',
+                writtenAssetType: 'code-change',
+                deliveryTarget: 'pr',
             },
             duration: this.performanceTracker.getTotalDuration(),
             taskType: 'mock-task',

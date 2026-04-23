@@ -1,8 +1,8 @@
 {
   "reportId": "v26-prompt-system-totality-proof",
   "version": "V26",
-  "proofSourceCommit": "c36cdd2eefc3464db6b08d2a61571971e65271c1",
-  "generatedAt": "2026-04-23T07:54:52-03:00",
+  "proofSourceCommit": "3bd4b385ee5bfcaa897738aad8eeec7968c19118",
+  "generatedAt": "2026-04-23T08:52:39-03:00",
   "generatorId": "bitcode.proven-generator.v1",
   "worktreeState": "dirty-preview",
   "passed": true,
@@ -14,14 +14,15 @@
     "@bitcode/doc-code",
     "@bitcode/tools-generics",
     "@bitcode/conversations-generics",
-    "@bitcode/digest"
+    "@bitcode/digest",
+    "@bitcode/generic-tools-task-comprehension"
   ],
   "checks": [
     {
       "checkId": "prompt-package-core",
       "label": "PromptPart, Prompt, PromptExecution, public-boundary proof, prompt surface map, tests, and package docs remain explicit",
       "passed": true,
-      "detail": "12 required files present",
+      "detail": "13 required files present",
       "requiredFiles": [
         "packages/prompts/README.md",
         "packages/prompts/src/index.ts",
@@ -32,6 +33,7 @@
         "packages/prompts/src/parts/PromptPart.ts",
         "packages/prompts/src/__tests__/prompt.test.ts",
         "protocol-demonstration/V26_PROMPT_SURFACES.md",
+        "protocol-demonstration/V26_INFERENCE_SYSTEMS.md",
         "protocol-demonstration/test/v26-prompt-system-boundary.test.js",
         "protocol-demonstration/test/v26-prompt-surface-map.test.js",
         "protocol-demonstration/test/v26-prompt-runtime-loadability.test.js"
@@ -155,9 +157,10 @@
       "checkId": "doc-comment-doc-code-tool-injection-support",
       "label": "Doc-comment and doc-code keep tool prompt injection explicit under Bitcode ownership",
       "passed": true,
-      "detail": "16 required files present",
+      "detail": "17 required files present",
       "requiredFiles": [
         "protocol-demonstration/V26_DOC_COMMENT_REFORM.md",
+        "protocol-demonstration/V26_INFERENCE_SYSTEMS.md",
         "packages/doc-comment/README.md",
         "packages/doc-comment/src/build-plugin.ts",
         "packages/doc-code/README.md",
@@ -180,11 +183,23 @@
       "checkId": "reference-prompt-consumer-boundaries",
       "label": "Retained reference prompt consumers stay explicit on narrow public prompt primitive subpaths",
       "passed": true,
-      "detail": "14 required files present",
+      "detail": "26 required files present",
       "requiredFiles": [
         "packages/generic-agents/web-researcher/src/index.ts",
         "packages/generic-agents/web-researcher/src/prompts/system-prompt-web-researcher.ts",
         "packages/generic-tools/files-maintaining/src/prompts/tool-prompt-transaction-begin.ts",
+        "packages/generic-tools/task-comprehension/README.md",
+        "packages/generic-tools/task-comprehension/package.json",
+        "packages/generic-tools/task-comprehension/tsconfig.json",
+        "packages/generic-tools/task-comprehension/src/index.ts",
+        "packages/generic-tools/task-comprehension/src/primitives.ts",
+        "packages/generic-tools/task-comprehension/src/types/prompt-part.ts",
+        "packages/generic-tools/task-comprehension/src/types/tools-generics.ts",
+        "packages/generic-tools/task-comprehension/src/prompts/AnalyzeTaskSemanticsDocCodeToolPrompt.ts",
+        "packages/generic-tools/task-comprehension/src/prompts/ValidateTaskComprehensionDocCodeToolPrompt.ts",
+        "packages/prompts/src/raw_promptparts/specific/promptpart_specific_tool_analyzetasksemantics_doccodetoolpurpose.ts",
+        "packages/prompts/src/raw_promptparts/specific/promptpart_specific_tool_analyzeimplementationcomplexity_doccodetoolexample3.ts",
+        "packages/prompts/src/raw_promptparts/specific/promptpart_specific_tool_validatetaskcomprehension_doccodetoolpurpose.ts",
         "packages/generic-tools/vcs/src/prompts/ListRepositoriesDocCodeToolPrompt.ts",
         "packages/chatgptapp/src/prompts/chatgpt-tool-doc-prompts.ts",
         "packages/chatgptapp/tsconfig.test.json",

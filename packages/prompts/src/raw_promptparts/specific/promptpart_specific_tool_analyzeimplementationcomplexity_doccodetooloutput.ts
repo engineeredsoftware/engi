@@ -1,18 +1,17 @@
 /**
  * @doc-comment-developing-promptpartdevelopment
  * domain: output
- * intent: "Output specification for implementation complexity analysis tool"
- * current_version: "GA1.00.0"
+ * intent: "Bitcode implementation-complexity promptpart for the retained analyze-implementation-complexity compatibility tool"
+ * current_version: "V26.5.compat"
  * versions: []
  * benchmarks: [
- *   { "name": "output_structure_comprehensiveness", "test": "Does '{{content}}' define comprehensive complexity output structure? Rate 0-1" },
- *   { "name": "strategic_organization_clarity", "test": "Does '{{content}}' clearly organize strategic analysis results? Rate 0-1" },
- *   { "name": "downstream_planning_readiness", "test": "Does '{{content}}' format output for downstream planning integration? Rate 0-1" },
- *   { "name": "complexity_depth_demonstration", "test": "Does '{{content}}' demonstrate complexity analysis depth in output specification? Rate 0-1" }
+ *   { "name": "bitcode_need_precision", "test": "Does '{{content}}' use Bitcode need, written-asset, asset-pack, and shipping-wrapper semantics where applicable? Rate 0-1" },
+ *   { "name": "compatibility_boundary", "test": "Does '{{content}}' preserve compatibility naming only as a wrapper rather than product meaning? Rate 0-1" },
+ *   { "name": "implementation_ready", "test": "Is '{{content}}' concrete enough for DocCodeToolPrompt runtime use? Rate 0-1" }
  * ]
  */
 
 import type { PromptPart } from '../../parts/PromptPart';
 
-export const PROMPTPART_SPECIFIC_TOOL_ANALYZEIMPLEMENTATIONCOMPLEXITY_DOCCODETOOLOUTPUT: PromptPart = 
-  'Structured ComplexityIntelligence containing: complexityStratification with multi-dimensional analysis layers, implementationPathways with strategic route optimization, resourceOptimization with intelligent allocation strategies, temporalProjections with timeline complexity modeling, riskComplexityMatrix with uncertainty correlation analysis, emergentComplexityPredictions with adaptive system behavior forecasting, strategicRecommendations with actionable optimization intelligence, and transcendentComplexityMetrics with strategic pattern indicators for intelligent task planning and execution management' as PromptPart;
+export const PROMPTPART_SPECIFIC_TOOL_ANALYZEIMPLEMENTATIONCOMPLEXITY_DOCCODETOOLOUTPUT: PromptPart =
+  "Returns AssetPackImplementationComplexity with overallComplexity, implementationComplexity, integrationComplexity, persistenceComplexity, proofComplexity, testComplexity, shippingWrapperComplexity, riskAnalysis, sequencingRecommendations, and verificationPlan." as PromptPart;

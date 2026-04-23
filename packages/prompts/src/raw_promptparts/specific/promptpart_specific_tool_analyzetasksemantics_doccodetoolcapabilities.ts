@@ -1,24 +1,17 @@
 /**
  * @doc-comment-developing-promptpartdevelopment
  * domain: capabilities
- * intent: "Capabilities listing for task semantic analysis tool"
- * current_version: "GA1.50.0"
- * versions: [
- *   {
- *     "version": "GA1.00.0",
- *     "content": "Multi-dimensional intent extraction, semantic scope determination, complexity stratification, dependency graph analysis, cognitive pattern recognition, linguistic ambiguity resolution, temporal sequence parsing, conditional logic detection, and emergent behavior identification",
- *     "score": 0.35,
- *     "reason": "Contains 'multi-dimensional', 'cognitive', 'temporal', 'emergent' - non-industrial terms"
- *   }
- * ]
+ * intent: "Bitcode need semantics promptpart for the retained analyze-task-semantics compatibility tool"
+ * current_version: "V26.5.compat"
+ * versions: []
  * benchmarks: [
- *   { "name": "semantic_analysis_accuracy", "test": "Does it accurately parse task intent and meaning? Rate 0-1", "score": 0.93 },
- *   { "name": "dependency_detection", "test": "Are task dependencies clearly identified? Rate 0-1", "score": 0.91 },
- *   { "name": "implementation_ready", "test": "Can developers implement semantic analysis? Rate 0-1", "score": 0.89 }
+ *   { "name": "bitcode_need_precision", "test": "Does '{{content}}' use Bitcode need, written-asset, asset-pack, and shipping-wrapper semantics where applicable? Rate 0-1" },
+ *   { "name": "compatibility_boundary", "test": "Does '{{content}}' preserve compatibility naming only as a wrapper rather than product meaning? Rate 0-1" },
+ *   { "name": "implementation_ready", "test": "Is '{{content}}' concrete enough for DocCodeToolPrompt runtime use? Rate 0-1" }
  * ]
  */
 
 import type { PromptPart } from '../../parts/PromptPart';
 
-export const PROMPTPART_SPECIFIC_TOOL_ANALYZETASKSEMANTICS_DOCCODETOOLCAPABILITIES: PromptPart = 
-  'Intent classification using BERT or RoBERTa models for task purpose identification, scope boundary detection through named entity recognition and dependency parsing, complexity assessment using text analysis metrics and keyword density, dependency relationship mapping through syntactic parsing and coreference resolution, ambiguity detection using linguistic uncertainty markers and modal verb analysis, conditional logic extraction through if-then statement parsing, action sequence identification using temporal markers and verb phrase analysis, priority inference through urgency and importance keyword detection, context analysis using document structure and section hierarchy, task decomposition through logical operator recognition and nested clause parsing, semantic similarity scoring between related tasks using sentence embeddings, and validation rule generation based on task semantic constraints' as PromptPart;
+export const PROMPTPART_SPECIFIC_TOOL_ANALYZETASKSEMANTICS_DOCCODETOOLCAPABILITIES: PromptPart =
+  "Capabilities: parse expressed needs from user text and attachments; separate Bitcode-owned asset-pack meaning from connected-interface delivery wrappers; detect scope boundaries, assumptions, conflicts, and risk; map requested work to written-asset expectations; emit structured satisfaction criteria and confidence by dimension." as PromptPart;

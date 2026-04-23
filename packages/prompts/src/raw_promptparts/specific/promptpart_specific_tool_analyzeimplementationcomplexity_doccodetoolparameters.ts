@@ -1,18 +1,17 @@
 /**
  * @doc-comment-developing-promptpartdevelopment
  * domain: parameters
- * intent: "Parameter specification for implementation complexity analysis tool"
- * current_version: "GA1.00.0"
+ * intent: "Bitcode implementation-complexity promptpart for the retained analyze-implementation-complexity compatibility tool"
+ * current_version: "V26.5.compat"
  * versions: []
  * benchmarks: [
- *   { "name": "parameter_comprehensiveness", "test": "Does '{{content}}' cover all essential parameters for complexity analysis? Rate 0-1" },
- *   { "name": "strategic_configuration_depth", "test": "Does '{{content}}' include strategic processing configuration options? Rate 0-1" },
- *   { "name": "implementation_context_support", "test": "Does '{{content}}' demonstrate implementation context parameter support? Rate 0-1" },
- *   { "name": "complexity_precision_control", "test": "Does '{{content}}' provide complexity analysis precision and depth controls? Rate 0-1" }
+ *   { "name": "bitcode_need_precision", "test": "Does '{{content}}' use Bitcode need, written-asset, asset-pack, and shipping-wrapper semantics where applicable? Rate 0-1" },
+ *   { "name": "compatibility_boundary", "test": "Does '{{content}}' preserve compatibility naming only as a wrapper rather than product meaning? Rate 0-1" },
+ *   { "name": "implementation_ready", "test": "Is '{{content}}' concrete enough for DocCodeToolPrompt runtime use? Rate 0-1" }
  * ]
  */
 
 import type { PromptPart } from '../../parts/PromptPart';
 
-export const PROMPTPART_SPECIFIC_TOOL_ANALYZEIMPLEMENTATIONCOMPLEXITY_DOCCODETOOLPARAMETERS: PromptPart = 
-  'implementationScope: ArchitecturalSpace, complexityDimensions: AnalysisVector, strategicContext: PlanningFramework, resourceConstraints: CapacityModel, temporalFactors: TimeComplexity, riskProfile: UncertaintySpace, optimizationTargets: StrategicGoals, outputGranularity: ComplexitySchema' as PromptPart;
+export const PROMPTPART_SPECIFIC_TOOL_ANALYZEIMPLEMENTATIONCOMPLEXITY_DOCCODETOOLPARAMETERS: PromptPart =
+  "Parameters: needComprehension: object; repositoryContext?: object; assetPackContext?: object; writtenAssetType?: string; affectedPackages?: string[]; proofRequirements?: string[]; shippingWrapper?: string; complexityScale?: \"lowMediumHigh\" | \"enterprise\" | \"gateClosure\"." as PromptPart;

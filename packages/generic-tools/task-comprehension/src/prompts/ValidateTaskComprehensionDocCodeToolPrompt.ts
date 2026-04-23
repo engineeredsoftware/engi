@@ -13,10 +13,11 @@ import { PROMPTPART_SPECIFIC_TOOL_VALIDATETASKCOMPREHENSION_DOCCODETOOLEXAMPLE1 
 import { PROMPTPART_SPECIFIC_TOOL_VALIDATETASKCOMPREHENSION_DOCCODETOOLEXAMPLE2 } from '@bitcode/prompts/raw_promptparts/specific/promptpart_specific_tool_validatetaskcomprehension_doccodetoolexample2';
 import { PROMPTPART_SPECIFIC_TOOL_VALIDATETASKCOMPREHENSION_DOCCODETOOLEXAMPLE3 } from '@bitcode/prompts/raw_promptparts/specific/promptpart_specific_tool_validatetaskcomprehension_doccodetoolexample3';
 /**
- * VALIDATE TASK COMPREHENSION DOC-CODE-TOOL PROMPT
- * 
- * Strategic-Verification DocCodeToolPrompt for task comprehension validation runtime documentation.
- * This tool synthesizes all comprehension layers through multi-dimensional validation intelligence.
+ * VALIDATE NEED COMPREHENSION DOC-CODE-TOOL PROMPT
+ *
+ * Retained compatibility DocCodeToolPrompt for Bitcode need-comprehension
+ * validation. The task-named class remains a wrapper while validation checks
+ * canonical need, written-asset, asset-pack, and shipping-wrapper meaning.
  */
 
 import { DocCodeToolPrompt } from '@bitcode/tools-generics';
@@ -41,16 +42,15 @@ import { PromptPart } from '@bitcode/prompts/parts/PromptPart';
 
 
 /**
- * Validate Task Comprehension tool-specific DocCodeToolPrompt
+ * Validate Need Comprehension tool-specific DocCodeToolPrompt
  * 
  * @doc-comment-developing-promptdevelopment
  * versions: []
  * domain: tool
- * intent: "Strategic-verification cognitive tool for multi-layered comprehension synthesis and task understanding validation"
- * 
- * This strategic-verification cognitive tool represents the evolution of understanding validation,
- * enabling multi-layered comprehension synthesis and emergent gap detection that ensures
- * transcendent task understanding through sophisticated verification intelligence.
+ * intent: "Compatibility tool for validating Bitcode need comprehension before synthesis proceeds"
+ *
+ * This retained tool detects old-label residue, missing satisfaction criteria,
+ * ambiguous written-asset expectations, and incoherent shipping wrappers.
  */
 export class ValidateTaskComprehensionDocCodeToolPrompt extends DocCodeToolPrompt {
   constructor() {
@@ -66,7 +66,7 @@ export class ValidateTaskComprehensionDocCodeToolPrompt extends DocCodeToolPromp
     
     // Set metadata directly
     this.set('metadata:name', PROMPTPART_SPECIFIC_TOOL_VALIDATETASKCOMPREHENSION_DOCCODETOOLNAME);
-    this.set('metadata:category', 'task-analysis' as PromptPart);
+    this.set('metadata:category', 'need-comprehension' as PromptPart);
     this.set('metadata:version', 'GA1.00.0' as PromptPart);
     this.set('metadata:priority', 'high' as PromptPart);
     this.set('metadata:stability', 'stable' as PromptPart);
@@ -77,7 +77,7 @@ export class ValidateTaskComprehensionDocCodeToolPrompt extends DocCodeToolPromp
     this.setParameters(PROMPTPART_SPECIFIC_TOOL_VALIDATETASKCOMPREHENSION_DOCCODETOOLPARAMETERS);
     this.setOutput(PROMPTPART_SPECIFIC_TOOL_VALIDATETASKCOMPREHENSION_DOCCODETOOLOUTPUT);
     
-    // Add examples - demonstrating strategic-verification comprehension validation
+    // Add examples that validate Bitcode need comprehension, not old task ceremony.
     this.set('examples:1', PROMPTPART_SPECIFIC_TOOL_VALIDATETASKCOMPREHENSION_DOCCODETOOLEXAMPLE1);
     this.set('examples:2', PROMPTPART_SPECIFIC_TOOL_VALIDATETASKCOMPREHENSION_DOCCODETOOLEXAMPLE2);
     this.set('examples:3', PROMPTPART_SPECIFIC_TOOL_VALIDATETASKCOMPREHENSION_DOCCODETOOLEXAMPLE3);

@@ -1,18 +1,17 @@
 /**
  * @doc-comment-developing-promptpartdevelopment
  * domain: output
- * intent: "Output specification for task semantic analysis tool"
- * current_version: "GA1.00.0"
+ * intent: "Bitcode need semantics promptpart for the retained analyze-task-semantics compatibility tool"
+ * current_version: "V26.5.compat"
  * versions: []
  * benchmarks: [
- *   { "name": "structured_semantic_representation", "test": "Does '{{content}}' provide structured semantic representation suitable for agent consumption? Rate 0-1" },
- *   { "name": "cognitive_layer_differentiation", "test": "Does '{{content}}' differentiate between cognitive analysis layers in output? Rate 0-1" },
- *   { "name": "pipeline_integration_readiness", "test": "Does '{{content}}' format output for seamless pipeline integration? Rate 0-1" },
- *   { "name": "multi_dimensional_insights", "test": "Does '{{content}}' capture multi-dimensional semantic insights? Rate 0-1" }
+ *   { "name": "bitcode_need_precision", "test": "Does '{{content}}' use Bitcode need, written-asset, asset-pack, and shipping-wrapper semantics where applicable? Rate 0-1" },
+ *   { "name": "compatibility_boundary", "test": "Does '{{content}}' preserve compatibility naming only as a wrapper rather than product meaning? Rate 0-1" },
+ *   { "name": "implementation_ready", "test": "Is '{{content}}' concrete enough for DocCodeToolPrompt runtime use? Rate 0-1" }
  * ]
  */
 
 import type { PromptPart } from '../../parts/PromptPart';
 
-export const PROMPTPART_SPECIFIC_TOOL_ANALYZETASKSEMANTICS_DOCCODETOOLOUTPUT: PromptPart = 
-  'Structured semantic analysis containing: intent classification, scope boundaries, complexity metrics, dependency graphs, cognitive patterns, ambiguity markers, temporal sequences, conditional logic trees, and confidence scores per dimension - formatted for agent consumption and pipeline integration' as PromptPart;
+export const PROMPTPART_SPECIFIC_TOOL_ANALYZETASKSEMANTICS_DOCCODETOOLOUTPUT: PromptPart =
+  "Returns NeedSemantics with primaryIntent, scopeBoundaries, semanticKeywords, impliedRequirements, writtenAssetExpectations, assetPackContext, shippingWrapperBoundaries, ambiguityMarkers, dependencyNotes, needSatisfactionCriteria, and confidenceByDimension." as PromptPart;

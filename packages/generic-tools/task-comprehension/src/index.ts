@@ -1,8 +1,9 @@
 /**
- * Task Comprehension Tools - Modern Tool Class Architecture
- * 
- * Comprehensive task analysis, requirement extraction, and comprehension validation tools
- * using the Tool class pattern with DocCodeToolPrompt documentation.
+ * Need Comprehension Tools - retained task-comprehension compatibility package.
+ *
+ * These tools keep old package/class names stable while their active prompts and
+ * runtime posture serve Bitcode need, written-asset, asset-pack, and
+ * shipping-wrapper comprehension.
  */
 
 // Export modern Tool implementations

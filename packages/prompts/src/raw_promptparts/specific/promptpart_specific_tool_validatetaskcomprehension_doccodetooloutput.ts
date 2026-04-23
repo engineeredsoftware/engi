@@ -1,18 +1,17 @@
 /**
  * @doc-comment-developing-promptpartdevelopment
  * domain: output
- * intent: "Output specification for task comprehension validation tool"
- * current_version: "GA1.00.0"
+ * intent: "Bitcode need-comprehension validation promptpart for the retained validate-task-comprehension compatibility tool"
+ * current_version: "V26.5.compat"
  * versions: []
  * benchmarks: [
- *   { "name": "output_structure_comprehensiveness", "test": "Does '{{content}}' define comprehensive validation output structure? Rate 0-1" },
- *   { "name": "meta_cognitive_organization_clarity", "test": "Does '{{content}}' clearly organize meta-cognitive analysis results? Rate 0-1" },
- *   { "name": "downstream_planning_readiness", "test": "Does '{{content}}' format output for downstream planning integration? Rate 0-1" },
- *   { "name": "validation_depth_demonstration", "test": "Does '{{content}}' demonstrate comprehension validation depth in output specification? Rate 0-1" }
+ *   { "name": "bitcode_need_precision", "test": "Does '{{content}}' use Bitcode need, written-asset, asset-pack, and shipping-wrapper semantics where applicable? Rate 0-1" },
+ *   { "name": "compatibility_boundary", "test": "Does '{{content}}' preserve compatibility naming only as a wrapper rather than product meaning? Rate 0-1" },
+ *   { "name": "implementation_ready", "test": "Is '{{content}}' concrete enough for DocCodeToolPrompt runtime use? Rate 0-1" }
  * ]
  */
 
 import type { PromptPart } from '../../parts/PromptPart';
 
-export const PROMPTPART_SPECIFIC_TOOL_VALIDATETASKCOMPREHENSION_DOCCODETOOLOUTPUT: PromptPart = 
-  'Structured ValidationReport containing: comprehensionCompleteness with cognitive coverage assessment, coherenceAnalysis with alignment verification results, integrationValidation with cross-dimensional consistency checks, gapIdentification with cognitive deficiency mapping, metaCognitiveAssessment with awareness depth evaluation, holisticSynthesis with unified understanding confirmation, readinessIndicators with implementation preparation status, and transcendentValidationMetrics with comprehension quality indicators for task planning readiness' as PromptPart;
+export const PROMPTPART_SPECIFIC_TOOL_VALIDATETASKCOMPREHENSION_DOCCODETOOLOUTPUT: PromptPart =
+  "Returns NeedComprehensionValidation with validationResults, validationDetails, terminologyFindings, ambiguityFindings, writtenAssetCoherence, proofCoverage, recommendations, validationPassed, and validationMetadata." as PromptPart;

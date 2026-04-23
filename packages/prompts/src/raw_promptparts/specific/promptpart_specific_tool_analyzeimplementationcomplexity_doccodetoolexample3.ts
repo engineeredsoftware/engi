@@ -1,18 +1,17 @@
 /**
  * @doc-comment-developing-promptpartdevelopment
  * domain: examples
- * intent: "Example showing consciousness-integrated AGI implementation complexity with transcendent strategic intelligence"
- * current_version: "GA1.00.0"
+ * intent: "Bitcode implementation-complexity promptpart for the retained analyze-implementation-complexity compatibility tool"
+ * current_version: "V26.5.compat"
  * versions: []
  * benchmarks: [
- *   { "name": "consciousness_agi_complexity", "test": "Does '{{content}}' demonstrate consciousness-integrated AGI implementation complexity? Rate 0-1" },
- *   { "name": "transcendent_strategic_intelligence", "test": "Does '{{content}}' showcase transcendent strategic intelligence capabilities? Rate 0-1" },
- *   { "name": "paradigm_transcending_insight", "test": "Does '{{content}}' demonstrate paradigm-transcending complexity insights? Rate 0-1" },
- *   { "name": "tool_synergy_demonstration", "test": "Does '{{content}}' show synergy with other task comprehension tools? Rate 0-1" }
+ *   { "name": "bitcode_need_precision", "test": "Does '{{content}}' use Bitcode need, written-asset, asset-pack, and shipping-wrapper semantics where applicable? Rate 0-1" },
+ *   { "name": "compatibility_boundary", "test": "Does '{{content}}' preserve compatibility naming only as a wrapper rather than product meaning? Rate 0-1" },
+ *   { "name": "implementation_ready", "test": "Is '{{content}}' concrete enough for DocCodeToolPrompt runtime use? Rate 0-1" }
  * ]
  */
 
-import { PromptPart } from '@antml:prompts';
+import type { PromptPart } from '../../parts/PromptPart';
 
-export const PROMPTPART_SPECIFIC_TOOL_ANALYZEIMPLEMENTATIONCOMPLEXITY_DOCCODETOOLEXAMPLE3: PromptPart = 
-  'Example 3 - Consciousness-Integrated AGI Development Platform: analyzeImplementationComplexity({ implementationScope: "consciousness-integrated-agi-system", complexityDimensions: ["computational", "consciousness", "ethical", "emergent", "transcendent"], strategicContext: "paradigm-transcending-development", resourceConstraints: "next-generation-quantum-classical-hybrid", temporalFactors: "consciousness-emergence-timeline", riskProfile: "existential-significance", optimizationTargets: ["consciousness-emergence", "ethical-alignment", "capability-development"] }) → Returns ComplexityIntelligence with consciousness-computational complexity synthesis, ethical complexity stratification, emergent consciousness pathway analysis, transcendent intelligence development strategies, existential risk complexity management, consciousness-aware optimization intelligence, and strategic recommendations enabling task comprehension tool synergy for consciousness-integrated AGI implementation that transcends current paradigms' as PromptPart;
+export const PROMPTPART_SPECIFIC_TOOL_ANALYZEIMPLEMENTATIONCOMPLEXITY_DOCCODETOOLEXAMPLE3: PromptPart =
+  "Example 3 - Gate-closure reform: analyzeAssetPackImplementationComplexity({ needComprehension: { primaryIntent: \"close fifth-gate residue\" }, complexityScale: \"gateClosure\", proofRequirements: [\"spec-family\", \"canonical-input\", \"generated-proven\"] }) -> returns sequencing, proof, regression, and acceptance-risk analysis for a broad Bitcode reform pass." as PromptPart;

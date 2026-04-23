@@ -323,29 +323,45 @@ class CompletionDataGenerator extends BaseDataGenerator {
         const hasFileChanges = Math.random() > 0.3;
         const hasPR = Math.random() > 0.5;
         const hasComments = Math.random() > 0.7;
-        return {
+        const writtenAssets = {
             summary: this.generateRealisticText(25),
-            display: this.generateRealisticText(6),
-            deliverables: {
-                pullRequest: hasPR ? {
-                    url: 'https://github.com/mock/repo/pull/123',
-                    number: 123,
-                    title: this.generateRealisticText(8),
-                    type: 'pr'
-                } : null,
-                pullRequestReviews: null,
-                comments: hasComments ? [{
-                        url: 'https://github.com/mock/repo/issues/456#comment',
-                        title: this.generateRealisticText(6),
-                        type: 'comment'
-                    }] : null,
-                issues: null,
-                fileChanges: hasFileChanges ? {
-                    edited: Math.floor(Math.random() * 10) + 1,
-                    created: Math.floor(Math.random() * 5),
-                    deleted: Math.floor(Math.random() * 3),
-                    paths: ['src/main.ts', 'README.md', 'package.json'].slice(0, Math.floor(Math.random() * 3) + 1)
-                } : null
+            fileChanges: hasFileChanges ? {
+                edited: Math.floor(Math.random() * 10) + 1,
+                created: Math.floor(Math.random() * 5),
+                deleted: Math.floor(Math.random() * 3),
+                paths: ['src/main.ts', 'README.md', 'package.json'].slice(0, Math.floor(Math.random() * 3) + 1)
+            } : null
+        };
+        const deliveryMechanism = {
+            pullRequest: hasPR ? {
+                url: 'https://github.com/mock/repo/pull/123',
+                number: 123,
+                title: this.generateRealisticText(8),
+                type: 'pr'
+            } : null,
+            pullRequestReviews: null,
+            comments: hasComments ? [{
+                    url: 'https://github.com/mock/repo/issues/456#comment',
+                    title: this.generateRealisticText(6),
+                    type: 'comment'
+                }] : null,
+            issues: null,
+            fileChanges: writtenAssets.fileChanges,
+            summary: writtenAssets.summary,
+        };
+        return {
+            summary: writtenAssets.summary || this.generateRealisticText(25),
+            display: 'Mock Asset Pack',
+            deliverables: deliveryMechanism,
+            writtenAssets,
+            deliveryMechanism,
+            semanticKind: 'asset-pack-written-asset',
+            need: this.generateRealisticText(10),
+            writtenAssetType: this.pickRandom(['code-change', 'code-change-review', 'design-document']),
+            assetPack: {
+                need: this.generateRealisticText(10),
+                writtenAssetType: this.pickRandom(['code-change', 'code-change-review', 'design-document']),
+                deliveryTarget: this.pickRandom(['pr', 'comment', 'issue']),
             },
             duration: Math.floor(Math.random() * 300000) + 60000, // 1-5 minutes
             taskType: this.pickRandom(['feature', 'bugfix', 'refactor', 'documentation']),

@@ -1,18 +1,17 @@
 /**
  * @doc-comment-developing-promptpartdevelopment
  * domain: examples
- * intent: "Example showing emergent behavior detection in complex task semantics"
- * current_version: "GA1.00.0"
+ * intent: "Bitcode need semantics promptpart for the retained analyze-task-semantics compatibility tool"
+ * current_version: "V26.5.compat"
  * versions: []
  * benchmarks: [
- *   { "name": "emergent_behavior_detection", "test": "Does '{{content}}' demonstrate detection of emergent semantic behaviors? Rate 0-1" },
- *   { "name": "temporal_complexity_analysis", "test": "Does '{{content}}' show temporal and conditional complexity analysis? Rate 0-1" },
- *   { "name": "transcendent_pattern_recognition", "test": "Does '{{content}}' exhibit transcendent pattern recognition beyond basic NLP? Rate 0-1" },
- *   { "name": "cognitive_framework_integration", "test": "Does '{{content}}' integrate sophisticated cognitive frameworks? Rate 0-1" }
+ *   { "name": "bitcode_need_precision", "test": "Does '{{content}}' use Bitcode need, written-asset, asset-pack, and shipping-wrapper semantics where applicable? Rate 0-1" },
+ *   { "name": "compatibility_boundary", "test": "Does '{{content}}' preserve compatibility naming only as a wrapper rather than product meaning? Rate 0-1" },
+ *   { "name": "implementation_ready", "test": "Is '{{content}}' concrete enough for DocCodeToolPrompt runtime use? Rate 0-1" }
  * ]
  */
 
 import type { PromptPart } from '../../parts/PromptPart';
 
-export const PROMPTPART_SPECIFIC_TOOL_ANALYZETASKSEMANTICS_DOCCODETOOLEXAMPLE2: PromptPart = 
-  'Example 2 - Emergent Behavior Analysis: analyzeTaskSemantics({ taskDescription: "Optimize performance while maintaining backward compatibility, considering user experience impact and future scalability", analysisDepth: "transcendent", targetDimensions: ["emergent_conflicts", "temporal_dependencies", "stakeholder_vectors"], outputGranularity: "graph" }) → Identifies semantic tensions between performance and compatibility, maps temporal decision cascades, detects unstated quality emergences, and surfaces cognitive complexity patterns for strategic task comprehension' as PromptPart;
+export const PROMPTPART_SPECIFIC_TOOL_ANALYZETASKSEMANTICS_DOCCODETOOLEXAMPLE2: PromptPart =
+  "Example 2 - Comment written asset: analyzeNeedSemantics({ expressedNeed: \"Summarize why the failed deployment is blocked and post it to Jira\", attachmentSummaries: [{ name: \"build.log\", kind: \"log\", summary: \"Typecheck failed in auth route\" }] }) -> separates diagnostic facts, satisfaction criteria, and Jira comment delivery metadata." as PromptPart;

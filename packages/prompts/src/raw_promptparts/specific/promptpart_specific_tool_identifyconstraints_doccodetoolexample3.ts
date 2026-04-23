@@ -1,18 +1,17 @@
 /**
  * @doc-comment-developing-promptpartdevelopment
  * domain: examples
- * intent: "Example showing quantum-classical hybrid constraint identification with transcendent systemic analysis"
- * current_version: "GA1.00.0"
+ * intent: "Bitcode need constraint promptpart for the retained identify-constraints compatibility tool"
+ * current_version: "V26.5.compat"
  * versions: []
  * benchmarks: [
- *   { "name": "quantum_classical_complexity", "test": "Does '{{content}}' demonstrate quantum-classical hybrid constraint complexity? Rate 0-1" },
- *   { "name": "transcendent_systemic_analysis", "test": "Does '{{content}}' showcase transcendent systemic constraint analysis capabilities? Rate 0-1" },
- *   { "name": "paradigm_bridging_insight", "test": "Does '{{content}}' demonstrate paradigm-bridging constraint insights? Rate 0-1" },
- *   { "name": "tool_synergy_demonstration", "test": "Does '{{content}}' show synergy with other task comprehension tools? Rate 0-1" }
+ *   { "name": "bitcode_need_precision", "test": "Does '{{content}}' use Bitcode need, written-asset, asset-pack, and shipping-wrapper semantics where applicable? Rate 0-1" },
+ *   { "name": "compatibility_boundary", "test": "Does '{{content}}' preserve compatibility naming only as a wrapper rather than product meaning? Rate 0-1" },
+ *   { "name": "implementation_ready", "test": "Is '{{content}}' concrete enough for DocCodeToolPrompt runtime use? Rate 0-1" }
  * ]
  */
 
 import type { PromptPart } from '../../parts/PromptPart';
 
-export const PROMPTPART_SPECIFIC_TOOL_IDENTIFYCONSTRAINTS_DOCCODETOOLEXAMPLE3: PromptPart = 
-  'Example 3 - Quantum-Classical Hybrid Computation Platform: identifyConstraints({ taskContext: "quantum-advantage-transition", analysisScope: "paradigm-bridging", constraintTypes: ["decoherence", "classical-interface", "quantum-error", "scalability", "algorithmic"], systemArchitecture: "quantum-classical-bridge/", resourceInventory: "quantum-hardware-specs.json", temporalFramework: "coherence-windows", regulatoryContext: "quantum-computing-standards", interdependencyDepth: "transcendent" }) → Returns ConstraintMatrix with decoherence time limits, classical-quantum interface bottlenecks, error correction overhead constraints, qubit scaling boundaries, algorithmic complexity barriers, emergent quantum effects limitations, and transcendent systemic constraint patterns enabling task comprehension tool synergy for next-generation computing architecture' as PromptPart;
+export const PROMPTPART_SPECIFIC_TOOL_IDENTIFYCONSTRAINTS_DOCCODETOOLEXAMPLE3: PromptPart =
+  "Example 3 - Shipping constraint: identifyNeedConstraints({ shippingWrapperContext: { wrapper: \"GitHubPullRequest\", branchPolicy: \"no-force-push\" } }) -> keeps PR mechanics as wrapper constraints while preserving asset-pack written-asset scope." as PromptPart;

@@ -1486,6 +1486,12 @@ importers:
 
   packages/generic-tools/task-comprehension:
     dependencies:
+      '@bitcode/prompts':
+        specifier: workspace:*
+        version: link:../../prompts
+      '@bitcode/tools-generics':
+        specifier: workspace:*
+        version: link:../../tools-generics
       ai:
         specifier: ^3.0.0
         version: 3.4.33(openai@4.97.0(encoding@0.1.13)(ws@8.18.3)(zod@3.24.1))(react@18.3.1)(sswr@2.2.0(svelte@5.38.0))(svelte@5.38.0)(vue@3.5.18(typescript@5.8.3))(zod@3.24.1)

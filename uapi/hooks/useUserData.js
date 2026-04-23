@@ -8,7 +8,7 @@ exports.useUserData = useUserData;
 // inconsistent intermediate states.
 const react_1 = require("react");
 const auxillary_pane_meta_1 = require("@/app/auxillaries/components/auxillary-pane-meta");
-const profile_contract_1 = require("@bitcode/orm/src/profile-contract");
+const orm_1 = require("@bitcode/orm");
 const ANONYMOUS_USER_DATA = {
     profile: null,
     githubConnection: null,
@@ -126,7 +126,7 @@ function useUserData() {
         };
     }, []);
     const hasGitHubConnection = Boolean(data?.githubConnection || data?.vcsConnections?.some(conn => conn.provider === 'github'));
-    const walletCapability = (0, profile_contract_1.readBitcodeWalletCapabilityFromProfile)(data?.profile ?? null);
+    const walletCapability = (0, orm_1.readBitcodeWalletCapabilityFromProfile)(data?.profile ?? null);
     const hasWalletConnection = walletCapability.hasIdentity;
     const hasVerifiedWalletConnection = walletCapability.isVerifiedSigner;
     const walletBindingStatus = walletCapability.binding?.status ?? null;

@@ -1,24 +1,17 @@
 /**
  * @doc-comment-developing-promptpartdevelopment
  * domain: capabilities
- * intent: "Capabilities listing for constraint identification tool"
- * current_version: "GA1.50.0"
- * versions: [
- *   {
- *     "version": "GA1.00.0",
- *     "content": "Multi-dimensional constraint detection, systemic interdependency mapping, architectural limitation analysis, resource boundary identification, temporal restriction parsing, regulatory compliance verification, emergent behavior constraint recognition, constraint conflict resolution, and architectural integration pattern optimization",
- *     "score": 0.30,
- *     "reason": "Contains 'multi-dimensional', 'temporal', 'emergent' - non-industrial terms"
- *   }
- * ]
+ * intent: "Bitcode need constraint promptpart for the retained identify-constraints compatibility tool"
+ * current_version: "V26.5.compat"
+ * versions: []
  * benchmarks: [
- *   { "name": "constraint_detection_accuracy", "test": "Does it identify specific technical and business constraints? Rate 0-1", "score": 0.93 },
- *   { "name": "compliance_validation", "test": "Are regulatory and compliance checks specified? Rate 0-1", "score": 0.91 },
- *   { "name": "implementation_ready", "test": "Can developers implement constraint identification? Rate 0-1", "score": 0.89 }
+ *   { "name": "bitcode_need_precision", "test": "Does '{{content}}' use Bitcode need, written-asset, asset-pack, and shipping-wrapper semantics where applicable? Rate 0-1" },
+ *   { "name": "compatibility_boundary", "test": "Does '{{content}}' preserve compatibility naming only as a wrapper rather than product meaning? Rate 0-1" },
+ *   { "name": "implementation_ready", "test": "Is '{{content}}' concrete enough for DocCodeToolPrompt runtime use? Rate 0-1" }
  * ]
  */
 
 import type { PromptPart } from '../../parts/PromptPart';
 
-export const PROMPTPART_SPECIFIC_TOOL_IDENTIFYCONSTRAINTS_DOCCODETOOLCAPABILITIES: PromptPart = 
-  'Technical constraint detection through system architecture analysis, resource limitation identification including CPU, memory, and storage boundaries, time constraint parsing from project schedules and deadlines, budget constraint analysis with cost estimation models, regulatory compliance verification using industry standards (GDPR, HIPAA, SOX), dependency constraint mapping through software architecture analysis, performance constraint identification with latency and throughput requirements, security constraint recognition based on threat modeling, scalability constraint assessment using load testing metrics, integration constraint detection through API compatibility analysis, platform constraint identification across operating systems and environments, and legal constraint verification through licensing and intellectual property analysis' as PromptPart;
+export const PROMPTPART_SPECIFIC_TOOL_IDENTIFYCONSTRAINTS_DOCCODETOOLCAPABILITIES: PromptPart =
+  "Capabilities: find hard blockers and soft constraints; classify technical, business, resource, timeline, compliance, security, proof, and interface constraints; propose validation methods; attach mitigation strategies without expanding scope beyond the expressed need." as PromptPart;

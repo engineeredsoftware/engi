@@ -1,18 +1,17 @@
 /**
  * @doc-comment-developing-promptpartdevelopment
  * domain: output
- * intent: "Output specification for constraint identification tool"
- * current_version: "GA1.00.0"
+ * intent: "Bitcode need constraint promptpart for the retained identify-constraints compatibility tool"
+ * current_version: "V26.5.compat"
  * versions: []
  * benchmarks: [
- *   { "name": "output_structure_comprehensiveness", "test": "Does '{{content}}' define comprehensive constraint output structure? Rate 0-1" },
- *   { "name": "systemic_organization_clarity", "test": "Does '{{content}}' clearly organize systemic analysis results? Rate 0-1" },
- *   { "name": "downstream_integration_readiness", "test": "Does '{{content}}' format output for downstream architectural integration? Rate 0-1" },
- *   { "name": "constraint_depth_demonstration", "test": "Does '{{content}}' demonstrate constraint analysis depth in output specification? Rate 0-1" }
+ *   { "name": "bitcode_need_precision", "test": "Does '{{content}}' use Bitcode need, written-asset, asset-pack, and shipping-wrapper semantics where applicable? Rate 0-1" },
+ *   { "name": "compatibility_boundary", "test": "Does '{{content}}' preserve compatibility naming only as a wrapper rather than product meaning? Rate 0-1" },
+ *   { "name": "implementation_ready", "test": "Is '{{content}}' concrete enough for DocCodeToolPrompt runtime use? Rate 0-1" }
  * ]
  */
 
 import type { PromptPart } from '../../parts/PromptPart';
 
-export const PROMPTPART_SPECIFIC_TOOL_IDENTIFYCONSTRAINTS_DOCCODETOOLOUTPUT: PromptPart = 
-  'Structured ConstraintMatrix containing: technicalLimitations with system boundaries, resourceConstraints with capacity restrictions, temporalRestrictions with time-bound dependencies, regulatoryRequirements with compliance obligations, architecturalDependencies with structural interdependencies, emergentBehaviors with system-wide constraint implications, conflictAnalysis with constraint incompatibilities, and systemicComplexityMetrics with architectural constraint depth indicators for task planning optimization' as PromptPart;
+export const PROMPTPART_SPECIFIC_TOOL_IDENTIFYCONSTRAINTS_DOCCODETOOLOUTPUT: PromptPart =
+  "Returns NeedConstraints with technicalConstraints, businessConstraints, resourceConstraints, timelineConstraints, complianceConstraints, securityConstraints, proofConstraints, interfaceConstraints, blockerSummary, mitigationPlan, and validationMethods." as PromptPart;

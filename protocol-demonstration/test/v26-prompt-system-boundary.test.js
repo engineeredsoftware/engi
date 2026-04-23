@@ -398,3 +398,82 @@ test('V26 retained reference prompt configs avoid broad prompts source catchalls
     `Reference prompt configs must prefer exact public prompt subpath maps over broad prompts/src catchalls: ${violations.join(', ')}`
   );
 });
+
+test('V26 task-comprehension prompt reservoir is repurposed as Bitcode need comprehension', () => {
+  const taskComprehensionReadme = readFileSync(
+    path.join(repoRoot, 'packages/generic-tools/task-comprehension/README.md'),
+    'utf8'
+  );
+  const taskComprehensionPackageJson = JSON.parse(
+    readFileSync(path.join(repoRoot, 'packages/generic-tools/task-comprehension/package.json'), 'utf8')
+  );
+  const taskComprehensionTsconfig = JSON.parse(
+    readFileSync(path.join(repoRoot, 'packages/generic-tools/task-comprehension/tsconfig.json'), 'utf8')
+  );
+  const analyzePromptSource = readFileSync(
+    path.join(repoRoot, 'packages/generic-tools/task-comprehension/src/prompts/AnalyzeTaskSemanticsDocCodeToolPrompt.ts'),
+    'utf8'
+  );
+  const primitivesSource = readFileSync(
+    path.join(repoRoot, 'packages/generic-tools/task-comprehension/src/primitives.ts'),
+    'utf8'
+  );
+  const purposePromptPart = readFileSync(
+    path.join(
+      repoRoot,
+      'packages/prompts/src/raw_promptparts/specific/promptpart_specific_tool_analyzetasksemantics_doccodetoolpurpose.ts'
+    ),
+    'utf8'
+  );
+  const complexityPromptPart = readFileSync(
+    path.join(
+      repoRoot,
+      'packages/prompts/src/raw_promptparts/specific/promptpart_specific_tool_analyzeimplementationcomplexity_doccodetoolexample3.ts'
+    ),
+    'utf8'
+  );
+  const validatePromptPart = readFileSync(
+    path.join(
+      repoRoot,
+      'packages/prompts/src/raw_promptparts/specific/promptpart_specific_tool_validatetaskcomprehension_doccodetoolpurpose.ts'
+    ),
+    'utf8'
+  );
+
+  assert.match(taskComprehensionReadme, /Need Comprehension Compatibility Tools/u);
+  assert.match(taskComprehensionReadme, /task-named classes, and task-named input fields remain stable for old callers/u);
+  assert.match(taskComprehensionReadme, /written asset/u);
+  assert.match(taskComprehensionReadme, /shipping wrapper/u);
+  assert.equal(taskComprehensionPackageJson.dependencies['@bitcode/prompts'], 'workspace:*');
+  assert.equal(taskComprehensionPackageJson.dependencies['@bitcode/tools-generics'], 'workspace:*');
+  assert.equal(taskComprehensionTsconfig.compilerOptions.noEmit, true);
+  assert.equal(taskComprehensionTsconfig.compilerOptions.module, 'ESNext');
+  assert.equal(taskComprehensionTsconfig.compilerOptions.moduleResolution, 'Bundler');
+  assert.equal(
+    taskComprehensionTsconfig.compilerOptions.paths['@bitcode/prompts/raw_promptparts/*'][0],
+    'packages/prompts/src/raw_promptparts/*.ts'
+  );
+  assert.doesNotMatch(JSON.stringify(taskComprehensionTsconfig), /\.d\.ts/u);
+  assert.doesNotMatch(JSON.stringify(taskComprehensionTsconfig), /@bitcode\/prompts\/\*/u);
+  assert.match(analyzePromptSource, /'need-comprehension' as PromptPart/u);
+  assert.match(analyzePromptSource, /asset-pack synthesis/u);
+  assert.match(primitivesSource, /need_satisfaction_criteria/u);
+  assert.match(primitivesSource, /written_asset_expectations/u);
+  assert.match(primitivesSource, /shipping_wrapper_boundaries/u);
+  assert.match(purposePromptPart, /Analyze an expressed Bitcode need/u);
+  assert.match(purposePromptPart, /written-asset expectations/u);
+  assert.match(complexityPromptPart, /Gate-closure reform/u);
+  assert.match(complexityPromptPart, /proofRequirements/u);
+  assert.match(validatePromptPart, /compatibility analysis has correctly understood the Bitcode need/u);
+
+  const combined = [
+    taskComprehensionReadme,
+    analyzePromptSource,
+    primitivesSource,
+    purposePromptPart,
+    complexityPromptPart,
+    validatePromptPart
+  ].join('\n');
+
+  assert.doesNotMatch(combined, /transcendent|consciousness|AGI|task-analysis|@antml:prompts/u);
+});

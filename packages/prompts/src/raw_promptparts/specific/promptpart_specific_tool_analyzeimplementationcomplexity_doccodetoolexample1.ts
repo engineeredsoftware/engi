@@ -1,18 +1,17 @@
 /**
  * @doc-comment-developing-promptpartdevelopment
  * domain: examples
- * intent: "Example showing enterprise blockchain implementation complexity analysis with strategic intelligence"
- * current_version: "GA1.00.0"
+ * intent: "Bitcode implementation-complexity promptpart for the retained analyze-implementation-complexity compatibility tool"
+ * current_version: "V26.5.compat"
  * versions: []
  * benchmarks: [
- *   { "name": "blockchain_complexity_demonstration", "test": "Does '{{content}}' demonstrate blockchain implementation complexity analysis capability? Rate 0-1" },
- *   { "name": "strategic_intelligence_showcase", "test": "Does '{{content}}' showcase strategic intelligence beyond standard complexity analysis? Rate 0-1" },
- *   { "name": "enterprise_integration_relevance", "test": "Is '{{content}}' relevant for enterprise task comprehension scenarios? Rate 0-1" },
- *   { "name": "transcendent_quality_example", "test": "Does '{{content}}' exemplify transcendent complexity analysis quality? Rate 0-1" }
+ *   { "name": "bitcode_need_precision", "test": "Does '{{content}}' use Bitcode need, written-asset, asset-pack, and shipping-wrapper semantics where applicable? Rate 0-1" },
+ *   { "name": "compatibility_boundary", "test": "Does '{{content}}' preserve compatibility naming only as a wrapper rather than product meaning? Rate 0-1" },
+ *   { "name": "implementation_ready", "test": "Is '{{content}}' concrete enough for DocCodeToolPrompt runtime use? Rate 0-1" }
  * ]
  */
 
 import type { PromptPart } from '../../parts/PromptPart';
 
-export const PROMPTPART_SPECIFIC_TOOL_ANALYZEIMPLEMENTATIONCOMPLEXITY_DOCCODETOOLEXAMPLE1: PromptPart = 
-  'Example 1 - Enterprise Blockchain Supply Chain Implementation: analyzeImplementationComplexity({ implementationScope: "global-supply-chain-blockchain", complexityDimensions: ["computational", "regulatory", "integration", "consensus", "scalability"], strategicContext: "enterprise-transformation", resourceConstraints: "multinational-infrastructure", temporalFactors: "3-year-rollout", riskProfile: "high-stakes-enterprise", optimizationTargets: ["security", "throughput", "compliance"] }) → Returns ComplexityIntelligence with computational complexity stratification, regulatory compliance pathway analysis, integration complexity mapping, consensus mechanism optimization strategies, scalability bottleneck identification, temporal implementation phasing, and strategic recommendations for blockchain deployment optimization' as PromptPart;
+export const PROMPTPART_SPECIFIC_TOOL_ANALYZEIMPLEMENTATIONCOMPLEXITY_DOCCODETOOLEXAMPLE1: PromptPart =
+  "Example 1 - Prompt reform slice: analyzeAssetPackImplementationComplexity({ affectedPackages: [\"packages/prompts\", \"packages/generic-tools/task-comprehension\"], proofRequirements: [\"prompt-system-totality\"] }) -> returns medium complexity with raw PromptPart carry-through and proof-refresh risks." as PromptPart;

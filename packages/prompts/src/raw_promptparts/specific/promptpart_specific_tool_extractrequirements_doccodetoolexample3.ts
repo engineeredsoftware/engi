@@ -1,18 +1,17 @@
 /**
  * @doc-comment-developing-promptpartdevelopment
  * domain: examples
- * intent: "Example showing emergent AI system requirement extraction with meta-cognitive analysis"
- * current_version: "GA1.00.0"
+ * intent: "Bitcode need requirement promptpart for the retained extract-requirements compatibility tool"
+ * current_version: "V26.5.compat"
  * versions: []
  * benchmarks: [
- *   { "name": "emergent_ai_complexity", "test": "Does '{{content}}' demonstrate emergent AI system requirement complexity? Rate 0-1" },
- *   { "name": "meta_cognitive_analysis", "test": "Does '{{content}}' showcase meta-cognitive requirement analysis capabilities? Rate 0-1" },
- *   { "name": "transcendent_architectural_insight", "test": "Does '{{content}}' demonstrate transcendent architectural requirement insights? Rate 0-1" },
- *   { "name": "tool_synergy_demonstration", "test": "Does '{{content}}' show synergy with other task comprehension tools? Rate 0-1" }
+ *   { "name": "bitcode_need_precision", "test": "Does '{{content}}' use Bitcode need, written-asset, asset-pack, and shipping-wrapper semantics where applicable? Rate 0-1" },
+ *   { "name": "compatibility_boundary", "test": "Does '{{content}}' preserve compatibility naming only as a wrapper rather than product meaning? Rate 0-1" },
+ *   { "name": "implementation_ready", "test": "Is '{{content}}' concrete enough for DocCodeToolPrompt runtime use? Rate 0-1" }
  * ]
  */
 
 import type { PromptPart } from '../../parts/PromptPart';
 
-export const PROMPTPART_SPECIFIC_TOOL_EXTRACTREQUIREMENTS_DOCCODETOOLEXAMPLE3: PromptPart = 
-  'Example 3 - Emergent AI Agent Orchestration Platform: extractRequirements({ taskDescription: [research: "AGI-safety-papers/", vision: "autonomous-agent-ecosystem.md", constraints: "ethical-ai-frameworks/"], extractionDepth: "meta-cognitive", requirementTypes: ["emergent", "ethical", "safety", "scalability", "consciousness"], stakeholderPerspectives: ["humans", "agents", "society"], contextualFramework: "AGI-transition", implicitInferenceLevel: "transcendent" }) → Returns RequirementFramework with emergent behavior specifications, consciousness detection protocols, ethical constraint hierarchies, multi-agent coordination requirements, and meta-cognitive complexity patterns enabling task comprehension tool synergy for unprecedented AI system development' as PromptPart;
+export const PROMPTPART_SPECIFIC_TOOL_EXTRACTREQUIREMENTS_DOCCODETOOLEXAMPLE3: PromptPart =
+  "Example 3 - Shipping-wrapper need: extractNeedRequirements({ expressedNeed: \"Prepare a concise Jira update from the validation findings\", needSemantics: { shippingWrapperBoundaries: [\"Jira comment\"] } }) -> keeps comment payload requirements separate from the underlying diagnostic written asset." as PromptPart;

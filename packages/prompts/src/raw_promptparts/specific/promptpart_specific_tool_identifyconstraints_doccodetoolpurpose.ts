@@ -1,18 +1,17 @@
 /**
  * @doc-comment-developing-promptpartdevelopment
  * domain: purpose
- * intent: "Purpose statement for constraint identification tool"
- * current_version: "GA1.00.0"
+ * intent: "Bitcode need constraint promptpart for the retained identify-constraints compatibility tool"
+ * current_version: "V26.5.compat"
  * versions: []
  * benchmarks: [
- *   { "name": "constraint_depth_articulation", "test": "Does '{{content}}' articulate deep constraint analysis beyond surface detection? Rate 0-1" },
- *   { "name": "systemic_integration_clarity", "test": "Does '{{content}}' clearly state systemic constraint integration and interdependency analysis? Rate 0-1" },
- *   { "name": "architectural_foundation_emphasis", "test": "Does '{{content}}' emphasize this as architectural foundation for constraint understanding? Rate 0-1" },
- *   { "name": "multi_dimensional_constraint_analysis", "test": "Does '{{content}}' indicate multi-dimensional constraint analysis capability? Rate 0-1" }
+ *   { "name": "bitcode_need_precision", "test": "Does '{{content}}' use Bitcode need, written-asset, asset-pack, and shipping-wrapper semantics where applicable? Rate 0-1" },
+ *   { "name": "compatibility_boundary", "test": "Does '{{content}}' preserve compatibility naming only as a wrapper rather than product meaning? Rate 0-1" },
+ *   { "name": "implementation_ready", "test": "Is '{{content}}' concrete enough for DocCodeToolPrompt runtime use? Rate 0-1" }
  * ]
  */
 
 import type { PromptPart } from '../../parts/PromptPart';
 
-export const PROMPTPART_SPECIFIC_TOOL_IDENTIFYCONSTRAINTS_DOCCODETOOLPURPOSE: PromptPart = 
-  'Comprehensive identification and systematic analysis of multi-dimensional constraints affecting task implementation, including technical limitations, resource boundaries, temporal restrictions, regulatory requirements, architectural dependencies, and emergent system behaviors to enable constraint-aware planning and risk mitigation strategies' as PromptPart;
+export const PROMPTPART_SPECIFIC_TOOL_IDENTIFYCONSTRAINTS_DOCCODETOOLPURPOSE: PromptPart =
+  "Identify constraints that govern how a Bitcode need can be satisfied, including repository, runtime, proof, persistence, wallet/readiness, interface, security, and shipping-wrapper limits." as PromptPart;

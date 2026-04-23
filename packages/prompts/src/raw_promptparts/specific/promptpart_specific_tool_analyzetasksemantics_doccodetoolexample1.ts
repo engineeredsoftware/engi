@@ -1,18 +1,17 @@
 /**
  * @doc-comment-developing-promptpartdevelopment
  * domain: examples
- * intent: "Example showing multi-modal task analysis with cognitive depth"
- * current_version: "GA1.00.0"
+ * intent: "Bitcode need semantics promptpart for the retained analyze-task-semantics compatibility tool"
+ * current_version: "V26.5.compat"
  * versions: []
  * benchmarks: [
- *   { "name": "multi_modal_demonstration", "test": "Does '{{content}}' demonstrate multi-modal input processing capability? Rate 0-1" },
- *   { "name": "cognitive_depth_showcase", "test": "Does '{{content}}' showcase deep cognitive analysis beyond surface parsing? Rate 0-1" },
- *   { "name": "agent_integration_relevance", "test": "Is '{{content}}' relevant for task comprehension agent usage scenarios? Rate 0-1" },
- *   { "name": "transcendent_quality_example", "test": "Does '{{content}}' exemplify transcendent semantic analysis quality? Rate 0-1" }
+ *   { "name": "bitcode_need_precision", "test": "Does '{{content}}' use Bitcode need, written-asset, asset-pack, and shipping-wrapper semantics where applicable? Rate 0-1" },
+ *   { "name": "compatibility_boundary", "test": "Does '{{content}}' preserve compatibility naming only as a wrapper rather than product meaning? Rate 0-1" },
+ *   { "name": "implementation_ready", "test": "Is '{{content}}' concrete enough for DocCodeToolPrompt runtime use? Rate 0-1" }
  * ]
  */
 
 import type { PromptPart } from '../../parts/PromptPart';
 
-export const PROMPTPART_SPECIFIC_TOOL_ANALYZETASKSEMANTICS_DOCCODETOOLEXAMPLE1: PromptPart = 
-  'Example 1 - Multi-modal Code Architecture Analysis: analyzeTaskSemantics({ taskDescription: [text: "Refactor authentication system", image: "architecture-diagram.png", code: "auth-module.ts"], analysisDepth: "cognitive", targetDimensions: ["intent", "scope", "dependencies"], cognitiveFramework: "PTRR" }) → Returns structured semantic breakdown identifying security intent, module scope boundaries, dependency cascades, and cognitive complexity patterns for task comprehension agent processing' as PromptPart;
+export const PROMPTPART_SPECIFIC_TOOL_ANALYZETASKSEMANTICS_DOCCODETOOLEXAMPLE1: PromptPart =
+  "Example 1 - Pull request written asset: analyzeNeedSemantics({ expressedNeed: \"Fix the OAuth redirect regression and open a PR\", repositoryContext: { stack: [\"Next.js\", \"Supabase\"] }, targetDimensions: [\"intent\", \"writtenAsset\", \"shippingWrapper\"] }) -> identifies the need as auth regression repair, the stable written asset as code changes plus tests, and the pull request as the shipping wrapper." as PromptPart;

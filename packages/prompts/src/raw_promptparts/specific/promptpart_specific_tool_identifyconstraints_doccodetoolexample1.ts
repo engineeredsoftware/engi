@@ -1,18 +1,17 @@
 /**
  * @doc-comment-developing-promptpartdevelopment
  * domain: examples
- * intent: "Example showing real-time system constraint identification with architectural depth"
- * current_version: "GA1.00.0"
+ * intent: "Bitcode need constraint promptpart for the retained identify-constraints compatibility tool"
+ * current_version: "V26.5.compat"
  * versions: []
  * benchmarks: [
- *   { "name": "real_time_constraint_demonstration", "test": "Does '{{content}}' demonstrate real-time system constraint processing capability? Rate 0-1" },
- *   { "name": "architectural_depth_showcase", "test": "Does '{{content}}' showcase deep architectural analysis beyond surface detection? Rate 0-1" },
- *   { "name": "systemic_integration_relevance", "test": "Is '{{content}}' relevant for systemic task comprehension scenarios? Rate 0-1" },
- *   { "name": "transcendent_quality_example", "test": "Does '{{content}}' exemplify transcendent constraint identification quality? Rate 0-1" }
+ *   { "name": "bitcode_need_precision", "test": "Does '{{content}}' use Bitcode need, written-asset, asset-pack, and shipping-wrapper semantics where applicable? Rate 0-1" },
+ *   { "name": "compatibility_boundary", "test": "Does '{{content}}' preserve compatibility naming only as a wrapper rather than product meaning? Rate 0-1" },
+ *   { "name": "implementation_ready", "test": "Is '{{content}}' concrete enough for DocCodeToolPrompt runtime use? Rate 0-1" }
  * ]
  */
 
 import type { PromptPart } from '../../parts/PromptPart';
 
-export const PROMPTPART_SPECIFIC_TOOL_IDENTIFYCONSTRAINTS_DOCCODETOOLEXAMPLE1: PromptPart = 
-  'Example 1 - Real-Time Trading System Constraints: identifyConstraints({ taskContext: "high-frequency-trading-platform", analysisScope: "system-wide", constraintTypes: ["latency", "throughput", "regulatory", "financial"], systemArchitecture: "distributed-microservices.yaml", resourceInventory: "aws-infrastructure.json", temporalFramework: "sub-millisecond", regulatoryContext: "SEC-FINRA-compliance", interdependencyDepth: "cross-system" }) → Returns ConstraintMatrix with 15ms latency ceiling, 100K TPS throughput floor, regulatory halt conditions, memory allocation limits, network topology constraints, and architectural interdependency cascades for systemic optimization' as PromptPart;
+export const PROMPTPART_SPECIFIC_TOOL_IDENTIFYCONSTRAINTS_DOCCODETOOLEXAMPLE1: PromptPart =
+  "Example 1 - Repository constraint: identifyNeedConstraints({ needContext: { primaryIntent: \"modify auth route\" }, repositoryContext: { protectedAreas: [\"uapi/app/api/auth\"] } }) -> emits ownership, test, and server-readiness constraints before code synthesis." as PromptPart;

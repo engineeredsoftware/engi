@@ -5,6 +5,7 @@
 - Scope: supplementary V26 architecture map for prompt-bearing systems
 - Canonical pointer: `/Users/garrettmaring/Developer/ENGI/BITCODE_SPEC.txt -> V26`
 - Purpose: make prompt ownership, consumer corridors, and retained prompt ports explicit package-by-package while fifth-gate reform stays active
+- Inference companion: `protocol-demonstration/V26_INFERENCE_SYSTEMS.md`
 
 ## Prompt rope
 
@@ -19,6 +20,9 @@ If a corridor meaningfully shapes Bitcode inference, it should either:
 - consume these abstractions through the public prompt contract,
 - expose raw promptparts through the explicit prompt package subpaths,
 - or be classified as reference-only residue rather than silently owning live behavior
+
+Prompt ownership is one part of the larger inference-system contract.
+Every prompt-bearing corridor that also owns tools, agents, phases, pipeline execution, MCP ingress, or product execution state must satisfy `protocol-demonstration/V26_INFERENCE_SYSTEMS.md`: need, prompt surface, tool contract, agentic role, execution carrier, asset-pack effect, and verification must all be specified together.
 
 ## Public prompt contract
 
@@ -40,6 +44,7 @@ Operational rules:
 - active prompt-bearing inference carriers must import prompt primitives through the public contract above
 - active app/package configs must not preserve `@bitcode/prompts/src/*` compatibility aliases
 - retained reference test/build configs should use exact public prompt subpath maps such as `@bitcode/prompts/parts/PromptPart`, `@bitcode/prompts/prompt`, and `@bitcode/prompts/raw_promptparts/*` rather than broad `@bitcode/prompts/* -> packages/prompts/src/*` catchalls
+- retained prompt reservoir package configs must be source-backed, no-emit verification boundaries when they only prove prompt/tool compatibility; they may map exact public prompt subpaths for local typechecking, but they may not use declaration-file path targets or broad source catchalls as a substitute for package dependencies
 - execution-aware prompt carriers and broader active execution-bearing runtime carriers that only need prompt hierarchy, execution ancestry, or the base execution tree should prefer `@bitcode/execution-generics/Execution` and `@bitcode/execution-generics/prompts/ExecutionPrompt` rather than the broad execution barrel
 - support primitives that prompt/doc-code runtime carriers depend on, including `@bitcode/registry`, `@bitcode/execution-generics/{Execution,prompts/ExecutionPrompt}`, `@bitcode/doc-comment/{base-plugin,types}`, `@bitcode/doc-code`, and `@bitcode/tools-generics`, must expose honest source-backed public package subpaths and direct dependency declarations rather than relying on repo-relative cross-package imports
 - prompt-bearing runtime carriers and adjacent execution/phase/diagnostic carriers that only need the base execution tree must stay loadable without dragging the full execution storage/logging stack through a broad execution barrel
@@ -85,7 +90,7 @@ These corridors still consume prompt abstractions or raw promptparts, but they a
 | Corridor | Current owners | Current role |
 | --- | --- | --- |
 | Generic retained agents | `packages/generic-agents/*` including `jira-processor`, `web-search`, `web-researcher`, `danger-wall`, `ready-to-short-circuit` | reference-only/retained acceleration corridors; Jira remains reader-first need-ingestion/reference posture rather than live Bitcode product ownership |
-| Generic retained tools | `packages/generic-tools/*` including `mcps-tools/*`, `task-comprehension`, `lsp-query`, `web-search`, `vcs`, `use-computer`, `repository-setup` | retained prompt-bearing tool reservoirs and doc-code ports |
+| Generic retained tools | `packages/generic-tools/*` including `mcps-tools/*`, `task-comprehension`, `lsp-query`, `web-search`, `vcs`, `use-computer`, `repository-setup` | retained prompt-bearing tool reservoirs and doc-code ports; `task-comprehension` is now a compatibility package whose active prompts and placeholder primitives are interpreted as Bitcode need-comprehension, written-asset, asset-pack, and shipping-wrapper analysis |
 | ChatGPT-era prompt documentation | `packages/chatgptapp/src/prompts/*` | retained prompt documentation/reference corridor |
 | Prompt/doc-comment experimentation | `packages/generic-doc-comment-plugins/*`, `packages/doc-comment/examples/*`, `packages/prompts/src/developing/*` | experimental/reference prompt authoring and prompt-doc tooling; see `protocol-demonstration/V26_DOC_COMMENT_REFORM.md` for the V26 reform boundary |
 
@@ -105,6 +110,11 @@ The remaining honest prompt-side closure work is:
 3. narrowing or cutting prompt reservoirs that still imply parallel old-world product logic
 4. continued canonicalization of retained compatibility names after semantic mirrors exist, exemplified by `comprehend-need` becoming the active setup prompt carrier while task-named modules remain compatibility re-exports only, and `DELIVERABLESETUPCOMPREHENDNEED` PromptParts owning the active deliverable-corridor overlay while `DELIVERABLESETUPCOMPREHENDTASK` PromptParts remain compatibility wrappers
 5. proving that app- and MCP-facing inference behavior is fully explainable from the explicit prompt substrate rather than hidden composition seams
+
+The retained `packages/generic-tools/task-comprehension` family is the next generic-tool example of this rule:
+task-named package/class/input names remain compatibility carriers, but `DocCodeToolPrompt` metadata, raw PromptPart content, package docs, and placeholder outputs must describe `need`, `written asset`, `asset pack`, `shipping wrapper`, and `need satisfaction criteria`.
+Runtime JavaScript PromptPart carry-through must match the TypeScript content so old task-first text cannot remain live after the TypeScript surface is reformed.
+Its package-local build boundary must typecheck those prompt/tool imports without emitting generated artifacts, and must declare direct dependencies on `@bitcode/prompts` and `@bitcode/tools-generics` rather than relying on transitive workspace reach-through.
 
 ## Verification posture
 

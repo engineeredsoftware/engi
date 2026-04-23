@@ -1,18 +1,17 @@
 /**
  * @doc-comment-developing-promptpartdevelopment
  * domain: parameters
- * intent: "Parameter specification for requirements extraction tool"
- * current_version: "GA1.00.0"
+ * intent: "Bitcode need requirement promptpart for the retained extract-requirements compatibility tool"
+ * current_version: "V26.5.compat"
  * versions: []
  * benchmarks: [
- *   { "name": "parameter_comprehensiveness", "test": "Does '{{content}}' cover all essential parameters for requirement extraction? Rate 0-1" },
- *   { "name": "cognitive_configuration_depth", "test": "Does '{{content}}' include cognitive processing configuration options? Rate 0-1" },
- *   { "name": "multi_modal_support", "test": "Does '{{content}}' demonstrate multi-modal input parameter support? Rate 0-1" },
- *   { "name": "analytical_precision_control", "test": "Does '{{content}}' provide analytical precision and depth controls? Rate 0-1" }
+ *   { "name": "bitcode_need_precision", "test": "Does '{{content}}' use Bitcode need, written-asset, asset-pack, and shipping-wrapper semantics where applicable? Rate 0-1" },
+ *   { "name": "compatibility_boundary", "test": "Does '{{content}}' preserve compatibility naming only as a wrapper rather than product meaning? Rate 0-1" },
+ *   { "name": "implementation_ready", "test": "Is '{{content}}' concrete enough for DocCodeToolPrompt runtime use? Rate 0-1" }
  * ]
  */
 
 import type { PromptPart } from '../../parts/PromptPart';
 
-export const PROMPTPART_SPECIFIC_TOOL_EXTRACTREQUIREMENTS_DOCCODETOOLPARAMETERS: PromptPart = 
-  'taskDescription: MultiModalInput, extractionDepth: AnalyticalLevel, requirementTypes: CategoryArray, stakeholderPerspectives: ViewpointSet, contextualFramework: DomainContext, prioritizationStrategy: HierarchyMethod, implicitInferenceLevel: CognitiveDepth, outputStructure: RequirementSchema' as PromptPart;
+export const PROMPTPART_SPECIFIC_TOOL_EXTRACTREQUIREMENTS_DOCCODETOOLPARAMETERS: PromptPart =
+  "Parameters: expressedNeed: string; needSemantics?: NeedSemantics; repositoryContext?: object; attachmentContext?: Array<{ name: string; kind: string; summary: string }>; requiredViews?: Array<\"functional\" | \"nonFunctional\" | \"business\" | \"technical\" | \"proof\" | \"interface\" | \"persistence\">." as PromptPart;

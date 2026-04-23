@@ -14,9 +14,10 @@ import { PROMPTPART_SPECIFIC_TOOL_IDENTIFYCONSTRAINTS_DOCCODETOOLEXAMPLE2 } from
 import { PROMPTPART_SPECIFIC_TOOL_IDENTIFYCONSTRAINTS_DOCCODETOOLEXAMPLE3 } from '@bitcode/prompts/raw_promptparts/specific/promptpart_specific_tool_identifyconstraints_doccodetoolexample3';
 /**
  * IDENTIFY CONSTRAINTS DOC-CODE-TOOL PROMPT
- * 
- * Analytical-Strategic DocCodeToolPrompt for constraint identification runtime documentation.
- * This tool bridges analytical and strategic layers through multi-dimensional constraint analysis.
+ *
+ * Retained compatibility DocCodeToolPrompt for Bitcode need constraints.
+ * Constraints are interpreted as boundaries on need satisfaction, asset-pack
+ * synthesis, proof, runtime readiness, and shipping wrappers.
  */
 
 import { DocCodeToolPrompt } from '@bitcode/tools-generics';
@@ -46,11 +47,10 @@ import { PromptPart } from '@bitcode/prompts/parts/PromptPart';
  * @doc-comment-developing-promptdevelopment
  * versions: []
  * domain: tool
- * intent: "Analytical-strategic cognitive tool for multi-dimensional boundary detection and constraint understanding"
- * 
- * This analytical-strategic cognitive tool represents the evolution of constraint understanding,
- * enabling multi-dimensional boundary detection and hidden limitation inference that empowers
- * sophisticated decision-making through transcendent constraint intelligence.
+ * intent: "Compatibility tool for identifying Bitcode need constraints and their validation methods"
+ *
+ * This retained tool classifies blockers and risks without expanding the
+ * expressed need beyond the canonical Bitcode scope.
  */
 export class IdentifyConstraintsDocCodeToolPrompt extends DocCodeToolPrompt {
   constructor() {
@@ -66,7 +66,7 @@ export class IdentifyConstraintsDocCodeToolPrompt extends DocCodeToolPrompt {
     
     // Set metadata directly
     this.set('metadata:name', PROMPTPART_SPECIFIC_TOOL_IDENTIFYCONSTRAINTS_DOCCODETOOLNAME);
-    this.set('metadata:category', 'task-analysis' as PromptPart);
+    this.set('metadata:category', 'need-comprehension' as PromptPart);
     this.set('metadata:version', 'GA1.00.0' as PromptPart);
     this.set('metadata:priority', 'high' as PromptPart);
     this.set('metadata:stability', 'stable' as PromptPart);
@@ -77,7 +77,7 @@ export class IdentifyConstraintsDocCodeToolPrompt extends DocCodeToolPrompt {
     this.setParameters(PROMPTPART_SPECIFIC_TOOL_IDENTIFYCONSTRAINTS_DOCCODETOOLPARAMETERS);
     this.setOutput(PROMPTPART_SPECIFIC_TOOL_IDENTIFYCONSTRAINTS_DOCCODETOOLOUTPUT);
     
-    // Add examples - demonstrating analytical-strategic constraint identification
+    // Add examples that distinguish constraints from shipping-wrapper ceremony.
     this.set('examples:1', PROMPTPART_SPECIFIC_TOOL_IDENTIFYCONSTRAINTS_DOCCODETOOLEXAMPLE1);
     this.set('examples:2', PROMPTPART_SPECIFIC_TOOL_IDENTIFYCONSTRAINTS_DOCCODETOOLEXAMPLE2);
     this.set('examples:3', PROMPTPART_SPECIFIC_TOOL_IDENTIFYCONSTRAINTS_DOCCODETOOLEXAMPLE3);

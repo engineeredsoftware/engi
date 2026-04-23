@@ -14,9 +14,10 @@ import { PROMPTPART_SPECIFIC_TOOL_ANALYZETASKSEMANTICS_DOCCODETOOLEXAMPLE2 } fro
 import { PROMPTPART_SPECIFIC_TOOL_ANALYZETASKSEMANTICS_DOCCODETOOLEXAMPLE3 } from '@bitcode/prompts/raw_promptparts/specific/promptpart_specific_tool_analyzetasksemantics_doccodetoolexample3';
 /**
  * ANALYZE TASK SEMANTICS DOC-CODE-TOOL PROMPT
- * 
- * Structured DocCodeToolPrompt for task semantic analysis tool runtime documentation.
- * This tool extracts semantic meaning, intent, and scope from task descriptions.
+ *
+ * Retained compatibility DocCodeToolPrompt for Bitcode need semantics.
+ * The class and constant names remain task-named while the prompt content
+ * teaches need, written-asset, asset-pack, and shipping-wrapper semantics.
  */
 
 import { DocCodeToolPrompt } from '@bitcode/tools-generics';
@@ -41,16 +42,15 @@ import { PromptPart } from '@bitcode/prompts/parts/PromptPart';
 
 
 /**
- * Analyze Task Semantics tool-specific DocCodeToolPrompt
+ * Analyze Need Semantics tool-specific DocCodeToolPrompt
  * 
  * @doc-comment-developing-promptdevelopment
  * versions: []
  * domain: tool
- * intent: "Semantic analysis tool for extracting intent, scope boundaries, and implied requirements from task descriptions"
- * 
- * Essential for task comprehension, this tool performs semantic analysis
- * to extract intent, scope boundaries, and implied requirements from
- * task descriptions for accurate planning and execution.
+ * intent: "Compatibility tool for extracting Bitcode need intent, scope boundaries, written-asset expectations, and shipping-wrapper limits"
+ *
+ * This retained tool converts old task-first entry points into canonical
+ * Bitcode need comprehension before any asset-pack synthesis proceeds.
  */
 export class AnalyzeTaskSemanticsDocCodeToolPrompt extends DocCodeToolPrompt {
   constructor() {
@@ -66,7 +66,7 @@ export class AnalyzeTaskSemanticsDocCodeToolPrompt extends DocCodeToolPrompt {
     
     // Set metadata directly
     this.set('metadata:name', PROMPTPART_SPECIFIC_TOOL_ANALYZETASKSEMANTICS_DOCCODETOOLNAME);
-    this.set('metadata:category', 'task-analysis' as PromptPart);
+    this.set('metadata:category', 'need-comprehension' as PromptPart);
     this.set('metadata:version', 'GA1.00.0' as PromptPart);
     this.set('metadata:priority', 'high' as PromptPart);
     this.set('metadata:stability', 'stable' as PromptPart);
@@ -77,7 +77,7 @@ export class AnalyzeTaskSemanticsDocCodeToolPrompt extends DocCodeToolPrompt {
     this.setParameters(PROMPTPART_SPECIFIC_TOOL_ANALYZETASKSEMANTICS_DOCCODETOOLPARAMETERS);
     this.setOutput(PROMPTPART_SPECIFIC_TOOL_ANALYZETASKSEMANTICS_DOCCODETOOLOUTPUT);
     
-    // Add examples - demonstrating semantic analysis patterns
+    // Add examples that demonstrate Bitcode need semantics through compatibility names.
     this.set('examples:1', PROMPTPART_SPECIFIC_TOOL_ANALYZETASKSEMANTICS_DOCCODETOOLEXAMPLE1);
     this.set('examples:2', PROMPTPART_SPECIFIC_TOOL_ANALYZETASKSEMANTICS_DOCCODETOOLEXAMPLE2);
     this.set('examples:3', PROMPTPART_SPECIFIC_TOOL_ANALYZETASKSEMANTICS_DOCCODETOOLEXAMPLE3);

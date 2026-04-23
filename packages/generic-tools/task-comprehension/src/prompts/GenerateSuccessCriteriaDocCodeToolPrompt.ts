@@ -14,9 +14,10 @@ import { PROMPTPART_SPECIFIC_TOOL_GENERATESUCCESSCRITERIA_DOCCODETOOLEXAMPLE2 } 
 import { PROMPTPART_SPECIFIC_TOOL_GENERATESUCCESSCRITERIA_DOCCODETOOLEXAMPLE3 } from '@bitcode/prompts/raw_promptparts/specific/promptpart_specific_tool_generatesuccesscriteria_doccodetoolexample3';
 /**
  * GENERATE SUCCESS CRITERIA DOC-CODE-TOOL PROMPT
- * 
- * Strategic DocCodeToolPrompt for success criteria generation runtime documentation.
- * This tool manifests strategic intelligence through multi-dimensional outcome synthesis.
+ *
+ * Retained compatibility DocCodeToolPrompt for Bitcode need satisfaction.
+ * Criteria describe when written assets, proofs, persistence, interfaces, and
+ * shipping wrappers satisfy the expressed need.
  */
 
 import { DocCodeToolPrompt } from '@bitcode/tools-generics';
@@ -46,11 +47,10 @@ import { PromptPart } from '@bitcode/prompts/parts/PromptPart';
  * @doc-comment-developing-promptdevelopment
  * versions: []
  * domain: tool
- * intent: "Strategic cognitive tool for multi-dimensional success synthesis and outcome definition"
- * 
- * This strategic cognitive tool represents the evolution of outcome definition,
- * enabling multi-dimensional success synthesis and emergent validation criteria
- * that transforms abstract goals into measurable intelligence frameworks.
+ * intent: "Compatibility tool for generating measurable Bitcode need satisfaction criteria"
+ *
+ * This retained tool turns requirements and constraints into blocking and
+ * non-blocking acceptance criteria for asset-pack written-asset synthesis.
  */
 export class GenerateSuccessCriteriaDocCodeToolPrompt extends DocCodeToolPrompt {
   constructor() {
@@ -66,7 +66,7 @@ export class GenerateSuccessCriteriaDocCodeToolPrompt extends DocCodeToolPrompt 
     
     // Set metadata directly
     this.set('metadata:name', PROMPTPART_SPECIFIC_TOOL_GENERATESUCCESSCRITERIA_DOCCODETOOLNAME);
-    this.set('metadata:category', 'task-analysis' as PromptPart);
+    this.set('metadata:category', 'need-comprehension' as PromptPart);
     this.set('metadata:version', 'GA1.00.0' as PromptPart);
     this.set('metadata:priority', 'high' as PromptPart);
     this.set('metadata:stability', 'stable' as PromptPart);
@@ -77,7 +77,7 @@ export class GenerateSuccessCriteriaDocCodeToolPrompt extends DocCodeToolPrompt 
     this.setParameters(PROMPTPART_SPECIFIC_TOOL_GENERATESUCCESSCRITERIA_DOCCODETOOLPARAMETERS);
     this.setOutput(PROMPTPART_SPECIFIC_TOOL_GENERATESUCCESSCRITERIA_DOCCODETOOLOUTPUT);
     
-    // Add examples - demonstrating strategic success criteria generation
+    // Add examples that make satisfaction criteria measurable and proof-facing.
     this.set('examples:1', PROMPTPART_SPECIFIC_TOOL_GENERATESUCCESSCRITERIA_DOCCODETOOLEXAMPLE1);
     this.set('examples:2', PROMPTPART_SPECIFIC_TOOL_GENERATESUCCESSCRITERIA_DOCCODETOOLEXAMPLE2);
     this.set('examples:3', PROMPTPART_SPECIFIC_TOOL_GENERATESUCCESSCRITERIA_DOCCODETOOLEXAMPLE3);

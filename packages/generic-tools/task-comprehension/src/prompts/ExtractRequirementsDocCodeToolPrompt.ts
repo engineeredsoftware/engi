@@ -14,9 +14,10 @@ import { PROMPTPART_SPECIFIC_TOOL_EXTRACTREQUIREMENTS_DOCCODETOOLEXAMPLE2 } from
 import { PROMPTPART_SPECIFIC_TOOL_EXTRACTREQUIREMENTS_DOCCODETOOLEXAMPLE3 } from '@bitcode/prompts/raw_promptparts/specific/promptpart_specific_tool_extractrequirements_doccodetoolexample3';
 /**
  * EXTRACT REQUIREMENTS DOC-CODE-TOOL PROMPT
- * 
- * Analytical DocCodeToolPrompt for requirement extraction runtime documentation.
- * This tool enables multi-dimensional requirement parsing and structuring.
+ *
+ * Retained compatibility DocCodeToolPrompt for Bitcode need requirement
+ * extraction. Requirements are interpreted as written-asset, asset-pack,
+ * proof, interface, and shipping-wrapper obligations.
  */
 
 import { DocCodeToolPrompt } from '@bitcode/tools-generics';
@@ -46,11 +47,10 @@ import { PromptPart } from '@bitcode/prompts/parts/PromptPart';
  * @doc-comment-developing-promptdevelopment
  * versions: []
  * domain: tool
- * intent: "Analytical cognitive tool for multi-modal requirement parsing and implicit specification inference"
- * 
- * This analytical cognitive tool represents the evolution of requirement understanding,
- * enabling multi-modal parsing and implicit specification inference that feeds
- * sophisticated planning through transcendent pattern recognition.
+ * intent: "Compatibility tool for extracting Bitcode need requirements and mapping them to written-asset expectations"
+ *
+ * This retained tool keeps old requirement-extraction wiring while ensuring
+ * requirements feed Bitcode need satisfaction and asset-pack synthesis.
  */
 export class ExtractRequirementsDocCodeToolPrompt extends DocCodeToolPrompt {
   constructor() {
@@ -66,7 +66,7 @@ export class ExtractRequirementsDocCodeToolPrompt extends DocCodeToolPrompt {
     
     // Set metadata directly
     this.set('metadata:name', PROMPTPART_SPECIFIC_TOOL_EXTRACTREQUIREMENTS_DOCCODETOOLNAME);
-    this.set('metadata:category', 'task-analysis' as PromptPart);
+    this.set('metadata:category', 'need-comprehension' as PromptPart);
     this.set('metadata:version', 'GA1.00.0' as PromptPart);
     this.set('metadata:priority', 'high' as PromptPart);
     this.set('metadata:stability', 'stable' as PromptPart);
@@ -77,7 +77,7 @@ export class ExtractRequirementsDocCodeToolPrompt extends DocCodeToolPrompt {
     this.setParameters(PROMPTPART_SPECIFIC_TOOL_EXTRACTREQUIREMENTS_DOCCODETOOLPARAMETERS);
     this.setOutput(PROMPTPART_SPECIFIC_TOOL_EXTRACTREQUIREMENTS_DOCCODETOOLOUTPUT);
     
-    // Add examples - demonstrating analytical requirement extraction
+    // Add examples that keep requirements tied to Bitcode need satisfaction.
     this.set('examples:1', PROMPTPART_SPECIFIC_TOOL_EXTRACTREQUIREMENTS_DOCCODETOOLEXAMPLE1);
     this.set('examples:2', PROMPTPART_SPECIFIC_TOOL_EXTRACTREQUIREMENTS_DOCCODETOOLEXAMPLE2);
     this.set('examples:3', PROMPTPART_SPECIFIC_TOOL_EXTRACTREQUIREMENTS_DOCCODETOOLEXAMPLE3);

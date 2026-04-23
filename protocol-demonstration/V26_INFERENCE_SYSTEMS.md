@@ -1,0 +1,155 @@
+# V26 Inference Systems
+
+## Status
+
+- Scope: supplementary V26 specification for prompts, tools, agents, executions, and pipeline inference carriers
+- Canonical pointer: `/Users/garrettmaring/Developer/ENGI/BITCODE_SPEC.txt -> V26`
+- Purpose: make every inference-bearing implementation specify its need, prompt substrate, tool boundary, agentic role, execution carrier, evidence, and promotion posture before it can be treated as Bitcode behavior
+
+## Rule
+
+No prompt, tool, agent, phase, pipeline, MCP operation, or execution carrier may define live Bitcode behavior only by code presence.
+Each inference system must be specified as an auditable unit with the same canonical terms:
+
+- `need`
+  The expressed or measured objective the inference system satisfies.
+- `prompt surface`
+  The `PromptPart`, `Prompt`, `PromptExecution`, formatter, raw promptpart, or doc-code prompt structure used to shape inference.
+- `tool contract`
+  The callable operation, parameter schema, output schema, capability boundary, and failure behavior.
+- `agentic role`
+  The role, phase, step, substep, tool budget, structured output, and delegation boundary if an agent owns the work.
+- `execution carrier`
+  The `Execution`, `PipelineExecution`, `AgentExecution`, `ToolExecution`, run store, event stream, or persisted row that records the work.
+- `asset-pack effect`
+  The stable written asset, proof artifact, delivery mechanism, or state transition the system may produce.
+- `verification`
+  The static, unit, integration, runtime, proof, reread, or generated-artifact evidence required to claim the system is implemented.
+
+## Mandatory Specification Shape
+
+Every active or admitted-support inference system must answer the following before promotion:
+
+| Field | Requirement |
+| --- | --- |
+| Need | Name the Bitcode need in product terms, not legacy task/deliverable shorthand. |
+| Prompt ownership | Identify the exact prompt class, raw PromptParts, formatter, and runtime import boundary. |
+| Tool ownership | Identify callable tools, schema inputs/outputs, capability limits, and fail-closed behavior. |
+| Agent ownership | Identify agent role, phase, step/substep structure, structured output, tool usage, and retry/refine behavior. |
+| Execution ownership | Identify where runtime state is stored, streamed, persisted, reread, and proven. |
+| Asset ownership | Identify whether the output is a stable written asset, asset pack, proof artifact, state mutation, or shipping wrapper. |
+| Boundary posture | Classify as active, admitted support, ingress, compatibility, reference-only, or cut-target. |
+| Verification | Name concrete tests, typechecks, runtime load checks, generated proof artifacts, or manual verification gaps. |
+
+Compatibility names may remain only when the specification states what canonical Bitcode meaning they carry and why destructive rename is deferred.
+
+## Inference Implementation Record
+
+Every active or admitted-support package that owns inference behavior must be describable by a stable implementation record.
+The record does not need to live in one source file yet, but the repository must make every field recoverable from specification, package docs, source, tests, and generated proof artifacts.
+
+Required record fields:
+
+- `recordId`
+  Stable identifier for the inference system, using Bitcode product terms before compatibility names.
+- `canonicalNeed`
+  The measured or expressed need the system satisfies.
+- `promptImplementation`
+  Exact prompt classes, raw PromptParts, prompt formatter, prompt execution carrier, and runtime JavaScript carry-through requirement.
+- `toolImplementation`
+  Exact tool classes/functions, schemas, permission boundary, mutation boundary, and fail-closed behavior.
+- `agentImplementation`
+  Exact agent role, phase, step/substep factory, structured output contract, registry requirements, and retry/refinement limit.
+- `executionImplementation`
+  Exact execution carrier, persisted/read model, stream event family, registry hydration, and reread/proof witness.
+- `assetPackImplementation`
+  The written asset, asset pack, proof artifact, delivery mechanism, state transition, or wrapper payload that can be produced.
+- `boundaryPosture`
+  One of active, admitted support, ingress, compatibility, reference-only, or cut-target.
+- `verificationSet`
+  Concrete command, test, typecheck, runtime load, static proof, generated artifact, or manual gap.
+
+The record is incomplete if any field can only be inferred from old naming.
+For example, `task-comprehension` is accepted only because package docs, prompt metadata, raw PromptParts, source primitives, package-local typecheck, and proof witnesses all state that the live meaning is Bitcode need comprehension rather than old task-first planning.
+
+## Complete Coverage Ledger
+
+Fifth-gate prompt closure requires every prompt/tool/agent/execution system to land in this ledger before it is treated as live Bitcode behavior.
+
+| System family | Required prompt implementation | Required tool implementation | Required agentic implementation | Required execution implementation | Required verification |
+| --- | --- | --- | --- | --- | --- |
+| Prompt primitives | `PromptPart`, `Prompt`, `PromptExecution`, formatters, raw PromptParts, and TS/JS carry-through | none directly; prompt primitives must remain import-safe support for tools | none directly | `PromptExecution` binds prompt material to execution evidence | prompt package tests, prompt runtime loadability, prompt-system proof |
+| Tool prompt infrastructure | `DocCodeToolPrompt`, `formatUsableTools`, doc-code prompt labels, tool prompt registries | `Tool`, `ToolExecution`, `ToolPromptRegistry`, doc-code decorators/loaders | tool descriptions can be injected into agent runs but do not own the agent | `ToolExecution` and prompt registry evidence | support package subpath tests, doc-code transform tests, package manifests |
+| Agent infrastructure | `AgentPrompt`, `AgentStepPrompt`, generation/failsafe/tool prompt overlays | tool registries and bounded callable capabilities | agent factories, substeps, structured outputs, retry/refine limits | `AgentExecution`, agent registries, diagnostics, file-diff evidence | prompt boundary tests, agent/pipeline typechecks, proof artifacts |
+| Pipeline infrastructure | `PipelinePrompt`, phase prompts, prompt registries | pipeline tool registries and MCP-facing callable adapters | phase factory, meta-phase orchestrator, setup/discovery/implementation/validation/shipping agents | `PipelineExecution`, phase/subexecution, metrics, resume, streams | runs-pipelines proof, deliverable reform tests, package-local checks |
+| Conversation inference | `ConversationSystemPrompt` and app-level conversation prompt binding | conversation tool registration and attachment/destination tool posture | `ConversationAgent` and rich-input write surface | conversation persistence, stream events, ad hoc execution continuity | conversation tests, prompt surface tests, persistence proof |
+| Asset-pack synthesis compatibility | deliverable-corridor prompts, `comprehend-need` overlays, raw PromptParts, prompt renderer | clone/VCS, PR, review, issue/comment, template, and shipping-wrapper tools | setup, ready-to-iterate, validation, shipping, final-summary agents | registry-bearing pipeline runtime, postprocess/read models, execution history | `v26-deliverable-reform`, package typecheck boundary, prompt-system proof |
+| Need-comprehension compatibility | task-named DocCode prompts with `need-comprehension` metadata and reformed raw PromptParts | retained task-named tool APIs mapped to need, written asset, asset pack, proof, and shipping-wrapper outputs | no independent live agent; may feed setup/comprehension agents as admitted support | no independent execution owner; evidence is consumed by parent `ToolExecution`/pipeline records | package-local no-emit typecheck, prompt boundary test, raw PromptPart TS/JS carry-through |
+| MCP and external ingress | MCP prompt/tool descriptions where admitted | narrowed Exchange-facing tool families and fail-closed create admission | no invisible agent promotion without a record | queue/run/execution creation, provider/repository ingress, operator reread | MCP tests, package-local typechecks, retained-package admissibility proof |
+
+## Prompt Requirements
+
+Prompt-bearing systems must:
+
+- import prompt primitives through public `@bitcode/prompts` package boundaries or stable narrow subpaths;
+- keep raw promptpart TypeScript and runtime JavaScript content equivalent;
+- keep package-local prompt typecheck configs source-backed and no-emit when they verify retained prompt reservoirs without owning emitted artifacts;
+- prefer semantic aliases such as `need`, `writtenAssetType`, `writtenAssets`, `assetPack`, `needSatisfactionCriteria`, and `deliveryMechanism` before legacy compatibility aliases;
+- preserve doc-comment/doc-code prompt injection where tools need build-time tool descriptions in agentic runs;
+- reject old-world prompt content that teaches parallel product semantics, hidden task-first planning, PR-first delivery, or experimental cognitive/transcendent language as live Bitcode behavior.
+
+## Tool Requirements
+
+Tool-bearing systems must:
+
+- declare their package dependencies rather than relying on transitive workspace reach-through;
+- expose public package subpaths for any support primitive they expect others to consume;
+- describe exact parameter and output shapes in prompt content or schema source;
+- define fail-closed behavior for missing auth, readiness, repository anchoring, permissions, or provider bindings where the tool can mutate state or spend `$BTD`;
+- separate stable written assets from connected-interface shipping wrappers.
+
+## Agentic Requirements
+
+Agentic systems must:
+
+- name the phase, step, substep, prompt overlay, and tool registry they use;
+- bind structured outputs to semantic Bitcode fields before compatibility fields;
+- record tool/prompt/llm/agent registry state when running inside retained compatibility corridors;
+- emit enough execution store evidence for reread, proof, and operator-visible diagnostics;
+- keep retries/refinement bounded by the expressed need and satisfaction criteria.
+
+## Execution Requirements
+
+Execution systems must:
+
+- use `Execution`, `PipelineExecution`, `AgentExecution`, `ToolExecution`, and `PromptExecution` as explicit carriers rather than route-local hidden state;
+- persist or expose enough state for Terminal reread, Exchange route coherence, event streams, run history, and generated proof witnesses;
+- keep read models, mock fallback projections, and persisted rows semantically aligned on the same `need` / `assetPack` / `writtenAsset` meaning;
+- avoid pulling storage/logging/runtime reservoirs through broad package barrels when only base execution ancestry is required.
+
+## Current Package Matrix
+
+| Corridor | Required V26 inference specification |
+| --- | --- |
+| `packages/prompts/*` | canonical `PromptPart`, `Prompt`, `PromptExecution`, formatter, raw promptpart, and runtime carry-through ownership |
+| `packages/tools-generics/*` | tool primitive, `ToolExecution`, `ToolPromptRegistry`, doc-code prompt injection, and public support subpaths |
+| `packages/doc-comment/*`, `packages/doc-code/*` | build-time annotation and tool prompt attachment support, with examples/plugins remaining reference-only unless promoted |
+| `packages/agent-generics/*` | agent prompt hierarchy, structured output, step/substep, retry/refine, tool/llm registry, and agent execution ownership |
+| `packages/execution-generics/*`, `packages/pipelines-generics/*` | execution tree, prompt-aware registry, pipeline/phase hierarchy, streaming, metrics, and resume ownership |
+| `packages/pipelines/deliverable/*` | retained asset-pack written-asset synthesis corridor with `need`, `writtenAssetType`, `writtenAssets`, `assetPack`, `deliveryMechanism`, and compatibility wrappers |
+| `packages/generic-tools/task-comprehension/*` | retained compatibility tool reservoir now specified as Bitcode need-comprehension prompt/tool primitives |
+| `packages/conversations-generics/*`, `uapi/prompts/*` | rich-input conversation prompt and application-facing inference binding |
+| `packages/executions-mcp/*` | admitted Exchange-facing MCP inference ingress, narrowed to currently admitted tool families and fail-closed create admission |
+
+## Promotion Control
+
+An inference corridor is not fifth-gate complete when it merely typechecks or has prompt text.
+It is complete only when:
+
+- its canonical need and implementation boundary are specified;
+- its prompt/tool/agent/execution carrier is source-visible;
+- its compatibility names are explicitly mapped or removed;
+- its package dependencies and public subpaths are honest;
+- its runtime and proof evidence can be regenerated from source.
+
+Later gates may refine quality, viability, and commercial launch posture, but fifth-gate must establish this baseline for every active and admitted-support inference system.

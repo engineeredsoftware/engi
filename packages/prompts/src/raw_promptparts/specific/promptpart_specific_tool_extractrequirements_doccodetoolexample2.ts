@@ -1,18 +1,17 @@
 /**
  * @doc-comment-developing-promptpartdevelopment
  * domain: examples
- * intent: "Example showing legacy system migration requirement extraction with architectural insights"
- * current_version: "GA1.00.0"
+ * intent: "Bitcode need requirement promptpart for the retained extract-requirements compatibility tool"
+ * current_version: "V26.5.compat"
  * versions: []
  * benchmarks: [
- *   { "name": "legacy_migration_complexity", "test": "Does '{{content}}' demonstrate complex legacy migration requirement handling? Rate 0-1" },
- *   { "name": "architectural_pattern_recognition", "test": "Does '{{content}}' showcase architectural pattern recognition in requirements? Rate 0-1" },
- *   { "name": "systemic_integration_awareness", "test": "Is '{{content}}' aware of systemic integration requirements? Rate 0-1" },
- *   { "name": "progressive_sophistication", "test": "Does '{{content}}' show progressive sophistication over Example 1? Rate 0-1" }
+ *   { "name": "bitcode_need_precision", "test": "Does '{{content}}' use Bitcode need, written-asset, asset-pack, and shipping-wrapper semantics where applicable? Rate 0-1" },
+ *   { "name": "compatibility_boundary", "test": "Does '{{content}}' preserve compatibility naming only as a wrapper rather than product meaning? Rate 0-1" },
+ *   { "name": "implementation_ready", "test": "Is '{{content}}' concrete enough for DocCodeToolPrompt runtime use? Rate 0-1" }
  * ]
  */
 
 import type { PromptPart } from '../../parts/PromptPart';
 
-export const PROMPTPART_SPECIFIC_TOOL_EXTRACTREQUIREMENTS_DOCCODETOOLEXAMPLE2: PromptPart = 
-  'Example 2 - Legacy Banking System Modernization: extractRequirements({ taskDescription: [codebase: "legacy-cobol-system/", architecture: "modernization-blueprint.drawio", compliance: "banking-regulations.xml"], extractionDepth: "architectural", requirementTypes: ["migration", "compliance", "integration", "risk"], contextualFramework: "financial-services", prioritizationStrategy: "risk-weighted", implicitInferenceLevel: "systemic" }) → Returns RequirementFramework with data migration paths, regulatory compliance mappings, architectural transformation requirements, risk mitigation specifications, and cognitive dependency cascade analysis for progressive modernization strategy' as PromptPart;
+export const PROMPTPART_SPECIFIC_TOOL_EXTRACTREQUIREMENTS_DOCCODETOOLEXAMPLE2: PromptPart =
+  "Example 2 - Design-attached need: extractNeedRequirements({ expressedNeed: \"Implement this settings screen\", attachmentContext: [{ name: \"settings.fig\", kind: \"design\", summary: \"Account, billing, repository connection tabs\" }] }) -> produces UI, accessibility, state, and reread requirements tied to the attachment." as PromptPart;

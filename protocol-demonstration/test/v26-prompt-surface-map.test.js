@@ -3,10 +3,13 @@ import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 
 const promptSurfaceSource = readFileSync(new URL('../V26_PROMPT_SURFACES.md', import.meta.url), 'utf8');
+const inferenceSystemsSource = readFileSync(new URL('../V26_INFERENCE_SYSTEMS.md', import.meta.url), 'utf8');
 const uapiTsconfigSource = readFileSync(new URL('../../uapi/tsconfig.json', import.meta.url), 'utf8');
 
 test('V26 prompt surface map keeps active, support, and reference corridors explicit', () => {
   assert.match(promptSurfaceSource, /## Public prompt contract/u);
+  assert.match(promptSurfaceSource, /V26_INFERENCE_SYSTEMS\.md/u);
+  assert.match(promptSurfaceSource, /need, prompt surface, tool contract, agentic role, execution carrier, asset-pack effect, and verification/u);
   assert.match(promptSurfaceSource, /## Active fifth-gate prompt consumers/u);
   assert.match(promptSurfaceSource, /## Support prompt consumers/u);
   assert.match(promptSurfaceSource, /## Reference-only or retained old-world prompt ports/u);
@@ -24,12 +27,43 @@ test('V26 prompt surface map keeps active, support, and reference corridors expl
 
   assert.match(promptSurfaceSource, /packages\/generic-agents\/\*/u);
   assert.match(promptSurfaceSource, /packages\/generic-tools\/\*/u);
+  assert.match(promptSurfaceSource, /`task-comprehension` is now a compatibility package/u);
+  assert.match(promptSurfaceSource, /need-comprehension, written-asset, asset-pack, and shipping-wrapper analysis/u);
   assert.match(promptSurfaceSource, /protocol-demonstration\/V26_DOC_COMMENT_REFORM\.md/u);
   assert.match(promptSurfaceSource, /prefer `@bitcode\/prompts\/prompt` and `@bitcode\/prompts\/parts\/PromptPart`/u);
   assert.match(promptSurfaceSource, /prefer `@bitcode\/execution-generics\/Execution` and `@bitcode\/execution-generics\/prompts\/ExecutionPrompt`/u);
   assert.match(promptSurfaceSource, /broader active execution-bearing runtime carriers/u);
   assert.match(promptSurfaceSource, /retained reference test\/build configs should use exact public prompt subpath maps/u);
   assert.match(promptSurfaceSource, /Jira remains reader-first need-ingestion\/reference posture/u);
+  assert.match(promptSurfaceSource, /Runtime JavaScript PromptPart carry-through must match the TypeScript content/u);
+});
+
+test('V26 inference systems spec binds prompts, tools, agents, and executions together', () => {
+  assert.match(inferenceSystemsSource, /No prompt, tool, agent, phase, pipeline, MCP operation, or execution carrier/u);
+  assert.match(inferenceSystemsSource, /Need \| Name the Bitcode need/u);
+  assert.match(inferenceSystemsSource, /Prompt ownership \| Identify the exact prompt class/u);
+  assert.match(inferenceSystemsSource, /Tool ownership \| Identify callable tools/u);
+  assert.match(inferenceSystemsSource, /Agent ownership \| Identify agent role/u);
+  assert.match(inferenceSystemsSource, /Execution ownership \| Identify where runtime state is stored/u);
+  assert.match(inferenceSystemsSource, /`packages\/generic-tools\/task-comprehension\/\*`/u);
+  assert.match(inferenceSystemsSource, /retained compatibility tool reservoir now specified as Bitcode need-comprehension/u);
+  assert.match(inferenceSystemsSource, /## Inference Implementation Record/u);
+  assert.match(inferenceSystemsSource, /recordId/u);
+  assert.match(inferenceSystemsSource, /canonicalNeed/u);
+  assert.match(inferenceSystemsSource, /promptImplementation/u);
+  assert.match(inferenceSystemsSource, /toolImplementation/u);
+  assert.match(inferenceSystemsSource, /agentImplementation/u);
+  assert.match(inferenceSystemsSource, /executionImplementation/u);
+  assert.match(inferenceSystemsSource, /assetPackImplementation/u);
+  assert.match(inferenceSystemsSource, /## Complete Coverage Ledger/u);
+  assert.match(inferenceSystemsSource, /Prompt primitives \| `PromptPart`, `Prompt`, `PromptExecution`/u);
+  assert.match(inferenceSystemsSource, /Tool prompt infrastructure \| `DocCodeToolPrompt`/u);
+  assert.match(inferenceSystemsSource, /Agent infrastructure \| `AgentPrompt`, `AgentStepPrompt`/u);
+  assert.match(inferenceSystemsSource, /Pipeline infrastructure \| `PipelinePrompt`/u);
+  assert.match(inferenceSystemsSource, /Conversation inference \| `ConversationSystemPrompt`/u);
+  assert.match(inferenceSystemsSource, /Need-comprehension compatibility/u);
+  assert.match(inferenceSystemsSource, /package-local no-emit typecheck/u);
+  assert.match(inferenceSystemsSource, /runtime and proof evidence can be regenerated from source/u);
 });
 
 test('V26 active app config no longer preserves deprecated prompt source aliases', () => {

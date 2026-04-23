@@ -1,18 +1,17 @@
 /**
  * @doc-comment-developing-promptpartdevelopment
  * domain: examples
- * intent: "Example showing AI model success criteria generation with emergent quality measurement"
- * current_version: "GA1.00.0"
+ * intent: "Bitcode need satisfaction promptpart for the retained generate-success-criteria compatibility tool"
+ * current_version: "V26.5.compat"
  * versions: []
  * benchmarks: [
- *   { "name": "ai_model_criteria_demonstration", "test": "Does '{{content}}' demonstrate AI model success criteria processing capability? Rate 0-1" },
- *   { "name": "emergent_quality_showcase", "test": "Does '{{content}}' showcase emergent quality measurement beyond standard metrics? Rate 0-1" },
- *   { "name": "validation_integration_relevance", "test": "Is '{{content}}' relevant for validation task comprehension scenarios? Rate 0-1" },
- *   { "name": "transcendent_quality_example", "test": "Does '{{content}}' exemplify transcendent success criteria generation quality? Rate 0-1" }
+ *   { "name": "bitcode_need_precision", "test": "Does '{{content}}' use Bitcode need, written-asset, asset-pack, and shipping-wrapper semantics where applicable? Rate 0-1" },
+ *   { "name": "compatibility_boundary", "test": "Does '{{content}}' preserve compatibility naming only as a wrapper rather than product meaning? Rate 0-1" },
+ *   { "name": "implementation_ready", "test": "Is '{{content}}' concrete enough for DocCodeToolPrompt runtime use? Rate 0-1" }
  * ]
  */
 
 import type { PromptPart } from '../../parts/PromptPart';
 
-export const PROMPTPART_SPECIFIC_TOOL_GENERATESUCCESSCRITERIA_DOCCODETOOLEXAMPLE1: PromptPart = 
-  'Example 1 - Large Language Model Training Success: generateSuccessCriteria({ taskObjectives: "train-conversational-ai-model", qualityDimensions: ["accuracy", "coherence", "safety", "creativity"], emergentIndicators: ["emergent-reasoning", "contextual-awareness", "ethical-behavior"], measurementFramework: "multi-dimensional-evaluation", validationContext: "human-ai-interaction", benchmarkStrategy: "adaptive-thresholds", adaptiveThresholds: "dynamic-improvement" }) → Returns SuccessFramework with 95% accuracy floor, coherence consistency metrics, safety violation ceiling, creativity diversity indices, emergent reasoning detection protocols, contextual awareness benchmarks, and adaptive quality thresholds for comprehensive AI model validation' as PromptPart;
+export const PROMPTPART_SPECIFIC_TOOL_GENERATESUCCESSCRITERIA_DOCCODETOOLEXAMPLE1: PromptPart =
+  "Example 1 - Code written asset: generateNeedSatisfactionCriteria({ writtenAssetType: \"pull-request\", verificationPosture: \"mixed\" }) -> requires source changes, focused tests, typecheck, rereadable summary, and PR wrapper coherence." as PromptPart;

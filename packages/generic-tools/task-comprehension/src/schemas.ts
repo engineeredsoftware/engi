@@ -1,7 +1,9 @@
 /**
- * TASK COMPREHENSION SCHEMAS
- * 
- * Zod schemas for task comprehension data structures.
+ * NEED COMPREHENSION SCHEMAS
+ *
+ * Compatibility schemas used by the retained task-comprehension package.
+ * Existing type names remain stable while runtime prompts interpret the data as
+ * Bitcode need, written-asset, asset-pack, proof, and shipping-wrapper state.
  */
 
 import { z } from 'zod';

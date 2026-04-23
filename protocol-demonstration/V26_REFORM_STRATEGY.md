@@ -49,6 +49,8 @@ Every retained corridor must therefore be classified before it is edited:
   Active inference carriers now consume `PromptPart`, `Prompt`, `PromptExecution`, `Execution`, and `ExecutionPrompt` through public Bitcode package seams instead of repo-relative reach-through.
 - `deliverable` reform
   The retained corridor is now explicitly interpreted as asset-pack written-asset synthesis inside a Bitcode agentic pipeline-run corridor: each run satisfies a `need`, synthesizes stable written assets / asset-packs, and uses shipping-phase `deliverables` only as connected-interface delivery mechanisms. `need`, `writtenAssetType`, `writtenAssets`, `needSatisfactionCriteria`, delivery-mechanism mirrors, and asset-pack snapshots are progressively being carried alongside compatibility `deliverable*` naming, with registry-bearing runtime hydration on bare-execution entry, canonical `comprehend-need` module paths on the live setup corridor, and an honest package-local typecheck boundary through the remaining retained support graph.
+- `task-comprehension` prompt reform
+  The retained generic tool package keeps task-named APIs for compatibility, but its DocCode prompts, raw PromptParts, README, placeholder primitive outputs, direct workspace dependencies, and no-emit package-local typecheck now describe and verify Bitcode need comprehension, written-asset requirements, asset-pack context, proof obligations, and shipping-wrapper limits.
 - `field-intelligence`
   A clearly experimental old-world corridor was removed from live Bitcode and documented only under `_legacy/field-intelligence`.
 

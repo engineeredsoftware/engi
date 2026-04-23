@@ -14,9 +14,10 @@ import { PROMPTPART_SPECIFIC_TOOL_ANALYZEIMPLEMENTATIONCOMPLEXITY_DOCCODETOOLEXA
 import { PROMPTPART_SPECIFIC_TOOL_ANALYZEIMPLEMENTATIONCOMPLEXITY_DOCCODETOOLEXAMPLE3 } from '@bitcode/prompts/raw_promptparts/specific/promptpart_specific_tool_analyzeimplementationcomplexity_doccodetoolexample3';
 /**
  * ANALYZE IMPLEMENTATION COMPLEXITY DOC-CODE-TOOL PROMPT
- * 
- * Strategic-Transcendent DocCodeToolPrompt for implementation complexity analysis runtime documentation.
- * This tool represents the apex of task comprehension through consciousness-integrated complexity intelligence.
+ *
+ * Retained compatibility DocCodeToolPrompt for Bitcode asset-pack
+ * implementation complexity. Complexity is assessed against need
+ * satisfaction, proof, package boundaries, and shipping-wrapper risk.
  */
 
 import { DocCodeToolPrompt } from '@bitcode/tools-generics';
@@ -46,11 +47,10 @@ import { PromptPart } from '@bitcode/prompts/parts/PromptPart';
  * @doc-comment-developing-promptdevelopment
  * versions: []
  * domain: tool
- * intent: "Strategic-transcendent cognitive tool for consciousness-integrated complexity analysis and implementation planning"
- * 
- * This strategic-transcendent cognitive tool represents the evolution of complexity understanding,
- * enabling consciousness-integrated analysis and emergent complexity intelligence that transcends
- * conventional implementation planning through paradigm-shifting strategic synthesis.
+ * intent: "Compatibility tool for analyzing Bitcode asset-pack implementation complexity and verification risk"
+ *
+ * This retained tool ranks implementation, integration, proof, persistence,
+ * interface, and shipping-wrapper complexity for the expressed need.
  */
 export class AnalyzeImplementationComplexityDocCodeToolPrompt extends DocCodeToolPrompt {
   constructor() {
@@ -66,7 +66,7 @@ export class AnalyzeImplementationComplexityDocCodeToolPrompt extends DocCodeToo
     
     // Set metadata directly
     this.set('metadata:name', PROMPTPART_SPECIFIC_TOOL_ANALYZEIMPLEMENTATIONCOMPLEXITY_DOCCODETOOLNAME);
-    this.set('metadata:category', 'task-analysis' as PromptPart);
+    this.set('metadata:category', 'need-comprehension' as PromptPart);
     this.set('metadata:version', 'GA1.00.0' as PromptPart);
     this.set('metadata:priority', 'high' as PromptPart);
     this.set('metadata:stability', 'stable' as PromptPart);
@@ -77,7 +77,7 @@ export class AnalyzeImplementationComplexityDocCodeToolPrompt extends DocCodeToo
     this.setParameters(PROMPTPART_SPECIFIC_TOOL_ANALYZEIMPLEMENTATIONCOMPLEXITY_DOCCODETOOLPARAMETERS);
     this.setOutput(PROMPTPART_SPECIFIC_TOOL_ANALYZEIMPLEMENTATIONCOMPLEXITY_DOCCODETOOLOUTPUT);
     
-    // Add examples - demonstrating transcendent complexity intelligence
+    // Add examples that sequence Bitcode implementation and proof risk.
     this.set('examples:1', PROMPTPART_SPECIFIC_TOOL_ANALYZEIMPLEMENTATIONCOMPLEXITY_DOCCODETOOLEXAMPLE1);
     this.set('examples:2', PROMPTPART_SPECIFIC_TOOL_ANALYZEIMPLEMENTATIONCOMPLEXITY_DOCCODETOOLEXAMPLE2);
     this.set('examples:3', PROMPTPART_SPECIFIC_TOOL_ANALYZEIMPLEMENTATIONCOMPLEXITY_DOCCODETOOLEXAMPLE3);

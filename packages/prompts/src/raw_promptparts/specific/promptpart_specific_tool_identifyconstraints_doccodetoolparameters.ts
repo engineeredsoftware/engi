@@ -1,18 +1,17 @@
 /**
  * @doc-comment-developing-promptpartdevelopment
  * domain: parameters
- * intent: "Parameter specification for constraint identification tool"
- * current_version: "GA1.00.0"
+ * intent: "Bitcode need constraint promptpart for the retained identify-constraints compatibility tool"
+ * current_version: "V26.5.compat"
  * versions: []
  * benchmarks: [
- *   { "name": "parameter_comprehensiveness", "test": "Does '{{content}}' cover all essential parameters for constraint identification? Rate 0-1" },
- *   { "name": "systemic_configuration_depth", "test": "Does '{{content}}' include systemic processing configuration options? Rate 0-1" },
- *   { "name": "architectural_context_support", "test": "Does '{{content}}' demonstrate architectural context parameter support? Rate 0-1" },
- *   { "name": "constraint_precision_control", "test": "Does '{{content}}' provide constraint analysis precision and depth controls? Rate 0-1" }
+ *   { "name": "bitcode_need_precision", "test": "Does '{{content}}' use Bitcode need, written-asset, asset-pack, and shipping-wrapper semantics where applicable? Rate 0-1" },
+ *   { "name": "compatibility_boundary", "test": "Does '{{content}}' preserve compatibility naming only as a wrapper rather than product meaning? Rate 0-1" },
+ *   { "name": "implementation_ready", "test": "Is '{{content}}' concrete enough for DocCodeToolPrompt runtime use? Rate 0-1" }
  * ]
  */
 
 import type { PromptPart } from '../../parts/PromptPart';
 
-export const PROMPTPART_SPECIFIC_TOOL_IDENTIFYCONSTRAINTS_DOCCODETOOLPARAMETERS: PromptPart = 
-  'taskContext: SystemContext, analysisScope: ArchitecturalBoundary, constraintTypes: DimensionArray, systemArchitecture: StructuralModel, resourceInventory: CapacityProfile, temporalFramework: TimeConstraints, regulatoryContext: ComplianceSpace, interdependencyDepth: SystemicLevel, outputGranularity: ConstraintSchema' as PromptPart;
+export const PROMPTPART_SPECIFIC_TOOL_IDENTIFYCONSTRAINTS_DOCCODETOOLPARAMETERS: PromptPart =
+  "Parameters: needContext: NeedSemantics | object; repositoryContext?: object; productContext?: object; proofContext?: object; readinessContext?: object; shippingWrapperContext?: object; severityModel?: \"blocking\" | \"riskWeighted\" | \"audit\"." as PromptPart;

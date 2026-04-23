@@ -1044,6 +1044,7 @@ function buildV26PromptSystemTotalityProof({
         'packages/prompts/src/parts/PromptPart.ts',
         'packages/prompts/src/__tests__/prompt.test.ts',
         'protocol-demonstration/V26_PROMPT_SURFACES.md',
+        'protocol-demonstration/V26_INFERENCE_SYSTEMS.md',
         'protocol-demonstration/test/v26-prompt-system-boundary.test.js',
         'protocol-demonstration/test/v26-prompt-surface-map.test.js',
         'protocol-demonstration/test/v26-prompt-runtime-loadability.test.js'
@@ -1155,6 +1156,7 @@ function buildV26PromptSystemTotalityProof({
       'Doc-comment and doc-code keep tool prompt injection explicit under Bitcode ownership',
       [
         'protocol-demonstration/V26_DOC_COMMENT_REFORM.md',
+        'protocol-demonstration/V26_INFERENCE_SYSTEMS.md',
         'packages/doc-comment/README.md',
         'packages/doc-comment/src/build-plugin.ts',
         'packages/doc-code/README.md',
@@ -1179,6 +1181,18 @@ function buildV26PromptSystemTotalityProof({
         'packages/generic-agents/web-researcher/src/index.ts',
         'packages/generic-agents/web-researcher/src/prompts/system-prompt-web-researcher.ts',
         'packages/generic-tools/files-maintaining/src/prompts/tool-prompt-transaction-begin.ts',
+        'packages/generic-tools/task-comprehension/README.md',
+        'packages/generic-tools/task-comprehension/package.json',
+        'packages/generic-tools/task-comprehension/tsconfig.json',
+        'packages/generic-tools/task-comprehension/src/index.ts',
+        'packages/generic-tools/task-comprehension/src/primitives.ts',
+        'packages/generic-tools/task-comprehension/src/types/prompt-part.ts',
+        'packages/generic-tools/task-comprehension/src/types/tools-generics.ts',
+        'packages/generic-tools/task-comprehension/src/prompts/AnalyzeTaskSemanticsDocCodeToolPrompt.ts',
+        'packages/generic-tools/task-comprehension/src/prompts/ValidateTaskComprehensionDocCodeToolPrompt.ts',
+        'packages/prompts/src/raw_promptparts/specific/promptpart_specific_tool_analyzetasksemantics_doccodetoolpurpose.ts',
+        'packages/prompts/src/raw_promptparts/specific/promptpart_specific_tool_analyzeimplementationcomplexity_doccodetoolexample3.ts',
+        'packages/prompts/src/raw_promptparts/specific/promptpart_specific_tool_validatetaskcomprehension_doccodetoolpurpose.ts',
         'packages/generic-tools/vcs/src/prompts/ListRepositoriesDocCodeToolPrompt.ts',
         'packages/chatgptapp/src/prompts/chatgpt-tool-doc-prompts.ts',
         'packages/chatgptapp/tsconfig.test.json',
@@ -1245,7 +1259,8 @@ function buildV26PromptSystemTotalityProof({
       '@bitcode/doc-code',
       '@bitcode/tools-generics',
       '@bitcode/conversations-generics',
-      '@bitcode/digest'
+      '@bitcode/digest',
+      '@bitcode/generic-tools-task-comprehension'
     ],
     checks
   };
