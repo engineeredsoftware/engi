@@ -3,8 +3,8 @@ import { PromptPart } from '../../parts/PromptPart';
 /**
  * @doc-comment-developing-promptpartdevelopment
  * domain: agent
- * intent: "Define Refine step purpose for LSP initialization"
- * current_version: "GA1.50.0"
+ * intent: "Bitcode InitializeLSP Refine purpose for measurement evidence quality"
+ * current_version: "0.50.0"
  * versions: []
  * benchmarks: [
  *   { "name": "refinement_focus", "test": "Focuses on optimization?", "score": 0.94 },
@@ -12,4 +12,4 @@ import { PromptPart } from '../../parts/PromptPart';
  * ]
  */
 export const PROMPTPART_SPECIFIC_AGENT_INITIALIZELSP_REFINE_PURPOSE: PromptPart = 
-  'Optimize LSP configuration with advanced features and performance tuning' as PromptPart;
+  'Refine LSP measurement configuration for stronger evidence completeness, stable replay, and bounded performance' as PromptPart;

@@ -3,8 +3,8 @@ import { PromptPart } from '../../parts/PromptPart';
 /**
  * @doc-comment-developing-promptpartdevelopment
  * domain: lsp
- * intent: "Header: LSP navigation capabilities"
- * current_version: "GA1.50.0"
+ * intent: "Bitcode LSP capability header for replayable static symbol measurement"
+ * current_version: "0.50.0"
  * versions: []
   * benchmarks: [
  *   { "name": "technical_accuracy", "test": "Uses concrete technical language", "score": 0.50 },
@@ -12,4 +12,4 @@ import { PromptPart } from '../../parts/PromptPart';
  * ]
  */
 export const PROMPTPART_SPECIFIC_TOOL_CAPABILITIES_LSP_HEADER: PromptPart =
-  'Provides precise symbol navigation with' as PromptPart;
+  'Provides replayable static symbol measurement with' as PromptPart;

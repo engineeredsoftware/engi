@@ -3,8 +3,8 @@ import { PromptPart } from '../../parts/PromptPart';
 /**
  * @doc-comment-developing-promptpartdevelopment
  * domain: agent
- * intent: "Define Try step purpose for LSP initialization"
- * current_version: "GA1.50.0"
+ * intent: "Bitcode InitializeLSP Try purpose for measurement session activation"
+ * current_version: "0.50.0"
  * versions: []
  * benchmarks: [
  *   { "name": "action_focus", "test": "Focuses on execution?", "score": 0.95 },
@@ -12,4 +12,4 @@ import { PromptPart } from '../../parts/PromptPart';
  * ]
  */
 export const PROMPTPART_SPECIFIC_AGENT_INITIALIZELSP_TRY_PURPOSE: PromptPart = 
-  'Execute LSP initialization with capability negotiation and workspace configuration' as PromptPart;
+  'Execute LSP measurement initialization with evidence capability negotiation and workspace configuration' as PromptPart;

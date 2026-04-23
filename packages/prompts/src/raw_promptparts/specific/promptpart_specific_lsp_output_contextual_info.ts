@@ -3,8 +3,8 @@ import { PromptPart } from '../../parts/PromptPart';
 /**
  * @doc-comment-developing-promptpartdevelopment
  * domain: lsp
- * intent: "LSP output: contextual information"
- * current_version: "GA1.50.0"
+ * intent: "Bitcode LSP output field for contextual Need evidence"
+ * current_version: "0.50.0"
  * versions: []
   * benchmarks: [
  *   { "name": "technical_accuracy", "test": "Uses concrete technical language", "score": 0.50 },
@@ -12,4 +12,4 @@ import { PromptPart } from '../../parts/PromptPart';
  * ]
  */
 export const PROMPTPART_SPECIFIC_LSP_OUTPUT_CONTEXTUAL_INFO: PromptPart =
-  'contextual code surrounding the location' as PromptPart;
+  'contextual code evidence surrounding the measured location' as PromptPart;

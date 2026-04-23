@@ -3,8 +3,8 @@ import { PromptPart } from '../../parts/PromptPart';
 /**
  * @doc-comment-developing-promptpartdevelopment
  * domain: tool
- * intent: "LSP hover: capabilities summary"
- * current_version: "GA1.50.0"
+ * intent: "Bitcode LSP hover measurement capability for proof-replay facts"
+ * current_version: "0.50.0"
  * versions: []
  * benchmarks: [
  *   { "name": "technical_specificity", "test": "States outputs: signature, docs", "score": 0.46 },
@@ -12,4 +12,4 @@ import { PromptPart } from '../../parts/PromptPart';
  * ]
  */
 export const PROMPTPART_SPECIFIC_TOOL_LSP_HOVER_CAPABILITIES: PromptPart =
-  'Return hover information for a symbol: type signature and a concise documentation summary if available.' as PromptPart;
+  'Return hover evidence for a symbol with type signature, concise documentation summary, and provenance for proof replay when available.' as PromptPart;

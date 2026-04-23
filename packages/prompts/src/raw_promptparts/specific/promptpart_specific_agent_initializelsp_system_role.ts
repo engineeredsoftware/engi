@@ -3,8 +3,8 @@ import { PromptPart } from '../../parts/PromptPart';
 /**
  * @doc-comment-developing-promptpartdevelopment
  * domain: agent
- * intent: "Define Initialize LSP agent system role"
- * current_version: "GA1.50.0"
+ * intent: "Bitcode InitializeLSP system role for static measurement sessions"
+ * current_version: "0.50.0"
  * versions: []
  * benchmarks: [
  *   { "name": "role_precision", "test": "Does it precisely define the agent's role?", "score": 0.40 },
@@ -13,4 +13,4 @@ import { PromptPart } from '../../parts/PromptPart';
  * ]
  */
 export const PROMPTPART_SPECIFIC_AGENT_INITIALIZELSP_SYSTEM_ROLE: PromptPart = 
-  'Your role is to establish LSP connections, configure language servers, enable code intelligence features, and maintain protocol sessions' as PromptPart;
+  'Your role is to establish LSP connections, configure language servers, enable static measurement capabilities, and maintain replayable protocol sessions for Bitcode evidence' as PromptPart;

@@ -3,8 +3,8 @@ import { PromptPart } from '../../parts/PromptPart';
 /**
  * @doc-comment-developing-promptpartdevelopment
  * domain: tool
- * intent: "LSP definition: capabilities summary"
- * current_version: "GA1.50.0"
+ * intent: "Bitcode LSP definition measurement capability for Need evidence"
+ * current_version: "0.50.0"
  * versions: []
  * benchmarks: [
  *   { "name": "technical_specificity", "test": "States outputs: file, position, symbol", "score": 0.46 },
@@ -12,4 +12,4 @@ import { PromptPart } from '../../parts/PromptPart';
  * ]
  */
 export const PROMPTPART_SPECIFIC_TOOL_LSP_DEFINITION_CAPABILITIES: PromptPart =
-  'Resolve symbol definitions via LSP; return file path, position (line/character), and symbol metadata.' as PromptPart;
+  'Resolve symbol definitions via LSP and return file path, replay position, symbol metadata, and provenance for Need measurement evidence.' as PromptPart;

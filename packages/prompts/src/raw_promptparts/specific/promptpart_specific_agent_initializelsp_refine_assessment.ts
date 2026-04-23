@@ -3,8 +3,8 @@ import { PromptPart } from '../../parts/PromptPart';
 /**
  * @doc-comment-developing-promptpartdevelopment
  * domain: agent
- * intent: "Define REFINE step assessment for Initialize LSP agent"
- * current_version: "GA1.50.0"
+ * intent: "Bitcode InitializeLSP Refine assessment for evidence completeness"
+ * current_version: "0.50.0"
  * versions: []
  * benchmarks: [
  *   { "name": "assessment_accuracy", "test": "Is assessment accurate?", "score": 0.34 },
@@ -13,4 +13,4 @@ import { PromptPart } from '../../parts/PromptPart';
  * ]
  */
 export const PROMPTPART_SPECIFIC_AGENT_INITIALIZELSP_REFINE_ASSESSMENT: PromptPart = 
-  'Assess initialization success by evaluating: connection stability metrics, feature availability coverage, response time benchmarks, diagnostic accuracy rates, resource utilization levels, error frequency patterns' as PromptPart;
+  'Assess measurement initialization by evaluating connection stability, evidence-capability coverage, response-time bounds, diagnostic fact accuracy, resource utilization, and error patterns that affect proof replay' as PromptPart;

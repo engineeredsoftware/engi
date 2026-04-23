@@ -41,12 +41,12 @@ import { PROMPTPART_SPECIFIC_TOOL_LSPQUERY_DOCCODETOOLEXAMPLE3 } from '@bitcode/
  * 
  * @doc-comment-developing-promptdevelopment
  * domain: tool
- * intent: "Language Server Protocol query tool for precise codebase analysis and symbol resolution"
- * current_version: "GA1.45.0"
+ * intent: "Bitcode LSP query DocCodeTool prompt for replayable static Need measurement and AssetPack evidence"
+ * current_version: "0.50.0"
  * dependencies: {
- *   "PROMPTPART_SPECIFIC_TOOL_LSPQUERY_DOCCODETOOLNAME": "GA1.45.0",
- *   "PROMPTPART_SPECIFIC_TOOL_LSPQUERY_DOCCODETOOLPURPOSE": "GA1.45.0",
- *   "PROMPTPART_GENERIC_DOCCODE_PURPOSE_LABEL": "GA1.45.0"
+ *   "PROMPTPART_SPECIFIC_TOOL_LSPQUERY_DOCCODETOOLNAME": "0.50.0",
+ *   "PROMPTPART_SPECIFIC_TOOL_LSPQUERY_DOCCODETOOLPURPOSE": "0.50.0",
+ *   "PROMPTPART_GENERIC_DOCCODE_PURPOSE_LABEL": "0.50.0"
  * }
  */
 export class LspQueryDocCodeToolPrompt extends DocCodeToolPrompt {
@@ -64,7 +64,7 @@ export class LspQueryDocCodeToolPrompt extends DocCodeToolPrompt {
     // Metadata
     this.set('metadata:name', PROMPTPART_SPECIFIC_TOOL_LSPQUERY_DOCCODETOOLNAME);
     this.set('metadata:category', 'lsp' as PromptPart);
-    this.set('metadata:version', 'GA1.50.0' as PromptPart);
+    this.set('metadata:version', '0.50.0' as PromptPart);
     this.set('metadata:priority', 'high' as PromptPart);
     this.set('metadata:stability', 'stable' as PromptPart);
     

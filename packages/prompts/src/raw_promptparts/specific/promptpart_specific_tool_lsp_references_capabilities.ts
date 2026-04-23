@@ -3,8 +3,8 @@ import { PromptPart } from '../../parts/PromptPart';
 /**
  * @doc-comment-developing-promptpartdevelopment
  * domain: tool
- * intent: "LSP references: capabilities summary"
- * current_version: "GA1.50.0"
+ * intent: "Bitcode LSP reference measurement capability for AssetPack fit evidence"
+ * current_version: "0.50.0"
  * versions: []
  * benchmarks: [
  *   { "name": "technical_specificity", "test": "States outputs: file, range, context", "score": 0.46 },
@@ -12,4 +12,4 @@ import { PromptPart } from '../../parts/PromptPart';
  * ]
  */
 export const PROMPTPART_SPECIFIC_TOOL_LSP_REFERENCES_CAPABILITIES: PromptPart =
-  'List symbol references across the workspace using LSP; include file path, range, and several context lines around each reference.' as PromptPart;
+  'List symbol references across the workspace using LSP and include file path, range, context lines, and provenance for AssetPack fit evidence.' as PromptPart;

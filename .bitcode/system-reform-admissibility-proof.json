@@ -1,8 +1,8 @@
 {
   "reportId": "v26-system-reform-admissibility-proof",
   "version": "V26",
-  "proofSourceCommit": "6640818700c4174dbfdb9347b5d646076563105b",
-  "generatedAt": "2026-04-23T12:16:50-03:00",
+  "proofSourceCommit": "1185ea4fe8e51979ddf8893b4fb2061d3bf01181",
+  "generatedAt": "2026-04-23T12:45:19-03:00",
   "generatorId": "bitcode.proven-generator.v1",
   "worktreeState": "dirty-preview",
   "passed": true,
@@ -11,6 +11,7 @@
     "ingress-only": 1,
     "compatibility-only": 1,
     "reference-only": 3,
+    "ingress-or-support": 1,
     "auxiliary-input": 1
   },
   "reformClasses": [
@@ -18,6 +19,7 @@
     "ingress-only",
     "compatibility-only",
     "reference-only",
+    "ingress-or-support",
     "auxiliary-input"
   ],
   "closureBasis": "Retained old-world families are admissible for fifth-gate only when their live-path role is explicitly classified as governance, ingress-only, compatibility-only, reference-only, or auxiliary-input rather than surviving as parallel product ownership.",
@@ -106,6 +108,22 @@
       "missingFiles": [],
       "reformClass": "reference-only",
       "livePathRole": "Jira tooling can contribute admitted integration context without becoming Bitcode Exchange ownership."
+    },
+    {
+      "checkId": "lsp-measure-need-boundary",
+      "label": "Retained LSP infrastructure is repurposed as static Need/AssetPack measurement",
+      "passed": true,
+      "detail": "5 required files present",
+      "requiredFiles": [
+        "protocol-demonstration/V26_LSP_MEASUREMENT_REFORM.md",
+        "protocol-demonstration/src/bitcode-demo.js",
+        "protocol-demonstration/src/canonical/need-measurement.js",
+        "packages/lsp/src/index.ts",
+        "packages/generic-tools/lsp-query/src/prompts/LspQueryDocCodeToolPrompt.ts"
+      ],
+      "missingFiles": [],
+      "reformClass": "ingress-or-support",
+      "livePathRole": "LSP tooling may remain only as replayable symbol/path/config/type evidence for Need measurement, AssetPack fit, and proof replay."
     },
     {
       "checkId": "web-search-auxiliary-input-boundary",

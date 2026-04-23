@@ -1,7 +1,21 @@
 import { PROMPTPART_SPECIFIC_TOOL_CONTEXT_AWARENESS_LSP_HEADER } from '@bitcode/prompts/raw_promptparts/specific/promptpart_specific_tool_context_awareness_lsp_header';
 import { PROMPTPART_SPECIFIC_TOOL_CONTEXT_AWARENESS_FEATURES } from '@bitcode/prompts/raw_promptparts/specific/promptpart_specific_tool_context_awareness_features';
 import { PROMPTPART_SPECIFIC_TOOL_CONTEXT_AWARENESS_LSP_FOOTER } from '@bitcode/prompts/raw_promptparts/specific/promptpart_specific_tool_context_awareness_lsp_footer';
-/**\n * @doc-comment-developing-promptdevelopment\n * domain: agent\n * intent: "(fill intent)"\n * current_version: "GA1.45.0"\n * dependencies: { }\n * benchmarks: [\n *   { "name": "technical_accuracy", "test": "Concrete directives and purpose", "score": 0.46 },\n *   { "name": "implementation_ready", "test": "Usable by registry formatter", "score": 0.46 }\n * ]\n */
+/**
+ * @doc-comment-developing-promptdevelopment
+ * domain: tool
+ * intent: "Bitcode LSP context-awareness composition for replayable Need and AssetPack measurement"
+ * current_version: "0.50.0"
+ * dependencies: {
+ *   "PROMPTPART_SPECIFIC_TOOL_CONTEXT_AWARENESS_LSP_HEADER": "0.50.0",
+ *   "PROMPTPART_SPECIFIC_TOOL_CONTEXT_AWARENESS_FEATURES": "0.50.0",
+ *   "PROMPTPART_SPECIFIC_TOOL_CONTEXT_AWARENESS_LSP_FOOTER": "0.50.0"
+ * }
+ * benchmarks: [
+ *   { "name": "measurement_specificity", "test": "Names evidence and replay purpose", "score": 0.82 },
+ *   { "name": "implementation_ready", "test": "Usable by registry formatter", "score": 0.66 }
+ * ]
+ */
 /**
  * LSP CONTEXT AWARENESS COMPOSITION
  * 
@@ -21,7 +35,7 @@ import { PROMPTPART_SPECIFIC_TOOL_CONTEXT_AWARENESS_LSP_FOOTER } from '@bitcode/
  * Compose LSP context awareness description
  * 
  * PATTERN: [ACTION] [TECHNOLOGY] [INFINITIVE] [VERB] [CAPABILITY_LIST] [PURPOSE]
- * EXAMPLE: "Leverages LSP to understand project architecture, type hierarchies, dependency graphs, and code patterns for intelligent code operations"
+ * EXAMPLE: "Measures repository context with LSP evidence across symbols, paths, config keys, and code patterns for Need measurement, AssetPack fit, and proof replay"
  */
 export function composeLspContextAwareness(): string {
   return [

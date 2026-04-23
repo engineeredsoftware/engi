@@ -3,8 +3,8 @@ import { PromptPart } from '../../parts/PromptPart';
 /**
  * @doc-comment-developing-promptpartdevelopment
  * domain: lsp
- * intent: "LSP output: navigation and analysis utilities"
- * current_version: "GA1.50.0"
+ * intent: "Bitcode LSP output field for static measurement operations"
+ * current_version: "0.50.0"
  * versions: []
   * benchmarks: [
  *   { "name": "technical_accuracy", "test": "Uses concrete technical language", "score": 0.50 },
@@ -12,4 +12,4 @@ import { PromptPart } from '../../parts/PromptPart';
  * ]
  */
 export const PROMPTPART_SPECIFIC_LSP_OUTPUT_NAV_AND_ANALYSIS: PromptPart =
-  'navigation and analysis operations' as PromptPart;
+  'static measurement operations for Need evidence and AssetPack fit' as PromptPart;

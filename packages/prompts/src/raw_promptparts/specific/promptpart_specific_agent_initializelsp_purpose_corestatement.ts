@@ -3,8 +3,8 @@ import { PromptPart } from '../../parts/PromptPart';
 /**
  * @doc-comment-developing-promptpartdevelopment
  * domain: agent
- * intent: "Define purpose of LSP initialization agent"
- * current_version: "GA1.50.0"
+ * intent: "Bitcode InitializeLSP core purpose for Need and AssetPack measurement"
+ * current_version: "0.50.0"
  * versions: []
  * benchmarks: [
  *   { "name": "technical_accuracy", "test": "Correctly describes LSP setup?", "score": 0.95 },
@@ -12,4 +12,4 @@ import { PromptPart } from '../../parts/PromptPart';
  * ]
  */
 export const PROMPTPART_SPECIFIC_AGENT_INITIALIZELSP_PURPOSE_CORESTATEMENT: PromptPart = 
-  'Initialize language server protocol for code intelligence, configure workspace capabilities, establish semantic analysis connections' as PromptPart;
+  'Initialize Language Server Protocol for Bitcode static Need measurement, configure workspace evidence capabilities, and establish semantic proof-replay connections' as PromptPart;

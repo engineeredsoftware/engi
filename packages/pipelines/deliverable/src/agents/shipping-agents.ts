@@ -26,8 +26,8 @@ import {
   DeliverablesPipelineShippingPhaseAddIssueCommentAgentPromptSteps
 } from './prompts/add-issue-comment-prompt';
 import {
-  createDeliverablesPipelineShippingPhaseFinalizeShipmentAgentPrompt,
-  DeliverablesPipelineShippingPhaseFinalizeShipmentAgentPromptSteps
+  createDeliverablesPipelineFinishPhaseFinalizeAssetPackDeliveryEvidenceAgentPrompt,
+  DeliverablesPipelineFinishPhaseFinalizeAssetPackDeliveryEvidenceAgentPromptSteps
 } from './prompts/finalize-shipment-prompt';
 import { normalizeWrittenAssetType } from '../semantic-resolution';
 
@@ -265,7 +265,7 @@ export const DeliverablesPipelineShippingPhaseAddIssueCommentAgent = factoryAgen
 
 // ==================== GENERIC FINALIZE AGENT (RUNS LAST) ====================
 
-const FinalizeShipmentInputSchema = z.object({
+const FinalizeAssetPackDeliveryEvidenceInputSchema = z.object({
   shippingResults: z.any(), // From type-specific shipping agent
   validationResults: z.any(),
   discoveryMetrics: z.any(),
@@ -274,7 +274,7 @@ const FinalizeShipmentInputSchema = z.object({
   writtenAssetType: z.string().optional()
 });
 
-const FinalizeShipmentOutputSchema = z.object({
+const FinalizeAssetPackDeliveryEvidenceOutputSchema = z.object({
   success: z.boolean(),
   deliverableUrl: z.string(), // PR URL, Issue URL, etc.
   summary: z.object({
@@ -300,29 +300,33 @@ const FinalizeShipmentOutputSchema = z.object({
 });
 
 /**
- * DeliverablesPipelineShippingPhaseFinalizeShipmentAgent
+ * DeliverablesPipelineFinishPhaseFinalizeAssetPackDeliveryEvidenceAgent
  * 
- * GENERIC final agent that runs for ALL deliverable types.
+ * GENERIC final agent that runs for ALL written-asset types.
  * This is the LAST compatibility agent in the Finish phase.
  * Wraps up the written asset / delivery mechanism and provides final summary.
  */
-export const DeliverablesPipelineShippingPhaseFinalizeShipmentAgent = factoryAgentWithPTRR<
-  z.infer<typeof FinalizeShipmentInputSchema>,
-  z.infer<typeof FinalizeShipmentOutputSchema>
+export const DeliverablesPipelineFinishPhaseFinalizeAssetPackDeliveryEvidenceAgent = factoryAgentWithPTRR<
+  z.infer<typeof FinalizeAssetPackDeliveryEvidenceInputSchema>,
+  z.infer<typeof FinalizeAssetPackDeliveryEvidenceOutputSchema>
 >({
   name: 'deliverable-pipeline-finalize-agent',
   description: 'Finalizes Finish delivery evidence for any written-asset type',
   
-  prompt: createDeliverablesPipelineShippingPhaseFinalizeShipmentAgentPrompt(),
-  stepPrompts: DeliverablesPipelineShippingPhaseFinalizeShipmentAgentPromptSteps,
+  prompt: createDeliverablesPipelineFinishPhaseFinalizeAssetPackDeliveryEvidenceAgentPrompt(),
+  stepPrompts: DeliverablesPipelineFinishPhaseFinalizeAssetPackDeliveryEvidenceAgentPromptSteps,
   
-  outputSchema: FinalizeShipmentOutputSchema,
+  outputSchema: FinalizeAssetPackDeliveryEvidenceOutputSchema,
   
   plan: { chunkThreshold: 1000 },
   try: { chunkThreshold: 2000 },
   refine: { maxAttempts: 1 },
   retry: { maxAttempts: 1 }
 });
+
+/** @deprecated V26 compatibility alias. Use DeliverablesPipelineFinishPhaseFinalizeAssetPackDeliveryEvidenceAgent. */
+export const DeliverablesPipelineShippingPhaseFinalizeShipmentAgent =
+  DeliverablesPipelineFinishPhaseFinalizeAssetPackDeliveryEvidenceAgent;
 
 // ==================== DYNAMIC AGENT REGISTRATION ====================
 
@@ -332,7 +336,7 @@ export const DeliverablesPipelineShippingPhaseFinalizeShipmentAgent = factoryAge
  * 
  * Sequence:
  * 1. Type-specific Delivering (CreatePR, SubmitReview, CreateIssue, AddComment)
- * 2. Generic finalize (FinalizeShipment) - ALWAYS LAST
+ * 2. Generic finalize (FinalizeAssetPackDeliveryEvidence) - ALWAYS LAST
  */
 export function registerShippingAgentsForType(
   writtenAssetType: string,
@@ -375,7 +379,7 @@ export function registerShippingAgentsForType(
   // ALWAYS register the generic finalize agent LAST
   agentRegistry.registerAgent(
     'shipping:deliverable-pipeline-finalize-agent',
-    DeliverablesPipelineShippingPhaseFinalizeShipmentAgent
+    DeliverablesPipelineFinishPhaseFinalizeAssetPackDeliveryEvidenceAgent
   );
 }
 

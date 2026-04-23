@@ -3,8 +3,8 @@ import { PromptPart } from '../../parts/PromptPart';
 /**
  * @doc-comment-developing-promptpartdevelopment
  * domain: lsp
- * intent: "Footer: LSP navigation capabilities purpose"
- * current_version: "GA1.50.0"
+ * intent: "Bitcode LSP capability footer for Need measurement and AssetPack fit"
+ * current_version: "0.50.0"
  * versions: []
   * benchmarks: [
  *   { "name": "technical_accuracy", "test": "Uses concrete technical language", "score": 0.50 },
@@ -12,4 +12,4 @@ import { PromptPart } from '../../parts/PromptPart';
  * ]
  */
 export const PROMPTPART_SPECIFIC_TOOL_CAPABILITIES_LSP_FOOTER: PromptPart =
-  'to accelerate development workflows' as PromptPart;
+  'to support Need measurement, AssetPack fit, and proof replay' as PromptPart;

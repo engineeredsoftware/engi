@@ -3,8 +3,8 @@ import { PromptPart } from '../../parts/PromptPart';
 /**
  * @doc-comment-developing-promptpartdevelopment
  * domain: agent
- * intent: "Define PTRR steps for LSP initialization"
- * current_version: "GA1.50.0"
+ * intent: "Bitcode InitializeLSP PTRR steps for measurement session setup"
+ * current_version: "0.50.0"
  * versions: []
  * benchmarks: [
  *   { "name": "step_clarity", "test": "Each step clearly defined?", "score": 0.95 },
@@ -12,4 +12,4 @@ import { PromptPart } from '../../parts/PromptPart';
  * ]
  */
 export const PROMPTPART_SPECIFIC_AGENT_INITIALIZELSP_PTRRSTEPS_LIST: PromptPart = 
-  'Plan: Detect language servers and workspace structure. Try: Initialize LSP with capability negotiation. Refine: Configure semantic tokens and diagnostics. Retry: Handle initialization failures with fallback configurations' as PromptPart;
+  'Plan: detect language servers and workspace evidence structure. Try: initialize LSP with measurement capability negotiation. Refine: configure semantic tokens and diagnostic evidence. Retry: recover measurement setup with proofable fallback configurations' as PromptPart;

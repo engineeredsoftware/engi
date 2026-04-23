@@ -3,9 +3,9 @@ import { PromptPart } from '../../parts/PromptPart';
 /**
  * @doc-comment-developing-promptpartdevelopment
  * domain: tool
- * intent: "Capabilities for LSP Query tool"
- * current_version: "GA1.50.0"
+ * intent: "Bitcode LSP measurement capabilities for Need and AssetPack evidence"
+ * current_version: "0.50.0"
  * versions: []
  */
 export const PROMPTPART_SPECIFIC_TOOL_LSPQUERY_DOCCODETOOLCAPABILITIES: PromptPart =
-  'Definition lookup, reference search, hover info, completions, signature help, document/workspace symbols, code actions, and document formatting' as PromptPart;
+  'Definition lookup, reference search, hover evidence, signature evidence, document/workspace symbol inventory, code-action availability, and formatting signal capture for static Need measurement' as PromptPart;

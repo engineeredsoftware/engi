@@ -71,6 +71,7 @@ While the path/package may remain `deliverable` during V26 for compatibility and
 - new-world semantic aliases should be added before broad destructive renames
 - old names may remain as compatibility aliases until later-gate convergence removes the corridor entirely
 - `SDIVS` / `shipping` compatibility APIs must forward to `SDIVF` / `finish` behavior rather than preserving old broad Shipping semantics
+- tactical deprecated exports remain admissible only when they are explicitly marked as compatibility aliases and are paired with precise canonical Bitcode names; full V26 closure requires removing these aliases rather than treating compatibility as canon
 
 ## Non-goal
 

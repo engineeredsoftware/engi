@@ -1,12 +1,27 @@
 import { PROMPTPART_SPECIFIC_TOOL_CAPABILITIES_LSP_HEADER } from '@bitcode/prompts/raw_promptparts/specific/promptpart_specific_tool_capabilities_lsp_header';
 import { PROMPTPART_SPECIFIC_TOOL_CAPABILITIES_FEATURES } from '@bitcode/prompts/raw_promptparts/specific/promptpart_specific_tool_capabilities_features';
 import { PROMPTPART_SPECIFIC_TOOL_CAPABILITIES_LSP_FOOTER } from '@bitcode/prompts/raw_promptparts/specific/promptpart_specific_tool_capabilities_lsp_footer';
-/**\n * @doc-comment-developing-promptdevelopment\n * domain: agent\n * intent: "(fill intent)"\n * current_version: "GA1.45.0"\n * dependencies: { }\n * benchmarks: [\n *   { "name": "technical_accuracy", "test": "Concrete directives and purpose", "score": 0.46 },\n *   { "name": "implementation_ready", "test": "Usable by registry formatter", "score": 0.46 }\n * ]\n */
+/**
+ * @doc-comment-developing-promptdevelopment
+ * domain: tool
+ * intent: "Bitcode LSP navigation composition for static symbol evidence in Need measurement"
+ * current_version: "0.50.0"
+ * dependencies: {
+ *   "PROMPTPART_SPECIFIC_TOOL_CAPABILITIES_LSP_HEADER": "0.50.0",
+ *   "PROMPTPART_SPECIFIC_TOOL_CAPABILITIES_FEATURES": "0.50.0",
+ *   "PROMPTPART_SPECIFIC_TOOL_CAPABILITIES_LSP_FOOTER": "0.50.0"
+ * }
+ * benchmarks: [
+ *   { "name": "measurement_specificity", "test": "Names symbol evidence and Need measurement", "score": 0.82 },
+ *   { "name": "implementation_ready", "test": "Usable by DocCodeToolPrompt formatter", "score": 0.66 }
+ * ]
+ */
 /**
  * LSP NAVIGATION CAPABILITIES COMPOSITION
- * Composes atomic prompt parts for LSP navigation capabilities
+ * Composes atomic prompt parts for LSP measurement capabilities.
  * 
- * Demonstrates atomic composition with maximum reusability
+ * The retained navigation operations are useful because they produce evidence
+ * that can be replayed into Need, AssetPack, and proof decisions.
  */
 
 

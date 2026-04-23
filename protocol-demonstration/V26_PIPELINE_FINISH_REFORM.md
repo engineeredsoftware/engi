@@ -21,6 +21,7 @@ Therefore:
 - `Finish` owns saving results, preserving useful Need/AssetPack state, completing summaries, and invoking Delivering when the run needs a third-party destination.
 - `Delivering` owns connected-interface output such as GitHub pull requests, Jira comments, issue comments, reviews, or similar destination-specific mechanisms.
 - `Deliverable` remains compatibility naming for old public corridors and wrapper payloads, not the general pipeline category.
+- Deprecated names, compatibility wrappers, and old filesystem labels are tactical fifth-gate aids, not V26 closure evidence.
 
 ## Pipeline Naming
 
@@ -45,6 +46,15 @@ Active source must satisfy the following:
 - The retained deliverable corridor must execute `deliverablePhases.finish` through `finish:*` agent keys, while registering `shipping:*` aliases only for promptpart and caller compatibility.
 - Finish agents may reuse old-world Ship implementations only after their prompts, descriptions, execution stores, and summaries describe Bitcode Need, AssetPack, WrittenAsset, proof evidence, and Delivering semantics.
 - Postprocess and reread should prefer `finish/final_work_summary` and `finish` stores, then fall back to old `shipping` stores during the V26 migration.
+- Deprecated `Ship`, `Shipping`, `ReadyToShip`, `FinalizeShipment`, and `Deliverable` compatibility names must always point to a more precise canonical replacement and a later-gate removal condition.
+
+## Deprecation Discipline
+
+Deprecation flags can be used during fifth-gate when they prevent unnecessary breakage while the precise Bitcode surface lands.
+They are not a durable architecture.
+
+Full V26 closure requires no deprecated, backwards-compatible, legacy, or unspecified broad-pipeline names to remain as canonical truth.
+Filesystem names and code names must converge on the precise Bitcode objects they implement: `Finish`, `Delivering`, `Need`, `AssetPack`, `AssetPackPartial`, and exact pipeline purposes such as `MeasureNeed` or `FindFittingSettlement`.
 
 ## Proof Requirement
 

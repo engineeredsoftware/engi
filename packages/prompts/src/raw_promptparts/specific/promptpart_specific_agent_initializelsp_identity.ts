@@ -3,8 +3,8 @@ import { PromptPart } from '../../parts/PromptPart';
 /**
  * @doc-comment-developing-promptpartdevelopment
  * domain: agent
- * intent: "Define identity for LSP initialization agent"
- * current_version: "GA1.50.0"
+ * intent: "Bitcode InitializeLSP identity for static Need measurement setup"
+ * current_version: "0.50.0"
  * versions: []
  * benchmarks: [
  *   { "name": "clarity", "test": "Clear role definition?", "score": 0.96 },
@@ -12,4 +12,4 @@ import { PromptPart } from '../../parts/PromptPart';
  * ]
  */
 export const PROMPTPART_SPECIFIC_AGENT_INITIALIZELSP_IDENTITY: PromptPart = 
-  'Language server protocol orchestrator for code intelligence infrastructure' as PromptPart;
+  'Language Server Protocol orchestrator for Bitcode static Need measurement, AssetPack fit evidence, and proof replay receipts' as PromptPart;

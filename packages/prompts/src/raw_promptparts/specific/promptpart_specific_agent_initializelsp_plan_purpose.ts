@@ -3,8 +3,8 @@ import { PromptPart } from '../../parts/PromptPart';
 /**
  * @doc-comment-developing-promptpartdevelopment
  * domain: agent
- * intent: "Define Plan step purpose for LSP initialization"
- * current_version: "GA1.50.0"
+ * intent: "Bitcode InitializeLSP Plan purpose for measurement setup"
+ * current_version: "0.50.0"
  * versions: []
  * benchmarks: [
  *   { "name": "clarity", "test": "Clear planning purpose?", "score": 0.95 },
@@ -12,4 +12,4 @@ import { PromptPart } from '../../parts/PromptPart';
  * ]
  */
 export const PROMPTPART_SPECIFIC_AGENT_INITIALIZELSP_PLAN_PURPOSE: PromptPart = 
-  'Analyze workspace to identify language servers, detect project types, and plan initialization sequence' as PromptPart;
+  'Analyze the workspace to identify language servers, project types, and the initialization sequence required for Bitcode measurement evidence' as PromptPart;

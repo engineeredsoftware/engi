@@ -1728,7 +1728,7 @@ test('active V26 auxillaries test ownership and retained examples use Bitcode na
   assert.match(systemGrepReadmeSource, /Bitcode platform/);
   assert.match(genericVcsReadmeSource, /Bitcode pipeline/);
   assert.match(genericTaskComprehensionReadmeSource, /Bitcode's prompt primitives architecture/);
-  assert.match(genericLspPurposeSource, /with Bitcode/);
+  assert.match(genericLspPurposeSource, /Bitcode LSP purpose composition for static Need measurement and AssetPack evidence/);
   assert.match(jiraToolsPackageSource, /Bitcode agents/);
   assert.match(figmaToolsPackageSource, /Bitcode agents/);
   assert.match(testingIndexSource, /Unified testing infrastructure for Bitcode/);
@@ -2807,8 +2807,9 @@ test('active V26 retained package surfaces use Bitcode naming instead of Engi na
   assert.match(genericGitInteractorSource, /Bitcode's distributed version control intelligence/);
   assert.match(conversationsGenericsAgentSource, /Bitcode conversational AI assistant/);
   assert.match(useConversationStreamSource, /@author Bitcode Team/);
-  assert.match(lspIndexSource, /for Bitcode code editing/);
-  assert.match(lspIndexSource, /optimal performance in Bitcode pipeline tasks/);
+  assert.match(lspIndexSource, /Bitcode static measurement/);
+  assert.match(lspIndexSource, /Need\/AssetPack evidence/);
+  assert.match(lspIndexSource, /Bitcode Need measurement/);
   assert.match(filesSecurityUtilsSource, /process\.env\.BITCODE_REPO_ROOT/);
   assert.match(genericLlmsGoogleSource, /BITCODE_LLM_ALLOW_MOCK/);
   assert.match(genericLlmsOpenAiSource, /BITCODE_LLM_ALLOW_MOCK/);

@@ -3,8 +3,8 @@ import { PromptPart } from '../../parts/PromptPart';
 /**
  * @doc-comment-developing-promptpartdevelopment
  * domain: agent
- * intent: "Define RETRY step error handling for Initialize LSP agent"
- * current_version: "GA1.50.0"
+ * intent: "Bitcode InitializeLSP Retry error handling for measurement evidence preservation"
+ * current_version: "0.50.0"
  * versions: []
  * benchmarks: [
  *   { "name": "error_categorization", "test": "Are errors categorized?", "score": 0.32 },
@@ -13,4 +13,4 @@ import { PromptPart } from '../../parts/PromptPart';
  * ]
  */
 export const PROMPTPART_SPECIFIC_AGENT_INITIALIZELSP_RETRY_ERRORHANDLING: PromptPart = 
-  'Handle initialization failures through: connection retry mechanisms, server compatibility checks, fallback server activation, capability subset negotiation, offline mode activation, error state recovery' as PromptPart;
+  'Handle measurement initialization failures through connection retry mechanisms, server compatibility checks, fallback server activation, evidence capability subset negotiation, offline static fallback activation, and error-state recovery with provenance' as PromptPart;

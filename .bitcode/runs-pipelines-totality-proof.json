@@ -1,8 +1,8 @@
 {
   "reportId": "v26-runs-pipelines-totality-proof",
   "version": "V26",
-  "proofSourceCommit": "6640818700c4174dbfdb9347b5d646076563105b",
-  "generatedAt": "2026-04-23T12:16:50-03:00",
+  "proofSourceCommit": "1185ea4fe8e51979ddf8893b4fb2061d3bf01181",
+  "generatedAt": "2026-04-23T12:45:19-03:00",
   "generatorId": "bitcode.proven-generator.v1",
   "worktreeState": "dirty-preview",
   "passed": true,

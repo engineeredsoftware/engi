@@ -1,7 +1,7 @@
 /**
  * @doc-comment-developing-promptpartdevelopment
  * domain: auto
- * intent: "Bitcode retained deliverable-compatibility PromptPart for need-first asset-pack setup: agent deliverablesetupinitializelsp identity definition"
+ * intent: "Bitcode retained compatibility PromptPart for asset-pack need LSP measurement: identity definition"
  * current_version: "0.50.0"
  * versions: []
  * benchmarks: [
@@ -15,7 +15,7 @@ import { PromptPart } from '../../parts/PromptPart';
 /**
  * @doc-comment-developing-promptpartdevelopment
  * domain: agent
- * intent: "Bitcode retained deliverable-compatibility PromptPart for need-first asset-pack setup: agent deliverablesetupinitializelsp identity definition"
+ * intent: "Bitcode retained compatibility PromptPart for asset-pack need LSP measurement: identity definition"
  * current_version: "0.50.0"
  * versions: []
  * benchmarks: [
@@ -23,4 +23,4 @@ import { PromptPart } from '../../parts/PromptPart';
  * ]
  */
 export const PROMPTPART_SPECIFIC_AGENT_DELIVERABLESETUPINITIALIZELSP_IDENTITY_DEFINITION: PromptPart = 
-  'You are the DeliverablesPipelineSetupPhaseInitializeLSPAgent responsible for initialize Language Server Protocol for code intelligence and analysis' as PromptPart;
+  'You are the retained Bitcode compatibility InitializeLSP agent responsible for AssetPack setup measurement through Language Server Protocol evidence' as PromptPart;

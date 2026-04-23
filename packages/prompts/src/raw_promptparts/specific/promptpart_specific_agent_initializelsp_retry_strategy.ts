@@ -3,8 +3,8 @@ import { PromptPart } from '../../parts/PromptPart';
 /**
  * @doc-comment-developing-promptpartdevelopment
  * domain: agent
- * intent: "Define RETRY step strategy for Initialize LSP agent"
- * current_version: "GA1.50.0"
+ * intent: "Bitcode InitializeLSP Retry strategy for proofable measurement fallback"
+ * current_version: "0.50.0"
  * versions: []
  * benchmarks: [
  *   { "name": "recovery_coverage", "test": "Does it cover recovery scenarios?", "score": 0.33 },
@@ -13,4 +13,4 @@ import { PromptPart } from '../../parts/PromptPart';
  * ]
  */
 export const PROMPTPART_SPECIFIC_AGENT_INITIALIZELSP_RETRY_STRATEGY: PromptPart = 
-  'Implement recovery strategies including: server restart with backoff, alternative server selection, reduced capability modes, connection pooling, session restoration, graceful degradation paths' as PromptPart;
+  'Implement measurement recovery with server restart backoff, alternative server selection, reduced evidence capability modes, connection pooling, session restoration, and explicit proofable degradation paths' as PromptPart;

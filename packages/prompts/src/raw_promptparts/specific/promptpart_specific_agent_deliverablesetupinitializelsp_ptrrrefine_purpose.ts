@@ -1,7 +1,7 @@
 /**
  * @doc-comment-developing-promptpartdevelopment
  * domain: auto
- * intent: "Bitcode retained deliverable-compatibility PromptPart for need-first asset-pack setup: agent deliverablesetupinitializelsp ptrrrefine purpose"
+ * intent: "Bitcode retained compatibility PromptPart for asset-pack need LSP measurement: PTRR refine purpose"
  * current_version: "0.50.0"
  * versions: []
  * benchmarks: [
@@ -15,7 +15,7 @@ import { PromptPart } from '../../parts/PromptPart';
 /**
  * @doc-comment-developing-promptpartdevelopment
  * domain: agent
- * intent: "Bitcode retained deliverable-compatibility PromptPart for need-first asset-pack setup: agent deliverablesetupinitializelsp ptrrrefine purpose"
+ * intent: "Bitcode retained compatibility PromptPart for asset-pack need LSP measurement: PTRR refine purpose"
  * current_version: "0.50.0"
  * versions: []
  * benchmarks: [
@@ -23,4 +23,4 @@ import { PromptPart } from '../../parts/PromptPart';
  * ]
  */
 export const PROMPTPART_SPECIFIC_AGENT_DELIVERABLESETUPINITIALIZELSP_PTRRREFINE_PURPOSE: PromptPart = 
-  'PTRR Refine Step: improve results based on validation feedback for initialize Language Server Protocol for code intelligence and analysis' as PromptPart;
+  'PTRR Refine Step: improve LSP measurement coverage and provenance based on validation feedback for AssetPack setup' as PromptPart;

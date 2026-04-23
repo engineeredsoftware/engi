@@ -3,8 +3,8 @@ import { PromptPart } from '../../parts/PromptPart';
 /**
  * @doc-comment-developing-promptpartdevelopment
  * domain: lsp
- * intent: "Parameter description: character offset"
- * current_version: "GA1.50.0"
+ * intent: "Bitcode LSP parameter description for replayable measured character offset"
+ * current_version: "0.50.0"
  * versions: []
   * benchmarks: [
  *   { "name": "technical_accuracy", "test": "Uses concrete technical language", "score": 0.50 },
@@ -12,4 +12,4 @@ import { PromptPart } from '../../parts/PromptPart';
  * ]
  */
 export const PROMPTPART_SPECIFIC_LSP_PARAMETER_CHARACTER_DESC: PromptPart =
-  '0-based character offset in the line' as PromptPart;
+  '0-based character offset in the measured evidence line for deterministic replay' as PromptPart;

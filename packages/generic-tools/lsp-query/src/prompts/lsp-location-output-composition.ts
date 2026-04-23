@@ -1,10 +1,21 @@
 import { PROMPTPART_SPECIFIC_LSP_LOCATION_OUTPUT_SENTENCE } from '@bitcode/prompts/raw_promptparts/specific/promptpart_specific_lsp_location_output_sentence';
-/**\n * @doc-comment-developing-promptdevelopment\n * domain: agent\n * intent: "(fill intent)"\n * current_version: "GA1.45.0"\n * dependencies: { }\n * benchmarks: [\n *   { "name": "technical_accuracy", "test": "Concrete directives and purpose", "score": 0.46 },\n *   { "name": "implementation_ready", "test": "Usable by registry formatter", "score": 0.46 }\n * ]\n */
+/**
+ * @doc-comment-developing-promptdevelopment
+ * domain: tool
+ * intent: "Bitcode LSP location-output composition for replayable path and symbol evidence"
+ * current_version: "0.50.0"
+ * dependencies: { "PROMPTPART_SPECIFIC_LSP_LOCATION_OUTPUT_SENTENCE": "0.50.0" }
+ * benchmarks: [
+ *   { "name": "measurement_specificity", "test": "Names path/symbol evidence and replay", "score": 0.82 },
+ *   { "name": "implementation_ready", "test": "Usable by registry formatter", "score": 0.66 }
+ * ]
+ */
 /**
  * LSP LOCATION OUTPUT COMPOSITION
- * Composes atomic prompt parts for LSP location output documentation
+ * Composes atomic prompt parts for LSP location evidence output documentation.
  * 
- * Demonstrates composition of output descriptions from atomic parts
+ * Location output becomes Bitcode measurement evidence when it can be replayed
+ * into Need and AssetPack decisions.
  */
 
 
@@ -12,7 +23,7 @@ import { PROMPTPART_SPECIFIC_LSP_LOCATION_OUTPUT_SENTENCE } from '@bitcode/promp
 /**
  * Compose LSP location output description
  * 
- * Pattern: ARRAY OF LOCATION OBJECTS WITH [FEATURES] FOR [PURPOSE]
+ * Pattern: ARRAY OF LOCATION OBJECTS WITH [FEATURES] FOR [NEED/ASSETPACK EVIDENCE PURPOSE]
  */
 export function composeLspLocationOutput(): string {
   return PROMPTPART_SPECIFIC_LSP_LOCATION_OUTPUT_SENTENCE;

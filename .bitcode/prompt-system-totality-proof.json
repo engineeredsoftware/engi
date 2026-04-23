@@ -1,8 +1,8 @@
 {
   "reportId": "v26-prompt-system-totality-proof",
   "version": "V26",
-  "proofSourceCommit": "6640818700c4174dbfdb9347b5d646076563105b",
-  "generatedAt": "2026-04-23T12:16:50-03:00",
+  "proofSourceCommit": "1185ea4fe8e51979ddf8893b4fb2061d3bf01181",
+  "generatedAt": "2026-04-23T12:45:19-03:00",
   "generatorId": "bitcode.proven-generator.v1",
   "worktreeState": "dirty-preview",
   "passed": true,
@@ -269,6 +269,31 @@
         "scripts/update-deliverable-agents.sh",
         "scripts/update-deliverable-table-names.sh",
         "scripts/verify-prompt-exports.py"
+      ],
+      "missingFiles": []
+    },
+    {
+      "checkId": "lsp-measurement-prompt-and-proof-boundary",
+      "label": "Retained LSP tooling is specified as Bitcode static Need/AssetPack measurement infrastructure",
+      "passed": true,
+      "detail": "16 required files present",
+      "requiredFiles": [
+        "protocol-demonstration/V26_LSP_MEASUREMENT_REFORM.md",
+        "protocol-demonstration/src/bitcode-demo.js",
+        "protocol-demonstration/src/canonical/need-measurement.js",
+        "protocol-demonstration/test/v26-lsp-measurement-reform.test.js",
+        "packages/lsp/src/index.ts",
+        "packages/generic-tools/lsp-query/src/prompts/LspQueryDocCodeToolPrompt.ts",
+        "packages/generic-tools/lsp-query/src/prompts/lsp-purpose-composition.ts",
+        "packages/generic-tools/lsp-query/src/prompts/lsp-context-awareness-composition.ts",
+        "packages/prompts/src/raw_promptparts/specific/promptpart_specific_lsp_purpose_sentence.ts",
+        "packages/prompts/src/raw_promptparts/specific/promptpart_specific_tool_lspquery_doccodetoolpurpose.ts",
+        "packages/prompts/src/raw_promptparts/specific/promptpart_specific_tool_lspquery_doccodetoolcapabilities.ts",
+        "packages/prompts/src/raw_promptparts/specific/promptpart_specific_tool_lspquery_doccodetooloutput.ts",
+        "packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_initializelsp_purpose_corestatement.ts",
+        "packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_deliverablesetupinitializelsp_purpose_corestatement.ts",
+        "packages/prompts/src/raw_promptparts/specific/promptpart_specific_tool_context_awareness_lsp_header.ts",
+        "packages/prompts/src/raw_promptparts/specific/promptpart_specific_tool_context_awareness_lsp_footer.ts"
       ],
       "missingFiles": []
     }

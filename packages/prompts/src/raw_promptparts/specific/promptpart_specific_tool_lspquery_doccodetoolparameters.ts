@@ -3,8 +3,8 @@
  * 
  * @doc-comment-developing-promptpartdevelopment
  * domain: tool
- * intent: "Tool parameters for Language Server Protocol query operations"
- * current_version: "GA1.50.0"
+ * intent: "Bitcode LSP measurement parameters for deterministic Need evidence replay"
+ * current_version: "0.50.0"
  * versions: []
  * benchmarks: [
  *   { "name": "completeness", "test": "Does '{{content}}' list all required parameters?", "score": 0.50 },
@@ -13,11 +13,11 @@
  * ]
  * 
  * @domain semantic-analysis
- * @intent Specifies the required parameters for LSP Query tool operations
+ * @intent Specifies the required coordinates for replayable Bitcode LSP measurement
  * @benchmarks v2.0.0 industrial language patterns
  */
 
 import { PromptPart } from '../../parts/PromptPart';
 
 export const PROMPTPART_SPECIFIC_TOOL_LSPQUERY_DOCCODETOOLPARAMETERS: PromptPart = 
-  'Accepts file path (string), position with line and character (numbers), and operation type (definition|references|hover|completions|signatureHelp|documentSymbols|workspaceSymbols|codeActions|format)' as PromptPart;
+  'Accepts evidence file path, replay position with line and character, and measurement operation type (definition|references|hover|signatureHelp|documentSymbols|workspaceSymbols|codeActions|format)' as PromptPart;

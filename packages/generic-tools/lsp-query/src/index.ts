@@ -1,8 +1,9 @@
 /**
- * LSP QUERY TOOLS - Language Server Protocol Intelligence Suite
+ * LSP QUERY TOOLS - Bitcode static measurement carrier
  * 
- * Comprehensive LSP integration providing semantic code analysis, navigation,
- * and intelligence capabilities for advanced development workflows.
+ * Retained Language Server Protocol operations provide replayable symbols,
+ * definitions, references, locations, and diagnostics for Need measurement,
+ * AssetPack fit, and proof evidence.
  */
 
 import { Tool } from '@bitcode/tools-generics';

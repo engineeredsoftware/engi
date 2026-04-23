@@ -3,8 +3,8 @@ import { PromptPart } from '../../parts/PromptPart';
 /**
  * @doc-comment-developing-promptpartdevelopment
  * domain: agent
- * intent: "Define Retry step purpose for LSP initialization"
- * current_version: "GA1.50.0"
+ * intent: "Bitcode InitializeLSP Retry purpose for measurement recovery"
+ * current_version: "0.50.0"
  * versions: []
  * benchmarks: [
  *   { "name": "recovery_focus", "test": "Focuses on error recovery?", "score": 0.95 },
@@ -12,4 +12,4 @@ import { PromptPart } from '../../parts/PromptPart';
  * ]
  */
 export const PROMPTPART_SPECIFIC_AGENT_INITIALIZELSP_RETRY_PURPOSE: PromptPart = 
-  'Complete LSP initialization with fallback strategies and error recovery' as PromptPart;
+  'Complete LSP measurement initialization with fallback strategies that preserve evidence provenance and replayability' as PromptPart;

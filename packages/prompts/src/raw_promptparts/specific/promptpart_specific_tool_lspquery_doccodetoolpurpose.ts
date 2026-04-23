@@ -3,8 +3,8 @@
  * 
  * @doc-comment-developing-promptpartdevelopment
  * domain: tool
- * intent: "Tool purpose for Language Server Protocol query operations"
- * current_version: "GA1.50.0"
+ * intent: "Bitcode LSP measurement tool purpose for static Need and AssetPack evidence"
+ * current_version: "0.50.0"
  * versions: []
  * benchmarks: [
  *   { "name": "completeness", "test": "Does '{{content}}' fully describe the tool's purpose?", "score": 0.50 },
@@ -13,11 +13,11 @@
  * ]
  * 
  * @domain semantic-analysis
- * @intent Describes the core purpose of LSP Query tool for code intelligence
+ * @intent Describes the core purpose of LSP Query as replayable Bitcode measurement
  * @benchmarks v2.0.0 industrial language patterns
  */
 
 import { PromptPart } from '../../parts/PromptPart';
 
 export const PROMPTPART_SPECIFIC_TOOL_LSPQUERY_DOCCODETOOLPURPOSE: PromptPart = 
-  'Execute Language Server Protocol queries for symbol resolution, type information, and code navigation across programming languages' as PromptPart;
+  'Execute Language Server Protocol queries to measure symbol, type, reference, path, and configuration evidence for Bitcode Needs, AssetPack fit, and proof replay' as PromptPart;

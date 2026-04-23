@@ -3,8 +3,8 @@ import { PromptPart } from '../../parts/PromptPart';
 /**
  * @doc-comment-developing-promptpartdevelopment
  * domain: lsp
- * intent: "LSP output: file paths"
- * current_version: "GA1.50.0"
+ * intent: "Bitcode LSP output field for measured evidence file paths"
+ * current_version: "0.50.0"
  * versions: []
   * benchmarks: [
  *   { "name": "technical_accuracy", "test": "Uses concrete technical language", "score": 0.50 },
@@ -12,4 +12,4 @@ import { PromptPart } from '../../parts/PromptPart';
  * ]
  */
 export const PROMPTPART_SPECIFIC_LSP_OUTPUT_FILE_PATHS: PromptPart =
-  'file paths' as PromptPart;
+  'measured evidence file paths' as PromptPart;

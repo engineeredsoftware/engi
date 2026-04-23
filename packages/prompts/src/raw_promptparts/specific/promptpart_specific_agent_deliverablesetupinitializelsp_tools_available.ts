@@ -1,7 +1,7 @@
 /**
  * @doc-comment-developing-promptpartdevelopment
  * domain: auto
- * intent: "Bitcode retained deliverable-compatibility PromptPart for need-first asset-pack setup: agent deliverablesetupinitializelsp tools available"
+ * intent: "Bitcode retained compatibility PromptPart for asset-pack need LSP measurement: tools available"
  * current_version: "0.50.0"
  * versions: []
  * benchmarks: [
@@ -15,7 +15,7 @@ import { PromptPart } from '../../parts/PromptPart';
 /**
  * @doc-comment-developing-promptpartdevelopment
  * domain: agent
- * intent: "Bitcode retained deliverable-compatibility PromptPart for need-first asset-pack setup: agent deliverablesetupinitializelsp tools available"
+ * intent: "Bitcode retained compatibility PromptPart for asset-pack need LSP measurement: tools available"
  * current_version: "0.50.0"
  * versions: []
  * benchmarks: [
@@ -23,4 +23,4 @@ import { PromptPart } from '../../parts/PromptPart';
  * ]
  */
 export const PROMPTPART_SPECIFIC_AGENT_DELIVERABLESETUPINITIALIZELSP_TOOLS_AVAILABLE: PromptPart = 
-  'Available tools: file system operations, code analysis tools, VCS integrations, validation utilities, parallel execution framework, state management, error handling and recovery' as PromptPart;
+  'Available tools: file system measurement inputs, LSP static measurement tools, repository context utilities, validation utilities, parallel execution framework, state management, and recovery with provenance' as PromptPart;

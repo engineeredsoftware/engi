@@ -1,10 +1,21 @@
 import { PROMPTPART_SPECIFIC_LSP_POSITION_PARAMETERS_LIST } from '@bitcode/prompts/raw_promptparts/specific/promptpart_specific_lsp_position_parameters_list';
-/**\n * @doc-comment-developing-promptdevelopment\n * domain: agent\n * intent: "(fill intent)"\n * current_version: "GA1.45.0"\n * dependencies: { }\n * benchmarks: [\n *   { "name": "technical_accuracy", "test": "Concrete directives and purpose", "score": 0.46 },\n *   { "name": "implementation_ready", "test": "Usable by registry formatter", "score": 0.46 }\n * ]\n */
+/**
+ * @doc-comment-developing-promptdevelopment
+ * domain: tool
+ * intent: "Bitcode LSP position-parameter composition for precise measurement replay"
+ * current_version: "0.50.0"
+ * dependencies: { "PROMPTPART_SPECIFIC_LSP_POSITION_PARAMETERS_LIST": "0.50.0" }
+ * benchmarks: [
+ *   { "name": "measurement_specificity", "test": "Names measurement replay coordinates", "score": 0.82 },
+ *   { "name": "implementation_ready", "test": "Usable by registry formatter", "score": 0.66 }
+ * ]
+ */
 /**
  * LSP POSITION PARAMETERS COMPOSITION
- * Composes atomic prompt parts for LSP position parameter documentation
+ * Composes atomic prompt parts for replayable LSP position parameter documentation.
  * 
- * Shows how even parameter lists can be composed from atomic parts
+ * Coordinates are retained because they bind symbols and diagnostics to
+ * specific repository evidence for Bitcode proof replay.
  */
 
 

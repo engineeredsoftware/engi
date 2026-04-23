@@ -3,8 +3,8 @@ import { PromptPart } from '../../parts/PromptPart';
 /**
  * @doc-comment-developing-promptpartdevelopment
  * domain: lsp
- * intent: "Parameter description: line number"
- * current_version: "GA1.50.0"
+ * intent: "Bitcode LSP parameter description for replayable measured line"
+ * current_version: "0.50.0"
  * versions: []
   * benchmarks: [
  *   { "name": "technical_accuracy", "test": "Uses concrete technical language", "score": 0.50 },
@@ -12,4 +12,4 @@ import { PromptPart } from '../../parts/PromptPart';
  * ]
  */
 export const PROMPTPART_SPECIFIC_LSP_PARAMETER_LINE_DESC: PromptPart =
-  '1-based line index within the file' as PromptPart;
+  '1-based line index within the measured evidence file for replay' as PromptPart;

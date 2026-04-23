@@ -1337,6 +1337,28 @@ function buildV26PromptSystemTotalityProof({
         'scripts/update-deliverable-table-names.sh',
         'scripts/verify-prompt-exports.py'
       ]
+    ),
+    buildV26FilePresenceCheck(
+      'lsp-measurement-prompt-and-proof-boundary',
+      'Retained LSP tooling is specified as Bitcode static Need/AssetPack measurement infrastructure',
+      [
+        'protocol-demonstration/V26_LSP_MEASUREMENT_REFORM.md',
+        'protocol-demonstration/src/bitcode-demo.js',
+        'protocol-demonstration/src/canonical/need-measurement.js',
+        'protocol-demonstration/test/v26-lsp-measurement-reform.test.js',
+        'packages/lsp/src/index.ts',
+        'packages/generic-tools/lsp-query/src/prompts/LspQueryDocCodeToolPrompt.ts',
+        'packages/generic-tools/lsp-query/src/prompts/lsp-purpose-composition.ts',
+        'packages/generic-tools/lsp-query/src/prompts/lsp-context-awareness-composition.ts',
+        'packages/prompts/src/raw_promptparts/specific/promptpart_specific_lsp_purpose_sentence.ts',
+        'packages/prompts/src/raw_promptparts/specific/promptpart_specific_tool_lspquery_doccodetoolpurpose.ts',
+        'packages/prompts/src/raw_promptparts/specific/promptpart_specific_tool_lspquery_doccodetoolcapabilities.ts',
+        'packages/prompts/src/raw_promptparts/specific/promptpart_specific_tool_lspquery_doccodetooloutput.ts',
+        'packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_initializelsp_purpose_corestatement.ts',
+        'packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_deliverablesetupinitializelsp_purpose_corestatement.ts',
+        'packages/prompts/src/raw_promptparts/specific/promptpart_specific_tool_context_awareness_lsp_header.ts',
+        'packages/prompts/src/raw_promptparts/specific/promptpart_specific_tool_context_awareness_lsp_footer.ts'
+      ]
     )
   ];
   const passed = checks.every((check) => check.passed === true);
@@ -1830,6 +1852,19 @@ const V26_SYSTEM_REFORM_DECISIONS = [
     requiredFiles: [
       'packages/generic-tools/mcps-tools/jira/src/index.ts',
       'packages/jira/src/index.ts'
+    ]
+  },
+  {
+    checkId: 'lsp-measure-need-boundary',
+    label: 'Retained LSP infrastructure is repurposed as static Need/AssetPack measurement',
+    reformClass: 'ingress-or-support',
+    livePathRole: 'LSP tooling may remain only as replayable symbol/path/config/type evidence for Need measurement, AssetPack fit, and proof replay.',
+    requiredFiles: [
+      'protocol-demonstration/V26_LSP_MEASUREMENT_REFORM.md',
+      'protocol-demonstration/src/bitcode-demo.js',
+      'protocol-demonstration/src/canonical/need-measurement.js',
+      'packages/lsp/src/index.ts',
+      'packages/generic-tools/lsp-query/src/prompts/LspQueryDocCodeToolPrompt.ts'
     ]
   },
   {

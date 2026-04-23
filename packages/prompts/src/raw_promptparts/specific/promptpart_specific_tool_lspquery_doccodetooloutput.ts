@@ -3,8 +3,8 @@
  * 
  * @doc-comment-developing-promptpartdevelopment
  * domain: tool
- * intent: "Tool output format for Language Server Protocol query operations"
- * current_version: "GA1.50.0"
+ * intent: "Bitcode LSP measurement output contract for Need and AssetPack proof evidence"
+ * current_version: "0.50.0"
  * versions: []
  * benchmarks: [
  *   { "name": "precision", "test": "Does '{{content}}' accurately describe outputs?", "score": 0.50 },
@@ -13,11 +13,11 @@
  * ]
  * 
  * @domain semantic-analysis
- * @intent Describes the output format of LSP Query tool operations
+ * @intent Describes the replayable evidence output of Bitcode LSP measurement
  * @benchmarks v2.0.0 industrial language patterns
  */
 
 import { PromptPart } from '../../parts/PromptPart';
 
 export const PROMPTPART_SPECIFIC_TOOL_LSPQUERY_DOCCODETOOLOUTPUT: PromptPart = 
-  'Returns structured LSP response with symbol locations, hover information, completion items, signature help, document/workspace symbols, code actions, or formatted document based on operation type' as PromptPart;
+  'Returns structured measurement evidence with symbol locations, hover facts, signature facts, document/workspace symbols, code-action signals, formatting signals, and provenance keyed to the requested operation' as PromptPart;

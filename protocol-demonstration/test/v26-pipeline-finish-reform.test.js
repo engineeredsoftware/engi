@@ -46,6 +46,16 @@ const postprocessSource = readFileSync(
   'utf8'
 );
 const promptBuilderDir = new URL('../../packages/pipelines/deliverable/src/agents/prompts/', import.meta.url);
+const readyToShipPromptSource = readFileSync(new URL('../../packages/pipelines/deliverable/src/agents/prompts/ready-to-ship-prompt.ts', import.meta.url), 'utf8');
+const finalizeShipmentPromptSource = readFileSync(new URL('../../packages/pipelines/deliverable/src/agents/prompts/finalize-shipment-prompt.ts', import.meta.url), 'utf8');
+const validationReadyAgentSource = readFileSync(
+  new URL('../../packages/pipelines/deliverable/src/agents/validation/deliverable-pipeline-ready-to-ship-agent.ts', import.meta.url),
+  'utf8'
+);
+const compatibilityShippingAgentsSource = readFileSync(
+  new URL('../../packages/pipelines/deliverable/src/agents/shipping-agents.ts', import.meta.url),
+  'utf8'
+);
 
 test('V26 specifies Finish as the broad final phase and Delivering as destination handoff', () => {
   assert.match(finishSpec, /The broad final phase of a phased Bitcode agentic pipeline is `Finish`/);
@@ -91,6 +101,19 @@ test('Finish agents and postprocess prefer finish stores before shipping fallbac
   assert.match(finalSummarySource, /get\?\.\('finish', 'pullRequestUrl'\).*get\?\.\('shipping', 'pullRequestUrl'\)/s);
   assert.match(postprocessSource, /execution\.get\('finish', 'pullRequestUrl'\)/);
   assert.match(postprocessSource, /get\?\.\('finish\/final_work_summary', 'writtenAssets'\)/);
+});
+
+test('compatibility prompt and agent names point at precise canonical Finish replacements', () => {
+  assert.match(readyToShipPromptSource, /createDeliverablesPipelineValidationPhaseReadyToFinishAgentPrompt/);
+  assert.match(readyToShipPromptSource, /@deprecated V26 compatibility alias for old ReadyToShip callers/);
+  assert.match(finalizeShipmentPromptSource, /createDeliverablesPipelineFinishPhaseFinalizeAssetPackDeliveryEvidenceAgentPrompt/);
+  assert.match(finalizeShipmentPromptSource, /@deprecated V26 compatibility alias for old Shipping\/FinalizeShipment callers/);
+  assert.match(validationReadyAgentSource, /ReadyToFinish Agent - Final Validation Phase Decision/);
+  assert.match(validationReadyAgentSource, /createDeliverablesPipelineValidationPhaseReadyToFinishAgentPrompt/);
+  assert.match(compatibilityShippingAgentsSource, /DeliverablesPipelineFinishPhaseFinalizeAssetPackDeliveryEvidenceAgent/);
+  assert.match(compatibilityShippingAgentsSource, /@deprecated V26 compatibility alias/);
+  assert.match(finishSpec, /Deprecated names, compatibility wrappers, and old filesystem labels are tactical fifth-gate aids, not V26 closure evidence/);
+  assert.match(finishSpec, /Full V26 closure requires no deprecated, backwards-compatible, legacy, or unspecified broad-pipeline names/);
 });
 
 test('retained deliverable prompt-builder doc-comments use Bitcode-specific labels', () => {

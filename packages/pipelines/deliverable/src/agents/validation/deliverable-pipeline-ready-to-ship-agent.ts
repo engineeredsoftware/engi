@@ -1,5 +1,5 @@
 /**
- * Ready to Ship Agent - Final Validation Phase Decision
+ * ReadyToFinish Agent - Final Validation Phase Decision
  * 
  * Compatibility-named final go/no-go decision before the canonical Finish phase.
  * Can short-circuit with partial refund if not production-ready.
@@ -11,14 +11,14 @@ import { ShortCircuitSignal } from '@bitcode/execution-generics';
 import { getDeliverablePipelineToolsForAgent } from '../../tools';
 import { z } from 'zod';
 import {
-  createDeliverablesPipelineValidationPhaseReadyToShipAgentPrompt,
-  DeliverablesPipelineValidationPhaseReadyToShipAgentPromptSteps
+  createDeliverablesPipelineValidationPhaseReadyToFinishAgentPrompt,
+  DeliverablesPipelineValidationPhaseReadyToFinishAgentPromptSteps
 } from '../prompts/ready-to-ship-prompt';
 
 /**
  * Input schema - aggregates ALL validation results
  */
-const ReadyToShipInputSchema = z.object({
+const ReadyToFinishInputSchema = z.object({
   // Discovery validation results
   discoveryValidation: z.object({
     valid: z.boolean(),
@@ -59,7 +59,7 @@ const ReadyToShipInputSchema = z.object({
 /**
  * Output schema with optional short-circuit signal
  */
-const ReadyToShipOutputSchema = z.object({
+const ReadyToFinishOutputSchema = z.object({
   ready: z.boolean(),
   confidence: z.number(),
 
@@ -94,23 +94,23 @@ const ReadyToShipOutputSchema = z.object({
 });
 
 /**
- * Ready to Ship Agent - PTRR Implementation
+ * ReadyToFinish Agent - PTRR Implementation
  */
-export type Input = z.infer<typeof ReadyToShipInputSchema>;
-export type Output = z.infer<typeof ReadyToShipOutputSchema>;
+export type Input = z.infer<typeof ReadyToFinishInputSchema>;
+export type Output = z.infer<typeof ReadyToFinishOutputSchema>;
 
-const readyToShipAgent = factoryAgentWithPTRR<
-  z.infer<typeof ReadyToShipInputSchema>,
-  z.infer<typeof ReadyToShipOutputSchema>
+const readyToFinishAgent = factoryAgentWithPTRR<
+  z.infer<typeof ReadyToFinishInputSchema>,
+  z.infer<typeof ReadyToFinishOutputSchema>
 >({
   tools: getDeliverablePipelineToolsForAgent('deliverable-pipeline-ready-to-ship-agent'),
   name: 'deliverable-pipeline-ready-to-ship-agent',
-  description: 'Final validation and production readiness assessment',
+  description: 'Final validation and Finish readiness assessment',
 
-  prompt: createDeliverablesPipelineValidationPhaseReadyToShipAgentPrompt(),
-  stepPrompts: DeliverablesPipelineValidationPhaseReadyToShipAgentPromptSteps,
+  prompt: createDeliverablesPipelineValidationPhaseReadyToFinishAgentPrompt(),
+  stepPrompts: DeliverablesPipelineValidationPhaseReadyToFinishAgentPromptSteps,
 
-  outputSchema: ReadyToShipOutputSchema,
+  outputSchema: ReadyToFinishOutputSchema,
 
   plan: { chunkThreshold: 2000 },
   try: { chunkThreshold: 3000 },
@@ -121,13 +121,13 @@ const readyToShipAgent = factoryAgentWithPTRR<
 /**
  * Export wrapper that adds short-circuit logic
  */
-export default async function readyToShipWithShortCircuit(input: any, execution: any) {
+export default async function readyToFinishWithShortCircuit(input: any, execution: any) {
   // Prepare input from validation stores (issues-only contract)
   const di: string[] = (execution.get('validation/discovery', 'issues') as string[]) || [];
   const ii: string[] = (execution.get('validation/implementation', 'issues') as string[]) || [];
   const li: string[] = (execution.get('validation/last', 'issues') as string[]) || [];
 
-  const shipInput = {
+  const finishInput = {
     discoveryValidation: {
       valid: di.length === 0,
       confidence: 0.5,
@@ -152,7 +152,7 @@ export default async function readyToShipWithShortCircuit(input: any, execution:
   };
 
   // Execute the agent
-  const result = await readyToShipAgent(shipInput, execution);
+  const result = await readyToFinishAgent(finishInput, execution);
 
   // Define critical failure thresholds
   const QUALITY_THRESHOLD = 0.5;
@@ -175,7 +175,7 @@ export default async function readyToShipWithShortCircuit(input: any, execution:
     // Persist readiness signal for header rendering
     try {
       /**
-       * Store Ready‑To‑Ship decision for header rendering.
+       * Store ReadyToFinish decision for header rendering.
        * Type: Output (structured agent output)
        */
     execution.store(NS_EXEC_DELIVERABLE_VALIDATION_RTS, 'approved', false);
@@ -213,10 +213,10 @@ export default async function readyToShipWithShortCircuit(input: any, execution:
     };
   }
 
-  // Ready to ship!
+  // Ready to Finish.
   try {
     /**
-     * Store Ready‑To‑Ship decision for header rendering.
+     * Store ReadyToFinish decision for header rendering.
      * Type: Output (structured agent output)
      */
     execution.store(NS_EXEC_DELIVERABLE_VALIDATION_RTS, 'approved', true);

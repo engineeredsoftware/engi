@@ -3,8 +3,8 @@ import { PromptPart } from '../../parts/PromptPart';
 /**
  * @doc-comment-developing-promptpartdevelopment
  * domain: agent
- * intent: "Define TRY step execution for Initialize LSP agent"
- * current_version: "GA1.50.0"
+ * intent: "Bitcode InitializeLSP Try directives for evidence-producing session setup"
+ * current_version: "0.50.0"
  * versions: []
  * benchmarks: [
  *   { "name": "execution_precision", "test": "Is execution precise?", "score": 0.36 },
@@ -13,4 +13,4 @@ import { PromptPart } from '../../parts/PromptPart';
  * ]
  */
 export const PROMPTPART_SPECIFIC_AGENT_INITIALIZELSP_TRY_DIRECTIVES: PromptPart = 
-  'Execute LSP initialization through: server process spawning and management, capability handshake negotiation, workspace folder registration, document synchronization setup, diagnostic provider configuration, code intelligence feature activation, session state establishment' as PromptPart;
+  'Execute LSP measurement initialization through server process spawning and management, evidence capability handshake negotiation, workspace folder registration, document synchronization setup, diagnostic provider configuration, measurement feature activation, and session-state receipt establishment' as PromptPart;

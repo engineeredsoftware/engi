@@ -3,8 +3,8 @@ import { PromptPart } from '../../parts/PromptPart';
 /**
  * @doc-comment-developing-promptpartdevelopment
  * domain: lsp
- * intent: "Footer: LSP context awareness purpose"
- * current_version: "GA1.50.0"
+ * intent: "Bitcode LSP static-measurement footer for Need and AssetPack decisions"
+ * current_version: "0.50.0"
  * versions: []
   * benchmarks: [
  *   { "name": "technical_accuracy", "test": "Uses concrete technical language", "score": 0.50 },
@@ -12,4 +12,4 @@ import { PromptPart } from '../../parts/PromptPart';
  * ]
  */
 export const PROMPTPART_SPECIFIC_TOOL_CONTEXT_AWARENESS_LSP_FOOTER: PromptPart =
-  'for intelligent code operations' as PromptPart;
+  'for Need measurement, AssetPack fit, and proof replay' as PromptPart;
