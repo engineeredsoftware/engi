@@ -4,9 +4,10 @@
  * @doc-comment-developing-promptdevelopment
  * versions: []
  * domain: tool
- * intent: "File management tool for atomic file replacement and backup operations"
+ * intent: "Bitcode written-asset file mutation support prompt for atomic file replacement and backup evidence"
+ * current_version: "V26"
  *
- * Structured DocCodeToolPrompt for replace file tool runtime documentation.
+ * Structured DocCodeToolPrompt for Bitcode written-asset replacement runtime documentation.
  * Only meaningful content is imported as PromptParts from /raw_promptparts/.
  */
 import { DocCodeToolPrompt } from '@bitcode/tools-generics';

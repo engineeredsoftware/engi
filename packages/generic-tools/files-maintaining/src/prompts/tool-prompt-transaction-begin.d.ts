@@ -2,8 +2,8 @@ import { DocCodeToolPrompt } from '@bitcode/tools-generics';
 /**
  * @doc-comment-developing-promptdevelopment
  * domain: tool
- * intent: "Document transaction orchestration helper with doc-code prompt structure"
- * current_version: "GA1.50.0"
+ * intent: "Bitcode written-asset transaction support prompt for grouping file mutations into proof-facing asset-pack operations"
+ * current_version: "V26"
  * versions: []
  */
 declare class BeginTransactionDocCodeToolPrompt extends DocCodeToolPrompt {

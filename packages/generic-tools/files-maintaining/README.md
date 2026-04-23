@@ -2,21 +2,21 @@
 
 ## Overview
 
-Atomic file system operations engine providing transaction-based file management with comprehensive integrity guarantees. Features production-grade reliability, rollback mechanisms, and content validation for enterprise development workflows.
+Atomic Bitcode written-asset mutation support for agentic asset-pack synthesis. The package provides transaction-based file creation, replacement, deletion, rollback, and content validation so file changes can be treated as proof-facing written-asset operations rather than generic filesystem side effects.
 
 ## Core Capabilities
 
-### Atomic File Operations
-- Transaction-based file system operations
+### Atomic Written-Asset Operations
+- Transaction-based written-asset file operations
 - Multi-file operation coordination
 - Comprehensive rollback mechanisms
 - Content validation and integrity checks
 
-### File System Intelligence
+### Asset-Pack File Evidence
 - Directory structure management
 - Conflict detection and resolution
 - Dependency validation for file operations
-- Comprehensive file system safety protocols
+- File mutation evidence for asset-pack synthesis runs
 
 ### Content Management
 - Atomic content replacement with backup creation
@@ -27,25 +27,25 @@ Atomic file system operations engine providing transaction-based file management
 ## Tool Operations
 
 ### TextEditorTool
-**Function**: Atomic file editing with comprehensive operation intelligence
+**Function**: Atomic written-asset editing with operation evidence
 **Parameters**: `EditCommandParams` - file operations specification
 **Features**: Transaction support, content validation, rollback capability
 **Output**: Operation success status, transaction ID, change summary
 
 ### CreateFileTool
-**Function**: Atomic file creation with validation intelligence
+**Function**: Atomic written-asset creation with validation evidence
 **Parameters**: `EditCommandParams` - file path, initial content, permissions
 **Validation**: Directory management, conflict detection, integrity checks
 **Output**: Success status, created path, transaction ID
 
 ### DeleteFileTool
-**Function**: Atomic file deletion with comprehensive safety intelligence
+**Function**: Atomic written-asset deletion with safety evidence
 **Parameters**: `EditCommandParams` - file path to delete
 **Safety**: Backup creation, rollback capability, dependency validation
 **Output**: Success status, backup location, transaction ID
 
 ### ReplaceFileTool
-**Function**: Atomic file content replacement with comprehensive content intelligence
+**Function**: Atomic written-asset content replacement with content evidence
 **Parameters**: `EditCommandParams` - file path, new content
 **Features**: Content validation, backup creation, rollback capability
 **Output**: Success status, backup location, change metrics

@@ -18,8 +18,8 @@ import { PromptPart } from '@bitcode/prompts/parts/PromptPart';
  *
  * @doc-comment-developing-promptdevelopment
  * domain: tool
- * intent: "Atomic file creation tool documentation"
- * current_version: "GA1.50.0"
+ * intent: "Bitcode written-asset file mutation support prompt for atomic file creation"
+ * current_version: "V26"
  * versions: []
  */
 export class CreateFileDocCodeToolPrompt extends DocCodeToolPrompt {
@@ -33,8 +33,8 @@ export class CreateFileDocCodeToolPrompt extends DocCodeToolPrompt {
     this.set('output:label', PROMPTPART_GENERIC_DOCCODE_OUTPUT_LABEL);
 
     this.set('metadata:name', PROMPTPART_SPECIFIC_TOOL_CREATEFILE_DOCCODETOOLNAME);
-    this.set('metadata:category', 'file-system' as PromptPart);
-    this.set('metadata:version', 'GA1.50.0' as PromptPart);
+    this.set('metadata:category', 'written-asset-file-mutation' as PromptPart);
+    this.set('metadata:version', 'V26' as PromptPart);
     this.set('metadata:priority', 'high' as PromptPart);
     this.set('metadata:stability', 'stable' as PromptPart);
 
@@ -46,4 +46,3 @@ export class CreateFileDocCodeToolPrompt extends DocCodeToolPrompt {
 }
 
 export const CREATE_FILE_DOC_CODE_TOOL_PROMPT = new CreateFileDocCodeToolPrompt();
-

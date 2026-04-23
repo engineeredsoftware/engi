@@ -382,9 +382,15 @@ export const V26_INFERENCE_IMPLEMENTATION_RECORDS = Object.freeze([
     toolImplementation: {
       owners: [
         'packages/pipelines/deliverable/src/tools/DeliverablePipelineCloneVCSRepositoryTool.ts',
-        'packages/pipelines/deliverable/src/tools/search.ts'
+        'packages/pipelines/deliverable/src/tools/search.ts',
+        'packages/generic-tools/files-maintaining/src/index.ts',
+        'packages/generic-tools/files-maintaining/src/prompts/TextEditorDocCodeToolPrompt.ts',
+        'packages/generic-tools/files-maintaining/src/prompts/CreateFileDocCodeToolPrompt.ts',
+        'packages/generic-tools/files-maintaining/src/prompts/ReplaceFileDocCodeToolPrompt.ts',
+        'packages/generic-tools/files-maintaining/src/prompts/DeleteFileDocCodeToolPrompt.ts',
+        'packages/generic-tools/files-maintaining/src/prompts/tool-prompt-transaction-begin.ts'
       ],
-      contract: 'Retained VCS/PR/comment/review tools are shipping mechanisms on top of stable written assets.'
+      contract: 'Retained VCS/PR/comment/review tools are shipping mechanisms on top of stable written assets; retained file-maintaining tools are written-asset mutation support and must expose Bitcode asset-pack semantics rather than generic file-system lineage.'
     },
     agentImplementation: {
       owners: [
@@ -426,7 +432,14 @@ export const V26_INFERENCE_IMPLEMENTATION_RECORDS = Object.freeze([
       'packages/pipelines/deliverable/src/postprocess.ts',
       'packages/pipelines/deliverable/src/types/PipelineSchemas.ts',
       'packages/pipelines/deliverable/src/agents/prompts/comprehend-need-prompt.ts',
-      'packages/pipelines/deliverable/src/agents/setup/deliverable-pipeline-comprehend-need-agent.ts'
+      'packages/pipelines/deliverable/src/agents/setup/deliverable-pipeline-comprehend-need-agent.ts',
+      'packages/generic-tools/files-maintaining/README.md',
+      'packages/generic-tools/files-maintaining/src/index.ts',
+      'packages/generic-tools/files-maintaining/src/prompts/TextEditorDocCodeToolPrompt.ts',
+      'packages/generic-tools/files-maintaining/src/prompts/CreateFileDocCodeToolPrompt.ts',
+      'packages/generic-tools/files-maintaining/src/prompts/ReplaceFileDocCodeToolPrompt.ts',
+      'packages/generic-tools/files-maintaining/src/prompts/DeleteFileDocCodeToolPrompt.ts',
+      'packages/generic-tools/files-maintaining/src/prompts/tool-prompt-transaction-begin.ts'
     ]
   },
   {

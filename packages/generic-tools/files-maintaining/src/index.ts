@@ -1,8 +1,9 @@
 /**
- * File system operations with Bitcode's atomic file management engine, transaction support, content validation, and production-grade reliability for comprehensive file system intelligence and atomic operation guarantees
+ * Bitcode written-asset file mutation support with atomic file management,
+ * transaction support, content validation, and proof-facing operation evidence.
  * 
- * @purpose File system operations with Bitcode's atomic file management engine, transaction support, content validation, and production-grade reliability for comprehensive file system intelligence and atomic operation guarantees
- * @capabilities Complete file system management with atomic operations, transaction support, rollback capability, content validation, directory management, and comprehensive file integrity for reliable development workflows
+ * @purpose Mutate Bitcode written assets with atomic file management, transaction support, content validation, and proof-facing operation evidence
+ * @capabilities Written-asset file creation, replacement, deletion, and transaction orchestration with rollback capability, content validation, and file integrity for asset-pack synthesis runs
  * @specificity Generic
  */
 
@@ -94,7 +95,7 @@ async function runEditCommandWithGates(params: EditCommandParams): Promise<strin
 import { BEGIN_TRANSACTION_TOOL_PROMPT } from './prompts/tool-prompt-transaction-begin';
 
 /**
- * Atomic file editing with comprehensive operation intelligence
+ * Atomic written-asset file editing with operation evidence
  *
  * @doc-code-tool
  * @prompt TEXT_EDITOR_DOC_CODE_TOOL_PROMPT
@@ -106,7 +107,7 @@ class TextEditorTool extends Tool<typeof runEditCommandWithGates> {
 export const textEditorTool = new TextEditorTool();
 
 /**
- * Atomic file deletion with comprehensive safety intelligence
+ * Atomic written-asset file deletion with safety evidence
  *
  * @doc-code-tool
  * @prompt DELETE_FILE_DOC_CODE_TOOL_PROMPT
@@ -115,9 +116,9 @@ export const textEditorTool = new TextEditorTool();
  * @capabilities Safe file deletion with atomic operations, backup creation, rollback capability, dependency validation, and comprehensive file system safety for reliable file management
  * @parameters EditCommandParams - file path to delete
  * @returns Success status, backup location, transaction ID
- * @category file-system
+ * @category written-asset-file-mutation
  * @stability stable
- * @version 1.0.0
+ * @version V26
  */
 class DeleteFileTool extends Tool<typeof runEditCommandWithGates> {
   use = runEditCommandWithGates;
@@ -126,7 +127,7 @@ class DeleteFileTool extends Tool<typeof runEditCommandWithGates> {
 export const deleteFileTool = new DeleteFileTool();
 
 /**
- * Atomic file creation with comprehensive validation intelligence
+ * Atomic written-asset file creation with validation evidence
  *
  * @doc-code-tool
  * @prompt CREATE_FILE_DOC_CODE_TOOL_PROMPT
@@ -135,9 +136,9 @@ export const deleteFileTool = new DeleteFileTool();
  * @capabilities Complete file creation with atomic operations, directory management, content validation, conflict detection, and comprehensive file system integrity for reliable development workflows
  * @parameters EditCommandParams - file path, initial content, permissions
  * @returns Success status, created path, transaction ID
- * @category file-system
+ * @category written-asset-file-mutation
  * @stability stable
- * @version 1.0.0
+ * @version V26
  */
 class CreateFileTool extends Tool<typeof runEditCommandWithGates> {
   use = runEditCommandWithGates;
@@ -146,7 +147,7 @@ class CreateFileTool extends Tool<typeof runEditCommandWithGates> {
 export const createFileTool = new CreateFileTool();
 
 /**
- * Atomic file replacement with comprehensive content intelligence
+ * Atomic written-asset file replacement with content evidence
  *
  * @doc-code-tool
  * @prompt REPLACE_FILE_DOC_CODE_TOOL_PROMPT

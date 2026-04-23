@@ -15,7 +15,7 @@ import { PROMPTPART_SPECIFIC_TOOL_TEXTEDITOR_DOCCODETOOLEXAMPLE3 } from '@bitcod
 /**
  * TEXT EDITOR DOC-CODE-TOOL PROMPT
  * 
- * Structured DocCodeToolPrompt for atomic file editing tool runtime documentation.
+ * Structured DocCodeToolPrompt for Bitcode written-asset file mutation runtime documentation.
  */
 
 import { DocCodeToolPrompt } from '@bitcode/tools-generics';
@@ -45,7 +45,8 @@ import { PromptPart } from '@bitcode/prompts/parts/PromptPart';
  * @doc-comment-developing-promptdevelopment
  * versions: []
  * domain: tool
- * intent: "Atomic file editing tool for precise text manipulation and file modification operations"
+ * intent: "Bitcode written-asset file mutation support prompt for precise atomic text edits"
+ * current_version: "V26"
  */
 export class TextEditorDocCodeToolPrompt extends DocCodeToolPrompt {
   constructor() {
@@ -59,10 +60,10 @@ export class TextEditorDocCodeToolPrompt extends DocCodeToolPrompt {
     this.set('output:label', PROMPTPART_GENERIC_DOCCODE_OUTPUT_LABEL);
     this.set('examples:label', PROMPTPART_GENERIC_DOCCODE_EXAMPLES_LABEL);
     
-    // Set metadata - only name is meaningful, rest are just metadata
+    // Set metadata
     this.set('metadata:name', PROMPTPART_SPECIFIC_TOOL_TEXTEDITOR_DOCCODETOOLNAME);
-    this.set('metadata:category', 'file-editing' as PromptPart);
-    this.set('metadata:version', 'GA1.00.0' as PromptPart);
+    this.set('metadata:category', 'written-asset-file-mutation' as PromptPart);
+    this.set('metadata:version', 'V26' as PromptPart);
     this.set('metadata:priority', 'critical' as PromptPart);
     this.set('metadata:stability', 'stable' as PromptPart);
     

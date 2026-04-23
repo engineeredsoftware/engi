@@ -4,8 +4,8 @@ import { DocCodeToolPrompt } from '@bitcode/tools-generics';
  *
  * @doc-comment-developing-promptdevelopment
  * domain: tool
- * intent: "Atomic file deletion tool documentation"
- * current_version: "GA1.50.0"
+ * intent: "Bitcode written-asset file mutation support prompt for atomic file deletion"
+ * current_version: "V26"
  * versions: []
  */
 export declare class DeleteFileDocCodeToolPrompt extends DocCodeToolPrompt {

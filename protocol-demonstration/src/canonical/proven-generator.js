@@ -1277,6 +1277,12 @@ function buildV26PromptSystemTotalityProof({
       [
         'packages/generic-agents/web-researcher/src/index.ts',
         'packages/generic-agents/web-researcher/src/prompts/system-prompt-web-researcher.ts',
+        'packages/generic-tools/files-maintaining/README.md',
+        'packages/generic-tools/files-maintaining/src/index.ts',
+        'packages/generic-tools/files-maintaining/src/prompts/TextEditorDocCodeToolPrompt.ts',
+        'packages/generic-tools/files-maintaining/src/prompts/CreateFileDocCodeToolPrompt.ts',
+        'packages/generic-tools/files-maintaining/src/prompts/ReplaceFileDocCodeToolPrompt.ts',
+        'packages/generic-tools/files-maintaining/src/prompts/DeleteFileDocCodeToolPrompt.ts',
         'packages/generic-tools/files-maintaining/src/prompts/tool-prompt-transaction-begin.ts',
         'packages/generic-tools/task-comprehension/README.md',
         'packages/generic-tools/task-comprehension/package.json',

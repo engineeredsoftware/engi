@@ -1,8 +1,8 @@
 {
   "reportId": "v26-inference-implementation-records-proof",
   "version": "V26",
-  "proofSourceCommit": "e5b356e6de2ec3209fbf8bb03daa19645c230606",
-  "generatedAt": "2026-04-23T15:45:48-03:00",
+  "proofSourceCommit": "9a76cdcfc7a8400a8a6c65119301f6dc74d7fa7a",
+  "generatedAt": "2026-04-23T16:30:48-03:00",
   "generatorId": "bitcode.proven-generator.v1",
   "worktreeState": "dirty-preview",
   "passed": true,
@@ -470,6 +470,12 @@
         "packages/pipelines/deliverable/scripts/render-prompts.ts",
         "packages/pipelines/deliverable/src/tools/DeliverablePipelineCloneVCSRepositoryTool.ts",
         "packages/pipelines/deliverable/src/tools/search.ts",
+        "packages/generic-tools/files-maintaining/src/index.ts",
+        "packages/generic-tools/files-maintaining/src/prompts/TextEditorDocCodeToolPrompt.ts",
+        "packages/generic-tools/files-maintaining/src/prompts/CreateFileDocCodeToolPrompt.ts",
+        "packages/generic-tools/files-maintaining/src/prompts/ReplaceFileDocCodeToolPrompt.ts",
+        "packages/generic-tools/files-maintaining/src/prompts/DeleteFileDocCodeToolPrompt.ts",
+        "packages/generic-tools/files-maintaining/src/prompts/tool-prompt-transaction-begin.ts",
         "packages/pipelines/deliverable/src/agents/setup/deliverable-pipeline-comprehend-need-agent.ts",
         "packages/pipelines/deliverable/src/agents/setup/deliverable-pipeline-ready-to-iterate-agent.ts",
         "packages/pipelines/deliverable/src/phases/index.ts",
@@ -491,7 +497,14 @@
         "packages/pipelines/deliverable/src/postprocess.ts",
         "packages/pipelines/deliverable/src/types/PipelineSchemas.ts",
         "packages/pipelines/deliverable/src/agents/prompts/comprehend-need-prompt.ts",
-        "packages/pipelines/deliverable/src/agents/setup/deliverable-pipeline-comprehend-need-agent.ts"
+        "packages/pipelines/deliverable/src/agents/setup/deliverable-pipeline-comprehend-need-agent.ts",
+        "packages/generic-tools/files-maintaining/README.md",
+        "packages/generic-tools/files-maintaining/src/index.ts",
+        "packages/generic-tools/files-maintaining/src/prompts/TextEditorDocCodeToolPrompt.ts",
+        "packages/generic-tools/files-maintaining/src/prompts/CreateFileDocCodeToolPrompt.ts",
+        "packages/generic-tools/files-maintaining/src/prompts/ReplaceFileDocCodeToolPrompt.ts",
+        "packages/generic-tools/files-maintaining/src/prompts/DeleteFileDocCodeToolPrompt.ts",
+        "packages/generic-tools/files-maintaining/src/prompts/tool-prompt-transaction-begin.ts"
       ],
       "missingSourceEvidenceRefs": [],
       "verificationSet": [
@@ -1035,9 +1048,15 @@
       "toolImplementation": {
         "owners": [
           "packages/pipelines/deliverable/src/tools/DeliverablePipelineCloneVCSRepositoryTool.ts",
-          "packages/pipelines/deliverable/src/tools/search.ts"
+          "packages/pipelines/deliverable/src/tools/search.ts",
+          "packages/generic-tools/files-maintaining/src/index.ts",
+          "packages/generic-tools/files-maintaining/src/prompts/TextEditorDocCodeToolPrompt.ts",
+          "packages/generic-tools/files-maintaining/src/prompts/CreateFileDocCodeToolPrompt.ts",
+          "packages/generic-tools/files-maintaining/src/prompts/ReplaceFileDocCodeToolPrompt.ts",
+          "packages/generic-tools/files-maintaining/src/prompts/DeleteFileDocCodeToolPrompt.ts",
+          "packages/generic-tools/files-maintaining/src/prompts/tool-prompt-transaction-begin.ts"
         ],
-        "contract": "Retained VCS/PR/comment/review tools are shipping mechanisms on top of stable written assets."
+        "contract": "Retained VCS/PR/comment/review tools are shipping mechanisms on top of stable written assets; retained file-maintaining tools are written-asset mutation support and must expose Bitcode asset-pack semantics rather than generic file-system lineage."
       },
       "agentImplementation": {
         "owners": [
@@ -1083,7 +1102,14 @@
         "packages/pipelines/deliverable/src/postprocess.ts",
         "packages/pipelines/deliverable/src/types/PipelineSchemas.ts",
         "packages/pipelines/deliverable/src/agents/prompts/comprehend-need-prompt.ts",
-        "packages/pipelines/deliverable/src/agents/setup/deliverable-pipeline-comprehend-need-agent.ts"
+        "packages/pipelines/deliverable/src/agents/setup/deliverable-pipeline-comprehend-need-agent.ts",
+        "packages/generic-tools/files-maintaining/README.md",
+        "packages/generic-tools/files-maintaining/src/index.ts",
+        "packages/generic-tools/files-maintaining/src/prompts/TextEditorDocCodeToolPrompt.ts",
+        "packages/generic-tools/files-maintaining/src/prompts/CreateFileDocCodeToolPrompt.ts",
+        "packages/generic-tools/files-maintaining/src/prompts/ReplaceFileDocCodeToolPrompt.ts",
+        "packages/generic-tools/files-maintaining/src/prompts/DeleteFileDocCodeToolPrompt.ts",
+        "packages/generic-tools/files-maintaining/src/prompts/tool-prompt-transaction-begin.ts"
       ]
     },
     {

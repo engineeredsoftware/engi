@@ -1,7 +1,7 @@
 /**
  * TEXT EDITOR DOC-CODE-TOOL PROMPT
  *
- * Structured DocCodeToolPrompt for atomic file editing tool runtime documentation.
+ * Structured DocCodeToolPrompt for Bitcode written-asset file mutation runtime documentation.
  */
 import { DocCodeToolPrompt } from '@bitcode/tools-generics';
 /**
@@ -10,7 +10,8 @@ import { DocCodeToolPrompt } from '@bitcode/tools-generics';
  * @doc-comment-developing-promptdevelopment
  * versions: []
  * domain: tool
- * intent: "Atomic file editing tool for precise text manipulation and file modification operations"
+ * intent: "Bitcode written-asset file mutation support prompt for precise atomic text edits"
+ * current_version: "V26"
  */
 export declare class TextEditorDocCodeToolPrompt extends DocCodeToolPrompt {
     constructor();
