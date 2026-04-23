@@ -12,4 +12,4 @@ import { PromptPart } from '../../parts/PromptPart';
  * ]
  */
 export const PROMPTPART_SPECIFIC_PHASE_DELIVERABLESHIPPING_PURPOSE_CORESTATEMENT: PromptPart = 
-  'Create VCS pull request with tracked file changes, generate PR description from validation results, and store deliverable URL' as PromptPart;
+  'Emit connected-interface delivery mechanisms for validated written assets, generate shipping summaries from validation results, and store shipping surface URLs and metadata' as PromptPart;

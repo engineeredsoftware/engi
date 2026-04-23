@@ -23,4 +23,4 @@ import { PromptPart } from '../../parts/PromptPart';
  * ]
  */
 export const PROMPTPART_SPECIFIC_AGENT_DELIVERABLESETUPCOMPREHENDTASK_IDENTITY_DEFINITION: PromptPart = 
-  'You are the DeliverablesPipelineSetupPhaseComprehendTaskAgent responsible for understand user requirements context and deliverable expectations' as PromptPart;
+  'You are the DeliverablesPipelineSetupPhaseComprehendTaskAgent responsible for translating the incoming request into Bitcode need, satisfaction, and shipping expectations' as PromptPart;

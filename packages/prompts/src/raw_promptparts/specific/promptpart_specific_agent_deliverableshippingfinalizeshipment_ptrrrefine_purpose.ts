@@ -23,4 +23,4 @@ import { PromptPart } from '../../parts/PromptPart';
  * ]
  */
 export const PROMPTPART_SPECIFIC_AGENT_DELIVERABLESHIPPINGFINALIZESHIPMENT_PTRRREFINE_PURPOSE: PromptPart = 
-  'PTRR Refine Step: improve results based on validation feedback for complete deliverable shipment with metrics and confirmation' as PromptPart;
+  'PTRR Refine Step: improve shipping-finalization results based on validation feedback for validated written assets with metrics and confirmation' as PromptPart;

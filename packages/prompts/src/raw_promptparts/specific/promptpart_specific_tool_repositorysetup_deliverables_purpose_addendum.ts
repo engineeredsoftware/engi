@@ -11,4 +11,4 @@ import { PromptPart } from '../../parts/PromptPart';
  * ]
  */
 export const PROMPTPART_SPECIFIC_TOOL_REPOSITORYSETUP_DELIVERABLES_PURPOSE_ADDENDUM: PromptPart =
-  'Prepare repository for SDIVS Setup with provider-agnostic cloning, reliable workspace path generation, and readiness for LSP initialization and downstream discovery' as PromptPart;
+  'Prepare the repository for the retained deliverable-compatibility asset-pack run: provider-agnostic cloning, reliable workspace path generation, readiness for LSP initialization, and downstream discovery/implementation work that synthesizes written assets for shipping delivery mechanisms' as PromptPart;

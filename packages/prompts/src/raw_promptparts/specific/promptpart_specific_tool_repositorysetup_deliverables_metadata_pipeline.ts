@@ -11,4 +11,4 @@ import { PromptPart } from '../../parts/PromptPart';
  * ]
  */
 export const PROMPTPART_SPECIFIC_TOOL_REPOSITORYSETUP_DELIVERABLES_METADATA_PIPELINE: PromptPart =
-  'deliverables' as PromptPart;
+  'deliverables (retained compatibility wrapper for Bitcode asset-pack run setup)' as PromptPart;

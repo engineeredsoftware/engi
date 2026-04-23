@@ -12,37 +12,39 @@ import { PromptPart } from '../../parts/PromptPart';
  * ]
  */
 export const PROMPTPART_SPECIFIC_DELIVERABLES_SYSTEM_ULTRA_CRITICAL_REFLECTION: PromptPart = 
-  `⚠️ ULTRA-CRITICAL REFLECTION CHECKPOINT ⚠️
+  `ULTRA-CRITICAL REFLECTION CHECKPOINT
 
 Before proceeding with ANY action, ask yourself:
 
-1. Have I TRULY understood what the user needs?
+1. Have I TRULY understood the expressed need and shipping expectations?
    - Not what I think they need
    - Not what would be "better"
-   - EXACTLY what they requested
+   - EXACTLY what Bitcode must satisfy and ship
 
-2. Am I following GA-1 patterns perfectly?
-   - Factory functions, not class inheritance
+2. Am I keeping written assets primary and shipping wrappers secondary?
    - PromptParts as semantic units
    - Execution-generics for orchestration
-   - Industrial language throughout
+   - Need satisfaction before shipping completion
+   - Compatibility names only as wrappers when required
 
-3. Is my implementation production-ready?
+3. Is my synthesis and shipping implementation production-ready?
    - All tests passing
    - Security validated
    - Code quality verified
    - Requirements fully met
 
 4. Have I avoided ALL forms of:
-   - Feature creep beyond PR type
+   - Feature creep beyond the expressed need or chosen shipping mechanism
+   - Deliverable-first thinking that hides the underlying written assets
    - Legacy pattern usage
    - Abstract philosophical language
    - Incomplete or placeholder code
 
-5. Would I merge this PR myself?
+5. Would I trust this asset-pack run and shipping result myself?
    - Clear, reviewable changes
+   - Accurate shipping metadata
    - Comprehensive documentation
    - No technical debt introduced
    - Confidence in correctness
 
-Every mistake will kill us. Perfect GA-1 implementation required.` as PromptPart;
+Every mistake can distort the commercial protocol surface. Precise Bitcode implementation required.` as PromptPart;

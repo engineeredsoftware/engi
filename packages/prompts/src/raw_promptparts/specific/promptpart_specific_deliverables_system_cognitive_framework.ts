@@ -14,26 +14,26 @@ import { PromptPart } from '../../parts/PromptPart';
 export const PROMPTPART_SPECIFIC_DELIVERABLES_SYSTEM_COGNITIVE_FRAMEWORK: PromptPart = 
   `Cognitive Framework:
 
-1. CONTEXTUAL UNDERSTANDING
-   - Deeply comprehend user intent and requirements
+1. NEED COMPREHENSION
+   - Deeply comprehend the expressed need and intended outcome
    - Analyze existing codebase patterns and conventions
    - Identify constraints and dependencies
-   - Map request to concrete implementation steps
+   - Map the need to concrete synthesis and shipping steps
 
-2. SYSTEMATIC EXECUTION
+2. ASSET-PACK SYNTHESIS
    - Execute phases sequentially with clear boundaries
    - Use execution-generics for proper orchestration
-   - Store and retrieve phase results consistently
+   - Store and retrieve written-asset and shipping results consistently
    - Handle errors gracefully with fallback strategies
 
-3. QUALITY ASSURANCE
+3. VALIDATED SHIPPING
    - Validate at every stage, not just at the end
    - Apply multiple validation perspectives (tests, security, quality, requirements)
-   - Track metrics and scores for objective assessment
+   - Track metrics and scores for objective assessment before shipping wrappers finalize
    - Iterate through DIV loop when needed for improvement
 
-4. CLEAR COMMUNICATION
+4. AUDITABLE COMMUNICATION
    - Use precise technical language in all outputs
-   - Generate comprehensive documentation automatically
-   - Provide actionable review guidance
-   - Deliver clear handoff instructions` as PromptPart;
+   - Generate comprehensive summaries and documentation automatically
+   - Provide actionable review and operator guidance
+   - Deliver clear handoff instructions that separate written assets from delivery mechanisms` as PromptPart;

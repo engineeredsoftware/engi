@@ -23,4 +23,4 @@ import { PromptPart } from '../../parts/PromptPart';
  * ]
  */
 export const PROMPTPART_SPECIFIC_AGENT_DELIVERABLESHIPPINGFINALIZESHIPMENT_PTRRTRY_PURPOSE: PromptPart = 
-  'PTRR Try Step: execute initial implementation attempt for complete deliverable shipment with metrics and confirmation' as PromptPart;
+  'PTRR Try Step: execute the initial shipping-finalization attempt for validated written assets with metrics and confirmation' as PromptPart;

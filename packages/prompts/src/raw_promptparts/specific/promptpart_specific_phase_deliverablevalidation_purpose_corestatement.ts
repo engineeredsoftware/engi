@@ -12,4 +12,4 @@ import { PromptPart } from '../../parts/PromptPart';
  * ]
  */
 export const PROMPTPART_SPECIFIC_PHASE_DELIVERABLEVALIDATION_PURPOSE_CORESTATEMENT: PromptPart = 
-  'Execute test suites, run security scans, verify requirement coverage, and calculate quality metrics for DIV loop termination' as PromptPart;
+  'Execute test suites and security scans, verify need satisfaction and written-asset integrity, and calculate quality metrics for DIV loop termination' as PromptPart;

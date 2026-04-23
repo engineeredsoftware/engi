@@ -23,4 +23,4 @@ import { PromptPart } from '../../parts/PromptPart';
  * ]
  */
 export const PROMPTPART_SPECIFIC_AGENT_DELIVERABLESHIPPINGFINALIZESHIPMENT_PTRRPLAN_PURPOSE: PromptPart = 
-  'PTRR Plan Step: analyze context and create strategic approach for complete deliverable shipment with metrics and confirmation' as PromptPart;
+  'PTRR Plan Step: analyze context and create strategic approach for finalizing shipping delivery mechanisms for validated written assets with metrics and confirmation' as PromptPart;

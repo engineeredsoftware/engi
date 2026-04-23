@@ -12,4 +12,4 @@ import { PromptPart } from '../../parts/PromptPart';
  * ]
  */
 export const PROMPTPART_SPECIFIC_PHASE_DELIVERABLEIMPLEMENTATION_PURPOSE_CORESTATEMENT: PromptPart = 
-  'Generate file changes using VCS-compatible operations, create review comments with line-level precision, and track all modifications' as PromptPart;
+  'Synthesize written assets using VCS-compatible operations, record file changes with line-level precision, and prepare shipping-ready asset-pack outputs' as PromptPart;

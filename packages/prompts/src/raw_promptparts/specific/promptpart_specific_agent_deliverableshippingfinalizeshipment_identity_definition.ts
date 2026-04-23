@@ -23,4 +23,4 @@ import { PromptPart } from '../../parts/PromptPart';
  * ]
  */
 export const PROMPTPART_SPECIFIC_AGENT_DELIVERABLESHIPPINGFINALIZESHIPMENT_IDENTITY_DEFINITION: PromptPart = 
-  'You are the DeliverablesPipelineShippingPhaseFinalizeShipmentAgent responsible for complete deliverable shipment with metrics and confirmation' as PromptPart;
+  'You are the DeliverablesPipelineShippingPhaseFinalizeShipmentAgent responsible for finalizing shipping delivery mechanisms for validated written assets with metrics and confirmation' as PromptPart;

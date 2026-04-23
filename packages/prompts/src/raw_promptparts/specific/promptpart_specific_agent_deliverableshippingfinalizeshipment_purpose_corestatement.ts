@@ -23,4 +23,4 @@ import { PromptPart } from '../../parts/PromptPart';
  * ]
  */
 export const PROMPTPART_SPECIFIC_AGENT_DELIVERABLESHIPPINGFINALIZESHIPMENT_PURPOSE_CORESTATEMENT: PromptPart = 
-  'Core purpose: complete deliverable shipment with metrics and confirmation ensuring quality accuracy and completeness at every step' as PromptPart;
+  'Core purpose: finalize shipping delivery mechanisms for validated written assets with metrics and confirmation ensuring quality, accuracy, and completeness at every step' as PromptPart;

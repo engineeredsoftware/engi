@@ -103,6 +103,82 @@ const pipelineTypeListPromptSource = readFileSync(
   new URL('../../packages/prompts/src/raw_promptparts/specific/promptpart_specific_pipeline_deliverable_deliverabletype_list.ts', import.meta.url),
   'utf8'
 );
+const pipelineDivLoopPromptSource = readFileSync(
+  new URL('../../packages/prompts/src/raw_promptparts/specific/promptpart_specific_pipeline_deliverable_divloop_detailcontent.ts', import.meta.url),
+  'utf8'
+);
+const pipelineExecutionPatternPromptSource = readFileSync(
+  new URL('../../packages/prompts/src/raw_promptparts/specific/promptpart_specific_pipeline_deliverable_executionpattern_detailcontent.ts', import.meta.url),
+  'utf8'
+);
+const repositorySetupPurposePromptSource = readFileSync(
+  new URL('../../packages/prompts/src/raw_promptparts/specific/promptpart_specific_tool_repositorysetup_deliverables_purpose_addendum.ts', import.meta.url),
+  'utf8'
+);
+const repositorySetupMetadataPromptSource = readFileSync(
+  new URL('../../packages/prompts/src/raw_promptparts/specific/promptpart_specific_tool_repositorysetup_deliverables_metadata_pipeline.ts', import.meta.url),
+  'utf8'
+);
+const repositorySetupCapabilitiesPromptSource = readFileSync(
+  new URL('../../packages/prompts/src/raw_promptparts/specific/promptpart_specific_tool_repositorysetup_deliverables_capabilities_addendum.ts', import.meta.url),
+  'utf8'
+);
+const generateMassivePromptPartsSource = readFileSync(
+  new URL('../../scripts/generate-massive-prompt-parts.ts', import.meta.url),
+  'utf8'
+);
+const phaseSetupPurposePromptSource = readFileSync(
+  new URL('../../packages/prompts/src/raw_promptparts/specific/promptpart_specific_phase_deliverablesetup_purpose_corestatement.ts', import.meta.url),
+  'utf8'
+);
+const phaseDiscoveryPurposePromptSource = readFileSync(
+  new URL('../../packages/prompts/src/raw_promptparts/specific/promptpart_specific_phase_deliverablediscovery_purpose_corestatement.ts', import.meta.url),
+  'utf8'
+);
+const phaseImplementationPurposePromptSource = readFileSync(
+  new URL('../../packages/prompts/src/raw_promptparts/specific/promptpart_specific_phase_deliverableimplementation_purpose_corestatement.ts', import.meta.url),
+  'utf8'
+);
+const phaseValidationPurposePromptSource = readFileSync(
+  new URL('../../packages/prompts/src/raw_promptparts/specific/promptpart_specific_phase_deliverablevalidation_purpose_corestatement.ts', import.meta.url),
+  'utf8'
+);
+const phaseShippingPurposePromptSource = readFileSync(
+  new URL('../../packages/prompts/src/raw_promptparts/specific/promptpart_specific_phase_deliverableshipping_purpose_corestatement.ts', import.meta.url),
+  'utf8'
+);
+const setupComprehendTaskPurposePromptSource = readFileSync(
+  new URL('../../packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_deliverablesetupcomprehendtask_purpose_corestatement.ts', import.meta.url),
+  'utf8'
+);
+const setupComprehendTaskIdentityPromptSource = readFileSync(
+  new URL('../../packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_deliverablesetupcomprehendtask_identity_definition.ts', import.meta.url),
+  'utf8'
+);
+const finalizeShipmentPurposePromptSource = readFileSync(
+  new URL('../../packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_deliverableshippingfinalizeshipment_purpose_corestatement.ts', import.meta.url),
+  'utf8'
+);
+const finalizeShipmentIdentityPromptSource = readFileSync(
+  new URL('../../packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_deliverableshippingfinalizeshipment_identity_definition.ts', import.meta.url),
+  'utf8'
+);
+const deliverablesSystemBasePromptSource = readFileSync(
+  new URL('../../packages/prompts/src/raw_promptparts/specific/promptpart_specific_deliverables_system_base.ts', import.meta.url),
+  'utf8'
+);
+const deliverablesSystemExcellencePromptSource = readFileSync(
+  new URL('../../packages/prompts/src/raw_promptparts/specific/promptpart_specific_deliverables_system_excellence_standards.ts', import.meta.url),
+  'utf8'
+);
+const deliverablesSystemCognitivePromptSource = readFileSync(
+  new URL('../../packages/prompts/src/raw_promptparts/specific/promptpart_specific_deliverables_system_cognitive_framework.ts', import.meta.url),
+  'utf8'
+);
+const deliverablesSystemUltraCriticalPromptSource = readFileSync(
+  new URL('../../packages/prompts/src/raw_promptparts/specific/promptpart_specific_deliverables_system_ultra_critical_reflection.ts', import.meta.url),
+  'utf8'
+);
 
 test('V26 deliverable reform supplement requires semantic mirrors beyond retained compatibility naming', () => {
   assert.match(reformSource, /`deliverable` survives only as a retained compatibility path\/name/u);
@@ -236,4 +312,28 @@ test('retained templates and promptparts keep compatibility names but teach asse
   assert.match(pipelinePurposePromptSource, /shipping delivery mechanisms/u);
   assert.match(pipelineTypeListPromptSource, /Synthesize implementation written assets/u);
   assert.match(pipelineTypeListPromptSource, /connected-interface mechanisms/u);
+  assert.match(pipelineDivLoopPromptSource, /Discovery refines the expressed need/u);
+  assert.match(pipelineDivLoopPromptSource, /Implementation synthesizes VCS-compatible written assets/u);
+  assert.match(pipelineDivLoopPromptSource, /Validation verifies need satisfaction/u);
+  assert.match(pipelineExecutionPatternPromptSource, /discovery shapes the asset-pack synthesis approach/u);
+  assert.match(pipelineExecutionPatternPromptSource, /shipping emits connected-interface delivery mechanisms/u);
+  assert.match(repositorySetupPurposePromptSource, /retained deliverable-compatibility asset-pack run/u);
+  assert.match(repositorySetupPurposePromptSource, /synthesizes written assets for shipping delivery mechanisms/u);
+  assert.match(repositorySetupMetadataPromptSource, /retained compatibility wrapper for Bitcode asset-pack run setup/u);
+  assert.match(repositorySetupCapabilitiesPromptSource, /need understanding and written-asset synthesis/u);
+  assert.match(generateMassivePromptPartsSource, /Retained deliverable-compatibility pipeline .* for Bitcode asset-pack runs/u);
+  assert.match(phaseSetupPurposePromptSource, /understand the expressed need/u);
+  assert.match(phaseDiscoveryPurposePromptSource, /shape the asset-pack synthesis approach/u);
+  assert.match(phaseImplementationPurposePromptSource, /Synthesize written assets using VCS-compatible operations/u);
+  assert.match(phaseValidationPurposePromptSource, /verify need satisfaction and written-asset integrity/u);
+  assert.match(phaseShippingPurposePromptSource, /Emit connected-interface delivery mechanisms for validated written assets/u);
+  assert.match(setupComprehendTaskPurposePromptSource, /Interpret the expressed need to extract constraints, satisfaction criteria, shipping expectations/u);
+  assert.match(setupComprehendTaskIdentityPromptSource, /Bitcode need, satisfaction, and shipping expectations/u);
+  assert.match(finalizeShipmentPurposePromptSource, /finalize shipping delivery mechanisms for validated written assets/u);
+  assert.match(finalizeShipmentIdentityPromptSource, /finalizing shipping delivery mechanisms for validated written assets/u);
+  assert.match(deliverablesSystemBasePromptSource, /satisfy an expressed need by synthesizing stable written assets \/ asset-packs/u);
+  assert.match(deliverablesSystemBasePromptSource, /shipping wrappers subordinate to the Bitcode asset-pack meaning/u);
+  assert.match(deliverablesSystemExcellencePromptSource, /NEED SATISFACTION/u);
+  assert.match(deliverablesSystemCognitivePromptSource, /ASSET-PACK SYNTHESIS/u);
+  assert.match(deliverablesSystemUltraCriticalPromptSource, /written assets primary and shipping wrappers secondary/u);
 });

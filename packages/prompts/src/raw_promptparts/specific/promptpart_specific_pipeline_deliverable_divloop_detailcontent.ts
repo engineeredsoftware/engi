@@ -12,4 +12,4 @@ import { PromptPart } from '../../parts/PromptPart';
  * ]
  */
 export const PROMPTPART_SPECIFIC_PIPELINE_DELIVERABLE_DIVLOOP_DETAILCONTENT: PromptPart = 
-  'DIV (Discovery-Implementation-Validation) loop executes with repeat combinator until validation score >= 0.9 or max iterations reached. Each iteration stores validation scores for plateau detection. Implementation generates VCS-compatible file changes. Validation runs automated test suites and security scans.' as PromptPart;
+  'DIV (Discovery-Implementation-Validation) loop executes with repeat combinator until validation score >= 0.9 or max iterations reached. Discovery refines the expressed need and selects the right written-asset synthesis path. Each iteration stores validation scores for plateau detection. Implementation synthesizes VCS-compatible written assets or equivalent asset-pack material. Validation verifies need satisfaction, automated test suites, and security scans before shipping delivery mechanisms run.' as PromptPart;

@@ -12,4 +12,4 @@ import { PromptPart } from '../../parts/PromptPart';
  * ]
  */
 export const PROMPTPART_SPECIFIC_PHASE_DELIVERABLESETUP_PURPOSE_CORESTATEMENT: PromptPart = 
-  'Initialize repository workspace, comprehend task requirements, extract design integrations, and prepare file tracking state' as PromptPart;
+  'Initialize repository workspace, understand the expressed need, establish connected-interface constraints, and prepare file tracking state for written-asset synthesis' as PromptPart;

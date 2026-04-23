@@ -1108,7 +1108,7 @@ test('active V26 canon posture and preserved runtime state use bitcode policy an
   assert.doesNotMatch(v18MatricesSource, /engi-demo\.js/);
   assert.doesNotMatch(provenGeneratorSource, /\brunMakeEngiBranch\b/);
   assert.doesNotMatch(v18MatricesSource, /\brunMakeEngiBranch\b/);
-  assert.match(deliverablesPromptBaseSource, /You are the Bitcode Deliverables Pipeline AI System/);
+  assert.match(deliverablesPromptBaseSource, /You are the retained Bitcode deliverable-compatibility pipeline AI system/);
   assert.doesNotMatch(deliverablesPromptBaseSource, /You are the Engi Deliverables Pipeline AI System/);
   assert.match(executionsPageClientSource, /bitcode-mcp-configs/);
   assert.match(aiDocumentTemplatesSource, /bitcode-mcp-configs/);

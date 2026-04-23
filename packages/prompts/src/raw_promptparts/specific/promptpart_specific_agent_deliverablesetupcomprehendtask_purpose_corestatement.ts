@@ -12,4 +12,4 @@ import { PromptPart } from '../../parts/PromptPart';
  * ]
  */
 export const PROMPTPART_SPECIFIC_AGENT_DELIVERABLESETUPCOMPREHENDTASK_PURPOSE_CORESTATEMENT: PromptPart = 
-  'Parse task description to extract requirements, constraints, success criteria, and complexity assessment using NLP analysis' as PromptPart;
+  'Interpret the expressed need to extract constraints, satisfaction criteria, shipping expectations, and complexity posture using structured analysis' as PromptPart;

@@ -12,4 +12,4 @@ import { PromptPart } from '../../parts/PromptPart';
  * ]
  */
 export const PROMPTPART_SPECIFIC_PHASE_DELIVERABLEDISCOVERY_PURPOSE_CORESTATEMENT: PromptPart = 
-  'Analyze codebase structure, identify relevant files through AST parsing, plan implementation approach, and detect potential impacts' as PromptPart;
+  'Analyze codebase structure, identify relevant files and interfaces, shape the asset-pack synthesis approach, and detect impacts and need-satisfaction risks' as PromptPart;

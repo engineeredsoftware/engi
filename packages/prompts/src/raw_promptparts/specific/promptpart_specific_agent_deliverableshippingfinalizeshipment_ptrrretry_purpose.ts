@@ -23,4 +23,4 @@ import { PromptPart } from '../../parts/PromptPart';
  * ]
  */
 export const PROMPTPART_SPECIFIC_AGENT_DELIVERABLESHIPPINGFINALIZESHIPMENT_PTRRRETRY_PURPOSE: PromptPart = 
-  'PTRR Retry Step: ensure completion with guaranteed success for complete deliverable shipment with metrics and confirmation' as PromptPart;
+  'PTRR Retry Step: ensure completion with guaranteed success for finalizing shipping delivery mechanisms for validated written assets with metrics and confirmation' as PromptPart;

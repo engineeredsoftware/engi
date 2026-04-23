@@ -414,7 +414,7 @@ export const ${exportName}: PromptPart = \`${part.content}\` as PromptPart;`;
  * name: "deliverables_${category.name}_${part.suffix}"
  * category: "deliverables_${category.name}"
  * description: "${part.description}"
- * usage: "Deliverables pipeline ${category.name}"
+ * usage: "Retained deliverable-compatibility pipeline ${category.name} for Bitcode asset-pack runs"
  * priority: "${priority}"
  * version: "1.0.0"
  */
@@ -429,7 +429,7 @@ export const ${exportName}: PromptPart = \`${part.content}\` as PromptPart;`;
   });
   
   console.log(`Generated ${genericCount} generic prompt parts across ${genericCategories.length} categories`);
-  console.log(`Generated ${specificCount} deliverables specific prompt parts across ${deliverablesCategories.length} categories`);
+  console.log(`Generated ${specificCount} retained deliverable-compatibility prompt parts across ${deliverablesCategories.length} categories`);
   console.log(`TOTAL PROMPT PARTS GENERATED: ${genericCount + specificCount}`);
 }
 
