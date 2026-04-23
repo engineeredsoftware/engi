@@ -9,8 +9,8 @@ const AGENTS = {
     { name: 'clonerepository', display: 'Clone VCS Repository', purpose: 'securely clone VCS repositories from GitHub GitLab or Bitbucket' },
     { name: 'initializelsp', display: 'Initialize LSP', purpose: 'initialize Language Server Protocol for code intelligence and analysis' },
     { name: 'dangerwall', display: 'Danger Wall', purpose: 'detect and prevent dangerous operations that could harm systems or violate policies' },
-    { name: 'comprehendtask', display: 'Comprehend Task', purpose: 'understand user requirements context and deliverable expectations' },
-    { name: 'determinedeliverabletype', display: 'Determine Deliverable Type', purpose: 'classify deliverable as code-change code-review design-document or design-review' },
+    { name: 'comprehendtask', display: 'Comprehend Task', purpose: 'understand user requirements context, need posture, and shipping expectations' },
+    { name: 'determinedeliverabletype', display: 'Determine Deliverable Type', purpose: 'classify the written-asset synthesis and shipping mechanism posture as code-change code-review design-document or design-review' },
     { name: 'analyzecodebase', display: 'Analyze Codebase', purpose: 'analyze codebase structure patterns dependencies and architecture' },
     { name: 'readytoiterate', display: 'Ready to Iterate', purpose: 'determine if sufficient context exists to proceed or short-circuit with refund' }
   ],
@@ -51,8 +51,8 @@ const AGENTS = {
 
 // Part types to generate for each agent
 const PART_TYPES = [
-  { suffix: 'identity_definition', template: (agent: any, phase: string) => 
-    `'You are the DeliverablesPipeline${capitalize(phase)}Phase${agent.display.replace(/\s/g, '')}Agent responsible for ${agent.purpose}'` },
+    { suffix: 'identity_definition', template: (agent: any, phase: string) => 
+    `'You are the retained DeliverablesPipeline${capitalize(phase)}Phase${agent.display.replace(/\s/g, '')}Agent responsible for ${agent.purpose} while preserving Bitcode asset-pack run semantics'` },
   { suffix: 'purpose_corestatement', template: (agent: any) => 
     `'Core purpose: ${agent.purpose} ensuring quality accuracy and completeness at every step'` },
   { suffix: 'capabilities_list', template: (agent: any) => 

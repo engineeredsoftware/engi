@@ -79,6 +79,30 @@ const streamParserSource = readFileSync(
   new URL('../../uapi/streaming/stream-parser.ts', import.meta.url),
   'utf8'
 );
+const deliverableStartedTemplateSource = readFileSync(
+  new URL('../../supabase/templates/deliverable_started.html', import.meta.url),
+  'utf8'
+);
+const deliverableCompleteTemplateSource = readFileSync(
+  new URL('../../supabase/templates/deliverable_complete.html', import.meta.url),
+  'utf8'
+);
+const deliverableFailedTemplateSource = readFileSync(
+  new URL('../../supabase/templates/deliverable_failed.html', import.meta.url),
+  'utf8'
+);
+const deliverableShortCircuitTemplateSource = readFileSync(
+  new URL('../../supabase/templates/deliverable_short_circuit.html', import.meta.url),
+  'utf8'
+);
+const pipelinePurposePromptSource = readFileSync(
+  new URL('../../packages/prompts/src/raw_promptparts/specific/promptpart_specific_pipeline_deliverable_purpose_corestatement.ts', import.meta.url),
+  'utf8'
+);
+const pipelineTypeListPromptSource = readFileSync(
+  new URL('../../packages/prompts/src/raw_promptparts/specific/promptpart_specific_pipeline_deliverable_deliverabletype_list.ts', import.meta.url),
+  'utf8'
+);
 
 test('V26 deliverable reform supplement requires semantic mirrors beyond retained compatibility naming', () => {
   assert.match(reformSource, /`deliverable` survives only as a retained compatibility path\/name/u);
@@ -194,4 +218,22 @@ test('operator-facing execution header and retained route teach shipping-mechani
   assert.match(streamParserSource, /writtenAssets,/u);
   assert.match(streamParserSource, /deliveryMechanism,/u);
   assert.match(streamParserSource, /semanticKind: data\.result\.semanticKind \|\|/u);
+});
+
+test('retained templates and promptparts keep compatibility names but teach asset-pack-run semantics', () => {
+  assert.match(deliverableStartedTemplateSource, /Bitcode asset-pack run started/u);
+  assert.match(deliverableStartedTemplateSource, /synthesizing written assets and shipping results/u);
+  assert.match(deliverableCompleteTemplateSource, /Bitcode asset-pack run complete/u);
+  assert.match(deliverableCompleteTemplateSource, /Asset-Pack Overview/u);
+  assert.match(deliverableCompleteTemplateSource, /Shipping delivery mechanism:/u);
+  assert.match(deliverableCompleteTemplateSource, /shipping delivery mechanisms inside Bitcode/u);
+  assert.match(deliverableFailedTemplateSource, /Bitcode asset-pack run failed/u);
+  assert.match(deliverableFailedTemplateSource, /asset-pack synthesis and shipping flow/u);
+  assert.match(deliverableShortCircuitTemplateSource, /Bitcode asset-pack run short-circuited/u);
+  assert.match(deliverableShortCircuitTemplateSource, /asset-pack synthesis and shipping completed/u);
+  assert.match(pipelinePurposePromptSource, /retained deliverable compatibility pipeline/u);
+  assert.match(pipelinePurposePromptSource, /Bitcode need-satisfying asset-pack run/u);
+  assert.match(pipelinePurposePromptSource, /shipping delivery mechanisms/u);
+  assert.match(pipelineTypeListPromptSource, /Synthesize implementation written assets/u);
+  assert.match(pipelineTypeListPromptSource, /connected-interface mechanisms/u);
 });

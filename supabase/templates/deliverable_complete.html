@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Deliverable complete</title>
+    <title>Bitcode asset-pack run complete</title>
     <style>
       body { 
         margin: 0; 
@@ -119,14 +119,14 @@
             
             <div class="content">
 
-              <div class="preview-text">{{ index .Data "Type" }} "{{ index .Data "Name" }}" is complete. Review, merge, and ship!</div>
+              <div class="preview-text">Bitcode asset-pack run "{{ index .Data "Name" }}" is complete. Review the written assets and shipping result.</div>
 
-              <h1>{{ index .Data "Type" }} complete</h1>
+              <h1>Bitcode asset-pack run complete</h1>
 
-              <p>"{{ index .Data "Name" }}" is ready for your review. See the overview below or jump straight to GitHub.</p>
+              <p>"{{ index .Data "Name" }}" is ready for your review. See the asset-pack overview below or jump straight to the connected shipping surface.</p>
 
               <div class="status-box">
-                <div class="meta" style="text-transform: uppercase; letter-spacing: 0.6px; margin-bottom: 8px;">Overview</div>
+                <div class="meta" style="text-transform: uppercase; letter-spacing: 0.6px; margin-bottom: 8px;">Asset-Pack Overview</div>
                 <h2 style="margin: 0 0 8px; font-size: 18px; font-weight: 600; color: #1a1a1a;">{{ index .Data "Name" }}</h2>
                 <p style="margin: 0 0 16px; color: #4a4a4a;">{{ index .Data "Description" }}</p>
                 <div class="meta">
@@ -139,7 +139,7 @@
               {{ $max := 3 }}
               {{ range $i, $d := index .Data "Deliverables" }}{{ if lt $i $max }}
               <div class="deliverable-box">
-                <h3 style="margin: 0 0 8px; font-size: 16px; font-weight: 600; color: #1a1a1a;">{{ index $d "Name" }}</h3>
+                <h3 style="margin: 0 0 8px; font-size: 16px; font-weight: 600; color: #1a1a1a;">Shipping delivery mechanism: {{ index $d "Name" }}</h3>
                 <p style="margin: 0 0 12px; color: #6a6a6a; font-size: 14px;">{{ index $d "Summary" }}</p>
                 <div class="meta" style="margin: 0 0 12px;">
                   {{ if index $d "LinesAdded" }}{{ index $d "LinesAdded" }}+ / {{ index $d "LinesDeleted" }}- {{ end }}
@@ -147,14 +147,14 @@
                   {{ if index $d "Assets" }}{{ index $d "Assets" }} assets {{ end }}
                 </div>
                 <div>
-                  <a href="{{ index $d "GitHubURL" }}" class="button">View diff</a>
+                  <a href="{{ index $d "GitHubURL" }}" class="button">Open shipping surface</a>
                   <a href="{{ index $d "BitcodeURL" }}" class="button-outline">Details</a>
                 </div>
               </div>
               {{ end }}{{ end }}
 
               {{ if gt (len (index .Data "Deliverables")) $max }}
-              <p style="text-align: center; color: #6a6a6a; font-size: 14px;">...and more deliverables inside Bitcode</p>
+              <p style="text-align: center; color: #6a6a6a; font-size: 14px;">...and more shipping delivery mechanisms inside Bitcode</p>
               {{ end }}
 
               <p style="text-align: center; margin: 30px 0;">

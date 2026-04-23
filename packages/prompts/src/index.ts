@@ -135,13 +135,13 @@ export { PROMPTPART_SPECIFIC_AGENT_CONQUERFILE_REFINE_ASSESSMENT } from './raw_p
 export { PROMPTPART_SPECIFIC_AGENT_CONQUERFILE_RETRY_STRATEGY } from './raw_promptparts/specific/promptpart_specific_agent_conquerfile_retry_strategy';
 export { PROMPTPART_SPECIFIC_AGENT_CONQUERFILE_RETRY_ERRORHANDLING } from './raw_promptparts/specific/promptpart_specific_agent_conquerfile_retry_errorhandling';
 
-// Deliverables-specific Tool PromptParts (Repository Setup additions)
+// Retained deliverable-compatibility Tool PromptParts (Repository Setup additions)
 export { PROMPTPART_SPECIFIC_TOOL_REPOSITORYSETUP_DELIVERABLES_METADATA_PIPELINE } from './raw_promptparts/specific/promptpart_specific_tool_repositorysetup_deliverables_metadata_pipeline';
 export { PROMPTPART_SPECIFIC_TOOL_REPOSITORYSETUP_DELIVERABLES_METADATA_PHASE_SETUP } from './raw_promptparts/specific/promptpart_specific_tool_repositorysetup_deliverables_metadata_phase_setup';
 export { PROMPTPART_SPECIFIC_TOOL_REPOSITORYSETUP_DELIVERABLES_PURPOSE_ADDENDUM } from './raw_promptparts/specific/promptpart_specific_tool_repositorysetup_deliverables_purpose_addendum';
 export { PROMPTPART_SPECIFIC_TOOL_REPOSITORYSETUP_DELIVERABLES_CAPABILITIES_ADDENDUM } from './raw_promptparts/specific/promptpart_specific_tool_repositorysetup_deliverables_capabilities_addendum';
 
-// Deliverables-specific Agent PromptParts (Clone VCS Repository)
+// Retained deliverable-compatibility Agent PromptParts (Clone VCS Repository)
 export { PROMPTPART_SPECIFIC_AGENT_DELIVERABLESPIPELINE_CLONEVCSREPOSITORY_SYSTEM_IDENTITY } from './raw_promptparts/specific/promptpart_specific_agent_deliverablespipeline_clonevcsrepository_system_identity';
 export { PROMPTPART_SPECIFIC_AGENT_DELIVERABLESPIPELINE_CLONEVCSREPOSITORY_SYSTEM_PURPOSE } from './raw_promptparts/specific/promptpart_specific_agent_deliverablespipeline_clonevcsrepository_system_purpose';
 export { PROMPTPART_SPECIFIC_AGENT_DELIVERABLESPIPELINE_CLONEVCSREPOSITORY_SYSTEM_CONSTRAINTS } from './raw_promptparts/specific/promptpart_specific_agent_deliverablespipeline_clonevcsrepository_system_constraints';
@@ -154,7 +154,7 @@ export { PROMPTPART_SPECIFIC_AGENT_DELIVERABLESPIPELINE_CLONEVCSREPOSITORY_REFIN
 export { PROMPTPART_SPECIFIC_AGENT_DELIVERABLESPIPELINE_CLONEVCSREPOSITORY_RETRY_LABEL } from './raw_promptparts/specific/promptpart_specific_agent_deliverablespipeline_clonevcsrepository_retry_label';
 export { PROMPTPART_SPECIFIC_AGENT_DELIVERABLESPIPELINE_CLONEVCSREPOSITORY_RETRY_DETAILS } from './raw_promptparts/specific/promptpart_specific_agent_deliverablespipeline_clonevcsrepository_retry_details';
 
-// Deliverables-specific Agent PromptParts (Comprehend Attachments)
+// Retained deliverable-compatibility Agent PromptParts (Comprehend Attachments)
 export { PROMPTPART_SPECIFIC_AGENT_COMPREHENDATTACHMENTS_PLAN_STRATEGY } from './raw_promptparts/specific/promptpart_specific_agent_comprehendattachments_plan_strategy';
 export { PROMPTPART_SPECIFIC_AGENT_DELIVERABLESETUPCOMPREHENDTASK_IDENTITY_DEFINITION } from './raw_promptparts/specific/promptpart_specific_agent_deliverablesetupcomprehendtask_identity_definition';
 export { PROMPTPART_SPECIFIC_AGENT_DELIVERABLESETUPCOMPREHENDTASK_PTRRPLAN_PURPOSE } from './raw_promptparts/specific/promptpart_specific_agent_deliverablesetupcomprehendtask_ptrrplan_purpose';
