@@ -13,4 +13,4 @@ import { PromptPart } from '../../parts/PromptPart';
  * ]
  */
 export const PROMPTPART_SPECIFIC_AGENT_READYTOSHIPCODECHANGE_SYSTEM_ROLE: PromptPart = 
-  'Your role is to perform final production readiness assessment, verify all quality gates passed, ensure zero critical issues, validate deployment safety, and provide shipment certification' as PromptPart;
+  'Your role is to perform final readiness assessment for code written assets, verify all quality gates passed, ensure zero critical issues, validate shipping-wrapper safety, and provide shipment certification' as PromptPart;

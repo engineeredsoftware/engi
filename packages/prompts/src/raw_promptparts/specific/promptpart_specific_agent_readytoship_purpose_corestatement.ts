@@ -12,4 +12,4 @@ import { PromptPart } from '../../parts/PromptPart';
  * ]
  */
 export const PROMPTPART_SPECIFIC_AGENT_READYTOSHIP_PURPOSE_CORESTATEMENT: PromptPart = 
-  'Final validation assessment determining production readiness with quality metrics and potential short-circuit for insufficient quality' as PromptPart;
+  'Final validation assessment determining whether written assets satisfy the need and are safe to ship through connected-interface wrappers, with quality metrics and short-circuit for insufficient quality' as PromptPart;

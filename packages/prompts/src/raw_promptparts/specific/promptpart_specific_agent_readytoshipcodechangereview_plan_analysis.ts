@@ -13,4 +13,4 @@ import { PromptPart } from '../../parts/PromptPart';
  * ]
  */
 export const PROMPTPART_SPECIFIC_AGENT_READYTOSHIPCODECHANGEREVIEW_PLAN_ANALYSIS: PromptPart = 
-  'Analyze review status to identify: unresolved feedback, pending approvals, open discussions, merge conflicts, CI/CD failures, authorization blockers' as PromptPart;
+  'Analyze review status to identify: unresolved feedback, pending approvals, open discussions, merge conflicts, CI/CD failures, written-asset risks, and shipping authorization blockers' as PromptPart;

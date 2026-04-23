@@ -13,4 +13,4 @@ import { PromptPart } from '../../parts/PromptPart';
  * ]
  */
 export const PROMPTPART_SPECIFIC_AGENT_READYTOSHIP_PLAN_STRATEGY: PromptPart = 
-  'Plan shipment orchestration by determining: aggregation methodology, risk assessment framework, readiness evaluation criteria, operational checklist, rollback validation requirements, decision matrix, authorization protocol' as PromptPart;
+  'Plan shipping-readiness orchestration by determining: validation aggregation method, risk assessment framework, written-asset readiness criteria, operational checklist, rollback validation requirements, decision matrix, and shipping authorization protocol' as PromptPart;

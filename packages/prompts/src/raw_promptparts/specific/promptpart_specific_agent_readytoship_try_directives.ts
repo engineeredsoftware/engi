@@ -13,4 +13,4 @@ import { PromptPart } from '../../parts/PromptPart';
  * ]
  */
 export const PROMPTPART_SPECIFIC_AGENT_READYTOSHIP_TRY_DIRECTIVES: PromptPart = 
-  'Execute shipment orchestration through: validation result aggregation, comprehensive risk calculation, readiness score computation, operational verification, rollback capability testing, decision matrix evaluation, authorization generation' as PromptPart;
+  'Execute shipping-readiness orchestration through: validation result aggregation, written-asset risk calculation, readiness score computation, operational verification, rollback capability testing, decision matrix evaluation, and shipping authorization generation' as PromptPart;

@@ -223,6 +223,46 @@ const createCodeChangeInstructionsPromptSource = readFileSync(
   new URL('../../packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_createcodechange_system_instructions.ts', import.meta.url),
   'utf8'
 );
+const readyToShipIdentityPromptSource = readFileSync(
+  new URL('../../packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_readytoship_system_identity.ts', import.meta.url),
+  'utf8'
+);
+const readyToShipRolePromptSource = readFileSync(
+  new URL('../../packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_readytoship_system_role.ts', import.meta.url),
+  'utf8'
+);
+const readyToShipInstructionsPromptSource = readFileSync(
+  new URL('../../packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_readytoship_system_instructions.ts', import.meta.url),
+  'utf8'
+);
+const readyToShipPurposePromptSource = readFileSync(
+  new URL('../../packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_readytoship_purpose_corestatement.ts', import.meta.url),
+  'utf8'
+);
+const readyToShipCodeChangeIdentityPromptSource = readFileSync(
+  new URL('../../packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_readytoshipcodechange_system_identity.ts', import.meta.url),
+  'utf8'
+);
+const readyToShipCodeChangeInstructionsPromptSource = readFileSync(
+  new URL('../../packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_readytoshipcodechange_system_instructions.ts', import.meta.url),
+  'utf8'
+);
+const readyToShipCodeChangePlanPromptSource = readFileSync(
+  new URL('../../packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_readytoshipcodechange_plan_strategy.ts', import.meta.url),
+  'utf8'
+);
+const readyToShipCodeChangeReviewIdentityPromptSource = readFileSync(
+  new URL('../../packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_readytoshipcodechangereview_system_identity.ts', import.meta.url),
+  'utf8'
+);
+const readyToShipCodeChangeReviewInstructionsPromptSource = readFileSync(
+  new URL('../../packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_readytoshipcodechangereview_system_instructions.ts', import.meta.url),
+  'utf8'
+);
+const readyToShipCodeChangeReviewPlanPromptSource = readFileSync(
+  new URL('../../packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_readytoshipcodechangereview_plan_strategy.ts', import.meta.url),
+  'utf8'
+);
 
 test('V26 deliverable reform supplement requires semantic mirrors beyond retained compatibility naming', () => {
   assert.match(reformSource, /`deliverable` survives only as a retained compatibility path\/name/u);
@@ -391,4 +431,14 @@ test('retained templates and promptparts keep compatibility names but teach asse
   assert.match(createCodeChangeIdentityPromptSource, /validated written assets into production-ready pull request shipping wrappers/u);
   assert.match(createCodeChangeRolePromptSource, /cohesive pull request shipping wrapper/u);
   assert.match(createCodeChangeInstructionsPromptSource, /Create a pull request shipping wrapper by leveraging full execution context/u);
+  assert.match(readyToShipIdentityPromptSource, /final readiness orchestration for validated written assets/u);
+  assert.match(readyToShipRolePromptSource, /authorize connected-interface delivery mechanisms for validated written assets/u);
+  assert.match(readyToShipInstructionsPromptSource, /evaluating written-asset integrity/u);
+  assert.match(readyToShipPurposePromptSource, /whether written assets satisfy the need and are safe to ship/u);
+  assert.match(readyToShipCodeChangeIdentityPromptSource, /final certification for code written assets/u);
+  assert.match(readyToShipCodeChangeInstructionsPromptSource, /pull request shipping-wrapper emission/u);
+  assert.match(readyToShipCodeChangePlanPromptSource, /code written-asset readiness assessment/u);
+  assert.match(readyToShipCodeChangeReviewIdentityPromptSource, /final validation of review readiness for code written assets/u);
+  assert.match(readyToShipCodeChangeReviewInstructionsPromptSource, /written assets and the shipping wrapper remain coherent/u);
+  assert.match(readyToShipCodeChangeReviewPlanPromptSource, /written-asset coherence checks/u);
 });

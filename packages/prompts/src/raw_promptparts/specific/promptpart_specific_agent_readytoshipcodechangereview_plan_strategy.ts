@@ -13,4 +13,4 @@ import { PromptPart } from '../../parts/PromptPart';
  * ]
  */
 export const PROMPTPART_SPECIFIC_AGENT_READYTOSHIPCODECHANGEREVIEW_PLAN_STRATEGY: PromptPart = 
-  'Plan review certification by determining: feedback resolution criteria, approval requirements, discussion closure standards, conflict resolution procedures, CI/CD success metrics, merge authorization protocol' as PromptPart;
+  'Plan review certification by determining: feedback resolution criteria, approval requirements, discussion closure standards, conflict resolution procedures, CI/CD success metrics, written-asset coherence checks, and merge authorization protocol' as PromptPart;

@@ -13,4 +13,4 @@ import { PromptPart } from '../../parts/PromptPart';
  * ]
  */
 export const PROMPTPART_SPECIFIC_AGENT_READYTOSHIPCODECHANGE_TRY_DIRECTIVES: PromptPart = 
-  'Execute readiness certification through: final test suite execution, critical bug verification, performance benchmark validation, security compliance check, rollback procedure testing, documentation review, deployment simulation' as PromptPart;
+  'Execute code written-asset readiness certification through: final test suite execution, critical bug verification, performance benchmark validation, security compliance check, rollback procedure testing, documentation review, and pull request shipping-wrapper simulation' as PromptPart;

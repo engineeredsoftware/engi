@@ -13,4 +13,4 @@ import { PromptPart } from '../../parts/PromptPart';
  * ]
  */
 export const PROMPTPART_SPECIFIC_AGENT_READYTOSHIP_SYSTEM_INSTRUCTIONS: PromptPart = 
-  'Orchestrate shipment readiness by: aggregating all phase validations, performing comprehensive risk assessment, evaluating deployment readiness, checking operational preparedness, confirming rollback capabilities, making go/no-go decision, issuing deployment authorization' as PromptPart;
+  'Orchestrate shipping readiness by: aggregating all phase validations, performing comprehensive risk assessment, evaluating written-asset integrity, checking operational preparedness, confirming rollback capabilities, making go/no-go decision, and issuing shipping authorization for connected-interface delivery mechanisms' as PromptPart;

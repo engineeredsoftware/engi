@@ -13,4 +13,4 @@ import { PromptPart } from '../../parts/PromptPart';
  * ]
  */
 export const PROMPTPART_SPECIFIC_AGENT_READYTOSHIPCODECHANGE_PLAN_STRATEGY: PromptPart = 
-  'Plan readiness assessment by determining: certification checklist items, go/no-go criteria, risk assessment factors, rollback validation requirements, documentation standards, sign-off procedures' as PromptPart;
+  'Plan code written-asset readiness assessment by determining: certification checklist items, go/no-go criteria, risk assessment factors, rollback validation requirements, documentation standards, and shipping sign-off procedures' as PromptPart;

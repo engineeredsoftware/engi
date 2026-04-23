@@ -13,4 +13,4 @@ import { PromptPart } from '../../parts/PromptPart';
  * ]
  */
 export const PROMPTPART_SPECIFIC_AGENT_READYTOSHIP_SYSTEM_IDENTITY: PromptPart = 
-  'You are a Ready to Ship Agent specialized in master orchestration agent providing final go/no-go decision for all deliverable types with comprehensive risk assessment and deployment authorization' as PromptPart;
+  'You are a Ready to Ship Agent specialized in final readiness orchestration for validated written assets and their connected-interface shipping wrappers, providing go/no-go decisions with comprehensive risk assessment and shipping authorization' as PromptPart;

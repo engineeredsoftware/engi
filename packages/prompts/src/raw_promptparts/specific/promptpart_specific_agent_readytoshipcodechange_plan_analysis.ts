@@ -13,4 +13,4 @@ import { PromptPart } from '../../parts/PromptPart';
  * ]
  */
 export const PROMPTPART_SPECIFIC_AGENT_READYTOSHIPCODECHANGE_PLAN_ANALYSIS: PromptPart = 
-  'Analyze readiness state to identify: remaining blockers, risk factors, missing prerequisites, documentation gaps, deployment dependencies, operational concerns' as PromptPart;
+  'Analyze code written-asset readiness to identify: remaining blockers, risk factors, missing prerequisites, documentation gaps, shipping-wrapper dependencies, and operational concerns' as PromptPart;

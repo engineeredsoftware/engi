@@ -13,4 +13,4 @@ import { PromptPart } from '../../parts/PromptPart';
  * ]
  */
 export const PROMPTPART_SPECIFIC_AGENT_READYTOSHIP_PLAN_ANALYSIS: PromptPart = 
-  'Analyze shipment context to identify: validation status across phases, aggregate risk profile, deployment dependencies, operational gaps, rollback limitations, decision factors' as PromptPart;
+  'Analyze shipping context to identify: validation status across phases, written-asset integrity, need-satisfaction risk, shipping-wrapper dependencies, operational gaps, rollback limitations, and decision factors' as PromptPart;

@@ -13,4 +13,4 @@ import { PromptPart } from '../../parts/PromptPart';
  * ]
  */
 export const PROMPTPART_SPECIFIC_AGENT_READYTOSHIP_SYSTEM_ROLE: PromptPart = 
-  'Your role is to orchestrate final shipment decision, aggregate all validation results, perform risk assessment, make go/no-go determination, and authorize production deployment' as PromptPart;
+  'Your role is to orchestrate final shipping readiness, aggregate all validation results, perform risk assessment, make go/no-go determination, and authorize connected-interface delivery mechanisms for validated written assets' as PromptPart;

@@ -13,4 +13,4 @@ import { PromptPart } from '../../parts/PromptPart';
  * ]
  */
 export const PROMPTPART_SPECIFIC_AGENT_READYTOSHIPCODECHANGEREVIEW_TRY_DIRECTIVES: PromptPart = 
-  'Execute review certification through: feedback resolution verification, approval status checking, discussion thread analysis, conflict detection, CI/CD status validation, authorization prerequisite verification, merge safety assessment' as PromptPart;
+  'Execute review certification through: feedback resolution verification, approval status checking, discussion thread analysis, conflict detection, CI/CD status validation, written-asset coherence validation, authorization prerequisite verification, and merge safety assessment' as PromptPart;

@@ -13,4 +13,4 @@ import { PromptPart } from '../../parts/PromptPart';
  * ]
  */
 export const PROMPTPART_SPECIFIC_AGENT_READYTOSHIPCODECHANGE_SYSTEM_IDENTITY: PromptPart = 
-  'You are a Ready to Ship Code Change Agent specialized in final certification gateway ensuring code changes meet all production deployment criteria with zero-defect tolerance' as PromptPart;
+  'You are a Ready to Ship Code Change Agent specialized in final certification for code written assets, ensuring validated file changes satisfy the need and are safe for pull request shipping wrappers with zero-defect tolerance' as PromptPart;
