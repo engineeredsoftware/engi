@@ -7,6 +7,8 @@ const repoRoot = path.resolve(new URL('..', import.meta.url).pathname, '..');
 
 const DISALLOWED_PROMPT_INTERNAL_IMPORT = /(?:from\s+['"][^'"]*prompts\/src\/|require\(['"][^'"]*prompts\/src\/)/u;
 const DISALLOWED_PROMPT_ROOT_BARREL_IMPORT = /(?:from\s+['"]@bitcode\/prompts['"]|require\(['"]@bitcode\/prompts['"]\))/u;
+const DISALLOWED_MANUAL_PROMPT_ASSIGNMENT_DOC = /execution\.prompt\s*=/u;
+const DISALLOWED_ACTIVE_AGENT_PROMPT_GA1_METADATA = /current_version:\s*"GA1|GA-1|pre.GA1/u;
 const DISALLOWED_SUPPORT_SOURCE_REACH_THROUGH = [
   {
     filePath: 'packages/prompts/src/prompt.ts',
@@ -69,6 +71,29 @@ const REFERENCE_PROMPT_CORRIDORS = [
 const REFERENCE_PROMPT_CONFIG_FILES = [
   'packages/chatgptapp/tsconfig.test.json',
   'packages/chatgptapp/jest.config.cjs',
+];
+const ACTIVE_AGENT_PROMPT_HIERARCHY_DOCS = [
+  'packages/agent-generics/README.md',
+  'packages/agent-generics/TLDR.md',
+  'packages/agent-generics/src/agents/factories.ts',
+  'packages/agent-generics/src/execution/AgentExecution.ts',
+  'packages/execution-generics/src/store/registry.ts',
+  'packages/execution-generics/src/executors/resilient_executor.ts',
+  'packages/pipelines-generics/src/gate-system/types.ts',
+  'packages/conversations-generics/src/agent/ConversationAgent.ts',
+];
+const ACTIVE_AGENT_PROMPT_DOC_COMMENT_FILES = [
+  'packages/agent-generics/src/prompts/AgentPrompt.ts',
+  'packages/agent-generics/src/prompts/AgentPrompt.d.ts',
+  'packages/agent-generics/src/prompts/AgentStepPrompt.ts',
+  'packages/agent-generics/src/prompts/AgentStepPrompt.d.ts',
+  'packages/agent-generics/src/prompts/AgentGenerationSubStepPrompt.ts',
+  'packages/agent-generics/src/prompts/FailsafeMetaSubStepPrompt.ts',
+  'packages/agent-generics/src/prompts/ToolExecutionPrompt.ts',
+  'packages/conversations-generics/src/agent/ConversationAgent.ts',
+  'packages/conversations-generics/src/agent/ConversationAgent.d.ts',
+  'packages/conversations-generics/src/prompts/ConversationSystemPrompt.ts',
+  'packages/conversations-generics/src/prompts/ConversationSystemPrompt.d.ts',
 ];
 const ACTIVE_PROMPT_PRIMITIVE_CARRIERS = [
   'packages/execution-generics/src/prompts/ExecutionPrompt.ts',
@@ -282,6 +307,46 @@ test('V26 active prompt primitive carriers prefer narrow public prompt subpaths'
     [],
     `Active prompt primitive carriers must use narrow public prompt subpaths instead of the root @bitcode/prompts barrel: ${violations.join(', ')}`
   );
+});
+
+test('V26 active agent prompt hierarchy docs align with factory-owned Registry-backed composition', () => {
+  const manualAssignmentViolations = ACTIVE_AGENT_PROMPT_HIERARCHY_DOCS.filter((filePath) =>
+    DISALLOWED_MANUAL_PROMPT_ASSIGNMENT_DOC.test(readFileSync(path.join(repoRoot, filePath), 'utf8'))
+  );
+
+  assert.deepEqual(
+    manualAssignmentViolations,
+    [],
+    `Active agent prompt hierarchy docs and comments must not teach manual execution.prompt assignment: ${manualAssignmentViolations.join(', ')}`
+  );
+
+  const ga1MetadataViolations = [
+    ...ACTIVE_AGENT_PROMPT_HIERARCHY_DOCS,
+    ...ACTIVE_AGENT_PROMPT_DOC_COMMENT_FILES,
+  ].filter((filePath) =>
+    DISALLOWED_ACTIVE_AGENT_PROMPT_GA1_METADATA.test(readFileSync(path.join(repoRoot, filePath), 'utf8'))
+  );
+
+  assert.deepEqual(
+    ga1MetadataViolations,
+    [],
+    `Active agent prompt hierarchy docs and doc-comments must use Bitcode V26 prompt-registry language, not GA1 lineage: ${ga1MetadataViolations.join(', ')}`
+  );
+
+  const agentPromptSource = readFileSync(path.join(repoRoot, 'packages/agent-generics/src/prompts/AgentPrompt.ts'), 'utf8');
+  const agentFactorySource = readFileSync(path.join(repoRoot, 'packages/agent-generics/src/agents/factories.ts'), 'utf8');
+  const agentReadmeSource = readFileSync(path.join(repoRoot, 'packages/agent-generics/README.md'), 'utf8');
+  const agentTldrSource = readFileSync(path.join(repoRoot, 'packages/agent-generics/TLDR.md'), 'utf8');
+
+  assert.match(agentPromptSource, /Bitcode Registry-backed prompt hierarchy/u);
+  assert.match(agentPromptSource, /BITCODE_V26_AGENT_PROMPT_REGISTRY\.1/u);
+  assert.match(agentFactorySource, /BitcodePTRRFactoryConfig/u);
+  assert.match(agentFactorySource, /assertBitcodePTRRPromptCarrier/u);
+  assert.match(agentFactorySource, /requires a Bitcode Registry-backed prompt carrier/u);
+  assert.match(agentFactorySource, /missing \$\{missingStepPrompts\.join\(', '\)\} step Prompt registries/u);
+  assert.match(agentReadmeSource, /Read the prompt registry that the factory attached/u);
+  assert.match(agentReadmeSource, /Keep prompts factory-owned/u);
+  assert.match(agentTldrSource, /Prompts are attached by the factory/u);
 });
 
 test('V26 source-bearing admitted deliverable and prompt-primitive support carriers prefer narrow public prompt subpaths', () => {

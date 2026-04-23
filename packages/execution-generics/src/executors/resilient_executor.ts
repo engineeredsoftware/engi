@@ -2,7 +2,7 @@
  * Resilient Executor
  *
  * Production-grade executor with automatic retry, exponential backoff,
- * circuit breaker pattern, and comprehensive error recovery for GA-1.
+ * circuit breaker pattern, and comprehensive error recovery for Bitcode V26 execution.
  *
  * @doc-code
  * type: executor

@@ -1,8 +1,8 @@
 {
   "reportId": "v26-prompt-space-completeness-proof",
   "version": "V26",
-  "proofSourceCommit": "2331e75587e3183555f4ebd363c717bf0380feee",
-  "generatedAt": "2026-04-23T13:02:55-03:00",
+  "proofSourceCommit": "7aa2c63cf105490ce6e638fcfd9ba7ff5eb3fa75",
+  "generatedAt": "2026-04-23T13:14:02-03:00",
   "generatorId": "bitcode.proven-generator.v1",
   "worktreeState": "dirty-preview",
   "passed": false,
@@ -46,13 +46,16 @@
       "checkId": "active-agent-execution-prompt-carriers",
       "label": "Active agent, execution, pipeline, and conversation prompt carriers stay explicit",
       "passed": true,
-      "detail": "7 required files present",
+      "detail": "10 required files present",
       "requiredFiles": [
         "packages/execution-generics/src/prompts/ExecutionPrompt.ts",
         "packages/pipelines-generics/src/prompts/PipelinePrompt.ts",
         "packages/agent-generics/src/prompts/AgentPrompt.ts",
         "packages/agent-generics/src/prompts/AgentStepPrompt.ts",
         "packages/agent-generics/src/execution/prompt-overlays.ts",
+        "packages/agent-generics/README.md",
+        "packages/agent-generics/TLDR.md",
+        "packages/eslint-plugin-bitcode/src/requirePromptHierarchy.ts",
         "packages/conversations-generics/src/prompts/ConversationSystemPrompt.ts",
         "packages/conversations-generics/src/agent/ConversationAgent.ts"
       ],
@@ -147,7 +150,7 @@
       "checkId": "prompt-proof-and-specification-witnesses",
       "label": "Prompt-space specification, inference records, generated proof, and tests are bound together",
       "passed": true,
-      "detail": "8 required files present",
+      "detail": "12 required files present",
       "requiredFiles": [
         "protocol-demonstration/V26_PROMPT_SURFACES.md",
         "protocol-demonstration/V26_INFERENCE_SYSTEMS.md",
@@ -156,7 +159,11 @@
         "protocol-demonstration/test/v26-prompt-system-boundary.test.js",
         "protocol-demonstration/test/v26-prompt-surface-map.test.js",
         "protocol-demonstration/test/v26-prompt-runtime-loadability.test.js",
-        "protocol-demonstration/test/v26-inference-implementation-records.test.js"
+        "protocol-demonstration/test/v26-inference-implementation-records.test.js",
+        "packages/eslint-plugin-bitcode/src/requirePromptHierarchy.ts",
+        "packages/eslint-plugin-bitcode/docs/require-prompt-hierarchy.md",
+        "packages/eslint-plugin-bitcode/__tests__/requirePromptHierarchy.test.ts",
+        "packages/agent-generics/src/__tests__/factory-agent-ptrr-prompt-hierarchy.test.ts"
       ],
       "missingFiles": [],
       "promptSpaceRole": "proof-and-specification",

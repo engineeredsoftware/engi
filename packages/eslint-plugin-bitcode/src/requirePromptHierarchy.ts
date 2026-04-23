@@ -4,18 +4,27 @@ import { TSESTree as T, ESLintUtils } from '@typescript-eslint/utils';
  * -------------------------------------------------------------------------------------------------
  * require-prompt-hierarchy
  * -------------------------------------------------------------------------------------------------
- * Enforces GA-1 prompt wiring for agents:
- * - factoryAgentWithPTRR configs must include `prompt` and `stepPrompts` (plan/try/refine/retry)
+ * Enforces Bitcode Registry-backed prompt hierarchy for agents:
+ * - factoryAgentWithPTRR configs must include an AgentPrompt registry carrier
+ * - step prompt registries must cover plan/try/refine/retry so generic and specific PromptParts
+ *   compose into every agent phase
  * - Forbid manual assignment to `execution.prompt = ...`
  */
+
+const REQUIRED_STEP_PROMPTS = ['plan', 'try', 'refine', 'retry'] as const;
 
 export const requirePromptHierarchy = ESLintUtils.RuleCreator.withoutDocs({
   meta: {
     type: 'problem',
     messages: {
-      missingPrompt: 'factoryAgentWithPTRR config must include `prompt: AgentPrompt`.',
-      missingStepPrompts: 'factoryAgentWithPTRR config must include `stepPrompts` with plan/try/refine/retry.',
-      manualExecutionPrompt: 'Do not assign to execution.prompt directly; pass prompts via factoryAgentWithPTRR.',
+      missingPrompt:
+        'factoryAgentWithPTRR Bitcode prompt composition must include `prompt: AgentPrompt` or `prompts.system` as the Registry-backed prompt carrier.',
+      missingStepPrompts:
+        'factoryAgentWithPTRR Bitcode prompt composition must include `stepPrompts` or `prompts` with plan/try/refine/retry Prompt registries.',
+      missingStepPrompt:
+        'factoryAgentWithPTRR Bitcode prompt composition is missing `{{step}}` step Prompt registry.',
+      manualExecutionPrompt:
+        'Do not assign to execution.prompt directly; pass Registry-backed prompts through factoryAgentWithPTRR.',
     },
     schema: [],
   },
@@ -44,37 +53,36 @@ export const requirePromptHierarchy = ESLintUtils.RuleCreator.withoutDocs({
 
         let hasPrompt = false;
         let hasStepPrompts = false;
-        let hasPlan = false;
-        let hasTry = false;
-        let hasRefine = false;
-        let hasRetry = false;
+        const configuredStepPrompts = new Set<string>();
+        let stepPromptNode: T.Node | undefined;
+
+        const recordStepPrompt = (name: string) => {
+          if (REQUIRED_STEP_PROMPTS.includes(name as (typeof REQUIRED_STEP_PROMPTS)[number])) {
+            configuredStepPrompts.add(name);
+          }
+        };
 
         for (const prop of arg.properties) {
           if (prop.type !== 'Property' || prop.key.type !== 'Identifier') continue;
           const key = prop.key.name;
           if (key === 'prompt') hasPrompt = true;
           if (key === 'prompts' && prop.value.type === 'ObjectExpression') {
+            stepPromptNode = prop.value;
             for (const lp of prop.value.properties) {
               if (lp.type !== 'Property' || lp.key.type !== 'Identifier') continue;
               const lk = lp.key.name;
               if (lk === 'system') hasPrompt = true;
-              if (lk === 'plan') hasPlan = true;
-              if (lk === 'try') hasTry = true;
-              if (lk === 'refine') hasRefine = true;
-              if (lk === 'retry') hasRetry = true;
+              recordStepPrompt(lk);
             }
             hasStepPrompts = true;
           }
           if (key === 'stepPrompts') {
             hasStepPrompts = true;
+            stepPromptNode = prop.value;
             if (prop.value.type === 'ObjectExpression') {
               for (const sp of prop.value.properties) {
                 if (sp.type !== 'Property' || sp.key.type !== 'Identifier') continue;
-                const sk = sp.key.name;
-                if (sk === 'plan') hasPlan = true;
-                if (sk === 'try') hasTry = true;
-                if (sk === 'refine') hasRefine = true;
-                if (sk === 'retry') hasRetry = true;
+                recordStepPrompt(sp.key.name);
               }
             }
           }
@@ -85,6 +93,16 @@ export const requirePromptHierarchy = ESLintUtils.RuleCreator.withoutDocs({
         }
         if (!hasStepPrompts) {
           ctx.report({ node: arg, messageId: 'missingStepPrompts' });
+        } else {
+          for (const step of REQUIRED_STEP_PROMPTS) {
+            if (!configuredStepPrompts.has(step)) {
+              ctx.report({
+                node: stepPromptNode ?? arg,
+                messageId: 'missingStepPrompt',
+                data: { step },
+              });
+            }
+          }
         }
       },
     };

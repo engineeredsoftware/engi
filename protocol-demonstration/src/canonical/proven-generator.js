@@ -1183,7 +1183,15 @@ function buildV26PromptSystemTotalityProof({
         'packages/execution-generics/package.json',
         'packages/execution-generics/README.md',
         'packages/execution-generics/src/prompts/ExecutionPrompt.ts',
+        'packages/execution-generics/src/store/registry.ts',
+        'packages/execution-generics/src/executors/resilient_executor.ts',
+        'packages/agent-generics/README.md',
+        'packages/agent-generics/TLDR.md',
         'packages/agent-generics/src/prompts/AgentPrompt.ts',
+        'packages/agent-generics/src/prompts/AgentStepPrompt.ts',
+        'packages/agent-generics/src/prompts/AgentGenerationSubStepPrompt.ts',
+        'packages/agent-generics/src/prompts/FailsafeMetaSubStepPrompt.ts',
+        'packages/agent-generics/src/prompts/ToolExecutionPrompt.ts',
         'packages/agent-generics/src/execution/AgentExecution.ts',
         'packages/agent-generics/src/execution/index.ts',
         'packages/agent-generics/src/agents/factories.ts',
@@ -1207,6 +1215,7 @@ function buildV26PromptSystemTotalityProof({
         'packages/pipelines-generics/src/pipeline-factory.ts',
         'packages/pipelines-generics/src/gate-system/meta-phase-orchestrator.ts',
         'packages/pipelines-generics/src/gate-system/types.ts',
+        'packages/pipelines-generics/TLDR.md',
         'packages/pipelines-generics/src/executors/wait-for-instruction.ts',
         'packages/pipelines-generics/src/streaming/pipeline-stream-integration.ts',
         'packages/conversations-generics/package.json',
@@ -1450,6 +1459,9 @@ const V26_PROMPT_SPACE_WITNESS_SETS = [
       'packages/agent-generics/src/prompts/AgentPrompt.ts',
       'packages/agent-generics/src/prompts/AgentStepPrompt.ts',
       'packages/agent-generics/src/execution/prompt-overlays.ts',
+      'packages/agent-generics/README.md',
+      'packages/agent-generics/TLDR.md',
+      'packages/eslint-plugin-bitcode/src/requirePromptHierarchy.ts',
       'packages/conversations-generics/src/prompts/ConversationSystemPrompt.ts',
       'packages/conversations-generics/src/agent/ConversationAgent.ts'
     ]
@@ -1538,7 +1550,11 @@ const V26_PROMPT_SPACE_WITNESS_SETS = [
       'protocol-demonstration/test/v26-prompt-system-boundary.test.js',
       'protocol-demonstration/test/v26-prompt-surface-map.test.js',
       'protocol-demonstration/test/v26-prompt-runtime-loadability.test.js',
-      'protocol-demonstration/test/v26-inference-implementation-records.test.js'
+      'protocol-demonstration/test/v26-inference-implementation-records.test.js',
+      'packages/eslint-plugin-bitcode/src/requirePromptHierarchy.ts',
+      'packages/eslint-plugin-bitcode/docs/require-prompt-hierarchy.md',
+      'packages/eslint-plugin-bitcode/__tests__/requirePromptHierarchy.test.ts',
+      'packages/agent-generics/src/__tests__/factory-agent-ptrr-prompt-hierarchy.test.ts'
     ]
   }
 ];

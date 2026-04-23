@@ -13,31 +13,32 @@ import { Executor } from '@bitcode/execution-generics';
 import { Execution } from '@bitcode/execution-generics/Execution';
 import { Agent, AgentStep } from '../types';
 import { z } from 'zod';
-/**
- * Create an Agent - Builds an executor that sequences PTRR steps
- */
-export declare function factoryAgent<TInput = any, TOutput = any>(config: {
-    name: string;
-    description?: string;
-    steps: AgentStep<any, any>[];
-}): Agent<TInput, TOutput>;
-/**
- * Create Agent with PTRR Steps - Creates a complete agent implementation
- *
- * This factory creates an Agent that implements the full PTRR pattern.
- * Agents are executors that sequence PTRR steps with 7 substeps.
- */
-export declare function factoryAgentWithPTRR<TInput, TOutput>(config: {
+export type BitcodePTRRStepName = 'plan' | 'try' | 'refine' | 'retry';
+export type BitcodePTRRPromptValue = any;
+export type BitcodePTRRStepPromptCarrier = BitcodePTRRPromptValue | (() => BitcodePTRRPromptValue);
+export type BitcodePTRRStepPromptRegistry = {
+    plan: BitcodePTRRStepPromptCarrier;
+    try: BitcodePTRRStepPromptCarrier;
+    refine: BitcodePTRRStepPromptCarrier;
+    retry: BitcodePTRRStepPromptCarrier;
+};
+type BitcodePTRRPrimaryPromptCarrier = {
+    prompt: BitcodePTRRPromptValue;
+    stepPrompts: BitcodePTRRStepPromptRegistry;
+    prompts?: never;
+};
+type BitcodePTRRCompactPromptCarrier = {
+    prompt?: never;
+    stepPrompts?: never;
+    prompts: BitcodePTRRStepPromptRegistry & {
+        system: BitcodePTRRPromptValue;
+    };
+};
+export type BitcodePTRRPromptCarrier = BitcodePTRRPrimaryPromptCarrier | BitcodePTRRCompactPromptCarrier;
+export type BitcodePTRRFactoryConfig<TOutput> = BitcodePTRRPromptCarrier & {
     name: string;
     description?: string;
     outputSchema: z.ZodType<TOutput>;
-    prompt?: any;
-    stepPrompts?: {
-        plan?: () => any;
-        try?: () => any;
-        refine?: () => any;
-        retry?: () => any;
-    };
     tools?: any[];
     requiredTools?: string[];
     enforceLLM?: boolean;
@@ -55,7 +56,22 @@ export declare function factoryAgentWithPTRR<TInput, TOutput>(config: {
         maxAttempts?: number;
         backoff?: number;
     };
+};
+/**
+ * Create an Agent - Builds an executor that sequences PTRR steps
+ */
+export declare function factoryAgent<TInput = any, TOutput = any>(config: {
+    name: string;
+    description?: string;
+    steps: AgentStep<any, any>[];
 }): Agent<TInput, TOutput>;
+/**
+ * Create Agent with PTRR Steps - Creates a complete agent implementation
+ *
+ * This factory creates an Agent that implements the full PTRR pattern.
+ * Agents are executors that sequence PTRR steps with 7 substeps.
+ */
+export declare function factoryAgentWithPTRR<TInput, TOutput>(config: BitcodePTRRFactoryConfig<TOutput>): Agent<TInput, TOutput>;
 /**
  * Create Agent with Single Step - Creates a minimal agent implementation
  *
@@ -84,12 +100,8 @@ export declare function factoryAgentWithPTRRGenerations<TInput, TOutput>(config:
     name: string;
     description?: string;
     outputSchema: z.ZodType<TOutput>;
-    generationPrompts?: {
-        plan?: () => any;
-        try?: () => any;
-        refine?: () => any;
-        retry?: () => any;
-    };
+    prompt: BitcodePTRRPromptValue;
+    generationPrompts: BitcodePTRRStepPromptRegistry;
     tools?: any[];
     requiredTools?: string[];
     enforceLLM?: boolean;
@@ -108,6 +120,7 @@ export declare function factoryAgentWithPTRRGenerations<TInput, TOutput>(config:
         backoff?: number;
     };
 }): Agent<TInput, TOutput>;
+export {};
 /**
  * factoryQuickAgent - Preferred minimal agent for simple, single-step behaviors.
  *

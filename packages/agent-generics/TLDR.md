@@ -113,6 +113,9 @@ const stepPrompts = {
   retry: new AgentStepPrompt({ purpose: 'Complete processing' as PromptPart })
 };
 
+// PTRR factories require the agent Prompt registry and every step Prompt
+// registry; missing prompt carriers fail before execution starts.
+
 // 3. Create with factories - NO manual implementation
 export const myAgent = factoryAgent({
   name: 'my-agent',
@@ -123,8 +126,7 @@ export const myAgent = factoryAgent({
     })
   ],
   selectVariation: async (input, execution) => {
-    // Set prompts and tools in execution
-    execution.prompt = agentPrompt;
+    // Prompts are attached by the factory; register only runtime tool availability.
     execution.tools.register('tool1', tool1);
     return 'comprehensive';
   }

@@ -110,7 +110,7 @@ export function extractMessageReferences(
   _message: ConversationMessage,
   attachments: MessageAttachment[] = []
 ): { hasReferences: boolean } {
-  // In GA-1, references live in message_attachments; message rows do not carry FK refs
+  // Bitcode V26 stores references in message_attachments; message rows do not carry FK refs.
   return { hasReferences: attachments.length > 0 };
 }
 

@@ -106,11 +106,11 @@ export const GATE_TRANSITIONS: GateTransition[] = [
   }
 ];
 
-// Legacy alias - DELETE after migration
+// Compatibility alias retained while callers migrate to GATE_TRANSITIONS.
 export const META_PHASE_USER_GATES = GATE_TRANSITIONS;
 
 /**
- * Automated transitions are disabled for GA-1; transitions are gate/guide user actions.
+ * Automated transitions are disabled for Bitcode V26; transitions are gate/guide user actions.
  */
 export interface MetaPhaseTransition {
   from: MetaPhase;

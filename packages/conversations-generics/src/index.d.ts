@@ -1,10 +1,10 @@
 /**
  * @bitcode/conversations-generics - Conversation domain types and utilities
  *
- * This package provides type definitions that exactly match the GA-1 database schema
+ * This package provides Bitcode V26 Terminal conversation type definitions
  * for conversations, messages, and attachments. No database access here - that's in ORM.
  *
- * GA-1 version: 1.0.0
+ * Bitcode V26 version: 1.0.0
  * Pattern: domain-types
  * Philosophy: "Types as single source of truth"
  */

@@ -8,7 +8,7 @@
  * @doc-comment-developing-promptdevelopment
  * domain: agent
  * intent: "Provide tool execution instruction"
- * current_version: "GA1.50.0"
+ * current_version: "BITCODE_V26_TOOL_EXECUTION_PROMPT_REGISTRY.1"
  */
 
 import { Prompt } from '@bitcode/prompts/prompt';

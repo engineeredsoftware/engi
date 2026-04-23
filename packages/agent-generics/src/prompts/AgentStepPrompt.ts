@@ -2,12 +2,12 @@
  * Agent Step Prompt - Minimal prompt for step-level context
  * 
  * AgentStepPrompt adds step-specific context (Plan/Try/Refine/Retry)
- * to the agent-level prompt. Still minimal - only the purpose of the step.
+ * to the Registry-backed agent-level prompt. Still minimal: only the purpose of the step.
  * 
  * @doc-comment-developing-promptdevelopment
  * domain: agent
  * intent: "Provide step-specific purpose that applies to all substeps"
- * current_version: "GA1.50.0"
+ * current_version: "BITCODE_V26_AGENT_STEP_PROMPT_REGISTRY.1"
  */
 
 import { Prompt } from '@bitcode/prompts/prompt';

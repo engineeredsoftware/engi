@@ -195,6 +195,9 @@ const stepPrompts = {
   retry: new AgentStepPrompt({ purpose: 'Complete processing' as PromptPart })
 };
 
+// PTRR agent factories fail closed unless the agent Prompt registry and all
+// plan/try/refine/retry step Prompt registries are supplied together.
+
 // Tools declared separately
 const agentTools = [tool1, tool2];
 
@@ -210,8 +213,8 @@ export const myAgent = factoryAgent({
     factoryVariationWithSingleStep({
       name: 'quick',
       execute: async (input, execution) => {
-        // Set prompts in execution
-        execution.prompt = agentPrompt;
+        // Read the prompt registry that the factory attached to this execution.
+        const promptText = execution.prompt.format();
         // Register tools in execution
         execution.tools.register('tool1', tool1);
         // Simple logic
@@ -220,8 +223,7 @@ export const myAgent = factoryAgent({
     })
   ],
   selectVariation: async (input, execution) => {
-    // Set prompts and tools in execution
-    execution.prompt = agentPrompt;
+    // Keep prompts factory-owned; register only runtime tool availability here.
     agentTools.forEach(tool => 
       execution.tools.register(tool.name, tool)
     );

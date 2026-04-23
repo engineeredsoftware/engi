@@ -20,6 +20,118 @@ import { Agent, AgentStep, AgentVariationStep } from '../types';
 import { factoryPlanStep, factoryTryStep, factoryRefineStep, factoryRetryStep } from '../steps/factories';
 import { z } from 'zod';
 
+export type BitcodePTRRStepName = 'plan' | 'try' | 'refine' | 'retry';
+export type BitcodePTRRPromptValue = any;
+export type BitcodePTRRStepPromptCarrier = BitcodePTRRPromptValue | (() => BitcodePTRRPromptValue);
+export type BitcodePTRRStepPromptRegistry = {
+  plan: BitcodePTRRStepPromptCarrier;
+  try: BitcodePTRRStepPromptCarrier;
+  refine: BitcodePTRRStepPromptCarrier;
+  retry: BitcodePTRRStepPromptCarrier;
+};
+
+type BitcodePTRRPrimaryPromptCarrier = {
+  prompt: BitcodePTRRPromptValue;
+  stepPrompts: BitcodePTRRStepPromptRegistry;
+  prompts?: never;
+};
+
+type BitcodePTRRCompactPromptCarrier = {
+  prompt?: never;
+  stepPrompts?: never;
+  prompts: BitcodePTRRStepPromptRegistry & {
+    system: BitcodePTRRPromptValue;
+  };
+};
+
+export type BitcodePTRRPromptCarrier =
+  | BitcodePTRRPrimaryPromptCarrier
+  | BitcodePTRRCompactPromptCarrier;
+
+export type BitcodePTRRFactoryConfig<TOutput> = BitcodePTRRPromptCarrier & {
+  name: string;
+  description?: string;
+  outputSchema: z.ZodType<TOutput>;
+  tools?: any[];
+  requiredTools?: string[];
+  enforceLLM?: boolean;
+  plan?: {
+    chunkThreshold?: number;
+  };
+  try?: {
+    chunkThreshold?: number;
+    enableParallelChunks?: boolean;
+  };
+  refine?: {
+    maxAttempts?: number;
+  };
+  retry?: {
+    maxAttempts?: number;
+    backoff?: number;
+  };
+};
+
+const BITCODE_PTRR_STEP_NAMES: BitcodePTRRStepName[] = ['plan', 'try', 'refine', 'retry'];
+
+function isObjectRecord(value: unknown): value is Record<string, unknown> {
+  return value !== null && typeof value === 'object';
+}
+
+function assertBitcodePTRRPromptCarrier(config: BitcodePTRRFactoryConfig<any>): BitcodePTRRStepPromptRegistry {
+  const configRecord = config as any;
+  const hasPrimaryPrompt = configRecord.prompt !== undefined && configRecord.prompt !== null;
+  const hasPrimaryStepPrompts = isObjectRecord(configRecord.stepPrompts);
+  const hasCompactPromptCarrier =
+    isObjectRecord(configRecord.prompts)
+    && configRecord.prompts.system !== undefined
+    && configRecord.prompts.system !== null;
+
+  if (hasPrimaryStepPrompts && isObjectRecord(configRecord.prompts)) {
+    throw new Error(
+      'factoryAgentWithPTRR accepts one Bitcode prompt carrier: use `prompt` + `stepPrompts`, or compact `prompts.system` + plan/try/refine/retry.'
+    );
+  }
+
+  if (!(hasPrimaryPrompt && hasPrimaryStepPrompts) && !hasCompactPromptCarrier) {
+    throw new Error(
+      'factoryAgentWithPTRR requires a Bitcode Registry-backed prompt carrier: provide `prompt` + complete `stepPrompts`, or compact `prompts.system` + plan/try/refine/retry.'
+    );
+  }
+
+  const stepPrompts = (hasCompactPromptCarrier ? configRecord.prompts : configRecord.stepPrompts) as Record<string, unknown>;
+  const missingStepPrompts = BITCODE_PTRR_STEP_NAMES.filter((stepName) =>
+    stepPrompts[stepName] === undefined || stepPrompts[stepName] === null
+  );
+
+  if (missingStepPrompts.length > 0) {
+    throw new Error(
+      `factoryAgentWithPTRR Bitcode prompt carrier is missing ${missingStepPrompts.join(', ')} step Prompt registries.`
+    );
+  }
+
+  return stepPrompts as BitcodePTRRStepPromptRegistry;
+}
+
+function resolveBitcodePTRRStepPrompt(
+  stepName: BitcodePTRRStepName,
+  stepPrompt: BitcodePTRRStepPromptCarrier
+): BitcodePTRRPromptValue {
+  const resolvedPrompt = typeof stepPrompt === 'function' ? stepPrompt() : stepPrompt;
+
+  if (resolvedPrompt === undefined || resolvedPrompt === null) {
+    throw new Error(
+      `factoryAgentWithPTRR ${stepName} step Prompt registry resolved to an empty value.`
+    );
+  }
+
+  return resolvedPrompt;
+}
+
+function resolveBitcodePTRRAgentPrompt(config: BitcodePTRRFactoryConfig<any>): BitcodePTRRPromptValue {
+  const configRecord = config as any;
+  return configRecord.prompt ?? configRecord.prompts.system;
+}
+
 // ==================== AGENT FACTORY ====================
 
 /**
@@ -78,37 +190,17 @@ export function factoryAgent<TInput = any, TOutput = any>(config: {
  * This factory creates an Agent that implements the full PTRR pattern.
  * Agents are executors that sequence PTRR steps with 7 substeps.
  */
-export function factoryAgentWithPTRR<TInput, TOutput>(config: {
-  name: string;
-  description?: string;
-  outputSchema: z.ZodType<TOutput>;
-  prompt?: any; // Agent system prompt (AgentPrompt)
-  stepPrompts?: { // Step-specific prompts
-    plan?: () => any;
-    try?: () => any;
-    refine?: () => any;
-    retry?: () => any;
+export function factoryAgentWithPTRR<TInput, TOutput>(
+  config: BitcodePTRRFactoryConfig<TOutput>
+): Agent<TInput, TOutput> {
+  const stepPromptRegistry = assertBitcodePTRRPromptCarrier(config);
+  const agentPrompt = resolveBitcodePTRRAgentPrompt(config);
+  const stepPrompts = {
+    plan: resolveBitcodePTRRStepPrompt('plan', stepPromptRegistry.plan),
+    try: resolveBitcodePTRRStepPrompt('try', stepPromptRegistry.try),
+    refine: resolveBitcodePTRRStepPrompt('refine', stepPromptRegistry.refine),
+    retry: resolveBitcodePTRRStepPrompt('retry', stepPromptRegistry.retry)
   };
-  tools?: any[]; // Available tools
-  // Optional: Sanity checks for registries
-  requiredTools?: string[];
-  enforceLLM?: boolean; // default true: warn if default LLM missing
-  plan?: {
-    chunkThreshold?: number;
-  };
-  try?: {
-    chunkThreshold?: number;
-    enableParallelChunks?: boolean;
-  };
-  refine?: {
-    maxAttempts?: number;
-  };
-  retry?: {
-    maxAttempts?: number;
-    backoff?: number;
-  };
-}): Agent<TInput, TOutput> {
-  const stepPrompts = (config.stepPrompts || (config as any).prompts) || {};
   // Debug pattern (env-gated): prefer skip semantics via ONLY_* filters
   const stopAfterPlan = String(process?.env?.BITCODE_DEBUG_STOP_AFTER_PLAN || '0') === '1';
   const onlyStepEnv = String(process?.env?.BITCODE_DEBUG_ONLY_STEP || '').toLowerCase();
@@ -116,20 +208,20 @@ export function factoryAgentWithPTRR<TInput, TOutput>(config: {
   const steps: AgentStep<any, any>[] = [
     // Plan step - failsafe understanding
     factoryPlanStep(config.outputSchema, {
-      prompt: typeof stepPrompts.plan === 'function' ? stepPrompts.plan() : stepPrompts.plan,
+      prompt: stepPrompts.plan,
       tools: config.tools,
       chunkThreshold: config.plan?.chunkThreshold
     }),
     // Try step - initial generation attempt
     factoryTryStep(config.outputSchema, {
       ...config.try,
-      prompt: typeof stepPrompts.try === 'function' ? stepPrompts.try() : stepPrompts.try,
+      prompt: stepPrompts.try,
       tools: config.tools
     }),
     
     // Refine step - improve if needed
     factoryRefineStep(config.outputSchema, {
-      prompt: typeof stepPrompts.refine === 'function' ? stepPrompts.refine() : stepPrompts.refine,
+      prompt: stepPrompts.refine,
       tools: config.tools,
       maxAttempts: config.refine?.maxAttempts
     }),
@@ -137,7 +229,7 @@ export function factoryAgentWithPTRR<TInput, TOutput>(config: {
     // Retry step - failsafe completion
     factoryRetryStep(config.outputSchema, {
       ...config.retry,
-      prompt: typeof stepPrompts.retry === 'function' ? stepPrompts.retry() : stepPrompts.retry,
+      prompt: stepPrompts.retry,
       tools: config.tools
     })
   ];
@@ -179,22 +271,9 @@ export function factoryAgentWithPTRR<TInput, TOutput>(config: {
     // Create agent execution
     const agentExec = new AgentExecution(`agent:${config.name}`, execution);
     // Attach agent-level system prompt if provided
-    if ((config as any).prompts?.system && !config.prompt) {
-      // Legacy shape: use prompts.system as agent-level prompt
-      const sys = (config as any).prompts.system;
-      try {
-        const paths = sys.getAllPaths?.() || [];
-        for (const p of paths) {
-          const part = sys.get(p);
-          if (part) agentExec.prompt.setSpecificExecution(`specific_execution:${p}`, part);
-        }
-      } catch {
-        agentExec.prompt.setSpecificExecution('specific_execution:agent:identity', sys);
-      }
-    }
-    if (config.prompt) {
+    if (agentPrompt) {
       // Prefer explicit path mapping for clarity
-      const get = (k: string) => (typeof config.prompt.get === 'function' ? config.prompt.get(k) : undefined);
+      const get = (k: string) => (typeof agentPrompt.get === 'function' ? agentPrompt.get(k) : undefined);
       const namePart = get('agent:name');
       const identityPart = get('agent:identity');
       if (namePart) agentExec.prompt.setSpecificExecution('specific_execution:agent:name', namePart);
@@ -202,10 +281,10 @@ export function factoryAgentWithPTRR<TInput, TOutput>(config: {
 
       // Merge any remaining parts conservatively under specific_execution
       try {
-        const paths = config.prompt.getAllPaths?.() || [];
+        const paths = agentPrompt.getAllPaths?.() || [];
         for (const p of paths) {
           if (p === 'agent:name' || p === 'agent:identity') continue;
-          const part = config.prompt.get(p);
+          const part = agentPrompt.get(p);
           if (part) {
             agentExec.prompt.setSpecificExecution(`specific_execution:${p}`, part);
           }
@@ -213,7 +292,7 @@ export function factoryAgentWithPTRR<TInput, TOutput>(config: {
       } catch {
         // Fallback: set identity if structure unknown
         if (!identityPart) {
-          agentExec.prompt.setSpecificExecution('specific_execution:agent:identity', config.prompt);
+          agentExec.prompt.setSpecificExecution('specific_execution:agent:identity', agentPrompt);
         }
       }
     }
@@ -222,7 +301,7 @@ export function factoryAgentWithPTRR<TInput, TOutput>(config: {
     agentExec.store('agent', 'name', config.name);
     agentExec.store('agent', 'startTime', Date.now());
 
-    // Registry sanity checks (hard enforcement for GA-1)
+    // Registry sanity checks for Bitcode prompt/tool execution boundaries.
     const enforceLLM = config.enforceLLM !== false;
     if (enforceLLM) {
       agentExec.llms.ensureDefaultConfigured({ throw: true });
@@ -362,7 +441,8 @@ export function factoryAgentWithPTRRGenerations<TInput, TOutput>(config: {
   name: string;
   description?: string;
   outputSchema: z.ZodType<TOutput>;
-  generationPrompts?: { plan?: () => any; try?: () => any; refine?: () => any; retry?: () => any };
+  prompt: BitcodePTRRPromptValue;
+  generationPrompts: BitcodePTRRStepPromptRegistry;
   tools?: any[];
   requiredTools?: string[];
   enforceLLM?: boolean;
@@ -376,6 +456,7 @@ export function factoryAgentWithPTRRGenerations<TInput, TOutput>(config: {
     name: config.name,
     description: config.description,
     outputSchema: config.outputSchema,
+    prompt: config.prompt,
     stepPrompts,
     tools: config.tools,
     requiredTools: config.requiredTools,

@@ -9,8 +9,8 @@
  *
  * @doc-comment-developing
  * domain: conversation
- * intent: "Power conversational AI with repository understanding"
- * current_version: "GA1.50.0"
+ * intent: "Power Bitcode Terminal conversations with repository understanding and admitted pipeline triggers"
+ * current_version: "BITCODE_V26_CONVERSATION_AGENT_PROMPT_REGISTRY.1"
  */
 import { AgentPrompt, AgentStepPrompt } from '@bitcode/agent-generics';
 import { z } from 'zod';
@@ -447,12 +447,12 @@ export type ConversationTryOutput = z.infer<typeof ConversationTrySchema>;
 export type ConversationRefineOutput = z.infer<typeof ConversationRefineSchema>;
 export type ConversationResult = z.infer<typeof ConversationRetrySchema>;
 /**
- * Agent-level prompt - MINIMAL
- * Only what applies to EVERY LLM call in this agent
+ * Agent-level prompt registry.
+ * Only what applies to every LLM call in this agent.
  */
 export declare const conversationAgentPrompt: AgentPrompt;
 /**
- * Step-specific prompts
+ * PTRR step Prompt registries.
  */
 export declare const conversationStepPrompts: {
     plan: AgentStepPrompt;

@@ -58,6 +58,14 @@ export {
   factoryAgentWithGenerations,
   factoryAgentWithPTRRGenerations
 } from './agents/factories';
+export type {
+  BitcodePTRRFactoryConfig,
+  BitcodePTRRPromptCarrier,
+  BitcodePTRRPromptValue,
+  BitcodePTRRStepName,
+  BitcodePTRRStepPromptCarrier,
+  BitcodePTRRStepPromptRegistry
+} from './agents/factories';
 
 // ==================== STEP FACTORIES ====================
 

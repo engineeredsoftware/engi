@@ -100,6 +100,8 @@ Prompt-bearing systems must:
 - treat `Prompt` as `RegistryImpl<PromptPart>` and specify the Registry path/key strategy, priority/merge expectation, and inheritance-by-registry behavior for every live/admitted prompt implementation;
 - classify `raw_promptparts/generic` / `PROMPTPART_GENERIC_*` as reusable base PromptPart layers and `raw_promptparts/specific` / `PROMPTPART_SPECIFIC_*` as concrete implementation PromptPart layers;
 - prove that generic base PromptParts and specific implementation PromptParts compose through explicit Registry-backed carriers rather than hidden strings or unspecific filesystem inference;
+- enforce agent prompt hierarchy through verifier code and runtime/type boundaries where available: `factoryAgentWithPTRR` must receive a Registry-backed agent prompt carrier plus complete plan/try/refine/retry step Prompt registries, must fail closed when that carrier is absent or partial, and direct `execution.prompt` mutation remains invalid;
+- keep active documentation and source comments aligned with that verifier by describing factory-owned prompt attachment rather than manual `execution.prompt = ...` assignment;
 - keep raw promptpart TypeScript and runtime JavaScript content equivalent;
 - keep package-local prompt typecheck configs source-backed and no-emit when they verify retained prompt reservoirs without owning emitted artifacts;
 - prefer semantic aliases such as `need`, `writtenAssetType`, `writtenAssets`, `assetPack`, `needSatisfactionCriteria`, and `deliveryMechanism` before legacy compatibility aliases;

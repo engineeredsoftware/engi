@@ -54,7 +54,7 @@ export interface GateTransition {
 export declare const GATE_TRANSITIONS: GateTransition[];
 export declare const META_PHASE_USER_GATES: GateTransition[];
 /**
- * Automated transitions are disabled for GA-1; transitions are gate/guide user actions.
+ * Automated transitions are disabled for Bitcode V26; transitions are gate/guide user actions.
  */
 export interface MetaPhaseTransition {
     from: MetaPhase;

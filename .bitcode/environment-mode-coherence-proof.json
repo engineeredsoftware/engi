@@ -1,8 +1,8 @@
 {
   "reportId": "v26-environment-mode-coherence-proof",
   "version": "V26",
-  "proofSourceCommit": "2331e75587e3183555f4ebd363c717bf0380feee",
-  "generatedAt": "2026-04-23T13:02:55-03:00",
+  "proofSourceCommit": "7aa2c63cf105490ce6e638fcfd9ba7ff5eb3fa75",
+  "generatedAt": "2026-04-23T13:14:02-03:00",
   "generatorId": "bitcode.proven-generator.v1",
   "worktreeState": "dirty-preview",
   "passed": true,

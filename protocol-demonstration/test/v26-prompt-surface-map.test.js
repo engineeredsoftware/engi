@@ -4,6 +4,14 @@ import { readFileSync } from 'node:fs';
 
 const promptSurfaceSource = readFileSync(new URL('../V26_PROMPT_SURFACES.md', import.meta.url), 'utf8');
 const inferenceSystemsSource = readFileSync(new URL('../V26_INFERENCE_SYSTEMS.md', import.meta.url), 'utf8');
+const promptHierarchyRuleSource = readFileSync(
+  new URL('../../packages/eslint-plugin-bitcode/src/requirePromptHierarchy.ts', import.meta.url),
+  'utf8'
+);
+const promptHierarchyRuleDocs = readFileSync(
+  new URL('../../packages/eslint-plugin-bitcode/docs/require-prompt-hierarchy.md', import.meta.url),
+  'utf8'
+);
 const uapiTsconfigSource = readFileSync(new URL('../../uapi/tsconfig.json', import.meta.url), 'utf8');
 const promptSpaceCompletenessProof = JSON.parse(
   readFileSync(new URL('../../.bitcode/prompt-space-completeness-proof.json', import.meta.url), 'utf8')
@@ -19,6 +27,10 @@ test('V26 prompt surface map keeps active, support, and reference corridors expl
   assert.match(promptSurfaceSource, /`_generic_` raw PromptPart nameparts and `PROMPTPART_GENERIC_\*` constants name base reusable PromptPart types/u);
   assert.match(promptSurfaceSource, /`_specific_` raw PromptPart nameparts and `PROMPTPART_SPECIFIC_\*` constants name concrete implementations/u);
   assert.match(promptSurfaceSource, /The naming split is a Bitcode implementation-layer contract/u);
+  assert.match(promptSurfaceSource, /active agent prompt hierarchy examples must teach factory-owned Registry-backed prompt attachment/u);
+  assert.match(promptSurfaceSource, /may not instruct callers to assign `execution\.prompt = \.\.\.` directly/u);
+  assert.match(promptSurfaceSource, /`factoryAgentWithPTRR` must fail closed at the runtime\/type boundary/u);
+  assert.match(promptSurfaceSource, /omits the Registry-backed agent prompt carrier or any of the plan\/try\/refine\/retry step Prompt registries/u);
   assert.match(promptSurfaceSource, /## Active fifth-gate prompt consumers/u);
   assert.match(promptSurfaceSource, /## Support prompt consumers/u);
   assert.match(promptSurfaceSource, /## Reference-only or retained old-world prompt ports/u);
@@ -26,13 +38,19 @@ test('V26 prompt surface map keeps active, support, and reference corridors expl
   assert.match(promptSurfaceSource, /packages\/execution-generics\/src\/prompts\/ExecutionPrompt\.ts/u);
   assert.match(promptSurfaceSource, /@bitcode\/execution-generics\/prompts\/ExecutionPrompt/u);
   assert.match(promptSurfaceSource, /packages\/pipelines-generics\/src\/prompts\/PipelinePrompt\.ts/u);
-  assert.match(promptSurfaceSource, /packages\/agent-generics\/src\/\{prompts\/\*,execution\/prompt-overlays\.ts,substeps\/factories\.ts\}/u);
+  assert.match(promptSurfaceSource, /packages\/agent-generics\/src\/\{prompts\/\*,agents\/factories\.ts,execution\/prompt-overlays\.ts,substeps\/factories\.ts\}/u);
   assert.match(promptSurfaceSource, /packages\/\{agent-generics\/src\/execution\/\{AgentExecution\.ts,Agent\*Registry\.ts\},pipelines-generics\/src\/execution\/\{PipelineExecution\.ts,Pipeline\*Registry\.ts\},conversations-generics\/src\/agent\/ConversationAgent\.ts\}/u);
   assert.match(promptSurfaceSource, /packages\/\{agent-generics\/src\/\{agents\/factories\.ts,diagnostics\/\{trace\.ts,instrumentation\.ts\},execution\/file-diff-integration\.ts,substeps\/factories\.ts,types\.ts\},pipelines-generics\/src\/\{execution\/\{Metrics\.ts,pipeline-types\.ts,resume\.ts,route-pipeline-execution\.ts\},phases\/\{phase-factory\.ts,sdivs-factory\.ts\},pipeline-factory\.ts,gate-system\/\{meta-phase-orchestrator\.ts,types\.ts\},executors\/wait-for-instruction\.ts,streaming\/pipeline-stream-integration\.ts\}\}/u);
   assert.match(promptSurfaceSource, /packages\/conversations-generics\/src\/\{prompts\/ConversationSystemPrompt\.ts,agent\/ConversationAgent\.ts\}/u);
   assert.match(promptSurfaceSource, /uapi\/prompts\/conversations-system-prompt\.ts/u);
   assert.match(promptSurfaceSource, /packages\/\{doc-comment,doc-code\}\/\*/u);
   assert.match(promptSurfaceSource, /packages\/tools-generics\/src\/doc-code-tool\/\*/u);
+  assert.match(promptSurfaceSource, /Prompt hierarchy lint and factory enforcement/u);
+  assert.match(promptSurfaceSource, /packages\/eslint-plugin-bitcode\/src\/requirePromptHierarchy\.ts/u);
+  assert.match(promptSurfaceSource, /packages\/agent-generics\/src\/__tests__\/factory-agent-ptrr-prompt-hierarchy\.test\.ts/u);
+  assert.match(promptSurfaceSource, /complete plan\/try\/refine\/retry step Prompt registries/u);
+  assert.match(promptSurfaceSource, /runtime\/type boundary/u);
+  assert.match(promptSurfaceSource, /forbids manual `execution\.prompt` mutation/u);
   assert.match(promptSurfaceSource, /Prompt repair and migration scripts/u);
   assert.match(promptSurfaceSource, /scripts\/\{fix-remaining-imports,fix-barrel-imports,fix-multiline-imports,fix-corrupted-imports\}\.sh/u);
   assert.match(promptSurfaceSource, /public `@bitcode\/prompts` and `raw_promptparts` boundaries/u);
@@ -113,7 +131,26 @@ test('V26 inference systems spec binds prompts, tools, agents, and executions to
   assert.match(inferenceSystemsSource, /treat `Prompt` as `RegistryImpl<PromptPart>`/u);
   assert.match(inferenceSystemsSource, /classify `raw_promptparts\/generic` \/ `PROMPTPART_GENERIC_\*` as reusable base PromptPart layers/u);
   assert.match(inferenceSystemsSource, /`raw_promptparts\/specific` \/ `PROMPTPART_SPECIFIC_\*` as concrete implementation PromptPart layers/u);
+  assert.match(inferenceSystemsSource, /enforce agent prompt hierarchy through verifier code and runtime\/type boundaries where available/u);
+  assert.match(inferenceSystemsSource, /complete plan\/try\/refine\/retry step Prompt registries/u);
+  assert.match(inferenceSystemsSource, /must fail closed when that carrier is absent or partial/u);
+  assert.match(inferenceSystemsSource, /keep active documentation and source comments aligned with that verifier/u);
+  assert.match(inferenceSystemsSource, /manual `execution\.prompt = \.\.\.` assignment/u);
   assert.match(inferenceSystemsSource, /Prompt-type Registry carrier, generic base PromptParts, and specific implementation PromptParts are explicitly mapped/u);
+});
+
+test('V26 prompt hierarchy lint rule enforces Bitcode Registry-backed prompt composition', () => {
+  assert.doesNotMatch(promptHierarchyRuleSource, /GA-1/u);
+  assert.doesNotMatch(promptHierarchyRuleDocs, /GA-1/u);
+  assert.match(promptHierarchyRuleSource, /Bitcode Registry-backed prompt hierarchy/u);
+  assert.match(promptHierarchyRuleSource, /REQUIRED_STEP_PROMPTS = \['plan', 'try', 'refine', 'retry'\]/u);
+  assert.match(promptHierarchyRuleSource, /missingStepPrompt/u);
+  assert.match(promptHierarchyRuleSource, /Registry-backed prompt carrier/u);
+  assert.match(promptHierarchyRuleSource, /generic and specific PromptParts/u);
+  assert.match(promptHierarchyRuleSource, /execution\.prompt/u);
+  assert.match(promptHierarchyRuleDocs, /explicit `Prompt`\/`PromptPart` registry composition/u);
+  assert.match(promptHierarchyRuleDocs, /generic base PromptParts plus specific implementation PromptParts/u);
+  assert.match(promptHierarchyRuleDocs, /The compatibility `prompts` shape is also accepted/u);
 });
 
 test('V26 active app config no longer preserves deprecated prompt source aliases', () => {
@@ -148,5 +185,18 @@ test('V26 prompt-space proof proves the fifth-gate baseline without claiming eig
   assert.match(
     promptSpaceCompletenessProof.openReason,
     /without claiming final prompt-space saturation/u
+  );
+  const proofSpecificationWitness = promptSpaceCompletenessProof.checks.find(
+    (check) => check.checkId === 'prompt-proof-and-specification-witnesses'
+  );
+  assert.ok(proofSpecificationWitness);
+  assert.deepEqual(
+    [
+      'packages/eslint-plugin-bitcode/src/requirePromptHierarchy.ts',
+      'packages/eslint-plugin-bitcode/docs/require-prompt-hierarchy.md',
+      'packages/eslint-plugin-bitcode/__tests__/requirePromptHierarchy.test.ts',
+      'packages/agent-generics/src/__tests__/factory-agent-ptrr-prompt-hierarchy.test.ts'
+    ].every((requiredFile) => proofSpecificationWitness.requiredFiles.includes(requiredFile)),
+    true
   );
 });

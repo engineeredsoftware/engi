@@ -68,7 +68,7 @@ export class AgentExecution extends Execution {
       // Configure global defaults at '*' so all executions inherit
       llmRegistry.configure('*', { model });
       this.llms.setLLMRegistry(llmRegistry);
-      // Also register an agent-level presence config for GA-1 enforcement
+      // Also register an agent-level presence config for Bitcode boundary enforcement.
       this.llms.registerLLMConfig('default', { model });
     } catch (e) {
       // Defer errors; hard enforcement will throw if truly missing at execution

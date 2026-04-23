@@ -1,5 +1,5 @@
 /**
- * Conversation domain types - GA-1 schema exact match
+ * Conversation domain types - Bitcode V26 Terminal database mirror
  *
  * These types MUST match the database schema exactly as defined in:
  * - supabase/migrations-archive/20250903_172526/004_conversations_tables.sql (archived creation)

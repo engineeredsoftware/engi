@@ -27,7 +27,7 @@ export const NS_EXEC_DELIVERABLE_VALIDATION_RTS = 'execution-deliverable-pipelin
 export const NS_EXEC_MEASURE_VALIDATION_RTS     = 'execution-measure-pipeline-phase-validation-ready-to-ship-agent' as const;
 
 /**
- * Deprecated generic RTS namespace (pre‑GA1). Use pipeline-specific constants instead.
+ * Compatibility generic RTS namespace. Use pipeline-specific constants instead.
  */
 export const NS_VALIDATION_RTS = NS_EXEC_DELIVERABLE_VALIDATION_RTS;
 

@@ -24,6 +24,7 @@ export { AgentVariationStep, FailsafeMetaSubStep, GenerationSubMetaSubStep } fro
 export type { Agent, AgentStep, AgentGeneration, QuickAgent, StepExecutor, PreparedContext, Chunk, Reasoning, UseTool, Judgment, UsedTool } from './types';
 export { factoryAgent, factoryAgentWithPTRR, factoryAgentWithSingleStep, factoryQuickAgent } from './agents/factories';
 export { factoryAgentWithGenerations, factoryAgentWithPTRRGenerations } from './agents/factories';
+export type { BitcodePTRRFactoryConfig, BitcodePTRRPromptCarrier, BitcodePTRRPromptValue, BitcodePTRRStepName, BitcodePTRRStepPromptCarrier, BitcodePTRRStepPromptRegistry } from './agents/factories';
 export { factoryPlanStep, factoryTryStep, factoryRefineStep, factoryRetryStep, factoryStep } from './steps/factories';
 export { factoryPlanGeneration, factoryTryGeneration, factoryRefineGeneration, factoryRetryGeneration, factoryGeneration, createFailsafedGenerationSequence, createFailsafedThricifiedGeneration, createFailsafedGeneration } from './generations/factories';
 export { createThricifiedGeneration } from './steps/thricified-generation';

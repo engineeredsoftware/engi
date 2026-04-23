@@ -1,9 +1,9 @@
 /**
  * Agent Prompt - Minimal prompt for agent-level context
  * 
- * AgentPrompt is intentionally minimal - it contains ONLY what applies
- * to EVERY LLM call within the agent. Progressive specificity is achieved
- * through the prompt hierarchy: Agent → Step → SubStep
+ * AgentPrompt is intentionally minimal: it contains only what applies
+ * to every LLM call within the agent. Progressive specificity is achieved
+ * through the Bitcode Registry-backed prompt hierarchy: Agent -> Step -> SubStep.
  * 
  * Tools are NOT part of prompts - they're declared at agent level and
  * their doc-code-tool prompts are automatically included when available.
@@ -11,7 +11,7 @@
  * @doc-comment-developing-promptdevelopment
  * domain: agent
  * intent: "Provide minimal agent-level context that applies to all LLM calls"
- * current_version: "GA1.50.0"
+ * current_version: "BITCODE_V26_AGENT_PROMPT_REGISTRY.1"
  */
 
 import { Prompt } from '@bitcode/prompts/prompt';
