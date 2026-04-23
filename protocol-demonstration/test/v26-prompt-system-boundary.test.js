@@ -546,7 +546,15 @@ test('V26 task-comprehension prompt reservoir is repurposed as Bitcode need comp
     readFileSync(path.join(repoRoot, 'packages/generic-tools/task-comprehension/tsconfig.json'), 'utf8')
   );
   const analyzePromptSource = readFileSync(
+    path.join(repoRoot, 'packages/generic-tools/task-comprehension/src/prompts/AnalyzeNeedSemanticsDocCodeToolPrompt.ts'),
+    'utf8'
+  );
+  const analyzeCompatibilityPromptSource = readFileSync(
     path.join(repoRoot, 'packages/generic-tools/task-comprehension/src/prompts/AnalyzeTaskSemanticsDocCodeToolPrompt.ts'),
+    'utf8'
+  );
+  const validatePromptSource = readFileSync(
+    path.join(repoRoot, 'packages/generic-tools/task-comprehension/src/prompts/ValidateNeedComprehensionDocCodeToolPrompt.ts'),
     'utf8'
   );
   const primitivesSource = readFileSync(
@@ -590,8 +598,14 @@ test('V26 task-comprehension prompt reservoir is repurposed as Bitcode need comp
   );
   assert.doesNotMatch(JSON.stringify(taskComprehensionTsconfig), /\.d\.ts/u);
   assert.doesNotMatch(JSON.stringify(taskComprehensionTsconfig), /@bitcode\/prompts\/\*/u);
+  assert.match(taskComprehensionReadme, /Canonical prompt owners now live in `AnalyzeNeedSemanticsDocCodeToolPrompt` and `ValidateNeedComprehensionDocCodeToolPrompt`/u);
+  assert.match(analyzePromptSource, /BITCODE_V26_ANALYZE_NEED_SEMANTICS_DOC_CODE_TOOL_PROMPT_REGISTRY\.1/u);
   assert.match(analyzePromptSource, /'need-comprehension' as PromptPart/u);
+  assert.match(analyzePromptSource, /local to the package that owns its use/u);
   assert.match(analyzePromptSource, /asset-pack synthesis/u);
+  assert.match(analyzeCompatibilityPromptSource, /compatibility export/u);
+  assert.match(analyzeCompatibilityPromptSource, /AnalyzeNeedSemanticsDocCodeToolPrompt/u);
+  assert.match(validatePromptSource, /BITCODE_V26_VALIDATE_NEED_COMPREHENSION_DOC_CODE_TOOL_PROMPT_REGISTRY\.1/u);
   assert.match(primitivesSource, /need_satisfaction_criteria/u);
   assert.match(primitivesSource, /written_asset_expectations/u);
   assert.match(primitivesSource, /shipping_wrapper_boundaries/u);
@@ -604,11 +618,14 @@ test('V26 task-comprehension prompt reservoir is repurposed as Bitcode need comp
   const combined = [
     taskComprehensionReadme,
     analyzePromptSource,
+    analyzeCompatibilityPromptSource,
+    validatePromptSource,
     primitivesSource,
     purposePromptPart,
     complexityPromptPart,
     validatePromptPart
   ].join('\n');
 
+  assert.doesNotMatch(combined, /GA1\.00\.0|GA1\.45\.0|\(fill intent\)/u);
   assert.doesNotMatch(combined, /transcendent|consciousness|AGI|task-analysis|@antml:prompts/u);
 });

@@ -1,8 +1,8 @@
 {
   "reportId": "v26-prompt-space-completeness-proof",
   "version": "V26",
-  "proofSourceCommit": "627e1f26fa7781077b8027430852860183cd92da",
-  "generatedAt": "2026-04-23T14:40:50-03:00",
+  "proofSourceCommit": "1d2779b463e5a314da17fc7f6612787d2de30ac5",
+  "generatedAt": "2026-04-23T14:54:49-03:00",
   "generatorId": "bitcode.proven-generator.v1",
   "worktreeState": "dirty-preview",
   "passed": false,
@@ -99,7 +99,7 @@
       "checkId": "asset-pack-need-comprehension-prompt-corridor",
       "label": "Asset-pack and need-comprehension compatibility prompts expose Bitcode semantics",
       "passed": true,
-      "detail": "8 required files present",
+      "detail": "10 required files present",
       "requiredFiles": [
         "packages/pipelines/deliverable/src/agents/prompts/comprehend-need-prompt.ts",
         "packages/pipelines/deliverable/src/agents/prompts/comprehend-task-prompt.ts",
@@ -107,7 +107,9 @@
         "packages/pipelines/deliverable/src/semantic-resolution.ts",
         "packages/pipelines/deliverable/scripts/render-prompts.ts",
         "packages/generic-tools/task-comprehension/README.md",
+        "packages/generic-tools/task-comprehension/src/prompts/AnalyzeNeedSemanticsDocCodeToolPrompt.ts",
         "packages/generic-tools/task-comprehension/src/prompts/AnalyzeTaskSemanticsDocCodeToolPrompt.ts",
+        "packages/generic-tools/task-comprehension/src/prompts/ValidateNeedComprehensionDocCodeToolPrompt.ts",
         "packages/generic-tools/task-comprehension/src/primitives.ts"
       ],
       "missingFiles": [],

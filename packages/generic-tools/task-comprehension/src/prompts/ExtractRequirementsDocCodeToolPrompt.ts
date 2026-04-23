@@ -67,7 +67,10 @@ export class ExtractRequirementsDocCodeToolPrompt extends DocCodeToolPrompt {
     // Set metadata directly
     this.set('metadata:name', PROMPTPART_SPECIFIC_TOOL_EXTRACTREQUIREMENTS_DOCCODETOOLNAME);
     this.set('metadata:category', 'need-comprehension' as PromptPart);
-    this.set('metadata:version', 'GA1.00.0' as PromptPart);
+    this.set(
+      'metadata:version',
+      'BITCODE_V26_EXTRACT_REQUIREMENTS_DOC_CODE_TOOL_PROMPT_REGISTRY.1' as PromptPart
+    );
     this.set('metadata:priority', 'high' as PromptPart);
     this.set('metadata:stability', 'stable' as PromptPart);
     

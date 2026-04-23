@@ -1,5 +1,5 @@
 import { Tool } from '@bitcode/tools-generics';
-import { ANALYZE_TASK_SEMANTICS_DOC_CODE_TOOL_PROMPT } from './prompts/AnalyzeTaskSemanticsDocCodeToolPrompt';
+import { ANALYZE_NEED_SEMANTICS_DOC_CODE_TOOL_PROMPT } from './prompts/AnalyzeNeedSemanticsDocCodeToolPrompt';
 
 /**
  * Analyze need semantics through the retained task-named compatibility API.
@@ -62,7 +62,7 @@ async function analyzeTaskSemantics(
 
 /**
  * @doc-code-tool
- * @prompt ANALYZE_TASK_SEMANTICS_DOC_CODE_TOOL_PROMPT
+ * @prompt ANALYZE_NEED_SEMANTICS_DOC_CODE_TOOL_PROMPT
  */
 export class AnalyzeTaskSemanticsTool extends Tool<typeof analyzeTaskSemantics> {
   use = analyzeTaskSemantics;

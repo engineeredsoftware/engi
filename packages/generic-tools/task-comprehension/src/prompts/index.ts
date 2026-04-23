@@ -1,16 +1,26 @@
-/**\n * @doc-comment-developing-promptdevelopment\n * domain: agent\n * intent: "(fill intent)"\n * current_version: "GA1.45.0"\n * dependencies: { }\n * benchmarks: [\n *   { "name": "technical_accuracy", "test": "Concrete directives and purpose", "score": 0.46 },\n *   { "name": "implementation_ready", "test": "Usable by registry formatter", "score": 0.46 }\n * ]\n */
+/**
+ * @doc-comment-developing-promptdevelopment
+ * domain: tool
+ * intent: "Canonical Bitcode need-comprehension prompt owners plus retained compatibility prompt exports for task-comprehension tools"
+ * current_version: "BITCODE_V26_NEED_COMPREHENSION_DOC_CODE_TOOL_PROMPT_BARREL.1"
+ * dependencies: { }
+ * benchmarks: [
+ *   { "name": "prompt_owner_locality", "test": "Canonical prompt owners stay local to the task-comprehension package while importing raw PromptParts", "score": 0.94 },
+ *   { "name": "compatibility_alias_clarity", "test": "Task-named exports remain explicit compatibility aliases only", "score": 0.93 }
+ * ]
+ */
 /**
  * NEED COMPREHENSION DOC-CODE-TOOL PROMPTS BARREL EXPORT
  *
- * Central export for retained task-comprehension compatibility prompts.
- * The compatibility class names remain stable, but the prompt content now
- * describes canonical Bitcode need, asset-pack, written-asset, and
- * shipping-wrapper inference.
+ * Central export for canonical Bitcode need-comprehension prompt owners and
+ * retained task-comprehension compatibility aliases.
  */
 
+export * from './AnalyzeNeedSemanticsDocCodeToolPrompt';
 export * from './AnalyzeTaskSemanticsDocCodeToolPrompt';
 export * from './ExtractRequirementsDocCodeToolPrompt';
 export * from './IdentifyConstraintsDocCodeToolPrompt';
 export * from './GenerateSuccessCriteriaDocCodeToolPrompt';
+export * from './ValidateNeedComprehensionDocCodeToolPrompt';
 export * from './ValidateTaskComprehensionDocCodeToolPrompt';
 export * from './AnalyzeImplementationComplexityDocCodeToolPrompt';

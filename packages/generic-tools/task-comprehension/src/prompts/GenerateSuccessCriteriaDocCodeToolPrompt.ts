@@ -67,7 +67,10 @@ export class GenerateSuccessCriteriaDocCodeToolPrompt extends DocCodeToolPrompt 
     // Set metadata directly
     this.set('metadata:name', PROMPTPART_SPECIFIC_TOOL_GENERATESUCCESSCRITERIA_DOCCODETOOLNAME);
     this.set('metadata:category', 'need-comprehension' as PromptPart);
-    this.set('metadata:version', 'GA1.00.0' as PromptPart);
+    this.set(
+      'metadata:version',
+      'BITCODE_V26_GENERATE_SUCCESS_CRITERIA_DOC_CODE_TOOL_PROMPT_REGISTRY.1' as PromptPart
+    );
     this.set('metadata:priority', 'high' as PromptPart);
     this.set('metadata:stability', 'stable' as PromptPart);
     

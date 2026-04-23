@@ -1285,7 +1285,9 @@ function buildV26PromptSystemTotalityProof({
         'packages/generic-tools/task-comprehension/src/primitives.ts',
         'packages/generic-tools/task-comprehension/src/types/prompt-part.ts',
         'packages/generic-tools/task-comprehension/src/types/tools-generics.ts',
+        'packages/generic-tools/task-comprehension/src/prompts/AnalyzeNeedSemanticsDocCodeToolPrompt.ts',
         'packages/generic-tools/task-comprehension/src/prompts/AnalyzeTaskSemanticsDocCodeToolPrompt.ts',
+        'packages/generic-tools/task-comprehension/src/prompts/ValidateNeedComprehensionDocCodeToolPrompt.ts',
         'packages/generic-tools/task-comprehension/src/prompts/ValidateTaskComprehensionDocCodeToolPrompt.ts',
         'packages/prompts/src/raw_promptparts/specific/promptpart_specific_tool_analyzetasksemantics_doccodetoolpurpose.ts',
         'packages/prompts/src/raw_promptparts/specific/promptpart_specific_tool_analyzeimplementationcomplexity_doccodetoolexample3.ts',
@@ -1507,7 +1509,9 @@ const V26_PROMPT_SPACE_WITNESS_SETS = [
       'packages/pipelines/deliverable/src/semantic-resolution.ts',
       'packages/pipelines/deliverable/scripts/render-prompts.ts',
       'packages/generic-tools/task-comprehension/README.md',
+      'packages/generic-tools/task-comprehension/src/prompts/AnalyzeNeedSemanticsDocCodeToolPrompt.ts',
       'packages/generic-tools/task-comprehension/src/prompts/AnalyzeTaskSemanticsDocCodeToolPrompt.ts',
+      'packages/generic-tools/task-comprehension/src/prompts/ValidateNeedComprehensionDocCodeToolPrompt.ts',
       'packages/generic-tools/task-comprehension/src/primitives.ts'
     ]
   },
