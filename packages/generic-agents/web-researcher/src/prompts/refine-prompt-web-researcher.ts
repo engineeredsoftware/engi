@@ -10,34 +10,21 @@ import { PROMPTPART_GENERIC_AGENT_GENERATION_STRUCTURED_OUTPUT } from '@bitcode/
 /**
  * @doc-comment-developing-promptdevelopment
  * domain: agent
- * intent: "Refine step prompt for Web Researcher — improve result quality and enhance information"
- * current_version: "GA1.50.0"
- * dependencies: {
- *   "PROMPTPART_SPECIFIC_AGENT_WEBRESEARCHER_REFINE_QUALITY_CRITERIA": "GA1.45.0",
- *   "PROMPTPART_SPECIFIC_AGENT_WEBRESEARCHER_REFINE_INFORMATION_ENHANCEMENT": "GA1.45.0",
- *   "PROMPTPART_GENERIC_AGENT_FAILSAFE_PREPARE_CONTEXT": "GA1.91.0",
- *   "PROMPTPART_GENERIC_AGENT_GENERATION_JSON_ONLY_HEADER": "GA1.50.0",
- *   "PROMPTPART_GENERIC_AGENT_GENERATION_USE_THIS_STRUCTURED_SCHEMA": "GA1.50.0",
- *   "PROMPTPART_GENERIC_AGENT_GENERATION_REASON": "GA1.93.0",
- *   "PROMPTPART_GENERIC_AGENT_GENERATION_JUDGE": "GA1.92.0",
- *   "PROMPTPART_GENERIC_AGENT_GENERATION_STRUCTURED_OUTPUT": "GA1.94.0"
- * }
+ * intent: "Bitcode external-evidence research Refine prompt for source quality and volatility"
+ * current_version: "V26"
+ * versions: []
  * benchmarks: [
- *   { "name": "technical_accuracy", "test": "Concrete directives and purpose", "score": 0.46 },
- *   { "name": "implementation_ready", "test": "Usable by registry formatter", "score": 0.46 }
+ *   { "name": "refine_boundary", "test": "Separates external evidence quality from proof closure", "score": 1.00 },
+ *   { "name": "registry_ready", "test": "Usable by registry formatter", "score": 1.00 }
  * ]
  */
 /**
- * REFINE PROMPT COMPOSITION - WEB RESEARCHER AGENT
- * 
- * Composed refine step prompt for Web Researcher agent using atomic prompt parts.
- * This defines how the agent optimizes research results and enhances information quality.
+ * REFINE PROMPT COMPOSITION - BITCODE EXTERNAL EVIDENCE RESEARCH
+ *
+ * Composes source-quality and volatility PromptParts for auxiliary evidence.
  */
 
 import { Prompt } from '@bitcode/prompts/prompt';
-
-
-
 
 export const WEB_RESEARCHER_REFINE_PROMPT = new Prompt()
   .set('quality', PROMPTPART_SPECIFIC_AGENT_WEBRESEARCHER_REFINE_QUALITY_CRITERIA)

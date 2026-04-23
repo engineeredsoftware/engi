@@ -552,6 +552,77 @@ export const V26_INFERENCE_IMPLEMENTATION_RECORDS = Object.freeze([
     ]
   },
   {
+    recordId: 'external-evidence-research-support',
+    canonicalNeed: 'Collect source-attributed external evidence as auxiliary context for Bitcode need measurement, proof-gap review, third-party interface planning, and AssetPack planning without promoting web research into proof, delivery, mutation, or product ownership.',
+    promptImplementation: {
+      owners: [
+        'packages/generic-agents/web-researcher/src/prompts/agent-prompt-web-researcher.ts',
+        'packages/generic-agents/web-researcher/src/prompts/system-prompt-web-researcher.ts',
+        'packages/generic-agents/web-researcher/src/prompts/plan-prompt-web-researcher.ts',
+        'packages/generic-agents/web-researcher/src/prompts/try-prompt-web-researcher.ts',
+        'packages/generic-agents/web-researcher/src/prompts/refine-prompt-web-researcher.ts',
+        'packages/generic-agents/web-researcher/src/prompts/retry-prompt-web-researcher.ts'
+      ],
+      rawPromptPartBoundary: 'Compatibility-named WEBRESEARCHER PromptParts implement Bitcode external-evidence research support while generic generation/failsafe PromptParts remain reusable base layers.',
+      registryLayering: 'Generic generation/failsafe PromptParts form base layers; specific WEBRESEARCHER PromptParts implement auxiliary source context, source quality, volatility, proof-gap, interface, need, and AssetPack evidence behavior through package-local Prompt registries.',
+      runtimeCarryThrough: 'Web-researcher PromptPart TypeScript and JavaScript must carry canonical Bitcode external-evidence text.'
+    },
+    toolImplementation: {
+      owners: [
+        'packages/generic-tools/web-search/src/index.ts',
+        'packages/web-search/src/index.ts'
+      ],
+      contract: 'Admitted web-search/content tools may collect source-attributed auxiliary evidence only; they do not mutate source, choose delivery mechanisms, assert proof completion, or define Exchange/Terminal product semantics.'
+    },
+    agentImplementation: {
+      owners: [
+        'packages/generic-agents/web-researcher/src/index.ts'
+      ],
+      contract: 'bitcodeExternalEvidenceResearcher owns the PTRR auxiliary-evidence agent; retained webResearcherAgent, webResearcherPrompt, webResearcherStepPrompts, and WEB_RESEARCH_AGENT.researchWeb names remain compatibility carriers.'
+    },
+    executionImplementation: {
+      owners: [
+        'packages/generic-agents/web-researcher/src/index.ts',
+        'packages/agent-generics/src/execution/AgentExecution.ts'
+      ],
+      carriers: ['AgentExecution compatibility entry', 'parent pipeline execution evidence']
+    },
+    assetPackImplementation: {
+      outputKind: 'auxiliary external evidence',
+      effect: 'Source-attributed external findings can support need comprehension, proof-gap review, interface planning, and AssetPack synthesis, but stable written assets and proof artifacts remain owned downstream.'
+    },
+    boundaryPosture: 'admitted support',
+    verificationSet: [
+      'node --test protocol-demonstration/test/v26-web-researcher-agent-compatibility.test.js',
+      'node --test protocol-demonstration/test/v26-inference-implementation-records.test.js',
+      '.bitcode/inference-implementation-records-proof.json',
+      '.bitcode/prompt-system-totality-proof.json'
+    ],
+    sourceEvidenceRefs: [
+      'packages/generic-agents/web-researcher/README.md',
+      'packages/generic-agents/web-researcher/package.json',
+      'packages/generic-agents/web-researcher/src/index.ts',
+      'packages/generic-agents/web-researcher/src/prompts/agent-prompt-web-researcher.ts',
+      'packages/generic-agents/web-researcher/src/prompts/system-prompt-web-researcher.ts',
+      'packages/generic-agents/web-researcher/src/prompts/plan-prompt-web-researcher.ts',
+      'packages/generic-agents/web-researcher/src/prompts/try-prompt-web-researcher.ts',
+      'packages/generic-agents/web-researcher/src/prompts/refine-prompt-web-researcher.ts',
+      'packages/generic-agents/web-researcher/src/prompts/retry-prompt-web-researcher.ts',
+      'packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_webresearcher_purpose_corestatement.ts',
+      'packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_webresearcher_capabilities_list.ts',
+      'packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_webresearcher_executionpattern_detailcontent.ts',
+      'packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_webresearcher_ptrrsteps_list.ts',
+      'packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_webresearcher_tools_list.ts',
+      'packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_webresearcher_integration_detailcontent.ts',
+      'packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_webresearcher_system_identity.ts',
+      'packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_webresearcher_system_instructions.ts',
+      'packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_webresearcher_system_role.ts',
+      'packages/generic-tools/web-search/src/index.ts',
+      'packages/web-search/src/index.ts',
+      'protocol-demonstration/test/v26-web-researcher-agent-compatibility.test.js'
+    ]
+  },
+  {
     recordId: 'mcp-external-ingress',
     canonicalNeed: 'Admit Exchange-facing MCP and external interface operations as fail-closed ingress into Bitcode execution state, not as sibling product logic.',
     promptImplementation: {

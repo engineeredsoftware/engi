@@ -1,15 +1,19 @@
-import { PromptPart } from '../../parts/PromptPart';
-
 /**
  * @doc-comment-developing-promptpartdevelopment
  * domain: agent
- * intent: "List the PTRR steps for documentation"
- * current_version: "GA1.50.0"
+ * intent: "Bitcode external-evidence research PTRR steps"
+ * current_version: "V26"
  * versions: []
  * benchmarks: [
- *   { "name": "technical_accuracy", "test": "Enumerates steps correctly", "score": 0.46 },
- *   { "name": "implementation_ready", "test": "Documentation-ready list format", "score": 0.46 }
+ *   { "name": "ptrr_boundary", "test": "Keeps PTRR steps as auxiliary evidence gathering and handoff", "score": 1.00 }
  * ]
  */
+
+import { PromptPart } from '../../parts/PromptPart';
+
 export const PROMPTPART_SPECIFIC_AGENT_WEBRESEARCHER_PTRRSTEPS_LIST: PromptPart =
-  '- Plan\n- Try\n- Refine\n- Retry' as PromptPart;
+  `Plan: derive bounded source classes and queries from the active Bitcode need or proof gap
+Try: collect source-attributed external findings with admitted search/content tools
+Refine: classify source quality, volatility, contradictions, and relevance
+Retry: adjust source/query scope only to resolve evidence gaps and state remaining uncertainty
+Finish handoff: pass auxiliary context to downstream Bitcode owners without claiming mutation, delivery, or proof closure` as PromptPart;

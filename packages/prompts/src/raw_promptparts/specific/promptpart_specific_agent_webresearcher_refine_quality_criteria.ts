@@ -1,15 +1,15 @@
-import { PromptPart } from '../../parts/PromptPart';
-
 /**
  * @doc-comment-developing-promptpartdevelopment
  * domain: agent-refine
- * intent: "Define quality criteria for selection: authority, recency, consistency, and source diversity"
- * current_version: "GA1.50.0"
+ * intent: "Bitcode external-evidence research source-quality criteria"
+ * current_version: "V26"
  * versions: []
  * benchmarks: [
- *   { "name": "technical_accuracy", "test": "Criteria are measurable and actionable", "score": 0.46 },
- *   { "name": "implementation_ready", "test": "Directly guides refinement step", "score": 0.46 }
+ *   { "name": "quality_boundary", "test": "Prioritizes primary source quality and temporal risk", "score": 1.00 }
  * ]
  */
+
+import { PromptPart } from '../../parts/PromptPart';
+
 export const PROMPTPART_SPECIFIC_AGENT_WEBRESEARCHER_REFINE_QUALITY_CRITERIA: PromptPart =
-  'Prioritize sources by authority (peer-reviewed, official documentation), recency, cross-source consistency, and domain reputation. Remove duplicates and weak sources.' as PromptPart;
+  'Prioritize official, primary, standards, repository, paper, or vendor-owned sources; mark commentary, stale dates, unsupported claims, unclear authorship, or conflicting sources as lower-confidence auxiliary context.' as PromptPart;

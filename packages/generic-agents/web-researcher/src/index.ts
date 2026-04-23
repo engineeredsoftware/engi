@@ -1,101 +1,68 @@
 /**
- * Web Researcher Agent - STUB VERSION
- * 
- * This is a temporary stub to allow compilation.
- * TODO: Convert to proper declarative pattern with schemas.
+ * Bitcode External Evidence Research Agent - Declarative PTRR compatibility pattern.
+ *
+ * The retained web-researcher package name remains a compatibility path. V26
+ * semantics are external-evidence collection for need measurement,
+ * third-party interface context, proof-gap investigation, and AssetPack
+ * planning. External web findings are auxiliary evidence, not canonical proof.
  */
 
-import { 
+import {
+  AgentPrompt,
+  AgentStepPrompt,
   factoryAgentWithPTRR
 } from '@bitcode/agent-generics';
-import { AgentPrompt, AgentStepPrompt } from '@bitcode/agent-generics';
 import type { PromptPart } from '@bitcode/prompts/parts/PromptPart';
-import { z } from 'zod';
+import {
+  getContents,
+  multiProviderSearch,
+  search,
+  searchWithUrlIntelligence
+} from '@bitcode/generic-tools-web-search';
+import {
+  BitcodeExternalEvidenceResearchInputSchema,
+  BitcodeExternalEvidenceResearchResultSchema
+} from './schemas';
+import type {
+  BitcodeExternalEvidenceResearchInput as BitcodeExternalEvidenceResearchInputType,
+  BitcodeExternalEvidenceResearchResult as BitcodeExternalEvidenceResearchResultType
+} from './schemas';
 
-// ==================== INPUT SCHEMA ====================
-const ResearchInputSchema = z.object({
-  query: z.string().describe('Research query or topic'),
-  sources: z.array(z.string()).optional().describe('Specific sources to search'),
-  depth: z.enum(['shallow', 'moderate', 'deep']).default('moderate').describe('Research depth level'),
-  maxResults: z.number().default(20).describe('Maximum results to return'),
-  includeAnalysis: z.boolean().default(true).describe('Include content analysis'),
-  timeframe: z.string().optional().describe('Time constraint for results'),
-  language: z.string().default('en').describe('Preferred language for results')
+export const bitcodeExternalEvidenceResearcherPrompt = new AgentPrompt({
+  name: 'bitcode-external-evidence-researcher' as PromptPart,
+  identity: 'Bitcode external-evidence research agent for auxiliary source context' as PromptPart
 });
 
-// ==================== OUTPUT SCHEMA ====================
-const WebResearcherAgentRetryStepOutput = z.object({
-  findings: z.array(z.object({
-    title: z.string(),
-    url: z.string(),
-    snippet: z.string(),
-    relevance: z.number().min(0).max(1),
-    credibility: z.number().min(0).max(1),
-    content: z.string().optional(),
-    publishedDate: z.string().optional(),
-    author: z.string().optional(),
-    source: z.string()
-  })).describe('Research findings with metadata'),
-  synthesis: z.object({
-    summary: z.string(),
-    keyPoints: z.array(z.string()),
-    trends: z.array(z.string()),
-    contradictions: z.array(z.string()),
-    gaps: z.array(z.string())
-  }).describe('Synthesized research insights'),
-  quality: z.object({
-    totalSources: z.number(),
-    averageCredibility: z.number(),
-    coverageBreadth: z.number(),
-    informationDensity: z.number()
-  }).describe('Research quality metrics'),
-  recommendations: z.array(z.string()).describe('Research recommendations'),
-  // Optional tool selection for execution after failsafes
-  useTools: z.array(z.object({
-    name: z.string(),
-    input: z.any(),
-    reason: z.string()
-  })).optional(),
-  processingTime: z.number().describe('Processing time in milliseconds'),
-  success: z.boolean().default(true),
-  completionMessage: z.string().default('Research completed')
-});
-
-export type ResearchInput = z.infer<typeof ResearchInputSchema>;
-export type ResearchResult = z.infer<typeof WebResearcherAgentRetryStepOutput>;
-
-// ==================== PROMPTS ====================
-export const webResearcherPrompt = new AgentPrompt({
-  name: 'webResearcher' as PromptPart,
-  identity: 'Web research specialist' as PromptPart
-});
-
-export const webResearcherStepPrompts = {
-  plan: new AgentStepPrompt({ purpose: 'Analyze research strategy' as PromptPart }),
-  try: new AgentStepPrompt({ purpose: 'Execute web research' as PromptPart }),
-  refine: new AgentStepPrompt({ purpose: 'Enhance research quality' as PromptPart }),
-  retry: new AgentStepPrompt({ purpose: 'Complete research synthesis' as PromptPart })
+export const bitcodeExternalEvidenceResearcherStepPrompts = {
+  plan: new AgentStepPrompt({ purpose: 'Plan bounded external-evidence collection for a Bitcode need' as PromptPart }),
+  try: new AgentStepPrompt({ purpose: 'Collect traceable external evidence without scraping-product ownership' as PromptPart }),
+  refine: new AgentStepPrompt({ purpose: 'Refine external findings into source-quality and volatility context' as PromptPart }),
+  retry: new AgentStepPrompt({ purpose: 'Finalize external evidence and expose unresolved gaps without claiming proof closure' as PromptPart })
 };
 
-// ==================== AGENT IMPLEMENTATION ====================
-/**
- * Web Researcher Agent - PTRR implementation
- * Uses full Plan-Try-Refine-Retry cycle for comprehensive web research
- */
-export const webResearcherAgent = factoryAgentWithPTRR<ResearchInput, ResearchResult>({
-  name: 'web-researcher',
-  description: 'Web search and research operations with PTRR cycle',
-  
-  outputSchema: WebResearcherAgentRetryStepOutput,
-  prompt: webResearcherPrompt,
+export const webResearcherPrompt = bitcodeExternalEvidenceResearcherPrompt;
+export const webResearcherStepPrompts = bitcodeExternalEvidenceResearcherStepPrompts;
+
+export const bitcodeExternalEvidenceResearcher = factoryAgentWithPTRR<
+  BitcodeExternalEvidenceResearchInputType,
+  BitcodeExternalEvidenceResearchResultType
+>({
+  name: 'bitcode-external-evidence-research',
+  description: 'External evidence research for Bitcode need measurement, third-party context, proof-gap investigation, and AssetPack planning',
+  prompt: bitcodeExternalEvidenceResearcherPrompt,
   stepPrompts: {
-    plan: () => webResearcherStepPrompts.plan,
-    try: () => webResearcherStepPrompts.try,
-    refine: () => webResearcherStepPrompts.refine,
-    retry: () => webResearcherStepPrompts.retry
+    plan: () => bitcodeExternalEvidenceResearcherStepPrompts.plan,
+    try: () => bitcodeExternalEvidenceResearcherStepPrompts.try,
+    refine: () => bitcodeExternalEvidenceResearcherStepPrompts.refine,
+    retry: () => bitcodeExternalEvidenceResearcherStepPrompts.retry
   },
-  
-  // PTRR configuration
+  tools: [
+    search,
+    searchWithUrlIntelligence,
+    multiProviderSearch,
+    getContents
+  ],
+  outputSchema: BitcodeExternalEvidenceResearchResultSchema,
   plan: {
     chunkThreshold: 1000
   },
@@ -111,3 +78,43 @@ export const webResearcherAgent = factoryAgentWithPTRR<ResearchInput, ResearchRe
     backoff: 1000
   }
 });
+
+export const webResearcherAgent = bitcodeExternalEvidenceResearcher;
+export const WEB_RESEARCH_AGENT = {
+  researchWeb: bitcodeExternalEvidenceResearcher
+};
+
+export {
+  BitcodeExternalEvidenceDepthSchema,
+  BitcodeExternalEvidenceFindingSchema,
+  BitcodeExternalEvidenceQualitySchema,
+  BitcodeExternalEvidenceResearchInputSchema,
+  BitcodeExternalEvidenceResearchPlanSchema,
+  BitcodeExternalEvidenceResearchRefineSchema,
+  BitcodeExternalEvidenceResearchResultSchema,
+  BitcodeExternalEvidenceResearchTrySchema,
+  BitcodeExternalEvidenceSourceClassSchema,
+  BitcodeExternalEvidenceSynthesisSchema,
+  BitcodeExternalEvidenceTemporalRiskSchema,
+  BitcodeExternalEvidenceToolRequestSchema,
+  ResearchInputSchema,
+  ResearchResultSchema,
+  WebResearcherAgentRetryStepOutput
+} from './schemas';
+
+export type {
+  BitcodeExternalEvidenceDepth,
+  BitcodeExternalEvidenceFinding,
+  BitcodeExternalEvidenceQuality,
+  BitcodeExternalEvidenceResearchInput,
+  BitcodeExternalEvidenceResearchPlan,
+  BitcodeExternalEvidenceResearchRefine,
+  BitcodeExternalEvidenceResearchResult,
+  BitcodeExternalEvidenceResearchTry,
+  BitcodeExternalEvidenceSourceClass,
+  BitcodeExternalEvidenceSynthesis,
+  BitcodeExternalEvidenceTemporalRisk,
+  BitcodeExternalEvidenceToolRequest,
+  ResearchInput,
+  ResearchResult
+} from './schemas';

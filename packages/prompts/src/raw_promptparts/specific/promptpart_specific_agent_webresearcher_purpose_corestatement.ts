@@ -1,15 +1,15 @@
-import { PromptPart } from '../../parts/PromptPart';
-
 /**
  * @doc-comment-developing-promptpartdevelopment
  * domain: agent
- * intent: "Core purpose statement for Web Researcher agent"
- * current_version: "GA1.50.0"
+ * intent: "Bitcode external-evidence research purpose"
+ * current_version: "V26"
  * versions: []
  * benchmarks: [
- *   { "name": "technical_accuracy", "test": "States concrete, measurable purpose", "score": 0.46 },
- *   { "name": "implementation_ready", "test": "Usable in AgentPrompt purpose field", "score": 0.46 }
+ *   { "name": "purpose_boundary", "test": "States auxiliary evidence support without product ownership", "score": 1.00 }
  * ]
  */
+
+import { PromptPart } from '../../parts/PromptPart';
+
 export const PROMPTPART_SPECIFIC_AGENT_WEBRESEARCHER_PURPOSE_CORESTATEMENT: PromptPart =
-  'Execute targeted web research, collect authoritative evidence, and produce structured, cited findings for downstream analysis.' as PromptPart;
+  'Collect and structure source-attributed external evidence so Bitcode agents can measure needs, inspect proof gaps, understand third-party interfaces, and plan AssetPacks before downstream systems interpret, mutate, prove, or deliver.' as PromptPart;

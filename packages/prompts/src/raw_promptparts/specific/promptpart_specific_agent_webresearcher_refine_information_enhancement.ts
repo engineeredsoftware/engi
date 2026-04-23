@@ -1,15 +1,15 @@
-import { PromptPart } from '../../parts/PromptPart';
-
 /**
  * @doc-comment-developing-promptpartdevelopment
  * domain: agent-refine
- * intent: "Enhance information by consolidating, normalizing fields, and adding citations"
- * current_version: "GA1.50.0"
+ * intent: "Bitcode external-evidence research refine information enhancement"
+ * current_version: "V26"
  * versions: []
  * benchmarks: [
- *   { "name": "technical_accuracy", "test": "Enhancement actions are concrete", "score": 0.46 },
- *   { "name": "implementation_ready", "test": "Matches structured output expectations", "score": 0.46 }
+ *   { "name": "enhancement_boundary", "test": "Enhances citations and gaps without claiming proof", "score": 1.00 }
  * ]
  */
+
+import { PromptPart } from '../../parts/PromptPart';
+
 export const PROMPTPART_SPECIFIC_AGENT_WEBRESEARCHER_REFINE_INFORMATION_ENHANCEMENT: PromptPart =
-  'Consolidate overlapping findings, normalize field names, add full citations with canonical URLs, and provide short rationale for selected results.' as PromptPart;
+  'Normalize titles, URLs, snippets, publication metadata, source class, source-quality rationale, contradictions, and unresolved gaps so downstream Bitcode owners can decide how to use the evidence.' as PromptPart;

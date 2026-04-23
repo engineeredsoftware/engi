@@ -12,40 +12,18 @@ import { PROMPTPART_GENERIC_AGENT_GENERATION_REASON } from '@bitcode/prompts/raw
 import { PROMPTPART_GENERIC_AGENT_GENERATION_JUDGE } from '@bitcode/prompts/raw_promptparts/generic/promptpart_generic_agent_generation_judge';
 import { PROMPTPART_GENERIC_AGENT_GENERATION_STRUCTURED_OUTPUT } from '@bitcode/prompts/raw_promptparts/generic/promptpart_generic_agent_generation_structured_output';
 /**
- * Web Researcher Agent - Agent Prompt
- * 
- * Comprehensive web research operations with search and analysis.
- * 
  * @doc-comment-developing-promptdevelopment
  * domain: agent
- * intent: "Agent prompt for Web Researcher"
- * current_version: "GA1.50.0"
- * dependencies: {
- *   "PROMPTPART_SPECIFIC_AGENT_WEBRESEARCHER_PURPOSE_CORESTATEMENT": "GA1.45.0",
- *   "PROMPTPART_SPECIFIC_AGENT_WEBRESEARCHER_CAPABILITIES_LIST": "GA1.45.0",
- *   "PROMPTPART_SPECIFIC_AGENT_WEBRESEARCHER_EXECUTIONPATTERN_DETAILCONTENT": "GA1.45.0",
- *   "PROMPTPART_SPECIFIC_AGENT_WEBRESEARCHER_PTRRSTEPS_LIST": "GA1.45.0",
- *   "PROMPTPART_SPECIFIC_AGENT_WEBRESEARCHER_TOOLS_LIST": "GA1.45.0",
- *   "PROMPTPART_SPECIFIC_AGENT_WEBRESEARCHER_INTEGRATION_DETAILCONTENT": "GA1.45.0"
- * }
- * versions: [
- *   { "version": "1.0.0", "score": 0.45, "reason": "Initial implementation with industrial language" }
- * ]
+ * intent: "Bitcode external-evidence research agent prompt for auxiliary source context"
+ * current_version: "V26"
+ * versions: []
  * benchmarks: [
- *   { "name": "agent_coherence", "test": "Does the agent prompt provide clear instructions?", "score": 0.45 },
- *   { "name": "web_completeness", "test": "Does it cover web research requirements?", "score": 0.45 },
- *   { "name": "operational_clarity", "test": "Are research boundaries clearly defined?", "score": 0.45 }
+ *   { "name": "bitcode_boundary", "test": "Keeps external research as evidence support rather than product or proof ownership", "score": 1.00 },
+ *   { "name": "registry_ready", "test": "Composes specific implementation PromptParts through a Prompt registry", "score": 1.00 }
  * ]
  */
 
 import { Prompt } from '@bitcode/prompts/prompt';
-
-
-
-
-
-
-
 
 export const WEB_RESEARCHER_AGENT_PROMPT = new Prompt()
   .set('purpose', PROMPTPART_SPECIFIC_AGENT_WEBRESEARCHER_PURPOSE_CORESTATEMENT)

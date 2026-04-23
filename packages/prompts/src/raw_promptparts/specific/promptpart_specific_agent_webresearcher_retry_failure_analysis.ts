@@ -1,15 +1,15 @@
-import { PromptPart } from '../../parts/PromptPart';
-
 /**
  * @doc-comment-developing-promptpartdevelopment
  * domain: agent-retry
- * intent: "Analyze failure causes: query mismatch, rate limits, source unavailability, or format errors"
- * current_version: "GA1.50.0"
+ * intent: "Bitcode external-evidence research retry failure analysis"
+ * current_version: "V26"
  * versions: []
  * benchmarks: [
- *   { "name": "technical_accuracy", "test": "Identifies concrete failure categories", "score": 0.46 },
- *   { "name": "implementation_ready", "test": "Feeds recovery action selection", "score": 0.46 }
+ *   { "name": "failure_boundary", "test": "Treats missing external evidence as explicit gaps", "score": 1.00 }
  * ]
  */
+
+import { PromptPart } from '../../parts/PromptPart';
+
 export const PROMPTPART_SPECIFIC_AGENT_WEBRESEARCHER_RETRY_FAILURE_ANALYSIS: PromptPart =
-  'Diagnose why results failed (query too broad/narrow, blocked requests, stale endpoints, scraping/parsing error) and map to corrective actions.' as PromptPart;
+  'Analyze evidence misses as scoped gaps: wrong source class, overly broad or narrow query, missing primary owner, inaccessible source, stale publication window, or contradictory external context. Do not invent evidence.' as PromptPart;

@@ -1,100 +1,46 @@
-# Web Researcher Agent
+# Bitcode External Evidence Research Agent
 
 ## Overview
 
-Sophisticated web intelligence research agent that conducts comprehensive multi-provider search operations to gather technical insights and implementation guidance. Orchestrates complex research workflows through systematic query generation, content analysis, and insight synthesis.
+This package admits the retained `web-researcher` path as a Bitcode external-evidence research agent.
+It is not an autonomous web-scraping product, task-analysis product, citation manager, browser-automation system, proof engine, or Exchange/Terminal product owner.
+Its V26 role is to collect bounded, source-attributed external context so downstream Bitcode agents can measure a need, inspect a proof gap, understand third-party integration constraints, and plan AssetPack or written-asset work.
 
-## Core Capabilities
+The compatibility package name remains `@bitcode/generic-agents-web-research`.
+The active semantic owner is `bitcodeExternalEvidenceResearcher`; `webResearcherAgent`, `webResearcherPrompt`, `webResearcherStepPrompts`, and `WEB_RESEARCH_AGENT.researchWeb` remain compatibility carriers for old imports.
 
-- **Multi-Provider Search**: Integrates Exa, web search, and content analysis tools  
-- **Intelligent Query Generation**: Automatically derives targeted search strategies from task context
-- **URL Intelligence**: Analyzes provided URL attachments for contextual search enhancement
-- **Content Synthesis**: Aggregates findings from multiple sources into actionable insights
-- **Quality Assessment**: Validates source reliability and content relevance
-- **Research Validation**: Implements multi-wave quality verification with feedback loops
+## Canonical V26 Boundary
 
-## Technical Implementation
+- Inputs remain query-shaped for compatibility, but the owning semantic field is the Bitcode `need`.
+- External findings are auxiliary evidence; they can support need measurement and proof-gap investigation but cannot close proof by themselves.
+- The agent may use admitted web-search tools to collect titles, URLs, snippets, source class, source quality, publication metadata, and unresolved gaps.
+- The agent must prefer primary, official, repository, standard, paper, or vendor-owned sources before commentary.
+- File mutation, proof generation, delivery mechanisms, canonical need interpretation, and live product state changes remain owned by their respective Bitcode tools, pipelines, proofs, and products.
 
-### Architecture
-- Built on GenericAgent base with comprehensive PTRR methodology
-- Integrates web-search and firecrawl tool ecosystems
-- Implements enhanced schema validation for structured outputs
-- Provides advanced quality assessment and synthesis capabilities
+## Prompt Structure
 
-### Processing Pipeline
-1. **Plan**: Task analysis, domain identification, and query strategy development
-2. **Try**: Multi-wave search execution with provider intelligence
-3. **Refine**: Result filtering, deduplication, and quality assessment
-4. **Retry**: Insight synthesis with validation and actionable output generation
+Prompt implementations stay local to the package usage site and compose through Registry-backed prompt primitives:
 
-### Search Strategy Framework
-- **Context Analysis**: Task domain and complexity assessment
-- **Query Generation**: Primary and alternative query formulation
-- **Provider Selection**: Intelligent provider routing based on query type
-- **Quality Filtering**: Relevance thresholds and source reliability scoring
+- `src/prompts/agent-prompt-web-researcher.ts` carries the agent-level prompt registry.
+- `src/prompts/system-prompt-web-researcher.ts` carries the system-level support prompt registry.
+- `src/prompts/{plan,try,refine,retry}-prompt-web-researcher.ts` carry PTRR step prompt registries.
+- `src/schemas.ts` owns the source-attributed input, intermediate PTRR, and final result contracts.
+- Runtime `.js` mirrors under `src/` remain aligned with the TypeScript source because this retained package still has generated-JavaScript compatibility consumers.
+- `packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_webresearcher_*` retains compatibility filenames, but its content is V26 Bitcode external-evidence research content.
+- Generic generation and failsafe PromptParts remain reusable base layers; the specific PromptParts define this agent's implementation semantics.
 
-## Output Structure
+## Agent Variation
 
-### Research Result Schema
-```typescript
-{
-  queries: string[],
-  researchResults: Array<{
-    title: string,
-    url: string,
-    summary: string,
-    relevance: number,
-    query: string
-  }>,
-  keyInsights: string[],
-  taskRelevance: number,
-  feedback: string,
-  synthesisMetrics: {
-    totalSources: number,
-    avgRelevance: number,
-    insightCount: number,
-    qualityScore: number
-  }
-}
-```
+- `bitcodeExternalEvidenceResearcher`: PTRR external-evidence variation for source-attributed auxiliary context.
+- `webResearcherAgent`: compatibility alias only.
+- `WEB_RESEARCH_AGENT.researchWeb`: compatibility object shape only.
 
-### Quality Assessment Schema
-```typescript
-{
-  relevance: number,    // Average content relevance to task
-  coverage: number,     // Breadth of research coverage
-  reliability: number,  // Source credibility assessment
-  overallScore: number  // Composite quality metric
-}
-```
+## Verification
 
-## Performance Characteristics
+The V26 proof family checks this package through:
 
-### Execution Performance
-- **Search Time**: 30-120 seconds for comprehensive multi-wave research
-- **Concurrent Processing**: Parallel query execution for efficiency
-- **Timeout Handling**: Configurable timeouts per research phase
-- **Rate Limiting**: Respects provider API limits and quotas
-
-### Quality Targets
-- **Relevance**: 0.8 target for task-specific content alignment
-- **Coverage**: 0.7 target for comprehensive topic coverage  
-- **Reliability**: 0.9 target for credible source identification
-
-### Research Metrics
-- **Query Efficiency**: Primary vs alternative query success rates
-- **Source Diversity**: Distribution across different domains and perspectives
-- **Insight Generation**: Actionable findings per source analyzed
-- **Synthesis Quality**: Coherence and usefulness of consolidated insights
-
-### Reliability Features
-- **Source Validation**: Automatic reliability assessment for known domains
-- **Duplicate Detection**: URL-based deduplication with content similarity
-- **Quality Thresholds**: Configurable relevance filtering
-- **Fallback Strategies**: Alternative search approaches on primary failure
-
-### Integration Points
-- **Web Search Tools**: Direct integration with search provider APIs
-- **Content Analysis**: Firecrawl integration for deep content extraction
-- **URL Processing**: Attachment analysis for contextual enhancement
-- **Result Caching**: Efficient handling of repeated research patterns
+- `protocol-demonstration/test/v26-web-researcher-agent-compatibility.test.js`
+- `protocol-demonstration/test/v26-prompt-system-boundary.test.js`
+- `protocol-demonstration/test/v26-inference-implementation-records.test.js`
+- `.bitcode/prompt-space-completeness-proof.json`
+- `.bitcode/inference-implementation-records-proof.json`

@@ -1,15 +1,19 @@
-import { PromptPart } from '../../parts/PromptPart';
-
 /**
  * @doc-comment-developing-promptpartdevelopment
  * domain: agent
- * intent: "List tools used by Web Researcher agent"
- * current_version: "GA1.50.0"
+ * intent: "Bitcode external-evidence research tool list"
+ * current_version: "V26"
  * versions: []
  * benchmarks: [
- *   { "name": "technical_accuracy", "test": "Names tool categories concretely", "score": 0.46 },
- *   { "name": "implementation_ready", "test": "Usable in AgentPrompt tools field", "score": 0.46 }
+ *   { "name": "tool_boundary", "test": "Names only admitted auxiliary source tools", "score": 1.00 }
  * ]
  */
+
+import { PromptPart } from '../../parts/PromptPart';
+
 export const PROMPTPART_SPECIFIC_AGENT_WEBRESEARCHER_TOOLS_LIST: PromptPart =
-  '- Web search API\n- URL fetcher with retries\n- Content extractor\n- Citation normalizer\n- Schema validator' as PromptPart;
+  `- search: source-attributed external search returning titles, URLs, snippets, metadata, and provider evidence
+- searchWithUrlIntelligence: URL-aware external search used only to narrow evidence scope
+- multiProviderSearch: multi-source external evidence collection with provider and result metadata
+- getContents: bounded URL content retrieval for source context
+- Downstream Bitcode owners: consume auxiliary evidence for need comprehension, proof review, interface planning, AssetPack synthesis, mutation, or delivery without delegating their authority to this agent` as PromptPart;

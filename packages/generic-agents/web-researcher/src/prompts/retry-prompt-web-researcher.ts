@@ -10,35 +10,21 @@ import { PROMPTPART_GENERIC_AGENT_GENERATION_STRUCTURED_OUTPUT } from '@bitcode/
 /**
  * @doc-comment-developing-promptdevelopment
  * domain: agent
- * intent: "Retry step prompt for Web Researcher — analyze failures and apply recovery strategy"
- * current_version: "GA1.50.0"
- * dependencies: {
- *   "PROMPTPART_SPECIFIC_AGENT_WEBRESEARCHER_RETRY_FAILURE_ANALYSIS": "GA1.45.0",
- *   "PROMPTPART_SPECIFIC_AGENT_WEBRESEARCHER_RETRY_RECOVERY_STRATEGY": "GA1.45.0",
- *   "PROMPTPART_GENERIC_AGENT_FAILSAFE_PREPARE_CONTEXT": "GA1.91.0",
- *   "PROMPTPART_GENERIC_AGENT_GENERATION_JSON_ONLY_HEADER": "GA1.50.0",
- *   "PROMPTPART_GENERIC_AGENT_GENERATION_USE_THIS_STRUCTURED_SCHEMA": "GA1.50.0",
- *   "PROMPTPART_GENERIC_AGENT_GENERATION_IF_UNKNOWN_EMPTY": "GA1.50.0",
- *   "PROMPTPART_GENERIC_AGENT_GENERATION_REASON": "GA1.93.0",
- *   "PROMPTPART_GENERIC_AGENT_GENERATION_JUDGE": "GA1.92.0",
- *   "PROMPTPART_GENERIC_AGENT_GENERATION_STRUCTURED_OUTPUT": "GA1.94.0"
- * }
+ * intent: "Bitcode external-evidence research Retry prompt for bounded recovery and gap surfacing"
+ * current_version: "V26"
+ * versions: []
  * benchmarks: [
- *   { "name": "technical_accuracy", "test": "Concrete directives and purpose", "score": 0.46 },
- *   { "name": "implementation_ready", "test": "Usable by registry formatter", "score": 0.46 }
+ *   { "name": "retry_boundary", "test": "Recovers external evidence gaps without inventing or overclaiming", "score": 1.00 },
+ *   { "name": "registry_ready", "test": "Usable by registry formatter", "score": 1.00 }
  * ]
  */
 /**
- * RETRY PROMPT COMPOSITION - WEB RESEARCHER AGENT
- * 
- * Composed retry step prompt for Web Researcher agent using atomic prompt parts.
- * This defines how the agent handles research failures and recovers from information gathering errors.
+ * RETRY PROMPT COMPOSITION - BITCODE EXTERNAL EVIDENCE RESEARCH
+ *
+ * Composes recovery and gap-surfacing PromptParts for auxiliary evidence.
  */
 
 import { Prompt } from '@bitcode/prompts/prompt';
-
-
-
 
 export const WEB_RESEARCHER_RETRY_PROMPT = new Prompt()
   .set('analysis', PROMPTPART_SPECIFIC_AGENT_WEBRESEARCHER_RETRY_FAILURE_ANALYSIS)

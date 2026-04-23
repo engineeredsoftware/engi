@@ -1,15 +1,15 @@
-import { PromptPart } from '../../parts/PromptPart';
-
 /**
  * @doc-comment-developing-promptpartdevelopment
  * domain: agent-plan
- * intent: "Define investigation strategy: search approach, filtering, validation, and result organization"
- * current_version: "GA1.50.0"
+ * intent: "Bitcode external-evidence research planning strategy"
+ * current_version: "V26"
  * versions: []
  * benchmarks: [
- *   { "name": "technical_accuracy", "test": "Specifies concrete strategy elements", "score": 0.46 },
- *   { "name": "implementation_ready", "test": "Suitable for plan step usage", "score": 0.46 }
+ *   { "name": "strategy_precision", "test": "Plans bounded source classes and source-quality checks", "score": 1.00 }
  * ]
  */
+
+import { PromptPart } from '../../parts/PromptPart';
+
 export const PROMPTPART_SPECIFIC_AGENT_WEBRESEARCHER_PLAN_INVESTIGATION_STRATEGY: PromptPart =
-  'Define search operators, site scoping, crawl depth, deduplication criteria, geographic or temporal filters, and validation checkpoints. Outline result collation and citation capture for downstream structured output.' as PromptPart;
+  'Choose minimal query terms, preferred domains, source classes, timeframe filters, and source-quality checks that can ground the Bitcode need; prefer official and primary sources before broader web context.' as PromptPart;

@@ -10,35 +10,21 @@ import { PROMPTPART_GENERIC_AGENT_GENERATION_STRUCTURED_OUTPUT } from '@bitcode/
 /**
  * @doc-comment-developing-promptdevelopment
  * domain: agent
- * intent: "Try step prompt for Web Researcher — execute research with defined techniques and directives"
- * current_version: "GA1.50.0"
- * dependencies: {
- *   "PROMPTPART_SPECIFIC_AGENT_WEBRESEARCHER_TRY_DIRECTIVES_INSTRUCTIONS": "GA1.45.0",
- *   "PROMPTPART_SPECIFIC_AGENT_WEBRESEARCHER_TRY_RESEARCH_TECHNIQUES": "GA1.45.0",
- *   "PROMPTPART_GENERIC_AGENT_FAILSAFE_PREPARE_CONTEXT": "GA1.91.0",
- *   "PROMPTPART_GENERIC_AGENT_GENERATION_JSON_ONLY_HEADER": "GA1.50.0",
- *   "PROMPTPART_GENERIC_AGENT_GENERATION_USE_THIS_STRUCTURED_SCHEMA": "GA1.50.0",
- *   "PROMPTPART_GENERIC_AGENT_GENERATION_IF_UNKNOWN_EMPTY": "GA1.50.0",
- *   "PROMPTPART_GENERIC_AGENT_GENERATION_REASON": "GA1.93.0",
- *   "PROMPTPART_GENERIC_AGENT_GENERATION_JUDGE": "GA1.92.0",
- *   "PROMPTPART_GENERIC_AGENT_GENERATION_STRUCTURED_OUTPUT": "GA1.94.0"
- * }
+ * intent: "Bitcode external-evidence research Try prompt for source-attributed collection"
+ * current_version: "V26"
+ * versions: []
  * benchmarks: [
- *   { "name": "technical_accuracy", "test": "Concrete directives and purpose", "score": 0.46 },
- *   { "name": "implementation_ready", "test": "Usable by registry formatter", "score": 0.46 }
+ *   { "name": "try_boundary", "test": "Collects external evidence without scraping-product or product-state ownership", "score": 1.00 },
+ *   { "name": "registry_ready", "test": "Usable by registry formatter", "score": 1.00 }
  * ]
  */
 /**
- * TRY PROMPT COMPOSITION - WEB RESEARCHER AGENT
- * 
- * Composed try step prompt for Web Researcher agent using atomic prompt parts.
- * This defines how the agent executes web research and information gathering operations.
+ * TRY PROMPT COMPOSITION - BITCODE EXTERNAL EVIDENCE RESEARCH
+ *
+ * Composes source-attributed evidence collection PromptParts for this agent.
  */
 
 import { Prompt } from '@bitcode/prompts/prompt';
-
-
-
 
 export const WEB_RESEARCHER_TRY_PROMPT = new Prompt()
   .set('instructions', PROMPTPART_SPECIFIC_AGENT_WEBRESEARCHER_TRY_DIRECTIVES_INSTRUCTIONS)

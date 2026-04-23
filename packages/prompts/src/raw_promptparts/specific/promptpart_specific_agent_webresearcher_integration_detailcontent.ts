@@ -1,15 +1,19 @@
-import { PromptPart } from '../../parts/PromptPart';
-
 /**
  * @doc-comment-developing-promptpartdevelopment
  * domain: agent
- * intent: "Integration details for Web Researcher agent"
- * current_version: "GA1.50.0"
+ * intent: "Bitcode external-evidence research integration boundary"
+ * current_version: "V26"
  * versions: []
  * benchmarks: [
- *   { "name": "technical_accuracy", "test": "States precise integration concerns", "score": 0.46 },
- *   { "name": "implementation_ready", "test": "Drop-in for docs and prompts", "score": 0.46 }
+ *   { "name": "integration_boundary", "test": "Separates auxiliary external evidence from downstream authority", "score": 1.00 }
  * ]
  */
+
+import { PromptPart } from '../../parts/PromptPart';
+
 export const PROMPTPART_SPECIFIC_AGENT_WEBRESEARCHER_INTEGRATION_DETAILCONTENT: PromptPart =
-  'Integrates with search APIs and HTTP fetchers using authenticated requests, respects rate limits, and emits structured results aligned with downstream schema.' as PromptPart;
+  `Integrates as admitted auxiliary-input support:
+- consumes web-search and content tools only for source-attributed external evidence
+- feeds context into need-comprehension, third-party interface planning, proof-gap review, and AssetPack synthesis
+- preserves compatibility web-researcher names only as import and package wrappers
+- does not own mutation, delivery mechanism selection, proof generation, canonical need interpretation, or live Exchange/Terminal product semantics` as PromptPart;

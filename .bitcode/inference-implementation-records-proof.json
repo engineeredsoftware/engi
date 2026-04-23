@@ -1,12 +1,12 @@
 {
   "reportId": "v26-inference-implementation-records-proof",
   "version": "V26",
-  "proofSourceCommit": "226219eb2e0b81d056912ff18d35968df4a2d820",
-  "generatedAt": "2026-04-23T16:43:29-03:00",
+  "proofSourceCommit": "3886cfa1daa6e28d4941dda9aee51d47e6020555",
+  "generatedAt": "2026-04-23T17:12:58-03:00",
   "generatorId": "bitcode.proven-generator.v1",
   "worktreeState": "dirty-preview",
   "passed": true,
-  "recordCount": 9,
+  "recordCount": 10,
   "requiredFields": [
     "recordId",
     "canonicalNeed",
@@ -94,7 +94,7 @@
   ],
   "boundaryPostureCounts": {
     "active": 5,
-    "admitted support": 1,
+    "admitted support": 2,
     "compatibility": 2,
     "ingress": 1
   },
@@ -468,6 +468,12 @@
         "packages/pipelines/deliverable/src/agents/prompts/comprehend-need-prompt.ts",
         "packages/pipelines/deliverable/src/agents/prompts/deliverable-pipeline-comprehend-need-agent-prompts.ts",
         "packages/pipelines/deliverable/scripts/render-prompts.ts",
+        "packages/generic-agents/text-searcher/src/prompts/agent-prompt-text-searcher.ts",
+        "packages/generic-agents/text-searcher/src/prompts/system-prompt-text-searcher.ts",
+        "packages/generic-agents/text-searcher/src/prompts/plan-prompt-text-searcher.ts",
+        "packages/generic-agents/text-searcher/src/prompts/try-prompt-text-searcher.ts",
+        "packages/generic-agents/text-searcher/src/prompts/refine-prompt-text-searcher.ts",
+        "packages/generic-agents/text-searcher/src/prompts/retry-prompt-text-searcher.ts",
         "packages/generic-tools/simple-system-text-search/src/prompts/BitcodeRepositoryEvidenceSearchDocCodeToolPrompt.ts",
         "packages/generic-tools/simple-system-text-search/src/prompts/SimpleSystemTextSearchDocCodeToolPrompt.ts",
         "packages/pipelines/deliverable/src/tools/DeliverablePipelineCloneVCSRepositoryTool.ts",
@@ -481,6 +487,7 @@
         "packages/generic-tools/files-maintaining/src/prompts/DeleteFileDocCodeToolPrompt.ts",
         "packages/generic-tools/files-maintaining/src/prompts/tool-prompt-transaction-begin.ts",
         "packages/pipelines/deliverable/src/agents/setup/deliverable-pipeline-comprehend-need-agent.ts",
+        "packages/generic-agents/text-searcher/src/index.ts",
         "packages/pipelines/deliverable/src/agents/setup/deliverable-pipeline-ready-to-iterate-agent.ts",
         "packages/pipelines/deliverable/src/phases/index.ts",
         "packages/pipelines/deliverable/src/phases/shipping.ts",
@@ -496,6 +503,7 @@
         "protocol-demonstration/test/v26-deliverable-reform.test.js",
         "protocol-demonstration/test/v26-pipeline-finish-reform.test.js",
         "protocol-demonstration/test/v26-simple-system-text-search-compatibility.test.js",
+        "protocol-demonstration/test/v26-text-searcher-agent-compatibility.test.js",
         "packages/pipelines/deliverable/src/index.ts",
         "packages/pipelines/deliverable/src/phases/index.ts",
         "packages/pipelines/deliverable/src/phases/shipping.ts",
@@ -503,6 +511,15 @@
         "packages/pipelines/deliverable/src/types/PipelineSchemas.ts",
         "packages/pipelines/deliverable/src/agents/prompts/comprehend-need-prompt.ts",
         "packages/pipelines/deliverable/src/agents/setup/deliverable-pipeline-comprehend-need-agent.ts",
+        "packages/generic-agents/text-searcher/README.md",
+        "packages/generic-agents/text-searcher/package.json",
+        "packages/generic-agents/text-searcher/src/index.ts",
+        "packages/generic-agents/text-searcher/src/prompts/agent-prompt-text-searcher.ts",
+        "packages/generic-agents/text-searcher/src/prompts/system-prompt-text-searcher.ts",
+        "packages/generic-agents/text-searcher/src/prompts/plan-prompt-text-searcher.ts",
+        "packages/generic-agents/text-searcher/src/prompts/try-prompt-text-searcher.ts",
+        "packages/generic-agents/text-searcher/src/prompts/refine-prompt-text-searcher.ts",
+        "packages/generic-agents/text-searcher/src/prompts/retry-prompt-text-searcher.ts",
         "packages/system-grep/README.md",
         "packages/system-grep/src/index.ts",
         "packages/generic-tools/simple-system-text-search/package.json",
@@ -636,6 +653,87 @@
       ],
       "verificationEvidenceTypeCounts": {
         "executable-command": 3
+      },
+      "missingVerificationEvidenceRefs": [],
+      "declaredVerificationGaps": [],
+      "hasExecutableOrGeneratedVerificationEvidence": true,
+      "passed": true
+    },
+    {
+      "recordId": "external-evidence-research-support",
+      "canonicalNeed": "Collect source-attributed external evidence as auxiliary context for Bitcode need measurement, proof-gap review, third-party interface planning, and AssetPack planning without promoting web research into proof, delivery, mutation, or product ownership.",
+      "boundaryPosture": "admitted support",
+      "missingFields": [],
+      "invalidBoundaryPosture": null,
+      "missingSectionFields": [],
+      "implementationOwnerRefs": [
+        "packages/generic-agents/web-researcher/src/prompts/agent-prompt-web-researcher.ts",
+        "packages/generic-agents/web-researcher/src/prompts/system-prompt-web-researcher.ts",
+        "packages/generic-agents/web-researcher/src/prompts/plan-prompt-web-researcher.ts",
+        "packages/generic-agents/web-researcher/src/prompts/try-prompt-web-researcher.ts",
+        "packages/generic-agents/web-researcher/src/prompts/refine-prompt-web-researcher.ts",
+        "packages/generic-agents/web-researcher/src/prompts/retry-prompt-web-researcher.ts",
+        "packages/generic-tools/web-search/src/index.ts",
+        "packages/web-search/src/index.ts",
+        "packages/generic-agents/web-researcher/src/index.ts",
+        "packages/agent-generics/src/execution/AgentExecution.ts"
+      ],
+      "missingImplementationOwnerRefs": [],
+      "sourceEvidenceRefs": [
+        "packages/generic-agents/web-researcher/README.md",
+        "packages/generic-agents/web-researcher/package.json",
+        "packages/generic-agents/web-researcher/src/index.ts",
+        "packages/generic-agents/web-researcher/src/prompts/agent-prompt-web-researcher.ts",
+        "packages/generic-agents/web-researcher/src/prompts/system-prompt-web-researcher.ts",
+        "packages/generic-agents/web-researcher/src/prompts/plan-prompt-web-researcher.ts",
+        "packages/generic-agents/web-researcher/src/prompts/try-prompt-web-researcher.ts",
+        "packages/generic-agents/web-researcher/src/prompts/refine-prompt-web-researcher.ts",
+        "packages/generic-agents/web-researcher/src/prompts/retry-prompt-web-researcher.ts",
+        "packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_webresearcher_purpose_corestatement.ts",
+        "packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_webresearcher_capabilities_list.ts",
+        "packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_webresearcher_executionpattern_detailcontent.ts",
+        "packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_webresearcher_ptrrsteps_list.ts",
+        "packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_webresearcher_tools_list.ts",
+        "packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_webresearcher_integration_detailcontent.ts",
+        "packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_webresearcher_system_identity.ts",
+        "packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_webresearcher_system_instructions.ts",
+        "packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_webresearcher_system_role.ts",
+        "packages/generic-tools/web-search/src/index.ts",
+        "packages/web-search/src/index.ts",
+        "protocol-demonstration/test/v26-web-researcher-agent-compatibility.test.js"
+      ],
+      "missingSourceEvidenceRefs": [],
+      "verificationSet": [
+        "node --test protocol-demonstration/test/v26-web-researcher-agent-compatibility.test.js",
+        "node --test protocol-demonstration/test/v26-inference-implementation-records.test.js",
+        ".bitcode/inference-implementation-records-proof.json",
+        ".bitcode/prompt-system-totality-proof.json"
+      ],
+      "verificationEvidence": [
+        {
+          "value": "node --test protocol-demonstration/test/v26-web-researcher-agent-compatibility.test.js",
+          "evidenceType": "executable-command",
+          "refPath": null
+        },
+        {
+          "value": "node --test protocol-demonstration/test/v26-inference-implementation-records.test.js",
+          "evidenceType": "executable-command",
+          "refPath": null
+        },
+        {
+          "value": ".bitcode/inference-implementation-records-proof.json",
+          "evidenceType": "generated-artifact",
+          "refPath": ".bitcode/inference-implementation-records-proof.json"
+        },
+        {
+          "value": ".bitcode/prompt-system-totality-proof.json",
+          "evidenceType": "generated-artifact",
+          "refPath": ".bitcode/prompt-system-totality-proof.json"
+        }
+      ],
+      "verificationEvidenceTypeCounts": {
+        "executable-command": 2,
+        "generated-artifact": 2
       },
       "missingVerificationEvidenceRefs": [],
       "declaredVerificationGaps": [],
@@ -1060,11 +1158,17 @@
           "packages/pipelines/deliverable/src/agents/prompts/comprehend-need-prompt.ts",
           "packages/pipelines/deliverable/src/agents/prompts/deliverable-pipeline-comprehend-need-agent-prompts.ts",
           "packages/pipelines/deliverable/scripts/render-prompts.ts",
+          "packages/generic-agents/text-searcher/src/prompts/agent-prompt-text-searcher.ts",
+          "packages/generic-agents/text-searcher/src/prompts/system-prompt-text-searcher.ts",
+          "packages/generic-agents/text-searcher/src/prompts/plan-prompt-text-searcher.ts",
+          "packages/generic-agents/text-searcher/src/prompts/try-prompt-text-searcher.ts",
+          "packages/generic-agents/text-searcher/src/prompts/refine-prompt-text-searcher.ts",
+          "packages/generic-agents/text-searcher/src/prompts/retry-prompt-text-searcher.ts",
           "packages/generic-tools/simple-system-text-search/src/prompts/BitcodeRepositoryEvidenceSearchDocCodeToolPrompt.ts",
           "packages/generic-tools/simple-system-text-search/src/prompts/SimpleSystemTextSearchDocCodeToolPrompt.ts"
         ],
-        "rawPromptPartBoundary": "COMPREHENDNEED, DELIVERABLESETUPCOMPREHENDNEED, and compatibility-named SYSTEMTEXTSEARCH PromptParts before compatibility COMPREHENDTASK wrappers",
-        "registryLayering": "Generic PTRR and formatting PromptParts form base layers while specific deliverable/setup/validation/finish PromptParts implement Bitcode need, written-asset, asset-pack, proof, and delivery-wrapper behavior through retained prompt registries.",
+        "rawPromptPartBoundary": "COMPREHENDNEED, DELIVERABLESETUPCOMPREHENDNEED, compatibility-named TEXTSEARCHER, and compatibility-named SYSTEMTEXTSEARCH PromptParts before compatibility COMPREHENDTASK wrappers",
+        "registryLayering": "Generic PTRR and formatting PromptParts form base layers while specific deliverable/setup/validation/finish PromptParts implement Bitcode need, written-asset, asset-pack, proof, and delivery-wrapper behavior; repository-evidence-search PromptParts add source-grounding behavior through retained prompt registries.",
         "runtimeCarryThrough": "Deliverable-corridor and repository-evidence runtime promptparts must teach need-first asset-pack synthesis, source-grounding, and shipping wrappers."
       },
       "toolImplementation": {
@@ -1085,6 +1189,7 @@
       "agentImplementation": {
         "owners": [
           "packages/pipelines/deliverable/src/agents/setup/deliverable-pipeline-comprehend-need-agent.ts",
+          "packages/generic-agents/text-searcher/src/index.ts",
           "packages/pipelines/deliverable/src/agents/setup/deliverable-pipeline-ready-to-iterate-agent.ts",
           "packages/pipelines/deliverable/src/phases/index.ts",
           "packages/pipelines/deliverable/src/phases/shipping.ts",
@@ -1121,6 +1226,7 @@
         "protocol-demonstration/test/v26-deliverable-reform.test.js",
         "protocol-demonstration/test/v26-pipeline-finish-reform.test.js",
         "protocol-demonstration/test/v26-simple-system-text-search-compatibility.test.js",
+        "protocol-demonstration/test/v26-text-searcher-agent-compatibility.test.js",
         "packages/pipelines/deliverable/src/index.ts",
         "packages/pipelines/deliverable/src/phases/index.ts",
         "packages/pipelines/deliverable/src/phases/shipping.ts",
@@ -1128,6 +1234,15 @@
         "packages/pipelines/deliverable/src/types/PipelineSchemas.ts",
         "packages/pipelines/deliverable/src/agents/prompts/comprehend-need-prompt.ts",
         "packages/pipelines/deliverable/src/agents/setup/deliverable-pipeline-comprehend-need-agent.ts",
+        "packages/generic-agents/text-searcher/README.md",
+        "packages/generic-agents/text-searcher/package.json",
+        "packages/generic-agents/text-searcher/src/index.ts",
+        "packages/generic-agents/text-searcher/src/prompts/agent-prompt-text-searcher.ts",
+        "packages/generic-agents/text-searcher/src/prompts/system-prompt-text-searcher.ts",
+        "packages/generic-agents/text-searcher/src/prompts/plan-prompt-text-searcher.ts",
+        "packages/generic-agents/text-searcher/src/prompts/try-prompt-text-searcher.ts",
+        "packages/generic-agents/text-searcher/src/prompts/refine-prompt-text-searcher.ts",
+        "packages/generic-agents/text-searcher/src/prompts/retry-prompt-text-searcher.ts",
         "packages/system-grep/README.md",
         "packages/system-grep/src/index.ts",
         "packages/generic-tools/simple-system-text-search/package.json",
@@ -1224,6 +1339,80 @@
         "packages/generic-tools/task-comprehension/src/prompts/AnalyzeImplementationComplexityDocCodeToolPrompt.ts",
         "packages/generic-tools/task-comprehension/src/schemas.ts",
         "packages/prompts/src/raw_promptparts/specific/promptpart_specific_tool_analyzetasksemantics_doccodetoolpurpose.ts"
+      ]
+    },
+    {
+      "recordId": "external-evidence-research-support",
+      "canonicalNeed": "Collect source-attributed external evidence as auxiliary context for Bitcode need measurement, proof-gap review, third-party interface planning, and AssetPack planning without promoting web research into proof, delivery, mutation, or product ownership.",
+      "promptImplementation": {
+        "owners": [
+          "packages/generic-agents/web-researcher/src/prompts/agent-prompt-web-researcher.ts",
+          "packages/generic-agents/web-researcher/src/prompts/system-prompt-web-researcher.ts",
+          "packages/generic-agents/web-researcher/src/prompts/plan-prompt-web-researcher.ts",
+          "packages/generic-agents/web-researcher/src/prompts/try-prompt-web-researcher.ts",
+          "packages/generic-agents/web-researcher/src/prompts/refine-prompt-web-researcher.ts",
+          "packages/generic-agents/web-researcher/src/prompts/retry-prompt-web-researcher.ts"
+        ],
+        "rawPromptPartBoundary": "Compatibility-named WEBRESEARCHER PromptParts implement Bitcode external-evidence research support while generic generation/failsafe PromptParts remain reusable base layers.",
+        "registryLayering": "Generic generation/failsafe PromptParts form base layers; specific WEBRESEARCHER PromptParts implement auxiliary source context, source quality, volatility, proof-gap, interface, need, and AssetPack evidence behavior through package-local Prompt registries.",
+        "runtimeCarryThrough": "Web-researcher PromptPart TypeScript and JavaScript must carry canonical Bitcode external-evidence text."
+      },
+      "toolImplementation": {
+        "owners": [
+          "packages/generic-tools/web-search/src/index.ts",
+          "packages/web-search/src/index.ts"
+        ],
+        "contract": "Admitted web-search/content tools may collect source-attributed auxiliary evidence only; they do not mutate source, choose delivery mechanisms, assert proof completion, or define Exchange/Terminal product semantics."
+      },
+      "agentImplementation": {
+        "owners": [
+          "packages/generic-agents/web-researcher/src/index.ts"
+        ],
+        "contract": "bitcodeExternalEvidenceResearcher owns the PTRR auxiliary-evidence agent; retained webResearcherAgent, webResearcherPrompt, webResearcherStepPrompts, and WEB_RESEARCH_AGENT.researchWeb names remain compatibility carriers."
+      },
+      "executionImplementation": {
+        "owners": [
+          "packages/generic-agents/web-researcher/src/index.ts",
+          "packages/agent-generics/src/execution/AgentExecution.ts"
+        ],
+        "carriers": [
+          "AgentExecution compatibility entry",
+          "parent pipeline execution evidence"
+        ]
+      },
+      "assetPackImplementation": {
+        "outputKind": "auxiliary external evidence",
+        "effect": "Source-attributed external findings can support need comprehension, proof-gap review, interface planning, and AssetPack synthesis, but stable written assets and proof artifacts remain owned downstream."
+      },
+      "boundaryPosture": "admitted support",
+      "verificationSet": [
+        "node --test protocol-demonstration/test/v26-web-researcher-agent-compatibility.test.js",
+        "node --test protocol-demonstration/test/v26-inference-implementation-records.test.js",
+        ".bitcode/inference-implementation-records-proof.json",
+        ".bitcode/prompt-system-totality-proof.json"
+      ],
+      "sourceEvidenceRefs": [
+        "packages/generic-agents/web-researcher/README.md",
+        "packages/generic-agents/web-researcher/package.json",
+        "packages/generic-agents/web-researcher/src/index.ts",
+        "packages/generic-agents/web-researcher/src/prompts/agent-prompt-web-researcher.ts",
+        "packages/generic-agents/web-researcher/src/prompts/system-prompt-web-researcher.ts",
+        "packages/generic-agents/web-researcher/src/prompts/plan-prompt-web-researcher.ts",
+        "packages/generic-agents/web-researcher/src/prompts/try-prompt-web-researcher.ts",
+        "packages/generic-agents/web-researcher/src/prompts/refine-prompt-web-researcher.ts",
+        "packages/generic-agents/web-researcher/src/prompts/retry-prompt-web-researcher.ts",
+        "packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_webresearcher_purpose_corestatement.ts",
+        "packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_webresearcher_capabilities_list.ts",
+        "packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_webresearcher_executionpattern_detailcontent.ts",
+        "packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_webresearcher_ptrrsteps_list.ts",
+        "packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_webresearcher_tools_list.ts",
+        "packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_webresearcher_integration_detailcontent.ts",
+        "packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_webresearcher_system_identity.ts",
+        "packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_webresearcher_system_instructions.ts",
+        "packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_webresearcher_system_role.ts",
+        "packages/generic-tools/web-search/src/index.ts",
+        "packages/web-search/src/index.ts",
+        "protocol-demonstration/test/v26-web-researcher-agent-compatibility.test.js"
       ]
     },
     {

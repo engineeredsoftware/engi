@@ -858,6 +858,11 @@ Required closure posture:
   `protocol-demonstration/test/v26-text-searcher-agent-compatibility.test.js`
   proof surface:
   fifth-gate retained agent-package closure so the old text-searcher corridor is admitted only as Bitcode repository-evidence search support with canonical aliases, V26 prompt metadata, and evidence-only source-grounding semantics
+- `packages/generic-agents/web-researcher/{package.json,README.md,src/index.*,src/schemas.*,src/prompts/*,src/__tests__/*}` plus `packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_webresearcher_*`
+  test coverage:
+  `protocol-demonstration/test/v26-web-researcher-agent-compatibility.test.js`
+  proof surface:
+  fifth-gate retained agent-package closure so the old web-researcher corridor is admitted only as Bitcode external-evidence support with canonical aliases, V26 prompt metadata, TS/JS package-runtime and PromptPart carry-through, source-attributed schemas, local compatibility tests, and auxiliary source-context semantics
 - `uapi/{config/features.ts,app/hero-client.tsx,app/(root)/components/MarketingScreenshotSection.tsx,styles/conversations.css,styles/orbital.css,components/base/bitcode/layout/footer.tsx,app/fill-gaps.tsx,tests/footerPublicShell.test.tsx}`
   test coverage:
   `uapi/tests/footerPublicShell.test.tsx`, targeted `next lint`, and `protocol-demonstration/test/v26-active-product-naming.test.js`

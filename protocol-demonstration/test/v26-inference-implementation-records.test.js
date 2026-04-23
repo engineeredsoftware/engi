@@ -64,6 +64,7 @@ test('V26 inference implementation registry names every current fifth-gate infer
     'asset-pack-synthesis-compatibility',
     'conversation-inference',
     'execution-infrastructure',
+    'external-evidence-research-support',
     'mcp-external-ingress',
     'need-comprehension-compatibility',
     'pipeline-infrastructure',
@@ -85,6 +86,7 @@ test('V26 inference implementation registry binds records to canonical Bitcode s
   assert.match(recordsById['conversation-inference'].canonicalNeed, /rich-input Bitcode write surface/u);
   assert.match(recordsById['asset-pack-synthesis-compatibility'].canonicalNeed, /asset-pack written-asset synthesis/u);
   assert.match(recordsById['need-comprehension-compatibility'].canonicalNeed, /need, written-asset, asset-pack/u);
+  assert.match(recordsById['external-evidence-research-support'].canonicalNeed, /source-attributed external evidence/u);
   assert.match(recordsById['mcp-external-ingress'].canonicalNeed, /fail-closed ingress/u);
   assert.match(recordsById['prompt-primitives'].promptImplementation.registryLayering, /Prompt extends RegistryImpl<PromptPart>/u);
   assert.match(recordsById['prompt-primitives'].promptImplementation.registryLayering, /raw_promptparts\/generic holds reusable base PromptPart layers/u);
@@ -121,8 +123,12 @@ test('V26 inference implementation registry binds records to canonical Bitcode s
   ]);
   assert.match(recordsById['need-comprehension-compatibility'].toolImplementation.contract, /Canonical need-first tool, primitive, and schema owners stay local to the package/u);
   assert.match(recordsById['need-comprehension-compatibility'].toolImplementation.contract, /retained task-named APIs remain compatibility carriers/u);
+  assert.match(recordsById['external-evidence-research-support'].promptImplementation.rawPromptPartBoundary, /WEBRESEARCHER PromptParts/u);
+  assert.match(recordsById['external-evidence-research-support'].agentImplementation.contract, /bitcodeExternalEvidenceResearcher/u);
+  assert.match(recordsById['external-evidence-research-support'].toolImplementation.contract, /source-attributed auxiliary evidence/u);
 
   assert.equal(recordsById['asset-pack-synthesis-compatibility'].boundaryPosture, 'compatibility');
   assert.equal(recordsById['need-comprehension-compatibility'].boundaryPosture, 'compatibility');
+  assert.equal(recordsById['external-evidence-research-support'].boundaryPosture, 'admitted support');
   assert.equal(recordsById['mcp-external-ingress'].boundaryPosture, 'ingress');
 });

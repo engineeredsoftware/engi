@@ -1062,15 +1062,21 @@ importers:
 
   packages/generic-agents/web-researcher:
     dependencies:
-      '@bitcode/generic-tools-firecrawl':
+      '@bitcode/agent-generics':
         specifier: workspace:*
-        version: link:../../generic-tools/firecrawl
+        version: link:../../agent-generics
       '@bitcode/generic-tools-web-search':
         specifier: workspace:*
         version: link:../../generic-tools/web-search
       '@bitcode/logger':
         specifier: workspace:*
         version: link:../../logger
+      '@bitcode/prompts':
+        specifier: workspace:*
+        version: link:../../prompts
+      zod:
+        specifier: ^3.22.4
+        version: 3.25.76
 
   packages/generic-agents/web-search:
     dependencies:

@@ -1,15 +1,15 @@
-import { PromptPart } from '../../parts/PromptPart';
-
 /**
  * @doc-comment-developing-promptpartdevelopment
  * domain: agent-try
- * intent: "Execute research using planned queries, capture metadata, and respect constraints"
- * current_version: "GA1.50.0"
+ * intent: "Bitcode external-evidence research try directives"
+ * current_version: "V26"
  * versions: []
  * benchmarks: [
- *   { "name": "technical_accuracy", "test": "Operational directives are concrete and bounded", "score": 0.46 },
- *   { "name": "implementation_ready", "test": "PromptPart content is directly usable", "score": 0.46 }
+ *   { "name": "try_boundary", "test": "Constricts execution to bounded external evidence", "score": 1.00 }
  * ]
  */
+
+import { PromptPart } from '../../parts/PromptPart';
+
 export const PROMPTPART_SPECIFIC_AGENT_WEBRESEARCHER_TRY_DIRECTIVES_INSTRUCTIONS: PromptPart =
-  'Run prioritized queries with site and operator constraints. Respect robots and rate limits. Capture title, URL, snippet, publish date, author, and domain trust indicators for each candidate result.' as PromptPart;
+  'Use admitted search/content tools to collect exact external evidence inside the requested source scope. Return source-attributed findings, record misses, and avoid expanding beyond the need, proof gap, interface question, or AssetPack planning boundary.' as PromptPart;
