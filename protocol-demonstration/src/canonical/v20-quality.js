@@ -13,6 +13,7 @@ export const V20_ACCESSIBILITY_REPORT_ID = 'v20-accessibility-report';
 export const V20_PERFORMANCE_BUDGET_REPORT_ID = 'v20-performance-budget-report';
 export const V20_PROJECTION_QUALITY_SMOKE_MATRIX_ID = 'v20-projection-quality-smoke-matrix';
 export const V20_QUALITY_SUMMARY_REPORT_ID = 'v20-quality-summary';
+export const V20_MINIMUM_INHERITED_POSITIVE_MATRIX_CELL_COUNT = 1832;
 
 export const V20_ARTIFACT_PATHS = {
   operatorAcceptanceTranscript: '.bitcode/v20-operator-acceptance-transcript.json',
@@ -688,7 +689,10 @@ export function buildV20QualitySummary({
   const reportSummaries = reports.map(summarizeReport);
   const qualityFailureCount = reportSummaries.reduce((sum, report) => sum + report.blockingFailureCount, 0);
   const reportPassed = reportSummaries.every((report) => report.passed);
-  const inheritedPositiveCellCount = Number(inheritedV19?.positiveMatrices?.inheritedPositiveBaseline?.cellCount || 1832);
+  const inheritedPositiveCellCount = Number(
+    inheritedV19?.positiveMatrices?.inheritedPositiveBaseline?.cellCount
+      || V20_MINIMUM_INHERITED_POSITIVE_MATRIX_CELL_COUNT
+  );
   const inheritedMutationCellCount = Number(inheritedV19?.negativeMutationMatrix?.cellCount || 10);
   return {
     reportId: V20_QUALITY_SUMMARY_REPORT_ID,
@@ -699,6 +703,7 @@ export function buildV20QualitySummary({
     inheritedProofClosure: {
       fromVersion: 'V19',
       positiveMatrixCellCount: inheritedPositiveCellCount,
+      minimumPositiveMatrixCellCount: V20_MINIMUM_INHERITED_POSITIVE_MATRIX_CELL_COUNT,
       negativeMutationCellCount: inheritedMutationCellCount,
       deterministicReplayPassed: inheritedV19?.deterministicReplayReport?.passed === true,
       volatilityBlockingFindings: Number(inheritedV19?.volatilityInventory?.blockingFindings?.length || 0),
@@ -727,7 +732,7 @@ export function buildV20QualitySummary({
     acceptedExclusions: [],
     passed: reportPassed
       && qualityFailureCount === 0
-      && inheritedPositiveCellCount === 1832
+      && inheritedPositiveCellCount >= V20_MINIMUM_INHERITED_POSITIVE_MATRIX_CELL_COUNT
       && inheritedMutationCellCount === 10
   };
 }

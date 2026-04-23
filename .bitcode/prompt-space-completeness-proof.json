@@ -1,8 +1,8 @@
 {
   "reportId": "v26-prompt-space-completeness-proof",
   "version": "V26",
-  "proofSourceCommit": "a83b2abb1ebe136d478ff98c285bd220dee11f53",
-  "generatedAt": "2026-04-23T18:55:59-03:00",
+  "proofSourceCommit": "52a71776fba156c33553acd6eb1b9cd28be91f3c",
+  "generatedAt": "2026-04-23T19:37:41-03:00",
   "generatorId": "bitcode.proven-generator.v1",
   "worktreeState": "dirty-preview",
   "passed": false,
@@ -135,7 +135,7 @@
       "checkId": "raw-promptpart-runtime-carry-through",
       "label": "Reformed raw PromptParts retain TypeScript and runtime JavaScript carry-through witnesses",
       "passed": true,
-      "detail": "12 required files present",
+      "detail": "22 required files present",
       "requiredFiles": [
         "packages/prompts/src/raw_promptparts/specific/promptpart_specific_tool_analyzetasksemantics_doccodetoolpurpose.ts",
         "packages/prompts/src/raw_promptparts/specific/promptpart_specific_tool_analyzetasksemantics_doccodetoolpurpose.js",
@@ -148,7 +148,17 @@
         "packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_dangerwall_capabilities_list.ts",
         "packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_dangerwall_capabilities_list.js",
         "packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_dangerwall_system_identity.ts",
-        "packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_dangerwall_system_identity.js"
+        "packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_dangerwall_system_identity.js",
+        "packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_websearch_purpose_corestatement.ts",
+        "packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_websearch_purpose_corestatement.js",
+        "packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_websearch_capabilities_list.ts",
+        "packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_websearch_capabilities_list.js",
+        "packages/prompts/src/raw_promptparts/specific/promptpart_specific_tool_websearch_doccodetoolpurpose.ts",
+        "packages/prompts/src/raw_promptparts/specific/promptpart_specific_tool_websearch_doccodetoolpurpose.js",
+        "packages/prompts/src/raw_promptparts/specific/promptpart_specific_tool_getcontents_doccodetoolpurpose.ts",
+        "packages/prompts/src/raw_promptparts/specific/promptpart_specific_tool_getcontents_doccodetoolpurpose.js",
+        "packages/prompts/src/raw_promptparts/specific/promptpart_specific_tool_multiprovidersearch_doccodetoolpurpose.ts",
+        "packages/prompts/src/raw_promptparts/specific/promptpart_specific_tool_multiprovidersearch_doccodetoolpurpose.js"
       ],
       "missingFiles": [],
       "promptSpaceRole": "raw-promptpart-carry-through",

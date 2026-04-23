@@ -253,7 +253,7 @@ test('V25 proven generator renders a Bitcode-branded appendix with BTD rename cl
   assert.ok(generated.markdown.includes('BTD'));
 });
 
-test('V26 proven generator renders the active Bitcode appendix while fifth through seventh gates remain open', () => {
+test('V26 proven generator renders the active Bitcode appendix while fourth through seventh gates remain open', () => {
   const generated = generateCanonicalProvenMarkdown({
     version: 'V26',
     canonicalCommit: 'draft-v26',
@@ -270,8 +270,8 @@ test('V26 proven generator renders the active Bitcode appendix while fifth throu
   assert.equal(generated.data.v26.activeCanonicalTarget, ACTIVE_CANON_VERSION);
   assert.equal(generated.data.v26.draftPreview, ACTIVE_CANON_VERSION !== 'V26');
   assert.equal(generated.data.v26.checkpointReady, true);
-  assert.equal(generated.data.v26.throughFourthGateReady, true);
-  assert.equal(generated.data.v26.promotionReady, true);
+  assert.equal(generated.data.v26.throughFourthGateReady, false);
+  assert.equal(generated.data.v26.promotionReady, false);
   assert.equal(generated.data.v26.fifthGateClosurePassed, false);
   assert.equal(generated.data.v26.sixthGateClosurePassed, false);
   assert.equal(generated.data.v26.seventhGateClosurePassed, false);
@@ -283,7 +283,7 @@ test('V26 proven generator renders the active Bitcode appendix while fifth throu
     ),
     true
   );
-  assert.equal(generated.data.v26.gateCheckpointReport.passed, true);
+  assert.equal(generated.data.v26.gateCheckpointReport.passed, false);
   assert.equal(generated.data.v26.conversationsContinuityProof.passed, true);
   assert.equal(generated.data.v26.runsPipelinesTotalityProof.passed, true);
   assert.equal(generated.data.v26.persistenceSchemaTotalityProof.passed, true);
@@ -319,7 +319,10 @@ test('V26 proven generator renders the active Bitcode appendix while fifth throu
     true,
   );
   assert.equal(generated.data.v26.gateCheckpointReport.thirdGate.passed, true);
-  assert.equal(generated.data.v26.gateCheckpointReport.fourthGate.passed, true);
+  assert.equal(generated.data.v26.gateCheckpointReport.fourthGate.passed, false);
+  assert.equal(generated.data.v26.gateCheckpointReport.fourthGate.reopened, true);
+  assert.equal(generated.data.v26.gateCheckpointReport.fourthGate.materialProofsPassed, true);
+  assert.equal(generated.data.v26.gateCheckpointReport.fourthGate.proceduralClosurePassed, false);
   assert.equal(generated.data.v26.gateCheckpointReport.thirdGatePreparation.prepared, true);
   assert.equal(generated.data.aggregate.fullyProven, false);
   assert.deepEqual(Object.keys(generated.artifacts).sort(), [

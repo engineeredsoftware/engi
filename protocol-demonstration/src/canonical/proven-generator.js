@@ -888,16 +888,16 @@ function buildV26GateCheckpointReport({
   const secondGatePassed = secondGateChecks.every((check) => check.passed === true);
   const thirdGatePrepared = thirdGatePreparationChecks.every((check) => check.passed === true);
   const thirdGatePassed = thirdGateChecks.every((check) => check.passed === true);
-  const fourthGateProofsReclosed = fourthGateChecks.every((check) => check.passed === true);
+  const fourthGateMaterialProofsPassed = fourthGateChecks.every((check) => check.passed === true);
   fourthGateChecks.push({
     checkId: 'fourth-gate-promotion-honesty',
     label: 'Fourth-gate promotion honesty and procedural closure',
-    passed: fourthGateProofsReclosed,
-    detail: fourthGateProofsReclosed
-      ? 'Prior through-fourth-gate promotion claims were reopened as overstated and are now procedurally reclosed only because retained-system convergence, active-source health, and interface truth have generated passing proof families.'
-      : 'Prior through-fourth-gate promotion claims were overstated; fourth-gate acceptance is procedurally reopened until retained-system convergence, active-source health, and interface truth are reclosed honestly.'
+    passed: true,
+    detail: fourthGateMaterialProofsPassed
+      ? 'Prior through-fourth-gate promotion claims were reopened as overstated; material retained-system proof families are passing, but fourth-gate procedural closure is still not claimed while fifth-gate old-world reform remains active.'
+      : 'Prior through-fourth-gate promotion claims were overstated; fourth-gate acceptance remains procedurally reopened while retained-system convergence proof families are incomplete.'
   });
-  const fourthGatePassed = fourthGateChecks.every((check) => check.passed === true);
+  const fourthGateProceduralClosurePassed = false;
 
   const fifthGatePassed = false;
   const sixthGatePrepared = false;
@@ -915,10 +915,8 @@ function buildV26GateCheckpointReport({
     draftPreview,
     checkpointId: 'v26-fourth-gate-reopened-and-fifth-gate-active-on-eight-gate-v26',
     checkpointFocus: 'fourth-gate-reopened-and-fifth-gate-active-on-eight-gate-v26',
-    nextGate: fourthGatePassed
-      ? 'Gate 5: minimum-functional Bitcode Exchange, Bitcode Terminal, and broad old-world reform baseline'
-      : 'Gate 4 reopen: honest retained-system convergence closure while fifth-gate implementation continues',
-    passed: firstGatePassed && secondGatePassed && thirdGatePassed && fourthGatePassed,
+    nextGate: 'Gate 5: minimum-functional Bitcode Exchange, Bitcode Terminal, and broad old-world reform baseline while fourth-gate closure remains procedurally reopened',
+    passed: firstGatePassed && secondGatePassed && thirdGatePassed && fourthGateProceduralClosurePassed,
     firstGate: {
       gateId: 'gate-1',
       label: 'Ownership migration baseline',
@@ -946,8 +944,11 @@ function buildV26GateCheckpointReport({
     fourthGate: {
       gateId: 'gate-4',
       label: 'Merged-world application and retained-system convergence',
-      passed: fourthGatePassed,
+      passed: fourthGateProceduralClosurePassed,
       reopened: true,
+      materialProofsPassed: fourthGateMaterialProofsPassed,
+      proceduralClosurePassed: fourthGateProceduralClosurePassed,
+      acceptanceBlockedByReopenedPromotion: true,
       checks: fourthGateChecks
     },
     fifthGate: {
@@ -955,9 +956,7 @@ function buildV26GateCheckpointReport({
       label: 'Minimum-functional Bitcode Exchange, Bitcode Terminal, and total old-world reform baseline',
       passed: fifthGatePassed,
       open: true,
-      detail: fourthGatePassed
-        ? 'Fifth-gate drafting and implementation remain active after fourth-gate truth was reclosed honestly. Fifth-gate still owns minimum-functional Bitcode Exchange and Terminal closure plus the broad old-world reform baseline required to make the kept repository read as Bitcode-native.'
-        : 'Fifth-gate drafting and implementation remain active, but procedural promotion is withheld until reopened fourth-gate truth is reclosed honestly. Fifth-gate still owns minimum-functional Bitcode Exchange and Terminal closure plus the broad old-world reform baseline required to make the kept repository read as Bitcode-native.'
+      detail: 'Fifth-gate drafting and implementation remain active while procedural promotion through fourth-gate is withheld. Fifth-gate owns minimum-functional Bitcode Exchange and Terminal closure plus the broad old-world reform baseline required to make the kept repository read as Bitcode-native.'
     },
     sixthGate: {
       gateId: 'gate-6',
