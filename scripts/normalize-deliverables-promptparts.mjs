@@ -2,11 +2,11 @@
 import fs from 'fs';
 import path from 'path';
 
+const repoRoot = process.cwd();
 const deliverableDirs = [
   'packages/pipelines/deliverable/src/agents/prompts',
   'packages/pipelines/deliverable/src/tools'
-];
-const root = process.cwd();
+].map((relativePath) => path.join(repoRoot, relativePath));
 
 function collectReferencedPromptParts() {
   const refs = new Set();
@@ -16,12 +16,12 @@ function collectReferencedPromptParts() {
       if (!ent.endsWith('.ts')) continue;
       const fp = path.join(d, ent);
       const s = fs.readFileSync(fp, 'utf8');
-      const re = /from\s+'@engi\/prompts\/raw_promptparts\/(generic|specific)\/([a-zA-Z0-9_\-/]+)'/g;
+      const re = /from\s+'@bitcode\/prompts\/raw_promptparts\/(generic|specific)\/([a-zA-Z0-9_\-/]+)'/g;
       let m;
       while ((m = re.exec(s)) !== null) {
         const scope = m[1];
         const file = m[2] + '.ts';
-        const abs = path.join('packages/prompts/src/raw_promptparts', scope, file);
+        const abs = path.join(repoRoot, 'packages/prompts/src/raw_promptparts', scope, file);
         refs.add(abs);
       }
     }

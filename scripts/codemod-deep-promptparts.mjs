@@ -81,8 +81,8 @@ for (const file of files) {
   let src = fs.readFileSync(file, 'utf8');
   let updated = src;
 
-  // Find all import lines from '@bitcode/prompts'
-  const importRe = /import\s+\{([^}]+)\}\s+from\s+'@engi\/prompts';/g;
+  // Find all import lines from the public Bitcode prompt root.
+  const importRe = /import\s+\{([^}]+)\}\s+from\s+'@bitcode\/prompts';/g;
   const imports = [];
   let mi;
   while ((mi = importRe.exec(src)) !== null) {

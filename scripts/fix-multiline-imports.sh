@@ -1,58 +1,52 @@
-#!/bin/bash
+#!/usr/bin/env bash
+set -euo pipefail
 
-echo "Fixing multiline import patterns in deliverable pipeline..."
+# Repair incomplete multiline PromptPart imports in retained deliverable
+# prompt owners. Repaired imports use current @bitcode/prompts raw_promptparts
+# public subpaths, not removed raw prompt paths.
 
-# Fix the specific pattern where imports are split across lines
-for file in $(find packages/pipelines/deliverable/src/agents/prompts -name "*.ts"); do
-  if [ -f "$file" ]; then
-    # Remove lines 9-10 pattern (lowercase duplicates)
-    sed -i '' '/^import { $/d' "$file"
-    sed -i '' "/^  promptpart_.*';$/d" "$file"
-    
-    # Fix line 6 pattern - remove closing } from '@bitcode/prompts';
-    sed -i '' "s/^  \(PROMPTPART_.*\) } from '@bitcode\/prompts';$/  \1 } from '@bitcode\/prompts\/src\/raw_promptparts\/specific\/\L\1\E';/" "$file"
-    
-    # Actually, let's just fix it more directly
-    # Remove the incomplete multiline imports
-    awk '
-      /^import { $/ { getline; next }
-      /^  PROMPTPART_.*} from/ { 
-        # Extract the part name and fix the import
-        match($0, /PROMPTPART_[A-Z_]+/)
-        if (RSTART > 0) {
-          part = substr($0, RSTART, RLENGTH)
-          lower_part = tolower(part)
-          print "import { " part " } from '\''@bitcode/prompts/src/raw_promptparts/specific/" lower_part "'\'';";
-        }
-        next
+repo_root="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+agents_dir="$repo_root/packages/pipelines/deliverable/src/agents"
+
+echo "Fixing multiline PromptPart import patterns under $agents_dir..."
+
+while IFS= read -r file; do
+  echo "Processing: $file"
+
+  awk '
+    /^import \{[[:space:]]*$/ {
+      getline
+      next
+    }
+    /^  PROMPTPART_.*\} from/ {
+      if (match($0, /PROMPTPART_[A-Z0-9_]+/)) {
+        part = substr($0, RSTART, RLENGTH)
+        lower_part = tolower(part)
+        gsub(/^promptpart_/, "promptpart_", lower_part)
+        print "import { " part " } from '\''@bitcode/prompts/src/raw_promptparts/specific/" lower_part "'\'';"
       }
-      { print }
-    ' "$file" > "$file.tmp" && mv "$file.tmp" "$file"
-  fi
-done
+      next
+    }
+    { print }
+  ' "$file" > "$file.tmp"
+  mv "$file.tmp" "$file"
+done < <(
+  find "$agents_dir" -type f -name "*.ts"
+)
 
-# Also fix setup and discovery agent prompt files
-for dir in setup discovery; do
-  for file in $(find packages/pipelines/deliverable/src/agents/$dir -name "*.ts"); do
-    if [ -f "$file" ]; then
-      awk '
-        /^import { $/ { getline; next }
-        /^  PROMPTPART_.*} from/ { 
-          match($0, /PROMPTPART_[A-Z_]+/)
-          if (RSTART > 0) {
-            part = substr($0, RSTART, RLENGTH)
-            lower_part = tolower(part)
-            print "import { " part " } from '\''@bitcode/prompts/src/raw_promptparts/specific/" lower_part "'\'';";
-          }
-          next
-        }
-        { print }
-      ' "$file" > "$file.tmp" && mv "$file.tmp" "$file"
-    fi
-  done
-done
+remaining=$(
+  rg "^import \\{[[:space:]]*$" "$agents_dir" \
+    --glob '*.ts' \
+    --glob '!_legacy/**' \
+    --glob '!node_modules/**' \
+    --count-matches || true
+)
 
-echo "Verification..."
-grep -c "^import { $" packages/pipelines/deliverable/src/agents/prompts/*.ts | grep -v ":0" | wc -l | xargs -I {} echo "Files with incomplete imports: {}"
+if [ -n "$remaining" ]; then
+  echo "Files with incomplete imports:"
+  echo "$remaining"
+else
+  echo "No incomplete multiline imports found."
+fi
 
-echo "Done!"
+echo "Done."

@@ -1227,7 +1227,16 @@ function buildV26PromptSystemTotalityProof({
         'packages/tools-generics/src/types.ts',
         'packages/tools-generics/src/doc-code-tool/formatUsableTools.ts',
         'packages/llm-generics/src/generation.ts',
-        'packages/time/src/doc-prompts/time-prompt-doc.ts'
+        'packages/time/src/doc-prompts/time-prompt-doc.ts',
+        'scripts/architecture-review.ts',
+        'scripts/codemod-deep-promptparts.mjs',
+        'scripts/fix-barrel-imports.sh',
+        'scripts/fix-corrupted-imports.sh',
+        'scripts/fix-multiline-imports.sh',
+        'scripts/fix-remaining-imports.sh',
+        'scripts/generate-massive-prompt-parts.ts',
+        'scripts/mass-update-prompt-parts.ts',
+        'scripts/normalize-deliverables-promptparts.mjs'
       ]
     ),
     buildV26FilePresenceCheck(

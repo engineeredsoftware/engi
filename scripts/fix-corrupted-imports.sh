@@ -1,50 +1,38 @@
-#!/bin/bash
+#!/usr/bin/env bash
+set -euo pipefail
 
-# Fix corrupted imports in deliverable pipeline files
+# Repair malformed prompt imports left by old-world prompt codemods. Valid
+# targets are the public @bitcode/prompts carrier and current raw_promptparts
+# public subpaths.
 
-echo "Fixing corrupted imports in deliverable pipeline..."
+repo_root="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+pipeline_dir="$repo_root/packages/pipelines/deliverable"
 
-# Fix pattern 1: Malformed import lines ending with just apostrophe
-find packages/pipelines/deliverable -name "*.ts" -exec sed -i '' \
-  "s/import { agentprompt';/import { Prompt } from '@bitcode\/prompts';/g" {} \;
+echo "Fixing corrupted Bitcode prompt imports under $pipeline_dir..."
 
-find packages/pipelines/deliverable -name "*.ts" -exec sed -i '' \
-  "s/import { promptpart_specific_agent.*';/\/\/ Fixed: removed malformed import/g" {} \;
+while IFS= read -r file; do
+  perl -0pi -e \
+    "s/import \\{ agentprompt';/import { Prompt } from '\\@bitcode\\/prompts';/g; \
+     s/import \\{ promptpart_specific_agent.*';/\\/\\/ Fixed: removed malformed PromptPart import/g; \
+     s/\\} from '\\@bitcode\\/prompts\\/src\\/raw_promptparts\\/specific\\/.*\\} from '\\@bitcode.*';/} from '\\@bitcode\\/prompts';/g; \
+     s/import \\{ Prompt \\} from '\\@bitcode\\/prompts\\/src\\/raw_promptparts\\/specific\\/prompt';/import { Prompt } from '\\@bitcode\\/prompts';/g; \
+     s/import \\{ AgentPrompt \\} from '\\@bitcode\\/prompts\\/src\\/raw_promptparts\\/specific\\/factoryagentwithptrr \\} from '\\@bitcode\\/agent-generics';/\\/\\/ Fixed: removed malformed AgentPrompt import/g; \
+     s/import \\{ PROMPTPART.*\\} from '\\@bitcode\\/prompts\\/src\\/raw_promptparts\\/specific\\/agentstepprompt \\} from '\\@bitcode\\/agent-generics';/\\/\\/ Fixed: removed malformed PROMPTPART import/g" \
+    "$file"
 
-# Fix pattern 2: Double "} from" in imports
-find packages/pipelines/deliverable -name "*.ts" -exec sed -i '' \
-  "s/} from '@bitcode\/prompts\/src\/raw_promptparts\/specific\/.*} from '@bitcode.*';/} from '@bitcode\/prompts';/g" {} \;
+  perl -0pi -e \
+    "/import \\{ promptpart \\} from '\\@bitcode\\/prompts';/d; \
+     /import \\{ gettoolsforagent \\} from/d" \
+    "$file"
+done < <(
+  find "$pipeline_dir" -type f -name "*.ts"
+)
 
-# Fix pattern 3: Remove duplicate imports with lowercase names
-find packages/pipelines/deliverable -name "*.ts" -exec sed -i '' \
-  "/import { promptpart } from '@bitcode\/prompts';/d" {} \;
-
-find packages/pipelines/deliverable -name "*.ts" -exec sed -i '' \
-  "/import { gettoolsforagent } from/d" {} \;
-
-# Fix pattern 4: Fix specific malformed patterns
-find packages/pipelines/deliverable -name "*.ts" -exec sed -i '' \
-  "s/import { AgentPrompt } from '@bitcode\/prompts\/src\/raw_promptparts\/specific\/factoryagentwithptrr } from '@bitcode\/agent-generics';/\/\/ Fixed: removed malformed AgentPrompt import/g" {} \;
-
-find packages/pipelines/deliverable -name "*.ts" -exec sed -i '' \
-  "s/import { PROMPTPART.*} from '@bitcode\/prompts\/src\/raw_promptparts\/specific\/agentstepprompt } from '@bitcode\/agent-generics';/\/\/ Fixed: removed malformed PROMPTPART import/g" {} \;
-
-# Fix pattern 5: Fix Prompt imports from wrong paths
-find packages/pipelines/deliverable -name "*.ts" -exec sed -i '' \
-  "s/import { Prompt } from '@bitcode\/prompts\/src\/raw_promptparts\/specific\/prompt';/import { Prompt } from '@bitcode\/prompts';/g" {} \;
-
-# Fix pattern 6: Fix createPromptPart imports  
-find packages/pipelines/deliverable -name "*.ts" -exec sed -i '' \
-  "s/} from '@bitcode\/prompts\/src\/raw_promptparts\/specific\/createpromptpart } from '@bitcode\/prompts';/} from '@bitcode\/prompts\/src\/raw_promptparts\/specific\/promptpart_specific_agent_comprehendtask_system_identity';/g" {} \;
-
-echo "Import fixes applied. Running verification..."
-
-# Check for remaining issues
-echo ""
 echo "Checking for remaining malformed imports..."
-grep -r "agentprompt'" packages/pipelines/deliverable --include="*.ts" | head -5 || echo "✓ No 'agentprompt' issues found"
-grep -r "} from.*} from" packages/pipelines/deliverable --include="*.ts" | head -5 || echo "✓ No double '} from' issues found"
-grep -r "promptpart } from" packages/pipelines/deliverable --include="*.ts" | head -5 || echo "✓ No 'promptpart }' issues found"
+rg "agentprompt'|} from.*} from|promptpart } from" "$pipeline_dir" \
+  --glob '*.ts' \
+  --glob '!_legacy/**' \
+  --glob '!node_modules/**' \
+  --max-count 5 || echo "No malformed import patterns found."
 
-echo ""
-echo "Fix script completed!"
+echo "Fix script completed."

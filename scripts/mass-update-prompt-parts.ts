@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /**
- * MASS UPDATE PROMPT PARTS - ENGI EXCELLENCE EDITION
+ * Bitcode PromptPart mass-update utility.
  * 
  * This script performs a massive update of all prompt files to:
  * 1. Remove 'type Prompt = string'
@@ -61,7 +61,7 @@ async function updatePromptFile(filePath: string): Promise<boolean> {
     
     // Skip if already updated
     if (content.includes('PromptPart') && content.includes('PROMPTPART_')) {
-      console.log(`✓ Already updated: ${path.basename(filePath)}`);
+      console.log(`Already updated: ${path.basename(filePath)}`);
       stats.skipped++;
       return false;
     }
@@ -69,7 +69,7 @@ async function updatePromptFile(filePath: string): Promise<boolean> {
     // Extract the export name
     const exportMatch = content.match(/export\s+const\s+(\w+):\s*Prompt\s*=/);
     if (!exportMatch) {
-      console.log(`⚠ No export found in: ${path.basename(filePath)}`);
+      console.log(`No export found in: ${path.basename(filePath)}`);
       stats.errors++;
       return false;
     }
@@ -84,7 +84,7 @@ async function updatePromptFile(filePath: string): Promise<boolean> {
     if (!content.includes("import { PromptPart }")) {
       // Find the position after the JSDoc comment
       const importPosition = content.indexOf('*/') + 2;
-      const importStatement = "\n\nimport { PromptPart } from '../../PromptPart';";
+      const importStatement = "\n\nimport { PromptPart } from '../../parts/PromptPart';";
       content = content.slice(0, importPosition) + importStatement + content.slice(importPosition);
     }
     
@@ -111,22 +111,22 @@ async function updatePromptFile(filePath: string): Promise<boolean> {
     
     if (content !== originalContent) {
       await writeFile(filePath, content);
-      console.log(`✅ Updated: ${path.basename(filePath)}`);
+      console.log(`Updated: ${path.basename(filePath)}`);
       stats.updated++;
       return true;
     }
     
     return false;
   } catch (error) {
-    console.error(`❌ Error updating ${filePath}:`, error);
+    console.error(`Error updating ${filePath}:`, error);
     stats.errors++;
     return false;
   }
 }
 
 async function moveToSpecific(fileName: string): Promise<void> {
-  const genericPath = path.join(__dirname, '../packages/prompts/src/raw/generic', fileName);
-  const specificPath = path.join(__dirname, '../packages/prompts/src/raw/specific', fileName.replace('_generic_', '_specific_'));
+  const genericPath = path.join(__dirname, '../packages/prompts/src/raw_promptparts/generic', fileName);
+  const specificPath = path.join(__dirname, '../packages/prompts/src/raw_promptparts/specific', fileName.replace('_generic_', '_specific_'));
   
   try {
     if (fs.existsSync(genericPath)) {
@@ -147,17 +147,17 @@ async function moveToSpecific(fileName: string): Promise<void> {
       // Delete from generic directory
       await unlink(genericPath);
       
-      console.log(`🚀 Moved to specific: ${fileName} → ${path.basename(specificPath)}`);
+      console.log(`Moved to specific: ${fileName} -> ${path.basename(specificPath)}`);
       stats.moved++;
     }
   } catch (error) {
-    console.error(`❌ Error moving ${fileName}:`, error);
+    console.error(`Error moving ${fileName}:`, error);
     stats.errors++;
   }
 }
 
 async function updateImports(): Promise<void> {
-  console.log('\n📝 Updating imports across codebase...\n');
+  console.log('\nUpdating imports across codebase...\n');
   
   const files = await globAsync('packages/**/*.ts', {
     ignore: ['**/node_modules/**', '**/dist/**', '**/*.test.ts', '**/*.spec.ts']
@@ -187,8 +187,8 @@ async function updateImports(): Promise<void> {
       
       // Update moved LSP files
       for (const lspFile of LSP_FILES_TO_MOVE) {
-        const genericImport = `@bitcode/prompts/src/raw/generic/${lspFile.replace('.ts', '')}`;
-        const specificImport = `@bitcode/prompts/src/raw/specific/${lspFile.replace('.ts', '').replace('_generic_', '_specific_')}`;
+        const genericImport = `@bitcode/prompts/raw_promptparts/generic/${lspFile.replace('.ts', '')}`;
+        const specificImport = `@bitcode/prompts/raw_promptparts/specific/${lspFile.replace('.ts', '').replace('_generic_', '_specific_')}`;
         
         if (content.includes(genericImport)) {
           content = content.replace(genericImport, specificImport);
@@ -198,28 +198,28 @@ async function updateImports(): Promise<void> {
       
       if (updated) {
         await writeFile(file, content);
-        console.log(`✅ Updated imports in: ${path.relative(process.cwd(), file)}`);
+        console.log(`Updated imports in: ${path.relative(process.cwd(), file)}`);
       }
     } catch (error) {
-      console.error(`❌ Error updating imports in ${file}:`, error);
+      console.error(`Error updating imports in ${file}:`, error);
     }
   }
 }
 
 async function main() {
-  console.log('🚀 ENGI EXCELLENCE - Mass Update Prompt Parts\n');
+  console.log('Bitcode PromptPart mass update\n');
   
   // Step 1: Move LSP-specific files
-  console.log('📦 Moving LSP-specific files to specific directory...\n');
+  console.log('Moving LSP-specific files to specific directory...\n');
   for (const file of LSP_FILES_TO_MOVE) {
     await moveToSpecific(file);
   }
   
   // Step 2: Update all prompt files
-  console.log('\n📝 Updating prompt files...\n');
+  console.log('\nUpdating prompt files...\n');
   
-  const genericFiles = await globAsync('packages/prompts/src/raw/generic/prompt_*.ts');
-  const specificFiles = await globAsync('packages/prompts/src/raw/specific/prompt_*.ts');
+  const genericFiles = await globAsync('packages/prompts/src/raw_promptparts/generic/promptpart_*.ts');
+  const specificFiles = await globAsync('packages/prompts/src/raw_promptparts/specific/promptpart_*.ts');
   
   for (const file of [...genericFiles, ...specificFiles]) {
     await updatePromptFile(file);
@@ -229,12 +229,12 @@ async function main() {
   await updateImports();
   
   // Print statistics
-  console.log('\n📊 Update Statistics:');
-  console.log(`✅ Updated: ${stats.updated} files`);
-  console.log(`🚀 Moved: ${stats.moved} files`);
-  console.log(`⏭️  Skipped: ${stats.skipped} files`);
-  console.log(`❌ Errors: ${stats.errors} files`);
-  console.log('\n✨ ENGI EXCELLENCE ACHIEVED! ✨');
+  console.log('\nUpdate statistics:');
+  console.log(`Updated: ${stats.updated} files`);
+  console.log(`Moved: ${stats.moved} files`);
+  console.log(`Skipped: ${stats.skipped} files`);
+  console.log(`Errors: ${stats.errors} files`);
+  console.log('\nBitcode PromptPart mass update complete.');
 }
 
 // Run the script

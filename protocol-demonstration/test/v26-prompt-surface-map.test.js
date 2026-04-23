@@ -27,6 +27,12 @@ test('V26 prompt surface map keeps active, support, and reference corridors expl
   assert.match(promptSurfaceSource, /uapi\/prompts\/conversations-system-prompt\.ts/u);
   assert.match(promptSurfaceSource, /packages\/\{doc-comment,doc-code\}\/\*/u);
   assert.match(promptSurfaceSource, /packages\/tools-generics\/src\/doc-code-tool\/\*/u);
+  assert.match(promptSurfaceSource, /Prompt repair and migration scripts/u);
+  assert.match(promptSurfaceSource, /scripts\/\{fix-remaining-imports,fix-barrel-imports,fix-multiline-imports,fix-corrupted-imports\}\.sh/u);
+  assert.match(promptSurfaceSource, /public `@bitcode\/prompts` and `raw_promptparts` boundaries/u);
+  assert.match(promptSurfaceSource, /Prompt generation and update scripts/u);
+  assert.match(promptSurfaceSource, /scripts\/\{generate-massive-prompt-parts,mass-update-prompt-parts,architecture-review\}\.ts/u);
+  assert.match(promptSurfaceSource, /public `@bitcode\/prompts\/raw_promptparts\/\*` package subpaths/u);
 
   assert.match(promptSurfaceSource, /packages\/generic-agents\/\*/u);
   assert.match(promptSurfaceSource, /packages\/generic-tools\/\*/u);

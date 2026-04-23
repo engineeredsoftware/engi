@@ -1,8 +1,8 @@
 {
   "reportId": "v26-prompt-system-totality-proof",
   "version": "V26",
-  "proofSourceCommit": "48e3682fbae3b4549a8c56fce9c49f5fdfdac796",
-  "generatedAt": "2026-04-23T10:35:33-03:00",
+  "proofSourceCommit": "65525e6d16032f50a144334d6c4007cf526faf71",
+  "generatedAt": "2026-04-23T10:54:36-03:00",
   "generatorId": "bitcode.proven-generator.v1",
   "worktreeState": "dirty-preview",
   "passed": true,
@@ -141,7 +141,7 @@
       "checkId": "support-prompt-consumer-boundaries",
       "label": "Support prompt consumers plus prompt-primitive support carriers remain explicit on the public prompt boundary",
       "passed": true,
-      "detail": "9 required files present",
+      "detail": "18 required files present",
       "requiredFiles": [
         "packages/digest/package.json",
         "packages/digest/prompts/digest-prompts.ts",
@@ -151,7 +151,16 @@
         "packages/tools-generics/src/types.ts",
         "packages/tools-generics/src/doc-code-tool/formatUsableTools.ts",
         "packages/llm-generics/src/generation.ts",
-        "packages/time/src/doc-prompts/time-prompt-doc.ts"
+        "packages/time/src/doc-prompts/time-prompt-doc.ts",
+        "scripts/architecture-review.ts",
+        "scripts/codemod-deep-promptparts.mjs",
+        "scripts/fix-barrel-imports.sh",
+        "scripts/fix-corrupted-imports.sh",
+        "scripts/fix-multiline-imports.sh",
+        "scripts/fix-remaining-imports.sh",
+        "scripts/generate-massive-prompt-parts.ts",
+        "scripts/mass-update-prompt-parts.ts",
+        "scripts/normalize-deliverables-promptparts.mjs"
       ],
       "missingFiles": []
     },

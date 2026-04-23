@@ -1,6 +1,6 @@
 /**
- * MASSIVE PROMPT PARTS GENERATOR
- * Generates THOUSANDS of atomic prompt parts for all categories
+ * Bitcode PromptPart generator.
+ * Generates atomic PromptParts into the active raw_promptparts filesystem.
  */
 
 import * as fs from 'fs';
@@ -16,7 +16,6 @@ interface PromptCategory {
   }>;
 }
 
-// MASSIVE GENERIC CATEGORIES
 const genericCategories: PromptCategory[] = [
   {
     name: 'reasoning',
@@ -278,7 +277,6 @@ const genericCategories: PromptCategory[] = [
   }
 ];
 
-// DELIVERABLES SPECIFIC CATEGORIES
 const deliverablesCategories: PromptCategory[] = [
   {
     name: 'pr_excellence',
@@ -370,8 +368,8 @@ const deliverablesCategories: PromptCategory[] = [
 
 // Function to generate all prompt parts
 function generateAllPromptParts() {
-  const genericDir = path.join(__dirname, '../packages/prompts/src/raw/generic');
-  const specificDir = path.join(__dirname, '../packages/prompts/src/raw/specific');
+  const genericDir = path.join(__dirname, '../packages/prompts/src/raw_promptparts/generic');
+  const specificDir = path.join(__dirname, '../packages/prompts/src/raw_promptparts/specific');
   
   let genericCount = 0;
   let specificCount = 0;
@@ -379,7 +377,7 @@ function generateAllPromptParts() {
   // Generate generic prompt parts
   genericCategories.forEach(category => {
     category.parts.forEach(part => {
-      const filename = `prompt_generic_${category.name}_${part.suffix}`;
+      const filename = `promptpart_generic_${category.name}_${part.suffix}`;
       const exportName = filename.toUpperCase();
       const priority = part.priority || 'medium';
       
@@ -393,7 +391,7 @@ function generateAllPromptParts() {
  * version: "1.0.0"
  */
 
-import { PromptPart } from '../../PromptPart';
+import { PromptPart } from '../../parts/PromptPart';
 
 export const ${exportName}: PromptPart = \`${part.content}\` as PromptPart;`;
       
@@ -405,7 +403,7 @@ export const ${exportName}: PromptPart = \`${part.content}\` as PromptPart;`;
   // Generate deliverables specific prompt parts
   deliverablesCategories.forEach(category => {
     category.parts.forEach(part => {
-      const filename = `prompt_specific_deliverables_${category.name}_${part.suffix}`;
+      const filename = `promptpart_specific_deliverables_${category.name}_${part.suffix}`;
       const exportName = filename.toUpperCase();
       const priority = part.priority || 'high';
       
@@ -419,7 +417,7 @@ export const ${exportName}: PromptPart = \`${part.content}\` as PromptPart;`;
  * version: "1.0.0"
  */
 
-import { PromptPart } from '../../PromptPart';
+import { PromptPart } from '../../parts/PromptPart';
 
 export const ${exportName}: PromptPart = \`${part.content}\` as PromptPart;`;
       

@@ -1,26 +1,40 @@
-#!/bin/bash
+#!/usr/bin/env bash
+set -euo pipefail
 
-echo "Fixing remaining corrupted import patterns..."
+# Repair retained deliverable prompt imports that were corrupted during old
+# prompt-surface migrations. The target state is the public @bitcode/prompts
+# carrier plus current raw_promptparts subpaths, never old import namespaces or
+# removed raw prompt filesystem paths.
 
-# Fix createpromptpart } from pattern
-find packages/pipelines/deliverable -name "*.ts" -exec sed -i '' \
-  "s/from '@bitcode\/prompts\/src\/raw_promptparts\/generic\/createpromptpart } from '@bitcode\/prompts';/from '@bitcode\/prompts';/g" {} \;
+repo_root="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+pipeline_dir="$repo_root/packages/pipelines/deliverable"
 
-find packages/pipelines/deliverable -name "*.ts" -exec sed -i '' \
-  "s/from '@bitcode\/prompts\/src\/raw_promptparts\/generic\/prompt } from '@bitcode\/prompts';/from '@bitcode\/prompts';/g" {} \;
+echo "Fixing remaining Bitcode prompt import corruption under $pipeline_dir..."
 
-# Fix specific files with complex patterns
-for file in packages/pipelines/deliverable/src/agents/discovery/assesscomplexity/prompts/try-prompt-assesscomplexity.ts \
-            packages/pipelines/deliverable/src/agents/discovery/analyzeparallel/prompts/try-prompt-analyzeparallel.ts \
-            packages/pipelines/deliverable/src/agents/discovery/analyzeparallel/prompts/system-prompt-analyzeparallel.ts; do
-  if [ -f "$file" ]; then
-    # Replace the entire malformed import line with a comment
-    sed -i '' "s/.*createpromptpart } from '@bitcode\/prompts';/\/\/ Fixed: removed malformed import/g" "$file"
-    sed -i '' "s/.*prompt } from '@bitcode\/prompts';/\/\/ Fixed: removed malformed import/g" "$file"
-  fi
-done
+while IFS= read -r file; do
+  perl -0pi -e \
+    "s/from '\\@bitcode\\/prompts\\/src\\/raw_promptparts\\/generic\\/createpromptpart } from '\\@bitcode\\/prompts';/from '\\@bitcode\\/prompts';/g; \
+     s/from '\\@bitcode\\/prompts\\/src\\/raw_promptparts\\/generic\\/prompt } from '\\@bitcode\\/prompts';/from '\\@bitcode\\/prompts';/g; \
+     s/.*createpromptpart } from '\\@bitcode\\/prompts';/\\/\\/ Fixed: removed malformed createPromptPart import/g; \
+     s/.*prompt } from '\\@bitcode\\/prompts';/\\/\\/ Fixed: removed malformed Prompt import/g" \
+    "$file"
+done < <(
+  find "$pipeline_dir" -type f -name "*.ts"
+)
 
-echo "Checking for any remaining issues..."
-grep -r "} from.*} from" packages/pipelines/deliverable --include="*.ts" | wc -l | xargs -I {} echo "Found {} remaining double '} from' patterns"
+remaining=$(
+  rg "} from.*} from" "$pipeline_dir" \
+    --glob '*.ts' \
+    --glob '!_legacy/**' \
+    --glob '!node_modules/**' \
+    --count-matches || true
+)
 
-echo "Done!"
+if [ -n "$remaining" ]; then
+  echo "Remaining double '} from' patterns:"
+  echo "$remaining"
+else
+  echo "No remaining double '} from' patterns found."
+fi
+
+echo "Done."

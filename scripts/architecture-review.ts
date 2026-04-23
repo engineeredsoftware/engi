@@ -152,7 +152,7 @@ class ArchitectureReviewer {
     const criticalViolations: string[] = [];
 
     try {
-      const genericPath = path.join(this.basePath, 'packages/prompts/src/raw/generic');
+      const genericPath = path.join(this.basePath, 'packages/prompts/src/raw_promptparts/generic');
       
       if (fs.existsSync(genericPath)) {
         const files = fs.readdirSync(genericPath).filter(f => f.endsWith('.ts'));
@@ -161,11 +161,11 @@ class ArchitectureReviewer {
         let totalFiles = files.length;
 
         files.forEach(file => {
-          if (file.startsWith('prompt_generic_') || file.startsWith('template_generic_')) {
+          if (file.startsWith('promptpart_generic_') || file.startsWith('template_generic_')) {
             correctNames++;
             details.push(`✅ ${file} - correct naming`);
           } else {
-            criticalViolations.push(`❌ ${file} - incorrect naming (should be [prompt|template]_generic_*)`);
+            criticalViolations.push(`❌ ${file} - incorrect naming (should be [promptpart|template]_generic_*)`);
           }
         });
 
