@@ -13,31 +13,32 @@ import { PROMPTPART_GENERIC_AGENT_GENERATION_STRUCTURED_OUTPUT } from '@bitcode/
 
 
 /**
- * Danger Wall Agent - Retry Step Prompt
+ * Bitcode Need Risk Admission Agent - Retry Step Prompt
  * 
- * Recovery phase for security validation failures and enhanced threat detection.
+ * Recover incomplete Bitcode risk-admission runs by rechecking unresolved need,
+ * AssetPack, proof, and delivery-wrapper boundaries.
  * 
  * @doc-comment-developing-promptdevelopment
  * domain: agent
- * intent: "RETRY step prompt for Danger Wall agent"
- * current_version: "GA1.50.0"
+ * intent: "Bitcode RETRY step prompt for need risk-admission"
+ * current_version: "V26"
  * versions: [
  *   { "version": "3.0.0", "score": 0.90, "reason": "Migrated to correct Prompt class pattern" },
  *   { "version": "2.0.0", "score": 0.50, "reason": "Used wrong PromptPart concatenation pattern" },
  *   { "version": "1.0.0", "score": 0.40, "reason": "Initial implementation" }
  * ]
  * benchmarks: [
- *   { "name": "retry_effectiveness", "test": "Does the prompt enable effective security retry strategies?", "score": 0.44 },
- *   { "name": "failure_analysis", "test": "Are security validation failures properly analyzed?", "score": 0.45 },
- *   { "name": "recovery_strategy", "test": "Is security validation recovery strategy clear?", "score": 0.44 }
+ *   { "name": "retry_effectiveness", "test": "Does the prompt enable effective Bitcode admission retry strategies?", "score": 0.44 },
+ *   { "name": "failure_analysis", "test": "Are incomplete admission findings properly analyzed?", "score": 0.45 },
+ *   { "name": "recovery_strategy", "test": "Is proof-gap and delivery-boundary recovery clear?", "score": 0.44 }
  * ]
  */
 
 export const DANGER_WALL_RETRY_PROMPT = new Prompt()
-  .set('phase', 'RETRY: Recover Security Validation')
+  .set('phase', 'RETRY: Recover Bitcode Risk Admission')
   .set('context', PROMPTPART_SPECIFIC_AGENT_DANGERWALL_SYSTEM_CONTEXT)
   .set('execution_pattern', PROMPTPART_SPECIFIC_AGENT_DANGERWALL_EXECUTIONPATTERN_DETAILCONTENT)
-  .set('recovery_strategy', 'When security validation fails, analyze failure patterns, adjust security scanning parameters, select alternative validation tools, and implement enhanced threat detection strategies.')
+  .set('recovery_strategy', 'When Bitcode risk admission is incomplete, analyze missing evidence, unresolved need ambiguity, AssetPack scope mismatch, proof-gap uncertainty, and delivery-wrapper hazards before admitting or blocking the next phase.')
   .set('generation:json_only_header', PROMPTPART_GENERIC_AGENT_GENERATION_JSON_ONLY_HEADER)
   .set('generation:use_this_structure', PROMPTPART_GENERIC_AGENT_GENERATION_USE_THIS_STRUCTURED_SCHEMA)
   .set('generation:if_unknown_empty', PROMPTPART_GENERIC_AGENT_GENERATION_IF_UNKNOWN_EMPTY)

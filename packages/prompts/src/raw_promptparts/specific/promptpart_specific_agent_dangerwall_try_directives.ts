@@ -3,14 +3,12 @@ import { PromptPart } from '../../parts/PromptPart';
 /**
  * @doc-comment-developing-promptpartdevelopment
  * domain: agent
- * intent: "Define TRY step execution for Danger Wall agent"
- * current_version: "GA1.50.0"
+ * intent: "Bitcode risk-admission compatibility PromptPart for danger-wall try directives"
+ * current_version: "V26"
  * versions: []
  * benchmarks: [
- *   { "name": "execution_precision", "test": "Is execution precise?", "score": 0.36 },
- *   { "name": "operational_clarity", "test": "Are operations clear?", "score": 0.35 },
- *   { "name": "output_quality", "test": "Is output quality high?", "score": 0.34 }
+ *   { "name": "execution_boundary", "test": "Try directives produce bounded admission findings.", "score": 0.95 }
  * ]
  */
-export const PROMPTPART_SPECIFIC_AGENT_DANGERWALL_TRY_DIRECTIVES: PromptPart = 
-  'Execute security analysis through: static code vulnerability scanning, dependency vulnerability assessment, configuration security auditing, secret and credential detection, permission and access control review, injection vulnerability testing, compliance violation checking' as PromptPart;
+export const PROMPTPART_SPECIFIC_AGENT_DANGERWALL_TRY_DIRECTIVES: PromptPart =
+  'Execute Bitcode risk admission by checking the need, repository evidence, external evidence, candidate written assets, AssetPack intent, proof obligations, and delivery mechanism for blockers, warnings, and manual-review triggers.' as PromptPart;

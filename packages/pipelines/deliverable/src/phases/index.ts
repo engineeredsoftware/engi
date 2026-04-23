@@ -25,8 +25,8 @@ type ValidationOutput = DeliverablePhaseOutput;
 // ==================== SETUP PHASE ====================
 
 /**
- * Setup Phase - Repository analysis, context preparation, and safety checks
- * Now includes danger-wall before proceeding to iteration
+ * Setup Phase - repository context, need comprehension, and risk admission.
+ * The retained danger-wall slot is now Bitcode need/AssetPack admission before iteration.
  */
 // Use the Setup phase runner (executor pattern)
 export const setupPhase = deliverablesPipelineSetupPhaseExecutor as unknown as PhaseDelegator<DeliverableInput, SetupOutput>;

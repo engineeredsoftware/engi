@@ -1,19 +1,19 @@
 /**
- * Danger Wall Agent - Setup Phase Safety Check
+ * Bitcode Need Risk Admission Agent - Setup Phase Admission Check
  * 
- * Deliverable Pipeline - Danger Wall Agent wrapper that adds short-circuit signaling
- * for deliverables pipeline. Signals full refund if dangerous content detected.
+ * Retained deliverable pipeline wrapper that adds short-circuit signaling when
+ * Bitcode risk admission blocks the next phase.
  */
 
-import { dangerWallAgent } from '@bitcode/generic-agents-danger-wall';
+import { bitcodeNeedRiskAdmissionAgent } from '@bitcode/generic-agents-danger-wall';
 import { ShortCircuitSignal } from '@bitcode/execution-generics';
 import { z } from 'zod';
 
 /**
- * Extended output schema with short-circuit signal
+ * Extended output schema with short-circuit signal.
  */
 const DangerWallWithSignalSchema = z.object({
-  result: z.any(), // The normal danger wall output
+  result: z.any(), // The Bitcode risk-admission output
   signal: z.object({
     type: z.literal('SHORT_CIRCUIT').optional(),
     reason: z.string().optional(),
@@ -23,29 +23,26 @@ const DangerWallWithSignalSchema = z.object({
 });
 
 /**
- * Danger wall agent wrapper with short-circuit capability
+ * Bitcode risk-admission wrapper with short-circuit capability.
  */
 export default async function dangerWallWithShortCircuit(input: any, execution: any) {
-  // Execute the generic danger wall agent
-  const result = await dangerWallAgent(input, execution);
+  const result = await bitcodeNeedRiskAdmissionAgent(input, execution);
   
-  // Check if content is dangerous
-  const isDangerous = !result.finalAssessment.safe || 
+  const isBlocked = !result.finalAssessment.safe ||
                      result.finalAssessment.maxSeverity === 'critical' ||
                      result.finalAssessment.maxSeverity === 'high';
   
-  // If dangerous, return with short-circuit signal
-  if (isDangerous) {
+  if (isBlocked) {
     return {
       result,
       signal: {
         type: 'SHORT_CIRCUIT' as const,
-        reason: `Dangerous content detected: ${result.finalAssessment.verdict.reason}`,
-        refundType: 'full' as const, // Full refund for safety violations
+        reason: `Bitcode risk admission blocked setup: ${result.finalAssessment.verdict.reason}`,
+        refundType: 'full' as const,
         confidence: result.finalAssessment.confidence,
         metadata: {
           phase: 'setup',
-          agent: 'danger-wall',
+          agent: 'bitcode-need-risk-admission',
           severity: result.finalAssessment.maxSeverity,
           flags: result.finalAssessment.verdict.flags
         }
@@ -53,6 +50,5 @@ export default async function dangerWallWithShortCircuit(input: any, execution: 
     };
   }
   
-  // Safe content, return normal result
   return result;
 }

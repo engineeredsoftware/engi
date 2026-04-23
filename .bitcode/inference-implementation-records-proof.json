@@ -1,8 +1,8 @@
 {
   "reportId": "v26-inference-implementation-records-proof",
   "version": "V26",
-  "proofSourceCommit": "3886cfa1daa6e28d4941dda9aee51d47e6020555",
-  "generatedAt": "2026-04-23T17:12:58-03:00",
+  "proofSourceCommit": "f362262eb40c72529a0d07a7796a8ee6df0fcbc4",
+  "generatedAt": "2026-04-23T18:33:02-03:00",
   "generatorId": "bitcode.proven-generator.v1",
   "worktreeState": "dirty-preview",
   "passed": true,
@@ -661,7 +661,7 @@
     },
     {
       "recordId": "external-evidence-research-support",
-      "canonicalNeed": "Collect source-attributed external evidence as auxiliary context for Bitcode need measurement, proof-gap review, third-party interface planning, and AssetPack planning without promoting web research into proof, delivery, mutation, or product ownership.",
+      "canonicalNeed": "Research the web during the discovery phase to support Bitcode need synthesis with source-attributed external evidence for need measurement, proof-gap question formation, third-party interface planning, and AssetPack planning without promoting web research into canonical need interpretation, proof, delivery, mutation, or product ownership.",
       "boundaryPosture": "admitted support",
       "missingFields": [],
       "invalidBoundaryPosture": null,
@@ -1343,7 +1343,7 @@
     },
     {
       "recordId": "external-evidence-research-support",
-      "canonicalNeed": "Collect source-attributed external evidence as auxiliary context for Bitcode need measurement, proof-gap review, third-party interface planning, and AssetPack planning without promoting web research into proof, delivery, mutation, or product ownership.",
+      "canonicalNeed": "Research the web during the discovery phase to support Bitcode need synthesis with source-attributed external evidence for need measurement, proof-gap question formation, third-party interface planning, and AssetPack planning without promoting web research into canonical need interpretation, proof, delivery, mutation, or product ownership.",
       "promptImplementation": {
         "owners": [
           "packages/generic-agents/web-researcher/src/prompts/agent-prompt-web-researcher.ts",
@@ -1353,22 +1353,22 @@
           "packages/generic-agents/web-researcher/src/prompts/refine-prompt-web-researcher.ts",
           "packages/generic-agents/web-researcher/src/prompts/retry-prompt-web-researcher.ts"
         ],
-        "rawPromptPartBoundary": "Compatibility-named WEBRESEARCHER PromptParts implement Bitcode external-evidence research support while generic generation/failsafe PromptParts remain reusable base layers.",
-        "registryLayering": "Generic generation/failsafe PromptParts form base layers; specific WEBRESEARCHER PromptParts implement auxiliary source context, source quality, volatility, proof-gap, interface, need, and AssetPack evidence behavior through package-local Prompt registries.",
-        "runtimeCarryThrough": "Web-researcher PromptPart TypeScript and JavaScript must carry canonical Bitcode external-evidence text."
+        "rawPromptPartBoundary": "Compatibility-named WEBRESEARCHER PromptParts implement Bitcode need-synthesis web research support while generic generation/failsafe PromptParts remain reusable base layers.",
+        "registryLayering": "Generic generation/failsafe PromptParts form base layers; specific WEBRESEARCHER PromptParts implement discovery-phase source context, source quality, volatility, proof-gap question, interface, need, and AssetPack evidence behavior through package-local Prompt registries.",
+        "runtimeCarryThrough": "Web-researcher PromptPart TypeScript and JavaScript must carry canonical Bitcode need-synthesis web research text."
       },
       "toolImplementation": {
         "owners": [
           "packages/generic-tools/web-search/src/index.ts",
           "packages/web-search/src/index.ts"
         ],
-        "contract": "Admitted web-search/content tools may collect source-attributed auxiliary evidence only; they do not mutate source, choose delivery mechanisms, assert proof completion, or define Exchange/Terminal product semantics."
+        "contract": "Admitted web-search/content tools may collect source-attributed auxiliary evidence for discovery-phase need synthesis only; they do not mutate source, choose delivery mechanisms, assert proof completion, canonically interpret needs, or define Exchange/Terminal product semantics."
       },
       "agentImplementation": {
         "owners": [
           "packages/generic-agents/web-researcher/src/index.ts"
         ],
-        "contract": "bitcodeExternalEvidenceResearcher owns the PTRR auxiliary-evidence agent; retained webResearcherAgent, webResearcherPrompt, webResearcherStepPrompts, and WEB_RESEARCH_AGENT.researchWeb names remain compatibility carriers."
+        "contract": "bitcodeNeedSynthesisWebResearcher owns the PTRR discovery-phase web research agent; bitcodeExternalEvidenceResearcher and retained webResearcherAgent, webResearcherPrompt, webResearcherStepPrompts, and WEB_RESEARCH_AGENT.researchWeb names remain compatibility carriers."
       },
       "executionImplementation": {
         "owners": [
@@ -1381,8 +1381,8 @@
         ]
       },
       "assetPackImplementation": {
-        "outputKind": "auxiliary external evidence",
-        "effect": "Source-attributed external findings can support need comprehension, proof-gap review, interface planning, and AssetPack synthesis, but stable written assets and proof artifacts remain owned downstream."
+        "outputKind": "need-synthesis external evidence",
+        "effect": "Source-attributed external findings can support discovery-phase need synthesis, proof-gap question formation, interface planning, and AssetPack synthesis, but canonical need interpretation, stable written assets, and proof artifacts remain owned downstream."
       },
       "boundaryPosture": "admitted support",
       "verificationSet": [

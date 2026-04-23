@@ -10,18 +10,18 @@ import { PROMPTPART_GENERIC_AGENT_GENERATION_STRUCTURED_OUTPUT } from '@bitcode/
 /**
  * @doc-comment-developing-promptdevelopment
  * domain: agent
- * intent: "Bitcode external-evidence research Plan prompt for need-scoped source selection"
+ * intent: "Bitcode need-synthesis web research Plan prompt for discovery-phase source selection"
  * current_version: "V26"
  * versions: []
  * benchmarks: [
- *   { "name": "planning_boundary", "test": "Plans external evidence without granting proof or product authority", "score": 1.00 },
+ *   { "name": "planning_boundary", "test": "Plans need-synthesis web research without granting proof or product authority", "score": 1.00 },
  *   { "name": "registry_ready", "test": "Usable by registry formatter", "score": 1.00 }
  * ]
  */
 /**
- * PLAN PROMPT COMPOSITION - BITCODE EXTERNAL EVIDENCE RESEARCH
+ * PLAN PROMPT COMPOSITION - BITCODE NEED-SYNTHESIS WEB RESEARCH
  *
- * Composes the need-scoped source-selection prompt for this compatibility agent.
+ * Composes the discovery-phase need-synthesis source-selection prompt for this compatibility agent.
  */
 
 import { Prompt } from '@bitcode/prompts/prompt';

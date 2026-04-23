@@ -10,18 +10,18 @@ import { PROMPTPART_GENERIC_AGENT_GENERATION_STRUCTURED_OUTPUT } from '@bitcode/
 /**
  * @doc-comment-developing-promptdevelopment
  * domain: agent
- * intent: "Bitcode external-evidence research Try prompt for source-attributed collection"
+ * intent: "Bitcode need-synthesis web research Try prompt for source-attributed collection"
  * current_version: "V26"
  * versions: []
  * benchmarks: [
- *   { "name": "try_boundary", "test": "Collects external evidence without scraping-product or product-state ownership", "score": 1.00 },
+ *   { "name": "try_boundary", "test": "Collects external evidence for need synthesis without scraping-product or product-state ownership", "score": 1.00 },
  *   { "name": "registry_ready", "test": "Usable by registry formatter", "score": 1.00 }
  * ]
  */
 /**
- * TRY PROMPT COMPOSITION - BITCODE EXTERNAL EVIDENCE RESEARCH
+ * TRY PROMPT COMPOSITION - BITCODE NEED-SYNTHESIS WEB RESEARCH
  *
- * Composes source-attributed evidence collection PromptParts for this agent.
+ * Composes source-attributed discovery evidence collection PromptParts for this agent.
  */
 
 import { Prompt } from '@bitcode/prompts/prompt';

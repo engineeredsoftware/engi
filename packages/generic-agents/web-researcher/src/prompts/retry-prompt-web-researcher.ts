@@ -10,18 +10,18 @@ import { PROMPTPART_GENERIC_AGENT_GENERATION_STRUCTURED_OUTPUT } from '@bitcode/
 /**
  * @doc-comment-developing-promptdevelopment
  * domain: agent
- * intent: "Bitcode external-evidence research Retry prompt for bounded recovery and gap surfacing"
+ * intent: "Bitcode need-synthesis web research Retry prompt for bounded recovery and gap surfacing"
  * current_version: "V26"
  * versions: []
  * benchmarks: [
- *   { "name": "retry_boundary", "test": "Recovers external evidence gaps without inventing or overclaiming", "score": 1.00 },
+ *   { "name": "retry_boundary", "test": "Recovers discovery-source gaps without inventing or overclaiming", "score": 1.00 },
  *   { "name": "registry_ready", "test": "Usable by registry formatter", "score": 1.00 }
  * ]
  */
 /**
- * RETRY PROMPT COMPOSITION - BITCODE EXTERNAL EVIDENCE RESEARCH
+ * RETRY PROMPT COMPOSITION - BITCODE NEED-SYNTHESIS WEB RESEARCH
  *
- * Composes recovery and gap-surfacing PromptParts for auxiliary evidence.
+ * Composes recovery and gap-surfacing PromptParts for need-synthesis web research.
  */
 
 import { Prompt } from '@bitcode/prompts/prompt';

@@ -4,13 +4,15 @@ import {
   BitcodeExternalEvidenceResearchResultSchema,
   WEB_RESEARCH_AGENT,
   bitcodeExternalEvidenceResearcher,
+  bitcodeNeedSynthesisWebResearcher,
   webResearcherAgent
 } from '../index';
 
-describe('Bitcode external-evidence research agent compatibility', () => {
-  test('keeps retained web-researcher aliases pointed at the Bitcode agent', () => {
-    expect(webResearcherAgent).toBe(bitcodeExternalEvidenceResearcher);
-    expect(WEB_RESEARCH_AGENT.researchWeb).toBe(bitcodeExternalEvidenceResearcher);
+describe('Bitcode need-synthesis web research agent compatibility', () => {
+  test('keeps retained web-researcher aliases pointed at the Bitcode need-synthesis agent', () => {
+    expect(bitcodeExternalEvidenceResearcher).toBe(bitcodeNeedSynthesisWebResearcher);
+    expect(webResearcherAgent).toBe(bitcodeNeedSynthesisWebResearcher);
+    expect(WEB_RESEARCH_AGENT.researchWeb).toBe(bitcodeNeedSynthesisWebResearcher);
   });
 
   test('accepts a need-first input contract with bounded evidence defaults', () => {
@@ -20,6 +22,7 @@ describe('Bitcode external-evidence research agent compatibility', () => {
     });
 
     expect(parsed.evidenceDepth).toBe('moderate');
+    expect(parsed.discoveryPhase).toBe('need-synthesis');
     expect(parsed.maxResults).toBe(20);
     expect(parsed.language).toBe('en');
     expect(parsed.requirePrimarySources).toBe(true);
@@ -40,6 +43,7 @@ describe('Bitcode external-evidence research agent compatibility', () => {
       ],
       synthesis: {
         summary: 'Official documentation exists and should be checked by the interface owner.',
+        discoveryPhaseUse: ['Informs discovery-phase need synthesis before downstream proof or interface owners act.'],
         needRelevance: ['Confirms the outside interface has source material to inspect.'],
         sourceBackedClaims: ['The outside interface documents branch creation behavior.'],
         contradictions: [],
@@ -59,6 +63,6 @@ describe('Bitcode external-evidence research agent compatibility', () => {
     });
 
     expect(parsed.success).toBe(true);
-    expect(parsed.completionMessage).toBe('Bitcode external-evidence research completed');
+    expect(parsed.completionMessage).toBe('Bitcode need-synthesis web research completed');
   });
 });

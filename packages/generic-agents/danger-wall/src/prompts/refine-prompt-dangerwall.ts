@@ -13,31 +13,32 @@ import { PROMPTPART_GENERIC_AGENT_GENERATION_STRUCTURED_OUTPUT } from '@bitcode/
 
 
 /**
- * Danger Wall Agent - Refine Step Prompt
+ * Bitcode Need Risk Admission Agent - Refine Step Prompt
  * 
- * Refinement phase for enhancing security validation accuracy and completeness.
+ * Refine Bitcode risk-admission findings, false positives, proof gaps, and
+ * delivery-boundary ambiguity before the next phase is admitted.
  * 
  * @doc-comment-developing-promptdevelopment
  * domain: agent
- * intent: "REFINE step prompt for Danger Wall agent"
- * current_version: "GA1.50.0"
+ * intent: "Bitcode REFINE step prompt for need risk-admission"
+ * current_version: "V26"
  * versions: [
  *   { "version": "3.0.0", "score": 0.90, "reason": "Migrated to correct Prompt class pattern" },
  *   { "version": "2.0.0", "score": 0.50, "reason": "Used wrong PromptPart concatenation pattern" },
  *   { "version": "1.0.0", "score": 0.40, "reason": "Initial implementation" }
  * ]
  * benchmarks: [
- *   { "name": "refinement_quality", "test": "Does the prompt enable effective security refinement?", "score": 0.44 },
- *   { "name": "accuracy_improvement", "test": "Are security assessments improved through refinement?", "score": 0.45 },
- *   { "name": "completeness_enhancement", "test": "Is security validation completeness enhanced?", "score": 0.45 }
+ *   { "name": "refinement_quality", "test": "Does the prompt enable effective Bitcode admission refinement?", "score": 0.44 },
+ *   { "name": "accuracy_improvement", "test": "Are need and AssetPack risk findings improved through refinement?", "score": 0.45 },
+ *   { "name": "completeness_enhancement", "test": "Are proof-gap and delivery-boundary checks improved?", "score": 0.45 }
  * ]
  */
 
 export const DANGER_WALL_REFINE_PROMPT = new Prompt()
-  .set('phase', 'REFINE: Enhance Security Validation')
+  .set('phase', 'REFINE: Enhance Bitcode Risk Admission')
   .set('purpose', PROMPTPART_SPECIFIC_AGENT_DANGERWALL_PURPOSE_CORESTATEMENT)
   .set('capabilities', PROMPTPART_SPECIFIC_AGENT_DANGERWALL_CAPABILITIES_LIST)
-  .set('refinement_goals', 'Refine security validation results by improving accuracy of threat assessments, enhancing completeness of vulnerability scanning, and strengthening compliance verification outcomes.')
+  .set('refinement_goals', 'Refine Bitcode risk-admission results by improving evidence traceability, removing false positives, surfacing proof gaps, and preserving need, AssetPack, and delivery-wrapper boundaries.')
   .set('generation:json_only_header', PROMPTPART_GENERIC_AGENT_GENERATION_JSON_ONLY_HEADER)
   .set('generation:use_this_structure', PROMPTPART_GENERIC_AGENT_GENERATION_USE_THIS_STRUCTURED_SCHEMA)
   .set('generation:reason', PROMPTPART_GENERIC_AGENT_GENERATION_REASON)

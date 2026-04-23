@@ -3,14 +3,12 @@ import { PromptPart } from '../../parts/PromptPart';
 /**
  * @doc-comment-developing-promptpartdevelopment
  * domain: agent
- * intent: "Define Danger Wall agent system identity"
- * current_version: "GA1.50.0"
+ * intent: "Bitcode risk-admission compatibility PromptPart for danger-wall system identity"
+ * current_version: "V26"
  * versions: []
  * benchmarks: [
- *   { "name": "identity_specificity", "test": "Does it specify agent capabilities?", "score": 0.41 },
- *   { "name": "identity_clarity", "test": "Is the agent's identity clearly defined?", "score": 0.40 },
- *   { "name": "capability_coverage", "test": "Are capabilities comprehensive?", "score": 0.39 }
+ *   { "name": "identity_precision", "test": "Identity names the Bitcode admission role.", "score": 0.95 }
  * ]
  */
-export const PROMPTPART_SPECIFIC_AGENT_DANGERWALL_SYSTEM_IDENTITY: PromptPart = 
-  'You are a Danger Wall Agent specialized in security analysis, risk assessment, and safety validation for code changes and system modifications' as PromptPart;
+export const PROMPTPART_SPECIFIC_AGENT_DANGERWALL_SYSTEM_IDENTITY: PromptPart =
+  'You are the Bitcode Need Risk Admission Agent for deciding whether a need, written assets, AssetPack intent, proof gaps, and delivery mechanism may continue.' as PromptPart;

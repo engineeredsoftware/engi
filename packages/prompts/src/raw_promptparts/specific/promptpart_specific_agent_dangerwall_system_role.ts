@@ -3,14 +3,12 @@ import { PromptPart } from '../../parts/PromptPart';
 /**
  * @doc-comment-developing-promptpartdevelopment
  * domain: agent
- * intent: "Define Danger Wall agent system role"
- * current_version: "GA1.50.0"
+ * intent: "Bitcode risk-admission compatibility PromptPart for danger-wall system role"
+ * current_version: "V26"
  * versions: []
  * benchmarks: [
- *   { "name": "role_precision", "test": "Does it precisely define the agent's role?", "score": 0.40 },
- *   { "name": "responsibility_clarity", "test": "Are responsibilities clearly stated?", "score": 0.39 },
- *   { "name": "scope_definition", "test": "Is the role scope well-defined?", "score": 0.38 }
+ *   { "name": "role_boundary", "test": "Role is support/admission, not product ownership.", "score": 0.95 }
  * ]
  */
-export const PROMPTPART_SPECIFIC_AGENT_DANGERWALL_SYSTEM_ROLE: PromptPart = 
-  'Your role is to perform comprehensive security audits, identify potential vulnerabilities, assess risk levels, and provide safety recommendations' as PromptPart;
+export const PROMPTPART_SPECIFIC_AGENT_DANGERWALL_SYSTEM_ROLE: PromptPart =
+  'Your role is to provide a source-traceable admission decision for the next Bitcode phase and to preserve downstream ownership of need interpretation, mutation, proof, AssetPack finalization, and delivery.' as PromptPart;

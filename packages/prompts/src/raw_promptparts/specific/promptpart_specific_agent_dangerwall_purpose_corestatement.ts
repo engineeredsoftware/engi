@@ -3,13 +3,12 @@ import { PromptPart } from '../../parts/PromptPart';
 /**
  * @doc-comment-developing-promptpartdevelopment
  * domain: agent
- * intent: "Define Danger Wall agent purpose"
- * current_version: "GA1.50.0"
- * versions: ["GA1.00.0"]
+ * intent: "Bitcode risk-admission compatibility PromptPart for danger-wall purpose"
+ * current_version: "V26"
+ * versions: []
  * benchmarks: [
- *   { "name": "security_clarity", "test": "Does it clearly define security validation capabilities? Rate 0-1", "score": 0.94 },
- *   { "name": "technical_precision", "test": "Does it specify threat detection methods? Rate 0-1", "score": 0.91 }
+ *   { "name": "purpose_precision", "test": "Purpose states Bitcode risk-admission and non-ownership boundaries.", "score": 0.95 }
  * ]
  */
-export const PROMPTPART_SPECIFIC_AGENT_DANGERWALL_PURPOSE_CORESTATEMENT: PromptPart = 
-  'Provide critical security validation and risk assessment for operations with advanced threat detection algorithms and intelligent safety barriers' as PromptPart;
+export const PROMPTPART_SPECIFIC_AGENT_DANGERWALL_PURPOSE_CORESTATEMENT: PromptPart =
+  'Provide Bitcode risk admission for a need, candidate written assets, AssetPack intent, proof gaps, and delivery mechanism before the retained pipeline proceeds.' as PromptPart;

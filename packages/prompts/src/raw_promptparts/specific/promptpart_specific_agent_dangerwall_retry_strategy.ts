@@ -3,14 +3,12 @@ import { PromptPart } from '../../parts/PromptPart';
 /**
  * @doc-comment-developing-promptpartdevelopment
  * domain: agent
- * intent: "Define RETRY step strategy for Danger Wall agent"
- * current_version: "GA1.50.0"
+ * intent: "Bitcode risk-admission compatibility PromptPart for danger-wall retry strategy"
+ * current_version: "V26"
  * versions: []
  * benchmarks: [
- *   { "name": "recovery_coverage", "test": "Does it cover recovery scenarios?", "score": 0.33 },
- *   { "name": "strategy_adaptability", "test": "Are strategies adaptive?", "score": 0.32 },
- *   { "name": "fallback_robustness", "test": "Are fallbacks robust?", "score": 0.31 }
+ *   { "name": "strategy_boundary", "test": "Retry strategy resolves admission without overclaiming proof.", "score": 0.95 }
  * ]
  */
-export const PROMPTPART_SPECIFIC_AGENT_DANGERWALL_RETRY_STRATEGY: PromptPart = 
-  'Implement recovery strategies including: alternative scanning techniques for complex code, manual review for automated scan failures, risk approximation for incomplete analysis, security baseline comparisons, threat intelligence integration, expert escalation protocols' as PromptPart;
+export const PROMPTPART_SPECIFIC_AGENT_DANGERWALL_RETRY_STRATEGY: PromptPart =
+  'Retry admission by narrowing the need boundary, requesting missing evidence, separating delivery-wrapper concerns from AssetPack content, and producing admit, block, or manual-review output without proof-closure claims.' as PromptPart;

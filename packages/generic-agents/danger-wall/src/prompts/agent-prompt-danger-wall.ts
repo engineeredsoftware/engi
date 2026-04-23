@@ -11,18 +11,22 @@ import { PROMPTPART_GENERIC_AGENT_GENERATION_IF_UNKNOWN_EMPTY } from '@bitcode/p
 import { PROMPTPART_GENERIC_AGENT_GENERATION_REASON } from '@bitcode/prompts/raw_promptparts/generic/promptpart_generic_agent_generation_reason';
 import { PROMPTPART_GENERIC_AGENT_GENERATION_JUDGE } from '@bitcode/prompts/raw_promptparts/generic/promptpart_generic_agent_generation_judge';
 import { PROMPTPART_GENERIC_AGENT_GENERATION_STRUCTURED_OUTPUT } from '@bitcode/prompts/raw_promptparts/generic/promptpart_generic_agent_generation_structured_output';
-/**\n * @doc-comment-developing-promptdevelopment\n * domain: agent\n * intent: "(fill intent)"\n * current_version: "GA1.45.0"\n * dependencies: { }\n * benchmarks: [\n *   { "name": "technical_accuracy", "test": "Concrete directives and purpose", "score": 0.46 },\n *   { "name": "implementation_ready", "test": "Usable by registry formatter", "score": 0.46 }\n * ]\n */
 /**
- * AGENT PROMPT COMPOSITION - DANGER WALL AGENT
+ * Bitcode need risk-admission agent prompt.
  * 
- * Composed AgentPrompt for Danger Wall agent using atomic prompt parts.
- * This agent specializes in critical security validation and risk assessment
- * with context-aware threat detection capabilities.
+ * The danger-wall filename remains a retained compatibility carrier. The
+ * prompt's purpose is Bitcode need/AssetPack admission, not generic security
+ * scanning or content moderation.
  * 
  * @doc-code-prompt
- * purpose: Define structured documentation for Danger Wall agent
+ * purpose: Define structured documentation for Bitcode need risk-admission agent
  * agent: danger-wall
- * pattern: Multi-layer security with context-integrated analysis
+ * pattern: Registry-backed risk admission for need, written assets, AssetPack, proof, and delivery boundaries
+ *
+ * @doc-comment-developing-promptdevelopment
+ * domain: agent
+ * intent: "Bitcode risk-admission compatibility prompt for deciding whether a need, written assets, AssetPack plan, and delivery mechanism may continue"
+ * current_version: "V26"
  */
 
 import { AgentPrompt } from '@bitcode/agent-generics';
@@ -35,25 +39,15 @@ import { AgentPrompt } from '@bitcode/agent-generics';
 
 
 export const DANGER_WALL_AGENT_PROMPT = new AgentPrompt({
-  // Metadata
-  name: 'Danger Wall Agent',
-  category: 'Security & Risk Management',
-  version: '1.0.0',
-  specificity: 'Generic',
+  name: 'Bitcode Need Risk Admission Agent',
+  category: 'Bitcode Risk Admission',
+  version: 'V26',
+  specificity: 'Specific',
   
-  // Core documentation
   purpose: PROMPTPART_SPECIFIC_AGENT_DANGERWALL_PURPOSE_CORESTATEMENT,
   capabilities: PROMPTPART_SPECIFIC_AGENT_DANGERWALL_CAPABILITIES_LIST,
-  
-  // Execution pattern
   executionPattern: PROMPTPART_SPECIFIC_AGENT_DANGERWALL_EXECUTIONPATTERN_DETAILCONTENT,
-  
-  // PTRR Steps
   steps: PROMPTPART_SPECIFIC_AGENT_DANGERWALL_PTRRSTEPS_LIST,
-  
-  // Tools used
   tools: PROMPTPART_SPECIFIC_AGENT_DANGERWALL_TOOLS_LIST,
-  
-  // Integration details
   integration: PROMPTPART_SPECIFIC_AGENT_DANGERWALL_INTEGRATION_DETAILCONTENT
 });

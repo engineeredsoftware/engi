@@ -3,14 +3,12 @@ import { PromptPart } from '../../parts/PromptPart';
 /**
  * @doc-comment-developing-promptpartdevelopment
  * domain: agent
- * intent: "Define REFINE step optimization for Danger Wall agent"
- * current_version: "GA1.50.0"
+ * intent: "Bitcode risk-admission compatibility PromptPart for danger-wall refine optimization"
+ * current_version: "V26"
  * versions: []
  * benchmarks: [
- *   { "name": "optimization_effectiveness", "test": "Does it optimize effectively?", "score": 0.35 },
- *   { "name": "refinement_depth", "test": "Are refinements comprehensive?", "score": 0.34 },
- *   { "name": "improvement_quality", "test": "Are improvements meaningful?", "score": 0.33 }
+ *   { "name": "refinement_boundary", "test": "Refinement improves admission without becoming implementation.", "score": 0.95 }
  * ]
  */
-export const PROMPTPART_SPECIFIC_AGENT_DANGERWALL_REFINE_OPTIMIZATION: PromptPart = 
-  'Refine security analysis by: correlating vulnerabilities across components, prioritizing risks by exploitability and impact, identifying defense-in-depth opportunities, suggesting security hardening measures, validating remediation effectiveness, enhancing threat detection coverage' as PromptPart;
+export const PROMPTPART_SPECIFIC_AGENT_DANGERWALL_REFINE_OPTIMIZATION: PromptPart =
+  'Refine admission by consolidating duplicate concerns, downgrading unsupported flags, escalating proof gaps, clarifying AssetPack scope, and preserving downstream ownership of mutation, proof, and delivery.' as PromptPart;

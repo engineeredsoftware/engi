@@ -311,6 +311,22 @@ const V26_FOURTH_GATE_PROMPT_SYSTEM_FILES = [
   'packages/generic-agents/web-researcher/src/__tests__/enhanced-web-researcher.test.js',
   'packages/generic-agents/web-researcher/src/__tests__/research.test.ts',
   'packages/generic-agents/web-researcher/src/__tests__/research.test.js',
+  'packages/generic-agents/danger-wall/README.md',
+  'packages/generic-agents/danger-wall/package.json',
+  'packages/generic-agents/danger-wall/src/index.ts',
+  'packages/generic-agents/danger-wall/src/index.js',
+  'packages/generic-agents/danger-wall/src/prompts/agent-prompt-danger-wall.ts',
+  'packages/generic-agents/danger-wall/src/prompts/agent-prompt-danger-wall.js',
+  'packages/generic-agents/danger-wall/src/prompts/system-prompt-dangerwall.ts',
+  'packages/generic-agents/danger-wall/src/prompts/system-prompt-dangerwall.js',
+  'packages/generic-agents/danger-wall/src/prompts/plan-prompt-dangerwall.ts',
+  'packages/generic-agents/danger-wall/src/prompts/plan-prompt-dangerwall.js',
+  'packages/generic-agents/danger-wall/src/prompts/try-prompt-dangerwall.ts',
+  'packages/generic-agents/danger-wall/src/prompts/try-prompt-dangerwall.js',
+  'packages/generic-agents/danger-wall/src/prompts/refine-prompt-dangerwall.ts',
+  'packages/generic-agents/danger-wall/src/prompts/refine-prompt-dangerwall.js',
+  'packages/generic-agents/danger-wall/src/prompts/retry-prompt-dangerwall.ts',
+  'packages/generic-agents/danger-wall/src/prompts/retry-prompt-dangerwall.js',
   'packages/digest/prompts/digest-prompts.ts',
   'packages/digest/prompts/task-guides-prompts.ts',
   'packages/digest/prompts/code-styles-prompts.ts',
@@ -1663,7 +1679,13 @@ const V26_PROMPT_SPACE_WITNESS_SETS = [
       'packages/prompts/src/raw_promptparts/specific/promptpart_specific_tool_analyzeimplementationcomplexity_doccodetoolexample3.ts',
       'packages/prompts/src/raw_promptparts/specific/promptpart_specific_tool_analyzeimplementationcomplexity_doccodetoolexample3.js',
       'packages/prompts/src/raw_promptparts/specific/promptpart_specific_tool_validatetaskcomprehension_doccodetoolpurpose.ts',
-      'packages/prompts/src/raw_promptparts/specific/promptpart_specific_tool_validatetaskcomprehension_doccodetoolpurpose.js'
+      'packages/prompts/src/raw_promptparts/specific/promptpart_specific_tool_validatetaskcomprehension_doccodetoolpurpose.js',
+      'packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_dangerwall_purpose_corestatement.ts',
+      'packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_dangerwall_purpose_corestatement.js',
+      'packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_dangerwall_capabilities_list.ts',
+      'packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_dangerwall_capabilities_list.js',
+      'packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_dangerwall_system_identity.ts',
+      'packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_dangerwall_system_identity.js'
     ]
   },
   {
@@ -2042,6 +2064,18 @@ const V26_SYSTEM_REFORM_DECISIONS = [
       'packages/web-search/src/index.ts',
       'packages/chatgptapp/src/tools.ts',
       'protocol-demonstration/test/v26-active-product-naming.test.js'
+    ]
+  },
+  {
+    checkId: 'danger-wall-risk-admission-boundary',
+    label: 'Retained danger-wall carrier is Bitcode need/AssetPack risk admission',
+    reformClass: 'ingress-or-support',
+    livePathRole: 'Danger-wall compatibility may admit, block, or require manual review before a retained pipeline phase proceeds, but it does not own canonical need, proof, mutation, delivery, or product semantics.',
+    requiredFiles: [
+      'packages/generic-agents/danger-wall/README.md',
+      'packages/generic-agents/danger-wall/src/index.ts',
+      'packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_dangerwall_purpose_corestatement.ts',
+      'protocol-demonstration/test/v26-danger-wall-agent-compatibility.test.js'
     ]
   }
 ];

@@ -1,143 +1,124 @@
-
-
 /**
- * Danger Wall Agent - Declarative Pattern
- * 
- * This agent uses the CORRECT declarative pattern:
- * - Define schemas for each PTRR step
- * - Define prompts for agent and each step
- * - Let factories handle ALL execution
- * - No manual step implementations needed!
+ * Bitcode Need Risk Admission Agent - retained danger-wall compatibility path.
+ *
+ * The package name and dangerWall aliases remain for retained callers. V26
+ * semantics are narrower: this agent decides whether a Bitcode need,
+ * candidate written assets, AssetPack intent, and delivery mechanism are safe
+ * enough to continue through the next measured pipeline phase. It does not own
+ * canonical need interpretation, proof closure, delivery, or mutation.
  */
 
-import { 
-   
+import {
+  AgentPrompt,
+  AgentStepPrompt,
   factoryAgentWithPTRR,
   factoryAgentWithSingleStep
 } from '@bitcode/agent-generics';
+import type { PromptPart } from '@bitcode/prompts/parts/PromptPart';
 import { z } from 'zod';
 
-// ==================== IMPORTS ====================
-import { AgentPrompt, AgentStepPrompt } from '@bitcode/agent-generics';
-import type { PromptPart } from '@bitcode/prompts/parts/PromptPart';
+const BitcodeRiskSeveritySchema = z.enum(['none', 'low', 'medium', 'high', 'critical']);
+const BitcodeThreatLevelSchema = z.enum(['minimal', 'low', 'moderate', 'high', 'critical']);
 
-// ==================== TOOLS ====================
-// Tools this agent can use for security validation
-// (No external tools needed - built-in security analysis)
-
-// ==================== INPUT SCHEMA ====================
-const DangerWallInputSchema = z.object({
-  taskContext: z.string().describe('Task context for safety validation'),
-  content: z.string().optional().describe('Content to validate'),
-  source: z.string().optional().describe('Source of content'),
-  strictMode: z.boolean().default(false).describe('Enable strict validation mode'),
-  categories: z.array(z.string()).optional().describe('Specific categories to check'),
-  threshold: z.number().default(0.8).describe('Confidence threshold for flags')
+const BitcodeRiskEvidenceSchema = z.object({
+  sourceType: z.string().describe('Repository, attachment, external evidence, execution state, or operator input source class'),
+  path: z.string().optional().describe('Optional source path or interface reference'),
+  concern: z.string().describe('Specific risk concern tied to the Bitcode need or AssetPack plan'),
+  evidence: z.array(z.string()).describe('Traceable observations supporting the concern')
 });
 
-// ==================== PLAN STEP SCHEMA ====================
-const DangerWallPlanSchema = z.object({
-  // Validation strategy
-  validationPlan: z.object({
-    contentSources: z.array(z.object({
-      type: z.string(),
+const BitcodeRiskToolRequestSchema = z.object({
+  name: z.string(),
+  input: z.any(),
+  reason: z.string()
+});
+
+export const BitcodeNeedRiskAdmissionInputSchema = z.object({
+  need: z.string().describe('Expressed Bitcode need being measured or synthesized'),
+  assetPackIntent: z.string().optional().describe('Candidate AssetPack purpose or synthesis plan'),
+  writtenAssetType: z.string().optional().describe('Candidate written-asset type under consideration'),
+  writtenAssets: z.array(z.unknown()).optional().describe('Candidate written assets or partials to admit for downstream work'),
+  repositoryEvidence: z.array(BitcodeRiskEvidenceSchema).optional().describe('Source-grounded evidence already collected for risk admission'),
+  externalEvidence: z.array(BitcodeRiskEvidenceSchema).optional().describe('Discovery-phase external evidence already collected for need synthesis'),
+  deliveryMechanism: z.string().optional().describe('Requested delivery wrapper such as GitHub pull request, Jira comment, or local artifact'),
+  strictMode: z.boolean().default(false).describe('Require manual review for unresolved high-impact ambiguity'),
+  riskCategories: z.array(z.string()).optional().describe('Specific Bitcode risk categories to evaluate'),
+  admissionThreshold: z.number().default(0.8).describe('Minimum confidence for admitting the next pipeline step')
+});
+
+export const BitcodeNeedRiskAdmissionPlanSchema = z.object({
+  admissionPlan: z.object({
+    evidenceSources: z.array(z.object({
+      sourceType: z.string(),
       path: z.string().optional(),
       priority: z.number(),
-      validationSteps: z.array(z.string())
+      admissionChecks: z.array(z.string())
     })),
-    safetyChecks: z.array(z.object({
+    riskChecks: z.array(z.object({
       category: z.string(),
       checks: z.array(z.string()),
-      severity: z.enum(['low', 'medium', 'high', 'critical'])
+      severityCeiling: BitcodeRiskSeveritySchema
     })),
-    riskThresholds: z.object({
-      maxSeverity: z.enum(['none', 'low', 'medium', 'high', 'critical']),
-      maxFlags: z.number(),
+    thresholds: z.object({
+      maxSeverity: BitcodeRiskSeveritySchema,
+      maxUnresolvedConcerns: z.number(),
       minConfidence: z.number()
     })
   }),
-  
-  // Analysis approach
-  securityStrategy: z.object({
-    checkIllegalContent: z.boolean(),
-    checkJailbreaking: z.boolean(),
-    checkHarmfulInstructions: z.boolean(),
-    checkMaliciousCode: z.boolean(),
-    checkValueAlignment: z.boolean()
+  bitcodeRiskStrategy: z.object({
+    checkNeedLegality: z.boolean(),
+    checkUnsafeMutation: z.boolean(),
+    checkSecretOrPrivateDataExposure: z.boolean(),
+    checkProofOrEvidenceGap: z.boolean(),
+    checkDeliveryMechanismMismatch: z.boolean(),
+    checkAssetPackScopeMismatch: z.boolean()
   }),
-  
-  // Tool planning (no external tools needed for security validation)
-  useTools: z.array(z.object({
-    name: z.string(),
-    input: z.any(),
-    reason: z.string()
-  })).optional().describe('Tools to use in plan phase'),
-  
-  // Success tracking
+  useTools: z.array(BitcodeRiskToolRequestSchema).optional().describe('Risk-evidence tools requested by the plan'),
   confidence: z.number().min(0).max(1),
-  validationScope: z.array(z.string())
+  admissionScope: z.array(z.string())
 });
 
-// ==================== TRY STEP SCHEMA ====================
-const DangerWallTrySchema = z.object({
-  // Safety check results
-  safetyResults: z.array(z.object({
-    safe: z.boolean(),
+export const BitcodeNeedRiskAdmissionTrySchema = z.object({
+  riskResults: z.array(z.object({
+    admitted: z.boolean(),
     flags: z.object({
-      illegal: z.boolean(),
-      jailbreaking: z.boolean(),
-      dangerous: z.boolean(),
-      antiWestern: z.boolean(),
-      nsfw: z.boolean(),
-      malicious: z.boolean(),
-      harmful: z.boolean()
+      illegalNeed: z.boolean(),
+      unsafeMutation: z.boolean(),
+      secretOrPrivateDataExposure: z.boolean(),
+      proofOrEvidenceGap: z.boolean(),
+      deliveryMechanismMismatch: z.boolean(),
+      assetPackScopeMismatch: z.boolean(),
+      operatorReviewRequired: z.boolean()
     }),
     details: z.array(z.string()),
-    severity: z.enum(['none', 'low', 'medium', 'high', 'critical']),
+    severity: BitcodeRiskSeveritySchema,
     confidence: z.number(),
-    sources: z.array(z.object({
-      type: z.string(),
-      path: z.string().optional(),
-      flags: z.array(z.string()),
-      details: z.array(z.string())
-    }))
-  })).describe('Individual safety check results'),
-  
-  // Overall assessment
+    sources: z.array(BitcodeRiskEvidenceSchema)
+  })).describe('Individual Bitcode risk-admission findings'),
   overallAssessment: z.object({
     safe: z.boolean(),
-    maxSeverity: z.enum(['none', 'low', 'medium', 'high', 'critical']),
+    maxSeverity: BitcodeRiskSeveritySchema,
     flaggedCategories: z.array(z.string()),
     confidence: z.number(),
     requiresManualReview: z.boolean()
-  }).describe('Overall security assessment'),
-  
-  // Content analysis
-  contentAnalysis: z.object({
-    taskContentChecked: z.boolean(),
-    repositoryChecked: z.boolean(),
-    attachmentsChecked: z.boolean(),
-    totalContentSources: z.number()
+  }).describe('Overall admission assessment for the next Bitcode phase'),
+  evidenceCoverage: z.object({
+    needChecked: z.boolean(),
+    repositoryEvidenceChecked: z.boolean(),
+    externalEvidenceChecked: z.boolean(),
+    writtenAssetsChecked: z.boolean(),
+    deliveryMechanismChecked: z.boolean(),
+    totalEvidenceSources: z.number()
   }),
-  
-  // Tool usage for validation (none needed typically)
-  useTools: z.array(z.object({
-    name: z.string(),
-    input: z.any(),
-    reason: z.string()
-  })).optional().describe('Tools to use for security validation'),
-  
-  // Status
-  validationComplete: z.boolean(),
+  useTools: z.array(BitcodeRiskToolRequestSchema).optional().describe('Risk-evidence tool requests'),
+  admissionComplete: z.boolean(),
   errors: z.array(z.string()).optional()
 });
 
-// ==================== REFINE STEP SCHEMA ====================
-const DangerWallRefineSchema = z.object({
-  // Refined assessment
+export const BitcodeNeedRiskAdmissionRefineSchema = z.object({
   refinedAssessment: z.object({
     safe: z.boolean(),
-    maxSeverity: z.enum(['none', 'low', 'medium', 'high', 'critical']),
+    maxSeverity: BitcodeRiskSeveritySchema,
     flaggedCategories: z.array(z.string()),
     confidence: z.number(),
     falsePositives: z.array(z.object({
@@ -150,37 +131,23 @@ const DangerWallRefineSchema = z.object({
       resolution: z.string(),
       confidence: z.number()
     }))
-  }).describe('Refined security assessment after false positive analysis'),
-  
-  // Quality improvements
+  }).describe('Refined Bitcode risk-admission assessment after ambiguity analysis'),
   qualityAssessment: z.object({
-    accuracyScore: z.number(),
+    evidenceTraceabilityScore: z.number(),
     completenessScore: z.number(),
     overallQuality: z.number()
   }),
-  
-  // Validation improvements
-  improvements: z.array(z.string()).describe('Suggested improvements'),
-  validationEnhancements: z.array(z.string()),
-  
-  // Refinement tools (none typically needed)
-  useTools: z.array(z.object({
-    name: z.string(),
-    input: z.any(),
-    reason: z.string()
-  })).optional().describe('Tools for refinement'),
-  
-  // Refinement results
+  improvements: z.array(z.string()).describe('Suggested improvements to make the need, AssetPack plan, or delivery mechanism admissible'),
+  admissionEnhancements: z.array(z.string()),
+  useTools: z.array(BitcodeRiskToolRequestSchema).optional().describe('Risk-refinement tool requests'),
   refinementActions: z.array(z.string()),
   confidence: z.number()
 });
 
-// ==================== RETRY STEP SCHEMA ====================
-const DangerWallRetrySchema = z.object({
-  // Final comprehensive assessment
+export const BitcodeNeedRiskAdmissionResultSchema = z.object({
   finalAssessment: z.object({
     safe: z.boolean(),
-    maxSeverity: z.enum(['none', 'low', 'medium', 'high', 'critical']),
+    maxSeverity: BitcodeRiskSeveritySchema,
     confidence: z.number(),
     verdict: z.object({
       approved: z.boolean(),
@@ -192,233 +159,157 @@ const DangerWallRetrySchema = z.object({
       check: z.string(),
       result: z.boolean(),
       details: z.array(z.string()),
-      severity: z.enum(['none', 'low', 'medium', 'high', 'critical'])
+      severity: BitcodeRiskSeveritySchema
     }))
-  }).describe('Final security assessment with go/no-go decision'),
-  
-  // Security insights
-  securityInsights: z.object({
+  }).describe('Final Bitcode risk-admission decision for the next pipeline phase'),
+  riskInsights: z.object({
     riskProfile: z.string(),
-    threatLevel: z.enum(['minimal', 'low', 'moderate', 'high', 'critical']),
-    securityRecommendations: z.array(z.string()),
-    complianceStatus: z.string()
+    threatLevel: BitcodeThreatLevelSchema,
+    riskRecommendations: z.array(z.string()),
+    proofObligations: z.array(z.string()),
+    admissionBoundary: z.string()
   }),
-  
-  // Task alignment
-  taskAlignment: z.object({
+  needAlignment: z.object({
     alignmentScore: z.number(),
-    safetyCompliance: z.boolean(),
-    ethicsCompliance: z.boolean()
+    needSafeToMeasure: z.boolean(),
+    assetPackSafeToSynthesize: z.boolean(),
+    deliveryMechanismSafeToAttempt: z.boolean()
   }),
-  
-  // Final recommendations
   recommendations: z.array(z.string()),
   nextSteps: z.array(z.string()).optional(),
-  
-  // Recovery tools if needed
-  useTools: z.array(z.object({
-    name: z.string(),
-    input: z.any(),
-    reason: z.string()
-  })).optional().describe('Recovery tools if retry needed'),
-  
-  // Overall success
+  useTools: z.array(BitcodeRiskToolRequestSchema).optional().describe('Recovery tool requests if admission needs another pass'),
   success: z.boolean(),
   validationMessage: z.string()
 });
 
-export type DangerWallInput = z.infer<typeof DangerWallInputSchema>;
-export type DangerWallPlanOutput = z.infer<typeof DangerWallPlanSchema>;
-export type DangerWallTryOutput = z.infer<typeof DangerWallTrySchema>;
-export type DangerWallRefineOutput = z.infer<typeof DangerWallRefineSchema>;
-export type SecurityResult = z.infer<typeof DangerWallRetrySchema>;
-
-// ==================== PROMPTS ====================
+export type BitcodeNeedRiskAdmissionInput = z.infer<typeof BitcodeNeedRiskAdmissionInputSchema>;
+export type BitcodeNeedRiskAdmissionPlanOutput = z.infer<typeof BitcodeNeedRiskAdmissionPlanSchema>;
+export type BitcodeNeedRiskAdmissionTryOutput = z.infer<typeof BitcodeNeedRiskAdmissionTrySchema>;
+export type BitcodeNeedRiskAdmissionRefineOutput = z.infer<typeof BitcodeNeedRiskAdmissionRefineSchema>;
+export type BitcodeNeedRiskAdmissionResult = z.infer<typeof BitcodeNeedRiskAdmissionResultSchema>;
+export type DangerWallInput = BitcodeNeedRiskAdmissionInput;
+export type DangerWallPlanOutput = BitcodeNeedRiskAdmissionPlanOutput;
+export type DangerWallTryOutput = BitcodeNeedRiskAdmissionTryOutput;
+export type DangerWallRefineOutput = BitcodeNeedRiskAdmissionRefineOutput;
+export type SecurityResult = BitcodeNeedRiskAdmissionResult;
 
 /**
- * Agent-level prompt - MINIMAL
- * Only what applies to EVERY LLM call in this agent
- * 
  * @doc-comment-developing-promptdevelopment
  * domain: agent
- * intent: "Provide minimal security validation context"
- * current_version: "GA1.50.0"
+ * intent: "Bitcode risk-admission compatibility prompt for deciding whether a need, written assets, AssetPack plan, and delivery mechanism may continue"
+ * current_version: "V26"
  */
-export const dangerWallPrompt = new AgentPrompt({
-  name: 'danger-wall' as PromptPart,
-  identity: 'Validate security and safety' as PromptPart  // Ultra-minimal
+export const bitcodeNeedRiskAdmissionPrompt = new AgentPrompt({
+  name: 'bitcode-need-risk-admission' as PromptPart,
+  identity: 'Bitcode risk-admission agent for need, AssetPack, proof, and delivery-boundary safety' as PromptPart
 });
 
-/**
- * Step-specific prompts - Just the purpose
- * These are progressively more specific
- */
-export const dangerWallStepPrompts = {
-  plan: new AgentStepPrompt({
-    purpose: 'Analyze security requirements' as PromptPart
-  }),
-  try: new AgentStepPrompt({
-    purpose: 'Execute safety validation' as PromptPart
-  }),
-  refine: new AgentStepPrompt({
-    purpose: 'Enhance security assessment' as PromptPart
-  }),
-  retry: new AgentStepPrompt({
-    purpose: 'Complete security validation' as PromptPart
-  })
+export const bitcodeNeedRiskAdmissionStepPrompts = {
+  plan: new AgentStepPrompt({ purpose: 'Plan Bitcode risk-admission checks for a need and candidate AssetPack path' as PromptPart }),
+  try: new AgentStepPrompt({ purpose: 'Evaluate concrete risk evidence without mutating source or claiming proof closure' as PromptPart }),
+  refine: new AgentStepPrompt({ purpose: 'Refine false positives, unresolved ambiguity, and proof-gap boundaries' as PromptPart }),
+  retry: new AgentStepPrompt({ purpose: 'Finalize admit/block/manual-review decision for the next Bitcode pipeline phase' as PromptPart })
 };
 
-// ==================== AGENT CONFIGURATION ====================
+export const dangerWallPrompt = bitcodeNeedRiskAdmissionPrompt;
+export const dangerWallStepPrompts = bitcodeNeedRiskAdmissionStepPrompts;
 
-/**
- * Comprehensive security validation agent
- * Uses full PTRR cycle for thorough security analysis
- */
-const comprehensiveSecurity = factoryAgentWithPTRR<
-  z.infer<typeof DangerWallInputSchema>,
-  z.infer<typeof DangerWallRetrySchema>
+export const bitcodeNeedRiskAdmissionVariation = factoryAgentWithPTRR<
+  BitcodeNeedRiskAdmissionInput,
+  BitcodeNeedRiskAdmissionResult
 >({
-  name: 'comprehensive-security',
-  description: 'Complete security validation with multi-layer analysis and audit trail',
-  prompt: dangerWallPrompt,
+  name: 'bitcode-need-risk-admission',
+  description: 'Bitcode need, AssetPack, proof-gap, and delivery-mechanism risk admission for retained pipeline setup',
+  prompt: bitcodeNeedRiskAdmissionPrompt,
   stepPrompts: {
-    plan: () => dangerWallStepPrompts.plan,
-    try: () => dangerWallStepPrompts.try,
-    refine: () => dangerWallStepPrompts.refine,
-    retry: () => dangerWallStepPrompts.retry
+    plan: () => bitcodeNeedRiskAdmissionStepPrompts.plan,
+    try: () => bitcodeNeedRiskAdmissionStepPrompts.try,
+    refine: () => bitcodeNeedRiskAdmissionStepPrompts.refine,
+    retry: () => bitcodeNeedRiskAdmissionStepPrompts.retry
   },
-  
-  // The factories use these schemas to:
-  // 1. Create typed executors for each step
-  // 2. Run the 7-substep sequence automatically
-  // 3. Store all results to execution state
-  // 4. Handle tool execution when useTools is present
-  outputSchema: DangerWallRetrySchema,
-  
-  // Optional configurations per step
+  outputSchema: BitcodeNeedRiskAdmissionResultSchema,
   plan: {
-    chunkThreshold: 1000  // Security planning is typically concise
+    chunkThreshold: 1000
   },
   try: {
-    chunkThreshold: 10000,  // Security checks can be extensive
+    chunkThreshold: 10000,
     enableParallelChunks: true
   },
   refine: {
     maxAttempts: 2
   },
   retry: {
-    maxAttempts: 3,  // Critical for security decisions
+    maxAttempts: 3,
     backoff: 1000
   }
 });
 
-/**
- * Quick security validation agent
- * Single-step execution for low-risk content
- */
-const quickSecurity = factoryAgentWithSingleStep<
-  z.infer<typeof DangerWallInputSchema>,
-  z.infer<typeof DangerWallRetrySchema>
+export const quickBitcodeNeedRiskAdmissionVariation = factoryAgentWithSingleStep<
+  BitcodeNeedRiskAdmissionInput,
+  BitcodeNeedRiskAdmissionResult
 >({
-  name: 'quick-security',
-  description: 'Fast security validation for low-risk content',
-  
-  // Single executor - still runs through execution system
+  name: 'quick-bitcode-need-risk-admission',
+  description: 'Fast Bitcode risk-admission pass for already bounded need and AssetPack inputs',
   execute: async (input, execution) => {
-    // This executor is wrapped and tracked automatically
-    execution.store('variation', 'mode', 'quick');
+    execution.store('variation', 'mode', 'quick-bitcode-need-risk-admission');
 
-    // Quick security validation logic here
-    // Return matches the Retry schema for consistency
     return {
       finalAssessment: {
-        safe: true,  // Default to safe for quick validation
+        safe: true,
         maxSeverity: 'none' as const,
         confidence: 0.8,
         verdict: {
           approved: true,
-          reason: 'Quick security validation passed - no obvious threats detected',
+          reason: 'Quick Bitcode risk admission passed for the provided need boundary',
           flags: [],
-          recommendations: ['Content approved for processing', 'Use comprehensive validation for sensitive tasks']
+          recommendations: ['Continue only if downstream phases preserve need, AssetPack, proof, and delivery boundaries']
         },
         auditTrail: [
           {
-            check: 'Quick security scan',
+            check: 'Quick Bitcode risk admission',
             result: true,
-            details: ['Basic content safety validated', 'No obvious threats detected'],
+            details: [
+              `Need boundary checked: ${input.need || 'unspecified need'}`,
+              'No high-severity admission concern was provided to this quick pass'
+            ],
             severity: 'none' as const
           }
         ]
       },
-      securityInsights: {
-        riskProfile: 'Low risk - quick validation passed',
+      riskInsights: {
+        riskProfile: 'Minimal risk admitted by quick Bitcode boundary pass',
         threatLevel: 'minimal' as const,
-        securityRecommendations: ['Consider comprehensive validation for critical tasks'],
-        complianceStatus: 'Basic compliance validated'
+        riskRecommendations: ['Use the PTRR risk-admission variation for high-impact writes, delivery wrappers, or unresolved proof gaps'],
+        proofObligations: ['Downstream proof owners must still verify evidence and closure before promotion'],
+        admissionBoundary: 'Quick pass admits the next phase; it does not prove the need or produce stable written assets'
       },
-      taskAlignment: {
+      needAlignment: {
         alignmentScore: 0.9,
-        safetyCompliance: true,
-        ethicsCompliance: true
+        needSafeToMeasure: true,
+        assetPackSafeToSynthesize: true,
+        deliveryMechanismSafeToAttempt: true
       },
-      recommendations: ['Content approved for processing'],
+      recommendations: ['Proceed with downstream Bitcode phase under existing proof and delivery constraints'],
       success: true,
-      validationMessage: 'Quick security validation completed successfully'
+      validationMessage: 'Quick Bitcode risk admission completed'
     };
   }
 });
 
-// ==================== AGENT DEFINITION ====================
+export const bitcodeNeedRiskAdmissionAgent = bitcodeNeedRiskAdmissionVariation;
+export const quickBitcodeNeedRiskAdmissionAgent = quickBitcodeNeedRiskAdmissionVariation;
 
-/**
- * Danger Wall Agent
- * 
- * This agent demonstrates the CORRECT declarative pattern:
- * - Schemas define WHAT each step produces
- * - Factories create HOW it's executed (7-substep sequence)
- * - Execution handles WHERE it's stored (automatic state management)
- * - Prompts guide WHEN tools are used (through useTools in schemas)
- */
-/**
- * Danger Wall Agent - Default PTRR implementation
- * Main agent using comprehensive security validation
- */
-export const dangerWall = comprehensiveSecurity;
+export const dangerWall = bitcodeNeedRiskAdmissionAgent;
+export const quickDangerWall = quickBitcodeNeedRiskAdmissionAgent;
+export const dangerWallAgent = bitcodeNeedRiskAdmissionAgent;
+export const quickDangerWallAgent = quickBitcodeNeedRiskAdmissionAgent;
 
-/**
- * Quick Danger Wall Agent - Simple version prefixed with "quick"
- * Fast security validation for low-risk content
- */
-export const quickDangerWall = quickSecurity;
+export const BITCODE_NEED_RISK_ADMISSION_AGENT = {
+  riskCheck: bitcodeNeedRiskAdmissionAgent,
+  quickRiskCheck: quickBitcodeNeedRiskAdmissionAgent
+};
 
-/**
- * Preferred exports with consistent Agent suffix naming
- */
-export const dangerWallAgent = dangerWall;
-export const quickDangerWallAgent = quickDangerWall;
-
-// Removed all legacy compatibility exports
-
-/**
- * THE MAGIC EXPLAINED:
- * 
- * When dangerWallAgent is called:
- * 1. selectVariation picks comprehensive or quick based on risk factors
- * 2. If comprehensive:
- *    - factoryPlanGeneration(schema) creates Plan generation (failsafed thricified)
- *    - factoryTryGeneration(schema) creates Try generation (failsafed thricified)
- *    - factoryRefineGeneration(schema) creates Refine generation (failsafed thricified)
- *    - factoryRetryGeneration(schema) creates Retry generation (failsafed thricified)
- * 3. Each executor automatically:
- *    - Runs PrepareConciseContext→ChunkThenSum→StitchUntilComplete
- *    - Each parent runs Reason→Judge→StructuredOutput
- *    - Stores everything to execution.store()
- *    - Executes tools if useTools is in output
- * 4. The execution tree accumulates:
- *    - Every security check result
- *    - Every threat assessment
- *    - Every validation decision
- *    - Complete audit trail in namespaced stores!
- * 
- * We just defined schemas - the framework does ALL security validation logic!
- */
+export const DANGER_WALL_AGENT = {
+  dangerCheck: bitcodeNeedRiskAdmissionAgent,
+  quickDangerCheck: quickBitcodeNeedRiskAdmissionAgent
+};

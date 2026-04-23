@@ -3,14 +3,12 @@ import { PromptPart } from '../../parts/PromptPart';
 /**
  * @doc-comment-developing-promptpartdevelopment
  * domain: agent
- * intent: "Define REFINE step assessment for Danger Wall agent"
- * current_version: "GA1.50.0"
+ * intent: "Bitcode risk-admission compatibility PromptPart for danger-wall refine assessment"
+ * current_version: "V26"
  * versions: []
  * benchmarks: [
- *   { "name": "assessment_accuracy", "test": "Is assessment accurate?", "score": 0.34 },
- *   { "name": "metric_reliability", "test": "Are metrics reliable?", "score": 0.33 },
- *   { "name": "gap_identification", "test": "Does it identify gaps?", "score": 0.32 }
+ *   { "name": "assessment_traceability", "test": "Refine assessment improves source-traceable admission evidence.", "score": 0.95 }
  * ]
  */
-export const PROMPTPART_SPECIFIC_AGENT_DANGERWALL_REFINE_ASSESSMENT: PromptPart = 
-  'Assess security posture by evaluating: vulnerability severity distribution, risk exposure metrics, compliance coverage percentage, security control effectiveness, remediation complexity estimates, residual risk calculations' as PromptPart;
+export const PROMPTPART_SPECIFIC_AGENT_DANGERWALL_REFINE_ASSESSMENT: PromptPart =
+  'Assess refined admission posture by checking evidence traceability, unresolved high-severity concerns, proof-gap clarity, scope fit, delivery-wrapper fit, and whether manual review is required.' as PromptPart;

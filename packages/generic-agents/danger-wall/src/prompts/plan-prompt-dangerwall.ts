@@ -8,23 +8,23 @@ import { PROMPTPART_GENERIC_AGENT_GENERATION_REASON } from '@bitcode/prompts/raw
 import { PROMPTPART_GENERIC_AGENT_GENERATION_JUDGE } from '@bitcode/prompts/raw_promptparts/generic/promptpart_generic_agent_generation_judge';
 import { PROMPTPART_GENERIC_AGENT_GENERATION_STRUCTURED_OUTPUT } from '@bitcode/prompts/raw_promptparts/generic/promptpart_generic_agent_generation_structured_output';
 /**
- * Danger Wall Agent - Plan Step Prompt
+ * Bitcode Need Risk Admission Agent - Plan Step Prompt
  * 
- * Strategic planning for comprehensive security validation and threat detection
- * across codebases, dependencies, and infrastructure.
+ * Plan risk-admission evidence for a Bitcode need, candidate written assets,
+ * AssetPack scope, proof gaps, and delivery-wrapper boundary.
  * 
  * @doc-comment-developing-promptdevelopment
  * domain: agent
- * intent: "PLAN step prompt for Danger Wall agent"
- * current_version: "GA1.50.0"
+ * intent: "Bitcode PLAN step prompt for need risk-admission"
+ * current_version: "V26"
  * versions: [
  *   { "version": "2.0.0", "score": 0.90, "reason": "Used wrong PromptPart concatenation pattern" },
  *   { "version": "1.0.0", "score": 0.50, "reason": "Initial implementation" }
  * ]
  * benchmarks: [
- *   { "name": "planning_clarity", "test": "Does the prompt enable clear security planning?", "score": 0.45 },
- *   { "name": "threat_assessment", "test": "Is threat model analysis well-defined?", "score": 0.44 },
- *   { "name": "security_scope", "test": "Can security scanning scope be effectively determined?", "score": 0.45 }
+ *   { "name": "planning_clarity", "test": "Does the prompt enable clear Bitcode risk-admission planning?", "score": 0.45 },
+ *   { "name": "need_boundary", "test": "Is need and AssetPack scope admission well-defined?", "score": 0.44 },
+ *   { "name": "proof_boundary", "test": "Can proof-gap and delivery-wrapper boundaries be identified?", "score": 0.45 }
  * ]
  */
 
@@ -34,7 +34,7 @@ import { Prompt } from '@bitcode/prompts/prompt';
 
 
 export const DANGER_WALL_PLAN_PROMPT = new Prompt()
-  .set('phase', 'PLAN: Security Validation Strategy')
+  .set('phase', 'PLAN: Bitcode Risk Admission Strategy')
   .set('instructions', PROMPTPART_SPECIFIC_AGENT_DANGERWALL_PLAN_INSTRUCTIONS)
   .set('analysis_approach', PROMPTPART_SPECIFIC_AGENT_DANGERWALL_PLAN_ANALYSIS_APPROACH)
   .set('generation:json_only_header', PROMPTPART_GENERIC_AGENT_GENERATION_JSON_ONLY_HEADER)

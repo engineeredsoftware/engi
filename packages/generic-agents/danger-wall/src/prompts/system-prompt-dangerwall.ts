@@ -15,23 +15,24 @@ import { PROMPTPART_GENERIC_AGENT_GENERATION_STRUCTURED_OUTPUT } from '@bitcode/
 
 
 /**
- * Danger Wall Agent - System Prompt
+ * Bitcode Need Risk Admission Agent - System Prompt
  * 
- * System-level configuration for comprehensive security validation agent.
+ * System-level configuration for retained danger-wall compatibility as Bitcode
+ * need, AssetPack, proof-gap, and delivery-wrapper risk admission.
  * 
  * @doc-comment-developing-promptdevelopment
  * domain: agent
- * intent: "System prompt for Danger Wall agent"
- * current_version: "GA1.50.0"
+ * intent: "Bitcode system prompt for need risk-admission"
+ * current_version: "V26"
  * versions: [
  *   { "version": "3.0.0", "score": 0.90, "reason": "Migrated to correct Prompt class pattern" },
  *   { "version": "2.0.0", "score": 0.50, "reason": "Used wrong PromptPart concatenation pattern" },
  *   { "version": "1.0.0", "score": 0.40, "reason": "Initial implementation" }
  * ]
  * benchmarks: [
- *   { "name": "system_coherence", "test": "Does the system prompt provide coherent instructions?", "score": 0.47 },
- *   { "name": "security_completeness", "test": "Does it cover all security validation requirements?", "score": 0.47 },
- *   { "name": "operational_clarity", "test": "Are operational boundaries and capabilities clearly defined?", "score": 0.46 }
+ *   { "name": "system_coherence", "test": "Does the system prompt provide coherent Bitcode admission instructions?", "score": 0.47 },
+ *   { "name": "risk_completeness", "test": "Does it cover need, AssetPack, proof, and delivery risk boundaries?", "score": 0.47 },
+ *   { "name": "operational_clarity", "test": "Are non-ownership boundaries clearly defined?", "score": 0.46 }
  * ]
  */
 

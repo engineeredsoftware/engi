@@ -553,7 +553,7 @@ export const V26_INFERENCE_IMPLEMENTATION_RECORDS = Object.freeze([
   },
   {
     recordId: 'external-evidence-research-support',
-    canonicalNeed: 'Collect source-attributed external evidence as auxiliary context for Bitcode need measurement, proof-gap review, third-party interface planning, and AssetPack planning without promoting web research into proof, delivery, mutation, or product ownership.',
+    canonicalNeed: 'Research the web during the discovery phase to support Bitcode need synthesis with source-attributed external evidence for need measurement, proof-gap question formation, third-party interface planning, and AssetPack planning without promoting web research into canonical need interpretation, proof, delivery, mutation, or product ownership.',
     promptImplementation: {
       owners: [
         'packages/generic-agents/web-researcher/src/prompts/agent-prompt-web-researcher.ts',
@@ -563,22 +563,22 @@ export const V26_INFERENCE_IMPLEMENTATION_RECORDS = Object.freeze([
         'packages/generic-agents/web-researcher/src/prompts/refine-prompt-web-researcher.ts',
         'packages/generic-agents/web-researcher/src/prompts/retry-prompt-web-researcher.ts'
       ],
-      rawPromptPartBoundary: 'Compatibility-named WEBRESEARCHER PromptParts implement Bitcode external-evidence research support while generic generation/failsafe PromptParts remain reusable base layers.',
-      registryLayering: 'Generic generation/failsafe PromptParts form base layers; specific WEBRESEARCHER PromptParts implement auxiliary source context, source quality, volatility, proof-gap, interface, need, and AssetPack evidence behavior through package-local Prompt registries.',
-      runtimeCarryThrough: 'Web-researcher PromptPart TypeScript and JavaScript must carry canonical Bitcode external-evidence text.'
+      rawPromptPartBoundary: 'Compatibility-named WEBRESEARCHER PromptParts implement Bitcode need-synthesis web research support while generic generation/failsafe PromptParts remain reusable base layers.',
+      registryLayering: 'Generic generation/failsafe PromptParts form base layers; specific WEBRESEARCHER PromptParts implement discovery-phase source context, source quality, volatility, proof-gap question, interface, need, and AssetPack evidence behavior through package-local Prompt registries.',
+      runtimeCarryThrough: 'Web-researcher PromptPart TypeScript and JavaScript must carry canonical Bitcode need-synthesis web research text.'
     },
     toolImplementation: {
       owners: [
         'packages/generic-tools/web-search/src/index.ts',
         'packages/web-search/src/index.ts'
       ],
-      contract: 'Admitted web-search/content tools may collect source-attributed auxiliary evidence only; they do not mutate source, choose delivery mechanisms, assert proof completion, or define Exchange/Terminal product semantics.'
+      contract: 'Admitted web-search/content tools may collect source-attributed auxiliary evidence for discovery-phase need synthesis only; they do not mutate source, choose delivery mechanisms, assert proof completion, canonically interpret needs, or define Exchange/Terminal product semantics.'
     },
     agentImplementation: {
       owners: [
         'packages/generic-agents/web-researcher/src/index.ts'
       ],
-      contract: 'bitcodeExternalEvidenceResearcher owns the PTRR auxiliary-evidence agent; retained webResearcherAgent, webResearcherPrompt, webResearcherStepPrompts, and WEB_RESEARCH_AGENT.researchWeb names remain compatibility carriers.'
+      contract: 'bitcodeNeedSynthesisWebResearcher owns the PTRR discovery-phase web research agent; bitcodeExternalEvidenceResearcher and retained webResearcherAgent, webResearcherPrompt, webResearcherStepPrompts, and WEB_RESEARCH_AGENT.researchWeb names remain compatibility carriers.'
     },
     executionImplementation: {
       owners: [
@@ -588,8 +588,8 @@ export const V26_INFERENCE_IMPLEMENTATION_RECORDS = Object.freeze([
       carriers: ['AgentExecution compatibility entry', 'parent pipeline execution evidence']
     },
     assetPackImplementation: {
-      outputKind: 'auxiliary external evidence',
-      effect: 'Source-attributed external findings can support need comprehension, proof-gap review, interface planning, and AssetPack synthesis, but stable written assets and proof artifacts remain owned downstream.'
+      outputKind: 'need-synthesis external evidence',
+      effect: 'Source-attributed external findings can support discovery-phase need synthesis, proof-gap question formation, interface planning, and AssetPack synthesis, but canonical need interpretation, stable written assets, and proof artifacts remain owned downstream.'
     },
     boundaryPosture: 'admitted support',
     verificationSet: [
@@ -620,6 +620,74 @@ export const V26_INFERENCE_IMPLEMENTATION_RECORDS = Object.freeze([
       'packages/generic-tools/web-search/src/index.ts',
       'packages/web-search/src/index.ts',
       'protocol-demonstration/test/v26-web-researcher-agent-compatibility.test.js'
+    ]
+  },
+  {
+    recordId: 'need-risk-admission-support',
+    canonicalNeed: 'Admit or block the next Bitcode pipeline phase by evaluating a need, candidate written assets, AssetPack intent, proof/evidence gaps, private-data exposure, unsafe mutation risk, and delivery-mechanism fit without promoting the retained danger-wall corridor into canonical need, proof, mutation, delivery, or product ownership.',
+    promptImplementation: {
+      owners: [
+        'packages/generic-agents/danger-wall/src/prompts/agent-prompt-danger-wall.ts',
+        'packages/generic-agents/danger-wall/src/prompts/system-prompt-dangerwall.ts',
+        'packages/generic-agents/danger-wall/src/prompts/plan-prompt-dangerwall.ts',
+        'packages/generic-agents/danger-wall/src/prompts/try-prompt-dangerwall.ts',
+        'packages/generic-agents/danger-wall/src/prompts/refine-prompt-dangerwall.ts',
+        'packages/generic-agents/danger-wall/src/prompts/retry-prompt-dangerwall.ts'
+      ],
+      rawPromptPartBoundary: 'Compatibility-named DANGERWALL PromptParts implement Bitcode need/AssetPack risk-admission support while generic generation/failsafe PromptParts remain reusable base layers.',
+      registryLayering: 'Generic generation/failsafe PromptParts form base layers; specific DANGERWALL PromptParts implement need, written-asset, AssetPack, proof-gap, private-data, mutation, delivery-wrapper, and manual-review admission behavior through package-local Prompt registries.',
+      runtimeCarryThrough: 'Danger-wall PromptPart TypeScript and JavaScript must carry canonical Bitcode risk-admission text.'
+    },
+    toolImplementation: {
+      owners: [],
+      contract: 'No independent mutation, delivery, or proof-generation tool is admitted by this corridor; evidence tools may be requested only to resolve admission ambiguity before returning admit, block, or manual-review output.'
+    },
+    agentImplementation: {
+      owners: [
+        'packages/generic-agents/danger-wall/src/index.ts'
+      ],
+      contract: 'bitcodeNeedRiskAdmissionAgent owns the PTRR risk-admission agent; retained dangerWall, quickDangerWall, dangerWallAgent, quickDangerWallAgent, and DANGER_WALL_AGENT names remain compatibility carriers.'
+    },
+    executionImplementation: {
+      owners: [
+        'packages/generic-agents/danger-wall/src/index.ts',
+        'packages/pipelines/deliverable/src/agents/setup/deliverable-pipeline-danger-wall-agent.ts',
+        'packages/agent-generics/src/execution/AgentExecution.ts'
+      ],
+      carriers: ['AgentExecution compatibility entry', 'retained setup short-circuit signal', 'parent pipeline execution evidence']
+    },
+    assetPackImplementation: {
+      outputKind: 'need/AssetPack risk-admission evidence',
+      effect: 'Risk-admission findings can stop, admit, or require manual review before downstream need measurement, written-asset synthesis, proof closure, or delivery mechanisms continue.'
+    },
+    boundaryPosture: 'admitted support',
+    verificationSet: [
+      'node --test protocol-demonstration/test/v26-danger-wall-agent-compatibility.test.js',
+      'node --test protocol-demonstration/test/v26-inference-implementation-records.test.js',
+      '.bitcode/inference-implementation-records-proof.json',
+      '.bitcode/prompt-system-totality-proof.json'
+    ],
+    sourceEvidenceRefs: [
+      'packages/generic-agents/danger-wall/README.md',
+      'packages/generic-agents/danger-wall/package.json',
+      'packages/generic-agents/danger-wall/src/index.ts',
+      'packages/generic-agents/danger-wall/src/prompts/agent-prompt-danger-wall.ts',
+      'packages/generic-agents/danger-wall/src/prompts/system-prompt-dangerwall.ts',
+      'packages/generic-agents/danger-wall/src/prompts/plan-prompt-dangerwall.ts',
+      'packages/generic-agents/danger-wall/src/prompts/try-prompt-dangerwall.ts',
+      'packages/generic-agents/danger-wall/src/prompts/refine-prompt-dangerwall.ts',
+      'packages/generic-agents/danger-wall/src/prompts/retry-prompt-dangerwall.ts',
+      'packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_dangerwall_purpose_corestatement.ts',
+      'packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_dangerwall_capabilities_list.ts',
+      'packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_dangerwall_executionpattern_detailcontent.ts',
+      'packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_dangerwall_ptrrsteps_list.ts',
+      'packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_dangerwall_tools_list.ts',
+      'packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_dangerwall_integration_detailcontent.ts',
+      'packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_dangerwall_system_identity.ts',
+      'packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_dangerwall_system_instructions.ts',
+      'packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_dangerwall_system_role.ts',
+      'packages/pipelines/deliverable/src/agents/setup/deliverable-pipeline-danger-wall-agent.ts',
+      'protocol-demonstration/test/v26-danger-wall-agent-compatibility.test.js'
     ]
   },
   {

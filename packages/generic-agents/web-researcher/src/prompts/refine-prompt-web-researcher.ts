@@ -10,18 +10,18 @@ import { PROMPTPART_GENERIC_AGENT_GENERATION_STRUCTURED_OUTPUT } from '@bitcode/
 /**
  * @doc-comment-developing-promptdevelopment
  * domain: agent
- * intent: "Bitcode external-evidence research Refine prompt for source quality and volatility"
+ * intent: "Bitcode need-synthesis web research Refine prompt for source quality and volatility"
  * current_version: "V26"
  * versions: []
  * benchmarks: [
- *   { "name": "refine_boundary", "test": "Separates external evidence quality from proof closure", "score": 1.00 },
+ *   { "name": "refine_boundary", "test": "Separates discovery evidence quality from proof closure", "score": 1.00 },
  *   { "name": "registry_ready", "test": "Usable by registry formatter", "score": 1.00 }
  * ]
  */
 /**
- * REFINE PROMPT COMPOSITION - BITCODE EXTERNAL EVIDENCE RESEARCH
+ * REFINE PROMPT COMPOSITION - BITCODE NEED-SYNTHESIS WEB RESEARCH
  *
- * Composes source-quality and volatility PromptParts for auxiliary evidence.
+ * Composes source-quality and volatility PromptParts for need-synthesis evidence.
  */
 
 import { Prompt } from '@bitcode/prompts/prompt';

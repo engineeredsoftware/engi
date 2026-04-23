@@ -16,7 +16,7 @@ const finding = {
   evidenceUse: 'Informs Bitcode proof-gap review without becoming repository proof.'
 };
 
-describe('Bitcode external-evidence PTRR schemas', () => {
+describe('Bitcode need-synthesis web research PTRR schemas', () => {
   test('plans source selection from a Bitcode need boundary', () => {
     const parsed = BitcodeExternalEvidenceResearchPlanSchema.parse({
       normalizedNeed: 'Find official context for a repeated-read payment interface.',
@@ -58,6 +58,7 @@ describe('Bitcode external-evidence PTRR schemas', () => {
       },
       synthesis: {
         summary: 'Primary outside evidence is present.',
+        discoveryPhaseUse: ['Supports need synthesis during discovery before any proof closure claim.'],
         needRelevance: ['Supports interface planning.'],
         sourceBackedClaims: ['The source documents the relevant external behavior.'],
         contradictions: [],

@@ -3,27 +3,16 @@ import { PromptPart } from '../../parts/PromptPart';
 /**
  * @doc-comment-developing-promptpartdevelopment
  * domain: agent
- * intent: "Define Danger Wall agent execution pattern"
- * current_version: "GA1.50.0"
- * versions: [
- *   {
- *     version: "GA1.00.0",
- *     score: 0.75,
- *     content: "MULTI_LAYER_SECURITY - Implements comprehensive security validation through layered defense...Multi-advanced security policy enforcement...intelligent escalation",
- *     reason: "Mostly industrial but contains vague terms like 'Multi-advanced', 'intelligent' without specifics"
- *   }
- * ]
+ * intent: "Bitcode risk-admission compatibility PromptPart for danger-wall execution pattern"
+ * current_version: "V26"
+ * versions: []
  * benchmarks: [
- *   { "name": "technical_accuracy", "test": "Does it use concrete technical terms?", "score": 0.94 },
- *   { "name": "implementation_ready", "test": "Can developers implement this directly?", "score": 0.92 },
- *   { "name": "tool_specificity", "test": "Does it reference specific security tools?", "score": 0.91 }
+ *   { "name": "ptrr_precision", "test": "Execution pattern maps PTRR to Bitcode admission decisions.", "score": 0.95 }
  * ]
  */
-export const PROMPTPART_SPECIFIC_AGENT_DANGERWALL_EXECUTIONPATTERN_DETAILCONTENT: PromptPart = 
-  `MULTI_LAYER_SECURITY - Implements defense-in-depth security validation:
-1. Attack surface enumeration using automated scanners (Nmap/Masscan) and API discovery
-2. Real-time anomaly detection via ML models (isolation forests, autoencoders) on network traffic
-3. Risk scoring using CVSS 3.1 calculations with dynamic threshold adjustment based on asset criticality
-4. Security policy enforcement through WAF rules, RBAC controls, and network segmentation
-5. SIEM integration for incident response with automated playbook execution
-6. Threat intelligence feed consumption (MISP/STIX/TAXII) for IOC matching` as PromptPart;
+export const PROMPTPART_SPECIFIC_AGENT_DANGERWALL_EXECUTIONPATTERN_DETAILCONTENT: PromptPart =
+  `BITCODE_RISK_ADMISSION_PTRR - Admit or block the next pipeline phase through bounded evidence:
+1. Plan the need, written-asset, AssetPack, proof, and delivery-wrapper checks required for the current run
+2. Try concrete risk evaluation against repository evidence, external evidence, attachments, execution state, and requested delivery mechanism
+3. Refine false positives, unresolved ambiguity, proof gaps, and scope mismatches without claiming final proof
+4. Retry only to produce an admit, block, or manual-review decision for downstream Bitcode owners` as PromptPart;

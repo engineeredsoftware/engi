@@ -1,133 +1,43 @@
-# Danger Wall Agent
-
-Comprehensive security and safety validation agent providing multi-layered content protection.
+# Bitcode Need Risk Admission Agent
 
 ## Overview
 
-The Danger Wall Agent serves as a critical security gatekeeper, performing extensive safety and security validation on all content, code, and requests. It implements multi-dimensional threat detection to prevent harmful, malicious, or inappropriate content from being processed by the system.
+This package admits the retained `danger-wall` path as a Bitcode risk-admission agent.
+It is not an autonomous security product, content-moderation product, generic monitoring layer, or generic policy engine.
+Its V26 role is to decide whether a Bitcode need, candidate written assets, AssetPack intent, proof-gap evidence, and delivery mechanism are safe enough to continue into the next measured pipeline phase.
 
-## Core Capabilities
+The compatibility package name remains `@bitcode/generic-agents-danger-wall`.
+The active semantic owner is `bitcodeNeedRiskAdmissionAgent`; `dangerWall`, `quickDangerWall`, `dangerWallAgent`, `quickDangerWallAgent`, and `DANGER_WALL_AGENT.dangerCheck` remain compatibility aliases for retained imports.
 
-### 1. Content Safety Validation
-- Illegal content detection and blocking
-- NSFW content identification
-- Harmful or dangerous content filtering
-- Value alignment verification
-- Compliance with ethical AI standards
+## Canonical V26 Boundary
 
-### 2. Security Threat Detection
-- Jailbreaking attempt identification
-- Malicious code pattern recognition
-- System exploitation prevention
-- Command injection detection
-- Security vulnerability assessment
+- Inputs are need-first: `need`, `assetPackIntent`, `writtenAssetType`, `writtenAssets`, `repositoryEvidence`, `externalEvidence`, and `deliveryMechanism`.
+- Output is an admission decision for the next Bitcode phase, not proof closure and not final AssetPack acceptance.
+- The agent may flag unsafe mutation, private-data exposure, proof/evidence gaps, delivery-wrapper mismatch, and AssetPack scope mismatch.
+- Canonical need interpretation, repository mutation, stable written-asset creation, proof generation, and third-party delivery remain owned by downstream Bitcode systems.
+- `danger-wall` names are compatibility carriers only; prompt content and schemas must speak Bitcode risk admission.
 
-### 3. Multi-Layered Analysis
-- Content-based safety checks
-- Code security validation
-- Request pattern analysis
-- Context-aware threat assessment
-- False positive reduction mechanisms
+## Prompt Structure
 
-### 4. Audit and Compliance
-- Comprehensive audit trail generation
-- Severity-based categorization
-- Confidence scoring for decisions
-- Detailed flag explanations
-- Manual review recommendations
+Prompt implementations stay local to the package usage site and compose through Registry-backed prompt primitives:
 
-## Technical Implementation
+- `src/prompts/agent-prompt-danger-wall.ts` carries the agent-level prompt registry.
+- `src/prompts/system-prompt-dangerwall.ts` carries the system prompt registry.
+- `src/prompts/{plan,try,refine,retry}-prompt-dangerwall.ts` carry PTRR step prompt registries.
+- `packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_dangerwall_*` retain compatibility filenames, but their content is V26 Bitcode need-risk-admission content.
+- Generic generation and failsafe PromptParts remain reusable base layers; the specific PromptParts define this agent's implementation semantics.
 
-### Safety Check Categories
-- **Illegal**: Prohibited content detection
-- **Jailbreaking**: System manipulation attempts
-- **Dangerous**: Potentially harmful operations
-- **Anti-Western**: Value alignment verification
-- **NSFW**: Inappropriate content filtering
-- **Malicious**: Harmful code patterns
-- **Harmful**: General safety violations
+## Agent Variations
 
-### Severity Levels
-- `none`: No issues detected
-- `low`: Minor concerns requiring attention
-- `medium`: Moderate risks requiring review
-- `high`: Significant threats requiring action
-- `critical`: Severe violations requiring immediate blocking
+- `bitcodeNeedRiskAdmissionAgent`: PTRR admission variation for need, AssetPack, proof-gap, and delivery-boundary review.
+- `quickBitcodeNeedRiskAdmissionAgent`: single-step admission pass for already bounded low-impact inputs.
+- `dangerWall*` exports and `DANGER_WALL_AGENT`: compatibility aliases only.
 
-### PTRR Implementation
-- **Plan**: Analyzes content sources and creates validation strategy
-- **Try**: Executes comprehensive safety checks across all content
-- **Refine**: Validates results and eliminates false positives
-- **Retry**: Finalizes assessment with go/no-go decision
+## Verification
 
-## Output Structure
+The V26 proof family checks this package through:
 
-### Safety Check Result
-```typescript
-{
-  safe: boolean,
-  flags: {
-    illegal: boolean,
-    jailbreaking: boolean,
-    dangerous: boolean,
-    antiWestern: boolean,
-    nsfw: boolean,
-    malicious: boolean,
-    harmful: boolean
-  },
-  details: string[],
-  severity: 'none' | 'low' | 'medium' | 'high' | 'critical',
-  confidence: number,
-  sources: Array<{
-    type: string,
-    path?: string,
-    flags: string[],
-    details: string[]
-  }>
-}
-```
-
-### Final Assessment
-```typescript
-{
-  approved: boolean,
-  reason: string,
-  flags: string[],
-  recommendations: string[],
-  auditTrail: Array<{
-    check: string,
-    result: boolean,
-    details: string[],
-    severity: string
-  }>
-}
-```
-
-## Risk Management
-
-### Threshold Configuration
-- Maximum severity tolerance
-- Maximum flag count limits
-- Minimum confidence requirements
-- Manual review triggers
-
-### False Positive Handling
-- Iterative refinement process
-- Context-aware analysis
-- Edge case resolution
-- Confidence-based adjustments
-
-## Integration Points
-- Global context integration for system-wide protection
-- Stream message support for real-time feedback
-- Comprehensive logging for security monitoring
-- Pipeline integration for content validation
-
-## Performance Characteristics
-- Sequential processing pattern for thorough analysis
-- Confidence-based decision making
-- Severity-weighted risk assessment
-- Comprehensive audit trail generation
-
-## Usage Guidelines
-The Danger Wall Agent should be integrated early in processing pipelines to prevent harmful content from reaching downstream components. It provides definitive go/no-go decisions based on comprehensive safety analysis.
+- `protocol-demonstration/test/v26-danger-wall-agent-compatibility.test.js`
+- `protocol-demonstration/test/v26-inference-implementation-records.test.js`
+- `.bitcode/prompt-system-totality-proof.json`
+- `.bitcode/inference-implementation-records-proof.json`

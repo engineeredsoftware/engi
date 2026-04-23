@@ -13,31 +13,32 @@ import { PROMPTPART_GENERIC_AGENT_GENERATION_STRUCTURED_OUTPUT } from '@bitcode/
 
 
 /**
- * Danger Wall Agent - Try Step Prompt
+ * Bitcode Need Risk Admission Agent - Try Step Prompt
  * 
- * Execution phase for comprehensive security validation and threat detection.
+ * Execute Bitcode risk-admission checks against need, candidate written assets,
+ * AssetPack scope, proof-gap evidence, and delivery wrapper.
  * 
  * @doc-comment-developing-promptdevelopment
  * domain: agent
- * intent: "TRY step prompt for Danger Wall agent"
- * current_version: "GA1.50.0"
+ * intent: "Bitcode TRY step prompt for need risk-admission"
+ * current_version: "V26"
  * versions: [
  *   { "version": "3.0.0", "score": 0.90, "reason": "Migrated to correct Prompt class pattern" },
  *   { "version": "2.0.0", "score": 0.50, "reason": "Used wrong PromptPart concatenation pattern" },
  *   { "version": "1.0.0", "score": 0.40, "reason": "Initial implementation" }
  * ]
  * benchmarks: [
- *   { "name": "execution_clarity", "test": "Does the prompt enable clear security execution?", "score": 0.45 },
- *   { "name": "tool_utilization", "test": "Are security tools effectively utilized?", "score": 0.46 },
- *   { "name": "validation_thoroughness", "test": "Is security validation comprehensive?", "score": 0.45 }
+ *   { "name": "execution_clarity", "test": "Does the prompt enable clear Bitcode admission execution?", "score": 0.45 },
+ *   { "name": "evidence_utilization", "test": "Is repository and external evidence used without claiming proof?", "score": 0.46 },
+ *   { "name": "validation_thoroughness", "test": "Are need, AssetPack, proof, and delivery boundaries checked?", "score": 0.45 }
  * ]
  */
 
 export const DANGER_WALL_TRY_PROMPT = new Prompt()
-  .set('phase', 'TRY: Execute Security Validation')
+  .set('phase', 'TRY: Execute Bitcode Risk Admission')
   .set('system_instructions', PROMPTPART_SPECIFIC_AGENT_DANGERWALL_SYSTEM_INSTRUCTIONS)
   .set('tools', PROMPTPART_SPECIFIC_AGENT_DANGERWALL_TOOLS_LIST)
-  .set('execution_focus', 'Execute security validation using selected tools and methodologies. Focus on thorough threat assessment and compliance verification.')
+  .set('execution_focus', 'Execute Bitcode risk admission using available evidence. Focus on unsafe mutation, private-data exposure, proof gaps, AssetPack scope mismatch, and delivery-wrapper mismatch without mutating source or claiming closure.')
   .set('generation:json_only_header', PROMPTPART_GENERIC_AGENT_GENERATION_JSON_ONLY_HEADER)
   .set('generation:use_this_structure', PROMPTPART_GENERIC_AGENT_GENERATION_USE_THIS_STRUCTURED_SCHEMA)
   .set('generation:if_unknown_empty', PROMPTPART_GENERIC_AGENT_GENERATION_IF_UNKNOWN_EMPTY)
