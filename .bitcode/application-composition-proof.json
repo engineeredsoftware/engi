@@ -1,8 +1,8 @@
 {
   "reportId": "v26-application-composition-proof",
   "version": "V26",
-  "proofSourceCommit": "3bd4b385ee5bfcaa897738aad8eeec7968c19118",
-  "generatedAt": "2026-04-23T08:52:39-03:00",
+  "proofSourceCommit": "893b7889b3738c9053b02b4df350832e5ffca5da",
+  "generatedAt": "2026-04-23T09:25:03-03:00",
   "generatorId": "bitcode.proven-generator.v1",
   "worktreeState": "dirty-preview",
   "passed": true,

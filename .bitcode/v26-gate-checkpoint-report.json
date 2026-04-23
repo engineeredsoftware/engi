@@ -1,8 +1,8 @@
 {
   "reportId": "v26-gate-checkpoint-report",
   "version": "V26",
-  "proofSourceCommit": "3bd4b385ee5bfcaa897738aad8eeec7968c19118",
-  "generatedAt": "2026-04-23T08:52:39-03:00",
+  "proofSourceCommit": "893b7889b3738c9053b02b4df350832e5ffca5da",
+  "generatedAt": "2026-04-23T09:25:03-03:00",
   "generatorId": "bitcode.proven-generator.v1",
   "worktreeState": "dirty-preview",
   "activeCanonicalTarget": "V26",
@@ -238,6 +238,12 @@
         "label": "Fourth-gate prompt system totality proof",
         "passed": true,
         "detail": "PromptPart/Prompt/PromptExecution and retained prompt ports remain explicit through the public @bitcode/prompts boundary with package-by-package prompt surface mapping across active, support, and retained reference consumers, including retained config boundaries that avoid broad prompts/src catchalls"
+      },
+      {
+        "checkId": "fourth-gate-inference-implementation-records",
+        "label": "Fourth-gate inference implementation records proof",
+        "passed": true,
+        "detail": "Prompt, tool, agentic, pipeline, conversation, asset-pack, need-comprehension, and MCP inference systems have source-visible implementation records"
       },
       {
         "checkId": "fourth-gate-promotion-honesty",

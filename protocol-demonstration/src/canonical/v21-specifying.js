@@ -332,6 +332,7 @@ function buildV21LikeProfile(version) {
           '.bitcode/runs-pipelines-totality-proof.json',
           '.bitcode/persistence-schema-totality-proof.json',
           '.bitcode/prompt-system-totality-proof.json',
+          '.bitcode/inference-implementation-records-proof.json',
           '.bitcode/prompt-space-completeness-proof.json',
           '.bitcode/retained-package-admissibility-proof.json',
           '.bitcode/system-reform-admissibility-proof.json',

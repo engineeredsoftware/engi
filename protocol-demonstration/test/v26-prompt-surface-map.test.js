@@ -36,6 +36,9 @@ test('V26 prompt surface map keeps active, support, and reference corridors expl
   assert.match(promptSurfaceSource, /retained reference test\/build configs should use exact public prompt subpath maps/u);
   assert.match(promptSurfaceSource, /Jira remains reader-first need-ingestion\/reference posture/u);
   assert.match(promptSurfaceSource, /Runtime JavaScript PromptPart carry-through must match the TypeScript content/u);
+  assert.match(promptSurfaceSource, /\.bitcode\/inference-implementation-records-proof\.json/u);
+  assert.match(promptSurfaceSource, /protocol-demonstration\/src\/canonical\/inference-implementation-records\.js/u);
+  assert.match(promptSurfaceSource, /protocol-demonstration\/test\/v26-inference-implementation-records\.test\.js/u);
 });
 
 test('V26 inference systems spec binds prompts, tools, agents, and executions together', () => {
@@ -48,6 +51,8 @@ test('V26 inference systems spec binds prompts, tools, agents, and executions to
   assert.match(inferenceSystemsSource, /`packages\/generic-tools\/task-comprehension\/\*`/u);
   assert.match(inferenceSystemsSource, /retained compatibility tool reservoir now specified as Bitcode need-comprehension/u);
   assert.match(inferenceSystemsSource, /## Inference Implementation Record/u);
+  assert.match(inferenceSystemsSource, /protocol-demonstration\/src\/canonical\/inference-implementation-records\.js/u);
+  assert.match(inferenceSystemsSource, /\.bitcode\/inference-implementation-records-proof\.json/u);
   assert.match(inferenceSystemsSource, /recordId/u);
   assert.match(inferenceSystemsSource, /canonicalNeed/u);
   assert.match(inferenceSystemsSource, /promptImplementation/u);

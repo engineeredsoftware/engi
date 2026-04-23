@@ -124,6 +124,9 @@ The current prompt surface map is expected to align with:
 - `BITCODE_SPEC_V26_PARITY_MATRIX.md`
 - `protocol-demonstration/V26_APPLICATION_SYSTEMS.md`
 - `.bitcode/prompt-system-totality-proof.json`
+- `.bitcode/inference-implementation-records-proof.json`
+- `protocol-demonstration/src/canonical/inference-implementation-records.js`
+- `protocol-demonstration/test/v26-inference-implementation-records.test.js`
 - `protocol-demonstration/test/v26-prompt-system-boundary.test.js`
 - `protocol-demonstration/test/v26-prompt-surface-map.test.js`
 - `protocol-demonstration/test/v26-prompt-runtime-loadability.test.js`

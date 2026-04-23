@@ -47,6 +47,7 @@ Compatibility names may remain only when the specification states what canonical
 
 Every active or admitted-support package that owns inference behavior must be describable by a stable implementation record.
 The record does not need to live in one source file yet, but the repository must make every field recoverable from specification, package docs, source, tests, and generated proof artifacts.
+The current V26 source-visible registry is `protocol-demonstration/src/canonical/inference-implementation-records.js`, verified by `protocol-demonstration/test/v26-inference-implementation-records.test.js` and generated into `.bitcode/inference-implementation-records-proof.json`.
 
 Required record fields:
 

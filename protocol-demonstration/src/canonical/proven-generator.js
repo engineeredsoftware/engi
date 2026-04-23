@@ -34,6 +34,7 @@ import {
 } from './v22-canon-posture.js';
 import { BITCOIN_PAYMENT_MODES } from './v23-bitcoin.js';
 import { ACTIVE_CANON_VERSION } from '../canon-posture.js';
+import { validateV26InferenceImplementationRecords } from './inference-implementation-records.js';
 
 export const DEFAULT_PROVEN_BRANCH_MODES = ['patch', 'context'];
 export const DEFAULT_V23_PROVEN_PAYMENT_MODES = [...BITCOIN_PAYMENT_MODES];
@@ -612,6 +613,7 @@ function buildV26GateCheckpointReport({
   runsPipelinesTotalityProof,
   persistenceSchemaTotalityProof,
   promptSystemTotalityProof,
+  inferenceImplementationRecordsProof,
   retainedPackageAdmissibilityProof
 }) {
   const firstGateChecks = [
@@ -745,6 +747,14 @@ function buildV26GateCheckpointReport({
       detail: promptSystemTotalityProof?.passed === true
         ? 'PromptPart/Prompt/PromptExecution and retained prompt ports remain explicit through the public @bitcode/prompts boundary with package-by-package prompt surface mapping across active, support, and retained reference consumers, including retained config boundaries that avoid broad prompts/src catchalls'
         : 'Prompt system totality proof remains open'
+    },
+    {
+      checkId: 'fourth-gate-inference-implementation-records',
+      label: 'Fourth-gate inference implementation records proof',
+      passed: inferenceImplementationRecordsProof?.passed === true,
+      detail: inferenceImplementationRecordsProof?.passed === true
+        ? 'Prompt, tool, agentic, pipeline, conversation, asset-pack, need-comprehension, and MCP inference systems have source-visible implementation records'
+        : 'Inference implementation record proof remains open'
     }
   ];
   const firstGatePassed = firstGateChecks
@@ -1043,8 +1053,10 @@ function buildV26PromptSystemTotalityProof({
         'packages/prompts/src/execution/PromptExecution.js',
         'packages/prompts/src/parts/PromptPart.ts',
         'packages/prompts/src/__tests__/prompt.test.ts',
+        'protocol-demonstration/src/canonical/inference-implementation-records.js',
         'protocol-demonstration/V26_PROMPT_SURFACES.md',
         'protocol-demonstration/V26_INFERENCE_SYSTEMS.md',
+        'protocol-demonstration/test/v26-inference-implementation-records.test.js',
         'protocol-demonstration/test/v26-prompt-system-boundary.test.js',
         'protocol-demonstration/test/v26-prompt-surface-map.test.js',
         'protocol-demonstration/test/v26-prompt-runtime-loadability.test.js'
@@ -1263,6 +1275,35 @@ function buildV26PromptSystemTotalityProof({
       '@bitcode/generic-tools-task-comprehension'
     ],
     checks
+  };
+}
+
+/**
+ * @param {{
+ *   generatedAt: string,
+ *   baseData: any
+ * }} input
+ */
+function buildV26InferenceImplementationRecordsProof({
+  generatedAt,
+  baseData
+}) {
+  const validation = validateV26InferenceImplementationRecords({ fileExists: repoFileExists });
+
+  return {
+    reportId: 'v26-inference-implementation-records-proof',
+    version: 'V26',
+    proofSourceCommit: baseData.canonicalCommit,
+    generatedAt,
+    generatorId: baseData.generatorId,
+    worktreeState: baseData.worktreeState,
+    passed: validation.passed,
+    recordCount: validation.recordCount,
+    requiredFields: validation.requiredFields,
+    requiredBoundaryPostures: validation.requiredBoundaryPostures,
+    boundaryPostureCounts: validation.boundaryPostureCounts,
+    recordChecks: validation.recordChecks,
+    records: validation.records
   };
 }
 
@@ -2320,6 +2361,7 @@ export function renderCanonicalProvenMarkdown(data) {
     lines.push(`- v26RunsPipelinesTotalityPassed: ${markdownCode(String(v26.runsPipelinesTotalityProof.passed === true))}`);
     lines.push(`- v26PersistenceSchemaTotalityPassed: ${markdownCode(String(v26.persistenceSchemaTotalityProof.passed === true))}`);
     lines.push(`- v26PromptSystemTotalityPassed: ${markdownCode(String(v26.promptSystemTotalityProof.passed === true))}`);
+    lines.push(`- v26InferenceImplementationRecordsPassed: ${markdownCode(String(v26.inferenceImplementationRecordsProof.passed === true))}`);
     lines.push(`- v26RetainedPackageAdmissibilityPassed: ${markdownCode(String(v26.retainedPackageAdmissibilityProof.passed === true))}`);
     lines.push(`- v26GeneratedArtifactCount: ${markdownCode(String((v26.artifactSummaries || []).length))}`);
     lines.push(`- v26DraftPreview: ${markdownCode(String(v26.draftPreview === true))}`);
@@ -3125,6 +3167,21 @@ export function renderCanonicalProvenMarkdown(data) {
         markdownCode(check.checkId),
         markdownCode(String(check.passed)),
         check.detail
+      ])
+    ));
+    lines.push('');
+    lines.push('### V26 Inference Implementation Records Proof');
+    lines.push('');
+    lines.push(`- reportId: ${markdownCode(v26.inferenceImplementationRecordsProof.reportId)}`);
+    lines.push(`- passed: ${markdownCode(String(v26.inferenceImplementationRecordsProof.passed === true))}`);
+    lines.push(`- recordCount: ${markdownCode(String(v26.inferenceImplementationRecordsProof.recordCount))}`);
+    lines.push('');
+    lines.push(renderMarkdownTable(
+      ['recordId', 'boundaryPosture', 'passed'],
+      v26.inferenceImplementationRecordsProof.recordChecks.map((check) => [
+        markdownCode(check.recordId),
+        markdownCode(check.boundaryPosture),
+        markdownCode(String(check.passed))
       ])
     ));
     lines.push('');
@@ -3966,6 +4023,7 @@ function buildV26ProvenPackage(baseData, {
             '.bitcode/runs-pipelines-totality-proof.json',
             '.bitcode/persistence-schema-totality-proof.json',
             '.bitcode/prompt-system-totality-proof.json',
+            '.bitcode/inference-implementation-records-proof.json',
             '.bitcode/prompt-space-completeness-proof.json',
             '.bitcode/retained-package-admissibility-proof.json',
             '.bitcode/system-reform-admissibility-proof.json',
@@ -3996,6 +4054,10 @@ function buildV26ProvenPackage(baseData, {
     baseData
   });
   const promptSystemTotalityProof = buildV26PromptSystemTotalityProof({
+    generatedAt,
+    baseData
+  });
+  const inferenceImplementationRecordsProof = buildV26InferenceImplementationRecordsProof({
     generatedAt,
     baseData
   });
@@ -4031,6 +4093,7 @@ function buildV26ProvenPackage(baseData, {
     runsPipelinesTotalityProof,
     persistenceSchemaTotalityProof,
     promptSystemTotalityProof,
+    inferenceImplementationRecordsProof,
     retainedPackageAdmissibilityProof
   });
   const artifacts = {
@@ -4050,6 +4113,7 @@ function buildV26ProvenPackage(baseData, {
     '.bitcode/runs-pipelines-totality-proof.json': `${JSON.stringify(runsPipelinesTotalityProof, null, 2)}\n`,
     '.bitcode/persistence-schema-totality-proof.json': `${JSON.stringify(persistenceSchemaTotalityProof, null, 2)}\n`,
     '.bitcode/prompt-system-totality-proof.json': `${JSON.stringify(promptSystemTotalityProof, null, 2)}\n`,
+    '.bitcode/inference-implementation-records-proof.json': `${JSON.stringify(inferenceImplementationRecordsProof, null, 2)}\n`,
     '.bitcode/prompt-space-completeness-proof.json': `${JSON.stringify(promptSpaceCompletenessProof, null, 2)}\n`,
     '.bitcode/retained-package-admissibility-proof.json': `${JSON.stringify(retainedPackageAdmissibilityProof, null, 2)}\n`,
     '.bitcode/system-reform-admissibility-proof.json': `${JSON.stringify(systemReformAdmissibilityProof, null, 2)}\n`,
@@ -4079,6 +4143,7 @@ function buildV26ProvenPackage(baseData, {
       runsPipelinesTotalityProof,
       persistenceSchemaTotalityProof,
       promptSystemTotalityProof,
+      inferenceImplementationRecordsProof,
       promptSpaceCompletenessProof,
       retainedPackageAdmissibilityProof,
       systemReformAdmissibilityProof,
