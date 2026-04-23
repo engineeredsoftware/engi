@@ -1,8 +1,8 @@
 {
   "reportId": "v26-prompt-system-totality-proof",
   "version": "V26",
-  "proofSourceCommit": "f5c1255ba5a773e7dedbde9663b2291b4189b155",
-  "generatedAt": "2026-04-23T09:53:55-03:00",
+  "proofSourceCommit": "48e3682fbae3b4549a8c56fce9c49f5fdfdac796",
+  "generatedAt": "2026-04-23T10:35:33-03:00",
   "generatorId": "bitcode.proven-generator.v1",
   "worktreeState": "dirty-preview",
   "passed": true,
@@ -220,7 +220,7 @@
       "checkId": "need-ingestion-and-deliverable-prompt-ports",
       "label": "Need-ingestion and admitted deliverable compatibility ports remain explicit under Bitcode ownership, narrow public prompt subpaths, and semantic need/written-asset mirrors",
       "passed": true,
-      "detail": "28 required files present",
+      "detail": "34 required files present",
       "requiredFiles": [
         "protocol-demonstration/V26_DELIVERABLE_REFORM.md",
         "protocol-demonstration/test/v26-deliverable-reform.test.js",
@@ -249,7 +249,13 @@
         "packages/pipelines/deliverable/src/agents/setup/deliverable-pipeline-setup-plan-agent.ts",
         "packages/pipelines/deliverable/src/agents/shipping/deliverable-pipeline-create-pull-request-agent.ts",
         "packages/pipelines/deliverable/src/agents/shipping/deliverable-pipeline-final-work-summary-agent.ts",
-        "packages/pipelines/deliverable/src/tools/DeliverablePipelineCloneVCSRepositoryTool.ts"
+        "packages/pipelines/deliverable/src/tools/DeliverablePipelineCloneVCSRepositoryTool.ts",
+        "scripts/fix-execution-to-directives.sh",
+        "scripts/generate-deliverable-promptparts.ts",
+        "scripts/prompt-audit.sh",
+        "scripts/update-deliverable-agents.sh",
+        "scripts/update-deliverable-table-names.sh",
+        "scripts/verify-prompt-exports.py"
       ],
       "missingFiles": []
     }

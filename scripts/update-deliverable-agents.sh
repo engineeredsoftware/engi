@@ -1,27 +1,26 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
-# Update all deliverable pipeline agents to use PTRR
+# Update retained asset-pack pipeline agents to use PTRR.
 
-set -e
+set -euo pipefail
 
-echo "Updating deliverable pipeline agents to PTRR..."
+repo_root="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+agents_dir="$repo_root/packages/pipelines/deliverable/src/agents"
 
-agents_dir="/Users/g/Developer/engi/engi/packages/pipelines/deliverable/src/agents"
+echo "Updating retained asset-pack pipeline agents to PTRR under $agents_dir..."
 
-for file in "$agents_dir"/*.ts; do
+find "$agents_dir" -maxdepth 1 -type f -name "*.ts" | while IFS= read -r file; do
   if [ -f "$file" ]; then
     filename=$(basename "$file")
     echo "Processing $filename..."
     
     # Replace imports
-    sed -i '' 's/factoryAgent[[:space:]]*,//' "$file"
-    sed -i '' 's/factoryVariationWithPTRR/factoryAgentWithPTRR/g' "$file"
-    sed -i '' 's/factoryVariationWithSingleStep/factoryAgentWithSingleStep/g' "$file"
+    perl -0pi -e 's/factoryAgent[[:space:]]*,//g; s/factoryVariationWithPTRR/factoryAgentWithPTRR/g; s/factoryVariationWithSingleStep/factoryAgentWithSingleStep/g' "$file"
     
-    echo "  ✅ Updated imports in $filename"
+    echo "  Updated imports in $filename"
   fi
 done
 
 echo ""
-echo "All deliverable pipeline agents updated!"
+echo "All retained asset-pack pipeline agents updated."
 echo "Note: Manual review required to remove variations arrays and selectVariation"

@@ -1,98 +1,93 @@
 #!/usr/bin/env python3
 """
-Verify all PROMPT_ exports are included in index.ts
+Verify raw PromptPart exports are included in their local raw_promptparts indexes.
 """
 
-import os
 import re
 from pathlib import Path
 
+REPO_ROOT = Path(__file__).resolve().parents[1]
+RAW_PROMPTPARTS_PATH = REPO_ROOT / "packages/prompts/src/raw_promptparts"
+
 def find_all_prompt_exports():
-    """Find all PROMPT_ exports in raw directories"""
-    packages_path = Path("/Users/g/Developer/engi/engi/packages")
-    raw_path = packages_path / "prompts/src/raw"
-    
+    """Find all PROMPTPART_ exports in active raw PromptPart directories."""
     exports = {}
-    
-    for ts_file in raw_path.rglob("*.ts"):
-        if ts_file.name == "index.ts":
+
+    for ts_file in RAW_PROMPTPARTS_PATH.rglob("*.ts"):
+        if ts_file.name == "index.ts" or ts_file.name.endswith(".d.ts"):
             continue
-            
+
         content = ts_file.read_text()
-        
-        # Find all PROMPT_ exports
-        pattern = r'export const (PROMPT_[A-Z0-9_]+)'
+
+        pattern = r'export const (PROMPTPART_[A-Z0-9_]+)'
         matches = re.findall(pattern, content)
-        
+
         for match in matches:
-            relative_path = ts_file.relative_to(raw_path)
+            relative_path = ts_file.relative_to(RAW_PROMPTPARTS_PATH)
             exports[match] = str(relative_path)
-    
+
     return exports
 
 def check_index_exports():
-    """Check what's exported in index.ts"""
-    index_path = Path("/Users/g/Developer/engi/engi/packages/prompts/src/index.ts")
-    content = index_path.read_text()
-    
-    # Find all export * from statements
+    """Check local raw_promptparts index exports."""
     exported_files = set()
-    pattern = r"export \* from '\./raw/([^']+)'"
-    matches = re.findall(pattern, content)
-    
-    for match in matches:
-        exported_files.add(match + '.ts')
-    
+
+    for index_path in RAW_PROMPTPARTS_PATH.rglob("index.ts"):
+        content = index_path.read_text()
+        matches = re.findall(r'export \* from ["\']\./([^"\']+)["\']', content)
+
+        for match in matches:
+            exported_path = index_path.parent / f"{match}.ts"
+            try:
+                exported_files.add(str(exported_path.relative_to(RAW_PROMPTPARTS_PATH)))
+            except ValueError:
+                continue
+
     return exported_files
 
 def main():
-    print("🔍 Verifying PROMPT_ exports in index.ts")
+    print("Verifying active raw PromptPart exports")
     print("")
-    
-    # Find all PROMPT_ exports
+
     all_exports = find_all_prompt_exports()
-    print(f"Found {len(all_exports)} PROMPT_ exports in raw directories")
-    
-    # Check what's exported
+    print(f"Found {len(all_exports)} PROMPTPART_ exports in raw_promptparts directories")
+
     exported_files = check_index_exports()
-    print(f"Found {len(exported_files)} files exported in index.ts")
-    
-    # Find missing files
+    print(f"Found {len(exported_files)} files exported through local raw_promptparts indexes")
+
     all_files = set(all_exports.values())
     missing_files = all_files - exported_files
-    
+
     if missing_files:
-        print(f"\n⚠️  Found {len(missing_files)} files not exported in index.ts:")
-        
-        # Group by directory
+        print(f"\nFound {len(missing_files)} files not exported through local raw_promptparts indexes:")
+
         generic_missing = []
         specific_missing = []
-        
+
         for file in sorted(missing_files):
             if file.startswith('generic/'):
                 generic_missing.append(file)
             else:
                 specific_missing.append(file)
-        
+
         if generic_missing:
             print("\nMissing from generic:")
             for file in generic_missing:
-                print(f"  export * from './raw/{file[:-3]}';")
-        
+                print(f"  export * from './{Path(file).stem}';")
+
         if specific_missing:
             print("\nMissing from specific:")
             for file in specific_missing:
-                print(f"  export * from './raw/{file[:-3]}';")
+                print(f"  export * from './{Path(file).stem}';")
     else:
-        print("\n✅ All PROMPT_ exports are included in index.ts!")
-    
-    # Show summary by category
-    print("\n📊 Export Summary:")
+        print("\nAll active raw PromptPart exports are included in local indexes.")
+
+    print("\nExport summary:")
     categories = {}
     for export_name, file_path in all_exports.items():
         category = file_path.split('/')[0]
         categories[category] = categories.get(category, 0) + 1
-    
+
     for category, count in sorted(categories.items()):
         print(f"  {category}: {count} exports")
 

@@ -1,16 +1,24 @@
-#!/bin/bash
+#!/usr/bin/env bash
+set -euo pipefail
 
-# Update all references from deliverable_runs to deliverable_pipeline_runs
-# This aligns with our more descriptive naming convention
+# Update retained legacy table references from deliverable_runs to
+# deliverable_pipeline_runs. This is a compatibility maintenance helper for the
+# Bitcode asset-pack pipeline corridor; it must never encode a local old-world
+# checkout path.
 
-echo "Updating deliverable_runs to deliverable_pipeline_runs..."
+repo_root="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 
-# Find and replace in all TypeScript/TSX files
-find /Users/g/Developer/engi/engi -type f \( -name "*.ts" -o -name "*.tsx" \) -exec grep -l "deliverable_runs" {} \; | while read file; do
+echo "Updating deliverable_runs to deliverable_pipeline_runs under $repo_root..."
+
+while IFS= read -r file; do
   echo "Updating: $file"
-  sed -i '' "s/'deliverable_runs'/'deliverable_pipeline_runs'/g" "$file"
-  sed -i '' 's/"deliverable_runs"/"deliverable_pipeline_runs"/g' "$file"
-  sed -i '' 's/`deliverable_runs`/`deliverable_pipeline_runs`/g' "$file"
-done
+  perl -0pi -e 's/'\''deliverable_runs'\''/'\''deliverable_pipeline_runs'\''/g; s/"deliverable_runs"/"deliverable_pipeline_runs"/g; s/`deliverable_runs`/`deliverable_pipeline_runs`/g' "$file"
+done < <(
+  rg -l "deliverable_runs" "$repo_root" \
+    --glob '*.ts' \
+    --glob '*.tsx' \
+    --glob '!_legacy/**' \
+    --glob '!node_modules/**' || true
+)
 
-echo "Done! Updated all references to use deliverable_pipeline_runs"
+echo "Done. Updated matching active TypeScript references to use deliverable_pipeline_runs."

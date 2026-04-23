@@ -1316,7 +1316,13 @@ function buildV26PromptSystemTotalityProof({
         'packages/pipelines/deliverable/src/agents/setup/deliverable-pipeline-setup-plan-agent.ts',
         'packages/pipelines/deliverable/src/agents/shipping/deliverable-pipeline-create-pull-request-agent.ts',
         'packages/pipelines/deliverable/src/agents/shipping/deliverable-pipeline-final-work-summary-agent.ts',
-        'packages/pipelines/deliverable/src/tools/DeliverablePipelineCloneVCSRepositoryTool.ts'
+        'packages/pipelines/deliverable/src/tools/DeliverablePipelineCloneVCSRepositoryTool.ts',
+        'scripts/fix-execution-to-directives.sh',
+        'scripts/generate-deliverable-promptparts.ts',
+        'scripts/prompt-audit.sh',
+        'scripts/update-deliverable-agents.sh',
+        'scripts/update-deliverable-table-names.sh',
+        'scripts/verify-prompt-exports.py'
       ]
     )
   ];

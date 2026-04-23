@@ -3,13 +3,29 @@
 import * as fs from 'fs';
 import * as path from 'path';
 
-// Define all agents and their metadata
+type AgentMetadata = {
+  name: string;
+  display: string;
+  purpose: string;
+};
+
+type PromptPartTemplate = {
+  suffix: string;
+  template: (agent: AgentMetadata, phase: string) => string;
+};
+
+type PtrrStep = {
+  step: string;
+  purpose: string;
+};
+
+// Define retained asset-pack pipeline agents and their Bitcode semantics.
 const AGENTS = {
   setup: [
     { name: 'clonerepository', display: 'Clone VCS Repository', purpose: 'securely clone VCS repositories from GitHub GitLab or Bitbucket' },
     { name: 'initializelsp', display: 'Initialize LSP', purpose: 'initialize Language Server Protocol for code intelligence and analysis' },
     { name: 'dangerwall', display: 'Danger Wall', purpose: 'detect and prevent dangerous operations that could harm systems or violate policies' },
-    { name: 'comprehendtask', display: 'Comprehend Task', purpose: 'understand user requirements context, need posture, and shipping expectations' },
+    { name: 'comprehendneed', display: 'Comprehend Need', purpose: 'understand expressed need context, satisfaction criteria, written-asset posture, and shipping expectations' },
     { name: 'determinedeliverabletype', display: 'Determine Deliverable Type', purpose: 'classify the written-asset synthesis and shipping mechanism posture as code-change code-review design-document or design-review' },
     { name: 'analyzecodebase', display: 'Analyze Codebase', purpose: 'analyze codebase structure patterns dependencies and architecture' },
     { name: 'readytoiterate', display: 'Ready to Iterate', purpose: 'determine if sufficient context exists to proceed or short-circuit with refund' }
@@ -23,10 +39,10 @@ const AGENTS = {
     { name: 'assesscomplexity', display: 'Assess Complexity', purpose: 'evaluate technical business integration and testing complexity metrics' }
   ],
   implementation: [
-    { name: 'dividepullrequest', display: 'Divide Pull Request', purpose: 'determine all files needing changes for pull request implementation' },
+    { name: 'dividepullrequest', display: 'Divide Pull Request', purpose: 'plan code written assets that can later ship through a pull request wrapper' },
     { name: 'conquerfile', display: 'Conquer File', purpose: 'implement changes in individual files according to plan' },
-    { name: 'correctpullrequest', display: 'Correct Pull Request', purpose: 'validate and correct all file changes for consistency and quality' },
-    { name: 'reviewpullrequest', display: 'Review Pull Request', purpose: 'perform comprehensive code review with suggestions and feedback' },
+    { name: 'correctpullrequest', display: 'Correct Pull Request', purpose: 'validate and correct code written assets for consistency and quality before shipping' },
+    { name: 'reviewpullrequest', display: 'Review Pull Request', purpose: 'perform comprehensive review of code written assets with suggestions and feedback' },
     { name: 'createissue', display: 'Create Issue', purpose: 'create detailed design document as GitHub GitLab or Bitbucket issue' },
     { name: 'commentonissue', display: 'Comment on Issue', purpose: 'provide thoughtful review comments on design document issues' }
   ],
@@ -41,32 +57,32 @@ const AGENTS = {
     { name: 'readytoship', display: 'Ready to Ship', purpose: 'final validation gate determining ship or short-circuit with refund' }
   ],
   shipping: [
-    { name: 'createpullrequest', display: 'Create Pull Request', purpose: 'create pull request with title description and metadata on VCS platform' },
-    { name: 'submitreview', display: 'Submit Review', purpose: 'submit code review with comments suggestions and approval status' },
-    { name: 'createissue', display: 'Create Issue', purpose: 'create issue with design document on VCS platform' },
-    { name: 'addissuecomment', display: 'Add Issue Comment', purpose: 'add review comment to existing issue thread' },
-    { name: 'finalizeshipment', display: 'Finalize Shipment', purpose: 'complete deliverable shipment with metrics and confirmation' }
+    { name: 'createpullrequest', display: 'Create Pull Request', purpose: 'create a pull request shipping wrapper with title description and metadata on a VCS platform' },
+    { name: 'submitreview', display: 'Submit Review', purpose: 'submit a code-review shipping wrapper with comments suggestions and approval status' },
+    { name: 'createissue', display: 'Create Issue', purpose: 'create an issue shipping wrapper with design-document written assets on a VCS platform' },
+    { name: 'addissuecomment', display: 'Add Issue Comment', purpose: 'add an issue-comment shipping wrapper to an existing issue thread' },
+    { name: 'finalizeshipment', display: 'Finalize Shipment', purpose: 'complete asset-pack shipping with metrics and confirmation' }
   ]
 };
 
 // Part types to generate for each agent
-const PART_TYPES = [
-    { suffix: 'identity_definition', template: (agent: any, phase: string) => 
-    `'You are the retained DeliverablesPipeline${capitalize(phase)}Phase${agent.display.replace(/\s/g, '')}Agent responsible for ${agent.purpose} while preserving Bitcode asset-pack run semantics'` },
-  { suffix: 'purpose_corestatement', template: (agent: any) => 
-    `'Core purpose: ${agent.purpose} ensuring quality accuracy and completeness at every step'` },
-  { suffix: 'capabilities_list', template: (agent: any) => 
-    `'Capabilities: analyze context and requirements, validate inputs and outputs, handle edge cases gracefully, provide detailed feedback, support parallel processing, integrate with VCS platforms, maintain execution state'` },
-  { suffix: 'tools_available', template: (agent: any) => 
-    `'Available tools: file system operations, code analysis tools, VCS integrations, validation utilities, parallel execution framework, state management, error handling and recovery'` },
-  { suffix: 'requirements_context', template: (agent: any) => 
-    `'Requirements: execution context from prior phases, user task description, codebase metadata, VCS credentials when applicable, validation criteria, quality thresholds'` }
+const PART_TYPES: PromptPartTemplate[] = [
+    { suffix: 'identity_definition', template: (agent, phase) =>
+    `'You are the retained Bitcode asset-pack pipeline ${capitalize(phase)} phase ${agent.display.replace(/\s/g, '')} agent responsible for ${agent.purpose}'` },
+  { suffix: 'purpose_corestatement', template: (agent) =>
+    `'Core purpose: ${agent.purpose} while preserving need satisfaction, written-asset integrity, and shipping-wrapper correctness at every step'` },
+  { suffix: 'capabilities_list', template: () =>
+    `'Capabilities: analyze expressed need and requirements, validate inputs and outputs, handle edge cases gracefully, provide detailed feedback, support parallel processing, integrate with VCS platforms, maintain execution state, and preserve asset-pack run semantics'` },
+  { suffix: 'tools_available', template: () =>
+    `'Available tools: file system operations, code analysis tools, VCS integrations, validation utilities, parallel execution framework, state management, error handling, and recovery'` },
+  { suffix: 'requirements_context', template: () =>
+    `'Requirements: execution context from prior phases, expressed need description, written-asset expectations, asset-pack metadata, codebase metadata, VCS credentials when applicable, validation criteria, and quality thresholds'` }
 ];
 
 // PTRR step purposes
-const PTRR_STEPS = [
+const PTRR_STEPS: PtrrStep[] = [
   { step: 'plan', purpose: 'analyze context and create strategic approach' },
-  { step: 'try', purpose: 'execute initial implementation attempt' },
+  { step: 'try', purpose: 'execute initial asset-pack synthesis attempt' },
   { step: 'refine', purpose: 'improve results based on validation feedback' },
   { step: 'retry', purpose: 'ensure completion with guaranteed success' }
 ];
@@ -75,9 +91,8 @@ function capitalize(str: string): string {
   return str.charAt(0).toUpperCase() + str.slice(1);
 }
 
-function generatePromptPart(phase: string, agent: any, partType: any): string {
+function generatePromptPart(phase: string, agent: AgentMetadata, partType: PromptPartTemplate): string {
   const agentKey = `deliverable${phase}${agent.name}`;
-  const fileName = `promptpart_specific_agent_${agentKey}_${partType.suffix}.ts`;
   const constName = `PROMPTPART_SPECIFIC_AGENT_${agentKey.toUpperCase()}_${partType.suffix.toUpperCase()}`;
   
   return `import { PromptPart } from '../../parts/PromptPart';
@@ -96,9 +111,8 @@ export const ${constName}: PromptPart =
   ${partType.template(agent, phase)} as PromptPart;`;
 }
 
-function generatePTRRStepPromptPart(phase: string, agent: any, step: any): string {
+function generatePTRRStepPromptPart(phase: string, agent: AgentMetadata, step: PtrrStep): string {
   const agentKey = `deliverable${phase}${agent.name}`;
-  const fileName = `promptpart_specific_agent_${agentKey}_ptrr${step.step}_purpose.ts`;
   const constName = `PROMPTPART_SPECIFIC_AGENT_${agentKey.toUpperCase()}_PTRR${step.step.toUpperCase()}_PURPOSE`;
   
   return `import { PromptPart } from '../../parts/PromptPart';
@@ -119,7 +133,7 @@ export const ${constName}: PromptPart =
 
 // Main generation
 async function generateAll() {
-  const outputDir = path.join(process.cwd(), 'packages/prompts/src/raw/specific');
+  const outputDir = path.join(process.cwd(), 'packages/prompts/src/raw_promptparts/specific');
   
   let totalGenerated = 0;
   

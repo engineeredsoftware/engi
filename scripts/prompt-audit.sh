@@ -1,12 +1,18 @@
-#!/bin/bash
+#!/usr/bin/env bash
+set -euo pipefail
 
-echo "=== DELIVERABLES PIPELINE PROMPT AUDIT ==="
+repo_root="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+promptparts_dir="$repo_root/packages/prompts/src/raw_promptparts/specific"
+
+echo "=== RETAINED ASSET-PACK PIPELINE PROMPT AUDIT ==="
 echo ""
 
-# List of all agents we expect
+# List of active retained asset-pack pipeline agent PromptPart keys we expect.
+# Compatibility filenames may still include deliverable*, but the setup
+# comprehension owner is canonical comprehend-need.
 agents=(
   # Setup Phase
-  "comprehendtask"
+  "comprehendneed"
   "determinedeliverabletype"
   "clonevcsrepository"
   "analyzecodebase"
@@ -51,7 +57,7 @@ prompt_types=(
   "system_instructions"
   "plan_strategy"
   "plan_analysis"
-  "try_execution"  # THIS IS THE PROBLEM NAME!
+  "try_directives"
   "refine_assessment"
   "refine_optimization"
   "retry_strategy"
@@ -64,22 +70,22 @@ echo ""
 
 for agent in "${agents[@]}"; do
   echo "### $agent"
-  count=$(ls ../../prompts/src/raw/specific/ 2>/dev/null | grep -i "$agent" | wc -l | tr -d ' ')
+  count=$(find "$promptparts_dir" -maxdepth 1 -type f -iname "*$agent*" | wc -l | tr -d ' ')
   
   if [ "$count" -gt 0 ]; then
-    echo "  ✅ $count PromptParts found"
+    echo "  $count PromptParts found"
     
     # Check which specific prompts exist
     for prompt_type in "${prompt_types[@]}"; do
-      exists=$(ls ../../prompts/src/raw/specific/ 2>/dev/null | grep -i "${agent}_${prompt_type}" | head -1)
+      exists=$(find "$promptparts_dir" -maxdepth 1 -type f -iname "*${agent}_${prompt_type}*" | head -1)
       if [ -n "$exists" ]; then
-        echo "    ✓ $prompt_type: $exists"
+        echo "    ok $prompt_type: $(basename "$exists")"
       else
-        echo "    ✗ $prompt_type: MISSING"
+        echo "    missing $prompt_type"
       fi
     done
   else
-    echo "  ❌ NO PromptParts found"
+    echo "  NO PromptParts found"
   fi
   echo ""
 done
@@ -89,7 +95,7 @@ echo "=== SUMMARY ==="
 total_agents=${#agents[@]}
 agents_with_prompts=$(
   for agent in "${agents[@]}"; do
-    count=$(ls ../../prompts/src/raw/specific/ 2>/dev/null | grep -i "$agent" | wc -l | tr -d ' ')
+    count=$(find "$promptparts_dir" -maxdepth 1 -type f -iname "*$agent*" | wc -l | tr -d ' ')
     if [ "$count" -gt 0 ]; then echo "1"; fi
   done | wc -l | tr -d ' '
 )

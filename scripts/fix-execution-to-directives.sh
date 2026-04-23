@@ -1,33 +1,44 @@
-#!/bin/bash
+#!/usr/bin/env bash
+set -euo pipefail
 
-# Fix EXECUTION to DIRECTIVES naming
-# This renames files and updates all references
+# Fix retained old-world try_execution naming to Bitcode try_directives naming.
+# Operates only on the active repository tree and current raw PromptPart layout.
 
-echo "Renaming EXECUTION to DIRECTIVES..."
+repo_root="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+promptparts_dir="$repo_root/packages/prompts/src/raw_promptparts/specific"
 
-# First, rename all the files
-echo "Renaming files..."
-find packages/prompts/src/raw/specific -name "*_try_execution.ts" | while read file; do
+echo "Renaming try_execution PromptParts to try_directives under $promptparts_dir..."
+
+find "$promptparts_dir" -name "*_try_execution.ts" | while IFS= read -r file; do
   newname="${file/_try_execution.ts/_try_directives.ts}"
-  echo "Renaming: $(basename $file) -> $(basename $newname)"
+  echo "Renaming: $(basename "$file") -> $(basename "$newname")"
   mv "$file" "$newname"
 done
 
-# Count renamed files
-RENAMED_COUNT=$(find packages/prompts/src/raw/specific -name "*_try_directives.ts" | wc -l)
+RENAMED_COUNT=$(find "$promptparts_dir" -name "*_try_directives.ts" | wc -l | tr -d ' ')
 echo "Renamed $RENAMED_COUNT files"
 
-# Now update all references in TypeScript files
 echo "Updating references in code..."
-find packages/ -type f \( -name "*.ts" -o -name "*.tsx" \) -exec grep -l "_TRY_EXECUTION" {} \; | while read file; do
+while IFS= read -r file; do
   echo "Updating: $file"
-  sed -i '' 's/_TRY_EXECUTION/_TRY_DIRECTIVES/g' "$file"
-done
+  perl -0pi -e 's/_TRY_EXECUTION/_TRY_DIRECTIVES/g' "$file"
+done < <(
+  rg -l "_TRY_EXECUTION" "$repo_root/packages" \
+    --glob '*.ts' \
+    --glob '*.tsx' \
+    --glob '!_legacy/**' \
+    --glob '!node_modules/**' || true
+)
 
-# Also update lowercase references
-find packages/ -type f \( -name "*.ts" -o -name "*.tsx" \) -exec grep -l "_try_execution" {} \; | while read file; do
+while IFS= read -r file; do
   echo "Updating lowercase: $file"
-  sed -i '' 's/_try_execution/_try_directives/g' "$file"
-done
+  perl -0pi -e 's/_try_execution/_try_directives/g' "$file"
+done < <(
+  rg -l "_try_execution" "$repo_root/packages" \
+    --glob '*.ts' \
+    --glob '*.tsx' \
+    --glob '!_legacy/**' \
+    --glob '!node_modules/**' || true
+)
 
-echo "EXECUTION to DIRECTIVES fix complete!"
+echo "try_execution to try_directives repair complete."

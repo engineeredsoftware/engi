@@ -143,6 +143,30 @@ const generateMassivePromptPartsSource = readFileSync(
   new URL('../../scripts/generate-massive-prompt-parts.ts', import.meta.url),
   'utf8'
 );
+const promptAuditScriptSource = readFileSync(
+  new URL('../../scripts/prompt-audit.sh', import.meta.url),
+  'utf8'
+);
+const updateDeliverableTableNamesScriptSource = readFileSync(
+  new URL('../../scripts/update-deliverable-table-names.sh', import.meta.url),
+  'utf8'
+);
+const updateDeliverableAgentsScriptSource = readFileSync(
+  new URL('../../scripts/update-deliverable-agents.sh', import.meta.url),
+  'utf8'
+);
+const generateDeliverablePromptPartsTsSource = readFileSync(
+  new URL('../../scripts/generate-deliverable-promptparts.ts', import.meta.url),
+  'utf8'
+);
+const fixExecutionToDirectivesScriptSource = readFileSync(
+  new URL('../../scripts/fix-execution-to-directives.sh', import.meta.url),
+  'utf8'
+);
+const verifyPromptExportsScriptSource = readFileSync(
+  new URL('../../scripts/verify-prompt-exports.py', import.meta.url),
+  'utf8'
+);
 const phaseSetupPurposePromptSource = readFileSync(
   new URL('../../packages/prompts/src/raw_promptparts/specific/promptpart_specific_phase_deliverablesetup_purpose_corestatement.ts', import.meta.url),
   'utf8'
@@ -377,6 +401,9 @@ test('V26 deliverable reform supplement requires semantic mirrors beyond retaine
   assert.match(reformSource, /execution stores and postprocessed artifacts should mirror compatibility keys with semantic `need`, `writtenAssetType`, and asset-pack-shaped snapshots/u);
   assert.match(reformSource, /shapes live protocol behavior through Bitcode's commercial infrastructure/u);
   assert.match(reformSource, /hydrate a registry-bearing pipeline execution context when callers still enter through a bare `Execution`/u);
+  assert.match(reformSource, /retained maintenance\/audit scripts that operate on this corridor/u);
+  assert.match(reformSource, /teach `comprehend-need` \/ asset-pack-run semantics/u);
+  assert.match(reformSource, /retained repair, generation, and export-verification scripts/u);
 });
 
 test('retained deliverable schemas expose asset-pack written-asset semantic aliases', () => {
@@ -565,6 +592,38 @@ test('retained templates and promptparts keep compatibility names but teach asse
   assert.match(readyToShipCodeChangeReviewIdentityPromptSource, /final validation of review readiness for code written assets/u);
   assert.match(readyToShipCodeChangeReviewInstructionsPromptSource, /written assets and the shipping wrapper remain coherent/u);
   assert.match(readyToShipCodeChangeReviewPlanPromptSource, /written-asset coherence checks/u);
+});
+
+test('retained maintenance scripts audit current Bitcode prompt and asset-pack-run semantics', () => {
+  assert.match(promptAuditScriptSource, /RETAINED ASSET-PACK PIPELINE PROMPT AUDIT/u);
+  assert.match(promptAuditScriptSource, /packages\/prompts\/src\/raw_promptparts\/specific/u);
+  assert.match(promptAuditScriptSource, /"comprehendneed"/u);
+  assert.match(promptAuditScriptSource, /"try_directives"/u);
+  assert.doesNotMatch(promptAuditScriptSource, /"comprehendtask"/u);
+  assert.doesNotMatch(promptAuditScriptSource, /prompts\/src\/raw\/specific/u);
+
+  assert.match(updateDeliverableTableNamesScriptSource, /repo_root=/u);
+  assert.match(updateDeliverableTableNamesScriptSource, /deliverable_pipeline_runs/u);
+  assert.match(updateDeliverableTableNamesScriptSource, /Bitcode asset-pack pipeline corridor/u);
+  assert.doesNotMatch(updateDeliverableTableNamesScriptSource, /Developer\/engi\/engi/u);
+
+  assert.match(updateDeliverableAgentsScriptSource, /repo_root=/u);
+  assert.match(updateDeliverableAgentsScriptSource, /retained asset-pack pipeline agents/u);
+  assert.match(updateDeliverableAgentsScriptSource, /packages\/pipelines\/deliverable\/src\/agents/u);
+  assert.doesNotMatch(updateDeliverableAgentsScriptSource, /Developer\/engi\/engi/u);
+
+  assert.match(generateDeliverablePromptPartsTsSource, /Comprehend Need/u);
+  assert.match(generateDeliverablePromptPartsTsSource, /raw_promptparts\/specific/u);
+  assert.match(generateDeliverablePromptPartsTsSource, /asset-pack run semantics/u);
+  assert.doesNotMatch(generateDeliverablePromptPartsTsSource, /comprehendtask/u);
+
+  assert.match(fixExecutionToDirectivesScriptSource, /try_execution PromptParts to try_directives/u);
+  assert.match(fixExecutionToDirectivesScriptSource, /packages\/prompts\/src\/raw_promptparts\/specific/u);
+  assert.doesNotMatch(fixExecutionToDirectivesScriptSource, /packages\/prompts\/src\/raw\/specific/u);
+
+  assert.match(verifyPromptExportsScriptSource, /raw PromptPart exports/u);
+  assert.match(verifyPromptExportsScriptSource, /packages\/prompts\/src\/raw_promptparts/u);
+  assert.doesNotMatch(verifyPromptExportsScriptSource, /Developer\/engi\/engi/u);
 });
 
 test('raw promptpart runtime JavaScript carries canonical TypeScript PromptPart content', () => {
