@@ -21,5 +21,10 @@ export * from './utils';
 // Export conversation agent
 export * from './agent/ConversationAgent';
 
-// Export system prompt for Conversations
-export { ConversationSystemPrompt, CONVERSATION_SYSTEM_PROMPT } from './prompts/ConversationSystemPrompt';
+// Export Bitcode Terminal conversation system prompt
+export {
+  BitcodeTerminalConversationSystemPrompt,
+  ConversationSystemPrompt,
+  BITCODE_TERMINAL_CONVERSATION_SYSTEM_PROMPT,
+  CONVERSATION_SYSTEM_PROMPT
+} from './prompts/ConversationSystemPrompt';

@@ -365,8 +365,16 @@ test('V26 Terminal conversation prompts are specific raw PromptPart-backed regis
     path.join(repoRoot, 'packages/conversations-generics/src/agent/ConversationAgent.ts'),
     'utf8'
   );
+  const conversationPackageIndexSource = readFileSync(
+    path.join(repoRoot, 'packages/conversations-generics/src/index.ts'),
+    'utf8'
+  );
   const conversationSystemPromptSource = readFileSync(
     path.join(repoRoot, 'packages/conversations-generics/src/prompts/ConversationSystemPrompt.ts'),
+    'utf8'
+  );
+  const conversationAppPromptBindingSource = readFileSync(
+    path.join(repoRoot, 'uapi/prompts/bitcode-terminal-system-prompt.ts'),
     'utf8'
   );
   const conversationPromptPartSource = CONVERSATION_RAW_PROMPTPART_FILES
@@ -379,7 +387,14 @@ test('V26 Terminal conversation prompts are specific raw PromptPart-backed regis
   assert.match(conversationAgentSource, /PROMPTPART_SPECIFIC_AGENT_CONVERSATIONAGENT_PTRRTRY_PURPOSE/u);
   assert.match(conversationAgentSource, /PROMPTPART_SPECIFIC_AGENT_CONVERSATIONAGENT_PTRRREFINE_PURPOSE/u);
   assert.match(conversationAgentSource, /PROMPTPART_SPECIFIC_AGENT_CONVERSATIONAGENT_PTRRRETRY_PURPOSE/u);
+  assert.match(conversationPackageIndexSource, /BitcodeTerminalConversationSystemPrompt/u);
+  assert.match(conversationPackageIndexSource, /BITCODE_TERMINAL_CONVERSATION_SYSTEM_PROMPT/u);
   assert.match(conversationSystemPromptSource, /Bitcode Terminal conversation system prompt assembled from specific PromptParts/u);
+  assert.match(conversationSystemPromptSource, /BITCODE_TERMINAL_CONVERSATION_SYSTEM_PROMPT/u);
+  assert.match(conversationSystemPromptSource, /BitcodeTerminalConversationSystemPrompt/u);
+  assert.match(conversationAppPromptBindingSource, /BITCODE_TERMINAL_APP_SYSTEM_PROMPT/u);
+  assert.match(conversationAppPromptBindingSource, /BITCODE_TERMINAL_CONVERSATION_SYSTEM_PROMPT/u);
+  assert.doesNotMatch(conversationAppPromptBindingSource, /CONVERSATIONS_APP_SYSTEM_PROMPT/u);
   assert.doesNotMatch(conversationPromptPartSource, /GA1|AI-powered full product operator|Conversations product|Automated generation of deliverables/u);
   assert.match(conversationPromptPartSource, /BITCODE_V26_CONVERSATION_AGENT_PROMPTPART\.1/u);
   assert.match(conversationPromptPartSource, /BITCODE_V26_CONVERSATION_SYSTEM_PROMPTPART\.1/u);

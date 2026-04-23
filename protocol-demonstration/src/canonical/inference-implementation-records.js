@@ -325,7 +325,7 @@ export const V26_INFERENCE_IMPLEMENTATION_RECORDS = Object.freeze([
     promptImplementation: {
       owners: [
         'packages/conversations-generics/src/prompts/ConversationSystemPrompt.ts',
-        'uapi/prompts/conversations-system-prompt.ts'
+        'uapi/prompts/bitcode-terminal-system-prompt.ts'
       ],
       rawPromptPartBoundary: 'conversation system prompt plus app-level binding',
       registryLayering: 'Conversation prompt binding composes the conversation-specific implementation prompt with public prompt primitives and inherits the same Registry-backed Prompt contract.',
@@ -360,7 +360,7 @@ export const V26_INFERENCE_IMPLEMENTATION_RECORDS = Object.freeze([
     sourceEvidenceRefs: [
       'packages/conversations-generics/src/prompts/ConversationSystemPrompt.ts',
       'packages/conversations-generics/src/agent/ConversationAgent.ts',
-      'uapi/prompts/conversations-system-prompt.ts',
+      'uapi/prompts/bitcode-terminal-system-prompt.ts',
       'packages/api/src/conversations/conversations.ts',
       'packages/api/src/conversations/streaming.ts',
       'uapi/app/api/conversations/stream/route.ts'

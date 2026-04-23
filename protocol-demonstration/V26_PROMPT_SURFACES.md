@@ -82,7 +82,7 @@ These corridors currently participate in the live Bitcode or admitted fifth-gate
 | Tool prompt composition | `packages/tools-generics/src/doc-code-tool/DocCodeToolPrompt.ts` | active prompt-bearing tool documentation composition |
 | Deliverable prompt ports | `packages/pipelines/deliverable/src/{agents/prompts/*,agents/setup/*,agents/shipping/*,agents/validation-agents.ts,tools/*}` | retained-but-admitted deliverable prompt ports shaping active execution compatibility while keeping `Prompt`/`PromptPart` on public prompt subpaths and raw promptparts explicit/file-granular |
 | Deliverable prompt rendering support | `packages/pipelines/deliverable/scripts/render-prompts.ts` | retained prompt rendering support through the public formatter boundary |
-| Product-level prompt binding | `uapi/prompts/conversations-system-prompt.ts` | app-facing binding of the canonical conversations prompt |
+| Product-level prompt binding | `uapi/prompts/bitcode-terminal-system-prompt.ts` | app-facing binding of the canonical Bitcode Terminal conversation prompt |
 
 ## Support prompt consumers
 

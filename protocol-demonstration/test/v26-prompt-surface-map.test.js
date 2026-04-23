@@ -45,7 +45,7 @@ test('V26 prompt surface map keeps active, support, and reference corridors expl
   assert.match(promptSurfaceSource, /packages\/\{agent-generics\/src\/\{agents\/factories\.ts,diagnostics\/\{trace\.ts,instrumentation\.ts\},execution\/file-diff-integration\.ts,substeps\/factories\.ts,types\.ts\},pipelines-generics\/src\/\{execution\/\{Metrics\.ts,pipeline-types\.ts,resume\.ts,route-pipeline-execution\.ts\},phases\/\{phase-factory\.ts,sdivs-factory\.ts\},pipeline-factory\.ts,gate-system\/\{meta-phase-orchestrator\.ts,types\.ts\},executors\/wait-for-instruction\.ts,streaming\/pipeline-stream-integration\.ts\}\}/u);
   assert.match(promptSurfaceSource, /packages\/conversations-generics\/src\/\{prompts\/ConversationSystemPrompt\.ts,agent\/ConversationAgent\.ts\}/u);
   assert.match(promptSurfaceSource, /promptpart_specific_\{system_bitcodeterminalconversation_\*,agent_conversationagent_\*\}/u);
-  assert.match(promptSurfaceSource, /uapi\/prompts\/conversations-system-prompt\.ts/u);
+  assert.match(promptSurfaceSource, /uapi\/prompts\/bitcode-terminal-system-prompt\.ts/u);
   assert.match(promptSurfaceSource, /packages\/\{doc-comment,doc-code\}\/\*/u);
   assert.match(promptSurfaceSource, /packages\/tools-generics\/src\/doc-code-tool\/\*/u);
   assert.match(promptSurfaceSource, /Prompt hierarchy lint and factory enforcement/u);
@@ -124,7 +124,7 @@ test('V26 inference systems spec binds prompts, tools, agents, and executions to
   assert.match(inferenceSystemsSource, /Tool prompt infrastructure \| `DocCodeToolPrompt`/u);
   assert.match(inferenceSystemsSource, /Agent infrastructure \| `AgentPrompt`, `AgentStepPrompt`/u);
   assert.match(inferenceSystemsSource, /Pipeline infrastructure \| `PipelinePrompt`/u);
-  assert.match(inferenceSystemsSource, /Conversation inference \| `ConversationSystemPrompt`/u);
+  assert.match(inferenceSystemsSource, /Conversation inference \| `BitcodeTerminalConversationSystemPrompt` and `uapi\/prompts\/bitcode-terminal-system-prompt\.ts`/u);
   assert.match(inferenceSystemsSource, /Need-comprehension compatibility/u);
   assert.match(inferenceSystemsSource, /package-local no-emit typecheck/u);
   assert.match(inferenceSystemsSource, /## Prompt-Space Witness Baseline/u);
@@ -211,6 +211,8 @@ test('V26 prompt-space proof proves the fifth-gate baseline without claiming eig
   assert.deepEqual(
     [
       'packages/prompts/src/raw_promptparts/specific/promptpart_specific_system_bitcodeterminalconversation_identity_corestatement.ts',
+      'packages/prompts/src/raw_promptparts/specific/promptpart_specific_system_bitcodeterminalconversation_capabilities_list.ts',
+      'packages/prompts/src/raw_promptparts/specific/promptpart_specific_system_bitcodeterminalconversation_usage_guidance.ts',
       'packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_conversationagent_identity_definition.ts',
       'packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_conversationagent_ptrrplan_purpose.ts',
       'packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_conversationagent_ptrrtry_purpose.ts',

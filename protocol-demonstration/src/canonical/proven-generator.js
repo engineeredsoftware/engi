@@ -1535,7 +1535,7 @@ const V26_PROMPT_SPACE_WITNESS_SETS = [
     fifthGateUse: 'Shows that Terminal conversations and admitted MCP ingress are prompt-bearing interfaces over Bitcode state, not parallel products.',
     laterGateRemaining: 'MCP and third-party app prompt quality, permissioning, and commercial readiness remain sixth/seventh-gate refinements.',
     requiredFiles: [
-      'uapi/prompts/conversations-system-prompt.ts',
+      'uapi/prompts/bitcode-terminal-system-prompt.ts',
       'uapi/app/api/conversations/stream/route.ts',
       'uapi/app/api/conversations/[conversationId]/stream/route.ts',
       'packages/executions-mcp/package.json',

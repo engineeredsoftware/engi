@@ -1,8 +1,8 @@
 {
   "reportId": "v26-inference-implementation-records-proof",
   "version": "V26",
-  "proofSourceCommit": "e24543c55fb886cc41d9eac1dc8651dc9c7878d3",
-  "generatedAt": "2026-04-23T14:11:03-03:00",
+  "proofSourceCommit": "c7f121f453808c4541d6ac485fdd9e6bcdfe810c",
+  "generatedAt": "2026-04-23T14:25:16-03:00",
   "generatorId": "bitcode.proven-generator.v1",
   "worktreeState": "dirty-preview",
   "passed": true,
@@ -410,7 +410,7 @@
       "missingSectionFields": [],
       "implementationOwnerRefs": [
         "packages/conversations-generics/src/prompts/ConversationSystemPrompt.ts",
-        "uapi/prompts/conversations-system-prompt.ts",
+        "uapi/prompts/bitcode-terminal-system-prompt.ts",
         "packages/conversations-generics/src/agent/ConversationAgent.ts",
         "packages/api/src/conversations/conversations.ts",
         "packages/api/src/conversations/streaming.ts",
@@ -420,7 +420,7 @@
       "sourceEvidenceRefs": [
         "packages/conversations-generics/src/prompts/ConversationSystemPrompt.ts",
         "packages/conversations-generics/src/agent/ConversationAgent.ts",
-        "uapi/prompts/conversations-system-prompt.ts",
+        "uapi/prompts/bitcode-terminal-system-prompt.ts",
         "packages/api/src/conversations/conversations.ts",
         "packages/api/src/conversations/streaming.ts",
         "uapi/app/api/conversations/stream/route.ts"
@@ -951,7 +951,7 @@
       "promptImplementation": {
         "owners": [
           "packages/conversations-generics/src/prompts/ConversationSystemPrompt.ts",
-          "uapi/prompts/conversations-system-prompt.ts"
+          "uapi/prompts/bitcode-terminal-system-prompt.ts"
         ],
         "rawPromptPartBoundary": "conversation system prompt plus app-level binding",
         "registryLayering": "Conversation prompt binding composes the conversation-specific implementation prompt with public prompt primitives and inherits the same Registry-backed Prompt contract.",
@@ -994,7 +994,7 @@
       "sourceEvidenceRefs": [
         "packages/conversations-generics/src/prompts/ConversationSystemPrompt.ts",
         "packages/conversations-generics/src/agent/ConversationAgent.ts",
-        "uapi/prompts/conversations-system-prompt.ts",
+        "uapi/prompts/bitcode-terminal-system-prompt.ts",
         "packages/api/src/conversations/conversations.ts",
         "packages/api/src/conversations/streaming.ts",
         "uapi/app/api/conversations/stream/route.ts"
