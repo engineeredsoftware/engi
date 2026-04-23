@@ -341,6 +341,11 @@ const deliverableSubstepPromptPartSources = readdirSync(rawPromptPartDirs[0])
   .sort()
   .map((filename) => [filename, readFileSync(new URL(filename, rawPromptPartDirs[0]), 'utf8')]);
 
+const deliverablePromptPartMetadataSources = readdirSync(rawPromptPartDirs[0])
+  .filter((filename) => /^promptpart_specific_(?:agent_deliverable|phase_deliverable|pipeline_deliverable|tool_.*deliverable).*?(?:\.d)?\.ts$/u.test(filename))
+  .sort()
+  .map((filename) => [filename, readFileSync(new URL(filename, rawPromptPartDirs[0]), 'utf8')]);
+
 const rawPromptPartSourceEntries = rawPromptPartDirs.flatMap((directoryUrl) =>
   readdirSync(directoryUrl)
     .filter((filename) => filename.endsWith('.ts') || filename.endsWith('.d.ts'))
@@ -353,6 +358,9 @@ const oldWorldDeliverableSubstepLanguage =
 
 const bitcodeSubstepDocCommentIntent =
   /intent:\s*"Bitcode [^"]*(need|written-asset|asset-pack|proof|deliveryMechanism|delivery-wrapper|writtenAssets|execution-history)/u;
+
+const staleDeliverablePromptPartIntent =
+  /intent:\s*"(?:Agent semantic unit|Define purpose|Adds Deliverables|Canonical deliverables|Compatibility PromptPart for the former deliverables|.*Deliverables Clone VCS Repository)/u;
 
 const malformedPromptPartBenchmarkScorePattern = /"score"\s*:\s*0\.[0-9]+\.[0-9]+/u;
 
@@ -428,6 +436,7 @@ test('V26 deliverable reform supplement requires semantic mirrors beyond retaine
   assert.match(reformSource, /Bitcode need, written-asset, asset-pack, proof-evidence, delivery-wrapper/u);
   assert.match(reformSource, /runtime JavaScript carry-through must remain parseable and content-equivalent/u);
   assert.match(reformSource, /substep doc-comment metadata must also be reauthored as Bitcode metadata/u);
+  assert.match(reformSource, /all retained deliverable-family raw PromptPart doc-comment metadata must move to Bitcode-native intent/u);
 });
 
 test('retained deliverable schemas expose asset-pack written-asset semantic aliases', () => {
@@ -584,9 +593,9 @@ test('retained templates and promptparts keep compatibility names but teach asse
   assert.match(phaseShippingPurposePromptSource, /Emit connected-interface delivery mechanisms for validated written assets/u);
   assert.match(setupComprehendNeedPurposePromptSource, /written-asset expectations, shipping-wrapper expectations, asset-pack context/u);
   assert.match(setupComprehendNeedIdentityPromptSource, /Bitcode need, satisfaction criteria, written-asset expectations, asset-pack context/u);
-  assert.match(setupComprehendTaskPurposePromptSource, /Compatibility PromptPart for the former deliverables setup comprehend-task/u);
+  assert.match(setupComprehendTaskPurposePromptSource, /Bitcode retained comprehend-task compatibility PromptPart for canonical comprehend-need asset-pack synthesis/u);
   assert.match(setupComprehendTaskPurposePromptSource, /written-asset expectations, shipping-wrapper expectations, asset-pack context/u);
-  assert.match(setupComprehendTaskIdentityPromptSource, /Compatibility PromptPart for the former deliverables setup comprehend-task/u);
+  assert.match(setupComprehendTaskIdentityPromptSource, /Bitcode retained comprehend-task compatibility PromptPart for canonical comprehend-need asset-pack synthesis/u);
   assert.match(setupComprehendTaskIdentityPromptSource, /Bitcode need, satisfaction criteria, written-asset expectations, asset-pack context/u);
   assert.match(finalizeShipmentPurposePromptSource, /finalize shipping delivery mechanisms for validated written assets/u);
   assert.match(finalizeShipmentIdentityPromptSource, /finalizing shipping delivery mechanisms for validated written assets/u);
@@ -639,6 +648,24 @@ test('deliverable substep PromptParts express Bitcode need, written-asset, and a
   assert.match(combinedPromptText, /proof obligations|proof reread|proof evidence/u);
   assert.match(combinedPromptText, /writtenAssets/u);
   assert.match(combinedPromptText, /assetPack/u);
+});
+
+test('retained deliverable-family PromptPart doc-comment metadata is Bitcode-native', () => {
+  assert.ok(
+    deliverablePromptPartMetadataSources.length >= 440,
+    `expected broad deliverable promptpart metadata coverage, saw ${deliverablePromptPartMetadataSources.length}`
+  );
+
+  for (const [filename, source] of deliverablePromptPartMetadataSources) {
+    assert.doesNotMatch(source, /current_version:\s*"GA1/u, `${filename} still carries GA1 current_version metadata`);
+    assert.match(source, /current_version:\s*"0\.50\.0"/u, `${filename} should carry Bitcode current_version metadata`);
+    assert.doesNotMatch(source, staleDeliverablePromptPartIntent, `${filename} still carries old deliverable intent metadata`);
+    assert.match(
+      source,
+      /intent:\s*"Bitcode [^"]*(?:need|written|asset-pack|assetPack|delivery|proof|comprehend-task)/u,
+      `${filename} should carry Bitcode intent metadata`
+    );
+  }
 });
 
 test('raw PromptPart benchmark metadata stays parseable after broad normalization', () => {

@@ -1,7 +1,7 @@
 /**
  * @doc-comment-developing-promptpartdevelopment
  * domain: auto
- * intent: "Agent semantic unit: Deliverablediscoverycomprehendattachments Capabilities List"
+ * intent: "Bitcode retained deliverable-compatibility PromptPart for need discovery and asset-pack planning: agent deliverablediscoverycomprehendattachments capabilities list"
  * current_version: "0.50.0"
  * versions: []
  * benchmarks: [
@@ -15,7 +15,7 @@ import { PromptPart } from '../../parts/PromptPart';
 /**
  * @doc-comment-developing-promptpartdevelopment
  * domain: agent
- * intent: "capabilities list for Comprehend Attachments agent"
+ * intent: "Bitcode retained deliverable-compatibility PromptPart for need discovery and asset-pack planning: agent deliverablediscoverycomprehendattachments capabilities list"
  * current_version: "0.50.0"
  * versions: []
  * benchmarks: [

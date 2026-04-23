@@ -3,8 +3,8 @@ import { PromptPart } from '../../parts/PromptPart';
 /**
  * @doc-comment-developing-promptpartdevelopment
  * domain: agent
- * intent: "Define PTRR methodology steps for discovery codebase analysis agent"
- * current_version: "GA1.50.0"
+ * intent: "Bitcode retained deliverable-compatibility PromptPart for need discovery and asset-pack planning: agent deliverablesdiscoverycodebaseanalysis ptrrsteps list"
+ * current_version: "0.50.0"
  * versions: []
  * benchmarks: [
  *   { "name": "technical_accuracy", "test": "Uses specific technical terms?", "score": 0.95 },

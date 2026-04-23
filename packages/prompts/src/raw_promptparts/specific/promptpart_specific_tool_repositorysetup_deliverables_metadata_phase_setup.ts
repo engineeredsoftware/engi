@@ -3,7 +3,7 @@ import { PromptPart } from '../../parts/PromptPart';
 /**
  * @doc-comment-developing-promptpartdevelopment
  * domain: tool
- * intent: "Marks phase as setup for Repository Setup tool in Deliverables pipeline"
+ * intent: "Bitcode retained deliverable-compatibility tool PromptPart for need-first asset-pack setup and written-asset evidence: tool repositorysetup deliverables metadata phase setup"
  * current_version: "0.50.0"
  * versions: []
  * benchmarks: [

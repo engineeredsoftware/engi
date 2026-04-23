@@ -1,7 +1,7 @@
 /**
  * @doc-comment-developing-promptpartdevelopment
  * domain: auto
- * intent: "Agent semantic unit: Deliverablesetupdangerwall Ptrrrefine Purpose"
+ * intent: "Bitcode retained deliverable-compatibility PromptPart for need-first asset-pack setup: agent deliverablesetupdangerwall ptrrrefine purpose"
  * current_version: "0.50.0"
  * versions: []
  * benchmarks: [
@@ -15,7 +15,7 @@ import { PromptPart } from '../../parts/PromptPart';
 /**
  * @doc-comment-developing-promptpartdevelopment
  * domain: agent
- * intent: "PTRR refine step purpose for Danger Wall agent"
+ * intent: "Bitcode retained deliverable-compatibility PromptPart for need-first asset-pack setup: agent deliverablesetupdangerwall ptrrrefine purpose"
  * current_version: "0.50.0"
  * versions: []
  * benchmarks: [

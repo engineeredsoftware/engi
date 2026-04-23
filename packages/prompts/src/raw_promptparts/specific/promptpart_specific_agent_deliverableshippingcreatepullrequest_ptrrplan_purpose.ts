@@ -1,7 +1,7 @@
 /**
  * @doc-comment-developing-promptpartdevelopment
  * domain: auto
- * intent: "Agent semantic unit: Deliverableshippingcreatepullrequest Ptrrplan Purpose"
+ * intent: "Bitcode retained deliverable-compatibility PromptPart for delivery-wrapper separation over validated written assets: agent deliverableshippingcreatepullrequest ptrrplan purpose"
  * current_version: "0.50.0"
  * versions: []
  * benchmarks: [
@@ -15,7 +15,7 @@ import { PromptPart } from '../../parts/PromptPart';
 /**
  * @doc-comment-developing-promptpartdevelopment
  * domain: agent
- * intent: "PTRR plan step purpose for Create Pull Request agent"
+ * intent: "Bitcode retained deliverable-compatibility PromptPart for delivery-wrapper separation over validated written assets: agent deliverableshippingcreatepullrequest ptrrplan purpose"
  * current_version: "0.50.0"
  * versions: []
  * benchmarks: [

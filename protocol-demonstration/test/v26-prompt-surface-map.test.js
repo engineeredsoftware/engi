@@ -56,6 +56,9 @@ test('V26 prompt surface map keeps active, support, and reference corridors expl
   assert.match(promptSurfaceSource, /doc-comment metadata must also be Bitcode-native/u);
   assert.match(promptSurfaceSource, /`current_version` cannot preserve GA1 lineage/u);
   assert.match(promptSurfaceSource, /every retained deliverable substep `intent` must name the need-first written-asset \/ asset-pack \/ proof \/ delivery-wrapper role/u);
+  assert.match(promptSurfaceSource, /whole retained deliverable-family raw PromptPart corpus/u);
+  assert.match(promptSurfaceSource, /agent, phase, pipeline, tool, setup, discovery, implementation, validation, and shipping PromptParts/u);
+  assert.match(promptSurfaceSource, /doc-comment `intent` and `current_version` metadata must describe Bitcode need-first written-asset \/ asset-pack execution/u);
   assert.match(promptSurfaceSource, /fifth-gate prompt baseline proves/u);
   assert.match(promptSurfaceSource, /final prompt-space completeness remains an eighth-gate closure obligation/u);
   assert.match(promptSurfaceSource, /baselinePassed/u);

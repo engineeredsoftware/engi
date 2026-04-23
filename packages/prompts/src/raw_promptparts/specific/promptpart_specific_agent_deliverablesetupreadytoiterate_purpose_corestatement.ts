@@ -3,7 +3,7 @@ import { PromptPart } from '../../parts/PromptPart';
 /**
  * @doc-comment-developing-promptpartdevelopment
  * domain: agent
- * intent: "Define purpose of ready to iterate agent in deliverables setup"
+ * intent: "Bitcode retained deliverable-compatibility PromptPart for need-first asset-pack setup: agent deliverablesetupreadytoiterate purpose corestatement"
  * current_version: "0.50.0"
  * versions: []
  * benchmarks: [

@@ -1,8 +1,8 @@
 /**
  * @doc-comment-developing-promptpartdevelopment
  * domain: agent
- * intent: "Agent semantic unit: Deliverablesetupanalyzecodebase Ptrrplan Purpose"
- * current_version: "GA1.50.0"
+ * intent: "Bitcode retained deliverable-compatibility PromptPart for need-first asset-pack setup: agent deliverablesetupanalyzecodebase ptrrplan purpose"
+ * current_version: "0.50.0"
  * versions: []
  * benchmarks: [
  *   { "name": "technical_accuracy", "test": "Uses concrete technical language", "score": 0.50 },
@@ -15,8 +15,8 @@ import { PromptPart } from '../../parts/PromptPart';
 /**
  * @doc-comment-developing-promptpartdevelopment
  * domain: agent
- * intent: "PTRR plan step purpose for Analyze Codebase agent"
- * current_version: "GA1.50.0"
+ * intent: "Bitcode retained deliverable-compatibility PromptPart for need-first asset-pack setup: agent deliverablesetupanalyzecodebase ptrrplan purpose"
+ * current_version: "0.50.0"
  * versions: []
  * benchmarks: [
  *   { "name": "step_plan_clarity", "test": "Clear plan purpose?", "score": 0.95 }

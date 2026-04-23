@@ -3,7 +3,7 @@ import { PromptPart } from '../../parts/PromptPart';
 /**
  * @doc-comment-developing-promptpartdevelopment
  * domain: agent
- * intent: "Canonical deliverables setup comprehend-need PTRR plan purpose"
- * current_version: "GA1.50.0"
+ * intent: "Bitcode canonical comprehend-need PromptPart for need-first written-asset / asset-pack synthesis: agent deliverablesetupcomprehendneed ptrrplan purpose"
+ * current_version: "0.50.0"
  */
 export declare const PROMPTPART_SPECIFIC_AGENT_DELIVERABLESETUPCOMPREHENDNEED_PTRRPLAN_PURPOSE: PromptPart;

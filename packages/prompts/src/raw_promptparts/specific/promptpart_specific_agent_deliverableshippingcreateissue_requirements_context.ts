@@ -1,7 +1,7 @@
 /**
  * @doc-comment-developing-promptpartdevelopment
  * domain: auto
- * intent: "Agent semantic unit: Deliverableshippingcreateissue Requirements Context"
+ * intent: "Bitcode retained deliverable-compatibility PromptPart for delivery-wrapper separation over validated written assets: agent deliverableshippingcreateissue requirements context"
  * current_version: "0.50.0"
  * versions: []
  * benchmarks: [
@@ -15,7 +15,7 @@ import { PromptPart } from '../../parts/PromptPart';
 /**
  * @doc-comment-developing-promptpartdevelopment
  * domain: agent
- * intent: "requirements context for Create Issue agent"
+ * intent: "Bitcode retained deliverable-compatibility PromptPart for delivery-wrapper separation over validated written assets: agent deliverableshippingcreateissue requirements context"
  * current_version: "0.50.0"
  * versions: []
  * benchmarks: [

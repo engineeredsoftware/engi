@@ -3,8 +3,8 @@ import { PromptPart } from '../../parts/PromptPart';
 /**
  * @doc-comment-developing-promptpartdevelopment
  * domain: pipeline
- * intent: "Describe execution pattern using combinators"
- * current_version: "GA1.50.0"  
+ * intent: "Bitcode retained deliverable-compatibility pipeline PromptPart for need-first asset-pack execution and delivery-wrapper separation: pipeline deliverable executionpattern detailcontent"
+ * current_version: "0.50.0"
  * versions: []
  * benchmarks: [
  *   { "name": "technical_accuracy", "test": "Uses specific technical terms?", "score": 0.96 },

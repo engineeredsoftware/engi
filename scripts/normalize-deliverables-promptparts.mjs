@@ -151,6 +151,76 @@ function repairRawPromptpartGeneratedFiles() {
   return updated;
 }
 
+function isDeliverableCompatibilityPromptpartFile(filename) {
+  return /^promptpart_specific_(?:agent_deliverable|phase_deliverable|pipeline_deliverable|tool_.*deliverable).*?(?:\.d)?\.ts$/u.test(filename);
+}
+
+function compatibilityLabelForPromptpartFile(filename) {
+  return filename
+    .replace(/^promptpart_specific_/u, '')
+    .replace(/(?:\.d)?\.ts$/u, '')
+    .replace(/_/gu, ' ');
+}
+
+function deliverableMetadataIntent(filename) {
+  const label = compatibilityLabelForPromptpartFile(filename);
+  const lower = filename.toLowerCase();
+
+  if (lower.includes('comprehendtask')) {
+    return `Bitcode retained comprehend-task compatibility PromptPart for canonical comprehend-need asset-pack synthesis: ${label}`;
+  }
+  if (lower.includes('comprehendneed')) {
+    return `Bitcode canonical comprehend-need PromptPart for need-first written-asset / asset-pack synthesis: ${label}`;
+  }
+  if (lower.startsWith('promptpart_specific_tool_')) {
+    return `Bitcode retained deliverable-compatibility tool PromptPart for need-first asset-pack setup and written-asset evidence: ${label}`;
+  }
+  if (lower.startsWith('promptpart_specific_phase_')) {
+    return `Bitcode retained deliverable-compatibility phase PromptPart for need-first asset-pack execution: ${label}`;
+  }
+  if (lower.startsWith('promptpart_specific_pipeline_')) {
+    return `Bitcode retained deliverable-compatibility pipeline PromptPart for need-first asset-pack execution and delivery-wrapper separation: ${label}`;
+  }
+  if (lower.includes('shipping')) {
+    return `Bitcode retained deliverable-compatibility PromptPart for delivery-wrapper separation over validated written assets: ${label}`;
+  }
+  if (lower.includes('validation')) {
+    return `Bitcode retained deliverable-compatibility PromptPart for need satisfaction, written-asset validation, and proof evidence: ${label}`;
+  }
+  if (lower.includes('implementation') || lower.includes('implexecute') || lower.includes('impl')) {
+    return `Bitcode retained deliverable-compatibility PromptPart for written-asset synthesis from asset-pack execution: ${label}`;
+  }
+  if (lower.includes('discovery') || lower.includes('disc')) {
+    return `Bitcode retained deliverable-compatibility PromptPart for need discovery and asset-pack planning: ${label}`;
+  }
+  if (lower.includes('setup')) {
+    return `Bitcode retained deliverable-compatibility PromptPart for need-first asset-pack setup: ${label}`;
+  }
+
+  return `Bitcode retained deliverable-compatibility PromptPart for need-first written-asset / asset-pack execution: ${label}`;
+}
+
+function normalizeDeliverablePromptpartDocComments() {
+  if (!fs.existsSync(deliverablePromptpartsDir)) return 0;
+  let updated = 0;
+  for (const ent of fs.readdirSync(deliverablePromptpartsDir)) {
+    if (!isDeliverableCompatibilityPromptpartFile(ent)) continue;
+    if (ent.includes('_substep_')) continue;
+
+    const fp = path.join(deliverablePromptpartsDir, ent);
+    const src = fs.readFileSync(fp, 'utf8');
+    const nextIntent = `intent: "${deliverableMetadataIntent(ent)}"`;
+    const next = src
+      .replace(/intent:\s*"[^"]*"/gu, nextIntent)
+      .replace(/current_version:\s*"[^"]*"/gu, 'current_version: "0.50.0"');
+
+    if (next === src) continue;
+    fs.writeFileSync(fp, next, 'utf8');
+    updated++;
+  }
+  return updated;
+}
+
 function normalizeSubstepPromptparts() {
   if (!fs.existsSync(deliverablePromptpartsDir)) return 0;
   let updated = 0;
@@ -218,6 +288,7 @@ for (const fp of refs) {
   if (status === 'updated') updated++; else if (status === 'missing') missing++;
 }
 const repairedGeneratedFiles = repairRawPromptpartGeneratedFiles();
+const deliverableMetadataUpdated = normalizeDeliverablePromptpartDocComments();
 const substepUpdated = normalizeSubstepPromptparts();
 const substepRuntimeUpdated = syncSubstepRuntimePromptparts();
-console.log(`normalized ${updated} files; missing ${missing}; repaired ${repairedGeneratedFiles} generated raw PromptPart files; normalized ${substepUpdated} deliverable substep PromptParts; synced ${substepRuntimeUpdated} deliverable runtime PromptParts`);
+console.log(`normalized ${updated} files; missing ${missing}; repaired ${repairedGeneratedFiles} generated raw PromptPart files; normalized ${deliverableMetadataUpdated} deliverable metadata PromptParts; normalized ${substepUpdated} deliverable substep PromptParts; synced ${substepRuntimeUpdated} deliverable runtime PromptParts`);

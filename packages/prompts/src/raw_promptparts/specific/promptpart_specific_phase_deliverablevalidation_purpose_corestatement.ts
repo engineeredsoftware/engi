@@ -3,8 +3,8 @@ import { PromptPart } from '../../parts/PromptPart';
 /**
  * @doc-comment-developing-promptpartdevelopment
  * domain: phase
- * intent: "Define validation phase purpose for deliverables pipeline"
- * current_version: "GA1.50.0"
+ * intent: "Bitcode retained deliverable-compatibility phase PromptPart for need-first asset-pack execution: phase deliverablevalidation purpose corestatement"
+ * current_version: "0.50.0"
  * versions: []
  * benchmarks: [
  *   { "name": "technical_accuracy", "test": "Uses specific technical terms?", "score": 0.94 },

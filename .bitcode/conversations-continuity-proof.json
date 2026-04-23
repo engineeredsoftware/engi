@@ -1,8 +1,8 @@
 {
   "reportId": "v26-conversations-continuity-proof",
   "version": "V26",
-  "proofSourceCommit": "17cfc536fb3c0d9edea7eee69f5c126ec59370dd",
-  "generatedAt": "2026-04-23T11:41:30-03:00",
+  "proofSourceCommit": "5a570fe9720a64f270f26cb9b7ec0e6fac9b4324",
+  "generatedAt": "2026-04-23T12:08:44-03:00",
   "generatorId": "bitcode.proven-generator.v1",
   "worktreeState": "dirty-preview",
   "passed": true,

@@ -3,7 +3,7 @@ import { PromptPart } from '../../parts/PromptPart';
 /**
  * @doc-comment-developing-promptpartdevelopment
  * domain: tool
- * intent: "Deliverables-specific capabilities addendum describing video comprehension focus"
+ * intent: "Bitcode retained deliverable-compatibility tool PromptPart for need-first asset-pack setup and written-asset evidence: tool deliverables videocomprehension doccodetool capabilities addendum"
  * current_version: "0.50.0"
  * versions: [
  *   { "version": "GA1.20.0", "score": 0.50, "content": "Understands video", "reason": "Missing mention of frame analysis or audio track extraction" }

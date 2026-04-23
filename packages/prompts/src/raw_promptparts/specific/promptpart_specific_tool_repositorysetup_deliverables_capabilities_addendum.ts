@@ -3,7 +3,7 @@ import { PromptPart } from '../../parts/PromptPart';
 /**
  * @doc-comment-developing-promptpartdevelopment
  * domain: tool
- * intent: "Adds Deliverables-specific capabilities for Repository Setup tool"
+ * intent: "Bitcode retained deliverable-compatibility tool PromptPart for need-first asset-pack setup and written-asset evidence: tool repositorysetup deliverables capabilities addendum"
  * current_version: "0.50.0"
  * versions: []
  * benchmarks: [

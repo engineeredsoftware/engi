@@ -1,7 +1,7 @@
 /**
  * @doc-comment-developing-promptpartdevelopment
  * domain: agent
- * intent: "Requirements context for Deliverables Shipping – Add Issue Comment agent"
+ * intent: "Bitcode retained deliverable-compatibility PromptPart for delivery-wrapper separation over validated written assets: agent deliverableshippingaddissuecomment requirements context"
  * current_version: "0.50.0"
  * versions: []
  * benchmarks: [

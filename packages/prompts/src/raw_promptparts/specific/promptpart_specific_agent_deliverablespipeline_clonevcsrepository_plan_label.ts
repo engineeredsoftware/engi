@@ -3,7 +3,7 @@ import { PromptPart } from '../../parts/PromptPart';
 /**
  * @doc-comment-developing-promptpartdevelopment
  * domain: agent
- * intent: "PLAN label for Deliverables Clone VCS Repository agent"
+ * intent: "Bitcode retained deliverable-compatibility PromptPart for need-first written-asset / asset-pack execution: agent deliverablespipeline clonevcsrepository plan label"
  * current_version: "0.50.0"
  * versions: []
  * benchmarks: [

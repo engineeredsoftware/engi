@@ -3,7 +3,7 @@ import { PromptPart } from '../../parts/PromptPart';
 /**
  * @doc-comment-developing-promptpartdevelopment
  * domain: agent
- * intent: "Canonical deliverables setup comprehend-need audio comprehension plan strategy"
+ * intent: "Bitcode canonical comprehend-need PromptPart for need-first written-asset / asset-pack synthesis: agent deliverablesetupcomprehendneed plan modality audio strategy"
  * current_version: "0.50.0"
  * versions: []
  * benchmarks: [

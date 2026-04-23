@@ -1,8 +1,8 @@
 /**
  * @doc-comment-developing-promptpartdevelopment
  * domain: agent
- * intent: "Agent semantic unit: Deliverablesetupanalyzecodebase Capabilities List"
- * current_version: "GA1.50.0"
+ * intent: "Bitcode retained deliverable-compatibility PromptPart for need-first asset-pack setup: agent deliverablesetupanalyzecodebase capabilities list"
+ * current_version: "0.50.0"
  * versions: []
  * benchmarks: [
  *   { "name": "technical_accuracy", "test": "Uses concrete technical language", "score": 0.50 },
@@ -15,8 +15,8 @@ import { PromptPart } from '../../parts/PromptPart';
 /**
  * @doc-comment-developing-promptpartdevelopment
  * domain: agent
- * intent: "capabilities list for Analyze Codebase agent"
- * current_version: "GA1.50.0"
+ * intent: "Bitcode retained deliverable-compatibility PromptPart for need-first asset-pack setup: agent deliverablesetupanalyzecodebase capabilities list"
+ * current_version: "0.50.0"
  * versions: []
  * benchmarks: [
  *   { "name": "capabilities_list_clarity", "test": "Clear capabilities list?", "score": 0.95 }

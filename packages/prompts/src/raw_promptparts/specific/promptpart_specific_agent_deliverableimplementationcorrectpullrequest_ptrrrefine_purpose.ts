@@ -1,8 +1,8 @@
 /**
  * @doc-comment-developing-promptpartdevelopment
  * domain: agent
- * intent: "Agent semantic unit: Deliverableimplementationcorrectpullrequest Ptrrrefine Purpose"
- * current_version: "GA1.50.0"
+ * intent: "Bitcode retained deliverable-compatibility PromptPart for written-asset synthesis from asset-pack execution: agent deliverableimplementationcorrectpullrequest ptrrrefine purpose"
+ * current_version: "0.50.0"
  * versions: []
  * benchmarks: [
  *   { "name": "technical_accuracy", "test": "Uses concrete technical language", "score": 0.50 },
@@ -15,8 +15,8 @@ import { PromptPart } from '../../parts/PromptPart';
 /**
  * @doc-comment-developing-promptpartdevelopment
  * domain: agent
- * intent: "PTRR refine step purpose for Correct Pull Request agent"
- * current_version: "GA1.50.0"
+ * intent: "Bitcode retained deliverable-compatibility PromptPart for written-asset synthesis from asset-pack execution: agent deliverableimplementationcorrectpullrequest ptrrrefine purpose"
+ * current_version: "0.50.0"
  * versions: []
  * benchmarks: [
  *   { "name": "step_refine_clarity", "test": "Clear refine purpose?", "score": 0.95 }

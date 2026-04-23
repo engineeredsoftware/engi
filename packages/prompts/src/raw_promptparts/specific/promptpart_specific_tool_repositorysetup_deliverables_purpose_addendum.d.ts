@@ -2,8 +2,8 @@ import { PromptPart } from '../../parts/PromptPart';
 /**
  * @doc-comment-developing-promptpartdevelopment
  * domain: tool
- * intent: "Adds Deliverables-specific purpose details for Repository Setup tool"
- * current_version: "GA1.50.0"
+ * intent: "Bitcode retained deliverable-compatibility tool PromptPart for need-first asset-pack setup and written-asset evidence: tool repositorysetup deliverables purpose addendum"
+ * current_version: "0.50.0"
  * versions: []
  * benchmarks: [
  *   { "name": "industrial_language", "test": "Uses concrete, technical instructions", "score": 0.5 }

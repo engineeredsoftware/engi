@@ -121,6 +121,7 @@ task-named package/class/input names remain compatibility carriers, but `DocCode
 Runtime JavaScript PromptPart carry-through must match the TypeScript content so old task-first text cannot remain live after the TypeScript surface is reformed.
 The same runtime carry-through rule applies to retained deliverable substep PromptParts and their generated declarations: broad prompt normalization must be idempotent, benchmark metadata must stay parseable, and runtime `.js` PromptPart strings must synchronize from canonical `.ts` PromptPart source.
 Their doc-comment metadata must also be Bitcode-native: `current_version` cannot preserve GA1 lineage, and every retained deliverable substep `intent` must name the need-first written-asset / asset-pack / proof / delivery-wrapper role represented by that PromptPart.
+The same metadata rule now applies across the whole retained deliverable-family raw PromptPart corpus: agent, phase, pipeline, tool, setup, discovery, implementation, validation, and shipping PromptParts may retain compatibility filenames, but their doc-comment `intent` and `current_version` metadata must describe Bitcode need-first written-asset / asset-pack execution rather than old deliverable product lineage.
 Its package-local build boundary must typecheck those prompt/tool imports without emitting generated artifacts, and must declare direct dependencies on `@bitcode/prompts` and `@bitcode/tools-generics` rather than relying on transitive workspace reach-through.
 
 ## Verification posture
