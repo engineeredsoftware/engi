@@ -1,16 +1,15 @@
 /**
  * @doc-comment-developing-promptpartdevelopment
  * domain: agent
- * intent: "Agent-specific semantic unit (PROMPTPART_SPECIFIC_AGENT_WEB_SEARCH_SYSTEM_INSTRUCTIONS)"
- * current_version: "GA1.50.0"
+ * intent: "Bitcode need-synthesis web search system instructions compatibility PromptPart"
+ * current_version: "V26"
  * versions: []
  * benchmarks: [
- *   { "name": "technical_accuracy", "test": "Uses concrete technical language", "score": 0.50 },
- *   { "name": "implementation_ready", "test": "Provides clear actionable guidance", "score": 0.50 }
+ *   { "name": "instruction_precision", "test": "Requires source attribution and proof-boundary warnings", "score": 1.00 }
  * ]
  */
 
 import type { PromptPart } from '../../parts/PromptPart';
 
-export const PROMPTPART_SPECIFIC_AGENT_WEB_SEARCH_SYSTEM_INSTRUCTIONS: PromptPart = 
-  'Provide concrete, domain‑appropriate content for this specific prompt segment. Use precise, operational language and ensure it integrates coherently with adjacent prompt parts.' as PromptPart;
+export const PROMPTPART_SPECIFIC_AGENT_WEB_SEARCH_SYSTEM_INSTRUCTIONS: PromptPart =
+  'Search only for the declared Bitcode need or proof gap, preserve source attribution, prefer authoritative sources, identify volatility, and return unresolved gaps instead of claiming proof closure.' as PromptPart;

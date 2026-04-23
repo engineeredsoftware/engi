@@ -67,6 +67,7 @@ test('V26 inference implementation registry names every current fifth-gate infer
     'external-evidence-research-support',
     'mcp-external-ingress',
     'need-comprehension-compatibility',
+    'need-review-before-fit-search',
     'need-risk-admission-support',
     'pipeline-infrastructure',
     'prompt-primitives',
@@ -87,6 +88,8 @@ test('V26 inference implementation registry binds records to canonical Bitcode s
   assert.match(recordsById['conversation-inference'].canonicalNeed, /rich-input Bitcode write surface/u);
   assert.match(recordsById['asset-pack-synthesis-compatibility'].canonicalNeed, /asset-pack written-asset synthesis/u);
   assert.match(recordsById['need-comprehension-compatibility'].canonicalNeed, /need, written-asset, asset-pack/u);
+  assert.match(recordsById['need-review-before-fit-search'].canonicalNeed, /before any candidate recall/u);
+  assert.match(recordsById['need-review-before-fit-search'].canonicalNeed, /source-to-shares settlement review/u);
   assert.match(recordsById['external-evidence-research-support'].canonicalNeed, /discovery phase/u);
   assert.match(recordsById['external-evidence-research-support'].canonicalNeed, /need synthesis/u);
   assert.match(recordsById['need-risk-admission-support'].canonicalNeed, /pipeline phase/u);
@@ -128,10 +131,31 @@ test('V26 inference implementation registry binds records to canonical Bitcode s
   ]);
   assert.match(recordsById['need-comprehension-compatibility'].toolImplementation.contract, /Canonical need-first tool, primitive, and schema owners stay local to the package/u);
   assert.match(recordsById['need-comprehension-compatibility'].toolImplementation.contract, /retained task-named APIs remain compatibility carriers/u);
-  assert.match(recordsById['external-evidence-research-support'].promptImplementation.rawPromptPartBoundary, /WEBRESEARCHER PromptParts/u);
+  assert.match(recordsById['need-review-before-fit-search'].executionImplementation.carriers.join(' '), /\.bitcode\/need-review\.json/u);
+  assert.match(recordsById['need-review-before-fit-search'].toolImplementation.contract, /blocked unless the measured Need review admits it/u);
+  assert.equal(recordsById['need-review-before-fit-search'].boundaryPosture, 'active');
+  assert.match(recordsById['external-evidence-research-support'].promptImplementation.rawPromptPartBoundary, /WEBRESEARCHER.*PromptParts/u);
+  assert.match(recordsById['external-evidence-research-support'].promptImplementation.rawPromptPartBoundary, /WEBSEARCH/u);
+  assert.match(recordsById['external-evidence-research-support'].promptImplementation.rawPromptPartBoundary, /GETCONTENTS_DOCCODE/u);
   assert.match(recordsById['external-evidence-research-support'].promptImplementation.rawPromptPartBoundary, /need-synthesis web research/u);
   assert.match(recordsById['external-evidence-research-support'].agentImplementation.contract, /bitcodeNeedSynthesisWebResearcher/u);
+  assert.match(recordsById['external-evidence-research-support'].agentImplementation.contract, /bitcodeNeedSynthesisWebSearch/u);
   assert.match(recordsById['external-evidence-research-support'].toolImplementation.contract, /discovery-phase need synthesis/u);
+  assert.ok(
+    recordsById['external-evidence-research-support'].promptImplementation.owners.includes(
+      'packages/generic-agents/web-search/src/prompts/agent-prompt-web-search.ts'
+    )
+  );
+  assert.ok(
+    recordsById['external-evidence-research-support'].promptImplementation.owners.includes(
+      'packages/generic-tools/web-search/src/prompts/WebSearchDocCodeToolPrompt.ts'
+    )
+  );
+  assert.ok(
+    recordsById['external-evidence-research-support'].agentImplementation.owners.includes(
+      'packages/generic-agents/web-search/src/index.ts'
+    )
+  );
   assert.match(recordsById['need-risk-admission-support'].promptImplementation.rawPromptPartBoundary, /DANGERWALL PromptParts/u);
   assert.match(recordsById['need-risk-admission-support'].promptImplementation.rawPromptPartBoundary, /risk-admission/u);
   assert.match(recordsById['need-risk-admission-support'].agentImplementation.contract, /bitcodeNeedRiskAdmissionAgent/u);

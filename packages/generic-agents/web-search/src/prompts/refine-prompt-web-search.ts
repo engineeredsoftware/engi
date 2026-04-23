@@ -9,11 +9,11 @@ import { PROMPTPART_SPECIFIC_AGENT_WEBSEARCH_REFINE_RESULT_ENHANCEMENT } from '@
 /**
  * @doc-comment-developing-promptdevelopment
  * domain: agent
- * intent: "Refine step for Web Search agent: optimize results and enhance relevance"
- * current_version: "GA1.50.0"
+ * intent: "Bitcode need-synthesis web search refine prompt for source quality, volatility, and need relevance"
+ * current_version: "V26"
  * dependencies: {
- *   "PROMPTPART_SPECIFIC_AGENT_WEBSEARCH_REFINE_RELEVANCE_CRITERIA": "GA1.00.0",
- *   "PROMPTPART_SPECIFIC_AGENT_WEBSEARCH_REFINE_RESULT_ENHANCEMENT": "GA1.00.0"
+ *   "PROMPTPART_SPECIFIC_AGENT_WEBSEARCH_REFINE_RELEVANCE_CRITERIA": "V26",
+ *   "PROMPTPART_SPECIFIC_AGENT_WEBSEARCH_REFINE_RESULT_ENHANCEMENT": "V26"
  * }
  * benchmarks: [
  *   { "name": "technical_accuracy", "test": "Concrete directives and purpose", "score": 0.46 },

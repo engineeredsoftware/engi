@@ -230,7 +230,8 @@
  *   parsedCompletionEnvelopes: ParsedCompletionEnvelope[],
  *   parsedCompletionEnvelopeArtifact: ParsedCompletionEnvelopeArtifactShape,
  *   measurementProvenance: Array<Record<string, unknown>>,
- *   staticExecutionReceipts: StaticExecutionReceipt[]
+ *   staticExecutionReceipts: StaticExecutionReceipt[],
+ *   reviewableNeed: Record<string, unknown>
  * }} NeedMeasurementResult
  */
 
@@ -255,6 +256,9 @@ import { buildProfileCompositions } from '../demo-shell-state.js';
 import { buildRealizationProfile } from '../realization-profile.js';
 
 const ACTIVE_PROJECT_LABEL = 'Bitcode';
+const BITCODE_PROTOCOL_FOCUS = 'source-to-shares';
+const NEED_REVIEW_STAGE = 'post-measurement-pre-fit';
+const NEED_REVIEW_ACTIONS = ['accept', 'reject', 'remeasure-with-feedback'];
 
 /**
  * @param {BuiltPromptSurface[]} promptSurfaces
@@ -352,6 +356,148 @@ export function createNeedMeasurementRuntime({
 
   function buildRecallChannelContracts() {
     return Object.entries(RECALL_CHANNEL_SPECS).map(([channelId, spec]) => ({ channelId, ...spec }));
+  }
+
+  /**
+   * @param {NeedDescriptorShape} needDescriptor
+   * @param {{
+   *   benchmarkTarget: BenchmarkTargetShape,
+   *   parserValidation: ParserValidation,
+   *   measurementProvenance: Array<Record<string, unknown>>,
+   *   staticExecutionReceipts: StaticExecutionReceipt[]
+   * }} input
+   * @returns {Record<string, unknown>}
+   */
+  function buildReviewableNeed(needDescriptor, {
+    benchmarkTarget,
+    parserValidation,
+    measurementProvenance,
+    staticExecutionReceipts
+  }) {
+    const measurementHash = `sha256:${sha256(JSON.stringify({
+      needId: needDescriptor.needId,
+      task: needDescriptor.task,
+      failureModes: needDescriptor.failureModes,
+      constraints: needDescriptor.constraints,
+      targetArtifactKinds: needDescriptor.targetArtifactKinds,
+      closureCriteria: needDescriptor.closureCriteria,
+      benchmarkRunId: needDescriptor.benchmarkRunId,
+      promptIds: (needDescriptor.promptSurfaces || []).map((surface) => surface.promptId),
+      receiptIds: staticExecutionReceipts.map((receipt) => receipt.receiptId)
+    }))}`;
+    const reviewableNeed = {
+      artifactKind: 'bitcode-reviewable-need',
+      protocolFocus: BITCODE_PROTOCOL_FOCUS,
+      needId: needDescriptor.needId,
+      reviewStage: NEED_REVIEW_STAGE,
+      status: 'ready-for-review',
+      requiredAfter: 'need-measurement-synthesized',
+      requiredBefore: 'find-fitting-settlement',
+      allowedActions: NEED_REVIEW_ACTIONS,
+      actionContracts: {
+        accept: 'Admit this measured Need to find fitting assets and source-to-shares settlement review.',
+        reject: 'Stop fit search because the measured Need is not accepted as the current Bitcode protocol target.',
+        'remeasure-with-feedback': 'Return to need measurement with reviewer feedback bound to the next measurement attempt.'
+      },
+      reviewQuestions: [
+        'Does the measured Need preserve source-to-shares as the singular Bitcode protocol focus?',
+        'Are failure modes, constraints, target artifact kinds, and closure criteria precise enough to search for fitting AssetPacks?',
+        'Should this Need be accepted, rejected, or remeasured with feedback before any fit search begins?'
+      ],
+      measuredNeedSnapshot: {
+        task: needDescriptor.task,
+        failureModes: needDescriptor.failureModes,
+        constraints: needDescriptor.constraints,
+        targetArtifactKinds: needDescriptor.targetArtifactKinds,
+        closureCriteria: needDescriptor.closureCriteria,
+        touchedPaths: needDescriptor.touchedPaths,
+        extractedSymbols: needDescriptor.extractedSymbols,
+        configKeys: needDescriptor.configKeys
+      },
+      measurementRefs: {
+        benchmarkRunId: needDescriptor.benchmarkRunId,
+        benchmarkTarget,
+        parserValidation,
+        measurementHash,
+        promptCompletenessProofRef: needDescriptor.promptCompletenessProof?.proofHash || null,
+        inferenceSynthesisProofRef: needDescriptor.inferenceSynthesisProof?.proofHash || null,
+        staticReceiptIds: staticExecutionReceipts.map((receipt) => receipt.receiptId),
+        provenanceToolOrPromptIds: summarizeStrings(measurementProvenance.map((entry) => entry.toolOrPromptId))
+      },
+      fitSearchAdmission: {
+        admitted: false,
+        untilAction: 'accept',
+        blockedStages: ['candidate-recall', 'find-fitting-settlement', 'asset-pack-assembly', 'present-fit-for-settlement-review']
+      }
+    };
+
+    return {
+      ...reviewableNeed,
+      reviewableNeedHash: `sha256:${sha256(JSON.stringify(reviewableNeed))}`
+    };
+  }
+
+  /**
+   * @param {Record<string, unknown>} reviewableNeed
+   * @param {{
+   *   action?: string | undefined,
+   *   feedback?: readonly unknown[] | undefined,
+   *   actorId?: string | undefined,
+   *   decisionMode?: string | undefined
+   * }} [input={}]
+   * @returns {Record<string, unknown>}
+   */
+  function reviewNeedForFitSearch(reviewableNeed, input = {}) {
+    const action = String(input.action || 'accept');
+    if (!NEED_REVIEW_ACTIONS.includes(action)) {
+      throw new Error(`${ACTIVE_PROJECT_LABEL} need review action is not allowed: ${action}.`);
+    }
+    const status = action === 'accept'
+      ? 'accepted'
+      : action === 'reject'
+        ? 'rejected'
+        : 'remeasure-requested';
+    const feedback = summarizeStrings(input.feedback || []);
+    const fitAdmitted = action === 'accept';
+    const decision = {
+      artifactKind: 'bitcode-need-review-decision',
+      protocolFocus: BITCODE_PROTOCOL_FOCUS,
+      reviewStage: NEED_REVIEW_STAGE,
+      needId: String(reviewableNeed.needId || ''),
+      reviewableNeedRef: String(reviewableNeed.reviewableNeedHash || ''),
+      measurementHash: String((/** @type {any} */ (reviewableNeed)).measurementRefs?.measurementHash || ''),
+      action,
+      status,
+      actorId: input.actorId || 'bitcode-system:need-review',
+      decisionMode: input.decisionMode || 'deterministic-fifth-gate-local-review',
+      feedback,
+      allowedActions: NEED_REVIEW_ACTIONS,
+      requiredAfter: 'need-measurement-synthesized',
+      requiredBefore: 'find-fitting-settlement',
+      fitSearchAdmission: {
+        admitted: fitAdmitted,
+        admissionReason: fitAdmitted
+          ? 'Measured Need accepted for source-to-shares fit search.'
+          : action === 'reject'
+            ? 'Measured Need rejected before any fitting assets can be searched.'
+            : 'Measured Need requires remeasurement with reviewer feedback before fit search.',
+        admittedStages: fitAdmitted ? ['candidate-recall', 'find-fitting-settlement', 'asset-pack-assembly', 'present-fit-for-settlement-review'] : [],
+        blockedStages: fitAdmitted ? [] : ['candidate-recall', 'find-fitting-settlement', 'asset-pack-assembly', 'present-fit-for-settlement-review']
+      },
+      transition: {
+        from: 'need-measurement-synthesized',
+        via: NEED_REVIEW_STAGE,
+        to: fitAdmitted ? 'find-fitting-settlement-admitted' : status
+      }
+    };
+
+    return {
+      ...reviewableNeed,
+      reviewDecision: decision,
+      status,
+      fitSearchAdmission: decision.fitSearchAdmission,
+      proofHash: `sha256:${sha256(JSON.stringify(decision))}`
+    };
   }
 
   /**
@@ -980,6 +1126,7 @@ export function createNeedMeasurementRuntime({
       measurementTrace('hybrid', 'need-measurement.derivation-closure.v8', Object.values(fieldDerivations).flatMap((entry) => entry.evidenceRefs || []))
     ];
 
+    const staticExecutionReceipts = [parserReceipt, ...collectStaticExecutionReceipts(repoCodeAnalysis)];
     const needDescriptor = {
       needId,
       repo: scenario.repo,
@@ -1112,7 +1259,13 @@ export function createNeedMeasurementRuntime({
       parsedCompletionEnvelopes,
       parsedCompletionEnvelopeArtifact,
       measurementProvenance,
-      staticExecutionReceipts: [parserReceipt, ...collectStaticExecutionReceipts(repoCodeAnalysis)]
+      staticExecutionReceipts,
+      reviewableNeed: buildReviewableNeed(needDescriptor, {
+        benchmarkTarget,
+        parserValidation,
+        measurementProvenance,
+        staticExecutionReceipts
+      })
     };
   }
 
@@ -1127,6 +1280,8 @@ export function createNeedMeasurementRuntime({
   return {
     measurementTrace,
     buildRecallChannelContracts,
+    buildReviewableNeed,
+    reviewNeedForFitSearch,
     measureNeedFromScenario,
     buildNeedDescriptor
   };

@@ -1,17 +1,15 @@
 /**
  * @doc-comment-developing-promptpartdevelopment
  * domain: parameters
- * intent: "Parameters description for web search tool"
- * current_version: "GA1.00.0"
+ * intent: "Bitcode need-synthesis web search tool parameters"
+ * current_version: "V26"
  * versions: []
  * benchmarks: [
- *   { "name": "parameter_clarity", "test": "Does '{{content}}' clearly describe required and optional parameters? Rate 0-1" },
- *   { "name": "options_coverage", "test": "Does '{{content}}' indicate the flexibility of search options? Rate 0-1" },
- *   { "name": "type_specification", "test": "Does '{{content}}' specify parameter types correctly? Rate 0-1" }
+ *   { "name": "parameter_boundary", "test": "Parameters are framed around need-synthesis evidence", "score": 1.00 }
  * ]
  */
 
 import type { PromptPart } from '../../parts/PromptPart';
 
-export const PROMPTPART_SPECIFIC_TOOL_WEBSEARCH_DOCCODETOOLPARAMETERS: PromptPart = 
-  'query: string (required) - Search query text; options: object (optional) - Search configuration including providers, filters, result count, urgency level, and content extraction preferences' as PromptPart;
+export const PROMPTPART_SPECIFIC_TOOL_WEBSEARCH_DOCCODETOOLPARAMETERS: PromptPart =
+  'query: string (required) - search text derived from a Bitcode need or proof gap; options: object (optional) - source scope, providers, domain/date filters, result limit, primary-source preference, URL attachments, and content retrieval flags' as PromptPart;

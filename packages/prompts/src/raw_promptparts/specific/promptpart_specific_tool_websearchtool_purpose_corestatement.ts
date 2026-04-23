@@ -3,12 +3,12 @@ import { PromptPart } from '../../parts/PromptPart';
 /**
  * @doc-comment-developing-promptpartdevelopment
  * domain: tool
- * intent: "Define web search tool purpose"
- * current_version: "GA1.50.0"
- * versions: ["GA1.00.0"]
+ * intent: "Bitcode web search tool purpose compatibility PromptPart"
+ * current_version: "V26"
+ * versions: []
  * benchmarks: [
- *   { "name": "actionability", "test": "Does '{{content}}' clearly describe actionable search capabilities? Rate 0-1" }
+ *   { "name": "purpose_boundary", "test": "Purpose is Bitcode need-synthesis evidence support", "score": 1.00 }
  * ]
  */
-export const PROMPTPART_SPECIFIC_TOOL_WEBSEARCHTOOL_PURPOSE_CORESTATEMENT: PromptPart = 
-  'Search the web for technical documentation, API references, and programming resources' as PromptPart;
+export const PROMPTPART_SPECIFIC_TOOL_WEBSEARCHTOOL_PURPOSE_CORESTATEMENT: PromptPart =
+  'Search external web sources for source-attributed evidence that supports Bitcode discovery-phase need synthesis and proof-gap question formation' as PromptPart;

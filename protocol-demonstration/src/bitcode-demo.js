@@ -2823,6 +2823,7 @@ function buildPolicyState() {
         'read:private-branch': { allow: true, policyRef: DEFAULT_POLICY_REF, reasons: [`${ACTIVE_PROJECT_LABEL} system principal materializes private artifacts.`] },
         'materialize:selected-source-material': { allow: true, policyRef: DEFAULT_POLICY_REF, reasons: [`${ACTIVE_PROJECT_LABEL} branch materializer may stage selected source material under .bitcode/source-material/.`] },
         'settle:journal-event': { allow: true, policyRef: DEFAULT_POLICY_REF, reasons: [`${ACTIVE_PROJECT_LABEL} settlement engine executes deterministic journal settlement.`] },
+        'review:measured-need': { allow: true, policyRef: DEFAULT_POLICY_REF, reasons: [`${ACTIVE_PROJECT_LABEL} need-review gate may accept, reject, or request remeasurement before fit search.`] },
         'write:private-branch': { allow: true, policyRef: DEFAULT_POLICY_REF, reasons: [`${ACTIVE_PROJECT_LABEL} system principal stages remediation artifacts.`] },
         'derive:bounded-public-proof-metadata': { allow: true, policyRef: DEFAULT_POLICY_REF, reasons: [`${ACTIVE_PROJECT_LABEL} proof publisher may derive bounded proof metadata from the private proof surface.`] },
         'read:bounded-public-proof': { allow: true, policyRef: DEFAULT_POLICY_REF, reasons: [`${ACTIVE_PROJECT_LABEL} system principal may inspect bounded proof metadata.`] }
@@ -4167,6 +4168,15 @@ export function buildNeedDescriptor(scenario) {
   return needMeasurementRuntime.buildNeedDescriptor(scenario);
 }
 
+/**
+ * @param {any} reviewableNeed
+ * @param {any} [input={}]
+ * @returns {any}
+ */
+export function reviewNeedForFitSearch(reviewableNeed, input = {}) {
+  return needMeasurementRuntime.reviewNeedForFitSearch(reviewableNeed, input);
+}
+
 const evaluationMaterializationRuntime = createEvaluationMaterializationRuntimeUnchecked({
   DEFAULT_BRANCH_MODE,
   DEFAULT_MODEL_ID,
@@ -4344,6 +4354,12 @@ function buildIdentityBindings(buyer, selectedCandidates) {
       boundRefs: ['need-measurement']
     },
     {
+      principalId: 'bitcode-system:need-review',
+      principalClass: 'bitcode-system-principal',
+      authSource: 'policy',
+      boundRefs: ['need-review', 'post-measurement-pre-fit']
+    },
+    {
       principalId: 'bitcode-system:branch-materializer',
       principalClass: 'bitcode-system-principal',
       authSource: 'policy',
@@ -4425,6 +4441,7 @@ function buildAuthorizationDecisions(policyState, bindings, buyer, branchName, a
     makeAuthorizationDecision(bindings.find((/** @type {any} */ binding) => binding.principalId === `buyer:${buyer.buyerId}`), 'read:private-branch', branchName, policyState),
     makeAuthorizationDecision(bindings.find((/** @type {any} */ binding) => binding.principalId === `buyer:${buyer.buyerId}`), 'materialize:selected-source-material', `${branchName}/.bitcode/source-material`, policyState),
     makeAuthorizationDecision(bindings.find((/** @type {any} */ binding) => binding.principalId === `buyer:${buyer.buyerId}`), 'settle:journal-event', assetPack.assetPackId, policyState),
+    makeAuthorizationDecision(bindings.find((/** @type {any} */ binding) => binding.principalId === 'bitcode-system:need-review'), 'review:measured-need', `${assetPack.assetPackId}#need-review`, policyState),
     makeAuthorizationDecision(bindings.find((/** @type {any} */ binding) => binding.principalId === 'bitcode-system:branch-materializer'), 'write:private-branch', branchName, policyState),
     makeAuthorizationDecision(bindings.find((/** @type {any} */ binding) => binding.principalId === 'bitcode-system:branch-materializer'), 'materialize:selected-source-material', `${branchName}/.bitcode/source-material`, policyState),
     makeAuthorizationDecision(bindings.find((/** @type {any} */ binding) => binding.principalId === 'bitcode-system:settlement-engine'), 'settle:journal-event', assetPack.assetPackId, policyState),
@@ -4466,6 +4483,17 @@ function buildSensitiveDataFlowRecords(policyState, buyer, branchName, assetPack
       retentionPolicyId: 'retention/private-remediation-30d',
       disclosurePolicyId: 'disclosure/private-only',
       proofRefs: selectedCandidates.map((/** @type {any} */ candidate) => candidate.assetId)
+    },
+    {
+      recordId: `flow_${sha256(`${branchName}:need-review`).slice(0, 10)}`,
+      dataClass: 'private-proof-artifact',
+      fromSurface: `${branchName}/.bitcode/need-measurement.json`,
+      toSurface: `${branchName}/.bitcode/need-review.json`,
+      transformation: 'post-measurement-pre-fit-need-review',
+      authorizedPrincipals: ['bitcode-system:need-review'],
+      retentionPolicyId: 'retention/private-remediation-30d',
+      disclosurePolicyId: 'disclosure/private-only',
+      proofRefs: [assetPack.assetPackId, 'source-to-shares']
     },
     {
       recordId: `flow_${sha256(`${branchName}:licensed-source`).slice(0, 10)}`,
@@ -4561,6 +4589,7 @@ function buildBranchPolicyRelease(policyState, branchName, assetPack, selectedCa
     confidentialityDefault: 'private-required',
     artifactClasses: [
       { path: '.bitcode/need.json', sensitiveDataClass: 'private-branch-derived-artifact', disclosable: false },
+      { path: '.bitcode/need-review.json', sensitiveDataClass: 'private-proof-artifact', disclosable: false },
       { path: '.bitcode/depositing-surface.json', sensitiveDataClass: 'private-proof-artifact', disclosable: false },
       { path: '.bitcode/needing-surface.json', sensitiveDataClass: 'bounded-public-proof-metadata', disclosable: true },
       { path: '.bitcode/depositing-to-needing-surface.json', sensitiveDataClass: 'bounded-public-proof-metadata', disclosable: true },
@@ -4625,6 +4654,7 @@ function buildBranchPolicyRelease(policyState, branchName, assetPack, selectedCa
         retentionPolicyId: 'retention/private-remediation-30d',
         appliesTo: [
           '.bitcode/source-material/',
+          '.bitcode/need-review.json',
           '.bitcode/settlement-preview.json',
           '.bitcode/settlement-proof.json',
           '.bitcode/compute-reality-manifest.json',
@@ -4675,7 +4705,7 @@ function buildJournalCompletenessProof(eventId, journalDiff) {
 function buildIdentityAuthorizationProof(branchName, authorizationDecisions, bindings, selectedCandidates = []) {
   const inventoryBackedCandidates = selectedCandidates.filter((/** @type {any} */ candidate) => (candidate.asset.artifactSelectionSurface?.selectedInventoryEntryIds || []).length > 0);
   const allAccessBoundToKnownPrincipals = authorizationDecisions.every((/** @type {any} */ decision) => bindings.some((/** @type {any} */ binding) => binding.principalId === decision.principalId));
-  const allStateChangingActionsAuthorized = authorizationDecisions.filter((/** @type {any} */ decision) => decision.action === 'settle:journal-event' || decision.action === 'write:private-branch' || decision.action === 'materialize:selected-source-material').every((/** @type {any} */ decision) => decision.decision === 'allow');
+  const allStateChangingActionsAuthorized = authorizationDecisions.filter((/** @type {any} */ decision) => decision.action === 'settle:journal-event' || decision.action === 'write:private-branch' || decision.action === 'materialize:selected-source-material' || decision.action === 'review:measured-need').every((/** @type {any} */ decision) => decision.decision === 'allow');
   const witnessArtifactPaths = ['.bitcode/identity-bindings.json', '.bitcode/authorization-decisions.json', '.bitcode/identity-authorization-proof.json'];
   const replayArtifacts = witnessArtifactPaths.slice();
   const replaySteps = [
@@ -5205,7 +5235,7 @@ export function buildProofContract({
     ...(v23BitcoinEnabled ? ['bitcoin-audit-anchor', 'bitcoin-settlement-interface'] : [])
   ];
   const evidenceChain = [
-    { stage: 'need-measurement', artifactRefs: ['.bitcode/need.json', '.bitcode/need-measurement.json', '.bitcode/benchmark-target.json'], claim: 'The engineering need is derived fail-closed from canonical benchmark evidence.' },
+    { stage: 'need-measurement-and-review', artifactRefs: ['.bitcode/need.json', '.bitcode/need-measurement.json', '.bitcode/need-review.json', '.bitcode/benchmark-target.json'], claim: 'The engineering need is derived fail-closed from canonical benchmark evidence and accepted before any fit search begins.' },
     { stage: 'ranking-and-verification', artifactRefs: ['.bitcode/match-report.json', '.bitcode/verification-report.json', '.bitcode/prompt-surfaces.json'], claim: 'Candidate ranking, prompt lineage, and verification tiers are all inspectable.' },
     { stage: 'identity-and-boundaries', artifactRefs: ['.bitcode/identity-bindings.json', '.bitcode/authorization-decisions.json', '.bitcode/github-boundary.json', '.bitcode/external-boundary-manifest.json'], claim: 'Identity, signer, auth, and external boundaries are distinct and bound.' },
     { stage: 'materialization', artifactRefs: ['.bitcode/asset-pack.lock.json', '.bitcode/selected-source-material.json', '.bitcode/materialization-visibility-proof.json', BRANCH_NEED_PATH], claim: 'Only allowed assets and units are materialized into the private remediation branch.' },
@@ -5423,15 +5453,17 @@ export function buildProofContract({
 /**
  * @param {any} sourceToSharesArtifact
  * @param {any} settlementParticipationArtifact
+ * @param {any} settlementPreview
  * @param {any} accountingPrecisionReport
  * @param {any} journalCompletenessProof
  * @param {any} settlementProof
  * @returns {any}
  */
-function buildSettlementSourceToSharesProof(sourceToSharesArtifact, settlementParticipationArtifact, accountingPrecisionReport, journalCompletenessProof, settlementProof) {
+function buildSettlementSourceToSharesProof(sourceToSharesArtifact, settlementParticipationArtifact, settlementPreview, accountingPrecisionReport, journalCompletenessProof, settlementProof) {
   const witnessArtifactPaths = [
     '.bitcode/source-to-shares.json',
     '.bitcode/settlement-participation.json',
+    '.bitcode/settlement-preview.json',
     '.bitcode/accounting-precision-report.json',
     '.bitcode/journal-diff.json',
     '.bitcode/journal-completeness-proof.json',
@@ -5442,9 +5474,9 @@ function buildSettlementSourceToSharesProof(sourceToSharesArtifact, settlementPa
   const replaySteps = [
     buildReplayStep({
       stepId: 'settlement-source-to-shares.contribution-allocation',
-      theoremIds: ['settlement_source_to_shares.contribution_totality', 'settlement_source_to_shares.clipping_determinism', 'settlement_source_to_shares.normalization_exactness', 'settlement_source_to_shares.participation_totality', 'settlement_source_to_shares.allocation_conservation'],
-      requiredArtifactPaths: ['.bitcode/source-to-shares.json', '.bitcode/settlement-participation.json', '.bitcode/accounting-precision-report.json'],
-      instruction: 'Replay contribution, clipping, normalization, participation, and exact allocation closure.'
+      theoremIds: ['settlement_source_to_shares.contribution_totality', 'settlement_source_to_shares.clipping_determinism', 'settlement_source_to_shares.normalization_exactness', 'settlement_source_to_shares.participation_totality', 'settlement_source_to_shares.allocation_conservation', 'settlement_source_to_shares.quantized_fit_quality_receipting'],
+      requiredArtifactPaths: ['.bitcode/source-to-shares.json', '.bitcode/settlement-participation.json', '.bitcode/settlement-preview.json', '.bitcode/accounting-precision-report.json'],
+      instruction: 'Replay contribution, clipping, normalization, participation, quantized fit-quality presentation, receipting, and exact allocation closure.'
     }),
     buildReplayStep({
       stepId: 'settlement-source-to-shares.journal-theorem',
@@ -5453,12 +5485,16 @@ function buildSettlementSourceToSharesProof(sourceToSharesArtifact, settlementPa
       instruction: 'Replay journal completeness and theorem-bearing settlement closure separately.'
     })
   ];
+  const fitQualityObjectiveId = sourceToSharesArtifact?.quantizedFitQualities?.objectiveContractId;
+  const previewObjectiveId = settlementPreview?.presentFitForSettlementReview?.objectiveContractId || settlementPreview?.quantizedObjectiveContractId;
+  const receiptObjectiveIds = (settlementPreview?.receipts || []).map((/** @type {any} */ receipt) => receipt.quantizedObjectiveContractId).filter(Boolean);
   const theoremVerdicts = [
     buildTheoremVerdict({ theoremId: 'settlement_source_to_shares.contribution_totality', passed: (sourceToSharesArtifact?.sourceContributionEntries || []).length > 0, witnessArtifactPaths, replayArtifactPaths: replayArtifacts, replayStepIds: ['settlement-source-to-shares.contribution-allocation'] }),
     buildTheoremVerdict({ theoremId: 'settlement_source_to_shares.clipping_determinism', passed: (sourceToSharesArtifact?.sourceContributionEntries || []).every((/** @type {any} */ entry) => !!entry.clippingReceiptId || entry.clipped !== true), witnessArtifactPaths, replayArtifactPaths: replayArtifacts, replayStepIds: ['settlement-source-to-shares.contribution-allocation'] }),
     buildTheoremVerdict({ theoremId: 'settlement_source_to_shares.normalization_exactness', passed: settlementProof?.theoremChecks?.rawSharesNormalized === true && settlementProof?.theoremChecks?.settledSharesNormalized === true, witnessArtifactPaths, replayArtifactPaths: replayArtifacts, replayStepIds: ['settlement-source-to-shares.contribution-allocation'] }),
     buildTheoremVerdict({ theoremId: 'settlement_source_to_shares.participation_totality', passed: (settlementParticipationArtifact?.records || []).filter((/** @type {any} */ entry) => entry.settlementParticipating).length === (settlementParticipationArtifact?.settlementParticipatingCount || 0), witnessArtifactPaths, replayArtifactPaths: replayArtifacts, replayStepIds: ['settlement-source-to-shares.contribution-allocation'] }),
     buildTheoremVerdict({ theoremId: 'settlement_source_to_shares.allocation_conservation', passed: settlementProof?.theoremChecks?.allocationConserved === true, witnessArtifactPaths, replayArtifactPaths: replayArtifacts, replayStepIds: ['settlement-source-to-shares.contribution-allocation'] }),
+    buildTheoremVerdict({ theoremId: 'settlement_source_to_shares.quantized_fit_quality_receipting', passed: !!fitQualityObjectiveId && fitQualityObjectiveId === previewObjectiveId && receiptObjectiveIds.includes(fitQualityObjectiveId), witnessArtifactPaths, replayArtifactPaths: replayArtifacts, replayStepIds: ['settlement-source-to-shares.contribution-allocation'] }),
     buildTheoremVerdict({ theoremId: 'settlement_source_to_shares.journal_completeness', passed: journalCompletenessProof?.receiptRefsClosed === true && journalCompletenessProof?.afterBalancesRecomputeExactly === true, witnessArtifactPaths, replayArtifactPaths: replayArtifacts, replayStepIds: ['settlement-source-to-shares.journal-theorem'] }),
     buildTheoremVerdict({ theoremId: 'settlement_source_to_shares.settlement_theorem_integrity', passed: aggregateTheoremVerdicts(Object.entries(settlementProof?.theoremChecks || {}).map(([theoremId, passed]) => ({ theoremId, passed }))), witnessArtifactPaths, replayArtifactPaths: replayArtifacts, replayStepIds: ['settlement-source-to-shares.journal-theorem'] })
   ];
@@ -5470,8 +5506,9 @@ function buildSettlementSourceToSharesProof(sourceToSharesArtifact, settlementPa
       { memberId: 'normalization', passed: Boolean(theoremVerdicts[2]?.passed) },
       { memberId: 'participation', passed: Boolean(theoremVerdicts[3]?.passed) },
       { memberId: 'allocation', passed: Boolean(theoremVerdicts[4]?.passed) },
-      { memberId: 'journal', passed: Boolean(theoremVerdicts[5]?.passed) },
-      { memberId: 'settlement-proof', passed: Boolean(theoremVerdicts[6]?.passed) }
+      { memberId: 'quantized-fit-quality-receipting', passed: Boolean(theoremVerdicts[5]?.passed) },
+      { memberId: 'journal', passed: Boolean(theoremVerdicts[6]?.passed) },
+      { memberId: 'settlement-proof', passed: Boolean(theoremVerdicts[7]?.passed) }
     ],
     theoremVerdicts,
     artifactBindings: witnessArtifactPaths.map((artifactPath) => buildArtifactBinding({ artifactPath, role: artifactPath.endsWith('-proof.json') ? 'primary-proof' : 'supporting-proof', theoremIds: theoremVerdicts.map((entry) => entry.theoremId) })),
@@ -5484,6 +5521,7 @@ function buildSettlementSourceToSharesProof(sourceToSharesArtifact, settlementPa
     proofHash: stableHashObject({
       sourceToSharesArtifact: sourceToSharesArtifact?.proofHash,
       settlementParticipationArtifact: settlementParticipationArtifact?.proofHash,
+      settlementPreview: stableHashObject(settlementPreview || {}),
       accountingPrecisionReport: accountingPrecisionReport?.reportHash,
       journalCompletenessProof: journalCompletenessProof?.proofHash,
       settlementProof: settlementProof?.proofHash
@@ -5666,10 +5704,11 @@ function assertRequiredBranchArtifacts(branchArtifacts) {
  * @param {any} __0
  * @returns {any}
  */
-function buildBranchArtifacts({ need, needMeasurement, benchmarkTarget, branchMode, branchName, depositingSurface, needingSurface, depositingToNeedingSurface, matchReport, verificationReport, evalManifest, assetPack, assetPackLock, selectedSourceMaterialManifest, settlementPreview, settlementProof, systemProofBundle, authorizationDecisions, sensitiveDataFlowRecords, policyRelease, deliverablesManifest, unitCatalog, pipelineTelemetry, selectedCandidates, journalDiff, identityBindings, githubBoundarySurface, artifactUploadManifest, profileCompositionSurface, promptFamilyRegistry, promptSurfaces, promptContracts, inferenceProofs, inferenceMomentContracts, promptImplementationSurface, inferenceSynthesisProof, promptCompletenessProof, parsedCompletionEnvelopes, parsedCompletionEnvelopeArtifact, externalBoundaryManifest, measurementReceipts, staticMeasurementReport, staticMeasurementProof, codeAnalysisFactRegistry, staticHeuristicsRegistry, verificationReceiptsArtifact, verificationDecisionsProof, proofWitnessManifest, selectionConsistencyProof, selectionAndMaterializationProof, identityAuthorizationProof, sensitiveDataFlowProof, authorizationAndSensitiveFlowProof, materializationProof, materializationExclusions, materializationVisibilityProof, sourceToSharesArtifact, settlementParticipationArtifact, accountingPrecisionReport, journalCompletenessProof, settlementSourceToSharesProof, scenarioFixtureManifest, testCoverageReport, projectionPolicy, boundedPublicProof, redactionProof, disclosureProof, disclosureBoundaryProof, proofContract, computeRealityManifest, storageRealityManifest, bitcoinCommitmentManifest, bitcoinTreasuryPolicy, bitcoinAnchor, bitcoinBoundedPublicAnchor, bitcoinSettlementIntent, bitcoinSettlementObservation, bitcoinAuditAnchorProof, bitcoinSettlementInterfaceProof, externalEnvironmentProfile, externalExecutionPolicy, externalTelemetryPolicy, externalTelemetrySummary, networkCapabilityManifest, githubAppBinding, bitcoinNetworkIntent, bitcoinNetworkExecution, bitcoinNetworkObservation, repeatedReadPaymentIntent, repeatedReadPaymentExecution, repeatedReadPaymentObservation, sidechainExecutionReceipt, computeContainerManifest, computeContainerExecution, storageContainerManifest, storagePublicationReceipt, storageRetrievalReceipt, githubLiveSession, githubInventoryFetchReceipt, githubArtifactFetchReceipt, githubBranchPublicationReceipt, githubPrUpdateReceipt, externalRealizationProof, containerRealityProof, githubLiveInterfaceProof }) {
+function buildBranchArtifacts({ need, needMeasurement, needReview, benchmarkTarget, branchMode, branchName, depositingSurface, needingSurface, depositingToNeedingSurface, matchReport, verificationReport, evalManifest, assetPack, assetPackLock, selectedSourceMaterialManifest, settlementPreview, settlementProof, systemProofBundle, authorizationDecisions, sensitiveDataFlowRecords, policyRelease, deliverablesManifest, unitCatalog, pipelineTelemetry, selectedCandidates, journalDiff, identityBindings, githubBoundarySurface, artifactUploadManifest, profileCompositionSurface, promptFamilyRegistry, promptSurfaces, promptContracts, inferenceProofs, inferenceMomentContracts, promptImplementationSurface, inferenceSynthesisProof, promptCompletenessProof, parsedCompletionEnvelopes, parsedCompletionEnvelopeArtifact, externalBoundaryManifest, measurementReceipts, staticMeasurementReport, staticMeasurementProof, codeAnalysisFactRegistry, staticHeuristicsRegistry, verificationReceiptsArtifact, verificationDecisionsProof, proofWitnessManifest, selectionConsistencyProof, selectionAndMaterializationProof, identityAuthorizationProof, sensitiveDataFlowProof, authorizationAndSensitiveFlowProof, materializationProof, materializationExclusions, materializationVisibilityProof, sourceToSharesArtifact, settlementParticipationArtifact, accountingPrecisionReport, journalCompletenessProof, settlementSourceToSharesProof, scenarioFixtureManifest, testCoverageReport, projectionPolicy, boundedPublicProof, redactionProof, disclosureProof, disclosureBoundaryProof, proofContract, computeRealityManifest, storageRealityManifest, bitcoinCommitmentManifest, bitcoinTreasuryPolicy, bitcoinAnchor, bitcoinBoundedPublicAnchor, bitcoinSettlementIntent, bitcoinSettlementObservation, bitcoinAuditAnchorProof, bitcoinSettlementInterfaceProof, externalEnvironmentProfile, externalExecutionPolicy, externalTelemetryPolicy, externalTelemetrySummary, networkCapabilityManifest, githubAppBinding, bitcoinNetworkIntent, bitcoinNetworkExecution, bitcoinNetworkObservation, repeatedReadPaymentIntent, repeatedReadPaymentExecution, repeatedReadPaymentObservation, sidechainExecutionReceipt, computeContainerManifest, computeContainerExecution, storageContainerManifest, storagePublicationReceipt, storageRetrievalReceipt, githubLiveSession, githubInventoryFetchReceipt, githubArtifactFetchReceipt, githubBranchPublicationReceipt, githubPrUpdateReceipt, externalRealizationProof, containerRealityProof, githubLiveInterfaceProof }) {
   return evaluationMaterializationRuntime.buildBranchArtifacts({
     need,
     needMeasurement,
+    needReview,
     benchmarkTarget,
     branchMode,
     branchName,
@@ -5812,8 +5851,21 @@ export function runMakeBitcodeBranch(state, input = {}) {
     promptCompletenessProof,
     inferenceMomentContracts,
     parsedCompletionEnvelopes,
-    parsedCompletionEnvelopeArtifact
+    parsedCompletionEnvelopeArtifact,
+    reviewableNeed
   } = needMeasurement;
+  const needReview = reviewNeedForFitSearch(reviewableNeed, {
+    action: 'accept',
+    actorId: 'bitcode-system:need-review',
+    decisionMode: 'deterministic-fifth-gate-local-review'
+  });
+  if (!needReview.fitSearchAdmission?.admitted) {
+    throw new Error('Bitcode fit search cannot proceed before the measured Need is accepted for source-to-shares review.');
+  }
+  const reviewedNeedMeasurement = {
+    ...needMeasurement,
+    needReview
+  };
   const evaluatedCandidates = evaluateCandidates(need, state.assets, policyState);
   const assetPack = assembleAssetPack(need, evaluatedCandidates, branchMode);
   const selectedCandidates = evaluatedCandidates.filter((/** @type {any} */ candidate) => assetPack.selectedAssets.includes(candidate.assetId));
@@ -5890,6 +5942,7 @@ export function runMakeBitcodeBranch(state, input = {}) {
     assetPack,
     selectedCandidates,
     verificationReport,
+    needReview,
     settlementPreview: settlement.settlementPreview,
     journalDiff: settlement.journalDiff
   });
@@ -6015,6 +6068,7 @@ export function runMakeBitcodeBranch(state, input = {}) {
   const settlementSourceToSharesProof = buildSettlementSourceToSharesProof(
     settlement.sourceToSharesArtifact,
     settlement.settlementParticipationArtifact,
+    settlement.settlementPreview,
     settlement.accountingPrecisionReport,
     journalCompletenessProof,
     settlementProof
@@ -6059,6 +6113,7 @@ export function runMakeBitcodeBranch(state, input = {}) {
     materializationProof,
     materializationExclusions,
     materializationVisibilityProof,
+    settlementPreview: settlement.settlementPreview,
     sourceToSharesArtifact: settlement.sourceToSharesArtifact,
     settlementParticipationArtifact: settlement.settlementParticipationArtifact,
     accountingPrecisionReport: settlement.accountingPrecisionReport,
@@ -6115,7 +6170,8 @@ export function runMakeBitcodeBranch(state, input = {}) {
   );
   let branchArtifacts = buildBranchArtifacts({
     need,
-    needMeasurement,
+    needMeasurement: reviewedNeedMeasurement,
+    needReview,
     benchmarkTarget,
     branchMode,
     branchName,
@@ -6289,6 +6345,7 @@ export function runMakeBitcodeBranch(state, input = {}) {
     materializationProof,
     materializationExclusions,
     materializationVisibilityProof: finalizedMaterializationVisibilityProof,
+    settlementPreview: settlement.settlementPreview,
     sourceToSharesArtifact: settlement.sourceToSharesArtifact,
     settlementParticipationArtifact: settlement.settlementParticipationArtifact,
     accountingPrecisionReport: settlement.accountingPrecisionReport,
@@ -6526,6 +6583,7 @@ export function runMakeBitcodeBranch(state, input = {}) {
       materializationProof,
       materializationExclusions,
       materializationVisibilityProof: finalizedMaterializationVisibilityProof,
+      settlementPreview: settlement.settlementPreview,
       sourceToSharesArtifact: settlement.sourceToSharesArtifact,
       settlementParticipationArtifact: settlement.settlementParticipationArtifact,
       accountingPrecisionReport: settlement.accountingPrecisionReport,
@@ -6647,6 +6705,7 @@ export function runMakeBitcodeBranch(state, input = {}) {
       materializationProof,
       materializationExclusions,
       materializationVisibilityProof: finalizedMaterializationVisibilityProof,
+      settlementPreview: settlement.settlementPreview,
       sourceToSharesArtifact: settlement.sourceToSharesArtifact,
       settlementParticipationArtifact: settlement.settlementParticipationArtifact,
       accountingPrecisionReport: settlement.accountingPrecisionReport,
@@ -6798,7 +6857,8 @@ export function runMakeBitcodeBranch(state, input = {}) {
   });
   branchArtifacts = buildBranchArtifacts({
     need,
-    needMeasurement,
+    needMeasurement: reviewedNeedMeasurement,
+    needReview,
     benchmarkTarget,
     branchMode,
     branchName,
@@ -6941,7 +7001,8 @@ export function runMakeBitcodeBranch(state, input = {}) {
     depositingSurface,
     needingSurface,
     depositingToNeedingSurface,
-    needMeasurement,
+    needMeasurement: reviewedNeedMeasurement,
+    needReview,
     benchmarkTarget,
     benchmarkParserContract,
     canonicalBenchmarkOutputs,

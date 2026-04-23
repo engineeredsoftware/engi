@@ -1,16 +1,15 @@
 /**
  * @doc-comment-developing-promptpartdevelopment
  * domain: examples
- * intent: "Example showing basic content extraction"
- * current_version: "GA1.00.0"
+ * intent: "Bitcode source content retrieval documentation example"
+ * current_version: "V26"
  * versions: []
  * benchmarks: [
- *   { "name": "basic_usage", "test": "Does '{{content}}' demonstrate simple URL content extraction? Rate 0-1" },
- *   { "name": "common_scenario", "test": "Does '{{content}}' represent a typical documentation retrieval? Rate 0-1" }
+ *   { "name": "source_example", "test": "Example retrieves a cited source for evidence", "score": 1.00 }
  * ]
  */
 
 import type { PromptPart } from '../../parts/PromptPart';
 
-export const PROMPTPART_SPECIFIC_TOOL_GETCONTENTS_DOCCODETOOLEXAMPLE1: PromptPart = 
-  'Example 1 - Extract documentation page: getContents({ url: "https://docs.example.com/api/guide", format: "markdown" })' as PromptPart;
+export const PROMPTPART_SPECIFIC_TOOL_GETCONTENTS_DOCCODETOOLEXAMPLE1: PromptPart =
+  'Example 1 - Retrieve official source: getContents({ url: "https://docs.example.org/protocol/settlement", format: "markdown", options: { includeMetadata: true } })' as PromptPart;

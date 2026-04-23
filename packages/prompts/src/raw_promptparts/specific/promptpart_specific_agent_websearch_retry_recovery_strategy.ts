@@ -1,16 +1,15 @@
 /**
  * @doc-comment-developing-promptpartdevelopment
  * domain: agent
- * intent: "Agent-specific semantic unit (PROMPTPART_SPECIFIC_AGENT_WEBSEARCH_RETRY_RECOVERY_STRATEGY)"
- * current_version: "GA1.50.0"
+ * intent: "Bitcode need-synthesis web search retry strategy"
+ * current_version: "V26"
  * versions: []
  * benchmarks: [
- *   { "name": "technical_accuracy", "test": "Uses concrete technical language", "score": 0.50 },
- *   { "name": "implementation_ready", "test": "Provides clear actionable guidance", "score": 0.50 }
+ *   { "name": "recovery_boundary", "test": "Retries search without inventing unsupported conclusions", "score": 1.00 }
  * ]
  */
 
 import type { PromptPart } from '../../parts/PromptPart';
 
-export const PROMPTPART_SPECIFIC_AGENT_WEBSEARCH_RETRY_RECOVERY_STRATEGY: PromptPart = 
-  'Provide concrete, domain‑appropriate content for this specific prompt segment. Use precise, operational language and ensure it integrates coherently with adjacent prompt parts.' as PromptPart;
+export const PROMPTPART_SPECIFIC_AGENT_WEBSEARCH_RETRY_RECOVERY_STRATEGY: PromptPart =
+  'Retry by narrowing source classes, changing query phrasing, checking official domains, or reducing depth; if evidence remains weak, return unresolved gaps for downstream Bitcode owners.' as PromptPart;

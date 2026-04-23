@@ -167,6 +167,8 @@ Required coverage posture:
 
 Required system families:
 - minimum-functional Exchange/Terminal read-write closure
+- post-measurement pre-fit Need review with accept/reject/remeasure-with-feedback admission
+- present-fit-for-settlement-review surfaces with quantized source-to-shares fit qualities carried into settlement receipts
 - environment/debug coherence
 - production/staging/development mode completeness
 - migration/schema/type/API closure for retained storage systems
@@ -175,12 +177,13 @@ Required system families:
 - active-source product naming retirement
 - fifth-gate closure witnesses for retained app/package/runtime carriers
 - proof-bearing closure for newly admitted application, API, MCP, prompt, ChatGPT-app, and retained package systems at the same standard as the earlier proved Bitcode core
+- protocol proof closure for `.bitcode/need-review.json`, `.bitcode/settlement-preview.json`, `.bitcode/source-to-shares.json`, settlement AssetPack fit-quality receipts, and `settlement_source_to_shares.quantized_fit_quality_receipting`
 
 Required coverage posture:
 - spec:
   final closure conditions are explicit
 - tests:
-  mode behavior, naming-retirement witnesses, and closure gates are exercised
+  mode behavior, naming-retirement witnesses, pre-fit need review, quantized fit-quality receipting, and closure gates are exercised
 - proof surface:
   generated V26 proof appendix and reports become fifth-gate blockers
 
@@ -864,6 +867,11 @@ Required closure posture:
   `protocol-demonstration/test/v26-web-researcher-agent-compatibility.test.js`
   proof surface:
   fifth-gate retained agent-package closure so the old web-researcher corridor is admitted only as Bitcode discovery-phase need-synthesis web research with canonical aliases, V26 prompt metadata, TS/JS package-runtime and PromptPart carry-through, source-attributed schemas, local compatibility tests, and auxiliary source-context semantics
+- `packages/generic-agents/web-search/{package.json,README.md,src/index.*,src/prompts/*}`, `packages/generic-tools/web-search/{README.md,src/index.*,src/prompts/*}`, and `packages/prompts/src/raw_promptparts/specific/{promptpart_specific_agent_websearch_*,promptpart_specific_agent_web_search_*,promptpart_specific_tool_websearch_*,promptpart_specific_tool_getcontents_*,promptpart_specific_tool_multiprovidersearch_*,promptpart_specific_tool_websearchtool_*}`
+  test coverage:
+  `protocol-demonstration/test/v26-web-search-support-compatibility.test.js`
+  proof surface:
+  fifth-gate retained lower-level search-tool closure so old web-search compatibility carriers are admitted only as source-attributed discovery-phase need-synthesis evidence support with V26 prompt metadata, DocCode tool prompt injection, TS/JS PromptPart carry-through, source-quality/volatility/proof-boundary wording, and canonical `bitcodeNeedSynthesisWebSearch` ownership
 - `uapi/{config/features.ts,app/hero-client.tsx,app/(root)/components/MarketingScreenshotSection.tsx,styles/conversations.css,styles/orbital.css,components/base/bitcode/layout/footer.tsx,app/fill-gaps.tsx,tests/footerPublicShell.test.tsx}`
   test coverage:
   `uapi/tests/footerPublicShell.test.tsx`, targeted `next lint`, and `protocol-demonstration/test/v26-active-product-naming.test.js`

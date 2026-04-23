@@ -78,6 +78,10 @@ import {
   SOURCE_CONTRIBUTION_ENTRY_KIND
 } from '../settlement-structs.js';
 
+const BITCODE_PROTOCOL_FOCUS = 'source-to-shares';
+const SOURCE_TO_SHARES_FIT_QUALITY_OC_ID = 'bitcode.source-to-shares.quantized-fit-quality-oc.v26';
+const PRESENT_FIT_FOR_SETTLEMENT_REVIEW_STAGE = 'present-fit-for-settlement-review';
+
 /**
  * @param {{
  *   METERED_MICRO_UNITS: string,
@@ -133,6 +137,95 @@ export function createSettlementRuntime({
    */
   function ledgerRoot(accounts) {
     return stableHashObject(accounts);
+  }
+
+  /**
+   * @param {{
+   *   bundleShareScoreUnits: bigint,
+   *   scoreScale: string,
+   *   componentShareScoreUnits: {
+   *     averageRankingUnits: bigint,
+   *     failureModeCoverageUnits: bigint,
+   *     constraintCoverageUnits: bigint,
+   *     touchedPathCoverageUnits: bigint
+   *   },
+   *   coveredNeedEvidence: Record<string, unknown>,
+   *   bundleScoreHash: string
+   * }} bundleScore
+   */
+  function buildQuantizedSourceToSharesFitQualities(bundleScore) {
+    const qualities = [
+      {
+        qualityId: 'average-ranking-fit',
+        label: 'Average candidate ranking fit',
+        weightBp: 6000,
+        quantizedUnits: bundleScore.componentShareScoreUnits.averageRankingUnits.toString(),
+        quantizedDecimal: fixedPointUnitsToString(bundleScore.componentShareScoreUnits.averageRankingUnits),
+        evidenceClass: 'candidate-ranking'
+      },
+      {
+        qualityId: 'failure-mode-coverage-fit',
+        label: 'Failure mode coverage fit',
+        weightBp: 2000,
+        quantizedUnits: bundleScore.componentShareScoreUnits.failureModeCoverageUnits.toString(),
+        quantizedDecimal: fixedPointUnitsToString(bundleScore.componentShareScoreUnits.failureModeCoverageUnits),
+        evidenceClass: 'measured-need-failure-modes'
+      },
+      {
+        qualityId: 'constraint-coverage-fit',
+        label: 'Constraint coverage fit',
+        weightBp: 1000,
+        quantizedUnits: bundleScore.componentShareScoreUnits.constraintCoverageUnits.toString(),
+        quantizedDecimal: fixedPointUnitsToString(bundleScore.componentShareScoreUnits.constraintCoverageUnits),
+        evidenceClass: 'measured-need-constraints'
+      },
+      {
+        qualityId: 'touched-path-coverage-fit',
+        label: 'Touched path coverage fit',
+        weightBp: 1000,
+        quantizedUnits: bundleScore.componentShareScoreUnits.touchedPathCoverageUnits.toString(),
+        quantizedDecimal: fixedPointUnitsToString(bundleScore.componentShareScoreUnits.touchedPathCoverageUnits),
+        evidenceClass: 'measured-need-touched-paths'
+      },
+      {
+        qualityId: 'bundle-share-score',
+        label: 'Weighted source-to-shares bundle fit',
+        weightBp: 10000,
+        quantizedUnits: bundleScore.bundleShareScoreUnits.toString(),
+        quantizedDecimal: fixedPointUnitsToString(bundleScore.bundleShareScoreUnits),
+        evidenceClass: 'source-to-shares-weighted-objective'
+      }
+    ];
+
+    return {
+      objectiveContractId: SOURCE_TO_SHARES_FIT_QUALITY_OC_ID,
+      protocolFocus: BITCODE_PROTOCOL_FOCUS,
+      reviewStage: PRESENT_FIT_FOR_SETTLEMENT_REVIEW_STAGE,
+      scoreScale: bundleScore.scoreScale,
+      quantization: {
+        denomination: 'fixed-point-source-to-shares-score-units',
+        scale: bundleScore.scoreScale,
+        qualityWeightsBp: {
+          averageRanking: 6000,
+          failureModeCoverage: 2000,
+          constraintCoverage: 1000,
+          touchedPathCoverage: 1000
+        }
+      },
+      qualities,
+      coveredNeedEvidence: bundleScore.coveredNeedEvidence,
+      bundleScoreHash: bundleScore.bundleScoreHash,
+      fitQualityHash: stableHashObject({
+        objectiveContractId: SOURCE_TO_SHARES_FIT_QUALITY_OC_ID,
+        scoreScale: bundleScore.scoreScale,
+        qualities: qualities.map((quality) => ({
+          qualityId: quality.qualityId,
+          quantizedUnits: quality.quantizedUnits,
+          weightBp: quality.weightBp
+        })),
+        bundleScoreHash: bundleScore.bundleScoreHash
+      })
+    };
   }
 
   /**
@@ -356,6 +449,7 @@ export function createSettlementRuntime({
    */
   function buildSourceToSharesArtifact(need, settlementCandidates) {
     const fullBundleScore = scoreSourceBundleForShares(need, settlementCandidates);
+    const quantizedFitQualities = buildQuantizedSourceToSharesFitQualities(fullBundleScore);
     const sourceContributionEntries = settlementCandidates.map((candidate) => {
       const bundleWithoutCandidate = scoreSourceBundleForShares(
         need,
@@ -418,8 +512,10 @@ export function createSettlementRuntime({
     const rawShareByAssetId = new Map(normalizedShares.map((entry) => [entry.assetId, entry]));
     return {
       needId: need.needId,
+      protocolFocus: BITCODE_PROTOCOL_FOCUS,
       conformanceProfile: PROFILE_A,
       productionIntentProfile: PROFILE_B,
+      quantizedObjectiveContractId: SOURCE_TO_SHARES_FIT_QUALITY_OC_ID,
       scoreScale: SOURCE_TO_SHARES_SCALE.toString(),
       bundleShareScoreWeightsBp: {
         averageRanking: 6000,
@@ -437,6 +533,7 @@ export function createSettlementRuntime({
         ),
         coveredNeedEvidence: fullBundleScore.coveredNeedEvidence
       },
+      quantizedFitQualities,
       sourceContributionEntries: sourceContributionEntries.map((entry) => ({
         entryKind: entry.entryKind,
         assetId: entry.assetId,
@@ -863,22 +960,53 @@ export function createSettlementRuntime({
     const bundleId = `bundle_${sha256(`${need.needId}:${assetPack.assetPackId}:${branchMode}`).slice(0, 12)}`;
     const issuanceReceiptId = `receipt_${sha256(`${bundleId}:issuance`).slice(0, 12)}`;
     const allocationReceiptId = `receipt_${sha256(`${bundleId}:allocation`).slice(0, 12)}`;
+    const fitQualityReceiptId = `receipt_${sha256(`${bundleId}:fit-quality`).slice(0, 12)}`;
+    const fitQualityReceiptPayload = {
+      assetPackId: assetPack.assetPackId,
+      sourceToSharesRef: sourceToSharesArtifact.proofHash,
+      quantizedObjectiveContractId: SOURCE_TO_SHARES_FIT_QUALITY_OC_ID,
+      quantizedFitQualities: sourceToSharesArtifact.quantizedFitQualities
+    };
     const receipts = [
       {
         receiptId: issuanceReceiptId,
         receiptKind: 'issuance',
         bundleId,
         needId: need.needId,
+        assetPackId: assetPack.assetPackId,
+        protocolFocus: BITCODE_PROTOCOL_FOCUS,
+        presentStage: PRESENT_FIT_FOR_SETTLEMENT_REVIEW_STAGE,
+        sourceToSharesRef: sourceToSharesArtifact.proofHash,
+        quantizedObjectiveContractId: SOURCE_TO_SHARES_FIT_QUALITY_OC_ID,
+        quantizedFitQualities: sourceToSharesArtifact.quantizedFitQualities,
         meteredMicroUnits: METERED_MICRO_UNITS,
-        receiptHash: stableHashObject({ bundleId, needId: need.needId, kind: 'issuance' })
+        receiptHash: stableHashObject({ bundleId, needId: need.needId, kind: 'issuance', ...fitQualityReceiptPayload })
       },
       {
         receiptId: allocationReceiptId,
         receiptKind: 'allocation',
         bundleId,
         needId: need.needId,
+        assetPackId: assetPack.assetPackId,
+        protocolFocus: BITCODE_PROTOCOL_FOCUS,
+        presentStage: PRESENT_FIT_FOR_SETTLEMENT_REVIEW_STAGE,
+        sourceToSharesRef: sourceToSharesArtifact.proofHash,
+        quantizedObjectiveContractId: SOURCE_TO_SHARES_FIT_QUALITY_OC_ID,
+        quantizedFitQualities: sourceToSharesArtifact.quantizedFitQualities,
         allocations,
-        receiptHash: stableHashObject({ bundleId, needId: need.needId, kind: 'allocation', allocations })
+        receiptHash: stableHashObject({ bundleId, needId: need.needId, kind: 'allocation', allocations, ...fitQualityReceiptPayload })
+      },
+      {
+        receiptId: fitQualityReceiptId,
+        receiptKind: 'settlement-asset-pack-fit-quality',
+        bundleId,
+        needId: need.needId,
+        assetPackId: assetPack.assetPackId,
+        protocolFocus: BITCODE_PROTOCOL_FOCUS,
+        presentStage: PRESENT_FIT_FOR_SETTLEMENT_REVIEW_STAGE,
+        settlementCandidateAssetIds: settlementCandidates.map((candidate) => candidate.assetId),
+        ...fitQualityReceiptPayload,
+        receiptHash: stableHashObject({ bundleId, needId: need.needId, kind: 'settlement-asset-pack-fit-quality', ...fitQualityReceiptPayload })
       }
     ];
 
@@ -982,11 +1110,25 @@ export function createSettlementRuntime({
       needId: need.needId,
       bundleId,
       branchMode,
+      protocolFocus: BITCODE_PROTOCOL_FOCUS,
+      reviewStage: PRESENT_FIT_FOR_SETTLEMENT_REVIEW_STAGE,
       conformanceProfile: PROFILE_A,
       productionIntentProfile: PROFILE_B,
       selectedAssetIds: selectedCandidates.map((candidate) => candidate.assetId),
       rawShares,
       settledShares,
+      quantizedObjectiveContractId: SOURCE_TO_SHARES_FIT_QUALITY_OC_ID,
+      quantizedFitQualities: sourceToSharesArtifact.quantizedFitQualities,
+      presentFitForSettlementReview: {
+        stageId: PRESENT_FIT_FOR_SETTLEMENT_REVIEW_STAGE,
+        protocolFocus: BITCODE_PROTOCOL_FOCUS,
+        objectiveContractId: SOURCE_TO_SHARES_FIT_QUALITY_OC_ID,
+        sourceToSharesRef: sourceToSharesArtifact.proofHash,
+        assetPackId: assetPack.assetPackId,
+        settlementCandidateAssetIds: settlementCandidates.map((candidate) => candidate.assetId),
+        fitQualities: sourceToSharesArtifact.quantizedFitQualities,
+        receiptRefs: [issuanceReceiptId, allocationReceiptId, fitQualityReceiptId]
+      },
       meteredMicroUnits: METERED_MICRO_UNITS,
       settlementParticipatingAssetIds: settlementCandidates.map((candidate) => candidate.assetId),
       creditedAssetIds,

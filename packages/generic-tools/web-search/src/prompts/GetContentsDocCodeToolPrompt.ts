@@ -13,14 +13,14 @@ import { PROMPTPART_SPECIFIC_TOOL_GETCONTENTS_DOCCODETOOLEXAMPLE1 } from '@bitco
 import { PROMPTPART_SPECIFIC_TOOL_GETCONTENTS_DOCCODETOOLEXAMPLE2 } from '@bitcode/prompts/raw_promptparts/specific/promptpart_specific_tool_getcontents_doccodetoolexample2';
 import { PROMPTPART_SPECIFIC_TOOL_GETCONTENTS_DOCCODETOOLEXAMPLE3 } from '@bitcode/prompts/raw_promptparts/specific/promptpart_specific_tool_getcontents_doccodetoolexample3';
 /**
- * GET CONTENTS DOC-CODE-TOOL PROMPT
+ * BITCODE SOURCE CONTENT RETRIEVAL DOC-CODE-TOOL PROMPT
  * 
  * @doc-comment-developing-promptdevelopment
  * versions: []
  * domain: tool
- * intent: "Web content retrieval tool for comprehensive page content extraction"
+ * intent: "Bitcode discovery-phase source content retrieval for need-synthesis evidence"
  * 
- * Structured DocCodeToolPrompt for content retrieval tool runtime documentation.
+ * Structured DocCodeToolPrompt for source content retrieval used by Bitcode need synthesis.
  */
 
 import { DocCodeToolPrompt } from '@bitcode/tools-generics';
@@ -45,7 +45,7 @@ import { PromptPart } from '@bitcode/prompts/parts/PromptPart';
 
 
 /**
- * Get Contents tool-specific DocCodeToolPrompt
+ * Get Contents tool-specific DocCodeToolPrompt for cited source evidence.
  */
 export class GetContentsDocCodeToolPrompt extends DocCodeToolPrompt {
   constructor() {
@@ -61,8 +61,8 @@ export class GetContentsDocCodeToolPrompt extends DocCodeToolPrompt {
     
     // Set metadata directly
     this.set('metadata:name', PROMPTPART_SPECIFIC_TOOL_GETCONTENTS_DOCCODETOOLNAME);
-    this.set('metadata:category', 'web-scraping' as PromptPart);
-    this.set('metadata:version', 'GA1.00.0' as PromptPart);
+    this.set('metadata:category', 'bitcode-source-content-retrieval' as PromptPart);
+    this.set('metadata:version', 'V26' as PromptPart);
     this.set('metadata:priority', 'medium' as PromptPart);
     this.set('metadata:stability', 'stable' as PromptPart);
     
@@ -72,7 +72,7 @@ export class GetContentsDocCodeToolPrompt extends DocCodeToolPrompt {
     this.setParameters(PROMPTPART_SPECIFIC_TOOL_GETCONTENTS_DOCCODETOOLPARAMETERS);
     this.setOutput(PROMPTPART_SPECIFIC_TOOL_GETCONTENTS_DOCCODETOOLOUTPUT);
     
-    // Add examples - these demonstrate common and diverse uses
+    // Add examples scoped to Bitcode source evidence retrieval.
     this.set('examples:1', PROMPTPART_SPECIFIC_TOOL_GETCONTENTS_DOCCODETOOLEXAMPLE1);
     this.set('examples:2', PROMPTPART_SPECIFIC_TOOL_GETCONTENTS_DOCCODETOOLEXAMPLE2);
     this.set('examples:3', PROMPTPART_SPECIFIC_TOOL_GETCONTENTS_DOCCODETOOLEXAMPLE3);

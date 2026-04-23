@@ -9,11 +9,11 @@ import { PROMPTPART_SPECIFIC_AGENT_WEBSEARCH_PLAN_SEARCH_STRATEGY } from '@bitco
 /**
  * @doc-comment-developing-promptdevelopment
  * domain: agent
- * intent: "Plan step for Web Search agent: analyze query and select search strategy"
- * current_version: "GA1.50.0"
+ * intent: "Bitcode need-synthesis web search plan prompt for source selection and query scope"
+ * current_version: "V26"
  * dependencies: {
- *   "PROMPTPART_SPECIFIC_AGENT_WEBSEARCH_PLAN_QUERY_ANALYSIS": "GA1.00.0",
- *   "PROMPTPART_SPECIFIC_AGENT_WEBSEARCH_PLAN_SEARCH_STRATEGY": "GA1.00.0"
+ *   "PROMPTPART_SPECIFIC_AGENT_WEBSEARCH_PLAN_QUERY_ANALYSIS": "V26",
+ *   "PROMPTPART_SPECIFIC_AGENT_WEBSEARCH_PLAN_SEARCH_STRATEGY": "V26"
  * }
  * benchmarks: [
  *   { "name": "technical_accuracy", "test": "Concrete directives and purpose", "score": 0.46 },

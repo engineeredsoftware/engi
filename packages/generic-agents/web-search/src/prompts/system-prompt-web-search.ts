@@ -9,17 +9,15 @@ import { PROMPTPART_SPECIFIC_AGENT_WEB_SEARCH_SYSTEM_IDENTITY } from '@bitcode/p
 import { PROMPTPART_SPECIFIC_AGENT_WEB_SEARCH_SYSTEM_ROLE } from '@bitcode/prompts/raw_promptparts/specific/promptpart_specific_agent_web_search_system_role';
 import { PROMPTPART_SPECIFIC_AGENT_WEB_SEARCH_SYSTEM_INSTRUCTIONS } from '@bitcode/prompts/raw_promptparts/specific/promptpart_specific_agent_web_search_system_instructions';
 /**
- * Web Search Agent - System Prompt
+ * Bitcode Need-Synthesis Web Search Agent - System Prompt
  * 
- * System-level configuration for web-search operations.
+ * System-level configuration for discovery-phase web-search evidence support.
  * 
  * @doc-comment-developing-promptdevelopment
  * domain: agent
- * intent: "System prompt for Web Search agent"
- * current_version: "GA1.50.0"
- * versions: [
- *   { "version": "1.0.0", "score": 0.45, "reason": "Initial implementation with industrial language" }
- * ]
+ * intent: "Bitcode need-synthesis web search system prompt"
+ * current_version: "V26"
+ * versions: []
  * benchmarks: [
  *   { "name": "system_coherence", "test": "Does the system prompt provide coherent instructions?", "score": 0.45 },
  *   { "name": "completeness", "test": "Does it cover all requirements?", "score": 0.45 },

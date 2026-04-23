@@ -1,16 +1,15 @@
 /**
  * @doc-comment-developing-promptpartdevelopment
  * domain: examples
- * intent: "Example showing basic web search query"
- * current_version: "GA1.00.0"
+ * intent: "Bitcode need-synthesis web search basic example"
+ * current_version: "V26"
  * versions: []
  * benchmarks: [
- *   { "name": "basic_usage", "test": "Does '{{content}}' demonstrate simple search usage? Rate 0-1" },
- *   { "name": "common_scenario", "test": "Does '{{content}}' represent a typical search use case? Rate 0-1" }
+ *   { "name": "bitcode_example", "test": "Example searches for a Bitcode need-synthesis question", "score": 1.00 }
  * ]
  */
 
 import type { PromptPart } from '../../parts/PromptPart';
 
-export const PROMPTPART_SPECIFIC_TOOL_WEBSEARCH_DOCCODETOOLEXAMPLE1: PromptPart = 
-  'Example 1 - Basic search: search({ query: "machine learning best practices 2024" })' as PromptPart;
+export const PROMPTPART_SPECIFIC_TOOL_WEBSEARCH_DOCCODETOOLEXAMPLE1: PromptPart =
+  'Example 1 - Bitcode source search: search({ query: "official protocol documentation settlement finality proof requirements", options: { limit: 10, sourceScope: "primary-first" } })' as PromptPart;

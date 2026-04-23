@@ -1,17 +1,15 @@
 /**
  * @doc-comment-developing-promptpartdevelopment
  * domain: parameters
- * intent: "Parameters description for get contents tool"
- * current_version: "GA1.00.0"
+ * intent: "Bitcode source content retrieval parameters"
+ * current_version: "V26"
  * versions: []
  * benchmarks: [
- *   { "name": "parameter_clarity", "test": "Does '{{content}}' clearly describe URL parameter? Rate 0-1" },
- *   { "name": "format_options", "test": "Does '{{content}}' explain format selection? Rate 0-1" },
- *   { "name": "option_coverage", "test": "Does '{{content}}' mention additional options? Rate 0-1" }
+ *   { "name": "parameter_scope", "test": "Parameters are scoped to source evidence retrieval", "score": 1.00 }
  * ]
  */
 
 import type { PromptPart } from '../../parts/PromptPart';
 
-export const PROMPTPART_SPECIFIC_TOOL_GETCONTENTS_DOCCODETOOLPARAMETERS: PromptPart = 
-  'url: string (required) - Target webpage URL to extract content from; format: "markdown"|"html"|"text" (optional) - Desired output format; options: object (optional) - Additional extraction options including timeout, headers, and content filters' as PromptPart;
+export const PROMPTPART_SPECIFIC_TOOL_GETCONTENTS_DOCCODETOOLPARAMETERS: PromptPart =
+  'url: string (required) - cited source URL to retrieve; format: "markdown"|"html"|"text" (optional) - desired evidence format; options: object (optional) - timeout, headers, metadata, link extraction, and content filters' as PromptPart;

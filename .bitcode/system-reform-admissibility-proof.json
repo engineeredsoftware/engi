@@ -1,8 +1,8 @@
 {
   "reportId": "v26-system-reform-admissibility-proof",
   "version": "V26",
-  "proofSourceCommit": "f362262eb40c72529a0d07a7796a8ee6df0fcbc4",
-  "generatedAt": "2026-04-23T18:33:02-03:00",
+  "proofSourceCommit": "a83b2abb1ebe136d478ff98c285bd220dee11f53",
+  "generatedAt": "2026-04-23T18:55:59-03:00",
   "generatorId": "bitcode.proven-generator.v1",
   "worktreeState": "dirty-preview",
   "passed": true,
@@ -11,7 +11,7 @@
     "ingress-only": 1,
     "compatibility-only": 1,
     "reference-only": 3,
-    "ingress-or-support": 1,
+    "ingress-or-support": 2,
     "auxiliary-input": 1
   },
   "reformClasses": [
@@ -138,6 +138,21 @@
       "missingFiles": [],
       "reformClass": "auxiliary-input",
       "livePathRole": "External search/research context may enrich admitted interfaces without becoming Bitcode Terminal or Exchange truth."
+    },
+    {
+      "checkId": "danger-wall-risk-admission-boundary",
+      "label": "Retained danger-wall carrier is Bitcode need/AssetPack risk admission",
+      "passed": true,
+      "detail": "4 required files present",
+      "requiredFiles": [
+        "packages/generic-agents/danger-wall/README.md",
+        "packages/generic-agents/danger-wall/src/index.ts",
+        "packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_dangerwall_purpose_corestatement.ts",
+        "protocol-demonstration/test/v26-danger-wall-agent-compatibility.test.js"
+      ],
+      "missingFiles": [],
+      "reformClass": "ingress-or-support",
+      "livePathRole": "Danger-wall compatibility may admit, block, or require manual review before a retained pipeline phase proceeds, but it does not own canonical need, proof, mutation, delivery, or product semantics."
     }
   ]
 }

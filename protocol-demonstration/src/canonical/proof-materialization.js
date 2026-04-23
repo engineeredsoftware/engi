@@ -387,7 +387,7 @@ function buildProofWitnessManifest({
     { path: '.bitcode/sensitive-data-flow-proof.json', digest: sensitiveDataFlowProof?.proofHash || stableHashObject({ missing: 'sensitive-data-flow-proof' }), proofFamilies: ['authorization-and-sensitive-flow'] },
     { path: '.bitcode/authorization-and-sensitive-flow-proof.json', digest: authorizationAndSensitiveFlowProof?.proofHash || stableHashObject({ missing: 'authorization-and-sensitive-flow-proof' }), proofFamilies: ['authorization-and-sensitive-flow'] },
     { path: '.bitcode/source-to-shares.json', digest: sourceToSharesArtifact.proofHash, proofFamilies: ['settlement-source-to-shares'] },
-    { path: '.bitcode/settlement-preview.json', digest: stableHashObject(settlementPreview || {}), proofFamilies: ['bitcoin-settlement-interface'] },
+    { path: '.bitcode/settlement-preview.json', digest: stableHashObject(settlementPreview || {}), proofFamilies: ['settlement-source-to-shares', 'bitcoin-settlement-interface'] },
     { path: '.bitcode/settlement-participation.json', digest: settlementParticipationArtifact.proofHash, proofFamilies: ['settlement-source-to-shares'] },
     { path: '.bitcode/accounting-precision-report.json', digest: accountingPrecisionReport.reportHash, proofFamilies: ['settlement-source-to-shares'] },
     { path: '.bitcode/journal-diff.json', digest: stableHashObject(journalDiff || {}), proofFamilies: ['settlement-source-to-shares'] },
@@ -469,8 +469,8 @@ function buildProofWitnessManifest({
       },
       {
         proofFamily: 'settlement-source-to-shares',
-        witnessArtifactPaths: ['.bitcode/source-to-shares.json', '.bitcode/settlement-participation.json', '.bitcode/accounting-precision-report.json', '.bitcode/journal-diff.json', '.bitcode/journal-completeness-proof.json', '.bitcode/settlement-proof.json', '.bitcode/settlement-source-to-shares-proof.json'],
-        witnessRefs: [sourceToSharesArtifact.proofHash, settlementParticipationArtifact.proofHash, accountingPrecisionReport.reportHash, journalCompletenessProof.proofHash, settlementProof?.proofHash, settlementSourceToSharesProof?.proofHash]
+        witnessArtifactPaths: ['.bitcode/source-to-shares.json', '.bitcode/settlement-participation.json', '.bitcode/settlement-preview.json', '.bitcode/accounting-precision-report.json', '.bitcode/journal-diff.json', '.bitcode/journal-completeness-proof.json', '.bitcode/settlement-proof.json', '.bitcode/settlement-source-to-shares-proof.json'],
+        witnessRefs: [sourceToSharesArtifact.proofHash, settlementParticipationArtifact.proofHash, stableHashObject(settlementPreview || {}), accountingPrecisionReport.reportHash, journalCompletenessProof.proofHash, settlementProof?.proofHash, settlementSourceToSharesProof?.proofHash]
       },
       {
         proofFamily: 'disclosure-boundary',

@@ -14,11 +14,11 @@ import { PROMPTPART_GENERIC_AGENT_GENERATION_STRUCTURED_OUTPUT } from '@bitcode/
 /**
  * @doc-comment-developing-promptdevelopment
  * domain: agent
- * intent: "Agent-level prompt for Web Search (identity and documentation)"
- * current_version: "GA1.45.0"
+ * intent: "Bitcode need-synthesis web search compatibility prompt for source-attributed discovery evidence"
+ * current_version: "V26"
  * dependencies: {
- *   "PROMPTPART_SPECIFIC_AGENT_WEBSEARCH_PURPOSE_CORESTATEMENT": "GA1.00.0",
- *   "PROMPTPART_SPECIFIC_AGENT_WEBSEARCH_CAPABILITIES_LIST": "GA1.00.0"
+ *   "PROMPTPART_SPECIFIC_AGENT_WEBSEARCH_PURPOSE_CORESTATEMENT": "V26",
+ *   "PROMPTPART_SPECIFIC_AGENT_WEBSEARCH_CAPABILITIES_LIST": "V26"
  * }
  * benchmarks: [
  *   { "name": "technical_accuracy", "test": "Concrete agent identity and scope", "score": 0.46 },
@@ -26,9 +26,9 @@ import { PROMPTPART_GENERIC_AGENT_GENERATION_STRUCTURED_OUTPUT } from '@bitcode/
  * ]
  * 
  * @doc-code-prompt
- * purpose: Define structured documentation for Web Search agent
+ * purpose: Define structured documentation for Bitcode need-synthesis web search support
  * agent: web-search
- * pattern: Web discovery with data-driven optimization
+ * pattern: Source-attributed discovery evidence for need synthesis
  */
 
 import { AgentPrompt } from '@bitcode/agent-generics';
@@ -42,10 +42,10 @@ import { AgentPrompt } from '@bitcode/agent-generics';
 
 export const WEB_SEARCH_AGENT_PROMPT = new AgentPrompt({
   // Metadata
-  name: 'Web Search Agent',
-  category: 'Web Research',
-  version: '1.0.0',
-  specificity: 'Generic',
+  name: 'Bitcode Need-Synthesis Web Search Agent',
+  category: 'Bitcode Discovery Evidence',
+  version: 'V26',
+  specificity: 'Bitcode-compatible',
   
   // Core documentation
   purpose: PROMPTPART_SPECIFIC_AGENT_WEBSEARCH_PURPOSE_CORESTATEMENT,

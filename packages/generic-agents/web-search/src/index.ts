@@ -1,200 +1,122 @@
 /**
- * Web Search Agent - Declarative Pattern
- * 
- * This agent uses the CORRECT declarative pattern:
- * - Define schemas for each PTRR step
- * - Define prompts for agent and each step
- * - Let factories handle ALL execution
- * - No manual step implementations needed!
+ * Bitcode Need-Synthesis Web Search Agent - retained compatibility package.
+ *
+ * The retained `web-search` package name is a compatibility carrier. V26
+ * semantics are bounded discovery-phase web search for Bitcode need synthesis:
+ * collect source-attributed external evidence, score source quality, surface
+ * volatility, and hand unresolved questions to downstream need/proof owners.
+ * This package does not own canonical need interpretation, proof generation,
+ * mutation, delivery, Exchange product behavior, or Terminal product behavior.
  */
 
-import { 
-   
+import {
+  AgentPrompt,
+  AgentStepPrompt,
   factoryAgentWithPTRR,
   factoryAgentWithSingleStep
 } from '@bitcode/agent-generics';
-import { AgentPrompt, AgentStepPrompt } from '@bitcode/agent-generics';
 import type { PromptPart } from '@bitcode/prompts/parts/PromptPart';
+import {
+  getContents,
+  multiProviderSearch,
+  search,
+  searchWithUrlIntelligence
+} from '@bitcode/generic-tools-web-search';
 import { z } from 'zod';
 
-// ==================== TOOLS ====================
-// Tools this agent can use for web searching
-import { webSearchTool } from '@bitcode/generic-tools-web-search';
-import { webScrapingTool } from '@bitcode/generic-tools/web-scraping';
-import { urlValidationTool } from '@bitcode/generic-tools/url-validation';
-
-// ==================== INPUT SCHEMA ====================
-const WebSearchInputSchema = z.object({
-  query: z.string().describe('Search query to execute'),
-  searchType: z.enum(['general', 'academic', 'news', 'images', 'videos']).default('general'),
+export const BitcodeNeedSynthesisWebSearchInputSchema = z.object({
+  need: z.string().describe('Bitcode need or proof gap requiring external source context'),
+  query: z.string().optional().describe('Compatibility search query when the caller has not separated need from query text'),
+  sourceScope: z.enum(['primary-first', 'official-first', 'broad-context']).default('primary-first'),
   maxResults: z.number().min(1).max(50).default(10),
   dateFilter: z.enum(['any', 'day', 'week', 'month', 'year']).default('any'),
-  domainFilter: z.string().optional().describe('Specific domain to search within'),
-  language: z.string().default('en').describe('Search language preference'),
-  safeSearch: z.boolean().default(true).describe('Enable safe search filtering'),
-  includeSnippets: z.boolean().default(true).describe('Include result snippets'),
-  searchDepth: z.enum(['surface', 'deep']).default('surface')
-});
+  domainFilter: z.string().optional().describe('Specific source domain to inspect when need synthesis is source-constrained'),
+  language: z.string().default('en').describe('Preferred source language'),
+  includeSnippets: z.boolean().default(true).describe('Include snippets as traceable source-attributed context'),
+  evidenceDepth: z.enum(['surface', 'moderate', 'deep']).default('surface'),
+  requirePrimarySources: z.boolean().default(true).describe('Prefer primary, official, standards, repository, or protocol-owner sources'),
+  urlAttachments: z.array(z.string()).optional().describe('URLs used only to improve need-synthesis search targeting')
+}).describe('BitcodeNeedSynthesisWebSearchInput');
 
-// ==================== PLAN STEP SCHEMA ====================
-const WebSearchPlanSchema = z.object({
-  // Search strategy
-  searchStrategy: z.object({
-    approach: z.string().describe('How to execute the search'),
-    searchType: z.enum(['general', 'academic', 'news', 'images', 'videos']),
-    queryAnalysis: z.object({
-      primaryKeywords: z.array(z.string()),
-      secondaryKeywords: z.array(z.string()),
-      searchIntent: z.enum(['informational', 'navigational', 'transactional', 'commercial'])
-    })
-  }),
-  
-  // Search configuration
-  searchConfiguration: z.object({
-    engines: z.array(z.string()).describe('Search engines to use'),
-    filters: z.object({
-      dateRange: z.string().optional(),
-      domain: z.string().optional(),
-      language: z.string(),
-      safeSearch: z.boolean()
-    }),
-    resultLimits: z.object({
-      maxResults: z.number(),
-      qualityThreshold: z.number()
-    })
-  }),
-  
-  // Expected results
-  expectedOutcome: z.object({
-    relevanceTargets: z.array(z.string()),
-    contentTypes: z.array(z.string()),
-    estimatedResults: z.number()
-  }),
-  
-  // Tool planning
-  useTools: z.array(z.object({
-    name: z.string(),
-    input: z.any(),
-    reason: z.string()
-  })).optional().describe('Tools to use in plan phase'),
-  
-  // Success tracking
+export const BitcodeNeedSynthesisWebSearchToolRequestSchema = z.object({
+  name: z.string(),
+  input: z.any(),
+  reason: z.string()
+}).describe('BitcodeNeedSynthesisWebSearchToolRequest');
+
+export const BitcodeNeedSynthesisWebSearchResultSchema = z.object({
+  title: z.string(),
+  url: z.string().url(),
+  snippet: z.string(),
+  domain: z.string(),
+  publishDate: z.string().optional(),
+  provider: z.string().optional(),
+  sourceClass: z.enum(['primary', 'official', 'standard', 'repository', 'paper', 'vendor', 'commentary', 'unknown']),
+  relevanceScore: z.number().min(0).max(1),
+  sourceQualityScore: z.number().min(0).max(1),
+  evidenceUse: z.string().describe('How this result may support Bitcode need synthesis without becoming proof by itself')
+}).describe('BitcodeNeedSynthesisWebSearchResult');
+
+export const BitcodeNeedSynthesisWebSearchPlanSchema = z.object({
+  normalizedNeed: z.string(),
+  plannedQueries: z.array(z.string()),
+  preferredSourceClasses: z.array(z.string()),
+  sourceSelectionRationale: z.array(z.string()),
+  volatilityQuestions: z.array(z.string()),
+  boundaryWarnings: z.array(z.string()),
+  useTools: z.array(BitcodeNeedSynthesisWebSearchToolRequestSchema).optional(),
   confidence: z.number().min(0).max(1),
   searchComplexity: z.enum(['simple', 'moderate', 'complex'])
-});
+}).describe('BitcodeNeedSynthesisWebSearchPlan');
 
-// ==================== TRY STEP SCHEMA ====================
-const WebSearchTrySchema = z.object({
-  // Core search execution
-  searchExecution: z.object({
-    queriesExecuted: z.array(z.string()),
-    enginesUsed: z.array(z.string()),
-    totalResultsFound: z.number(),
-    searchDuration: z.number()
-  }),
-  
-  // Raw search results
-  searchResults: z.array(z.object({
-    title: z.string(),
-    url: z.string().url(),
-    snippet: z.string(),
-    domain: z.string(),
-    publishDate: z.string().optional(),
-    source: z.string().describe('Search engine source'),
-    rawRelevanceScore: z.number().min(0).max(1)
-  })),
-  
-  // Initial processing
-  initialAnalysis: z.object({
-    domainDistribution: z.record(z.number()),
-    contentTypes: z.array(z.string()),
-    averageRelevance: z.number(),
-    duplicatesFound: z.number()
-  }),
-  
-  // Tool usage for searching
-  useTools: z.array(z.object({
-    name: z.string(),
-    input: z.any(),
+export const BitcodeNeedSynthesisWebSearchTrySchema = z.object({
+  attemptedQueries: z.array(z.string()),
+  enginesUsed: z.array(z.string()),
+  totalResultsFound: z.number(),
+  searchDuration: z.number(),
+  searchResults: z.array(BitcodeNeedSynthesisWebSearchResultSchema),
+  rejectedResults: z.array(z.object({
+    url: z.string(),
     reason: z.string()
-  })).optional().describe('Tools to use for web searching'),
-  
-  // Status
+  })).default([]),
+  useTools: z.array(BitcodeNeedSynthesisWebSearchToolRequestSchema).optional(),
   searchComplete: z.boolean(),
   errors: z.array(z.string()).optional()
-});
+}).describe('BitcodeNeedSynthesisWebSearchTry');
 
-// ==================== REFINE STEP SCHEMA ====================
-const WebSearchRefineSchema = z.object({
-  // Enhanced results
-  refinedResults: z.array(z.object({
-    title: z.string(),
-    url: z.string().url(),
-    snippet: z.string(),
-    enhancedSnippet: z.string().optional(),
-    domain: z.string(),
-    relevanceScore: z.number().min(0).max(1),
-    qualityScore: z.number().min(0).max(1),
-    credibilityScore: z.number().min(0).max(1),
-    freshness: z.enum(['very_fresh', 'fresh', 'recent', 'old', 'very_old']),
-    contentCategory: z.string()
-  })),
-  
-  // Quality improvements
-  qualityEnhancements: z.object({
-    duplicatesRemoved: z.number(),
-    lowQualityFiltered: z.number(),
-    snippetsEnhanced: z.number(),
-    relevanceImproved: z.number()
+export const BitcodeNeedSynthesisWebSearchRefineSchema = z.object({
+  refinedResults: z.array(BitcodeNeedSynthesisWebSearchResultSchema),
+  quality: z.object({
+    totalSources: z.number(),
+    primarySourceCount: z.number(),
+    averageSourceQuality: z.number(),
+    coverageBreadth: z.number(),
+    temporalRisk: z.enum(['low', 'medium', 'high', 'unknown'])
   }),
-  
-  // Content analysis
-  contentAnalysis: z.object({
-    topDomains: z.array(z.string()),
-    contentThemes: z.array(z.string()),
-    informationGaps: z.array(z.string()),
-    qualityAssessment: z.string()
+  synthesisSupport: z.object({
+    needRelevance: z.array(z.string()),
+    sourceBackedClaims: z.array(z.string()),
+    contradictions: z.array(z.string()),
+    unresolvedGaps: z.array(z.string())
   }),
-  
-  // Refinement tools
-  useTools: z.array(z.object({
-    name: z.string(),
-    input: z.any(),
-    reason: z.string()
-  })).optional().describe('Tools for refinement'),
-  
-  // Improvements made
-  refinements: z.array(z.string()),
-  confidence: z.number()
-});
+  proofBoundaryWarnings: z.array(z.string()),
+  useTools: z.array(BitcodeNeedSynthesisWebSearchToolRequestSchema).optional(),
+  confidence: z.number().min(0).max(1)
+}).describe('BitcodeNeedSynthesisWebSearchRefine');
 
-// ==================== RETRY STEP SCHEMA ====================
-const WebSearchRetrySchema = z.object({
-  // Final comprehensive results
+export const BitcodeNeedSynthesisWebSearchRetrySchema = z.object({
   searchResults: z.object({
-    topResults: z.array(z.object({
-      title: z.string(),
-      url: z.string().url(),
-      snippet: z.string(),
-      domain: z.string(),
-      relevanceScore: z.number().min(0).max(1),
-      qualityScore: z.number().min(0).max(1),
-      publishDate: z.string().optional()
-    })),
+    topResults: z.array(BitcodeNeedSynthesisWebSearchResultSchema),
     totalResults: z.number(),
     searchSummary: z.string(),
     keyInsights: z.array(z.string())
   }),
-  
-  // Search analysis
   searchAnalysis: z.object({
     queryEffectiveness: z.number().min(0).max(1),
     resultsDiversity: z.number().min(0).max(1),
-    informationCompleteness: z.number().min(0).max(1),
+    sourceCoverage: z.number().min(0).max(1),
     sourceCredibility: z.number().min(0).max(1)
   }),
-  
-  // Metadata and performance
   searchMetadata: z.object({
     searchDuration: z.number(),
     enginesUsed: z.array(z.string()),
@@ -202,70 +124,59 @@ const WebSearchRetrySchema = z.object({
     finalResultCount: z.number(),
     confidenceScore: z.number().min(0).max(1)
   }),
-  
-  // Recommendations
-  recommendations: z.array(z.string()),
-  nextSteps: z.array(z.string()).optional(),
-  
-  // Recovery tools if needed
-  useTools: z.array(z.object({
-    name: z.string(),
-    input: z.any(),
-    reason: z.string()
-  })).optional().describe('Recovery tools if retry needed'),
-  
-  // Overall success
+  downstreamNeedSynthesisActions: z.array(z.string()),
+  proofBoundaryWarnings: z.array(z.string()),
+  useTools: z.array(BitcodeNeedSynthesisWebSearchToolRequestSchema).optional(),
   success: z.boolean(),
   completionMessage: z.string()
+}).describe('BitcodeNeedSynthesisWebSearchRetry');
+
+export const WebSearchInputSchema = BitcodeNeedSynthesisWebSearchInputSchema;
+export const WebSearchPlanSchema = BitcodeNeedSynthesisWebSearchPlanSchema;
+export const WebSearchTrySchema = BitcodeNeedSynthesisWebSearchTrySchema;
+export const WebSearchRefineSchema = BitcodeNeedSynthesisWebSearchRefineSchema;
+export const WebSearchRetrySchema = BitcodeNeedSynthesisWebSearchRetrySchema;
+
+export const bitcodeNeedSynthesisWebSearchPrompt = new AgentPrompt({
+  name: 'bitcode-need-synthesis-web-search' as PromptPart,
+  identity: 'Bitcode discovery-phase web search support for need synthesis' as PromptPart
 });
 
-// ==================== PROMPTS ====================
-
-export const webSearchPrompt = new AgentPrompt({
-  name: 'web-search' as PromptPart,
-  identity: 'Web search specialist' as PromptPart
-});
-
-export const webSearchStepPrompts = {
-  plan: new AgentStepPrompt({ purpose: 'Analyze search strategy' as PromptPart }),
-  try: new AgentStepPrompt({ purpose: 'Execute web search' as PromptPart }),
-  refine: new AgentStepPrompt({ purpose: 'Enhance search results' as PromptPart }),
-  retry: new AgentStepPrompt({ purpose: 'Finalize search output' as PromptPart })
+export const bitcodeNeedSynthesisWebSearchStepPrompts = {
+  plan: new AgentStepPrompt({ purpose: 'Plan source-bounded web search for Bitcode need synthesis' as PromptPart }),
+  try: new AgentStepPrompt({ purpose: 'Collect source-attributed external evidence without claiming proof closure' as PromptPart }),
+  refine: new AgentStepPrompt({ purpose: 'Refine search results into source quality, volatility, and need-relevance context' as PromptPart }),
+  retry: new AgentStepPrompt({ purpose: 'Finalize web-search evidence support and expose unresolved downstream questions' as PromptPart })
 };
 
-// ==================== AGENT CONFIGURATION ====================
+export const webSearchPrompt = bitcodeNeedSynthesisWebSearchPrompt;
+export const webSearchStepPrompts = bitcodeNeedSynthesisWebSearchStepPrompts;
 
-/**
- * Comprehensive web search agent
- * Uses full PTRR cycle for thorough search and analysis
- */
-const comprehensiveSearch = factoryAgentWithPTRR<
-  z.infer<typeof WebSearchInputSchema>,
-  z.infer<typeof WebSearchRetrySchema>
+const bitcodeNeedSynthesisWebSearchAgent = factoryAgentWithPTRR<
+  z.infer<typeof BitcodeNeedSynthesisWebSearchInputSchema>,
+  z.infer<typeof BitcodeNeedSynthesisWebSearchRetrySchema>
 >({
-  name: 'comprehensive-search',
-  description: 'Full web search with deep analysis and result refinement',
-  prompt: webSearchPrompt,
+  name: 'bitcode-need-synthesis-web-search',
+  description: 'Discovery-phase web search for source-attributed Bitcode need-synthesis evidence',
+  prompt: bitcodeNeedSynthesisWebSearchPrompt,
   stepPrompts: {
-    plan: () => webSearchStepPrompts.plan,
-    try: () => webSearchStepPrompts.try,
-    refine: () => webSearchStepPrompts.refine,
-    retry: () => webSearchStepPrompts.retry
+    plan: () => bitcodeNeedSynthesisWebSearchStepPrompts.plan,
+    try: () => bitcodeNeedSynthesisWebSearchStepPrompts.try,
+    refine: () => bitcodeNeedSynthesisWebSearchStepPrompts.refine,
+    retry: () => bitcodeNeedSynthesisWebSearchStepPrompts.retry
   },
-  
-  // The factories use these schemas to:
-  // 1. Create typed executors for each step
-  // 2. Run the 7-substep sequence automatically
-  // 3. Store all results to execution state
-  // 4. Handle tool execution when useTools is present
-  outputSchema: WebSearchRetrySchema,
-  
-  // Optional configurations per step
+  tools: [
+    search,
+    searchWithUrlIntelligence,
+    multiProviderSearch,
+    getContents
+  ],
+  outputSchema: BitcodeNeedSynthesisWebSearchRetrySchema,
   plan: {
-    chunkThreshold: 500  // Search plans are typically small
+    chunkThreshold: 500
   },
   try: {
-    chunkThreshold: 20000,  // Search results can be large
+    chunkThreshold: 20000,
     enableParallelChunks: true
   },
   refine: {
@@ -277,97 +188,56 @@ const comprehensiveSearch = factoryAgentWithPTRR<
   }
 });
 
-/**
- * Quick search agent
- * Single-step execution for simple search tasks
- */
-const quickSearch = factoryAgentWithSingleStep<
-  z.infer<typeof WebSearchInputSchema>,
-  z.infer<typeof WebSearchRetrySchema>
+const quickBitcodeNeedSynthesisWebSearchAgent = factoryAgentWithSingleStep<
+  z.infer<typeof BitcodeNeedSynthesisWebSearchInputSchema>,
+  z.infer<typeof BitcodeNeedSynthesisWebSearchRetrySchema>
 >({
-  name: 'quick-search',
-  description: 'Fast web search for immediate results',
-  
-  // Single executor - still runs through execution system
+  name: 'quick-bitcode-need-synthesis-web-search',
+  description: 'Fast compatibility web-search evidence support for Bitcode need synthesis',
   execute: async (input, execution) => {
-    // This executor is wrapped and tracked automatically
-    execution.store('variation', 'mode', 'quick');
-    
-    // Even simple variations can use the execution's registries
-    const llm = execution.llms.getDefaultLLM();
-    const searchTool = execution.tools.getTool('web-search');
-    
-    // Quick search logic here
-    // Return matches the Retry schema for consistency
+    execution.store('variation', 'mode', 'quick-bitcode-need-synthesis-web-search');
+
     return {
       searchResults: {
         topResults: [],
         totalResults: 0,
-        searchSummary: `Quick search for: ${input.query}`,
-        keyInsights: ['Quick search completed - use comprehensive search for detailed results']
+        searchSummary: `Quick Bitcode need-synthesis web search queued for: ${input.need || input.query || 'unspecified need'}`,
+        keyInsights: ['Quick mode records the search need; use PTRR mode for source-attributed evidence.']
       },
       searchAnalysis: {
-        queryEffectiveness: 0.7,
-        resultsDiversity: 0.5,
-        informationCompleteness: 0.6,
-        sourceCredibility: 0.7
+        queryEffectiveness: 0.5,
+        resultsDiversity: 0,
+        sourceCoverage: 0,
+        sourceCredibility: 0
       },
       searchMetadata: {
-        searchDuration: 500,
-        enginesUsed: ['quick-search'],
-        totalQueries: 1,
+        searchDuration: 0,
+        enginesUsed: ['quick-compatibility-placeholder'],
+        totalQueries: input.query ? 1 : 0,
         finalResultCount: 0,
-        confidenceScore: 0.7
+        confidenceScore: 0.5
       },
-      recommendations: ['Use comprehensive search for better results'],
+      downstreamNeedSynthesisActions: ['Run full Bitcode need-synthesis web search before relying on external evidence.'],
+      proofBoundaryWarnings: ['Quick web-search output is not source-attributed proof evidence.'],
       success: true,
-      completionMessage: 'Quick web search completed'
+      completionMessage: 'Quick Bitcode need-synthesis web search compatibility output completed'
     };
   }
 });
 
-// ==================== AGENT DEFINITION ====================
+export const bitcodeNeedSynthesisWebSearch = bitcodeNeedSynthesisWebSearchAgent;
+export const quickBitcodeNeedSynthesisWebSearch = quickBitcodeNeedSynthesisWebSearchAgent;
+export const webSearch = bitcodeNeedSynthesisWebSearchAgent;
+export const quickWebSearch = quickBitcodeNeedSynthesisWebSearchAgent;
 
-/**
- * Web Search Agent - Default PTRR implementation
- * Main agent using comprehensive web search
- * This uses the factoryAgentWithPTRR pattern for full web search capabilities.
- */
-export const webSearch = comprehensiveSearch;
+export type BitcodeNeedSynthesisWebSearchInput = z.infer<typeof BitcodeNeedSynthesisWebSearchInputSchema>;
+export type BitcodeNeedSynthesisWebSearchPlanOutput = z.infer<typeof BitcodeNeedSynthesisWebSearchPlanSchema>;
+export type BitcodeNeedSynthesisWebSearchTryOutput = z.infer<typeof BitcodeNeedSynthesisWebSearchTrySchema>;
+export type BitcodeNeedSynthesisWebSearchRefineOutput = z.infer<typeof BitcodeNeedSynthesisWebSearchRefineSchema>;
+export type BitcodeNeedSynthesisWebSearchRetryOutput = z.infer<typeof BitcodeNeedSynthesisWebSearchRetrySchema>;
 
-/**
- * Quick Web Search Agent - Simple version prefixed with "quick"
- * Fast web search for immediate results
- */
-export const quickWebSearch = quickSearch;
-
-// ==================== TYPE EXPORTS ====================
-export type WebSearchInput = z.infer<typeof WebSearchInputSchema>;
-export type WebSearchPlanOutput = z.infer<typeof WebSearchPlanSchema>;
-export type WebSearchTryOutput = z.infer<typeof WebSearchTrySchema>;
-export type WebSearchRefineOutput = z.infer<typeof WebSearchRefineSchema>;
-export type WebSearchRetryOutput = z.infer<typeof WebSearchRetrySchema>;
-
-/**
- * THE MAGIC EXPLAINED:
- * 
- * When webSearchAgent is called:
- * 1. selectVariation picks comprehensive or quick
- * 2. If comprehensive:
- *    - factoryPlanGeneration(schema) creates Plan generation (failsafed thricified)
- *    - factoryTryGeneration(schema) creates Try generation (failsafed thricified)
- *    - factoryRefineGeneration(schema) creates Refine generation (failsafed thricified)
- *    - factoryRetryGeneration(schema) creates Retry generation (failsafed thricified)
- * 3. Each executor automatically:
- *    - Runs PrepareConciseContext→ChunkThenSum→StitchUntilComplete
- *    - Each parent runs Reason→Judge→StructuredOutput
- *    - Stores everything to execution.store()
- *    - Executes tools if useTools is in output
- * 4. The execution tree accumulates:
- *    - Every LLM call result
- *    - Every tool execution
- *    - Every substep output
- *    - All in namespaced stores!
- * 
- * We just defined schemas - the framework does EVERYTHING else!
- */
+export type WebSearchInput = BitcodeNeedSynthesisWebSearchInput;
+export type WebSearchPlanOutput = BitcodeNeedSynthesisWebSearchPlanOutput;
+export type WebSearchTryOutput = BitcodeNeedSynthesisWebSearchTryOutput;
+export type WebSearchRefineOutput = BitcodeNeedSynthesisWebSearchRefineOutput;
+export type WebSearchRetryOutput = BitcodeNeedSynthesisWebSearchRetryOutput;

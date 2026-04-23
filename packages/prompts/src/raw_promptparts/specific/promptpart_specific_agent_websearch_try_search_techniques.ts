@@ -1,16 +1,15 @@
 /**
  * @doc-comment-developing-promptpartdevelopment
  * domain: agent
- * intent: "Agent-specific semantic unit (PROMPTPART_SPECIFIC_AGENT_WEBSEARCH_TRY_SEARCH_TECHNIQUES)"
- * current_version: "GA1.50.0"
+ * intent: "Bitcode need-synthesis web search techniques"
+ * current_version: "V26"
  * versions: []
  * benchmarks: [
- *   { "name": "technical_accuracy", "test": "Uses concrete technical language", "score": 0.50 },
- *   { "name": "implementation_ready", "test": "Provides clear actionable guidance", "score": 0.50 }
+ *   { "name": "technique_boundary", "test": "Techniques stay source-first and bounded", "score": 1.00 }
  * ]
  */
 
 import type { PromptPart } from '../../parts/PromptPart';
 
-export const PROMPTPART_SPECIFIC_AGENT_WEBSEARCH_TRY_SEARCH_TECHNIQUES: PromptPart = 
-  'Provide concrete, domain‑appropriate content for this specific prompt segment. Use precise, operational language and ensure it integrates coherently with adjacent prompt parts.' as PromptPart;
+export const PROMPTPART_SPECIFIC_AGENT_WEBSEARCH_TRY_SEARCH_TECHNIQUES: PromptPart =
+  'Use source-class filters, official-domain queries, date constraints, exact phrase checks, and URL content retrieval only when they improve traceable evidence for the current Bitcode need-synthesis question.' as PromptPart;

@@ -10,11 +10,11 @@ import { PROMPTPART_SPECIFIC_AGENT_WEBSEARCH_TRY_SEARCH_TECHNIQUES } from '@bitc
 /**
  * @doc-comment-developing-promptdevelopment
  * domain: agent
- * intent: "Try step for Web Search agent: execute search operations and retrieve information"
- * current_version: "GA1.50.0"
+ * intent: "Bitcode need-synthesis web search try prompt for collecting traceable external evidence"
+ * current_version: "V26"
  * dependencies: {
- *   "PROMPTPART_SPECIFIC_AGENT_WEBSEARCH_TRY_DIRECTIVES_INSTRUCTIONS": "GA1.00.0",
- *   "PROMPTPART_SPECIFIC_AGENT_WEBSEARCH_TRY_SEARCH_TECHNIQUES": "GA1.00.0"
+ *   "PROMPTPART_SPECIFIC_AGENT_WEBSEARCH_TRY_DIRECTIVES_INSTRUCTIONS": "V26",
+ *   "PROMPTPART_SPECIFIC_AGENT_WEBSEARCH_TRY_SEARCH_TECHNIQUES": "V26"
  * }
  * benchmarks: [
  *   { "name": "technical_accuracy", "test": "Concrete directives and purpose", "score": 0.46 },

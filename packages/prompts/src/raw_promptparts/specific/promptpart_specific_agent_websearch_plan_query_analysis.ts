@@ -1,16 +1,15 @@
 /**
  * @doc-comment-developing-promptpartdevelopment
  * domain: agent
- * intent: "Agent-specific semantic unit (PROMPTPART_SPECIFIC_AGENT_WEBSEARCH_PLAN_QUERY_ANALYSIS)"
- * current_version: "GA1.50.0"
+ * intent: "Bitcode need-synthesis web search query analysis"
+ * current_version: "V26"
  * versions: []
  * benchmarks: [
- *   { "name": "technical_accuracy", "test": "Uses concrete technical language", "score": 0.50 },
- *   { "name": "implementation_ready", "test": "Provides clear actionable guidance", "score": 0.50 }
+ *   { "name": "query_need_alignment", "test": "Requires queries to be derived from Bitcode need context", "score": 1.00 }
  * ]
  */
 
 import type { PromptPart } from '../../parts/PromptPart';
 
-export const PROMPTPART_SPECIFIC_AGENT_WEBSEARCH_PLAN_QUERY_ANALYSIS: PromptPart = 
-  'Provide concrete, domain‑appropriate content for this specific prompt segment. Use precise, operational language and ensure it integrates coherently with adjacent prompt parts.' as PromptPart;
+export const PROMPTPART_SPECIFIC_AGENT_WEBSEARCH_PLAN_QUERY_ANALYSIS: PromptPart =
+  'Analyze the Bitcode need, proof gap, interface constraint, or AssetPack planning question first; derive only the web queries needed to resolve external source context for discovery-phase need synthesis.' as PromptPart;

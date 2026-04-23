@@ -1,17 +1,15 @@
 /**
  * @doc-comment-developing-promptpartdevelopment
  * domain: tool
- * intent: "Purpose statement for multi-provider search tool"
- * current_version: "GA1.50.0"
+ * intent: "Bitcode multi-provider evidence search purpose"
+ * current_version: "V26"
  * versions: []
  * benchmarks: [
- *   { "name": "purpose_clarity", "test": "Does '{{content}}' clearly explain the tool's purpose? Rate 0-1", "score": 0.50 },
- *   { "name": "failover_mention", "test": "Does '{{content}}' indicate automatic failover capabilities? Rate 0-1", "score": 0.50 },
- *   { "name": "aggregation_clarity", "test": "Does '{{content}}' explain result aggregation across providers? Rate 0-1", "score": 0.50 }
+ *   { "name": "purpose_boundary", "test": "Purpose is evidence coverage, not search platform ownership", "score": 1.00 }
  * ]
  */
 
 import type { PromptPart } from '../../parts/PromptPart';
 
-export const PROMPTPART_SPECIFIC_TOOL_MULTIPROVIDERSEARCH_DOCCODETOOLPURPOSE: PromptPart = 
-  'Multi-provider search orchestration with automatic failover, result aggregation, and provider selection optimization for enterprise-grade information discovery' as PromptPart;
+export const PROMPTPART_SPECIFIC_TOOL_MULTIPROVIDERSEARCH_DOCCODETOOLPURPOSE: PromptPart =
+  'Search across providers to improve source coverage and corroboration for Bitcode discovery-phase need synthesis while keeping all results auxiliary to downstream proof and need owners' as PromptPart;

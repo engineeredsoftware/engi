@@ -552,6 +552,51 @@ export const V26_INFERENCE_IMPLEMENTATION_RECORDS = Object.freeze([
     ]
   },
   {
+    recordId: 'need-review-before-fit-search',
+    canonicalNeed: 'Review a synthesized Bitcode Need after measurement and before any candidate recall, fitting, AssetPack assembly, or source-to-shares settlement review proceeds.',
+    promptImplementation: {
+      owners: [
+        'protocol-demonstration/src/canonical/need-measurement.js',
+        'protocol-demonstration/src/canonical/prompting.js'
+      ],
+      rawPromptPartBoundary: 'Need review consumes the measured Need prompt outputs (`task`, `failureModes`, `constraints`, `targetArtifactKinds`, `closureCriteria`) and does not promote a separate prompt reservoir.',
+      registryLayering: 'Measured Need prompt surfaces remain the source-owned registry-bearing inference layer; the review artifact is a protocol admission boundary over those outputs, not another hidden prompt string.',
+      runtimeCarryThrough: 'The reviewable Need and accepted/rejected/remeasure-with-feedback decision are emitted into runtime branch artifacts before fit search.'
+    },
+    toolImplementation: {
+      owners: [],
+      contract: 'No external tool owns the review gate; source-to-shares fit search remains blocked unless the measured Need review admits it.'
+    },
+    agentImplementation: {
+      owners: [],
+      contract: 'No independent agent is promoted for fifth-gate; deterministic local review records the acceptance baseline and later gates may add operator/agent assistance without changing the artifact contract.'
+    },
+    executionImplementation: {
+      owners: [
+        'protocol-demonstration/src/bitcode-demo.js',
+        'protocol-demonstration/src/canonical/evaluation-materialization.js',
+        'protocol-demonstration/src/canonical/run-artifacts.js'
+      ],
+      carriers: ['.bitcode/need-review.json', 'pipeline-telemetry.need-review', 'branch-artifact-required-path']
+    },
+    assetPackImplementation: {
+      outputKind: 'pre-fit Need review artifact',
+      effect: 'The synthesized Need is accepted, rejected, or returned for remeasurement with feedback before candidate recall/ranking can produce an AssetPack.'
+    },
+    boundaryPosture: 'active',
+    verificationSet: [
+      'node --test protocol-demonstration/test/v26-need-review-source-to-shares.test.js',
+      '.bitcode/inference-implementation-records-proof.json'
+    ],
+    sourceEvidenceRefs: [
+      'protocol-demonstration/src/canonical/need-measurement.js',
+      'protocol-demonstration/src/canonical/evaluation-materialization.js',
+      'protocol-demonstration/src/canonical/run-artifacts.js',
+      'protocol-demonstration/src/bitcode-demo.js',
+      'protocol-demonstration/test/v26-need-review-source-to-shares.test.js'
+    ]
+  },
+  {
     recordId: 'external-evidence-research-support',
     canonicalNeed: 'Research the web during the discovery phase to support Bitcode need synthesis with source-attributed external evidence for need measurement, proof-gap question formation, third-party interface planning, and AssetPack planning without promoting web research into canonical need interpretation, proof, delivery, mutation, or product ownership.',
     promptImplementation: {
@@ -561,11 +606,20 @@ export const V26_INFERENCE_IMPLEMENTATION_RECORDS = Object.freeze([
         'packages/generic-agents/web-researcher/src/prompts/plan-prompt-web-researcher.ts',
         'packages/generic-agents/web-researcher/src/prompts/try-prompt-web-researcher.ts',
         'packages/generic-agents/web-researcher/src/prompts/refine-prompt-web-researcher.ts',
-        'packages/generic-agents/web-researcher/src/prompts/retry-prompt-web-researcher.ts'
+        'packages/generic-agents/web-researcher/src/prompts/retry-prompt-web-researcher.ts',
+        'packages/generic-agents/web-search/src/prompts/agent-prompt-web-search.ts',
+        'packages/generic-agents/web-search/src/prompts/system-prompt-web-search.ts',
+        'packages/generic-agents/web-search/src/prompts/plan-prompt-web-search.ts',
+        'packages/generic-agents/web-search/src/prompts/try-prompt-web-search.ts',
+        'packages/generic-agents/web-search/src/prompts/refine-prompt-web-search.ts',
+        'packages/generic-agents/web-search/src/prompts/retry-prompt-web-search.ts',
+        'packages/generic-tools/web-search/src/prompts/WebSearchDocCodeToolPrompt.ts',
+        'packages/generic-tools/web-search/src/prompts/GetContentsDocCodeToolPrompt.ts',
+        'packages/generic-tools/web-search/src/prompts/MultiProviderSearchDocCodeToolPrompt.ts'
       ],
-      rawPromptPartBoundary: 'Compatibility-named WEBRESEARCHER PromptParts implement Bitcode need-synthesis web research support while generic generation/failsafe PromptParts remain reusable base layers.',
-      registryLayering: 'Generic generation/failsafe PromptParts form base layers; specific WEBRESEARCHER PromptParts implement discovery-phase source context, source quality, volatility, proof-gap question, interface, need, and AssetPack evidence behavior through package-local Prompt registries.',
-      runtimeCarryThrough: 'Web-researcher PromptPart TypeScript and JavaScript must carry canonical Bitcode need-synthesis web research text.'
+      rawPromptPartBoundary: 'Compatibility-named WEBRESEARCHER, WEBSEARCH, WEB_SEARCH, WEBSEARCHTOOL, WEBSEARCH_DOCCODE, GETCONTENTS_DOCCODE, and MULTIPROVIDERSEARCH_DOCCODE PromptParts implement Bitcode need-synthesis web research/search support while generic generation/failsafe and doc-code label PromptParts remain reusable base layers.',
+      registryLayering: 'Generic generation/failsafe PromptParts form base layers; specific WEBRESEARCHER and WEBSEARCH PromptParts implement discovery-phase source context, source quality, volatility, proof-gap question, interface, need, and AssetPack evidence behavior through package-local Prompt registries; DocCodeToolPrompt wrappers bind the web-search, get-contents, and multi-provider tool descriptions into prompt-aware tool registries.',
+      runtimeCarryThrough: 'Web-researcher and web-search PromptPart TypeScript and JavaScript must carry canonical Bitcode need-synthesis web research/search text.'
     },
     toolImplementation: {
       owners: [
@@ -576,13 +630,15 @@ export const V26_INFERENCE_IMPLEMENTATION_RECORDS = Object.freeze([
     },
     agentImplementation: {
       owners: [
-        'packages/generic-agents/web-researcher/src/index.ts'
+        'packages/generic-agents/web-researcher/src/index.ts',
+        'packages/generic-agents/web-search/src/index.ts'
       ],
-      contract: 'bitcodeNeedSynthesisWebResearcher owns the PTRR discovery-phase web research agent; bitcodeExternalEvidenceResearcher and retained webResearcherAgent, webResearcherPrompt, webResearcherStepPrompts, and WEB_RESEARCH_AGENT.researchWeb names remain compatibility carriers.'
+      contract: 'bitcodeNeedSynthesisWebResearcher owns the PTRR discovery-phase web research agent; bitcodeNeedSynthesisWebSearch owns the retained lower-level web-search support agent; bitcodeExternalEvidenceResearcher and retained webResearcherAgent, webResearcherPrompt, webResearcherStepPrompts, WEB_RESEARCH_AGENT.researchWeb, webSearch, quickWebSearch, webSearchPrompt, and webSearchStepPrompts names remain compatibility carriers.'
     },
     executionImplementation: {
       owners: [
         'packages/generic-agents/web-researcher/src/index.ts',
+        'packages/generic-agents/web-search/src/index.ts',
         'packages/agent-generics/src/execution/AgentExecution.ts'
       ],
       carriers: ['AgentExecution compatibility entry', 'parent pipeline execution evidence']
@@ -594,6 +650,7 @@ export const V26_INFERENCE_IMPLEMENTATION_RECORDS = Object.freeze([
     boundaryPosture: 'admitted support',
     verificationSet: [
       'node --test protocol-demonstration/test/v26-web-researcher-agent-compatibility.test.js',
+      'node --test protocol-demonstration/test/v26-web-search-support-compatibility.test.js',
       'node --test protocol-demonstration/test/v26-inference-implementation-records.test.js',
       '.bitcode/inference-implementation-records-proof.json',
       '.bitcode/prompt-system-totality-proof.json'
@@ -608,6 +665,15 @@ export const V26_INFERENCE_IMPLEMENTATION_RECORDS = Object.freeze([
       'packages/generic-agents/web-researcher/src/prompts/try-prompt-web-researcher.ts',
       'packages/generic-agents/web-researcher/src/prompts/refine-prompt-web-researcher.ts',
       'packages/generic-agents/web-researcher/src/prompts/retry-prompt-web-researcher.ts',
+      'packages/generic-agents/web-search/README.md',
+      'packages/generic-agents/web-search/package.json',
+      'packages/generic-agents/web-search/src/index.ts',
+      'packages/generic-agents/web-search/src/prompts/agent-prompt-web-search.ts',
+      'packages/generic-agents/web-search/src/prompts/system-prompt-web-search.ts',
+      'packages/generic-agents/web-search/src/prompts/plan-prompt-web-search.ts',
+      'packages/generic-agents/web-search/src/prompts/try-prompt-web-search.ts',
+      'packages/generic-agents/web-search/src/prompts/refine-prompt-web-search.ts',
+      'packages/generic-agents/web-search/src/prompts/retry-prompt-web-search.ts',
       'packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_webresearcher_purpose_corestatement.ts',
       'packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_webresearcher_capabilities_list.ts',
       'packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_webresearcher_executionpattern_detailcontent.ts',
@@ -617,8 +683,27 @@ export const V26_INFERENCE_IMPLEMENTATION_RECORDS = Object.freeze([
       'packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_webresearcher_system_identity.ts',
       'packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_webresearcher_system_instructions.ts',
       'packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_webresearcher_system_role.ts',
+      'packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_websearch_purpose_corestatement.ts',
+      'packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_websearch_capabilities_list.ts',
+      'packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_websearch_executionpattern_detailcontent.ts',
+      'packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_websearch_ptrrsteps_list.ts',
+      'packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_websearch_tools_list.ts',
+      'packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_websearch_integration_detailcontent.ts',
+      'packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_websearch_system_identity.ts',
+      'packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_websearch_system_instructions.ts',
+      'packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_websearch_system_role.ts',
+      'packages/prompts/src/raw_promptparts/specific/promptpart_specific_tool_websearch_doccodetoolpurpose.ts',
+      'packages/prompts/src/raw_promptparts/specific/promptpart_specific_tool_websearch_doccodetoolcapabilities.ts',
+      'packages/prompts/src/raw_promptparts/specific/promptpart_specific_tool_getcontents_doccodetoolpurpose.ts',
+      'packages/prompts/src/raw_promptparts/specific/promptpart_specific_tool_multiprovidersearch_doccodetoolpurpose.ts',
+      'packages/prompts/src/raw_promptparts/specific/promptpart_specific_tool_websearchtool_purpose_corestatement.ts',
+      'packages/generic-tools/web-search/README.md',
       'packages/generic-tools/web-search/src/index.ts',
       'packages/web-search/src/index.ts',
+      'packages/generic-tools/web-search/src/prompts/WebSearchDocCodeToolPrompt.ts',
+      'packages/generic-tools/web-search/src/prompts/GetContentsDocCodeToolPrompt.ts',
+      'packages/generic-tools/web-search/src/prompts/MultiProviderSearchDocCodeToolPrompt.ts',
+      'protocol-demonstration/test/v26-web-search-support-compatibility.test.js',
       'protocol-demonstration/test/v26-web-researcher-agent-compatibility.test.js'
     ]
   },

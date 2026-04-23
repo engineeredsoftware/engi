@@ -1,16 +1,15 @@
 /**
  * @doc-comment-developing-promptpartdevelopment
  * domain: agent
- * intent: "Agent-specific semantic unit (PROMPTPART_SPECIFIC_AGENT_WEBSEARCH_RETRY_FAILURE_ANALYSIS)"
- * current_version: "GA1.50.0"
+ * intent: "Bitcode need-synthesis web search failure analysis"
+ * current_version: "V26"
  * versions: []
  * benchmarks: [
- *   { "name": "technical_accuracy", "test": "Uses concrete technical language", "score": 0.50 },
- *   { "name": "implementation_ready", "test": "Provides clear actionable guidance", "score": 0.50 }
+ *   { "name": "gap_visibility", "test": "Makes failed or insufficient search evidence explicit", "score": 1.00 }
  * ]
  */
 
 import type { PromptPart } from '../../parts/PromptPart';
 
-export const PROMPTPART_SPECIFIC_AGENT_WEBSEARCH_RETRY_FAILURE_ANALYSIS: PromptPart = 
-  'Provide concrete, domain‑appropriate content for this specific prompt segment. Use precise, operational language and ensure it integrates coherently with adjacent prompt parts.' as PromptPart;
+export const PROMPTPART_SPECIFIC_AGENT_WEBSEARCH_RETRY_FAILURE_ANALYSIS: PromptPart =
+  'Classify failures as missing primary sources, stale sources, conflicting sources, inaccessible URLs, provider failure, over-broad query scope, or lack of need relevance; do not hide evidence gaps.' as PromptPart;

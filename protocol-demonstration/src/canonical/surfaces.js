@@ -489,6 +489,7 @@ function buildRepoToSettlementSurface({
   const proofFamilyCount = proofWitnessManifest?.proofFamilies?.length || 0;
   const settlementParticipantCount = settlementPreview?.settlementParticipatingAssetIds?.length || 0;
   const creditedAssetCount = settlementPreview?.creditedAssetIds?.length || 0;
+  const fitQualityCount = settlementPreview?.quantizedFitQualities?.qualities?.length || 0;
   const realizationProfile = needingSurface.realizationProfile || buildRealizationProfile('A');
 
   return {
@@ -591,13 +592,15 @@ function buildRepoToSettlementSurface({
         label: 'Settlement',
         status: 'exact settlement preview closed',
         boundaryClass: ExecutionReality.EXECUTED_LOCAL,
-        summary: `Bundle ${settlementPreview?.bundleId || 'pending'} classifies ${settlementParticipantCount} settlement participant${settlementParticipantCount === 1 ? '' : 's'} and credits ${creditedAssetCount} asset${creditedAssetCount === 1 ? '' : 's'} in exact micro-units.`,
+        summary: `Bundle ${settlementPreview?.bundleId || 'pending'} classifies ${settlementParticipantCount} settlement participant${settlementParticipantCount === 1 ? '' : 's'}, presents ${fitQualityCount} quantized source-to-shares fit qualit${fitQualityCount === 1 ? 'y' : 'ies'}, and credits ${creditedAssetCount} asset${creditedAssetCount === 1 ? '' : 's'} in exact micro-units.`,
         refs: [settlementPreview?.bundleId, settlementPreview?.sourceToSharesRef, settlementPreview?.settlementParticipationRef].filter(Boolean),
         metrics: {
           bundleId: settlementPreview?.bundleId || 'pending',
           settlementParticipants: settlementParticipantCount,
           creditedAssets: creditedAssetCount,
-          zeroCreditParticipants: settlementPreview?.zeroCreditAssetIds?.length || 0
+          zeroCreditParticipants: settlementPreview?.zeroCreditAssetIds?.length || 0,
+          quantizedObjectiveContractId: settlementPreview?.quantizedObjectiveContractId || null,
+          fitQualityCount
         }
       }
     ]

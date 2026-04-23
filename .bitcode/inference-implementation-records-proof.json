@@ -1,12 +1,12 @@
 {
   "reportId": "v26-inference-implementation-records-proof",
   "version": "V26",
-  "proofSourceCommit": "f362262eb40c72529a0d07a7796a8ee6df0fcbc4",
-  "generatedAt": "2026-04-23T18:33:02-03:00",
+  "proofSourceCommit": "a83b2abb1ebe136d478ff98c285bd220dee11f53",
+  "generatedAt": "2026-04-23T18:55:59-03:00",
   "generatorId": "bitcode.proven-generator.v1",
   "worktreeState": "dirty-preview",
   "passed": true,
-  "recordCount": 10,
+  "recordCount": 11,
   "requiredFields": [
     "recordId",
     "canonicalNeed",
@@ -94,7 +94,7 @@
   ],
   "boundaryPostureCounts": {
     "active": 5,
-    "admitted support": 2,
+    "admitted support": 3,
     "compatibility": 2,
     "ingress": 1
   },
@@ -712,6 +712,85 @@
       "verificationEvidence": [
         {
           "value": "node --test protocol-demonstration/test/v26-web-researcher-agent-compatibility.test.js",
+          "evidenceType": "executable-command",
+          "refPath": null
+        },
+        {
+          "value": "node --test protocol-demonstration/test/v26-inference-implementation-records.test.js",
+          "evidenceType": "executable-command",
+          "refPath": null
+        },
+        {
+          "value": ".bitcode/inference-implementation-records-proof.json",
+          "evidenceType": "generated-artifact",
+          "refPath": ".bitcode/inference-implementation-records-proof.json"
+        },
+        {
+          "value": ".bitcode/prompt-system-totality-proof.json",
+          "evidenceType": "generated-artifact",
+          "refPath": ".bitcode/prompt-system-totality-proof.json"
+        }
+      ],
+      "verificationEvidenceTypeCounts": {
+        "executable-command": 2,
+        "generated-artifact": 2
+      },
+      "missingVerificationEvidenceRefs": [],
+      "declaredVerificationGaps": [],
+      "hasExecutableOrGeneratedVerificationEvidence": true,
+      "passed": true
+    },
+    {
+      "recordId": "need-risk-admission-support",
+      "canonicalNeed": "Admit or block the next Bitcode pipeline phase by evaluating a need, candidate written assets, AssetPack intent, proof/evidence gaps, private-data exposure, unsafe mutation risk, and delivery-mechanism fit without promoting the retained danger-wall corridor into canonical need, proof, mutation, delivery, or product ownership.",
+      "boundaryPosture": "admitted support",
+      "missingFields": [],
+      "invalidBoundaryPosture": null,
+      "missingSectionFields": [],
+      "implementationOwnerRefs": [
+        "packages/generic-agents/danger-wall/src/prompts/agent-prompt-danger-wall.ts",
+        "packages/generic-agents/danger-wall/src/prompts/system-prompt-dangerwall.ts",
+        "packages/generic-agents/danger-wall/src/prompts/plan-prompt-dangerwall.ts",
+        "packages/generic-agents/danger-wall/src/prompts/try-prompt-dangerwall.ts",
+        "packages/generic-agents/danger-wall/src/prompts/refine-prompt-dangerwall.ts",
+        "packages/generic-agents/danger-wall/src/prompts/retry-prompt-dangerwall.ts",
+        "packages/generic-agents/danger-wall/src/index.ts",
+        "packages/pipelines/deliverable/src/agents/setup/deliverable-pipeline-danger-wall-agent.ts",
+        "packages/agent-generics/src/execution/AgentExecution.ts"
+      ],
+      "missingImplementationOwnerRefs": [],
+      "sourceEvidenceRefs": [
+        "packages/generic-agents/danger-wall/README.md",
+        "packages/generic-agents/danger-wall/package.json",
+        "packages/generic-agents/danger-wall/src/index.ts",
+        "packages/generic-agents/danger-wall/src/prompts/agent-prompt-danger-wall.ts",
+        "packages/generic-agents/danger-wall/src/prompts/system-prompt-dangerwall.ts",
+        "packages/generic-agents/danger-wall/src/prompts/plan-prompt-dangerwall.ts",
+        "packages/generic-agents/danger-wall/src/prompts/try-prompt-dangerwall.ts",
+        "packages/generic-agents/danger-wall/src/prompts/refine-prompt-dangerwall.ts",
+        "packages/generic-agents/danger-wall/src/prompts/retry-prompt-dangerwall.ts",
+        "packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_dangerwall_purpose_corestatement.ts",
+        "packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_dangerwall_capabilities_list.ts",
+        "packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_dangerwall_executionpattern_detailcontent.ts",
+        "packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_dangerwall_ptrrsteps_list.ts",
+        "packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_dangerwall_tools_list.ts",
+        "packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_dangerwall_integration_detailcontent.ts",
+        "packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_dangerwall_system_identity.ts",
+        "packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_dangerwall_system_instructions.ts",
+        "packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_dangerwall_system_role.ts",
+        "packages/pipelines/deliverable/src/agents/setup/deliverable-pipeline-danger-wall-agent.ts",
+        "protocol-demonstration/test/v26-danger-wall-agent-compatibility.test.js"
+      ],
+      "missingSourceEvidenceRefs": [],
+      "verificationSet": [
+        "node --test protocol-demonstration/test/v26-danger-wall-agent-compatibility.test.js",
+        "node --test protocol-demonstration/test/v26-inference-implementation-records.test.js",
+        ".bitcode/inference-implementation-records-proof.json",
+        ".bitcode/prompt-system-totality-proof.json"
+      ],
+      "verificationEvidence": [
+        {
+          "value": "node --test protocol-demonstration/test/v26-danger-wall-agent-compatibility.test.js",
           "evidenceType": "executable-command",
           "refPath": null
         },
@@ -1413,6 +1492,78 @@
         "packages/generic-tools/web-search/src/index.ts",
         "packages/web-search/src/index.ts",
         "protocol-demonstration/test/v26-web-researcher-agent-compatibility.test.js"
+      ]
+    },
+    {
+      "recordId": "need-risk-admission-support",
+      "canonicalNeed": "Admit or block the next Bitcode pipeline phase by evaluating a need, candidate written assets, AssetPack intent, proof/evidence gaps, private-data exposure, unsafe mutation risk, and delivery-mechanism fit without promoting the retained danger-wall corridor into canonical need, proof, mutation, delivery, or product ownership.",
+      "promptImplementation": {
+        "owners": [
+          "packages/generic-agents/danger-wall/src/prompts/agent-prompt-danger-wall.ts",
+          "packages/generic-agents/danger-wall/src/prompts/system-prompt-dangerwall.ts",
+          "packages/generic-agents/danger-wall/src/prompts/plan-prompt-dangerwall.ts",
+          "packages/generic-agents/danger-wall/src/prompts/try-prompt-dangerwall.ts",
+          "packages/generic-agents/danger-wall/src/prompts/refine-prompt-dangerwall.ts",
+          "packages/generic-agents/danger-wall/src/prompts/retry-prompt-dangerwall.ts"
+        ],
+        "rawPromptPartBoundary": "Compatibility-named DANGERWALL PromptParts implement Bitcode need/AssetPack risk-admission support while generic generation/failsafe PromptParts remain reusable base layers.",
+        "registryLayering": "Generic generation/failsafe PromptParts form base layers; specific DANGERWALL PromptParts implement need, written-asset, AssetPack, proof-gap, private-data, mutation, delivery-wrapper, and manual-review admission behavior through package-local Prompt registries.",
+        "runtimeCarryThrough": "Danger-wall PromptPart TypeScript and JavaScript must carry canonical Bitcode risk-admission text."
+      },
+      "toolImplementation": {
+        "owners": [],
+        "contract": "No independent mutation, delivery, or proof-generation tool is admitted by this corridor; evidence tools may be requested only to resolve admission ambiguity before returning admit, block, or manual-review output."
+      },
+      "agentImplementation": {
+        "owners": [
+          "packages/generic-agents/danger-wall/src/index.ts"
+        ],
+        "contract": "bitcodeNeedRiskAdmissionAgent owns the PTRR risk-admission agent; retained dangerWall, quickDangerWall, dangerWallAgent, quickDangerWallAgent, and DANGER_WALL_AGENT names remain compatibility carriers."
+      },
+      "executionImplementation": {
+        "owners": [
+          "packages/generic-agents/danger-wall/src/index.ts",
+          "packages/pipelines/deliverable/src/agents/setup/deliverable-pipeline-danger-wall-agent.ts",
+          "packages/agent-generics/src/execution/AgentExecution.ts"
+        ],
+        "carriers": [
+          "AgentExecution compatibility entry",
+          "retained setup short-circuit signal",
+          "parent pipeline execution evidence"
+        ]
+      },
+      "assetPackImplementation": {
+        "outputKind": "need/AssetPack risk-admission evidence",
+        "effect": "Risk-admission findings can stop, admit, or require manual review before downstream need measurement, written-asset synthesis, proof closure, or delivery mechanisms continue."
+      },
+      "boundaryPosture": "admitted support",
+      "verificationSet": [
+        "node --test protocol-demonstration/test/v26-danger-wall-agent-compatibility.test.js",
+        "node --test protocol-demonstration/test/v26-inference-implementation-records.test.js",
+        ".bitcode/inference-implementation-records-proof.json",
+        ".bitcode/prompt-system-totality-proof.json"
+      ],
+      "sourceEvidenceRefs": [
+        "packages/generic-agents/danger-wall/README.md",
+        "packages/generic-agents/danger-wall/package.json",
+        "packages/generic-agents/danger-wall/src/index.ts",
+        "packages/generic-agents/danger-wall/src/prompts/agent-prompt-danger-wall.ts",
+        "packages/generic-agents/danger-wall/src/prompts/system-prompt-dangerwall.ts",
+        "packages/generic-agents/danger-wall/src/prompts/plan-prompt-dangerwall.ts",
+        "packages/generic-agents/danger-wall/src/prompts/try-prompt-dangerwall.ts",
+        "packages/generic-agents/danger-wall/src/prompts/refine-prompt-dangerwall.ts",
+        "packages/generic-agents/danger-wall/src/prompts/retry-prompt-dangerwall.ts",
+        "packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_dangerwall_purpose_corestatement.ts",
+        "packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_dangerwall_capabilities_list.ts",
+        "packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_dangerwall_executionpattern_detailcontent.ts",
+        "packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_dangerwall_ptrrsteps_list.ts",
+        "packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_dangerwall_tools_list.ts",
+        "packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_dangerwall_integration_detailcontent.ts",
+        "packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_dangerwall_system_identity.ts",
+        "packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_dangerwall_system_instructions.ts",
+        "packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_dangerwall_system_role.ts",
+        "packages/pipelines/deliverable/src/agents/setup/deliverable-pipeline-danger-wall-agent.ts",
+        "protocol-demonstration/test/v26-danger-wall-agent-compatibility.test.js"
       ]
     },
     {

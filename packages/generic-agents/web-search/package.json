@@ -4,6 +4,9 @@
   "main": "src/index.ts",
   "private": true,
   "dependencies": {
-    "@bitcode/agent-generics": "workspace:*"
+    "@bitcode/agent-generics": "workspace:*",
+    "@bitcode/generic-tools-web-search": "workspace:*",
+    "@bitcode/prompts": "workspace:*",
+    "zod": "^3.22.4"
   }
 }

@@ -1,16 +1,15 @@
 /**
  * @doc-comment-developing-promptpartdevelopment
  * domain: examples
- * intent: "Example showing urgent search with failover"
- * current_version: "GA1.00.0"
+ * intent: "Bitcode need-synthesis web search corroboration example"
+ * current_version: "V26"
  * versions: []
  * benchmarks: [
- *   { "name": "urgency_handling", "test": "Does '{{content}}' demonstrate urgent search configuration? Rate 0-1" },
- *   { "name": "resilience_features", "test": "Does '{{content}}' show failover and retry settings? Rate 0-1" }
+ *   { "name": "corroboration_example", "test": "Example requests provider corroboration for source coverage", "score": 1.00 }
  * ]
  */
 
 import type { PromptPart } from '../../parts/PromptPart';
 
-export const PROMPTPART_SPECIFIC_TOOL_WEBSEARCH_DOCCODETOOLEXAMPLE3: PromptPart = 
-  'Example 3 - Urgent resilient search: search({ query: "production outage kubernetes", options: { urgency: "high", retryCount: 3, fallbackProviders: true, timeout: 5000 } })' as PromptPart;
+export const PROMPTPART_SPECIFIC_TOOL_WEBSEARCH_DOCCODETOOLEXAMPLE3: PromptPart =
+  'Example 3 - Corroborated search: search({ query: "sidechain bridge proof verification current standard", options: { providers: ["exa", "semantic-scholar"], requirePrimarySources: true, limit: 12 } })' as PromptPart;

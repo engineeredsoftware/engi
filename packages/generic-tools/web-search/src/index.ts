@@ -1,25 +1,26 @@
 /**
- * WEB SEARCH TOOLS - GENERIC TOOL IMPLEMENTATIONS
+ * BITCODE NEED-SYNTHESIS WEB SEARCH TOOLS - retained compatibility package
  * 
- * Modern tool implementations with doc-prompt integration for runtime documentation.
- * Provides comprehensive web search and content retrieval capabilities.
+ * Tool implementations with doc-prompt integration for runtime documentation.
+ * V26 admits these tools only as discovery-phase external evidence support for
+ * Bitcode need synthesis. They can search, retrieve, and classify sources; they
+ * do not own proof closure, mutation, delivery, Exchange, or Terminal behavior.
  * 
- * @category Generic Tools
- * @priority High - Core search capabilities
+ * @category Bitcode Discovery Evidence Tools
+ * @priority High - Need-synthesis source evidence support
  * 
  * @doc-ptrr
- * version: 1.0.0
+ * version: V26
  * sentience: runtime
- * intelligence: ["web-search", "content-retrieval", "url-intelligence"]
- * philosophy: "Information wants to be found; tools make discovery possible."
+ * intelligence: ["need-synthesis-web-search", "source-attributed-evidence", "url-intelligence"]
+ * philosophy: "External web evidence supports Bitcode need synthesis; it is not proof by itself."
  * 
  * CAPABILITIES:
- * - Multi-provider search orchestration
- * - Intelligent content retrieval
+ * - Source-attributed multi-provider search
+ * - Bounded content retrieval for cited sources
  * - URL intelligence analysis
- * - Similarity detection
- * - Domain and technology analysis
- * - Production-grade resilience
+ * - Domain and source-class analysis
+ * - Provider health support for evidence collection
  */
 
 import { Tool } from '@bitcode/tools-generics';
@@ -74,9 +75,9 @@ export const findSimilar = factoryTool(
     return await _findSimilar(params.url, params.options);
   },
   {
-    description: `Find documents and content similar to a given URL or webpage.
-    This tool helps AI agents discover related content, similar solutions, or
-    comparable implementations by analyzing similarity to a reference URL.`
+    description: `Find documents and content similar to a given source URL for Bitcode need-synthesis evidence.
+    This tool may help identify related sources or corroborating references, but
+    it remains auxiliary evidence and must not assert proof closure.`
   }
 );
 
@@ -90,9 +91,9 @@ export const searchWithUrlIntelligence = factoryTool(
     return await _searchWithUrlIntelligence(params.query, params.urlAttachments, params.options);
   },
   {
-    description: `Perform enhanced web search that analyzes provided URL attachments to improve search strategy.
-    This tool helps AI agents leverage URL context to create more targeted and relevant searches
-    by understanding the technology stack, domain focus, and content patterns from URLs.`
+    description: `Perform Bitcode need-synthesis web search that uses URL attachments only to improve source targeting.
+    This tool gathers source-attributed external evidence for a declared need or
+    proof gap; it does not mutate state or decide canonical Bitcode meaning.`
   }
 );
 
@@ -116,9 +117,9 @@ export const productionMultiProviderSearch = factoryTool(
     return await _productionMultiProviderSearch(params.query, params.urlAttachments, params.options);
   },
   {
-    description: `Production-grade multi-provider search with advanced resilience features.
-    This tool provides enterprise-level search capabilities with circuit breakers,
-    rate limiting, comprehensive monitoring, and automatic recovery mechanisms.`
+    description: `Multi-provider search for Bitcode discovery-phase evidence collection.
+    Provider failover and resilience exist only to improve source coverage for
+    need synthesis; this is not an independent production search product.`
   }
 );
 
@@ -132,9 +133,9 @@ export const extractDomain = factoryTool(
     return await _extractDomain(params.url);
   },
   {
-    description: `Extract the domain name from a given URL.
-    This utility helps AI agents parse and extract domain information for analysis,
-    categorization, or filtering purposes.`
+    description: `Extract a domain name from a source URL.
+    This utility supports source attribution, domain filtering, and source-class
+    review for Bitcode need-synthesis evidence.`
   }
 );
 
@@ -144,9 +145,9 @@ export const extractUrlsFromText = factoryTool(
     return await _extractUrlsFromText(params.text);
   },
   {
-    description: `Extract all URLs found within a text string.
-    This tool helps AI agents identify and extract URL references from content,
-    documentation, or any text input for further analysis or processing.`
+    description: `Extract source URLs found in text.
+    This tool supports traceability for Bitcode external evidence and must not
+    turn arbitrary text into an unbounded crawling plan.`
   }
 );
 
@@ -156,9 +157,9 @@ export const classifyUrl = factoryTool(
     return await _classifyUrl(params.url);
   },
   {
-    description: `Classify a URL's type and extract metadata information.
-    This tool helps AI agents understand URL characteristics, content type,
-    and structural information for improved processing and categorization.`
+    description: `Classify a source URL and extract metadata useful for Bitcode evidence review.
+    The classification supports source-quality assessment and discovery-phase
+    need synthesis only.`
   }
 );
 
@@ -168,9 +169,9 @@ export const discoverRelatedDomains = factoryTool(
     return await _discoverRelatedDomains(params.domain);
   },
   {
-    description: `Discover domains related to a given input domain.
-    This tool helps AI agents find associated websites, services, or resources
-    related to a specific domain for comprehensive research or analysis.`
+    description: `Discover domains related to a source domain when source coverage is insufficient.
+    Use only to corroborate or locate authoritative sources for the active
+    Bitcode need-synthesis question.`
   }
 );
 
@@ -180,9 +181,9 @@ export const extractTechnologyContext = factoryTool(
     return await _extractTechnologyContext(params.urls);
   },
   {
-    description: `Extract technology keywords and context from a list of URLs.
-    This tool helps AI agents identify technology stacks, frameworks, and
-    technical context from URL patterns for enhanced search targeting.`
+    description: `Extract technology and source context from URLs for better Bitcode search targeting.
+    Output is auxiliary evidence for need synthesis and does not define product
+    or proof semantics.`
   }
 );
 
@@ -192,9 +193,9 @@ export const analyzeUrlAttachments = factoryTool(
     return await _analyzeUrlAttachments(params.urlAttachments);
   },
   {
-    description: `Perform comprehensive analysis of URL attachments for search enhancement.
-    This tool helps AI agents understand the collective context of multiple URLs
-    to improve search strategies, identify patterns, and extract relevant metadata.`
+    description: `Analyze URL attachments for bounded Bitcode search enhancement.
+    The analysis may improve query targeting, source-class selection, and
+    evidence traceability for discovery-phase need synthesis.`
   }
 );
 
@@ -208,9 +209,9 @@ export const getProviderHealth = factoryTool(
     return await _getProviderHealth();
   },
   {
-    description: `Get health status of all search providers.
-    This tool helps AI agents check which search providers are operational
-    and available for use in multi-provider search scenarios.`
+    description: `Get health status of search providers used for Bitcode evidence collection.
+    Health data supports reliable source gathering and does not become product
+    telemetry ownership.`
   }
 );
 
@@ -220,9 +221,8 @@ export const getProviderStatistics = factoryTool(
     return await _getProviderStatistics();
   },
   {
-    description: `Get performance statistics for all search providers.
-    This tool helps AI agents understand provider performance metrics,
-    response times, and success rates for optimal provider selection.`
+    description: `Get provider statistics for Bitcode discovery evidence search.
+    Statistics may guide source-collection retries and provider selection only.`
   }
 );
 
@@ -232,9 +232,9 @@ export const getProductionHealth = factoryTool(
     return await _getProductionHealth();
   },
   {
-    description: `Get production-grade health status and monitoring information.
-    This tool provides comprehensive health metrics for production search
-    infrastructure including detailed provider status and system health.`
+    description: `Get provider health details for retained web-search evidence infrastructure.
+    This compatibility tool is admitted for evidence-collection reliability, not
+    as a standalone monitoring surface.`
   }
 );
 
@@ -244,9 +244,9 @@ export const getProductionMetrics = factoryTool(
     return await _getProductionMetrics();
   },
   {
-    description: `Get detailed production metrics for search operations.
-    This tool provides comprehensive performance analytics, usage statistics,
-    and operational metrics for production search infrastructure.`
+    description: `Get retained search-operation metrics for discovery evidence collection.
+    Metrics help bound retries and source coverage; they do not own Bitcode live
+    product observability.`
   }
 );
 

@@ -40,6 +40,8 @@ Every retained corridor must therefore be classified before it is edited:
   Any corridor claimed active must clear its honest local typecheck/runtime boundary rather than hiding behind broader monorepo success.
 - `proof witness per corridor`
   Each significant reform should land a source-bearing witness so the strategy remains auditable instead of narrative-only.
+- `protocol gate before downstream fit`
+  When a synthesized Need controls asset fitting or settlement, make the review boundary explicit in source and artifacts before downstream selection proceeds.
 
 ## Representative V26 successes
 
@@ -57,8 +59,12 @@ Every retained corridor must therefore be classified before it is edited:
   The retained agent wrapper remains useful only as the PTRR layer above repository-evidence search. Its active export is `bitcodeRepositoryEvidenceSearcher`; old `textSearcher`, `quickTextSearcher`, `SIMPLE_TEXT_SEARCH_AGENT`, and `TEXTSEARCHER` PromptPart names remain compatibility carriers whose content must describe evidence-only support rather than old search-engine, task-analysis, or indexing-product semantics.
 - `web-researcher` agent reform
   The retained agent wrapper remains useful only as discovery-phase web research for Bitcode need synthesis. Its active export is `bitcodeNeedSynthesisWebResearcher`; `bitcodeExternalEvidenceResearcher`, old `webResearcherAgent`, `WEB_RESEARCH_AGENT`, and `WEBRESEARCHER` PromptPart names remain compatibility carriers whose content must describe source-attributed need-synthesis/proof-question/interface/AssetPack context rather than old scraping, task-analysis, or enterprise data-extraction product semantics.
+- `web-search` agent/tool reform
+  The retained lower-level search agent and tool package remain useful only under the same discovery-phase need-synthesis corridor. Their active export is `bitcodeNeedSynthesisWebSearch`; old `webSearch`, `quickWebSearch`, `WEBSEARCH`, `WEB_SEARCH`, `WEBSEARCHTOOL`, `WEBSEARCH_DOCCODE`, `GETCONTENTS_DOCCODE`, and `MULTIPROVIDERSEARCH_DOCCODE` names remain compatibility carriers whose content must describe source-attributed external evidence, source-quality review, volatility, proof-boundary warnings, and downstream need/proof/AssetPack handoff rather than generic search-platform ownership.
 - `danger-wall` agent reform
   The retained agent wrapper remains useful only as Bitcode need/AssetPack risk-admission support before a retained pipeline phase proceeds. Its active export is `bitcodeNeedRiskAdmissionAgent`; old `dangerWall`, `quickDangerWall`, `DANGER_WALL_AGENT`, and `DANGERWALL` PromptPart names remain compatibility carriers whose content must describe unsafe mutation, private-data exposure, proof/evidence gap, AssetPack scope, delivery-wrapper, and manual-review admission boundaries rather than old generic security, content-safety, or monitoring-product semantics.
+- `Need review and quantized fit-quality reform`
+  The active protocol runtime now emits `.bitcode/need-review.json` between need measurement and fit search, supports accept/reject/remeasure-with-feedback outcomes, and carries the accepted source-to-shares focus into settlement preview. The same slice makes fit quality a quantized objective contract that appears in `.bitcode/source-to-shares.json`, the present-fit-for-settlement-review surface, settlement AssetPack receipts, and `settlement_source_to_shares.quantized_fit_quality_receipting`.
 - `field-intelligence`
   A clearly experimental old-world corridor was removed from live Bitcode and documented only under `_legacy/field-intelligence`.
   Active retained-package proof no longer admits `packages/orm/src/queries/field-intelligence.ts`, and active prompt exports no longer admit `promptpart_specific_fielddoc_intelligencecontext_detailcontent`.

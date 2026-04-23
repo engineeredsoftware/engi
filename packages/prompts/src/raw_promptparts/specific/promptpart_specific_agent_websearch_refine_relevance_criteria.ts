@@ -1,16 +1,15 @@
 /**
  * @doc-comment-developing-promptpartdevelopment
  * domain: agent
- * intent: "Agent-specific semantic unit (PROMPTPART_SPECIFIC_AGENT_WEBSEARCH_REFINE_RELEVANCE_CRITERIA)"
- * current_version: "GA1.50.0"
+ * intent: "Bitcode need-synthesis web search relevance criteria"
+ * current_version: "V26"
  * versions: []
  * benchmarks: [
- *   { "name": "technical_accuracy", "test": "Uses concrete technical language", "score": 0.50 },
- *   { "name": "implementation_ready", "test": "Provides clear actionable guidance", "score": 0.50 }
+ *   { "name": "relevance_precision", "test": "Defines relevance against need synthesis rather than generic search ranking", "score": 1.00 }
  * ]
  */
 
 import type { PromptPart } from '../../parts/PromptPart';
 
-export const PROMPTPART_SPECIFIC_AGENT_WEBSEARCH_REFINE_RELEVANCE_CRITERIA: PromptPart = 
-  'Provide concrete, domain‑appropriate content for this specific prompt segment. Use precise, operational language and ensure it integrates coherently with adjacent prompt parts.' as PromptPart;
+export const PROMPTPART_SPECIFIC_AGENT_WEBSEARCH_REFINE_RELEVANCE_CRITERIA: PromptPart =
+  'Score relevance by direct connection to the active Bitcode need, proof-gap question, interface constraint, source authority, temporal freshness, and usefulness to downstream AssetPack planning.' as PromptPart;

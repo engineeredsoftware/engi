@@ -1520,6 +1520,7 @@ test('deliverables manifest and journal receipts remain internally consistent', 
   const { latestRun } = runMakeBitcodeBranchTest(state, {});
 
   assert.ok(latestRun.deliverablesManifest.deliverables.some((entry) => entry.path === '.bitcode/need-measurement.json'));
+  assert.ok(latestRun.deliverablesManifest.deliverables.some((entry) => entry.path === '.bitcode/need-review.json'));
   assert.ok(latestRun.deliverablesManifest.deliverables.some((entry) => entry.path === '.bitcode/eval-manifest.json'));
   assert.ok(latestRun.deliverablesManifest.deliverables.some((entry) => entry.path === '.bitcode/settlement-proof.json'));
   assert.ok(latestRun.deliverablesManifest.deliverables.some((entry) => entry.path === '.bitcode/journal-diff.json'));
@@ -1535,7 +1536,8 @@ test('deliverables manifest and journal receipts remain internally consistent', 
   assert.ok(latestRun.deliverablesManifest.deliverables.some((entry) => entry.path === '.bitcode/materialization-exclusions.json'));
   assert.ok(latestRun.deliverablesManifest.deliverables.some((entry) => entry.path === '.bitcode/deliverables.json'));
   assert.ok(latestRun.branchArtifacts.files['.bitcode/deliverables.json']);
-  assert.equal(latestRun.journalDiff.receipts.length, 2);
+  assert.equal(latestRun.journalDiff.receipts.length, 3);
+  assert.ok(latestRun.journalDiff.receipts.some((entry) => entry.receiptKind === 'settlement-asset-pack-fit-quality'));
   assert.ok(latestRun.journalDiff.credits.every((entry) => entry.unitRefs.length > 0));
   assert.equal(latestRun.systemProofBundle.settlementProof.theoremChecks.stateRootIntegrity, true);
   assert.equal(latestRun.settlementPreview.assetPackLockHash, latestRun.systemProofBundle.settlementProof.assetPackLockHash);

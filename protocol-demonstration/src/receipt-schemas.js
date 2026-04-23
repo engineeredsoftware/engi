@@ -15,6 +15,11 @@ export const RECEIPT_SCHEMAS = {
     required: ['type', 'receiptId', 'bundleId', 'totalUnits', 'allocations', 'issuedAt'],
     publicClaim: 'Licensed read value was allocated across contributing assets in a conservation-preserving way.'
   },
+  settlement_asset_pack_fit_quality: {
+    predicateType: 'https://bitcode.ai/receipt/settlement-asset-pack-fit-quality/v26',
+    required: ['type', 'receiptId', 'bundleId', 'assetPackId', 'sourceToSharesRef', 'quantizedObjectiveContractId', 'quantizedFitQualities', 'issuedAt'],
+    publicClaim: 'A settlement AssetPack exposed source-to-shares fit qualities under the quantized objective contract before settlement receipts were finalized.'
+  },
   utility: {
     predicateType: 'https://bitcode.ai/receipt/utility/v1',
     required: ['type', 'receiptId', 'bundleId', 'benchmark', 'baselineBp', 'treatmentBp', 'upliftBp', 'issuedAt'],

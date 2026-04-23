@@ -3,12 +3,12 @@ import { PromptPart } from '../../parts/PromptPart';
 /**
  * @doc-comment-developing-promptpartdevelopment
  * domain: tool
- * intent: "Define web search tool identity"
- * current_version: "GA1.00.0"
+ * intent: "Bitcode web search tool identity compatibility PromptPart"
+ * current_version: "V26"
  * versions: []
  * benchmarks: [
- *   { "name": "technical_clarity", "test": "Does '{{content}}' clearly identify a technical search capability? Rate 0-1" }
+ *   { "name": "identity_boundary", "test": "Identity states Bitcode evidence support", "score": 1.00 }
  * ]
  */
-export const PROMPTPART_SPECIFIC_TOOL_WEBSEARCHTOOL_IDENTITY_CORESTATEMENT: PromptPart = 
-  'an expert web search and analysis tool' as PromptPart;
+export const PROMPTPART_SPECIFIC_TOOL_WEBSEARCHTOOL_IDENTITY_CORESTATEMENT: PromptPart =
+  'a Bitcode discovery-phase web search evidence support tool' as PromptPart;

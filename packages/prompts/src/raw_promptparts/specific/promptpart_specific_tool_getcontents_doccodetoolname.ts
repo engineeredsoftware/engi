@@ -1,15 +1,14 @@
 /**
  * @doc-comment-developing-promptpartdevelopment
  * domain: tool
- * intent: "Tool semantic unit: Getcontents Doccodetoolname"
- * current_version: "GA1.50.0"
+ * intent: "Name for Bitcode source content retrieval tool"
+ * current_version: "V26"
  * versions: []
  * benchmarks: [
- *   { "name": "technical_accuracy", "test": "Uses concrete technical language", "score": 0.50 },
- *   { "name": "implementation_ready", "test": "Provides clear actionable guidance", "score": 0.50 }
+ *   { "name": "name_clarity", "test": "Names content retrieval as source evidence support", "score": 1.00 }
  * ]
  */
 
 import type { PromptPart } from '../../parts/PromptPart';
 export const PROMPTPART_SPECIFIC_TOOL_GETCONTENTS_DOCCODETOOLNAME: PromptPart =
-  'Get Contents Tool' as PromptPart;
+  'Bitcode Source Content Retrieval Tool' as PromptPart;

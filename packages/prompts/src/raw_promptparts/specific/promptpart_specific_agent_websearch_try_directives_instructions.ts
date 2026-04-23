@@ -1,16 +1,15 @@
 /**
  * @doc-comment-developing-promptpartdevelopment
  * domain: agent
- * intent: "Agent-specific semantic unit (PROMPTPART_SPECIFIC_AGENT_WEBSEARCH_TRY_DIRECTIVES_INSTRUCTIONS)"
- * current_version: "GA1.50.0"
+ * intent: "Bitcode need-synthesis web search try directives"
+ * current_version: "V26"
  * versions: []
  * benchmarks: [
- *   { "name": "technical_accuracy", "test": "Uses concrete technical language", "score": 0.50 },
- *   { "name": "implementation_ready", "test": "Provides clear actionable guidance", "score": 0.50 }
+ *   { "name": "collection_precision", "test": "Directs evidence collection without overreach", "score": 1.00 }
  * ]
  */
 
 import type { PromptPart } from '../../parts/PromptPart';
 
-export const PROMPTPART_SPECIFIC_AGENT_WEBSEARCH_TRY_DIRECTIVES_INSTRUCTIONS: PromptPart = 
-  'Provide concrete, domain‑appropriate content for this specific prompt segment. Use precise, operational language and ensure it integrates coherently with adjacent prompt parts.' as PromptPart;
+export const PROMPTPART_SPECIFIC_AGENT_WEBSEARCH_TRY_DIRECTIVES_INSTRUCTIONS: PromptPart =
+  'Execute only the planned queries that serve the active Bitcode need; record title, URL, snippet, provider, source class, and why each finding matters for need synthesis.' as PromptPart;

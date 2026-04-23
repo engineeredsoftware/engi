@@ -11,15 +11,14 @@ import { PROMPTPART_SPECIFIC_TOOL_MULTIPROVIDERSEARCH_DOCCODETOOLPARAMETERS } fr
 import { PROMPTPART_SPECIFIC_TOOL_MULTIPROVIDERSEARCH_DOCCODETOOLOUTPUT } from '@bitcode/prompts/raw_promptparts/specific/promptpart_specific_tool_multiprovidersearch_doccodetooloutput';
 import { PROMPTPART_SPECIFIC_TOOL_MULTIPROVIDERSEARCH_DOCCODETOOLEXAMPLE1 } from '@bitcode/prompts/raw_promptparts/specific/promptpart_specific_tool_multiprovidersearch_doccodetoolexample1';
 /**
- * MULTI-PROVIDER SEARCH DOC-CODE-TOOL PROMPT
+ * BITCODE MULTI-PROVIDER EVIDENCE SEARCH DOC-CODE-TOOL PROMPT
  * 
  * @doc-comment-developing-promptdevelopment
  * versions: []
  * domain: tool
- * intent: "Multi-provider search tool for comprehensive cross-platform search capabilities"
+ * intent: "Bitcode discovery-phase multi-provider search for corroborated need-synthesis evidence"
  * 
- * Structured DocCodeToolPrompt for multi-provider search tool runtime documentation.
- * This tool provides enterprise-grade search orchestration across multiple providers.
+ * Structured DocCodeToolPrompt for multi-provider source evidence search.
  */
 
 import { DocCodeToolPrompt } from '@bitcode/tools-generics';
@@ -42,9 +41,9 @@ import { PromptPart } from '@bitcode/prompts/parts/PromptPart';
 
 
 /**
- * Multi-Provider Search tool-specific DocCodeToolPrompt
- * Essential for enterprise-grade information discovery with automatic failover,
- * result aggregation, and provider optimization across multiple search services.
+ * Multi-Provider Search tool-specific DocCodeToolPrompt. Provider failover and
+ * result aggregation are admitted only to improve source coverage for Bitcode
+ * need synthesis.
  */
 export class MultiProviderSearchDocCodeToolPrompt extends DocCodeToolPrompt {
   constructor() {
@@ -61,7 +60,7 @@ export class MultiProviderSearchDocCodeToolPrompt extends DocCodeToolPrompt {
     // Set metadata directly
     this.set('metadata:name', PROMPTPART_SPECIFIC_TOOL_MULTIPROVIDERSEARCH_DOCCODETOOLNAME);
     this.set('metadata:category', 'web-search' as PromptPart);
-    this.set('metadata:version', 'GA1.00.0' as PromptPart);
+    this.set('metadata:version', 'V26' as PromptPart);
     this.set('metadata:priority', 'high' as PromptPart);
     this.set('metadata:stability', 'stable' as PromptPart);
     

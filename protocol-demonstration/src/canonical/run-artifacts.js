@@ -199,11 +199,12 @@ function countValues(values = []) {
  *   assetPack: AssetPackShape,
  *   selectedCandidates: EvaluatedCandidate[],
  *   verificationReport: VerificationReportShape,
+ *   needReview?: Record<string, unknown> | undefined,
  *   settlementPreview: SettlementPreviewShape,
  *   journalDiff: JournalDiffShape
  * }} input
  */
-function buildPipelineTelemetry({ need, evaluatedCandidates, assetPack, selectedCandidates, verificationReport, settlementPreview, journalDiff }) {
+function buildPipelineTelemetry({ need, evaluatedCandidates, assetPack, selectedCandidates, verificationReport, needReview, settlementPreview, journalDiff }) {
   return {
     conformanceProfile: PROFILE_A,
     productionIntentProfile: PROFILE_B,
@@ -213,6 +214,14 @@ function buildPipelineTelemetry({ need, evaluatedCandidates, assetPack, selected
         derivationFields: Object.keys(need.fieldDerivations || {}),
         failingCases: need.failingCases,
         weakDimensions: need.weakDimensions
+      }),
+      telemetryEvent('need-review', {
+        needId: need.needId,
+        protocolFocus: needReview?.['protocolFocus'] || 'source-to-shares',
+        reviewStage: needReview?.['reviewStage'] || 'post-measurement-pre-fit',
+        action: needReview?.['reviewDecision']?.['action'] || needReview?.['action'] || null,
+        status: needReview?.['status'] || null,
+        fitSearchAdmitted: needReview?.['fitSearchAdmission']?.['admitted'] === true
       }),
       telemetryEvent('content-unit-semantics', {
         assetCount: selectedCandidates.length,
@@ -244,6 +253,9 @@ function buildPipelineTelemetry({ need, evaluatedCandidates, assetPack, selected
       }),
       telemetryEvent('settlement-and-shares', {
         bundleId: settlementPreview.bundleId,
+        protocolFocus: settlementPreview?.['protocolFocus'] || 'source-to-shares',
+        quantizedObjectiveContractId: settlementPreview?.['quantizedObjectiveContractId'] || null,
+        fitQualityCount: settlementPreview?.['quantizedFitQualities']?.['qualities']?.length || 0,
         rawShares: journalDiff.rawShares,
         settledShares: journalDiff.settledShares,
         totals: journalDiff.totals
@@ -839,6 +851,13 @@ function buildDeliverablesManifest({
         confidentialityClass: 'private-proof-artifact',
         potentiallyDisclosable: false,
         dependsOn: ['need-measurement', 'prompt-lineage', 'static-measurement']
+      },
+      {
+        path: '.bitcode/need-review.json',
+        useTiersContributed: ['context-only', 'patch-eligible', 'settlement-eligible'],
+        confidentialityClass: 'private-proof-artifact',
+        potentiallyDisclosable: false,
+        dependsOn: ['need-measurement', 'need-review', 'pre-fit-admission']
       },
       {
         path: '.bitcode/depositing-surface.json',

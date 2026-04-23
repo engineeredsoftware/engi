@@ -1,16 +1,15 @@
 /**
  * @doc-comment-developing-promptpartdevelopment
  * domain: agent
- * intent: "Agent-specific semantic unit (PROMPTPART_SPECIFIC_AGENT_WEBSEARCH_REFINE_RESULT_ENHANCEMENT)"
- * current_version: "GA1.50.0"
+ * intent: "Bitcode need-synthesis web search result refinement"
+ * current_version: "V26"
  * versions: []
  * benchmarks: [
- *   { "name": "technical_accuracy", "test": "Uses concrete technical language", "score": 0.50 },
- *   { "name": "implementation_ready", "test": "Provides clear actionable guidance", "score": 0.50 }
+ *   { "name": "refinement_precision", "test": "Enhances findings into evidence useful for downstream Bitcode owners", "score": 1.00 }
  * ]
  */
 
 import type { PromptPart } from '../../parts/PromptPart';
 
-export const PROMPTPART_SPECIFIC_AGENT_WEBSEARCH_REFINE_RESULT_ENHANCEMENT: PromptPart = 
-  'Provide concrete, domain‑appropriate content for this specific prompt segment. Use precise, operational language and ensure it integrates coherently with adjacent prompt parts.' as PromptPart;
+export const PROMPTPART_SPECIFIC_AGENT_WEBSEARCH_REFINE_RESULT_ENHANCEMENT: PromptPart =
+  'Enhance findings with source class, quality score, contradiction notes, volatility risk, missing-primary-source warnings, and explicit evidence-use text for need synthesis.' as PromptPart;

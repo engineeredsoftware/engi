@@ -3,16 +3,16 @@ import { PromptPart } from '../../parts/PromptPart';
 /**
  * @doc-comment-developing-promptpartdevelopment
  * domain: tool
- * intent: "List web search tool capabilities"
- * current_version: "GA1.50.0"
- * versions: ["GA1.00.0"]
+ * intent: "Bitcode web search tool capabilities compatibility PromptPart"
+ * current_version: "V26"
+ * versions: []
  * benchmarks: [
- *   { "name": "completeness", "test": "Does '{{content}}' comprehensively list search capabilities? Rate 0-1" }
+ *   { "name": "capability_boundary", "test": "Capabilities are source-evidence support only", "score": 1.00 }
  * ]
  */
-export const PROMPTPART_SPECIFIC_TOOL_WEBSEARCHTOOL_CAPABILITIES_LIST: PromptPart = 
-  `- Query multiple search engines for technical content
-- Filter results by domain and relevance
-- Extract key information from web pages
-- Summarize technical documentation
-- Find code examples and implementations` as PromptPart;
+export const PROMPTPART_SPECIFIC_TOOL_WEBSEARCHTOOL_CAPABILITIES_LIST: PromptPart =
+  `- Search external sources for a declared Bitcode need or proof gap
+- Prefer authoritative sources and preserve source attribution
+- Filter by domain, date, provider, and source class when needed
+- Return snippets, URLs, metadata, and evidence-use notes
+- Hand unresolved source gaps to downstream Bitcode need and proof owners` as PromptPart;
