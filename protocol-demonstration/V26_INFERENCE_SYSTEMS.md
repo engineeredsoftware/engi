@@ -48,6 +48,7 @@ Compatibility names may remain only when the specification states what canonical
 Every active or admitted-support package that owns inference behavior must be describable by a stable implementation record.
 The record does not need to live in one source file yet, but the repository must make every field recoverable from specification, package docs, source, tests, and generated proof artifacts.
 The current V26 source-visible registry is `protocol-demonstration/src/canonical/inference-implementation-records.js`, verified by `protocol-demonstration/test/v26-inference-implementation-records.test.js` and generated into `.bitcode/inference-implementation-records-proof.json`.
+The registry proof is structural, not only declarative: it checks top-level record fields, nested prompt/tool/agent/execution/asset-pack section fields, allowed boundary postures, source-backed implementation owner references, source evidence references, typed verification evidence, and hard executable/generated verification footing.
 
 Required record fields:
 
@@ -72,6 +73,8 @@ Required record fields:
 
 The record is incomplete if any field can only be inferred from old naming.
 For example, `task-comprehension` is accepted only because package docs, prompt metadata, raw PromptParts, source primitives, package-local typecheck, and proof witnesses all state that the live meaning is Bitcode need comprehension rather than old task-first planning.
+Records may state that no independent tool or agent is promoted, but the supporting contract must say so explicitly; prompt and execution owners must remain concrete source-backed references.
+Verification entries are classified as `executable-command`, `generated-artifact`, `source-test`, or `declared-gap`; generated artifacts and source tests must resolve to files, and declared gaps expose blockers rather than satisfying a passing implementation record.
 
 ## Complete Coverage Ledger
 
@@ -82,6 +85,7 @@ Fifth-gate prompt closure requires every prompt/tool/agent/execution system to l
 | Prompt primitives | `PromptPart`, `Prompt`, `PromptExecution`, formatters, raw PromptParts, and TS/JS carry-through | none directly; prompt primitives must remain import-safe support for tools | none directly | `PromptExecution` binds prompt material to execution evidence | prompt package tests, prompt runtime loadability, prompt-system proof |
 | Tool prompt infrastructure | `DocCodeToolPrompt`, `formatUsableTools`, doc-code prompt labels, tool prompt registries | `Tool`, `ToolExecution`, `ToolPromptRegistry`, doc-code decorators/loaders | tool descriptions can be injected into agent runs but do not own the agent | `ToolExecution` and prompt registry evidence | support package subpath tests, doc-code transform tests, package manifests |
 | Agent infrastructure | `AgentPrompt`, `AgentStepPrompt`, generation/failsafe/tool prompt overlays | tool registries and bounded callable capabilities | agent factories, substeps, structured outputs, retry/refine limits | `AgentExecution`, agent registries, diagnostics, file-diff evidence | prompt boundary tests, agent/pipeline typechecks, proof artifacts |
+| Execution infrastructure | `ExecutionPrompt` and public prompt primitive imports | execution-level tool registry support, with mutating tool behavior owned by tool records | none directly; agents layer above base execution | `Execution`, execution registry, storage/stream adapters, typed stores, and work updates | execution package typecheck, prompt boundary tests, runs-pipelines proof |
 | Pipeline infrastructure | `PipelinePrompt`, phase prompts, prompt registries | pipeline tool registries and MCP-facing callable adapters | phase factory, meta-phase orchestrator, setup/discovery/implementation/validation/shipping agents | `PipelineExecution`, phase/subexecution, metrics, resume, streams | runs-pipelines proof, deliverable reform tests, package-local checks |
 | Conversation inference | `ConversationSystemPrompt` and app-level conversation prompt binding | conversation tool registration and attachment/destination tool posture | `ConversationAgent` and rich-input write surface | conversation persistence, stream events, ad hoc execution continuity | conversation tests, prompt surface tests, persistence proof |
 | Asset-pack synthesis compatibility | deliverable-corridor prompts, `comprehend-need` overlays, raw PromptParts, prompt renderer | clone/VCS, PR, review, issue/comment, template, and shipping-wrapper tools | setup, ready-to-iterate, validation, shipping, final-summary agents | registry-bearing pipeline runtime, postprocess/read models, execution history | `v26-deliverable-reform`, package typecheck boundary, prompt-system proof |

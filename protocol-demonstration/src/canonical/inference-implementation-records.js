@@ -21,6 +21,37 @@ export const V26_INFERENCE_BOUNDARY_POSTURES = Object.freeze([
   'cut-target'
 ]);
 
+export const V26_INFERENCE_VERIFICATION_EVIDENCE_TYPES = Object.freeze([
+  'executable-command',
+  'generated-artifact',
+  'source-test',
+  'declared-gap'
+]);
+
+export const V26_INFERENCE_IMPLEMENTATION_SECTION_REQUIREMENTS = Object.freeze({
+  promptImplementation: Object.freeze([
+    Object.freeze({ field: 'owners', minItems: 1 }),
+    Object.freeze({ field: 'rawPromptPartBoundary', minLength: 1 }),
+    Object.freeze({ field: 'runtimeCarryThrough', minLength: 1 })
+  ]),
+  toolImplementation: Object.freeze([
+    Object.freeze({ field: 'owners', allowEmptyArray: true }),
+    Object.freeze({ field: 'contract', minLength: 1 })
+  ]),
+  agentImplementation: Object.freeze([
+    Object.freeze({ field: 'owners', allowEmptyArray: true }),
+    Object.freeze({ field: 'contract', minLength: 1 })
+  ]),
+  executionImplementation: Object.freeze([
+    Object.freeze({ field: 'owners', minItems: 1 }),
+    Object.freeze({ field: 'carriers', minItems: 1 })
+  ]),
+  assetPackImplementation: Object.freeze([
+    Object.freeze({ field: 'outputKind', minLength: 1 }),
+    Object.freeze({ field: 'effect', minLength: 1 })
+  ])
+});
+
 export const V26_INFERENCE_IMPLEMENTATION_RECORDS = Object.freeze([
   {
     recordId: 'prompt-primitives',
@@ -174,6 +205,59 @@ export const V26_INFERENCE_IMPLEMENTATION_RECORDS = Object.freeze([
       'packages/agent-generics/src/agents/factories.ts',
       'packages/agent-generics/src/substeps/factories.ts',
       'packages/agent-generics/src/diagnostics/trace.ts'
+    ]
+  },
+  {
+    recordId: 'execution-infrastructure',
+    canonicalNeed: 'Provide the canonical execution tree, prompt-aware execution ancestry, storage controls, streaming adapters, work updates, and typed store evidence for Bitcode inference runs.',
+    promptImplementation: {
+      owners: [
+        'packages/execution-generics/src/prompts/ExecutionPrompt.ts'
+      ],
+      rawPromptPartBoundary: '@bitcode/prompts/prompt and @bitcode/prompts/parts/PromptPart through public prompt subpaths',
+      runtimeCarryThrough: 'ExecutionPrompt composes public Prompt and PromptPart primitives but does not own raw promptpart text.'
+    },
+    toolImplementation: {
+      owners: [
+        'packages/execution-generics/src/tools/ExecutionToolRegistry.ts'
+      ],
+      contract: 'Execution-level tool registries are support carriers for higher tool owners; mutating tools must still declare their own capability and fail-closed boundaries.'
+    },
+    agentImplementation: {
+      owners: [],
+      contract: 'No independent live agent is promoted by base execution primitives; agent-specific roles are covered by the agent-infrastructure record.'
+    },
+    executionImplementation: {
+      owners: [
+        'packages/execution-generics/src/Execution.ts',
+        'packages/execution-generics/src/execution-registry.ts',
+        'packages/execution-generics/src/storage/ExecutionStorageAdapter.ts',
+        'packages/execution-generics/src/storage/ExecutionStreamAdapter.ts',
+        'packages/execution-generics/src/store/registry.ts',
+        'packages/execution-generics/src/work-update.ts'
+      ],
+      carriers: ['Execution', 'execution-registry', 'ExecutionStorageAdapter', 'ExecutionStreamAdapter', 'typed execution stores', 'work updates']
+    },
+    assetPackImplementation: {
+      outputKind: 'execution evidence substrate',
+      effect: 'Execution stores, stream events, storage destinations, and work updates carry proof/reread evidence for prompts, tools, agents, pipelines, conversations, and asset-pack synthesis.'
+    },
+    boundaryPosture: 'active',
+    verificationSet: [
+      'pnpm -C packages/execution-generics run typecheck',
+      'node --test protocol-demonstration/test/v26-prompt-system-boundary.test.js',
+      '.bitcode/runs-pipelines-totality-proof.json'
+    ],
+    sourceEvidenceRefs: [
+      'packages/execution-generics/package.json',
+      'packages/execution-generics/src/index.ts',
+      'packages/execution-generics/src/Execution.ts',
+      'packages/execution-generics/src/prompts/ExecutionPrompt.ts',
+      'packages/execution-generics/src/tools/ExecutionToolRegistry.ts',
+      'packages/execution-generics/src/storage/ExecutionStorageAdapter.ts',
+      'packages/execution-generics/src/storage/ExecutionStreamAdapter.ts',
+      'packages/execution-generics/src/store/registry.ts',
+      'packages/execution-generics/src/work-update.ts'
     ]
   },
   {
@@ -419,12 +503,14 @@ export const V26_INFERENCE_IMPLEMENTATION_RECORDS = Object.freeze([
     verificationSet: [
       '.bitcode/retained-package-admissibility-proof.json',
       '.bitcode/system-reform-admissibility-proof.json',
-      'package-local executions-mcp typecheck boundary'
+      'pnpm -C packages/executions-mcp run typecheck'
     ],
     sourceEvidenceRefs: [
       'packages/executions-mcp/package.json',
       'packages/executions-mcp/README.md',
       'packages/executions-mcp/src/index.ts',
+      'packages/executions-mcp/src/mcp-server/package.json',
+      'packages/executions-mcp/src/mcp-server/tsconfig.typecheck.json',
       'packages/tools-generics/src/mcp/MCPToolWrapper.ts',
       'uapi/components/base/bitcode/execution/BitcodeExecutionStreamPanel.tsx',
       'protocol-demonstration/V26_APPLICATION_SYSTEMS.md'
@@ -440,6 +526,73 @@ function hasMeaningfulValue(value) {
 }
 
 /**
+ * @param {string} value
+ */
+function classifyVerificationEvidence(value) {
+  const normalizedValue = value.trim();
+
+  if (normalizedValue.startsWith('.bitcode/')) return 'generated-artifact';
+  if (/^(node|npm|pnpm|yarn|bun)\s/u.test(normalizedValue)) return 'executable-command';
+  if (/(\.test\.(js|ts|tsx)$|\/__tests__\/)/u.test(normalizedValue)) return 'source-test';
+
+  return 'declared-gap';
+}
+
+/**
+ * @param {string} value
+ */
+function verificationEvidenceRefPath(value) {
+  const evidenceType = classifyVerificationEvidence(value);
+  if (evidenceType === 'generated-artifact' || evidenceType === 'source-test') return value;
+  return null;
+}
+
+/**
+ * @param {unknown} value
+ * @param {{ field: string, minItems?: number, minLength?: number, allowEmptyArray?: boolean }} requirement
+ */
+function fieldSatisfiesRequirement(value, requirement) {
+  if (Array.isArray(value)) {
+    if (requirement.allowEmptyArray === true) return true;
+    return value.length >= (requirement.minItems || 1);
+  }
+
+  if (typeof value === 'string') {
+    return value.trim().length >= (requirement.minLength || 1);
+  }
+
+  return hasMeaningfulValue(value);
+}
+
+/**
+ * @param {Record<string, any>} record
+ */
+function collectMissingSectionFields(record) {
+  return Object.entries(V26_INFERENCE_IMPLEMENTATION_SECTION_REQUIREMENTS)
+    .flatMap(([sectionName, requirements]) => {
+      const section = record[sectionName] || {};
+      return requirements
+        .filter((requirement) => !fieldSatisfiesRequirement(section[requirement.field], requirement))
+        .map((requirement) => `${sectionName}.${requirement.field}`);
+    });
+}
+
+/**
+ * @param {Record<string, any>} record
+ */
+function collectImplementationOwnerRefs(record) {
+  return [
+    'promptImplementation',
+    'toolImplementation',
+    'agentImplementation',
+    'executionImplementation'
+  ].flatMap((sectionName) => {
+    const owners = record[sectionName]?.owners;
+    return Array.isArray(owners) ? owners : [];
+  });
+}
+
+/**
  * @param {{ fileExists?: (filePath: string) => boolean }} [options]
  */
 export function validateV26InferenceImplementationRecords(options = {}) {
@@ -450,14 +603,40 @@ export function validateV26InferenceImplementationRecords(options = {}) {
     const invalidBoundaryPosture = V26_INFERENCE_BOUNDARY_POSTURES.includes(record.boundaryPosture)
       ? null
       : record.boundaryPosture;
+    const missingSectionFields = collectMissingSectionFields(record);
+    const implementationOwnerRefs = Array.from(new Set(collectImplementationOwnerRefs(record)));
+    const missingImplementationOwnerRefs = implementationOwnerRefs.filter((filePath) => !fileExists(filePath));
     const sourceEvidenceRefs = Array.from(new Set(record.sourceEvidenceRefs || []));
     const missingSourceEvidenceRefs = sourceEvidenceRefs.filter((filePath) => !fileExists(filePath));
     const verificationSet = Array.from(new Set(record.verificationSet || []));
+    const verificationEvidence = verificationSet.map((value) => ({
+      value,
+      evidenceType: classifyVerificationEvidence(value),
+      refPath: verificationEvidenceRefPath(value)
+    }));
+    const verificationEvidenceTypeCounts = verificationEvidence.reduce((counts, evidence) => {
+      counts[evidence.evidenceType] = (counts[evidence.evidenceType] || 0) + 1;
+      return counts;
+    }, {});
+    const missingVerificationEvidenceRefs = verificationEvidence
+      .filter((evidence) => evidence.refPath && !fileExists(evidence.refPath))
+      .map((evidence) => evidence.refPath);
+    const declaredVerificationGaps = verificationEvidence
+      .filter((evidence) => evidence.evidenceType === 'declared-gap')
+      .map((evidence) => evidence.value);
+    const hasExecutableOrGeneratedVerificationEvidence = verificationEvidence
+      .some((evidence) => evidence.evidenceType === 'executable-command' || evidence.evidenceType === 'generated-artifact');
     const passed = missingFields.length === 0
       && invalidBoundaryPosture === null
+      && missingSectionFields.length === 0
+      && implementationOwnerRefs.length > 0
+      && missingImplementationOwnerRefs.length === 0
       && sourceEvidenceRefs.length > 0
       && missingSourceEvidenceRefs.length === 0
-      && verificationSet.length > 0;
+      && verificationSet.length > 0
+      && missingVerificationEvidenceRefs.length === 0
+      && declaredVerificationGaps.length === 0
+      && hasExecutableOrGeneratedVerificationEvidence === true;
 
     return {
       recordId: record.recordId,
@@ -465,9 +644,17 @@ export function validateV26InferenceImplementationRecords(options = {}) {
       boundaryPosture: record.boundaryPosture,
       missingFields,
       invalidBoundaryPosture,
+      missingSectionFields,
+      implementationOwnerRefs,
+      missingImplementationOwnerRefs,
       sourceEvidenceRefs,
       missingSourceEvidenceRefs,
       verificationSet,
+      verificationEvidence,
+      verificationEvidenceTypeCounts,
+      missingVerificationEvidenceRefs,
+      declaredVerificationGaps,
+      hasExecutableOrGeneratedVerificationEvidence,
       passed
     };
   });
@@ -480,7 +667,9 @@ export function validateV26InferenceImplementationRecords(options = {}) {
     reportId: 'v26-inference-implementation-record-registry',
     version: 'V26',
     requiredFields: V26_INFERENCE_IMPLEMENTATION_RECORD_REQUIRED_FIELDS,
+    requiredSectionFields: V26_INFERENCE_IMPLEMENTATION_SECTION_REQUIREMENTS,
     requiredBoundaryPostures: V26_INFERENCE_BOUNDARY_POSTURES,
+    verificationEvidenceTypes: V26_INFERENCE_VERIFICATION_EVIDENCE_TYPES,
     recordCount: V26_INFERENCE_IMPLEMENTATION_RECORDS.length,
     boundaryPostureCounts,
     passed: recordChecks.every((check) => check.passed === true),

@@ -1,8 +1,8 @@
 {
   "reportId": "v26-gate-checkpoint-report",
   "version": "V26",
-  "proofSourceCommit": "893b7889b3738c9053b02b4df350832e5ffca5da",
-  "generatedAt": "2026-04-23T09:25:03-03:00",
+  "proofSourceCommit": "cc1cc44d88b5cb9bf01048301d85320033adb090",
+  "generatedAt": "2026-04-23T09:32:45-03:00",
   "generatorId": "bitcode.proven-generator.v1",
   "worktreeState": "dirty-preview",
   "activeCanonicalTarget": "V26",
@@ -243,7 +243,7 @@
         "checkId": "fourth-gate-inference-implementation-records",
         "label": "Fourth-gate inference implementation records proof",
         "passed": true,
-        "detail": "Prompt, tool, agentic, pipeline, conversation, asset-pack, need-comprehension, and MCP inference systems have source-visible implementation records"
+        "detail": "Prompt, tool, agentic, execution, pipeline, conversation, asset-pack, need-comprehension, and MCP inference systems have source-visible implementation records"
       },
       {
         "checkId": "fourth-gate-promotion-honesty",

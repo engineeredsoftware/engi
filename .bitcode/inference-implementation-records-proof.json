@@ -1,12 +1,12 @@
 {
   "reportId": "v26-inference-implementation-records-proof",
   "version": "V26",
-  "proofSourceCommit": "893b7889b3738c9053b02b4df350832e5ffca5da",
-  "generatedAt": "2026-04-23T09:25:03-03:00",
+  "proofSourceCommit": "cc1cc44d88b5cb9bf01048301d85320033adb090",
+  "generatedAt": "2026-04-23T09:32:45-03:00",
   "generatorId": "bitcode.proven-generator.v1",
   "worktreeState": "dirty-preview",
   "passed": true,
-  "recordCount": 8,
+  "recordCount": 9,
   "requiredFields": [
     "recordId",
     "canonicalNeed",
@@ -18,6 +18,62 @@
     "boundaryPosture",
     "verificationSet"
   ],
+  "requiredSectionFields": {
+    "promptImplementation": [
+      {
+        "field": "owners",
+        "minItems": 1
+      },
+      {
+        "field": "rawPromptPartBoundary",
+        "minLength": 1
+      },
+      {
+        "field": "runtimeCarryThrough",
+        "minLength": 1
+      }
+    ],
+    "toolImplementation": [
+      {
+        "field": "owners",
+        "allowEmptyArray": true
+      },
+      {
+        "field": "contract",
+        "minLength": 1
+      }
+    ],
+    "agentImplementation": [
+      {
+        "field": "owners",
+        "allowEmptyArray": true
+      },
+      {
+        "field": "contract",
+        "minLength": 1
+      }
+    ],
+    "executionImplementation": [
+      {
+        "field": "owners",
+        "minItems": 1
+      },
+      {
+        "field": "carriers",
+        "minItems": 1
+      }
+    ],
+    "assetPackImplementation": [
+      {
+        "field": "outputKind",
+        "minLength": 1
+      },
+      {
+        "field": "effect",
+        "minLength": 1
+      }
+    ]
+  },
   "requiredBoundaryPostures": [
     "active",
     "admitted support",
@@ -26,8 +82,14 @@
     "reference-only",
     "cut-target"
   ],
+  "verificationEvidenceTypes": [
+    "executable-command",
+    "generated-artifact",
+    "source-test",
+    "declared-gap"
+  ],
   "boundaryPostureCounts": {
-    "active": 4,
+    "active": 5,
     "admitted support": 1,
     "compatibility": 2,
     "ingress": 1
@@ -39,6 +101,14 @@
       "boundaryPosture": "active",
       "missingFields": [],
       "invalidBoundaryPosture": null,
+      "missingSectionFields": [],
+      "implementationOwnerRefs": [
+        "packages/prompts/src/parts/PromptPart.ts",
+        "packages/prompts/src/prompt.ts",
+        "packages/prompts/src/execution/PromptExecution.ts",
+        "packages/prompts/src/formatters/index.ts"
+      ],
+      "missingImplementationOwnerRefs": [],
       "sourceEvidenceRefs": [
         "packages/prompts/package.json",
         "packages/prompts/README.md",
@@ -54,6 +124,30 @@
         "node --test protocol-demonstration/test/v26-prompt-runtime-loadability.test.js",
         ".bitcode/prompt-system-totality-proof.json"
       ],
+      "verificationEvidence": [
+        {
+          "value": "pnpm -C packages/prompts exec jest --runInBand src/__tests__/prompt.test.ts",
+          "evidenceType": "executable-command",
+          "refPath": null
+        },
+        {
+          "value": "node --test protocol-demonstration/test/v26-prompt-runtime-loadability.test.js",
+          "evidenceType": "executable-command",
+          "refPath": null
+        },
+        {
+          "value": ".bitcode/prompt-system-totality-proof.json",
+          "evidenceType": "generated-artifact",
+          "refPath": ".bitcode/prompt-system-totality-proof.json"
+        }
+      ],
+      "verificationEvidenceTypeCounts": {
+        "executable-command": 2,
+        "generated-artifact": 1
+      },
+      "missingVerificationEvidenceRefs": [],
+      "declaredVerificationGaps": [],
+      "hasExecutableOrGeneratedVerificationEvidence": true,
       "passed": true
     },
     {
@@ -62,6 +156,17 @@
       "boundaryPosture": "admitted support",
       "missingFields": [],
       "invalidBoundaryPosture": null,
+      "missingSectionFields": [],
+      "implementationOwnerRefs": [
+        "packages/tools-generics/src/doc-code-tool/DocCodeToolPrompt.ts",
+        "packages/tools-generics/src/doc-code-tool/formatUsableTools.ts",
+        "packages/doc-code/src/transformDocCodeTools.ts",
+        "packages/tools-generics/src/Tool.ts",
+        "packages/tools-generics/src/execution/ToolExecution.ts",
+        "packages/tools-generics/src/execution/ToolPromptRegistry.ts",
+        "packages/tools-generics/src/doc-code-tool/DocCodeToolDecorator.ts"
+      ],
+      "missingImplementationOwnerRefs": [],
       "sourceEvidenceRefs": [
         "packages/tools-generics/package.json",
         "packages/tools-generics/src/Tool.ts",
@@ -78,6 +183,30 @@
         "node --test protocol-demonstration/test/v26-prompt-system-boundary.test.js",
         "packages/doc-code/src/__tests__/transform.test.ts"
       ],
+      "verificationEvidence": [
+        {
+          "value": "node --test protocol-demonstration/test/v26-prompt-runtime-loadability.test.js",
+          "evidenceType": "executable-command",
+          "refPath": null
+        },
+        {
+          "value": "node --test protocol-demonstration/test/v26-prompt-system-boundary.test.js",
+          "evidenceType": "executable-command",
+          "refPath": null
+        },
+        {
+          "value": "packages/doc-code/src/__tests__/transform.test.ts",
+          "evidenceType": "source-test",
+          "refPath": "packages/doc-code/src/__tests__/transform.test.ts"
+        }
+      ],
+      "verificationEvidenceTypeCounts": {
+        "executable-command": 2,
+        "source-test": 1
+      },
+      "missingVerificationEvidenceRefs": [],
+      "declaredVerificationGaps": [],
+      "hasExecutableOrGeneratedVerificationEvidence": true,
       "passed": true
     },
     {
@@ -86,6 +215,23 @@
       "boundaryPosture": "active",
       "missingFields": [],
       "invalidBoundaryPosture": null,
+      "missingSectionFields": [],
+      "implementationOwnerRefs": [
+        "packages/agent-generics/src/prompts/AgentPrompt.ts",
+        "packages/agent-generics/src/prompts/AgentStepPrompt.ts",
+        "packages/agent-generics/src/prompts/AgentGenerationSubStepPrompt.ts",
+        "packages/agent-generics/src/prompts/FailsafeMetaSubStepPrompt.ts",
+        "packages/agent-generics/src/prompts/ToolExecutionPrompt.ts",
+        "packages/agent-generics/src/execution/AgentToolsRegistry.ts",
+        "packages/agent-generics/src/agents/factories.ts",
+        "packages/agent-generics/src/substeps/factories.ts",
+        "packages/agent-generics/src/steps/factories.ts",
+        "packages/agent-generics/src/execution/AgentExecution.ts",
+        "packages/agent-generics/src/execution/AgentPromptsRegistry.ts",
+        "packages/agent-generics/src/execution/AgentLLMsRegistry.ts",
+        "packages/agent-generics/src/execution/AgentAgentsRegistry.ts"
+      ],
+      "missingImplementationOwnerRefs": [],
       "sourceEvidenceRefs": [
         "packages/agent-generics/src/prompts/AgentPrompt.ts",
         "packages/agent-generics/src/prompts/AgentStepPrompt.ts",
@@ -102,6 +248,91 @@
         "node --test protocol-demonstration/test/v26-prompt-system-boundary.test.js",
         ".bitcode/prompt-system-totality-proof.json"
       ],
+      "verificationEvidence": [
+        {
+          "value": "pnpm -C packages/agent-generics run typecheck",
+          "evidenceType": "executable-command",
+          "refPath": null
+        },
+        {
+          "value": "node --test protocol-demonstration/test/v26-prompt-system-boundary.test.js",
+          "evidenceType": "executable-command",
+          "refPath": null
+        },
+        {
+          "value": ".bitcode/prompt-system-totality-proof.json",
+          "evidenceType": "generated-artifact",
+          "refPath": ".bitcode/prompt-system-totality-proof.json"
+        }
+      ],
+      "verificationEvidenceTypeCounts": {
+        "executable-command": 2,
+        "generated-artifact": 1
+      },
+      "missingVerificationEvidenceRefs": [],
+      "declaredVerificationGaps": [],
+      "hasExecutableOrGeneratedVerificationEvidence": true,
+      "passed": true
+    },
+    {
+      "recordId": "execution-infrastructure",
+      "canonicalNeed": "Provide the canonical execution tree, prompt-aware execution ancestry, storage controls, streaming adapters, work updates, and typed store evidence for Bitcode inference runs.",
+      "boundaryPosture": "active",
+      "missingFields": [],
+      "invalidBoundaryPosture": null,
+      "missingSectionFields": [],
+      "implementationOwnerRefs": [
+        "packages/execution-generics/src/prompts/ExecutionPrompt.ts",
+        "packages/execution-generics/src/tools/ExecutionToolRegistry.ts",
+        "packages/execution-generics/src/Execution.ts",
+        "packages/execution-generics/src/execution-registry.ts",
+        "packages/execution-generics/src/storage/ExecutionStorageAdapter.ts",
+        "packages/execution-generics/src/storage/ExecutionStreamAdapter.ts",
+        "packages/execution-generics/src/store/registry.ts",
+        "packages/execution-generics/src/work-update.ts"
+      ],
+      "missingImplementationOwnerRefs": [],
+      "sourceEvidenceRefs": [
+        "packages/execution-generics/package.json",
+        "packages/execution-generics/src/index.ts",
+        "packages/execution-generics/src/Execution.ts",
+        "packages/execution-generics/src/prompts/ExecutionPrompt.ts",
+        "packages/execution-generics/src/tools/ExecutionToolRegistry.ts",
+        "packages/execution-generics/src/storage/ExecutionStorageAdapter.ts",
+        "packages/execution-generics/src/storage/ExecutionStreamAdapter.ts",
+        "packages/execution-generics/src/store/registry.ts",
+        "packages/execution-generics/src/work-update.ts"
+      ],
+      "missingSourceEvidenceRefs": [],
+      "verificationSet": [
+        "pnpm -C packages/execution-generics run typecheck",
+        "node --test protocol-demonstration/test/v26-prompt-system-boundary.test.js",
+        ".bitcode/runs-pipelines-totality-proof.json"
+      ],
+      "verificationEvidence": [
+        {
+          "value": "pnpm -C packages/execution-generics run typecheck",
+          "evidenceType": "executable-command",
+          "refPath": null
+        },
+        {
+          "value": "node --test protocol-demonstration/test/v26-prompt-system-boundary.test.js",
+          "evidenceType": "executable-command",
+          "refPath": null
+        },
+        {
+          "value": ".bitcode/runs-pipelines-totality-proof.json",
+          "evidenceType": "generated-artifact",
+          "refPath": ".bitcode/runs-pipelines-totality-proof.json"
+        }
+      ],
+      "verificationEvidenceTypeCounts": {
+        "executable-command": 2,
+        "generated-artifact": 1
+      },
+      "missingVerificationEvidenceRefs": [],
+      "declaredVerificationGaps": [],
+      "hasExecutableOrGeneratedVerificationEvidence": true,
       "passed": true
     },
     {
@@ -110,6 +341,20 @@
       "boundaryPosture": "active",
       "missingFields": [],
       "invalidBoundaryPosture": null,
+      "missingSectionFields": [],
+      "implementationOwnerRefs": [
+        "packages/pipelines-generics/src/prompts/PipelinePrompt.ts",
+        "packages/pipelines-generics/src/execution/PipelinePromptRegistry.ts",
+        "packages/pipelines-generics/src/execution/PipelineToolRegistry.ts",
+        "packages/pipelines-generics/src/phases/phase-factory.ts",
+        "packages/pipelines-generics/src/phases/sdivs-factory.ts",
+        "packages/pipelines-generics/src/gate-system/meta-phase-orchestrator.ts",
+        "packages/pipelines-generics/src/execution/PipelineExecution.ts",
+        "packages/pipelines-generics/src/execution/pipeline-types.ts",
+        "packages/pipelines-generics/src/execution/resume.ts",
+        "packages/pipelines-generics/src/streaming/pipeline-stream-integration.ts"
+      ],
+      "missingImplementationOwnerRefs": [],
       "sourceEvidenceRefs": [
         "packages/pipelines-generics/src/prompts/PipelinePrompt.ts",
         "packages/pipelines-generics/src/execution/PipelineExecution.ts",
@@ -126,6 +371,30 @@
         "node --test protocol-demonstration/test/v26-prompt-system-boundary.test.js",
         ".bitcode/runs-pipelines-totality-proof.json"
       ],
+      "verificationEvidence": [
+        {
+          "value": "pnpm -C packages/pipelines-generics run typecheck",
+          "evidenceType": "executable-command",
+          "refPath": null
+        },
+        {
+          "value": "node --test protocol-demonstration/test/v26-prompt-system-boundary.test.js",
+          "evidenceType": "executable-command",
+          "refPath": null
+        },
+        {
+          "value": ".bitcode/runs-pipelines-totality-proof.json",
+          "evidenceType": "generated-artifact",
+          "refPath": ".bitcode/runs-pipelines-totality-proof.json"
+        }
+      ],
+      "verificationEvidenceTypeCounts": {
+        "executable-command": 2,
+        "generated-artifact": 1
+      },
+      "missingVerificationEvidenceRefs": [],
+      "declaredVerificationGaps": [],
+      "hasExecutableOrGeneratedVerificationEvidence": true,
       "passed": true
     },
     {
@@ -134,6 +403,16 @@
       "boundaryPosture": "active",
       "missingFields": [],
       "invalidBoundaryPosture": null,
+      "missingSectionFields": [],
+      "implementationOwnerRefs": [
+        "packages/conversations-generics/src/prompts/ConversationSystemPrompt.ts",
+        "uapi/prompts/conversations-system-prompt.ts",
+        "packages/conversations-generics/src/agent/ConversationAgent.ts",
+        "packages/api/src/conversations/conversations.ts",
+        "packages/api/src/conversations/streaming.ts",
+        "uapi/app/api/conversations/stream/route.ts"
+      ],
+      "missingImplementationOwnerRefs": [],
       "sourceEvidenceRefs": [
         "packages/conversations-generics/src/prompts/ConversationSystemPrompt.ts",
         "packages/conversations-generics/src/agent/ConversationAgent.ts",
@@ -148,6 +427,30 @@
         "uapi/tests/api/chatStreamRoute.test.ts",
         ".bitcode/conversations-continuity-proof.json"
       ],
+      "verificationEvidence": [
+        {
+          "value": "uapi/tests/api/conversationsRoute.test.ts",
+          "evidenceType": "source-test",
+          "refPath": "uapi/tests/api/conversationsRoute.test.ts"
+        },
+        {
+          "value": "uapi/tests/api/chatStreamRoute.test.ts",
+          "evidenceType": "source-test",
+          "refPath": "uapi/tests/api/chatStreamRoute.test.ts"
+        },
+        {
+          "value": ".bitcode/conversations-continuity-proof.json",
+          "evidenceType": "generated-artifact",
+          "refPath": ".bitcode/conversations-continuity-proof.json"
+        }
+      ],
+      "verificationEvidenceTypeCounts": {
+        "source-test": 2,
+        "generated-artifact": 1
+      },
+      "missingVerificationEvidenceRefs": [],
+      "declaredVerificationGaps": [],
+      "hasExecutableOrGeneratedVerificationEvidence": true,
       "passed": true
     },
     {
@@ -156,6 +459,21 @@
       "boundaryPosture": "compatibility",
       "missingFields": [],
       "invalidBoundaryPosture": null,
+      "missingSectionFields": [],
+      "implementationOwnerRefs": [
+        "packages/pipelines/deliverable/src/agents/prompts/comprehend-need-prompt.ts",
+        "packages/pipelines/deliverable/src/agents/prompts/deliverable-pipeline-comprehend-need-agent-prompts.ts",
+        "packages/pipelines/deliverable/scripts/render-prompts.ts",
+        "packages/pipelines/deliverable/src/tools/DeliverablePipelineCloneVCSRepositoryTool.ts",
+        "packages/pipelines/deliverable/src/tools/search.ts",
+        "packages/pipelines/deliverable/src/agents/setup/deliverable-pipeline-comprehend-need-agent.ts",
+        "packages/pipelines/deliverable/src/agents/setup/deliverable-pipeline-ready-to-iterate-agent.ts",
+        "packages/pipelines/deliverable/src/agents/shipping/deliverable-pipeline-final-work-summary-agent.ts",
+        "packages/pipelines/deliverable/src/index.ts",
+        "packages/pipelines/deliverable/src/postprocess.ts",
+        "packages/pipelines/deliverable/src/types/PipelineSchemas.ts"
+      ],
+      "missingImplementationOwnerRefs": [],
       "sourceEvidenceRefs": [
         "protocol-demonstration/V26_DELIVERABLE_REFORM.md",
         "protocol-demonstration/test/v26-deliverable-reform.test.js",
@@ -171,6 +489,30 @@
         ".bitcode/runs-pipelines-totality-proof.json",
         ".bitcode/prompt-system-totality-proof.json"
       ],
+      "verificationEvidence": [
+        {
+          "value": "node --test protocol-demonstration/test/v26-deliverable-reform.test.js",
+          "evidenceType": "executable-command",
+          "refPath": null
+        },
+        {
+          "value": ".bitcode/runs-pipelines-totality-proof.json",
+          "evidenceType": "generated-artifact",
+          "refPath": ".bitcode/runs-pipelines-totality-proof.json"
+        },
+        {
+          "value": ".bitcode/prompt-system-totality-proof.json",
+          "evidenceType": "generated-artifact",
+          "refPath": ".bitcode/prompt-system-totality-proof.json"
+        }
+      ],
+      "verificationEvidenceTypeCounts": {
+        "executable-command": 1,
+        "generated-artifact": 2
+      },
+      "missingVerificationEvidenceRefs": [],
+      "declaredVerificationGaps": [],
+      "hasExecutableOrGeneratedVerificationEvidence": true,
       "passed": true
     },
     {
@@ -179,6 +521,19 @@
       "boundaryPosture": "compatibility",
       "missingFields": [],
       "invalidBoundaryPosture": null,
+      "missingSectionFields": [],
+      "implementationOwnerRefs": [
+        "packages/generic-tools/task-comprehension/src/prompts/AnalyzeTaskSemanticsDocCodeToolPrompt.ts",
+        "packages/generic-tools/task-comprehension/src/prompts/ExtractRequirementsDocCodeToolPrompt.ts",
+        "packages/generic-tools/task-comprehension/src/prompts/GenerateSuccessCriteriaDocCodeToolPrompt.ts",
+        "packages/prompts/src/raw_promptparts/specific/promptpart_specific_tool_analyzetasksemantics_doccodetoolpurpose.ts",
+        "packages/generic-tools/task-comprehension/src/AnalyzeTaskSemanticsTool.ts",
+        "packages/generic-tools/task-comprehension/src/primitives.ts",
+        "packages/generic-tools/task-comprehension/src/schemas.ts",
+        "packages/generic-tools/task-comprehension/tsconfig.json",
+        "packages/generic-tools/task-comprehension/src/types/tools-generics.ts"
+      ],
+      "missingImplementationOwnerRefs": [],
       "sourceEvidenceRefs": [
         "packages/generic-tools/task-comprehension/README.md",
         "packages/generic-tools/task-comprehension/package.json",
@@ -194,6 +549,29 @@
         "node --test protocol-demonstration/test/v26-prompt-system-boundary.test.js",
         "node --test protocol-demonstration/test/v26-deliverable-reform.test.js"
       ],
+      "verificationEvidence": [
+        {
+          "value": "pnpm -C packages/generic-tools/task-comprehension run build",
+          "evidenceType": "executable-command",
+          "refPath": null
+        },
+        {
+          "value": "node --test protocol-demonstration/test/v26-prompt-system-boundary.test.js",
+          "evidenceType": "executable-command",
+          "refPath": null
+        },
+        {
+          "value": "node --test protocol-demonstration/test/v26-deliverable-reform.test.js",
+          "evidenceType": "executable-command",
+          "refPath": null
+        }
+      ],
+      "verificationEvidenceTypeCounts": {
+        "executable-command": 3
+      },
+      "missingVerificationEvidenceRefs": [],
+      "declaredVerificationGaps": [],
+      "hasExecutableOrGeneratedVerificationEvidence": true,
       "passed": true
     },
     {
@@ -202,10 +580,20 @@
       "boundaryPosture": "ingress",
       "missingFields": [],
       "invalidBoundaryPosture": null,
+      "missingSectionFields": [],
+      "implementationOwnerRefs": [
+        "packages/executions-mcp/README.md",
+        "packages/executions-mcp/src/index.ts",
+        "packages/tools-generics/src/mcp/MCPToolWrapper.ts",
+        "uapi/components/base/bitcode/execution/BitcodeExecutionStreamPanel.tsx"
+      ],
+      "missingImplementationOwnerRefs": [],
       "sourceEvidenceRefs": [
         "packages/executions-mcp/package.json",
         "packages/executions-mcp/README.md",
         "packages/executions-mcp/src/index.ts",
+        "packages/executions-mcp/src/mcp-server/package.json",
+        "packages/executions-mcp/src/mcp-server/tsconfig.typecheck.json",
         "packages/tools-generics/src/mcp/MCPToolWrapper.ts",
         "uapi/components/base/bitcode/execution/BitcodeExecutionStreamPanel.tsx",
         "protocol-demonstration/V26_APPLICATION_SYSTEMS.md"
@@ -214,8 +602,32 @@
       "verificationSet": [
         ".bitcode/retained-package-admissibility-proof.json",
         ".bitcode/system-reform-admissibility-proof.json",
-        "package-local executions-mcp typecheck boundary"
+        "pnpm -C packages/executions-mcp run typecheck"
       ],
+      "verificationEvidence": [
+        {
+          "value": ".bitcode/retained-package-admissibility-proof.json",
+          "evidenceType": "generated-artifact",
+          "refPath": ".bitcode/retained-package-admissibility-proof.json"
+        },
+        {
+          "value": ".bitcode/system-reform-admissibility-proof.json",
+          "evidenceType": "generated-artifact",
+          "refPath": ".bitcode/system-reform-admissibility-proof.json"
+        },
+        {
+          "value": "pnpm -C packages/executions-mcp run typecheck",
+          "evidenceType": "executable-command",
+          "refPath": null
+        }
+      ],
+      "verificationEvidenceTypeCounts": {
+        "generated-artifact": 2,
+        "executable-command": 1
+      },
+      "missingVerificationEvidenceRefs": [],
+      "declaredVerificationGaps": [],
+      "hasExecutableOrGeneratedVerificationEvidence": true,
       "passed": true
     }
   ],
@@ -389,6 +801,66 @@
         "packages/agent-generics/src/agents/factories.ts",
         "packages/agent-generics/src/substeps/factories.ts",
         "packages/agent-generics/src/diagnostics/trace.ts"
+      ]
+    },
+    {
+      "recordId": "execution-infrastructure",
+      "canonicalNeed": "Provide the canonical execution tree, prompt-aware execution ancestry, storage controls, streaming adapters, work updates, and typed store evidence for Bitcode inference runs.",
+      "promptImplementation": {
+        "owners": [
+          "packages/execution-generics/src/prompts/ExecutionPrompt.ts"
+        ],
+        "rawPromptPartBoundary": "@bitcode/prompts/prompt and @bitcode/prompts/parts/PromptPart through public prompt subpaths",
+        "runtimeCarryThrough": "ExecutionPrompt composes public Prompt and PromptPart primitives but does not own raw promptpart text."
+      },
+      "toolImplementation": {
+        "owners": [
+          "packages/execution-generics/src/tools/ExecutionToolRegistry.ts"
+        ],
+        "contract": "Execution-level tool registries are support carriers for higher tool owners; mutating tools must still declare their own capability and fail-closed boundaries."
+      },
+      "agentImplementation": {
+        "owners": [],
+        "contract": "No independent live agent is promoted by base execution primitives; agent-specific roles are covered by the agent-infrastructure record."
+      },
+      "executionImplementation": {
+        "owners": [
+          "packages/execution-generics/src/Execution.ts",
+          "packages/execution-generics/src/execution-registry.ts",
+          "packages/execution-generics/src/storage/ExecutionStorageAdapter.ts",
+          "packages/execution-generics/src/storage/ExecutionStreamAdapter.ts",
+          "packages/execution-generics/src/store/registry.ts",
+          "packages/execution-generics/src/work-update.ts"
+        ],
+        "carriers": [
+          "Execution",
+          "execution-registry",
+          "ExecutionStorageAdapter",
+          "ExecutionStreamAdapter",
+          "typed execution stores",
+          "work updates"
+        ]
+      },
+      "assetPackImplementation": {
+        "outputKind": "execution evidence substrate",
+        "effect": "Execution stores, stream events, storage destinations, and work updates carry proof/reread evidence for prompts, tools, agents, pipelines, conversations, and asset-pack synthesis."
+      },
+      "boundaryPosture": "active",
+      "verificationSet": [
+        "pnpm -C packages/execution-generics run typecheck",
+        "node --test protocol-demonstration/test/v26-prompt-system-boundary.test.js",
+        ".bitcode/runs-pipelines-totality-proof.json"
+      ],
+      "sourceEvidenceRefs": [
+        "packages/execution-generics/package.json",
+        "packages/execution-generics/src/index.ts",
+        "packages/execution-generics/src/Execution.ts",
+        "packages/execution-generics/src/prompts/ExecutionPrompt.ts",
+        "packages/execution-generics/src/tools/ExecutionToolRegistry.ts",
+        "packages/execution-generics/src/storage/ExecutionStorageAdapter.ts",
+        "packages/execution-generics/src/storage/ExecutionStreamAdapter.ts",
+        "packages/execution-generics/src/store/registry.ts",
+        "packages/execution-generics/src/work-update.ts"
       ]
     },
     {
@@ -660,12 +1132,14 @@
       "verificationSet": [
         ".bitcode/retained-package-admissibility-proof.json",
         ".bitcode/system-reform-admissibility-proof.json",
-        "package-local executions-mcp typecheck boundary"
+        "pnpm -C packages/executions-mcp run typecheck"
       ],
       "sourceEvidenceRefs": [
         "packages/executions-mcp/package.json",
         "packages/executions-mcp/README.md",
         "packages/executions-mcp/src/index.ts",
+        "packages/executions-mcp/src/mcp-server/package.json",
+        "packages/executions-mcp/src/mcp-server/tsconfig.typecheck.json",
         "packages/tools-generics/src/mcp/MCPToolWrapper.ts",
         "uapi/components/base/bitcode/execution/BitcodeExecutionStreamPanel.tsx",
         "protocol-demonstration/V26_APPLICATION_SYSTEMS.md"

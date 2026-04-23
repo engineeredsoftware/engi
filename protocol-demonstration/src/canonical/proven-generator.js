@@ -753,7 +753,7 @@ function buildV26GateCheckpointReport({
       label: 'Fourth-gate inference implementation records proof',
       passed: inferenceImplementationRecordsProof?.passed === true,
       detail: inferenceImplementationRecordsProof?.passed === true
-        ? 'Prompt, tool, agentic, pipeline, conversation, asset-pack, need-comprehension, and MCP inference systems have source-visible implementation records'
+        ? 'Prompt, tool, agentic, execution, pipeline, conversation, asset-pack, need-comprehension, and MCP inference systems have source-visible implementation records'
         : 'Inference implementation record proof remains open'
     }
   ];
@@ -1300,7 +1300,9 @@ function buildV26InferenceImplementationRecordsProof({
     passed: validation.passed,
     recordCount: validation.recordCount,
     requiredFields: validation.requiredFields,
+    requiredSectionFields: validation.requiredSectionFields,
     requiredBoundaryPostures: validation.requiredBoundaryPostures,
+    verificationEvidenceTypes: validation.verificationEvidenceTypes,
     boundaryPostureCounts: validation.boundaryPostureCounts,
     recordChecks: validation.recordChecks,
     records: validation.records

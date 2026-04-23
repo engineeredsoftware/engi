@@ -4,7 +4,9 @@ import { existsSync } from 'node:fs';
 import path from 'node:path';
 import {
   V26_INFERENCE_IMPLEMENTATION_RECORD_REQUIRED_FIELDS,
+  V26_INFERENCE_IMPLEMENTATION_SECTION_REQUIREMENTS,
   V26_INFERENCE_IMPLEMENTATION_RECORDS,
+  V26_INFERENCE_VERIFICATION_EVIDENCE_TYPES,
   validateV26InferenceImplementationRecords
 } from '../src/canonical/inference-implementation-records.js';
 
@@ -20,8 +22,30 @@ test('V26 inference implementation records cover required prompt/tool/agent/exec
   assert.equal(validation.passed, true);
   assert.equal(validation.recordCount, V26_INFERENCE_IMPLEMENTATION_RECORDS.length);
   assert.deepEqual(validation.requiredFields, V26_INFERENCE_IMPLEMENTATION_RECORD_REQUIRED_FIELDS);
+  assert.deepEqual(validation.requiredSectionFields, V26_INFERENCE_IMPLEMENTATION_SECTION_REQUIREMENTS);
+  assert.deepEqual(validation.verificationEvidenceTypes, V26_INFERENCE_VERIFICATION_EVIDENCE_TYPES);
   assert.deepEqual(
     validation.recordChecks.filter((check) => check.passed !== true),
+    []
+  );
+  assert.deepEqual(
+    validation.recordChecks.flatMap((check) => check.missingSectionFields),
+    []
+  );
+  assert.deepEqual(
+    validation.recordChecks.flatMap((check) => check.missingImplementationOwnerRefs),
+    []
+  );
+  assert.deepEqual(
+    validation.recordChecks.flatMap((check) => check.missingVerificationEvidenceRefs),
+    []
+  );
+  assert.deepEqual(
+    validation.recordChecks.flatMap((check) => check.declaredVerificationGaps),
+    []
+  );
+  assert.deepEqual(
+    validation.recordChecks.filter((check) => check.hasExecutableOrGeneratedVerificationEvidence !== true),
     []
   );
 });
@@ -33,6 +57,7 @@ test('V26 inference implementation registry names every current fifth-gate infer
     'agent-infrastructure',
     'asset-pack-synthesis-compatibility',
     'conversation-inference',
+    'execution-infrastructure',
     'mcp-external-ingress',
     'need-comprehension-compatibility',
     'pipeline-infrastructure',
@@ -49,6 +74,7 @@ test('V26 inference implementation registry binds records to canonical Bitcode s
   assert.match(recordsById['prompt-primitives'].canonicalNeed, /prompt substrate/u);
   assert.match(recordsById['tool-prompt-infrastructure'].canonicalNeed, /tool descriptions/u);
   assert.match(recordsById['agent-infrastructure'].canonicalNeed, /agent roles/u);
+  assert.match(recordsById['execution-infrastructure'].canonicalNeed, /execution tree/u);
   assert.match(recordsById['pipeline-infrastructure'].canonicalNeed, /Bitcode runs/u);
   assert.match(recordsById['conversation-inference'].canonicalNeed, /rich-input Bitcode write surface/u);
   assert.match(recordsById['asset-pack-synthesis-compatibility'].canonicalNeed, /asset-pack written-asset synthesis/u);
