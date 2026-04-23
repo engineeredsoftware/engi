@@ -226,6 +226,9 @@ function importExecutionFromRoot(source) {
 
 test('V26 prompt system keeps a public package boundary for active inference carriers', () => {
   const promptIndexSource = readFileSync(path.join(repoRoot, 'packages/prompts/src/index.ts'), 'utf8');
+  const promptSource = readFileSync(path.join(repoRoot, 'packages/prompts/src/prompt.ts'), 'utf8');
+  const registrySource = readFileSync(path.join(repoRoot, 'packages/registry/src/index.ts'), 'utf8');
+  const registryReadmeSource = readFileSync(path.join(repoRoot, 'packages/registry/README.md'), 'utf8');
   const promptPackageJson = JSON.parse(
     readFileSync(path.join(repoRoot, 'packages/prompts/package.json'), 'utf8')
   );
@@ -239,6 +242,16 @@ test('V26 prompt system keeps a public package boundary for active inference car
   assert.match(promptIndexSource, /PromptExecution/u);
   assert.match(promptIndexSource, /createPromptExecution/u);
   assert.match(promptIndexSource, /Active inference packages must import PromptPart, Prompt, PromptExecution/u);
+  assert.match(promptIndexSource, /`Prompt` extends `RegistryImpl<PromptPart>`/u);
+  assert.match(promptIndexSource, /\/raw_promptparts\/generic\/: base, reusable, and Registry-inheritable PromptPart layers/u);
+  assert.match(promptIndexSource, /\/raw_promptparts\/specific\/: concrete implementations of PromptPart types for Bitcode/u);
+  assert.match(promptSource, /export class Prompt extends RegistryImpl<PromptPart>/u);
+  assert.match(promptSource, /generic base PromptParts and specific/u);
+  assert.match(registrySource, /get\(paths: string\[\], merger\?: \(base: T, override: T\) => T\): T \| undefined/u);
+  assert.match(registrySource, /Sort by priority \(higher first\)/u);
+  assert.match(registryReadmeSource, /Prompt` is a `RegistryImpl<PromptPart>`/u);
+  assert.match(registryReadmeSource, /`raw_promptparts\/generic` and `PROMPTPART_GENERIC_\*` are base reusable/u);
+  assert.match(registryReadmeSource, /`raw_promptparts\/specific` and `PROMPTPART_SPECIFIC_\*` are concrete/u);
   assert.ok(promptPackageJson.exports['./prompt']);
   assert.ok(promptPackageJson.exports['./parts/PromptPart']);
   assert.ok(promptPackageJson.exports['./execution/PromptExecution']);

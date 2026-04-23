@@ -13,6 +13,12 @@ test('V26 prompt surface map keeps active, support, and reference corridors expl
   assert.match(promptSurfaceSource, /## Public prompt contract/u);
   assert.match(promptSurfaceSource, /V26_INFERENCE_SYSTEMS\.md/u);
   assert.match(promptSurfaceSource, /need, prompt surface, tool contract, agentic role, execution carrier, asset-pack effect, and verification/u);
+  assert.match(promptSurfaceSource, /`Prompt` defines the registry\/composition shape of inference by extending `RegistryImpl<PromptPart>`/u);
+  assert.match(promptSurfaceSource, /Registry primitives are therefore required knowledge for prompt work/u);
+  assert.match(promptSurfaceSource, /`RegistryImpl` provides priority resolution, hierarchical path composition, multi-path merging/u);
+  assert.match(promptSurfaceSource, /`_generic_` raw PromptPart nameparts and `PROMPTPART_GENERIC_\*` constants name base reusable PromptPart types/u);
+  assert.match(promptSurfaceSource, /`_specific_` raw PromptPart nameparts and `PROMPTPART_SPECIFIC_\*` constants name concrete implementations/u);
+  assert.match(promptSurfaceSource, /The naming split is a Bitcode implementation-layer contract/u);
   assert.match(promptSurfaceSource, /## Active fifth-gate prompt consumers/u);
   assert.match(promptSurfaceSource, /## Support prompt consumers/u);
   assert.match(promptSurfaceSource, /## Reference-only or retained old-world prompt ports/u);
@@ -59,6 +65,10 @@ test('V26 prompt surface map keeps active, support, and reference corridors expl
   assert.match(promptSurfaceSource, /whole retained deliverable-family raw PromptPart corpus/u);
   assert.match(promptSurfaceSource, /agent, phase, pipeline, tool, setup, discovery, implementation, validation, and shipping PromptParts/u);
   assert.match(promptSurfaceSource, /doc-comment `intent` and `current_version` metadata must describe Bitcode need-first written-asset \/ asset-pack execution/u);
+  assert.match(promptSurfaceSource, /The remaining prompt closure work must also prove Registry-layer understanding/u);
+  assert.match(promptSurfaceSource, /generic\/base PromptParts that are reused or inherited through Registry paths/u);
+  assert.match(promptSurfaceSource, /specific implementation PromptParts that specialize the base type/u);
+  assert.match(promptSurfaceSource, /Full V26 closure must eliminate any prompt implementation whose generic\/specific layer can only be inferred/u);
   assert.match(promptSurfaceSource, /fifth-gate prompt baseline proves/u);
   assert.match(promptSurfaceSource, /final prompt-space completeness remains an eighth-gate closure obligation/u);
   assert.match(promptSurfaceSource, /baselinePassed/u);
@@ -71,7 +81,7 @@ test('V26 prompt surface map keeps active, support, and reference corridors expl
 test('V26 inference systems spec binds prompts, tools, agents, and executions together', () => {
   assert.match(inferenceSystemsSource, /No prompt, tool, agent, phase, pipeline, MCP operation, or execution carrier/u);
   assert.match(inferenceSystemsSource, /Need \| Name the Bitcode need/u);
-  assert.match(inferenceSystemsSource, /Prompt ownership \| Identify the exact prompt class/u);
+  assert.match(inferenceSystemsSource, /Prompt ownership \| Identify the exact prompt class, Registry primitive, registry path\/key structure, generic base PromptParts, specific implementation PromptParts/u);
   assert.match(inferenceSystemsSource, /Tool ownership \| Identify callable tools/u);
   assert.match(inferenceSystemsSource, /Agent ownership \| Identify agent role/u);
   assert.match(inferenceSystemsSource, /Execution ownership \| Identify where runtime state is stored/u);
@@ -83,6 +93,7 @@ test('V26 inference systems spec binds prompts, tools, agents, and executions to
   assert.match(inferenceSystemsSource, /recordId/u);
   assert.match(inferenceSystemsSource, /canonicalNeed/u);
   assert.match(inferenceSystemsSource, /promptImplementation/u);
+  assert.match(inferenceSystemsSource, /Registry primitive, registry path\/key structure, generic base PromptParts, specific implementation PromptParts/u);
   assert.match(inferenceSystemsSource, /toolImplementation/u);
   assert.match(inferenceSystemsSource, /agentImplementation/u);
   assert.match(inferenceSystemsSource, /executionImplementation/u);
@@ -99,6 +110,10 @@ test('V26 inference systems spec binds prompts, tools, agents, and executions to
   assert.match(inferenceSystemsSource, /application conversation prompt binding and admitted Bitcode MCP prompt\/tool ingress/u);
   assert.match(inferenceSystemsSource, /`passed: true` is not allowed until eighth-gate prompt-space saturation/u);
   assert.match(inferenceSystemsSource, /runtime and proof evidence can be regenerated from source/u);
+  assert.match(inferenceSystemsSource, /treat `Prompt` as `RegistryImpl<PromptPart>`/u);
+  assert.match(inferenceSystemsSource, /classify `raw_promptparts\/generic` \/ `PROMPTPART_GENERIC_\*` as reusable base PromptPart layers/u);
+  assert.match(inferenceSystemsSource, /`raw_promptparts\/specific` \/ `PROMPTPART_SPECIFIC_\*` as concrete implementation PromptPart layers/u);
+  assert.match(inferenceSystemsSource, /Prompt-type Registry carrier, generic base PromptParts, and specific implementation PromptParts are explicitly mapped/u);
 });
 
 test('V26 active app config no longer preserves deprecated prompt source aliases', () => {

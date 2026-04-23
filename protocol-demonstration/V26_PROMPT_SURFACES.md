@@ -13,8 +13,17 @@
 They are one of the strongest repository-level ropes for following Bitcode inference:
 
 - `PromptPart` defines the smallest typed semantic unit of inference
-- `Prompt` defines the registry/composition shape of inference
+- `Prompt` defines the registry/composition shape of inference by extending `RegistryImpl<PromptPart>`
 - `PromptExecution` defines the execution-side carrier that binds prompts to runtime work
+
+Registry primitives are therefore required knowledge for prompt work.
+`RegistryImpl` provides priority resolution, hierarchical path composition, multi-path merging, and explicit inheritance-by-registry rather than hidden class inheritance.
+Prompt-types use that primitive in practical implementation layers:
+
+- `_generic_` raw PromptPart nameparts and `PROMPTPART_GENERIC_*` constants name base reusable PromptPart types, objectives, formatters, and cross-corridor fragments that can be inherited or merged into more concrete prompt registries.
+- `_specific_` raw PromptPart nameparts and `PROMPTPART_SPECIFIC_*` constants name concrete implementations of those prompt types for tools, agents, phases, pipelines, products, compatibility overlays, and Bitcode-specific proof/measurement/evidence corridors.
+- Registry paths, priorities, and merge order decide how generic base layers and specific implementation layers compose into final prompt material.
+- The naming split is a Bitcode implementation-layer contract, not a loose filesystem convention: generic base PromptParts and specific implementation PromptParts must both be specified before a prompt-bearing corridor can be accepted as live Bitcode behavior.
 
 If a corridor meaningfully shapes Bitcode inference, it should either:
 - consume these abstractions through the public prompt contract,
@@ -49,6 +58,7 @@ Operational rules:
 - support primitives that prompt/doc-code runtime carriers depend on, including `@bitcode/registry`, `@bitcode/execution-generics/{Execution,prompts/ExecutionPrompt}`, `@bitcode/doc-comment/{base-plugin,types}`, `@bitcode/doc-code`, and `@bitcode/tools-generics`, must expose honest source-backed public package subpaths and direct dependency declarations rather than relying on repo-relative cross-package imports
 - prompt-bearing runtime carriers and adjacent execution/phase/diagnostic carriers that only need the base execution tree must stay loadable without dragging the full execution storage/logging stack through a broad execution barrel
 - raw promptparts may stay explicit and file-granular, but route-local ad hoc strings may not silently replace prompt-owned product logic
+- raw promptparts must keep their implementation-layer meaning legible: `raw_promptparts/generic` is the base/inheritable PromptPart layer, `raw_promptparts/specific` is the concrete implementation PromptPart layer, and every active/admitted prompt registry must be able to explain which layer it consumes
 - raw promptpart TypeScript sources and runtime JavaScript carry-through files must stay content-equivalent so commercial runtime imports cannot silently use old prompt text after the canonical TS prompt has been reformed
 - prompt behavior that remains old-world, experimental, or pre-Bitcode may survive only as reference-only or auxiliary-input corridors
 - the base `doc-comment` primitive plus `doc-code` tool prompt injection may remain admitted support/compatibility infrastructure where Bitcode still needs build-time prompt attachment for tool runs, but `generic-doc-comment-plugins`, `doc-comment` examples, and prompt-package developing experiments remain reference-only reform material under `protocol-demonstration/V26_DOC_COMMENT_REFORM.md`; package docs in those corridors must not present prompt-package internal paths as public consumer APIs
@@ -123,6 +133,18 @@ The same runtime carry-through rule applies to retained deliverable substep Prom
 Their doc-comment metadata must also be Bitcode-native: `current_version` cannot preserve GA1 lineage, and every retained deliverable substep `intent` must name the need-first written-asset / asset-pack / proof / delivery-wrapper role represented by that PromptPart.
 The same metadata rule now applies across the whole retained deliverable-family raw PromptPart corpus: agent, phase, pipeline, tool, setup, discovery, implementation, validation, and shipping PromptParts may retain compatibility filenames, but their doc-comment `intent` and `current_version` metadata must describe Bitcode need-first written-asset / asset-pack execution rather than old deliverable product lineage.
 Its package-local build boundary must typecheck those prompt/tool imports without emitting generated artifacts, and must declare direct dependencies on `@bitcode/prompts` and `@bitcode/tools-generics` rather than relying on transitive workspace reach-through.
+
+The remaining prompt closure work must also prove Registry-layer understanding, not just prompt text cleanup.
+For every live or admitted-support Bitcode prompt implementation, closure evidence must identify:
+
+- the `Prompt`, `PromptExecution`, or prompt-aware registry carrier that owns composition,
+- the generic/base PromptParts that are reused or inherited through Registry paths,
+- the specific implementation PromptParts that specialize the base type for a Bitcode tool, agent, phase, pipeline, or product corridor,
+- the formatter or runtime materializer that turns registry entries into model-ready prompt text,
+- and the test/proof witness that verifies this layering from source.
+
+Compatibility filenames may remain during fifth-gate only when their PromptPart metadata and content state the canonical Bitcode layer they implement.
+Full V26 closure must eliminate any prompt implementation whose generic/specific layer can only be inferred from old naming or untested runtime behavior.
 
 ## Verification posture
 

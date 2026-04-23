@@ -31,6 +31,7 @@ export const V26_INFERENCE_VERIFICATION_EVIDENCE_TYPES = Object.freeze([
 export const V26_INFERENCE_IMPLEMENTATION_SECTION_REQUIREMENTS = Object.freeze({
   promptImplementation: Object.freeze([
     Object.freeze({ field: 'owners', minItems: 1 }),
+    Object.freeze({ field: 'registryLayering', minLength: 1 }),
     Object.freeze({ field: 'rawPromptPartBoundary', minLength: 1 }),
     Object.freeze({ field: 'runtimeCarryThrough', minLength: 1 })
   ]),
@@ -64,6 +65,7 @@ export const V26_INFERENCE_IMPLEMENTATION_RECORDS = Object.freeze([
         'packages/prompts/src/formatters/index.ts'
       ],
       rawPromptPartBoundary: '@bitcode/prompts/raw_promptparts/*',
+      registryLayering: 'Prompt extends RegistryImpl<PromptPart>; raw_promptparts/generic holds reusable base PromptPart layers and raw_promptparts/specific holds concrete Bitcode implementation PromptParts composed through registry paths, priorities, and merges.',
       runtimeCarryThrough: 'PromptPart TypeScript content and runtime JavaScript carry-through must remain equivalent.'
     },
     toolImplementation: {
@@ -108,6 +110,7 @@ export const V26_INFERENCE_IMPLEMENTATION_RECORDS = Object.freeze([
         'packages/doc-code/src/transformDocCodeTools.ts'
       ],
       rawPromptPartBoundary: 'doc-code labels and DocCodeToolPrompt paths',
+      registryLayering: 'Tool prompt descriptions enter agent runs through prompt-aware registries while generic prompt fragments remain reusable base layers and tool-specific DocCodeToolPrompt material specializes implementation paths.',
       runtimeCarryThrough: 'DocCode tool prompts must load through public doc-code, doc-comment, registry, execution, and prompt package subpaths.'
     },
     toolImplementation: {
@@ -162,6 +165,7 @@ export const V26_INFERENCE_IMPLEMENTATION_RECORDS = Object.freeze([
         'packages/agent-generics/src/prompts/ToolExecutionPrompt.ts'
       ],
       rawPromptPartBoundary: '@bitcode/prompts/parts/PromptPart and narrow prompt subpaths',
+      registryLayering: 'AgentPrompt and AgentStepPrompt compose generic generation/failsafe PromptParts with specific agent role, phase, substep, and tool-overlay PromptParts through explicit prompt registries.',
       runtimeCarryThrough: 'Agent prompt overlays must compose through public prompt primitives.'
     },
     toolImplementation: {
@@ -215,6 +219,7 @@ export const V26_INFERENCE_IMPLEMENTATION_RECORDS = Object.freeze([
         'packages/execution-generics/src/prompts/ExecutionPrompt.ts'
       ],
       rawPromptPartBoundary: '@bitcode/prompts/prompt and @bitcode/prompts/parts/PromptPart through public prompt subpaths',
+      registryLayering: 'ExecutionPrompt inherits Prompt registry behavior so execution-specific prompt requirements specialize generic prompt layers without hidden string state.',
       runtimeCarryThrough: 'ExecutionPrompt composes public Prompt and PromptPart primitives but does not own raw promptpart text.'
     },
     toolImplementation: {
@@ -269,6 +274,7 @@ export const V26_INFERENCE_IMPLEMENTATION_RECORDS = Object.freeze([
         'packages/pipelines-generics/src/execution/PipelinePromptRegistry.ts'
       ],
       rawPromptPartBoundary: '@bitcode/prompts and @bitcode/prompts/parts/PromptPart through public subpaths',
+      registryLayering: 'PipelinePrompt and PipelinePromptRegistry bind generic phase/pipeline prompt bases to specific setup, discovery, implementation, validation, and finish implementations through registry-backed hierarchy.',
       runtimeCarryThrough: 'Pipeline prompts must not depend on route-local strings or private prompt source paths.'
     },
     toolImplementation: {
@@ -322,6 +328,7 @@ export const V26_INFERENCE_IMPLEMENTATION_RECORDS = Object.freeze([
         'uapi/prompts/conversations-system-prompt.ts'
       ],
       rawPromptPartBoundary: 'conversation system prompt plus app-level binding',
+      registryLayering: 'Conversation prompt binding composes the conversation-specific implementation prompt with public prompt primitives and inherits the same Registry-backed Prompt contract.',
       runtimeCarryThrough: 'Conversation prompt binding must stay aligned with rich-input execution and app route state.'
     },
     toolImplementation: {
@@ -369,6 +376,7 @@ export const V26_INFERENCE_IMPLEMENTATION_RECORDS = Object.freeze([
         'packages/pipelines/deliverable/scripts/render-prompts.ts'
       ],
       rawPromptPartBoundary: 'COMPREHENDNEED and DELIVERABLESETUPCOMPREHENDNEED PromptParts before compatibility COMPREHENDTASK wrappers',
+      registryLayering: 'Generic PTRR and formatting PromptParts form base layers while specific deliverable/setup/validation/finish PromptParts implement Bitcode need, written-asset, asset-pack, proof, and delivery-wrapper behavior through retained prompt registries.',
       runtimeCarryThrough: 'Deliverable-corridor runtime promptparts must teach need-first asset-pack synthesis and shipping wrappers.'
     },
     toolImplementation: {
@@ -432,6 +440,7 @@ export const V26_INFERENCE_IMPLEMENTATION_RECORDS = Object.freeze([
         'packages/prompts/src/raw_promptparts/specific/promptpart_specific_tool_analyzetasksemantics_doccodetoolpurpose.ts'
       ],
       rawPromptPartBoundary: '@bitcode/prompts/raw_promptparts/* with task-named compatibility filenames',
+      registryLayering: 'Task-named compatibility PromptParts remain specific implementation layers only when their content specializes generic need-comprehension bases into Bitcode need, written-asset, asset-pack, proof, and delivery-wrapper analysis.',
       runtimeCarryThrough: 'Task-named PromptPart TypeScript and JavaScript must carry canonical need-comprehension text.'
     },
     toolImplementation: {
@@ -482,6 +491,7 @@ export const V26_INFERENCE_IMPLEMENTATION_RECORDS = Object.freeze([
         'packages/executions-mcp/src/index.ts'
       ],
       rawPromptPartBoundary: 'MCP tool descriptions only where admitted by V26 prompt/tool records',
+      registryLayering: 'MCP ingress prompt descriptions may enter prompt-aware registries only as specific implementation layers bound to admitted Bitcode tool records.',
       runtimeCarryThrough: 'MCP descriptions must not promote non-admitted tool families into live Bitcode behavior.'
     },
     toolImplementation: {

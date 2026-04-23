@@ -1420,7 +1420,7 @@ function buildV26InferenceImplementationRecordsProof({
 const V26_PROMPT_SPACE_WITNESS_SETS = [
   {
     checkId: 'prompt-primitive-public-contract',
-    label: 'PromptPart, Prompt, PromptExecution, formatter, and raw promptpart public contracts stay source-visible',
+    label: 'PromptPart, Registry-backed Prompt, PromptExecution, formatter, generic raw PromptParts, and specific raw PromptParts stay source-visible',
     promptSpaceRole: 'primitive-contract',
     closureTier: 'fifth-gate-baseline',
     fifthGateUse: 'Defines the canonical prompt substrate every active or admitted-support inference corridor must compose through.',
@@ -1432,7 +1432,9 @@ const V26_PROMPT_SPACE_WITNESS_SETS = [
       'packages/prompts/src/parts/PromptPart.ts',
       'packages/prompts/src/execution/PromptExecution.ts',
       'packages/prompts/src/formatters/hierarchical.ts',
-      'packages/prompts/src/raw_promptparts/readme.md'
+      'packages/prompts/src/raw_promptparts/readme.md',
+      'packages/registry/src/index.ts',
+      'packages/registry/README.md'
     ]
   },
   {

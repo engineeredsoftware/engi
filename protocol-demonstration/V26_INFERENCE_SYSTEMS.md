@@ -33,7 +33,7 @@ Every active or admitted-support inference system must answer the following befo
 | Field | Requirement |
 | --- | --- |
 | Need | Name the Bitcode need in product terms, not legacy task/deliverable shorthand. |
-| Prompt ownership | Identify the exact prompt class, raw PromptParts, formatter, and runtime import boundary. |
+| Prompt ownership | Identify the exact prompt class, Registry primitive, registry path/key structure, generic base PromptParts, specific implementation PromptParts, formatter, and runtime import boundary. |
 | Tool ownership | Identify callable tools, schema inputs/outputs, capability limits, and fail-closed behavior. |
 | Agent ownership | Identify agent role, phase, step/substep structure, structured output, tool usage, and retry/refine behavior. |
 | Execution ownership | Identify where runtime state is stored, streamed, persisted, reread, and proven. |
@@ -57,7 +57,7 @@ Required record fields:
 - `canonicalNeed`
   The measured or expressed need the system satisfies.
 - `promptImplementation`
-  Exact prompt classes, raw PromptParts, prompt formatter, prompt execution carrier, and runtime JavaScript carry-through requirement.
+  Exact prompt classes, Registry primitive, registry path/key structure, generic base PromptParts, specific implementation PromptParts, prompt formatter, prompt execution carrier, and runtime JavaScript carry-through requirement.
 - `toolImplementation`
   Exact tool classes/functions, schemas, permission boundary, mutation boundary, and fail-closed behavior.
 - `agentImplementation`
@@ -97,6 +97,9 @@ Fifth-gate prompt closure requires every prompt/tool/agent/execution system to l
 Prompt-bearing systems must:
 
 - import prompt primitives through public `@bitcode/prompts` package boundaries or stable narrow subpaths;
+- treat `Prompt` as `RegistryImpl<PromptPart>` and specify the Registry path/key strategy, priority/merge expectation, and inheritance-by-registry behavior for every live/admitted prompt implementation;
+- classify `raw_promptparts/generic` / `PROMPTPART_GENERIC_*` as reusable base PromptPart layers and `raw_promptparts/specific` / `PROMPTPART_SPECIFIC_*` as concrete implementation PromptPart layers;
+- prove that generic base PromptParts and specific implementation PromptParts compose through explicit Registry-backed carriers rather than hidden strings or unspecific filesystem inference;
 - keep raw promptpart TypeScript and runtime JavaScript content equivalent;
 - keep package-local prompt typecheck configs source-backed and no-emit when they verify retained prompt reservoirs without owning emitted artifacts;
 - prefer semantic aliases such as `need`, `writtenAssetType`, `writtenAssets`, `assetPack`, `needSatisfactionCriteria`, and `deliveryMechanism` before legacy compatibility aliases;
@@ -136,7 +139,7 @@ Execution systems must:
 
 | Corridor | Required V26 inference specification |
 | --- | --- |
-| `packages/prompts/*` | canonical `PromptPart`, `Prompt`, `PromptExecution`, formatter, raw promptpart, and runtime carry-through ownership |
+| `packages/prompts/*` | canonical `PromptPart`, Registry-backed `Prompt`, `PromptExecution`, formatter, generic base raw PromptPart layer, specific implementation raw PromptPart layer, and runtime carry-through ownership |
 | `packages/tools-generics/*` | tool primitive, `ToolExecution`, `ToolPromptRegistry`, doc-code prompt injection, and public support subpaths |
 | `packages/doc-comment/*`, `packages/doc-code/*` | build-time annotation and tool prompt attachment support, with examples/plugins remaining reference-only unless promoted |
 | `packages/agent-generics/*` | agent prompt hierarchy, structured output, step/substep, retry/refine, tool/llm registry, and agent execution ownership |
@@ -153,6 +156,7 @@ It is complete only when:
 
 - its canonical need and implementation boundary are specified;
 - its prompt/tool/agent/execution carrier is source-visible;
+- its Prompt-type Registry carrier, generic base PromptParts, and specific implementation PromptParts are explicitly mapped;
 - its compatibility names are explicitly mapped or removed;
 - its package dependencies and public subpaths are honest;
 - its runtime and proof evidence can be regenerated from source.

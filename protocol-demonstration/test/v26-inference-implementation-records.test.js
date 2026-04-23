@@ -33,6 +33,12 @@ test('V26 inference implementation records cover required prompt/tool/agent/exec
     []
   );
   assert.deepEqual(
+    V26_INFERENCE_IMPLEMENTATION_RECORDS.flatMap((record) =>
+      record.promptImplementation.registryLayering ? [] : [record.recordId]
+    ),
+    []
+  );
+  assert.deepEqual(
     validation.recordChecks.flatMap((check) => check.missingImplementationOwnerRefs),
     []
   );
@@ -80,6 +86,11 @@ test('V26 inference implementation registry binds records to canonical Bitcode s
   assert.match(recordsById['asset-pack-synthesis-compatibility'].canonicalNeed, /asset-pack written-asset synthesis/u);
   assert.match(recordsById['need-comprehension-compatibility'].canonicalNeed, /need, written-asset, asset-pack/u);
   assert.match(recordsById['mcp-external-ingress'].canonicalNeed, /fail-closed ingress/u);
+  assert.match(recordsById['prompt-primitives'].promptImplementation.registryLayering, /Prompt extends RegistryImpl<PromptPart>/u);
+  assert.match(recordsById['prompt-primitives'].promptImplementation.registryLayering, /raw_promptparts\/generic holds reusable base PromptPart layers/u);
+  assert.match(recordsById['prompt-primitives'].promptImplementation.registryLayering, /raw_promptparts\/specific holds concrete Bitcode implementation PromptParts/u);
+  assert.match(recordsById['asset-pack-synthesis-compatibility'].promptImplementation.registryLayering, /Generic PTRR and formatting PromptParts form base layers/u);
+  assert.match(recordsById['asset-pack-synthesis-compatibility'].promptImplementation.registryLayering, /specific deliverable\/setup\/validation\/finish PromptParts implement Bitcode need/u);
 
   assert.equal(recordsById['asset-pack-synthesis-compatibility'].boundaryPosture, 'compatibility');
   assert.equal(recordsById['need-comprehension-compatibility'].boundaryPosture, 'compatibility');

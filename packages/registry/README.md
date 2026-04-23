@@ -225,6 +225,19 @@ class ExecutionLLMRegistry extends RegistryImpl<LLMConfig> {
 }
 ```
 
+For Bitcode prompt implementations, this Registry pattern is the practical
+inheritance model. `Prompt` is a `RegistryImpl<PromptPart>`, so generic prompt
+layers and specific prompt implementations compose through registry paths,
+priorities, and merges rather than through hidden class hierarchies.
+
+- `raw_promptparts/generic` and `PROMPTPART_GENERIC_*` are base reusable
+  PromptPart layers.
+- `raw_promptparts/specific` and `PROMPTPART_SPECIFIC_*` are concrete
+  implementations of PromptPart types for Bitcode tools, agents, phases,
+  pipelines, products, proof corridors, and compatibility overlays.
+- Closure evidence for a prompt-bearing Bitcode corridor must identify both
+  layers and the registry carrier that composes them.
+
 ## Design Principles
 
 1. **Pure Primitive** - No domain knowledge, just hierarchical storage

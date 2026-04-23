@@ -46,8 +46,14 @@ export type { PromptFormatter } from './prompt';
  *    const formatted = prompt.format(hierarchicalFormatter);
  *
  * RAW PROMPT ORGANIZATION:
- * - /raw_promptparts/generic/: Domain-agnostic reusable inference prompts
- * - /raw_promptparts/specific/: Pipeline, phase, agent, tool, and product prompts
+ * - /raw_promptparts/generic/: base, reusable, and Registry-inheritable PromptPart layers
+ * - /raw_promptparts/specific/: concrete implementations of PromptPart types for Bitcode
+ *   tools, agents, phases, pipelines, products, proof corridors, and compatibility overlays
+ *
+ * `Prompt` extends `RegistryImpl<PromptPart>`. Generic PromptParts provide the
+ * base layers; specific PromptParts specialize those layers at concrete registry
+ * paths. A Bitcode prompt implementation is complete only when that generic to
+ * specific Registry composition is visible in source, tests, or generated proof.
  *
  * Each raw prompt file contains a single PromptPart with doc-promptpart metadata.
  * The raw catalog is large; import only the PromptParts needed by the active run.

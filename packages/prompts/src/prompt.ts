@@ -24,6 +24,8 @@ export type PromptFormatter = (prompt: Prompt) => string;
  * - Required path validation
  * - Intelligent formatting with fallbacks
  * - Pattern-based requirements
+ * - Bitcode prompt layering where generic base PromptParts and specific
+ *   implementation PromptParts compose through explicit registry paths
  *
    *   TODO: is this.set not defined (consuming code is showing that linting error?)
  */

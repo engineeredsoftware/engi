@@ -1,8 +1,8 @@
 {
   "reportId": "v26-prompt-space-completeness-proof",
   "version": "V26",
-  "proofSourceCommit": "1185ea4fe8e51979ddf8893b4fb2061d3bf01181",
-  "generatedAt": "2026-04-23T12:45:19-03:00",
+  "proofSourceCommit": "2331e75587e3183555f4ebd363c717bf0380feee",
+  "generatedAt": "2026-04-23T13:02:55-03:00",
   "generatorId": "bitcode.proven-generator.v1",
   "worktreeState": "dirty-preview",
   "passed": false,
@@ -22,9 +22,9 @@
   "checks": [
     {
       "checkId": "prompt-primitive-public-contract",
-      "label": "PromptPart, Prompt, PromptExecution, formatter, and raw promptpart public contracts stay source-visible",
+      "label": "PromptPart, Registry-backed Prompt, PromptExecution, formatter, generic raw PromptParts, and specific raw PromptParts stay source-visible",
       "passed": true,
-      "detail": "7 required files present",
+      "detail": "9 required files present",
       "requiredFiles": [
         "packages/prompts/package.json",
         "packages/prompts/src/index.ts",
@@ -32,7 +32,9 @@
         "packages/prompts/src/parts/PromptPart.ts",
         "packages/prompts/src/execution/PromptExecution.ts",
         "packages/prompts/src/formatters/hierarchical.ts",
-        "packages/prompts/src/raw_promptparts/readme.md"
+        "packages/prompts/src/raw_promptparts/readme.md",
+        "packages/registry/src/index.ts",
+        "packages/registry/README.md"
       ],
       "missingFiles": [],
       "promptSpaceRole": "primitive-contract",
