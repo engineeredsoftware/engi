@@ -7,7 +7,7 @@ Type-safe database access layer for the Bitcode platform. Provides 1:1 mapping w
 - **Client Management**: Separate admin and user clients
 - **Model System**: Type-safe model classes for all entities
 - **Vector Search**: pgvector integration for semantic search
-- **Query Helpers**: Specialized queries for field intelligence
+- **Profile Contracts**: V26 readiness and profile helpers for Bitcode account state
 
 ## Client Types
 
@@ -37,9 +37,10 @@ const deliverables = await client.deliverables.list({
 });
 
 // Vector search example
-const results = await client.fieldIntelligence.query({
-  code: sourceCode,
-  context: 'How is this code working in the field?'
+const relatedRuns = await client.vector.search({
+  embedding,
+  matchThreshold: 0.78,
+  matchCount: 10
 });
 ```
 
@@ -50,12 +51,13 @@ const results = await client.fieldIntelligence.query({
 - **Pipeline Models**: Executions, deliverables, execution events
 - **Communication Models**: Conversations, messages, notifications
 
-## Vector Capabilities
+## Bitcode Storage Capabilities
 
-- **Field Intelligence**: Code analysis with field context
 - **Semantic Search**: Vector similarity matching
 - **pgvector Integration**: Native PostgreSQL vector operations
+- **Profile Readiness**: Canonical user/profile readiness checks used by app and API routes
+- **Schema Contracts**: Generated database types and typed model helpers kept in lockstep with Supabase migrations
 
 ## Architecture
 
-Provides database as a typed service philosophy. 1:1 mapping with Supabase schema ensures consistency. Vector search enables semantic code analysis and field intelligence queries.
+Provides database as a typed service philosophy. 1:1 mapping with Supabase schema ensures consistency. Vector search, profile contracts, and generated types support Bitcode application, Exchange, Terminal, and proof-facing storage without admitting experimental old-world query corridors.

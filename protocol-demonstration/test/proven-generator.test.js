@@ -288,7 +288,30 @@ test('V26 proven generator renders the active Bitcode appendix while fifth throu
   assert.equal(generated.data.v26.runsPipelinesTotalityProof.passed, true);
   assert.equal(generated.data.v26.persistenceSchemaTotalityProof.passed, true);
   assert.equal(generated.data.v26.promptSystemTotalityProof.passed, true);
+  assert.equal(generated.data.v26.inferenceImplementationRecordsProof.passed, true);
+  assert.equal(generated.data.v26.promptSpaceCompletenessProof.passed, false);
+  assert.equal(generated.data.v26.promptSpaceCompletenessProof.baselinePassed, true);
+  assert.equal(generated.data.v26.promptSpaceCompletenessProof.witnessSetCount, 7);
   assert.equal(generated.data.v26.retainedPackageAdmissibilityProof.passed, true);
+  assert.deepEqual(generated.data.v26.retainedPackageAdmissibilityProof.requiredFields, [
+    'packageName',
+    'primaryRole',
+    'rationale',
+    'role',
+    'writeBoundary',
+    'proofObligation',
+    'requiredFiles'
+  ]);
+  assert.equal(generated.data.v26.retainedPackageAdmissibilityProof.roleCounts['commercial-infrastructure'], 5);
+  assert.equal(
+    generated.data.v26.retainedPackageAdmissibilityProof.packages.some((entry) =>
+      entry.requiredFiles.includes('packages/orm/src/queries/field-intelligence.ts')
+    ),
+    false
+  );
+  assert.equal(generated.data.v26.systemReformAdmissibilityProof.passed, true);
+  assert.equal(generated.data.v26.wholeRepositoryProductionSatisfactionProof.passed, false);
+  assert.equal(generated.data.v26.v26TotalClosureProof.passed, false);
   assert.equal(
     generated.data.v26.gateCheckpointReport.secondGate.checks.some(
       (check) => check.checkId === 'second-gate-documentation-carriers' && check.passed === true,
@@ -300,30 +323,51 @@ test('V26 proven generator renders the active Bitcode appendix while fifth throu
   assert.equal(generated.data.v26.gateCheckpointReport.thirdGatePreparation.prepared, true);
   assert.equal(generated.data.aggregate.fullyProven, false);
   assert.deepEqual(Object.keys(generated.artifacts).sort(), [
+    '.bitcode/application-composition-proof.json',
     '.bitcode/conversations-continuity-proof.json',
+    '.bitcode/environment-mode-coherence-proof.json',
+    '.bitcode/inference-implementation-records-proof.json',
     '.bitcode/persistence-schema-totality-proof.json',
+    '.bitcode/prompt-space-completeness-proof.json',
     '.bitcode/prompt-system-totality-proof.json',
     '.bitcode/retained-package-admissibility-proof.json',
     '.bitcode/runs-pipelines-totality-proof.json',
+    '.bitcode/system-reform-admissibility-proof.json',
     '.bitcode/v26-canonical-input-report.json',
     '.bitcode/v26-gate-checkpoint-report.json',
-    '.bitcode/v26-spec-family-report.json'
+    '.bitcode/v26-spec-family-report.json',
+    '.bitcode/v26-total-closure-proof.json',
+    '.bitcode/whole-repository-production-satisfaction-proof.json'
   ]);
   assert.ok(generated.markdown.includes('# Bitcode Spec V26 Proven'));
   assert.ok(generated.markdown.includes('## V26 Productionizing Draft and Canon Reports'));
   assert.ok(generated.markdown.includes('### V26 Gate Checkpoint Report'));
+  assert.ok(generated.markdown.includes('### V26 Application Composition Proof'));
+  assert.ok(generated.markdown.includes('### V26 Environment Mode Coherence Proof'));
   assert.ok(generated.markdown.includes('### V26 Conversations Continuity Proof'));
   assert.ok(generated.markdown.includes('### V26 Runs and Pipelines Totality Proof'));
   assert.ok(generated.markdown.includes('### V26 Persistence and Schema Totality Proof'));
   assert.ok(generated.markdown.includes('### V26 Prompt System Totality Proof'));
+  assert.ok(generated.markdown.includes('### V26 Inference Implementation Records Proof'));
+  assert.ok(generated.markdown.includes('### V26 Prompt Space Completeness Witness'));
   assert.ok(generated.markdown.includes('### V26 Retained Package Admissibility Proof'));
-  assert.ok(generated.markdown.includes('through-fourth-gate-promotion-boundary-on-seven-gate-v26'));
+  assert.ok(generated.markdown.includes('### V26 System Reform Admissibility Proof'));
+  assert.ok(generated.markdown.includes('### V26 Whole Repository Production Satisfaction Witness'));
+  assert.ok(generated.markdown.includes('### V26 Total Closure Witness'));
+  assert.ok(generated.markdown.includes('Gate 5: minimum-functional Bitcode Exchange, Bitcode Terminal, and broad old-world reform baseline'));
   assert.ok(generated.markdown.includes('application-native-full-page'));
+  assert.ok(generated.markdown.includes('.bitcode/application-composition-proof.json'));
   assert.ok(generated.markdown.includes('.bitcode/conversations-continuity-proof.json'));
+  assert.ok(generated.markdown.includes('.bitcode/environment-mode-coherence-proof.json'));
+  assert.ok(generated.markdown.includes('.bitcode/inference-implementation-records-proof.json'));
   assert.ok(generated.markdown.includes('.bitcode/runs-pipelines-totality-proof.json'));
   assert.ok(generated.markdown.includes('.bitcode/persistence-schema-totality-proof.json'));
+  assert.ok(generated.markdown.includes('.bitcode/prompt-space-completeness-proof.json'));
   assert.ok(generated.markdown.includes('.bitcode/prompt-system-totality-proof.json'));
   assert.ok(generated.markdown.includes('.bitcode/retained-package-admissibility-proof.json'));
+  assert.ok(generated.markdown.includes('.bitcode/system-reform-admissibility-proof.json'));
+  assert.ok(generated.markdown.includes('.bitcode/v26-total-closure-proof.json'));
+  assert.ok(generated.markdown.includes('.bitcode/whole-repository-production-satisfaction-proof.json'));
   assert.ok(generated.markdown.includes('.bitcode/v26-spec-family-report.json'));
   assert.ok(generated.markdown.includes('.bitcode/v26-canonical-input-report.json'));
   assert.ok(generated.markdown.includes('.bitcode/v26-gate-checkpoint-report.json'));

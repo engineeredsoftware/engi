@@ -53,6 +53,7 @@ Every retained corridor must therefore be classified before it is edited:
   The retained generic tool package keeps task-named APIs for compatibility, but its DocCode prompts, raw PromptParts, README, placeholder primitive outputs, direct workspace dependencies, and no-emit package-local typecheck now describe and verify Bitcode need comprehension, written-asset requirements, asset-pack context, proof obligations, and shipping-wrapper limits.
 - `field-intelligence`
   A clearly experimental old-world corridor was removed from live Bitcode and documented only under `_legacy/field-intelligence`.
+  Active retained-package proof no longer admits `packages/orm/src/queries/field-intelligence.ts`, and active prompt exports no longer admit `promptpart_specific_fielddoc_intelligencecontext_detailcontent`.
 
 ## Generic repurposing rule
 

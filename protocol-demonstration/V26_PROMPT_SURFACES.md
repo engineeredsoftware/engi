@@ -118,12 +118,20 @@ Its package-local build boundary must typecheck those prompt/tool imports withou
 
 ## Verification posture
 
+The current prompt-space witness family is intentionally two-layered:
+
+- the fifth-gate prompt baseline proves that prompt primitives, active inference carriers, doc-code tool prompt injection, asset-pack and need-comprehension compatibility prompts, runtime PromptPart carry-through, app/MCP ingress, and proof/spec witnesses are all source-visible and package-bounded
+- final prompt-space completeness remains an eighth-gate closure obligation because retained prompt reservoirs still require whole-repository inventory saturation, quality review, and final promotion/cut decisions
+
+The generated `.bitcode/prompt-space-completeness-proof.json` artifact must therefore keep `passed: false` until eighth-gate while also exposing `baselinePassed`, `witnessSetCount`, `closureGate`, `openCompletenessDimensions`, and role-specific witness checks for fifth-gate progress.
+
 The current prompt surface map is expected to align with:
 
 - `BITCODE_SPEC_V26.md`
 - `BITCODE_SPEC_V26_PARITY_MATRIX.md`
 - `protocol-demonstration/V26_APPLICATION_SYSTEMS.md`
 - `.bitcode/prompt-system-totality-proof.json`
+- `.bitcode/prompt-space-completeness-proof.json`
 - `.bitcode/inference-implementation-records-proof.json`
 - `protocol-demonstration/src/canonical/inference-implementation-records.js`
 - `protocol-demonstration/test/v26-inference-implementation-records.test.js`

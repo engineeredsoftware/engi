@@ -382,7 +382,10 @@ const ormPackageSource = readFileSync(new URL('../../packages/orm/package.json',
 const ormReadmeSource = readFileSync(new URL('../../packages/orm/README.md', import.meta.url), 'utf8');
 const ormIndexSource = readFileSync(new URL('../../packages/orm/src/index.ts', import.meta.url), 'utf8');
 const ormDatabaseGeneratedSource = readFileSync(new URL('../../packages/orm/src/types/database.generated.ts', import.meta.url), 'utf8');
-const ormFieldIntelligenceSource = readFileSync(new URL('../../packages/orm/src/queries/field-intelligence.ts', import.meta.url), 'utf8');
+const activeFieldIntelligenceUrls = [
+  '../../packages/orm/src/queries/field-intelligence.ts',
+  '../../packages/prompts/src/raw_promptparts/specific/promptpart_specific_fielddoc_intelligencecontext_detailcontent.ts',
+].map((relativePath) => new URL(relativePath, import.meta.url));
 const attachmentsGenericsPackageSource = readFileSync(new URL('../../packages/attachments-generics/package.json', import.meta.url), 'utf8');
 const attachmentsGenericsReadmeSource = readFileSync(new URL('../../packages/attachments-generics/README.md', import.meta.url), 'utf8');
 const attachmentsGenericsIndexSource = readFileSync(new URL('../../packages/attachments-generics/src/index.ts', import.meta.url), 'utf8');
@@ -1897,7 +1900,8 @@ test('active V26 retained package surfaces use Bitcode naming instead of Engi na
   assert.match(ormPackageSource, /Bitcode ORM - Database access layer with vector search/);
   assert.match(ormReadmeSource, /for the Bitcode platform/);
   assert.match(ormIndexSource, /Bitcode ORM - GA-1 Database Access Layer/);
-  assert.match(ormFieldIntelligenceSource, /Queries the Bitcode network to understand how code is performing/);
+  assert.doesNotMatch(ormReadmeSource, /field intelligence/i);
+  assert.deepEqual(activeFieldIntelligenceUrls.filter((url) => existsSync(url)).map((url) => url.pathname), []);
   assert.match(attachmentsGenericsPackageSource, /Universal attachment types for Bitcode/);
   assert.match(attachmentsGenericsReadmeSource, /utilities for the Bitcode platform/);
   assert.match(attachmentsGenericsReadmeSource, /attachments in Bitcode fall into exactly 4 categories/);
@@ -2067,7 +2071,6 @@ test('active V26 retained package surfaces use Bitcode naming instead of Engi na
   assert.doesNotMatch(ormReadmeSource, /for ENGI platform/);
   assert.doesNotMatch(ormIndexSource, /ENGI ORM - GA-1 Database Access Layer/);
   assert.doesNotMatch(ormPackageSource, /Engi ORM - Database access layer with vector search/);
-  assert.doesNotMatch(ormFieldIntelligenceSource, /Queries the Engi network to understand how code is performing/);
   assert.doesNotMatch(attachmentsGenericsPackageSource, /Universal attachment types for Engi/);
   assert.doesNotMatch(attachmentsGenericsReadmeSource, /utilities for the Engi platform/);
   assert.doesNotMatch(attachmentsGenericsReadmeSource, /attachments in Engi fall into exactly 4 categories/);

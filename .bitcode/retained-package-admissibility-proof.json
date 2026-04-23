@@ -1,16 +1,41 @@
 {
   "reportId": "v26-retained-package-admissibility-proof",
   "version": "V26",
-  "proofSourceCommit": "cc1cc44d88b5cb9bf01048301d85320033adb090",
-  "generatedAt": "2026-04-23T09:32:45-03:00",
+  "proofSourceCommit": "f5c1255ba5a773e7dedbde9663b2291b4189b155",
+  "generatedAt": "2026-04-23T09:53:55-03:00",
   "generatorId": "bitcode.proven-generator.v1",
   "worktreeState": "dirty-preview",
   "passed": true,
   "admittedPackageCount": 8,
+  "requiredFields": [
+    "packageName",
+    "primaryRole",
+    "rationale",
+    "role",
+    "writeBoundary",
+    "proofObligation",
+    "requiredFiles"
+  ],
+  "admissibleRoles": [
+    "direct-product",
+    "commercial-infrastructure",
+    "ingress-or-support",
+    "compatibility",
+    "reference-only"
+  ],
+  "roleCounts": {
+    "commercial-infrastructure": 5,
+    "ingress-or-support": 2,
+    "reference-only": 1
+  },
   "packages": [
     {
       "packageName": "@bitcode/supabase",
+      "primaryRole": "commercial-infrastructure",
       "rationale": "typed browser/admin/SSR Supabase clients remain the retained persistence entrypoint for Bitcode routes and APIs",
+      "role": "Supabase client and SSR session boundary",
+      "writeBoundary": "database access is admitted only through app/API-owned Bitcode readiness, auth, profile, repository, and activity semantics",
+      "proofObligation": "persistence/schema totality and route/API storage witnesses must keep Supabase as infrastructure rather than product logic",
       "requiredFiles": [
         "packages/supabase/src/index.ts",
         "packages/supabase/src/client.ts",
@@ -19,26 +44,38 @@
         "packages/supabase/src/ssr/middleware.ts"
       ],
       "missingFiles": [],
+      "missingFields": [],
+      "invalidPrimaryRole": null,
       "passed": true
     },
     {
       "packageName": "@bitcode/orm",
+      "primaryRole": "commercial-infrastructure",
       "rationale": "typed model/query ownership and generated database types remain the retained schema contract layer",
+      "role": "typed Bitcode model/query and profile-contract boundary",
+      "writeBoundary": "ORM helpers may read/write rows only as schema infrastructure; experimental field-intelligence query ownership is cut from the active package",
+      "proofObligation": "retained ORM admission is tied to generated database types, active models, profile readiness, vector support, and no active field-intelligence corridor",
       "requiredFiles": [
         "packages/orm/src/client.ts",
         "packages/orm/src/models/index.ts",
-        "packages/orm/src/queries/field-intelligence.ts",
+        "packages/orm/src/profile-contract.ts",
         "packages/orm/src/queries/vector.ts",
         "packages/orm/src/types/database.generated.ts",
         "packages/orm/src/types/database.ts",
         "packages/orm/scripts/generate-db-types.ts"
       ],
       "missingFiles": [],
+      "missingFields": [],
+      "invalidPrimaryRole": null,
       "passed": true
     },
     {
       "packageName": "@bitcode/prompts",
+      "primaryRole": "commercial-infrastructure",
       "rationale": "prompt abstraction remains the retained owner for prompt text and prompt execution contracts",
+      "role": "PromptPart, Prompt, PromptExecution, formatter, and raw promptpart substrate",
+      "writeBoundary": "prompts shape inference but do not own settlement, repository writes, or Exchange state mutations",
+      "proofObligation": "prompt-system and prompt-space proofs must keep prompt carriers public-boundary, source-visible, and free of active field-intelligence prompt residue",
       "requiredFiles": [
         "packages/prompts/README.md",
         "packages/prompts/src/index.ts",
@@ -46,11 +83,17 @@
         "packages/prompts/src/execution/PromptExecution.ts"
       ],
       "missingFiles": [],
+      "missingFields": [],
+      "invalidPrimaryRole": null,
       "passed": true
     },
     {
       "packageName": "@bitcode/conversations-generics",
+      "primaryRole": "commercial-infrastructure",
       "rationale": "conversation agent and prompt abstractions remain admitted while fullscreen conversations converge inward",
+      "role": "conversation prompt and agent substrate for Bitcode rich-input writes",
+      "writeBoundary": "conversation primitives may carry rich input and execution intent, but app/API routes own persistence, readiness, and Exchange state admission",
+      "proofObligation": "conversation continuity and inference implementation records must keep conversations first-class without making them a parallel product",
       "requiredFiles": [
         "packages/conversations-generics/README.md",
         "packages/conversations-generics/src/index.ts",
@@ -58,13 +101,17 @@
         "packages/conversations-generics/src/prompts/ConversationSystemPrompt.ts"
       ],
       "missingFiles": [],
+      "missingFields": [],
+      "invalidPrimaryRole": null,
       "passed": true
     },
     {
       "packageName": "@bitcode/execution-generics",
+      "primaryRole": "commercial-infrastructure",
       "rationale": "retained execution abstractions remain admitted while runs and pipelines converge onto Bitcode semantics",
       "role": "retained runs-and-pipelines abstractions",
       "writeBoundary": "execution orchestration only; settle-write meaning is owned by Bitcode routes and Git/GH-facing carriers",
+      "proofObligation": "runs/pipelines, prompt-space, and inference-record proofs must keep execution primitives separated from old-world orchestration ownership",
       "requiredFiles": [
         "packages/execution-generics/README.md",
         "packages/execution-generics/src/index.ts",
@@ -73,25 +120,33 @@
         "packages/execution-generics/src/storage/ExecutionStorageAdapter.ts"
       ],
       "missingFiles": [],
+      "missingFields": [],
+      "invalidPrimaryRole": null,
       "passed": true
     },
     {
       "packageName": "@bitcode/jira-tools",
+      "primaryRole": "ingress-or-support",
       "rationale": "retained Jira MCP tools remain admitted only as reader-first need-ingestion and need-measurement carriers during fourth-gate convergence",
       "role": "old-world Jira read-first ingestion port",
       "writeBoundary": "default scope is authenticated read and normalization; expansive settle-write to Jira comments or attachments is deferred beyond fourth-gate",
+      "proofObligation": "retained-package admissibility and system-reform proof must keep Jira outside Bitcode Exchange state ownership",
       "requiredFiles": [
         "packages/generic-tools/mcps-tools/jira/package.json",
         "packages/generic-tools/mcps-tools/jira/src/index.ts"
       ],
       "missingFiles": [],
+      "missingFields": [],
+      "invalidPrimaryRole": null,
       "passed": true
     },
     {
       "packageName": "@bitcode/generic-agents-jira",
+      "primaryRole": "reference-only",
       "rationale": "retained Jira agent prompt ownership remains admitted only where it repurposes Jira data into Bitcode need context instead of generic project-management automation",
       "role": "old-world Jira prompt-owned ingestion agent",
       "writeBoundary": "reader-first Jira scope; propose writes only when explicitly requested and never as the default Bitcode settlement path",
+      "proofObligation": "prompt and reform proofs must keep this agent as need-ingestion reference material until explicitly promoted",
       "requiredFiles": [
         "packages/generic-agents/jira-processor/package.json",
         "packages/generic-agents/jira-processor/src/prompts/system-prompt-jira-processor.ts",
@@ -104,13 +159,17 @@
         "packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_jiraprocessor_executionpattern_detailcontent.ts"
       ],
       "missingFiles": [],
+      "missingFields": [],
+      "invalidPrimaryRole": null,
       "passed": true
     },
     {
       "packageName": "@bitcode/generic-tools-mcps-github",
+      "primaryRole": "ingress-or-support",
       "rationale": "retained GitHub MCP tooling remains admitted as the initial Git/GH-centric settle-write and repository-read boundary for reopened fourth-gate and later fifth-gate Bitcode work",
       "role": "Git/GH-centric initial settle-write port",
       "writeBoundary": "Git/GH branch and PR settlement is admitted in fourth-gate; multi-surface settle writes to other systems remain later-gate work",
+      "proofObligation": "retained-package and inference-record proofs must keep GitHub as an admitted connected-interface delivery mechanism rather than the only Bitcode settlement model",
       "requiredFiles": [
         "packages/generic-tools/mcps-tools/github/package.json",
         "packages/generic-tools/mcps-tools/github/src/GitHubMCPTool.ts",
@@ -120,6 +179,8 @@
         "packages/prompts/src/raw_promptparts/specific/promptpart_specific_tool_githubmcp_doccodetooloutput.ts"
       ],
       "missingFiles": [],
+      "missingFields": [],
+      "invalidPrimaryRole": null,
       "passed": true
     }
   ]

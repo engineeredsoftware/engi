@@ -1,26 +1,166 @@
 {
   "reportId": "v26-prompt-space-completeness-proof",
   "version": "V26",
-  "proofSourceCommit": "cc1cc44d88b5cb9bf01048301d85320033adb090",
-  "generatedAt": "2026-04-23T09:32:45-03:00",
+  "proofSourceCommit": "f5c1255ba5a773e7dedbde9663b2291b4189b155",
+  "generatedAt": "2026-04-23T09:53:55-03:00",
   "generatorId": "bitcode.proven-generator.v1",
   "worktreeState": "dirty-preview",
   "passed": false,
-  "openReason": "Prompt-space completeness remains an eighth-gate closure proof even while the witness family is generated now.",
+  "baselinePassed": true,
+  "witnessFamilyComplete": true,
+  "witnessSetCount": 7,
+  "closureGate": "eighth-gate",
+  "fifthGateBaseline": "Prompt primitives, active carriers, doc-code injection, asset-pack/need-comprehension compatibility, runtime carry-through, app/MCP ingress, and proof/spec witnesses are all source-visible for fifth-gate use.",
+  "openCompletenessDimensions": [
+    "whole-repository prompt inventory saturation across every retained consumer",
+    "product-grade prompt quality and commercial readiness for Exchange, Terminal, MCP, and third-party interfaces",
+    "final retirement or promotion of compatibility prompt names after all callers converge",
+    "full raw promptpart reservoir audit for old-world product semantics and reference-only language",
+    "eighth-gate total proof that every live inference path is explainable from the explicit prompt substrate"
+  ],
+  "openReason": "Prompt-space completeness remains an eighth-gate closure proof; this artifact now proves the fifth-gate prompt witness baseline without claiming final prompt-space saturation.",
   "checks": [
     {
-      "checkId": "prompt-space-witness-family",
-      "label": "Prompt-space witness files remain explicit while later-gate completeness stays open",
+      "checkId": "prompt-primitive-public-contract",
+      "label": "PromptPart, Prompt, PromptExecution, formatter, and raw promptpart public contracts stay source-visible",
       "passed": true,
-      "detail": "5 required files present",
+      "detail": "7 required files present",
       "requiredFiles": [
+        "packages/prompts/package.json",
         "packages/prompts/src/index.ts",
         "packages/prompts/src/prompt.ts",
         "packages/prompts/src/parts/PromptPart.ts",
-        "uapi/prompts/conversations-system-prompt.ts",
-        "protocol-demonstration/src/canonical/type-contracts.ts"
+        "packages/prompts/src/execution/PromptExecution.ts",
+        "packages/prompts/src/formatters/hierarchical.ts",
+        "packages/prompts/src/raw_promptparts/readme.md"
       ],
-      "missingFiles": []
+      "missingFiles": [],
+      "promptSpaceRole": "primitive-contract",
+      "closureTier": "fifth-gate-baseline",
+      "fifthGateUse": "Defines the canonical prompt substrate every active or admitted-support inference corridor must compose through.",
+      "laterGateRemaining": "Whole-repository prompt inventory saturation and quality refinement remain eighth-gate work."
+    },
+    {
+      "checkId": "active-agent-execution-prompt-carriers",
+      "label": "Active agent, execution, pipeline, and conversation prompt carriers stay explicit",
+      "passed": true,
+      "detail": "7 required files present",
+      "requiredFiles": [
+        "packages/execution-generics/src/prompts/ExecutionPrompt.ts",
+        "packages/pipelines-generics/src/prompts/PipelinePrompt.ts",
+        "packages/agent-generics/src/prompts/AgentPrompt.ts",
+        "packages/agent-generics/src/prompts/AgentStepPrompt.ts",
+        "packages/agent-generics/src/execution/prompt-overlays.ts",
+        "packages/conversations-generics/src/prompts/ConversationSystemPrompt.ts",
+        "packages/conversations-generics/src/agent/ConversationAgent.ts"
+      ],
+      "missingFiles": [],
+      "promptSpaceRole": "active-inference-carriers",
+      "closureTier": "fifth-gate-baseline",
+      "fifthGateUse": "Binds live inference surfaces to prompt primitives instead of hidden string composition.",
+      "laterGateRemaining": "Later gates may refine every carrier and add product-grade prompt quality tests."
+    },
+    {
+      "checkId": "doc-code-tool-prompt-injection-boundary",
+      "label": "Doc-comment and doc-code prompt injection remains an admitted support boundary",
+      "passed": true,
+      "detail": "8 required files present",
+      "requiredFiles": [
+        "packages/doc-comment/package.json",
+        "packages/doc-comment/src/base-plugin.ts",
+        "packages/doc-comment/src/parser.ts",
+        "packages/doc-code/package.json",
+        "packages/doc-code/src/transformDocCodeTools.ts",
+        "packages/tools-generics/src/doc-code-tool/DocCodeToolPrompt.ts",
+        "packages/tools-generics/src/doc-code-tool/formatUsableTools.ts",
+        "protocol-demonstration/V26_DOC_COMMENT_REFORM.md"
+      ],
+      "missingFiles": [],
+      "promptSpaceRole": "tool-prompt-injection",
+      "closureTier": "fifth-gate-baseline",
+      "fifthGateUse": "Preserves build/runtime tool prompt descriptions for agentic Bitcode runs without promoting examples or experiments.",
+      "laterGateRemaining": "Reference-only plugin/example reservoirs still need later pruning or promotion decisions if reused."
+    },
+    {
+      "checkId": "asset-pack-need-comprehension-prompt-corridor",
+      "label": "Asset-pack and need-comprehension compatibility prompts expose Bitcode semantics",
+      "passed": true,
+      "detail": "8 required files present",
+      "requiredFiles": [
+        "packages/pipelines/deliverable/src/agents/prompts/comprehend-need-prompt.ts",
+        "packages/pipelines/deliverable/src/agents/prompts/comprehend-task-prompt.ts",
+        "packages/pipelines/deliverable/src/agents/setup/deliverable-pipeline-comprehend-need-agent.ts",
+        "packages/pipelines/deliverable/src/semantic-resolution.ts",
+        "packages/pipelines/deliverable/scripts/render-prompts.ts",
+        "packages/generic-tools/task-comprehension/README.md",
+        "packages/generic-tools/task-comprehension/src/prompts/AnalyzeTaskSemanticsDocCodeToolPrompt.ts",
+        "packages/generic-tools/task-comprehension/src/primitives.ts"
+      ],
+      "missingFiles": [],
+      "promptSpaceRole": "asset-pack-need-comprehension",
+      "closureTier": "fifth-gate-baseline",
+      "fifthGateUse": "Keeps retained deliverable/task carriers mapped to Bitcode need, written asset, asset pack, and shipping wrapper meaning.",
+      "laterGateRemaining": "Compatibility file and class names can be retired only after callers no longer need them."
+    },
+    {
+      "checkId": "raw-promptpart-runtime-carry-through",
+      "label": "Reformed raw PromptParts retain TypeScript and runtime JavaScript carry-through witnesses",
+      "passed": true,
+      "detail": "6 required files present",
+      "requiredFiles": [
+        "packages/prompts/src/raw_promptparts/specific/promptpart_specific_tool_analyzetasksemantics_doccodetoolpurpose.ts",
+        "packages/prompts/src/raw_promptparts/specific/promptpart_specific_tool_analyzetasksemantics_doccodetoolpurpose.js",
+        "packages/prompts/src/raw_promptparts/specific/promptpart_specific_tool_analyzeimplementationcomplexity_doccodetoolexample3.ts",
+        "packages/prompts/src/raw_promptparts/specific/promptpart_specific_tool_analyzeimplementationcomplexity_doccodetoolexample3.js",
+        "packages/prompts/src/raw_promptparts/specific/promptpart_specific_tool_validatetaskcomprehension_doccodetoolpurpose.ts",
+        "packages/prompts/src/raw_promptparts/specific/promptpart_specific_tool_validatetaskcomprehension_doccodetoolpurpose.js"
+      ],
+      "missingFiles": [],
+      "promptSpaceRole": "raw-promptpart-carry-through",
+      "closureTier": "fifth-gate-baseline",
+      "fifthGateUse": "Prevents runtime JavaScript from silently preserving old-world prompt text after TypeScript prompt reform.",
+      "laterGateRemaining": "The full raw promptpart reservoir remains subject to later prompt-space saturation and product-copy quality review."
+    },
+    {
+      "checkId": "app-and-mcp-prompt-interface-ingress",
+      "label": "Application and MCP prompt ingress surfaces stay explicit and auditable",
+      "passed": true,
+      "detail": "7 required files present",
+      "requiredFiles": [
+        "uapi/prompts/conversations-system-prompt.ts",
+        "uapi/app/api/conversations/stream/route.ts",
+        "uapi/app/api/conversations/[conversationId]/stream/route.ts",
+        "packages/executions-mcp/package.json",
+        "packages/executions-mcp/src/mcp-server/src/prompts/analysis-prompts.ts",
+        "packages/executions-mcp/src/mcp-server/src/prompts/workflow-prompts.ts",
+        "packages/executions-mcp/src/mcp-server/src/tools/pipeline-tools.ts"
+      ],
+      "missingFiles": [],
+      "promptSpaceRole": "app-mcp-ingress",
+      "closureTier": "fifth-gate-baseline",
+      "fifthGateUse": "Shows that Terminal conversations and admitted MCP ingress are prompt-bearing interfaces over Bitcode state, not parallel products.",
+      "laterGateRemaining": "MCP and third-party app prompt quality, permissioning, and commercial readiness remain sixth/seventh-gate refinements."
+    },
+    {
+      "checkId": "prompt-proof-and-specification-witnesses",
+      "label": "Prompt-space specification, inference records, generated proof, and tests are bound together",
+      "passed": true,
+      "detail": "8 required files present",
+      "requiredFiles": [
+        "protocol-demonstration/V26_PROMPT_SURFACES.md",
+        "protocol-demonstration/V26_INFERENCE_SYSTEMS.md",
+        "protocol-demonstration/src/canonical/inference-implementation-records.js",
+        "protocol-demonstration/src/canonical/type-contracts.ts",
+        "protocol-demonstration/test/v26-prompt-system-boundary.test.js",
+        "protocol-demonstration/test/v26-prompt-surface-map.test.js",
+        "protocol-demonstration/test/v26-prompt-runtime-loadability.test.js",
+        "protocol-demonstration/test/v26-inference-implementation-records.test.js"
+      ],
+      "missingFiles": [],
+      "promptSpaceRole": "proof-and-specification",
+      "closureTier": "fifth-gate-baseline",
+      "fifthGateUse": "Lets fifth-gate judge prompt behavior from source, specs, tests, and generated proof rather than informal interpretation.",
+      "laterGateRemaining": "Eighth-gate must still prove total prompt-space completeness after all retained corridors converge."
     }
   ]
 }

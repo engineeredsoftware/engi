@@ -163,7 +163,7 @@ const V26_FOURTH_GATE_PERSISTENCE_FILES = [
   'packages/supabase/src/ssr/middleware.ts',
   'packages/orm/src/client.ts',
   'packages/orm/src/models/index.ts',
-  'packages/orm/src/queries/field-intelligence.ts',
+  'packages/orm/src/profile-contract.ts',
   'packages/orm/src/queries/vector.ts',
   'packages/orm/src/types/database.generated.ts',
   'packages/orm/src/types/database.ts',
@@ -267,8 +267,8 @@ const V26_FOURTH_GATE_RUNS_PIPELINES_FILES = [
   'uapi/tests/api/vcsCompatibilityRoute.test.ts',
   'uapi/tests/api/orbitalsTemplatePreferencesRoute.test.ts',
   'uapi/tests/api/deliverableTemplatesRoute.test.ts',
-  'uapi/tests/deliverablesHistoryRoute.test.ts',
-  'uapi/tests/deliverablesHistoryRunRoute.test.ts',
+  'uapi/tests/api/executionsHistoryRoute.test.ts',
+  'uapi/tests/api/executionsHistoryRunRoute.test.ts',
   'uapi/tests/bitcodeExecutionStreamPanel.test.tsx',
   'uapi/tests/usePipelineExecution.test.tsx'
 ];
@@ -337,7 +337,11 @@ const V26_FOURTH_GATE_PROMPT_SYSTEM_FILES = [
 const V26_RETAINED_PACKAGE_ADMISSIONS = [
   {
     packageName: '@bitcode/supabase',
+    primaryRole: 'commercial-infrastructure',
     rationale: 'typed browser/admin/SSR Supabase clients remain the retained persistence entrypoint for Bitcode routes and APIs',
+    role: 'Supabase client and SSR session boundary',
+    writeBoundary: 'database access is admitted only through app/API-owned Bitcode readiness, auth, profile, repository, and activity semantics',
+    proofObligation: 'persistence/schema totality and route/API storage witnesses must keep Supabase as infrastructure rather than product logic',
     requiredFiles: [
       'packages/supabase/src/index.ts',
       'packages/supabase/src/client.ts',
@@ -348,11 +352,15 @@ const V26_RETAINED_PACKAGE_ADMISSIONS = [
   },
   {
     packageName: '@bitcode/orm',
+    primaryRole: 'commercial-infrastructure',
     rationale: 'typed model/query ownership and generated database types remain the retained schema contract layer',
+    role: 'typed Bitcode model/query and profile-contract boundary',
+    writeBoundary: 'ORM helpers may read/write rows only as schema infrastructure; experimental field-intelligence query ownership is cut from the active package',
+    proofObligation: 'retained ORM admission is tied to generated database types, active models, profile readiness, vector support, and no active field-intelligence corridor',
     requiredFiles: [
       'packages/orm/src/client.ts',
       'packages/orm/src/models/index.ts',
-      'packages/orm/src/queries/field-intelligence.ts',
+      'packages/orm/src/profile-contract.ts',
       'packages/orm/src/queries/vector.ts',
       'packages/orm/src/types/database.generated.ts',
       'packages/orm/src/types/database.ts',
@@ -361,7 +369,11 @@ const V26_RETAINED_PACKAGE_ADMISSIONS = [
   },
   {
     packageName: '@bitcode/prompts',
+    primaryRole: 'commercial-infrastructure',
     rationale: 'prompt abstraction remains the retained owner for prompt text and prompt execution contracts',
+    role: 'PromptPart, Prompt, PromptExecution, formatter, and raw promptpart substrate',
+    writeBoundary: 'prompts shape inference but do not own settlement, repository writes, or Exchange state mutations',
+    proofObligation: 'prompt-system and prompt-space proofs must keep prompt carriers public-boundary, source-visible, and free of active field-intelligence prompt residue',
     requiredFiles: [
       'packages/prompts/README.md',
       'packages/prompts/src/index.ts',
@@ -371,7 +383,11 @@ const V26_RETAINED_PACKAGE_ADMISSIONS = [
   },
   {
     packageName: '@bitcode/conversations-generics',
+    primaryRole: 'commercial-infrastructure',
     rationale: 'conversation agent and prompt abstractions remain admitted while fullscreen conversations converge inward',
+    role: 'conversation prompt and agent substrate for Bitcode rich-input writes',
+    writeBoundary: 'conversation primitives may carry rich input and execution intent, but app/API routes own persistence, readiness, and Exchange state admission',
+    proofObligation: 'conversation continuity and inference implementation records must keep conversations first-class without making them a parallel product',
     requiredFiles: [
       'packages/conversations-generics/README.md',
       'packages/conversations-generics/src/index.ts',
@@ -381,9 +397,11 @@ const V26_RETAINED_PACKAGE_ADMISSIONS = [
   },
   {
     packageName: '@bitcode/execution-generics',
+    primaryRole: 'commercial-infrastructure',
     rationale: 'retained execution abstractions remain admitted while runs and pipelines converge onto Bitcode semantics',
     role: 'retained runs-and-pipelines abstractions',
     writeBoundary: 'execution orchestration only; settle-write meaning is owned by Bitcode routes and Git/GH-facing carriers',
+    proofObligation: 'runs/pipelines, prompt-space, and inference-record proofs must keep execution primitives separated from old-world orchestration ownership',
     requiredFiles: [
       'packages/execution-generics/README.md',
       'packages/execution-generics/src/index.ts',
@@ -394,9 +412,11 @@ const V26_RETAINED_PACKAGE_ADMISSIONS = [
   },
   {
     packageName: '@bitcode/jira-tools',
+    primaryRole: 'ingress-or-support',
     rationale: 'retained Jira MCP tools remain admitted only as reader-first need-ingestion and need-measurement carriers during fourth-gate convergence',
     role: 'old-world Jira read-first ingestion port',
     writeBoundary: 'default scope is authenticated read and normalization; expansive settle-write to Jira comments or attachments is deferred beyond fourth-gate',
+    proofObligation: 'retained-package admissibility and system-reform proof must keep Jira outside Bitcode Exchange state ownership',
     requiredFiles: [
       'packages/generic-tools/mcps-tools/jira/package.json',
       'packages/generic-tools/mcps-tools/jira/src/index.ts'
@@ -404,9 +424,11 @@ const V26_RETAINED_PACKAGE_ADMISSIONS = [
   },
   {
     packageName: '@bitcode/generic-agents-jira',
+    primaryRole: 'reference-only',
     rationale: 'retained Jira agent prompt ownership remains admitted only where it repurposes Jira data into Bitcode need context instead of generic project-management automation',
     role: 'old-world Jira prompt-owned ingestion agent',
     writeBoundary: 'reader-first Jira scope; propose writes only when explicitly requested and never as the default Bitcode settlement path',
+    proofObligation: 'prompt and reform proofs must keep this agent as need-ingestion reference material until explicitly promoted',
     requiredFiles: [
       'packages/generic-agents/jira-processor/package.json',
       'packages/generic-agents/jira-processor/src/prompts/system-prompt-jira-processor.ts',
@@ -421,9 +443,11 @@ const V26_RETAINED_PACKAGE_ADMISSIONS = [
   },
   {
     packageName: '@bitcode/generic-tools-mcps-github',
+    primaryRole: 'ingress-or-support',
     rationale: 'retained GitHub MCP tooling remains admitted as the initial Git/GH-centric settle-write and repository-read boundary for reopened fourth-gate and later fifth-gate Bitcode work',
     role: 'Git/GH-centric initial settle-write port',
     writeBoundary: 'Git/GH branch and PR settlement is admitted in fourth-gate; multi-surface settle writes to other systems remain later-gate work',
+    proofObligation: 'retained-package and inference-record proofs must keep GitHub as an admitted connected-interface delivery mechanism rather than the only Bitcode settlement model',
     requiredFiles: [
       'packages/generic-tools/mcps-tools/github/package.json',
       'packages/generic-tools/mcps-tools/github/src/GitHubMCPTool.ts',
@@ -434,6 +458,46 @@ const V26_RETAINED_PACKAGE_ADMISSIONS = [
     ]
   }
 ];
+
+const V26_RETAINED_PACKAGE_ADMISSION_REQUIRED_FIELDS = [
+  'packageName',
+  'primaryRole',
+  'rationale',
+  'role',
+  'writeBoundary',
+  'proofObligation',
+  'requiredFiles'
+];
+const V26_RETAINED_PACKAGE_ADMISSIBLE_ROLES = [
+  'direct-product',
+  'commercial-infrastructure',
+  'ingress-or-support',
+  'compatibility',
+  'reference-only'
+];
+
+function buildV26RetainedPackageAdmissionCheck(entry) {
+  const missingFiles = entry.requiredFiles.filter((file) => !repoFileExists(file));
+  const missingFields = V26_RETAINED_PACKAGE_ADMISSION_REQUIRED_FIELDS.filter((field) => {
+    const value = entry[field];
+    return Array.isArray(value) ? value.length === 0 : typeof value !== 'string' || value.length === 0;
+  });
+  const invalidPrimaryRole = V26_RETAINED_PACKAGE_ADMISSIBLE_ROLES.includes(entry.primaryRole) ? null : entry.primaryRole;
+
+  return {
+    packageName: entry.packageName,
+    primaryRole: entry.primaryRole,
+    rationale: entry.rationale,
+    role: entry.role,
+    writeBoundary: entry.writeBoundary,
+    proofObligation: entry.proofObligation,
+    requiredFiles: entry.requiredFiles,
+    missingFiles,
+    missingFields,
+    invalidPrimaryRole,
+    passed: missingFiles.length === 0 && missingFields.length === 0 && invalidPrimaryRole === null
+  };
+}
 
 /**
  * @param {{ scenarioId: string, branchMode: string, paymentMode?: string | undefined }} run
@@ -763,11 +827,14 @@ function buildV26GateCheckpointReport({
   const secondGatePassed = secondGateChecks.every((check) => check.passed === true);
   const thirdGatePrepared = thirdGatePreparationChecks.every((check) => check.passed === true);
   const thirdGatePassed = thirdGateChecks.every((check) => check.passed === true);
+  const fourthGateProofsReclosed = fourthGateChecks.every((check) => check.passed === true);
   fourthGateChecks.push({
     checkId: 'fourth-gate-promotion-honesty',
     label: 'Fourth-gate promotion honesty and procedural closure',
-    passed: false,
-    detail: 'Prior through-fourth-gate promotion claims were overstated; fourth-gate acceptance is procedurally reopened until retained-system convergence, active-source health, and interface truth are reclosed honestly.'
+    passed: fourthGateProofsReclosed,
+    detail: fourthGateProofsReclosed
+      ? 'Prior through-fourth-gate promotion claims were reopened as overstated and are now procedurally reclosed only because retained-system convergence, active-source health, and interface truth have generated passing proof families.'
+      : 'Prior through-fourth-gate promotion claims were overstated; fourth-gate acceptance is procedurally reopened until retained-system convergence, active-source health, and interface truth are reclosed honestly.'
   });
   const fourthGatePassed = fourthGateChecks.every((check) => check.passed === true);
 
@@ -787,7 +854,9 @@ function buildV26GateCheckpointReport({
     draftPreview,
     checkpointId: 'v26-fourth-gate-reopened-and-fifth-gate-active-on-eight-gate-v26',
     checkpointFocus: 'fourth-gate-reopened-and-fifth-gate-active-on-eight-gate-v26',
-    nextGate: 'Gate 4 reopen: honest retained-system convergence closure while fifth-gate implementation continues',
+    nextGate: fourthGatePassed
+      ? 'Gate 5: minimum-functional Bitcode Exchange, Bitcode Terminal, and broad old-world reform baseline'
+      : 'Gate 4 reopen: honest retained-system convergence closure while fifth-gate implementation continues',
     passed: firstGatePassed && secondGatePassed && thirdGatePassed && fourthGatePassed,
     firstGate: {
       gateId: 'gate-1',
@@ -825,7 +894,9 @@ function buildV26GateCheckpointReport({
       label: 'Minimum-functional Bitcode Exchange, Bitcode Terminal, and total old-world reform baseline',
       passed: fifthGatePassed,
       open: true,
-      detail: 'Fifth-gate drafting and implementation remain active, but procedural promotion is withheld until reopened fourth-gate truth is reclosed honestly. Fifth-gate still owns minimum-functional Bitcode Exchange and Terminal closure plus the broad old-world reform baseline required to make the kept repository read as Bitcode-native.'
+      detail: fourthGatePassed
+        ? 'Fifth-gate drafting and implementation remain active after fourth-gate truth was reclosed honestly. Fifth-gate still owns minimum-functional Bitcode Exchange and Terminal closure plus the broad old-world reform baseline required to make the kept repository read as Bitcode-native.'
+        : 'Fifth-gate drafting and implementation remain active, but procedural promotion is withheld until reopened fourth-gate truth is reclosed honestly. Fifth-gate still owns minimum-functional Bitcode Exchange and Terminal closure plus the broad old-world reform baseline required to make the kept repository read as Bitcode-native.'
     },
     sixthGate: {
       gateId: 'gate-6',
@@ -1003,19 +1074,12 @@ function buildV26RetainedPackageAdmissibilityProof({
   generatedAt,
   baseData
 }) {
-  const packages = V26_RETAINED_PACKAGE_ADMISSIONS.map((entry) => {
-    const missingFiles = entry.requiredFiles.filter((file) => !repoFileExists(file));
-    return {
-      packageName: entry.packageName,
-      rationale: entry.rationale,
-      role: entry.role,
-      writeBoundary: entry.writeBoundary,
-      requiredFiles: entry.requiredFiles,
-      missingFiles,
-      passed: missingFiles.length === 0
-    };
-  });
+  const packages = V26_RETAINED_PACKAGE_ADMISSIONS.map(buildV26RetainedPackageAdmissionCheck);
   const passed = packages.every((entry) => entry.passed === true);
+  const roleCounts = packages.reduce((counts, entry) => {
+    counts[entry.primaryRole] = (counts[entry.primaryRole] || 0) + 1;
+    return counts;
+  }, {});
 
   return {
     reportId: 'v26-retained-package-admissibility-proof',
@@ -1026,6 +1090,9 @@ function buildV26RetainedPackageAdmissibilityProof({
     worktreeState: baseData.worktreeState,
     passed,
     admittedPackageCount: packages.length,
+    requiredFields: V26_RETAINED_PACKAGE_ADMISSION_REQUIRED_FIELDS,
+    admissibleRoles: V26_RETAINED_PACKAGE_ADMISSIBLE_ROLES,
+    roleCounts,
     packages
   };
 }
@@ -1309,6 +1376,154 @@ function buildV26InferenceImplementationRecordsProof({
   };
 }
 
+const V26_PROMPT_SPACE_WITNESS_SETS = [
+  {
+    checkId: 'prompt-primitive-public-contract',
+    label: 'PromptPart, Prompt, PromptExecution, formatter, and raw promptpart public contracts stay source-visible',
+    promptSpaceRole: 'primitive-contract',
+    closureTier: 'fifth-gate-baseline',
+    fifthGateUse: 'Defines the canonical prompt substrate every active or admitted-support inference corridor must compose through.',
+    laterGateRemaining: 'Whole-repository prompt inventory saturation and quality refinement remain eighth-gate work.',
+    requiredFiles: [
+      'packages/prompts/package.json',
+      'packages/prompts/src/index.ts',
+      'packages/prompts/src/prompt.ts',
+      'packages/prompts/src/parts/PromptPart.ts',
+      'packages/prompts/src/execution/PromptExecution.ts',
+      'packages/prompts/src/formatters/hierarchical.ts',
+      'packages/prompts/src/raw_promptparts/readme.md'
+    ]
+  },
+  {
+    checkId: 'active-agent-execution-prompt-carriers',
+    label: 'Active agent, execution, pipeline, and conversation prompt carriers stay explicit',
+    promptSpaceRole: 'active-inference-carriers',
+    closureTier: 'fifth-gate-baseline',
+    fifthGateUse: 'Binds live inference surfaces to prompt primitives instead of hidden string composition.',
+    laterGateRemaining: 'Later gates may refine every carrier and add product-grade prompt quality tests.',
+    requiredFiles: [
+      'packages/execution-generics/src/prompts/ExecutionPrompt.ts',
+      'packages/pipelines-generics/src/prompts/PipelinePrompt.ts',
+      'packages/agent-generics/src/prompts/AgentPrompt.ts',
+      'packages/agent-generics/src/prompts/AgentStepPrompt.ts',
+      'packages/agent-generics/src/execution/prompt-overlays.ts',
+      'packages/conversations-generics/src/prompts/ConversationSystemPrompt.ts',
+      'packages/conversations-generics/src/agent/ConversationAgent.ts'
+    ]
+  },
+  {
+    checkId: 'doc-code-tool-prompt-injection-boundary',
+    label: 'Doc-comment and doc-code prompt injection remains an admitted support boundary',
+    promptSpaceRole: 'tool-prompt-injection',
+    closureTier: 'fifth-gate-baseline',
+    fifthGateUse: 'Preserves build/runtime tool prompt descriptions for agentic Bitcode runs without promoting examples or experiments.',
+    laterGateRemaining: 'Reference-only plugin/example reservoirs still need later pruning or promotion decisions if reused.',
+    requiredFiles: [
+      'packages/doc-comment/package.json',
+      'packages/doc-comment/src/base-plugin.ts',
+      'packages/doc-comment/src/parser.ts',
+      'packages/doc-code/package.json',
+      'packages/doc-code/src/transformDocCodeTools.ts',
+      'packages/tools-generics/src/doc-code-tool/DocCodeToolPrompt.ts',
+      'packages/tools-generics/src/doc-code-tool/formatUsableTools.ts',
+      'protocol-demonstration/V26_DOC_COMMENT_REFORM.md'
+    ]
+  },
+  {
+    checkId: 'asset-pack-need-comprehension-prompt-corridor',
+    label: 'Asset-pack and need-comprehension compatibility prompts expose Bitcode semantics',
+    promptSpaceRole: 'asset-pack-need-comprehension',
+    closureTier: 'fifth-gate-baseline',
+    fifthGateUse: 'Keeps retained deliverable/task carriers mapped to Bitcode need, written asset, asset pack, and shipping wrapper meaning.',
+    laterGateRemaining: 'Compatibility file and class names can be retired only after callers no longer need them.',
+    requiredFiles: [
+      'packages/pipelines/deliverable/src/agents/prompts/comprehend-need-prompt.ts',
+      'packages/pipelines/deliverable/src/agents/prompts/comprehend-task-prompt.ts',
+      'packages/pipelines/deliverable/src/agents/setup/deliverable-pipeline-comprehend-need-agent.ts',
+      'packages/pipelines/deliverable/src/semantic-resolution.ts',
+      'packages/pipelines/deliverable/scripts/render-prompts.ts',
+      'packages/generic-tools/task-comprehension/README.md',
+      'packages/generic-tools/task-comprehension/src/prompts/AnalyzeTaskSemanticsDocCodeToolPrompt.ts',
+      'packages/generic-tools/task-comprehension/src/primitives.ts'
+    ]
+  },
+  {
+    checkId: 'raw-promptpart-runtime-carry-through',
+    label: 'Reformed raw PromptParts retain TypeScript and runtime JavaScript carry-through witnesses',
+    promptSpaceRole: 'raw-promptpart-carry-through',
+    closureTier: 'fifth-gate-baseline',
+    fifthGateUse: 'Prevents runtime JavaScript from silently preserving old-world prompt text after TypeScript prompt reform.',
+    laterGateRemaining: 'The full raw promptpart reservoir remains subject to later prompt-space saturation and product-copy quality review.',
+    requiredFiles: [
+      'packages/prompts/src/raw_promptparts/specific/promptpart_specific_tool_analyzetasksemantics_doccodetoolpurpose.ts',
+      'packages/prompts/src/raw_promptparts/specific/promptpart_specific_tool_analyzetasksemantics_doccodetoolpurpose.js',
+      'packages/prompts/src/raw_promptparts/specific/promptpart_specific_tool_analyzeimplementationcomplexity_doccodetoolexample3.ts',
+      'packages/prompts/src/raw_promptparts/specific/promptpart_specific_tool_analyzeimplementationcomplexity_doccodetoolexample3.js',
+      'packages/prompts/src/raw_promptparts/specific/promptpart_specific_tool_validatetaskcomprehension_doccodetoolpurpose.ts',
+      'packages/prompts/src/raw_promptparts/specific/promptpart_specific_tool_validatetaskcomprehension_doccodetoolpurpose.js'
+    ]
+  },
+  {
+    checkId: 'app-and-mcp-prompt-interface-ingress',
+    label: 'Application and MCP prompt ingress surfaces stay explicit and auditable',
+    promptSpaceRole: 'app-mcp-ingress',
+    closureTier: 'fifth-gate-baseline',
+    fifthGateUse: 'Shows that Terminal conversations and admitted MCP ingress are prompt-bearing interfaces over Bitcode state, not parallel products.',
+    laterGateRemaining: 'MCP and third-party app prompt quality, permissioning, and commercial readiness remain sixth/seventh-gate refinements.',
+    requiredFiles: [
+      'uapi/prompts/conversations-system-prompt.ts',
+      'uapi/app/api/conversations/stream/route.ts',
+      'uapi/app/api/conversations/[conversationId]/stream/route.ts',
+      'packages/executions-mcp/package.json',
+      'packages/executions-mcp/src/mcp-server/src/prompts/analysis-prompts.ts',
+      'packages/executions-mcp/src/mcp-server/src/prompts/workflow-prompts.ts',
+      'packages/executions-mcp/src/mcp-server/src/tools/pipeline-tools.ts'
+    ]
+  },
+  {
+    checkId: 'prompt-proof-and-specification-witnesses',
+    label: 'Prompt-space specification, inference records, generated proof, and tests are bound together',
+    promptSpaceRole: 'proof-and-specification',
+    closureTier: 'fifth-gate-baseline',
+    fifthGateUse: 'Lets fifth-gate judge prompt behavior from source, specs, tests, and generated proof rather than informal interpretation.',
+    laterGateRemaining: 'Eighth-gate must still prove total prompt-space completeness after all retained corridors converge.',
+    requiredFiles: [
+      'protocol-demonstration/V26_PROMPT_SURFACES.md',
+      'protocol-demonstration/V26_INFERENCE_SYSTEMS.md',
+      'protocol-demonstration/src/canonical/inference-implementation-records.js',
+      'protocol-demonstration/src/canonical/type-contracts.ts',
+      'protocol-demonstration/test/v26-prompt-system-boundary.test.js',
+      'protocol-demonstration/test/v26-prompt-surface-map.test.js',
+      'protocol-demonstration/test/v26-prompt-runtime-loadability.test.js',
+      'protocol-demonstration/test/v26-inference-implementation-records.test.js'
+    ]
+  }
+];
+
+const V26_PROMPT_SPACE_OPEN_COMPLETENESS_DIMENSIONS = [
+  'whole-repository prompt inventory saturation across every retained consumer',
+  'product-grade prompt quality and commercial readiness for Exchange, Terminal, MCP, and third-party interfaces',
+  'final retirement or promotion of compatibility prompt names after all callers converge',
+  'full raw promptpart reservoir audit for old-world product semantics and reference-only language',
+  'eighth-gate total proof that every live inference path is explainable from the explicit prompt substrate'
+];
+
+function buildV26PromptSpaceWitnessCheck(witness) {
+  const check = buildV26FilePresenceCheck(
+    witness.checkId,
+    witness.label,
+    witness.requiredFiles
+  );
+
+  return {
+    ...check,
+    promptSpaceRole: witness.promptSpaceRole,
+    closureTier: witness.closureTier,
+    fifthGateUse: witness.fifthGateUse,
+    laterGateRemaining: witness.laterGateRemaining
+  };
+}
+
 /**
  * @param {{
  *   generatedAt: string,
@@ -1319,19 +1534,8 @@ function buildV26PromptSpaceCompletenessProof({
   generatedAt,
   baseData
 }) {
-  const checks = [
-    buildV26FilePresenceCheck(
-      'prompt-space-witness-family',
-      'Prompt-space witness files remain explicit while later-gate completeness stays open',
-      [
-        'packages/prompts/src/index.ts',
-        'packages/prompts/src/prompt.ts',
-        'packages/prompts/src/parts/PromptPart.ts',
-        'uapi/prompts/conversations-system-prompt.ts',
-        'protocol-demonstration/src/canonical/type-contracts.ts'
-      ]
-    )
-  ];
+  const checks = V26_PROMPT_SPACE_WITNESS_SETS.map(buildV26PromptSpaceWitnessCheck);
+  const baselinePassed = checks.every((check) => check.passed === true);
 
   return {
     reportId: 'v26-prompt-space-completeness-proof',
@@ -1341,7 +1545,15 @@ function buildV26PromptSpaceCompletenessProof({
     generatorId: baseData.generatorId,
     worktreeState: baseData.worktreeState,
     passed: false,
-    openReason: 'Prompt-space completeness remains an eighth-gate closure proof even while the witness family is generated now.',
+    baselinePassed,
+    witnessFamilyComplete: baselinePassed,
+    witnessSetCount: checks.length,
+    closureGate: 'eighth-gate',
+    fifthGateBaseline: baselinePassed
+      ? 'Prompt primitives, active carriers, doc-code injection, asset-pack/need-comprehension compatibility, runtime carry-through, app/MCP ingress, and proof/spec witnesses are all source-visible for fifth-gate use.'
+      : 'One or more fifth-gate prompt-space witness sets is missing and blocks the prompt baseline.',
+    openCompletenessDimensions: V26_PROMPT_SPACE_OPEN_COMPLETENESS_DIMENSIONS,
+    openReason: 'Prompt-space completeness remains an eighth-gate closure proof; this artifact now proves the fifth-gate prompt witness baseline without claiming final prompt-space saturation.',
     checks
   };
 }
@@ -1494,8 +1706,8 @@ function buildV26RunsPipelinesTotalityProof({
         'uapi/tests/deliverablesInstallationsRoute.test.ts',
         'uapi/tests/api/deliverables.test.ts',
         'uapi/tests/api/deliverables.persistence.test.ts',
-        'uapi/tests/deliverablesHistoryRoute.test.ts',
-        'uapi/tests/deliverablesHistoryRunRoute.test.ts',
+        'uapi/tests/api/executionsHistoryRoute.test.ts',
+        'uapi/tests/api/executionsHistoryRunRoute.test.ts',
         'uapi/tests/bitcodeExecutionStreamPanel.test.tsx',
         'uapi/tests/usePipelineExecution.test.tsx'
       ]
@@ -2364,7 +2576,11 @@ export function renderCanonicalProvenMarkdown(data) {
     lines.push(`- v26PersistenceSchemaTotalityPassed: ${markdownCode(String(v26.persistenceSchemaTotalityProof.passed === true))}`);
     lines.push(`- v26PromptSystemTotalityPassed: ${markdownCode(String(v26.promptSystemTotalityProof.passed === true))}`);
     lines.push(`- v26InferenceImplementationRecordsPassed: ${markdownCode(String(v26.inferenceImplementationRecordsProof.passed === true))}`);
+    lines.push(`- v26PromptSpaceBaselinePassed: ${markdownCode(String(v26.promptSpaceCompletenessProof.baselinePassed === true))}`);
     lines.push(`- v26RetainedPackageAdmissibilityPassed: ${markdownCode(String(v26.retainedPackageAdmissibilityProof.passed === true))}`);
+    lines.push(`- v26SystemReformAdmissibilityPassed: ${markdownCode(String(v26.systemReformAdmissibilityProof.passed === true))}`);
+    lines.push(`- v26WholeRepositoryProductionSatisfactionPassed: ${markdownCode(String(v26.wholeRepositoryProductionSatisfactionProof.passed === true))}`);
+    lines.push(`- v26TotalClosurePassed: ${markdownCode(String(v26.v26TotalClosureProof.passed === true))}`);
     lines.push(`- v26GeneratedArtifactCount: ${markdownCode(String((v26.artifactSummaries || []).length))}`);
     lines.push(`- v26DraftPreview: ${markdownCode(String(v26.draftPreview === true))}`);
     lines.push(`- v26PromotionReady: ${markdownCode(String(v26.promotionReady === true))}`);
@@ -3108,6 +3324,36 @@ export function renderCanonicalProvenMarkdown(data) {
       ]
     ));
     lines.push('');
+    lines.push('### V26 Application Composition Proof');
+    lines.push('');
+    lines.push(`- reportId: ${markdownCode(v26.applicationCompositionProof.reportId)}`);
+    lines.push(`- passed: ${markdownCode(String(v26.applicationCompositionProof.passed === true))}`);
+    lines.push(`- routeWitnesses: ${v26.applicationCompositionProof.routeWitnesses.map(markdownCode).join(', ')}`);
+    lines.push('');
+    lines.push(renderMarkdownTable(
+      ['checkId', 'passed', 'detail'],
+      v26.applicationCompositionProof.checks.map((check) => [
+        markdownCode(check.checkId),
+        markdownCode(String(check.passed)),
+        check.detail
+      ])
+    ));
+    lines.push('');
+    lines.push('### V26 Environment Mode Coherence Proof');
+    lines.push('');
+    lines.push(`- reportId: ${markdownCode(v26.environmentModeCoherenceProof.reportId)}`);
+    lines.push(`- passed: ${markdownCode(String(v26.environmentModeCoherenceProof.passed === true))}`);
+    lines.push(`- supportedModes: ${v26.environmentModeCoherenceProof.supportedModes.map(markdownCode).join(', ')}`);
+    lines.push('');
+    lines.push(renderMarkdownTable(
+      ['checkId', 'passed', 'detail'],
+      v26.environmentModeCoherenceProof.checks.map((check) => [
+        markdownCode(check.checkId),
+        markdownCode(String(check.passed)),
+        check.detail
+      ])
+    ));
+    lines.push('');
     lines.push('### V26 Conversations Continuity Proof');
     lines.push('');
     lines.push(`- reportId: ${markdownCode(v26.conversationsContinuityProof.reportId)}`);
@@ -3187,18 +3433,90 @@ export function renderCanonicalProvenMarkdown(data) {
       ])
     ));
     lines.push('');
+    lines.push('### V26 Prompt Space Completeness Witness');
+    lines.push('');
+    lines.push(`- reportId: ${markdownCode(v26.promptSpaceCompletenessProof.reportId)}`);
+    lines.push(`- passed: ${markdownCode(String(v26.promptSpaceCompletenessProof.passed === true))}`);
+    lines.push(`- baselinePassed: ${markdownCode(String(v26.promptSpaceCompletenessProof.baselinePassed === true))}`);
+    lines.push(`- witnessSetCount: ${markdownCode(String(v26.promptSpaceCompletenessProof.witnessSetCount))}`);
+    lines.push(`- closureGate: ${markdownCode(v26.promptSpaceCompletenessProof.closureGate)}`);
+    lines.push(`- openReason: ${v26.promptSpaceCompletenessProof.openReason}`);
+    lines.push(`- openCompletenessDimensions: ${v26.promptSpaceCompletenessProof.openCompletenessDimensions.map(markdownCode).join(', ')}`);
+    lines.push('');
+    lines.push(renderMarkdownTable(
+      ['checkId', 'role', 'tier', 'passed', 'detail'],
+      v26.promptSpaceCompletenessProof.checks.map((check) => [
+        markdownCode(check.checkId),
+        markdownCode(check.promptSpaceRole),
+        markdownCode(check.closureTier),
+        markdownCode(String(check.passed)),
+        check.detail
+      ])
+    ));
+    lines.push('');
     lines.push('### V26 Retained Package Admissibility Proof');
     lines.push('');
     lines.push(`- reportId: ${markdownCode(v26.retainedPackageAdmissibilityProof.reportId)}`);
     lines.push(`- passed: ${markdownCode(String(v26.retainedPackageAdmissibilityProof.passed === true))}`);
     lines.push(`- admittedPackageCount: ${markdownCode(String(v26.retainedPackageAdmissibilityProof.admittedPackageCount))}`);
+    lines.push(`- requiredFields: ${v26.retainedPackageAdmissibilityProof.requiredFields.map(markdownCode).join(', ')}`);
+    lines.push(`- roleCounts: ${Object.entries(v26.retainedPackageAdmissibilityProof.roleCounts).map(([role, count]) => `${markdownCode(role)}=${markdownCode(String(count))}`).join(', ')}`);
     lines.push('');
     lines.push(renderMarkdownTable(
-      ['packageName', 'passed', 'rationale'],
+      ['packageName', 'primaryRole', 'passed', 'role', 'writeBoundary'],
       v26.retainedPackageAdmissibilityProof.packages.map((entry) => [
         markdownCode(entry.packageName),
+        markdownCode(entry.primaryRole),
         markdownCode(String(entry.passed)),
-        entry.rationale
+        entry.role,
+        entry.writeBoundary
+      ])
+    ));
+    lines.push('');
+    lines.push('### V26 System Reform Admissibility Proof');
+    lines.push('');
+    lines.push(`- reportId: ${markdownCode(v26.systemReformAdmissibilityProof.reportId)}`);
+    lines.push(`- passed: ${markdownCode(String(v26.systemReformAdmissibilityProof.passed === true))}`);
+    lines.push(`- reformClasses: ${v26.systemReformAdmissibilityProof.reformClasses.map(markdownCode).join(', ')}`);
+    lines.push(`- closureBasis: ${v26.systemReformAdmissibilityProof.closureBasis}`);
+    lines.push('');
+    lines.push(renderMarkdownTable(
+      ['checkId', 'reformClass', 'passed', 'detail'],
+      v26.systemReformAdmissibilityProof.checks.map((check) => [
+        markdownCode(check.checkId),
+        markdownCode(check.reformClass),
+        markdownCode(String(check.passed)),
+        check.detail
+      ])
+    ));
+    lines.push('');
+    lines.push('### V26 Whole Repository Production Satisfaction Witness');
+    lines.push('');
+    lines.push(`- reportId: ${markdownCode(v26.wholeRepositoryProductionSatisfactionProof.reportId)}`);
+    lines.push(`- passed: ${markdownCode(String(v26.wholeRepositoryProductionSatisfactionProof.passed === true))}`);
+    lines.push(`- openReason: ${v26.wholeRepositoryProductionSatisfactionProof.openReason}`);
+    lines.push('');
+    lines.push(renderMarkdownTable(
+      ['checkId', 'passed', 'detail'],
+      v26.wholeRepositoryProductionSatisfactionProof.checks.map((check) => [
+        markdownCode(check.checkId),
+        markdownCode(String(check.passed)),
+        check.detail
+      ])
+    ));
+    lines.push('');
+    lines.push('### V26 Total Closure Witness');
+    lines.push('');
+    lines.push(`- reportId: ${markdownCode(v26.v26TotalClosureProof.reportId)}`);
+    lines.push(`- passed: ${markdownCode(String(v26.v26TotalClosureProof.passed === true))}`);
+    lines.push(`- openReason: ${v26.v26TotalClosureProof.openReason}`);
+    lines.push('');
+    lines.push(renderMarkdownTable(
+      ['checkId', 'passed', 'detail'],
+      v26.v26TotalClosureProof.checks.map((check) => [
+        markdownCode(check.checkId),
+        markdownCode(String(check.passed)),
+        check.detail
       ])
     ));
     lines.push('');

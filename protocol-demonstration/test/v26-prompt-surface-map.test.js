@@ -5,6 +5,9 @@ import { readFileSync } from 'node:fs';
 const promptSurfaceSource = readFileSync(new URL('../V26_PROMPT_SURFACES.md', import.meta.url), 'utf8');
 const inferenceSystemsSource = readFileSync(new URL('../V26_INFERENCE_SYSTEMS.md', import.meta.url), 'utf8');
 const uapiTsconfigSource = readFileSync(new URL('../../uapi/tsconfig.json', import.meta.url), 'utf8');
+const promptSpaceCompletenessProof = JSON.parse(
+  readFileSync(new URL('../../.bitcode/prompt-space-completeness-proof.json', import.meta.url), 'utf8')
+);
 
 test('V26 prompt surface map keeps active, support, and reference corridors explicit', () => {
   assert.match(promptSurfaceSource, /## Public prompt contract/u);
@@ -36,6 +39,10 @@ test('V26 prompt surface map keeps active, support, and reference corridors expl
   assert.match(promptSurfaceSource, /retained reference test\/build configs should use exact public prompt subpath maps/u);
   assert.match(promptSurfaceSource, /Jira remains reader-first need-ingestion\/reference posture/u);
   assert.match(promptSurfaceSource, /Runtime JavaScript PromptPart carry-through must match the TypeScript content/u);
+  assert.match(promptSurfaceSource, /fifth-gate prompt baseline proves/u);
+  assert.match(promptSurfaceSource, /final prompt-space completeness remains an eighth-gate closure obligation/u);
+  assert.match(promptSurfaceSource, /baselinePassed/u);
+  assert.match(promptSurfaceSource, /\.bitcode\/prompt-space-completeness-proof\.json/u);
   assert.match(promptSurfaceSource, /\.bitcode\/inference-implementation-records-proof\.json/u);
   assert.match(promptSurfaceSource, /protocol-demonstration\/src\/canonical\/inference-implementation-records\.js/u);
   assert.match(promptSurfaceSource, /protocol-demonstration\/test\/v26-inference-implementation-records\.test\.js/u);
@@ -68,6 +75,9 @@ test('V26 inference systems spec binds prompts, tools, agents, and executions to
   assert.match(inferenceSystemsSource, /Conversation inference \| `ConversationSystemPrompt`/u);
   assert.match(inferenceSystemsSource, /Need-comprehension compatibility/u);
   assert.match(inferenceSystemsSource, /package-local no-emit typecheck/u);
+  assert.match(inferenceSystemsSource, /## Prompt-Space Witness Baseline/u);
+  assert.match(inferenceSystemsSource, /application conversation prompt binding and admitted Bitcode MCP prompt\/tool ingress/u);
+  assert.match(inferenceSystemsSource, /`passed: true` is not allowed until eighth-gate prompt-space saturation/u);
   assert.match(inferenceSystemsSource, /runtime and proof evidence can be regenerated from source/u);
 });
 
@@ -76,4 +86,32 @@ test('V26 active app config no longer preserves deprecated prompt source aliases
   assert.doesNotMatch(uapiTsconfigSource, /"@bitcode\/prompts\/src\/raw_promptparts\/\*"/u);
   assert.match(uapiTsconfigSource, /"@bitcode\/prompts": \["\.\.\/packages\/prompts\/src\/index\.ts"\]/u);
   assert.match(uapiTsconfigSource, /"@bitcode\/prompts\/\*": \["\.\.\/packages\/prompts\/src\/\*"\]/u);
+});
+
+test('V26 prompt-space proof proves the fifth-gate baseline without claiming eighth-gate closure', () => {
+  assert.equal(promptSpaceCompletenessProof.reportId, 'v26-prompt-space-completeness-proof');
+  assert.equal(promptSpaceCompletenessProof.baselinePassed, true);
+  assert.equal(promptSpaceCompletenessProof.witnessFamilyComplete, true);
+  assert.equal(promptSpaceCompletenessProof.passed, false);
+  assert.equal(promptSpaceCompletenessProof.closureGate, 'eighth-gate');
+  assert.deepEqual(
+    promptSpaceCompletenessProof.checks.map((check) => check.promptSpaceRole),
+    [
+      'primitive-contract',
+      'active-inference-carriers',
+      'tool-prompt-injection',
+      'asset-pack-need-comprehension',
+      'raw-promptpart-carry-through',
+      'app-mcp-ingress',
+      'proof-and-specification'
+    ]
+  );
+  assert.deepEqual(
+    promptSpaceCompletenessProof.checks.filter((check) => check.passed !== true),
+    []
+  );
+  assert.match(
+    promptSpaceCompletenessProof.openReason,
+    /without claiming final prompt-space saturation/u
+  );
 });

@@ -158,3 +158,21 @@ It is complete only when:
 - its runtime and proof evidence can be regenerated from source.
 
 Later gates may refine quality, viability, and commercial launch posture, but fifth-gate must establish this baseline for every active and admitted-support inference system.
+
+## Prompt-Space Witness Baseline
+
+The prompt-space completeness proof is generated during fifth-gate but remains an eighth-gate closure proof.
+Its fifth-gate job is narrower and concrete: prove that the prompt substrate is source-visible enough to support active and admitted-support inference records without hidden prompt ownership.
+
+The generated `.bitcode/prompt-space-completeness-proof.json` witness must cover, at minimum:
+
+- primitive `PromptPart`, `Prompt`, `PromptExecution`, formatter, and raw PromptPart public contracts
+- active agent, execution, pipeline, and conversation prompt carriers
+- `doc-comment` and `doc-code` tool prompt injection support
+- retained asset-pack and need-comprehension compatibility prompts
+- TypeScript and runtime JavaScript raw PromptPart carry-through for reformed compatibility prompts
+- application conversation prompt binding and admitted Bitcode MCP prompt/tool ingress
+- specification, implementation-record, and test witnesses tying the prompt surface to generated proof
+
+`baselinePassed: true` is allowed to support fifth-gate progress only when those witness sets are present.
+`passed: true` is not allowed until eighth-gate prompt-space saturation proves every live inference path across the retained repository is explainable from the explicit prompt substrate.

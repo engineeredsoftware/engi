@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { readFileSync } from 'node:fs';
+import { existsSync, readFileSync } from 'node:fs';
 
 const reformStrategySource = readFileSync(new URL('../V26_REFORM_STRATEGY.md', import.meta.url), 'utf8');
 const specSource = readFileSync(new URL('../../BITCODE_SPEC_V26.md', import.meta.url), 'utf8');
@@ -9,6 +9,10 @@ const notesSource = readFileSync(new URL('../../BITCODE_SPEC_V26_NOTES.md', impo
 const systemsSource = readFileSync(new URL('../V26_APPLICATION_SYSTEMS.md', import.meta.url), 'utf8');
 const deliverableReformSource = readFileSync(new URL('../V26_DELIVERABLE_REFORM.md', import.meta.url), 'utf8');
 const docCommentReformSource = readFileSync(new URL('../V26_DOC_COMMENT_REFORM.md', import.meta.url), 'utf8');
+const activeFieldIntelligenceUrls = [
+  '../../packages/orm/src/queries/field-intelligence.ts',
+  '../../packages/prompts/src/raw_promptparts/specific/promptpart_specific_fielddoc_intelligencecontext_detailcontent.ts',
+].map((relativePath) => new URL(relativePath, import.meta.url));
 
 test('V26 reform strategy supplement fixes the corridor-class model and ordering rule', () => {
   assert.match(reformStrategySource, /`direct-product`/u);
@@ -29,6 +33,11 @@ test('V26 reform strategy names representative kept, repurposed, and cut corrido
   assert.match(reformStrategySource, /doc-code/u);
   assert.match(reformStrategySource, /asset-pack written-asset synthesis/u);
   assert.match(reformStrategySource, /field-intelligence/u);
+});
+
+test('V26 field-intelligence corridor is absent from active source', () => {
+  assert.deepEqual(activeFieldIntelligenceUrls.filter((url) => existsSync(url)).map((url) => url.pathname), []);
+  assert.match(reformStrategySource, /Active retained-package proof no longer admits/u);
 });
 
 test('active V26 canon and supplementary reform notes point to the generic reform strategy', () => {

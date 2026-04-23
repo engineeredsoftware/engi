@@ -1183,7 +1183,6 @@ export * from "./promptpart_specific_deliverables_system_base";
 export * from "./promptpart_specific_deliverables_system_cognitive_framework";
 export * from "./promptpart_specific_deliverables_system_excellence_standards";
 export * from "./promptpart_specific_deliverables_system_ultra_critical_reflection";
-export * from "./promptpart_specific_fielddoc_intelligencecontext_detailcontent";
 export * from "./promptpart_specific_lsp_location_output_sentence";
 export * from "./promptpart_specific_lsp_output_contextual_info";
 export * from "./promptpart_specific_lsp_output_file_paths";

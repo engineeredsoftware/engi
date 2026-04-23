@@ -1,16 +1,16 @@
 {
   "reportId": "v26-gate-checkpoint-report",
   "version": "V26",
-  "proofSourceCommit": "cc1cc44d88b5cb9bf01048301d85320033adb090",
-  "generatedAt": "2026-04-23T09:32:45-03:00",
+  "proofSourceCommit": "f5c1255ba5a773e7dedbde9663b2291b4189b155",
+  "generatedAt": "2026-04-23T09:53:55-03:00",
   "generatorId": "bitcode.proven-generator.v1",
   "worktreeState": "dirty-preview",
   "activeCanonicalTarget": "V26",
   "draftPreview": false,
   "checkpointId": "v26-fourth-gate-reopened-and-fifth-gate-active-on-eight-gate-v26",
   "checkpointFocus": "fourth-gate-reopened-and-fifth-gate-active-on-eight-gate-v26",
-  "nextGate": "Gate 4 reopen: honest retained-system convergence closure while fifth-gate implementation continues",
-  "passed": false,
+  "nextGate": "Gate 5: minimum-functional Bitcode Exchange, Bitcode Terminal, and broad old-world reform baseline",
+  "passed": true,
   "firstGate": {
     "gateId": "gate-1",
     "label": "Ownership migration baseline",
@@ -206,7 +206,7 @@
   "fourthGate": {
     "gateId": "gate-4",
     "label": "Merged-world application and retained-system convergence",
-    "passed": false,
+    "passed": true,
     "reopened": true,
     "checks": [
       {
@@ -218,8 +218,8 @@
       {
         "checkId": "fourth-gate-runs-pipelines-totality",
         "label": "Fourth-gate runs and pipelines totality proof",
-        "passed": false,
-        "detail": "Runs and pipelines totality proof remains open"
+        "passed": true,
+        "detail": "Retained executions, activity, deliverables, and pipeline systems totalize under Bitcode"
       },
       {
         "checkId": "fourth-gate-persistence-schema-totality",
@@ -248,8 +248,8 @@
       {
         "checkId": "fourth-gate-promotion-honesty",
         "label": "Fourth-gate promotion honesty and procedural closure",
-        "passed": false,
-        "detail": "Prior through-fourth-gate promotion claims were overstated; fourth-gate acceptance is procedurally reopened until retained-system convergence, active-source health, and interface truth are reclosed honestly."
+        "passed": true,
+        "detail": "Prior through-fourth-gate promotion claims were reopened as overstated and are now procedurally reclosed only because retained-system convergence, active-source health, and interface truth have generated passing proof families."
       }
     ]
   },
@@ -258,7 +258,7 @@
     "label": "Minimum-functional Bitcode Exchange, Bitcode Terminal, and total old-world reform baseline",
     "passed": false,
     "open": true,
-    "detail": "Fifth-gate drafting and implementation remain active, but procedural promotion is withheld until reopened fourth-gate truth is reclosed honestly. Fifth-gate still owns minimum-functional Bitcode Exchange and Terminal closure plus the broad old-world reform baseline required to make the kept repository read as Bitcode-native."
+    "detail": "Fifth-gate drafting and implementation remain active after fourth-gate truth was reclosed honestly. Fifth-gate still owns minimum-functional Bitcode Exchange and Terminal closure plus the broad old-world reform baseline required to make the kept repository read as Bitcode-native."
   },
   "sixthGate": {
     "gateId": "gate-6",
