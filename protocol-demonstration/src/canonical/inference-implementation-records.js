@@ -324,7 +324,7 @@ export const V26_INFERENCE_IMPLEMENTATION_RECORDS = Object.freeze([
     canonicalNeed: 'Provide the rich-input Bitcode write surface that binds conversation prompts, attachments, tool registration, streams, and ad hoc execution continuity.',
     promptImplementation: {
       owners: [
-        'packages/conversations-generics/src/prompts/ConversationSystemPrompt.ts',
+        'packages/conversations-generics/src/prompts/BitcodeTerminalConversationSystemPrompt.ts',
         'uapi/prompts/bitcode-terminal-system-prompt.ts'
       ],
       rawPromptPartBoundary: 'conversation system prompt plus app-level binding',
@@ -358,7 +358,7 @@ export const V26_INFERENCE_IMPLEMENTATION_RECORDS = Object.freeze([
       '.bitcode/conversations-continuity-proof.json'
     ],
     sourceEvidenceRefs: [
-      'packages/conversations-generics/src/prompts/ConversationSystemPrompt.ts',
+      'packages/conversations-generics/src/prompts/BitcodeTerminalConversationSystemPrompt.ts',
       'packages/conversations-generics/src/agent/ConversationAgent.ts',
       'uapi/prompts/bitcode-terminal-system-prompt.ts',
       'packages/api/src/conversations/conversations.ts',

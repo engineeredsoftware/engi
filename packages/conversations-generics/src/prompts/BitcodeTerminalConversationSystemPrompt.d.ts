@@ -16,6 +16,4 @@ export declare class BitcodeTerminalConversationSystemPrompt extends Prompt {
     constructor();
     formatStructured(): string;
 }
-export { BitcodeTerminalConversationSystemPrompt as ConversationSystemPrompt };
 export declare const BITCODE_TERMINAL_CONVERSATION_SYSTEM_PROMPT: BitcodeTerminalConversationSystemPrompt;
-export declare const CONVERSATION_SYSTEM_PROMPT: BitcodeTerminalConversationSystemPrompt;

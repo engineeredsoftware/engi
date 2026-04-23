@@ -36,9 +36,4 @@ export class BitcodeTerminalConversationSystemPrompt extends Prompt {
   }
 }
 
-export { BitcodeTerminalConversationSystemPrompt as ConversationSystemPrompt };
-
 export const BITCODE_TERMINAL_CONVERSATION_SYSTEM_PROMPT = new BitcodeTerminalConversationSystemPrompt();
-
-// Compatibility alias while downstream carriers finish adopting the canonical Terminal-specific export.
-export const CONVERSATION_SYSTEM_PROMPT = BITCODE_TERMINAL_CONVERSATION_SYSTEM_PROMPT;

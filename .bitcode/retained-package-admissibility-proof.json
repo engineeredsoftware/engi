@@ -1,8 +1,8 @@
 {
   "reportId": "v26-retained-package-admissibility-proof",
   "version": "V26",
-  "proofSourceCommit": "c7f121f453808c4541d6ac485fdd9e6bcdfe810c",
-  "generatedAt": "2026-04-23T14:25:16-03:00",
+  "proofSourceCommit": "627e1f26fa7781077b8027430852860183cd92da",
+  "generatedAt": "2026-04-23T14:40:50-03:00",
   "generatorId": "bitcode.proven-generator.v1",
   "worktreeState": "dirty-preview",
   "passed": true,
@@ -98,7 +98,7 @@
         "packages/conversations-generics/README.md",
         "packages/conversations-generics/src/index.ts",
         "packages/conversations-generics/src/agent/ConversationAgent.ts",
-        "packages/conversations-generics/src/prompts/ConversationSystemPrompt.ts"
+        "packages/conversations-generics/src/prompts/BitcodeTerminalConversationSystemPrompt.ts"
       ],
       "missingFiles": [],
       "missingFields": [],

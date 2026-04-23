@@ -203,7 +203,7 @@ const V26_FOURTH_GATE_CONVERSATION_FILES = [
   'uapi/app/api/conversations/_shared.ts',
   'packages/conversations-generics/src/index.ts',
   'packages/conversations-generics/src/agent/ConversationAgent.ts',
-  'packages/conversations-generics/src/prompts/ConversationSystemPrompt.ts',
+  'packages/conversations-generics/src/prompts/BitcodeTerminalConversationSystemPrompt.ts',
   'packages/api/src/conversations/conversations.ts',
   'packages/api/src/conversations/streaming.ts',
   'uapi/tests/api/conversationsRoute.test.ts',
@@ -286,7 +286,7 @@ const V26_FOURTH_GATE_PROMPT_SYSTEM_FILES = [
   'packages/execution-generics/src/prompts/ExecutionPrompt.ts',
   'packages/agent-generics/src/prompts/AgentPrompt.ts',
   'packages/conversations-generics/README.md',
-  'packages/conversations-generics/src/prompts/ConversationSystemPrompt.ts',
+  'packages/conversations-generics/src/prompts/BitcodeTerminalConversationSystemPrompt.ts',
   'packages/generic-agents/jira-processor/src/prompts/system-prompt-jira-processor.ts',
   'packages/generic-agents/jira-processor/src/prompts/agent-prompt-jira-processor.ts',
   'packages/generic-agents/web-researcher/src/index.ts',
@@ -392,7 +392,7 @@ const V26_RETAINED_PACKAGE_ADMISSIONS = [
       'packages/conversations-generics/README.md',
       'packages/conversations-generics/src/index.ts',
       'packages/conversations-generics/src/agent/ConversationAgent.ts',
-      'packages/conversations-generics/src/prompts/ConversationSystemPrompt.ts'
+      'packages/conversations-generics/src/prompts/BitcodeTerminalConversationSystemPrompt.ts'
     ]
   },
   {
@@ -1220,7 +1220,7 @@ function buildV26PromptSystemTotalityProof({
         'packages/pipelines-generics/src/streaming/pipeline-stream-integration.ts',
         'packages/conversations-generics/package.json',
         'packages/conversations-generics/README.md',
-        'packages/conversations-generics/src/prompts/ConversationSystemPrompt.ts',
+        'packages/conversations-generics/src/prompts/BitcodeTerminalConversationSystemPrompt.ts',
         'packages/conversations-generics/src/agent/ConversationAgent.ts'
       ]
     ),
@@ -1462,7 +1462,7 @@ const V26_PROMPT_SPACE_WITNESS_SETS = [
       'packages/agent-generics/README.md',
       'packages/agent-generics/TLDR.md',
       'packages/eslint-plugin-bitcode/src/requirePromptHierarchy.ts',
-      'packages/conversations-generics/src/prompts/ConversationSystemPrompt.ts',
+      'packages/conversations-generics/src/prompts/BitcodeTerminalConversationSystemPrompt.ts',
       'packages/conversations-generics/src/agent/ConversationAgent.ts',
       'packages/prompts/src/raw_promptparts/specific/promptpart_specific_system_bitcodeterminalconversation_identity_corestatement.ts',
       'packages/prompts/src/raw_promptparts/specific/promptpart_specific_system_bitcodeterminalconversation_capabilities_list.ts',
@@ -1666,7 +1666,7 @@ function buildV26ConversationsContinuityProof({
       [
         'packages/conversations-generics/src/index.ts',
         'packages/conversations-generics/src/agent/ConversationAgent.ts',
-        'packages/conversations-generics/src/prompts/ConversationSystemPrompt.ts',
+        'packages/conversations-generics/src/prompts/BitcodeTerminalConversationSystemPrompt.ts',
         'packages/api/src/conversations/conversations.ts',
         'packages/api/src/conversations/streaming.ts',
         'uapi/tests/api/conversationsRoute.test.ts',

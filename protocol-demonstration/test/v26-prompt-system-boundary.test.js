@@ -92,8 +92,8 @@ const ACTIVE_AGENT_PROMPT_DOC_COMMENT_FILES = [
   'packages/agent-generics/src/prompts/ToolExecutionPrompt.ts',
   'packages/conversations-generics/src/agent/ConversationAgent.ts',
   'packages/conversations-generics/src/agent/ConversationAgent.d.ts',
-  'packages/conversations-generics/src/prompts/ConversationSystemPrompt.ts',
-  'packages/conversations-generics/src/prompts/ConversationSystemPrompt.d.ts',
+  'packages/conversations-generics/src/prompts/BitcodeTerminalConversationSystemPrompt.ts',
+  'packages/conversations-generics/src/prompts/BitcodeTerminalConversationSystemPrompt.d.ts',
 ];
 const CONVERSATION_RAW_PROMPTPART_FILES = [
   'packages/prompts/src/raw_promptparts/specific/promptpart_specific_system_bitcodeterminalconversation_identity_corestatement.ts',
@@ -128,9 +128,9 @@ const ACTIVE_PROMPT_PRIMITIVE_CARRIERS = [
   'packages/pipelines-generics/src/prompts/PipelinePrompt.ts',
   'packages/pipelines-generics/src/prompts/PipelinePrompt.js',
   'packages/pipelines-generics/src/prompts/PipelinePrompt.d.ts',
-  'packages/conversations-generics/src/prompts/ConversationSystemPrompt.ts',
-  'packages/conversations-generics/src/prompts/ConversationSystemPrompt.js',
-  'packages/conversations-generics/src/prompts/ConversationSystemPrompt.d.ts',
+  'packages/conversations-generics/src/prompts/BitcodeTerminalConversationSystemPrompt.ts',
+  'packages/conversations-generics/src/prompts/BitcodeTerminalConversationSystemPrompt.js',
+  'packages/conversations-generics/src/prompts/BitcodeTerminalConversationSystemPrompt.d.ts',
   'packages/conversations-generics/src/agent/ConversationAgent.ts',
 ];
 const ADMITTED_PROMPT_PRIMITIVE_CORRIDORS = [
@@ -370,7 +370,7 @@ test('V26 Terminal conversation prompts are specific raw PromptPart-backed regis
     'utf8'
   );
   const conversationSystemPromptSource = readFileSync(
-    path.join(repoRoot, 'packages/conversations-generics/src/prompts/ConversationSystemPrompt.ts'),
+    path.join(repoRoot, 'packages/conversations-generics/src/prompts/BitcodeTerminalConversationSystemPrompt.ts'),
     'utf8'
   );
   const conversationAppPromptBindingSource = readFileSync(
@@ -389,9 +389,13 @@ test('V26 Terminal conversation prompts are specific raw PromptPart-backed regis
   assert.match(conversationAgentSource, /PROMPTPART_SPECIFIC_AGENT_CONVERSATIONAGENT_PTRRRETRY_PURPOSE/u);
   assert.match(conversationPackageIndexSource, /BitcodeTerminalConversationSystemPrompt/u);
   assert.match(conversationPackageIndexSource, /BITCODE_TERMINAL_CONVERSATION_SYSTEM_PROMPT/u);
+  assert.doesNotMatch(conversationPackageIndexSource, /\bConversationSystemPrompt\b/u);
+  assert.doesNotMatch(conversationPackageIndexSource, /\bCONVERSATION_SYSTEM_PROMPT\b/u);
   assert.match(conversationSystemPromptSource, /Bitcode Terminal conversation system prompt assembled from specific PromptParts/u);
   assert.match(conversationSystemPromptSource, /BITCODE_TERMINAL_CONVERSATION_SYSTEM_PROMPT/u);
   assert.match(conversationSystemPromptSource, /BitcodeTerminalConversationSystemPrompt/u);
+  assert.doesNotMatch(conversationSystemPromptSource, /\bConversationSystemPrompt\b/u);
+  assert.doesNotMatch(conversationSystemPromptSource, /\bCONVERSATION_SYSTEM_PROMPT\b/u);
   assert.match(conversationAppPromptBindingSource, /BITCODE_TERMINAL_APP_SYSTEM_PROMPT/u);
   assert.match(conversationAppPromptBindingSource, /BITCODE_TERMINAL_CONVERSATION_SYSTEM_PROMPT/u);
   assert.doesNotMatch(conversationAppPromptBindingSource, /CONVERSATIONS_APP_SYSTEM_PROMPT/u);

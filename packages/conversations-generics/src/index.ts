@@ -24,7 +24,5 @@ export * from './agent/ConversationAgent';
 // Export Bitcode Terminal conversation system prompt
 export {
   BitcodeTerminalConversationSystemPrompt,
-  ConversationSystemPrompt,
-  BITCODE_TERMINAL_CONVERSATION_SYSTEM_PROMPT,
-  CONVERSATION_SYSTEM_PROMPT
-} from './prompts/ConversationSystemPrompt';
+  BITCODE_TERMINAL_CONVERSATION_SYSTEM_PROMPT
+} from './prompts/BitcodeTerminalConversationSystemPrompt';
