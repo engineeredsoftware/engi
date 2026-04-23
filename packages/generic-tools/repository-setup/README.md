@@ -2,7 +2,7 @@
 
 ## Overview
 
-Production-grade repository preparation and analysis framework implementing VCS-integrated operations across GitHub, GitLab, and Bitbucket providers. Delivers comprehensive repository cloning, structure analysis, health validation, and intelligent file filtering for enterprise pipeline integration.
+Production-grade repository preparation and analysis framework implementing VCS-integrated operations across GitHub, GitLab, and Bitbucket providers. Delivers comprehensive repository cloning, structure analysis, health validation, and expressed-need-aware file filtering for enterprise pipeline integration.
 
 ## Core Capabilities
 
@@ -101,13 +101,15 @@ Primary repository cloning and setup orchestration tool.
 
 ### filterRelevantFilesTool
 
-Intelligent file filtering based on architectural patterns and task relevance.
+Intelligent file filtering based on architectural patterns and expressed-need relevance. `taskDescription` remains a compatibility carrier only.
 
 **Input Schema:**
 ```typescript
 {
   allFiles: string[];
-  taskDescription: string;
+  needDescription?: string;
+  expressedNeed?: string;
+  taskDescription?: string; // compatibility carrier for the expressed need
   maxFiles: number;
   patterns?: {
     include?: string[];
@@ -326,8 +328,8 @@ async function executeFileFiltering(params: FileFilterParams) {
     )
   };
   
-  // Extract task description keywords
-  const keywords = params.taskDescription
+  // Extract expressed-need keywords. taskDescription remains a compatibility carrier.
+  const keywords = (params.expressedNeed ?? params.needDescription ?? params.taskDescription ?? '')
     .toLowerCase()
     .replace(/[^\w\s]/g, ' ')
     .split(/\s+/)
@@ -424,7 +426,7 @@ import { filterRelevantFilesTool } from '@bitcode/repository-setup';
 
 const filterResult = await filterRelevantFilesTool.use({
   allFiles: repositoryAnalysis.files,
-  taskDescription: 'Implement responsive dashboard component with TypeScript and React',
+  needDescription: 'Implement responsive dashboard component with TypeScript and React',
   maxFiles: 25,
   patterns: {
     include: ['**/*.tsx', '**/*.ts', '**/*.json'],
@@ -482,7 +484,7 @@ export const prepareRepositoryWorkspace = factoryTool(
   'prepareRepositoryWorkspace',
   async (params: {
     repositories: RepositoryTarget[];
-    taskContext: string;
+    taskContext: string; // compatibility carrier for the expressed need
     maxFilesPerRepo: number;
   }) => {
     // Clone repositories
@@ -499,7 +501,7 @@ export const prepareRepositoryWorkspace = factoryTool(
         .map(async (repoResult) => {
           const filterResult = await filterRelevantFilesTool.use({
             allFiles: repoResult.analysis.files,
-            taskDescription: params.taskContext,
+            needDescription: params.taskContext,
             maxFiles: params.maxFilesPerRepo
           });
           

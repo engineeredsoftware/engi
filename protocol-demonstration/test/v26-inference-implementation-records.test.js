@@ -91,6 +91,13 @@ test('V26 inference implementation registry binds records to canonical Bitcode s
   assert.match(recordsById['prompt-primitives'].promptImplementation.registryLayering, /raw_promptparts\/specific holds concrete Bitcode implementation PromptParts/u);
   assert.match(recordsById['asset-pack-synthesis-compatibility'].promptImplementation.registryLayering, /Generic PTRR and formatting PromptParts form base layers/u);
   assert.match(recordsById['asset-pack-synthesis-compatibility'].promptImplementation.registryLayering, /specific deliverable\/setup\/validation\/finish PromptParts implement Bitcode need/u);
+  assert.deepEqual(recordsById['need-comprehension-compatibility'].toolImplementation.owners, [
+    'packages/generic-tools/task-comprehension/src/AnalyzeNeedSemanticsTool.ts',
+    'packages/generic-tools/task-comprehension/src/need-comprehension-primitives.ts',
+    'packages/generic-tools/task-comprehension/src/need-comprehension-schemas.ts'
+  ]);
+  assert.match(recordsById['need-comprehension-compatibility'].toolImplementation.contract, /Canonical need-first tool, primitive, and schema owners stay local to the package/u);
+  assert.match(recordsById['need-comprehension-compatibility'].toolImplementation.contract, /retained task-named APIs remain compatibility carriers/u);
 
   assert.equal(recordsById['asset-pack-synthesis-compatibility'].boundaryPosture, 'compatibility');
   assert.equal(recordsById['need-comprehension-compatibility'].boundaryPosture, 'compatibility');

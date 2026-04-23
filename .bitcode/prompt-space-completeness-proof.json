@@ -1,8 +1,8 @@
 {
   "reportId": "v26-prompt-space-completeness-proof",
   "version": "V26",
-  "proofSourceCommit": "84df95ca89abd1728949d4b5e2cecdc563db64bc",
-  "generatedAt": "2026-04-23T15:08:02-03:00",
+  "proofSourceCommit": "e5b356e6de2ec3209fbf8bb03daa19645c230606",
+  "generatedAt": "2026-04-23T15:45:48-03:00",
   "generatorId": "bitcode.proven-generator.v1",
   "worktreeState": "dirty-preview",
   "passed": false,
@@ -99,7 +99,7 @@
       "checkId": "asset-pack-need-comprehension-prompt-corridor",
       "label": "Asset-pack and need-comprehension compatibility prompts expose Bitcode semantics",
       "passed": true,
-      "detail": "18 required files present",
+      "detail": "23 required files present",
       "requiredFiles": [
         "packages/pipelines/deliverable/src/agents/prompts/comprehend-need-prompt.ts",
         "packages/pipelines/deliverable/src/agents/prompts/comprehend-task-prompt.ts",
@@ -107,6 +107,12 @@
         "packages/pipelines/deliverable/src/semantic-resolution.ts",
         "packages/pipelines/deliverable/scripts/render-prompts.ts",
         "packages/generic-tools/task-comprehension/README.md",
+        "packages/generic-tools/task-comprehension/src/AnalyzeNeedSemanticsTool.ts",
+        "packages/generic-tools/task-comprehension/src/AnalyzeTaskSemanticsTool.ts",
+        "packages/generic-tools/task-comprehension/src/need-comprehension-primitives.ts",
+        "packages/generic-tools/task-comprehension/src/primitives.ts",
+        "packages/generic-tools/task-comprehension/src/need-comprehension-schemas.ts",
+        "packages/generic-tools/task-comprehension/src/schemas.ts",
         "packages/generic-tools/task-comprehension/src/prompts/AnalyzeNeedSemanticsDocCodeToolPrompt.ts",
         "packages/generic-tools/task-comprehension/src/prompts/AnalyzeTaskSemanticsDocCodeToolPrompt.ts",
         "packages/generic-tools/task-comprehension/src/prompts/ExtractNeedRequirementsDocCodeToolPrompt.ts",
@@ -117,8 +123,7 @@
         "packages/generic-tools/task-comprehension/src/prompts/GenerateSuccessCriteriaDocCodeToolPrompt.ts",
         "packages/generic-tools/task-comprehension/src/prompts/ValidateNeedComprehensionDocCodeToolPrompt.ts",
         "packages/generic-tools/task-comprehension/src/prompts/AnalyzeNeedSatisfactionImplementationComplexityDocCodeToolPrompt.ts",
-        "packages/generic-tools/task-comprehension/src/prompts/AnalyzeImplementationComplexityDocCodeToolPrompt.ts",
-        "packages/generic-tools/task-comprehension/src/primitives.ts"
+        "packages/generic-tools/task-comprehension/src/prompts/AnalyzeImplementationComplexityDocCodeToolPrompt.ts"
       ],
       "missingFiles": [],
       "promptSpaceRole": "asset-pack-need-comprehension",

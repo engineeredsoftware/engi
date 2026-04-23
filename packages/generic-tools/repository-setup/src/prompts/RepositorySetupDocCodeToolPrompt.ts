@@ -18,10 +18,12 @@ import { PROMPTPART_SPECIFIC_TOOL_REPOSITORYSETUP_DOCCODETOOLEXAMPLE3 } from '@b
  * @doc-comment-developing-promptdevelopment
  * versions: []
  * domain: tool
- * intent: "Repository initialization tool for project scaffolding and configuration"
+ * intent: "Bitcode repository-preparation support prompt for provider-agnostic cloning, expressed-need-aware file filtering, and setup evidence"
  * 
  * Structured DocCodeToolPrompt for repository setup tool runtime documentation.
- * This tool provides provider-agnostic repository cloning and analysis capabilities.
+ * This tool provides provider-agnostic repository cloning and analysis
+ * capabilities in support of Bitcode need understanding and written-asset
+ * synthesis.
  */
 
 import { DocCodeToolPrompt } from '@bitcode/tools-generics';
@@ -64,8 +66,8 @@ export class RepositorySetupDocCodeToolPrompt extends DocCodeToolPrompt {
     
     // Set metadata directly
     this.set('metadata:name', PROMPTPART_SPECIFIC_TOOL_REPOSITORYSETUP_DOCCODETOOLNAME);
-    this.set('metadata:category', 'repository-management' as PromptPart);
-    this.set('metadata:version', 'GA1.00.0' as PromptPart);
+    this.set('metadata:category', 'repository-preparation-support' as PromptPart);
+    this.set('metadata:version', 'V26' as PromptPart);
     this.set('metadata:priority', 'high' as PromptPart);
     this.set('metadata:stability', 'stable' as PromptPart);
     

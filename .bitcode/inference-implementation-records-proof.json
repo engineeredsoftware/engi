@@ -1,8 +1,8 @@
 {
   "reportId": "v26-inference-implementation-records-proof",
   "version": "V26",
-  "proofSourceCommit": "84df95ca89abd1728949d4b5e2cecdc563db64bc",
-  "generatedAt": "2026-04-23T15:08:02-03:00",
+  "proofSourceCommit": "e5b356e6de2ec3209fbf8bb03daa19645c230606",
+  "generatedAt": "2026-04-23T15:45:48-03:00",
   "generatorId": "bitcode.proven-generator.v1",
   "worktreeState": "dirty-preview",
   "passed": true,
@@ -546,10 +546,11 @@
         "packages/generic-tools/task-comprehension/src/prompts/ValidateNeedComprehensionDocCodeToolPrompt.ts",
         "packages/generic-tools/task-comprehension/src/prompts/AnalyzeNeedSatisfactionImplementationComplexityDocCodeToolPrompt.ts",
         "packages/prompts/src/raw_promptparts/specific/promptpart_specific_tool_analyzetasksemantics_doccodetoolpurpose.ts",
-        "packages/generic-tools/task-comprehension/src/AnalyzeTaskSemanticsTool.ts",
-        "packages/generic-tools/task-comprehension/src/primitives.ts",
-        "packages/generic-tools/task-comprehension/src/schemas.ts",
+        "packages/generic-tools/task-comprehension/src/AnalyzeNeedSemanticsTool.ts",
+        "packages/generic-tools/task-comprehension/src/need-comprehension-primitives.ts",
+        "packages/generic-tools/task-comprehension/src/need-comprehension-schemas.ts",
         "packages/generic-tools/task-comprehension/tsconfig.json",
+        "packages/generic-tools/task-comprehension/src/index.ts",
         "packages/generic-tools/task-comprehension/src/types/tools-generics.ts"
       ],
       "missingImplementationOwnerRefs": [],
@@ -557,8 +558,11 @@
         "packages/generic-tools/task-comprehension/README.md",
         "packages/generic-tools/task-comprehension/package.json",
         "packages/generic-tools/task-comprehension/tsconfig.json",
+        "packages/generic-tools/task-comprehension/src/AnalyzeNeedSemanticsTool.ts",
         "packages/generic-tools/task-comprehension/src/AnalyzeTaskSemanticsTool.ts",
+        "packages/generic-tools/task-comprehension/src/need-comprehension-primitives.ts",
         "packages/generic-tools/task-comprehension/src/primitives.ts",
+        "packages/generic-tools/task-comprehension/src/need-comprehension-schemas.ts",
         "packages/generic-tools/task-comprehension/src/prompts/AnalyzeNeedSemanticsDocCodeToolPrompt.ts",
         "packages/generic-tools/task-comprehension/src/prompts/AnalyzeTaskSemanticsDocCodeToolPrompt.ts",
         "packages/generic-tools/task-comprehension/src/prompts/ExtractNeedRequirementsDocCodeToolPrompt.ts",
@@ -571,6 +575,7 @@
         "packages/generic-tools/task-comprehension/src/prompts/ValidateTaskComprehensionDocCodeToolPrompt.ts",
         "packages/generic-tools/task-comprehension/src/prompts/AnalyzeNeedSatisfactionImplementationComplexityDocCodeToolPrompt.ts",
         "packages/generic-tools/task-comprehension/src/prompts/AnalyzeImplementationComplexityDocCodeToolPrompt.ts",
+        "packages/generic-tools/task-comprehension/src/schemas.ts",
         "packages/prompts/src/raw_promptparts/specific/promptpart_specific_tool_analyzetasksemantics_doccodetoolpurpose.ts"
       ],
       "missingSourceEvidenceRefs": [],
@@ -1100,11 +1105,11 @@
       },
       "toolImplementation": {
         "owners": [
-          "packages/generic-tools/task-comprehension/src/AnalyzeTaskSemanticsTool.ts",
-          "packages/generic-tools/task-comprehension/src/primitives.ts",
-          "packages/generic-tools/task-comprehension/src/schemas.ts"
+          "packages/generic-tools/task-comprehension/src/AnalyzeNeedSemanticsTool.ts",
+          "packages/generic-tools/task-comprehension/src/need-comprehension-primitives.ts",
+          "packages/generic-tools/task-comprehension/src/need-comprehension-schemas.ts"
         ],
-        "contract": "Retained task-named APIs remain compatibility carriers for canonical needComprehension outputs."
+        "contract": "Canonical need-first tool, primitive, and schema owners stay local to the package while retained task-named APIs remain compatibility carriers for canonical needComprehension outputs only."
       },
       "agentImplementation": {
         "owners": [],
@@ -1113,6 +1118,7 @@
       "executionImplementation": {
         "owners": [
           "packages/generic-tools/task-comprehension/tsconfig.json",
+          "packages/generic-tools/task-comprehension/src/index.ts",
           "packages/generic-tools/task-comprehension/src/types/tools-generics.ts"
         ],
         "carriers": [
@@ -1133,8 +1139,11 @@
         "packages/generic-tools/task-comprehension/README.md",
         "packages/generic-tools/task-comprehension/package.json",
         "packages/generic-tools/task-comprehension/tsconfig.json",
+        "packages/generic-tools/task-comprehension/src/AnalyzeNeedSemanticsTool.ts",
         "packages/generic-tools/task-comprehension/src/AnalyzeTaskSemanticsTool.ts",
+        "packages/generic-tools/task-comprehension/src/need-comprehension-primitives.ts",
         "packages/generic-tools/task-comprehension/src/primitives.ts",
+        "packages/generic-tools/task-comprehension/src/need-comprehension-schemas.ts",
         "packages/generic-tools/task-comprehension/src/prompts/AnalyzeNeedSemanticsDocCodeToolPrompt.ts",
         "packages/generic-tools/task-comprehension/src/prompts/AnalyzeTaskSemanticsDocCodeToolPrompt.ts",
         "packages/generic-tools/task-comprehension/src/prompts/ExtractNeedRequirementsDocCodeToolPrompt.ts",
@@ -1147,6 +1156,7 @@
         "packages/generic-tools/task-comprehension/src/prompts/ValidateTaskComprehensionDocCodeToolPrompt.ts",
         "packages/generic-tools/task-comprehension/src/prompts/AnalyzeNeedSatisfactionImplementationComplexityDocCodeToolPrompt.ts",
         "packages/generic-tools/task-comprehension/src/prompts/AnalyzeImplementationComplexityDocCodeToolPrompt.ts",
+        "packages/generic-tools/task-comprehension/src/schemas.ts",
         "packages/prompts/src/raw_promptparts/specific/promptpart_specific_tool_analyzetasksemantics_doccodetoolpurpose.ts"
       ]
     },

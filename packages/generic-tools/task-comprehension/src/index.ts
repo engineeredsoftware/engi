@@ -1,16 +1,16 @@
 /**
  * Need Comprehension Tools - retained task-comprehension compatibility package.
  *
- * These tools keep old package/class names stable while their active prompts and
- * runtime posture serve Bitcode need, written-asset, asset-pack, and
- * shipping-wrapper comprehension.
+ * Canonical need-first owners live beside explicit compatibility wrappers so
+ * old task-named entry points can remain stable without owning Bitcode product
+ * semantics.
  */
 
-// Export modern Tool implementations
+export { AnalyzeNeedSemanticsTool, analyzeNeedSemanticsTool } from './AnalyzeNeedSemanticsTool';
 export { AnalyzeTaskSemanticsTool, analyzeTaskSemanticsTool } from './AnalyzeTaskSemanticsTool';
 
-// Export schemas for type safety
+export * from './need-comprehension-primitives';
+export * from './need-comprehension-schemas';
+export * from './primitives';
 export * from './schemas';
-
-// Export prompts for reuse
 export * from './prompts';

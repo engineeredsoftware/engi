@@ -77,13 +77,20 @@ const RepositorySetupParamsSchema = z.object({
 
 const FileFilterParamsSchema = z.object({
   allFiles: z.array(z.string()),
-  taskDescription: z.string(),
+  needDescription: z.string().optional().describe('Canonical expressed Bitcode need used to prioritize repository files'),
+  expressedNeed: z.string().optional().describe('Canonical alias for the expressed Bitcode need'),
+  taskDescription: z.string().optional().describe('Compatibility carrier for the expressed Bitcode need'),
   maxFiles: z.number().default(50),
   patterns: z.object({
     include: z.array(z.string()).optional(),
     exclude: z.array(z.string()).optional()
   }).optional()
-});
+}).refine(
+  (params) => Boolean(params.needDescription || params.expressedNeed || params.taskDescription),
+  {
+    message: 'One of needDescription, expressedNeed, or taskDescription is required'
+  }
+);
 
 const FileAnalysisParamsSchema = z.object({
   filePath: z.string(),
@@ -331,10 +338,17 @@ async function executeRepositorySetup(params: z.infer<typeof RepositorySetupPara
  */
 async function executeFileFiltering(params: z.infer<typeof FileFilterParamsSchema>) {
   try {
+    const expressedNeed = (
+      params.expressedNeed ||
+      params.needDescription ||
+      params.taskDescription ||
+      ''
+    ).trim();
+
     log('Starting file filtering', 'info', {
       totalFiles: params.allFiles.length,
       maxFiles: params.maxFiles,
-      taskLength: params.taskDescription.length
+      expressedNeedLength: expressedNeed.length
     });
 
     // Implement architectural pattern recognition
@@ -363,8 +377,9 @@ async function executeFileFiltering(params: z.infer<typeof FileFilterParamsSchem
       )
     };
 
-    // Extract keywords from task description
-    const keywords = params.taskDescription
+    // Extract keywords from the expressed need. taskDescription remains only as
+    // a compatibility carrier when callers have not yet migrated.
+    const keywords = expressedNeed
       .toLowerCase()
       .replace(/[^\w\s]/g, ' ')
       .split(/\s+/)

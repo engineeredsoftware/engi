@@ -18,6 +18,9 @@ It is a prompt-bearing reservoir that accelerates Bitcode inference when it maps
 
 The package remains integrated with Bitcode's prompt primitives architecture through `DocCodeToolPrompt`, `PromptPart`, and raw promptparts exposed through the public `@bitcode/prompts/raw_promptparts/*` boundary.
 
+Canonical code owners now live in `AnalyzeNeedSemanticsTool`, `need-comprehension-primitives`, and `need-comprehension-schemas`.
+The retained task-named tool, primitive, and schema files remain compatibility wrappers only and must not regain ownership of active Bitcode behavior.
+
 ## Compatibility Mapping
 
 | Retained name | V26 interpretation |
@@ -124,11 +127,12 @@ Expected output includes:
 
 ```typescript
 import {
-  analyzeTaskSemanticsTool,
-  AnalyzeTaskSemanticsTool
+  analyzeNeedSemanticsTool,
+  AnalyzeNeedSemanticsTool,
+  analyzeTaskSemanticsTool
 } from '@bitcode/generic-tools-task-comprehension';
 
-const semantics = await analyzeTaskSemanticsTool.use(
+const semantics = await analyzeNeedSemanticsTool.use(
   'Fix the OAuth redirect regression and open a pull request',
   {
     repository_type: 'Next.js application',
@@ -146,6 +150,7 @@ console.log(semantics.shipping_wrapper_boundaries);
 
 The DocCode prompt classes in `src/prompts/*` must use the public prompt boundary and must keep `metadata:category` set to `need-comprehension`.
 Canonical prompt owners now live in `AnalyzeNeedSemanticsDocCodeToolPrompt`, `ExtractNeedRequirementsDocCodeToolPrompt`, `IdentifyNeedConstraintsDocCodeToolPrompt`, `GenerateNeedSatisfactionCriteriaDocCodeToolPrompt`, `ValidateNeedComprehensionDocCodeToolPrompt`, and `AnalyzeNeedSatisfactionImplementationComplexityDocCodeToolPrompt`; the task-named prompt files remain compatibility wrappers only.
+Canonical code owners must mirror that posture: `AnalyzeNeedSemanticsTool`, `need-comprehension-primitives`, and `need-comprehension-schemas` stay local to the package, while `AnalyzeTaskSemanticsTool`, `primitives.ts`, and `schemas.ts` remain compatibility wrappers only.
 
 The raw promptpart files under `packages/prompts/src/raw_promptparts/specific/promptpart_specific_tool_*` may retain task-named filenames and constants for compatibility, but their content must describe:
 

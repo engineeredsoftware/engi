@@ -448,11 +448,11 @@ export const V26_INFERENCE_IMPLEMENTATION_RECORDS = Object.freeze([
     },
     toolImplementation: {
       owners: [
-        'packages/generic-tools/task-comprehension/src/AnalyzeTaskSemanticsTool.ts',
-        'packages/generic-tools/task-comprehension/src/primitives.ts',
-        'packages/generic-tools/task-comprehension/src/schemas.ts'
+        'packages/generic-tools/task-comprehension/src/AnalyzeNeedSemanticsTool.ts',
+        'packages/generic-tools/task-comprehension/src/need-comprehension-primitives.ts',
+        'packages/generic-tools/task-comprehension/src/need-comprehension-schemas.ts'
       ],
-      contract: 'Retained task-named APIs remain compatibility carriers for canonical needComprehension outputs.'
+      contract: 'Canonical need-first tool, primitive, and schema owners stay local to the package while retained task-named APIs remain compatibility carriers for canonical needComprehension outputs only.'
     },
     agentImplementation: {
       owners: [],
@@ -461,6 +461,7 @@ export const V26_INFERENCE_IMPLEMENTATION_RECORDS = Object.freeze([
     executionImplementation: {
       owners: [
         'packages/generic-tools/task-comprehension/tsconfig.json',
+        'packages/generic-tools/task-comprehension/src/index.ts',
         'packages/generic-tools/task-comprehension/src/types/tools-generics.ts'
       ],
       carriers: ['parent ToolExecution or pipeline execution evidence']
@@ -479,8 +480,11 @@ export const V26_INFERENCE_IMPLEMENTATION_RECORDS = Object.freeze([
       'packages/generic-tools/task-comprehension/README.md',
       'packages/generic-tools/task-comprehension/package.json',
       'packages/generic-tools/task-comprehension/tsconfig.json',
+      'packages/generic-tools/task-comprehension/src/AnalyzeNeedSemanticsTool.ts',
       'packages/generic-tools/task-comprehension/src/AnalyzeTaskSemanticsTool.ts',
+      'packages/generic-tools/task-comprehension/src/need-comprehension-primitives.ts',
       'packages/generic-tools/task-comprehension/src/primitives.ts',
+      'packages/generic-tools/task-comprehension/src/need-comprehension-schemas.ts',
       'packages/generic-tools/task-comprehension/src/prompts/AnalyzeNeedSemanticsDocCodeToolPrompt.ts',
       'packages/generic-tools/task-comprehension/src/prompts/AnalyzeTaskSemanticsDocCodeToolPrompt.ts',
       'packages/generic-tools/task-comprehension/src/prompts/ExtractNeedRequirementsDocCodeToolPrompt.ts',
@@ -493,6 +497,7 @@ export const V26_INFERENCE_IMPLEMENTATION_RECORDS = Object.freeze([
       'packages/generic-tools/task-comprehension/src/prompts/ValidateTaskComprehensionDocCodeToolPrompt.ts',
       'packages/generic-tools/task-comprehension/src/prompts/AnalyzeNeedSatisfactionImplementationComplexityDocCodeToolPrompt.ts',
       'packages/generic-tools/task-comprehension/src/prompts/AnalyzeImplementationComplexityDocCodeToolPrompt.ts',
+      'packages/generic-tools/task-comprehension/src/schemas.ts',
       'packages/prompts/src/raw_promptparts/specific/promptpart_specific_tool_analyzetasksemantics_doccodetoolpurpose.ts'
     ]
   },
