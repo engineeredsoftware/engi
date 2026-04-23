@@ -33,6 +33,11 @@ test('V26 prompt surface map keeps active, support, and reference corridors expl
   assert.match(promptSurfaceSource, /Prompt generation and update scripts/u);
   assert.match(promptSurfaceSource, /scripts\/\{generate-massive-prompt-parts,mass-update-prompt-parts,architecture-review\}\.ts/u);
   assert.match(promptSurfaceSource, /public `@bitcode\/prompts\/raw_promptparts\/\*` package subpaths/u);
+  assert.match(promptSurfaceSource, /canonical V26 inference records/u);
+  assert.match(promptSurfaceSource, /doc-comment\/tool-prompt injection bridge/u);
+  assert.match(promptSurfaceSource, /Obsolete one-off prompt migration scripts/u);
+  assert.match(promptSurfaceSource, /_legacy\/old-world-prompt-migration-scripts\/README\.md/u);
+  assert.match(promptSurfaceSource, /not an active prompt-system owner/u);
 
   assert.match(promptSurfaceSource, /packages\/generic-agents\/\*/u);
   assert.match(promptSurfaceSource, /packages\/generic-tools\/\*/u);

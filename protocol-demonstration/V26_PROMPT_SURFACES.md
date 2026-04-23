@@ -83,7 +83,10 @@ These corridors do not define the live product center directly, but they remain 
 | Prompt contracts and theorem language | `protocol-demonstration/src/canonical/type-contracts.ts`, `protocol-demonstration/src/canonical/proven-generator.js` | prompt contract/proof interpretation and generated witness language |
 | Prompt proof/test surfaces | `protocol-demonstration/test/{v26-prompt-system-boundary.test.js,v26-prompt-surface-map.test.js,v26-prompt-runtime-loadability.test.js}` | procedural witnesses that the prompt corridor stays explicit, package-bounded, and runtime-loadable |
 | Prompt repair and migration scripts | `scripts/{fix-remaining-imports,fix-barrel-imports,fix-multiline-imports,fix-corrupted-imports}.sh` | fifth-gate prompt-maintenance carriers that must repair toward public `@bitcode/prompts` and `raw_promptparts` boundaries with repository-root path resolution, not old import namespaces or removed raw prompt trees |
-| Prompt generation and update scripts | `scripts/{generate-massive-prompt-parts,mass-update-prompt-parts,architecture-review}.ts`, `scripts/{codemod-deep-promptparts,normalize-deliverables-promptparts}.mjs` | retained generation/codemod carriers that must target `promptpart_*`, `PROMPTPART_*`, active `raw_promptparts/{generic,specific}` folders, and public `@bitcode/prompts/raw_promptparts/*` package subpaths |
+| Prompt generation and update scripts | `scripts/{generate-massive-prompt-parts,mass-update-prompt-parts,architecture-review}.ts`, `scripts/{codemod-deep-promptparts,normalize-deliverables-promptparts}.mjs` | retained generation/codemod/verifier carriers that must target `promptpart_*`, `PROMPTPART_*`, active `raw_promptparts/{generic,specific}` folders, public `@bitcode/prompts/raw_promptparts/*` package subpaths, canonical V26 inference records, and the doc-comment/tool-prompt injection bridge |
+
+Obsolete one-off prompt migration scripts that hard-coded removed raw prompt trees, local checkout paths, old prompt organization names, or destructive reorganizations are cut from active source during fifth-gate reform.
+Their old-world implementation ideas are documented under `_legacy/old-world-prompt-migration-scripts/README.md`; that document is not an active prompt-system owner and must not be used as live Bitcode implementation truth.
 
 ## Reference-only or retained old-world prompt ports
 

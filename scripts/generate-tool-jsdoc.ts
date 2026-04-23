@@ -1,77 +1,106 @@
 #!/usr/bin/env node
 /**
- * TOOL JSDOC GENERATOR - THE MOST ELEGANT SOLUTION
- * 
- * This script generates incredible JSDoc comments for tools by composing
- * atomic prompt parts. Developers run this script, copy the output,
- * and paste it above their tool classes. Steve Wozniak-level elegance!
- * 
- * USAGE:
- * ```bash
- * npx ts-node scripts/generate-tool-jsdoc.ts textEditor
- * ```
- * 
- * The script outputs perfectly formatted JSDoc that you copy-paste
- * above your tool class. Maximum elegance, zero complexity!
+ * Bitcode tool prompt documentation generator.
+ *
+ * This support script generates doc-code tool comments from stable prompt
+ * description parts. It exists to keep tool prompt descriptions complete for
+ * agentic Bitcode runs without making the generated comment the protocol
+ * object. The protocol object remains the prompt/tool/agent/execution record
+ * and the asset-pack effect that the tool helps produce.
  */
 
-import * as fs from 'fs';
-import * as path from 'path';
+import * as process from 'node:process';
 
-/**
- * Simulated prompt parts (in production these would be imported)
- * For now, we'll define them inline to demonstrate the concept
- */
-const PROMPT_PARTS = {
+interface ToolPromptDescription {
+  purpose: string;
+  capabilities: string;
+  keyParameters: string;
+  output: string;
+  bestFor: string;
+  strategicUsage: string;
+  integrationPattern: string;
+  contextAwareness: string;
+  bitcodeRole: string;
+}
+
+const TOOL_PROMPT_DESCRIPTIONS: Record<string, ToolPromptDescription> = {
   TEXT_EDITOR: {
-    purpose: 'Comprehensive file editing with atomic operations, transaction support, and production-grade error recovery for reliable file management',
-    capabilities: 'Complete file operation suite: view, create, replace, delete, str_replace, insert, patch with automatic backup creation, rollback support, and repository-aware editing',
-    keyParameters: 'command (operation type), path (file path), file_text, old_str, new_str, insert_line, atomic (safety mode), backup (versioning options)',
-    output: 'Structured results with success status, operation details, comprehensive error handling, and actionable feedback for reliable operation tracking',
-    bestFor: 'Production-grade operations, complex multi-step workflows, mission-critical tasks requiring reliability guarantees, and enterprise-level automation',
-    strategicUsage: 'Essential for all file manipulation operations, providing production-grade reliability and safety for complex editing workflows and multi-file operations',
-    integrationPattern: 'Core tool for file operations, often used in coordination with repository tools for comprehensive file management and content updates',
-    contextAwareness: 'Leverages repository context and project structure for intelligent file operations with safety validation and consistency maintenance'
+    purpose:
+      'Repository file editing with bounded operations, transaction support, and recovery semantics for reliable asset-pack synthesis',
+    capabilities:
+      'View, create, replace, delete, string replace, insert, and patch operations with backup, rollback, and repository-aware validation',
+    keyParameters:
+      'command (operation type), path (file path), file_text, old_str, new_str, insert_line, atomic (safety mode), backup (versioning options)',
+    output:
+      'Structured operation result with success status, changed paths, error details, and follow-up guidance for execution records',
+    bestFor:
+      'Bitcode runs that need precise written-asset changes, repair patches, or repository-contained file updates',
+    strategicUsage:
+      'Use as a write primitive behind agentic execution phases after need, repository scope, and asset-pack intent are understood',
+    integrationPattern:
+      'Pairs with repository, diff, prompt, and execution carriers so file changes stay auditable as written assets',
+    contextAwareness:
+      'Reads repository structure and target path state before changing files, then returns enough detail for proof and reread surfaces',
+    bitcodeRole:
+      'support-tool-prompt'
   },
-  
+
   RENAME_SYMBOL: {
-    purpose: 'Repository-wide symbol renaming with LSP semantic analysis and atomic operations',
-    capabilities: 'Symbol identification, dependency tracking, cross-file renaming, rollback support, and semantic validation',
-    keyParameters: 'filePath (target file), position (symbol position), newName (replacement name), atomic (safety mode)',
-    output: 'Detailed rename report with affected files, change counts, and success confirmation',
-    bestFor: 'Large-scale refactoring, symbol standardization, and repository-wide consistency improvements',
-    strategicUsage: 'Critical for maintaining code quality during refactoring operations',
-    integrationPattern: 'Works with LSP servers and version control systems for safe renaming',
-    contextAwareness: 'Uses semantic analysis to ensure rename safety and completeness'
+    purpose:
+      'Repository-wide symbol renaming with semantic analysis and bounded write reporting',
+    capabilities:
+      'Symbol identification, dependency tracking, cross-file renaming, rollback support, semantic validation, and conflict detection',
+    keyParameters:
+      'filePath (target file), position (symbol position), newName (replacement name), atomic (safety mode)',
+    output:
+      'Rename report with affected files, change counts, dependency notes, and validation result',
+    bestFor:
+      'Large refactors that must preserve source behavior while improving Bitcode package or interface boundaries',
+    strategicUsage:
+      'Use when a need requires symbol-level reform rather than text-only replacement',
+    integrationPattern:
+      'Combines LSP/refactoring primitives with execution records and repository proof artifacts',
+    contextAwareness:
+      'Uses semantic reference analysis so renames can be audited against affected source paths',
+    bitcodeRole:
+      'support-tool-prompt'
   },
-  
+
   GIT_OPERATIONS: {
-    purpose: 'Git repository operations with branch management and remote synchronization',
-    capabilities: 'Branch operations, commit management, remote operations, and repository state tracking',
-    keyParameters: 'operation (git command), repository (target repo), branch (target branch), options (command options)',
-    output: 'Git operation results with status, output, and any errors or warnings',
-    bestFor: 'Automated git workflows, branch management, and repository synchronization',
-    strategicUsage: 'Essential for pipeline automation and version control operations',
-    integrationPattern: 'Integrates with GitHub/GitLab APIs and local git repositories',
-    contextAwareness: 'Repository-aware with branch and commit state tracking'
+    purpose:
+      'Repository state operations for branch, commit, and synchronization support inside Bitcode runs',
+    capabilities:
+      'Branch inspection, commit staging support, remote state reading, and repository status reporting',
+    keyParameters:
+      'operation (git command), repository (target repo), branch (target branch), options (command options)',
+    output:
+      'Repository operation result with status, stdout/stderr details, and errors or warnings',
+    bestFor:
+      'Agentic execution phases that need source-state proof, branch context, or connected-interface delivery preparation',
+    strategicUsage:
+      'Use as support infrastructure around stable asset-pack outputs, not as the definition of the output itself',
+    integrationPattern:
+      'Feeds VCS, proof, and delivery-mechanism wrappers such as pull request creation',
+    contextAwareness:
+      'Reports branch and commit state so downstream proof and shipping phases can stay deterministic',
+    bitcodeRole:
+      'support-tool-prompt'
   }
 };
 
-/**
- * Generate JSDoc for a specific tool
- */
 function generateToolJSDoc(toolKey: string): string {
-  const parts = PROMPT_PARTS[toolKey.toUpperCase() as keyof typeof PROMPT_PARTS];
-  
+  const parts = TOOL_PROMPT_DESCRIPTIONS[toolKey.toUpperCase()];
+
   if (!parts) {
-    throw new Error(`Unknown tool: ${toolKey}. Available: ${Object.keys(PROMPT_PARTS).join(', ')}`);
+    throw new Error(`Unknown tool: ${toolKey}. Available: ${Object.keys(TOOL_PROMPT_DESCRIPTIONS).join(', ')}`);
   }
-  
-  const toolName = toolKey.toUpperCase().replace('_', ' ') + ' TOOL';
-  
+
+  const toolName = `${toolKey.toUpperCase().replace(/_/gu, ' ')} TOOL`;
+
   return `/**
- * ${toolName} - ${parts.purpose.split(',')[0]}
- * 
+ * ${toolName} - ${parts.purpose}
+ *
+ * @doc-code-tool
  * @purpose ${parts.purpose}
  * @capabilities ${parts.capabilities}
  * @keyParameters ${parts.keyParameters}
@@ -80,18 +109,16 @@ function generateToolJSDoc(toolKey: string): string {
  * @strategicUsage ${parts.strategicUsage}
  * @integrationPattern ${parts.integrationPattern}
  * @contextAwareness ${parts.contextAwareness}
+ * @bitcodeRole ${parts.bitcodeRole}
  * @specificity Generic
  */`;
 }
 
-/**
- * Generate complete tool file template
- */
 function generateToolTemplate(toolKey: string, primitive: string): string {
   const jsdoc = generateToolJSDoc(toolKey);
-  const className = toolKey.charAt(0).toUpperCase() + toolKey.slice(1) + 'Tool';
-  const exportName = toolKey + 'Tool';
-  
+  const className = `${toolKey.charAt(0).toUpperCase()}${toolKey.slice(1)}Tool`;
+  const exportName = `${toolKey}Tool`;
+
   return `import { Tool } from '@bitcode/tools-generics';
 import { ${primitive} } from '@bitcode/your-primitive-package';
 
@@ -104,61 +131,40 @@ export const ${exportName} = new ${className}();
 export type ${className}Fn = Tool<typeof ${exportName}.use>;`;
 }
 
-/**
- * Main execution
- */
-function main() {
+function main(): void {
   const toolKey = process.argv[2];
-  
+
   if (!toolKey) {
-    console.log('🔧 TOOL JSDOC GENERATOR');
-    console.log('='.repeat(50));
-    console.log('');
+    console.log('Bitcode tool prompt documentation generator');
+    console.log('='.repeat(56));
     console.log('Usage: npx ts-node scripts/generate-tool-jsdoc.ts <toolName>');
     console.log('');
     console.log('Available tools:');
-    Object.keys(PROMPT_PARTS).forEach(key => {
+    for (const key of Object.keys(TOOL_PROMPT_DESCRIPTIONS)) {
       console.log(`  - ${key.toLowerCase()}`);
-    });
-    console.log('');
-    console.log('Example: npx ts-node scripts/generate-tool-jsdoc.ts textEditor');
-    console.log('');
+    }
     return;
   }
-  
+
   try {
     const jsdoc = generateToolJSDoc(toolKey);
-    
-    console.log('🎯 GENERATED JSDOC FOR ' + toolKey.toUpperCase() + ' TOOL');
-    console.log('='.repeat(80));
-    console.log('');
-    console.log('📋 COPY THIS JSDOC:');
-    console.log('-'.repeat(40));
+
+    console.log(`Generated doc-code tool comment for ${toolKey.toUpperCase()}`);
+    console.log('-'.repeat(80));
     console.log(jsdoc);
-    console.log('-'.repeat(40));
+    console.log('-'.repeat(80));
     console.log('');
-    console.log('🔧 USAGE:');
-    console.log('1. Copy the JSDoc above');
-    console.log('2. Paste it above your tool class');
-    console.log('3. Add your class extending Tool<typeof primitive>');
-    console.log('4. Set use = primitiveFunction');
-    console.log('5. Enjoy incredible documentation! 🚀');
-    console.log('');
-    
-    // Also generate complete template
-    console.log('📝 COMPLETE TOOL TEMPLATE:');
+    console.log('Complete tool template:');
     console.log('-'.repeat(80));
     console.log(generateToolTemplate(toolKey, 'yourPrimitiveFunction'));
     console.log('-'.repeat(80));
-    
   } catch (error) {
-    console.error('❌ Error:', (error as Error).message);
+    console.error('Error:', error instanceof Error ? error.message : String(error));
     process.exit(1);
   }
 }
 
-// Run if called directly
-if (require.main === module) {
+if (process.argv[1]?.endsWith('generate-tool-jsdoc.ts')) {
   main();
 }
 

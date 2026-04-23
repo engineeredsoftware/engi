@@ -1,9 +1,9 @@
 /**
- * CODE REFACTOR TOOLS - MODERN ARCHITECTURE WITH COMPOSED JSDOC
- * 
- * Production-grade code refactoring tools using the new abstract Tool class
- * with incredible JSDoc composed from atomic prompt parts. Zero legacy patterns,
- * maximum elegance, Steve Wozniak-level engineering excellence.
+ * Bitcode code-refactor tool adapters.
+ *
+ * These retained support tools bind refactoring primitives to doc-code prompt
+ * descriptions. They are support infrastructure for agentic Bitcode runs, not
+ * standalone product owners.
  */
 
 import { Tool } from '@bitcode/tools-generics';
@@ -160,33 +160,11 @@ export type InlineVariableToolFn = Tool<typeof inlineVariableTool.use>;
 export type MoveSymbolToolFn = Tool<typeof moveSymbolTool.use>;
 
 /**
- * ARCHITECTURAL EXCELLENCE ACHIEVED
- * 
- * This file demonstrates the complete transformation from legacy patterns
- * to modern, elegant, Steve Wozniak-level engineering:
- * 
- * ✅ ELIMINATED:
- * - tool() from 'ai' package
- * - Direct system prompt imports
- * - Inline implementation logic
- * - "execute" terminology
- * - Backwards compatibility cruft
- * 
- * ✅ ACHIEVED:
- * - Abstract Tool class inheritance
- * - Clean .use = primitiveFunction pattern
- * - Incredible JSDoc composed from prompt parts concepts
- * - Type-safe exports with proper naming
- * - Zero implementation logic in tools
- * - Industry-standard ToolUse/UsedTool terminology
- * 
- * Each tool is now:
- * 1. A class extending Tool<typeof primitive>
- * 2. With incredible JSDoc documentation
- * 3. With use = primitiveFunction (no implementation)
- * 4. With proper type exports
- * 5. With zero legacy patterns
- * 
- * This is the template for all generic tools going forward.
- * Maximum elegance, perfect maintainability, state-of-the-art architecture!
+ * Bitcode V26 support boundary:
+ *
+ * - Refactoring behavior stays in primitive packages.
+ * - Tool classes expose those primitives through a stable `.use` carrier.
+ * - Doc-code prompts describe tool capability for agentic runs.
+ * - Execution records and asset-pack outputs remain the canonical product
+ *   objects; these adapters only provide bounded support actions.
  */

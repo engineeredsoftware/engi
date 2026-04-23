@@ -1,394 +1,463 @@
 #!/usr/bin/env node
 /**
- * ARCHITECTURE REVIEW SCRIPT - Steve Wozniak Level Validation
- * 
- * This script validates that our architectural evolution has been implemented
- * correctly according to the specifications. It checks all the critical
- * principles and reports any violations.
- * 
- * CRITICAL PRINCIPLES VALIDATED:
- * 1. Tool is now an abstract class (not type)
- * 2. Directory structure: /generic/ and /specific/ only (no /atomic/)
- * 3. File naming: [prompt|template]_[generic|specific]_[description]
- * 4. Generic tools ONLY import primitive functionality
- * 5. Tools extend abstract class with .use method
- * 6. Terminology: use (not execute), ToolUse (not tool plans), UsedTool (not tool results)
- * 7. JSDoc above class definitions with all required fields
+ * Bitcode V26 architecture review.
+ *
+ * This support verifier checks the active prompt, PromptPart, doc-comment, and
+ * inference-system corridors that are part of fifth-gate source truth. It is not
+ * a one-off migration script and it must not target removed raw prompt trees.
  */
 
-import * as fs from 'fs';
-import * as path from 'path';
+import * as fs from 'node:fs';
+import * as path from 'node:path';
+import { fileURLToPath } from 'node:url';
+
+type Status = 'PASS' | 'FAIL';
 
 interface ValidationResult {
   principle: string;
-  status: 'PASS' | 'FAIL' | 'WARNING';
+  status: Status;
   details: string[];
-  criticalViolations: string[];
+  violations: string[];
 }
 
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
 class ArchitectureReviewer {
-  private results: ValidationResult[] = [];
-  private basePath: string;
+  private readonly basePath = path.resolve(__dirname, '..');
+  private readonly results: ValidationResult[] = [];
 
-  constructor() {
-    this.basePath = path.resolve(__dirname, '..');
-  }
-
-  async review(): Promise<void> {
-    console.log('🔍 ARCHITECTURE REVIEW - Steve Wozniak Level Validation\\n');
+  review(): void {
+    console.log('Bitcode V26 architecture review');
     console.log('='.repeat(60));
 
-    await this.validateToolPrimitive();
-    await this.validateDirectoryStructure();
-    await this.validateFileNaming();
-    await this.validateGenericToolsPattern();
-    await this.validateTerminologyMigration();
-    await this.validateJSDocStandards();
+    this.validateCanonicalSpecFamily();
+    this.validatePromptPartFilesystem();
+    this.validatePromptPublicBoundary();
+    this.validateSupportScriptBoundaries();
+    this.validateInferenceSystemSpecifications();
+    this.validateDocCommentToolPromptBridge();
 
     this.printReport();
   }
 
-  private async validateToolPrimitive(): Promise<void> {
-    const principle = 'Tool Primitive Evolution';
-    const details: string[] = [];
-    const criticalViolations: string[] = [];
+  private validateCanonicalSpecFamily(): void {
+    this.withResult('Canonical V26 specification family', (details, violations) => {
+      this.expectFile('BITCODE_SPEC.txt', details, violations);
+      this.expectFile('BITCODE_SPEC_V26.md', details, violations);
+      this.expectFile('BITCODE_SPEC_V26_NOTES.md', details, violations);
+      this.expectFile('BITCODE_SPEC_V26_PARITY_MATRIX.md', details, violations);
+      this.expectFile('BITCODE_SPEC_V26_PROVEN.md', details, violations);
+      this.expectFile('protocol-demonstration/V26_PROMPT_SURFACES.md', details, violations);
+      this.expectFile('protocol-demonstration/V26_INFERENCE_SYSTEMS.md', details, violations);
 
-    try {
-      const toolClassPath = path.join(this.basePath, 'packages/metadevelopment/src/tool-class.ts');
-      const content = fs.readFileSync(toolClassPath, 'utf8');
-
-      // Check if Tool is abstract class
-      if (content.includes('export abstract class Tool')) {
-        details.push('✅ Tool is abstract class');
+      const pointer = this.readText('BITCODE_SPEC.txt').trim();
+      if (pointer === 'V26') {
+        details.push('BITCODE_SPEC.txt points at V26.');
       } else {
-        criticalViolations.push('❌ Tool must be abstract class, not type');
+        violations.push(`BITCODE_SPEC.txt must point at V26, found "${pointer}".`);
       }
 
-      // Check for .use method
-      if (content.includes('abstract use:')) {
-        details.push('✅ Abstract .use method defined');
-      } else {
-        criticalViolations.push('❌ Missing abstract .use method');
-      }
-
-      // Check for new terminology
-      if (content.includes('ToolUse') && content.includes('UsedTool')) {
-        details.push('✅ New terminology (ToolUse, UsedTool) implemented');
-      } else {
-        criticalViolations.push('❌ Missing new terminology interfaces');
-      }
-
-      this.results.push({
-        principle,
-        status: criticalViolations.length === 0 ? 'PASS' : 'FAIL',
+      const promptSurfaces = this.readText('protocol-demonstration/V26_PROMPT_SURFACES.md');
+      this.expectContains(
+        promptSurfaces,
+        'PromptPart',
+        'Prompt surfaces specify PromptPart ownership.',
+        'Prompt surfaces must specify PromptPart ownership.',
         details,
-        criticalViolations
-      });
-
-    } catch (error) {
-      this.results.push({
-        principle,
-        status: 'FAIL',
-        details: [],
-        criticalViolations: ['❌ Could not read tool-class.ts file']
-      });
-    }
+        violations
+      );
+      this.expectContains(
+        promptSurfaces,
+        'raw_promptparts',
+        'Prompt surfaces target raw_promptparts.',
+        'Prompt surfaces must target raw_promptparts, not removed raw trees.',
+        details,
+        violations
+      );
+    });
   }
 
-  private async validateDirectoryStructure(): Promise<void> {
-    const principle = 'Directory Structure (/generic/ and /specific/ only)';
-    const details: string[] = [];
-    const criticalViolations: string[] = [];
+  private validatePromptPartFilesystem(): void {
+    this.withResult('PromptPart filesystem boundary', (details, violations) => {
+      const rawPromptparts = this.absolute('packages/prompts/src/raw_promptparts');
+      const generic = path.join(rawPromptparts, 'generic');
+      const specific = path.join(rawPromptparts, 'specific');
+      const removedRaw = this.absolute('packages/prompts/src/raw');
 
-    try {
-      const rawPath = path.join(this.basePath, 'packages/prompts/src/raw');
-      const dirs = fs.readdirSync(rawPath, { withFileTypes: true })
-        .filter(dirent => dirent.isDirectory())
-        .map(dirent => dirent.name);
+      this.expectDirectory('packages/prompts/src/raw_promptparts/generic', details, violations);
+      this.expectDirectory('packages/prompts/src/raw_promptparts/specific', details, violations);
 
-      // Check for correct directories
-      if (dirs.includes('generic')) {
-        details.push('✅ /generic/ directory exists');
+      if (fs.existsSync(removedRaw)) {
+        violations.push('Removed packages/prompts/src/raw tree still exists.');
       } else {
-        criticalViolations.push('❌ Missing /generic/ directory');
+        details.push('Removed packages/prompts/src/raw tree is absent.');
       }
 
-      if (dirs.includes('specific')) {
-        details.push('✅ /specific/ directory exists');
+      const genericFiles = this.listFiles(generic, ['.ts']).filter(
+        (file) => !file.endsWith('.d.ts') && path.basename(file) !== 'index.ts'
+      );
+      const specificFiles = this.listFiles(specific, ['.ts']).filter(
+        (file) => !file.endsWith('.d.ts') && path.basename(file) !== 'index.ts'
+      );
+      this.expectMinimum(genericFiles.length, 1, 'generic PromptPart source files', details, violations);
+      this.expectMinimum(specificFiles.length, 1, 'specific PromptPart source files', details, violations);
+
+      const misnamedPromptparts = [...genericFiles, ...specificFiles]
+        .map((file) => path.basename(file))
+        .filter((file) => !/^promptpart_(generic|specific)_[a-z0-9_]+\.ts$/u.test(file));
+
+      if (misnamedPromptparts.length === 0) {
+        details.push('Tracked TypeScript PromptPart files use promptpart_{generic,specific}_* names.');
       } else {
-        criticalViolations.push('❌ Missing /specific/ directory');
+        violations.push(`PromptPart files with non-canonical names: ${misnamedPromptparts.slice(0, 12).join(', ')}`);
       }
 
-      // Check for prohibited directories
-      if (dirs.includes('atomic')) {
-        criticalViolations.push('❌ /atomic/ directory still exists - must be removed');
-      } else {
-        details.push('✅ /atomic/ directory removed');
-      }
-
-      // List all directories for transparency
-      details.push(`📁 Found directories: ${dirs.join(', ')}`);
-
-      this.results.push({
-        principle,
-        status: criticalViolations.length === 0 ? 'PASS' : 'FAIL',
+      const specificText = specificFiles
+        .map((file) => `${path.basename(file)}\n${this.safeReadAbsolute(file)}`)
+        .join('\n');
+      this.expectContains(
+        specificText,
+        'comprehendneed',
+        'Need-comprehension PromptParts are present.',
+        'Need-comprehension PromptParts must be present.',
         details,
-        criticalViolations
-      });
-
-    } catch (error) {
-      this.results.push({
-        principle,
-        status: 'FAIL',
-        details: [],
-        criticalViolations: ['❌ Could not read raw directory structure']
-      });
-    }
+        violations
+      );
+      this.expectContains(
+        specificText,
+        'asset-pack',
+        'Asset-pack PromptPart language is present.',
+        'PromptParts must teach asset-pack semantics.',
+        details,
+        violations
+      );
+    });
   }
 
-  private async validateFileNaming(): Promise<void> {
-    const principle = 'File Naming Convention [prompt|template]_[generic|specific]_';
-    const details: string[] = [];
-    const criticalViolations: string[] = [];
+  private validatePromptPublicBoundary(): void {
+    this.withResult('Public prompt package boundary', (details, violations) => {
+      const packageJsonText = this.readText('packages/prompts/package.json');
+      this.expectContains(
+        packageJsonText,
+        '"name": "@bitcode/prompts"',
+        'Prompt package is owned by @bitcode/prompts.',
+        'Prompt package must be named @bitcode/prompts.',
+        details,
+        violations
+      );
 
-    try {
-      const genericPath = path.join(this.basePath, 'packages/prompts/src/raw_promptparts/generic');
-      
-      if (fs.existsSync(genericPath)) {
-        const files = fs.readdirSync(genericPath).filter(f => f.endsWith('.ts'));
-        
-        let correctNames = 0;
-        let totalFiles = files.length;
+      const packageJson = JSON.parse(packageJsonText) as { exports?: Record<string, unknown> };
+      const exportsMap = packageJson.exports ?? {};
+      const requiredExports = [
+        '.',
+        './prompt',
+        './parts/PromptPart',
+        './execution/PromptExecution',
+        './raw_promptparts/*'
+      ];
 
-        files.forEach(file => {
-          if (file.startsWith('promptpart_generic_') || file.startsWith('template_generic_')) {
-            correctNames++;
-            details.push(`✅ ${file} - correct naming`);
-          } else {
-            criticalViolations.push(`❌ ${file} - incorrect naming (should be [promptpart|template]_generic_*)`);
-          }
-        });
-
-        details.push(`📊 ${correctNames}/${totalFiles} files follow naming convention`);
-
-        if (correctNames === totalFiles && totalFiles > 0) {
-          details.push('✅ All files follow naming convention');
+      for (const exportPath of requiredExports) {
+        if (Object.prototype.hasOwnProperty.call(exportsMap, exportPath)) {
+          details.push(`Public export exists: ${exportPath}`);
+        } else {
+          violations.push(`Missing public prompt export: ${exportPath}`);
         }
-      } else {
-        criticalViolations.push('❌ /generic/ directory does not exist');
       }
 
-      this.results.push({
-        principle,
-        status: criticalViolations.length === 0 ? 'PASS' : 'FAIL',
+      this.expectNotContains(
+        packageJsonText,
+        '@engi',
+        'Prompt package metadata contains no @engi namespace.',
+        'Prompt package metadata must not contain @engi namespace.',
         details,
-        criticalViolations
-      });
-
-    } catch (error) {
-      this.results.push({
-        principle,
-        status: 'FAIL',
-        details: [],
-        criticalViolations: ['❌ Could not validate file naming']
-      });
-    }
+        violations
+      );
+    });
   }
 
-  private async validateGenericToolsPattern(): Promise<void> {
-    const principle = 'Generic Tools Only Import (Never Implement)';
-    const details: string[] = [];
-    const criticalViolations: string[] = [];
+  private validateSupportScriptBoundaries(): void {
+    this.withResult('Prompt support script boundaries', (details, violations) => {
+      const scriptPaths = [
+        'scripts/fix-remaining-imports.sh',
+        'scripts/fix-barrel-imports.sh',
+        'scripts/fix-multiline-imports.sh',
+        'scripts/fix-corrupted-imports.sh',
+        'scripts/generate-massive-prompt-parts.ts',
+        'scripts/mass-update-prompt-parts.ts',
+        'scripts/codemod-deep-promptparts.mjs',
+        'scripts/normalize-deliverables-promptparts.mjs',
+        'scripts/generate-deliverable-promptparts.ts',
+        'scripts/prompt-audit.sh',
+        'scripts/verify-prompt-exports.py'
+      ];
 
-    try {
-      const textEditorPath = path.join(this.basePath, 'packages/generic-tools/files-maintaining/src/tools/text-editor-tool.ts');
-      
-      if (fs.existsSync(textEditorPath)) {
-        const content = fs.readFileSync(textEditorPath, 'utf8');
-
-        // Check if it extends Tool class
-        if (content.includes('extends Tool')) {
-          details.push('✅ Tool extends abstract Tool class');
-        } else {
-          criticalViolations.push('❌ Tool must extend abstract Tool class');
-        }
-
-        // Check if it imports primitive functionality
-        if (content.includes('import') && content.includes('runEditCommand')) {
-          details.push('✅ Imports primitive functionality (runEditCommand)');
-        } else {
-          criticalViolations.push('❌ Must import primitive functionality, not implement');
-        }
-
-        // Check for .use method
-        if (content.includes('use =') || content.includes('use:')) {
-          details.push('✅ Implements .use method');
-        } else {
-          criticalViolations.push('❌ Missing .use method implementation');
-        }
-
-        // Check against inline implementation
-        if (content.includes('tool({') || content.includes('execute:')) {
-          criticalViolations.push('❌ Still using old tool() pattern - must be removed');
-        } else {
-          details.push('✅ No old tool() pattern detected');
-        }
-
-      } else {
-        criticalViolations.push('❌ text-editor-tool.ts not found');
-      }
-
-      this.results.push({
-        principle,
-        status: criticalViolations.length === 0 ? 'PASS' : 'FAIL',
-        details,
-        criticalViolations
-      });
-
-    } catch (error) {
-      this.results.push({
-        principle,
-        status: 'FAIL',
-        details: [],
-        criticalViolations: ['❌ Could not validate generic tools pattern']
-      });
-    }
-  }
-
-  private async validateTerminologyMigration(): Promise<void> {
-    const principle = 'Terminology Migration (execute→use, tool plans→ToolUse, tool results→UsedTool)';
-    const details: string[] = [];
-    const criticalViolations: string[] = [];
-
-    // This is a basic check - in production we'd scan more comprehensively
-    try {
-      const textEditorPath = path.join(this.basePath, 'packages/generic-tools/files-maintaining/src/tools/text-editor-tool.ts');
-      
-      if (fs.existsSync(textEditorPath)) {
-        const content = fs.readFileSync(textEditorPath, 'utf8');
-
-        // Check for correct terminology
-        if (content.includes('Successfully used')) {
-          details.push('✅ Uses "used" terminology instead of "executed"');
-        }
-
-        // Check against old terminology
-        if (content.includes('execute') && !content.includes('execute:')) {
-          // Allow 'execute' in comments but not as method names
-          criticalViolations.push('❌ Still contains "execute" terminology - migrate to "use"');
-        } else {
-          details.push('✅ No "execute" method terminology detected');
-        }
-
-        this.results.push({
-          principle,
-          status: criticalViolations.length === 0 ? 'PASS' : 'FAIL',
+      for (const scriptPath of scriptPaths) {
+        this.expectFile(scriptPath, details, violations);
+        const text = this.readText(scriptPath);
+        this.expectContains(
+          text,
+          'raw_promptparts',
+          `${scriptPath} targets raw_promptparts.`,
+          `${scriptPath} must target raw_promptparts.`,
           details,
-          criticalViolations
-        });
+          violations
+        );
+        this.expectNotContains(
+          text,
+          '@engi',
+          `${scriptPath} contains no @engi namespace.`,
+          `${scriptPath} must not repair toward @engi namespaces.`,
+          details,
+          violations
+        );
+        this.expectNotContains(
+          text,
+          'packages/prompts/src/raw/',
+          `${scriptPath} does not target removed raw prompt tree.`,
+          `${scriptPath} must not target packages/prompts/src/raw/.`,
+          details,
+          violations
+        );
       }
 
+      const deliverableGenerator = this.readText('scripts/generate-deliverable-promptparts.ts');
+      this.expectContains(
+        deliverableGenerator,
+        'comprehendneed',
+        'Deliverable compatibility generator emits need-comprehension PromptParts.',
+        'Deliverable compatibility generator must emit need-comprehension PromptParts.',
+        details,
+        violations
+      );
+      this.expectNotContains(
+        deliverableGenerator,
+        'comprehendtask',
+        'Deliverable compatibility generator no longer emits task-comprehension as active truth.',
+        'Deliverable compatibility generator must not emit comprehendtask as active truth.',
+        details,
+        violations
+      );
+    });
+  }
+
+  private validateInferenceSystemSpecifications(): void {
+    this.withResult('Inference implementation specification density', (details, violations) => {
+      const inferenceSpec = this.readText('protocol-demonstration/V26_INFERENCE_SYSTEMS.md');
+      const requiredTerms = [
+        'canonicalNeed',
+        'promptImplementation',
+        'toolImplementation',
+        'agentImplementation',
+        'executionImplementation',
+        'assetPackImplementation',
+        'Prompt primitives',
+        'Need-comprehension compatibility'
+      ];
+
+      for (const term of requiredTerms) {
+        this.expectContains(
+          inferenceSpec,
+          term,
+          `Inference spec includes ${term}.`,
+          `Inference spec must include ${term}.`,
+          details,
+          violations
+        );
+      }
+
+      this.expectNotContains(
+        inferenceSpec,
+        'DELIVERABLE as primary object',
+        'Inference spec does not promote DELIVERABLE as the primary Bitcode object.',
+        'Inference spec must keep assets/asset-packs primary over delivery wrappers.',
+        details,
+        violations
+      );
+    });
+  }
+
+  private validateDocCommentToolPromptBridge(): void {
+    this.withResult('Doc-comment and tool prompt injection bridge', (details, violations) => {
+      const requiredFiles = [
+        'packages/doc-comment/package.json',
+        'packages/doc-code/package.json',
+        'packages/tools-generics/src/doc-code-tool/formatUsableTools.ts',
+        'protocol-demonstration/V26_DOC_COMMENT_REFORM.md'
+      ];
+
+      for (const file of requiredFiles) {
+        this.expectFile(file, details, violations);
+      }
+
+      const docCommentSpec = this.readText('protocol-demonstration/V26_DOC_COMMENT_REFORM.md');
+      this.expectContains(
+        docCommentSpec,
+        'tool prompt injection',
+        'Doc-comment reform specifies tool prompt injection.',
+        'Doc-comment reform must specify tool prompt injection.',
+        details,
+        violations
+      );
+      this.expectContains(
+        docCommentSpec,
+        'DocCodeToolPrompt',
+        'Doc-comment reform binds DocCodeToolPrompt.',
+        'Doc-comment reform must bind DocCodeToolPrompt.',
+        details,
+        violations
+      );
+    });
+  }
+
+  private withResult(
+    principle: string,
+    validate: (details: string[], violations: string[]) => void
+  ): void {
+    const details: string[] = [];
+    const violations: string[] = [];
+
+    try {
+      validate(details, violations);
     } catch (error) {
-      this.results.push({
-        principle,
-        status: 'FAIL',
-        details: [],
-        criticalViolations: ['❌ Could not validate terminology migration']
-      });
+      violations.push(error instanceof Error ? error.message : String(error));
+    }
+
+    this.results.push({
+      principle,
+      status: violations.length === 0 ? 'PASS' : 'FAIL',
+      details,
+      violations
+    });
+  }
+
+  private expectFile(relativePath: string, details: string[], violations: string[]): void {
+    if (fs.existsSync(this.absolute(relativePath)) && fs.statSync(this.absolute(relativePath)).isFile()) {
+      details.push(`File exists: ${relativePath}`);
+    } else {
+      violations.push(`Missing file: ${relativePath}`);
     }
   }
 
-  private async validateJSDocStandards(): Promise<void> {
-    const principle = 'JSDoc Standards (all required fields present)';
-    const details: string[] = [];
-    const criticalViolations: string[] = [];
-
-    try {
-      const textEditorPath = path.join(this.basePath, 'packages/generic-tools/files-maintaining/src/tools/text-editor-tool.ts');
-      
-      if (fs.existsSync(textEditorPath)) {
-        const content = fs.readFileSync(textEditorPath, 'utf8');
-
-        const requiredFields = ['@purpose', '@capabilities', '@keyParameters', '@output', '@bestFor', '@specificity'];
-        
-        requiredFields.forEach(field => {
-          if (content.includes(field)) {
-            details.push(`✅ ${field} field present`);
-          } else {
-            criticalViolations.push(`❌ Missing required JSDoc field: ${field}`);
-          }
-        });
-
-        // Check for specificity value
-        if (content.includes('@specificity Generic') || content.includes('@specificity Precise')) {
-          details.push('✅ @specificity has valid value');
-        } else {
-          criticalViolations.push('❌ @specificity must be "Generic" or "Precise"');
-        }
-
-        this.results.push({
-          principle,
-          status: criticalViolations.length === 0 ? 'PASS' : 'FAIL',
-          details,
-          criticalViolations
-        });
-      }
-
-    } catch (error) {
-      this.results.push({
-        principle,
-        status: 'FAIL',
-        details: [],
-        criticalViolations: ['❌ Could not validate JSDoc standards']
-      });
+  private expectDirectory(relativePath: string, details: string[], violations: string[]): void {
+    if (fs.existsSync(this.absolute(relativePath)) && fs.statSync(this.absolute(relativePath)).isDirectory()) {
+      details.push(`Directory exists: ${relativePath}`);
+    } else {
+      violations.push(`Missing directory: ${relativePath}`);
     }
+  }
+
+  private expectContains(
+    text: string,
+    needle: string,
+    passDetail: string,
+    violation: string,
+    details: string[],
+    violations: string[]
+  ): void {
+    if (text.includes(needle)) {
+      details.push(passDetail);
+    } else {
+      violations.push(violation);
+    }
+  }
+
+  private expectNotContains(
+    text: string,
+    needle: string,
+    passDetail: string,
+    violation: string,
+    details: string[],
+    violations: string[]
+  ): void {
+    if (text.includes(needle)) {
+      violations.push(violation);
+    } else {
+      details.push(passDetail);
+    }
+  }
+
+  private expectMinimum(
+    actual: number,
+    expected: number,
+    label: string,
+    details: string[],
+    violations: string[]
+  ): void {
+    if (actual >= expected) {
+      details.push(`${label}: ${actual}`);
+    } else {
+      violations.push(`Expected at least ${expected} ${label}, found ${actual}.`);
+    }
+  }
+
+  private readText(relativePath: string): string {
+    return fs.readFileSync(this.absolute(relativePath), 'utf8');
+  }
+
+  private safeReadAbsolute(absolutePath: string): string {
+    try {
+      return fs.readFileSync(absolutePath, 'utf8');
+    } catch {
+      return '';
+    }
+  }
+
+  private listFiles(root: string, extensions: string[]): string[] {
+    if (!fs.existsSync(root)) {
+      return [];
+    }
+
+    const files: string[] = [];
+    for (const entry of fs.readdirSync(root, { withFileTypes: true })) {
+      const absoluteEntry = path.join(root, entry.name);
+      if (entry.isDirectory()) {
+        files.push(...this.listFiles(absoluteEntry, extensions));
+      } else if (extensions.includes(path.extname(entry.name))) {
+        files.push(absoluteEntry);
+      }
+    }
+    return files.sort();
+  }
+
+  private absolute(relativePath: string): string {
+    return path.join(this.basePath, relativePath);
   }
 
   private printReport(): void {
-    console.log('\\n📋 ARCHITECTURE REVIEW REPORT');
-    console.log('='.repeat(60));
+    let failureCount = 0;
+    let violationCount = 0;
 
-    let totalPasses = 0;
-    let totalFails = 0;
-    let totalCriticalViolations = 0;
+    for (const result of this.results) {
+      console.log(`\n${result.principle}`);
+      console.log(`Status: ${result.status}`);
 
-    this.results.forEach(result => {
-      console.log(`\\n🔍 ${result.principle}`);
-      console.log(`Status: ${result.status === 'PASS' ? '✅ PASS' : '❌ FAIL'}`);
-      
-      if (result.details.length > 0) {
-        console.log('Details:');
-        result.details.forEach(detail => console.log(`  ${detail}`));
+      for (const detail of result.details) {
+        console.log(`  ok: ${detail}`);
       }
 
-      if (result.criticalViolations.length > 0) {
-        console.log('Critical Violations:');
-        result.criticalViolations.forEach(violation => console.log(`  ${violation}`));
-        totalCriticalViolations += result.criticalViolations.length;
+      for (const violation of result.violations) {
+        console.log(`  violation: ${violation}`);
       }
 
-      if (result.status === 'PASS') totalPasses++;
-      else totalFails++;
-    });
-
-    console.log('\\n' + '='.repeat(60));
-    console.log('📊 SUMMARY');
-    console.log(`✅ Passed: ${totalPasses}`);
-    console.log(`❌ Failed: ${totalFails}`);
-    console.log(`🚨 Critical Violations: ${totalCriticalViolations}`);
-
-    if (totalFails === 0 && totalCriticalViolations === 0) {
-      console.log('\\n🎉 EXCELLENT! Architecture evolution completed successfully.');
-      console.log('🏆 Steve Wozniak would be proud - clean, elegant, state-of-the-art!');
-    } else {
-      console.log('\\n⚠️  Architecture evolution needs attention before proceeding.');
-      console.log('💡 Fix critical violations and re-run review.');
+      if (result.status === 'FAIL') {
+        failureCount += 1;
+        violationCount += result.violations.length;
+      }
     }
 
-    console.log('\\n🚀 Ready for systematic tool evolution across all packages!');
+    console.log('\n' + '='.repeat(60));
+    console.log(`Passed: ${this.results.length - failureCount}`);
+    console.log(`Failed: ${failureCount}`);
+    console.log(`Violations: ${violationCount}`);
+
+    if (failureCount > 0) {
+      process.exitCode = 1;
+      return;
+    }
+
+    console.log('Bitcode V26 prompt and inference architecture boundary is coherent.');
   }
 }
 
-// Run the review
-const reviewer = new ArchitectureReviewer();
-reviewer.review().catch(console.error);
+new ArchitectureReviewer().review();

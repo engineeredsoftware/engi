@@ -9,7 +9,7 @@ That intricacy is useful as a reform rope, but it is not itself the live Bitcode
 For V26 fifth-gate and the reopened fourth-gate truth:
 
 - `packages/doc-comment/*` is an admitted `ingress-or-support` primitive for build-time parsing and metadata extraction when explicit Bitcode-owned injection paths consume it.
-- `packages/doc-code/*` is an admitted `ingress-or-support` plus `compatibility` corridor for build-time attachment of `DocCodeToolPrompt` instances onto tools.
+- `packages/doc-code/*` is an admitted `ingress-or-support` plus `compatibility` corridor for build-time tool prompt injection and attachment of `DocCodeToolPrompt` instances onto tools.
 - `packages/tools-generics/src/doc-code-tool/*` is the active runtime bridge that formats and consumes those attached tool prompts during agentic Bitcode runs.
 - `packages/generic-doc-comment-plugins/*` is a `reference-only` plugin corridor.
 - `packages/prompts/src/developing/*` remains prompt-package internal experimentation, not a public import surface for retained doc-comment consumers.

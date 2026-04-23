@@ -526,6 +526,8 @@ const massUpdatePromptPartsScriptSource = readFileSync(new URL('../../scripts/ma
 const codemodDeepPromptpartsScriptSource = readFileSync(new URL('../../scripts/codemod-deep-promptparts.mjs', import.meta.url), 'utf8');
 const normalizeDeliverablesPromptpartsScriptSource = readFileSync(new URL('../../scripts/normalize-deliverables-promptparts.mjs', import.meta.url), 'utf8');
 const architectureReviewScriptSource = readFileSync(new URL('../../scripts/architecture-review.ts', import.meta.url), 'utf8');
+const generateToolJsdocScriptSource = readFileSync(new URL('../../scripts/generate-tool-jsdoc.ts', import.meta.url), 'utf8');
+const codeRefactorToolSource = readFileSync(new URL('../../packages/generic-tools/code-refactor/src/index.ts', import.meta.url), 'utf8');
 const codeReviewReadmeSource = readFileSync(new URL('../../scripts/code-review/README.md', import.meta.url), 'utf8');
 const baseReviewScriptSource = readFileSync(new URL('../../scripts/code-review/base-review.sh', import.meta.url), 'utf8');
 const reviewExcellenceGuideSource = readFileSync(new URL('../../scripts/code-review/REVIEW_EXCELLENCE_GUIDE.md', import.meta.url), 'utf8');
@@ -2389,6 +2391,15 @@ test('active V26 retained package surfaces use Bitcode naming instead of Engi na
   assert.match(codemodDeepPromptpartsScriptSource, /@bitcode\\\/prompts/);
   assert.match(normalizeDeliverablesPromptpartsScriptSource, /@bitcode\\\/prompts\\\/raw_promptparts/);
   assert.match(architectureReviewScriptSource, /raw_promptparts\/generic/);
+  assert.match(architectureReviewScriptSource, /Bitcode V26 architecture review/);
+  assert.match(architectureReviewScriptSource, /inference-system corridors/);
+  assert.match(architectureReviewScriptSource, /Doc-comment and tool prompt injection bridge/);
+  assert.match(generateToolJsdocScriptSource, /Bitcode tool prompt documentation generator/);
+  assert.match(generateToolJsdocScriptSource, /support script generates doc-code tool comments/);
+  assert.match(generateToolJsdocScriptSource, /asset-pack effect/);
+  assert.match(codeRefactorToolSource, /Bitcode code-refactor tool adapters/);
+  assert.match(codeRefactorToolSource, /support infrastructure for agentic Bitcode runs/);
+  assert.match(codeRefactorToolSource, /asset-pack outputs remain the canonical product/);
   assert.match(baseReviewScriptSource, /BITCODE PROMPT PRIMITIVES EVOLUTION REVIEW RESULTS/);
   assert.match(baseReviewScriptSource, /\/tmp\/bitcode_review_/);
   assert.match(baseReviewScriptSource, /🚀 BITCODE CODE REVIEW SYSTEM/);
@@ -2519,6 +2530,13 @@ test('active V26 retained package surfaces use Bitcode naming instead of Engi na
   assert.doesNotMatch(codemodDeepPromptpartsScriptSource, /@engi\/prompts/);
   assert.doesNotMatch(normalizeDeliverablesPromptpartsScriptSource, /@engi\/prompts/);
   assert.doesNotMatch(architectureReviewScriptSource, /packages\/prompts\/src\/raw\/generic/);
+  assert.doesNotMatch(architectureReviewScriptSource, new RegExp('Steve ' + 'Wozniak'));
+  assert.doesNotMatch(architectureReviewScriptSource, /packages\/metadevelopment\/src\/tool-class/);
+  assert.doesNotMatch(architectureReviewScriptSource, /text-editor-tool\.ts/);
+  assert.doesNotMatch(generateToolJsdocScriptSource, new RegExp('Steve ' + 'Wozniak'));
+  assert.doesNotMatch(generateToolJsdocScriptSource, new RegExp('copy' + '-paste'));
+  assert.doesNotMatch(codeRefactorToolSource, new RegExp('Steve ' + 'Wozniak'));
+  assert.doesNotMatch(codeRefactorToolSource, new RegExp('Maximum ' + 'elegance'));
   assert.doesNotMatch(baseReviewScriptSource, /ENGI PROMPT PRIMITIVES EVOLUTION REVIEW RESULTS/);
   assert.doesNotMatch(baseReviewScriptSource, /\/tmp\/engi_review_/);
   assert.doesNotMatch(baseReviewScriptSource, /🚀 ENGI CODE REVIEW SYSTEM/);
