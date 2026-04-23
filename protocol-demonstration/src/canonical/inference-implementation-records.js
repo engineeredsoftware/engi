@@ -431,17 +431,19 @@ export const V26_INFERENCE_IMPLEMENTATION_RECORDS = Object.freeze([
   },
   {
     recordId: 'need-comprehension-compatibility',
-    canonicalNeed: 'Repurpose task-named retained tool prompts into Bitcode need, written-asset, asset-pack, proof, and delivery-wrapper comprehension.',
+    canonicalNeed: 'Repurpose task-named retained tool prompts into Bitcode need, written-asset, asset-pack, proof, and delivery-wrapper comprehension while stating plainly that Bitcode does not have task-first product semantics.',
     promptImplementation: {
       owners: [
         'packages/generic-tools/task-comprehension/src/prompts/AnalyzeNeedSemanticsDocCodeToolPrompt.ts',
-        'packages/generic-tools/task-comprehension/src/prompts/ExtractRequirementsDocCodeToolPrompt.ts',
-        'packages/generic-tools/task-comprehension/src/prompts/GenerateSuccessCriteriaDocCodeToolPrompt.ts',
+        'packages/generic-tools/task-comprehension/src/prompts/ExtractNeedRequirementsDocCodeToolPrompt.ts',
+        'packages/generic-tools/task-comprehension/src/prompts/IdentifyNeedConstraintsDocCodeToolPrompt.ts',
+        'packages/generic-tools/task-comprehension/src/prompts/GenerateNeedSatisfactionCriteriaDocCodeToolPrompt.ts',
         'packages/generic-tools/task-comprehension/src/prompts/ValidateNeedComprehensionDocCodeToolPrompt.ts',
+        'packages/generic-tools/task-comprehension/src/prompts/AnalyzeNeedSatisfactionImplementationComplexityDocCodeToolPrompt.ts',
         'packages/prompts/src/raw_promptparts/specific/promptpart_specific_tool_analyzetasksemantics_doccodetoolpurpose.ts'
       ],
       rawPromptPartBoundary: '@bitcode/prompts/raw_promptparts/* with task-named compatibility filenames',
-      registryLayering: 'Canonical need-first DocCodeToolPrompt owners stay local to the task-comprehension package, import generic base labels plus specific implementation PromptParts from @bitcode/prompts/raw_promptparts/*, and leave task-named prompt files as compatibility re-export wrappers only when their content specializes generic need-comprehension bases into Bitcode need, written-asset, asset-pack, proof, and delivery-wrapper analysis.',
+      registryLayering: 'Canonical need-first DocCodeToolPrompt owners stay local to the task-comprehension package, import generic base labels plus specific implementation PromptParts from @bitcode/prompts/raw_promptparts/*, and leave task-named prompt files as compatibility re-export wrappers only when their content specializes generic need-comprehension bases into Bitcode need, written-asset, asset-pack, proof, and delivery-wrapper analysis. The full local owner family is AnalyzeNeedSemantics, ExtractNeedRequirements, IdentifyNeedConstraints, GenerateNeedSatisfactionCriteria, ValidateNeedComprehension, and AnalyzeNeedSatisfactionImplementationComplexity.',
       runtimeCarryThrough: 'Task-named PromptPart TypeScript and JavaScript must carry canonical need-comprehension text.'
     },
     toolImplementation: {
@@ -481,8 +483,16 @@ export const V26_INFERENCE_IMPLEMENTATION_RECORDS = Object.freeze([
       'packages/generic-tools/task-comprehension/src/primitives.ts',
       'packages/generic-tools/task-comprehension/src/prompts/AnalyzeNeedSemanticsDocCodeToolPrompt.ts',
       'packages/generic-tools/task-comprehension/src/prompts/AnalyzeTaskSemanticsDocCodeToolPrompt.ts',
+      'packages/generic-tools/task-comprehension/src/prompts/ExtractNeedRequirementsDocCodeToolPrompt.ts',
+      'packages/generic-tools/task-comprehension/src/prompts/ExtractRequirementsDocCodeToolPrompt.ts',
+      'packages/generic-tools/task-comprehension/src/prompts/IdentifyNeedConstraintsDocCodeToolPrompt.ts',
+      'packages/generic-tools/task-comprehension/src/prompts/IdentifyConstraintsDocCodeToolPrompt.ts',
+      'packages/generic-tools/task-comprehension/src/prompts/GenerateNeedSatisfactionCriteriaDocCodeToolPrompt.ts',
+      'packages/generic-tools/task-comprehension/src/prompts/GenerateSuccessCriteriaDocCodeToolPrompt.ts',
       'packages/generic-tools/task-comprehension/src/prompts/ValidateNeedComprehensionDocCodeToolPrompt.ts',
       'packages/generic-tools/task-comprehension/src/prompts/ValidateTaskComprehensionDocCodeToolPrompt.ts',
+      'packages/generic-tools/task-comprehension/src/prompts/AnalyzeNeedSatisfactionImplementationComplexityDocCodeToolPrompt.ts',
+      'packages/generic-tools/task-comprehension/src/prompts/AnalyzeImplementationComplexityDocCodeToolPrompt.ts',
       'packages/prompts/src/raw_promptparts/specific/promptpart_specific_tool_analyzetasksemantics_doccodetoolpurpose.ts'
     ]
   },

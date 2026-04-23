@@ -553,8 +553,44 @@ test('V26 task-comprehension prompt reservoir is repurposed as Bitcode need comp
     path.join(repoRoot, 'packages/generic-tools/task-comprehension/src/prompts/AnalyzeTaskSemanticsDocCodeToolPrompt.ts'),
     'utf8'
   );
+  const extractPromptSource = readFileSync(
+    path.join(repoRoot, 'packages/generic-tools/task-comprehension/src/prompts/ExtractNeedRequirementsDocCodeToolPrompt.ts'),
+    'utf8'
+  );
+  const extractCompatibilityPromptSource = readFileSync(
+    path.join(repoRoot, 'packages/generic-tools/task-comprehension/src/prompts/ExtractRequirementsDocCodeToolPrompt.ts'),
+    'utf8'
+  );
+  const identifyPromptSource = readFileSync(
+    path.join(repoRoot, 'packages/generic-tools/task-comprehension/src/prompts/IdentifyNeedConstraintsDocCodeToolPrompt.ts'),
+    'utf8'
+  );
+  const identifyCompatibilityPromptSource = readFileSync(
+    path.join(repoRoot, 'packages/generic-tools/task-comprehension/src/prompts/IdentifyConstraintsDocCodeToolPrompt.ts'),
+    'utf8'
+  );
+  const successPromptSource = readFileSync(
+    path.join(repoRoot, 'packages/generic-tools/task-comprehension/src/prompts/GenerateNeedSatisfactionCriteriaDocCodeToolPrompt.ts'),
+    'utf8'
+  );
+  const successCompatibilityPromptSource = readFileSync(
+    path.join(repoRoot, 'packages/generic-tools/task-comprehension/src/prompts/GenerateSuccessCriteriaDocCodeToolPrompt.ts'),
+    'utf8'
+  );
   const validatePromptSource = readFileSync(
     path.join(repoRoot, 'packages/generic-tools/task-comprehension/src/prompts/ValidateNeedComprehensionDocCodeToolPrompt.ts'),
+    'utf8'
+  );
+  const validateCompatibilityPromptSource = readFileSync(
+    path.join(repoRoot, 'packages/generic-tools/task-comprehension/src/prompts/ValidateTaskComprehensionDocCodeToolPrompt.ts'),
+    'utf8'
+  );
+  const complexityPromptSource = readFileSync(
+    path.join(repoRoot, 'packages/generic-tools/task-comprehension/src/prompts/AnalyzeNeedSatisfactionImplementationComplexityDocCodeToolPrompt.ts'),
+    'utf8'
+  );
+  const complexityCompatibilityPromptSource = readFileSync(
+    path.join(repoRoot, 'packages/generic-tools/task-comprehension/src/prompts/AnalyzeImplementationComplexityDocCodeToolPrompt.ts'),
     'utf8'
   );
   const primitivesSource = readFileSync(
@@ -598,14 +634,39 @@ test('V26 task-comprehension prompt reservoir is repurposed as Bitcode need comp
   );
   assert.doesNotMatch(JSON.stringify(taskComprehensionTsconfig), /\.d\.ts/u);
   assert.doesNotMatch(JSON.stringify(taskComprehensionTsconfig), /@bitcode\/prompts\/\*/u);
-  assert.match(taskComprehensionReadme, /Canonical prompt owners now live in `AnalyzeNeedSemanticsDocCodeToolPrompt` and `ValidateNeedComprehensionDocCodeToolPrompt`/u);
+  assert.match(taskComprehensionReadme, /Bitcode does not have tasks as canonical product semantics/u);
+  assert.match(taskComprehensionReadme, /Canonical prompt owners now live in `AnalyzeNeedSemanticsDocCodeToolPrompt`, `ExtractNeedRequirementsDocCodeToolPrompt`, `IdentifyNeedConstraintsDocCodeToolPrompt`, `GenerateNeedSatisfactionCriteriaDocCodeToolPrompt`, `ValidateNeedComprehensionDocCodeToolPrompt`, and `AnalyzeNeedSatisfactionImplementationComplexityDocCodeToolPrompt`/u);
   assert.match(analyzePromptSource, /BITCODE_V26_ANALYZE_NEED_SEMANTICS_DOC_CODE_TOOL_PROMPT_REGISTRY\.1/u);
   assert.match(analyzePromptSource, /'need-comprehension' as PromptPart/u);
   assert.match(analyzePromptSource, /local to the package that owns its use/u);
   assert.match(analyzePromptSource, /asset-pack synthesis/u);
   assert.match(analyzeCompatibilityPromptSource, /compatibility export/u);
+  assert.match(analyzeCompatibilityPromptSource, /Bitcode does not have task-first semantics/u);
   assert.match(analyzeCompatibilityPromptSource, /AnalyzeNeedSemanticsDocCodeToolPrompt/u);
+  assert.match(extractPromptSource, /BITCODE_V26_EXTRACT_NEED_REQUIREMENTS_DOC_CODE_TOOL_PROMPT_REGISTRY\.1/u);
+  assert.match(extractPromptSource, /delivery-wrapper expectations/u);
+  assert.match(extractCompatibilityPromptSource, /compatibility export/u);
+  assert.match(extractCompatibilityPromptSource, /Bitcode does not have task-first requirement ownership/u);
+  assert.match(extractCompatibilityPromptSource, /ExtractNeedRequirementsDocCodeToolPrompt/u);
+  assert.match(identifyPromptSource, /BITCODE_V26_IDENTIFY_NEED_CONSTRAINTS_DOC_CODE_TOOL_PROMPT_REGISTRY\.1/u);
+  assert.match(identifyPromptSource, /delivery-wrapper limits/u);
+  assert.match(identifyCompatibilityPromptSource, /compatibility export/u);
+  assert.match(identifyCompatibilityPromptSource, /Bitcode does not have task-first constraint ownership/u);
+  assert.match(identifyCompatibilityPromptSource, /IdentifyNeedConstraintsDocCodeToolPrompt/u);
+  assert.match(successPromptSource, /BITCODE_V26_GENERATE_NEED_SATISFACTION_CRITERIA_DOC_CODE_TOOL_PROMPT_REGISTRY\.1/u);
+  assert.match(successPromptSource, /measurable need-satisfaction[\s*]+criteria/u);
+  assert.match(successCompatibilityPromptSource, /compatibility export/u);
+  assert.match(successCompatibilityPromptSource, /Bitcode does not have task-first success semantics/u);
+  assert.match(successCompatibilityPromptSource, /GenerateNeedSatisfactionCriteriaDocCodeToolPrompt/u);
   assert.match(validatePromptSource, /BITCODE_V26_VALIDATE_NEED_COMPREHENSION_DOC_CODE_TOOL_PROMPT_REGISTRY\.1/u);
+  assert.match(validateCompatibilityPromptSource, /compatibility export/u);
+  assert.match(validateCompatibilityPromptSource, /Bitcode does not have task-first comprehension semantics/u);
+  assert.match(validateCompatibilityPromptSource, /ValidateNeedComprehensionDocCodeToolPrompt/u);
+  assert.match(complexityPromptSource, /BITCODE_V26_ANALYZE_NEED_SATISFACTION_IMPLEMENTATION_COMPLEXITY_DOC_CODE_TOOL_PROMPT_REGISTRY\.1/u);
+  assert.match(complexityPromptSource, /delivery-wrapper handling/u);
+  assert.match(complexityCompatibilityPromptSource, /compatibility export/u);
+  assert.match(complexityCompatibilityPromptSource, /Bitcode does not have task-first implementation-complexity ownership/u);
+  assert.match(complexityCompatibilityPromptSource, /AnalyzeNeedSatisfactionImplementationComplexityDocCodeToolPrompt/u);
   assert.match(primitivesSource, /need_satisfaction_criteria/u);
   assert.match(primitivesSource, /written_asset_expectations/u);
   assert.match(primitivesSource, /shipping_wrapper_boundaries/u);
@@ -619,7 +680,16 @@ test('V26 task-comprehension prompt reservoir is repurposed as Bitcode need comp
     taskComprehensionReadme,
     analyzePromptSource,
     analyzeCompatibilityPromptSource,
+    extractPromptSource,
+    extractCompatibilityPromptSource,
+    identifyPromptSource,
+    identifyCompatibilityPromptSource,
+    successPromptSource,
+    successCompatibilityPromptSource,
     validatePromptSource,
+    validateCompatibilityPromptSource,
+    complexityPromptSource,
+    complexityCompatibilityPromptSource,
     primitivesSource,
     purposePromptPart,
     complexityPromptPart,

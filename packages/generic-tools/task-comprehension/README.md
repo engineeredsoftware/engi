@@ -4,6 +4,8 @@
 
 `@bitcode/generic-tools-task-comprehension` is a retained compatibility package.
 The package name, task-named classes, and task-named input fields remain stable for old callers, but V26 interprets the active behavior as Bitcode need comprehension.
+Bitcode does not have tasks as canonical product semantics.
+Every remaining task-named package, class, prompt, or input in this corridor is compatibility residue only and must not be treated as active Bitcode ontology.
 
 This package must not define an independent old-world product model.
 It is a prompt-bearing reservoir that accelerates Bitcode inference when it maps every compatibility entry point onto canonical concepts:
@@ -143,7 +145,7 @@ console.log(semantics.shipping_wrapper_boundaries);
 ## Prompt Requirements
 
 The DocCode prompt classes in `src/prompts/*` must use the public prompt boundary and must keep `metadata:category` set to `need-comprehension`.
-Canonical prompt owners now live in `AnalyzeNeedSemanticsDocCodeToolPrompt` and `ValidateNeedComprehensionDocCodeToolPrompt`; the task-named prompt files remain compatibility wrappers only.
+Canonical prompt owners now live in `AnalyzeNeedSemanticsDocCodeToolPrompt`, `ExtractNeedRequirementsDocCodeToolPrompt`, `IdentifyNeedConstraintsDocCodeToolPrompt`, `GenerateNeedSatisfactionCriteriaDocCodeToolPrompt`, `ValidateNeedComprehensionDocCodeToolPrompt`, and `AnalyzeNeedSatisfactionImplementationComplexityDocCodeToolPrompt`; the task-named prompt files remain compatibility wrappers only.
 
 The raw promptpart files under `packages/prompts/src/raw_promptparts/specific/promptpart_specific_tool_*` may retain task-named filenames and constants for compatibility, but their content must describe:
 

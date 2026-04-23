@@ -1,9 +1,9 @@
 /**
  * Analyze Task Semantics Doc-Code-Tool Prompt compatibility export
  *
- * Canonical Bitcode prompt ownership now lives in
- * `AnalyzeNeedSemanticsDocCodeToolPrompt`. This file keeps the task-named
- * exports stable for retained callers.
+ * Bitcode does not have task-first semantics. Canonical Bitcode prompt
+ * ownership now lives in `AnalyzeNeedSemanticsDocCodeToolPrompt`. This file
+ * keeps the task-named exports stable for retained callers only.
  */
 export {
   AnalyzeNeedSemanticsDocCodeToolPrompt as AnalyzeTaskSemanticsDocCodeToolPrompt,

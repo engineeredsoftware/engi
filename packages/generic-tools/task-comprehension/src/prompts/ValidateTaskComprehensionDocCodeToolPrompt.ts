@@ -1,9 +1,9 @@
 /**
  * Validate Task Comprehension Doc-Code-Tool Prompt compatibility export
  *
- * Canonical Bitcode prompt ownership now lives in
- * `ValidateNeedComprehensionDocCodeToolPrompt`. This file keeps the
- * task-named exports stable for retained callers.
+ * Bitcode does not have task-first comprehension semantics. Canonical Bitcode
+ * prompt ownership now lives in `ValidateNeedComprehensionDocCodeToolPrompt`.
+ * This file keeps the task-named exports stable for retained callers only.
  */
 export {
   ValidateNeedComprehensionDocCodeToolPrompt as ValidateTaskComprehensionDocCodeToolPrompt,
