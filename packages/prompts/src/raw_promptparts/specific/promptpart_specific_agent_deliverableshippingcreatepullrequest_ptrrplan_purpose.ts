@@ -23,4 +23,4 @@ import { PromptPart } from '../../parts/PromptPart';
  * ]
  */
 export const PROMPTPART_SPECIFIC_AGENT_DELIVERABLESHIPPINGCREATEPULLREQUEST_PTRRPLAN_PURPOSE: PromptPart = 
-  'PTRR Plan Step: analyze context and create strategic approach for create pull request with title description and metadata on VCS platform' as PromptPart;
+  'PTRR Plan Step: analyze context and create a strategic approach for emitting a pull request shipping wrapper for validated written assets on the VCS platform' as PromptPart;

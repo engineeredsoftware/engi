@@ -23,4 +23,4 @@ import { PromptPart } from '../../parts/PromptPart';
  * ]
  */
 export const PROMPTPART_SPECIFIC_AGENT_DELIVERABLESHIPPINGCREATEPULLREQUEST_PTRRRETRY_PURPOSE: PromptPart = 
-  'PTRR Retry Step: ensure completion with guaranteed success for create pull request with title description and metadata on VCS platform' as PromptPart;
+  'PTRR Retry Step: ensure completion with guaranteed success for pull request wrapper creation for validated written assets on the VCS platform' as PromptPart;

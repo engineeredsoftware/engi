@@ -23,4 +23,4 @@ import { PromptPart } from '../../parts/PromptPart';
  * ]
  */
 export const PROMPTPART_SPECIFIC_AGENT_DELIVERABLEIMPLEMENTATIONDIVIDEPULLREQUEST_PURPOSE_CORESTATEMENT: PromptPart = 
-  'Core purpose: determine all files needing changes for pull request implementation ensuring quality accuracy and completeness at every step' as PromptPart;
+  'Core purpose: determine all files needing changes for written-asset synthesis that will later ship through a pull request wrapper, ensuring quality, accuracy, and completeness at every step' as PromptPart;

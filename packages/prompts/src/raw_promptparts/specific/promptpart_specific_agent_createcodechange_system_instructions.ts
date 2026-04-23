@@ -13,4 +13,4 @@ import { PromptPart } from '../../parts/PromptPart';
  * ]
  */
 export const PROMPTPART_SPECIFIC_AGENT_CREATECODECHANGE_SYSTEM_INSTRUCTIONS: PromptPart = 
-  'Create pull request by leveraging full execution context: extract key changes from conquest phase, synthesize validation results into confidence metrics, transform implementation decisions into clear rationale, aggregate test results into quality indicators, compile reviewer guidance from danger wall analysis, generate comprehensive PR description from accumulated state, establish merge criteria from validation gates' as PromptPart;
+  'Create a pull request shipping wrapper by leveraging full execution context: extract key written assets and file changes from prior phases, synthesize validation results into confidence metrics, transform implementation decisions into clear rationale, aggregate test results into quality indicators, compile reviewer guidance from danger wall analysis, generate a comprehensive shipping description from accumulated state, and establish merge criteria from validation gates' as PromptPart;

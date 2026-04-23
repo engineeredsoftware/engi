@@ -23,4 +23,4 @@ import { PromptPart } from '../../parts/PromptPart';
  * ]
  */
 export const PROMPTPART_SPECIFIC_AGENT_DELIVERABLEIMPLEMENTATIONDIVIDEPULLREQUEST_PTRRTRY_PURPOSE: PromptPart = 
-  'PTRR Try Step: execute initial implementation attempt for determine all files needing changes for pull request implementation' as PromptPart;
+  'PTRR Try Step: execute the initial attempt to determine file changes needed to synthesize validated written assets for a pull request shipping wrapper' as PromptPart;

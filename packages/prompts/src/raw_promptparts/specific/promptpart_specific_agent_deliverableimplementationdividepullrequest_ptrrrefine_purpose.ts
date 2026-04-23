@@ -23,4 +23,4 @@ import { PromptPart } from '../../parts/PromptPart';
  * ]
  */
 export const PROMPTPART_SPECIFIC_AGENT_DELIVERABLEIMPLEMENTATIONDIVIDEPULLREQUEST_PTRRREFINE_PURPOSE: PromptPart = 
-  'PTRR Refine Step: improve results based on validation feedback for determine all files needing changes for pull request implementation' as PromptPart;
+  'PTRR Refine Step: improve the planned file-change set based on validation feedback for written-asset synthesis that will ship through a pull request wrapper' as PromptPart;

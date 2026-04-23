@@ -23,4 +23,4 @@ import { PromptPart } from '../../parts/PromptPart';
  * ]
  */
 export const PROMPTPART_SPECIFIC_AGENT_DELIVERABLEIMPLEMENTATIONDIVIDEPULLREQUEST_PTRRRETRY_PURPOSE: PromptPart = 
-  'PTRR Retry Step: ensure completion with guaranteed success for determine all files needing changes for pull request implementation' as PromptPart;
+  'PTRR Retry Step: ensure completion with guaranteed success for determining file changes needed to synthesize validated written assets for a pull request wrapper' as PromptPart;

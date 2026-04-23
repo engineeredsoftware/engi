@@ -13,11 +13,11 @@ import { PromptPart } from '../../parts/PromptPart';
  */
 export const PROMPTPART_SPECIFIC_AGENT_DELIVERABLESHIPPINGPACKAGEPR_CAPABILITIES_LIST: PromptPart = 
   `capabilities:
-- Generate descriptive PR titles following conventional commits
-- Create comprehensive PR descriptions with context
-- Summarize changes and their impact clearly
-- Generate review guidelines for reviewers
-- Identify risk areas and testing requirements
-- Apply appropriate labels and metadata
-- Calculate change statistics and metrics
-- Format content for optimal readability` as PromptPart;
+- Generate descriptive pull request wrapper titles following repository conventions
+- Create comprehensive pull request shipping summaries with written-asset context
+- Summarize validated written assets, file changes, and their impact clearly
+- Generate review guidance for reviewers on the shipping surface
+- Identify risk areas and testing requirements before the wrapper is emitted
+- Apply appropriate labels and shipping metadata
+- Calculate change statistics and written-asset metrics
+- Format content for optimal readability across the connected-interface shipping surface` as PromptPart;

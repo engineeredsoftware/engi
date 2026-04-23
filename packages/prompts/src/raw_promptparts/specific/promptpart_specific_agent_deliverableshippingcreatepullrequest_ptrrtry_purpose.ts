@@ -23,4 +23,4 @@ import { PromptPart } from '../../parts/PromptPart';
  * ]
  */
 export const PROMPTPART_SPECIFIC_AGENT_DELIVERABLESHIPPINGCREATEPULLREQUEST_PTRRTRY_PURPOSE: PromptPart = 
-  'PTRR Try Step: execute initial implementation attempt for create pull request with title description and metadata on VCS platform' as PromptPart;
+  'PTRR Try Step: execute the initial pull request wrapper creation attempt for validated written assets on the VCS platform' as PromptPart;

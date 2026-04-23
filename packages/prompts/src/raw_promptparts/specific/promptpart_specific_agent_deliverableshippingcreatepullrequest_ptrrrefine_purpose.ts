@@ -23,4 +23,4 @@ import { PromptPart } from '../../parts/PromptPart';
  * ]
  */
 export const PROMPTPART_SPECIFIC_AGENT_DELIVERABLESHIPPINGCREATEPULLREQUEST_PTRRREFINE_PURPOSE: PromptPart = 
-  'PTRR Refine Step: improve results based on validation feedback for create pull request with title description and metadata on VCS platform' as PromptPart;
+  'PTRR Refine Step: improve pull request wrapper results based on validation feedback for validated written assets on the VCS platform' as PromptPart;

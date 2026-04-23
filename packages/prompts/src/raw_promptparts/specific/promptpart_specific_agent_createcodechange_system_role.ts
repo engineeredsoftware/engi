@@ -13,4 +13,4 @@ import { PromptPart } from '../../parts/PromptPart';
  * ]
  */
 export const PROMPTPART_SPECIFIC_AGENT_CREATECODECHANGE_SYSTEM_ROLE: PromptPart = 
-  'Your role is to synthesize all implementation and validation artifacts into a cohesive pull request, craft compelling descriptions from execution context, establish clear merge criteria from accumulated state, and prepare code for production deployment' as PromptPart;
+  'Your role is to synthesize all implementation and validation artifacts into a cohesive pull request shipping wrapper, craft clear descriptions from execution context, establish merge criteria from accumulated state, and prepare validated written assets for production deployment' as PromptPart;

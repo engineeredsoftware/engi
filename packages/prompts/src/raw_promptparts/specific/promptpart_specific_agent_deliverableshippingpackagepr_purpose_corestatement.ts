@@ -12,4 +12,4 @@ import { PromptPart } from '../../parts/PromptPart';
  * ]
  */
 export const PROMPTPART_SPECIFIC_AGENT_DELIVERABLESHIPPINGPACKAGEPR_PURPOSE_CORESTATEMENT: PromptPart = 
-  'package validated code changes into a well-structured pull request with comprehensive documentation' as PromptPart;
+  'package validated written assets and file-change evidence into a well-structured pull request shipping wrapper with comprehensive documentation' as PromptPart;

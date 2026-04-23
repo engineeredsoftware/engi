@@ -23,4 +23,4 @@ import { PromptPart } from '../../parts/PromptPart';
  * ]
  */
 export const PROMPTPART_SPECIFIC_AGENT_DELIVERABLESHIPPINGCREATEPULLREQUEST_PURPOSE_CORESTATEMENT: PromptPart = 
-  'Core purpose: create pull request with title description and metadata on VCS platform ensuring quality accuracy and completeness at every step' as PromptPart;
+  'Core purpose: create a pull request shipping wrapper for validated written assets on the VCS platform, with title, description, and metadata ensuring quality, accuracy, and completeness at every step' as PromptPart;

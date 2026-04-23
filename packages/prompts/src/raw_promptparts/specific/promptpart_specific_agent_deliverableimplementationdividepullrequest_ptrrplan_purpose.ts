@@ -23,4 +23,4 @@ import { PromptPart } from '../../parts/PromptPart';
  * ]
  */
 export const PROMPTPART_SPECIFIC_AGENT_DELIVERABLEIMPLEMENTATIONDIVIDEPULLREQUEST_PTRRPLAN_PURPOSE: PromptPart = 
-  'PTRR Plan Step: analyze context and create strategic approach for determine all files needing changes for pull request implementation' as PromptPart;
+  'PTRR Plan Step: analyze context and create a strategic approach for determining file changes needed to synthesize validated written assets for a pull request shipping wrapper' as PromptPart;

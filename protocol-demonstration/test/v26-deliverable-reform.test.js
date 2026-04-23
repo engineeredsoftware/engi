@@ -179,6 +179,50 @@ const deliverablesSystemUltraCriticalPromptSource = readFileSync(
   new URL('../../packages/prompts/src/raw_promptparts/specific/promptpart_specific_deliverables_system_ultra_critical_reflection.ts', import.meta.url),
   'utf8'
 );
+const implementationDividePullRequestPurposePromptSource = readFileSync(
+  new URL('../../packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_deliverableimplementationdividepullrequest_purpose_corestatement.ts', import.meta.url),
+  'utf8'
+);
+const implementationDividePullRequestIdentityPromptSource = readFileSync(
+  new URL('../../packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_deliverableimplementationdividepullrequest_identity_definition.ts', import.meta.url),
+  'utf8'
+);
+const implementationDividePullRequestPlanPromptSource = readFileSync(
+  new URL('../../packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_deliverableimplementationdividepullrequest_ptrrplan_purpose.ts', import.meta.url),
+  'utf8'
+);
+const packagePrPurposePromptSource = readFileSync(
+  new URL('../../packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_deliverableshippingpackagepr_purpose_corestatement.ts', import.meta.url),
+  'utf8'
+);
+const packagePrCapabilitiesPromptSource = readFileSync(
+  new URL('../../packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_deliverableshippingpackagepr_capabilities_list.ts', import.meta.url),
+  'utf8'
+);
+const createPullRequestPurposePromptSource = readFileSync(
+  new URL('../../packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_createpullrequest_purpose_corestatement.ts', import.meta.url),
+  'utf8'
+);
+const shippingCreatePullRequestPurposePromptSource = readFileSync(
+  new URL('../../packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_deliverableshippingcreatepullrequest_purpose_corestatement.ts', import.meta.url),
+  'utf8'
+);
+const shippingCreatePullRequestIdentityPromptSource = readFileSync(
+  new URL('../../packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_deliverableshippingcreatepullrequest_identity_definition.ts', import.meta.url),
+  'utf8'
+);
+const createCodeChangeIdentityPromptSource = readFileSync(
+  new URL('../../packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_createcodechange_system_identity.ts', import.meta.url),
+  'utf8'
+);
+const createCodeChangeRolePromptSource = readFileSync(
+  new URL('../../packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_createcodechange_system_role.ts', import.meta.url),
+  'utf8'
+);
+const createCodeChangeInstructionsPromptSource = readFileSync(
+  new URL('../../packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_createcodechange_system_instructions.ts', import.meta.url),
+  'utf8'
+);
 
 test('V26 deliverable reform supplement requires semantic mirrors beyond retained compatibility naming', () => {
   assert.match(reformSource, /`deliverable` survives only as a retained compatibility path\/name/u);
@@ -336,4 +380,15 @@ test('retained templates and promptparts keep compatibility names but teach asse
   assert.match(deliverablesSystemExcellencePromptSource, /NEED SATISFACTION/u);
   assert.match(deliverablesSystemCognitivePromptSource, /ASSET-PACK SYNTHESIS/u);
   assert.match(deliverablesSystemUltraCriticalPromptSource, /written assets primary and shipping wrappers secondary/u);
+  assert.match(implementationDividePullRequestPurposePromptSource, /written-asset synthesis that will later ship through a pull request wrapper/u);
+  assert.match(implementationDividePullRequestIdentityPromptSource, /validated written assets destined for a pull request shipping wrapper/u);
+  assert.match(implementationDividePullRequestPlanPromptSource, /synthesize validated written assets for a pull request shipping wrapper/u);
+  assert.match(packagePrPurposePromptSource, /pull request shipping wrapper/u);
+  assert.match(packagePrCapabilitiesPromptSource, /pull request shipping summaries with written-asset context/u);
+  assert.match(createPullRequestPurposePromptSource, /pull request shipping wrapper for validated written assets/u);
+  assert.match(shippingCreatePullRequestPurposePromptSource, /create a pull request shipping wrapper for validated written assets/u);
+  assert.match(shippingCreatePullRequestIdentityPromptSource, /emitting a pull request shipping wrapper for validated written assets/u);
+  assert.match(createCodeChangeIdentityPromptSource, /validated written assets into production-ready pull request shipping wrappers/u);
+  assert.match(createCodeChangeRolePromptSource, /cohesive pull request shipping wrapper/u);
+  assert.match(createCodeChangeInstructionsPromptSource, /Create a pull request shipping wrapper by leveraging full execution context/u);
 });
