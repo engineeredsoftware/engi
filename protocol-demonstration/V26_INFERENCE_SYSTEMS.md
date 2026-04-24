@@ -72,7 +72,7 @@ Required record fields:
   Concrete command, test, typecheck, runtime load, static proof, generated artifact, or manual gap.
 
 The record is incomplete if any field can only be inferred from old naming.
-For example, `task-comprehension` is accepted only because package docs, prompt metadata, raw PromptParts, source primitives, package-local typecheck, and proof witnesses all state that the live meaning is Bitcode need comprehension rather than old task-first planning.
+For example, `need-comprehension` is accepted only because package docs, prompt metadata, raw PromptParts, source primitives, package-local typecheck, and proof witnesses all state that the live meaning is Bitcode need comprehension rather than old task-first planning.
 The same corridor now also requires local need-first code owners so prompt reform and runtime/tool reform cannot drift apart: `AnalyzeNeedSemanticsTool`, `need-comprehension-primitives`, and `need-comprehension-schemas` own the active implementation while task-named files remain wrappers only.
 Likewise, retained support tools such as `repository-setup` are acceptable only when their active contracts resolve `expressedNeed` / `needDescription` before `taskDescription` and when their DocCode prompt metadata states Bitcode repository-preparation support instead of older task-first or pre-Bitcode lineage.
 Retained grep-backed search tools such as `simple-system-text-search` and their agentic consumers such as `generic-agents/text-searcher` are acceptable only when their canonical prompt owners state Bitcode repository-evidence search for need measurement, source-grounding, proof inspection, and AssetPack planning, while old system-text-search and text-searcher names remain compatibility carriers.
@@ -163,7 +163,7 @@ Execution systems must:
 | `packages/generic-agents/text-searcher/*` | retained text-searcher corridor now specified as an admitted Bitcode repository-evidence search agent with canonical exports and compatibility aliases |
 | `packages/generic-agents/web-researcher/*`, `packages/generic-agents/web-search/*`, `packages/generic-tools/web-search/*`, `packages/web-search/*` | retained external search corridor now specified as admitted discovery-phase need-synthesis web research/search support for source-attributed need context, third-party interface planning, proof-gap question formation, source-quality review, volatility, unresolved evidence gaps, and AssetPack planning |
 | `packages/generic-agents/danger-wall/*` | retained danger-wall corridor now specified as admitted Bitcode need/AssetPack risk admission for unsafe mutation, private-data exposure, proof gaps, AssetPack scope fit, delivery-wrapper fit, and manual-review triggers |
-| `packages/generic-tools/task-comprehension/*` | retained compatibility tool reservoir now specified as Bitcode need-comprehension prompt/tool primitives with local need-first code ownership and explicit wrapper carriers |
+| `packages/generic-tools/need-comprehension/*` | retained compatibility tool reservoir now specified as Bitcode need-comprehension prompt/tool primitives with local need-first code ownership and explicit wrapper carriers |
 | `packages/conversations-generics/*`, `uapi/prompts/*` | rich-input conversation prompt and application-facing inference binding |
 | `packages/executions-mcp/*` | admitted Exchange-facing MCP inference ingress, narrowed to currently admitted tool families and fail-closed create admission |
 

@@ -5,9 +5,9 @@
     "moduleResolution": "Bundler",
     "noEmit": true,
     "paths": {
-      "@bitcode/prompts/parts/PromptPart": ["packages/generic-tools/task-comprehension/src/types/prompt-part.ts"],
+      "@bitcode/prompts/parts/PromptPart": ["packages/generic-tools/need-comprehension/src/types/prompt-part.ts"],
       "@bitcode/prompts/raw_promptparts/*": ["packages/prompts/src/raw_promptparts/*.ts"],
-      "@bitcode/tools-generics": ["packages/generic-tools/task-comprehension/src/types/tools-generics.ts"]
+      "@bitcode/tools-generics": ["packages/generic-tools/need-comprehension/src/types/tools-generics.ts"]
     }
   },
   "include": ["src/**/*"],

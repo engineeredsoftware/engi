@@ -22,7 +22,7 @@ import { PromptPart } from '@bitcode/prompts/parts/PromptPart';
  * compatibility tool. The tool entry point remains compatibility-named, but
  * this prompt implementation is need-first, local to the package that owns its
  * use, and binds extracted requirements to written-asset, asset-pack, proof,
- * and delivery-wrapper expectations.
+ * and delivery-mechanism expectations.
  */
 export class ExtractNeedRequirementsDocCodeToolPrompt extends DocCodeToolPrompt {
   constructor() {

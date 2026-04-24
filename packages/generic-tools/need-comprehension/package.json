@@ -1,5 +1,5 @@
 {
-  "name": "@bitcode/generic-tools-task-comprehension",
+  "name": "@bitcode/generic-tools-need-comprehension",
   "version": "1.0.0",
   "description": "Retained compatibility tools for Bitcode need comprehension and asset-pack written-asset analysis",
   "main": "src/index.ts",

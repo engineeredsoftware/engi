@@ -68,8 +68,8 @@ test('V26 prompt surface map keeps active, support, and reference corridors expl
 
   assert.match(promptSurfaceSource, /packages\/generic-agents\/\*/u);
   assert.match(promptSurfaceSource, /packages\/generic-tools\/\*/u);
-  assert.match(promptSurfaceSource, /`task-comprehension` is now a compatibility package/u);
-  assert.match(promptSurfaceSource, /need-comprehension, written-asset, asset-pack, and shipping-wrapper analysis/u);
+  assert.match(promptSurfaceSource, /`need-comprehension` is now the canonical package boundary/u);
+  assert.match(promptSurfaceSource, /need-comprehension, written-asset, asset-pack, and delivery-mechanism analysis/u);
   assert.match(promptSurfaceSource, /protocol-demonstration\/V26_DOC_COMMENT_REFORM\.md/u);
   assert.match(promptSurfaceSource, /prefer `@bitcode\/prompts\/prompt` and `@bitcode\/prompts\/parts\/PromptPart`/u);
   assert.match(promptSurfaceSource, /prefer `@bitcode\/execution-generics\/Execution` and `@bitcode\/execution-generics\/prompts\/ExecutionPrompt`/u);
@@ -106,7 +106,7 @@ test('V26 inference systems spec binds prompts, tools, agents, and executions to
   assert.match(inferenceSystemsSource, /Tool ownership \| Identify callable tools/u);
   assert.match(inferenceSystemsSource, /Agent ownership \| Identify agent role/u);
   assert.match(inferenceSystemsSource, /Execution ownership \| Identify where runtime state is stored/u);
-  assert.match(inferenceSystemsSource, /`packages\/generic-tools\/task-comprehension\/\*`/u);
+  assert.match(inferenceSystemsSource, /`packages\/generic-tools\/need-comprehension\/\*`/u);
   assert.match(inferenceSystemsSource, /retained compatibility tool reservoir now specified as Bitcode need-comprehension/u);
   assert.match(inferenceSystemsSource, /## Inference Implementation Record/u);
   assert.match(inferenceSystemsSource, /protocol-demonstration\/src\/canonical\/inference-implementation-records\.js/u);

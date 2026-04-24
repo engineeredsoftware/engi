@@ -4,7 +4,7 @@ import {
 } from './AnalyzeNeedSemanticsTool';
 
 /**
- * Compatibility wrapper for the former task-named tool owner.
+ * Compatibility wrapper for task-named tool calls.
  * Bitcode does not have task-first product semantics; active ownership lives in
  * AnalyzeNeedSemanticsTool.
  */

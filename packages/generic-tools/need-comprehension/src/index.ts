@@ -1,13 +1,14 @@
 /**
- * Need Comprehension Tools - retained task-comprehension compatibility package.
+ * Need Comprehension Tools - canonical Bitcode package with retained wrappers.
  *
  * Canonical need-first owners live beside explicit compatibility wrappers so
- * old task-named entry points can remain stable without owning Bitcode product
- * semantics.
+ * compatibility entry points can remain bounded without owning Bitcode
+ * product semantics.
  */
 
 export { AnalyzeNeedSemanticsTool, analyzeNeedSemanticsTool } from './AnalyzeNeedSemanticsTool';
 export { AnalyzeTaskSemanticsTool, analyzeTaskSemanticsTool } from './AnalyzeTaskSemanticsTool';
+export * from './NeedComprehensionToolset';
 
 export * from './need-comprehension-primitives';
 export * from './need-comprehension-schemas';

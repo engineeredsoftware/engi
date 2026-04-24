@@ -14,4 +14,4 @@
 import type { PromptPart } from '../../parts/PromptPart';
 
 export const PROMPTPART_SPECIFIC_TOOL_ANALYZEIMPLEMENTATIONCOMPLEXITY_DOCCODETOOLEXAMPLE1: PromptPart =
-  "Example 1 - Prompt reform slice: analyzeAssetPackImplementationComplexity({ affectedPackages: [\"packages/prompts\", \"packages/generic-tools/task-comprehension\"], proofRequirements: [\"prompt-system-totality\"] }) -> returns medium complexity with raw PromptPart carry-through and proof-refresh risks." as PromptPart;
+  "Example 1 - Prompt reform slice: analyzeAssetPackImplementationComplexity({ affectedPackages: [\"packages/prompts\", \"packages/generic-tools/need-comprehension\"], proofRequirements: [\"prompt-system-totality\"] }) -> returns medium complexity with raw PromptPart carry-through and proof-refresh risks." as PromptPart;

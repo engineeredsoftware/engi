@@ -22,6 +22,7 @@
     "@bitcode/generic-agents-digesting": "workspace:*",
     "@bitcode/generic-agents-tech-types-identifier": "workspace:*",
     "@bitcode/generic-agents-file-pick": "workspace:*",
+    "@bitcode/generic-agents-need-comprehension": "workspace:*",
     "@bitcode/generic-agents-danger-wall": "workspace:*",
     "@bitcode/llm-generics": "workspace:*",
     "@bitcode/logger": "workspace:*",

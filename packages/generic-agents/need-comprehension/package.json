@@ -1,0 +1,19 @@
+{
+  "name": "@bitcode/generic-agents-need-comprehension",
+  "version": "0.0.1",
+  "private": true,
+  "main": "src/index.ts",
+  "types": "src/index.ts",
+  "scripts": {
+    "build": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@bitcode/agent-generics": "workspace:*",
+    "@bitcode/generic-tools-need-comprehension": "workspace:*",
+    "@bitcode/prompts": "workspace:*",
+    "zod": "^3.22.4"
+  },
+  "devDependencies": {
+    "typescript": "^5.0.0"
+  }
+}

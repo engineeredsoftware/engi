@@ -16,6 +16,140 @@
 
 This file carries unresolved or still-moving V26 notes only.
 It does not reopen the already-landed first-gate source decisions unless source truth actually changes.
+It is also the V26 reform ledger: the main SPEC should state the Bitcode system as it is, while this NOTES file may record transition history, former names, old abstractions, and "was this, now is that" mappings when that history is necessary to guide precise fifth-gate implementation work.
+
+The NOTES boundary exists because V26 is both product canon and reformation canon:
+
+- `BITCODE_SPEC_V26.md` must read as a current Bitcode protocol/product/proof specification.
+- `BITCODE_SPEC_V26_PARITY_MATRIX.md` must judge current Bitcode implementation parity without depending on legacy product explanations.
+- `BITCODE_SPEC_V26_PROVEN.md` must stay generated evidence rather than historical rationale.
+- active comments, prompt metadata, package READMEs, route copy, API payload descriptions, and implementation names must describe current Bitcode behavior directly.
+- this NOTES file may be liberal and explicit about what was renamed, removed, isolated, or repurposed so future cleanup does not have to infer historical intent from source residue.
+
+When a reform detail matters to implementation, the required sequence is:
+
+1. record the transition in NOTES with former meaning, Bitcode meaning, source owner, and closure condition;
+2. implement or remove the source residue so active source no longer needs the historical explanation;
+3. promote only the current Bitcode requirement into the main SPEC/PARITY/proof family;
+4. keep any remaining historical wording either in NOTES or under `_legacy/`, not in active product-facing implementation.
+
+## V26 reform ledger acceptance rule
+
+Every retained corridor must be classified in this NOTES file before full fifth-gate closure can claim it is clean:
+
+- `Repurposed`
+  The abstraction remains because it now implements a Bitcode primitive, package, proof, interface, or product behavior.
+- `Compatibility wrapper`
+  The identifier remains only because callers or storage still require it; the wrapper must point to a Bitcode owner and must not teach product semantics.
+- `Removed`
+  The corridor is outside Bitcode V26 and is deleted from active registration/source.
+- `Archived`
+  The idea may remain in `_legacy/` for historical analysis but cannot participate in current proof, implementation, or product behavior.
+- `Deferred`
+  The corridor is intentionally not V26 capability; any retained stub must fail closed and be named as non-product support.
+
+The fifth-gate closure condition for this ledger is not just naming cleanup. It is current-behavior cleanup:
+
+- active filesystem names must prefer Bitcode nouns when a live owner exists;
+- active exported names must prefer Bitcode nouns when a live owner exists;
+- prompt classes and PromptParts must identify Bitcode purpose, not historical purpose;
+- package docs must explain current Bitcode package roles, not pre-Bitcode product categories;
+- tests must prove the canonical owner and any compatibility wrapper boundary;
+- generated proof inputs must cite current Bitcode paths wherever the path has been reformed;
+- user-facing copy must never require historical knowledge to understand the product.
+
+## Detailed reform ledger: commercial Bitcode infrastructure
+
+This section records transitions that are too historically specific for the main SPEC but necessary for fifth-gate closure discipline.
+
+### Product Frame
+
+| Former/reform source | Current Bitcode owner | Closure meaning |
+| --- | --- | --- |
+| standalone demonstration shell | `protocol-demonstration/*` plus `/application` | demonstration behavior is preserved only as protocol witness and application substrate; product meaning lives in Bitcode Terminal and Exchange |
+| generic application workspace | `uapi/app/application/*` | `/application` is the Terminal master-detail carrier, not a generic workspace |
+| separate executions, conversations, and orbital routes as primary surfaces | `/application`, `/conversations`, `/auxillaries` entered from the Terminal | V26 product experience is Terminal master-detail, conversations, and auxillaries as one Bitcode system |
+| root marketing/demo public shell | `uapi/app/(root)/*` and `/docs` | public routes teach Bitcode Network, Terminal, Exchange, Protocol, and proofs without demo-era framing |
+
+### Exchange and Terminal Infrastructure
+
+| Former/reform source | Current Bitcode owner | Closure meaning |
+| --- | --- | --- |
+| route-local run history | `packages/api/src/routes/executions.ts`, `uapi/app/api/executions/*`, Terminal transaction state | execution history is Exchange-readable activity and Terminal transaction detail |
+| loose deliverable route output | `/api/deliverables`, execution summaries, `writtenAssets`, `assetPack`, `deliveryMechanism` aliases | compatibility route remains only while output meaning is AssetPack and written assets |
+| one-off client error endpoint assumption | `uapi/app/api/client-error/route.ts` | client failure telemetry is app-owned and proof-relevant |
+| untyped storage assumptions | `supabase/*`, `packages/supabase/*`, `packages/orm/*`, `packages/orm/src/models/bitcode-execution-storage.ts` | Exchange state persists Bitcode execution, AssetPack, activity, profile, readiness, and proof evidence |
+| local wallet/profile ambiguity | `Profile`, `Connects`, signed-settlement readiness, profile storage | manual wallet identity and verified signer/provider access must remain distinct until settlement is actually signed |
+
+### Agentic Pipeline and AssetPack Semantics
+
+| Former/reform source | Current Bitcode owner | Closure meaning |
+| --- | --- | --- |
+| `deliverable` as product object | AssetPack, written asset, delivery mechanism | stable product output is AssetPack/written assets; delivery mechanisms are wrappers into third-party tools |
+| `definitionOfDone` as owning input | expressed Need / Need satisfaction criteria | compatibility input may remain only as carrier for a measured Need |
+| `deliverableType` | `writtenAssetType` | semantic field resolves first; compatibility field is fallback only |
+| broad `Shipping` final phase | `Finish` | final phase saves results, records evidence, and invokes narrower delivery mechanisms |
+| `Shipping` as providing to external tools | `Delivering` inside Finish | Delivering is specifically third-party AssetPack/AssetPackPartial provision |
+| `SDIVS` | `SDIVF` | canonical phased implementation is Setup, Discovery, Implementation, Validation, Finish; Simple remains the other canonical pipeline shape |
+| multi-agent pipeline selection | removed from V26 live controls | public orchestration selection is not a Bitcode V26 product feature |
+| computer-use as broad agent option | internal Need-measurement evidence behind `BITCODE_ENABLE_COMPUTER_USE_NEED_MEASUREMENT` | feature is not surfaced in Terminal/API implementation, validation, Finish, or public controls |
+
+### Prompt, PromptPart, and Registry Reform
+
+| Former/reform source | Current Bitcode owner | Closure meaning |
+| --- | --- | --- |
+| root prompt barrel reach-through | `@bitcode/prompts/{prompt,parts/PromptPart,formatters}` and exact raw PromptPart public subpaths | consumers import the minimum public prompt primitive they need |
+| package-local prompt text without Registry precision | Registry-backed Prompt and PromptPart owners | generic PromptParts remain in `packages/prompts`; implementation-specific Prompts stay local to the package/interface that uses them |
+| task-comprehension package boundary | `packages/generic-tools/need-comprehension` and `@bitcode/generic-tools-need-comprehension` | package owner is Bitcode Need comprehension; task-named classes remain compatibility wrappers only |
+| task-first prompt behavior | Need semantics, Need requirements, Need constraints, Need satisfaction criteria, Need validation, Need satisfaction implementation complexity | canonical prompt classes own the live behavior; task-named prompt files are wrappers only |
+| doc-comment prompt injection as experiment | `packages/doc-comment/*`, `packages/doc-code/*`, `packages/generic-doc-comment-plugins/*` | build-time tool prompt descriptions remain valuable support infrastructure when bounded and proven |
+| old prompt migration scripts | `_legacy/old-world-prompt-migration-scripts/*` | migration ideas are archived, not active prompt-system owners |
+
+### Inference, Research, and Measurement
+
+| Former/reform source | Current Bitcode owner | Closure meaning |
+| --- | --- | --- |
+| generic web research | discovery-phase Need synthesis web research | web research is admitted only for source-attributed auxiliary context, third-party planning, proof-gap questions, and AssetPack planning |
+| lower-level web search | source-attributed evidence search/content retrieval | search supports discovery and proof; it is not a parallel product |
+| text search | repository-evidence search for Need measurement and source-grounding | grep/search supports repository evidence, proof inspection, and AssetPack planning |
+| LSP query | measuring/support evidence for Need and fit reasoning | LSP is repurposed into structured source intelligence, not generic code-intelligence product scope |
+| danger-wall | Need/AssetPack risk admission | risk gates unsafe mutation, private-data exposure, proof gaps, AssetPack mismatch, delivery-mechanism mismatch, and manual-review triggers |
+| field-intelligence | `_legacy/field-intelligence` only | removed from Bitcode active registration; ideas remain historical only |
+
+### Interfaces and Third-Party Boundaries
+
+| Former/reform source | Current Bitcode owner | Closure meaning |
+| --- | --- | --- |
+| third-party integration as product owner | connected-interface delivery mechanism | GitHub, Jira, ChatGPT App, MCP, Vercel, AWS, and similar surfaces may deliver or ingest but do not own Exchange state |
+| ChatGPT App writes without explicit admission | confirmation-gated connected-interface write receipts | write carriers must fail closed unless confirmed and must return admission evidence |
+| MCP tool sprawl | narrowed Bitcode MCP tool families | fifth-gate admits only current Exchange-facing families; non-admitted carriers are reference or cut |
+| GitHub webhook product trigger | ingress-only AssetPack automation | webhook schedules pipeline automation and records ingress basis; it is not product canon by itself |
+
+### Internal Documentation Reform
+
+| Former note shape | Current Bitcode note owner | Closure meaning |
+| --- | --- | --- |
+| `internal-docs/DELIVERABLES.md` | `internal-docs/ASSETPACK_EXECUTION.md` | notes teach AssetPack execution and delivery-mechanism separation |
+| `internal-docs/EXECUTABLE-PIPELINES.md` | `internal-docs/BITCODE_AGENTIC_EXECUTION.md` | notes teach phases, registries, prompts, tools, computer-use boundary, and Finish |
+| `internal-docs/DB.md` | `internal-docs/BITCODE_EXCHANGE_DATABASE.md` | notes teach Exchange persistence and schema reform |
+| `internal-docs/API.md` | `internal-docs/BITCODE_API.md` | notes teach server-owned admission and connected interfaces |
+| `internal-docs/CHAT.md` | `internal-docs/BITCODE_CONVERSATIONS.md` | notes teach rich-input conversation ingress into Exchange state |
+| `internal-docs/PROMPT-ENGINEERING.md` | `internal-docs/BITCODE_PROMPT_SYSTEM.md` | notes teach Prompt, PromptPart, Registry, doc-comment, and Need comprehension requirements |
+| `internal-docs/TRACE-PROMPTS.md` | `internal-docs/BITCODE_PROMPT_TRACE.md` | notes teach prompt rendering and traceability |
+| `internal-docs/THE_CODELESS_CUSTOMER_EXPERIENCE.md` | `internal-docs/BITCODE_TERMINAL_OPERATOR_EXPERIENCE.md` | notes teach Terminal operator Need review, fit review, settlement, and AssetPack UX |
+| `internal-docs/OPENAIDOCS_CHATGPTAPPS.md` | `internal-docs/BITCODE_CHATGPT_APP_INTERFACE.md` | notes teach ChatGPT App as connected Bitcode interface |
+| `internal-docs/CRAZY-IDEAS.md`, `internal-docs/CHEMTRAILSRAFLEX.md` | `_legacy/internal-docs-experimental/*` | experimental ideas are not Bitcode active notes |
+
+Internal docs remain non-canonical scratch notes. Their only canonical path is promotion into `BITCODE_SPEC_V26.md`, `BITCODE_SPEC_V26_PARITY_MATRIX.md`, proof surfaces, generated proof artifacts, and source/tests after current Bitcode behavior is implemented.
+
+### Current closure pressure created by this ledger
+
+- Main SPEC historical language should be reduced over the remaining fifth-gate passes; the current main SPEC must increasingly state only present Bitcode requirements.
+- PARITY may retain transition judgment only when it names the current Bitcode owner and closure condition.
+- Source comments should not explain current code by saying what it used to be; they should explain the Bitcode responsibility.
+- Compatibility wrappers should shrink as call sites migrate.
+- Any unavoidable compatibility export must have a canonical Bitcode export beside it and tests proving the canonical export is primary.
+- Generated proof must be refreshed after every source-bearing reform because stale proof text can otherwise preserve historical meaning.
 
 ## First-gate decisions now treated as settled
 

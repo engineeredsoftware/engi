@@ -30,6 +30,7 @@
       "@bitcode/agent-generics": ["packages/agent-generics/src/index.ts"],
       "@bitcode/agent-generics/*": ["packages/agent-generics/src/*"],
       "@bitcode/generic-agents-language": ["packages/generic-agents/language/src/index.ts"],
+      "@bitcode/generic-agents-need-comprehension": ["packages/generic-agents/need-comprehension/src/index.ts"],
       "@bitcode/generic-agents-ready-to-short-circuit": ["packages/generic-agents/ready-to-short-circuit/src/index.ts"],
       "@bitcode/types": ["packages/tech-types/src/index.ts"],
       "@bitcode/tools-generics": ["packages/tools-generics/src/index.ts"],

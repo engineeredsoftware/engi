@@ -534,87 +534,102 @@ test('V26 retained reference prompt configs avoid broad prompts source catchalls
   );
 });
 
-test('V26 task-comprehension prompt reservoir is repurposed as Bitcode need comprehension', () => {
-  const taskComprehensionReadme = readFileSync(
-    path.join(repoRoot, 'packages/generic-tools/task-comprehension/README.md'),
+test('V26 need-comprehension prompt reservoir is canonical Bitcode need comprehension', () => {
+  const needComprehensionReadme = readFileSync(
+    path.join(repoRoot, 'packages/generic-tools/need-comprehension/README.md'),
     'utf8'
   );
-  const taskComprehensionPackageJson = JSON.parse(
-    readFileSync(path.join(repoRoot, 'packages/generic-tools/task-comprehension/package.json'), 'utf8')
+  const needComprehensionPackageJson = JSON.parse(
+    readFileSync(path.join(repoRoot, 'packages/generic-tools/need-comprehension/package.json'), 'utf8')
   );
-  const taskComprehensionTsconfig = JSON.parse(
-    readFileSync(path.join(repoRoot, 'packages/generic-tools/task-comprehension/tsconfig.json'), 'utf8')
+  const needComprehensionAgentPackageJson = JSON.parse(
+    readFileSync(path.join(repoRoot, 'packages/generic-agents/need-comprehension/package.json'), 'utf8')
+  );
+  const needComprehensionAgentReadme = readFileSync(
+    path.join(repoRoot, 'packages/generic-agents/need-comprehension/README.md'),
+    'utf8'
+  );
+  const needComprehensionAgentSource = readFileSync(
+    path.join(repoRoot, 'packages/generic-agents/need-comprehension/src/index.ts'),
+    'utf8'
+  );
+  const needComprehensionTsconfig = JSON.parse(
+    readFileSync(path.join(repoRoot, 'packages/generic-tools/need-comprehension/tsconfig.json'), 'utf8')
   );
   const analyzeNeedToolSource = readFileSync(
-    path.join(repoRoot, 'packages/generic-tools/task-comprehension/src/AnalyzeNeedSemanticsTool.ts'),
+    path.join(repoRoot, 'packages/generic-tools/need-comprehension/src/AnalyzeNeedSemanticsTool.ts'),
     'utf8'
   );
   const analyzeTaskToolSource = readFileSync(
-    path.join(repoRoot, 'packages/generic-tools/task-comprehension/src/AnalyzeTaskSemanticsTool.ts'),
+    path.join(repoRoot, 'packages/generic-tools/need-comprehension/src/AnalyzeTaskSemanticsTool.ts'),
+    'utf8'
+  );
+  const toolsetSource = readFileSync(
+    path.join(repoRoot, 'packages/generic-tools/need-comprehension/src/NeedComprehensionToolset.ts'),
     'utf8'
   );
   const canonicalPrimitivesSource = readFileSync(
-    path.join(repoRoot, 'packages/generic-tools/task-comprehension/src/need-comprehension-primitives.ts'),
+    path.join(repoRoot, 'packages/generic-tools/need-comprehension/src/need-comprehension-primitives.ts'),
     'utf8'
   );
   const analyzePromptSource = readFileSync(
-    path.join(repoRoot, 'packages/generic-tools/task-comprehension/src/prompts/AnalyzeNeedSemanticsDocCodeToolPrompt.ts'),
+    path.join(repoRoot, 'packages/generic-tools/need-comprehension/src/prompts/AnalyzeNeedSemanticsDocCodeToolPrompt.ts'),
     'utf8'
   );
   const analyzeCompatibilityPromptSource = readFileSync(
-    path.join(repoRoot, 'packages/generic-tools/task-comprehension/src/prompts/AnalyzeTaskSemanticsDocCodeToolPrompt.ts'),
+    path.join(repoRoot, 'packages/generic-tools/need-comprehension/src/prompts/AnalyzeTaskSemanticsDocCodeToolPrompt.ts'),
     'utf8'
   );
   const extractPromptSource = readFileSync(
-    path.join(repoRoot, 'packages/generic-tools/task-comprehension/src/prompts/ExtractNeedRequirementsDocCodeToolPrompt.ts'),
+    path.join(repoRoot, 'packages/generic-tools/need-comprehension/src/prompts/ExtractNeedRequirementsDocCodeToolPrompt.ts'),
     'utf8'
   );
   const extractCompatibilityPromptSource = readFileSync(
-    path.join(repoRoot, 'packages/generic-tools/task-comprehension/src/prompts/ExtractRequirementsDocCodeToolPrompt.ts'),
+    path.join(repoRoot, 'packages/generic-tools/need-comprehension/src/prompts/ExtractRequirementsDocCodeToolPrompt.ts'),
     'utf8'
   );
   const identifyPromptSource = readFileSync(
-    path.join(repoRoot, 'packages/generic-tools/task-comprehension/src/prompts/IdentifyNeedConstraintsDocCodeToolPrompt.ts'),
+    path.join(repoRoot, 'packages/generic-tools/need-comprehension/src/prompts/IdentifyNeedConstraintsDocCodeToolPrompt.ts'),
     'utf8'
   );
   const identifyCompatibilityPromptSource = readFileSync(
-    path.join(repoRoot, 'packages/generic-tools/task-comprehension/src/prompts/IdentifyConstraintsDocCodeToolPrompt.ts'),
+    path.join(repoRoot, 'packages/generic-tools/need-comprehension/src/prompts/IdentifyConstraintsDocCodeToolPrompt.ts'),
     'utf8'
   );
   const successPromptSource = readFileSync(
-    path.join(repoRoot, 'packages/generic-tools/task-comprehension/src/prompts/GenerateNeedSatisfactionCriteriaDocCodeToolPrompt.ts'),
+    path.join(repoRoot, 'packages/generic-tools/need-comprehension/src/prompts/GenerateNeedSatisfactionCriteriaDocCodeToolPrompt.ts'),
     'utf8'
   );
   const successCompatibilityPromptSource = readFileSync(
-    path.join(repoRoot, 'packages/generic-tools/task-comprehension/src/prompts/GenerateSuccessCriteriaDocCodeToolPrompt.ts'),
+    path.join(repoRoot, 'packages/generic-tools/need-comprehension/src/prompts/GenerateSuccessCriteriaDocCodeToolPrompt.ts'),
     'utf8'
   );
   const validatePromptSource = readFileSync(
-    path.join(repoRoot, 'packages/generic-tools/task-comprehension/src/prompts/ValidateNeedComprehensionDocCodeToolPrompt.ts'),
+    path.join(repoRoot, 'packages/generic-tools/need-comprehension/src/prompts/ValidateNeedComprehensionDocCodeToolPrompt.ts'),
     'utf8'
   );
   const validateCompatibilityPromptSource = readFileSync(
-    path.join(repoRoot, 'packages/generic-tools/task-comprehension/src/prompts/ValidateTaskComprehensionDocCodeToolPrompt.ts'),
+    path.join(repoRoot, 'packages/generic-tools/need-comprehension/src/prompts/ValidateTaskComprehensionDocCodeToolPrompt.ts'),
     'utf8'
   );
   const complexityPromptSource = readFileSync(
-    path.join(repoRoot, 'packages/generic-tools/task-comprehension/src/prompts/AnalyzeNeedSatisfactionImplementationComplexityDocCodeToolPrompt.ts'),
+    path.join(repoRoot, 'packages/generic-tools/need-comprehension/src/prompts/AnalyzeNeedSatisfactionImplementationComplexityDocCodeToolPrompt.ts'),
     'utf8'
   );
   const complexityCompatibilityPromptSource = readFileSync(
-    path.join(repoRoot, 'packages/generic-tools/task-comprehension/src/prompts/AnalyzeImplementationComplexityDocCodeToolPrompt.ts'),
+    path.join(repoRoot, 'packages/generic-tools/need-comprehension/src/prompts/AnalyzeImplementationComplexityDocCodeToolPrompt.ts'),
     'utf8'
   );
   const primitivesSource = readFileSync(
-    path.join(repoRoot, 'packages/generic-tools/task-comprehension/src/primitives.ts'),
+    path.join(repoRoot, 'packages/generic-tools/need-comprehension/src/primitives.ts'),
     'utf8'
   );
   const canonicalSchemasSource = readFileSync(
-    path.join(repoRoot, 'packages/generic-tools/task-comprehension/src/need-comprehension-schemas.ts'),
+    path.join(repoRoot, 'packages/generic-tools/need-comprehension/src/need-comprehension-schemas.ts'),
     'utf8'
   );
   const schemasSource = readFileSync(
-    path.join(repoRoot, 'packages/generic-tools/task-comprehension/src/schemas.ts'),
+    path.join(repoRoot, 'packages/generic-tools/need-comprehension/src/schemas.ts'),
     'utf8'
   );
   const purposePromptPart = readFileSync(
@@ -638,29 +653,59 @@ test('V26 task-comprehension prompt reservoir is repurposed as Bitcode need comp
     ),
     'utf8'
   );
+  const comprehendNeedSystemPromptPart = readFileSync(
+    path.join(
+      repoRoot,
+      'packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_comprehendneed_system_identity.ts'
+    ),
+    'utf8'
+  );
+  const comprehendNeedTryPromptPart = readFileSync(
+    path.join(
+      repoRoot,
+      'packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_comprehendneed_try_directives.ts'
+    ),
+    'utf8'
+  );
 
-  assert.match(taskComprehensionReadme, /Need Comprehension Compatibility Tools/u);
-  assert.match(taskComprehensionReadme, /task-named classes, and task-named input fields remain stable for old callers/u);
-  assert.match(taskComprehensionReadme, /written asset/u);
-  assert.match(taskComprehensionReadme, /shipping wrapper/u);
-  assert.equal(taskComprehensionPackageJson.dependencies['@bitcode/prompts'], 'workspace:*');
-  assert.equal(taskComprehensionPackageJson.dependencies['@bitcode/tools-generics'], 'workspace:*');
-  assert.equal(taskComprehensionTsconfig.compilerOptions.noEmit, true);
-  assert.equal(taskComprehensionTsconfig.compilerOptions.module, 'ESNext');
-  assert.equal(taskComprehensionTsconfig.compilerOptions.moduleResolution, 'Bundler');
+  assert.match(needComprehensionReadme, /Need Comprehension Compatibility Tools/u);
+  assert.match(needComprehensionReadme, /package path and package name are canonical Bitcode tool owners/u);
+  assert.match(needComprehensionReadme, /written asset/u);
+  assert.match(needComprehensionReadme, /delivery mechanism/u);
+  assert.match(needComprehensionReadme, /callable tool reservoir, not the setup-phase agent/u);
+  assert.match(needComprehensionReadme, /@bitcode\/generic-agents-need-comprehension/u);
+  assert.equal(needComprehensionPackageJson.dependencies['@bitcode/prompts'], 'workspace:*');
+  assert.equal(needComprehensionPackageJson.dependencies['@bitcode/tools-generics'], 'workspace:*');
+  assert.equal(needComprehensionAgentPackageJson.dependencies['@bitcode/generic-tools-need-comprehension'], 'workspace:*');
+  assert.match(needComprehensionAgentReadme, /PTRR agent owner for Bitcode setup-phase Need comprehension/u);
+  assert.match(needComprehensionAgentReadme, /owns DocCode tool prompts, callable tool classes, pure primitives, and schemas/u);
+  assert.match(needComprehensionAgentSource, /factoryAgentWithPTRR/u);
+  assert.match(needComprehensionAgentSource, /bitcodeSetupNeedComprehensionAgent/u);
+  assert.match(needComprehensionAgentSource, /phase: z\.literal\('setup'\)/u);
+  assert.match(needComprehensionAgentSource, /beforeAgent: z\.literal\('danger-wall'\)/u);
+  assert.match(needComprehensionAgentSource, /PROMPTPART_SPECIFIC_AGENT_COMPREHENDNEED_SYSTEM_IDENTITY/u);
+  assert.match(needComprehensionAgentSource, /analyzeNeedSemanticsTool/u);
+  assert.match(needComprehensionAgentSource, /extractNeedRequirementsTool/u);
+  assert.match(needComprehensionAgentSource, /validateNeedComprehensionTool/u);
+  assert.equal(needComprehensionTsconfig.compilerOptions.noEmit, true);
+  assert.equal(needComprehensionTsconfig.compilerOptions.module, 'ESNext');
+  assert.equal(needComprehensionTsconfig.compilerOptions.moduleResolution, 'Bundler');
   assert.equal(
-    taskComprehensionTsconfig.compilerOptions.paths['@bitcode/prompts/raw_promptparts/*'][0],
+    needComprehensionTsconfig.compilerOptions.paths['@bitcode/prompts/raw_promptparts/*'][0],
     'packages/prompts/src/raw_promptparts/*.ts'
   );
-  assert.doesNotMatch(JSON.stringify(taskComprehensionTsconfig), /\.d\.ts/u);
-  assert.doesNotMatch(JSON.stringify(taskComprehensionTsconfig), /@bitcode\/prompts\/\*/u);
-  assert.match(taskComprehensionReadme, /Bitcode does not have tasks as canonical product semantics/u);
-  assert.match(taskComprehensionReadme, /Canonical prompt owners now live in `AnalyzeNeedSemanticsDocCodeToolPrompt`, `ExtractNeedRequirementsDocCodeToolPrompt`, `IdentifyNeedConstraintsDocCodeToolPrompt`, `GenerateNeedSatisfactionCriteriaDocCodeToolPrompt`, `ValidateNeedComprehensionDocCodeToolPrompt`, and `AnalyzeNeedSatisfactionImplementationComplexityDocCodeToolPrompt`/u);
-  assert.match(taskComprehensionReadme, /Canonical code owners now live in `AnalyzeNeedSemanticsTool`, `need-comprehension-primitives`, and `need-comprehension-schemas`/u);
+  assert.doesNotMatch(JSON.stringify(needComprehensionTsconfig), /\.d\.ts/u);
+  assert.doesNotMatch(JSON.stringify(needComprehensionTsconfig), /@bitcode\/prompts\/\*/u);
+  assert.match(needComprehensionReadme, /Bitcode does not have tasks as canonical product semantics/u);
+  assert.match(needComprehensionReadme, /Canonical prompt owners now live in `AnalyzeNeedSemanticsDocCodeToolPrompt`, `ExtractNeedRequirementsDocCodeToolPrompt`, `IdentifyNeedConstraintsDocCodeToolPrompt`, `GenerateNeedSatisfactionCriteriaDocCodeToolPrompt`, `ValidateNeedComprehensionDocCodeToolPrompt`, and `AnalyzeNeedSatisfactionImplementationComplexityDocCodeToolPrompt`/u);
+  assert.match(needComprehensionReadme, /Canonical code owners now live in `AnalyzeNeedSemanticsTool`, `NeedComprehensionToolset`, `need-comprehension-primitives`, and `need-comprehension-schemas`/u);
   assert.match(analyzeNeedToolSource, /Canonical Bitcode need-semantics tool owner/u);
   assert.match(analyzeNeedToolSource, /analyzeNeedSemantics/u);
-  assert.match(analyzeTaskToolSource, /Compatibility wrapper for the former task-named tool owner/u);
+  assert.match(analyzeTaskToolSource, /Compatibility wrapper for task-named tool calls/u);
   assert.match(analyzeTaskToolSource, /extends AnalyzeNeedSemanticsTool/u);
+  assert.match(toolsetSource, /Canonical Bitcode need-comprehension toolset/u);
+  assert.match(toolsetSource, /These tools are intentionally not agents/u);
+  assert.match(toolsetSource, /BITCODE_NEED_COMPREHENSION_TOOLSET/u);
   assert.match(canonicalPrimitivesSource, /export async function analyzeNeedSemantics/u);
   assert.match(canonicalPrimitivesSource, /export async function extractNeedRequirements/u);
   assert.match(canonicalPrimitivesSource, /export async function identifyNeedConstraints/u);
@@ -675,12 +720,12 @@ test('V26 task-comprehension prompt reservoir is repurposed as Bitcode need comp
   assert.match(analyzeCompatibilityPromptSource, /Bitcode does not have task-first semantics/u);
   assert.match(analyzeCompatibilityPromptSource, /AnalyzeNeedSemanticsDocCodeToolPrompt/u);
   assert.match(extractPromptSource, /BITCODE_V26_EXTRACT_NEED_REQUIREMENTS_DOC_CODE_TOOL_PROMPT_REGISTRY\.1/u);
-  assert.match(extractPromptSource, /delivery-wrapper expectations/u);
+  assert.match(extractPromptSource, /delivery-mechanism expectations/u);
   assert.match(extractCompatibilityPromptSource, /compatibility export/u);
   assert.match(extractCompatibilityPromptSource, /Bitcode does not have task-first requirement ownership/u);
   assert.match(extractCompatibilityPromptSource, /ExtractNeedRequirementsDocCodeToolPrompt/u);
   assert.match(identifyPromptSource, /BITCODE_V26_IDENTIFY_NEED_CONSTRAINTS_DOC_CODE_TOOL_PROMPT_REGISTRY\.1/u);
-  assert.match(identifyPromptSource, /delivery-wrapper limits/u);
+  assert.match(identifyPromptSource, /delivery-mechanism limits/u);
   assert.match(identifyCompatibilityPromptSource, /compatibility export/u);
   assert.match(identifyCompatibilityPromptSource, /Bitcode does not have task-first constraint ownership/u);
   assert.match(identifyCompatibilityPromptSource, /IdentifyNeedConstraintsDocCodeToolPrompt/u);
@@ -694,7 +739,7 @@ test('V26 task-comprehension prompt reservoir is repurposed as Bitcode need comp
   assert.match(validateCompatibilityPromptSource, /Bitcode does not have task-first comprehension semantics/u);
   assert.match(validateCompatibilityPromptSource, /ValidateNeedComprehensionDocCodeToolPrompt/u);
   assert.match(complexityPromptSource, /BITCODE_V26_ANALYZE_NEED_SATISFACTION_IMPLEMENTATION_COMPLEXITY_DOC_CODE_TOOL_PROMPT_REGISTRY\.1/u);
-  assert.match(complexityPromptSource, /delivery-wrapper handling/u);
+  assert.match(complexityPromptSource, /delivery-mechanism handling/u);
   assert.match(complexityCompatibilityPromptSource, /compatibility export/u);
   assert.match(complexityCompatibilityPromptSource, /Bitcode does not have task-first implementation-complexity ownership/u);
   assert.match(complexityCompatibilityPromptSource, /AnalyzeNeedSatisfactionImplementationComplexityDocCodeToolPrompt/u);
@@ -702,6 +747,7 @@ test('V26 task-comprehension prompt reservoir is repurposed as Bitcode need comp
   assert.match(primitivesSource, /analyzeNeedSemantics as analyzeTaskSemantics/u);
   assert.match(canonicalPrimitivesSource, /need_satisfaction_criteria/u);
   assert.match(canonicalPrimitivesSource, /written_asset_expectations/u);
+  assert.match(canonicalPrimitivesSource, /delivery_mechanism_boundaries/u);
   assert.match(canonicalPrimitivesSource, /shipping_wrapper_boundaries/u);
   assert.match(canonicalSchemasSource, /NeedComprehensionCompatibilityPrimaryTypeSchema/u);
   assert.match(canonicalSchemasSource, /NeedRequirementSchema/u);
@@ -714,11 +760,20 @@ test('V26 task-comprehension prompt reservoir is repurposed as Bitcode need comp
   assert.match(complexityPromptPart, /Gate-closure reform/u);
   assert.match(complexityPromptPart, /proofRequirements/u);
   assert.match(validatePromptPart, /compatibility analysis has correctly understood the Bitcode need/u);
+  assert.match(comprehendNeedSystemPromptPart, /current_version: "V26"/u);
+  assert.match(comprehendNeedSystemPromptPart, /setup Need-comprehension agent/u);
+  assert.match(comprehendNeedSystemPromptPart, /before risk admission/u);
+  assert.match(comprehendNeedTryPromptPart, /current_version: "V26"/u);
+  assert.match(comprehendNeedTryPromptPart, /appropriate tool calls/u);
+  assert.match(comprehendNeedTryPromptPart, /delivery-mechanism separation/u);
 
   const combined = [
-    taskComprehensionReadme,
+    needComprehensionReadme,
+    needComprehensionAgentReadme,
+    needComprehensionAgentSource,
     analyzeNeedToolSource,
     analyzeTaskToolSource,
+    toolsetSource,
     canonicalPrimitivesSource,
     analyzePromptSource,
     analyzeCompatibilityPromptSource,
@@ -737,7 +792,9 @@ test('V26 task-comprehension prompt reservoir is repurposed as Bitcode need comp
     schemasSource,
     purposePromptPart,
     complexityPromptPart,
-    validatePromptPart
+    validatePromptPart,
+    comprehendNeedSystemPromptPart,
+    comprehendNeedTryPromptPart
   ].join('\n');
 
   assert.doesNotMatch(combined, /G[A]1\.00\.0|G[A]1\.45\.0|\(fill intent\)/u);

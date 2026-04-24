@@ -834,7 +834,7 @@ test('active root spec family is Bitcode-named and legacy spec family is preserv
   );
 });
 const genericVcsReadmeSource = readFileSync(new URL('../../packages/generic-tools/vcs/README.md', import.meta.url), 'utf8');
-const genericTaskComprehensionReadmeSource = readFileSync(new URL('../../packages/generic-tools/task-comprehension/README.md', import.meta.url), 'utf8');
+const genericTaskComprehensionReadmeSource = readFileSync(new URL('../../packages/generic-tools/need-comprehension/README.md', import.meta.url), 'utf8');
 const genericLspPurposeSource = readFileSync(new URL('../../packages/generic-tools/lsp-query/src/prompts/lsp-purpose-composition.ts', import.meta.url), 'utf8');
 const jiraToolsPackageSource = readFileSync(new URL('../../packages/generic-tools/mcps-tools/jira/package.json', import.meta.url), 'utf8');
 const figmaToolsPackageSource = readFileSync(new URL('../../packages/generic-tools/mcps-tools/figma/package.json', import.meta.url), 'utf8');

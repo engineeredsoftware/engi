@@ -18,10 +18,11 @@ const setupPhaseConfig: PhaseConfig = {
       // Optional when available:
       // { agent: 'setup:deliverable-pipeline-initialize-lsp-agent' }
     ]},
+    { agent: 'setup:deliverable-pipeline-danger-wall-agent' },
     // Initialize MCPs tools once during setup
     { agent: 'setup:deliverable-pipeline-initialize-mcps-tools-agent' }
   ],
-  allowShortCircuit: false
+  allowShortCircuit: true
 };
 
 const runSetupPhase = createPhaseRunner(setupPhaseConfig);
@@ -60,6 +61,10 @@ export function registerSetupAgents(agentRegistry: any): void {
   agentRegistry.registerAgent(
     'setup:deliverable-pipeline-comprehend-dod-agent',
     () => import('../agents/setup/deliverable-pipeline-comprehend-need-agent').then(m => m.default)
+  );
+  agentRegistry.registerAgent(
+    'setup:deliverable-pipeline-danger-wall-agent',
+    () => import('../agents/setup/deliverable-pipeline-danger-wall-agent').then(m => m.default)
   );
 
   // Initialize MCPs tools

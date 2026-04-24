@@ -501,7 +501,7 @@
 
 - reportId: `v26-prompt-system-totality-proof`
 - passed: `true`
-- packageWitnesses: `@bitcode/prompts`, `@bitcode/execution-generics`, `@bitcode/registry`, `@bitcode/doc-comment`, `@bitcode/doc-code`, `@bitcode/tools-generics`, `@bitcode/conversations-generics`, `@bitcode/digest`, `@bitcode/generic-tools-task-comprehension`
+- packageWitnesses: `@bitcode/prompts`, `@bitcode/execution-generics`, `@bitcode/registry`, `@bitcode/doc-comment`, `@bitcode/doc-code`, `@bitcode/tools-generics`, `@bitcode/conversations-generics`, `@bitcode/digest`, `@bitcode/generic-tools-need-comprehension`
 
 | checkId | passed | detail |
 | --- | --- | --- |
@@ -699,7 +699,7 @@
 | `packages/generic-tools/multimodal-processing/package.json` | `@bitcode/generic-tools-multimodal-processing` | `ingress-or-support` | `ingress-or-support-name` | `true` |
 | `packages/generic-tools/repository-setup/package.json` | `@bitcode/generic-tools-repository-setup` | `ingress-or-support` | `ingress-or-support-name` | `true` |
 | `packages/generic-tools/simple-system-text-search/package.json` | `@bitcode/generic-tools-simple-system-text-search` | `ingress-or-support` | `ingress-or-support-name` | `true` |
-| `packages/generic-tools/task-comprehension/package.json` | `@bitcode/generic-tools-task-comprehension` | `compatibility` | `compatibility-name` | `true` |
+| `packages/generic-tools/need-comprehension/package.json` | `@bitcode/generic-tools-need-comprehension` | `compatibility` | `compatibility-name` | `true` |
 | `packages/generic-tools/vcs/package.json` | `@bitcode/vcs-tools` | `ingress-or-support` | `ingress-or-support-name` | `true` |
 | `packages/generic-tools/web-search/package.json` | `@bitcode/generic-tools-web-search` | `ingress-or-support` | `ingress-or-support-name` | `true` |
 | `packages/git/package.json` | `@bitcode/git` | `commercial-infrastructure` | `commercial-infrastructure-name` | `true` |

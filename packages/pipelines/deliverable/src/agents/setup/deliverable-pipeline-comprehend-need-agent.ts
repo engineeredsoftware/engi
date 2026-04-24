@@ -1,159 +1,34 @@
 /**
- * Deliverable Pipeline - Comprehend Need Agent (Setup compatibility corridor)
+ * Deliverable Pipeline - Comprehend Need Agent (Setup compatibility adapter)
  *
- * Retained compatibility agent that comprehends the expressed need,
- * attachments, and implied written-asset expectation, returning a normalized
- * classification used by downstream phases.
+ * Pipeline-local adapter for the generic Bitcode setup Need-comprehension
+ * PTRR agent. Generic tools own callable analysis capabilities; the generic
+ * agent composes those tools; this adapter only preserves retained pipeline
+ * registration names and stores setup-phase mirrors for downstream phases.
  */
 
-import { factoryAgentWithPTRR } from '@bitcode/agent-generics';
-import { Prompt } from '@bitcode/prompts/prompt';
-import { z } from 'zod';
-import { DeliverableType } from '../../types/DeliverableType';
+import { bitcodeSetupNeedComprehensionAgent } from '@bitcode/generic-agents-need-comprehension';
 
-// Deliverable prompts (append semantics)
-import {
-  DP_COMPREHEND_NEED_SYSTEM_PROMPT,
-  DP_COMPREHEND_NEED_PLAN_PROMPT,
-  DP_COMPREHEND_NEED_TRY_PROMPT,
-  DP_COMPREHEND_NEED_REFINE_PROMPT,
-  DP_COMPREHEND_NEED_RETRY_PROMPT,
-} from '../prompts/deliverable-pipeline-comprehend-need-agent-prompts';
-
-// -------------------- Schemas --------------------
-
-const DeliverableTypeEnum = z.nativeEnum(DeliverableType);
-
-const ComprehendNeedInputSchema = z.object({
-  definitionOfDone: z.string().describe('Compatibility carrier for the expressed Bitcode need / acceptance shape'),
-  attachments: z.array(z.any()).optional().default([]).describe('User-provided attachments'),
-  repository: z.object({
-    url: z.string(),
-    branch: z.string().optional()
-  }).optional(),
-});
-
-const ComprehendNeedOutputSchema = z.object({
-  // V26 semantic fields. Compatibility fields remain while this retained
-  // corridor still serves old callers.
-  need_satisfaction_criteria: z.string().optional().describe('Need-first analysis of intent, scope, acceptance shape, and success conditions'),
-  written_asset_types: z.array(DeliverableTypeEnum).default([]).describe('Canonical written-asset classifications inferred from the need'),
-
-  // V26 minimal compatibility fields
-  dod_analysis: z.string().optional().describe('Compatibility field for concise analysis of the expressed need'),
-  comprehended_multimodal_attachments: z.array(z.object({
-    name: z.string().optional(),
-    comprehension: z.string().optional(),
-  })).default([]),
-  deliverable_types: z.array(DeliverableTypeEnum).default([]),
-
-  // Back-compat/extended fields for richer UI and downstream agents
-  deliverableType: z.union([
-    DeliverableTypeEnum,
-    z.array(DeliverableTypeEnum).nonempty()
-  ]).optional().describe('Compatibility field for written-asset classification inferred from the need and attachments'),
-  comprehension: z.object({
-    intent: z.string().optional(),
-    goals: z.array(z.string()).default([]),
-    requirements: z.array(z.string()).default([]),
-    constraints: z.array(z.string()).default([]),
-    successCriteria: z.array(z.string()).default([]),
-  }).optional(),
-  entities: z.object({
-    files: z.array(z.string()).default([]),
-    concepts: z.array(z.string()).default([]),
-    technologies: z.array(z.string()).default([]),
-  }).optional(),
-  attachmentsComprehension: z.array(z.object({
-    name: z.string().optional(),
-    type: z.string().optional(),
-    summary: z.string().optional(),
-    metadata: z.record(z.any()).optional()
-  })).default([]),
-});
-
-// -------------------- Prompts --------------------
-/**
- * @doc-comment-developing-promptdevelopment
- * domain: pipeline
- * intent: "Deliverables compatibility corridor – Comprehend Need prompt composition (system/plan/try/refine/retry)"
- * current_version: "V26.50.0"
- * dependencies: { }
- * benchmarks: [
- *   { "name": "technical_accuracy", "test": "Uses concrete technical language", "score": 0.50 },
- *   { "name": "implementation_ready", "test": "Provides clear actionable guidance", "score": 0.50 }
- * ]
- */
-
-// No generic base to merge; use deliverables overlays directly
-const systemPrompt: Prompt = (() => {
-  const m = new Prompt();
-  m.merge(DP_COMPREHEND_NEED_SYSTEM_PROMPT);
-  m.require('pipeline').require('phase');
-  return m;
-})();
-
-const planPrompt = (() => {
-  const m = new Prompt();
-  m.merge(DP_COMPREHEND_NEED_PLAN_PROMPT);
-  m.require('pipeline').require('phase');
-  return m;
-})();
-const tryPrompt = (() => {
-  const m = new Prompt();
-  m.merge(DP_COMPREHEND_NEED_TRY_PROMPT);
-  m.require('pipeline').require('phase');
-  return m;
-})();
-const refinePrompt = (() => {
-  const m = new Prompt();
-  m.merge(DP_COMPREHEND_NEED_REFINE_PROMPT);
-  m.require('pipeline').require('phase');
-  return m;
-})();
-const retryPrompt = (() => {
-  const m = new Prompt();
-  m.merge(DP_COMPREHEND_NEED_RETRY_PROMPT);
-  m.require('pipeline').require('phase');
-  return m;
-})();
-
-// -------------------- Agent --------------------
-
-export const DeliverablePipelineComprehendNeedAgent = factoryAgentWithPTRR<
-  z.infer<typeof ComprehendNeedInputSchema>,
-  z.infer<typeof ComprehendNeedOutputSchema>
->({
-  name: 'deliverable-pipeline-comprehend-need-agent',
-  description: 'Comprehend the expressed need and infer compatible written-asset kinds',
-  outputSchema: ComprehendNeedOutputSchema as z.ZodType<z.infer<typeof ComprehendNeedOutputSchema>>,
-
-  prompt: systemPrompt,
-  stepPrompts: {
-    plan: () => planPrompt,
-    try: () => tryPrompt,
-    refine: () => refinePrompt,
-    retry: () => retryPrompt
-  },
-
-  // Use deliverable wrapper tools for multimodal comprehension (images, pdf, audio, video)
-  tools: [
-    'deliverable-pipeline-multimodal-processing-tool',
-    'deliverable-pipeline-image-comprehension-tool',
-    'deliverable-pipeline-pdf-comprehension-tool',
-    'deliverable-pipeline-audio-comprehension-tool',
-    'deliverable-pipeline-video-comprehension-tool'
-  ],
-
-  plan: { chunkThreshold: 1500 },
-  try: { chunkThreshold: 2500 },
-  refine: { maxAttempts: 1 },
-  retry: { maxAttempts: 1 }
-});
+export const DeliverablePipelineComprehendNeedAgent = bitcodeSetupNeedComprehensionAgent;
 
 // Wrapper export that stores classification into execution state
 export async function runComprehendNeedAgent(input: any, execution: any) {
-  const out = await DeliverablePipelineComprehendNeedAgent(input, execution);
+  const expressedNeed =
+    input?.need ??
+    input?.expressedNeed ??
+    input?.definitionOfDone ??
+    input?.task_description ??
+    execution?.get?.('setup/need', 'expressed') ??
+    execution?.get?.('setup/dod', 'definition') ??
+    '';
+  const out = await DeliverablePipelineComprehendNeedAgent({
+    ...input,
+    need: expressedNeed,
+    expressedNeed,
+    task_description: input?.task_description ?? expressedNeed,
+    phase: 'setup',
+    beforeAgent: 'danger-wall'
+  }, execution);
   try {
     const types = Array.isArray(out?.written_asset_types) && out?.written_asset_types.length
       ? out?.written_asset_types
@@ -172,15 +47,22 @@ export async function runComprehendNeedAgent(input: any, execution: any) {
       execution.store('setup/need', 'satisfactionCriteria', needSatisfactionCriteria);
       execution.store('setup/dod', 'analysis', needSatisfactionCriteria);
     }
+    if (out?.need) {
+      execution.store('setup/need', 'model', out.need);
+      execution.store('setup/need-comprehension', 'model', out.need);
+    }
     if (out?.comprehension) {
       execution.store('setup/dod', 'comprehension', out.comprehension);
       execution.store('setup/task', 'comprehension', out.comprehension);
       execution.store('setup/need', 'comprehension', out.comprehension);
+      execution.store('setup/need-comprehension', 'comprehension', out.comprehension);
     }
     if (out?.entities) {
       execution.store('setup/task', 'entities', out.entities);
       execution.store('setup/need', 'entities', out.entities);
     }
+    if (out?.toolEvidence) execution.store('setup/need-comprehension', 'toolEvidence', out.toolEvidence);
+    if (out?.riskAdmissionInput) execution.store('setup/need-comprehension', 'riskAdmissionInput', out.riskAdmissionInput);
     if (out?.attachmentsComprehension) execution.store('setup/dod', 'attachmentsComprehension', out.attachmentsComprehension);
     if (out?.comprehended_multimodal_attachments)
       execution.store('setup/dod', 'attachmentsComprehension', out.comprehended_multimodal_attachments);

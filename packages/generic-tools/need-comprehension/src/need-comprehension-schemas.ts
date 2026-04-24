@@ -1,8 +1,8 @@
 /**
  * NEED COMPREHENSION SCHEMAS
  *
- * Canonical schema owners for the retained task-comprehension compatibility
- * package. Bitcode does not have task-first product semantics, so task-shaped
+ * Canonical schema owners for the retained need-comprehension package.
+ * Bitcode does not have task-first product semantics, so task-shaped
  * compatibility carriers must resolve through need-first schema ownership.
  */
 

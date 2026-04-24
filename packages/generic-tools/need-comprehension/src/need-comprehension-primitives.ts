@@ -1,8 +1,8 @@
 /**
  * NEED COMPREHENSION PRIMITIVES
  *
- * Canonical pure-function owners behind the retained task-comprehension
- * compatibility package. Bitcode does not have task-first product semantics, so
+ * Canonical pure-function owners behind the retained need-comprehension
+ * package. Bitcode does not have task-first product semantics, so
  * task-named exports must remain wrapper carriers only.
  */
 
@@ -29,16 +29,16 @@ export async function analyzeNeedSemantics({
       satisfaction_criteria: [
         'Written assets satisfy the expressed need',
         'Asset-pack state remains coherent with repository context',
-        'Shipping wrappers remain explicit and secondary'
+        'Delivery mechanisms remain explicit and secondary'
       ]
     },
     semantic_analysis: {
       primary_intent: expressedNeed || 'Intent extracted from expressed need',
       scope_boundaries: [
         'Bitcode-owned asset-pack scope',
-        'Connected-interface shipping-wrapper scope'
+        'Connected-interface delivery-mechanism scope'
       ],
-      semantic_keywords: ['need', 'written-asset', 'asset-pack', 'shipping-wrapper'],
+      semantic_keywords: ['need', 'written-asset', 'asset-pack', 'delivery-mechanism'],
       implied_requirements: [
         'Preserve proof-facing requirements',
         'Keep compatibility names from owning product semantics'
@@ -54,6 +54,7 @@ export async function analyzeNeedSemantics({
       technology_stack: context_information?.technology_stack ?? [],
       attachment_names: context_information?.existing_attachments ?? []
     },
+    delivery_mechanism_boundaries: ['GitHubPullRequest', 'JiraComment', 'interface-specific wrapper'],
     shipping_wrapper_boundaries: ['GitHubPullRequest', 'JiraComment', 'interface-specific wrapper'],
     task_classification: {
       primary_type: 'feature_implementation' as const,
@@ -88,7 +89,8 @@ export async function extractNeedRequirements({
       expressed_need: expressedNeed,
       written_asset_types: ['source-change', 'proof-update', 'interface-payload'],
       asset_pack_requirements: ['repository coherence', 'verification evidence'],
-      shipping_wrapper_requirements: ['wrapper payload does not redefine the written asset']
+      delivery_mechanism_requirements: ['wrapper payload does not redefine the written asset'],
+      shipping_wrapper_requirements: ['compatibility alias for delivery_mechanism_requirements']
     },
     functional_requirements: [
       {
@@ -118,6 +120,7 @@ export async function extractNeedRequirements({
     interface_requirements: ['Connected-interface payloads carry semantic aliases'],
     written_asset_requirement_map: {
       source_change: ['functional_requirements', 'technical_requirements', 'proof_requirements'],
+      delivery_mechanism: ['interface_requirements'],
       shipping_wrapper: ['interface_requirements']
     },
     extraction_metadata: {
@@ -179,7 +182,7 @@ export async function identifyNeedConstraints({
         validation_method: 'Run raw promptpart carry-through and spec-family checks'
       }
     ],
-    interface_constraints: ['Shipping wrappers may deliver assets but must not own Bitcode semantics'],
+    interface_constraints: ['Delivery mechanisms may deliver assets but must not own Bitcode semantics'],
     constraint_analysis: {
       total_constraints: 3,
       critical_count: 0,
@@ -208,7 +211,7 @@ export async function generateNeedSatisfactionCriteria({
     need_satisfaction_criteria: [
       'Expressed need is explicitly preserved',
       'Written asset expectations are measurable',
-      'Asset-pack and shipping-wrapper boundaries are separate',
+      'Asset-pack and delivery-mechanism boundaries are separate',
       'Verification evidence is attached'
     ],
     functional_criteria: [
@@ -337,6 +340,7 @@ export async function analyzeNeedSatisfactionImplementationComplexity({
       integration_complexity: 'low' as const,
       testing_complexity: 'medium' as const,
       proof_complexity: 'medium' as const,
+      delivery_mechanism_complexity: 'low' as const,
       shipping_wrapper_complexity: 'low' as const
     },
     risk_analysis: {

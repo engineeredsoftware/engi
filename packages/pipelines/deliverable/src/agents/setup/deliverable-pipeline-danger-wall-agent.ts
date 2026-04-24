@@ -26,7 +26,39 @@ const DangerWallWithSignalSchema = z.object({
  * Bitcode risk-admission wrapper with short-circuit capability.
  */
 export default async function dangerWallWithShortCircuit(input: any, execution: any) {
-  const result = await bitcodeNeedRiskAdmissionAgent(input, execution);
+  const riskAdmissionInput = execution?.get?.('setup/need-comprehension', 'riskAdmissionInput');
+  const needModel = execution?.get?.('setup/need', 'model');
+  const needComprehension = execution?.get?.('setup/need', 'comprehension');
+  const result = await bitcodeNeedRiskAdmissionAgent({
+    ...input,
+    ...riskAdmissionInput,
+    need:
+      riskAdmissionInput?.need ??
+      input?.need ??
+      input?.expressedNeed ??
+      input?.definitionOfDone ??
+      needModel?.expressed_need ??
+      needComprehension?.intent ??
+      '',
+    assetPackIntent:
+      riskAdmissionInput?.assetPackIntent ??
+      input?.assetPackIntent ??
+      'Setup-phase AssetPack synthesis candidate',
+    writtenAssetType:
+      riskAdmissionInput?.writtenAssetType ??
+      execution?.get?.('setup', 'writtenAssetType') ??
+      execution?.get?.('setup', 'deliverableType'),
+    deliveryMechanism:
+      riskAdmissionInput?.deliveryMechanism ??
+      input?.deliveryMechanism,
+    repositoryEvidence:
+      riskAdmissionInput?.repositoryEvidence ??
+      execution?.get?.('setup/need-comprehension', 'toolEvidence')
+  }, execution);
+  try {
+    execution.store('setup/danger-wall', 'result', result);
+    execution.store('setup/risk-admission', 'result', result);
+  } catch {}
   
   const isBlocked = !result.finalAssessment.safe ||
                      result.finalAssessment.maxSeverity === 'critical' ||

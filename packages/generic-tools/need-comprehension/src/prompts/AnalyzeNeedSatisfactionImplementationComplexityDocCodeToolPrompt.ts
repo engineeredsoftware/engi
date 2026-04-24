@@ -23,7 +23,7 @@ import { PromptPart } from '@bitcode/prompts/parts/PromptPart';
  * remains compatibility-named, but this prompt implementation is need-first,
  * local to the package that owns its use, and measures the complexity of
  * satisfying the expressed need through written assets, proofs, persistence,
- * and delivery-wrapper handling.
+ * and delivery-mechanism handling.
  */
 export class AnalyzeNeedSatisfactionImplementationComplexityDocCodeToolPrompt extends DocCodeToolPrompt {
   constructor() {

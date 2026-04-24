@@ -481,74 +481,106 @@ export const V26_INFERENCE_IMPLEMENTATION_RECORDS = Object.freeze([
   },
   {
     recordId: 'need-comprehension-compatibility',
-    canonicalNeed: 'Repurpose task-named retained tool prompts into Bitcode need, written-asset, asset-pack, proof, and delivery-wrapper comprehension while stating plainly that Bitcode does not have task-first product semantics.',
+    canonicalNeed: 'Provide setup-phase Bitcode Need comprehension over expressed needs, written-asset expectations, AssetPack context, proof obligations, and delivery-mechanism boundaries while keeping task-named compatibility carriers outside canonical product semantics.',
     promptImplementation: {
       owners: [
-        'packages/generic-tools/task-comprehension/src/prompts/AnalyzeNeedSemanticsDocCodeToolPrompt.ts',
-        'packages/generic-tools/task-comprehension/src/prompts/ExtractNeedRequirementsDocCodeToolPrompt.ts',
-        'packages/generic-tools/task-comprehension/src/prompts/IdentifyNeedConstraintsDocCodeToolPrompt.ts',
-        'packages/generic-tools/task-comprehension/src/prompts/GenerateNeedSatisfactionCriteriaDocCodeToolPrompt.ts',
-        'packages/generic-tools/task-comprehension/src/prompts/ValidateNeedComprehensionDocCodeToolPrompt.ts',
-        'packages/generic-tools/task-comprehension/src/prompts/AnalyzeNeedSatisfactionImplementationComplexityDocCodeToolPrompt.ts',
+        'packages/generic-agents/need-comprehension/src/index.ts',
+        'packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_comprehendneed_system_identity.ts',
+        'packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_comprehendneed_system_role.ts',
+        'packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_comprehendneed_plan_analysis.ts',
+        'packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_comprehendneed_try_directives.ts',
+        'packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_comprehendneed_refine_assessment.ts',
+        'packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_comprehendneed_retry_errorhandling.ts',
+        'packages/generic-tools/need-comprehension/src/prompts/AnalyzeNeedSemanticsDocCodeToolPrompt.ts',
+        'packages/generic-tools/need-comprehension/src/prompts/ExtractNeedRequirementsDocCodeToolPrompt.ts',
+        'packages/generic-tools/need-comprehension/src/prompts/IdentifyNeedConstraintsDocCodeToolPrompt.ts',
+        'packages/generic-tools/need-comprehension/src/prompts/GenerateNeedSatisfactionCriteriaDocCodeToolPrompt.ts',
+        'packages/generic-tools/need-comprehension/src/prompts/ValidateNeedComprehensionDocCodeToolPrompt.ts',
+        'packages/generic-tools/need-comprehension/src/prompts/AnalyzeNeedSatisfactionImplementationComplexityDocCodeToolPrompt.ts',
         'packages/prompts/src/raw_promptparts/specific/promptpart_specific_tool_analyzetasksemantics_doccodetoolpurpose.ts'
       ],
-      rawPromptPartBoundary: '@bitcode/prompts/raw_promptparts/* with task-named compatibility filenames',
-      registryLayering: 'Canonical need-first DocCodeToolPrompt owners stay local to the task-comprehension package, import generic base labels plus specific implementation PromptParts from @bitcode/prompts/raw_promptparts/*, and leave task-named prompt files as compatibility re-export wrappers only when their content specializes generic need-comprehension bases into Bitcode need, written-asset, asset-pack, proof, and delivery-wrapper analysis. The full local owner family is AnalyzeNeedSemantics, ExtractNeedRequirements, IdentifyNeedConstraints, GenerateNeedSatisfactionCriteria, ValidateNeedComprehension, and AnalyzeNeedSatisfactionImplementationComplexity.',
-      runtimeCarryThrough: 'Task-named PromptPart TypeScript and JavaScript must carry canonical need-comprehension text.'
+      rawPromptPartBoundary: '@bitcode/prompts/raw_promptparts/* with COMPREHENDNEED agent PromptParts and task-named tool compatibility filenames',
+      registryLayering: 'The setup Need-comprehension agent owns AgentPrompt and AgentStepPrompt registries in packages/generic-agents/need-comprehension, while canonical need-first DocCodeToolPrompt owners stay local to packages/generic-tools/need-comprehension. Agent PromptParts specialize the setup/pre-danger-wall role; tool PromptParts specialize callable Need analysis, requirements, constraints, satisfaction criteria, validation, and complexity capabilities. Task-named prompt files remain compatibility wrappers only when their content maps into Bitcode need, written-asset, AssetPack, proof, and delivery-mechanism analysis.',
+      runtimeCarryThrough: 'COMPREHENDNEED agent PromptParts and task-named compatibility PromptParts must keep TypeScript and JavaScript carry-through aligned to canonical need-comprehension text.'
     },
     toolImplementation: {
       owners: [
-        'packages/generic-tools/task-comprehension/src/AnalyzeNeedSemanticsTool.ts',
-        'packages/generic-tools/task-comprehension/src/need-comprehension-primitives.ts',
-        'packages/generic-tools/task-comprehension/src/need-comprehension-schemas.ts'
+        'packages/generic-tools/need-comprehension/src/AnalyzeNeedSemanticsTool.ts',
+        'packages/generic-tools/need-comprehension/src/NeedComprehensionToolset.ts',
+        'packages/generic-tools/need-comprehension/src/need-comprehension-primitives.ts',
+        'packages/generic-tools/need-comprehension/src/need-comprehension-schemas.ts'
       ],
-      contract: 'Canonical need-first tool, primitive, and schema owners stay local to the package while retained task-named APIs remain compatibility carriers for canonical needComprehension outputs only.'
+      contract: 'Canonical need-first tool, primitive, schema, and toolset owners stay local to the generic-tools package. They are callable capabilities, not agents; retained task-named APIs remain compatibility carriers for canonical needComprehension outputs only.'
     },
     agentImplementation: {
-      owners: [],
-      contract: 'No independent live agent; outputs may feed setup/comprehension agents as admitted support.'
+      owners: [
+        'packages/generic-agents/need-comprehension/src/index.ts',
+        'packages/pipelines/deliverable/src/agents/setup/deliverable-pipeline-comprehend-need-agent.ts',
+        'packages/pipelines/deliverable/src/agents/setup/deliverable-pipeline-danger-wall-agent.ts',
+        'packages/pipelines/deliverable/src/phases/setup.ts'
+      ],
+      contract: 'bitcodeSetupNeedComprehensionAgent is the setup/pre-danger-wall PTRR agent. It composes the generic-tools Need-comprehension toolset, emits semantic Need and AssetPack evidence, and hands bounded riskAdmissionInput to bitcodeNeedRiskAdmissionAgent.'
     },
     executionImplementation: {
       owners: [
-        'packages/generic-tools/task-comprehension/tsconfig.json',
-        'packages/generic-tools/task-comprehension/src/index.ts',
-        'packages/generic-tools/task-comprehension/src/types/tools-generics.ts'
+        'packages/generic-agents/need-comprehension/tsconfig.json',
+        'packages/generic-agents/need-comprehension/package.json',
+        'packages/generic-tools/need-comprehension/tsconfig.json',
+        'packages/generic-tools/need-comprehension/src/index.ts',
+        'packages/generic-tools/need-comprehension/src/types/tools-generics.ts',
+        'packages/pipelines/deliverable/src/agents/setup/deliverable-pipeline-comprehend-need-agent.ts'
       ],
-      carriers: ['parent ToolExecution or pipeline execution evidence']
+      carriers: ['AgentExecution for bitcode-setup-need-comprehension', 'ToolExecution evidence for composed tools', 'setup/need-comprehension execution-store mirrors']
     },
     assetPackImplementation: {
       outputKind: 'need-comprehension support evidence',
-      effect: 'Compatibility analysis produces need, written-asset, asset-pack, proof, and delivery-wrapper hints for parent runs.'
+      effect: 'Compatibility analysis produces need, written-asset, asset-pack, proof, and delivery-mechanism hints for parent runs.'
     },
     boundaryPosture: 'compatibility',
     verificationSet: [
-      'pnpm -C packages/generic-tools/task-comprehension run build',
+      'pnpm -C packages/generic-agents/need-comprehension run build',
+      'pnpm -C packages/generic-tools/need-comprehension run build',
       'node --test protocol-demonstration/test/v26-prompt-system-boundary.test.js',
       'node --test protocol-demonstration/test/v26-deliverable-reform.test.js'
     ],
     sourceEvidenceRefs: [
-      'packages/generic-tools/task-comprehension/README.md',
-      'packages/generic-tools/task-comprehension/package.json',
-      'packages/generic-tools/task-comprehension/tsconfig.json',
-      'packages/generic-tools/task-comprehension/src/AnalyzeNeedSemanticsTool.ts',
-      'packages/generic-tools/task-comprehension/src/AnalyzeTaskSemanticsTool.ts',
-      'packages/generic-tools/task-comprehension/src/need-comprehension-primitives.ts',
-      'packages/generic-tools/task-comprehension/src/primitives.ts',
-      'packages/generic-tools/task-comprehension/src/need-comprehension-schemas.ts',
-      'packages/generic-tools/task-comprehension/src/prompts/AnalyzeNeedSemanticsDocCodeToolPrompt.ts',
-      'packages/generic-tools/task-comprehension/src/prompts/AnalyzeTaskSemanticsDocCodeToolPrompt.ts',
-      'packages/generic-tools/task-comprehension/src/prompts/ExtractNeedRequirementsDocCodeToolPrompt.ts',
-      'packages/generic-tools/task-comprehension/src/prompts/ExtractRequirementsDocCodeToolPrompt.ts',
-      'packages/generic-tools/task-comprehension/src/prompts/IdentifyNeedConstraintsDocCodeToolPrompt.ts',
-      'packages/generic-tools/task-comprehension/src/prompts/IdentifyConstraintsDocCodeToolPrompt.ts',
-      'packages/generic-tools/task-comprehension/src/prompts/GenerateNeedSatisfactionCriteriaDocCodeToolPrompt.ts',
-      'packages/generic-tools/task-comprehension/src/prompts/GenerateSuccessCriteriaDocCodeToolPrompt.ts',
-      'packages/generic-tools/task-comprehension/src/prompts/ValidateNeedComprehensionDocCodeToolPrompt.ts',
-      'packages/generic-tools/task-comprehension/src/prompts/ValidateTaskComprehensionDocCodeToolPrompt.ts',
-      'packages/generic-tools/task-comprehension/src/prompts/AnalyzeNeedSatisfactionImplementationComplexityDocCodeToolPrompt.ts',
-      'packages/generic-tools/task-comprehension/src/prompts/AnalyzeImplementationComplexityDocCodeToolPrompt.ts',
-      'packages/generic-tools/task-comprehension/src/schemas.ts',
-      'packages/prompts/src/raw_promptparts/specific/promptpart_specific_tool_analyzetasksemantics_doccodetoolpurpose.ts'
+      'packages/generic-agents/need-comprehension/README.md',
+      'packages/generic-agents/need-comprehension/package.json',
+      'packages/generic-agents/need-comprehension/tsconfig.json',
+      'packages/generic-agents/need-comprehension/src/index.ts',
+      'packages/generic-tools/need-comprehension/README.md',
+      'packages/generic-tools/need-comprehension/package.json',
+      'packages/generic-tools/need-comprehension/tsconfig.json',
+      'packages/generic-tools/need-comprehension/src/AnalyzeNeedSemanticsTool.ts',
+      'packages/generic-tools/need-comprehension/src/NeedComprehensionToolset.ts',
+      'packages/generic-tools/need-comprehension/src/NeedComprehensionToolset.js',
+      'packages/generic-tools/need-comprehension/src/AnalyzeTaskSemanticsTool.ts',
+      'packages/generic-tools/need-comprehension/src/need-comprehension-primitives.ts',
+      'packages/generic-tools/need-comprehension/src/primitives.ts',
+      'packages/generic-tools/need-comprehension/src/need-comprehension-schemas.ts',
+      'packages/generic-tools/need-comprehension/src/prompts/AnalyzeNeedSemanticsDocCodeToolPrompt.ts',
+      'packages/generic-tools/need-comprehension/src/prompts/AnalyzeTaskSemanticsDocCodeToolPrompt.ts',
+      'packages/generic-tools/need-comprehension/src/prompts/ExtractNeedRequirementsDocCodeToolPrompt.ts',
+      'packages/generic-tools/need-comprehension/src/prompts/ExtractRequirementsDocCodeToolPrompt.ts',
+      'packages/generic-tools/need-comprehension/src/prompts/IdentifyNeedConstraintsDocCodeToolPrompt.ts',
+      'packages/generic-tools/need-comprehension/src/prompts/IdentifyConstraintsDocCodeToolPrompt.ts',
+      'packages/generic-tools/need-comprehension/src/prompts/GenerateNeedSatisfactionCriteriaDocCodeToolPrompt.ts',
+      'packages/generic-tools/need-comprehension/src/prompts/GenerateSuccessCriteriaDocCodeToolPrompt.ts',
+      'packages/generic-tools/need-comprehension/src/prompts/ValidateNeedComprehensionDocCodeToolPrompt.ts',
+      'packages/generic-tools/need-comprehension/src/prompts/ValidateTaskComprehensionDocCodeToolPrompt.ts',
+      'packages/generic-tools/need-comprehension/src/prompts/AnalyzeNeedSatisfactionImplementationComplexityDocCodeToolPrompt.ts',
+      'packages/generic-tools/need-comprehension/src/prompts/AnalyzeImplementationComplexityDocCodeToolPrompt.ts',
+      'packages/generic-tools/need-comprehension/src/schemas.ts',
+      'packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_comprehendneed_system_identity.ts',
+      'packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_comprehendneed_system_role.ts',
+      'packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_comprehendneed_plan_analysis.ts',
+      'packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_comprehendneed_try_directives.ts',
+      'packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_comprehendneed_refine_assessment.ts',
+      'packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_comprehendneed_retry_errorhandling.ts',
+      'packages/prompts/src/raw_promptparts/specific/promptpart_specific_tool_analyzetasksemantics_doccodetoolpurpose.ts',
+      'packages/pipelines/deliverable/src/agents/setup/deliverable-pipeline-comprehend-need-agent.ts',
+      'packages/pipelines/deliverable/src/agents/setup/deliverable-pipeline-danger-wall-agent.ts',
+      'packages/pipelines/deliverable/src/phases/setup.ts'
     ]
   },
   {
