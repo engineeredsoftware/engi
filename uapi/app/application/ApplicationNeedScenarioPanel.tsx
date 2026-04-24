@@ -1,6 +1,6 @@
 'use client';
 
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 
 import BitcodeInlineExplainer from '@/components/base/bitcode/execution/BitcodeInlineExplainer';
 import BitcodeMetricGrid from '@/components/base/bitcode/execution/BitcodeMetricGrid';
@@ -16,7 +16,9 @@ import {
   APPLICATION_WORKSPACE_EXPLAINERS,
 } from './application-workspace-explainers';
 import {
+  normalizeApplicationNeedFittingReview,
   normalizeApplicationNeedScenarios,
+  type ApplicationNeedFittingReviewState,
   type ApplicationNeedScenariosState,
 } from './application-need-scenarios';
 import { useApplicationShellBridge } from './application-shell-bridge';
@@ -31,11 +33,51 @@ export default function ApplicationNeedScenarioPanel({ onRecordActivity }: Appli
   const [actionMessage, setActionMessage] = useState<string | null>(null);
   const [isRecording, setIsRecording] = useState(false);
   const [isReviewing, setIsReviewing] = useState(false);
+  const [isLoadingNeedFittingReview, setIsLoadingNeedFittingReview] = useState(false);
+  const [needFittingReview, setNeedFittingReview] = useState<ApplicationNeedFittingReviewState | null>(null);
   const [reviewFeedback, setReviewFeedback] = useState('');
   const needState = useMemo<ApplicationNeedScenariosState | null>(
     () => normalizeApplicationNeedScenarios(snapshot),
     [snapshot],
   );
+
+  useEffect(() => {
+    if (!needState?.selectedScenarioId) {
+      setNeedFittingReview(null);
+      return;
+    }
+
+    let cancelled = false;
+    setIsLoadingNeedFittingReview(true);
+
+    fetch(`/api/need-review?scenarioId=${encodeURIComponent(needState.selectedScenarioId)}`)
+      .then(async (response) => {
+        if (!response.ok) {
+          throw new Error(await readApplicationRouteError(response, 'Unable to read the active Need-fitting review.'));
+        }
+        return response.json();
+      })
+      .then((payload) => {
+        if (!cancelled) {
+          setNeedFittingReview(normalizeApplicationNeedFittingReview(payload));
+        }
+      })
+      .catch((error) => {
+        if (!cancelled) {
+          setNeedFittingReview(null);
+          setActionMessage(error instanceof Error ? error.message : 'Unable to read the active Need-fitting review.');
+        }
+      })
+      .finally(() => {
+        if (!cancelled) {
+          setIsLoadingNeedFittingReview(false);
+        }
+      });
+
+    return () => {
+      cancelled = true;
+    };
+  }, [needState?.selectedScenarioId]);
 
   const selectScenario = async (scenarioId: string) => {
     await runControl((controls) => controls.setScenario?.(scenarioId));
@@ -83,6 +125,7 @@ export default function ApplicationNeedScenarioPanel({ onRecordActivity }: Appli
       }
 
       const payload = (await response.json()) as Record<string, unknown>;
+      setNeedFittingReview(normalizeApplicationNeedFittingReview(payload));
       const fitSearchAdmission = payload.fitSearchAdmission as { admitted?: boolean } | undefined;
       const nextProtocolAction = String(payload.nextProtocolAction || 'Continue from the Bitcode Terminal.');
       await onRecordActivity?.({
@@ -231,6 +274,84 @@ export default function ApplicationNeedScenarioPanel({ onRecordActivity }: Appli
           className="mt-3 w-full resize-none rounded-[1rem] border border-white/8 bg-black/30 px-3 py-3 text-sm leading-6 text-neutral-100 outline-none transition placeholder:text-neutral-600 focus:border-emerald-300/35"
         />
       </label>
+
+      <div className="mt-6 rounded-[1.45rem] border border-emerald-400/16 bg-emerald-400/[0.06] px-4 py-4">
+        <div className="flex flex-col gap-3 xl:flex-row xl:items-start xl:justify-between">
+          <div>
+            <p className="text-[0.66rem] uppercase tracking-[0.2em] text-emerald-200/80">
+              Need-fitting Exchange review
+            </p>
+            <h3 className="mt-2 text-lg font-semibold tracking-tight text-white">
+              {isLoadingNeedFittingReview
+                ? 'Reading reviewable Need admission…'
+                : needFittingReview?.task || 'Reviewable Need admission is pending.'}
+            </h3>
+            <p className="mt-2 text-sm leading-6 text-neutral-300">
+              Terminal reads the same `/api/need-review` boundary that Exchange uses before candidate recall,
+              fitting, AssetPack assembly, and present-fit settlement review.
+            </p>
+          </div>
+          {needFittingReview ? (
+            <span className="rounded-full border border-white/10 bg-black/20 px-3 py-2 text-[0.66rem] uppercase tracking-[0.18em] text-neutral-200">
+              {needFittingReview.fitSearchAdmitted ? 'fit admitted' : 'fit blocked'}
+            </span>
+          ) : null}
+        </div>
+
+        {needFittingReview ? (
+          <>
+            <BitcodeMetricGrid
+              metrics={[
+                { label: 'Review action', value: needFittingReview.action },
+                { label: 'Review status', value: needFittingReview.status },
+                { label: 'Required before', value: needFittingReview.requiredBefore },
+                { label: 'OC', value: needFittingReview.objectiveContractId },
+              ]}
+              columnsClassName="mt-4 tablet:grid-cols-2 xl:grid-cols-4"
+              itemClassName="rounded-2xl border border-white/8 bg-black/20 px-4 py-4"
+              labelClassName="text-[0.62rem] uppercase tracking-[0.16em] text-neutral-500"
+              valueClassName="break-words text-xs font-semibold text-neutral-100"
+            />
+            <div className="mt-4 grid gap-3 xl:grid-cols-3">
+              <div className="rounded-[1.1rem] border border-white/8 bg-black/20 px-4 py-4">
+                <p className="text-[0.64rem] uppercase tracking-[0.18em] text-neutral-500">Blocked until</p>
+                <p className="mt-2 text-sm leading-6 text-neutral-200">{needFittingReview.blockedUntil}</p>
+              </div>
+              <div className="rounded-[1.1rem] border border-white/8 bg-black/20 px-4 py-4">
+                <p className="text-[0.64rem] uppercase tracking-[0.18em] text-neutral-500">Fit stages</p>
+                <p className="mt-2 text-sm leading-6 text-neutral-200">
+                  {(needFittingReview.blockedStages.length
+                    ? needFittingReview.blockedStages
+                    : needFittingReview.admittedStages
+                  ).join(' · ') || 'none'}
+                </p>
+              </div>
+              <div className="rounded-[1.1rem] border border-white/8 bg-black/20 px-4 py-4">
+                <p className="text-[0.64rem] uppercase tracking-[0.18em] text-neutral-500">Settlement review</p>
+                <p className="mt-2 text-sm leading-6 text-neutral-200">
+                  {needFittingReview.settlementReviewStage}
+                </p>
+              </div>
+            </div>
+            {needFittingReview.reviewQuestions.length ? (
+              <div className="mt-4 rounded-[1.1rem] border border-white/8 bg-black/20 px-4 py-4">
+                <p className="text-[0.64rem] uppercase tracking-[0.18em] text-neutral-500">Review questions</p>
+                <ul className="mt-3 space-y-2 text-sm leading-6 text-neutral-300">
+                  {needFittingReview.reviewQuestions.slice(0, 3).map((question) => (
+                    <li key={question}>{question}</li>
+                  ))}
+                </ul>
+              </div>
+            ) : null}
+          </>
+        ) : (
+          <p className="mt-4 text-sm leading-6 text-neutral-400">
+            {isLoadingNeedFittingReview
+              ? 'Loading the current Need-fitting review from Exchange…'
+              : 'No Need-fitting review payload is available for this scenario yet.'}
+          </p>
+        )}
+      </div>
 
       <div className="mt-6 grid gap-3 md:grid-cols-2 xl:grid-cols-3">
         {needState.scenarios.map((scenario) => (

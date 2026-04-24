@@ -30,6 +30,29 @@ export type ApplicationNeedScenariosState = {
   }>;
 };
 
+export type ApplicationNeedFittingReviewState = {
+  scenarioId: string;
+  needId: string;
+  task: string;
+  reviewStage: string;
+  requiredBefore: string;
+  status: string;
+  action: string;
+  fitSearchAdmitted: boolean;
+  admissionReason: string;
+  blockedStages: string[];
+  admittedStages: string[];
+  allowedActions: string[];
+  reviewQuestions: string[];
+  measurementHash: string;
+  reviewableNeedRef: string;
+  settlementReviewStage: string;
+  objectiveContractId: string;
+  receiptCarryThrough: string[];
+  requiredFitStages: string[];
+  blockedUntil: string;
+};
+
 export function normalizeApplicationNeedScenarios(snapshot: ShellSnapshot): ApplicationNeedScenariosState | null {
   if (!snapshot) return null;
 
@@ -67,5 +90,60 @@ export function normalizeApplicationNeedScenarios(snapshot: ShellSnapshot): Appl
       ? snapshot.needingSurface?.targetArtifactKinds.length
       : 0,
     scenarios,
+  };
+}
+
+function stringValue(value: unknown, fallback = '—') {
+  const normalized = typeof value === 'string' ? value.trim() : '';
+  return normalized || fallback;
+}
+
+function recordValue(value: unknown): Record<string, any> {
+  return typeof value === 'object' && value !== null && !Array.isArray(value)
+    ? (value as Record<string, any>)
+    : {};
+}
+
+function stringList(value: unknown): string[] {
+  return Array.isArray(value)
+    ? value.map((entry) => String(entry || '').trim()).filter(Boolean)
+    : [];
+}
+
+export function normalizeApplicationNeedFittingReview(payload: unknown): ApplicationNeedFittingReviewState | null {
+  const root = recordValue(payload);
+  const review = recordValue(root.needFittingReview);
+  if (!review.artifactKind && !root.reviewableNeed) return null;
+
+  const reviewableNeed = recordValue(root.reviewableNeed);
+  const measurement = recordValue(root.measurement);
+  const fitSearchAdmission = recordValue(review.fitSearchAdmission || root.fitSearchAdmission || reviewableNeed.fitSearchAdmission);
+  const settlementReview = recordValue(review.settlementReview);
+  const candidateFitRequirements = recordValue(review.candidateFitRequirements);
+
+  return {
+    scenarioId: stringValue(review.scenarioId || recordValue(root.scenario).scenarioId, '—'),
+    needId: stringValue(review.needId || reviewableNeed.needId || measurement.needId, '—'),
+    task: stringValue(review.task || measurement.task || recordValue(reviewableNeed.measuredNeedSnapshot).task, '—'),
+    reviewStage: stringValue(review.reviewStage || root.reviewStage || reviewableNeed.reviewStage, 'post-measurement-pre-fit'),
+    requiredBefore: stringValue(review.requiredBefore || reviewableNeed.requiredBefore, 'find-fitting-settlement'),
+    status: stringValue(review.status || reviewableNeed.status, 'ready-for-review'),
+    action: stringValue(review.action || recordValue(root.reviewDecision).action, 'pending operator review'),
+    fitSearchAdmitted: fitSearchAdmission.admitted === true,
+    admissionReason: stringValue(fitSearchAdmission.admissionReason, 'Need must be accepted before fit search begins.'),
+    blockedStages: stringList(fitSearchAdmission.blockedStages || candidateFitRequirements.blockedStages),
+    admittedStages: stringList(fitSearchAdmission.admittedStages || candidateFitRequirements.admittedStages),
+    allowedActions: stringList(review.allowedActions || root.allowedActions || reviewableNeed.allowedActions),
+    reviewQuestions: stringList(review.reviewQuestions || reviewableNeed.reviewQuestions),
+    measurementHash: stringValue(review.measurementHash || measurement.measurementHash, '—'),
+    reviewableNeedRef: stringValue(review.reviewableNeedRef || measurement.reviewableNeedRef, '—'),
+    settlementReviewStage: stringValue(settlementReview.reviewStage, 'present-fit-for-settlement-review'),
+    objectiveContractId: stringValue(
+      settlementReview.quantizedObjectiveContractId,
+      'bitcode.source-to-shares.quantized-fit-quality-oc.v26',
+    ),
+    receiptCarryThrough: stringList(settlementReview.receiptCarryThrough),
+    requiredFitStages: stringList(candidateFitRequirements.requiredStages),
+    blockedUntil: stringValue(candidateFitRequirements.blockedUntil, 'Need review action=accept'),
   };
 }

@@ -11,6 +11,14 @@ const mockGetNeedReview = jest.fn((body?: Record<string, unknown>) => ({
     status: 'ready-for-review',
     fitSearchAdmission: { admitted: false },
   },
+  needFittingReview: {
+    artifactKind: 'bitcode-need-fitting-review',
+    requiredBefore: 'find-fitting-settlement',
+    settlementReview: {
+      reviewStage: 'present-fit-for-settlement-review',
+      quantizedObjectiveContractId: 'bitcode.source-to-shares.quantized-fit-quality-oc.v26',
+    },
+  },
 }));
 
 const mockReviewNeed = jest.fn((body?: Record<string, unknown>) => ({
@@ -24,6 +32,16 @@ const mockReviewNeed = jest.fn((body?: Record<string, unknown>) => ({
   fitSearchAdmission: { admitted: body?.needReviewAction === 'accept' },
   reviewDecision: {
     action: body?.needReviewAction ?? 'accept',
+  },
+  needFittingReview: {
+    artifactKind: 'bitcode-need-fitting-review',
+    status: body?.needReviewAction === 'accept' ? 'accepted' : 'remeasure-requested',
+    action: body?.needReviewAction ?? 'accept',
+    requiredBefore: 'find-fitting-settlement',
+    settlementReview: {
+      reviewStage: 'present-fit-for-settlement-review',
+      quantizedObjectiveContractId: 'bitcode.source-to-shares.quantized-fit-quality-oc.v26',
+    },
   },
 }));
 
@@ -67,6 +85,14 @@ describe('/api/need-review', () => {
     expect(mockGetNeedReview).toHaveBeenCalledWith({ scenarioId: 'scenario-auth' });
     expect(payload.protocolFocus).toBe('source-to-shares');
     expect(payload.reviewableNeed.fitSearchAdmission.admitted).toBe(false);
+    expect(payload.needFittingReview).toMatchObject({
+      artifactKind: 'bitcode-need-fitting-review',
+      requiredBefore: 'find-fitting-settlement',
+      settlementReview: {
+        reviewStage: 'present-fit-for-settlement-review',
+        quantizedObjectiveContractId: 'bitcode.source-to-shares.quantized-fit-quality-oc.v26',
+      },
+    });
   });
 
   it('records explicit operator review decisions before fit search admission', async () => {
@@ -91,5 +117,10 @@ describe('/api/need-review', () => {
     );
     expect(payload.fitSearchAdmission.admitted).toBe(true);
     expect(payload.reviewDecision.action).toBe('accept');
+    expect(payload.needFittingReview).toMatchObject({
+      artifactKind: 'bitcode-need-fitting-review',
+      status: 'accepted',
+      action: 'accept',
+    });
   });
 });

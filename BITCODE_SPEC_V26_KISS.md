@@ -75,7 +75,7 @@ The remaining fifth-gate work is prioritized by closure leverage:
 - finish the Shippable noun reform across streams, MCP schemas/tools, sidebars, Storybook, mock data, dry-run tests, and validation scripts, with `deliver` retained only as the verb for Finish delivery mechanisms;
 - make every Prompt, PromptPart, Registry primitive, agent prompt, tool prompt, and doc-comment injection path current-Bitcode precise;
 - finish package and interface parity for Terminal, Exchange APIs, MCP, ChatGPT App, webhooks, Supabase/ORM state, execution history, conversation rich-input execution evidence, and connected-interface write admission;
-- ensure Need review and fit review are explicit before settlement, including accept/reject/re-measure and fit-quality receipts;
+- ensure Need review and fit review are explicit before settlement, including Exchange `needFittingReview`, Terminal review controls, accept/reject/re-measure, and fit-quality receipts;
 - keep computer-use as internal feature-flagged Need-measurement support and remove non-admitted orchestration families from V26 product scope;
 - remove source-co-located build output from TypeScript package proof ownership;
 - regenerate proofs after source-bearing reforms so stale proof prose cannot preserve removed semantics.

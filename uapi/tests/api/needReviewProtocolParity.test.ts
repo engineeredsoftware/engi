@@ -58,6 +58,49 @@ function buildCommercialRouteContext(protocol: BitcodeProtocolRuntime): BitcodeA
   const getNeedReview = (input?: Record<string, unknown>) => {
     const scenario = resolveScenario(input);
     const measurement = protocol.measureNeedFromScenario(scenario);
+    const fitSearchAdmission = measurement.reviewableNeed.fitSearchAdmission;
+    const needFittingReview = {
+      artifactKind: 'bitcode-need-fitting-review',
+      protocolFocus: 'source-to-shares',
+      scenarioId: scenario.scenarioId,
+      scenarioFamily: scenario.scenarioFamily,
+      needId: measurement.reviewableNeed.needId,
+      task: measurement.reviewableNeed.measuredNeedSnapshot?.task,
+      reviewStage: measurement.reviewableNeed.reviewStage,
+      status: measurement.reviewableNeed.status,
+      action: null,
+      requiredAfter: measurement.reviewableNeed.requiredAfter,
+      requiredBefore: measurement.reviewableNeed.requiredBefore,
+      allowedActions: measurement.reviewableNeed.allowedActions,
+      reviewQuestions: measurement.reviewableNeed.reviewQuestions,
+      measurementHash: measurement.reviewableNeed.measurementRefs?.measurementHash,
+      reviewableNeedRef: measurement.reviewableNeed.reviewableNeedHash,
+      fitSearchAdmission,
+      settlementReview: {
+        reviewStage: 'present-fit-for-settlement-review',
+        quantizedObjectiveContractId: 'bitcode.source-to-shares.quantized-fit-quality-oc.v26',
+        requiredAfter: 'find-fitting-settlement-admitted',
+        receiptCarryThrough: [
+          'objectiveContractId',
+          'sourceToSharesRef',
+          'fitQualityHash',
+          'receiptRefs',
+          'qualityRows',
+        ],
+      },
+      candidateFitRequirements: {
+        requiredStages: [
+          'candidate-recall',
+          'find-fitting-settlement',
+          'asset-pack-assembly',
+          'present-fit-for-settlement-review',
+        ],
+        blockedStages: fitSearchAdmission?.blockedStages || [],
+        admittedStages: fitSearchAdmission?.admittedStages || [],
+        blockedUntil: 'Need review action=accept',
+      },
+    };
+
     return {
       ok: true,
       specVersion: 'V26',
@@ -76,7 +119,8 @@ function buildCommercialRouteContext(protocol: BitcodeProtocolRuntime): BitcodeA
       },
       reviewableNeed: measurement.reviewableNeed,
       allowedActions: measurement.reviewableNeed.allowedActions,
-      fitSearchAdmission: measurement.reviewableNeed.fitSearchAdmission,
+      fitSearchAdmission,
+      needFittingReview,
       nextProtocolAction: 'POST /api/need-review with action=accept|reject|remeasure-with-feedback',
     };
   };
@@ -99,6 +143,19 @@ function buildCommercialRouteContext(protocol: BitcodeProtocolRuntime): BitcodeA
         needReview,
         reviewDecision: needReview.reviewDecision,
         fitSearchAdmission: needReview.fitSearchAdmission,
+        needFittingReview: {
+          ...payload.needFittingReview,
+          status: needReview.status,
+          action: needReview.reviewDecision?.action,
+          fitSearchAdmission: needReview.fitSearchAdmission,
+          candidateFitRequirements: {
+            ...(payload.needFittingReview?.candidateFitRequirements || {}),
+            blockedStages: needReview.fitSearchAdmission?.blockedStages || [],
+            admittedStages: needReview.fitSearchAdmission?.admittedStages || [],
+            blockedUntil:
+              needReview.fitSearchAdmission?.admitted === true ? null : 'Need review action=accept',
+          },
+        },
         nextProtocolAction: needReview.fitSearchAdmission?.admitted
           ? 'POST /api/make-bitcode-branch'
           : 'GET /api/need-review after revising the Need measurement input',
@@ -156,6 +213,18 @@ describe('V26 Need-review SPEC-IMPL parity across protocol and commercial API', 
     expect(routePayload.reviewableNeed.needId).toBe(directProtocolPayload.reviewableNeed.needId);
     expect(routePayload.measurement.measurementHash).toBe(directProtocolPayload.measurement.measurementHash);
     expect(routePayload.fitSearchAdmission.admitted).toBe(false);
+    expect(routePayload.needFittingReview).toMatchObject({
+      artifactKind: 'bitcode-need-fitting-review',
+      protocolFocus: 'source-to-shares',
+      requiredBefore: 'find-fitting-settlement',
+      settlementReview: {
+        reviewStage: 'present-fit-for-settlement-review',
+        quantizedObjectiveContractId: 'bitcode.source-to-shares.quantized-fit-quality-oc.v26',
+      },
+      candidateFitRequirements: {
+        blockedUntil: 'Need review action=accept',
+      },
+    });
 
     const postResponse = await POST(
       new Request('http://localhost/api/need-review', {
@@ -172,6 +241,14 @@ describe('V26 Need-review SPEC-IMPL parity across protocol and commercial API', 
     expect(postResponse.status).toBe(200);
     expect(reviewPayload.reviewDecision.action).toBe('remeasure-with-feedback');
     expect(reviewPayload.fitSearchAdmission.admitted).toBe(false);
+    expect(reviewPayload.needFittingReview).toMatchObject({
+      artifactKind: 'bitcode-need-fitting-review',
+      status: 'remeasure-requested',
+      action: 'remeasure-with-feedback',
+      fitSearchAdmission: {
+        admitted: false,
+      },
+    });
     expect(reviewPayload.nextProtocolAction).toContain('/api/need-review');
   });
 

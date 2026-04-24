@@ -1,5 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
+import { existsSync } from 'node:fs';
 
 import {
   buildInitialState,
@@ -74,6 +75,13 @@ test('V26 app context exposes reviewable Need API and blocks explicit non-accept
   assert.equal(preview.protocolFocus, 'source-to-shares');
   assert.equal(preview.reviewableNeed.status, 'ready-for-review');
   assert.equal(preview.fitSearchAdmission.admitted, false);
+  assert.equal(preview.needFittingReview.artifactKind, 'bitcode-need-fitting-review');
+  assert.equal(preview.needFittingReview.requiredBefore, 'find-fitting-settlement');
+  assert.equal(preview.needFittingReview.settlementReview.reviewStage, 'present-fit-for-settlement-review');
+  assert.equal(
+    preview.needFittingReview.settlementReview.quantizedObjectiveContractId,
+    'bitcode.source-to-shares.quantized-fit-quality-oc.v26'
+  );
 
   const remeasure = app.reviewNeed({
     needReviewAction: 'remeasure-with-feedback',
@@ -81,6 +89,8 @@ test('V26 app context exposes reviewable Need API and blocks explicit non-accept
   });
   assert.equal(remeasure.needReview.status, 'remeasure-requested');
   assert.equal(remeasure.fitSearchAdmission.admitted, false);
+  assert.equal(remeasure.needFittingReview.status, 'remeasure-requested');
+  assert.equal(remeasure.needFittingReview.action, 'remeasure-with-feedback');
   assert.equal(app.readState().latestNeedReview.status, 'remeasure-requested');
 
   assert.throws(
@@ -116,4 +126,19 @@ test('V26 settlement review and receipts show quantized source-to-shares fit qua
   assert.equal(qualityTheorem?.passed, true);
   assert.ok(settlementProof.witnessArtifactPaths.includes('.bitcode/settlement-preview.json'));
   assert.ok(proofWitnessManifest.artifactDigestByPath['.bitcode/settlement-preview.json'].proofFamilies.includes('settlement-source-to-shares'));
+});
+
+test('V26 Need-fitting Exchange and Terminal source stays TypeScript-owned without generated JS mirrors', () => {
+  [
+    'uapi/app/api/need-review/route.js',
+    'uapi/app/api/make-bitcode-branch/route.js',
+    'uapi/app/api/state/route.js',
+    'uapi/lib/bitcode-app-context.js',
+    'uapi/tests/api/needReviewRoute.test.js',
+    'uapi/tests/api/needReviewProtocolParity.test.js',
+    'uapi/tests/applicationNeedScenarios.test.js',
+    'uapi/tests/applicationClosureState.test.js'
+  ].forEach((sourcePath) => {
+    assert.equal(existsSync(sourcePath), false, `${sourcePath} must not be emitted beside TypeScript source`);
+  });
 });

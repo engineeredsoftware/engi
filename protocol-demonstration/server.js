@@ -148,6 +148,7 @@ const DEFAULT_PORT = Number(process.env['PORT'] || 4318);
 export const DEFAULT_BITCODE_DATA_PATH = DEFAULT_DATA_PATH;
 export const DEFAULT_BITCODE_PUBLIC_DIR = DEFAULT_PUBLIC_DIR;
 const ALLOWED_PROJECTION_PRINCIPALS = new Set(['public', 'buyer', 'reviewer', 'internal']);
+const SOURCE_TO_SHARES_FIT_QUALITY_OC_ID = 'bitcode.source-to-shares.quantized-fit-quality-oc.v26';
 const ALLOWED_BRANCH_MODES = new Set(['patch', 'context']);
 const ALLOWED_PAYMENT_MODES = new Set([
   'audited-base-layer-purchase',
@@ -290,6 +291,7 @@ export function createAppContext({
     const scenario = resolveNeedReviewScenario(state, body.scenarioId);
     const measurement = measureNeedFromScenario(scenario);
     const reviewableNeed = measurement.reviewableNeed;
+    const fitSearchAdmission = reviewableNeed.fitSearchAdmission;
     return {
       ok: true,
       specVersion: SPEC_VERSION,
@@ -313,8 +315,92 @@ export function createAppContext({
       },
       reviewableNeed,
       allowedActions: reviewableNeed.allowedActions,
-      fitSearchAdmission: reviewableNeed.fitSearchAdmission,
+      fitSearchAdmission,
+      needFittingReview: buildNeedFittingReviewPayload({
+        scenario,
+        measurement,
+        reviewableNeed,
+        fitSearchAdmission
+      }),
       nextProtocolAction: 'POST /api/need-review with action=accept|reject|remeasure-with-feedback'
+    };
+  }
+
+  /**
+   * @param {{
+   *   scenario: unknown,
+   *   measurement: Record<string, any>,
+   *   reviewableNeed: Record<string, any>,
+   *   fitSearchAdmission?: Record<string, any> | undefined,
+   *   reviewDecision?: Record<string, any> | null | undefined
+   * }} input
+   * @returns {Record<string, unknown>}
+   */
+  function buildNeedFittingReviewPayload({
+    scenario,
+    measurement,
+    reviewableNeed,
+    fitSearchAdmission = reviewableNeed.fitSearchAdmission,
+    reviewDecision = null
+  }) {
+    const scenarioRecord = /** @type {any} */ (scenario || {});
+    const needDescriptor = /** @type {any} */ (measurement.needDescriptor || {});
+    const measuredNeedSnapshot = /** @type {any} */ (reviewableNeed.measuredNeedSnapshot || {});
+    const blockedStages = fitSearchAdmission?.blockedStages || reviewableNeed.fitSearchAdmission?.blockedStages || [];
+    const admittedStages = fitSearchAdmission?.admittedStages || [];
+    return {
+      artifactKind: 'bitcode-need-fitting-review',
+      protocolFocus: 'source-to-shares',
+      scenarioId: scenarioRecord.scenarioId || null,
+      scenarioFamily: scenarioRecord.scenarioFamily || null,
+      needId: reviewableNeed.needId || needDescriptor.needId || null,
+      task: measuredNeedSnapshot.task || needDescriptor.task || null,
+      reviewStage: reviewableNeed.reviewStage || 'post-measurement-pre-fit',
+      status: reviewDecision?.status || reviewableNeed.status || null,
+      action: reviewDecision?.action || null,
+      requiredAfter: reviewableNeed.requiredAfter || 'need-measurement-synthesized',
+      requiredBefore: reviewableNeed.requiredBefore || 'find-fitting-settlement',
+      allowedActions: reviewableNeed.allowedActions || [],
+      actionContracts: reviewableNeed.actionContracts || {},
+      reviewQuestions: reviewableNeed.reviewQuestions || [],
+      measurementHash: reviewableNeed.measurementRefs?.measurementHash || null,
+      reviewableNeedRef: reviewableNeed.reviewableNeedHash || null,
+      fitSearchAdmission: {
+        admitted: fitSearchAdmission?.admitted === true,
+        admissionReason: fitSearchAdmission?.admissionReason || null,
+        untilAction: fitSearchAdmission?.untilAction || (fitSearchAdmission?.admitted ? null : 'accept'),
+        admittedStages,
+        blockedStages
+      },
+      settlementReview: {
+        reviewStage: 'present-fit-for-settlement-review',
+        quantizedObjectiveContractId: SOURCE_TO_SHARES_FIT_QUALITY_OC_ID,
+        requiredAfter: 'find-fitting-settlement-admitted',
+        receiptCarryThrough: [
+          'objectiveContractId',
+          'sourceToSharesRef',
+          'fitQualityHash',
+          'receiptRefs',
+          'qualityRows'
+        ]
+      },
+      candidateFitRequirements: {
+        requiredStages: [
+          'candidate-recall',
+          'find-fitting-settlement',
+          'asset-pack-assembly',
+          'present-fit-for-settlement-review'
+        ],
+        blockedStages,
+        admittedStages,
+        blockedUntil: fitSearchAdmission?.admitted === true ? null : 'Need review action=accept'
+      },
+      measuredNeedSnapshot: {
+        failureModes: measuredNeedSnapshot.failureModes || needDescriptor.failureModes || [],
+        constraints: measuredNeedSnapshot.constraints || needDescriptor.constraints || [],
+        targetArtifactKinds: measuredNeedSnapshot.targetArtifactKinds || needDescriptor.targetArtifactKinds || [],
+        closureCriteria: measuredNeedSnapshot.closureCriteria || needDescriptor.closureCriteria || []
+      }
     };
   }
 
@@ -615,6 +701,13 @@ export function createAppContext({
       needReview,
       reviewDecision,
       fitSearchAdmission: needReview.fitSearchAdmission,
+      needFittingReview: buildNeedFittingReviewPayload({
+        scenario: payload.scenario,
+        measurement: { needDescriptor: payload.measurement },
+        reviewableNeed: /** @type {any} */ (payload.reviewableNeed),
+        fitSearchAdmission: needReview.fitSearchAdmission,
+        reviewDecision
+      }),
       stateWrite: {
         latestNeedReviewRef: historyEntry.reviewId,
         fitSearchAdmitted: needReview.fitSearchAdmission?.admitted === true

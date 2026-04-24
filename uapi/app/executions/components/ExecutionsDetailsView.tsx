@@ -60,6 +60,7 @@ export function ExecutionDetailsView({ runId, executionId }: ExecutionDetailsVie
   const fws = runOutput?.final_work_summary || (run as any).final_work_summary || null;
   const writtenAssets = getHeaderWrittenAssets(fws);
   const shippables = getHeaderShippables(fws);
+  const deliveryMechanism = shippables;
   const mergedAssetPackSurface = mergeHeaderShippables(writtenAssets, shippables);
   const ReactMarkdown = dynamic(() => import('react-markdown'), { ssr: false });
 
