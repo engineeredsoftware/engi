@@ -10,23 +10,44 @@ import { UserProfilesModel } from './models/user-profiles';
 import { UserModelPreferencesModel } from './models/user-model-preferences';
 import { UserBtdTransactionsModel } from './models/user-btd-transactions';
 import { PipelineExecutionsModel } from './models/pipeline-executions';
-import { PipelineExecution } from './models/pipeline-executions';
 import { DeliverablesModel } from './models/deliverables';
 import { ExecutionEventsModel } from './models/execution-events';
+import { PipelineRunsModel } from './models/pipeline-runs';
 import { NotificationsModel } from './models/notifications';
 import { UserConnectionsModel } from './models/user-connections';
 import { UserBtdBalancesModel } from './models/user-btd-balances';
+import {
+  AssetPackGeneratedAssetsModel,
+  AssetPackPhaseExecutionsModel,
+  AssetPackRunInstructionsModel,
+  AssetPackRunJobsModel,
+  AssetPackStreamLogsModel,
+  AssetPackVectorsModel,
+  BitcodeActivityEventsModel,
+  BitcodeErrorLogsModel,
+  BitcodeTokenCostsModel,
+} from './models/bitcode-execution-storage';
 
 /**
  * Standard client interface
  */
-export interface EngiClient {
+export interface BitcodeOrmClient {
   userProfiles: UserProfilesModel;
   userModelPreferences: UserModelPreferencesModel;
   userBtdTransactions: UserBtdTransactionsModel;
   pipelineExecutions: PipelineExecutionsModel;
+  pipelineRuns: PipelineRunsModel;
   deliverables: DeliverablesModel;
   executionEvents: ExecutionEventsModel;
+  assetPackVectors: AssetPackVectorsModel;
+  assetPackPhaseExecutions: AssetPackPhaseExecutionsModel;
+  assetPackRunJobs: AssetPackRunJobsModel;
+  assetPackRunInstructions: AssetPackRunInstructionsModel;
+  assetPackStreamLogs: AssetPackStreamLogsModel;
+  assetPackGeneratedAssets: AssetPackGeneratedAssetsModel;
+  bitcodeActivityEvents: BitcodeActivityEventsModel;
+  bitcodeErrorLogs: BitcodeErrorLogsModel;
+  bitcodeTokenCosts: BitcodeTokenCostsModel;
   notifications: NotificationsModel;
   userConnections: UserConnectionsModel;
   userBtdBalances: UserBtdBalancesModel;
@@ -35,14 +56,14 @@ export interface EngiClient {
 /**
  * Admin client with additional capabilities
  */
-export interface AdminClient extends EngiClient {
-  // Admin-only operations (placeholder for future admin features)
+export interface AdminClient extends BitcodeOrmClient {
+  // Admin-only operations are added here when they become Bitcode-owned APIs.
 }
 
 /**
  * Create standard client
  */
-export function createClient(authToken?: string): EngiClient {
+export function createClient(authToken?: string): BitcodeOrmClient {
   const supabase = createSupabaseClient<Database>(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
     process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
@@ -62,8 +83,18 @@ export function createClient(authToken?: string): EngiClient {
     userModelPreferences: new UserModelPreferencesModel(supabase),
     userBtdTransactions: new UserBtdTransactionsModel(supabase),
     pipelineExecutions: new PipelineExecutionsModel(supabase),
+    pipelineRuns: new PipelineRunsModel(supabase),
     deliverables: new DeliverablesModel(supabase),
     executionEvents: new ExecutionEventsModel(supabase),
+    assetPackVectors: new AssetPackVectorsModel(supabase),
+    assetPackPhaseExecutions: new AssetPackPhaseExecutionsModel(supabase),
+    assetPackRunJobs: new AssetPackRunJobsModel(supabase),
+    assetPackRunInstructions: new AssetPackRunInstructionsModel(supabase),
+    assetPackStreamLogs: new AssetPackStreamLogsModel(supabase),
+    assetPackGeneratedAssets: new AssetPackGeneratedAssetsModel(supabase),
+    bitcodeActivityEvents: new BitcodeActivityEventsModel(supabase),
+    bitcodeErrorLogs: new BitcodeErrorLogsModel(supabase),
+    bitcodeTokenCosts: new BitcodeTokenCostsModel(supabase),
     notifications: new NotificationsModel(supabase),
     userConnections: new UserConnectionsModel(supabase),
     userBtdBalances: new UserBtdBalancesModel(supabase)
@@ -90,8 +121,18 @@ export function createAdminClient(): AdminClient {
     userModelPreferences: new UserModelPreferencesModel(supabase),
     userBtdTransactions: new UserBtdTransactionsModel(supabase),
     pipelineExecutions: new PipelineExecutionsModel(supabase),
+    pipelineRuns: new PipelineRunsModel(supabase),
     deliverables: new DeliverablesModel(supabase),
     executionEvents: new ExecutionEventsModel(supabase),
+    assetPackVectors: new AssetPackVectorsModel(supabase),
+    assetPackPhaseExecutions: new AssetPackPhaseExecutionsModel(supabase),
+    assetPackRunJobs: new AssetPackRunJobsModel(supabase),
+    assetPackRunInstructions: new AssetPackRunInstructionsModel(supabase),
+    assetPackStreamLogs: new AssetPackStreamLogsModel(supabase),
+    assetPackGeneratedAssets: new AssetPackGeneratedAssetsModel(supabase),
+    bitcodeActivityEvents: new BitcodeActivityEventsModel(supabase),
+    bitcodeErrorLogs: new BitcodeErrorLogsModel(supabase),
+    bitcodeTokenCosts: new BitcodeTokenCostsModel(supabase),
     notifications: new NotificationsModel(supabase),
     userConnections: new UserConnectionsModel(supabase),
     userBtdBalances: new UserBtdBalancesModel(supabase)
@@ -99,6 +140,6 @@ export function createAdminClient(): AdminClient {
 
   return {
     ...baseClient
-    // Admin operations to be added as needed
+    // Admin operations stay explicit rather than hidden behind route-local clients.
   };
 }

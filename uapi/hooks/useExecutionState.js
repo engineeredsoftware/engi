@@ -56,13 +56,13 @@ const useExecutionState = () => {
      * Triggers the Bitcode asset-pack pipeline and returns final completion data (or null on error).
      * `definitionOfDone` is bounded to the input key while downstream receipts mirror Bitcode Need and AssetPack semantics.
      */
-    const submitAssetPackPipeline = (0, react_1.useCallback)(async (connectionId, repoOwner, repoName, repoBranch, commitSha, issueNumber, userHasScrolled, logContainerRef, userTimezone, modelProvider, modelId,
+    const submitAssetPackPipeline = (0, react_1.useCallback)(async (connectionId, repoOwner, repoName, repoBranch, commitSha, issueNumber, userHasScrolled, logContainerRef, userTimezone, modelProvider, modelId, 
     /** Optional attachments provided by the user */
-    attachments = [],
+    attachments = [], 
     /** Enable compute mode */
-    computeEnabled = false,
+    computeEnabled = false, 
     /** Enable multi-agent mode */
-    multiAgentEnabled = false,
+    multiAgentEnabled = false, 
     /** Number of iterations */
     iterationCount = 3, 
     /** Optional file uploads */

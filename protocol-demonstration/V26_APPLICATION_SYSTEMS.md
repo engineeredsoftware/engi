@@ -841,7 +841,7 @@ Current major retained owners:
 
 ## Persistence and storage convergence
 
-Fourth-gate must also converge the retained storage layer into explicit Bitcode ownership.
+Fifth-gate continues the reopened fourth-gate storage convergence by turning the retained storage layer into explicit Bitcode ownership rather than treating prior promotion text as sufficient.
 
 Current major retained owners:
 - `supabase/*`
@@ -850,18 +850,21 @@ Current major retained owners:
   Typed client, SSR helpers, retained Supabase package ownership, and active helpers under `packages/supabase/src/*`.
 - `packages/orm/*`
   Active ORM model/query ownership and generated database typing under `packages/orm/src/models/*`, `packages/orm/src/queries/*`, `packages/orm/src/types/database.generated.ts`, `packages/orm/src/types/database.ts`, and `packages/orm/scripts/generate-db-types.ts`.
+- `packages/orm/src/models/bitcode-execution-storage.ts`
+  Bitcode execution-storage ORM ownership for AssetPack vectors, phase execution, queued run jobs, on-the-fly instructions, stream logs, generated assets, activity events, error logs, and token costs, including the explicit `deliverable_run_phases -> phase_executions` schema parity bridge.
 - storage-facing app/API carriers including `/edgetimes` and `/api/edgetimes`
-  Application and API surfaces that expose the retained storage system upward into Bitcode; `/edgetimes` and `/api/edgetimes` now act as live fourth-gate Bitcode storage/API material witnesses while procedural promotion remains reopened rather than remaining draft-only posture.
+  Application and API surfaces that expose the retained storage system upward into Bitcode; `/edgetimes` and `/api/edgetimes` now act as live fifth-gate Bitcode storage/API material witnesses after the reopened fourth-gate proof boundary.
 - retained execution compatibility carriers including `/api/vcs`, `/api/templates/deliverables`, and `/api/auxillaries/template-preferences`
-  Application API surfaces that keep retained runs/pipelines selectors and template personalization healthy while fourth-gate convergence ports those behaviors inward to `/application`.
+  Application API surfaces that keep retained runs/pipelines selectors and template personalization healthy while fifth-gate convergence ports those behaviors inward to `/application`.
 - canonical auxillary API carriers including `/api/auxillaries/profile`, `/api/auxillaries/connections/github`, `/api/auxillaries/btd`, `/api/auxillaries/usage`, `/api/auxillaries/transactions`, and `/api/auxillaries/api-keys`
   Application API surfaces that keep profile identity, Connects-approved repository knowledge, $BTD balance history, $BTD transaction history, and API-key control under canonical Bitcode auxillary ownership instead of compatibility `orbitals` ownership.
 - retained `/executions` and `/orbitals` route posture
-  Compatibility route families that remain explicit during fourth-gate promotion while merged-world naming keeps `executions` explicit inside `activity` and converges `orbitals` on `auxillaries`; `/orbitals/*` must remain redirect-only compatibility into canonical `/auxillaries/*`, transactions/executions/notifications are activity classes, and auxillaries remain the non-transactional extra-network companion surfaces around the Bitcode core.
+  Compatibility route families that remain explicit during fifth-gate convergence while merged-world naming keeps `executions` explicit inside `activity` and converges `orbitals` on `auxillaries`; `/orbitals/*` must remain redirect-only compatibility into canonical `/auxillaries/*`, transactions/executions/notifications are activity classes, and auxillaries remain the non-transactional extra-network companion surfaces around the Bitcode core.
 
 Required convergence rule:
 - V26 may not leave PostgreSQL/Supabase ownership implicit across migrations, package helpers, and route glue.
 - One explicit Bitcode storage contract must name the migration baseline, active schema owners, ORM or query-layer owners, generated database types, and the API boundaries that expose them.
+- Execution-storage tables may not remain as an unresolved list in proof: former unresolved tables must either have an explicit Bitcode ORM owner or a documented non-admission decision; fifth-gate now requires the active ORM client to expose a `BitcodeOrmClient` surface for these owners.
 - Tests, comments, docs, and proof-surface ownership must follow those storage carriers rather than accumulating as infrastructure residue.
 
 ## Proof, generated-evidence, and observability carriers

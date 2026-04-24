@@ -162,13 +162,18 @@ const V26_FOURTH_GATE_PERSISTENCE_FILES = [
   'packages/supabase/src/ssr/server.ts',
   'packages/supabase/src/ssr/middleware.ts',
   'packages/orm/src/client.ts',
+  'packages/orm/src/client.d.ts',
+  'packages/orm/src/index.d.ts',
   'packages/orm/src/models/index.ts',
+  'packages/orm/src/models/bitcode-execution-storage.ts',
+  'packages/orm/src/models/bitcode-execution-storage.d.ts',
   'packages/orm/src/profile-contract.ts',
   'packages/orm/src/queries/vector.ts',
   'packages/orm/src/types/database.generated.ts',
   'packages/orm/src/types/database.ts',
   'packages/orm/scripts/generate-db-types.ts',
   'packages/orm/scripts/generate-db-types.js',
+  'packages/orm/src/__tests__/bitcode-execution-storage.test.ts',
   'uapi/app/edgetimes/edgetimes-topology.ts',
   'uapi/app/edgetimes/EdgetimesPageContent.tsx',
   'uapi/app/edgetimes/page.tsx',
@@ -178,16 +183,16 @@ const V26_FOURTH_GATE_PERSISTENCE_FILES = [
   'protocol-demonstration/V26_APPLICATION_SYSTEMS.md',
   'protocol-demonstration/V26_PROOF_SURFACES.md'
 ];
-const V26_FOURTH_GATE_UNRESOLVED_TABLES = [
-  'deliverable_vectors',
-  'deliverable_run_phases',
-  'run_jobs',
-  'run_otf_instructions',
-  'stream_logs',
-  'generated_assets',
-  'events',
-  'error_logs',
-  'token_costs'
+const V26_FOURTH_GATE_STORAGE_TABLE_PARITY = [
+  ['deliverable_run_phases', 'phase_executions'],
+  ['deliverable_vectors', 'deliverable_vectors'],
+  ['run_jobs', 'run_jobs'],
+  ['run_otf_instructions', 'run_otf_instructions'],
+  ['stream_logs', 'stream_logs'],
+  ['generated_assets', 'generated_assets'],
+  ['events', 'events'],
+  ['error_logs', 'error_logs'],
+  ['token_costs', 'token_costs']
 ];
 const V26_FOURTH_GATE_CONVERSATION_FILES = [
   'uapi/app/conversations/page.tsx',
@@ -1572,6 +1577,52 @@ function buildV26PersistenceSchemaTotalityProof({
       'persistence-baseline-and-typed-owners',
       'Persistence baseline, typed clients, ORM/query owners, and generated type carriers',
       V26_FOURTH_GATE_PERSISTENCE_FILES
+    ),
+    buildV26FileContentCheck(
+      'persistence-bitcode-execution-storage-models',
+      'Bitcode execution storage tables have explicit ORM model ownership and schema parity mapping',
+      [
+        {
+          file: 'packages/orm/src/models/bitcode-execution-storage.ts',
+          evidence: 'BITCODE_EXECUTION_STORAGE_SCHEMA_PARITY',
+          description: 'ORM declares the V26 storage interpretation map for execution and AssetPack evidence tables'
+        },
+        {
+          file: 'packages/orm/src/models/bitcode-execution-storage.ts',
+          evidence: "deliverable_run_phases: 'phase_executions'",
+          description: 'former phase table meaning is mapped to the active phase_executions table'
+        },
+        {
+          file: 'packages/orm/src/models/bitcode-execution-storage.ts',
+          evidence: 'class AssetPackGeneratedAssetsModel',
+          description: 'generated asset evidence has an explicit AssetPack ORM owner'
+        },
+        {
+          file: 'packages/orm/src/models/bitcode-execution-storage.ts',
+          evidence: 'class BitcodeTokenCostsModel',
+          description: 'token-cost rows have an explicit Bitcode ORM owner for execution economics'
+        },
+        {
+          file: 'packages/orm/src/client.ts',
+          evidence: 'export interface BitcodeOrmClient',
+          description: 'public ORM client is named as Bitcode infrastructure rather than old-world Engi infrastructure'
+        },
+        {
+          file: 'packages/orm/src/client.d.ts',
+          evidence: 'export interface BitcodeOrmClient',
+          description: 'tracked declaration surface preserves the canonical Bitcode ORM client name'
+        },
+        {
+          file: 'packages/orm/src/index.d.ts',
+          evidence: 'BITCODE_EXECUTION_STORAGE_SCHEMA_PARITY',
+          description: 'public package declarations export the execution-storage parity contract'
+        },
+        {
+          file: 'packages/orm/src/__tests__/bitcode-execution-storage.test.ts',
+          evidence: 'declares the V26 schema bridge for every former unresolved storage table',
+          description: 'package-local test locks the storage parity map'
+        }
+      ]
     )
   ];
   const passed = checks.every((check) => check.passed === true);
@@ -1589,7 +1640,8 @@ function buildV26PersistenceSchemaTotalityProof({
       '/edgetimes',
       '/api/edgetimes'
     ],
-    unresolvedTables: V26_FOURTH_GATE_UNRESOLVED_TABLES,
+    storageTableParity: Object.fromEntries(V26_FOURTH_GATE_STORAGE_TABLE_PARITY),
+    unresolvedTables: [],
     checks
   };
 }

@@ -13,7 +13,7 @@
  * philosophy: "Database as a typed service"
  */
 export { createClient, createAdminClient } from './client';
-export type { EngiClient, AdminClient } from './client';
+export type { BitcodeOrmClient, AdminClient } from './client';
 export { BaseModel } from './models/base';
 export { UserProfilesModel } from './models/user-profiles';
 export { UserConnectionsModel } from './models/user-connections';
@@ -43,6 +43,8 @@ export type MessageAttachment = Tables<'message_attachments'>;
 export { hydrateBitcodeProfile, mergeBitcodeProfileSettings, profileHasWalletBinding, profileHasVerifiedWalletBinding, readBitcodeProfileSettings, readBitcodeWalletCapabilityFromProfile, readBitcodeWalletBindingFromProfile, } from './profile-contract';
 export type { BitcodeProfileSettings, BitcodeWalletCapability, BitcodeWalletBinding, BitcodeWalletBindingStatus, HydratedBitcodeProfileFields, } from './profile-contract';
 export type PhaseExecution = Tables<'phase_executions'>;
+export { AssetPackGeneratedAssetsModel, AssetPackPhaseExecutionsModel, AssetPackRunInstructionsModel, AssetPackRunJobsModel, AssetPackStreamLogsModel, AssetPackVectorsModel, BITCODE_EXECUTION_STORAGE_SCHEMA_PARITY, BitcodeActivityEventsModel, BitcodeErrorLogsModel, BitcodeTokenCostsModel, } from './models/bitcode-execution-storage';
+export type { AssetPackGeneratedAsset, AssetPackGeneratedAssetInsert, AssetPackGeneratedAssetUpdate, AssetPackPhaseExecution, AssetPackPhaseExecutionInsert, AssetPackPhaseExecutionUpdate, AssetPackRunInstruction, AssetPackRunInstructionInsert, AssetPackRunInstructionUpdate, AssetPackRunJob, AssetPackRunJobInsert, AssetPackRunJobUpdate, AssetPackStreamLog, AssetPackStreamLogInsert, AssetPackStreamLogUpdate, AssetPackVector, AssetPackVectorInsert, AssetPackVectorUpdate, BitcodeActivityEvent, BitcodeActivityEventInsert, BitcodeActivityEventUpdate, BitcodeErrorLog, BitcodeErrorLogInsert, BitcodeErrorLogUpdate, BitcodeTokenCost, BitcodeTokenCostInsert, BitcodeTokenCostUpdate, } from './models/bitcode-execution-storage';
 export { ConversationsModel } from './models/conversations';
 export { MessagesModel } from './models/messages';
 export { UsersModel } from './models/users';
@@ -63,13 +65,13 @@ export { OrganizationCreditUsagesModel } from './models/organization-credit-usag
  *
  * // For admin/service operations
  * const adminClient = createAdminClient();
- * const run = await adminClient.deliverableRuns.create({
+ * const run = await adminClient.pipelineExecutions.create({
  *   user_id: userId,
  *   deliverable_id: deliverableId,
  *   status: 'pending'
  * });
  *
- * // Vector search for similar deliverables
+ * // Vector search for similar AssetPack evidence
  * const similar = await client.vectors.search({
  *   embedding: queryEmbedding,
  *   table: 'deliverable_vectors',

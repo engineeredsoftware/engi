@@ -10,7 +10,7 @@
 import { SupabaseClient } from '@supabase/supabase-js';
 import { Database } from '../types/database';
 import { log } from '@bitcode/logger';
-// TODO: metrics not yet implemented in observability package
+// Vector metrics are intentionally deferred to the V26 runtime-health counter contract.
 // import { metrics } from '@bitcode/observability';
 
 export interface VectorSearchParams {
@@ -64,7 +64,7 @@ export class VectorQuery {
       log.error('Vector search failed', { error, params });
       throw error;
     } finally {
-      // TODO: Re-enable when metrics is implemented
+      // Metric recording belongs behind the runtime-health counter contract.
       // metrics.recordVectorSearch({
       //   collection: params.collection,
       //   duration: Date.now() - startTime
@@ -107,7 +107,7 @@ export class VectorQuery {
       log.error('Vector insert failed', { error, collection: params.collection });
       throw error;
     } finally {
-      // TODO: Re-enable when metrics is implemented
+      // Metric recording belongs behind the runtime-health counter contract.
       // metrics.recordVectorOperation({
       //   operation: 'insert',
       //   collection: params.collection,
@@ -151,7 +151,7 @@ export class VectorQuery {
       log.error('Batch vector insert failed', { error, count: vectors.length });
       throw error;
     } finally {
-      // TODO: Re-enable when metrics is implemented
+      // Metric recording belongs behind the runtime-health counter contract.
       // metrics.recordVectorOperation({
       //   operation: 'insertBatch',
       //   count: vectors.length,

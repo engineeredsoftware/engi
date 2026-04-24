@@ -15,7 +15,7 @@
 
 // ==================== CLIENT ====================
 export { createClient, createAdminClient } from './client';
-export type { EngiClient, AdminClient } from './client';
+export type { BitcodeOrmClient, AdminClient } from './client';
 
 // ==================== V26 MODELS ====================
 // Base model for extension
@@ -28,26 +28,27 @@ export { UserModelPreferencesModel } from './models/user-model-preferences';
 export { UserBtdBalancesModel } from './models/user-btd-balances';
 export { UserBtdTransactionsModel } from './models/user-btd-transactions';
 
-// Deliverables System models
+// AssetPack and connected-interface models
 export { DeliverablesModel } from './models/deliverables';
-// Note: deliverable_vectors model not yet implemented
+export {
+  AssetPackGeneratedAssetsModel,
+  AssetPackPhaseExecutionsModel,
+  AssetPackRunInstructionsModel,
+  AssetPackRunJobsModel,
+  AssetPackStreamLogsModel,
+  AssetPackVectorsModel,
+  BITCODE_EXECUTION_STORAGE_SCHEMA_PARITY,
+  BitcodeActivityEventsModel,
+  BitcodeErrorLogsModel,
+  BitcodeTokenCostsModel,
+} from './models/bitcode-execution-storage';
 
 // Pipeline Execution models
 export { PipelineExecutionsModel } from './models/pipeline-executions';
 export { ExecutionEventsModel } from './models/execution-events';
-// Note: Additional pipeline models not yet implemented:
-// - deliverable_run_phases
-// - run_jobs
-// - run_otf_instructions
-// - stream_logs
-// - generated_assets
 
 // Essential Infrastructure models
 export { NotificationsModel } from './models/notifications';
-// Note: Additional infrastructure models not yet implemented:
-// - events
-// - error_logs
-// - token_costs
 
 // VCS Integration models
 export { VCSRepositoryModel, getVCSRepositoryModel } from './models/vcs-repositories';
@@ -98,17 +99,45 @@ export type {
   HydratedBitcodeProfileFields,
 } from './profile-contract';
 
-// Deliverables Pipeline structured streaming tables (V26)
-// Structured persistence (Execution hierarchy)
+// Bitcode execution-storage structured tables (V26)
+// Structured persistence for AssetPack synthesis and connected-interface evidence.
 export type PhaseExecution = Tables<'phase_executions'>;
+export type {
+  AssetPackGeneratedAsset,
+  AssetPackGeneratedAssetInsert,
+  AssetPackGeneratedAssetUpdate,
+  AssetPackPhaseExecution,
+  AssetPackPhaseExecutionInsert,
+  AssetPackPhaseExecutionUpdate,
+  AssetPackRunInstruction,
+  AssetPackRunInstructionInsert,
+  AssetPackRunInstructionUpdate,
+  AssetPackRunJob,
+  AssetPackRunJobInsert,
+  AssetPackRunJobUpdate,
+  AssetPackStreamLog,
+  AssetPackStreamLogInsert,
+  AssetPackStreamLogUpdate,
+  AssetPackVector,
+  AssetPackVectorInsert,
+  AssetPackVectorUpdate,
+  BitcodeActivityEvent,
+  BitcodeActivityEventInsert,
+  BitcodeActivityEventUpdate,
+  BitcodeErrorLog,
+  BitcodeErrorLogInsert,
+  BitcodeErrorLogUpdate,
+  BitcodeTokenCost,
+  BitcodeTokenCostInsert,
+  BitcodeTokenCostUpdate,
+} from './models/bitcode-execution-storage';
 
 // Conversation System models (V26)
 export { ConversationsModel } from './models/conversations';
 export { MessagesModel } from './models/messages';
 
-// ==================== COMPATIBILITY MODEL EXPORTS ====================
-// These retained owners still back active MCP/auth/organization surfaces, but
-// they now live under canonical model paths rather than an archived owner family.
+// ==================== AUXILLARY AND ORGANIZATION SUPPORT EXPORTS ====================
+// These owners back active MCP/auth/organization surfaces under canonical paths.
 export { UsersModel } from './models/users';
 export { OrganizationsModel } from './models/organizations';
 export { OrganizationMembersModel } from './models/organization-members';
@@ -128,13 +157,13 @@ export { OrganizationCreditUsagesModel } from './models/organization-credit-usag
  * 
  * // For admin/service operations
  * const adminClient = createAdminClient();
- * const run = await adminClient.deliverableRuns.create({
+ * const run = await adminClient.pipelineExecutions.create({
  *   user_id: userId,
  *   deliverable_id: deliverableId,
  *   status: 'pending'
  * });
  * 
- * // Vector search for similar deliverables
+ * // Vector search for similar AssetPack evidence
  * const similar = await client.vectors.search({
  *   embedding: queryEmbedding,
  *   table: 'deliverable_vectors',

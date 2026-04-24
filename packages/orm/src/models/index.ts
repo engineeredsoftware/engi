@@ -1,8 +1,8 @@
 /**
  * ORM Models Index - V26 Tables Only
  * 
- * This file exports the active V26 plus retained compatibility owners that
- * still back live Bitcode surfaces.
+ * This file exports active V26 storage owners for Bitcode identity,
+ * execution, AssetPack, activity, and connected-interface evidence.
  */
 
 // Base model
@@ -15,18 +15,30 @@ export { UserModelPreferencesModel } from './user-model-preferences';
 export { UserBtdBalancesModel } from './user-btd-balances';
 export { UserBtdTransactionsModel } from './user-btd-transactions';
 
-// Deliverable models (V26)
+// AssetPack and connected-interface models (V26)
 export { DeliverablesModel } from './deliverables';
 export { PipelineExecutionsModel } from './pipeline-executions';
 export { ExecutionEventsModel } from './execution-events';
+export {
+  AssetPackGeneratedAssetsModel,
+  AssetPackPhaseExecutionsModel,
+  AssetPackRunInstructionsModel,
+  AssetPackRunJobsModel,
+  AssetPackStreamLogsModel,
+  AssetPackVectorsModel,
+  BITCODE_EXECUTION_STORAGE_SCHEMA_PARITY,
+  BitcodeActivityEventsModel,
+  BitcodeErrorLogsModel,
+  BitcodeTokenCostsModel,
+} from './bitcode-execution-storage';
 
 // Pipeline models (V26)
-export { PipelineRunsModel } from './pipeline-runs'; // generic metadata (legacy path)
+export { PipelineRunsModel } from './pipeline-runs';
 
 // System models (V26)
 export { NotificationsModel } from './notifications';
 
-// Retained compatibility models
+// Auxillary and organization support models
 export { UsersModel } from './users';
 export { OrganizationsModel } from './organizations';
 export { OrganizationMembersModel } from './organization-members';
@@ -80,15 +92,32 @@ export type {
   ExecutionEventInsert,
 } from './execution-events';
 
-// Note: Missing V26 tables that may need model implementations:
-// - vcs_repositories
-// - user_github_connections  
-// - deliverable_vectors
-// - deliverable_run_phases
-// - run_jobs
-// - run_otf_instructions
-// - stream_logs
-// - generated_assets
-// - events
-// - error_logs
-// - token_costs
+export type {
+  AssetPackGeneratedAsset,
+  AssetPackGeneratedAssetInsert,
+  AssetPackGeneratedAssetUpdate,
+  AssetPackPhaseExecution,
+  AssetPackPhaseExecutionInsert,
+  AssetPackPhaseExecutionUpdate,
+  AssetPackRunInstruction,
+  AssetPackRunInstructionInsert,
+  AssetPackRunInstructionUpdate,
+  AssetPackRunJob,
+  AssetPackRunJobInsert,
+  AssetPackRunJobUpdate,
+  AssetPackStreamLog,
+  AssetPackStreamLogInsert,
+  AssetPackStreamLogUpdate,
+  AssetPackVector,
+  AssetPackVectorInsert,
+  AssetPackVectorUpdate,
+  BitcodeActivityEvent,
+  BitcodeActivityEventInsert,
+  BitcodeActivityEventUpdate,
+  BitcodeErrorLog,
+  BitcodeErrorLogInsert,
+  BitcodeErrorLogUpdate,
+  BitcodeTokenCost,
+  BitcodeTokenCostInsert,
+  BitcodeTokenCostUpdate,
+} from './bitcode-execution-storage';
