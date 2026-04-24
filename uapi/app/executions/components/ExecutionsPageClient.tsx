@@ -8,7 +8,6 @@ import DeliverablesDocPanel from '@/components/base/bitcode/execution/Deliverabl
 import DeliverablesCardsPanel from '@/components/base/bitcode/execution/DeliverablesCardsPanel';
 import BitcodeExecutionStreamPanel from '@/components/base/bitcode/execution/BitcodeExecutionStreamPanel';
 import { ErrorBox } from '@/components/base/bitcode/execution/error-box';
-import { PreprocessToggle } from '@/components/base/bitcode/execution/preprocess-toggle';
 import { VCSSourceSelectors as RawVCSSourceSelectors } from '@/components/base/bitcode/vcs/VCSSourceSelectors';
 import { UrlAttachments } from '@/components/base/bitcode/execution/url-attachments';
 import { IntegrationsSelector, IntegrationItem } from '@/components/base/bitcode/execution/integrations-selector';
@@ -28,7 +27,6 @@ import ExecutionsInstructions from '@/app/executions/components/ExecutionsInstru
 import { ExecutionsExecuteButton as ExecuteButton } from '@/app/executions/components/ExecutionsExecuteButton';
 import { IterationSlider } from '@/components/base/bitcode/interactions/IterationSlider';
 import FlipText from '@/components/base/bitcode/layout/sidebars/FlipText';
-import { ENABLE_OTF_INSTRUCTIONS, ENABLE_COMPUTE_TOGGLE, ENABLE_MULTI_AGENT_TOGGLE } from '@/config/featureFlags';
 import { templates as defaultTemplates } from '@/config/templates';
 import type { DeliverableTemplates } from '@/types/templates';
 import { useTemplatePreferences } from '@/hooks/useTemplatePreferences';
@@ -201,13 +199,9 @@ export function ExecutionsClient() {
   const [loadingUrls, setLoadingUrls] = useState<Set<string>>(new Set());
   const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
   const [selectedIntegrations, setSelectedIntegrations] = useState<IntegrationItem[]>([]);
-  const [computeEnabled, setComputeEnabled] = useState(false);
-  const [multiAgentEnabled, setMultiAgentEnabled] = useState(false);
   const [iterationCount, setIterationCount] = useState<number>(3);
   const [showSourceEdu, setShowSourceEdu] = useState(false);
   const [showAttachmentsEdu, setShowAttachmentsEdu] = useState(false);
-  const [showComputeEdu, setShowComputeEdu] = useState(false);
-  const [showMultiAgentEdu, setShowMultiAgentEdu] = useState(false);
   const [showEnhanceEdu, setShowEnhanceEdu] = useState(false);
   const [showSaveTemplateEdu, setShowSaveTemplateEdu] = useState(false);
   const [showExecuteButtonEdu, setShowExecuteButtonEdu] = useState(false);
@@ -421,10 +415,6 @@ export function ExecutionsClient() {
     return merged;
   }, [activeRunId, currentGuide, historyFWS, liveProcessingStats]);
 
-  // Preprocess URL chip
-  useEffect(() => {
-    if (typeof window === 'undefined') return; const params = new URLSearchParams(window.location.search); const preprocess = (params.get('preprocess') || '').toLowerCase(); if (!preprocess) return; if (preprocess === 'multi') setMultiAgentEnabled(true); if (preprocess === 'compute') setComputeEnabled(true); }, []);
-
   if (!onboardingChecked) return (<><div className="h-[calc(100vh-9rem)]" /><div className="fixed inset-x-0 top-36 bottom-0 skeleton-shine" /></>);
   if (!onboardingAllowed) {
     return (
@@ -488,8 +478,6 @@ export function ExecutionsClient() {
         modelProvider,
         modelId,
         attachmentsPayload,
-        computeEnabled,
-        multiAgentEnabled,
         iterationCount,
         selectedFiles,
         { pipelineType: 'agentic-execution:branch-artifact' }
@@ -527,8 +515,6 @@ export function ExecutionsClient() {
           postprocessed={headerPostprocessed || undefined}
           showSourceEdu={showSourceEdu}
           showAttachmentsEdu={showAttachmentsEdu}
-          showComputeEdu={showComputeEdu}
-          showMultiAgentEdu={showMultiAgentEdu}
           showEnhanceEdu={showEnhanceEdu}
           showSaveTemplateEdu={showSaveTemplateEdu}
           showExecuteButtonEdu={showExecuteButtonEdu}
@@ -626,7 +612,7 @@ export function ExecutionsClient() {
                 (definitionOfDone || '').trim() === ''
               }
               onEducationHover={(type) => {
-                setShowMultiAgentEdu(false); setShowSourceEdu(false); setShowAttachmentsEdu(false); setShowComputeEdu(false); setShowEnhanceEdu(false); setShowSaveTemplateEdu(false); setShowExecuteButtonEdu(false);
+                setShowSourceEdu(false); setShowAttachmentsEdu(false); setShowEnhanceEdu(false); setShowSaveTemplateEdu(false); setShowExecuteButtonEdu(false);
                 if (type === 'iterations') setShowIterationsEdu(true);
                 else if (type === 'minimize' || type === 'maximize') setShowIterationsEdu(type);
                 else setShowIterationsEdu(null);
@@ -636,12 +622,7 @@ export function ExecutionsClient() {
         )}
 
         <div className="flex items-center justify-center space-x-8 z-10">
-          {ENABLE_MULTI_AGENT_TOGGLE && (
-            <div className="relative" onMouseEnter={() => { setShowMultiAgentEdu(true); setShowSourceEdu(false); setShowAttachmentsEdu(false); setShowComputeEdu(false); setShowEnhanceEdu(false); setShowSaveTemplateEdu(false); setShowExecuteButtonEdu(false); }} onMouseLeave={() => setShowMultiAgentEdu(false)}>
-              <PreprocessToggle enabled={multiAgentEnabled} onToggle={() => setMultiAgentEnabled(!multiAgentEnabled)} type="multi" />
-            </div>
-          )}
-          <div className="relative z-20" onMouseEnter={() => { setShowExecuteButtonEdu(true); setShowSourceEdu(false); setShowAttachmentsEdu(false); setShowComputeEdu(false); setShowMultiAgentEdu(false); setShowEnhanceEdu(false); setShowSaveTemplateEdu(false); }} onMouseLeave={() => setShowExecuteButtonEdu(false)}>
+          <div className="relative z-20" onMouseEnter={() => { setShowExecuteButtonEdu(true); setShowSourceEdu(false); setShowAttachmentsEdu(false); setShowEnhanceEdu(false); setShowSaveTemplateEdu(false); }} onMouseLeave={() => setShowExecuteButtonEdu(false)}>
             <ExecuteButton
               isProcessing={isProcessing}
               onSubmit={onExecuteSubmit}
@@ -658,11 +639,6 @@ export function ExecutionsClient() {
               }
             />
           </div>
-          {ENABLE_COMPUTE_TOGGLE && (
-            <div className="relative" onMouseEnter={() => { setShowComputeEdu(true); setShowSourceEdu(false); setShowAttachmentsEdu(false); setShowMultiAgentEdu(false); setShowEnhanceEdu(false); setShowSaveTemplateEdu(false); setShowExecuteButtonEdu(false); }} onMouseLeave={() => setShowComputeEdu(false)}>
-              <PreprocessToggle enabled={computeEnabled} onToggle={() => setComputeEnabled(!computeEnabled)} type="compute" />
-            </div>
-          )}
         </div>
         {combinedError && (
           <div className="max-w-4xl mx-auto mt-4">

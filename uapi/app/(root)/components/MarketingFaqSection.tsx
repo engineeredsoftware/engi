@@ -14,7 +14,7 @@ const faqs = [
   {
     question: 'Everyone\'s building "amazing agents". These are...?',
     answer:
-      "Amazing coding agents! Simple shepherding, proactive preparation, reactive calibration, deep iteration scoping, research and computer use tools, progress logging, OTF steering, measured-knowledge procurement, diverse command interfaces, 3rd-party integrations, and much more make Bitcode software agents state-of-the-art technical collaborators. Everyone from non-technical solopreneurs to large industrial engineering teams use Bitcode to make sure their software development operations are lean, mean, and green.",
+      "Source-to-shares inference systems. Simple shepherding, proactive preparation, reactive calibration, deep iteration scoping, source-attributed research evidence, progress logging, measured-knowledge procurement, diverse command interfaces, 3rd-party integrations, and much more make Bitcode a technical collaborator for measuring Needs, finding fits, and delivering AssetPacks. Everyone from non-technical solopreneurs to large industrial engineering teams use Bitcode to make software development operations lean, mean, and green.",
   },
   {
     question: "So... is this a crypto scam?",
@@ -49,7 +49,7 @@ const faqs = [
   {
     question: "Can it be cheaper?",
     answer:
-      "Currently, S-tier reasoning models average ~$20/million tokens. Completing realistic engineering tasks typically require millions of tokens to consistently produce complete, correct, and high-quality deliverables. Opt-in compute typically roughly doubles the cost and time though is calculated precisely per use.",
+      "Currently, S-tier reasoning models average ~$20/million tokens. Completing realistic engineering tasks typically require millions of tokens to consistently produce complete, correct, and high-quality deliverables. Bitcode accounts for Need measurement, fit search, AssetPack synthesis, and connected-interface delivery precisely per run.",
   },
   {
     question: "What are 'coins', 'tokens', and '$BTD'?",

@@ -1,7 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.notifyOutOfCredits = exports.notifyOutOfBtd = exports.notifyLowCreditsReminder = exports.notifyLowBtdReminder = exports.notifyDeliverableCompleted = exports.notifyDeliverableStarted = exports.notifyNewsletter = exports.notifyCreditTransfer = exports.notifyBtdTransfer = exports.postDeliverableInstruction = exports.fetchDeliverableInstructions = exports.fetchPostprocessed = exports.fetchPipelineExecutionHistory = exports.callDeliverablesAPI = exports.fetchFiles = exports.fetchIssuesAndPRs = exports.fetchCommits = exports.fetchBranchesAndInfo = exports.fetchRepositories = exports.fetchAccounts = void 0;
-const featureFlags_1 = require("@/config/featureFlags");
 const fetchAccounts = async () => {
     try {
         const response = await fetch('/api/vcs?resource=accounts&provider=github', {
@@ -92,15 +91,12 @@ exports.fetchFiles = fetchFiles;
 const callDeliverablesAPI = async (connectionId, repoOwner, repoName, repoBranch, commitSha, issueNumber, definitionOfDone, userTimezone, modelProvider, modelId, 
 /** Optional attachments provided by user */
 attachments, 
-/** Optional flags: compute mode and multi-agent mode */
-computeEnabled = false, multiAgentEnabled = false, 
 /** Number of iterations for the pipeline */
 iterationCount = 3, 
 /** Optional file uploads */
 files, 
 /** Canonical execution type for retained delivery substrate */
 pipelineType = 'agentic-execution:branch-artifact') => {
-    const computeEnabledEffective = featureFlags_1.ENABLE_COMPUTE_TOGGLE ? computeEnabled : false;
     let body;
     let headers = {
         'X-User-Timezone': userTimezone,
@@ -120,8 +116,6 @@ pipelineType = 'agentic-execution:branch-artifact') => {
             modelProvider,
             modelId,
             attachments,
-            computeEnabled: computeEnabledEffective,
-            multiAgentEnabled,
             iterationCount,
             pipeline_type: pipelineType
         }));
@@ -146,8 +140,6 @@ pipelineType = 'agentic-execution:branch-artifact') => {
             modelProvider,
             modelId,
             attachments,
-            computeEnabled: computeEnabledEffective,
-            multiAgentEnabled,
             iterationCount,
             pipeline_type: pipelineType
         });

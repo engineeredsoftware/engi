@@ -1,23 +1,22 @@
 import React from 'react';
 import { trackEvent } from '@bitcode/google-analytics';
 
-interface ToggleButtonProps {
+interface ExecutionOptionToggleProps {
   enabled: boolean;
   onToggle: () => void;
-  type: 'compute' | 'multi';
+  type: 'computer-use-measurement' | 'fit-review';
   disabled?: boolean;
   /** Additional tracking metadata for analytics */
   trackingMetadata?: Record<string, any>;
 }
 
-export const ToggleButton = ({ enabled, onToggle, type, disabled = false, trackingMetadata = {} }: ToggleButtonProps) => {
-  const isCompute = type === 'compute';
-  const isMulti = type === 'multi';
+export const ToggleButton = ({ enabled, onToggle, type, disabled = false, trackingMetadata = {} }: ExecutionOptionToggleProps) => {
+  const isComputerUseMeasurement = type === 'computer-use-measurement';
 
   // Map type to human-readable label (used for accessibility & tooltip)
-  const labelMap: Record<ToggleButtonProps['type'], string> = {
-    compute: 'Compute',
-    multi: 'Multi',
+  const labelMap: Record<ExecutionOptionToggleProps['type'], string> = {
+    'computer-use-measurement': 'Computer-use Need measurement',
+    'fit-review': 'Fit review',
   };
 
   return (
@@ -138,9 +137,9 @@ export const ToggleButton = ({ enabled, onToggle, type, disabled = false, tracki
           stroke={enabled ? '#67feb7' : 'currentColor'}
           strokeWidth={1.5}
         >
-        {isCompute ? (
+        {isComputerUseMeasurement ? (
             <>
-              {/* CPU Grid */}
+              {/* Internal computer-use measurement grid */}
               <rect
                 x="5" y="5"
                 width="14" height="14"
@@ -182,7 +181,7 @@ export const ToggleButton = ({ enabled, onToggle, type, disabled = false, tracki
             </>
           ) : (
             <>
-              {/* Central Node */}
+              {/* Central fit-review evidence node */}
               <circle
                 cx="12"
                 cy="12"
@@ -192,10 +191,10 @@ export const ToggleButton = ({ enabled, onToggle, type, disabled = false, tracki
                 strokeDasharray={enabled ? "20" : "0"}
                 strokeDashoffset={enabled ? "20" : "0"}
                 style={{
-                  animation: enabled ? "multiAgentDash 1.5s ease-out forwards" : "none"
+                  animation: enabled ? "bitcodeOptionDash 1.5s ease-out forwards" : "none"
                 }}
               />
-              {/* Satellite Nodes */}
+              {/* Evidence nodes */}
               {[
                 { cx: 7, cy: 7 },
                 { cx: 17, cy: 7 },
@@ -212,11 +211,11 @@ export const ToggleButton = ({ enabled, onToggle, type, disabled = false, tracki
                   strokeDasharray={enabled ? "15" : "0"}
                   strokeDashoffset={enabled ? "15" : "0"}
                   style={{
-                    animation: enabled ? `multiAgentDash 1.5s ease-out ${0.2 * (i + 1)}s forwards` : "none"
+                    animation: enabled ? `bitcodeOptionDash 1.5s ease-out ${0.2 * (i + 1)}s forwards` : "none"
                   }}
                 />
               ))}
-              {/* Connection Lines */}
+              {/* Evidence relationship lines */}
               <path
                 className="transition-all duration-500"
                 strokeLinecap="round"
@@ -226,7 +225,7 @@ export const ToggleButton = ({ enabled, onToggle, type, disabled = false, tracki
                 strokeDasharray={enabled ? "50" : "0"}
                 strokeDashoffset={enabled ? "50" : "0"}
                 style={{
-                  animation: enabled ? "multiAgentDash 1.5s ease-out 1s forwards" : "none"
+                  animation: enabled ? "bitcodeOptionDash 1.5s ease-out 1s forwards" : "none"
                 }}
               />
             </>
@@ -245,3 +244,6 @@ export const ToggleButton = ({ enabled, onToggle, type, disabled = false, tracki
     </button>
   );
 };
+
+export const ExecutionOptionToggle = ToggleButton;
+export default ToggleButton;

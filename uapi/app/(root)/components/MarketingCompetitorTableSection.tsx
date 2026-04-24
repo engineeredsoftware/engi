@@ -183,27 +183,27 @@ const BITCODE_CRUSH_COPY: Record<(typeof COLUMNS)[number], CrushCopy> = {
     ],
   },
   "Infinite Agents": {
-    headline: "Elastic Expertise",
+    headline: "Bounded Inference",
     points: [
-      "No agent caps or quotas",
-      "Specialist agents spin-up in ms",
-      "Parallel reasoning at lightning speed",
+      "Need-first inference stages",
+      "Proof-visible execution records",
+      "No unbounded agent claims",
     ],
   },
   "Shepherding at Scale": {
-    headline: "Command a Swarm",
+    headline: "Source-to-Shares Control",
     points: [
-      "Chat-driven multi-agent pipelines",
+      "Reviewable Need measurement",
       "Live, step-level visibility",
-      "One command to orchestrate thousands",
+      "Settlement-bound AssetPacks",
     ],
   },
   "Auto Agent Sequencing": {
-    headline: "Coded Choreography",
+    headline: "Specified Phases",
     points: [
-      "Understands dependency graphs",
-      "Dynamically reorders tasks mid-flight",
-      "Progress bars—not endless prompts",
+      "Setup through Finish is explicit",
+      "Fit review before settlement",
+      "Proof receipts over ceremony",
     ],
   },
   "Deep Evolution": {

@@ -40,9 +40,9 @@ const features = [
     textColor: 'text-purple-400',
   },
   {
-    id: 'multi-agent',
-    title: 'Advanced Multi-Agent Collaboration',
-    description: 'Harness the power of hundreds of specialized AI agents working together in complex orchestration to solve engineering challenges with unprecedented precision and creativity.',
+    id: 'measurement-evidence',
+    title: 'Need Measurement Evidence',
+    description: 'Bind source, benchmarks, static analysis, and reviewable Need evidence before Bitcode searches for source-to-shares fit.',
     icon: (
       <svg className="w-6 h-6" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
         <path d="M17 21V19C17 17.9391 16.5786 16.9217 15.8284 16.1716C15.0783 15.4214 14.0609 15 13 15H5C3.93913 15 2.92172 15.4214 2.17157 16.1716C1.42143 16.9217 1 17.9391 1 19V21" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
@@ -260,18 +260,18 @@ const MarketingFeaturesGrid = () => {
               </div>
             )}
 
-            {activeFeature === 'multi-agent' && (
+            {activeFeature === 'measurement-evidence' && (
               <div className="space-y-3">
                 <div className={infoCardClass}>
-                  <h4 className="text-xs font-medium mb-1 text-emerald-400 font-mono">Specialized Agents</h4>
+                  <h4 className="text-xs font-medium mb-1 text-emerald-400 font-mono">Measured Need</h4>
                   <p className="text-xs text-gray-400">
-                    Each agent has specific expertise: architects design solutions, researchers gather context, coders implement features, testers validate quality, and more.
+                    Bitcode synthesizes a reviewable Need from repository evidence before any fit search or AssetPack settlement begins.
                   </p>
                 </div>
                 <div className={infoCardClass}>
-                  <h4 className="text-xs font-medium mb-1 text-emerald-400 font-mono">Configurable Workflows</h4>
+                  <h4 className="text-xs font-medium mb-1 text-emerald-400 font-mono">Proof-Carrying Inputs</h4>
                   <p className="text-xs text-gray-400">
-                    Arrange agents in sequential or parallel groups to optimize for your specific engineering needs and task requirements.
+                    Static and inferred measurement receipts make the Need inspectable before Bitcode accepts it for source-to-shares settlement.
                   </p>
                 </div>
               </div>

@@ -3298,13 +3298,21 @@ const V26_SYSTEM_REFORM_DECISIONS = [
     ]
   },
   {
-    checkId: 'use-computer-reference-boundary',
-    label: 'Retained shell-execution tooling remains explicit reference-only automation',
-    reformClass: 'reference-only',
-    livePathRole: 'Shell execution may support admitted tooling paths, but it is not a Bitcode state owner.',
+    checkId: 'computer-use-need-measurement-boundary',
+    label: 'Retained computer-use tooling is internal Need-measurement support only',
+    reformClass: 'ingress-or-support',
+    livePathRole: 'Computer use may supply server-flagged Need-measurement evidence under BITCODE_ENABLE_COMPUTER_USE_NEED_MEASUREMENT, but it is not a Terminal option, implementation agent tool, Finish/Delivering tool, multi-agent substitute, or Bitcode state owner.',
     requiredFiles: [
       'packages/generic-tools/use-computer/src/index.ts',
-      'packages/pipelines/deliverable/src/tools/DeliverablePipelineUseComputerTool.ts'
+      'packages/generic-tools/use-computer/src/prompts/UseComputerDocCodeToolPrompt.ts',
+      'packages/prompts/src/raw_promptparts/specific/promptpart_specific_tool_usecomputer_doccodetoolpurpose.ts',
+      'packages/pipelines/deliverable/src/tools/DeliverablePipelineUseComputerTool.ts',
+      'packages/pipelines/deliverable/src/tools/index.ts',
+      'packages/api/src/routes/deliverables.ts',
+      'packages/execution-generics/src/store/registry.ts',
+      'uapi/app/executions/components/ExecutionsPageClient.tsx',
+      'uapi/components/base/bitcode/execution/execution-option-toggle.tsx',
+      'protocol-demonstration/test/v26-active-product-naming.test.js'
     ]
   },
   {

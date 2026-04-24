@@ -1,7 +1,7 @@
 import React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
-import { PreprocessToggle as ToggleButton } from '@/components/base/bitcode/execution/preprocess-toggle';
+import { ExecutionOptionToggle } from '@/components/base/bitcode/execution/execution-option-toggle';
 import ExecuteButton from '@/components/base/bitcode/execution/execute-button';
 
 const meta = {
@@ -9,8 +9,8 @@ const meta = {
   component: ExecuteButton,
   tags: ['autodocs'],
   argTypes: {
-    multiEnabled: { control: 'boolean' },
-    computeEnabled: { control: 'boolean' },
+    fitReviewEnabled: { control: 'boolean' },
+    computerUseMeasurementEnabled: { control: 'boolean' },
     isProcessing: { control: 'boolean' },
     disabled: { control: 'boolean' },
   },
@@ -20,22 +20,22 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 const Template: Story = {
-  render: ({ multiEnabled, computeEnabled, ...buttonArgs }) => (
+  render: ({ fitReviewEnabled, computerUseMeasurementEnabled, ...buttonArgs }) => (
     <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
-      <ToggleButton
-        enabled={multiEnabled}
-        onToggle={action('toggle-multi')}
-        type="multi"
+      <ExecutionOptionToggle
+        enabled={fitReviewEnabled}
+        onToggle={action('toggle-fit-review')}
+        type="fit-review"
       />
       <ExecuteButton
         isProcessing={buttonArgs.isProcessing}
         onSubmit={action('onSubmit')}
         disabled={buttonArgs.disabled}
       />
-      <ToggleButton
-        enabled={computeEnabled}
-        onToggle={action('toggle-compute')}
-        type="compute"
+      <ExecutionOptionToggle
+        enabled={computerUseMeasurementEnabled}
+        onToggle={action('toggle-computer-use-measurement')}
+        type="computer-use-measurement"
       />
     </div>
   ),
@@ -44,8 +44,8 @@ const Template: Story = {
 export const Default: Story = {
   ...Template,
   args: {
-    multiEnabled: false,
-    computeEnabled: false,
+    fitReviewEnabled: false,
+    computerUseMeasurementEnabled: false,
     isProcessing: false,
     disabled: false,
   },
@@ -54,8 +54,8 @@ export const Default: Story = {
 export const Processing: Story = {
   ...Template,
   args: {
-    multiEnabled: false,
-    computeEnabled: false,
+    fitReviewEnabled: false,
+    computerUseMeasurementEnabled: false,
     isProcessing: true,
     disabled: false,
   },
@@ -65,8 +65,8 @@ export const Processing: Story = {
 export const AllEnabled: Story = {
   ...Template,
   args: {
-    multiEnabled: true,
-    computeEnabled: true,
+    fitReviewEnabled: true,
+    computerUseMeasurementEnabled: true,
     isProcessing: false,
     disabled: false,
   },
@@ -76,8 +76,8 @@ export const AllEnabled: Story = {
 export const Disabled: Story = {
   ...Template,
   args: {
-    multiEnabled: false,
-    computeEnabled: false,
+    fitReviewEnabled: false,
+    computerUseMeasurementEnabled: false,
     isProcessing: false,
     disabled: true,
   },

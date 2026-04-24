@@ -55,6 +55,6 @@ See `internal-docs/STYLE.md` for full guidance.
 Reusable Bitcode-branded UI that is shared across features lives flat under `bitcode/` (no `ui/` nesting):
 - `bitcode/typing-animation.tsx`, `bitcode/multi-line-typing-animation.tsx`
 - `bitcode/quantum-button.tsx`, `bitcode/word-rotate.tsx`
-- `bitcode/metal-plate.tsx`, `bitcode/dock.tsx`, `bitcode/multi-agents-icon.tsx`, `bitcode/particle-effect.tsx`
+- `bitcode/metal-plate.tsx`, `bitcode/dock.tsx`, `bitcode/particle-effect.tsx`
 
 App code may import these directly, and page-specific components should be colocated under the page (e.g., `app/executions/components/*`) while reusing these base components.

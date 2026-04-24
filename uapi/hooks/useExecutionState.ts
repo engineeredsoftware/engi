@@ -2,7 +2,6 @@ import { useState, useCallback, useRef } from 'react';
 import { CompletionData, UrlEntry } from '../types/api';
 import { parseStreamChunk } from '@/streaming/stream-parser';
 import { callDeliverablesAPI } from '../networking/api-client';
-import { ENABLE_COMPUTE_TOGGLE } from '@/config/featureFlags';
 
 import { ExecutionPhase, ExecutionStep, FailsafeStep, GenerationStep } from '@bitcode/streams';
 
@@ -94,10 +93,6 @@ export const useExecutionState = () => {
     modelId: string,
     /** Optional attachments provided by the user */
     attachments: { id: string; type: string; content: string }[] = [],
-    /** Enable compute mode */
-    computeEnabled: boolean = false,
-    /** Enable multi-agent mode */
-    multiAgentEnabled: boolean = false,
     /** Number of iterations */
     iterationCount: number = 3,
     /** Optional file uploads */
@@ -125,8 +120,7 @@ export const useExecutionState = () => {
     let hasError = false;
     let finalCompletion: import('../types/api').CompletionData | null = null;
     try {
-      const computeEnabledEffective = ENABLE_COMPUTE_TOGGLE ? computeEnabled : false;
-      dlog('Submitting Bitcode asset-pack pipeline', { connectionId, repoOwner, repoName, repoBranch, commitSha, issueNumber, modelProvider, modelId, attachmentsCount: attachments?.length || 0, computeEnabled: computeEnabledEffective, multiAgentEnabled, iterationCount });
+      dlog('Submitting Bitcode asset-pack pipeline', { connectionId, repoOwner, repoName, repoBranch, commitSha, issueNumber, modelProvider, modelId, attachmentsCount: attachments?.length || 0, iterationCount });
       const pipelineType =
         options?.pipelineType || DEFAULT_BRANCH_ARTIFACT_EXECUTION_TYPE;
       const stream = await callDeliverablesAPI(
@@ -141,8 +135,6 @@ export const useExecutionState = () => {
             modelProvider,
             modelId,
             attachments,
-            computeEnabledEffective,
-            multiAgentEnabled,
             iterationCount,
             files,
             pipelineType

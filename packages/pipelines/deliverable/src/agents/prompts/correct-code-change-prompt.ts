@@ -135,9 +135,8 @@ export function createCorrectCodeChangeTryPrompt(): Prompt {
   prompt.set('directive', PROMPTPART_GENERIC_FORMATTING_EXECUTETHE_FOLLOWING);
   prompt.set('objective', PROMPTPART_GENERIC_PTRR_TRY_OBJECTIVE);
   prompt.set('execution', PROMPTPART_SPECIFIC_AGENT_CORRECTCODECHANGE_TRY_DIRECTIVES);
-  // Tool policy: prefer code reading; only select use-computer when a quick, local command materially
-  // improves error detection (e.g., `npm test --silent`, `npm run -s type-check`, `git status --porcelain`).
-  // When selecting, set output.useTools = [{ name: 'deliverable-pipeline-use-computer-tool', input: { command: '<cmd>' }, reason }].
+  // V26 policy: computer use is not an implementation-correction tool. It is
+  // reserved for internal, feature-flagged Need-measurement evidence.
   prompt.set('output_requirement', PROMPTPART_SPECIFIC_AGENT_CORRECTCODECHANGE_TRY_OUTPUT_REQUIREMENT_DETAILCONTENT);
   // Generic scaffolding
   prompt.set('generation:json_only_header', PROMPTPART_GENERIC_AGENT_GENERATION_JSON_ONLY_HEADER as any);

@@ -177,6 +177,7 @@ Required system families:
 - migration/schema/type/API closure for retained storage systems
 - retained-package admissibility proof
 - retained old-world kept/cut/isolated reform baseline
+- explicit removal proof for old-world multi-agent / multi-deliverable execution controls and internal-only `use-computer` Need-measurement admission under `BITCODE_ENABLE_COMPUTER_USE_NEED_MEASUREMENT`
 - active-source product naming retirement
 - fifth-gate closure witnesses for retained app/package/runtime carriers
 - proof-bearing closure for newly admitted application, API, MCP, prompt, ChatGPT-app, and retained package systems at the same standard as the earlier proved Bitcode core
@@ -1123,11 +1124,11 @@ Required closure posture:
   filtered `tsc` verification over the active `uapi` program for the retained generic-tool caller corridor
   proof surface:
   fifth-gate retained caller-contract compile-health closure so file-maintaining uses the canonical pipelines-generics entrypoint, multimodal-processing uses the actual Bitcode `factoryTool` contract plus typed optional Figma context, and repository-setup no longer preserves the half-ported provider/auth shape assumptions that sat above the reusable VCS abstraction layer
-- `{packages/generic-tools/{mcps-tools/jira/src/index.ts,multimodal-processing/src/index.ts,use-computer/src/index.ts},packages/pipelines/deliverable/src/tools/DeliverablePipelineUseComputerTool.ts}`
+- `{packages/generic-tools/{mcps-tools/jira/src/index.ts,multimodal-processing/src/index.ts,use-computer/src/index.ts},packages/pipelines/deliverable/src/tools/{DeliverablePipelineUseComputerTool.ts,index.ts},packages/api/src/routes/deliverables.ts,uapi/app/executions/components/{ExecutionsPageClient.tsx,ExecutionsToggleButtons.tsx},uapi/components/base/bitcode/execution/{toggle-buttons.tsx,execution-option-toggle.tsx}}`
   test coverage:
   filtered `tsc` verification over the active `uapi` program for the retained Jira/multimodal/use-computer caller corridor
   proof surface:
-  fifth-gate retained caller-contract compile-health closure so Jira tool execution no longer preserves nullable connection or optional-started worklog drift, multimodal-processing re-exports only the kept factory-tool surface, and shell-execution tools plus the deliverable wrapper now use the actual Bitcode `Tool` property contract instead of the older schema-class pattern
+  fifth-gate retained caller-contract compile-health and reform closure so Jira tool execution no longer preserves nullable connection or optional-started worklog drift, multimodal-processing re-exports only the kept factory-tool surface, shell-execution tools plus the deliverable wrapper use the actual Bitcode `Tool` property contract instead of the older schema-class pattern, use-computer is admitted only as internal Need-measurement evidence behind `BITCODE_ENABLE_COMPUTER_USE_NEED_MEASUREMENT`, and old Terminal/API multi-agent plus compute toggles are removed rather than preserved as V26 controls
 - `{packages/pipelines/deliverable/src/{tools/{DeliverablePipelineCloneVCSRepositoryTool.ts,DeliverablePipelineMultimodalProcessingTool.ts,DeliverablePipelineAudioComprehensionTool.ts,DeliverablePipelineImageComprehensionTool.ts,DeliverablePipelinePDFComprehensionTool.ts,DeliverablePipelineVideoComprehensionTool.ts,index.ts},agents/shipping/deliverable-pipeline-ship-agent.ts}}`
   test coverage:
   filtered `tsc` verification over the active `uapi` program for the Bitcode asset-pack tool wrapper and Finish/Delivering corridor

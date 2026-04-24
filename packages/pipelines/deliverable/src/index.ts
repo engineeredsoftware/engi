@@ -39,8 +39,7 @@ function storePreprocessedSnapshot(execution: Execution, processedInput: any, de
     },
     requirements: processedInput?.requirements || null,
     config: {
-      computeEnabled: !!execution.get('config', 'computeEnabled'),
-      multiAgentEnabled: !!execution.get('config', 'multiAgentEnabled'),
+      computerUseNeedMeasurementEnabled: !!execution.get('config', 'computerUseNeedMeasurementEnabled'),
     },
   };
 

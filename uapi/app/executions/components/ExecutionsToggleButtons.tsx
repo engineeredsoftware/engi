@@ -1,1 +1,1 @@
-export { PreprocessToggle as default } from '@/components/base/bitcode/execution/preprocess-toggle';
+export { ExecutionOptionToggle as default } from '@/components/base/bitcode/execution/execution-option-toggle';

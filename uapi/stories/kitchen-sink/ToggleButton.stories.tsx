@@ -1,22 +1,22 @@
 import React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 
-import { PreprocessToggle as ToggleButton } from '@/components/base/bitcode/execution/preprocess-toggle';
+import { ExecutionOptionToggle } from '@/components/base/bitcode/execution/execution-option-toggle';
 
 const meta = {
-  title: 'Kitchen-Sink/ToggleButton',
-  component: ToggleButton,
+  title: 'Kitchen-Sink/ExecutionOptionToggle',
+  component: ExecutionOptionToggle,
   tags: ['autodocs'],
   parameters: { backgrounds: { default: 'dark' }, layout: 'centered' },
   argTypes: {
     enabled: { control: 'boolean' },
-    type: { control: { type: 'radio' }, options: ['multi', 'compute'] },
+    type: { control: { type: 'radio' }, options: ['fit-review', 'computer-use-measurement'] },
   },
   args: {
     enabled: false,
-    type: 'multi',
+    type: 'fit-review',
   },
-} satisfies Meta<typeof ToggleButton>;
+} satisfies Meta<typeof ExecutionOptionToggle>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;

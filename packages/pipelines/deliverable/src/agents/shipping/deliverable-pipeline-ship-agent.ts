@@ -2,7 +2,7 @@
  * Deliverable Finish Phase - Deliver Agent (PTRR)
  *
  * Executes final Delivering actions depending on written-asset type:
- * - code-change: commit + push with use-computer (git), then create PR via VCS tool
+ * - code-change: use VCS delivery wrappers after written assets are already synthesized
  * - code-change-review: submit review comment via VCS tool
  * - design-document: create issue via VCS tool
  * - design-document-review: add comment via VCS tool
@@ -37,9 +37,9 @@ const stepPrompts = {
   plan: () => { const p = new Prompt(); p.set('step:purpose', 'Plan the exact Finish/Delivering actions based on written-asset type and requested delivery destination.' as any); return p; },
   try: () => {
     const p = new Prompt();
-    p.set('step:purpose', 'Execute Delivering actions. Prefer VCS tools. For code-change, commit+push with use-computer then create PR.' as any);
+    p.set('step:purpose', 'Execute Delivering actions through VCS tools after written assets are already synthesized.' as any);
     // Instruction for tool selection
-    p.set('tools:policy', 'If written-asset type is code-change: use use-computer to run git commands in workspacePath, then call vcs_create_pull_request. For design-document: call vcs_create_issue. For reviews: call vcs_create_comment with appropriate target.' as any);
+    p.set('tools:policy', 'If written-asset type is code-change: call vcs_create_pull_request using the prepared written-asset context. For design-document: call vcs_create_issue. For reviews: call vcs_create_comment with appropriate target. Computer use is reserved for internal Need-measurement evidence and is not a V26 Delivering tool.' as any);
     return p;
   },
   refine: () => { const p = new Prompt(); p.set('step:purpose', 'Adjust actions if initial attempts failed (e.g., branch exists).' as any); return p; },
@@ -52,7 +52,6 @@ export const DeliverablePipelineFinishPhaseDeliverAgent = factoryAgentWithPTRR<a
   outputSchema: FinishDeliveryOutputSchema as any,
   // Tools available to this agent
   tools: [
-    'deliverable-pipeline-use-computer-tool',
     'vcs_create_pull_request',
     'vcs_create_issue',
     'vcs_create_comment'

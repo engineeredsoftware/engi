@@ -105,10 +105,9 @@ export const EXECUTION_NAMESPACES = {
     'description',   // string
   ],
   config: [
-    'computeEnabled',    // boolean
-    'multiAgentEnabled', // boolean
-    'iterationCount',    // number
-    'mcpConfig',         // object (AI Documents / Measure overlay only)
+    'computerUseNeedMeasurementEnabled', // boolean — internal V26 feature flag
+    'iterationCount',                    // number
+    'mcpConfig',                         // object (AI Documents / Measure overlay only)
   ],
   attachments: [
     'list',          // array of attachment references

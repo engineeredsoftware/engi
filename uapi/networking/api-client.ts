@@ -7,7 +7,6 @@ import type {
   PipelineExecution,
   PostprocessedResult
 } from '../types/api';
-import { ENABLE_COMPUTE_TOGGLE } from '@/config/featureFlags';
 
 export const fetchAccounts = async (): Promise<Account[]> => {
   try {
@@ -104,9 +103,6 @@ export const callDeliverablesAPI = async (
   modelId: string,
   /** Optional attachments provided by user */
   attachments?: { id: string; type: string; content: string }[],
-  /** Optional flags: compute mode and multi-agent mode */
-  computeEnabled: boolean = false,
-  multiAgentEnabled: boolean = false,
   /** Number of iterations for the pipeline */
   iterationCount: number = 3,
   /** Optional file uploads */
@@ -114,7 +110,6 @@ export const callDeliverablesAPI = async (
   /** Canonical execution type for retained delivery substrate */
   pipelineType: string = 'agentic-execution:branch-artifact'
 ): Promise<ReadableStream<Uint8Array> | null> => {
-  const computeEnabledEffective = ENABLE_COMPUTE_TOGGLE ? computeEnabled : false;
   let body: BodyInit;
   let headers: HeadersInit = {
     'X-User-Timezone': userTimezone,
@@ -136,8 +131,6 @@ export const callDeliverablesAPI = async (
       modelProvider,
       modelId,
       attachments,
-      computeEnabled: computeEnabledEffective,
-      multiAgentEnabled,
       iterationCount,
       pipeline_type: pipelineType
     }));
@@ -163,8 +156,6 @@ export const callDeliverablesAPI = async (
       modelProvider,
       modelId,
       attachments,
-      computeEnabled: computeEnabledEffective,
-      multiAgentEnabled,
       iterationCount,
       pipeline_type: pipelineType
     });

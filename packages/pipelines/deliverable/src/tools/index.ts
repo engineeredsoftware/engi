@@ -19,8 +19,18 @@ import { deliverablePipelineVideoComprehensionTool } from './DeliverablePipeline
 import { createPullRequestTool, createIssueTool, createCommentTool } from '@bitcode/vcs-tools';
 
 // V26 policy:
-// - MCP tool wrappers are disabled pending future pipeline configuration
-// - LSP tools are ALWAYS available (not env-gated)
+// - MCP tool wrappers are disabled pending future pipeline configuration.
+// - Computer use is internal, server-flagged, and limited to Need measurement.
+// - LSP tools are ALWAYS available (not env-gated).
+
+export const BITCODE_COMPUTER_USE_NEED_MEASUREMENT_FLAG =
+  'BITCODE_ENABLE_COMPUTER_USE_NEED_MEASUREMENT' as const;
+
+export function isComputerUseNeedMeasurementEnabled(
+  env: Pick<NodeJS.ProcessEnv, typeof BITCODE_COMPUTER_USE_NEED_MEASUREMENT_FLAG> = process.env,
+): boolean {
+  return env.BITCODE_ENABLE_COMPUTER_USE_NEED_MEASUREMENT === 'true';
+}
 
 let lspSemanticAnalysisEngine: Tool | undefined;
 let lspCodeIntelligenceEngine: Tool | undefined;
@@ -81,12 +91,25 @@ export const DISCOVERY_PHASE_TOOLS: Tool[] = [
 ].filter(present);
 
 /**
+ * Internal Need-measurement computer-use registry.
+ *
+ * This is intentionally not mounted in the V26 Terminal action controls and is
+ * not a general implementation/Delivering capability. Later versions may
+ * expand the tool surface after the Need measurement contract is fully proven.
+ */
+export function getComputerUseNeedMeasurementTools(
+  env: Pick<NodeJS.ProcessEnv, typeof BITCODE_COMPUTER_USE_NEED_MEASUREMENT_FLAG> = process.env,
+): Tool[] {
+  return isComputerUseNeedMeasurementEnabled(env)
+    ? [deliverablePipelineUseComputerTool]
+    : [];
+}
+
+/**
  * Implementation Phase Tools
  * File editing, code generation, VCS operations
  */
 export const IMPLEMENTATION_PHASE_TOOLS: Tool[] = [
-  // Use-computer for project-local checks (tests, type-checks, lint, etc.)
-  deliverablePipelineUseComputerTool,
 ].filter(present);
 
 /**
@@ -94,8 +117,6 @@ export const IMPLEMENTATION_PHASE_TOOLS: Tool[] = [
  * Testing, quality checks, security validation
  */
 export const VALIDATION_PHASE_TOOLS: Tool[] = [
-  // Use-computer for validation commands when appropriate
-  deliverablePipelineUseComputerTool,
 ].filter(present);
 
 /**
@@ -135,10 +156,10 @@ export function getDeliverablePipelineToolsForAgent(agentName: string): Tool[] {
     'deliverable-pipeline-research-web-agent': [],
     //'deliverable-pipeline-select-files-agent': [],
 
-    // Implementation Phase 
+    // Implementation Phase
     'deliverable-pipeline-implementation-divide-code-change-agent': [],
     'deliverable-pipeline-implementation-conquer-file-agent': [],
-    'deliverable-pipeline-implementation-correct-code-change-agent': [deliverablePipelineUseComputerTool],
+    'deliverable-pipeline-implementation-correct-code-change-agent': [],
     'deliverable-pipeline-implementation-review-code-change-agent': [],
     'deliverable-pipeline-implementation-create-design-document-agent': [],
     'deliverable-pipeline-implementation-review-design-document-agent': [],
@@ -158,12 +179,15 @@ export function getDeliverablePipelineToolsForAgent(agentName: string): Tool[] {
     'deliverable-pipeline-validation-ready-to-ship-design-document-agent': [],
     'deliverable-pipeline-validation-ready-to-ship-design-document-review-agent': [],
 
+    // Internal Need-measurement computer-use option
+    'need-measurement:computer-use-evidence-agent': getComputerUseNeedMeasurementTools(),
+
     // Finish Phase / Delivering destination tools
-    'finish:deliver-asset-pack-to-destination-agent': [deliverablePipelineUseComputerTool, createPullRequestTool, createIssueTool, createCommentTool],
+    'finish:deliver-asset-pack-to-destination-agent': [createPullRequestTool, createIssueTool, createCommentTool],
     'finish:final-work-summary': [],
 
-    // Legacy Shipping aliases
-    'shipping:deliverable-pipeline-ship-agent': [deliverablePipelineUseComputerTool, createPullRequestTool, createIssueTool, createCommentTool],
+    // Retained shipping aliases for callers not yet moved to Finish naming
+    'shipping:deliverable-pipeline-ship-agent': [createPullRequestTool, createIssueTool, createCommentTool],
     'shipping:deliverable-pipeline-create-pull-request-agent': [createPullRequestTool],
     'shipping:deliverable-pipeline-submit-review-agent': [createCommentTool],
     'shipping:deliverable-pipeline-create-issue-agent': [createIssueTool],

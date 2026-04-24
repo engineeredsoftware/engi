@@ -23,7 +23,7 @@ export interface PersistedExecutionState {
     files: Array<{ name: string; size: number; type: string; lastModified: number }>;
     integrations: Array<{ type: string; id: string; name: string; metadata?: any }>;
   };
-  toggles: { compute: boolean; multiAgent: boolean; iterations: number };
+  toggles: { iterations: number };
   timestamp: number;
   version: string;
 }
@@ -38,7 +38,7 @@ const usePersistedStateBase = createPersistedState<PersistedExecutionState>({
     modelSelection: '',
     vcs: { provider: null, account: null, repo: null, branch: null, commit: null, issuesOrPRs: [] },
     attachments: { urls: [], files: [], integrations: [] },
-    toggles: { compute: false, multiAgent: false, iterations: 3 },
+    toggles: { iterations: 3 },
     timestamp: Date.now(),
     version: 'v1'
   },

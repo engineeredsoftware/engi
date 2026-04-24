@@ -22,7 +22,6 @@
       "@bitcode/lsp": ["packages/lsp/src/index.ts"],
       "@bitcode/pipeline-obfuscate/*": ["packages/pipelines/obfuscate/src/*"],
       "@bitcode/pipeline-obfuscate": ["packages/pipelines/obfuscate/src/index.ts"],
-      "@bitcode/pipelines/multi": ["packages/pipelines/multi/src/index.ts"],
       "@bitcode/gitlab": ["packages/gitlab/src/index.ts"],
       "@bitcode/bitbucket": ["packages/bitbucket/src/index.ts"],
       "@bitcode/pipelines/measure/*": ["packages/pipelines/measure/src/*"],

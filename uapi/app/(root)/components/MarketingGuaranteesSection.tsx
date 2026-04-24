@@ -92,7 +92,7 @@ export default function MarketingGuaranteesSection() {
           <span className="font-semibold text-white">chat shepherding</span>,&nbsp;
           <span className="font-semibold text-white">all professional deliverables</span>,&nbsp;
           <span className="font-semibold text-white">deep research</span>,&nbsp;
-          <span className="font-semibold text-white">computer use</span>,&nbsp;
+          <span className="font-semibold text-white">source-to-shares fit evidence</span>,&nbsp;
           <span className="font-semibold text-white">system configuration</span>,&nbsp;
           <span className="font-semibold text-white">multi-modality</span>, and&nbsp;
           <span className="font-semibold text-white">data-share compensation</span>.

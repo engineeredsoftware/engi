@@ -20,8 +20,6 @@ import {
   inferPipelineExecutionLineage
 } from '@bitcode/pipelines-generics/src/execution/PipelineExecution';
 import { deliverablePipeline } from '@bitcode/pipeline-deliverable';
-// GA-2: Multi-deliverable will be integrated into main pipeline
-// import multiDeliverablesPipeline from '@bitcode/pipelines/multi';
 import { factoryLLMRegistryWithProviders } from '@bitcode/generic-llms';
 import { sendServerEvent } from '@bitcode/google-analytics';
 import { BitcodeError, reportError } from '@bitcode/errors';
@@ -581,8 +579,6 @@ export const POST = traceRoute('/deliverables', async (request: NextRequest) => 
       attachments,
       modelProvider = DEFAULT_PROVIDER,
       modelId = DEFAULT_MODEL_API,
-      computeEnabled: computeEnabledRequested = false,
-      multiDeliverable = false, // Multiple deliverables in single execution
       iterationCount = 3,
       gate = 'Develop', // Default to Develop gate for backwards compatibility
       conversationId,
@@ -600,10 +596,8 @@ export const POST = traceRoute('/deliverables', async (request: NextRequest) => 
       sessionId
     } = body;
 
-    const computeFlagEnabled =
-      process.env.NEXT_PUBLIC_ENABLE_COMPUTE_TOGGLE === 'true' ||
-      process.env.BITCODE_ENABLE_COMPUTE_TOGGLE === 'true';
-    const computeEnabled = computeFlagEnabled ? !!computeEnabledRequested : false;
+    const computerUseNeedMeasurementEnabled =
+      process.env.BITCODE_ENABLE_COMPUTER_USE_NEED_MEASUREMENT === 'true';
     // Validate inputs
     log('[deliverables] Validating inputs', 'debug', {
       correlationId,
@@ -906,12 +900,11 @@ export const POST = traceRoute('/deliverables', async (request: NextRequest) => 
         execution.store('repository', 'branch', repoBranch);
         execution.store('repository', 'commit', repoCommit);
         execution.store('dod', 'description', definition_of_done);
-        execution.store('config', 'computeEnabled', computeEnabled);
-        execution.store('config', 'multiDeliverable', multiDeliverable);
+        execution.store('config', 'computerUseNeedMeasurementEnabled', computerUseNeedMeasurementEnabled);
         execution.store('config', 'iterationCount', iterationCount);
         execution.store('attachments', 'list', attachments);
         
-        // GA-2: OTF instructions will be stored here when implemented
+        // Later gate: on-the-fly instructions are stored here when admitted.
         // if (otfInstructions && otfInstructions.length > 0) {
         //   execution.store('otf', 'instructions', otfInstructions);
         // }
@@ -946,10 +939,13 @@ export const POST = traceRoute('/deliverables', async (request: NextRequest) => 
         // route while storing the Bitcode-owned asset-pack run snapshot.
         try {
           const preprocessing = {
-            multi: !!multiDeliverable,
-            compute: computeEnabled,
-            selectedPipeline: multiDeliverable ? 'multi' : 'standard',
-            provisioning: computeEnabled ? 'requested' : 'skipped',
+            selectedPipeline: 'asset-pack',
+            computerUseNeedMeasurement: {
+              enabled: computerUseNeedMeasurementEnabled,
+              featureFlag: 'BITCODE_ENABLE_COMPUTER_USE_NEED_MEASUREMENT',
+              scope: 'internal-need-measurement',
+              v26Status: 'basic-reform-only-full-capability-deferred',
+            },
             need: definition_of_done,
             deliveryTarget: 'pr',
             semanticKind: 'asset-pack-written-asset' as const,
@@ -971,8 +967,6 @@ export const POST = traceRoute('/deliverables', async (request: NextRequest) => 
         
         const pipelineStartTime = Date.now();
 
-        // GA-2: Multi-deliverable support will be integrated into deliverablePipeline
-        // For now, always use single deliverable pipeline
         const result = await withBtdReservation(
           user.id,
           async (_reservation) => deliverablePipeline(pipelineInput, execution!),

@@ -54,7 +54,7 @@ export declare const EXECUTION_NAMESPACES: {
     readonly pipeline: readonly ["input"];
     readonly source: readonly ["connectionId", "owner", "name", "branch", "commit"];
     readonly task: readonly ["description"];
-    readonly config: readonly ["computeEnabled", "multiAgentEnabled", "iterationCount", "mcpConfig"];
+    readonly config: readonly ["computerUseNeedMeasurementEnabled", "iterationCount", "mcpConfig"];
     readonly attachments: readonly ["list"];
     readonly ai_documents: readonly ["list"];
     readonly 'route/preprocessed': readonly ["deliverables", "assetPackWrittenAsset", "ai_documents"];

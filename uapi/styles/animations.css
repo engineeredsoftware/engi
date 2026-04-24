@@ -202,7 +202,7 @@
   }
 }
 
-@keyframes multiAgentDash {
+@keyframes bitcodeOptionDash {
   to {
     stroke-dashoffset: 0;
   }
@@ -335,8 +335,8 @@
   will-change: stroke-dashoffset;
 }
 
-.animate-multi-agent-dash {
-  animation: multiAgentDash 2s ease-out forwards;
+.animate-bitcode-option-dash {
+  animation: bitcodeOptionDash 2s ease-out forwards;
   will-change: stroke-dashoffset;
 }
 

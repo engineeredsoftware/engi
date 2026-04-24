@@ -41,6 +41,4 @@ export const MOCK_USER_TEMPLATES_SCENARIO = process.env.NEXT_PUBLIC_MOCK_USER_TE
 // V26 Feature Flags - disable features not ready for production
 export const ENABLE_OTF_INSTRUCTIONS = process.env.NEXT_PUBLIC_ENABLE_OTF_INSTRUCTIONS === 'true';
 export const ENABLE_ENHANCE_DOD = process.env.NEXT_PUBLIC_ENABLE_ENHANCE_DOD === 'true';
-export const ENABLE_COMPUTE_TOGGLE = process.env.NEXT_PUBLIC_ENABLE_COMPUTE_TOGGLE === 'true';
-export const ENABLE_MULTI_AGENT_TOGGLE = process.env.NEXT_PUBLIC_ENABLE_MULTI_AGENT_TOGGLE === 'true';
 export const ENABLE_MEASURE = process.env.NEXT_PUBLIC_ENABLE_MEASURE === 'true'; // Disabled for V26

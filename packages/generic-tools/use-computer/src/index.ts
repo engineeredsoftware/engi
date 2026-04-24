@@ -1,7 +1,9 @@
 /**
- * Retained tooling-only shell execution primitive for V26 fifth-gate reform.
- * It supports admitted automation paths, but it is not a Bitcode Exchange or
- * Bitcode Terminal state owner.
+ * Internal computer-use primitive for V26 fifth-gate reform.
+ *
+ * V26 admits this retained shell primitive only behind registry configuration
+ * for Need-measurement evidence. It is not a Bitcode Exchange or Terminal state
+ * owner, and broad computer-using agents are deferred beyond V26.
  */
 import { attachDocCodeToolPrompt, factoryTool } from '@bitcode/tools-generics';
 import { USE_COMPUTER_DOC_CODE_TOOL_PROMPT } from './prompts/UseComputerDocCodeToolPrompt';
@@ -48,7 +50,7 @@ export const UseComputerOutputSchema = {
 /**
  * @doc-code-tool
  * @prompt USE_COMPUTER_DOC_CODE_TOOL_PROMPT
- * intent: "Run a shell command with timeout; return stdout/stderr/exitCode/duration"
+ * intent: "Run a bounded shell command only when internal Need-measurement registry policy admits computer use"
  */
 async function runUseComputer(input: UseComputerInput): Promise<UseComputerOutput> {
     const started = Date.now();
@@ -103,7 +105,7 @@ export const useComputerTool = factoryTool(
   'useComputerTool',
   runUseComputer,
   {
-    description: 'Execute a shell command with timeout and capture stdio.',
+    description: 'Internal Bitcode Need-measurement computer-use primitive; execute a bounded shell command and capture stdio.',
     parameters: UseComputerInputSchema,
     prompt: USE_COMPUTER_DOC_CODE_TOOL_PROMPT
   }

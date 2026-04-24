@@ -77,10 +77,9 @@ export const CorrectCodeChangeAgent = factoryAgentWithPTRR<
     retry: () => CorrectCodeChangePrompts.retry()
   },
   
-  // Tools: prefer reading and reasoning; allow "use-computer" only when necessary
-  tools: [
-    'deliverable-pipeline-use-computer-tool'
-  ],
+  // V26 keeps computer use internal to Need measurement; correction relies on
+  // prompt reasoning and static context until the post-V26 tool contract lands.
+  tools: [],
   
   // PTRR configuration
   plan: { 

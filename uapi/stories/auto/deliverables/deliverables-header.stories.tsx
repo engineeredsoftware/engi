@@ -19,8 +19,6 @@ export const DeliverablesHeader = {
         onExecuteDeliverableClickSetTask={() => {}}
         showSourceEdu={false}
         showAttachmentsEdu={false}
-        showComputeEdu={false}
-        showMultiAgentEdu={false}
         showEnhanceEdu={false}
         showSaveTemplateEdu={false}
         showExecuteButtonEdu={false}

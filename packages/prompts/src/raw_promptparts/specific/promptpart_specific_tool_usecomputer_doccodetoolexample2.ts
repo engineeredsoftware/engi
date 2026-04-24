@@ -3,7 +3,7 @@ import { PromptPart } from '../../parts/PromptPart';
 /**
  * @doc-comment-developing-promptpartdevelopment
  * domain: tool
- * intent: "Example: command with stdin and timeout"
+ * intent: "Example internal Need-measurement stdin and timeout command"
  * current_version: "V26.50.0"
  * versions: []
  * benchmarks: [
@@ -11,4 +11,4 @@ import { PromptPart } from '../../parts/PromptPart';
  * ]
  */
 export const PROMPTPART_SPECIFIC_TOOL_USECOMPUTER_DOCCODETOOLEXAMPLE2: PromptPart =
-  'Example: command = "cat", stdin = "hello", timeoutMs = 3000 → returns stdout "hello\\n", exitCode 0' as PromptPart;
+  'Need-measurement evidence example: command = "cat", stdin = "hello", timeoutMs = 3000 → returns stdout "hello\\n", exitCode 0' as PromptPart;

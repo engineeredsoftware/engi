@@ -1,10 +1,9 @@
 /**
- * Deliverable Pipeline - Use Computer Tool
+ * Bitcode Need Measurement - Computer Use Tool
  *
- * Executes shell commands in a controlled environment and returns
- * stdout, stderr, exitCode, and durationMs. Intended for running
- * project scripts (test/build/lint/type-check), simple git status,
- * or quick validations during agents like Implementation:Correct.
+ * Internal V26 feature-flagged wrapper for the retained shell primitive.
+ * It is admitted only for Need-measurement evidence collection; broader
+ * computer-using agent behavior is punted beyond V26.
  */
 
 import { Tool } from '@bitcode/tools-generics';
@@ -16,9 +15,9 @@ import {
 
 /**
  * @doc-code-tool
- * intent: "Run a shell command with timeout; return stdout/stderr/exitCode/duration"
+ * intent: "Run a bounded shell command only when the internal Bitcode Need-measurement computer-use registry admits it"
  */
-export class DeliverablePipelineUseComputerTool extends Tool<
+export class BitcodeNeedMeasurementComputerUseTool extends Tool<
   (input: UseComputerInput) => Promise<UseComputerOutput>
 > {
   use = async (input: UseComputerInput) => {
@@ -26,4 +25,5 @@ export class DeliverablePipelineUseComputerTool extends Tool<
   };
 }
 
-export const deliverablePipelineUseComputerTool = new DeliverablePipelineUseComputerTool();
+export const bitcodeNeedMeasurementComputerUseTool = new BitcodeNeedMeasurementComputerUseTool();
+export const deliverablePipelineUseComputerTool = bitcodeNeedMeasurementComputerUseTool;

@@ -259,8 +259,6 @@ interface ExecutionPageHeaderProps {
   postprocessed?: any;
   showSourceEdu?: boolean;
   showAttachmentsEdu?: boolean;
-  showComputeEdu?: boolean;
-  showMultiAgentEdu?: boolean;
   showEnhanceEdu?: boolean;
   showSaveTemplateEdu?: boolean;
   showExecuteButtonEdu?: boolean;
@@ -723,8 +721,8 @@ Consider implementing these enhancements:
       { name: "Notion Page id: yz-987", type: "INTEGRATION", integrationType: "Notion" }
     ],
     ai_documents: [
-      { name: "Enhanced Compute", used: true },
-      { name: "Multi-Agent", used: true, agents: 3 }
+      { name: "Need measurement evidence", used: true },
+      { name: "AssetPack fit review", used: true, evidenceCount: 3 }
     ],
     completed: "2025-04-15T14:32:45Z"
   }
@@ -740,8 +738,6 @@ export default function ExecutionsPageHeader({
   renderCardsInsideHeader,
   showSourceEdu,
   showAttachmentsEdu,
-  showComputeEdu,
-  showMultiAgentEdu,
   showEnhanceEdu,
   showSaveTemplateEdu,
   showExecuteButtonEdu,
@@ -966,22 +962,6 @@ export default function ExecutionsPageHeader({
       };
       setActiveEdu(attachmentsEdu);
       setLastEduContent(attachmentsEdu);
-    } else if (showComputeEdu) {
-      const computeEdu = {
-        title: "Compute",
-        subtitle: "Processing Power",
-        body: "Activate enhanced resources for complex tasks requiring intensive analysis. Ideal for large codebases, refactoring, or architectural changes."
-      };
-      setActiveEdu(computeEdu);
-      setLastEduContent(computeEdu);
-    } else if (showMultiAgentEdu) {
-      const multiAgentEdu = {
-        title: "Multi-Deliverables",
-        subtitle: "Chain-of-Agents",
-        body: "Allow Bitcode to create a series of deliverables toward your task. This will typically include at least one of each in sequence."
-      };
-      setActiveEdu(multiAgentEdu);
-      setLastEduContent(multiAgentEdu);
     } else if (showEnhanceEdu) {
       const enhanceEdu = {
         title: "Enhance Writing",
@@ -1061,7 +1041,7 @@ export default function ExecutionsPageHeader({
     } else if (lastEduContent) {
       setActiveEdu(lastEduContent);
     }
-  }, [showSourceEdu, showAttachmentsEdu, showComputeEdu, showMultiAgentEdu, showEnhanceEdu, showSaveTemplateEdu, showExecuteButtonEdu, showIterationsEdu]);
+  }, [showSourceEdu, showAttachmentsEdu, showEnhanceEdu, showSaveTemplateEdu, showExecuteButtonEdu, showIterationsEdu]);
 
   // Prepare TL;DR items for summary of shipping surfaces.
   const tldrItems: React.ReactNode[] = [];

@@ -125,8 +125,6 @@ const meta = {
     repoSnapshot: { control: 'object' },
     showSourceEdu: { control: 'boolean' },
     showAttachmentsEdu: { control: 'boolean' },
-    showComputeEdu: { control: 'boolean' },
-    showMultiAgentEdu: { control: 'boolean' },
     showEnhanceEdu: { control: 'boolean' },
     showSaveTemplateEdu: { control: 'boolean' },
     showExecuteButtonEdu: { control: 'boolean' },
@@ -143,8 +141,6 @@ export const Execute: Story = {
     onExecuteDeliverableClickSetTask: action('onExecuteDeliverableClickSetTask'),
     showSourceEdu: false,
     showAttachmentsEdu: false,
-    showComputeEdu: false,
-    showMultiAgentEdu: false,
     showEnhanceEdu: false,
     showSaveTemplateEdu: false,
     showExecuteButtonEdu: false,
@@ -159,8 +155,6 @@ export const Executed: Story = {
     onExecuteDeliverableClickSetTask: action('onExecuteDeliverableClickSetTask'),
     showSourceEdu: false,
     showAttachmentsEdu: false,
-    showComputeEdu: false,
-    showMultiAgentEdu: false,
     showEnhanceEdu: false,
     showSaveTemplateEdu: false,
     showExecuteButtonEdu: false,
@@ -182,8 +176,6 @@ export const Executing: Story = {
     onExecuteDeliverableClickSetTask: action('onExecuteDeliverableClickSetTask'),
     showSourceEdu: false,
     showAttachmentsEdu: false,
-    showComputeEdu: false,
-    showMultiAgentEdu: false,
     showEnhanceEdu: false,
     showSaveTemplateEdu: false,
     showExecuteButtonEdu: false,
@@ -226,22 +218,6 @@ export const AttachmentsEdu: Story = {
   },
 };
 
-export const MultiAgentEdu: Story = {
-  name: 'Execute – Multi-agent edu',
-  args: {
-    ...eduBaseArgs,
-    showMultiAgentEdu: true,
-  },
-};
-
-export const ComputeEdu: Story = {
-  name: 'Execute – Compute edu',
-  args: {
-    ...eduBaseArgs,
-    showComputeEdu: true,
-  },
-};
-
 export const ExecuteButtonEdu: Story = {
   name: 'Execute – Execute-button edu',
   args: {
@@ -273,8 +249,6 @@ export const Configurable: Story = {
     onExecuteDeliverableClickSetTask: action('onExecuteDeliverableClickSetTask'),
     showSourceEdu: false,
     showAttachmentsEdu: false,
-    showComputeEdu: false,
-    showMultiAgentEdu: false,
     showEnhanceEdu: false,
     showSaveTemplateEdu: false,
     showExecuteButtonEdu: false,
