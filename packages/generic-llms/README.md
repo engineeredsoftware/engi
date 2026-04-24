@@ -38,4 +38,4 @@ type LLM = (input: LLMInput) => Promise<LLMOutput>;
 - Always integrate LLMs through the Execution LLM registry; do not call providers directly from UI or route code.
 - Pipelines ensure a default provider/model is configured; phases/agents may override contextually.
 - Provider/model and stop reasons should be surfaced in step logs and prompt I/O sidecars (see agent‑generics diagnostics).
-- See `internal-docs/EXECUTABLE-PIPELINES.md` for how prompts, tools, and LLM registries compose in SDIVS and PTRR.
+- See `internal-docs/BITCODE_AGENTIC_EXECUTION.md` for how prompts, tools, and LLM registries compose in Bitcode agentic execution and PTRR.

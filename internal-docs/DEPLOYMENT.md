@@ -1,6 +1,6 @@
 # Deployment Configuration
 
-See `internal-docs/TPS.md` for a provider‑by‑provider reference (capabilities, code, routes, data sync). This guide focuses on environment variables and external settings (OAuth callbacks, webhooks, allowed return URLs) required to deploy Bitcode.
+See `internal-docs/BITCODE_CONNECTED_SERVICES.md` for connected-service notes. This guide focuses on environment variables and external settings (OAuth callbacks, webhooks, allowed return URLs) required to deploy Bitcode.
 
 ## Case Sensitivity (Linux/Vercel) and Casing Fix Scripts
 
@@ -393,7 +393,7 @@ We ship with a minimal, fast CI for pre‑prod:
 
 - Workflow: `.github/workflows/v26.yml`
 - Jobs:
-  - core: pnpm install, lint (core), typecheck (core), deliverable bring‑up tests
+  - core: pnpm install, lint (core), typecheck (core), AssetPack execution bring-up tests
   - db-verify (optional, commented): apply `000_squashed.sql` to a Postgres service once populated
 
 Notes:

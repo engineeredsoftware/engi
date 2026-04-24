@@ -1,225 +1,54 @@
-# Bitcode Internal Documentation
+# Bitcode Internal Notes
 
-**V26 Production Readiness Documentation**
+Status: non-canonical scratch documentation. The active canonical system specification is `BITCODE_SPEC_V26.md`; these notes are useful only insofar as they help draft, implement, or verify that canonical SPEC family.
 
-Note:
-- V26 Tracking: `V26-PRODUCTION-READINESS-TRACKING.md` is the sole authoritative tracking document.
-- All other documents here are reference documentation.
-- GA-2 scope (measure, obfuscate pipelines and related features) is explicitly out of scope for V26 and not counted in V26 metrics.
+## Rules
 
-## 🚀 V26 Status
+- Do not treat this directory as canonical truth.
+- Promote requirements into `BITCODE_SPEC_V26.md`, `BITCODE_SPEC_V26_PARITY_MATRIX.md`, or V26 proof-surface files before relying on them as requirements.
+- Keep note filenames and content Bitcode-only.
+- Prefer Need, fit, AssetPack, shares, Finish, delivery mechanism, Terminal, Exchange, Protocol, proof, and settlement vocabulary.
+- Treat compatibility source names as implementation corridors, not product vocabulary.
+- Remove or reform non-Bitcode product vocabulary and removed operator-control language.
 
-Production readiness targeting early 2025.
-- PromptParts (measured): 1324 typed exports in `packages/prompts/src/raw_promptparts/*`
-- Deliverables agent keys (phase-prefixed, measured): setup 17, discovery 19, implementation 12, validation 17, shipping 12 (≈98 total registrations across variants)
-- Database tables (measured): 37 (see DB.md for list and notes)
-- **PTRR** (Plan-Try-Refine-Retry) agent methodology
-- **SDIVS** (Setup-Discovery-Implementation-Validation-Shipping) pipeline pattern
-- **Security audit complete** - fixes to be applied LAST before ship
+## Core Notes
 
-## 📚 Core Documentation
+- [BITCODE_AGENTIC_EXECUTION.md](./BITCODE_AGENTIC_EXECUTION.md): phase, registry, prompt, tool, computer-use, and Finish execution notes.
+- [ASSETPACK_EXECUTION.md](./ASSETPACK_EXECUTION.md): AssetPack and connected-interface written-asset execution notes.
+- [BITCODE_TERMINAL_OPERATOR_EXPERIENCE.md](./BITCODE_TERMINAL_OPERATOR_EXPERIENCE.md): operator journey, Need review, fit review, AssetPack, and settlement UX notes.
+- [BITCODE_EXCHANGE_DATABASE.md](./BITCODE_EXCHANGE_DATABASE.md): Exchange persistence and schema reform notes.
+- [BITCODE_API.md](./BITCODE_API.md): server-owned API admission and connected-interface notes.
+- [BITCODE_EXECUTIONS.md](./BITCODE_EXECUTIONS.md): execution read/write and Terminal history notes.
+- [BITCODE_CONVERSATIONS.md](./BITCODE_CONVERSATIONS.md): conversation ingress and execution-continuation notes.
+- [BITCODE_PROMPT_SYSTEM.md](./BITCODE_PROMPT_SYSTEM.md): Prompt, PromptPart, registry, doc-comment, and Need-comprehension notes.
+- [BITCODE_PROMPT_TRACE.md](./BITCODE_PROMPT_TRACE.md): prompt rendering and traceability notes.
 
-### Architecture & Engineering
+## Supporting Notes
 
-#### 1. **[PHILOSOPHY-AND-VISION.md](./PHILOSOPHY-AND-VISION.md)**
-The vision and principles that guide Bitcode.
-- Vision Overview
-- Core Thesis
-- Core engineering principles
-- AI development philosophy
+- [BITCODE_SOURCE_EVIDENCE_DOCUMENTS.md](./BITCODE_SOURCE_EVIDENCE_DOCUMENTS.md): source evidence and AI-document notes.
+- [BITCODE_CONNECTED_SERVICES.md](./BITCODE_CONNECTED_SERVICES.md): provider, MCP, and delivery-mechanism notes.
+- [BITCODE_FRONTEND_ARCHITECTURE.md](./BITCODE_FRONTEND_ARCHITECTURE.md): Terminal, Exchange, conversations, auxillaries, and compatibility interface notes.
+- [BITCODE_INTERFACE_STYLE.md](./BITCODE_INTERFACE_STYLE.md): interface style and component semantics notes.
+- [BITCODE_VERIFICATION.md](./BITCODE_VERIFICATION.md): tests, proofs, and verification notes.
+- [BITCODE_LLM_REGISTRY.md](./BITCODE_LLM_REGISTRY.md): LLM provider/model registry notes.
+- [BITCODE_EXECUTION_WORK_SUMMARIES.md](./BITCODE_EXECUTION_WORK_SUMMARIES.md): execution and Finish summary notes.
+- [BITCODE_PROTOCOL_THESIS.md](./BITCODE_PROTOCOL_THESIS.md): protocol/product thesis notes.
+- [BITCODE_ARCHITECTURE_PATTERNS.md](./BITCODE_ARCHITECTURE_PATTERNS.md): primitives, packages, interfaces, specs, and proofs notes.
+- [BITCODE_AUXILLARIES_READINESS.md](./BITCODE_AUXILLARIES_READINESS.md): identity, wallet, provider, and settlement readiness notes.
+- [BITCODE_CHATGPT_APP_INTERFACE.md](./BITCODE_CHATGPT_APP_INTERFACE.md): ChatGPT App connected-interface notes.
+- [BITCODE_V26_GATE_NOTES.md](./BITCODE_V26_GATE_NOTES.md): V26 gate posture notes.
+- [DOC-CODING.md](./DOC-CODING.md): doc-code prompt support notes.
+- [DOC-COMMENTS-NEXT.md](./DOC-COMMENTS-NEXT.md): doc-comment prompt injection notes.
+- [INTEGRATIONS.md](./INTEGRATIONS.md): provider and connected-interface notes.
+- [PERFORMANCE.md](./PERFORMANCE.md): runtime and frontend performance notes.
+- [SECURITY.md](./SECURITY.md): security and hardening notes.
+- [TERMINOLOGY.md](./TERMINOLOGY.md): terminology notes.
 
-#### 2. **[AI Engineering Transformation (AGENTS.md)](../AGENTS.md)**
-AI engineering transformation document.
-- Core transformation principles
-- Word precision requirements
-- RAQK format for responses
-- Delete-first philosophy
-- Common technical pitfalls
+## Promotion Workflow
 
-#### 3. **[PROMPT-ENGINEERING.md](./PROMPT-ENGINEERING.md)**
-V26 production prompt system.
-- Two-layer architecture: PromptParts and Prompts
-- Performance-Based Versioning (PBV)
-- Coverage and quality tracked via PBV; avoid unverified counts
-- Benchmarking and evolution
-
-#### 4. **[EXECUTABLE-PIPELINES.md](./EXECUTABLE-PIPELINES.md)**
-Pipeline implementations documentation (source-verified). Focuses on V26 deliverables pipeline; other pipelines are GA-2 reference only.
-- SDIVS pattern implementation
-- Agent architecture with PTRR
-- OTF system integration
-
-#### 5. **[DOC-CODING.md](./DOC-CODING.md)**
-Doc-comments as prompts system.
-- AST transformation
-- Pattern library
-- Best practices
-- Advanced techniques
-
-### System Components
-
-#### 6. **[API.md](./API.md)**
-RESTful API and client-side data management.
-- Endpoint specifications
-- V26 active vs post-V26 (501) endpoints
-- React Query integration
-- Stripe payments
-- SSE streaming
-
-#### 7. **[DB.md](./DB.md)**
-Database architecture.
-- Migration strategy (001_v26_schema.sql)
-- Row Level Security patterns
-- Schema documentation
-
-#### 8. **[DELIVERABLES.md](./DELIVERABLES.md)**
-Deliverables system documentation.
-- Core product feature
-- Pipeline execution interface
-- Credit consumption model
-- User workflow
-
-#### 9. **[CHAT.md](./CHAT.md)**
-Conversation chat interface documentation.
-- Temporarily disabled (NEXT_PUBLIC_CONVERSATIONS_WIDGET=false)
-- ConversationAgent with PTRR pattern
-
-#### 10. **[INTEGRATIONS.md](./INTEGRATIONS.md)**
-External service integrations.
-- VCS providers (GitHub, GitLab, Bitbucket)
-- MCP tools (AWS, Figma, Notion, Vercel, etc.)
-- Provider abstraction patterns
-- Tool architecture and configuration
-
-### Infrastructure & Security
-
-#### 11. **[SECURITY.md](./SECURITY.md)** 🚨 **CRITICAL**
-Security audit findings - MUST FIX BEFORE V26.
-- Hardcoded secrets in version control
-- JWT validation insufficient
-- SQL injection vulnerabilities
-- No rate limiting
-- CSRF protection missing
-- **Fix LAST before ship**
-
-#### 12. **[DEPLOYMENT.md](./DEPLOYMENT.md)**
-Deployment configuration guide.
-- Environment variables documentation
-- OAuth provider setup
-- Security best practices
-- Common issues
-
-#### 13. **[PERFORMANCE.md](./PERFORMANCE.md)**
-Performance optimization guide.
-- App performance guidance (network, JS, rendering)
-- React Query integration
-- CSS performance patterns
-- Network optimization
-
-### User Experience
-
-#### 14. **[USER-ONBOARDING-AND-SETTINGS.md](./USER-ONBOARDING-AND-SETTINGS.md)**
-User onboarding and authentication.
-- 4-step onboarding flow
-- SSO implementation (Google & GitHub OAuth)
-- Settings management
-- Authentication architecture
-
-### Project Management
-
-#### 15. **[V26-PRODUCTION-READINESS-TRACKING.md](./V26-PRODUCTION-READINESS-TRACKING.md)**
-V26 launch tracking.
-- Launch checklist
-- Progress tracking
-- Known issues
-- Team updates
-
-#### 16. **[TERMINOLOGY.md](./TERMINOLOGY.md)**
-Complete terminology reference.
-- System terminology
-- Architecture concepts
-- Domain-specific terms
-- Naming conventions
-
-#### 17. **[CRAZY-IDEAS.md](./CRAZY-IDEAS.md)** 📝
-Archive of experimental concepts.
-- SIENT - Synthetic Engineering Intelligence (abandoned)
-- Field-Doc System (abandoned)
-- Other experimental ideas that didn't ship
-- Lessons learned from overengineering
-
-## 🚨 V26 Critical Path
-
-1. **Complete all feature work**
-2. **Fix all P0 bugs**
-3. **SECURITY FIXES LAST** (see [SECURITY.md](./SECURITY.md))
-4. **Deploy to production**
-
-## 🎯 Quick Start Guide
-
-### For Different Roles
-
-- **New to Bitcode?** → [PHILOSOPHY-AND-VISION.md](./PHILOSOPHY-AND-VISION.md)
-- **AI Engineer?** → [AI Engineering Transformation (AGENTS.md)](../AGENTS.md)
-- **Understanding Architecture?** → [EXECUTABLE-PIPELINES.md](./EXECUTABLE-PIPELINES.md)
-- **Working with Prompts?** → [PROMPT-ENGINEERING.md](./PROMPT-ENGINEERING.md)
-- **API Development?** → [API.md](./API.md)
-- **Database Work?** → [DB.md](./DB.md)
-- **Security Concerns?** → [SECURITY.md](./SECURITY.md) 🚨
-- **Performance Issues?** → [PERFORMANCE.md](./PERFORMANCE.md)
-- **Frontend Components/Styles?** → [STYLE.md](./STYLE.md)
-
-### Frontend Quickstart (2‑minute ramp)
-
-- Import UI only from `@/components/base/shadcn/*`; import Bitcode primitives from `@/components/base/bitcode/*`.
-- Use `ScrollContainer` for scroll regions; add a themed variant (`custom-scrollbar--thumb-purple` / `-emerald` / `-blue`).
-- Wrap heavy/animated containers: `GPUAcceleration`; wrap large off‑screen content: `ContentVisibility`.
-- Keep shared CSS in `app/styles/components.css`; don’t redefine scrollbars in feature CSS.
-- Headers stay neutral. Render doc/cards as siblings via flags: `renderDocInsideHeader`, `renderCardsInsideHeader`.
-- **External Integrations?** → [INTEGRATIONS.md](./INTEGRATIONS.md)
-- **Deployment?** → [DEPLOYMENT.md](./DEPLOYMENT.md)
-
-## 📝 Documentation Standards
-
-All documentation follows these principles:
-
-1. **Accuracy** - Verified against source code
-2. **Clarity** - Clear structure and navigation
-3. **Completeness** - All concepts covered
-4. **Maintainability** - Single source of truth
-5. **Excellence** - Engineering-grade documentation
-
-## 🔄 Recent Updates
-
-- Renamed and reorganized all documentation for clarity
-- Merged redundant documents (legacy master guide, SSO, REACT-QUERY-SETUP)
-- Added comprehensive MCP tools documentation
-- Updated for V26 production readiness
-- Consolidated authentication and onboarding documentation
-
-## 📊 Documentation Coverage
-
-| Area | Status | Document |
-|------|--------|----------|
-| Architecture | ✅ Complete | EXECUTABLE-PIPELINES.md |
-| Prompts | ✅ Complete | PROMPT-ENGINEERING.md |
-| API | ✅ Complete | API.md |
-| Database | ✅ Complete | DB.md |
-| Security | ✅ Audit Complete | SECURITY.md |
-| Performance | ✅ Optimized | PERFORMANCE.md |
-#### 18. **[STYLE.md](./STYLE.md)**
-Frontend components + styling SSOT (GA‑1).
-- Base layers: `components/base/{bitcode,shadcn}`
-- Styling SSOT: `app/styles/components.css`
-- Performance wrappers, ScrollContainer usage
-- Header composition with sibling panels
-
-| Integrations | ✅ Documented | INTEGRATIONS.md |
-| Deployment | ✅ Ready | DEPLOYMENT.md |
-| User Experience | ✅ Complete | USER-ONBOARDING-AND-SETTINGS.md |
-
----
-
-*Last Updated: 2025-09-03*
-*Version: GA‑1 Stable/Latest*
-*Status: Production Documentation*
+1. Use internal notes to identify a subsystem requirement or implementation gap.
+2. Verify the current source owner.
+3. Edit source or tests when the requirement is already accepted by V26.
+4. Promote the requirement into the V26 SPEC/proof family when it must become canonical.
+5. Regenerate V26 proof artifacts.
+6. Re-scan this directory for non-Bitcode residue before claiming gate closure progress.

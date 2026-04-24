@@ -69,7 +69,7 @@ abstract class VCSProvider implements AbstractVCSProvider {
   - `installation_token_expires_at`: Token expiry timestamp (auto-refreshes 5 min before expiry)
   - `access_token`: OAuth access token or current active token
   - `refresh_token`: OAuth refresh token
-- **Migration**: Replaced legacy `user_github_connections` table
+- **Migration**: Replaced provider-specific `user_github_connections` table
 
 ### vcs_repositories
 - **Purpose**: Unified repository storage across providers
@@ -110,7 +110,7 @@ abstract class VCSProvider implements AbstractVCSProvider {
 - GitHub provider fully implemented with OAuth + App installation
 - VCS abstraction layer with provider interface
 - Resilience patterns (retry, timeout, error normalization)
-- Repository listing and selection in deliverables page
+- Repository listing and selection in Terminal and Exchange execution surfaces
 - Automatic GitHub App token refresh (with fallback)
 - Organization name fetching from GitHub App installation API
 - Comprehensive error handling and user feedback

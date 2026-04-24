@@ -48,7 +48,7 @@ Use these to standardize efficient behavior without imposing looks:
 - `bitcode/perf/GPUAcceleration.tsx` — GPU/compositor hints for animated containers
 - `bitcode/page-header/PageHeaderSection.tsx` — neutral header composition shell
 
-See `internal-docs/STYLE.md` for full guidance.
+See `internal-docs/BITCODE_INTERFACE_STYLE.md` for full guidance.
 
 ## Bitcode Base Components (shared UI)
 

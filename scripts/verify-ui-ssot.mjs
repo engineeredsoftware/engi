@@ -54,15 +54,15 @@ assertZero("rg -n " + JSON.stringify("::\-webkit\-scrollbar") + " uapi/app/style
 assertZero("rg -n " + JSON.stringify("<GPUAcceleration className=\"conversations-container\"") + " uapi/app/conversations/components/conversations/index.tsx || true", "No GPUAcceleration on .conversations-container");
 assertZero("rg -n " + JSON.stringify("<GPUAcceleration className=\"conversations-fullscreen\"") + " uapi/app/conversations/components/conversations/index.tsx || true", "No GPUAcceleration on .conversations-fullscreen");
 
-// 5) Deliverables header uses purple scrollbar variant in summary scrollers
-assertSome("rg -n " + JSON.stringify("custom-scrollbar--thumb-purple") + " uapi/app/executions/components/ExecutionPageHeader.tsx || true", "Deliverables header scrollers themed purple");
+// 5) Bitcode execution primitives route scroll regions through the shared scrollbar utility.
+assertSome("rg -n " + JSON.stringify("custom-scrollbar") + " uapi/components/base/bitcode/execution uapi/components/base/bitcode/panels || true", "Bitcode execution scroll regions use shared scrollbar classes");
 
-// 6) SplitGrid and ChatHistorySidebar use content-vis + custom-scrollbar
-assertSome("rg -n " + JSON.stringify("content-vis") + " uapi/app/conversations/components/conversations/SplitGrid.tsx uapi/app/conversations/components/conversations/ChatHistorySidebar.tsx || true", "Split grid / chat history use content-vis");
-assertSome("rg -n " + JSON.stringify("custom-scrollbar") + " uapi/app/conversations/components/conversations/SplitGrid.tsx uapi/app/conversations/components/conversations/ChatHistorySidebar.tsx || true", "Split grid / chat history use custom-scrollbar");
+// 6) Conversations split/message surfaces use content-vis + custom-scrollbar.
+assertSome("rg -n " + JSON.stringify("content-vis") + " uapi/app/conversations/components/ConversationsSplitGrid.tsx || true", "Conversations split grid uses content-vis");
+assertSome("rg -n " + JSON.stringify("custom-scrollbar") + " uapi/app/conversations/components/ConversationsSplitGrid.tsx uapi/app/conversations/components/ConversationsMessageWaterfall.tsx || true", "Conversations surfaces use custom-scrollbar");
 
-// 7) STYLE.md contains the Style PR Checklist
-assertSome("rg -n " + JSON.stringify("Style PR Checklist") + " internal-docs/STYLE.md || true", "STYLE.md includes Style PR Checklist");
+// 7) Bitcode interface style note contains the Style PR Checklist
+assertSome("rg -n " + JSON.stringify("Style PR Checklist") + " internal-docs/BITCODE_INTERFACE_STYLE.md || true", "BITCODE_INTERFACE_STYLE.md includes Style PR Checklist");
 
 console.log('Bitcode UI SSOT verification passed');
 process.exit(0);

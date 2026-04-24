@@ -1,8 +1,8 @@
 {
   "reportId": "v26-total-closure-proof",
   "version": "V26",
-  "proofSourceCommit": "1f281686a7ee879257c01f849fa8b61303a90935",
-  "generatedAt": "2026-04-24T10:02:57-03:00",
+  "proofSourceCommit": "111f1df339c06b7aacc2fd9f62bd0034b34d6219",
+  "generatedAt": "2026-04-24T10:19:18-03:00",
   "generatorId": "bitcode.proven-generator.v1",
   "worktreeState": "dirty-preview",
   "passed": false,
