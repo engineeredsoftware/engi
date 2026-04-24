@@ -14,7 +14,7 @@
 - Spec companion: `/Users/garrettmaring/Developer/ENGI/BITCODE_SPEC_V26.md`
 - Parity companion: `/Users/garrettmaring/Developer/ENGI/BITCODE_SPEC_V26_PARITY_MATRIX.md`
 - Notes companion: `/Users/garrettmaring/Developer/ENGI/BITCODE_SPEC_V26_NOTES.md`
-- Source parity state: retained-system convergence now has material proof evidence across application routes, auxillary compatibility redirects, persistence witnesses, prompt-system ports, documentation/spec synchronization, and the fourth-gate reclosure review; fifth-gate closure evidence has deepened but fifth through eighth gate remain open
+- Source parity state: retained-system convergence now has material proof evidence across application routes, auxillary compatibility redirects, persistence witnesses, prompt-system ports, documentation/spec synchronization, and the fourth-gate reclosure review; fifth-gate source-to-shares and closure-deepening proof evidence exists while fifth through eighth gate remain open
 - V26 state: earlier through-fourth-gate promotion claims were overstated and effectively false; V26 is the active Bitcode canon with fourth gate promoted closed after re-review while fifth-, sixth-, seventh-, and eighth-gate closure remain open
 
 ## Why V26 exists
@@ -459,7 +459,8 @@ Fifth-gate is now specified as:
 - full production/staging/development mode completeness,
 - retained-package admissibility proof,
 - post-fourth-gate-promotion proof-bearing cleanup of any still-kept system,
-- and closure-deepening evidence through `.bitcode/fifth-gate-closure-deepening-proof.json` without treating that deepened evidence as fifth-gate acceptance.
+- source-to-shares and closure-deepening evidence through `.bitcode/source-to-shares-fifth-gate-proof.json` and `.bitcode/fifth-gate-closure-deepening-proof.json`,
+- and no procedural fifth-gate closure claim until the remaining fifth-gate acceptance set is fully proven.
 
 Fifth-gate acceptance is reached only when:
 - the repository can make shares and use shares through Bitcode-owned interfaces and state,
@@ -513,7 +514,7 @@ Eighth-gate acceptance is reached only when:
 - sixth-gate acceptance holds,
 - seventh-gate acceptance holds,
 - total-repository proof families have explicit closure verdicts,
-- and V26 can be treated as fully proven Bitcode canon rather than a promoted-through-fourth-gate checkpoint with later closure work still pending.
+- and V26 can be treated as fully proven Bitcode canon rather than a fifth-gate-closed checkpoint with later MVP, launch, and provation work still pending.
 
 ## Explicitly deferred
 

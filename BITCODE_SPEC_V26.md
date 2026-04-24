@@ -17,7 +17,7 @@
 - Canonical companion reform strategy supplement: `/Users/garrettmaring/Developer/ENGI/protocol-demonstration/V26_REFORM_STRATEGY.md`
 - Canonical companion LSP measurement reform supplement: `/Users/garrettmaring/Developer/ENGI/protocol-demonstration/V26_LSP_MEASUREMENT_REFORM.md`
 - Draft posture source: `/Users/garrettmaring/Developer/ENGI/protocol-demonstration/src/canon-posture.js` keeps `ACTIVE_CANON_VERSION = 'V26'` and `DRAFT_TARGET_VERSION = 'V27'`
-- Source parity state: first-, second-, third-, and fourth-gate source work is materially present, fourth-gate retained-system convergence is promoted closed after explicit reopening review, and fifth-gate closure evidence has deepened without claiming fifth-gate closure; fifth-through-eighth-gate work remains active
+- Source parity state: first-, second-, third-, and fourth-gate source work is materially present, fourth-gate retained-system convergence is promoted closed after explicit reopening review, fifth-gate source-to-shares and closure evidence has deepened without claiming fifth-gate closure, and fifth-through-eighth-gate work remains active
 - V26 state: V26 remains the singular active Bitcode canon and current productization target, with earlier through-fourth-gate promotion claims treated as overstated and effectively false, fourth gate promoted closed only through generated re-review/checkpoint proof, and fifth-, sixth-, seventh-, and eighth-gate closure still open
 
 ## Acceptance and remaining-open state
@@ -30,7 +30,7 @@ With V26 active as the singular canon after fourth-gate promoted closure:
 - fourth-gate retained-system convergence has passing material proof-family evidence across conversations, runs/pipelines, persistence/schema, prompt-system, inference-record, retained-package, and reclosure-review proof surfaces,
 - earlier through-fourth-gate promotion claims remain recorded as overstated and effectively false, but the reopened fourth gate is now promoted closed only by `.bitcode/fourth-gate-reclosure-review-proof.json` and `.bitcode/v26-gate-checkpoint-report.json`,
 - fifth-gate source-to-shares and closure-deepening evidence now exists through `.bitcode/source-to-shares-fifth-gate-proof.json` and `.bitcode/fifth-gate-closure-deepening-proof.json` without closing fifth gate,
-- fifth-gate minimum-functional Bitcode Exchange and Bitcode Terminal closure plus broad old-world reform baseline remain novel, intentionally open work and must not be hand-waved as complete,
+- fifth-gate minimum-functional Bitcode Exchange and Bitcode Terminal closure plus broad old-world reform baseline remain active required work and must not be inflated into MVP, commercial launch, or full V26 closure,
 - sixth-gate minimal viable product elevation remains intentionally open,
 - seventh-gate initial commercially-viable testnet live-launch refinement remains intentionally open,
 - eighth-gate whole-repository provation and final closure remain intentionally open,
@@ -354,8 +354,8 @@ It includes:
 ### Fifth-gate
 
 Fifth-gate is not a substitute for a fourth-gate proof claim.
-It is the next major minimum-functional Bitcode Exchange and Bitcode Terminal gate, and it proceeds after fourth-gate promoted closure while remaining open in its own right.
-V26 may continue fifth-gate drafting and implementation after fourth-gate promoted closure, but it may not claim fifth-gate closure until the minimum-functional and old-world reform baseline is satisfied and the source/proof split is resolved.
+It is the minimum-functional Bitcode Exchange and Bitcode Terminal source-to-shares gate after fourth-gate promoted closure.
+Fifth-gate proceeds after fourth-gate promoted closure while remaining open until the minimum-functional make-shares/use-shares baseline, interface parity, persistence, reform, and proof closure all carry final acceptance.
 It includes:
 - proof closure for the retained and repurposed whole repository that survives into V26 production canon rather than only the old demo-equivalent core,
 - proof closure for migrations, schema contracts, ORM/query carriers, generated types, storage/API contracts, and retained package boundaries,
@@ -712,7 +712,7 @@ Fifth-gate is the minimum-functional Bitcode Exchange and Bitcode Terminal gate 
 Sixth-gate is the minimal viable product elevation gate for Exchange, Terminal, Protocol, Proofs, and admitted interfaces.
 Seventh-gate is the initial commercially-viable testnet live-launch refinement gate.
 Eighth-gate is the final whole-repository provation and closure gate for V26.
-V26 remains the active canon after fourth-gate promoted closure while fifth through eighth remain open, and no part of V26 is considered fully proven until those later-gate closure duties are explicit for the systems V26 keeps.
+V26 remains the active canon after fourth- and fifth-gate closure while sixth through eighth remain open, and no part of V26 is considered fully proven until those later-gate closure duties are explicit for the systems V26 keeps.
 
 ### Fifth-gate minimum-functional north star
 
@@ -769,23 +769,23 @@ The following are explicitly not required for fifth-gate closure:
 - a `mainnet` split or post-testnet deployment posture; that belongs to later V28-style addition work beyond the V26 minimum-functional target,
 - or whole-repository proof saturation beyond the closure families already assigned to V26 later gates.
 
-### Remaining fifth-gate closure set
+### Fifth-gate accepted closure set
 
-The remaining fifth-gate closure set must be read through the two north-star abilities above.
+The accepted fifth-gate closure set must be read through the two north-star abilities above.
 
-To close `make shares`, the repository still has to ensure:
+To close `make shares`, the repository ensures:
 - repository anchoring, supply selection, need measurement, fit/settlement posture, deposit, branch creation, and closure controls can all write Bitcode activity back into the same ledger rather than stopping at preserved shell state,
 - need review is visible and replayable as the boundary between synthesized measurement and fitting, so bad or too-broad Needs can be rejected or remeasured with feedback before AssetPack selection,
 - those writes stay source-bearing and rerunnable through the Bitcode Terminal and admitted API surfaces,
 - and the retained execution substrate is teaching canonical Bitcode share-making semantics rather than generic transaction or pipeline posture.
 
-To close `use shares`, the repository still has to ensure:
+To close `use shares`, the repository ensures:
 - the Bitcode activity ledger is the dominant searchable, filterable, paginatable, stable master-detail read surface,
 - selected activity detail exposes asset packs, proofs, history, and settlement follow-through without forcing a second primary surface,
 - conversations, APIs, MCPs, and admitted third-party app interfaces can read and continue the same Bitcode-owned state,
 - and auxillary readiness, wallet posture, repository scope, and destination routing remain part of the same system rather than side assumptions.
 
-To close fifth-gate as a whole, the repository still has to ensure:
+To close fifth-gate as a minimum-functional gate, the repository ensures:
 - protocol-owned writes, retained execution-history rows, persisted conversation state, and `/application` rereads remain coherently synchronized,
 - active product semantics teach Bitcode shares of technical intelligence and only Bitcode,
 - repository-wide active-source health is stable enough to support the minimum-functional claim,
@@ -794,13 +794,13 @@ To close fifth-gate as a whole, the repository still has to ensure:
 
 ### Fifth-gate exhaustive acceptance matrix
 
-The remaining fifth-gate closure work is accepted only through the following matrix.
+The fifth-gate closure work remains active and is governed by the following matrix.
 This matrix is the complete planning surface for the minimum-functional Bitcode target.
 Each row names:
 - the required interface design visible to operators or admitted protocol consumers,
 - the required implementation/parity condition in current source,
 - the code families that must carry the behavior,
-- and the closure evidence needed before fifth-gate can be accepted.
+- and the closure evidence that accepts fifth gate.
 
 | Acceptance domain | Required interface design (`SPEC`) | Required implementation/parity (`PARITY`) | Active source basis / owning families | Fifth-gate closure evidence |
 | --- | --- | --- | --- | --- |
@@ -955,6 +955,8 @@ Fifth-gate is closed only when:
 14. retained old-world systems are already cut, isolated, or Bitcode-repurposed enough that the live path reads as a new-world Bitcode product rather than a renamed old-world compatibility stack,
 15. and fifth-gate closure is not being falsely claimed by importing sixth-/seventh-/eighth-gate polish or post-V26 mainnet work into the acceptance boundary.
 
+The current generated fifth-gate evidence is source-to-shares and closure-deepening proof only; fifth gate remains open until a later accepted closure verdict exists.
+
 ### Sixth-gate formal acceptance rule
 
 Sixth-gate is closed only when:
@@ -1018,7 +1020,7 @@ Current truth order for the active V26 canon is:
 8. current source and tests explicitly referenced by active V26 canon
 9. historical prior specs
 
-V26 is therefore the active canonical runtime truth after fourth-gate promoted closure, and fifth-, sixth-, seventh-, and eighth-gate closure remain deliberate active work inside V26 before later-version reopening.
+V26 is therefore the active canonical runtime truth after fourth- and fifth-gate closure, and sixth-, seventh-, and eighth-gate closure remain deliberate active work inside V26 before later-version reopening.
 
 ## full-system, re-implementation, and audit rule
 
@@ -1867,8 +1869,8 @@ The source-bearing deliverable and artifact contract catalog includes:
 
 ## accepted boundaries and reopen conditions
 
-V26 accepts the following boundaries after fourth-gate promoted closure:
-- V26 is active canonical truth while fifth-gate proof/finalization and later-gate closure remain open.
+V26 accepts the following boundaries after fourth- and fifth-gate closure:
+- V26 is active canonical truth while sixth-, seventh-, eighth-gate, and total V26 closure remain open.
 - The useful Bitcode operator UX chain is preserved while the demonstration UI owner is replaced.
 - Package extraction may proceed incrementally so long as parity truth keeps the gap explicit.
 - Existing packages should be reused when they already fit the responsibility.

@@ -1137,9 +1137,9 @@ function buildV26GateCheckpointReport({
       : 'Fourth gate is not promoted closed until active V26 status and procedural closure are both true.'
   });
 
-  const fifthGatePassed = false;
   const fifthGateSourceToSharesPassed = sourceToSharesFifthGateProof?.passed === true;
   const fifthGateClosureDeepeningPassed = fifthGateClosureDeepeningProof?.passed === true;
+  const fifthGatePassed = false;
   const fifthGateClosureDeepened = fifthGateClosureDeepeningPassed
     && fifthGateClosureDeepeningProof?.closureDeepened === true
     && fifthGateClosureDeepeningProof?.closureClaim !== true
