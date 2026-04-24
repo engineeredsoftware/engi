@@ -122,7 +122,7 @@ async function getPipelineDetails(runId: string, context: MCPAuthContext): Promi
     // Get run events
     const runEvents = await events.getByRunId(runId);
 
-    // Get deliverable details if this is a deliverable pipeline
+    // Get retained delivery-wrapper details when this asset-pack run still carries a deliverable_id.
     let deliverable;
     if (run.deliverable_id) {
       deliverable = await deliverables.getById(run.deliverable_id);

@@ -1668,6 +1668,21 @@ function buildV26ApplicationCompositionProof({
         },
         {
           file: 'packages/chatgptapp/src/__tests__/tools.test.ts',
+          evidence: 'declares confirmation schema on every ChatGPT App connected-interface write carrier',
+          description: 'unit proof covers schema-level confirmation requirements across GitHub, Vercel, and AWS write carriers'
+        },
+        {
+          file: 'packages/chatgptapp/src/__tests__/tools.test.ts',
+          evidence: 'write_code_changes_to_vcs creates GitHub repository after explicit write admission',
+          description: 'unit proof covers GitHub write admission through the ChatGPT App VCS tool'
+        },
+        {
+          file: 'packages/chatgptapp/src/__tests__/tools.test.ts',
+          evidence: "targetAnchor: 'github:bitcode-yapper'",
+          description: 'unit proof covers target-bound GitHub write admission'
+        },
+        {
+          file: 'packages/chatgptapp/src/__tests__/tools.test.ts',
           evidence: "targetAnchor: 'vercel:team_bitcode/prj_Yapper'",
           description: 'unit proof covers target-bound Vercel write admission'
         },
@@ -2768,7 +2783,9 @@ const V26_PROMPT_SPACE_WITNESS_SETS = [
       'packages/executions-mcp/package.json',
       'packages/executions-mcp/src/mcp-server/src/prompts/analysis-prompts.ts',
       'packages/executions-mcp/src/mcp-server/src/prompts/workflow-prompts.ts',
-      'packages/executions-mcp/src/mcp-server/src/tools/pipeline-tools.ts'
+      'packages/executions-mcp/src/mcp-server/src/prompts/development-prompts.ts',
+      'packages/executions-mcp/src/mcp-server/src/tools/pipeline-tools.ts',
+      'packages/executions-mcp/src/mcp-server/src/__tests__/unit/prompt-asset-pack-canon.test.ts'
     ]
   },
   {
@@ -3060,6 +3077,32 @@ function buildV26RunsPipelinesTotalityProof({
           file: 'packages/executions-mcp/src/mcp-server/src/__tests__/unit/pipeline-ingress-contract.test.ts',
           evidence: 'metadata: expect.objectContaining({',
           description: 'unit proof verifies write-admission metadata is queued with the pipeline job'
+        }
+      ]
+    ),
+    buildV26FileContentCheck(
+      'mcp-asset-pack-prompt-canon',
+      'Bitcode MCP prompt and tool surfaces teach asset-pack pipeline semantics while retaining compatibility URI and subtype names',
+      [
+        {
+          file: 'packages/executions-mcp/src/mcp-server/src/prompts/workflow-prompts.ts',
+          evidence: 'Please execute the Bitcode asset-pack pipeline',
+          description: 'workflow prompts teach the active asset-pack pipeline meaning'
+        },
+        {
+          file: 'packages/executions-mcp/src/mcp-server/src/prompts/development-prompts.ts',
+          evidence: "Bitcode's asset-pack pipeline with the following comprehensive source-to-shares approach",
+          description: 'development prompts teach source-to-shares asset-pack execution'
+        },
+        {
+          file: 'packages/executions-mcp/src/mcp-server/src/tools/pipeline-tools.ts',
+          evidence: 'Create and execute a Bitcode asset-pack pipeline',
+          description: 'pipeline tool description exposes canonical asset-pack semantics'
+        },
+        {
+          file: 'packages/executions-mcp/src/mcp-server/src/__tests__/unit/prompt-asset-pack-canon.test.ts',
+          evidence: 'MCP prompt asset-pack canon',
+          description: 'package-local test renders prompts and proves they no longer teach deliverable-pipeline canon'
         }
       ]
     )

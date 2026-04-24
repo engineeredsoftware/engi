@@ -183,7 +183,9 @@ Each step lists:
       "writeAdmission": {
         "interfaceSurface": "chatgpt_app",
         "permission": "explicit_user_confirmation",
-        "exchangeStateRole": "connected_interface_delivery_mechanism"
+        "connectedInterface": "github",
+        "exchangeStateRole": "connected_interface_delivery_mechanism",
+        "targetAnchor": "github:yapper"
       }
     }
   }
@@ -279,7 +281,8 @@ Each step lists:
       "writeAdmission": {
         "interfaceSurface": "chatgpt_app",
         "connectedInterface": "aws",
-        "outputMeaning": "asset_pack_delivery_mechanism"
+        "outputMeaning": "asset_pack_delivery_mechanism",
+        "targetAnchor": "aws:s3/bitcode-yapper-demo/config/demo-config.json"
       }
     }
   }
@@ -322,7 +325,8 @@ Each step lists:
       "writeAdmission": {
         "interfaceSurface": "chatgpt_app",
         "connectedInterface": "vercel",
-        "outputMeaning": "asset_pack_delivery_mechanism"
+        "outputMeaning": "asset_pack_delivery_mechanism",
+        "targetAnchor": "vercel:team_bitcode/prj_Yapper"
       }
     }
   }

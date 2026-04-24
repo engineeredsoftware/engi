@@ -1,8 +1,8 @@
 {
   "reportId": "v26-prompt-space-completeness-proof",
   "version": "V26",
-  "proofSourceCommit": "aa94c3bae89f45463de58f9a52b775ce3ac5466c",
-  "generatedAt": "2026-04-24T00:37:46-03:00",
+  "proofSourceCommit": "e91f32fae30ab5ae2046119f2dbf0b9e85c0bae2",
+  "generatedAt": "2026-04-24T02:26:42-03:00",
   "generatorId": "bitcode.proven-generator.v1",
   "worktreeState": "dirty-preview",
   "passed": false,
@@ -170,7 +170,7 @@
       "checkId": "app-and-mcp-prompt-interface-ingress",
       "label": "Application and MCP prompt ingress surfaces stay explicit and auditable",
       "passed": true,
-      "detail": "7 required files present",
+      "detail": "9 required files present",
       "requiredFiles": [
         "uapi/prompts/bitcode-terminal-system-prompt.ts",
         "uapi/app/api/conversations/stream/route.ts",
@@ -178,7 +178,9 @@
         "packages/executions-mcp/package.json",
         "packages/executions-mcp/src/mcp-server/src/prompts/analysis-prompts.ts",
         "packages/executions-mcp/src/mcp-server/src/prompts/workflow-prompts.ts",
-        "packages/executions-mcp/src/mcp-server/src/tools/pipeline-tools.ts"
+        "packages/executions-mcp/src/mcp-server/src/prompts/development-prompts.ts",
+        "packages/executions-mcp/src/mcp-server/src/tools/pipeline-tools.ts",
+        "packages/executions-mcp/src/mcp-server/src/__tests__/unit/prompt-asset-pack-canon.test.ts"
       ],
       "missingFiles": [],
       "promptSpaceRole": "app-mcp-ingress",

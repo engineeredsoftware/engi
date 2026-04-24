@@ -861,7 +861,7 @@ Required closure posture:
   test coverage:
   `packages/chatgptapp/src/__tests__/{tools.test.ts,yapperFlow.test.ts}`
   proof surface:
-  fifth-gate ChatGPT App interface-parity closure so GitHub/AWS/Vercel writes reject unconfirmed tool payloads, accept only `confirmed: true`, return `writeAdmission` receipts, and remain connected-interface delivery mechanisms over Bitcode source-to-shares work rather than owning Exchange state
+  fifth-gate ChatGPT App interface-parity closure so GitHub/AWS/Vercel writes reject unconfirmed tool payloads, declare schema-level confirmation requirements, accept only `confirmed: true`, return target-bound `writeAdmission` receipts including GitHub repository delivery, and remain connected-interface delivery mechanisms over Bitcode source-to-shares work rather than owning Exchange state
 - `packages/generic-tools/{repository-setup/package.json,repository-setup/src/index.ts,simple-system-text-search/src/index.ts,simple-system-text-search/src/prompts/BitcodeRepositoryEvidenceSearchDocCodeToolPrompt.ts,files-maintaining/src/index.ts,git-interactor/src/index.ts}`
   test coverage:
   `protocol-demonstration/test/v26-active-product-naming.test.js`
@@ -1082,6 +1082,11 @@ Required closure posture:
   `packages/executions-mcp/src/mcp-server/src/__tests__/unit/pipeline-ingress-contract.test.ts`
   proof surface:
   fifth-gate Bitcode MCP write-acceptance closure so the live deliverable tool schema admits explicit repository/provider connection ingress, third-party MCP repository and attachment context is proven as input-only ingress, queued and completed MCP responses preserve normalized `interfaceSurface` plus `inputContext`, accepted writes return and queue an explicit `writeAdmission` receipt, and output meaning stays asset-pack-normalized at the active tool boundary rather than only in notes or retained execution metadata
+- `{packages/executions-mcp/src/mcp-server/src/{prompts/{workflow-prompts,development-prompts}.ts,tools/pipeline-tools.ts,__tests__/unit/prompt-asset-pack-canon.test.ts}}`
+  test coverage:
+  `packages/executions-mcp/src/mcp-server/src/__tests__/unit/prompt-asset-pack-canon.test.ts`
+  proof surface:
+  fifth-gate Bitcode MCP prompt-canon closure so rendered workflow/development prompts and the retained pipeline tool description teach Bitcode asset-pack pipeline execution over source-to-shares needs, keep `bitcode://pipelines/deliverable/create` plus subtype names as compatibility surfaces, and prevent `deliverable pipeline` from remaining active MCP canon
 - `{uapi/app/application/{ApplicationCommandDeck.tsx,ApplicationClosureControlDeck.tsx,ApplicationTransactionDetailSurface.tsx,application-activity-history.ts,application-transaction-detail-snapshot.ts,application-transaction-detail.ts},uapi/tests/{applicationActivityHistory.test.ts,applicationTransactionDetailSnapshot.test.ts,applicationTransactionDetail.test.ts}}`
   test coverage:
   `uapi/tests/applicationActivityHistory.test.ts`, `uapi/tests/applicationTransactionDetailSnapshot.test.ts`, and `uapi/tests/applicationTransactionDetail.test.ts`

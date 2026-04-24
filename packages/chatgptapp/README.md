@@ -17,7 +17,7 @@ The pre-launch landing page and demo video revolve around three promises:
 
 1. **Design-first control** – Capture every requirement as you talk. Bitcode turns them into structured updates inside `.ai/PRODUCT.md`, so intent stays visible and portable.
 2. **Explain-before-you-edit** – Before any code changes land, Bitcode narrates the relevant files, drafts a plan, and shows diff-ready stubs. You steer scope; Bitcode handles detail.
-3. **Deliver with receipts** – GitHub commits, Vercel deploys, and AWS tweaks only happen with `confirmed: true`; each write returns a Bitcode write-admission receipt and every decision is mirrored into `.ai/AGENTS.md` for future sessions.
+3. **Deliver with receipts** – GitHub repository/file delivery, Vercel deploys, and AWS tweaks only happen with `confirmed: true`; each write returns a target-bound Bitcode write-admission receipt and every decision is mirrored into `.ai/AGENTS.md` for future sessions.
 
 The headline: *“Design your app in chat. Bitcode keeps the documents honest, drafts the code, and delivers connected-interface artifacts when you say go.”*
 

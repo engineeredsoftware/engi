@@ -80,6 +80,18 @@ This product delivers voice-first social conversations for builders.
     return (await tool.execute(args as any)) as TResult;
   };
 
+  it('declares confirmation schema on every ChatGPT App connected-interface write carrier', () => {
+    for (const name of ['write_code_changes_to_vcs', 'use_vercel_write_external_mcp', 'use_aws_write_external_mcp']) {
+      const tool = findTool(name);
+      expect(tool.meta?.requiresConfirmation).toBe(true);
+      expect((tool.inputSchema as any).required).toContain('confirmed');
+      expect((tool.inputSchema as any).properties.confirmed).toMatchObject({
+        type: 'boolean',
+        const: true,
+      });
+    }
+  });
+
   it('answer_codebase_query returns annotated matches', async () => {
     const result = await runTool<{ answer: string; metadata: { matchCount: number } }>('answer_codebase_query', {
       query: 'handler',
@@ -175,6 +187,47 @@ This product delivers voice-first social conversations for builders.
       targetAnchor: 'vercel:team_bitcode/prj_Yapper',
     });
     expect((result.result as any).readyState).toBe('BUILDING');
+  });
+
+  it('write_code_changes_to_vcs creates GitHub repository after explicit write admission', async () => {
+    const result = await runTool<{ result: { name: string; private: boolean }; metadata: { operation: string; writeAdmission: Record<string, unknown> } }>(
+      'write_code_changes_to_vcs',
+      {
+        operation: 'createRepository',
+        confirmed: true,
+        accessToken: 'ghp_mock',
+        name: 'bitcode-yapper',
+        description: 'Bitcode source-to-shares terminal companion fixture',
+        private: true,
+      }
+    );
+    expect(result.result).toMatchObject({
+      name: 'bitcode-yapper',
+      private: true,
+    });
+    expect(result.metadata.operation).toBe('createRepository');
+    expect(result.metadata.writeAdmission).toMatchObject({
+      admitted: true,
+      interfaceSurface: 'chatgpt_app',
+      permission: 'explicit_user_confirmation',
+      connectedInterface: 'github',
+      operation: 'createRepository',
+      exchangeStateRole: 'connected_interface_delivery_mechanism',
+      outputMeaning: 'asset_pack_delivery_mechanism',
+      targetAnchor: 'github:bitcode-yapper',
+    });
+  });
+
+  it('write_code_changes_to_vcs rejects GitHub writes without explicit confirmation', async () => {
+    await expect(
+      runTool('write_code_changes_to_vcs', {
+        operation: 'createRepository',
+        accessToken: 'ghp_mock',
+        name: 'bitcode-yapper',
+      })
+    ).rejects.toThrow(
+      'Bitcode ChatGPT App write admission requires confirmed: true before connected-interface writes can execute.',
+    );
   });
 
   it('rejects ChatGPT App connected-interface writes without explicit confirmation', async () => {

@@ -383,13 +383,13 @@ async function executePipelineWithMonitoring(
  */
 export function registerPipelineTools(): MCPTool[] {
   return [
-    // Deliverable Pipeline Tool
+    // Asset-pack pipeline tool, retained on the deliverable URI for compatibility.
     {
       name: 'bitcode://pipelines/deliverable/create',
-      description: `Create and execute a deliverable pipeline for complete software engineering tasks.
+      description: `Create and execute a Bitcode asset-pack pipeline for complete software engineering needs.
 
 This is Bitcode's most powerful pipeline, capable of:
-• Feature implementation with pull request creation
+• Feature implementation with written assets and optional pull request delivery
 • Comprehensive code reviews with detailed suggestions
 • Bug fixes with root cause analysis and testing
 • Technical documentation and blog posts
@@ -399,9 +399,9 @@ This is Bitcode's most powerful pipeline, capable of:
 • Code refactoring proposals with impact analysis
 
 Supports multimodal inputs including Figma designs, documents, images, audio, and video.
-Real-time streaming provides live updates during execution.
+Real-time streaming provides live updates during need measurement, asset synthesis, validation, Finish, and connected-interface delivery readiness.
 
-Subtypes:
+Retained compatibility subtypes:
 • pull_request - Complete feature implementation with PR
 • pr_review - Comprehensive code review with suggestions
 • issue - Bug analysis and fixes with testing

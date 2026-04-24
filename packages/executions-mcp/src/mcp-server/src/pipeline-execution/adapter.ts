@@ -223,7 +223,7 @@ export async function queuePipelineJob(
 
     // Create run record
     const run = await runs.create({
-      deliverable_id: deliverableId || uuidv4(), // Use dummy ID for non-deliverable pipelines
+      deliverable_id: deliverableId || uuidv4(), // Compatibility id for asset-pack runs without a retained delivery wrapper.
       user_id: options.userId,
       status: 'pending',
       metadata: {

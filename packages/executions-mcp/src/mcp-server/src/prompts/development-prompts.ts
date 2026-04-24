@@ -79,9 +79,9 @@ ${args.endpoints.map((ep: { method: string; path: string; description: string })
 ${args.requirements.length > 0 ? `## Additional Requirements
 ${args.requirements.map((req: string) => `- ${req}`).join('\n')}` : ''}
 
-Please help me develop this API using Bitcode's deliverable pipeline with the following comprehensive approach:
+Please help me develop this API using Bitcode's asset-pack pipeline with the following comprehensive source-to-shares approach:
 
-1. **API Design & Architecture** - Use deliverable pipeline with "api_spec" subtype:
+1. **API Design & Architecture** - Use the asset-pack pipeline with retained compatibility subtype "api_spec":
    - Generate comprehensive OpenAPI 3.0 specification
    - Design RESTful resource structure and URL patterns
    - Define request/response schemas with proper validation
@@ -89,7 +89,7 @@ Please help me develop this API using Bitcode's deliverable pipeline with the fo
    - Design API versioning strategy
    - Create authentication and authorization flow diagrams
 
-2. **Implementation Planning** - Use deliverable pipeline with "implementation_plan" subtype:
+2. **Implementation Planning** - Use the asset-pack pipeline with retained compatibility subtype "implementation_plan":
    - Design project structure and architecture patterns
    - Plan database schema and data access layer
    - Design middleware stack and request processing flow
@@ -97,7 +97,7 @@ Please help me develop this API using Bitcode's deliverable pipeline with the fo
    - Design deployment and infrastructure requirements
    - Plan monitoring, logging, and observability setup
 
-3. **Core API Implementation** - Use deliverable pipeline with "pull_request" subtype:
+3. **Core API Implementation** - Use the asset-pack pipeline with retained compatibility subtype "pull_request":
 
    **Foundation Setup**:
    - Set up project structure with proper separation of concerns
@@ -153,7 +153,7 @@ Please help me develop this API using Bitcode's deliverable pipeline with the fo
    - Add data validation and integrity constraints
    - Set up backup and recovery procedures`}
 
-4. **API Documentation** - Use deliverable pipeline with "blog_post" subtype:
+4. **API Documentation** - Use the asset-pack pipeline with retained compatibility subtype "blog_post":
    - Generate interactive API documentation with Swagger/OpenAPI
    - Create comprehensive API usage guides and examples
    - Document authentication flows and error handling
@@ -252,9 +252,9 @@ ${args.designSystem ? `- **Design System**: ${args.designSystem}` : ''}
 ${args.features.length > 0 ? `## Required Features
 ${args.features.map((feature: string) => `- ${feature.charAt(0).toUpperCase() + feature.slice(1)}`).join('\n')}` : ''}
 
-Please help me scaffold this frontend application using Bitcode's deliverable pipeline:
+Please help me scaffold this frontend application using Bitcode's asset-pack pipeline:
 
-1. **Project Setup & Architecture** - Use deliverable pipeline with "frontend_scaffolder" subtype:
+1. **Project Setup & Architecture** - Use the asset-pack pipeline with retained compatibility subtype "frontend_scaffolder":
 
    **Foundation Setup**:
    - Initialize ${args.framework} project with ${args.typescript ? 'TypeScript' : 'JavaScript'} configuration
@@ -482,9 +482,9 @@ ${entity.fields.map((field: { name: string; type: string; required?: boolean }) 
 ## Required Features
 ${args.features.map((feature: string) => `- ${feature.charAt(0).toUpperCase() + feature.slice(1)}`).join('\n')}
 
-Please help me implement comprehensive database integration using Bitcode's deliverable pipeline:
+Please help me implement comprehensive database integration using Bitcode's asset-pack pipeline:
 
-1. **Database Setup & Configuration** - Use deliverable pipeline with "pull_request" subtype:
+1. **Database Setup & Configuration** - Use the asset-pack pipeline with retained compatibility subtype "pull_request":
 
    **Database Installation & Setup**:
    ${args.databaseType === 'postgresql' ? `

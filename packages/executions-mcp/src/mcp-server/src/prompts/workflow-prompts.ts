@@ -69,9 +69,9 @@ ${args.stakeholders.length > 0 ? `- **Stakeholders**: ${args.stakeholders.join('
 ${args.constraints.length > 0 ? `## Constraints
 ${args.constraints.map((constraint: string) => `- ${constraint}`).join('\n')}` : ''}
 
-Please help me implement this feature using Bitcode's deliverable pipeline with the following approach:
+Please help me implement this feature using Bitcode's asset-pack pipeline with the following source-to-shares approach:
 
-1. **Use the deliverable pipeline tool** with subtype "pull_request" to implement the complete feature
+1. **Use the asset-pack pipeline tool** with retained compatibility subtype "pull_request" to synthesize the complete implementation as reviewable written assets
 2. **Include comprehensive analysis** with scope analysis and implementation planning
 3. **Follow engineering best practices**:
    - Type-safe implementation with comprehensive error handling
@@ -92,7 +92,7 @@ Please help me implement this feature using Bitcode's deliverable pipeline with 
    - Migration scripts if database changes are needed
    - Deployment considerations and rollback strategy
 
-Please execute the deliverable pipeline and provide real-time updates on the implementation progress.`
+Please execute the Bitcode asset-pack pipeline and provide real-time updates on the implementation progress, written assets, and delivery-mechanism readiness.`
     }
   ]
 };
@@ -158,9 +158,9 @@ ${args.errorLogs}
 ${args.affectedUsers ? `### Affected Users
 ${args.affectedUsers}` : ''}
 
-Please help me analyze and fix this bug using Bitcode's deliverable pipeline with the following systematic approach:
+Please help me analyze and fix this bug using Bitcode's asset-pack pipeline with the following systematic source-to-shares approach:
 
-1. **Use the deliverable pipeline tool** with subtype "issue" for comprehensive bug resolution
+1. **Use the asset-pack pipeline tool** with retained compatibility subtype "issue" for comprehensive bug resolution as reviewable written assets
 
 2. **Root Cause Analysis**:
    - Investigate the codebase to identify the root cause
@@ -192,7 +192,7 @@ Please help me analyze and fix this bug using Bitcode's deliverable pipeline wit
    - Ensure performance impact is minimal
    - Document the fix and prevention measures
 
-Please execute the deliverable pipeline and provide detailed analysis of the root cause and fix implementation.`
+Please execute the Bitcode asset-pack pipeline and provide detailed analysis of the root cause, fix implementation, written assets, and delivery-mechanism readiness.`
     }
   ]
 };
@@ -250,9 +250,9 @@ ${args.focusAreas.map((area: string) => `- ${area.charAt(0).toUpperCase() + area
 ${args.compliance.length > 0 ? `## Compliance Standards
 ${args.compliance.map((std: string) => `- ${std}`).join('\n')}` : ''}
 
-Please conduct a thorough code review using Bitcode's deliverable pipeline with the following approach:
+Please conduct a thorough code review using Bitcode's asset-pack pipeline with the following source-to-shares approach:
 
-1. **Use the deliverable pipeline tool** with subtype "pr_review" for comprehensive code analysis
+1. **Use the asset-pack pipeline tool** with retained compatibility subtype "pr_review" for comprehensive code analysis and reviewable written assets
 
 2. **Security Analysis**:
    - Scan for common vulnerabilities (XSS, SQL injection, CSRF, etc.)
@@ -352,7 +352,7 @@ ${args.futureRequirements}` : ''}
 ${args.constraints.length > 0 ? `## Current Constraints
 ${args.constraints.map((constraint: string) => `- ${constraint}`).join('\n')}` : ''}
 
-Please conduct a thorough architecture review using Bitcode's analysis tools and deliverable pipeline with the following comprehensive analysis:
+Please conduct a thorough architecture review using Bitcode's analysis tools and asset-pack pipeline with the following comprehensive analysis:
 
 1. **Use the analysis tools** for deep architectural insights (architecture analysis)
 
@@ -471,14 +471,14 @@ Please help me optimize the application performance using Bitcode's analysis and
    - Review network latency and data transfer efficiency
    - Evaluate frontend rendering and JavaScript performance
 
-2. **Optimization Strategy** - Use deliverable pipeline with "implementation_plan" subtype to create optimization roadmap:
+2. **Optimization Strategy** - Use the asset-pack pipeline with retained compatibility subtype "implementation_plan" to create an optimization roadmap:
    - Prioritize optimizations by impact and effort
    - Design caching strategies (Redis, CDN, application-level)
    - Plan database optimizations (indexing, query tuning, connection pooling)
    - Outline frontend optimizations (code splitting, lazy loading, bundling)
    - Design monitoring and alerting for performance metrics
 
-3. **Implementation** - Use deliverable pipeline with "pull_request" subtype to implement optimizations:
+3. **Implementation** - Use the asset-pack pipeline with retained compatibility subtype "pull_request" to implement optimizations:
    - Implement high-impact performance improvements
    - Add performance monitoring and profiling tools
    - Optimize critical path operations and hot code paths

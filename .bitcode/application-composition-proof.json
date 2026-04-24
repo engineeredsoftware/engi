@@ -1,8 +1,8 @@
 {
   "reportId": "v26-application-composition-proof",
   "version": "V26",
-  "proofSourceCommit": "aa94c3bae89f45463de58f9a52b775ce3ac5466c",
-  "generatedAt": "2026-04-24T00:37:46-03:00",
+  "proofSourceCommit": "e91f32fae30ab5ae2046119f2dbf0b9e85c0bae2",
+  "generatedAt": "2026-04-24T02:26:42-03:00",
   "generatorId": "bitcode.proven-generator.v1",
   "worktreeState": "dirty-preview",
   "passed": true,
@@ -47,7 +47,7 @@
       "checkId": "chatgpt-app-connected-interface-write-admission",
       "label": "ChatGPT App connected-interface writes fail closed on explicit confirmation and emit Bitcode write-admission receipts",
       "passed": true,
-      "detail": "8 source evidence requirements satisfied",
+      "detail": "11 source evidence requirements satisfied",
       "requiredEvidence": [
         {
           "file": "packages/chatgptapp/src/tools.ts",
@@ -78,6 +78,21 @@
           "file": "packages/chatgptapp/src/__tests__/tools.test.ts",
           "evidence": "rejects ChatGPT App connected-interface writes without explicit confirmation",
           "description": "unit proof covers unconfirmed write rejection"
+        },
+        {
+          "file": "packages/chatgptapp/src/__tests__/tools.test.ts",
+          "evidence": "declares confirmation schema on every ChatGPT App connected-interface write carrier",
+          "description": "unit proof covers schema-level confirmation requirements across GitHub, Vercel, and AWS write carriers"
+        },
+        {
+          "file": "packages/chatgptapp/src/__tests__/tools.test.ts",
+          "evidence": "write_code_changes_to_vcs creates GitHub repository after explicit write admission",
+          "description": "unit proof covers GitHub write admission through the ChatGPT App VCS tool"
+        },
+        {
+          "file": "packages/chatgptapp/src/__tests__/tools.test.ts",
+          "evidence": "targetAnchor: 'github:bitcode-yapper'",
+          "description": "unit proof covers target-bound GitHub write admission"
         },
         {
           "file": "packages/chatgptapp/src/__tests__/tools.test.ts",
