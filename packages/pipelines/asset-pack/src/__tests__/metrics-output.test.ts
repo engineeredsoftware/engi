@@ -18,14 +18,14 @@ jest.mock('../agents/setup/asset-pack-danger-wall-agent', () => ({
   }),
 }));
 
-describe('Deliverable pipeline bring-up (setup + PTRR plan: prepare→reason)', () => {
+describe('AssetPack pipeline bring-up (setup + PTRR plan: prepare→reason)', () => {
   it('streams phase/agent events and persists structured rows', async () => {
     process.env.BITCODE_DEBUG_ONLY_FAILSAFES = 'prepare';
     process.env.BITCODE_DEBUG_ONLY_GENERATIONS = 'reason';
     process.env.BITCODE_ENABLE_ASSET_PACK_SETUP_PHASE_RUNTIME_IN_TEST = '1';
 
     try {
-      const exec = new Execution('deliverable:test');
+      const exec = new Execution('asset-pack:test');
       const inserts: any[] = [];
       const supabaseStub: any = {
         from(table: string) {

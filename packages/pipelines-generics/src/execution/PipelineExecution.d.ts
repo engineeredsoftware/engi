@@ -15,7 +15,7 @@ import { PipelineToolRegistry } from './PipelineToolRegistry';
 import { PipelineLLMRegistry } from './PipelineLLMRegistry';
 import { PipelineAgentRegistry } from './PipelineAgentRegistry';
 export type PipelineExecutionPosture = 'live' | 'reference' | 'compatibility';
-export type PipelineExecutionFamily = 'ad_hoc' | 'deliverable' | 'multi_deliverable' | 'quick' | 'custom';
+export type PipelineExecutionFamily = 'ad_hoc' | 'asset_pack' | 'quick' | 'custom';
 export interface PipelineExecutionLineage {
     pipelineName: string;
     family: PipelineExecutionFamily;

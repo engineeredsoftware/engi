@@ -20,8 +20,7 @@ import { PipelineAgentRegistry } from './PipelineAgentRegistry';
 export type PipelineExecutionPosture = 'live' | 'reference' | 'compatibility';
 export type PipelineExecutionFamily =
   | 'ad_hoc'
-  | 'deliverable'
-  | 'multi_deliverable'
+  | 'asset_pack'
   | 'quick'
   | 'custom';
 
@@ -48,21 +47,21 @@ export function inferPipelineExecutionLineage(name: string): PipelineExecutionLi
     };
   }
 
-  if (normalized === 'deliverable') {
+  if (normalized === 'asset_pack' || normalized === 'assetpack') {
     return {
       pipelineName: name,
-      family: 'deliverable',
-      posture: 'reference',
-      admittedSurface: 'retained_deliverable_reference'
+      family: 'asset_pack',
+      posture: 'live',
+      admittedSurface: 'bitcode_asset_pack'
     };
   }
 
-  if (normalized === 'multi_deliverables' || normalized === 'multi_deliverable') {
+  if (normalized === 'deliverable') {
     return {
       pipelineName: name,
-      family: 'multi_deliverable',
-      posture: 'reference',
-      admittedSurface: 'retained_multi_deliverable_reference'
+      family: 'asset_pack',
+      posture: 'compatibility',
+      admittedSurface: 'asset_pack_route_compatibility'
     };
   }
 

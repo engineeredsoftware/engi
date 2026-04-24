@@ -2,7 +2,7 @@
  * Validation phase agents for the AssetPack pipeline.
  *
  * V26 validates the AssetPack as the canonical written asset. It does not
- * branch validation by retained pull-request, review, issue, or comment labels;
+ * branch validation by pull-request, review, issue, or comment request labels;
  * those labels are Finish delivery-mechanism templates only.
  */
 

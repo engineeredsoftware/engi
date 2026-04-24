@@ -41,7 +41,7 @@
 - [ ] AssetPack pipeline customization guide
 - [ ] Agent replacement/extension guide
 - [ ] Performance tuning guide
-- [ ] Compatibility guide for callers still using deliverable/SDIVS route names
+- [ ] Compatibility guide for callers entering through `/api/deliverables` route names while receiving AssetPack/SDIVF semantics
 
 ## Known Issues
 

@@ -10,8 +10,8 @@ import {
   resolveWrittenAssetTypeFromExecution,
 } from '../semantic-resolution';
 
-describe('deliverable semantic resolution', () => {
-  it('collapses retained written-asset labels to the canonical AssetPack kind', () => {
+describe('AssetPack semantic resolution', () => {
+  it('collapses compatibility request labels to the canonical AssetPack kind', () => {
     expect(
       resolveWrittenAssetType({
         writtenAssetType: 'design-document-review',
@@ -28,7 +28,7 @@ describe('deliverable semantic resolution', () => {
   });
 
   it('reads delivery-mechanism templates from execution without changing written-asset kind', () => {
-    const exec = new Execution('pipeline:deliverable');
+    const exec = new Execution('pipeline:asset-pack');
     exec.store('pipeline', 'deliverableType', 'code-change');
     exec.store('pipeline', 'writtenAssetType', ['design-document']);
     exec.store('pipeline', 'deliveryMechanismTemplate', 'issue-comment');
@@ -47,7 +47,7 @@ describe('deliverable semantic resolution', () => {
   });
 
   it('reads semantic need and need comprehension from execution mirrors first', () => {
-    const exec = new Execution('pipeline:deliverable');
+    const exec = new Execution('pipeline:asset-pack');
     exec.store('pipeline', 'expressedNeed', 'Compatibility fallback');
     exec.store('need', 'description', 'Need a repository-bound written asset');
     exec.store('setup/need-comprehension', 'comprehension', { intent: 'need-model' });

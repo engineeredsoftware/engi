@@ -9,7 +9,7 @@ import {
  * delivery-mechanism semantics.
  */
 
-export interface DeliverableArtifacts {
+export interface AssetPackArtifacts {
   filesCreated: string[];
   filesModified: string[];
   testsAdded: number;
@@ -17,14 +17,14 @@ export interface DeliverableArtifacts {
   documentation: string[];
 }
 
-export interface DeliverableMetrics {
+export interface AssetPackMetrics {
   duration: number;
   tokensUsed: number;
   creditsUsed: number;
   confidence: number;
 }
 
-export interface DeliverableResultMeta {
+export interface AssetPackResultMeta {
   prUrl?: string;
   branch?: string;
   deploymentUrl?: string;
@@ -33,17 +33,17 @@ export interface DeliverableResultMeta {
   payload?: Record<string, unknown>;
 }
 
-export type DeliveryMechanismMeta = DeliverableResultMeta;
-export type WrittenAssetResultMeta = DeliverableResultMeta;
+export type DeliveryMechanismMeta = AssetPackResultMeta;
+export type WrittenAssetResultMeta = AssetPackResultMeta;
 
-export interface DeliverableOutput {
+export interface AssetPackOutput {
   success: boolean;
   summary?: string;
-  deliverable?: DeliverableResultMeta;
+  deliverable?: AssetPackResultMeta;
   deliveryMechanism?: DeliveryMechanismMeta;
   writtenAsset?: WrittenAssetResultMeta;
-  artifacts?: Partial<DeliverableArtifacts>;
-  metrics?: Partial<DeliverableMetrics>;
+  artifacts?: Partial<AssetPackArtifacts>;
+  metrics?: Partial<AssetPackMetrics>;
   deliverableType?: AssetPackWrittenAssetType;
   writtenAssetType?: AssetPackWrittenAssetType;
   deliveryMechanismTemplate?: AssetPackDeliveryMechanismTemplate;
@@ -56,7 +56,7 @@ export type AssetPackWrittenAssetTypeValue =
 export type WrittenAssetTypeValue = AssetPackWrittenAssetTypeValue;
 export type AssetPackDeliveryMechanismTemplateValue = AssetPackDeliveryMechanismTemplate;
 
-export interface DeliverablePostprocessed {
+export interface AssetPackPostprocessed {
   executionId: string;
   kind: 'deliverable';
   semanticKind?: 'asset-pack-written-asset';
@@ -64,7 +64,7 @@ export interface DeliverablePostprocessed {
   repository?: string;
   summary?: string;
   deliveryMechanism?: DeliveryMechanismMeta;
-  artifacts?: Partial<DeliverableArtifacts> | null;
+  artifacts?: Partial<AssetPackArtifacts> | null;
   deliverableType?: AssetPackWrittenAssetType;
   writtenAssetType?: AssetPackWrittenAssetType;
   deliveryMechanismTemplate?: AssetPackDeliveryMechanismTemplate;
@@ -80,30 +80,39 @@ export interface DeliverablePostprocessed {
     confidence?: number | null;
   };
 }
-export interface DeliverableRepositoryRef {
+export interface AssetPackRepositoryRef {
   url: string;
   owner?: string;
   name?: string;
   branch?: string;
 }
 
-export interface DeliverableRequirements {
+export interface AssetPackRequirements {
   testCoverage?: number;
   documentationRequired?: boolean;
   securityScanRequired?: boolean;
 }
 
-export interface DeliverableInput {
+export interface AssetPackInput {
   definitionOfNeed?: string;
   need?: string;
-  repository: DeliverableRepositoryRef;
-  requirements?: DeliverableRequirements;
+  repository: AssetPackRepositoryRef;
+  requirements?: AssetPackRequirements;
   deliveryTarget?: 'pr' | 'branch' | 'deployment';
   deliveryMechanismTemplate?: AssetPackDeliveryMechanismTemplate;
   deliverableType?: string;
   writtenAssetType?: string;
 }
 
-export type AssetPackSynthesisInput = DeliverableInput;
-export type AssetPackWrittenAssetOutput = DeliverableOutput;
-export type AssetPackWrittenAssetPostprocessed = DeliverablePostprocessed;
+export type AssetPackSynthesisInput = AssetPackInput;
+export type AssetPackWrittenAssetOutput = AssetPackOutput;
+export type AssetPackWrittenAssetPostprocessed = AssetPackPostprocessed;
+
+export type DeliverableArtifacts = AssetPackArtifacts;
+export type DeliverableMetrics = AssetPackMetrics;
+export type DeliverableResultMeta = AssetPackResultMeta;
+export type DeliverableOutput = AssetPackOutput;
+export type DeliverablePostprocessed = AssetPackPostprocessed;
+export type DeliverableRepositoryRef = AssetPackRepositoryRef;
+export type DeliverableRequirements = AssetPackRequirements;
+export type DeliverableInput = AssetPackInput;

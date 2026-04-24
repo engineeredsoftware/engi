@@ -4,51 +4,38 @@ set -euo pipefail
 repo_root="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 promptparts_dir="$repo_root/packages/prompts/src/raw_promptparts/specific"
 
-echo "=== RETAINED ASSET-PACK PIPELINE PROMPT AUDIT ==="
+echo "=== ASSET-PACK PIPELINE PROMPT AUDIT ==="
 echo ""
 
-# List of active retained asset-pack pipeline agent PromptPart keys we expect.
-# Compatibility filenames may still include deliverable*, but the setup
-# comprehension owner is canonical comprehend-need.
+# Active AssetPack SDIVF agent PromptPart keys expected by V26.
 agents=(
   # Setup Phase
   "comprehendneed"
-  "determinedeliverabletype"
+  "dangerwall"
   "clonevcsrepository"
   "analyzecodebase"
   
   # Discovery Phase  
+  "gathercontext"
   "understandrequirements"
+  "researchapproach"
   "planimplementation"
   "assesscomplexity"
-  "comprehendattachments"
-  "analyzeparallel"
-  "selectfilesparallel"
   
   # Implementation Phase
-  "dividecodechange"
-  "conquerfile"
-  "correctcodechange"
-  "reviewcodechange"
-  "createdesigndocument"
-  "reviewdesigndocument"
+  "assetpacksynthesizewrittenassets"
   
   # Validation Phase
-  "validatecodechange"
-  "validatecodereview"
-  "validatedesigndocument"
-  "validatedesigndocumentreview"
-  "readytofinishcodechange"
-  "readytofinishcodereview"
-  "readytofinishdesigndocument"
-  "readytofinishdesigndocumentreview"
+  "assetpackvalidation"
+  "assetpackvalidationreadytofinish"
+  "readytofinish"
   
-  # Shipping Phase
-  "createcodechange"
-  "submitcodereview"
-  "shipdesigndocument"
-  "adddesigndocumentreview"
-  "finalizeshipment"
+  # Finish Phase
+  "assetpackfinishcreatepullrequestdelivery"
+  "assetpackfinishsubmitreviewdelivery"
+  "assetpackfinishcreateissuedelivery"
+  "assetpackfinishaddissuecommentdelivery"
+  "assetpackfinishfinalizedeliveryevidence"
 )
 
 prompt_types=(

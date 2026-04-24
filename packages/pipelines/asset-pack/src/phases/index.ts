@@ -16,23 +16,23 @@ import {
   resolveWrittenAssetTypeFromExecution,
 } from '../semantic-resolution';
 import type {
-  DeliverableInput,
-  DeliverableOutput as DeliverablePhaseOutput,
+  AssetPackInput,
+  AssetPackOutput,
 } from '../types/PipelineSchemas';
 
-type SetupOutput = DeliverableInput;
-type DiscoveryOutput = DeliverableInput;
-type ImplementationOutput = DeliverablePhaseOutput;
-type ValidationOutput = DeliverablePhaseOutput;
+type SetupOutput = AssetPackInput;
+type DiscoveryOutput = AssetPackInput;
+type ImplementationOutput = AssetPackOutput;
+type ValidationOutput = AssetPackOutput;
 
 // ==================== SETUP PHASE ====================
 
 /**
  * Setup Phase - repository context, need comprehension, and risk admission.
- * The retained danger-wall slot is now Bitcode need/AssetPack admission before iteration.
+ * Danger-wall performs Bitcode Need/AssetPack admission before iteration.
  */
 // Use the Setup phase runner (executor pattern)
-export const setupPhase = assetPackSetupPhaseExecutor as unknown as PhaseDelegator<DeliverableInput, SetupOutput>;
+export const setupPhase = assetPackSetupPhaseExecutor as unknown as PhaseDelegator<AssetPackInput, SetupOutput>;
 
 // ==================== DISCOVERY PHASE ====================
 
@@ -40,7 +40,7 @@ export const setupPhase = assetPackSetupPhaseExecutor as unknown as PhaseDelegat
  * Discovery Phase - Research and approach planning
  */
 // Disable other phases during bring-up (no-op delegators)
-export const discoveryPhase: PhaseDelegator<SetupOutput, DiscoveryOutput> = (async (input: DeliverableInput, execution: any) => {
+export const discoveryPhase: PhaseDelegator<SetupOutput, DiscoveryOutput> = (async (input: AssetPackInput, execution: any) => {
   try { registerDiscoveryAgents((execution as any).agents); } catch {}
   const exec: Executor<any, any> = sequential(
     createAgentExecutor('discovery:gather-context'),
@@ -120,7 +120,7 @@ export const validationPhase: PhaseDelegator<ImplementationOutput, ValidationOut
  * Finish Phase - save the pipeline result and optionally Deliver AssetPacks /
  * AssetPackPartials to connected third-party destinations.
  */
-export const finishPhase: PhaseDelegator<ValidationOutput, DeliverablePhaseOutput> = (async (input: any, execution: any) => {
+export const finishPhase: PhaseDelegator<ValidationOutput, AssetPackOutput> = (async (input: any, execution: any) => {
   const deliveryMechanismTemplate = resolveDeliveryMechanismTemplateFromExecution(execution);
   try { registerFinishAgentsForType(deliveryMechanismTemplate, (execution as any).agents); } catch {}
   const exec: Executor<any, any> = sequential(
@@ -128,7 +128,7 @@ export const finishPhase: PhaseDelegator<ValidationOutput, DeliverablePhaseOutpu
     createAgentExecutor('finish:final-work-summary')
   );
   return await exec(input, execution);
-}) as unknown as PhaseDelegator<ValidationOutput, DeliverablePhaseOutput>;
+}) as unknown as PhaseDelegator<ValidationOutput, AssetPackOutput>;
 
 // ==================== EXPORT ALL PHASES ====================
 

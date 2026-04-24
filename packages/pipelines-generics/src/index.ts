@@ -5,14 +5,14 @@
  * pipelines. Pipelines are Executors that sequence PhaseDelegators.
  * PhaseDelegators are Executors that delegate to Agents.
  *
- * These are reusable orchestration primitives. Retained orchestration families
- * such as SDIVF and meta-phase flows remain reference patterns unless they are
- * explicitly repurposed into Bitcode-owned behavior.
+ * These are reusable orchestration primitives. SDIVF and meta-phase flows are
+ * canonical reference patterns when a Bitcode package explicitly owns their
+ * behavior.
  * 
  * Core Concepts:
  * - Pipeline: Top-level Executor orchestrating phases (EE)
  * - PhaseDelegator: Executor that delegates work to Agents
- * - SDIVF: retained setup/discovery/implementation/validation/finish reference family
+ * - SDIVF: setup/discovery/implementation/validation/finish reference family
  * 
  * @doc-code
  * type: package
@@ -48,7 +48,7 @@ export {
   type QuickPhase
 } from './quick-pipeline';
 
-// Phase factories and retained SDIVF reference helpers
+// Phase factories and SDIVF reference helpers
 export {
   factoryPhaseDelegator,
   factorySequentialPhaseDelegator,
@@ -57,7 +57,7 @@ export {
   SDIVFPhase
 } from './phases/phase-factory';
 
-// Retained SDIVF reference pipeline factories
+// SDIVF reference pipeline factories
 export {
   factorySDIVFPipeline,
   type SDIVFConfig

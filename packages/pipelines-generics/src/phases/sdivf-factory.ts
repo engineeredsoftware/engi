@@ -1,7 +1,7 @@
 /**
- * Retained SDIVF reference pipeline factory with built-in DIV iteration
+ * SDIVF reference pipeline factory with built-in DIV iteration
  *
- * Creates the retained Setup-[Discovery-Implementation-Validation]*-Finish
+ * Creates the Setup-[Discovery-Implementation-Validation]*-Finish
  * pattern with automatic iteration support. Finish is the broad final phase:
  * save the run result, preserve useful Need/AssetPack state, and optionally
  * deliver AssetPacks or AssetPackPartials to third-party destinations.
@@ -56,7 +56,7 @@ export interface SDIVFConfig<TInput = any, TOutput = any> extends SDIVBaseConfig
 // ==================== SDIVF PIPELINE FACTORY ====================
 
 /**
- * Create a retained SDIVF reference pipeline with built-in DIV iteration.
+ * Create an SDIVF reference pipeline with built-in DIV iteration.
  *
  * Pattern: Setup -> [Discovery -> Implementation -> Validation]* -> Finish
  * 
@@ -222,7 +222,7 @@ export interface SDIVFExecutorConfig<TInput = any, TOutput = any> {
 }
 
 /**
- * factorySDIVFExecutorPipeline - Build a complete retained SDIVF reference
+ * factorySDIVFExecutorPipeline - Build a complete SDIVF reference
  * pipeline as a pure Executor using execution-generics composition. This mirrors the intended
  * [preprocess] -> Setup -> [Discovery -> Implementation -> Validation]* -> Finish -> [postprocess]
  * pattern without requiring call-site abstractions.

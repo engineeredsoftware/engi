@@ -1,7 +1,7 @@
 /**
  * @doc-comment-developing-promptpartdevelopment
  * domain: auto
- * intent: "Bitcode AssetPack Finish PromptPart for delivery-evidence finalization over validated written assets: agent assetpackfinishfinalizedeliveryevidence ptrrretry purpose"
+ * intent: "Bitcode AssetPack Finish PromptPart for delivery-evidence finalization over validated Need-satisfaction AssetPack written assets: agent assetpackfinishfinalizedeliveryevidence ptrrretry purpose"
  * current_version: "0.50.0"
  * versions: []
  * benchmarks: [
@@ -15,7 +15,7 @@ import { PromptPart } from '../../parts/PromptPart';
 /**
  * @doc-comment-developing-promptpartdevelopment
  * domain: agent
- * intent: "Bitcode AssetPack Finish PromptPart for delivery-evidence finalization over validated written assets: agent assetpackfinishfinalizedeliveryevidence ptrrretry purpose"
+ * intent: "Bitcode AssetPack Finish PromptPart for delivery-evidence finalization over validated Need-satisfaction AssetPack written assets: agent assetpackfinishfinalizedeliveryevidence ptrrretry purpose"
  * current_version: "0.50.0"
  * versions: []
  * benchmarks: [
@@ -23,4 +23,4 @@ import { PromptPart } from '../../parts/PromptPart';
  * ]
  */
 export const PROMPTPART_SPECIFIC_AGENT_ASSETPACKFINISHFINALIZEDELIVERYEVIDENCE_PTRRRETRY_PURPOSE: PromptPart =
-  'PTRR Retry Step: ensure completion for finalizing Finish delivery evidence for validated written assets with metrics and confirmation' as PromptPart;
+  'PTRR Retry Step: ensure completion for finalizing Finish delivery evidence for validated Need-satisfaction AssetPack written assets with metrics and confirmation' as PromptPart;

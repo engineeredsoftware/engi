@@ -2,7 +2,7 @@
  * Setup Plan Agent (PTRR)
  *
  * Minimal PTRR agent used in Setup phase to derive a concise plan for the
- * expressed need and retained asset-pack written-asset synthesis corridor.
+ * expressed need and AssetPack written-asset synthesis corridor.
  *
  * Env for bring-up:
  * - BITCODE_DEBUG_ONLY_FAILSAFES=prepare

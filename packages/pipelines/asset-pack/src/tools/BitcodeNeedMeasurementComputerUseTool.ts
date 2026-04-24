@@ -1,7 +1,7 @@
 /**
  * Bitcode Need Measurement - Computer Use Tool
  *
- * Internal V26 feature-flagged wrapper for the retained shell primitive.
+ * Internal V26 feature-flagged wrapper for bounded computer-use evidence.
  * It is admitted only for Need-measurement evidence collection; broader
  * computer-using agent behavior is punted beyond V26.
  */

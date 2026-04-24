@@ -22,7 +22,6 @@ const ReadyToIterateInputSchema = z.object({
   cloneResult: z.any(), // From clone-vcs-repository
   lspInitialized: z.boolean(), // From initialize-lsp
   dangerWallResult: z.any(), // Compatibility key for Bitcode need-risk-admission output
-  taskComprehension: z.any().optional(), // Optional mirror for older prompt contracts
   needComprehension: z.any().optional(), // Semantic mirror from comprehend-need
   deliverableType: z.union([z.string(), z.array(z.string())]).optional(), // Route compatibility mirror
   writtenAssetType: z.union([z.string(), z.array(z.string())]).optional(), // Semantic mirror
@@ -59,7 +58,7 @@ const readyToIterateAgent = factoryAgentWithPTRR<
   stepPrompts: AssetPackSetupPhaseReadyToIterateAgentPromptSteps,
 
   name: 'asset-pack-ready-to-iterate-agent',
-  description: 'Determines if retained asset-pack written-asset synthesis should continue after setup',
+  description: 'Determines if AssetPack written-asset synthesis should continue after setup',
 
   outputSchema: ReadyToIterateOutputSchema,
 

@@ -106,7 +106,7 @@ export const GATE_TRANSITIONS: GateTransition[] = [
   }
 ];
 
-// Compatibility alias retained while callers migrate to GATE_TRANSITIONS.
+// Compatibility alias kept while callers migrate to GATE_TRANSITIONS.
 export const META_PHASE_USER_GATES = GATE_TRANSITIONS;
 
 /**

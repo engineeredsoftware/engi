@@ -1,13 +1,13 @@
 import { Prompt } from '@bitcode/prompts/prompt';
-import { PROMPTPART_SPECIFIC_AGENT_DELIVERABLESHIPPINGADDISSUECOMMENT_IDENTITY_DEFINITION } from '@bitcode/prompts/raw_promptparts/specific/promptpart_specific_agent_deliverableshippingaddissuecomment_identity_definition';
-import { PROMPTPART_SPECIFIC_AGENT_DELIVERABLESHIPPINGADDISSUECOMMENT_PURPOSE_CORESTATEMENT } from '@bitcode/prompts/raw_promptparts/specific/promptpart_specific_agent_deliverableshippingaddissuecomment_purpose_corestatement';
-import { PROMPTPART_SPECIFIC_AGENT_DELIVERABLESHIPPINGADDISSUECOMMENT_CAPABILITIES_LIST } from '@bitcode/prompts/raw_promptparts/specific/promptpart_specific_agent_deliverableshippingaddissuecomment_capabilities_list';
-import { PROMPTPART_SPECIFIC_AGENT_DELIVERABLESHIPPINGADDISSUECOMMENT_TOOLS_AVAILABLE } from '@bitcode/prompts/raw_promptparts/specific/promptpart_specific_agent_deliverableshippingaddissuecomment_tools_available';
-import { PROMPTPART_SPECIFIC_AGENT_DELIVERABLESHIPPINGADDISSUECOMMENT_REQUIREMENTS_CONTEXT } from '@bitcode/prompts/raw_promptparts/specific/promptpart_specific_agent_deliverableshippingaddissuecomment_requirements_context';
-import { PROMPTPART_SPECIFIC_AGENT_DELIVERABLESHIPPINGADDISSUECOMMENT_PTRRPLAN_PURPOSE } from '@bitcode/prompts/raw_promptparts/specific/promptpart_specific_agent_deliverableshippingaddissuecomment_ptrrplan_purpose';
-import { PROMPTPART_SPECIFIC_AGENT_DELIVERABLESHIPPINGADDISSUECOMMENT_PTRRTRY_PURPOSE } from '@bitcode/prompts/raw_promptparts/specific/promptpart_specific_agent_deliverableshippingaddissuecomment_ptrrtry_purpose';
-import { PROMPTPART_SPECIFIC_AGENT_DELIVERABLESHIPPINGADDISSUECOMMENT_PTRRREFINE_PURPOSE } from '@bitcode/prompts/raw_promptparts/specific/promptpart_specific_agent_deliverableshippingaddissuecomment_ptrrrefine_purpose';
-import { PROMPTPART_SPECIFIC_AGENT_DELIVERABLESHIPPINGADDISSUECOMMENT_PTRRRETRY_PURPOSE } from '@bitcode/prompts/raw_promptparts/specific/promptpart_specific_agent_deliverableshippingaddissuecomment_ptrrretry_purpose';
+import { PROMPTPART_SPECIFIC_AGENT_ASSETPACKFINISHADDISSUECOMMENTDELIVERY_IDENTITY_DEFINITION } from '@bitcode/prompts/raw_promptparts/specific/promptpart_specific_agent_assetpackfinishaddissuecommentdelivery_identity_definition';
+import { PROMPTPART_SPECIFIC_AGENT_ASSETPACKFINISHADDISSUECOMMENTDELIVERY_PURPOSE_CORESTATEMENT } from '@bitcode/prompts/raw_promptparts/specific/promptpart_specific_agent_assetpackfinishaddissuecommentdelivery_purpose_corestatement';
+import { PROMPTPART_SPECIFIC_AGENT_ASSETPACKFINISHADDISSUECOMMENTDELIVERY_CAPABILITIES_LIST } from '@bitcode/prompts/raw_promptparts/specific/promptpart_specific_agent_assetpackfinishaddissuecommentdelivery_capabilities_list';
+import { PROMPTPART_SPECIFIC_AGENT_ASSETPACKFINISHADDISSUECOMMENTDELIVERY_TOOLS_AVAILABLE } from '@bitcode/prompts/raw_promptparts/specific/promptpart_specific_agent_assetpackfinishaddissuecommentdelivery_tools_available';
+import { PROMPTPART_SPECIFIC_AGENT_ASSETPACKFINISHADDISSUECOMMENTDELIVERY_REQUIREMENTS_CONTEXT } from '@bitcode/prompts/raw_promptparts/specific/promptpart_specific_agent_assetpackfinishaddissuecommentdelivery_requirements_context';
+import { PROMPTPART_SPECIFIC_AGENT_ASSETPACKFINISHADDISSUECOMMENTDELIVERY_PTRRPLAN_PURPOSE } from '@bitcode/prompts/raw_promptparts/specific/promptpart_specific_agent_assetpackfinishaddissuecommentdelivery_ptrrplan_purpose';
+import { PROMPTPART_SPECIFIC_AGENT_ASSETPACKFINISHADDISSUECOMMENTDELIVERY_PTRRTRY_PURPOSE } from '@bitcode/prompts/raw_promptparts/specific/promptpart_specific_agent_assetpackfinishaddissuecommentdelivery_ptrrtry_purpose';
+import { PROMPTPART_SPECIFIC_AGENT_ASSETPACKFINISHADDISSUECOMMENTDELIVERY_PTRRREFINE_PURPOSE } from '@bitcode/prompts/raw_promptparts/specific/promptpart_specific_agent_assetpackfinishaddissuecommentdelivery_ptrrrefine_purpose';
+import { PROMPTPART_SPECIFIC_AGENT_ASSETPACKFINISHADDISSUECOMMENTDELIVERY_PTRRRETRY_PURPOSE } from '@bitcode/prompts/raw_promptparts/specific/promptpart_specific_agent_assetpackfinishaddissuecommentdelivery_ptrrretry_purpose';
 import { PROMPTPART_GENERIC_AGENT_FAILSAFE_PREPARE_CONTEXT } from '@bitcode/prompts/raw_promptparts/generic/promptpart_generic_agent_failsafe_prepare_context';
 import { PROMPTPART_GENERIC_AGENT_GENERATION_JSON_ONLY_HEADER } from '@bitcode/prompts/raw_promptparts/generic/promptpart_generic_agent_generation_json_only_header';
 import { PROMPTPART_GENERIC_AGENT_GENERATION_USE_THIS_STRUCTURED_SCHEMA } from '@bitcode/prompts/raw_promptparts/generic/promptpart_generic_agent_generation_use_this_structured_schema';
@@ -29,7 +29,7 @@ import { PROMPTPART_GENERIC_AGENT_GENERATION_STRUCTURED_OUTPUT } from '@bitcode/
 /**
  * @doc-comment-developing-promptdevelopment
  * domain: pipeline
- * intent: "Bitcode Finish Delivering compatibility prompt for adding an issue-comment delivery mechanism from an AssetPack"
+ * intent: "Bitcode AssetPack Finish Delivering prompt for adding an issue-comment delivery mechanism from an AssetPack"
  * current_version: "0.50.0"
  * dependencies: {
  *   "PROMPTPART_GENERIC_AGENT_FAILSAFE_PREPARE_CONTEXT": "0.50.0",
@@ -48,17 +48,17 @@ export function createAssetPackFinishAddIssueCommentDeliveryAgentPrompt(): Promp
   const prompt = new Prompt();
   
   // Agent identity and purpose
-  prompt.set('agent/identity', PROMPTPART_SPECIFIC_AGENT_DELIVERABLESHIPPINGADDISSUECOMMENT_IDENTITY_DEFINITION);
-  prompt.set('agent/purpose', PROMPTPART_SPECIFIC_AGENT_DELIVERABLESHIPPINGADDISSUECOMMENT_PURPOSE_CORESTATEMENT);
-  prompt.set('agent/capabilities', PROMPTPART_SPECIFIC_AGENT_DELIVERABLESHIPPINGADDISSUECOMMENT_CAPABILITIES_LIST);
-  prompt.set('agent/tools', PROMPTPART_SPECIFIC_AGENT_DELIVERABLESHIPPINGADDISSUECOMMENT_TOOLS_AVAILABLE);
-  prompt.set('agent/requirements', PROMPTPART_SPECIFIC_AGENT_DELIVERABLESHIPPINGADDISSUECOMMENT_REQUIREMENTS_CONTEXT);
+  prompt.set('agent/identity', PROMPTPART_SPECIFIC_AGENT_ASSETPACKFINISHADDISSUECOMMENTDELIVERY_IDENTITY_DEFINITION);
+  prompt.set('agent/purpose', PROMPTPART_SPECIFIC_AGENT_ASSETPACKFINISHADDISSUECOMMENTDELIVERY_PURPOSE_CORESTATEMENT);
+  prompt.set('agent/capabilities', PROMPTPART_SPECIFIC_AGENT_ASSETPACKFINISHADDISSUECOMMENTDELIVERY_CAPABILITIES_LIST);
+  prompt.set('agent/tools', PROMPTPART_SPECIFIC_AGENT_ASSETPACKFINISHADDISSUECOMMENTDELIVERY_TOOLS_AVAILABLE);
+  prompt.set('agent/requirements', PROMPTPART_SPECIFIC_AGENT_ASSETPACKFINISHADDISSUECOMMENTDELIVERY_REQUIREMENTS_CONTEXT);
   
   // PTRR step purposes
-  prompt.set('ptrr/plan/purpose', PROMPTPART_SPECIFIC_AGENT_DELIVERABLESHIPPINGADDISSUECOMMENT_PTRRPLAN_PURPOSE);
-  prompt.set('ptrr/try/purpose', PROMPTPART_SPECIFIC_AGENT_DELIVERABLESHIPPINGADDISSUECOMMENT_PTRRTRY_PURPOSE);
-  prompt.set('ptrr/refine/purpose', PROMPTPART_SPECIFIC_AGENT_DELIVERABLESHIPPINGADDISSUECOMMENT_PTRRREFINE_PURPOSE);
-  prompt.set('ptrr/retry/purpose', PROMPTPART_SPECIFIC_AGENT_DELIVERABLESHIPPINGADDISSUECOMMENT_PTRRRETRY_PURPOSE);
+  prompt.set('ptrr/plan/purpose', PROMPTPART_SPECIFIC_AGENT_ASSETPACKFINISHADDISSUECOMMENTDELIVERY_PTRRPLAN_PURPOSE);
+  prompt.set('ptrr/try/purpose', PROMPTPART_SPECIFIC_AGENT_ASSETPACKFINISHADDISSUECOMMENTDELIVERY_PTRRTRY_PURPOSE);
+  prompt.set('ptrr/refine/purpose', PROMPTPART_SPECIFIC_AGENT_ASSETPACKFINISHADDISSUECOMMENTDELIVERY_PTRRREFINE_PURPOSE);
+  prompt.set('ptrr/retry/purpose', PROMPTPART_SPECIFIC_AGENT_ASSETPACKFINISHADDISSUECOMMENTDELIVERY_PTRRRETRY_PURPOSE);
   // Generic scaffolding
   prompt.set('generation:json_only_header', PROMPTPART_GENERIC_AGENT_GENERATION_JSON_ONLY_HEADER as any);
   prompt.set('generation:use_this_structure', PROMPTPART_GENERIC_AGENT_GENERATION_USE_THIS_STRUCTURED_SCHEMA as any);
@@ -81,22 +81,22 @@ export function createAssetPackFinishAddIssueCommentDeliveryAgentPrompt(): Promp
 export const AssetPackFinishAddIssueCommentDeliveryAgentPromptSteps = {
   plan: () => {
     const prompt = new Prompt();
-    prompt.set('step', PROMPTPART_SPECIFIC_AGENT_DELIVERABLESHIPPINGADDISSUECOMMENT_PTRRPLAN_PURPOSE);
+    prompt.set('step', PROMPTPART_SPECIFIC_AGENT_ASSETPACKFINISHADDISSUECOMMENTDELIVERY_PTRRPLAN_PURPOSE);
     return prompt;
   },
   try: () => {
     const prompt = new Prompt();
-    prompt.set('step', PROMPTPART_SPECIFIC_AGENT_DELIVERABLESHIPPINGADDISSUECOMMENT_PTRRTRY_PURPOSE);
+    prompt.set('step', PROMPTPART_SPECIFIC_AGENT_ASSETPACKFINISHADDISSUECOMMENTDELIVERY_PTRRTRY_PURPOSE);
     return prompt;
   },
   refine: () => {
     const prompt = new Prompt();
-    prompt.set('step', PROMPTPART_SPECIFIC_AGENT_DELIVERABLESHIPPINGADDISSUECOMMENT_PTRRREFINE_PURPOSE);
+    prompt.set('step', PROMPTPART_SPECIFIC_AGENT_ASSETPACKFINISHADDISSUECOMMENTDELIVERY_PTRRREFINE_PURPOSE);
     return prompt;
   },
   retry: () => {
     const prompt = new Prompt();
-    prompt.set('step', PROMPTPART_SPECIFIC_AGENT_DELIVERABLESHIPPINGADDISSUECOMMENT_PTRRRETRY_PURPOSE);
+    prompt.set('step', PROMPTPART_SPECIFIC_AGENT_ASSETPACKFINISHADDISSUECOMMENTDELIVERY_PTRRRETRY_PURPOSE);
     return prompt;
   }
 };

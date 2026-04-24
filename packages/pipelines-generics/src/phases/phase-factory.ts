@@ -4,9 +4,8 @@
  * PhaseDelegators are Executors that coordinate agent execution within
  * a pipeline phase. They delegate work to agents and accumulate results.
  *
- * The generic phase abstraction is reusable. The canonical retained phased
- * family is SDIVF: Setup -> Discovery -> Implementation -> Validation
- * -> Finish.
+ * The generic phase abstraction is reusable. The canonical phased family is
+ * SDIVF: Setup -> Discovery -> Implementation -> Validation -> Finish.
  */
 
 import { sequential, parallel } from '@bitcode/execution-generics';
@@ -114,7 +113,7 @@ export function factoryParallelPhaseDelegator<TInput, TOutput>(
 }
 
 /**
- * The canonical retained SDIVF reference phases.
+ * The canonical SDIVF reference phases.
  */
 export enum SDIVFPhase {
   SETUP = 'setup',
@@ -125,7 +124,7 @@ export enum SDIVFPhase {
 }
 
 /**
- * Create canonical retained SDIVF reference phase delegators.
+ * Create canonical SDIVF reference phase delegators.
  */
 export function factorySDIVFPhaseDelegators<TInput, TOutput>(config: {
   setup: Agent<TInput, any>;

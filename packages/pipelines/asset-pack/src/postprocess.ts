@@ -1,17 +1,17 @@
-import type { DeliverableOutput, DeliverablePostprocessed } from './types/PipelineSchemas';
+import type { AssetPackOutput, AssetPackPostprocessed } from './types/PipelineSchemas';
 import { Execution, getValidationReadyToFinish } from '@bitcode/execution-generics';
 import {
   resolveDeliveryMechanismTemplateFromExecution,
   resolveWrittenAssetTypeFromExecution,
 } from './semantic-resolution';
 
-export function normalizeDeliverableOutput(output: DeliverableOutput, execution: Execution): DeliverableOutput {
+export function normalizeAssetPackOutput(output: AssetPackOutput, execution: Execution): AssetPackOutput {
   const enhanced = { ...output };
   const deliveryMechanism = enhanced.deliveryMechanism || enhanced.deliverable;
   const writtenAssetType = resolveWrittenAssetTypeFromExecution(execution);
   const deliveryMechanismTemplate = resolveDeliveryMechanismTemplateFromExecution(execution);
 
-  // 1) Ensure deliverable links are populated if available on execution
+  // 1) Ensure connected-interface links are populated if available on execution.
   const prUrl =
     enhanced.writtenAsset?.prUrl ||
     deliveryMechanism?.prUrl ||
@@ -65,10 +65,10 @@ export function normalizeDeliverableOutput(output: DeliverableOutput, execution:
   return enhanced;
 }
 
-export function buildDeliverablePostprocessedResult(
+export function buildAssetPackPostprocessedResult(
   execution: Execution,
-  normalized: DeliverableOutput
-): DeliverablePostprocessed {
+  normalized: AssetPackOutput
+): AssetPackPostprocessed {
   const executionId = String(execution.get('execution', 'id') || '');
   const repoOwner = execution.get('source', 'owner');
   const repoName = execution.get('source', 'name');
@@ -161,3 +161,6 @@ export function buildDeliverablePostprocessedResult(
       : {}),
   };
 }
+
+export const normalizeDeliverableOutput = normalizeAssetPackOutput;
+export const buildDeliverablePostprocessedResult = buildAssetPackPostprocessedResult;

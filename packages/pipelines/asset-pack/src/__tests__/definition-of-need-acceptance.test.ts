@@ -2,7 +2,7 @@
 import assetPack from '../index';
 import { Execution } from '@bitcode/execution-generics';
 
-describe('Deliverable pipeline - formal Definition of Need acceptance criteria (pending full SDIVF enablement)', () => {
+describe('AssetPack pipeline - formal Definition of Need acceptance criteria (pending full SDIVF enablement)', () => {
   const base = {
     definitionOfNeed: 'Implement feature Y',
     repository: { url: 'https://github.com/acme/repo', branch: 'main' },

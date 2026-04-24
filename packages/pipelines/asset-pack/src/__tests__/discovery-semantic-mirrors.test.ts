@@ -3,15 +3,15 @@ import {
   applyResearchApproachSemanticMirrors,
 } from '../agents/discovery-agents';
 
-describe('deliverable discovery semantic mirrors', () => {
-  it('mirrors research approach deliverables into written assets', () => {
+describe('AssetPack discovery semantic mirrors', () => {
+  it('mirrors compatibility delivery outputs into written assets', () => {
     const output = applyResearchApproachSemanticMirrors({
       approach: {
         methodology: 'parallel analysis',
         phases: [
           {
-            name: 'ship',
-            description: 'materialize the interface artifact',
+            name: 'finish',
+            description: 'materialize the AssetPack evidence',
             deliverables: ['pull request'],
           },
         ],
@@ -20,7 +20,7 @@ describe('deliverable discovery semantic mirrors', () => {
       },
       alternatives: [],
       risks: [],
-      recommendation: 'ship a pull request',
+      recommendation: 'finish with a pull request delivery mechanism',
     });
 
     expect(output.approach.phases[0].writtenAssets).toEqual(['pull request']);
@@ -32,8 +32,8 @@ describe('deliverable discovery semantic mirrors', () => {
         methodology: 'parallel analysis',
         phases: [
           {
-            name: 'ship',
-            description: 'materialize the interface artifact',
+            name: 'finish',
+            description: 'materialize the AssetPack evidence',
             deliverables: ['pull request'],
             writtenAssets: ['draft pull request'],
           },
@@ -43,7 +43,7 @@ describe('deliverable discovery semantic mirrors', () => {
       },
       alternatives: [],
       risks: [],
-      recommendation: 'ship a pull request',
+      recommendation: 'finish with a pull request delivery mechanism',
     });
 
     expect(output.approach.phases[0].writtenAssets).toEqual(['draft pull request']);

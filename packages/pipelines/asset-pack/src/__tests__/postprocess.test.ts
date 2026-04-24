@@ -1,10 +1,10 @@
 // @ts-nocheck
-import { buildDeliverablePostprocessedResult, normalizeDeliverableOutput } from '../postprocess';
+import { buildAssetPackPostprocessedResult, normalizeAssetPackOutput } from '../postprocess';
 import { Execution } from '@bitcode/execution-generics';
 
-describe('normalizeDeliverableOutput', () => {
+describe('normalizeAssetPackOutput', () => {
   it('backfills prUrl, filesModified, and summary from execution', () => {
-    const exec = new Execution('pipeline:deliverable');
+    const exec = new Execution('pipeline:asset-pack');
     exec.store('finish', 'pullRequestUrl', 'https://github.com/acme/repo/pull/123');
     exec.store('implementation', 'filesChanged', ['a.ts', 'b.ts']);
     exec.store('pipeline', 'expressedNeed', 'Need a repository-backed pull request');
@@ -18,7 +18,7 @@ describe('normalizeDeliverableOutput', () => {
       summary: ''
     };
 
-    const normalized = normalizeDeliverableOutput(output, exec);
+    const normalized = normalizeAssetPackOutput(output, exec);
     expect(normalized.deliverable.prUrl).toContain('/pull/123');
     expect(normalized.deliveryMechanism?.prUrl).toContain('/pull/123');
     expect(normalized.writtenAsset.prUrl).toContain('/pull/123');
@@ -32,7 +32,7 @@ describe('normalizeDeliverableOutput', () => {
   });
 
   it('builds asset-pack semantic mirrors into the postprocessed result', () => {
-    const exec = new Execution('pipeline:deliverable');
+    const exec = new Execution('pipeline:asset-pack');
     exec.store('execution', 'id', 'exec-1');
     exec.store('source', 'owner', 'acme');
     exec.store('source', 'name', 'repo');
@@ -45,7 +45,7 @@ describe('normalizeDeliverableOutput', () => {
       deliveryMechanismTemplate: 'issue-comment',
     });
 
-    const result = buildDeliverablePostprocessedResult(exec, {
+    const result = buildAssetPackPostprocessedResult(exec, {
       success: true,
       summary: 'Written asset ready.',
       writtenAssetType: 'design-document-review',
@@ -65,10 +65,10 @@ describe('normalizeDeliverableOutput', () => {
   });
 
   it('preserves delivery mechanisms as compatibility mirrors on top of the written asset', () => {
-    const exec = new Execution('pipeline:deliverable');
+    const exec = new Execution('pipeline:asset-pack');
     exec.store('execution', 'id', 'exec-2');
 
-    const result = buildDeliverablePostprocessedResult(exec, {
+    const result = buildAssetPackPostprocessedResult(exec, {
       success: true,
       summary: 'Written asset delivered through Jira comment.',
       writtenAsset: {

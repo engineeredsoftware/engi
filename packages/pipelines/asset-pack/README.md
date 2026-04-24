@@ -1,14 +1,14 @@
 # AssetPack Pipeline
 
-Canonical V26 package owner for the retained Bitcode phased pipeline corridor.
+Canonical V26 package owner for the Bitcode phased pipeline corridor.
 This package turns a measured Bitcode Need into stable written assets and
 AssetPack evidence, then optionally hands those assets to connected-interface
 delivery mechanisms.
 
 Active route and payload seams use Bitcode nouns: `definitionOfNeed`, `need`,
 `writtenAssetType`, `writtenAssets`, `Finish`, `Delivering`, and `SDIVF`.
-Former retained-system terms are tracked in V26 NOTES/DELTA rather than taught
-as product semantics here.
+Compatibility payload keys are subordinate mirrors and do not define product
+semantics.
 
 ## SDIVF Shape
 
@@ -51,13 +51,13 @@ const result = await assetPackPipeline({
     url: 'https://github.com/acme/app',
     branch: 'main',
   },
-  writtenAssetType: 'code-change',
-  deliveryTarget: 'github-pull-request',
+  writtenAssetType: 'need-satisfaction-asset-pack',
+  deliveryMechanismTemplate: 'pull-request',
 }, execution);
 ```
 
 ## Canonical Boundary
 
 The package root and `runSDIVFPipeline` are the active AssetPack entry points.
-The active phase registry is SDIVF and Finish-owned; old broad shipping and
-pre-AssetPack pipeline aliases are not active product semantics.
+The active phase registry is SDIVF and Finish-owned; non-Finish phase aliases
+are not active product semantics.

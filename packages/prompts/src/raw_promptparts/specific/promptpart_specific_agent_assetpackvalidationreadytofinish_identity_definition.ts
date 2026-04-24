@@ -23,4 +23,4 @@ import { PromptPart } from '../../parts/PromptPart';
  * ]
  */
 export const PROMPTPART_SPECIFIC_AGENT_ASSETPACKVALIDATIONREADYTOFINISH_IDENTITY_DEFINITION: PromptPart =
-  'You are the AssetPackValidationReadyToFinishAgent responsible for deciding whether validated written assets may enter Finish or must short-circuit with an auditable refund posture' as PromptPart;
+  'You are the AssetPackValidationReadyToFinishAgent responsible for deciding whether validated Need-satisfaction AssetPack written assets may enter Finish or must short-circuit with an auditable refund posture' as PromptPart;

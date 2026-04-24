@@ -11,7 +11,7 @@ import { Executor, Execution } from '@bitcode/execution-generics';
 import { factorySDIVFExecutorPipeline, createGuidedPipelineExecution, gatePreprocess } from '@bitcode/pipelines-generics';
 import { assetPackPhases } from './phases';
 import { initializeAssetPackPipeline } from './preprocess';
-import { normalizeDeliverableOutput, buildDeliverablePostprocessedResult } from './postprocess';
+import { normalizeAssetPackOutput, buildAssetPackPostprocessedResult } from './postprocess';
 import { AssetPackWrittenAssetType } from './types/AssetPackWrittenAssetType';
 import {
   normalizeCompatibilityWrittenAssetRequest,
@@ -140,8 +140,8 @@ function factoryIterationPreprocess(): Executor<any, any> {
 
 function factoryPostprocess(): Executor<any, any> {
   return async (output, execution) => {
-    const norm = normalizeDeliverableOutput(output, execution);
-    const snapshot = buildDeliverablePostprocessedResult(execution, norm);
+    const norm = normalizeAssetPackOutput(output, execution);
+    const snapshot = buildAssetPackPostprocessedResult(execution, norm);
     execution.store('postprocessed', 'result', snapshot as any);
     return output;
   };
@@ -215,7 +215,7 @@ function factoryDevelopPhase(): Executor<any, any> {
 // ==================== DDD GATE ROUTER ====================
 
 /**
- * Main retained asset-pack written-asset synthesis pipeline with Guided gate execution
+ * Main AssetPack written-asset synthesis pipeline with guided gate execution.
  * Routes execution through Design → Develop → Digest gates
  */
 export const assetPackPipeline: Executor<any, any> = createGuidedPipelineExecution({

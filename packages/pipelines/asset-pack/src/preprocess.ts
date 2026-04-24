@@ -98,7 +98,7 @@ export async function initializeAssetPackPipeline(execution: PipelineExecution) 
   // 3) Register all baseline tools
   try {
     for (const tool of ALL_ASSET_PACK_TOOLS) {
-      const key = (tool as any).name || tool.constructor?.name || 'deliverable-tool';
+      const key = (tool as any).name || tool.constructor?.name || 'asset-pack-tool';
       assertDocCodePrompt(tool as Tool, key);
       execution.tools.registerTool(key, tool as any);
     }
@@ -143,7 +143,7 @@ export async function initializeAssetPackPipeline(execution: PipelineExecution) 
     const captureLearnings = (await import('./agents/digest/capture-learnings-agent')).default;
     execution.agents.registerAgent('digest:capture-learnings', captureLearnings as any);
   } catch {}
-  // Register type-dependent implementation, validation, and Finish agents lazily when phases run.
+  // Implementation, validation, and Finish register their canonical AssetPack agents when phases run.
 }
 
 export const initializeAssetPack = initializeAssetPackPipeline;

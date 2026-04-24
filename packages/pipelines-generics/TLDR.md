@@ -24,7 +24,7 @@ Pipelines create child executions for each level:
 Specialized prompt that accumulates through hierarchy:
 ```typescript
 prompt
-  .setPipeline('type', 'Deliverable Pipeline')
+  .setPipeline('type', 'AssetPack Pipeline')
   .setPhase('current', 'Discovery Phase')
   .setAgent('role', 'Requirements Analyzer')
   .setAgentVariation('approach', 'Deep Analysis')
@@ -34,7 +34,7 @@ prompt
 
 ```typescript
 const pipeline = factoryPipeline({
-  name: 'deliverable',
+  name: 'asset-pack',
   phases: ['discovery', 'implementation', 'validation']
 });
 
@@ -99,4 +99,4 @@ Think of pipelines as **execution trees**:
 - Lookups traverse up to parents
 - Prompts accumulate at each level
 
-This creates traceable, hierarchical software development flows.
+This creates traceable, hierarchical Bitcode execution flows.

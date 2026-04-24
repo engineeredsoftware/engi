@@ -15,13 +15,23 @@ describe('PipelineExecution lineage', () => {
     });
   });
 
-  it('infers retained reference lineage for deliverable execution', () => {
+  it('infers live lineage for AssetPack execution', () => {
+    const lineage = inferPipelineExecutionLineage('asset-pack');
+    expect(lineage).toEqual({
+      pipelineName: 'asset-pack',
+      family: 'asset_pack',
+      posture: 'live',
+      admittedSurface: 'bitcode_asset_pack',
+    });
+  });
+
+  it('infers compatibility lineage for deliverable route execution', () => {
     const lineage = inferPipelineExecutionLineage('deliverable');
     expect(lineage).toEqual({
       pipelineName: 'deliverable',
-      family: 'deliverable',
-      posture: 'reference',
-      admittedSurface: 'retained_deliverable_reference',
+      family: 'asset_pack',
+      posture: 'compatibility',
+      admittedSurface: 'asset_pack_route_compatibility',
     });
   });
 
@@ -29,12 +39,12 @@ describe('PipelineExecution lineage', () => {
     const execution = factoryPipelineExecution('deliverable');
     const child = execution.child('phase-0');
 
-    expect(execution.lineage.family).toBe('deliverable');
-    expect(execution.get('pipeline', 'posture')).toBe('reference');
+    expect(execution.lineage.family).toBe('asset_pack');
+    expect(execution.get('pipeline', 'posture')).toBe('compatibility');
     expect(execution.get('execution', 'lineage')).toEqual(execution.lineage);
 
     expect(child.lineage).toEqual(execution.lineage);
-    expect(child.get('pipeline', 'family')).toBe('deliverable');
+    expect(child.get('pipeline', 'family')).toBe('asset_pack');
   });
 
   it('accepts explicit lineage overrides', () => {

@@ -8,7 +8,12 @@
 
 import { factoryAgentWithPTRR } from '@bitcode/agent-generics';
 import { Prompt } from '@bitcode/prompts/prompt';
-import { createPromptPart } from '@bitcode/prompts/parts/PromptPart';
+import { PROMPTPART_SPECIFIC_AGENT_ASSETPACKSYNTHESIZEWRITTENASSETS_IDENTITY_DEFINITION } from '@bitcode/prompts/raw_promptparts/specific/promptpart_specific_agent_assetpacksynthesizewrittenassets_identity_definition';
+import { PROMPTPART_SPECIFIC_AGENT_ASSETPACKSYNTHESIZEWRITTENASSETS_REQUIREMENTS_CONTEXT } from '@bitcode/prompts/raw_promptparts/specific/promptpart_specific_agent_assetpacksynthesizewrittenassets_requirements_context';
+import { PROMPTPART_SPECIFIC_AGENT_ASSETPACKSYNTHESIZEWRITTENASSETS_PTRRPLAN_PURPOSE } from '@bitcode/prompts/raw_promptparts/specific/promptpart_specific_agent_assetpacksynthesizewrittenassets_ptrrplan_purpose';
+import { PROMPTPART_SPECIFIC_AGENT_ASSETPACKSYNTHESIZEWRITTENASSETS_PTRRTRY_PURPOSE } from '@bitcode/prompts/raw_promptparts/specific/promptpart_specific_agent_assetpacksynthesizewrittenassets_ptrrtry_purpose';
+import { PROMPTPART_SPECIFIC_AGENT_ASSETPACKSYNTHESIZEWRITTENASSETS_PTRRREFINE_PURPOSE } from '@bitcode/prompts/raw_promptparts/specific/promptpart_specific_agent_assetpacksynthesizewrittenassets_ptrrrefine_purpose';
+import { PROMPTPART_SPECIFIC_AGENT_ASSETPACKSYNTHESIZEWRITTENASSETS_PTRRRETRY_PURPOSE } from '@bitcode/prompts/raw_promptparts/specific/promptpart_specific_agent_assetpacksynthesizewrittenassets_ptrrretry_purpose';
 import { z } from 'zod';
 import { AssetPackWrittenAssetType } from '../../types/AssetPackWrittenAssetType';
 
@@ -45,34 +50,12 @@ const AssetPackSynthesisOutputSchema = z.object({
 
 function createAssetPackSynthesisPrompt(): Prompt {
   const prompt = new Prompt();
-  prompt.set(
-    'agent:identity',
-    createPromptPart(
-      'You are the Bitcode AssetPack synthesis agent. Satisfy the measured Need by producing stable written assets and proof evidence before Finish delivery.'
-    )
-  );
-  prompt.set(
-    'agent:requirements',
-    createPromptPart(
-      'Do not choose implementation behavior from pull-request/review/issue/comment legacy labels. Those labels are delivery-mechanism templates used after validation in Finish.'
-    )
-  );
-  prompt.set(
-    'ptrr:plan',
-    createPromptPart('Plan AssetPack written assets from Need, repository evidence, constraints, and proof obligations.')
-  );
-  prompt.set(
-    'ptrr:try',
-    createPromptPart('Synthesize the AssetPack written assets, including summary, source changes or document content, and proof evidence.')
-  );
-  prompt.set(
-    'ptrr:refine',
-    createPromptPart('Refine the AssetPack for Need satisfaction, auditability, and readiness for validation.')
-  );
-  prompt.set(
-    'ptrr:retry',
-    createPromptPart('Recover incomplete synthesis by rebuilding from Need evidence and surfacing blockers explicitly.')
-  );
+  prompt.set('agent:identity', PROMPTPART_SPECIFIC_AGENT_ASSETPACKSYNTHESIZEWRITTENASSETS_IDENTITY_DEFINITION);
+  prompt.set('agent:requirements', PROMPTPART_SPECIFIC_AGENT_ASSETPACKSYNTHESIZEWRITTENASSETS_REQUIREMENTS_CONTEXT);
+  prompt.set('ptrr:plan', PROMPTPART_SPECIFIC_AGENT_ASSETPACKSYNTHESIZEWRITTENASSETS_PTRRPLAN_PURPOSE);
+  prompt.set('ptrr:try', PROMPTPART_SPECIFIC_AGENT_ASSETPACKSYNTHESIZEWRITTENASSETS_PTRRTRY_PURPOSE);
+  prompt.set('ptrr:refine', PROMPTPART_SPECIFIC_AGENT_ASSETPACKSYNTHESIZEWRITTENASSETS_PTRRREFINE_PURPOSE);
+  prompt.set('ptrr:retry', PROMPTPART_SPECIFIC_AGENT_ASSETPACKSYNTHESIZEWRITTENASSETS_PTRRRETRY_PURPOSE);
   prompt.require('agent:identity');
   prompt.require('agent:requirements');
   prompt.requirePattern('ptrr:*');

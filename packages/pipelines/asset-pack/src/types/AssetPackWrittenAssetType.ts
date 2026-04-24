@@ -1,8 +1,8 @@
 /**
  * Canonical written-asset kind emitted by Bitcode AssetPack synthesis.
  *
- * V26 no longer models AssetPack implementation as the retained four-way
- * delivery-template taxonomy. Specific pull-request, issue, or comment
+ * V26 no longer models AssetPack implementation as a four-way request-label
+ * taxonomy. Specific pull-request, issue, or comment
  * wrappers are delivery mechanisms in Finish, not implementation phase types.
  */
 export enum AssetPackWrittenAssetType {

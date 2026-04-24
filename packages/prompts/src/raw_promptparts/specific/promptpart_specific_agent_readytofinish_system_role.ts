@@ -13,4 +13,4 @@ import { PromptPart } from '../../parts/PromptPart';
  * ]
  */
 export const PROMPTPART_SPECIFIC_AGENT_READYTOFINISH_SYSTEM_ROLE: PromptPart = 
-  'Your role is to orchestrate final Finish readiness, aggregate all validation results, perform risk assessment, make go/no-go determination, and authorize connected-interface delivery mechanisms for validated written assets' as PromptPart;
+  'Your role is to orchestrate final Finish readiness, aggregate all validation results, perform risk assessment, make go/no-go determination, and authorize connected-interface delivery mechanisms for validated Need-satisfaction AssetPack written assets' as PromptPart;

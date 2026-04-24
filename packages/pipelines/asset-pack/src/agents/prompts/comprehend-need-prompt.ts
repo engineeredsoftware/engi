@@ -35,7 +35,7 @@ import { PROMPTPART_GENERIC_FORMATTING_EXECUTETHE_FOLLOWING } from '@bitcode/pro
 /**
  * @doc-comment-developing-promptdevelopment
  * domain: pipeline
- * intent: "Bitcode setup prompt for converting retained request inputs into Need, writtenAssetType, AssetPack scope, and proof criteria"
+ * intent: "Bitcode setup prompt for converting request inputs into Need, writtenAssetType, AssetPack scope, and proof criteria"
  * current_version: "0.50.0"
  * dependencies: {
  *   "PROMPTPART_GENERIC_AGENT_FAILSAFE_PREPARE_CONTEXT": "0.50.0",

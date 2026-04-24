@@ -2,7 +2,7 @@
 
 ## What It Is
 
-The retained **AssetPack Pipeline** is the Bitcode phased pipeline corridor:
+The **AssetPack Pipeline** is the Bitcode phased pipeline corridor:
 - the run satisfies a measured Need
 - the run synthesizes stable written assets and AssetPack evidence
 - Finish saves results and Delivering optionally provides AssetPacks or AssetPackPartials to connected-interface destinations
@@ -25,8 +25,8 @@ AssetPackPipeline (Bitcode agentic pipeline run with SDIVF + DIV loop)
 const result = await assetPackPipeline({
   need: 'Add JWT authentication',
   repository: { url: 'github.com/acme/app' },
-  writtenAssetType: 'code-change',
-  deliveryTarget: 'github-pull-request',
+  writtenAssetType: 'need-satisfaction-asset-pack',
+  deliveryMechanismTemplate: 'pull-request',
 }, execution);
 ```
 
@@ -44,4 +44,4 @@ const result = await assetPackPipeline({
 
 ## Why It Matters
 
-This is an early retained corridor for Bitcode productized inference: it turns Need input into stable assets, then delivers them through interface-specific mechanisms like pull requests.
+This is an early Bitcode productized inference corridor: it turns Need input into stable assets, then delivers them through interface-specific mechanisms like pull requests.
