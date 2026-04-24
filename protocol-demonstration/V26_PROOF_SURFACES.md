@@ -1046,7 +1046,7 @@ Required closure posture:
   test coverage:
   `pnpm exec tsc --noEmit --pretty false --project tsconfig.json` from `uapi`, plus `node --check` on the mirrored JavaScript carriers
   proof surface:
-  fifth-gate retained prompt-carrier and failure-telemetry compile-health closure so retained design/digest/validation PTRR agents now provide explicit Bitcode `Prompt` / `PromptPart` system and step registries, and `/api/deliverables` failure telemetry keeps semantic `need`, `writtenAssetType`, and `assetPack` context available across catch paths
+  fifth-gate prompt-carrier and failure-telemetry compile-health closure so design/digest/validation PTRR agents now provide explicit Bitcode `Prompt` / `PromptPart` system and step registries, and `/api/deliverables` failure telemetry keeps semantic `need`, `writtenAssetType`, and `assetPack` context available across catch paths
 - `{packages/api/src/conversations/{attachments.ts,conversations.ts},uapi/components/base/bitcode/{execution/{github-selectors.tsx,pipeline-execution-log.tsx,TagOverflowList.tsx},icons/LogoIcon.tsx,typing-animation.tsx,layout/{nav.tsx,sidebars/left-sidebar.tsx}},uapi/config/features.ts,uapi/tests/{navPublicShell.test.tsx,navWorkspaceChrome.test.tsx}}`
   test coverage:
   `uapi/tests/navPublicShell.test.tsx` and `uapi/tests/navWorkspaceChrome.test.tsx`
@@ -1086,7 +1086,17 @@ Required closure posture:
   test coverage:
   `packages/executions-mcp/src/mcp-server/src/__tests__/unit/prompt-asset-pack-canon.test.ts`
   proof surface:
-  fifth-gate Bitcode MCP prompt-canon closure so rendered workflow/development prompts and the retained pipeline tool description teach Bitcode asset-pack pipeline execution over source-to-shares needs, keep `bitcode://pipelines/deliverable/create` plus subtype names as compatibility surfaces, and prevent `deliverable pipeline` from remaining active MCP canon
+  fifth-gate Bitcode MCP prompt-canon closure so rendered workflow/development prompts and the compatibility-mounted pipeline tool description teach Bitcode asset-pack pipeline execution over source-to-shares needs, keep `bitcode://pipelines/deliverable/create` plus subtype names as compatibility surfaces, and prevent `deliverable pipeline` from remaining active MCP canon
+- `{uapi/app/api/webhook/{route,verify}.ts,uapi/tests/{webhookRoute.test.ts,api/webhookSignature.test.ts}}`
+  test coverage:
+  `uapi/tests/webhookRoute.test.ts` and `uapi/tests/api/webhookSignature.test.ts`
+  proof surface:
+  fifth-gate webhook-ingress closure so GitHub labels and `@bitcode-*` comments schedule asset-pack pipeline automation as ingress-only Bitcode activity, emit `Trigger Asset-Pack Pipeline` telemetry with `github_webhook` ingress and `asset_packs` output meaning, and keep `bitcode-deliverable-trigger` named as compatibility implementation detail instead of active product canon
+- `uapi/hooks/useExecutionState.{ts,js}`
+  test coverage:
+  generated source-content proof plus active UAPI execution route tests
+  proof surface:
+  fifth-gate client execution-hook closure so the `/api/deliverables` caller teaches Bitcode asset-pack pipeline submission, keeps `definitionOfDone` as compatibility input-key naming, and carries the same debug semantics in the tracked JavaScript mirror
 - `{uapi/app/application/{ApplicationCommandDeck.tsx,ApplicationClosureControlDeck.tsx,ApplicationTransactionDetailSurface.tsx,application-activity-history.ts,application-transaction-detail-snapshot.ts,application-transaction-detail.ts},uapi/tests/{applicationActivityHistory.test.ts,applicationTransactionDetailSnapshot.test.ts,applicationTransactionDetail.test.ts}}`
   test coverage:
   `uapi/tests/applicationActivityHistory.test.ts`, `uapi/tests/applicationTransactionDetailSnapshot.test.ts`, and `uapi/tests/applicationTransactionDetail.test.ts`
@@ -1119,9 +1129,9 @@ Required closure posture:
   fifth-gate retained caller-contract compile-health closure so Jira tool execution no longer preserves nullable connection or optional-started worklog drift, multimodal-processing re-exports only the kept factory-tool surface, and shell-execution tools plus the deliverable wrapper now use the actual Bitcode `Tool` property contract instead of the older schema-class pattern
 - `{packages/pipelines/deliverable/src/{tools/{DeliverablePipelineCloneVCSRepositoryTool.ts,DeliverablePipelineMultimodalProcessingTool.ts,DeliverablePipelineAudioComprehensionTool.ts,DeliverablePipelineImageComprehensionTool.ts,DeliverablePipelinePDFComprehensionTool.ts,DeliverablePipelineVideoComprehensionTool.ts,index.ts},agents/shipping/deliverable-pipeline-ship-agent.ts}}`
   test coverage:
-  filtered `tsc` verification over the active `uapi` program for the retained deliverable-tool wrapper and shipping corridor
+  filtered `tsc` verification over the active `uapi` program for the Bitcode asset-pack tool wrapper and Finish/Delivering corridor
   proof surface:
-  fifth-gate retained caller-contract compile-health closure so deliverable tool wrappers now forward through the current single-input Bitcode tool contract, optional validation/shipping tools no longer leak `undefined` into typed registries, and the shipping agent no longer preserves raw-string prompt-part drift or duplicate-Zod output-schema identity mismatches
+  fifth-gate caller-contract compile-health closure so asset-pack tool wrappers now forward through the current single-input Bitcode tool contract, optional validation/Delivering tools no longer leak `undefined` into typed registries, and the Finish agent no longer preserves raw-string prompt-part drift or duplicate-Zod output-schema identity mismatches
 - `{packages/pipelines/deliverable/src/{agents/{implementation/*.ts,setup/deliverable-pipeline-comprehend-task-agent.ts},phases/{setup.ts,design.ts,digest.ts,discovery.ts,implementation.ts,index.ts},index.ts,preprocess.ts,postprocess.ts},packages/pipelines-generics/src/{execution/PipelineExecutor.ts,phases/sdivs-factory.ts,streaming/pipeline-stream-integration.ts}}`
   test coverage:
   filtered `tsc` verification over the active `uapi` program for the retained deliverable phase/index/setup corridor

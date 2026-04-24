@@ -24,8 +24,8 @@ export const ToggleButton = ({ enabled, onToggle, type, disabled = false, tracki
     <button
       onClick={() => {
         // Track toggle action
-        trackEvent('deliverable_toggle_clicked', {
-          event_category: 'deliverable_interaction',
+        trackEvent('asset_pack_pipeline_toggle_clicked', {
+          event_category: 'asset_pack_pipeline_interaction',
           toggle_type: type,
           toggle_label: labelMap[type],
           previous_state: enabled,
@@ -38,7 +38,7 @@ export const ToggleButton = ({ enabled, onToggle, type, disabled = false, tracki
       disabled={disabled}
       data-enabled={enabled}
       data-disabled={disabled}
-      data-ga-event="deliverable_toggle_clicked"
+      data-ga-event="asset_pack_pipeline_toggle_clicked"
       aria-label={labelMap[type]}
       title={labelMap[type]}
       className={`

@@ -77,14 +77,14 @@ const ExecuteButtonBase = ({
   const dangerHover = isProcessing && allowCancel && !disabled;
   return (
     <button data-testid="execute-button"
-      data-ga-event={isProcessing ? 'deliverable_cancel_clicked' : 'deliverable_submit_clicked'}
+      data-ga-event={isProcessing ? 'asset_pack_pipeline_cancel_clicked' : 'asset_pack_pipeline_submit_clicked'}
       onClick={(e) => {
         e.preventDefault();
         if (isProcessing) {
-          trackEvent('deliverable_cancel_clicked', { event_category: 'deliverable_interaction', button_label: cancelLabel, color_scheme: colorScheme, compact, ...trackingMetadata });
+          trackEvent('asset_pack_pipeline_cancel_clicked', { event_category: 'asset_pack_pipeline_interaction', button_label: cancelLabel, color_scheme: colorScheme, compact, ...trackingMetadata });
           if (onCancel) onCancel();
         } else {
-          trackEvent('deliverable_submit_clicked', { event_category: 'deliverable_interaction', button_label: label, color_scheme: colorScheme, compact, disabled, ...trackingMetadata });
+          trackEvent('asset_pack_pipeline_submit_clicked', { event_category: 'asset_pack_pipeline_interaction', button_label: label, color_scheme: colorScheme, compact, disabled, ...trackingMetadata });
           onSubmit();
         }
       }}
@@ -133,5 +133,5 @@ const ExecuteButtonBase = ({
 };
 
 const ExecuteMemo = React.memo(ExecuteButtonBase);
-export const ExecuteDeliverButton = ExecuteMemo;
+export const ExecuteAssetPackPipelineButton = ExecuteMemo;
 export default ExecuteMemo;

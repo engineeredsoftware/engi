@@ -200,7 +200,7 @@ export const Executing: Story = {
 };
 
 // ---------------------------------------------------------------------------
-//  Educational overlay variants (new-Do mode with specific edu bubble open)
+//  Educational overlay variants (execute mode with specific education bubble open)
 // ---------------------------------------------------------------------------
 
 const eduBaseArgs = {

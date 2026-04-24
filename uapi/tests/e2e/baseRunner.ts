@@ -69,7 +69,7 @@ export class UiRunner implements E2ERunner {
     });
     // Trigger the pipeline via UI
     await this.page.goto('/executions?type=pipeline:deliverables');
-    await this.page.click('button:has-text("Do")');
+    await this.page.click('[data-testid="execute-button"]');
     // Wait for a test hook, e.g., a data attribute indicating runId
     const runId = await this.page.getAttribute('[data-test-run-id]', 'data-test-run-id');
     return { run: runId || 'ui-run', items: params.items };

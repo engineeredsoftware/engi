@@ -70,16 +70,17 @@ export const useExecutionState = () => {
       return envFlag || lsFlag || devDefault;
     } catch { return false; }
   };
-  const dlog = (...args: any[]) => { if (isDebug()) { try { console.debug('[Deliverables][stream]', ...args); } catch {} } };
+  const dlog = (...args: any[]) => { if (isDebug()) { try { console.debug('[AssetPackPipeline][stream]', ...args); } catch {} } };
 
   const setDefinitionOfDone = (definitionOfDone: string) => {
     setState(prev => ({ ...prev, definitionOfDone }));
   };
 
   /**
-   * Triggers the deliverable pipeline and returns final completion data (or null on error)
+   * Triggers the Bitcode asset-pack pipeline and returns final completion data (or null on error).
+   * `definitionOfDone` is bounded to the input key while downstream receipts mirror Bitcode Need and AssetPack semantics.
    */
-  const handleDoSubmit = useCallback(async (
+  const submitAssetPackPipeline = useCallback(async (
     connectionId: number,
     repoOwner: string,
     repoName: string,
@@ -125,7 +126,7 @@ export const useExecutionState = () => {
     let finalCompletion: import('../types/api').CompletionData | null = null;
     try {
       const computeEnabledEffective = ENABLE_COMPUTE_TOGGLE ? computeEnabled : false;
-      dlog('Submitting pipeline', { connectionId, repoOwner, repoName, repoBranch, commitSha, issueNumber, modelProvider, modelId, attachmentsCount: attachments?.length || 0, computeEnabled: computeEnabledEffective, multiAgentEnabled, iterationCount });
+      dlog('Submitting Bitcode asset-pack pipeline', { connectionId, repoOwner, repoName, repoBranch, commitSha, issueNumber, modelProvider, modelId, attachmentsCount: attachments?.length || 0, computeEnabled: computeEnabledEffective, multiAgentEnabled, iterationCount });
       const pipelineType =
         options?.pipelineType || DEFAULT_BRANCH_ARTIFACT_EXECUTION_TYPE;
       const stream = await callDeliverablesAPI(
@@ -296,13 +297,13 @@ export const useExecutionState = () => {
       reconnectAttemptsRef.current = 0; // Reset reconnection attempts on success
     } catch (error) {
       hasError = true;
-      dlog('handleDoSubmit caught error', (error as any)?.message || error);
+      dlog('submitAssetPackPipeline caught error', (error as any)?.message || error);
       setState(prev => ({
         ...prev,
         error: (error as Error).message || 'An unexpected error occurred'
       }));
     }
-    dlog('handleDoSubmit finally');
+    dlog('submitAssetPackPipeline finally');
     setState(prev => ({
       ...prev,
       isProcessing: false,
@@ -336,7 +337,7 @@ export const useExecutionState = () => {
   return {
     ...state,
     setDefinitionOfDone,
-    handleDoSubmit,
+    submitAssetPackPipeline,
     appendInstructionToLog,
     resetState
   };

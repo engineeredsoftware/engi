@@ -17,6 +17,20 @@ import { log } from '@bitcode/logger';
 import { POST } from '@/app/api/webhook/route';
 
 const defaultExecImpl = (cmd: string, cb: Function) => cb(null, { stdout: '', stderr: '' });
+const ASSET_PACK_PIPELINE_TRACK_EVENT = 'Trigger Asset-Pack Pipeline';
+
+const expectedAssetPackPipelineTrack = (
+  labelName: string,
+  userId: string,
+  issueNumber: number
+) => ({
+  labelName,
+  userId,
+  issueNumber,
+  ingressBasis: 'github_webhook',
+  outputMeaning: 'asset_packs',
+  exchangeStateRole: 'ingress_only_automation_boundary',
+});
 
 const createUserConnectionBuilder = (userId: string | null) => ({
   select: jest.fn().mockReturnThis(),
@@ -185,13 +199,22 @@ describe('GitHub Webhook Route', () => {
     // Should have invoked supabase lookup
     expect(mockFrom).toHaveBeenCalledWith('user_connections');
     expect(mockFrom).toHaveBeenCalledWith('github_interactions');
-    // Should have logged pipeline invocation and success
+    // Should have logged asset-pack pipeline invocation and success
     expect(log).toHaveBeenCalledWith(
-      '[route /webhook POST] Invoking pipeline',
+      '[route /webhook POST] Invoking asset-pack pipeline',
       'info',
-      expect.objectContaining({ label: 'bitcode-deliver-issue', isPR: false, issueNumber: 6 })
+      expect.objectContaining({
+        label: 'bitcode-deliver-issue',
+        isPR: false,
+        issueNumber: 6,
+        pipelineMeaning: 'asset_pack_pipeline',
+        compatibilityCommand: 'bitcode-deliverable-trigger',
+      })
     );
-    expect(track).toHaveBeenCalledWith('Trigger Deliverable Pipeline', { labelName: 'bitcode-deliver-issue', userId: 'user1', issueNumber: 6 });
+    expect(track).toHaveBeenCalledWith(
+      ASSET_PACK_PIPELINE_TRACK_EVENT,
+      expectedAssetPackPipelineTrack('bitcode-deliver-issue', 'user1', 6)
+    );
   });
 
   it('handles pipeline failure gracefully', async () => {
@@ -212,15 +235,20 @@ describe('GitHub Webhook Route', () => {
     const res = await POST({ json: async () => payload } as any);
     expect(await res.json()).toEqual({ success: true });
     expect(log).toHaveBeenCalledWith(
-      '[route /webhook POST] Pipeline trigger failed',
+      '[route /webhook POST] Asset-pack pipeline trigger failed',
       'error',
-      expect.objectContaining({ label: 'bitcode-deliver-issue', userId: 'user2', issueNumber: 7 })
+      expect.objectContaining({
+        label: 'bitcode-deliver-issue',
+        userId: 'user2',
+        issueNumber: 7,
+        pipelineMeaning: 'asset_pack_pipeline',
+      })
     );
     // track should not be called on failure
-    expect(track).not.toHaveBeenCalledWith('Trigger Deliverable Pipeline', expect.anything());
+    expect(track).not.toHaveBeenCalledWith(ASSET_PACK_PIPELINE_TRACK_EVENT, expect.anything());
   });
 
-  it('supports bitcode-pr label for deliverable pipeline', async () => {
+  it('supports bitcode-pr label for asset-pack pipeline', async () => {
     // mock supabase to return a user and track that interaction is not processed
     installCommentSupabaseMocks();
     const payload = {
@@ -234,11 +262,14 @@ describe('GitHub Webhook Route', () => {
     const res = await POST(req);
     expect(await res.json()).toEqual({ success: true });
     expect(log).toHaveBeenCalledWith(
-      '[route /webhook POST] Invoking pipeline',
+      '[route /webhook POST] Invoking asset-pack pipeline',
       'info',
       expect.objectContaining({ label: 'bitcode-pr', isPR: false, issueNumber: 8 })
     );
-    expect(track).toHaveBeenCalledWith('Trigger Deliverable Pipeline', { labelName: 'bitcode-pr', userId: 'user1', issueNumber: 8 });
+    expect(track).toHaveBeenCalledWith(
+      ASSET_PACK_PIPELINE_TRACK_EVENT,
+      expectedAssetPackPipelineTrack('bitcode-pr', 'user1', 8)
+    );
   });
 
   it('prevents duplicate processing of same interaction', async () => {
@@ -260,7 +291,7 @@ describe('GitHub Webhook Route', () => {
       expect.objectContaining({ eventType: 'labeled', trigger: 'bitcode-pr' })
     );
     // Should not trigger pipeline
-    expect(track).not.toHaveBeenCalledWith('Trigger Deliverable Pipeline', expect.anything());
+    expect(track).not.toHaveBeenCalledWith(ASSET_PACK_PIPELINE_TRACK_EVENT, expect.anything());
   });
 
   it('supports @bitcode-pr comment trigger', async () => {
@@ -299,11 +330,14 @@ describe('GitHub Webhook Route', () => {
     const res = await POST(req);
     expect(await res.json()).toEqual({ success: true });
     expect(log).toHaveBeenCalledWith(
-      '[route /webhook POST] Invoking pipeline',
+      '[route /webhook POST] Invoking asset-pack pipeline',
       'info',
       expect.objectContaining({ label: 'issue_comment:pr', isPR: false, issueNumber: 10 })
     );
-    expect(track).toHaveBeenCalledWith('Trigger Deliverable Pipeline', { labelName: 'issue_comment:pr', userId: 'user1', issueNumber: 10 });
+    expect(track).toHaveBeenCalledWith(
+      ASSET_PACK_PIPELINE_TRACK_EVENT,
+      expectedAssetPackPipelineTrack('issue_comment:pr', 'user1', 10)
+    );
   });
 
   it('supports @bitcode-review comment trigger on PR', async () => {
@@ -342,11 +376,14 @@ describe('GitHub Webhook Route', () => {
     const res = await POST(req);
     expect(await res.json()).toEqual({ success: true });
     expect(log).toHaveBeenCalledWith(
-      '[route /webhook POST] Invoking pipeline',
+      '[route /webhook POST] Invoking asset-pack pipeline',
       'info',
       expect.objectContaining({ label: 'issue_comment:review', isPR: true, issueNumber: 11 })
     );
-    expect(track).toHaveBeenCalledWith('Trigger Deliverable Pipeline', { labelName: 'issue_comment:review', userId: 'user1', issueNumber: 11 });
+    expect(track).toHaveBeenCalledWith(
+      ASSET_PACK_PIPELINE_TRACK_EVENT,
+      expectedAssetPackPipelineTrack('issue_comment:review', 'user1', 11)
+    );
   });
 
   it('supports @bitcode-commit comment trigger on PR', async () => {
@@ -385,11 +422,14 @@ describe('GitHub Webhook Route', () => {
     const res = await POST(req);
     expect(await res.json()).toEqual({ success: true });
     expect(log).toHaveBeenCalledWith(
-      '[route /webhook POST] Invoking pipeline',
+      '[route /webhook POST] Invoking asset-pack pipeline',
       'info',
       expect.objectContaining({ label: 'issue_comment:commit', isPR: true, issueNumber: 12 })
     );
-    expect(track).toHaveBeenCalledWith('Trigger Deliverable Pipeline', { labelName: 'issue_comment:commit', userId: 'user1', issueNumber: 12 });
+    expect(track).toHaveBeenCalledWith(
+      ASSET_PACK_PIPELINE_TRACK_EVENT,
+      expectedAssetPackPipelineTrack('issue_comment:commit', 'user1', 12)
+    );
   });
 
   it('supports multiple @bitcode commands in single comment', async () => {
@@ -414,10 +454,13 @@ describe('GitHub Webhook Route', () => {
     expect(await res.json()).toEqual({ success: true });
     // Should process the first valid command (@bitcode-pr)
     expect(log).toHaveBeenCalledWith(
-      '[route /webhook POST] Invoking pipeline',
+      '[route /webhook POST] Invoking asset-pack pipeline',
       'info',
       expect.objectContaining({ label: 'issue_comment:pr', isPR: false, issueNumber: 13 })
     );
-    expect(track).toHaveBeenCalledWith('Trigger Deliverable Pipeline', { labelName: 'issue_comment:pr', userId: 'user1', issueNumber: 13 });
+    expect(track).toHaveBeenCalledWith(
+      ASSET_PACK_PIPELINE_TRACK_EVENT,
+      expectedAssetPackPipelineTrack('issue_comment:pr', 'user1', 13)
+    );
   });
 });

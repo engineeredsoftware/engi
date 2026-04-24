@@ -86,7 +86,7 @@ test.describe('Deliverables Flows', () => {
     await page.waitForTimeout(300);
     expect(await page.screenshot({ fullPage: true }))
       .toMatchSnapshot('deliverables-flow-task.png');
-    // Step: click Do button
+    // Step: execute the Bitcode asset-pack pipeline
     await page.click('[data-testid="execute-button"]');
     await page.waitForSelector('[data-testid="stream-log"]');
     await page.waitForTimeout(300);

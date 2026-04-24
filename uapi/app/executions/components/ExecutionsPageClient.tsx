@@ -116,7 +116,7 @@ export function ExecutionsClient() {
     latestWorkUpdate,
     iterationUpdates,
     setDefinitionOfDone,
-    handleDoSubmit,
+    submitAssetPackPipeline,
     appendInstructionToLog,
     resetState,
   } = useExecutionState();
@@ -431,13 +431,13 @@ export function ExecutionsClient() {
       <div className="mx-auto flex min-h-[calc(100vh-9rem)] max-w-5xl items-center px-4 py-16">
         <section className="w-full rounded-[2rem] border border-white/10 bg-[#06131b]/88 p-8 text-[#d6e7f2] shadow-[0_40px_120px_rgba(0,0,0,0.35)] backdrop-blur-sm">
           <p className="text-[11px] font-medium uppercase tracking-[0.34em] text-[#75d7ff]">
-            Retained fourth-gate executions route
+            Bitcode execution route
           </p>
           <h1 className="mt-4 max-w-3xl text-3xl font-semibold leading-tight text-white md:text-4xl">
-            The retained /executions path stays explicit so Bitcode execution primitives, branch-artifact runs, and need measurement continue reading cleanly while broader activity keeps growing around the Bitcode Terminal, executions, and notifications.
+            The /executions path exposes Bitcode execution primitives, branch-artifact runs, and need measurement while the Bitcode Terminal converges the source-to-shares master-detail flow.
           </h1>
           <p className="mt-4 max-w-3xl text-sm leading-7 text-[#9db6c8] md:text-base">
-            This route remains a live retained surface for run, deliverable, and pipeline inspection. Connect source
+            This route is a live Bitcode surface for run, AssetPack, and pipeline inspection. Connect source
             context in Auxillaries to execute here, or continue in the Bitcode Terminal when you want the converged Bitcode
             master-detail flow.
           </p>
@@ -462,7 +462,7 @@ export function ExecutionsClient() {
     );
   }
 
-  // Submit/cancel handlers (identical to previous implementation)
+  // Submit/cancel handlers for the Bitcode asset-pack pipeline.
   const onExecuteSubmit = async () => {
     try {
       const { timeZone } = Intl.DateTimeFormat().resolvedOptions();
@@ -475,7 +475,7 @@ export function ExecutionsClient() {
         ...selectedIssueOrPR.map(id => { const issue = issuesAndPRs.find(i => i.id === id); return { id, type: issue?.isPR ? 'PR' : 'ISSUE', content: issue?.url || id }; }),
         ...selectedIntegrations.map(i => ({ id: i.id, type: 'INTEGRATION', content: i.label || i.id }))
       ];
-      const completionResult = await handleDoSubmit(
+      const completionResult = await submitAssetPackPipeline(
         0,
         selectedAccount!,
         selectedRepo!,
@@ -556,7 +556,7 @@ export function ExecutionsClient() {
           repoSnapshot={historyFWS?.repoSnapshot || undefined}
         />
 
-      {/* Deliverable artifacts + execution log */}
+      {/* AssetPack artifacts + execution log */}
       {deliverablesForPanels && (
         <DeliverablesDocPanel
           deliverables={{

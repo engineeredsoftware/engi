@@ -1158,9 +1158,9 @@ function buildV26FourthGateReclosureReviewProof({
     ),
     criterion(
       'fourth-gate-criterion-12-execution-compatibility-apis',
-      'Retained executions compatibility APIs are explicit promotion-boundary owners',
+      'Execution compatibility APIs are explicit promotion-boundary owners',
       ['runs-pipelines-totality'],
-      'The runs/pipelines proof names retained execution, history, VCS, template, and deliverable route boundaries.'
+      'The runs/pipelines proof names execution, history, VCS, template, and asset-pack endpoint boundaries.'
     ),
     criterion(
       'fourth-gate-criterion-13-canonical-auxillary-apis',
@@ -3105,6 +3105,68 @@ function buildV26RunsPipelinesTotalityProof({
           description: 'package-local test renders prompts and proves they no longer teach deliverable-pipeline canon'
         }
       ]
+    ),
+    buildV26FileContentCheck(
+      'webhook-asset-pack-ingress-contract',
+      'GitHub webhook automation is source-checked as asset-pack pipeline ingress rather than Exchange ownership or deliverable-canon output',
+      [
+        {
+          file: 'uapi/app/api/webhook/route.ts',
+          evidence: "WEBHOOK_ASSET_PACK_PIPELINE_TRACK_EVENT = 'Trigger Asset-Pack Pipeline'",
+          description: 'webhook analytics event names the active asset-pack pipeline meaning'
+        },
+        {
+          file: 'uapi/app/api/webhook/route.ts',
+          evidence: "outputMeaning: 'asset_packs'",
+          description: 'webhook success receipts classify output as asset packs'
+        },
+        {
+          file: 'uapi/app/api/webhook/route.ts',
+          evidence: "exchangeStateRole: 'ingress_only_automation_boundary'",
+          description: 'webhook receipt keeps GitHub automation as ingress-only rather than Exchange state ownership'
+        },
+        {
+          file: 'uapi/app/api/webhook/route.ts',
+          evidence: "compatibilityCommand: 'bitcode-deliverable-trigger'",
+          description: 'asset-pack trigger command is bounded as an implementation compatibility detail'
+        },
+        {
+          file: 'uapi/tests/webhookRoute.test.ts',
+          evidence: 'expectedAssetPackPipelineTrack',
+          description: 'route test centralizes expected asset-pack ingress receipt shape'
+        },
+        {
+          file: 'uapi/tests/webhookRoute.test.ts',
+          evidence: 'supports bitcode-pr label for asset-pack pipeline',
+          description: 'route test proves GitHub label ingress now teaches asset-pack pipeline semantics'
+        }
+      ]
+    ),
+    buildV26FileContentCheck(
+      'uapi-client-asset-pack-execution-hook',
+      'Terminal execution client hook teaches Bitcode asset-pack pipeline semantics while keeping compatibility input names bounded',
+      [
+        {
+          file: 'uapi/hooks/useExecutionState.ts',
+          evidence: 'Triggers the Bitcode asset-pack pipeline',
+          description: 'TypeScript hook comment describes active client execution as asset-pack pipeline behavior'
+        },
+        {
+          file: 'uapi/hooks/useExecutionState.ts',
+          evidence: 'definitionOfDone` is bounded to the input key',
+          description: 'TypeScript hook bounds definitionOfDone naming to the current input key'
+        },
+        {
+          file: 'uapi/hooks/useExecutionState.ts',
+          evidence: 'Submitting Bitcode asset-pack pipeline',
+          description: 'TypeScript debug path teaches Bitcode asset-pack submission'
+        },
+        {
+          file: 'uapi/hooks/useExecutionState.js',
+          evidence: 'Submitting Bitcode asset-pack pipeline',
+          description: 'tracked JavaScript mirror carries the same runtime debug semantics'
+        }
+      ]
     )
   ];
   const passed = checks.every((check) => check.passed === true);
@@ -3139,7 +3201,7 @@ const V26_SYSTEM_REFORM_DECISIONS = [
     checkId: 'system-reform-governance-witnesses',
     label: 'System-reform governance remains explicit in the active V26 family',
     reformClass: 'governance',
-    livePathRole: 'The canonical spec family and supplementary architecture/proof docs classify retained old-world families rather than leaving them implicit.',
+    livePathRole: 'The canonical spec family and supplementary architecture/proof docs classify compatibility-bounded old-world families rather than leaving them implicit.',
     requiredFiles: [
       'BITCODE_SPEC_V26.md',
       'BITCODE_SPEC_V26_PARITY_MATRIX.md',
@@ -3158,6 +3220,7 @@ const V26_SYSTEM_REFORM_DECISIONS = [
     requiredFiles: [
       'uapi/app/api/webhook/route.ts',
       'uapi/app/api/webhook/verify.ts',
+      'uapi/tests/webhookRoute.test.ts',
       'uapi/tests/api/webhookSignature.test.ts'
     ]
   },

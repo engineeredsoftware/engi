@@ -5,7 +5,7 @@
 import React from 'react';
 
 export default {
-  title: 'Docs/AutoScreenshots/Deliverables/ExecuteButton',
+  title: 'Docs/AutoScreenshots/AssetPackPipeline/ExecuteButton',
   parameters: { layout: 'centered', backgrounds: { default: 'dark' } },
 };
 

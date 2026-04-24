@@ -27,6 +27,8 @@ const COMMENT_TRIGGERS = [
   { regex: /@bitcode-commit\b/i, trigger: 'issue_comment:commit' },
 ] as const;
 
+const WEBHOOK_ASSET_PACK_PIPELINE_TRACK_EVENT = 'Trigger Asset-Pack Pipeline';
+
 type ParsedPayload = {
   action?: string;
   issue?: { number?: number; pull_request?: unknown | null };
@@ -124,28 +126,34 @@ function getEventType(request: Request | { headers?: { get?: (name: string) => s
 }
 
 async function triggerPipeline(trigger: string, userId: string, issueNumber: number, isPR: boolean) {
-  await log('[route /webhook POST] Invoking pipeline', 'info', {
+  await log('[route /webhook POST] Invoking asset-pack pipeline', 'info', {
     label: trigger,
     isPR,
-    issueNumber
+    issueNumber,
+    pipelineMeaning: 'asset_pack_pipeline',
+    compatibilityCommand: 'bitcode-deliverable-trigger'
   });
 
   return await new Promise<void>((resolve) => {
     exec(`bitcode-deliverable-trigger ${trigger} ${issueNumber}`, async (error) => {
       if (error) {
-        await log('[route /webhook POST] Pipeline trigger failed', 'error', {
+        await log('[route /webhook POST] Asset-pack pipeline trigger failed', 'error', {
           label: trigger,
           userId,
-          issueNumber
+          issueNumber,
+          pipelineMeaning: 'asset_pack_pipeline'
         });
         resolve();
         return;
       }
 
-      await track('Trigger Deliverable Pipeline', {
+      await track(WEBHOOK_ASSET_PACK_PIPELINE_TRACK_EVENT, {
         labelName: trigger,
         userId,
-        issueNumber
+        issueNumber,
+        ingressBasis: 'github_webhook',
+        outputMeaning: 'asset_packs',
+        exchangeStateRole: 'ingress_only_automation_boundary'
       });
       resolve();
     });

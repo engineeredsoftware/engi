@@ -45,7 +45,7 @@ const useExecutionState = () => {
     };
     const dlog = (...args) => { if (isDebug()) {
         try {
-            console.debug('[Deliverables][stream]', ...args);
+            console.debug('[AssetPackPipeline][stream]', ...args);
         }
         catch { }
     } };
@@ -53,15 +53,16 @@ const useExecutionState = () => {
         setState(prev => ({ ...prev, definitionOfDone }));
     };
     /**
-     * Triggers the deliverable pipeline and returns final completion data (or null on error)
+     * Triggers the Bitcode asset-pack pipeline and returns final completion data (or null on error).
+     * `definitionOfDone` is bounded to the input key while downstream receipts mirror Bitcode Need and AssetPack semantics.
      */
-    const handleDoSubmit = (0, react_1.useCallback)(async (connectionId, repoOwner, repoName, repoBranch, commitSha, issueNumber, userHasScrolled, logContainerRef, userTimezone, modelProvider, modelId, 
+    const submitAssetPackPipeline = (0, react_1.useCallback)(async (connectionId, repoOwner, repoName, repoBranch, commitSha, issueNumber, userHasScrolled, logContainerRef, userTimezone, modelProvider, modelId,
     /** Optional attachments provided by the user */
-    attachments = [], 
+    attachments = [],
     /** Enable compute mode */
-    computeEnabled = false, 
+    computeEnabled = false,
     /** Enable multi-agent mode */
-    multiAgentEnabled = false, 
+    multiAgentEnabled = false,
     /** Number of iterations */
     iterationCount = 3, 
     /** Optional file uploads */
@@ -82,7 +83,7 @@ const useExecutionState = () => {
         let finalCompletion = null;
         try {
             const computeEnabledEffective = featureFlags_1.ENABLE_COMPUTE_TOGGLE ? computeEnabled : false;
-            dlog('Submitting pipeline', { connectionId, repoOwner, repoName, repoBranch, commitSha, issueNumber, modelProvider, modelId, attachmentsCount: attachments?.length || 0, computeEnabled: computeEnabledEffective, multiAgentEnabled, iterationCount });
+            dlog('Submitting Bitcode asset-pack pipeline', { connectionId, repoOwner, repoName, repoBranch, commitSha, issueNumber, modelProvider, modelId, attachmentsCount: attachments?.length || 0, computeEnabled: computeEnabledEffective, multiAgentEnabled, iterationCount });
             const pipelineType = options?.pipelineType || DEFAULT_BRANCH_ARTIFACT_EXECUTION_TYPE;
             const stream = await (0, api_client_1.callDeliverablesAPI)(connectionId, repoOwner, repoName, repoBranch, commitSha, issueNumber, state.definitionOfDone, userTimezone, modelProvider, modelId, attachments, computeEnabledEffective, multiAgentEnabled, iterationCount, files, pipelineType);
             if (!stream) {
@@ -223,13 +224,13 @@ const useExecutionState = () => {
         }
         catch (error) {
             hasError = true;
-            dlog('handleDoSubmit caught error', error?.message || error);
+            dlog('submitAssetPackPipeline caught error', error?.message || error);
             setState(prev => ({
                 ...prev,
                 error: error.message || 'An unexpected error occurred'
             }));
         }
-        dlog('handleDoSubmit finally');
+        dlog('submitAssetPackPipeline finally');
         setState(prev => ({
             ...prev,
             isProcessing: false,
@@ -260,7 +261,7 @@ const useExecutionState = () => {
     return {
         ...state,
         setDefinitionOfDone,
-        handleDoSubmit,
+        submitAssetPackPipeline,
         appendInstructionToLog,
         resetState
     };
