@@ -151,7 +151,6 @@
       "@bitcode/generic-agents-git": ["../packages/generic-agents/git-interactor/src/index.ts"],
       "@bitcode/generic-tools-simple-system-text-search": ["../packages/generic-tools/simple-system-text-search/src/index.ts"],
       "@bitcode/generic-tools-git": ["../packages/generic-tools/git-interactor/src/index.ts"],
-      "@bitcode/pipelines-generics/src/phases/validation/validationDeliverablesPhaseModule": ["../packages/pipelines/asset-pack/src/phases/validation.ts"],
 
       // -------------------------------------------------------------------
       // New @bitcode/* aliases replacing the historical @/lib/* imports.
@@ -247,13 +246,13 @@
       "@/lib/responses": ["../packages/networking/src/responses.ts"],
       "@/lib/sse": ["../packages/networking/src/sse.ts"],
       "@/lib/web-search": ["../packages/web-search/src/index.ts"],
-      "@/lib/deliverables": ["../packages/pipelines/asset-pack/src/index.ts"],
+      "@/lib/asset-pack": ["../packages/pipelines/asset-pack/src/index.ts"],
       "@/lib/models": ["../packages/models/src/index.ts"],
       "@/lib/telemetry": ["../packages/observability/src/telemetry.ts"],
 
       "@/lib/dockerUtils": ["../packages/docker/src/index.ts"],
       // -----------------------------------------------------------------
-      // Legacy utils aliases – `uapi/utils` folder has been removed. These
+      // Retained app utility aliases. The `uapi/utils` folder has been removed; these
       // mappings keep existing import paths working without code changes.
       // -----------------------------------------------------------------
       "@/utils/btd-plans": ["../packages/btd/src/plans.ts"],

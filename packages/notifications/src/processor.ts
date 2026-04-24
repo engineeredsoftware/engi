@@ -1,5 +1,12 @@
 import { supabaseAdmin as supabase } from '@bitcode/supabase';
-import { DomainEvent, NotificationChannel, NotificationPayload, NotificationRecord, NotificationType } from './types';
+import {
+  BitcodeRunNotificationType,
+  DomainEvent,
+  NotificationChannel,
+  NotificationPayload,
+  NotificationRecord,
+  NotificationType,
+} from './types';
 import { sendEmail } from './index';
 
 /*
@@ -38,14 +45,44 @@ async function fanoutRunEvent(event: Extract<DomainEvent, { kind: 'RUN' }>): Pro
   };
   const notifType = typeMap[status];
 
-  const url = `/${runType === 'deliverable' ? 'pipeline-executions' : 'measure-executions'}/${runId}`;
-  const humanType = runType.charAt(0).toUpperCase() + runType.slice(1);
+  const runCopy = getRunNotificationCopy(runType, runId);
+  const url = runCopy.url;
+  const humanType = runCopy.label;
   const humanStatus = status === 'SUCCESS' ? 'completed' : status.toLowerCase();
-  const message = `${humanType} run #${runId} ${humanStatus}`;
+  const message = `${humanType} #${runId} ${humanStatus}`;
 
-  const payload: NotificationPayload = { message, url, runId, runType, status };
+  const payload: NotificationPayload = {
+    message,
+    url,
+    runId,
+    runType,
+    status,
+    executionKind: runCopy.executionKind,
+  };
 
   await persistAndDispatch({ userId, notifType, payload });
+}
+
+function getRunNotificationCopy(runType: BitcodeRunNotificationType, runId: number): {
+  label: string;
+  url: string;
+  executionKind: string;
+} {
+  const executionUrl = `/executions/${runId}`;
+
+  if (runType === 'asset-pack') {
+    return {
+      label: 'AssetPack execution',
+      url: executionUrl,
+      executionKind: 'asset-pack',
+    };
+  }
+
+  return {
+    label: 'Need measurement execution',
+    url: executionUrl,
+    executionKind: 'need-measurement',
+  };
 }
 
 async function fanoutBtdBalanceEvent(event: Extract<DomainEvent, { kind: 'BTD_BALANCE' }>): Promise<void> {

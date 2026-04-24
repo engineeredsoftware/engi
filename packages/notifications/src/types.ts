@@ -8,18 +8,19 @@
  */
 
 // ---------------------------------------------------------------------------
-// High-level domain events – emitted by deliverable / measure services or
-// BTD balance accounting code.  These are *not* persisted; they are fanned-out by
-// the Notification Worker into one-or-many Notification records.
+// High-level domain events emitted by Exchange execution services and BTD
+// balance accounting code. These are not persisted; the Notification Worker
+// fans them out into one-or-more Notification records.
 // ---------------------------------------------------------------------------
 
 export type RunLifecycle = 'STARTED' | 'SUCCESS' | 'ERROR';
+export type BitcodeRunNotificationType = 'asset-pack' | 'need-measurement';
 
 export interface RunEvent {
   kind: 'RUN';
   status: RunLifecycle;
   runId: number;
-  runType: 'deliverable' | 'measure';
+  runType: BitcodeRunNotificationType;
   userId: string;
   createdAt: string; // ISO-string for convenience
 }
@@ -53,7 +54,7 @@ export type NotificationChannel = 'in_app' | 'email' | 'slack' | 'sms';
 export interface NotificationPayload {
   // The shape varies per type but always has a `message` for convenience.
   message: string;
-  // Optional deep-link URL (e.g. /deliverable-runs/123)
+  // Optional Terminal deep-link URL (e.g. /executions/123)
   url?: string;
   // Arbitrary additional structured data
   [key: string]: any;

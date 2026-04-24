@@ -1,7 +1,7 @@
 /**
  * ROUTE REWRITE MIDDLEWARE
  *
- * Handles URL rewrites for backward compatibility and clean URLs.
+ * Handles retained route-compatibility rewrites and clean URLs.
  * Centralizes all routing logic in one place.
  */
 
@@ -16,17 +16,17 @@ interface RouteRule {
 
 // Centralized routing rules
 const ROUTE_RULES: RouteRule[] = [
-  // Legacy runs → unified execution view
+  // Retained /runs/:id shortcut -> unified execution view
   {
     pattern: /^\/runs\/([^\/]+)$/,
     rewrite: (match) => `/executions/${match[1]}`
   },
-  // Deliverables shortcut → executions
+  // Retained /deliverables shortcut -> executions
   {
     pattern: /^\/deliverables$/,
     rewrite: () => '/executions'
   },
-  // Legacy conversation routes
+  // Retained conversation message shortcut
   {
     pattern: /^\/conversations\/([^\/]+)\/messages$/,
     rewrite: (match) => `/api/conversations/${match[1]}/stream`

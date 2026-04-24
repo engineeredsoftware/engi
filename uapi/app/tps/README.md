@@ -3,7 +3,7 @@
 - All third‑party UI pages live under `/tps/[service]/...`.
 - Prefer explicit service names (e.g., `supabase`, `github`, `twilio`, `wallet`).
 - Child paths describe the surface (`callback`, `app-install`, `sms/[runId]`, `wallet/[flow]`).
-- Keep product pages under `/deliverables` and `/ai_documents` — do not mix.
+- Keep Bitcode product pages under `/application`, retained execution bridges under `/executions`, and admitted document surfaces under `/ai_documents` — do not mix them with third-party service overlays.
 
 Examples
 - `/tps/supabase/callback` – Auth OTP/OAuth callback overlay
@@ -12,4 +12,4 @@ Examples
 - `/tps/twilio/sms/[runId]` – SMS run viewer
 
 Transition policy
-- Legacy callback pages (`/login/callback`, `/github/callback`, `/sms/view/[runId]`) permanently redirect (308) to the new `/tps/...` routes.
+- Retained callback pages (`/login/callback`, `/github/callback`, `/sms/view/[runId]`) permanently redirect (308) to the new `/tps/...` routes.

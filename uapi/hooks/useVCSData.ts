@@ -10,8 +10,8 @@ import {
 import { fetchIssuesAndPRs as fetchIssuesAPI, fetchFiles as fetchFilesAPI, fetchAccounts } from '@/networking/api-client';
 
 /**
- * Simplified VCS data interface
- * Compatibility layer for existing deliverables implementation
+ * VCS data interface for Terminal repository context and Finish delivery
+ * mechanism selectors.
  */
 export interface VCSData {
   provider: VCSProviderType | null;
@@ -32,8 +32,8 @@ export interface VCSData {
 }
 
 /**
- * VCS data hook with issues/PRs and files support
- * Provides compatibility layer while delegating to VCS API
+ * VCS data hook with issues/PRs and files support for Need measurement,
+ * AssetPack synthesis evidence, and Shippable delivery mechanisms.
  */
 export const useVCSData = () => {
   // Add state management for the data

@@ -51,6 +51,21 @@ const removedTerminalExecutionGeneratedJsMirrors = [
   '../../uapi/components/base/bitcode/execution/DeliverablesDocPanel.js',
   '../../uapi/components/base/bitcode/execution/deliver-button.js',
 ];
+const removedNotificationGeneratedJsMirrors = [
+  '../../packages/notifications/src/events.js',
+  '../../packages/notifications/src/index.js',
+  '../../packages/notifications/src/processor.js',
+  '../../packages/notifications/src/types.js',
+  '../../packages/notifications/src/worker.js',
+];
+const removedExecutionSupportGeneratedJsMirrors = [
+  '../../uapi/middleware/route-rewrite.js',
+  '../../uapi/middleware/authentication.js',
+  '../../uapi/hooks/useVCSData.js',
+  '../../uapi/scripts/long-runner-worker.js',
+  '../../uapi/scripts/run-long-runner.js',
+  '../../uapi/scripts/sync-deliverables-embeddings.js',
+];
 const removedTypeKeyedImplementationEntrypoints = [
   '../../packages/pipelines/asset-pack/src/agents/implementation-agents.ts',
   '../../packages/pipelines/asset-pack/src/agents/implementation/asset-pack-divide-code-change-agent.ts',
@@ -149,6 +164,43 @@ const executionNeedInputSource = readFileSync(
   new URL('../../uapi/components/base/bitcode/execution/ExecutionNeedInput.tsx', import.meta.url),
   'utf8'
 );
+const notificationTypesSource = readFileSync(
+  new URL('../../packages/notifications/src/types.ts', import.meta.url),
+  'utf8'
+);
+const notificationEventsSource = readFileSync(
+  new URL('../../packages/notifications/src/events.ts', import.meta.url),
+  'utf8'
+);
+const notificationProcessorSource = readFileSync(
+  new URL('../../packages/notifications/src/processor.ts', import.meta.url),
+  'utf8'
+);
+const notificationReadmeSource = readFileSync(
+  new URL('../../packages/notifications/README.md', import.meta.url),
+  'utf8'
+);
+const routeRewriteMiddlewareSource = readFileSync(
+  new URL('../../uapi/middleware/route-rewrite.ts', import.meta.url),
+  'utf8'
+);
+const authenticationMiddlewareSource = readFileSync(
+  new URL('../../uapi/middleware/authentication.ts', import.meta.url),
+  'utf8'
+);
+const vcsDataHookSource = readFileSync(
+  new URL('../../uapi/hooks/useVCSData.ts', import.meta.url),
+  'utf8'
+);
+const tpsReadmeSource = readFileSync(new URL('../../uapi/app/tps/README.md', import.meta.url), 'utf8');
+const uapiPackageSource = readFileSync(new URL('../../uapi/package.json', import.meta.url), 'utf8');
+const rootTsconfigSource = readFileSync(new URL('../../tsconfig.json', import.meta.url), 'utf8');
+const uapiTsconfigSource = readFileSync(new URL('../../uapi/tsconfig.json', import.meta.url), 'utf8');
+const syncAssetPackEvidenceEmbeddingsScriptSource = readFileSync(
+  new URL('../../uapi/scripts/sync-asset-pack-evidence-embeddings.ts', import.meta.url),
+  'utf8'
+);
+const runLongRunnerSource = readFileSync(new URL('../../uapi/scripts/run-long-runner.ts', import.meta.url), 'utf8');
 const deliverableStartedTemplateSource = readFileSync(
   new URL('../../supabase/templates/deliverable_started.html', import.meta.url),
   'utf8'
@@ -734,6 +786,52 @@ test('Terminal execution surfaces do not keep generated JavaScript mirrors besid
       existsSync(new URL(removedPath, import.meta.url)),
       false,
       `${removedPath} must not remain as stale Terminal execution source`
+    );
+  }
+});
+
+test('execution notifications and support rails use AssetPack and Shippable naming before compatibility storage', () => {
+  assert.match(reformSource, /active notification run types must use `asset-pack` and `need-measurement`/u);
+  assert.match(reformSource, /active operational scripts must likewise use AssetPack evidence names first/u);
+
+  assert.match(notificationTypesSource, /export type BitcodeRunNotificationType = 'asset-pack' \| 'need-measurement';/u);
+  assert.match(notificationEventsSource, /runType: BitcodeRunNotificationType;/u);
+  assert.match(notificationProcessorSource, /AssetPack execution/u);
+  assert.match(notificationProcessorSource, /Need measurement execution/u);
+  assert.match(notificationProcessorSource, /const executionUrl = `\/executions\/\$\{runId\}`;/u);
+  assert.match(notificationReadmeSource, /runType: 'asset-pack'/u);
+  assert.match(notificationReadmeSource, /`need-measurement` for Need measurement executions/u);
+  assert.match(notificationReadmeSource, /\/executions\/:runId/u);
+  assert.doesNotMatch(notificationTypesSource, /runType: 'deliverable' \| 'measure'/u);
+  assert.doesNotMatch(notificationProcessorSource, /pipeline-executions|measure-executions|deliverable-runs/u);
+
+  assert.match(routeRewriteMiddlewareSource, /Retained \/deliverables shortcut -> executions/u);
+  assert.match(authenticationMiddlewareSource, /Check Exchange execution ownership/u);
+  assert.match(vcsDataHookSource, /Need measurement,/u);
+  assert.match(vcsDataHookSource, /AssetPack synthesis evidence, and Shippable delivery mechanisms/u);
+  assert.match(tpsReadmeSource, /\/application/u);
+  assert.match(tpsReadmeSource, /\/executions/u);
+  assert.doesNotMatch(tpsReadmeSource, /\/deliverables/u);
+
+  assert.match(uapiPackageSource, /sync-asset-pack-evidence-embeddings/u);
+  assert.doesNotMatch(uapiPackageSource, /sync-deliverables-embeddings/u);
+  assert.match(syncAssetPackEvidenceEmbeddingsScriptSource, /AssetPack evidence/u);
+  assert.match(syncAssetPackEvidenceEmbeddingsScriptSource, /ASSET_PACK_EVIDENCE_TABLE = 'deliverables'/u);
+  assert.doesNotMatch(syncAssetPackEvidenceEmbeddingsScriptSource, /Fetching existing deliverables|Embedding .* deliverables|Sync deliverables failed/u);
+
+  assert.match(runLongRunnerSource, /pull-request Shippable/u);
+  assert.match(runLongRunnerSource, /shippableUrl/u);
+  assert.doesNotMatch(runLongRunnerSource, /deliverableUrl/u);
+  assert.match(rootTsconfigSource, /"@\/lib\/asset-pack"/u);
+  assert.match(uapiTsconfigSource, /"@\/lib\/asset-pack"/u);
+  assert.doesNotMatch(rootTsconfigSource, /"@\/lib\/deliverables"/u);
+  assert.doesNotMatch(uapiTsconfigSource, /"@\/lib\/deliverables"/u);
+
+  for (const removedPath of [...removedNotificationGeneratedJsMirrors, ...removedExecutionSupportGeneratedJsMirrors]) {
+    assert.equal(
+      existsSync(new URL(removedPath, import.meta.url)),
+      false,
+      `${removedPath} must not remain as stale notification or execution-support source`
     );
   }
 });

@@ -64,9 +64,14 @@ async function main() {
 
     const result = pipelineResult;
 
-    // Attempt to upload PR patch if a Pull Request was created
+    // Attempt to save the PR patch if Finish delivered a pull-request Shippable.
     try {
-      const prUrl: string | undefined = (result as any)?.deliverableUrl || (result as any)?.gitResults?.url;
+      const prUrl: string | undefined =
+        (result as any)?.shippableUrl ||
+        (result as any)?.shippable?.prUrl ||
+        (result as any)?.deliveryMechanism?.prUrl ||
+        (result as any)?.deliveryMechanism?.url ||
+        (result as any)?.gitResults?.url;
       if (prUrl && prUrl.includes('/pull/')) {
         const prMatch = /https?:\/\/github\.com\/(.+?)\/(.+?)\/pull\/(\d+)/.exec(prUrl);
         if (prMatch) {

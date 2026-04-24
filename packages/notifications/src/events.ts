@@ -1,5 +1,5 @@
 import { EventEmitter } from 'events';
-import { DomainEvent } from './types';
+import { BitcodeRunNotificationType, DomainEvent, RunLifecycle } from './types';
 
 /*
  * Tiny in-memory event bus wrapper around Node.js EventEmitter.  In
@@ -18,9 +18,9 @@ export function publishDomainEvent(event: DomainEvent): void {
 // Convenience helpers --------------------------------------------------------
 
 export function emitRunLifecycle(params: {
-  status: 'STARTED' | 'SUCCESS' | 'ERROR';
+  status: RunLifecycle;
   runId: number;
-  runType: 'deliverable' | 'measure';
+  runType: BitcodeRunNotificationType;
   userId: string;
 }): void {
   publishDomainEvent({

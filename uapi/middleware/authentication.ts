@@ -202,7 +202,7 @@ export async function validateOwnership(
       }
 
       case 'pipeline': {
-        // Check executions table (deliverables)
+        // Check Exchange execution ownership.
         const { data: execution } = await supabase
           .from('executions')
           .select('user_id')

@@ -37,12 +37,24 @@ await sendEmail({
 ## Event Processing
 
 ```typescript
-import { startNotificationWorker } from '@bitcode/notifications';
+import { emitRunLifecycle, startNotificationWorker } from '@bitcode/notifications';
 
 // Worker starts automatically unless DISABLE_NOTIFICATIONS_WORKER=1
 // Manual start for custom scenarios
 startNotificationWorker();
+
+emitRunLifecycle({
+  status: 'STARTED',
+  runId: 123,
+  runType: 'asset-pack',
+  userId: 'user-id'
+});
 ```
+
+Run lifecycle notifications use Bitcode execution semantics:
+- `asset-pack` for AssetPack synthesis, stored evidence, Finish, and optional Shippable delivery runs.
+- `need-measurement` for Need measurement executions that feed reviewable Need and fit workflows.
+- Notification deep links point to the Terminal execution bridge at `/executions/:runId`.
 
 ## Configuration
 

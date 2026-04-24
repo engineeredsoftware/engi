@@ -25,7 +25,7 @@
     "test:e2e:visual": "playwright test tests/e2e/**/*.visual.spec.ts",
     "test:e2e:onboarding": "START_STORYBOOK=false USE_API_MOCK=true playwright test tests/e2e/onboarding.visual.spec.ts tests/e2e/account.onboarding.visual.spec.ts --timeout=120000",
     "test:e2e:onboarding-first-step": "START_STORYBOOK=false USE_API_MOCK=true playwright test tests/e2e/onboarding-first-step.spec.ts --timeout=120000",
-    "sync-deliverables-embeddings": "ts-node scripts/sync-deliverables-embeddings.ts",
+    "sync-asset-pack-evidence-embeddings": "ts-node scripts/sync-asset-pack-evidence-embeddings.ts",
     "codemod:trace-routes": "node scripts/trace-route-codemod.js",
     "dev:staging": "next dev --hostname 127.0.0.1",
     "generate-doc-screenshot-stubs": "node ../scripts/generate-doc-screenshot-stubs.js",

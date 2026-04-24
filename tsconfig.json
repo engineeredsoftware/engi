@@ -74,7 +74,6 @@
     "@bitcode/generic-agents-git": ["packages/generic-agents/git-interactor/src/index.ts"],
     "@bitcode/generic-tools-simple-system-text-search": ["packages/generic-tools/simple-system-text-search/src/index.ts"],
     "@bitcode/generic-tools-git": ["packages/generic-tools/git-interactor/src/index.ts"],
-    "@bitcode/pipelines-generics/src/phases/validation/validationDeliverablesPhaseModule": ["packages/pipelines/asset-pack/src/phases/validation.ts"],
 
       // -------------------------------------------------------------------
       // New @bitcode/* aliases replacing the historical @/lib/* imports.
@@ -204,8 +203,8 @@
     "@/lib/engine/pipeline/*": ["packages/pipelines-generics/src/pipeline/*"],
 
       // -------------------------------------------------------------------
-      // Legacy wrappers – map old file locations that were moved to the
-      // generic phase modules so existing imports in tests code still work.
+      // Retained phase-wrapper aliases map moved phase entry points to the
+      // generic phase modules while tests finish crossing to package imports.
       // -------------------------------------------------------------------
       "@/lib/engine/pipeline/pipelineSetupPhaseWrapper": ["packages/pipelines-generics/src/phases/setup/index.ts"],
       "@/lib/engine/pipeline/pipelineDiscoveryPhaseWrapper": ["packages/pipelines-generics/src/phases/discovery/index.ts"],
@@ -228,17 +227,14 @@
     ],
 
     // -----------------------------------------------------------------
-    // Pipeline engine generics – convenience alias used by historical code
-    // within the concrete pipeline packages.  Points to the updated
-    // `pipelines-generics` source directory.
+    // Pipeline engine generics convenience alias for concrete pipeline package
+    // imports that are still crossing to direct package names.
     // -----------------------------------------------------------------
     // @bitcode/pipeline-engine-generics mapping defined at top-level – duplicate removed
 
       // -------------------------------------------------------------------
-      // Mappings for utilities that used to live under `uapi/utils`. The
-      // original directory has been removed; these aliases point the old
-      // import paths to their new package-based locations. Inserted above the
-      // generic `@/*` catch-all so they take precedence.
+      // Retained utility aliases for removed `uapi/utils` paths. Inserted
+      // above the generic `@/*` catch-all so they take precedence.
       // -------------------------------------------------------------------
       "@/utils/btd-plans": ["packages/btd/src/plans.ts"],
       "@/utils/model-pricing": ["packages/models/src/pricing.ts"],
@@ -246,7 +242,7 @@
       "@/*": ["uapi/*"],
 
       // -------------------------------------------------------------------
-      // Legacy aliases mapped to new @bitcode/* packages after codebase refactor
+      // Retained app aliases mapped to package-owned Bitcode implementations.
       // -------------------------------------------------------------------
       "@/lib/email": ["packages/notifications/src/index.ts"],
       "@/lib/prompts": ["packages/prompts/src/index.ts"],
@@ -254,7 +250,7 @@
       "@/lib/responses": ["packages/networking/src/responses.ts"],
       "@/lib/sse": ["packages/networking/src/sse.ts"],
       "@/lib/web-search": ["packages/web-search/src/index.ts"],
-      "@/lib/deliverables": ["packages/pipelines/asset-pack/src/index.ts"],
+      "@/lib/asset-pack": ["packages/pipelines/asset-pack/src/index.ts"],
       "@/lib/models": ["packages/models/src/index.ts"],
       "@/lib/telemetry": ["packages/observability/src/telemetry.ts"],
       "@/lib/dryrun": ["packages/observability/src/dryrun.ts"],
