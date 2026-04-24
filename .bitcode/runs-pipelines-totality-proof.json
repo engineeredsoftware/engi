@@ -1,11 +1,11 @@
 {
   "reportId": "v26-runs-pipelines-totality-proof",
   "version": "V26",
-  "proofSourceCommit": "a29858138fcc8ff22b29c2b8ac6ad2e501f5784a",
-  "generatedAt": "2026-04-24T16:44:48-03:00",
+  "proofSourceCommit": "7f034b44c3582ee9af30f73c04520dc36abf8c1e",
+  "generatedAt": "2026-04-24T19:08:46-03:00",
   "generatorId": "bitcode.proven-generator.v1",
   "worktreeState": "dirty-preview",
-  "passed": true,
+  "passed": false,
   "routeWitnesses": [
     "/executions",
     "/executions/[runId]"
@@ -16,6 +16,7 @@
     "/api/executions/history/[runId]",
     "/api/vcs",
     "/api/auxillaries/template-preferences",
+    "/api/templates/shippables",
     "/api/templates/deliverables"
   ],
   "requiredFiles": [
@@ -31,8 +32,9 @@
     "uapi/app/api/executions/_shared.ts",
     "uapi/app/api/vcs/route.ts",
     "uapi/app/api/auxillaries/template-preferences/route.ts",
+    "uapi/app/api/templates/shippables/route.ts",
     "uapi/app/api/templates/deliverables/route.ts",
-    "packages/api/src/routes/deliverables.ts",
+    "packages/api/src/routes/shippables.ts",
     "packages/api/src/pipelines/branch.ts",
     "packages/execution-generics/src/Execution.ts",
     "packages/execution-generics/src/execution-registry.ts",
@@ -79,7 +81,7 @@
         "uapi/app/api/executions/history/route.ts",
         "uapi/app/api/executions/history/[runId]/route.ts",
         "uapi/app/api/executions/_shared.ts",
-        "packages/api/src/routes/deliverables.ts",
+        "packages/api/src/routes/shippables.ts",
         "packages/api/src/pipelines/branch.ts"
       ],
       "missingFiles": []
@@ -88,7 +90,7 @@
       "checkId": "executions-retained-compatibility-carriers",
       "label": "Retained executions compatibility APIs, canonical auxillary APIs, and proof carriers",
       "passed": true,
-      "detail": "18 required files present",
+      "detail": "19 required files present",
       "requiredFiles": [
         "uapi/app/api/vcs/route.ts",
         "uapi/app/api/auxillaries/template-preferences/route.ts",
@@ -98,13 +100,14 @@
         "uapi/app/api/auxillaries/usage/route.ts",
         "uapi/app/api/auxillaries/transactions/route.ts",
         "uapi/app/api/auxillaries/api-keys/route.ts",
+        "uapi/app/api/templates/shippables/route.ts",
         "uapi/app/api/templates/deliverables/route.ts",
         "uapi/tests/api/vcsCompatibilityRoute.test.ts",
         "uapi/tests/api/orbitalsTemplatePreferencesRoute.test.ts",
         "uapi/tests/api/orbitalsProfileRoute.test.ts",
         "uapi/tests/api/orbitalUsageRoute.test.ts",
         "uapi/tests/api/auxillariesTransactionsRoute.test.ts",
-        "uapi/tests/api/deliverableTemplatesRoute.test.ts",
+        "uapi/tests/api/shippableTemplatesRoute.test.ts",
         "uapi/tests/apiKeysRoutes.test.ts",
         "uapi/tests/userConnectionsGithubRoute.test.ts",
         "uapi/tests/api/userBtdRoute.test.ts"
@@ -277,8 +280,8 @@
         },
         {
           "file": "uapi/app/api/webhook/route.ts",
-          "evidence": "compatibilityCommand: 'bitcode-deliverable-trigger'",
-          "description": "asset-pack trigger command is bounded as an implementation compatibility detail"
+          "evidence": "triggerCommand: 'bitcode-asset-pack-trigger'",
+          "description": "asset-pack trigger command uses current Bitcode ingress naming"
         },
         {
           "file": "uapi/tests/webhookRoute.test.ts",
@@ -297,8 +300,8 @@
     {
       "checkId": "uapi-client-asset-pack-execution-hook",
       "label": "Terminal execution client hook teaches Bitcode asset-pack pipeline semantics through canonical Definition of Need input names",
-      "passed": true,
-      "detail": "4 source evidence requirements satisfied",
+      "passed": false,
+      "detail": "1 files missing; 1 evidence requirements missing",
       "requiredEvidence": [
         {
           "file": "uapi/hooks/useExecutionState.ts",
@@ -321,8 +324,16 @@
           "description": "tracked JavaScript mirror carries the same runtime debug semantics"
         }
       ],
-      "missingFiles": [],
-      "missingEvidence": []
+      "missingFiles": [
+        "uapi/hooks/useExecutionState.js"
+      ],
+      "missingEvidence": [
+        {
+          "file": "uapi/hooks/useExecutionState.js",
+          "evidence": "Submitting Bitcode asset-pack pipeline",
+          "description": "tracked JavaScript mirror carries the same runtime debug semantics"
+        }
+      ]
     }
   ]
 }

@@ -1,8 +1,8 @@
 {
   "reportId": "v26-system-reform-admissibility-proof",
   "version": "V26",
-  "proofSourceCommit": "a29858138fcc8ff22b29c2b8ac6ad2e501f5784a",
-  "generatedAt": "2026-04-24T16:44:48-03:00",
+  "proofSourceCommit": "7f034b44c3582ee9af30f73c04520dc36abf8c1e",
+  "generatedAt": "2026-04-24T19:08:46-03:00",
   "generatorId": "bitcode.proven-generator.v1",
   "worktreeState": "dirty-preview",
   "passed": true,
@@ -57,7 +57,7 @@
     },
     {
       "checkId": "deliverable-compatibility-export-boundary",
-      "label": "Deliverable pipeline run export remains explicit compatibility-only carry-through",
+      "label": "AssetPack run export keeps route compatibility explicit while Shippable output is primary",
       "passed": true,
       "detail": "2 required files present",
       "requiredFiles": [
@@ -93,7 +93,7 @@
         "packages/prompts/src/raw_promptparts/specific/promptpart_specific_tool_usecomputer_doccodetoolpurpose.ts",
         "packages/pipelines/asset-pack/src/tools/BitcodeNeedMeasurementComputerUseTool.ts",
         "packages/pipelines/asset-pack/src/tools/index.ts",
-        "packages/api/src/routes/deliverables.ts",
+        "packages/api/src/routes/shippables.ts",
         "packages/execution-generics/src/store/registry.ts",
         "uapi/app/executions/components/ExecutionsPageClient.tsx",
         "uapi/components/base/bitcode/execution/execution-option-toggle.tsx",

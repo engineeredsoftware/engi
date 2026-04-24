@@ -1,11 +1,11 @@
 # Bitcode Spec V26 Proven
 
 - canonicalVersion: `V26`
-- canonicalCommit: `a29858138fcc8ff22b29c2b8ac6ad2e501f5784a`
-- canonicalCommitRecordedAt: `2026-04-24T16:44:48-03:00`
+- canonicalCommit: `7f034b44c3582ee9af30f73c04520dc36abf8c1e`
+- canonicalCommitRecordedAt: `2026-04-24T19:08:46-03:00`
 - worktreeState: `dirty-preview`
 - generatorId: `bitcode.proven-generator.v1`
-- generatedAt: `2026-04-24T16:44:48-03:00`
+- generatedAt: `2026-04-24T19:08:46-03:00`
 - outputPath: `BITCODE_SPEC_V26_PROVEN.md`
 - scenarioIds: `auth-issuer-rollback`, `rust-validator-proof-gap`, `config-policy-precedence-incident`, `unsafe-patch-review-recovery`, `infra-deployment-mismatch`, `privacy-boundary-proof-export`, `polyglot-gateway-benchmark-remediation`, `auth-many-asset-normalization`
 - branchModes: `patch`, `context`
@@ -33,13 +33,13 @@
 - v26SpecFamilyPassed: `true`
 - v26CanonicalInputsPassed: `true`
 - v26ConversationsContinuityPassed: `true`
-- v26RunsPipelinesTotalityPassed: `true`
+- v26RunsPipelinesTotalityPassed: `false`
 - v26PersistenceSchemaTotalityPassed: `true`
 - v26PromptSystemTotalityPassed: `true`
 - v26InferenceImplementationRecordsPassed: `true`
-- v26FourthGateReclosureReviewPassed: `true`
+- v26FourthGateReclosureReviewPassed: `false`
 - v26SourceToSharesFifthGatePassed: `true`
-- v26FifthGateClosureDeepeningPassed: `true`
+- v26FifthGateClosureDeepeningPassed: `false`
 - v26PromptSpaceBaselinePassed: `true`
 - v26RetainedPackageAdmissibilityPassed: `true`
 - v26SystemReformAdmissibilityPassed: `true`
@@ -47,8 +47,8 @@
 - v26TotalClosurePassed: `false`
 - v26GeneratedArtifactCount: `18`
 - v26DraftPreview: `false`
-- v26FourthGatePromotedClosed: `true`
-- v26ThroughFourthGatePromotionReady: `true`
+- v26FourthGatePromotedClosed: `false`
+- v26ThroughFourthGatePromotionReady: `false`
 - v26PromotionReady: `false`
 
 ## V19 Reproducible Canon Reports
@@ -57,13 +57,13 @@
 
 | artifactPath | digest | byteLength |
 | --- | --- | --- |
-| `.bitcode/v19-contract-change-ledger.json` | `sha256:e1deeead2726d8a3be6effda5e797dc2a4731d650553bc9af528722e512f2638` | 3311 |
-| `.bitcode/v19-deterministic-replay-report.json` | `sha256:03742a65f2c23b50a11fe02b2198bf89be21939ec2110de8619befc65324a262` | 8459 |
-| `.bitcode/v19-negative-proof-mutation-matrix.json` | `sha256:dfdb9325e12d1fb8469cab1594f2e92f1e0d9e6f4493bf8f259073b26edee653` | 8085 |
-| `.bitcode/v19-proof-member-semantic-matrix.json` | `sha256:ac8b8f5f7e8dff23fe4d02344e55ac5c26f1ce618fa7a75d2e6a0369cd507381` | 1815750 |
-| `.bitcode/v19-state-machine-matrix.json` | `sha256:6c314934e63ba4f0d1f45bb4604aaab126c530123935550d5517e3acf53045f8` | 154965 |
-| `.bitcode/v19-theorem-evidence-matrix.json` | `sha256:7b3bbc86b632d6477193d5554bcc1d650e3004a3b7d79dee92bc8b4d0e83a2f7` | 2405676 |
-| `.bitcode/v19-volatility-inventory.json` | `sha256:2efb85e0449b0814940f5e440eddce15e70e64f6899a1ecb257dd47099c6dd1b` | 6206 |
+| `.bitcode/v19-contract-change-ledger.json` | `sha256:e2227becab6cbceee22c31173703d5eb83c978d46c04500cb1a15b099633132e` | 3311 |
+| `.bitcode/v19-deterministic-replay-report.json` | `sha256:fcb60d915751495d75db3a4e35e097fcd2ef6f812d70154d078d13d25a85f606` | 8459 |
+| `.bitcode/v19-negative-proof-mutation-matrix.json` | `sha256:30f0fbcf89b52a8b2a4311028f00dda72c1ba336a62fb1b98da411665c817d35` | 8085 |
+| `.bitcode/v19-proof-member-semantic-matrix.json` | `sha256:dfbc3adfe5ebeeddbebe3a58c0195384b3255b688d03582af4d6d02ebd2a9fd8` | 1815750 |
+| `.bitcode/v19-state-machine-matrix.json` | `sha256:4f5ea789ed315c8d2a8c1dd542af9ef6041df05e3c8ffc750be6f25d3a76810b` | 154965 |
+| `.bitcode/v19-theorem-evidence-matrix.json` | `sha256:ac5ce385391a41f127d4102db7c8bca0d2e33b327ea776354e9d809c2f444600` | 2405676 |
+| `.bitcode/v19-volatility-inventory.json` | `sha256:ace8625113bd55bd73d122680898b8db7329b915c7ccf6af4c3035782a514e2a` | 6206 |
 
 ### V19 Inherited Positive Matrix Summaries
 
@@ -82,13 +82,13 @@
 
 | artifactPath | firstDigest | secondDigest | byteEqual |
 | --- | --- | --- | --- |
-| `.bitcode/v19-contract-change-ledger.json` | `sha256:e1deeead2726d8a3be6effda5e797dc2a4731d650553bc9af528722e512f2638` | `sha256:e1deeead2726d8a3be6effda5e797dc2a4731d650553bc9af528722e512f2638` | `true` |
-| `.bitcode/v19-negative-proof-mutation-matrix.json` | `sha256:dfdb9325e12d1fb8469cab1594f2e92f1e0d9e6f4493bf8f259073b26edee653` | `sha256:dfdb9325e12d1fb8469cab1594f2e92f1e0d9e6f4493bf8f259073b26edee653` | `true` |
-| `.bitcode/v19-proof-member-semantic-matrix.json` | `sha256:ac8b8f5f7e8dff23fe4d02344e55ac5c26f1ce618fa7a75d2e6a0369cd507381` | `sha256:ac8b8f5f7e8dff23fe4d02344e55ac5c26f1ce618fa7a75d2e6a0369cd507381` | `true` |
-| `.bitcode/v19-state-machine-matrix.json` | `sha256:6c314934e63ba4f0d1f45bb4604aaab126c530123935550d5517e3acf53045f8` | `sha256:6c314934e63ba4f0d1f45bb4604aaab126c530123935550d5517e3acf53045f8` | `true` |
-| `.bitcode/v19-theorem-evidence-matrix.json` | `sha256:7b3bbc86b632d6477193d5554bcc1d650e3004a3b7d79dee92bc8b4d0e83a2f7` | `sha256:7b3bbc86b632d6477193d5554bcc1d650e3004a3b7d79dee92bc8b4d0e83a2f7` | `true` |
-| `.bitcode/v19-volatility-inventory.json` | `sha256:2efb85e0449b0814940f5e440eddce15e70e64f6899a1ecb257dd47099c6dd1b` | `sha256:2efb85e0449b0814940f5e440eddce15e70e64f6899a1ecb257dd47099c6dd1b` | `true` |
-| `_legacy/ENGI_SPEC_V19_PROVEN.md` | `sha256:7b43222c34c1d9e83db4dea70afb61195a33eede78312ca4461292cc5e967f02` | `sha256:7b43222c34c1d9e83db4dea70afb61195a33eede78312ca4461292cc5e967f02` | `true` |
+| `.bitcode/v19-contract-change-ledger.json` | `sha256:e2227becab6cbceee22c31173703d5eb83c978d46c04500cb1a15b099633132e` | `sha256:e2227becab6cbceee22c31173703d5eb83c978d46c04500cb1a15b099633132e` | `true` |
+| `.bitcode/v19-negative-proof-mutation-matrix.json` | `sha256:30f0fbcf89b52a8b2a4311028f00dda72c1ba336a62fb1b98da411665c817d35` | `sha256:30f0fbcf89b52a8b2a4311028f00dda72c1ba336a62fb1b98da411665c817d35` | `true` |
+| `.bitcode/v19-proof-member-semantic-matrix.json` | `sha256:dfbc3adfe5ebeeddbebe3a58c0195384b3255b688d03582af4d6d02ebd2a9fd8` | `sha256:dfbc3adfe5ebeeddbebe3a58c0195384b3255b688d03582af4d6d02ebd2a9fd8` | `true` |
+| `.bitcode/v19-state-machine-matrix.json` | `sha256:4f5ea789ed315c8d2a8c1dd542af9ef6041df05e3c8ffc750be6f25d3a76810b` | `sha256:4f5ea789ed315c8d2a8c1dd542af9ef6041df05e3c8ffc750be6f25d3a76810b` | `true` |
+| `.bitcode/v19-theorem-evidence-matrix.json` | `sha256:ac5ce385391a41f127d4102db7c8bca0d2e33b327ea776354e9d809c2f444600` | `sha256:ac5ce385391a41f127d4102db7c8bca0d2e33b327ea776354e9d809c2f444600` | `true` |
+| `.bitcode/v19-volatility-inventory.json` | `sha256:ace8625113bd55bd73d122680898b8db7329b915c7ccf6af4c3035782a514e2a` | `sha256:ace8625113bd55bd73d122680898b8db7329b915c7ccf6af4c3035782a514e2a` | `true` |
+| `_legacy/ENGI_SPEC_V19_PROVEN.md` | `sha256:2b2798bbeb804e36f5eeacb54b4705e06a301b4263fca7f8cd05f143a48e8b9b` | `sha256:2b2798bbeb804e36f5eeacb54b4705e06a301b4263fca7f8cd05f143a48e8b9b` | `true` |
 
 ### V19 Volatility Inventory
 
@@ -160,12 +160,12 @@
 
 | artifactPath | digest | byteLength |
 | --- | --- | --- |
-| `.bitcode/v20-accessibility-report.json` | `sha256:a755b769eb9ee9cb9c44661f68bc5d6a0d38259cec5b6f5a5c1b9886da4043bc` | 8226 |
-| `.bitcode/v20-operator-acceptance-transcript.json` | `sha256:b1ac98ef63b0a953a37252daa4c7416285010f7d436f540b149e325de30ae26d` | 10929 |
-| `.bitcode/v20-performance-budget-report.json` | `sha256:4b8162d1797db86901e49f85cda52f86c33e1537956b75e0a3443eabc67e37da` | 5054 |
-| `.bitcode/v20-projection-quality-smoke-matrix.json` | `sha256:e74cb1bda9445ccc4fc4d39f8c7fe65dd268d4bbab4799a3052814e29b43f69b` | 4951 |
-| `.bitcode/v20-quality-summary.json` | `sha256:5770869fd13b2e875eddb77b16b60d8d2cc0518b5f3a3ab09fe7422c12f9efe6` | 4480 |
-| `.bitcode/v20-visual-regression-report.json` | `sha256:c1143aff9791d40c28ff0b8689c2855630c8c09d67454bf00af1177c8b94e1b4` | 19385 |
+| `.bitcode/v20-accessibility-report.json` | `sha256:33560a75a1a2f28341af6a2d7e1c1d184e7f54ec22648b476e0eb62f4097f9fa` | 8226 |
+| `.bitcode/v20-operator-acceptance-transcript.json` | `sha256:686a66e7d3d2d57e734f4b8015e82ae14b9b7a0c6855cee2a75d54a2d666e118` | 10929 |
+| `.bitcode/v20-performance-budget-report.json` | `sha256:190bbdb8cc626152b5902cf7fad16f8602d43a4f4e0102169d8f264986d45123` | 5054 |
+| `.bitcode/v20-projection-quality-smoke-matrix.json` | `sha256:e01cb69b52216a7bc177cf31691f1cfddbd8f69413c13abdc25101e3f83b07ce` | 4951 |
+| `.bitcode/v20-quality-summary.json` | `sha256:c09211902537d2511ce23c81c0f6bcee15baff8ea0719571dd2eedaa3c0353c1` | 4480 |
+| `.bitcode/v20-visual-regression-report.json` | `sha256:bc1560410c52c04f3378a96ca68bbfd0e81b9d63adc76c711e7130fba8e1bfe6` | 19385 |
 
 ### V20 Quality Summary
 
@@ -289,12 +289,12 @@
 - activeCanonicalTarget: `V26`
 - draftPreview: `false`
 - checkpointReady: `true`
-- throughFourthGateReady: `true`
-- fourthGatePromotedClosed: `true`
-- throughFourthGatePromotionReady: `true`
+- throughFourthGateReady: `false`
+- fourthGatePromotedClosed: `false`
+- throughFourthGatePromotionReady: `false`
 - promotionReady: `false`
 - fifthGateClosurePassed: `false`
-- fifthGateClosureDeepeningPassed: `true`
+- fifthGateClosureDeepeningPassed: `false`
 - sixthGateClosurePassed: `false`
 - seventhGateClosurePassed: `false`
 - eighthGateClosurePassed: `false`
@@ -304,24 +304,24 @@
 
 | artifactPath | digest | byteLength |
 | --- | --- | --- |
-| `.bitcode/application-composition-proof.json` | `sha256:40de1d0af4cc89665a4af1e59e28833c171e353bc6ce19efa957e1ff8aab362c` | 5125 |
-| `.bitcode/conversations-continuity-proof.json` | `sha256:c6c5134abc1c46223f6bfc109c0f61fa8e0ddce56c7cf84ade0c93285185c149` | 6118 |
-| `.bitcode/environment-mode-coherence-proof.json` | `sha256:3ad7c56eebaeca62e1b2d91319310c9774ae0a9cc2927989f8cce254ce91ab78` | 1599 |
-| `.bitcode/fifth-gate-closure-deepening-proof.json` | `sha256:846e26c217b5c0dac5bbdffa932a4e24f39446cadd66b4c6ffe38f69d7fd2efe` | 6942 |
-| `.bitcode/fourth-gate-reclosure-review-proof.json` | `sha256:12eca925acd53188b9b759e1957886db11647e4ecc019dd0ec86163a86762e16` | 11353 |
-| `.bitcode/inference-implementation-records-proof.json` | `sha256:fecc8e39da06508033842ee4355c19f2e3f5fdaf1f38f18713baecb94d08f46a` | 112787 |
-| `.bitcode/persistence-schema-totality-proof.json` | `sha256:f2cb92fa70c71b5f647374cb30cd0586fa340a25040986aeabe048c9e767bba2` | 4900 |
-| `.bitcode/prompt-space-completeness-proof.json` | `sha256:7796e187a3abcb46e6e7decee2f6987a6908b9ff455345727518e0c9d1f90115` | 16268 |
-| `.bitcode/prompt-system-totality-proof.json` | `sha256:4046be29ac4fe0775ffdaa41bafc7924540023390b1f24844a7e100dc283f178` | 33727 |
-| `.bitcode/retained-package-admissibility-proof.json` | `sha256:4f3fad9eaae080fbf479bff0963f2b569b8b4b43b63a30a18e7898bfcb652539` | 136264 |
-| `.bitcode/runs-pipelines-totality-proof.json` | `sha256:7799598235675a126a90290595eae04518deeccebed84f90b5b0694432f95c4d` | 15476 |
-| `.bitcode/source-to-shares-fifth-gate-proof.json` | `sha256:06a372317cb24e3a2766ab856cc7108ffeef07b71e621d168fd843b8e313d6e4` | 10388 |
-| `.bitcode/system-reform-admissibility-proof.json` | `sha256:4f3a8a914e071d01d07377070756fa6bb4582ab297d9850729919f2f2dfa5b16` | 8502 |
-| `.bitcode/v26-canonical-input-report.json` | `sha256:427d6c59415b324b06b49ebcf82e746829e3ec610a29a111fee0ae8bf3756348` | 1600 |
-| `.bitcode/v26-gate-checkpoint-report.json` | `sha256:3657145cd51e168630172c96aee04a8c4f09a0a6bfc1d6ca596f8828df1346c9` | 13735 |
-| `.bitcode/v26-spec-family-report.json` | `sha256:ccc8d623927ef5cae26d364d70953a844974f4dac3c09a3a6fc2ffe4608855b7` | 1013 |
-| `.bitcode/v26-total-closure-proof.json` | `sha256:6509c441839bc828011a748162674727556c8f4cc59a26b061d00577f8dfaf68` | 1048 |
-| `.bitcode/whole-repository-production-satisfaction-proof.json` | `sha256:5084986498888e0810629d721a23a6731106d7c0382fde7e904a3bc5f6dba52f` | 1200 |
+| `.bitcode/application-composition-proof.json` | `sha256:f964157a0507ebfa5c7cf39fabc3883716e937f5cb4701b9448e525d3dd3b2ae` | 5125 |
+| `.bitcode/conversations-continuity-proof.json` | `sha256:ecb62b3e4f8d626d1f0f595b45e047b2dc9b9d6156f371a39a1133da96236d5f` | 6118 |
+| `.bitcode/environment-mode-coherence-proof.json` | `sha256:360fcfbce071bf4f72f9a0652ec76966faf920441bf179a77553252835ebbb2c` | 1599 |
+| `.bitcode/fifth-gate-closure-deepening-proof.json` | `sha256:30d42329453bea269af4db83883c6963abca54106f3ccd2535dd0732820ac1bc` | 6990 |
+| `.bitcode/fourth-gate-reclosure-review-proof.json` | `sha256:e9307097813db2699e1a325b284c7480997b824bfcbadcb464995daa98d1f33b` | 11856 |
+| `.bitcode/inference-implementation-records-proof.json` | `sha256:d0d3a232f3cf8d74242064ee7dfa2f2a26e765983a643ca4459ffa359b1d65b7` | 112787 |
+| `.bitcode/persistence-schema-totality-proof.json` | `sha256:b30e17b5eddf9af8907189f9244baf8fc4b3de464a28ee9c4ef02600a106ea8f` | 4900 |
+| `.bitcode/prompt-space-completeness-proof.json` | `sha256:36f794158e2dd10d5ea30864033e7dc9632787e5c137a7efea974e82ba3bb129` | 16268 |
+| `.bitcode/prompt-system-totality-proof.json` | `sha256:6c1c5ad0fe72067a67fd20b93ff3eb5f332fce85f63f3f1aafb0f74a9060d737` | 33727 |
+| `.bitcode/retained-package-admissibility-proof.json` | `sha256:b493d7ae0b392254eafa8cae8f399a60094dc8af8900b12140666fd14c622d74` | 136264 |
+| `.bitcode/runs-pipelines-totality-proof.json` | `sha256:860969100fb7001ca8b3f61636c60c74986c94b780d3af6c3a3b522c8988f9bf` | 15880 |
+| `.bitcode/source-to-shares-fifth-gate-proof.json` | `sha256:96befa956915c0648d7795b37331bb8a7fa6ee60aae852d7d57f0ceed1779b6a` | 10388 |
+| `.bitcode/system-reform-admissibility-proof.json` | `sha256:cdd063e8852b145b48d2a8c061b1cd49ac1326932cfa384470376d44c30da007` | 8508 |
+| `.bitcode/v26-canonical-input-report.json` | `sha256:fdc9869433502331d0daf45a90e287f0ad233e5bdc5c637b547c936d19341c88` | 1600 |
+| `.bitcode/v26-gate-checkpoint-report.json` | `sha256:bf2d2593e730cf1bd357ad41c4f1efd19ab9dbc6072e5ecbfac6a2e1126abc05` | 13489 |
+| `.bitcode/v26-spec-family-report.json` | `sha256:f3908acb56373e00ccac26e7f6b7be552bbcd48794a3d232e5c7130b59a8098a` | 1013 |
+| `.bitcode/v26-total-closure-proof.json` | `sha256:1235a9e4fbd14783ba82352c907a622e87df2f1080b1b10c872ab1f40d601298` | 1048 |
+| `.bitcode/whole-repository-production-satisfaction-proof.json` | `sha256:6ac861c6fabf42ef04c2302b6cdcdc911ee4bdbfcf1e052b10ee2c10ebcfdfc1` | 1200 |
 
 ### V26 Spec-Family Report
 
@@ -357,13 +357,13 @@
 
 - reportId: `v26-gate-checkpoint-report`
 - checkpointFocus: `fourth-gate-promoted-closed-and-fifth-gate-closure-deepened-on-eight-gate-v26`
-- passed: `true`
+- passed: `false`
 - nextGate: `Gate 5: minimum-functional Bitcode Exchange, Bitcode Terminal, and broad old-world reform baseline after fourth-gate promoted closure`
 - thirdGatePrepared: `true`
 - thirdGatePassed: `true`
-- fourthGatePassed: `true`
-- fourthGatePromotedClosed: `true`
-- fifthGateClosureDeepened: `true`
+- fourthGatePassed: `false`
+- fourthGatePromotedClosed: `false`
+- fifthGateClosureDeepened: `false`
 - fifthGatePassed: `false`
 - sixthGatePrepared: `false`
 - seventhGatePrepared: `false`
@@ -386,16 +386,16 @@
 | `gate-3` | `third-gate-public-proof-carriers` | `true` | 6 required files present |
 | `gate-3` | `third-gate-public-documentation-carriers` | `true` | 6 required files present |
 | `gate-4` | `fourth-gate-conversations-continuity` | `true` | Conversations and fullscreen chat continuity are explicit and generated |
-| `gate-4` | `fourth-gate-runs-pipelines-totality` | `true` | Retained executions, activity, deliverables, and pipeline systems totalize under Bitcode |
+| `gate-4` | `fourth-gate-runs-pipelines-totality` | `false` | Runs and pipelines totality proof remains open |
 | `gate-4` | `fourth-gate-persistence-schema-totality` | `true` | Persistence, schema, `/edgetimes`, and typed storage carriers are explicit |
 | `gate-4` | `fourth-gate-retained-package-admissibility` | `true` | Retained non-Bitcode packages have explicit admitted roles |
 | `gate-4` | `fourth-gate-prompt-system-totality` | `true` | PromptPart/Prompt/PromptExecution and retained prompt ports remain explicit through the public @bitcode/prompts boundary with package-by-package prompt surface mapping across active, support, and retained reference consumers, including retained config boundaries that avoid broad prompts/src catchalls |
 | `gate-4` | `fourth-gate-inference-implementation-records` | `true` | Prompt, tool, agentic, execution, pipeline, conversation, asset-pack, need-comprehension, and MCP inference systems have source-visible implementation records |
-| `gate-4` | `fourth-gate-reclosure-review` | `true` | Reopened fourth-gate acceptance criteria are mapped to generated proof families with no blocking fourth-gate deviance detected |
-| `gate-4` | `fourth-gate-promotion-honesty` | `true` | Prior through-fourth-gate promotion claims were re-reviewed as overstated; fourth-gate is promotable only after generated proof-family criteria pass, while fifth-gate source-to-shares work remains open. |
-| `gate-4` | `fourth-gate-promoted-closed` | `true` | Fourth gate is promoted closed at the gate level after reopening re-review; this does not claim fifth-gate or full V26 closure. |
+| `gate-4` | `fourth-gate-reclosure-review` | `false` | Fourth-gate acceptance remains open until the reclosure review proof passes |
+| `gate-4` | `fourth-gate-promotion-honesty` | `false` | Prior through-fourth-gate promotion claims were overstated; fourth-gate acceptance remains procedurally reopened while retained-system convergence proof families are incomplete. |
+| `gate-4` | `fourth-gate-promoted-closed` | `false` | Fourth gate is not promoted closed until active V26 status and procedural closure are both true. |
 | `gate-5` | `fifth-gate-source-to-shares-baseline` | `true` | Need review, fit-search admission, settlement fit qualities, and AssetPack receipt carry-through have protocol/commercial proof coverage. |
-| `gate-5` | `fifth-gate-closure-deepening-proof` | `true` | Fifth-gate closure evidence has deepened after fourth-gate promotion closure across Terminal, Exchange, persistence, reform, proof, and environment axes. |
+| `gate-5` | `fifth-gate-closure-deepening-proof` | `false` | Fifth-gate closure deepening proof remains open. |
 | `gate-5` | `fifth-gate-honest-open-status` | `true` | Fifth gate remains open despite source-to-shares and closure-deepening proof progress; minimum-functional fifth-gate closure is not claimed. |
 
 ### V26 Application Composition Proof
@@ -413,34 +413,34 @@
 ### V26 Fourth-Gate Reclosure Review Proof
 
 - reportId: `v26-fourth-gate-reclosure-review-proof`
-- passed: `true`
+- passed: `false`
 - reviewMode: `post-reopening-deviance-review`
 - priorClosureDisposition: previous through-fourth-gate promotion claims were overstated and effectively false
-- actualDevianceDisposition: actual deviance was unknown before re-review; no blocking fourth-gate deviance is detected by the mapped proof families and acceptance criteria
+- actualDevianceDisposition: actual deviance remains unresolved because one or more fourth-gate criteria are still open
 - criterionCount: `17`
-- closedCriterionCount: `17`
-- openCriterionCount: `0`
-- proceduralClosureReady: `true`
+- closedCriterionCount: `7`
+- openCriterionCount: `10`
+- proceduralClosureReady: `false`
 
 | criterionId | status | detail |
 | --- | --- | --- |
-| `fourth-gate-criterion-01-first-class-retained-interfaces` | `closed` | Application, conversation, and runs proof families keep retained interfaces inside the V26 Bitcode system. |
+| `fourth-gate-criterion-01-first-class-retained-interfaces` | `open` | Application, conversation, and runs proof families keep retained interfaces inside the V26 Bitcode system. |
 | `fourth-gate-criterion-02-bitcode-system-specification` | `closed` | Application composition, inference records, and retained-package roles bind retained systems into Bitcode V26. |
 | `fourth-gate-criterion-03-fullscreen-conversations` | `closed` | The conversations continuity proof covers the fullscreen application-mode carrier and route/API bindings. |
-| `fourth-gate-criterion-04-inward-master-detail-port` | `closed` | Application composition and runs proof families cover the inward master-detail transaction/workspace posture. |
+| `fourth-gate-criterion-04-inward-master-detail-port` | `open` | Application composition and runs proof families cover the inward master-detail transaction/workspace posture. |
 | `fourth-gate-criterion-05-prompt-abstraction-source` | `closed` | The prompt-system totality proof covers PromptPart, Prompt, PromptExecution, and public prompt-boundary routing. |
 | `fourth-gate-criterion-06-persistence-owner` | `closed` | The persistence/schema proof covers the V26 migration, typed clients, ORM/query carriers, and /edgetimes witnesses. |
 | `fourth-gate-criterion-07-schema-type-obligations` | `closed` | The persistence/schema proof keeps schema, generated types, and route witnesses in the fourth-gate proof set. |
 | `fourth-gate-criterion-08-retained-package-boundaries` | `closed` | The retained-package admissibility proof requires role, write-boundary, rationale, proof-obligation, and source witnesses. |
-| `fourth-gate-criterion-09-run-pipeline-asset-meaning` | `closed` | Runs/pipelines and inference records keep retained execution carriers tied to Bitcode activity, AssetPack, and written-asset semantics. |
+| `fourth-gate-criterion-09-run-pipeline-asset-meaning` | `open` | Runs/pipelines and inference records keep retained execution carriers tied to Bitcode activity, AssetPack, and written-asset semantics. |
 | `fourth-gate-criterion-10-old-world-tools-repurposed` | `closed` | Prompt, inference, and retained-package proofs keep old-world ports bounded to Bitcode roles such as need ingestion and source-attributed support. |
-| `fourth-gate-criterion-11-git-gh-initial-settle-write` | `closed` | Runs/pipelines and retained-package admission keep Git/GitHub as the initial connected-interface delivery and settle-write boundary. |
-| `fourth-gate-criterion-12-execution-compatibility-apis` | `closed` | The runs/pipelines proof names execution, history, VCS, template, and asset-pack endpoint boundaries. |
-| `fourth-gate-criterion-13-canonical-auxillary-apis` | `closed` | Application and runs/activity proof inputs include auxillary API, notification, profile, connection, BTD, usage, transaction, and key carriers. |
-| `fourth-gate-criterion-14-compatibility-route-teaching` | `closed` | Application composition plus runs/activity proofing keeps compatibility routes bounded while /application and auxillaries carry the canonical topology. |
-| `fourth-gate-criterion-15-shared-activity-vocabulary` | `closed` | Activity and transaction carriers are included in the application and runs proof basis rather than separate product semantics. |
-| `fourth-gate-criterion-16-proof-family-assignment` | `closed` | Generated proof families cover conversations, runs/pipelines, persistence/schema, prompts, inference records, and retained packages. |
-| `fourth-gate-criterion-17-reopened-acceptance-reclosed` | `closed` | The reopened fourth-gate acceptance claim has been re-reviewed against every material criterion and no blocking fourth-gate deviance is detected. |
+| `fourth-gate-criterion-11-git-gh-initial-settle-write` | `open` | Runs/pipelines and retained-package admission keep Git/GitHub as the initial connected-interface delivery and settle-write boundary. |
+| `fourth-gate-criterion-12-execution-compatibility-apis` | `open` | The runs/pipelines proof names execution, history, VCS, template, and asset-pack endpoint boundaries. |
+| `fourth-gate-criterion-13-canonical-auxillary-apis` | `open` | Application and runs/activity proof inputs include auxillary API, notification, profile, connection, BTD, usage, transaction, and key carriers. |
+| `fourth-gate-criterion-14-compatibility-route-teaching` | `open` | Application composition plus runs/activity proofing keeps compatibility routes bounded while /application and auxillaries carry the canonical topology. |
+| `fourth-gate-criterion-15-shared-activity-vocabulary` | `open` | Activity and transaction carriers are included in the application and runs proof basis rather than separate product semantics. |
+| `fourth-gate-criterion-16-proof-family-assignment` | `open` | Generated proof families cover conversations, runs/pipelines, persistence/schema, prompts, inference records, and retained packages. |
+| `fourth-gate-criterion-17-reopened-acceptance-reclosed` | `open` | The reopened fourth-gate acceptance claim cannot close until every material criterion and proof family passes. |
 
 ### V26 Environment Mode Coherence Proof
 
@@ -470,21 +470,21 @@
 ### V26 Runs and Pipelines Totality Proof
 
 - reportId: `v26-runs-pipelines-totality-proof`
-- passed: `true`
+- passed: `false`
 - routeWitnesses: `/executions`, `/executions/[runId]`
-- apiWitnesses: `/api/executions`, `/api/executions/history`, `/api/executions/history/[runId]`, `/api/vcs`, `/api/auxillaries/template-preferences`, `/api/templates/deliverables`
+- apiWitnesses: `/api/executions`, `/api/executions/history`, `/api/executions/history/[runId]`, `/api/vcs`, `/api/auxillaries/template-preferences`, `/api/templates/shippables`, `/api/templates/deliverables`
 
 | checkId | passed | detail |
 | --- | --- | --- |
 | `executions-route-and-detail-owners` | `true` | 6 required files present |
 | `executions-api-and-history-carriers` | `true` | 6 required files present |
-| `executions-retained-compatibility-carriers` | `true` | 18 required files present |
+| `executions-retained-compatibility-carriers` | `true` | 19 required files present |
 | `runs-pipelines-retained-package-basis` | `true` | 15 required files present |
 | `executions-activity-and-notification-carriers` | `true` | 25 required files present |
 | `mcp-write-admission-and-third-party-ingress-contract` | `true` | 9 source evidence requirements satisfied |
 | `mcp-asset-pack-prompt-canon` | `true` | 4 source evidence requirements satisfied |
 | `webhook-asset-pack-ingress-contract` | `true` | 6 source evidence requirements satisfied |
-| `uapi-client-asset-pack-execution-hook` | `true` | 4 source evidence requirements satisfied |
+| `uapi-client-asset-pack-execution-hook` | `false` | 1 files missing; 1 evidence requirements missing |
 
 ### V26 Persistence and Schema Totality Proof
 
@@ -559,19 +559,19 @@
 ### V26 Fifth-Gate Closure Deepening Proof
 
 - reportId: `v26-fifth-gate-closure-deepening-proof`
-- passed: `true`
-- closureDeepened: `true`
+- passed: `false`
+- closureDeepened: `false`
 - closureClaim: `false`
 - proceduralGateClosure: `false`
 - axisCount: `6`
-- deepenedAxisCount: `6`
-- openAxisCount: `0`
+- deepenedAxisCount: `5`
+- openAxisCount: `1`
 - openReason: This proof deepens fifth-gate closure evidence after fourth-gate promotion closure, but fifth gate remains open until make-shares/use-shares, interface parity, persistence, reform, and proof closure all carry final acceptance.
 
 | axisId | baselineAdvanced | closurePassed | remainingClosure |
 | --- | --- | --- | --- |
 | `terminal-read-write-loop` | `true` | `false` | Whole browser acceptance, authenticated live-path reread, and all admitted interface write surfaces still need fifth-gate closure. |
-| `conversations-and-ad-hoc-execution` | `true` | `false` | Persisted rich-input attachments, destination roundtrip, and cross-interface parity still need complete fifth-gate acceptance. |
+| `conversations-and-ad-hoc-execution` | `false` | `false` | Persisted rich-input attachments, destination roundtrip, and cross-interface parity still need complete fifth-gate acceptance. |
 | `transactional-readiness-and-repository-scope` | `true` | `false` | Provider-backed wallet signing, authenticated repository runtime proof, and broader route/browser readiness remain open. |
 | `persistence-schema-and-active-source-health` | `true` | `false` | Full persistence interpretation, runtime storage proofs, and broad active-source verification remain fifth-gate work. |
 | `old-world-reform-and-retained-package-baseline` | `true` | `false` | Package-by-package saturation and final active-source naming retirement still remain before fifth-gate closure. |

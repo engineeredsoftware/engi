@@ -1,21 +1,21 @@
 {
   "reportId": "v26-fourth-gate-reclosure-review-proof",
   "version": "V26",
-  "proofSourceCommit": "a29858138fcc8ff22b29c2b8ac6ad2e501f5784a",
-  "generatedAt": "2026-04-24T16:44:48-03:00",
+  "proofSourceCommit": "7f034b44c3582ee9af30f73c04520dc36abf8c1e",
+  "generatedAt": "2026-04-24T19:08:46-03:00",
   "generatorId": "bitcode.proven-generator.v1",
   "worktreeState": "dirty-preview",
   "gate": "gate-4",
-  "passed": true,
+  "passed": false,
   "reviewMode": "post-reopening-deviance-review",
   "priorClosureDisposition": "previous through-fourth-gate promotion claims were overstated and effectively false",
-  "actualDevianceDisposition": "actual deviance was unknown before re-review; no blocking fourth-gate deviance is detected by the mapped proof families and acceptance criteria",
-  "blockingDevianceDetected": false,
-  "materialProofsPassed": true,
+  "actualDevianceDisposition": "actual deviance remains unresolved because one or more fourth-gate criteria are still open",
+  "blockingDevianceDetected": true,
+  "materialProofsPassed": false,
   "criterionCount": 17,
-  "closedCriterionCount": 17,
-  "openCriterionCount": 0,
-  "proceduralClosureReady": true,
+  "closedCriterionCount": 7,
+  "openCriterionCount": 10,
+  "proceduralClosureReady": false,
   "fifthGateWorkPosture": "active and open; fifth-gate source-to-shares work may proceed after fourth-gate promoted closure but is not claimed closed by this proof",
   "materialProofs": [
     {
@@ -31,7 +31,7 @@
     {
       "proofId": "runs-pipelines-totality",
       "artifactPath": ".bitcode/runs-pipelines-totality-proof.json",
-      "passed": true
+      "passed": false
     },
     {
       "proofId": "persistence-schema-totality",
@@ -54,13 +54,24 @@
       "passed": true
     }
   ],
-  "openCriteria": [],
+  "openCriteria": [
+    "fourth-gate-criterion-01-first-class-retained-interfaces",
+    "fourth-gate-criterion-04-inward-master-detail-port",
+    "fourth-gate-criterion-09-run-pipeline-asset-meaning",
+    "fourth-gate-criterion-11-git-gh-initial-settle-write",
+    "fourth-gate-criterion-12-execution-compatibility-apis",
+    "fourth-gate-criterion-13-canonical-auxillary-apis",
+    "fourth-gate-criterion-14-compatibility-route-teaching",
+    "fourth-gate-criterion-15-shared-activity-vocabulary",
+    "fourth-gate-criterion-16-proof-family-assignment",
+    "fourth-gate-criterion-17-reopened-acceptance-reclosed"
+  ],
   "criteria": [
     {
       "criterionId": "fourth-gate-criterion-01-first-class-retained-interfaces",
       "label": "Conversations, chat, execution, and runs surfaces remain first-class application systems",
-      "status": "closed",
-      "passed": true,
+      "status": "open",
+      "passed": false,
       "detail": "Application, conversation, and runs proof families keep retained interfaces inside the V26 Bitcode system.",
       "evidenceArtifactPaths": [
         ".bitcode/application-composition-proof.json",
@@ -93,8 +104,8 @@
     {
       "criterionId": "fourth-gate-criterion-04-inward-master-detail-port",
       "label": "Execution and deliverable master-detail patterns are ported inward to /application",
-      "status": "closed",
-      "passed": true,
+      "status": "open",
+      "passed": false,
       "detail": "Application composition and runs proof families cover the inward master-detail transaction/workspace posture.",
       "evidenceArtifactPaths": [
         ".bitcode/application-composition-proof.json",
@@ -144,8 +155,8 @@
     {
       "criterionId": "fourth-gate-criterion-09-run-pipeline-asset-meaning",
       "label": "Deliverable, run, and pipeline meaning are explicit under V26",
-      "status": "closed",
-      "passed": true,
+      "status": "open",
+      "passed": false,
       "detail": "Runs/pipelines and inference records keep retained execution carriers tied to Bitcode activity, AssetPack, and written-asset semantics.",
       "evidenceArtifactPaths": [
         ".bitcode/runs-pipelines-totality-proof.json",
@@ -167,8 +178,8 @@
     {
       "criterionId": "fourth-gate-criterion-11-git-gh-initial-settle-write",
       "label": "Git/GitHub-based settle-write carries the initial testnet-ready asset settlement posture",
-      "status": "closed",
-      "passed": true,
+      "status": "open",
+      "passed": false,
       "detail": "Runs/pipelines and retained-package admission keep Git/GitHub as the initial connected-interface delivery and settle-write boundary.",
       "evidenceArtifactPaths": [
         ".bitcode/runs-pipelines-totality-proof.json",
@@ -178,8 +189,8 @@
     {
       "criterionId": "fourth-gate-criterion-12-execution-compatibility-apis",
       "label": "Execution compatibility APIs are explicit promotion-boundary owners",
-      "status": "closed",
-      "passed": true,
+      "status": "open",
+      "passed": false,
       "detail": "The runs/pipelines proof names execution, history, VCS, template, and asset-pack endpoint boundaries.",
       "evidenceArtifactPaths": [
         ".bitcode/runs-pipelines-totality-proof.json"
@@ -188,8 +199,8 @@
     {
       "criterionId": "fourth-gate-criterion-13-canonical-auxillary-apis",
       "label": "Canonical auxillary APIs are explicit active owners rather than latent pane dependencies",
-      "status": "closed",
-      "passed": true,
+      "status": "open",
+      "passed": false,
       "detail": "Application and runs/activity proof inputs include auxillary API, notification, profile, connection, BTD, usage, transaction, and key carriers.",
       "evidenceArtifactPaths": [
         ".bitcode/application-composition-proof.json",
@@ -199,8 +210,8 @@
     {
       "criterionId": "fourth-gate-criterion-14-compatibility-route-teaching",
       "label": "Executions and orbitals compatibility routes teach executions and auxillaries as merged-world targets",
-      "status": "closed",
-      "passed": true,
+      "status": "open",
+      "passed": false,
       "detail": "Application composition plus runs/activity proofing keeps compatibility routes bounded while /application and auxillaries carry the canonical topology.",
       "evidenceArtifactPaths": [
         ".bitcode/application-composition-proof.json",
@@ -210,8 +221,8 @@
     {
       "criterionId": "fourth-gate-criterion-15-shared-activity-vocabulary",
       "label": "Transactions, execution events, and notifications share one typed Bitcode activity vocabulary",
-      "status": "closed",
-      "passed": true,
+      "status": "open",
+      "passed": false,
       "detail": "Activity and transaction carriers are included in the application and runs proof basis rather than separate product semantics.",
       "evidenceArtifactPaths": [
         ".bitcode/application-composition-proof.json",
@@ -221,8 +232,8 @@
     {
       "criterionId": "fourth-gate-criterion-16-proof-family-assignment",
       "label": "Fourth-gate proof obligations are assigned to generated proof families",
-      "status": "closed",
-      "passed": true,
+      "status": "open",
+      "passed": false,
       "detail": "Generated proof families cover conversations, runs/pipelines, persistence/schema, prompts, inference records, and retained packages.",
       "evidenceArtifactPaths": [
         ".bitcode/conversations-continuity-proof.json",
@@ -236,9 +247,9 @@
     {
       "criterionId": "fourth-gate-criterion-17-reopened-acceptance-reclosed",
       "label": "Procedural acceptance closes only after reopened claims are re-reviewed and no blocking fourth-gate deviance remains",
-      "status": "closed",
-      "passed": true,
-      "detail": "The reopened fourth-gate acceptance claim has been re-reviewed against every material criterion and no blocking fourth-gate deviance is detected.",
+      "status": "open",
+      "passed": false,
+      "detail": "The reopened fourth-gate acceptance claim cannot close until every material criterion and proof family passes.",
       "evidenceArtifactPaths": [
         ".bitcode/fourth-gate-reclosure-review-proof.json",
         ".bitcode/v26-gate-checkpoint-report.json"

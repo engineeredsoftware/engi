@@ -1,8 +1,8 @@
 {
   "reportId": "v26-gate-checkpoint-report",
   "version": "V26",
-  "proofSourceCommit": "a29858138fcc8ff22b29c2b8ac6ad2e501f5784a",
-  "generatedAt": "2026-04-24T16:44:48-03:00",
+  "proofSourceCommit": "7f034b44c3582ee9af30f73c04520dc36abf8c1e",
+  "generatedAt": "2026-04-24T19:08:46-03:00",
   "generatorId": "bitcode.proven-generator.v1",
   "worktreeState": "dirty-preview",
   "activeCanonicalTarget": "V26",
@@ -10,7 +10,7 @@
   "checkpointId": "v26-fourth-gate-promoted-closed-and-fifth-gate-closure-deepened-on-eight-gate-v26",
   "checkpointFocus": "fourth-gate-promoted-closed-and-fifth-gate-closure-deepened-on-eight-gate-v26",
   "nextGate": "Gate 5: minimum-functional Bitcode Exchange, Bitcode Terminal, and broad old-world reform baseline after fourth-gate promoted closure",
-  "passed": true,
+  "passed": false,
   "firstGate": {
     "gateId": "gate-1",
     "label": "Ownership migration baseline",
@@ -206,14 +206,14 @@
   "fourthGate": {
     "gateId": "gate-4",
     "label": "Merged-world application and retained-system convergence",
-    "passed": true,
-    "reopened": false,
-    "promotedClosed": true,
-    "promotionStatus": "promoted-closed",
-    "materialProofsPassed": true,
-    "reclosureReviewPassed": true,
-    "proceduralClosurePassed": true,
-    "acceptanceBlockedByReopenedPromotion": false,
+    "passed": false,
+    "reopened": true,
+    "promotedClosed": false,
+    "promotionStatus": "not-promoted",
+    "materialProofsPassed": false,
+    "reclosureReviewPassed": false,
+    "proceduralClosurePassed": false,
+    "acceptanceBlockedByReopenedPromotion": true,
     "checks": [
       {
         "checkId": "fourth-gate-conversations-continuity",
@@ -224,8 +224,8 @@
       {
         "checkId": "fourth-gate-runs-pipelines-totality",
         "label": "Fourth-gate runs and pipelines totality proof",
-        "passed": true,
-        "detail": "Retained executions, activity, deliverables, and pipeline systems totalize under Bitcode"
+        "passed": false,
+        "detail": "Runs and pipelines totality proof remains open"
       },
       {
         "checkId": "fourth-gate-persistence-schema-totality",
@@ -254,20 +254,20 @@
       {
         "checkId": "fourth-gate-reclosure-review",
         "label": "Fourth-gate reopened acceptance criteria re-review",
-        "passed": true,
-        "detail": "Reopened fourth-gate acceptance criteria are mapped to generated proof families with no blocking fourth-gate deviance detected"
+        "passed": false,
+        "detail": "Fourth-gate acceptance remains open until the reclosure review proof passes"
       },
       {
         "checkId": "fourth-gate-promotion-honesty",
         "label": "Fourth-gate promotion honesty and procedural closure",
-        "passed": true,
-        "detail": "Prior through-fourth-gate promotion claims were re-reviewed as overstated; fourth-gate is promotable only after generated proof-family criteria pass, while fifth-gate source-to-shares work remains open."
+        "passed": false,
+        "detail": "Prior through-fourth-gate promotion claims were overstated; fourth-gate acceptance remains procedurally reopened while retained-system convergence proof families are incomplete."
       },
       {
         "checkId": "fourth-gate-promoted-closed",
         "label": "Fourth-gate promoted closed checkpoint",
-        "passed": true,
-        "detail": "Fourth gate is promoted closed at the gate level after reopening re-review; this does not claim fifth-gate or full V26 closure."
+        "passed": false,
+        "detail": "Fourth gate is not promoted closed until active V26 status and procedural closure are both true."
       }
     ]
   },
@@ -276,9 +276,9 @@
     "label": "Minimum-functional Bitcode Exchange, Bitcode Terminal, and total old-world reform baseline",
     "passed": false,
     "open": true,
-    "closureDeepened": true,
+    "closureDeepened": false,
     "sourceToSharesProofPassed": true,
-    "closureDeepeningProofPassed": true,
+    "closureDeepeningProofPassed": false,
     "checks": [
       {
         "checkId": "fifth-gate-source-to-shares-baseline",
@@ -289,8 +289,8 @@
       {
         "checkId": "fifth-gate-closure-deepening-proof",
         "label": "Fifth-gate closure deepening proof",
-        "passed": true,
-        "detail": "Fifth-gate closure evidence has deepened after fourth-gate promotion closure across Terminal, Exchange, persistence, reform, proof, and environment axes."
+        "passed": false,
+        "detail": "Fifth-gate closure deepening proof remains open."
       },
       {
         "checkId": "fifth-gate-honest-open-status",
