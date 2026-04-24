@@ -55,14 +55,14 @@ export const discoveryPhase: PhaseDelegator<SetupOutput, DiscoveryOutput> = (asy
 // ==================== IMPLEMENTATION PHASE ====================
 
 /**
- * Implementation Phase - canonical AssetPack written-asset synthesis.
+ * Implementation Phase - canonical AssetPack synthesis-artifact production.
  *
  * Pull request, review, issue, and comment labels are Finish delivery-mechanism
  * templates. They do not choose implementation behavior.
  */
 export const implementationPhase: PhaseDelegator<DiscoveryOutput, ImplementationOutput> = (async (input: any, execution: any) => {
   try { registerImplementationAgents((execution as any).agents); } catch {}
-  const synthesize = createAgentExecutor('implementation:asset-pack-synthesize-written-assets-agent');
+  const synthesize = createAgentExecutor('implementation:asset-pack-synthesize-artifacts-agent');
   return await synthesize(input, execution);
 }) as unknown as PhaseDelegator<DiscoveryOutput, ImplementationOutput>;
 
@@ -79,7 +79,7 @@ export const validationPhase: PhaseDelegator<ImplementationOutput, ValidationOut
   const parallelValidators = parallel(
     createAgentExecutor('validation:validate-last-iterations-validation-phase'),
     createAgentExecutor('validation:validate-discovery-phase'),
-    createAgentExecutor('validation:validate-asset-pack-written-assets')
+    createAgentExecutor('validation:validate-asset-pack-synthesis-artifacts')
   );
   // Validators return only { issues: string[] } and also write issues into stores:
   //  - validation/last:issues

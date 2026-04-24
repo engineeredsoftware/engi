@@ -23,7 +23,7 @@ agents=(
   "assesscomplexity"
   
   # Implementation Phase
-  "assetpacksynthesizewrittenassets"
+  "assetpacksynthesizeartifacts"
   
   # Validation Phase
   "assetpackvalidation"

@@ -10,5 +10,5 @@
  */
 import { PromptPart } from '../../parts/PromptPart';
 
-export const PROMPTPART_SPECIFIC_AGENT_ASSETPACKSYNTHESIZEWRITTENASSETS_PTRRTRY_PURPOSE: PromptPart =
+export const PROMPTPART_SPECIFIC_AGENT_ASSETPACKSYNTHESIZEARTIFACTS_PTRRTRY_PURPOSE: PromptPart =
   'Synthesize AssetPack artifacts, including summary, source changes or document content, and proof evidence that Finish can store and optionally deliver.' as PromptPart;

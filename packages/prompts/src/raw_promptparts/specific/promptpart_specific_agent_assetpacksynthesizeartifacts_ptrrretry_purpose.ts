@@ -10,5 +10,5 @@
  */
 import { PromptPart } from '../../parts/PromptPart';
 
-export const PROMPTPART_SPECIFIC_AGENT_ASSETPACKSYNTHESIZEWRITTENASSETS_PTRRRETRY_PURPOSE: PromptPart =
+export const PROMPTPART_SPECIFIC_AGENT_ASSETPACKSYNTHESIZEARTIFACTS_PTRRRETRY_PURPOSE: PromptPart =
   'Recover incomplete synthesis by rebuilding from Need evidence and surfacing blockers explicitly.' as PromptPart;

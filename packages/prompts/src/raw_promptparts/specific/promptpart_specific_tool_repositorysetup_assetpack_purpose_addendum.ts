@@ -11,4 +11,4 @@ import { PromptPart } from '../../parts/PromptPart';
  * ]
  */
 export const PROMPTPART_SPECIFIC_TOOL_REPOSITORYSETUP_ASSET_PACK_PURPOSE_ADDENDUM: PromptPart =
-  'Prepare the repository for the Bitcode AssetPack run: provider-agnostic cloning, reliable workspace path generation, readiness for LSP initialization, and downstream discovery/implementation work that synthesizes written assets for Finish delivery mechanisms' as PromptPart;
+  'Prepare the repository for the Bitcode AssetPack run: provider-agnostic cloning, reliable workspace path generation, readiness for LSP initialization, and downstream discovery/implementation work that synthesizes AssetPack artifacts for Finish delivery mechanisms' as PromptPart;

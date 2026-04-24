@@ -76,11 +76,11 @@ export const AssetPackValidationPhaseValidateDiscoveryAgent = factoryAgentWithPT
   retry: {},
 });
 
-export const AssetPackValidationPhaseValidateWrittenAssetsAgent = factoryAgentWithPTRR<
+export const AssetPackValidationPhaseValidateSynthesisArtifactsAgent = factoryAgentWithPTRR<
   any,
   z.infer<typeof ValidateIssuesOutputSchema>
 >({
-  name: 'asset-pack-validate-written-assets-agent',
+  name: 'asset-pack-validate-synthesis-artifacts-agent',
   description: 'Validates synthesized AssetPack artifacts without delivery-template branching',
   outputSchema: ValidateIssuesOutputSchema,
   prompt: assetPackValidationPrompt,
@@ -155,9 +155,9 @@ export function registerValidationAgentsForType(
   );
 
   agentRegistry.registerAgent(
-    'validation:validate-asset-pack-written-assets',
+    'validation:validate-asset-pack-synthesis-artifacts',
     async (input: any, execution: any) => {
-      const out = await AssetPackValidationPhaseValidateWrittenAssetsAgent(input, execution);
+      const out = await AssetPackValidationPhaseValidateSynthesisArtifactsAgent(input, execution);
       const issues = Array.isArray(out?.issues) ? out.issues : [];
       try { execution.store('validation/implementation', 'issues', issues); } catch {}
       return { issues };
@@ -179,7 +179,7 @@ export function createValidationExecutorSequence(_writtenAssetType: string): any
   return [
     { agent: 'validation:validate-last-iterations-validation-phase' },
     { agent: 'validation:validate-discovery-phase' },
-    { agent: 'validation:validate-asset-pack-written-assets' },
+    { agent: 'validation:validate-asset-pack-synthesis-artifacts' },
     { agent: 'validation:asset-pack-ready-to-finish-agent' },
   ];
 }

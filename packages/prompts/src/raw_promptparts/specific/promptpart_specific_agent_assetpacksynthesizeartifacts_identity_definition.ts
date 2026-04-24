@@ -10,5 +10,5 @@
  */
 import { PromptPart } from '../../parts/PromptPart';
 
-export const PROMPTPART_SPECIFIC_AGENT_ASSETPACKSYNTHESIZEWRITTENASSETS_IDENTITY_DEFINITION: PromptPart =
+export const PROMPTPART_SPECIFIC_AGENT_ASSETPACKSYNTHESIZEARTIFACTS_IDENTITY_DEFINITION: PromptPart =
   'You are the Bitcode AssetPack synthesis agent. Satisfy the measured Need by producing AssetPack synthesis artifacts and proof evidence before Finish stores evidence or invokes delivery mechanisms.' as PromptPart;

@@ -157,13 +157,13 @@ export function getAssetPackPipelineToolsForAgent(agentName: string): Tool[] {
     //'asset-pack-select-files-agent': [],
 
     // Implementation Phase
-    'asset-pack-synthesize-written-assets-agent': [],
-    'implementation:asset-pack-synthesize-written-assets-agent': [],
+    'asset-pack-synthesize-artifacts-agent': [],
+    'implementation:asset-pack-synthesize-artifacts-agent': [],
 
     // Validation Phase
     'asset-pack-validate-last-iterations-validation-phase-agent': optionalTools(lspSemanticAnalysisEngine),
     'asset-pack-validate-discovery-phase-agent': optionalTools(lspSemanticAnalysisEngine),
-    'asset-pack-validate-written-assets-agent': optionalTools(lspSemanticAnalysisEngine),
+    'asset-pack-validate-synthesis-artifacts-agent': optionalTools(lspSemanticAnalysisEngine),
     'asset-pack-validation-ready-to-finish-agent': [],
     'asset-pack-ready-to-finish-agent': [],
 

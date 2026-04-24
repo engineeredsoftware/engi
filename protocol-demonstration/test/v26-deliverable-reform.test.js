@@ -328,7 +328,7 @@ const deliverableSubstepPromptPartSources = readdirSync(rawPromptPartDirs[0])
 
 const deliverablePromptPartMetadataSources = readdirSync(rawPromptPartDirs[0])
   .filter((filename) =>
-    /^promptpart_specific_(?:agent_deliverable|phase_assetpack|pipeline_deliverable|tool_.*deliverable|agent_assetpackfinish|agent_assetpacksynthesizewrittenassets|agent_assetpackvalidationreadytofinish|agent_readytofinish|tool_repositorysetup_assetpack|tool_assetpack).*?(?:\.d)?\.ts$/u.test(filename)
+    /^promptpart_specific_(?:agent_deliverable|phase_assetpack|pipeline_deliverable|tool_.*deliverable|agent_assetpackfinish|agent_assetpacksynthesizeartifacts|agent_assetpackvalidationreadytofinish|agent_readytofinish|tool_repositorysetup_assetpack|tool_assetpack).*?(?:\.d)?\.ts$/u.test(filename)
   )
   .sort()
   .map((filename) => [filename, readFileSync(new URL(filename, rawPromptPartDirs[0]), 'utf8')]);
@@ -527,8 +527,8 @@ test('implementation, validation, and Finish carriers separate AssetPack kind fr
   assert.doesNotMatch(assetPackPipelineSource, /BITCODE_ENABLE_DELIVERABLE_SETUP_PHASE_RUNTIME_IN_TEST/u);
   assert.match(phaseIndexSource, /resolveWrittenAssetTypeFromExecution\(execution\)/u);
   assert.match(phaseIndexSource, /resolveDeliveryMechanismTemplateFromExecution\(execution\)/u);
-  assert.match(phaseIndexSource, /implementation:asset-pack-synthesize-written-assets-agent/u);
-  assert.match(phaseIndexSource, /validation:validate-asset-pack-written-assets/u);
+  assert.match(phaseIndexSource, /implementation:asset-pack-synthesize-artifacts-agent/u);
+  assert.match(phaseIndexSource, /validation:validate-asset-pack-synthesis-artifacts/u);
   assert.doesNotMatch(phaseIndexSource, /Unknown written-asset type/u);
   assert.doesNotMatch(phaseIndexSource, /implementation:review|implementation:create|implementation:comment/u);
   assert.match(shipAgentSource, /writtenAssetType: dtype/u);
@@ -601,15 +601,15 @@ test('retained templates and promptparts keep compatibility names but teach asse
   assert.match(pipelinePurposePromptSource, /AssetPack compatibility route/u);
   assert.match(pipelinePurposePromptSource, /Bitcode need-satisfying asset-pack run/u);
   assert.match(pipelinePurposePromptSource, /store evidence in Finish/u);
-  assert.match(pipelineTypeListPromptSource, /Synthesize implementation written assets/u);
+  assert.match(pipelineTypeListPromptSource, /Synthesize implementation AssetPack artifacts/u);
   assert.match(pipelineTypeListPromptSource, /connected-interface mechanisms/u);
   assert.match(pipelineDivLoopPromptSource, /Discovery refines the expressed need/u);
-  assert.match(pipelineDivLoopPromptSource, /Implementation synthesizes VCS-compatible written assets/u);
+  assert.match(pipelineDivLoopPromptSource, /Implementation synthesizes VCS-compatible AssetPack synthesis artifacts/u);
   assert.match(pipelineDivLoopPromptSource, /Validation verifies need satisfaction/u);
   assert.match(pipelineExecutionPatternPromptSource, /discovery shapes the asset-pack synthesis approach/u);
   assert.match(pipelineExecutionPatternPromptSource, /Finish emits connected-interface delivery mechanisms/u);
   assert.match(repositorySetupPurposePromptSource, /Bitcode AssetPack run/u);
-  assert.match(repositorySetupPurposePromptSource, /synthesizes written assets for Finish delivery mechanisms/u);
+  assert.match(repositorySetupPurposePromptSource, /synthesizes AssetPack artifacts for Finish delivery mechanisms/u);
   assert.match(repositorySetupMetadataPromptSource, /asset-pack setup/u);
   assert.match(repositorySetupCapabilitiesPromptSource, /need understanding and written-asset synthesis/u);
   assert.match(generateMassivePromptPartsSource, /Retained deliverable-compatibility pipeline .* for Bitcode asset-pack runs/u);
@@ -621,7 +621,7 @@ test('retained templates and promptparts keep compatibility names but teach asse
   assert.match(phaseFinishPurposePromptSource, /PROMPTPART_SPECIFIC_PHASE_ASSETPACKFINISH_PURPOSE_CORESTATEMENT/u);
   assert.match(phaseSetupPurposePromptSource, /understand the expressed need/u);
   assert.match(phaseDiscoveryPurposePromptSource, /shape the asset-pack synthesis approach/u);
-  assert.match(phaseImplementationPurposePromptSource, /Synthesize written assets using VCS-compatible operations/u);
+  assert.match(phaseImplementationPurposePromptSource, /Synthesize AssetPack artifacts using VCS-compatible operations/u);
   assert.match(phaseValidationPurposePromptSource, /verify need satisfaction and written-asset integrity/u);
   assert.match(phaseFinishPurposePromptSource, /Emit connected-interface delivery mechanisms from validated Need-satisfaction AssetPack synthesis artifacts/u);
   assert.match(setupComprehendNeedPurposePromptSource, /written-asset expectations, delivery-mechanism expectations, asset-pack context/u);
@@ -716,7 +716,7 @@ test('retained maintenance scripts audit current Bitcode prompt and asset-pack-r
   assert.match(promptAuditScriptSource, /ASSET-PACK PIPELINE PROMPT AUDIT/u);
   assert.match(promptAuditScriptSource, /packages\/prompts\/src\/raw_promptparts\/specific/u);
   assert.match(promptAuditScriptSource, /"comprehendneed"/u);
-  assert.match(promptAuditScriptSource, /"assetpacksynthesizewrittenassets"/u);
+  assert.match(promptAuditScriptSource, /"assetpacksynthesizeartifacts"/u);
   assert.match(promptAuditScriptSource, /"assetpackfinishcreatepullrequestdelivery"/u);
   assert.match(promptAuditScriptSource, /"try_directives"/u);
   assert.doesNotMatch(promptAuditScriptSource, /"comprehendtask"/u);
@@ -771,7 +771,7 @@ test('raw promptpart runtime JavaScript carries canonical TypeScript PromptPart 
       try {
         runtimeText = readFileSync(runtimeUrl, 'utf8');
       } catch {
-        if (/^promptpart_specific_agent_(?:assetpackfinish|assetpacksynthesizewrittenassets)/u.test(filename)) {
+        if (/^promptpart_specific_agent_(?:assetpackfinish|assetpacksynthesizeartifacts)/u.test(filename)) {
           checkedPromptParts += 1;
           continue;
         }

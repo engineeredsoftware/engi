@@ -1,8 +1,8 @@
 {
   "reportId": "v26-system-reform-admissibility-proof",
   "version": "V26",
-  "proofSourceCommit": "9cec2c889d46c04cff938a6e760a9ec315b21ff7",
-  "generatedAt": "2026-04-24T15:55:48-03:00",
+  "proofSourceCommit": "71bc0c0cad4487678aaac35b834a8220bb33096a",
+  "generatedAt": "2026-04-24T16:06:27-03:00",
   "generatorId": "bitcode.proven-generator.v1",
   "worktreeState": "dirty-preview",
   "passed": true,

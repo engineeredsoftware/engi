@@ -10,5 +10,5 @@
  */
 import { PromptPart } from '../../parts/PromptPart';
 
-export const PROMPTPART_SPECIFIC_AGENT_ASSETPACKSYNTHESIZEWRITTENASSETS_PTRRREFINE_PURPOSE: PromptPart =
+export const PROMPTPART_SPECIFIC_AGENT_ASSETPACKSYNTHESIZEARTIFACTS_PTRRREFINE_PURPOSE: PromptPart =
   'Refine the AssetPack for Need satisfaction, auditability, and readiness for validation.' as PromptPart;
