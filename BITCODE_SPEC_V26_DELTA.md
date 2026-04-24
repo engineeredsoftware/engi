@@ -465,6 +465,7 @@ Fifth-gate is now specified as:
 Fifth-gate acceptance is reached only when:
 - the repository can make shares and use shares through Bitcode-owned interfaces, route-level reread, and state,
 - package and interface PARITY closure is backed by specification text, generated proof artifacts, source-content checks, and executable tests when the surface carries make-share or use-share behavior,
+- the Bitcode MCP write-admission slice proves accepted write receipts, queued write-admission metadata, third-party MCP ingress as input context, and asset-pack output meaning instead of thin deliverable/run-id residue,
 - the required proof families are generated,
 - their closure verdicts are explicit,
 - debug/environment behavior is proven coherent,

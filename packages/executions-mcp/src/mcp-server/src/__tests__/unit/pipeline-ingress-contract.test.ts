@@ -1,10 +1,57 @@
 import { describe, expect, it, jest, beforeEach } from '@jest/globals';
 
 jest.mock('../../pipeline-execution/adapter', () => {
-  const actual = jest.requireActual('../../pipeline-execution/adapter');
+  const asRecord = (value: unknown): Record<string, any> | null =>
+    value && typeof value === 'object' && !Array.isArray(value)
+      ? (value as Record<string, any>)
+      : null;
+
+  const sameConnection = (left: Record<string, any>, right: Record<string, any>) =>
+    left.kind === right.kind &&
+    left.provider === right.provider &&
+    left.connectionId === right.connectionId &&
+    left.owner === right.owner &&
+    left.name === right.name &&
+    left.branch === right.branch &&
+    left.path === right.path;
 
   return {
-    ...actual,
+    buildPipelineInputContext: jest.fn((ingress: string, config: Record<string, any>) => {
+      const repository = asRecord(config.repository);
+      const attachments = Array.isArray(config.attachments) ? config.attachments : [];
+      const explicitConnections = Array.isArray(config.connections)
+        ? config.connections.filter((connection: unknown) => {
+            const record = asRecord(connection);
+            return record?.kind === 'repository_connection' && typeof record?.provider === 'string';
+          })
+        : [];
+      const repositoryConnection = repository
+        ? [{
+            kind: 'repository_connection',
+            provider: repository.provider || 'github',
+            connectionId: repository.connectionId,
+            owner: repository.owner,
+            name: repository.name,
+            branch: repository.branch,
+            path: repository.path,
+          }]
+        : [];
+      const connections = [...explicitConnections];
+
+      for (const connection of repositoryConnection) {
+        if (!connections.some((existing) => sameConnection(existing, connection))) {
+          connections.push(connection);
+        }
+      }
+
+      return {
+        ingress,
+        repository: repository || undefined,
+        attachments,
+        connections,
+        mcpConfig: asRecord(config.mcpConfig) || {},
+      };
+    }),
     queuePipelineJob: jest.fn(),
     monitorPipelineExecution: jest.fn(),
     cancelPipelineExecution: jest.fn(),
@@ -12,12 +59,13 @@ jest.mock('../../pipeline-execution/adapter', () => {
   };
 });
 
-import { registerPipelineTools } from '../../tools/pipeline-tools';
+import { registerPipelineTools } from '../../tools/pipeline-tools.ts';
 import {
   DeliverablePipelineToolSchema,
   type MCPAuthContext,
 } from '../../types';
 import {
+  buildPipelineInputContext,
   queuePipelineJob,
   monitorPipelineExecution,
 } from '../../pipeline-execution/adapter';
@@ -102,6 +150,59 @@ describe('Bitcode MCP pipeline ingress contract', () => {
     });
   });
 
+  it('normalizes third-party MCP repository and attachment ingress as input context only', () => {
+    const inputContext = buildPipelineInputContext('third_party_mcp', {
+      repository: {
+        owner: 'bitcode-labs',
+        name: 'application',
+        provider: 'github',
+        branch: 'main',
+      },
+      attachments: [
+        {
+          type: 'url',
+          content: 'https://linear.example.test/issue/BIT-26',
+        },
+      ],
+      connections: [
+        {
+          kind: 'repository_connection',
+          provider: 'github',
+          connectionId: 42,
+          owner: 'bitcode-labs',
+          name: 'application',
+          branch: 'main',
+        },
+      ],
+    });
+
+    expect(inputContext).toMatchObject({
+      ingress: 'third_party_mcp',
+      repository: {
+        owner: 'bitcode-labs',
+        name: 'application',
+        provider: 'github',
+      },
+      attachments: [
+        {
+          type: 'url',
+          content: 'https://linear.example.test/issue/BIT-26',
+        },
+      ],
+    });
+    expect(inputContext.connections).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({
+          kind: 'repository_connection',
+          provider: 'github',
+          connectionId: 42,
+        }),
+      ]),
+    );
+    expect(inputContext).not.toHaveProperty('assetPacks');
+    expect(inputContext).not.toHaveProperty('deliverables');
+  });
+
   it('returns normalized ingress and output meaning for queued MCP writes', async () => {
     mockedQueuePipelineJob.mockResolvedValue({
       runId: 'run-1',
@@ -151,6 +252,17 @@ describe('Bitcode MCP pipeline ingress contract', () => {
       status: 'queued',
       interfaceSurface: 'bitcode_mcp',
       outputMeaning: 'asset_packs',
+      writeAdmission: {
+        admitted: true,
+        interfaceSurface: 'bitcode_mcp',
+        permission: 'pipelines.create',
+        ingressBasis: 'matching_repository_connection',
+        repositoryProvider: 'github',
+        repositoryAnchor: 'github:bitcode-labs/application@main',
+        attachmentCount: 1,
+        connectionCount: 1,
+        outputMeaning: 'asset_packs',
+      },
     });
     expect(result.inputContext).toMatchObject({
       ingress: 'bitcode_mcp',
@@ -168,6 +280,19 @@ describe('Bitcode MCP pipeline ingress contract', () => {
           connectionId: 42,
         }),
       ]),
+    );
+    expect(mockedQueuePipelineJob).toHaveBeenCalledWith(
+      expect.objectContaining({
+        metadata: expect.objectContaining({
+          interfaceSurface: 'bitcode_mcp',
+          outputMeaning: 'asset_packs',
+          writeAdmission: expect.objectContaining({
+            admitted: true,
+            ingressBasis: 'matching_repository_connection',
+            repositoryAnchor: 'github:bitcode-labs/application@main',
+          }),
+        }),
+      }),
     );
   });
 
@@ -266,6 +391,12 @@ describe('Bitcode MCP pipeline ingress contract', () => {
       status: 'queued',
       interfaceSurface: 'bitcode_mcp',
       outputMeaning: 'asset_packs',
+      writeAdmission: {
+        admitted: true,
+        ingressBasis: 'provider_credential',
+        repositoryProvider: 'github',
+        repositoryAnchor: 'github:bitcode-labs/application',
+      },
     });
   });
 
@@ -316,6 +447,12 @@ describe('Bitcode MCP pipeline ingress contract', () => {
       status: 'completed',
       interfaceSurface: 'bitcode_mcp',
       outputMeaning: 'asset_packs',
+      writeAdmission: {
+        admitted: true,
+        ingressBasis: 'provider_credential',
+        repositoryProvider: 'github',
+        repositoryAnchor: 'github:bitcode-labs/application',
+      },
     });
     expect(result.assetPacks).toEqual([
       expect.objectContaining({

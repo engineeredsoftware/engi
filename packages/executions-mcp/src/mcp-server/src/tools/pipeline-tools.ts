@@ -147,11 +147,22 @@ function repositoryConnectionMatchesRepository(
   return anchoredByConnectionId || anchoredByCoordinates;
 }
 
+function buildRepositoryAnchor(repository: Record<string, any>): string {
+  const provider = String(repository.provider || 'github');
+  const branch = repository.branch ? `@${repository.branch}` : '';
+
+  if (provider === 'local') {
+    return `${provider}:${repository.path || repository.name}${branch}`;
+  }
+
+  return `${provider}:${repository.owner}/${repository.name}${branch}`;
+}
+
 function assertPipelineWriteAdmission(
   params: any,
   context: MCPAuthContext,
   interfaceSurface: 'bitcode_mcp'
-): void {
+): Record<string, any> {
   if (!context.permissions.pipelines.create) {
     throw new Error(
       'Bitcode MCP write admission requires pipelines.create permission before any pipeline job can be queued.'
@@ -199,6 +210,24 @@ function assertPipelineWriteAdmission(
       'Bitcode MCP write admission requires a repository-scoped provider binding. Supply a matching repository_connection or authenticate the repository provider in MCP credentials.'
     );
   }
+
+  const ingressBasis = matchingConnection
+    ? 'matching_repository_connection'
+    : provider === 'local'
+      ? 'local_repository_anchor'
+      : 'provider_credential';
+
+  return {
+    admitted: true,
+    interfaceSurface,
+    permission: 'pipelines.create',
+    ingressBasis,
+    repositoryProvider: provider,
+    repositoryAnchor: buildRepositoryAnchor(repository as Record<string, any>),
+    attachmentCount: Array.isArray(params.attachments) ? params.attachments.length : 0,
+    connectionCount: repositoryConnections.length,
+    outputMeaning: 'asset_packs',
+  };
 }
 
 /**
@@ -218,7 +247,7 @@ async function executePipelineWithMonitoring(
     mcpConfig: params.mcpConfig,
   });
 
-  assertPipelineWriteAdmission(params, context, interfaceSurface);
+  const writeAdmission = assertPipelineWriteAdmission(params, context, interfaceSurface);
 
   // Estimate BTD
   const estimatedBtd = await estimatePipelineBtd(
@@ -258,6 +287,7 @@ async function executePipelineWithMonitoring(
         mcpToolName: `bitcode://pipelines/${pipelineType}/create`,
         interfaceSurface,
         outputMeaning: 'asset_packs',
+        writeAdmission,
       }
     };
 
@@ -272,6 +302,7 @@ async function executePipelineWithMonitoring(
         status: 'queued',
         interfaceSurface,
         inputContext,
+        writeAdmission,
         outputMeaning: 'asset_packs',
         message: 'Pipeline job queued for execution. Monitor using the runId.',
         streaming: true,
@@ -311,6 +342,7 @@ async function executePipelineWithMonitoring(
       status: executionResult.status,
       interfaceSurface,
       inputContext,
+      writeAdmission,
       outputMeaning: 'asset_packs',
       result: executionResult.result,
       assetPacks,

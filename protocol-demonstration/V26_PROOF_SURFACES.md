@@ -1076,7 +1076,7 @@ Required closure posture:
   test coverage:
   `packages/executions-mcp/src/mcp-server/src/__tests__/unit/pipeline-ingress-contract.test.ts`
   proof surface:
-  fifth-gate Bitcode MCP write-acceptance closure so the live deliverable tool schema admits explicit repository/provider connection ingress, queued and completed MCP responses preserve normalized `interfaceSurface` plus `inputContext`, and output meaning stays asset-pack-normalized at the active tool boundary rather than only in notes or retained execution metadata
+  fifth-gate Bitcode MCP write-acceptance closure so the live deliverable tool schema admits explicit repository/provider connection ingress, third-party MCP repository and attachment context is proven as input-only ingress, queued and completed MCP responses preserve normalized `interfaceSurface` plus `inputContext`, accepted writes return and queue an explicit `writeAdmission` receipt, and output meaning stays asset-pack-normalized at the active tool boundary rather than only in notes or retained execution metadata
 - `{uapi/app/application/{ApplicationCommandDeck.tsx,ApplicationClosureControlDeck.tsx,ApplicationTransactionDetailSurface.tsx,application-activity-history.ts,application-transaction-detail-snapshot.ts,application-transaction-detail.ts},uapi/tests/{applicationActivityHistory.test.ts,applicationTransactionDetailSnapshot.test.ts,applicationTransactionDetail.test.ts}}`
   test coverage:
   `uapi/tests/applicationActivityHistory.test.ts`, `uapi/tests/applicationTransactionDetailSnapshot.test.ts`, and `uapi/tests/applicationTransactionDetail.test.ts`

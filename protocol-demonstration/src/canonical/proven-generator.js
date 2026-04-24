@@ -2698,6 +2698,62 @@ function buildV26RunsPipelinesTotalityProof({
       'executions-activity-and-notification-carriers',
       'Shared activity, execution, and notification carriers stay explicit under Bitcode',
       V26_FOURTH_GATE_ACTIVITY_FILES
+    ),
+    buildV26FileContentCheck(
+      'mcp-write-admission-and-third-party-ingress-contract',
+      'Bitcode MCP write admission and third-party ingress are source-checked as Exchange-facing interface contracts rather than package-presence witnesses',
+      [
+        {
+          file: 'packages/executions-mcp/src/mcp-server/src/types/index.ts',
+          evidence: "| 'third_party_mcp'",
+          description: 'MCP type surface admits third-party MCP as ingress context, not as a parallel product output'
+        },
+        {
+          file: 'packages/executions-mcp/src/mcp-server/src/pipeline-execution/adapter.ts',
+          evidence: 'export function buildPipelineInputContext',
+          description: 'pipeline adapter exposes explicit input-context normalization for interface ingress'
+        },
+        {
+          file: 'packages/executions-mcp/src/mcp-server/src/tools/pipeline-tools.ts',
+          evidence: "permission: 'pipelines.create'",
+          description: 'pipeline tool emits an explicit write-admission permission receipt'
+        },
+        {
+          file: 'packages/executions-mcp/src/mcp-server/src/tools/pipeline-tools.ts',
+          evidence: 'const writeAdmission = assertPipelineWriteAdmission(params, context, interfaceSurface)',
+          description: 'pipeline write admission is evaluated before BTD estimation and queueing'
+        },
+        {
+          file: 'packages/executions-mcp/src/mcp-server/src/tools/pipeline-tools.ts',
+          evidence: 'writeAdmission,',
+          description: 'accepted write admission is returned and queued in metadata'
+        },
+        {
+          file: 'packages/executions-mcp/src/mcp-server/src/tools/pipeline-tools.js',
+          evidence: 'const writeAdmission = assertPipelineWriteAdmission(params, context, interfaceSurface);',
+          description: 'shipped JavaScript MCP runtime mirrors the TypeScript write-admission receipt'
+        },
+        {
+          file: 'packages/executions-mcp/src/mcp-server/src/__tests__/unit/pipeline-ingress-contract.test.ts',
+          evidence: 'normalizes third-party MCP repository and attachment ingress as input context only',
+          description: 'unit proof covers third-party MCP ingress as input context'
+        },
+        {
+          file: 'packages/executions-mcp/src/mcp-server/src/__tests__/unit/pipeline-ingress-contract.test.ts',
+          evidence: "expect(inputContext).not.toHaveProperty('assetPacks')",
+          description: 'unit proof rejects treating third-party ingress as asset-pack output'
+        },
+        {
+          file: 'packages/executions-mcp/src/mcp-server/src/__tests__/unit/pipeline-ingress-contract.test.ts',
+          evidence: "repositoryAnchor: 'github:bitcode-labs/application@main'",
+          description: 'unit proof binds accepted MCP writes to a concrete repository anchor'
+        },
+        {
+          file: 'packages/executions-mcp/src/mcp-server/src/__tests__/unit/pipeline-ingress-contract.test.ts',
+          evidence: 'metadata: expect.objectContaining({',
+          description: 'unit proof verifies write-admission metadata is queued with the pipeline job'
+        }
+      ]
     )
   ];
   const passed = checks.every((check) => check.passed === true);
