@@ -166,7 +166,7 @@ test('compatibility prompt and agent names point at precise canonical Finish rep
   assert.match(validationReadyAgentSource, /name: 'asset-pack-ready-to-finish-agent'/);
   assert.match(finishDeliveryAgentsSource, /AssetPackFinishFinalizeDeliveryEvidenceAgent/);
   assert.match(finishDeliveryAgentsSource, /registerFinishDeliveryAgentsForType/u);
-  assert.doesNotMatch(finishDeliveryAgentsSource, /@deprecated|FinalizeShipment|ShippingPhase|shipping:deliverable-pipeline|Compatibility registry keys/u);
+  assert.doesNotMatch(finishDeliveryAgentsSource, /@deprecated|FinalizeShipment|ShippingPhase|shipping:deliverable-pipeline|Compatibility registry keys|written-asset type/u);
   assert.match(finishSpec, /Deprecated names, compatibility wrappers, and any remaining old filesystem labels are tactical fifth-gate aids, not V26 closure evidence/);
   assert.match(finishSpec, /Full V26 closure requires no deprecated, backwards-compatible, legacy, or unspecified broad-pipeline names/);
 });
@@ -179,7 +179,29 @@ test('AssetPack prompt-builder doc-comments use Bitcode-specific labels', () => 
       source: readFileSync(new URL(name, promptBuilderDir), 'utf8'),
     }));
 
-  assert.ok(promptFiles.length > 20);
+  assert.ok(promptFiles.length >= 20);
+
+  for (const removedPromptFile of [
+    'divide-code-change-prompt.ts',
+    'conquer-file-prompt.ts',
+    'correct-code-change-prompt.ts',
+    'review-code-change-prompt.ts',
+    'create-design-document-prompt.ts',
+    'review-design-document-prompt.ts',
+    'validate-code-changes-prompt.ts',
+    'validate-document-prompt.ts',
+    'validate-review-prompt.ts',
+    'asset-pack-validation-ready-to-finish-code-change-prompt.ts',
+    'asset-pack-validation-ready-to-finish-code-change-review-prompt.ts',
+    'asset-pack-validation-ready-to-finish-design-document-prompt.ts',
+    'asset-pack-validation-ready-to-finish-design-document-review-prompt.ts',
+  ]) {
+    assert.equal(
+      existsSync(new URL(removedPromptFile, promptBuilderDir)),
+      false,
+      `${removedPromptFile} must not remain as a type-keyed pipeline prompt carrier`
+    );
+  }
 
   for (const { name, source } of promptFiles) {
     assert.doesNotMatch(source, /current_version: "G[A]1/u, `${name} keeps a G[A]1 current_version`);

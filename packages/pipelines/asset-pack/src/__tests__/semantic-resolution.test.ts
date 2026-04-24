@@ -1,6 +1,8 @@
 // @ts-nocheck
 import { Execution } from '@bitcode/execution-generics';
 import {
+  resolveDeliveryMechanismTemplate,
+  resolveDeliveryMechanismTemplateFromExecution,
   resolveExpressedNeed,
   resolveExpressedNeedFromExecution,
   resolveNeedComprehensionFromExecution,
@@ -9,21 +11,30 @@ import {
 } from '../semantic-resolution';
 
 describe('deliverable semantic resolution', () => {
-  it('prefers writtenAssetType over retained deliverableType compatibility fields', () => {
+  it('collapses retained written-asset labels to the canonical AssetPack kind', () => {
     expect(
       resolveWrittenAssetType({
         writtenAssetType: 'design-document-review',
         deliverableType: 'code-change',
       })
-    ).toBe('design-document-review');
+    ).toBe('need-satisfaction-asset-pack');
   });
 
-  it('normalizes execution state through writtenAssetType before deliverableType', () => {
+  it('normalizes old request labels as delivery-mechanism templates', () => {
+    expect(resolveDeliveryMechanismTemplate({ writtenAssetType: 'code-change' })).toBe('pull-request');
+    expect(resolveDeliveryMechanismTemplate({ deliverableType: 'code-change-review' })).toBe('review-comment');
+    expect(resolveDeliveryMechanismTemplate({ writtenAssetType: 'design-document' })).toBe('issue');
+    expect(resolveDeliveryMechanismTemplate({ writtenAssetType: 'design-document-review' })).toBe('issue-comment');
+  });
+
+  it('reads delivery-mechanism templates from execution without changing written-asset kind', () => {
     const exec = new Execution('pipeline:deliverable');
     exec.store('pipeline', 'deliverableType', 'code-change');
     exec.store('pipeline', 'writtenAssetType', ['design-document']);
+    exec.store('pipeline', 'deliveryMechanismTemplate', 'issue-comment');
 
-    expect(resolveWrittenAssetTypeFromExecution(exec)).toBe('design-document');
+    expect(resolveWrittenAssetTypeFromExecution(exec)).toBe('need-satisfaction-asset-pack');
+    expect(resolveDeliveryMechanismTemplateFromExecution(exec)).toBe('issue-comment');
   });
 
   it('prefers semantic need over Definition of Need mirror fields', () => {

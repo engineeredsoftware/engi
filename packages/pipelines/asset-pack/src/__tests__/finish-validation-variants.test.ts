@@ -2,7 +2,7 @@
 import assetPack from '../index';
 import { Execution } from '@bitcode/execution-generics';
 
-describe('Deliverable pipeline - Finish/Delivering & validation variants (test-mode stubs)', () => {
+describe('AssetPack pipeline - Finish/Delivering and validation variants (test-mode stubs)', () => {
   const base = {
     definitionOfNeed: 'Finish feature Z',
     repository: { url: 'https://github.com/acme/repo', branch: 'main' },

@@ -1,9 +1,15 @@
 import type { DeliverableOutput, DeliverablePostprocessed } from './types/PipelineSchemas';
 import { Execution, getValidationReadyToFinish } from '@bitcode/execution-generics';
+import {
+  resolveDeliveryMechanismTemplateFromExecution,
+  resolveWrittenAssetTypeFromExecution,
+} from './semantic-resolution';
 
 export function normalizeDeliverableOutput(output: DeliverableOutput, execution: Execution): DeliverableOutput {
   const enhanced = { ...output };
   const deliveryMechanism = enhanced.deliveryMechanism || enhanced.deliverable;
+  const writtenAssetType = resolveWrittenAssetTypeFromExecution(execution);
+  const deliveryMechanismTemplate = resolveDeliveryMechanismTemplateFromExecution(execution);
 
   // 1) Ensure deliverable links are populated if available on execution
   const prUrl =
@@ -43,12 +49,9 @@ export function normalizeDeliverableOutput(output: DeliverableOutput, execution:
     (execution.get('pipeline', 'expressedNeed') as string) ||
     (execution.get('need', 'description') as string) ||
     undefined;
-  enhanced.writtenAssetType =
-    enhanced.writtenAssetType ||
-    enhanced.deliverableType ||
-    (execution.get('pipeline', 'writtenAssetType') as any) ||
-    (execution.get('pipeline', 'deliverableType') as any) ||
-    undefined;
+  enhanced.writtenAssetType = writtenAssetType;
+  enhanced.deliverableType = writtenAssetType;
+  enhanced.deliveryMechanismTemplate = deliveryMechanismTemplate;
   if (!enhanced.deliveryMechanism && enhanced.deliverable) {
     enhanced.deliveryMechanism = { ...enhanced.deliverable };
   }
@@ -110,6 +113,8 @@ export function buildDeliverablePostprocessedResult(
       : null;
 
   const validationReady = getValidationReadyToFinish(execution, 'asset-pack');
+  const writtenAssetType = resolveWrittenAssetTypeFromExecution(execution);
+  const deliveryMechanismTemplate = resolveDeliveryMechanismTemplateFromExecution(execution);
 
   return {
     executionId,
@@ -125,19 +130,9 @@ export function buildDeliverablePostprocessedResult(
     summary: finalSummary,
     deliveryMechanism: normalized.deliveryMechanism || normalized.deliverable,
     artifacts,
-    deliverableType:
-      normalized.deliverableType ||
-      normalized.writtenAssetType ||
-      (execution.get('pipeline', 'writtenAssetType') as any) ||
-      (execution.get('pipeline', 'deliverableType') as any) ||
-      (execution as any).get?.('route/preprocessed', 'deliverables')?.deliverableType,
-    writtenAssetType:
-      normalized.writtenAssetType ||
-      normalized.deliverableType ||
-      (execution.get('pipeline', 'writtenAssetType') as any) ||
-      (execution.get('pipeline', 'deliverableType') as any) ||
-      (execution as any).get?.('route/preprocessed', 'assetPackWrittenAsset')?.writtenAssetType ||
-      (execution as any).get?.('route/preprocessed', 'deliverables')?.deliverableType,
+    deliverableType: writtenAssetType,
+    writtenAssetType,
+    deliveryMechanismTemplate,
     need:
       normalized.need ||
       (execution.get('pipeline', 'expressedNeed') as string) ||
@@ -149,13 +144,8 @@ export function buildDeliverablePostprocessedResult(
         (execution.get('pipeline', 'expressedNeed') as string) ||
         (execution.get('need', 'description') as string) ||
         undefined,
-      writtenAssetType:
-        normalized.writtenAssetType ||
-        normalized.deliverableType ||
-        (execution.get('pipeline', 'writtenAssetType') as any) ||
-        (execution.get('pipeline', 'deliverableType') as any) ||
-        (execution as any).get?.('route/preprocessed', 'assetPackWrittenAsset')?.writtenAssetType ||
-        (execution as any).get?.('route/preprocessed', 'deliverables')?.deliverableType,
+      writtenAssetType,
+      deliveryMechanismTemplate,
     },
     ...(validationReady
       ? {

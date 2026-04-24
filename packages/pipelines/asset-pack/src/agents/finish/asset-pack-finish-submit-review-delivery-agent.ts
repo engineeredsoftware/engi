@@ -33,7 +33,7 @@ export const AssetPackFinishSubmitReviewDeliveryAgent = factoryAgentWithPTRR<
   z.infer<typeof SubmitReviewOutputSchema>
 >({
   name: 'finish:asset-pack-submit-review-delivery-agent',
-  description: 'Deliver AssetPack code-review evidence by submitting a pull request review comment',
+  description: 'Deliver AssetPack evidence through a pull request review-comment mechanism',
   outputSchema: SubmitReviewOutputSchema,
   tools: ['vcs_create_comment'],
   prompt: systemPrompt,
@@ -55,8 +55,9 @@ export default async function assetPackFinishSubmitReviewDeliveryAgent(input: an
     }
   } catch {}
   return {
-    writtenAssetType: 'code-change-review',
-    deliverableType: 'code-change-review',
+    writtenAssetType: 'need-satisfaction-asset-pack',
+    deliverableType: 'need-satisfaction-asset-pack',
+    deliveryMechanismTemplate: 'review-comment',
     ...result,
   };
 }

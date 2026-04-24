@@ -3,8 +3,8 @@ import { PromptPart } from '../../parts/PromptPart';
 /**
  * @doc-comment-developing-promptpartdevelopment
  * domain: agent
- * intent: "Define refine assessment for Create Design Document agent with execution state awareness"
- * current_version: "V26.50.0"
+ * intent: "Bitcode AssetPack implementation PromptPart for design-document written-asset synthesis: refine assessment"
+ * current_version: "0.50.0"
  * versions: []
  * benchmarks: [
  *   { "name": "refine_context_utilization", "test": "Does refine assessment maximize context value?", "score": 0.37 },
@@ -13,4 +13,4 @@ import { PromptPart } from '../../parts/PromptPart';
  * ]
  */
 export const PROMPTPART_SPECIFIC_AGENT_CREATEDESIGNDOCUMENT_REFINE_ASSESSMENT: PromptPart = 
-  'Assess issue quality through context alignment: specification completeness against requirements, criteria measurability using validation patterns, technical accuracy from analysis results, scope clarity against feasibility findings, risk coverage from assessment data, actionability for implementation team' as PromptPart;
+  'Assess design-document written asset completeness against Need satisfaction, repository evidence, technical feasibility, risk coverage, and validation obligations' as PromptPart;

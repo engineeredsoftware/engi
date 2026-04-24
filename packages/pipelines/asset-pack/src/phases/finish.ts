@@ -11,12 +11,12 @@
 import { createPhaseRunner, PhaseConfig } from '@bitcode/pipelines-generics';
 
 /**
- * Create Finish sequence based on written-asset type.
+ * Create the canonical Finish sequence for AssetPack runs.
 *
-  * TODO: this isn't modern executor/execution pattern (registry keys fine mostly but not seeing functional componsition of the exeuctors of these agents.
-  * TODO: very last agent should be a FinalWorkSummary agent which is a special Quick agent implementation (seeing definition(s), 'stepless'). however quick still have 1 step/stepless they still run the 3 Failsafes to ultimately get output
+ * Delivery-mechanism templates are consumed by the Deliver agent; they do not
+ * change the broad Finish sequence.
  */
-function createFinishSequence(_writtenAssetType: string): any[] {
+function createFinishSequence(_deliveryMechanismTemplate: string): any[] {
   // Exactly two agents: Deliver (PTRR) then FinalWorkSummary (Quick).
   return [
     { agent: 'finish:deliver-asset-pack-to-destination-agent' },
@@ -27,10 +27,10 @@ function createFinishSequence(_writtenAssetType: string): any[] {
 /**
  * Finish phase configuration.
  */
-export function createFinishPhaseConfig(writtenAssetType: string): PhaseConfig {
+export function createFinishPhaseConfig(deliveryMechanismTemplate: string): PhaseConfig {
   return {
     phaseName: 'finish',
-    sequence: createFinishSequence(writtenAssetType),
+    sequence: createFinishSequence(deliveryMechanismTemplate),
     allowShortCircuit: false // Finish never short-circuits
   };
 }
@@ -38,16 +38,16 @@ export function createFinishPhaseConfig(writtenAssetType: string): PhaseConfig {
 /**
  * Create the Finish phase runner.
  */
-export function runFinishPhase(writtenAssetType: string) {
-  return createPhaseRunner(createFinishPhaseConfig(writtenAssetType));
+export function runFinishPhase(deliveryMechanismTemplate: string) {
+  return createPhaseRunner(createFinishPhaseConfig(deliveryMechanismTemplate));
 }
 
 /**
- * Register Finish agents based on written-asset type.
+ * Register Finish agents for the requested delivery-mechanism template.
  * Called after validation phase.
  */
 export function registerFinishAgentsForType(
-  _writtenAssetType: string,
+  _deliveryMechanismTemplate: string,
   agentRegistry: any
 ): void {
   agentRegistry.registerAgent(

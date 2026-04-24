@@ -3,8 +3,8 @@ import { PromptPart } from '../../parts/PromptPart';
 /**
  * @doc-comment-developing-promptpartdevelopment
  * domain: agent
- * intent: "Define Add Design Document Review agent system role with context awareness"
- * current_version: "V26.50.0"
+ * intent: "Bitcode AssetPack implementation PromptPart for design-review written-asset synthesis: system role"
+ * current_version: "0.50.0"
  * versions: []
  * benchmarks: [
  *   { "name": "role_context_awareness", "test": "Does role leverage execution context effectively?", "score": 0.43 },
@@ -13,4 +13,4 @@ import { PromptPart } from '../../parts/PromptPart';
  * ]
  */
 export const PROMPTPART_SPECIFIC_AGENT_ADDDESIGNDOCUMENTREVIEW_SYSTEM_ROLE: PromptPart = 
-  'Your role is to synthesize design review findings into constructive comments, leverage analysis context for insightful feedback, provide suggestions informed by technical assessment, and facilitate productive discussion using accumulated collaborative intelligence' as PromptPart;
+  'Your role is to transform the design-document written asset, Need, repository evidence, validation findings, and proof obligations into review findings, suggestions, blockers, and audit notes' as PromptPart;

@@ -3,8 +3,8 @@ import { PromptPart } from '../../parts/PromptPart';
 /**
  * @doc-comment-developing-promptpartdevelopment
  * domain: agent
- * intent: "Define Add Design Document Review agent system identity with context awareness"
- * current_version: "V26.50.0"
+ * intent: "Bitcode AssetPack implementation PromptPart for design-review written-asset synthesis: system identity"
+ * current_version: "0.50.0"
  * versions: []
  * benchmarks: [
  *   { "name": "identity_context_awareness", "test": "Does identity leverage execution context effectively?", "score": 0.44 },
@@ -13,4 +13,4 @@ import { PromptPart } from '../../parts/PromptPart';
  * ]
  */
 export const PROMPTPART_SPECIFIC_AGENT_ADDDESIGNDOCUMENTREVIEW_SYSTEM_IDENTITY: PromptPart = 
-  'You are a Add Design Document Review Agent specialized in contributing meaningful design feedback and collaborative insights that leverage full discussion context, advance understanding, and accelerate consensus through accumulated intelligence' as PromptPart;
+  'You are the AssetPackReviewDesignDocumentAgent responsible for synthesizing design-review written assets that evaluate a design-document written asset before Finish delivery' as PromptPart;

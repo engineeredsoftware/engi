@@ -207,7 +207,7 @@ export function CompleteHeaderContent({
                   </React.Fragment>
                 ))
               ) : (
-                <span className="text-gray-400">No shipping surfaces to summarize</span>
+                <span className="text-gray-400">No delivery surfaces to summarize</span>
               )}
               <span>.</span>
             </div>

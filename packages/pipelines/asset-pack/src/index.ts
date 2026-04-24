@@ -13,7 +13,12 @@ import { assetPackPhases } from './phases';
 import { initializeAssetPackPipeline } from './preprocess';
 import { normalizeDeliverableOutput, buildDeliverablePostprocessedResult } from './postprocess';
 import { AssetPackWrittenAssetType } from './types/AssetPackWrittenAssetType';
-import { resolveExpressedNeed, resolveWrittenAssetType } from './semantic-resolution';
+import {
+  normalizeCompatibilityWrittenAssetRequest,
+  resolveDeliveryMechanismTemplate,
+  resolveExpressedNeed,
+  resolveWrittenAssetType,
+} from './semantic-resolution';
 
 // ==================== FACTORIES ====================
 
@@ -39,6 +44,8 @@ function storePreprocessedSnapshot(
     assetPack: {
       need,
       writtenAssetType,
+      writtenAssetRequest: normalizeCompatibilityWrittenAssetRequest(processedInput?.writtenAssetType ?? processedInput?.deliverableType),
+      deliveryMechanismTemplate: resolveDeliveryMechanismTemplate(processedInput),
       deliveryTarget: processedInput?.deliveryTarget || null,
     },
     requirements: processedInput?.requirements || null,
@@ -62,13 +69,21 @@ function factoryPreprocess(): Executor<any, any> {
     const expressedNeed = resolveExpressedNeed(processedInput);
 
     const writtenAssetType = resolveWrittenAssetType(processedInput);
+    const writtenAssetRequest = normalizeCompatibilityWrittenAssetRequest(
+      processedInput?.writtenAssetType ?? processedInput?.deliverableType
+    );
+    const deliveryMechanismTemplate = resolveDeliveryMechanismTemplate(processedInput);
     try { processedInput.need = expressedNeed; } catch {}
     try { processedInput.definitionOfNeed = expressedNeed; } catch {}
     try { processedInput.writtenAssetType = writtenAssetType; } catch {}
     try { processedInput.deliverableType = writtenAssetType; } catch {}
+    try { processedInput.writtenAssetRequest = writtenAssetRequest; } catch {}
+    try { processedInput.deliveryMechanismTemplate = deliveryMechanismTemplate; } catch {}
     execution.store('pipeline', 'input', processedInput);
     execution.store('pipeline', 'deliverableType', writtenAssetType);
     execution.store('pipeline', 'writtenAssetType', writtenAssetType);
+    execution.store('pipeline', 'writtenAssetRequest', writtenAssetRequest);
+    execution.store('pipeline', 'deliveryMechanismTemplate', deliveryMechanismTemplate);
     execution.store('pipeline', 'expressedNeed', expressedNeed);
     execution.store('need', 'description', expressedNeed);
     storePreprocessedSnapshot(execution, processedInput, writtenAssetType);

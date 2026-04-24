@@ -5,10 +5,11 @@ import { Execution } from '@bitcode/execution-generics';
 describe('normalizeDeliverableOutput', () => {
   it('backfills prUrl, filesModified, and summary from execution', () => {
     const exec = new Execution('pipeline:deliverable');
-    exec.store('shipping', 'pullRequestUrl', 'https://github.com/acme/repo/pull/123');
+    exec.store('finish', 'pullRequestUrl', 'https://github.com/acme/repo/pull/123');
     exec.store('implementation', 'filesChanged', ['a.ts', 'b.ts']);
     exec.store('pipeline', 'expressedNeed', 'Need a repository-backed pull request');
     exec.store('pipeline', 'writtenAssetType', 'code-change');
+    exec.store('pipeline', 'deliveryMechanismTemplate', 'pull-request');
 
     const output: any = {
       success: true,
@@ -23,7 +24,8 @@ describe('normalizeDeliverableOutput', () => {
     expect(normalized.writtenAsset.prUrl).toContain('/pull/123');
     expect(normalized.artifacts.filesModified).toEqual(['a.ts', 'b.ts']);
     expect(normalized.need).toBe('Need a repository-backed pull request');
-    expect(normalized.writtenAssetType).toBe('code-change');
+    expect(normalized.writtenAssetType).toBe('need-satisfaction-asset-pack');
+    expect(normalized.deliveryMechanismTemplate).toBe('pull-request');
     expect(normalized.semanticKind).toBe('asset-pack-written-asset');
     expect(typeof normalized.summary).toBe('string');
     expect(normalized.summary.length).toBeGreaterThan(0);
@@ -36,9 +38,11 @@ describe('normalizeDeliverableOutput', () => {
     exec.store('source', 'name', 'repo');
     exec.store('pipeline', 'expressedNeed', 'Need a review-ready written asset');
     exec.store('pipeline', 'writtenAssetType', 'design-document-review');
+    exec.store('pipeline', 'deliveryMechanismTemplate', 'issue-comment');
     exec.store('route/preprocessed', 'assetPackWrittenAsset', {
       need: 'Need a review-ready written asset',
-      writtenAssetType: 'design-document-review',
+      writtenAssetType: 'need-satisfaction-asset-pack',
+      deliveryMechanismTemplate: 'issue-comment',
     });
 
     const result = buildDeliverablePostprocessedResult(exec, {
@@ -50,11 +54,13 @@ describe('normalizeDeliverableOutput', () => {
 
     expect(result.semanticKind).toBe('asset-pack-written-asset');
     expect(result.need).toBe('Need a review-ready written asset');
-    expect(result.writtenAssetType).toBe('design-document-review');
+    expect(result.writtenAssetType).toBe('need-satisfaction-asset-pack');
+    expect(result.deliveryMechanismTemplate).toBe('issue-comment');
     expect(result.deliveryMechanism).toBeUndefined();
     expect(result.assetPack).toEqual({
       need: 'Need a review-ready written asset',
-      writtenAssetType: 'design-document-review',
+      writtenAssetType: 'need-satisfaction-asset-pack',
+      deliveryMechanismTemplate: 'issue-comment',
     });
   });
 

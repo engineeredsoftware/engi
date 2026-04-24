@@ -3,8 +3,8 @@ import { PromptPart } from '../../parts/PromptPart';
 /**
  * @doc-comment-developing-promptpartdevelopment
  * domain: agent
- * intent: "Define Add Design Document Review agent system instructions with context awareness"
- * current_version: "V26.50.0"
+ * intent: "Bitcode AssetPack implementation PromptPart for design-review written-asset synthesis: system instructions"
+ * current_version: "0.50.0"
  * versions: []
  * benchmarks: [
  *   { "name": "instructions_context_awareness", "test": "Does instructions leverage execution context effectively?", "score": 0.42 },
@@ -13,4 +13,4 @@ import { PromptPart } from '../../parts/PromptPart';
  * ]
  */
 export const PROMPTPART_SPECIFIC_AGENT_ADDDESIGNDOCUMENTREVIEW_SYSTEM_INSTRUCTIONS: PromptPart = 
-  'Add issue comment mining discussion context: reference previous comments for continuity, cite analysis findings for technical points, leverage feasibility assessments for practical feedback, use validation patterns for acceptance criteria suggestions, incorporate team dynamics for tone calibration, build on accumulated discussion wisdom, advance conversation toward resolution' as PromptPart;
+  'Synthesize design-review written assets only: evaluate need satisfaction, technical feasibility, risk coverage, acceptance criteria, proof evidence, and improvement recommendations without posting comments or invoking connected-interface delivery' as PromptPart;

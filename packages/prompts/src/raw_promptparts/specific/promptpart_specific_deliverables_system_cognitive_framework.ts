@@ -3,7 +3,7 @@ import { PromptPart } from '../../parts/PromptPart';
 /**
  * @doc-comment-developing-promptpartdevelopment
  * domain: system
- * intent: "Define cognitive framework for deliverables pipeline"
+ * intent: "Bitcode AssetPack compatibility-system cognitive framework for need, written-asset, and delivery-mechanism reasoning"
  * current_version: "V26.50.0"
  * versions: []
  * benchmarks: [
@@ -18,15 +18,15 @@ export const PROMPTPART_SPECIFIC_DELIVERABLES_SYSTEM_COGNITIVE_FRAMEWORK: Prompt
    - Deeply comprehend the expressed need and intended outcome
    - Analyze existing codebase patterns and conventions
    - Identify constraints and dependencies
-   - Map the need to concrete synthesis and shipping steps
+   - Map the need to concrete synthesis and Finish delivery steps
 
 2. ASSET-PACK SYNTHESIS
    - Execute phases sequentially with clear boundaries
    - Use execution-generics for proper orchestration
-   - Store and retrieve written-asset and shipping results consistently
+   - Store and retrieve written-asset and delivery results consistently
    - Handle errors gracefully with fallback strategies
 
-3. VALIDATED SHIPPING
+3. VALIDATED FINISH
    - Validate at every stage, not just at the end
    - Apply multiple validation perspectives (tests, security, quality, requirements)
    - Track metrics and scores for objective assessment before delivery mechanisms finalize

@@ -43,6 +43,24 @@ const removedComprehendTaskEntrypoints = [
   '../../packages/pipelines/asset-pack/src/agents/prompts/asset-pack-comprehend-task-agent-prompts.ts',
   '../../packages/pipelines/asset-pack/src/agents/prompts/asset-pack-comprehend-task-agent-prompts.js',
 ];
+const removedTypeKeyedImplementationEntrypoints = [
+  '../../packages/pipelines/asset-pack/src/agents/implementation-agents.ts',
+  '../../packages/pipelines/asset-pack/src/agents/implementation/asset-pack-divide-code-change-agent.ts',
+  '../../packages/pipelines/asset-pack/src/agents/implementation/asset-pack-conquer-file-agent.ts',
+  '../../packages/pipelines/asset-pack/src/agents/implementation/asset-pack-correct-code-change-agent.ts',
+  '../../packages/pipelines/asset-pack/src/agents/implementation/asset-pack-review-code-change-agent.ts',
+  '../../packages/pipelines/asset-pack/src/agents/implementation/asset-pack-create-design-document-agent.ts',
+  '../../packages/pipelines/asset-pack/src/agents/implementation/asset-pack-review-design-document-agent.ts',
+  '../../packages/pipelines/asset-pack/src/agents/prompts/divide-code-change-prompt.ts',
+  '../../packages/pipelines/asset-pack/src/agents/prompts/conquer-file-prompt.ts',
+  '../../packages/pipelines/asset-pack/src/agents/prompts/correct-code-change-prompt.ts',
+  '../../packages/pipelines/asset-pack/src/agents/prompts/review-code-change-prompt.ts',
+  '../../packages/pipelines/asset-pack/src/agents/prompts/create-design-document-prompt.ts',
+  '../../packages/pipelines/asset-pack/src/agents/prompts/review-design-document-prompt.ts',
+  '../../packages/pipelines/asset-pack/src/agents/prompts/validate-code-changes-prompt.ts',
+  '../../packages/pipelines/asset-pack/src/agents/prompts/validate-document-prompt.ts',
+  '../../packages/pipelines/asset-pack/src/agents/prompts/validate-review-prompt.ts',
+];
 const comprehendNeedRawIdentityPromptSource = readFileSync(
   new URL('../../packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_comprehendneed_system_identity.ts', import.meta.url),
   'utf8'
@@ -434,7 +452,8 @@ test('V26 deliverable reform supplement requires semantic mirrors beyond retaine
   assert.match(reformSource, /`asset pack`/u);
   assert.match(reformSource, /`written asset`/u);
   assert.match(reformSource, /workspace-run summaries, mock reread projections, and active UI detail surfaces should prefer semantic `writtenAssets`/u);
-  assert.match(reformSource, /execution stores and postprocessed artifacts should mirror compatibility keys with semantic `need`, `writtenAssetType`, and asset-pack-shaped snapshots/u);
+  assert.match(reformSource, /execution stores and postprocessed artifacts should mirror compatibility keys with semantic `need`, canonical `writtenAssetType = need-satisfaction-asset-pack`, `writtenAssetRequest`, `deliveryMechanismTemplate`, and asset-pack-shaped snapshots/u);
+  assert.match(reformSource, /implementation and validation logic must resolve one canonical AssetPack written-asset kind/u);
   assert.match(reformSource, /shapes live protocol behavior through Bitcode's commercial infrastructure/u);
   assert.match(reformSource, /hydrate a registry-bearing pipeline execution context when callers still enter through a bare `Execution`/u);
   assert.match(reformSource, /retained maintenance\/audit scripts that operate on this corridor/u);
@@ -525,21 +544,38 @@ test('setup comprehension path mirrors semantic need and written-asset keys for 
   assert.match(preprocessSource, /new PipelinePromptRegistry/u);
   assert.match(preprocessSource, /new PipelineToolRegistry/u);
   assert.match(preprocessSource, /new PipelineAgentRegistry/u);
-  assert.match(comprehendNeedSource, /execution\.store\('setup', 'writtenAssetType', types\);/u);
-  assert.match(comprehendNeedSource, /execution\.store\('setup\/written-asset-type', 'type', types\);/u);
+  assert.match(comprehendNeedSource, /execution\.store\('setup', 'writtenAssetRequest', types\);/u);
+  assert.match(comprehendNeedSource, /execution\.store\('setup\/written-asset-request', 'type', types\);/u);
+  assert.doesNotMatch(comprehendNeedSource, /execution\.store\('setup', 'writtenAssetType', types\);/u);
+  assert.doesNotMatch(comprehendNeedSource, /setup\/written-asset-type/u);
   assert.match(comprehendNeedSource, /execution\.store\('setup\/need', 'satisfactionCriteria', needSatisfactionCriteria\);/u);
   assert.match(comprehendNeedSource, /execution\.store\('setup\/need', 'comprehension', result\.comprehension\);/u);
   assert.match(comprehendNeedSource, /execution\.store\('setup\/need', 'entities', result\.entities\);/u);
 });
 
-test('phase and Finish carriers resolve semantic written-asset type and need before compatibility fields', () => {
+test('implementation, validation, and Finish carriers separate AssetPack kind from delivery templates', () => {
   assert.match(semanticResolutionSource, /export function resolveWrittenAssetTypeFromExecution/u);
+  assert.match(semanticResolutionSource, /export function resolveDeliveryMechanismTemplateFromExecution/u);
+  assert.match(semanticResolutionSource, /NeedSatisfactionAssetPack/u);
   assert.match(semanticResolutionSource, /export function resolveExpressedNeedFromExecution/u);
   assert.doesNotMatch(assetPackPipelineSource, /BITCODE_ENABLE_DELIVERABLE_SETUP_PHASE_RUNTIME_IN_TEST/u);
   assert.match(phaseIndexSource, /resolveWrittenAssetTypeFromExecution\(execution\)/u);
-  assert.match(phaseIndexSource, /Unknown written-asset type/u);
+  assert.match(phaseIndexSource, /resolveDeliveryMechanismTemplateFromExecution\(execution\)/u);
+  assert.match(phaseIndexSource, /implementation:asset-pack-synthesize-written-assets-agent/u);
+  assert.match(phaseIndexSource, /validation:validate-asset-pack-written-assets/u);
+  assert.doesNotMatch(phaseIndexSource, /Unknown written-asset type/u);
+  assert.doesNotMatch(phaseIndexSource, /implementation:review|implementation:create|implementation:comment/u);
   assert.match(shipAgentSource, /writtenAssetType: dtype/u);
-  assert.match(createPullRequestSource, /writtenAssetType: 'code-change'/u);
+  assert.match(createPullRequestSource, /writtenAssetType: 'need-satisfaction-asset-pack'/u);
+  assert.match(createPullRequestSource, /deliveryMechanismTemplate: 'pull-request'/u);
+  assert.doesNotMatch(createPullRequestSource, /writtenAssetType: 'code-change'/u);
+  for (const removedEntrypoint of removedTypeKeyedImplementationEntrypoints) {
+    assert.equal(
+      existsSync(new URL(removedEntrypoint, import.meta.url)),
+      false,
+      `${removedEntrypoint} must stay removed; implementation now synthesizes one canonical AssetPack written asset`
+    );
+  }
   assert.match(discoveryAgentsSource, /writtenAssets: z\.array\(z\.string\(\)\)\.optional\(\)/u);
   assert.match(discoveryAgentsSource, /needSatisfactionCriteria: z\.array\(z\.string\(\)\)\.optional\(\)/u);
   assert.match(discoveryAgentsSource, /applyResearchApproachSemanticMirrors/u);

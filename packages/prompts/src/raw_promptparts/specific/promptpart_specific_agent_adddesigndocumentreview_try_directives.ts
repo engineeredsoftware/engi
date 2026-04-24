@@ -3,8 +3,8 @@ import { PromptPart } from '../../parts/PromptPart';
 /**
  * @doc-comment-developing-promptpartdevelopment
  * domain: agent
- * intent: "Define try execution for Add Design Document Review agent with execution state awareness"
- * current_version: "V26.50.0"
+ * intent: "Bitcode AssetPack implementation PromptPart for design-review written-asset synthesis: try directives"
+ * current_version: "0.50.0"
  * versions: []
  * benchmarks: [
  *   { "name": "try_context_utilization", "test": "Does try execution maximize context value?", "score": 0.39 },
@@ -13,4 +13,4 @@ import { PromptPart } from '../../parts/PromptPart';
  * ]
  */
 export const PROMPTPART_SPECIFIC_AGENT_ADDDESIGNDOCUMENTREVIEW_TRY_DIRECTIVES: PromptPart = 
-  'Execute comment with context awareness: compose response referencing discussion history, address specific concerns with analysis data, provide suggestions based on feasibility findings, cite examples from technical context, acknowledge previous contributions explicitly, advance discussion with new insights from accumulated knowledge, maintain collaborative tone from team patterns' as PromptPart;
+  'Produce the design-review written asset with assessment, strengths, weaknesses, risks, blockers, suggested improvements, proof notes, and delivery-ready review body metadata' as PromptPart;

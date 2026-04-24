@@ -3,8 +3,8 @@ import { PromptPart } from '../../parts/PromptPart';
 /**
  * @doc-comment-developing-promptpartdevelopment
  * domain: agent
- * intent: "Define plan strategy for Create Design Document agent with execution state awareness"
- * current_version: "V26.50.0"
+ * intent: "Bitcode AssetPack implementation PromptPart for design-document written-asset synthesis: plan strategy"
+ * current_version: "0.50.0"
  * versions: []
  * benchmarks: [
  *   { "name": "plan_context_utilization", "test": "Does plan strategy maximize context value?", "score": 0.41 },
@@ -13,4 +13,4 @@ import { PromptPart } from '../../parts/PromptPart';
  * ]
  */
 export const PROMPTPART_SPECIFIC_AGENT_CREATEDESIGNDOCUMENT_PLAN_STRATEGY: PromptPart = 
-  'Plan issue creation from context understanding: structure template from project patterns, organize requirements from comprehension results, prioritize acceptance criteria from validation insights, determine milestone alignment from roadmap context, select labels from classification patterns, establish assignment from team topology' as PromptPart;
+  'Plan the design-document written asset from Need, satisfaction criteria, source evidence, constraints, risks, dependencies, and proof obligations before Finish' as PromptPart;

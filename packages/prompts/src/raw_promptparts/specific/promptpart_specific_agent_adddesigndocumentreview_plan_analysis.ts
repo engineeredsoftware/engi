@@ -3,8 +3,8 @@ import { PromptPart } from '../../parts/PromptPart';
 /**
  * @doc-comment-developing-promptpartdevelopment
  * domain: agent
- * intent: "Define plan analysis for Add Design Document Review agent with execution state awareness"
- * current_version: "V26.50.0"
+ * intent: "Bitcode AssetPack implementation PromptPart for design-review written-asset synthesis: plan analysis"
+ * current_version: "0.50.0"
  * versions: []
  * benchmarks: [
  *   { "name": "plan_context_utilization", "test": "Does plan analysis maximize context value?", "score": 0.40 },
@@ -13,4 +13,4 @@ import { PromptPart } from '../../parts/PromptPart';
  * ]
  */
 export const PROMPTPART_SPECIFIC_AGENT_ADDDESIGNDOCUMENTREVIEW_PLAN_ANALYSIS: PromptPart = 
-  'Analyze discussion context for comment planning: conversation threads and decision points, unresolved questions and concerns, technical gaps in current discussion, stakeholder positions and preferences, design evolution through comments, consensus building opportunities' as PromptPart;
+  'Analyze the design-document written asset, Need criteria, repository context, open questions, feasibility concerns, stakeholder constraints, and evidence required for a review written asset' as PromptPart;

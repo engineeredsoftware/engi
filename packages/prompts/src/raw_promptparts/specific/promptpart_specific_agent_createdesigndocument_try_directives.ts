@@ -3,8 +3,8 @@ import { PromptPart } from '../../parts/PromptPart';
 /**
  * @doc-comment-developing-promptpartdevelopment
  * domain: agent
- * intent: "Define try execution for Create Design Document agent with execution state awareness"
- * current_version: "V26.50.0"
+ * intent: "Bitcode AssetPack implementation PromptPart for design-document written-asset synthesis: try directives"
+ * current_version: "0.50.0"
  * versions: []
  * benchmarks: [
  *   { "name": "try_context_utilization", "test": "Does try execution maximize context value?", "score": 0.39 },
@@ -13,4 +13,4 @@ import { PromptPart } from '../../parts/PromptPart';
  * ]
  */
 export const PROMPTPART_SPECIFIC_AGENT_CREATEDESIGNDOCUMENT_TRY_DIRECTIVES: PromptPart = 
-  'Execute issue creation with context synthesis: compose description from requirement comprehension, structure user stories from use case analysis, define acceptance criteria from validation patterns, document technical approach from feasibility study, identify risks from assessment results, establish timeline from complexity metrics, format using project conventions from context' as PromptPart;
+  'Produce the design-document written asset with overview, background, proposed solution, implementation notes, validation plan, rollout and risk evidence, and metadata for later Finish delivery' as PromptPart;

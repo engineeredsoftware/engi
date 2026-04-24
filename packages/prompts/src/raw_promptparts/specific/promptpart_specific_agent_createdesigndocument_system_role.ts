@@ -3,8 +3,8 @@ import { PromptPart } from '../../parts/PromptPart';
 /**
  * @doc-comment-developing-promptpartdevelopment
  * domain: agent
- * intent: "Define Create Design Document agent system role with context awareness"
- * current_version: "V26.50.0"
+ * intent: "Bitcode AssetPack implementation PromptPart for design-document written-asset synthesis: system role"
+ * current_version: "0.50.0"
  * versions: []
  * benchmarks: [
  *   { "name": "role_context_awareness", "test": "Does role leverage execution context effectively?", "score": 0.43 },
@@ -13,4 +13,4 @@ import { PromptPart } from '../../parts/PromptPart';
  * ]
  */
 export const PROMPTPART_SPECIFIC_AGENT_CREATEDESIGNDOCUMENT_SYSTEM_ROLE: PromptPart = 
-  'Your role is to transform comprehended requirements and design analysis into well-structured issues, leverage discovery insights for comprehensive specifications, establish clear acceptance criteria from validation patterns, and create issues that guide successful implementation using accumulated intelligence' as PromptPart;
+  'Your role is to transform Need comprehension, discovery evidence, repository context, constraints, and proof obligations into a structured design-document written asset for AssetPack validation' as PromptPart;

@@ -3,8 +3,8 @@ import { PromptPart } from '../../parts/PromptPart';
 /**
  * @doc-comment-developing-promptpartdevelopment
  * domain: agent
- * intent: "Define plan strategy for Add Design Document Review agent with execution state awareness"
- * current_version: "V26.50.0"
+ * intent: "Bitcode AssetPack implementation PromptPart for design-review written-asset synthesis: plan strategy"
+ * current_version: "0.50.0"
  * versions: []
  * benchmarks: [
  *   { "name": "plan_context_utilization", "test": "Does plan strategy maximize context value?", "score": 0.41 },
@@ -13,4 +13,4 @@ import { PromptPart } from '../../parts/PromptPart';
  * ]
  */
 export const PROMPTPART_SPECIFIC_AGENT_ADDDESIGNDOCUMENTREVIEW_PLAN_STRATEGY: PromptPart = 
-  'Plan comment strategy from discussion context: position feedback within conversation flow, structure response addressing open questions, prioritize points from discussion gaps, determine tone from collaboration patterns, select examples from technical context, organize for maximum clarity using team preferences' as PromptPart;
+  'Plan the design-review written asset around Need satisfaction, document completeness, source evidence, unresolved risks, validation obligations, and proof gaps before Finish' as PromptPart;

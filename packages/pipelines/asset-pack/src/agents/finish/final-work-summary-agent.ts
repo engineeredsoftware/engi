@@ -3,6 +3,7 @@ import type { PromptPart } from '@bitcode/prompts/parts/PromptPart';
 import { z } from 'zod';
 import {
   resolveExpressedNeedFromExecution,
+  resolveDeliveryMechanismTemplateFromExecution,
   resolveWrittenAssetTypeFromExecution,
 } from '../../semantic-resolution';
 
@@ -149,27 +150,27 @@ const FinalWorkSummaryAgent = factoryAgentWithSingleStep<any, FinalWorkSummaryOu
     }
     const summary = lines.join('\n');
 
-    // Map deliverable type to summary groups
     let pullRequest: any = null;
     let pullRequestReviews: any[] | null = null;
     let comments: any[] | null = null;
     let issues: any[] | null = null;
     const dtype = resolveWrittenAssetTypeFromExecution(execution);
+    const deliveryMechanismTemplate = resolveDeliveryMechanismTemplateFromExecution(execution);
     try {
-      if (dtype === 'code-change') {
+      if (deliveryMechanismTemplate === 'pull-request') {
         const prUrl = (execution as any).get?.('finish', 'pullRequestUrl') || '';
         const prTitle = (execution as any).get?.('finish', 'pullRequestTitle') || (need || 'Pull Request');
         const prNumber = (execution as any).get?.('finish', 'pullRequestNumber');
         pullRequest = prUrl ? { url: prUrl, title: prTitle, number: prNumber } : null;
-      } else if (dtype === 'code-change-review') {
+      } else if (deliveryMechanismTemplate === 'review-comment') {
         const reviewUrl = (execution as any).get?.('finish', 'reviewUrl') || '';
         const reviewTitle = (execution as any).get?.('finish', 'reviewTitle') || 'PR Review';
         pullRequestReviews = reviewUrl ? [{ url: reviewUrl, title: reviewTitle }] : null;
-      } else if (dtype === 'design-document') {
+      } else if (deliveryMechanismTemplate === 'issue') {
         const issueUrl = (execution as any).get?.('finish', 'issueUrl') || '';
         const issueTitle = (execution as any).get?.('finish', 'issueTitle') || 'Design Document';
         issues = issueUrl ? [{ url: issueUrl, title: issueTitle }] : null;
-      } else if (dtype === 'design-document-review') {
+      } else if (deliveryMechanismTemplate === 'issue-comment') {
         const commentUrl = (execution as any).get?.('finish', 'commentUrl') || '';
         const commentTitle = (execution as any).get?.('finish', 'commentTitle') || 'Design Review Comment';
         comments = commentUrl ? [{ url: commentUrl, title: commentTitle }] : null;

@@ -121,6 +121,10 @@ export async function initializeAssetPackPipeline(execution: PipelineExecution) 
     execution.agents.registerAgent('setup:asset-pack-comprehend-need-definition-agent', comprehendAgent);
   } catch {}
   try {
+    const dangerWallAgent = (await import('./agents/setup/asset-pack-danger-wall-agent')).default as any;
+    execution.agents.registerAgent('setup:asset-pack-danger-wall-agent', dangerWallAgent);
+  } catch {}
+  try {
     const initializeMcpsToolsAgent = (await import('./agents/setup/asset-pack-initialize-mcps-tools-agent')).default as any;
     execution.agents.registerAgent('setup:asset-pack-initialize-mcps-tools-agent', initializeMcpsToolsAgent);
   } catch {}

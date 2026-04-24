@@ -8,6 +8,7 @@
 import { bitcodeNeedRiskAdmissionAgent } from '@bitcode/generic-agents-danger-wall';
 import { ShortCircuitSignal } from '@bitcode/execution-generics';
 import { z } from 'zod';
+import { resolveWrittenAssetTypeFromExecution } from '../../semantic-resolution';
 
 /**
  * Extended output schema with short-circuit signal.
@@ -46,7 +47,10 @@ export default async function dangerWallWithShortCircuit(input: any, execution: 
       'Setup-phase AssetPack synthesis candidate',
     writtenAssetType:
       riskAdmissionInput?.writtenAssetType ??
-      execution?.get?.('setup', 'writtenAssetType') ??
+      resolveWrittenAssetTypeFromExecution(execution),
+    writtenAssetRequest:
+      riskAdmissionInput?.writtenAssetRequest ??
+      execution?.get?.('setup', 'writtenAssetRequest') ??
       execution?.get?.('setup', 'deliverableType'),
     deliveryMechanism:
       riskAdmissionInput?.deliveryMechanism ??

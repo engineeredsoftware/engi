@@ -28,7 +28,7 @@ import {
   createAssetPackFinishFinalizeDeliveryEvidenceAgentPrompt,
   AssetPackFinishFinalizeDeliveryEvidenceAgentPromptSteps
 } from './prompts/finalize-delivery-evidence-prompt';
-import { normalizeWrittenAssetType } from '../semantic-resolution';
+import { normalizeDeliveryMechanismTemplate } from '../semantic-resolution';
 
 // ==================== CREATE PULL REQUEST AGENT ====================
 
@@ -189,14 +189,14 @@ const CreateIssueOutputSchema = z.object({
 /**
  * AssetPackFinishCreateIssueDeliveryAgent
  * 
- * Creates an issue delivery mechanism for design-document AssetPacks.
+ * Creates an issue delivery mechanism for validated AssetPack evidence.
  */
 export const AssetPackFinishCreateIssueDeliveryAgent = factoryAgentWithPTRR<
   z.infer<typeof CreateIssueInputSchema>,
   z.infer<typeof CreateIssueOutputSchema>
 >({
   name: 'finish:asset-pack-create-issue-delivery-agent',
-  description: 'Creates an issue delivery mechanism with AssetPack design-document evidence',
+  description: 'Creates an issue delivery mechanism with validated AssetPack evidence',
   
   prompt: createAssetPackFinishCreateIssueDeliveryAgentPrompt(),
   stepPrompts: AssetPackFinishCreateIssueDeliveryAgentPromptSteps,
@@ -265,7 +265,7 @@ export const AssetPackFinishAddIssueCommentDeliveryAgent = factoryAgentWithPTRR<
 // ==================== GENERIC FINALIZE AGENT (RUNS LAST) ====================
 
 const FinalizeAssetPackDeliveryEvidenceInputSchema = z.object({
-  deliveryResults: z.any(), // From type-specific Finish Delivering agent
+  deliveryResults: z.any(), // From the selected Finish Delivering mechanism agent
   validationResults: z.any(),
   discoveryMetrics: z.any(),
   need: z.string().optional(),
@@ -301,7 +301,7 @@ const FinalizeAssetPackDeliveryEvidenceOutputSchema = z.object({
 /**
  * AssetPackFinishFinalizeDeliveryEvidenceAgent
  * 
- * Generic final agent that runs for all written-asset types.
+ * Generic final agent that runs after any delivery-mechanism template.
  * This is the last delivery-evidence agent in the Finish phase.
  */
 export const AssetPackFinishFinalizeDeliveryEvidenceAgent = factoryAgentWithPTRR<
@@ -309,7 +309,7 @@ export const AssetPackFinishFinalizeDeliveryEvidenceAgent = factoryAgentWithPTRR
   z.infer<typeof FinalizeAssetPackDeliveryEvidenceOutputSchema>
 >({
   name: 'finish:asset-pack-finalize-delivery-evidence-agent',
-  description: 'Finalizes Finish delivery evidence for any written-asset type',
+  description: 'Finalizes Finish delivery evidence for any delivery-mechanism template',
   
   prompt: createAssetPackFinishFinalizeDeliveryEvidenceAgentPrompt(),
   stepPrompts: AssetPackFinishFinalizeDeliveryEvidenceAgentPromptSteps,
@@ -325,40 +325,40 @@ export const AssetPackFinishFinalizeDeliveryEvidenceAgent = factoryAgentWithPTRR
 // ==================== DYNAMIC AGENT REGISTRATION ====================
 
 /**
- * Registers Finish/Delivering agents based on written-asset type.
+ * Registers Finish/Delivering agents based on delivery-mechanism template.
  * Called after validation phase completes.
  * 
  * Sequence:
- * 1. Type-specific Delivering (CreatePR, SubmitReview, CreateIssue, AddComment)
+ * 1. Template-specific Delivering (CreatePR, SubmitReview, CreateIssue, AddComment)
  * 2. Generic finalize (FinalizeAssetPackDeliveryEvidence) - ALWAYS LAST
  */
 export function registerFinishDeliveryAgentsForType(
-  writtenAssetType: string,
+  deliveryMechanismTemplate: string,
   agentRegistry: any // AgentAgentsRegistry from PipelineExecution
 ): void {
-  switch (normalizeWrittenAssetType(writtenAssetType)) {
-    case 'code-change':
+  switch (normalizeDeliveryMechanismTemplate(deliveryMechanismTemplate)) {
+    case 'pull-request':
       agentRegistry.registerAgent(
         'finish:asset-pack-create-pull-request-delivery-agent',
         AssetPackFinishCreatePullRequestDeliveryAgent
       );
       break;
       
-    case 'code-change-review':
+    case 'review-comment':
       agentRegistry.registerAgent(
         'finish:asset-pack-submit-review-delivery-agent',
         AssetPackFinishSubmitReviewDeliveryAgent
       );
       break;
       
-    case 'design-document':
+    case 'issue':
       agentRegistry.registerAgent(
         'finish:asset-pack-create-issue-delivery-agent',
         AssetPackFinishCreateIssueDeliveryAgent
       );
       break;
       
-    case 'design-document-review':
+    case 'issue-comment':
       agentRegistry.registerAgent(
         'finish:asset-pack-add-issue-comment-delivery-agent',
         AssetPackFinishAddIssueCommentDeliveryAgent
@@ -366,7 +366,7 @@ export function registerFinishDeliveryAgentsForType(
       break;
       
     default:
-      throw new Error(`Unknown written-asset type for Finish/Delivering: ${writtenAssetType}`);
+      throw new Error(`Unknown delivery-mechanism template for Finish/Delivering: ${deliveryMechanismTemplate}`);
   }
   
   // ALWAYS register the generic finalize agent LAST.
@@ -379,25 +379,25 @@ export function registerFinishDeliveryAgentsForType(
 /**
  * Creates the Finish/Delivering sequence.
  * 
- * @param writtenAssetType The written-asset kind being delivered
+ * @param deliveryMechanismTemplate The delivery mechanism template requested for Finish
  * @returns Array defining the execution order
  */
 export function createFinishDeliveryExecutorSequence(
-  writtenAssetType: string
+  deliveryMechanismTemplate: string
 ): any[] {
   const typeSpecificAgent = {
-    'code-change': 'finish:asset-pack-create-pull-request-delivery-agent',
-    'code-change-review': 'finish:asset-pack-submit-review-delivery-agent',
-    'design-document': 'finish:asset-pack-create-issue-delivery-agent',
-    'design-document-review': 'finish:asset-pack-add-issue-comment-delivery-agent'
-  }[normalizeWrittenAssetType(writtenAssetType)];
+    'pull-request': 'finish:asset-pack-create-pull-request-delivery-agent',
+    'review-comment': 'finish:asset-pack-submit-review-delivery-agent',
+    'issue': 'finish:asset-pack-create-issue-delivery-agent',
+    'issue-comment': 'finish:asset-pack-add-issue-comment-delivery-agent'
+  }[normalizeDeliveryMechanismTemplate(deliveryMechanismTemplate)];
   
   if (!typeSpecificAgent) {
-    throw new Error(`Unknown written-asset type for Finish/Delivering: ${writtenAssetType}`);
+    throw new Error(`Unknown delivery-mechanism template for Finish/Delivering: ${deliveryMechanismTemplate}`);
   }
   
   return [
-    { agent: typeSpecificAgent }, // Type-specific Delivering
+    { agent: typeSpecificAgent }, // Delivery-mechanism Delivering
     { agent: 'finish:asset-pack-finalize-delivery-evidence-agent' } // Generic finalize - ALWAYS LAST
   ];
 }

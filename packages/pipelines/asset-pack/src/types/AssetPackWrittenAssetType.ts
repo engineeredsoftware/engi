@@ -1,13 +1,20 @@
 /**
- * Canonical written-asset kinds emitted by Bitcode AssetPack synthesis.
+ * Canonical written-asset kind emitted by Bitcode AssetPack synthesis.
+ *
+ * V26 no longer models AssetPack implementation as the retained four-way
+ * delivery-template taxonomy. Specific pull-request, issue, or comment
+ * wrappers are delivery mechanisms in Finish, not implementation phase types.
  */
 export enum AssetPackWrittenAssetType {
-  CodeChange = 'code-change',
-  CodeChangeReview = 'code-change-review',
-  DesignDocument = 'design-document',
-  DesignDocumentReview = 'design-document-review'
+  NeedSatisfactionAssetPack = 'need-satisfaction-asset-pack'
 }
 
 export type AssetPackWrittenAssetTypeSingleOrMany =
   | AssetPackWrittenAssetType
   | AssetPackWrittenAssetType[];
+
+export type AssetPackDeliveryMechanismTemplate =
+  | 'pull-request'
+  | 'review-comment'
+  | 'issue'
+  | 'issue-comment';

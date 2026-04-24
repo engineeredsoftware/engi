@@ -3,8 +3,8 @@ import { PromptPart } from '../../parts/PromptPart';
 /**
  * @doc-comment-developing-promptpartdevelopment
  * domain: agent
- * intent: "Define refine assessment for Add Design Document Review agent with execution state awareness"
- * current_version: "V26.50.0"
+ * intent: "Bitcode AssetPack implementation PromptPart for design-review written-asset synthesis: refine assessment"
+ * current_version: "0.50.0"
  * versions: []
  * benchmarks: [
  *   { "name": "refine_context_utilization", "test": "Does refine assessment maximize context value?", "score": 0.37 },
@@ -13,4 +13,4 @@ import { PromptPart } from '../../parts/PromptPart';
  * ]
  */
 export const PROMPTPART_SPECIFIC_AGENT_ADDDESIGNDOCUMENTREVIEW_REFINE_ASSESSMENT: PromptPart = 
-  'Assess comment quality within discussion context: relevance to conversation progression, value addition beyond existing comments, technical accuracy from analysis data, tone appropriateness for team culture, actionability for design advancement, consensus building effectiveness' as PromptPart;
+  'Assess design-review written asset quality against Need criteria, design-document coverage, technical accuracy, risk evidence, actionability, and proof obligations' as PromptPart;

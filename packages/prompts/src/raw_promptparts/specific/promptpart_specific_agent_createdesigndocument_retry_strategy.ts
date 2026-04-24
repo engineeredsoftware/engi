@@ -3,8 +3,8 @@ import { PromptPart } from '../../parts/PromptPart';
 /**
  * @doc-comment-developing-promptpartdevelopment
  * domain: agent
- * intent: "Define retry strategy for Create Design Document agent with execution state awareness"
- * current_version: "V26.50.0"
+ * intent: "Bitcode AssetPack implementation PromptPart for design-document written-asset synthesis: retry strategy"
+ * current_version: "0.50.0"
  * versions: []
  * benchmarks: [
  *   { "name": "retry_context_utilization", "test": "Does retry strategy maximize context value?", "score": 0.36 },
@@ -13,4 +13,4 @@ import { PromptPart } from '../../parts/PromptPart';
  * ]
  */
 export const PROMPTPART_SPECIFIC_AGENT_CREATEDESIGNDOCUMENT_RETRY_STRATEGY: PromptPart = 
-  'Implement recovery using context preservation: reconstruct from comprehension artifacts, leverage partial specifications, reference template patterns, apply team feedback history, utilize cached analysis data, maintain requirement traceability through context' as PromptPart;
+  'Recover by rebuilding the design-document written asset from Need comprehension, partial sections, discovery evidence, validation gaps, and proof obligations' as PromptPart;

@@ -157,27 +157,15 @@ export function getAssetPackPipelineToolsForAgent(agentName: string): Tool[] {
     //'asset-pack-select-files-agent': [],
 
     // Implementation Phase
-    'asset-pack-divide-code-change-agent': [],
-    'asset-pack-conquer-file-agent': [],
-    'asset-pack-correct-code-change-agent': [],
-    'asset-pack-review-code-change-agent': [],
-    'asset-pack-create-design-document-agent': [],
-    'asset-pack-review-design-document-agent': [],
-    //'review-code-change': [lspSemanticAnalysisEngine],
-    //'create-design-document': [lspSemanticAnalysisEngine],
-    //'review-design-document': [lspSemanticAnalysisEngine],
+    'asset-pack-synthesize-written-assets-agent': [],
+    'implementation:asset-pack-synthesize-written-assets-agent': [],
 
     // Validation Phase
-    'asset-pack-validation-validate-code-changes-agent': optionalTools(lspSemanticAnalysisEngine),
-    'asset-pack-validation-validate-code-changesreview-agent': optionalTools(lspSemanticAnalysisEngine),
-    'asset-pack-validation-validate-design-document-agent': optionalTools(lspSemanticAnalysisEngine),
-    'asset-pack-validation-validate-design-document-review-agent': optionalTools(lspSemanticAnalysisEngine),
+    'asset-pack-validate-last-iterations-validation-phase-agent': optionalTools(lspSemanticAnalysisEngine),
+    'asset-pack-validate-discovery-phase-agent': optionalTools(lspSemanticAnalysisEngine),
+    'asset-pack-validate-written-assets-agent': optionalTools(lspSemanticAnalysisEngine),
     'asset-pack-validation-ready-to-finish-agent': [],
     'asset-pack-ready-to-finish-agent': [],
-    'asset-pack-validation-ready-to-finish-code-change-agent': [],
-    'asset-pack-validation-ready-to-finish-code-review-agent': [],
-    'asset-pack-validation-ready-to-finish-design-document-agent': [],
-    'asset-pack-validation-ready-to-finish-design-review-agent': [],
 
     // Internal Need-measurement computer-use option
     'need-measurement:computer-use-evidence-agent': getComputerUseNeedMeasurementTools(),

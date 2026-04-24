@@ -21,7 +21,7 @@ const CreateIssueOutputSchema = z.object({ status: z.literal('created').default(
 
 const systemPrompt = (() => { 
   const p = new Prompt(); 
-  p.set('agent:identity', createPromptPart('You deliver AssetPack design-document evidence by creating an issue.'));
+  p.set('agent:identity', createPromptPart('You deliver AssetPack evidence by creating an issue in the connected repository system.'));
   p.set('generation:json_only_header', PROMPTPART_GENERIC_AGENT_GENERATION_JSON_ONLY_HEADER as any);
   p.set('generation:use_this_structure', PROMPTPART_GENERIC_AGENT_GENERATION_USE_THIS_STRUCTURED_SCHEMA as any);
   p.set('failsafe:prepare_context', PROMPTPART_GENERIC_AGENT_FAILSAFE_PREPARE_CONTEXT as any);
@@ -34,7 +34,7 @@ export const AssetPackFinishCreateIssueDeliveryAgent = factoryAgentWithPTRR<
   z.infer<typeof CreateIssueOutputSchema>
 >({
   name: 'finish:asset-pack-create-issue-delivery-agent',
-  description: 'Deliver AssetPack design-document evidence by creating an issue',
+  description: 'Deliver AssetPack evidence through an issue delivery mechanism',
   outputSchema: CreateIssueOutputSchema,
   tools: ['vcs_create_issue'],
   prompt: systemPrompt,
@@ -45,7 +45,7 @@ export default async function assetPackFinishCreateIssueDeliveryAgent(input: any
   const owner = execution.get('source','owner') || '';
   const repo = execution.get('source','name') || '';
   const provider = execution.get('source','provider') || 'github';
-  const title = input?.title || 'Design Document';
+  const title = input?.title || 'AssetPack written asset';
   const body = input?.body;
   const connectionId = execution.get('source','connectionId');
   const args = CreateIssueInputSchema.parse({ provider, connectionId, owner, repo, title, body });
@@ -59,8 +59,9 @@ export default async function assetPackFinishCreateIssueDeliveryAgent(input: any
     }
   } catch {}
   return {
-    writtenAssetType: 'design-document',
-    deliverableType: 'design-document',
+    writtenAssetType: 'need-satisfaction-asset-pack',
+    deliverableType: 'need-satisfaction-asset-pack',
+    deliveryMechanismTemplate: 'issue',
     ...result,
   };
 }

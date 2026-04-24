@@ -3,8 +3,8 @@ import { PromptPart } from '../../parts/PromptPart';
 /**
  * @doc-comment-developing-promptpartdevelopment
  * domain: agent
- * intent: "Define plan analysis for Create Design Document agent with execution state awareness"
- * current_version: "V26.50.0"
+ * intent: "Bitcode AssetPack implementation PromptPart for design-document written-asset synthesis: plan analysis"
+ * current_version: "0.50.0"
  * versions: []
  * benchmarks: [
  *   { "name": "plan_context_utilization", "test": "Does plan analysis maximize context value?", "score": 0.40 },
@@ -13,4 +13,4 @@ import { PromptPart } from '../../parts/PromptPart';
  * ]
  */
 export const PROMPTPART_SPECIFIC_AGENT_CREATEDESIGNDOCUMENT_PLAN_ANALYSIS: PromptPart = 
-  'Analyze context to inform issue creation: requirement patterns from comprehension phase, feasibility constraints from technical analysis, risk factors from complexity assessment, dependency chains from architectural review, success patterns from historical issues, team preferences from collaboration data' as PromptPart;
+  'Analyze Need comprehension, discovery findings, architecture evidence, feasibility constraints, stakeholder context, and proof gaps needed by the design-document written asset' as PromptPart;

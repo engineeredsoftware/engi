@@ -46,7 +46,7 @@ export default async function assetPackFinishAddCommentDeliveryAgent(input: any,
   const repo = execution.get('source','name') || '';
   const provider = execution.get('source','provider') || 'github';
   const number = input?.number || 1;
-  const body = input?.body || 'Design review comment.';
+  const body = input?.body || 'AssetPack delivery comment.';
   const type = input?.type || 'issue';
   const connectionId = execution.get('source','connectionId');
   const args = AddCommentInputSchema.parse({ provider, connectionId, owner, repo, type, number, body });
@@ -60,8 +60,9 @@ export default async function assetPackFinishAddCommentDeliveryAgent(input: any,
     }
   } catch {}
   return {
-    writtenAssetType: 'design-document-review',
-    deliverableType: 'design-document-review',
+    writtenAssetType: 'need-satisfaction-asset-pack',
+    deliverableType: 'need-satisfaction-asset-pack',
+    deliveryMechanismTemplate: type === 'pr' ? 'review-comment' : 'issue-comment',
     ...result,
   };
 }

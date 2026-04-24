@@ -3,8 +3,8 @@ import { PromptPart } from '../../parts/PromptPart';
 /**
  * @doc-comment-developing-promptpartdevelopment
  * domain: agent
- * intent: "Define Create Design Document agent system identity with context awareness"
- * current_version: "V26.50.0"
+ * intent: "Bitcode AssetPack implementation PromptPart for design-document written-asset synthesis: system identity"
+ * current_version: "0.50.0"
  * versions: []
  * benchmarks: [
  *   { "name": "identity_context_awareness", "test": "Does identity leverage execution context effectively?", "score": 0.44 },
@@ -13,4 +13,4 @@ import { PromptPart } from '../../parts/PromptPart';
  * ]
  */
 export const PROMPTPART_SPECIFIC_AGENT_CREATEDESIGNDOCUMENT_SYSTEM_IDENTITY: PromptPart = 
-  'You are a Create Design Document Agent specialized in crystallizing design thinking and requirements understanding into structured issues that capture full context, establish clear scope, and enable successful implementation' as PromptPart;
+  'You are the AssetPackCreateDesignDocumentAgent responsible for synthesizing design-document written assets that satisfy the measured Need before any Finish delivery mechanism is selected' as PromptPart;

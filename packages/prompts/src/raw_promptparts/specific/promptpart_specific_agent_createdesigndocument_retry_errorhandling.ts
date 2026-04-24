@@ -3,8 +3,8 @@ import { PromptPart } from '../../parts/PromptPart';
 /**
  * @doc-comment-developing-promptpartdevelopment
  * domain: agent
- * intent: "Define retry errorhandling for Create Design Document agent with execution state awareness"
- * current_version: "V26.50.0"
+ * intent: "Bitcode AssetPack implementation PromptPart for design-document written-asset synthesis: retry error handling"
+ * current_version: "0.50.0"
  * versions: []
  * benchmarks: [
  *   { "name": "retry_context_utilization", "test": "Does retry errorhandling maximize context value?", "score": 0.35 },
@@ -13,4 +13,4 @@ import { PromptPart } from '../../parts/PromptPart';
  * ]
  */
 export const PROMPTPART_SPECIFIC_AGENT_CREATEDESIGNDOCUMENT_RETRY_ERRORHANDLING: PromptPart = 
-  'Handle creation failures maintaining context: recover specifications from comprehension cache, resolve ambiguities using analysis history, reconstruct criteria from validation patterns, preserve requirement links, maintain context continuity, leverage accumulated design intelligence' as PromptPart;
+  'Handle synthesis failures by preserving Need traceability, reconstructing missing sections, surfacing blockers, and avoiding connected-interface side effects' as PromptPart;

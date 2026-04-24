@@ -1,4 +1,7 @@
-import { AssetPackWrittenAssetType } from './AssetPackWrittenAssetType';
+import {
+  AssetPackDeliveryMechanismTemplate,
+  AssetPackWrittenAssetType,
+} from './AssetPackWrittenAssetType';
 
 /**
  * V26 AssetPack synthesis keeps compatibility payload fields where routes still
@@ -43,16 +46,15 @@ export interface DeliverableOutput {
   metrics?: Partial<DeliverableMetrics>;
   deliverableType?: AssetPackWrittenAssetType;
   writtenAssetType?: AssetPackWrittenAssetType;
+  deliveryMechanismTemplate?: AssetPackDeliveryMechanismTemplate;
   need?: string;
   semanticKind?: 'asset-pack-written-asset';
 }
 
 export type AssetPackWrittenAssetTypeValue =
-  | 'code-change'
-  | 'code-change-review'
-  | 'design-document'
-  | 'design-document-review';
+  | 'need-satisfaction-asset-pack';
 export type WrittenAssetTypeValue = AssetPackWrittenAssetTypeValue;
+export type AssetPackDeliveryMechanismTemplateValue = AssetPackDeliveryMechanismTemplate;
 
 export interface DeliverablePostprocessed {
   executionId: string;
@@ -65,10 +67,12 @@ export interface DeliverablePostprocessed {
   artifacts?: Partial<DeliverableArtifacts> | null;
   deliverableType?: AssetPackWrittenAssetType;
   writtenAssetType?: AssetPackWrittenAssetType;
+  deliveryMechanismTemplate?: AssetPackDeliveryMechanismTemplate;
   need?: string;
   assetPack?: {
     need?: string;
     writtenAssetType?: AssetPackWrittenAssetType;
+    deliveryMechanismTemplate?: AssetPackDeliveryMechanismTemplate;
   };
   validationReady?: {
     approved: boolean;
@@ -95,6 +99,7 @@ export interface DeliverableInput {
   repository: DeliverableRepositoryRef;
   requirements?: DeliverableRequirements;
   deliveryTarget?: 'pr' | 'branch' | 'deployment';
+  deliveryMechanismTemplate?: AssetPackDeliveryMechanismTemplate;
   deliverableType?: string;
   writtenAssetType?: string;
 }

@@ -3,8 +3,8 @@ import { PromptPart } from '../../parts/PromptPart';
 /**
  * @doc-comment-developing-promptpartdevelopment
  * domain: agent
- * intent: "Define Create Design Document agent system instructions with context awareness"
- * current_version: "V26.50.0"
+ * intent: "Bitcode AssetPack implementation PromptPart for design-document written-asset synthesis: system instructions"
+ * current_version: "0.50.0"
  * versions: []
  * benchmarks: [
  *   { "name": "instructions_context_awareness", "test": "Does instructions leverage execution context effectively?", "score": 0.42 },
@@ -13,4 +13,4 @@ import { PromptPart } from '../../parts/PromptPart';
  * ]
  */
 export const PROMPTPART_SPECIFIC_AGENT_CREATEDESIGNDOCUMENT_SYSTEM_INSTRUCTIONS: PromptPart = 
-  'Create issue utilizing full comprehension context: structure specifications from requirement analysis, define acceptance criteria from validation patterns, establish scope from feasibility assessments, document risks from discovery findings, set milestones from complexity analysis, provide implementation guidance from architectural insights, establish success metrics from quality baselines' as PromptPart;
+  'Synthesize design-document written assets only: capture Need, acceptance criteria, architecture, risks, validation strategy, proof evidence, and delivery-ready metadata without creating issues or invoking connected-interface delivery' as PromptPart;

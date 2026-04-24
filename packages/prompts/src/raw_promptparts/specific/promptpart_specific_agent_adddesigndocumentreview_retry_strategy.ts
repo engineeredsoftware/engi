@@ -3,8 +3,8 @@ import { PromptPart } from '../../parts/PromptPart';
 /**
  * @doc-comment-developing-promptpartdevelopment
  * domain: agent
- * intent: "Define retry strategy for Add Design Document Review agent with execution state awareness"
- * current_version: "V26.50.0"
+ * intent: "Bitcode AssetPack implementation PromptPart for design-review written-asset synthesis: retry strategy"
+ * current_version: "0.50.0"
  * versions: []
  * benchmarks: [
  *   { "name": "retry_context_utilization", "test": "Does retry strategy maximize context value?", "score": 0.36 },
@@ -13,4 +13,4 @@ import { PromptPart } from '../../parts/PromptPart';
  * ]
  */
 export const PROMPTPART_SPECIFIC_AGENT_ADDDESIGNDOCUMENTREVIEW_RETRY_STRATEGY: PromptPart = 
-  'Implement recovery preserving discussion context: reconstruct from conversation history, leverage previous comment attempts, reference accumulated feedback patterns, apply team communication preferences, utilize cached analysis results, maintain discussion thread continuity' as PromptPart;
+  'Recover by rebuilding review findings from the design-document written asset, Need criteria, validation gaps, repository evidence, and partial review sections' as PromptPart;

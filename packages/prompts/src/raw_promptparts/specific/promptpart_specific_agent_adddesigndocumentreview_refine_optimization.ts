@@ -3,8 +3,8 @@ import { PromptPart } from '../../parts/PromptPart';
 /**
  * @doc-comment-developing-promptpartdevelopment
  * domain: agent
- * intent: "Define refine optimization for Add Design Document Review agent with execution state awareness"
- * current_version: "V26.50.0"
+ * intent: "Bitcode AssetPack implementation PromptPart for design-review written-asset synthesis: refine optimization"
+ * current_version: "0.50.0"
  * versions: []
  * benchmarks: [
  *   { "name": "refine_context_utilization", "test": "Does refine optimization maximize context value?", "score": 0.38 },
@@ -13,4 +13,4 @@ import { PromptPart } from '../../parts/PromptPart';
  * ]
  */
 export const PROMPTPART_SPECIFIC_AGENT_ADDDESIGNDOCUMENTREVIEW_REFINE_OPTIMIZATION: PromptPart = 
-  'Refine comment using discussion intelligence: enhance relevance to conversation flow, strengthen arguments with technical evidence, improve suggestions with implementation context, optimize structure for readability, adjust tone for team dynamics, enrich content with discovered insights' as PromptPart;
+  'Improve review written-asset specificity, evidence traceability, risk prioritization, actionable recommendations, and delivery-mechanism readiness without selecting a destination' as PromptPart;
