@@ -1,8 +1,8 @@
 {
   "reportId": "v26-source-to-shares-fifth-gate-proof",
   "version": "V26",
-  "proofSourceCommit": "cd01645142cca44bc8ddd1b34731247da6ab03d0",
-  "generatedAt": "2026-04-23T23:45:21-03:00",
+  "proofSourceCommit": "09c894f495e75622bc22ae86413cbfc2c73c2694",
+  "generatedAt": "2026-04-24T00:22:37-03:00",
   "generatorId": "bitcode.proven-generator.v1",
   "worktreeState": "dirty-preview",
   "gate": "gate-5",
@@ -109,6 +109,66 @@
         "uapi/tests/applicationTransactionDetailSnapshot.test.ts"
       ],
       "missingFiles": []
+    },
+    {
+      "checkId": "terminal-source-to-shares-settlement-contract",
+      "label": "Bitcode Terminal read proof checks the native closure and selected-detail assertions for Need review, present-fit settlement review, quantized fit-quality rows, and persisted source-to-shares detail carry-through",
+      "passed": true,
+      "detail": "10 source evidence requirements satisfied",
+      "requiredEvidence": [
+        {
+          "file": "uapi/app/application/ApplicationClosureNativeSections.tsx",
+          "evidence": "Read closure as one sequence from reviewable Need admission through verification, asset-pack branch materialization, source-to-shares settlement, and ledger continuity.",
+          "description": "native Terminal closure card teaches the complete review-to-settlement sequence"
+        },
+        {
+          "file": "uapi/app/application/application-closure-state.ts",
+          "evidence": "{ label: 'Fit search admitted', value: needReview.fitSearchAdmitted === true ? 'yes' : 'no' }",
+          "description": "closure-state normalization exposes fit-search admission as Terminal read state"
+        },
+        {
+          "file": "uapi/app/application/application-closure-state.ts",
+          "evidence": "{ label: 'Objective contract', value: stringValue(settlement.quantizedObjectiveContractId) }",
+          "description": "closure-state normalization preserves the quantized objective contract row"
+        },
+        {
+          "file": "uapi/app/application/application-closure-state.ts",
+          "evidence": "{ label: 'Source-to-shares ref', value: stringValue(settlement.sourceToSharesRef) }",
+          "description": "closure-state normalization preserves the source-to-shares reference row"
+        },
+        {
+          "file": "uapi/app/application/application-closure-state.ts",
+          "evidence": "{ label: 'Fit-quality hash', value: stringValue(settlement.fitQualityHash) }",
+          "description": "closure-state normalization preserves the fit-quality hash row"
+        },
+        {
+          "file": "uapi/tests/applicationClosureState.test.ts",
+          "evidence": "expect(closure?.settlement.rows.find((entry) => entry.label === 'Objective contract')?.value).toBe(",
+          "description": "native closure-state test asserts objective-contract visibility"
+        },
+        {
+          "file": "uapi/tests/applicationClosureState.test.ts",
+          "evidence": "expect(closure?.settlement.fitQualities?.[0]?.detail).toContain('source-to-shares-weighted-objective')",
+          "description": "native closure-state test asserts source-to-shares fit-quality detail"
+        },
+        {
+          "file": "uapi/app/application/application-transaction-detail-snapshot.ts",
+          "evidence": "fitQualities: coerceFitQualities(value.fitQualities)",
+          "description": "selected-detail snapshot preserves persisted fit-quality rows"
+        },
+        {
+          "file": "uapi/tests/applicationTransactionDetailSnapshot.test.ts",
+          "evidence": "{ label: 'Present-fit review', value: 'present-fit-for-settlement-review' }",
+          "description": "selected-detail snapshot test asserts present-fit settlement review persistence"
+        },
+        {
+          "file": "uapi/tests/applicationTransactionDetailSnapshot.test.ts",
+          "evidence": "detail: '10000 bp · source-to-shares-weighted-objective'",
+          "description": "selected-detail snapshot test asserts source-to-shares fit-quality persistence"
+        }
+      ],
+      "missingFiles": [],
+      "missingEvidence": []
     },
     {
       "checkId": "asset-pack-finish-delivering-semantics",

@@ -198,6 +198,17 @@ describe('application-transaction-detail-snapshot helpers', () => {
               },
               closurePanels: {
                 canonLabel: 'Bitcode active posture',
+                needReview: {
+                  id: 'need-review',
+                  label: 'Need review before fit search',
+                  summary: 'Measured Need accepted for source-to-shares fit search.',
+                  metrics: [{ label: 'Fit search admitted', value: 'yes' }],
+                  rows: [
+                    { label: 'Review stage', value: 'post-measurement-pre-fit' },
+                    { label: 'Protocol focus', value: 'source-to-shares' },
+                  ],
+                  chips: ['post-measurement-pre-fit', 'source-to-shares'],
+                },
                 verification: {
                   id: 'verification',
                   label: 'Verification + ranked candidates',
@@ -219,7 +230,16 @@ describe('application-transaction-detail-snapshot helpers', () => {
                   label: 'Settlement + proof',
                   summary: 'Settlement summary.',
                   metrics: [{ label: 'Credited assets', value: '2' }],
-                  rows: [{ label: 'Bundle', value: 'bundle-001' }],
+                  rows: [
+                    { label: 'Bundle', value: 'bundle-001' },
+                    { label: 'Present-fit review', value: 'present-fit-for-settlement-review' },
+                    {
+                      label: 'Objective contract',
+                      value: 'bitcode.source-to-shares.quantized-fit-quality-oc.v26',
+                    },
+                    { label: 'Source-to-shares ref', value: 'sha256:source-to-shares' },
+                    { label: 'Fit-quality hash', value: 'sha256:fit-quality' },
+                  ],
                   chips: ['selection-materialization'],
                   proofFamilies: [
                     {
@@ -227,6 +247,13 @@ describe('application-transaction-detail-snapshot helpers', () => {
                       artifactPath: '.bitcode/selection-and-materialization-proof.json',
                       theoremStatus: 'passed',
                       replayArtifacts: '3',
+                    },
+                  ],
+                  fitQualities: [
+                    {
+                      label: 'Weighted source-to-shares bundle fit',
+                      value: '0.328991',
+                      detail: '10000 bp · source-to-shares-weighted-objective',
                     },
                   ],
                 },
@@ -302,6 +329,12 @@ describe('application-transaction-detail-snapshot helpers', () => {
       needReview: {
         id: 'need-review',
         label: 'Need review before fit search',
+        summary: 'Measured Need accepted for source-to-shares fit search.',
+        metrics: [{ label: 'Fit search admitted', value: 'yes' }],
+        rows: [
+          { label: 'Review stage', value: 'post-measurement-pre-fit' },
+          { label: 'Protocol focus', value: 'source-to-shares' },
+        ],
       },
       verification: {
         id: 'verification',
@@ -309,10 +342,24 @@ describe('application-transaction-detail-snapshot helpers', () => {
       },
       settlement: {
         id: 'settlement',
+        rows: [
+          { label: 'Bundle', value: 'bundle-001' },
+          { label: 'Present-fit review', value: 'present-fit-for-settlement-review' },
+          { label: 'Objective contract', value: 'bitcode.source-to-shares.quantized-fit-quality-oc.v26' },
+          { label: 'Source-to-shares ref', value: 'sha256:source-to-shares' },
+          { label: 'Fit-quality hash', value: 'sha256:fit-quality' },
+        ],
         proofFamilies: [
           {
             label: 'selection-materialization',
             theoremStatus: 'passed',
+          },
+        ],
+        fitQualities: [
+          {
+            label: 'Weighted source-to-shares bundle fit',
+            value: '0.328991',
+            detail: '10000 bp · source-to-shares-weighted-objective',
           },
         ],
       },

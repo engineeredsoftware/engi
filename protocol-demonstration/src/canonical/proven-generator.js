@@ -2043,6 +2043,62 @@ function buildV26SourceToSharesFifthGateProof({
         'uapi/tests/applicationTransactionDetailSnapshot.test.ts'
       ]
     ),
+    buildV26FileContentCheck(
+      'terminal-source-to-shares-settlement-contract',
+      'Bitcode Terminal read proof checks the native closure and selected-detail assertions for Need review, present-fit settlement review, quantized fit-quality rows, and persisted source-to-shares detail carry-through',
+      [
+        {
+          file: 'uapi/app/application/ApplicationClosureNativeSections.tsx',
+          evidence: 'Read closure as one sequence from reviewable Need admission through verification, asset-pack branch materialization, source-to-shares settlement, and ledger continuity.',
+          description: 'native Terminal closure card teaches the complete review-to-settlement sequence'
+        },
+        {
+          file: 'uapi/app/application/application-closure-state.ts',
+          evidence: "{ label: 'Fit search admitted', value: needReview.fitSearchAdmitted === true ? 'yes' : 'no' }",
+          description: 'closure-state normalization exposes fit-search admission as Terminal read state'
+        },
+        {
+          file: 'uapi/app/application/application-closure-state.ts',
+          evidence: "{ label: 'Objective contract', value: stringValue(settlement.quantizedObjectiveContractId) }",
+          description: 'closure-state normalization preserves the quantized objective contract row'
+        },
+        {
+          file: 'uapi/app/application/application-closure-state.ts',
+          evidence: "{ label: 'Source-to-shares ref', value: stringValue(settlement.sourceToSharesRef) }",
+          description: 'closure-state normalization preserves the source-to-shares reference row'
+        },
+        {
+          file: 'uapi/app/application/application-closure-state.ts',
+          evidence: "{ label: 'Fit-quality hash', value: stringValue(settlement.fitQualityHash) }",
+          description: 'closure-state normalization preserves the fit-quality hash row'
+        },
+        {
+          file: 'uapi/tests/applicationClosureState.test.ts',
+          evidence: "expect(closure?.settlement.rows.find((entry) => entry.label === 'Objective contract')?.value).toBe(",
+          description: 'native closure-state test asserts objective-contract visibility'
+        },
+        {
+          file: 'uapi/tests/applicationClosureState.test.ts',
+          evidence: "expect(closure?.settlement.fitQualities?.[0]?.detail).toContain('source-to-shares-weighted-objective')",
+          description: 'native closure-state test asserts source-to-shares fit-quality detail'
+        },
+        {
+          file: 'uapi/app/application/application-transaction-detail-snapshot.ts',
+          evidence: 'fitQualities: coerceFitQualities(value.fitQualities)',
+          description: 'selected-detail snapshot preserves persisted fit-quality rows'
+        },
+        {
+          file: 'uapi/tests/applicationTransactionDetailSnapshot.test.ts',
+          evidence: "{ label: 'Present-fit review', value: 'present-fit-for-settlement-review' }",
+          description: 'selected-detail snapshot test asserts present-fit settlement review persistence'
+        },
+        {
+          file: 'uapi/tests/applicationTransactionDetailSnapshot.test.ts',
+          evidence: "detail: '10000 bp · source-to-shares-weighted-objective'",
+          description: 'selected-detail snapshot test asserts source-to-shares fit-quality persistence'
+        }
+      ]
+    ),
     buildV26FilePresenceCheck(
       'asset-pack-finish-delivering-semantics',
       'Retained pipeline output semantics distinguish stable AssetPacks and written assets from delivery mechanisms, with Finish as the broad final phase',
