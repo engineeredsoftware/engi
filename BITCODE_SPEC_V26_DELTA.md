@@ -10,12 +10,12 @@
 - Canonical proof-source commit: `9d0733fed5f63d2f977900384d4103f9fd887f03`
 - Prior canonical anchor: `/Users/garrettmaring/Developer/ENGI/_legacy/ENGI_SPEC_V25.md`
 - Prior generated proof appendix: `/Users/garrettmaring/Developer/ENGI/_legacy/ENGI_SPEC_V25_PROVEN.md`
-- Generated structured artifact inventory: active canonical `.bitcode/v19-*` reproducible reports, `.bitcode/v20-*` operator-quality reports, `.bitcode/v26-spec-family-report.json`, `.bitcode/v26-canonical-input-report.json`, `.bitcode/v26-gate-checkpoint-report.json`, `.bitcode/conversations-continuity-proof.json`, `.bitcode/runs-pipelines-totality-proof.json`, `.bitcode/persistence-schema-totality-proof.json`, `.bitcode/prompt-system-totality-proof.json`, `.bitcode/inference-implementation-records-proof.json`, `.bitcode/source-to-shares-fifth-gate-proof.json`, `.bitcode/retained-package-admissibility-proof.json`, and `BITCODE_SPEC_V26_PROVEN.md`
+- Generated structured artifact inventory: active canonical `.bitcode/v19-*` reproducible reports, `.bitcode/v20-*` operator-quality reports, `.bitcode/v26-spec-family-report.json`, `.bitcode/v26-canonical-input-report.json`, `.bitcode/v26-gate-checkpoint-report.json`, `.bitcode/conversations-continuity-proof.json`, `.bitcode/runs-pipelines-totality-proof.json`, `.bitcode/persistence-schema-totality-proof.json`, `.bitcode/prompt-system-totality-proof.json`, `.bitcode/inference-implementation-records-proof.json`, `.bitcode/fourth-gate-reclosure-review-proof.json`, `.bitcode/source-to-shares-fifth-gate-proof.json`, `.bitcode/fifth-gate-closure-deepening-proof.json`, `.bitcode/retained-package-admissibility-proof.json`, and `BITCODE_SPEC_V26_PROVEN.md`
 - Spec companion: `/Users/garrettmaring/Developer/ENGI/BITCODE_SPEC_V26.md`
 - Parity companion: `/Users/garrettmaring/Developer/ENGI/BITCODE_SPEC_V26_PARITY_MATRIX.md`
 - Notes companion: `/Users/garrettmaring/Developer/ENGI/BITCODE_SPEC_V26_NOTES.md`
-- Source parity state: retained-system convergence now has material proof evidence across application routes, auxillary compatibility redirects, persistence witnesses, prompt-system ports, and documentation/spec synchronization, but fourth-gate procedural acceptance remains reopened; fifth through eighth gate remain open
-- V26 state: earlier through-fourth-gate promotion claims were overstated and effectively false; V26 is the active Bitcode canon while fourth-gate procedural acceptance and fifth-, sixth-, seventh-, and eighth-gate closure remain open
+- Source parity state: retained-system convergence now has material proof evidence across application routes, auxillary compatibility redirects, persistence witnesses, prompt-system ports, documentation/spec synchronization, and the fourth-gate reclosure review; fifth-gate closure evidence has deepened but fifth through eighth gate remain open
+- V26 state: earlier through-fourth-gate promotion claims were overstated and effectively false; V26 is the active Bitcode canon with fourth gate promoted closed after re-review while fifth-, sixth-, seventh-, and eighth-gate closure remain open
 
 ## Why V26 exists
 
@@ -108,8 +108,10 @@ Its rule is:
 
 ### Fifth-gate
 
-Fifth-gate is the post-promotion proof precision, schema-refinement, and full-provation gate.
+Fifth-gate is the minimum-functional Bitcode Exchange/Terminal, source-to-shares, reform-baseline, proof-precision, schema-refinement, and closure-deepening gate after fourth-gate promoted closure.
 Its rule is:
+- enable make-shares and use-shares through Bitcode-owned interfaces and state,
+- preserve reviewable Needs before fit search and settlement AssetPack fit-quality receipts,
 - close V26 only under explicit proof-family precision,
 - prove the retained and repurposed whole repository that survives into V26 production canon rather than only the old demo-equivalent core,
 - prove migrations, schema contracts, ORM/query carriers, generated types, storage/API contracts, and retained package boundaries rather than leaving persistence informal,
@@ -422,7 +424,7 @@ Second-gate acceptance is reached only when:
 
 Persistence note:
 - Supabase-hosted PostgreSQL ownership, `/edgetimes`, `/api/edgetimes`, migrations, ORM/query carriers, generated database types, and storage/API proof closure remain explicit fourth-gate work even while second-gate application UX/UI is being tightened.
-- `/edgetimes` and `/api/edgetimes` now exist as live fourth-gate storage/API material witnesses while procedural promotion remains reopened, so later convergence can build from active route/API ownership instead of only draft prose.
+- `/edgetimes` and `/api/edgetimes` now exist as live fourth-gate storage/API material witnesses, and the fourth-gate reclosure review now accepts that material evidence after mapping it through generated proof-family criteria.
 
 ## Precise fourth-gate specification targets
 
@@ -456,7 +458,8 @@ Fifth-gate is now specified as:
 - debug/environment controls required for proving mode coherence,
 - full production/staging/development mode completeness,
 - retained-package admissibility proof,
-- and post-promotion proof-bearing cleanup of any still-kept system.
+- post-fourth-gate-promotion proof-bearing cleanup of any still-kept system,
+- and closure-deepening evidence through `.bitcode/fifth-gate-closure-deepening-proof.json` without treating that deepened evidence as fifth-gate acceptance.
 
 Fifth-gate acceptance is reached only when:
 - the repository can make shares and use shares through Bitcode-owned interfaces and state,

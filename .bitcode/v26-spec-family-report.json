@@ -1,8 +1,8 @@
 {
   "reportId": "v26-spec-family-report",
   "version": "V26",
-  "proofSourceCommit": "19b6cc757174fa693a3f899482e101b5d00ed831",
-  "generatedAt": "2026-04-23T21:09:41-03:00",
+  "proofSourceCommit": "a21d8eeec7741ad4c3f2ab7cd24aa346e3dc40e1",
+  "generatedAt": "2026-04-23T21:23:35-03:00",
   "generatorId": "bitcode.proven-generator.v1",
   "worktreeState": "dirty-preview",
   "checkedVersion": "V26",
@@ -27,6 +27,6 @@
   "requiredAppendixSectionCount": 14,
   "requiredProofFamilyCount": 9,
   "requiredGeneratedArtifactCatalogSectionCount": 9,
-  "requiredGeneratedArtifactPathCount": 16,
+  "requiredGeneratedArtifactPathCount": 18,
   "requiredSubsystemCoverageCount": 18
 }

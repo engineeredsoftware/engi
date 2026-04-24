@@ -1,16 +1,16 @@
 {
   "reportId": "v26-gate-checkpoint-report",
   "version": "V26",
-  "proofSourceCommit": "19b6cc757174fa693a3f899482e101b5d00ed831",
-  "generatedAt": "2026-04-23T21:09:41-03:00",
+  "proofSourceCommit": "a21d8eeec7741ad4c3f2ab7cd24aa346e3dc40e1",
+  "generatedAt": "2026-04-23T21:23:35-03:00",
   "generatorId": "bitcode.proven-generator.v1",
   "worktreeState": "dirty-preview",
   "activeCanonicalTarget": "V26",
   "draftPreview": false,
-  "checkpointId": "v26-fourth-gate-procedurally-reopened-and-fifth-gate-active-on-eight-gate-v26",
-  "checkpointFocus": "fourth-gate-procedurally-reopened-and-fifth-gate-active-on-eight-gate-v26",
-  "nextGate": "Gate 5: minimum-functional Bitcode Exchange, Bitcode Terminal, and broad old-world reform baseline while fourth-gate procedural acceptance remains reopened",
-  "passed": false,
+  "checkpointId": "v26-fourth-gate-promoted-closed-and-fifth-gate-closure-deepened-on-eight-gate-v26",
+  "checkpointFocus": "fourth-gate-promoted-closed-and-fifth-gate-closure-deepened-on-eight-gate-v26",
+  "nextGate": "Gate 5: minimum-functional Bitcode Exchange, Bitcode Terminal, and broad old-world reform baseline after fourth-gate promoted closure",
+  "passed": true,
   "firstGate": {
     "gateId": "gate-1",
     "label": "Ownership migration baseline",
@@ -206,11 +206,14 @@
   "fourthGate": {
     "gateId": "gate-4",
     "label": "Merged-world application and retained-system convergence",
-    "passed": false,
-    "reopened": true,
+    "passed": true,
+    "reopened": false,
+    "promotedClosed": true,
+    "promotionStatus": "promoted-closed",
     "materialProofsPassed": true,
-    "proceduralClosurePassed": false,
-    "acceptanceBlockedByReopenedPromotion": true,
+    "reclosureReviewPassed": true,
+    "proceduralClosurePassed": true,
+    "acceptanceBlockedByReopenedPromotion": false,
     "checks": [
       {
         "checkId": "fourth-gate-conversations-continuity",
@@ -249,10 +252,22 @@
         "detail": "Prompt, tool, agentic, execution, pipeline, conversation, asset-pack, need-comprehension, and MCP inference systems have source-visible implementation records"
       },
       {
+        "checkId": "fourth-gate-reclosure-review",
+        "label": "Fourth-gate reopened acceptance criteria re-review",
+        "passed": true,
+        "detail": "Reopened fourth-gate acceptance criteria are mapped to generated proof families with no blocking fourth-gate deviance detected"
+      },
+      {
         "checkId": "fourth-gate-promotion-honesty",
         "label": "Fourth-gate promotion honesty and procedural closure",
-        "passed": false,
-        "detail": "Prior through-fourth-gate promotion claims were overstated; material retained-system proof families now pass, but fourth-gate procedural acceptance remains reopened while fifth-gate minimum-functional source-to-shares work continues."
+        "passed": true,
+        "detail": "Prior through-fourth-gate promotion claims were re-reviewed as overstated; fourth-gate is promotable only after generated proof-family criteria pass, while fifth-gate source-to-shares work remains open."
+      },
+      {
+        "checkId": "fourth-gate-promoted-closed",
+        "label": "Fourth-gate promoted closed checkpoint",
+        "passed": true,
+        "detail": "Fourth gate is promoted closed at the gate level after reopening re-review; this does not claim fifth-gate or full V26 closure."
       }
     ]
   },
@@ -261,7 +276,30 @@
     "label": "Minimum-functional Bitcode Exchange, Bitcode Terminal, and total old-world reform baseline",
     "passed": false,
     "open": true,
-    "detail": "Fifth-gate drafting and implementation remain active while fourth-gate procedural acceptance is reopened. Fifth-gate owns minimum-functional Bitcode Exchange and Terminal closure plus the broad old-world reform baseline required to make the kept repository read as Bitcode-native around source-to-shares."
+    "closureDeepened": true,
+    "sourceToSharesProofPassed": true,
+    "closureDeepeningProofPassed": true,
+    "checks": [
+      {
+        "checkId": "fifth-gate-source-to-shares-baseline",
+        "label": "Fifth-gate source-to-shares baseline proof",
+        "passed": true,
+        "detail": "Need review, fit-search admission, settlement fit qualities, and AssetPack receipt carry-through have protocol/commercial proof coverage."
+      },
+      {
+        "checkId": "fifth-gate-closure-deepening-proof",
+        "label": "Fifth-gate closure deepening proof",
+        "passed": true,
+        "detail": "Fifth-gate closure evidence has deepened after fourth-gate promotion closure across Terminal, Exchange, persistence, reform, proof, and environment axes."
+      },
+      {
+        "checkId": "fifth-gate-honest-open-status",
+        "label": "Fifth-gate honest open status",
+        "passed": true,
+        "detail": "Fifth gate remains open despite source-to-shares and closure-deepening proof progress; minimum-functional fifth-gate closure is not claimed."
+      }
+    ],
+    "detail": "Fifth-gate drafting and implementation remain active after fourth-gate promoted closure. Fifth-gate owns minimum-functional Bitcode Exchange and Terminal closure plus the broad old-world reform baseline required to make the kept repository read as Bitcode-native around source-to-shares."
   },
   "sixthGate": {
     "gateId": "gate-6",

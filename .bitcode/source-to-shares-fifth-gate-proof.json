@@ -1,8 +1,8 @@
 {
   "reportId": "v26-source-to-shares-fifth-gate-proof",
   "version": "V26",
-  "proofSourceCommit": "19b6cc757174fa693a3f899482e101b5d00ed831",
-  "generatedAt": "2026-04-23T21:09:41-03:00",
+  "proofSourceCommit": "a21d8eeec7741ad4c3f2ab7cd24aa346e3dc40e1",
+  "generatedAt": "2026-04-23T21:23:35-03:00",
   "generatorId": "bitcode.proven-generator.v1",
   "worktreeState": "dirty-preview",
   "gate": "gate-5",
@@ -13,7 +13,7 @@
   "makeSharesContract": "Measured Needs are reviewable after measurement and before fit search; accept admits fit search, reject and remeasure-with-feedback block it.",
   "useSharesContract": "Present-fit-for-settlement-review surfaces quantized source-to-shares fit qualities and carries them into settlement AssetPack receipts.",
   "productionParityContract": "protocol-demonstration remains the low-level SPEC-IMPL and uapi routes remain the commercial SPEC-IMPL; both must preserve the same source-to-shares review and settlement contract.",
-  "openReason": "This proof advances the fifth-gate source-to-shares baseline without claiming fourth-gate procedural closure or full fifth-gate closure.",
+  "openReason": "This proof advances the fifth-gate source-to-shares baseline without itself claiming fourth-gate procedural closure or full fifth-gate closure.",
   "checks": [
     {
       "checkId": "source-to-shares-protocol-review-artifacts",

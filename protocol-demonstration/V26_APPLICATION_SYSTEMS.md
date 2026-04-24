@@ -12,7 +12,7 @@
 This file is not canonical system truth.
 Canonical V26 truth lives only in the active `BITCODE_SPEC_V26*` family.
 This document exists to keep the repository’s modular architecture legible while the V26 productionizing pass lands.
-V26 remains the active canon. Earlier through-fourth-gate promotion claims were overstated and effectively false, so fourth gate remains procedurally reopened even though retained-system proof families now provide material evidence. Fifth-gate minimum-functional Exchange/Terminal closure plus the broad old-world reform baseline stay active, followed by sixth-gate MVP elevation, seventh-gate commercial testnet refinement, and eighth-gate whole-repository provation.
+V26 remains the active canon. Earlier through-fourth-gate promotion claims were overstated and effectively false, so fourth gate was procedurally reopened and is now promoted closed only through generated re-review/checkpoint proof over the retained-system proof families. Fifth-gate minimum-functional Exchange/Terminal closure plus the broad old-world reform baseline stay active and now have explicit closure-deepening proof without fifth-gate acceptance, followed by sixth-gate MVP elevation, seventh-gate commercial testnet refinement, and eighth-gate whole-repository provation.
 
 ## Retained old-world reform baseline
 

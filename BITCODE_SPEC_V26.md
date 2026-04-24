@@ -10,24 +10,26 @@
 - Canonical proof-source commit: `9d0733fed5f63d2f977900384d4103f9fd887f03`
 - Prior canonical anchor: `/Users/garrettmaring/Developer/ENGI/_legacy/ENGI_SPEC_V25.md`
 - Prior generated proof appendix: `/Users/garrettmaring/Developer/ENGI/_legacy/ENGI_SPEC_V25_PROVEN.md`
-- Generated structured artifact inventory: active canonical `.bitcode/v19-*` reproducible reports, `.bitcode/v20-*` operator-quality reports, `.bitcode/v26-spec-family-report.json`, `.bitcode/v26-canonical-input-report.json`, `.bitcode/v26-gate-checkpoint-report.json`, `.bitcode/conversations-continuity-proof.json`, `.bitcode/runs-pipelines-totality-proof.json`, `.bitcode/persistence-schema-totality-proof.json`, `.bitcode/prompt-system-totality-proof.json`, `.bitcode/inference-implementation-records-proof.json`, `.bitcode/source-to-shares-fifth-gate-proof.json`, `.bitcode/retained-package-admissibility-proof.json`, and `BITCODE_SPEC_V26_PROVEN.md`
+- Generated structured artifact inventory: active canonical `.bitcode/v19-*` reproducible reports, `.bitcode/v20-*` operator-quality reports, `.bitcode/v26-spec-family-report.json`, `.bitcode/v26-canonical-input-report.json`, `.bitcode/v26-gate-checkpoint-report.json`, `.bitcode/conversations-continuity-proof.json`, `.bitcode/runs-pipelines-totality-proof.json`, `.bitcode/persistence-schema-totality-proof.json`, `.bitcode/prompt-system-totality-proof.json`, `.bitcode/inference-implementation-records-proof.json`, `.bitcode/fourth-gate-reclosure-review-proof.json`, `.bitcode/source-to-shares-fifth-gate-proof.json`, `.bitcode/fifth-gate-closure-deepening-proof.json`, `.bitcode/retained-package-admissibility-proof.json`, and `BITCODE_SPEC_V26_PROVEN.md`
 - Canonical companion delta: `/Users/garrettmaring/Developer/ENGI/BITCODE_SPEC_V26_DELTA.md`
 - Canonical companion parity ledger: `/Users/garrettmaring/Developer/ENGI/BITCODE_SPEC_V26_PARITY_MATRIX.md`
 - Canonical companion notes file: `/Users/garrettmaring/Developer/ENGI/BITCODE_SPEC_V26_NOTES.md`
 - Canonical companion reform strategy supplement: `/Users/garrettmaring/Developer/ENGI/protocol-demonstration/V26_REFORM_STRATEGY.md`
 - Canonical companion LSP measurement reform supplement: `/Users/garrettmaring/Developer/ENGI/protocol-demonstration/V26_LSP_MEASUREMENT_REFORM.md`
 - Draft posture source: `/Users/garrettmaring/Developer/ENGI/protocol-demonstration/src/canon-posture.js` keeps `ACTIVE_CANON_VERSION = 'V26'` and `DRAFT_TARGET_VERSION = 'V27'`
-- Source parity state: first-, second-, and third-gate source work is materially present, fourth-gate retained-system proof families currently pass as material evidence, but fourth-gate procedural acceptance remains reopened; fifth-through-eighth-gate work remains active
-- V26 state: V26 remains the singular active Bitcode canon and current productization target, with earlier through-fourth-gate promotion claims treated as overstated and effectively false while fifth-, sixth-, seventh-, and eighth-gate closure remain open
+- Source parity state: first-, second-, third-, and fourth-gate source work is materially present, fourth-gate retained-system convergence is promoted closed after explicit reopening review, and fifth-gate closure evidence has deepened without claiming fifth-gate closure; fifth-through-eighth-gate work remains active
+- V26 state: V26 remains the singular active Bitcode canon and current productization target, with earlier through-fourth-gate promotion claims treated as overstated and effectively false, fourth gate promoted closed only through generated re-review/checkpoint proof, and fifth-, sixth-, seventh-, and eighth-gate closure still open
 
 ## Acceptance and remaining-open state
 
 V26 is not a rename-first version and it is not a light cleanup pass.
 V26 is the productionizing hardening version that reorganizes Bitcode from a transitional demo/site split into a package-owned, application-native, live-operation-ready system.
 
-With V26 active as the singular canon while fourth-gate procedural acceptance remains reopened:
+With V26 active as the singular canon after fourth-gate promoted closure:
 - V26 is active canonical truth,
-- fourth-gate retained-system convergence has passing material proof-family evidence across conversations, runs/pipelines, persistence/schema, prompt-system, inference-record, and retained-package proof surfaces, but that evidence is not a procedural closure claim,
+- fourth-gate retained-system convergence has passing material proof-family evidence across conversations, runs/pipelines, persistence/schema, prompt-system, inference-record, retained-package, and reclosure-review proof surfaces,
+- earlier through-fourth-gate promotion claims remain recorded as overstated and effectively false, but the reopened fourth gate is now promoted closed only by `.bitcode/fourth-gate-reclosure-review-proof.json` and `.bitcode/v26-gate-checkpoint-report.json`,
+- fifth-gate source-to-shares and closure-deepening evidence now exists through `.bitcode/source-to-shares-fifth-gate-proof.json` and `.bitcode/fifth-gate-closure-deepening-proof.json` without closing fifth gate,
 - fifth-gate minimum-functional Bitcode Exchange and Bitcode Terminal closure plus broad old-world reform baseline remain novel, intentionally open work and must not be hand-waved as complete,
 - sixth-gate minimal viable product elevation remains intentionally open,
 - seventh-gate initial commercially-viable testnet live-launch refinement remains intentionally open,
@@ -50,7 +52,7 @@ V26 therefore centers eight coordinated gates:
 1. first-gate ownership migration,
 2. second-gate application UX/UI plus external interfacing hardening,
 3. third-gate marketing refurbishment,
-4. fourth-gate retained-system convergence and truthful reopened-promotion discipline,
+4. fourth-gate retained-system convergence and truthful reclosure-after-reopening discipline,
 5. fifth-gate minimum-functional Bitcode Exchange and Bitcode Terminal closure together with the maximally finished old-world reform baseline,
 6. sixth-gate minimal viable product elevation across Exchange, Terminal, Protocol, Proofs, and admitted interfaces,
 7. seventh-gate initial commercially-viable testnet live-launch refinement,
@@ -338,7 +340,7 @@ Third-gate acceptance is reached only when:
 
 Fourth-gate is the retained-system convergence gate.
 It ports the retained non-Bitcode-first-gate application systems into the V26 Bitcode total system instead of leaving them as adjacent Bitcode-era reservoirs.
-It is procedurally reopened. Previous claims that this boundary had already been crossed were overstated and effectively false, so V26 must treat the passing retained-system proof families as material evidence only, not as a promotion-closure claim.
+It was procedurally reopened because previous claims that this boundary had already been crossed were overstated and effectively false. V26 now promotes fourth gate closed only through the generated reclosure review and checkpoint that map all fourth-gate material criteria to proof-family evidence and detect no blocking fourth-gate deviance.
 It includes:
 - conversations and the chat-based / ChatGPT-like application interface,
 - executions, runs, pipelines, and the new Bitcode meaning of deliverables,
@@ -352,8 +354,8 @@ It includes:
 ### Fifth-gate
 
 Fifth-gate is not a substitute for a fourth-gate proof claim.
-It is the next major minimum-functional Bitcode Exchange and Bitcode Terminal gate, and it proceeds while fourth-gate procedural acceptance remains reopened.
-V26 may continue fifth-gate drafting and implementation during the reopened fourth-gate interval, but it may not claim fifth-gate closure until the minimum-functional and old-world reform baseline is satisfied and the source/proof split is resolved.
+It is the next major minimum-functional Bitcode Exchange and Bitcode Terminal gate, and it proceeds after fourth-gate promoted closure while remaining open in its own right.
+V26 may continue fifth-gate drafting and implementation after fourth-gate promoted closure, but it may not claim fifth-gate closure until the minimum-functional and old-world reform baseline is satisfied and the source/proof split is resolved.
 It includes:
 - proof closure for the retained and repurposed whole repository that survives into V26 production canon rather than only the old demo-equivalent core,
 - proof closure for migrations, schema contracts, ORM/query carriers, generated types, storage/API contracts, and retained package boundaries,
@@ -683,7 +685,7 @@ Fourth-gate requires:
 17. current executions and deliverables surfaces are treated as inward-ported master-detail/workspace reuse carriers rather than the lasting Bitcode topology,
 18. and retained packages must be admitted intentionally rather than kept implicitly because they already exist.
 
-### Fourth-gate material evidence matrix
+### Fourth-gate material evidence and reclosure matrix
 
 Fourth-gate material evidence is sufficient only when:
 1. conversations, chat, and execution/runs surfaces still function as first-class application systems,
@@ -702,7 +704,7 @@ Fourth-gate material evidence is sufficient only when:
 14. retained `/executions` and `/orbitals` compatibility routes visibly teach `executions` and `auxillaries` as the merged-world target, with `/orbitals/*` reduced to redirect-only compatibility that no longer renders canonical HTML,
 15. retained transaction, execution-event, and notification surfaces share one typed Bitcode activity vocabulary rather than drifting into separate activity semantics,
 16. fourth-gate proof obligations are assigned to generated proof families rather than left informal,
-17. and generated checkpoint/proven/promotion artifacts keep fourth-gate procedural acceptance reopened even when retained-system convergence proof families pass, because passing material evidence is not the same thing as V26 promotion closure.
+17. and generated checkpoint/proven/promotion artifacts close fourth-gate procedural acceptance only after `.bitcode/fourth-gate-reclosure-review-proof.json` maps all criteria to generated proof-family evidence and records no blocking fourth-gate deviance, because passing material evidence alone is not the same thing as procedural closure.
 
 ## V26 fifth-through-eighth-gate closure contract
 
@@ -710,7 +712,7 @@ Fifth-gate is the minimum-functional Bitcode Exchange and Bitcode Terminal gate 
 Sixth-gate is the minimal viable product elevation gate for Exchange, Terminal, Protocol, Proofs, and admitted interfaces.
 Seventh-gate is the initial commercially-viable testnet live-launch refinement gate.
 Eighth-gate is the final whole-repository provation and closure gate for V26.
-V26 remains the active canon while fourth-gate procedural acceptance is reopened and fifth through eighth remain open, and no part of V26 is considered fully proven until those later-gate closure duties are explicit for the systems V26 keeps.
+V26 remains the active canon after fourth-gate promoted closure while fifth through eighth remain open, and no part of V26 is considered fully proven until those later-gate closure duties are explicit for the systems V26 keeps.
 
 ### Fifth-gate minimum-functional north star
 
@@ -924,7 +926,9 @@ Later-gate polish, commercialization, and `mainnet` posture are not allowed to b
 | persistence and schema totality | `.bitcode/persistence-schema-totality-proof.json` | prove that PostgreSQL/Supabase persistence, `/edgetimes`, migrations, schema contracts, ORM/query carriers, and generated types form one coherent Bitcode storage system | `supabase/*`, `supabase/migrations/001_v26_production.sql`, `packages/supabase/src/*`, `packages/orm/src/models/*`, `packages/orm/src/queries/*`, `packages/orm/src/types/database.generated.ts`, `packages/orm/src/types/database.ts`, `packages/orm/scripts/generate-db-types.ts`, retained storage-facing API carriers, and generated database types |
 | prompt system totality | `.bitcode/prompt-system-totality-proof.json` | prove that retained `PromptPart`/`Prompt`/`PromptExecution` carriers and old-world prompt ports remain explicit Bitcode-owned prompt infrastructure, that active inference packages consume those carriers through the public `@bitcode/prompts` boundary, and that the active/support/reference prompt consumer map remains explicit before later prompt-space completeness closure | `packages/prompts/src/*`, `packages/execution-generics/src/prompts/*`, `packages/agent-generics/src/prompts/*`, `packages/conversations-generics/src/prompts/*`, `protocol-demonstration/V26_PROMPT_SURFACES.md`, retained Jira prompt ports, and retained deliverable planning/measurement prompts |
 | inference implementation records | `.bitcode/inference-implementation-records-proof.json` | prove that prompt, tool, agentic, execution, pipeline, conversation, asset-pack, need-comprehension, and MCP/external ingress systems are represented by structurally checked source-visible V26 inference implementation records with canonical need, nested implementation fields, source-backed implementation owners, boundary posture, typed verification evidence, and executable/generated verification footing | `protocol-demonstration/src/canonical/inference-implementation-records.js`, `protocol-demonstration/test/v26-inference-implementation-records.test.js`, and `protocol-demonstration/V26_INFERENCE_SYSTEMS.md` |
-| source-to-shares fifth-gate proof | `.bitcode/source-to-shares-fifth-gate-proof.json` | prove the fifth-gate make-shares/use-shares baseline around reviewable Needs, accepted-fit admission, quantized source-to-shares fit qualities, settlement AssetPack receipts, and dual protocol/commercial SPEC-IMPL parity without claiming fourth-gate or fifth-gate procedural closure | `protocol-demonstration/src/canonical/{need-measurement,settlement,run-artifacts}.js`, `protocol-demonstration/test/v26-need-review-source-to-shares.test.js`, `uapi/app/api/need-review/route.ts`, `uapi/tests/api/needReviewProtocolParity.test.ts`, `uapi/app/application/application-closure-state.ts`, and pipeline Finish/Delivering reform carriers |
+| fourth-gate reclosure review | `.bitcode/fourth-gate-reclosure-review-proof.json` | prove that the procedurally reopened fourth-gate claim has been re-reviewed against every material acceptance criterion, that earlier through-fourth-gate closure claims remain recorded as overstated, and that no blocking fourth-gate deviance remains before fifth-gate work resumes | generated proof-family evidence across application composition, conversations, runs/pipelines, persistence/schema, prompt-system, inference records, retained packages, and the V26 checkpoint |
+| source-to-shares fifth-gate proof | `.bitcode/source-to-shares-fifth-gate-proof.json` | prove the fifth-gate make-shares/use-shares baseline around reviewable Needs, accepted-fit admission, quantized source-to-shares fit qualities, settlement AssetPack receipts, and dual protocol/commercial SPEC-IMPL parity without itself claiming fourth-gate or fifth-gate procedural closure | `protocol-demonstration/src/canonical/{need-measurement,settlement,run-artifacts}.js`, `protocol-demonstration/test/v26-need-review-source-to-shares.test.js`, `uapi/app/api/need-review/route.ts`, `uapi/tests/api/needReviewProtocolParity.test.ts`, `uapi/app/application/application-closure-state.ts`, and pipeline Finish/Delivering reform carriers |
+| fifth-gate closure deepening proof | `.bitcode/fifth-gate-closure-deepening-proof.json` | prove that fifth-gate closure evidence has deepened after fourth-gate promoted closure across Terminal read/write, conversations/execution continuity, repository scope, persistence/schema, old-world reform, and proof/environment axes while still recording fifth-gate closure as open | source-to-shares proof, application composition, conversations, runs/pipelines, persistence/schema, prompt-system, inference-record, prompt-space baseline, retained-package, system-reform, and environment-mode proof families |
 | prompt space completeness | `.bitcode/prompt-space-completeness-proof.json` | generate the later-gate prompt-space witness family now, with a fifth-gate `baselinePassed` witness over prompt primitives, active carriers, doc-code injection, asset-pack/need-comprehension compatibility, raw PromptPart runtime carry-through, app/MCP ingress, and proof/spec tests while keeping final `passed` false until eighth-gate completeness closes | `packages/prompts/src/*`, `packages/{execution-generics,pipelines-generics,agent-generics,conversations-generics,tools-generics,doc-comment,doc-code}/*`, `packages/pipelines/deliverable/*`, `packages/generic-tools/task-comprehension/*`, `packages/executions-mcp/*`, `uapi/prompts/conversations-system-prompt.ts`, `protocol-demonstration/V26_{PROMPT_SURFACES,INFERENCE_SYSTEMS}.md`, and prompt proof tests |
 | retained package admissibility | `.bitcode/retained-package-admissibility-proof.json` | prove that each kept non-Bitcode package has an explicit V26 role, primary role class, write boundary, proof obligation, justification, required source witness set, and old-world port scope where applicable, while active-cut corridors such as field-intelligence remain outside live Bitcode source | retained `packages/*` admitted by V26 |
 | environment mode coherence | `.bitcode/environment-mode-coherence-proof.json` | prove debug/environment controls and production/staging/development mode behavior are coherent and refresh safely | app shell, debug controls, environment toggles, route/API posture |
@@ -1014,7 +1018,7 @@ Current truth order for the active V26 canon is:
 8. current source and tests explicitly referenced by active V26 canon
 9. historical prior specs
 
-V26 is therefore the active canonical runtime truth while fourth-gate procedural acceptance remains reopened, and fifth-, sixth-, seventh-, and eighth-gate closure remain deliberate active work inside V26 before later-version reopening.
+V26 is therefore the active canonical runtime truth after fourth-gate promoted closure, and fifth-, sixth-, seventh-, and eighth-gate closure remain deliberate active work inside V26 before later-version reopening.
 
 ## full-system, re-implementation, and audit rule
 
@@ -1531,7 +1535,22 @@ Current V26 generated artifact inventories must cover:
 - active inherited reproducible and operator-quality reports,
 - `.bitcode/v26-spec-family-report.json`,
 - `.bitcode/v26-canonical-input-report.json`,
-- any future `.bitcode/v26-canon-posture-drift-report.json` if V26 reopens posture-drift generation,
+- `.bitcode/v26-gate-checkpoint-report.json`,
+- `.bitcode/application-composition-proof.json`,
+- `.bitcode/conversations-continuity-proof.json`,
+- `.bitcode/runs-pipelines-totality-proof.json`,
+- `.bitcode/persistence-schema-totality-proof.json`,
+- `.bitcode/prompt-system-totality-proof.json`,
+- `.bitcode/inference-implementation-records-proof.json`,
+- `.bitcode/fourth-gate-reclosure-review-proof.json`,
+- `.bitcode/source-to-shares-fifth-gate-proof.json`,
+- `.bitcode/fifth-gate-closure-deepening-proof.json`,
+- `.bitcode/prompt-space-completeness-proof.json`,
+- `.bitcode/retained-package-admissibility-proof.json`,
+- `.bitcode/environment-mode-coherence-proof.json`,
+- `.bitcode/system-reform-admissibility-proof.json`,
+- `.bitcode/whole-repository-production-satisfaction-proof.json`,
+- `.bitcode/v26-total-closure-proof.json`,
 - and `BITCODE_SPEC_V26_PROVEN.md`.
 
 ### V26 specifying generated artifacts
@@ -1539,6 +1558,10 @@ Current V26 generated artifact inventories must cover:
 V26 specifying artifacts are:
 - `.bitcode/v26-spec-family-report.json`
 - `.bitcode/v26-canonical-input-report.json`
+- `.bitcode/v26-gate-checkpoint-report.json`
+- `.bitcode/fourth-gate-reclosure-review-proof.json`
+- `.bitcode/source-to-shares-fifth-gate-proof.json`
+- `.bitcode/fifth-gate-closure-deepening-proof.json`
 - `BITCODE_SPEC_V26_PROVEN.md`
 
 ### Shared generated-artifact fields
@@ -1844,7 +1867,7 @@ The source-bearing deliverable and artifact contract catalog includes:
 
 ## accepted boundaries and reopen conditions
 
-V26 accepts the following boundaries while fourth-gate procedural acceptance remains reopened:
+V26 accepts the following boundaries after fourth-gate promoted closure:
 - V26 is active canonical truth while fifth-gate proof/finalization and later-gate closure remain open.
 - The useful Bitcode operator UX chain is preserved while the demonstration UI owner is replaced.
 - Package extraction may proceed incrementally so long as parity truth keeps the gap explicit.

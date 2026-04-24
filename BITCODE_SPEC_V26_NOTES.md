@@ -10,7 +10,7 @@
 - Delta companion: `/Users/garrettmaring/Developer/ENGI/BITCODE_SPEC_V26_DELTA.md`
 - Parity companion: `/Users/garrettmaring/Developer/ENGI/BITCODE_SPEC_V26_PARITY_MATRIX.md`
 - Current fourth-gate/fifth-gate checkpoint artifact: `/Users/garrettmaring/Developer/ENGI/.bitcode/v26-gate-checkpoint-report.json`
-- V26 state: V26 remains active canon; prior through-fourth-gate promotion claims were reopened as overstated and effectively false, retained-system proof families now pass as material evidence, and fourth-gate procedural acceptance remains reopened while fifth-, sixth-, seventh-, and eighth-gate closure remain open
+- V26 state: V26 remains active canon; prior through-fourth-gate promotion claims were reopened as overstated and effectively false, retained-system proof families now pass as material evidence, fourth-gate procedural acceptance is promoted closed after generated re-review, and fifth-gate closure evidence has deepened through `.bitcode/fifth-gate-closure-deepening-proof.json` while fifth-, sixth-, seventh-, and eighth-gate closure remain open
 
 ## Notes companion rule
 
@@ -34,7 +34,7 @@ The following items are no longer open draft questions:
 - the preserved late-stage navbar remains the integrated application navigation frame for Bitcode.
 - homepage embedded-demo posture remains removed.
 - mock-mode `/application` review is part of first-gate closure rather than second-gate work.
-- the earlier V26 checkpoint was first-gate plus second-gate closure with explicit third-gate preparation; later through-fourth-gate promotion claims proved overstated and were reopened, and the current checkpoint must keep fourth-gate procedural acceptance reopened even when retained-system proof families pass while fifth through eighth gate remain open.
+- the earlier V26 checkpoint was first-gate plus second-gate closure with explicit third-gate preparation; later through-fourth-gate promotion claims proved overstated and were reopened, and the current checkpoint promotes fourth-gate procedural acceptance closed only through `.bitcode/fourth-gate-reclosure-review-proof.json` plus `.bitcode/v26-gate-checkpoint-report.json` while keeping fifth through eighth gate open.
 - second-gate closure now includes route/package README refurbishment and user-facing preserved-runtime naming rather than treating those as optional cleanup after code lands.
 - fifth-gate closure now explicitly requires zero unreplaced `engi` product naming in active code/copy/route teaching unless the occurrence is historical lineage or a still-required structural namespace such as `.bitcode/` or `_legacy/ENGI_SPEC_*`.
 - the active root spec/toolchain family is now part of that same fifth-gate closure: `BITCODE_SPEC*.md`, `BITCODE_SPEC.txt`, and `scripts/check|generate|prepare|promote-bitcode-*.mjs` are canonical, while root `ENGI_SPEC_V26*` and root `ENGI_SPECIFYING.md` are no longer admissible outside `_legacy/`.
@@ -386,7 +386,7 @@ Still open:
 
 ### 4. Fourth-gate retained-system convergence
 
-Materially proven but procedurally reopened:
+Promoted closed after reopening re-review:
 - conversations read as a Bitcode V26 system through the route, fullscreen overlay, API, and retained conversation package proof family,
 - ChatGPT-like interaction survives as a fullscreen first-class application mode entered from `/application`,
 - deliverables are redefined under Bitcode runs/pipelines, asset-pack, written-asset, and connected-interface wrapper semantics,
@@ -394,7 +394,9 @@ Materially proven but procedurally reopened:
 - PostgreSQL/Supabase ownership is grounded across `supabase/*`, `packages/supabase/*`, retained API carriers, and the live `/edgetimes` + `/api/edgetimes` witness posture,
 - `supabase/migrations/001_v26_production.sql` is the initial V26 persistence baseline for the current proof family,
 - retained packages are admitted through generated retained-package admissibility records,
-- and proof obligations are assigned to generated fourth-gate proof families rather than left as prose-only intent.
+- proof obligations are assigned to generated fourth-gate proof families rather than left as prose-only intent,
+- `.bitcode/fourth-gate-reclosure-review-proof.json` maps every fourth-gate material criterion to proof evidence and records no blocking fourth-gate deviance,
+- and `.bitcode/v26-gate-checkpoint-report.json` records fourth-gate `promotedClosed` while keeping fifth-gate `open`.
 
 ### 5. Longer-term package splitting after `protocol-demonstration`
 
@@ -476,6 +478,7 @@ Current fourth-gate closure reminders:
 Current fifth-gate reminders:
 - fifth-gate is the minimum-functional Bitcode gate, not a generic residue-cleanup gate; the north star is the repository being able to make shares and use shares through Bitcode-owned interfaces and state
 - fifth-gate now also owns the broad old-world reform baseline: anything retained from the old world has to be cut, isolated, or Bitcode-repurposed enough that the live Bitcode path already reads as a new-world product rather than a renamed compatibility shell
+- `.bitcode/fifth-gate-closure-deepening-proof.json` now records post-fourth-gate-promotion closure evidence across Terminal, Exchange, persistence/schema, reform, proof, and environment axes, but it deliberately keeps fifth-gate closure open
 - `make shares` means authenticated source-bearing give/need writes can produce need measurement, branch artifacts, asset packs, proof, and history without falling back to demo-only or compatibility-only posture
 - `make shares` now includes a mandatory post-measurement pre-fit Need review: `.bitcode/need-review.json` must expose a reviewable Need with accept, reject, and remeasure-with-feedback outcomes, `/api/need-review` must present and record those decisions for admitted app/API consumers, and fit search is admitted only after the Need is accepted for source-to-shares settlement review
 - the Bitcode Terminal closure map and native need-scenario controls now also have to show that review boundary directly: reviewable Need admission appears before verification and settlement, operators can accept/reject/remeasure with feedback before fitting, and selected-detail persistence must carry that review panel forward instead of collapsing it into a raw branch artifact
