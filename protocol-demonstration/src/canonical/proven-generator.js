@@ -1,6 +1,6 @@
 // @ts-check
 
-import { existsSync, readFileSync } from 'node:fs';
+import { existsSync, readdirSync, readFileSync } from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
@@ -536,6 +536,155 @@ const V26_RETAINED_PACKAGE_ADMISSIBLE_ROLES = [
   'compatibility',
   'reference-only'
 ];
+const V26_RETAINED_PACKAGE_CENSUS_POLICY_BY_ROLE = {
+  'direct-product': {
+    role: 'product-facing Bitcode package surface',
+    rationale: 'package participates directly in the Exchange, Terminal, MCP, API, or BTD product experience',
+    writeBoundary: 'product writes must pass through Bitcode-owned application/API/MCP admission, activity, and settlement semantics',
+    proofObligation: 'product packages must stay bound to application composition, source-to-shares, runs/pipelines, and interface parity proofs'
+  },
+  'commercial-infrastructure': {
+    role: 'commercial Bitcode infrastructure package',
+    rationale: 'package supplies reusable runtime, schema, prompt, execution, storage, security, observability, or UI infrastructure',
+    writeBoundary: 'infrastructure packages may support state changes only through admitted product/API owners, not as parallel product logic',
+    proofObligation: 'infrastructure packages must remain covered by the relevant totality proof family and package-boundary typecheck/test seams'
+  },
+  'ingress-or-support': {
+    role: 'connected-interface ingress or support package',
+    rationale: 'package connects external providers, third-party tools, search/research, VCS, deployment, storage, or support utilities into Bitcode',
+    writeBoundary: 'external writes are connected-interface delivery mechanisms or input context unless a Bitcode admission proof explicitly promotes them',
+    proofObligation: 'ingress/support packages must stay bounded by retained-package, system-reform, MCP/external-ingress, and prompt/tool proof surfaces'
+  },
+  compatibility: {
+    role: 'compatibility corridor retained during Bitcode reform',
+    rationale: 'package keeps old-world naming or behavior temporarily while its semantics are repurposed to need, asset-pack, or support meaning',
+    writeBoundary: 'compatibility packages must expose Bitcode semantics at active boundaries and avoid becoming new source-of-truth product owners',
+    proofObligation: 'compatibility packages must keep source-visible reform notes, tests, prompt proof, and a later retirement or promotion path'
+  },
+  'reference-only': {
+    role: 'reference-only old-world package corridor',
+    rationale: 'package remains in the repository as bounded reference material, not as live Bitcode product behavior',
+    writeBoundary: 'reference packages do not own Exchange state, Terminal state, settlement writes, or canonical source-to-shares behavior',
+    proofObligation: 'reference packages must stay classified, non-canonical for product writes, and eligible for later removal or explicit promotion'
+  }
+};
+const V26_DIRECT_PRODUCT_PACKAGE_NAMES = new Set([
+  '@bitcode/api',
+  '@bitcode/btd',
+  '@bitcode/chatgptapp',
+  '@bitcode/mcp',
+  '@bitcode/mcp-server'
+]);
+const V26_COMMERCIAL_INFRASTRUCTURE_PACKAGE_NAMES = new Set([
+  '@bitcode/agent-generics',
+  '@bitcode/artifacts',
+  '@bitcode/attachments-generics',
+  '@bitcode/auth',
+  '@bitcode/browser-storage',
+  '@bitcode/context',
+  '@bitcode/conversations-generics',
+  '@bitcode/digest',
+  '@bitcode/doc-code',
+  '@bitcode/doc-comment',
+  '@bitcode/editing',
+  '@bitcode/email',
+  '@bitcode/errors',
+  '@bitcode/execution-generics',
+  '@bitcode/files',
+  '@bitcode/generic-llms',
+  '@bitcode/git',
+  '@bitcode/github',
+  '@bitcode/llm-generics',
+  '@bitcode/logger',
+  '@bitcode/lsp',
+  '@bitcode/middleware',
+  '@bitcode/models',
+  '@bitcode/multimodal-utils',
+  '@bitcode/networking',
+  '@bitcode/notifications',
+  '@bitcode/objects-arrays-objects',
+  '@bitcode/obfuscate',
+  '@bitcode/observability',
+  '@bitcode/orm',
+  '@bitcode/parsing',
+  '@bitcode/pipelines-generics',
+  '@bitcode/prompts',
+  '@bitcode/registry',
+  '@bitcode/responses',
+  '@bitcode/security',
+  '@bitcode/streams',
+  '@bitcode/styling',
+  '@bitcode/supabase',
+  '@bitcode/tech-types',
+  '@bitcode/templates-generics',
+  '@bitcode/time',
+  '@bitcode/tools-generics',
+  '@bitcode/vcs',
+  'eslint-plugin-bitcode'
+]);
+const V26_INGRESS_OR_SUPPORT_PACKAGE_NAMES = new Set([
+  '@bitcode/aurora-postgres',
+  '@bitcode/aws',
+  '@bitcode/bitbucket',
+  '@bitcode/circleci',
+  '@bitcode/cloudflare',
+  '@bitcode/docker',
+  '@bitcode/figma',
+  '@bitcode/figma-tools',
+  '@bitcode/firebase',
+  '@bitcode/firecrawl',
+  '@bitcode/generic-agents-danger-wall',
+  '@bitcode/generic-agents-web-research',
+  '@bitcode/generic-agents-web-search',
+  '@bitcode/generic-tools-code-refactor',
+  '@bitcode/generic-tools-editing',
+  '@bitcode/generic-tools-firecrawl',
+  '@bitcode/generic-tools-git',
+  '@bitcode/generic-tools-lsp-query',
+  '@bitcode/generic-tools-mcps-aurora-postgres',
+  '@bitcode/generic-tools-mcps-aws',
+  '@bitcode/generic-tools-mcps-aws-location',
+  '@bitcode/generic-tools-mcps-aws-terraform',
+  '@bitcode/generic-tools-mcps-bitbucket',
+  '@bitcode/generic-tools-mcps-circleci',
+  '@bitcode/generic-tools-mcps-cloudflare',
+  '@bitcode/generic-tools-mcps-docker',
+  '@bitcode/generic-tools-mcps-figma',
+  '@bitcode/generic-tools-mcps-firebase',
+  '@bitcode/generic-tools-mcps-git-repo-research',
+  '@bitcode/generic-tools-mcps-github',
+  '@bitcode/generic-tools-mcps-gitlab',
+  '@bitcode/generic-tools-mcps-kubernetes',
+  '@bitcode/generic-tools-mcps-mysql',
+  '@bitcode/generic-tools-mcps-postgresql',
+  '@bitcode/generic-tools-mcps-supabase',
+  '@bitcode/generic-tools-mcps-vercel',
+  '@bitcode/generic-tools-multimodal-processing',
+  '@bitcode/generic-tools-repository-setup',
+  '@bitcode/generic-tools-simple-system-text-search',
+  '@bitcode/generic-tools-web-search',
+  '@bitcode/gitlab',
+  '@bitcode/google-analytics',
+  '@bitcode/jira',
+  '@bitcode/jira-tools',
+  '@bitcode/kubernetes',
+  '@bitcode/mcps-tools-notion',
+  '@bitcode/mysql',
+  '@bitcode/notion',
+  '@bitcode/postgresql',
+  '@bitcode/procurement',
+  '@bitcode/refactoring',
+  '@bitcode/sentry',
+  '@bitcode/simple-system-text-search',
+  '@bitcode/vercel',
+  '@bitcode/vcs-tools',
+  '@bitcode/web-search'
+]);
+const V26_COMPATIBILITY_PACKAGE_NAMES = new Set([
+  '@bitcode/generic-tools-task-comprehension',
+  '@bitcode/pipeline-deliverable',
+  '@bitcode/test-intelligence'
+]);
 
 function buildV26RetainedPackageAdmissionCheck(entry) {
   const missingFiles = entry.requiredFiles.filter((file) => !repoFileExists(file));
@@ -558,6 +707,109 @@ function buildV26RetainedPackageAdmissionCheck(entry) {
     invalidPrimaryRole,
     passed: missingFiles.length === 0 && missingFields.length === 0 && invalidPrimaryRole === null
   };
+}
+
+function collectV26PackageJsonPaths() {
+  const packageRoot = path.resolve(REPO_ROOT, 'packages');
+  const packageJsonPaths = [];
+
+  /**
+   * @param {string} absoluteDirectory
+   */
+  function visit(absoluteDirectory) {
+    for (const entry of readdirSync(absoluteDirectory, { withFileTypes: true })) {
+      if (entry.name === 'node_modules' || entry.name === 'dist' || entry.name.startsWith('.')) {
+        continue;
+      }
+
+      const absolutePath = path.join(absoluteDirectory, entry.name);
+
+      if (entry.isFile() && entry.name === 'package.json') {
+        packageJsonPaths.push(path.relative(REPO_ROOT, absolutePath));
+        continue;
+      }
+
+      if (entry.isDirectory()) {
+        visit(absolutePath);
+      }
+    }
+  }
+
+  visit(packageRoot);
+  return packageJsonPaths.sort();
+}
+
+/**
+ * @param {string} packagePath
+ * @param {string} packageName
+ * @returns {{ primaryRole: string, classificationBasis: string }}
+ */
+function classifyV26PackageCensusEntry(packagePath, packageName) {
+  if (V26_DIRECT_PRODUCT_PACKAGE_NAMES.has(packageName)) {
+    return { primaryRole: 'direct-product', classificationBasis: 'direct-product-name' };
+  }
+
+  if (V26_COMPATIBILITY_PACKAGE_NAMES.has(packageName)) {
+    return { primaryRole: 'compatibility', classificationBasis: 'compatibility-name' };
+  }
+
+  if (V26_COMMERCIAL_INFRASTRUCTURE_PACKAGE_NAMES.has(packageName)) {
+    return { primaryRole: 'commercial-infrastructure', classificationBasis: 'commercial-infrastructure-name' };
+  }
+
+  if (V26_INGRESS_OR_SUPPORT_PACKAGE_NAMES.has(packageName)) {
+    return { primaryRole: 'ingress-or-support', classificationBasis: 'ingress-or-support-name' };
+  }
+
+  if (packagePath.includes('/generic-agents/') || packagePath.includes('/generic-doc-comment-plugins/')) {
+    return { primaryRole: 'reference-only', classificationBasis: 'reference-only-directory' };
+  }
+
+  return { primaryRole: 'reference-only', classificationBasis: 'unclassified-reference-fallback' };
+}
+
+/**
+ * @param {string} packagePath
+ * @returns {string[]}
+ */
+function buildV26PackageCensusRequiredFiles(packagePath) {
+  const packageDirectory = path.dirname(packagePath);
+  const candidateFiles = [
+    packagePath,
+    `${packageDirectory}/src/index.ts`,
+    `${packageDirectory}/README.md`
+  ];
+
+  return candidateFiles.filter(repoFileExists);
+}
+
+function buildV26PackageCensus() {
+  return collectV26PackageJsonPaths().map((packagePath) => {
+    const packageManifest = JSON.parse(readRepoFileText(packagePath));
+    const packageName = typeof packageManifest.name === 'string' && packageManifest.name.length > 0
+      ? packageManifest.name
+      : path.dirname(packagePath);
+    const { primaryRole, classificationBasis } = classifyV26PackageCensusEntry(packagePath, packageName);
+    const rolePolicy = V26_RETAINED_PACKAGE_CENSUS_POLICY_BY_ROLE[primaryRole];
+    const requiredFiles = buildV26PackageCensusRequiredFiles(packagePath);
+    const missingFiles = requiredFiles.filter((file) => !repoFileExists(file));
+    const unclassified = classificationBasis === 'unclassified-reference-fallback';
+
+    return {
+      packageName,
+      packagePath,
+      primaryRole,
+      classificationBasis,
+      rationale: rolePolicy.rationale,
+      role: rolePolicy.role,
+      writeBoundary: rolePolicy.writeBoundary,
+      proofObligation: rolePolicy.proofObligation,
+      requiredFiles,
+      missingFiles,
+      unclassified,
+      passed: missingFiles.length === 0 && unclassified === false
+    };
+  });
 }
 
 /**
@@ -1379,6 +1631,52 @@ function buildV26ApplicationCompositionProof({
         'uapi/tests/applicationExternalInterfacingPanel.test.tsx',
         'uapi/tests/applicationFloatingDebugWidget.test.tsx'
       ]
+    ),
+    buildV26FileContentCheck(
+      'chatgpt-app-connected-interface-write-admission',
+      'ChatGPT App connected-interface writes fail closed on explicit confirmation and emit Bitcode write-admission receipts',
+      [
+        {
+          file: 'packages/chatgptapp/src/tools.ts',
+          evidence: 'function assertConfirmedConnectedInterfaceWrite',
+          description: 'ChatGPT App write tools share a fail-closed confirmation guard'
+        },
+        {
+          file: 'packages/chatgptapp/src/tools.ts',
+          evidence: 'Bitcode ChatGPT App write admission requires confirmed: true',
+          description: 'direct tool execution rejects unconfirmed connected-interface writes'
+        },
+        {
+          file: 'packages/chatgptapp/src/tools.ts',
+          evidence: "permission: 'explicit_user_confirmation'",
+          description: 'write receipts expose explicit confirmation as the permission basis'
+        },
+        {
+          file: 'packages/chatgptapp/src/tools.ts',
+          evidence: "exchangeStateRole: 'connected_interface_delivery_mechanism'",
+          description: 'ChatGPT App writes are delivery mechanisms rather than Exchange state owners'
+        },
+        {
+          file: 'packages/chatgptapp/src/server.ts',
+          evidence: 'Bitcode is the source-to-shares protocol surfaced through ChatGPT',
+          description: 'server instructions frame ChatGPT App as a Bitcode Terminal companion interface'
+        },
+        {
+          file: 'packages/chatgptapp/src/__tests__/tools.test.ts',
+          evidence: 'rejects ChatGPT App connected-interface writes without explicit confirmation',
+          description: 'unit proof covers unconfirmed write rejection'
+        },
+        {
+          file: 'packages/chatgptapp/src/__tests__/tools.test.ts',
+          evidence: "targetAnchor: 'vercel:team_bitcode/prj_Yapper'",
+          description: 'unit proof covers target-bound Vercel write admission'
+        },
+        {
+          file: 'packages/chatgptapp/src/__tests__/yapperFlow.test.ts',
+          evidence: 'confirmed: true',
+          description: 'demo-flow proof invokes write tools through explicit confirmation payloads'
+        }
+      ]
     )
   ];
   const passed = checks.every((check) => check.passed === true);
@@ -1458,8 +1756,17 @@ function buildV26RetainedPackageAdmissibilityProof({
   baseData
 }) {
   const packages = V26_RETAINED_PACKAGE_ADMISSIONS.map(buildV26RetainedPackageAdmissionCheck);
-  const passed = packages.every((entry) => entry.passed === true);
+  const packageCensus = buildV26PackageCensus();
+  const unclassifiedPackages = packageCensus.filter((entry) => entry.unclassified === true);
+  const packageCensusCoveragePassed = packageCensus.length > packages.length &&
+    packageCensus.every((entry) => entry.passed === true) &&
+    unclassifiedPackages.length === 0;
+  const passed = packages.every((entry) => entry.passed === true) && packageCensusCoveragePassed;
   const roleCounts = packages.reduce((counts, entry) => {
+    counts[entry.primaryRole] = (counts[entry.primaryRole] || 0) + 1;
+    return counts;
+  }, {});
+  const packageCensusRoleCounts = packageCensus.reduce((counts, entry) => {
     counts[entry.primaryRole] = (counts[entry.primaryRole] || 0) + 1;
     return counts;
   }, {});
@@ -1476,7 +1783,13 @@ function buildV26RetainedPackageAdmissibilityProof({
     requiredFields: V26_RETAINED_PACKAGE_ADMISSION_REQUIRED_FIELDS,
     admissibleRoles: V26_RETAINED_PACKAGE_ADMISSIBLE_ROLES,
     roleCounts,
-    packages
+    packages,
+    packageCensusCount: packageCensus.length,
+    packageCensusCoveragePassed,
+    packageCensusRoleCounts,
+    unclassifiedPackageCount: unclassifiedPackages.length,
+    unclassifiedPackagePaths: unclassifiedPackages.map((entry) => entry.packagePath),
+    packageCensus
   };
 }
 
@@ -2727,11 +3040,6 @@ function buildV26RunsPipelinesTotalityProof({
           file: 'packages/executions-mcp/src/mcp-server/src/tools/pipeline-tools.ts',
           evidence: 'writeAdmission,',
           description: 'accepted write admission is returned and queued in metadata'
-        },
-        {
-          file: 'packages/executions-mcp/src/mcp-server/src/tools/pipeline-tools.js',
-          evidence: 'const writeAdmission = assertPipelineWriteAdmission(params, context, interfaceSurface);',
-          description: 'shipped JavaScript MCP runtime mirrors the TypeScript write-admission receipt'
         },
         {
           file: 'packages/executions-mcp/src/mcp-server/src/__tests__/unit/pipeline-ingress-contract.test.ts',
@@ -4606,8 +4914,12 @@ export function renderCanonicalProvenMarkdown(data) {
     lines.push(`- reportId: ${markdownCode(v26.retainedPackageAdmissibilityProof.reportId)}`);
     lines.push(`- passed: ${markdownCode(String(v26.retainedPackageAdmissibilityProof.passed === true))}`);
     lines.push(`- admittedPackageCount: ${markdownCode(String(v26.retainedPackageAdmissibilityProof.admittedPackageCount))}`);
+    lines.push(`- packageCensusCount: ${markdownCode(String(v26.retainedPackageAdmissibilityProof.packageCensusCount))}`);
+    lines.push(`- packageCensusCoveragePassed: ${markdownCode(String(v26.retainedPackageAdmissibilityProof.packageCensusCoveragePassed === true))}`);
+    lines.push(`- unclassifiedPackageCount: ${markdownCode(String(v26.retainedPackageAdmissibilityProof.unclassifiedPackageCount))}`);
     lines.push(`- requiredFields: ${v26.retainedPackageAdmissibilityProof.requiredFields.map(markdownCode).join(', ')}`);
     lines.push(`- roleCounts: ${Object.entries(v26.retainedPackageAdmissibilityProof.roleCounts).map(([role, count]) => `${markdownCode(role)}=${markdownCode(String(count))}`).join(', ')}`);
+    lines.push(`- packageCensusRoleCounts: ${Object.entries(v26.retainedPackageAdmissibilityProof.packageCensusRoleCounts).map(([role, count]) => `${markdownCode(role)}=${markdownCode(String(count))}`).join(', ')}`);
     lines.push('');
     lines.push(renderMarkdownTable(
       ['packageName', 'primaryRole', 'passed', 'role', 'writeBoundary'],
@@ -4617,6 +4929,17 @@ export function renderCanonicalProvenMarkdown(data) {
         markdownCode(String(entry.passed)),
         entry.role,
         entry.writeBoundary
+      ])
+    ));
+    lines.push('');
+    lines.push(renderMarkdownTable(
+      ['packagePath', 'packageName', 'primaryRole', 'classificationBasis', 'passed'],
+      v26.retainedPackageAdmissibilityProof.packageCensus.map((entry) => [
+        markdownCode(entry.packagePath),
+        markdownCode(entry.packageName),
+        markdownCode(entry.primaryRole),
+        markdownCode(entry.classificationBasis),
+        markdownCode(String(entry.passed))
       ])
     ));
     lines.push('');

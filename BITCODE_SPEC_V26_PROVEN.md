@@ -1,11 +1,11 @@
 # Bitcode Spec V26 Proven
 
 - canonicalVersion: `V26`
-- canonicalCommit: `c2cf868aa817309ce7ed8efae0de62444b10ee34`
-- canonicalCommitRecordedAt: `2026-04-24T00:30:33-03:00`
+- canonicalCommit: `aa94c3bae89f45463de58f9a52b775ce3ac5466c`
+- canonicalCommitRecordedAt: `2026-04-24T00:37:46-03:00`
 - worktreeState: `dirty-preview`
 - generatorId: `bitcode.proven-generator.v1`
-- generatedAt: `2026-04-24T00:30:33-03:00`
+- generatedAt: `2026-04-24T00:37:46-03:00`
 - outputPath: `BITCODE_SPEC_V26_PROVEN.md`
 - scenarioIds: `auth-issuer-rollback`, `rust-validator-proof-gap`, `config-policy-precedence-incident`, `unsafe-patch-review-recovery`, `infra-deployment-mismatch`, `privacy-boundary-proof-export`, `polyglot-gateway-benchmark-remediation`, `auth-many-asset-normalization`
 - branchModes: `patch`, `context`
@@ -57,13 +57,13 @@
 
 | artifactPath | digest | byteLength |
 | --- | --- | --- |
-| `.bitcode/v19-contract-change-ledger.json` | `sha256:43c29fccdb8b868950c5f05603551dc3be486c144b9856d7d1bacd2571ca4491` | 3311 |
-| `.bitcode/v19-deterministic-replay-report.json` | `sha256:e73c21acba89f3a4403ef06442302b7951db7c28463008d39d834a68cbacdae0` | 8459 |
-| `.bitcode/v19-negative-proof-mutation-matrix.json` | `sha256:01d375834295c5ad2074ec3996927f8acef900aa050178b1118b6146d6435748` | 8085 |
-| `.bitcode/v19-proof-member-semantic-matrix.json` | `sha256:6f2c622bc471bf45c57299d500f19b9a4907db55e72804d13df83cf18b500cb5` | 1815750 |
-| `.bitcode/v19-state-machine-matrix.json` | `sha256:d307cb6ae8b2dafbfe67d1547b77de6be43e92ce22be1870a979bac6cd27ab38` | 154965 |
-| `.bitcode/v19-theorem-evidence-matrix.json` | `sha256:50fd7a98599b914cada568c1f3920ecdf4896f06107b0eb6607fd5765b5b2aa0` | 2405676 |
-| `.bitcode/v19-volatility-inventory.json` | `sha256:8fadcf3bc4846d6e8048225dfc0124ee03e68ec4b6b7a62d8e733cb6bcc12768` | 6206 |
+| `.bitcode/v19-contract-change-ledger.json` | `sha256:85a2dfabb9f5d0784507156b09a3cfb77c1cb94c36c2d894f08cf1152197fe23` | 3311 |
+| `.bitcode/v19-deterministic-replay-report.json` | `sha256:af20cc4158244e615b7b05e2f1fac6f98dbfb0b6c24e3fe57f23a26f13fbfb33` | 8459 |
+| `.bitcode/v19-negative-proof-mutation-matrix.json` | `sha256:ab86e926d70ce46575a066f58de404e793bf049cc3ac1254e6a7a0836653e268` | 8085 |
+| `.bitcode/v19-proof-member-semantic-matrix.json` | `sha256:260e6e5b0b6d3409e518e8b3ad56088861a498282d8dd9dcf86394dcdf86d71d` | 1815750 |
+| `.bitcode/v19-state-machine-matrix.json` | `sha256:d1c644718b90bc0421075c8792cc295ae55cf255b4c46aee0ef6b60d35b9762b` | 154965 |
+| `.bitcode/v19-theorem-evidence-matrix.json` | `sha256:8c22e6483a386eeb3a3bd468c69372d715d4deedced0be1271d14da2577cef37` | 2405676 |
+| `.bitcode/v19-volatility-inventory.json` | `sha256:8e5a76d23648dda3e001594178fbe521958db725b373666ed6edc6f507a7a138` | 6206 |
 
 ### V19 Inherited Positive Matrix Summaries
 
@@ -82,13 +82,13 @@
 
 | artifactPath | firstDigest | secondDigest | byteEqual |
 | --- | --- | --- | --- |
-| `.bitcode/v19-contract-change-ledger.json` | `sha256:43c29fccdb8b868950c5f05603551dc3be486c144b9856d7d1bacd2571ca4491` | `sha256:43c29fccdb8b868950c5f05603551dc3be486c144b9856d7d1bacd2571ca4491` | `true` |
-| `.bitcode/v19-negative-proof-mutation-matrix.json` | `sha256:01d375834295c5ad2074ec3996927f8acef900aa050178b1118b6146d6435748` | `sha256:01d375834295c5ad2074ec3996927f8acef900aa050178b1118b6146d6435748` | `true` |
-| `.bitcode/v19-proof-member-semantic-matrix.json` | `sha256:6f2c622bc471bf45c57299d500f19b9a4907db55e72804d13df83cf18b500cb5` | `sha256:6f2c622bc471bf45c57299d500f19b9a4907db55e72804d13df83cf18b500cb5` | `true` |
-| `.bitcode/v19-state-machine-matrix.json` | `sha256:d307cb6ae8b2dafbfe67d1547b77de6be43e92ce22be1870a979bac6cd27ab38` | `sha256:d307cb6ae8b2dafbfe67d1547b77de6be43e92ce22be1870a979bac6cd27ab38` | `true` |
-| `.bitcode/v19-theorem-evidence-matrix.json` | `sha256:50fd7a98599b914cada568c1f3920ecdf4896f06107b0eb6607fd5765b5b2aa0` | `sha256:50fd7a98599b914cada568c1f3920ecdf4896f06107b0eb6607fd5765b5b2aa0` | `true` |
-| `.bitcode/v19-volatility-inventory.json` | `sha256:8fadcf3bc4846d6e8048225dfc0124ee03e68ec4b6b7a62d8e733cb6bcc12768` | `sha256:8fadcf3bc4846d6e8048225dfc0124ee03e68ec4b6b7a62d8e733cb6bcc12768` | `true` |
-| `_legacy/ENGI_SPEC_V19_PROVEN.md` | `sha256:1b4c37c088304a7135c17a5b00ccbd9f8a471a4edaf884e4da081400be4fef98` | `sha256:1b4c37c088304a7135c17a5b00ccbd9f8a471a4edaf884e4da081400be4fef98` | `true` |
+| `.bitcode/v19-contract-change-ledger.json` | `sha256:85a2dfabb9f5d0784507156b09a3cfb77c1cb94c36c2d894f08cf1152197fe23` | `sha256:85a2dfabb9f5d0784507156b09a3cfb77c1cb94c36c2d894f08cf1152197fe23` | `true` |
+| `.bitcode/v19-negative-proof-mutation-matrix.json` | `sha256:ab86e926d70ce46575a066f58de404e793bf049cc3ac1254e6a7a0836653e268` | `sha256:ab86e926d70ce46575a066f58de404e793bf049cc3ac1254e6a7a0836653e268` | `true` |
+| `.bitcode/v19-proof-member-semantic-matrix.json` | `sha256:260e6e5b0b6d3409e518e8b3ad56088861a498282d8dd9dcf86394dcdf86d71d` | `sha256:260e6e5b0b6d3409e518e8b3ad56088861a498282d8dd9dcf86394dcdf86d71d` | `true` |
+| `.bitcode/v19-state-machine-matrix.json` | `sha256:d1c644718b90bc0421075c8792cc295ae55cf255b4c46aee0ef6b60d35b9762b` | `sha256:d1c644718b90bc0421075c8792cc295ae55cf255b4c46aee0ef6b60d35b9762b` | `true` |
+| `.bitcode/v19-theorem-evidence-matrix.json` | `sha256:8c22e6483a386eeb3a3bd468c69372d715d4deedced0be1271d14da2577cef37` | `sha256:8c22e6483a386eeb3a3bd468c69372d715d4deedced0be1271d14da2577cef37` | `true` |
+| `.bitcode/v19-volatility-inventory.json` | `sha256:8e5a76d23648dda3e001594178fbe521958db725b373666ed6edc6f507a7a138` | `sha256:8e5a76d23648dda3e001594178fbe521958db725b373666ed6edc6f507a7a138` | `true` |
+| `_legacy/ENGI_SPEC_V19_PROVEN.md` | `sha256:c5114a718717483ba7f7eb9d6fb4567492e33a43b6be4fd3c7426fb0962f3f1c` | `sha256:c5114a718717483ba7f7eb9d6fb4567492e33a43b6be4fd3c7426fb0962f3f1c` | `true` |
 
 ### V19 Volatility Inventory
 
@@ -160,12 +160,12 @@
 
 | artifactPath | digest | byteLength |
 | --- | --- | --- |
-| `.bitcode/v20-accessibility-report.json` | `sha256:c04229419d4f17d81934bd03cc0499e5bc33d59d49d5f26b4a24d25b8c90a96d` | 8226 |
-| `.bitcode/v20-operator-acceptance-transcript.json` | `sha256:95d9b73650fe6d685cca8ba8b784a121a72a7259ffa90b492ab84ce626ceff66` | 10929 |
-| `.bitcode/v20-performance-budget-report.json` | `sha256:b04f3f00b1e16261e37bb29d61293b93fcfeac68ddeae7783edca1d9cf56e517` | 5054 |
-| `.bitcode/v20-projection-quality-smoke-matrix.json` | `sha256:b81e6055fb8cdb6cb190b315b0b05206b5dfd1e4b7512d7da705a0c01847a7e0` | 4951 |
-| `.bitcode/v20-quality-summary.json` | `sha256:7e1f2fa46804c659dc3b3fb05fe38bc505bba2f3e19008e1ee694402a4d861a7` | 4480 |
-| `.bitcode/v20-visual-regression-report.json` | `sha256:d9f83903069f43c28c4b03698fa3153cccd81af0c3d4e2a2937547303d471349` | 19385 |
+| `.bitcode/v20-accessibility-report.json` | `sha256:b55ca06088a0e26887aaccdb7ec93533c32d7ac0adb56903d390b82d0c35a8e4` | 8226 |
+| `.bitcode/v20-operator-acceptance-transcript.json` | `sha256:7862f64725e5454880552a0db5edc42aef08a36be3b2a992c3fd91919717f627` | 10929 |
+| `.bitcode/v20-performance-budget-report.json` | `sha256:1b4f5e254423c7e722ccb137bc3bf69aa45de9ed4810642574e63efef0f5185f` | 5054 |
+| `.bitcode/v20-projection-quality-smoke-matrix.json` | `sha256:ee79d1c08451520ff0302e3864215bb4ebe1deffc50224958dc7e08580eead61` | 4951 |
+| `.bitcode/v20-quality-summary.json` | `sha256:fb595769a5abac89be0df9c7cbe86a4a5bb1818bdf56fdb137effa1664c4cf32` | 4480 |
+| `.bitcode/v20-visual-regression-report.json` | `sha256:bbfa720ab48d23f180711ac3fb2bb89b458decc0ab3acb027e5f1216b9a68c5a` | 19385 |
 
 ### V20 Quality Summary
 
@@ -304,24 +304,24 @@
 
 | artifactPath | digest | byteLength |
 | --- | --- | --- |
-| `.bitcode/application-composition-proof.json` | `sha256:d5f66d019291fe244ddb204a407bf575bad2949e60d2d5c8198881d7b1877c16` | 1858 |
-| `.bitcode/conversations-continuity-proof.json` | `sha256:735c018d5ed5ba2b00f1ba6963d213243112b3bfc62bfe3f216064197d7fdaae` | 3459 |
-| `.bitcode/environment-mode-coherence-proof.json` | `sha256:4b81523352fefa2b77fabe53ccbb0ed0aef854ca814cbf0d5026203cc0602085` | 1599 |
-| `.bitcode/fifth-gate-closure-deepening-proof.json` | `sha256:e95aa9dc19f51d0dac37ebe527a9c6c1511f026975bb40954f01d0a6ee44d0b4` | 6942 |
-| `.bitcode/fourth-gate-reclosure-review-proof.json` | `sha256:ae984d27aa01d70e7b2be2e7b9cde72505c9cce85965f8680127c17fbc5946cd` | 11370 |
-| `.bitcode/inference-implementation-records-proof.json` | `sha256:bf2fa534ea5d1b33a09f8db18b21dee5e2f86d38eed943afbc2e6de84db95ba9` | 104095 |
-| `.bitcode/persistence-schema-totality-proof.json` | `sha256:a2b7b831195cd1530e1e8d711320e3948e524ccd465a843e4aeca56c7c45b16d` | 2045 |
-| `.bitcode/prompt-space-completeness-proof.json` | `sha256:ebbcbc2b9caf8bcdceaad272261e72304dfae0c77551b095c9e843715bd283be` | 14985 |
-| `.bitcode/prompt-system-totality-proof.json` | `sha256:1b67bd49c49596c44f8603272756ef3910c45c220a2a44381745cd7905da5322` | 32438 |
-| `.bitcode/retained-package-admissibility-proof.json` | `sha256:bea34ca88e8fedbf271ef87c7083536fc7d1329a760209888c9e6d483a74aefc` | 9986 |
-| `.bitcode/runs-pipelines-totality-proof.json` | `sha256:9a164f64ab7393b73936d2836309e46ba2cd77e5ea9fe86a6beb89cd7e040253` | 11087 |
-| `.bitcode/source-to-shares-fifth-gate-proof.json` | `sha256:9c1e09ab5fe3ab17b5ee4a337a7d3a00f18072bf846ced840df00a71bc896402` | 10395 |
-| `.bitcode/system-reform-admissibility-proof.json` | `sha256:bffc916a7a8f8b8069b3040091aed00cfd6fb48bbea5e38aeb4d7eebd153766b` | 7681 |
-| `.bitcode/v26-canonical-input-report.json` | `sha256:9f1d6b55329824857ebaccd2403b28bf3d98e3ae7c70dd955f8ab9430023114b` | 1558 |
-| `.bitcode/v26-gate-checkpoint-report.json` | `sha256:f030a7728c8503dea0c2d908cd4c9724be128dc6d4420a8bc1477af29ae9c743` | 13735 |
-| `.bitcode/v26-spec-family-report.json` | `sha256:2e957cf0f4d2d551492a7d0b7b26691fae1322faf26db970551e04846a541b6c` | 948 |
-| `.bitcode/v26-total-closure-proof.json` | `sha256:1935377b4d22656174b1ce2a7fdf3ff6602be6866bcef5390c1acaf556867164` | 1048 |
-| `.bitcode/whole-repository-production-satisfaction-proof.json` | `sha256:02b32dfcb257c69e9f55e6b4854e9ec7f9eaffa88e07f7f2ab8a5bf2b8fd20c2` | 1200 |
+| `.bitcode/application-composition-proof.json` | `sha256:5d0e1dc1f28d946917c6779bc58839dffab2b9110859974225b0a6fe25309bed` | 4262 |
+| `.bitcode/conversations-continuity-proof.json` | `sha256:c89a3d4ba4382dfbaaced875b2bc319b7d18e360d631e83d085286e6cef73e03` | 3459 |
+| `.bitcode/environment-mode-coherence-proof.json` | `sha256:60296db7a9da442b3251582e4afa0c3db7ba373500e439469b253def029050bc` | 1599 |
+| `.bitcode/fifth-gate-closure-deepening-proof.json` | `sha256:67c2f8ba4ac283b547b9d47711c35791f865b8529d3e7dd3e16c7205d50a4c43` | 6942 |
+| `.bitcode/fourth-gate-reclosure-review-proof.json` | `sha256:2ddccd954d790fb2bfd6dca697528c06189c2b007e49dd7815fb759599628827` | 11370 |
+| `.bitcode/inference-implementation-records-proof.json` | `sha256:0248ecb2af6b73504c6d78b4fef7b8d4928c58752da41762a010c4b5473f8409` | 104095 |
+| `.bitcode/persistence-schema-totality-proof.json` | `sha256:3bf4b5f373c852c93d6715243e9533872952015eb4cfd4bddb7ba6dc7f400382` | 2045 |
+| `.bitcode/prompt-space-completeness-proof.json` | `sha256:5f14d6185ff01d2bfc8da87329a8217a088c0ac6028e118f2f9d6d8e3b3abb47` | 14985 |
+| `.bitcode/prompt-system-totality-proof.json` | `sha256:e097792346393124b2213c6cc0661312ad3350b225d2b571f87d5a723749c518` | 32438 |
+| `.bitcode/retained-package-admissibility-proof.json` | `sha256:963e30b28cf1bed34997fd3f85b94ea9ef9d7431b8321cccca8c09414714ee9d` | 135667 |
+| `.bitcode/runs-pipelines-totality-proof.json` | `sha256:9c70a5dc52a0e8eb42362fb380234f50d846d0664d9805248f8a566e6901bd61` | 10759 |
+| `.bitcode/source-to-shares-fifth-gate-proof.json` | `sha256:5c4af7d1d6d8c3ffd1436e84ff9a3b1d35fb3b1358a7915ac906caa5475a71ae` | 10395 |
+| `.bitcode/system-reform-admissibility-proof.json` | `sha256:2571820a5cf8d83adbab3617fb4fa219a1526ce8a8336b0076251a60fc00d42f` | 7681 |
+| `.bitcode/v26-canonical-input-report.json` | `sha256:5b0f0a2a1d1248a8b05cf28747ffe8ae87dabb7d2bbed838089d61b41d48a605` | 1558 |
+| `.bitcode/v26-gate-checkpoint-report.json` | `sha256:33b4de5b707419f4ef1c88aaa920831777cfe95b6cb466c9af8de2846d3a17b3` | 13735 |
+| `.bitcode/v26-spec-family-report.json` | `sha256:a9ecc9570cfd1eec58e8f92297918460c117de9463688e4893b2913f6d1fceae` | 948 |
+| `.bitcode/v26-total-closure-proof.json` | `sha256:b41016ed434e11910e715d3033383bb6f09ba81607cf35a37086afdbd1d5fb11` | 1048 |
+| `.bitcode/whole-repository-production-satisfaction-proof.json` | `sha256:8994fd17ea9146b55ed32fb3f3a478ed44e51026c6f1376dcb7cc952c1ee90f6` | 1200 |
 
 ### V26 Spec-Family Report
 
@@ -407,6 +407,7 @@
 | --- | --- | --- |
 | `application-route-and-shell-owners` | `true` | 9 required files present |
 | `application-route-state-and-debug-owners` | `true` | 6 required files present |
+| `chatgpt-app-connected-interface-write-admission` | `true` | 8 source evidence requirements satisfied |
 
 ### V26 Fourth-Gate Reclosure Review Proof
 
@@ -478,7 +479,7 @@
 | `executions-retained-compatibility-carriers` | `true` | 18 required files present |
 | `runs-pipelines-retained-package-basis` | `true` | 15 required files present |
 | `executions-activity-and-notification-carriers` | `true` | 25 required files present |
-| `mcp-write-admission-and-third-party-ingress-contract` | `true` | 10 source evidence requirements satisfied |
+| `mcp-write-admission-and-third-party-ingress-contract` | `true` | 9 source evidence requirements satisfied |
 
 ### V26 Persistence and Schema Totality Proof
 
@@ -595,8 +596,12 @@
 - reportId: `v26-retained-package-admissibility-proof`
 - passed: `true`
 - admittedPackageCount: `8`
+- packageCensusCount: `125`
+- packageCensusCoveragePassed: `true`
+- unclassifiedPackageCount: `0`
 - requiredFields: `packageName`, `primaryRole`, `rationale`, `role`, `writeBoundary`, `proofObligation`, `requiredFiles`
 - roleCounts: `commercial-infrastructure`=`5`, `ingress-or-support`=`2`, `reference-only`=`1`
+- packageCensusRoleCounts: `commercial-infrastructure`=`45`, `direct-product`=`5`, `ingress-or-support`=`55`, `reference-only`=`17`, `compatibility`=`3`
 
 | packageName | primaryRole | passed | role | writeBoundary |
 | --- | --- | --- | --- | --- |
@@ -608,6 +613,134 @@
 | `@bitcode/jira-tools` | `ingress-or-support` | `true` | old-world Jira read-first ingestion port | default scope is authenticated read and normalization; expansive settle-write to Jira comments or attachments is deferred beyond fourth-gate |
 | `@bitcode/generic-agents-jira` | `reference-only` | `true` | old-world Jira prompt-owned ingestion agent | reader-first Jira scope; propose writes only when explicitly requested and never as the default Bitcode settlement path |
 | `@bitcode/generic-tools-mcps-github` | `ingress-or-support` | `true` | Git/GH-centric initial settle-write port | Git/GH branch and PR settlement is admitted in fourth-gate; multi-surface settle writes to other systems remain later-gate work |
+
+| packagePath | packageName | primaryRole | classificationBasis | passed |
+| --- | --- | --- | --- | --- |
+| `packages/agent-generics/package.json` | `@bitcode/agent-generics` | `commercial-infrastructure` | `commercial-infrastructure-name` | `true` |
+| `packages/api/package.json` | `@bitcode/api` | `direct-product` | `direct-product-name` | `true` |
+| `packages/artifacts/package.json` | `@bitcode/artifacts` | `commercial-infrastructure` | `commercial-infrastructure-name` | `true` |
+| `packages/attachments-generics/package.json` | `@bitcode/attachments-generics` | `commercial-infrastructure` | `commercial-infrastructure-name` | `true` |
+| `packages/aurora-postgres/package.json` | `@bitcode/aurora-postgres` | `ingress-or-support` | `ingress-or-support-name` | `true` |
+| `packages/auth/package.json` | `@bitcode/auth` | `commercial-infrastructure` | `commercial-infrastructure-name` | `true` |
+| `packages/aws/package.json` | `@bitcode/aws` | `ingress-or-support` | `ingress-or-support-name` | `true` |
+| `packages/bitbucket/package.json` | `@bitcode/bitbucket` | `ingress-or-support` | `ingress-or-support-name` | `true` |
+| `packages/browser-storage/package.json` | `@bitcode/browser-storage` | `commercial-infrastructure` | `commercial-infrastructure-name` | `true` |
+| `packages/btd/package.json` | `@bitcode/btd` | `direct-product` | `direct-product-name` | `true` |
+| `packages/chatgptapp/package.json` | `@bitcode/chatgptapp` | `direct-product` | `direct-product-name` | `true` |
+| `packages/circleci/package.json` | `@bitcode/circleci` | `ingress-or-support` | `ingress-or-support-name` | `true` |
+| `packages/cloudflare/package.json` | `@bitcode/cloudflare` | `ingress-or-support` | `ingress-or-support-name` | `true` |
+| `packages/context/package.json` | `@bitcode/context` | `commercial-infrastructure` | `commercial-infrastructure-name` | `true` |
+| `packages/conversations-generics/package.json` | `@bitcode/conversations-generics` | `commercial-infrastructure` | `commercial-infrastructure-name` | `true` |
+| `packages/digest/package.json` | `@bitcode/digest` | `commercial-infrastructure` | `commercial-infrastructure-name` | `true` |
+| `packages/doc-code/package.json` | `@bitcode/doc-code` | `commercial-infrastructure` | `commercial-infrastructure-name` | `true` |
+| `packages/doc-comment/package.json` | `@bitcode/doc-comment` | `commercial-infrastructure` | `commercial-infrastructure-name` | `true` |
+| `packages/docker/package.json` | `@bitcode/docker` | `ingress-or-support` | `ingress-or-support-name` | `true` |
+| `packages/editing/package.json` | `@bitcode/editing` | `commercial-infrastructure` | `commercial-infrastructure-name` | `true` |
+| `packages/email/package.json` | `@bitcode/email` | `commercial-infrastructure` | `commercial-infrastructure-name` | `true` |
+| `packages/errors/package.json` | `@bitcode/errors` | `commercial-infrastructure` | `commercial-infrastructure-name` | `true` |
+| `packages/eslint-plugin-bitcode/package.json` | `eslint-plugin-bitcode` | `commercial-infrastructure` | `commercial-infrastructure-name` | `true` |
+| `packages/execution-generics/package.json` | `@bitcode/execution-generics` | `commercial-infrastructure` | `commercial-infrastructure-name` | `true` |
+| `packages/executions-mcp/package.json` | `@bitcode/mcp` | `direct-product` | `direct-product-name` | `true` |
+| `packages/executions-mcp/src/mcp-server/package.json` | `@bitcode/mcp-server` | `direct-product` | `direct-product-name` | `true` |
+| `packages/figma/package.json` | `@bitcode/figma` | `ingress-or-support` | `ingress-or-support-name` | `true` |
+| `packages/files/package.json` | `@bitcode/files` | `commercial-infrastructure` | `commercial-infrastructure-name` | `true` |
+| `packages/firebase/package.json` | `@bitcode/firebase` | `ingress-or-support` | `ingress-or-support-name` | `true` |
+| `packages/firecrawl/package.json` | `@bitcode/firecrawl` | `ingress-or-support` | `ingress-or-support-name` | `true` |
+| `packages/generic-agents/audio-processor/package.json` | `@bitcode/generic-agents-audio-processor` | `reference-only` | `reference-only-directory` | `true` |
+| `packages/generic-agents/code-editor/package.json` | `@bitcode/generic-agent-code-editor` | `reference-only` | `reference-only-directory` | `true` |
+| `packages/generic-agents/code-searcher/package.json` | `@bitcode/generic-agents-rag-snippets` | `reference-only` | `reference-only-directory` | `true` |
+| `packages/generic-agents/danger-wall/package.json` | `@bitcode/generic-agents-danger-wall` | `ingress-or-support` | `ingress-or-support-name` | `true` |
+| `packages/generic-agents/digester/package.json` | `@bitcode/generic-agents-digesting` | `reference-only` | `reference-only-directory` | `true` |
+| `packages/generic-agents/document-processor/package.json` | `@bitcode/generic-agents-document-processor` | `reference-only` | `reference-only-directory` | `true` |
+| `packages/generic-agents/figma-processor/package.json` | `@bitcode/generic-agents-figma` | `reference-only` | `reference-only-directory` | `true` |
+| `packages/generic-agents/file-pick/package.json` | `@bitcode/generic-agents-file-pick` | `reference-only` | `reference-only-directory` | `true` |
+| `packages/generic-agents/image-processor/package.json` | `@bitcode/generic-agents-image-processor` | `reference-only` | `reference-only-directory` | `true` |
+| `packages/generic-agents/jira-processor/package.json` | `@bitcode/generic-agents-jira` | `reference-only` | `reference-only-directory` | `true` |
+| `packages/generic-agents/language/package.json` | `@bitcode/generic-agents-language` | `reference-only` | `reference-only-directory` | `true` |
+| `packages/generic-agents/mcps-initializer/package.json` | `@bitcode/generic-agents-initialize-mcps` | `reference-only` | `reference-only-directory` | `true` |
+| `packages/generic-agents/ready-to-short-circuit/package.json` | `@bitcode/generic-agents-ready-to-short-circuit` | `reference-only` | `reference-only-directory` | `true` |
+| `packages/generic-agents/tech-types-identifier/package.json` | `@bitcode/generic-agents-tech-types-identifier` | `reference-only` | `reference-only-directory` | `true` |
+| `packages/generic-agents/text-searcher/package.json` | `@bitcode/generic-agents-text-search` | `reference-only` | `reference-only-directory` | `true` |
+| `packages/generic-agents/vcs/package.json` | `@bitcode/generic-agents-vcs` | `reference-only` | `reference-only-directory` | `true` |
+| `packages/generic-agents/video-processor/package.json` | `@bitcode/generic-agents-video-processor` | `reference-only` | `reference-only-directory` | `true` |
+| `packages/generic-agents/web-researcher/package.json` | `@bitcode/generic-agents-web-research` | `ingress-or-support` | `ingress-or-support-name` | `true` |
+| `packages/generic-agents/web-search/package.json` | `@bitcode/generic-agents-web-search` | `ingress-or-support` | `ingress-or-support-name` | `true` |
+| `packages/generic-doc-comment-plugins/doc-developing/package.json` | `@bitcode/doc-comment-developing` | `reference-only` | `reference-only-directory` | `true` |
+| `packages/generic-llms/package.json` | `@bitcode/generic-llms` | `commercial-infrastructure` | `commercial-infrastructure-name` | `true` |
+| `packages/generic-tools/code-refactor/package.json` | `@bitcode/generic-tools-code-refactor` | `ingress-or-support` | `ingress-or-support-name` | `true` |
+| `packages/generic-tools/files-maintaining/package.json` | `@bitcode/generic-tools-editing` | `ingress-or-support` | `ingress-or-support-name` | `true` |
+| `packages/generic-tools/firecrawl/package.json` | `@bitcode/generic-tools-firecrawl` | `ingress-or-support` | `ingress-or-support-name` | `true` |
+| `packages/generic-tools/git-interactor/package.json` | `@bitcode/generic-tools-git` | `ingress-or-support` | `ingress-or-support-name` | `true` |
+| `packages/generic-tools/lsp-query/package.json` | `@bitcode/generic-tools-lsp-query` | `ingress-or-support` | `ingress-or-support-name` | `true` |
+| `packages/generic-tools/mcps-tools/aurora-postgres/package.json` | `@bitcode/generic-tools-mcps-aurora-postgres` | `ingress-or-support` | `ingress-or-support-name` | `true` |
+| `packages/generic-tools/mcps-tools/aws-location/package.json` | `@bitcode/generic-tools-mcps-aws-location` | `ingress-or-support` | `ingress-or-support-name` | `true` |
+| `packages/generic-tools/mcps-tools/aws-terraform/package.json` | `@bitcode/generic-tools-mcps-aws-terraform` | `ingress-or-support` | `ingress-or-support-name` | `true` |
+| `packages/generic-tools/mcps-tools/aws/package.json` | `@bitcode/generic-tools-mcps-aws` | `ingress-or-support` | `ingress-or-support-name` | `true` |
+| `packages/generic-tools/mcps-tools/bitbucket/package.json` | `@bitcode/generic-tools-mcps-bitbucket` | `ingress-or-support` | `ingress-or-support-name` | `true` |
+| `packages/generic-tools/mcps-tools/circleci/package.json` | `@bitcode/generic-tools-mcps-circleci` | `ingress-or-support` | `ingress-or-support-name` | `true` |
+| `packages/generic-tools/mcps-tools/cloudflare/package.json` | `@bitcode/generic-tools-mcps-cloudflare` | `ingress-or-support` | `ingress-or-support-name` | `true` |
+| `packages/generic-tools/mcps-tools/docker/package.json` | `@bitcode/generic-tools-mcps-docker` | `ingress-or-support` | `ingress-or-support-name` | `true` |
+| `packages/generic-tools/mcps-tools/figma/package.json` | `@bitcode/figma-tools` | `ingress-or-support` | `ingress-or-support-name` | `true` |
+| `packages/generic-tools/mcps-tools/firebase/package.json` | `@bitcode/generic-tools-mcps-firebase` | `ingress-or-support` | `ingress-or-support-name` | `true` |
+| `packages/generic-tools/mcps-tools/git-repo-research/package.json` | `@bitcode/generic-tools-mcps-git-repo-research` | `ingress-or-support` | `ingress-or-support-name` | `true` |
+| `packages/generic-tools/mcps-tools/github/package.json` | `@bitcode/generic-tools-mcps-github` | `ingress-or-support` | `ingress-or-support-name` | `true` |
+| `packages/generic-tools/mcps-tools/gitlab/package.json` | `@bitcode/generic-tools-mcps-gitlab` | `ingress-or-support` | `ingress-or-support-name` | `true` |
+| `packages/generic-tools/mcps-tools/jira/package.json` | `@bitcode/jira-tools` | `ingress-or-support` | `ingress-or-support-name` | `true` |
+| `packages/generic-tools/mcps-tools/kubernetes/package.json` | `@bitcode/generic-tools-mcps-kubernetes` | `ingress-or-support` | `ingress-or-support-name` | `true` |
+| `packages/generic-tools/mcps-tools/mysql/package.json` | `@bitcode/generic-tools-mcps-mysql` | `ingress-or-support` | `ingress-or-support-name` | `true` |
+| `packages/generic-tools/mcps-tools/notion/package.json` | `@bitcode/mcps-tools-notion` | `ingress-or-support` | `ingress-or-support-name` | `true` |
+| `packages/generic-tools/mcps-tools/postgresql/package.json` | `@bitcode/generic-tools-mcps-postgresql` | `ingress-or-support` | `ingress-or-support-name` | `true` |
+| `packages/generic-tools/mcps-tools/supabase/package.json` | `@bitcode/generic-tools-mcps-supabase` | `ingress-or-support` | `ingress-or-support-name` | `true` |
+| `packages/generic-tools/mcps-tools/vercel/package.json` | `@bitcode/generic-tools-mcps-vercel` | `ingress-or-support` | `ingress-or-support-name` | `true` |
+| `packages/generic-tools/multimodal-processing/package.json` | `@bitcode/generic-tools-multimodal-processing` | `ingress-or-support` | `ingress-or-support-name` | `true` |
+| `packages/generic-tools/repository-setup/package.json` | `@bitcode/generic-tools-repository-setup` | `ingress-or-support` | `ingress-or-support-name` | `true` |
+| `packages/generic-tools/simple-system-text-search/package.json` | `@bitcode/generic-tools-simple-system-text-search` | `ingress-or-support` | `ingress-or-support-name` | `true` |
+| `packages/generic-tools/task-comprehension/package.json` | `@bitcode/generic-tools-task-comprehension` | `compatibility` | `compatibility-name` | `true` |
+| `packages/generic-tools/vcs/package.json` | `@bitcode/vcs-tools` | `ingress-or-support` | `ingress-or-support-name` | `true` |
+| `packages/generic-tools/web-search/package.json` | `@bitcode/generic-tools-web-search` | `ingress-or-support` | `ingress-or-support-name` | `true` |
+| `packages/git/package.json` | `@bitcode/git` | `commercial-infrastructure` | `commercial-infrastructure-name` | `true` |
+| `packages/github/package.json` | `@bitcode/github` | `commercial-infrastructure` | `commercial-infrastructure-name` | `true` |
+| `packages/gitlab/package.json` | `@bitcode/gitlab` | `ingress-or-support` | `ingress-or-support-name` | `true` |
+| `packages/google-analytics/package.json` | `@bitcode/google-analytics` | `ingress-or-support` | `ingress-or-support-name` | `true` |
+| `packages/jira/package.json` | `@bitcode/jira` | `ingress-or-support` | `ingress-or-support-name` | `true` |
+| `packages/kubernetes/package.json` | `@bitcode/kubernetes` | `ingress-or-support` | `ingress-or-support-name` | `true` |
+| `packages/llm-generics/package.json` | `@bitcode/llm-generics` | `commercial-infrastructure` | `commercial-infrastructure-name` | `true` |
+| `packages/logger/package.json` | `@bitcode/logger` | `commercial-infrastructure` | `commercial-infrastructure-name` | `true` |
+| `packages/lsp/package.json` | `@bitcode/lsp` | `commercial-infrastructure` | `commercial-infrastructure-name` | `true` |
+| `packages/middleware/package.json` | `@bitcode/middleware` | `commercial-infrastructure` | `commercial-infrastructure-name` | `true` |
+| `packages/models/package.json` | `@bitcode/models` | `commercial-infrastructure` | `commercial-infrastructure-name` | `true` |
+| `packages/multimodal-utils/package.json` | `@bitcode/multimodal-utils` | `commercial-infrastructure` | `commercial-infrastructure-name` | `true` |
+| `packages/mysql/package.json` | `@bitcode/mysql` | `ingress-or-support` | `ingress-or-support-name` | `true` |
+| `packages/networking/package.json` | `@bitcode/networking` | `commercial-infrastructure` | `commercial-infrastructure-name` | `true` |
+| `packages/notifications/package.json` | `@bitcode/notifications` | `commercial-infrastructure` | `commercial-infrastructure-name` | `true` |
+| `packages/notion/package.json` | `@bitcode/notion` | `ingress-or-support` | `ingress-or-support-name` | `true` |
+| `packages/obfuscate-generics/package.json` | `@bitcode/obfuscate` | `commercial-infrastructure` | `commercial-infrastructure-name` | `true` |
+| `packages/objects-arrays/objects/package.json` | `@bitcode/objects-arrays-objects` | `commercial-infrastructure` | `commercial-infrastructure-name` | `true` |
+| `packages/observability/package.json` | `@bitcode/observability` | `commercial-infrastructure` | `commercial-infrastructure-name` | `true` |
+| `packages/orm/package.json` | `@bitcode/orm` | `commercial-infrastructure` | `commercial-infrastructure-name` | `true` |
+| `packages/parsing/package.json` | `@bitcode/parsing` | `commercial-infrastructure` | `commercial-infrastructure-name` | `true` |
+| `packages/pipelines-generics/package.json` | `@bitcode/pipelines-generics` | `commercial-infrastructure` | `commercial-infrastructure-name` | `true` |
+| `packages/pipelines/deliverable/package.json` | `@bitcode/pipeline-deliverable` | `compatibility` | `compatibility-name` | `true` |
+| `packages/postgresql/package.json` | `@bitcode/postgresql` | `ingress-or-support` | `ingress-or-support-name` | `true` |
+| `packages/procurement/package.json` | `@bitcode/procurement` | `ingress-or-support` | `ingress-or-support-name` | `true` |
+| `packages/prompts/package.json` | `@bitcode/prompts` | `commercial-infrastructure` | `commercial-infrastructure-name` | `true` |
+| `packages/refactoring/package.json` | `@bitcode/refactoring` | `ingress-or-support` | `ingress-or-support-name` | `true` |
+| `packages/registry/package.json` | `@bitcode/registry` | `commercial-infrastructure` | `commercial-infrastructure-name` | `true` |
+| `packages/responses/package.json` | `@bitcode/responses` | `commercial-infrastructure` | `commercial-infrastructure-name` | `true` |
+| `packages/security/package.json` | `@bitcode/security` | `commercial-infrastructure` | `commercial-infrastructure-name` | `true` |
+| `packages/sentry/package.json` | `@bitcode/sentry` | `ingress-or-support` | `ingress-or-support-name` | `true` |
+| `packages/streams/package.json` | `@bitcode/streams` | `commercial-infrastructure` | `commercial-infrastructure-name` | `true` |
+| `packages/styling/package.json` | `@bitcode/styling` | `commercial-infrastructure` | `commercial-infrastructure-name` | `true` |
+| `packages/supabase/package.json` | `@bitcode/supabase` | `commercial-infrastructure` | `commercial-infrastructure-name` | `true` |
+| `packages/system-grep/package.json` | `@bitcode/simple-system-text-search` | `ingress-or-support` | `ingress-or-support-name` | `true` |
+| `packages/tech-types/package.json` | `@bitcode/tech-types` | `commercial-infrastructure` | `commercial-infrastructure-name` | `true` |
+| `packages/templates-generics/package.json` | `@bitcode/templates-generics` | `commercial-infrastructure` | `commercial-infrastructure-name` | `true` |
+| `packages/testing/src/test-drymockfakestub/package.json` | `@bitcode/test-intelligence` | `compatibility` | `compatibility-name` | `true` |
+| `packages/time/package.json` | `@bitcode/time` | `commercial-infrastructure` | `commercial-infrastructure-name` | `true` |
+| `packages/tools-generics/package.json` | `@bitcode/tools-generics` | `commercial-infrastructure` | `commercial-infrastructure-name` | `true` |
+| `packages/vcs/package.json` | `@bitcode/vcs` | `commercial-infrastructure` | `commercial-infrastructure-name` | `true` |
+| `packages/vercel/package.json` | `@bitcode/vercel` | `ingress-or-support` | `ingress-or-support-name` | `true` |
+| `packages/web-search/package.json` | `@bitcode/web-search` | `ingress-or-support` | `ingress-or-support-name` | `true` |
 
 ### V26 System Reform Admissibility Proof
 

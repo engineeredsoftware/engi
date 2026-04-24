@@ -167,6 +167,7 @@ Each step lists:
   ```json
   {
     "operation": "createRepository",
+    "confirmed": true,
     "accessToken": "ghp_exampleToken",
     "name": "yapper",
     "description": "Voice-first social feed built with Bitcode",
@@ -177,7 +178,14 @@ Each step lists:
   ```
   {
     "result": { "html_url": "https://github.com/bitcode-demo/yapper", ... },
-    "metadata": { "operation": "createRepository" }
+    "metadata": {
+      "operation": "createRepository",
+      "writeAdmission": {
+        "interfaceSurface": "chatgpt_app",
+        "permission": "explicit_user_confirmation",
+        "exchangeStateRole": "connected_interface_delivery_mechanism"
+      }
+    }
   }
   ```
 - **Bitcode Reply Outline**  
@@ -253,6 +261,7 @@ Each step lists:
   ```json
   {
     "request": "s3.putObject",
+    "confirmed": true,
     "payload": {
       "bucket": "bitcode-yapper-demo",
       "key": "config/demo-config.json",
@@ -264,7 +273,15 @@ Each step lists:
   ```
   {
     "result": { "ok": true, "tool": "awsS3PutObject", "bucket": "bitcode-yapper-demo", "key": "config/demo-config.json" },
-    "metadata": { "provider": "aws", "request": "s3.putObject" }
+    "metadata": {
+      "provider": "aws",
+      "request": "s3.putObject",
+      "writeAdmission": {
+        "interfaceSurface": "chatgpt_app",
+        "connectedInterface": "aws",
+        "outputMeaning": "asset_pack_delivery_mechanism"
+      }
+    }
   }
   ```
 - **Bitcode Reply Outline**  
@@ -280,6 +297,7 @@ Each step lists:
   ```json
   {
     "request": "deploy_to_vercel",
+    "confirmed": true,
     "payload": {
       "projectId": "prj_Yapper",
       "teamId": "team_bitcode",
@@ -298,7 +316,15 @@ Each step lists:
       "readyState": "BUILDING",
       "note": "Redeploy after manual QA completes."
     },
-    "metadata": { "provider": "vercel", "request": "deploy_to_vercel" }
+    "metadata": {
+      "provider": "vercel",
+      "request": "deploy_to_vercel",
+      "writeAdmission": {
+        "interfaceSurface": "chatgpt_app",
+        "connectedInterface": "vercel",
+        "outputMeaning": "asset_pack_delivery_mechanism"
+      }
+    }
   }
   ```
 - **Bitcode Reply Outline**  
@@ -332,6 +358,6 @@ Each step lists:
 ## Recording tips
 
 - Keep the conversation linear—avoid side quests so each tool is showcased once.  
-- Verbally call out when a confirmation prompt appears before executing write tools.  
+- Verbally call out when a confirmation prompt appears before executing write tools, and show that the actual tool payload includes `confirmed: true`.
 - Swap placeholder tokens/IDs for environment-specific values immediately before filming.  
 - If a tool response uses mock data (e.g. DevOps adapters), narrate that live integrations are on the TODO list.

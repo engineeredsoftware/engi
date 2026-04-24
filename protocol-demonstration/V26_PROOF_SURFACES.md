@@ -114,7 +114,7 @@ Required coverage posture:
   active API-boundary proof now also includes the route-owner split for executions history: `uapi/app/api/executions/{route.ts,history/route.ts,history/[runId]/route.ts}` must stay as thin interface bindings over `packages/api/src/routes/{deliverables,executions}.ts`, while execution-history normalization and persistence orchestration remain in the API package rather than drifting back into app-owned route files; route bindings may use specific `@bitcode/api/src/routes/{deliverables,executions}` entries when isolated loading is required
   current generated fourth-gate promotion proofs are `.bitcode/conversations-continuity-proof.json`, `.bitcode/runs-pipelines-totality-proof.json`, `.bitcode/persistence-schema-totality-proof.json`, `.bitcode/prompt-system-totality-proof.json`, `.bitcode/inference-implementation-records-proof.json`, `.bitcode/retained-package-admissibility-proof.json`, `.bitcode/fourth-gate-reclosure-review-proof.json`, and `.bitcode/v26-gate-checkpoint-report.json`
   fourth-gate reclosure proof must keep the earlier overstated promotion claim visible, map every material acceptance criterion to generated evidence, and report no blocking fourth-gate deviance before the gate checkpoint marks fourth gate promoted closed and fifth-gate work proceeds
-  retained-package admissibility now also has to state old-world port roles explicitly, including Jira as reader-first need ingestion and Git/GH as the initial settle-write boundary
+  retained-package admissibility now also has to state old-world port roles explicitly, including Jira as reader-first need ingestion and Git/GH as the initial settle-write boundary; the generated proof now adds a whole-`packages/` census so every active package manifest has a role classification, file witness, write boundary, and zero-unclassified-package result instead of relying on selective exemplar admissions
   retained MCP proof carriers are now explicit too: `packages/executions-mcp/src/mcp-server/src/__tests__/{tools/MCPToolsTestSuite.test.ts,integration/mcp-server.test.ts,unit/auth.test.ts}` must stay green against the current server surface and must not emit lingering Jest open-handle warnings, with imported singleton intervals handled as real runtime teardown obligations rather than ignored test noise
   active email-template carriers are explicit fifth-gate witnesses too: `supabase/config.toml`, `supabase/templates/{magic_link,confirm,password_recovery,email_change,invite,newsletter,deliverable_*}.html`, and the active deliverables email vars in `packages/api/src/routes/deliverables.ts` must converge on Bitcode naming and current placeholder contracts rather than leaving `Engi` product copy in live email/auth flows
   fifth-gate active-product naming witnesses now also cover the retained `@bitcode/prompts` package so prompt-system code, metadata, and promptpart identity text do not silently regress back to `Engi` naming after fourth-gate promotion
@@ -857,6 +857,11 @@ Required closure posture:
   `protocol-demonstration/test/v26-active-product-naming.test.js`
   proof surface:
   fifth-gate retained package fixture/doc closure so Bitcode-facing ChatGPT App and Vercel fixture surfaces no longer present old-brand team/org/product strings
+- `packages/chatgptapp/{src/{tools.ts,server.ts,__tests__/{tools.test.ts,yapperFlow.test.ts}},README.md,DEMO.md,TLDR.md}`
+  test coverage:
+  `packages/chatgptapp/src/__tests__/{tools.test.ts,yapperFlow.test.ts}`
+  proof surface:
+  fifth-gate ChatGPT App interface-parity closure so GitHub/AWS/Vercel writes reject unconfirmed tool payloads, accept only `confirmed: true`, return `writeAdmission` receipts, and remain connected-interface delivery mechanisms over Bitcode source-to-shares work rather than owning Exchange state
 - `packages/generic-tools/{repository-setup/package.json,repository-setup/src/index.ts,simple-system-text-search/src/index.ts,simple-system-text-search/src/prompts/BitcodeRepositoryEvidenceSearchDocCodeToolPrompt.ts,files-maintaining/src/index.ts,git-interactor/src/index.ts}`
   test coverage:
   `protocol-demonstration/test/v26-active-product-naming.test.js`

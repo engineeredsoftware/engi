@@ -190,18 +190,30 @@ This product delivers voice-first social conversations for builders.
     expect(awsHealth.metadata.guidance).toContain('Invoked the Lambda');
 
     // Step 9: Store configuration in S3
-    const awsWrite = await runTool<{ metadata: { guidance: string } }>('use_aws_write_external_mcp', {
+    const awsWrite = await runTool<{ metadata: { guidance: string; writeAdmission: Record<string, unknown> } }>('use_aws_write_external_mcp', {
       request: 's3.putObject',
+      confirmed: true,
       payload: { bucket: 'bitcode-yapper', key: 'config/demo.json', body: '{}' },
     });
     expect(awsWrite.metadata.guidance).toContain('Uploaded to S3');
+    expect(awsWrite.metadata.writeAdmission).toMatchObject({
+      interfaceSurface: 'chatgpt_app',
+      connectedInterface: 'aws',
+      operation: 's3.putObject',
+    });
 
     // Step 10: Kick off a preview deploy
-    const vercelDeploy = await runTool<{ result: { readyState: string } }>('use_vercel_write_external_mcp', {
+    const vercelDeploy = await runTool<{ result: { readyState: string }; metadata: { writeAdmission: Record<string, unknown> } }>('use_vercel_write_external_mcp', {
       request: 'deploy_to_vercel',
+      confirmed: true,
       payload: { projectId: 'prj_Yapper', teamId: 'team_bitcode', message: 'Preview deploy after optimistic UI work.' },
     });
     expect((vercelDeploy.result as any).readyState).toBe('BUILDING');
+    expect(vercelDeploy.metadata.writeAdmission).toMatchObject({
+      interfaceSurface: 'chatgpt_app',
+      connectedInterface: 'vercel',
+      operation: 'deploy_to_vercel',
+    });
 
     // Step 11: Capture agent learnings, regenerating baseline
     const agentsUpdate = await runTool<{

@@ -457,15 +457,16 @@ Fifth-gate is now specified as:
 - maximally finished old-world reform baseline for everything that still survives on the live Bitcode path,
 - debug/environment controls required for proving mode coherence,
 - full production/staging/development mode completeness,
-- retained-package admissibility proof,
+- retained-package admissibility proof plus generated whole-`packages/` census coverage with zero unclassified active package owners,
 - post-fourth-gate-promotion proof-bearing cleanup of any still-kept system,
 - source-to-shares and closure-deepening evidence through `.bitcode/source-to-shares-fifth-gate-proof.json` and `.bitcode/fifth-gate-closure-deepening-proof.json`, including app-owned state-route reread after accepted source-to-shares branch materialization, Terminal selected-detail persistence, and generated source-content checks for the route-reread and Terminal-read assertions,
 - and no procedural fifth-gate closure claim until the remaining fifth-gate acceptance set is fully proven.
 
 Fifth-gate acceptance is reached only when:
 - the repository can make shares and use shares through Bitcode-owned interfaces, route-level reread, and state,
-- package and interface PARITY closure is backed by specification text, generated proof artifacts, source-content checks, and executable tests when the surface carries make-share or use-share behavior,
+- package and interface PARITY closure is backed by specification text, generated proof artifacts, source-content checks, executable tests when the surface carries make-share or use-share behavior, and package-by-package census classification rather than selective package examples alone,
 - the Bitcode MCP write-admission slice proves accepted write receipts, queued write-admission metadata, third-party MCP ingress as input context, and asset-pack output meaning instead of thin deliverable/run-id residue,
+- the ChatGPT App write-admission slice proves GitHub/AWS/Vercel connected-interface writes reject unconfirmed payloads, accept only `confirmed: true`, and return delivery-mechanism receipts instead of treating the ChatGPT App as a parallel Exchange owner,
 - the required proof families are generated,
 - their closure verdicts are explicit,
 - debug/environment behavior is proven coherent,

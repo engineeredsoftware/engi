@@ -29,10 +29,10 @@ export class BitcodeMCPServer {
           tools: {}
         },
         instructions: [
-          'Bitcode is a design-driven engineering companion for ChatGPT.',
-          'Read tools answer questions, summarise designs, and surface DevOps context.',
-          'Write tools (GitHub, AWS) require explicit confirmation before execution.',
-          'Always ensure `.ai/PRODUCT.md`, `.ai/AGENTS.md`, and `.ai/MCPS.md` stay in sync with each turn.'
+          'Bitcode is the source-to-shares protocol surfaced through ChatGPT as a connected-interface Bitcode Terminal companion.',
+          'Read tools gather codebase, web, VCS, and DevOps context as Exchange input evidence rather than parallel product state.',
+          'Write tools (GitHub, AWS, Vercel) require confirmed: true and return write-admission receipts before connected-interface delivery mechanisms execute.',
+          'Always ensure `.ai/PRODUCT.md`, `.ai/AGENTS.md`, and `.ai/MCPS.md` stay in sync with Bitcode Exchange and Terminal decisions.'
         ].join(' ')
       }
     );

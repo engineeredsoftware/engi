@@ -393,7 +393,7 @@ Promoted closed after reopening re-review:
 - executions/runs keep explicit compatibility APIs while their master-detail and inspection patterns are ported inward to `/application`,
 - PostgreSQL/Supabase ownership is grounded across `supabase/*`, `packages/supabase/*`, retained API carriers, and the live `/edgetimes` + `/api/edgetimes` witness posture,
 - `supabase/migrations/001_v26_production.sql` is the initial V26 persistence baseline for the current proof family,
-- retained packages are admitted through generated retained-package admissibility records,
+- retained packages are admitted through generated retained-package admissibility records plus a whole-`packages/` package census that classifies every active package owner and fails closed on unclassified fallbacks,
 - proof obligations are assigned to generated fourth-gate proof families rather than left as prose-only intent,
 - `.bitcode/fourth-gate-reclosure-review-proof.json` maps every fourth-gate material criterion to proof evidence and records no blocking fourth-gate deviance,
 - and `.bitcode/v26-gate-checkpoint-report.json` records fourth-gate `promotedClosed` while keeping fifth-gate open with source-to-shares and closure-deepening proof evidence.
@@ -433,7 +433,7 @@ Still open:
 
 Still open:
 - the exact theorem/member structure for the new V26 proof families,
-- how retained-package admissibility verdicts should be generated,
+- how retained-package admissibility verdicts should advance beyond the new generated package census into package-specific compile/runtime acceptance,
 - how migration/schema/ORM/type closure should be emitted as a generated proof family rather than a hand-waved infrastructure note,
 - how prompt-space proofs and application-composition proofs should join the existing Bitcode proof family catalog,
 - and what minimum closure signal is required before V26 can be considered formally complete.
@@ -509,6 +509,7 @@ Current fifth-gate reminders:
 - the same fifth-gate admissibility boundary now explicitly includes execution-stack package truth too: `packages/{execution-generics,agent-generics,pipelines-generics,pipelines/deliverable,executions-mcp}` and active promptparts like `packages/prompts/src/raw_promptparts/specific/promptpart_specific_pipeline_deliverable_purpose_corestatement.ts` must clearly distinguish canonical Bitcode primitives from retained SDIVS/PTRR/meta-phase reference orchestration and must not preserve old platform narration in package headers or metadata
 - the same admissibility boundary now explicitly includes MCP interface precision too: `packages/executions-mcp/{README.md,src/mcp-server/{README.md,src/{index.ts,server.ts,types/index.ts,pipeline-execution/adapter.ts},docs/{public/mcp-overview.md,openapi/bitcode-mcp-openapi.json},package.json}}` must distinguish primitive `@bitcode/mcp` utilities from the Bitcode Exchange-facing MCP server, teach `Bitcode Protocol` / `Bitcode Exchange` / `Bitcode Terminal` as one canonical hierarchy, treat repository/provider connections and attachments as execution inputs, and treat retained deliverable-style outputs as Bitcode asset packs rather than leaving MCP ingress/egress meaning implicit
 - the live Bitcode MCP write contract now carries that interface precision too: `packages/executions-mcp/src/mcp-server/src/{types/index.ts,tools/pipeline-tools.ts,pipeline-execution/adapter.ts}` admits explicit repository/provider connection ingress on the deliverable tool schema, preserves normalized `inputContext` plus `interfaceSurface` on queued/completed responses, returns and queues a `writeAdmission` receipt with permission/ingress-basis/repository-anchor/input-count/asset-pack meaning, proves third-party MCP repository and attachment context as ingress-only, and returns asset-pack-normalized output meaning instead of leaving MCP writes as thin run ids plus generic deliverable residue
+- the live ChatGPT App write contract now carries the same interface precision too: `packages/chatgptapp/src/{tools,server}.ts`, `packages/chatgptapp/src/__tests__/{tools,yapperFlow}.test.ts`, and `packages/chatgptapp/{README,DEMO,TLDR}.md` require `confirmed: true` before GitHub/AWS/Vercel connected-interface writes execute, reject unconfirmed writes, and return `writeAdmission` metadata that classifies those writes as source-to-shares delivery mechanisms rather than parallel Exchange state ownership
 - active product semantics must teach Bitcode shares of technical intelligence, not a generic developer platform or agentic developer tooling product, even where the retained primitive substrate still uses older transaction/pipeline terms internally
 - fifth-gate does not need final financial-product aesthetic tightening or post-testnet `mainnet` additions; those are later-gate concerns and must not be used to keep minimum functionality undefined
 - active front-end runtime globals and animation identifiers are part of the rename/proof boundary too: `window.__BITCODE_FLAGS`, `window.__bitcodeRevealScreenshotsFired`, and Bitcode-prefixed conversation animation names are active-source proof carriers rather than cosmetic debt

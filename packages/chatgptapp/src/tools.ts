@@ -49,6 +49,37 @@ export interface BitcodeTool<T extends z.ZodTypeAny = z.ZodTypeAny> {
   meta?: Record<string, unknown>;
 }
 
+type ChatGptAppConnectedInterface = 'github' | 'vercel' | 'aws';
+
+type ChatGptAppWriteAdmissionInput = {
+  connectedInterface: ChatGptAppConnectedInterface;
+  operation: string;
+  targetAnchor?: string;
+};
+
+function assertConfirmedConnectedInterfaceWrite(confirmed: unknown): void {
+  if (confirmed !== true) {
+    throw new Error(
+      'Bitcode ChatGPT App write admission requires confirmed: true before connected-interface writes can execute.'
+    );
+  }
+}
+
+function buildChatGptAppWriteAdmission(input: ChatGptAppWriteAdmissionInput) {
+  return {
+    admitted: true,
+    interfaceSurface: 'chatgpt_app',
+    permission: 'explicit_user_confirmation',
+    ingressBasis: 'chatgpt_conversation_confirmed_payload',
+    protocolScope: 'source_to_shares',
+    exchangeStateRole: 'connected_interface_delivery_mechanism',
+    outputMeaning: 'asset_pack_delivery_mechanism',
+    connectedInterface: input.connectedInterface,
+    operation: input.operation,
+    targetAnchor: input.targetAnchor
+  };
+}
+
 const PRODUCT_MD_TEMPLATE = `###### What is this document?
 
 \`.ai/PRODUCT.md\` *Design Document* is the **"design of source code"** and is the canonical, complete, and precise software product reference for this repository.
@@ -623,6 +654,7 @@ const READ_CODE_CHANGES_SCHEMA = {
 
 const WRITE_CODE_CHANGES_VALIDATOR = z.object({
   operation: z.enum(['createRepository', 'createOrUpdateFile']).describe('Write operation to perform'),
+  confirmed: z.literal(true).describe('Explicit user confirmation required before Bitcode ChatGPT App connected-interface writes execute'),
   accessToken: z.string().min(1, 'accessToken must be provided').describe('GitHub access token with repo scope'),
   owner: z.string().optional().describe('Owner for file operations (required for createOrUpdateFile)'),
   repo: z.string().optional().describe('Repo for file operations (required for createOrUpdateFile)'),
@@ -636,6 +668,8 @@ const WRITE_CODE_CHANGES_VALIDATOR = z.object({
 }).strict();
 
 async function executeWriteCodeChanges(args: z.infer<typeof WRITE_CODE_CHANGES_VALIDATOR>) {
+  assertConfirmedConnectedInterfaceWrite(args.confirmed);
+
   const auth: VCSAuth = {
     accessToken: args.accessToken,
     tokenType: 'token',
@@ -644,8 +678,9 @@ async function executeWriteCodeChanges(args: z.infer<typeof WRITE_CODE_CHANGES_V
 
   if (args.operation === 'createRepository') {
     const provider = new GitHubProvider(getVCSConfig('github'));
+    const repositoryName = args.name ?? `bitcode-${Date.now()}`;
     const repo = await provider.createRepository(auth, {
-      name: args.name ?? `bitcode-${Date.now()}`,
+      name: repositoryName,
       description: args.description,
       private: args.private ?? false,
       autoInit: true
@@ -654,7 +689,12 @@ async function executeWriteCodeChanges(args: z.infer<typeof WRITE_CODE_CHANGES_V
     return {
       result: repo,
       metadata: {
-        operation: args.operation
+        operation: args.operation,
+        writeAdmission: buildChatGptAppWriteAdmission({
+          connectedInterface: 'github',
+          operation: args.operation,
+          targetAnchor: `github:${repositoryName}`
+        })
       }
     };
   }
@@ -694,7 +734,12 @@ async function executeWriteCodeChanges(args: z.infer<typeof WRITE_CODE_CHANGES_V
     result: commit.data,
     metadata: {
       operation: args.operation,
-      sha: commit.data.content?.sha
+      sha: commit.data.content?.sha,
+      writeAdmission: buildChatGptAppWriteAdmission({
+        connectedInterface: 'github',
+        operation: args.operation,
+        targetAnchor: `github:${owner}/${repoName}/${path}${args.branch ? `@${args.branch}` : ''}`
+      })
     }
   };
 }
@@ -707,6 +752,11 @@ const WRITE_CODE_CHANGES_SCHEMA = {
       type: 'string',
       enum: ['createRepository', 'createOrUpdateFile'],
       description: 'Write operation to perform'
+    },
+    confirmed: {
+      type: 'boolean',
+      const: true,
+      description: 'Explicit user confirmation required before Bitcode ChatGPT App connected-interface writes execute'
     },
     accessToken: {
       type: 'string',
@@ -749,7 +799,7 @@ const WRITE_CODE_CHANGES_SCHEMA = {
       description: 'Branch to commit against (default default branch)'
     }
   },
-  required: ['operation', 'accessToken']
+  required: ['operation', 'confirmed', 'accessToken']
 };
 
 const IMPROVE_BEHAVIOR_VALIDATOR = z.object({
@@ -967,12 +1017,16 @@ const VERCEL_READ_SCHEMA = {
 
 const VERCEL_WRITE_VALIDATOR = z.object({
   request: z.enum(['deploy_to_vercel', 'buy_domain', 'check_domain_availability']).describe('Vercel write tool to invoke'),
+  confirmed: z.literal(true).describe('Explicit user confirmation required before Bitcode ChatGPT App connected-interface writes execute'),
   payload: z.record(z.any()).default({}).describe('Parameters to forward to the Vercel MCP tool')
 }).strict();
 
 async function executeUseVercelWriteExternalMcp(args: z.infer<typeof VERCEL_WRITE_VALIDATOR>) {
+  assertConfirmedConnectedInterfaceWrite(args.confirmed);
+
   let result: unknown;
   let guidance: string;
+  let targetAnchor = 'vercel:unscoped';
 
   switch (args.request) {
     case 'deploy_to_vercel':
@@ -981,6 +1035,7 @@ async function executeUseVercelWriteExternalMcp(args: z.infer<typeof VERCEL_WRIT
         teamId: args.payload.teamId ?? 'team_bitcode',
         message: args.payload.message
       });
+      targetAnchor = `vercel:${args.payload.teamId ?? 'team_bitcode'}/${args.payload.projectId ?? 'prj_Yapper'}`;
       guidance = 'Deployment requested—explain the pending status and remind the user to monitor readiness.';
       break;
     case 'buy_domain':
@@ -994,12 +1049,14 @@ async function executeUseVercelWriteExternalMcp(args: z.infer<typeof VERCEL_WRIT
           email: 'builder@bitcode.dev'
         }
       });
+      targetAnchor = `vercel:domain/${args.payload.name ?? 'yapper.app'}`;
       guidance = 'Domain purchase simulated—note renewal details and next steps for DNS configuration.';
       break;
     case 'check_domain_availability':
       result = await vercelCheckDomainAvailabilityTool.execute({
         names: Array.isArray(args.payload?.names) ? args.payload.names : [String(args.payload?.name ?? 'yapper.app')]
       });
+      targetAnchor = `vercel:domain-availability/${Array.isArray(args.payload?.names) ? args.payload.names.join(',') : String(args.payload?.name ?? 'yapper.app')}`;
       guidance = 'Domain availability report ready—guide the user toward the best available option.';
       break;
     default:
@@ -1012,7 +1069,12 @@ async function executeUseVercelWriteExternalMcp(args: z.infer<typeof VERCEL_WRIT
       provider: 'vercel',
       request: args.request,
       aiDocument: '.ai/MCPS.md',
-      guidance
+      guidance,
+      writeAdmission: buildChatGptAppWriteAdmission({
+        connectedInterface: 'vercel',
+        operation: args.request,
+        targetAnchor
+      })
     }
   };
 }
@@ -1026,12 +1088,17 @@ const VERCEL_WRITE_SCHEMA = {
       enum: ['deploy_to_vercel', 'buy_domain', 'check_domain_availability'],
       description: 'Vercel write tool to invoke'
     },
+    confirmed: {
+      type: 'boolean',
+      const: true,
+      description: 'Explicit user confirmation required before Bitcode ChatGPT App connected-interface writes execute'
+    },
     payload: {
       type: 'object',
       description: 'Parameters to forward to the Vercel MCP tool'
     }
   },
-  required: ['request']
+  required: ['request', 'confirmed']
 };
 
 const AWS_READ_VALIDATOR = z.object({
@@ -1101,21 +1168,27 @@ const AWS_READ_SCHEMA = {
 
 const AWS_WRITE_VALIDATOR = z.object({
   request: z.enum(['s3.putObject', 'dynamo.putItem']).describe('AWS write action to perform'),
+  confirmed: z.literal(true).describe('Explicit user confirmation required before Bitcode ChatGPT App connected-interface writes execute'),
   payload: z.record(z.any()).default({}).describe('Raw AWS parameters (bucket/key/body, table/item, etc.)')
 }).strict();
 
 async function executeUseAwsWriteExternalMcp(args: z.infer<typeof AWS_WRITE_VALIDATOR>) {
+  assertConfirmedConnectedInterfaceWrite(args.confirmed);
+
   let result: unknown;
   let guidance: string;
+  let targetAnchor = 'aws:unscoped';
   switch (args.request) {
     case 's3.putObject':
       result = await awsS3PutObjectTool.execute(args.payload as Parameters<typeof awsS3PutObjectTool.execute>[0]);
+      targetAnchor = `aws:s3/${String(args.payload.bucket ?? 'bitcode-demo')}/${String(args.payload.key ?? 'config/demo.json')}`;
       guidance = 'Uploaded to S3—confirm the path in follow-up so collaborators can fetch it easily.';
       break;
     case 'dynamo.putItem':
       result = await awsDynamoPutItemTool.execute(
         args.payload as Parameters<typeof awsDynamoPutItemTool.execute>[0]
       );
+      targetAnchor = `aws:dynamodb/${String(args.payload.table ?? 'bitcode-demo-table')}`;
       guidance = 'Stored the record in DynamoDB; let’s document the schema impact in PRODUCT.md.';
       break;
     default:
@@ -1128,7 +1201,12 @@ async function executeUseAwsWriteExternalMcp(args: z.infer<typeof AWS_WRITE_VALI
       provider: 'aws',
       request: args.request,
       aiDocument: '.ai/MCPS.md',
-      guidance
+      guidance,
+      writeAdmission: buildChatGptAppWriteAdmission({
+        connectedInterface: 'aws',
+        operation: args.request,
+        targetAnchor
+      })
     }
   };
 }
@@ -1142,12 +1220,17 @@ const AWS_WRITE_SCHEMA = {
       enum: ['s3.putObject', 'dynamo.putItem'],
       description: 'AWS write action to perform'
     },
+    confirmed: {
+      type: 'boolean',
+      const: true,
+      description: 'Explicit user confirmation required before Bitcode ChatGPT App connected-interface writes execute'
+    },
     payload: {
       type: 'object',
       description: 'Parameters passed through to the AWS MCP tool'
     }
   },
-  required: ['request']
+  required: ['request', 'confirmed']
 };
 
 // ---------------------------------------------------------------------------
@@ -1229,7 +1312,7 @@ export function getBitcodeTools(): BitcodeTool[] {
     },
     {
       name: 'write_code_changes_to_vcs',
-      description: 'Create repositories or push file updates to GitHub (confirmation required).',
+      description: 'Create repositories or push file updates to GitHub after confirmed Bitcode connected-interface write admission.',
       inputSchema: WRITE_CODE_CHANGES_SCHEMA,
       validator: WRITE_CODE_CHANGES_VALIDATOR,
       execute: executeWriteCodeChanges,
@@ -1265,7 +1348,7 @@ export function getBitcodeTools(): BitcodeTool[] {
     },
     {
       name: 'use_vercel_write_external_mcp',
-      description: 'Capture desired Vercel mutations (write support coming soon; currently records intent).',
+      description: 'Execute confirmed Vercel delivery mechanisms with Bitcode ChatGPT App write-admission receipts.',
       inputSchema: VERCEL_WRITE_SCHEMA,
       validator: VERCEL_WRITE_VALIDATOR,
       execute: executeUseVercelWriteExternalMcp,
@@ -1289,7 +1372,7 @@ export function getBitcodeTools(): BitcodeTool[] {
     },
     {
       name: 'use_aws_write_external_mcp',
-      description: 'Perform scoped AWS writes (S3 uploads, Dynamo inserts) after explicit confirmation.',
+      description: 'Perform scoped AWS delivery writes after confirmed Bitcode ChatGPT App write admission.',
       inputSchema: AWS_WRITE_SCHEMA,
       validator: AWS_WRITE_VALIDATOR,
       execute: executeUseAwsWriteExternalMcp,

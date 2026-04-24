@@ -341,6 +341,26 @@ test('V26 proven generator renders the active Bitcode appendix with fourth gate 
     'requiredFiles'
   ]);
   assert.equal(generated.data.v26.retainedPackageAdmissibilityProof.roleCounts['commercial-infrastructure'], 5);
+  assert.equal(generated.data.v26.retainedPackageAdmissibilityProof.packageCensusCoveragePassed, true);
+  assert.equal(generated.data.v26.retainedPackageAdmissibilityProof.unclassifiedPackageCount, 0);
+  assert.ok(
+    generated.data.v26.retainedPackageAdmissibilityProof.packageCensusCount
+      > generated.data.v26.retainedPackageAdmissibilityProof.admittedPackageCount,
+  );
+  assert.equal(
+    generated.data.v26.retainedPackageAdmissibilityProof.packageCensus.some((entry) =>
+      entry.packagePath === 'packages/executions-mcp/src/mcp-server/package.json' &&
+      entry.primaryRole === 'direct-product'
+    ),
+    true,
+  );
+  assert.equal(
+    generated.data.v26.retainedPackageAdmissibilityProof.packageCensus.some((entry) =>
+      entry.packagePath === 'packages/pipelines/deliverable/package.json' &&
+      entry.primaryRole === 'compatibility'
+    ),
+    true,
+  );
   assert.equal(
     generated.data.v26.retainedPackageAdmissibilityProof.packages.some((entry) =>
       entry.requiredFiles.includes('packages/orm/src/queries/field-intelligence.ts')

@@ -154,16 +154,38 @@ This product delivers voice-first social conversations for builders.
     expect(Array.isArray((result.answer as any).deployments)).toBe(true);
   });
 
-  it('use_vercel_write_external_mcp triggers deploy fixture', async () => {
-    const result = await runTool<{ result: { readyState: string }; metadata: { provider: string } }>(
+  it('use_vercel_write_external_mcp triggers deploy fixture after explicit write admission', async () => {
+    const result = await runTool<{ result: { readyState: string }; metadata: { provider: string; writeAdmission: Record<string, unknown> } }>(
       'use_vercel_write_external_mcp',
       {
         request: 'deploy_to_vercel',
+        confirmed: true,
         payload: { projectId: 'prj_Yapper', teamId: 'team_bitcode', message: 'Demo deploy' },
       }
     );
     expect(result.metadata.provider).toBe('vercel');
+    expect(result.metadata.writeAdmission).toMatchObject({
+      admitted: true,
+      interfaceSurface: 'chatgpt_app',
+      permission: 'explicit_user_confirmation',
+      connectedInterface: 'vercel',
+      operation: 'deploy_to_vercel',
+      exchangeStateRole: 'connected_interface_delivery_mechanism',
+      outputMeaning: 'asset_pack_delivery_mechanism',
+      targetAnchor: 'vercel:team_bitcode/prj_Yapper',
+    });
     expect((result.result as any).readyState).toBe('BUILDING');
+  });
+
+  it('rejects ChatGPT App connected-interface writes without explicit confirmation', async () => {
+    await expect(
+      runTool('use_vercel_write_external_mcp', {
+        request: 'deploy_to_vercel',
+        payload: { projectId: 'prj_Yapper', teamId: 'team_bitcode', message: 'Demo deploy' },
+      })
+    ).rejects.toThrow(
+      'Bitcode ChatGPT App write admission requires confirmed: true before connected-interface writes can execute.',
+    );
   });
 
   it('use_aws_read_external_mcp invokes lambda helper', async () => {
@@ -175,13 +197,22 @@ This product delivers voice-first social conversations for builders.
     expect(result.metadata.guidance).toContain('Invoked the Lambda');
   });
 
-  it('use_aws_write_external_mcp uploads to S3', async () => {
-    const result = await runTool<{ metadata: { provider: string; guidance: string } }>('use_aws_write_external_mcp', {
+  it('use_aws_write_external_mcp uploads to S3 after explicit write admission', async () => {
+    const result = await runTool<{ metadata: { provider: string; guidance: string; writeAdmission: Record<string, unknown> } }>('use_aws_write_external_mcp', {
       request: 's3.putObject',
+      confirmed: true,
       payload: { bucket: 'demo', key: 'config.json', body: '{}' },
     });
     expect(result.metadata.provider).toBe('aws');
     expect(result.metadata.guidance).toContain('Uploaded to S3');
+    expect(result.metadata.writeAdmission).toMatchObject({
+      admitted: true,
+      interfaceSurface: 'chatgpt_app',
+      permission: 'explicit_user_confirmation',
+      connectedInterface: 'aws',
+      operation: 's3.putObject',
+      targetAnchor: 'aws:s3/demo/config.json',
+    });
   });
 
   it('design_code gracefully degrades when digest regeneration fails', async () => {

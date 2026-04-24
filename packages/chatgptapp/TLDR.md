@@ -17,6 +17,6 @@
 
 **Key guardrails**  
 - Never skip updating `.ai/PRODUCT.md` / `.ai/AGENTS.md` when design or behaviour shifts.  
-- Ask for confirmation before any `write_code_changes_to_vcs`, `use_vercel_write_external_mcp`, or `use_aws_write_external_mcp` call.  
+- Ask for confirmation before any `write_code_changes_to_vcs`, `use_vercel_write_external_mcp`, or `use_aws_write_external_mcp` call, then pass `confirmed: true` so the tool emits a Bitcode write-admission receipt.
 - Remember that DevOps tools expect `request` + `payload` objects so transcripts stay readable and reproducible.  
 - Persist golden prompts and canonical tool descriptions across all docs, demos, and scripts.

@@ -1,8 +1,8 @@
 {
   "reportId": "v26-runs-pipelines-totality-proof",
   "version": "V26",
-  "proofSourceCommit": "c2cf868aa817309ce7ed8efae0de62444b10ee34",
-  "generatedAt": "2026-04-24T00:30:33-03:00",
+  "proofSourceCommit": "aa94c3bae89f45463de58f9a52b775ce3ac5466c",
+  "generatedAt": "2026-04-24T00:37:46-03:00",
   "generatorId": "bitcode.proven-generator.v1",
   "worktreeState": "dirty-preview",
   "passed": true,
@@ -173,7 +173,7 @@
       "checkId": "mcp-write-admission-and-third-party-ingress-contract",
       "label": "Bitcode MCP write admission and third-party ingress are source-checked as Exchange-facing interface contracts rather than package-presence witnesses",
       "passed": true,
-      "detail": "10 source evidence requirements satisfied",
+      "detail": "9 source evidence requirements satisfied",
       "requiredEvidence": [
         {
           "file": "packages/executions-mcp/src/mcp-server/src/types/index.ts",
@@ -199,11 +199,6 @@
           "file": "packages/executions-mcp/src/mcp-server/src/tools/pipeline-tools.ts",
           "evidence": "writeAdmission,",
           "description": "accepted write admission is returned and queued in metadata"
-        },
-        {
-          "file": "packages/executions-mcp/src/mcp-server/src/tools/pipeline-tools.js",
-          "evidence": "const writeAdmission = assertPipelineWriteAdmission(params, context, interfaceSurface);",
-          "description": "shipped JavaScript MCP runtime mirrors the TypeScript write-admission receipt"
         },
         {
           "file": "packages/executions-mcp/src/mcp-server/src/__tests__/unit/pipeline-ingress-contract.test.ts",

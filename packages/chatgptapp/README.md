@@ -1,13 +1,13 @@
 # @bitcode/chatgptapp
 
-Bitcode’s ChatGPT App MCP package lets product-minded builders ship software without touching a code editor. Inside a single ChatGPT thread, Bitcode captures your intent, keeps AI design documents truthful, narrates repository behaviour in plain language, drafts implementation moves, and coordinates GitHub plus DevOps changes with explicit confirmation.
+Bitcode’s ChatGPT App MCP package lets product-minded builders participate in the Bitcode source-to-shares loop without touching a code editor. Inside a single ChatGPT thread, Bitcode captures intent, keeps AI design documents truthful, narrates repository behaviour in plain language, drafts implementation moves, and coordinates GitHub plus DevOps delivery mechanisms only after explicit confirmation.
 
 > Docs live alongside the package for consistency. Use this README for positioning + tool catalog, skim `TLDR.md` to get oriented in under a minute, check `TODO.md` for the active backlog, and follow `DEMO.md` to rehearse the Yapper launch video.
 
 ## Product framing
 
 - **Audience** – Semi-technical builders (founders, product leads, architects) who can articulate intent but prefer AI to execute.
-- **Promise** – “Design software conversationally, let Bitcode ship it.” Every artifact lives in `.ai/PRODUCT.md`, `.ai/AGENTS.md`, or committed code, with attribution and history.
+- **Promise** – “Design software conversationally, let Bitcode deliver the connected-interface artifacts.” Every artifact lives in `.ai/PRODUCT.md`, `.ai/AGENTS.md`, committed code, or a write-admission receipt with attribution and history.
 - **Relationship to Codex** – Codex remains the editing IDE for expert engineers. Bitcode owns the design-first loop, keeps state synchronised, and triggers write operations with explicit confirmation.
 - **AI Documents** – Templates for `.ai/PRODUCT.md` and `.ai/AGENTS.md` ship inside `src/tools.ts`; sessions create and evolve them via the `design_code`, `code_design`, and `improve_developing_behavior` tools.
 
@@ -17,9 +17,9 @@ The pre-launch landing page and demo video revolve around three promises:
 
 1. **Design-first control** – Capture every requirement as you talk. Bitcode turns them into structured updates inside `.ai/PRODUCT.md`, so intent stays visible and portable.
 2. **Explain-before-you-edit** – Before any code changes land, Bitcode narrates the relevant files, drafts a plan, and shows diff-ready stubs. You steer scope; Bitcode handles detail.
-3. **Ship with receipts** – GitHub commits, Vercel deploys, and AWS tweaks only happen with confirmation. Every decision is mirrored into `.ai/AGENTS.md` for future sessions.
+3. **Deliver with receipts** – GitHub commits, Vercel deploys, and AWS tweaks only happen with `confirmed: true`; each write returns a Bitcode write-admission receipt and every decision is mirrored into `.ai/AGENTS.md` for future sessions.
 
-The headline: *“Design your app in chat. Bitcode keeps the documents honest, drafts the code, and ships it when you say go.”*
+The headline: *“Design your app in chat. Bitcode keeps the documents honest, drafts the code, and delivers connected-interface artifacts when you say go.”*
 
 ## Local dev workflow
 
@@ -67,12 +67,12 @@ The `tools/list` call should display the canonical identifiers below (no `engi:`
 | `design_code` | Update `.ai/PRODUCT.md` from conversational ideas. | “Bitcode, add a flow for muting noisy Yapper feeds.” | Creates the doc if missing, appends a `### Proposed Updates` block; set `regenerateFromDigest: true` to refresh the baseline via `@bitcode/digest`. |
 | `code_design` | Translate design updates into actionable implementation steps. | “Bitcode, draft the edits to implement the mute-feed feature.” | Emits task bullets and patch stubs for targeted files. |
 | `read_code_changes_from_vcs` | Summarise recent GitHub activity for a repo/branch. | “Bitcode, what shipped on `main` over the last five commits?” | Requires repo-scoped token; outputs author-tagged lines. |
-| `write_code_changes_to_vcs` | Create repositories or push file updates. | “Bitcode, commit the generated Yapper seed data to `main`.” | Confirmation-gated; leverages Octokit for file writes. |
+| `write_code_changes_to_vcs` | Create repositories or push file updates. | “Bitcode, commit the generated Yapper seed data to `main`.” | Requires `confirmed: true`; returns a Bitcode write-admission receipt before GitHub delivery. |
 | `improve_developing_behavior` | Capture collaboration learnings in `.ai/AGENTS.md`. | “Bitcode, note that we always reference file paths with line numbers.” | Returns both the delta block and the latest agent doc; set `regenerateFromDigest: true` to refresh via `@bitcode/digest`. |
 | `use_vercel_read_external_mcp` | Narrate Vercel teams, projects, deployments, or docs. | “Bitcode, list deployments for Yapper and flag the prod URL.” | Payload: `request` (e.g. `list_deployments`) + `payload` (tool args). |
-| `use_vercel_write_external_mcp` | Demo Vercel mutations (deploy, domains) with believable fixtures. | “Bitcode, kick off a fresh preview deploy—confirm with me first.” | Returns realistic responses while reminding viewers to use real creds live. |
+| `use_vercel_write_external_mcp` | Demo Vercel mutations (deploy, domains) with believable fixtures. | “Bitcode, kick off a fresh preview deploy—confirm with me first.” | Requires `confirmed: true`; treats Vercel as a connected-interface delivery mechanism, not Exchange state. |
 | `use_aws_read_external_mcp` | Run AWS health checks (Lambda invoke, S3/Dynamo reads, CloudWatch logs). | “Bitcode, run the `yap-transcribe` lambda and share the response.” | Payload: `request` (e.g. `lambda.invoke`) + `payload` (CLI-style args). |
-| `use_aws_write_external_mcp` | Apply scoped AWS writes with confirmation (S3 uploads, Dynamo inserts). | “Bitcode, upload the Yapper demo config to S3—confirm first.” | Emits success fixtures and nudges users to document the impact in PRODUCT.md. |
+| `use_aws_write_external_mcp` | Apply scoped AWS writes with confirmation (S3 uploads, Dynamo inserts). | “Bitcode, upload the Yapper demo config to S3—confirm first.” | Requires `confirmed: true`; emits a write-admission receipt and nudges users to document the impact in PRODUCT.md. |
 
 Refer to `TLDR.md` for a quick-start checklist and `TODO.md` for the active backlog.
 
@@ -125,7 +125,7 @@ All templates live in `src/tools.ts` so new sessions can bootstrap immediately.
 2. **ChatGPT (Apps SDK developer mode)**
    - Install the Bitcode MCP pointing to the local server.
    - Follow the `DEMO.md` script verbatim; confirm each tool responds as expected.
-   - Ensure confirmation prompts fire for `write_code_changes_to_vcs`, `use_vercel_write_external_mcp`, and `use_aws_write_external_mcp`.
+   - Ensure confirmation prompts fire and payloads include `confirmed: true` for `write_code_changes_to_vcs`, `use_vercel_write_external_mcp`, and `use_aws_write_external_mcp`.
 3. **App metadata review**
    - Align App Store copy and screenshots with the tool list above.
    - Verify environment variables (`EXA_API_KEY`, AWS creds, GitHub tokens) before filming.
