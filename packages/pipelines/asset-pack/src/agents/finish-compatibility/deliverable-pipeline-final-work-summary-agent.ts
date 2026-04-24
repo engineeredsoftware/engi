@@ -1,5 +1,6 @@
 /**
- * Compatibility wrapper for the former shipping final-summary path.
+ * Compatibility wrapper for Finish callers that still request the older
+ * final-summary export.
  * Canonical V26 Finish implementation lives in `../finish/final-work-summary-agent`.
  */
 

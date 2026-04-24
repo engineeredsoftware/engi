@@ -72,7 +72,7 @@ Required record fields:
   Concrete command, test, typecheck, runtime load, static proof, generated artifact, or manual gap.
 
 The record is incomplete if any field can only be inferred from old naming.
-For example, `need-comprehension` is accepted only because package docs, prompt metadata, raw PromptParts, source primitives, package-local typecheck, and proof witnesses all state that the live meaning is Bitcode Need comprehension rather than task-first planning.
+For example, `need-comprehension` is accepted only because package docs, prompt metadata, raw PromptParts, source primitives, package-local typecheck, and proof witnesses all state that the live meaning is Bitcode Need comprehension rather than task-first planning, and because the corridor answers why/how/when/where/what/who the code serves Bitcode source-to-shares for an Advanced Engineered Software, Inc. customer.
 The same corridor now also requires local need-first code owners so prompt reform and runtime/tool reform cannot drift apart: `AnalyzeNeedSemanticsTool`, `ExtractNeedRequirementsTool`, `IdentifyNeedConstraintsTool`, `GenerateNeedSatisfactionCriteriaTool`, `ValidateNeedComprehensionTool`, `AnalyzeNeedSatisfactionImplementationComplexityTool`, `need-comprehension-primitives`, and `need-comprehension-schemas` own the active generic-tool implementation while `NeedComprehensionToolset` only collects those individually defined tools and task-named files remain wrappers only.
 The setup-phase agent is separate: `packages/generic-agents/need-comprehension` owns the PTRR agent that registers and composes those tools before `danger-wall` risk admission, and `packages/generic-tools/need-comprehension/src` must remain TypeScript-only source rather than carrying generated JavaScript beside TypeScript.
 Likewise, retained support tools such as `repository-setup` are acceptable only when their active contracts resolve `expressedNeed` / `needDescription` before `taskDescription` and when their DocCode prompt metadata states Bitcode repository-preparation support instead of older task-first or pre-Bitcode lineage.
@@ -137,6 +137,7 @@ Agentic systems must:
 
 - name the phase, step, substep, prompt overlay, and tool registry they use;
 - bind structured outputs to semantic Bitcode fields before compatibility fields;
+- answer the source-to-shares service questions: why, how, when, where, what, and who this code serves for an Advanced Engineered Software, Inc. customer, plus what evidence makes the answer auditable;
 - record tool/prompt/llm/agent registry state when running inside retained compatibility corridors;
 - emit enough execution store evidence for reread, proof, and operator-visible diagnostics;
 - keep retries/refinement bounded by the expressed need and satisfaction criteria.
@@ -164,7 +165,7 @@ Execution systems must:
 | `packages/generic-agents/text-searcher/*` | retained text-searcher corridor now specified as an admitted Bitcode repository-evidence search agent with canonical exports and compatibility aliases |
 | `packages/generic-agents/web-researcher/*`, `packages/generic-agents/web-search/*`, `packages/generic-tools/web-search/*`, `packages/web-search/*` | retained external search corridor now specified as admitted discovery-phase need-synthesis web research/search support for source-attributed need context, third-party interface planning, proof-gap question formation, source-quality review, volatility, unresolved evidence gaps, and AssetPack planning |
 | `packages/generic-agents/danger-wall/*` | retained danger-wall corridor now specified as admitted Bitcode need/AssetPack risk admission for unsafe mutation, private-data exposure, proof gaps, AssetPack scope fit, delivery-mechanism fit, likely execution failure, and manual-review triggers |
-| `packages/generic-tools/need-comprehension/*` | retained compatibility tool reservoir now specified as individually owned Bitcode need-comprehension prompt/tool primitives with local need-first code ownership, TypeScript-only source, and explicit wrapper carriers |
+| `packages/generic-tools/need-comprehension/*` | retained compatibility tool reservoir now specified as individually owned Bitcode need-comprehension prompt/tool primitives with local need-first code ownership, source-to-shares service-question evidence, TypeScript-only source, and explicit wrapper carriers |
 | `packages/generic-agents/need-comprehension/*` | setup/pre-danger-wall PTRR Need-comprehension agent that registers and composes the individual generic-tools before risk admission |
 | `packages/conversations-generics/*`, `uapi/prompts/*` | rich-input conversation prompt and application-facing inference binding |
 | `packages/executions-mcp/*` | admitted Exchange-facing MCP inference ingress, narrowed to currently admitted tool families and fail-closed create admission |

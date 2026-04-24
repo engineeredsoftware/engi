@@ -14,4 +14,4 @@
 import type { PromptPart } from '../../parts/PromptPart';
 
 export const PROMPTPART_SPECIFIC_TOOL_ANALYZETASKSEMANTICS_DOCCODETOOLOUTPUT: PromptPart =
-  "Returns NeedSemantics with primaryIntent, scopeBoundaries, semanticKeywords, impliedRequirements, writtenAssetExpectations, assetPackContext, shippingWrapperBoundaries, ambiguityMarkers, dependencyNotes, needSatisfactionCriteria, and confidenceByDimension." as PromptPart;
+  "Returns NeedSemantics with primaryIntent, scopeBoundaries, semanticKeywords, impliedRequirements, writtenAssetExpectations, assetPackContext, deliveryMechanismBoundaries, sourceToSharesServiceQuestions, commercialAccountability, ambiguityMarkers, dependencyNotes, needSatisfactionCriteria, and confidenceByDimension." as PromptPart;

@@ -6,7 +6,7 @@ import path from 'path';
 const repoRoot = path.resolve(__dirname, '../../..', '..'); // go to repo root from package
 
 // Import the public prompt formatter boundary rather than reaching into
-// prompts package internals from a retained deliverable script.
+// prompts package internals from the AssetPack prompt renderer.
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const { hierarchicalFormatter } = require('@bitcode/prompts/formatters');
 

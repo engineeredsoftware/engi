@@ -46,7 +46,7 @@ test('V26 need-comprehension compatibility keeps canonical owners separate from 
   assert.match(canonicalToolTs, /export class AnalyzeNeedSemanticsTool/u);
   assert.match(canonicalToolTs, /use = analyzeNeedSemantics/u);
   assert.match(compatibilityToolTs, /Compatibility wrapper for task-named tool calls/u);
-  assert.match(compatibilityToolTs, /extends AnalyzeNeedSemanticsTool/u);
+  assert.match(compatibilityToolTs, /extends Tool<typeof analyzeTaskSemantics>/u);
   assert.match(extractToolTs, /export class ExtractNeedRequirementsTool/u);
   assert.match(extractToolTs, /use = extractNeedRequirements/u);
   assert.match(identifyToolTs, /export class IdentifyNeedConstraintsTool/u);
@@ -73,8 +73,11 @@ test('V26 need-comprehension compatibility keeps canonical owners separate from 
   assert.match(canonicalPrimitivesTs, /export async function generateNeedSatisfactionCriteria/u);
   assert.match(canonicalPrimitivesTs, /export async function validateNeedComprehension/u);
   assert.match(canonicalPrimitivesTs, /export async function analyzeNeedSatisfactionImplementationComplexity/u);
+  assert.match(canonicalPrimitivesTs, /source_to_shares_service_questions/u);
+  assert.match(canonicalPrimitivesTs, /commercial_accountability/u);
   assert.match(compatibilityPrimitivesTs, /Compatibility wrapper around canonical need-first primitive owners/u);
-  assert.match(compatibilityPrimitivesTs, /analyzeNeedSemantics as analyzeTaskSemantics/u);
+  assert.match(compatibilityPrimitivesTs, /export async function analyzeTaskSemantics/u);
+  assert.match(compatibilityPrimitivesTs, /expressed_need: task_description/u);
 
   assert.match(canonicalSchemasTs, /NeedComprehensionCompatibilityPrimaryTypeSchema/u);
   assert.match(canonicalSchemasTs, /NeedRequirementSchema/u);
@@ -108,6 +111,8 @@ test('V26 need-comprehension compatibility keeps canonical owners separate from 
   assert.match(agentSource, /extractNeedRequirementsTool/u);
   assert.match(agentSource, /validateNeedComprehensionTool/u);
   assert.match(agentSource, /analyzeNeedSatisfactionImplementationComplexityTool/u);
+  assert.match(agentSource, /source_to_shares_service_questions/u);
+  assert.match(agentReadme, /source-to-shares service questions/u);
   assert.match(pipelineAdapter, /bitcodeSetupNeedComprehensionAgent/u);
   assert.match(pipelineAdapter, /phase: 'setup'/u);
   assert.match(pipelineAdapter, /beforeAgent: 'danger-wall'/u);

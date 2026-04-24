@@ -1,5 +1,6 @@
 /**
- * Compatibility wrapper for callers still importing the former shipping phase.
+ * Compatibility wrapper for callers still importing the Finish phase through
+ * shipping names.
  * Canonical V26 implementation lives in `./finish`.
  */
 

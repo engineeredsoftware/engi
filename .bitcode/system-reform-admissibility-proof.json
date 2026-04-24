@@ -1,10 +1,10 @@
 {
   "reportId": "v26-system-reform-admissibility-proof",
   "version": "V26",
-  "proofSourceCommit": "fd5b733c573b4651ffcf43d75416fafa8ae6ec4e",
-  "generatedAt": "2026-04-24T10:35:39-03:00",
+  "proofSourceCommit": "921d36007f9f776b46f052a9580b0693ab92103e",
+  "generatedAt": "2026-04-24T13:25:53-03:00",
   "generatorId": "bitcode.proven-generator.v1",
-  "worktreeState": "clean",
+  "worktreeState": "dirty-preview",
   "passed": true,
   "classificationCounts": {
     "governance": 1,
@@ -61,8 +61,8 @@
       "passed": true,
       "detail": "2 required files present",
       "requiredFiles": [
-        "packages/pipelines/deliverable/src/run.ts",
-        "packages/pipelines/deliverable/src/index.ts"
+        "packages/pipelines/asset-pack/src/run.ts",
+        "packages/pipelines/asset-pack/src/index.ts"
       ],
       "missingFiles": [],
       "reformClass": "compatibility-only",
@@ -91,8 +91,8 @@
         "packages/generic-tools/use-computer/src/index.ts",
         "packages/generic-tools/use-computer/src/prompts/UseComputerDocCodeToolPrompt.ts",
         "packages/prompts/src/raw_promptparts/specific/promptpart_specific_tool_usecomputer_doccodetoolpurpose.ts",
-        "packages/pipelines/deliverable/src/tools/DeliverablePipelineUseComputerTool.ts",
-        "packages/pipelines/deliverable/src/tools/index.ts",
+        "packages/pipelines/asset-pack/src/tools/DeliverablePipelineUseComputerTool.ts",
+        "packages/pipelines/asset-pack/src/tools/index.ts",
         "packages/api/src/routes/deliverables.ts",
         "packages/execution-generics/src/store/registry.ts",
         "uapi/app/executions/components/ExecutionsPageClient.tsx",

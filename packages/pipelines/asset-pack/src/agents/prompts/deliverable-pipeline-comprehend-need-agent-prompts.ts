@@ -25,16 +25,16 @@ import { PROMPTPART_SPECIFIC_AGENT_DELIVERABLESETUPCOMPREHENDNEED_TRY_MODALITY_A
 import { PROMPTPART_SPECIFIC_AGENT_DELIVERABLESETUPCOMPREHENDNEED_TRY_MODALITY_VIDEO_EXECUTION } from '@bitcode/prompts/raw_promptparts/specific/promptpart_specific_agent_deliverablesetupcomprehendneed_try_modality_video_execution';
 import { PROMPTPART_SPECIFIC_AGENT_DELIVERABLESETUPCOMPREHENDNEED_REFINE_UNIFICATION_GUIDANCE } from '@bitcode/prompts/raw_promptparts/specific/promptpart_specific_agent_deliverablesetupcomprehendneed_refine_unification_guidance';
 /**
- * Deliverables Pipeline – Comprehend Need agent prompts (overlay only)
+ * AssetPack Pipeline - Comprehend Need agent prompts (overlay only)
  *
- * These prompts provide retained-corridor Prompt entries intended to be
+ * These prompts provide AssetPack Prompt entries intended to be
  * merged via Prompt.clone().merge() semantics. Where no generic base exists,
  * these overlays can be used directly as the effective prompts.
  */
 /**
  * @doc-comment-developing-promptdevelopment
  * domain: agent
- * intent: "Bitcode retained deliverable-corridor overlays for mapping legacy request carriers to Need and AssetPack evidence"
+ * intent: "Bitcode AssetPack overlays for mapping request carriers to Need and AssetPack evidence"
  * current_version: "0.50.0"
   * benchmarks: [
  *   { "name": "technical_accuracy", "test": "Concrete directives and purpose", "score": 0.50 },

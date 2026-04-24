@@ -1,10 +1,10 @@
 {
   "reportId": "v26-persistence-schema-totality-proof",
   "version": "V26",
-  "proofSourceCommit": "fd5b733c573b4651ffcf43d75416fafa8ae6ec4e",
-  "generatedAt": "2026-04-24T10:35:39-03:00",
+  "proofSourceCommit": "921d36007f9f776b46f052a9580b0693ab92103e",
+  "generatedAt": "2026-04-24T13:25:53-03:00",
   "generatorId": "bitcode.proven-generator.v1",
-  "worktreeState": "clean",
+  "worktreeState": "dirty-preview",
   "passed": true,
   "baselineMigrationPath": "supabase/migrations/001_v26_production.sql",
   "routeWitnesses": [

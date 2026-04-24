@@ -60,7 +60,7 @@ const shipAgentSource = readFileSync(
   'utf8'
 );
 const createPullRequestSource = readFileSync(
-  new URL('../../packages/pipelines/asset-pack/src/agents/shipping/deliverable-pipeline-create-pull-request-agent.ts', import.meta.url),
+  new URL('../../packages/pipelines/asset-pack/src/agents/finish-compatibility/deliverable-pipeline-create-pull-request-agent.ts', import.meta.url),
   'utf8'
 );
 const discoveryAgentsSource = readFileSync(

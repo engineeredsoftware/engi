@@ -844,7 +844,7 @@ Required closure posture:
   `protocol-demonstration/test/v26-active-product-naming.test.js`
   proof surface:
   fifth-gate debug and diagnostics contract closure so active PTRR debugging and docs converge on `BITCODE_*` flags and Bitcode-facing runtime teaching
-- `packages/pipelines/asset-pack/{src/preprocess.ts,src/__dev__/bringup-demo.ts,src/__tests__/metrics-output.test.ts,src/agents/setup/deliverable-pipeline-setup-plan-agent.ts,src/agents/shipping/deliverable-pipeline-create-pull-request-agent.ts}`
+- `packages/pipelines/asset-pack/{src/preprocess.ts,src/__dev__/bringup-demo.ts,src/__tests__/metrics-output.test.ts,src/agents/setup/deliverable-pipeline-setup-plan-agent.ts,src/agents/finish-compatibility/deliverable-pipeline-create-pull-request-agent.ts}`
   test coverage:
   `protocol-demonstration/test/v26-active-product-naming.test.js`
   proof surface:
@@ -1136,9 +1136,9 @@ Required closure posture:
   fifth-gate caller-contract compile-health closure so asset-pack tool wrappers now forward through the current single-input Bitcode tool contract, optional validation/Delivering tools no longer leak `undefined` into typed registries, and the Finish agent no longer preserves raw-string prompt-part drift or duplicate-Zod output-schema identity mismatches
 - `{packages/pipelines/asset-pack/src/{agents/{implementation/*.ts,setup/deliverable-pipeline-comprehend-need-agent.ts},phases/{setup.ts,design.ts,digest.ts,discovery.ts,implementation.ts,index.ts},index.ts,preprocess.ts,postprocess.ts},packages/pipelines-generics/src/{execution/PipelineExecutor.ts,phases/sdivf-factory.ts,streaming/pipeline-stream-integration.ts}}`
   test coverage:
-  filtered `tsc` verification over the active `uapi` program for the retained deliverable phase/index/setup corridor
+  filtered `tsc` verification over the active `uapi` program for the AssetPack phase/index/setup corridor
   proof surface:
-  fifth-gate retained caller-contract compile-health closure so the deliverable bring-up path no longer preserves dead declarative phase-runner metadata, unsupported PTRR config keys, wrong discovery-registration aliases, `PipelineExecution` over-narrowing in `createPhaseRunner`, or stale setup-schema default variance where the active deliverable corridor rereads through the Bitcode pipeline primitives
+  fifth-gate caller-contract compile-health closure so the AssetPack bring-up path no longer preserves dead declarative phase-runner metadata, unsupported PTRR config keys, wrong discovery-registration aliases, `PipelineExecution` over-narrowing in `createPhaseRunner`, or stale setup-schema default variance where the active AssetPack corridor rereads through the Bitcode pipeline primitives
 - `{packages/{generic-agents/vcs/src/index.ts,github/src/providers/github-provider.ts,orm/src/models/{user-btd-transactions.ts,deliverables.ts,notifications.ts}}}`
   test coverage:
   filtered `tsc` verification over the active `uapi` program for the retained repository-boundary VCS and ORM persistence corridor

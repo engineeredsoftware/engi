@@ -641,6 +641,13 @@ test('V26 need-comprehension prompt reservoir is canonical Bitcode need comprehe
     ),
     'utf8'
   );
+  const analyzeOutputPromptPart = readFileSync(
+    path.join(
+      repoRoot,
+      'packages/prompts/src/raw_promptparts/specific/promptpart_specific_tool_analyzetasksemantics_doccodetooloutput.ts'
+    ),
+    'utf8'
+  );
   const complexityPromptPart = readFileSync(
     path.join(
       repoRoot,
@@ -765,6 +772,9 @@ test('V26 need-comprehension prompt reservoir is canonical Bitcode need comprehe
   assert.match(canonicalPrimitivesSource, /need_satisfaction_criteria/u);
   assert.match(canonicalPrimitivesSource, /written_asset_expectations/u);
   assert.match(canonicalPrimitivesSource, /delivery_mechanism_boundaries/u);
+  assert.match(canonicalPrimitivesSource, /source_to_shares_service_questions/u);
+  assert.match(canonicalPrimitivesSource, /commercial_accountability/u);
+  assert.match(canonicalPrimitivesSource, /Advanced Engineered Software, Inc\./u);
   assert.doesNotMatch(canonicalPrimitivesSource, /shipping_wrapper_boundaries/u);
   assert.match(canonicalSchemasSource, /NeedComprehensionCompatibilityPrimaryTypeSchema/u);
   assert.match(canonicalSchemasSource, /NeedRequirementSchema/u);
@@ -774,6 +784,10 @@ test('V26 need-comprehension prompt reservoir is canonical Bitcode need comprehe
   assert.match(schemasSource, /NeedComprehensionCompatibilityPrimaryTypeSchema as TaskTypeSchema/u);
   assert.match(purposePromptPart, /Analyze an expressed Bitcode need/u);
   assert.match(purposePromptPart, /written-asset expectations/u);
+  assert.match(purposePromptPart, /source-to-shares service questions/u);
+  assert.match(analyzeOutputPromptPart, /sourceToSharesServiceQuestions/u);
+  assert.match(analyzeOutputPromptPart, /commercialAccountability/u);
+  assert.doesNotMatch(analyzeOutputPromptPart, /shippingWrapperBoundaries/u);
   assert.match(complexityPromptPart, /Gate-closure reform/u);
   assert.match(complexityPromptPart, /proofRequirements/u);
   assert.match(validatePromptPart, /compatibility analysis has correctly understood the Bitcode need/u);
@@ -813,6 +827,7 @@ test('V26 need-comprehension prompt reservoir is canonical Bitcode need comprehe
     canonicalSchemasSource,
     schemasSource,
     purposePromptPart,
+    analyzeOutputPromptPart,
     complexityPromptPart,
     validatePromptPart,
     comprehendNeedSystemPromptPart,

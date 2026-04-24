@@ -128,14 +128,14 @@ export const DeliverablesPipelineFinishPhaseFinalizeAssetPackDeliveryEvidenceAge
 };
 
 /**
- * @deprecated V26 compatibility alias for old Shipping/FinalizeShipment callers.
+ * @deprecated V26 compatibility alias for Finish delivery-evidence callers still using finalize-shipment names.
  * Use createDeliverablesPipelineFinishPhaseFinalizeAssetPackDeliveryEvidenceAgentPrompt.
  */
 export const createDeliverablesPipelineShippingPhaseFinalizeShipmentAgentPrompt =
   createDeliverablesPipelineFinishPhaseFinalizeAssetPackDeliveryEvidenceAgentPrompt;
 
 /**
- * @deprecated V26 compatibility alias for old Shipping/FinalizeShipment callers.
+ * @deprecated V26 compatibility alias for Finish delivery-evidence callers still using finalize-shipment names.
  * Use DeliverablesPipelineFinishPhaseFinalizeAssetPackDeliveryEvidenceAgentPromptSteps.
  */
 export const DeliverablesPipelineShippingPhaseFinalizeShipmentAgentPromptSteps =

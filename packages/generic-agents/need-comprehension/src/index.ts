@@ -84,6 +84,12 @@ export const BitcodeSetupNeedComprehensionResultSchema = z.object({
   written_asset_types: z.array(z.string()).default([]),
   asset_pack_context: z.any().optional(),
   delivery_mechanism_boundaries: z.array(z.string()).default([]),
+  source_to_shares_service_questions: z.record(z.string()).optional(),
+  commercial_accountability: z.object({
+    provider: z.string().optional(),
+    customer_outcome: z.string().optional(),
+    market_infrastructure_standard: z.string().optional()
+  }).optional(),
   comprehension: z.object({
     intent: z.string().optional(),
     goals: z.array(z.string()).default([]),

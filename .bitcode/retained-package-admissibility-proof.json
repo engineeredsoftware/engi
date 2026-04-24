@@ -1,10 +1,10 @@
 {
   "reportId": "v26-retained-package-admissibility-proof",
   "version": "V26",
-  "proofSourceCommit": "fd5b733c573b4651ffcf43d75416fafa8ae6ec4e",
-  "generatedAt": "2026-04-24T10:35:39-03:00",
+  "proofSourceCommit": "921d36007f9f776b46f052a9580b0693ab92103e",
+  "generatedAt": "2026-04-24T13:25:53-03:00",
   "generatorId": "bitcode.proven-generator.v1",
-  "worktreeState": "clean",
+  "worktreeState": "dirty-preview",
   "passed": true,
   "admittedPackageCount": 8,
   "requiredFields": [
@@ -184,12 +184,12 @@
       "passed": true
     }
   ],
-  "packageCensusCount": 125,
+  "packageCensusCount": 126,
   "packageCensusCoveragePassed": true,
   "packageCensusRoleCounts": {
     "commercial-infrastructure": 45,
     "direct-product": 5,
-    "ingress-or-support": 55,
+    "ingress-or-support": 56,
     "reference-only": 17,
     "compatibility": 3
   },
@@ -946,6 +946,24 @@
       "passed": true
     },
     {
+      "packageName": "@bitcode/generic-agents-need-comprehension",
+      "packagePath": "packages/generic-agents/need-comprehension/package.json",
+      "primaryRole": "ingress-or-support",
+      "classificationBasis": "ingress-or-support-name",
+      "rationale": "package connects external providers, third-party tools, search/research, VCS, deployment, storage, or support utilities into Bitcode",
+      "role": "connected-interface ingress or support package",
+      "writeBoundary": "external writes are connected-interface delivery mechanisms or input context unless a Bitcode admission proof explicitly promotes them",
+      "proofObligation": "ingress/support packages must stay bounded by retained-package, system-reform, MCP/external-ingress, and prompt/tool proof surfaces",
+      "requiredFiles": [
+        "packages/generic-agents/need-comprehension/package.json",
+        "packages/generic-agents/need-comprehension/src/index.ts",
+        "packages/generic-agents/need-comprehension/README.md"
+      ],
+      "missingFiles": [],
+      "unclassified": false,
+      "passed": true
+    },
+    {
       "packageName": "@bitcode/generic-agents-ready-to-short-circuit",
       "packagePath": "packages/generic-agents/ready-to-short-circuit/package.json",
       "primaryRole": "reference-only",
@@ -1573,6 +1591,24 @@
       "passed": true
     },
     {
+      "packageName": "@bitcode/generic-tools-need-comprehension",
+      "packagePath": "packages/generic-tools/need-comprehension/package.json",
+      "primaryRole": "compatibility",
+      "classificationBasis": "compatibility-name",
+      "rationale": "package keeps old-world naming or behavior temporarily while its semantics are repurposed to need, asset-pack, or support meaning",
+      "role": "compatibility corridor retained during Bitcode reform",
+      "writeBoundary": "compatibility packages must expose Bitcode semantics at active boundaries and avoid becoming new source-of-truth product owners",
+      "proofObligation": "compatibility packages must keep source-visible reform notes, tests, prompt proof, and a later retirement or promotion path",
+      "requiredFiles": [
+        "packages/generic-tools/need-comprehension/package.json",
+        "packages/generic-tools/need-comprehension/src/index.ts",
+        "packages/generic-tools/need-comprehension/README.md"
+      ],
+      "missingFiles": [],
+      "unclassified": false,
+      "passed": true
+    },
+    {
       "packageName": "@bitcode/generic-tools-repository-setup",
       "packagePath": "packages/generic-tools/repository-setup/package.json",
       "primaryRole": "ingress-or-support",
@@ -1603,24 +1639,6 @@
         "packages/generic-tools/simple-system-text-search/package.json",
         "packages/generic-tools/simple-system-text-search/src/index.ts",
         "packages/generic-tools/simple-system-text-search/README.md"
-      ],
-      "missingFiles": [],
-      "unclassified": false,
-      "passed": true
-    },
-    {
-      "packageName": "@bitcode/generic-tools-task-comprehension",
-      "packagePath": "packages/generic-tools/task-comprehension/package.json",
-      "primaryRole": "compatibility",
-      "classificationBasis": "compatibility-name",
-      "rationale": "package keeps old-world naming or behavior temporarily while its semantics are repurposed to need, asset-pack, or support meaning",
-      "role": "compatibility corridor retained during Bitcode reform",
-      "writeBoundary": "compatibility packages must expose Bitcode semantics at active boundaries and avoid becoming new source-of-truth product owners",
-      "proofObligation": "compatibility packages must keep source-visible reform notes, tests, prompt proof, and a later retirement or promotion path",
-      "requiredFiles": [
-        "packages/generic-tools/task-comprehension/package.json",
-        "packages/generic-tools/task-comprehension/src/index.ts",
-        "packages/generic-tools/task-comprehension/README.md"
       ],
       "missingFiles": [],
       "unclassified": false,
@@ -2056,8 +2074,8 @@
       "passed": true
     },
     {
-      "packageName": "@bitcode/pipeline-deliverable",
-      "packagePath": "packages/pipelines/deliverable/package.json",
+      "packageName": "@bitcode/pipeline-asset-pack",
+      "packagePath": "packages/pipelines/asset-pack/package.json",
       "primaryRole": "compatibility",
       "classificationBasis": "compatibility-name",
       "rationale": "package keeps old-world naming or behavior temporarily while its semantics are repurposed to need, asset-pack, or support meaning",
@@ -2065,9 +2083,9 @@
       "writeBoundary": "compatibility packages must expose Bitcode semantics at active boundaries and avoid becoming new source-of-truth product owners",
       "proofObligation": "compatibility packages must keep source-visible reform notes, tests, prompt proof, and a later retirement or promotion path",
       "requiredFiles": [
-        "packages/pipelines/deliverable/package.json",
-        "packages/pipelines/deliverable/src/index.ts",
-        "packages/pipelines/deliverable/README.md"
+        "packages/pipelines/asset-pack/package.json",
+        "packages/pipelines/asset-pack/src/index.ts",
+        "packages/pipelines/asset-pack/README.md"
       ],
       "missingFiles": [],
       "unclassified": false,

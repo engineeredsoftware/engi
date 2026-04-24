@@ -16,6 +16,7 @@ It accelerates Bitcode inference when it maps every compatibility entry point on
 - `asset pack`: the Bitcode-owned structure that groups the stable output and evidence.
 - `delivery mechanism`: a connected-interface wrapper such as a pull request or Jira comment.
 - `need satisfaction criteria`: measurable acceptance and verification conditions.
+- `source-to-shares service questions`: the why/how/when/where/what/who/audit questions that prove the code serves customer-facing Bitcode market infrastructure.
 
 The package remains integrated with Bitcode's prompt primitives architecture through `DocCodeToolPrompt`, `PromptPart`, and raw promptparts exposed through the public `@bitcode/prompts/raw_promptparts/*` boundary.
 This package source is TypeScript-only; generated JavaScript artifacts must be emitted outside `src/` by the build system and must never become specification or proof evidence for this corridor.
@@ -53,6 +54,8 @@ Expected output includes:
 - `need.primary_intent`
 - `semantic_analysis.scope_boundaries`
 - `written_asset_expectations`
+- `source_to_shares_service_questions`
+- `commercial_accountability`
 - `asset_pack_context`
 - `delivery_mechanism_boundaries`
 - `task_classification` compatibility metadata
@@ -68,6 +71,7 @@ Expected output includes:
 - `functional_requirements`
 - `non_functional_requirements`
 - `proof_requirements`
+- `commercial_service_requirements`
 - `interface_requirements`
 - `written_asset_requirement_map`
 - `extraction_metadata`
@@ -97,6 +101,7 @@ Expected output includes:
 - `performance_criteria`
 - `quality_criteria`
 - `proof_criteria`
+- `commercial_accountability_criteria`
 - `persistence_criteria`
 - `interface_criteria`
 - `blocking_criteria`
@@ -111,6 +116,7 @@ Expected output includes:
 - `validation_results`
 - `validation_details`
 - `terminology_findings`
+- `commercial_accountability_findings`
 - `need_comprehension`
 - `written_asset_coherence`
 - `proof_coverage`
@@ -130,6 +136,9 @@ Expected output includes:
 - `strategic_insights`
 - `implementation_recommendations`
 
+Every canonical tool result should remain answerable to the same commercial service question:
+why, how, when, where, what, and who does this code serve in Bitcode's source-to-shares system for an Advanced Engineered Software, Inc. customer, and what evidence makes that answer auditable?
+
 ## Example
 
 ```typescript
@@ -139,18 +148,19 @@ import {
   analyzeTaskSemanticsTool
 } from '@bitcode/generic-tools-need-comprehension';
 
-const semantics = await analyzeNeedSemanticsTool.use(
-  'Fix the OAuth redirect regression and open a pull request',
-  {
+const semantics = await analyzeNeedSemanticsTool.use({
+  expressed_need: 'Fix the OAuth redirect regression and open a pull request',
+  context_information: {
     repository_type: 'Next.js application',
     technology_stack: ['Next.js', 'Supabase'],
     existing_attachments: ['failed-login-trace.txt']
   }
-);
+});
 
 console.log(semantics.need.expressed_need);
 console.log(semantics.written_asset_expectations);
 console.log(semantics.delivery_mechanism_boundaries);
+console.log(semantics.source_to_shares_service_questions.why);
 ```
 
 ## Prompt Requirements
@@ -165,6 +175,8 @@ The raw promptpart files under `packages/prompts/src/raw_promptparts/specific/pr
 - written-asset expectations
 - asset-pack context
 - delivery-mechanism boundaries
+- source-to-shares service questions
+- commercial accountability evidence
 - proof and verification criteria
 - compatibility names as wrappers only
 

@@ -89,6 +89,8 @@ test('V26 inference implementation registry binds records to canonical Bitcode s
   assert.match(recordsById['asset-pack-synthesis-compatibility'].canonicalNeed, /asset-pack written-asset synthesis/u);
   assert.match(recordsById['asset-pack-synthesis-compatibility'].canonicalNeed, /delivery-mechanism compatibility/u);
   assert.match(recordsById['need-comprehension-compatibility'].canonicalNeed, /setup-phase Bitcode Need comprehension/u);
+  assert.match(recordsById['need-comprehension-compatibility'].canonicalNeed, /source-to-shares service questions/u);
+  assert.match(recordsById['need-comprehension-compatibility'].canonicalNeed, /commercial accountability/u);
   assert.match(recordsById['need-comprehension-compatibility'].canonicalNeed, /written-asset expectations/u);
   assert.match(recordsById['need-comprehension-compatibility'].canonicalNeed, /AssetPack context/u);
   assert.match(recordsById['need-review-before-fit-search'].canonicalNeed, /before any candidate recall/u);
@@ -102,8 +104,15 @@ test('V26 inference implementation registry binds records to canonical Bitcode s
   assert.match(recordsById['prompt-primitives'].promptImplementation.registryLayering, /Prompt extends RegistryImpl<PromptPart>/u);
   assert.match(recordsById['prompt-primitives'].promptImplementation.registryLayering, /raw_promptparts\/generic holds reusable base PromptPart layers/u);
   assert.match(recordsById['prompt-primitives'].promptImplementation.registryLayering, /raw_promptparts\/specific holds concrete Bitcode implementation PromptParts/u);
+  assert.ok(
+    recordsById['pipeline-infrastructure'].agentImplementation.owners.includes(
+      'packages/pipelines-generics/src/phases/sdivf-factory.ts'
+    )
+  );
+  assert.match(recordsById['pipeline-infrastructure'].agentImplementation.contract, /Finish/u);
+  assert.doesNotMatch(recordsById['pipeline-infrastructure'].agentImplementation.contract, /shipping/u);
   assert.match(recordsById['asset-pack-synthesis-compatibility'].promptImplementation.registryLayering, /Generic PTRR and formatting PromptParts form base layers/u);
-  assert.match(recordsById['asset-pack-synthesis-compatibility'].promptImplementation.registryLayering, /specific deliverable\/setup\/validation\/finish PromptParts implement Bitcode need/u);
+  assert.match(recordsById['asset-pack-synthesis-compatibility'].promptImplementation.registryLayering, /specific setup, validation, Finish, and delivery-mechanism PromptParts implement Bitcode need/u);
   assert.match(recordsById['asset-pack-synthesis-compatibility'].promptImplementation.rawPromptPartBoundary, /SYSTEMTEXTSEARCH PromptParts/u);
   assert.match(recordsById['asset-pack-synthesis-compatibility'].promptImplementation.rawPromptPartBoundary, /TEXTSEARCHER/u);
   assert.match(recordsById['asset-pack-synthesis-compatibility'].toolImplementation.contract, /repository-evidence search tools are bounded grep-backed support/u);
@@ -141,7 +150,9 @@ test('V26 inference implementation registry binds records to canonical Bitcode s
   assert.match(recordsById['need-comprehension-compatibility'].toolImplementation.contract, /Canonical need-first tools are individually defined/u);
   assert.match(recordsById['need-comprehension-compatibility'].toolImplementation.contract, /collected by NeedComprehensionToolset/u);
   assert.match(recordsById['need-comprehension-compatibility'].toolImplementation.contract, /callable capabilities, not agents/u);
-  assert.match(recordsById['need-comprehension-compatibility'].toolImplementation.contract, /retained task-named APIs remain compatibility carriers/u);
+  assert.match(recordsById['need-comprehension-compatibility'].toolImplementation.contract, /source-to-shares service questions/u);
+  assert.match(recordsById['need-comprehension-compatibility'].toolImplementation.contract, /commercial accountability evidence/u);
+  assert.doesNotMatch(recordsById['need-comprehension-compatibility'].toolImplementation.contract, /task-named/u);
   assert.ok(
     recordsById['need-comprehension-compatibility'].agentImplementation.owners.includes(
       'packages/generic-agents/need-comprehension/src/index.ts'
@@ -155,6 +166,8 @@ test('V26 inference implementation registry binds records to canonical Bitcode s
   assert.match(recordsById['need-comprehension-compatibility'].agentImplementation.contract, /bitcodeSetupNeedComprehensionAgent/u);
   assert.match(recordsById['need-comprehension-compatibility'].agentImplementation.contract, /setup\/pre-danger-wall PTRR agent/u);
   assert.match(recordsById['need-comprehension-compatibility'].agentImplementation.contract, /generic-tools Need-comprehension toolset/u);
+  assert.match(recordsById['need-comprehension-compatibility'].agentImplementation.contract, /service-question/u);
+  assert.match(recordsById['need-comprehension-compatibility'].agentImplementation.contract, /commercial-accountability/u);
   assert.match(recordsById['need-review-before-fit-search'].executionImplementation.carriers.join(' '), /\.bitcode\/need-review\.json/u);
   assert.match(recordsById['need-review-before-fit-search'].toolImplementation.contract, /blocked unless the measured Need review admits it/u);
   assert.equal(recordsById['need-review-before-fit-search'].boundaryPosture, 'active');

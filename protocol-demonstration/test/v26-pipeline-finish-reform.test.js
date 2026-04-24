@@ -53,7 +53,7 @@ const deliverAgentSource = readFileSync(
   'utf8'
 );
 const deliverAgentCompatibilitySource = readFileSync(
-  new URL('../../packages/pipelines/asset-pack/src/agents/shipping/deliverable-pipeline-ship-agent.ts', import.meta.url),
+  new URL('../../packages/pipelines/asset-pack/src/agents/finish-compatibility/deliverable-pipeline-ship-agent.ts', import.meta.url),
   'utf8'
 );
 const finalSummarySource = readFileSync(
@@ -61,7 +61,7 @@ const finalSummarySource = readFileSync(
   'utf8'
 );
 const finalSummaryCompatibilitySource = readFileSync(
-  new URL('../../packages/pipelines/asset-pack/src/agents/shipping/deliverable-pipeline-final-work-summary-agent.ts', import.meta.url),
+  new URL('../../packages/pipelines/asset-pack/src/agents/finish-compatibility/deliverable-pipeline-final-work-summary-agent.ts', import.meta.url),
   'utf8'
 );
 const postprocessSource = readFileSync(
@@ -76,7 +76,7 @@ const validationReadyAgentSource = readFileSync(
   'utf8'
 );
 const compatibilityShippingAgentsSource = readFileSync(
-  new URL('../../packages/pipelines/asset-pack/src/agents/shipping-agents.ts', import.meta.url),
+  new URL('../../packages/pipelines/asset-pack/src/agents/finish-delivery-compatibility-agents.ts', import.meta.url),
   'utf8'
 );
 
@@ -163,7 +163,7 @@ test('compatibility prompt and agent names point at precise canonical Finish rep
   assert.match(readyToShipPromptSource, /createDeliverablesPipelineValidationPhaseReadyToFinishAgentPrompt/);
   assert.match(readyToShipPromptSource, /@deprecated V26 compatibility alias for old ReadyToShip callers/);
   assert.match(finalizeShipmentPromptSource, /createDeliverablesPipelineFinishPhaseFinalizeAssetPackDeliveryEvidenceAgentPrompt/);
-  assert.match(finalizeShipmentPromptSource, /@deprecated V26 compatibility alias for old Shipping\/FinalizeShipment callers/);
+  assert.match(finalizeShipmentPromptSource, /@deprecated V26 compatibility alias for Finish delivery-evidence callers still using finalize-shipment names/);
   assert.match(validationReadyAgentSource, /ReadyToFinish Agent - Final Validation Phase Decision/);
   assert.match(validationReadyAgentSource, /createDeliverablesPipelineValidationPhaseReadyToFinishAgentPrompt/);
   assert.match(compatibilityShippingAgentsSource, /DeliverablesPipelineFinishPhaseFinalizeAssetPackDeliveryEvidenceAgent/);
@@ -172,7 +172,7 @@ test('compatibility prompt and agent names point at precise canonical Finish rep
   assert.match(finishSpec, /Full V26 closure requires no deprecated, backwards-compatible, legacy, or unspecified broad-pipeline names/);
 });
 
-test('retained deliverable prompt-builder doc-comments use Bitcode-specific labels', () => {
+test('AssetPack prompt-builder doc-comments use Bitcode-specific labels', () => {
   const promptFiles = readdirSync(promptBuilderDir)
     .filter((name) => name.endsWith('.ts'))
     .map((name) => ({

@@ -1,8 +1,8 @@
 /**
- * Finish/Delivering Agents for the retained deliverable compatibility corridor
+ * Finish/Delivering agents for the AssetPack delivery compatibility corridor.
  * 
- * Pattern: old Shipping-named agent carriers remain compatibility wrappers
- * around Finish-phase Delivering actions.
+ * Pattern: compatibility-named agent carriers remain wrappers around
+ * Finish-phase Delivering actions.
  * 
  * ALL agents use PTRR (Plan-Try-Refine-Retry) - no exceptions
  */

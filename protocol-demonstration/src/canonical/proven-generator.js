@@ -1975,7 +1975,7 @@ function buildV26PromptSystemTotalityProof({
         'packages/pipelines-generics/src/execution/resume.ts',
         'packages/pipelines-generics/src/execution/route-pipeline-execution.ts',
         'packages/pipelines-generics/src/phases/phase-factory.ts',
-        'packages/pipelines-generics/src/phases/sdivs-factory.ts',
+        'packages/pipelines-generics/src/phases/sdivf-factory.ts',
         'packages/pipelines-generics/src/pipeline-factory.ts',
         'packages/pipelines-generics/src/gate-system/meta-phase-orchestrator.ts',
         'packages/pipelines-generics/src/gate-system/types.ts',
@@ -2257,7 +2257,7 @@ function buildV26PromptSystemTotalityProof({
         'packages/pipelines/asset-pack/src/agents/setup/deliverable-pipeline-comprehend-need-agent.ts',
         'packages/pipelines/asset-pack/src/agents/setup/deliverable-pipeline-ready-to-iterate-agent.ts',
         'packages/pipelines/asset-pack/src/agents/setup/deliverable-pipeline-setup-plan-agent.ts',
-        'packages/pipelines/asset-pack/src/agents/shipping/deliverable-pipeline-create-pull-request-agent.ts',
+        'packages/pipelines/asset-pack/src/agents/finish-compatibility/deliverable-pipeline-create-pull-request-agent.ts',
         'packages/pipelines/asset-pack/src/agents/finish/deliver-asset-pack-to-destination-agent.ts',
         'packages/pipelines/asset-pack/src/agents/finish/final-work-summary-agent.ts',
         'packages/pipelines/asset-pack/src/tools/DeliverablePipelineCloneVCSRepositoryTool.ts',
@@ -2497,15 +2497,15 @@ function buildV26SourceToSharesFifthGateProof({
     ),
     buildV26FilePresenceCheck(
       'asset-pack-finish-delivering-semantics',
-      'Retained pipeline output semantics distinguish stable AssetPacks and written assets from delivery mechanisms, with Finish as the broad final phase',
+      'Pipeline output semantics distinguish stable AssetPacks and written assets from delivery mechanisms, with Finish as the broad final phase',
       [
         'protocol-demonstration/V26_DELIVERABLE_REFORM.md',
         'protocol-demonstration/V26_PIPELINE_FINISH_REFORM.md',
         'protocol-demonstration/test/v26-deliverable-reform.test.js',
         'protocol-demonstration/test/v26-pipeline-finish-reform.test.js',
-        'packages/pipelines-generics/src/phases/sdivs-factory.ts',
+        'packages/pipelines-generics/src/phases/sdivf-factory.ts',
         'packages/pipelines-generics/src/phases/phase-factory.ts',
-        'packages/pipelines/asset-pack/src/agents/shipping-agents.ts',
+        'packages/pipelines/asset-pack/src/agents/finish-delivery-compatibility-agents.ts',
         'packages/pipelines/asset-pack/src/agents/validation-agents.ts'
       ]
     )
@@ -2777,7 +2777,7 @@ const V26_PROMPT_SPACE_WITNESS_SETS = [
     label: 'Asset-pack and need-comprehension compatibility prompts expose Bitcode semantics',
     promptSpaceRole: 'asset-pack-need-comprehension',
     closureTier: 'fifth-gate-baseline',
-    fifthGateUse: 'Keeps retained deliverable/task carriers mapped to Bitcode need, written asset, asset pack, and delivery mechanism meaning.',
+    fifthGateUse: 'Keeps compatibility request carriers mapped to Bitcode need, written asset, asset pack, and delivery mechanism meaning.',
     laterGateRemaining: 'Compatibility file and class names can be retired only after callers no longer need them.',
     requiredFiles: [
       'packages/pipelines/asset-pack/src/agents/prompts/comprehend-need-prompt.ts',

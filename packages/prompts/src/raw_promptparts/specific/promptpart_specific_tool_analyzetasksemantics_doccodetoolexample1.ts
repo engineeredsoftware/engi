@@ -14,4 +14,4 @@
 import type { PromptPart } from '../../parts/PromptPart';
 
 export const PROMPTPART_SPECIFIC_TOOL_ANALYZETASKSEMANTICS_DOCCODETOOLEXAMPLE1: PromptPart =
-  "Example 1 - Pull request written asset: analyzeNeedSemantics({ expressedNeed: \"Fix the OAuth redirect regression and open a PR\", repositoryContext: { stack: [\"Next.js\", \"Supabase\"] }, targetDimensions: [\"intent\", \"writtenAsset\", \"shippingWrapper\"] }) -> identifies the need as auth regression repair, the stable written asset as code changes plus tests, and the pull request as the delivery mechanism." as PromptPart;
+  "Example 1 - Pull request written asset: analyzeNeedSemantics({ expressedNeed: \"Fix the OAuth redirect regression and open a PR\", repositoryContext: { stack: [\"Next.js\", \"Supabase\"] }, targetDimensions: [\"intent\", \"writtenAsset\", \"deliveryMechanism\", \"sourceToSharesService\"] }) -> identifies the need as auth regression repair, the stable written asset as code changes plus tests, the pull request as the delivery mechanism, and the source-to-shares service questions the customer/operator can audit." as PromptPart;

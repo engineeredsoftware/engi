@@ -9,6 +9,18 @@
 import { z } from 'zod';
 import { NeedIntentTypeSchema } from './need-comprehension-schemas';
 
+function buildSourceToSharesServiceQuestions(expressedNeed: string) {
+  return {
+    why: `Why does this need advance a customer's auditable source-to-shares outcome: ${expressedNeed || 'unspecified need'}?`,
+    how: 'How will written assets, proof evidence, and delivery mechanisms make the outcome inspectable?',
+    when: 'When must this answer be reviewed before fit search, risk admission, Finish, Delivering, or settlement?',
+    where: 'Where do repository scope, interface ingress, persistence state, and proof witnesses carry the evidence?',
+    what: 'What exact code, package, interface, proof, or AssetPack object is being changed or produced?',
+    who: 'Who relies on this answer: customer, Bitcode Terminal operator, provider, contributor, reviewer, or settlement participant?',
+    audit: 'What evidence lets Advanced Engineered Software, Inc. defend this as auditable market infrastructure of engineering knowledge?'
+  };
+}
+
 export async function analyzeNeedSemantics({
   expressed_need,
   context_information
@@ -49,6 +61,12 @@ export async function analyzeNeedSemantics({
       ]
     },
     written_asset_expectations: ['source-bearing written asset', 'verification evidence'],
+    source_to_shares_service_questions: buildSourceToSharesServiceQuestions(expressedNeed),
+    commercial_accountability: {
+      provider: 'Advanced Engineered Software, Inc.',
+      customer_outcome: 'source-to-shares system use',
+      market_infrastructure_standard: 'auditable engineering-knowledge market infrastructure'
+    },
     asset_pack_context: {
       repository_type: context_information?.repository_type,
       technology_stack: context_information?.technology_stack ?? [],
@@ -115,6 +133,10 @@ export async function extractNeedRequirements({
     business_requirements: [],
     technical_requirements: [],
     proof_requirements: ['Spec/proof witnesses updated when semantics change'],
+    commercial_service_requirements: [
+      'Need answer explains why/how/when/where/what/who the work serves source-to-shares',
+      'Proof evidence supports customer-facing audit and market-infrastructure acceptance'
+    ],
     interface_requirements: ['Connected-interface payloads carry semantic aliases'],
     written_asset_requirement_map: {
       source_change: ['functional_requirements', 'technical_requirements', 'proof_requirements'],
@@ -242,6 +264,10 @@ export async function generateNeedSatisfactionCriteria({
       }
     ],
     proof_criteria: ['Generated V26 proof artifacts include the changed prompt surface'],
+    commercial_accountability_criteria: [
+      'Critical source-to-shares service questions are answered before fit search or settlement',
+      'The answer is reviewable by the customer/operator without relying on old-world terminology'
+    ],
     persistence_criteria: ['Any persisted run state mirrors need and written-asset aliases'],
     interface_criteria: ['Delivery mechanisms are wrapper metadata on top of stable assets'],
     blocking_criteria: ['No old prompt text remains in runtime prompt carry-through'],
@@ -295,6 +321,9 @@ export async function validateNeedComprehension({
       written_asset_coherence: 0.9,
       proof_coverage: 0.86
     },
+    commercial_accountability_findings: [
+      'Need comprehension must explain why/how/when/where/what/who this code serves Bitcode source-to-shares'
+    ],
     terminology_findings: [
       'need_comprehension is the canonical Bitcode interpretation'
     ],
@@ -336,7 +365,8 @@ export async function analyzeNeedSatisfactionImplementationComplexity({
       integration_complexity: 'low' as const,
       testing_complexity: 'medium' as const,
       proof_complexity: 'medium' as const,
-      delivery_mechanism_complexity: 'low' as const
+      delivery_mechanism_complexity: 'low' as const,
+      commercial_accountability_complexity: 'medium' as const
     },
     risk_analysis: {
       technical_risks: ['Package boundary drift', 'Prompt runtime carry-through drift'],

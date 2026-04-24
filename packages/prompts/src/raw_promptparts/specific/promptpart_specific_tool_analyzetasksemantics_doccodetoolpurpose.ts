@@ -14,4 +14,4 @@
 import type { PromptPart } from '../../parts/PromptPart';
 
 export const PROMPTPART_SPECIFIC_TOOL_ANALYZETASKSEMANTICS_DOCCODETOOLPURPOSE: PromptPart =
-  "Analyze an expressed Bitcode need to identify intent, scope, constraints, written-asset expectations, asset-pack context, delivery-mechanism boundaries, ambiguity, dependencies, and measurable satisfaction criteria for downstream inference." as PromptPart;
+  "Analyze an expressed Bitcode need to identify intent, scope, constraints, written-asset expectations, asset-pack context, delivery-mechanism boundaries, source-to-shares service questions, commercial accountability evidence, ambiguity, dependencies, and measurable satisfaction criteria for downstream inference." as PromptPart;

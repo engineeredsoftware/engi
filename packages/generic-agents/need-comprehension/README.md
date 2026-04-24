@@ -19,10 +19,10 @@ Its canonical fifth-gate role is `setup` / `pre-danger-wall`: synthesize a revie
 
 `bitcodeSetupNeedComprehensionAgent`:
 
-- Plans how to understand the expressed Need, attachments, repository context, AssetPack expectation, proof needs, and delivery-mechanism boundary.
+- Plans how to understand the expressed Need, attachments, repository context, AssetPack expectation, proof needs, delivery-mechanism boundary, and source-to-shares service questions.
 - Uses Need-comprehension tools to analyze semantics, extract requirements, identify constraints, generate satisfaction criteria, validate the model, and estimate implementation complexity.
 - Refines ambiguity before risk admission rather than allowing danger-wall to infer canonical Need meaning.
-- Emits compatibility fields only as carriers for retained callers; active meaning is `need`, `writtenAssetTypes`, `assetPackContext`, `deliveryMechanismBoundaries`, and `needSatisfactionCriteria`.
+- Emits compatibility fields only as carriers for retained callers; active meaning is `need`, `writtenAssetTypes`, `assetPackContext`, `deliveryMechanismBoundaries`, `sourceToSharesServiceQuestions`, `commercialAccountability`, and `needSatisfactionCriteria`.
 
 ## Verification
 

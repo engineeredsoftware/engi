@@ -14,4 +14,4 @@
 import type { PromptPart } from '../../parts/PromptPart';
 
 export const PROMPTPART_SPECIFIC_TOOL_ANALYZETASKSEMANTICS_DOCCODETOOLCAPABILITIES: PromptPart =
-  "Capabilities: parse expressed needs from user text and attachments; separate Bitcode-owned asset-pack meaning from connected-interface delivery mechanisms; detect scope boundaries, assumptions, conflicts, and risk; map requested work to written-asset expectations; emit structured satisfaction criteria and confidence by dimension." as PromptPart;
+  "Capabilities: parse expressed needs from user text and attachments; separate Bitcode-owned asset-pack meaning from connected-interface delivery mechanisms; answer why/how/when/where/what/who the code serves source-to-shares customer outcomes; detect scope boundaries, assumptions, conflicts, and risk; map requested work to written-asset expectations; emit structured satisfaction criteria and confidence by dimension." as PromptPart;

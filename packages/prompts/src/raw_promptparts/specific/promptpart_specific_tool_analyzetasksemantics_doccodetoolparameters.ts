@@ -14,4 +14,4 @@
 import type { PromptPart } from '../../parts/PromptPart';
 
 export const PROMPTPART_SPECIFIC_TOOL_ANALYZETASKSEMANTICS_DOCCODETOOLPARAMETERS: PromptPart =
-  "Parameters: expressedNeed: string; repositoryContext?: object; attachmentSummaries?: Array<{ name: string; kind: string; summary: string }>; targetDimensions?: Array<\"intent\" | \"scope\" | \"constraints\" | \"writtenAsset\" | \"assetPack\" | \"shippingWrapper\" | \"risk\" | \"ambiguity\">; outputGranularity?: \"summary\" | \"structured\" | \"trace\"." as PromptPart;
+  "Parameters: expressedNeed: string; repositoryContext?: object; attachmentSummaries?: Array<{ name: string; kind: string; summary: string }>; targetDimensions?: Array<\"intent\" | \"scope\" | \"constraints\" | \"writtenAsset\" | \"assetPack\" | \"deliveryMechanism\" | \"sourceToSharesService\" | \"risk\" | \"ambiguity\">; outputGranularity?: \"summary\" | \"structured\" | \"trace\"." as PromptPart;
