@@ -3,8 +3,8 @@ import { PromptPart } from '../../parts/PromptPart';
 /**
  * @doc-comment-developing-promptpartdevelopment
  * domain: agent
- * intent: "Define Determine Deliverable Type agent system instructions"
- * current_version: "V26.50.0"
+ * intent: "Bitcode compatibility PromptPart for delivery-mechanism selector instructions"
+ * current_version: "0.50.0"
  * versions: []
  * benchmarks: [
  *   { "name": "instruction_completeness", "test": "Do instructions cover all aspects?", "score": 0.39 },
@@ -13,4 +13,4 @@ import { PromptPart } from '../../parts/PromptPart';
  * ]
  */
 export const PROMPTPART_SPECIFIC_AGENT_DETERMINEDELIVERABLETYPE_SYSTEM_INSTRUCTIONS: PromptPart = 
-  'Determine deliverable type by: parsing request content for type indicators, matching patterns against deliverable templates, identifying required outputs and artifacts, validating type-specific requirements, classifying complexity and resource needs, routing to specialized processing pipelines, generating type-specific metadata' as PromptPart;
+  'Select the delivery-mechanism template by parsing the Need, identifying requested Shippable destinations, checking AssetPack evidence requirements, validating destination-specific receipt fields, preserving implementation and validation independence from delivery, and generating metadata for Finish' as PromptPart;

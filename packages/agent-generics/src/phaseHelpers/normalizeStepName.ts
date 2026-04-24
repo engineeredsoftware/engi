@@ -25,7 +25,7 @@ export function normalizeStepName(step?: string): string {
   if (lower.includes('discovery')) return 'Discovery';
   if (lower.includes('implementation')) return 'Implementation';
   if (lower.includes('validation')) return 'Validation';
-  if (lower.includes('shipping')) return 'Shipping';
+  if (lower.includes('finish') || lower.includes('shipping')) return 'Finish';
 
   return step.charAt(0).toUpperCase() + step.slice(1);
 }

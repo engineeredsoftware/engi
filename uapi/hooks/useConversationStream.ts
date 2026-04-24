@@ -57,7 +57,7 @@ export interface StreamToken {
   type:
     | 'asset_pack'
     | 'need_measurement'
-    | 'deliverable'
+    | 'shippable'
     | 'measure'
     | 'attachment'
     | 'source'

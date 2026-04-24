@@ -37,6 +37,11 @@ describe('parseStreamChunk completion.fileChanges mapping', () => {
       modified: ['y'],
       deleted: ['z'],
     });
+    expect(parsed.completion!.shippables.fileChanges).toEqual({
+      created: ['x'],
+      modified: ['y'],
+      deleted: ['z'],
+    });
     expect(parsed.completion!.deliveryMechanism.fileChanges).toEqual({
       created: ['x'],
       modified: ['y'],

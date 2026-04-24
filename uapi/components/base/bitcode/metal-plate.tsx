@@ -1,7 +1,7 @@
 "use client";
 
 import React, { FC } from 'react';
-import DeliverablesHeaderShinyText from './deliverables-header-shiny-text';
+import BitcodeHeaderShinyText from './bitcode-header-shiny-text';
 import styles from './metal-plate.module.css';
 
 function hexToRgba(hex: string, alpha = 1): string {
@@ -76,9 +76,9 @@ const MetalPlate: FC<MetalPlateProps> = ({
             {icon}
             <div className={styles.headlineIconGlow}></div>
           </div>
-          <DeliverablesHeaderShinyText as="span" enable3dEffect className={`text-lg font-medium tracking-wide ${styles.headlineText}`}>
+          <BitcodeHeaderShinyText as="span" enable3dEffect className={`text-lg font-medium tracking-wide ${styles.headlineText}`}>
             {headline}
-          </DeliverablesHeaderShinyText>
+          </BitcodeHeaderShinyText>
         </div>
         <div className="flex items-center gap-1">
           {headerAction}

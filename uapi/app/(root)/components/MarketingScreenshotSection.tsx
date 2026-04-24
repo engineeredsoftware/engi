@@ -28,8 +28,8 @@ import {
 // Fullscreen gallery for screenshots with thumbnail carousel
 import MarketingFullScreenGallery from './MarketingFullScreenGallery';
 import type { Screenshot } from './marketing-types';
-// Reuse the global neon underline + glow styles defined for deliverable headers
-import "@/styles/deliverables-header-shiny-text.css";
+// Reuse the global neon underline + glow styles defined for Bitcode headers.
+import "@/styles/bitcode-header-shiny-text.css";
 import { motion, useInView } from "framer-motion";
 
 // Persist a module-level flag so the animation only ever plays once per page

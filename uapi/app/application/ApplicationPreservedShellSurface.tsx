@@ -240,7 +240,7 @@ export default function ApplicationPreservedShellSurface() {
 
               <section className="panel" id="panelBranchArtifacts">
                 <div className="panel-head">
-                  <h2 data-explainer-key="branch-artifacts">5. Deliverables + branch artifacts</h2>
+                  <h2 data-explainer-key="branch-artifacts">5. Shippables + branch artifacts</h2>
                   <span className="badge private" data-explainer-key="private-remediation-branch">
                     private remediation branch
                   </span>

@@ -1,4 +1,4 @@
-import type { DeliverablesDoc } from '@/components/base/bitcode/execution/DeliverablesDocPanel';
+import type { ShippablesDoc } from '@/components/base/bitcode/execution/ShippablesDocPanel';
 import {
   buildApplicationRunDetailFromSelectedRun,
   normalizeApplicationRunDetailPayload,
@@ -19,20 +19,20 @@ const baseRun: WorkspaceRun = {
   usdTotal: 0.84,
   averageLatencyMs: 850,
   proofStatus: 'bounded proof ready',
-  closureFocus: 'deliverable bundle',
+  closureFocus: 'Shippable bundle',
 };
 
 describe('application-transaction-detail-snapshot helpers', () => {
   it('builds a selected-run fallback snapshot', () => {
-    const fallbackDeliverables: DeliverablesDoc = {
-      summary: 'Fallback deliverable summary.',
+    const fallbackShippables: ShippablesDoc = {
+      summary: 'Fallback Shippable summary.',
       pullRequest: { title: 'Fallback PR', url: 'https://example.com/pr/1', number: 1 },
     };
 
-    const snapshot = buildApplicationRunDetailFromSelectedRun(baseRun, fallbackDeliverables);
+    const snapshot = buildApplicationRunDetailFromSelectedRun(baseRun, fallbackShippables);
 
     expect(snapshot.summary).toBe('Fallback selected-run summary.');
-    expect(snapshot.deliverables?.pullRequest?.title).toBe('Fallback PR');
+    expect(snapshot.shippables?.pullRequest?.title).toBe('Fallback PR');
     expect(snapshot.writtenAssets?.pullRequest?.title).toBe('Fallback PR');
     expect(snapshot.deliveryMechanism?.pullRequest?.title).toBe('Fallback PR');
     expect(snapshot.repoSnapshot).toMatchObject({
@@ -50,6 +50,7 @@ describe('application-transaction-detail-snapshot helpers', () => {
       sourceModel: 'protocol-projection',
       protocolProjectionDetail: {
         summary: 'Live projected Bitcode posture.',
+        shippables: null,
         deliverables: null,
         repoSnapshot: {
           org: 'bitcode',
@@ -109,7 +110,7 @@ describe('application-transaction-detail-snapshot helpers', () => {
     });
   });
 
-  it('normalizes live history payload with final work summary deliverables', () => {
+  it('normalizes live history payload with final work summary shippables', () => {
     const snapshot = normalizeApplicationRunDetailPayload(
       {
         run: {
@@ -281,10 +282,14 @@ describe('application-transaction-detail-snapshot helpers', () => {
                 ],
                 recentHistory: [{ label: 'run-001', summary: 'bitcode/bitcode · completed · credited 2' }],
               },
-              deliverables: {
-                summary: 'Deliverable bundle summary.',
+              shippables: {
+                summary: 'Shippable bundle summary.',
                 pullRequest: { title: 'Live PR', url: 'https://example.com/pr/2', number: 2 },
                 issues: [{ title: 'Issue 1', url: 'https://example.com/issues/1', number: 1 }],
+              },
+              deliverables: {
+                summary: 'Compatibility bundle summary.',
+                pullRequest: { title: 'Compatibility PR', url: 'https://example.com/pr/compat', number: 20 },
               },
               assetPackSynthesisArtifacts: {
                 summary: 'Live AssetPack synthesis artifacts.',
@@ -304,8 +309,10 @@ describe('application-transaction-detail-snapshot helpers', () => {
     );
 
     expect(snapshot.summary).toBe('Live execution summary.');
-    expect(snapshot.deliverables?.summary).toBe('Deliverable bundle summary.');
-    expect(snapshot.deliverables?.pullRequest?.title).toBe('Live PR');
+    expect(snapshot.shippables?.summary).toBe('Shippable bundle summary.');
+    expect(snapshot.shippables?.pullRequest?.title).toBe('Live PR');
+    expect(snapshot.deliverables?.summary).toBe('Compatibility bundle summary.');
+    expect(snapshot.deliverables?.pullRequest?.title).toBe('Compatibility PR');
     expect(snapshot.assetPackSynthesisArtifacts?.summary).toBe('Live AssetPack synthesis artifacts.');
     expect(snapshot.assetPackSynthesisArtifacts?.fileChanges?.edited).toBe(5);
     expect(snapshot.writtenAssets?.summary).toBe('Live AssetPack synthesis artifacts.');
@@ -397,9 +404,9 @@ describe('application-transaction-detail-snapshot helpers', () => {
     expect(snapshot.eventCount).toBe(3);
   });
 
-  it('falls back cleanly when live payload omits deliverable detail', () => {
-    const fallbackDeliverables: DeliverablesDoc = {
-      summary: 'Fallback deliverable summary.',
+  it('falls back cleanly when live payload omits Shippable detail', () => {
+    const fallbackShippables: ShippablesDoc = {
+      summary: 'Fallback Shippable summary.',
       comments: [{ title: 'Operator comment', url: 'https://example.com/comments/1', number: 1 }],
     };
 
@@ -417,13 +424,13 @@ describe('application-transaction-detail-snapshot helpers', () => {
         events: [],
       },
       baseRun,
-      fallbackDeliverables,
+      fallbackShippables,
     );
 
     expect(snapshot.summary).toBe('Fallback selected-run summary.');
-    expect(snapshot.deliverables?.summary).toBe('Fallback deliverable summary.');
-    expect(snapshot.deliverables?.comments?.[0]?.title).toBe('Operator comment');
-    expect(snapshot.writtenAssets?.summary).toBe('Fallback deliverable summary.');
+    expect(snapshot.shippables?.summary).toBe('Fallback Shippable summary.');
+    expect(snapshot.shippables?.comments?.[0]?.title).toBe('Operator comment');
+    expect(snapshot.writtenAssets?.summary).toBe('Fallback Shippable summary.');
     expect(snapshot.deliveryMechanism?.comments?.[0]?.title).toBe('Operator comment');
     expect(snapshot.processingStats.time).toBe('2m 08s');
     expect(snapshot.proofStatus).toBe('bounded proof ready');
@@ -470,6 +477,7 @@ describe('application-transaction-detail-snapshot helpers', () => {
     expect(snapshot.assetPackSynthesisArtifacts?.fileChanges?.edited).toBe(4);
     expect(snapshot.writtenAssets?.summary).toBe('Stable written asset summary.');
     expect(snapshot.writtenAssets?.fileChanges?.edited).toBe(2);
+    expect(snapshot.shippables?.pullRequest?.title).toBe('Delivery PR');
     expect(snapshot.deliveryMechanism?.pullRequest?.title).toBe('Delivery PR');
     expect(snapshot.deliverables?.pullRequest?.title).toBe('Delivery PR');
   });

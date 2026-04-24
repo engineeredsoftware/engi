@@ -1,8 +1,8 @@
 {
   "reportId": "v26-prompt-system-totality-proof",
   "version": "V26",
-  "proofSourceCommit": "5aa9c500c961d29d8cfe9203f2eac5b363ef316e",
-  "generatedAt": "2026-04-24T16:15:34-03:00",
+  "proofSourceCommit": "a29858138fcc8ff22b29c2b8ac6ad2e501f5784a",
+  "generatedAt": "2026-04-24T16:44:48-03:00",
   "generatorId": "bitcode.proven-generator.v1",
   "worktreeState": "dirty-preview",
   "passed": true,
@@ -396,14 +396,14 @@
       "missingFiles": []
     },
     {
-      "checkId": "need-ingestion-and-deliverable-prompt-ports",
-      "label": "Need-ingestion and admitted deliverable compatibility ports remain explicit under Bitcode ownership, narrow public prompt subpaths, and semantic need/written-asset mirrors",
+      "checkId": "need-ingestion-and-shippable-prompt-ports",
+      "label": "Need-ingestion and admitted shippable compatibility ports remain explicit under Bitcode ownership, narrow public prompt subpaths, and semantic need/written-asset mirrors",
       "passed": true,
       "detail": "36 required files present",
       "requiredFiles": [
-        "protocol-demonstration/V26_DELIVERABLE_REFORM.md",
+        "protocol-demonstration/V26_SHIPPABLE_REFORM.md",
         "protocol-demonstration/V26_PIPELINE_FINISH_REFORM.md",
-        "protocol-demonstration/test/v26-deliverable-reform.test.js",
+        "protocol-demonstration/test/v26-shippable-reform.test.js",
         "protocol-demonstration/test/v26-pipeline-finish-reform.test.js",
         "packages/generic-agents/jira-processor/src/prompts/system-prompt-jira-processor.ts",
         "packages/generic-agents/jira-processor/src/prompts/agent-prompt-jira-processor.ts",

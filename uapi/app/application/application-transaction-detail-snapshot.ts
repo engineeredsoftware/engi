@@ -1,4 +1,4 @@
-import type { DeliverablesDoc } from '@/components/base/bitcode/execution/DeliverablesDocPanel';
+import type { ShippablesDoc } from '@/components/base/bitcode/execution/ShippablesDocPanel';
 import type { PipelineExecution } from '@/types/api';
 
 import type {
@@ -42,10 +42,11 @@ type ProcessingStats = {
 
 export interface ApplicationRunDetailSnapshot {
   summary: string | null;
-  deliverables: DeliverablesDoc | null;
-  assetPackSynthesisArtifacts?: DeliverablesDoc | null;
-  writtenAssets?: DeliverablesDoc | null;
-  deliveryMechanism?: DeliverablesDoc | null;
+  shippables: ShippablesDoc | null;
+  assetPackSynthesisArtifacts?: ShippablesDoc | null;
+  writtenAssets?: ShippablesDoc | null;
+  deliveryMechanism?: ShippablesDoc | null;
+  deliverables?: ShippablesDoc | null;
   repoSnapshot: RepoSnapshot | null;
   processingStats: ProcessingStats;
   proofStatus: string | null;
@@ -157,15 +158,15 @@ function coerceProcessingStats(value: unknown): ProcessingStats {
   };
 }
 
-function coerceDeliverables(value: unknown): DeliverablesDoc | null {
+function coerceShippableSurface(value: unknown): ShippablesDoc | null {
   if (!isRecord(value)) return null;
 
-  const pullRequest = isRecord(value.pullRequest) ? (value.pullRequest as DeliverablesDoc['pullRequest']) : null;
+  const pullRequest = isRecord(value.pullRequest) ? (value.pullRequest as ShippablesDoc['pullRequest']) : null;
   const pullRequestReviews = Array.isArray(value.pullRequestReviews)
-    ? (value.pullRequestReviews as NonNullable<DeliverablesDoc['pullRequestReviews']>)
+    ? (value.pullRequestReviews as NonNullable<ShippablesDoc['pullRequestReviews']>)
     : null;
-  const comments = Array.isArray(value.comments) ? (value.comments as NonNullable<DeliverablesDoc['comments']>) : null;
-  const issues = Array.isArray(value.issues) ? (value.issues as NonNullable<DeliverablesDoc['issues']>) : null;
+  const comments = Array.isArray(value.comments) ? (value.comments as NonNullable<ShippablesDoc['comments']>) : null;
+  const issues = Array.isArray(value.issues) ? (value.issues as NonNullable<ShippablesDoc['issues']>) : null;
   const fileChanges = isRecord(value.fileChanges)
     ? {
         edited: coerceNumber(value.fileChanges.edited) || 0,
@@ -175,7 +176,7 @@ function coerceDeliverables(value: unknown): DeliverablesDoc | null {
           ? value.fileChanges.paths.filter((path): path is string => typeof path === 'string')
           : [],
         fileDiffs: Array.isArray(value.fileChanges.fileDiffs)
-          ? (value.fileChanges.fileDiffs as NonNullable<NonNullable<DeliverablesDoc['fileChanges']>['fileDiffs']>)
+          ? (value.fileChanges.fileDiffs as NonNullable<NonNullable<ShippablesDoc['fileChanges']>['fileDiffs']>)
           : undefined,
       }
     : null;
@@ -501,18 +502,19 @@ function readFinalWorkSummary(run: Record<string, unknown>) {
 
 export function buildApplicationRunDetailFromSelectedRun(
   selectedRun: WorkspaceRun,
-  fallbackDeliverables?: DeliverablesDoc | null,
+  fallbackShippables?: ShippablesDoc | null,
 ): ApplicationRunDetailSnapshot {
   if (selectedRun.sourceModel === 'protocol-projection' && selectedRun.protocolProjectionDetail) {
     return selectedRun.protocolProjectionDetail;
   }
 
   return {
-    summary: selectedRun.summary || fallbackDeliverables?.summary || null,
-    deliverables: fallbackDeliverables || null,
+    summary: selectedRun.summary || fallbackShippables?.summary || null,
     assetPackSynthesisArtifacts: null,
-    writtenAssets: fallbackDeliverables || null,
-    deliveryMechanism: fallbackDeliverables || null,
+    writtenAssets: fallbackShippables || null,
+    shippables: fallbackShippables || null,
+    deliveryMechanism: fallbackShippables || null,
+    deliverables: fallbackShippables || null,
     repoSnapshot: parseRepository(selectedRun.repository, selectedRun.branch),
     processingStats: {
       time: null,
@@ -534,37 +536,46 @@ export function buildApplicationRunDetailFromSelectedRun(
 export function normalizeApplicationRunDetailPayload(
   payload: unknown,
   selectedRun: WorkspaceRun,
-  fallbackDeliverables?: DeliverablesDoc | null,
+  fallbackShippables?: ShippablesDoc | null,
 ): ApplicationRunDetailSnapshot {
   if (!isRecord(payload) || (!isRecord(payload.run) && payload.run !== null)) {
     throw new Error('Invalid run history payload');
   }
 
-  const base = buildApplicationRunDetailFromSelectedRun(selectedRun, fallbackDeliverables);
+  const base = buildApplicationRunDetailFromSelectedRun(selectedRun, fallbackShippables);
   const run = isRecord(payload.run) ? payload.run : null;
   if (!run) return base;
 
   const finalWorkSummary = readFinalWorkSummary(run);
   const assetPackSynthesisArtifacts =
-    coerceDeliverables(finalWorkSummary?.assetPackSynthesisArtifacts) ||
-    coerceDeliverables(run.asset_pack_synthesis_artifacts) ||
-    coerceDeliverables(run.assetPackSynthesisArtifacts);
+    coerceShippableSurface(finalWorkSummary?.assetPackSynthesisArtifacts) ||
+    coerceShippableSurface(run.asset_pack_synthesis_artifacts) ||
+    coerceShippableSurface(run.assetPackSynthesisArtifacts);
   const writtenAssets =
-    coerceDeliverables(finalWorkSummary?.writtenAssets) ||
+    coerceShippableSurface(finalWorkSummary?.writtenAssets) ||
     assetPackSynthesisArtifacts ||
-    coerceDeliverables(run.written_assets) ||
-    coerceDeliverables(finalWorkSummary?.deliverables) ||
+    coerceShippableSurface(run.written_assets) ||
+    coerceShippableSurface(finalWorkSummary?.deliverables) ||
     base.writtenAssets ||
     base.deliverables;
   const deliveryMechanism =
-    coerceDeliverables(finalWorkSummary?.deliveryMechanism) ||
-    coerceDeliverables(run.delivery_mechanism) ||
-    coerceDeliverables(finalWorkSummary?.deliverables) ||
+    coerceShippableSurface(finalWorkSummary?.deliveryMechanism) ||
+    coerceShippableSurface(run.delivery_mechanism) ||
+    coerceShippableSurface(finalWorkSummary?.shippables) ||
+    coerceShippableSurface(run.shippables) ||
+    coerceShippableSurface(finalWorkSummary?.deliverables) ||
     base.deliveryMechanism ||
     base.deliverables ||
     writtenAssets;
-  const deliverables =
-    coerceDeliverables(finalWorkSummary?.deliverables) ||
+  const shippables =
+    coerceShippableSurface(finalWorkSummary?.shippables) ||
+    coerceShippableSurface(run.shippables) ||
+    deliveryMechanism ||
+    base.shippables ||
+    null;
+  const compatibilityDeliverables =
+    coerceShippableSurface(finalWorkSummary?.deliverables) ||
+    shippables ||
     deliveryMechanism ||
     writtenAssets ||
     base.deliverables;
@@ -592,12 +603,14 @@ export function normalizeApplicationRunDetailPayload(
       base.summary ||
       assetPackSynthesisArtifacts?.summary ||
       writtenAssets?.summary ||
-      deliverables?.summary ||
+      shippables?.summary ||
+      compatibilityDeliverables?.summary ||
       null,
-    deliverables,
     assetPackSynthesisArtifacts,
     writtenAssets,
+    shippables,
     deliveryMechanism,
+    deliverables: compatibilityDeliverables,
     repoSnapshot,
     processingStats: {
       time: processingStats.time || base.processingStats.time,

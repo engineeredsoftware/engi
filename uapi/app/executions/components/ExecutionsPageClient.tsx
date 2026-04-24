@@ -3,9 +3,9 @@
 
 import React, { useState, useEffect, useRef, useMemo, useCallback } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
-import ExecutionsPageHeaderDeliverablePostprocess from '@/app/executions/components/ExecutionsPageHeaderDeliverablePostprocess';
-import DeliverablesDocPanel from '@/components/base/bitcode/execution/DeliverablesDocPanel';
-import DeliverablesCardsPanel from '@/components/base/bitcode/execution/DeliverablesCardsPanel';
+import ExecutionsPageHeaderShippablePostprocess from '@/app/executions/components/ExecutionsPageHeaderShippablePostprocess';
+import ShippablesDocPanel from '@/components/base/bitcode/execution/ShippablesDocPanel';
+import ShippablesCardsPanel from '@/components/base/bitcode/execution/ShippablesCardsPanel';
 import BitcodeExecutionStreamPanel from '@/components/base/bitcode/execution/BitcodeExecutionStreamPanel';
 import { ErrorBox } from '@/components/base/bitcode/execution/error-box';
 import { VCSSourceSelectors as RawVCSSourceSelectors } from '@/components/base/bitcode/vcs/VCSSourceSelectors';
@@ -28,13 +28,13 @@ import { ExecutionsExecuteButton as ExecuteButton } from '@/app/executions/compo
 import { IterationSlider } from '@/components/base/bitcode/interactions/IterationSlider';
 import FlipText from '@/components/base/bitcode/layout/sidebars/FlipText';
 import { templates as defaultTemplates } from '@/config/templates';
-import type { DeliverableTemplates } from '@/types/templates';
+import type { ShippableTemplates } from '@/types/templates';
 import { useTemplatePreferences } from '@/hooks/useTemplatePreferences';
-import { useDeliverableTemplates } from '@/hooks/useDeliverableTemplates';
+import { useShippableTemplates } from '@/hooks/useShippableTemplates';
 import {
-  getHeaderDeliveryMechanism,
+  getHeaderShippables,
   getHeaderWrittenAssets,
-  mergeHeaderDeliverables,
+  mergeHeaderShippables,
   type HeaderFinalWorkSummary,
 } from '@/app/executions/components/ExecutionsCompleteHeaderContent';
 
@@ -52,24 +52,24 @@ const calculateInstructionTimeoutSeconds = (confidence: number): number => {
 };
 
 export function ExecutionsClient() {
-  // IDENTICAL logic copied from previous deliverables page (now canonical here)
+  // Retained execution composer logic; Bitcode output nouns are shippables.
   const router = useRouter();
   const searchParams = useSearchParams();
   const runId = searchParams.get('runId');
   const { preferences, isLoading: isLoadingTemplatePrefs, error: templatePrefError, reload: reloadTemplatePrefs } = useTemplatePreferences();
-  const { templates: dbTemplates } = useDeliverableTemplates();
+  const { templates: dbTemplates } = useShippableTemplates();
 
-  const templatesSource: DeliverableTemplates = useMemo(() => ({
+  const templatesSource: ShippableTemplates = useMemo(() => ({
     pullRequests: [...defaultTemplates.pullRequests, ...(dbTemplates?.pullRequests ?? [])],
     pullRequestReviews: [...defaultTemplates.pullRequestReviews, ...(dbTemplates?.pullRequestReviews ?? [])],
     issues: [...defaultTemplates.issues, ...(dbTemplates?.issues ?? [])],
     comments: [...defaultTemplates.comments, ...(dbTemplates?.comments ?? [])],
   }), [dbTemplates]);
 
-  const mergedTemplates: DeliverableTemplates = React.useMemo(() => {
+  const mergedTemplates: ShippableTemplates = React.useMemo(() => {
     if (!preferences) return templatesSource;
-    const filterByPrefs = (category: keyof DeliverableTemplates, list: DeliverableTemplates[keyof DeliverableTemplates]) => {
-      const prefIds = preferences.deliverable_templates?.[category] ?? [];
+    const filterByPrefs = (category: keyof ShippableTemplates, list: ShippableTemplates[keyof ShippableTemplates]) => {
+      const prefIds = preferences.shippable_templates?.[category] ?? preferences.deliverable_templates?.[category] ?? [];
       if (!prefIds.length) return list;
       return list.filter((t) => prefIds.includes(t.id));
     };
@@ -352,14 +352,17 @@ export function ExecutionsClient() {
     getHeaderWrittenAssets(historyFWS) ||
     headerPostprocessed?.assetPackSynthesisArtifacts ||
     headerPostprocessed?.writtenAssets ||
+    // Compatibility-only fallback for historical postprocessed rows.
     headerPostprocessed?.deliverables ||
     null;
   const deliveryMechanismForPanels =
-    getHeaderDeliveryMechanism(historyFWS) ||
+    getHeaderShippables(historyFWS) ||
+    headerPostprocessed?.shippables ||
     headerPostprocessed?.deliveryMechanism ||
+    // Compatibility-only fallback for historical postprocessed rows.
     headerPostprocessed?.deliverables ||
     writtenAssetsForPanels;
-  const deliverablesForPanels = mergeHeaderDeliverables(
+  const shippablesForPanels = mergeHeaderShippables(
     writtenAssetsForPanels,
     deliveryMechanismForPanels,
   );
@@ -507,10 +510,10 @@ export function ExecutionsClient() {
   return (
     <>
       <OrbitalBackground isProcessing={isProcessing} />
-      <ExecutionsPageHeaderDeliverablePostprocess
+      <ExecutionsPageHeaderShippablePostprocess
           renderDocInsideHeader={false}
           renderCardsInsideHeader={false}
-          onExecuteDeliverableClickSetDefinitionOfNeed={handleSetDefinitionOfNeed}
+          onSelectShippableTemplateDefinitionOfNeed={handleSetDefinitionOfNeed}
           executionStatus={isProcessing ? 'executing' : (!isProcessing && (isStreamingComplete || (!!runId && !!historyFWS))) ? 'executed' : 'execute'}
           executionType={'agentic-execution:asset-pack'}
           postprocessed={headerPostprocessed || undefined}
@@ -521,13 +524,13 @@ export function ExecutionsClient() {
           showExecuteButtonEdu={showExecuteButtonEdu}
           showIterationsEdu={showIterationsEdu ?? undefined}
           templates={mergedTemplates}
-          onTemplateSelect={(templateId, deliverableType) => {
-            const template = mergedTemplates[deliverableType].find((t) => t.id === templateId);
+          onTemplateSelect={(templateId, templateCategory) => {
+            const template = mergedTemplates[templateCategory].find((t) => t.id === templateId);
             if (template) {
               handleSetDefinitionOfNeed(template.text);
             }
           }}
-          deliverables={{
+          shippables={{
             pullRequest: deliveryMechanismForPanels?.pullRequest ?? null,
             pullRequestReviews: deliveryMechanismForPanels?.pullRequestReviews ?? [],
             issues: deliveryMechanismForPanels?.issues ?? [],
@@ -544,28 +547,28 @@ export function ExecutionsClient() {
         />
 
       {/* AssetPack artifacts + execution log */}
-      {deliverablesForPanels && (
-        <DeliverablesDocPanel
-          deliverables={{
-            pullRequest: deliverablesForPanels.pullRequest ?? null,
-            pullRequestReviews: deliverablesForPanels.pullRequestReviews ?? null,
-            comments: deliverablesForPanels.comments ?? null,
-            issues: deliverablesForPanels.issues ?? null,
-            fileChanges: deliverablesForPanels.fileChanges ?? null,
-            summary: deliverablesForPanels.summary ?? null,
+      {shippablesForPanels && (
+        <ShippablesDocPanel
+          shippables={{
+            pullRequest: shippablesForPanels.pullRequest ?? null,
+            pullRequestReviews: shippablesForPanels.pullRequestReviews ?? null,
+            comments: shippablesForPanels.comments ?? null,
+            issues: shippablesForPanels.issues ?? null,
+            fileChanges: shippablesForPanels.fileChanges ?? null,
+            summary: shippablesForPanels.summary ?? null,
           }}
           summaryOpen={summaryOpen}
           onToggleSummary={() => setSummaryOpen((prev) => !prev)}
         />
       )}
 
-      {deliverablesForPanels && (
-        <DeliverablesCardsPanel
-          deliverables={{
-            pullRequest: deliverablesForPanels.pullRequest ?? null,
-            pullRequestReviews: deliverablesForPanels.pullRequestReviews ?? null,
-            comments: deliverablesForPanels.comments ?? null,
-            issues: deliverablesForPanels.issues ?? null,
+      {shippablesForPanels && (
+        <ShippablesCardsPanel
+          shippables={{
+            pullRequest: shippablesForPanels.pullRequest ?? null,
+            pullRequestReviews: shippablesForPanels.pullRequestReviews ?? null,
+            comments: shippablesForPanels.comments ?? null,
+            issues: shippablesForPanels.issues ?? null,
           }}
         />
       )}
@@ -593,7 +596,7 @@ export function ExecutionsClient() {
       {/** Inline OTF instructions below logs for active executions */}
       { (activeRunId || runId) && (
         <div className="mt-6">
-          <ExecutionsInstructions runId={(activeRunId || runId)!} runKind="deliverable" />
+          <ExecutionsInstructions runId={(activeRunId || runId)!} runKind="asset-pack" />
         </div>
       )}
 

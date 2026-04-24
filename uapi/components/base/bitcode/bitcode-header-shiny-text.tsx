@@ -3,9 +3,9 @@
 import { FC, ReactNode, useEffect, useRef, useState } from 'react';
 import type { HTMLAttributes } from 'react';
 import { cn } from '@bitcode/styling';
-import '@/styles/deliverables-header-shiny-text.css';
+import '@/styles/bitcode-header-shiny-text.css';
 
-interface DeliverablesHeaderShinyTextProps
+interface BitcodeHeaderShinyTextProps
   extends Omit<HTMLAttributes<HTMLElement>, 'as' | 'children' | 'className'> {
   children: ReactNode;
   className?: string;
@@ -13,7 +13,7 @@ interface DeliverablesHeaderShinyTextProps
   enable3dEffect?: boolean;
 }
 
-const DeliverablesHeaderShinyText: FC<DeliverablesHeaderShinyTextProps> = ({
+const BitcodeHeaderShinyText: FC<BitcodeHeaderShinyTextProps> = ({
   children,
   className,
   as = 'h1',
@@ -35,7 +35,7 @@ const DeliverablesHeaderShinyText: FC<DeliverablesHeaderShinyTextProps> = ({
   return (
     <Component
       ref={textRef as React.Ref<any>}
-      className={cn('deliverables-header-text', enable3dEffect && 'deliverables-header-text-3d', className)}
+      className={cn('bitcode-header-text', enable3dEffect && 'bitcode-header-text-3d', className)}
       data-text={enable3dEffect ? textContent : undefined}
       style={{ position: 'relative', display: 'inline-block', ...style }}
       {...rest}
@@ -45,5 +45,5 @@ const DeliverablesHeaderShinyText: FC<DeliverablesHeaderShinyTextProps> = ({
   );
 };
 
-export default DeliverablesHeaderShinyText;
+export default BitcodeHeaderShinyText;
  

@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import { existsSync, readFileSync, readdirSync } from 'node:fs';
 
 const finishSpec = readFileSync(new URL('../V26_PIPELINE_FINISH_REFORM.md', import.meta.url), 'utf8');
-const deliverableSpec = readFileSync(new URL('../V26_DELIVERABLE_REFORM.md', import.meta.url), 'utf8');
+const shippableSpec = readFileSync(new URL('../V26_SHIPPABLE_REFORM.md', import.meta.url), 'utf8');
 const canonicalSpec = readFileSync(new URL('../../BITCODE_SPEC_V26.md', import.meta.url), 'utf8');
 const sdivFactorySource = readFileSync(
   new URL('../../packages/pipelines-generics/src/phases/sdivf-factory.ts', import.meta.url),
@@ -85,9 +85,9 @@ function listFiles(dirUrl) {
 
 test('V26 specifies Finish as the broad final phase and Delivering as destination handoff', () => {
   assert.match(finishSpec, /The broad final phase of a phased Bitcode agentic pipeline is `Finish`/);
-  assert.match(finishSpec, /`Delivering` owns connected-interface output/);
+  assert.match(finishSpec, /`Delivering` owns connected-interface Shippables/);
   assert.match(finishSpec, /`SDIVF` is the canonical retained phased pipeline implementation/);
-  assert.match(deliverableSpec, /active AssetPack phase, registry, tool, and store code must use `SDIVF` \/ `finish` behavior directly/);
+  assert.match(shippableSpec, /active AssetPack phase, registry, tool, and store code must use `SDIVF` \/ `finish` behavior directly/);
   assert.match(canonicalSpec, /`SDIVF` is the canonical compatibility-mounted phased implementation/);
 });
 

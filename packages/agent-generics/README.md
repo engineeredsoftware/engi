@@ -105,7 +105,7 @@ Agent (name + identity)
 
 ## Debug Filters (granular)
 
-- BITCODE_DEBUG_ONLY_PHASE: run agents only in this phase (e.g., setup, shipping). Non‑matching agents no‑op.
+- BITCODE_DEBUG_ONLY_PHASE: run agents only in this phase (e.g., setup, finish). Non-matching agents no-op.
 - BITCODE_DEBUG_ONLY_AGENT: substring match on agent name; non‑matching agents no‑op.
 - BITCODE_DEBUG_ONLY_STEP: one of plan|try|refine|retry — executes only that PTRR generation (back‑compat).
 - BITCODE_DEBUG_STOP_AFTER_STEP: deprecated — prefer ONLY filters (kept temporarily, no-op by default).

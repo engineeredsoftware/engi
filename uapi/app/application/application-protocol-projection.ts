@@ -171,9 +171,10 @@ export function buildProtocolProjectedRunDetail(
 
   return {
     summary: readSummary(snapshot, repositoryLabel, scenarioLabel, canonicalType),
-    deliverables: null,
     writtenAssets: null,
+    shippables: null,
     deliveryMechanism: null,
+    deliverables: null,
     repoSnapshot: repository
       ? {
           org: repository.org,

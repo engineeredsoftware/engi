@@ -1,4 +1,4 @@
-import type { DeliverablesDoc } from '@/components/base/bitcode/execution/DeliverablesDocPanel';
+import type { ShippablesDoc } from '@/components/base/bitcode/execution/ShippablesDocPanel';
 import type { PipelineExecution } from '@/types/api';
 import type { ApplicationRunDetailSnapshot } from './application-transaction-detail-snapshot';
 
@@ -86,7 +86,7 @@ export function isMockWorkspaceRunId(runId?: string | null) {
   return !!runId && MOCK_RUN_IDS.has(runId);
 }
 
-export const MOCK_RUN_ASSET_PACK_SURFACES: Record<string, DeliverablesDoc> = {
+export const MOCK_RUN_ASSET_PACK_SURFACES: Record<string, ShippablesDoc> = {
   'mock-run-branch-remediation': {
     pullRequest: {
       url: 'https://github.com/bitcode/bitcode/pull/268',
@@ -202,13 +202,13 @@ export const MOCK_RUN_ACTIVITY: Record<
       phase: 'Branch remediation',
       agent: 'Branch synthesizer',
       step: 'prepare_concise_context',
-      generation: 'deliverable bundle',
+      generation: 'Shippable bundle',
     },
     latestWorkUpdate: {
       id: 'wu-1',
       iteration: 2,
       confidence: 0.94,
-      prose: 'Remediation branch artifacts and deliverable surfaces are aligned for transaction review.',
+      prose: 'Remediation branch artifacts and Shippable surfaces are aligned for transaction review.',
       timestamp: '2026-04-16T12:01:40.000Z',
     },
     iterationUpdates: [
@@ -223,7 +223,7 @@ export const MOCK_RUN_ACTIVITY: Record<
         id: 'wu-2',
         iteration: 2,
         confidence: 0.94,
-        prose: 'Remediation branch artifacts and deliverable surfaces are aligned for transaction review.',
+        prose: 'Remediation branch artifacts and Shippable surfaces are aligned for transaction review.',
         timestamp: '2026-04-16T12:01:40.000Z',
       },
     ],

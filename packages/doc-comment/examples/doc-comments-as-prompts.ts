@@ -77,21 +77,21 @@ export interface TypeScriptGenerationAgent {
 
 /**
  * @doc-prompt-pipeline
- * mission: Transform customer requirements into shippable features
- * phases: setup, discovery, implementation, validation, shipping
+ * mission: Transform expressed Needs into AssetPack evidence and requested Shippables
+ * phases: setup, discovery, implementation, validation, finish
  * coordination: Parallel discovery with sequential implementation
- * intelligence: ["requirement-analysis", "architecture-design", "quality-assurance"]
+ * intelligence: ["need-measurement", "assetpack-synthesis", "finish-delivery-evidence"]
  * phase_prompts: {
- *   "setup": "Initialize project structure and dependencies",
- *   "discovery": "Analyze requirements and identify implementation approach",
- *   "implementation": "Build feature with PTRR methodology",
- *   "validation": "Comprehensive testing and quality checks",
- *   "shipping": "Package and deploy to production"
+ *   "setup": "Normalize source, Need, and delivery-mechanism context",
+ *   "discovery": "Measure the Need and gather source-grounded evidence",
+ *   "implementation": "Synthesize Need-satisfaction AssetPack artifacts with PTRR methodology",
+ *   "validation": "Validate AssetPack evidence against the Definition of Need",
+ *   "finish": "Store AssetPack evidence and deliver requested Shippables"
  * }
  */
-export interface DeliverablePipeline {
-  name: 'deliverable';
-  execute(requirements: Requirements): Promise<ShippedFeature>;
+export interface AssetPackPipeline {
+  name: 'asset-pack';
+  execute(requirements: Requirements): Promise<DeliveredShippable>;
 }
 
 /**
@@ -307,7 +307,7 @@ interface Requirements {
   nonFunctional: string[];
 }
 
-interface ShippedFeature {
+interface DeliveredShippable {
   name: string;
   version: string;
   artifacts: string[];

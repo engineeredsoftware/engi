@@ -9,7 +9,7 @@
  * Example:
  * conditional(
  *   (input, exec) => exec.get('validation', 'passed'),
- *   proceedToShipping,
+ *   proceedToFinish,
  *   handleValidationFailure
  * )
  */

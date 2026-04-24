@@ -78,13 +78,13 @@ export const toast = {
 };
 
 // Phase/pipeline-tinted toasts
-type Phase = 'setup'|'discovery'|'implementation'|'validation'|'shipping';
+type Phase = 'setup'|'discovery'|'implementation'|'validation'|'finish';
 export const phasePalette: Record<Phase, { variant: 'info'|'success'|'warning'|'error'; }> = {
   setup:          { variant: 'info' },
   discovery:      { variant: 'info' },
   implementation: { variant: 'success' },
   validation:     { variant: 'warning' },
-  shipping:       { variant: 'info' },
+  finish:         { variant: 'info' },
 };
 
 export const toastPhase = (

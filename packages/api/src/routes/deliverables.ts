@@ -651,13 +651,13 @@ export const POST = traceRoute('/deliverables', async (request: NextRequest) => 
       modelId
     });
 
-    // Create canonical pipeline execution
-    log('[deliverables] Creating pipeline execution in database', 'debug', { correlationId, userId: user.id });
+    // Create canonical AssetPack pipeline execution.
+    log('[asset-pack-route] Creating pipeline execution in database', 'debug', { correlationId, userId: user.id });
     const nowIso = new Date().toISOString();
     const execRow = await orm.pipelineExecutions.create({
       id: correlationId,
       user_id: user.id,
-      type: 'deliverable',
+      type: 'agentic-execution:asset-pack',
       status: 'running',
       guide: gate, // Server terminology remains Gate; UI converts to Guide
       input: {
@@ -692,7 +692,7 @@ export const POST = traceRoute('/deliverables', async (request: NextRequest) => 
 
     // Send telemetry
     log('[deliverables] Sending creation telemetry', 'debug', { correlationId, runId });
-    await sendServerEvent('deliverable_created', {
+    await sendServerEvent('asset_pack_run_created', {
       run_id: runId,
       user_id: user.id,
       correlation_id: correlationId,
@@ -839,11 +839,11 @@ export const POST = traceRoute('/deliverables', async (request: NextRequest) => 
 
         // Create execution context
         log('[deliverables] Creating execution context', 'debug', { correlationId, runId });
-        // Use PipelineExecution to ensure prompts/tools/llms/agents registries are available
+        // Use PipelineExecution to ensure prompts/tools/llms/agents registries are available.
         execution = new PipelineExecution(
           runId,
           undefined,
-          inferPipelineExecutionLineage('deliverable')
+          inferPipelineExecutionLineage('asset-pack')
         );
         // Bridge execution store events to stream
         try { ExecutionStreamAdapter.registerStreamer(runId, streamer); } catch {}
@@ -984,7 +984,7 @@ export const POST = traceRoute('/deliverables', async (request: NextRequest) => 
           correlationId,
           duration: pipelineDuration,
           success: true,
-          prCreated: !!result?.deliverable?.prUrl
+          prCreated: !!result?.shippable?.prUrl || !!result?.deliveryMechanism?.prUrl || !!result?.deliverable?.prUrl
         });
 
         // Send completion
@@ -992,7 +992,7 @@ export const POST = traceRoute('/deliverables', async (request: NextRequest) => 
         log('[deliverables] Sending completion event', 'debug', {
           correlationId,
           totalDuration,
-          prUrl: result?.deliverable?.prUrl
+          prUrl: result?.shippable?.prUrl || result?.deliveryMechanism?.prUrl || result?.deliverable?.prUrl
         });
         
         // Telemetry: summarize file changes from editing history
@@ -1037,6 +1037,7 @@ export const POST = traceRoute('/deliverables', async (request: NextRequest) => 
             undefined;
           const writtenAssets =
             (execution as any).get?.('finish/final_work_summary', 'writtenAssets') ||
+            (execution as any).get?.('finish/final_work_summary', 'assetPackSynthesisArtifacts') ||
             (execution as any).get?.('finish/final_work_summary', 'deliverables') ||
             undefined;
           const assetPackSynthesisArtifacts =
@@ -1044,9 +1045,14 @@ export const POST = traceRoute('/deliverables', async (request: NextRequest) => 
             (execution as any).get?.('implementation', 'assetPackSynthesisArtifacts') ||
             writtenAssets ||
             undefined;
-          const deliveryMechanism =
+          const shippables =
+            (execution as any).get?.('finish/final_work_summary', 'shippables') ||
             (execution as any).get?.('finish/final_work_summary', 'deliveryMechanism') ||
             (execution as any).get?.('finish/final_work_summary', 'deliverables') ||
+            undefined;
+          const deliveryMechanism =
+            (execution as any).get?.('finish/final_work_summary', 'deliveryMechanism') ||
+            shippables ||
             writtenAssets ||
             undefined;
           const need =
@@ -1066,10 +1072,11 @@ export const POST = traceRoute('/deliverables', async (request: NextRequest) => 
             summary: (execution as any).get?.('finish/final_work_summary', 'summary'),
             processingStats: (execution as any).get?.('finish/final_work_summary', 'processingStats'),
             repoSnapshot: (execution as any).get?.('finish/final_work_summary', 'repoSnapshot'),
-            deliverables: (execution as any).get?.('finish/final_work_summary', 'deliverables'),
             assetPackSynthesisArtifacts,
             writtenAssets,
+            shippables,
             deliveryMechanism,
+            deliverables: (execution as any).get?.('finish/final_work_summary', 'deliverables') || shippables,
             need,
             writtenAssetType,
             assetPack:
@@ -1087,6 +1094,7 @@ export const POST = traceRoute('/deliverables', async (request: NextRequest) => 
           if (
             !finalWorkSummary?.summary &&
             !finalWorkSummary?.writtenAssets?.summary &&
+            !finalWorkSummary?.shippables?.summary &&
             !finalWorkSummary?.deliveryMechanism?.summary &&
             !finalWorkSummary?.deliverables?.summary
           ) finalWorkSummary = undefined;
@@ -1103,6 +1111,9 @@ export const POST = traceRoute('/deliverables', async (request: NextRequest) => 
           }
           if (!finalWorkSummary.summary && finalWorkSummary.deliveryMechanism?.summary) {
             finalWorkSummary.summary = finalWorkSummary.deliveryMechanism.summary;
+          }
+          if (!finalWorkSummary.summary && finalWorkSummary.shippables?.summary) {
+            finalWorkSummary.summary = finalWorkSummary.shippables.summary;
           }
           if (!finalWorkSummary.summary && finalWorkSummary.deliverables?.summary) {
             finalWorkSummary.summary = finalWorkSummary.deliverables.summary;
@@ -1141,13 +1152,13 @@ export const POST = traceRoute('/deliverables', async (request: NextRequest) => 
 
         // Attach postprocessed result for unified read, enriched with ReadyToFinish
         let postprocessed: any = undefined;
-        const deliverableSnapshot =
+        const assetPackRequestSnapshot =
           preprocessedSnapshot || (execution as any).get?.('route/preprocessed', 'deliverables');
-        const deliverableType =
+        const compatibilityWrittenAssetType =
           (execution as any).get?.('pipeline', 'writtenAssetType') ||
           (execution as any).get?.('pipeline', 'deliverableType') ||
-          deliverableSnapshot?.writtenAssetType ||
-          deliverableSnapshot?.deliverableType ||
+          assetPackRequestSnapshot?.writtenAssetType ||
+          assetPackRequestSnapshot?.deliverableType ||
           undefined;
         let digestStatus: any = undefined;
         if (gate === 'Digest') {
@@ -1238,14 +1249,17 @@ export const POST = traceRoute('/deliverables', async (request: NextRequest) => 
           definitionOfNeed: definition_of_need,
           durationMs: Date.now() - startTime,
           guide: execution?.get('meta', 'phase') || gate,
-          deliverableType,
-          writtenAssetType: finalWorkSummary?.writtenAssetType || deliverableType,
+          shippableWrittenAssetType: finalWorkSummary?.writtenAssetType || compatibilityWrittenAssetType,
+          deliverableType: compatibilityWrittenAssetType,
+          writtenAssetType: finalWorkSummary?.writtenAssetType || compatibilityWrittenAssetType,
           need: finalWorkSummary?.need || preprocessedSnapshot?.need || definition_of_need,
           assetPack: finalWorkSummary?.assetPack || preprocessedSnapshot?.assetPack || null,
           assetPackSynthesisArtifacts: finalWorkSummary?.assetPackSynthesisArtifacts || null,
+          shippables: finalWorkSummary?.shippables || null,
           semanticKind:
             finalWorkSummary?.assetPackSynthesisArtifacts ||
             finalWorkSummary?.writtenAssets ||
+            finalWorkSummary?.shippables ||
             finalWorkSummary?.deliveryMechanism ||
             finalWorkSummary?.assetPack
               ? 'asset-pack-written-asset'
@@ -1285,7 +1299,7 @@ export const POST = traceRoute('/deliverables', async (request: NextRequest) => 
           const completionWrittenAssetType =
             finalWorkSummary?.writtenAssetType ||
             preprocessedSnapshot?.writtenAssetType ||
-            deliverableType ||
+            compatibilityWrittenAssetType ||
             null;
 
           await orm.notifications.create({
@@ -1331,7 +1345,7 @@ export const POST = traceRoute('/deliverables', async (request: NextRequest) => 
           written_asset_type:
             finalWorkSummary?.writtenAssetType ||
             preprocessedSnapshot?.writtenAssetType ||
-            deliverableType ||
+            compatibilityWrittenAssetType ||
             null,
           asset_pack:
             finalWorkSummary?.assetPack ||

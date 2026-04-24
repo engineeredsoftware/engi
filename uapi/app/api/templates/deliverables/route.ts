@@ -21,13 +21,18 @@ export async function GET(request: Request) {
   const templatesService = new TemplatesService(supabase as any);
 
   try {
-    const templates = await templatesService.getDeliverableTemplates(user.id, type);
-    return NextResponse.json({ templates });
+    const templates = await templatesService.getShippableTemplates(user.id, type);
+    return NextResponse.json({
+      templates: templates.map((template: any) => ({
+        ...template,
+        shippable_type: template.shippable_type ?? template.deliverable_type,
+      })),
+    });
   } catch (templatesError) {
     const message =
       templatesError instanceof Error
         ? templatesError.message
-        : 'Failed to load deliverable templates';
+        : 'Failed to load Shippable templates';
 
     return NextResponse.json({ error: message, templates: [] }, { status: 500 });
   }

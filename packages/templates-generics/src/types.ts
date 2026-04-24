@@ -3,8 +3,8 @@
  * V26 Production Ready
  */
 
-// Deliverable template types matching UI categories
-export type DeliverableTemplateType = 
+// Shippable template types matching Finish delivery-mechanism UI categories.
+export type ShippableTemplateType =
   | 'pullRequests'
   | 'pullRequestReviews'
   | 'issues'
@@ -13,6 +13,7 @@ export type DeliverableTemplateType =
 // AI Document template types matching UI categories  
 export type AIDocumentTemplateType =
   | 'knowledgeExtension'
+  | 'shippableFeedback'
   | 'deliverableFeedback'
   | 'mcpIntegration';
 
@@ -27,9 +28,10 @@ interface BaseTemplate {
   updated_at: string;
 }
 
-// Deliverable template
-export interface DeliverableTemplate extends BaseTemplate {
-  deliverable_type: DeliverableTemplateType;
+// Shippable template. The storage column remains a compatibility key.
+export interface ShippableTemplate extends BaseTemplate {
+  shippable_type?: ShippableTemplateType;
+  deliverable_type: ShippableTemplateType;
 }
 
 // AI Document template
@@ -41,6 +43,7 @@ export interface AIDocumentTemplate extends BaseTemplate {
 export interface UserTemplatePreferences {
   id: string;
   user_id: string;
+  default_shippable_template_id?: string;
   default_deliverable_template_id?: string;
   default_ai_document_template_id?: string;
   auto_save_templates: boolean;
@@ -49,9 +52,9 @@ export interface UserTemplatePreferences {
 }
 
 // Template creation payloads
-export interface CreateDeliverableTemplatePayload {
+export interface CreateShippableTemplatePayload {
   name: string;
-  deliverableTypes: DeliverableTemplateType[];
+  shippableTypes: ShippableTemplateType[];
   templateText: string;
 }
 
@@ -71,3 +74,7 @@ export interface TemplatePreferencesResponse {
   preferences: UserTemplatePreferences | null;
   error?: string;
 }
+
+export type DeliverableTemplateType = ShippableTemplateType;
+export type DeliverableTemplate = ShippableTemplate;
+export type CreateDeliverableTemplatePayload = CreateShippableTemplatePayload;

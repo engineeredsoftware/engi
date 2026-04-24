@@ -2,7 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { existsSync, readFileSync, readdirSync } from 'node:fs';
 
-const reformSource = readFileSync(new URL('../V26_DELIVERABLE_REFORM.md', import.meta.url), 'utf8');
+const reformSource = readFileSync(new URL('../V26_SHIPPABLE_REFORM.md', import.meta.url), 'utf8');
 const pipelineSchemasSource = readFileSync(
   new URL('../../packages/pipelines/asset-pack/src/types/PipelineSchemas.ts', import.meta.url),
   'utf8'
@@ -340,7 +340,7 @@ const deliverableSubstepPromptPartSources = readdirSync(rawPromptPartDirs[0])
 
 const deliverablePromptPartMetadataSources = readdirSync(rawPromptPartDirs[0])
   .filter((filename) =>
-    /^promptpart_specific_(?:agent_deliverable|phase_assetpack|pipeline_deliverable|tool_.*deliverable|agent_assetpackfinish|agent_assetpacksynthesizeartifacts|agent_assetpackvalidationreadytofinish|agent_readytofinish|tool_repositorysetup_assetpack|tool_assetpack).*?(?:\.d)?\.ts$/u.test(filename)
+    /^promptpart_specific_(?:agent_deliverable|agent_finalizeshipment|agent_determinedeliverabletype|phase_assetpack|pipeline_deliverable|tool_.*deliverable|agent_assetpackfinish|agent_assetpacksynthesizeartifacts|agent_assetpackvalidationreadytofinish|agent_readytofinish|tool_repositorysetup_assetpack|tool_assetpack).*?(?:\.d)?\.ts$/u.test(filename)
   )
   .sort()
   .map((filename) => [filename, readFileSync(new URL(filename, rawPromptPartDirs[0]), 'utf8')]);
@@ -418,18 +418,19 @@ function extractJsPromptPart(source, name) {
   return extractFirstPromptLiteral(source, assignment.index + assignment[0].length);
 }
 
-test('V26 deliverable reform supplement requires semantic mirrors beyond retained compatibility naming', () => {
+test('V26 shippable reform supplement requires semantic mirrors beyond retained compatibility naming', () => {
   assert.match(reformSource, /`deliverable` survives only as a retained compatibility path\/name/u);
   assert.match(reformSource, /live Bitcode meaning is a need-satisfying agentic pipeline run/u);
   assert.match(reformSource, /canonical broad final phase is now `Finish`/u);
   assert.match(reformSource, /`Delivering` is the narrower Finish subresponsibility/u);
-  assert.match(reformSource, /Finish phase may then emit `deliverables` only as connected-interface delivery-mechanism artifacts/u);
+  assert.match(reformSource, /Finish phase may then emit `shippables` as connected-interface objects/u);
+  assert.match(reformSource, /`deliverables` may exist only as a retained compatibility mirror/u);
   assert.match(reformSource, /`asset pack`/u);
   assert.match(reformSource, /`AssetPack synthesis artifact`/u);
   assert.match(reformSource, /`stored AssetPack evidence`/u);
   assert.match(reformSource, /workspace-run summaries, mock reread projections, and active UI detail surfaces should prefer primary `assetPackSynthesisArtifacts`/u);
-  assert.match(reformSource, /streamed completion payload should emit primary `assetPackSynthesisArtifacts` plus semantic `writtenAssets`/u);
-  assert.match(reformSource, /execution stores and postprocessed artifacts should mirror compatibility keys with semantic `need`, canonical `writtenAssetType = need-satisfaction-asset-pack`, `writtenAssetRequest`, `deliveryMechanismTemplate`, and asset-pack-shaped snapshots/u);
+  assert.match(reformSource, /streamed completion payload should emit primary `assetPackSynthesisArtifacts` plus semantic `writtenAssets`, `shippables`/u);
+  assert.match(reformSource, /execution stores and postprocessed artifacts should mirror compatibility keys with semantic `need`, canonical `writtenAssetType = need-satisfaction-asset-pack`, `writtenAssetRequest`, `deliveryMechanismTemplate`, `shippables`, and asset-pack-shaped snapshots/u);
   assert.match(reformSource, /implementation and validation logic must resolve one canonical AssetPack synthesis kind/u);
   assert.match(reformSource, /shapes live protocol behavior through Bitcode's commercial infrastructure/u);
   assert.match(reformSource, /hydrate a registry-bearing pipeline execution context when callers still enter through a bare `Execution`/u);
@@ -437,7 +438,7 @@ test('V26 deliverable reform supplement requires semantic mirrors beyond retaine
   assert.match(reformSource, /teach `comprehend-need` \/ asset-pack-run semantics/u);
   assert.match(reformSource, /retained repair, generation, and export-verification scripts/u);
   assert.match(reformSource, /AssetPack substep PromptParts/u);
-  assert.match(reformSource, /Bitcode need, written-asset, asset-pack, proof-evidence, delivery-mechanism/u);
+  assert.match(reformSource, /Bitcode need, written-asset, asset-pack, proof-evidence, Shippable, delivery-mechanism/u);
   assert.match(reformSource, /runtime JavaScript carry-through must remain parseable and content-equivalent/u);
   assert.match(reformSource, /substep doc-comment metadata must also be reauthored as Bitcode metadata/u);
   assert.match(reformSource, /all active AssetPack-family raw PromptPart doc-comment metadata must use Bitcode-native intent/u);
@@ -447,7 +448,9 @@ test('AssetPack schemas expose written-asset semantic aliases and bounded compat
   assert.equal(existsSync(new URL('../../packages/pipelines/asset-pack/src/types/DeliverableType.ts', import.meta.url)), false);
   assert.match(assetPackWrittenAssetTypeSource, /export enum AssetPackWrittenAssetType/u);
   assert.doesNotMatch(assetPackWrittenAssetTypeSource, /DeliverableType/u);
-  assert.match(pipelineSchemasSource, /type DeliveryMechanismMeta = AssetPackResultMeta;/u);
+  assert.match(pipelineSchemasSource, /type ShippableMeta = AssetPackResultMeta;/u);
+  assert.match(pipelineSchemasSource, /type DeliveryMechanismMeta = ShippableMeta;/u);
+  assert.match(pipelineSchemasSource, /shippables\?: AssetPackSynthesisArtifactsMeta;/u);
   assert.match(pipelineSchemasSource, /deliveryMechanism\?: DeliveryMechanismMeta;/u);
   assert.match(pipelineSchemasSource, /export type WrittenAssetResultMeta = AssetPackResultMeta;/u);
   assert.match(pipelineSchemasSource, /writtenAssetType\?: AssetPackWrittenAssetType;/u);
@@ -476,23 +479,25 @@ test('AssetPack preprocess stores need and written-asset semantic mirrors alongs
 test('AssetPack postprocess and Finish summary carry synthesis-artifact and written-asset meaning', () => {
   assert.match(postprocessSource, /export function normalizeAssetPackOutput/u);
   assert.match(postprocessSource, /export function buildAssetPackPostprocessedResult/u);
-  assert.match(postprocessSource, /const deliveryMechanism = enhanced\.deliveryMechanism \|\| enhanced\.deliverable;/u);
+  assert.match(postprocessSource, /const deliveryMechanism = enhanced\.deliveryMechanism \|\| enhanced\.shippable \|\| enhanced\.deliverable;/u);
   assert.match(postprocessSource, /const assetPackSynthesisArtifacts =/u);
   assert.match(postprocessSource, /enhanced\.assetPackSynthesisArtifacts = assetPackSynthesisArtifacts as any;/u);
   assert.match(postprocessSource, /enhanced\.semanticKind = 'asset-pack-written-asset';/u);
   assert.match(postprocessSource, /enhanced\.deliveryMechanism = \{ \.\.\.\(deliveryMechanism \|\| \{\}\), prUrl \} as any;/u);
   assert.match(postprocessSource, /execution\.get\('finish', 'pullRequestUrl'\)/u);
-  assert.match(postprocessSource, /deliveryMechanism: normalized\.deliveryMechanism \|\| normalized\.deliverable,/u);
+  assert.match(postprocessSource, /deliveryMechanism: normalized\.deliveryMechanism \|\| shippable,/u);
   assert.match(postprocessSource, /assetPackSynthesisArtifacts: \(finishArtifacts \|\| normalized\.assetPackSynthesisArtifacts \|\| null\) as any,/u);
   assert.match(postprocessSource, /enhanced\.writtenAssetType/u);
-  assert.match(postprocessSource, /kind: 'deliverable'/u);
+  assert.match(postprocessSource, /kind: 'shippable'/u);
   assert.match(postprocessSource, /semanticKind: 'asset-pack-written-asset'/u);
+  assert.match(finalSummarySource, /shippables: z\.object/u);
   assert.match(finalSummarySource, /const AssetPackSynthesisArtifactsSchema = WrittenAssetsSchema\.extend/u);
   assert.match(finalSummarySource, /assetPackSynthesisArtifacts: AssetPackSynthesisArtifactsSchema\.optional\(\)/u);
   assert.match(finalSummarySource, /writtenAssets: WrittenAssetsSchema\.optional\(\)/u);
   assert.match(finalSummarySource, /deliveryMechanism: DeliveryMechanismSchema\.optional\(\)/u);
   assert.match(finalSummarySource, /lines\.push\('', `## Need`, need\.trim\(\)\);/u);
   assert.match(finalSummarySource, /const implementationArtifacts = \(execution as any\)\.get\?\.\('implementation', 'assetPackSynthesisArtifacts'\);/u);
+  assert.match(finalSummarySource, /store\?\.\('finish\/final_work_summary', 'shippables', shippables as any\);/u);
   assert.match(finalSummarySource, /store\?\.\('finish\/final_work_summary', 'assetPackSynthesisArtifacts', assetPackSynthesisArtifacts as any\);/u);
   assert.match(finalSummarySource, /store\?\.\('finish\/final_work_summary', 'writtenAssets', writtenAssets as any\);/u);
   assert.match(finalSummarySource, /store\?\.\('finish\/final_work_summary', 'deliveryMechanism', deliveryMechanism as any\);/u);
@@ -576,10 +581,10 @@ test('implementation, validation, and Finish carriers separate AssetPack kind fr
 
 test('operator-facing execution header and retained route teach Delivering mechanism semantics', () => {
   assert.match(executionsPageHeaderSource, /delivery-template selection/u);
-  assert.match(executionsPageHeaderSource, /Compatibility delivery mechanism\. Bitcode-owned meaning lives in written assets \/ asset packs\./u);
-  assert.match(executionsPageHeaderSource, /No delivery mechanisms to summarize/u);
-  assert.match(executionsPageHeaderSource, /expected written asset pack and delivery result/u);
-  assert.match(executionsPageHeaderSource, /A Delivering mechanism can be a/u);
+  assert.match(executionsPageHeaderSource, /Compatibility prop carrying Finish-delivered shippables/u);
+  assert.match(executionsPageHeaderSource, /No shippables to summarize/u);
+  assert.match(executionsPageHeaderSource, /expected AssetPack evidence and shippable result/u);
+  assert.match(executionsPageHeaderSource, /A shippable delivery mechanism can be a/u);
   assert.match(executionsPageHeaderSource, /each delivering a stable asset pack and always supplemented by a final work summary/u);
   assert.match(executionsPageHeaderSource, /single high-quality asset pack and its delivery result/u);
   assert.match(deliverablesRouteSource, /Retained `\/api\/deliverables` compatibility route handlers for AssetPack/u);
@@ -603,14 +608,16 @@ test('operator-facing execution header and retained route teach Delivering mecha
   assert.match(semanticPayloadSource, /explicitAssetPackSynthesisArtifacts/u);
   assert.match(semanticPayloadSource, /assetPackSynthesisArtifacts/u);
   assert.match(semanticPayloadSource, /writtenAssets/u);
+  assert.match(semanticPayloadSource, /shippables/u);
   assert.match(semanticPayloadSource, /deliveryMechanism/u);
   assert.match(semanticPayloadSource, /assetPack/u);
   assert.match(executionsRouteSource, /function buildAssetPackSynthesisArtifacts/u);
   assert.match(executionsRouteSource, /asset_pack_synthesis_artifacts: buildAssetPackSynthesisArtifacts\(row\)/u);
   assert.match(executionsRouteSource, /assetPackSynthesisArtifacts \? \{ assetPackSynthesisArtifacts \}/u);
-  assert.match(applicationDetailSnapshotSource, /assetPackSynthesisArtifacts\?: DeliverablesDoc \| null;/u);
-  assert.match(applicationDetailSnapshotSource, /coerceDeliverables\(finalWorkSummary\?\.assetPackSynthesisArtifacts\)/u);
-  assert.match(executionsCompleteHeaderContentSource, /assetPackSynthesisArtifacts\?: HeaderDeliverables;/u);
+  assert.match(applicationDetailSnapshotSource, /assetPackSynthesisArtifacts\?: ShippablesDoc \| null;/u);
+  assert.match(applicationDetailSnapshotSource, /coerceShippableSurface\(finalWorkSummary\?\.assetPackSynthesisArtifacts\)/u);
+  assert.match(executionsCompleteHeaderContentSource, /assetPackSynthesisArtifacts\?: HeaderShippables;/u);
+  assert.match(executionsCompleteHeaderContentSource, /shippables\?: HeaderShippables;/u);
   assert.match(executionsCompleteHeaderContentSource, /finalWorkSummary\?\.assetPackSynthesisArtifacts/u);
   assert.match(streamParserSource, /assetPackSynthesisArtifacts/u);
   assert.match(streamParserSource, /writtenAssets,/u);
@@ -717,19 +724,20 @@ test('deliverable substep PromptParts express Bitcode need, written-asset, and a
   assert.match(combinedPromptText, /assetPack/u);
 });
 
-test('retained deliverable-family PromptPart doc-comment metadata is Bitcode-native', () => {
+test('retained AssetPack compatibility PromptPart doc-comment metadata is Bitcode-native', () => {
   assert.ok(
-    deliverablePromptPartMetadataSources.length >= 470,
-    `expected broad deliverable promptpart metadata coverage, saw ${deliverablePromptPartMetadataSources.length}`
+    deliverablePromptPartMetadataSources.length >= 490,
+    `expected broad AssetPack compatibility promptpart metadata coverage, saw ${deliverablePromptPartMetadataSources.length}`
   );
 
   for (const [filename, source] of deliverablePromptPartMetadataSources) {
     assert.doesNotMatch(source, /current_version:\s*"G[A]1/u, `${filename} still carries G[A]1 current_version metadata`);
     assert.match(source, /current_version:\s*"0\.50\.0"/u, `${filename} should carry Bitcode current_version metadata`);
     assert.doesNotMatch(source, staleDeliverablePromptPartIntent, `${filename} still carries old deliverable intent metadata`);
+    assert.doesNotMatch(source, /Finalize Shipment|Determine Deliverable Type|shipment|shipping-phase/u, `${filename} still teaches shipment or deliverable-type semantics`);
     assert.match(
       source,
-      /intent:\s*"Bitcode [^"]*(?:need|written|asset-pack|assetPack|AssetPack|synthesis|evidence|delivery|proof|comprehend-task)/u,
+      /intent:\s*"Bitcode [^"]*(?:need|written|asset-pack|assetPack|AssetPack|synthesis|evidence|delivery|Shippable|proof|comprehend-task)/u,
       `${filename} should carry Bitcode intent metadata`
     );
   }

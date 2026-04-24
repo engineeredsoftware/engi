@@ -3,7 +3,7 @@
 import React, { useState, useRef, useEffect, useCallback } from 'react';
 // motion and AnimatePresence not needed here
 // import { motion, AnimatePresence } from 'framer-motion';
-import DeliverablePicker from './pickers/deliverable-picker';
+import ShippablePicker from './pickers/shippable-picker';
 import AttachmentPicker from './pickers/attachment-picker';
 import VCSSourcePicker from './pickers/vcs-source-picker';
 import PipelineRunPicker from './pickers/pipeline-run-picker';
@@ -12,7 +12,7 @@ import glassyInputStyles from '@/components/base/bitcode/inputs/glassy-input.mod
 
 interface Token {
   id: string;
-  type: 'ai_document' | 'deliverable' | 'attachment' | 'source' | 'destination' | 'pipeline_run' | 'command';
+  type: 'ai_document' | 'shippable' | 'attachment' | 'source' | 'destination' | 'pipeline_run' | 'command';
   text: string;
   data: any;
   displayInfo?: string;
@@ -108,7 +108,7 @@ export default function RichTextInput({
             setActivePicker('ai_document');
             break;
           case '@':
-            setActivePicker('deliverable');
+            setActivePicker('shippable');
             break;
           case '+':
             setActivePicker('attachment');
@@ -126,7 +126,7 @@ export default function RichTextInput({
       // If a picker is open, update the search term
       const triggerChar =
         activePicker === 'ai_document' ? '^' :
-          activePicker === 'deliverable' ? '@' :
+          activePicker === 'shippable' ? '@' :
             activePicker === 'attachment' ? '+' :
               activePicker === 'source' ? '#' :
                 activePicker === 'destination' ? '!' : '!';
@@ -186,12 +186,12 @@ export default function RichTextInput({
     });
   };
 
-  const handleSelectDeliverable = (deliverable: any) => {
+  const handleSelectShippable = (shippable: any) => {
     insertToken({
-      id: `deliverable-${Date.now()}`,
-      type: 'deliverable',
-      text: deliverable.title,
-      data: deliverable
+      id: `shippable-${Date.now()}`,
+      type: 'shippable',
+      text: shippable.title,
+      data: shippable
     });
   };
 
@@ -237,7 +237,7 @@ export default function RichTextInput({
 
     const triggerChar =
       token.type === 'ai_document' ? '^' :
-        token.type === 'deliverable' ? '@' :
+        token.type === 'shippable' ? '@' :
           token.type === 'attachment' ? '+' :
             token.type === 'source' ? '#' :
               token.type === 'destination' ? '!' :
@@ -314,7 +314,7 @@ export default function RichTextInput({
     switch (token.type) {
       case 'ai_document':
         return token.data?.description ? token.data.description.substring(0, 30) : '';
-      case 'deliverable':
+      case 'shippable':
         return token.data?.status ? token.data.status : '';
       case 'attachment':
         return token.data?.size ? token.data.size : '';
@@ -328,7 +328,7 @@ export default function RichTextInput({
         if (String(token.data.pipelineType).toLowerCase().includes('measure')) return 'need-measurement';
         if (
           String(token.data.pipelineType).toLowerCase().includes('asset-pack') ||
-          String(token.data.pipelineType).toLowerCase().includes('deliverable') ||
+          String(token.data.pipelineType).toLowerCase().includes('shippable') ||
           String(token.data.pipelineType).toLowerCase().includes('artifact')
         ) {
           return 'branch-artifact';
@@ -388,13 +388,14 @@ export default function RichTextInput({
         };
       }
 
-      if (token.type === 'deliverable') {
+      if (token.type === 'shippable') {
         return {
           ...token,
-          type: 'asset_pack',
+          type: 'shippable',
           value: token.text.trim(),
           metadata: {
-            kind: 'asset_pack',
+            kind: 'shippable',
+            asset_pack_reference: token.data?.id || null,
             ...token.data,
           },
         };
@@ -509,7 +510,7 @@ export default function RichTextInput({
     switch (type) {
       case 'ai_document':
         return '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 16v-3a2 2 0 0 0-2-2h-4V7a2 2 0 0 0-2-2H6"></path><path d="M18 14v4a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2v-4"></path><path d="M6 5l4 4-4 4"></path></svg>';
-      case 'deliverable':
+      case 'shippable':
         return '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><path d="M22 4L12 14.01l-3-3"></path></svg>';
       case 'attachment':
         return '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21.44 11.05l-9.19 9.19a6 6 0 0 1-8.49-8.49l9.19-9.19a4 4 0 0 1 5.66 5.66l-9.2 9.19a2 2 0 0 1-2.83-2.83l8.49-8.48"></path></svg>';
@@ -530,8 +531,8 @@ export default function RichTextInput({
     switch (type) {
       case 'ai_document':
         return 'AI Document';
-      case 'deliverable':
-        return 'Asset pack';
+      case 'shippable':
+        return 'Shippable';
       case 'attachment':
         return 'Attachment';
       case 'source':
@@ -650,7 +651,7 @@ export default function RichTextInput({
 
       {/* Pickers */}
       {activePicker === 'ai_document' && (
-        <DeliverablePicker
+        <ShippablePicker
           isOpen={true}
           onSelect={handleSelectAiDocument}
           onClose={() => setActivePicker(null)}
@@ -658,10 +659,10 @@ export default function RichTextInput({
         />
       )}
 
-      {activePicker === 'deliverable' && (
-        <DeliverablePicker
+      {activePicker === 'shippable' && (
+        <ShippablePicker
           isOpen={true}
-          onSelect={handleSelectDeliverable}
+          onSelect={handleSelectShippable}
           onClose={() => setActivePicker(null)}
           searchTerm={searchTerm}
         />

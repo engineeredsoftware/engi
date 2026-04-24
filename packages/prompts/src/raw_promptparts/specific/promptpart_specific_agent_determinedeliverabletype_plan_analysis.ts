@@ -3,8 +3,8 @@ import { PromptPart } from '../../parts/PromptPart';
 /**
  * @doc-comment-developing-promptpartdevelopment
  * domain: agent
- * intent: "Define PLAN step analysis for Determine Deliverable Type agent"
- * current_version: "V26.50.0"
+ * intent: "Bitcode compatibility PromptPart for analyzing delivery-mechanism template needs"
+ * current_version: "0.50.0"
  * versions: []
  * benchmarks: [
  *   { "name": "analysis_depth", "test": "Does it enable deep analysis?", "score": 0.37 },
@@ -13,4 +13,4 @@ import { PromptPart } from '../../parts/PromptPart';
  * ]
  */
 export const PROMPTPART_SPECIFIC_AGENT_DETERMINEDELIVERABLETYPE_PLAN_ANALYSIS: PromptPart = 
-  'Analyze request context to determine: source and origin information, format and structure patterns, embedded type hints and markers, historical request patterns, user intent signals, resource requirements' as PromptPart;
+  'Analyze request context for Bitcode delivery-mechanism planning: expressed Need, AssetPack scope, destination hints, Shippable form requested by the operator, source and attachment evidence, repository constraints, and proof or receipt requirements' as PromptPart;

@@ -116,6 +116,7 @@ export const parseStreamChunk = (chunk: string): ParsedStreamData => {
             const explicitAssetPackSynthesisArtifacts = data.result.assetPackSynthesisArtifacts || null;
             const explicitWrittenAssets = data.result.writtenAssets || null;
             const explicitDeliveryMechanism = data.result.deliveryMechanism || null;
+            const explicitShippables = data.result.shippables || explicitDeliveryMechanism || null;
             const explicitDeliverables = data.result.deliverables || null;
             const actionsFileChanges = data.result.actions?.files || null;
 
@@ -123,6 +124,7 @@ export const parseStreamChunk = (chunk: string): ParsedStreamData => {
               explicitAssetPackSynthesisArtifacts?.fileChanges ||
               explicitWrittenAssets?.fileChanges ||
               topLevelFileChanges ||
+              explicitShippables?.fileChanges ||
               explicitDeliveryMechanism?.fileChanges ||
               explicitDeliverables?.fileChanges ||
               actionsFileChanges ||
@@ -145,6 +147,7 @@ export const parseStreamChunk = (chunk: string): ParsedStreamData => {
               fileChanges:
                 topLevelFileChanges ||
                 actionsFileChanges ||
+                explicitShippables?.fileChanges ||
                 explicitDeliverables?.fileChanges ||
                 explicitDeliveryMechanism?.fileChanges ||
                 explicitWrittenAssets?.fileChanges ||
@@ -165,31 +168,38 @@ export const parseStreamChunk = (chunk: string): ParsedStreamData => {
 
             const deliveryMechanism =
               explicitDeliveryMechanism ||
+              explicitShippables ||
               explicitDeliverables ||
               actionsSurface;
 
+            const shippables =
+              explicitShippables ||
+              deliveryMechanism ||
+              explicitDeliverables;
+
             const deliverables =
               explicitDeliverables ||
-              (deliveryMechanism || writtenAssets
+              (shippables || deliveryMechanism || writtenAssets
                 ? {
-                    pullRequest: deliveryMechanism?.pullRequest ?? writtenAssets?.pullRequest ?? null,
+                    pullRequest: shippables?.pullRequest ?? deliveryMechanism?.pullRequest ?? writtenAssets?.pullRequest ?? null,
                     pullRequestReviews:
-                      deliveryMechanism?.pullRequestReviews ?? writtenAssets?.pullRequestReviews ?? null,
-                    comments: deliveryMechanism?.comments ?? writtenAssets?.comments ?? null,
-                    issues: deliveryMechanism?.issues ?? writtenAssets?.issues ?? null,
+                      shippables?.pullRequestReviews ?? deliveryMechanism?.pullRequestReviews ?? writtenAssets?.pullRequestReviews ?? null,
+                    comments: shippables?.comments ?? deliveryMechanism?.comments ?? writtenAssets?.comments ?? null,
+                    issues: shippables?.issues ?? deliveryMechanism?.issues ?? writtenAssets?.issues ?? null,
                     fileChanges: compatibilityFileChanges,
-                    summary: writtenAssets?.summary ?? deliveryMechanism?.summary ?? null,
+                    summary: writtenAssets?.summary ?? shippables?.summary ?? deliveryMechanism?.summary ?? null,
                   }
                 : null);
 
             parsedData.completion = {
               ...data.result,
               display: data.result.summary || data.result.message || 'Task completed',
+              shippables,
               deliverables,
               assetPackSynthesisArtifacts: explicitAssetPackSynthesisArtifacts || writtenAssets,
               writtenAssets,
               deliveryMechanism,
-              semanticKind: data.result.semanticKind || (explicitAssetPackSynthesisArtifacts || writtenAssets || deliveryMechanism ? 'asset-pack-written-asset' : undefined),
+              semanticKind: data.result.semanticKind || (explicitAssetPackSynthesisArtifacts || writtenAssets || shippables || deliveryMechanism ? 'asset-pack-written-asset' : undefined),
               need: data.result.need || null,
               writtenAssetType: data.result.writtenAssetType || null,
               assetPack: data.result.assetPack || null,

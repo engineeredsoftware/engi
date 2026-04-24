@@ -3,31 +3,31 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 
-interface Deliverable {
+interface Shippable {
   id: string;
   title: string;
   description: string;
   status: 'completed' | 'in-progress' | 'pending';
 }
 
-interface DeliverablePickerProps {
+interface ShippablePickerProps {
   isOpen: boolean;
-  onSelect: (deliverable: Deliverable) => void;
+  onSelect: (shippable: Shippable) => void;
   onClose: () => void;
   searchTerm: string;
 }
 
-export default function DeliverablePicker({ isOpen, onSelect, onClose, searchTerm }: DeliverablePickerProps) {
-  const [deliverables, setDeliverables] = useState<Deliverable[]>([]);
+export default function ShippablePicker({ isOpen, onSelect, onClose, searchTerm }: ShippablePickerProps) {
+  const [shippables, setShippables] = useState<Shippable[]>([]);
 
-  // fetch real deliverables once picker opens for first time
+  // Fetch AssetPack executions that can expose Finish-delivered Shippables.
   useEffect(() => {
-    if (!isOpen || deliverables.length > 0) return;
+    if (!isOpen || shippables.length > 0) return;
     fetch('/api/executions?type=agentic-execution:asset-pack')
       .then(res => res.ok ? res.json() : [])
       .then(data => {
         if (Array.isArray(data)) {
-          setDeliverables(data.map((d: any) => ({
+          setShippables(data.map((d: any) => ({
             id: d.id,
             title: d.title || d.name || 'Untitled',
             description: d.description || '',
@@ -36,25 +36,25 @@ export default function DeliverablePicker({ isOpen, onSelect, onClose, searchTer
         }
       })
       .catch(() => {});
-  }, [isOpen]);
+  }, [isOpen, shippables.length]);
 
-  const [filteredDeliverables, setFilteredDeliverables] = useState<Deliverable[]>(deliverables);
+  const [filteredShippables, setFilteredShippables] = useState<Shippable[]>(shippables);
 
-  // Filter deliverables based on search term
+  // Filter Shippables based on search term.
   useEffect(() => {
     if (!searchTerm) {
-      setFilteredDeliverables(deliverables);
+      setFilteredShippables(shippables);
       return;
     }
 
-    const filtered = deliverables.filter(
-      deliverable =>
-        deliverable.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        deliverable.description.toLowerCase().includes(searchTerm.toLowerCase())
+    const filtered = shippables.filter(
+      shippable =>
+        shippable.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        shippable.description.toLowerCase().includes(searchTerm.toLowerCase())
     );
 
-    setFilteredDeliverables(filtered);
-  }, [searchTerm, deliverables]);
+    setFilteredShippables(filtered);
+  }, [searchTerm, shippables]);
 
   if (!isOpen) return null;
 
@@ -66,20 +66,20 @@ export default function DeliverablePicker({ isOpen, onSelect, onClose, searchTer
         exit={{ opacity: 0, y: 10 }}
         className="picker-container"
       >
-        <div className="picker-header">DELIVERABLES</div>
+        <div className="picker-header">SHIPPABLES</div>
 
-        {filteredDeliverables.length > 0 ? (
-          filteredDeliverables.map(deliverable => (
+        {filteredShippables.length > 0 ? (
+          filteredShippables.map(shippable => (
             <div
-              key={deliverable.id}
+              key={shippable.id}
               className="picker-item"
               onClick={() => {
-                onSelect(deliverable);
+                onSelect(shippable);
                 onClose();
               }}
             >
               <div className="picker-item-title">
-                {deliverable.title}
+                {shippable.title}
                 <span
                   style={{
                     marginLeft: '0.5rem',
@@ -87,26 +87,26 @@ export default function DeliverablePicker({ isOpen, onSelect, onClose, searchTer
                     padding: '0.125rem 0.375rem',
                     borderRadius: '4px',
                     backgroundColor:
-                      deliverable.status === 'completed' ? 'rgba(16, 185, 129, 0.1)' :
-                        deliverable.status === 'in-progress' ? 'rgba(245, 158, 11, 0.1)' :
+                      shippable.status === 'completed' ? 'rgba(16, 185, 129, 0.1)' :
+                        shippable.status === 'in-progress' ? 'rgba(245, 158, 11, 0.1)' :
                           'rgba(107, 114, 128, 0.1)',
                     color:
-                      deliverable.status === 'completed' ? '#10b981' :
-                        deliverable.status === 'in-progress' ? '#f59e0b' :
+                      shippable.status === 'completed' ? '#10b981' :
+                        shippable.status === 'in-progress' ? '#f59e0b' :
                           '#6b7280',
                   }}
                 >
-                  {deliverable.status === 'completed' ? 'Completed' :
-                    deliverable.status === 'in-progress' ? 'In Progress' :
+                  {shippable.status === 'completed' ? 'Completed' :
+                    shippable.status === 'in-progress' ? 'In Progress' :
                       'Pending'}
                 </span>
               </div>
-              <div className="picker-item-description">{deliverable.description}</div>
+              <div className="picker-item-description">{shippable.description}</div>
             </div>
           ))
         ) : (
           <div className="picker-empty">
-            No deliverables found matching "{searchTerm}"
+            No Shippables found matching "{searchTerm}"
           </div>
         )}
       </motion.div>

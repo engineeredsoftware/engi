@@ -3,8 +3,8 @@ import { PromptPart } from '../../parts/PromptPart';
 /**
  * @doc-comment-developing-promptpartdevelopment
  * domain: agent
- * intent: "Define Determine Deliverable Type agent system role"
- * current_version: "V26.50.0"
+ * intent: "Bitcode compatibility PromptPart for delivery-mechanism selector role"
+ * current_version: "0.50.0"
  * versions: []
  * benchmarks: [
  *   { "name": "role_precision", "test": "Does it precisely define the agent's role?", "score": 0.40 },
@@ -13,4 +13,4 @@ import { PromptPart } from '../../parts/PromptPart';
  * ]
  */
 export const PROMPTPART_SPECIFIC_AGENT_DETERMINEDELIVERABLETYPE_SYSTEM_ROLE: PromptPart = 
-  'Your role is to analyze incoming requests, identify deliverable types, validate requirements, and route to appropriate handlers' as PromptPart;
+  'Your role is to analyze incoming Needs, identify requested Shippable forms, validate delivery-mechanism requirements, and route only the Finish delivery step while leaving AssetPack synthesis behavior canonical' as PromptPart;

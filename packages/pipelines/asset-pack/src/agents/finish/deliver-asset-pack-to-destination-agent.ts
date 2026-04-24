@@ -27,7 +27,7 @@ const FinishDeliveryOutputSchema = z.object({
 
 const systemPrompt = (() => {
   const p = new Prompt();
-  p.set('agent:identity', 'You are the Finish Deliver agent. Save useful result state and provide AssetPacks or AssetPackPartials to requested third-party destinations using delivery-mechanism tools.' as any);
+  p.set('agent:identity', 'You are the Finish Deliver agent. Deliver shippables: connected-interface objects that wrap saved AssetPacks or AssetPackPartials for requested third-party destinations using delivery-mechanism tools.' as any);
   p.set('generation:json_only_header', PROMPTPART_GENERIC_AGENT_GENERATION_JSON_ONLY_HEADER as any);
   p.set('generation:use_this_structure', PROMPTPART_GENERIC_AGENT_GENERATION_USE_THIS_STRUCTURED_SCHEMA as any);
   p.set('failsafe:prepare_context', PROMPTPART_GENERIC_AGENT_FAILSAFE_PREPARE_CONTEXT as any);
@@ -35,21 +35,21 @@ const systemPrompt = (() => {
 })();
 
 const stepPrompts = {
-  plan: () => { const p = new Prompt(); p.set('step:purpose', 'Plan the exact Finish/Delivering actions based on the requested delivery destination.' as any); return p; },
+  plan: () => { const p = new Prompt(); p.set('step:purpose', 'Plan the exact Finish/Delivering actions and shippable evidence required for the requested destination.' as any); return p; },
   try: () => {
     const p = new Prompt();
-    p.set('step:purpose', 'Execute Delivering actions through VCS tools after written assets are already synthesized.' as any);
+    p.set('step:purpose', 'Execute Delivering actions through VCS tools after AssetPack synthesis artifacts are already saved.' as any);
     // Instruction for tool selection
     p.set('tools:policy', 'Use the requested delivery mechanism template after the AssetPack is synthesized: pull-request uses vcs_create_pull_request, issue uses vcs_create_issue, and comment templates use vcs_create_comment. Computer use is reserved for internal Need-measurement evidence and is not a V26 Delivering tool.' as any);
     return p;
   },
-  refine: () => { const p = new Prompt(); p.set('step:purpose', 'Adjust actions if initial attempts failed (e.g., branch exists).' as any); return p; },
-  retry: () => { const p = new Prompt(); p.set('step:purpose', 'Retry Delivering with fallback strategies.' as any); return p; }
+  refine: () => { const p = new Prompt(); p.set('step:purpose', 'Adjust shippable delivery actions if initial attempts failed, such as an existing branch or unavailable destination.' as any); return p; },
+  retry: () => { const p = new Prompt(); p.set('step:purpose', 'Retry Delivering shippables with fallback strategies.' as any); return p; }
 };
 
 export const AssetPackFinishDeliverAgent = factoryAgentWithPTRR<any, z.infer<typeof FinishDeliveryOutputSchema>>({
   name: 'finish:deliver-asset-pack-to-destination-agent',
-  description: 'Perform final Delivering actions for requested delivery mechanisms',
+  description: 'Deliver final shippables through requested delivery mechanisms',
   outputSchema: FinishDeliveryOutputSchema as any,
   // Tools available to this agent
   tools: [

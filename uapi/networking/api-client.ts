@@ -90,7 +90,7 @@ export const fetchFiles = async (owner: string, repo: string, path: string = '')
   return data.files as RepoFile[];
 };
 
-export const callDeliverablesAPI = async (
+export const callAssetPackExecutionsAPI = async (
   connectionId: number,
   repoOwner: string,
   repoName: string,
@@ -107,7 +107,7 @@ export const callDeliverablesAPI = async (
   iterationCount: number = 3,
   /** Optional file uploads */
   files?: File[],
-  /** Canonical execution type for retained delivery substrate */
+  /** Canonical execution type for the AssetPack pipeline substrate. */
   pipelineType: string = 'agentic-execution:asset-pack'
 ): Promise<ReadableStream<Uint8Array> | null> => {
   let body: BodyInit;
@@ -176,7 +176,7 @@ export const callDeliverablesAPI = async (
 
 /**
  * Fetch a list of pipeline executions (history) for the current user.
- * Each execution contains multiple deliverable items.
+ * Each execution may include AssetPack evidence and Finish-delivered Shippables.
  */
 export const fetchPipelineExecutionHistory = async (): Promise<PipelineExecution[]> => {
   const response = await fetch('/api/executions/history');
@@ -201,9 +201,9 @@ export const fetchPostprocessed = async (runId: string): Promise<PostprocessedRe
 // On-the-Fly Instructions
 // -----------------------------------------------------------------------------
 /**
- * Fetch on-the-fly instructions for a deliverable run
+ * Fetch on-the-fly instructions for an AssetPack/Shippable-producing run.
  */
-export const fetchDeliverableInstructions = async (runId: string): Promise<any[]> => {
+export const fetchShippableInstructions = async (runId: string): Promise<any[]> => {
   const response = await fetch(`/api/executions/instructions?runId=${runId}`);
   if (!response.ok) {
     const err = await response.text();
@@ -212,9 +212,9 @@ export const fetchDeliverableInstructions = async (runId: string): Promise<any[]
   return response.json();
 };
 /**
- * Submit an on-the-fly instruction for a deliverable run
+ * Submit an on-the-fly instruction for an AssetPack/Shippable-producing run.
  */
-export const postDeliverableInstruction = async (
+export const postShippableInstruction = async (
   runId: string,
   content: string,
   attachments?: any
@@ -230,6 +230,7 @@ export const postDeliverableInstruction = async (
   }
   return response.json();
 };
+
 
 // -----------------------------------------------------------------------------
 // Notifications wrappers
@@ -257,21 +258,21 @@ export const notifyNewsletter = async (
     body: JSON.stringify(params),
   }); if (!res.ok) throw new Error('Notification newsletter failed');
 };
-export const notifyDeliverableStarted = async (
+export const notifyShippableStarted = async (
   params: { email: string; name?: string; runId: number; runUrl: string; }
 ): Promise<void> => {
   const res = await fetch('/api/notifications/deliverable-started', {
     method: 'POST', headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(params),
-  }); if (!res.ok) throw new Error('Notification deliverable-started failed');
+  }); if (!res.ok) throw new Error('Notification shippable-started compatibility route failed');
 };
-export const notifyDeliverableCompleted = async (
+export const notifyShippableCompleted = async (
   params: { email: string; name?: string; runId: number; runUrl: string; }
 ): Promise<void> => {
   const res = await fetch('/api/notifications/deliverable-completed', {
     method: 'POST', headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(params),
-  }); if (!res.ok) throw new Error('Notification deliverable-completed failed');
+  }); if (!res.ok) throw new Error('Notification shippable-completed compatibility route failed');
 };
 export const notifyLowBtdReminder = async (
   params: { email: string; name?: string; balance: number; threshold: number; purchaseUrl?: string; }

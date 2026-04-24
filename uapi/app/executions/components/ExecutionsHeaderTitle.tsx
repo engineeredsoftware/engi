@@ -11,7 +11,7 @@ interface ExecutionHeaderTitleProps {
   type: ExecType;
   className?: string;
   /** Optional custom title; sensible default provided */
-  deliverablesTitle?: string;
+  shippablesTitle?: string;
   /** Typing speed in ms per char */
   charDelay?: number;
 }
@@ -19,10 +19,10 @@ interface ExecutionHeaderTitleProps {
 export default function ExecutionHeaderTitle({
   type,
   className,
-  deliverablesTitle = 'What would you like engineered today?',
+  shippablesTitle = 'What would you like engineered today?',
   charDelay = 38,
 }: ExecutionHeaderTitleProps) {
-  const targetText = deliverablesTitle;
+  const targetText = shippablesTitle;
   const [currentText, setCurrentText] = useState<string>(targetText);
   const [phase, setPhase] = useState<'idle' | 'deleting' | 'typing'>('typing');
   const [key, setKey] = useState<number>(0);

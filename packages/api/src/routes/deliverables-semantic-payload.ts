@@ -21,6 +21,7 @@ type FinalWorkSummaryRecord = {
   summary?: string | null;
   processingStats?: unknown;
   repoSnapshot?: unknown;
+  shippables?: SurfaceRecord;
   deliverables?: SurfaceRecord;
   assetPackSynthesisArtifacts?: SurfaceRecord;
   writtenAssets?: SurfaceRecord;
@@ -109,6 +110,10 @@ export function buildSemanticCompletionResult(params: {
   const explicitDeliveryMechanism =
     asSurfaceRecord(finalWorkSummary?.deliveryMechanism) ||
     asSurfaceRecord(resultRecord.deliveryMechanism);
+  const explicitShippables =
+    asSurfaceRecord(finalWorkSummary?.shippables) ||
+    asSurfaceRecord(resultRecord.shippables) ||
+    explicitDeliveryMechanism;
   const explicitCompatibilityDeliverables =
     asSurfaceRecord(resultRecord.deliverables) ||
     asSurfaceRecord(finalWorkSummary?.deliverables);
@@ -118,6 +123,7 @@ export function buildSemanticCompletionResult(params: {
     explicitWrittenAssets?.fileChanges ||
     topLevelFileChanges ||
     explicitDeliveryMechanism?.fileChanges ||
+    explicitShippables?.fileChanges ||
     explicitCompatibilityDeliverables?.fileChanges ||
     actionsSurface?.fileChanges ||
     null;
@@ -139,14 +145,22 @@ export function buildSemanticCompletionResult(params: {
 
   const deliveryMechanism =
     explicitDeliveryMechanism ||
+    explicitShippables ||
     explicitCompatibilityDeliverables ||
     actionsSurface ||
     writtenAssets;
+
+  const shippables =
+    explicitShippables ||
+    deliveryMechanism ||
+    explicitCompatibilityDeliverables ||
+    null;
 
   const compatibilityFileChanges =
     explicitCompatibilityDeliverables?.fileChanges ||
     topLevelFileChanges ||
     actionsSurface?.fileChanges ||
+    shippables?.fileChanges ||
     explicitDeliveryMechanism?.fileChanges ||
     writtenAssets?.fileChanges ||
     null;
@@ -189,12 +203,13 @@ export function buildSemanticCompletionResult(params: {
       ...(finalWorkSummary?.repoSnapshot ? { repoSnapshot: finalWorkSummary.repoSnapshot } : {}),
       ...(explicitAssetPackSynthesisArtifacts ? { assetPackSynthesisArtifacts: explicitAssetPackSynthesisArtifacts } : {}),
       ...(writtenAssets ? { writtenAssets } : {}),
+      ...(shippables ? { shippables } : {}),
       ...(deliveryMechanism ? { deliveryMechanism } : {}),
       ...(compatibilityDeliverables ? { deliverables: compatibilityDeliverables } : {}),
       ...(need ? { need } : {}),
       ...(writtenAssetType ? { writtenAssetType } : {}),
       ...(assetPack ? { assetPack } : {}),
-      ...(explicitAssetPackSynthesisArtifacts || writtenAssets || deliveryMechanism ? { semanticKind: 'asset-pack-written-asset' } : {}),
+      ...(explicitAssetPackSynthesisArtifacts || writtenAssets || shippables || deliveryMechanism ? { semanticKind: 'asset-pack-written-asset' } : {}),
       actions: {
         pullRequest: compatibilityDeliverables?.pullRequest ?? null,
         pullRequestReviews: compatibilityDeliverables?.pullRequestReviews ?? null,

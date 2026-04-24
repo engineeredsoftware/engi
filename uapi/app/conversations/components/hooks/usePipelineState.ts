@@ -15,7 +15,7 @@ function formatExecutionLabel(value?: string) {
 
   if (!normalized) return 'agentic execution';
   if (normalized.includes('measure')) return 'need-measurement execution';
-  if (normalized.includes('asset-pack') || normalized.includes('deliverable') || normalized.includes('artifact')) {
+  if (normalized.includes('asset-pack') || normalized.includes('shippable') || normalized.includes('artifact')) {
     return 'AssetPack execution';
   }
 

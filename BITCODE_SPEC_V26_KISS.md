@@ -53,7 +53,7 @@ The canonical object flow is:
 6. fit candidates are found and presented with quantized objective-contract fit qualities;
 7. accepted settlement materializes source-to-shares accounting;
 8. AssetPack pipeline runs synthesize Need-satisfaction AssetPack contents and evidence;
-9. Finish stores Exchange evidence, records receipts, and optionally emits delivery-mechanism artifacts such as pull requests, comments, issues, reviews, or other connected-interface outputs;
+9. Finish stores Exchange evidence, records receipts, and can deliver Shippables such as pull requests, comments, issues, reviews, or other connected-interface outputs;
 10. Terminal and connected interfaces reread the same Exchange state and proof evidence.
 
 Terminology is part of the system contract:
@@ -61,8 +61,9 @@ Terminology is part of the system contract:
 - `AssetPack` is the stable Bitcode carrier for synthesized Need-satisfaction output and proof/evidence.
 - `AssetPack synthesis artifact` means the implementation-phase output that captures the intelligence or source mutation being produced.
 - `stored AssetPack evidence` means Exchange-side evidence committed for reread, proof, receipt, and settlement.
-- `delivery-mechanism artifact` means a third-party provision of the AssetPack or AssetPackPartial, such as a pull request.
-- `Delivering` is the narrower act inside Finish that provides AssetPacks or AssetPackPartials to third-party tools.
+- `Shippable` means the connected-interface object delivered by Finish after AssetPack evidence exists.
+- `delivery mechanism` means the destination-specific tool/procedure used to deliver a Shippable.
+- `Delivering` is the narrower act inside Finish that delivers Shippables backed by AssetPacks or AssetPackPartials to third-party tools.
 - `Finish` is the final phase that saves, evidences, summarizes, and invokes any delivery mechanism.
 
 ## Fifth-gate closure priorities
@@ -91,7 +92,7 @@ The full `BITCODE_SPEC_V26.md` remains the implementation-grade document.
 V26 fifth-gate is not closed until the live repository reads as Bitcode and only Bitcode at active abstraction boundaries.
 The closure signal is:
 - minimum-functional Exchange state and Terminal user experience exist and reread the same source-to-shares truth;
-- AssetPack SDIVF runs can measure Needs, synthesize AssetPack contents, validate them, Finish them, store evidence, and optionally Deliver through connected mechanisms;
+- AssetPack SDIVF runs can measure Needs, synthesize AssetPack contents, validate them, Finish them, store evidence, and optionally deliver Shippables through connected mechanisms;
 - packages and interfaces are specified, implemented, tested, and proven at their admitted Bitcode roles;
 - active source, comments, docs, prompts, package READMEs, route/API copy, and generated proof inputs no longer require historical product knowledge;
 - generated V26 proof artifacts pass after the source-bearing work.

@@ -47,7 +47,7 @@ interface ConsciousConversationsOrbProps {
   repositoryContext?: RepositoryContext;
   conversationHistory?: ConversationContext;
   isProcessing?: boolean;
-  currentMode?: 'chat' | 'deliverable' | 'measure';
+  currentMode?: 'chat' | 'shippable' | 'measure';
   
   /** Learning and adaptation */
   userInteractionPattern?: {

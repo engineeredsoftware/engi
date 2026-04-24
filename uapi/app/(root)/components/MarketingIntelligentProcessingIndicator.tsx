@@ -28,7 +28,7 @@ interface IntelligentProcessingProps {
   // Intelligence layer
   repositoryContext?: RepositoryContext;
   recognizedPattern?: RecognizedPattern;
-  currentPhase?: 'setup' | 'discovery' | 'implementation' | 'validation' | 'shipping';
+  currentPhase?: 'setup' | 'discovery' | 'implementation' | 'validation' | 'finish';
   phaseProgress?: number; // 0-1
   
   // Learning indicators
@@ -102,8 +102,8 @@ export const MarketingIntelligentProcessingIndicator = ({
       case 'validation':
         return `Validating against your quality gates...`;
         
-      case 'shipping':
-        return qualityConfidence > 0.8 ? 'Preparing elegant PR...' : 'Finalizing deliverable...';
+      case 'finish':
+        return qualityConfidence > 0.8 ? 'Preparing Shippable evidence...' : 'Finalizing AssetPack receipt...';
         
       default:
         return label;

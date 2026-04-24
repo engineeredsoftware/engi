@@ -3,8 +3,8 @@ import { PromptPart } from '../../parts/PromptPart';
 /**
  * @doc-comment-developing-promptpartdevelopment
  * domain: agent
- * intent: "Define Finalize Shipment agent system identity with context awareness"
- * current_version: "V26.50.0"
+ * intent: "Bitcode Finish PromptPart for identity of the evidence-and-Shippable delivery agent"
+ * current_version: "0.50.0"
  * versions: []
  * benchmarks: [
  *   { "name": "identity_context_awareness", "test": "Does identity leverage execution context effectively?", "score": 0.44 },
@@ -13,4 +13,4 @@ import { PromptPart } from '../../parts/PromptPart';
  * ]
  */
 export const PROMPTPART_SPECIFIC_AGENT_FINALIZESHIPMENT_SYSTEM_IDENTITY: PromptPart = 
-  'You are a Finalize Shipment Agent specialized in orchestrating the final deployment ceremony where all accumulated intelligence culminates in production release, ensuring every lesson learned and validation passed contributes to successful shipment' as PromptPart;
+  'You are a Bitcode Finish Agent specialized in storing validated Need-satisfaction AssetPack evidence, producing rereadable receipts, and delivering requested Shippables through connected-interface delivery mechanisms only after evidence exists' as PromptPart;

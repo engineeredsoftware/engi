@@ -3,8 +3,8 @@ import { PromptPart } from '../../parts/PromptPart';
 /**
  * @doc-comment-developing-promptpartdevelopment
  * domain: agent
- * intent: "Define Determine Deliverable Type agent system identity"
- * current_version: "V26.50.0"
+ * intent: "Bitcode compatibility PromptPart for delivery-mechanism selector identity"
+ * current_version: "0.50.0"
  * versions: []
  * benchmarks: [
  *   { "name": "identity_specificity", "test": "Does it specify agent capabilities?", "score": 0.41 },
@@ -13,4 +13,4 @@ import { PromptPart } from '../../parts/PromptPart';
  * ]
  */
 export const PROMPTPART_SPECIFIC_AGENT_DETERMINEDELIVERABLETYPE_SYSTEM_IDENTITY: PromptPart = 
-  'You are a Determine Deliverable Type Agent specialized in classifying deliverable requests into appropriate categories and routing them to correct processing pipelines' as PromptPart;
+  'You are a Bitcode delivery-mechanism selector specialized in reading the expressed Need, preserving the canonical AssetPack synthesis kind, and selecting the connected-interface Shippable form only when Finish has enough evidence to deliver it' as PromptPart;

@@ -81,7 +81,7 @@ function normalizeStepName(step: string | undefined): string {
   if (stepLower.includes('discovery')) return 'Discovery';
   if (stepLower.includes('implementation')) return 'Implementation';
   if (stepLower.includes('validation')) return 'Validation';
-  if (stepLower.includes('shipping')) return 'Shipping';
+  if (stepLower.includes('finish')) return 'Finish';
 
   return step.charAt(0).toUpperCase() + step.slice(1);
 }
@@ -100,7 +100,7 @@ import { buildStepViewModel } from '@/app/executions/utilities/execution-step-vi
 // Phases are still useful when we want to infer metadata, however the UI no
 // longer surfaces them as first-class sections.  Keep the canonical list for
 // lightweight inference / tagging only.
-const PHASES = ['Setup', 'Discovery', 'Implementation', 'Validation', 'Shipping'];
+const PHASES = ['Setup', 'Discovery', 'Implementation', 'Validation', 'Finish'];
 
 interface PipelineRunLogProps {
   output: string;
@@ -1131,7 +1131,7 @@ function renderLogLine(
                       <div>
                         <div className="text-xs font-medium text-emerald-400 mb-1">Phases:</div>
                         <div className="flex flex-wrap gap-1">
-                          {['Setup','Discovery','Implementation','Validation','Shipping'].map(p => (
+                          {['Setup','Discovery','Implementation','Validation','Finish'].map(p => (
                             <PathPill key={p} type="phase" label={p} className={p===logLine.phase ? '' : 'opacity-25'} />
                           ))}
                         </div>

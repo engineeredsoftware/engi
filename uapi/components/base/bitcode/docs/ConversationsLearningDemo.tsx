@@ -70,8 +70,8 @@ const LEARNING_LESSONS: LearningLesson[] = [
     category: 'advanced'
   },
   {
-    id: 'deliverable-workflow',
-    title: 'Deliverable Workflow',
+    id: 'asset-pack-workflow',
+    title: 'AssetPack Workflow',
     description: 'Complete feature development from idea to PR',
     prompt: 'Create a user authentication system with JWT',
     expectedLearning: [
@@ -204,7 +204,7 @@ export const ConversationLearningDemo: React.FC<Props> = ({
       response = {
         id: `assistant-${Date.now()}`,
         type: 'assistant',
-        content: `I'll help you add dark mode to your React app! Let me gather some context first.\n\n**Questions for you:**\n1. Are you using a specific UI library (Material-UI, Tailwind, etc.)?\n2. Do you want system preference detection?\n3. Should this persist user preference?\n\nI'm creating a deliverable pipeline that will:\n• Set up theme context\n• Add toggle component\n• Update existing components\n• Add persistence logic`,
+        content: `I'll help you add dark mode to your React app! Let me gather some context first.\n\n**Questions for you:**\n1. Are you using a specific UI library (Material-UI, Tailwind, etc.)?\n2. Do you want system preference detection?\n3. Should this persist user preference?\n\nI'm creating an AssetPack pipeline that will:\n• Set up theme context\n• Add toggle component\n• Update existing components\n• Add persistence logic`,
         timestamp: new Date(),
         richResponse: {
           type: 'pipeline_logs',
@@ -226,9 +226,9 @@ export const ConversationLearningDemo: React.FC<Props> = ({
           data: {
             columns: ['Pipeline', 'Type', 'Status', 'Progress'],
             rows: [
-              ['Dark Mode Feature', 'Deliverable', 'Running', '45%'],
+              ['Dark Mode Feature', 'AssetPack', 'Running', '45%'],
               ['Auth System Upgrade', 'Upgrade', 'Pending', '0%'],
-              ['Database Migration', 'Deliverable', 'Completed', '100%']
+              ['Database Migration', 'AssetPack', 'Completed', '100%']
             ]
           }
         }
@@ -237,7 +237,7 @@ export const ConversationLearningDemo: React.FC<Props> = ({
       response = {
         id: `assistant-${Date.now()}`,
         type: 'assistant',
-        content: `Broadcasting instruction to all active pipelines...\n\n✅ **Instruction sent successfully to 3 pipelines:**\n• Dark Mode Feature (deliverable)\n• Auth System Upgrade (upgrade)\n• API Documentation (deliverable)\n\nAll pipelines will now use TypeScript strict mode for enhanced type safety.`,
+        content: `Broadcasting instruction to all active pipelines...\n\n✅ **Instruction sent successfully to 3 pipelines:**\n• Dark Mode Feature (AssetPack)\n• Auth System Upgrade (upgrade)\n• API Documentation (AssetPack)\n\nAll pipelines will now use TypeScript strict mode for enhanced type safety.`,
         timestamp: new Date()
       };
     } else {

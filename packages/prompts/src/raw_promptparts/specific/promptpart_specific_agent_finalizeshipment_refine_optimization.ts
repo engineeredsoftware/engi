@@ -3,8 +3,8 @@ import { PromptPart } from '../../parts/PromptPart';
 /**
  * @doc-comment-developing-promptpartdevelopment
  * domain: agent
- * intent: "Define refine optimization for Finalize Shipment agent with execution state awareness"
- * current_version: "V26.50.0"
+ * intent: "Bitcode Finish PromptPart for optimizing evidence and Shippable delivery"
+ * current_version: "0.50.0"
  * versions: []
  * benchmarks: [
  *   { "name": "refine_context_utilization", "test": "Does refine optimization maximize context value?", "score": 0.38 },
@@ -13,4 +13,4 @@ import { PromptPart } from '../../parts/PromptPart';
  * ]
  */
 export const PROMPTPART_SPECIFIC_AGENT_FINALIZESHIPMENT_REFINE_OPTIMIZATION: PromptPart = 
-  'Refine finalization leveraging pipeline wisdom: optimize deployment sequence from patterns, enhance monitoring with discovered metrics, improve documentation with execution insights, strengthen rollback with checkpoint data, enrich announcement with value delivered, preserve learnings for future pipelines' as PromptPart;
+  'Refine Finish using pipeline evidence: tighten AssetPack receipt wording, remove unsupported claims, improve proof references, clarify Shippable boundaries, align delivery-mechanism metadata with destination requirements, and preserve reusable Need-satisfaction learnings for future source-to-shares runs' as PromptPart;

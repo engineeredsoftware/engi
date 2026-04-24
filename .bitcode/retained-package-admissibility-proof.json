@@ -1,8 +1,8 @@
 {
   "reportId": "v26-retained-package-admissibility-proof",
   "version": "V26",
-  "proofSourceCommit": "5aa9c500c961d29d8cfe9203f2eac5b363ef316e",
-  "generatedAt": "2026-04-24T16:15:34-03:00",
+  "proofSourceCommit": "a29858138fcc8ff22b29c2b8ac6ad2e501f5784a",
+  "generatedAt": "2026-04-24T16:44:48-03:00",
   "generatorId": "bitcode.proven-generator.v1",
   "worktreeState": "dirty-preview",
   "passed": true,
@@ -274,7 +274,7 @@
       "classificationBasis": "ingress-or-support-name",
       "rationale": "package connects external providers, third-party tools, search/research, VCS, deployment, storage, or support utilities into Bitcode",
       "role": "connected-interface ingress or support package",
-      "writeBoundary": "external writes are connected-interface delivery mechanisms or input context unless a Bitcode admission proof explicitly promotes them",
+      "writeBoundary": "external writes are connected-interface Shippables or input context unless a Bitcode admission proof explicitly promotes them",
       "proofObligation": "ingress/support packages must stay bounded by retained-package, system-reform, MCP/external-ingress, and prompt/tool proof surfaces",
       "requiredFiles": [
         "packages/aurora-postgres/package.json",
@@ -310,7 +310,7 @@
       "classificationBasis": "ingress-or-support-name",
       "rationale": "package connects external providers, third-party tools, search/research, VCS, deployment, storage, or support utilities into Bitcode",
       "role": "connected-interface ingress or support package",
-      "writeBoundary": "external writes are connected-interface delivery mechanisms or input context unless a Bitcode admission proof explicitly promotes them",
+      "writeBoundary": "external writes are connected-interface Shippables or input context unless a Bitcode admission proof explicitly promotes them",
       "proofObligation": "ingress/support packages must stay bounded by retained-package, system-reform, MCP/external-ingress, and prompt/tool proof surfaces",
       "requiredFiles": [
         "packages/aws/package.json",
@@ -328,7 +328,7 @@
       "classificationBasis": "ingress-or-support-name",
       "rationale": "package connects external providers, third-party tools, search/research, VCS, deployment, storage, or support utilities into Bitcode",
       "role": "connected-interface ingress or support package",
-      "writeBoundary": "external writes are connected-interface delivery mechanisms or input context unless a Bitcode admission proof explicitly promotes them",
+      "writeBoundary": "external writes are connected-interface Shippables or input context unless a Bitcode admission proof explicitly promotes them",
       "proofObligation": "ingress/support packages must stay bounded by retained-package, system-reform, MCP/external-ingress, and prompt/tool proof surfaces",
       "requiredFiles": [
         "packages/bitbucket/package.json",
@@ -399,7 +399,7 @@
       "classificationBasis": "ingress-or-support-name",
       "rationale": "package connects external providers, third-party tools, search/research, VCS, deployment, storage, or support utilities into Bitcode",
       "role": "connected-interface ingress or support package",
-      "writeBoundary": "external writes are connected-interface delivery mechanisms or input context unless a Bitcode admission proof explicitly promotes them",
+      "writeBoundary": "external writes are connected-interface Shippables or input context unless a Bitcode admission proof explicitly promotes them",
       "proofObligation": "ingress/support packages must stay bounded by retained-package, system-reform, MCP/external-ingress, and prompt/tool proof surfaces",
       "requiredFiles": [
         "packages/circleci/package.json",
@@ -417,7 +417,7 @@
       "classificationBasis": "ingress-or-support-name",
       "rationale": "package connects external providers, third-party tools, search/research, VCS, deployment, storage, or support utilities into Bitcode",
       "role": "connected-interface ingress or support package",
-      "writeBoundary": "external writes are connected-interface delivery mechanisms or input context unless a Bitcode admission proof explicitly promotes them",
+      "writeBoundary": "external writes are connected-interface Shippables or input context unless a Bitcode admission proof explicitly promotes them",
       "proofObligation": "ingress/support packages must stay bounded by retained-package, system-reform, MCP/external-ingress, and prompt/tool proof surfaces",
       "requiredFiles": [
         "packages/cloudflare/package.json",
@@ -523,7 +523,7 @@
       "classificationBasis": "ingress-or-support-name",
       "rationale": "package connects external providers, third-party tools, search/research, VCS, deployment, storage, or support utilities into Bitcode",
       "role": "connected-interface ingress or support package",
-      "writeBoundary": "external writes are connected-interface delivery mechanisms or input context unless a Bitcode admission proof explicitly promotes them",
+      "writeBoundary": "external writes are connected-interface Shippables or input context unless a Bitcode admission proof explicitly promotes them",
       "proofObligation": "ingress/support packages must stay bounded by retained-package, system-reform, MCP/external-ingress, and prompt/tool proof surfaces",
       "requiredFiles": [
         "packages/docker/package.json",
@@ -665,7 +665,7 @@
       "classificationBasis": "ingress-or-support-name",
       "rationale": "package connects external providers, third-party tools, search/research, VCS, deployment, storage, or support utilities into Bitcode",
       "role": "connected-interface ingress or support package",
-      "writeBoundary": "external writes are connected-interface delivery mechanisms or input context unless a Bitcode admission proof explicitly promotes them",
+      "writeBoundary": "external writes are connected-interface Shippables or input context unless a Bitcode admission proof explicitly promotes them",
       "proofObligation": "ingress/support packages must stay bounded by retained-package, system-reform, MCP/external-ingress, and prompt/tool proof surfaces",
       "requiredFiles": [
         "packages/figma/package.json",
@@ -700,7 +700,7 @@
       "classificationBasis": "ingress-or-support-name",
       "rationale": "package connects external providers, third-party tools, search/research, VCS, deployment, storage, or support utilities into Bitcode",
       "role": "connected-interface ingress or support package",
-      "writeBoundary": "external writes are connected-interface delivery mechanisms or input context unless a Bitcode admission proof explicitly promotes them",
+      "writeBoundary": "external writes are connected-interface Shippables or input context unless a Bitcode admission proof explicitly promotes them",
       "proofObligation": "ingress/support packages must stay bounded by retained-package, system-reform, MCP/external-ingress, and prompt/tool proof surfaces",
       "requiredFiles": [
         "packages/firebase/package.json",
@@ -718,7 +718,7 @@
       "classificationBasis": "ingress-or-support-name",
       "rationale": "package connects external providers, third-party tools, search/research, VCS, deployment, storage, or support utilities into Bitcode",
       "role": "connected-interface ingress or support package",
-      "writeBoundary": "external writes are connected-interface delivery mechanisms or input context unless a Bitcode admission proof explicitly promotes them",
+      "writeBoundary": "external writes are connected-interface Shippables or input context unless a Bitcode admission proof explicitly promotes them",
       "proofObligation": "ingress/support packages must stay bounded by retained-package, system-reform, MCP/external-ingress, and prompt/tool proof surfaces",
       "requiredFiles": [
         "packages/firecrawl/package.json",
@@ -790,7 +790,7 @@
       "classificationBasis": "ingress-or-support-name",
       "rationale": "package connects external providers, third-party tools, search/research, VCS, deployment, storage, or support utilities into Bitcode",
       "role": "connected-interface ingress or support package",
-      "writeBoundary": "external writes are connected-interface delivery mechanisms or input context unless a Bitcode admission proof explicitly promotes them",
+      "writeBoundary": "external writes are connected-interface Shippables or input context unless a Bitcode admission proof explicitly promotes them",
       "proofObligation": "ingress/support packages must stay bounded by retained-package, system-reform, MCP/external-ingress, and prompt/tool proof surfaces",
       "requiredFiles": [
         "packages/generic-agents/danger-wall/package.json",
@@ -952,7 +952,7 @@
       "classificationBasis": "ingress-or-support-name",
       "rationale": "package connects external providers, third-party tools, search/research, VCS, deployment, storage, or support utilities into Bitcode",
       "role": "connected-interface ingress or support package",
-      "writeBoundary": "external writes are connected-interface delivery mechanisms or input context unless a Bitcode admission proof explicitly promotes them",
+      "writeBoundary": "external writes are connected-interface Shippables or input context unless a Bitcode admission proof explicitly promotes them",
       "proofObligation": "ingress/support packages must stay bounded by retained-package, system-reform, MCP/external-ingress, and prompt/tool proof surfaces",
       "requiredFiles": [
         "packages/generic-agents/need-comprehension/package.json",
@@ -1060,7 +1060,7 @@
       "classificationBasis": "ingress-or-support-name",
       "rationale": "package connects external providers, third-party tools, search/research, VCS, deployment, storage, or support utilities into Bitcode",
       "role": "connected-interface ingress or support package",
-      "writeBoundary": "external writes are connected-interface delivery mechanisms or input context unless a Bitcode admission proof explicitly promotes them",
+      "writeBoundary": "external writes are connected-interface Shippables or input context unless a Bitcode admission proof explicitly promotes them",
       "proofObligation": "ingress/support packages must stay bounded by retained-package, system-reform, MCP/external-ingress, and prompt/tool proof surfaces",
       "requiredFiles": [
         "packages/generic-agents/web-researcher/package.json",
@@ -1078,7 +1078,7 @@
       "classificationBasis": "ingress-or-support-name",
       "rationale": "package connects external providers, third-party tools, search/research, VCS, deployment, storage, or support utilities into Bitcode",
       "role": "connected-interface ingress or support package",
-      "writeBoundary": "external writes are connected-interface delivery mechanisms or input context unless a Bitcode admission proof explicitly promotes them",
+      "writeBoundary": "external writes are connected-interface Shippables or input context unless a Bitcode admission proof explicitly promotes them",
       "proofObligation": "ingress/support packages must stay bounded by retained-package, system-reform, MCP/external-ingress, and prompt/tool proof surfaces",
       "requiredFiles": [
         "packages/generic-agents/web-search/package.json",
@@ -1132,7 +1132,7 @@
       "classificationBasis": "ingress-or-support-name",
       "rationale": "package connects external providers, third-party tools, search/research, VCS, deployment, storage, or support utilities into Bitcode",
       "role": "connected-interface ingress or support package",
-      "writeBoundary": "external writes are connected-interface delivery mechanisms or input context unless a Bitcode admission proof explicitly promotes them",
+      "writeBoundary": "external writes are connected-interface Shippables or input context unless a Bitcode admission proof explicitly promotes them",
       "proofObligation": "ingress/support packages must stay bounded by retained-package, system-reform, MCP/external-ingress, and prompt/tool proof surfaces",
       "requiredFiles": [
         "packages/generic-tools/code-refactor/package.json",
@@ -1150,7 +1150,7 @@
       "classificationBasis": "ingress-or-support-name",
       "rationale": "package connects external providers, third-party tools, search/research, VCS, deployment, storage, or support utilities into Bitcode",
       "role": "connected-interface ingress or support package",
-      "writeBoundary": "external writes are connected-interface delivery mechanisms or input context unless a Bitcode admission proof explicitly promotes them",
+      "writeBoundary": "external writes are connected-interface Shippables or input context unless a Bitcode admission proof explicitly promotes them",
       "proofObligation": "ingress/support packages must stay bounded by retained-package, system-reform, MCP/external-ingress, and prompt/tool proof surfaces",
       "requiredFiles": [
         "packages/generic-tools/files-maintaining/package.json",
@@ -1168,7 +1168,7 @@
       "classificationBasis": "ingress-or-support-name",
       "rationale": "package connects external providers, third-party tools, search/research, VCS, deployment, storage, or support utilities into Bitcode",
       "role": "connected-interface ingress or support package",
-      "writeBoundary": "external writes are connected-interface delivery mechanisms or input context unless a Bitcode admission proof explicitly promotes them",
+      "writeBoundary": "external writes are connected-interface Shippables or input context unless a Bitcode admission proof explicitly promotes them",
       "proofObligation": "ingress/support packages must stay bounded by retained-package, system-reform, MCP/external-ingress, and prompt/tool proof surfaces",
       "requiredFiles": [
         "packages/generic-tools/firecrawl/package.json",
@@ -1186,7 +1186,7 @@
       "classificationBasis": "ingress-or-support-name",
       "rationale": "package connects external providers, third-party tools, search/research, VCS, deployment, storage, or support utilities into Bitcode",
       "role": "connected-interface ingress or support package",
-      "writeBoundary": "external writes are connected-interface delivery mechanisms or input context unless a Bitcode admission proof explicitly promotes them",
+      "writeBoundary": "external writes are connected-interface Shippables or input context unless a Bitcode admission proof explicitly promotes them",
       "proofObligation": "ingress/support packages must stay bounded by retained-package, system-reform, MCP/external-ingress, and prompt/tool proof surfaces",
       "requiredFiles": [
         "packages/generic-tools/git-interactor/package.json",
@@ -1204,7 +1204,7 @@
       "classificationBasis": "ingress-or-support-name",
       "rationale": "package connects external providers, third-party tools, search/research, VCS, deployment, storage, or support utilities into Bitcode",
       "role": "connected-interface ingress or support package",
-      "writeBoundary": "external writes are connected-interface delivery mechanisms or input context unless a Bitcode admission proof explicitly promotes them",
+      "writeBoundary": "external writes are connected-interface Shippables or input context unless a Bitcode admission proof explicitly promotes them",
       "proofObligation": "ingress/support packages must stay bounded by retained-package, system-reform, MCP/external-ingress, and prompt/tool proof surfaces",
       "requiredFiles": [
         "packages/generic-tools/lsp-query/package.json",
@@ -1222,7 +1222,7 @@
       "classificationBasis": "ingress-or-support-name",
       "rationale": "package connects external providers, third-party tools, search/research, VCS, deployment, storage, or support utilities into Bitcode",
       "role": "connected-interface ingress or support package",
-      "writeBoundary": "external writes are connected-interface delivery mechanisms or input context unless a Bitcode admission proof explicitly promotes them",
+      "writeBoundary": "external writes are connected-interface Shippables or input context unless a Bitcode admission proof explicitly promotes them",
       "proofObligation": "ingress/support packages must stay bounded by retained-package, system-reform, MCP/external-ingress, and prompt/tool proof surfaces",
       "requiredFiles": [
         "packages/generic-tools/mcps-tools/aurora-postgres/package.json",
@@ -1240,7 +1240,7 @@
       "classificationBasis": "ingress-or-support-name",
       "rationale": "package connects external providers, third-party tools, search/research, VCS, deployment, storage, or support utilities into Bitcode",
       "role": "connected-interface ingress or support package",
-      "writeBoundary": "external writes are connected-interface delivery mechanisms or input context unless a Bitcode admission proof explicitly promotes them",
+      "writeBoundary": "external writes are connected-interface Shippables or input context unless a Bitcode admission proof explicitly promotes them",
       "proofObligation": "ingress/support packages must stay bounded by retained-package, system-reform, MCP/external-ingress, and prompt/tool proof surfaces",
       "requiredFiles": [
         "packages/generic-tools/mcps-tools/aws-location/package.json",
@@ -1258,7 +1258,7 @@
       "classificationBasis": "ingress-or-support-name",
       "rationale": "package connects external providers, third-party tools, search/research, VCS, deployment, storage, or support utilities into Bitcode",
       "role": "connected-interface ingress or support package",
-      "writeBoundary": "external writes are connected-interface delivery mechanisms or input context unless a Bitcode admission proof explicitly promotes them",
+      "writeBoundary": "external writes are connected-interface Shippables or input context unless a Bitcode admission proof explicitly promotes them",
       "proofObligation": "ingress/support packages must stay bounded by retained-package, system-reform, MCP/external-ingress, and prompt/tool proof surfaces",
       "requiredFiles": [
         "packages/generic-tools/mcps-tools/aws-terraform/package.json",
@@ -1276,7 +1276,7 @@
       "classificationBasis": "ingress-or-support-name",
       "rationale": "package connects external providers, third-party tools, search/research, VCS, deployment, storage, or support utilities into Bitcode",
       "role": "connected-interface ingress or support package",
-      "writeBoundary": "external writes are connected-interface delivery mechanisms or input context unless a Bitcode admission proof explicitly promotes them",
+      "writeBoundary": "external writes are connected-interface Shippables or input context unless a Bitcode admission proof explicitly promotes them",
       "proofObligation": "ingress/support packages must stay bounded by retained-package, system-reform, MCP/external-ingress, and prompt/tool proof surfaces",
       "requiredFiles": [
         "packages/generic-tools/mcps-tools/aws/package.json",
@@ -1294,7 +1294,7 @@
       "classificationBasis": "ingress-or-support-name",
       "rationale": "package connects external providers, third-party tools, search/research, VCS, deployment, storage, or support utilities into Bitcode",
       "role": "connected-interface ingress or support package",
-      "writeBoundary": "external writes are connected-interface delivery mechanisms or input context unless a Bitcode admission proof explicitly promotes them",
+      "writeBoundary": "external writes are connected-interface Shippables or input context unless a Bitcode admission proof explicitly promotes them",
       "proofObligation": "ingress/support packages must stay bounded by retained-package, system-reform, MCP/external-ingress, and prompt/tool proof surfaces",
       "requiredFiles": [
         "packages/generic-tools/mcps-tools/bitbucket/package.json",
@@ -1312,7 +1312,7 @@
       "classificationBasis": "ingress-or-support-name",
       "rationale": "package connects external providers, third-party tools, search/research, VCS, deployment, storage, or support utilities into Bitcode",
       "role": "connected-interface ingress or support package",
-      "writeBoundary": "external writes are connected-interface delivery mechanisms or input context unless a Bitcode admission proof explicitly promotes them",
+      "writeBoundary": "external writes are connected-interface Shippables or input context unless a Bitcode admission proof explicitly promotes them",
       "proofObligation": "ingress/support packages must stay bounded by retained-package, system-reform, MCP/external-ingress, and prompt/tool proof surfaces",
       "requiredFiles": [
         "packages/generic-tools/mcps-tools/circleci/package.json",
@@ -1330,7 +1330,7 @@
       "classificationBasis": "ingress-or-support-name",
       "rationale": "package connects external providers, third-party tools, search/research, VCS, deployment, storage, or support utilities into Bitcode",
       "role": "connected-interface ingress or support package",
-      "writeBoundary": "external writes are connected-interface delivery mechanisms or input context unless a Bitcode admission proof explicitly promotes them",
+      "writeBoundary": "external writes are connected-interface Shippables or input context unless a Bitcode admission proof explicitly promotes them",
       "proofObligation": "ingress/support packages must stay bounded by retained-package, system-reform, MCP/external-ingress, and prompt/tool proof surfaces",
       "requiredFiles": [
         "packages/generic-tools/mcps-tools/cloudflare/package.json",
@@ -1348,7 +1348,7 @@
       "classificationBasis": "ingress-or-support-name",
       "rationale": "package connects external providers, third-party tools, search/research, VCS, deployment, storage, or support utilities into Bitcode",
       "role": "connected-interface ingress or support package",
-      "writeBoundary": "external writes are connected-interface delivery mechanisms or input context unless a Bitcode admission proof explicitly promotes them",
+      "writeBoundary": "external writes are connected-interface Shippables or input context unless a Bitcode admission proof explicitly promotes them",
       "proofObligation": "ingress/support packages must stay bounded by retained-package, system-reform, MCP/external-ingress, and prompt/tool proof surfaces",
       "requiredFiles": [
         "packages/generic-tools/mcps-tools/docker/package.json",
@@ -1366,7 +1366,7 @@
       "classificationBasis": "ingress-or-support-name",
       "rationale": "package connects external providers, third-party tools, search/research, VCS, deployment, storage, or support utilities into Bitcode",
       "role": "connected-interface ingress or support package",
-      "writeBoundary": "external writes are connected-interface delivery mechanisms or input context unless a Bitcode admission proof explicitly promotes them",
+      "writeBoundary": "external writes are connected-interface Shippables or input context unless a Bitcode admission proof explicitly promotes them",
       "proofObligation": "ingress/support packages must stay bounded by retained-package, system-reform, MCP/external-ingress, and prompt/tool proof surfaces",
       "requiredFiles": [
         "packages/generic-tools/mcps-tools/figma/package.json",
@@ -1384,7 +1384,7 @@
       "classificationBasis": "ingress-or-support-name",
       "rationale": "package connects external providers, third-party tools, search/research, VCS, deployment, storage, or support utilities into Bitcode",
       "role": "connected-interface ingress or support package",
-      "writeBoundary": "external writes are connected-interface delivery mechanisms or input context unless a Bitcode admission proof explicitly promotes them",
+      "writeBoundary": "external writes are connected-interface Shippables or input context unless a Bitcode admission proof explicitly promotes them",
       "proofObligation": "ingress/support packages must stay bounded by retained-package, system-reform, MCP/external-ingress, and prompt/tool proof surfaces",
       "requiredFiles": [
         "packages/generic-tools/mcps-tools/firebase/package.json",
@@ -1401,7 +1401,7 @@
       "classificationBasis": "ingress-or-support-name",
       "rationale": "package connects external providers, third-party tools, search/research, VCS, deployment, storage, or support utilities into Bitcode",
       "role": "connected-interface ingress or support package",
-      "writeBoundary": "external writes are connected-interface delivery mechanisms or input context unless a Bitcode admission proof explicitly promotes them",
+      "writeBoundary": "external writes are connected-interface Shippables or input context unless a Bitcode admission proof explicitly promotes them",
       "proofObligation": "ingress/support packages must stay bounded by retained-package, system-reform, MCP/external-ingress, and prompt/tool proof surfaces",
       "requiredFiles": [
         "packages/generic-tools/mcps-tools/git-repo-research/package.json",
@@ -1418,7 +1418,7 @@
       "classificationBasis": "ingress-or-support-name",
       "rationale": "package connects external providers, third-party tools, search/research, VCS, deployment, storage, or support utilities into Bitcode",
       "role": "connected-interface ingress or support package",
-      "writeBoundary": "external writes are connected-interface delivery mechanisms or input context unless a Bitcode admission proof explicitly promotes them",
+      "writeBoundary": "external writes are connected-interface Shippables or input context unless a Bitcode admission proof explicitly promotes them",
       "proofObligation": "ingress/support packages must stay bounded by retained-package, system-reform, MCP/external-ingress, and prompt/tool proof surfaces",
       "requiredFiles": [
         "packages/generic-tools/mcps-tools/github/package.json",
@@ -1435,7 +1435,7 @@
       "classificationBasis": "ingress-or-support-name",
       "rationale": "package connects external providers, third-party tools, search/research, VCS, deployment, storage, or support utilities into Bitcode",
       "role": "connected-interface ingress or support package",
-      "writeBoundary": "external writes are connected-interface delivery mechanisms or input context unless a Bitcode admission proof explicitly promotes them",
+      "writeBoundary": "external writes are connected-interface Shippables or input context unless a Bitcode admission proof explicitly promotes them",
       "proofObligation": "ingress/support packages must stay bounded by retained-package, system-reform, MCP/external-ingress, and prompt/tool proof surfaces",
       "requiredFiles": [
         "packages/generic-tools/mcps-tools/gitlab/package.json",
@@ -1453,7 +1453,7 @@
       "classificationBasis": "ingress-or-support-name",
       "rationale": "package connects external providers, third-party tools, search/research, VCS, deployment, storage, or support utilities into Bitcode",
       "role": "connected-interface ingress or support package",
-      "writeBoundary": "external writes are connected-interface delivery mechanisms or input context unless a Bitcode admission proof explicitly promotes them",
+      "writeBoundary": "external writes are connected-interface Shippables or input context unless a Bitcode admission proof explicitly promotes them",
       "proofObligation": "ingress/support packages must stay bounded by retained-package, system-reform, MCP/external-ingress, and prompt/tool proof surfaces",
       "requiredFiles": [
         "packages/generic-tools/mcps-tools/jira/package.json",
@@ -1471,7 +1471,7 @@
       "classificationBasis": "ingress-or-support-name",
       "rationale": "package connects external providers, third-party tools, search/research, VCS, deployment, storage, or support utilities into Bitcode",
       "role": "connected-interface ingress or support package",
-      "writeBoundary": "external writes are connected-interface delivery mechanisms or input context unless a Bitcode admission proof explicitly promotes them",
+      "writeBoundary": "external writes are connected-interface Shippables or input context unless a Bitcode admission proof explicitly promotes them",
       "proofObligation": "ingress/support packages must stay bounded by retained-package, system-reform, MCP/external-ingress, and prompt/tool proof surfaces",
       "requiredFiles": [
         "packages/generic-tools/mcps-tools/kubernetes/package.json",
@@ -1489,7 +1489,7 @@
       "classificationBasis": "ingress-or-support-name",
       "rationale": "package connects external providers, third-party tools, search/research, VCS, deployment, storage, or support utilities into Bitcode",
       "role": "connected-interface ingress or support package",
-      "writeBoundary": "external writes are connected-interface delivery mechanisms or input context unless a Bitcode admission proof explicitly promotes them",
+      "writeBoundary": "external writes are connected-interface Shippables or input context unless a Bitcode admission proof explicitly promotes them",
       "proofObligation": "ingress/support packages must stay bounded by retained-package, system-reform, MCP/external-ingress, and prompt/tool proof surfaces",
       "requiredFiles": [
         "packages/generic-tools/mcps-tools/mysql/package.json",
@@ -1507,7 +1507,7 @@
       "classificationBasis": "ingress-or-support-name",
       "rationale": "package connects external providers, third-party tools, search/research, VCS, deployment, storage, or support utilities into Bitcode",
       "role": "connected-interface ingress or support package",
-      "writeBoundary": "external writes are connected-interface delivery mechanisms or input context unless a Bitcode admission proof explicitly promotes them",
+      "writeBoundary": "external writes are connected-interface Shippables or input context unless a Bitcode admission proof explicitly promotes them",
       "proofObligation": "ingress/support packages must stay bounded by retained-package, system-reform, MCP/external-ingress, and prompt/tool proof surfaces",
       "requiredFiles": [
         "packages/generic-tools/mcps-tools/notion/package.json",
@@ -1525,7 +1525,7 @@
       "classificationBasis": "ingress-or-support-name",
       "rationale": "package connects external providers, third-party tools, search/research, VCS, deployment, storage, or support utilities into Bitcode",
       "role": "connected-interface ingress or support package",
-      "writeBoundary": "external writes are connected-interface delivery mechanisms or input context unless a Bitcode admission proof explicitly promotes them",
+      "writeBoundary": "external writes are connected-interface Shippables or input context unless a Bitcode admission proof explicitly promotes them",
       "proofObligation": "ingress/support packages must stay bounded by retained-package, system-reform, MCP/external-ingress, and prompt/tool proof surfaces",
       "requiredFiles": [
         "packages/generic-tools/mcps-tools/postgresql/package.json",
@@ -1543,7 +1543,7 @@
       "classificationBasis": "ingress-or-support-name",
       "rationale": "package connects external providers, third-party tools, search/research, VCS, deployment, storage, or support utilities into Bitcode",
       "role": "connected-interface ingress or support package",
-      "writeBoundary": "external writes are connected-interface delivery mechanisms or input context unless a Bitcode admission proof explicitly promotes them",
+      "writeBoundary": "external writes are connected-interface Shippables or input context unless a Bitcode admission proof explicitly promotes them",
       "proofObligation": "ingress/support packages must stay bounded by retained-package, system-reform, MCP/external-ingress, and prompt/tool proof surfaces",
       "requiredFiles": [
         "packages/generic-tools/mcps-tools/supabase/package.json",
@@ -1561,7 +1561,7 @@
       "classificationBasis": "ingress-or-support-name",
       "rationale": "package connects external providers, third-party tools, search/research, VCS, deployment, storage, or support utilities into Bitcode",
       "role": "connected-interface ingress or support package",
-      "writeBoundary": "external writes are connected-interface delivery mechanisms or input context unless a Bitcode admission proof explicitly promotes them",
+      "writeBoundary": "external writes are connected-interface Shippables or input context unless a Bitcode admission proof explicitly promotes them",
       "proofObligation": "ingress/support packages must stay bounded by retained-package, system-reform, MCP/external-ingress, and prompt/tool proof surfaces",
       "requiredFiles": [
         "packages/generic-tools/mcps-tools/vercel/package.json",
@@ -1579,7 +1579,7 @@
       "classificationBasis": "ingress-or-support-name",
       "rationale": "package connects external providers, third-party tools, search/research, VCS, deployment, storage, or support utilities into Bitcode",
       "role": "connected-interface ingress or support package",
-      "writeBoundary": "external writes are connected-interface delivery mechanisms or input context unless a Bitcode admission proof explicitly promotes them",
+      "writeBoundary": "external writes are connected-interface Shippables or input context unless a Bitcode admission proof explicitly promotes them",
       "proofObligation": "ingress/support packages must stay bounded by retained-package, system-reform, MCP/external-ingress, and prompt/tool proof surfaces",
       "requiredFiles": [
         "packages/generic-tools/multimodal-processing/package.json",
@@ -1615,7 +1615,7 @@
       "classificationBasis": "ingress-or-support-name",
       "rationale": "package connects external providers, third-party tools, search/research, VCS, deployment, storage, or support utilities into Bitcode",
       "role": "connected-interface ingress or support package",
-      "writeBoundary": "external writes are connected-interface delivery mechanisms or input context unless a Bitcode admission proof explicitly promotes them",
+      "writeBoundary": "external writes are connected-interface Shippables or input context unless a Bitcode admission proof explicitly promotes them",
       "proofObligation": "ingress/support packages must stay bounded by retained-package, system-reform, MCP/external-ingress, and prompt/tool proof surfaces",
       "requiredFiles": [
         "packages/generic-tools/repository-setup/package.json",
@@ -1633,7 +1633,7 @@
       "classificationBasis": "ingress-or-support-name",
       "rationale": "package connects external providers, third-party tools, search/research, VCS, deployment, storage, or support utilities into Bitcode",
       "role": "connected-interface ingress or support package",
-      "writeBoundary": "external writes are connected-interface delivery mechanisms or input context unless a Bitcode admission proof explicitly promotes them",
+      "writeBoundary": "external writes are connected-interface Shippables or input context unless a Bitcode admission proof explicitly promotes them",
       "proofObligation": "ingress/support packages must stay bounded by retained-package, system-reform, MCP/external-ingress, and prompt/tool proof surfaces",
       "requiredFiles": [
         "packages/generic-tools/simple-system-text-search/package.json",
@@ -1651,7 +1651,7 @@
       "classificationBasis": "ingress-or-support-name",
       "rationale": "package connects external providers, third-party tools, search/research, VCS, deployment, storage, or support utilities into Bitcode",
       "role": "connected-interface ingress or support package",
-      "writeBoundary": "external writes are connected-interface delivery mechanisms or input context unless a Bitcode admission proof explicitly promotes them",
+      "writeBoundary": "external writes are connected-interface Shippables or input context unless a Bitcode admission proof explicitly promotes them",
       "proofObligation": "ingress/support packages must stay bounded by retained-package, system-reform, MCP/external-ingress, and prompt/tool proof surfaces",
       "requiredFiles": [
         "packages/generic-tools/vcs/package.json",
@@ -1669,7 +1669,7 @@
       "classificationBasis": "ingress-or-support-name",
       "rationale": "package connects external providers, third-party tools, search/research, VCS, deployment, storage, or support utilities into Bitcode",
       "role": "connected-interface ingress or support package",
-      "writeBoundary": "external writes are connected-interface delivery mechanisms or input context unless a Bitcode admission proof explicitly promotes them",
+      "writeBoundary": "external writes are connected-interface Shippables or input context unless a Bitcode admission proof explicitly promotes them",
       "proofObligation": "ingress/support packages must stay bounded by retained-package, system-reform, MCP/external-ingress, and prompt/tool proof surfaces",
       "requiredFiles": [
         "packages/generic-tools/web-search/package.json",
@@ -1723,7 +1723,7 @@
       "classificationBasis": "ingress-or-support-name",
       "rationale": "package connects external providers, third-party tools, search/research, VCS, deployment, storage, or support utilities into Bitcode",
       "role": "connected-interface ingress or support package",
-      "writeBoundary": "external writes are connected-interface delivery mechanisms or input context unless a Bitcode admission proof explicitly promotes them",
+      "writeBoundary": "external writes are connected-interface Shippables or input context unless a Bitcode admission proof explicitly promotes them",
       "proofObligation": "ingress/support packages must stay bounded by retained-package, system-reform, MCP/external-ingress, and prompt/tool proof surfaces",
       "requiredFiles": [
         "packages/gitlab/package.json",
@@ -1741,7 +1741,7 @@
       "classificationBasis": "ingress-or-support-name",
       "rationale": "package connects external providers, third-party tools, search/research, VCS, deployment, storage, or support utilities into Bitcode",
       "role": "connected-interface ingress or support package",
-      "writeBoundary": "external writes are connected-interface delivery mechanisms or input context unless a Bitcode admission proof explicitly promotes them",
+      "writeBoundary": "external writes are connected-interface Shippables or input context unless a Bitcode admission proof explicitly promotes them",
       "proofObligation": "ingress/support packages must stay bounded by retained-package, system-reform, MCP/external-ingress, and prompt/tool proof surfaces",
       "requiredFiles": [
         "packages/google-analytics/package.json",
@@ -1758,7 +1758,7 @@
       "classificationBasis": "ingress-or-support-name",
       "rationale": "package connects external providers, third-party tools, search/research, VCS, deployment, storage, or support utilities into Bitcode",
       "role": "connected-interface ingress or support package",
-      "writeBoundary": "external writes are connected-interface delivery mechanisms or input context unless a Bitcode admission proof explicitly promotes them",
+      "writeBoundary": "external writes are connected-interface Shippables or input context unless a Bitcode admission proof explicitly promotes them",
       "proofObligation": "ingress/support packages must stay bounded by retained-package, system-reform, MCP/external-ingress, and prompt/tool proof surfaces",
       "requiredFiles": [
         "packages/jira/package.json",
@@ -1776,7 +1776,7 @@
       "classificationBasis": "ingress-or-support-name",
       "rationale": "package connects external providers, third-party tools, search/research, VCS, deployment, storage, or support utilities into Bitcode",
       "role": "connected-interface ingress or support package",
-      "writeBoundary": "external writes are connected-interface delivery mechanisms or input context unless a Bitcode admission proof explicitly promotes them",
+      "writeBoundary": "external writes are connected-interface Shippables or input context unless a Bitcode admission proof explicitly promotes them",
       "proofObligation": "ingress/support packages must stay bounded by retained-package, system-reform, MCP/external-ingress, and prompt/tool proof surfaces",
       "requiredFiles": [
         "packages/kubernetes/package.json",
@@ -1901,7 +1901,7 @@
       "classificationBasis": "ingress-or-support-name",
       "rationale": "package connects external providers, third-party tools, search/research, VCS, deployment, storage, or support utilities into Bitcode",
       "role": "connected-interface ingress or support package",
-      "writeBoundary": "external writes are connected-interface delivery mechanisms or input context unless a Bitcode admission proof explicitly promotes them",
+      "writeBoundary": "external writes are connected-interface Shippables or input context unless a Bitcode admission proof explicitly promotes them",
       "proofObligation": "ingress/support packages must stay bounded by retained-package, system-reform, MCP/external-ingress, and prompt/tool proof surfaces",
       "requiredFiles": [
         "packages/mysql/package.json",
@@ -1955,7 +1955,7 @@
       "classificationBasis": "ingress-or-support-name",
       "rationale": "package connects external providers, third-party tools, search/research, VCS, deployment, storage, or support utilities into Bitcode",
       "role": "connected-interface ingress or support package",
-      "writeBoundary": "external writes are connected-interface delivery mechanisms or input context unless a Bitcode admission proof explicitly promotes them",
+      "writeBoundary": "external writes are connected-interface Shippables or input context unless a Bitcode admission proof explicitly promotes them",
       "proofObligation": "ingress/support packages must stay bounded by retained-package, system-reform, MCP/external-ingress, and prompt/tool proof surfaces",
       "requiredFiles": [
         "packages/notion/package.json",
@@ -2098,7 +2098,7 @@
       "classificationBasis": "ingress-or-support-name",
       "rationale": "package connects external providers, third-party tools, search/research, VCS, deployment, storage, or support utilities into Bitcode",
       "role": "connected-interface ingress or support package",
-      "writeBoundary": "external writes are connected-interface delivery mechanisms or input context unless a Bitcode admission proof explicitly promotes them",
+      "writeBoundary": "external writes are connected-interface Shippables or input context unless a Bitcode admission proof explicitly promotes them",
       "proofObligation": "ingress/support packages must stay bounded by retained-package, system-reform, MCP/external-ingress, and prompt/tool proof surfaces",
       "requiredFiles": [
         "packages/postgresql/package.json",
@@ -2116,7 +2116,7 @@
       "classificationBasis": "ingress-or-support-name",
       "rationale": "package connects external providers, third-party tools, search/research, VCS, deployment, storage, or support utilities into Bitcode",
       "role": "connected-interface ingress or support package",
-      "writeBoundary": "external writes are connected-interface delivery mechanisms or input context unless a Bitcode admission proof explicitly promotes them",
+      "writeBoundary": "external writes are connected-interface Shippables or input context unless a Bitcode admission proof explicitly promotes them",
       "proofObligation": "ingress/support packages must stay bounded by retained-package, system-reform, MCP/external-ingress, and prompt/tool proof surfaces",
       "requiredFiles": [
         "packages/procurement/package.json",
@@ -2152,7 +2152,7 @@
       "classificationBasis": "ingress-or-support-name",
       "rationale": "package connects external providers, third-party tools, search/research, VCS, deployment, storage, or support utilities into Bitcode",
       "role": "connected-interface ingress or support package",
-      "writeBoundary": "external writes are connected-interface delivery mechanisms or input context unless a Bitcode admission proof explicitly promotes them",
+      "writeBoundary": "external writes are connected-interface Shippables or input context unless a Bitcode admission proof explicitly promotes them",
       "proofObligation": "ingress/support packages must stay bounded by retained-package, system-reform, MCP/external-ingress, and prompt/tool proof surfaces",
       "requiredFiles": [
         "packages/refactoring/package.json",
@@ -2223,7 +2223,7 @@
       "classificationBasis": "ingress-or-support-name",
       "rationale": "package connects external providers, third-party tools, search/research, VCS, deployment, storage, or support utilities into Bitcode",
       "role": "connected-interface ingress or support package",
-      "writeBoundary": "external writes are connected-interface delivery mechanisms or input context unless a Bitcode admission proof explicitly promotes them",
+      "writeBoundary": "external writes are connected-interface Shippables or input context unless a Bitcode admission proof explicitly promotes them",
       "proofObligation": "ingress/support packages must stay bounded by retained-package, system-reform, MCP/external-ingress, and prompt/tool proof surfaces",
       "requiredFiles": [
         "packages/sentry/package.json",
@@ -2294,7 +2294,7 @@
       "classificationBasis": "ingress-or-support-name",
       "rationale": "package connects external providers, third-party tools, search/research, VCS, deployment, storage, or support utilities into Bitcode",
       "role": "connected-interface ingress or support package",
-      "writeBoundary": "external writes are connected-interface delivery mechanisms or input context unless a Bitcode admission proof explicitly promotes them",
+      "writeBoundary": "external writes are connected-interface Shippables or input context unless a Bitcode admission proof explicitly promotes them",
       "proofObligation": "ingress/support packages must stay bounded by retained-package, system-reform, MCP/external-ingress, and prompt/tool proof surfaces",
       "requiredFiles": [
         "packages/system-grep/package.json",
@@ -2418,7 +2418,7 @@
       "classificationBasis": "ingress-or-support-name",
       "rationale": "package connects external providers, third-party tools, search/research, VCS, deployment, storage, or support utilities into Bitcode",
       "role": "connected-interface ingress or support package",
-      "writeBoundary": "external writes are connected-interface delivery mechanisms or input context unless a Bitcode admission proof explicitly promotes them",
+      "writeBoundary": "external writes are connected-interface Shippables or input context unless a Bitcode admission proof explicitly promotes them",
       "proofObligation": "ingress/support packages must stay bounded by retained-package, system-reform, MCP/external-ingress, and prompt/tool proof surfaces",
       "requiredFiles": [
         "packages/vercel/package.json",
@@ -2436,7 +2436,7 @@
       "classificationBasis": "ingress-or-support-name",
       "rationale": "package connects external providers, third-party tools, search/research, VCS, deployment, storage, or support utilities into Bitcode",
       "role": "connected-interface ingress or support package",
-      "writeBoundary": "external writes are connected-interface delivery mechanisms or input context unless a Bitcode admission proof explicitly promotes them",
+      "writeBoundary": "external writes are connected-interface Shippables or input context unless a Bitcode admission proof explicitly promotes them",
       "proofObligation": "ingress/support packages must stay bounded by retained-package, system-reform, MCP/external-ingress, and prompt/tool proof surfaces",
       "requiredFiles": [
         "packages/web-search/package.json",

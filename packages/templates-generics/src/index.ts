@@ -10,12 +10,12 @@ import type { SupabaseClient } from '@supabase/supabase-js';
 // Export all types
 export * from './types';
 export type {
-  DeliverableTemplate,
+  ShippableTemplate,
   AIDocumentTemplate,
   UserTemplatePreferences,
-  DeliverableTemplateType,
+  ShippableTemplateType,
   AIDocumentTemplateType,
-  CreateDeliverableTemplatePayload,
+  CreateShippableTemplatePayload,
   CreateAIDocumentTemplatePayload,
   TemplatesResponse,
   TemplatePreferencesResponse
@@ -28,9 +28,10 @@ export class TemplatesService {
   constructor(private supabase: SupabaseClient) {}
 
   /**
-   * Get deliverable templates for the current user
+   * Get Shippable templates for the current user.
+   * The retained database table/column names are compatibility storage.
    */
-  async getDeliverableTemplates(userId: string, type?: string) {
+  async getShippableTemplates(userId: string, type?: string) {
     try {
       let query = this.supabase
         .from('deliverable_templates')
@@ -46,15 +47,19 @@ export class TemplatesService {
       const { data, error } = await query;
       
       if (error) {
-        log('[TemplatesService] Error fetching deliverable templates', 'error', { error });
+        log('[TemplatesService] Error fetching Shippable templates', 'error', { error });
         throw error;
       }
 
       return data || [];
     } catch (error) {
-      log('[TemplatesService] Failed to get deliverable templates', 'error', { error });
+      log('[TemplatesService] Failed to get Shippable templates', 'error', { error });
       throw error;
     }
+  }
+
+  async getDeliverableTemplates(userId: string, type?: string) {
+    return this.getShippableTemplates(userId, type);
   }
 
   /**
@@ -88,9 +93,10 @@ export class TemplatesService {
   }
 
   /**
-   * Create deliverable templates
+   * Create Shippable templates.
+   * The retained database table/column names are compatibility storage.
    */
-  async createDeliverableTemplates(
+  async createShippableTemplates(
     userId: string,
     name: string,
     types: string[],
@@ -111,15 +117,24 @@ export class TemplatesService {
         .select();
 
       if (error) {
-        log('[TemplatesService] Error creating deliverable templates', 'error', { error });
+        log('[TemplatesService] Error creating Shippable templates', 'error', { error });
         throw error;
       }
 
       return data;
     } catch (error) {
-      log('[TemplatesService] Failed to create deliverable templates', 'error', { error });
+      log('[TemplatesService] Failed to create Shippable templates', 'error', { error });
       throw error;
     }
+  }
+
+  async createDeliverableTemplates(
+    userId: string,
+    name: string,
+    types: string[],
+    templateText: string
+  ) {
+    return this.createShippableTemplates(userId, name, types, templateText);
   }
 
   /**
@@ -186,6 +201,7 @@ export class TemplatesService {
   async updateUserPreferences(
     userId: string,
     preferences: Partial<{
+      default_shippable_template_id: string | null;
       default_deliverable_template_id: string | null;
       default_ai_document_template_id: string | null;
       auto_save_templates: boolean;
@@ -220,10 +236,10 @@ export class TemplatesService {
   async deleteTemplate(
     userId: string,
     templateId: string,
-    type: 'deliverable' | 'ai_documents'
+    type: 'shippable' | 'deliverable' | 'ai_documents'
   ) {
     try {
-      const table = type === 'deliverable' ? 'deliverable_templates' : 'ai_document_templates';
+      const table = type === 'shippable' || type === 'deliverable' ? 'deliverable_templates' : 'ai_document_templates';
       
       const { error } = await this.supabase
         .from(table)
@@ -232,7 +248,7 @@ export class TemplatesService {
         .eq('user_id', userId);
 
       if (error) {
-        log(`[TemplatesService] Error deleting ${type} template`, 'error', { error });
+        log(`[TemplatesService] Error deleting ${type === 'deliverable' ? 'shippable compatibility' : type} template`, 'error', { error });
         throw error;
       }
 

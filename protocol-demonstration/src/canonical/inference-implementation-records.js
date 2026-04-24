@@ -423,20 +423,20 @@ export const V26_INFERENCE_IMPLEMENTATION_RECORDS = Object.freeze([
       carriers: ['PipelineExecution compatibility entry', 'postprocess read model', 'execution history projections']
     },
     assetPackImplementation: {
-      outputKind: 'asset pack and delivery mechanism',
-      effect: 'Stable written assets and asset-pack snapshots are primary; PRs, Jira comments, reviews, and route payloads are delivery mechanisms.'
+      outputKind: 'asset pack and shippable delivery mechanism',
+      effect: 'Stable written assets and asset-pack snapshots are primary; PRs, Jira comments, reviews, and route payloads are Shippables delivered through destination mechanisms.'
     },
     boundaryPosture: 'compatibility',
     verificationSet: [
-      'node --test protocol-demonstration/test/v26-deliverable-reform.test.js',
+      'node --test protocol-demonstration/test/v26-shippable-reform.test.js',
       'node --test protocol-demonstration/test/v26-pipeline-finish-reform.test.js',
       '.bitcode/runs-pipelines-totality-proof.json',
       '.bitcode/prompt-system-totality-proof.json'
     ],
     sourceEvidenceRefs: [
-      'protocol-demonstration/V26_DELIVERABLE_REFORM.md',
+      'protocol-demonstration/V26_SHIPPABLE_REFORM.md',
       'protocol-demonstration/V26_PIPELINE_FINISH_REFORM.md',
-      'protocol-demonstration/test/v26-deliverable-reform.test.js',
+      'protocol-demonstration/test/v26-shippable-reform.test.js',
       'protocol-demonstration/test/v26-pipeline-finish-reform.test.js',
       'protocol-demonstration/test/v26-simple-system-text-search-compatibility.test.js',
       'protocol-demonstration/test/v26-text-searcher-agent-compatibility.test.js',
@@ -547,7 +547,7 @@ export const V26_INFERENCE_IMPLEMENTATION_RECORDS = Object.freeze([
       'pnpm -C packages/generic-agents/need-comprehension run build',
       'pnpm -C packages/generic-tools/need-comprehension run build',
       'node --test protocol-demonstration/test/v26-prompt-system-boundary.test.js',
-      'node --test protocol-demonstration/test/v26-deliverable-reform.test.js'
+      'node --test protocol-demonstration/test/v26-shippable-reform.test.js'
     ],
     sourceEvidenceRefs: [
       'packages/generic-agents/need-comprehension/README.md',

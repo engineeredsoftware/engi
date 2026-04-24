@@ -13,7 +13,7 @@ import type {
   TransactionFilters,
   TransactionPagination,
 } from '@/components/base/bitcode/execution/bitcode-transaction-types';
-import type { DeliverablesDoc } from '@/components/base/bitcode/execution/DeliverablesDocPanel';
+import type { ShippablesDoc } from '@/components/base/bitcode/execution/ShippablesDocPanel';
 import type { BitcodeDetailRow } from '@/components/base/bitcode/execution/BitcodeDetailRowList';
 import type { BitcodeMetric } from '@/components/base/bitcode/execution/BitcodeMetricGrid';
 
@@ -64,14 +64,14 @@ function formatUsd(value?: number | null) {
   }).format(value);
 }
 
-function countDeliverableSurfaces(deliverables?: DeliverablesDoc | null) {
-  if (!deliverables) return 0;
+function countShippableSurfaces(shippables?: ShippablesDoc | null) {
+  if (!shippables) return 0;
 
   let count = 0;
-  if (deliverables.pullRequest) count += 1;
-  count += deliverables.pullRequestReviews?.length || 0;
-  count += deliverables.issues?.length || 0;
-  count += deliverables.comments?.length || 0;
+  if (shippables.pullRequest) count += 1;
+  count += shippables.pullRequestReviews?.length || 0;
+  count += shippables.issues?.length || 0;
+  count += shippables.comments?.length || 0;
 
   return count;
 }
@@ -87,7 +87,7 @@ function buildMasterDetailSubstructures(
   detail: ApplicationRunDetailSnapshot | null,
 ): ApplicationMasterDetailSubstructure[] {
   const writtenAssets = detail?.writtenAssets || detail?.deliverables || null;
-  const deliveryMechanism = detail?.deliveryMechanism || detail?.deliverables || writtenAssets;
+  const deliveryMechanism = detail?.shippables || detail?.deliveryMechanism || detail?.deliverables || writtenAssets;
   const mergedAssetPackSurface = {
     pullRequest: deliveryMechanism?.pullRequest ?? writtenAssets?.pullRequest ?? null,
     pullRequestReviews: deliveryMechanism?.pullRequestReviews ?? writtenAssets?.pullRequestReviews ?? null,
@@ -96,8 +96,8 @@ function buildMasterDetailSubstructures(
     fileChanges: writtenAssets?.fileChanges ?? deliveryMechanism?.fileChanges ?? null,
     summary: writtenAssets?.summary ?? deliveryMechanism?.summary ?? null,
   };
-  const deliverableSurfaceCount =
-    countDeliverableSurfaces(deliveryMechanism || writtenAssets) ||
+  const shippableSurfaceCount =
+    countShippableSurfaces(deliveryMechanism || writtenAssets) ||
     detail?.historyItemCount ||
     selectedRun.itemCount ||
     0;
@@ -122,14 +122,14 @@ function buildMasterDetailSubstructures(
       };
     }
 
-    if (substructure.id === 'deliverables') {
+    if (substructure.id === 'shippables') {
       return {
         ...substructure,
         summary:
           mergedAssetPackSurface.summary ||
-          'Asset-pack surfaces stay inside the selected Bitcode activity context so you can inspect output without leaving the Bitcode Terminal.',
+          'Finish-delivered Shippables and AssetPack evidence stay inside the selected Bitcode activity context so you can inspect output without leaving the Bitcode Terminal.',
         metrics: [
-          { label: 'Surfaced outputs', value: formatNumber(deliverableSurfaceCount) },
+          { label: 'Shippables', value: formatNumber(shippableSurfaceCount) },
           { label: 'Closure focus', value: detail?.closureFocus || selectedRun.closureFocus || 'materialized output' },
         ],
         rows: [

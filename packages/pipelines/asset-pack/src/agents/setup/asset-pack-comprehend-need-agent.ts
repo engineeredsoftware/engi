@@ -35,8 +35,10 @@ export async function runComprehendNeedAgent(input: any, execution: any) {
       ? result?.deliverable_types
       : (Array.isArray(result?.deliverableType) ? result?.deliverableType : (result?.deliverableType ? [result?.deliverableType] : []));
     if (types && types.length) {
+      execution.store('setup', 'writtenAssetType', types);
       execution.store('setup', 'deliverableType', types);
       execution.store('setup', 'writtenAssetRequest', types);
+      execution.store('setup/written-asset-type', 'type', types);
       execution.store('setup/deliverable-type', 'type', types);
       execution.store('setup/written-asset-request', 'type', types);
     }

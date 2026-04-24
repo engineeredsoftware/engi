@@ -176,6 +176,9 @@ describe('GET /api/executions/history/[runId]', () => {
         delivery_mechanism: {
           comments: [{ title: 'Proof note', url: 'https://example.com/comments/9', number: 9 }],
         },
+        shippables: {
+          comments: [{ title: 'Proof note', url: 'https://example.com/comments/9', number: 9 }],
+        },
         need: 'Refresh closure proofs and reopen fourth-gate truth honestly.',
         written_asset_type: 'proof-refresh',
         asset_pack: {
@@ -194,6 +197,9 @@ describe('GET /api/executions/history/[runId]', () => {
             summary: 'Persisted closure posture.',
           },
           deliveryMechanism: {
+            comments: [{ title: 'Proof note', url: 'https://example.com/comments/9', number: 9 }],
+          },
+          shippables: {
             comments: [{ title: 'Proof note', url: 'https://example.com/comments/9', number: 9 }],
           },
           need: 'Refresh closure proofs and reopen fourth-gate truth honestly.',

@@ -3,8 +3,8 @@ import { PromptPart } from '../../parts/PromptPart';
 /**
  * @doc-comment-developing-promptpartdevelopment
  * domain: agent
- * intent: "Define try execution for Finalize Shipment agent with execution state awareness"
- * current_version: "V26.50.0"
+ * intent: "Bitcode Finish PromptPart for executing evidence storage and Shippable delivery"
+ * current_version: "0.50.0"
  * versions: []
  * benchmarks: [
  *   { "name": "try_context_utilization", "test": "Does try execution maximize context value?", "score": 0.39 },
@@ -13,4 +13,4 @@ import { PromptPart } from '../../parts/PromptPart';
  * ]
  */
 export const PROMPTPART_SPECIFIC_AGENT_FINALIZESHIPMENT_TRY_DIRECTIVES: PromptPart = 
-  'Execute finalization with full context orchestration: trigger deployment using validation confirmations, coordinate release with accumulated approvals, document deployment with execution history, activate monitoring from established baselines, announce release with context summary, confirm success using acceptance criteria, archive pipeline intelligence for future reference' as PromptPart;
+  'Execute Finish with full context orchestration: persist final AssetPack evidence, create the final summary, map validated artifacts to requested Shippables, call the destination delivery mechanism, capture PR/issue/comment/review identifiers or URLs, and archive proof-visible receipts for future reread' as PromptPart;

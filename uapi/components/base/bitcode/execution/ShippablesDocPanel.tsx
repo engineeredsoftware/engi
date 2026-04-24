@@ -5,7 +5,7 @@ import dynamic from 'next/dynamic';
 
 const ReactMarkdown = dynamic(() => import('react-markdown'), { ssr: false });
 
-type Deliverable = {
+type Shippable = {
   url?: string;
   number?: number;
   title?: string;
@@ -14,11 +14,11 @@ type Deliverable = {
 
 type FileDiff = { path: string; added: number; removed: number };
 
-export interface DeliverablesDoc {
-  pullRequest?: Deliverable | null;
-  pullRequestReviews?: Deliverable[] | null;
-  comments?: Deliverable[] | null;
-  issues?: Deliverable[] | null;
+export interface ShippablesDoc {
+  pullRequest?: Shippable | null;
+  pullRequestReviews?: Shippable[] | null;
+  comments?: Shippable[] | null;
+  issues?: Shippable[] | null;
   fileChanges?: {
     edited: number;
     created: number;
@@ -29,22 +29,21 @@ export interface DeliverablesDoc {
   summary?: string | null;
 }
 
-export interface DeliverablesDocPanelProps {
-  deliverables: DeliverablesDoc;
+export interface ShippablesDocPanelProps {
+  shippables: ShippablesDoc;
   summaryOpen: boolean;
   onToggleSummary: () => void;
 }
 
 /**
- * DeliverablesDocPanel – renders the TL;DR and summary markdown as a sibling panel.
- * Mirrors header classes to preserve existing look and spacing.
+ * Renders Finish-delivered Shippables plus summary markdown.
  */
-export function DeliverablesDocPanel({ deliverables, summaryOpen, onToggleSummary }: DeliverablesDocPanelProps) {
+export function ShippablesDocPanel({ shippables, summaryOpen, onToggleSummary }: ShippablesDocPanelProps) {
   const tldr: React.ReactNode[] = [];
-  if (deliverables.pullRequest?.title) tldr.push(<span key="pr">Pull Request</span>);
-  if (deliverables.pullRequestReviews?.length) tldr.push(<span key="reviews">PR Reviews</span>);
-  if (deliverables.issues?.length) tldr.push(<span key="issues">Issues</span>);
-  if (deliverables.comments?.length) tldr.push(<span key="comments">Comments</span>);
+  if (shippables.pullRequest?.title) tldr.push(<span key="pr">Pull Request</span>);
+  if (shippables.pullRequestReviews?.length) tldr.push(<span key="reviews">PR Reviews</span>);
+  if (shippables.issues?.length) tldr.push(<span key="issues">Issues</span>);
+  if (shippables.comments?.length) tldr.push(<span key="comments">Comments</span>);
 
   return (
     <div className="relative flex flex-col space-y-8 w-full max-w-4.5xl mx-auto">
@@ -63,7 +62,7 @@ export function DeliverablesDocPanel({ deliverables, summaryOpen, onToggleSummar
               <span>. Read the full summary below.</span>
             </>
           ) : (
-            <span>No deliverables to summarize.</span>
+            <span>No shippables to summarize.</span>
           )}
         </div>
         <button onClick={onToggleSummary} className="ml-4 p-1 text-gray-300 hover:text-emerald-300 transition-transform">
@@ -78,7 +77,7 @@ export function DeliverablesDocPanel({ deliverables, summaryOpen, onToggleSummar
         <div className="mt-3 text-base text-gray-200 leading-relaxed space-y-4">
           <div className="w-full h-px bg-gradient-to-r from-transparent via-emerald-500/20 to-transparent mb-4"></div>
           <ReactMarkdown className="prose prose-invert max-w-none prose-base prose-headings:mb-3 prose-headings:mt-5 prose-headings:font-semibold prose-headings:text-emerald-300 prose-h1:text-2xl prose-h2:text-xl prose-h3:text-lg prose-a:text-purple-300 prose-a:no-underline hover:prose-a:text-purple-200 hover:prose-a:underline prose-blockquote:border-l-emerald-300/50 prose-blockquote:bg-black/20 prose-blockquote:py-1 prose-blockquote:px-4 prose-blockquote:rounded-r-md prose-pre:bg-black/30 prose-pre:p-3 prose-pre:rounded-md prose-pre:border prose-pre:border-purple-500/10 prose-code:text-emerald-200 prose-code:bg-black/40 prose-code:px-1 prose-code:py-0.5 prose-code:rounded prose-code:border prose-code:border-emerald-500/20 prose-strong:text-white prose-strong:font-semibold prose-em:text-purple-200 prose-li:marker:text-emerald-400 prose-ol:pl-6 prose-ol:my-4 prose-ul:pl-6 prose-ul:my-4 prose-li:my-1 prose-table:border-collapse prose-table:w-full prose-thead:bg-black/30 prose-th:p-2 prose-th:text-emerald-300 prose-th:font-medium prose-td:p-2 prose-td:border-t prose-td:border-purple-500/10 prose-img:rounded-md prose-img:max-w-full prose-img:shadow-lg">
-            {deliverables.summary || ''}
+            {shippables.summary || ''}
           </ReactMarkdown>
         </div>
       )}
@@ -86,5 +85,4 @@ export function DeliverablesDocPanel({ deliverables, summaryOpen, onToggleSummar
   );
 }
 
-export default DeliverablesDocPanel;
-
+export default ShippablesDocPanel;

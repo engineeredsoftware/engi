@@ -1,7 +1,7 @@
 import {
   getHeaderDeliveryMechanism,
   getHeaderWrittenAssets,
-  mergeHeaderDeliverables,
+  mergeHeaderShippables,
   type HeaderFinalWorkSummary,
 } from '@/app/executions/components/ExecutionsCompleteHeaderContent';
 
@@ -26,9 +26,9 @@ describe('executions header semantic mirrors', () => {
           paths: ['src/index.ts'],
         },
       },
-      deliveryMechanism: {
+      shippables: {
         pullRequest: {
-          title: 'Delivery PR',
+          title: 'Shippable PR',
           url: 'https://example.com/pr/4',
           number: 4,
         },
@@ -36,15 +36,15 @@ describe('executions header semantic mirrors', () => {
     };
 
     expect(getHeaderWrittenAssets(finalWorkSummary)?.summary).toBe('Primary AssetPack synthesis artifact summary.');
-    expect(getHeaderDeliveryMechanism(finalWorkSummary)?.pullRequest?.title).toBe('Delivery PR');
+    expect(getHeaderDeliveryMechanism(finalWorkSummary)?.pullRequest?.title).toBe('Shippable PR');
     expect(
-      mergeHeaderDeliverables(
+      mergeHeaderShippables(
         getHeaderWrittenAssets(finalWorkSummary),
         getHeaderDeliveryMechanism(finalWorkSummary),
       ),
     ).toEqual({
       pullRequest: {
-        title: 'Delivery PR',
+        title: 'Shippable PR',
         url: 'https://example.com/pr/4',
         number: 4,
       },
@@ -61,7 +61,7 @@ describe('executions header semantic mirrors', () => {
     });
   });
 
-  it('falls back through compatibility deliverables when explicit mirrors are absent', () => {
+  it('falls back through compatibility deliverables only when explicit shippables are absent', () => {
     const finalWorkSummary: HeaderFinalWorkSummary = {
       deliverables: {
         summary: 'Compatibility summary.',

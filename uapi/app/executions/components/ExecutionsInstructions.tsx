@@ -4,7 +4,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { Loader2 } from 'lucide-react';
 import RichTextInput from '@/app/conversations/components/ConversationsRichTextInput';
 import ShimmerButton from '@/components/base/bitcode/effects/button-shimmer';
-import { fetchDeliverableInstructions, postDeliverableInstruction } from '@/networking/api-client';
+import { fetchShippableInstructions, postShippableInstruction } from '@/networking/api-client';
 
 interface Instruction {
   id: string;
@@ -15,7 +15,7 @@ interface Instruction {
 }
 export interface ExecutionInstructionsProps {
   runId: string;
-  runKind?: 'deliverable';
+  runKind?: 'asset-pack';
   onNewInstruction?: (inst: Instruction) => void;
   placeholder?: string;
   label?: string;
@@ -30,7 +30,7 @@ export interface ExecutionInstructionsProps {
  */
 export default function ExecutionInstructions({
   runId,
-  runKind = 'deliverable',
+  runKind = 'asset-pack',
   onNewInstruction,
   placeholder = 'Provide instruction to guide execution...',
   label = 'Instructions'
@@ -42,7 +42,7 @@ export default function ExecutionInstructions({
 
   useEffect(() => {
     let mounted = true;
-    fetchDeliverableInstructions(runId)
+    fetchShippableInstructions(runId)
       .then((data) => { if (mounted) setInstructions(data); })
       .catch(() => {})
       .finally(() => { if (mounted) setInitialLoading(false); });
@@ -79,7 +79,7 @@ export default function ExecutionInstructions({
     if (!message.trim()) return;
     setLoading(true);
     try {
-      const inst = await postDeliverableInstruction(runId, message);
+      const inst = await postShippableInstruction(runId, message);
       setInstructions((prev) => [...prev, inst]);
       onNewInstruction?.(inst);
     } catch {

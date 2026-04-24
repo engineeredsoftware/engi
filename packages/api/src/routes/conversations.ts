@@ -108,7 +108,9 @@ function resolveConversationTokenValue(token?: ConversationStreamToken | null) {
 }
 
 function normalizeConversationTokenType(token?: ConversationStreamToken | null) {
-  return normalizeConversationText(token?.type).toLowerCase();
+  const normalized = normalizeConversationText(token?.type).toLowerCase();
+  if (normalized === 'deliverable') return 'shippable';
+  return normalized;
 }
 
 function deriveConversationInput(body: ConversationStreamRequest) {
@@ -195,7 +197,7 @@ function buildConversationRichInputSummary(
     asset_pack_references: tokens
       .filter((token) => {
         const tokenType = normalizeConversationTokenType(token);
-        return tokenType === 'asset_pack' || tokenType === 'deliverable' || tokenType === 'ai_document';
+        return tokenType === 'asset_pack' || tokenType === 'shippable' || tokenType === 'ai_document';
       })
       .map(buildRichInputReference),
     need_measurement_intents: tokens.filter(tokenRequestsNeedMeasurement).map(buildRichInputReference),
@@ -207,13 +209,14 @@ function deriveConversationExecutionType(tokens: ConversationStreamToken[]) {
   for (const token of tokens) {
     const metadataPipelineType =
       typeof token.metadata?.pipelineType === 'string' ? token.metadata.pipelineType : undefined;
-    const candidate = metadataPipelineType || normalizeConversationTokenType(token) || resolveConversationTokenValue(token);
+    const rawCandidate = metadataPipelineType || normalizeConversationTokenType(token) || resolveConversationTokenValue(token);
+    const candidate = rawCandidate === 'deliverable' ? 'shippable' : rawCandidate;
 
     if (candidate === 'need_measurement' || candidate === 'measure') {
       return normalizeAgenticExecutionType(candidate);
     }
 
-    if (candidate === 'asset_pack' || candidate === 'deliverable' || candidate === 'ai_document') {
+    if (candidate === 'asset_pack' || candidate === 'shippable' || candidate === 'ai_document') {
       return normalizeAgenticExecutionType(candidate);
     }
   }
@@ -228,7 +231,7 @@ function countTokenTypes(tokens: ConversationStreamToken[]) {
       if (normalized === 'attachment') acc.attachments += 1;
       if (normalized === 'source') acc.sources += 1;
       if (normalized === 'destination') acc.destinations += 1;
-      if (normalized === 'asset_pack' || normalized === 'deliverable' || normalized === 'ai_document') {
+      if (normalized === 'asset_pack' || normalized === 'shippable' || normalized === 'ai_document') {
         acc.assetPacks += 1;
       }
       if (tokenRequestsNeedMeasurement(token)) acc.needMeasurements += 1;

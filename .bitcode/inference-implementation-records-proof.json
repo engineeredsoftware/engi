@@ -1,8 +1,8 @@
 {
   "reportId": "v26-inference-implementation-records-proof",
   "version": "V26",
-  "proofSourceCommit": "5aa9c500c961d29d8cfe9203f2eac5b363ef316e",
-  "generatedAt": "2026-04-24T16:15:34-03:00",
+  "proofSourceCommit": "a29858138fcc8ff22b29c2b8ac6ad2e501f5784a",
+  "generatedAt": "2026-04-24T16:44:48-03:00",
   "generatorId": "bitcode.proven-generator.v1",
   "worktreeState": "dirty-preview",
   "passed": true,
@@ -499,9 +499,9 @@
       ],
       "missingImplementationOwnerRefs": [],
       "sourceEvidenceRefs": [
-        "protocol-demonstration/V26_DELIVERABLE_REFORM.md",
+        "protocol-demonstration/V26_SHIPPABLE_REFORM.md",
         "protocol-demonstration/V26_PIPELINE_FINISH_REFORM.md",
-        "protocol-demonstration/test/v26-deliverable-reform.test.js",
+        "protocol-demonstration/test/v26-shippable-reform.test.js",
         "protocol-demonstration/test/v26-pipeline-finish-reform.test.js",
         "protocol-demonstration/test/v26-simple-system-text-search-compatibility.test.js",
         "protocol-demonstration/test/v26-text-searcher-agent-compatibility.test.js",
@@ -546,14 +546,14 @@
       ],
       "missingSourceEvidenceRefs": [],
       "verificationSet": [
-        "node --test protocol-demonstration/test/v26-deliverable-reform.test.js",
+        "node --test protocol-demonstration/test/v26-shippable-reform.test.js",
         "node --test protocol-demonstration/test/v26-pipeline-finish-reform.test.js",
         ".bitcode/runs-pipelines-totality-proof.json",
         ".bitcode/prompt-system-totality-proof.json"
       ],
       "verificationEvidence": [
         {
-          "value": "node --test protocol-demonstration/test/v26-deliverable-reform.test.js",
+          "value": "node --test protocol-demonstration/test/v26-shippable-reform.test.js",
           "evidenceType": "executable-command",
           "refPath": null
         },
@@ -671,7 +671,7 @@
         "pnpm -C packages/generic-agents/need-comprehension run build",
         "pnpm -C packages/generic-tools/need-comprehension run build",
         "node --test protocol-demonstration/test/v26-prompt-system-boundary.test.js",
-        "node --test protocol-demonstration/test/v26-deliverable-reform.test.js"
+        "node --test protocol-demonstration/test/v26-shippable-reform.test.js"
       ],
       "verificationEvidence": [
         {
@@ -690,7 +690,7 @@
           "refPath": null
         },
         {
-          "value": "node --test protocol-demonstration/test/v26-deliverable-reform.test.js",
+          "value": "node --test protocol-demonstration/test/v26-shippable-reform.test.js",
           "evidenceType": "executable-command",
           "refPath": null
         }
@@ -1426,20 +1426,20 @@
         ]
       },
       "assetPackImplementation": {
-        "outputKind": "asset pack and delivery mechanism",
-        "effect": "Stable written assets and asset-pack snapshots are primary; PRs, Jira comments, reviews, and route payloads are delivery mechanisms."
+        "outputKind": "asset pack and shippable delivery mechanism",
+        "effect": "Stable written assets and asset-pack snapshots are primary; PRs, Jira comments, reviews, and route payloads are Shippables delivered through destination mechanisms."
       },
       "boundaryPosture": "compatibility",
       "verificationSet": [
-        "node --test protocol-demonstration/test/v26-deliverable-reform.test.js",
+        "node --test protocol-demonstration/test/v26-shippable-reform.test.js",
         "node --test protocol-demonstration/test/v26-pipeline-finish-reform.test.js",
         ".bitcode/runs-pipelines-totality-proof.json",
         ".bitcode/prompt-system-totality-proof.json"
       ],
       "sourceEvidenceRefs": [
-        "protocol-demonstration/V26_DELIVERABLE_REFORM.md",
+        "protocol-demonstration/V26_SHIPPABLE_REFORM.md",
         "protocol-demonstration/V26_PIPELINE_FINISH_REFORM.md",
-        "protocol-demonstration/test/v26-deliverable-reform.test.js",
+        "protocol-demonstration/test/v26-shippable-reform.test.js",
         "protocol-demonstration/test/v26-pipeline-finish-reform.test.js",
         "protocol-demonstration/test/v26-simple-system-text-search-compatibility.test.js",
         "protocol-demonstration/test/v26-text-searcher-agent-compatibility.test.js",
@@ -1554,7 +1554,7 @@
         "pnpm -C packages/generic-agents/need-comprehension run build",
         "pnpm -C packages/generic-tools/need-comprehension run build",
         "node --test protocol-demonstration/test/v26-prompt-system-boundary.test.js",
-        "node --test protocol-demonstration/test/v26-deliverable-reform.test.js"
+        "node --test protocol-demonstration/test/v26-shippable-reform.test.js"
       ],
       "sourceEvidenceRefs": [
         "packages/generic-agents/need-comprehension/README.md",

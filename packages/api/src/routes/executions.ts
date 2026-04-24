@@ -120,6 +120,7 @@ function buildWrittenAssets(row: ExecutionHistoryRow) {
   return (
     asRecord(finalWorkSummary?.writtenAssets) ||
     buildAssetPackSynthesisArtifacts(row) ||
+    asRecord(finalWorkSummary?.shippables) ||
     asRecord(finalWorkSummary?.deliverables) ||
     asRecord(output?.writtenAssets) ||
     asRecord(output?.assetPackSynthesisArtifacts)
@@ -142,9 +143,24 @@ function buildDeliveryMechanism(row: ExecutionHistoryRow) {
 
   return (
     asRecord(finalWorkSummary?.deliveryMechanism) ||
+    asRecord(finalWorkSummary?.shippables) ||
     asRecord(finalWorkSummary?.deliverables) ||
     asRecord(output?.deliveryMechanism) ||
+    asRecord(output?.shippables) ||
     buildWrittenAssets(row)
+  );
+}
+
+function buildShippables(row: ExecutionHistoryRow) {
+  const output = readOutputRecord(row);
+  const finalWorkSummary = readFinalWorkSummary(row);
+
+  return (
+    asRecord(finalWorkSummary?.shippables) ||
+    buildDeliveryMechanism(row) ||
+    asRecord(output?.shippables) ||
+    asRecord(finalWorkSummary?.deliverables) ||
+    asRecord(output?.deliverables)
   );
 }
 
@@ -317,6 +333,7 @@ function buildNormalizedFinalWorkSummary(row: ExecutionHistoryRow) {
   const finalWorkSummary = readFinalWorkSummary(row);
   const assetPackSynthesisArtifacts = buildAssetPackSynthesisArtifacts(row);
   const writtenAssets = buildWrittenAssets(row);
+  const shippables = buildShippables(row);
   const deliveryMechanism = buildDeliveryMechanism(row);
   const need = buildNeed(row);
   const writtenAssetType = buildWrittenAssetType(row);
@@ -333,6 +350,7 @@ function buildNormalizedFinalWorkSummary(row: ExecutionHistoryRow) {
     !finalWorkSummary &&
     !assetPackSynthesisArtifacts &&
     !writtenAssets &&
+    !shippables &&
     !deliveryMechanism &&
     !need &&
     !writtenAssetType &&
@@ -349,9 +367,10 @@ function buildNormalizedFinalWorkSummary(row: ExecutionHistoryRow) {
     ...(summary ? { summary } : {}),
     ...(assetPackSynthesisArtifacts ? { assetPackSynthesisArtifacts } : {}),
     ...(writtenAssets ? { writtenAssets } : {}),
+    ...(shippables ? { shippables } : {}),
     ...(deliveryMechanism ? { deliveryMechanism } : {}),
-    ...((asRecord(finalWorkSummary?.deliverables) || writtenAssets)
-      ? { deliverables: asRecord(finalWorkSummary?.deliverables) || writtenAssets }
+    ...((asRecord(finalWorkSummary?.deliverables) || shippables || writtenAssets)
+      ? { deliverables: asRecord(finalWorkSummary?.deliverables) || shippables || writtenAssets }
       : {}),
     ...(need ? { need } : {}),
     ...(writtenAssetType ? { writtenAssetType } : {}),
@@ -387,6 +406,7 @@ export function normalizeExecutionHistoryRow(row: ExecutionHistoryRow) {
     repo_snapshot: buildRepoSnapshot(row),
     asset_pack_synthesis_artifacts: buildAssetPackSynthesisArtifacts(row),
     written_assets: buildWrittenAssets(row),
+    shippables: buildShippables(row),
     delivery_mechanism: buildDeliveryMechanism(row),
     need: buildNeed(row),
     written_asset_type: buildWrittenAssetType(row),

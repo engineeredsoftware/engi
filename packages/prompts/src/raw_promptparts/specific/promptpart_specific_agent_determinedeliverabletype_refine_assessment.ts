@@ -3,8 +3,8 @@ import { PromptPart } from '../../parts/PromptPart';
 /**
  * @doc-comment-developing-promptpartdevelopment
  * domain: agent
- * intent: "Define REFINE step assessment for Determine Deliverable Type agent"
- * current_version: "V26.50.0"
+ * intent: "Bitcode compatibility PromptPart for assessing delivery-mechanism template selection"
+ * current_version: "0.50.0"
  * versions: []
  * benchmarks: [
  *   { "name": "assessment_accuracy", "test": "Is assessment accurate?", "score": 0.34 },
@@ -13,4 +13,4 @@ import { PromptPart } from '../../parts/PromptPart';
  * ]
  */
 export const PROMPTPART_SPECIFIC_AGENT_DETERMINEDELIVERABLETYPE_REFINE_ASSESSMENT: PromptPart = 
-  'Assess determination quality by measuring: classification accuracy rates, routing correctness metrics, ambiguity resolution success, processing time efficiency, confidence score reliability, false positive rates' as PromptPart;
+  'Assess delivery-mechanism selection quality by checking Need fit, Shippable suitability, destination compatibility, AssetPack evidence availability, receipt completeness, ambiguity resolution, and whether implementation/validation stayed independent from the delivery template' as PromptPart;

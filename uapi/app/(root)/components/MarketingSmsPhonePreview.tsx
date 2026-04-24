@@ -59,7 +59,7 @@ export function SmsPhonePreview() {
             {/* Bitcode Response 1 */}
             <div className="flex justify-start">
               <div className="bg-gray-200 rounded-2xl px-4 py-2 max-w-[80%]">
-                <p className="text-sm">✅ deliverable started!</p>
+                <p className="text-sm">✅ AssetPack run started!</p>
                 <p className="text-sm">Run: a1b2c3d4</p>
                 <p className="text-sm text-blue-500 underline">app.bitcode.ai/executions/a1b2c3d4</p>
               </div>

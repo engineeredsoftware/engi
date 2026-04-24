@@ -561,7 +561,7 @@ const V26_RETAINED_PACKAGE_CENSUS_POLICY_BY_ROLE = {
   'ingress-or-support': {
     role: 'connected-interface ingress or support package',
     rationale: 'package connects external providers, third-party tools, search/research, VCS, deployment, storage, or support utilities into Bitcode',
-    writeBoundary: 'external writes are connected-interface delivery mechanisms or input context unless a Bitcode admission proof explicitly promotes them',
+    writeBoundary: 'external writes are connected-interface Shippables or input context unless a Bitcode admission proof explicitly promotes them',
     proofObligation: 'ingress/support packages must stay bounded by retained-package, system-reform, MCP/external-ingress, and prompt/tool proof surfaces'
   },
   compatibility: {
@@ -2232,12 +2232,12 @@ function buildV26PromptSystemTotalityProof({
       ]
     ),
     buildV26FilePresenceCheck(
-      'need-ingestion-and-deliverable-prompt-ports',
-      'Need-ingestion and admitted deliverable compatibility ports remain explicit under Bitcode ownership, narrow public prompt subpaths, and semantic need/written-asset mirrors',
+      'need-ingestion-and-shippable-prompt-ports',
+      'Need-ingestion and admitted shippable compatibility ports remain explicit under Bitcode ownership, narrow public prompt subpaths, and semantic need/written-asset mirrors',
       [
-        'protocol-demonstration/V26_DELIVERABLE_REFORM.md',
+        'protocol-demonstration/V26_SHIPPABLE_REFORM.md',
         'protocol-demonstration/V26_PIPELINE_FINISH_REFORM.md',
-        'protocol-demonstration/test/v26-deliverable-reform.test.js',
+        'protocol-demonstration/test/v26-shippable-reform.test.js',
         'protocol-demonstration/test/v26-pipeline-finish-reform.test.js',
         'packages/generic-agents/jira-processor/src/prompts/system-prompt-jira-processor.ts',
         'packages/generic-agents/jira-processor/src/prompts/agent-prompt-jira-processor.ts',
@@ -2501,11 +2501,11 @@ function buildV26SourceToSharesFifthGateProof({
     ),
     buildV26FilePresenceCheck(
       'asset-pack-finish-delivering-semantics',
-      'Pipeline output semantics distinguish stable AssetPacks and written assets from delivery mechanisms, with Finish as the broad final phase',
+      'Pipeline output semantics distinguish stable AssetPacks and written assets from delivered Shippables, with Finish as the broad final phase',
       [
-        'protocol-demonstration/V26_DELIVERABLE_REFORM.md',
+        'protocol-demonstration/V26_SHIPPABLE_REFORM.md',
         'protocol-demonstration/V26_PIPELINE_FINISH_REFORM.md',
-        'protocol-demonstration/test/v26-deliverable-reform.test.js',
+        'protocol-demonstration/test/v26-shippable-reform.test.js',
         'protocol-demonstration/test/v26-pipeline-finish-reform.test.js',
         'packages/pipelines-generics/src/phases/sdivf-factory.ts',
         'packages/pipelines-generics/src/phases/phase-factory.ts',
@@ -3361,7 +3361,7 @@ const V26_SYSTEM_REFORM_DECISIONS = [
   },
   {
     checkId: 'deliverable-compatibility-export-boundary',
-    label: 'Deliverable pipeline run export remains explicit compatibility-only carry-through',
+    label: 'AssetPack run export keeps route compatibility explicit while Shippable output is primary',
     reformClass: 'compatibility-only',
     livePathRole: 'Legacy path exports stay available for admitted callers while canonical Bitcode behavior remains elsewhere.',
     requiredFiles: [

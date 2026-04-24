@@ -6,7 +6,9 @@ import {
 /**
  * V26 AssetPack synthesis keeps compatibility payload fields where routes still
  * require them, while canonical package-owned fields use written-asset and
- * delivery-mechanism semantics.
+ * shippable / delivery-mechanism semantics. A Shippable is the
+ * connected-interface object delivered by Finish after AssetPack evidence
+ * exists; deliverable names below are compatibility aliases only.
  */
 
 export interface AssetPackArtifacts {
@@ -33,7 +35,8 @@ export interface AssetPackResultMeta {
   payload?: Record<string, unknown>;
 }
 
-export type DeliveryMechanismMeta = AssetPackResultMeta;
+export type ShippableMeta = AssetPackResultMeta;
+export type DeliveryMechanismMeta = ShippableMeta;
 export type WrittenAssetResultMeta = AssetPackResultMeta;
 
 export interface AssetPackSynthesisArtifactsMeta {
@@ -47,6 +50,9 @@ export interface AssetPackSynthesisArtifactsMeta {
 export interface AssetPackOutput {
   success: boolean;
   summary?: string;
+  shippable?: ShippableMeta;
+  shippables?: AssetPackSynthesisArtifactsMeta;
+  /** Compatibility mirror only. Finish delivers `shippable`/`shippables`. */
   deliverable?: AssetPackResultMeta;
   deliveryMechanism?: DeliveryMechanismMeta;
   writtenAsset?: WrittenAssetResultMeta;
@@ -54,6 +60,7 @@ export interface AssetPackOutput {
   writtenAssets?: AssetPackSynthesisArtifactsMeta;
   artifacts?: Partial<AssetPackArtifacts>;
   metrics?: Partial<AssetPackMetrics>;
+  /** Compatibility mirror only. `writtenAssetType` is the canonical V26 field. */
   deliverableType?: AssetPackWrittenAssetType;
   writtenAssetType?: AssetPackWrittenAssetType;
   deliveryMechanismTemplate?: AssetPackDeliveryMechanismTemplate;
@@ -68,14 +75,17 @@ export type AssetPackDeliveryMechanismTemplateValue = AssetPackDeliveryMechanism
 
 export interface AssetPackPostprocessed {
   executionId: string;
-  kind: 'deliverable';
+  kind: 'shippable';
   semanticKind?: 'asset-pack-written-asset';
   title: string;
   repository?: string;
   summary?: string;
+  shippable?: ShippableMeta;
+  shippables?: AssetPackSynthesisArtifactsMeta | null;
   deliveryMechanism?: DeliveryMechanismMeta;
   assetPackSynthesisArtifacts?: AssetPackSynthesisArtifactsMeta | null;
   artifacts?: Partial<AssetPackArtifacts> | null;
+  /** Compatibility mirror only. `writtenAssetType` is the canonical V26 field. */
   deliverableType?: AssetPackWrittenAssetType;
   writtenAssetType?: AssetPackWrittenAssetType;
   deliveryMechanismTemplate?: AssetPackDeliveryMechanismTemplate;
@@ -111,6 +121,7 @@ export interface AssetPackInput {
   requirements?: AssetPackRequirements;
   deliveryTarget?: 'pr' | 'branch' | 'deployment';
   deliveryMechanismTemplate?: AssetPackDeliveryMechanismTemplate;
+  /** Compatibility mirror only. `writtenAssetType` is the canonical V26 field. */
   deliverableType?: string;
   writtenAssetType?: string;
 }
@@ -118,6 +129,8 @@ export interface AssetPackInput {
 export type AssetPackSynthesisInput = AssetPackInput;
 export type AssetPackWrittenAssetOutput = AssetPackOutput;
 export type AssetPackWrittenAssetPostprocessed = AssetPackPostprocessed;
+export type ShippableOutput = AssetPackOutput;
+export type ShippablePostprocessed = AssetPackPostprocessed;
 
 export type DeliverableArtifacts = AssetPackArtifacts;
 export type DeliverableMetrics = AssetPackMetrics;

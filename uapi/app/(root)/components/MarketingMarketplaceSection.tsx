@@ -75,7 +75,7 @@ function TechIcon({ tech }: { tech: string }) {
 // ---------------------------------------------------------------------------
 
 type Side = "buy" | "sell";
-type ListingType = "deliverable" | "ai_document";
+type ListingType = "shippable" | "ai_document";
 type Asset = "pr" | "knowledge_extension";
 
 interface Listing {
@@ -121,8 +121,8 @@ let idCounter = 1;
 const genId = () => `L${idCounter++}`;
 
 function generateListing(): Listing {
-  const type = randomElement(["deliverable", "ai_document"] as const);
-  const asset = type === "deliverable" ? "pr" : "knowledge_extension";
+  const type = randomElement(["shippable", "ai_document"] as const);
+  const asset = type === "shippable" ? "pr" : "knowledge_extension";
   const side = randomElement(["buy", "sell"] as const);
   const titles = {
     pr: [
@@ -179,7 +179,7 @@ export default function MarketingMarketplaceSection({ disableTickerFetch = false
   const EXAMPLES: Listing[] = [
     {
       id: "1",
-      type: "deliverable",
+      type: "shippable",
       asset: "pr",
       side: "buy",
       title: "Auth Refactor PR",
@@ -191,7 +191,7 @@ export default function MarketingMarketplaceSection({ disableTickerFetch = false
     },
     {
       id: "2",
-      type: "deliverable",
+      type: "shippable",
       asset: "pr",
       side: "sell",
       title: "CI Optimisation PR",
@@ -645,7 +645,7 @@ export default function MarketingMarketplaceSection({ disableTickerFetch = false
                           {l.type === "ai_document" ? (
                             <BitcodePill className="bg-amber-500/20 text-amber-300">AI Document</BitcodePill>
                           ) : (
-                            <BitcodePill className="bg-sky-500/20 text-sky-300">Deliverable</BitcodePill>
+                            <BitcodePill className="bg-sky-500/20 text-sky-300">Shippable</BitcodePill>
                           )}
                         </td>
                       </motion.tr>
@@ -679,7 +679,7 @@ export default function MarketingMarketplaceSection({ disableTickerFetch = false
                 {
                   icon: ChartBarIcon,
                   title: 'Visible Impactfulness',
-                  body: 'Procured extension ai_documents are benchmarked as usage in subsequent deliverables.',
+                  body: 'Procured extension ai_documents are benchmarked as usage in subsequent Needs and AssetPacks.',
                 },
               ].map(({ icon: IconC, title, body }) => (
                 <div
@@ -728,7 +728,7 @@ export default function MarketingMarketplaceSection({ disableTickerFetch = false
                       {detail.type === "ai_document" ? (
                         <BitcodePill className="px-3 py-1 border-amber-500/30 bg-amber-500/20 text-amber-300">AI Document</BitcodePill>
                       ) : (
-                        <BitcodePill className="px-3 py-1 border-sky-500/30 bg-sky-500/20 text-sky-300">Deliverable</BitcodePill>
+                        <BitcodePill className="px-3 py-1 border-sky-500/30 bg-sky-500/20 text-sky-300">Shippable</BitcodePill>
                       )}
                       <span className={`px-3 py-1 rounded-full ${detail.side === "buy" ? "bg-green-600/20 text-green-400 text-sm tablet:text-base" : "bg-red-600/20 text-red-400 text-sm tablet:text-base"}`}>{detail.side}</span>
                     </div>

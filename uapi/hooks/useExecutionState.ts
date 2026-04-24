@@ -1,7 +1,7 @@
 import { useState, useCallback, useRef } from 'react';
 import { CompletionData, UrlEntry } from '../types/api';
 import { parseStreamChunk } from '@/streaming/stream-parser';
-import { callDeliverablesAPI } from '../networking/api-client';
+import { callAssetPackExecutionsAPI } from '../networking/api-client';
 
 import { ExecutionPhase, ExecutionStep, FailsafeStep, GenerationStep } from '@bitcode/streams';
 
@@ -123,7 +123,7 @@ export const useExecutionState = () => {
       dlog('Submitting Bitcode asset-pack pipeline', { connectionId, repoOwner, repoName, repoBranch, commitSha, issueNumber, modelProvider, modelId, attachmentsCount: attachments?.length || 0, iterationCount });
       const pipelineType =
         options?.pipelineType || DEFAULT_ASSET_PACK_EXECUTION_TYPE;
-      const stream = await callDeliverablesAPI(
+      const stream = await callAssetPackExecutionsAPI(
             connectionId,
             repoOwner,
             repoName,

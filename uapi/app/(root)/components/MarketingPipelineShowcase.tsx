@@ -171,7 +171,7 @@ const phases: Phase[] = [
       {
         id: 'valid-2',
         title: 'Review & Security',
-        subSteps: ['Ship Decision'],
+        subSteps: ['Finish Decision'],
       },
       {
         id: 'valid-3',
@@ -181,27 +181,27 @@ const phases: Phase[] = [
     ],
   },
   {
-    id: 'shipping',
-    title: 'Shipping',
+    id: 'finish',
+    title: 'Finish',
     description:
-      'Bitcode creates pull requests with full documentation and handles deployment.',
-    step: 'Open PR',
+      'Bitcode stores AssetPack evidence and delivers any requested Shippables with receipts.',
+    step: 'Deliver Shippable',
     agents: ['DevOps Agent', 'Review Agent'],
     tools: ['CI/CD Pipeline', 'Release Manager'],
     metaSteps: [
       {
-        id: 'ship-1',
+        id: 'finish-1',
         title: 'Pull Request Crafting',
-        subSteps: ['GitHub Deliverables'],
+        subSteps: ['GitHub Shippables'],
       },
       {
-        id: 'ship-2',
-        title: 'Release Preparation',
-        subSteps: ['AI Documents'],
+        id: 'finish-2',
+        title: 'Receipt Preparation',
+        subSteps: ['AssetPack Evidence'],
       },
       {
-        id: 'ship-3',
-        title: 'Deployment Automation',
+        id: 'finish-3',
+        title: 'Delivery Evidence',
         subSteps: ['Work Summaries'],
       },
     ],

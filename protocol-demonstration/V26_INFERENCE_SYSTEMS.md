@@ -129,7 +129,7 @@ Tool-bearing systems must:
 - expose public package subpaths for any support primitive they expect others to consume;
 - describe exact parameter and output shapes in prompt content or schema source;
 - define fail-closed behavior for missing auth, readiness, repository anchoring, permissions, or provider bindings where the tool can mutate state or spend `$BTD`;
-- separate stable written assets from connected-interface delivery mechanisms.
+- separate stable written assets from connected-interface Shippables.
 
 ## Agentic Requirements
 

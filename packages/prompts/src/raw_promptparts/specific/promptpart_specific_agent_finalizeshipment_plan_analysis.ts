@@ -3,8 +3,8 @@ import { PromptPart } from '../../parts/PromptPart';
 /**
  * @doc-comment-developing-promptpartdevelopment
  * domain: agent
- * intent: "Define plan analysis for Finalize Shipment agent with execution state awareness"
- * current_version: "V26.50.0"
+ * intent: "Bitcode Finish PromptPart for planning stored AssetPack evidence and Shippable delivery"
+ * current_version: "0.50.0"
  * versions: []
  * benchmarks: [
  *   { "name": "plan_context_utilization", "test": "Does plan analysis maximize context value?", "score": 0.40 },
@@ -13,4 +13,4 @@ import { PromptPart } from '../../parts/PromptPart';
  * ]
  */
 export const PROMPTPART_SPECIFIC_AGENT_FINALIZESHIPMENT_PLAN_ANALYSIS: PromptPart = 
-  'Analyze full pipeline context for finalization: validation results across all phases, quality metrics from every checkpoint, risk assessments from all analyses, performance baselines from benchmarks, security clearances from scans, stakeholder approvals from reviews' as PromptPart;
+  'Analyze full AssetPack pipeline context for Finish: validated Need-satisfaction artifacts, stored evidence requirements, proof receipts, fit-to-Need checks, delivery-mechanism readiness, Shippable destination constraints, and operator review evidence' as PromptPart;

@@ -30,7 +30,6 @@ import dynamic from "next/dynamic";
 // initial header bundle small. The chunk loads long before the user can see
 // the summary, so there is no visible delay.
 const ReactMarkdown = dynamic(() => import("react-markdown"), { ssr: false });
-import DeliverablesHeaderShinyText from "@/components/base/bitcode/deliverables-header-shiny-text";
 import ExecutionsHeaderTitle from '@/app/executions/components/ExecutionsHeaderTitle';
 import { ScrollContainer } from '@/components/base/bitcode/panels/ScrollContainer';
 import Logo from '@/components/base/bitcode/branding/logo';
@@ -46,10 +45,10 @@ const CodeBlock = dynamic(() => import("@/components/base/bitcode/media/syntax-h
 });
 import { ProcessingIndicator } from "@/components/base/bitcode/indicators/processing-indicator";
 // global styles for the header
-import "@/styles/deliverables-header.css";
+import "@/styles/shippables-header.css";
 
 // Extracted component & styles
-import DeliverableTemplateText from "@/app/executions/components/ExecutionsDeliverableTemplateText";
+import ShippableTemplateText from "@/app/executions/components/ExecutionsShippableTemplateText";
   import { PageHeaderSection } from '@/components/base/bitcode/page-header/PageHeaderSection';
   import { CompleteHeaderContent } from '@/app/executions/components/ExecutionsCompleteHeaderContent';
 
@@ -250,7 +249,7 @@ interface DeliveryTemplateSets {
 
 interface ExecutionPageHeaderProps {
   executionStatus: "execute" | "executing" | "executed";
-  onExecuteDeliverableClickSetDefinitionOfNeed: (definitionOfNeed: string) => void;
+  onSelectShippableTemplateDefinitionOfNeed: (definitionOfNeed: string) => void;
   /** If false, suppresses rendering of the summary/TL;DR doc area inside the header */
   renderDocInsideHeader?: boolean;
   /** If false, suppresses rendering of the cards panel inside the header */
@@ -264,8 +263,17 @@ interface ExecutionPageHeaderProps {
   showExecuteButtonEdu?: boolean;
   showIterationsEdu?: boolean | 'minimize' | 'maximize';
   templates?: DeliveryTemplateSets;
-  onTemplateSelect?: (templateId: string, deliverableType: keyof DeliveryTemplateSets) => void;
-  /** Compatibility delivery mechanism. Bitcode-owned meaning lives in written assets / asset packs. */
+  onTemplateSelect?: (templateId: string, templateCategory: keyof DeliveryTemplateSets) => void;
+  /** Finish-delivered shippables. Bitcode-owned meaning lives in AssetPack evidence first. */
+  shippables?: {
+    pullRequest?: DeliveryMechanismSurface | null; // Singular PR delivery mechanism.
+    pullRequestReviews?: DeliveryMechanismSurface[] | null;
+    comments?: DeliveryMechanismSurface[] | null;
+    issues?: DeliveryMechanismSurface[] | null;
+    fileChanges?: FileChanges | null;
+    summary?: string | null;
+  };
+  /** Compatibility prop for callers that still mirror old stored completion shape. */
   deliverables?: {
     pullRequest?: DeliveryMechanismSurface | null; // Compatibility wrapper stays singular for PR delivery.
     pullRequestReviews?: DeliveryMechanismSurface[] | null;
@@ -365,7 +373,7 @@ const childVariants = {
  * - Larger spacing for comfortable reading
  */
 // Mock data for development mode - Rust Distributed Database Project
-const mockDeliverables = {
+const mockShippables = {
   pullRequest: {
     url: "https://github.com/rustdb/distributed-db/pull/123",
     number: 123,
@@ -730,10 +738,11 @@ Consider implementing these enhancements:
 
 export default function ExecutionsPageHeader({
   executionStatus: mode,
+  shippables,
   deliverables,
   processingStats,
   repoSnapshot,
-  onExecuteDeliverableClickSetDefinitionOfNeed,
+  onSelectShippableTemplateDefinitionOfNeed,
   renderDocInsideHeader,
   renderCardsInsideHeader,
   showSourceEdu,
@@ -790,7 +799,7 @@ export default function ExecutionsPageHeader({
     mode: 'execute',
     slowEntranceAnimations: false,
     showMockData: false,
-    enabledDeliverables: {
+    enabledShippables: {
       pullRequest: false,
       pullRequestReviews: false,
       issues: false,
@@ -909,8 +918,8 @@ export default function ExecutionsPageHeader({
     };
   }, [entranceSpeedFactor]);
 
-  // Use actual deliverables prop and mode
-  const effectiveDeliverables = deliverables ?? {} as ExecutionPageHeaderProps['deliverables'];
+  // Prefer Bitcode shippables while accepting compatibility completion mirrors.
+  const effectiveShippables = shippables ?? deliverables ?? {} as NonNullable<ExecutionPageHeaderProps['shippables']>;
   const effectiveMode = mode;
   const activeGuide = (processingStats?.guide ?? processingStats?.gate ?? 'Develop') as string;
   const iterationConfidence = typeof processingStats?.confidence === 'number' ? processingStats?.confidence : undefined;
@@ -974,7 +983,7 @@ export default function ExecutionsPageHeader({
       const saveTemplateEdu = {
         title: "Save as Template",
         subtitle: "Save Definition of Need",
-        body: "Save your current Definition of Need as a reusable template for future deliverables."
+        body: "Save your current Definition of Need as a reusable template for future AssetPack runs."
       };
       setActiveEdu(saveTemplateEdu);
       setLastEduContent(saveTemplateEdu);
@@ -1016,7 +1025,7 @@ export default function ExecutionsPageHeader({
                   <li><span className="text-white">Maximum abstraction</span>: Optimal code organization and reusability</li>
                   <li><span className="text-white">Error handling</span>: Robust error management and recovery</li>
                 </ul>
-                <div className="text-xs text-gray-500 mt-2">Ideal for production-critical deliverables requiring maximum reliability.</div>
+                <div className="text-xs text-gray-500 mt-2">Ideal for production-critical shippables requiring maximum reliability.</div>
               </div>
             )
           }
@@ -1026,10 +1035,10 @@ export default function ExecutionsPageHeader({
             body: (
               <div className="space-y-2 text-sm">
                 <p>Controls the number of Discovery-Implementation-Validation (DIV) cycles the pipeline will execute.</p>
-                <p className="text-emerald-300">Each iteration refines and improves the deliverable through intelligent feedback loops.</p>
+                <p className="text-emerald-300">Each iteration refines and improves the AssetPack output through intelligent feedback loops.</p>
                 <ul className="list-disc list-inside space-y-1 text-gray-400">
                   <li><span className="text-white">3 iterations (MIN)</span>: Quick first pass, suitable for simple tasks</li>
-                  <li><span className="text-white">10-20 iterations</span>: Balanced quality for most deliverables</li>
+                  <li><span className="text-white">10-20 iterations</span>: Balanced quality for most AssetPack runs</li>
                   <li><span className="text-white">50+ iterations</span>: Deep refinement for complex work</li>
                 </ul>
                 <p className="text-xs text-gray-500 mt-2">Auto-Minimize/Maximize toggles enable automatic iteration adjustment based on pipeline feedback.</p>
@@ -1050,7 +1059,7 @@ export default function ExecutionsPageHeader({
   // mock data).  We no longer fall back to the older single‑sentence mock
   // summary so that the rich format is always shown when mock data is enabled.
 
-  const pr = effectiveDeliverables?.pullRequest;
+  const pr = effectiveShippables?.pullRequest;
   if (pr) {
     tldrItems.push(
       <a
@@ -1068,7 +1077,7 @@ export default function ExecutionsPageHeader({
     );
   }
 
-  (effectiveDeliverables?.pullRequestReviews || []).forEach((r) => {
+  (effectiveShippables?.pullRequestReviews || []).forEach((r) => {
     tldrItems.push(
       <a
         key={`review-${r.number}`}
@@ -1085,7 +1094,7 @@ export default function ExecutionsPageHeader({
     );
   });
 
-  (effectiveDeliverables?.issues || []).forEach((issue) => {
+  (effectiveShippables?.issues || []).forEach((issue) => {
     tldrItems.push(
       <a
         key={`issue-${issue.number}`}
@@ -1102,7 +1111,7 @@ export default function ExecutionsPageHeader({
     );
   });
 
-  (effectiveDeliverables?.comments || []).forEach((c) => {
+  (effectiveShippables?.comments || []).forEach((c) => {
     tldrItems.push(
       <a
         key={`comment-${c.number}`}
@@ -1120,10 +1129,10 @@ export default function ExecutionsPageHeader({
   });
 
   if (tldrItems.length === 0) {
-    tldrItems.push(<span key="none">No delivery mechanisms to summarize</span>);
+    tldrItems.push(<span key="none">No shippables to summarize</span>);
   }
   return (
-    <section data-experience="deliverables">
+    <section data-experience="shippables">
       <div
         className={`
           relative
@@ -1326,7 +1335,7 @@ export default function ExecutionsPageHeader({
                             subtitle: executionType?.includes('ai_documents') ? 'Targeted Enhancement' : 'Success Criteria',
                             body: executionType?.includes('ai_documents')
                               ? 'Describe what you intend to improve and why — focused, actionable, and beneficial to users or maintainers.'
-                              : 'Articulate the precise outcome that defines success. Clear criteria ensure shared understanding of the expected written asset pack and delivery result.'
+                              : 'Articulate the precise outcome that defines success. Clear criteria ensure shared understanding of the expected AssetPack evidence and shippable result.'
                           })}
                         >
                           {executionType?.includes('ai_documents') ? 'Intent to Improve' : 'Definition of Need'}
@@ -1338,44 +1347,44 @@ export default function ExecutionsPageHeader({
                   <div className="text-gray-400 text-lg self-start">
                     {!executionType?.includes('ai_documents') ? (
                       <>
-                        A Delivering mechanism can be a{' '}
-                    <DeliverableTemplateText
+                        A shippable delivery mechanism can be a{' '}
+                    <ShippableTemplateText
                       text="pull request"
                       templates={templates?.pullRequests}
                       defaultNeed="an opened pull request for:"
-                      onSelect={onExecuteDeliverableClickSetDefinitionOfNeed}
+                      onSelect={onSelectShippableTemplateDefinitionOfNeed}
                       onTemplateSelect={(templateId) => onTemplateSelect?.(templateId, 'pullRequests')}
                       onMouseEnter={handlePullRequestHover}
                       duration={3.2}
                       width={250}
                     />, {' '}
-                    <DeliverableTemplateText
+                    <ShippableTemplateText
                       text="pull request review"
                       templates={templates?.pullRequestReviews}
                       defaultNeed="a pull request review that addresses..."
-                      onSelect={onExecuteDeliverableClickSetDefinitionOfNeed}
+                      onSelect={onSelectShippableTemplateDefinitionOfNeed}
                       onTemplateSelect={(templateId) => onTemplateSelect?.(templateId, 'pullRequestReviews')}
                       onMouseEnter={handlePRReviewHover}
                       duration={3.2}
                       delay={0.8}
                       width={250}
                     />, {' '}
-                    <DeliverableTemplateText
+                    <ShippableTemplateText
                       text="issue"
                       templates={templates?.issues}
                       defaultNeed="an issue created describing..."
-                      onSelect={onExecuteDeliverableClickSetDefinitionOfNeed}
+                      onSelect={onSelectShippableTemplateDefinitionOfNeed}
                       onTemplateSelect={(templateId) => onTemplateSelect?.(templateId, 'issues')}
                       onMouseEnter={handleIssueHover}
                       duration={3.2}
                       delay={1.6}
                       width={250}
                     />, or {' '}
-                    <DeliverableTemplateText
+                    <ShippableTemplateText
                       text="issue comment"
                       templates={templates?.comments}
                       defaultNeed="a helpful comment that..."
-                      onSelect={onExecuteDeliverableClickSetDefinitionOfNeed}
+                      onSelect={onSelectShippableTemplateDefinitionOfNeed}
                       onTemplateSelect={(templateId) => onTemplateSelect?.(templateId, 'comments')}
                       onMouseEnter={handleIssueCommentHover}
                       duration={3.2}
@@ -1401,9 +1410,9 @@ export default function ExecutionsPageHeader({
             </motion.div>
           )}
 
-          {effectiveMode === "executed" && effectiveDeliverables && (renderDocInsideHeader !== false) && (
+          {effectiveMode === "executed" && effectiveShippables && (renderDocInsideHeader !== false) && (
             <CompleteHeaderContent
-              deliverables={effectiveDeliverables as any}
+              shippables={effectiveShippables as any}
               processingStats={processingStats as any}
               repoSnapshot={repoSnapshot as any}
               executionType={executionType}

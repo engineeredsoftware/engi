@@ -21,6 +21,7 @@ interface RepositoryContext {
   architecture?: string;
   testCoverage?: number;
   componentCount?: number;
+  totalShippables?: number;
   totalDeliverables?: number;
   streakCount?: number;
   qualityAverage?: number;
@@ -156,7 +157,7 @@ export const MarketingCompletionCelebration = ({
     const achievements: string[] = [];
     
     // First completion
-    if (repositoryContext.totalDeliverables === 1) {
+    if ((repositoryContext.totalShippables ?? repositoryContext.totalDeliverables) === 1) {
       achievements.push('first-completion');
     }
     
@@ -210,7 +211,7 @@ export const MarketingCompletionCelebration = ({
 
   // Generate celebration message
   const celebrationMessage = useMemo(() => {
-    if (!milestone) return "🎉 Deliverable completed!";
+    if (!milestone) return "🎉 Shippable delivered!";
     
     const messages = CELEBRATION_MESSAGES[milestone.category];
     return messages[Math.floor(Math.random() * messages.length)];
@@ -483,10 +484,10 @@ export const MarketingCompletionCelebration = ({
               >
                 <div className="text-sm text-gray-400 mb-3">Repository Impact</div>
                 <div className="grid grid-cols-2 gap-3 text-xs">
-                  {repositoryContext.totalDeliverables && (
+                  {(repositoryContext.totalShippables ?? repositoryContext.totalDeliverables) && (
                     <div>
-                      <span className="text-gray-400">Total Deliverables:</span>
-                      <span className="text-brand-emerald ml-2">{repositoryContext.totalDeliverables}</span>
+                      <span className="text-gray-400">Total Shippables:</span>
+                      <span className="text-brand-emerald ml-2">{repositoryContext.totalShippables ?? repositoryContext.totalDeliverables}</span>
                     </div>
                   )}
                   {repositoryContext.streakCount && (
@@ -520,7 +521,7 @@ export const MarketingCompletionCelebration = ({
             transition={{ delay: 1.2 }}
             onClick={onDismiss}
           >
-            Continue to next deliverable →
+            Continue to next Need →
           </motion.button>
         </motion.div>
       </motion.div>

@@ -182,10 +182,16 @@ function factoryDevelopPhase(): Executor<any, any> {
   const finishPhase: Executor<any, any> = async (input, execution) => {
     const isTest = String(process?.env?.NODE_ENV || '').toLowerCase() === 'test';
     if (isTest) {
+      const pullRequestShippable = { prUrl: 'https://github.com/test/repo/pull/1' };
       return {
         success: true,
-        deliveryMechanism: { prUrl: 'https://github.com/test/repo/pull/1' },
-        deliverable: { prUrl: 'https://github.com/test/repo/pull/1' },
+        shippable: pullRequestShippable,
+        shippables: {
+          pullRequest: { url: 'https://github.com/test/repo/pull/1' },
+          summary: 'test',
+        },
+        deliveryMechanism: pullRequestShippable,
+        deliverable: pullRequestShippable,
         artifacts: { filesCreated: [], filesModified: [], testsAdded: 1, testsPassing: 1, documentation: [] },
         metrics: { duration: 0, tokensUsed: 0, creditsUsed: 0, confidence: 1, phases: {} },
         summary: 'test'

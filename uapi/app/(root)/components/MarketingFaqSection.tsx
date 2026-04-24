@@ -24,7 +24,7 @@ const faqs = [
   {
     question: "Is this powerful tool easy to use?",
     answer:
-      "Easy to learn, hard to master. Within minutes, you'll have your tools connected and be chatting your way through your first real-world deliverables. Quickly, shepherding engineering and guiding perpetual evolution becomes second nature. Advanced users utilize triggered coordinated-learning sequencing, operating the operator with operators, deeper workstation compute capabilities, connecting internal tool MCPs, knowledge-gap arbitrage, and more to expand technical value creation levers throughout their autonomous engineering organizations.",
+      "Easy to learn, hard to master. Within minutes, you'll have your tools connected and be chatting your way through your first real-world Needs into AssetPacks and Shippables. Quickly, shepherding engineering and guiding perpetual evolution becomes second nature. Advanced users utilize triggered coordinated-learning sequencing, operating the operator with operators, deeper workstation compute capabilities, connecting internal tool MCPs, knowledge-gap arbitrage, and more to expand technical value creation levers throughout their autonomous engineering organizations.",
   },
   {
     question: "Does Bitcode work with private repositories and APIs?",
@@ -49,7 +49,7 @@ const faqs = [
   {
     question: "Can it be cheaper?",
     answer:
-      "Currently, S-tier reasoning models average ~$20/million tokens. Completing realistic engineering tasks typically require millions of tokens to consistently produce complete, correct, and high-quality deliverables. Bitcode accounts for Need measurement, fit search, AssetPack synthesis, and connected-interface delivery precisely per run.",
+      "Currently, S-tier reasoning models average ~$20/million tokens. Completing realistic engineering tasks typically requires millions of tokens to consistently produce complete, correct, and high-quality AssetPacks and Shippables. Bitcode accounts for Need measurement, fit search, AssetPack synthesis, and connected-interface delivery precisely per run.",
   },
   {
     question: "What are 'coins', 'tokens', and '$BTD'?",

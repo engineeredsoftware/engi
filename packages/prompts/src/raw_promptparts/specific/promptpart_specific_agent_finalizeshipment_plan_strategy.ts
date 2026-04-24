@@ -3,8 +3,8 @@ import { PromptPart } from '../../parts/PromptPart';
 /**
  * @doc-comment-developing-promptpartdevelopment
  * domain: agent
- * intent: "Define plan strategy for Finalize Shipment agent with execution state awareness"
- * current_version: "V26.50.0"
+ * intent: "Bitcode Finish PromptPart for sequencing evidence storage and Shippable delivery"
+ * current_version: "0.50.0"
  * versions: []
  * benchmarks: [
  *   { "name": "plan_context_utilization", "test": "Does plan strategy maximize context value?", "score": 0.41 },
@@ -13,4 +13,4 @@ import { PromptPart } from '../../parts/PromptPart';
  * ]
  */
 export const PROMPTPART_SPECIFIC_AGENT_FINALIZESHIPMENT_PLAN_STRATEGY: PromptPart = 
-  'Plan finalization using complete pipeline state: sequence deployment from validation order, coordinate release using quality gates, prepare rollback from checkpoint history, establish monitoring from performance baselines, determine announcement from stakeholder context, organize celebration from team culture' as PromptPart;
+  'Plan Finish using complete pipeline state: store validated AssetPack evidence first, confirm proof and receipt fields, choose the requested delivery mechanism, prepare Shippables only from stored evidence, record destination-specific delivery evidence, and preserve rereadable operator summary' as PromptPart;

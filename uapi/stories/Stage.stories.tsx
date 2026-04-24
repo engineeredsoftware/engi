@@ -15,7 +15,7 @@ Implementation: Generated code snippet without tests (Generation) – incorrect
 Validation: Running lint checks... (Generation)
 On-the-fly: Please regenerate snippet with unit tests (OTF)
 Tool: Deployed snapshot to staging (tool use)
-Shipping: Finalizing deliverable... (Generation)
+Finish: Finalizing AssetPack receipt... (Generation)
 `;
 
 const outputDetails: Record<string, any> = {
@@ -25,8 +25,8 @@ const outputDetails: Record<string, any> = {
   'Implementation: Generated code snippet without tests (Generation) – incorrect': { status: { executionState: { phase: 'Implementation', agent: 'CodeGenAgent', step: 'generateSnippet', failsafe: 'prepare_concise_context', generation: 'reason' } } },
   'Validation: Running lint checks... (Generation)': { status: { executionState: { phase: 'Validation', agent: 'LintAgent', step: 'runLint', failsafe: 'chunk_then_sum', generation: 'judge' } } },
   'On-the-fly: Please regenerate snippet with unit tests (OTF)': { type: 'user_otf_instruction', id: 'otf1', content: 'Please regenerate snippet with unit tests', attachments: [], state: 'accepted', ts: new Date().toISOString() },
-  'Tool: Deployed snapshot to staging (tool use)': { status: { executionState: { phase: 'Shipping', agent: 'DeployAgent', step: 'deploy', failsafe: 'stitch_until_complete', generation: 'structured_output' } } },
-  'Shipping: Finalizing deliverable... (Generation)': { status: { executionState: { phase: 'Shipping', agent: 'DeployAgent', step: 'finalize', failsafe: 'prepare_concise_context', generation: 'structured_output' } } },
+  'Tool: Deployed snapshot to staging (tool use)': { status: { executionState: { phase: 'Finish', agent: 'DeliverAgent', step: 'deliver', failsafe: 'stitch_until_complete', generation: 'structured_output' } } },
+  'Finish: Finalizing AssetPack receipt... (Generation)': { status: { executionState: { phase: 'Finish', agent: 'DeliverAgent', step: 'finalize', failsafe: 'prepare_concise_context', generation: 'structured_output' } } },
 };
 
 const meta: Meta = {

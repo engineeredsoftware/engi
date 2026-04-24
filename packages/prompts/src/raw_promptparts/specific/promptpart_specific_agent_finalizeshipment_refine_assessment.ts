@@ -3,8 +3,8 @@ import { PromptPart } from '../../parts/PromptPart';
 /**
  * @doc-comment-developing-promptpartdevelopment
  * domain: agent
- * intent: "Define refine assessment for Finalize Shipment agent with execution state awareness"
- * current_version: "V26.50.0"
+ * intent: "Bitcode Finish PromptPart for assessing stored evidence and Shippable delivery quality"
+ * current_version: "0.50.0"
  * versions: []
  * benchmarks: [
  *   { "name": "refine_context_utilization", "test": "Does refine assessment maximize context value?", "score": 0.37 },
@@ -13,4 +13,4 @@ import { PromptPart } from '../../parts/PromptPart';
  * ]
  */
 export const PROMPTPART_SPECIFIC_AGENT_FINALIZESHIPMENT_REFINE_ASSESSMENT: PromptPart = 
-  'Assess finalization against complete context: deployment success against all validations, release quality using accumulated metrics, documentation completeness from execution history, monitoring effectiveness from baselines, stakeholder satisfaction from requirements, value delivery against original intent' as PromptPart;
+  'Assess Finish quality against complete context: Need satisfaction, AssetPack evidence completeness, proof receipt availability, summary clarity, delivery-mechanism fit, Shippable traceability, destination response evidence, and safe reread through Exchange and Terminal surfaces' as PromptPart;

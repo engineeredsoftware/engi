@@ -9,19 +9,19 @@ import { ScrollContainer } from '@/components/base/bitcode/panels/ScrollContaine
 const ReactMarkdown = dynamic(() => import('react-markdown'), { ssr: false });
 const CodeBlock = dynamic(() => import('@/components/base/bitcode/media/syntax-highlighter'), { ssr: false });
 
-type Deliverable = {
+type Shippable = {
   url?: string;
   number?: number;
   title?: string;
   description?: string;
 };
 
-export interface DeliverablesCardsPanelProps {
-  deliverables: {
-    pullRequest?: Deliverable | null;
-    pullRequestReviews?: Deliverable[] | null;
-    comments?: Deliverable[] | null;
-    issues?: Deliverable[] | null;
+export interface ShippablesCardsPanelProps {
+  shippables: {
+    pullRequest?: Shippable | null;
+    pullRequestReviews?: Shippable[] | null;
+    comments?: Shippable[] | null;
+    issues?: Shippable[] | null;
   };
 }
 
@@ -43,16 +43,16 @@ const scaledTextFadeVariants = {
   },
 } as const;
 
-export default function DeliverablesCardsPanel({ deliverables }: DeliverablesCardsPanelProps) {
+export default function ShippablesCardsPanel({ shippables }: ShippablesCardsPanelProps) {
   const sectionRef = useRef<HTMLDivElement>(null);
   const scrollToSection = (ref: React.RefObject<HTMLElement>) => {
     if (ref.current) ref.current.scrollIntoView({ behavior: 'smooth', block: 'center' });
   };
 
-  const pr = deliverables.pullRequest;
-  const reviews = deliverables.pullRequestReviews || [];
-  const issues = deliverables.issues || [];
-  const comments = deliverables.comments || [];
+  const pr = shippables.pullRequest;
+  const reviews = shippables.pullRequestReviews || [];
+  const issues = shippables.issues || [];
+  const comments = shippables.comments || [];
 
   const hasAny = !!(pr || reviews.length || issues.length || comments.length);
   if (!hasAny) return null;

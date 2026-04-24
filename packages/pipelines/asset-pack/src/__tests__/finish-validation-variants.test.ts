@@ -11,7 +11,7 @@ describe('AssetPack pipeline - Finish/Delivering and validation variants (test-m
 
   it('finishes successfully with minimal inputs', async () => {
     const res = await assetPack(base, new Execution('finish:minimal'));
-    expect(res?.deliverable?.prUrl || res?.deliverable?.pr_url || '').toContain('/pull/');
+    expect(res?.shippable?.prUrl || res?.deliveryMechanism?.prUrl || '').toContain('/pull/');
   });
 
   it('finishes with permissive validation (stubbed)', async () => {
@@ -23,7 +23,7 @@ describe('AssetPack pipeline - Finish/Delivering and validation variants (test-m
       }
     };
     const res = await assetPack(input, new Execution('finish:valid'));
-    expect(res?.deliverable?.prUrl || '').toContain('/pull/');
+    expect(res?.shippable?.prUrl || res?.deliveryMechanism?.prUrl || '').toContain('/pull/');
   });
 
   it('finishes even when validation criteria are weak (enforced by agents in full run)', async () => {
@@ -35,6 +35,6 @@ describe('AssetPack pipeline - Finish/Delivering and validation variants (test-m
       }
     };
     const res = await assetPack(input, new Execution('finish:weak'));
-    expect(res?.deliverable?.prUrl || '').toContain('/pull/');
+    expect(res?.shippable?.prUrl || res?.deliveryMechanism?.prUrl || '').toContain('/pull/');
   });
 });

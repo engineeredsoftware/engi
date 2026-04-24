@@ -58,7 +58,7 @@ const pipeline = sequential(
     sequential(discovery, implementation, validation),
     { until: valid }
   ),
-  shipping
+  finish
 );
 ```
 

@@ -14,7 +14,9 @@ describe('AssetPack pipeline - attachments and Definition of Need variants (enab
     const exec = new Execution('asset-pack:no-attachments');
     const res = await assetPack({ ...baseInput, attachments: [] }, exec);
     expect(res.success).toBe(true);
-    expect(res.deliverable.prUrl).toContain('/pull/');
+    expect(res.shippable.prUrl).toContain('/pull/');
+    expect(res.shippables.pullRequest.url).toContain('/pull/');
+    expect(res.deliveryMechanism.prUrl).toContain('/pull/');
     expect(res.metrics).toBeDefined();
   });
 

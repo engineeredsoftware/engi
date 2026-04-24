@@ -3,8 +3,8 @@ import { PromptPart } from '../../parts/PromptPart';
 /**
  * @doc-comment-developing-promptpartdevelopment
  * domain: agent
- * intent: "Define TRY step execution for Determine Deliverable Type agent"
- * current_version: "V26.50.0"
+ * intent: "Bitcode compatibility PromptPart for executing delivery-mechanism selection"
+ * current_version: "0.50.0"
  * versions: []
  * benchmarks: [
  *   { "name": "execution_precision", "test": "Is execution precise?", "score": 0.36 },
@@ -13,4 +13,4 @@ import { PromptPart } from '../../parts/PromptPart';
  * ]
  */
 export const PROMPTPART_SPECIFIC_AGENT_DETERMINEDELIVERABLETYPE_TRY_DIRECTIVES: PromptPart = 
-  'Execute type determination through: pattern matching against type templates, content structure analysis, keyword and marker extraction, format validation checks, requirement compatibility assessment, confidence scoring calculation, routing path determination' as PromptPart;
+  'Execute delivery-mechanism selection through Need analysis, destination-marker extraction, Shippable shape checks, AssetPack evidence compatibility assessment, confirmation requirement detection, confidence scoring, and Finish-route metadata generation' as PromptPart;

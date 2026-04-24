@@ -3,8 +3,8 @@ import { PromptPart } from '../../parts/PromptPart';
 /**
  * @doc-comment-developing-promptpartdevelopment
  * domain: agent
- * intent: "Define REFINE step optimization for Determine Deliverable Type agent"
- * current_version: "V26.50.0"
+ * intent: "Bitcode compatibility PromptPart for refining delivery-mechanism template selection"
+ * current_version: "0.50.0"
  * versions: []
  * benchmarks: [
  *   { "name": "optimization_effectiveness", "test": "Does it optimize effectively?", "score": 0.35 },
@@ -13,4 +13,4 @@ import { PromptPart } from '../../parts/PromptPart';
  * ]
  */
 export const PROMPTPART_SPECIFIC_AGENT_DETERMINEDELIVERABLETYPE_REFINE_OPTIMIZATION: PromptPart = 
-  'Refine determination by: cross-validating type indicators, resolving ambiguous classifications, enhancing pattern recognition, adjusting confidence thresholds, optimizing routing decisions, updating classification rules' as PromptPart;
+  'Refine delivery-mechanism selection by cross-validating destination hints, resolving ambiguous Shippable requests, tightening receipt fields, separating AssetPack synthesis from delivery, adjusting confidence thresholds, and recording manual-review triggers' as PromptPart;

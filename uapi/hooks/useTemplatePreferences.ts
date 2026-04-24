@@ -1,11 +1,14 @@
 import { useCallback, useEffect, useState } from 'react';
 
 interface UserTemplatePreferencesApiResponse {
+  shippable_templates?: Record<string, string[]>;
   deliverable_templates?: Record<string, string[]>;
   ai_document_templates?: Record<string, string[]>;
 }
 
 export interface UserTemplatePreferences {
+  shippable_templates: Record<string, string[]>;
+  /** Compatibility mirror for the retained preference storage key. */
   deliverable_templates: Record<string, string[]>;
   ai_document_templates: Record<string, string[]>;
 }
@@ -22,7 +25,7 @@ interface UseTemplatePreferencesHook {
 
 /**
  * Client-side hook that fetches the current user's saved template
- * preferences (deliverable & AI Document) from `/api/auxillaries/template-preferences`.
+ * preferences (Shippable & AI Document) from `/api/auxillaries/template-preferences`.
  *
  * It automatically fetches once on mount but also returns a `reload`
  * function should the caller need to refresh the data (e.g. after a
@@ -40,6 +43,7 @@ export const useTemplatePreferences = (): UseTemplatePreferencesHook => {
       const res = await fetch('/api/auxillaries/template-preferences');
       if (res.status === 401 || res.status === 404) {
         setPreferences({
+          shippable_templates: {},
           deliverable_templates: {},
           ai_document_templates: {},
         });
@@ -62,12 +66,16 @@ export const useTemplatePreferences = (): UseTemplatePreferencesHook => {
 
       // Normalise the response so that we always have object shapes –
       // avoids a lot of optional-chaining in consumers.
+      const shippableTemplates =
+        data.shippable_templates ?? data.deliverable_templates ?? {};
       setPreferences({
-        deliverable_templates: data.deliverable_templates ?? {},
+        shippable_templates: shippableTemplates,
+        deliverable_templates: data.deliverable_templates ?? shippableTemplates,
         ai_document_templates: data.ai_document_templates ?? {},
       });
     } catch (err) {
       setPreferences({
+        shippable_templates: {},
         deliverable_templates: {},
         ai_document_templates: {},
       });

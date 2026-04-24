@@ -2,7 +2,7 @@
 
 import { toast, toastPhase } from '@/components/base/shadcn/sonner';
 
-type Phase = 'setup'|'discovery'|'implementation'|'validation'|'shipping';
+type Phase = 'setup'|'discovery'|'implementation'|'validation'|'finish';
 type Level = 'info'|'success'|'warning'|'error';
 
 export type PipelineLogLine = {

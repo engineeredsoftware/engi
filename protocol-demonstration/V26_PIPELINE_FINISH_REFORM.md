@@ -4,7 +4,7 @@
 
 - Scope: supplementary V26 reform note for phased Bitcode agentic pipelines
 - Canonical pointer: `/Users/garrettmaring/Developer/ENGI/BITCODE_SPEC.txt -> V26`
-- Companion: `protocol-demonstration/V26_DELIVERABLE_REFORM.md`
+- Companion: `protocol-demonstration/V26_SHIPPABLE_REFORM.md`
 - Purpose: prevent old-world `Ship` / `Shipping` language from owning broad Bitcode pipeline completion semantics
 
 ## Rule
@@ -19,8 +19,8 @@ Therefore:
   `Setup -> [Discovery -> Implementation -> Validation]* -> Finish`.
 - `SDIVS` is reform history and may not remain as an active generic pipeline API.
 - `Finish` owns saving results, preserving useful Need/AssetPack state, completing summaries, and invoking Delivering when the run needs a third-party destination.
-- `Delivering` owns connected-interface output such as GitHub pull requests, Jira comments, issue comments, reviews, or similar destination-specific mechanisms.
-- `Deliverable` remains compatibility naming for old public corridors and wrapper payloads, not the general pipeline category.
+- `Delivering` owns connected-interface Shippables such as GitHub pull requests, Jira comments, issue comments, reviews, or similar destination-specific wrappers.
+- `Shippable` is the noun for what Finish delivers; `Deliverable` remains compatibility naming for old public corridors and wrapper payloads, not the general pipeline category.
 - Deprecated names, compatibility wrappers, and any remaining old filesystem labels are tactical fifth-gate aids, not V26 closure evidence.
 
 ## Pipeline Naming

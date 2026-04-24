@@ -5,7 +5,8 @@ import { motion, AnimatePresence } from 'framer-motion';
 
 interface BtdInvestment {
   id: string;
-  deliverableName: string;
+  shippableName?: string;
+  deliverableName?: string;
   // Canonical V26 spend planning is expressed directly in $BTD.
   estimatedBtd?: number;
   actualBtd?: number;
@@ -50,7 +51,15 @@ interface BtdInvestmentExperienceProps {
   /** Current BTD balance */
   currentBalance: number;
   
-  /** Upcoming deliverable estimation */
+  /** Upcoming Need/AssetPack estimation. */
+  upcomingNeed?: {
+    name: string;
+    estimatedBtd: number;
+    estimatedCredits?: number;
+    complexity: string;
+    patterns: string[];
+  };
+  /** Compatibility alias while story/devex callers migrate. */
   upcomingDeliverable?: {
     name: string;
     estimatedBtd: number;
@@ -147,7 +156,7 @@ const generateEfficiencyCoaching = (
   
   if (avgEfficiency < 0.7) {
     insight = 'Your magical energy is dispersing inefficiently across recent endeavors';
-    suggestion = 'Focus on smaller, well-defined deliverables to build momentum and confidence';
+    suggestion = 'Focus on smaller, well-defined Needs to build momentum and confidence';
     potentialSavings = Math.round(
       recentInvestments.reduce((sum, inv) => sum + (getActualBtd(inv) - getEstimatedBtd(inv)), 0) * 0.3
     );
@@ -155,7 +164,7 @@ const generateEfficiencyCoaching = (
     magicalWisdom = '✨ Master the small spells before attempting grand enchantments';
   } else if (avgEfficiency < 0.9) {
     insight = `Pattern detected: ${topInefficient?.[0] || 'certain types'} of work consuming more energy than anticipated`;
-    suggestion = `Consider breaking down ${topInefficient?.[0] || 'complex'} deliverables into smaller, more predictable components`;
+    suggestion = `Consider breaking down ${topInefficient?.[0] || 'complex'} Needs into smaller, more predictable components`;
     potentialSavings = Math.round(
       recentInvestments.reduce((sum, inv) => sum + Math.max(0, getActualBtd(inv) - getEstimatedBtd(inv)), 0) * 0.2
     );
@@ -208,6 +217,7 @@ const MAGICAL_QUALITY = (() => {
 export const MarketingBtdInvestmentExperience = ({
   investments,
   currentBalance,
+  upcomingNeed,
   upcomingDeliverable,
   investmentPatterns,
   showValueVisualization = true,
@@ -222,8 +232,9 @@ export const MarketingBtdInvestmentExperience = ({
   onBtdProjection,
   onCreditProjection
 }: BtdInvestmentExperienceProps) => {
+  const projectedNeed = upcomingNeed || upcomingDeliverable;
   const projectedUpcomingBtd =
-    upcomingDeliverable?.estimatedBtd ?? upcomingDeliverable?.estimatedCredits ?? null;
+    projectedNeed?.estimatedBtd ?? projectedNeed?.estimatedCredits ?? null;
 
   const [selectedTimeframe, setSelectedTimeframe] = useState<'week' | 'month' | 'quarter'>('month');
   const [showCoachingInsight, setShowCoachingInsight] = useState(false);
@@ -374,7 +385,7 @@ export const MarketingBtdInvestmentExperience = ({
     const exceptionalInvestments = investments.filter(inv => inv.magicalMultiplier > 2);
     if (exceptionalInvestments.length > 0) {
       const latestMagical = exceptionalInvestments[exceptionalInvestments.length - 1];
-      onMagicalMoment?.(`✨ Magical moment achieved in ${latestMagical.deliverableName}! ${latestMagical.magicalMultiplier.toFixed(1)}x value multiplier!`);
+      onMagicalMoment?.(`✨ Magical moment achieved in ${latestMagical.shippableName || latestMagical.deliverableName}! ${latestMagical.magicalMultiplier.toFixed(1)}x value multiplier!`);
     }
   }, [investments, onMagicalMoment]);
 
@@ -588,8 +599,8 @@ export const MarketingBtdInvestmentExperience = ({
         )}
       </AnimatePresence>
       
-      {/* Upcoming Deliverable Projection */}
-      {showROIProjections && upcomingDeliverable && (
+      {/* Upcoming Need Projection */}
+      {showROIProjections && projectedNeed && (
         <motion.div
           className="mb-4 pointer-events-auto"
           initial={{ opacity: 0, y: 20 }}
@@ -610,9 +621,9 @@ export const MarketingBtdInvestmentExperience = ({
             
             <div className="space-y-3">
               <div>
-                <div className="text-xs text-indigo-300">Next Deliverable</div>
+                <div className="text-xs text-indigo-300">Next Need</div>
                 <div className="text-sm font-medium text-indigo-100">
-                  {upcomingDeliverable.name}
+                  {projectedNeed.name}
                 </div>
               </div>
               

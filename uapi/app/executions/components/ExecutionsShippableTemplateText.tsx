@@ -3,17 +3,17 @@
 import React, { useEffect, useRef, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import WordRotate from "@/components/base/bitcode/word-rotate";
-import "@/styles/deliverable-template-text.css";
+import "@/styles/shippable-template-text.css";
 
-interface DeliverableTemplate {
+interface ShippableTemplate {
   id: string;
   name: string;
   text: string;
 }
 
-interface DeliverableTemplateTextProps {
+interface ShippableTemplateTextProps {
   text: string;
-  templates?: DeliverableTemplate[];
+  templates?: ShippableTemplate[];
   defaultNeed: string;
   onSelect: (need: string) => void;
   onTemplateSelect: (templateId: string) => void;
@@ -23,7 +23,7 @@ interface DeliverableTemplateTextProps {
   width?: number;
 }
 
-export default function DeliverableTemplateText({
+export default function ShippableTemplateText({
   text,
   templates,
   defaultNeed,
@@ -33,7 +33,7 @@ export default function DeliverableTemplateText({
   duration,
   delay,
   width,
-}: DeliverableTemplateTextProps) {
+}: ShippableTemplateTextProps) {
   const [showTemplates, setShowTemplates] = useState(false);
   const [hoveredTemplate, setHoveredTemplate] = useState<string | null>(null);
   const [selectedTemplate, setSelectedTemplate] = useState<string | null>(null);
@@ -80,13 +80,13 @@ export default function DeliverableTemplateText({
   const displayWords = [text, "select a template...", hoveredTemplate || selectedTemplate || ""];
   const currentWordIndex = (() => { if (showTemplates) { if (hoveredTemplate) return 2; if (selectedTemplate) return 2; return 1; } return hoveredTemplate && selectedTemplate ? 2 : 0; })();
 
-  const handleDeliverableClick = () => { if (selectedTemplateText) onSelect(selectedTemplateText); else onSelect(defaultNeed); };
+  const handleShippableClick = () => { if (selectedTemplateText) onSelect(selectedTemplateText); else onSelect(defaultNeed); };
 
   return (
     <span ref={rootRef} className="group/shimmer" style={{ display: "inline-block", position: "relative", fontSize: "inherit", lineHeight: "inherit", verticalAlign: "baseline", width: baseWidth ? `${baseWidth}px` : "auto", minWidth: baseWidth ? `${baseWidth}px` : "auto", maxWidth: baseWidth ? `${baseWidth}px` : "auto" }}>
       <span className="relative inline-block">
         <div className="relative inline-block group/template">
-          <button data-testid="template-toggle" onClick={handleDeliverableClick} onMouseEnter={() => { if (onMouseEnter) onMouseEnter(); if (selectedTemplate) setHoveredTemplate(selectedTemplate); }} onMouseLeave={() => setHoveredTemplate(null)} className="relative inline-block" style={{ lineHeight: "inherit", width: "100%", overflow: "visible", pointerEvents: "auto", isolation: "isolate" }}>
+          <button data-testid="template-toggle" onClick={handleShippableClick} onMouseEnter={() => { if (onMouseEnter) onMouseEnter(); if (selectedTemplate) setHoveredTemplate(selectedTemplate); }} onMouseLeave={() => setHoveredTemplate(null)} className="relative inline-block" style={{ lineHeight: "inherit", width: "100%", overflow: "visible", pointerEvents: "auto", isolation: "isolate" }}>
             <div className="text-gray-300 group-hover/shimmer:text-purple-300 transition-colors duration-300" style={{ display: "inline-block", fontSize: "inherit", lineHeight: "inherit", verticalAlign: "top", pointerEvents: "none" }}>
               <WordRotate words={displayWords} activeIndex={currentWordIndex} marquee marqueeSpeed={8} width={baseWidth} framerProps={{ initial: { opacity: 0, y: 10 }, animate: { opacity: 1, y: 0 }, exit: { opacity: 0, y: -10 }, transition: { duration: 0.2, ease: [0.23, 1, 0.32, 1] } }} className="animate-[shiny_2.5s_ease_infinite]" />
             </div>

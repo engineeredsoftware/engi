@@ -53,7 +53,7 @@ const PhaseIcon: Record<string, React.ComponentType<any>> = {
   Discovery: MagnifyingGlassIcon,
   Implementation: Pencil2Icon,
   Validation: CheckCircledIcon,
-  Shipping: RocketIcon,
+  Finish: RocketIcon,
 };
 
 const StepIcon: Record<string, React.ComponentType<any>> = {

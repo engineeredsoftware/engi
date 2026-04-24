@@ -3,7 +3,7 @@ import { fireEvent, render, screen } from '@testing-library/react';
 
 import ConversationsEnhancedRichTextInput from '@/app/conversations/components/ConversationsEnhancedRichTextInput';
 
-jest.mock('@/app/conversations/components/pickers/deliverable-picker', () => () => null);
+jest.mock('@/app/conversations/components/pickers/shippable-picker', () => () => null);
 jest.mock('@/app/conversations/components/pickers/attachment-picker', () => () => null);
 jest.mock('@/app/conversations/components/pickers/vcs-source-picker', () => () => null);
 jest.mock('@/app/conversations/components/pickers/pipeline-run-picker', () => ({

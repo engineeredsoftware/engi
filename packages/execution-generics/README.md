@@ -151,8 +151,8 @@ const agent = sequential(
 );
 ```
 
-### The SDIVS Pattern (Setup-Discovery-Implementation-Validation-Shipping)
-Pipelines orchestrate phases to deliver complete solutions:
+### The SDIVF Pattern (Setup-Discovery-Implementation-Validation-Finish)
+Pipelines orchestrate phases to satisfy Needs, store AssetPack evidence, and deliver optional Shippables:
 
 ```typescript
 const pipeline = sequential(
@@ -161,7 +161,7 @@ const pipeline = sequential(
     sequential(discovery, implementation, validation),
     { until: (exec) => exec.get('validation', 'passed') }
   ),
-  shipping  // Deploy validated solution
+  finish  // Store evidence and deliver requested Shippables
 );
 ```
 

@@ -7,7 +7,7 @@ import {
 
 export function normalizeAssetPackOutput(output: AssetPackOutput, execution: Execution): AssetPackOutput {
   const enhanced = { ...output };
-  const deliveryMechanism = enhanced.deliveryMechanism || enhanced.deliverable;
+  const deliveryMechanism = enhanced.deliveryMechanism || enhanced.shippable || enhanced.deliverable;
   const assetPackSynthesisArtifacts =
     enhanced.assetPackSynthesisArtifacts ||
     (execution as any).get?.('implementation', 'assetPackSynthesisArtifacts') ||
@@ -24,6 +24,7 @@ export function normalizeAssetPackOutput(output: AssetPackOutput, execution: Exe
     (execution.get('finish', 'pullRequestUrl') as string);
   if (prUrl) {
     enhanced.deliveryMechanism = { ...(deliveryMechanism || {}), prUrl } as any;
+    enhanced.shippable = { ...(enhanced.shippable || enhanced.deliveryMechanism || {}), prUrl } as any;
     enhanced.deliverable = { ...(enhanced.deliverable || enhanced.deliveryMechanism || {}), prUrl } as any;
     enhanced.writtenAsset = { ...(enhanced.writtenAsset || enhanced.deliveryMechanism || {}), prUrl } as any;
   }
@@ -61,14 +62,20 @@ export function normalizeAssetPackOutput(output: AssetPackOutput, execution: Exe
   enhanced.writtenAssetType = writtenAssetType;
   enhanced.deliverableType = writtenAssetType;
   enhanced.deliveryMechanismTemplate = deliveryMechanismTemplate;
+  if (!enhanced.deliveryMechanism && enhanced.shippable) {
+    enhanced.deliveryMechanism = { ...enhanced.shippable };
+  }
   if (!enhanced.deliveryMechanism && enhanced.deliverable) {
     enhanced.deliveryMechanism = { ...enhanced.deliverable };
+  }
+  if (!enhanced.shippable && enhanced.deliveryMechanism) {
+    enhanced.shippable = { ...enhanced.deliveryMechanism };
   }
   if (!enhanced.deliverable && enhanced.deliveryMechanism) {
     enhanced.deliverable = { ...enhanced.deliveryMechanism };
   }
-  if (!enhanced.writtenAsset && enhanced.deliverable) {
-    enhanced.writtenAsset = { ...enhanced.deliverable };
+  if (!enhanced.writtenAsset && (enhanced.shippable || enhanced.deliverable)) {
+    enhanced.writtenAsset = { ...(enhanced.shippable || enhanced.deliverable) };
   }
 
   return enhanced;
@@ -93,6 +100,7 @@ export function buildAssetPackPostprocessedResult(
     (execution as any).get?.('finish/final_work_summary', 'summary') ||
     (execution as any).get?.('finish/final_work_summary', 'assetPackSynthesisArtifacts')?.summary ||
     (execution as any).get?.('finish/final_work_summary', 'writtenAssets')?.summary ||
+    (execution as any).get?.('finish/final_work_summary', 'shippables')?.summary ||
     (execution as any).get?.('finish/final_work_summary', 'deliverables')?.summary ||
     normalized.assetPackSynthesisArtifacts?.summary ||
     normalized.summary ||
@@ -128,20 +136,32 @@ export function buildAssetPackPostprocessedResult(
   const validationReady = getValidationReadyToFinish(execution, 'asset-pack');
   const writtenAssetType = resolveWrittenAssetTypeFromExecution(execution);
   const deliveryMechanismTemplate = resolveDeliveryMechanismTemplateFromExecution(execution);
+  const shippable = normalized.shippable || normalized.deliveryMechanism || normalized.deliverable;
+  const shippables =
+    normalized.shippables ||
+    (shippable
+      ? {
+          ...(shippable.prUrl ? { pullRequest: { url: shippable.prUrl, title: shippable.title } } : {}),
+          summary: finalSummary || normalized.summary || null,
+        }
+      : null);
 
   return {
     executionId,
-    kind: 'deliverable',
+    kind: 'shippable',
     semanticKind: 'asset-pack-written-asset',
     title:
       normalized.writtenAsset?.title ||
+      normalized.shippable?.title ||
       normalized.deliveryMechanism?.title ||
       normalized.deliverable?.title ||
       normalized.summary ||
       'Written Asset',
     repository,
     summary: finalSummary,
-    deliveryMechanism: normalized.deliveryMechanism || normalized.deliverable,
+    shippable,
+    shippables: shippables as any,
+    deliveryMechanism: normalized.deliveryMechanism || shippable,
     assetPackSynthesisArtifacts: (finishArtifacts || normalized.assetPackSynthesisArtifacts || null) as any,
     artifacts,
     deliverableType: writtenAssetType,

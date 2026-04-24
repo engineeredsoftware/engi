@@ -56,12 +56,12 @@ export const MASTER_DETAIL_SUBSTRUCTURES = [
     targetId: 'applicationTransactionWorkspace',
   },
   {
-    id: 'deliverables',
-    label: 'Asset packs',
+    id: 'shippables',
+    label: 'Shippables',
     badge: 'materialized output',
     description:
-      'Read pull requests, reviews, issues, comments, and artifact bundles inside the selected activity context.',
-    targetId: 'applicationTransactionDeliverables',
+      'Read Finish-delivered Shippables, AssetPack evidence, reviews, issues, comments, and artifact bundles inside the selected activity context.',
+    targetId: 'applicationTransactionShippables',
   },
   {
     id: 'proofs',
@@ -100,7 +100,7 @@ export const CLOSURE_PANEL_SUBSTRUCTURE: Record<
   (typeof MASTER_DETAIL_SUBSTRUCTURES)[number]['id'] | null
 > = {
   panelEvaluations: 'proofs',
-  panelBranchArtifacts: 'deliverables',
+  panelBranchArtifacts: 'shippables',
   panelSettlement: 'proofs',
   panelLedger: 'history',
 };

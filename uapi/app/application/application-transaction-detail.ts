@@ -4,7 +4,7 @@ import type {
   ApplicationClosureProofFamily,
   ApplicationClosureState,
 } from './application-closure-state';
-import type { DeliverablesDoc } from '@/components/base/bitcode/execution/DeliverablesDocPanel';
+import type { ShippablesDoc } from '@/components/base/bitcode/execution/ShippablesDocPanel';
 import type { ApplicationRunDetailSnapshot } from './application-transaction-detail-snapshot';
 import type { WorkspaceRun } from './application-run-data';
 
@@ -52,25 +52,25 @@ export type ApplicationTransactionPersistedActivitySnapshot = {
 
 export function getApplicationTransactionWrittenAssets(
   detail: ApplicationRunDetailSnapshot | null,
-): DeliverablesDoc | null {
+): ShippablesDoc | null {
   return detail?.writtenAssets || detail?.deliverables || null;
 }
 
 export function getApplicationTransactionDeliveryMechanism(
   detail: ApplicationRunDetailSnapshot | null,
-): DeliverablesDoc | null {
-  return detail?.deliveryMechanism || detail?.deliverables || getApplicationTransactionWrittenAssets(detail);
+): ShippablesDoc | null {
+  return detail?.shippables || detail?.deliveryMechanism || detail?.deliverables || getApplicationTransactionWrittenAssets(detail);
 }
 
-export function countApplicationTransactionDeliverableSurfaces(detail: ApplicationRunDetailSnapshot | null) {
-  const deliverables = getApplicationTransactionDeliveryMechanism(detail);
-  if (!deliverables) return 0;
+export function countApplicationTransactionShippableSurfaces(detail: ApplicationRunDetailSnapshot | null) {
+  const shippables = getApplicationTransactionDeliveryMechanism(detail);
+  if (!shippables) return 0;
 
   let count = 0;
-  if (deliverables.pullRequest) count += 1;
-  count += deliverables.pullRequestReviews?.length || 0;
-  count += deliverables.issues?.length || 0;
-  count += deliverables.comments?.length || 0;
+  if (shippables.pullRequest) count += 1;
+  count += shippables.pullRequestReviews?.length || 0;
+  count += shippables.issues?.length || 0;
+  count += shippables.comments?.length || 0;
   return count;
 }
 
@@ -92,10 +92,10 @@ export function buildApplicationTransactionOverviewMetrics(
   selectedRun: WorkspaceRun,
   detail: ApplicationRunDetailSnapshot | null,
 ) {
-  const deliverableSurfaceCount = countApplicationTransactionDeliverableSurfaces(detail) || selectedRun.itemCount || 0;
+  const shippableSurfaceCount = countApplicationTransactionShippableSurfaces(detail) || selectedRun.itemCount || 0;
 
   return [
-    { label: 'Asset-pack surfaces', value: formatNumber(deliverableSurfaceCount) },
+    { label: 'Shippables', value: formatNumber(shippableSurfaceCount) },
     { label: 'History items', value: formatNumber(detail?.historyItemCount) },
     { label: 'Event count', value: formatNumber(detail?.eventCount) },
     { label: 'Proof posture', value: detail?.proofStatus || 'closure state in flight' },

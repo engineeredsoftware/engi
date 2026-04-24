@@ -5,7 +5,7 @@ import {
   buildApplicationTransactionIdentityRows,
   buildApplicationTransactionOverviewMetrics,
   buildApplicationTransactionPersistedActivitySnapshot,
-  countApplicationTransactionDeliverableSurfaces,
+  countApplicationTransactionShippableSurfaces,
   getApplicationTransactionDeliveryMechanism,
   getApplicationTransactionWrittenAssets,
 } from '@/app/application/application-transaction-detail';
@@ -27,13 +27,18 @@ const selectedTransaction: WorkspaceRun = {
   usdTotal: 0.84,
   averageLatencyMs: 850,
   proofStatus: 'bounded proof ready',
-  closureFocus: 'deliverable bundle',
+  closureFocus: 'shippable bundle',
 };
 
 const detail: ApplicationRunDetailSnapshot = {
   summary: 'Normalized detail summary.',
   deliverables: {
-    summary: 'Deliverable summary.',
+    summary: 'Compatibility Shippable summary.',
+    pullRequest: { title: 'PR', url: 'https://example.com/pr/1', number: 1 },
+    comments: [{ title: 'Comment', url: 'https://example.com/comment/1', number: 1 }],
+  },
+  shippables: {
+    summary: 'Shippable summary.',
     pullRequest: { title: 'PR', url: 'https://example.com/pr/1', number: 1 },
     comments: [{ title: 'Comment', url: 'https://example.com/comment/1', number: 1 }],
   },
@@ -279,18 +284,19 @@ const closureState: ApplicationClosureState = {
 };
 
 describe('application-transaction-detail helpers', () => {
-  it('counts transaction deliverable surfaces', () => {
-    expect(countApplicationTransactionDeliverableSurfaces(detail)).toBe(2);
+  it('counts transaction Shippable surfaces', () => {
+    expect(countApplicationTransactionShippableSurfaces(detail)).toBe(2);
   });
 
   it('prefers written assets and delivery mechanisms through explicit helpers', () => {
     expect(getApplicationTransactionWrittenAssets(detail)?.summary).toBe('Written asset summary.');
     expect(getApplicationTransactionDeliveryMechanism(detail)?.pullRequest?.title).toBe('PR');
+    expect(getApplicationTransactionDeliveryMechanism(detail)?.summary).toBe('Shippable summary.');
   });
 
   it('counts delivery surfaces even when compatibility deliverables are absent', () => {
     expect(
-      countApplicationTransactionDeliverableSurfaces({
+      countApplicationTransactionShippableSurfaces({
         ...detail,
         deliverables: null,
       }),

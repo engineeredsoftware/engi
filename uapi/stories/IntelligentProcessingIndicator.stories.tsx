@@ -29,7 +29,7 @@ Built on top of the existing ProcessingIndicator with full backward compatibilit
   argTypes: {
     currentPhase: {
       control: { type: 'select' },
-      options: ['setup', 'discovery', 'implementation', 'validation', 'shipping'],
+      options: ['setup', 'discovery', 'implementation', 'validation', 'finish'],
       description: 'Current pipeline phase affecting the message and visual behavior',
     },
     phaseProgress: {
@@ -150,12 +150,12 @@ export const RepositoryAware: Story = {
 // Phase Progression Demo
 export const PhaseProgression: Story = {
   render: (args) => {
-    const [currentPhase, setCurrentPhase] = useState<'setup' | 'discovery' | 'implementation' | 'validation' | 'shipping'>('setup');
+    const [currentPhase, setCurrentPhase] = useState<'setup' | 'discovery' | 'implementation' | 'validation' | 'finish'>('setup');
     const [phaseProgress, setPhaseProgress] = useState(0);
     const [recognizedPattern, setRecognizedPattern] = useState<any>(null);
     
     useEffect(() => {
-      const phases: typeof currentPhase[] = ['setup', 'discovery', 'implementation', 'validation', 'shipping'];
+      const phases: typeof currentPhase[] = ['setup', 'discovery', 'implementation', 'validation', 'finish'];
       let phaseIndex = 0;
       let progress = 0;
       
@@ -277,8 +277,8 @@ export const LearningMode: Story = {
   },
 };
 
-// Shipping Excellence
-export const ShippingExcellence: Story = {
+// Finish Excellence
+export const FinishExcellence: Story = {
   args: {
     showIntelligence: true,
     repositoryContext: {
@@ -291,7 +291,7 @@ export const ShippingExcellence: Story = {
       confidence: 0.93,
       previousSuccess: true,
     },
-    currentPhase: 'shipping',
+    currentPhase: 'finish',
     phaseProgress: 0.95,
     userPatternLearned: true,
     qualityConfidence: 0.97,

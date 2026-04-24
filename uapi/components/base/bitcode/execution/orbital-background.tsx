@@ -30,7 +30,7 @@ export const OrbitalBackground = ({ isProcessing }: OrbitalBackgroundProps) => {
         {desktopRings.map((i) => (
           <div
             key={i}
-            className={`absolute left-1/2 top-1/2 orbital-ring execution-postprocess-deliverable-ring ${isProcessing ? 'orbital-ring-activated' : ''}`}
+            className={`absolute left-1/2 top-1/2 orbital-ring execution-postprocess-shippable-ring ${isProcessing ? 'orbital-ring-activated' : ''}`}
             style={{
               width: `${600 + i * 100}px`,
               height: `${600 + i * 100}px`,

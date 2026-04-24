@@ -69,7 +69,7 @@ export const ExecutionNeedInput = ({
     if (type === 'knowledge' || type === 'mcp') {
       setTemplateCategories([
         { id: 'knowledgeExtension', name: 'Knowledge Extension', checked: true },
-        { id: 'deliverableFeedback', name: 'Deliverable Feedback', checked: false },
+        { id: 'shippableFeedback', name: 'Shippable Feedback', checked: false },
         { id: 'mcpConfig', name: 'MCP Config', checked: false },
       ]);
     } else {
@@ -149,6 +149,9 @@ export const ExecutionNeedInput = ({
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           name: templateName.trim(),
+          shippableTypes: templateCategories
+            .filter(cat => cat.checked)
+            .map(cat => cat.id),
           deliverableTypes: templateCategories
             .filter(cat => cat.checked)
             .map(cat => cat.id),

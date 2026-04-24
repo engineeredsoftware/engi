@@ -5,11 +5,11 @@ import { IntelligentProcessingIndicator } from '../intelligent-processing-indica
 
 /**
  * Demo component showing how to integrate the Intelligent Processing Indicator
- * with real deliverable processing pipeline
+ * with the Bitcode AssetPack execution pipeline
  */
 export const IntelligentProcessingDemo = () => {
   const [isProcessing, setIsProcessing] = useState(false);
-  const [currentPhase, setCurrentPhase] = useState<'setup' | 'discovery' | 'implementation' | 'validation' | 'shipping'>('setup');
+  const [currentPhase, setCurrentPhase] = useState<'setup' | 'discovery' | 'implementation' | 'validation' | 'finish'>('setup');
   const [phaseProgress, setPhaseProgress] = useState(0);
   const [recognizedPattern, setRecognizedPattern] = useState<any>(null);
 
@@ -30,7 +30,7 @@ export const IntelligentProcessingDemo = () => {
     }, 1500);
     
     // Simulate phase progression
-    const phases: typeof currentPhase[] = ['setup', 'discovery', 'implementation', 'validation', 'shipping'];
+    const phases: typeof currentPhase[] = ['setup', 'discovery', 'implementation', 'validation', 'finish'];
     let phaseIndex = 0;
     
     const progressInterval = setInterval(() => {

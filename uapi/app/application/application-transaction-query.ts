@@ -41,7 +41,7 @@ const APPLICATION_ENVIRONMENT_MODE_VALUES: ApplicationEnvironmentMode[] = [
   'production',
 ];
 export type ApplicationTransactionDetailSection =
-  | 'deliverables'
+  | 'shippables'
   | 'transaction'
   | 'closure'
   | 'proofs'
@@ -49,7 +49,7 @@ export type ApplicationTransactionDetailSection =
   | 'activity'
   | 'console';
 const TRANSACTION_DETAIL_SECTION_VALUES: ApplicationTransactionDetailSection[] = [
-  'deliverables',
+  'shippables',
   'transaction',
   'closure',
   'proofs',
@@ -96,7 +96,8 @@ export function readApplicationDebugEnabled(searchParams: URLSearchParams) {
 export function readApplicationTransactionDetailSection(searchParams: URLSearchParams) {
   const rawValue = searchParams.get(SEARCH_PARAM_KEYS.detailSection);
   if (rawValue === 'identity') return 'transaction';
-  return parseEnumValue(rawValue, TRANSACTION_DETAIL_SECTION_VALUES, 'deliverables');
+  if (rawValue === 'deliverables') return 'shippables';
+  return parseEnumValue(rawValue, TRANSACTION_DETAIL_SECTION_VALUES, 'shippables');
 }
 
 export function readApplicationTransactionFilters(searchParams: URLSearchParams): TransactionFilters {
@@ -172,7 +173,7 @@ export function writeApplicationTransactionDetailSection(
   detailSection: ApplicationTransactionDetailSection,
 ) {
   const nextParams = new URLSearchParams(searchParams.toString());
-  if (detailSection === 'deliverables') {
+  if (detailSection === 'shippables') {
     nextParams.delete(SEARCH_PARAM_KEYS.detailSection);
   } else {
     nextParams.set(SEARCH_PARAM_KEYS.detailSection, detailSection);

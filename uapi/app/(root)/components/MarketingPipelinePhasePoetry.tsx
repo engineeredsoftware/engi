@@ -12,7 +12,7 @@ interface PhasePoetry {
   previousPhases: string[];
 }
 
-interface DeliverableContext {
+interface ShippableContext {
   name: string;
   category: 'component' | 'service' | 'feature' | 'refactor' | 'test' | 'documentation';
   complexity: 'simple' | 'moderate' | 'complex' | 'epic';
@@ -23,11 +23,11 @@ interface DeliverableContext {
 }
 
 interface PipelinePhasePoetryProps {
-  /** Current phase of the deliverable pipeline */
+  /** Current phase of the AssetPack pipeline */
   currentPhase: PhasePoetry['phase'];
   
-  /** Context about the deliverable being created */
-  deliverableContext: DeliverableContext;
+  /** Context about the Shippable being delivered from AssetPack evidence. */
+  deliverableContext: ShippableContext;
   
   /** Time spent in current phase (seconds) */
   timeInPhase?: number;
@@ -149,7 +149,7 @@ const PHASE_POETRY_TEMPLATES = {
       "The circle closes with delivery",
       "Purpose fulfilled in working code",
       "Your vision now lives and breathes",
-      "The deliverable finds its home"
+      "The Shippable reaches its destination"
     ],
     impact: [
       "Ripples of change begin to spread",
@@ -234,12 +234,12 @@ export const MarketingPipelinePhasePoetry = ({
   const poetryRef = useRef<HTMLDivElement>(null);
   const narrativeTimeoutRef = useRef<NodeJS.Timeout>();
 
-  // Generate contextual poetry based on phase and deliverable
+  // Generate contextual poetry based on phase and Shippable context.
   const generatePoetry = useMemo(() => {
     const templates = PHASE_POETRY_TEMPLATES[currentPhase] as Record<string, string[]> | undefined;
     if (!templates) return [];
 
-    // Choose poetry type based on deliverable context
+    // Choose poetry type based on Shippable context.
     let poetryType = '';
     
     switch (currentPhase) {
@@ -511,7 +511,7 @@ export const MarketingPipelinePhasePoetry = ({
           
           <div className="mt-4 pt-4 border-t border-gray-700/30">
             <div className="text-xs text-gray-400">
-              Deliverable: <span className="text-brand-emerald">{deliverableContext.name}</span>
+              Shippable: <span className="text-brand-emerald">{deliverableContext.name}</span>
             </div>
             <div className="text-xs text-gray-400 mt-1">
               Complexity: <span className="text-brand-emerald capitalize">{deliverableContext.complexity}</span>

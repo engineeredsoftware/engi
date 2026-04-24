@@ -2,7 +2,7 @@ import React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 import SourcePicker from '@/app/conversations/components/ConversationsSourcePicker';
 import AttachmentPicker from '@/app/conversations/components/ConversationsAttachmentPicker';
-import DeliverablePicker from '@/app/conversations/components/ConversationsDeliverablePicker';
+import ShippablePicker from '@/app/conversations/components/ConversationsShippablePicker';
 import UpgradePicker from '@/app/conversations/components/ConversationsUpgradePicker';
 // CommandMenu legacy overlay removed; stories pruned.
 
@@ -258,20 +258,20 @@ export const AttachmentPickerEmpty: StoryObj<typeof AttachmentPicker> = {
   }
 };
 
-// Deliverable Picker Stories
-const DeliverablePickerMeta = {
-  title: 'Conversations/Pickers/Deliverable Picker',
-  component: DeliverablePicker,
+// Shippable Picker Stories
+const ShippablePickerMeta = {
+  title: 'Conversations/Pickers/Shippable Picker',
+  component: ShippablePicker,
   parameters: {
     layout: 'centered',
     backgrounds: { default: 'dark' },
   },
   tags: ['autodocs'],
-} satisfies Meta<typeof DeliverablePicker>;
+} satisfies Meta<typeof ShippablePicker>;
 
-const mockDeliverables = [
+const mockShippables = [
   {
-    id: 'del-1',
+    id: 'ship-1',
     title: 'Authentication System',
     description: 'Implement OAuth 2.0 authentication with JWT tokens and role-based access control',
     status: 'completed' as const,
@@ -285,7 +285,7 @@ const mockDeliverables = [
     displayInfo: 'Completed • OAuth 2.0 • 5d ago'
   },
   {
-    id: 'del-2',
+    id: 'ship-2',
     title: 'User Dashboard',
     description: 'Create responsive user dashboard with analytics widgets and real-time data',
     status: 'in_progress' as const,
@@ -297,7 +297,7 @@ const mockDeliverables = [
     displayInfo: 'In Progress • 65% • Analytics • 1d ago'
   },
   {
-    id: 'del-3',
+    id: 'ship-3',
     title: 'Wallet Settlement Flow',
     description: 'Implement wallet-gated BTC settlement with audited $BTD issuance and GitHub delivery gating',
     status: 'pending' as const,
@@ -308,7 +308,7 @@ const mockDeliverables = [
     displayInfo: 'Pending • Wallet + GitHub • 3h ago'
   },
   {
-    id: 'del-4',
+    id: 'ship-4',
     title: 'API Documentation',
     description: 'Generate comprehensive OpenAPI documentation with examples',
     status: 'failed' as const,
@@ -322,39 +322,39 @@ const mockDeliverables = [
   }
 ];
 
-export const DeliverablePickerDefault: StoryObj<typeof DeliverablePicker> = {
+export const ShippablePickerDefault: StoryObj<typeof ShippablePicker> = {
   args: {
-    deliverables: mockDeliverables,
-    onSelect: (deliverable) => console.log('Selected deliverable:', deliverable),
-    onCreate: (title, description) => console.log('Creating deliverable:', { title, description }),
+    shippables: mockShippables,
+    onSelect: (shippable) => console.log('Selected Shippable:', shippable),
+    onCreate: (title, description) => console.log('Creating Shippable:', { title, description }),
     isLoading: false
   }
 };
 
-export const DeliverablePickerWithSelection: StoryObj<typeof DeliverablePicker> = {
+export const ShippablePickerWithSelection: StoryObj<typeof ShippablePicker> = {
   args: {
-    deliverables: mockDeliverables,
-    selectedDeliverable: mockDeliverables[0],
-    onSelect: (deliverable) => console.log('Selected deliverable:', deliverable),
-    onCreate: (title, description) => console.log('Creating deliverable:', { title, description }),
+    shippables: mockShippables,
+    selectedShippable: mockShippables[0],
+    onSelect: (shippable) => console.log('Selected Shippable:', shippable),
+    onCreate: (title, description) => console.log('Creating Shippable:', { title, description }),
     isLoading: false
   }
 };
 
-export const DeliverablePickerLoading: StoryObj<typeof DeliverablePicker> = {
+export const ShippablePickerLoading: StoryObj<typeof ShippablePicker> = {
   args: {
-    deliverables: [],
-    onSelect: (deliverable) => console.log('Selected deliverable:', deliverable),
-    onCreate: (title, description) => console.log('Creating deliverable:', { title, description }),
+    shippables: [],
+    onSelect: (shippable) => console.log('Selected Shippable:', shippable),
+    onCreate: (title, description) => console.log('Creating Shippable:', { title, description }),
     isLoading: true
   }
 };
 
-export const DeliverablePickerEmpty: StoryObj<typeof DeliverablePicker> = {
+export const ShippablePickerEmpty: StoryObj<typeof ShippablePicker> = {
   args: {
-    deliverables: [],
-    onSelect: (deliverable) => console.log('Selected deliverable:', deliverable),
-    onCreate: (title, description) => console.log('Creating deliverable:', { title, description }),
+    shippables: [],
+    onSelect: (shippable) => console.log('Selected Shippable:', shippable),
+    onCreate: (title, description) => console.log('Creating Shippable:', { title, description }),
     isLoading: false
   }
 };
@@ -475,16 +475,16 @@ const CommandMenuMeta = {
 /* CommandMenu stories removed with legacy overlay. Keeping pickers only.
 const mockCommands = [
   {
-    id: 'deliverable',
-    name: 'deliverable',
-    description: 'Create a new deliverable pipeline to implement features or fixes',
+    id: 'shippable',
+    name: 'shippable',
+    description: 'Create a new AssetPack pipeline to deliver a requested Shippable',
     category: 'pipeline' as const,
     shortcut: 'Ctrl+D',
     icon: '🚀',
     requiresAuth: true,
     requiresGitHub: true,
-    text: '/deliverable',
-    displayInfo: 'Create deliverable pipeline • Requires GitHub connection'
+    text: '/shippable',
+    displayInfo: 'Create Shippable delivery • Requires GitHub connection'
   },
   {
     id: 'upgrade',

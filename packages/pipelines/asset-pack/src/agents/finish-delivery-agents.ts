@@ -1,7 +1,9 @@
 /**
- * Finish/Delivering agents for AssetPack delivery mechanisms.
+ * Finish/Delivering agents for AssetPack shippables.
  *
  * Pattern: AssetPack-named agent carriers own Finish-phase Delivering actions.
+ * They deliver shippables, meaning connected-interface wrappers over saved
+ * AssetPacks or AssetPackPartials.
  * All agents use PTRR (Plan-Try-Refine-Retry) so delivery evidence remains
  * auditable as part of the source-to-shares pipeline.
  */
@@ -275,7 +277,8 @@ const FinalizeAssetPackDeliveryEvidenceInputSchema = z.object({
 
 const FinalizeAssetPackDeliveryEvidenceOutputSchema = z.object({
   success: z.boolean(),
-  deliverableUrl: z.string(), // PR URL, Issue URL, etc.
+  shippableUrl: z.string(), // PR URL, issue URL, review URL, comment URL, etc.
+  deliverableUrl: z.string().optional(), // Compatibility mirror for retained route clients.
   summary: z.object({
     type: z.string(),
     title: z.string(),
@@ -295,7 +298,7 @@ const FinalizeAssetPackDeliveryEvidenceOutputSchema = z.object({
     reports: z.array(z.string()).optional(),
     notifications: z.array(z.string())
   }),
-  feedback: z.string() // AI-generated feedback on the deliverable
+  feedback: z.string() // AI-generated feedback on the delivered Shippable and its AssetPack evidence.
 });
 
 /**

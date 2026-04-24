@@ -3,8 +3,8 @@ import { PromptPart } from '../../parts/PromptPart';
 /**
  * @doc-comment-developing-promptpartdevelopment
  * domain: agent
- * intent: "Define Finalize Shipment agent system instructions with context awareness"
- * current_version: "V26.50.0"
+ * intent: "Bitcode Finish PromptPart for instructions to store evidence and deliver Shippables"
+ * current_version: "0.50.0"
  * versions: []
  * benchmarks: [
  *   { "name": "instructions_context_awareness", "test": "Does instructions leverage execution context effectively?", "score": 0.42 },
@@ -13,4 +13,4 @@ import { PromptPart } from '../../parts/PromptPart';
  * ]
  */
 export const PROMPTPART_SPECIFIC_AGENT_FINALIZESHIPMENT_SYSTEM_INSTRUCTIONS: PromptPart = 
-  'Finalize shipment leveraging complete pipeline context: verify readiness using all validation results, coordinate deployment with accumulated checkpoints, document release with full execution history, trigger production with confidence from quality gates, monitor deployment using established patterns, confirm success through validation criteria, celebrate achievement with context awareness' as PromptPart;
+  'Execute Finish with complete pipeline context: verify Need satisfaction, store AssetPack evidence and proof receipts, write the final work summary, prepare only requested Shippables, deliver them through the chosen delivery mechanism, record destination evidence, and keep compatibility mirrors subordinate to canonical AssetPack and Shippable fields' as PromptPart;

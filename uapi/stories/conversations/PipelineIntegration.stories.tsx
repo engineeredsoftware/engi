@@ -194,14 +194,14 @@ const mockMultiplePipelines = [
       {
         id: 'evt-c1',
         timestamp: '08:30:00',
-        phase: 'Shipping',
+        phase: 'Finish',
         message: '✅ Authentication system implementation completed',
         level: 'success' as const
       },
       {
         id: 'evt-c2',
         timestamp: '08:30:15',
-        phase: 'Shipping',
+        phase: 'Finish',
         message: '🎉 Pull request created: OAuth Authentication System (#123)',
         level: 'success' as const,
         details: {

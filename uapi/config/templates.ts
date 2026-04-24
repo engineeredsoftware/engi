@@ -1,6 +1,6 @@
-import { DeliverableTemplates } from '@/types/templates';
+import { ShippableTemplates } from '@/types/templates';
 
-export const templates: DeliverableTemplates = {
+export const templates: ShippableTemplates = {
   pullRequests: [
     {
       id: 'pr-quick-todo',
@@ -199,4 +199,3 @@ Implementation: __[IMPLEMENTATION_NOTES]__`
     }
   ]
 };
-

@@ -16,6 +16,11 @@ describe('parseStreamChunk completion mapping', () => {
           summary: 'Stable asset-pack summary.',
           fileChanges: { edited: 2, created: 1, deleted: 0 },
         },
+        shippables: {
+          pullRequest: { url: 'https://github.com/acme/web/pull/1', title: 'feat: add' },
+          comments: [{ url: 'https://github.com/acme/web/issues/2#comment-1', title: 'note' }],
+          issues: [{ url: 'https://github.com/acme/web/issues/3', title: 'bug' }],
+        },
         deliveryMechanism: {
           pullRequest: { url: 'https://github.com/acme/web/pull/1', title: 'feat: add' },
           comments: [{ url: 'https://github.com/acme/web/issues/2#comment-1', title: 'note' }],
@@ -43,7 +48,10 @@ describe('parseStreamChunk completion mapping', () => {
     expect(parsed.completion?.processingStats?.tokens?.total).toBe(150);
     expect(parsed.completion?.processingStats?.credits).toBe(2);
     expect(parsed.completion?.repoSnapshot?.org).toBe('acme');
-    // deliverables mapping
+    // shippables are primary delivered artifacts; deliverables remain compatibility mirrors.
+    expect(parsed.completion?.shippables?.pullRequest?.url).toContain('/pull/1');
+    expect(parsed.completion?.shippables?.comments?.length).toBe(1);
+    expect(parsed.completion?.shippables?.issues?.length).toBe(1);
     expect(parsed.completion?.deliverables?.pullRequest?.url).toContain('/pull/1');
     expect(parsed.completion?.deliverables?.comments?.length).toBe(1);
     expect(parsed.completion?.deliverables?.issues?.length).toBe(1);

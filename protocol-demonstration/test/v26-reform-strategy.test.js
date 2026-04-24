@@ -8,7 +8,7 @@ const paritySource = readFileSync(new URL('../../BITCODE_SPEC_V26_PARITY_MATRIX.
 const notesSource = readFileSync(new URL('../../BITCODE_SPEC_V26_NOTES.md', import.meta.url), 'utf8');
 const deltaSource = readFileSync(new URL('../../BITCODE_SPEC_V26_DELTA.md', import.meta.url), 'utf8');
 const systemsSource = readFileSync(new URL('../V26_APPLICATION_SYSTEMS.md', import.meta.url), 'utf8');
-const deliverableReformSource = readFileSync(new URL('../V26_DELIVERABLE_REFORM.md', import.meta.url), 'utf8');
+const shippableReformSource = readFileSync(new URL('../V26_SHIPPABLE_REFORM.md', import.meta.url), 'utf8');
 const docCommentReformSource = readFileSync(new URL('../V26_DOC_COMMENT_REFORM.md', import.meta.url), 'utf8');
 const activeFieldIntelligenceUrls = [
   '../../packages/orm/src/queries/field-intelligence.ts',
@@ -46,7 +46,7 @@ test('active V26 canon and supplementary reform notes point to the generic refor
   assert.match(paritySource, /protocol-demonstration\/V26_REFORM_STRATEGY\.md/u);
   assert.match(notesSource, /protocol-demonstration\/V26_REFORM_STRATEGY\.md/u);
   assert.match(systemsSource, /protocol-demonstration\/V26_REFORM_STRATEGY\.md/u);
-  assert.match(deliverableReformSource, /protocol-demonstration\/V26_REFORM_STRATEGY\.md/u);
+  assert.match(shippableReformSource, /protocol-demonstration\/V26_REFORM_STRATEGY\.md/u);
   assert.match(docCommentReformSource, /protocol-demonstration\/V26_REFORM_STRATEGY\.md/u);
 });
 

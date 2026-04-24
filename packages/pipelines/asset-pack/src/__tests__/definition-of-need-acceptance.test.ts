@@ -21,7 +21,9 @@ describe('AssetPack pipeline - formal Definition of Need acceptance criteria (pe
     };
     const res = await assetPack(input, new Execution('definition-of-need:good'));
     expect(res.success).toBe(true);
-    expect(res.deliverable.prUrl).toContain('/pull/');
+    expect(res.shippable.prUrl).toContain('/pull/');
+    expect(res.shippables.pullRequest.url).toContain('/pull/');
+    expect(res.deliveryMechanism.prUrl).toContain('/pull/');
   });
 
   it('accepts bad acceptanceCriteria (pipeline still runs; validation agents enforce)', async () => {

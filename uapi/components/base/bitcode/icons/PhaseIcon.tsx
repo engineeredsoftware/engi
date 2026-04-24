@@ -2,14 +2,14 @@
 
 import React from 'react';
 
-type Phase = 'setup' | 'discovery' | 'implementation' | 'validation' | 'shipping';
+type Phase = 'setup' | 'discovery' | 'implementation' | 'validation' | 'finish';
 
 const palette: Record<Phase, { glow: string; fill: string; stroke: string }> = {
   setup:          { glow: 'drop-shadow(0 0 12px rgba(14,165,233,.45))',  fill: '#06b6d4', stroke: 'rgba(14,165,233,.85)' }, // cyan
   discovery:      { glow: 'drop-shadow(0 0 12px rgba(139,92,246,.45))', fill: '#8b5cf6', stroke: 'rgba(139,92,246,.85)' }, // violet
   implementation: { glow: 'drop-shadow(0 0 12px rgba(101,254,183,.45))',fill: '#65FEB7', stroke: 'rgba(101,254,183,.85)' }, // mint
   validation:     { glow: 'drop-shadow(0 0 12px rgba(245,158,11,.45))', fill: '#f59e0b', stroke: 'rgba(245,158,11,.85)' }, // amber
-  shipping:       { glow: 'drop-shadow(0 0 12px rgba(59,130,246,.45))',  fill: '#3b82f6', stroke: 'rgba(59,130,246,.85)' },  // blue
+  finish:         { glow: 'drop-shadow(0 0 12px rgba(59,130,246,.45))',  fill: '#3b82f6', stroke: 'rgba(59,130,246,.85)' },  // blue
 };
 
 export function BitcodePhaseIcon({ phase, size = 18, className = '' }: { phase: Phase; size?: number; className?: string }) {

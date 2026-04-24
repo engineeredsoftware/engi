@@ -34,7 +34,7 @@ import {
 const UnderstandRequirementsInputSchema = z.object({
   needDescription: z.string().optional(),
   need: z.string().optional(),
-  deliverableType: z.string().optional(),
+  deliverableType: z.string().optional(), // Compatibility mirror; writtenAssetType is canonical.
   writtenAssetType: z.string().optional(),
   codebaseAnalysis: z.any(), // From setup phase
   attachments: z.array(z.any()).optional()
@@ -86,7 +86,7 @@ export const AssetPackDiscoveryPhaseUnderstandRequirementsAgent = factoryAgentWi
 const ResearchApproachInputSchema = z.object({
   requirements: z.any(), // From understand requirements
   need: z.string().optional(),
-  deliverableType: z.string().optional(),
+  deliverableType: z.string().optional(), // Compatibility mirror; writtenAssetType is canonical.
   writtenAssetType: z.string().optional(),
   codebaseAnalysis: z.any()
 });
@@ -97,8 +97,10 @@ const ResearchApproachOutputSchema = z.object({
     phases: z.array(z.object({
       name: z.string(),
       description: z.string(),
-      deliverables: z.array(z.string()),
-      writtenAssets: z.array(z.string()).optional()
+      assetPackSynthesisArtifacts: z.array(z.string()).optional(),
+      shippables: z.array(z.string()).optional(),
+      writtenAssets: z.array(z.string()).optional(),
+      deliverables: z.array(z.string()).optional()
     })),
     tools: z.array(z.string()),
     estimatedEffort: z.string()
@@ -126,7 +128,15 @@ export function applyResearchApproachSemanticMirrors(
       ...output.approach,
       phases: output.approach.phases.map((phase) => ({
         ...phase,
-        writtenAssets: phase.writtenAssets ?? phase.deliverables,
+        writtenAssets:
+          phase.writtenAssets ??
+          phase.assetPackSynthesisArtifacts ??
+          phase.shippables ??
+          phase.deliverables,
+        assetPackSynthesisArtifacts:
+          phase.assetPackSynthesisArtifacts ??
+          phase.writtenAssets ??
+          phase.deliverables,
       })),
     },
   };
@@ -171,7 +181,7 @@ const PlanImplementationInputSchema = z.object({
   requirements: z.any(),
   approach: z.any(),
   need: z.string().optional(),
-  deliverableType: z.string().optional(),
+  deliverableType: z.string().optional(), // Compatibility mirror; writtenAssetType is canonical.
   writtenAssetType: z.string().optional(),
   codebaseAnalysis: z.any()
 });
@@ -249,7 +259,7 @@ const GatherContextInputSchema = z.object({
   need: z.string().optional(),
   codebaseAnalysis: z.any(),
   attachments: z.array(z.any()).optional(),
-  deliverableType: z.string().optional(),
+  deliverableType: z.string().optional(), // Compatibility mirror; writtenAssetType is canonical.
   writtenAssetType: z.string().optional()
 });
 
@@ -272,7 +282,7 @@ const GatherContextOutputSchema = z.object({
 /**
  * AssetPackDiscoveryPhaseGatherContextAgent
  * 
- * GENERIC agent that runs FIRST for all deliverable types.
+ * Generic agent that runs first for every AssetPack written-asset request.
  * Gathers relevant context from codebase, docs, and history.
  */
 export const AssetPackDiscoveryPhaseGatherContextAgent = factoryAgentWithPTRR<
@@ -280,7 +290,7 @@ export const AssetPackDiscoveryPhaseGatherContextAgent = factoryAgentWithPTRR<
   z.infer<typeof GatherContextOutputSchema>
 >({
   name: 'asset-pack-gather-context-agent',
-  description: 'Gathers relevant context for any deliverable type',
+  description: 'Gathers relevant context for any AssetPack written-asset request',
   
   prompt: createAssetPackDiscoveryPhaseComprehendAttachmentsAgentPrompt(),
   stepPrompts: AssetPackDiscoveryPhaseComprehendAttachmentsAgentPromptSteps,
@@ -300,7 +310,7 @@ const AssessComplexityInputSchema = z.object({
   implementationPlan: z.any(),
   context: z.any(),
   need: z.string().optional(),
-  deliverableType: z.string().optional(),
+  deliverableType: z.string().optional(), // Compatibility mirror; writtenAssetType is canonical.
   writtenAssetType: z.string().optional()
 });
 
@@ -330,7 +340,7 @@ const AssessComplexityOutputSchema = z.object({
 /**
  * AssetPackDiscoveryPhaseAssessComplexityAgent
  * 
- * GENERIC agent that runs LAST for all deliverable types.
+ * Generic agent that runs last for every AssetPack written-asset request.
  * Assesses overall complexity and provides confidence score.
  */
 export const AssetPackDiscoveryPhaseAssessComplexityAgent = factoryAgentWithPTRR<
@@ -338,7 +348,7 @@ export const AssetPackDiscoveryPhaseAssessComplexityAgent = factoryAgentWithPTRR
   z.infer<typeof AssessComplexityOutputSchema>
 >({
   name: 'asset-pack-assess-complexity-agent',
-  description: 'Assesses complexity and confidence for any deliverable',
+  description: 'Assesses complexity and confidence for any AssetPack written-asset request',
   
   prompt: createAssetPackDiscoveryPhaseAssessComplexityAgentPrompt(),
   stepPrompts: AssetPackDiscoveryPhaseAssessComplexityAgentPromptSteps,
@@ -354,7 +364,7 @@ export const AssetPackDiscoveryPhaseAssessComplexityAgent = factoryAgentWithPTRR
 // ==================== DYNAMIC AGENT REGISTRATION ====================
 
 /**
- * Registers discovery agents based on deliverable type.
+ * Registers discovery agents for an AssetPack written-asset request.
  * Called after setup phase completes.
  * 
  * Sequence:

@@ -3,8 +3,8 @@ import { PromptPart } from '../../parts/PromptPart';
 /**
  * @doc-comment-developing-promptpartdevelopment
  * domain: agent
- * intent: "Define retry strategy for Finalize Shipment agent with execution state awareness"
- * current_version: "V26.50.0"
+ * intent: "Bitcode Finish PromptPart for recovery strategy across evidence and Shippable delivery"
+ * current_version: "0.50.0"
  * versions: []
  * benchmarks: [
  *   { "name": "retry_context_utilization", "test": "Does retry strategy maximize context value?", "score": 0.36 },
@@ -13,4 +13,4 @@ import { PromptPart } from '../../parts/PromptPart';
  * ]
  */
 export const PROMPTPART_SPECIFIC_AGENT_FINALIZESHIPMENT_RETRY_STRATEGY: PromptPart = 
-  'Implement recovery using pipeline history: restore from deployment checkpoints, leverage validation cache for confirmation, reference execution history for state, apply learned patterns for resolution, utilize accumulated wisdom for decisions, maintain pipeline continuity through recovery' as PromptPart;
+  'Implement Finish recovery from pipeline history: restore validated artifacts from checkpoints, rebuild final-work summary fields, re-check Need satisfaction before delivery, retry only the failed delivery mechanism, preserve previous receipts, and maintain Exchange-reread continuity through recovery' as PromptPart;

@@ -7,7 +7,7 @@ import dynamic from "next/dynamic";
 
 const ReactMarkdown = dynamic(() => import("react-markdown"), { ssr: false });
 
-type Deliverable = {
+type Shippable = {
   url: string;
   number?: number;
   title?: string;
@@ -24,11 +24,11 @@ type FileChanges = {
   charDiff?: { edited: number; created: number; deleted: number };
 };
 
-export type HeaderDeliverables = {
-  pullRequest?: Deliverable | null;
-  pullRequestReviews?: Deliverable[] | null;
-  comments?: Deliverable[] | null;
-  issues?: Deliverable[] | null;
+export type HeaderShippables = {
+  pullRequest?: Shippable | null;
+  pullRequestReviews?: Shippable[] | null;
+  comments?: Shippable[] | null;
+  issues?: Shippable[] | null;
   fileChanges?: FileChanges | null;
   summary?: string | null;
 };
@@ -77,10 +77,12 @@ export type RepoSnapshot = { org: string; repo: string; branch: string; commit: 
 
 export type HeaderFinalWorkSummary = {
   summary?: string | null;
-  deliverables?: HeaderDeliverables;
-  assetPackSynthesisArtifacts?: HeaderDeliverables;
-  writtenAssets?: HeaderDeliverables;
-  deliveryMechanism?: HeaderDeliverables;
+  shippables?: HeaderShippables;
+  /** Compatibility mirror for old stored final-work-summary payloads. */
+  deliverables?: HeaderShippables;
+  assetPackSynthesisArtifacts?: HeaderShippables;
+  writtenAssets?: HeaderShippables;
+  deliveryMechanism?: HeaderShippables;
   need?: string | null;
   writtenAssetType?: string | null;
   assetPack?: {
@@ -110,13 +112,15 @@ const formatWrittenAssetType = (type?: string | null) => {
 };
 
 export function CompleteHeaderContent({
-  deliverables,
+  shippables,
+  deliverables: compatibilityDeliverables,
   processingStats,
   repoSnapshot,
   postprocessed,
   executionType,
 }: {
-  deliverables: HeaderDeliverables;
+  shippables?: HeaderShippables;
+  deliverables?: HeaderShippables;
   processingStats?: HeaderProcessingStats;
   repoSnapshot?: RepoSnapshot;
   postprocessed?: any;
@@ -128,30 +132,31 @@ export function CompleteHeaderContent({
   // - processingStats and repoSnapshot are sourced from server-computed final_work_summary objects
   //   emitted by both pipelines. The UI renders only server-provided values.
   const [showFileDetails, setShowFileDetails] = React.useState(false);
+  const finishDeliveredShippables = shippables || compatibilityDeliverables || {};
   const tldr: React.ReactNode[] = [];
-  if (deliverables?.pullRequest) {
-    const pr = deliverables.pullRequest;
+  if (finishDeliveredShippables?.pullRequest) {
+    const pr = finishDeliveredShippables.pullRequest;
     tldr.push(
       <a key={`pr-${pr.number}`} href={pr.url} target="_blank" rel="noopener noreferrer" className="text-emerald-300 hover:text-emerald-200">
         PR: {pr.title || `#${pr.number}`}
       </a>
     );
   }
-  (deliverables?.pullRequestReviews || []).forEach((r) => {
+  (finishDeliveredShippables?.pullRequestReviews || []).forEach((r) => {
     tldr.push(
       <a key={`review-${r.number}`} href={r.url} target="_blank" rel="noopener noreferrer" className="text-purple-300 hover:text-purple-200">
         Review: {r.title || `#${r.number}`}
       </a>
     );
   });
-  (deliverables?.issues || []).forEach((i) => {
+  (finishDeliveredShippables?.issues || []).forEach((i) => {
     tldr.push(
       <a key={`issue-${i.number}`} href={i.url} target="_blank" rel="noopener noreferrer" className="text-amber-300 hover:text-amber-200">
         Issue: {i.title || `#${i.number}`}
       </a>
     );
   });
-  (deliverables?.comments || []).forEach((c) => {
+  (finishDeliveredShippables?.comments || []).forEach((c) => {
     tldr.push(
       <a key={`comment-${c.number}`} href={c.url} target="_blank" rel="noopener noreferrer" className="text-blue-300 hover:text-blue-200">
         Comment: {c.title || `#${c.number}`}
@@ -170,7 +175,7 @@ export function CompleteHeaderContent({
         <div className="flex items-center gap-2">
           {/* Kind pill */}
           <span className="px-2 py-0.5 text-[11px] rounded-full border border-emerald-400/40 text-emerald-300 bg-emerald-900/20">
-            Deliverable
+            Shippable
           </span>
           {/* Quick action chips: prefill toggles */}
           <>
@@ -195,7 +200,7 @@ export function CompleteHeaderContent({
       </div>
 
       {/* Summary + TLDR */}
-      {deliverables?.summary && (
+      {finishDeliveredShippables?.summary && (
         <div className="space-y-4">
           <div className="flex items-center justify-between px-5 py-4 bg-black/40 rounded-md border border-emerald-500/10">
             <div className="flex-1 text-sm text-gray-200 flex flex-wrap items-center gap-1">
@@ -214,7 +219,7 @@ export function CompleteHeaderContent({
             </div>
           </div>
           <div className="rounded-md border border-emerald-500/10 bg-black/30 p-4">
-            <ReactMarkdown className="prose prose-invert max-w-none">{deliverables.summary}</ReactMarkdown>
+            <ReactMarkdown className="prose prose-invert max-w-none">{finishDeliveredShippables.summary}</ReactMarkdown>
           </div>
           {/* Unified postprocessed details shown beneath TL;DR */}
           {postprocessed && (
@@ -298,25 +303,25 @@ export function CompleteHeaderContent({
         <div className="space-y-3">
           <h3 className="text-emerald-300 text-sm font-medium uppercase tracking-wider border-b border-emerald-500/20 pb-2">Input Assets</h3>
           {/* Files changed summary if present */}
-          {deliverables?.fileChanges ? (
+          {finishDeliveredShippables?.fileChanges ? (
             <div className="grid grid-cols-3 gap-2 text-center">
               <div>
-                <div className="text-emerald-300 text-lg font-medium">{deliverables.fileChanges.edited}</div>
+                <div className="text-emerald-300 text-lg font-medium">{finishDeliveredShippables.fileChanges.edited}</div>
                 <div className="text-xs text-gray-400">Edited</div>
               </div>
               <div>
-                <div className="text-emerald-300 text-lg font-medium">{deliverables.fileChanges.created}</div>
+                <div className="text-emerald-300 text-lg font-medium">{finishDeliveredShippables.fileChanges.created}</div>
                 <div className="text-xs text-gray-400">Created</div>
               </div>
               <div>
-                <div className="text-emerald-300 text-lg font-medium">{deliverables.fileChanges.deleted}</div>
+                <div className="text-emerald-300 text-lg font-medium">{finishDeliveredShippables.fileChanges.deleted}</div>
                 <div className="text-xs text-gray-400">Deleted</div>
               </div>
             </div>
           ) : null}
 
           {/* Toggleable details */}
-          {deliverables?.fileChanges && (deliverables.fileChanges.fileDiffs?.length || deliverables.fileChanges.paths?.length) ? (
+          {finishDeliveredShippables?.fileChanges && (finishDeliveredShippables.fileChanges.fileDiffs?.length || finishDeliveredShippables.fileChanges.paths?.length) ? (
             <div className="mt-2">
               <button
                 type="button"
@@ -327,9 +332,9 @@ export function CompleteHeaderContent({
               </button>
               {showFileDetails && (
                 <div className="mt-2 max-h-40 overflow-auto pr-2 border border-emerald-500/10 rounded-md bg-black/20">
-                  {(deliverables.fileChanges.fileDiffs && deliverables.fileChanges.fileDiffs.length > 0
-                    ? deliverables.fileChanges.fileDiffs
-                    : (deliverables.fileChanges.paths || []).map(path => ({ path, added: 0, removed: 0 }))
+                  {(finishDeliveredShippables.fileChanges.fileDiffs && finishDeliveredShippables.fileChanges.fileDiffs.length > 0
+                    ? finishDeliveredShippables.fileChanges.fileDiffs
+                    : (finishDeliveredShippables.fileChanges.paths || []).map(path => ({ path, added: 0, removed: 0 }))
                   ).slice(0, 50).map((diff: any, idx: number) => (
                     <div key={idx} className="px-2 py-1 text-xs text-gray-300 flex items-center justify-between border-b border-gray-800/30 last:border-0">
                       <span className="truncate mr-2">{diff.path}</span>
@@ -372,29 +377,34 @@ export function CompleteHeaderContent({
 
 export function getHeaderWrittenAssets(
   finalWorkSummary?: HeaderFinalWorkSummary | null,
-): HeaderDeliverables | null {
+): HeaderShippables | null {
   return (
     finalWorkSummary?.assetPackSynthesisArtifacts ||
     finalWorkSummary?.writtenAssets ||
+    // Compatibility-only fallback for stored runs written before shippables were primary.
     finalWorkSummary?.deliverables ||
     null
   );
 }
 
-export function getHeaderDeliveryMechanism(
+export function getHeaderShippables(
   finalWorkSummary?: HeaderFinalWorkSummary | null,
-): HeaderDeliverables | null {
+): HeaderShippables | null {
   return (
+    finalWorkSummary?.shippables ||
     finalWorkSummary?.deliveryMechanism ||
+    // Compatibility-only fallback for stored runs written before shippables were primary.
     finalWorkSummary?.deliverables ||
     getHeaderWrittenAssets(finalWorkSummary)
   );
 }
 
-export function mergeHeaderDeliverables(
-  writtenAssets?: HeaderDeliverables | null,
-  deliveryMechanism?: HeaderDeliverables | null,
-): HeaderDeliverables | null {
+export const getHeaderDeliveryMechanism = getHeaderShippables;
+
+export function mergeHeaderShippables(
+  writtenAssets?: HeaderShippables | null,
+  deliveryMechanism?: HeaderShippables | null,
+): HeaderShippables | null {
   if (!writtenAssets && !deliveryMechanism) return null;
 
   return {
@@ -431,8 +441,9 @@ function PostprocessedSummary({ postprocessed }: { postprocessed: any }) {
     }
   }, []);
 
-  const isDeliverable = postprocessed?.kind === 'deliverable';
-  const isMultiDeliverable = postprocessed?.kind === 'multi-deliverable';
+  const compatibilityKind = postprocessed?.kind;
+  const isShippable = compatibilityKind === 'shippable' || compatibilityKind === 'deliverable';
+  const isMultiShippable = compatibilityKind === 'multi-shippable' || compatibilityKind === 'multi-deliverable';
   const isAIDocument = postprocessed?.kind === 'ai_document';
   const series: any[] = Array.isArray(postprocessed?.entries)
     ? postprocessed.entries
@@ -469,7 +480,7 @@ function PostprocessedSummary({ postprocessed }: { postprocessed: any }) {
           )}
         </div>
       )}
-      {(isDeliverable || isMultiDeliverable) && (
+      {(isShippable || isMultiShippable) && (
         <div className="text-sm text-gray-300">
           {postprocessed?.title && <div className="text-emerald-200 mb-1">{postprocessed.title}</div>}
           {formatWrittenAssetType(postprocessed?.writtenAssetType || postprocessed?.deliverableType) && (
@@ -526,9 +537,9 @@ function PostprocessedSummary({ postprocessed }: { postprocessed: any }) {
                         ? 'border-emerald-400/60 text-emerald-200 bg-emerald-900/20'
                         : 'border-emerald-500/20 text-gray-300 hover:border-emerald-500/40 hover:text-emerald-200'
                     }`}
-                    aria-label={`Select deliverable ${idx + 1}`}
+                    aria-label={`Select shippable ${idx + 1}`}
                   >
-                    {s?.title ? s.title.slice(0, 28) : `Deliverable ${idx + 1}`}
+                    {s?.title ? s.title.slice(0, 28) : `Shippable ${idx + 1}`}
                   </button>
                 ))}
                 {series.length > 10 && (

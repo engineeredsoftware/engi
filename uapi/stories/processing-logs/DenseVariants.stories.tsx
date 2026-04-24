@@ -21,7 +21,7 @@ type ExecState = {
   generation?: string;
 };
 
-const phases = ['Setup', 'Discovery', 'Implementation', 'Validation', 'Shipping'];
+const phases = ['Setup', 'Discovery', 'Implementation', 'Validation', 'Finish'];
 const steps = ['Plan', 'Generate', 'Refine', 'Intensify'];
 const failsafes = ['prepare_concise_context', 'chunk_then_sum', 'stitch_until_complete'];
 const generations = ['reason', 'judge', 'structured_output'];

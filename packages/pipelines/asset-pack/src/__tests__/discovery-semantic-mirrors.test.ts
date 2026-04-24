@@ -4,7 +4,7 @@ import {
 } from '../agents/discovery-agents';
 
 describe('AssetPack discovery semantic mirrors', () => {
-  it('mirrors compatibility delivery outputs into written assets', () => {
+  it('mirrors AssetPack synthesis artifacts into written assets', () => {
     const output = applyResearchApproachSemanticMirrors({
       approach: {
         methodology: 'parallel analysis',
@@ -12,7 +12,8 @@ describe('AssetPack discovery semantic mirrors', () => {
           {
             name: 'finish',
             description: 'materialize the AssetPack evidence',
-            deliverables: ['pull request'],
+            assetPackSynthesisArtifacts: ['source patch evidence'],
+            shippables: ['pull request'],
           },
         ],
         tools: ['git'],
@@ -23,7 +24,7 @@ describe('AssetPack discovery semantic mirrors', () => {
       recommendation: 'finish with a pull request delivery mechanism',
     });
 
-    expect(output.approach.phases[0].writtenAssets).toEqual(['pull request']);
+    expect(output.approach.phases[0].writtenAssets).toEqual(['source patch evidence']);
   });
 
   it('preserves explicit research approach written asset mirrors', () => {
@@ -34,7 +35,8 @@ describe('AssetPack discovery semantic mirrors', () => {
           {
             name: 'finish',
             description: 'materialize the AssetPack evidence',
-            deliverables: ['pull request'],
+            assetPackSynthesisArtifacts: ['source patch evidence'],
+            shippables: ['pull request'],
             writtenAssets: ['draft pull request'],
           },
         ],

@@ -15,6 +15,8 @@ export interface AgenticExecutionSummary {
 }
 
 const DEFAULT_CANONICAL_TYPE = 'agentic-execution:asset-pack' as const;
+// Storage type remains a database compatibility value while the canonical
+// execution family is AssetPack and Finish-delivered Shippables.
 const DEFAULT_STORAGE_TYPE = 'pipeline:deliverables';
 
 const CANONICAL_TO_STORAGE_TYPE = {
@@ -43,7 +45,13 @@ export function normalizeAgenticExecutionType(value?: string | null) {
   if (normalized.includes('upgrade')) return 'agentic-execution:upgrade';
   if (normalized.includes('proof')) return 'agentic-execution:proof-refresh';
   if (normalized.includes('measure')) return 'agentic-execution:need-measurement';
-  if (normalized.includes('asset-pack') || normalized.includes('asset_pack') || normalized.includes('deliverable') || normalized.includes('artifact')) {
+  if (
+    normalized.includes('asset-pack') ||
+    normalized.includes('asset_pack') ||
+    normalized.includes('shippable') ||
+    normalized.includes('deliverable') ||
+    normalized.includes('artifact')
+  ) {
     return 'agentic-execution:asset-pack';
   }
 

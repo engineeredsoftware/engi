@@ -184,14 +184,14 @@ const completeConversationData = {
         {
           id: 'evt-auth-complete',
           timestamp: '08:32:00',
-          phase: 'Shipping',
+          phase: 'Finish',
           message: '✅ User Authentication System completed successfully',
           level: 'success' as const
         },
         {
           id: 'evt-auth-pr',
           timestamp: '08:32:15',
-          phase: 'Shipping',
+          phase: 'Finish',
           message: '🎉 Pull Request #156: OAuth Authentication System (Ready for review)',
           level: 'success' as const,
           details: {
@@ -403,7 +403,7 @@ export const PerformanceStressTest: Story = {
           runId: `stress-test-${i}`,
           status: 'running' as const,
           progress: Math.floor(Math.random() * 100),
-          phase: ['Setup', 'Discovery', 'Implementation', 'Validation', 'Shipping'][Math.floor(Math.random() * 5)],
+          phase: ['Setup', 'Discovery', 'Implementation', 'Validation', 'Finish'][Math.floor(Math.random() * 5)],
           estimatedCredits: 100,
           usedCredits: Math.floor(Math.random() * 100),
           startedAt: new Date(Date.now() - Math.random() * 3600000).toISOString(),

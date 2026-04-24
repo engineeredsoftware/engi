@@ -197,6 +197,9 @@ describe('GET /api/executions/history', () => {
         delivery_mechanism: {
           comments: [{ title: 'Proof note', url: 'https://example.com/comments/1', number: 1 }],
         },
+        shippables: {
+          comments: [{ title: 'Proof note', url: 'https://example.com/comments/1', number: 1 }],
+        },
         need: 'Refresh fifth-gate proof posture and closure evidence.',
         written_asset_type: 'proof-refresh',
         asset_pack: {
@@ -215,6 +218,9 @@ describe('GET /api/executions/history', () => {
             summary: 'Recorded closure posture.',
           },
           deliveryMechanism: {
+            comments: [{ title: 'Proof note', url: 'https://example.com/comments/1', number: 1 }],
+          },
+          shippables: {
             comments: [{ title: 'Proof note', url: 'https://example.com/comments/1', number: 1 }],
           },
           need: 'Refresh fifth-gate proof posture and closure evidence.',
@@ -256,6 +262,9 @@ describe('GET /api/executions/history', () => {
         delivery_mechanism: {
           summary: 'Branch artifact persisted.',
         },
+        shippables: {
+          summary: 'Branch artifact persisted.',
+        },
         need: 'Materialize a branch-ready asset pack for settlement follow-through.',
         written_asset_type: 'branch-artifact',
         asset_pack: {
@@ -274,6 +283,9 @@ describe('GET /api/executions/history', () => {
             fileChanges: { edited: 1, created: 1, deleted: 0 },
           },
           deliveryMechanism: {
+            summary: 'Branch artifact persisted.',
+          },
+          shippables: {
             summary: 'Branch artifact persisted.',
           },
           need: 'Materialize a branch-ready asset pack for settlement follow-through.',

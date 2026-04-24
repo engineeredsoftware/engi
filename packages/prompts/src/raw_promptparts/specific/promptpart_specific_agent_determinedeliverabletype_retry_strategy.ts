@@ -3,8 +3,8 @@ import { PromptPart } from '../../parts/PromptPart';
 /**
  * @doc-comment-developing-promptpartdevelopment
  * domain: agent
- * intent: "Define RETRY step strategy for Determine Deliverable Type agent"
- * current_version: "V26.50.0"
+ * intent: "Bitcode compatibility PromptPart for retrying delivery-mechanism selection"
+ * current_version: "0.50.0"
  * versions: []
  * benchmarks: [
  *   { "name": "recovery_coverage", "test": "Does it cover recovery scenarios?", "score": 0.33 },
@@ -13,4 +13,4 @@ import { PromptPart } from '../../parts/PromptPart';
  * ]
  */
 export const PROMPTPART_SPECIFIC_AGENT_DETERMINEDELIVERABLETYPE_RETRY_STRATEGY: PromptPart = 
-  'Implement recovery strategies including: fallback to broader type categories, manual classification escalation, similarity-based type inference, interactive type clarification, default type assignment, hybrid classification approaches' as PromptPart;
+  'Implement recovery strategies for delivery-mechanism selection: fall back to evidence-only Finish, ask for destination clarification, compare requested Shippables against supported connected interfaces, require manual confirmation for writes, and preserve AssetPack evidence when delivery remains unresolved' as PromptPart;

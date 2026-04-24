@@ -8,8 +8,8 @@ import {
   getTransactionDataModeLabel,
   isMockTransactionDataMode,
 } from '@/components/base/bitcode/execution/bitcode-transaction-data-mode';
-import DeliverablesCardsPanel from '@/components/base/bitcode/execution/DeliverablesCardsPanel';
-import DeliverablesDocPanel from '@/components/base/bitcode/execution/DeliverablesDocPanel';
+import ShippablesCardsPanel from '@/components/base/bitcode/execution/ShippablesCardsPanel';
+import ShippablesDocPanel from '@/components/base/bitcode/execution/ShippablesDocPanel';
 import type { TransactionDataMode } from '@/components/base/bitcode/execution/bitcode-transaction-types';
 
 import ApplicationTransactionDetailActionBar from './ApplicationTransactionDetailActionBar';
@@ -86,7 +86,7 @@ export default function ApplicationTransactionDetailSurface({
     [closureState, detail?.closureFollowThrough],
   );
   const shellReady = Boolean(controls);
-  const showDeliverables = detailSection === 'deliverables';
+  const showShippables = detailSection === 'shippables';
   const showTransaction = detailSection === 'transaction';
   const showClosure = detailSection === 'closure';
   const showProofs = detailSection === 'proofs';
@@ -172,7 +172,7 @@ export default function ApplicationTransactionDetailSurface({
     [closureFollowThrough, closureState, detail, selectedRun],
   );
   const writtenAssets = detail?.writtenAssets || detail?.deliverables || null;
-  const deliveryMechanism = detail?.deliveryMechanism || detail?.deliverables || writtenAssets;
+  const deliveryMechanism = detail?.shippables || detail?.deliveryMechanism || detail?.deliverables || writtenAssets;
   const mergedAssetPackSurface =
     writtenAssets || deliveryMechanism
       ? {
@@ -298,26 +298,26 @@ export default function ApplicationTransactionDetailSurface({
             mockMode={usesMockTransactions}
           />
 
-          {showDeliverables && mergedAssetPackSurface ? (
+          {showShippables && mergedAssetPackSurface ? (
             <section
-              id="applicationTransactionDeliverables"
+              id="applicationTransactionShippables"
               className="space-y-6 rounded-[1.5rem] border border-white/8 bg-[rgba(5,10,20,0.88)] px-4 py-5"
             >
               <div className="px-2">
-                <p className="text-[0.68rem] uppercase tracking-[0.24em] text-emerald-300/75">Asset-pack surfaces</p>
-                <h3 className="mt-2 text-lg font-semibold text-white">Asset packs attached to this activity</h3>
+                <p className="text-[0.68rem] uppercase tracking-[0.24em] text-emerald-300/75">Finish-delivered Shippables</p>
+                <h3 className="mt-2 text-lg font-semibold text-white">Shippables attached to this activity</h3>
                 <p className="mt-2 text-sm leading-6 text-neutral-300">
-                  Written-asset summaries and file changes remain Bitcode-owned, while pull requests, reviews, issues, and
-                  comments stay legible as Delivering mechanisms attached to the selected activity in both mock and live posture.
+                  AssetPack evidence and file changes remain Exchange-owned, while pull requests, reviews, issues, and
+                  comments stay legible as Shippables delivered by Finish in both mock and live posture.
                 </p>
               </div>
-              <DeliverablesDocPanel
-                deliverables={mergedAssetPackSurface}
+              <ShippablesDocPanel
+                shippables={mergedAssetPackSurface}
                 summaryOpen={summaryOpen}
                 onToggleSummary={() => setSummaryOpen((current) => !current)}
               />
-              <DeliverablesCardsPanel
-                deliverables={{
+              <ShippablesCardsPanel
+                shippables={{
                   pullRequest: mergedAssetPackSurface.pullRequest ?? null,
                   pullRequestReviews: mergedAssetPackSurface.pullRequestReviews ?? null,
                   comments: mergedAssetPackSurface.comments ?? null,
@@ -325,7 +325,7 @@ export default function ApplicationTransactionDetailSurface({
                 }}
               />
             </section>
-          ) : showDeliverables ? (
+          ) : showShippables ? (
             <div className="rounded-[1.5rem] border border-white/8 bg-black/20 px-5 py-5 text-sm leading-6 text-neutral-300">
               No materialized written asset or Delivering mechanism is attached to this Bitcode activity yet. The same
               activity detail still keeps proofs, history, and closure reading available.

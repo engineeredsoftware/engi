@@ -7,8 +7,8 @@ import {
   resolveWrittenAssetTypeFromExecution,
 } from '../../semantic-resolution';
 
-// Header-expected shapes (aligned to DeliverablesPageHeader complete mode)
-export const DeliverableSchema = z.object({
+// Header-expected shapes for Finish-delivered shippables.
+export const ShippableSchema = z.object({
   url: z.string(),
   number: z.number().optional(),
   title: z.string().optional(),
@@ -29,10 +29,10 @@ export const FileChangesSchema = z.object({
 });
 
 const WrittenAssetsSchema = z.object({
-  pullRequest: DeliverableSchema.nullable().optional(),
-  pullRequestReviews: z.array(DeliverableSchema).nullable().optional(),
-  comments: z.array(DeliverableSchema).nullable().optional(),
-  issues: z.array(DeliverableSchema).nullable().optional(),
+  pullRequest: ShippableSchema.nullable().optional(),
+  pullRequestReviews: z.array(ShippableSchema).nullable().optional(),
+  comments: z.array(ShippableSchema).nullable().optional(),
+  issues: z.array(ShippableSchema).nullable().optional(),
   fileChanges: FileChangesSchema.nullable().optional(),
   summary: z.string().nullable().optional(),
 });
@@ -43,19 +43,19 @@ const AssetPackSynthesisArtifactsSchema = WrittenAssetsSchema.extend({
 });
 
 const DeliveryMechanismSchema = z.object({
-  pullRequest: DeliverableSchema.nullable().optional(),
-  pullRequestReviews: z.array(DeliverableSchema).nullable().optional(),
-  comments: z.array(DeliverableSchema).nullable().optional(),
-  issues: z.array(DeliverableSchema).nullable().optional(),
+  pullRequest: ShippableSchema.nullable().optional(),
+  pullRequestReviews: z.array(ShippableSchema).nullable().optional(),
+  comments: z.array(ShippableSchema).nullable().optional(),
+  issues: z.array(ShippableSchema).nullable().optional(),
   summary: z.string().nullable().optional(),
 });
 
 export const FinalWorkSummaryOutputSchema = z.object({
-  deliverables: z.object({
-    pullRequest: DeliverableSchema.nullable().optional(),
-    pullRequestReviews: z.array(DeliverableSchema).nullable().optional(),
-    comments: z.array(DeliverableSchema).nullable().optional(),
-    issues: z.array(DeliverableSchema).nullable().optional(),
+  shippables: z.object({
+    pullRequest: ShippableSchema.nullable().optional(),
+    pullRequestReviews: z.array(ShippableSchema).nullable().optional(),
+    comments: z.array(ShippableSchema).nullable().optional(),
+    issues: z.array(ShippableSchema).nullable().optional(),
     fileChanges: FileChangesSchema.nullable().optional(),
     summary: z.string().nullable().optional(),
   }),
@@ -107,7 +107,7 @@ const FinalWorkSummaryAgent = factoryAgentWithSingleStep<any, FinalWorkSummaryOu
       (execution as any).prompt?.setSpecificExecution(
         'specific_execution:output:shape',
         (
-          'Output JSON with keys: deliverables{pullRequest,pullRequestReviews,comments,issues,fileChanges,summary}, assetPackSynthesisArtifacts{pullRequest,pullRequestReviews,comments,issues,fileChanges,summary,proofEvidence?,reviewNotes?}, writtenAssets{pullRequest,pullRequestReviews,comments,issues,fileChanges,summary}, deliveryMechanism{pullRequest,pullRequestReviews,comments,issues,summary}, processingStats{time,tokens?,credits?}, repoSnapshot{org,repo,branch,commit}'
+          'Output JSON with keys: shippables{pullRequest,pullRequestReviews,comments,issues,fileChanges,summary}, assetPackSynthesisArtifacts{pullRequest,pullRequestReviews,comments,issues,fileChanges,summary,proofEvidence?,reviewNotes?}, writtenAssets{pullRequest,pullRequestReviews,comments,issues,fileChanges,summary}, deliveryMechanism{pullRequest,pullRequestReviews,comments,issues,summary}, processingStats{time,tokens?,credits?}, repoSnapshot{org,repo,branch,commit}. Finish delivers shippables; mirror shippables into compatibility deliverables only for retained route clients.'
         ) as unknown as PromptPart
       );
     } catch {}
@@ -183,7 +183,7 @@ const FinalWorkSummaryAgent = factoryAgentWithSingleStep<any, FinalWorkSummaryOu
       }
     } catch {}
 
-    const deliverables = {
+    const shippables = {
       pullRequest,
       pullRequestReviews: pullRequestReviews || undefined,
       comments: comments || undefined,
@@ -192,7 +192,7 @@ const FinalWorkSummaryAgent = factoryAgentWithSingleStep<any, FinalWorkSummaryOu
       summary,
     };
     const writtenAssets = {
-      ...deliverables,
+      ...shippables,
     };
     const implementationArtifacts = (execution as any).get?.('implementation', 'assetPackSynthesisArtifacts');
     const assetPackSynthesisArtifacts =
@@ -215,7 +215,7 @@ const FinalWorkSummaryAgent = factoryAgentWithSingleStep<any, FinalWorkSummaryOu
 
     // Validate and finalize output
     const validated = FinalWorkSummaryOutputSchema.parse({
-      deliverables,
+      shippables,
       assetPackSynthesisArtifacts,
       writtenAssets,
       deliveryMechanism,
@@ -229,7 +229,9 @@ const FinalWorkSummaryAgent = factoryAgentWithSingleStep<any, FinalWorkSummaryOu
 
     // Store for API persistence
     try {
-      (execution as any).store?.('finish/final_work_summary', 'deliverables', deliverables as any);
+      (execution as any).store?.('finish/final_work_summary', 'shippables', shippables as any);
+      // Compatibility mirror only: retained route clients may still read this key.
+      (execution as any).store?.('finish/final_work_summary', 'deliverables', shippables as any);
       (execution as any).store?.('finish/final_work_summary', 'assetPackSynthesisArtifacts', assetPackSynthesisArtifacts as any);
       (execution as any).store?.('finish/final_work_summary', 'writtenAssets', writtenAssets as any);
       (execution as any).store?.('finish/final_work_summary', 'deliveryMechanism', deliveryMechanism as any);

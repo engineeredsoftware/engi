@@ -32,7 +32,7 @@ export default function ApplicationLiveSummaryStrip() {
     <ApplicationWorkspaceCard
       kicker="Terminal pulse"
       title="Pinned operating signals"
-      summary="Keep scenario, proof pressure, and blocking interfaces close to the ledger before you dive into deeper deliverable, proof, or history detail."
+      summary="Keep scenario, proof pressure, and blocking interfaces close to the ledger before you dive into deeper Shippable, proof, or history detail."
       explainer={APPLICATION_WORKSPACE_EXPLAINERS.ledgerPulse}
     >
       <div className="grid gap-3 text-xs uppercase tracking-[0.2em] text-neutral-400 tablet:grid-cols-2">

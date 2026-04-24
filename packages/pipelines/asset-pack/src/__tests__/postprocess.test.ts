@@ -19,13 +19,13 @@ describe('normalizeAssetPackOutput', () => {
 
     const output: any = {
       success: true,
-      deliverable: {},
+      shippable: {},
       artifacts: {},
       summary: ''
     };
 
     const normalized = normalizeAssetPackOutput(output, exec);
-    expect(normalized.deliverable.prUrl).toContain('/pull/123');
+    expect(normalized.shippable.prUrl).toContain('/pull/123');
     expect(normalized.deliveryMechanism?.prUrl).toContain('/pull/123');
     expect(normalized.writtenAsset.prUrl).toContain('/pull/123');
     expect(normalized.artifacts.filesModified).toEqual(['a.ts', 'b.ts']);
@@ -69,6 +69,7 @@ describe('normalizeAssetPackOutput', () => {
     } as any);
 
     expect(result.semanticKind).toBe('asset-pack-written-asset');
+    expect(result.kind).toBe('shippable');
     expect(result.need).toBe('Need a review-ready written asset');
     expect(result.writtenAssetType).toBe('need-satisfaction-asset-pack');
     expect(result.deliveryMechanismTemplate).toBe('issue-comment');
@@ -107,6 +108,15 @@ describe('normalizeAssetPackOutput', () => {
 
     expect(result.title).toBe('Need satisfaction summary');
     expect(result.deliveryMechanism).toEqual({
+      title: 'Jira comment delivery',
+      mechanism: 'jira-comment',
+      payload: {
+        jira_comment_payload: {
+          issueKey: 'BIT-26',
+        },
+      },
+    });
+    expect(result.shippable).toEqual({
       title: 'Jira comment delivery',
       mechanism: 'jira-comment',
       payload: {

@@ -888,8 +888,8 @@ export const createStreamingPipelineEngine = {
           successProbability: 0.95
         },
         {
-          id: 'shipping',
-          name: 'Shipping',
+          id: 'finish',
+          name: 'Finish',
           durationMs: 30000,
           events: ['thinking', 'status_update'],
           llmCalls: [

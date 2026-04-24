@@ -4,9 +4,9 @@
  */
 
 export {
-  DeliverableSchema,
   FileChangesSchema,
   FinalWorkSummaryOutputSchema,
+  ShippableSchema,
   type FinalWorkSummaryOutput,
   default
 } from './final-work-summary-agent';
