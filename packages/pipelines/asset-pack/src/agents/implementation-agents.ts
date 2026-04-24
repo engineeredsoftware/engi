@@ -7,7 +7,7 @@
  * 3. Design Document (Create Issue)
  * 4. Design Document Review (Issue Comment)
  * 
- * Pattern: DeliverablesPipelineImplementationPhase{Action}Agent
+ * Pattern: AssetPackImplementationPhase{Action}Agent
  */
 
 import { factoryAgentWithPTRR } from '@bitcode/agent-generics';
@@ -21,8 +21,8 @@ import {
   AssetPackFinishCreateIssueDeliveryAgentPromptSteps
 } from './prompts/create-issue-prompt';
 import {
-  createDeliverablesPipelineImplementationPhaseCommentOnIssueAgentPrompt,
-  DeliverablesPipelineImplementationPhaseCommentOnIssueAgentPromptSteps
+  createAssetPackImplementationPhaseCommentOnIssueAgentPrompt,
+  AssetPackImplementationPhaseCommentOnIssueAgentPromptSteps
 } from './prompts/comment-on-issue-prompt';
 import { normalizeWrittenAssetType } from '../semantic-resolution';
 
@@ -51,17 +51,17 @@ const DividePullRequestOutputSchema = z.object({
 });
 
 /**
- * DeliverablesPipelineImplementationPhaseDividePullRequestAgent
+ * AssetPackImplementationPhaseDividePullRequestAgent
  * 
  * Determines ALL files that need to be conquered (edited/created/deleted).
  * PrepareContext will automatically gather all execution state so far.
  * The prompt must be written perfectly to leverage this.
  */
-export const DeliverablesPipelineImplementationPhaseDividePullRequestAgent = factoryAgentWithPTRR<
+export const AssetPackImplementationPhaseDividePullRequestAgent = factoryAgentWithPTRR<
   z.infer<typeof DividePullRequestInputSchema>,
   z.infer<typeof DividePullRequestOutputSchema>
 >({
-  name: 'deliverable-pipeline-divide-pr-agent',
+  name: 'asset-pack-divide-pr-agent',
   description: 'Determines all files to be conquered for the pull request',
   
   prompt: DivideCodeChangePrompts.system(),
@@ -98,17 +98,17 @@ const ConquerFileOutputSchema = z.object({
 });
 
 /**
- * DeliverablesPipelineImplementationPhaseConquerFileAgent
+ * AssetPackImplementationPhaseConquerFileAgent
  * 
  * Conquers a SINGLE file. This agent is instantiated once per file
  * and they run in PARALLEL as a sub-sequence.
  * Uses code editor agent/tools for accurate file edits.
  */
-export const DeliverablesPipelineImplementationPhaseConquerFileAgent = factoryAgentWithPTRR<
+export const AssetPackImplementationPhaseConquerFileAgent = factoryAgentWithPTRR<
   z.infer<typeof ConquerFileInputSchema>,
   z.infer<typeof ConquerFileOutputSchema>
 >({
-  name: 'deliverable-pipeline-conquer-file-agent',
+  name: 'asset-pack-conquer-file-agent',
   description: 'Conquers (edits/creates/deletes) a single file',
   
   prompt: ConquerFilePrompts.system(),
@@ -151,16 +151,16 @@ const CorrectPullRequestOutputSchema = z.object({
 });
 
 /**
- * DeliverablesPipelineImplementationPhaseCorrectPullRequestAgent
+ * AssetPackImplementationPhaseCorrectPullRequestAgent
  * 
  * Validates and corrects all the conquered files.
  * PrepareContext will gather all execution state from the conquer phase.
  */
-export const DeliverablesPipelineImplementationPhaseCorrectPullRequestAgent = factoryAgentWithPTRR<
+export const AssetPackImplementationPhaseCorrectPullRequestAgent = factoryAgentWithPTRR<
   z.infer<typeof CorrectPullRequestInputSchema>,
   z.infer<typeof CorrectPullRequestOutputSchema>
 >({
-  name: 'deliverable-pipeline-correct-pr-agent',
+  name: 'asset-pack-correct-pr-agent',
   description: 'Validates and corrects all file changes',
   
   prompt: CorrectCodeChangePrompts.system(),
@@ -212,15 +212,15 @@ const ReviewPullRequestOutputSchema = z.object({
 });
 
 /**
- * DeliverablesPipelineImplementationPhaseReviewPullRequestAgent
+ * AssetPackImplementationPhaseReviewPullRequestAgent
  * 
  * Reviews an existing pull request.
  */
-export const DeliverablesPipelineImplementationPhaseReviewPullRequestAgent = factoryAgentWithPTRR<
+export const AssetPackImplementationPhaseReviewPullRequestAgent = factoryAgentWithPTRR<
   z.infer<typeof ReviewPullRequestInputSchema>,
   z.infer<typeof ReviewPullRequestOutputSchema>
 >({
-  name: 'deliverable-pipeline-review-pr-agent',
+  name: 'asset-pack-review-pr-agent',
   description: 'Reviews a pull request with detailed feedback',
   
   prompt: ReviewCodeChangePrompts.system(),
@@ -259,15 +259,15 @@ const CreateIssueOutputSchema = z.object({
 });
 
 /**
- * DeliverablesPipelineImplementationPhaseCreateIssueAgent
+ * AssetPackImplementationPhaseCreateIssueAgent
  * 
  * Creates a design document as a GitHub issue.
  */
-export const DeliverablesPipelineImplementationPhaseCreateIssueAgent = factoryAgentWithPTRR<
+export const AssetPackImplementationPhaseCreateIssueAgent = factoryAgentWithPTRR<
   z.infer<typeof CreateIssueInputSchema>,
   z.infer<typeof CreateIssueOutputSchema>
 >({
-  name: 'deliverable-pipeline-create-issue-agent',
+  name: 'asset-pack-create-issue-agent',
   description: 'Creates a design document as an issue',
   
   prompt: createAssetPackFinishCreateIssueDeliveryAgentPrompt(),
@@ -301,19 +301,19 @@ const CommentOnIssueOutputSchema = z.object({
 });
 
 /**
- * DeliverablesPipelineImplementationPhaseCommentOnIssueAgent
+ * AssetPackImplementationPhaseCommentOnIssueAgent
  * 
  * Reviews a design document by commenting on an issue.
  */
-export const DeliverablesPipelineImplementationPhaseCommentOnIssueAgent = factoryAgentWithPTRR<
+export const AssetPackImplementationPhaseCommentOnIssueAgent = factoryAgentWithPTRR<
   z.infer<typeof CommentOnIssueInputSchema>,
   z.infer<typeof CommentOnIssueOutputSchema>
 >({
-  name: 'deliverable-pipeline-comment-issue-agent',
+  name: 'asset-pack-comment-issue-agent',
   description: 'Reviews a design document via issue comment',
   
-  prompt: createDeliverablesPipelineImplementationPhaseCommentOnIssueAgentPrompt(),
-  stepPrompts: DeliverablesPipelineImplementationPhaseCommentOnIssueAgentPromptSteps,
+  prompt: createAssetPackImplementationPhaseCommentOnIssueAgentPrompt(),
+  stepPrompts: AssetPackImplementationPhaseCommentOnIssueAgentPromptSteps,
   
   outputSchema: CommentOnIssueOutputSchema,
   
@@ -338,37 +338,37 @@ export function registerImplementationAgentsForType(
       // Register Divide|Conquer|Correct agents
       agentRegistry.registerAgent(
         'implementation:divide',
-        DeliverablesPipelineImplementationPhaseDividePullRequestAgent
+        AssetPackImplementationPhaseDividePullRequestAgent
       );
       // Conquer agents are registered dynamically per file
       agentRegistry.registerAgent(
         'implementation:conquer-file',
-        DeliverablesPipelineImplementationPhaseConquerFileAgent
+        AssetPackImplementationPhaseConquerFileAgent
       );
       agentRegistry.registerAgent(
         'implementation:correct',
-        DeliverablesPipelineImplementationPhaseCorrectPullRequestAgent
+        AssetPackImplementationPhaseCorrectPullRequestAgent
       );
       break;
       
     case 'code-change-review':
       agentRegistry.registerAgent(
         'implementation:review',
-        DeliverablesPipelineImplementationPhaseReviewPullRequestAgent
+        AssetPackImplementationPhaseReviewPullRequestAgent
       );
       break;
       
     case 'design-document':
       agentRegistry.registerAgent(
         'implementation:create',
-        DeliverablesPipelineImplementationPhaseCreateIssueAgent
+        AssetPackImplementationPhaseCreateIssueAgent
       );
       break;
       
     case 'design-document-review':
       agentRegistry.registerAgent(
         'implementation:comment',
-        DeliverablesPipelineImplementationPhaseCommentOnIssueAgent
+        AssetPackImplementationPhaseCommentOnIssueAgent
       );
       break;
       

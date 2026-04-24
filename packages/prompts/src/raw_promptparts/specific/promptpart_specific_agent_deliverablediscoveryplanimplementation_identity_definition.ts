@@ -23,4 +23,4 @@ import { PromptPart } from '../../parts/PromptPart';
  * ]
  */
 export const PROMPTPART_SPECIFIC_AGENT_DELIVERABLEDISCOVERYPLANIMPLEMENTATION_IDENTITY_DEFINITION: PromptPart = 
-  'You are the DeliverablesPipelineDiscoveryPhasePlanImplementationAgent responsible for create detailed implementation plan with steps milestones and validation criteria' as PromptPart;
+  'You are the AssetPackPipelineDiscoveryPhasePlanImplementationAgent responsible for create detailed implementation plan with steps milestones and validation criteria' as PromptPart;

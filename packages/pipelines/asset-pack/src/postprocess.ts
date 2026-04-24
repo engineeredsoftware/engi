@@ -1,5 +1,5 @@
 import type { DeliverableOutput, DeliverablePostprocessed } from './types/PipelineSchemas';
-import { Execution, getValidationReadyToShip } from '@bitcode/execution-generics';
+import { Execution, getValidationReadyToFinish } from '@bitcode/execution-generics';
 
 export function normalizeDeliverableOutput(output: DeliverableOutput, execution: Execution): DeliverableOutput {
   const enhanced = { ...output };
@@ -10,9 +10,7 @@ export function normalizeDeliverableOutput(output: DeliverableOutput, execution:
     enhanced.writtenAsset?.prUrl ||
     deliveryMechanism?.prUrl ||
     (execution.get('finish', 'prUrl') as string) ||
-    (execution.get('finish', 'pullRequestUrl') as string) ||
-    (execution.get('shipping', 'prUrl') as string) ||
-    (execution.get('shipping', 'pullRequestUrl') as string);
+    (execution.get('finish', 'pullRequestUrl') as string);
   if (prUrl) {
     enhanced.deliveryMechanism = { ...(deliveryMechanism || {}), prUrl } as any;
     enhanced.deliverable = { ...(enhanced.deliverable || enhanced.deliveryMechanism || {}), prUrl } as any;
@@ -83,27 +81,19 @@ export function buildDeliverablePostprocessedResult(
     (execution as any).get?.('finish/final_work_summary', 'summary') ||
     (execution as any).get?.('finish/final_work_summary', 'writtenAssets')?.summary ||
     (execution as any).get?.('finish/final_work_summary', 'deliverables')?.summary ||
-    (execution as any).get?.('shipping/final_work_summary', 'summary') ||
-    (execution as any).get?.('shipping/final_work_summary', 'writtenAssets')?.summary ||
-    (execution as any).get?.('shipping/final_work_summary', 'deliverables')?.summary ||
     normalized.summary ||
     undefined;
 
   const finishArtifacts =
     (execution as any).get?.('finish/final_work_summary', 'writtenAssets') ||
     (execution as any).get?.('finish/final_work_summary', 'deliverables');
-  const shippingArtifacts =
-    (execution as any).get?.('shipping/final_work_summary', 'writtenAssets') ||
-    (execution as any).get?.('shipping/final_work_summary', 'deliverables');
   const filesCreated =
     normalized.artifacts?.filesCreated ??
     finishArtifacts?.fileChanges?.created ??
-    shippingArtifacts?.fileChanges?.created ??
     [];
   const filesModified =
     normalized.artifacts?.filesModified ??
     finishArtifacts?.fileChanges?.modified ??
-    shippingArtifacts?.fileChanges?.modified ??
     [];
 
   const artifacts =
@@ -119,7 +109,7 @@ export function buildDeliverablePostprocessedResult(
         }
       : null;
 
-  const validationReady = getValidationReadyToShip(execution, 'deliverable');
+  const validationReady = getValidationReadyToFinish(execution, 'asset-pack');
 
   return {
     executionId,

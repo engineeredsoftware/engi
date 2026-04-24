@@ -65,7 +65,7 @@ describe('executeValidationPhase', () => {
       metrics: { tokensUsed: 3, score: 0.9, confidence: 0.8, taskCompletion: 1, codeQuality: 1, securityScore: 1, contentQuality: 1 },
       errors: [],
       needsIteration: false,
-      readyToShip: true,
+      readyToFinish: true,
       confidence: 0.8,
     };
     (runValidation as jest.Mock).mockResolvedValue(validationResult);
@@ -90,7 +90,7 @@ describe('executeValidationPhase', () => {
     expect(state.currentIteration.validation).toMatchObject({
       feedback: 'all good',
       scores: expect.objectContaining({ overall: 0.9 }),
-      readyToShip: true,
+      readyToFinish: true,
       reasons: [],
     });
     // Stream success message
@@ -119,7 +119,7 @@ describe('executeValidationPhase', () => {
       metrics: { tokensUsed: 1, score: 0.4, confidence: 0.3 },
       errors: [{ message: 'issue1', code: 'E1', severity: 'low' }],
       needsIteration: true,
-      readyToShip: false,
+      readyToFinish: false,
       confidence: 0.3,
     };
     (runValidation as jest.Mock).mockResolvedValue(validationResult);

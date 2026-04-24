@@ -9,15 +9,19 @@
 
 import { Executor, Execution } from '@bitcode/execution-generics';
 import { factorySDIVFExecutorPipeline, createGuidedPipelineExecution, gatePreprocess } from '@bitcode/pipelines-generics';
-import { deliverablePhases } from './phases';
+import { assetPackPhases } from './phases';
 import { initializeAssetPackPipeline } from './preprocess';
 import { normalizeDeliverableOutput, buildDeliverablePostprocessedResult } from './postprocess';
-import { DeliverableType } from './types/DeliverableType';
+import { AssetPackWrittenAssetType } from './types/AssetPackWrittenAssetType';
 import { resolveExpressedNeed, resolveWrittenAssetType } from './semantic-resolution';
 
 // ==================== FACTORIES ====================
 
-function storePreprocessedSnapshot(execution: Execution, processedInput: any, deliverableType: DeliverableType) {
+function storePreprocessedSnapshot(
+  execution: Execution,
+  processedInput: any,
+  writtenAssetType: AssetPackWrittenAssetType
+) {
   const need = resolveExpressedNeed(processedInput);
   const repo = processedInput?.repository || {};
   const snapshot = {
@@ -29,12 +33,12 @@ function storePreprocessedSnapshot(execution: Execution, processedInput: any, de
       name: repo.name || repo.repo || null,
       branch: repo.branch || null,
     },
-    deliverableType,
-    writtenAssetType: deliverableType,
+    deliverableType: writtenAssetType,
+    writtenAssetType,
     semanticKind: 'asset-pack-written-asset' as const,
     assetPack: {
       need,
-      writtenAssetType: deliverableType,
+      writtenAssetType,
       deliveryTarget: processedInput?.deliveryTarget || null,
     },
     requirements: processedInput?.requirements || null,
@@ -57,17 +61,17 @@ function factoryPreprocess(): Executor<any, any> {
     const processedInput = gatePreprocess(input, execution);
     const expressedNeed = resolveExpressedNeed(processedInput);
 
-    const deliverableType = resolveWrittenAssetType(processedInput);
+    const writtenAssetType = resolveWrittenAssetType(processedInput);
     try { processedInput.need = expressedNeed; } catch {}
     try { processedInput.definitionOfNeed = expressedNeed; } catch {}
-    try { processedInput.writtenAssetType = deliverableType; } catch {}
-    try { processedInput.deliverableType = deliverableType; } catch {}
+    try { processedInput.writtenAssetType = writtenAssetType; } catch {}
+    try { processedInput.deliverableType = writtenAssetType; } catch {}
     execution.store('pipeline', 'input', processedInput);
-    execution.store('pipeline', 'deliverableType', deliverableType);
-    execution.store('pipeline', 'writtenAssetType', deliverableType);
+    execution.store('pipeline', 'deliverableType', writtenAssetType);
+    execution.store('pipeline', 'writtenAssetType', writtenAssetType);
     execution.store('pipeline', 'expressedNeed', expressedNeed);
     execution.store('need', 'description', expressedNeed);
-    storePreprocessedSnapshot(execution, processedInput, deliverableType);
+    storePreprocessedSnapshot(execution, processedInput, writtenAssetType);
     return processedInput;
   };
 }
@@ -133,32 +137,32 @@ function factoryDevelopPhase(): Executor<any, any> {
   const setupPhase: Executor<any, any> = async (input, execution) => {
     const isTest = String(process?.env?.NODE_ENV || '').toLowerCase() === 'test';
     const enableSetupRuntimeInTest =
-      process?.env?.BITCODE_ENABLE_DELIVERABLE_SETUP_PHASE_RUNTIME_IN_TEST === '1';
+      process?.env?.BITCODE_ENABLE_ASSET_PACK_SETUP_PHASE_RUNTIME_IN_TEST === '1';
     if (isTest && !enableSetupRuntimeInTest) {
       return input;
     }
-    return deliverablePhases.setup(input, execution);
+    return assetPackPhases.setup(input, execution);
   };
   const discoveryPhase: Executor<any, any> = async (input, execution) => {
     const isTest = String(process?.env?.NODE_ENV || '').toLowerCase() === 'test';
     if (isTest) {
       return input;
     }
-    return deliverablePhases.discovery(input, execution);
+    return assetPackPhases.discovery(input, execution);
   };
   const implementationPhase: Executor<any, any> = async (input, execution) => {
     const isTest = String(process?.env?.NODE_ENV || '').toLowerCase() === 'test';
     if (isTest) {
       return input;
     }
-    return deliverablePhases.implementation(input, execution);
+    return assetPackPhases.implementation(input, execution);
   };
   const validationPhase: Executor<any, any> = async (input, execution) => {
     const isTest = String(process?.env?.NODE_ENV || '').toLowerCase() === 'test';
     if (isTest) {
       return input;
     }
-    return deliverablePhases.validation(input, execution);
+    return assetPackPhases.validation(input, execution);
   };
   const finishPhase: Executor<any, any> = async (input, execution) => {
     const isTest = String(process?.env?.NODE_ENV || '').toLowerCase() === 'test';
@@ -172,7 +176,7 @@ function factoryDevelopPhase(): Executor<any, any> {
         summary: 'test'
       };
     }
-    return deliverablePhases.finish(input, execution);
+    return assetPackPhases.finish(input, execution);
   };
 
   const developExecutor = factorySDIVFExecutorPipeline('develop', {
@@ -214,8 +218,6 @@ export const assetPackPipeline: Executor<any, any> = createGuidedPipelineExecuti
 // ==================== EXPORTS ====================
 
 export * from './phases';
-export * from './types/DeliverableType';
+export * from './types/AssetPackWrittenAssetType';
 export default assetPackPipeline;
-export const deliverablePipeline = assetPackPipeline;
 export const runSDIVFPipeline = assetPackPipeline;
-export const runSDIVSPipeline = assetPackPipeline;

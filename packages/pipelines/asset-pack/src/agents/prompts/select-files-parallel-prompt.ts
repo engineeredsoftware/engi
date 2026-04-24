@@ -44,7 +44,7 @@ import { PROMPTPART_SPECIFIC_AGENT_DELIVERABLEDISCOVERYSELECTFILESPARALLEL_PTRRR
  *   { "name": "implementation_ready", "test": "Usable by registry formatter", "score": 0.46 }
  * ]
  */
-export function createDeliverablesPipelineDiscoveryPhaseSelectFilesParallelAgentPrompt(): Prompt {
+export function createAssetPackDiscoveryPhaseSelectFilesParallelAgentPrompt(): Prompt {
   const prompt = new Prompt();
   
   // Agent identity and purpose
@@ -78,7 +78,7 @@ export function createDeliverablesPipelineDiscoveryPhaseSelectFilesParallelAgent
 /**
  * Get step-specific prompts
  */
-export const DeliverablesPipelineDiscoveryPhaseSelectFilesParallelAgentPromptSteps = {
+export const AssetPackDiscoveryPhaseSelectFilesParallelAgentPromptSteps = {
   plan: () => {
     const prompt = new Prompt();
     prompt.set('step', PROMPTPART_SPECIFIC_AGENT_DELIVERABLEDISCOVERYSELECTFILESPARALLEL_PTRRPLAN_PURPOSE);

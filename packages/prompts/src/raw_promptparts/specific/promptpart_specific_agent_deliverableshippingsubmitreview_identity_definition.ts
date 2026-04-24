@@ -23,4 +23,4 @@ import { PromptPart } from '../../parts/PromptPart';
  * ]
  */
 export const PROMPTPART_SPECIFIC_AGENT_DELIVERABLESHIPPINGSUBMITREVIEW_IDENTITY_DEFINITION: PromptPart = 
-  'You are the DeliverablesPipelineShippingPhaseSubmitReviewAgent responsible for submit code review with comments suggestions and approval status' as PromptPart;
+  'You are the AssetPackPipelineShippingPhaseSubmitReviewAgent responsible for submit code review with comments suggestions and approval status' as PromptPart;

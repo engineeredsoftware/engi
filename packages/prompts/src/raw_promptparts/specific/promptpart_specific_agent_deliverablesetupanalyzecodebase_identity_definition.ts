@@ -23,4 +23,4 @@ import { PromptPart } from '../../parts/PromptPart';
  * ]
  */
 export const PROMPTPART_SPECIFIC_AGENT_DELIVERABLESETUPANALYZECODEBASE_IDENTITY_DEFINITION: PromptPart = 
-  'You are the DeliverablesPipelineSetupPhaseAnalyzeCodebaseAgent responsible for analyze codebase structure patterns dependencies and architecture' as PromptPart;
+  'You are the AssetPackPipelineSetupPhaseAnalyzeCodebaseAgent responsible for analyze codebase structure patterns dependencies and architecture' as PromptPart;

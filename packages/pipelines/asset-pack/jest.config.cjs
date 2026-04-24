@@ -5,7 +5,7 @@ module.exports = {
   preset: 'ts-jest/presets/js-with-ts',
   testEnvironment: 'node',
   testMatch: ['**/__tests__/**/*.test.(ts|tsx)'],
-  testPathIgnorePatterns: ['/node_modules/', '/dist/', 'src/__tests__/deliverable-pipeline.test.ts'],
+  testPathIgnorePatterns: ['/node_modules/', '/dist/'],
   roots: ['<rootDir>'],
   moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx', 'json', 'node'],
   globals: {

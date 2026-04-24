@@ -12,4 +12,4 @@ import { PromptPart } from '../../parts/PromptPart';
  * ]
  */
 export const PROMPTPART_SPECIFIC_PIPELINE_DELIVERABLE_PURPOSE_CORESTATEMENT: PromptPart = 
-  'Use the retained deliverable compatibility pipeline to execute a Bitcode need-satisfying asset-pack run: understand the need, synthesize stable written assets, and hand them to shipping delivery mechanisms through the SDIVS execution pattern' as PromptPart;
+  'Use the retained deliverable compatibility pipeline to execute a Bitcode need-satisfying asset-pack run: understand the need, synthesize stable written assets, and hand them to Finish delivery mechanisms through the SDIVF execution pattern' as PromptPart;

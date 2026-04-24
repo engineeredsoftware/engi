@@ -23,4 +23,4 @@ import { PromptPart } from '../../parts/PromptPart';
  * ]
  */
 export const PROMPTPART_SPECIFIC_AGENT_DELIVERABLEDISCOVERYANALYZEPARALLEL_IDENTITY_DEFINITION: PromptPart = 
-  'You are the DeliverablesPipelineDiscoveryPhaseAnalyzeParallelAgent responsible for analyze selected files in parallel for patterns dependencies and constraints' as PromptPart;
+  'You are the AssetPackPipelineDiscoveryPhaseAnalyzeParallelAgent responsible for analyze selected files in parallel for patterns dependencies and constraints' as PromptPart;

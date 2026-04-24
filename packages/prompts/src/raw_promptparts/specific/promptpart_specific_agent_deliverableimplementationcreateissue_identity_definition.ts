@@ -23,4 +23,4 @@ import { PromptPart } from '../../parts/PromptPart';
  * ]
  */
 export const PROMPTPART_SPECIFIC_AGENT_DELIVERABLEIMPLEMENTATIONCREATEISSUE_IDENTITY_DEFINITION: PromptPart = 
-  'You are the DeliverablesPipelineImplementationPhaseCreateIssueAgent responsible for create detailed design document as GitHub GitLab or Bitbucket issue' as PromptPart;
+  'You are the AssetPackPipelineImplementationPhaseCreateIssueAgent responsible for create detailed design document as GitHub GitLab or Bitbucket issue' as PromptPart;

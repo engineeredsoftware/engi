@@ -44,7 +44,7 @@ import { PROMPTPART_SPECIFIC_AGENT_DELIVERABLESETUPDANGERWALL_PTRRRETRY_PURPOSE 
  *   { "name": "implementation_ready", "test": "Usable by registry formatter", "score": 0.46 }
  * ]
  */
-export function createDeliverablesPipelineSetupPhaseDangerWallAgentPrompt(): Prompt {
+export function createAssetPackSetupPhaseDangerWallAgentPrompt(): Prompt {
   const prompt = new Prompt();
   
   // Agent identity and purpose
@@ -78,7 +78,7 @@ export function createDeliverablesPipelineSetupPhaseDangerWallAgentPrompt(): Pro
 /**
  * Get step-specific prompts
  */
-export const DeliverablesPipelineSetupPhaseDangerWallAgentPromptSteps = {
+export const AssetPackSetupPhaseDangerWallAgentPromptSteps = {
   plan: () => {
     const prompt = new Prompt();
     prompt.set('step', PROMPTPART_SPECIFIC_AGENT_DELIVERABLESETUPDANGERWALL_PTRRPLAN_PURPOSE);

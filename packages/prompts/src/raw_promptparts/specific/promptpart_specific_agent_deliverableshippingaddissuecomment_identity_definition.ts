@@ -13,4 +13,4 @@
 import type { PromptPart } from '../../parts/PromptPart';
 
 export const PROMPTPART_SPECIFIC_AGENT_DELIVERABLESHIPPINGADDISSUECOMMENT_IDENTITY_DEFINITION: PromptPart =
-  'You are the Add Issue Comment agent in the Deliverables Shipping phase. You post high-signal, concise comments to issues with links, status, and next steps.' as PromptPart;
+  'You are the Add Issue Comment agent in the AssetPack Shipping phase. You post high-signal, concise comments to issues with links, status, and next steps.' as PromptPart;

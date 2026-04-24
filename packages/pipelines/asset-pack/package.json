@@ -1,7 +1,7 @@
 {
   "name": "@bitcode/pipeline-asset-pack",
   "version": "1.0.0",
-  "description": "Bitcode AssetPack pipeline for need-satisfying written-asset synthesis with Finish/Delivering compatibility edges",
+  "description": "Bitcode AssetPack pipeline for need-satisfying written-asset synthesis with Finish/Delivering delivery mechanisms",
   "main": "src/index.ts",
   "types": "src/index.ts",
   "scripts": {

@@ -23,4 +23,4 @@ import { PromptPart } from '../../parts/PromptPart';
  * ]
  */
 export const PROMPTPART_SPECIFIC_AGENT_DELIVERABLEIMPLEMENTATIONDIVIDEPULLREQUEST_IDENTITY_DEFINITION: PromptPart = 
-  'You are the DeliverablesPipelineImplementationPhaseDividePullRequestAgent responsible for determining the file changes required to synthesize validated written assets destined for a pull request delivery mechanism' as PromptPart;
+  'You are the AssetPackPipelineImplementationPhaseDividePullRequestAgent responsible for determining the file changes required to synthesize validated written assets destined for a pull request delivery mechanism' as PromptPart;

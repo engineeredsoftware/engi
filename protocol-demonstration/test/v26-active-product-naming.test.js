@@ -561,8 +561,8 @@ const agentNormalizeStepNameSource = readFileSync(new URL('../../packages/agent-
 const deliverablePreprocessSource = readFileSync(new URL('../../packages/pipelines/asset-pack/src/preprocess.ts', import.meta.url), 'utf8');
 const deliverableBringupDemoSource = readFileSync(new URL('../../packages/pipelines/asset-pack/src/__dev__/bringup-demo.ts', import.meta.url), 'utf8');
 const deliverableMetricsTestSource = readFileSync(new URL('../../packages/pipelines/asset-pack/src/__tests__/metrics-output.test.ts', import.meta.url), 'utf8');
-const deliverableSetupPlanAgentSource = readFileSync(new URL('../../packages/pipelines/asset-pack/src/agents/setup/deliverable-pipeline-setup-plan-agent.ts', import.meta.url), 'utf8');
-const deliverableCreatePullRequestAgentSource = readFileSync(new URL('../../packages/pipelines/asset-pack/src/agents/finish-compatibility/asset-pack-finish-create-pull-request-delivery-agent.ts', import.meta.url), 'utf8');
+const deliverableSetupPlanAgentSource = readFileSync(new URL('../../packages/pipelines/asset-pack/src/agents/setup/asset-pack-setup-plan-agent.ts', import.meta.url), 'utf8');
+const deliverableCreatePullRequestAgentSource = readFileSync(new URL('../../packages/pipelines/asset-pack/src/agents/finish/asset-pack-finish-create-pull-request-delivery-agent.ts', import.meta.url), 'utf8');
 const parsingSource = readFileSync(new URL('../../packages/parsing/src/parsing.ts', import.meta.url), 'utf8');
 const deliverablesNotificationsTestSource = readFileSync(new URL('../../uapi/tests/api/deliverables.notifications.test.ts', import.meta.url), 'utf8');
 const vercelIndexSource = readFileSync(new URL('../../packages/vercel/src/index.ts', import.meta.url), 'utf8');
@@ -1139,9 +1139,9 @@ test('active V26 canon posture and preserved runtime state use bitcode policy an
   assert.equal(existsSync(preprocessTogglePath), false);
   assert.match(deliverableToolsIndexSource, /BITCODE_ENABLE_COMPUTER_USE_NEED_MEASUREMENT/);
   assert.match(deliverableToolsIndexSource, /need-measurement:computer-use-evidence-agent/);
-  assert.doesNotMatch(deliverableToolsIndexSource, /implementation-correct-code-change-agent': \[deliverablePipelineUseComputerTool\]/);
-  assert.doesNotMatch(deliverableToolsIndexSource, /finish:deliver-asset-pack-to-destination-agent': \[deliverablePipelineUseComputerTool/);
-  assert.doesNotMatch(deliverableToolsIndexSource, /shipping:deliverable-pipeline-ship-agent': \[deliverablePipelineUseComputerTool/);
+  assert.doesNotMatch(deliverableToolsIndexSource, /implementation-correct-code-change-agent': \[bitcodeNeedMeasurementComputerUseTool\]/);
+  assert.doesNotMatch(deliverableToolsIndexSource, /finish:deliver-asset-pack-to-destination-agent': \[bitcodeNeedMeasurementComputerUseTool/);
+  assert.doesNotMatch(deliverableToolsIndexSource, /shipping:deliverable-pipeline|SHIPPING_PHASE_TOOLS/);
   assert.doesNotMatch(uapiFeatureFlagsSource, /ENABLE_COMPUTE_TOGGLE/);
   assert.doesNotMatch(uapiFeatureFlagsSource, /ENABLE_MULTI_AGENT_TOGGLE/);
   assert.doesNotMatch(executionsPageClientSource, /computeEnabled/);

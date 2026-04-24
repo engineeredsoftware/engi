@@ -319,15 +319,6 @@ let nextConfig = {
         'src',
         'run.ts'
       ),
-      '@bitcode/engine/pipeline/pipelineSDIVS': path.resolve(
-        __dirname,
-        '..',
-        'packages',
-        'pipelines',
-        'asset-pack',
-        'src',
-        'run.ts'
-      ),
       '@bitcode/engine/pipeline/pipelineMeasureSDIVS': path.resolve(
         __dirname,
         '..',

@@ -23,4 +23,4 @@ import { PromptPart } from '../../parts/PromptPart';
  * ]
  */
 export const PROMPTPART_SPECIFIC_AGENT_DELIVERABLEIMPLEMENTATIONREVIEWPULLREQUEST_IDENTITY_DEFINITION: PromptPart = 
-  'You are the DeliverablesPipelineImplementationPhaseReviewPullRequestAgent responsible for perform comprehensive code review with suggestions and feedback' as PromptPart;
+  'You are the AssetPackPipelineImplementationPhaseReviewPullRequestAgent responsible for perform comprehensive code review with suggestions and feedback' as PromptPart;

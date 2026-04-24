@@ -1,6 +1,6 @@
-import { DeliverableType } from './types/DeliverableType';
+import { AssetPackWrittenAssetType } from './types/AssetPackWrittenAssetType';
 
-const DEFAULT_WRITTEN_ASSET_TYPE = DeliverableType.CodeChange;
+const DEFAULT_WRITTEN_ASSET_TYPE = AssetPackWrittenAssetType.CodeChange;
 
 function firstString(value: unknown): string | undefined {
   if (Array.isArray(value)) {
@@ -11,26 +11,26 @@ function firstString(value: unknown): string | undefined {
 
 export function normalizeWrittenAssetType(
   candidate: unknown,
-  fallback: DeliverableType = DEFAULT_WRITTEN_ASSET_TYPE
-): DeliverableType {
+  fallback: AssetPackWrittenAssetType = DEFAULT_WRITTEN_ASSET_TYPE
+): AssetPackWrittenAssetType {
   const raw = firstString(candidate);
   if (!raw) return fallback;
 
   const normalized = raw.toLowerCase();
   if (normalized.includes('review')) {
     return normalized.includes('design')
-      ? DeliverableType.DesignDocumentReview
-      : DeliverableType.CodeChangeReview;
+      ? AssetPackWrittenAssetType.DesignDocumentReview
+      : AssetPackWrittenAssetType.CodeChangeReview;
   }
-  if (normalized.includes('design')) return DeliverableType.DesignDocument;
-  if (normalized.includes('code')) return DeliverableType.CodeChange;
+  if (normalized.includes('design')) return AssetPackWrittenAssetType.DesignDocument;
+  if (normalized.includes('code')) return AssetPackWrittenAssetType.CodeChange;
   return fallback;
 }
 
 export function resolveWrittenAssetType(
   input: any,
-  fallback: DeliverableType = DEFAULT_WRITTEN_ASSET_TYPE
-): DeliverableType {
+  fallback: AssetPackWrittenAssetType = DEFAULT_WRITTEN_ASSET_TYPE
+): AssetPackWrittenAssetType {
   return normalizeWrittenAssetType(
     input?.writtenAssetType ??
       input?.writtenAsset?.type ??
@@ -44,8 +44,8 @@ export function resolveWrittenAssetType(
 
 export function resolveWrittenAssetTypeFromExecution(
   execution: any,
-  fallback: DeliverableType = DEFAULT_WRITTEN_ASSET_TYPE
-): DeliverableType {
+  fallback: AssetPackWrittenAssetType = DEFAULT_WRITTEN_ASSET_TYPE
+): AssetPackWrittenAssetType {
   return normalizeWrittenAssetType(
     execution?.findUp?.('pipeline', 'writtenAssetType') ??
       execution?.get?.('pipeline', 'writtenAssetType') ??

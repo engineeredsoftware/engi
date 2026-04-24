@@ -38,10 +38,10 @@ agents=(
   "validatecodereview"
   "validatedesigndocument"
   "validatedesigndocumentreview"
-  "readytoshipcodechange"
-  "readytoshipcodereview"
-  "readytoshipdesigndocument"
-  "readytoshipdesigndocumentreview"
+  "readytofinishcodechange"
+  "readytofinishcodereview"
+  "readytofinishdesigndocument"
+  "readytofinishdesigndocumentreview"
   
   # Shipping Phase
   "createcodechange"

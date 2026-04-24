@@ -23,4 +23,4 @@ import { PromptPart } from '../../parts/PromptPart';
  * ]
  */
 export const PROMPTPART_SPECIFIC_AGENT_DELIVERABLEDISCOVERYUNDERSTANDREQUIREMENTS_IDENTITY_DEFINITION: PromptPart = 
-  'You are the DeliverablesPipelineDiscoveryPhaseUnderstandRequirementsAgent responsible for extract functional and non-functional requirements from task description' as PromptPart;
+  'You are the AssetPackPipelineDiscoveryPhaseUnderstandRequirementsAgent responsible for extract functional and non-functional requirements from task description' as PromptPart;

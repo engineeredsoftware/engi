@@ -65,7 +65,7 @@ export type HeaderProcessingStats = {
   runId?: string;
   digest?: {
     agentsDocUpdated: boolean;
-    readyToShip: boolean;
+    readyToFinish: boolean;
     summary?: string | null;
     questionsAnswered?: number;
     patternsDocumented?: number;
@@ -93,7 +93,7 @@ export type HeaderFinalWorkSummary = {
   guide?: string | null;
 };
 
-const formatDeliverableType = (type?: string | null) => {
+const formatWrittenAssetType = (type?: string | null) => {
   switch (type) {
     case 'code-change':
       return 'Code Change';
@@ -456,7 +456,7 @@ function PostprocessedSummary({ postprocessed }: { postprocessed: any }) {
       {postprocessed?.validationReady && (
         <div className="mb-3 text-xs">
           <span className={`inline-flex items-center px-2 py-0.5 rounded border mr-2 ${postprocessed.validationReady.approved ? 'border-emerald-500/40 text-emerald-300' : 'border-yellow-500/40 text-yellow-300'}`}>
-            Ready To Ship: {postprocessed.validationReady.approved ? 'Approved' : 'Not Approved'}
+            Ready To Finish: {postprocessed.validationReady.approved ? 'Approved' : 'Not Approved'}
           </span>
           {typeof postprocessed.validationReady.confidence === 'number' && (
             <span className="text-gray-400">Confidence: {(postprocessed.validationReady.confidence * 100).toFixed(0)}%</span>
@@ -466,9 +466,9 @@ function PostprocessedSummary({ postprocessed }: { postprocessed: any }) {
       {(isDeliverable || isMultiDeliverable) && (
         <div className="text-sm text-gray-300">
           {postprocessed?.title && <div className="text-emerald-200 mb-1">{postprocessed.title}</div>}
-          {formatDeliverableType(postprocessed?.deliverableType) && (
+          {formatWrittenAssetType(postprocessed?.writtenAssetType || postprocessed?.deliverableType) && (
             <div className="text-[11px] text-gray-400 mb-1">
-              Type: {formatDeliverableType(postprocessed?.deliverableType)}
+              Written Asset: {formatWrittenAssetType(postprocessed?.writtenAssetType || postprocessed?.deliverableType)}
             </div>
           )}
           {postprocessed?.summary && <div className="opacity-90">{postprocessed.summary}</div>}

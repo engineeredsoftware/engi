@@ -68,9 +68,7 @@
       "@/lib/engine/pipeline/pipelineDiscoveryPhaseWrapper": ["../packages/pipelines-generics/src/phases/discovery/index.ts"],
       "@/lib/engine/pipeline/pipelineImplementationPhaseWrapper": ["../packages/pipelines-generics/src/phases/implementation/index.ts"],
       "@/lib/engine/pipeline/pipelineValidationPhaseWrapper": ["../packages/pipelines-generics/src/phases/validation/index.ts"],
-      "@/lib/engine/pipeline/pipelineShippingPhaseWrapper": ["../packages/pipelines-generics/src/phases/shipping/index.ts"],
       "@/lib/engine/pipeline/pipelineSDIVF": ["../packages/pipelines/asset-pack/src/run.ts"],
-      "@/lib/engine/pipeline/pipelineSDIVS": ["../packages/pipelines/asset-pack/src/run.ts"],
       "@/lib/engine/pipeline/pipelineMeasureSDIVS": ["../packages/pipelines/measure/src/run.ts"],
       "@/lib/engine/pipeline/pipelineObfuscateSDIVS": ["../packages/pipelines/obfuscate/src/run.ts"],
       "@/lib/engine/constants": ["../packages/pipelines-generics/src/constants.ts"],
@@ -94,8 +92,6 @@
       "@/lib/validation": ["../packages/validation/src/index.ts"],
       "@/lib/validation/*": ["../packages/validation/src/*"],
 
-      "@/lib/shipping": ["../packages/pipelines-generics/src/phases/shipping/index.ts"],
-      "@/lib/shipping/*": ["../packages/pipelines-generics/src/phases/shipping/*", "../packages/pipelines-generics/src/shipping/*"],
 
       // ---------------------------------------------------------------
       // Generic phase umbrella – allow `@/lib/phases/<phase>` imports.
@@ -192,8 +188,6 @@
       "@bitcode/implementation/*": ["../packages/pipelines-generics/src/implementation/*"],
       "@bitcode/validation": ["../packages/validation/src/index.ts"],
       "@bitcode/validation/*": ["../packages/validation/src/*"],
-      "@bitcode/shipping": ["../packages/pipelines-generics/src/phases/shipping/index.ts"],
-      "@bitcode/shipping/*": ["../packages/pipelines-generics/src/phases/shipping/*", "../packages/pipelines-generics/src/shipping/*"],
       "@bitcode/sentry": ["../packages/sentry/src/sentry.ts"],
 
       // -------------------------------------------------------------------

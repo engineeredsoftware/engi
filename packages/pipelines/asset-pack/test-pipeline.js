@@ -1,13 +1,13 @@
 #!/usr/bin/env npx tsx
 "use strict";
 /**
- * Test script to verify deliverables pipeline executions E2E
+ * Test script to verify AssetPack pipeline executions E2E
  */
 Object.defineProperty(exports, "__esModule", { value: true });
 const index_1 = require("./src/index");
 const execution_generics_1 = require("@bitcode/execution-generics");
 async function testPipeline() {
-    console.log('🚀 Testing deliverables pipeline E2E...\n');
+    console.log('Testing AssetPack pipeline E2E...\n');
     const execution = new execution_generics_1.Execution('test-run-' + Date.now());
     // Store minimal required context
     execution.store('execution', 'correlationId', 'test-correlation');
@@ -44,7 +44,7 @@ async function testPipeline() {
     try {
         console.log('Input:', JSON.stringify(input, null, 2));
         console.log('\nExecuting pipeline...\n');
-        const result = await (0, index_1.deliverablePipeline)(input, execution);
+        const result = await (0, index_1.assetPackPipeline)(input, execution);
         console.log('\n✅ Pipeline completed successfully!');
         console.log('Result:', JSON.stringify(result, null, 2));
     }

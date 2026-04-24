@@ -2245,7 +2245,7 @@ function buildV26PromptSystemTotalityProof({
         'packages/pipelines/asset-pack/src/agents/prompts/understand-requirements-prompt.ts',
         'packages/pipelines/asset-pack/src/agents/prompts/plan-implementation-prompt.ts',
         'packages/pipelines/asset-pack/src/agents/prompts/comprehend-need-prompt.ts',
-        'packages/pipelines/asset-pack/src/agents/prompts/deliverable-pipeline-comprehend-need-agent-prompts.ts',
+        'packages/pipelines/asset-pack/src/agents/prompts/asset-pack-comprehend-need-agent-prompts.ts',
         'packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_comprehendneed_system_identity.ts',
         'packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_comprehendneed_system_instructions.ts',
         'packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_comprehendneed_plan_strategy.ts',
@@ -2254,13 +2254,13 @@ function buildV26PromptSystemTotalityProof({
         'packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_deliverablesetupcomprehendneed_purpose_corestatement.ts',
         'packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_deliverablesetupcomprehendneed_output_needdefinitionanalysis_spec.ts',
         'packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_deliverablesetupcomprehendneed_output_types_spec.ts',
-        'packages/pipelines/asset-pack/src/agents/setup/deliverable-pipeline-comprehend-need-agent.ts',
-        'packages/pipelines/asset-pack/src/agents/setup/deliverable-pipeline-ready-to-iterate-agent.ts',
-        'packages/pipelines/asset-pack/src/agents/setup/deliverable-pipeline-setup-plan-agent.ts',
-        'packages/pipelines/asset-pack/src/agents/finish-compatibility/asset-pack-finish-create-pull-request-delivery-agent.ts',
+        'packages/pipelines/asset-pack/src/agents/setup/asset-pack-comprehend-need-agent.ts',
+        'packages/pipelines/asset-pack/src/agents/setup/asset-pack-ready-to-iterate-agent.ts',
+        'packages/pipelines/asset-pack/src/agents/setup/asset-pack-setup-plan-agent.ts',
+        'packages/pipelines/asset-pack/src/agents/finish/asset-pack-finish-create-pull-request-delivery-agent.ts',
         'packages/pipelines/asset-pack/src/agents/finish/deliver-asset-pack-to-destination-agent.ts',
         'packages/pipelines/asset-pack/src/agents/finish/final-work-summary-agent.ts',
-        'packages/pipelines/asset-pack/src/tools/DeliverablePipelineCloneVCSRepositoryTool.ts',
+        'packages/pipelines/asset-pack/src/tools/AssetPackCloneVCSRepositoryTool.ts',
         'scripts/fix-execution-to-directives.sh',
         'scripts/generate-deliverable-promptparts.ts',
         'scripts/prompt-audit.sh',
@@ -2505,7 +2505,7 @@ function buildV26SourceToSharesFifthGateProof({
         'protocol-demonstration/test/v26-pipeline-finish-reform.test.js',
         'packages/pipelines-generics/src/phases/sdivf-factory.ts',
         'packages/pipelines-generics/src/phases/phase-factory.ts',
-        'packages/pipelines/asset-pack/src/agents/finish-delivery-compatibility-agents.ts',
+        'packages/pipelines/asset-pack/src/agents/finish-delivery-agents.ts',
         'packages/pipelines/asset-pack/src/agents/validation-agents.ts'
       ]
     )
@@ -2781,8 +2781,10 @@ const V26_PROMPT_SPACE_WITNESS_SETS = [
     laterGateRemaining: 'Compatibility file and class names can be retired only after callers no longer need them.',
     requiredFiles: [
       'packages/pipelines/asset-pack/src/agents/prompts/comprehend-need-prompt.ts',
-      'packages/pipelines/asset-pack/src/agents/setup/deliverable-pipeline-comprehend-need-agent.ts',
+      'packages/pipelines/asset-pack/src/agents/setup/asset-pack-comprehend-need-agent.ts',
       'packages/pipelines/asset-pack/src/semantic-resolution.ts',
+      'packages/pipelines/asset-pack/src/types/AssetPackWrittenAssetType.ts',
+      'packages/pipelines/asset-pack/src/tools/search.ts',
       'packages/pipelines/asset-pack/scripts/render-prompts.ts',
       'packages/generic-agents/need-comprehension/README.md',
       'packages/generic-agents/need-comprehension/package.json',
@@ -3181,7 +3183,7 @@ function buildV26RunsPipelinesTotalityProof({
         {
           file: 'packages/executions-mcp/src/mcp-server/src/__tests__/unit/prompt-asset-pack-canon.test.ts',
           evidence: 'MCP prompt asset-pack canon',
-          description: 'package-local test renders prompts and proves they no longer teach deliverable-pipeline canon'
+          description: 'package-local test renders prompts and proves they teach AssetPack canon'
         }
       ]
     ),
@@ -3333,7 +3335,7 @@ const V26_SYSTEM_REFORM_DECISIONS = [
       'packages/generic-tools/use-computer/src/index.ts',
       'packages/generic-tools/use-computer/src/prompts/UseComputerDocCodeToolPrompt.ts',
       'packages/prompts/src/raw_promptparts/specific/promptpart_specific_tool_usecomputer_doccodetoolpurpose.ts',
-      'packages/pipelines/asset-pack/src/tools/DeliverablePipelineUseComputerTool.ts',
+      'packages/pipelines/asset-pack/src/tools/BitcodeNeedMeasurementComputerUseTool.ts',
       'packages/pipelines/asset-pack/src/tools/index.ts',
       'packages/api/src/routes/deliverables.ts',
       'packages/execution-generics/src/store/registry.ts',

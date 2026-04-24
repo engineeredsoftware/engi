@@ -10,10 +10,6 @@ jest.mock('@bitcode/engine/pipeline/iterationHandler', () => ({
   executeIteration: jest.fn(() => Promise.resolve({ success: true, validationPassed: true })),
   canRecoverIteration: jest.fn(() => ({ canRecover: true }))
 }));
-jest.mock('@bitcode/engine/pipeline/pipelineShippingPhaseWrapper', () => ({
-  executeShippingPhase: jest.fn(() => Promise.resolve({ enhancedResult: { success: true } })),
-  handleShippingFailure: jest.fn()
-}));
 import { configureDryRun } from '@bitcode/dryrun';
 import { runSDIVFPipeline } from '@bitcode/engine/pipeline/pipelineSDIVF';
 

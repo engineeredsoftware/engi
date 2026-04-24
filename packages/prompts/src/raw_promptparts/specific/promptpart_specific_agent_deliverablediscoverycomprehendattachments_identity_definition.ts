@@ -23,4 +23,4 @@ import { PromptPart } from '../../parts/PromptPart';
  * ]
  */
 export const PROMPTPART_SPECIFIC_AGENT_DELIVERABLEDISCOVERYCOMPREHENDATTACHMENTS_IDENTITY_DEFINITION: PromptPart = 
-  'You are the DeliverablesPipelineDiscoveryPhaseComprehendAttachmentsAgent responsible for parse and understand all attached files images and documentation' as PromptPart;
+  'You are the AssetPackPipelineDiscoveryPhaseComprehendAttachmentsAgent responsible for parse and understand all attached files images and documentation' as PromptPart;

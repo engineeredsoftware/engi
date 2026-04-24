@@ -1,8 +1,8 @@
 {
   "reportId": "v26-inference-implementation-records-proof",
   "version": "V26",
-  "proofSourceCommit": "48b36f021ba6f5890140e9cec46fd07261ec7bd2",
-  "generatedAt": "2026-04-24T13:44:13-03:00",
+  "proofSourceCommit": "7877e81e1c4c3e2f1f6c322dc5843678f5342703",
+  "generatedAt": "2026-04-24T13:58:45-03:00",
   "generatorId": "bitcode.proven-generator.v1",
   "worktreeState": "dirty-preview",
   "passed": true,
@@ -466,7 +466,7 @@
       "missingSectionFields": [],
       "implementationOwnerRefs": [
         "packages/pipelines/asset-pack/src/agents/prompts/comprehend-need-prompt.ts",
-        "packages/pipelines/asset-pack/src/agents/prompts/deliverable-pipeline-comprehend-need-agent-prompts.ts",
+        "packages/pipelines/asset-pack/src/agents/prompts/asset-pack-comprehend-need-agent-prompts.ts",
         "packages/pipelines/asset-pack/scripts/render-prompts.ts",
         "packages/generic-agents/text-searcher/src/prompts/agent-prompt-text-searcher.ts",
         "packages/generic-agents/text-searcher/src/prompts/system-prompt-text-searcher.ts",
@@ -476,7 +476,7 @@
         "packages/generic-agents/text-searcher/src/prompts/retry-prompt-text-searcher.ts",
         "packages/generic-tools/simple-system-text-search/src/prompts/BitcodeRepositoryEvidenceSearchDocCodeToolPrompt.ts",
         "packages/generic-tools/simple-system-text-search/src/prompts/SimpleSystemTextSearchDocCodeToolPrompt.ts",
-        "packages/pipelines/asset-pack/src/tools/DeliverablePipelineCloneVCSRepositoryTool.ts",
+        "packages/pipelines/asset-pack/src/tools/AssetPackCloneVCSRepositoryTool.ts",
         "packages/pipelines/asset-pack/src/tools/search.ts",
         "packages/system-grep/src/index.ts",
         "packages/generic-tools/simple-system-text-search/src/index.ts",
@@ -486,9 +486,9 @@
         "packages/generic-tools/files-maintaining/src/prompts/ReplaceFileDocCodeToolPrompt.ts",
         "packages/generic-tools/files-maintaining/src/prompts/DeleteFileDocCodeToolPrompt.ts",
         "packages/generic-tools/files-maintaining/src/prompts/tool-prompt-transaction-begin.ts",
-        "packages/pipelines/asset-pack/src/agents/setup/deliverable-pipeline-comprehend-need-agent.ts",
+        "packages/pipelines/asset-pack/src/agents/setup/asset-pack-comprehend-need-agent.ts",
         "packages/generic-agents/text-searcher/src/index.ts",
-        "packages/pipelines/asset-pack/src/agents/setup/deliverable-pipeline-ready-to-iterate-agent.ts",
+        "packages/pipelines/asset-pack/src/agents/setup/asset-pack-ready-to-iterate-agent.ts",
         "packages/pipelines/asset-pack/src/phases/index.ts",
         "packages/pipelines/asset-pack/src/phases/finish.ts",
         "packages/pipelines/asset-pack/src/agents/finish/deliver-asset-pack-to-destination-agent.ts",
@@ -511,7 +511,7 @@
         "packages/pipelines/asset-pack/src/postprocess.ts",
         "packages/pipelines/asset-pack/src/types/PipelineSchemas.ts",
         "packages/pipelines/asset-pack/src/agents/prompts/comprehend-need-prompt.ts",
-        "packages/pipelines/asset-pack/src/agents/setup/deliverable-pipeline-comprehend-need-agent.ts",
+        "packages/pipelines/asset-pack/src/agents/setup/asset-pack-comprehend-need-agent.ts",
         "packages/generic-agents/text-searcher/README.md",
         "packages/generic-agents/text-searcher/package.json",
         "packages/generic-agents/text-searcher/src/index.ts",
@@ -613,8 +613,8 @@
         "packages/generic-tools/need-comprehension/src/NeedComprehensionToolset.ts",
         "packages/generic-tools/need-comprehension/src/need-comprehension-primitives.ts",
         "packages/generic-tools/need-comprehension/src/need-comprehension-schemas.ts",
-        "packages/pipelines/asset-pack/src/agents/setup/deliverable-pipeline-comprehend-need-agent.ts",
-        "packages/pipelines/asset-pack/src/agents/setup/deliverable-pipeline-danger-wall-agent.ts",
+        "packages/pipelines/asset-pack/src/agents/setup/asset-pack-comprehend-need-agent.ts",
+        "packages/pipelines/asset-pack/src/agents/setup/asset-pack-danger-wall-agent.ts",
         "packages/pipelines/asset-pack/src/phases/setup.ts",
         "packages/generic-agents/need-comprehension/tsconfig.json",
         "packages/generic-agents/need-comprehension/package.json",
@@ -662,8 +662,8 @@
         "packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_comprehendneed_refine_assessment.ts",
         "packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_comprehendneed_retry_errorhandling.ts",
         "packages/prompts/src/raw_promptparts/specific/promptpart_specific_tool_analyzetasksemantics_doccodetoolpurpose.ts",
-        "packages/pipelines/asset-pack/src/agents/setup/deliverable-pipeline-comprehend-need-agent.ts",
-        "packages/pipelines/asset-pack/src/agents/setup/deliverable-pipeline-danger-wall-agent.ts",
+        "packages/pipelines/asset-pack/src/agents/setup/asset-pack-comprehend-need-agent.ts",
+        "packages/pipelines/asset-pack/src/agents/setup/asset-pack-danger-wall-agent.ts",
         "packages/pipelines/asset-pack/src/phases/setup.ts"
       ],
       "missingSourceEvidenceRefs": [],
@@ -891,7 +891,7 @@
         "packages/generic-agents/danger-wall/src/prompts/refine-prompt-dangerwall.ts",
         "packages/generic-agents/danger-wall/src/prompts/retry-prompt-dangerwall.ts",
         "packages/generic-agents/danger-wall/src/index.ts",
-        "packages/pipelines/asset-pack/src/agents/setup/deliverable-pipeline-danger-wall-agent.ts",
+        "packages/pipelines/asset-pack/src/agents/setup/asset-pack-danger-wall-agent.ts",
         "packages/agent-generics/src/execution/AgentExecution.ts"
       ],
       "missingImplementationOwnerRefs": [],
@@ -914,7 +914,7 @@
         "packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_dangerwall_system_identity.ts",
         "packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_dangerwall_system_instructions.ts",
         "packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_dangerwall_system_role.ts",
-        "packages/pipelines/asset-pack/src/agents/setup/deliverable-pipeline-danger-wall-agent.ts",
+        "packages/pipelines/asset-pack/src/agents/setup/asset-pack-danger-wall-agent.ts",
         "protocol-demonstration/test/v26-danger-wall-agent-compatibility.test.js"
       ],
       "missingSourceEvidenceRefs": [],
@@ -1371,7 +1371,7 @@
       "promptImplementation": {
         "owners": [
           "packages/pipelines/asset-pack/src/agents/prompts/comprehend-need-prompt.ts",
-          "packages/pipelines/asset-pack/src/agents/prompts/deliverable-pipeline-comprehend-need-agent-prompts.ts",
+          "packages/pipelines/asset-pack/src/agents/prompts/asset-pack-comprehend-need-agent-prompts.ts",
           "packages/pipelines/asset-pack/scripts/render-prompts.ts",
           "packages/generic-agents/text-searcher/src/prompts/agent-prompt-text-searcher.ts",
           "packages/generic-agents/text-searcher/src/prompts/system-prompt-text-searcher.ts",
@@ -1388,7 +1388,7 @@
       },
       "toolImplementation": {
         "owners": [
-          "packages/pipelines/asset-pack/src/tools/DeliverablePipelineCloneVCSRepositoryTool.ts",
+          "packages/pipelines/asset-pack/src/tools/AssetPackCloneVCSRepositoryTool.ts",
           "packages/pipelines/asset-pack/src/tools/search.ts",
           "packages/system-grep/src/index.ts",
           "packages/generic-tools/simple-system-text-search/src/index.ts",
@@ -1403,9 +1403,9 @@
       },
       "agentImplementation": {
         "owners": [
-          "packages/pipelines/asset-pack/src/agents/setup/deliverable-pipeline-comprehend-need-agent.ts",
+          "packages/pipelines/asset-pack/src/agents/setup/asset-pack-comprehend-need-agent.ts",
           "packages/generic-agents/text-searcher/src/index.ts",
-          "packages/pipelines/asset-pack/src/agents/setup/deliverable-pipeline-ready-to-iterate-agent.ts",
+          "packages/pipelines/asset-pack/src/agents/setup/asset-pack-ready-to-iterate-agent.ts",
           "packages/pipelines/asset-pack/src/phases/index.ts",
           "packages/pipelines/asset-pack/src/phases/finish.ts",
           "packages/pipelines/asset-pack/src/agents/finish/deliver-asset-pack-to-destination-agent.ts",
@@ -1449,7 +1449,7 @@
         "packages/pipelines/asset-pack/src/postprocess.ts",
         "packages/pipelines/asset-pack/src/types/PipelineSchemas.ts",
         "packages/pipelines/asset-pack/src/agents/prompts/comprehend-need-prompt.ts",
-        "packages/pipelines/asset-pack/src/agents/setup/deliverable-pipeline-comprehend-need-agent.ts",
+        "packages/pipelines/asset-pack/src/agents/setup/asset-pack-comprehend-need-agent.ts",
         "packages/generic-agents/text-searcher/README.md",
         "packages/generic-agents/text-searcher/package.json",
         "packages/generic-agents/text-searcher/src/index.ts",
@@ -1524,8 +1524,8 @@
       "agentImplementation": {
         "owners": [
           "packages/generic-agents/need-comprehension/src/index.ts",
-          "packages/pipelines/asset-pack/src/agents/setup/deliverable-pipeline-comprehend-need-agent.ts",
-          "packages/pipelines/asset-pack/src/agents/setup/deliverable-pipeline-danger-wall-agent.ts",
+          "packages/pipelines/asset-pack/src/agents/setup/asset-pack-comprehend-need-agent.ts",
+          "packages/pipelines/asset-pack/src/agents/setup/asset-pack-danger-wall-agent.ts",
           "packages/pipelines/asset-pack/src/phases/setup.ts"
         ],
         "contract": "bitcodeSetupNeedComprehensionAgent is the setup/pre-danger-wall PTRR agent. It composes the generic-tools Need-comprehension toolset, emits semantic Need, source-to-shares service-question, commercial-accountability, and AssetPack evidence, and hands bounded riskAdmissionInput to bitcodeNeedRiskAdmissionAgent."
@@ -1537,7 +1537,7 @@
           "packages/generic-tools/need-comprehension/tsconfig.json",
           "packages/generic-tools/need-comprehension/src/index.ts",
           "packages/generic-tools/need-comprehension/src/types/tools-generics.ts",
-          "packages/pipelines/asset-pack/src/agents/setup/deliverable-pipeline-comprehend-need-agent.ts"
+          "packages/pipelines/asset-pack/src/agents/setup/asset-pack-comprehend-need-agent.ts"
         ],
         "carriers": [
           "AgentExecution for bitcode-setup-need-comprehension",
@@ -1595,8 +1595,8 @@
         "packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_comprehendneed_refine_assessment.ts",
         "packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_comprehendneed_retry_errorhandling.ts",
         "packages/prompts/src/raw_promptparts/specific/promptpart_specific_tool_analyzetasksemantics_doccodetoolpurpose.ts",
-        "packages/pipelines/asset-pack/src/agents/setup/deliverable-pipeline-comprehend-need-agent.ts",
-        "packages/pipelines/asset-pack/src/agents/setup/deliverable-pipeline-danger-wall-agent.ts",
+        "packages/pipelines/asset-pack/src/agents/setup/asset-pack-comprehend-need-agent.ts",
+        "packages/pipelines/asset-pack/src/agents/setup/asset-pack-danger-wall-agent.ts",
         "packages/pipelines/asset-pack/src/phases/setup.ts"
       ]
     },
@@ -1792,7 +1792,7 @@
       "executionImplementation": {
         "owners": [
           "packages/generic-agents/danger-wall/src/index.ts",
-          "packages/pipelines/asset-pack/src/agents/setup/deliverable-pipeline-danger-wall-agent.ts",
+          "packages/pipelines/asset-pack/src/agents/setup/asset-pack-danger-wall-agent.ts",
           "packages/agent-generics/src/execution/AgentExecution.ts"
         ],
         "carriers": [
@@ -1831,7 +1831,7 @@
         "packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_dangerwall_system_identity.ts",
         "packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_dangerwall_system_instructions.ts",
         "packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_dangerwall_system_role.ts",
-        "packages/pipelines/asset-pack/src/agents/setup/deliverable-pipeline-danger-wall-agent.ts",
+        "packages/pipelines/asset-pack/src/agents/setup/asset-pack-danger-wall-agent.ts",
         "protocol-demonstration/test/v26-danger-wall-agent-compatibility.test.js"
       ]
     },

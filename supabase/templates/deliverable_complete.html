@@ -119,11 +119,11 @@
             
             <div class="content">
 
-              <div class="preview-text">Bitcode asset-pack run "{{ index .Data "Name" }}" is complete. Review the written assets and shipping result.</div>
+              <div class="preview-text">Bitcode asset-pack run "{{ index .Data "Name" }}" is complete. Review the written assets and delivery result.</div>
 
               <h1>Bitcode asset-pack run complete</h1>
 
-              <p>"{{ index .Data "Name" }}" is ready for your review. See the asset-pack overview below or jump straight to the connected shipping surface.</p>
+              <p>"{{ index .Data "Name" }}" is ready for your review. See the asset-pack overview below or jump straight to the connected delivery surface.</p>
 
               <div class="status-box">
                 <div class="meta" style="text-transform: uppercase; letter-spacing: 0.6px; margin-bottom: 8px;">Asset-Pack Overview</div>
@@ -139,7 +139,7 @@
               {{ $max := 3 }}
               {{ range $i, $d := index .Data "Deliverables" }}{{ if lt $i $max }}
               <div class="deliverable-box">
-                <h3 style="margin: 0 0 8px; font-size: 16px; font-weight: 600; color: #1a1a1a;">Shipping delivery mechanism: {{ index $d "Name" }}</h3>
+                <h3 style="margin: 0 0 8px; font-size: 16px; font-weight: 600; color: #1a1a1a;">Finish delivery mechanism: {{ index $d "Name" }}</h3>
                 <p style="margin: 0 0 12px; color: #6a6a6a; font-size: 14px;">{{ index $d "Summary" }}</p>
                 <div class="meta" style="margin: 0 0 12px;">
                   {{ if index $d "LinesAdded" }}{{ index $d "LinesAdded" }}+ / {{ index $d "LinesDeleted" }}- {{ end }}
@@ -147,14 +147,14 @@
                   {{ if index $d "Assets" }}{{ index $d "Assets" }} assets {{ end }}
                 </div>
                 <div>
-                  <a href="{{ index $d "GitHubURL" }}" class="button">Open shipping surface</a>
+                  <a href="{{ index $d "GitHubURL" }}" class="button">Open delivery surface</a>
                   <a href="{{ index $d "BitcodeURL" }}" class="button-outline">Details</a>
                 </div>
               </div>
               {{ end }}{{ end }}
 
               {{ if gt (len (index .Data "Deliverables")) $max }}
-              <p style="text-align: center; color: #6a6a6a; font-size: 14px;">...and more shipping delivery mechanisms inside Bitcode</p>
+              <p style="text-align: center; color: #6a6a6a; font-size: 14px;">...and more Finish delivery mechanisms inside Bitcode</p>
               {{ end }}
 
               <p style="text-align: center; margin: 30px 0;">

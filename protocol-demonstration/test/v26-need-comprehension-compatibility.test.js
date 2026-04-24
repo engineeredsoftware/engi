@@ -38,8 +38,8 @@ test('V26 need-comprehension compatibility keeps canonical owners separate from 
   const agentPackageJson = JSON.parse(readRepoFile('packages/generic-agents/need-comprehension/package.json'));
   const agentReadme = readRepoFile('packages/generic-agents/need-comprehension/README.md');
   const agentSource = readRepoFile('packages/generic-agents/need-comprehension/src/index.ts');
-  const pipelineAdapter = readRepoFile('packages/pipelines/asset-pack/src/agents/setup/deliverable-pipeline-comprehend-need-agent.ts');
-  const dangerWallAdapter = readRepoFile('packages/pipelines/asset-pack/src/agents/setup/deliverable-pipeline-danger-wall-agent.ts');
+  const pipelineAdapter = readRepoFile('packages/pipelines/asset-pack/src/agents/setup/asset-pack-comprehend-need-agent.ts');
+  const dangerWallAdapter = readRepoFile('packages/pipelines/asset-pack/src/agents/setup/asset-pack-danger-wall-agent.ts');
   const setupPhase = readRepoFile('packages/pipelines/asset-pack/src/phases/setup.ts');
 
   assert.match(canonicalToolTs, /Canonical Bitcode need-semantics tool owner/u);
@@ -119,6 +119,6 @@ test('V26 need-comprehension compatibility keeps canonical owners separate from 
   assert.match(pipelineAdapter, /setup\/need-comprehension/u);
   assert.match(dangerWallAdapter, /setup\/need-comprehension/u);
   assert.match(dangerWallAdapter, /riskAdmissionInput/u);
-  assert.match(setupPhase, /setup:deliverable-pipeline-comprehend-need-agent/u);
-  assert.match(setupPhase, /setup:deliverable-pipeline-danger-wall-agent/u);
+  assert.match(setupPhase, /setup:asset-pack-comprehend-need-agent/u);
+  assert.match(setupPhase, /setup:asset-pack-danger-wall-agent/u);
 });

@@ -23,4 +23,4 @@ import { PromptPart } from '../../parts/PromptPart';
  * ]
  */
 export const PROMPTPART_SPECIFIC_AGENT_DELIVERABLESETUPREADYTOITERATE_IDENTITY_DEFINITION: PromptPart = 
-  'You are the DeliverablesPipelineSetupPhaseReadytoIterateAgent responsible for determine if sufficient context exists to proceed or short-circuit with refund' as PromptPart;
+  'You are the AssetPackPipelineSetupPhaseReadytoIterateAgent responsible for determine if sufficient context exists to proceed or short-circuit with refund' as PromptPart;

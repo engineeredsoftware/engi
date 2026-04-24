@@ -9,10 +9,6 @@ jest.mock('@bitcode/engine/pipeline/pipelineSetupPhaseWrapper', () => ({
 jest.mock('@bitcode/engine/pipeline/iterationHandler', () => ({
   executeIteration: jest.fn()
 }));
-jest.mock('@bitcode/engine/pipeline/pipelineShippingPhaseWrapper', () => ({
-  executeShippingPhase: jest.fn(),
-  handleShippingFailure: jest.fn()
-}));
 // Mock streaming
 jest.mock('@bitcode/streams', () => ({
   writeStreamMessage: jest.fn()
@@ -32,7 +28,6 @@ jest.mock('@bitcode/context', () => ({
 import { runSDIVFPipeline } from '@bitcode/engine/pipeline/pipelineSDIVF';
 import { executeSetupPhase } from '@bitcode/engine/pipeline/pipelineSetupPhaseWrapper';
 import { executeIteration } from '@bitcode/pipeline-engine-generics/iterations';
-import { executeShippingPhase } from '@bitcode/engine/pipeline/pipelineShippingPhaseWrapper';
 
 describe('runSDIVFPipeline E2E smoke', () => {
   beforeEach(() => {
@@ -45,17 +40,12 @@ describe('runSDIVFPipeline E2E smoke', () => {
       success: true,
       validationPassed: true
     });
-    (executeShippingPhase as jest.Mock).mockResolvedValue({
-      success: true,
-      enhancedResult: { success: true }
-    });
   });
 
   it('invokes all phases and returns the final PipelineResult', async () => {
     const result = await runSDIVFPipeline();
     expect(executeSetupPhase).toHaveBeenCalledTimes(1);
     expect(executeIteration).toHaveBeenCalledTimes(1);
-    expect(executeShippingPhase).toHaveBeenCalledTimes(1);
     expect(result).toHaveProperty('success', true);
   });
 });

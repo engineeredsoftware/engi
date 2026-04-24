@@ -1,13 +1,13 @@
 #!/usr/bin/env npx tsx
 /**
- * Test script to verify deliverables pipeline executions E2E
+ * Test script to verify AssetPack pipeline executions E2E
  */
 
-import { deliverablePipeline } from './src/index';
+import { assetPackPipeline } from './src/index';
 import { Execution } from '@bitcode/execution-generics';
 
 async function testPipeline() {
-  console.log('🚀 Testing deliverables pipeline E2E...\n');
+  console.log('Testing AssetPack pipeline E2E...\n');
   
   const execution = new Execution('test-run-' + Date.now());
   
@@ -50,7 +50,7 @@ async function testPipeline() {
     console.log('Input:', JSON.stringify(input, null, 2));
     console.log('\nExecuting pipeline...\n');
     
-    const result = await deliverablePipeline(input, execution);
+    const result = await assetPackPipeline(input, execution);
     
     console.log('\n✅ Pipeline completed successfully!');
     console.log('Result:', JSON.stringify(result, null, 2));

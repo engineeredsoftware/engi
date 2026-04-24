@@ -233,7 +233,7 @@ type ExtendedProcessingStats = HeaderProcessingStats & {
   runId?: string;
   digest?: {
     agentsDocUpdated: boolean;
-    readyToShip: boolean;
+    readyToFinish: boolean;
     summary?: string | null;
     questionsAnswered?: number;
     patternsDocumented?: number;
@@ -938,7 +938,7 @@ export default function ExecutionsPageHeader({
   const instructionSuggestions = (processingStats?.suggestions || []).filter(Boolean);
   const instructionSummary = processingStats?.selfInstruction;
   const digestStatus = (processingStats as any)?.digest || (processingStats as any)?.digestStatus;
-  const canShipDigest = activeGuide !== 'Digest' || !!digestStatus?.agentsDocUpdated;
+  const canFinishDigest = activeGuide !== 'Digest' || !!digestStatus?.agentsDocUpdated;
   const confidencePercent = iterationConfidence !== undefined ? Math.round(iterationConfidence * 100) : undefined;
 
   // Track the last shown edu content
@@ -1203,19 +1203,19 @@ export default function ExecutionsPageHeader({
                     <div className="flex flex-col gap-2 w-full max-w-lg">
                       <button
                         onClick={async () => {
-                          if (!canShipDigest) return;
+                          if (!canFinishDigest) return;
                           await fetch(`/api/executions/${processingStats?.runId}`, {
                             method: 'PUT',
                             headers: { 'Content-Type': 'application/json' },
                             body: JSON.stringify({ status: 'completed' })
                           });
                         }}
-                        disabled={!canShipDigest}
-                        className={`px-4 py-2 rounded-lg transition-colors border ${canShipDigest
+                        disabled={!canFinishDigest}
+                        className={`px-4 py-2 rounded-lg transition-colors border ${canFinishDigest
                           ? 'bg-sky-500/20 border-sky-500/30 text-sky-300 hover:bg-sky-500/30'
                           : 'bg-gray-800/50 border-gray-700 text-gray-400 cursor-not-allowed'}`}
                       >
-                        Ship
+                        Finish
                       </button>
                       {digestStatus && (
                         <div className="rounded-lg border border-sky-500/20 bg-sky-500/5 px-3 py-2 text-sm text-sky-100">
@@ -1326,7 +1326,7 @@ export default function ExecutionsPageHeader({
                             subtitle: executionType?.includes('ai_documents') ? 'Targeted Enhancement' : 'Success Criteria',
                             body: executionType?.includes('ai_documents')
                               ? 'Describe what you intend to improve and why — focused, actionable, and beneficial to users or maintainers.'
-                              : 'Articulate the precise outcome that defines success. Clear criteria ensure shared understanding of the expected written asset pack and shipping result.'
+                              : 'Articulate the precise outcome that defines success. Clear criteria ensure shared understanding of the expected written asset pack and delivery result.'
                           })}
                         >
                           {executionType?.includes('ai_documents') ? 'Intent to Improve' : 'Definition of Need'}
@@ -1422,7 +1422,7 @@ export default function ExecutionsPageHeader({
 function EducationBodyWithLogo() {
   return (
     <div>
-      <span><span className="font-bold">This action costs <span className="text-green-primary font-black">$BTD</span>!</span> The source, attachments, and task will be iterated on until you receive a single high-quality asset pack and its shipping result. (<span className="font-normal">~200-500&nbsp;</span>
+      <span><span className="font-bold">This action costs <span className="text-green-primary font-black">$BTD</span>!</span> The source, attachments, and task will be iterated on until you receive a single high-quality asset pack and its delivery result. (<span className="font-normal">~200-500&nbsp;</span>
         <Logo width="w-3.5" height="h-3.5" beta={false} className="inline-block align-middle relative -top-0.5" />
         <span className="font-normal">&nbsp;/&nbsp;Pipeline Run</span>)</span>
     </div>

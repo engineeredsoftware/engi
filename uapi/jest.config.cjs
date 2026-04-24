@@ -50,6 +50,7 @@ module.exports = {
     '^@bitcode/generic-tools/(.+)$': '<rootDir>/../packages/generic-tools/$1/src/index.ts',
     '^@bitcode/generic-tools-mcps-(.+)$': '<rootDir>/../packages/generic-tools/mcps-tools/$1/src/index.ts',
     '^@bitcode/generic-tools-(.+)$': '<rootDir>/../packages/generic-tools/$1/src/index.ts',
+    '^@bitcode/pipeline-asset-pack/src/(.+)$': '<rootDir>/../packages/pipelines/asset-pack/src/$1',
     '^@bitcode/([^/]+)/src/(.+)$': '<rootDir>/../packages/$1/src/$2',
     '^@bitcode/supabase/ssr/server$': '<rootDir>/tests/mocks/supabaseServerClient.ts',
     '^@bitcode/supabase/ssr/client$': '<rootDir>/tests/mocks/supabaseBrowserClient.ts',
@@ -98,7 +99,8 @@ module.exports = {
     // Include mock system tests
     '<rootDir>/tests/MockOrchestrator.test.ts'
     ,
-    // Added targeted deliverable/runtime tests
+    // Added targeted AssetPack/runtime tests
+    '<rootDir>/tests/searchRelevantAssetPackEvidence.test.ts',
     '<rootDir>/tests/deliverablesStreamRoute.test.ts',
     '<rootDir>/tests/RunDetailsView.mapping.test.tsx',
     '<rootDir>/tests/usePipelineExecution.test.tsx',

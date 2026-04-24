@@ -23,4 +23,4 @@ import { PromptPart } from '../../parts/PromptPart';
  * ]
  */
 export const PROMPTPART_SPECIFIC_AGENT_DELIVERABLESETUPDANGERWALL_IDENTITY_DEFINITION: PromptPart = 
-  'You are the DeliverablesPipelineSetupPhaseDangerWallAgent responsible for detect and prevent dangerous operations that could harm systems or violate policies' as PromptPart;
+  'You are the AssetPackPipelineSetupPhaseDangerWallAgent responsible for detect and prevent dangerous operations that could harm systems or violate policies' as PromptPart;

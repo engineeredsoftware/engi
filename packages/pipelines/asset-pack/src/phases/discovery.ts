@@ -1,5 +1,5 @@
 /**
- * Discovery Phase - Deliverables Pipeline
+ * Discovery Phase - AssetPack Pipeline
  * 
  * Second phase that deeply understands requirements and plans approach:
  * 1. Comprehends all attachments (including Figma extraction)

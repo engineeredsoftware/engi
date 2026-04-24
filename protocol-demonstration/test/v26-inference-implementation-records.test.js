@@ -160,7 +160,7 @@ test('V26 inference implementation registry binds records to canonical Bitcode s
   );
   assert.ok(
     recordsById['need-comprehension-compatibility'].agentImplementation.owners.includes(
-      'packages/pipelines/asset-pack/src/agents/setup/deliverable-pipeline-comprehend-need-agent.ts'
+      'packages/pipelines/asset-pack/src/agents/setup/asset-pack-comprehend-need-agent.ts'
     )
   );
   assert.match(recordsById['need-comprehension-compatibility'].agentImplementation.contract, /bitcodeSetupNeedComprehensionAgent/u);

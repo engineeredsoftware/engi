@@ -50,8 +50,6 @@ export function registerFinishAgentsForType(
   _writtenAssetType: string,
   agentRegistry: any
 ): void {
-  // Register canonical Finish agents first; retained shipping keys remain
-  // compatibility aliases for callers that have not moved to Finish naming.
   agentRegistry.registerAgent(
     'finish:deliver-asset-pack-to-destination-agent',
     () => import('../agents/finish/deliver-asset-pack-to-destination-agent').then(m => m.default)
@@ -60,16 +58,4 @@ export function registerFinishAgentsForType(
     'finish:final-work-summary',
     () => import('../agents/finish/final-work-summary-agent').then(m => m.default)
   );
-  agentRegistry.registerAgent(
-    'shipping:deliverable-pipeline-ship-agent',
-    () => import('../agents/finish/deliver-asset-pack-to-destination-agent').then(m => m.default)
-  );
-  agentRegistry.registerAgent(
-    'shipping:final-work-summary',
-    () => import('../agents/finish/final-work-summary-agent').then(m => m.default)
-  );
 }
-
-export const createShippingPhaseConfig = createFinishPhaseConfig;
-export const runShippingPhase = runFinishPhase;
-export const registerShippingAgentsForType = registerFinishAgentsForType;

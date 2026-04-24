@@ -10,7 +10,7 @@ jest.mock('@bitcode/pipeline-asset-pack/src/phases/validation', () => ({
     success: true,
     metrics: { tokensUsed: 0, score: 0.9, taskCompletion: 0.9, codeQuality: 0.9, securityScore: 0.9, contentQuality: 0.9 },
     confidence: 0.9,
-    readyToShip: true,
+    readyToFinish: true,
     needsIteration: false,
     errors: []
   }))

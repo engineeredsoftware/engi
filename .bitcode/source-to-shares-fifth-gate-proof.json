@@ -1,8 +1,8 @@
 {
   "reportId": "v26-source-to-shares-fifth-gate-proof",
   "version": "V26",
-  "proofSourceCommit": "48b36f021ba6f5890140e9cec46fd07261ec7bd2",
-  "generatedAt": "2026-04-24T13:44:13-03:00",
+  "proofSourceCommit": "7877e81e1c4c3e2f1f6c322dc5843678f5342703",
+  "generatedAt": "2026-04-24T13:58:45-03:00",
   "generatorId": "bitcode.proven-generator.v1",
   "worktreeState": "dirty-preview",
   "gate": "gate-5",
@@ -182,7 +182,7 @@
         "protocol-demonstration/test/v26-pipeline-finish-reform.test.js",
         "packages/pipelines-generics/src/phases/sdivf-factory.ts",
         "packages/pipelines-generics/src/phases/phase-factory.ts",
-        "packages/pipelines/asset-pack/src/agents/finish-delivery-compatibility-agents.ts",
+        "packages/pipelines/asset-pack/src/agents/finish-delivery-agents.ts",
         "packages/pipelines/asset-pack/src/agents/validation-agents.ts"
       ],
       "missingFiles": []

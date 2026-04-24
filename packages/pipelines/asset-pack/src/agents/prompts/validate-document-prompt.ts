@@ -47,7 +47,7 @@ import { PROMPTPART_GENERIC_AGENT_GENERATION_STRUCTURED_OUTPUT } from '@bitcode/
  *   { "name": "implementation_ready", "test": "Usable by registry formatter", "score": 0.46 }
  * ]
  */
-export function createDeliverablesPipelineValidationPhaseValidateDocumentAgentPrompt(): Prompt {
+export function createAssetPackValidationPhaseValidateDocumentAgentPrompt(): Prompt {
   const prompt = new Prompt();
   
   // Agent identity and purpose
@@ -80,7 +80,7 @@ export function createDeliverablesPipelineValidationPhaseValidateDocumentAgentPr
 /**
  * Get step-specific prompts
  */
-export const DeliverablesPipelineValidationPhaseValidateDocumentAgentPromptSteps = {
+export const AssetPackValidationPhaseValidateDocumentAgentPromptSteps = {
   plan: () => {
     const prompt = new Prompt();
     prompt.set('generation:json_only_header', PROMPTPART_GENERIC_AGENT_GENERATION_JSON_ONLY_HEADER as any);

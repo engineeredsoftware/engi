@@ -1,7 +1,7 @@
 /**
  * Discovery Phase Agents for the AssetPack Pipeline
  * 
- * Pattern: DeliverablesPipelineDiscoveryPhase{Action}Agent compatibility exports
+ * Pattern: AssetPackDiscoveryPhase{Action}Agent compatibility exports
  * 
  * ALL agents use PTRR (Plan-Try-Refine-Retry) - no exceptions
  */
@@ -9,24 +9,24 @@
 import { factoryAgentWithPTRR } from '@bitcode/agent-generics';
 import { z } from 'zod';
 import {
-  createDeliverablesPipelineDiscoveryPhaseUnderstandRequirementsAgentPrompt,
-  DeliverablesPipelineDiscoveryPhaseUnderstandRequirementsAgentPromptSteps
+  createAssetPackDiscoveryPhaseUnderstandRequirementsAgentPrompt,
+  AssetPackDiscoveryPhaseUnderstandRequirementsAgentPromptSteps
 } from './prompts/understand-requirements-prompt';
 import {
-  createDeliverablesPipelineDiscoveryPhaseAnalyzeParallelAgentPrompt,
-  DeliverablesPipelineDiscoveryPhaseAnalyzeParallelAgentPromptSteps
+  createAssetPackDiscoveryPhaseAnalyzeParallelAgentPrompt,
+  AssetPackDiscoveryPhaseAnalyzeParallelAgentPromptSteps
 } from './prompts/analyze-parallel-prompt';
 import {
-  createDeliverablesPipelineDiscoveryPhasePlanImplementationAgentPrompt,
-  DeliverablesPipelineDiscoveryPhasePlanImplementationAgentPromptSteps
+  createAssetPackDiscoveryPhasePlanImplementationAgentPrompt,
+  AssetPackDiscoveryPhasePlanImplementationAgentPromptSteps
 } from './prompts/plan-implementation-prompt';
 import {
-  createDeliverablesPipelineDiscoveryPhaseComprehendAttachmentsAgentPrompt,
-  DeliverablesPipelineDiscoveryPhaseComprehendAttachmentsAgentPromptSteps
+  createAssetPackDiscoveryPhaseComprehendAttachmentsAgentPrompt,
+  AssetPackDiscoveryPhaseComprehendAttachmentsAgentPromptSteps
 } from './prompts/comprehend-attachments-prompt';
 import {
-  createDeliverablesPipelineDiscoveryPhaseAssessComplexityAgentPrompt,
-  DeliverablesPipelineDiscoveryPhaseAssessComplexityAgentPromptSteps
+  createAssetPackDiscoveryPhaseAssessComplexityAgentPrompt,
+  AssetPackDiscoveryPhaseAssessComplexityAgentPromptSteps
 } from './prompts/assess-complexity-prompt';
 
 // ==================== UNDERSTAND REQUIREMENTS AGENT ====================
@@ -58,20 +58,20 @@ const UnderstandRequirementsOutputSchema = z.object({
 });
 
 /**
- * DeliverablesPipelineDiscoveryPhaseUnderstandRequirementsAgent
+ * AssetPackDiscoveryPhaseUnderstandRequirementsAgent
  * 
  * Deeply understands what needs to be done.
  * PrepareContext will provide all setup phase results.
  */
-export const DeliverablesPipelineDiscoveryPhaseUnderstandRequirementsAgent = factoryAgentWithPTRR<
+export const AssetPackDiscoveryPhaseUnderstandRequirementsAgent = factoryAgentWithPTRR<
   z.infer<typeof UnderstandRequirementsInputSchema>,
   z.infer<typeof UnderstandRequirementsOutputSchema>
 >({
-  name: 'deliverable-pipeline-understand-requirements-agent',
+  name: 'asset-pack-understand-requirements-agent',
   description: 'Understands and documents detailed requirements',
   
-  prompt: createDeliverablesPipelineDiscoveryPhaseUnderstandRequirementsAgentPrompt(),
-  stepPrompts: DeliverablesPipelineDiscoveryPhaseUnderstandRequirementsAgentPromptSteps,
+  prompt: createAssetPackDiscoveryPhaseUnderstandRequirementsAgentPrompt(),
+  stepPrompts: AssetPackDiscoveryPhaseUnderstandRequirementsAgentPromptSteps,
   
   outputSchema: UnderstandRequirementsOutputSchema,
   
@@ -133,20 +133,20 @@ export function applyResearchApproachSemanticMirrors(
 }
 
 /**
- * DeliverablesPipelineDiscoveryPhaseResearchApproachAgent
+ * AssetPackDiscoveryPhaseResearchApproachAgent
  * 
  * Researches and determines the best approach.
  */
-const DeliverablesPipelineDiscoveryPhaseResearchApproachAgentCore = factoryAgentWithPTRR<
+const AssetPackDiscoveryPhaseResearchApproachAgentCore = factoryAgentWithPTRR<
   z.infer<typeof ResearchApproachInputSchema>,
   z.infer<typeof ResearchApproachOutputSchema>
 >({
-  name: 'deliverable-pipeline-research-approach-agent',
+  name: 'asset-pack-research-approach-agent',
   description: 'Researches and recommends implementation approach',
   
   // Use AnalyzeParallel prompts as the research approach analogue
-  prompt: createDeliverablesPipelineDiscoveryPhaseAnalyzeParallelAgentPrompt(),
-  stepPrompts: DeliverablesPipelineDiscoveryPhaseAnalyzeParallelAgentPromptSteps,
+  prompt: createAssetPackDiscoveryPhaseAnalyzeParallelAgentPrompt(),
+  stepPrompts: AssetPackDiscoveryPhaseAnalyzeParallelAgentPromptSteps,
   
   outputSchema: ResearchApproachOutputSchema,
   
@@ -156,12 +156,12 @@ const DeliverablesPipelineDiscoveryPhaseResearchApproachAgentCore = factoryAgent
   retry: { maxAttempts: 1 }
 });
 
-export async function DeliverablesPipelineDiscoveryPhaseResearchApproachAgent(
+export async function AssetPackDiscoveryPhaseResearchApproachAgent(
   input: z.infer<typeof ResearchApproachInputSchema>,
   execution: any
 ): Promise<z.infer<typeof ResearchApproachOutputSchema>> {
   return applyResearchApproachSemanticMirrors(
-    await DeliverablesPipelineDiscoveryPhaseResearchApproachAgentCore(input, execution)
+    await AssetPackDiscoveryPhaseResearchApproachAgentCore(input, execution)
   );
 }
 
@@ -210,19 +210,19 @@ export function applyPlanImplementationSemanticMirrors(
 }
 
 /**
- * DeliverablesPipelineDiscoveryPhasePlanImplementationAgent
+ * AssetPackDiscoveryPhasePlanImplementationAgent
  * 
  * Creates detailed implementation plan.
  */
-const DeliverablesPipelineDiscoveryPhasePlanImplementationAgentCore = factoryAgentWithPTRR<
+const AssetPackDiscoveryPhasePlanImplementationAgentCore = factoryAgentWithPTRR<
   z.infer<typeof PlanImplementationInputSchema>,
   z.infer<typeof PlanImplementationOutputSchema>
 >({
-  name: 'deliverable-pipeline-plan-implementation-agent',
+  name: 'asset-pack-plan-implementation-agent',
   description: 'Plans the implementation details',
   
-  prompt: createDeliverablesPipelineDiscoveryPhasePlanImplementationAgentPrompt(),
-  stepPrompts: DeliverablesPipelineDiscoveryPhasePlanImplementationAgentPromptSteps,
+  prompt: createAssetPackDiscoveryPhasePlanImplementationAgentPrompt(),
+  stepPrompts: AssetPackDiscoveryPhasePlanImplementationAgentPromptSteps,
   
   outputSchema: PlanImplementationOutputSchema,
   
@@ -232,12 +232,12 @@ const DeliverablesPipelineDiscoveryPhasePlanImplementationAgentCore = factoryAge
   retry: { maxAttempts: 1 }
 });
 
-export async function DeliverablesPipelineDiscoveryPhasePlanImplementationAgent(
+export async function AssetPackDiscoveryPhasePlanImplementationAgent(
   input: z.infer<typeof PlanImplementationInputSchema>,
   execution: any
 ): Promise<z.infer<typeof PlanImplementationOutputSchema>> {
   return applyPlanImplementationSemanticMirrors(
-    await DeliverablesPipelineDiscoveryPhasePlanImplementationAgentCore(input, execution)
+    await AssetPackDiscoveryPhasePlanImplementationAgentCore(input, execution)
   );
 }
 
@@ -270,20 +270,20 @@ const GatherContextOutputSchema = z.object({
 });
 
 /**
- * DeliverablesPipelineDiscoveryPhaseGatherContextAgent
+ * AssetPackDiscoveryPhaseGatherContextAgent
  * 
  * GENERIC agent that runs FIRST for all deliverable types.
  * Gathers relevant context from codebase, docs, and history.
  */
-export const DeliverablesPipelineDiscoveryPhaseGatherContextAgent = factoryAgentWithPTRR<
+export const AssetPackDiscoveryPhaseGatherContextAgent = factoryAgentWithPTRR<
   z.infer<typeof GatherContextInputSchema>,
   z.infer<typeof GatherContextOutputSchema>
 >({
-  name: 'deliverable-pipeline-gather-context-agent',
+  name: 'asset-pack-gather-context-agent',
   description: 'Gathers relevant context for any deliverable type',
   
-  prompt: createDeliverablesPipelineDiscoveryPhaseComprehendAttachmentsAgentPrompt(),
-  stepPrompts: DeliverablesPipelineDiscoveryPhaseComprehendAttachmentsAgentPromptSteps,
+  prompt: createAssetPackDiscoveryPhaseComprehendAttachmentsAgentPrompt(),
+  stepPrompts: AssetPackDiscoveryPhaseComprehendAttachmentsAgentPromptSteps,
   
   outputSchema: GatherContextOutputSchema,
   
@@ -328,20 +328,20 @@ const AssessComplexityOutputSchema = z.object({
 });
 
 /**
- * DeliverablesPipelineDiscoveryPhaseAssessComplexityAgent
+ * AssetPackDiscoveryPhaseAssessComplexityAgent
  * 
  * GENERIC agent that runs LAST for all deliverable types.
  * Assesses overall complexity and provides confidence score.
  */
-export const DeliverablesPipelineDiscoveryPhaseAssessComplexityAgent = factoryAgentWithPTRR<
+export const AssetPackDiscoveryPhaseAssessComplexityAgent = factoryAgentWithPTRR<
   z.infer<typeof AssessComplexityInputSchema>,
   z.infer<typeof AssessComplexityOutputSchema>
 >({
-  name: 'deliverable-pipeline-assess-complexity-agent',
+  name: 'asset-pack-assess-complexity-agent',
   description: 'Assesses complexity and confidence for any deliverable',
   
-  prompt: createDeliverablesPipelineDiscoveryPhaseAssessComplexityAgentPrompt(),
-  stepPrompts: DeliverablesPipelineDiscoveryPhaseAssessComplexityAgentPromptSteps,
+  prompt: createAssetPackDiscoveryPhaseAssessComplexityAgentPrompt(),
+  stepPrompts: AssetPackDiscoveryPhaseAssessComplexityAgentPromptSteps,
   
   outputSchema: AssessComplexityOutputSchema,
   
@@ -370,29 +370,29 @@ export function registerDiscoveryAgents(
   // ALWAYS register generic gather context FIRST
   agentRegistry.registerAgent(
     'discovery:gather-context',
-    DeliverablesPipelineDiscoveryPhaseGatherContextAgent
+    AssetPackDiscoveryPhaseGatherContextAgent
   );
   
   // Register core discovery agents (generic but type-aware)
   agentRegistry.registerAgent(
     'discovery:understand-requirements',
-    DeliverablesPipelineDiscoveryPhaseUnderstandRequirementsAgent
+    AssetPackDiscoveryPhaseUnderstandRequirementsAgent
   );
   
   agentRegistry.registerAgent(
     'discovery:research-approach',
-    DeliverablesPipelineDiscoveryPhaseResearchApproachAgent
+    AssetPackDiscoveryPhaseResearchApproachAgent
   );
   
   agentRegistry.registerAgent(
     'discovery:plan-implementation',
-    DeliverablesPipelineDiscoveryPhasePlanImplementationAgent
+    AssetPackDiscoveryPhasePlanImplementationAgent
   );
   
   // ALWAYS register generic assess complexity LAST
   agentRegistry.registerAgent(
     'discovery:assess-complexity',
-    DeliverablesPipelineDiscoveryPhaseAssessComplexityAgent
+    AssetPackDiscoveryPhaseAssessComplexityAgent
   );
 }
 

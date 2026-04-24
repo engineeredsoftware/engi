@@ -1,5 +1,5 @@
 // @ts-nocheck
-import deliverablePipeline from '../index';
+import assetPack from '../index';
 import { Execution } from '@bitcode/execution-generics';
 
 describe('Deliverable pipeline - formal Definition of Need acceptance criteria (pending full SDIVF enablement)', () => {
@@ -19,7 +19,7 @@ describe('Deliverable pipeline - formal Definition of Need acceptance criteria (
         security: { scanRequired: true, severityThreshold: 'high' }
       }
     };
-    const res = await deliverablePipeline(input, new Execution('definition-of-need:good'));
+    const res = await assetPack(input, new Execution('definition-of-need:good'));
     expect(res.success).toBe(true);
     expect(res.deliverable.prUrl).toContain('/pull/');
   });
@@ -34,7 +34,7 @@ describe('Deliverable pipeline - formal Definition of Need acceptance criteria (
         security: { scanRequired: false, severityThreshold: 'critical' }
       }
     };
-    const res = await deliverablePipeline(input, new Execution('definition-of-need:bad'));
+    const res = await assetPack(input, new Execution('definition-of-need:bad'));
     expect(res.success).toBe(true);
     expect(typeof res.summary).toBe('string');
   });

@@ -30,7 +30,7 @@ const CaptureLearningsOutputSchema = z.object({
     description: z.string(),
     whenToUse: z.string()
   })),
-  readyToShip: z.boolean(),
+  readyToFinish: z.boolean(),
   useTools: z.array(z.object({
     name: z.string(),
     input: z.any()

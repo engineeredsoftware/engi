@@ -44,7 +44,7 @@ import { PROMPTPART_SPECIFIC_AGENT_DELIVERABLEDISCOVERYANALYZEPARALLEL_PTRRRETRY
  *   { "name": "implementation_ready", "test": "Usable by registry formatter", "score": 0.46 }
  * ]
  */
-export function createDeliverablesPipelineDiscoveryPhaseAnalyzeParallelAgentPrompt(): Prompt {
+export function createAssetPackDiscoveryPhaseAnalyzeParallelAgentPrompt(): Prompt {
   const prompt = new Prompt();
   
   // Agent identity and purpose
@@ -78,7 +78,7 @@ export function createDeliverablesPipelineDiscoveryPhaseAnalyzeParallelAgentProm
 /**
  * Get step-specific prompts
  */
-export const DeliverablesPipelineDiscoveryPhaseAnalyzeParallelAgentPromptSteps = {
+export const AssetPackDiscoveryPhaseAnalyzeParallelAgentPromptSteps = {
   plan: () => {
     const prompt = new Prompt();
     prompt.set('step', PROMPTPART_SPECIFIC_AGENT_DELIVERABLEDISCOVERYANALYZEPARALLEL_PTRRPLAN_PURPOSE);

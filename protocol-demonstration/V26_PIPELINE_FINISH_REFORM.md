@@ -43,9 +43,9 @@ Active source must satisfy the following:
 - `packages/pipelines-generics` must not expose `SDIVS` / `shipping` factories, phase enums, primitive phase aliases, or filesystem names.
 - Runtime execution metadata should store `pipeline.pattern = "SDIVF"` and final phase state as `phase.current = "finish"` for canonical paths.
 - Metrics, streaming completion, prompt registries, and primitive phase mappers in `packages/pipelines-generics` must use `finish` only.
-- The retained AssetPack corridor must execute `deliverablePhases.finish` through `finish:*` agent keys, while registering `shipping:*` aliases only for promptpart and caller compatibility.
+- The retained AssetPack corridor must execute `assetPackPhases.finish` through `finish:*` agent keys and must not register `shipping:*` phase aliases in active AssetPack phase/tool registries.
 - Finish agents may reuse old-world Ship implementations only after their prompts, descriptions, execution stores, and summaries describe Bitcode Need, AssetPack, WrittenAsset, proof evidence, and Delivering semantics.
-- AssetPack postprocess and reread should prefer `finish/final_work_summary` and `finish` stores; retained `shipping` fallbacks are bounded to the AssetPack compatibility corridor while callers are moved.
+- AssetPack postprocess and reread must use `finish/final_work_summary` and `finish` stores directly; retained `shipping` store fallbacks are reform residue rather than current AssetPack behavior.
 - Deprecated `Ship`, `Shipping`, `ReadyToShip`, `FinalizeShipment`, and `Deliverable` compatibility names must always point to a more precise canonical replacement and a later-gate removal condition.
 
 ## Deprecation Discipline

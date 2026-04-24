@@ -1,10 +1,9 @@
-import { DeliverableType } from './DeliverableType';
+import { AssetPackWrittenAssetType } from './AssetPackWrittenAssetType';
 
 /**
- * During V26 this retained package/path stays named `deliverable` for compatibility,
- * but the live Bitcode meaning is a need-satisfying agentic pipeline run whose
- * Finish phase saves results and whose Delivering subresponsibility emits
- * connected-interface delivery mechanisms on top of stable written assets.
+ * V26 AssetPack synthesis keeps compatibility payload fields where routes still
+ * require them, while canonical package-owned fields use written-asset and
+ * delivery-mechanism semantics.
  */
 
 export interface DeliverableArtifacts {
@@ -42,14 +41,18 @@ export interface DeliverableOutput {
   writtenAsset?: WrittenAssetResultMeta;
   artifacts?: Partial<DeliverableArtifacts>;
   metrics?: Partial<DeliverableMetrics>;
-  deliverableType?: DeliverableType;
-  writtenAssetType?: DeliverableType;
+  deliverableType?: AssetPackWrittenAssetType;
+  writtenAssetType?: AssetPackWrittenAssetType;
   need?: string;
   semanticKind?: 'asset-pack-written-asset';
 }
 
-export type DeliverableTypeValue = 'code-change' | 'code-change-review' | 'design-document' | 'design-document-review';
-export type WrittenAssetTypeValue = DeliverableTypeValue;
+export type AssetPackWrittenAssetTypeValue =
+  | 'code-change'
+  | 'code-change-review'
+  | 'design-document'
+  | 'design-document-review';
+export type WrittenAssetTypeValue = AssetPackWrittenAssetTypeValue;
 
 export interface DeliverablePostprocessed {
   executionId: string;
@@ -60,12 +63,12 @@ export interface DeliverablePostprocessed {
   summary?: string;
   deliveryMechanism?: DeliveryMechanismMeta;
   artifacts?: Partial<DeliverableArtifacts> | null;
-  deliverableType?: DeliverableType;
-  writtenAssetType?: DeliverableType;
+  deliverableType?: AssetPackWrittenAssetType;
+  writtenAssetType?: AssetPackWrittenAssetType;
   need?: string;
   assetPack?: {
     need?: string;
-    writtenAssetType?: DeliverableType;
+    writtenAssetType?: AssetPackWrittenAssetType;
   };
   validationReady?: {
     approved: boolean;

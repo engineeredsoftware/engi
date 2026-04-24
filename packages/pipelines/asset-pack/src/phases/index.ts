@@ -6,7 +6,7 @@
 
 import { type PhaseDelegator, createAgentExecutor } from '@bitcode/pipelines-generics';
 import { Executor, sequential, parallel } from '@bitcode/execution-generics';
-import { deliverablesPipelineSetupPhaseExecutor } from './setup';
+import { assetPackSetupPhaseExecutor } from './setup';
 import { registerDiscoveryAgents } from './discovery';
 import { registerImplementationAgentsForType } from './implementation';
 import { registerValidationAgentsForType } from './validation';
@@ -29,7 +29,7 @@ type ValidationOutput = DeliverablePhaseOutput;
  * The retained danger-wall slot is now Bitcode need/AssetPack admission before iteration.
  */
 // Use the Setup phase runner (executor pattern)
-export const setupPhase = deliverablesPipelineSetupPhaseExecutor as unknown as PhaseDelegator<DeliverableInput, SetupOutput>;
+export const setupPhase = assetPackSetupPhaseExecutor as unknown as PhaseDelegator<DeliverableInput, SetupOutput>;
 
 // ==================== DISCOVERY PHASE ====================
 
@@ -65,13 +65,13 @@ export const implementationPhase: PhaseDelegator<DiscoveryOutput, Implementation
 
   if (writtenAssetType === 'code-change') {
     // 1) Divide
-    const divide = createAgentExecutor('implementation:deliverable-pipeline-divide-code-change-agent');
+    const divide = createAgentExecutor('implementation:asset-pack-divide-code-change-agent');
     const divideOut = await divide(input, execution);
     const files: any[] = (divideOut?.filesToChange || []);
 
     // 2) Conquer in parallel (dynamic)
     const makeConquerExec = (f: any): Executor<any, any> => async (_in, exec) => {
-      const c = createAgentExecutor('implementation:deliverable-pipeline-conquer-file-agent');
+      const c = createAgentExecutor('implementation:asset-pack-conquer-file-agent');
       return await c({
         filePath: f.filePath,
         changeType: f.changeType,
@@ -85,7 +85,7 @@ export const implementationPhase: PhaseDelegator<DiscoveryOutput, Implementation
     const conquerResults = files.length ? await conquer(divideOut, execution) : [];
 
     // 3) Correct
-    const correct = createAgentExecutor('implementation:deliverable-pipeline-correct-code-change-agent');
+    const correct = createAgentExecutor('implementation:asset-pack-correct-code-change-agent');
     return await correct({
       allFileResults: conquerResults,
       originalDivision: divideOut,
@@ -94,15 +94,15 @@ export const implementationPhase: PhaseDelegator<DiscoveryOutput, Implementation
   }
 
   if (writtenAssetType === 'code-change-review') {
-    const review = createAgentExecutor('implementation:deliverable-pipeline-review-code-change-agent');
+    const review = createAgentExecutor('implementation:asset-pack-review-code-change-agent');
     return await review(input, execution);
   }
   if (writtenAssetType === 'design-document') {
-    const createDoc = createAgentExecutor('implementation:deliverable-pipeline-create-design-document-agent');
+    const createDoc = createAgentExecutor('implementation:asset-pack-create-design-document-agent');
     return await createDoc(input, execution);
   }
   if (writtenAssetType === 'design-document-review') {
-    const reviewDoc = createAgentExecutor('implementation:deliverable-pipeline-review-design-document-agent');
+    const reviewDoc = createAgentExecutor('implementation:asset-pack-review-design-document-agent');
     return await reviewDoc(input, execution);
   }
   throw new Error(`Unknown written-asset type: ${writtenAssetType}`);
@@ -141,10 +141,10 @@ export const validationPhase: PhaseDelegator<ImplementationOutput, ValidationOut
   //  - validation/last:issues
   //  - validation/discovery:issues
   //  - validation/implementation:issues
-  // The final ready-to-ship compatibility agent reads from these stores to decide.
-  // Sequential: validators -> ready-to-instruct -> wait (if needed) -> ready-to-ship
-  const readyToInstruct = createAgentExecutor('validation:deliverable-pipeline-ready-to-instruct');
-  const readyToFinish = createAgentExecutor('validation:deliverable-pipeline-ready-to-ship-agent');
+  // The final ReadyToFinish agent reads from these stores to decide.
+  // Sequential: validators -> ready-to-instruct -> wait (if needed) -> ReadyToFinish
+  const readyToInstruct = createAgentExecutor('validation:asset-pack-ready-to-instruct');
+  const readyToFinish = createAgentExecutor('validation:asset-pack-ready-to-finish-agent');
 
   // Wait for instruction if confidence < threshold
   const waitIfNeeded = async (input: any, exec: any) => {
@@ -186,15 +186,12 @@ export const finishPhase: PhaseDelegator<ValidationOutput, DeliverablePhaseOutpu
   return await exec(input, execution);
 }) as unknown as PhaseDelegator<ValidationOutput, DeliverablePhaseOutput>;
 
-export const shippingPhase = finishPhase;
-
 // ==================== EXPORT ALL PHASES ====================
 
-export const deliverablePhases = {
+export const assetPackPhases = {
   setup: setupPhase,
   discovery: discoveryPhase,
   implementation: implementationPhase,
   validation: validationPhase,
   finish: finishPhase,
-  shipping: finishPhase,
 };

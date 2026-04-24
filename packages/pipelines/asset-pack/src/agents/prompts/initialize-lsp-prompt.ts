@@ -44,7 +44,7 @@ import { PROMPTPART_SPECIFIC_AGENT_DELIVERABLESETUPINITIALIZELSP_PTRRRETRY_PURPO
  *   { "name": "implementation_ready", "test": "Usable by registry formatter", "score": 0.46 }
  * ]
  */
-export function createDeliverablesPipelineSetupPhaseInitializeLSPAgentPrompt(): Prompt {
+export function createAssetPackSetupPhaseInitializeLSPAgentPrompt(): Prompt {
   const prompt = new Prompt();
   
   // Agent identity and purpose
@@ -78,7 +78,7 @@ export function createDeliverablesPipelineSetupPhaseInitializeLSPAgentPrompt(): 
 /**
  * Get step-specific prompts
  */
-export const DeliverablesPipelineSetupPhaseInitializeLSPAgentPromptSteps = {
+export const AssetPackSetupPhaseInitializeLSPAgentPromptSteps = {
   plan: () => {
     const prompt = new Prompt();
     prompt.set('step', PROMPTPART_SPECIFIC_AGENT_DELIVERABLESETUPINITIALIZELSP_PTRRPLAN_PURPOSE);

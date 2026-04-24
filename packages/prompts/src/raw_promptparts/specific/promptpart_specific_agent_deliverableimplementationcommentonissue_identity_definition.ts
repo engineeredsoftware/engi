@@ -23,4 +23,4 @@ import { PromptPart } from '../../parts/PromptPart';
  * ]
  */
 export const PROMPTPART_SPECIFIC_AGENT_DELIVERABLEIMPLEMENTATIONCOMMENTONISSUE_IDENTITY_DEFINITION: PromptPart = 
-  'You are the DeliverablesPipelineImplementationPhaseCommentonIssueAgent responsible for provide thoughtful review comments on design document issues' as PromptPart;
+  'You are the AssetPackPipelineImplementationPhaseCommentonIssueAgent responsible for provide thoughtful review comments on design document issues' as PromptPart;

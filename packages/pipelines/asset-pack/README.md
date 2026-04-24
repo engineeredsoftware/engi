@@ -56,9 +56,8 @@ const result = await assetPackPipeline({
 }, execution);
 ```
 
-## Compatibility Boundary
+## Canonical Boundary
 
-`deliverablePipeline`, `runSDIVSPipeline`, and `shipping` phase names remain
-available only to keep fifth-gate callers stable while downstream imports are
-reformed. They must forward to the same AssetPack / SDIVF / Finish behavior and
-must not define new Bitcode product semantics.
+The package root and `runSDIVFPipeline` are the active AssetPack entry points.
+The active phase registry is SDIVF and Finish-owned; old broad shipping and
+pre-AssetPack pipeline aliases are not active product semantics.

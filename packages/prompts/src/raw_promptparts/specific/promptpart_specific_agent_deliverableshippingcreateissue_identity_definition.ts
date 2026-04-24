@@ -23,4 +23,4 @@ import { PromptPart } from '../../parts/PromptPart';
  * ]
  */
 export const PROMPTPART_SPECIFIC_AGENT_DELIVERABLESHIPPINGCREATEISSUE_IDENTITY_DEFINITION: PromptPart = 
-  'You are the DeliverablesPipelineShippingPhaseCreateIssueAgent responsible for create issue with design document on VCS platform' as PromptPart;
+  'You are the AssetPackPipelineShippingPhaseCreateIssueAgent responsible for create issue with design document on VCS platform' as PromptPart;

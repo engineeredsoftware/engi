@@ -36,7 +36,7 @@ Current fifth-gate retained-system classification:
 | Retained family | Classification | Fifth-gate boundary |
 | --- | --- | --- |
 | `uapi/app/api/webhook/{route,verify}.ts` | `ingress-only` | GitHub-triggered automation ingress that may schedule work but does not own Bitcode Exchange reads/writes |
-| `packages/pipelines/asset-pack/src/run.ts` | `compatibility-only` | `pipelineSDIVS` path export is preserved for admitted callers while canonical SDIVF behavior stays on the AssetPack package/root run surface |
+| `packages/pipelines/asset-pack/src/run.ts` | `canonical` | `runSDIVFPipeline` is the AssetPack run export; the old SDIVS AssetPack alias is not an active V26 entry point |
 | `packages/pipelines/asset-pack/src/*` retained naming | `compatibility-only` | code/payload names like `deliverable`, `deliverableType`, and `comprehend-task` survive only as implementation-speed compatibility carriers while the live filesystem/package owner is AssetPack and V26 teaches `asset pack`, `written asset`, and `comprehend need`; see `protocol-demonstration/V26_DELIVERABLE_REFORM.md` |
 | removed `packages/pipelines/multi/*` filesystem owner | `cut` | old-world multi-agent / multi-deliverable pipeline selection is absent from V26 live source rather than admitted as a Bitcode product control |
 | `packages/generic-agents/vcs/src/index.ts` | `reference-only` | VCS automation helper for retained agentic/pipeline callers, not the Bitcode Terminal repository-state owner |

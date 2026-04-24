@@ -15,7 +15,7 @@ import { createAdminClient, type Database } from '@bitcode/orm';
 import { createClient as createSupabaseClient } from '@supabase/supabase-js';
 import { DEFAULT_PROVIDER, DEFAULT_MODEL_API, getUsdPricingForApiModel } from '@bitcode/models';
 import { withBtdReservation } from '@bitcode/btd';
-import { Execution, ExecutionStreamAdapter, NS_EXEC_DELIVERABLE_VALIDATION_RTS } from '@bitcode/execution-generics';
+import { Execution, ExecutionStreamAdapter, NS_EXEC_ASSET_PACK_VALIDATION_READY_TO_FINISH } from '@bitcode/execution-generics';
 import {
   PipelineExecution,
   inferPipelineExecutionLineage
@@ -1036,21 +1036,21 @@ export const POST = traceRoute('/deliverables', async (request: NextRequest) => 
             (execution as any).get?.('route/preprocessed', 'deliverables') ||
             undefined;
           const writtenAssets =
-            (execution as any).get?.('shipping/final_work_summary', 'writtenAssets') ||
-            (execution as any).get?.('shipping/final_work_summary', 'deliverables') ||
+            (execution as any).get?.('finish/final_work_summary', 'writtenAssets') ||
+            (execution as any).get?.('finish/final_work_summary', 'deliverables') ||
             undefined;
           const deliveryMechanism =
-            (execution as any).get?.('shipping/final_work_summary', 'deliveryMechanism') ||
-            (execution as any).get?.('shipping/final_work_summary', 'deliverables') ||
+            (execution as any).get?.('finish/final_work_summary', 'deliveryMechanism') ||
+            (execution as any).get?.('finish/final_work_summary', 'deliverables') ||
             writtenAssets ||
             undefined;
           const need =
-            (execution as any).get?.('shipping/final_work_summary', 'need') ||
+            (execution as any).get?.('finish/final_work_summary', 'need') ||
             (execution as any).get?.('pipeline', 'expressedNeed') ||
             preprocessedSnapshot?.need ||
             undefined;
           const writtenAssetType =
-            (execution as any).get?.('shipping/final_work_summary', 'writtenAssetType') ||
+            (execution as any).get?.('finish/final_work_summary', 'writtenAssetType') ||
             (execution as any).get?.('pipeline', 'writtenAssetType') ||
             (execution as any).get?.('pipeline', 'deliverableType') ||
             preprocessedSnapshot?.writtenAssetType ||
@@ -1058,10 +1058,10 @@ export const POST = traceRoute('/deliverables', async (request: NextRequest) => 
             undefined;
 
           finalWorkSummary = {
-            summary: (execution as any).get?.('shipping/final_work_summary', 'summary'),
-            processingStats: (execution as any).get?.('shipping/final_work_summary', 'processingStats'),
-            repoSnapshot: (execution as any).get?.('shipping/final_work_summary', 'repoSnapshot'),
-            deliverables: (execution as any).get?.('shipping/final_work_summary', 'deliverables'),
+            summary: (execution as any).get?.('finish/final_work_summary', 'summary'),
+            processingStats: (execution as any).get?.('finish/final_work_summary', 'processingStats'),
+            repoSnapshot: (execution as any).get?.('finish/final_work_summary', 'repoSnapshot'),
+            deliverables: (execution as any).get?.('finish/final_work_summary', 'deliverables'),
             writtenAssets,
             deliveryMechanism,
             need,
@@ -1130,7 +1130,7 @@ export const POST = traceRoute('/deliverables', async (request: NextRequest) => 
           } catch {}
         }
 
-        // Attach postprocessed result for unified read, enriched with RTS
+        // Attach postprocessed result for unified read, enriched with ReadyToFinish
         let postprocessed: any = undefined;
         const deliverableSnapshot =
           preprocessedSnapshot || (execution as any).get?.('route/preprocessed', 'deliverables');
@@ -1151,7 +1151,7 @@ export const POST = traceRoute('/deliverables', async (request: NextRequest) => 
             } catch {}
             digestStatus = {
               agentsDocUpdated,
-              readyToShip: !!digestProposal?.readyToShip,
+              readyToFinish: !!digestProposal?.readyToFinish,
               summary: digestProposal?.agentsMdUpdates || null,
               questionsAnswered: Array.isArray(digestProposal?.questionsAnswered) ? digestProposal.questionsAnswered.length : 0,
               patternsDocumented: Array.isArray(digestProposal?.patternsDocumented) ? digestProposal.patternsDocumented.length : 0,
@@ -1161,11 +1161,11 @@ export const POST = traceRoute('/deliverables', async (request: NextRequest) => 
         }
         try {
           postprocessed = (execution as any).get?.('postprocessed', 'result');
-          // Enrich with Ready‑To‑Ship decision if available
+          // Enrich with ReadyToFinish decision if available
           try {
-            const approved = (execution as any).get?.(NS_EXEC_DELIVERABLE_VALIDATION_RTS, 'approved');
-            const assessment = (execution as any).get?.(NS_EXEC_DELIVERABLE_VALIDATION_RTS, 'assessment');
-            const confidence = (execution as any).get?.(NS_EXEC_DELIVERABLE_VALIDATION_RTS, 'confidence');
+            const approved = (execution as any).get?.(NS_EXEC_ASSET_PACK_VALIDATION_READY_TO_FINISH, 'approved');
+            const assessment = (execution as any).get?.(NS_EXEC_ASSET_PACK_VALIDATION_READY_TO_FINISH, 'assessment');
+            const confidence = (execution as any).get?.(NS_EXEC_ASSET_PACK_VALIDATION_READY_TO_FINISH, 'confidence');
             if (typeof approved !== 'undefined' && postprocessed && typeof postprocessed === 'object') {
               postprocessed = {
                 ...postprocessed,

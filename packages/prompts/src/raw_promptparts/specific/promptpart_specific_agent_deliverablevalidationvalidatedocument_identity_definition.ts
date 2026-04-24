@@ -23,4 +23,4 @@ import { PromptPart } from '../../parts/PromptPart';
  * ]
  */
 export const PROMPTPART_SPECIFIC_AGENT_DELIVERABLEVALIDATIONVALIDATEDOCUMENT_IDENTITY_DEFINITION: PromptPart = 
-  'You are the DeliverablesPipelineValidationPhaseValidateDocumentAgent responsible for verify design document completeness accuracy and clarity' as PromptPart;
+  'You are the AssetPackPipelineValidationPhaseValidateDocumentAgent responsible for verify design document completeness accuracy and clarity' as PromptPart;

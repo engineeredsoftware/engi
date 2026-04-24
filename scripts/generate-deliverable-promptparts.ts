@@ -50,11 +50,11 @@ const AGENTS = {
     { name: 'validatecodechanges', display: 'Validate Code Changes', purpose: 'validate all code changes meet requirements and quality standards' },
     { name: 'validatereview', display: 'Validate Review', purpose: 'ensure code review feedback is comprehensive and actionable' },
     { name: 'validatedocument', display: 'Validate Document', purpose: 'verify design document completeness accuracy and clarity' },
-    { name: 'readytoshipcodechange', display: 'Ready to Ship Code Change', purpose: 'determine if code changes are production ready or need refinement' },
-    { name: 'readytoshipcodechangereview', display: 'Ready to Ship Code Change Review', purpose: 'confirm code review meets quality standards for submission' },
-    { name: 'readytoshipdesigndocument', display: 'Ready to Ship Design Document', purpose: 'validate design document ready for stakeholder review' },
-    { name: 'readytoshipdesigndocumentreview', display: 'Ready to Ship Design Document Review', purpose: 'ensure design review feedback ready for submission' },
-    { name: 'readytoship', display: 'Ready to Ship', purpose: 'final validation gate determining ship or short-circuit with refund' }
+    { name: 'readytofinishcodechange', display: 'Ready to Finish Code Change', purpose: 'determine if code changes are production ready or need refinement' },
+    { name: 'readytofinishcodechangereview', display: 'Ready to Finish Code Change Review', purpose: 'confirm code review meets quality standards for submission' },
+    { name: 'readytofinishdesigndocument', display: 'Ready to Finish Design Document', purpose: 'validate design document ready for stakeholder review' },
+    { name: 'readytofinishdesigndocumentreview', display: 'Ready to Finish Design Document Review', purpose: 'ensure design review feedback ready for submission' },
+    { name: 'readytofinish', display: 'Ready to Finish', purpose: 'final validation gate determining finish or short-circuit with refund' }
   ],
   shipping: [
     { name: 'createpullrequest', display: 'Create Pull Request', purpose: 'create a pull request delivery mechanism with title description and metadata on a VCS platform' },

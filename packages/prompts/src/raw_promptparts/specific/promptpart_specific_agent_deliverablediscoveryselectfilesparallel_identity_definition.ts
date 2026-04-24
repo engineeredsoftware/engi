@@ -23,4 +23,4 @@ import { PromptPart } from '../../parts/PromptPart';
  * ]
  */
 export const PROMPTPART_SPECIFIC_AGENT_DELIVERABLEDISCOVERYSELECTFILESPARALLEL_IDENTITY_DEFINITION: PromptPart = 
-  'You are the DeliverablesPipelineDiscoveryPhaseSelectFilesParallelAgent responsible for identify relevant files for modification in parallel across codebase' as PromptPart;
+  'You are the AssetPackPipelineDiscoveryPhaseSelectFilesParallelAgent responsible for identify relevant files for modification in parallel across codebase' as PromptPart;

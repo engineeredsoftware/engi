@@ -1,26 +1,38 @@
 /**
- * Deliverable Search Tools (moved from deliverables-generics)
+ * AssetPack evidence search for discovery-phase source-to-shares context.
  */
 import { supabaseAdmin } from '@bitcode/supabase';
 import { log } from '@bitcode/logger';
 
-const PRE_CONTEXT_DELIVERABLE_COUNT = parseInt(process.env.PRE_CONTEXT_DELIVERABLE_COUNT ?? '5', 10);
-const POST_CONTEXT_DELIVERABLE_COUNT = parseInt(process.env.POST_CONTEXT_DELIVERABLE_COUNT ?? '10', 10);
+const PRE_CONTEXT_ASSET_PACK_EVIDENCE_COUNT = parseInt(
+  process.env.BITCODE_PRE_CONTEXT_ASSET_PACK_EVIDENCE_COUNT ?? '5',
+  10
+);
+const POST_CONTEXT_ASSET_PACK_EVIDENCE_COUNT = parseInt(
+  process.env.BITCODE_POST_CONTEXT_ASSET_PACK_EVIDENCE_COUNT ?? '10',
+  10
+);
 
-export async function searchRelevantDeliverables(params: {
+export async function searchRelevantAssetPackEvidence(params: {
   repoOwner: string;
   repoName: string;
   repoBranch: string;
   repoCommit: string;
   stage: 'pre-context' | 'post-context';
   count?: number;
-}): Promise<Array<{ deliverable_id: string; user_id: string; output: string; similarity: number }>> {
+}): Promise<Array<{
+  assetPackEvidenceId: string;
+  deliverable_id: string;
+  user_id: string;
+  output: string;
+  similarity: number;
+}>> {
   const { repoOwner, repoName, repoBranch, repoCommit, stage, count } = params;
 
-  log(`searchRelevantDeliverables for ${repoOwner}/${repoName}@${repoBranch} (${stage})`, 'info');
+  log(`searchRelevantAssetPackEvidence for ${repoOwner}/${repoName}@${repoBranch} (${stage})`, 'info');
 
   if (!process.env.OPENAI_API_KEY) {
-    log('OPENAI_API_KEY not set, cannot perform deliverable RAG', 'warn');
+    log('OPENAI_API_KEY not set, cannot perform AssetPack evidence search', 'warn');
     return [];
   }
 
@@ -38,12 +50,17 @@ export async function searchRelevantDeliverables(params: {
   const embedRes = await openai.embeddings.create({ model: 'text-embedding-ada-002', input: contextText });
   const queryEmbedding = embedRes.data[0].embedding as any;
 
-  const matchCount = count ?? (stage === 'pre-context' ? PRE_CONTEXT_DELIVERABLE_COUNT : POST_CONTEXT_DELIVERABLE_COUNT);
+  const matchCount =
+    count ??
+    (stage === 'pre-context'
+      ? PRE_CONTEXT_ASSET_PACK_EVIDENCE_COUNT
+      : POST_CONTEXT_ASSET_PACK_EVIDENCE_COUNT);
   const { data, error } = await supabaseAdmin.rpc('match_deliverable_vectors', { query_embedding: queryEmbedding, match_count: matchCount });
-  if (error) { log('searchRelevantDeliverables RPC error', 'error', { error }); return [];
+  if (error) { log('searchRelevantAssetPackEvidence RPC error', 'error', { error }); return [];
   }
 
   return (data || []).map((row: any) => ({
+    assetPackEvidenceId: row.asset_pack_evidence_id || row.deliverable_id,
     deliverable_id: row.deliverable_id,
     user_id: row.user_id,
     output: row.output,

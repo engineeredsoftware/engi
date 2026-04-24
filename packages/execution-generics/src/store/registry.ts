@@ -5,7 +5,7 @@
  * Keep all namespaces stable and discoverable to prevent drift.
  *
  * Usage:
- *  - Import a namespace constant (e.g., NS_VALIDATION_RTS)
+ *  - Import a namespace constant (e.g., NS_VALIDATION_READY_TO_FINISH)
  *  - Prefer helper setters/getters where available for typed access
  *  - When storing complex agent outputs, reference the agent's Output type
  */
@@ -16,26 +16,28 @@ import type { StorableValue } from '../types';
 // ==================== VALIDATION PHASE ====================
 
 /**
- * Namespace for the Ready-To-Ship agent in the Validation phase
+ * Namespace for the ReadyToFinish agent in the Validation phase
  * Stores the final readiness decision for header rendering and routing
  */
 /**
- * Pipeline-specific RTS namespaces for maximal clarity.
+ * Pipeline-specific ReadyToFinish namespaces for maximal clarity.
  * Prefer these over any generic alias.
  */
-export const NS_EXEC_DELIVERABLE_VALIDATION_RTS = 'execution-deliverable-pipeline-phase-validation-ready-to-ship-agent' as const;
-export const NS_EXEC_MEASURE_VALIDATION_RTS     = 'execution-measure-pipeline-phase-validation-ready-to-ship-agent' as const;
+export const NS_EXEC_ASSET_PACK_VALIDATION_READY_TO_FINISH =
+  'execution-asset-pack-pipeline-phase-validation-ready-to-finish-agent' as const;
+export const NS_EXEC_MEASURE_VALIDATION_READY_TO_FINISH =
+  'execution-measure-pipeline-phase-validation-ready-to-finish-agent' as const;
 
 /**
- * Compatibility generic RTS namespace. Use pipeline-specific constants instead.
+ * Generic ReadyToFinish namespace. Use pipeline-specific constants instead.
  */
-export const NS_VALIDATION_RTS = NS_EXEC_DELIVERABLE_VALIDATION_RTS;
+export const NS_VALIDATION_READY_TO_FINISH = NS_EXEC_ASSET_PACK_VALIDATION_READY_TO_FINISH;
 
 /**
- * Generic shape for RTS decision. Prefer specializing via generics with
+ * Generic shape for ReadyToFinish decision. Prefer specializing via generics with
  * the agent's structured Output type where available.
  */
-export type ValidationReadyToShip<TAssessment = unknown, TResult = unknown> = {
+export type ValidationReadyToFinish<TAssessment = unknown, TResult = unknown> = {
   approved: boolean;
   assessment?: TAssessment | null;
   confidence?: number | null;
@@ -44,15 +46,17 @@ export type ValidationReadyToShip<TAssessment = unknown, TResult = unknown> = {
 };
 
 /**
- * Store the RTS decision (typed wrapper). Callers should pass the agent
+ * Store the ReadyToFinish decision (typed wrapper). Callers should pass the agent
  * Output-derived assessment/result types when possible.
  */
-export function setValidationReadyToShip<TA extends StorableValue = StorableValue, TR extends StorableValue = StorableValue>(
+export function setValidationReadyToFinish<TA extends StorableValue = StorableValue, TR extends StorableValue = StorableValue>(
   exec: Execution,
-  value: ValidationReadyToShip<TA, TR>,
-  pipeline: 'deliverable' | 'measure' = 'deliverable'
+  value: ValidationReadyToFinish<TA, TR>,
+  pipeline: 'asset-pack' | 'measure' = 'asset-pack'
 ): void {
-  const NS = pipeline === 'measure' ? NS_EXEC_MEASURE_VALIDATION_RTS : NS_EXEC_DELIVERABLE_VALIDATION_RTS;
+  const NS = pipeline === 'measure'
+    ? NS_EXEC_MEASURE_VALIDATION_READY_TO_FINISH
+    : NS_EXEC_ASSET_PACK_VALIDATION_READY_TO_FINISH;
   exec.store(NS, 'approved', !!value.approved);
   if (typeof value.confidence !== 'undefined') exec.store(NS, 'confidence', value.confidence as any);
   if (typeof value.assessment !== 'undefined') exec.store(NS, 'assessment', value.assessment as any);
@@ -61,13 +65,15 @@ export function setValidationReadyToShip<TA extends StorableValue = StorableValu
 }
 
 /**
- * Retrieve the RTS decision. Cast to specialized types at callsite when needed.
+ * Retrieve the ReadyToFinish decision. Cast to specialized types at callsite when needed.
  */
-export function getValidationReadyToShip<TA extends StorableValue = StorableValue, TR extends StorableValue = StorableValue>(
+export function getValidationReadyToFinish<TA extends StorableValue = StorableValue, TR extends StorableValue = StorableValue>(
   exec: Execution,
-  pipeline: 'deliverable' | 'measure' = 'deliverable'
-): ValidationReadyToShip<TA, TR> | undefined {
-  const NS = pipeline === 'measure' ? NS_EXEC_MEASURE_VALIDATION_RTS : NS_EXEC_DELIVERABLE_VALIDATION_RTS;
+  pipeline: 'asset-pack' | 'measure' = 'asset-pack'
+): ValidationReadyToFinish<TA, TR> | undefined {
+  const NS = pipeline === 'measure'
+    ? NS_EXEC_MEASURE_VALIDATION_READY_TO_FINISH
+    : NS_EXEC_ASSET_PACK_VALIDATION_READY_TO_FINISH;
   const approved = exec.get<boolean>(NS, 'approved');
   if (typeof approved === 'undefined') return undefined;
   return {
@@ -121,7 +127,7 @@ export const EXECUTION_NAMESPACES = {
     'assetPackWrittenAsset', // object — semantic asset-pack snapshot
     'ai_documents',  // object — route preprocess snapshot
   ],
-  'shipping/final_work_summary': [
+  'finish/final_work_summary': [
     'summary',          // string | object
     'processingStats',  // { time, tokens?, credits? }
     'repoSnapshot',     // { org, repo, branch, commit }
@@ -134,10 +140,10 @@ export const EXECUTION_NAMESPACES = {
     'result',       // normalized postprocessed (deliverable/multi/measure)
   ],
   // Validation phase
-  [NS_EXEC_DELIVERABLE_VALIDATION_RTS]: [
+  [NS_EXEC_ASSET_PACK_VALIDATION_READY_TO_FINISH]: [
     'approved', 'confidence', 'assessment', 'result', 'timestamp'
   ],
-  [NS_EXEC_MEASURE_VALIDATION_RTS]: [
+  [NS_EXEC_MEASURE_VALIDATION_READY_TO_FINISH]: [
     'approved', 'confidence', 'assessment', 'result', 'timestamp'
   ],
 } as const;
@@ -167,9 +173,9 @@ export function getCorrelationId(exec: Execution): string | undefined {
  * Pattern: execution-<pipeline>-pipeline-phase-<phase>-<agent>
  *
  * Example:
- * nsAgent('deliverable','validation','ready-to-ship-agent')
- *   → execution-deliverable-pipeline-phase-validation-ready-to-ship-agent
+ * nsAgent('asset-pack','validation','ready-to-finish-agent')
+ *   -> execution-asset-pack-pipeline-phase-validation-ready-to-finish-agent
  */
-export function nsAgent(pipeline: 'deliverable' | 'measure', phase: string, agent: string): string {
+export function nsAgent(pipeline: 'asset-pack' | 'measure', phase: string, agent: string): string {
   return `execution-${pipeline}-pipeline-phase-${phase}-${agent}`;
 }

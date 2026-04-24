@@ -8,13 +8,13 @@
 import { Tool } from '@bitcode/tools-generics';
 
 // VCS and Repository Tools (always available)
-import { deliverablePipelineCloneVCSRepositoryTool } from './DeliverablePipelineCloneVCSRepositoryTool';
-import { deliverablePipelineUseComputerTool } from './DeliverablePipelineUseComputerTool';
-import { deliverablePipelineMultimodalProcessingTool } from './DeliverablePipelineMultimodalProcessingTool';
-import { deliverablePipelineImageComprehensionTool } from './DeliverablePipelineImageComprehensionTool';
-import { deliverablePipelinePDFComprehensionTool } from './DeliverablePipelinePDFComprehensionTool';
-import { deliverablePipelineAudioComprehensionTool } from './DeliverablePipelineAudioComprehensionTool';
-import { deliverablePipelineVideoComprehensionTool } from './DeliverablePipelineVideoComprehensionTool';
+import { assetPackCloneVCSRepositoryTool } from './AssetPackCloneVCSRepositoryTool';
+import { bitcodeNeedMeasurementComputerUseTool } from './BitcodeNeedMeasurementComputerUseTool';
+import { assetPackMultimodalProcessingTool } from './AssetPackMultimodalProcessingTool';
+import { assetPackImageComprehensionTool } from './AssetPackImageComprehensionTool';
+import { assetPackPDFComprehensionTool } from './AssetPackPDFComprehensionTool';
+import { assetPackAudioComprehensionTool } from './AssetPackAudioComprehensionTool';
+import { assetPackVideoComprehensionTool } from './AssetPackVideoComprehensionTool';
 // VCS tools used during Finish/Delivering
 import { createPullRequestTool, createIssueTool, createCommentTool } from '@bitcode/vcs-tools';
 
@@ -61,14 +61,14 @@ const optionalTools = (...tools: Array<Tool | undefined>): Tool[] => tools.filte
  */
 export const SETUP_PHASE_TOOLS: Tool[] = [
   // VCS Operations
-  // Use Deliverables wrapper for clone (merged doc-code prompt)
-  deliverablePipelineCloneVCSRepositoryTool,
+  // Use AssetPack wrapper for clone (merged doc-code prompt)
+  assetPackCloneVCSRepositoryTool,
   // Multimodal comprehension (images, pdf, audio, video)
-  deliverablePipelineMultimodalProcessingTool,
-  deliverablePipelineImageComprehensionTool,
-  deliverablePipelinePDFComprehensionTool,
-  deliverablePipelineAudioComprehensionTool,
-  deliverablePipelineVideoComprehensionTool,
+  assetPackMultimodalProcessingTool,
+  assetPackImageComprehensionTool,
+  assetPackPDFComprehensionTool,
+  assetPackAudioComprehensionTool,
+  assetPackVideoComprehensionTool,
   // Provider MCP tools disabled for GA‑1
   // LSP and Code Intelligence
   //lspSemanticAnalysisEngine,
@@ -101,7 +101,7 @@ export function getComputerUseNeedMeasurementTools(
   env: NodeJS.ProcessEnv = process.env,
 ): Tool[] {
   return isComputerUseNeedMeasurementEnabled(env)
-    ? [deliverablePipelineUseComputerTool]
+    ? [bitcodeNeedMeasurementComputerUseTool]
     : [];
 }
 
@@ -130,56 +130,54 @@ export const FINISH_DELIVERY_TOOLS: Tool[] = [
   createCommentTool
 ].filter(present);
 
-export const SHIPPING_PHASE_TOOLS = FINISH_DELIVERY_TOOLS;
-
 // ==================== AGENT-SPECIFIC TOOL MAPPINGS ====================
 
 /**
  * Get tools for specific agent by name
  */
-export function getDeliverablePipelineToolsForAgent(agentName: string): Tool[] {
+export function getAssetPackPipelineToolsForAgent(agentName: string): Tool[] {
   const agentToolMappings: Record<string, Tool[]> = {
     // Setup Phase
-    'deliverable-pipeline-clone-vcs-repository-tools': [deliverablePipelineCloneVCSRepositoryTool],
-    'deliverable-pipeline-clone-vcs-repository-agent': [deliverablePipelineCloneVCSRepositoryTool],
+    'asset-pack-clone-vcs-repository-tools': [assetPackCloneVCSRepositoryTool],
+    'asset-pack-clone-vcs-repository-agent': [assetPackCloneVCSRepositoryTool],
     //'initialize-lsp': [lspSemanticAnalysisEngine, lspCodeIntelligenceEngine, lspWorkspaceNavigationEngine],
     //'danger-wall': [],
-    'deliverable-pipeline-comprehend-need-definition-agent': [
-      deliverablePipelineMultimodalProcessingTool,
-      deliverablePipelineImageComprehensionTool,
-      deliverablePipelinePDFComprehensionTool,
-      deliverablePipelineAudioComprehensionTool,
-      deliverablePipelineVideoComprehensionTool,
+    'asset-pack-comprehend-need-definition-agent': [
+      assetPackMultimodalProcessingTool,
+      assetPackImageComprehensionTool,
+      assetPackPDFComprehensionTool,
+      assetPackAudioComprehensionTool,
+      assetPackVideoComprehensionTool,
     ],
-    'deliverable-pipeline-ready-to-iterate-agent': [],
+    'asset-pack-ready-to-iterate-agent': [],
 
     // Discovery Phase
-    'deliverable-pipeline-digest-codebase-agent': [],
-    'deliverable-pipeline-research-web-agent': [],
-    //'deliverable-pipeline-select-files-agent': [],
+    'asset-pack-digest-codebase-agent': [],
+    'asset-pack-research-web-agent': [],
+    //'asset-pack-select-files-agent': [],
 
     // Implementation Phase
-    'deliverable-pipeline-implementation-divide-code-change-agent': [],
-    'deliverable-pipeline-implementation-conquer-file-agent': [],
-    'deliverable-pipeline-implementation-correct-code-change-agent': [],
-    'deliverable-pipeline-implementation-review-code-change-agent': [],
-    'deliverable-pipeline-implementation-create-design-document-agent': [],
-    'deliverable-pipeline-implementation-review-design-document-agent': [],
+    'asset-pack-divide-code-change-agent': [],
+    'asset-pack-conquer-file-agent': [],
+    'asset-pack-correct-code-change-agent': [],
+    'asset-pack-review-code-change-agent': [],
+    'asset-pack-create-design-document-agent': [],
+    'asset-pack-review-design-document-agent': [],
     //'review-code-change': [lspSemanticAnalysisEngine],
     //'create-design-document': [lspSemanticAnalysisEngine],
     //'review-design-document': [lspSemanticAnalysisEngine],
 
     // Validation Phase
-    'deliverable-pipeline-validation-validate-code-changes-agent': optionalTools(lspSemanticAnalysisEngine),
-    'deliverable-pipeline-validation-validate-code-changesreview-agent': optionalTools(lspSemanticAnalysisEngine),
-    'deliverable-pipeline-validation-validate-design-document-agent': optionalTools(lspSemanticAnalysisEngine),
-    'deliverable-pipeline-validation-validate-design-document-review-agent': optionalTools(lspSemanticAnalysisEngine),
-    'deliverable-pipeline-validation-ready-to-ship': [],
-    'deliverable-pipeline-validation-ready-to-ship-agent': [],
-    'deliverable-pipeline-validation-ready-to-ship-code-change-agent': [],
-    'deliverable-pipeline-validation-ready-to-ship-code-change-review-agent': [],
-    'deliverable-pipeline-validation-ready-to-ship-design-document-agent': [],
-    'deliverable-pipeline-validation-ready-to-ship-design-document-review-agent': [],
+    'asset-pack-validation-validate-code-changes-agent': optionalTools(lspSemanticAnalysisEngine),
+    'asset-pack-validation-validate-code-changesreview-agent': optionalTools(lspSemanticAnalysisEngine),
+    'asset-pack-validation-validate-design-document-agent': optionalTools(lspSemanticAnalysisEngine),
+    'asset-pack-validation-validate-design-document-review-agent': optionalTools(lspSemanticAnalysisEngine),
+    'asset-pack-validation-ready-to-finish-agent': [],
+    'asset-pack-ready-to-finish-agent': [],
+    'asset-pack-validation-ready-to-finish-code-change-agent': [],
+    'asset-pack-validation-ready-to-finish-code-review-agent': [],
+    'asset-pack-validation-ready-to-finish-design-document-agent': [],
+    'asset-pack-validation-ready-to-finish-design-review-agent': [],
 
     // Internal Need-measurement computer-use option
     'need-measurement:computer-use-evidence-agent': getComputerUseNeedMeasurementTools(),
@@ -187,16 +185,13 @@ export function getDeliverablePipelineToolsForAgent(agentName: string): Tool[] {
     // Finish Phase / Delivering destination tools
     'finish:deliver-asset-pack-to-destination-agent': [createPullRequestTool, createIssueTool, createCommentTool],
     'finish:final-work-summary': [],
-
-    // Compatibility registry keys for callers not yet moved to Finish naming.
-    'shipping:deliverable-pipeline-ship-agent': [createPullRequestTool, createIssueTool, createCommentTool],
-    'shipping:deliverable-pipeline-create-pull-request-agent': [createPullRequestTool],
-    'shipping:deliverable-pipeline-submit-review-agent': [createCommentTool],
-    'shipping:deliverable-pipeline-create-issue-agent': [createIssueTool],
-    'shipping:deliverable-pipeline-add-comment-agent': [createCommentTool],
-    'shipping:deliverable-pipeline-gather-metrics-agent': [],
-    'shipping:deliverable-pipeline-generate-final-response-agent': [],
-    'shipping:deliverable-pipeline-finalize-agent': []
+    'finish:asset-pack-create-pull-request-delivery-agent': [createPullRequestTool],
+    'finish:asset-pack-submit-review-delivery-agent': [createCommentTool],
+    'finish:asset-pack-create-issue-delivery-agent': [createIssueTool],
+    'finish:asset-pack-add-comment-delivery-agent': [createCommentTool],
+    'finish:asset-pack-gather-metrics-agent': [],
+    'finish:asset-pack-generate-final-response-agent': [],
+    'finish:asset-pack-finalize-delivery-evidence-agent': []
   };
 
   return agentToolMappings[agentName] || [];
@@ -238,5 +233,3 @@ export const ALL_ASSET_PACK_TOOLS: Tool[] = [
     ...FINISH_DELIVERY_TOOLS
   ])
 ];
-
-export const ALL_DELIVERABLE_TOOLS = ALL_ASSET_PACK_TOOLS;

@@ -23,4 +23,4 @@ import { PromptPart } from '../../parts/PromptPart';
  * ]
  */
 export const PROMPTPART_SPECIFIC_AGENT_DELIVERABLEVALIDATIONVALIDATECODECHANGES_IDENTITY_DEFINITION: PromptPart = 
-  'You are the DeliverablesPipelineValidationPhaseValidateCodeChangesAgent responsible for validate all code changes meet requirements and quality standards' as PromptPart;
+  'You are the AssetPackPipelineValidationPhaseValidateCodeChangesAgent responsible for validate all code changes meet requirements and quality standards' as PromptPart;

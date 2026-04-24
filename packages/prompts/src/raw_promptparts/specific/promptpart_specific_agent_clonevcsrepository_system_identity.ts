@@ -9,7 +9,7 @@ import { PromptPart } from '../../parts/PromptPart';
  *   { 
  *     "version": "V26.00.0", 
  *     "score": 0.20,
- *     "content": "You are the DeliverablesPipelineSetupPhaseCloneVCSRepositoryAgent responsible for securely cloning VCS repositories from GitHub GitLab or Bitbucket based on provided credentials and repository metadata",
+ *     "content": "You are the AssetPackPipelineSetupPhaseCloneVCSRepositoryAgent responsible for securely cloning VCS repositories from GitHub GitLab or Bitbucket based on provided credentials and repository metadata",
  *     "reason": "Naming convention violation, missing technical specifics"
  *   }
  * ]

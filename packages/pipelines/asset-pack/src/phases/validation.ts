@@ -5,13 +5,13 @@ import { normalizeWrittenAssetType } from '../semantic-resolution';
 /**
  * Validation phase configuration placeholder.
  * The actual execution composition for validation lives in phases/index.ts
- * where three validators run in parallel followed by the compatibility-named
- * ready-to-ship agent that now gates the canonical Finish phase.
+ * where three validators run in parallel followed by the AssetPack
+ * ReadyToFinish agent that gates the canonical Finish phase.
  */
 const validationPhaseConfig: PhaseConfig = {
   phaseName: 'validation',
   sequence: [
-    { agent: 'validation:deliverable-pipeline-ready-to-ship-agent' }
+    { agent: 'validation:asset-pack-ready-to-finish-agent' }
   ],
   allowShortCircuit: true
 };

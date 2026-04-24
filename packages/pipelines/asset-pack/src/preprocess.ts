@@ -89,7 +89,7 @@ export async function initializeAssetPackPipeline(execution: PipelineExecution) 
     } catch {}
   }
 
-  // 2) Debug mode: enable deep logging for deliverables runs
+  // 2) Debug mode: enable deep logging for AssetPack runs
   try {
     enableExecutionDebug(execution, true);
     execution.store('config', 'debug', true);
@@ -108,21 +108,21 @@ export async function initializeAssetPackPipeline(execution: PipelineExecution) 
 
   // 4) Register Setup agents used during bring-up
   try {
-    const cloneAgent = (await import('./agents/setup/deliverable-pipeline-clone-vcs-repository-agent')).default as any;
-    execution.agents.registerAgent('setup:deliverable-pipeline-clone-vcs-repository-agent', cloneAgent);
+    const cloneAgent = (await import('./agents/setup/asset-pack-clone-vcs-repository-agent')).default as any;
+    execution.agents.registerAgent('setup:asset-pack-clone-vcs-repository-agent', cloneAgent);
   } catch {}
   try {
-    const setupPlan = (await import('./agents/setup/deliverable-pipeline-setup-plan-agent')).default as any;
-    execution.agents.registerAgent('setup:deliverable-setup-plan-agent', setupPlan);
+    const setupPlan = (await import('./agents/setup/asset-pack-setup-plan-agent')).default as any;
+    execution.agents.registerAgent('setup:asset-pack-setup-plan-agent', setupPlan);
   } catch {}
   try {
-    const comprehendAgent = (await import('./agents/setup/deliverable-pipeline-comprehend-need-agent')).default as any;
-    execution.agents.registerAgent('setup:deliverable-pipeline-comprehend-need-agent', comprehendAgent);
-    execution.agents.registerAgent('setup:deliverable-pipeline-comprehend-need-definition-agent', comprehendAgent);
+    const comprehendAgent = (await import('./agents/setup/asset-pack-comprehend-need-agent')).default as any;
+    execution.agents.registerAgent('setup:asset-pack-comprehend-need-agent', comprehendAgent);
+    execution.agents.registerAgent('setup:asset-pack-comprehend-need-definition-agent', comprehendAgent);
   } catch {}
   try {
-    const initializeMcpsToolsAgent = (await import('./agents/setup/initialize-mcps-tools-agent')).default as any;
-    execution.agents.registerAgent('setup:deliverable-pipeline-initialize-mcps-tools-agent', initializeMcpsToolsAgent);
+    const initializeMcpsToolsAgent = (await import('./agents/setup/asset-pack-initialize-mcps-tools-agent')).default as any;
+    execution.agents.registerAgent('setup:asset-pack-initialize-mcps-tools-agent', initializeMcpsToolsAgent);
   } catch {}
   // Register discovery agents
   try {
@@ -142,4 +142,4 @@ export async function initializeAssetPackPipeline(execution: PipelineExecution) 
   // Register type-dependent implementation, validation, and Finish agents lazily when phases run.
 }
 
-export const initializeDeliverablePipeline = initializeAssetPackPipeline;
+export const initializeAssetPack = initializeAssetPackPipeline;

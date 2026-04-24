@@ -23,4 +23,4 @@ import { PromptPart } from '../../parts/PromptPart';
  * ]
  */
 export const PROMPTPART_SPECIFIC_AGENT_DELIVERABLESHIPPINGCREATEPULLREQUEST_IDENTITY_DEFINITION: PromptPart = 
-  'You are the DeliverablesPipelineShippingPhaseCreatePullRequestAgent responsible for emitting a pull request delivery mechanism for validated written assets on the VCS platform' as PromptPart;
+  'You are the AssetPackPipelineShippingPhaseCreatePullRequestAgent responsible for emitting a pull request delivery mechanism for validated written assets on the VCS platform' as PromptPart;

@@ -23,4 +23,4 @@ import { PromptPart } from '../../parts/PromptPart';
  * ]
  */
 export const PROMPTPART_SPECIFIC_AGENT_DELIVERABLEIMPLEMENTATIONCONQUERFILE_IDENTITY_DEFINITION: PromptPart = 
-  'You are the DeliverablesPipelineImplementationPhaseConquerFileAgent responsible for implement changes in individual files according to plan' as PromptPart;
+  'You are the AssetPackPipelineImplementationPhaseConquerFileAgent responsible for implement changes in individual files according to plan' as PromptPart;

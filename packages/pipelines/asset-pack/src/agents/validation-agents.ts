@@ -1,7 +1,7 @@
 /**
  * Validation Phase Agents for the AssetPack Pipeline
  * 
- * Pattern: DeliverablesPipelineValidationPhase{Action}Agent
+ * Pattern: AssetPackValidation{Action}Agent for reformed readiness owners.
  * 
  * ALL agents use PTRR (Plan-Try-Refine-Retry) - no exceptions
  */
@@ -11,37 +11,37 @@ import { z } from 'zod';
 // Prompts for validation agents. Retained raw PromptParts are composed through
 // Bitcode-specific prompt builders before any agent enters Finish.
 import {
-  createDeliverablesPipelineValidationPhaseValidateCodeChangesAgentPrompt,
-  DeliverablesPipelineValidationPhaseValidateCodeChangesAgentPromptSteps
+  createAssetPackValidationPhaseValidateCodeChangesAgentPrompt,
+  AssetPackValidationPhaseValidateCodeChangesAgentPromptSteps
 } from './prompts/validate-code-changes-prompt';
 import {
-  createDeliverablesPipelineValidationPhaseValidateReviewAgentPrompt,
-  DeliverablesPipelineValidationPhaseValidateReviewAgentPromptSteps
+  createAssetPackValidationPhaseValidateReviewAgentPrompt,
+  AssetPackValidationPhaseValidateReviewAgentPromptSteps
 } from './prompts/validate-review-prompt';
 import {
-  createDeliverablesPipelineValidationPhaseValidateDocumentAgentPrompt,
-  DeliverablesPipelineValidationPhaseValidateDocumentAgentPromptSteps
+  createAssetPackValidationPhaseValidateDocumentAgentPrompt,
+  AssetPackValidationPhaseValidateDocumentAgentPromptSteps
 } from './prompts/validate-document-prompt';
 import {
-  createDeliverablesPipelineValidationPhaseReadyToFinishCodeChangeAgentPrompt,
-  DeliverablesPipelineValidationPhaseReadyToFinishCodeChangeAgentPromptSteps
-} from './prompts/ready-to-ship-code-change-prompt';
+  createAssetPackValidationReadyToFinishCodeChangeAgentPrompt,
+  AssetPackValidationReadyToFinishCodeChangeAgentPromptSteps
+} from './prompts/asset-pack-validation-ready-to-finish-code-change-prompt';
 import {
-  createDeliverablesPipelineValidationPhaseReadyToFinishCodeChangeReviewAgentPrompt,
-  DeliverablesPipelineValidationPhaseReadyToFinishCodeChangeReviewAgentPromptSteps
-} from './prompts/ready-to-ship-code-change-review-prompt';
+  createAssetPackValidationReadyToFinishCodeChangeReviewAgentPrompt,
+  AssetPackValidationReadyToFinishCodeChangeReviewAgentPromptSteps
+} from './prompts/asset-pack-validation-ready-to-finish-code-change-review-prompt';
 import {
-  createDeliverablesPipelineValidationPhaseReadyToFinishDesignDocumentAgentPrompt,
-  DeliverablesPipelineValidationPhaseReadyToFinishDesignDocumentAgentPromptSteps
-} from './prompts/ready-to-ship-design-document-prompt';
+  createAssetPackValidationReadyToFinishDesignDocumentAgentPrompt,
+  AssetPackValidationReadyToFinishDesignDocumentAgentPromptSteps
+} from './prompts/asset-pack-validation-ready-to-finish-design-document-prompt';
 import {
-  createDeliverablesPipelineValidationPhaseReadyToFinishDesignDocumentReviewAgentPrompt,
-  DeliverablesPipelineValidationPhaseReadyToFinishDesignDocumentReviewAgentPromptSteps
-} from './prompts/ready-to-ship-design-document-review-prompt';
+  createAssetPackValidationReadyToFinishDesignDocumentReviewAgentPrompt,
+  AssetPackValidationReadyToFinishDesignDocumentReviewAgentPromptSteps
+} from './prompts/asset-pack-validation-ready-to-finish-design-document-review-prompt';
 import {
-  createDeliverablesPipelineValidationPhaseReadyToFinishAgentPrompt,
-  DeliverablesPipelineValidationPhaseReadyToFinishAgentPromptSteps
-} from './prompts/ready-to-ship-prompt';
+  createAssetPackValidationReadyToFinishAgentPrompt,
+  AssetPackValidationReadyToFinishAgentPromptSteps
+} from './prompts/asset-pack-validation-ready-to-finish-prompt';
 import { normalizeWrittenAssetType } from '../semantic-resolution';
 
 import { Prompt } from '@bitcode/prompts/prompt';
@@ -53,11 +53,11 @@ import { PROMPTPART_GENERIC_AGENT_FAILSAFE_PREPARE_CONTEXT } from '@bitcode/prom
 
 const ValidateLastValidationOutputSchema = z.object({ issues: z.array(z.string()) });
 
-export const DeliverablesPipelineValidationPhaseValidateLastValidationAgent = factoryAgentWithPTRR<
+export const AssetPackValidationPhaseValidateLastValidationAgent = factoryAgentWithPTRR<
   any,
   z.infer<typeof ValidateLastValidationOutputSchema>
 >({
-  name: 'deliverable-pipeline-validate-last-iterations-validation-phase-agent',
+  name: 'asset-pack-validate-last-iterations-validation-phase-agent',
   description: 'Validates prior iteration\'s validation for regressions or gaps',
   outputSchema: ValidateLastValidationOutputSchema,
   prompt: (() => { const p = new Prompt(); p.set('generation:json_only_header', PROMPTPART_GENERIC_AGENT_GENERATION_JSON_ONLY_HEADER as any); p.set('generation:use_this_structure', PROMPTPART_GENERIC_AGENT_GENERATION_USE_THIS_STRUCTURED_SCHEMA as any); p.set('failsafe:prepare_context', PROMPTPART_GENERIC_AGENT_FAILSAFE_PREPARE_CONTEXT as any); return p; })(),
@@ -69,11 +69,11 @@ export const DeliverablesPipelineValidationPhaseValidateLastValidationAgent = fa
 
 const ValidateDiscoveryOutputSchema = z.object({ issues: z.array(z.string()) });
 
-export const DeliverablesPipelineValidationPhaseValidateDiscoveryAgent = factoryAgentWithPTRR<
+export const AssetPackValidationPhaseValidateDiscoveryAgent = factoryAgentWithPTRR<
   any,
   z.infer<typeof ValidateDiscoveryOutputSchema>
 >({
-  name: 'deliverable-pipeline-validate-discovery-phase-agent',
+  name: 'asset-pack-validate-discovery-phase-agent',
   description: 'Validates discovery outputs for completeness and feasibility',
   outputSchema: ValidateDiscoveryOutputSchema,
   prompt: (() => { const p = new Prompt(); p.set('generation:json_only_header', PROMPTPART_GENERIC_AGENT_GENERATION_JSON_ONLY_HEADER as any); p.set('generation:use_this_structure', PROMPTPART_GENERIC_AGENT_GENERATION_USE_THIS_STRUCTURED_SCHEMA as any); p.set('failsafe:prepare_context', PROMPTPART_GENERIC_AGENT_FAILSAFE_PREPARE_CONTEXT as any); return p; })(),
@@ -129,20 +129,20 @@ const ValidateCodeChangesOutputSchema = z.object({
 });
 
 /**
- * DeliverablesPipelineValidationPhaseValidateCodeChangesAgent
+ * AssetPackValidationPhaseValidateCodeChangesAgent
  * 
  * Validates code changes for pull requests.
  * PrepareContext will provide all implementation results.
  */
-export const DeliverablesPipelineValidationPhaseValidateCodeChangesAgent = factoryAgentWithPTRR<
+export const AssetPackValidationPhaseValidateCodeChangesAgent = factoryAgentWithPTRR<
   z.infer<typeof ValidateCodeChangesInputSchema>,
   z.infer<typeof ValidateCodeChangesOutputSchema>
 >({
-  name: 'deliverable-pipeline-validate-implementation-phase-code-change-agent',
+  name: 'asset-pack-validate-implementation-phase-code-change-agent',
   description: 'Validates code changes meet quality standards',
   
-  prompt: createDeliverablesPipelineValidationPhaseValidateCodeChangesAgentPrompt(),
-  stepPrompts: DeliverablesPipelineValidationPhaseValidateCodeChangesAgentPromptSteps,
+  prompt: createAssetPackValidationPhaseValidateCodeChangesAgentPrompt(),
+  stepPrompts: AssetPackValidationPhaseValidateCodeChangesAgentPromptSteps,
   
   outputSchema: ValidateCodeChangesOutputSchema,
   
@@ -181,19 +181,19 @@ const ValidateReviewOutputSchema = z.object({
 });
 
 /**
- * DeliverablesPipelineValidationPhaseValidateReviewAgent
+ * AssetPackValidationPhaseValidateReviewAgent
  * 
  * Validates pull request review quality.
  */
-export const DeliverablesPipelineValidationPhaseValidateReviewAgent = factoryAgentWithPTRR<
+export const AssetPackValidationPhaseValidateReviewAgent = factoryAgentWithPTRR<
   z.infer<typeof ValidateReviewInputSchema>,
   z.infer<typeof ValidateReviewOutputSchema>
 >({
-  name: 'deliverable-pipeline-validate-implementation-phase-code-change-review-agent',
+  name: 'asset-pack-validate-implementation-phase-code-change-review-agent',
   description: 'Validates review quality and completeness',
   
-  prompt: createDeliverablesPipelineValidationPhaseValidateReviewAgentPrompt(),
-  stepPrompts: DeliverablesPipelineValidationPhaseValidateReviewAgentPromptSteps,
+  prompt: createAssetPackValidationPhaseValidateReviewAgentPrompt(),
+  stepPrompts: AssetPackValidationPhaseValidateReviewAgentPromptSteps,
   
   outputSchema: ValidateReviewOutputSchema,
   
@@ -235,19 +235,19 @@ const ValidateDocumentOutputSchema = z.object({
 });
 
 /**
- * DeliverablesPipelineValidationPhaseValidateDocumentAgent
+ * AssetPackValidationPhaseValidateDocumentAgent
  * 
  * Validates design documents and comments.
  */
-export const DeliverablesPipelineValidationPhaseValidateDocumentAgent = factoryAgentWithPTRR<
+export const AssetPackValidationPhaseValidateDocumentAgent = factoryAgentWithPTRR<
   z.infer<typeof ValidateDocumentInputSchema>,
   z.infer<typeof ValidateDocumentOutputSchema>
 >({
-  name: 'deliverable-pipeline-validate-implementation-phase-design-document-agent',
+  name: 'asset-pack-validate-implementation-phase-design-document-agent',
   description: 'Validates document quality and completeness',
   
-  prompt: createDeliverablesPipelineValidationPhaseValidateDocumentAgentPrompt(),
-  stepPrompts: DeliverablesPipelineValidationPhaseValidateDocumentAgentPromptSteps,
+  prompt: createAssetPackValidationPhaseValidateDocumentAgentPrompt(),
+  stepPrompts: AssetPackValidationPhaseValidateDocumentAgentPromptSteps,
   
   outputSchema: ValidateDocumentOutputSchema,
   
@@ -278,15 +278,15 @@ const ReadyToFinishCodeChangeOutputSchema = z.object({
  * 
  * Type-specific readiness check for code changes.
  */
-export const DeliverablesPipelineValidationPhaseReadyToFinishCodeChangeAgent = factoryAgentWithPTRR<
+export const AssetPackValidationReadyToFinishCodeChangeAgent = factoryAgentWithPTRR<
   z.infer<typeof ReadyToFinishCodeChangeInputSchema>,
   z.infer<typeof ReadyToFinishCodeChangeOutputSchema>
 >({
-  name: 'deliverable-pipeline-ready-code-change-agent',
-  description: 'Validates code change is ready to finish',
+  name: 'asset-pack-validation-ready-to-finish-code-change-agent',
+  description: 'Validates code-change written assets before Finish',
   
-  prompt: createDeliverablesPipelineValidationPhaseReadyToFinishCodeChangeAgentPrompt(),
-  stepPrompts: DeliverablesPipelineValidationPhaseReadyToFinishCodeChangeAgentPromptSteps,
+  prompt: createAssetPackValidationReadyToFinishCodeChangeAgentPrompt(),
+  stepPrompts: AssetPackValidationReadyToFinishCodeChangeAgentPromptSteps,
   
   outputSchema: ReadyToFinishCodeChangeOutputSchema,
   
@@ -299,15 +299,15 @@ export const DeliverablesPipelineValidationPhaseReadyToFinishCodeChangeAgent = f
 /**
  * Bitcode validation agent that decides whether a code-review AssetPack can enter Finish.
  */
-export const DeliverablesPipelineValidationPhaseReadyToFinishCodeChangeReviewAgent = factoryAgentWithPTRR<
+export const AssetPackValidationReadyToFinishCodeChangeReviewAgent = factoryAgentWithPTRR<
   z.infer<typeof ReadyToFinishCodeChangeInputSchema>,
   z.infer<typeof ReadyToFinishCodeChangeOutputSchema>
 >({
-  name: 'deliverable-pipeline-ready-code-review-agent',
-  description: 'Validates code review is ready to submit',
+  name: 'asset-pack-validation-ready-to-finish-code-review-agent',
+  description: 'Validates code-review written assets before Finish',
   
-  prompt: createDeliverablesPipelineValidationPhaseReadyToFinishCodeChangeReviewAgentPrompt(),
-  stepPrompts: DeliverablesPipelineValidationPhaseReadyToFinishCodeChangeReviewAgentPromptSteps,
+  prompt: createAssetPackValidationReadyToFinishCodeChangeReviewAgentPrompt(),
+  stepPrompts: AssetPackValidationReadyToFinishCodeChangeReviewAgentPromptSteps,
   
   outputSchema: ReadyToFinishCodeChangeOutputSchema,
   
@@ -320,15 +320,15 @@ export const DeliverablesPipelineValidationPhaseReadyToFinishCodeChangeReviewAge
 /**
  * Bitcode validation agent that decides whether a design-document AssetPack can enter Finish.
  */
-export const DeliverablesPipelineValidationPhaseReadyToFinishDesignDocumentAgent = factoryAgentWithPTRR<
+export const AssetPackValidationReadyToFinishDesignDocumentAgent = factoryAgentWithPTRR<
   z.infer<typeof ReadyToFinishCodeChangeInputSchema>,
   z.infer<typeof ReadyToFinishCodeChangeOutputSchema>
 >({
-  name: 'deliverable-pipeline-ready-design-doc-agent',
-  description: 'Validates design document is ready to publish',
+  name: 'asset-pack-validation-ready-to-finish-design-document-agent',
+  description: 'Validates design-document written assets before Finish',
   
-  prompt: createDeliverablesPipelineValidationPhaseReadyToFinishDesignDocumentAgentPrompt(),
-  stepPrompts: DeliverablesPipelineValidationPhaseReadyToFinishDesignDocumentAgentPromptSteps,
+  prompt: createAssetPackValidationReadyToFinishDesignDocumentAgentPrompt(),
+  stepPrompts: AssetPackValidationReadyToFinishDesignDocumentAgentPromptSteps,
   
   outputSchema: ReadyToFinishCodeChangeOutputSchema,
   
@@ -341,15 +341,15 @@ export const DeliverablesPipelineValidationPhaseReadyToFinishDesignDocumentAgent
 /**
  * Bitcode validation agent that decides whether a design-review AssetPack can enter Finish.
  */
-export const DeliverablesPipelineValidationPhaseReadyToFinishDesignDocumentReviewAgent = factoryAgentWithPTRR<
+export const AssetPackValidationReadyToFinishDesignDocumentReviewAgent = factoryAgentWithPTRR<
   z.infer<typeof ReadyToFinishCodeChangeInputSchema>,
   z.infer<typeof ReadyToFinishCodeChangeOutputSchema>
 >({
-  name: 'deliverable-pipeline-ready-design-review-agent',
-  description: 'Validates design review comment is ready to post',
+  name: 'asset-pack-validation-ready-to-finish-design-review-agent',
+  description: 'Validates design-review written assets before Finish',
   
-  prompt: createDeliverablesPipelineValidationPhaseReadyToFinishDesignDocumentReviewAgentPrompt(),
-  stepPrompts: DeliverablesPipelineValidationPhaseReadyToFinishDesignDocumentReviewAgentPromptSteps,
+  prompt: createAssetPackValidationReadyToFinishDesignDocumentReviewAgentPrompt(),
+  stepPrompts: AssetPackValidationReadyToFinishDesignDocumentReviewAgentPromptSteps,
   
   outputSchema: ReadyToFinishCodeChangeOutputSchema,
   
@@ -382,7 +382,7 @@ const ReadyToFinishOutputSchema = z.object({
   }),
   finalBlockers: z.array(z.string()),
   finalWarnings: z.array(z.string()),
-  recommendation: z.enum(['ship', 'review', 'revise', 'abort']),
+  recommendation: z.enum(['finish', 'review', 'revise', 'abort']),
   summary: z.string()
 });
 
@@ -393,15 +393,15 @@ const ReadyToFinishOutputSchema = z.object({
  * This is the LAST agent in the validation phase sequence.
  * Checks type-specific readiness output and general quality metrics.
  */
-export const DeliverablesPipelineValidationPhaseReadyToFinishAgent = factoryAgentWithPTRR<
+export const AssetPackValidationReadyToFinishAgent = factoryAgentWithPTRR<
   z.infer<typeof ReadyToFinishInputSchema>,
   z.infer<typeof ReadyToFinishOutputSchema>
 >({
-  name: 'deliverable-pipeline-ready-to-ship-agent',
+  name: 'asset-pack-ready-to-finish-agent',
   description: 'Final validation check before the Finish phase',
   
-  prompt: createDeliverablesPipelineValidationPhaseReadyToFinishAgentPrompt(),
-  stepPrompts: DeliverablesPipelineValidationPhaseReadyToFinishAgentPromptSteps,
+  prompt: createAssetPackValidationReadyToFinishAgentPrompt(),
+  stepPrompts: AssetPackValidationReadyToFinishAgentPromptSteps,
   
   outputSchema: ReadyToFinishOutputSchema,
   
@@ -411,30 +411,10 @@ export const DeliverablesPipelineValidationPhaseReadyToFinishAgent = factoryAgen
   retry: { maxAttempts: 1 }
 });
 
-/** @deprecated V26 compatibility alias. Use DeliverablesPipelineValidationPhaseReadyToFinishCodeChangeAgent. */
-export const DeliverablesPipelineValidationPhaseReadyToShipCodeChangeAgent =
-  DeliverablesPipelineValidationPhaseReadyToFinishCodeChangeAgent;
-
-/** @deprecated V26 compatibility alias. Use DeliverablesPipelineValidationPhaseReadyToFinishCodeChangeReviewAgent. */
-export const DeliverablesPipelineValidationPhaseReadyToShipCodeChangeReviewAgent =
-  DeliverablesPipelineValidationPhaseReadyToFinishCodeChangeReviewAgent;
-
-/** @deprecated V26 compatibility alias. Use DeliverablesPipelineValidationPhaseReadyToFinishDesignDocumentAgent. */
-export const DeliverablesPipelineValidationPhaseReadyToShipDesignDocumentAgent =
-  DeliverablesPipelineValidationPhaseReadyToFinishDesignDocumentAgent;
-
-/** @deprecated V26 compatibility alias. Use DeliverablesPipelineValidationPhaseReadyToFinishDesignDocumentReviewAgent. */
-export const DeliverablesPipelineValidationPhaseReadyToShipDesignDocumentReviewAgent =
-  DeliverablesPipelineValidationPhaseReadyToFinishDesignDocumentReviewAgent;
-
-/** @deprecated V26 compatibility alias. Use DeliverablesPipelineValidationPhaseReadyToFinishAgent. */
-export const DeliverablesPipelineValidationPhaseReadyToShipAgent =
-  DeliverablesPipelineValidationPhaseReadyToFinishAgent;
-
 // ==================== DYNAMIC AGENT REGISTRATION ====================
 
 /**
- * Registers validation agents based on deliverable type.
+ * Registers validation agents based on written-asset type.
  * Called after implementation phase completes.
  * 
  * Sequence:
@@ -453,7 +433,7 @@ export function registerValidationAgentsForType(
   agentRegistry.registerAgent(
     'validation:validate-last-iterations-validation-phase',
     async (input: any, execution: any) => {
-      const out = await DeliverablesPipelineValidationPhaseValidateLastValidationAgent(input, execution);
+      const out = await AssetPackValidationPhaseValidateLastValidationAgent(input, execution);
       try { execution.store('validation/last', 'issues', out.issues || []); } catch {}
       return { issues: Array.isArray(out?.issues) ? out.issues : [] };
     }
@@ -461,7 +441,7 @@ export function registerValidationAgentsForType(
   agentRegistry.registerAgent(
     'validation:validate-discovery-phase',
     async (input: any, execution: any) => {
-      const out = await DeliverablesPipelineValidationPhaseValidateDiscoveryAgent(input, execution);
+      const out = await AssetPackValidationPhaseValidateDiscoveryAgent(input, execution);
       try { execution.store('validation/discovery', 'issues', out.issues || []); } catch {}
       return { issues: Array.isArray(out?.issues) ? out.issues : [] };
     }
@@ -479,7 +459,7 @@ export function registerValidationAgentsForType(
       agentRegistry.registerAgent(
         'validation:validate-implementation-phase-code-change',
         async (input: any, execution: any) => {
-          const out = await DeliverablesPipelineValidationPhaseValidateCodeChangesAgent(input, execution);
+          const out = await AssetPackValidationPhaseValidateCodeChangesAgent(input, execution);
           const issues: string[] = [];
           try {
             for (const e of out?.syntaxValidation?.errors || []) issues.push(`${e.file}:${e.line} ${e.message}`);
@@ -493,7 +473,7 @@ export function registerValidationAgentsForType(
       );
       agentRegistry.registerAgent(
         'validation:ready-type-specific',
-        DeliverablesPipelineValidationPhaseReadyToFinishCodeChangeAgent
+        AssetPackValidationReadyToFinishCodeChangeAgent
       );
       break;
       
@@ -501,7 +481,7 @@ export function registerValidationAgentsForType(
       agentRegistry.registerAgent(
         'validation:validate-implementation-phase-code-change-review',
         async (input: any, execution: any) => {
-          const out = await DeliverablesPipelineValidationPhaseValidateReviewAgent(input, execution);
+          const out = await AssetPackValidationPhaseValidateReviewAgent(input, execution);
           const issues: string[] = [];
           try {
             if (out?.coverageAnalysis) {
@@ -524,7 +504,7 @@ export function registerValidationAgentsForType(
       );
       agentRegistry.registerAgent(
         'validation:ready-type-specific',
-        DeliverablesPipelineValidationPhaseReadyToFinishCodeChangeReviewAgent
+        AssetPackValidationReadyToFinishCodeChangeReviewAgent
       );
       break;
       
@@ -532,7 +512,7 @@ export function registerValidationAgentsForType(
       agentRegistry.registerAgent(
         'validation:validate-implementation-phase-design-document',
         async (input: any, execution: any) => {
-          const out = await DeliverablesPipelineValidationPhaseValidateDocumentAgent(input, execution);
+          const out = await AssetPackValidationPhaseValidateDocumentAgent(input, execution);
           const issues: string[] = [];
           try {
             for (const s of out?.requiredSections || []) if (!s.present) issues.push(`Missing section: ${s.section}`);
@@ -545,7 +525,7 @@ export function registerValidationAgentsForType(
       );
       agentRegistry.registerAgent(
         'validation:ready-type-specific',
-        DeliverablesPipelineValidationPhaseReadyToFinishDesignDocumentAgent
+        AssetPackValidationReadyToFinishDesignDocumentAgent
       );
       break;
       
@@ -553,7 +533,7 @@ export function registerValidationAgentsForType(
       agentRegistry.registerAgent(
         'validation:validate-implementation-phase-design-document-review',
         async (input: any, execution: any) => {
-          const out = await DeliverablesPipelineValidationPhaseValidateDocumentAgent(input, execution);
+          const out = await AssetPackValidationPhaseValidateDocumentAgent(input, execution);
           const issues: string[] = [];
           try {
             for (const s of out?.requiredSections || []) if (!s.present) issues.push(`Missing section: ${s.section}`);
@@ -566,7 +546,7 @@ export function registerValidationAgentsForType(
       );
       agentRegistry.registerAgent(
         'validation:ready-type-specific',
-        DeliverablesPipelineValidationPhaseReadyToFinishDesignDocumentReviewAgent
+        AssetPackValidationReadyToFinishDesignDocumentReviewAgent
       );
       break;
       
@@ -576,14 +556,14 @@ export function registerValidationAgentsForType(
   
   // ALWAYS register ready-to-instruct (generates selfInstructConfidence at DIV loop end)
   agentRegistry.registerAgent(
-    'validation:deliverable-pipeline-ready-to-instruct',
-    () => import('./validation/deliverable-pipeline-ready-to-instruct-agent').then(m => m.default)
+    'validation:asset-pack-ready-to-instruct',
+    () => import('./validation/asset-pack-ready-to-instruct-agent').then(m => m.default)
   );
 
-  // ALWAYS register the generic ReadyToFinish agent LAST under the compatibility key.
+  // ALWAYS register the generic ReadyToFinish agent LAST under the canonical key.
   agentRegistry.registerAgent(
-    'validation:deliverable-pipeline-ready-to-ship-agent',
-    DeliverablesPipelineValidationPhaseReadyToFinishAgent
+    'validation:asset-pack-ready-to-finish-agent',
+    AssetPackValidationReadyToFinishAgent
   );
 }
 
@@ -598,6 +578,6 @@ export function createValidationExecutorSequence(
   return [
     { agent: 'validation:validate-*' }, // Type-specific validation
     { agent: 'validation:ready-type-specific' }, // Type-specific readiness
-    { agent: 'validation:deliverable-pipeline-ready-to-ship-agent' } // Generic ReadyToFinish check - ALWAYS LAST
+    { agent: 'validation:asset-pack-ready-to-finish-agent' } // Generic ReadyToFinish check - ALWAYS LAST
   ];
 }

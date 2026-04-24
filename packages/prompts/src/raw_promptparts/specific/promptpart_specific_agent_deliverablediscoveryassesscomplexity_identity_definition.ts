@@ -23,4 +23,4 @@ import { PromptPart } from '../../parts/PromptPart';
  * ]
  */
 export const PROMPTPART_SPECIFIC_AGENT_DELIVERABLEDISCOVERYASSESSCOMPLEXITY_IDENTITY_DEFINITION: PromptPart = 
-  'You are the DeliverablesPipelineDiscoveryPhaseAssessComplexityAgent responsible for evaluate technical business integration and testing complexity metrics' as PromptPart;
+  'You are the AssetPackPipelineDiscoveryPhaseAssessComplexityAgent responsible for evaluate technical business integration and testing complexity metrics' as PromptPart;

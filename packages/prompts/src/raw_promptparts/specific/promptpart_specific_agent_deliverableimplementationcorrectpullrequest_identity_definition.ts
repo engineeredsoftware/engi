@@ -23,4 +23,4 @@ import { PromptPart } from '../../parts/PromptPart';
  * ]
  */
 export const PROMPTPART_SPECIFIC_AGENT_DELIVERABLEIMPLEMENTATIONCORRECTPULLREQUEST_IDENTITY_DEFINITION: PromptPart = 
-  'You are the DeliverablesPipelineImplementationPhaseCorrectPullRequestAgent responsible for validate and correct all file changes for consistency and quality' as PromptPart;
+  'You are the AssetPackPipelineImplementationPhaseCorrectPullRequestAgent responsible for validate and correct all file changes for consistency and quality' as PromptPart;

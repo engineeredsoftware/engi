@@ -93,17 +93,14 @@ export default async function deliverAssetPackToDestination(input: any, executio
       for (const u of used) {
         if (u?.tool === 'vcs_create_pull_request' && u?.output?.url) {
           execution.store('finish','pullRequestUrl', String(u.output.url));
-          execution.store('shipping','pullRequestUrl', String(u.output.url));
           result.prUrl = String(u.output.url);
         }
         if (u?.tool === 'vcs_create_issue' && u?.output?.url) {
           execution.store('finish','issueUrl', String(u.output.url));
-          execution.store('shipping','issueUrl', String(u.output.url));
           result.issueUrl = String(u.output.url);
         }
         if (u?.tool === 'vcs_create_comment' && u?.output?.url) {
           execution.store('finish','commentUrl', String(u.output.url));
-          execution.store('shipping','commentUrl', String(u.output.url));
           result.commentUrl = String(u.output.url);
         }
       }

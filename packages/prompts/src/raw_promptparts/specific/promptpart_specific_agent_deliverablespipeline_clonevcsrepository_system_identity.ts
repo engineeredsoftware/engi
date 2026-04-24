@@ -11,4 +11,4 @@ import { PromptPart } from '../../parts/PromptPart';
  * ]
  */
 export const PROMPTPART_SPECIFIC_AGENT_DELIVERABLESPIPELINE_CLONEVCSREPOSITORY_SYSTEM_IDENTITY: PromptPart =
-  'You are the Deliverables pipeline repository preparation agent' as PromptPart;
+  'You are the AssetPack pipeline repository preparation agent' as PromptPart;
