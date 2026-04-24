@@ -28,7 +28,7 @@ const CreatePROutputSchema = z.object({
 
 const systemPrompt = (() => {
   const p = new Prompt();
-  p.set('agent:identity', createPromptPart('You create a Pull Request for the computed branch changes.'));
+  p.set('agent:identity', createPromptPart('You deliver AssetPack code-change evidence by creating a pull request for computed branch changes.'));
   p.set('generation:json_only_header', PROMPTPART_GENERIC_AGENT_GENERATION_JSON_ONLY_HEADER as any);
   p.set('generation:use_this_structure', PROMPTPART_GENERIC_AGENT_GENERATION_USE_THIS_STRUCTURED_SCHEMA as any);
   p.set('failsafe:prepare_context', PROMPTPART_GENERIC_AGENT_FAILSAFE_PREPARE_CONTEXT as any);
@@ -36,18 +36,18 @@ const systemPrompt = (() => {
 })();
 
 const stepPrompts = {
-  plan: () => { const p = new Prompt(); p.set('step:purpose', createPromptPart('Plan PR creation details (source/target/title).')); return p; },
-  try: () => { const p = new Prompt(); p.set('step:purpose', createPromptPart('Create the Pull Request using the VCS tool.')); return p; },
-  refine: () => { const p = new Prompt(); p.set('step:purpose', createPromptPart('Adjust PR metadata if needed.')); return p; },
-  retry: () => { const p = new Prompt(); p.set('step:purpose', createPromptPart('Retry with alternative metadata if conflicts.')); return p; }
+  plan: () => { const p = new Prompt(); p.set('step:purpose', createPromptPart('Plan AssetPack pull-request delivery details: source branch, target branch, title, and evidence body.')); return p; },
+  try: () => { const p = new Prompt(); p.set('step:purpose', createPromptPart('Create the pull request delivery mechanism using the VCS tool.')); return p; },
+  refine: () => { const p = new Prompt(); p.set('step:purpose', createPromptPart('Adjust AssetPack delivery metadata if needed.')); return p; },
+  retry: () => { const p = new Prompt(); p.set('step:purpose', createPromptPart('Retry pull-request delivery with alternative metadata if conflicts occur.')); return p; }
 };
 
-export const DeliverablePipelineCreatePullRequestAgent = factoryAgentWithPTRR<
+export const AssetPackFinishCreatePullRequestDeliveryAgent = factoryAgentWithPTRR<
   z.infer<typeof CreatePRInputSchema>,
   z.infer<typeof CreatePROutputSchema>
 >({
-  name: 'shipping:deliverable-pipeline-create-pull-request-agent',
-  description: 'Create a PR using unified VCS provider tool',
+  name: 'finish:asset-pack-create-pull-request-delivery-agent',
+  description: 'Deliver AssetPack code-change evidence by creating a pull request',
   outputSchema: CreatePROutputSchema,
   tools: ['vcs_create_pull_request'],
   prompt: systemPrompt,
@@ -55,7 +55,7 @@ export const DeliverablePipelineCreatePullRequestAgent = factoryAgentWithPTRR<
   plan: {}, try: {}, refine: {}, retry: {}
 });
 
-export default async function deliverablePipelineCreatePullRequestAgent(input: any, execution: any) {
+export default async function assetPackFinishCreatePullRequestDeliveryAgent(input: any, execution: any) {
   // Prepare sensible defaults from execution
   const owner = execution.get('source','owner') || execution.get('source','org') || '';
   const repo = execution.get('source','name') || '';
@@ -73,11 +73,20 @@ export default async function deliverablePipelineCreatePullRequestAgent(input: a
     title,
     description: input?.description
   });
-  const result = await DeliverablePipelineCreatePullRequestAgent(prepared, execution);
+  const result = await AssetPackFinishCreatePullRequestDeliveryAgent(prepared, execution);
   try {
-    if (result?.url) execution.store('shipping','pullRequestUrl', result.url);
-    if (result?.number != null) execution.store('shipping','pullRequestNumber', result.number);
-    if (result?.title) execution.store('shipping','pullRequestTitle', result.title);
+    if (result?.url) {
+      execution.store('finish', 'pullRequestUrl', result.url);
+      execution.store('shipping', 'pullRequestUrl', result.url);
+    }
+    if (result?.number != null) {
+      execution.store('finish', 'pullRequestNumber', result.number);
+      execution.store('shipping', 'pullRequestNumber', result.number);
+    }
+    if (result?.title) {
+      execution.store('finish', 'pullRequestTitle', result.title);
+      execution.store('shipping', 'pullRequestTitle', result.title);
+    }
   } catch {}
   return {
     status: 'created',

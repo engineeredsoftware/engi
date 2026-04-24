@@ -17,8 +17,8 @@ import { ConquerFilePrompts } from './prompts/conquer-file-prompt';
 import { CorrectCodeChangePrompts } from './prompts/correct-code-change-prompt';
 import { ReviewCodeChangePrompts } from './prompts/review-code-change-prompt';
 import {
-  createDeliverablesPipelineShippingPhaseCreateIssueAgentPrompt,
-  DeliverablesPipelineShippingPhaseCreateIssueAgentPromptSteps
+  createAssetPackFinishCreateIssueDeliveryAgentPrompt,
+  AssetPackFinishCreateIssueDeliveryAgentPromptSteps
 } from './prompts/create-issue-prompt';
 import {
   createDeliverablesPipelineImplementationPhaseCommentOnIssueAgentPrompt,
@@ -270,8 +270,8 @@ export const DeliverablesPipelineImplementationPhaseCreateIssueAgent = factoryAg
   name: 'deliverable-pipeline-create-issue-agent',
   description: 'Creates a design document as an issue',
   
-  prompt: createDeliverablesPipelineShippingPhaseCreateIssueAgentPrompt(),
-  stepPrompts: DeliverablesPipelineShippingPhaseCreateIssueAgentPromptSteps,
+  prompt: createAssetPackFinishCreateIssueDeliveryAgentPrompt(),
+  stepPrompts: AssetPackFinishCreateIssueDeliveryAgentPromptSteps,
   
   outputSchema: CreateIssueOutputSchema,
   

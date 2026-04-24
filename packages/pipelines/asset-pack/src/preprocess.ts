@@ -16,7 +16,7 @@ import { PipelineAgentRegistry } from '@bitcode/pipelines-generics/src/execution
 import { PipelineExecution as PE } from '@bitcode/pipelines-generics/src/execution/PipelineExecution';
 import { factoryLLMRegistryWithProviders } from '@bitcode/generic-llms';
 import { LLMRegistry } from '@bitcode/llm-generics';
-import { ALL_DELIVERABLE_TOOLS } from './tools';
+import { ALL_ASSET_PACK_TOOLS } from './tools';
 
 function assertDocCodePrompt(tool: Tool, key: string) {
   if (!tool || typeof tool !== 'object') return;
@@ -97,7 +97,7 @@ export async function initializeAssetPackPipeline(execution: PipelineExecution) 
 
   // 3) Register all baseline tools
   try {
-    for (const tool of ALL_DELIVERABLE_TOOLS) {
+    for (const tool of ALL_ASSET_PACK_TOOLS) {
       const key = (tool as any).name || tool.constructor?.name || 'deliverable-tool';
       assertDocCodePrompt(tool as Tool, key);
       execution.tools.registerTool(key, tool as any);

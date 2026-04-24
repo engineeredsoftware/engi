@@ -10,19 +10,19 @@ const GatherMetricsOutputSchema = z.object({
   })
 });
 
-export const DeliverablePipelineGatherMetricsAgent = factoryAgentWithPTRR<any, z.infer<typeof GatherMetricsOutputSchema>>({
-  name: 'shipping:deliverable-pipeline-gather-metrics-agent',
-  description: 'Gather execution metrics for finalization',
+export const AssetPackFinishGatherMetricsAgent = factoryAgentWithPTRR<any, z.infer<typeof GatherMetricsOutputSchema>>({
+  name: 'finish:asset-pack-gather-metrics-agent',
+  description: 'Gather AssetPack execution metrics for Finish evidence',
   outputSchema: GatherMetricsOutputSchema,
-  prompt: (() => { const p = new Prompt(); p.set('agent:identity', createPromptPart('You summarize metrics from execution.')); return p; })(),
+  prompt: (() => { const p = new Prompt(); p.set('agent:identity', createPromptPart('You summarize AssetPack source-to-shares execution metrics.')); return p; })(),
   stepPrompts: { plan: () => new Prompt(), try: () => new Prompt(), refine: () => new Prompt(), retry: () => new Prompt() }
 });
 
-export default async function deliverablePipelineGatherMetricsAgent(_input: any, execution: any) {
+export default async function assetPackFinishGatherMetricsAgent(_input: any, execution: any) {
   const agentsExecuted = execution?.get?.('metrics', 'agentsExecuted') || null;
   // Duration can be computed from pipeline start/end if available
   const start = execution?.get?.('pipeline','startTime');
   const end = execution?.get?.('pipeline','endTime');
   const durationMs = typeof start === 'number' && typeof end === 'number' ? (end - start) : null;
-  return await DeliverablePipelineGatherMetricsAgent({ metrics: { agentsExecuted, durationMs } }, execution);
+  return await AssetPackFinishGatherMetricsAgent({ metrics: { agentsExecuted, durationMs } }, execution);
 }

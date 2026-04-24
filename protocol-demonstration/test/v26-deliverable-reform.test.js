@@ -60,7 +60,7 @@ const shipAgentSource = readFileSync(
   'utf8'
 );
 const createPullRequestSource = readFileSync(
-  new URL('../../packages/pipelines/asset-pack/src/agents/finish-compatibility/deliverable-pipeline-create-pull-request-agent.ts', import.meta.url),
+  new URL('../../packages/pipelines/asset-pack/src/agents/finish-compatibility/asset-pack-finish-create-pull-request-delivery-agent.ts', import.meta.url),
   'utf8'
 );
 const discoveryAgentsSource = readFileSync(
@@ -199,12 +199,12 @@ const setupComprehendNeedIdentityPromptSource = readFileSync(
   new URL('../../packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_deliverablesetupcomprehendneed_identity_definition.ts', import.meta.url),
   'utf8'
 );
-const finalizeShipmentPurposePromptSource = readFileSync(
-  new URL('../../packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_deliverableshippingfinalizeshipment_purpose_corestatement.ts', import.meta.url),
+const finalizeDeliveryEvidencePurposePromptSource = readFileSync(
+  new URL('../../packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_assetpackfinishfinalizedeliveryevidence_purpose_corestatement.ts', import.meta.url),
   'utf8'
 );
-const finalizeShipmentIdentityPromptSource = readFileSync(
-  new URL('../../packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_deliverableshippingfinalizeshipment_identity_definition.ts', import.meta.url),
+const finalizeDeliveryEvidenceIdentityPromptSource = readFileSync(
+  new URL('../../packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_assetpackfinishfinalizedeliveryevidence_identity_definition.ts', import.meta.url),
   'utf8'
 );
 const deliverablesSystemBasePromptSource = readFileSync(
@@ -338,7 +338,9 @@ const deliverableSubstepPromptPartSources = readdirSync(rawPromptPartDirs[0])
   .map((filename) => [filename, readFileSync(new URL(filename, rawPromptPartDirs[0]), 'utf8')]);
 
 const deliverablePromptPartMetadataSources = readdirSync(rawPromptPartDirs[0])
-  .filter((filename) => /^promptpart_specific_(?:agent_deliverable|phase_deliverable|pipeline_deliverable|tool_.*deliverable).*?(?:\.d)?\.ts$/u.test(filename))
+  .filter((filename) =>
+    /^promptpart_specific_(?:agent_deliverable|phase_deliverable|pipeline_deliverable|tool_.*deliverable|agent_assetpackfinish).*?(?:\.d)?\.ts$/u.test(filename)
+  )
   .sort()
   .map((filename) => [filename, readFileSync(new URL(filename, rawPromptPartDirs[0]), 'utf8')]);
 
@@ -601,8 +603,8 @@ test('retained templates and promptparts keep compatibility names but teach asse
   assert.match(setupComprehendTaskPurposePromptSource, /written-asset expectations, delivery-mechanism expectations, asset-pack context/u);
   assert.match(setupComprehendTaskIdentityPromptSource, /Bitcode retained comprehend-task compatibility PromptPart for canonical comprehend-need asset-pack synthesis/u);
   assert.match(setupComprehendTaskIdentityPromptSource, /Bitcode need, satisfaction criteria, written-asset expectations, asset-pack context/u);
-  assert.match(finalizeShipmentPurposePromptSource, /finalize shipping delivery mechanisms for validated written assets/u);
-  assert.match(finalizeShipmentIdentityPromptSource, /finalizing shipping delivery mechanisms for validated written assets/u);
+  assert.match(finalizeDeliveryEvidencePurposePromptSource, /finalize Finish delivery evidence for validated AssetPack written assets/u);
+  assert.match(finalizeDeliveryEvidenceIdentityPromptSource, /finalizing Finish delivery evidence for validated written assets/u);
   assert.match(deliverablesSystemBasePromptSource, /satisfy an expressed need by synthesizing stable written assets \/ asset-packs/u);
   assert.match(deliverablesSystemBasePromptSource, /delivery mechanisms subordinate to the Bitcode asset-pack meaning/u);
   assert.match(deliverablesSystemExcellencePromptSource, /NEED SATISFACTION/u);

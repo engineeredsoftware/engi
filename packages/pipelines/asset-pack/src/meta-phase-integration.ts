@@ -2,7 +2,7 @@
  * Gate integration for the AssetPack Pipeline
  *
  * Minimal, surgical integration of Design → Develop → Digest meta-phases.
- * Wraps existing deliverable pipeline with meta-phase awareness.
+ * Wraps the AssetPack pipeline with meta-phase awareness.
  *
  * @package @bitcode/pipelines/asset-pack
  */
@@ -23,7 +23,7 @@ type MetaPhaseConfig = {
 };
 
 /**
- * Add meta-phase support to existing deliverable pipeline
+ * Add meta-phase support to the AssetPack pipeline.
  *
  * This is a minimal wrapper that:
  * 1. Initializes meta-phase state (default: Develop for V26)

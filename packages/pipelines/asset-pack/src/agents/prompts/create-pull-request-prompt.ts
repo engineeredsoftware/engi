@@ -27,7 +27,7 @@ import { PROMPTPART_GENERIC_AGENT_GENERATION_STRUCTURED_OUTPUT } from '@bitcode/
 
 
 /**
- * Create prompt for CreatePullRequest agent
+ * Create prompt for AssetPack Finish pull-request delivery.
  */
 /**
  * @doc-comment-developing-promptdevelopment
@@ -47,7 +47,7 @@ import { PROMPTPART_GENERIC_AGENT_GENERATION_STRUCTURED_OUTPUT } from '@bitcode/
  *   { "name": "implementation_ready", "test": "Usable by registry formatter", "score": 0.46 }
  * ]
  */
-export function createDeliverablesPipelineShippingPhaseCreatePullRequestAgentPrompt(): Prompt {
+export function createAssetPackFinishCreatePullRequestDeliveryAgentPrompt(): Prompt {
   const prompt = new Prompt();
   
   // Agent identity and purpose
@@ -78,9 +78,9 @@ export function createDeliverablesPipelineShippingPhaseCreatePullRequestAgentPro
 }
 
 /**
- * Get step-specific prompts
+ * Get step-specific prompts.
  */
-export const DeliverablesPipelineShippingPhaseCreatePullRequestAgentPromptSteps = {
+export const AssetPackFinishCreatePullRequestDeliveryAgentPromptSteps = {
   plan: () => {
     const prompt = new Prompt();
     prompt.set('step', PROMPTPART_SPECIFIC_AGENT_DELIVERABLESHIPPINGCREATEPULLREQUEST_PTRRPLAN_PURPOSE);

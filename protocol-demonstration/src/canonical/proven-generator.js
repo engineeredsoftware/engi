@@ -2257,7 +2257,7 @@ function buildV26PromptSystemTotalityProof({
         'packages/pipelines/asset-pack/src/agents/setup/deliverable-pipeline-comprehend-need-agent.ts',
         'packages/pipelines/asset-pack/src/agents/setup/deliverable-pipeline-ready-to-iterate-agent.ts',
         'packages/pipelines/asset-pack/src/agents/setup/deliverable-pipeline-setup-plan-agent.ts',
-        'packages/pipelines/asset-pack/src/agents/finish-compatibility/deliverable-pipeline-create-pull-request-agent.ts',
+        'packages/pipelines/asset-pack/src/agents/finish-compatibility/asset-pack-finish-create-pull-request-delivery-agent.ts',
         'packages/pipelines/asset-pack/src/agents/finish/deliver-asset-pack-to-destination-agent.ts',
         'packages/pipelines/asset-pack/src/agents/finish/final-work-summary-agent.ts',
         'packages/pipelines/asset-pack/src/tools/DeliverablePipelineCloneVCSRepositoryTool.ts',

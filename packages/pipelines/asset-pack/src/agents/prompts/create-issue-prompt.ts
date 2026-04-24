@@ -43,7 +43,7 @@ import { PROMPTPART_GENERIC_AGENT_GENERATION_STRUCTURED_OUTPUT } from '@bitcode/
  *   { "name": "implementation_ready", "test": "Usable by registry formatter", "score": 0.46 }
  * ]
  */
-export function createDeliverablesPipelineShippingPhaseCreateIssueAgentPrompt(): Prompt {
+export function createAssetPackFinishCreateIssueDeliveryAgentPrompt(): Prompt {
   const prompt = new Prompt();
   
   // Agent identity and purpose
@@ -75,9 +75,9 @@ export function createDeliverablesPipelineShippingPhaseCreateIssueAgentPrompt():
 }
 
 /**
- * Get step-specific prompts
+ * Get step-specific prompts.
  */
-export const DeliverablesPipelineShippingPhaseCreateIssueAgentPromptSteps = {
+export const AssetPackFinishCreateIssueDeliveryAgentPromptSteps = {
   plan: () => {
     const prompt = new Prompt();
     prompt.set('step', PROMPTPART_SPECIFIC_AGENT_DELIVERABLESHIPPINGCREATEISSUE_PTRRPLAN_PURPOSE);

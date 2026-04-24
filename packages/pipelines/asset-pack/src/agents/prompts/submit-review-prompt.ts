@@ -44,7 +44,7 @@ import { PROMPTPART_SPECIFIC_AGENT_DELIVERABLESHIPPINGSUBMITREVIEW_PTRRRETRY_PUR
  *   { "name": "implementation_ready", "test": "Usable by registry formatter", "score": 0.46 }
  * ]
  */
-export function createDeliverablesPipelineShippingPhaseSubmitReviewAgentPrompt(): Prompt {
+export function createAssetPackFinishSubmitReviewDeliveryAgentPrompt(): Prompt {
   const prompt = new Prompt();
   
   // Agent identity and purpose
@@ -76,9 +76,9 @@ export function createDeliverablesPipelineShippingPhaseSubmitReviewAgentPrompt()
 }
 
 /**
- * Get step-specific prompts
+ * Get step-specific prompts.
  */
-export const DeliverablesPipelineShippingPhaseSubmitReviewAgentPromptSteps = {
+export const AssetPackFinishSubmitReviewDeliveryAgentPromptSteps = {
   plan: () => {
     const prompt = new Prompt();
     prompt.set('step', PROMPTPART_SPECIFIC_AGENT_DELIVERABLESHIPPINGSUBMITREVIEW_PTRRPLAN_PURPOSE);

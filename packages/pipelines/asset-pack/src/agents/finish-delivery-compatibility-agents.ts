@@ -1,8 +1,9 @@
 /**
  * Finish/Delivering agents for the AssetPack delivery compatibility corridor.
  * 
- * Pattern: compatibility-named agent carriers remain wrappers around
- * Finish-phase Delivering actions.
+ * Pattern: AssetPack-named agent carriers own Finish-phase Delivering actions.
+ * Compatibility registry keys remain bounded aliases for callers not yet moved
+ * to canonical Finish naming.
  * 
  * ALL agents use PTRR (Plan-Try-Refine-Retry) - no exceptions
  */
@@ -10,25 +11,25 @@
 import { factoryAgentWithPTRR } from '@bitcode/agent-generics';
 import { z } from 'zod';
 import {
-  createDeliverablesPipelineShippingPhaseCreatePullRequestAgentPrompt,
-  DeliverablesPipelineShippingPhaseCreatePullRequestAgentPromptSteps
+  createAssetPackFinishCreatePullRequestDeliveryAgentPrompt,
+  AssetPackFinishCreatePullRequestDeliveryAgentPromptSteps
 } from './prompts/create-pull-request-prompt';
 import {
-  createDeliverablesPipelineShippingPhaseSubmitReviewAgentPrompt,
-  DeliverablesPipelineShippingPhaseSubmitReviewAgentPromptSteps
+  createAssetPackFinishSubmitReviewDeliveryAgentPrompt,
+  AssetPackFinishSubmitReviewDeliveryAgentPromptSteps
 } from './prompts/submit-review-prompt';
 import {
-  createDeliverablesPipelineShippingPhaseCreateIssueAgentPrompt,
-  DeliverablesPipelineShippingPhaseCreateIssueAgentPromptSteps
+  createAssetPackFinishCreateIssueDeliveryAgentPrompt,
+  AssetPackFinishCreateIssueDeliveryAgentPromptSteps
 } from './prompts/create-issue-prompt';
 import {
-  createDeliverablesPipelineShippingPhaseAddIssueCommentAgentPrompt,
-  DeliverablesPipelineShippingPhaseAddIssueCommentAgentPromptSteps
+  createAssetPackFinishAddIssueCommentDeliveryAgentPrompt,
+  AssetPackFinishAddIssueCommentDeliveryAgentPromptSteps
 } from './prompts/add-issue-comment-prompt';
 import {
-  createDeliverablesPipelineFinishPhaseFinalizeAssetPackDeliveryEvidenceAgentPrompt,
-  DeliverablesPipelineFinishPhaseFinalizeAssetPackDeliveryEvidenceAgentPromptSteps
-} from './prompts/finalize-shipment-prompt';
+  createAssetPackFinishFinalizeDeliveryEvidenceAgentPrompt,
+  AssetPackFinishFinalizeDeliveryEvidenceAgentPromptSteps
+} from './prompts/finalize-delivery-evidence-prompt';
 import { normalizeWrittenAssetType } from '../semantic-resolution';
 
 // ==================== CREATE PULL REQUEST AGENT ====================
@@ -78,20 +79,20 @@ const CreatePullRequestOutputSchema = z.object({
 });
 
 /**
- * DeliverablesPipelineShippingPhaseCreatePullRequestAgent
+ * AssetPackFinishCreatePullRequestDeliveryAgent
  * 
- * Creates a pull request with all code changes.
+ * Creates a pull request delivery mechanism for AssetPack code changes.
  * PrepareContext will provide all previous phase results.
  */
-export const DeliverablesPipelineShippingPhaseCreatePullRequestAgent = factoryAgentWithPTRR<
+export const AssetPackFinishCreatePullRequestDeliveryAgent = factoryAgentWithPTRR<
   z.infer<typeof CreatePullRequestInputSchema>,
   z.infer<typeof CreatePullRequestOutputSchema>
 >({
-  name: 'deliverable-pipeline-create-pull-request-agent',
-  description: 'Creates pull request with code changes',
+  name: 'finish:asset-pack-create-pull-request-delivery-agent',
+  description: 'Creates a pull request delivery mechanism with AssetPack code changes',
   
-  prompt: createDeliverablesPipelineShippingPhaseCreatePullRequestAgentPrompt(),
-  stepPrompts: DeliverablesPipelineShippingPhaseCreatePullRequestAgentPromptSteps,
+  prompt: createAssetPackFinishCreatePullRequestDeliveryAgentPrompt(),
+  stepPrompts: AssetPackFinishCreatePullRequestDeliveryAgentPromptSteps,
   
   outputSchema: CreatePullRequestOutputSchema,
   
@@ -136,19 +137,19 @@ const SubmitReviewOutputSchema = z.object({
 });
 
 /**
- * DeliverablesPipelineShippingPhaseSubmitReviewAgent
+ * AssetPackFinishSubmitReviewDeliveryAgent
  * 
- * Submits pull request review.
+ * Submits a pull request review delivery mechanism.
  */
-export const DeliverablesPipelineShippingPhaseSubmitReviewAgent = factoryAgentWithPTRR<
+export const AssetPackFinishSubmitReviewDeliveryAgent = factoryAgentWithPTRR<
   z.infer<typeof SubmitReviewInputSchema>,
   z.infer<typeof SubmitReviewOutputSchema>
 >({
-  name: 'deliverable-pipeline-submit-review-agent',
-  description: 'Submits pull request review with feedback',
+  name: 'finish:asset-pack-submit-review-delivery-agent',
+  description: 'Submits a pull request review delivery mechanism with AssetPack feedback',
   
-  prompt: createDeliverablesPipelineShippingPhaseSubmitReviewAgentPrompt(),
-  stepPrompts: DeliverablesPipelineShippingPhaseSubmitReviewAgentPromptSteps,
+  prompt: createAssetPackFinishSubmitReviewDeliveryAgentPrompt(),
+  stepPrompts: AssetPackFinishSubmitReviewDeliveryAgentPromptSteps,
   
   outputSchema: SubmitReviewOutputSchema,
   
@@ -188,19 +189,19 @@ const CreateIssueOutputSchema = z.object({
 });
 
 /**
- * DeliverablesPipelineShippingPhaseCreateIssueAgent
+ * AssetPackFinishCreateIssueDeliveryAgent
  * 
- * Creates GitHub issue for design documents.
+ * Creates an issue delivery mechanism for design-document AssetPacks.
  */
-export const DeliverablesPipelineShippingPhaseCreateIssueAgent = factoryAgentWithPTRR<
+export const AssetPackFinishCreateIssueDeliveryAgent = factoryAgentWithPTRR<
   z.infer<typeof CreateIssueInputSchema>,
   z.infer<typeof CreateIssueOutputSchema>
 >({
-  name: 'deliverable-pipeline-create-issue-agent',
-  description: 'Creates GitHub issue with design document',
+  name: 'finish:asset-pack-create-issue-delivery-agent',
+  description: 'Creates an issue delivery mechanism with AssetPack design-document evidence',
   
-  prompt: createDeliverablesPipelineShippingPhaseCreateIssueAgentPrompt(),
-  stepPrompts: DeliverablesPipelineShippingPhaseCreateIssueAgentPromptSteps,
+  prompt: createAssetPackFinishCreateIssueDeliveryAgentPrompt(),
+  stepPrompts: AssetPackFinishCreateIssueDeliveryAgentPromptSteps,
   
   outputSchema: CreateIssueOutputSchema,
   
@@ -239,19 +240,19 @@ const AddIssueCommentOutputSchema = z.object({
 });
 
 /**
- * DeliverablesPipelineShippingPhaseAddIssueCommentAgent
+ * AssetPackFinishAddIssueCommentDeliveryAgent
  * 
- * Adds comment to existing issue.
+ * Adds an issue-comment delivery mechanism to an existing issue.
  */
-export const DeliverablesPipelineShippingPhaseAddIssueCommentAgent = factoryAgentWithPTRR<
+export const AssetPackFinishAddIssueCommentDeliveryAgent = factoryAgentWithPTRR<
   z.infer<typeof AddIssueCommentInputSchema>,
   z.infer<typeof AddIssueCommentOutputSchema>
 >({
-  name: 'deliverable-pipeline-add-comment-agent',
-  description: 'Adds comment to GitHub issue',
+  name: 'finish:asset-pack-add-issue-comment-delivery-agent',
+  description: 'Adds an issue-comment delivery mechanism with AssetPack review evidence',
   
-  prompt: createDeliverablesPipelineShippingPhaseAddIssueCommentAgentPrompt(),
-  stepPrompts: DeliverablesPipelineShippingPhaseAddIssueCommentAgentPromptSteps,
+  prompt: createAssetPackFinishAddIssueCommentDeliveryAgentPrompt(),
+  stepPrompts: AssetPackFinishAddIssueCommentDeliveryAgentPromptSteps,
   
   outputSchema: AddIssueCommentOutputSchema,
   
@@ -266,7 +267,7 @@ export const DeliverablesPipelineShippingPhaseAddIssueCommentAgent = factoryAgen
 // ==================== GENERIC FINALIZE AGENT (RUNS LAST) ====================
 
 const FinalizeAssetPackDeliveryEvidenceInputSchema = z.object({
-  shippingResults: z.any(), // From type-specific shipping agent
+  deliveryResults: z.any(), // From type-specific Finish Delivering agent
   validationResults: z.any(),
   discoveryMetrics: z.any(),
   need: z.string().optional(),
@@ -300,21 +301,21 @@ const FinalizeAssetPackDeliveryEvidenceOutputSchema = z.object({
 });
 
 /**
- * DeliverablesPipelineFinishPhaseFinalizeAssetPackDeliveryEvidenceAgent
+ * AssetPackFinishFinalizeDeliveryEvidenceAgent
  * 
  * GENERIC final agent that runs for ALL written-asset types.
  * This is the LAST compatibility agent in the Finish phase.
  * Wraps up the written asset / delivery mechanism and provides final summary.
  */
-export const DeliverablesPipelineFinishPhaseFinalizeAssetPackDeliveryEvidenceAgent = factoryAgentWithPTRR<
+export const AssetPackFinishFinalizeDeliveryEvidenceAgent = factoryAgentWithPTRR<
   z.infer<typeof FinalizeAssetPackDeliveryEvidenceInputSchema>,
   z.infer<typeof FinalizeAssetPackDeliveryEvidenceOutputSchema>
 >({
-  name: 'deliverable-pipeline-finalize-agent',
+  name: 'finish:asset-pack-finalize-delivery-evidence-agent',
   description: 'Finalizes Finish delivery evidence for any written-asset type',
   
-  prompt: createDeliverablesPipelineFinishPhaseFinalizeAssetPackDeliveryEvidenceAgentPrompt(),
-  stepPrompts: DeliverablesPipelineFinishPhaseFinalizeAssetPackDeliveryEvidenceAgentPromptSteps,
+  prompt: createAssetPackFinishFinalizeDeliveryEvidenceAgentPrompt(),
+  stepPrompts: AssetPackFinishFinalizeDeliveryEvidenceAgentPromptSteps,
   
   outputSchema: FinalizeAssetPackDeliveryEvidenceOutputSchema,
   
@@ -323,10 +324,6 @@ export const DeliverablesPipelineFinishPhaseFinalizeAssetPackDeliveryEvidenceAge
   refine: { maxAttempts: 1 },
   retry: { maxAttempts: 1 }
 });
-
-/** @deprecated V26 compatibility alias. Use DeliverablesPipelineFinishPhaseFinalizeAssetPackDeliveryEvidenceAgent. */
-export const DeliverablesPipelineShippingPhaseFinalizeShipmentAgent =
-  DeliverablesPipelineFinishPhaseFinalizeAssetPackDeliveryEvidenceAgent;
 
 // ==================== DYNAMIC AGENT REGISTRATION ====================
 
@@ -338,37 +335,54 @@ export const DeliverablesPipelineShippingPhaseFinalizeShipmentAgent =
  * 1. Type-specific Delivering (CreatePR, SubmitReview, CreateIssue, AddComment)
  * 2. Generic finalize (FinalizeAssetPackDeliveryEvidence) - ALWAYS LAST
  */
-export function registerShippingAgentsForType(
+export function registerFinishDeliveryCompatibilityAgentsForType(
   writtenAssetType: string,
   agentRegistry: any // AgentAgentsRegistry from PipelineExecution
 ): void {
-  // Register type-specific Delivering agent under legacy shipping keys.
+  // Register type-specific Delivering agents under canonical Finish keys and
+  // bounded compatibility keys for callers that have not migrated.
   switch (normalizeWrittenAssetType(writtenAssetType)) {
     case 'code-change':
       agentRegistry.registerAgent(
+        'finish:asset-pack-create-pull-request-delivery-agent',
+        AssetPackFinishCreatePullRequestDeliveryAgent
+      );
+      agentRegistry.registerAgent(
         'shipping:create-pr',
-        DeliverablesPipelineShippingPhaseCreatePullRequestAgent
+        AssetPackFinishCreatePullRequestDeliveryAgent
       );
       break;
       
     case 'code-change-review':
       agentRegistry.registerAgent(
+        'finish:asset-pack-submit-review-delivery-agent',
+        AssetPackFinishSubmitReviewDeliveryAgent
+      );
+      agentRegistry.registerAgent(
         'shipping:deliverable-pipeline-submit-review-agent',
-        DeliverablesPipelineShippingPhaseSubmitReviewAgent
+        AssetPackFinishSubmitReviewDeliveryAgent
       );
       break;
       
     case 'design-document':
       agentRegistry.registerAgent(
+        'finish:asset-pack-create-issue-delivery-agent',
+        AssetPackFinishCreateIssueDeliveryAgent
+      );
+      agentRegistry.registerAgent(
         'shipping:deliverable-pipeline-create-issue-agent',
-        DeliverablesPipelineShippingPhaseCreateIssueAgent
+        AssetPackFinishCreateIssueDeliveryAgent
       );
       break;
       
     case 'design-document-review':
       agentRegistry.registerAgent(
+        'finish:asset-pack-add-issue-comment-delivery-agent',
+        AssetPackFinishAddIssueCommentDeliveryAgent
+      );
+      agentRegistry.registerAgent(
         'shipping:deliverable-pipeline-add-comment-agent',
-        DeliverablesPipelineShippingPhaseAddIssueCommentAgent
+        AssetPackFinishAddIssueCommentDeliveryAgent
       );
       break;
       
@@ -376,10 +390,14 @@ export function registerShippingAgentsForType(
       throw new Error(`Unknown written-asset type for Finish/Delivering: ${writtenAssetType}`);
   }
   
-  // ALWAYS register the generic finalize agent LAST
+  // ALWAYS register the generic finalize agent LAST.
+  agentRegistry.registerAgent(
+    'finish:asset-pack-finalize-delivery-evidence-agent',
+    AssetPackFinishFinalizeDeliveryEvidenceAgent
+  );
   agentRegistry.registerAgent(
     'shipping:deliverable-pipeline-finalize-agent',
-    DeliverablesPipelineFinishPhaseFinalizeAssetPackDeliveryEvidenceAgent
+    AssetPackFinishFinalizeDeliveryEvidenceAgent
   );
 }
 
@@ -389,14 +407,14 @@ export function registerShippingAgentsForType(
  * @param writtenAssetType The written-asset kind being delivered
  * @returns Array defining the execution order
  */
-export function createShippingExecutorSequence(
+export function createFinishDeliveryCompatibilityExecutorSequence(
   writtenAssetType: string
 ): any[] {
   const typeSpecificAgent = {
-    'code-change': 'shipping:create-pr',
-    'code-change-review': 'shipping:deliverable-pipeline-submit-review-agent',
-    'design-document': 'shipping:deliverable-pipeline-create-issue-agent',
-    'design-document-review': 'shipping:deliverable-pipeline-add-comment-agent'
+    'code-change': 'finish:asset-pack-create-pull-request-delivery-agent',
+    'code-change-review': 'finish:asset-pack-submit-review-delivery-agent',
+    'design-document': 'finish:asset-pack-create-issue-delivery-agent',
+    'design-document-review': 'finish:asset-pack-add-issue-comment-delivery-agent'
   }[normalizeWrittenAssetType(writtenAssetType)];
   
   if (!typeSpecificAgent) {
@@ -405,9 +423,9 @@ export function createShippingExecutorSequence(
   
   return [
     { agent: typeSpecificAgent }, // Type-specific Delivering
-    { agent: 'shipping:deliverable-pipeline-finalize-agent' } // Generic finalize - ALWAYS LAST
+    { agent: 'finish:asset-pack-finalize-delivery-evidence-agent' } // Generic finalize - ALWAYS LAST
   ];
 }
 
-export const registerFinishAgentsForType = registerShippingAgentsForType;
-export const createFinishExecutorSequence = createShippingExecutorSequence;
+export const registerFinishAgentsForType = registerFinishDeliveryCompatibilityAgentsForType;
+export const createFinishExecutorSequence = createFinishDeliveryCompatibilityExecutorSequence;

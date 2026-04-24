@@ -117,7 +117,7 @@ This section records transitions that are too historically specific for the main
 | broad `Shipping` final phase | `Finish` | final phase saves results, records evidence, and invokes narrower delivery mechanisms |
 | `Shipping` as providing to external tools | `Delivering` inside Finish | Delivering is specifically third-party AssetPack/AssetPackPartial provision |
 | `SDIVS` | `SDIVF` | canonical phased implementation is Setup, Discovery, Implementation, Validation, Finish; Simple remains the other canonical pipeline shape |
-| `packages/pipelines/asset-pack/src/agents/shipping/*` and `shipping-agents.ts` | `packages/pipelines/asset-pack/src/agents/finish-compatibility/*` and `finish-delivery-compatibility-agents.ts` | filesystem ownership now teaches Finish/Delivering first; any shipping registry keys are compatibility aliases only |
+| `packages/pipelines/asset-pack/src/agents/shipping/*`, `shipping-agents.ts`, and `deliverable-pipeline-*` Finish carriers | `packages/pipelines/asset-pack/src/agents/finish-compatibility/asset-pack-finish-*`, `agents/prompts/finalize-delivery-evidence-prompt.ts`, and `finish-delivery-compatibility-agents.ts` | filesystem ownership now teaches AssetPack Finish/Delivering first; any `shipping:*` registry keys are compatibility aliases only and must not leak into filenames, exported symbols, or prompt factory names |
 | multi-agent pipeline selection | removed from V26 live controls | public orchestration selection is not a Bitcode V26 product feature |
 | computer-use as broad agent option | internal Need-measurement evidence behind `BITCODE_ENABLE_COMPUTER_USE_NEED_MEASUREMENT` | feature is not surfaced in Terminal/API implementation, validation, Finish, or public controls |
 

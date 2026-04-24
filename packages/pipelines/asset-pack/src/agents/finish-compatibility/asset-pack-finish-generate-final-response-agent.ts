@@ -8,13 +8,13 @@ import { PROMPTPART_GENERIC_AGENT_GENERATION_USE_THIS_STRUCTURED_SCHEMA } from '
 
 const FinalResponseOutputSchema = z.object({ message: z.string(), summary: z.any().optional() });
 
-export const DeliverablePipelineGenerateFinalResponseAgent = factoryAgentWithPTRR<any, z.infer<typeof FinalResponseOutputSchema>>({
-  name: 'shipping:deliverable-pipeline-generate-final-response-agent',
-  description: 'Generate final response payload for API/UI surfaces',
+export const AssetPackFinishGenerateFinalResponseAgent = factoryAgentWithPTRR<any, z.infer<typeof FinalResponseOutputSchema>>({
+  name: 'finish:asset-pack-generate-final-response-agent',
+  description: 'Generate final AssetPack response payload for API and Terminal surfaces',
   outputSchema: FinalResponseOutputSchema,
   prompt: (() => { 
     const p = new Prompt(); 
-    p.set('agent:identity', createPromptPart('You prepare a concise API response.'));
+    p.set('agent:identity', createPromptPart('You prepare a concise AssetPack Finish response for Bitcode API and Terminal surfaces.'));
     p.set('generation:json_only_header', PROMPTPART_GENERIC_AGENT_GENERATION_JSON_ONLY_HEADER as any);
     p.set('generation:use_this_structure', PROMPTPART_GENERIC_AGENT_GENERATION_USE_THIS_STRUCTURED_SCHEMA as any);
     p.set('failsafe:prepare_context', PROMPTPART_GENERIC_AGENT_FAILSAFE_PREPARE_CONTEXT as any);
@@ -23,6 +23,6 @@ export const DeliverablePipelineGenerateFinalResponseAgent = factoryAgentWithPTR
   stepPrompts: { plan: () => new Prompt(), try: () => new Prompt(), refine: () => new Prompt(), retry: () => new Prompt() }
 });
 
-export default async function deliverablePipelineGenerateFinalResponseAgent(input: any, execution: any) {
-  return await DeliverablePipelineGenerateFinalResponseAgent({ message: 'Delivery completed', summary: input?.summary || {} }, execution);
+export default async function assetPackFinishGenerateFinalResponseAgent(input: any, execution: any) {
+  return await AssetPackFinishGenerateFinalResponseAgent({ message: 'AssetPack delivery completed', summary: input?.summary || {} }, execution);
 }

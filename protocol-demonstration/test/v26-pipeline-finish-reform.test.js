@@ -53,7 +53,7 @@ const deliverAgentSource = readFileSync(
   'utf8'
 );
 const deliverAgentCompatibilitySource = readFileSync(
-  new URL('../../packages/pipelines/asset-pack/src/agents/finish-compatibility/deliverable-pipeline-ship-agent.ts', import.meta.url),
+  new URL('../../packages/pipelines/asset-pack/src/agents/finish-compatibility/asset-pack-finish-deliver-asset-pack-to-destination-agent.ts', import.meta.url),
   'utf8'
 );
 const finalSummarySource = readFileSync(
@@ -61,7 +61,7 @@ const finalSummarySource = readFileSync(
   'utf8'
 );
 const finalSummaryCompatibilitySource = readFileSync(
-  new URL('../../packages/pipelines/asset-pack/src/agents/finish-compatibility/deliverable-pipeline-final-work-summary-agent.ts', import.meta.url),
+  new URL('../../packages/pipelines/asset-pack/src/agents/finish-compatibility/asset-pack-finish-final-work-summary-agent.ts', import.meta.url),
   'utf8'
 );
 const postprocessSource = readFileSync(
@@ -70,7 +70,7 @@ const postprocessSource = readFileSync(
 );
 const promptBuilderDir = new URL('../../packages/pipelines/asset-pack/src/agents/prompts/', import.meta.url);
 const readyToShipPromptSource = readFileSync(new URL('../../packages/pipelines/asset-pack/src/agents/prompts/ready-to-ship-prompt.ts', import.meta.url), 'utf8');
-const finalizeShipmentPromptSource = readFileSync(new URL('../../packages/pipelines/asset-pack/src/agents/prompts/finalize-shipment-prompt.ts', import.meta.url), 'utf8');
+const finalizeDeliveryEvidencePromptSource = readFileSync(new URL('../../packages/pipelines/asset-pack/src/agents/prompts/finalize-delivery-evidence-prompt.ts', import.meta.url), 'utf8');
 const validationReadyAgentSource = readFileSync(
   new URL('../../packages/pipelines/asset-pack/src/agents/validation/deliverable-pipeline-ready-to-ship-agent.ts', import.meta.url),
   'utf8'
@@ -162,12 +162,13 @@ test('Finish agents and postprocess prefer finish stores before shipping fallbac
 test('compatibility prompt and agent names point at precise canonical Finish replacements', () => {
   assert.match(readyToShipPromptSource, /createDeliverablesPipelineValidationPhaseReadyToFinishAgentPrompt/);
   assert.match(readyToShipPromptSource, /@deprecated V26 compatibility alias for old ReadyToShip callers/);
-  assert.match(finalizeShipmentPromptSource, /createDeliverablesPipelineFinishPhaseFinalizeAssetPackDeliveryEvidenceAgentPrompt/);
-  assert.match(finalizeShipmentPromptSource, /@deprecated V26 compatibility alias for Finish delivery-evidence callers still using finalize-shipment names/);
+  assert.match(finalizeDeliveryEvidencePromptSource, /createAssetPackFinishFinalizeDeliveryEvidenceAgentPrompt/);
+  assert.doesNotMatch(finalizeDeliveryEvidencePromptSource, /finalize-shipment|FinalizeShipment|shipment/u);
   assert.match(validationReadyAgentSource, /ReadyToFinish Agent - Final Validation Phase Decision/);
   assert.match(validationReadyAgentSource, /createDeliverablesPipelineValidationPhaseReadyToFinishAgentPrompt/);
-  assert.match(compatibilityShippingAgentsSource, /DeliverablesPipelineFinishPhaseFinalizeAssetPackDeliveryEvidenceAgent/);
-  assert.match(compatibilityShippingAgentsSource, /@deprecated V26 compatibility alias/);
+  assert.match(compatibilityShippingAgentsSource, /AssetPackFinishFinalizeDeliveryEvidenceAgent/);
+  assert.match(compatibilityShippingAgentsSource, /Compatibility registry keys remain bounded aliases/u);
+  assert.doesNotMatch(compatibilityShippingAgentsSource, /@deprecated|FinalizeShipment|ShippingPhase/u);
   assert.match(finishSpec, /Deprecated names, compatibility wrappers, and any remaining old filesystem labels are tactical fifth-gate aids, not V26 closure evidence/);
   assert.match(finishSpec, /Full V26 closure requires no deprecated, backwards-compatible, legacy, or unspecified broad-pipeline names/);
 });

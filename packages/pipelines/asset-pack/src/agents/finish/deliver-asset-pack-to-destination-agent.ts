@@ -46,7 +46,7 @@ const stepPrompts = {
   retry: () => { const p = new Prompt(); p.set('step:purpose', 'Retry Delivering with fallback strategies.' as any); return p; }
 };
 
-export const DeliverablePipelineFinishPhaseDeliverAgent = factoryAgentWithPTRR<any, z.infer<typeof FinishDeliveryOutputSchema>>({
+export const AssetPackFinishDeliverAgent = factoryAgentWithPTRR<any, z.infer<typeof FinishDeliveryOutputSchema>>({
   name: 'finish:deliver-asset-pack-to-destination-agent',
   description: 'Perform final Delivering actions per written-asset type',
   outputSchema: FinishDeliveryOutputSchema as any,
@@ -72,7 +72,7 @@ export default async function deliverAssetPackToDestination(input: any, executio
   // Build tool plan via output.useTools using agent PTRR Try step instructions
   // This executor calls the agent; ToolsExecution handles tool invocation and
   // the Finish store preserves the operator-facing delivery evidence.
-  const result = await DeliverablePipelineFinishPhaseDeliverAgent(
+  const result = await AssetPackFinishDeliverAgent(
     {
       writtenAssetType: dtype,
       deliverableType: dtype,

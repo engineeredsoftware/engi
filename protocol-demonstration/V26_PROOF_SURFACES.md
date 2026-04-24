@@ -844,7 +844,7 @@ Required closure posture:
   `protocol-demonstration/test/v26-active-product-naming.test.js`
   proof surface:
   fifth-gate debug and diagnostics contract closure so active PTRR debugging and docs converge on `BITCODE_*` flags and Bitcode-facing runtime teaching
-- `packages/pipelines/asset-pack/{src/preprocess.ts,src/__dev__/bringup-demo.ts,src/__tests__/metrics-output.test.ts,src/agents/setup/deliverable-pipeline-setup-plan-agent.ts,src/agents/finish-compatibility/deliverable-pipeline-create-pull-request-agent.ts}`
+- `packages/pipelines/asset-pack/{src/preprocess.ts,src/__dev__/bringup-demo.ts,src/__tests__/metrics-output.test.ts,src/agents/setup/deliverable-pipeline-setup-plan-agent.ts,src/agents/finish-compatibility/asset-pack-finish-create-pull-request-delivery-agent.ts}`
   test coverage:
   `protocol-demonstration/test/v26-active-product-naming.test.js`
   proof surface:

@@ -81,12 +81,12 @@ function formatDuration(ms: number): string {
 /**
  * FinalWorkSummary Quick Agent (single-step)
  *
- * Prepares the final work summary for a completed retained written-asset execution
+ * Prepares the final work summary for a completed AssetPack written-asset execution
  * by reading the execution state (repository, need, phase timings, basic metrics)
  * and producing a concise markdown summary plus structured metadata. Stores the
  * result under `finish/final_work_summary/*` in the execution store for API
- * layers to persist into `executions.output`. The old shipping namespace is
- * also written during V26 migration for compatibility.
+ * layers to persist into `executions.output`. The compatibility `shipping`
+ * namespace is also written during V26 migration for bounded callers.
  */
 const FinalWorkSummaryAgent = factoryAgentWithSingleStep<any, FinalWorkSummaryOutput>({
   name: 'finish:final-work-summary',

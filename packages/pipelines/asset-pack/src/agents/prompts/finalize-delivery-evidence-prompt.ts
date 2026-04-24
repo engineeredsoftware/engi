@@ -6,15 +6,15 @@ import { PROMPTPART_GENERIC_AGENT_GENERATION_IF_UNKNOWN_EMPTY } from '@bitcode/p
 import { PROMPTPART_GENERIC_AGENT_GENERATION_REASON } from '@bitcode/prompts/raw_promptparts/generic/promptpart_generic_agent_generation_reason';
 import { PROMPTPART_GENERIC_AGENT_GENERATION_JUDGE } from '@bitcode/prompts/raw_promptparts/generic/promptpart_generic_agent_generation_judge';
 import { PROMPTPART_GENERIC_AGENT_GENERATION_STRUCTURED_OUTPUT } from '@bitcode/prompts/raw_promptparts/generic/promptpart_generic_agent_generation_structured_output';
-import { PROMPTPART_SPECIFIC_AGENT_DELIVERABLESHIPPINGFINALIZESHIPMENT_IDENTITY_DEFINITION } from '@bitcode/prompts/raw_promptparts/specific/promptpart_specific_agent_deliverableshippingfinalizeshipment_identity_definition';
-import { PROMPTPART_SPECIFIC_AGENT_DELIVERABLESHIPPINGFINALIZESHIPMENT_PURPOSE_CORESTATEMENT } from '@bitcode/prompts/raw_promptparts/specific/promptpart_specific_agent_deliverableshippingfinalizeshipment_purpose_corestatement';
-import { PROMPTPART_SPECIFIC_AGENT_DELIVERABLESHIPPINGFINALIZESHIPMENT_CAPABILITIES_LIST } from '@bitcode/prompts/raw_promptparts/specific/promptpart_specific_agent_deliverableshippingfinalizeshipment_capabilities_list';
-import { PROMPTPART_SPECIFIC_AGENT_DELIVERABLESHIPPINGFINALIZESHIPMENT_TOOLS_AVAILABLE } from '@bitcode/prompts/raw_promptparts/specific/promptpart_specific_agent_deliverableshippingfinalizeshipment_tools_available';
-import { PROMPTPART_SPECIFIC_AGENT_DELIVERABLESHIPPINGFINALIZESHIPMENT_REQUIREMENTS_CONTEXT } from '@bitcode/prompts/raw_promptparts/specific/promptpart_specific_agent_deliverableshippingfinalizeshipment_requirements_context';
-import { PROMPTPART_SPECIFIC_AGENT_DELIVERABLESHIPPINGFINALIZESHIPMENT_PTRRPLAN_PURPOSE } from '@bitcode/prompts/raw_promptparts/specific/promptpart_specific_agent_deliverableshippingfinalizeshipment_ptrrplan_purpose';
-import { PROMPTPART_SPECIFIC_AGENT_DELIVERABLESHIPPINGFINALIZESHIPMENT_PTRRTRY_PURPOSE } from '@bitcode/prompts/raw_promptparts/specific/promptpart_specific_agent_deliverableshippingfinalizeshipment_ptrrtry_purpose';
-import { PROMPTPART_SPECIFIC_AGENT_DELIVERABLESHIPPINGFINALIZESHIPMENT_PTRRREFINE_PURPOSE } from '@bitcode/prompts/raw_promptparts/specific/promptpart_specific_agent_deliverableshippingfinalizeshipment_ptrrrefine_purpose';
-import { PROMPTPART_SPECIFIC_AGENT_DELIVERABLESHIPPINGFINALIZESHIPMENT_PTRRRETRY_PURPOSE } from '@bitcode/prompts/raw_promptparts/specific/promptpart_specific_agent_deliverableshippingfinalizeshipment_ptrrretry_purpose';
+import { PROMPTPART_SPECIFIC_AGENT_ASSETPACKFINISHFINALIZEDELIVERYEVIDENCE_IDENTITY_DEFINITION } from '@bitcode/prompts/raw_promptparts/specific/promptpart_specific_agent_assetpackfinishfinalizedeliveryevidence_identity_definition';
+import { PROMPTPART_SPECIFIC_AGENT_ASSETPACKFINISHFINALIZEDELIVERYEVIDENCE_PURPOSE_CORESTATEMENT } from '@bitcode/prompts/raw_promptparts/specific/promptpart_specific_agent_assetpackfinishfinalizedeliveryevidence_purpose_corestatement';
+import { PROMPTPART_SPECIFIC_AGENT_ASSETPACKFINISHFINALIZEDELIVERYEVIDENCE_CAPABILITIES_LIST } from '@bitcode/prompts/raw_promptparts/specific/promptpart_specific_agent_assetpackfinishfinalizedeliveryevidence_capabilities_list';
+import { PROMPTPART_SPECIFIC_AGENT_ASSETPACKFINISHFINALIZEDELIVERYEVIDENCE_TOOLS_AVAILABLE } from '@bitcode/prompts/raw_promptparts/specific/promptpart_specific_agent_assetpackfinishfinalizedeliveryevidence_tools_available';
+import { PROMPTPART_SPECIFIC_AGENT_ASSETPACKFINISHFINALIZEDELIVERYEVIDENCE_REQUIREMENTS_CONTEXT } from '@bitcode/prompts/raw_promptparts/specific/promptpart_specific_agent_assetpackfinishfinalizedeliveryevidence_requirements_context';
+import { PROMPTPART_SPECIFIC_AGENT_ASSETPACKFINISHFINALIZEDELIVERYEVIDENCE_PTRRPLAN_PURPOSE } from '@bitcode/prompts/raw_promptparts/specific/promptpart_specific_agent_assetpackfinishfinalizedeliveryevidence_ptrrplan_purpose';
+import { PROMPTPART_SPECIFIC_AGENT_ASSETPACKFINISHFINALIZEDELIVERYEVIDENCE_PTRRTRY_PURPOSE } from '@bitcode/prompts/raw_promptparts/specific/promptpart_specific_agent_assetpackfinishfinalizedeliveryevidence_ptrrtry_purpose';
+import { PROMPTPART_SPECIFIC_AGENT_ASSETPACKFINISHFINALIZEDELIVERYEVIDENCE_PTRRREFINE_PURPOSE } from '@bitcode/prompts/raw_promptparts/specific/promptpart_specific_agent_assetpackfinishfinalizedeliveryevidence_ptrrrefine_purpose';
+import { PROMPTPART_SPECIFIC_AGENT_ASSETPACKFINISHFINALIZEDELIVERYEVIDENCE_PTRRRETRY_PURPOSE } from '@bitcode/prompts/raw_promptparts/specific/promptpart_specific_agent_assetpackfinishfinalizedeliveryevidence_ptrrretry_purpose';
 
 
 
@@ -44,21 +44,21 @@ import { PROMPTPART_SPECIFIC_AGENT_DELIVERABLESHIPPINGFINALIZESHIPMENT_PTRRRETRY
  *   { "name": "implementation_ready", "test": "Usable by registry formatter", "score": 0.46 }
  * ]
  */
-export function createDeliverablesPipelineFinishPhaseFinalizeAssetPackDeliveryEvidenceAgentPrompt(): Prompt {
+export function createAssetPackFinishFinalizeDeliveryEvidenceAgentPrompt(): Prompt {
   const prompt = new Prompt();
   
   // Agent identity and purpose
-  prompt.set('agent/identity', PROMPTPART_SPECIFIC_AGENT_DELIVERABLESHIPPINGFINALIZESHIPMENT_IDENTITY_DEFINITION);
-  prompt.set('agent/purpose', PROMPTPART_SPECIFIC_AGENT_DELIVERABLESHIPPINGFINALIZESHIPMENT_PURPOSE_CORESTATEMENT);
-  prompt.set('agent/capabilities', PROMPTPART_SPECIFIC_AGENT_DELIVERABLESHIPPINGFINALIZESHIPMENT_CAPABILITIES_LIST);
-  prompt.set('agent/tools', PROMPTPART_SPECIFIC_AGENT_DELIVERABLESHIPPINGFINALIZESHIPMENT_TOOLS_AVAILABLE);
-  prompt.set('agent/requirements', PROMPTPART_SPECIFIC_AGENT_DELIVERABLESHIPPINGFINALIZESHIPMENT_REQUIREMENTS_CONTEXT);
+  prompt.set('agent/identity', PROMPTPART_SPECIFIC_AGENT_ASSETPACKFINISHFINALIZEDELIVERYEVIDENCE_IDENTITY_DEFINITION);
+  prompt.set('agent/purpose', PROMPTPART_SPECIFIC_AGENT_ASSETPACKFINISHFINALIZEDELIVERYEVIDENCE_PURPOSE_CORESTATEMENT);
+  prompt.set('agent/capabilities', PROMPTPART_SPECIFIC_AGENT_ASSETPACKFINISHFINALIZEDELIVERYEVIDENCE_CAPABILITIES_LIST);
+  prompt.set('agent/tools', PROMPTPART_SPECIFIC_AGENT_ASSETPACKFINISHFINALIZEDELIVERYEVIDENCE_TOOLS_AVAILABLE);
+  prompt.set('agent/requirements', PROMPTPART_SPECIFIC_AGENT_ASSETPACKFINISHFINALIZEDELIVERYEVIDENCE_REQUIREMENTS_CONTEXT);
   
   // PTRR step purposes
-  prompt.set('ptrr/plan/purpose', PROMPTPART_SPECIFIC_AGENT_DELIVERABLESHIPPINGFINALIZESHIPMENT_PTRRPLAN_PURPOSE);
-  prompt.set('ptrr/try/purpose', PROMPTPART_SPECIFIC_AGENT_DELIVERABLESHIPPINGFINALIZESHIPMENT_PTRRTRY_PURPOSE);
-  prompt.set('ptrr/refine/purpose', PROMPTPART_SPECIFIC_AGENT_DELIVERABLESHIPPINGFINALIZESHIPMENT_PTRRREFINE_PURPOSE);
-  prompt.set('ptrr/retry/purpose', PROMPTPART_SPECIFIC_AGENT_DELIVERABLESHIPPINGFINALIZESHIPMENT_PTRRRETRY_PURPOSE);
+  prompt.set('ptrr/plan/purpose', PROMPTPART_SPECIFIC_AGENT_ASSETPACKFINISHFINALIZEDELIVERYEVIDENCE_PTRRPLAN_PURPOSE);
+  prompt.set('ptrr/try/purpose', PROMPTPART_SPECIFIC_AGENT_ASSETPACKFINISHFINALIZEDELIVERYEVIDENCE_PTRRTRY_PURPOSE);
+  prompt.set('ptrr/refine/purpose', PROMPTPART_SPECIFIC_AGENT_ASSETPACKFINISHFINALIZEDELIVERYEVIDENCE_PTRRREFINE_PURPOSE);
+  prompt.set('ptrr/retry/purpose', PROMPTPART_SPECIFIC_AGENT_ASSETPACKFINISHFINALIZEDELIVERYEVIDENCE_PTRRRETRY_PURPOSE);
   // Generic scaffolding
   prompt.set('generation:json_only_header', PROMPTPART_GENERIC_AGENT_GENERATION_JSON_ONLY_HEADER as any);
   prompt.set('generation:use_this_structure', PROMPTPART_GENERIC_AGENT_GENERATION_USE_THIS_STRUCTURED_SCHEMA as any);
@@ -76,12 +76,12 @@ export function createDeliverablesPipelineFinishPhaseFinalizeAssetPackDeliveryEv
 }
 
 /**
- * Get step-specific prompts
+ * Get step-specific prompts.
  */
-export const DeliverablesPipelineFinishPhaseFinalizeAssetPackDeliveryEvidenceAgentPromptSteps = {
+export const AssetPackFinishFinalizeDeliveryEvidenceAgentPromptSteps = {
   plan: () => {
     const prompt = new Prompt();
-    prompt.set('step', PROMPTPART_SPECIFIC_AGENT_DELIVERABLESHIPPINGFINALIZESHIPMENT_PTRRPLAN_PURPOSE);
+    prompt.set('step', PROMPTPART_SPECIFIC_AGENT_ASSETPACKFINISHFINALIZEDELIVERYEVIDENCE_PTRRPLAN_PURPOSE);
     prompt.set('generation:json_only_header', PROMPTPART_GENERIC_AGENT_GENERATION_JSON_ONLY_HEADER as any);
     prompt.set('generation:use_this_structure', PROMPTPART_GENERIC_AGENT_GENERATION_USE_THIS_STRUCTURED_SCHEMA as any);
     prompt.set('generation:reason', PROMPTPART_GENERIC_AGENT_GENERATION_REASON as any);
@@ -92,7 +92,7 @@ export const DeliverablesPipelineFinishPhaseFinalizeAssetPackDeliveryEvidenceAge
   },
   try: () => {
     const prompt = new Prompt();
-    prompt.set('step', PROMPTPART_SPECIFIC_AGENT_DELIVERABLESHIPPINGFINALIZESHIPMENT_PTRRTRY_PURPOSE);
+    prompt.set('step', PROMPTPART_SPECIFIC_AGENT_ASSETPACKFINISHFINALIZEDELIVERYEVIDENCE_PTRRTRY_PURPOSE);
     prompt.set('generation:json_only_header', PROMPTPART_GENERIC_AGENT_GENERATION_JSON_ONLY_HEADER as any);
     prompt.set('generation:use_this_structure', PROMPTPART_GENERIC_AGENT_GENERATION_USE_THIS_STRUCTURED_SCHEMA as any);
     prompt.set('generation:if_unknown_empty', PROMPTPART_GENERIC_AGENT_GENERATION_IF_UNKNOWN_EMPTY as any);
@@ -104,7 +104,7 @@ export const DeliverablesPipelineFinishPhaseFinalizeAssetPackDeliveryEvidenceAge
   },
   refine: () => {
     const prompt = new Prompt();
-    prompt.set('step', PROMPTPART_SPECIFIC_AGENT_DELIVERABLESHIPPINGFINALIZESHIPMENT_PTRRREFINE_PURPOSE);
+    prompt.set('step', PROMPTPART_SPECIFIC_AGENT_ASSETPACKFINISHFINALIZEDELIVERYEVIDENCE_PTRRREFINE_PURPOSE);
     prompt.set('generation:json_only_header', PROMPTPART_GENERIC_AGENT_GENERATION_JSON_ONLY_HEADER as any);
     prompt.set('generation:use_this_structure', PROMPTPART_GENERIC_AGENT_GENERATION_USE_THIS_STRUCTURED_SCHEMA as any);
     prompt.set('generation:reason', PROMPTPART_GENERIC_AGENT_GENERATION_REASON as any);
@@ -115,7 +115,7 @@ export const DeliverablesPipelineFinishPhaseFinalizeAssetPackDeliveryEvidenceAge
   },
   retry: () => {
     const prompt = new Prompt();
-    prompt.set('step', PROMPTPART_SPECIFIC_AGENT_DELIVERABLESHIPPINGFINALIZESHIPMENT_PTRRRETRY_PURPOSE);
+    prompt.set('step', PROMPTPART_SPECIFIC_AGENT_ASSETPACKFINISHFINALIZEDELIVERYEVIDENCE_PTRRRETRY_PURPOSE);
     prompt.set('generation:json_only_header', PROMPTPART_GENERIC_AGENT_GENERATION_JSON_ONLY_HEADER as any);
     prompt.set('generation:use_this_structure', PROMPTPART_GENERIC_AGENT_GENERATION_USE_THIS_STRUCTURED_SCHEMA as any);
     prompt.set('generation:if_unknown_empty', PROMPTPART_GENERIC_AGENT_GENERATION_IF_UNKNOWN_EMPTY as any);
@@ -126,17 +126,3 @@ export const DeliverablesPipelineFinishPhaseFinalizeAssetPackDeliveryEvidenceAge
     return prompt;
   }
 };
-
-/**
- * @deprecated V26 compatibility alias for Finish delivery-evidence callers still using finalize-shipment names.
- * Use createDeliverablesPipelineFinishPhaseFinalizeAssetPackDeliveryEvidenceAgentPrompt.
- */
-export const createDeliverablesPipelineShippingPhaseFinalizeShipmentAgentPrompt =
-  createDeliverablesPipelineFinishPhaseFinalizeAssetPackDeliveryEvidenceAgentPrompt;
-
-/**
- * @deprecated V26 compatibility alias for Finish delivery-evidence callers still using finalize-shipment names.
- * Use DeliverablesPipelineFinishPhaseFinalizeAssetPackDeliveryEvidenceAgentPromptSteps.
- */
-export const DeliverablesPipelineShippingPhaseFinalizeShipmentAgentPromptSteps =
-  DeliverablesPipelineFinishPhaseFinalizeAssetPackDeliveryEvidenceAgentPromptSteps;

@@ -8,8 +8,8 @@
 import { factoryAgentWithPTRR } from '@bitcode/agent-generics';
 import { z } from 'zod';
 import {
-  createDeliverablesPipelineShippingPhaseCreateIssueAgentPrompt,
-  DeliverablesPipelineShippingPhaseCreateIssueAgentPromptSteps
+  createAssetPackFinishCreateIssueDeliveryAgentPrompt,
+  AssetPackFinishCreateIssueDeliveryAgentPromptSteps
 } from '../prompts/create-issue-prompt';
 
 // Input schema
@@ -78,8 +78,8 @@ export const CreateDesignDocumentAgent = factoryAgentWithPTRR<
   name: 'deliverable-pipeline-create-design-document-agent',
   description: 'Creates comprehensive design documents',
   
-  prompt: createDeliverablesPipelineShippingPhaseCreateIssueAgentPrompt(),
-  stepPrompts: DeliverablesPipelineShippingPhaseCreateIssueAgentPromptSteps,
+  prompt: createAssetPackFinishCreateIssueDeliveryAgentPrompt(),
+  stepPrompts: AssetPackFinishCreateIssueDeliveryAgentPromptSteps,
   
   outputSchema: CreateDesignDocumentOutputSchema,
   

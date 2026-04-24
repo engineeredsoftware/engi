@@ -120,15 +120,17 @@ export const VALIDATION_PHASE_TOOLS: Tool[] = [
 ].filter(present);
 
 /**
- * Finish/Delivering Tools
+ * Finish/Delivering tools
  * VCS operations, PR/Issue creation, finalization
  */
-export const SHIPPING_PHASE_TOOLS: Tool[] = [
+export const FINISH_DELIVERY_TOOLS: Tool[] = [
   // VCS provider-agnostic tools
   createPullRequestTool,
   createIssueTool,
   createCommentTool
 ].filter(present);
+
+export const SHIPPING_PHASE_TOOLS = FINISH_DELIVERY_TOOLS;
 
 // ==================== AGENT-SPECIFIC TOOL MAPPINGS ====================
 
@@ -186,7 +188,7 @@ export function getDeliverablePipelineToolsForAgent(agentName: string): Tool[] {
     'finish:deliver-asset-pack-to-destination-agent': [createPullRequestTool, createIssueTool, createCommentTool],
     'finish:final-work-summary': [],
 
-    // Retained shipping aliases for callers not yet moved to Finish naming
+    // Compatibility registry keys for callers not yet moved to Finish naming.
     'shipping:deliverable-pipeline-ship-agent': [createPullRequestTool, createIssueTool, createCommentTool],
     'shipping:deliverable-pipeline-create-pull-request-agent': [createPullRequestTool],
     'shipping:deliverable-pipeline-submit-review-agent': [createCommentTool],
@@ -201,9 +203,7 @@ export function getDeliverablePipelineToolsForAgent(agentName: string): Tool[] {
 }
 
 /**
- * Get all tools for a phase
-*
-  * TODO: duplicate with ALL_DELIVERABLE_TOOLS? or should use same set?
+ * Get all tools for a phase.
  */
 export function getToolsForPhase(phase: string): Tool[] {
   const phaseToolMappings: Record<string, Tool[]> = {
@@ -211,7 +211,7 @@ export function getToolsForPhase(phase: string): Tool[] {
     //discovery: DISCOVERY_PHASE_TOOLS,
     //implementation: IMPLEMENTATION_PHASE_TOOLS,
     //validation: VALIDATION_PHASE_TOOLS,
-    //shipping: SHIPPING_PHASE_TOOLS
+    finish: FINISH_DELIVERY_TOOLS
   };
 
   return phaseToolMappings[phase] || [];
@@ -227,14 +227,16 @@ export function getShortCircuitTools(): Tool[] {
 }
 
 /**
- * Export all tools for global registry
+ * Export all tools for the AssetPack pipeline registry.
  */
-export const ALL_DELIVERABLE_TOOLS: Tool[] = [
+export const ALL_ASSET_PACK_TOOLS: Tool[] = [
   ...new Set([
     ...SETUP_PHASE_TOOLS,
     //...DISCOVERY_PHASE_TOOLS,
     ...IMPLEMENTATION_PHASE_TOOLS,
     ...VALIDATION_PHASE_TOOLS,
-    ...SHIPPING_PHASE_TOOLS
+    ...FINISH_DELIVERY_TOOLS
   ])
 ];
+
+export const ALL_DELIVERABLE_TOOLS = ALL_ASSET_PACK_TOOLS;
