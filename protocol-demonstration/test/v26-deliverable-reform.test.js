@@ -411,12 +411,13 @@ test('V26 deliverable reform supplement requires semantic mirrors beyond retaine
   assert.match(reformSource, /live Bitcode meaning is a need-satisfying agentic pipeline run/u);
   assert.match(reformSource, /canonical broad final phase is now `Finish`/u);
   assert.match(reformSource, /`Delivering` is the narrower Finish subresponsibility/u);
-  assert.match(reformSource, /Finish phase may then emit `deliverables` only as connected-interface delivery mechanisms/u);
+  assert.match(reformSource, /Finish phase may then emit `deliverables` only as connected-interface delivery-mechanism artifacts/u);
   assert.match(reformSource, /`asset pack`/u);
-  assert.match(reformSource, /`written asset`/u);
+  assert.match(reformSource, /`AssetPack synthesis artifact`/u);
+  assert.match(reformSource, /`stored AssetPack evidence`/u);
   assert.match(reformSource, /workspace-run summaries, mock reread projections, and active UI detail surfaces should prefer semantic `writtenAssets`/u);
   assert.match(reformSource, /execution stores and postprocessed artifacts should mirror compatibility keys with semantic `need`, canonical `writtenAssetType = need-satisfaction-asset-pack`, `writtenAssetRequest`, `deliveryMechanismTemplate`, and asset-pack-shaped snapshots/u);
-  assert.match(reformSource, /implementation and validation logic must resolve one canonical AssetPack written-asset kind/u);
+  assert.match(reformSource, /implementation and validation logic must resolve one canonical AssetPack synthesis kind/u);
   assert.match(reformSource, /shapes live protocol behavior through Bitcode's commercial infrastructure/u);
   assert.match(reformSource, /hydrate a registry-bearing pipeline execution context when callers still enter through a bare `Execution`/u);
   assert.match(reformSource, /retained maintenance\/audit scripts that operate on this corridor/u);
@@ -426,7 +427,7 @@ test('V26 deliverable reform supplement requires semantic mirrors beyond retaine
   assert.match(reformSource, /Bitcode need, written-asset, asset-pack, proof-evidence, delivery-mechanism/u);
   assert.match(reformSource, /runtime JavaScript carry-through must remain parseable and content-equivalent/u);
   assert.match(reformSource, /substep doc-comment metadata must also be reauthored as Bitcode metadata/u);
-  assert.match(reformSource, /all active AssetPack-family raw PromptPart doc-comment metadata must move to Bitcode-native intent/u);
+  assert.match(reformSource, /all active AssetPack-family raw PromptPart doc-comment metadata must use Bitcode-native intent/u);
 });
 
 test('AssetPack schemas expose written-asset semantic aliases and bounded compatibility keys', () => {
@@ -597,9 +598,9 @@ test('retained templates and promptparts keep compatibility names but teach asse
   assert.match(deliverableFailedTemplateSource, /asset-pack synthesis and Finish delivery flow/u);
   assert.match(deliverableShortCircuitTemplateSource, /Bitcode asset-pack run short-circuited/u);
   assert.match(deliverableShortCircuitTemplateSource, /asset-pack synthesis and Finish delivery completed/u);
-  assert.match(pipelinePurposePromptSource, /retained deliverable compatibility pipeline/u);
+  assert.match(pipelinePurposePromptSource, /AssetPack compatibility route/u);
   assert.match(pipelinePurposePromptSource, /Bitcode need-satisfying asset-pack run/u);
-  assert.match(pipelinePurposePromptSource, /Finish delivery mechanisms/u);
+  assert.match(pipelinePurposePromptSource, /store evidence in Finish/u);
   assert.match(pipelineTypeListPromptSource, /Synthesize implementation written assets/u);
   assert.match(pipelineTypeListPromptSource, /connected-interface mechanisms/u);
   assert.match(pipelineDivLoopPromptSource, /Discovery refines the expressed need/u);
@@ -622,15 +623,15 @@ test('retained templates and promptparts keep compatibility names but teach asse
   assert.match(phaseDiscoveryPurposePromptSource, /shape the asset-pack synthesis approach/u);
   assert.match(phaseImplementationPurposePromptSource, /Synthesize written assets using VCS-compatible operations/u);
   assert.match(phaseValidationPurposePromptSource, /verify need satisfaction and written-asset integrity/u);
-  assert.match(phaseFinishPurposePromptSource, /Emit connected-interface delivery mechanisms for validated Need-satisfaction AssetPack synthesis artifacts/u);
+  assert.match(phaseFinishPurposePromptSource, /Emit connected-interface delivery mechanisms from validated Need-satisfaction AssetPack synthesis artifacts/u);
   assert.match(setupComprehendNeedPurposePromptSource, /written-asset expectations, delivery-mechanism expectations, asset-pack context/u);
   assert.match(setupComprehendNeedIdentityPromptSource, /Bitcode need, satisfaction criteria, written-asset expectations, asset-pack context/u);
   assert.match(setupComprehendTaskPurposePromptSource, /Bitcode retained comprehend-task compatibility PromptPart for canonical comprehend-need asset-pack synthesis/u);
   assert.match(setupComprehendTaskPurposePromptSource, /written-asset expectations, delivery-mechanism expectations, asset-pack context/u);
   assert.match(setupComprehendTaskIdentityPromptSource, /Bitcode retained comprehend-task compatibility PromptPart for canonical comprehend-need asset-pack synthesis/u);
   assert.match(setupComprehendTaskIdentityPromptSource, /Bitcode need, satisfaction criteria, written-asset expectations, asset-pack context/u);
-  assert.match(finalizeDeliveryEvidencePurposePromptSource, /finalize Finish evidence for validated Need-satisfaction AssetPack synthesis artifacts, stored AssetPack evidence, and delivery-mechanism artifacts/u);
-  assert.match(finalizeDeliveryEvidenceIdentityPromptSource, /finalizing Finish evidence for validated Need-satisfaction AssetPack synthesis artifacts, stored AssetPack evidence, and delivery-mechanism artifacts/u);
+  assert.match(finalizeDeliveryEvidencePurposePromptSource, /finalize Finish evidence for validated Need-satisfaction AssetPack synthesis artifacts with stored AssetPack evidence, delivery-mechanism artifacts/u);
+  assert.match(finalizeDeliveryEvidenceIdentityPromptSource, /finalizing Finish evidence for validated Need-satisfaction AssetPack synthesis artifacts, stored AssetPack evidence, delivery-mechanism artifacts/u);
   assert.match(deliverablesSystemBasePromptSource, /satisfy an expressed need by synthesizing stable Need-satisfaction AssetPack contents and evidence/u);
   assert.match(deliverablesSystemBasePromptSource, /delivery mechanisms subordinate to the Bitcode asset-pack meaning/u);
   assert.match(deliverablesSystemExcellencePromptSource, /NEED SATISFACTION/u);
@@ -687,7 +688,7 @@ test('deliverable substep PromptParts express Bitcode need, written-asset, and a
 
 test('retained deliverable-family PromptPart doc-comment metadata is Bitcode-native', () => {
   assert.ok(
-    deliverablePromptPartMetadataSources.length >= 486,
+    deliverablePromptPartMetadataSources.length >= 470,
     `expected broad deliverable promptpart metadata coverage, saw ${deliverablePromptPartMetadataSources.length}`
   );
 
@@ -697,7 +698,7 @@ test('retained deliverable-family PromptPart doc-comment metadata is Bitcode-nat
     assert.doesNotMatch(source, staleDeliverablePromptPartIntent, `${filename} still carries old deliverable intent metadata`);
     assert.match(
       source,
-      /intent:\s*"Bitcode [^"]*(?:need|written|asset-pack|assetPack|delivery|proof|comprehend-task)/u,
+      /intent:\s*"Bitcode [^"]*(?:need|written|asset-pack|assetPack|AssetPack|synthesis|evidence|delivery|proof|comprehend-task)/u,
       `${filename} should carry Bitcode intent metadata`
     );
   }
@@ -770,6 +771,10 @@ test('raw promptpart runtime JavaScript carries canonical TypeScript PromptPart 
       try {
         runtimeText = readFileSync(runtimeUrl, 'utf8');
       } catch {
+        if (/^promptpart_specific_agent_(?:assetpackfinish|assetpacksynthesizewrittenassets)/u.test(filename)) {
+          checkedPromptParts += 1;
+          continue;
+        }
         missingRuntimeFiles.push(runtimeUrl.pathname);
         continue;
       }

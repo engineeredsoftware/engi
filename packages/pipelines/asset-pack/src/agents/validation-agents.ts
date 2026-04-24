@@ -1,7 +1,7 @@
 /**
  * Validation phase agents for the AssetPack pipeline.
  *
- * V26 validates the AssetPack as the canonical written asset. It does not
+ * V26 validates AssetPack synthesis artifacts and evidence. It does not
  * branch validation by pull-request, review, issue, or comment request labels;
  * those labels are Finish delivery-mechanism templates only.
  */
@@ -42,8 +42,8 @@ const discoveryValidationPrompt = createValidationPrompt(
 );
 
 const assetPackValidationPrompt = createValidationPrompt(
-  'You validate synthesized AssetPack written assets before Finish.',
-  'Validate one canonical AssetPack written-asset corridor. Do not select validation behavior from pull-request, issue, review, or comment labels.'
+  'You validate synthesized AssetPack artifacts before Finish stores evidence or invokes delivery mechanisms.',
+  'Validate one canonical AssetPack synthesis corridor. Do not select validation behavior from pull-request, issue, review, or comment labels.'
 );
 
 export const AssetPackValidationPhaseValidateLastValidationAgent = factoryAgentWithPTRR<
@@ -81,7 +81,7 @@ export const AssetPackValidationPhaseValidateWrittenAssetsAgent = factoryAgentWi
   z.infer<typeof ValidateIssuesOutputSchema>
 >({
   name: 'asset-pack-validate-written-assets-agent',
-  description: 'Validates synthesized AssetPack written assets without delivery-template branching',
+  description: 'Validates synthesized AssetPack artifacts without delivery-template branching',
   outputSchema: ValidateIssuesOutputSchema,
   prompt: assetPackValidationPrompt,
   stepPrompts: { plan: () => assetPackValidationPrompt, try: () => assetPackValidationPrompt, refine: () => assetPackValidationPrompt, retry: () => assetPackValidationPrompt },

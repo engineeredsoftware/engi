@@ -3,7 +3,7 @@ import { PromptPart } from '../../parts/PromptPart';
 /**
  * @doc-comment-developing-promptpartdevelopment
  * domain: pipeline
- * intent: "Bitcode retained deliverable-compatibility pipeline PromptPart for need-first asset-pack execution and delivery-mechanism separation: pipeline deliverable purpose corestatement"
+ * intent: "Bitcode AssetPack compatibility-route pipeline PromptPart for need-first asset-pack execution and delivery-mechanism separation: pipeline deliverable purpose corestatement"
  * current_version: "0.50.0"
  * versions: []
  * benchmarks: [
@@ -12,4 +12,4 @@ import { PromptPart } from '../../parts/PromptPart';
  * ]
  */
 export const PROMPTPART_SPECIFIC_PIPELINE_DELIVERABLE_PURPOSE_CORESTATEMENT: PromptPart = 
-  'Use the retained deliverable compatibility pipeline to execute a Bitcode need-satisfying asset-pack run: understand the need, synthesize stable written assets, and hand them to Finish delivery mechanisms through the SDIVF execution pattern' as PromptPart;
+  'Use the AssetPack compatibility route to execute a Bitcode need-satisfying asset-pack run: understand the need, synthesize AssetPack synthesis artifacts, store evidence in Finish, and optionally invoke delivery mechanisms through the SDIVF execution pattern' as PromptPart;

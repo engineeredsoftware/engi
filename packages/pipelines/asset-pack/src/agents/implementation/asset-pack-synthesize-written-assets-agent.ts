@@ -69,7 +69,7 @@ export const AssetPackSynthesizeWrittenAssetsAgent = factoryAgentWithPTRR<
   z.infer<typeof AssetPackSynthesisOutputSchema>
 >({
   name: 'asset-pack-synthesize-written-assets-agent',
-  description: 'Synthesizes Need-satisfying AssetPack written assets without selecting a delivery mechanism',
+  description: 'Synthesizes Need-satisfying AssetPack artifacts without selecting a delivery mechanism',
   outputSchema: AssetPackSynthesisOutputSchema,
   tools: [],
   prompt,

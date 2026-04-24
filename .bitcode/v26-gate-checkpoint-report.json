@@ -1,10 +1,10 @@
 {
   "reportId": "v26-gate-checkpoint-report",
   "version": "V26",
-  "proofSourceCommit": "be25660961700eed3c32163b8fdaa84a753adcc7",
-  "generatedAt": "2026-04-24T15:21:20-03:00",
+  "proofSourceCommit": "9cec2c889d46c04cff938a6e760a9ec315b21ff7",
+  "generatedAt": "2026-04-24T15:55:48-03:00",
   "generatorId": "bitcode.proven-generator.v1",
-  "worktreeState": "clean",
+  "worktreeState": "dirty-preview",
   "activeCanonicalTarget": "V26",
   "draftPreview": false,
   "checkpointId": "v26-fourth-gate-promoted-closed-and-fifth-gate-closure-deepened-on-eight-gate-v26",

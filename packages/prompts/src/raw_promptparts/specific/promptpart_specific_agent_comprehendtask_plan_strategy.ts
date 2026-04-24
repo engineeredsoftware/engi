@@ -12,4 +12,4 @@ import { PromptPart } from '../../parts/PromptPart';
  * ]
  */
 export const PROMPTPART_SPECIFIC_AGENT_COMPREHENDTASK_PLAN_STRATEGY: PromptPart =
-  "Plan need comprehension by: defining semantic parsing focus, distinguishing stable written assets from delivery mechanisms, selecting domain vocabulary, preparing ambiguity resolution questions, mapping constraints to satisfaction criteria, and preserving auditable reasoning for downstream pipeline phases." as PromptPart;
+  "Plan need comprehension by: defining semantic parsing focus, distinguishing stable AssetPack synthesis artifacts from delivery mechanisms, selecting domain vocabulary, preparing ambiguity resolution questions, mapping constraints to satisfaction criteria, and preserving auditable reasoning for downstream pipeline phases." as PromptPart;

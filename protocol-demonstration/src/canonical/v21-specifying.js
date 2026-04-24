@@ -1530,6 +1530,7 @@ export function buildV21GeneratedArtifactContents({
     requiredProofFamilyCount: specFamilyReport.requiredProofFamilyCount,
     requiredGeneratedArtifactCatalogSectionCount: specFamilyReport.requiredGeneratedArtifactCatalogSectionCount,
     requiredGeneratedArtifactPathCount: specFamilyReport.requiredGeneratedArtifactPathCount,
+    requiredKissSectionCount: specFamilyReport.requiredKissSectionCount,
     requiredSubsystemCoverageCount: specFamilyReport.requiredSubsystemCoverageCount
   };
 
