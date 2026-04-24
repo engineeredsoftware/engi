@@ -191,10 +191,3 @@ export const ComprehendNeedPrompts = {
 };
 
 export const createComprehendNeedPromptSet = () => ComprehendNeedPrompts;
-
-export const createComprehendTaskSystemPrompt = createComprehendNeedSystemPrompt;
-export const createComprehendTaskPlanPrompt = createComprehendNeedPlanPrompt;
-export const createComprehendTaskTryPrompt = createComprehendNeedTryPrompt;
-export const createComprehendTaskRefinePrompt = createComprehendNeedRefinePrompt;
-export const createComprehendTaskRetryPrompt = createComprehendNeedRetryPrompt;
-export const ComprehendTaskPrompts = ComprehendNeedPrompts;

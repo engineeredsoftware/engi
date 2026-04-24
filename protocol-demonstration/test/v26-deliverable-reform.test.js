@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { readFileSync, readdirSync } from 'node:fs';
+import { existsSync, readFileSync, readdirSync } from 'node:fs';
 
 const reformSource = readFileSync(new URL('../V26_DELIVERABLE_REFORM.md', import.meta.url), 'utf8');
 const pipelineSchemasSource = readFileSync(
@@ -19,26 +19,22 @@ const comprehendNeedSource = readFileSync(
   new URL('../../packages/pipelines/deliverable/src/agents/setup/deliverable-pipeline-comprehend-need-agent.ts', import.meta.url),
   'utf8'
 );
-const comprehendNeedAliasSource = readFileSync(
-  new URL('../../packages/pipelines/deliverable/src/agents/setup/deliverable-pipeline-comprehend-task-agent.ts', import.meta.url),
-  'utf8'
-);
 const comprehendNeedPromptSource = readFileSync(
   new URL('../../packages/pipelines/deliverable/src/agents/prompts/deliverable-pipeline-comprehend-need-agent-prompts.ts', import.meta.url),
-  'utf8'
-);
-const comprehendTaskOverlayCompatibilitySource = readFileSync(
-  new URL('../../packages/pipelines/deliverable/src/agents/prompts/deliverable-pipeline-comprehend-task-agent-prompts.ts', import.meta.url),
   'utf8'
 );
 const comprehendNeedBasePromptSource = readFileSync(
   new URL('../../packages/pipelines/deliverable/src/agents/prompts/comprehend-need-prompt.ts', import.meta.url),
   'utf8'
 );
-const comprehendTaskBaseCompatibilitySource = readFileSync(
-  new URL('../../packages/pipelines/deliverable/src/agents/prompts/comprehend-task-prompt.ts', import.meta.url),
-  'utf8'
-);
+const removedComprehendTaskEntrypoints = [
+  '../../packages/pipelines/deliverable/src/agents/setup/deliverable-pipeline-comprehend-task-agent.ts',
+  '../../packages/pipelines/deliverable/src/agents/setup/deliverable-pipeline-comprehend-task-agent.js',
+  '../../packages/pipelines/deliverable/src/agents/prompts/comprehend-task-prompt.ts',
+  '../../packages/pipelines/deliverable/src/agents/prompts/comprehend-task-prompt.js',
+  '../../packages/pipelines/deliverable/src/agents/prompts/deliverable-pipeline-comprehend-task-agent-prompts.ts',
+  '../../packages/pipelines/deliverable/src/agents/prompts/deliverable-pipeline-comprehend-task-agent-prompts.js',
+];
 const comprehendNeedRawIdentityPromptSource = readFileSync(
   new URL('../../packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_comprehendneed_system_identity.ts', import.meta.url),
   'utf8'
@@ -483,20 +479,22 @@ test('setup comprehension path mirrors semantic need and written-asset keys for 
   assert.match(comprehendNeedSource, /deliverable-pipeline-comprehend-need-agent-prompts/u);
   assert.match(comprehendNeedSource, /need_satisfaction_criteria/u);
   assert.match(comprehendNeedSource, /written_asset_types/u);
-  assert.match(comprehendNeedAliasSource, /deliverable-pipeline-comprehend-need-agent/u);
   assert.match(comprehendNeedPromptSource, /DP_COMPREHEND_NEED_SYSTEM_PROMPT/u);
   assert.match(comprehendNeedPromptSource, /PROMPTPART_SPECIFIC_AGENT_DELIVERABLESETUPCOMPREHENDNEED_IDENTITY_DEFINITION/u);
   assert.doesNotMatch(comprehendNeedPromptSource, /PROMPTPART_SPECIFIC_AGENT_DELIVERABLESETUPCOMPREHENDTASK_IDENTITY_DEFINITION/u);
   assert.match(comprehendNeedPromptSource, /pipeline:compatibility/u);
   assert.match(comprehendNeedPromptSource, /asset-pack-written-asset/u);
-  assert.match(comprehendNeedPromptSource, /DP_COMPREHEND_TASK_SYSTEM_PROMPT = DP_COMPREHEND_NEED_SYSTEM_PROMPT/u);
-  assert.match(comprehendTaskOverlayCompatibilitySource, /Compatibility entry point for the former task-named deliverable setup overlay/u);
-  assert.match(comprehendTaskOverlayCompatibilitySource, /export \* from '\.\/deliverable-pipeline-comprehend-need-agent-prompts';/u);
+  assert.doesNotMatch(comprehendNeedPromptSource, /DP_COMPREHEND_TASK_/u);
   assert.match(comprehendNeedBasePromptSource, /createComprehendNeedSystemPrompt/u);
   assert.match(comprehendNeedBasePromptSource, /PROMPTPART_SPECIFIC_AGENT_COMPREHENDNEED_SYSTEM_IDENTITY/u);
-  assert.match(comprehendNeedBasePromptSource, /ComprehendTaskPrompts = ComprehendNeedPrompts/u);
-  assert.match(comprehendTaskBaseCompatibilitySource, /Compatibility entry point for the former task-named prompt module/u);
-  assert.match(comprehendTaskBaseCompatibilitySource, /export \* from '\.\/comprehend-need-prompt';/u);
+  assert.doesNotMatch(comprehendNeedBasePromptSource, /ComprehendTaskPrompts/u);
+  for (const removedEntrypoint of removedComprehendTaskEntrypoints) {
+    assert.equal(
+      existsSync(new URL(removedEntrypoint, import.meta.url)),
+      false,
+      `${removedEntrypoint} must stay removed; canonical setup comprehension is comprehend-need`
+    );
+  }
   assert.match(comprehendNeedRawIdentityPromptSource, /Bitcode Comprehend Need Agent/u);
   assert.match(comprehendNeedRawIdentityPromptSource, /asset-pack synthesis and connected-interface shipping/u);
   assert.match(setupPhaseSource, /deliverable-pipeline-comprehend-need-agent/u);

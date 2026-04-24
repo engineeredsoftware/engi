@@ -35,7 +35,7 @@ The retained `packages/pipelines/deliverable/*` corridor is therefore interprete
 - `deliverableType`
   compatibility-only retained field naming for written-asset kind
 - `comprehend-task`
-  old-world step naming that must be repurposed to `comprehend-need`
+  old-world step naming; active setup and prompt module entry points are removed in favor of `comprehend-need`
 - `definitionOfDone`
   a retained input field that currently acts as one compatibility carrier for expressed need, acceptance shape, and written-asset expectation
 
@@ -48,7 +48,7 @@ While the path/package may remain `deliverable` during V26 for compatibility and
 - `Delivering` is the narrower Finish subresponsibility that provides AssetPacks or AssetPackPartials to third-party tools and destinations
 - the Finish phase may then emit `deliverables` only as connected-interface delivery mechanisms such as `Deliverable.GitHubPullRequest`, `Deliverable.JiraComment`, or similar wrappers around the stable asset-pack output
 - spec text must teach `asset pack` and `written asset` as the Bitcode semantics
-- comments, descriptions, and exported aliases inside the retained corridor should prefer `comprehend need` over `comprehend task` where behavior is truly about need understanding
+- comments, descriptions, and exported names inside the retained corridor should use `comprehend need` where behavior is about Need understanding
 - execution stores and postprocessed artifacts should mirror compatibility keys with semantic `need`, `writtenAssetType`, and asset-pack-shaped snapshots so later-gate reform can remove the retained names without losing continuity
 - internal phase, validation, Finish/Delivering, and reread logic should resolve semantic `writtenAssetType` and `need` first so the retained corridor shapes live protocol behavior through Bitcode's commercial infrastructure rather than silently recentering old-world `deliverableType` logic
 - read routes, workspace-run summaries, mock reread projections, and active UI detail surfaces should prefer semantic `writtenAssets` for Bitcode-owned summary and file-change meaning, then fall back through `deliveryMechanism` and only finally compatibility `deliverables`, while PR/review/comment/issue surfaces remain shipping wrappers
@@ -63,14 +63,14 @@ While the path/package may remain `deliverable` during V26 for compatibility and
 - retained deliverable substep PromptParts such as `*_substep_reason`, `*_substep_prepare_concise_context`, `*_substep_chunk_then_sum`, `*_substep_tools_execution`, `*_substep_structured_output`, `*_substep_stitch_until_complete`, and `*_substep_judge` must no longer use generic old-world agent phrasing; each substep must explicitly carry Bitcode need, written-asset, asset-pack, proof-evidence, delivery-wrapper, and execution-history reread semantics appropriate to its role
 - retained raw PromptPart TypeScript files, generated declaration metadata, and runtime JavaScript carry-through must remain parseable and content-equivalent after broad reform, so malformed benchmark score metadata or stale runtime PromptPart strings cannot preserve old-world behavior after canonical source text has moved
 - retained deliverable substep doc-comment metadata must also be reauthored as Bitcode metadata: `current_version` may not carry pre-Bitcode lineage, and each `intent` must describe the need-first written-asset / asset-pack / proof / delivery-wrapper role rather than only restating old compatibility file names
-- setup/bootstrap entry points and prompt ports should prefer canonical `comprehend-need` module paths, `COMPREHENDNEED` base PromptParts, and deliverable-corridor `DELIVERABLESETUPCOMPREHENDNEED` PromptParts; discovery carriers should admit semantic `need` / `writtenAssetType` directly, with `deliverable-pipeline-comprehend-need-agent` acting as the active setup owner while retained `comprehend-task` / `DELIVERABLESETUPCOMPREHENDTASK` / `deliverableType` modules remain only as compatibility shells or wrappers
+- setup/bootstrap entry points and prompt ports must use canonical `comprehend-need` module paths, `COMPREHENDNEED` base PromptParts, and deliverable-corridor `DELIVERABLESETUPCOMPREHENDNEED` PromptParts; discovery carriers should admit semantic `need` / `writtenAssetType` directly, with `deliverable-pipeline-comprehend-need-agent` acting as the active setup owner while retained raw PromptPart compatibility names remain bounded proof inputs rather than active module paths
 - retained maintenance/audit scripts that operate on this corridor must resolve active paths from the repository root, inspect current raw PromptPart locations, and teach `comprehend-need` / asset-pack-run semantics instead of hard-coded old-world checkouts or `comprehend-task` ownership
 - retained repair, generation, and export-verification scripts must use the active `raw_promptparts` filesystem, `PROMPTPART_*` constants, portable shell/Python path resolution, and Bitcode asset-pack prompt semantics instead of the removed `raw/specific` prompt tree or old-world `@engi` import expectations
 - retained discovery outputs should mirror compatibility `deliverables` / `definitionOfDone` fields with semantic `writtenAssets` / `needSatisfactionCriteria` so downstream Bitcode reread and later-gate renaming do not have to recover meaning from old-world labels alone
 - retained corridor entry initialization must also hydrate a registry-bearing pipeline execution context when callers still enter through a bare `Execution`, so the commercial runtime remains phase/agent/prompt/tool legible instead of depending on hidden `PipelineExecution` assumptions
 - the retained package itself must clear an honest local typecheck boundary through the MCP/VCS/prompt/search support graph it still traverses, so runtime proof and asset-pack semantics are backed by a truthful source boundary rather than broad monorepo success alone
 - new-world semantic aliases should be added before broad destructive renames
-- old names may remain as compatibility aliases until later-gate convergence removes the corridor entirely
+- old names may remain as bounded raw PromptPart or storage compatibility only when active code names expose canonical Bitcode meaning first
 - `SDIVS` / `shipping` compatibility APIs must forward to `SDIVF` / `finish` behavior rather than preserving old broad Shipping semantics
 - tactical deprecated exports remain admissible only when they are explicitly marked as compatibility aliases and are paired with precise canonical Bitcode names; full V26 closure requires removing these aliases rather than treating compatibility as canon
 

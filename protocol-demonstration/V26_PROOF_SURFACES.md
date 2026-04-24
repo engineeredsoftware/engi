@@ -1134,7 +1134,7 @@ Required closure posture:
   filtered `tsc` verification over the active `uapi` program for the Bitcode asset-pack tool wrapper and Finish/Delivering corridor
   proof surface:
   fifth-gate caller-contract compile-health closure so asset-pack tool wrappers now forward through the current single-input Bitcode tool contract, optional validation/Delivering tools no longer leak `undefined` into typed registries, and the Finish agent no longer preserves raw-string prompt-part drift or duplicate-Zod output-schema identity mismatches
-- `{packages/pipelines/deliverable/src/{agents/{implementation/*.ts,setup/deliverable-pipeline-comprehend-task-agent.ts},phases/{setup.ts,design.ts,digest.ts,discovery.ts,implementation.ts,index.ts},index.ts,preprocess.ts,postprocess.ts},packages/pipelines-generics/src/{execution/PipelineExecutor.ts,phases/sdivs-factory.ts,streaming/pipeline-stream-integration.ts}}`
+- `{packages/pipelines/deliverable/src/{agents/{implementation/*.ts,setup/deliverable-pipeline-comprehend-need-agent.ts},phases/{setup.ts,design.ts,digest.ts,discovery.ts,implementation.ts,index.ts},index.ts,preprocess.ts,postprocess.ts},packages/pipelines-generics/src/{execution/PipelineExecutor.ts,phases/sdivs-factory.ts,streaming/pipeline-stream-integration.ts}}`
   test coverage:
   filtered `tsc` verification over the active `uapi` program for the retained deliverable phase/index/setup corridor
   proof surface:
