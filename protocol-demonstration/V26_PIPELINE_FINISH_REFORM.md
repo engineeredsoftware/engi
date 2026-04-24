@@ -21,7 +21,7 @@ Therefore:
 - `Finish` owns saving results, preserving useful Need/AssetPack state, completing summaries, and invoking Delivering when the run needs a third-party destination.
 - `Delivering` owns connected-interface output such as GitHub pull requests, Jira comments, issue comments, reviews, or similar destination-specific mechanisms.
 - `Deliverable` remains compatibility naming for old public corridors and wrapper payloads, not the general pipeline category.
-- Deprecated names, compatibility wrappers, and old filesystem labels are tactical fifth-gate aids, not V26 closure evidence.
+- Deprecated names, compatibility wrappers, and any remaining old filesystem labels are tactical fifth-gate aids, not V26 closure evidence.
 
 ## Pipeline Naming
 
@@ -33,7 +33,7 @@ Examples:
 - `FindFittingSettlementPipeline`
 - exact domain-specific Bitcode need pipelines
 
-The retained `deliverable` package is a compatibility corridor for asset-pack written-asset synthesis and destination delivery. It is not the primary abstraction for every Bitcode agentic pipeline.
+The retained AssetPack package is a compatibility-mounted corridor for written-asset synthesis and destination delivery. It is not the primary abstraction for every Bitcode agentic pipeline, and `packages/pipelines/deliverable` is no longer an active filesystem owner.
 
 ## Implementation Requirements
 
@@ -43,7 +43,7 @@ Active source must satisfy the following:
 - Deprecated `SDIVS` / `shipping` factories may remain only as wrappers that map their final phase to canonical `finish`.
 - Runtime execution metadata should store `pipeline.pattern = "SDIVF"` and final phase state as `phase.current = "finish"` for canonical paths.
 - Metrics, streaming completion, prompt registries, and primitive phase mappers must understand `finish` first and tolerate `shipping` only as a migration alias.
-- The retained deliverable corridor must execute `deliverablePhases.finish` through `finish:*` agent keys, while registering `shipping:*` aliases only for promptpart and caller compatibility.
+- The retained AssetPack corridor must execute `deliverablePhases.finish` through `finish:*` agent keys, while registering `shipping:*` aliases only for promptpart and caller compatibility.
 - Finish agents may reuse old-world Ship implementations only after their prompts, descriptions, execution stores, and summaries describe Bitcode Need, AssetPack, WrittenAsset, proof evidence, and Delivering semantics.
 - Postprocess and reread should prefer `finish/final_work_summary` and `finish` stores, then fall back to old `shipping` stores during the V26 migration.
 - Deprecated `Ship`, `Shipping`, `ReadyToShip`, `FinalizeShipment`, and `Deliverable` compatibility names must always point to a more precise canonical replacement and a later-gate removal condition.

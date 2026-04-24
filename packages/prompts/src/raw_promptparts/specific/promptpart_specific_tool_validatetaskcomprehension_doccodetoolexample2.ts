@@ -14,4 +14,4 @@
 import type { PromptPart } from '../../parts/PromptPart';
 
 export const PROMPTPART_SPECIFIC_TOOL_VALIDATETASKCOMPREHENSION_DOCCODETOOLEXAMPLE2: PromptPart =
-  "Example 2 - Compatibility residue detection: validateNeedComprehension({ needComprehension: { deliverableType: \"pull-request\", definitionOfDone: \"ship it\" }, validationCriteria: { completenessThreshold: 0.9 } }) -> flags missing need, satisfaction criteria, proof plan, and wrapper boundaries." as PromptPart;
+  "Example 2 - Compatibility residue detection: validateNeedComprehension({ needComprehension: { deliverableType: \"pull-request\", definitionOfNeed: \"ship it\" }, validationCriteria: { completenessThreshold: 0.9 } }) -> flags missing need, satisfaction criteria, proof plan, and wrapper boundaries." as PromptPart;

@@ -5,12 +5,12 @@ import '@/tests/setupTests';
 jest.mock('@bitcode/logger', () => ({ log: jest.fn() }));
 jest.mock('@bitcode/context', () => ({ getGlobalContext: jest.fn() }));
 jest.mock('@bitcode/streams', () => ({ writeStreamMessage: jest.fn() }));
-jest.mock('@bitcode/pipeline-deliverable/src/phases/setup', () => ({ runSetupDeliverables: jest.fn() }));
+jest.mock('@bitcode/pipeline-asset-pack/src/phases/setup', () => ({ runSetupDeliverables: jest.fn() }));
 jest.mock('@bitcode/engine/pipeline/metrics', () => ({ updatePeakMemory: jest.fn(), createPipelineMetrics: jest.fn(() => ({ totalTokensUsed: 0, totalApiCalls: 0, phaseTimings: { setup: 0 } })), validatePipelineConfig: jest.fn(() => ({ maxIterations: 1, validationThreshold: 0, retryDelayMs: 0, maxRetries: 0 })) }));
 
 import { getGlobalContext } from '@bitcode/context';
 import { writeStreamMessage } from '@bitcode/streams';
-import { runSetupDeliverables } from '@bitcode/pipeline-deliverable';
+import { runSetupDeliverables } from '@bitcode/pipeline-asset-pack';
 import { executeSetupPhase } from '@bitcode/engine/pipeline/pipelineSetupPhaseWrapper';
 
 describe('executeSetupPhase', () => {

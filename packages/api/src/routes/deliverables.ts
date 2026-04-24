@@ -1,7 +1,8 @@
 /**
- * Deliverables API Route Handlers
+ * AssetPack API Route Handlers
  *
- * Retained compatibility route handlers for asset-pack shipping pipeline runs.
+ * Retained `/api/deliverables` compatibility route handlers for AssetPack
+ * pipeline runs with Finish/Delivering semantics.
  * All database operations use ORM, all VCS operations use VCS service.
  */
 
@@ -19,7 +20,7 @@ import {
   PipelineExecution,
   inferPipelineExecutionLineage
 } from '@bitcode/pipelines-generics/src/execution/PipelineExecution';
-import { deliverablePipeline } from '@bitcode/pipeline-deliverable';
+import { assetPackPipeline } from '@bitcode/pipeline-asset-pack';
 import { factoryLLMRegistryWithProviders } from '@bitcode/generic-llms';
 import { sendServerEvent } from '@bitcode/google-analytics';
 import { BitcodeError, reportError } from '@bitcode/errors';
@@ -455,8 +456,8 @@ export const GET = traceRoute('/deliverables', async (request: NextRequest) => {
 /**
  * POST /api/deliverables
  * 
- * Create and execute the retained compatibility route for an asset-pack
- * shipping pipeline run.
+ * Create and execute the retained compatibility route for an AssetPack
+ * SDIVF pipeline run.
  * 
  * Flow:
  * 1. Parse request (JSON or multipart with file uploads)
@@ -465,7 +466,7 @@ export const GET = traceRoute('/deliverables', async (request: NextRequest) => {
  * 4. Create pipeline execution in database
  * 5. Initialize SSE stream for real-time updates
  * 6. Store context in Execution (VCS, attachments, OTF instructions)
- * 7. Execute SDIVS pipeline (Setup → Discovery → Implementation → Validation → Shipping)
+ * 7. Execute SDIVF pipeline (Setup -> Discovery -> Implementation -> Validation -> Finish)
  * 8. Stream events to client and persist to database
  * 9. Handle completion or failure with BTD balance refunds.
  * Returns streaming response with pipeline events.
@@ -570,7 +571,8 @@ export const POST = traceRoute('/deliverables', async (request: NextRequest) => 
     }
     
     const {
-      definition_of_done,
+      definition_of_need: raw_definition_of_need,
+      definition_of_done: compatibility_definition_of_done,
       repoOwner,
       repoName,
       repoBranch,
@@ -596,12 +598,20 @@ export const POST = traceRoute('/deliverables', async (request: NextRequest) => 
       sessionId
     } = body;
 
+    const definition_of_need =
+      typeof raw_definition_of_need === 'string'
+        ? raw_definition_of_need
+        : typeof compatibility_definition_of_done === 'string'
+        ? compatibility_definition_of_done
+        : '';
+
     const computerUseNeedMeasurementEnabled =
       process.env.BITCODE_ENABLE_COMPUTER_USE_NEED_MEASUREMENT === 'true';
     // Validate inputs
     log('[deliverables] Validating inputs', 'debug', {
       correlationId,
-      hasDefinitionOfDone: !!definition_of_done,
+      hasDefinitionOfNeed: !!definition_of_need,
+      hasCompatibilityDefinitionOfDone: !!compatibility_definition_of_done,
       hasRepo: !!repoOwner && !!repoName,
       hasBranch: !!repoBranch,
       attachmentCount: attachments?.length || 0,
@@ -611,12 +621,12 @@ export const POST = traceRoute('/deliverables', async (request: NextRequest) => 
       enhanceWithHistory
     });
     
-    if (!definition_of_done?.trim()) {
-      log('[deliverables] Validation failed: missing definition of done', 'warn', { correlationId });
-      throw new BitcodeError('Definition of done is required', {
-        code: 'MISSING_DEFINITION_OF_DONE',
+    if (!definition_of_need.trim()) {
+      log('[deliverables] Validation failed: missing definition of need', 'warn', { correlationId });
+      throw new BitcodeError('Definition of Need is required', {
+        code: 'MISSING_DEFINITION_OF_NEED',
         status: 400,
-        userMessage: 'Please provide a definition of done'
+        userMessage: 'Please provide a Definition of Need'
       });
     }
 
@@ -657,7 +667,7 @@ export const POST = traceRoute('/deliverables', async (request: NextRequest) => 
       status: 'running',
       guide: gate, // Server terminology remains Gate; UI converts to Guide
       input: {
-        definitionOfDone: definition_of_done,
+        definitionOfNeed: definition_of_need,
         repoOwner,
         repoName,
         repoBranch,
@@ -669,7 +679,7 @@ export const POST = traceRoute('/deliverables', async (request: NextRequest) => 
       config: { provider: modelProvider, modelId } as any,
       metadata: {
         repository: `${repoOwner}/${repoName}`,
-        definitionOfDone: definition_of_done
+        definitionOfNeed: definition_of_need
       } as any,
       started_at: nowIso,
       created_at: nowIso,
@@ -681,7 +691,7 @@ export const POST = traceRoute('/deliverables', async (request: NextRequest) => 
     try { if (process.env.BITCODE_LOG_TO_FILE === '1') reinitLoggerFile(runId, { prefix: 'deliverables-run' }); } catch {}
 
     const routeSemanticAssetPack = {
-      need: definition_of_done,
+      need: definition_of_need,
       deliveryTarget: 'pr' as const,
     };
     let finalWorkSummary: any = undefined;
@@ -700,7 +710,7 @@ export const POST = traceRoute('/deliverables', async (request: NextRequest) => 
       iteration_count: iterationCount,
       semantic_event_type: 'asset_pack_run_created',
       semantic_kind: 'asset-pack-written-asset',
-      need: definition_of_done,
+      need: definition_of_need,
       asset_pack: routeSemanticAssetPack,
       delivery_target: routeSemanticAssetPack.deliveryTarget,
     });
@@ -716,7 +726,7 @@ export const POST = traceRoute('/deliverables', async (request: NextRequest) => 
           runId,
           semanticEventType: 'asset_pack_run_started',
           semanticKind: 'asset-pack-written-asset',
-          need: definition_of_done,
+          need: definition_of_need,
           assetPack: routeSemanticAssetPack,
         }
       });
@@ -781,7 +791,7 @@ export const POST = traceRoute('/deliverables', async (request: NextRequest) => 
         log('[deliverables] Pipeline execution starting', 'info', {
           correlationId,
           runId,
-          definitionOfDone: definition_of_done.substring(0, 100),
+          definitionOfNeed: definition_of_need.substring(0, 100),
           repo: `${repoOwner}/${repoName}`,
           branch: repoBranch,
           modelProvider,
@@ -899,7 +909,8 @@ export const POST = traceRoute('/deliverables', async (request: NextRequest) => 
         execution.store('repository', 'name', repoName);
         execution.store('repository', 'branch', repoBranch);
         execution.store('repository', 'commit', repoCommit);
-        execution.store('dod', 'description', definition_of_done);
+        execution.store('need', 'definition', definition_of_need);
+        execution.store('need-definition', 'description', definition_of_need);
         execution.store('config', 'computerUseNeedMeasurementEnabled', computerUseNeedMeasurementEnabled);
         execution.store('config', 'iterationCount', iterationCount);
         execution.store('attachments', 'list', attachments);
@@ -913,7 +924,8 @@ export const POST = traceRoute('/deliverables', async (request: NextRequest) => 
         // IMPORTANT: attachments field was missing before - now properly passed to pipeline
         // This allows agents to access user-provided files, URLs, and issues
         const pipelineInput = {
-          definitionOfDone: definition_of_done,
+          definitionOfNeed: definition_of_need,
+          need: definition_of_need,
           repository: {
             url: `https://github.com/${repoOwner}/${repoName}`,
             branch: repoBranch
@@ -946,11 +958,11 @@ export const POST = traceRoute('/deliverables', async (request: NextRequest) => 
               scope: 'internal-need-measurement',
               v26Status: 'basic-reform-only-full-capability-deferred',
             },
-            need: definition_of_done,
+            need: definition_of_need,
             deliveryTarget: 'pr',
             semanticKind: 'asset-pack-written-asset' as const,
             assetPack: {
-              need: definition_of_done,
+              need: definition_of_need,
               deliveryTarget: 'pr',
             },
           };
@@ -961,7 +973,7 @@ export const POST = traceRoute('/deliverables', async (request: NextRequest) => 
         // Execute pipeline with canonical $BTD reservation
         log('[deliverables] Starting pipeline execution', 'info', {
           correlationId,
-          phases: ['setup', 'discovery', 'implementation', 'validation', 'shipping'],
+          phases: ['setup', 'discovery', 'implementation', 'validation', 'finish'],
           maxIterations: iterationCount
         });
         
@@ -969,8 +981,8 @@ export const POST = traceRoute('/deliverables', async (request: NextRequest) => 
 
         const result = await withBtdReservation(
           user.id,
-          async (_reservation) => deliverablePipeline(pipelineInput, execution!),
-          { pipelineType: 'deliverable' }
+          async (_reservation) => assetPackPipeline(pipelineInput, execution!),
+          { pipelineType: 'asset-pack' }
         );
         
         const pipelineDuration = Date.now() - pipelineStartTime;
@@ -1220,12 +1232,12 @@ export const POST = traceRoute('/deliverables', async (request: NextRequest) => 
           ...(executionData?.namespaces ? { namespaces: executionData.namespaces } : {}),
           ...(executionData?.data ? { data: executionData.data } : {}),
           repository: `${repoOwner}/${repoName}`,
-          definitionOfDone: definition_of_done,
+          definitionOfNeed: definition_of_need,
           durationMs: Date.now() - startTime,
           guide: execution?.get('meta', 'phase') || gate,
           deliverableType,
           writtenAssetType: finalWorkSummary?.writtenAssetType || deliverableType,
-          need: finalWorkSummary?.need || preprocessedSnapshot?.need || definition_of_done,
+          need: finalWorkSummary?.need || preprocessedSnapshot?.need || definition_of_need,
           assetPack: finalWorkSummary?.assetPack || preprocessedSnapshot?.assetPack || null,
           semanticKind:
             finalWorkSummary?.writtenAssets ||
@@ -1264,7 +1276,7 @@ export const POST = traceRoute('/deliverables', async (request: NextRequest) => 
           const completionNeed =
             finalWorkSummary?.need ||
             preprocessedSnapshot?.need ||
-            definition_of_done;
+            definition_of_need;
           const completionWrittenAssetType =
             finalWorkSummary?.writtenAssetType ||
             preprocessedSnapshot?.writtenAssetType ||
@@ -1310,7 +1322,7 @@ export const POST = traceRoute('/deliverables', async (request: NextRequest) => 
           success: true,
           semantic_event_type: 'asset_pack_run_completed',
           semantic_kind: 'asset-pack-written-asset',
-          need: finalWorkSummary?.need || preprocessedSnapshot?.need || definition_of_done,
+          need: finalWorkSummary?.need || preprocessedSnapshot?.need || definition_of_need,
           written_asset_type:
             finalWorkSummary?.writtenAssetType ||
             preprocessedSnapshot?.writtenAssetType ||
@@ -1386,7 +1398,7 @@ export const POST = traceRoute('/deliverables', async (request: NextRequest) => 
           error_message: reportedError.message,
           semantic_event_type: 'asset_pack_run_failed',
           semantic_kind: 'asset-pack-written-asset',
-          need: finalWorkSummary?.need || definition_of_done,
+          need: finalWorkSummary?.need || definition_of_need,
           written_asset_type: finalWorkSummary?.writtenAssetType || null,
           asset_pack: finalWorkSummary?.assetPack || routeSemanticAssetPack,
         });

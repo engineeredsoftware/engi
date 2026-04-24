@@ -435,7 +435,7 @@ export * from "./promptpart_specific_agent_deliverablesetupcomprehendneed_capabi
 export * from "./promptpart_specific_agent_deliverablesetupcomprehendneed_identity_definition.d";
 export * from "./promptpart_specific_agent_deliverablesetupcomprehendneed_identity_definition";
 export * from "./promptpart_specific_agent_deliverablesetupcomprehendneed_output_attachments_spec";
-export * from "./promptpart_specific_agent_deliverablesetupcomprehendneed_output_dodanalysis_spec";
+export * from "./promptpart_specific_agent_deliverablesetupcomprehendneed_output_needdefinitionanalysis_spec";
 export * from "./promptpart_specific_agent_deliverablesetupcomprehendneed_output_types_spec";
 export * from "./promptpart_specific_agent_deliverablesetupcomprehendneed_plan_modality_audio_strategy";
 export * from "./promptpart_specific_agent_deliverablesetupcomprehendneed_plan_modality_image_strategy.d";
@@ -459,7 +459,7 @@ export * from "./promptpart_specific_agent_deliverablesetupcomprehendtask_capabi
 export * from "./promptpart_specific_agent_deliverablesetupcomprehendtask_identity_definition.d";
 export * from "./promptpart_specific_agent_deliverablesetupcomprehendtask_identity_definition";
 export * from "./promptpart_specific_agent_deliverablesetupcomprehendtask_output_attachments_spec";
-export * from "./promptpart_specific_agent_deliverablesetupcomprehendtask_output_dodanalysis_spec";
+export * from "./promptpart_specific_agent_deliverablesetupcomprehendtask_output_needdefinitionanalysis_spec";
 export * from "./promptpart_specific_agent_deliverablesetupcomprehendtask_output_types_spec";
 export * from "./promptpart_specific_agent_deliverablesetupcomprehendtask_plan_modality_audio_strategy";
 export * from "./promptpart_specific_agent_deliverablesetupcomprehendtask_plan_modality_image_strategy.d";

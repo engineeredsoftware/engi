@@ -28,7 +28,7 @@ test.describe('Deliverables Flows', () => {
     );
   });
 
-  test('first-time deliverable with manual DoD', async ({ page }) => {
+  test('first-time deliverable with manual Definition of Need', async ({ page }) => {
     await page.goto('/executions?type=pipeline:deliverables');
     // Step: Account load
     await page.waitForSelector('[data-testid="gh-account"]');
@@ -82,7 +82,7 @@ test.describe('Deliverables Flows', () => {
         .toMatchSnapshot('deliverables-flow-issue-selected.png');
     }
     // Step: enter task description
-    await page.fill('[data-testid="execution-dod-input"]', 'Implement feature X');
+    await page.fill('[data-testid="execution-need-definition-input"]', 'Implement feature X');
     await page.waitForTimeout(300);
     expect(await page.screenshot({ fullPage: true }))
       .toMatchSnapshot('deliverables-flow-task.png');

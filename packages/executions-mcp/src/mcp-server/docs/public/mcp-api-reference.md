@@ -72,7 +72,7 @@ interface Attachment {
 ## Pipeline Tools
 
 ### Deliverable Creation
-**Tool**: `bitcode://pipelines/deliverable/create`
+**Tool**: `bitcode://pipelines/asset-pack/create`
 
 Create production-ready features with comprehensive testing and documentation.
 
@@ -119,7 +119,7 @@ interface DeliverableResponse {
 
 #### Example Usage
 ```javascript
-const result = await client.callTool('bitcode://pipelines/deliverable/create', {
+const result = await client.callTool('bitcode://pipelines/asset-pack/create', {
   task: "Create a user authentication system with JWT tokens, password hashing, and email verification",
   repository: {
     owner: "mycompany",

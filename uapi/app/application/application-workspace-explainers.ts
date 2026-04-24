@@ -437,7 +437,7 @@ export const APPLICATION_INLINE_EXPLAINERS = {
   branchMode: buildExplainer({
     title: 'Branch mode',
     summary:
-      'Branch mode sets the exact branch-artifact execution posture that the terminal will materialize when you commit the flow.',
+      'Branch mode sets the exact AssetPack execution posture that the terminal will materialize when you commit the flow.',
     detail:
       'This keeps branch creation as a visible Bitcode decision with direct settlement and proof consequences instead of a hidden runtime default.',
     references: {

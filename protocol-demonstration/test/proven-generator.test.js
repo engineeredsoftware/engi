@@ -356,7 +356,7 @@ test('V26 proven generator renders the active Bitcode appendix with fourth gate 
   );
   assert.equal(
     generated.data.v26.retainedPackageAdmissibilityProof.packageCensus.some((entry) =>
-      entry.packagePath === 'packages/pipelines/deliverable/package.json' &&
+      entry.packagePath === 'packages/pipelines/asset-pack/package.json' &&
       entry.primaryRole === 'compatibility'
     ),
     true,

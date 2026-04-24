@@ -90,7 +90,7 @@ describe('E2E: Conversation → Digest → Pipeline Flow (unit-backed)', () => {
   describe('Message Processing & Response Selection', () => {
     const pipelineData: PipelineLogsDetailedData = {
       runId: 'run-digest',
-      pipelineType: 'deliverable',
+      pipelineType: 'asset-pack',
       status: 'running',
       currentPhase: 'plan',
       progress: { completed: 1, total: 4, percentage: 25 },

@@ -40,7 +40,7 @@ export const Default: Story = {
   ...Template,
   args: {
     isProcessing: false,
-    placeholder: 'Definition of Done...',
+    placeholder: 'Definition of Need...',
     initialTask: '',
   },
 };
@@ -49,7 +49,7 @@ export const Processing: Story = {
   ...Template,
   args: {
     isProcessing: true,
-    placeholder: 'Definition of Done...',
+    placeholder: 'Definition of Need...',
     initialTask: 'Existing task content',
   },
 };
@@ -63,7 +63,7 @@ export const WithAttachments: Story = {
   name: 'With attachments',
   args: {
     isProcessing: false,
-    placeholder: 'Definition of Done...',
+    placeholder: 'Definition of Need...',
     initialTask: 'Profile the new indexing pipeline and optimise hotspots',
   },
   render: (args) => {

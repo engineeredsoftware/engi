@@ -173,7 +173,7 @@ function buildMockAssistantReply(content: string) {
   const normalized = content.trim();
 
   if (!normalized) {
-    return 'Bitcode mock mode is active. Ask for need measurement, branch-artifact execution, source attachment, or settlement-bound output to inspect the fullscreen conversation flow.';
+    return 'Bitcode mock mode is active. Ask for need measurement, AssetPack execution, source attachment, or settlement-bound output to inspect the fullscreen conversation flow.';
   }
 
   return `Bitcode mock mode received "${normalized}". The conversation surface is now mounted inside the Bitcode Terminal and can bind source attachments, asset packs, output destinations, and settlement-bound proofs as V26 converges.`;
@@ -195,7 +195,7 @@ function normalizeConversationExecutionType(token?: ConversationToken) {
   }
 
   if (normalized === 'asset_pack') {
-    return 'agentic-execution:branch-artifact';
+    return 'agentic-execution:asset-pack';
   }
 
   if (normalized === 'need_measurement') {

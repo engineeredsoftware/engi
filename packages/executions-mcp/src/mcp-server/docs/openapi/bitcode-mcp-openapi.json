@@ -363,7 +363,7 @@
                           "name": {
                             "type": "string",
                             "description": "Tool identifier",
-                            "example": "bitcode://pipelines/deliverable/create"
+                            "example": "bitcode://pipelines/asset-pack/create"
                           },
                           "description": {
                             "type": "string",
@@ -404,7 +404,7 @@
                   "name": {
                     "type": "string",
                     "description": "Tool name to execute",
-                    "example": "bitcode://pipelines/deliverable/create"
+                    "example": "bitcode://pipelines/asset-pack/create"
                   },
                   "arguments": {
                     "type": "object",
@@ -417,7 +417,7 @@
                   "summary": "Create Feature Deliverable",
                   "description": "Example of creating a complete feature with pull request",
                   "value": {
-                    "name": "bitcode://pipelines/deliverable/create",
+                    "name": "bitcode://pipelines/asset-pack/create",
                     "arguments": {
                       "task": "Create user authentication system with JWT tokens, password hashing, email verification, and password reset functionality",
                       "repository": {

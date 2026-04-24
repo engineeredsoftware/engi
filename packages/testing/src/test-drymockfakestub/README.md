@@ -59,13 +59,13 @@ Following Bitcode's pattern:
 - TestParts → TestCompositions → TestScenarios → TestSuites
 - Each level inherits and extends the previous
 
-### 3. SDIVS Testing Phases
-Tests organized by the same phases as pipelines:
+### 3. SDIVF Testing Phases
+Tests organized by the same phases as Bitcode phased pipelines:
 - **Setup**: Test environment preparation
 - **Discovery**: Finding relevant test data
 - **Implementation**: Executing test scenarios
 - **Validation**: Verifying test results
-- **Shipping**: Cleanup and reporting
+- **Finish**: Cleanup, evidence capture, and delivery-mechanism reporting
 
 ### 4. Unified Data Generation
 Single source of truth for all test data:
@@ -199,7 +199,7 @@ export const DELIVERABLE_FLOW_SCENARIO = createTestScenario({
 
 ### Using in Tests
 ```typescript
-describe('Deliverable Pipeline', () => {
+describe('AssetPack Pipeline', () => {
   const scenario = TestIntelligence.getScenario('complete-deliverable-flow');
   
   it('should handle PR with conflicts', async () => {
@@ -214,7 +214,7 @@ describe('Deliverable Pipeline', () => {
 ### Using in Storybook
 ```typescript
 export default {
-  title: 'Pipelines/Deliverable',
+  title: 'Pipelines/AssetPack',
   decorators: [withTestIntelligence],
   parameters: {
     testScenario: 'complete-deliverable-flow'

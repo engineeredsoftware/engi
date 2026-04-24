@@ -93,7 +93,7 @@ describe('application-activity-history', () => {
   it('builds execution history writes from the selected repository context', () => {
     const request = buildApplicationExecutionHistoryRequest(
       {
-        type: 'agentic-execution:branch-artifact',
+        type: 'agentic-execution:asset-pack',
         summary: 'Deposited a Bitcode asset pack.',
         context: {
           source: 'application-deposit-composer',
@@ -102,7 +102,7 @@ describe('application-activity-history', () => {
       { repositoryContext },
     );
 
-    expect(request.pipeline_type).toBe('agentic-execution:branch-artifact');
+    expect(request.pipeline_type).toBe('agentic-execution:asset-pack');
     expect(request.output).toMatchObject({
       summary: 'Deposited a Bitcode asset pack.',
       repo_snapshot: {
@@ -259,7 +259,7 @@ describe('application-activity-history', () => {
       {
         id: 'older',
         created_at: '2026-04-21T10:00:00.000Z',
-        type: 'agentic-execution:branch-artifact',
+        type: 'agentic-execution:asset-pack',
         status: 'completed',
       },
       {
@@ -281,7 +281,7 @@ describe('application-activity-history', () => {
     expect(nextRuns[0].created_at).toBe('2026-04-21T12:30:00.000Z');
   });
 
-  it('builds give-side workbench drafts as canonical branch-artifact activity', () => {
+  it('builds give-side workbench drafts as canonical AssetPack activity', () => {
     const draft = buildApplicationGiveWorkbenchDraft({
       canonLabel: 'Bitcode active posture',
       projectionPrincipal: 'giver',
@@ -313,7 +313,7 @@ describe('application-activity-history', () => {
     });
 
     expect(draft).toMatchObject({
-      type: 'agentic-execution:branch-artifact',
+      type: 'agentic-execution:asset-pack',
       detailSection: 'transaction',
       summary: 'Recorded give-side share posture for bitcode/terminal.',
     });
@@ -435,7 +435,7 @@ describe('application-activity-history', () => {
     });
 
     expect(selectionDraft).toMatchObject({
-      type: 'agentic-execution:branch-artifact',
+      type: 'agentic-execution:asset-pack',
       detailSection: 'transaction',
     });
     expect(selectionDraft.input).toMatchObject({
@@ -507,7 +507,7 @@ describe('application-activity-history', () => {
     const externalDraft = buildApplicationExternalInterfacingDraft(externalSnapshot);
 
     expect(repositoryDraft).toMatchObject({
-      type: 'agentic-execution:branch-artifact',
+      type: 'agentic-execution:asset-pack',
       detailSection: 'transaction',
       summary: 'Recorded repository anchor for bitcode/terminal.',
     });

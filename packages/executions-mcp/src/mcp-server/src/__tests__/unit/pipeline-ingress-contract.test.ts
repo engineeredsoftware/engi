@@ -210,7 +210,7 @@ describe('Bitcode MCP pipeline ingress contract', () => {
     });
 
     const tool = registerPipelineTools().find(
-      (candidate) => candidate.name === 'bitcode://pipelines/deliverable/create',
+      (candidate) => candidate.name === 'bitcode://pipelines/asset-pack/create',
     );
 
     expect(tool?.execute).toBeDefined();
@@ -298,7 +298,7 @@ describe('Bitcode MCP pipeline ingress contract', () => {
 
   it('rejects MCP pipeline writes without pipelines.create permission', async () => {
     const tool = registerPipelineTools().find(
-      (candidate) => candidate.name === 'bitcode://pipelines/deliverable/create',
+      (candidate) => candidate.name === 'bitcode://pipelines/asset-pack/create',
     );
 
     await expect(
@@ -325,7 +325,7 @@ describe('Bitcode MCP pipeline ingress contract', () => {
 
   it('rejects incoherent repository/provider ingress before queueing MCP work', async () => {
     const tool = registerPipelineTools().find(
-      (candidate) => candidate.name === 'bitcode://pipelines/deliverable/create',
+      (candidate) => candidate.name === 'bitcode://pipelines/asset-pack/create',
     );
 
     await expect(
@@ -366,7 +366,7 @@ describe('Bitcode MCP pipeline ingress contract', () => {
     });
 
     const tool = registerPipelineTools().find(
-      (candidate) => candidate.name === 'bitcode://pipelines/deliverable/create',
+      (candidate) => candidate.name === 'bitcode://pipelines/asset-pack/create',
     );
 
     const result = await tool!.execute!(
@@ -423,7 +423,7 @@ describe('Bitcode MCP pipeline ingress contract', () => {
     });
 
     const tool = registerPipelineTools().find(
-      (candidate) => candidate.name === 'bitcode://pipelines/deliverable/create',
+      (candidate) => candidate.name === 'bitcode://pipelines/asset-pack/create',
     );
 
     const result = await tool!.execute!(

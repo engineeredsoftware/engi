@@ -6,7 +6,7 @@ set -euo pipefail
 # public subpaths, not removed raw prompt paths.
 
 repo_root="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
-agents_dir="$repo_root/packages/pipelines/deliverable/src/agents"
+agents_dir="$repo_root/packages/pipelines/asset-pack/src/agents"
 
 echo "Fixing multiline PromptPart import patterns under $agents_dir..."
 

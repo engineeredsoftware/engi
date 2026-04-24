@@ -176,7 +176,7 @@ class StreamingPipelineEngine {
             },
             executionState: {
                 phase: 'Setup',
-                agent: 'SDIVSAgent'
+                agent: 'SDIVFAgent'
             },
             metadata: {
                 correlationId: this.generateCorrelationId(),
@@ -236,7 +236,7 @@ class StreamingPipelineEngine {
             },
             executionState: {
                 phase: phase.name,
-                agent: 'SDIVSAgent'
+                agent: 'SDIVFAgent'
             },
             metadata: {
                 correlationId: this.generateCorrelationId(),
@@ -285,7 +285,7 @@ class StreamingPipelineEngine {
             },
             executionState: {
                 phase: phase.name,
-                agent: 'SDIVSAgent',
+                agent: 'SDIVFAgent',
                 step: this.getStepForEvent(eventType)
             },
             metadata: {
@@ -309,7 +309,7 @@ class StreamingPipelineEngine {
             },
             executionState: {
                 phase: phase.name,
-                agent: 'SDIVSAgent'
+                agent: 'SDIVFAgent'
             },
             metadata: {
                 correlationId: this.generateCorrelationId(),
@@ -358,7 +358,7 @@ class StreamingPipelineEngine {
             },
             executionState: {
                 phase: phase.name,
-                agent: 'SDIVSAgent'
+                agent: 'SDIVFAgent'
             },
             metadata: {
                 correlationId: this.generateCorrelationId(),
@@ -672,7 +672,7 @@ exports.createStreamingPipelineEngine = {
     deliverable: (scenario = 'demo') => {
         return new StreamingPipelineEngine({
             scenario,
-            pipelineType: 'deliverable',
+            pipelineType: 'asset-pack',
             totalDurationMs: 300000, // 5 minutes
             realisticTiming: true,
             phases: [

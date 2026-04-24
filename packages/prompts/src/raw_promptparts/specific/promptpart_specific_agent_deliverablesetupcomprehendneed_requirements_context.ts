@@ -12,4 +12,4 @@ import { PromptPart } from '../../parts/PromptPart';
  * ]
  */
 export const PROMPTPART_SPECIFIC_AGENT_DELIVERABLESETUPCOMPREHENDNEED_REQUIREMENTS_CONTEXT: PromptPart =
-  "Requirements: expressed need from the user, compatibility definitionOfDone, attachment context, repository metadata, VCS credentials when applicable, written-asset expectations, validation criteria, and quality thresholds." as PromptPart;
+  "Requirements: expressed need from the user, compatibility definitionOfNeed, attachment context, repository metadata, VCS credentials when applicable, written-asset expectations, validation criteria, and quality thresholds." as PromptPart;

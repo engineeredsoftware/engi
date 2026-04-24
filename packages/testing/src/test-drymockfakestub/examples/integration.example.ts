@@ -157,7 +157,7 @@ export function setupStorybook() {
  */
 export function createDeliverableStories() {
   const baseStory = {
-    title: 'Pipelines/Deliverable',
+    title: 'Pipelines/AssetPack',
     component: DeliverablePipeline,
     parameters: {
       layout: 'fullscreen'
@@ -184,7 +184,7 @@ export function DeliverableComponent() {
   
   return (
     <div>
-      <h1>Deliverable Pipeline</h1>
+      <h1>AssetPack Pipeline</h1>
       <p>Scenario: {scenario.name}</p>
       <p>Mode: {mode}</p>
       <pre>{JSON.stringify(data, null, 2)}</pre>
@@ -200,7 +200,7 @@ export function DeliverableComponent() {
  * Create a unified test suite using Test Intelligence
  */
 export function createUnifiedTestSuite() {
-  describe('Deliverable Pipeline', () => {
+  describe('AssetPack Pipeline', () => {
     // Use scenario for test data
     const scenario = ENTERPRISE_DELIVERABLE_SCENARIO;
     const testData = generator.generateForScenario(scenario);

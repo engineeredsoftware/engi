@@ -309,12 +309,12 @@ describe('useConversationStream', () => {
         eventHandler({
           data: JSON.stringify({
             type: 'pipeline_triggered',
-            data: { runId: 'run-123', pipelineType: 'deliverable' }
+            data: { runId: 'run-123', pipelineType: 'asset-pack' }
           })
         });
       });
 
-      expect(onPipelineTriggered).toHaveBeenCalledWith('run-123', 'deliverable');
+      expect(onPipelineTriggered).toHaveBeenCalledWith('run-123', 'asset-pack');
       expect(result.current.activePipelines.has('run-123')).toBe(true);
     });
 
@@ -331,7 +331,7 @@ describe('useConversationStream', () => {
         eventHandler({
           data: JSON.stringify({
             type: 'pipeline_triggered',
-            data: { runId: 'run-123', pipelineType: 'deliverable' }
+            data: { runId: 'run-123', pipelineType: 'asset-pack' }
           })
         });
       });
@@ -601,7 +601,7 @@ describe('useConversationStream', () => {
         eventHandler({
           data: JSON.stringify({
             type: 'pipeline_triggered',
-            data: { runId: 'run-123', pipelineType: 'deliverable' }
+            data: { runId: 'run-123', pipelineType: 'asset-pack' }
           })
         });
       });

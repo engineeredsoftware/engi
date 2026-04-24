@@ -48,7 +48,7 @@ interface ToolTestConfig {
 const TOOL_TEST_CONFIGS: ToolTestConfig[] = [
   // Pipeline Tools
   {
-    toolName: 'bitcode://pipelines/deliverable/create',
+    toolName: 'bitcode://pipelines/asset-pack/create',
     category: 'pipeline',
     schema: DeliverablePipelineToolSchema,
     requiredPermissions: ['pipelines.create'],

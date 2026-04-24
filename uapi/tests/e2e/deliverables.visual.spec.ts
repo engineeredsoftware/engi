@@ -9,7 +9,7 @@ test.describe('UI Visual - Deliverables Flows', () => {
     await page.goto('/executions?type=pipeline:deliverables');
     // Wait for GitHub selectors and task input
     await page.waitForSelector('[data-testid="gh-account"]');
-    await page.waitForSelector('[data-testid="execution-dod-input"]');
+    await page.waitForSelector('[data-testid="execution-need-definition-input"]');
     // Stabilize dynamic content
     await page.waitForTimeout(500);
     // Capture configuration state

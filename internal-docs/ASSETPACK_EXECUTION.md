@@ -18,7 +18,7 @@ The operator-facing product meaning is:
 
 - `uapi/app/executions/*` remains a compatibility execution surface used by the Bitcode Terminal.
 - `packages/api/src/routes/deliverables.ts` remains the main server execution route while its product meaning is AssetPack execution.
-- `packages/pipelines/deliverable/*` remains the compatibility package path while its live V26 meaning is AssetPack and connected-interface written-asset synthesis.
+- `packages/pipelines/asset-pack/*` is the live package path for AssetPack and connected-interface written-asset synthesis; `packages/pipelines/deliverable/*` is no longer an active filesystem owner.
 - `packages/execution-generics/*`, `packages/pipelines-generics/*`, `packages/agent-generics/*`, and `packages/prompts/*` provide the reusable execution, registry, and prompt substrate.
 
 These compatibility filesystem names are not product vocabulary. Any later SPEC promotion should describe the product as Bitcode Need measurement, fit review, AssetPack synthesis, Finish, and delivery mechanisms.
@@ -39,7 +39,7 @@ These compatibility filesystem names are not product vocabulary. Any later SPEC 
 - Computer use is not an operator-facing Terminal option in V26.
 - `BITCODE_ENABLE_COMPUTER_USE_NEED_MEASUREMENT` is the only admitted computer-use flag, and it is internal server-side evidence support for Need measurement.
 - Broad computer-using agents are deferred beyond V26.
-- Compatibility package paths survive only as implementation corridors until source filenames are fully renamed or removed.
+- Compatibility route/payload/code names survive only as implementation corridors until source filenames are fully renamed or removed; package filesystem ownership is already `asset-pack`.
 
 ## SPEC Promotion Obligations
 

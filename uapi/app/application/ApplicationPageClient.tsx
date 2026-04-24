@@ -351,7 +351,7 @@ export default function ApplicationPageClient() {
                   Read agentic executions, then move deeper only when you need to
                 </h1>
                 <p className="mt-3 max-w-3xl text-sm leading-7 text-neutral-300 tablet:text-base">
-                  The Bitcode Terminal keeps branch-artifact execution, need measurement,
+                  The Bitcode Terminal keeps AssetPack execution, need measurement,
                   proof refresh, and closure reading in one ledger window. Open the selected
                   activity into asset packs, proofs, and history, then move into conversations
                   or Auxillaries without losing your place.

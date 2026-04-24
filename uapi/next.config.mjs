@@ -63,7 +63,7 @@ let nextConfig = {
   transpilePackages: [
     '@bitcode/styling',
     '@bitcode/prompts',
-    '@bitcode/pipeline-deliverable',
+    '@bitcode/pipeline-asset-pack',
     '@bitcode/pipelines-generics',
     '@bitcode/agent-generics',
     // Generic agents used by pipelines
@@ -298,24 +298,33 @@ let nextConfig = {
         'src',
         'index.ts'
       ),
-      '@bitcode/pipeline-deliverable': path.resolve(
+      '@bitcode/pipeline-asset-pack': path.resolve(
         __dirname,
         '..',
         'packages',
         'pipelines',
-        'deliverable',
+        'asset-pack',
         'src',
         'index.ts'
       ),
       // Security package: server-safe root and explicit client entry
       '@bitcode/security': path.resolve(__dirname, '..', 'packages', 'security', 'src', 'index.ts'),
       '@bitcode/security/client': path.resolve(__dirname, '..', 'packages', 'security', 'src', 'client.ts'),
+      '@bitcode/engine/pipeline/pipelineSDIVF': path.resolve(
+        __dirname,
+        '..',
+        'packages',
+        'pipelines',
+        'asset-pack',
+        'src',
+        'run.ts'
+      ),
       '@bitcode/engine/pipeline/pipelineSDIVS': path.resolve(
         __dirname,
         '..',
         'packages',
         'pipelines',
-        'deliverable',
+        'asset-pack',
         'src',
         'run.ts'
       ),

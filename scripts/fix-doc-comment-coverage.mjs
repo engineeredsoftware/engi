@@ -34,7 +34,7 @@ function insertPromptDoc(file) {
 function fixPromptDocs() {
   const promptFiles = [];
   const roots = [
-    'packages/pipelines/deliverable/src/agents/prompts',
+    'packages/pipelines/asset-pack/src/agents/prompts',
     'packages/generic-agents',
     'packages/generic-tools'
   ];

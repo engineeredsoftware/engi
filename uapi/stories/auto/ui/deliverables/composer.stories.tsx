@@ -28,7 +28,7 @@ export const Composer = {
       }}>
         <Tab.Group>
           <Tab.List style={{ display: 'flex', gap: 8, marginBottom: 16 }}>
-            {['Info','DoD','Sources','Gaps','Preview'].map(label => (
+            {['Info','Definition of Need','Sources','Gaps','Preview'].map(label => (
               <Tab key={label} style={{
                 padding: '8px 16px',
                 background: '#333333',
@@ -42,7 +42,7 @@ export const Composer = {
           </Tab.List>
           <Tab.Panels>
             <Tab.Panel style={{ color: '#ffffff' }}>Info content</Tab.Panel>
-            <Tab.Panel style={{ color: '#ffffff' }}>DoD editor</Tab.Panel>
+            <Tab.Panel style={{ color: '#ffffff' }}>Definition of Need editor</Tab.Panel>
             <Tab.Panel style={{ color: '#ffffff' }}>Sources UI</Tab.Panel>
             <Tab.Panel style={{ color: '#ffffff' }}>Gaps list</Tab.Panel>
             <Tab.Panel style={{ color: '#ffffff' }}>Preview diff</Tab.Panel>

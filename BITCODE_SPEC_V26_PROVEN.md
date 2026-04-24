@@ -724,7 +724,7 @@
 | `packages/orm/package.json` | `@bitcode/orm` | `commercial-infrastructure` | `commercial-infrastructure-name` | `true` |
 | `packages/parsing/package.json` | `@bitcode/parsing` | `commercial-infrastructure` | `commercial-infrastructure-name` | `true` |
 | `packages/pipelines-generics/package.json` | `@bitcode/pipelines-generics` | `commercial-infrastructure` | `commercial-infrastructure-name` | `true` |
-| `packages/pipelines/deliverable/package.json` | `@bitcode/pipeline-deliverable` | `compatibility` | `compatibility-name` | `true` |
+| `packages/pipelines/asset-pack/package.json` | `@bitcode/pipeline-asset-pack` | `compatibility` | `compatibility-name` | `true` |
 | `packages/postgresql/package.json` | `@bitcode/postgresql` | `ingress-or-support` | `ingress-or-support-name` | `true` |
 | `packages/procurement/package.json` | `@bitcode/procurement` | `ingress-or-support` | `ingress-or-support-name` | `true` |
 | `packages/prompts/package.json` | `@bitcode/prompts` | `commercial-infrastructure` | `commercial-infrastructure-name` | `true` |

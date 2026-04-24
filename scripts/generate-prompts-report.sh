@@ -28,7 +28,7 @@ rg -nP "export\\s+const\\s+([A-Za-z0-9_]+)\\s*=\\s*new\\s+([A-Za-z0-9_]+)\\s*\\(
     category="Unknown"
     case "$file" in
       *generic-tools* ) category="DocCodeTool";;
-      *pipelines/deliverable* ) category="Pipeline";;
+      *pipelines/asset-pack* ) category="Pipeline";;
       *generic-agents* ) category="GenericAgent";;
       *conversations-generics* ) category="Conversation";;
       *agent-generics* ) category="AgentGenerics";;
@@ -50,7 +50,7 @@ rg -nP "export\\s+const\\s+([A-Za-z0-9_]+)\\s*:\\s*Prompt\\s*=" packages \
     category="Unknown"
     case "$file" in
       *generic-tools* ) category="DocCodeTool";;
-      *pipelines/deliverable* ) category="Pipeline";;
+      *pipelines/asset-pack* ) category="Pipeline";;
       *generic-agents* ) category="GenericAgent";;
       *conversations-generics* ) category="Conversation";;
       *agent-generics* ) category="AgentGenerics";;
@@ -71,7 +71,7 @@ rg -nP "export\\s+function\\s+([A-Za-z0-9_]+)\\([^)]*\\)\\s*:\\s*Prompt\\b" pack
     category="Unknown"
     case "$file" in
       *generic-tools* ) category="DocCodeTool";;
-      *pipelines/deliverable* ) category="Pipeline";;
+      *pipelines/asset-pack* ) category="Pipeline";;
       *generic-agents* ) category="GenericAgent";;
       *conversations-generics* ) category="Conversation";;
       *agent-generics* ) category="AgentGenerics";;
@@ -90,7 +90,7 @@ rg -nPo "^[[:space:]]*[A-Za-z0-9_]+[[:space:]]*:[[:space:]]*new[[:space:]]+(Agen
     category="Unknown"
     case "$file" in
       *generic-tools* ) category="DocCodeTool";;
-      *pipelines/deliverable* ) category="Pipeline";;
+      *pipelines/asset-pack* ) category="Pipeline";;
       *generic-agents* ) category="GenericAgent";;
       *conversations-generics* ) category="Conversation";;
       *agent-generics* ) category="AgentGenerics";;

@@ -97,7 +97,7 @@ export const callDeliverablesAPI = async (
   repoBranch: string,
   commitSha: string,
   issueNumber: string | null,
-  definitionOfDone: string,
+  definitionOfNeed: string,
   userTimezone: string,
   modelProvider: string,
   modelId: string,
@@ -108,7 +108,7 @@ export const callDeliverablesAPI = async (
   /** Optional file uploads */
   files?: File[],
   /** Canonical execution type for retained delivery substrate */
-  pipelineType: string = 'agentic-execution:branch-artifact'
+  pipelineType: string = 'agentic-execution:asset-pack'
 ): Promise<ReadableStream<Uint8Array> | null> => {
   let body: BodyInit;
   let headers: HeadersInit = {
@@ -127,7 +127,7 @@ export const callDeliverablesAPI = async (
       repoBranch,
       repoCommit: commitSha,
       issueNumber,
-      definition_of_done: definitionOfDone,
+      definition_of_need: definitionOfNeed,
       modelProvider,
       modelId,
       attachments,
@@ -152,7 +152,7 @@ export const callDeliverablesAPI = async (
       repoBranch,
       repoCommit: commitSha,
       issueNumber,
-      definition_of_done: definitionOfDone,
+      definition_of_need: definitionOfNeed,
       modelProvider,
       modelId,
       attachments,

@@ -101,7 +101,7 @@ describe('GET /api/executions/history', () => {
         started_at: null,
         completed_at: null,
         status: 'completed',
-        type: 'agentic-execution:branch-artifact',
+        type: 'agentic-execution:asset-pack',
         input: {},
         output: {
           preprocessed: {
@@ -209,7 +209,7 @@ describe('GET /api/executions/history', () => {
       }),
       expect.objectContaining({
         id: 'run-branch',
-        type: 'agentic-execution:branch-artifact',
+        type: 'agentic-execution:asset-pack',
         guide: 'materialize branch pack',
         summary: 'Branch artifact persisted.',
         repo_snapshot: {

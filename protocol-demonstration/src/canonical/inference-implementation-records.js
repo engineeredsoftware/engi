@@ -371,9 +371,9 @@ export const V26_INFERENCE_IMPLEMENTATION_RECORDS = Object.freeze([
     canonicalNeed: 'Use retained deliverable corridor machinery as Bitcode asset-pack written-asset synthesis plus delivery-mechanism compatibility.',
     promptImplementation: {
       owners: [
-        'packages/pipelines/deliverable/src/agents/prompts/comprehend-need-prompt.ts',
-        'packages/pipelines/deliverable/src/agents/prompts/deliverable-pipeline-comprehend-need-agent-prompts.ts',
-        'packages/pipelines/deliverable/scripts/render-prompts.ts',
+        'packages/pipelines/asset-pack/src/agents/prompts/comprehend-need-prompt.ts',
+        'packages/pipelines/asset-pack/src/agents/prompts/deliverable-pipeline-comprehend-need-agent-prompts.ts',
+        'packages/pipelines/asset-pack/scripts/render-prompts.ts',
         'packages/generic-agents/text-searcher/src/prompts/agent-prompt-text-searcher.ts',
         'packages/generic-agents/text-searcher/src/prompts/system-prompt-text-searcher.ts',
         'packages/generic-agents/text-searcher/src/prompts/plan-prompt-text-searcher.ts',
@@ -389,8 +389,8 @@ export const V26_INFERENCE_IMPLEMENTATION_RECORDS = Object.freeze([
     },
     toolImplementation: {
       owners: [
-        'packages/pipelines/deliverable/src/tools/DeliverablePipelineCloneVCSRepositoryTool.ts',
-        'packages/pipelines/deliverable/src/tools/search.ts',
+        'packages/pipelines/asset-pack/src/tools/DeliverablePipelineCloneVCSRepositoryTool.ts',
+        'packages/pipelines/asset-pack/src/tools/search.ts',
         'packages/system-grep/src/index.ts',
         'packages/generic-tools/simple-system-text-search/src/index.ts',
         'packages/generic-tools/files-maintaining/src/index.ts',
@@ -404,21 +404,21 @@ export const V26_INFERENCE_IMPLEMENTATION_RECORDS = Object.freeze([
     },
     agentImplementation: {
       owners: [
-        'packages/pipelines/deliverable/src/agents/setup/deliverable-pipeline-comprehend-need-agent.ts',
+        'packages/pipelines/asset-pack/src/agents/setup/deliverable-pipeline-comprehend-need-agent.ts',
         'packages/generic-agents/text-searcher/src/index.ts',
-        'packages/pipelines/deliverable/src/agents/setup/deliverable-pipeline-ready-to-iterate-agent.ts',
-        'packages/pipelines/deliverable/src/phases/index.ts',
-        'packages/pipelines/deliverable/src/phases/finish.ts',
-        'packages/pipelines/deliverable/src/agents/finish/deliver-asset-pack-to-destination-agent.ts',
-        'packages/pipelines/deliverable/src/agents/finish/final-work-summary-agent.ts'
+        'packages/pipelines/asset-pack/src/agents/setup/deliverable-pipeline-ready-to-iterate-agent.ts',
+        'packages/pipelines/asset-pack/src/phases/index.ts',
+        'packages/pipelines/asset-pack/src/phases/finish.ts',
+        'packages/pipelines/asset-pack/src/agents/finish/deliver-asset-pack-to-destination-agent.ts',
+        'packages/pipelines/asset-pack/src/agents/finish/final-work-summary-agent.ts'
       ],
       contract: 'Setup, iteration, validation, and Finish agents must resolve semantic need/writtenAsset fields before compatibility deliverable fields; Delivering is only the third-party AssetPack/partial handoff inside Finish.'
     },
     executionImplementation: {
       owners: [
-        'packages/pipelines/deliverable/src/index.ts',
-        'packages/pipelines/deliverable/src/postprocess.ts',
-        'packages/pipelines/deliverable/src/types/PipelineSchemas.ts'
+        'packages/pipelines/asset-pack/src/index.ts',
+        'packages/pipelines/asset-pack/src/postprocess.ts',
+        'packages/pipelines/asset-pack/src/types/PipelineSchemas.ts'
       ],
       carriers: ['PipelineExecution compatibility entry', 'postprocess read model', 'execution history projections']
     },
@@ -440,13 +440,13 @@ export const V26_INFERENCE_IMPLEMENTATION_RECORDS = Object.freeze([
       'protocol-demonstration/test/v26-pipeline-finish-reform.test.js',
       'protocol-demonstration/test/v26-simple-system-text-search-compatibility.test.js',
       'protocol-demonstration/test/v26-text-searcher-agent-compatibility.test.js',
-      'packages/pipelines/deliverable/src/index.ts',
-      'packages/pipelines/deliverable/src/phases/index.ts',
-      'packages/pipelines/deliverable/src/phases/finish.ts',
-      'packages/pipelines/deliverable/src/postprocess.ts',
-      'packages/pipelines/deliverable/src/types/PipelineSchemas.ts',
-      'packages/pipelines/deliverable/src/agents/prompts/comprehend-need-prompt.ts',
-      'packages/pipelines/deliverable/src/agents/setup/deliverable-pipeline-comprehend-need-agent.ts',
+      'packages/pipelines/asset-pack/src/index.ts',
+      'packages/pipelines/asset-pack/src/phases/index.ts',
+      'packages/pipelines/asset-pack/src/phases/finish.ts',
+      'packages/pipelines/asset-pack/src/postprocess.ts',
+      'packages/pipelines/asset-pack/src/types/PipelineSchemas.ts',
+      'packages/pipelines/asset-pack/src/agents/prompts/comprehend-need-prompt.ts',
+      'packages/pipelines/asset-pack/src/agents/setup/deliverable-pipeline-comprehend-need-agent.ts',
       'packages/generic-agents/text-searcher/README.md',
       'packages/generic-agents/text-searcher/package.json',
       'packages/generic-agents/text-searcher/src/index.ts',
@@ -521,9 +521,9 @@ export const V26_INFERENCE_IMPLEMENTATION_RECORDS = Object.freeze([
     agentImplementation: {
       owners: [
         'packages/generic-agents/need-comprehension/src/index.ts',
-        'packages/pipelines/deliverable/src/agents/setup/deliverable-pipeline-comprehend-need-agent.ts',
-        'packages/pipelines/deliverable/src/agents/setup/deliverable-pipeline-danger-wall-agent.ts',
-        'packages/pipelines/deliverable/src/phases/setup.ts'
+        'packages/pipelines/asset-pack/src/agents/setup/deliverable-pipeline-comprehend-need-agent.ts',
+        'packages/pipelines/asset-pack/src/agents/setup/deliverable-pipeline-danger-wall-agent.ts',
+        'packages/pipelines/asset-pack/src/phases/setup.ts'
       ],
       contract: 'bitcodeSetupNeedComprehensionAgent is the setup/pre-danger-wall PTRR agent. It composes the generic-tools Need-comprehension toolset, emits semantic Need and AssetPack evidence, and hands bounded riskAdmissionInput to bitcodeNeedRiskAdmissionAgent.'
     },
@@ -534,7 +534,7 @@ export const V26_INFERENCE_IMPLEMENTATION_RECORDS = Object.freeze([
         'packages/generic-tools/need-comprehension/tsconfig.json',
         'packages/generic-tools/need-comprehension/src/index.ts',
         'packages/generic-tools/need-comprehension/src/types/tools-generics.ts',
-        'packages/pipelines/deliverable/src/agents/setup/deliverable-pipeline-comprehend-need-agent.ts'
+        'packages/pipelines/asset-pack/src/agents/setup/deliverable-pipeline-comprehend-need-agent.ts'
       ],
       carriers: ['AgentExecution for bitcode-setup-need-comprehension', 'ToolExecution evidence for composed tools', 'setup/need-comprehension execution-store mirrors']
     },
@@ -588,9 +588,9 @@ export const V26_INFERENCE_IMPLEMENTATION_RECORDS = Object.freeze([
       'packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_comprehendneed_refine_assessment.ts',
       'packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_comprehendneed_retry_errorhandling.ts',
       'packages/prompts/src/raw_promptparts/specific/promptpart_specific_tool_analyzetasksemantics_doccodetoolpurpose.ts',
-      'packages/pipelines/deliverable/src/agents/setup/deliverable-pipeline-comprehend-need-agent.ts',
-      'packages/pipelines/deliverable/src/agents/setup/deliverable-pipeline-danger-wall-agent.ts',
-      'packages/pipelines/deliverable/src/phases/setup.ts'
+      'packages/pipelines/asset-pack/src/agents/setup/deliverable-pipeline-comprehend-need-agent.ts',
+      'packages/pipelines/asset-pack/src/agents/setup/deliverable-pipeline-danger-wall-agent.ts',
+      'packages/pipelines/asset-pack/src/phases/setup.ts'
     ]
   },
   {
@@ -778,7 +778,7 @@ export const V26_INFERENCE_IMPLEMENTATION_RECORDS = Object.freeze([
     executionImplementation: {
       owners: [
         'packages/generic-agents/danger-wall/src/index.ts',
-        'packages/pipelines/deliverable/src/agents/setup/deliverable-pipeline-danger-wall-agent.ts',
+        'packages/pipelines/asset-pack/src/agents/setup/deliverable-pipeline-danger-wall-agent.ts',
         'packages/agent-generics/src/execution/AgentExecution.ts'
       ],
       carriers: ['AgentExecution compatibility entry', 'retained setup short-circuit signal', 'parent pipeline execution evidence']
@@ -813,7 +813,7 @@ export const V26_INFERENCE_IMPLEMENTATION_RECORDS = Object.freeze([
       'packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_dangerwall_system_identity.ts',
       'packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_dangerwall_system_instructions.ts',
       'packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_dangerwall_system_role.ts',
-      'packages/pipelines/deliverable/src/agents/setup/deliverable-pipeline-danger-wall-agent.ts',
+      'packages/pipelines/asset-pack/src/agents/setup/deliverable-pipeline-danger-wall-agent.ts',
       'protocol-demonstration/test/v26-danger-wall-agent-compatibility.test.js'
     ]
   },

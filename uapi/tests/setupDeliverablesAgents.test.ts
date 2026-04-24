@@ -1,6 +1,6 @@
-import { SETUP_AGENTS } from '@bitcode/pipeline-deliverable';
+import { SETUP_AGENTS } from '@bitcode/pipeline-asset-pack';
 import { DANGER_WALL_AGENT } from '@bitcode/generic-agents-danger-wall';
-import { FETCH_UPGRADES_AGENT } from '@bitcode/pipeline-deliverable';
+import { FETCH_UPGRADES_AGENT } from '@bitcode/pipeline-asset-pack';
 
 describe('SETUP_AGENTS sequence', () => {
   it('includes FetchPastAI DocumentsAgent alongside DangerWall in group 4', () => {

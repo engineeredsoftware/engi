@@ -85,7 +85,7 @@ export type HeaderFinalWorkSummary = {
   assetPack?: {
     need?: string | null;
     writtenAssetType?: string | null;
-    definitionOfDone?: string | null;
+    definitionOfNeed?: string | null;
     deliveryTarget?: string | null;
   };
   processingStats?: HeaderProcessingStats;
@@ -119,7 +119,7 @@ export function CompleteHeaderContent({
   processingStats?: HeaderProcessingStats;
   repoSnapshot?: RepoSnapshot;
   postprocessed?: any;
-  executionType?: 'agentic-execution:branch-artifact';
+  executionType?: 'agentic-execution:asset-pack';
 }) {
   const router = useRouter();
   const search = useSearchParams();

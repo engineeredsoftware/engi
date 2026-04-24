@@ -51,7 +51,7 @@ function readType(snapshot: BitcodeApplicationShellSnapshot) {
     return 'agentic-execution:need-measurement';
   }
 
-  return 'agentic-execution:branch-artifact';
+  return 'agentic-execution:asset-pack';
 }
 
 function readSummary(snapshot: BitcodeApplicationShellSnapshot, repositoryLabel: string, scenarioLabel: string, canonicalType: string) {

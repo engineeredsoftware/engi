@@ -844,7 +844,7 @@ Required closure posture:
   `protocol-demonstration/test/v26-active-product-naming.test.js`
   proof surface:
   fifth-gate debug and diagnostics contract closure so active PTRR debugging and docs converge on `BITCODE_*` flags and Bitcode-facing runtime teaching
-- `packages/pipelines/deliverable/{src/preprocess.ts,src/__dev__/bringup-demo.ts,src/__tests__/metrics-output.test.ts,src/agents/setup/deliverable-pipeline-setup-plan-agent.ts,src/agents/shipping/deliverable-pipeline-create-pull-request-agent.ts}`
+- `packages/pipelines/asset-pack/{src/preprocess.ts,src/__dev__/bringup-demo.ts,src/__tests__/metrics-output.test.ts,src/agents/setup/deliverable-pipeline-setup-plan-agent.ts,src/agents/shipping/deliverable-pipeline-create-pull-request-agent.ts}`
   test coverage:
   `protocol-demonstration/test/v26-active-product-naming.test.js`
   proof surface:
@@ -1044,7 +1044,7 @@ Required closure posture:
   `uapi/tests/useConversationStream.firstWrite.test.ts`, `uapi/tests/api/chatStreamRoute.test.ts`, and `uapi/tests/api/conversationThreadStreamRoute.test.ts`
   proof surface:
   fifth-gate active-source compile-health closure for the live Bitcode stream/auth/deliverables corridor so canonical execution typing, SSE tracking, retained route handlers, and VCS service wiring now compile through the active `uapi` program instead of remaining blocked on old Next-host assumptions, schema drift, or downlevel iteration mismatches
-- `{packages/api/src/routes/deliverables.ts,packages/pipelines/deliverable/src/agents/{design/iterate-product-md-agent.ts,digest/capture-learnings-agent.ts,validation/deliverable-pipeline-ready-to-instruct-agent.ts}}`
+- `{packages/api/src/routes/deliverables.ts,packages/pipelines/asset-pack/src/agents/{design/iterate-product-md-agent.ts,digest/capture-learnings-agent.ts,validation/deliverable-pipeline-ready-to-instruct-agent.ts}}`
   test coverage:
   `pnpm exec tsc --noEmit --pretty false --project tsconfig.json` from `uapi`, plus `node --check` on the mirrored JavaScript carriers
   proof surface:
@@ -1064,12 +1064,12 @@ Required closure posture:
   filtered `tsc` verification over the active `uapi` program for the retained repository-scope VCS tool package
   proof surface:
   fifth-gate retained VCS tool-package compile-health closure so repository listing, pull-request, issue, comment, branch, and file helpers now resolve through the actual async Supabase/VCS connection abstractions instead of remaining blocked on stale connection-manager methods, stale connection shape assumptions, or `Tool.use` contract drift
-- `{packages/prompts/src/{index.ts,raw_promptparts/**/*},packages/executions-mcp/{src/index.ts,README.md},packages/pipelines/deliverable/src/agents/setup/initialize-mcps-tools-agent.ts}`
+- `{packages/prompts/src/{index.ts,raw_promptparts/**/*},packages/executions-mcp/{src/index.ts,README.md},packages/pipelines/asset-pack/src/agents/setup/initialize-mcps-tools-agent.ts}`
   test coverage:
   filtered `tsc` verification over the active `uapi` program for the prompt-space and MCP primitive corridor
   proof surface:
   fifth-gate prompt-and-execution primitive compile-health closure so the raw promptpart reservoir no longer compiles as a duplicate-import global-script swarm, live execution/pipeline prompt classes no longer route through the retained prompt barrel, and the retained `@bitcode/mcp` primitive no longer drags an unnecessary schema dependency into the active compile path, keeping prompt-system explicitness and MCP config normalization admissible as Bitcode-owned primitives
-- `{packages/execution-generics/src/{index.ts,executors/conditional_executor.ts},packages/agent-generics/src/index.ts,packages/pipelines-generics/src/{index.ts,phases/phase-factory.ts,phases/sdivs-factory.ts,gate-system/meta-phase-orchestrator.ts},packages/pipelines/deliverable/package.json,packages/executions-mcp/src/mcp-server/{src/index.ts,package.json},packages/prompts/src/raw_promptparts/specific/promptpart_specific_pipeline_deliverable_purpose_corestatement.ts}`
+- `{packages/execution-generics/src/{index.ts,executors/conditional_executor.ts},packages/agent-generics/src/index.ts,packages/pipelines-generics/src/{index.ts,phases/phase-factory.ts,phases/sdivs-factory.ts,gate-system/meta-phase-orchestrator.ts},packages/pipelines/asset-pack/package.json,packages/executions-mcp/src/mcp-server/{src/index.ts,package.json},packages/prompts/src/raw_promptparts/specific/promptpart_specific_pipeline_deliverable_purpose_corestatement.ts}`
   test coverage:
   filtered `tsc` verification over the active `uapi` program for the execution-core package corridor
   proof surface:
@@ -1088,7 +1088,7 @@ Required closure posture:
   test coverage:
   `packages/executions-mcp/src/mcp-server/src/__tests__/unit/prompt-asset-pack-canon.test.ts`
   proof surface:
-  fifth-gate Bitcode MCP prompt-canon closure so rendered workflow/development prompts and the compatibility-mounted pipeline tool description teach Bitcode asset-pack pipeline execution over source-to-shares needs, keep `bitcode://pipelines/deliverable/create` plus subtype names as compatibility surfaces, and prevent `deliverable pipeline` from remaining active MCP canon
+  fifth-gate Bitcode MCP prompt-canon closure so rendered workflow/development prompts and the compatibility-mounted pipeline tool description teach Bitcode asset-pack pipeline execution over source-to-shares needs, keep `bitcode://pipelines/asset-pack/create` plus subtype names as compatibility surfaces, and prevent `deliverable pipeline` from remaining active MCP canon
 - `{uapi/app/api/webhook/{route,verify}.ts,uapi/tests/{webhookRoute.test.ts,api/webhookSignature.test.ts}}`
   test coverage:
   `uapi/tests/webhookRoute.test.ts` and `uapi/tests/api/webhookSignature.test.ts`
@@ -1124,17 +1124,17 @@ Required closure posture:
   filtered `tsc` verification over the active `uapi` program for the retained generic-tool caller corridor
   proof surface:
   fifth-gate retained caller-contract compile-health closure so file-maintaining uses the canonical pipelines-generics entrypoint, multimodal-processing uses the actual Bitcode `factoryTool` contract plus typed optional Figma context, and repository-setup no longer preserves the half-ported provider/auth shape assumptions that sat above the reusable VCS abstraction layer
-- `{packages/generic-tools/{mcps-tools/jira/src/index.ts,multimodal-processing/src/index.ts,use-computer/src/index.ts},packages/pipelines/deliverable/src/tools/{DeliverablePipelineUseComputerTool.ts,index.ts},packages/api/src/routes/deliverables.ts,uapi/app/executions/components/{ExecutionsPageClient.tsx,ExecutionsToggleButtons.tsx},uapi/components/base/bitcode/execution/{toggle-buttons.tsx,execution-option-toggle.tsx}}`
+- `{packages/generic-tools/{mcps-tools/jira/src/index.ts,multimodal-processing/src/index.ts,use-computer/src/index.ts},packages/pipelines/asset-pack/src/tools/{DeliverablePipelineUseComputerTool.ts,index.ts},packages/api/src/routes/deliverables.ts,uapi/app/executions/components/{ExecutionsPageClient.tsx,ExecutionsToggleButtons.tsx},uapi/components/base/bitcode/execution/{toggle-buttons.tsx,execution-option-toggle.tsx}}`
   test coverage:
   filtered `tsc` verification over the active `uapi` program for the retained Jira/multimodal/use-computer caller corridor
   proof surface:
   fifth-gate retained caller-contract compile-health and reform closure so Jira tool execution no longer preserves nullable connection or optional-started worklog drift, multimodal-processing re-exports only the kept factory-tool surface, shell-execution tools plus the deliverable wrapper use the actual Bitcode `Tool` property contract instead of the older schema-class pattern, use-computer is admitted only as internal Need-measurement evidence behind `BITCODE_ENABLE_COMPUTER_USE_NEED_MEASUREMENT`, and old Terminal/API multi-agent plus compute toggles are removed rather than preserved as V26 controls
-- `{packages/pipelines/deliverable/src/{tools/{DeliverablePipelineCloneVCSRepositoryTool.ts,DeliverablePipelineMultimodalProcessingTool.ts,DeliverablePipelineAudioComprehensionTool.ts,DeliverablePipelineImageComprehensionTool.ts,DeliverablePipelinePDFComprehensionTool.ts,DeliverablePipelineVideoComprehensionTool.ts,index.ts},agents/finish/deliver-asset-pack-to-destination-agent.ts}}`
+- `{packages/pipelines/asset-pack/src/{tools/{DeliverablePipelineCloneVCSRepositoryTool.ts,DeliverablePipelineMultimodalProcessingTool.ts,DeliverablePipelineAudioComprehensionTool.ts,DeliverablePipelineImageComprehensionTool.ts,DeliverablePipelinePDFComprehensionTool.ts,DeliverablePipelineVideoComprehensionTool.ts,index.ts},agents/finish/deliver-asset-pack-to-destination-agent.ts}}`
   test coverage:
   filtered `tsc` verification over the active `uapi` program for the Bitcode asset-pack tool wrapper and Finish/Delivering corridor
   proof surface:
   fifth-gate caller-contract compile-health closure so asset-pack tool wrappers now forward through the current single-input Bitcode tool contract, optional validation/Delivering tools no longer leak `undefined` into typed registries, and the Finish agent no longer preserves raw-string prompt-part drift or duplicate-Zod output-schema identity mismatches
-- `{packages/pipelines/deliverable/src/{agents/{implementation/*.ts,setup/deliverable-pipeline-comprehend-need-agent.ts},phases/{setup.ts,design.ts,digest.ts,discovery.ts,implementation.ts,index.ts},index.ts,preprocess.ts,postprocess.ts},packages/pipelines-generics/src/{execution/PipelineExecutor.ts,phases/sdivs-factory.ts,streaming/pipeline-stream-integration.ts}}`
+- `{packages/pipelines/asset-pack/src/{agents/{implementation/*.ts,setup/deliverable-pipeline-comprehend-need-agent.ts},phases/{setup.ts,design.ts,digest.ts,discovery.ts,implementation.ts,index.ts},index.ts,preprocess.ts,postprocess.ts},packages/pipelines-generics/src/{execution/PipelineExecutor.ts,phases/sdivs-factory.ts,streaming/pipeline-stream-integration.ts}}`
   test coverage:
   filtered `tsc` verification over the active `uapi` program for the retained deliverable phase/index/setup corridor
   proof surface:

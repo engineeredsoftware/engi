@@ -24,7 +24,7 @@ export const MOCK_RUNS: WorkspaceRun[] = [
   {
     id: 'mock-run-branch-remediation',
     created_at: '2026-04-16T12:00:00.000Z',
-    type: 'agentic-execution:branch-artifact',
+    type: 'agentic-execution:asset-pack',
     status: 'completed',
     summary: 'Prepared the active branch artifact pack and bounded proof bundle for review.',
     repository: 'bitcode/bitcode',

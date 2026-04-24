@@ -1,5 +1,5 @@
 import { jest } from '@jest/globals';
-import { searchRelevantDeliverables } from '@bitcode/pipeline-deliverable/src/tools/search';
+import { searchRelevantDeliverables } from '@bitcode/pipeline-asset-pack/src/tools/search';
 import 'openai/shims/node';
 import OpenAI from 'openai';
 import { supabaseAdmin } from '@bitcode/supabase';

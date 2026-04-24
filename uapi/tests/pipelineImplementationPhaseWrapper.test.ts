@@ -9,12 +9,12 @@ jest.mock('@bitcode/engine/pipeline/metrics', () => ({
   trackApiCall: jest.fn((metrics, phase, fn) => fn()),
   updatePeakMemory: jest.fn(),
 }));
-jest.mock('@bitcode/pipeline-deliverable/src/phases/implementation', () => ({ runImplementationDeliverables: jest.fn() }));
+jest.mock('@bitcode/pipeline-asset-pack/src/phases/implementation', () => ({ runImplementationDeliverables: jest.fn() }));
 
 import { getGlobalContext } from '@bitcode/context';
 import { writeStreamMessage } from '@bitcode/streams';
 import { log } from '@bitcode/logger';
-import { runImplementationDeliverables as runImplementation } from '@bitcode/pipeline-deliverable';
+import { runImplementationDeliverables as runImplementation } from '@bitcode/pipeline-asset-pack';
 import { executeImplementationPhase } from '@bitcode/engine/pipeline/pipelineImplementationPhaseWrapper';
 import type { PipelineMetrics, PipelineState } from '@bitcode/engine/types';
 

@@ -80,7 +80,7 @@ test.describe('Deliverables Header and Logging Flows', () => {
     await page.selectOption('[data-testid="gh-branch"]', 'main');
     await page.selectOption('[data-testid="gh-commit"]', 'c1');
     // Start run
-    await page.fill('[data-testid="execution-dod-input"]', 'Test run');
+    await page.fill('[data-testid="execution-need-definition-input"]', 'Test run');
     await page.click('[data-testid="execute-button"]');
     // Initial status
     await page.waitForSelector('text=Initializing...');

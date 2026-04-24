@@ -55,8 +55,8 @@ module.exports = {
     '^@bitcode/supabase/ssr/client$': '<rootDir>/tests/mocks/supabaseBrowserClient.ts',
     '^@bitcode/supabase/ssr/(.*)$': '<rootDir>/../packages/supabase/src/ssr/$1',
     '^@bitcode/supabase$': '<rootDir>/../packages/supabase/src/index.ts',
-    '^@bitcode/pipeline-deliverable$': '<rootDir>/../packages/pipelines/deliverable/src/index.ts',
-    '^@bitcode/engine/pipeline$': '<rootDir>/../packages/pipelines/deliverable/src/run.ts',
+    '^@bitcode/pipeline-asset-pack$': '<rootDir>/../packages/pipelines/asset-pack/src/index.ts',
+    '^@bitcode/engine/pipeline$': '<rootDir>/../packages/pipelines/asset-pack/src/run.ts',
     '^@bitcode/engine/(.*)$': '<rootDir>/../packages/pipelines-generics/src/pipeline/$1',
     // Fallback – treat other @bitcode/<pkg> references as pointing into packages/<pkg>/src
     '^@bitcode/([^/]+)$': '<rootDir>/../packages/$1/src/index.ts',

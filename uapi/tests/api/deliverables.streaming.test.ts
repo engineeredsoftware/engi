@@ -9,7 +9,7 @@
 import { createClient } from '@bitcode/supabase/ssr/server';
 import { supabaseAdmin } from '@bitcode/supabase';
 import { deductBtdBalance } from '@bitcode/btd';
-import { runSDIVSPipeline } from '@bitcode/engine/pipeline';
+import { runSDIVFPipeline } from '@bitcode/engine/pipeline';
 import { getGlobalContext, initializeContext } from '@bitcode/context';
 
 jest.mock('@bitcode/supabase/ssr/server', () => ({
@@ -25,7 +25,7 @@ jest.mock('@bitcode/btd', () => ({
 }));
 
 jest.mock('@bitcode/engine/pipeline', () => ({
-  runSDIVSPipeline: jest.fn(),
+  runSDIVFPipeline: jest.fn(),
 }));
 
 jest.mock('@bitcode/context', () => ({
@@ -98,7 +98,7 @@ describe('/api/executions POST (streaming)', () => {
 
     // Stub pipeline result and discovery context
     const dummyResult = { summary: 'ok' };
-    (runSDIVSPipeline as jest.Mock).mockResolvedValue(dummyResult);
+    (runSDIVFPipeline as jest.Mock).mockResolvedValue(dummyResult);
     const expectedAI Documents = ['ai_document1', 'ai_document2'];
     (getGlobalContext as jest.Mock).mockReturnValue({
       getLatestDiscovery: () => ({ data: { ai_documentIds: expectedAI Documents } })

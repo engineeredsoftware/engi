@@ -88,7 +88,7 @@ const fetchFiles = async (owner, repo, path = '') => {
     return data.files;
 };
 exports.fetchFiles = fetchFiles;
-const callDeliverablesAPI = async (connectionId, repoOwner, repoName, repoBranch, commitSha, issueNumber, definitionOfDone, userTimezone, modelProvider, modelId, 
+const callDeliverablesAPI = async (connectionId, repoOwner, repoName, repoBranch, commitSha, issueNumber, definitionOfNeed, userTimezone, modelProvider, modelId, 
 /** Optional attachments provided by user */
 attachments, 
 /** Number of iterations for the pipeline */
@@ -96,7 +96,7 @@ iterationCount = 3,
 /** Optional file uploads */
 files, 
 /** Canonical execution type for retained delivery substrate */
-pipelineType = 'agentic-execution:branch-artifact') => {
+pipelineType = 'agentic-execution:asset-pack') => {
     let body;
     let headers = {
         'X-User-Timezone': userTimezone,
@@ -112,7 +112,7 @@ pipelineType = 'agentic-execution:branch-artifact') => {
             repoBranch,
             repoCommit: commitSha,
             issueNumber,
-            definition_of_done: definitionOfDone,
+            definition_of_need: definitionOfNeed,
             modelProvider,
             modelId,
             attachments,
@@ -136,7 +136,7 @@ pipelineType = 'agentic-execution:branch-artifact') => {
             repoBranch,
             repoCommit: commitSha,
             issueNumber,
-            definition_of_done: definitionOfDone,
+            definition_of_need: definitionOfNeed,
             modelProvider,
             modelId,
             attachments,

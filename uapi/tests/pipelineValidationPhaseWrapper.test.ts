@@ -9,12 +9,12 @@ jest.mock('@bitcode/engine/pipeline/metrics', () => ({
   trackApiCall: jest.fn((metrics, name, fn) => fn()),
   updatePeakMemory: jest.fn(),
 }));
-jest.mock('@bitcode/pipeline-deliverable/src/phases/validation', () => ({ runValidationDeliverables: jest.fn() }));
+jest.mock('@bitcode/pipeline-asset-pack/src/phases/validation', () => ({ runValidationDeliverables: jest.fn() }));
 
 import { getGlobalContext } from '@bitcode/context';
 import { writeStreamMessage } from '@bitcode/streams';
 import { log } from '@bitcode/logger';
-import { runValidationDeliverables as runValidation } from '@bitcode/pipeline-deliverable';
+import { runValidationDeliverables as runValidation } from '@bitcode/pipeline-asset-pack';
 import {
   executeValidationPhase,
   handleValidationFailure

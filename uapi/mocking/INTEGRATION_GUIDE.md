@@ -34,7 +34,7 @@ export const GET = mockAreas.pipelines.ai_documents.main()(originalHandler);
 export const POST = mockAreas.pipelines.ai_documents.stream()(originalHandler);
 ```
 
-### The 4 Toggles (Enhance DoD/IoI etc.)
+### The 4 Toggles (Enhance Definition of Need/IoI etc.)
 ```typescript
 // All toggles automatically work with mock data:
 // V26 no longer exposes old execution-option controls.

@@ -44,7 +44,7 @@ The Model Context Protocol (MCP) server exposing Bitcode’s engineering intelli
 2. **Connect an MCP Client** (e.g., Claude Desktop)
 3. **Call a Tool**: 
    - 
-     name: \`bitcode://pipelines/deliverable/execute\`
+     name: \`bitcode://pipelines/asset-pack/execute\`
      
 ## Support
 
@@ -465,7 +465,7 @@ The Model Context Protocol (MCP) server exposing Bitcode’s engineering intelli
                             name: {
                               type: 'string',
                               description: 'Tool identifier',
-                              example: 'bitcode://pipelines/deliverable/create'
+                              example: 'bitcode://pipelines/asset-pack/create'
                             },
                             description: {
                               type: 'string',
@@ -489,7 +489,7 @@ The Model Context Protocol (MCP) server exposing Bitcode’s engineering intelli
                   example: {
                     tools: [
                       {
-                        name: 'bitcode://pipelines/deliverable/create',
+                        name: 'bitcode://pipelines/asset-pack/create',
                         description: 'Create production-ready deliverables with comprehensive testing and documentation',
                         category: 'pipeline',
                         schema: {
@@ -531,7 +531,7 @@ Supports both synchronous and streaming execution modes.`,
                     name: {
                       type: 'string',
                       description: 'Tool name to execute',
-                      example: 'bitcode://pipelines/deliverable/create'
+                      example: 'bitcode://pipelines/asset-pack/create'
                     },
                     arguments: {
                       type: 'object',
@@ -559,7 +559,7 @@ Supports both synchronous and streaming execution modes.`,
                     summary: 'Create Feature Deliverable',
                     description: 'Example of creating a complete feature with pull request',
                     value: {
-                      name: 'bitcode://pipelines/deliverable/create',
+                      name: 'bitcode://pipelines/asset-pack/create',
                       arguments: {
                         task: 'Create user authentication system with JWT tokens, password hashing, email verification, and password reset functionality',
                         repository: {

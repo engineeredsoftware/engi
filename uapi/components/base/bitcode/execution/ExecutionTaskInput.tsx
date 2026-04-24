@@ -1,7 +1,7 @@
 import { useRef, useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import glassyInputStyles from '@/components/base/bitcode/inputs/glassy-input.module.css';
-import { ENABLE_ENHANCE_DOD } from '@/config/featureFlags';
+import { ENABLE_ENHANCE_NEED_DEFINITION } from '@/config/featureFlags';
 
 interface Attachment {
   id: string;
@@ -10,14 +10,14 @@ interface Attachment {
 }
 
 interface ExecutionInputProps {
-  definitionOfDone: string;
+  definitionOfNeed: string;
   onChange: (value: string) => void;
   isProcessing: boolean;
   placeholder?: string;
   /** Execution type to drive mode-specific behavior */
   type?: string;
   /** Initial content loaded (e.g. from template); disables save when equal */
-  initialDefinitionOfDone?: string;
+  initialDefinitionOfNeed?: string;
   /** Additional context to feed into the Enhance endpoint */
   attachments?: Attachment[];
   /** Optional repo slug (owner/repo).  If undefined or null no repo context will be sent. */
@@ -41,12 +41,12 @@ interface TemplateCategory {
 }
 
 export const ExecutionTaskInput = ({
-  definitionOfDone,
+  definitionOfNeed,
   onChange,
   isProcessing,
-  placeholder = "Definition of Done...",
+  placeholder = "Definition of Need...",
   type,
-  initialDefinitionOfDone,
+  initialDefinitionOfNeed,
   attachments = [],
   repoSlug = null,
   onEnhanceError,
@@ -98,7 +98,7 @@ export const ExecutionTaskInput = ({
   }, []);
 
   const handleEnhanceWriting = async () => {
-    if (!definitionOfDone.trim() || isEnhancing) return;
+    if (!definitionOfNeed.trim() || isEnhancing) return;
 
     setIsEnhancing(true);
     setEnhanceError(null);
@@ -110,7 +110,7 @@ export const ExecutionTaskInput = ({
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          text: definitionOfDone,
+          text: definitionOfNeed,
           attachments,
           repoSlug,
         }),
@@ -134,7 +134,7 @@ export const ExecutionTaskInput = ({
   };
 
   const handleSaveTemplate = () => {
-    if (!definitionOfDone.trim()) return;
+    if (!definitionOfNeed.trim()) return;
     setShowSaveModal(true);
   };
 
@@ -152,7 +152,7 @@ export const ExecutionTaskInput = ({
           deliverableTypes: templateCategories
             .filter(cat => cat.checked)
             .map(cat => cat.id),
-          templateText: definitionOfDone,
+          templateText: definitionOfNeed,
         }),
       });
       if (!response.ok) {
@@ -185,22 +185,22 @@ export const ExecutionTaskInput = ({
       onEnhanceError?.(null);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [definitionOfDone]);
+  }, [definitionOfNeed]);
 
   return (
     <div
       ref={containerRef}
-      className={`relative my-awesome-textarea ${glassyInputStyles.container} transition-all duration-300 ease-out ${definitionOfDone.trim() ? 'has-content' : ''}`}
+      className={`relative my-awesome-textarea ${glassyInputStyles.container} transition-all duration-300 ease-out ${definitionOfNeed.trim() ? 'has-content' : ''}`}
     >
       <div className={`${glassyInputStyles.cornerDot} ${glassyInputStyles.tl}`} />
       <div className={`${glassyInputStyles.cornerDot} ${glassyInputStyles.tr}`} />
       <div className={`${glassyInputStyles.cornerDot} ${glassyInputStyles.bl}`} />
       <div className={`${glassyInputStyles.cornerDot} ${glassyInputStyles.br}`} />
 
-      <textarea data-testid="execution-dod-input"
+      <textarea data-testid="execution-need-definition-input"
         className="w-full min-h-[366px] px-4 py-4 bg-transparent text-gray-100 placeholder-gray-500 font-mono resize-none focus:outline-none rounded-md"
         placeholder={placeholder}
-        value={definitionOfDone}
+        value={definitionOfNeed}
         onChange={(e) => onChange(e.target.value)}
         spellCheck="false"
         style={{
@@ -217,15 +217,15 @@ export const ExecutionTaskInput = ({
           onClick={handleEnhanceWriting}
           onMouseEnter={onEnhanceMouseEnter}
           onMouseLeave={onEnhanceMouseLeave}
-          disabled={!ENABLE_ENHANCE_DOD || isEnhancing || isProcessing || !definitionOfDone.trim()}
+          disabled={!ENABLE_ENHANCE_NEED_DEFINITION || isEnhancing || isProcessing || !definitionOfNeed.trim()}
           className={`
             flex items-center justify-center w-10 h-10 rounded-full
             transition-all duration-300
-            ${definitionOfDone.trim() && ENABLE_ENHANCE_DOD ? 'opacity-80 hover:opacity-100' : 'opacity-30 cursor-not-allowed'}
-            ${isEnhancing ? 'bg-gray-500/20' : ENABLE_ENHANCE_DOD ? 'bg-purple-500/10' : 'bg-gray-500/10'}
-            border ${ENABLE_ENHANCE_DOD ? 'border-purple-500/20' : 'border-gray-500/20'}
-            ${ENABLE_ENHANCE_DOD ? 'hover:bg-purple-500/20 hover:border-purple-500/30' : ''}
-            ${ENABLE_ENHANCE_DOD ? 'hover:shadow-glow-purple' : ''}
+            ${definitionOfNeed.trim() && ENABLE_ENHANCE_NEED_DEFINITION ? 'opacity-80 hover:opacity-100' : 'opacity-30 cursor-not-allowed'}
+            ${isEnhancing ? 'bg-gray-500/20' : ENABLE_ENHANCE_NEED_DEFINITION ? 'bg-purple-500/10' : 'bg-gray-500/10'}
+            border ${ENABLE_ENHANCE_NEED_DEFINITION ? 'border-purple-500/20' : 'border-gray-500/20'}
+            ${ENABLE_ENHANCE_NEED_DEFINITION ? 'hover:bg-purple-500/20 hover:border-purple-500/30' : ''}
+            ${ENABLE_ENHANCE_NEED_DEFINITION ? 'hover:shadow-glow-purple' : ''}
             disabled:hover:bg-gray-500/10 disabled:hover:border-gray-500/20
             disabled:hover:shadow-none disabled:cursor-not-allowed
             group
@@ -266,11 +266,11 @@ export const ExecutionTaskInput = ({
           >
           <button
             onClick={handleSaveTemplate}
-            disabled={!definitionOfDone.trim() || isProcessing || definitionOfDone === initialDefinitionOfDone}
+            disabled={!definitionOfNeed.trim() || isProcessing || definitionOfNeed === initialDefinitionOfNeed}
           className={`
             flex items-center justify-center w-10 h-10 rounded-full
             transition-all duration-300
-            ${definitionOfDone.trim() ? 'opacity-80 hover:opacity-100' : 'opacity-30 cursor-not-allowed'}
+            ${definitionOfNeed.trim() ? 'opacity-80 hover:opacity-100' : 'opacity-30 cursor-not-allowed'}
             bg-purple-500/10 border border-purple-500/20
             hover:bg-purple-500/20 hover:border-purple-500/30
             hover:shadow-glow-purple
@@ -306,15 +306,15 @@ export const ExecutionTaskInput = ({
         {/* Enhance Writing - always shown, disabled when feature flag is off */}
         <button
           onClick={handleEnhanceWriting}
-          disabled={!ENABLE_ENHANCE_DOD || isEnhancing || isProcessing || !definitionOfDone.trim()}
+          disabled={!ENABLE_ENHANCE_NEED_DEFINITION || isEnhancing || isProcessing || !definitionOfNeed.trim()}
           className={`
             flex items-center justify-center w-10 h-10 rounded-full
             transition-all duration-300
-            ${definitionOfDone.trim() && ENABLE_ENHANCE_DOD ? 'opacity-80 hover:opacity-100' : 'opacity-30 cursor-not-allowed'}
-            ${isEnhancing ? 'bg-gray-500/20' : ENABLE_ENHANCE_DOD ? 'bg-purple-500/10' : 'bg-gray-500/10'}
-            border ${ENABLE_ENHANCE_DOD ? 'border-purple-500/20' : 'border-gray-500/20'}
-            ${ENABLE_ENHANCE_DOD ? 'hover:bg-purple-500/20 hover:border-purple-500/30' : ''}
-            ${ENABLE_ENHANCE_DOD ? 'hover:shadow-glow-purple' : ''}
+            ${definitionOfNeed.trim() && ENABLE_ENHANCE_NEED_DEFINITION ? 'opacity-80 hover:opacity-100' : 'opacity-30 cursor-not-allowed'}
+            ${isEnhancing ? 'bg-gray-500/20' : ENABLE_ENHANCE_NEED_DEFINITION ? 'bg-purple-500/10' : 'bg-gray-500/10'}
+            border ${ENABLE_ENHANCE_NEED_DEFINITION ? 'border-purple-500/20' : 'border-gray-500/20'}
+            ${ENABLE_ENHANCE_NEED_DEFINITION ? 'hover:bg-purple-500/20 hover:border-purple-500/30' : ''}
+            ${ENABLE_ENHANCE_NEED_DEFINITION ? 'hover:shadow-glow-purple' : ''}
             disabled:hover:bg-gray-500/10 disabled:hover:border-gray-500/20
             disabled:hover:shadow-none disabled:cursor-not-allowed
             group
@@ -344,11 +344,11 @@ export const ExecutionTaskInput = ({
         {/* Save template */}
         <button
           onClick={handleSaveTemplate}
-          disabled={!definitionOfDone.trim() || isProcessing || definitionOfDone === initialDefinitionOfDone}
+          disabled={!definitionOfNeed.trim() || isProcessing || definitionOfNeed === initialDefinitionOfNeed}
           className={`
             flex items-center justify-center w-10 h-10 rounded-full
             transition-all duration-300
-            ${definitionOfDone.trim() ? 'opacity-80 hover:opacity-100' : 'opacity-30 cursor-not-allowed'}
+            ${definitionOfNeed.trim() ? 'opacity-80 hover:opacity-100' : 'opacity-30 cursor-not-allowed'}
             bg-purple-500/10 border border-purple-500/20
             hover:bg-purple-500/20 hover:border-purple-500/30
             hover:shadow-glow-purple

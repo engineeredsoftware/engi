@@ -43,7 +43,7 @@ describe('ConversationsOverlay attachment hydration', () => {
           id: 'msg-2',
           conversation_id: 'conv-1',
           role: 'assistant',
-          content: 'Branch artifact execution started.',
+          content: 'AssetPack execution started.',
           created_at: '2026-04-21T12:02:00.000Z',
           message_attachments: [
             {

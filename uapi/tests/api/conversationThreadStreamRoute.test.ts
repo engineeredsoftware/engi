@@ -208,7 +208,7 @@ describe('/api/conversations/[conversationId]/stream POST (non-mock mode)', () =
         user_id: 'user-1',
         type: 'pipeline:deliverables',
         metadata: expect.objectContaining({
-          canonical_type: 'agentic-execution:branch-artifact',
+          canonical_type: 'agentic-execution:asset-pack',
           entrypoint: 'conversations',
         }),
       }),

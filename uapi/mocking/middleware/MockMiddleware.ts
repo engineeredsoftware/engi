@@ -131,7 +131,7 @@ export function withMocking(
  */
 export function withStreamingMocking(
   config: MockMiddlewareConfig & { 
-    pipelineType: 'deliverable' | 'measure';
+    pipelineType: 'asset-pack' | 'measure';
   },
   originalHandler: (request: NextRequest) => Promise<NextResponse>
 ) {

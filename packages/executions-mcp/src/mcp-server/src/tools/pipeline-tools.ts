@@ -385,7 +385,7 @@ export function registerPipelineTools(): MCPTool[] {
   return [
     // Asset-pack pipeline tool, retained on the deliverable URI for compatibility.
     {
-      name: 'bitcode://pipelines/deliverable/create',
+      name: 'bitcode://pipelines/asset-pack/create',
       description: `Create and execute a Bitcode asset-pack pipeline for complete software engineering needs.
 
 This is Bitcode's most powerful pipeline, capable of:

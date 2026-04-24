@@ -16,7 +16,8 @@
       "@bitcode/types/*": ["packages/tech-types/src/*"],
       "@bitcode/pipelines-generics": ["packages/pipelines-generics/src/index.ts"],
       "@bitcode/pipelines-generics/*": ["packages/pipelines-generics/src/*"],
-      "@bitcode/pipeline-deliverable/*": ["packages/pipelines/deliverable/src/*"],
+      "@bitcode/pipeline-asset-pack": ["packages/pipelines/asset-pack/src/index.ts"],
+      "@bitcode/pipeline-asset-pack/*": ["packages/pipelines/asset-pack/src/*"],
       "@bitcode/refactoring/*": ["packages/refactoring/src/*"],
       "@bitcode/refactoring": ["packages/refactoring/src/index.ts"],
       "@bitcode/lsp": ["packages/lsp/src/index.ts"],
@@ -73,7 +74,7 @@
     "@bitcode/generic-agents-git": ["packages/generic-agents/git-interactor/src/index.ts"],
     "@bitcode/generic-tools-simple-system-text-search": ["packages/generic-tools/simple-system-text-search/src/index.ts"],
     "@bitcode/generic-tools-git": ["packages/generic-tools/git-interactor/src/index.ts"],
-    "@bitcode/pipelines-generics/src/phases/validation/validationDeliverablesPhaseModule": ["packages/pipelines/deliverable/src/phases/validation.ts"],
+    "@bitcode/pipelines-generics/src/phases/validation/validationDeliverablesPhaseModule": ["packages/pipelines/asset-pack/src/phases/validation.ts"],
 
       // -------------------------------------------------------------------
       // New @bitcode/* aliases replacing the historical @/lib/* imports.
@@ -126,7 +127,8 @@
       "@bitcode/engine/pipeline/pipelineImplementationPhaseWrapper": ["packages/pipelines-generics/src/phases/implementation/index.ts"],
       "@bitcode/engine/pipeline/pipelineValidationPhaseWrapper": ["packages/pipelines-generics/src/phases/validation/index.ts"],
       "@bitcode/engine/pipeline/pipelineShippingPhaseWrapper": ["packages/pipelines-generics/src/phases/shipping/index.ts"],
-      "@bitcode/engine/pipeline/pipelineSDIVS": ["packages/pipelines/deliverable/src/run.ts"],
+      "@bitcode/engine/pipeline/pipelineSDIVF": ["packages/pipelines/asset-pack/src/run.ts"],
+      "@bitcode/engine/pipeline/pipelineSDIVS": ["packages/pipelines/asset-pack/src/run.ts"],
       "@bitcode/engine/pipeline/pipelineMeasureSDIVS": ["packages/pipelines/measure/src/run.ts"],
       "@bitcode/engine/pipeline/pipelineObfuscateSDIVS": ["packages/pipelines/obfuscate/src/run.ts"],
 
@@ -214,10 +216,11 @@
       // -------------------------------------------------------------------
       "@/lib/engine/pipeline/pipelineSetupPhaseWrapper": ["packages/pipelines-generics/src/phases/setup/index.ts"],
       "@/lib/engine/pipeline/pipelineDiscoveryPhaseWrapper": ["packages/pipelines-generics/src/phases/discovery/index.ts"],
-      "@/lib/engine/pipeline/pipelineImplementationPhaseWrapper": ["packages/pipelines-generics/src/phases/implementation/index.ts"],
-      "@/lib/engine/pipeline/pipelineValidationPhaseWrapper": ["packages/pipelines-generics/src/phases/validation/index.ts"],
-      "@/lib/engine/pipeline/pipelineShippingPhaseWrapper": ["packages/pipelines-generics/src/phases/shipping/index.ts"],
-    "@/lib/engine/pipeline/pipelineSDIVS": ["packages/pipelines/deliverable/src/run.ts"],
+    "@/lib/engine/pipeline/pipelineImplementationPhaseWrapper": ["packages/pipelines-generics/src/phases/implementation/index.ts"],
+    "@/lib/engine/pipeline/pipelineValidationPhaseWrapper": ["packages/pipelines-generics/src/phases/validation/index.ts"],
+    "@/lib/engine/pipeline/pipelineShippingPhaseWrapper": ["packages/pipelines-generics/src/phases/shipping/index.ts"],
+    "@/lib/engine/pipeline/pipelineSDIVF": ["packages/pipelines/asset-pack/src/run.ts"],
+    "@/lib/engine/pipeline/pipelineSDIVS": ["packages/pipelines/asset-pack/src/run.ts"],
       "@/lib/engine/pipeline/pipelineMeasureSDIVS": ["packages/pipelines/measure/src/run.ts"],
       "@/lib/engine/pipeline/pipelineObfuscateSDIVS": ["packages/pipelines/obfuscate/src/run.ts"],
 
@@ -260,7 +263,7 @@
       "@/lib/responses": ["packages/networking/src/responses.ts"],
       "@/lib/sse": ["packages/networking/src/sse.ts"],
       "@/lib/web-search": ["packages/web-search/src/index.ts"],
-      "@/lib/deliverables": ["packages/pipelines/deliverable/src/index.ts"],
+      "@/lib/deliverables": ["packages/pipelines/asset-pack/src/index.ts"],
       "@/lib/models": ["packages/models/src/index.ts"],
       "@/lib/telemetry": ["packages/observability/src/telemetry.ts"],
       "@/lib/dryrun": ["packages/observability/src/dryrun.ts"],

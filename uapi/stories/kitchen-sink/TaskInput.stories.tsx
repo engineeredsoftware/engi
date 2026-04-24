@@ -19,7 +19,7 @@ const meta = {
   args: {
     isProcessing: false,
     task: '',
-    placeholder: 'Definition of Done…',
+    placeholder: 'Definition of Need…',
   },
 } satisfies Meta<typeof ExecutionTaskInput>;
 

@@ -1,8 +1,8 @@
 /**
- * Full dry-run integration test for the Deliverables SDIVS pipeline.
+ * Full dry-run integration test for the AssetPack SDIVF pipeline.
  * Ensures all phases execute with default dry-run responses.
  */
-// Mock pipeline phase wrappers to isolate runSDIVSPipeline
+// Mock pipeline phase wrappers to isolate runSDIVFPipeline
 jest.mock('@bitcode/engine/pipeline/pipelineSetupPhaseWrapper', () => ({
   executeSetupPhase: jest.fn(() => Promise.resolve({ success: true }))
 }));
@@ -15,7 +15,7 @@ jest.mock('@bitcode/engine/pipeline/pipelineShippingPhaseWrapper', () => ({
   handleShippingFailure: jest.fn()
 }));
 import { configureDryRun } from '@bitcode/dryrun';
-import { runSDIVSPipeline } from '@bitcode/engine/pipeline/pipelineSDIVS';
+import { runSDIVFPipeline } from '@bitcode/engine/pipeline/pipelineSDIVF';
 
 // Mock global context to provide minimal data for pipeline
 jest.mock('@bitcode/context', () => ({
@@ -47,7 +47,7 @@ describe('Deliverables pipeline dry-run', () => {
   });
 
   it('executes all phases and returns a PipelineResult with default values', async () => {
-    const result = await runSDIVSPipeline();
+    const result = await runSDIVFPipeline();
     // At minimum, the pipeline completes successfully in dry-run
     expect(result.success).toBe(true);
   });

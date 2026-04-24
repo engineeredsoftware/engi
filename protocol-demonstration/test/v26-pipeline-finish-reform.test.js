@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { readFileSync, readdirSync } from 'node:fs';
+import { existsSync, readFileSync, readdirSync } from 'node:fs';
 
 const finishSpec = readFileSync(new URL('../V26_PIPELINE_FINISH_REFORM.md', import.meta.url), 'utf8');
 const deliverableSpec = readFileSync(new URL('../V26_DELIVERABLE_REFORM.md', import.meta.url), 'utf8');
@@ -22,52 +22,70 @@ const primitivesSource = readFileSync(
   'utf8'
 );
 const deliverableIndexSource = readFileSync(
-  new URL('../../packages/pipelines/deliverable/src/index.ts', import.meta.url),
+  new URL('../../packages/pipelines/asset-pack/src/index.ts', import.meta.url),
   'utf8'
 );
+const assetPackPackageSource = readFileSync(
+  new URL('../../packages/pipelines/asset-pack/package.json', import.meta.url),
+  'utf8'
+);
+const assetPackReadmeSource = readFileSync(
+  new URL('../../packages/pipelines/asset-pack/README.md', import.meta.url),
+  'utf8'
+);
+const rootTsconfigSource = readFileSync(new URL('../../tsconfig.json', import.meta.url), 'utf8');
+const uapiNextConfigSource = readFileSync(new URL('../../uapi/next.config.mjs', import.meta.url), 'utf8');
+const pnpmLockSource = readFileSync(new URL('../../pnpm-lock.yaml', import.meta.url), 'utf8');
 const deliverablePhasesSource = readFileSync(
-  new URL('../../packages/pipelines/deliverable/src/phases/index.ts', import.meta.url),
+  new URL('../../packages/pipelines/asset-pack/src/phases/index.ts', import.meta.url),
   'utf8'
 );
 const finishPhaseSource = readFileSync(
-  new URL('../../packages/pipelines/deliverable/src/phases/finish.ts', import.meta.url),
+  new URL('../../packages/pipelines/asset-pack/src/phases/finish.ts', import.meta.url),
   'utf8'
 );
 const shippingPhaseCompatibilitySource = readFileSync(
-  new URL('../../packages/pipelines/deliverable/src/phases/shipping.ts', import.meta.url),
+  new URL('../../packages/pipelines/asset-pack/src/phases/shipping.ts', import.meta.url),
   'utf8'
 );
 const deliverAgentSource = readFileSync(
-  new URL('../../packages/pipelines/deliverable/src/agents/finish/deliver-asset-pack-to-destination-agent.ts', import.meta.url),
+  new URL('../../packages/pipelines/asset-pack/src/agents/finish/deliver-asset-pack-to-destination-agent.ts', import.meta.url),
   'utf8'
 );
 const deliverAgentCompatibilitySource = readFileSync(
-  new URL('../../packages/pipelines/deliverable/src/agents/shipping/deliverable-pipeline-ship-agent.ts', import.meta.url),
+  new URL('../../packages/pipelines/asset-pack/src/agents/shipping/deliverable-pipeline-ship-agent.ts', import.meta.url),
   'utf8'
 );
 const finalSummarySource = readFileSync(
-  new URL('../../packages/pipelines/deliverable/src/agents/finish/final-work-summary-agent.ts', import.meta.url),
+  new URL('../../packages/pipelines/asset-pack/src/agents/finish/final-work-summary-agent.ts', import.meta.url),
   'utf8'
 );
 const finalSummaryCompatibilitySource = readFileSync(
-  new URL('../../packages/pipelines/deliverable/src/agents/shipping/deliverable-pipeline-final-work-summary-agent.ts', import.meta.url),
+  new URL('../../packages/pipelines/asset-pack/src/agents/shipping/deliverable-pipeline-final-work-summary-agent.ts', import.meta.url),
   'utf8'
 );
 const postprocessSource = readFileSync(
-  new URL('../../packages/pipelines/deliverable/src/postprocess.ts', import.meta.url),
+  new URL('../../packages/pipelines/asset-pack/src/postprocess.ts', import.meta.url),
   'utf8'
 );
-const promptBuilderDir = new URL('../../packages/pipelines/deliverable/src/agents/prompts/', import.meta.url);
-const readyToShipPromptSource = readFileSync(new URL('../../packages/pipelines/deliverable/src/agents/prompts/ready-to-ship-prompt.ts', import.meta.url), 'utf8');
-const finalizeShipmentPromptSource = readFileSync(new URL('../../packages/pipelines/deliverable/src/agents/prompts/finalize-shipment-prompt.ts', import.meta.url), 'utf8');
+const promptBuilderDir = new URL('../../packages/pipelines/asset-pack/src/agents/prompts/', import.meta.url);
+const readyToShipPromptSource = readFileSync(new URL('../../packages/pipelines/asset-pack/src/agents/prompts/ready-to-ship-prompt.ts', import.meta.url), 'utf8');
+const finalizeShipmentPromptSource = readFileSync(new URL('../../packages/pipelines/asset-pack/src/agents/prompts/finalize-shipment-prompt.ts', import.meta.url), 'utf8');
 const validationReadyAgentSource = readFileSync(
-  new URL('../../packages/pipelines/deliverable/src/agents/validation/deliverable-pipeline-ready-to-ship-agent.ts', import.meta.url),
+  new URL('../../packages/pipelines/asset-pack/src/agents/validation/deliverable-pipeline-ready-to-ship-agent.ts', import.meta.url),
   'utf8'
 );
 const compatibilityShippingAgentsSource = readFileSync(
-  new URL('../../packages/pipelines/deliverable/src/agents/shipping-agents.ts', import.meta.url),
+  new URL('../../packages/pipelines/asset-pack/src/agents/shipping-agents.ts', import.meta.url),
   'utf8'
 );
+
+function listFiles(dirUrl) {
+  return readdirSync(dirUrl, { withFileTypes: true }).flatMap((entry) => {
+    const child = new URL(entry.name + (entry.isDirectory() ? '/' : ''), dirUrl);
+    return entry.isDirectory() ? listFiles(child) : [child.pathname];
+  });
+}
 
 test('V26 specifies Finish as the broad final phase and Delivering as destination handoff', () => {
   assert.match(finishSpec, /The broad final phase of a phased Bitcode agentic pipeline is `Finish`/);
@@ -93,10 +111,32 @@ test('pipeline generics expose canonical SDIVF APIs with deprecated SDIVS wrappe
   assert.match(primitivesSource, /s === 'shipping'\) return 'finish'/);
 });
 
-test('retained deliverable corridor executes Finish while preserving shipping compatibility aliases', () => {
+test('AssetPack pipeline owns the live package filesystem after deliverable package removal', () => {
+  assert.equal(existsSync(new URL('../../packages/pipelines/asset-pack/package.json', import.meta.url)), true);
+  assert.equal(existsSync(new URL('../../packages/pipelines/deliverable/package.json', import.meta.url)), false);
+  assert.match(assetPackPackageSource, /"name": "@bitcode\/pipeline-asset-pack"/);
+  assert.match(assetPackPackageSource, /"description": "Bitcode AssetPack pipeline/u);
+  assert.match(assetPackReadmeSource, /^# AssetPack Pipeline/m);
+  assert.match(assetPackReadmeSource, /`SDIVF`/u);
+  assert.match(rootTsconfigSource, /"@bitcode\/pipeline-asset-pack": \["packages\/pipelines\/asset-pack\/src\/index\.ts"\]/u);
+  assert.match(uapiNextConfigSource, /'asset-pack'/u);
+  assert.match(pnpmLockSource, /packages\/pipelines\/asset-pack:/u);
+  assert.doesNotMatch(rootTsconfigSource, /packages\/pipelines\/deliverable/u);
+  assert.doesNotMatch(uapiNextConfigSource, /'packages'[\s\S]{0,120}'pipelines'[\s\S]{0,120}'deliverable'/u);
+  assert.doesNotMatch(pnpmLockSource, /pipeline-deliverable|pipelines\/deliverable|packages\/pipelines\/deliverable/u);
+  assert.deepEqual(
+    listFiles(new URL('../../packages/pipelines/asset-pack/src/', import.meta.url)).filter((path) => path.endsWith('.js')),
+    []
+  );
+});
+
+test('retained AssetPack corridor executes Finish while preserving shipping compatibility aliases', () => {
   assert.match(deliverableIndexSource, /factorySDIVFExecutorPipeline/);
   assert.match(deliverableIndexSource, /finish: finishPhase/);
-  assert.match(deliverableIndexSource, /export const runSDIVFPipeline = deliverablePipeline/);
+  assert.match(deliverableIndexSource, /export const assetPackPipeline/);
+  assert.match(deliverableIndexSource, /export const deliverablePipeline = assetPackPipeline/);
+  assert.match(deliverableIndexSource, /export const runSDIVFPipeline = assetPackPipeline/);
+  assert.match(deliverableIndexSource, /export const runSDIVSPipeline = assetPackPipeline/);
   assert.match(deliverablePhasesSource, /export const finishPhase/);
   assert.match(deliverablePhasesSource, /createAgentExecutor\('finish:deliver-asset-pack-to-destination-agent'\)/);
   assert.match(deliverablePhasesSource, /shipping: finishPhase/);
@@ -128,7 +168,7 @@ test('compatibility prompt and agent names point at precise canonical Finish rep
   assert.match(validationReadyAgentSource, /createDeliverablesPipelineValidationPhaseReadyToFinishAgentPrompt/);
   assert.match(compatibilityShippingAgentsSource, /DeliverablesPipelineFinishPhaseFinalizeAssetPackDeliveryEvidenceAgent/);
   assert.match(compatibilityShippingAgentsSource, /@deprecated V26 compatibility alias/);
-  assert.match(finishSpec, /Deprecated names, compatibility wrappers, and old filesystem labels are tactical fifth-gate aids, not V26 closure evidence/);
+  assert.match(finishSpec, /Deprecated names, compatibility wrappers, and any remaining old filesystem labels are tactical fifth-gate aids, not V26 closure evidence/);
   assert.match(finishSpec, /Full V26 closure requires no deprecated, backwards-compatible, legacy, or unspecified broad-pipeline names/);
 });
 

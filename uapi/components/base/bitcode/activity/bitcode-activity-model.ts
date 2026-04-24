@@ -133,7 +133,7 @@ function formatExecutionHistoryTitle(type: string | null | undefined) {
   if (!normalizedType) return 'Execution activity';
   if (normalizedType.includes('measure')) return 'Need measurement execution';
   if (normalizedType.includes('proof')) return 'Proof execution';
-  if (normalizedType.includes('deliverable')) return 'Deliverable execution';
+  if (normalizedType.includes('asset-pack') || normalizedType.includes('deliverable')) return 'AssetPack execution';
   if (normalizedType.includes('pipeline')) return 'Pipeline execution';
   return 'Execution activity';
 }

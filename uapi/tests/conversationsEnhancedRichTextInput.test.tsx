@@ -18,7 +18,7 @@ jest.mock('@/app/conversations/components/pickers/pipeline-run-picker', () => ({
             pipelineId: 'run-settlement-1',
             conversationTitle: 'Need board',
             pipelineTitle: 'Settlement lane',
-            pipelineType: 'pipeline:deliverables',
+            pipelineType: 'pipeline:asset-pack',
             type: 'settlement_target',
           })
         }

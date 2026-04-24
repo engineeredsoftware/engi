@@ -1,9 +1,9 @@
 /**
- * Full dry-run integration test for the Deliverables SDIVS pipeline.
+ * Full dry-run integration test for the AssetPack SDIVF pipeline.
  * Ensures all phases execute with default dry-run responses.
  */
 import { configureDryRun } from '@bitcode/dryrun';
-import { runSDIVSPipeline } from '@bitcode/engine/pipeline/pipelineSDIVS';
+import { runSDIVFPipeline } from '@bitcode/engine/pipeline/pipelineSDIVF';
 
 // Mock global context to provide minimal data for pipeline
 jest.mock('@bitcode/context', () => ({
@@ -28,7 +28,7 @@ jest.mock('@bitcode/context', () => ({
   }))
 }));
 
-describe('runSDIVSPipeline full dry-run', () => {
+describe('runSDIVFPipeline full dry-run', () => {
   beforeAll(() => {
     // Enable dry run with mocked responses
     process.env.DRY_RUN_MODE = 'true';
@@ -36,7 +36,7 @@ describe('runSDIVSPipeline full dry-run', () => {
   });
 
   it('executes all phases and returns a PipelineResult with default values', async () => {
-    const result = await runSDIVSPipeline();
+    const result = await runSDIVFPipeline();
     // Overall success
     expect(result.success).toBe(true);
     // Metrics contain iteration count
@@ -45,7 +45,7 @@ describe('runSDIVSPipeline full dry-run', () => {
     expect(typeof result.metrics.phaseTimings.discovery).toBe('number');
     expect(typeof result.metrics.phaseTimings.implementation).toBe('number');
     expect(typeof result.metrics.phaseTimings.validation).toBe('number');
-    expect(typeof result.metrics.phaseTimings.shipping).toBe('number');
+    expect(typeof result.metrics.phaseTimings.finish).toBe('number');
     // Actions.files default structure
     expect(result.actions.files).toHaveProperty('paths');
     expect(Array.isArray(result.actions.files.paths)).toBe(true);
@@ -53,7 +53,7 @@ describe('runSDIVSPipeline full dry-run', () => {
     expect(result.errors).toBeUndefined();
     // Validation passed
     expect(result.validationPassed).toBe(true);
-    // Ready to ship
-    expect(result.readyToShip).toBe(true);
+    // Ready to Finish
+    expect(result.readyToFinish).toBe(true);
   });
 });

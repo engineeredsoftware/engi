@@ -6,7 +6,7 @@ const ruleTester = new TSESLint.RuleTester({
 });
 
 const DELIVERABLE_CONQUER =
-  'packages/pipelines/deliverable/src/agents/implementationDeliverablesAgentConquer/index.ts';
+  'packages/pipelines/asset-pack/src/agents/implementationDeliverablesAgentConquer/index.ts';
 
 ruleTester.run('no-write-tools-outside-conquer', noWriteToolsOutsideConquer, {
   valid: [
@@ -15,7 +15,7 @@ ruleTester.run('no-write-tools-outside-conquer', noWriteToolsOutsideConquer, {
       code: "import { textEditorTool } from '@bitcode/generic-tools-files-maintaining';",
     },
     {
-      filename: 'packages/pipelines/deliverable/src/agents/implementationDeliverablesAgentDivideByFile/foo.ts',
+      filename: 'packages/pipelines/asset-pack/src/agents/implementationDeliverablesAgentDivideByFile/foo.ts',
       code: "import { definitionTool } from '@bitcode/generic-tools-lsp-query';",
     },
   ],

@@ -2,7 +2,7 @@
 
 ## Status
 
-- Scope: supplementary V26 reform note for the retained `packages/pipelines/deliverable/*` corridor
+- Scope: supplementary V26 reform note for the retained `packages/pipelines/asset-pack/*` corridor
 - Canonical pointer: `/Users/garrettmaring/Developer/ENGI/BITCODE_SPEC.txt -> V26`
 - Purpose: keep the old-world `deliverable` family legible while making Bitcode's actual semantic ownership precise
 - Generic strategy companion: `protocol-demonstration/V26_REFORM_STRATEGY.md`
@@ -29,7 +29,7 @@ Examples of `written asset` forms include:
 
 ## Required mapping
 
-The retained `packages/pipelines/deliverable/*` corridor is therefore interpreted as:
+The retained `packages/pipelines/asset-pack/*` corridor is therefore interpreted as:
 - `deliverable pipeline`
   compatibility-only path naming for an asset-pack written-asset synthesis corridor
 - `deliverableType`
@@ -58,7 +58,7 @@ While the path/package may remain `deliverable` during V26 for compatibility and
 - retained `/api/deliverables` telemetry, notifications, and email-subject copy should keep compatibility identifiers only as wrappers; payloads and user-facing wording should explicitly describe Bitcode `asset-pack run` semantics and emit semantic event aliases / `assetPack` / `need` / `writtenAssetType` data
 - retained email-template filenames and promptpart identifiers should also remain compatibility wrappers only; rendered copy and prompt content should describe asset-pack runs, written-asset synthesis, and Delivering delivery mechanisms rather than teaching `deliverable` as the primary Bitcode object
 - retained raw promptparts and promptpart-generation scripts should likewise describe the corridor in asset-pack-run, need-satisfaction, written-asset, and delivery-mechanism terms, even when compatibility filenames and identifiers still include `deliverable`; this includes phase-purpose, setup-comprehension, finish-finalization, deliverables-system, implementation-divider, create-code-change, PR-packaging, create-pull-request, ready-to-ship, code-change-readiness, and code-change-review-readiness promptparts, which should no longer teach PR-first, deployment-ceremony-first, or pre-Bitcode semantics where Bitcode now requires need-first asset-pack synthesis plus delivery mechanisms
-- admitted MCP workflow/development prompt templates and the retained `bitcode://pipelines/deliverable/create` tool description must follow the same rule: rendered prompt text should call the live behavior a Bitcode asset-pack pipeline over source-to-shares needs, while retained URI and subtype names are labeled compatibility surfaces rather than active product canon
+- admitted MCP workflow/development prompt templates and the retained `bitcode://pipelines/asset-pack/create` tool description must follow the same rule: rendered prompt text should call the live behavior a Bitcode asset-pack pipeline over source-to-shares needs, while retained URI and subtype names are labeled compatibility surfaces rather than active product canon
 - all retained deliverable-family raw PromptPart doc-comment metadata must move to Bitcode-native intent and version language across agent, phase, pipeline, tool, setup, discovery, implementation, validation, and shipping compatibility files; `Agent semantic unit`, `Define purpose of ... deliverables`, `Adds Deliverables-specific ...`, and `Canonical deliverables ...` metadata strings may not survive as active metadata even when filenames remain compatibility wrappers
 - retained deliverable substep PromptParts such as `*_substep_reason`, `*_substep_prepare_concise_context`, `*_substep_chunk_then_sum`, `*_substep_tools_execution`, `*_substep_structured_output`, `*_substep_stitch_until_complete`, and `*_substep_judge` must no longer use generic old-world agent phrasing; each substep must explicitly carry Bitcode need, written-asset, asset-pack, proof-evidence, delivery-mechanism, and execution-history reread semantics appropriate to its role
 - retained raw PromptPart TypeScript files, generated declaration metadata, and runtime JavaScript carry-through must remain parseable and content-equivalent after broad reform, so malformed benchmark score metadata or stale runtime PromptPart strings cannot preserve old-world behavior after canonical source text has moved
@@ -69,6 +69,7 @@ While the path/package may remain `deliverable` during V26 for compatibility and
 - retained discovery outputs should mirror compatibility `deliverables` / `definitionOfDone` fields with semantic `writtenAssets` / `needSatisfactionCriteria` so downstream Bitcode reread and later-gate renaming do not have to recover meaning from old-world labels alone
 - retained corridor entry initialization must also hydrate a registry-bearing pipeline execution context when callers still enter through a bare `Execution`, so the commercial runtime remains phase/agent/prompt/tool legible instead of depending on hidden `PipelineExecution` assumptions
 - the retained package itself must clear an honest local typecheck boundary through the MCP/VCS/prompt/search support graph it still traverses, so runtime proof and asset-pack semantics are backed by a truthful source boundary rather than broad monorepo success alone
+- filesystem ownership has crossed the fifth-gate threshold for this corridor: `packages/pipelines/asset-pack` and `@bitcode/pipeline-asset-pack` are the live owners, `packages/pipelines/deliverable` is removed from active source, and generated JavaScript is not allowed under the AssetPack package `src/` tree
 - new-world semantic aliases should be added before broad destructive renames
 - old names may remain as bounded raw PromptPart or storage compatibility only when active code names expose canonical Bitcode meaning first
 - `SDIVS` / `shipping` compatibility APIs must forward to `SDIVF` / `finish` behavior rather than preserving old broad Shipping semantics

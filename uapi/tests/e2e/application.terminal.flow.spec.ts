@@ -302,8 +302,8 @@ test.describe('Bitcode Terminal browser flow', () => {
           repo_snapshot: postedExecutionHistoryDraft.output?.repo_snapshot,
           items: [],
           agentic_execution: {
-            canonicalType: 'agentic-execution:branch-artifact',
-            label: 'Branch artifact execution',
+            canonicalType: 'agentic-execution:asset-pack',
+            label: 'AssetPack execution',
             lens: 'give',
             proofStatus: 'repository-anchor witness recorded',
             closureFocus: 'repository supply boundary',
@@ -398,7 +398,7 @@ test.describe('Bitcode Terminal browser flow', () => {
     await anchorDetailResponse;
 
     expect(recordedRequest.postDataJSON()).toMatchObject({
-      pipeline_type: 'agentic-execution:branch-artifact',
+      pipeline_type: 'agentic-execution:asset-pack',
       status: 'completed',
       output: {
         summary: 'Recorded repository anchor for bitcode/terminal.',
@@ -438,7 +438,7 @@ test.describe('Bitcode Terminal browser flow', () => {
     await expect(page).toHaveURL(/transactionId=run-anchor/);
     await expect(page).toHaveURL(/transactionDetail=transaction/);
     await expect(page.getByText('Repository anchor recorded into the Bitcode activity ledger.')).toBeVisible();
-    await expect(page.getByText('Branch artifact execution')).toBeVisible();
+    await expect(page.getByText('AssetPack execution')).toBeVisible();
     await expect(page.getByText(/Recorded repository anchor for bitcode\/terminal\./)).toBeVisible();
     await expect(page.getByText('Selected activity')).toBeVisible();
     await expect(page.getByText('Activity id')).toBeVisible();

@@ -6,7 +6,7 @@ set -euo pipefail
 # public subpaths.
 
 repo_root="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
-pipeline_dir="$repo_root/packages/pipelines/deliverable"
+pipeline_dir="$repo_root/packages/pipelines/asset-pack"
 
 echo "Fixing corrupted Bitcode prompt imports under $pipeline_dir..."
 

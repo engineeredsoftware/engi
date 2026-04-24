@@ -7,7 +7,7 @@ set -euo pipefail
 # removed raw prompt filesystem paths.
 
 repo_root="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
-pipeline_dir="$repo_root/packages/pipelines/deliverable"
+pipeline_dir="$repo_root/packages/pipelines/asset-pack"
 
 echo "Fixing remaining Bitcode prompt import corruption under $pipeline_dir..."
 

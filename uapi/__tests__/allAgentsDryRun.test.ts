@@ -3,9 +3,9 @@ import { testAgent } from './agentTestFactory';
 // ------------------------------------------------------------------
 // AssetPacks - Setup
 // ------------------------------------------------------------------
-import { COMPREHEND_TASK_AGENT } from '@bitcode/pipeline-deliverable';
-import { FAMILIARIZE_ATTACHMENTS_AGENT } from '@bitcode/pipeline-deliverable';
-import { SETUP_DELIVERABLES_AGENT_PREPARE_REPOSITORY } from '@bitcode/pipeline-deliverable';
+import { COMPREHEND_TASK_AGENT } from '@bitcode/pipeline-asset-pack';
+import { FAMILIARIZE_ATTACHMENTS_AGENT } from '@bitcode/pipeline-asset-pack';
+import { SETUP_DELIVERABLES_AGENT_PREPARE_REPOSITORY } from '@bitcode/pipeline-asset-pack';
 
 // ------------------------------------------------------------------
 // Discovery (subset)
@@ -15,7 +15,7 @@ import { SIMPLE_TEXT_SEARCH_AGENT } from '@bitcode/generic-agents-text-search';
 // ------------------------------------------------------------------
 // Implementation (subset)
 // ------------------------------------------------------------------
-import { implementationOpenPRAgent } from '@bitcode/pipeline-deliverable';
+import { implementationOpenPRAgent } from '@bitcode/pipeline-asset-pack';
 
 // ------------------------------------------------------------------
 // Shipping (subset)

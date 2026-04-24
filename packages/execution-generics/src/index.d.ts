@@ -45,7 +45,7 @@ export { ExecutionStorageAdapter } from './storage/ExecutionStorageAdapter';
 export { ExecutionStreamAdapter, ExecutionStreamEventType, type ExecutionStreamConfig } from './storage/ExecutionStreamAdapter';
 export type { StorableValue, StorableObject, StorableArray, TypedStore, NamespaceRegistry, ExecutionNamespaces, KnownNamespace, NamespaceValue } from './types';
 export { recordFileChange, getFileChanges, getFileChangeStats, extractFileChangesFromToolResults, clearFileChanges, type FileChange, type FileChangeStats } from './store/file-change-tracker';
-export { storeAgentStepWorkUpdate, storeIterationWorkUpdate, buildAgentStepWorkUpdate, buildSDIVSPipelineUpdate, accumulateIterationWorkContext, consumeIterationWorkContext, type WorkUpdate, type AgentStepWorkUpdate, type SDIVSPipelineUpdate, type ToolUsageUpdate, } from './work-update';
+export { storeAgentStepWorkUpdate, storeIterationWorkUpdate, buildAgentStepWorkUpdate, buildSDIVFPipelineUpdate, buildSDIVSPipelineUpdate, accumulateIterationWorkContext, consumeIterationWorkContext, type WorkUpdate, type AgentStepWorkUpdate, type SDIVFPipelineUpdate, type SDIVSPipelineUpdate, type ToolUsageUpdate, } from './work-update';
 export { ShortCircuitSignalSchema, hasShortCircuitSignal, ShortCircuitError } from './signals/ShortCircuitSignal';
 export type { ShortCircuitSignal, AgentOutput } from './signals/ShortCircuitSignal';
 export { ExecutionPrompt } from './prompts/ExecutionPrompt';

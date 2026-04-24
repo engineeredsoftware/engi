@@ -96,10 +96,10 @@ export function ExecutionsClient() {
     }
   }, []);
 
-  const { state: persistedState, updateDefinitionOfDone: updatePersistedDoD, updateModelSelection: updatePersistedModel, updateVCS: updatePersistedVCS } = usePersistedState();
+  const { state: persistedState, updateDefinitionOfNeed: updatePersistedDefinitionOfNeed, updateModelSelection: updatePersistedModel, updateVCS: updatePersistedVCS } = usePersistedState();
 
   const {
-    definitionOfDone,
+    definitionOfNeed,
     isProcessing,
     output,
     generationCount,
@@ -113,23 +113,23 @@ export function ExecutionsClient() {
     runId: activeRunId,
     latestWorkUpdate,
     iterationUpdates,
-    setDefinitionOfDone,
+    setDefinitionOfNeed,
     submitAssetPackPipeline,
     appendInstructionToLog,
     resetState,
   } = useExecutionState();
 
-  const [initialDoD, setInitialDoD] = useState(persistedState.definitionOfDone || definitionOfDone);
+  const [initialDefinitionOfNeed, setInitialDefinitionOfNeed] = useState(persistedState.definitionOfNeed || definitionOfNeed);
   useEffect(() => {
-    if (persistedState.definitionOfDone && !definitionOfDone) {
-      setDefinitionOfDone(persistedState.definitionOfDone);
+    if (persistedState.definitionOfNeed && !definitionOfNeed) {
+      setDefinitionOfNeed(persistedState.definitionOfNeed);
     }
   }, []);
 
-  const handleSetDefinitionOfDone = (value: string) => {
-    setDefinitionOfDone(value);
-    setInitialDoD(value);
-    updatePersistedDoD(value);
+  const handleSetDefinitionOfNeed = (value: string) => {
+    setDefinitionOfNeed(value);
+    setInitialDefinitionOfNeed(value);
+    updatePersistedDefinitionOfNeed(value);
   };
 
   const [modelSelection, setModelSelection] = useState(persistedState.modelSelection || `${DEFAULT_PROVIDER}||${DEFAULT_MODEL_API}`);
@@ -230,7 +230,7 @@ export function ExecutionsClient() {
   useEffect(() => {
     if (activeRunId && !runId) {
       const params = new URLSearchParams();
-      params.set('type', 'agentic-execution:branch-artifact');
+      params.set('type', 'agentic-execution:asset-pack');
       params.set('runId', activeRunId);
       const newUrl = `/executions?${params.toString()}`;
       window.history.pushState({}, '', newUrl);
@@ -245,7 +245,7 @@ export function ExecutionsClient() {
     (async () => {
       if (!runId) { setHistoryFWS(null); return; }
       try {
-        const params = new URLSearchParams(); params.set('type', 'agentic-execution:branch-artifact');
+        const params = new URLSearchParams(); params.set('type', 'agentic-execution:asset-pack');
         const res = await fetch(`/api/executions/history/${runId}?${params.toString()}`);
         if (!res.ok) return; const data = await res.json(); const run = data?.run || {};
         const runOutput = (run as any)?.output || run?.output_data || null;
@@ -480,7 +480,7 @@ export function ExecutionsClient() {
         attachmentsPayload,
         iterationCount,
         selectedFiles,
-        { pipelineType: 'agentic-execution:branch-artifact' }
+        { pipelineType: 'agentic-execution:asset-pack' }
       );
       if (process.env.NODE_ENV === 'development') console.debug('[Execution] onExecuteSubmit completed', { hasCompletion: Boolean(completionResult) });
     } catch (err) { if (process.env.NODE_ENV === 'development') console.error('[Execution] onExecuteSubmit error', err); setUiError((err as Error).message); }
@@ -489,7 +489,7 @@ export function ExecutionsClient() {
   const onCancelPipeline = async () => {
     if (!activeRunId) return;
     try {
-      const res = await fetch(`/api/executions/${activeRunId}?type=agentic-execution:branch-artifact`, { method: 'DELETE' });
+      const res = await fetch(`/api/executions/${activeRunId}?type=agentic-execution:asset-pack`, { method: 'DELETE' });
       if (!res.ok) console.warn('Cancel failed');
     } catch (e) {
       console.error('Cancel error', e);
@@ -509,9 +509,9 @@ export function ExecutionsClient() {
       <ExecutionsPageHeaderDeliverablePostprocess
           renderDocInsideHeader={false}
           renderCardsInsideHeader={false}
-          onExecuteDeliverableClickSetDefinitionOfDone={handleSetDefinitionOfDone}
+          onExecuteDeliverableClickSetDefinitionOfNeed={handleSetDefinitionOfNeed}
           executionStatus={isProcessing ? 'executing' : (!isProcessing && (isStreamingComplete || (!!runId && !!historyFWS))) ? 'executed' : 'execute'}
-          executionType={'agentic-execution:branch-artifact'}
+          executionType={'agentic-execution:asset-pack'}
           postprocessed={headerPostprocessed || undefined}
           showSourceEdu={showSourceEdu}
           showAttachmentsEdu={showAttachmentsEdu}
@@ -523,7 +523,7 @@ export function ExecutionsClient() {
           onTemplateSelect={(templateId, deliverableType) => {
             const template = mergedTemplates[deliverableType].find((t) => t.id === templateId);
             if (template) {
-              handleSetDefinitionOfDone(template.text);
+              handleSetDefinitionOfNeed(template.text);
             }
           }}
           deliverables={{
@@ -608,8 +608,8 @@ export function ExecutionsClient() {
                 !selectedRepo ||
                 !selectedBranch ||
                 !selectedCommit ||
-                !definitionOfDone ||
-                (definitionOfDone || '').trim() === ''
+                !definitionOfNeed ||
+                (definitionOfNeed || '').trim() === ''
               }
               onEducationHover={(type) => {
                 setShowSourceEdu(false); setShowAttachmentsEdu(false); setShowEnhanceEdu(false); setShowSaveTemplateEdu(false); setShowExecuteButtonEdu(false);
@@ -634,8 +634,8 @@ export function ExecutionsClient() {
                 !selectedRepo ||
                 !selectedBranch ||
                 !selectedCommit ||
-                !definitionOfDone ||
-                (definitionOfDone || '').trim() === ''
+                !definitionOfNeed ||
+                (definitionOfNeed || '').trim() === ''
               }
             />
           </div>

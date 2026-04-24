@@ -14,7 +14,7 @@ interface ExecutionProgress {
 }
 
 interface ExecutionState {
-  definitionOfDone: string;
+  definitionOfNeed: string;
   isProcessing: boolean;
   output: string;
   generationCount: number;
@@ -31,11 +31,11 @@ interface ExecutionState {
   iterationUpdates: any[];
 }
 
-const DEFAULT_BRANCH_ARTIFACT_EXECUTION_TYPE = 'agentic-execution:branch-artifact';
+const DEFAULT_ASSET_PACK_EXECUTION_TYPE = 'agentic-execution:asset-pack';
 
 // Initial default state for execution processing
 const initialExecutionState: ExecutionState = {
-  definitionOfDone: '',
+  definitionOfNeed: '',
   isProcessing: false,
   output: '',
   generationCount: 0,
@@ -71,13 +71,13 @@ export const useExecutionState = () => {
   };
   const dlog = (...args: any[]) => { if (isDebug()) { try { console.debug('[AssetPackPipeline][stream]', ...args); } catch {} } };
 
-  const setDefinitionOfDone = (definitionOfDone: string) => {
-    setState(prev => ({ ...prev, definitionOfDone }));
+  const setDefinitionOfNeed = (definitionOfNeed: string) => {
+    setState(prev => ({ ...prev, definitionOfNeed }));
   };
 
   /**
    * Triggers the Bitcode asset-pack pipeline and returns final completion data (or null on error).
-   * `definitionOfDone` is bounded to the input key while downstream receipts mirror Bitcode Need and AssetPack semantics.
+   * `definitionOfNeed` is bounded to the input key while downstream receipts mirror Bitcode Need and AssetPack semantics.
    */
   const submitAssetPackPipeline = useCallback(async (
     connectionId: number,
@@ -122,7 +122,7 @@ export const useExecutionState = () => {
     try {
       dlog('Submitting Bitcode asset-pack pipeline', { connectionId, repoOwner, repoName, repoBranch, commitSha, issueNumber, modelProvider, modelId, attachmentsCount: attachments?.length || 0, iterationCount });
       const pipelineType =
-        options?.pipelineType || DEFAULT_BRANCH_ARTIFACT_EXECUTION_TYPE;
+        options?.pipelineType || DEFAULT_ASSET_PACK_EXECUTION_TYPE;
       const stream = await callDeliverablesAPI(
             connectionId,
             repoOwner,
@@ -130,7 +130,7 @@ export const useExecutionState = () => {
             repoBranch,
             commitSha,
             issueNumber,
-            state.definitionOfDone,
+            state.definitionOfNeed,
             userTimezone,
             modelProvider,
             modelId,
@@ -302,7 +302,7 @@ export const useExecutionState = () => {
       isStreamingComplete: !hasError
     }));
     return finalCompletion;
-  }, [state.definitionOfDone]);
+  }, [state.definitionOfNeed]);
 
   /**
    * Append a user instruction to the pipeline log immediately
@@ -328,7 +328,7 @@ export const useExecutionState = () => {
 
   return {
     ...state,
-    setDefinitionOfDone,
+    setDefinitionOfNeed,
     submitAssetPackPipeline,
     appendInstructionToLog,
     resetState

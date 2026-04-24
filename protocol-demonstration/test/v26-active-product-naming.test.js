@@ -195,8 +195,8 @@ const executionsToggleButtonsSource = readFileSync(new URL('../../uapi/app/execu
 const uapiFeatureFlagsSource = readFileSync(new URL('../../uapi/config/featureFlags.ts', import.meta.url), 'utf8');
 const executionOptionToggleSource = readFileSync(new URL('../../uapi/components/base/bitcode/execution/execution-option-toggle.tsx', import.meta.url), 'utf8');
 const executionToggleButtonsSource = readFileSync(new URL('../../uapi/components/base/bitcode/execution/toggle-buttons.tsx', import.meta.url), 'utf8');
-const deliverableToolsIndexSource = readFileSync(new URL('../../packages/pipelines/deliverable/src/tools/index.ts', import.meta.url), 'utf8');
-const multiPipelineIndexPath = new URL('../../packages/pipelines/multi/src/index.ts', import.meta.url);
+const deliverableToolsIndexSource = readFileSync(new URL('../../packages/pipelines/asset-pack/src/tools/index.ts', import.meta.url), 'utf8');
+const multiPipelinePackagePath = new URL('../../packages/pipelines/multi', import.meta.url);
 const preprocessTogglePath = new URL('../../uapi/components/base/bitcode/execution/preprocess-toggle.tsx', import.meta.url);
 const aiDocumentTemplatesSource = readFileSync(new URL('../../uapi/hooks/useAIDocumentTemplates.ts', import.meta.url), 'utf8');
 const orbitalsConnectsEmailSource = readFileSync(new URL('../../uapi/app/orbitals/components/OrbitalsConnectsOrbitalEmailConnection.tsx', import.meta.url), 'utf8');
@@ -558,11 +558,11 @@ const agentThricifiedGenerationSource = readFileSync(new URL('../../packages/age
 const agentFailsafeSequenceSource = readFileSync(new URL('../../packages/agent-generics/src/steps/failsafe-sequence.ts', import.meta.url), 'utf8');
 const agentSubstepsFactoriesSource = readFileSync(new URL('../../packages/agent-generics/src/substeps/factories.ts', import.meta.url), 'utf8');
 const agentNormalizeStepNameSource = readFileSync(new URL('../../packages/agent-generics/src/phaseHelpers/normalizeStepName.ts', import.meta.url), 'utf8');
-const deliverablePreprocessSource = readFileSync(new URL('../../packages/pipelines/deliverable/src/preprocess.ts', import.meta.url), 'utf8');
-const deliverableBringupDemoSource = readFileSync(new URL('../../packages/pipelines/deliverable/src/__dev__/bringup-demo.ts', import.meta.url), 'utf8');
-const deliverableMetricsTestSource = readFileSync(new URL('../../packages/pipelines/deliverable/src/__tests__/metrics-output.test.ts', import.meta.url), 'utf8');
-const deliverableSetupPlanAgentSource = readFileSync(new URL('../../packages/pipelines/deliverable/src/agents/setup/deliverable-pipeline-setup-plan-agent.ts', import.meta.url), 'utf8');
-const deliverableCreatePullRequestAgentSource = readFileSync(new URL('../../packages/pipelines/deliverable/src/agents/shipping/deliverable-pipeline-create-pull-request-agent.ts', import.meta.url), 'utf8');
+const deliverablePreprocessSource = readFileSync(new URL('../../packages/pipelines/asset-pack/src/preprocess.ts', import.meta.url), 'utf8');
+const deliverableBringupDemoSource = readFileSync(new URL('../../packages/pipelines/asset-pack/src/__dev__/bringup-demo.ts', import.meta.url), 'utf8');
+const deliverableMetricsTestSource = readFileSync(new URL('../../packages/pipelines/asset-pack/src/__tests__/metrics-output.test.ts', import.meta.url), 'utf8');
+const deliverableSetupPlanAgentSource = readFileSync(new URL('../../packages/pipelines/asset-pack/src/agents/setup/deliverable-pipeline-setup-plan-agent.ts', import.meta.url), 'utf8');
+const deliverableCreatePullRequestAgentSource = readFileSync(new URL('../../packages/pipelines/asset-pack/src/agents/shipping/deliverable-pipeline-create-pull-request-agent.ts', import.meta.url), 'utf8');
 const parsingSource = readFileSync(new URL('../../packages/parsing/src/parsing.ts', import.meta.url), 'utf8');
 const deliverablesNotificationsTestSource = readFileSync(new URL('../../uapi/tests/api/deliverables.notifications.test.ts', import.meta.url), 'utf8');
 const vercelIndexSource = readFileSync(new URL('../../packages/vercel/src/index.ts', import.meta.url), 'utf8');
@@ -669,7 +669,7 @@ const jestBaseSource = readFileSync(new URL('../../jest.base.cjs', import.meta.u
 const pnpmWorkspaceSource = readFileSync(new URL('../../pnpm-workspace.yaml', import.meta.url), 'utf8');
 const accountOrbitalStorySource = readFileSync(new URL('../../uapi/stories/AccountOrbital.stories.tsx', import.meta.url), 'utf8');
 const completionCelebrationStorySource = readFileSync(new URL('../../uapi/stories/CompletionCelebration.stories.tsx', import.meta.url), 'utf8');
-const dodInputStorySource = readFileSync(new URL('../../uapi/stories/DodInput.stories.tsx', import.meta.url), 'utf8');
+const needDefinitionInputStorySource = readFileSync(new URL('../../uapi/stories/NeedDefinitionInput.stories.tsx', import.meta.url), 'utf8');
 const deliverButtonStorySource = readFileSync(new URL('../../uapi/stories/DeliverButton.stories.tsx', import.meta.url), 'utf8');
 const errorRecoveryGraceStorySource = readFileSync(new URL('../../uapi/stories/ErrorRecoveryGrace.stories.tsx', import.meta.url), 'utf8');
 const memoryManifestationStorySource = readFileSync(new URL('../../uapi/stories/MemoryManifestation.stories.tsx', import.meta.url), 'utf8');
@@ -1135,7 +1135,7 @@ test('active V26 canon posture and preserved runtime state use bitcode policy an
   assert.match(executionOptionToggleSource, /ExecutionOptionToggle/);
   assert.match(executionToggleButtonsSource, /computer-use-measurement/);
   assert.match(executionToggleButtonsSource, /fit-review/);
-  assert.equal(existsSync(multiPipelineIndexPath), false);
+  assert.equal(existsSync(multiPipelinePackagePath), false);
   assert.equal(existsSync(preprocessTogglePath), false);
   assert.match(deliverableToolsIndexSource, /BITCODE_ENABLE_COMPUTER_USE_NEED_MEASUREMENT/);
   assert.match(deliverableToolsIndexSource, /need-measurement:computer-use-evidence-agent/);
@@ -1190,11 +1190,11 @@ test('active V26 canon posture and preserved runtime state use bitcode policy an
   assert.doesNotMatch(auxillariesInterfacesPaneSource, /@\/app\/orbitals\/components\/OrbitalsInterfacesPane/);
   assert.doesNotMatch(auxillariesBtdPaneSource, /@\/app\/orbitals\/components\/OrbitalsBTDPane/);
   assert.match(auxillariesProfilePaneSource, /@\/app\/auxillaries\/components\/headers\/AuxillariesProfilePaneHeader/);
-  assert.match(agenticExecutionSource, /agentic-execution:branch-artifact/);
+  assert.match(agenticExecutionSource, /agentic-execution:asset-pack/);
   assert.match(agenticExecutionSource, /agentic-execution:need-measurement/);
   assert.match(agenticExecutionSource, /resolveAgenticExecutionQueryTypes/);
   assert.match(agenticExecutionSource, /pipeline:deliverables/);
-  assert.match(agenticExecutionSource, /branch artifact execution/);
+  assert.match(agenticExecutionSource, /AssetPack execution/);
   assert.match(agenticExecutionSource, /need measurement execution/);
   assert.match(applicationPageSource, /Bitcode Terminal/);
   assert.match(applicationPageClientSource, /Bitcode Terminal/);
@@ -1214,7 +1214,7 @@ test('active V26 canon posture and preserved runtime state use bitcode policy an
   assert.match(conversationsEnhancedRichTextInputSource, /Output destination/);
   assert.match(conversationsListSource, /execution run/);
   assert.match(conversationsSidebarLogsSource, /execution/);
-  assert.match(conversationSharedSource, /agentic-execution:branch-artifact/);
+  assert.match(conversationSharedSource, /agentic-execution:asset-pack/);
   assert.match(conversationSharedSource, /agentic-execution:need-measurement/);
   assert.match(conversationSharedSource, /Mock Bitcode agentic execution/);
   assert.match(conversationSharedSource, /source attachments, asset packs, output destinations, and settlement-bound proofs/);
@@ -1229,7 +1229,7 @@ test('active V26 canon posture and preserved runtime state use bitcode policy an
   assert.doesNotMatch(applicationPageClientSource, /deriveTransactionLens/);
   assert.match(applicationTransactionsSource, /buildAgenticExecutionSummary/);
   assert.match(applicationTransactionsSource, /typeLabel/);
-  assert.match(applicationRunDataSource, /agentic-execution:branch-artifact/);
+  assert.match(applicationRunDataSource, /agentic-execution:asset-pack/);
   assert.match(applicationRunDataSource, /agentic-execution:need-measurement/);
   assert.match(applicationRunDataSource, /agentic-execution:proof-refresh/);
   assert.match(applicationRunDataSource, /Bitcode Terminal/);
@@ -1284,7 +1284,7 @@ test('active V26 canon posture and preserved runtime state use bitcode policy an
   assert.doesNotMatch(bitcodePublicCopySource, /Open transactions/);
   assert.match(bitcodePublicExplainersSource, /title: 'Bitcode Terminal'/);
   assert.doesNotMatch(bitcodePublicExplainersSource, /title: 'Transactions'/);
-  assert.match(executionsPageClientSource, /agentic-execution:branch-artifact/);
+  assert.match(executionsPageClientSource, /agentic-execution:asset-pack/);
   assert.match(executionsPageClientSource, /Open Bitcode Terminal/);
   assert.doesNotMatch(executionsPageClientSource, /Open transactions/);
   assert.match(auxillariesConnectsPaneSource, /@\/app\/auxillaries\/components\/headers\/AuxillariesConnectsPaneHeader/);
@@ -2052,7 +2052,7 @@ test('active V26 retained package surfaces use Bitcode naming instead of Engi na
   assert.match(accountOrbitalStorySource, /Bitcode\/Auxillaries\/Account/);
   assert.match(accountOrbitalStorySource, /demo@bitcode\.dev/);
   assert.match(completionCelebrationStorySource, /Bitcode\/Surprise & Delight\/Completion Celebration/);
-  assert.match(dodInputStorySource, /Bitcode\/Surprise & Delight\/DoD Input/);
+  assert.match(needDefinitionInputStorySource, /Bitcode\/Surprise & Delight\/Definition of Need Input/);
   assert.match(deliverButtonStorySource, /The most critical moment in the Bitcode experience/);
   assert.match(errorRecoveryGraceStorySource, /Bitcode\/Surprise & Delight\/Error Recovery Grace/);
   assert.match(memoryManifestationStorySource, /Bitcode\/Surprise & Delight\/Memory Manifestation/);
@@ -2183,7 +2183,7 @@ test('active V26 retained package surfaces use Bitcode naming instead of Engi na
   assert.doesNotMatch(accountOrbitalStorySource, /Kitchen Sink\/Orbitals\/Account/);
   assert.doesNotMatch(accountOrbitalStorySource, /demo@engi\.ai/);
   assert.doesNotMatch(completionCelebrationStorySource, /Engi\/Surprise & Delight\/Completion Celebration/);
-  assert.doesNotMatch(dodInputStorySource, /Engi\/Surprise & Delight\/DoD Input/);
+  assert.doesNotMatch(needDefinitionInputStorySource, /Engi\/Surprise & Delight\/Definition of Need Input/);
   assert.doesNotMatch(deliverButtonStorySource, /The most critical moment in the engi experience/);
   assert.doesNotMatch(errorRecoveryGraceStorySource, /Engi\/Surprise & Delight\/Error Recovery Grace/);
   assert.doesNotMatch(memoryManifestationStorySource, /Engi\/Surprise & Delight\/Memory Manifestation/);
@@ -2873,7 +2873,7 @@ test('active V26 retained package surfaces use Bitcode naming instead of Engi na
   assert.match(executionsMcpShutdownSource, /\bBitcodeMCPServer\b/);
   assert.match(executionsMcpTypesSource, /\bPipelinePhase\b/);
   assert.match(executionsMcpTypesSource, /\/Users\/garrettmaring\/Developer\/ENGI/);
-  assert.match(executionsMcpPipelineToolsSource, /bitcode:\/\/pipelines\/deliverable\/create/);
+  assert.match(executionsMcpPipelineToolsSource, /bitcode:\/\/pipelines\/asset-pack\/create/);
   assert.match(executionsMcpAnalysisToolsSource, /bitcode:\/\/analysis\/repository\/analyze/);
   assert.match(executionsMcpMonitoringToolsSource, /bitcode:\/\/monitoring\/pipeline\/status/);
   assert.match(executionsMcpEnterpriseToolsSource, /https:\/\/api\.bitcode\.dev/);

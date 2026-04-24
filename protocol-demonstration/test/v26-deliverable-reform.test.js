@@ -4,75 +4,75 @@ import { existsSync, readFileSync, readdirSync } from 'node:fs';
 
 const reformSource = readFileSync(new URL('../V26_DELIVERABLE_REFORM.md', import.meta.url), 'utf8');
 const pipelineSchemasSource = readFileSync(
-  new URL('../../packages/pipelines/deliverable/src/types/PipelineSchemas.ts', import.meta.url),
+  new URL('../../packages/pipelines/asset-pack/src/types/PipelineSchemas.ts', import.meta.url),
   'utf8'
 );
 const deliverablePipelineSource = readFileSync(
-  new URL('../../packages/pipelines/deliverable/src/index.ts', import.meta.url),
+  new URL('../../packages/pipelines/asset-pack/src/index.ts', import.meta.url),
   'utf8'
 );
 const postprocessSource = readFileSync(
-  new URL('../../packages/pipelines/deliverable/src/postprocess.ts', import.meta.url),
+  new URL('../../packages/pipelines/asset-pack/src/postprocess.ts', import.meta.url),
   'utf8'
 );
 const comprehendNeedSource = readFileSync(
-  new URL('../../packages/pipelines/deliverable/src/agents/setup/deliverable-pipeline-comprehend-need-agent.ts', import.meta.url),
+  new URL('../../packages/pipelines/asset-pack/src/agents/setup/deliverable-pipeline-comprehend-need-agent.ts', import.meta.url),
   'utf8'
 );
 const comprehendNeedPromptSource = readFileSync(
-  new URL('../../packages/pipelines/deliverable/src/agents/prompts/deliverable-pipeline-comprehend-need-agent-prompts.ts', import.meta.url),
+  new URL('../../packages/pipelines/asset-pack/src/agents/prompts/deliverable-pipeline-comprehend-need-agent-prompts.ts', import.meta.url),
   'utf8'
 );
 const comprehendNeedBasePromptSource = readFileSync(
-  new URL('../../packages/pipelines/deliverable/src/agents/prompts/comprehend-need-prompt.ts', import.meta.url),
+  new URL('../../packages/pipelines/asset-pack/src/agents/prompts/comprehend-need-prompt.ts', import.meta.url),
   'utf8'
 );
 const removedComprehendTaskEntrypoints = [
-  '../../packages/pipelines/deliverable/src/agents/setup/deliverable-pipeline-comprehend-task-agent.ts',
-  '../../packages/pipelines/deliverable/src/agents/setup/deliverable-pipeline-comprehend-task-agent.js',
-  '../../packages/pipelines/deliverable/src/agents/prompts/comprehend-task-prompt.ts',
-  '../../packages/pipelines/deliverable/src/agents/prompts/comprehend-task-prompt.js',
-  '../../packages/pipelines/deliverable/src/agents/prompts/deliverable-pipeline-comprehend-task-agent-prompts.ts',
-  '../../packages/pipelines/deliverable/src/agents/prompts/deliverable-pipeline-comprehend-task-agent-prompts.js',
+  '../../packages/pipelines/asset-pack/src/agents/setup/deliverable-pipeline-comprehend-task-agent.ts',
+  '../../packages/pipelines/asset-pack/src/agents/setup/deliverable-pipeline-comprehend-task-agent.js',
+  '../../packages/pipelines/asset-pack/src/agents/prompts/comprehend-task-prompt.ts',
+  '../../packages/pipelines/asset-pack/src/agents/prompts/comprehend-task-prompt.js',
+  '../../packages/pipelines/asset-pack/src/agents/prompts/deliverable-pipeline-comprehend-task-agent-prompts.ts',
+  '../../packages/pipelines/asset-pack/src/agents/prompts/deliverable-pipeline-comprehend-task-agent-prompts.js',
 ];
 const comprehendNeedRawIdentityPromptSource = readFileSync(
   new URL('../../packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_comprehendneed_system_identity.ts', import.meta.url),
   'utf8'
 );
 const semanticResolutionSource = readFileSync(
-  new URL('../../packages/pipelines/deliverable/src/semantic-resolution.ts', import.meta.url),
+  new URL('../../packages/pipelines/asset-pack/src/semantic-resolution.ts', import.meta.url),
   'utf8'
 );
 const phaseIndexSource = readFileSync(
-  new URL('../../packages/pipelines/deliverable/src/phases/index.ts', import.meta.url),
+  new URL('../../packages/pipelines/asset-pack/src/phases/index.ts', import.meta.url),
   'utf8'
 );
 const setupPhaseSource = readFileSync(
-  new URL('../../packages/pipelines/deliverable/src/phases/setup.ts', import.meta.url),
+  new URL('../../packages/pipelines/asset-pack/src/phases/setup.ts', import.meta.url),
   'utf8'
 );
 const preprocessSource = readFileSync(
-  new URL('../../packages/pipelines/deliverable/src/preprocess.ts', import.meta.url),
+  new URL('../../packages/pipelines/asset-pack/src/preprocess.ts', import.meta.url),
   'utf8'
 );
 const shipAgentSource = readFileSync(
-  new URL('../../packages/pipelines/deliverable/src/agents/finish/deliver-asset-pack-to-destination-agent.ts', import.meta.url),
+  new URL('../../packages/pipelines/asset-pack/src/agents/finish/deliver-asset-pack-to-destination-agent.ts', import.meta.url),
   'utf8'
 );
 const createPullRequestSource = readFileSync(
-  new URL('../../packages/pipelines/deliverable/src/agents/shipping/deliverable-pipeline-create-pull-request-agent.ts', import.meta.url),
+  new URL('../../packages/pipelines/asset-pack/src/agents/shipping/deliverable-pipeline-create-pull-request-agent.ts', import.meta.url),
   'utf8'
 );
 const discoveryAgentsSource = readFileSync(
-  new URL('../../packages/pipelines/deliverable/src/agents/discovery-agents.ts', import.meta.url),
+  new URL('../../packages/pipelines/asset-pack/src/agents/discovery-agents.ts', import.meta.url),
   'utf8'
 );
 const selectFilesSource = readFileSync(
-  new URL('../../packages/pipelines/deliverable/src/agents/discovery/deliverable-pipeline-select-files-parallel-agent.ts', import.meta.url),
+  new URL('../../packages/pipelines/asset-pack/src/agents/discovery/deliverable-pipeline-select-files-parallel-agent.ts', import.meta.url),
   'utf8'
 );
 const finalSummarySource = readFileSync(
-  new URL('../../packages/pipelines/deliverable/src/agents/finish/final-work-summary-agent.ts', import.meta.url),
+  new URL('../../packages/pipelines/asset-pack/src/agents/finish/final-work-summary-agent.ts', import.meta.url),
   'utf8'
 );
 const semanticPayloadSource = readFileSync(
@@ -507,8 +507,8 @@ test('setup comprehension path mirrors semantic need and written-asset keys for 
   assert.match(comprehendNeedSource, /execution\.store\('setup', 'writtenAssetType', types\);/u);
   assert.match(comprehendNeedSource, /execution\.store\('setup\/written-asset-type', 'type', types\);/u);
   assert.match(comprehendNeedSource, /execution\.store\('setup\/need', 'satisfactionCriteria', needSatisfactionCriteria\);/u);
-  assert.match(comprehendNeedSource, /execution\.store\('setup\/need', 'comprehension', out\.comprehension\);/u);
-  assert.match(comprehendNeedSource, /execution\.store\('setup\/need', 'entities', out\.entities\);/u);
+  assert.match(comprehendNeedSource, /execution\.store\('setup\/need', 'comprehension', result\.comprehension\);/u);
+  assert.match(comprehendNeedSource, /execution\.store\('setup\/need', 'entities', result\.entities\);/u);
 });
 
 test('phase and shipping carriers resolve semantic written-asset type and need before compatibility fields', () => {
@@ -539,8 +539,8 @@ test('operator-facing execution header and retained route teach shipping-mechani
   assert.match(executionsPageHeaderSource, /A shipping delivery mechanism can be a/u);
   assert.match(executionsPageHeaderSource, /each shipping a stable asset pack and always supplemented by a final work summary/u);
   assert.match(executionsPageHeaderSource, /single high-quality asset pack and its shipping result/u);
-  assert.match(deliverablesRouteSource, /Retained compatibility route handlers for asset-pack shipping pipeline runs\./u);
-  assert.match(deliverablesRouteSource, /Create and execute the retained compatibility route for an asset-pack/u);
+  assert.match(deliverablesRouteSource, /Retained `\/api\/deliverables` compatibility route handlers for AssetPack/u);
+  assert.match(deliverablesRouteSource, /Create and execute the retained compatibility route for an AssetPack/u);
   assert.match(deliverablesRouteSource, /execution\.store\('route\/preprocessed', 'assetPackWrittenAsset', preprocessing\);/u);
   assert.match(deliverablesRouteSource, /semanticKind: 'asset-pack-written-asset' as const/u);
   assert.match(deliverablesRouteSource, /need: finalWorkSummary\?\.need \|\| preprocessedSnapshot\?\.need \|\| definition_of_done/u);
@@ -695,7 +695,7 @@ test('retained maintenance scripts audit current Bitcode prompt and asset-pack-r
 
   assert.match(updateDeliverableAgentsScriptSource, /repo_root=/u);
   assert.match(updateDeliverableAgentsScriptSource, /retained asset-pack pipeline agents/u);
-  assert.match(updateDeliverableAgentsScriptSource, /packages\/pipelines\/deliverable\/src\/agents/u);
+  assert.match(updateDeliverableAgentsScriptSource, /packages\/pipelines\/asset-pack\/src\/agents/u);
   assert.doesNotMatch(updateDeliverableAgentsScriptSource, /Developer\/engi\/engi/u);
 
   assert.match(generateDeliverablePromptPartsTsSource, /Comprehend Need/u);

@@ -38,9 +38,9 @@ test('V26 need-comprehension compatibility keeps canonical owners separate from 
   const agentPackageJson = JSON.parse(readRepoFile('packages/generic-agents/need-comprehension/package.json'));
   const agentReadme = readRepoFile('packages/generic-agents/need-comprehension/README.md');
   const agentSource = readRepoFile('packages/generic-agents/need-comprehension/src/index.ts');
-  const pipelineAdapter = readRepoFile('packages/pipelines/deliverable/src/agents/setup/deliverable-pipeline-comprehend-need-agent.ts');
-  const dangerWallAdapter = readRepoFile('packages/pipelines/deliverable/src/agents/setup/deliverable-pipeline-danger-wall-agent.ts');
-  const setupPhase = readRepoFile('packages/pipelines/deliverable/src/phases/setup.ts');
+  const pipelineAdapter = readRepoFile('packages/pipelines/asset-pack/src/agents/setup/deliverable-pipeline-comprehend-need-agent.ts');
+  const dangerWallAdapter = readRepoFile('packages/pipelines/asset-pack/src/agents/setup/deliverable-pipeline-danger-wall-agent.ts');
+  const setupPhase = readRepoFile('packages/pipelines/asset-pack/src/phases/setup.ts');
 
   assert.match(canonicalToolTs, /Canonical Bitcode need-semantics tool owner/u);
   assert.match(canonicalToolTs, /export class AnalyzeNeedSemanticsTool/u);

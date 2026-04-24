@@ -9,7 +9,7 @@
  * - **Real-time streaming**: Token-by-token response delivery
  * - **Performance optimization**: Adaptive throttling and memory management
  * - **Error resilience**: Circuit breaker pattern with automatic recovery
- * - **Agentic execution integration**: Automatic tracking of branch-artifact and need-measurement executions
+ * - **Agentic execution integration**: Automatic tracking of AssetPack and need-measurement executions
  * - **Memory efficiency**: Smart token buffering with auto-pruning
  * - **Health monitoring**: Real-time performance metrics and health checks
  *
@@ -68,7 +68,7 @@ function createThrottle(fn, delay) {
  *
  * ## Features
  * - **Real-time streaming**: Token-by-token response delivery via Server-Sent Events
- * - **Agentic execution integration**: Automatic tracking and triggering of branch-artifact and need-measurement executions
+ * - **Agentic execution integration**: Automatic tracking and triggering of AssetPack and need-measurement executions
  * - **Performance optimization**: Adaptive throttling (default 20 FPS) and memory management
  * - **Error resilience**: Circuit breaker pattern with automatic recovery
  * - **Memory efficiency**: Smart token buffering with configurable limits

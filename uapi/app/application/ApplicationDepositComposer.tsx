@@ -137,7 +137,7 @@ export default function ApplicationDepositComposer({
       setContent('');
       try {
         await onRecordActivity?.({
-          type: 'agentic-execution:branch-artifact',
+          type: 'agentic-execution:asset-pack',
           detailSection: 'transaction',
           summary:
             payload.asset?.title ||

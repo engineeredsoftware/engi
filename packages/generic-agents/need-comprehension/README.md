@@ -12,7 +12,7 @@ Its canonical fifth-gate role is `setup` / `pre-danger-wall`: synthesize a revie
 
 - `packages/generic-tools/need-comprehension` owns DocCode tool prompts, callable tool classes, pure primitives, and schemas.
 - `packages/generic-agents/need-comprehension` owns the PTRR orchestration prompt, step prompts, input/output schema, and tool composition.
-- `packages/pipelines/deliverable` keeps only a pipeline-local adapter that stores setup-phase results and preserves compatibility route names.
+- `packages/pipelines/asset-pack` keeps only a pipeline-local adapter that stores setup-phase results and preserves compatibility route names.
 - `packages/generic-agents/danger-wall` remains the next setup-phase agent and consumes the Need-comprehension output for risk admission.
 
 ## Agent Contract

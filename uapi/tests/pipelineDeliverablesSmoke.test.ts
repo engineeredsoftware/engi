@@ -1,5 +1,5 @@
 /**
- * End-to-end smoke test for the Deliverables (SDIVS) pipeline.
+ * End-to-end smoke test for the AssetPack (SDIVF) pipeline.
  * Verifies that all phases are invoked and the final result is returned.
  */
 // Mock phase wrappers
@@ -29,12 +29,12 @@ jest.mock('@bitcode/context', () => ({
   }))
 }));
 
-import { runSDIVSPipeline } from '@bitcode/engine/pipeline/pipelineSDIVS';
+import { runSDIVFPipeline } from '@bitcode/engine/pipeline/pipelineSDIVF';
 import { executeSetupPhase } from '@bitcode/engine/pipeline/pipelineSetupPhaseWrapper';
 import { executeIteration } from '@bitcode/pipeline-engine-generics/iterations';
 import { executeShippingPhase } from '@bitcode/engine/pipeline/pipelineShippingPhaseWrapper';
 
-describe('runSDIVSPipeline E2E smoke', () => {
+describe('runSDIVFPipeline E2E smoke', () => {
   beforeEach(() => {
     jest.clearAllMocks();
     (executeSetupPhase as jest.Mock).mockResolvedValue({
@@ -52,7 +52,7 @@ describe('runSDIVSPipeline E2E smoke', () => {
   });
 
   it('invokes all phases and returns the final PipelineResult', async () => {
-    const result = await runSDIVSPipeline();
+    const result = await runSDIVFPipeline();
     expect(executeSetupPhase).toHaveBeenCalledTimes(1);
     expect(executeIteration).toHaveBeenCalledTimes(1);
     expect(executeShippingPhase).toHaveBeenCalledTimes(1);

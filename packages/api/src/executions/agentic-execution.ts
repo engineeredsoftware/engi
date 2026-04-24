@@ -3,7 +3,7 @@ export type AgenticExecutionLens = 'give' | 'need' | 'closure';
 export interface AgenticExecutionSummary {
   canonicalType: string;
   family:
-    | 'branch-artifact'
+    | 'asset-pack'
     | 'need-measurement'
     | 'proof-refresh'
     | 'upgrade'
@@ -14,11 +14,11 @@ export interface AgenticExecutionSummary {
   closureFocus: string;
 }
 
-const DEFAULT_CANONICAL_TYPE = 'agentic-execution:branch-artifact' as const;
+const DEFAULT_CANONICAL_TYPE = 'agentic-execution:asset-pack' as const;
 const DEFAULT_STORAGE_TYPE = 'pipeline:deliverables';
 
 const CANONICAL_TO_STORAGE_TYPE = {
-  'agentic-execution:branch-artifact': 'pipeline:deliverables',
+  'agentic-execution:asset-pack': 'pipeline:deliverables',
   'agentic-execution:need-measurement': 'pipeline:measure',
   'agentic-execution:proof-refresh': 'pipeline:proof-refresh',
   'agentic-execution:upgrade': 'pipeline:upgrades',
@@ -35,6 +35,7 @@ export function normalizeAgenticExecutionType(value?: string | null) {
 
   if (!normalized) return DEFAULT_CANONICAL_TYPE;
   if (normalized.startsWith('agentic-execution:')) {
+    if (normalized === 'agentic-execution:branch-artifact') return 'agentic-execution:asset-pack';
     return normalized in CANONICAL_TO_STORAGE_TYPE
       ? (normalized as CanonicalAgenticExecutionType)
       : DEFAULT_CANONICAL_TYPE;
@@ -42,8 +43,8 @@ export function normalizeAgenticExecutionType(value?: string | null) {
   if (normalized.includes('upgrade')) return 'agentic-execution:upgrade';
   if (normalized.includes('proof')) return 'agentic-execution:proof-refresh';
   if (normalized.includes('measure')) return 'agentic-execution:need-measurement';
-  if (normalized.includes('deliverable') || normalized.includes('artifact')) {
-    return 'agentic-execution:branch-artifact';
+  if (normalized.includes('asset-pack') || normalized.includes('asset_pack') || normalized.includes('deliverable') || normalized.includes('artifact')) {
+    return 'agentic-execution:asset-pack';
   }
 
   return DEFAULT_CANONICAL_TYPE;
@@ -86,9 +87,9 @@ export function formatAgenticExecutionLabel(value?: string | null) {
       return 'proof refresh execution';
     case 'agentic-execution:upgrade':
       return 'upgrade execution';
-    case 'agentic-execution:branch-artifact':
+    case 'agentic-execution:asset-pack':
     default:
-      return 'branch artifact execution';
+      return 'AssetPack execution';
   }
 }
 
@@ -101,7 +102,7 @@ export function deriveAgenticExecutionLens(value?: string | null): AgenticExecut
     case 'agentic-execution:proof-refresh':
     case 'agentic-execution:upgrade':
       return 'closure';
-    case 'agentic-execution:branch-artifact':
+    case 'agentic-execution:asset-pack':
     default:
       return 'give';
   }
@@ -117,9 +118,9 @@ export function deriveAgenticExecutionClosureFocus(value?: string | null) {
       return 'proof-family refresh + operating posture';
     case 'agentic-execution:upgrade':
       return 'upgrade closure + delivery posture';
-    case 'agentic-execution:branch-artifact':
+    case 'agentic-execution:asset-pack':
     default:
-      return 'branch artifacts + settlement delivery';
+      return 'AssetPacks + settlement delivery';
   }
 }
 
@@ -135,9 +136,9 @@ export function deriveAgenticExecutionProofStatus(value?: string | null, status?
         return 'proof witness ready';
       case 'agentic-execution:upgrade':
         return 'upgrade closure ready';
-      case 'agentic-execution:branch-artifact':
+      case 'agentic-execution:asset-pack':
       default:
-        return 'branch artifact bundle ready';
+        return 'AssetPack bundle ready';
     }
   }
 
@@ -152,9 +153,9 @@ export function deriveAgenticExecutionProofStatus(value?: string | null, status?
       return 'proof witness in flight';
     case 'agentic-execution:upgrade':
       return 'upgrade closure in flight';
-    case 'agentic-execution:branch-artifact':
+    case 'agentic-execution:asset-pack':
     default:
-      return 'branch artifact bundle in flight';
+      return 'AssetPack bundle in flight';
   }
 }
 

@@ -47,9 +47,9 @@ export interface TestContext {
  */
 export interface TestBehavior {
   /**
-   * SDIVS phases this scenario covers
+   * SDIVF phases this scenario covers
    */
-  phases?: ('setup' | 'discovery' | 'implementation' | 'validation' | 'shipping')[];
+  phases?: ('setup' | 'discovery' | 'implementation' | 'validation' | 'finish')[];
   
   /**
    * Expected duration in milliseconds

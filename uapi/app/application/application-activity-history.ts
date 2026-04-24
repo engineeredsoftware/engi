@@ -243,7 +243,7 @@ export function buildApplicationGiveWorkbenchDraft(
   const selectedEntryLabels = workbench.give.selectedEntries.map((entry) => entry.label);
 
   return {
-    type: 'agentic-execution:branch-artifact',
+    type: 'agentic-execution:asset-pack',
     detailSection: 'transaction',
     summary: `Recorded give-side share posture for ${repository}.`,
     input: {
@@ -333,7 +333,7 @@ export function buildApplicationSupplySelectionDraft(
     selection.authSessions.find((entry) => entry.value === selection.selectedAuthSessionId)?.label || 'No auth session';
 
   return {
-    type: 'agentic-execution:branch-artifact',
+    type: 'agentic-execution:asset-pack',
     detailSection: 'transaction',
     summary: `Recorded give-side selection with ${selection.selectedCount} supply reference${selection.selectedCount === 1 ? '' : 's'}.`,
     input: {
@@ -402,7 +402,7 @@ export function buildApplicationRepositoryAnchorDraft(
     connectionStatus?.username || connectionStatus?.metadata?.account || selectedRepository?.owner.username || 'connected account';
 
   return {
-    type: 'agentic-execution:branch-artifact',
+    type: 'agentic-execution:asset-pack',
     detailSection: 'transaction',
     summary: `Recorded repository anchor for ${selectedRepository?.fullName || 'the current Bitcode supply boundary'}.`,
     output: {

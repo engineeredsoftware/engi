@@ -250,7 +250,7 @@ interface ShippingTemplateSets {
 
 interface ExecutionPageHeaderProps {
   executionStatus: "execute" | "executing" | "executed";
-  onExecuteDeliverableClickSetDefinitionOfDone: (definitionOfDone: string) => void;
+  onExecuteDeliverableClickSetDefinitionOfNeed: (definitionOfNeed: string) => void;
   /** If false, suppresses rendering of the summary/TL;DR doc area inside the header */
   renderDocInsideHeader?: boolean;
   /** If false, suppresses rendering of the cards panel inside the header */
@@ -279,7 +279,7 @@ interface ExecutionPageHeaderProps {
   /** Repository snapshot metadata */
   repoSnapshot?: { org: string; repo: string; branch: string; commit: string };
   /** Execution type to drive header visuals */
-  executionType?: 'agentic-execution:branch-artifact';
+  executionType?: 'agentic-execution:asset-pack';
 }
 
 // Define our variants for the header content
@@ -733,7 +733,7 @@ export default function ExecutionsPageHeader({
   deliverables,
   processingStats,
   repoSnapshot,
-  onExecuteDeliverableClickSetDefinitionOfDone,
+  onExecuteDeliverableClickSetDefinitionOfNeed,
   renderDocInsideHeader,
   renderCardsInsideHeader,
   showSourceEdu,
@@ -965,16 +965,16 @@ export default function ExecutionsPageHeader({
     } else if (showEnhanceEdu) {
       const enhanceEdu = {
         title: "Enhance Writing",
-        subtitle: "Improve Definition of Done",
-        body: "Use AI to refine and elaborate your Definition of Done, making it more precise and informative."
+        subtitle: "Improve Definition of Need",
+        body: "Use AI to refine and elaborate your Definition of Need, making it more precise and informative."
       };
       setActiveEdu(enhanceEdu);
       setLastEduContent(enhanceEdu);
     } else if (showSaveTemplateEdu) {
       const saveTemplateEdu = {
         title: "Save as Template",
-        subtitle: "Save Definition of Done",
-        body: "Save your current Definition of Done as a reusable template for future deliverables."
+        subtitle: "Save Definition of Need",
+        body: "Save your current Definition of Need as a reusable template for future deliverables."
       };
       setActiveEdu(saveTemplateEdu);
       setLastEduContent(saveTemplateEdu);
@@ -993,7 +993,7 @@ export default function ExecutionsPageHeader({
             subtitle: "Efficiency Mode",
             body: (
               <div className="space-y-2 text-sm">
-                <div className="text-blue-300">Automatically determines minimum iterations needed to complete the Definition of Done.</div>
+                <div className="text-blue-300">Automatically determines minimum iterations needed to complete the Definition of Need.</div>
                 <ul className="list-disc list-inside space-y-1 text-gray-400">
                   <li><span className="text-white">Focus on efficiency</span>: Completes requirements with minimal processing</li>
                   <li><span className="text-white">Smart optimization</span>: Balances speed with correctness</li>
@@ -1303,7 +1303,7 @@ export default function ExecutionsPageHeader({
                 variants={scaledChildVariants}
               >
                 <div className="relative inline-block">
-                  <ExecutionsHeaderTitle type={(executionType ?? 'agentic-execution:branch-artifact') as any} className="max-w-[100%]" />
+                  <ExecutionsHeaderTitle type={(executionType ?? 'agentic-execution:asset-pack') as any} className="max-w-[100%]" />
                 </div>
               </motion.h1>
 
@@ -1322,14 +1322,14 @@ export default function ExecutionsPageHeader({
                         <span
                           className="text-gray-300 hover:border-b hover:border-purple-300/90 transition-all duration-150 cursor-help"
                           onMouseEnter={() => setActiveEdu({
-                            title: executionType?.includes('ai_documents') ? 'Intent to Improve' : 'Definition of Done',
+                            title: executionType?.includes('ai_documents') ? 'Intent to Improve' : 'Definition of Need',
                             subtitle: executionType?.includes('ai_documents') ? 'Targeted Enhancement' : 'Success Criteria',
                             body: executionType?.includes('ai_documents')
                               ? 'Describe what you intend to improve and why — focused, actionable, and beneficial to users or maintainers.'
                               : 'Articulate the precise outcome that defines success. Clear criteria ensure shared understanding of the expected written asset pack and shipping result.'
                           })}
                         >
-                          {executionType?.includes('ai_documents') ? 'Intent to Improve' : 'Definition of Done'}
+                          {executionType?.includes('ai_documents') ? 'Intent to Improve' : 'Definition of Need'}
                         </span>.
                       </p>
                     </div>
@@ -1343,7 +1343,7 @@ export default function ExecutionsPageHeader({
                       text="pull request"
                       templates={templates?.pullRequests}
                       defaultTask="an opened pull request for:"
-                      onSelect={onExecuteDeliverableClickSetDefinitionOfDone}
+                      onSelect={onExecuteDeliverableClickSetDefinitionOfNeed}
                       onTemplateSelect={(templateId) => onTemplateSelect?.(templateId, 'pullRequests')}
                       onMouseEnter={handlePullRequestHover}
                       duration={3.2}
@@ -1353,7 +1353,7 @@ export default function ExecutionsPageHeader({
                       text="pull request review"
                       templates={templates?.pullRequestReviews}
                       defaultTask="a pull request review that addresses..."
-                      onSelect={onExecuteDeliverableClickSetDefinitionOfDone}
+                      onSelect={onExecuteDeliverableClickSetDefinitionOfNeed}
                       onTemplateSelect={(templateId) => onTemplateSelect?.(templateId, 'pullRequestReviews')}
                       onMouseEnter={handlePRReviewHover}
                       duration={3.2}
@@ -1364,7 +1364,7 @@ export default function ExecutionsPageHeader({
                       text="issue"
                       templates={templates?.issues}
                       defaultTask="an issue created describing..."
-                      onSelect={onExecuteDeliverableClickSetDefinitionOfDone}
+                      onSelect={onExecuteDeliverableClickSetDefinitionOfNeed}
                       onTemplateSelect={(templateId) => onTemplateSelect?.(templateId, 'issues')}
                       onMouseEnter={handleIssueHover}
                       duration={3.2}
@@ -1375,7 +1375,7 @@ export default function ExecutionsPageHeader({
                       text="issue comment"
                       templates={templates?.comments}
                       defaultTask="a helpful comment that..."
-                      onSelect={onExecuteDeliverableClickSetDefinitionOfDone}
+                      onSelect={onExecuteDeliverableClickSetDefinitionOfNeed}
                       onTemplateSelect={(templateId) => onTemplateSelect?.(templateId, 'comments')}
                       onMouseEnter={handleIssueCommentHover}
                       duration={3.2}

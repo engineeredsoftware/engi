@@ -4,7 +4,7 @@ import { initializeContext } from '@bitcode/context/context';
 import { getGlobalContext } from '@bitcode/context';
 import { executeAgentSteps } from '@bitcode/steps/runner';
 import { resolveTool } from '@bitcode/generic-tools-registry';
-import { SETUP_DELIVERABLES_AGENT_PREPARE_REPOSITORY as AGENT } from '@bitcode/pipeline-deliverable';
+import { SETUP_DELIVERABLES_AGENT_PREPARE_REPOSITORY as AGENT } from '@bitcode/pipeline-asset-pack';
 
 
 // ---------------------------------------------------------------------------

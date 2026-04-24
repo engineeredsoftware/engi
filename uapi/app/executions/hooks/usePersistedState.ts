@@ -8,7 +8,7 @@ const STORAGE_KEY = 'bitcode_execution_state_v1';
 const SAVE_DEBOUNCE_MS = 3000;
 
 export interface PersistedExecutionState {
-  definitionOfDone: string;
+  definitionOfNeed: string;
   modelSelection: string;
   vcs: {
     provider: string | null;
@@ -34,7 +34,7 @@ const usePersistedStateBase = createPersistedState<PersistedExecutionState>({
   debounceMs: SAVE_DEBOUNCE_MS,
   syncAcrossTabs: true,
   defaultValue: {
-    definitionOfDone: '',
+    definitionOfNeed: '',
     modelSelection: '',
     vcs: { provider: null, account: null, repo: null, branch: null, commit: null, issuesOrPRs: [] },
     attachments: { urls: [], files: [], integrations: [] },
@@ -47,11 +47,11 @@ const usePersistedStateBase = createPersistedState<PersistedExecutionState>({
 
 export function usePersistedState() {
   const [state, setState, clearStateBase] = usePersistedStateBase();
-  const updateDefinitionOfDone = useCallback((definitionOfDone: string) => { setState(prev => ({ ...prev, definitionOfDone })); }, [setState]);
+  const updateDefinitionOfNeed = useCallback((definitionOfNeed: string) => { setState(prev => ({ ...prev, definitionOfNeed })); }, [setState]);
   const updateModelSelection = useCallback((modelSelection: string) => { setState(prev => ({ ...prev, modelSelection })); }, [setState]);
   const updateVCS = useCallback((vcs: Partial<PersistedExecutionState['vcs']>) => { setState(prev => ({ ...prev, vcs: { ...prev.vcs, ...vcs } })); }, [setState]);
   const updateAttachments = useCallback((updater: (prev: PersistedExecutionState['attachments']) => PersistedExecutionState['attachments']) => { setState(prev => ({ ...prev, attachments: updater(prev.attachments) })); }, [setState]);
   const updateToggles = useCallback((toggles: Partial<PersistedExecutionState['toggles']>) => { setState(prev => ({ ...prev, toggles: { ...prev.toggles, ...toggles } })); }, [setState]);
   const clearState = useCallback(() => { clearStateBase(); }, [clearStateBase]);
-  return { state, updateDefinitionOfDone, updateModelSelection, updateVCS, updateAttachments, updateToggles, clearState, setState };
+  return { state, updateDefinitionOfNeed, updateModelSelection, updateVCS, updateAttachments, updateToggles, clearState, setState };
 }

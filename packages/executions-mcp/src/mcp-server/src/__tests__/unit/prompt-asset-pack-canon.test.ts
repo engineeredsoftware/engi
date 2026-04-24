@@ -105,7 +105,7 @@ describe('MCP prompt asset-pack canon', () => {
   it('describes the retained pipeline tool as an asset-pack pipeline', () => {
     const source = readFileSync(join(__dirname, '../../tools/pipeline-tools.ts'), 'utf8');
 
-    expect(source).toContain("name: 'bitcode://pipelines/deliverable/create'");
+    expect(source).toContain("name: 'bitcode://pipelines/asset-pack/create'");
     expect(source).toContain('Bitcode asset-pack pipeline');
     expect(source).toContain('Retained compatibility subtypes');
     expect(source).toContain('connected-interface delivery readiness');

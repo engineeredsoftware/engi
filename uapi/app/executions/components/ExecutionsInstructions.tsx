@@ -51,7 +51,7 @@ export default function ExecutionInstructions({
 
   useEffect(() => {
     if (!runId) return;
-    const type = 'agentic-execution:branch-artifact';
+    const type = 'agentic-execution:asset-pack';
     const es = new EventSource(`/api/executions/stream?type=${encodeURIComponent(type)}&runId=${runId}&lastId=0`);
     es.onmessage = (evt) => {
       try {

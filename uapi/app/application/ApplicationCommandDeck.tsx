@@ -120,9 +120,9 @@ export default function ApplicationCommandDeck({
 
       try {
         await onRecordActivity?.({
-          type: 'agentic-execution:branch-artifact',
+          type: 'agentic-execution:asset-pack',
           detailSection: 'activity',
-          summary: `Materialized a branch-artifact activity from the ${currentScenarioLabel} give/need posture.`,
+          summary: `Materialized an AssetPack activity from the ${currentScenarioLabel} give/need posture.`,
           context: {
             source: 'application-command-deck',
             scenarioId: scenario,
@@ -138,7 +138,7 @@ export default function ApplicationCommandDeck({
             finalWorkSummary: buildApplicationClosureFinalWorkSummary(closureState),
           },
         });
-        setActionMessage('Branch-artifact activity recorded into the Bitcode ledger.');
+        setActionMessage('AssetPack activity recorded into the Bitcode ledger.');
       } catch (recordError) {
         const message =
           recordError instanceof Error

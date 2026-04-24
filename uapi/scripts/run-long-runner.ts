@@ -1,6 +1,6 @@
 #!/usr/bin/env ts-node
 /**
- * Minimal CLI to execute a Deliverable SDIVS pipeline outside the edge runtime.
+ * Minimal CLI to execute an AssetPack SDIVF pipeline outside the edge runtime.
  * Reads pipeline execution context from `executions`, streams output
  * via SupabaseStream, and records artifacts. Intended for containerized usage.
  */
@@ -8,7 +8,7 @@
 import { supabaseAdmin } from '@bitcode/supabase';
 import { SupabaseStream, flushAndExit } from '@bitcode/supabaseStream';
 import { initializeContext, getGlobalContext } from '@bitcode/context';
-import { runSDIVSPipeline } from '@bitcode/engine/pipeline/pipelineSDIVS';
+import { runSDIVFPipeline } from '@bitcode/engine/pipeline/pipelineSDIVF';
 import { log } from '@bitcode/logger';
 import { saveArtifact } from '@bitcode/artifacts';
 import { serializeContext } from '@bitcode/context/serialize';
@@ -59,7 +59,7 @@ async function main() {
       else if (typeof mod.default === 'function') pipelineResult = await mod.default();
       else throw new Error(`Provided PIPELINE_MODULE ${pipelineModule} has no export runPipeline()`);
     } else {
-      pipelineResult = await runSDIVSPipeline();
+      pipelineResult = await runSDIVFPipeline();
     }
 
     const result = pipelineResult;

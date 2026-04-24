@@ -36,6 +36,7 @@ const BitcodeSetupNeedComprehensionToolRequestSchema = z.object({
 export const BitcodeSetupNeedComprehensionInputSchema = z.object({
   need: z.string().optional().describe('Canonical expressed Bitcode Need'),
   expressedNeed: z.string().optional().describe('Alias for the expressed Bitcode Need'),
+  definitionOfNeed: z.string().optional().describe('Canonical Definition of Need used to measure and review the requested outcome'),
   definitionOfDone: z.string().optional().describe('Compatibility carrier for the expressed Need and acceptance shape'),
   task_description: z.string().optional().describe('Compatibility carrier for retained tool callers'),
   attachments: z.array(z.any()).optional().default([]),

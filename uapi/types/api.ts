@@ -24,7 +24,7 @@ export interface RepoFile {
 
 export interface AgenticExecutionSummary {
   canonicalType: string;
-  family: 'branch-artifact' | 'need-measurement' | 'proof-refresh' | 'upgrade' | 'agentic-execution';
+  family: 'asset-pack' | 'need-measurement' | 'proof-refresh' | 'upgrade' | 'agentic-execution';
   label: string;
   lens: 'give' | 'need' | 'closure';
   proofStatus: string;

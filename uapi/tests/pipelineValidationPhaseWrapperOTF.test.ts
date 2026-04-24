@@ -5,7 +5,7 @@ import { writeStreamMessage } from '@bitcode/streams';
 
 jest.mock('@bitcode/supabase');
 jest.mock('@bitcode/streams');
-jest.mock('@bitcode/pipeline-deliverable/src/phases/validation', () => ({
+jest.mock('@bitcode/pipeline-asset-pack/src/phases/validation', () => ({
   runValidation: jest.fn(async () => ({
     success: true,
     metrics: { tokensUsed: 0, score: 0.9, taskCompletion: 0.9, codeQuality: 0.9, securityScore: 0.9, contentQuality: 0.9 },

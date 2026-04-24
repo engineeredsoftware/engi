@@ -20,7 +20,7 @@ import {
   ExecutionEventsModel,
   UserBtdBalancesModel
 } from '@bitcode/orm';
-import deliverablePipeline from '@bitcode/pipelines/deliverable';
+import deliverablePipeline from '@bitcode/pipelines/asset-pack';
 import {
   PipelineExecution,
   inferPipelineExecutionLineage

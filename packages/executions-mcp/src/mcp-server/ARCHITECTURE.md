@@ -337,7 +337,7 @@ Client Response
 
 ```typescript
 // Direct integration with existing pipeline runners
-import { runDeliverablePipeline } from '@bitcode/pipeline-deliverable';
+import { runDeliverablePipeline } from '@bitcode/pipeline-asset-pack';
 import { runUpgradesPipeline } from '@bitcode/pipeline-ai_document';
 
 // MCP tools wrap pipeline execution with:

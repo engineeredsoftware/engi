@@ -1,18 +1,18 @@
 import { buildMockConversationStreamEnvelope } from '@/app/api/conversations/_shared';
 
 describe('conversation mock stream shared helpers', () => {
-  it('emits canonical branch-artifact execution events and Bitcode Terminal write copy', () => {
+  it('emits canonical AssetPack execution events and Bitcode Terminal write copy', () => {
     const envelope = buildMockConversationStreamEnvelope({
       content: 'Attach the repository and synthesize the asset pack.',
       tokens: [
         { type: 'attachment', value: 'spec.pdf' },
-        { type: 'asset_pack', value: 'branch artifact' },
+        { type: 'asset_pack', value: 'asset pack' },
       ],
     });
 
-    expect(envelope.pipeline?.pipelineType).toBe('agentic-execution:branch-artifact');
+    expect(envelope.pipeline?.pipelineType).toBe('agentic-execution:asset-pack');
     expect(JSON.stringify(envelope.pipeline?.events)).toMatch(/Mock Bitcode agentic execution/);
-    expect(JSON.stringify(envelope.pipeline?.events)).toMatch(/branch artifact execution completed/i);
+    expect(JSON.stringify(envelope.pipeline?.events)).toMatch(/AssetPack execution completed/i);
     expect(envelope.assistantReply).toMatch(
       /source attachments, asset packs, output destinations, and settlement-bound proofs/i,
     );
@@ -25,7 +25,7 @@ describe('conversation mock stream shared helpers', () => {
 
     expect(envelope.pipeline?.pipelineType).toBe('agentic-execution:need-measurement');
     expect(envelope.assistantReply).toMatch(
-      /Ask for need measurement, branch-artifact execution, source attachment, or settlement-bound output/i,
+      /Ask for need measurement, AssetPack execution, source attachment, or settlement-bound output/i,
     );
   });
 });

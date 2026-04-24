@@ -29,7 +29,7 @@ jest.mock('@bitcode/btd', () => {
   };
 });
 jest.mock('@bitcode/engine/pipeline', () => ({
-  runSDIVSPipeline: jest.fn().mockResolvedValue({}),
+  runSDIVFPipeline: jest.fn().mockResolvedValue({}),
 }));
 
 describe('Deliverables API POST', () => {

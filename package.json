@@ -47,7 +47,7 @@
     "lint": "eslint packages --ext .ts,.tsx",
     "typecheck:core": "pnpm -C packages/execution-generics run typecheck && pnpm -C packages/pipelines-generics run typecheck && pnpm -C packages/agent-generics run typecheck && pnpm -C packages/streams run typecheck",
     "lint:core": "pnpm exec eslint packages/execution-generics packages/pipelines-generics packages/agent-generics/src packages/streams/src --ext .ts,.tsx",
-    "lint:agents": "eslint packages/generic-agents packages/pipelines/deliverable/src/agents --ext .ts",
+    "lint:agents": "eslint packages/generic-agents packages/pipelines/asset-pack/src/agents --ext .ts",
     "prelint:agents": "pnpm run build:eslint-plugin",
     "lint:fix": "eslint packages --ext .ts,.tsx --fix",
     "test": "pnpm -r test",
@@ -64,8 +64,8 @@
     "db:gen:types": "bash scripts/supabase.sh gen:types",
     "db:codegen": "bash scripts/supabase.sh codegen:db",
     "db:squash": "bash scripts/db-squash.sh",
-    "render:prompts": "pnpm -C packages/pipelines/deliverable exec ts-node --transpile-only scripts/render-prompts.ts",
-    "render:prompts:all": "pnpm -C packages/pipelines/deliverable exec ts-node --transpile-only scripts/render-prompts.ts --scope=all",
+    "render:prompts": "pnpm -C packages/pipelines/asset-pack exec ts-node --transpile-only scripts/render-prompts.ts",
+    "render:prompts:all": "pnpm -C packages/pipelines/asset-pack exec ts-node --transpile-only scripts/render-prompts.ts --scope=all",
     "mcp:inspect": "pnpm exec mcp-inspector --stdio-command ./scripts/start-bitcode-mcp.sh"
   },
   "dependencies": {

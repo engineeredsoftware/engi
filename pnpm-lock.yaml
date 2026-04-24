@@ -139,9 +139,9 @@ importers:
       '@bitcode/orm':
         specifier: workspace:*
         version: link:../orm
-      '@bitcode/pipeline-deliverable':
+      '@bitcode/pipeline-asset-pack':
         specifier: workspace:*
-        version: link:../pipelines/deliverable
+        version: link:../pipelines/asset-pack
       '@bitcode/procurement':
         specifier: workspace:*
         version: link:../procurement
@@ -498,9 +498,9 @@ importers:
       '@bitcode/observability':
         specifier: workspace:*
         version: link:../../../observability
-      '@bitcode/pipeline-deliverable':
+      '@bitcode/pipeline-asset-pack':
         specifier: workspace:*
-        version: link:../../../pipelines/deliverable
+        version: link:../../../pipelines/asset-pack
       '@bitcode/pipelines-generics':
         specifier: workspace:*
         version: link:../../../pipelines-generics
@@ -1951,7 +1951,7 @@ importers:
         specifier: ^5.0.0
         version: 5.8.3
 
-  packages/pipelines/deliverable:
+  packages/pipelines/asset-pack:
     dependencies:
       '@bitcode/agent-generics':
         specifier: workspace:*

@@ -26,7 +26,7 @@ Current source routes and components include:
 - `uapi/app/executions/*`
 - `uapi/app/api/executions/*`
 - `packages/api/src/routes/deliverables.ts`
-- `packages/pipelines/deliverable/*`
+- `packages/pipelines/asset-pack/*`
 - execution history and event readers in `uapi/app/api/executions/history/*`
 
 Compatibility route names remain in source, but internal docs and SPEC promotion should use Bitcode execution, AssetPack execution, Need measurement, fit review, and Finish.

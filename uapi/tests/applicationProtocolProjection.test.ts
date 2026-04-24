@@ -228,7 +228,7 @@ describe('application-protocol-projection', () => {
     const historyRun = {
       id: 'run-123',
       created_at: '2026-04-21T17:00:00.000Z',
-      type: 'agentic-execution:branch-artifact',
+      type: 'agentic-execution:asset-pack',
       status: 'completed',
       sourceModel: 'execution-history',
     } satisfies WorkspaceRun;

@@ -101,7 +101,7 @@ export default function ApplicationClosureControlDeck({
       const payload = (await response.json()) as Record<string, unknown>;
       await runControl((controls) => controls.refresh?.());
       await onRecordActivity?.({
-        type: 'agentic-execution:branch-artifact',
+        type: 'agentic-execution:asset-pack',
         detailSection: 'closure',
         summary: state.primaryActionSummary,
         context: {

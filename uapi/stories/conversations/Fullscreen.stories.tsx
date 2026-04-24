@@ -27,7 +27,7 @@ const Shell: React.FC<{ isProcessing?: boolean; error?: string | null }> = ({ is
           task={task}
           onChange={setTask}
           isProcessing={isProcessing}
-          placeholder="Definition of Done…"
+          placeholder="Definition of Need…"
           attachments={[]}
         />
 

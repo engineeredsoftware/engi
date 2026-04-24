@@ -8,7 +8,7 @@ import type { WorkspaceRun } from '@/app/application/application-run-data';
 const baseRun: WorkspaceRun = {
   id: 'run-1',
   created_at: '2026-04-16T12:00:00.000Z',
-  type: 'agentic-execution:branch-artifact',
+  type: 'agentic-execution:asset-pack',
   status: 'completed',
   summary: 'Fallback selected-run summary.',
   repository: 'bitcode/bitcode',

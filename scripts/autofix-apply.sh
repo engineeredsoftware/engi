@@ -4,7 +4,7 @@ set -u
 # Bulk, non-destructive Prompt updates (doc-comments + generic composition)
 # Targets:
 # - Generic Agents: packages/generic-agents/*/src/prompts/{system,plan,try,refine,retry}-prompt-*.ts
-# - Pipelines (deliverable overlays): packages/pipelines/deliverable/src/agents/prompts/deliverable-pipeline-*-agent-prompts.ts
+# - Pipelines (deliverable overlays): packages/pipelines/asset-pack/src/agents/prompts/deliverable-pipeline-*-agent-prompts.ts
 # - Generic Tools: add promptdev doc-comment to prompt files missing it
 
 GEN_IMPORTS='import {\n  PROMPTPART_GENERIC_AGENT_FAILSAFE_PREPARE_CONTEXT,\n  PROMPTPART_GENERIC_AGENT_GENERATION_JSON_ONLY_HEADER,\n  PROMPTPART_GENERIC_AGENT_GENERATION_USE_THIS_STRUCTURED_SCHEMA,\n  PROMPTPART_GENERIC_AGENT_GENERATION_IF_UNKNOWN_EMPTY,\n  PROMPTPART_GENERIC_AGENT_GENERATION_REASON,\n  PROMPTPART_GENERIC_AGENT_GENERATION_JUDGE,\n  PROMPTPART_GENERIC_AGENT_GENERATION_STRUCTURED_OUTPUT\n} from '\''@bitcode/prompts'\'';'
@@ -107,7 +107,7 @@ find packages/generic-agents -type f -path "*src/prompts/*-prompt-*.ts" | while 
 done
 
 # Deliverable pipeline overlays
-find packages/pipelines/deliverable/src/agents/prompts -type f -name "deliverable-pipeline-*-agent-prompts.ts" | while read -r f; do
+find packages/pipelines/asset-pack/src/agents/prompts -type f -name "deliverable-pipeline-*-agent-prompts.ts" | while read -r f; do
   process_pipeline_overlay "$f"
 done
 

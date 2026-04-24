@@ -438,6 +438,7 @@ export const DEFAULT_BTD_RESERVATION = 100;
  * from historical median usage.
  */
 export const PIPELINE_BTD_ESCROW_REQUIREMENTS: Record<string, number> = {
+  'asset-pack': 50,
   'deliverable': 50,
 };
 

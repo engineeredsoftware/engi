@@ -57,7 +57,7 @@ describe('application-transaction-source', () => {
       {
         id: 'live-run-123',
         created_at: '2026-04-16T12:00:00.000Z',
-        type: 'agentic-execution:branch-artifact',
+        type: 'agentic-execution:asset-pack',
         status: 'completed',
       },
     ];
@@ -125,7 +125,7 @@ describe('application-transaction-source', () => {
     const liveRun: WorkspaceRun = {
       id: 'live-run-123',
       created_at: '2026-04-16T12:00:00.000Z',
-      type: 'agentic-execution:branch-artifact',
+      type: 'agentic-execution:asset-pack',
       status: 'completed',
       sourceModel: 'execution-history',
     };

@@ -3,7 +3,7 @@ import { test, expect } from '@playwright/test';
 // E2E tests for the Deliverables and AI Documents UIs
 // NOTE: The UI must include data-testid attributes on key elements:
 //   - GitHub selectors: gh-account, gh-repo, gh-branch, gh-commit, gh-issue
-//   - DoD input: execution-dod-input
+//   - Definition of Need input: execution-need-definition-input
 //   - Action button: execute-button (deliverables and ai_documents)
 //   - Stream output container: stream-log
 
@@ -62,7 +62,7 @@ test.describe('E2E Deliverables (UI)', () => {
     }
 
     // Enter the task description
-    await page.fill('[data-testid="execution-dod-input"]', 'Please open a pull request');
+    await page.fill('[data-testid="execution-need-definition-input"]', 'Please open a pull request');
 
     // Click Execute to start the pipeline
     await page.click('[data-testid="execute-button"]');
@@ -118,7 +118,7 @@ test.describe('E2E AI Documents (UI)', () => {
     await page.selectOption('[data-testid="gh-commit"]', commitOpts[0]);
 
     // Enter the ai_document task description
-    await page.fill('[data-testid="execution-dod-input"]', 'Suggest MCP ai_documents for this repo');
+    await page.fill('[data-testid="execution-need-definition-input"]', 'Suggest MCP ai_documents for this repo');
 
     // Click Execute to start the ai_documents pipeline
     await page.click('[data-testid="execute-button"]');

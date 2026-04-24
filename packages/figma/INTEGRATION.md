@@ -29,7 +29,7 @@ The Figma integration consists of three layers:
 ## 🔄 Pipeline Integration
 
 ### Setup Phase Integration
-**File**: `packages/pipelines/deliverable/src/phases/setup.ts`
+**File**: `packages/pipelines/asset-pack/src/phases/setup.ts`
 
 ```typescript
 const agentGroups = [
@@ -47,7 +47,7 @@ const agentGroups = [
 - **Output**: Extracts PNG images and adds them as new attachments to global context
 
 ### Discovery Phase Enhancement
-**File**: `packages/pipelines/deliverable/src/agents/discoveryDeliverablesAgentComprehendAttachments/`
+**File**: `packages/pipelines/asset-pack/src/agents/discoveryDeliverablesAgentComprehendAttachments/`
 
 **Enhanced**: Existing multimodal comprehension agent now detects Figma-extracted images
 - **Detection**: Identifies attachments with `metadata.extractedFromFigma = true`
@@ -105,7 +105,7 @@ Or configure via Bitcode's OAuth integration (future enhancement).
 
 Run integration test:
 ```bash
-cd packages/pipelines/deliverable
+cd packages/pipelines/asset-pack
 node src/test-figma-integration.ts
 ```
 

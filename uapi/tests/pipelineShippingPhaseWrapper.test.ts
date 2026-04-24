@@ -5,11 +5,11 @@ import '@/tests/setupTests';
 jest.mock('@bitcode/logger', () => ({ log: jest.fn() }));
 jest.mock('@bitcode/context', () => ({ getGlobalContext: jest.fn() }));
 jest.mock('@bitcode/streams', () => ({ writeStreamMessage: jest.fn() }));
-jest.mock('@bitcode/pipeline-deliverable/src/phases/shipping', () => ({ runShippingDeliverables: jest.fn() }));
+jest.mock('@bitcode/pipeline-asset-pack/src/phases/shipping', () => ({ runShippingDeliverables: jest.fn() }));
 
 import { getGlobalContext } from '@bitcode/context';
 import { writeStreamMessage } from '@bitcode/streams';
-import { runShippingDeliverables as runShipping } from '@bitcode/pipeline-deliverable';
+import { runShippingDeliverables as runShipping } from '@bitcode/pipeline-asset-pack';
 import { executeShippingPhase, handleShippingFailure } from '@bitcode/engine/pipeline/pipelineShippingPhaseWrapper';
 import { log } from '@bitcode/logger';
 

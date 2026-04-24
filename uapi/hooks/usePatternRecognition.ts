@@ -42,7 +42,7 @@ interface PatternHistory {
 }
 
 interface UsePatternRecognitionOptions {
-  /** Minimum DoD length before analysis starts */
+  /** Minimum Definition of Need length before analysis starts */
   minLength?: number;
   /** Debounce delay for analysis calls */
   debounceMs?: number;
@@ -63,7 +63,7 @@ interface UsePatternRecognitionReturn {
   patternHistory: PatternHistory[];
   
   // Actions
-  analyzePatterns: (dod: string) => Promise<void>;
+  analyzePatterns: (needDefinition: string) => Promise<void>;
   recordPatternSuccess: (pattern: RecognizedPattern, metrics: { btdUsed: number; timeToComplete: number }) => void;
   recordPatternFailure: (pattern: RecognizedPattern, reason: string) => void;
   clearAnalysis: () => void;
@@ -71,7 +71,7 @@ interface UsePatternRecognitionReturn {
 
 // Simulated AI pattern recognition (replace with real API in production)
 const simulatePatternRecognition = async (
-  dod: string, 
+  needDefinition: string, 
   context?: RepositoryContext, 
   attachments?: Attachment[],
   history?: PatternHistory[]
@@ -80,54 +80,54 @@ const simulatePatternRecognition = async (
   await new Promise(resolve => setTimeout(resolve, 800 + Math.random() * 400));
   
   const patterns: RecognizedPattern[] = [];
-  const dodLower = dod.toLowerCase();
+  const needDefinitionLower = needDefinition.toLowerCase();
   
   // Component pattern detection
-  if (dodLower.includes('component') || dodLower.includes('ui') || dodLower.includes('interface')) {
+  if (needDefinitionLower.includes('component') || needDefinitionLower.includes('ui') || needDefinitionLower.includes('interface')) {
     const componentKeywords = ['react', 'vue', 'props', 'state', 'render', 'jsx', 'tsx'];
-    const keywordCount = componentKeywords.filter(k => dodLower.includes(k)).length;
+    const keywordCount = componentKeywords.filter(k => needDefinitionLower.includes(k)).length;
     
     patterns.push({
       type: 'component',
       confidence: Math.min(0.6 + (keywordCount * 0.1) + (context?.language === 'TypeScript' ? 0.2 : 0), 0.95),
       previousOccurrences: history?.filter(h => h.pattern.type === 'component').length || 0,
       averageSuccess: history?.filter(h => h.pattern.type === 'component' && h.success).length / Math.max(1, history?.filter(h => h.pattern.type === 'component').length || 1) || 0.8,
-      estimatedComplexity: dod.length > 300 ? 'complex' : dod.length > 150 ? 'moderate' : 'simple',
+      estimatedComplexity: needDefinition.length > 300 ? 'complex' : needDefinition.length > 150 ? 'moderate' : 'simple',
       suggestedApproach: context?.architecture === 'hexagonal' ? 'Clean architecture with dependency injection' : 'Standard React component pattern',
-      keywords: componentKeywords.filter(k => dodLower.includes(k)),
+      keywords: componentKeywords.filter(k => needDefinitionLower.includes(k)),
       architecturalFit: context?.architecture ? 0.9 : 0.7,
       testabilityScore: context?.testCoverage ? context.testCoverage / 100 : 0.8,
-      riskLevel: dod.length > 400 ? 'high' : dod.length > 200 ? 'medium' : 'low'
+      riskLevel: needDefinition.length > 400 ? 'high' : needDefinition.length > 200 ? 'medium' : 'low'
     });
   }
   
   // Service pattern detection
-  if (dodLower.includes('service') || dodLower.includes('api') || dodLower.includes('endpoint') || dodLower.includes('backend')) {
+  if (needDefinitionLower.includes('service') || needDefinitionLower.includes('api') || needDefinitionLower.includes('endpoint') || needDefinitionLower.includes('backend')) {
     const serviceKeywords = ['api', 'endpoint', 'service', 'repository', 'database', 'crud'];
-    const keywordCount = serviceKeywords.filter(k => dodLower.includes(k)).length;
+    const keywordCount = serviceKeywords.filter(k => needDefinitionLower.includes(k)).length;
     
     patterns.push({
       type: 'service',
       confidence: Math.min(0.7 + (keywordCount * 0.08), 0.93),
       previousOccurrences: history?.filter(h => h.pattern.type === 'service').length || 0,
       averageSuccess: history?.filter(h => h.pattern.type === 'service' && h.success).length / Math.max(1, history?.filter(h => h.pattern.type === 'service').length || 1) || 0.85,
-      estimatedComplexity: dodLower.includes('microservice') || dodLower.includes('distributed') ? 'complex' : 'moderate',
+      estimatedComplexity: needDefinitionLower.includes('microservice') || needDefinitionLower.includes('distributed') ? 'complex' : 'moderate',
       suggestedApproach: 'Domain-driven design with clear boundaries',
-      keywords: serviceKeywords.filter(k => dodLower.includes(k)),
+      keywords: serviceKeywords.filter(k => needDefinitionLower.includes(k)),
       architecturalFit: context?.architecture === 'microservices' ? 0.95 : 0.8,
       testabilityScore: 0.9, // Services are typically easier to test
-      riskLevel: dodLower.includes('database') || dodLower.includes('migration') ? 'high' : 'medium'
+      riskLevel: needDefinitionLower.includes('database') || needDefinitionLower.includes('migration') ? 'high' : 'medium'
     });
   }
   
   // Test pattern detection
-  if (dodLower.includes('test') || dodLower.includes('spec') || dodLower.includes('coverage')) {
+  if (needDefinitionLower.includes('test') || needDefinitionLower.includes('spec') || needDefinitionLower.includes('coverage')) {
     patterns.push({
       type: 'test',
       confidence: 0.9,
       previousOccurrences: history?.filter(h => h.pattern.type === 'test').length || 0,
       averageSuccess: 0.95, // Tests usually succeed
-      estimatedComplexity: dodLower.includes('integration') || dodLower.includes('e2e') ? 'complex' : 'simple',
+      estimatedComplexity: needDefinitionLower.includes('integration') || needDefinitionLower.includes('e2e') ? 'complex' : 'simple',
       keywords: ['test', 'spec', 'coverage', 'unit', 'integration'],
       architecturalFit: 0.95,
       testabilityScore: 1.0,
@@ -136,22 +136,22 @@ const simulatePatternRecognition = async (
   }
   
   // Refactor pattern detection
-  if (dodLower.includes('refactor') || dodLower.includes('improve') || dodLower.includes('optimize') || dodLower.includes('clean')) {
+  if (needDefinitionLower.includes('refactor') || needDefinitionLower.includes('improve') || needDefinitionLower.includes('optimize') || needDefinitionLower.includes('clean')) {
     patterns.push({
       type: 'refactor',
       confidence: 0.8,
       previousOccurrences: history?.filter(h => h.pattern.type === 'refactor').length || 0,
       averageSuccess: 0.75, // Refactors can be tricky
-      estimatedComplexity: dodLower.includes('architecture') || dodLower.includes('restructure') ? 'complex' : 'moderate',
+      estimatedComplexity: needDefinitionLower.includes('architecture') || needDefinitionLower.includes('restructure') ? 'complex' : 'moderate',
       keywords: ['refactor', 'improve', 'optimize', 'clean', 'restructure'],
       architecturalFit: 0.8,
       testabilityScore: context?.testCoverage ? context.testCoverage / 100 : 0.6,
-      riskLevel: dodLower.includes('breaking') ? 'high' : 'medium'
+      riskLevel: needDefinitionLower.includes('breaking') ? 'high' : 'medium'
     });
   }
   
   // Documentation pattern detection
-  if (dodLower.includes('document') || dodLower.includes('readme') || dodLower.includes('guide') || dodLower.includes('docs')) {
+  if (needDefinitionLower.includes('document') || needDefinitionLower.includes('readme') || needDefinitionLower.includes('guide') || needDefinitionLower.includes('docs')) {
     patterns.push({
       type: 'documentation',
       confidence: 0.85,
@@ -173,7 +173,7 @@ const PATTERN_HISTORY_KEY = 'bitcode_pattern_history';
 const PATTERN_INSIGHTS_KEY = 'bitcode_pattern_insights';
 
 export const usePatternRecognition = (
-  dodText: string,
+  needDefinitionText: string,
   attachments: Attachment[] = [],
   repositoryContext?: RepositoryContext,
   options: UsePatternRecognitionOptions = {}
@@ -226,12 +226,12 @@ export const usePatternRecognition = (
   }, [enableLearning]);
   
   // Main pattern analysis function
-  const analyzePatterns = useCallback(async (dod: string) => {
-    if (dod === lastAnalyzedRef.current || dod.length < minLength) {
+  const analyzePatterns = useCallback(async (needDefinition: string) => {
+    if (needDefinition === lastAnalyzedRef.current || needDefinition.length < minLength) {
       return;
     }
     
-    lastAnalyzedRef.current = dod;
+    lastAnalyzedRef.current = needDefinition;
     setIsAnalyzing(true);
     setError(null);
     
@@ -239,14 +239,14 @@ export const usePatternRecognition = (
       let recognizedPatterns: RecognizedPattern[];
       
       if (mockMode) {
-        recognizedPatterns = await simulatePatternRecognition(dod, repositoryContext, attachments, patternHistory);
+        recognizedPatterns = await simulatePatternRecognition(needDefinition, repositoryContext, attachments, patternHistory);
       } else {
         // Real API call would go here
         const response = await fetch('/api/patterns/analyze', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
-            dod,
+            needDefinition,
             repositoryContext,
             attachments: attachments.map(a => ({ type: a.type, metadata: a.metadata })),
             patternHistory: patternHistory.slice(-20) // Send recent history for context
@@ -280,7 +280,7 @@ export const usePatternRecognition = (
   
   // Debounced analysis trigger
   useEffect(() => {
-    if (dodText.length < minLength) {
+    if (needDefinitionText.length < minLength) {
       setPatterns([]);
       return;
     }
@@ -290,7 +290,7 @@ export const usePatternRecognition = (
     }
     
     debounceRef.current = setTimeout(() => {
-      analyzePatterns(dodText);
+      analyzePatterns(needDefinitionText);
     }, debounceMs);
     
     return () => {
@@ -298,7 +298,7 @@ export const usePatternRecognition = (
         clearTimeout(debounceRef.current);
       }
     };
-  }, [dodText, minLength, debounceMs, analyzePatterns]);
+  }, [needDefinitionText, minLength, debounceMs, analyzePatterns]);
   
   // Record pattern success
   const recordPatternSuccess = useCallback((pattern: RecognizedPattern, metrics: { btdUsed: number; timeToComplete: number }) => {

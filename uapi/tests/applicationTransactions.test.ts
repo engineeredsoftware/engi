@@ -11,7 +11,7 @@ describe('application-transactions', () => {
     {
       id: 'tx-1',
       created_at: '2026-04-16T12:00:00.000Z',
-      type: 'agentic-execution:branch-artifact',
+      type: 'agentic-execution:asset-pack',
       status: 'completed',
       summary: 'Materialized a give-side transaction.',
       repository: 'bitcode/bitcode',
@@ -48,8 +48,8 @@ describe('application-transactions', () => {
     expect(records).toHaveLength(2);
     expect(records[0]).toMatchObject({
       id: 'tx-1',
-      type: 'agentic-execution:branch-artifact',
-      typeLabel: 'branch artifact execution',
+      type: 'agentic-execution:asset-pack',
+      typeLabel: 'AssetPack execution',
       transactionLens: 'give',
       participant: 'garrett',
       repository: 'bitcode/bitcode',

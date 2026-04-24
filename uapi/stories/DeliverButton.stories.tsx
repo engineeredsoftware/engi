@@ -27,9 +27,9 @@ Built on top of the existing QuantumButton with full visual continuity.
     },
   },
   argTypes: {
-    dodQuality: {
+    needDefinitionQuality: {
       control: { type: 'range', min: 0, max: 1, step: 0.1 },
-      description: 'Definition of Done quality assessment (0-1)',
+      description: 'Definition of Need quality assessment (0-1)',
     },
     contextConfidence: {
       control: { type: 'range', min: 0, max: 1, step: 0.1 },
@@ -62,7 +62,7 @@ type Story = StoryObj<typeof meta>;
 export const LowConfidence: Story = {
   args: {
     onDeliver: () => console.log('Deliver clicked - Low confidence'),
-    dodQuality: 0.3,
+    needDefinitionQuality: 0.3,
     contextConfidence: 0.2,
     estimatedCredits: 45,
     estimatedDuration: 8,
@@ -83,7 +83,7 @@ export const LowConfidence: Story = {
 export const MediumConfidence: Story = {
   args: {
     onDeliver: () => console.log('Deliver clicked - Medium confidence'),
-    dodQuality: 0.7,
+    needDefinitionQuality: 0.7,
     contextConfidence: 0.6,
     estimatedCredits: 52,
     estimatedDuration: 4,
@@ -115,7 +115,7 @@ export const MediumConfidence: Story = {
 export const HighConfidence: Story = {
   args: {
     onDeliver: () => console.log('Deliver clicked - High confidence'),
-    dodQuality: 0.95,
+    needDefinitionQuality: 0.95,
     contextConfidence: 0.9,
     estimatedCredits: 38,
     estimatedDuration: 3,
@@ -152,7 +152,7 @@ export const HighConfidence: Story = {
 export const PatternMastery: Story = {
   args: {
     onDeliver: () => console.log('Deliver clicked - Pattern mastery'),
-    dodQuality: 0.9,
+    needDefinitionQuality: 0.9,
     contextConfidence: 0.85,
     estimatedCredits: 35,
     estimatedDuration: 2,
@@ -193,7 +193,7 @@ export const PatternMastery: Story = {
 // Building Confidence Demo
 export const BuildingConfidence: Story = {
   render: (args) => {
-    const [dodQuality, setDodQuality] = useState(0.2);
+    const [needDefinitionQuality, setDodQuality] = useState(0.2);
     const [contextConfidence, setContextConfidence] = useState(0.1);
     const [recognizedPatterns, setRecognizedPatterns] = useState<any[]>([]);
     
@@ -238,12 +238,12 @@ export const BuildingConfidence: Story = {
       };
     }, [recognizedPatterns.length]);
     
-    const overallConfidence = (dodQuality * 0.6 + contextConfidence * 0.4);
+    const overallConfidence = (needDefinitionQuality * 0.6 + contextConfidence * 0.4);
     
     return (
       <div className="space-y-6">
         <div className="text-center text-sm text-gray-400 space-y-1">
-          <div>DoD Quality: <span className="text-brand-emerald">{Math.round(dodQuality * 100)}%</span></div>
+          <div>Definition of Need Quality: <span className="text-brand-emerald">{Math.round(needDefinitionQuality * 100)}%</span></div>
           <div>Context: <span className="text-brand-emerald">{Math.round(contextConfidence * 100)}%</span></div>
           <div>Overall: <span className="text-brand-emerald">{Math.round(overallConfidence * 100)}%</span></div>
           {recognizedPatterns.length > 0 && (
@@ -254,7 +254,7 @@ export const BuildingConfidence: Story = {
         <DeliverButton
           {...args}
           onDeliver={() => console.log('Deliver clicked - Building confidence')}
-          dodQuality={dodQuality}
+          needDefinitionQuality={needDefinitionQuality}
           contextConfidence={contextConfidence}
           recognizedPatterns={recognizedPatterns}
           estimatedCredits={Math.round(50 - (overallConfidence * 15))}
@@ -283,7 +283,7 @@ export const BuildingConfidence: Story = {
 export const RepositoryAware: Story = {
   args: {
     onDeliver: () => console.log('Deliver clicked - Repository aware'),
-    dodQuality: 0.8,
+    needDefinitionQuality: 0.8,
     contextConfidence: 0.85,
     estimatedCredits: 42,
     estimatedDuration: 3,
@@ -319,7 +319,7 @@ export const PerformanceComparison: Story = {
         <h3 className="text-sm font-medium text-gray-300">Subtle</h3>
         <DeliverButton
           onDeliver={() => console.log('Subtle')}
-          dodQuality={0.8}
+          needDefinitionQuality={0.8}
           contextConfidence={0.7}
           estimatedCredits={45}
           recognizedPatterns={[{
@@ -337,7 +337,7 @@ export const PerformanceComparison: Story = {
         <h3 className="text-sm font-medium text-gray-300">Moderate</h3>
         <DeliverButton
           onDeliver={() => console.log('Moderate')}
-          dodQuality={0.8}
+          needDefinitionQuality={0.8}
           contextConfidence={0.7}
           estimatedCredits={45}
           recognizedPatterns={[{
@@ -355,7 +355,7 @@ export const PerformanceComparison: Story = {
         <h3 className="text-sm font-medium text-gray-300">Enhanced</h3>
         <DeliverButton
           onDeliver={() => console.log('Enhanced')}
-          dodQuality={0.9}
+          needDefinitionQuality={0.9}
           contextConfidence={0.85}
           estimatedCredits={40}
           recognizedPatterns={[
@@ -407,7 +407,7 @@ export const InteractiveHover: Story = {
         >
           <DeliverButton
             onDeliver={() => console.log('Interactive hover demo')}
-            dodQuality={0.85}
+            needDefinitionQuality={0.85}
             contextConfidence={0.8}
             estimatedCredits={48}
             estimatedDuration={4}

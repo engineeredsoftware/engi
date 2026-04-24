@@ -19,7 +19,7 @@ for f in $(rg --files -g 'packages/generic-agents/*/src/prompts/*-prompt-*.ts' |
 done
 
 echo "Checking Deliverable overlays…"
-for f in packages/pipelines/deliverable/src/agents/prompts/*.ts; do
+for f in packages/pipelines/asset-pack/src/agents/prompts/*.ts; do
   # Skip non-Prompt files if any
   [ -f "$f" ] || continue
   # Only check files that create new Prompt

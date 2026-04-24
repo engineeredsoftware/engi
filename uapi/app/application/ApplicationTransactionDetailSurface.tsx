@@ -240,7 +240,7 @@ export default function ApplicationTransactionDetailSurface({
       const payload = (await response.json()) as Record<string, unknown>;
       await runControl((nextControls) => nextControls.refresh?.());
       await onRecordActivity?.({
-        type: 'agentic-execution:branch-artifact',
+        type: 'agentic-execution:asset-pack',
         detailSection: 'closure',
         summary: `Re-ran closure from selected Bitcode activity ${selectedRun.id}.`,
         context: {

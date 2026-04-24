@@ -16,7 +16,7 @@ import type { WorkspaceRun } from '@/app/application/application-run-data';
 const selectedTransaction: WorkspaceRun = {
   id: 'tx-001',
   created_at: '2026-04-16T12:00:00.000Z',
-  type: 'agentic-execution:branch-artifact',
+  type: 'agentic-execution:asset-pack',
   status: 'completed',
   summary: 'Selected transaction summary.',
   repository: 'bitcode/bitcode',

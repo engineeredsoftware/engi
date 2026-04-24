@@ -44,7 +44,7 @@ function normalizeWhitespace(value?: string | null) {
 }
 
 function normalizeRunType(value?: string | null) {
-  return normalizeWhitespace(value) || 'agentic-execution:branch-artifact';
+  return normalizeWhitespace(value) || 'agentic-execution:asset-pack';
 }
 
 function normalizeStatus(value?: string | null) {

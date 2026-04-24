@@ -463,7 +463,7 @@ export async function postExecutionHistoryRoute(request: Request) {
           ? body.pipeline_type
           : typeof body.type === 'string'
             ? body.type
-            : 'agentic-execution:branch-artifact',
+            : 'agentic-execution:asset-pack',
       ),
       status: typeof body.status === 'string' ? body.status : 'pending',
       input: (body.input as Record<string, unknown> | null | undefined) || null,

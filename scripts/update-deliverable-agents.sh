@@ -5,7 +5,7 @@
 set -euo pipefail
 
 repo_root="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
-agents_dir="$repo_root/packages/pipelines/deliverable/src/agents"
+agents_dir="$repo_root/packages/pipelines/asset-pack/src/agents"
 
 echo "Updating retained asset-pack pipeline agents to PTRR under $agents_dir..."
 

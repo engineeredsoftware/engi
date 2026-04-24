@@ -327,6 +327,7 @@ export default function RichTextInput({
         if (!token.data?.pipelineType) return '';
         if (String(token.data.pipelineType).toLowerCase().includes('measure')) return 'need-measurement';
         if (
+          String(token.data.pipelineType).toLowerCase().includes('asset-pack') ||
           String(token.data.pipelineType).toLowerCase().includes('deliverable') ||
           String(token.data.pipelineType).toLowerCase().includes('artifact')
         ) {

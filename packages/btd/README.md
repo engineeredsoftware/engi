@@ -35,7 +35,7 @@ Typical usage:
 await withBtdReservation(userId, async (reservation) => {
   await recordBtdReservationUsage(reservation.id, 20);
   return runPipeline();
-}, { pipelineType: 'deliverable' });
+}, { pipelineType: 'asset-pack' });
 ```
 
 Bundle helpers:

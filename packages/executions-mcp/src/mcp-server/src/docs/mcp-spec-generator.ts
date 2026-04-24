@@ -405,14 +405,14 @@ export class MCPSpecificationGenerator {
       'GitHub Actions': {
         setup: `- uses: bitcode/mcp-action@v1
   with:
-    tool: "bitcode://pipelines/deliverable/execute"
+    tool: "bitcode://pipelines/asset-pack/execute"
     token: \${{ secrets.BITCODE_API_KEY }}`,
         example: `Automated implementation and validation on every PR`,
         features: ['CI/CD integration', 'Automated workflows', 'Quality gates']
       },
       'Custom API': {
         setup: `const client = new MCPClient({ apiKey: process.env.BITCODE_API_KEY });`,
-        example: `await client.callTool("bitcode://pipelines/deliverable/execute", args);`,
+        example: `await client.callTool("bitcode://pipelines/asset-pack/execute", args);`,
         features: ['REST API', 'WebSocket streaming', 'Custom integrations']
       }
     };
@@ -431,7 +431,7 @@ export class MCPSpecificationGenerator {
             description: 'Analyze existing architecture and patterns'
           },
           {
-            tool: 'bitcode://pipelines/deliverable/execute',
+            tool: 'bitcode://pipelines/asset-pack/execute',
             description: 'Implement feature with tests and documentation'
           },
           {

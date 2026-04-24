@@ -13,7 +13,7 @@ echo >> "$outfile"
 # Search scope: agent prompts, pipeline prompts, tool prompts
 find_paths=(
   "packages/generic-agents"
-  "packages/pipelines/deliverable/src/agents/prompts"
+  "packages/pipelines/asset-pack/src/agents/prompts"
   "packages/generic-tools"
 )
 
