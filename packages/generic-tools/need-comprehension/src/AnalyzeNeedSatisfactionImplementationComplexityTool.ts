@@ -1,5 +1,6 @@
 import { Tool } from '@bitcode/tools-generics';
 import { analyzeNeedSatisfactionImplementationComplexity } from './need-comprehension-primitives';
+import { analyzeImplementationComplexity } from './primitives';
 import {
   ANALYZE_NEED_SATISFACTION_IMPLEMENTATION_COMPLEXITY_DOC_CODE_TOOL_PROMPT
 } from './prompts/AnalyzeNeedSatisfactionImplementationComplexityDocCodeToolPrompt';
@@ -16,7 +17,9 @@ export class AnalyzeNeedSatisfactionImplementationComplexityTool extends Tool<
   use = analyzeNeedSatisfactionImplementationComplexity;
 }
 
-export class AnalyzeImplementationComplexityTool extends AnalyzeNeedSatisfactionImplementationComplexityTool {}
+export class AnalyzeImplementationComplexityTool extends Tool<typeof analyzeImplementationComplexity> {
+  use = analyzeImplementationComplexity;
+}
 
 export const analyzeNeedSatisfactionImplementationComplexityTool =
   new AnalyzeNeedSatisfactionImplementationComplexityTool();

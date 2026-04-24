@@ -1,5 +1,6 @@
 import { Tool } from '@bitcode/tools-generics';
 import { generateNeedSatisfactionCriteria } from './need-comprehension-primitives';
+import { generateSuccessCriteria } from './primitives';
 import {
   GENERATE_NEED_SATISFACTION_CRITERIA_DOC_CODE_TOOL_PROMPT
 } from './prompts/GenerateNeedSatisfactionCriteriaDocCodeToolPrompt';
@@ -14,7 +15,9 @@ export class GenerateNeedSatisfactionCriteriaTool extends Tool<typeof generateNe
   use = generateNeedSatisfactionCriteria;
 }
 
-export class GenerateSuccessCriteriaTool extends GenerateNeedSatisfactionCriteriaTool {}
+export class GenerateSuccessCriteriaTool extends Tool<typeof generateSuccessCriteria> {
+  use = generateSuccessCriteria;
+}
 
 export const generateNeedSatisfactionCriteriaTool = new GenerateNeedSatisfactionCriteriaTool();
 export const generateSuccessCriteriaTool = new GenerateSuccessCriteriaTool();

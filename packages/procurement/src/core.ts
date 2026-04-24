@@ -413,7 +413,7 @@ export class ProcurementEngine {
     log('Storing procurement in database', 'info', { procurementId: procurement.id });
   }
 
-  private async getProcurement(procurementId: string): Promise<Procurement | null> {
+  async getProcurement(procurementId: string): Promise<Procurement | null> {
     // TODO: Fetch from database
     return null;
   }

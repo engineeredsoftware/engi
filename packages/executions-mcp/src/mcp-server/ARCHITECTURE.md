@@ -240,7 +240,7 @@ PipelineExecution → PipelineEvent → StreamBroadcast → ClientNotification
 ```
 
 **Event Types:**
-- Phase transitions (setup → discovery → implementation → validation → shipping)
+- Phase transitions (setup → discovery → implementation → validation → finish)
 - Agent execution (plan → generate → refine → intensify)
 - Tool execution and results
 - Progress updates and metrics
@@ -280,14 +280,14 @@ Authentication & Authorization
     ↓
 Credit Reservation
     ↓
-Pipeline Execution (SDIVS)
+Pipeline Execution (SDIVF)
     ├─ Setup Phase
     ├─ Discovery Phase ↺
     ├─ Implementation Phase ↺ (Iterative DIV Loop)
     ├─ Validation Phase ↺
-    └─ Shipping Phase
+    └─ Finish Phase
     ↓
-Results & Deliverables
+AssetPack Results & Delivery Receipts
     ↓
 Credit Finalization
     ↓

@@ -126,8 +126,6 @@ const ACTIVE_PROMPT_PRIMITIVE_CARRIERS = [
   'packages/agent-generics/src/execution/prompt-overlays.js',
   'packages/agent-generics/src/substeps/factories.ts',
   'packages/pipelines-generics/src/prompts/PipelinePrompt.ts',
-  'packages/pipelines-generics/src/prompts/PipelinePrompt.js',
-  'packages/pipelines-generics/src/prompts/PipelinePrompt.d.ts',
   'packages/conversations-generics/src/prompts/BitcodeTerminalConversationSystemPrompt.ts',
   'packages/conversations-generics/src/prompts/BitcodeTerminalConversationSystemPrompt.js',
   'packages/conversations-generics/src/prompts/BitcodeTerminalConversationSystemPrompt.d.ts',
@@ -162,16 +160,10 @@ const ACTIVE_EXECUTION_PROMPT_CARRIERS = [
   'packages/conversations-generics/src/agent/ConversationAgent.ts',
   'packages/conversations-generics/src/agent/ConversationAgent.js',
   'packages/pipelines-generics/src/execution/PipelineExecution.ts',
-  'packages/pipelines-generics/src/execution/PipelineExecution.js',
-  'packages/pipelines-generics/src/execution/PipelineExecution.d.ts',
   'packages/pipelines-generics/src/execution/PipelinePromptRegistry.ts',
-  'packages/pipelines-generics/src/execution/PipelinePromptRegistry.d.ts',
   'packages/pipelines-generics/src/execution/PipelineToolRegistry.ts',
-  'packages/pipelines-generics/src/execution/PipelineToolRegistry.d.ts',
   'packages/pipelines-generics/src/execution/PipelineLLMRegistry.ts',
-  'packages/pipelines-generics/src/execution/PipelineLLMRegistry.d.ts',
   'packages/pipelines-generics/src/execution/PipelineAgentRegistry.ts',
-  'packages/pipelines-generics/src/execution/PipelineAgentRegistry.d.ts',
 ];
 const ACTIVE_EXECUTION_TREE_CARRIERS = [
   'packages/agent-generics/src/agents/factories.ts',
@@ -186,26 +178,16 @@ const ACTIVE_EXECUTION_TREE_CARRIERS = [
   'packages/agent-generics/src/substeps/factories.d.ts',
   'packages/agent-generics/src/types.ts',
   'packages/pipelines-generics/src/execution/resume.ts',
-  'packages/pipelines-generics/src/execution/resume.d.ts',
   'packages/pipelines-generics/src/execution/Metrics.ts',
-  'packages/pipelines-generics/src/execution/Metrics.d.ts',
   'packages/pipelines-generics/src/execution/pipeline-types.ts',
-  'packages/pipelines-generics/src/execution/pipeline-types.d.ts',
-  'packages/pipelines-generics/src/execution/pipeline-types.js',
   'packages/pipelines-generics/src/execution/route-pipeline-execution.ts',
-  'packages/pipelines-generics/src/execution/route-pipeline-execution.d.ts',
   'packages/pipelines-generics/src/phases/phase-factory.ts',
-  'packages/pipelines-generics/src/phases/sdivs-factory.ts',
+  'packages/pipelines-generics/src/phases/sdivf-factory.ts',
   'packages/pipelines-generics/src/pipeline-factory.ts',
-  'packages/pipelines-generics/src/pipeline-factory.d.ts',
   'packages/pipelines-generics/src/gate-system/meta-phase-orchestrator.ts',
-  'packages/pipelines-generics/src/gate-system/meta-phase-orchestrator.d.ts',
   'packages/pipelines-generics/src/gate-system/types.ts',
-  'packages/pipelines-generics/src/gate-system/types.d.ts',
   'packages/pipelines-generics/src/executors/wait-for-instruction.ts',
   'packages/pipelines-generics/src/streaming/pipeline-stream-integration.ts',
-  'packages/pipelines-generics/src/streaming/pipeline-stream-integration.d.ts',
-  'packages/pipelines-generics/src/streaming/pipeline-stream-integration.js',
 ];
 const DISALLOWED_REFERENCE_PROMPT_CONFIG_PATTERNS = [
   /"@bitcode\/prompts\/\*"\s*:\s*\["packages\/prompts\/src\/\*"\]/u,
@@ -724,7 +706,7 @@ test('V26 need-comprehension prompt reservoir is canonical Bitcode need comprehe
   assert.match(analyzeNeedToolSource, /Canonical Bitcode need-semantics tool owner/u);
   assert.match(analyzeNeedToolSource, /analyzeNeedSemantics/u);
   assert.match(analyzeTaskToolSource, /Compatibility wrapper for task-named tool calls/u);
-  assert.match(analyzeTaskToolSource, /extends AnalyzeNeedSemanticsTool/u);
+  assert.match(analyzeTaskToolSource, /extends Tool<typeof analyzeTaskSemantics>/u);
   assert.match(extractToolSource, /export class ExtractNeedRequirementsTool/u);
   assert.match(identifyToolSource, /export class IdentifyNeedConstraintsTool/u);
   assert.match(satisfactionToolSource, /export class GenerateNeedSatisfactionCriteriaTool/u);
@@ -777,11 +759,13 @@ test('V26 need-comprehension prompt reservoir is canonical Bitcode need comprehe
   assert.match(complexityCompatibilityPromptSource, /Bitcode does not have task-first implementation-complexity ownership/u);
   assert.match(complexityCompatibilityPromptSource, /AnalyzeNeedSatisfactionImplementationComplexityDocCodeToolPrompt/u);
   assert.match(primitivesSource, /Compatibility wrapper around canonical need-first primitive owners/u);
-  assert.match(primitivesSource, /analyzeNeedSemantics as analyzeTaskSemantics/u);
+  assert.match(primitivesSource, /export async function analyzeTaskSemantics/u);
+  assert.match(primitivesSource, /expressed_need: task_description/u);
+  assert.match(primitivesSource, /need_classification/u);
   assert.match(canonicalPrimitivesSource, /need_satisfaction_criteria/u);
   assert.match(canonicalPrimitivesSource, /written_asset_expectations/u);
   assert.match(canonicalPrimitivesSource, /delivery_mechanism_boundaries/u);
-  assert.match(canonicalPrimitivesSource, /shipping_wrapper_boundaries/u);
+  assert.doesNotMatch(canonicalPrimitivesSource, /shipping_wrapper_boundaries/u);
   assert.match(canonicalSchemasSource, /NeedComprehensionCompatibilityPrimaryTypeSchema/u);
   assert.match(canonicalSchemasSource, /NeedRequirementSchema/u);
   assert.match(canonicalSchemasSource, /NeedConstraintSchema/u);

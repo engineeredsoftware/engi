@@ -7,7 +7,7 @@
  */
 
 import { 
-  SDIVSPhase
+  SDIVFPhase
 } from '@bitcode/pipelines-generics';
 import {
   ExecutionState,
@@ -40,9 +40,9 @@ export interface PipelineStreamMessage extends StreamMessage {
   pipeline?: string;
   subtype?: string;
   phaseProgress?: {
-    current: SDIVSPhase | string;
-    completed: (SDIVSPhase | string)[];
-    remaining: (SDIVSPhase | string)[];
+    current: SDIVFPhase | string;
+    completed: (SDIVFPhase | string)[];
+    remaining: (SDIVFPhase | string)[];
   };
 }
 
@@ -85,7 +85,7 @@ export enum StreamEventType {
  */
 export class GenericStreamManager {
   private config: PipelineStreamConfig;
-  private phaseHistory: (SDIVSPhase | string)[] = [];
+  private phaseHistory: (SDIVFPhase | string)[] = [];
   private eventBuffer: PipelineStreamMessage[] = [];
   private startTime: number;
   
@@ -161,7 +161,7 @@ export class GenericStreamManager {
    * @doc-stream
    * Phase transition events
    */
-  async phaseStart(phase: SDIVSPhase | string): Promise<void> {
+  async phaseStart(phase: SDIVFPhase | string): Promise<void> {
     this.phaseHistory.push(phase);
     
     await this.writeMessage({
@@ -177,7 +177,7 @@ export class GenericStreamManager {
     });
   }
   
-  async phaseComplete(phase: SDIVSPhase | string, result?: any): Promise<void> {
+  async phaseComplete(phase: SDIVFPhase | string, result?: any): Promise<void> {
     await this.writeMessage({
       type: 'tool-use',
       executionState: { phase: phase as ExecutionPhase },
@@ -334,27 +334,27 @@ export class GenericStreamManager {
   
   private getCurrentPhase(): ExecutionPhase {
     const lastPhase = this.phaseHistory[this.phaseHistory.length - 1];
-    // Map SDIVSPhase to ExecutionPhase
+    // Map SDIVFPhase to ExecutionPhase
     const phaseMap: Record<string, ExecutionPhase> = {
-      [SDIVSPhase.SETUP]: 'Setup',
-      [SDIVSPhase.DISCOVERY]: 'Discovery',
-      [SDIVSPhase.IMPLEMENTATION]: 'Implementation',
-      [SDIVSPhase.VALIDATION]: 'Validation',
-      [SDIVSPhase.SHIPPING]: 'Shipping'
+      [SDIVFPhase.SETUP]: 'Setup',
+      [SDIVFPhase.DISCOVERY]: 'Discovery',
+      [SDIVFPhase.IMPLEMENTATION]: 'Implementation',
+      [SDIVFPhase.VALIDATION]: 'Validation',
+      [SDIVFPhase.FINISH]: 'Finish'
     };
     return phaseMap[lastPhase as string] || 'Setup';
   }
   
-  private getRemainingPhases(currentPhase: SDIVSPhase | string): (SDIVSPhase | string)[] {
+  private getRemainingPhases(currentPhase: SDIVFPhase | string): (SDIVFPhase | string)[] {
     const allPhases = [
-      SDIVSPhase.SETUP,
-      SDIVSPhase.DISCOVERY,
-      SDIVSPhase.IMPLEMENTATION,
-      SDIVSPhase.VALIDATION,
-      SDIVSPhase.SHIPPING
+      SDIVFPhase.SETUP,
+      SDIVFPhase.DISCOVERY,
+      SDIVFPhase.IMPLEMENTATION,
+      SDIVFPhase.VALIDATION,
+      SDIVFPhase.FINISH
     ];
     
-    const currentIndex = allPhases.indexOf(currentPhase as SDIVSPhase);
+    const currentIndex = allPhases.indexOf(currentPhase as SDIVFPhase);
     return allPhases.slice(currentIndex + 1);
   }
 }

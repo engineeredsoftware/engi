@@ -342,7 +342,7 @@ function calculateProgress(status: string | null | undefined, metadata: any): nu
     case 'running':
       // Estimate progress based on completed phases
       const phases = metadata?.phases || {};
-      const totalPhases = 5; // setup, discovery, implementation, validation, shipping
+      const totalPhases = 5; // setup, discovery, implementation, validation, finish
       const completedPhases = Object.keys(phases).filter((phase) => phases[phase]?.completed).length;
       return Math.min((completedPhases / totalPhases) * 80, 80); // Max 80% for running
     case 'completed':

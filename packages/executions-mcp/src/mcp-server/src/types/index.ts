@@ -12,7 +12,7 @@ export type PipelinePhase =
   | 'discovery'
   | 'implementation'
   | 'validation'
-  | 'shipping';
+  | 'finish';
 export type PipelineSubType = string;
 export type DeliverablesSubType = string;
 export type InterfaceIngressSurface =

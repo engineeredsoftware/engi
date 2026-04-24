@@ -111,24 +111,3 @@ export function factoryPipelineWithDIVFinishLoop<TInput, TOutput>(
     return output;
   };
 }
-
-/**
- * Deprecated compatibility wrapper for the old shipping-named DIV-loop helper.
- */
-export function factoryPipelineWithDIVLoop<TInput, TOutput>(
-  name: string,
-  config: {
-    setup: PhaseDelegator<TInput, any>;
-    discovery: PhaseDelegator<any, any>;
-    implementation: PhaseDelegator<any, any>;
-    validation: PhaseDelegator<any, any>;
-    shipping: PhaseDelegator<any, TOutput>;
-    maxIterations?: number;
-    validationPredicate?: (result: any, execution: Execution) => boolean;
-  }
-): Pipeline<TInput, TOutput> {
-  return factoryPipelineWithDIVFinishLoop(name, {
-    ...config,
-    finish: config.shipping,
-  });
-}

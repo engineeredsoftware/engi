@@ -6,8 +6,6 @@
  * save the run result, preserve useful Need/AssetPack state, and optionally
  * deliver AssetPacks or AssetPackPartials to third-party destinations.
  *
- * SDIVS survives here only as a deprecated compatibility spelling for callers
- * that still pass a `shipping` executor.
  */
 
 import { sequential } from '@bitcode/execution-generics';
@@ -19,6 +17,25 @@ import { Pipeline } from '../pipeline-factory';
 import { descendExecution } from '../execution/resume';
 
 // ==================== SDIVF CONFIGURATION ====================
+
+async function emitPipelineDataStreamEvent(
+  execution: Execution,
+  event: Record<string, unknown>
+): Promise<void> {
+  const dataStream =
+    (execution as any).get?.('execution', 'dataStream') ??
+    (execution.parent as any)?.get?.('execution', 'dataStream');
+
+  if (!dataStream || typeof dataStream.writeData !== 'function') {
+    return;
+  }
+
+  try {
+    await dataStream.writeData(JSON.stringify(event));
+  } catch {
+    // Streaming must never decide pipeline success.
+  }
+}
 
 interface SDIVBaseConfig<TInput = any> {
   setup: PhaseDelegator<TInput, any>;
@@ -34,11 +51,6 @@ interface SDIVBaseConfig<TInput = any> {
 export interface SDIVFConfig<TInput = any, TOutput = any> extends SDIVBaseConfig<TInput> {
   finish: PhaseDelegator<any, TOutput>;
   readyToFinish?: Executor<any, boolean>;
-}
-
-export interface SDIVSConfig<TInput = any, TOutput = any> extends SDIVBaseConfig<TInput> {
-  shipping: PhaseDelegator<any, TOutput>;
-  readyToShip?: Executor<any, boolean>;
 }
 
 // ==================== SDIVF PIPELINE FACTORY ====================
@@ -63,6 +75,12 @@ export function factorySDIVFPipeline<TInput, TOutput>(
     // Create pipeline execution
     const pipelineExec = factoryPipelineExecution(name, execution);
     pipelineExec.store('pipeline', 'start', { name });
+    await emitPipelineDataStreamEvent(pipelineExec, {
+      type: 'pipeline',
+      status: 'start',
+      name,
+      pattern: 'SDIVF'
+    });
     
     // Optional resume-at (deep execution) support: if caller provides a
     // resume descriptor under execution.get('resume','startAt'), record a resume
@@ -174,22 +192,15 @@ export function factorySDIVFPipeline<TInput, TOutput>(
     pipelineExec.store('pipeline', 'output', output as any);
     
     pipelineExec.store('pipeline', 'completion', { name, success: validationPassed });
+    await emitPipelineDataStreamEvent(pipelineExec, {
+      type: 'pipeline',
+      status: 'end',
+      name,
+      pattern: 'SDIVF',
+      success: validationPassed
+    });
     return output;
   };
-}
-
-/**
- * Deprecated compatibility wrapper for old SDIVS callers.
- */
-export function factorySDIVSPipeline<TInput, TOutput>(
-  name: string,
-  config: SDIVSConfig<TInput, TOutput>
-): Pipeline<TInput, TOutput> {
-  return factorySDIVFPipeline(name, {
-    ...config,
-    finish: config.shipping,
-    readyToFinish: config.readyToShip,
-  });
 }
 
 // ==================== COMPOSED SDIVF EXECUTOR ====================
@@ -208,10 +219,6 @@ export interface SDIVFExecutorConfig<TInput = any, TOutput = any> {
   // Runs at the start of each DIV loop iteration (before Discovery)
   iterationPreprocess?: Executor<any, any>;
   postprocess?: Executor<TOutput, TOutput>;
-}
-
-export interface SDIVSExecutorConfig<TInput = any, TOutput = any> extends Omit<SDIVFExecutorConfig<TInput, TOutput>, 'finish'> {
-  shipping?: Executor<any, TOutput>;
 }
 
 /**
@@ -274,17 +281,4 @@ export function factorySDIVFExecutorPipeline<TInput, TOutput>(
   ) as Executor<TInput, TOutput>;
 
   return pipelineExec;
-}
-
-/**
- * Deprecated compatibility wrapper for old SDIVS executor callers.
- */
-export function factorySDIVSExecutorPipeline<TInput, TOutput>(
-  name: string,
-  cfg: SDIVSExecutorConfig<TInput, TOutput>
-): Executor<TInput, TOutput> {
-  return factorySDIVFExecutorPipeline(name, {
-    ...cfg,
-    finish: cfg.shipping,
-  });
 }

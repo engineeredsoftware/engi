@@ -39,8 +39,7 @@ export {
 // Pipeline factories
 export {
   factoryPipeline,
-  factoryPipelineWithDIVFinishLoop,
-  factoryPipelineWithDIVLoop
+  factoryPipelineWithDIVFinishLoop
 } from './pipeline-factory';
 
 // Quick pipeline (single QuickPhase, no phases semantics)
@@ -55,24 +54,18 @@ export {
   factorySequentialPhaseDelegator,
   factoryParallelPhaseDelegator,
   factorySDIVFPhaseDelegators,
-  factorySDIVSPhaseDelegators,
-  SDIVFPhase,
-  SDIVSPhase
+  SDIVFPhase
 } from './phases/phase-factory';
 
 // Retained SDIVF reference pipeline factories
 export {
   factorySDIVFPipeline,
-  factorySDIVSPipeline,
-  type SDIVFConfig,
-  type SDIVSConfig
-} from './phases/sdivs-factory';
+  type SDIVFConfig
+} from './phases/sdivf-factory';
 export {
   factorySDIVFExecutorPipeline,
-  factorySDIVSExecutorPipeline,
-  type SDIVFExecutorConfig,
-  type SDIVSExecutorConfig
-} from './phases/sdivs-factory';
+  type SDIVFExecutorConfig
+} from './phases/sdivf-factory';
 
 // Streaming integration for real-time pipeline updates
 export {

@@ -40,7 +40,6 @@ export class PipelinePromptRegistry extends RegistryImpl<any> {
    * - "pipeline:implementation" - Implementation phase prompt
    * - "pipeline:validation" - Validation phase prompt
    * - "pipeline:finish" - Finish phase prompt
-   * - "pipeline:shipping" - legacy alias for Finish during migration
    */
   registerPrompt(key: string, prompt: any, priority: number = 0): void {
     this.set(key, prompt, priority);

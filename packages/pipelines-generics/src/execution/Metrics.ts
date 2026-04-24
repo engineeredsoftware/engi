@@ -51,10 +51,6 @@ function findPhaseExecution(root: Execution, phase: string): Execution | undefin
 function getPhaseNumber(exe: Execution, phase: string, key: string): number | undefined {
   const value = exe.get<number>(`phase/${phase}`, key);
   if (typeof value === 'number') return value;
-  if (phase === 'finish') {
-    const legacy = exe.get<number>('phase/shipping', key);
-    if (typeof legacy === 'number') return legacy;
-  }
   return undefined;
 }
 
@@ -78,20 +74,15 @@ export function computePipelineMetrics(pipelineExec: Execution): PipelineMetrics
       pipelineExec,
       `metrics/phase:${phase}`,
       'agentsExecuted',
-      phase === 'finish' ? getNumber(pipelineExec, 'metrics/phase:shipping', 'agentsExecuted', 0) : 0
+      0
     );
-    const phaseExec = findPhaseExecution(pipelineExec, phase) ||
-      (phase === 'finish' ? findPhaseExecution(pipelineExec, 'shipping') : undefined);
+    const phaseExec = findPhaseExecution(pipelineExec, phase);
     const phaseTokens = phaseExec ? sumLLMTokens(phaseExec) : 0;
     phasesDetail[phase] = {
       duration: phaseDurations[phase] || 0,
       agentsExecuted: phaseAgents,
       tokensUsed: phaseTokens,
     };
-    if (phase === 'finish') {
-      phaseDurations.shipping = phaseDurations.finish || 0;
-      phasesDetail.shipping = phasesDetail.finish;
-    }
   }
 
   // Agents executed counter maintained during execution (fallback to 0)

@@ -1069,11 +1069,11 @@ Required closure posture:
   filtered `tsc` verification over the active `uapi` program for the prompt-space and MCP primitive corridor
   proof surface:
   fifth-gate prompt-and-execution primitive compile-health closure so the raw promptpart reservoir no longer compiles as a duplicate-import global-script swarm, live execution/pipeline prompt classes no longer route through the retained prompt barrel, and the retained `@bitcode/mcp` primitive no longer drags an unnecessary schema dependency into the active compile path, keeping prompt-system explicitness and MCP config normalization admissible as Bitcode-owned primitives
-- `{packages/execution-generics/src/{index.ts,executors/conditional_executor.ts},packages/agent-generics/src/index.ts,packages/pipelines-generics/src/{index.ts,phases/phase-factory.ts,phases/sdivs-factory.ts,gate-system/meta-phase-orchestrator.ts},packages/pipelines/asset-pack/package.json,packages/executions-mcp/src/mcp-server/{src/index.ts,package.json},packages/prompts/src/raw_promptparts/specific/promptpart_specific_pipeline_deliverable_purpose_corestatement.ts}`
+- `{packages/execution-generics/src/{index.ts,executors/conditional_executor.ts},packages/agent-generics/src/index.ts,packages/pipelines-generics/src/{index.ts,phases/phase-factory.ts,phases/sdivf-factory.ts,gate-system/meta-phase-orchestrator.ts},packages/pipelines/asset-pack/package.json,packages/executions-mcp/src/mcp-server/{src/index.ts,package.json},packages/prompts/src/raw_promptparts/specific/promptpart_specific_pipeline_deliverable_purpose_corestatement.ts}`
   test coverage:
   filtered `tsc` verification over the active `uapi` program for the execution-core package corridor
   proof surface:
-  fifth-gate execution primitive/reference admissibility closure so canonical Bitcode execution primitives remain teachable reusable infrastructure, while retained SDIVS/PTRR/meta-phase and deliverable pipeline families are explicitly contained as reference orchestration instead of being narrated as the live Bitcode product implementation
+  fifth-gate execution primitive/reference admissibility closure so canonical Bitcode execution primitives remain teachable reusable infrastructure, while retained SDIVF/PTRR/meta-phase and deliverable pipeline families are explicitly contained as reference orchestration instead of being narrated as the live Bitcode product implementation
 - `{packages/executions-mcp/{README.md,src/mcp-server/{README.md,src/{index.ts,server.ts,types/index.ts,pipeline-execution/adapter.ts},docs/{public/mcp-overview.md,openapi/bitcode-mcp-openapi.json},package.json}}}`
   test coverage:
   filtered `tsc` verification over the active `uapi` program for the MCP interface corridor
@@ -1134,7 +1134,7 @@ Required closure posture:
   filtered `tsc` verification over the active `uapi` program for the Bitcode asset-pack tool wrapper and Finish/Delivering corridor
   proof surface:
   fifth-gate caller-contract compile-health closure so asset-pack tool wrappers now forward through the current single-input Bitcode tool contract, optional validation/Delivering tools no longer leak `undefined` into typed registries, and the Finish agent no longer preserves raw-string prompt-part drift or duplicate-Zod output-schema identity mismatches
-- `{packages/pipelines/asset-pack/src/{agents/{implementation/*.ts,setup/deliverable-pipeline-comprehend-need-agent.ts},phases/{setup.ts,design.ts,digest.ts,discovery.ts,implementation.ts,index.ts},index.ts,preprocess.ts,postprocess.ts},packages/pipelines-generics/src/{execution/PipelineExecutor.ts,phases/sdivs-factory.ts,streaming/pipeline-stream-integration.ts}}`
+- `{packages/pipelines/asset-pack/src/{agents/{implementation/*.ts,setup/deliverable-pipeline-comprehend-need-agent.ts},phases/{setup.ts,design.ts,digest.ts,discovery.ts,implementation.ts,index.ts},index.ts,preprocess.ts,postprocess.ts},packages/pipelines-generics/src/{execution/PipelineExecutor.ts,phases/sdivf-factory.ts,streaming/pipeline-stream-integration.ts}}`
   test coverage:
   filtered `tsc` verification over the active `uapi` program for the retained deliverable phase/index/setup corridor
   proof surface:

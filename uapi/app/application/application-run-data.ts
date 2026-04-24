@@ -38,7 +38,7 @@ export const MOCK_RUNS: WorkspaceRun[] = [
     usdTotal: 6.72,
     averageLatencyMs: 1180,
     proofStatus: 'bounded proof bundle ready',
-    closureFocus: 'branch artifacts + shipping delivery mechanisms',
+    closureFocus: 'branch artifacts + Delivering mechanisms',
   },
   {
     id: 'mock-run-need-measurement-pass',

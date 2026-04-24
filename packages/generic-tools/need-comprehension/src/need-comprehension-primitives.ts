@@ -7,20 +7,20 @@
  */
 
 import { z } from 'zod';
-import { NeedComprehensionCompatibilityPrimaryTypeSchema } from './need-comprehension-schemas';
+import { NeedIntentTypeSchema } from './need-comprehension-schemas';
 
 export async function analyzeNeedSemantics({
-  task_description,
+  expressed_need,
   context_information
 }: {
-  task_description: string;
+  expressed_need: string;
   context_information?: {
     repository_type?: string;
     technology_stack?: string[];
     existing_attachments?: string[];
   };
 }) {
-  const expressedNeed = task_description.trim();
+  const expressedNeed = expressed_need.trim();
 
   return {
     need: {
@@ -55,10 +55,9 @@ export async function analyzeNeedSemantics({
       attachment_names: context_information?.existing_attachments ?? []
     },
     delivery_mechanism_boundaries: ['GitHubPullRequest', 'JiraComment', 'interface-specific wrapper'],
-    shipping_wrapper_boundaries: ['GitHubPullRequest', 'JiraComment', 'interface-specific wrapper'],
-    task_classification: {
-      primary_type: 'feature_implementation' as const,
-      secondary_types: ['enhancement', 'integration'] as const,
+    need_classification: {
+      primary_need_type: 'feature_implementation' as const,
+      related_need_types: ['enhancement', 'integration'] as const,
       confidence: 0.85
     },
     scope_analysis: {
@@ -70,11 +69,11 @@ export async function analyzeNeedSemantics({
 }
 
 export async function extractNeedRequirements({
-  task_description,
+  expressed_need,
   semantic_analysis,
   attachment_context
 }: {
-  task_description: string;
+  expressed_need: string;
   semantic_analysis: any;
   attachment_context?: {
     user_attachments?: string[];
@@ -82,15 +81,14 @@ export async function extractNeedRequirements({
     code_snippets?: string[];
   };
 }) {
-  const expressedNeed = task_description.trim();
+  const expressedNeed = expressed_need.trim();
 
   return {
     need_requirements: {
       expressed_need: expressedNeed,
       written_asset_types: ['source-change', 'proof-update', 'interface-payload'],
       asset_pack_requirements: ['repository coherence', 'verification evidence'],
-      delivery_mechanism_requirements: ['wrapper payload does not redefine the written asset'],
-      shipping_wrapper_requirements: ['compatibility alias for delivery_mechanism_requirements']
+      delivery_mechanism_requirements: ['wrapper payload does not redefine the written asset']
     },
     functional_requirements: [
       {
@@ -120,8 +118,7 @@ export async function extractNeedRequirements({
     interface_requirements: ['Connected-interface payloads carry semantic aliases'],
     written_asset_requirement_map: {
       source_change: ['functional_requirements', 'technical_requirements', 'proof_requirements'],
-      delivery_mechanism: ['interface_requirements'],
-      shipping_wrapper: ['interface_requirements']
+      delivery_mechanism: ['interface_requirements']
     },
     extraction_metadata: {
       total_requirements: 2,
@@ -133,11 +130,11 @@ export async function extractNeedRequirements({
 }
 
 export async function identifyNeedConstraints({
-  task_context,
+  need_context,
   repository_context,
   business_context
 }: {
-  task_context: any;
+  need_context: any;
   repository_context?: {
     technology_stack?: string[];
     existing_architecture?: string;
@@ -167,7 +164,7 @@ export async function identifyNeedConstraints({
         type: 'timeline' as const,
         severity: 'medium' as const,
         mitigation_strategy: 'Sequence smallest coherent written-asset slices',
-        validation_method: 'Reread satisfaction criteria before shipping'
+        validation_method: 'Reread satisfaction criteria before Delivering'
       }
     ],
     resource_constraints: [],
@@ -195,12 +192,12 @@ export async function identifyNeedConstraints({
 export async function generateNeedSatisfactionCriteria({
   requirements,
   constraints,
-  task_type,
+  need_type,
   quality_standards
 }: {
   requirements: any;
   constraints: any;
-  task_type: z.infer<typeof NeedComprehensionCompatibilityPrimaryTypeSchema>;
+  need_type: z.infer<typeof NeedIntentTypeSchema>;
   quality_standards?: {
     performance_standards?: string[];
     quality_gates?: string[];
@@ -260,14 +257,14 @@ export async function generateNeedSatisfactionCriteria({
 }
 
 export async function validateNeedComprehension({
-  task_comprehension,
+  need_comprehension,
   validation_criteria = {}
 }: {
-  task_comprehension: {
-    task_type: z.infer<typeof NeedComprehensionCompatibilityPrimaryTypeSchema>;
+  need_comprehension: {
+    need_type: z.infer<typeof NeedIntentTypeSchema>;
     requirements: any;
     constraints: any;
-    success_criteria: any;
+    need_satisfaction_criteria: any;
     semantic_analysis?: any;
   };
   validation_criteria?: {
@@ -276,7 +273,7 @@ export async function validateNeedComprehension({
     consistency_threshold?: number;
   };
 }) {
-  const needComprehension = task_comprehension;
+  const needComprehension = need_comprehension;
   const {
     completeness_threshold = 0.9,
     accuracy_threshold = 0.85,
@@ -299,7 +296,6 @@ export async function validateNeedComprehension({
       proof_coverage: 0.86
     },
     terminology_findings: [
-      'task_comprehension is accepted as a compatibility input name',
       'need_comprehension is the canonical Bitcode interpretation'
     ],
     need_comprehension: needComprehension,
@@ -320,17 +316,17 @@ export async function validateNeedComprehension({
 }
 
 export async function analyzeNeedSatisfactionImplementationComplexity({
-  task_comprehension,
+  need_comprehension,
   repository_context
 }: {
-  task_comprehension: any;
+  need_comprehension: any;
   repository_context?: {
     codebase_size?: string;
     architecture_complexity?: string;
     technology_maturity?: string;
   };
 }) {
-  const needComprehension = task_comprehension;
+  const needComprehension = need_comprehension;
 
   return {
     need_comprehension: needComprehension,
@@ -340,8 +336,7 @@ export async function analyzeNeedSatisfactionImplementationComplexity({
       integration_complexity: 'low' as const,
       testing_complexity: 'medium' as const,
       proof_complexity: 'medium' as const,
-      delivery_mechanism_complexity: 'low' as const,
-      shipping_wrapper_complexity: 'low' as const
+      delivery_mechanism_complexity: 'low' as const
     },
     risk_analysis: {
       technical_risks: ['Package boundary drift', 'Prompt runtime carry-through drift'],

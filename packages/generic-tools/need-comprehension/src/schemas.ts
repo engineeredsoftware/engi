@@ -7,6 +7,7 @@
  */
 
 export {
+  NeedIntentTypeSchema as NeedTypeSchema,
   NeedComprehensionCompatibilityPrimaryTypeSchema as TaskTypeSchema,
   NeedRequirementSchema as RequirementSchema,
   NeedConstraintSchema as ConstraintSchema,

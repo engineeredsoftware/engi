@@ -45,7 +45,7 @@ const PipelineCancelSchema = z.object({
  */
 const PipelineRetrySchema = z.object({
   pipelineId: z.string().uuid().describe('Failed pipeline execution ID to retry'),
-  fromPhase: z.enum(['setup', 'discovery', 'implementation', 'validation', 'shipping'])
+  fromPhase: z.enum(['setup', 'discovery', 'implementation', 'validation', 'finish'])
     .optional().describe('Phase to retry from (default: failed phase)'),
   modifiedParams: z.record(z.any()).optional()
     .describe('Modified parameters for retry attempt')

@@ -9,11 +9,11 @@
 import { z } from 'zod';
 
 /**
- * Compatibility classifier for retained task-shaped callers.
- * The enum values remain stable for old integrations, but the owning schema is
- * explicitly need-first.
+ * Canonical Bitcode classifier for the kind of Need being measured before an
+ * AssetPack run. The string values are deliberately stable because external
+ * compatibility callers may still send them, but the owner is need-first.
  */
-export const NeedComprehensionCompatibilityPrimaryTypeSchema = z.enum([
+export const NeedIntentTypeSchema = z.enum([
   'feature_implementation',
   'bug_fix',
   'enhancement',
@@ -27,6 +27,8 @@ export const NeedComprehensionCompatibilityPrimaryTypeSchema = z.enum([
   'migration',
   'other'
 ]);
+
+export const NeedComprehensionCompatibilityPrimaryTypeSchema = NeedIntentTypeSchema;
 
 export const NeedRequirementSchema = z.object({
   id: z.string(),

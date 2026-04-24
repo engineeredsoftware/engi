@@ -35,10 +35,10 @@ describe('computePipelineMetrics', () => {
     root.store('phase/validation', 'completed', start + 4500);
     root.store('metrics/phase:validation', 'agentsExecuted', 1);
 
-    // Finish phase through legacy shipping stores
-    root.store('phase/shipping', 'started', start + 4500);
-    root.store('phase/shipping', 'completed', start + 5000);
-    root.store('metrics/phase:shipping', 'agentsExecuted', 1);
+    // Finish phase
+    root.store('phase/finish', 'started', start + 4500);
+    root.store('phase/finish', 'completed', start + 5000);
+    root.store('metrics/phase:finish', 'agentsExecuted', 1);
 
     // Global agent counter
     root.store('metrics', 'agentsExecuted', 11);
@@ -56,8 +56,8 @@ describe('computePipelineMetrics', () => {
     const validationExec = mkExec(`${root.id}/phase:validation`, root);
     validationExec.store('llm', 'usage', { totalTokens: 50 });
 
-    const shippingExec = mkExec(`${root.id}/phase:shipping`, root);
-    shippingExec.store('llm', 'usage', { inputTokens: 25, outputTokens: 25 });
+    const finishExec = mkExec(`${root.id}/phase:finish`, root);
+    finishExec.store('llm', 'usage', { inputTokens: 25, outputTokens: 25 });
 
     const metrics = computePipelineMetrics(root);
 
@@ -69,7 +69,7 @@ describe('computePipelineMetrics', () => {
     expect(metrics.phaseDurations.discovery).toBe(2000);
     expect(metrics.phaseDurations.implementation).toBe(1000);
     expect(metrics.phaseDurations.validation).toBe(500);
-    expect(metrics.phaseDurations.shipping).toBe(500);
+    expect(metrics.phaseDurations.finish).toBe(500);
 
     expect(metrics.phases.setup.agentsExecuted).toBe(2);
     expect(metrics.phases.setup.tokensUsed).toBe(150);

@@ -6,7 +6,7 @@ const finishSpec = readFileSync(new URL('../V26_PIPELINE_FINISH_REFORM.md', impo
 const deliverableSpec = readFileSync(new URL('../V26_DELIVERABLE_REFORM.md', import.meta.url), 'utf8');
 const canonicalSpec = readFileSync(new URL('../../BITCODE_SPEC_V26.md', import.meta.url), 'utf8');
 const sdivFactorySource = readFileSync(
-  new URL('../../packages/pipelines-generics/src/phases/sdivs-factory.ts', import.meta.url),
+  new URL('../../packages/pipelines-generics/src/phases/sdivf-factory.ts', import.meta.url),
   'utf8'
 );
 const phaseFactorySource = readFileSync(
@@ -95,20 +95,20 @@ test('V26 specifies Finish as the broad final phase and Delivering as destinatio
   assert.match(canonicalSpec, /`SDIVF` is the canonical compatibility-mounted phased implementation/);
 });
 
-test('pipeline generics expose canonical SDIVF APIs with deprecated SDIVS wrappers', () => {
+test('pipeline generics expose canonical SDIVF APIs without active SDIVS wrappers', () => {
   assert.match(phaseFactorySource, /export enum SDIVFPhase/);
   assert.match(phaseFactorySource, /FINISH = 'finish'/);
   assert.match(phaseFactorySource, /export function factorySDIVFPhaseDelegators/);
-  assert.match(phaseFactorySource, /export function factorySDIVSPhaseDelegators/);
+  assert.doesNotMatch(phaseFactorySource, /factorySDIVSPhaseDelegators/);
   assert.match(sdivFactorySource, /export interface SDIVFConfig/);
   assert.match(sdivFactorySource, /export function factorySDIVFPipeline/);
   assert.match(sdivFactorySource, /pipelineExec\.store\('pipeline', 'pattern', 'SDIVF'\)/);
   assert.match(sdivFactorySource, /pipelineExec\.store\('phase', 'current', 'finish'\)/);
-  assert.match(sdivFactorySource, /export function factorySDIVSPipeline/);
-  assert.match(sdivFactorySource, /finish: config\.shipping/);
+  assert.doesNotMatch(sdivFactorySource, /factorySDIVSPipeline|factorySDIVSExecutorPipeline|SDIVSConfig|SDIVSExecutorConfig/);
+  assert.doesNotMatch(sdivFactorySource, /\bshipping\b/);
   assert.match(pipelineFactorySource, /factoryPipelineWithDIVFinishLoop/);
-  assert.match(pipelineFactorySource, /finish: config\.shipping/);
-  assert.match(primitivesSource, /s === 'shipping'\) return 'finish'/);
+  assert.doesNotMatch(pipelineFactorySource, /factoryPipelineWithDIVLoop|config\.shipping/);
+  assert.doesNotMatch(primitivesSource, /\bshipping\b|Shipping/);
 });
 
 test('AssetPack pipeline owns the live package filesystem after deliverable package removal', () => {

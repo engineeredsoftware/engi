@@ -17,7 +17,7 @@ Therefore:
 
 - `SDIVF` is the canonical retained phased pipeline implementation:
   `Setup -> [Discovery -> Implementation -> Validation]* -> Finish`.
-- `SDIVS` is a deprecated compatibility spelling only.
+- `SDIVS` is reform history and may not remain as an active generic pipeline API.
 - `Finish` owns saving results, preserving useful Need/AssetPack state, completing summaries, and invoking Delivering when the run needs a third-party destination.
 - `Delivering` owns connected-interface output such as GitHub pull requests, Jira comments, issue comments, reviews, or similar destination-specific mechanisms.
 - `Deliverable` remains compatibility naming for old public corridors and wrapper payloads, not the general pipeline category.
@@ -40,12 +40,12 @@ The retained AssetPack package is a compatibility-mounted corridor for written-a
 Active source must satisfy the following:
 
 - Public generic pipeline factories expose canonical `factorySDIVFPipeline`, `factorySDIVFExecutorPipeline`, `factoryPipelineWithDIVFinishLoop`, `factorySDIVFPhaseDelegators`, and `SDIVFPhase`.
-- Deprecated `SDIVS` / `shipping` factories may remain only as wrappers that map their final phase to canonical `finish`.
+- `packages/pipelines-generics` must not expose `SDIVS` / `shipping` factories, phase enums, primitive phase aliases, or filesystem names.
 - Runtime execution metadata should store `pipeline.pattern = "SDIVF"` and final phase state as `phase.current = "finish"` for canonical paths.
-- Metrics, streaming completion, prompt registries, and primitive phase mappers must understand `finish` first and tolerate `shipping` only as a migration alias.
+- Metrics, streaming completion, prompt registries, and primitive phase mappers in `packages/pipelines-generics` must use `finish` only.
 - The retained AssetPack corridor must execute `deliverablePhases.finish` through `finish:*` agent keys, while registering `shipping:*` aliases only for promptpart and caller compatibility.
 - Finish agents may reuse old-world Ship implementations only after their prompts, descriptions, execution stores, and summaries describe Bitcode Need, AssetPack, WrittenAsset, proof evidence, and Delivering semantics.
-- Postprocess and reread should prefer `finish/final_work_summary` and `finish` stores, then fall back to old `shipping` stores during the V26 migration.
+- AssetPack postprocess and reread should prefer `finish/final_work_summary` and `finish` stores; retained `shipping` fallbacks are bounded to the AssetPack compatibility corridor while callers are moved.
 - Deprecated `Ship`, `Shipping`, `ReadyToShip`, `FinalizeShipment`, and `Deliverable` compatibility names must always point to a more precise canonical replacement and a later-gate removal condition.
 
 ## Deprecation Discipline
@@ -63,7 +63,7 @@ This reform is a fifth-gate blocker because it is a precise example of the Engi-
 - retain useful modularity;
 - rename only after semantic ownership is clear;
 - add canonical aliases before destructive filesystem moves;
-- preserve compatibility wrappers where live callers still depend on them;
+- remove compatibility wrappers from reusable primitives once active callers have canonical paths;
 - prove the subtle distinction with source-backed tests.
 
 Fifth-gate cannot claim closure while broad pipeline completion is still taught as Shipping or while Delivering is confused with the whole pipeline's finalization responsibility.

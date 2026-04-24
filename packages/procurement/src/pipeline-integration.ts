@@ -1,7 +1,7 @@
 /**
  * Pipeline Integration for Procurement
  * 
- * Handles procurement requests within deliverables pipelines when procurement budget is available.
+ * Handles procurement requests within AssetPack pipelines when procurement budget is available.
  * Enables agents to automatically request and fulfill procurements.
  */
 
@@ -14,6 +14,12 @@ import type {
   SolutionCategory 
 } from './types';
 
+export type ProcurementPipelinePhase =
+  | 'discovery'
+  | 'implementation'
+  | 'validation'
+  | 'finish';
+
 export interface ProcurementRequest {
   title: string;
   description: string;
@@ -24,7 +30,7 @@ export interface ProcurementRequest {
   maxBudget: number;
   deadline?: string;
   context: {
-    phase: 'discovery' | 'implementation' | 'validation' | 'shipping';
+    phase: ProcurementPipelinePhase;
     step: string;
     agent: string;
     repository: {
@@ -103,7 +109,7 @@ export async function createProcurementRequest(
  */
 export async function processProcurementInPipeline(
   procurementId: string,
-  phase: 'discovery' | 'implementation' | 'validation' | 'shipping'
+  phase: ProcurementPipelinePhase
 ): Promise<{
   matches: any[];
   recommendations: string[];
@@ -146,7 +152,7 @@ export async function processProcurementInPipeline(
         recommendations = await generateValidationRecommendations(procurement);
         break;
 
-      case 'shipping':
+      case 'finish':
         // Finalize procurement and process compensation
         if (procurement.fulfillment) {
           recommendations = ['Procurement completed successfully', 'Tokens minted for contributor'];
@@ -156,7 +162,7 @@ export async function processProcurementInPipeline(
         break;
     }
 
-    const shouldProceed = matches.length > 0 || phase === 'validation' || phase === 'shipping';
+    const shouldProceed = matches.length > 0 || phase === 'validation' || phase === 'finish';
 
     return {
       matches,

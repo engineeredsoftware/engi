@@ -6,7 +6,7 @@ Clean pipeline execution primitives for orchestrating phase sequences.
 
 - **Pipeline/PipelineExecution** - The EE (Execution Entity) pair for pipelines
 - **PhaseDelegator/PhaseDelegation** - The Executor/Execution pattern for phases delegating to agents
-- **SDIVSPhase enum** - The 5 standard phases (Setup, Discovery, Implementation, Validation, Shipping)
+- **SDIVFPhase enum** - The 5 standard phases (Setup, Discovery, Implementation, Validation, Finish)
 - **PipelinePrompt** - The generic prompt for Pipeline EE
 - **Factory functions** - Clean creation of pipelines and phase delegators
 
@@ -60,23 +60,23 @@ export class PhaseDelegation extends Execution<PipelinePrompt> {
 }
 ```
 
-## SDIVS Pattern
+## SDIVF Pattern
 
 The 5 standard phases that power all pipelines:
 
 ```typescript
-export enum SDIVSPhase {
+export enum SDIVFPhase {
   SETUP = 'setup',
   DISCOVERY = 'discovery',
   IMPLEMENTATION = 'implementation',
   VALIDATION = 'validation',
-  SHIPPING = 'shipping'
+  FINISH = 'finish'
 }
 ```
 
 ## Quick Pipelines
 
-For non-SDIVS flows that are a single agent sequence or loop, use a QuickPipeline:
+For non-SDIVF flows that are a single agent sequence or loop, use a QuickPipeline:
 
 ```typescript
 import { factoryQuickPipeline, type QuickPhase } from '@bitcode/pipelines-generics';
@@ -90,7 +90,7 @@ export const myQuickPipeline = factoryQuickPipeline('my-quick', { phase: quickPh
 ```
 
 Notes:
-- QuickPipeline has no Phase concept; Phase is SDIVS-specific.
+- QuickPipeline has no Phase concept; Phase is SDIVF-specific.
 - Execution still receives `PipelineExecution` and stores under canonical namespaces.
 
 ## Usage
@@ -105,43 +105,43 @@ const setupPhase = factoryPhaseDelegator('setup', setupAgent);
 const discoveryPhase = factoryPhaseDelegator('discovery', discoveryAgent);
 const implementationPhase = factoryPhaseDelegator('implementation', implementationAgent);
 const validationPhase = factoryPhaseDelegator('validation', validationAgent);
-const shippingPhase = factoryPhaseDelegator('shipping', shippingAgent);
+const finishPhase = factoryPhaseDelegator('finish', finishAgent);
 
 // Create pipeline that sequences phases
 const deliverablePipeline = factoryPipeline(
   'deliverable',
-  [setupPhase, discoveryPhase, implementationPhase, validationPhase, shippingPhase]
+  [setupPhase, discoveryPhase, implementationPhase, validationPhase, finishPhase]
 );
 ```
 
 ### Creating a Pipeline with DIV Loop
 
 ```typescript
-import { factoryPipelineWithDIVLoop } from '@bitcode/pipelines-generics';
+import { factoryPipelineWithDIVFinishLoop } from '@bitcode/pipelines-generics';
 
 // DIV loop iterates Discovery-Implementation-Validation until validation passes
-const analysisPipeline = factoryPipelineWithDIVLoop('analysis', {
+const analysisPipeline = factoryPipelineWithDIVFinishLoop('analysis', {
   setup: setupPhase,
   discovery: discoveryPhase,
   implementation: implementationPhase,
   validation: validationPhase,
-  shipping: shippingPhase,
+  finish: finishPhase,
   maxIterations: 3,
   validationPredicate: (result, execution) => {
     return execution.get('validation', 'score') >= 0.85;
   }
 });
 
-### Per-Iteration Hooks (SDIVS Executor)
+### Per-Iteration Hooks (SDIVF Executor)
 
-Use `factorySDIVSExecutorPipeline` when you need a preprocess/postprocess and a per‑iteration hook:
+Use `factorySDIVFExecutorPipeline` when you need a preprocess/postprocess and a per-iteration hook:
 
 ```ts
-import { factorySDIVSExecutorPipeline } from '@bitcode/pipelines-generics';
+import { factorySDIVFExecutorPipeline } from '@bitcode/pipelines-generics';
 
-const pipeline = factorySDIVSExecutorPipeline('deliverable', {
+const pipeline = factorySDIVFExecutorPipeline('asset-pack', {
   preprocess,
-  setup, discovery, implementation, validation, shipping,
+  setup, discovery, implementation, validation, finish,
   iterationPreprocess: async (cur, exec) => {
     // e.g., inject AI Document updates for this iteration
     const list = (exec as any).get?.('ai_documents', 'list') || [];
@@ -180,18 +180,18 @@ const validationPhase = factoryParallelPhaseDelegator(
 );
 ```
 
-### Using SDIVS Factory
+### Using SDIVF Factory
 
 ```typescript
-import { factorySDIVSPhaseDelegators } from '@bitcode/pipelines-generics';
+import { factorySDIVFPhaseDelegators } from '@bitcode/pipelines-generics';
 
 // Create all 5 phases at once
-const phases = factorySDIVSPhaseDelegators({
+const phases = factorySDIVFPhaseDelegators({
   setup: setupAgent,
   discovery: discoveryAgent,
   implementation: implementationAgent,
   validation: validationAgent,
-  shipping: shippingAgent
+  finish: finishAgent
 });
 
 // Use with pipeline factory
@@ -218,13 +218,13 @@ prompt.registry.set('phase.current', 'implementation');
 ```typescript
 // Pipeline factories
 factoryPipeline(name: string, phases: PhaseDelegator[])
-factoryPipelineWithDIVLoop(name: string, config: DIVConfig)
+factoryPipelineWithDIVFinishLoop(name: string, config: DIVFinishConfig)
 
 // Phase factories
 factoryPhaseDelegator(name: string, agent: Agent)
 factorySequentialPhaseDelegator(name: string, agents: Agent[])
 factoryParallelPhaseDelegator(name: string, agents: Agent[], combiner: (results: any[]) => TOutput)
-factorySDIVSPhaseDelegators(config: SDIVSConfig)
+factorySDIVFPhaseDelegators(config: SDIVFConfig)
 
 // Execution factories
 factoryPipelineExecution(name: string, parent?: Execution)
@@ -244,7 +244,7 @@ factoryPhaseDelegation(phase: string, parent: Execution)
 2. **Pure Executor pattern** - Everything is just functions
 3. **No specific implementations** - Only generic abstractions
 4. **Clean EE pattern** - Pipeline/PipelineExecution, PhaseDelegator/PhaseDelegation
-5. **Standard phases** - SDIVSPhase enum for the 5 phases
+5. **Standard phases** - SDIVFPhase enum for the 5 phases
 
 ## Streaming Integration
 

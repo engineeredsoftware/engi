@@ -480,7 +480,7 @@ export class PipelineStreamManager extends EventEmitter {
         case 'pending':
           return 0;
         case 'running':
-          const phases = ['setup', 'discovery', 'implementation', 'validation', 'shipping'];
+          const phases = ['setup', 'discovery', 'implementation', 'validation', 'finish'];
           const completedPhases = Object.keys(metrics?.phases || {}).length;
           return Math.min((completedPhases / phases.length) * 80, 80);
         case 'completed':
@@ -499,7 +499,7 @@ export class PipelineStreamManager extends EventEmitter {
         'Discovery': 20,
         'Implementation': 40,
         'Validation': 20,
-        'Shipping': 10
+        'Finish': 10
       };
       
       let progress = 0;

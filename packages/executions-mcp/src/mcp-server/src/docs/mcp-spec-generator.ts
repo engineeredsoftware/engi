@@ -365,7 +365,7 @@ export class MCPSpecificationGenerator {
    */
   private getCategoryDescription(category: string): string {
     const descriptions: Record<string, string> = {
-      'Pipeline Management': 'Core SDIVS pipeline execution with PTRR agent coordination',
+      'Pipeline Management': 'Core SDIVF pipeline execution with PTRR agent coordination',
       'Advanced Intelligence': 'ML-powered effectiveness tracking and cross-repository learning',
       'Pipeline Orchestration': 'Complex workflow management with chaining and automation',
       'Enterprise Integration': 'Webhook orchestration, API management, and marketplace intelligence',

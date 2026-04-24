@@ -308,7 +308,7 @@ export default function ApplicationTransactionDetailSurface({
                 <h3 className="mt-2 text-lg font-semibold text-white">Asset packs attached to this activity</h3>
                 <p className="mt-2 text-sm leading-6 text-neutral-300">
                   Written-asset summaries and file changes remain Bitcode-owned, while pull requests, reviews, issues, and
-                  comments stay legible as shipping delivery mechanisms attached to the selected activity in both mock and live posture.
+                  comments stay legible as Delivering mechanisms attached to the selected activity in both mock and live posture.
                 </p>
               </div>
               <DeliverablesDocPanel
@@ -327,7 +327,7 @@ export default function ApplicationTransactionDetailSurface({
             </section>
           ) : showDeliverables ? (
             <div className="rounded-[1.5rem] border border-white/8 bg-black/20 px-5 py-5 text-sm leading-6 text-neutral-300">
-              No materialized written asset or shipping delivery mechanism is attached to this Bitcode activity yet. The same
+              No materialized written asset or Delivering mechanism is attached to this Bitcode activity yet. The same
               activity detail still keeps proofs, history, and closure reading available.
             </div>
           ) : null}

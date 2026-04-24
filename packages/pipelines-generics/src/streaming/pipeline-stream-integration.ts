@@ -241,9 +241,8 @@ export function enablePipelineStreaming(
           }
         }
 
-        // If Finish phase completes, mark run completed. `shipping` is a
-        // legacy alias during V26 migration.
-        if (type === 'phase-complete' && (phaseName === 'finish' || phaseName === 'shipping')) {
+        // If Finish phase completes, mark run completed.
+        if (type === 'phase-complete' && phaseName === 'finish') {
           try {
             await supabase
               .from('executions')
