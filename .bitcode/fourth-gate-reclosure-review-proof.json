@@ -1,8 +1,8 @@
 {
   "reportId": "v26-fourth-gate-reclosure-review-proof",
   "version": "V26",
-  "proofSourceCommit": "fed4297cb5cbb445250a361150ced8d05ea952aa",
-  "generatedAt": "2026-04-23T22:09:23-03:00",
+  "proofSourceCommit": "8a0ee5942593310fef4abd908867d4fb04c57e9f",
+  "generatedAt": "2026-04-23T23:01:59-03:00",
   "generatorId": "bitcode.proven-generator.v1",
   "worktreeState": "dirty-preview",
   "gate": "gate-4",

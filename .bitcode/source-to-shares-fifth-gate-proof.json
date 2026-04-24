@@ -1,8 +1,8 @@
 {
   "reportId": "v26-source-to-shares-fifth-gate-proof",
   "version": "V26",
-  "proofSourceCommit": "fed4297cb5cbb445250a361150ced8d05ea952aa",
-  "generatedAt": "2026-04-23T22:09:23-03:00",
+  "proofSourceCommit": "8a0ee5942593310fef4abd908867d4fb04c57e9f",
+  "generatedAt": "2026-04-23T23:01:59-03:00",
   "generatorId": "bitcode.proven-generator.v1",
   "worktreeState": "dirty-preview",
   "gate": "gate-5",
@@ -12,7 +12,7 @@
   "proceduralGateClosure": false,
   "makeSharesContract": "Measured Needs are reviewable after measurement and before fit search; accept admits fit search, reject and remeasure-with-feedback block it.",
   "useSharesContract": "Present-fit-for-settlement-review surfaces quantized source-to-shares fit qualities and carries them into settlement AssetPack receipts.",
-  "productionParityContract": "protocol-demonstration remains the low-level SPEC-IMPL and uapi routes remain the commercial SPEC-IMPL; both must preserve the same source-to-shares review and settlement contract.",
+  "productionParityContract": "protocol-demonstration remains the low-level SPEC-IMPL and uapi routes remain the commercial SPEC-IMPL; both must preserve the same source-to-shares review, route-level reread, and settlement contract.",
   "openReason": "This proof advances the fifth-gate source-to-shares baseline without itself claiming fourth-gate procedural closure or full fifth-gate closure.",
   "checks": [
     {
@@ -39,6 +39,18 @@
         "uapi/app/api/make-bitcode-branch/route.ts",
         "uapi/app/application/ApplicationNeedScenarioPanel.tsx",
         "uapi/tests/api/needReviewRoute.test.ts",
+        "uapi/tests/api/needReviewProtocolParity.test.ts"
+      ],
+      "missingFiles": []
+    },
+    {
+      "checkId": "commercial-state-route-reread-parity",
+      "label": "Commercial production SPEC-IMPL rereads accepted Need review, source-to-shares artifacts, settlement preview, and quantized fit-quality evidence through the app-owned state route after branch materialization",
+      "passed": true,
+      "detail": "3 required files present",
+      "requiredFiles": [
+        "uapi/app/api/state/route.ts",
+        "uapi/app/api/make-bitcode-branch/route.ts",
         "uapi/tests/api/needReviewProtocolParity.test.ts"
       ],
       "missingFiles": []

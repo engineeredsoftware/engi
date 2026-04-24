@@ -3,6 +3,7 @@
  */
 
 type BitcodeAppContext = {
+  getState(principal?: string): Record<string, any>;
   getNeedReview(input?: Record<string, unknown>): Record<string, any>;
   reviewNeed(input?: Record<string, unknown>): Record<string, any>;
   makeBitcodeBranch(input?: Record<string, unknown>): Promise<Record<string, any>>;
@@ -10,6 +11,7 @@ type BitcodeAppContext = {
 
 type BitcodeProtocolRuntime = {
   buildInitialState(): Record<string, any>;
+  publicState(state: Record<string, any>, principal?: string): Record<string, any>;
   measureNeedFromScenario(scenario: Record<string, any>): Record<string, any>;
   reviewNeedForFitSearch(reviewableNeed: Record<string, any>, input?: Record<string, unknown>): Record<string, any>;
   runMakeBitcodeBranch(state: Record<string, any>, input?: Record<string, unknown>): Record<string, any>;
@@ -80,6 +82,9 @@ function buildCommercialRouteContext(protocol: BitcodeProtocolRuntime): BitcodeA
   };
 
   return {
+    getState(principal?: string) {
+      return protocol.publicState(state, principal || 'public');
+    },
     getNeedReview,
     reviewNeed(input?: Record<string, unknown>) {
       const payload = getNeedReview(input);
@@ -101,7 +106,7 @@ function buildCommercialRouteContext(protocol: BitcodeProtocolRuntime): BitcodeA
     },
     async makeBitcodeBranch(input?: Record<string, unknown>) {
       const result = protocol.runMakeBitcodeBranch(state, input);
-      state = result.nextState;
+      state = { ...result.nextState, latestRun: result.latestRun };
       return {
         ok: true,
         specVersion: 'V26',
@@ -284,6 +289,84 @@ describe('V26 Need-review SPEC-IMPL parity across protocol and commercial API', 
       ]),
     );
     expect(routeSettlementProof.memberVerdicts).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({
+          memberId: 'quantized-fit-quality-receipting',
+          passed: true,
+        }),
+      ]),
+    );
+  });
+
+  it('rereads accepted Need review and source-to-shares settlement artifacts through the commercial /api/state route', async () => {
+    const protocol = (await import(
+      '@bitcode/protocol-demonstration/src/bitcode-demo.js'
+    )) as BitcodeProtocolRuntime;
+    const app = buildCommercialRouteContext(protocol);
+
+    jest.doMock('@/lib/bitcode-app-context', () => ({
+      getBitcodeAppContext: () => app,
+      readBitcodeRequestBody: readRequestBody,
+      toBitcodeErrorResponse: mapBitcodeError,
+    }));
+    jest.doMock('@/app/application/bitcode-transaction-route-readiness', () => ({
+      requireBitcodeSignedTransactionReadiness: jest.fn(async () => undefined),
+    }));
+
+    const { POST } = await import('@/app/api/make-bitcode-branch/route');
+    const { GET: getState } = await import('@/app/api/state/route');
+
+    const branchResponse = await POST(
+      new Request('http://localhost/api/make-bitcode-branch', {
+        method: 'POST',
+        body: JSON.stringify({
+          scenarioId: 'auth-issuer-rollback',
+          repositoryAnchor: 'frontier/demo-auth',
+          principal: 'buyer',
+          needReviewAction: 'accept',
+        }),
+      }),
+    );
+    const branchPayload = await branchResponse.json();
+    const branchSourceToShares = parseBranchArtifact(branchPayload.latestRun, '.bitcode/source-to-shares.json');
+    const branchSettlementPreview = parseBranchArtifact(branchPayload.latestRun, '.bitcode/settlement-preview.json');
+
+    expect(branchResponse.status).toBe(200);
+
+    const stateResponse = await getState(new Request('http://localhost/api/state?principal=buyer'));
+    const statePayload = await stateResponse.json();
+
+    expect(stateResponse.status).toBe(200);
+    expect(statePayload.projectionPrincipal).toBe('buyer');
+    expect(statePayload.latestRun.needReview).toMatchObject({
+      protocolFocus: 'source-to-shares',
+      reviewStage: 'post-measurement-pre-fit',
+      status: 'accepted',
+    });
+    expect(statePayload.latestRun.sourceToSharesArtifact).toMatchObject({
+      protocolFocus: 'source-to-shares',
+      quantizedObjectiveContractId: 'bitcode.source-to-shares.quantized-fit-quality-oc.v26',
+    });
+    expect(statePayload.latestRun.sourceToSharesArtifact.quantizedFitQualities.fitQualityHash).toBe(
+      branchSourceToShares.quantizedFitQualities.fitQualityHash,
+    );
+    expect(statePayload.latestRun.settlementPreview).toMatchObject({
+      reviewStage: 'present-fit-for-settlement-review',
+      sourceToSharesRef: branchSettlementPreview.sourceToSharesRef,
+    });
+    expect(statePayload.latestRun.settlementPreview.quantizedFitQualities.fitQualityHash).toBe(
+      branchSourceToShares.quantizedFitQualities.fitQualityHash,
+    );
+    expect(statePayload.latestRun.branchArtifacts.visibleFileInventory).toEqual(
+      expect.arrayContaining([
+        '.bitcode/need-review.json',
+        '.bitcode/source-to-shares.json',
+        '.bitcode/settlement-preview.json',
+        '.bitcode/settlement-source-to-shares-proof.json',
+      ]),
+    );
+    expect(statePayload.latestRun.branchArtifacts.files).toBeUndefined();
+    expect(statePayload.latestRun.settlementSourceToSharesProof.memberVerdicts).toEqual(
       expect.arrayContaining([
         expect.objectContaining({
           memberId: 'quantized-fit-quality-receipting',

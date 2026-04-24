@@ -1939,6 +1939,15 @@ function buildV26SourceToSharesFifthGateProof({
       ]
     ),
     buildV26FilePresenceCheck(
+      'commercial-state-route-reread-parity',
+      'Commercial production SPEC-IMPL rereads accepted Need review, source-to-shares artifacts, settlement preview, and quantized fit-quality evidence through the app-owned state route after branch materialization',
+      [
+        'uapi/app/api/state/route.ts',
+        'uapi/app/api/make-bitcode-branch/route.ts',
+        'uapi/tests/api/needReviewProtocolParity.test.ts'
+      ]
+    ),
+    buildV26FilePresenceCheck(
       'terminal-source-to-shares-settlement-read',
       'Bitcode Terminal reads Need review, fit-search admission, quantized fit quality, and source-to-shares settlement as one closure sequence',
       [
@@ -1981,7 +1990,7 @@ function buildV26SourceToSharesFifthGateProof({
     proceduralGateClosure: false,
     makeSharesContract: 'Measured Needs are reviewable after measurement and before fit search; accept admits fit search, reject and remeasure-with-feedback block it.',
     useSharesContract: 'Present-fit-for-settlement-review surfaces quantized source-to-shares fit qualities and carries them into settlement AssetPack receipts.',
-    productionParityContract: 'protocol-demonstration remains the low-level SPEC-IMPL and uapi routes remain the commercial SPEC-IMPL; both must preserve the same source-to-shares review and settlement contract.',
+    productionParityContract: 'protocol-demonstration remains the low-level SPEC-IMPL and uapi routes remain the commercial SPEC-IMPL; both must preserve the same source-to-shares review, route-level reread, and settlement contract.',
     openReason: 'This proof advances the fifth-gate source-to-shares baseline without itself claiming fourth-gate procedural closure or full fifth-gate closure.',
     checks
   };
