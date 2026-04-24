@@ -9,8 +9,8 @@
 - Main spec companion: `/Users/garrettmaring/Developer/ENGI/BITCODE_SPEC_V26.md`
 - Delta companion: `/Users/garrettmaring/Developer/ENGI/BITCODE_SPEC_V26_DELTA.md`
 - Parity companion: `/Users/garrettmaring/Developer/ENGI/BITCODE_SPEC_V26_PARITY_MATRIX.md`
-- Current through-fourth-gate checkpoint artifact: `/Users/garrettmaring/Developer/ENGI/.bitcode/v26-gate-checkpoint-report.json`
-- V26 state: V26 remains active canon; prior through-fourth-gate promotion claims were reopened as overstated, the retained-system proof families now pass, and through-fourth-gate closure is reclosed while fifth-, sixth-, seventh-, and eighth-gate closure remain open
+- Current fourth-gate/fifth-gate checkpoint artifact: `/Users/garrettmaring/Developer/ENGI/.bitcode/v26-gate-checkpoint-report.json`
+- V26 state: V26 remains active canon; prior through-fourth-gate promotion claims were reopened as overstated and effectively false, retained-system proof families now pass as material evidence, and fourth-gate procedural acceptance remains reopened while fifth-, sixth-, seventh-, and eighth-gate closure remain open
 
 ## Notes companion rule
 
@@ -34,7 +34,7 @@ The following items are no longer open draft questions:
 - the preserved late-stage navbar remains the integrated application navigation frame for Bitcode.
 - homepage embedded-demo posture remains removed.
 - mock-mode `/application` review is part of first-gate closure rather than second-gate work.
-- the earlier V26 checkpoint was first-gate plus second-gate closure with explicit third-gate preparation; later through-fourth-gate promotion claims proved overstated and were reopened, and the current checkpoint now recloses fourth-gate on passing retained-system proof families while fifth through eighth gate remain open.
+- the earlier V26 checkpoint was first-gate plus second-gate closure with explicit third-gate preparation; later through-fourth-gate promotion claims proved overstated and were reopened, and the current checkpoint must keep fourth-gate procedural acceptance reopened even when retained-system proof families pass while fifth through eighth gate remain open.
 - second-gate closure now includes route/package README refurbishment and user-facing preserved-runtime naming rather than treating those as optional cleanup after code lands.
 - fifth-gate closure now explicitly requires zero unreplaced `engi` product naming in active code/copy/route teaching unless the occurrence is historical lineage or a still-required structural namespace such as `.bitcode/` or `_legacy/ENGI_SPEC_*`.
 - the active root spec/toolchain family is now part of that same fifth-gate closure: `BITCODE_SPEC*.md`, `BITCODE_SPEC.txt`, and `scripts/check|generate|prepare|promote-bitcode-*.mjs` are canonical, while root `ENGI_SPEC_V26*` and root `ENGI_SPECIFYING.md` are no longer admissible outside `_legacy/`.
@@ -386,7 +386,7 @@ Still open:
 
 ### 4. Fourth-gate retained-system convergence
 
-Now closed for through-fourth-gate promotion:
+Materially proven but procedurally reopened:
 - conversations read as a Bitcode V26 system through the route, fullscreen overlay, API, and retained conversation package proof family,
 - ChatGPT-like interaction survives as a fullscreen first-class application mode entered from `/application`,
 - deliverables are redefined under Bitcode runs/pipelines, asset-pack, written-asset, and connected-interface wrapper semantics,

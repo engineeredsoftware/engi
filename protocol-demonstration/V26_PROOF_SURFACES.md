@@ -178,6 +178,7 @@ Required system families:
 - active-source product naming retirement
 - fifth-gate closure witnesses for retained app/package/runtime carriers
 - proof-bearing closure for newly admitted application, API, MCP, prompt, ChatGPT-app, and retained package systems at the same standard as the earlier proved Bitcode core
+- generated fifth-gate source-to-shares proof through `.bitcode/source-to-shares-fifth-gate-proof.json`, explicitly covering the make-shares/use-shares baseline without claiming fourth-gate or fifth-gate procedural closure
 - protocol proof closure for `.bitcode/need-review.json`, `.bitcode/settlement-preview.json`, `.bitcode/source-to-shares.json`, settlement AssetPack fit-quality receipts, and `settlement_source_to_shares.quantized_fit_quality_receipting`
 - application/API proof closure for `protocol-demonstration/public/app.js`, `protocol-demonstration/server.js`, `uapi/app/api/need-review/route.ts`, `uapi/app/api/make-bitcode-branch/route.ts`, `uapi/app/application/ApplicationNeedScenarioPanel.tsx`, `uapi/app/application/application-closure-state.ts`, `ApplicationClosureNativeSections.tsx`, `application-section-atlas.ts`, `application-transaction-detail.ts`, and `application-activity-history.ts` so review admission and quantized fit-quality rows remain reviewable, writable, parity-tested against protocol behavior, and readable through the Bitcode Terminal and app API rather than only through raw artifacts
 

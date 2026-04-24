@@ -10,12 +10,12 @@
 - Canonical proof-source commit: `9d0733fed5f63d2f977900384d4103f9fd887f03`
 - Prior canonical anchor: `/Users/garrettmaring/Developer/ENGI/_legacy/ENGI_SPEC_V25.md`
 - Prior generated proof appendix: `/Users/garrettmaring/Developer/ENGI/_legacy/ENGI_SPEC_V25_PROVEN.md`
-- Generated structured artifact inventory: active canonical `.bitcode/v19-*` reproducible reports, `.bitcode/v20-*` operator-quality reports, `.bitcode/v26-spec-family-report.json`, `.bitcode/v26-canonical-input-report.json`, `.bitcode/v26-gate-checkpoint-report.json`, `.bitcode/conversations-continuity-proof.json`, `.bitcode/runs-pipelines-totality-proof.json`, `.bitcode/persistence-schema-totality-proof.json`, `.bitcode/prompt-system-totality-proof.json`, `.bitcode/inference-implementation-records-proof.json`, `.bitcode/retained-package-admissibility-proof.json`, and `BITCODE_SPEC_V26_PROVEN.md`
+- Generated structured artifact inventory: active canonical `.bitcode/v19-*` reproducible reports, `.bitcode/v20-*` operator-quality reports, `.bitcode/v26-spec-family-report.json`, `.bitcode/v26-canonical-input-report.json`, `.bitcode/v26-gate-checkpoint-report.json`, `.bitcode/conversations-continuity-proof.json`, `.bitcode/runs-pipelines-totality-proof.json`, `.bitcode/persistence-schema-totality-proof.json`, `.bitcode/prompt-system-totality-proof.json`, `.bitcode/inference-implementation-records-proof.json`, `.bitcode/source-to-shares-fifth-gate-proof.json`, `.bitcode/retained-package-admissibility-proof.json`, and `BITCODE_SPEC_V26_PROVEN.md`
 - Spec companion: `/Users/garrettmaring/Developer/ENGI/BITCODE_SPEC_V26.md`
 - Parity companion: `/Users/garrettmaring/Developer/ENGI/BITCODE_SPEC_V26_PARITY_MATRIX.md`
 - Notes companion: `/Users/garrettmaring/Developer/ENGI/BITCODE_SPEC_V26_NOTES.md`
-- Source parity state: through-fourth-gate promotion closure is now materially in place across application routes, auxillary compatibility redirects, retained-system convergence, persistence witnesses, prompt-system ports, and documentation/spec synchronization; fifth through eighth gate remain open
-- V26 state: through-fourth-gate promotion complete; V26 is the active Bitcode canon while fifth-, sixth-, seventh-, and eighth-gate closure remain open
+- Source parity state: retained-system convergence now has material proof evidence across application routes, auxillary compatibility redirects, persistence witnesses, prompt-system ports, and documentation/spec synchronization, but fourth-gate procedural acceptance remains reopened; fifth through eighth gate remain open
+- V26 state: earlier through-fourth-gate promotion claims were overstated and effectively false; V26 is the active Bitcode canon while fourth-gate procedural acceptance and fifth-, sixth-, seventh-, and eighth-gate closure remain open
 
 ## Why V26 exists
 
@@ -422,7 +422,7 @@ Second-gate acceptance is reached only when:
 
 Persistence note:
 - Supabase-hosted PostgreSQL ownership, `/edgetimes`, `/api/edgetimes`, migrations, ORM/query carriers, generated database types, and storage/API proof closure remain explicit fourth-gate work even while second-gate application UX/UI is being tightened.
-- `/edgetimes` and `/api/edgetimes` now exist as the live fourth-gate storage/API witness for the through-fourth-gate promotion boundary so later convergence can build from active route/API ownership instead of only draft prose.
+- `/edgetimes` and `/api/edgetimes` now exist as live fourth-gate storage/API material witnesses while procedural promotion remains reopened, so later convergence can build from active route/API ownership instead of only draft prose.
 
 ## Precise fourth-gate specification targets
 

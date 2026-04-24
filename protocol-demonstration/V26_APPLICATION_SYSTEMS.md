@@ -12,7 +12,7 @@
 This file is not canonical system truth.
 Canonical V26 truth lives only in the active `BITCODE_SPEC_V26*` family.
 This document exists to keep the repository’s modular architecture legible while the V26 productionizing pass lands.
-V26 remains the active canon. Earlier through-fourth-gate promotion claims were overstated, so fourth gate was reopened, the retained-system proof families were made explicit, and through-fourth-gate closure is now reclosed while fifth-gate minimum-functional Exchange/Terminal closure plus the broad old-world reform baseline stay active, followed by sixth-gate MVP elevation, seventh-gate commercial testnet refinement, and eighth-gate whole-repository provation.
+V26 remains the active canon. Earlier through-fourth-gate promotion claims were overstated and effectively false, so fourth gate remains procedurally reopened even though retained-system proof families now provide material evidence. Fifth-gate minimum-functional Exchange/Terminal closure plus the broad old-world reform baseline stay active, followed by sixth-gate MVP elevation, seventh-gate commercial testnet refinement, and eighth-gate whole-repository provation.
 
 ## Retained old-world reform baseline
 
@@ -849,7 +849,7 @@ Current major retained owners:
 - `packages/orm/*`
   Active ORM model/query ownership and generated database typing under `packages/orm/src/models/*`, `packages/orm/src/queries/*`, `packages/orm/src/types/database.generated.ts`, `packages/orm/src/types/database.ts`, and `packages/orm/scripts/generate-db-types.ts`.
 - storage-facing app/API carriers including `/edgetimes` and `/api/edgetimes`
-  Application and API surfaces that expose the retained storage system upward into Bitcode; `/edgetimes` and `/api/edgetimes` now act as the live fourth-gate Bitcode storage/API witness for through-fourth-gate promotion rather than remaining draft-only posture.
+  Application and API surfaces that expose the retained storage system upward into Bitcode; `/edgetimes` and `/api/edgetimes` now act as live fourth-gate Bitcode storage/API material witnesses while procedural promotion remains reopened rather than remaining draft-only posture.
 - retained execution compatibility carriers including `/api/vcs`, `/api/templates/deliverables`, and `/api/auxillaries/template-preferences`
   Application API surfaces that keep retained runs/pipelines selectors and template personalization healthy while fourth-gate convergence ports those behaviors inward to `/application`.
 - canonical auxillary API carriers including `/api/auxillaries/profile`, `/api/auxillaries/connections/github`, `/api/auxillaries/btd`, `/api/auxillaries/usage`, `/api/auxillaries/transactions`, and `/api/auxillaries/api-keys`

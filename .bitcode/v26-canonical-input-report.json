@@ -1,8 +1,8 @@
 {
   "reportId": "v26-canonical-input-report",
   "version": "V26",
-  "proofSourceCommit": "5efda3c09a214992d32896aaaa1ec9a2d2f50af9",
-  "generatedAt": "2026-04-23T20:38:56-03:00",
+  "proofSourceCommit": "19b6cc757174fa693a3f899482e101b5d00ed831",
+  "generatedAt": "2026-04-23T21:09:41-03:00",
   "generatorId": "bitcode.proven-generator.v1",
   "worktreeState": "dirty-preview",
   "checkedTargetVersion": "V26",
@@ -24,11 +24,12 @@
     ".bitcode/persistence-schema-totality-proof.json",
     ".bitcode/prompt-system-totality-proof.json",
     ".bitcode/inference-implementation-records-proof.json",
+    ".bitcode/source-to-shares-fifth-gate-proof.json",
     ".bitcode/prompt-space-completeness-proof.json",
     ".bitcode/retained-package-admissibility-proof.json",
     ".bitcode/system-reform-admissibility-proof.json",
     ".bitcode/whole-repository-production-satisfaction-proof.json",
     ".bitcode/v26-total-closure-proof.json"
   ],
-  "requiredGeneratedArtifactCount": 15
+  "requiredGeneratedArtifactCount": 16
 }

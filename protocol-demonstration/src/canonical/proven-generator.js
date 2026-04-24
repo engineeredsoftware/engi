@@ -892,12 +892,12 @@ function buildV26GateCheckpointReport({
   fourthGateChecks.push({
     checkId: 'fourth-gate-promotion-honesty',
     label: 'Fourth-gate promotion honesty and procedural closure',
-    passed: fourthGateMaterialProofsPassed,
+    passed: false,
     detail: fourthGateMaterialProofsPassed
-      ? 'Prior through-fourth-gate promotion claims were reopened as overstated; material retained-system proof families now pass, so fourth-gate procedural closure is reclosed without claiming fifth-gate completion.'
+      ? 'Prior through-fourth-gate promotion claims were overstated; material retained-system proof families now pass, but fourth-gate procedural acceptance remains reopened while fifth-gate minimum-functional source-to-shares work continues.'
       : 'Prior through-fourth-gate promotion claims were overstated; fourth-gate acceptance remains procedurally reopened while retained-system convergence proof families are incomplete.'
   });
-  const fourthGateProceduralClosurePassed = fourthGateMaterialProofsPassed;
+  const fourthGateProceduralClosurePassed = false;
 
   const fifthGatePassed = false;
   const sixthGatePrepared = false;
@@ -913,9 +913,9 @@ function buildV26GateCheckpointReport({
     worktreeState: baseData.worktreeState,
     activeCanonicalTarget: ACTIVE_CANON_VERSION,
     draftPreview,
-    checkpointId: 'v26-through-fourth-gate-closed-and-fifth-gate-active-on-eight-gate-v26',
-    checkpointFocus: 'through-fourth-gate-closed-and-fifth-gate-active-on-eight-gate-v26',
-    nextGate: 'Gate 5: minimum-functional Bitcode Exchange, Bitcode Terminal, and broad old-world reform baseline',
+    checkpointId: 'v26-fourth-gate-procedurally-reopened-and-fifth-gate-active-on-eight-gate-v26',
+    checkpointFocus: 'fourth-gate-procedurally-reopened-and-fifth-gate-active-on-eight-gate-v26',
+    nextGate: 'Gate 5: minimum-functional Bitcode Exchange, Bitcode Terminal, and broad old-world reform baseline while fourth-gate procedural acceptance remains reopened',
     passed: firstGatePassed && secondGatePassed && thirdGatePassed && fourthGateProceduralClosurePassed,
     firstGate: {
       gateId: 'gate-1',
@@ -945,10 +945,10 @@ function buildV26GateCheckpointReport({
       gateId: 'gate-4',
       label: 'Merged-world application and retained-system convergence',
       passed: fourthGateProceduralClosurePassed,
-      reopened: false,
+      reopened: true,
       materialProofsPassed: fourthGateMaterialProofsPassed,
       proceduralClosurePassed: fourthGateProceduralClosurePassed,
-      acceptanceBlockedByReopenedPromotion: false,
+      acceptanceBlockedByReopenedPromotion: true,
       checks: fourthGateChecks
     },
     fifthGate: {
@@ -956,7 +956,7 @@ function buildV26GateCheckpointReport({
       label: 'Minimum-functional Bitcode Exchange, Bitcode Terminal, and total old-world reform baseline',
       passed: fifthGatePassed,
       open: true,
-      detail: 'Fifth-gate drafting and implementation remain active after through-fourth-gate closure. Fifth-gate owns minimum-functional Bitcode Exchange and Terminal closure plus the broad old-world reform baseline required to make the kept repository read as Bitcode-native.'
+      detail: 'Fifth-gate drafting and implementation remain active while fourth-gate procedural acceptance is reopened. Fifth-gate owns minimum-functional Bitcode Exchange and Terminal closure plus the broad old-world reform baseline required to make the kept repository read as Bitcode-native around source-to-shares.'
     },
     sixthGate: {
       gateId: 'gate-6',
@@ -1627,6 +1627,88 @@ function buildV26InferenceImplementationRecordsProof({
     boundaryPostureCounts: validation.boundaryPostureCounts,
     recordChecks: validation.recordChecks,
     records: validation.records
+  };
+}
+
+/**
+ * @param {{
+ *   generatedAt: string,
+ *   baseData: any
+ * }} input
+ */
+function buildV26SourceToSharesFifthGateProof({
+  generatedAt,
+  baseData
+}) {
+  const checks = [
+    buildV26FilePresenceCheck(
+      'source-to-shares-protocol-review-artifacts',
+      'Low-level protocol SPEC-IMPL emits reviewable Needs before fit search and carries source-to-shares artifacts into settlement receipts',
+      [
+        'protocol-demonstration/src/canonical/need-measurement.js',
+        'protocol-demonstration/src/canonical/settlement.js',
+        'protocol-demonstration/src/canonical/run-artifacts.js',
+        'protocol-demonstration/src/bitcode-demo.js',
+        'protocol-demonstration/test/v26-need-review-source-to-shares.test.js'
+      ]
+    ),
+    buildV26FilePresenceCheck(
+      'commercial-need-review-route-parity',
+      'Commercial production SPEC-IMPL preserves the protocol Need-review admission boundary and blocks fit search until accept',
+      [
+        'uapi/app/api/need-review/route.ts',
+        'uapi/app/api/make-bitcode-branch/route.ts',
+        'uapi/app/application/ApplicationNeedScenarioPanel.tsx',
+        'uapi/tests/api/needReviewRoute.test.ts',
+        'uapi/tests/api/needReviewProtocolParity.test.ts'
+      ]
+    ),
+    buildV26FilePresenceCheck(
+      'terminal-source-to-shares-settlement-read',
+      'Bitcode Terminal reads Need review, fit-search admission, quantized fit quality, and source-to-shares settlement as one closure sequence',
+      [
+        'uapi/app/application/ApplicationClosureNativeSections.tsx',
+        'uapi/app/application/application-closure-state.ts',
+        'uapi/app/application/application-transaction-detail-snapshot.ts',
+        'uapi/app/application/application-activity-history.ts',
+        'uapi/tests/applicationClosureState.test.ts',
+        'uapi/tests/applicationTransactionDetailSnapshot.test.ts'
+      ]
+    ),
+    buildV26FilePresenceCheck(
+      'asset-pack-finish-delivering-semantics',
+      'Retained pipeline output semantics distinguish stable AssetPacks and written assets from delivery mechanisms, with Finish as the broad final phase',
+      [
+        'protocol-demonstration/V26_DELIVERABLE_REFORM.md',
+        'protocol-demonstration/V26_PIPELINE_FINISH_REFORM.md',
+        'protocol-demonstration/test/v26-deliverable-reform.test.js',
+        'protocol-demonstration/test/v26-pipeline-finish-reform.test.js',
+        'packages/pipelines-generics/src/phases/sdivs-factory.ts',
+        'packages/pipelines-generics/src/phases/phase-factory.ts',
+        'packages/pipelines/deliverable/src/agents/shipping-agents.ts',
+        'packages/pipelines/deliverable/src/agents/validation-agents.ts'
+      ]
+    )
+  ];
+  const passed = checks.every((check) => check.passed === true);
+
+  return {
+    reportId: 'v26-source-to-shares-fifth-gate-proof',
+    version: 'V26',
+    proofSourceCommit: baseData.canonicalCommit,
+    generatedAt,
+    generatorId: baseData.generatorId,
+    worktreeState: baseData.worktreeState,
+    gate: 'gate-5',
+    focus: 'source-to-shares',
+    passed,
+    closureClaim: false,
+    proceduralGateClosure: false,
+    makeSharesContract: 'Measured Needs are reviewable after measurement and before fit search; accept admits fit search, reject and remeasure-with-feedback block it.',
+    useSharesContract: 'Present-fit-for-settlement-review surfaces quantized source-to-shares fit qualities and carries them into settlement AssetPack receipts.',
+    productionParityContract: 'protocol-demonstration remains the low-level SPEC-IMPL and uapi routes remain the commercial SPEC-IMPL; both must preserve the same source-to-shares review and settlement contract.',
+    openReason: 'This proof advances the fifth-gate source-to-shares baseline without claiming fourth-gate procedural closure or full fifth-gate closure.',
+    checks
   };
 }
 
@@ -2912,6 +2994,7 @@ export function renderCanonicalProvenMarkdown(data) {
     lines.push(`- v26PersistenceSchemaTotalityPassed: ${markdownCode(String(v26.persistenceSchemaTotalityProof.passed === true))}`);
     lines.push(`- v26PromptSystemTotalityPassed: ${markdownCode(String(v26.promptSystemTotalityProof.passed === true))}`);
     lines.push(`- v26InferenceImplementationRecordsPassed: ${markdownCode(String(v26.inferenceImplementationRecordsProof.passed === true))}`);
+    lines.push(`- v26SourceToSharesFifthGatePassed: ${markdownCode(String(v26.sourceToSharesFifthGateProof.passed === true))}`);
     lines.push(`- v26PromptSpaceBaselinePassed: ${markdownCode(String(v26.promptSpaceCompletenessProof.baselinePassed === true))}`);
     lines.push(`- v26RetainedPackageAdmissibilityPassed: ${markdownCode(String(v26.retainedPackageAdmissibilityProof.passed === true))}`);
     lines.push(`- v26SystemReformAdmissibilityPassed: ${markdownCode(String(v26.systemReformAdmissibilityProof.passed === true))}`);
@@ -3766,6 +3849,23 @@ export function renderCanonicalProvenMarkdown(data) {
         markdownCode(check.recordId),
         markdownCode(check.boundaryPosture),
         markdownCode(String(check.passed))
+      ])
+    ));
+    lines.push('');
+    lines.push('### V26 Source-To-Shares Fifth-Gate Proof');
+    lines.push('');
+    lines.push(`- reportId: ${markdownCode(v26.sourceToSharesFifthGateProof.reportId)}`);
+    lines.push(`- passed: ${markdownCode(String(v26.sourceToSharesFifthGateProof.passed === true))}`);
+    lines.push(`- focus: ${markdownCode(v26.sourceToSharesFifthGateProof.focus)}`);
+    lines.push(`- closureClaim: ${markdownCode(String(v26.sourceToSharesFifthGateProof.closureClaim === true))}`);
+    lines.push(`- openReason: ${v26.sourceToSharesFifthGateProof.openReason}`);
+    lines.push('');
+    lines.push(renderMarkdownTable(
+      ['checkId', 'passed', 'detail'],
+      v26.sourceToSharesFifthGateProof.checks.map((check) => [
+        markdownCode(check.checkId),
+        markdownCode(String(check.passed)),
+        check.detail
       ])
     ));
     lines.push('');
@@ -4717,6 +4817,10 @@ function buildV26ProvenPackage(baseData, {
     generatedAt,
     baseData
   });
+  const sourceToSharesFifthGateProof = buildV26SourceToSharesFifthGateProof({
+    generatedAt,
+    baseData
+  });
   const promptSpaceCompletenessProof = buildV26PromptSpaceCompletenessProof({
     generatedAt,
     baseData
@@ -4770,6 +4874,7 @@ function buildV26ProvenPackage(baseData, {
     '.bitcode/persistence-schema-totality-proof.json': `${JSON.stringify(persistenceSchemaTotalityProof, null, 2)}\n`,
     '.bitcode/prompt-system-totality-proof.json': `${JSON.stringify(promptSystemTotalityProof, null, 2)}\n`,
     '.bitcode/inference-implementation-records-proof.json': `${JSON.stringify(inferenceImplementationRecordsProof, null, 2)}\n`,
+    '.bitcode/source-to-shares-fifth-gate-proof.json': `${JSON.stringify(sourceToSharesFifthGateProof, null, 2)}\n`,
     '.bitcode/prompt-space-completeness-proof.json': `${JSON.stringify(promptSpaceCompletenessProof, null, 2)}\n`,
     '.bitcode/retained-package-admissibility-proof.json': `${JSON.stringify(retainedPackageAdmissibilityProof, null, 2)}\n`,
     '.bitcode/system-reform-admissibility-proof.json': `${JSON.stringify(systemReformAdmissibilityProof, null, 2)}\n`,
@@ -4779,7 +4884,9 @@ function buildV26ProvenPackage(baseData, {
   const artifactSummaries = summarizeArtifactContents(artifacts);
   const checkpointReady = gateCheckpointReport.firstGate?.passed === true
     && gateCheckpointReport.secondGate?.passed === true;
-  const throughFourthGateReady = gateCheckpointReport.passed === true;
+  const throughFourthGateReady = gateCheckpointReport.fourthGate?.proceduralClosurePassed === true
+    && gateCheckpointReport.fourthGate?.reopened !== true
+    && gateCheckpointReport.fourthGate?.acceptanceBlockedByReopenedPromotion !== true;
   const promotionReady = !draftPreview && throughFourthGateReady;
   const fifthGateClosurePassed = false;
   const sixthGateClosurePassed = false;
@@ -4800,6 +4907,7 @@ function buildV26ProvenPackage(baseData, {
       persistenceSchemaTotalityProof,
       promptSystemTotalityProof,
       inferenceImplementationRecordsProof,
+      sourceToSharesFifthGateProof,
       promptSpaceCompletenessProof,
       retainedPackageAdmissibilityProof,
       systemReformAdmissibilityProof,

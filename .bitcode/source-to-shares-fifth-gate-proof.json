@@ -1,0 +1,79 @@
+{
+  "reportId": "v26-source-to-shares-fifth-gate-proof",
+  "version": "V26",
+  "proofSourceCommit": "19b6cc757174fa693a3f899482e101b5d00ed831",
+  "generatedAt": "2026-04-23T21:09:41-03:00",
+  "generatorId": "bitcode.proven-generator.v1",
+  "worktreeState": "dirty-preview",
+  "gate": "gate-5",
+  "focus": "source-to-shares",
+  "passed": true,
+  "closureClaim": false,
+  "proceduralGateClosure": false,
+  "makeSharesContract": "Measured Needs are reviewable after measurement and before fit search; accept admits fit search, reject and remeasure-with-feedback block it.",
+  "useSharesContract": "Present-fit-for-settlement-review surfaces quantized source-to-shares fit qualities and carries them into settlement AssetPack receipts.",
+  "productionParityContract": "protocol-demonstration remains the low-level SPEC-IMPL and uapi routes remain the commercial SPEC-IMPL; both must preserve the same source-to-shares review and settlement contract.",
+  "openReason": "This proof advances the fifth-gate source-to-shares baseline without claiming fourth-gate procedural closure or full fifth-gate closure.",
+  "checks": [
+    {
+      "checkId": "source-to-shares-protocol-review-artifacts",
+      "label": "Low-level protocol SPEC-IMPL emits reviewable Needs before fit search and carries source-to-shares artifacts into settlement receipts",
+      "passed": true,
+      "detail": "5 required files present",
+      "requiredFiles": [
+        "protocol-demonstration/src/canonical/need-measurement.js",
+        "protocol-demonstration/src/canonical/settlement.js",
+        "protocol-demonstration/src/canonical/run-artifacts.js",
+        "protocol-demonstration/src/bitcode-demo.js",
+        "protocol-demonstration/test/v26-need-review-source-to-shares.test.js"
+      ],
+      "missingFiles": []
+    },
+    {
+      "checkId": "commercial-need-review-route-parity",
+      "label": "Commercial production SPEC-IMPL preserves the protocol Need-review admission boundary and blocks fit search until accept",
+      "passed": true,
+      "detail": "5 required files present",
+      "requiredFiles": [
+        "uapi/app/api/need-review/route.ts",
+        "uapi/app/api/make-bitcode-branch/route.ts",
+        "uapi/app/application/ApplicationNeedScenarioPanel.tsx",
+        "uapi/tests/api/needReviewRoute.test.ts",
+        "uapi/tests/api/needReviewProtocolParity.test.ts"
+      ],
+      "missingFiles": []
+    },
+    {
+      "checkId": "terminal-source-to-shares-settlement-read",
+      "label": "Bitcode Terminal reads Need review, fit-search admission, quantized fit quality, and source-to-shares settlement as one closure sequence",
+      "passed": true,
+      "detail": "6 required files present",
+      "requiredFiles": [
+        "uapi/app/application/ApplicationClosureNativeSections.tsx",
+        "uapi/app/application/application-closure-state.ts",
+        "uapi/app/application/application-transaction-detail-snapshot.ts",
+        "uapi/app/application/application-activity-history.ts",
+        "uapi/tests/applicationClosureState.test.ts",
+        "uapi/tests/applicationTransactionDetailSnapshot.test.ts"
+      ],
+      "missingFiles": []
+    },
+    {
+      "checkId": "asset-pack-finish-delivering-semantics",
+      "label": "Retained pipeline output semantics distinguish stable AssetPacks and written assets from delivery mechanisms, with Finish as the broad final phase",
+      "passed": true,
+      "detail": "8 required files present",
+      "requiredFiles": [
+        "protocol-demonstration/V26_DELIVERABLE_REFORM.md",
+        "protocol-demonstration/V26_PIPELINE_FINISH_REFORM.md",
+        "protocol-demonstration/test/v26-deliverable-reform.test.js",
+        "protocol-demonstration/test/v26-pipeline-finish-reform.test.js",
+        "packages/pipelines-generics/src/phases/sdivs-factory.ts",
+        "packages/pipelines-generics/src/phases/phase-factory.ts",
+        "packages/pipelines/deliverable/src/agents/shipping-agents.ts",
+        "packages/pipelines/deliverable/src/agents/validation-agents.ts"
+      ],
+      "missingFiles": []
+    }
+  ]
+}
