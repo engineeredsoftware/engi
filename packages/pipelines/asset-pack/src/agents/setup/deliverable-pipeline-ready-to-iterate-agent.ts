@@ -78,7 +78,6 @@ export default async function readyToIterateWithShortCircuit(input: any, executi
     cloneResult: execution.get('setup/clone-vcs', 'result'),
     lspInitialized: execution.get('setup/lsp', 'initialized') || false,
     dangerWallResult: execution.get('setup/danger-wall', 'result'),
-    taskComprehension: execution.get('setup/task', 'comprehension'),
     needComprehension: resolveNeedComprehensionFromExecution(execution),
     deliverableType: resolveWrittenAssetTypeFromExecution(execution),
     writtenAssetType: resolveWrittenAssetTypeFromExecution(execution),

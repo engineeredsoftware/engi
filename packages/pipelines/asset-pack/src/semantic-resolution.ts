@@ -64,9 +64,6 @@ export function resolveExpressedNeed(input: any, fallback = ''): string {
     input?.need ??
     input?.definitionOfNeed ??
     input?.needDefinition ??
-    input?.definitionOfDone ??
-    input?.taskDescription ??
-    input?.task ??
     fallback;
 
   if (Array.isArray(candidate)) {
@@ -82,9 +79,6 @@ export function resolveExpressedNeedFromExecution(execution: any, fallback = '')
       need:
         execution?.get?.('need', 'description') ??
         execution?.get?.('pipeline', 'expressedNeed'),
-      taskDescription:
-        execution?.get?.('task', 'description') ??
-        execution?.get?.('setup/task', 'description'),
     },
     fallback
   );
@@ -93,6 +87,6 @@ export function resolveExpressedNeedFromExecution(execution: any, fallback = '')
 export function resolveNeedComprehensionFromExecution(execution: any): any {
   return (
     execution?.get?.('setup/need', 'comprehension') ??
-    execution?.get?.('setup/task', 'comprehension')
+    execution?.get?.('setup/need-comprehension', 'comprehension')
   );
 }

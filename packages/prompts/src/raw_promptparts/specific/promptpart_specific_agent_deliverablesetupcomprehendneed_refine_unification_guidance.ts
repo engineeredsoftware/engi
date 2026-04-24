@@ -12,4 +12,4 @@ import { PromptPart } from '../../parts/PromptPart';
  * ]
  */
 export const PROMPTPART_SPECIFIC_AGENT_DELIVERABLESETUPCOMPREHENDNEED_REFINE_UNIFICATION_GUIDANCE: PromptPart =
-  "Unify insights across modalities; ensure final fields include need_satisfaction_criteria, comprehended_multimodal_attachments, and written_asset_types, while also mirroring compatibility dod_analysis and deliverable_types for retained downstream callers." as PromptPart;
+  "Unify insights across modalities; ensure final fields include need_satisfaction_criteria, need_definition_analysis, comprehended_multimodal_attachments, and written_asset_types, while also mirroring deliverable_types only for bounded retained downstream callers." as PromptPart;

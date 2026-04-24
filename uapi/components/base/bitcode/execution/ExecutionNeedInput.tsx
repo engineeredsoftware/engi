@@ -40,7 +40,7 @@ interface TemplateCategory {
   checked: boolean;
 }
 
-export const ExecutionTaskInput = ({
+export const ExecutionNeedInput = ({
   definitionOfNeed,
   onChange,
   isProcessing,
@@ -528,4 +528,4 @@ export const ExecutionTaskInput = ({
   );
 };
 
-export default ExecutionTaskInput;
+export default ExecutionNeedInput;

@@ -2252,7 +2252,7 @@ function buildV26PromptSystemTotalityProof({
         'packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_comprehendneed_try_directives.ts',
         'packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_deliverablesetupcomprehendneed_identity_definition.ts',
         'packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_deliverablesetupcomprehendneed_purpose_corestatement.ts',
-        'packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_deliverablesetupcomprehendneed_output_dodanalysis_spec.ts',
+        'packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_deliverablesetupcomprehendneed_output_needdefinitionanalysis_spec.ts',
         'packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_deliverablesetupcomprehendneed_output_types_spec.ts',
         'packages/pipelines/asset-pack/src/agents/setup/deliverable-pipeline-comprehend-need-agent.ts',
         'packages/pipelines/asset-pack/src/agents/setup/deliverable-pipeline-ready-to-iterate-agent.ts',
@@ -3223,7 +3223,7 @@ function buildV26RunsPipelinesTotalityProof({
     ),
     buildV26FileContentCheck(
       'uapi-client-asset-pack-execution-hook',
-      'Terminal execution client hook teaches Bitcode asset-pack pipeline semantics while keeping compatibility input names bounded',
+      'Terminal execution client hook teaches Bitcode asset-pack pipeline semantics through canonical Definition of Need input names',
       [
         {
           file: 'uapi/hooks/useExecutionState.ts',
@@ -3232,8 +3232,8 @@ function buildV26RunsPipelinesTotalityProof({
         },
         {
           file: 'uapi/hooks/useExecutionState.ts',
-          evidence: 'definitionOfDone` is bounded to the input key',
-          description: 'TypeScript hook bounds definitionOfDone naming to the current input key'
+          evidence: 'definitionOfNeed',
+          description: 'TypeScript hook submits the canonical Definition of Need request shape'
         },
         {
           file: 'uapi/hooks/useExecutionState.ts',

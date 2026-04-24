@@ -36,7 +36,7 @@ async function main() {
   });
 
   const input = {
-    taskDescription: 'Demo bring-up',
+    definitionOfNeed: 'Demo bring-up',
     repository: { url: 'https://github.com/acme/repo', branch: 'main' },
     deliveryTarget: 'pr' as const,
   };

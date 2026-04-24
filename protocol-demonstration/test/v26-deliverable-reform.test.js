@@ -531,19 +531,19 @@ test('phase and shipping carriers resolve semantic written-asset type and need b
   assert.match(finalSummarySource, /resolveWrittenAssetTypeFromExecution\(execution\)/u);
 });
 
-test('operator-facing execution header and retained route teach shipping-mechanism compatibility semantics', () => {
-  assert.match(executionsPageHeaderSource, /shipping-template selection/u);
+test('operator-facing execution header and retained route teach Delivering mechanism semantics', () => {
+  assert.match(executionsPageHeaderSource, /delivery-template selection/u);
   assert.match(executionsPageHeaderSource, /Compatibility delivery mechanism\. Bitcode-owned meaning lives in written assets \/ asset packs\./u);
-  assert.match(executionsPageHeaderSource, /No shipping surfaces to summarize/u);
+  assert.match(executionsPageHeaderSource, /No delivery mechanisms to summarize/u);
   assert.match(executionsPageHeaderSource, /expected written asset pack and shipping result/u);
-  assert.match(executionsPageHeaderSource, /A shipping delivery mechanism can be a/u);
-  assert.match(executionsPageHeaderSource, /each shipping a stable asset pack and always supplemented by a final work summary/u);
+  assert.match(executionsPageHeaderSource, /A Delivering mechanism can be a/u);
+  assert.match(executionsPageHeaderSource, /each delivering a stable asset pack and always supplemented by a final work summary/u);
   assert.match(executionsPageHeaderSource, /single high-quality asset pack and its shipping result/u);
   assert.match(deliverablesRouteSource, /Retained `\/api\/deliverables` compatibility route handlers for AssetPack/u);
   assert.match(deliverablesRouteSource, /Create and execute the retained compatibility route for an AssetPack/u);
   assert.match(deliverablesRouteSource, /execution\.store\('route\/preprocessed', 'assetPackWrittenAsset', preprocessing\);/u);
   assert.match(deliverablesRouteSource, /semanticKind: 'asset-pack-written-asset' as const/u);
-  assert.match(deliverablesRouteSource, /need: finalWorkSummary\?\.need \|\| preprocessedSnapshot\?\.need \|\| definition_of_done/u);
+  assert.match(deliverablesRouteSource, /need: finalWorkSummary\?\.need \|\| preprocessedSnapshot\?\.need \|\| definition_of_need/u);
   assert.match(deliverablesRouteSource, /assetPack: finalWorkSummary\?\.assetPack \|\| preprocessedSnapshot\?\.assetPack \|\| null/u);
   assert.match(deliverablesRouteSource, /semantic_event_type: 'asset_pack_run_created'/u);
   assert.match(deliverablesRouteSource, /semantic_event_type: 'asset_pack_run_completed'/u);

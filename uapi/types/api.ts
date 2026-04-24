@@ -116,7 +116,7 @@ export interface CompletionData {
   assetPack?: {
     need?: string | null;
     writtenAssetType?: string | null;
-    definitionOfDone?: string | null;
+    definitionOfNeed?: string | null;
     deliveryTarget?: string | null;
   } | null;
   /** Total time in milliseconds */
@@ -231,7 +231,7 @@ export interface PipelineExecution {
   asset_pack?: {
     need?: string | null;
     writtenAssetType?: string | null;
-    definitionOfDone?: string | null;
+    definitionOfNeed?: string | null;
     deliveryTarget?: string | null;
   } | null;
 
@@ -270,7 +270,7 @@ export interface PipelineExecution {
     assetPack?: {
       need?: string | null;
       writtenAssetType?: string | null;
-      definitionOfDone?: string | null;
+      definitionOfNeed?: string | null;
       deliveryTarget?: string | null;
     };
     processingStats?: {
@@ -334,7 +334,7 @@ export interface AIDocumentRun {
   asset_pack?: {
     need?: string | null;
     writtenAssetType?: string | null;
-    definitionOfDone?: string | null;
+    definitionOfNeed?: string | null;
     deliveryTarget?: string | null;
   } | null;
   final_work_summary?: {
@@ -346,7 +346,7 @@ export interface AIDocumentRun {
     assetPack?: {
       need?: string | null;
       writtenAssetType?: string | null;
-      definitionOfDone?: string | null;
+      definitionOfNeed?: string | null;
       deliveryTarget?: string | null;
     };
     processingStats?: {

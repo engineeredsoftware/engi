@@ -1,21 +1,21 @@
-// Header of the execution page including inline shipping-template selection for
+// Header of the execution page including inline delivery-template selection for
 // retained compatibility categories.
 //
 // how the template selection experience should be:
-// - terms: "shipping categories" (explicitly the words 'pull request',
+// - terms: "delivery categories" (explicitly the words 'pull request',
 //   'pull request review', 'issue', 'issue comment'), "non-hover" (how the
 //   paragraph looks at right, i.e. the state of the previously interacted with
-//   shipping-category selected template(s))
+//   delivery-category selected template(s))
 // - behaviors:
-//  - each shipping category is itself an interactive element that when clicked,
+//  - each delivery category is itself an interactive element that when clicked,
 //    populates some template text
 //  - templates are provided and include basic/default ones (it is always possible to click)
-//  - there are 2 sub-interactive elements, the word of the shipping category
+//  - there are 2 sub-interactive elements, the word of the delivery category
 //    is clickable to use the template that was last selected, and the element
 //    to change the selected template
 //  - whenever the user is in the mode where they are changing the selected
-//    template for the shipping category, it should show that name in the place
-//    of the shipping-category word. we should also use a placeholder in the
+//    template for the delivery category, it should show that name in the place
+//    of the delivery-category word. we should also use a placeholder in the
 //    mode the first time to make it clear that the selection experience is in progress
 //  - from a UI perspective, it is imperative that these 2 interactive elements are clear easy to interact with and integrate seamlessly into what should look like effectively a partial interactive/live paragraph of text
 //
@@ -183,7 +183,7 @@ const markdownComponents = {
   ),
 }
 
-interface ShippingSurface {
+interface DeliveryMechanismSurface {
   url: string;
   number?: number;
   title?: string;
@@ -212,7 +212,7 @@ interface EduContent {
   body: string | React.ReactNode;
 }
 
-interface ShippingTemplate {
+interface DeliveryTemplate {
   id: string;
   name: string;
   text: string;
@@ -241,11 +241,11 @@ type ExtendedProcessingStats = HeaderProcessingStats & {
   };
 };
 
-interface ShippingTemplateSets {
-  pullRequests: ShippingTemplate[];
-  pullRequestReviews: ShippingTemplate[];
-  issues: ShippingTemplate[];
-  comments: ShippingTemplate[];
+interface DeliveryTemplateSets {
+  pullRequests: DeliveryTemplate[];
+  pullRequestReviews: DeliveryTemplate[];
+  issues: DeliveryTemplate[];
+  comments: DeliveryTemplate[];
 }
 
 interface ExecutionPageHeaderProps {
@@ -263,14 +263,14 @@ interface ExecutionPageHeaderProps {
   showSaveTemplateEdu?: boolean;
   showExecuteButtonEdu?: boolean;
   showIterationsEdu?: boolean | 'minimize' | 'maximize';
-  templates?: ShippingTemplateSets;
-  onTemplateSelect?: (templateId: string, deliverableType: keyof ShippingTemplateSets) => void;
+  templates?: DeliveryTemplateSets;
+  onTemplateSelect?: (templateId: string, deliverableType: keyof DeliveryTemplateSets) => void;
   /** Compatibility delivery mechanism. Bitcode-owned meaning lives in written assets / asset packs. */
   deliverables?: {
-    pullRequest?: ShippingSurface | null; // Compatibility wrapper stays singular for PR delivery.
-    pullRequestReviews?: ShippingSurface[] | null;
-    comments?: ShippingSurface[] | null;
-    issues?: ShippingSurface[] | null;
+    pullRequest?: DeliveryMechanismSurface | null; // Compatibility wrapper stays singular for PR delivery.
+    pullRequestReviews?: DeliveryMechanismSurface[] | null;
+    comments?: DeliveryMechanismSurface[] | null;
+    issues?: DeliveryMechanismSurface[] | null;
     fileChanges?: FileChanges | null;
     summary?: string | null;
   };
@@ -356,7 +356,7 @@ const childVariants = {
 /**
  * ExecutionsPageHeader
  *
- * Retained compatibility shell for choosing shipping mechanisms and reading
+ * Bitcode shell for choosing delivery mechanisms and reading
  * post-run summaries while Bitcode-owned asset-pack meaning lives in the
  * written-asset surfaces rendered below.
  * Final styling updates:
@@ -769,7 +769,7 @@ export default function ExecutionsPageHeader({
   const handleIssueHover = useCallback(() => {
     setActiveEdu({
       title: "Issues",
-      subtitle: "Task Tracking",
+      subtitle: "Need Tracking",
       body: "Structured problem statements with reproduction steps and acceptance criteria. Includes context, priority, and implementation suggestions."
     });
   }, []);
@@ -1043,10 +1043,10 @@ export default function ExecutionsPageHeader({
     }
   }, [showSourceEdu, showAttachmentsEdu, showEnhanceEdu, showSaveTemplateEdu, showExecuteButtonEdu, showIterationsEdu]);
 
-  // Prepare TL;DR items for summary of shipping surfaces.
+  // Prepare TL;DR items for summary of delivery mechanisms.
   const tldrItems: React.ReactNode[] = [];
 
-  // Individual shipping-surface links with icons and titles (works for both real and
+  // Individual delivery-mechanism links with icons and titles (works for both real and
   // mock data).  We no longer fall back to the older single‑sentence mock
   // summary so that the rich format is always shown when mock data is enabled.
 
@@ -1120,7 +1120,7 @@ export default function ExecutionsPageHeader({
   });
 
   if (tldrItems.length === 0) {
-    tldrItems.push(<span key="none">No shipping surfaces to summarize</span>);
+    tldrItems.push(<span key="none">No delivery mechanisms to summarize</span>);
   }
   return (
     <section data-experience="deliverables">
@@ -1222,7 +1222,7 @@ export default function ExecutionsPageHeader({
                           <p className="font-semibold text-sky-200">
                             {digestStatus.agentsDocUpdated
                               ? '.ai/AGENTS.md update detected'
-                              : 'Awaiting .ai/AGENTS.md update before shipping'}
+                              : 'Awaiting .ai/AGENTS.md update before Delivering'}
                           </p>
                           {digestStatus.summary && (
                             <p className="mt-1 text-sky-100/80 whitespace-pre-wrap">{digestStatus.summary}</p>
@@ -1318,7 +1318,7 @@ export default function ExecutionsPageHeader({
                   <div className="flex items-start">
                     <div className="flex-1">
                       <p className="text-gray-400 text-lg bg-transparent">
-                        Connect your codebase, attach multi-modal context, and describe your task's{' '}
+                        Connect your codebase, attach multi-modal context, and describe your Need's{' '}
                         <span
                           className="text-gray-300 hover:border-b hover:border-purple-300/90 transition-all duration-150 cursor-help"
                           onMouseEnter={() => setActiveEdu({
@@ -1338,11 +1338,11 @@ export default function ExecutionsPageHeader({
                   <div className="text-gray-400 text-lg self-start">
                     {!executionType?.includes('ai_documents') ? (
                       <>
-                        A shipping delivery mechanism can be a{' '}
+                        A Delivering mechanism can be a{' '}
                     <DeliverableTemplateText
                       text="pull request"
                       templates={templates?.pullRequests}
-                      defaultTask="an opened pull request for:"
+                      defaultNeed="an opened pull request for:"
                       onSelect={onExecuteDeliverableClickSetDefinitionOfNeed}
                       onTemplateSelect={(templateId) => onTemplateSelect?.(templateId, 'pullRequests')}
                       onMouseEnter={handlePullRequestHover}
@@ -1352,7 +1352,7 @@ export default function ExecutionsPageHeader({
                     <DeliverableTemplateText
                       text="pull request review"
                       templates={templates?.pullRequestReviews}
-                      defaultTask="a pull request review that addresses..."
+                      defaultNeed="a pull request review that addresses..."
                       onSelect={onExecuteDeliverableClickSetDefinitionOfNeed}
                       onTemplateSelect={(templateId) => onTemplateSelect?.(templateId, 'pullRequestReviews')}
                       onMouseEnter={handlePRReviewHover}
@@ -1363,7 +1363,7 @@ export default function ExecutionsPageHeader({
                     <DeliverableTemplateText
                       text="issue"
                       templates={templates?.issues}
-                      defaultTask="an issue created describing..."
+                      defaultNeed="an issue created describing..."
                       onSelect={onExecuteDeliverableClickSetDefinitionOfNeed}
                       onTemplateSelect={(templateId) => onTemplateSelect?.(templateId, 'issues')}
                       onMouseEnter={handleIssueHover}
@@ -1374,14 +1374,14 @@ export default function ExecutionsPageHeader({
                     <DeliverableTemplateText
                       text="issue comment"
                       templates={templates?.comments}
-                      defaultTask="a helpful comment that..."
+                      defaultNeed="a helpful comment that..."
                       onSelect={onExecuteDeliverableClickSetDefinitionOfNeed}
                       onTemplateSelect={(templateId) => onTemplateSelect?.(templateId, 'comments')}
                       onMouseEnter={handleIssueCommentHover}
                       duration={3.2}
                       delay={2.4}
                       width={250}
-                    />, each shipping a stable asset pack and always supplemented by a final work summary.
+                    />, each delivering a stable asset pack and always supplemented by a final work summary.
                       </>
                     ) : (
                       <>

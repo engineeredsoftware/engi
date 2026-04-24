@@ -5,11 +5,10 @@ This package turns a measured Bitcode Need into stable written assets and
 AssetPack evidence, then optionally hands those assets to connected-interface
 delivery mechanisms.
 
-Compatibility terms still appear in selected public route and payload seams:
-`definitionOfDone`, `deliverableType`, `deliverables`, `shipping`, and `SDIVS`
-are compatibility carriers only. New implementation and documentation should
-prefer `need`, `writtenAssetType`, `writtenAssets`, `Finish`, `Delivering`, and
-`SDIVF`.
+Active route and payload seams use Bitcode nouns: `definitionOfNeed`, `need`,
+`writtenAssetType`, `writtenAssets`, `Finish`, `Delivering`, and `SDIVF`.
+Former retained-system terms are tracked in V26 NOTES/DELTA rather than taught
+as product semantics here.
 
 ## SDIVF Shape
 

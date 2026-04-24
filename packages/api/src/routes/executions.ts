@@ -182,17 +182,17 @@ function buildAssetPack(row: ExecutionHistoryRow) {
 
   const need = buildNeed(row);
   const writtenAssetType = buildWrittenAssetType(row);
-  const definitionOfDone = asString(preprocessed?.definitionOfDone);
+  const definitionOfNeed = asString(preprocessed?.definitionOfNeed);
   const deliveryTarget = asString(preprocessed?.deliveryTarget);
 
-  if (!need && !writtenAssetType && !definitionOfDone && !deliveryTarget) {
+  if (!need && !writtenAssetType && !definitionOfNeed && !deliveryTarget) {
     return null;
   }
 
   return {
     ...(need ? { need } : {}),
     ...(writtenAssetType ? { writtenAssetType } : {}),
-    ...(definitionOfDone ? { definitionOfDone } : {}),
+    ...(definitionOfNeed ? { definitionOfNeed } : {}),
     ...(deliveryTarget ? { deliveryTarget } : {}),
   };
 }

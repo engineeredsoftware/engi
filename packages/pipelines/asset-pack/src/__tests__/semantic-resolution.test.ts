@@ -26,13 +26,11 @@ describe('deliverable semantic resolution', () => {
     expect(resolveWrittenAssetTypeFromExecution(exec)).toBe('design-document');
   });
 
-  it('prefers semantic need over retained Definition of Done compatibility fields', () => {
+  it('prefers semantic need over Definition of Need mirror fields', () => {
     expect(
       resolveExpressedNeed({
         need: 'Need a review-ready asset pack',
         definitionOfNeed: 'Definition of Need mirror',
-        definitionOfDone: 'Old compatibility text',
-        taskDescription: 'Older task wording',
       })
     ).toBe('Need a review-ready asset pack');
   });
@@ -41,7 +39,7 @@ describe('deliverable semantic resolution', () => {
     const exec = new Execution('pipeline:deliverable');
     exec.store('pipeline', 'expressedNeed', 'Compatibility fallback');
     exec.store('need', 'description', 'Need a repository-bound written asset');
-    exec.store('setup/task', 'comprehension', { intent: 'compatibility-task' });
+    exec.store('setup/need-comprehension', 'comprehension', { intent: 'need-model' });
     exec.store('setup/need', 'comprehension', { intent: 'semantic-need' });
 
     expect(resolveExpressedNeedFromExecution(exec)).toBe('Need a repository-bound written asset');

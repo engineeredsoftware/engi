@@ -570,7 +570,7 @@ Fifth-gate acceptance is reached only when:
 - the Bitcode MCP write-admission slice proves accepted write receipts, queued write-admission metadata, third-party MCP ingress as input context, and asset-pack output meaning instead of thin deliverable/run-id residue,
 - the Bitcode MCP prompt-canon slice proves workflow/development prompts and the retained pipeline tool describe asset-pack pipeline execution over source-to-shares needs while preserving compatibility URI/subtype names only as compatibility surfaces,
 - the GitHub webhook ingress slice proves retained labels and `@bitcode-*` comments schedule asset-pack pipeline automation with `github_webhook` ingress, `asset_packs` output meaning, and ingress-only Exchange role while retaining the old trigger command only as compatibility implementation detail,
-- the UAPI client execution-hook slice proves retained `/api/deliverables` submission is described as route-backed asset-pack pipeline execution, with `definitionOfDone` retained as compatibility input rather than active Bitcode object naming,
+- the UAPI client execution-hook slice proves retained `/api/deliverables` submission is described as route-backed asset-pack pipeline execution through canonical `definitionOfNeed` input rather than old acceptance-field naming,
 - the ChatGPT App write-admission slice proves GitHub/AWS/Vercel connected-interface writes reject unconfirmed payloads, accept only `confirmed: true`, declare schema-level confirmation requirements on every write carrier, and return delivery-mechanism receipts, including a target-bound GitHub repository-delivery receipt, instead of treating the ChatGPT App as a parallel Exchange owner,
 - the required proof families are generated,
 - their closure verdicts are explicit,

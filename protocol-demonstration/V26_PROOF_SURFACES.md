@@ -1098,7 +1098,7 @@ Required closure posture:
   test coverage:
   generated source-content proof plus active UAPI execution route tests
   proof surface:
-  fifth-gate client execution-hook closure so the `/api/deliverables` caller teaches Bitcode asset-pack pipeline submission, keeps `definitionOfDone` as compatibility input-key naming, and carries the same debug semantics in the tracked JavaScript mirror
+  fifth-gate client execution-hook closure so the `/api/deliverables` caller teaches Bitcode asset-pack pipeline submission, uses canonical `definitionOfNeed` input-key naming, and carries the same debug semantics in the tracked JavaScript mirror
 - `{uapi/app/application/{ApplicationCommandDeck.tsx,ApplicationClosureControlDeck.tsx,ApplicationTransactionDetailSurface.tsx,application-activity-history.ts,application-transaction-detail-snapshot.ts,application-transaction-detail.ts},uapi/tests/{applicationActivityHistory.test.ts,applicationTransactionDetailSnapshot.test.ts,applicationTransactionDetail.test.ts}}`
   test coverage:
   `uapi/tests/applicationActivityHistory.test.ts`, `uapi/tests/applicationTransactionDetailSnapshot.test.ts`, and `uapi/tests/applicationTransactionDetail.test.ts`

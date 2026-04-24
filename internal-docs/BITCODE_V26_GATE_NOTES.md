@@ -18,7 +18,7 @@ Fifth-gate remains focused on:
 
 Sixth gate raises the system to minimal viable product.
 Seventh gate refines toward commercially viable testnet launch.
-Eighth gate closes whole-repository provation and V26 definition of done.
+Eighth gate closes whole-repository provation and V26 definition of need.
 
 ## Promotion Rule
 

@@ -125,7 +125,7 @@ describe('POST /api/executions persistence', () => {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
-        definition_of_done: 'x',
+        definition_of_need: 'x',
         repoOwner: 'o',
         repoName: 'r',
         repoBranch: 'main',

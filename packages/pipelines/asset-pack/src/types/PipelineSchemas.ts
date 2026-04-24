@@ -89,7 +89,6 @@ export interface DeliverableRequirements {
 export interface DeliverableInput {
   definitionOfNeed?: string;
   need?: string;
-  definitionOfDone?: string;
   repository: DeliverableRepositoryRef;
   requirements?: DeliverableRequirements;
   deliveryTarget?: 'pr' | 'branch' | 'deployment';

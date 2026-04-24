@@ -107,9 +107,7 @@ const selectFilesAgent = factoryAgentWithPTRR<
 export default async function selectFilesParallel(input: any, execution: any) {
   // Prepare input from prior phases
   const selectionInput = {
-    taskEntities:
-      execution.get('setup/need', 'entities') ||
-      execution.get('setup/task', 'entities'),
+    needEntities: execution.get('setup/need', 'entities'),
     need: resolveExpressedNeedFromExecution(execution),
     codebaseStructure: {
       directories: execution.get('setup/codebase', 'structure.directories'),

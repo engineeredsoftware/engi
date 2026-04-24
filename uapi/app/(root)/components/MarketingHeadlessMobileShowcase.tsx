@@ -105,8 +105,8 @@ function TerminalCurl() {
   -H "Content-Type: application/json" \
   -d '{
     "repo": "acme/widgets",
-    "task": "bitcode-deliver-comment",
-    "definition_of_done": "refactor utils + docs"
+    "need": "bitcode-deliver-comment",
+    "definition_of_need": "refactor utils + docs"
   }'
 `}
       </pre>

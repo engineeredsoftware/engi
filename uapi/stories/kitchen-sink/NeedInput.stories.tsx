@@ -1,11 +1,11 @@
 import React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 
-import ExecutionTaskInput from '@/components/base/bitcode/execution/ExecutionTaskInput';
+import ExecutionNeedInput from '@/components/base/bitcode/execution/ExecutionNeedInput';
 
 const meta = {
-  title: 'Kitchen-Sink/ExecutionTaskInput',
-  component: ExecutionTaskInput,
+  title: 'Kitchen-Sink/ExecutionNeedInput',
+  component: ExecutionNeedInput,
   tags: ['autodocs'],
   parameters: {
     layout: 'centered',
@@ -13,26 +13,26 @@ const meta = {
   },
   argTypes: {
     isProcessing: { control: 'boolean' },
-    task: { control: 'text' },
+    need: { control: 'text' },
     placeholder: { control: 'text' },
   },
   args: {
     isProcessing: false,
-    task: '',
+    need: '',
     placeholder: 'Definition of Need…',
   },
-} satisfies Meta<typeof ExecutionTaskInput>;
+} satisfies Meta<typeof ExecutionNeedInput>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;
 
 export const Playground: Story = {
   render: (args) => {
-    const [value, setValue] = React.useState(args.task);
+    const [value, setValue] = React.useState(args.need);
     return (
-      <ExecutionTaskInput
+      <ExecutionNeedInput
         {...args}
-        task={value}
+        definitionOfNeed={value}
         onChange={setValue}
         attachments={[]}
       />

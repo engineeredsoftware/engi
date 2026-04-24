@@ -1,29 +1,29 @@
 import React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
-import ExecutionTaskInput from '@/components/base/bitcode/execution/ExecutionTaskInput';
+import ExecutionNeedInput from '@/components/base/bitcode/execution/ExecutionNeedInput';
 
 const meta = {
-  title: 'Deliverables/TaskInput',
-  component: ExecutionTaskInput,
+  title: 'Deliverables/NeedInput',
+  component: ExecutionNeedInput,
   tags: ['autodocs'],
   argTypes: {
     isProcessing: { control: 'boolean' },
     placeholder: { control: 'text' },
-    initialTask: { control: 'text' },
+    initialNeed: { control: 'text' },
   },
-} satisfies Meta<typeof ExecutionTaskInput>;
+} satisfies Meta<typeof ExecutionNeedInput>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;
 
 const Template: Story = {
   render: (args) => {
-    const [value, setValue] = React.useState(args.initialTask || '');
+    const [value, setValue] = React.useState(args.initialNeed || '');
     return (
-      <ExecutionTaskInput
+      <ExecutionNeedInput
         {...args}
-        task={value}
+        definitionOfNeed={value}
         onChange={(val) => {
           setValue(val);
           action('onChange')(val);
@@ -41,7 +41,7 @@ export const Default: Story = {
   args: {
     isProcessing: false,
     placeholder: 'Definition of Need...',
-    initialTask: '',
+    initialNeed: '',
   },
 };
 
@@ -50,7 +50,7 @@ export const Processing: Story = {
   args: {
     isProcessing: true,
     placeholder: 'Definition of Need...',
-    initialTask: 'Existing task content',
+    initialNeed: 'Existing Need content',
   },
 };
 
@@ -64,14 +64,14 @@ export const WithAttachments: Story = {
   args: {
     isProcessing: false,
     placeholder: 'Definition of Need...',
-    initialTask: 'Profile the new indexing pipeline and optimise hotspots',
+    initialNeed: 'Profile the new indexing pipeline and optimise hotspots',
   },
   render: (args) => {
-    const [value, setValue] = React.useState(args.initialTask || '');
+    const [value, setValue] = React.useState(args.initialNeed || '');
     return (
-      <ExecutionTaskInput
+      <ExecutionNeedInput
         {...args}
-        task={value}
+        definitionOfNeed={value}
         onChange={(val) => {
           setValue(val);
           action('onChange')(val);

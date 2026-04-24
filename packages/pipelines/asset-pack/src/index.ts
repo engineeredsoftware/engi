@@ -67,7 +67,6 @@ function factoryPreprocess(): Executor<any, any> {
     execution.store('pipeline', 'writtenAssetType', deliverableType);
     execution.store('pipeline', 'expressedNeed', expressedNeed);
     execution.store('need', 'description', expressedNeed);
-    execution.store('task', 'description', expressedNeed);
     storePreprocessedSnapshot(execution, processedInput, deliverableType);
     return processedInput;
   };

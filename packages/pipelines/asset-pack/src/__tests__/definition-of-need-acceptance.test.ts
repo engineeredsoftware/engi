@@ -4,7 +4,7 @@ import { Execution } from '@bitcode/execution-generics';
 
 describe('Deliverable pipeline - formal Definition of Need acceptance criteria (pending full SDIVF enablement)', () => {
   const base = {
-    taskDescription: 'Implement feature Y',
+    definitionOfNeed: 'Implement feature Y',
     repository: { url: 'https://github.com/acme/repo', branch: 'main' },
     deliveryTarget: 'pr' as const,
   };

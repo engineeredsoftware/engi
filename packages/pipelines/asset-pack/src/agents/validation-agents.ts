@@ -86,8 +86,7 @@ export const DeliverablesPipelineValidationPhaseValidateDiscoveryAgent = factory
 const ValidateCodeChangesInputSchema = z.object({
   implementationResults: z.any(), // From implementation phase
   validationCriteria: z.array(z.string()),
-  definitionOfNeed: z.array(z.string()).optional(),
-  definitionOfDone: z.array(z.string()).optional()
+  definitionOfNeed: z.array(z.string()).optional()
 });
 
 const ValidateCodeChangesOutputSchema = z.object({

@@ -32,7 +32,7 @@ import {
 // ==================== UNDERSTAND REQUIREMENTS AGENT ====================
 
 const UnderstandRequirementsInputSchema = z.object({
-  taskDescription: z.string().optional(),
+  needDescription: z.string().optional(),
   need: z.string().optional(),
   deliverableType: z.string().optional(),
   writtenAssetType: z.string().optional(),
@@ -197,7 +197,6 @@ const PlanImplementationOutputSchema = z.object({
   }),
   validationCriteria: z.array(z.string()),
   definitionOfNeed: z.array(z.string()).optional(),
-  definitionOfDone: z.array(z.string()).optional(),
   needSatisfactionCriteria: z.array(z.string()).optional()
 });
 
@@ -206,7 +205,7 @@ export function applyPlanImplementationSemanticMirrors(
 ): z.infer<typeof PlanImplementationOutputSchema> {
   return {
     ...output,
-    needSatisfactionCriteria: output.needSatisfactionCriteria ?? output.definitionOfNeed ?? output.definitionOfDone,
+    needSatisfactionCriteria: output.needSatisfactionCriteria ?? output.definitionOfNeed,
   };
 }
 
@@ -246,7 +245,7 @@ export async function DeliverablesPipelineDiscoveryPhasePlanImplementationAgent(
 
 // --- GATHER CONTEXT AGENT (RUNS FIRST) ---
 const GatherContextInputSchema = z.object({
-  taskDescription: z.string().optional(),
+  needDescription: z.string().optional(),
   need: z.string().optional(),
   codebaseAnalysis: z.any(),
   attachments: z.array(z.any()).optional(),

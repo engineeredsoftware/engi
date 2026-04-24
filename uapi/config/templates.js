@@ -13,7 +13,7 @@ exports.templates = {
             name: 'New Feature PR',
             text: `# Feature: __[FEATURE_NAME]__
 
-## Definition of Done
+## Definition of Need
 - [ ] Implemented __[CORE_FUNCTIONALITY]__ that solves __[BUSINESS_NEED]__
 - [ ] Added tests covering critical paths
 - [ ] Updated relevant documentation
@@ -30,7 +30,7 @@ exports.templates = {
             name: 'Code Refactor PR',
             text: `# Refactor: __[AREA]__
 
-## Definition of Done
+## Definition of Need
 - [ ] Improved __[CODE_QUALITY_ASPECT]__ without changing external behavior
 - [ ] Before/after metrics: __[METRICS]__
 - [ ] All tests pass with same coverage
@@ -47,7 +47,7 @@ exports.templates = {
             name: 'Bug Fix PR',
             text: `# Fix: __[BUG_TITLE]__
 
-## Definition of Done
+## Definition of Need
 - [ ] Root cause identified: __[ROOT_CAUSE]__
 - [ ] Fix implemented in __[LOCATION]__
 - [ ] Added regression test that would have caught this bug
@@ -68,7 +68,7 @@ Fixes #__[ISSUE_NUMBER]__`
             name: 'Security Review',
             text: `# Security Review: __[PR_TITLE]__
 
-## Definition of Done
+## Definition of Need
 - [ ] Analyzed code for security vulnerabilities
 - [ ] Checked for: injection, auth issues, data exposure, CSRF, etc.
 - [ ] Verified secure handling of __[SENSITIVE_DATA]__
@@ -85,7 +85,7 @@ Fixes #__[ISSUE_NUMBER]__`
             name: 'Performance Review',
             text: `# Performance Review: __[PR_TITLE]__
 
-## Definition of Done
+## Definition of Need
 - [ ] Analyzed performance impact on __[CRITICAL_PATHS]__
 - [ ] Identified bottlenecks in __[COMPONENTS]__
 - [ ] Measured key metrics: __[METRICS]__
@@ -104,7 +104,7 @@ Fixes #__[ISSUE_NUMBER]__`
             name: 'Bug Report',
             text: `# Bug: __[CONCISE_TITLE]__
 
-## Definition of Done
+## Definition of Need
 - [ ] Bug is reproducible with clear steps
 - [ ] Impact and severity assessed
 - [ ] Root cause identified
@@ -126,7 +126,7 @@ Environment: __[ENVIRONMENT]__`
             name: 'Feature Request',
             text: `# Feature: __[FEATURE_NAME]__
 
-## Definition of Done
+## Definition of Need
 - [ ] Problem clearly defined: __[PROBLEM]__
 - [ ] Solution approach agreed upon
 - [ ] Acceptance criteria defined
@@ -147,7 +147,7 @@ As a __[USER]__, I want __[CAPABILITY]__ so that __[BENEFIT]__.
             name: 'Documentation Update',
             text: `# Docs: __[TOPIC]__
 
-## Definition of Done
+## Definition of Need
 - [ ] Documentation gaps identified
 - [ ] Content created/updated for __[AREAS]__
 - [ ] Technical accuracy verified
@@ -167,7 +167,7 @@ As a __[USER]__, I want __[CAPABILITY]__ so that __[BENEFIT]__.
             name: 'Request Clarification',
             text: `# Clarification Needed
 
-## Definition of Done
+## Definition of Need
 - [ ] Specific questions clearly articulated
 - [ ] Context for why this information is needed provided
 - [ ] Current understanding stated for correction
@@ -184,7 +184,7 @@ Current understanding: __[ASSUMPTION]__`
             name: 'Suggest Alternative',
             text: `# Alternative Suggestion
 
-## Definition of Done
+## Definition of Need
 - [ ] Current approach summarized accurately
 - [ ] Alternative clearly described
 - [ ] Benefits quantified where possible

@@ -23,7 +23,7 @@ async function testPipeline() {
         }
     });
     const input = {
-        taskDescription: 'Test task: Add a simple README.md file',
+        definitionOfNeed: 'Add a simple README.md file',
         repository: {
             url: 'https://github.com/test/repo',
             branch: 'main'

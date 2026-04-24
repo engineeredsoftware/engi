@@ -37,7 +37,6 @@ export default async function dangerWallWithShortCircuit(input: any, execution: 
       input?.need ??
       input?.expressedNeed ??
       input?.definitionOfNeed ??
-      input?.definitionOfDone ??
       needModel?.expressed_need ??
       needComprehension?.intent ??
       '',

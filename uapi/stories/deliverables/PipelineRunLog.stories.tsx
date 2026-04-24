@@ -4,7 +4,7 @@ import { action } from '@storybook/addon-actions';
 import PipelineExecutionLogHeader from '@/components/base/bitcode/execution/pipeline-execution-log-header';
 import PipelineExecutionLog from '@/components/base/bitcode/execution/pipeline-execution-log';
 
-const sampleOutput = `Setup: Initializing deliverables pipeline...\nSetup: Loading user preferences and templates...\nDiscovery: Fetching GitHub repository state...\nDiscovery: Found 12 relevant issues and pull requests\nImplementation: Generating Definition of Done based on template...\nImplementation: Creating pull request draft and code snippets...\nValidation: Running unit tests (25 tests)...\nValidation: All tests passed successfully\nShipping: Committing changes to branch 'feature/deliverable-templates'\nShipping: Pushing to remote and opening pull request\nCompleted: Deliverable run complete`;
+const sampleOutput = `Setup: Initializing AssetPack pipeline...\nSetup: Loading Need context and templates...\nDiscovery: Fetching GitHub repository state...\nDiscovery: Found 12 relevant issues and pull requests\nImplementation: Generating Definition of Need evidence based on template...\nImplementation: Creating pull request draft and code snippets...\nValidation: Running unit tests (25 tests)...\nValidation: All tests passed successfully\nFinish: Saving AssetPack evidence to branch 'feature/asset-pack-templates'\nFinish: Delivering written assets to GitHub pull request\nCompleted: AssetPack run complete`;
 
 const meta = {
   title: 'Executions/PipelineExecutionLog',

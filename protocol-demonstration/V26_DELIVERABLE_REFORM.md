@@ -36,8 +36,8 @@ The retained `packages/pipelines/asset-pack/*` corridor is therefore interpreted
   compatibility-only retained field naming for written-asset kind
 - `comprehend-task`
   old-world step naming; active setup and prompt module entry points are removed in favor of `comprehend-need`
-- `definitionOfDone`
-  a retained input field that currently acts as one compatibility carrier for expressed need, acceptance shape, and written-asset expectation
+- former acceptance-field inputs
+  historical carriers for expressed need, acceptance shape, and written-asset expectation that are recorded in NOTES/DELTA rather than active AssetPack source semantics
 
 ## V26 reform requirement
 
@@ -66,7 +66,7 @@ While the path/package may remain `deliverable` during V26 for compatibility and
 - setup/bootstrap entry points and prompt ports must use canonical `comprehend-need` module paths, `COMPREHENDNEED` base PromptParts, and deliverable-corridor `DELIVERABLESETUPCOMPREHENDNEED` PromptParts; discovery carriers should admit semantic `need` / `writtenAssetType` directly, with `deliverable-pipeline-comprehend-need-agent` acting as the active setup owner while retained raw PromptPart compatibility names remain bounded proof inputs rather than active module paths
 - retained maintenance/audit scripts that operate on this corridor must resolve active paths from the repository root, inspect current raw PromptPart locations, and teach `comprehend-need` / asset-pack-run semantics instead of hard-coded old-world checkouts or `comprehend-task` ownership
 - retained repair, generation, and export-verification scripts must use the active `raw_promptparts` filesystem, `PROMPTPART_*` constants, portable shell/Python path resolution, and Bitcode asset-pack prompt semantics instead of the removed `raw/specific` prompt tree or old-world `@engi` import expectations
-- retained discovery outputs should mirror compatibility `deliverables` / `definitionOfDone` fields with semantic `writtenAssets` / `needSatisfactionCriteria` so downstream Bitcode reread and later-gate renaming do not have to recover meaning from old-world labels alone
+- retained discovery outputs should mirror compatibility `deliverables` fields with semantic `writtenAssets` / `needSatisfactionCriteria` so downstream Bitcode reread and later-gate renaming do not have to recover meaning from old-world labels alone
 - retained corridor entry initialization must also hydrate a registry-bearing pipeline execution context when callers still enter through a bare `Execution`, so the commercial runtime remains phase/agent/prompt/tool legible instead of depending on hidden `PipelineExecution` assumptions
 - the retained package itself must clear an honest local typecheck boundary through the MCP/VCS/prompt/search support graph it still traverses, so runtime proof and asset-pack semantics are backed by a truthful source boundary rather than broad monorepo success alone
 - filesystem ownership has crossed the fifth-gate threshold for this corridor: `packages/pipelines/asset-pack` and `@bitcode/pipeline-asset-pack` are the live owners, `packages/pipelines/deliverable` is removed from active source, and generated JavaScript is not allowed under the AssetPack package `src/` tree

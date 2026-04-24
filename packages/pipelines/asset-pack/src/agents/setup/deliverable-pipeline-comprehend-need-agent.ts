@@ -17,8 +17,6 @@ export async function runComprehendNeedAgent(input: any, execution: any) {
     input?.need ??
     input?.expressedNeed ??
     input?.definitionOfNeed ??
-    input?.definitionOfDone ??
-    input?.task_description ??
     execution?.get?.('setup/need', 'expressed') ??
     execution?.get?.('setup/need-definition', 'definition') ??
     '';
@@ -26,7 +24,6 @@ export async function runComprehendNeedAgent(input: any, execution: any) {
     ...input,
     need: expressedNeed,
     expressedNeed,
-    task_description: input?.task_description ?? expressedNeed,
     phase: 'setup',
     beforeAgent: 'danger-wall'
   }, execution);
@@ -46,8 +43,7 @@ export async function runComprehendNeedAgent(input: any, execution: any) {
 
     const needSatisfactionCriteria =
       result?.need_satisfaction_criteria ||
-      result?.need_definition_analysis ||
-      result?.dod_analysis;
+      result?.need_definition_analysis;
     if (needSatisfactionCriteria) {
       execution.store('setup/need', 'satisfactionCriteria', needSatisfactionCriteria);
       execution.store('setup/need-definition', 'analysis', needSatisfactionCriteria);
@@ -57,13 +53,11 @@ export async function runComprehendNeedAgent(input: any, execution: any) {
       execution.store('setup/need-comprehension', 'model', result.need);
     }
     if (result?.comprehension) {
-      execution.store('setup/task', 'comprehension', result.comprehension);
       execution.store('setup/need', 'comprehension', result.comprehension);
       execution.store('setup/need-comprehension', 'comprehension', result.comprehension);
       execution.store('setup/need-definition', 'comprehension', result.comprehension);
     }
     if (result?.entities) {
-      execution.store('setup/task', 'entities', result.entities);
       execution.store('setup/need', 'entities', result.entities);
     }
     if (result?.toolEvidence) execution.store('setup/need-comprehension', 'toolEvidence', result.toolEvidence);

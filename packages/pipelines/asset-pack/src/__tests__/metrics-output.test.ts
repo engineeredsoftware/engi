@@ -37,7 +37,7 @@ describe('Deliverable pipeline bring-up (setup + PTRR plan: prepare→reason)', 
       });
 
       const res = await deliverablePipeline({
-        taskDescription: 'Test',
+        definitionOfNeed: 'Test',
         repository: { url: 'x' },
         deliveryTarget: 'pr' as const,
       }, exec);

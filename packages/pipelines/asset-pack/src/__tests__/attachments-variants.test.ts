@@ -4,7 +4,7 @@ import { Execution } from '@bitcode/execution-generics';
 
 describe('Deliverable pipeline - attachments and Definition of Need variants (enabled when full SDIVF is active)', () => {
   const baseInput = {
-    taskDescription: 'Implement feature X',
+    definitionOfNeed: 'Implement feature X',
     repository: { url: 'https://github.com/acme/repo', branch: 'main' },
     requirements: { testCoverage: 20, documentationRequired: true },
     deliveryTarget: 'pr' as const,

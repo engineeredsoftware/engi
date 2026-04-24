@@ -366,9 +366,9 @@ export function factoryPrepareConciseContext<T>(
 
     const fullContext = {
       repository: toObject(greatestParent.getAll('repository')),
-      task: toObject(greatestParent.getAll('task')),
       source: toObject(greatestParent.getAll('source')),
-      dod: toObject(greatestParent.getAll('dod')),
+      need: toObject(greatestParent.getAll('need')),
+      needDefinition: toObject(greatestParent.getAll('need-definition')),
       config: toObject(greatestParent.getAll('config')),
       attachments,
       instructions,
@@ -379,9 +379,9 @@ export function factoryPrepareConciseContext<T>(
     const selectors = createContextSelectors(
       [
         { namespace: 'repository', data: greatestParent.getAll('repository') },
-        { namespace: 'task', data: greatestParent.getAll('task') },
         { namespace: 'source', data: greatestParent.getAll('source') },
-        { namespace: 'dod', data: greatestParent.getAll('dod') },
+        { namespace: 'need', data: greatestParent.getAll('need') },
+        { namespace: 'need-definition', data: greatestParent.getAll('need-definition') },
         { namespace: 'config', data: greatestParent.getAll('config') }
       ],
       [

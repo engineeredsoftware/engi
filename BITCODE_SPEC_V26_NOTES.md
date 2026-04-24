@@ -112,7 +112,7 @@ This section records transitions that are too historically specific for the main
 | Former/reform source | Current Bitcode owner | Closure meaning |
 | --- | --- | --- |
 | `deliverable` as product object | AssetPack, written asset, delivery mechanism | stable product output is AssetPack/written assets; delivery mechanisms are wrappers into third-party tools |
-| `definitionOfDone` as owning input | expressed Need / Need satisfaction criteria | compatibility input may remain only as carrier for a measured Need |
+| `definitionOfDone` as owning input | `definitionOfNeed`, expressed Need, Need satisfaction criteria | removed from active V26 request/schema semantics; this row remains only as reform history |
 | `deliverableType` | `writtenAssetType` | semantic field resolves first; compatibility field is fallback only |
 | broad `Shipping` final phase | `Finish` | final phase saves results, records evidence, and invokes narrower delivery mechanisms |
 | `Shipping` as providing to external tools | `Delivering` inside Finish | Delivering is specifically third-party AssetPack/AssetPackPartial provision |

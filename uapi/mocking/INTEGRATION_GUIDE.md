@@ -202,13 +202,13 @@ function Header() {
 }
 ```
 
-### Task Input & File Attachments
+### Need Input & File Attachments
 ```typescript
-function TaskInput() {
+function NeedInput() {
   const { data: templates } = useMockData('DELIVERABLE_TEMPLATES');
   const { data: repos } = useMockData('GITHUB_REPOS');
   
-  // Your existing task input component
+  // Your existing Need input component
   // Mock provides rich template and repo suggestions
 }
 ```

@@ -572,7 +572,6 @@ export const POST = traceRoute('/deliverables', async (request: NextRequest) => 
     
     const {
       definition_of_need: raw_definition_of_need,
-      definition_of_done: compatibility_definition_of_done,
       repoOwner,
       repoName,
       repoBranch,
@@ -582,7 +581,7 @@ export const POST = traceRoute('/deliverables', async (request: NextRequest) => 
       modelProvider = DEFAULT_PROVIDER,
       modelId = DEFAULT_MODEL_API,
       iterationCount = 3,
-      gate = 'Develop', // Default to Develop gate for backwards compatibility
+      gate = 'Develop',
       conversationId,
       templateId,
       templateText,
@@ -599,11 +598,7 @@ export const POST = traceRoute('/deliverables', async (request: NextRequest) => 
     } = body;
 
     const definition_of_need =
-      typeof raw_definition_of_need === 'string'
-        ? raw_definition_of_need
-        : typeof compatibility_definition_of_done === 'string'
-        ? compatibility_definition_of_done
-        : '';
+      typeof raw_definition_of_need === 'string' ? raw_definition_of_need : '';
 
     const computerUseNeedMeasurementEnabled =
       process.env.BITCODE_ENABLE_COMPUTER_USE_NEED_MEASUREMENT === 'true';
@@ -611,7 +606,6 @@ export const POST = traceRoute('/deliverables', async (request: NextRequest) => 
     log('[deliverables] Validating inputs', 'debug', {
       correlationId,
       hasDefinitionOfNeed: !!definition_of_need,
-      hasCompatibilityDefinitionOfDone: !!compatibility_definition_of_done,
       hasRepo: !!repoOwner && !!repoName,
       hasBranch: !!repoBranch,
       attachmentCount: attachments?.length || 0,

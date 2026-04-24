@@ -37,8 +37,6 @@ export const BitcodeSetupNeedComprehensionInputSchema = z.object({
   need: z.string().optional().describe('Canonical expressed Bitcode Need'),
   expressedNeed: z.string().optional().describe('Alias for the expressed Bitcode Need'),
   definitionOfNeed: z.string().optional().describe('Canonical Definition of Need used to measure and review the requested outcome'),
-  definitionOfDone: z.string().optional().describe('Compatibility carrier for the expressed Need and acceptance shape'),
-  task_description: z.string().optional().describe('Compatibility carrier for retained tool callers'),
   attachments: z.array(z.any()).optional().default([]),
   repository: z.any().optional(),
   context_information: z.any().optional(),
@@ -107,7 +105,7 @@ export const BitcodeSetupNeedComprehensionResultSchema = z.object({
   }).optional(),
   riskAdmissionInput: z.any().optional(),
   deliverable_types: z.array(z.string()).default([]),
-  dod_analysis: z.string().optional(),
+  need_definition_analysis: z.string().optional(),
   success: z.boolean().default(true),
   validationMessage: z.string().optional()
 });
@@ -153,7 +151,7 @@ export const bitcodeSetupNeedComprehensionAgent = factoryAgentWithPTRR<
     validateNeedComprehensionTool,
     analyzeNeedSatisfactionImplementationComplexityTool
   ],
-  outputSchema: BitcodeSetupNeedComprehensionResultSchema,
+  outputSchema: BitcodeSetupNeedComprehensionResultSchema as any,
   plan: { chunkThreshold: 1500 },
   try: { chunkThreshold: 3000, enableParallelChunks: true },
   refine: { maxAttempts: 1 },
