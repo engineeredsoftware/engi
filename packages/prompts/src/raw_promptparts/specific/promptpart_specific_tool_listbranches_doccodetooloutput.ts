@@ -2,7 +2,7 @@
  * @doc-comment-developing-promptpartdevelopment
  * domain: output
  * intent: "Output specification for List Branches Tool"
- * current_version: "GA1.02.0"
+ * current_version: "V26.02.0"
  * versions: []
  * benchmarks: [
  *   { "name": "discovery_completeness", "test": "Does '{{content}}' provide comprehensive repository discovery and analysis output? Rate 0-1" },

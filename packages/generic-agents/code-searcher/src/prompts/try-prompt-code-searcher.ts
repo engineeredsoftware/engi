@@ -11,10 +11,10 @@ import { PROMPTPART_GENERIC_AGENT_GENERATION_STRUCTURED_OUTPUT } from '@bitcode/
  * @doc-comment-developing-promptdevelopment
  * domain: agent
  * intent: "Try step for Code Searcher: execute LSP-powered searches"
- * current_version: "GA1.50.0"
+ * current_version: "V26.50.0"
  * dependencies: {
- *   "PROMPTPART_SPECIFIC_AGENT_CODESEARCHER_TRY_DIRECTIVES_INSTRUCTIONS": "GA1.00.0",
- *   "PROMPTPART_SPECIFIC_AGENT_CODESEARCHER_TRY_SEARCH_STRATEGY": "GA1.00.0"
+ *   "PROMPTPART_SPECIFIC_AGENT_CODESEARCHER_TRY_DIRECTIVES_INSTRUCTIONS": "V26.00.0",
+ *   "PROMPTPART_SPECIFIC_AGENT_CODESEARCHER_TRY_SEARCH_STRATEGY": "V26.00.0"
  * }
  * benchmarks: [
  *   { "name": "technical_accuracy", "test": "Concrete directives and purpose", "score": 0.46 },

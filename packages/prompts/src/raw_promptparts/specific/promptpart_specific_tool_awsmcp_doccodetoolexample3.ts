@@ -2,7 +2,7 @@
  * @doc-comment-developing-promptpartdevelopment
  * domain: example
  * intent: "Third example demonstrating DynamoDB data operations"
- * current_version: "GA1.00.0"
+ * current_version: "V26.00.0"
  * versions: []
  * benchmarks: [
  *   { "name": "dynamodb_example_clarity", "test": "Does '{{content}}' clearly demonstrate DynamoDB operations? Rate 0-1" },

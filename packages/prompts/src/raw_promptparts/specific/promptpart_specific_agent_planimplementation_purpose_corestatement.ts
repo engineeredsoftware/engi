@@ -4,7 +4,7 @@ import { PromptPart } from '../../parts/PromptPart';
  * @doc-comment-developing-promptpartdevelopment
  * domain: agent
  * intent: "Define purpose of implementation planning agent"
- * current_version: "GA1.50.0"
+ * current_version: "V26.50.0"
  * versions: []
  * benchmarks: [
  *   { "name": "plan_quality", "test": "Creates actionable plans?", "score": 0.95 },

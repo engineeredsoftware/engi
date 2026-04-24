@@ -2,7 +2,7 @@
  * @doc-comment-developing-promptpartdevelopment
  * domain: examples
  * intent: "Example showing audio transcription and analysis"
- * current_version: "GA1.00.0"
+ * current_version: "V26.00.0"
  * versions: []
  * benchmarks: [
  *   { "name": "example_distinctiveness", "test": "Does '{{content}}' show a different use case from other examples? Rate 0-1" },

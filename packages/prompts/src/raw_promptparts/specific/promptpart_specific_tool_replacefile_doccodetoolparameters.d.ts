@@ -2,7 +2,7 @@
  * @doc-comment-developing-promptpartdevelopment
  * domain: tool
  * intent: "Parameter specification for replace file tool"
- * current_version: "GA1.50.0"
+ * current_version: "V26.50.0"
  * versions: []
  * benchmarks: [
  *   { "name": "parameter_clarity", "test": "Are all parameters clearly specified with types? Rate 0-1", "score": 0.50 },

@@ -16,7 +16,7 @@ import { PROMPTPART_SPECIFIC_AGENT_READY_TO_SHORT_CIRCUIT_SYSTEM_INSTRUCTIONS } 
  * @doc-comment-developing-promptdevelopment
  * domain: agent
  * intent: "System prompt for Ready To Short Circuit agent"
- * current_version: "GA1.50.0"
+ * current_version: "V26.50.0"
  * versions: [
  *   { "version": "1.0.0", "score": 0.45, "reason": "Initial implementation with industrial language" }
  * ]

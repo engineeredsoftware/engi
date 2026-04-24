@@ -171,7 +171,7 @@ export async function deductBtdBalance(userId: string, amount: number): Promise<
 
   // Fallback path: log once per call at debug for observability
   try {
-    log('[btd] Falling back to GA-1 balance deduction (RPC missing)', 'debug', {
+    log('[btd] Falling back to V26 balance deduction (RPC missing)', 'debug', {
       userId,
       amount,
       rpcCode: rpcError.code,
@@ -267,7 +267,7 @@ export async function addBtdBalance(userId: string, amount: number): Promise<num
 
   // Fallback path: log once per call at debug for observability
   try {
-    log('[btd] Falling back to GA-1 balance addition (RPC missing)', 'debug', {
+    log('[btd] Falling back to V26 balance addition (RPC missing)', 'debug', {
       userId,
       amount,
       rpcCode: rpcErr.code,

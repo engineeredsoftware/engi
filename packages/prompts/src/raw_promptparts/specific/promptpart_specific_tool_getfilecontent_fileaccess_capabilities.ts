@@ -4,7 +4,7 @@ import { PromptPart } from '../../parts/PromptPart';
  * @doc-comment-developing-promptpartdevelopment
  * domain: capabilities
  * intent: "File access capabilities for Get File Content Tool"
- * current_version: "GA1.00.0"
+ * current_version: "V26.00.0"
  * versions: []
  * benchmarks: [
  *   { "name": "format_coverage", "test": "Does it specify concrete file formats? Rate 0-1", "score": 0.95 },

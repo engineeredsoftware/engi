@@ -2,7 +2,7 @@
  * @doc-comment-developing-promptpartdevelopment
  * domain: examples
  * intent: "Example showing location-based search with custom scraping"
- * current_version: "GA1.00.0"
+ * current_version: "V26.00.0"
  * versions: []
  * benchmarks: [
  *   { "name": "location_search", "test": "Does '{{content}}' demonstrate location-based search? Rate 0-1" },

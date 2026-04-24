@@ -2,7 +2,7 @@
  * @doc-comment-developing-promptpartdevelopment
  * domain: tool
  * intent: "Capabilities description for text editor tool"
- * current_version: "GA1.50.0"
+ * current_version: "V26.50.0"
  * versions: []
  * benchmarks: [
  *   { "name": "atomic_operations", "test": "Does '{{content}}' clearly describe atomic operation capabilities? Rate 0-1", "score": 0.50 },

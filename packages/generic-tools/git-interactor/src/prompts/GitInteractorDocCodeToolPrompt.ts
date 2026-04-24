@@ -57,7 +57,7 @@ export class GitInteractorDocCodeToolPrompt extends DocCodeToolPrompt {
     // Set metadata directly
     this.set('metadata:name', PROMPTPART_SPECIFIC_TOOL_GITINTERACTOR_DOCCODETOOLNAME);
     this.set('metadata:category', 'version-control' as PromptPart);
-    this.set('metadata:version', 'GA1.00.0' as PromptPart);
+    this.set('metadata:version', 'V26.00.0' as PromptPart);
     this.set('metadata:priority', 'low' as PromptPart);
     this.set('metadata:stability', 'deprecated' as PromptPart);
     

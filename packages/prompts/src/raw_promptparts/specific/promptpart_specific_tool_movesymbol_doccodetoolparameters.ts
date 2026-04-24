@@ -2,7 +2,7 @@
  * @doc-comment-developing-promptpartdevelopment
  * domain: parameters
  * intent: "Key parameters for move symbol tool"
- * current_version: "GA1.00.0"
+ * current_version: "V26.00.0"
  * versions: []
  * benchmarks: [
  *   { "name": "parameter_clarity", "test": "Are the key parameters clearly described in '{{content}}'? Rate 0-1" },

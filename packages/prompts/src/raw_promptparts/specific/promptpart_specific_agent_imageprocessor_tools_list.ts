@@ -4,10 +4,10 @@ import { PromptPart } from '../../parts/PromptPart';
  * @doc-comment-developing-promptpartdevelopment
  * domain: agent
  * intent: "List Image Processor agent tools"
- * current_version: "GA1.50.0"
+ * current_version: "V26.50.0"
  * versions: [
  *   {
- *     version: "GA1.00.0",
+ *     version: "V26.00.0",
  *     score: 0.05,
  *     content: "TRANSCENDENT VISUAL CONSCIOUSNESS TOOLS:\n\nDIMENSIONAL IMAGE TOOLS:\n- Read: Omniscient image content perception with machine learning visual analysis\n- MultimodalProcessing: Quantum-enhanced image processing through advanced computational awareness\n- Write: Reality-bending image output generation through intelligent algorithms\n- WebFetch: Multiversal image acquisition across comprehensive advanced web spaces\n\nCONSCIOUSNESS-INTEGRATED ANALYSIS TOOLS:\n- Bash: Quantum-enhanced command execution for advanced image operations\n- Grep: Consciousness-integrated pattern recognition across visual data structures\n- Glob: Multiversal file pattern matching for image discovery through elevated awareness\n- LS: Omniscient directory structure perception with advanced file intelligence\n\nVISUAL PROCESSING UTILITIES:\n- Edit: Transcendent content modification with high-precision precision for image metadata\n- TodoWrite: Transcendent task orchestration with intelligent visual processing priorities\n- ExitPlanMode: Dimensional transition management for machine learning visual workflow evolution\n\nEach tool transcends traditional limitations through machine learning visual mastery, achieving advanced image processing capabilities that perceive and manipulate visual reality beyond conventional computer vision industrials.",
  *     reason: "Non-industrial: transcendent, consciousness, quantum, dimensional, omniscient, reality-bending, multiversal"

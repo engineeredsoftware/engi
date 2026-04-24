@@ -3,7 +3,7 @@ import { PromptPart } from '../../parts/PromptPart';
  * @doc-comment-developing-promptpartdevelopment
  * domain: formatting
  * intent: "Label for doc-code-tool capabilities section"
- * current_version: "GA1.00.0"
+ * current_version: "V26.00.0"
  * versions: []
  * benchmarks: [
  *   { "name": "section_recognition", "test": "Does '{{content}}' clearly identify the capabilities documentation section? Rate 0-1" },

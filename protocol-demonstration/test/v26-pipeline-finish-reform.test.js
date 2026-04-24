@@ -127,8 +127,8 @@ test('retained deliverable prompt-builder doc-comments use Bitcode-specific labe
   assert.ok(promptFiles.length > 20);
 
   for (const { name, source } of promptFiles) {
-    assert.doesNotMatch(source, /current_version: "GA1/u, `${name} keeps a GA1 current_version`);
-    assert.doesNotMatch(source, /"PROMPTPART_[^"]+": "GA1/u, `${name} keeps a GA1 dependency version`);
+    assert.doesNotMatch(source, /current_version: "G[A]1/u, `${name} keeps a G[A]1 current_version`);
+    assert.doesNotMatch(source, /"PROMPTPART_[^"]+": "G[A]1/u, `${name} keeps a G[A]1 dependency version`);
 
     for (const match of source.matchAll(/intent: "([^"]+)"/gu)) {
       const intent = match[1];

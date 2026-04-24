@@ -9,7 +9,7 @@ set -u
 
 GEN_IMPORTS='import {\n  PROMPTPART_GENERIC_AGENT_FAILSAFE_PREPARE_CONTEXT,\n  PROMPTPART_GENERIC_AGENT_GENERATION_JSON_ONLY_HEADER,\n  PROMPTPART_GENERIC_AGENT_GENERATION_USE_THIS_STRUCTURED_SCHEMA,\n  PROMPTPART_GENERIC_AGENT_GENERATION_IF_UNKNOWN_EMPTY,\n  PROMPTPART_GENERIC_AGENT_GENERATION_REASON,\n  PROMPTPART_GENERIC_AGENT_GENERATION_JUDGE,\n  PROMPTPART_GENERIC_AGENT_GENERATION_STRUCTURED_OUTPUT\n} from '\''@bitcode/prompts'\'';'
 
-DOC_PROMPT='/**\n * @doc-comment-developing-promptdevelopment\n * domain: agent\n * intent: "(fill intent)"\n * current_version: "GA1.45.0"\n * dependencies: { }\n * benchmarks: [\n *   { "name": "technical_accuracy", "test": "Concrete directives and purpose", "score": 0.46 },\n *   { "name": "implementation_ready", "test": "Usable by registry formatter", "score": 0.46 }\n * ]\n */'
+DOC_PROMPT='/**\n * @doc-comment-developing-promptdevelopment\n * domain: agent\n * intent: "(fill intent)"\n * current_version: "V26.45.0"\n * dependencies: { }\n * benchmarks: [\n *   { "name": "technical_accuracy", "test": "Concrete directives and purpose", "score": 0.46 },\n *   { "name": "implementation_ready", "test": "Usable by registry formatter", "score": 0.46 }\n * ]\n */'
 
 append_if_missing() { # file, needle, block
   local f="$1"; shift

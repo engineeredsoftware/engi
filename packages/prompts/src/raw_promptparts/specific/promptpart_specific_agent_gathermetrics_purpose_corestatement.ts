@@ -4,7 +4,7 @@ import { PromptPart } from '../../parts/PromptPart';
  * @doc-comment-developing-promptpartdevelopment
  * domain: agent
  * intent: "Define purpose of gather metrics agent"
- * current_version: "GA1.50.0"
+ * current_version: "V26.50.0"
  * versions: []
  * benchmarks: [
  *   { "name": "metric_completeness", "test": "Gathers all relevant metrics?", "score": 0.95 },

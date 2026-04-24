@@ -67,7 +67,7 @@ test('V26 system-text-search raw PromptParts carry Bitcode repository-evidence s
 
     assert.match(source, /current_version: "V26"/u, filePath);
     assert.match(source, /repository[- ]evidence|Need|AssetPack|written-asset|proof/u, filePath);
-    assert.doesNotMatch(source, /GA1/u, filePath);
+    assert.doesNotMatch(source, /G[A]1/u, filePath);
     assert.doesNotMatch(source, /TODO comments|class definitions|dependency analysis|codebase analysis/u, filePath);
   }
 });

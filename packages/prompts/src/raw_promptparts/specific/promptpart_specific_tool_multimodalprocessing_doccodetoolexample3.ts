@@ -2,7 +2,7 @@
  * @doc-comment-developing-promptpartdevelopment
  * domain: examples
  * intent: "Example showing cross-modal content synthesis"
- * current_version: "GA1.00.0"
+ * current_version: "V26.00.0"
  * versions: []
  * benchmarks: [
  *   { "name": "synthesis_demonstration", "test": "Does '{{content}}' clearly show content synthesis across modalities? Rate 0-1" },

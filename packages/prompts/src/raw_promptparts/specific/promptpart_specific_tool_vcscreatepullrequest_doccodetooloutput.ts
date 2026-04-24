@@ -2,7 +2,7 @@
  * @doc-comment-developing-promptpartdevelopment
  * domain: tool
  * intent: "Describes output format and structure for VCS pull request creation operations"
- * current_version: "GA1.50.0"
+ * current_version: "V26.50.0"
  * versions: []
  * benchmarks: [
  *   { "name": "output_completeness", "test": "Does '{{content}}' describe all possible VCS PR creation outputs? Rate 0-1", "score": 0.50 },

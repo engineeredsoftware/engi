@@ -2,7 +2,7 @@
  * @doc-comment-developing-promptpartdevelopment
  * domain: parameters
  * intent: "Parameter specifications for Aurora PostgreSQL cloud database operations"
- * current_version: "GA1.02.1"
+ * current_version: "V26.02.1"
  * versions: []
  * benchmarks: [
  *   { "name": "enterprise_parameter_comprehensiveness", "test": "Does '{{content}}' cover comprehensive enterprise database parameters? Rate 0-1" },

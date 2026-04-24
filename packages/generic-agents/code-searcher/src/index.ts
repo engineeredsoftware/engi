@@ -211,7 +211,7 @@ export type CodeSearchResult = z.infer<typeof CodeSearcherRetrySchema>;
  * @doc-comment-developing-promptdevelopment
  * domain: agent
  * intent: "Provide minimal code search context"
- * current_version: "GA1.50.0"
+ * current_version: "V26.50.0"
  */
 export const codeSearcherPrompt = new AgentPrompt({
   name: 'code-searcher' as PromptPart,

@@ -711,7 +711,7 @@ export const POST = traceRoute('/deliverables', async (request: NextRequest) => 
       delivery_target: routeSemanticAssetPack.deliveryTarget,
     });
 
-    // Notifications and emails are gated for GA-1; skip unless explicitly enabled
+    // Notifications and emails are gated for V26; skip unless explicitly enabled
     if (process.env.BITCODE_ENABLE_NOTIFICATIONS === 'true') {
       await orm.notifications.create({
         user_id: user.id,

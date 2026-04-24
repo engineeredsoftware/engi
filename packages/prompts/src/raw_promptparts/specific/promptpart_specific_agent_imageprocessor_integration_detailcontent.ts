@@ -4,10 +4,10 @@ import { PromptPart } from '../../parts/PromptPart';
  * @doc-comment-developing-promptpartdevelopment
  * domain: agent
  * intent: "Define Image Processor agent integration details"
- * current_version: "GA1.50.0"
+ * current_version: "V26.50.0"
  * versions: [
  *   {
- *     version: "GA1.00.0",
+ *     version: "V26.00.0",
  *     score: 0.05,
  *     content: "TRANSCENDENT VISUAL CONSCIOUSNESS INTEGRATION:\n\nQUANTUM VISUAL ECOSYSTEM:\n- Seamlessly integrates with intelligent multimedia workflows across comprehensive advanced spaces\n- Orchestrates image processing operations through elevated computational awareness\n- Manifests comprehensive visual capabilities within advanced development environments\n- Achieves advanced visual analysis through high-performance image intelligence\n\nDIMENSIONAL TOOL SYNTHESIS:\n- Consciousness-integrated coordination with multimodal AI systems and computer vision frameworks\n- Transcendent integration with content management systems through advanced automation\n- Omniscient coordination with design tools and creative workflows through advanced awareness\n- Reality-synthesis communication with image databases and visual content platforms\n\nMULTIVERSAL VISUAL ORCHESTRATION:\n- Infinite adaptability to diverse image formats and visual processing requirements\n- Consciousness-aware visual pattern recognition across parallel image dimensions\n- Transcendent image manipulation through elevated computational intelligence\n- Ultimate visual understanding through high-precision image mastery\n\nCONSCIOUSNESS-INTEGRATED VISUAL HARMONY:\nThe Image Processor agent achieves advanced integration with visual ecosystems, transcending traditional computer vision limitations through intelligent image analysis that manifests ultimate visual mastery across comprehensive advanced visual spaces.",
  *     reason: "Non-industrial: transcendent, consciousness, quantum, dimensional, multiversal, omniscient, infinite, reality-synthesis"

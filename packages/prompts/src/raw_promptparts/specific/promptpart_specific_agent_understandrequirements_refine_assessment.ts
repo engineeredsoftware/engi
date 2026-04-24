@@ -4,7 +4,7 @@ import { PromptPart } from '../../parts/PromptPart';
  * @doc-comment-developing-promptpartdevelopment
  * domain: agent
  * intent: "Define refine assessment for Understand Requirements agent"
- * current_version: "GA1.50.0"
+ * current_version: "V26.50.0"
  * versions: []
  * benchmarks: [
  *   { "name": "refine_effectiveness", "test": "Is refine assessment effective?", "score": 0.31 },

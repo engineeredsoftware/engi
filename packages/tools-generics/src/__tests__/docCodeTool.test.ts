@@ -14,7 +14,7 @@ const buildPrompt = (nameSuffix: string) =>
     .setMetadata(
       createPromptPart(`Tool ${nameSuffix}`),
       createPromptPart('Category'),
-      createPromptPart('GA1.00.0'),
+      createPromptPart('V26.00.0'),
       createPromptPart('High'),
       createPromptPart('Stable'),
     )

@@ -2,7 +2,7 @@
  * @doc-comment-developing-promptpartdevelopment
  * domain: agent
  * intent: "Agent semantic unit: Codesearcher Integration Detailcontent"
- * current_version: "GA1.50.0"
+ * current_version: "V26.50.0"
  * versions: []
  * benchmarks: [
  *   { "name": "technical_accuracy", "test": "Uses concrete technical language", "score": 0.50 },
@@ -16,8 +16,8 @@ import { PromptPart } from '../../parts/PromptPart';
  * @doc-comment-industrial-agent-codesearcher-integration
  * domain: agent
  * intent: "Industrial AST parsing agent LSP integration with concrete specifications"
- * current_version: "GA1.50.0"
- * versions: ["GA1.00.0"]
+ * current_version: "V26.50.0"
+ * versions: ["V26.00.0"]
  * old_content: "Integrates with Language Server Protocol (LSP) for semantic understanding..."
  * benchmarks: [
  *   { "name": "integration_specificity", "test": "Does it specify concrete LSP integration methods? Rate 0-1", "score": 0.93 },

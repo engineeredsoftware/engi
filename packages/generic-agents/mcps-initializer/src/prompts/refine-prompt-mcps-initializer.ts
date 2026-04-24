@@ -10,10 +10,10 @@ import { PROMPTPART_SPECIFIC_AGENT_MCPSINITIALIZER_REFINE_PROTOCOL_ENHANCEMENT }
  * @doc-comment-developing-promptdevelopment
  * domain: agent
  * intent: "Refine step for MCPS Initializer: optimize initialization and enhance protocol"
- * current_version: "GA1.50.0"
+ * current_version: "V26.50.0"
  * dependencies: {
- *   "PROMPTPART_SPECIFIC_AGENT_MCPSINITIALIZER_REFINE_OPTIMIZATION_CRITERIA": "GA1.00.0",
- *   "PROMPTPART_SPECIFIC_AGENT_MCPSINITIALIZER_REFINE_PROTOCOL_ENHANCEMENT": "GA1.00.0"
+ *   "PROMPTPART_SPECIFIC_AGENT_MCPSINITIALIZER_REFINE_OPTIMIZATION_CRITERIA": "V26.00.0",
+ *   "PROMPTPART_SPECIFIC_AGENT_MCPSINITIALIZER_REFINE_PROTOCOL_ENHANCEMENT": "V26.00.0"
  * }
  * benchmarks: [
  *   { "name": "technical_accuracy", "test": "Concrete directives and purpose", "score": 0.46 },

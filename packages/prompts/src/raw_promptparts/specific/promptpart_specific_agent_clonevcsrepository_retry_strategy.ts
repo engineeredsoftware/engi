@@ -4,7 +4,7 @@ import { PromptPart } from '../../parts/PromptPart';
  * @doc-comment-developing-promptpartdevelopment
  * domain: agent
  * intent: "Define RETRY step recovery strategy for Clone VCS Repository agent"
- * current_version: "GA1.50.0"
+ * current_version: "V26.50.0"
  * versions: []
  * benchmarks: [
  *   { "name": "recovery_completeness", "test": "Does it cover all failure recovery paths?", "score": 0.44 },

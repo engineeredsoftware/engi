@@ -2,7 +2,7 @@
  * @doc-comment-developing-promptpartdevelopment
  * domain: purpose
  * intent: "Core purpose statement for Create Comment Tool"
- * current_version: "GA1.02.0"
+ * current_version: "V26.02.0"
  * versions: []
  * benchmarks: [
  *   { "name": "collaboration_enhancement", "test": "Does '{{content}}' clearly articulate enhancement of team collaboration through intelligent commenting? Rate 0-1" },

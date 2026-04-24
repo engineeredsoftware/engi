@@ -2,7 +2,7 @@
  * @doc-comment-developing-promptpartdevelopment
  * domain: tool
  * intent: "Output format specification for VCS list repositories tool"
- * current_version: "GA1.50.0"
+ * current_version: "V26.50.0"
  * versions: []
  * benchmarks: [
  *   { "name": "output_structure_clarity", "test": "Does '{{content}}' clearly describe the output data structure? Rate 0-1", "score": 0.50 },

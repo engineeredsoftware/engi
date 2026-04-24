@@ -2,7 +2,7 @@
  * @doc-comment-developing-promptpartdevelopment
  * domain: parameters
  * intent: "Parameters description for scrape URL tool"
- * current_version: "GA1.00.0"
+ * current_version: "V26.00.0"
  * versions: []
  * benchmarks: [
  *   { "name": "parameter_clarity", "test": "Does '{{content}}' clearly describe required and optional parameters? Rate 0-1" },

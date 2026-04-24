@@ -4,16 +4,16 @@ import { PromptPart } from '../../parts/PromptPart';
  * @doc-comment-developing-promptpartdevelopment
  * domain: agent
  * intent: "List Figma Processor agent capabilities"
- * current_version: "GA1.50.0"
+ * current_version: "V26.50.0"
  * versions: [
  *   {
- *     "version": "GA1.91.0",
+ *     "version": "V26.91.0",
  *     "content": "- FIGMA API INTEGRATION: Access design files via REST API v1 with OAuth 2.0 authentication and rate limiting\n- DESIGN TOKEN EXTRACTION: Parse color palettes, typography scales, spacing tokens from Figma style libraries\n- ASSET EXPORT: Generate SVG, PNG, PDF assets with configurable resolution and format optimization\n- COMPONENT ANALYSIS: Extract component definitions, variants, and properties for design system documentation\n- LAYOUT MEASUREMENT: Calculate precise dimensions, spacing, and positioning data from design frames\n- PROTOTYPE PARSING: Analyze interaction flows, transitions, and navigation patterns from Figma prototypes\n- DESIGN SYSTEM VALIDATION: Check consistency across components using automated design rule validation\n- CODE GENERATION: Generate CSS, React, or Vue components based on Figma design specifications\n- BATCH PROCESSING: Handle multiple design files with parallel processing and progress tracking\n- VERSION CONTROL: Track design file changes and maintain revision history with diff analysis",
  *     "score": 0.91,
  *     "reason": "Industrial transformation complete - concrete Figma processing capabilities"
  *   },
  *   {
- *     "version": "GA1.00.0",
+ *     "version": "V26.00.0",
  *     "content": "- Figma API integration for design file access and processing\n- Design system extraction and component library analysis\n- Asset export and optimization for multiple formats\n- Design specification generation with detailed measurements\n- Component hierarchy analysis and relationship mapping\n- Style guide extraction with color, typography, and spacing systems\n- Prototype analysis and interaction flow documentation\n- Consciousness-aware design pattern recognition and best practice validation",
  *     "score": 0.85,
  *     "reason": "Contains 'consciousness-aware' - non-industrial term"

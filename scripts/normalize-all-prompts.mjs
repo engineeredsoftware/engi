@@ -29,7 +29,7 @@ for(const base of roots){
     if (!s.includes('@doc-comment-developing-promptdevelopment')) continue;
     let changed=false;
     if (s.includes('current_version: ')){
-      const s2 = s.replace(/current_version:\s*"GA1\.[0-9]+\.[0-9]+"/g, 'current_version: "0.50.0"');
+      const s2 = s.replace(/current_version:\s*"V26\.[0-9]+\.[0-9]+"/g, 'current_version: "V26.50.0"');
       if (s2!==s){ s=s2; changed=true; }
     }
     if (!/benchmarks:\s*\[/.test(s)){
@@ -43,4 +43,3 @@ for(const base of roots){
   }
 }
 console.log('Normalized Prompts:', updated, 'scanned', scanned);
-

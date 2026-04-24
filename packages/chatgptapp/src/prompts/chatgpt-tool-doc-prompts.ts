@@ -45,7 +45,7 @@ function buildPrompt(
   category: PromptPart
 ) {
   const prompt = new DocCodeToolPrompt();
-  prompt.setMetadata(name, category, 'GA1.70.0' as PromptPart, 'high' as PromptPart, 'stable' as PromptPart);
+  prompt.setMetadata(name, category, 'V26.70.0' as PromptPart, 'high' as PromptPart, 'stable' as PromptPart);
   prompt.setPurpose(purpose);
   prompt.setCapabilities(capabilities);
   prompt.setParameters(parameters);

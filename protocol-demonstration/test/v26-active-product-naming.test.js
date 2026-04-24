@@ -426,7 +426,7 @@ const rootPnpmLockSource = readFileSync(new URL('../../pnpm-lock.yaml', import.m
 const rootTsconfigSource = readFileSync(new URL('../../tsconfig.json', import.meta.url), 'utf8');
 const rootEnvSource = readFileSync(new URL('../../.env', import.meta.url), 'utf8');
 const rootEnvLocalSource = readFileSync(new URL('../../.env.local', import.meta.url), 'utf8');
-const ga1EnvSource = readFileSync(new URL('../../.ga1.env', import.meta.url), 'utf8');
+const v26EnvSource = readFileSync(new URL('../../.v26.env', import.meta.url), 'utf8');
 const conversationsOpenApiSource = readFileSync(new URL('../../docs/api/conversations-openapi.yaml', import.meta.url), 'utf8');
 const rootReadmeSource = readFileSync(new URL('../../README.md', import.meta.url), 'utf8');
 const rootProductSource = readFileSync(new URL('../../PRODUCT.md', import.meta.url), 'utf8');
@@ -1237,7 +1237,7 @@ test('active V26 canon posture and preserved runtime state use bitcode policy an
   assert.match(applicationGiveNeedWorkbenchSource, /Asset-pack fit and settlement intent/);
   assert.match(applicationNeedScenarioPanelSource, /Choose the active need measurement/);
   assert.match(applicationNeedScenarioPanelSource, /asset-pack fit, proof, or settlement posture/);
-  assert.match(applicationClosureNativeSectionsSource, /Verification, asset pack, settlement, and ledger/);
+  assert.match(applicationClosureNativeSectionsSource, /Need review, verification, asset pack, settlement, and ledger/);
   assert.match(applicationExperienceArchitectureSource, /label: 'Bitcode Terminal'/);
   assert.match(applicationExperienceArchitectureSource, /Bitcode activity ledger/);
   assert.match(applicationExperienceArchitectureSource, /current Bitcode activity context/);
@@ -1912,7 +1912,7 @@ test('active V26 retained package surfaces use Bitcode naming instead of Engi na
   assert.match(loggerReadmeSource, /for the Bitcode platform/);
   assert.match(ormPackageSource, /Bitcode ORM - Database access layer with vector search/);
   assert.match(ormReadmeSource, /for the Bitcode platform/);
-  assert.match(ormIndexSource, /Bitcode ORM - GA-1 Database Access Layer/);
+  assert.match(ormIndexSource, /Bitcode ORM - V26 Database Access Layer/);
   assert.doesNotMatch(ormReadmeSource, /field intelligence/i);
   assert.deepEqual(activeFieldIntelligenceUrls.filter((url) => existsSync(url)).map((url) => url.pathname), []);
   assert.match(attachmentsGenericsPackageSource, /Universal attachment types for Bitcode/);
@@ -2082,7 +2082,7 @@ test('active V26 retained package surfaces use Bitcode naming instead of Engi na
   assert.doesNotMatch(kubernetesReadmeSource, /ENGI pipeline monitoring/);
   assert.doesNotMatch(loggerReadmeSource, /for the ENGI platform/);
   assert.doesNotMatch(ormReadmeSource, /for ENGI platform/);
-  assert.doesNotMatch(ormIndexSource, /ENGI ORM - GA-1 Database Access Layer/);
+  assert.doesNotMatch(ormIndexSource, /ENGI ORM - V26 Database Access Layer/);
   assert.doesNotMatch(ormPackageSource, /Engi ORM - Database access layer with vector search/);
   assert.doesNotMatch(attachmentsGenericsPackageSource, /Universal attachment types for Engi/);
   assert.doesNotMatch(attachmentsGenericsReadmeSource, /utilities for the Engi platform/);
@@ -2621,14 +2621,14 @@ test('active V26 retained package surfaces use Bitcode naming instead of Engi na
 
   assert.match(databaseDocSource, /# Bitcode V26 Database Architecture/);
   assert.match(databaseDocSource, /onboarded_steps` defaults to `\[\]`/);
-  assert.doesNotMatch(databaseDocSource, /# Engi GA-1 Database Architecture/);
-  assert.doesNotMatch(databaseDocSource, /The Engi GA-1 database schema/);
+  assert.doesNotMatch(databaseDocSource, /# Engi V26 Database Architecture/);
+  assert.doesNotMatch(databaseDocSource, /The Engi V26 database schema/);
 
   assert.match(productGuideSource, /# Bitcode V26 Product Guide/);
   assert.match(productGuideSource, /Activity compatibility page lives under `\/executions`/);
   assert.match(productGuideSource, /Transactions write-space lives under `\/application`/);
   assert.match(productGuideSource, /Auxillaries live under `\/auxillaries\/\*`/);
-  assert.doesNotMatch(productGuideSource, /# Engi GA-1 Product Guide/);
+  assert.doesNotMatch(productGuideSource, /# Engi V26 Product Guide/);
 
   assert.match(uapiEnvExampleSource, /one Bitcode `?\$BTD`? unit/);
   assert.doesNotMatch(uapiEnvExampleSource, /one Engi credit/);
@@ -2974,8 +2974,8 @@ test('active V26 env examples, Storybook config, internal docs, and canon workfl
   assert.doesNotMatch(rootEnvLocalSource, /ENGI_LLM_PROVIDER=/);
   assert.doesNotMatch(rootEnvLocalSource, /ENGI_LOG_TO_FILE=/);
   assert.doesNotMatch(rootEnvLocalSource, /ENGI_EXECUTION_DEBUG=/);
-  assert.match(ga1EnvSource, /GITHUB_BITCODE_APP_CLIENT_SECRET=/);
-  assert.doesNotMatch(ga1EnvSource, /GITHUB_ENGI_APP_CLIENT_SECRET=/);
+  assert.match(v26EnvSource, /GITHUB_BITCODE_APP_CLIENT_SECRET=/);
+  assert.doesNotMatch(v26EnvSource, /GITHUB_ENGI_APP_CLIENT_SECRET=/);
   assert.match(uapiEnvSource, /# Example environment values for local Bitcode development\./);
   assert.match(uapiEnvSource, /BITCODE_LOG_FULL_PROMPTS=1/);
   assert.match(uapiEnvSource, /GITHUB_BITCODE_APP_CLIENT_SECRET=/);

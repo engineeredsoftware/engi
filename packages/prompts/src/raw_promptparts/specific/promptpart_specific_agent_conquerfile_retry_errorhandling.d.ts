@@ -3,7 +3,7 @@ import { PromptPart } from '../../parts/PromptPart';
  * @doc-comment-developing-promptpartdevelopment
  * domain: agent
  * intent: "Define retry errorhandling for Conquer File agent"
- * current_version: "GA1.50.0"
+ * current_version: "V26.50.0"
  * versions: []
  * benchmarks: [
  *   { "name": "retry_effectiveness", "test": "Does retry errorhandling enable effective execution?", "score": 0.50 },

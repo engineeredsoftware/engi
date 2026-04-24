@@ -43,7 +43,7 @@ describe('NavBrand', () => {
 
     fireEvent.click(screen.getByLabelText('Bitcode logo'));
 
-    expect(screen.getByText('GA-1')).toBeTruthy();
+    expect(screen.getByText('V26')).toBeTruthy();
     expect(screen.getByText('PRC')).toBeTruthy();
     expect(onClick).toHaveBeenCalled();
   });

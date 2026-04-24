@@ -2,7 +2,7 @@
  * @doc-comment-developing-promptpartdevelopment
  * domain: tool
  * intent: "Core purpose statement for Bitbucket MCP version control integration"
- * current_version: "GA1.50.0"
+ * current_version: "V26.50.0"
  * versions: []
  * benchmarks: [
  *   { "name": "mcp_integration_purpose_clarity", "test": "Does '{{content}}' clearly articulate MCP integration purpose for version control? Rate 0-1" },

@@ -2,7 +2,7 @@
  * @doc-comment-developing-promptpartdevelopment
  * domain: capabilities
  * intent: "Comprehensive capabilities listing for AWS Location geospatial services integration"
- * current_version: "GA1.01.0"
+ * current_version: "V26.01.0"
  * versions: []
  * benchmarks: [
  *   { "name": "geospatial_service_capabilities", "test": "Does '{{content}}' showcase comprehensive geospatial service capabilities? Rate 0-1" },

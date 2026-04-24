@@ -49,7 +49,7 @@ import { PromptPart } from '../../parts/PromptPart';
  * @doc-comment-developing-promptpartdevelopment
  * domain: agent
  * intent: "Extracted inline PromptPart"
- * current_version: "GA1.00.0"
+ * current_version: "V26.00.0"
  * versions: []
  * benchmarks: [
  *   { "name": "semantic_clarity", "test": "Is it a precise semantic unit?", "score": 0.46 },

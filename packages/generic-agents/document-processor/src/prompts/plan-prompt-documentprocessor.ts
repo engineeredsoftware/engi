@@ -20,7 +20,7 @@ import { PROMPTPART_GENERIC_AGENT_GENERATION_STRUCTURED_OUTPUT } from '@bitcode/
  * @doc-comment-developing-promptdevelopment
  * domain: agent
  * intent: "PLAN step prompt for Document Processor agent"
- * current_version: "GA1.50.0"
+ * current_version: "V26.50.0"
  * versions: [
  *   { "version": "3.0.0", "score": 0.90, "reason": "Migrated to correct Prompt class pattern" },
  *   { "version": "2.0.0", "score": 0.50, "reason": "Used wrong PromptPart concatenation pattern" },

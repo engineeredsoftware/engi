@@ -49,7 +49,7 @@ export { VCSConnections as VCSConnectionManager } from './connections';
 import type { VCSConfig, VCSProviderType } from './types';
 
 /**
- * GA-1 provider config from environment. Compatible with legacy route helpers.
+ * V26 provider config from environment. Compatible with legacy route helpers.
  */
 export function getVCSConfig(provider: VCSProviderType, instanceUrl?: string): VCSConfig {
   const upper = provider.toUpperCase();

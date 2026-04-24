@@ -2,7 +2,7 @@
  * @doc-comment-developing-promptpartdevelopment
  * domain: agent
  * intent: "Agent semantic unit: Codesearcher Plan Analysis Approach"
- * current_version: "GA1.50.0"
+ * current_version: "V26.50.0"
  * versions: []
  * benchmarks: [
  *   { "name": "technical_accuracy", "test": "Uses concrete technical language", "score": 0.50 },
@@ -16,8 +16,8 @@ import { PromptPart } from '../../parts/PromptPart';
  * @doc-comment-industrial-agent-codesearcher-plan-analysis
  * domain: agent
  * intent: "Industrial AST parsing plan analysis with concrete decomposition algorithms"
- * current_version: "GA1.50.0"
- * versions: ["GA1.00.0"]
+ * current_version: "V26.50.0"
+ * versions: ["V26.00.0"]
  * old_content: "Break down the task into searchable components: function names, class names, variable patterns, import statements, and architectural patterns. Map natural language requirements to code constructs"
  * benchmarks: [
  *   { "name": "decomposition_precision", "test": "Does it specify concrete decomposition algorithms? Rate 0-1", "score": 0.92 },

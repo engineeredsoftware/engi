@@ -2,7 +2,7 @@
  * @doc-comment-developing-promptpartdevelopment
  * domain: examples
  * intent: "Complex integration example for Create Issue Tool"
- * current_version: "GA1.02.0"
+ * current_version: "V26.02.0"
  * versions: []
  * benchmarks: [
  *   { "name": "enterprise_complexity", "test": "Does the example in '{{content}}' demonstrate enterprise-scale issue management complexity? Rate 0-1" },

@@ -2,7 +2,7 @@
  * @doc-comment-developing-promptpartdevelopment
  * domain: purpose
  * intent: "Core purpose statement for AWS Lambda function invocation capabilities"
- * current_version: "GA1.00.0"
+ * current_version: "V26.00.0"
  * versions: []
  * benchmarks: [
  *   { "name": "lambda_purpose_clarity", "test": "Does '{{content}}' clearly articulate Lambda invocation purpose? Rate 0-1" },

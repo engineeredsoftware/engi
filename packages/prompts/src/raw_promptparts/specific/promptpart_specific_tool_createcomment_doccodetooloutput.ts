@@ -2,7 +2,7 @@
  * @doc-comment-developing-promptpartdevelopment
  * domain: output
  * intent: "Output specification for Create Comment Tool"
- * current_version: "GA1.02.0"
+ * current_version: "V26.02.0"
  * versions: []
  * benchmarks: [
  *   { "name": "communication_tracking", "test": "Does '{{content}}' provide comprehensive communication tracking and analytics? Rate 0-1" },

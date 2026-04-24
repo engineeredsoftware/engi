@@ -20,7 +20,7 @@ describe('Tool primitive', () => {
       .setMetadata(
         createPromptPart('Example Tool'),
         createPromptPart('Demo'),
-        createPromptPart('GA1.00.0'),
+        createPromptPart('V26.00.0'),
         createPromptPart('High'),
         createPromptPart('Stable'),
       )

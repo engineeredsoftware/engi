@@ -2,7 +2,7 @@
  * @doc-comment-developing-promptpartdevelopment
  * domain: tool
  * intent: "Purpose statement for text editor tool"
- * current_version: "GA1.50.0"
+ * current_version: "V26.50.0"
  * versions: []
  * benchmarks: [
  *   { "name": "atomic_emphasis", "test": "Does '{{content}}' emphasize atomic operations for safety? Rate 0-1", "score": 0.50 },

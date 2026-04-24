@@ -1,8 +1,8 @@
 /**
- * MESSAGES MODEL - GA-1 Message management for conversations
+ * MESSAGES MODEL - V26 Message management for conversations
  *
  * Provides type-safe database access for message operations
- * matching the GA-1 schema exactly as defined in migrations
+ * matching the V26 schema exactly as defined in migrations
  *
  * Type: orm-model
  * Table: messages

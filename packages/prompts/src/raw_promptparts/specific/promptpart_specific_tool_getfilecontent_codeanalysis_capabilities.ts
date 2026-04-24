@@ -4,7 +4,7 @@ import { PromptPart } from '../../parts/PromptPart';
  * @doc-comment-developing-promptpartdevelopment
  * domain: capabilities
  * intent: "Code analysis capabilities for Get File Content Tool"
- * current_version: "GA1.00.0"
+ * current_version: "V26.00.0"
  * versions: []
  * benchmarks: [
  *   { "name": "ast_parsing_specificity", "test": "Does it reference specific AST parsers? Rate 0-1", "score": 0.94 },

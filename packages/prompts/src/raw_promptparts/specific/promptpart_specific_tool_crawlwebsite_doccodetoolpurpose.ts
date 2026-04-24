@@ -2,7 +2,7 @@
  * @doc-comment-developing-promptpartdevelopment
  * domain: purpose
  * intent: "Purpose statement for crawl website tool"
- * current_version: "GA1.00.0"
+ * current_version: "V26.00.0"
  * versions: []
  * benchmarks: [
  *   { "name": "recursive_emphasis", "test": "Does '{{content}}' emphasize recursive crawling capability? Rate 0-1" },

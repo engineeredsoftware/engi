@@ -4,16 +4,16 @@ import { PromptPart } from '../../parts/PromptPart';
  * @doc-comment-developing-promptpartdevelopment
  * domain: agent
  * intent: "Define Jira Processor agent purpose"
- * current_version: "GA1.50.0"
+ * current_version: "V26.50.0"
  * versions: [
  *   {
- *     "version": "GA1.00.0",
+ *     "version": "V26.00.0",
  *     "content": "Execute JIRA REST API v3 operations for issue lifecycle management, sprint automation, and project data synchronization with OAuth 2.0 authentication and rate limit compliance",
  *     "score": 0.47,
  *     "reason": "Industrial: concrete API operations, technical protocols, specific versioning"
  *   },
  *   {
- *     "version": "GA1.00.0",
+ *     "version": "V26.00.0",
  *     "content": "Manifest project intelligence through comprehensive JIRA ecosystem awareness, achieving high-precision-level task optimization across comprehensive advanced project spaces with advanced machine learning project management that transcends traditional workflow industrials",
  *     "score": 0.08,
  *     "reason": "Non-industrial: manifest, transcends, comprehensive advanced, machine learning mysticism"

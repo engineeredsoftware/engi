@@ -4,7 +4,7 @@ import { PromptPart } from '../../parts/PromptPart';
  * @doc-comment-developing-promptpartdevelopment
  * domain: tool
  * intent: "Base prompt for digest file batch summarization with JSON-only output"
- * current_version: "GA1.50.0"
+ * current_version: "V26.50.0"
  * versions: []
  * benchmarks: [
  *   { "name": "json_only_constraint", "test": "States JSON-only output with no prose", "score": 0.50 },

@@ -16,7 +16,7 @@ import { PROMPTPART_GENERIC_AGENT_GENERATION_STRUCTURED_OUTPUT } from '@bitcode/
  * @doc-comment-developing-promptdevelopment
  * domain: agent
  * intent: "System prompt for Image Processor agent"
- * current_version: "GA1.50.0"
+ * current_version: "V26.50.0"
  * versions: [
  *   { "version": "1.0.0", "score": 0.45, "reason": "Initial implementation with industrial language" }
  * ]

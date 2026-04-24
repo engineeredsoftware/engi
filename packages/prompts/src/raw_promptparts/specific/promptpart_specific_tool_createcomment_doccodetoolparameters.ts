@@ -2,7 +2,7 @@
  * @doc-comment-developing-promptpartdevelopment
  * domain: parameters
  * intent: "Parameter specification for Create Comment Tool"
- * current_version: "GA1.02.0"
+ * current_version: "V26.02.0"
  * versions: []
  * benchmarks: [
  *   { "name": "communication_flexibility", "test": "Do the parameters in '{{content}}' support flexible and sophisticated communication scenarios? Rate 0-1" },

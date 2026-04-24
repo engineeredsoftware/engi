@@ -2,7 +2,7 @@
  * @doc-comment-developing-promptpartdevelopment
  * domain: examples
  * intent: "Example showing filtered content extraction with tag exclusion"
- * current_version: "GA1.00.0"
+ * current_version: "V26.00.0"
  * versions: []
  * benchmarks: [
  *   { "name": "filtering_demo", "test": "Does '{{content}}' demonstrate tag-based content filtering? Rate 0-1" },

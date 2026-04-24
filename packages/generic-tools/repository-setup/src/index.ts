@@ -24,7 +24,7 @@ import * as path from 'path';
 export { REPOSITORY_SETUP_DOC_CODE_TOOL_PROMPT } from './prompts/RepositorySetupDocCodeToolPrompt';
 // NOTE: Removed imports of non-existent Prompt modules. Descriptions below
 // embed clear, industrial language strings directly to avoid compile-time
-// coupling on prompt files. This preserves GA-1 patterns (no re-exports,
+// coupling on prompt files. This preserves V26 patterns (no re-exports,
 // industrial language, minimal footprint) and unblocks builds.
 
 // ==================== SCHEMA DEFINITIONS ====================
@@ -664,7 +664,7 @@ class ValidateRepositoryHealthTool extends Tool {
 
 export const validateRepositoryHealthTool = new ValidateRepositoryHealthTool();
 
-// Removed: FixRepositoryIssuesTool (not part of GA-1 surface)
+// Removed: FixRepositoryIssuesTool (not part of V26 surface)
 
 class FilterRelevantFilesTool extends Tool<typeof executeFileFiltering> {
   use = executeFileFiltering;

@@ -11,10 +11,10 @@ import { PROMPTPART_SPECIFIC_AGENT_MCPSINITIALIZER_RETRY_RECOVERY_STRATEGY } fro
  * @doc-comment-developing-promptdevelopment
  * domain: agent
  * intent: "Retry step for MCPS Initializer: handle failures and recover from protocol errors"
- * current_version: "GA1.50.0"
+ * current_version: "V26.50.0"
  * dependencies: {
- *   "PROMPTPART_SPECIFIC_AGENT_MCPSINITIALIZER_RETRY_FAILURE_ANALYSIS": "GA1.00.0",
- *   "PROMPTPART_SPECIFIC_AGENT_MCPSINITIALIZER_RETRY_RECOVERY_STRATEGY": "GA1.00.0"
+ *   "PROMPTPART_SPECIFIC_AGENT_MCPSINITIALIZER_RETRY_FAILURE_ANALYSIS": "V26.00.0",
+ *   "PROMPTPART_SPECIFIC_AGENT_MCPSINITIALIZER_RETRY_RECOVERY_STRATEGY": "V26.00.0"
  * }
  * benchmarks: [
  *   { "name": "technical_accuracy", "test": "Concrete directives and purpose", "score": 0.46 },

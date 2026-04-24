@@ -2,7 +2,7 @@
  * @doc-comment-developing-promptpartdevelopment
  * domain: examples
  * intent: "Example showing file operations migration from deprecated to VCS"
- * current_version: "GA1.00.0"
+ * current_version: "V26.00.0"
  * versions: []
  * benchmarks: [
  *   { "name": "file_ops_coverage", "test": "Does '{{content}}' mention all three file operations (create, update, delete)? Rate 0-1" },

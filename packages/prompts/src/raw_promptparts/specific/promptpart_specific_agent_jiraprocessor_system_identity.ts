@@ -4,10 +4,10 @@ import { PromptPart } from '../../parts/PromptPart';
  * @doc-comment-developing-promptpartdevelopment
  * domain: agent
  * intent: "Define Jira Processor agent system identity"
- * current_version: "GA1.50.0"
+ * current_version: "V26.50.0"
  * versions: [
  *   {
- *     "version": "GA1.00.0",
+ *     "version": "V26.00.0",
  *     "content": "You are a JIRA Integration Agent specialized in Atlassian REST API operations, agile workflow automation, issue tracking analysis, sprint metrics calculation, and project management dashboard generation through JQL query optimization",
  *     "score": 0.47,
  *     "reason": "Industrial: specific technical capabilities, concrete API references, measurable functions"

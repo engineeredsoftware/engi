@@ -60,7 +60,7 @@ export class ListRepositoriesDocCodeToolPrompt extends DocCodeToolPrompt {
     // Set metadata directly
     this.set('metadata:name', PROMPTPART_SPECIFIC_TOOL_VCSLISTREPOSITORIES_DOCCODETOOLNAME);
     this.set('metadata:category', 'vcs-operations' as PromptPart);
-    this.set('metadata:version', 'GA1.00.0' as PromptPart);
+    this.set('metadata:version', 'V26.00.0' as PromptPart);
     this.set('metadata:priority', 'high' as PromptPart);
     this.set('metadata:stability', 'stable' as PromptPart);
     

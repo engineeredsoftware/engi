@@ -2,7 +2,7 @@
  * @doc-comment-developing-promptpartdevelopment
  * domain: output
  * intent: "Output specifications for AWS Location geospatial operations"
- * current_version: "GA1.01.0"
+ * current_version: "V26.01.0"
  * versions: []
  * benchmarks: [
  *   { "name": "geospatial_output_completeness", "test": "Does '{{content}}' provide complete geospatial service output specifications? Rate 0-1" },

@@ -5,7 +5,7 @@
 
 -- Add deprecation comment to the table
 COMMENT ON TABLE user_github_connections IS 
-  'DEPRECATED: This table is kept for backward compatibility but not actively used. All VCS connections are now stored in user_connections table with provider field. TODO: Remove in post-GA-1 migration.';
+  'DEPRECATED: This table is kept for backward compatibility but not actively used. All VCS connections are now stored in user_connections table with provider field. TODO: Remove in post-V26 migration.';
 
 -- Add comment to indicate the unified approach
 COMMENT ON TABLE user_connections IS 

@@ -2,7 +2,7 @@
  * @doc-comment-developing-promptpartdevelopment
  * domain: purpose
  * intent: "Core purpose statement for Aurora PostgreSQL cloud database integration"
- * current_version: "GA1.02.1"
+ * current_version: "V26.02.1"
  * versions: []
  * benchmarks: [
  *   { "name": "cloud_database_purpose_clarity", "test": "Does '{{content}}' clearly articulate cloud database integration purpose? Rate 0-1" },

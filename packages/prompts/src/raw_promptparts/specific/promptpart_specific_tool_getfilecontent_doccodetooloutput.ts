@@ -2,7 +2,7 @@
  * @doc-comment-developing-promptpartdevelopment
  * domain: parameters
  * intent: "Output specification for Get File Content Tool"
- * current_version: "GA1.02.0"
+ * current_version: "V26.02.0"
  * versions: []
  * benchmarks: [
  *   { "name": "transcendent_output", "test": "Does '{{content}}' provide transcendent output that transforms content access into actionable intelligence? Rate 0-1" },

@@ -203,7 +203,7 @@ const AudioProcessorRetrySchema = z.object({
  * @doc-comment-developing-promptdevelopment
  * domain: agent
  * intent: "Provide minimal audio processing context"
- * current_version: "GA1.50.0"
+ * current_version: "V26.50.0"
  */
 export const audioProcessorPrompt = new AgentPrompt({
   name: 'audio-processor' as PromptPart,

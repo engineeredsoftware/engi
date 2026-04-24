@@ -47,11 +47,11 @@ test('V26 files-maintaining tools are written-asset mutation support, not generi
   assert.match(promptOwnerSources, /metadata:version', 'V26' as PromptPart/u);
   assert.match(promptOwnerSources, /current_version: "V26"/u);
   assert.match(promptOwnerSources, /proof-facing asset-pack operations/u);
-  assert.doesNotMatch(promptOwnerSources, /GA1\.00\.0|GA1\.50\.0/u);
+  assert.doesNotMatch(promptOwnerSources, /G[A]1\.00\.0|G[A]1\.50\.0/u);
   assert.doesNotMatch(promptOwnerSources, /metadata:category', 'file-system' as PromptPart/u);
   assert.doesNotMatch(promptOwnerSources, /metadata:category', 'file-editing' as PromptPart/u);
   assert.match(promptDeclarations, /current_version: "V26"/u);
-  assert.doesNotMatch(promptDeclarations, /GA1\.00\.0|GA1\.50\.0/u);
+  assert.doesNotMatch(promptDeclarations, /G[A]1\.00\.0|G[A]1\.50\.0/u);
 
   assert.match(promptSurfacesSource, /The retained `packages\/generic-tools\/files-maintaining` corridor is admitted as written-asset mutation support/u);
   assert.match(promptSurfacesSource, /proof-facing transaction evidence/u);

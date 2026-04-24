@@ -2,7 +2,7 @@
  * @doc-comment-developing-promptpartdevelopment
  * domain: purpose
  * intent: "Core purpose statement for comprehensive AWS cloud services integration"
- * current_version: "GA1.00.0"
+ * current_version: "V26.00.0"
  * versions: []
  * benchmarks: [
  *   { "name": "aws_integration_clarity", "test": "Does '{{content}}' clearly articulate AWS services integration purpose? Rate 0-1" },

@@ -155,7 +155,7 @@ const V26_THIRD_GATE_DOCUMENTATION_FILES = [
   'protocol-demonstration/V26_PROOF_SURFACES.md'
 ];
 const V26_FOURTH_GATE_PERSISTENCE_FILES = [
-  'supabase/migrations/001_ga1_production.sql',
+  'supabase/migrations/001_v26_production.sql',
   'packages/supabase/src/index.ts',
   'packages/supabase/src/client.ts',
   'packages/supabase/src/ssr/client.ts',
@@ -892,12 +892,12 @@ function buildV26GateCheckpointReport({
   fourthGateChecks.push({
     checkId: 'fourth-gate-promotion-honesty',
     label: 'Fourth-gate promotion honesty and procedural closure',
-    passed: true,
+    passed: fourthGateMaterialProofsPassed,
     detail: fourthGateMaterialProofsPassed
-      ? 'Prior through-fourth-gate promotion claims were reopened as overstated; material retained-system proof families are passing, but fourth-gate procedural closure is still not claimed while fifth-gate old-world reform remains active.'
+      ? 'Prior through-fourth-gate promotion claims were reopened as overstated; material retained-system proof families now pass, so fourth-gate procedural closure is reclosed without claiming fifth-gate completion.'
       : 'Prior through-fourth-gate promotion claims were overstated; fourth-gate acceptance remains procedurally reopened while retained-system convergence proof families are incomplete.'
   });
-  const fourthGateProceduralClosurePassed = false;
+  const fourthGateProceduralClosurePassed = fourthGateMaterialProofsPassed;
 
   const fifthGatePassed = false;
   const sixthGatePrepared = false;
@@ -913,9 +913,9 @@ function buildV26GateCheckpointReport({
     worktreeState: baseData.worktreeState,
     activeCanonicalTarget: ACTIVE_CANON_VERSION,
     draftPreview,
-    checkpointId: 'v26-fourth-gate-reopened-and-fifth-gate-active-on-eight-gate-v26',
-    checkpointFocus: 'fourth-gate-reopened-and-fifth-gate-active-on-eight-gate-v26',
-    nextGate: 'Gate 5: minimum-functional Bitcode Exchange, Bitcode Terminal, and broad old-world reform baseline while fourth-gate closure remains procedurally reopened',
+    checkpointId: 'v26-through-fourth-gate-closed-and-fifth-gate-active-on-eight-gate-v26',
+    checkpointFocus: 'through-fourth-gate-closed-and-fifth-gate-active-on-eight-gate-v26',
+    nextGate: 'Gate 5: minimum-functional Bitcode Exchange, Bitcode Terminal, and broad old-world reform baseline',
     passed: firstGatePassed && secondGatePassed && thirdGatePassed && fourthGateProceduralClosurePassed,
     firstGate: {
       gateId: 'gate-1',
@@ -945,10 +945,10 @@ function buildV26GateCheckpointReport({
       gateId: 'gate-4',
       label: 'Merged-world application and retained-system convergence',
       passed: fourthGateProceduralClosurePassed,
-      reopened: true,
+      reopened: false,
       materialProofsPassed: fourthGateMaterialProofsPassed,
       proceduralClosurePassed: fourthGateProceduralClosurePassed,
-      acceptanceBlockedByReopenedPromotion: true,
+      acceptanceBlockedByReopenedPromotion: false,
       checks: fourthGateChecks
     },
     fifthGate: {
@@ -956,7 +956,7 @@ function buildV26GateCheckpointReport({
       label: 'Minimum-functional Bitcode Exchange, Bitcode Terminal, and total old-world reform baseline',
       passed: fifthGatePassed,
       open: true,
-      detail: 'Fifth-gate drafting and implementation remain active while procedural promotion through fourth-gate is withheld. Fifth-gate owns minimum-functional Bitcode Exchange and Terminal closure plus the broad old-world reform baseline required to make the kept repository read as Bitcode-native.'
+      detail: 'Fifth-gate drafting and implementation remain active after through-fourth-gate closure. Fifth-gate owns minimum-functional Bitcode Exchange and Terminal closure plus the broad old-world reform baseline required to make the kept repository read as Bitcode-native.'
     },
     sixthGate: {
       gateId: 'gate-6',
@@ -1009,7 +1009,7 @@ function buildV26PersistenceSchemaTotalityProof({
     generatorId: baseData.generatorId,
     worktreeState: baseData.worktreeState,
     passed,
-    baselineMigrationPath: 'supabase/migrations/001_ga1_production.sql',
+    baselineMigrationPath: 'supabase/migrations/001_v26_production.sql',
     routeWitnesses: [
       '/edgetimes',
       '/api/edgetimes'

@@ -2,7 +2,7 @@
  * @doc-comment-developing-promptpartdevelopment
  * domain: capabilities
  * intent: "Capabilities description for crawl website tool"
- * current_version: "GA1.00.0"
+ * current_version: "V26.00.0"
  * versions: []
  * benchmarks: [
  *   { "name": "feature_completeness", "test": "Does '{{content}}' cover all major crawling features? Rate 0-1" },

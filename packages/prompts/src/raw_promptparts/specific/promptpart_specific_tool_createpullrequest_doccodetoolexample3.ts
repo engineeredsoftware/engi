@@ -2,7 +2,7 @@
  * @doc-comment-developing-promptpartdevelopment
  * domain: examples
  * intent: "Complex integration example for Create Pull Request Tool"
- * current_version: "GA1.02.0"
+ * current_version: "V26.02.0"
  * versions: []
  * benchmarks: [
  *   { "name": "complexity_handling", "test": "Does the example in '{{content}}' demonstrate handling of complex multi-system integrations? Rate 0-1" },

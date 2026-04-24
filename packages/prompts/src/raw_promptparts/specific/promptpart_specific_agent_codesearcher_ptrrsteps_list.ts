@@ -2,7 +2,7 @@
  * @doc-comment-developing-promptpartdevelopment
  * domain: agent
  * intent: "Agent semantic unit: Codesearcher Ptrrsteps List"
- * current_version: "GA1.50.0"
+ * current_version: "V26.50.0"
  * versions: []
  * benchmarks: [
  *   { "name": "technical_accuracy", "test": "Uses concrete technical language", "score": 0.50 },
@@ -16,8 +16,8 @@ import { PromptPart } from '../../parts/PromptPart';
  * @doc-comment-industrial-agent-codesearcher-ptrr
  * domain: agent
  * intent: "Industrial AST parsing PTRR steps with concrete algorithmic operations"
- * current_version: "GA1.50.0"
- * versions: ["GA1.00.0"]
+ * current_version: "V26.50.0"
+ * versions: ["V26.00.0"]
  * old_content: "Plan: Analyze repository structure and extract semantic keywords; Try: Execute LSP-powered semantic search across workspace; Refine: Score and rank code snippets by relevance; Retry: Deepen search with additional context if needed"
  * benchmarks: [
  *   { "name": "step_specificity", "test": "Do PTRR steps specify concrete algorithms? Rate 0-1", "score": 0.94 },

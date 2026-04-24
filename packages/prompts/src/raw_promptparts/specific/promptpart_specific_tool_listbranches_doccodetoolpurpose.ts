@@ -2,7 +2,7 @@
  * @doc-comment-developing-promptpartdevelopment
  * domain: purpose
  * intent: "Core purpose statement for List Branches Tool"
- * current_version: "GA1.02.0"
+ * current_version: "V26.02.0"
  * versions: []
  * benchmarks: [
  *   { "name": "navigation_purpose_clarity", "test": "Does '{{content}}' clearly articulate intelligent repository navigation and discovery? Rate 0-1" },

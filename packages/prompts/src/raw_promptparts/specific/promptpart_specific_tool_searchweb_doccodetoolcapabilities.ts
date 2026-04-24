@@ -2,7 +2,7 @@
  * @doc-comment-developing-promptpartdevelopment
  * domain: capabilities
  * intent: "Capabilities description for search web tool"
- * current_version: "GA1.00.0"
+ * current_version: "V26.00.0"
  * versions: []
  * benchmarks: [
  *   { "name": "search_features", "test": "Does '{{content}}' cover search capabilities like filtering and localization? Rate 0-1" },

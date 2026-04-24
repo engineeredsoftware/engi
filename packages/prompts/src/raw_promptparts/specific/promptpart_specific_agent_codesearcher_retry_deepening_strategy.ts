@@ -2,7 +2,7 @@
  * @doc-comment-developing-promptpartdevelopment
  * domain: agent
  * intent: "Agent semantic unit: Codesearcher Retry Deepening Strategy"
- * current_version: "GA1.50.0"
+ * current_version: "V26.50.0"
  * versions: []
  * benchmarks: [
  *   { "name": "technical_accuracy", "test": "Uses concrete technical language", "score": 0.50 },
@@ -16,8 +16,8 @@ import { PromptPart } from '../../parts/PromptPart';
  * @doc-comment-industrial-agent-codesearcher-retry-deepening
  * domain: agent
  * intent: "Industrial AST parsing retry deepening strategy with concrete expansion algorithms"
- * current_version: "GA1.50.0"
- * versions: ["GA1.00.0"]
+ * current_version: "V26.50.0"
+ * versions: ["V26.00.0"]
  * old_content: "If initial results insufficient: expand search to related symbols, trace call hierarchies, examine import dependencies, search for usage patterns in test files, and identify architectural patterns"
  * benchmarks: [
  *   { "name": "expansion_precision", "test": "Are expansion algorithms precisely defined? Rate 0-1", "score": 0.93 },

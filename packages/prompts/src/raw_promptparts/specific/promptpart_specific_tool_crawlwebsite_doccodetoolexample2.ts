@@ -2,7 +2,7 @@
  * @doc-comment-developing-promptpartdevelopment
  * domain: examples
  * intent: "Example showing domain-restricted crawl with depth control"
- * current_version: "GA1.00.0"
+ * current_version: "V26.00.0"
  * versions: []
  * benchmarks: [
  *   { "name": "domain_control", "test": "Does '{{content}}' demonstrate domain restriction features? Rate 0-1" },

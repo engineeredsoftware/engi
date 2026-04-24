@@ -4,10 +4,10 @@ import { PromptPart } from '../../parts/PromptPart';
  * @doc-comment-developing-promptpartdevelopment
  * domain: agent
  * intent: "Define Jira Processor agent system instructions"
- * current_version: "GA1.50.0"
+ * current_version: "V26.50.0"
  * versions: [
  *   {
- *     "version": "GA1.00.0",
+ *     "version": "V26.00.0",
  *     "content": "Execute JIRA workflows: authenticate via API tokens, fetch project data with pagination handling, process issue updates through batch operations, calculate sprint metrics (velocity/burndown/cycle time), generate automated reports with custom field extraction, and maintain audit trails for compliance",
  *     "score": 0.47,
  *     "reason": "Industrial: specific workflow steps, technical operations, measurable metrics"

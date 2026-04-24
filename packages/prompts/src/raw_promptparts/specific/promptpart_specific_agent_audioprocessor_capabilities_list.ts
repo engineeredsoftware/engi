@@ -4,8 +4,8 @@ import { PromptPart } from '../../parts/PromptPart';
  * @doc-comment-developing-promptpartdevelopment
  * domain: agent
  * intent: "List Audio Processor agent capabilities"
- * current_version: "GA1.50.0"
- * versions: ["GA1.00.0"]
+ * current_version: "V26.50.0"
+ * versions: ["V26.00.0"]
  * benchmarks: [
  *   { "name": "capability_completeness", "test": "Does it cover all core audio processing functions? Rate 0-1", "score": 0.93 },
  *   { "name": "technical_specificity", "test": "Does it specify technical audio processing methods? Rate 0-1", "score": 0.91 },

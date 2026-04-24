@@ -139,7 +139,7 @@ Runtime JavaScript PromptPart carry-through must match the TypeScript content so
 
 The retained `packages/generic-tools/repository-setup` corridor is another package-level admissibility example:
 repository preparation is admitted only as support for Bitcode need understanding and written-asset synthesis, so active file-filtering contracts must resolve `expressedNeed` / `needDescription` before `taskDescription`, and `taskDescription` must be documented as a compatibility carrier rather than the owning semantic field.
-Its `RepositorySetupDocCodeToolPrompt` metadata must also be Bitcode-native and package-local, describing repository-preparation support rather than GA1-era repository-management lineage.
+Its `RepositorySetupDocCodeToolPrompt` metadata must also be Bitcode-native and package-local, describing repository-preparation support rather than V26-era repository-management lineage.
 
 The retained `packages/generic-tools/simple-system-text-search` corridor is admitted as Bitcode repository-evidence search support:
 the callable `simpleSystemTextSearch` and `SYSTEMTEXTSEARCH` raw PromptPart filenames remain compatibility surfaces, but active prompt ownership must move through `BitcodeRepositoryEvidenceSearchDocCodeToolPrompt`.
@@ -164,10 +164,10 @@ Its agent prompts, DocCode tool prompts, raw PromptParts, README files, TypeScri
 It may search, retrieve cited source content, classify URLs, and compare providers for corroboration, but it must not claim canonical need interpretation, proof generation, mutation, delivery-mechanism selection, search-platform product ownership, or live Exchange/Terminal product semantics.
 
 The retained `packages/generic-tools/files-maintaining` corridor is admitted as written-asset mutation support for asset-pack synthesis:
-text editing, create, replace, delete, and transaction prompts may remain generic tool package surfaces, but their DocCode prompt metadata must describe Bitcode written-asset file mutation and proof-facing transaction evidence rather than generic file-system or GA1 lineage.
+text editing, create, replace, delete, and transaction prompts may remain generic tool package surfaces, but their DocCode prompt metadata must describe Bitcode written-asset file mutation and proof-facing transaction evidence rather than generic file-system or pre-Bitcode lineage.
 These tools are support infrastructure; they do not define asset-pack semantics themselves, but their prompt descriptions must be safe to inject into agentic Bitcode runs that create, alter, or delete written assets.
 The same runtime carry-through rule applies to retained deliverable substep PromptParts and their generated declarations: broad prompt normalization must be idempotent, benchmark metadata must stay parseable, and runtime `.js` PromptPart strings must synchronize from canonical `.ts` PromptPart source.
-Their doc-comment metadata must also be Bitcode-native: `current_version` cannot preserve GA1 lineage, and every retained deliverable substep `intent` must name the need-first written-asset / asset-pack / proof / delivery-wrapper role represented by that PromptPart.
+Their doc-comment metadata must also be Bitcode-native: `current_version` cannot preserve pre-Bitcode lineage, and every retained deliverable substep `intent` must name the need-first written-asset / asset-pack / proof / delivery-wrapper role represented by that PromptPart.
 The same metadata rule now applies across the whole retained deliverable-family raw PromptPart corpus: agent, phase, pipeline, tool, setup, discovery, implementation, validation, and shipping PromptParts may retain compatibility filenames, but their doc-comment `intent` and `current_version` metadata must describe Bitcode need-first written-asset / asset-pack execution rather than old deliverable product lineage.
 Its package-local build boundary must typecheck those prompt/tool imports without emitting generated artifacts, and must declare direct dependencies on `@bitcode/prompts` and `@bitcode/tools-generics` rather than relying on transitive workspace reach-through.
 

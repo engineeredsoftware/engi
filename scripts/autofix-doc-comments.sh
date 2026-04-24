@@ -39,7 +39,7 @@ awk -F, 'NR>1 {print $2}' "$prompt_csv" | sort -u | while read -r f; do
  * @doc-comment-developing-promptdevelopment
  * domain: $domain
  * intent: "$intent"
- * current_version: "GA1.00.0"
+ * current_version: "V26.00.0"
  * dependencies: { }
  * benchmarks: [
  *   { "name": "technical_accuracy", "test": "Uses concrete technical language", "score": 0.46 },
@@ -81,7 +81,7 @@ rg --files packages/prompts/src/raw_promptparts -g '!**/node_modules/**' | rg "\
  * @doc-comment-developing-promptpartdevelopment
  * domain: $domain
  * intent: "$intent"
- * current_version: "GA1.00.0"
+ * current_version: "V26.00.0"
  * versions: []
  * benchmarks: [
  *   { "name": "semantic_clarity", "test": "Is it a precise semantic unit?", "score": 0.46 },

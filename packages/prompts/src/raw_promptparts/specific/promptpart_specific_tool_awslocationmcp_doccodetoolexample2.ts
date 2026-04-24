@@ -2,7 +2,7 @@
  * @doc-comment-developing-promptpartdevelopment
  * domain: examples
  * intent: "Example showcasing smart city urban planning with geospatial analytics"
- * current_version: "GA1.01.0"
+ * current_version: "V26.01.0"
  * versions: []
  * benchmarks: [
  *   { "name": "smart_city_demonstration", "test": "Does '{{content}}' demonstrate smart city planning capabilities? Rate 0-1" },

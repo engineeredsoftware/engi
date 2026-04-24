@@ -36,7 +36,7 @@ test('V26 repository-setup support resolves expressed need before task compatibi
   assert.match(repositorySetupPromptSource, /Bitcode repository-preparation support prompt/u);
   assert.match(repositorySetupPromptSource, /repository-preparation-support' as PromptPart/u);
   assert.match(repositorySetupPromptSource, /'V26' as PromptPart/u);
-  assert.doesNotMatch(repositorySetupPromptSource, /'GA1\.00\.0' as PromptPart/u);
+  assert.doesNotMatch(repositorySetupPromptSource, /'G[A]1\.00\.0' as PromptPart/u);
 
   assert.match(promptSurfacesSource, /The retained `packages\/generic-tools\/repository-setup` corridor is another package-level admissibility example/u);
   assert.match(promptSurfacesSource, /resolve `expressedNeed` \/ `needDescription` before `taskDescription`/u);

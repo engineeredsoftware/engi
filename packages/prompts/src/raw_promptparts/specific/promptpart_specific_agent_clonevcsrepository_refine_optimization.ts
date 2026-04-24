@@ -4,7 +4,7 @@ import { PromptPart } from '../../parts/PromptPart';
  * @doc-comment-developing-promptpartdevelopment
  * domain: agent
  * intent: "Define REFINE step optimization strategy for Clone VCS Repository agent"
- * current_version: "GA1.50.0"
+ * current_version: "V26.50.0"
  * versions: []
  * benchmarks: [
  *   { "name": "optimization_depth", "test": "Does it identify meaningful optimization opportunities?", "score": 0.45 },

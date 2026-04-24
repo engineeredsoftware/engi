@@ -2,7 +2,7 @@
  * @doc-comment-developing-promptpartdevelopment
  * domain: output
  * intent: "Output description for scrape URL tool"
- * current_version: "GA1.00.0"
+ * current_version: "V26.00.0"
  * versions: []
  * benchmarks: [
  *   { "name": "output_structure", "test": "Does '{{content}}' clearly describe the output structure? Rate 0-1" },

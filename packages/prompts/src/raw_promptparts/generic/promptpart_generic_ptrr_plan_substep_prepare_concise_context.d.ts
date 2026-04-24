@@ -2,7 +2,7 @@
  * @doc-comment-developing-promptpartdevelopment
  * domain: system
  * intent: "Ptrr semantic unit: Plan Substep Prepare Concise Context"
- * current_version: "GA1.50.0"
+ * current_version: "V26.50.0"
  * versions: []
  * benchmarks: [
  *   { "name": "technical_accuracy", "test": "Uses concrete technical language", "score": 0.50 },
@@ -14,7 +14,7 @@ import { PromptPart } from '../../parts/PromptPart';
  * @doc-comment-developing-promptpartdevelopment
  * domain: ptrr
  * intent: "Generic prepare_concise_context substep for plan step"
- * current_version: "GA1.50.0"
+ * current_version: "V26.50.0"
  * versions: []
  * benchmarks: [
  *   { "name": "substep_clarity", "test": "Clear substep purpose?", "score": 0.95 },

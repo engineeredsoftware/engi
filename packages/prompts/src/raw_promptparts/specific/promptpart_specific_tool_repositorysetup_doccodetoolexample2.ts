@@ -2,7 +2,7 @@
  * @doc-comment-developing-promptpartdevelopment
  * domain: examples
  * intent: "Example showing shallow clone with specific commit"
- * current_version: "GA1.00.0"
+ * current_version: "V26.00.0"
  * versions: []
  * benchmarks: [
  *   { "name": "shallow_clone_demo", "test": "Does '{{content}}' demonstrate shallow cloning features? Rate 0-1" },

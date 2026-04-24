@@ -8,7 +8,7 @@ const repoRoot = path.resolve(new URL('..', import.meta.url).pathname, '..');
 const DISALLOWED_PROMPT_INTERNAL_IMPORT = /(?:from\s+['"][^'"]*prompts\/src\/|require\(['"][^'"]*prompts\/src\/)/u;
 const DISALLOWED_PROMPT_ROOT_BARREL_IMPORT = /(?:from\s+['"]@bitcode\/prompts['"]|require\(['"]@bitcode\/prompts['"]\))/u;
 const DISALLOWED_MANUAL_PROMPT_ASSIGNMENT_DOC = /execution\.prompt\s*=/u;
-const DISALLOWED_ACTIVE_AGENT_PROMPT_GA1_METADATA = /current_version:\s*"GA1|GA-1|pre.GA1/u;
+const DISALLOWED_ACTIVE_AGENT_PROMPT_OLD_RELEASE_METADATA = /current_version:\s*"G[A]1|G[A]-1|pre.G[A]1/u;
 const DISALLOWED_SUPPORT_SOURCE_REACH_THROUGH = [
   {
     filePath: 'packages/prompts/src/prompt.ts',
@@ -331,17 +331,17 @@ test('V26 active agent prompt hierarchy docs align with factory-owned Registry-b
     `Active agent prompt hierarchy docs and comments must not teach manual execution.prompt assignment: ${manualAssignmentViolations.join(', ')}`
   );
 
-  const ga1MetadataViolations = [
+  const oldMetadataViolations = [
     ...ACTIVE_AGENT_PROMPT_HIERARCHY_DOCS,
     ...ACTIVE_AGENT_PROMPT_DOC_COMMENT_FILES,
   ].filter((filePath) =>
-    DISALLOWED_ACTIVE_AGENT_PROMPT_GA1_METADATA.test(readFileSync(path.join(repoRoot, filePath), 'utf8'))
+    DISALLOWED_ACTIVE_AGENT_PROMPT_OLD_RELEASE_METADATA.test(readFileSync(path.join(repoRoot, filePath), 'utf8'))
   );
 
   assert.deepEqual(
-    ga1MetadataViolations,
+    oldMetadataViolations,
     [],
-    `Active agent prompt hierarchy docs and doc-comments must use Bitcode V26 prompt-registry language, not GA1 lineage: ${ga1MetadataViolations.join(', ')}`
+    `Active agent prompt hierarchy docs and doc-comments must use Bitcode V26 prompt-registry language, not old release lineage: ${oldMetadataViolations.join(', ')}`
   );
 
   const agentPromptSource = readFileSync(path.join(repoRoot, 'packages/agent-generics/src/prompts/AgentPrompt.ts'), 'utf8');
@@ -399,7 +399,7 @@ test('V26 Terminal conversation prompts are specific raw PromptPart-backed regis
   assert.match(conversationAppPromptBindingSource, /BITCODE_TERMINAL_APP_SYSTEM_PROMPT/u);
   assert.match(conversationAppPromptBindingSource, /BITCODE_TERMINAL_CONVERSATION_SYSTEM_PROMPT/u);
   assert.doesNotMatch(conversationAppPromptBindingSource, /CONVERSATIONS_APP_SYSTEM_PROMPT/u);
-  assert.doesNotMatch(conversationPromptPartSource, /GA1|AI-powered full product operator|Conversations product|Automated generation of deliverables/u);
+  assert.doesNotMatch(conversationPromptPartSource, /G[A]1|AI-powered full product operator|Conversations product|Automated generation of deliverables/u);
   assert.match(conversationPromptPartSource, /BITCODE_V26_CONVERSATION_AGENT_PROMPTPART\.1/u);
   assert.match(conversationPromptPartSource, /BITCODE_V26_CONVERSATION_SYSTEM_PROMPTPART\.1/u);
   assert.match(conversationPromptPartSource, /Bitcode Terminal response/u);
@@ -740,6 +740,6 @@ test('V26 task-comprehension prompt reservoir is repurposed as Bitcode need comp
     validatePromptPart
   ].join('\n');
 
-  assert.doesNotMatch(combined, /GA1\.00\.0|GA1\.45\.0|\(fill intent\)/u);
+  assert.doesNotMatch(combined, /G[A]1\.00\.0|G[A]1\.45\.0|\(fill intent\)/u);
   assert.doesNotMatch(combined, /transcendent|consciousness|AGI|task-analysis|@antml:prompts/u);
 });

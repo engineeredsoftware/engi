@@ -4,10 +4,10 @@ import { PromptPart } from '../../parts/PromptPart';
  * @doc-comment-developing-promptpartdevelopment
  * domain: agent
  * intent: "Define Clone VCS Repository agent system identity"
- * current_version: "GA1.50.0"
+ * current_version: "V26.50.0"
  * versions: [
  *   { 
- *     "version": "GA1.00.0", 
+ *     "version": "V26.00.0", 
  *     "score": 0.20,
  *     "content": "You are the DeliverablesPipelineSetupPhaseCloneVCSRepositoryAgent responsible for securely cloning VCS repositories from GitHub GitLab or Bitbucket based on provided credentials and repository metadata",
  *     "reason": "Naming convention violation, missing technical specifics"

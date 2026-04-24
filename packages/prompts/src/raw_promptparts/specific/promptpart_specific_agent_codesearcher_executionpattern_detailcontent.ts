@@ -2,7 +2,7 @@
  * @doc-comment-developing-promptpartdevelopment
  * domain: agent
  * intent: "Agent semantic unit: Codesearcher Executionpattern Detailcontent"
- * current_version: "GA1.50.0"
+ * current_version: "V26.50.0"
  * versions: []
  * benchmarks: [
  *   { "name": "technical_accuracy", "test": "Uses concrete technical language", "score": 0.50 },
@@ -16,8 +16,8 @@ import { PromptPart } from '../../parts/PromptPart';
  * @doc-comment-industrial-agent-codesearcher-execution
  * domain: agent
  * intent: "Industrial AST parsing execution pattern with concrete algorithmic steps"
- * current_version: "GA1.50.0"
- * versions: ["GA1.00.0"]
+ * current_version: "V26.50.0"
+ * versions: ["V26.00.0"]
  * old_content: "CHUNKED_PROCESSING - Processes code files in semantic chunks using LSP analysis..."
  * benchmarks: [
  *   { "name": "algorithm_specificity", "test": "Does it specify concrete parsing algorithms? Rate 0-1", "score": 0.94 },

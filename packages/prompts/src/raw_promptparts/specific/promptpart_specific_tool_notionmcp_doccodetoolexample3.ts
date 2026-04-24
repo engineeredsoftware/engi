@@ -2,7 +2,7 @@
  * @doc-comment-developing-promptpartdevelopment
  * domain: examples
  * intent: "Example demonstrating advanced collaborative intelligence with cognitive knowledge orchestration"
- * current_version: "GA1.09.0"
+ * current_version: "V26.09.0"
  * versions: []
  * benchmarks: [
  *   { "name": "collaborative_intelligence_demonstration", "test": "Does '{{content}}' demonstrate collaborative intelligence capabilities? Rate 0-1" },

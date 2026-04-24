@@ -2,7 +2,7 @@
  * @doc-comment-developing-promptpartdevelopment
  * domain: examples
  * intent: "Complex integration example for Get File Content Tool"
- * current_version: "GA1.02.0"
+ * current_version: "V26.02.0"
  * versions: []
  * benchmarks: [
  *   { "name": "transcendent_intelligence", "test": "Does the example in '{{content}}' demonstrate transcendent AI intelligence that transforms development at enterprise scale? Rate 0-1" },

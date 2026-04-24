@@ -2,7 +2,7 @@
  * @doc-comment-developing-promptpartdevelopment
  * domain: name
  * intent: "Tool name for comprehensive AWS MCP integration"
- * current_version: "GA1.00.0"
+ * current_version: "V26.00.0"
  * versions: []
  * benchmarks: [
  *   { "name": "name_clarity", "test": "Does '{{content}}' clearly identify the AWS MCP tool? Rate 0-1" },

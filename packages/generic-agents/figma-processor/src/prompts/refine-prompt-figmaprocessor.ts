@@ -16,7 +16,7 @@ import { PROMPTPART_GENERIC_AGENT_GENERATION_STRUCTURED_OUTPUT } from '@bitcode/
  * @doc-comment-developing-promptdevelopment
  * domain: agent
  * intent: "REFINE step prompt for Figma Processor agent"
- * current_version: "GA1.50.0"
+ * current_version: "V26.50.0"
  * versions: ["2.0.0", "1.0.0"]
  * benchmarks: [
  *   { "name": "refinement_quality", "test": "Does the prompt enable effective design processing refinement? Rate 0-1", "score": 0.87 },

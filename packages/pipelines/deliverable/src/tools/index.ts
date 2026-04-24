@@ -18,7 +18,7 @@ import { deliverablePipelineVideoComprehensionTool } from './DeliverablePipeline
 // VCS tools used during shipping
 import { createPullRequestTool, createIssueTool, createCommentTool } from '@bitcode/vcs-tools';
 
-// GA-1 policy:
+// V26 policy:
 // - MCP tool wrappers are disabled pending future pipeline configuration
 // - LSP tools are ALWAYS available (not env-gated)
 
@@ -26,7 +26,7 @@ let lspSemanticAnalysisEngine: Tool | undefined;
 let lspCodeIntelligenceEngine: Tool | undefined;
 let lspWorkspaceNavigationEngine: Tool | undefined;
 
-// Disable all MCP tool arrays for GA-1 (will be enabled in future releases)
+// Disable all MCP tool arrays for V26 (will be enabled in future releases)
 const awsTools: Tool[] = [];
 const supabaseTools: Tool[] = [];
 const vercelTools: Tool[] = [];

@@ -4,7 +4,7 @@ import { PromptPart } from '../../parts/PromptPart';
  * @doc-comment-developing-promptpartdevelopment
  * domain: agent
  * intent: "Industrial AST parsing and indexing capabilities for code search operations"
- * current_version: "GA1.50.0"
+ * current_version: "V26.50.0"
  * versions: []
  * benchmarks: [
  *   { "name": "ast_completeness", "test": "Does it cover all core AST parsing functions? Rate 0-1", "score": 0.50 },

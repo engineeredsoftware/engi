@@ -4,7 +4,7 @@ import { PromptPart } from '../../parts/PromptPart';
  * @doc-comment-developing-promptpartdevelopment
  * domain: tool
  * intent: "Purpose statement for improve_developing_behavior"
- * current_version: "GA1.00.0"
+ * current_version: "V26.00.0"
  * versions: []
  */
 export const PROMPTPART_SPECIFIC_TOOL_IMPROVEDEVELOPINGBEHAVIOR_DOCCODETOOLPURPOSE: PromptPart =

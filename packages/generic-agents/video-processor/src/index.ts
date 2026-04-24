@@ -267,7 +267,7 @@ const VideoProcessorRetrySchema = z.object({
  * @doc-comment-developing-promptdevelopment
  * domain: agent
  * intent: "Provide minimal video processing context"
- * current_version: "GA1.50.0"
+ * current_version: "V26.50.0"
  */
 export const videoProcessorPrompt = new AgentPrompt({
   name: 'video-processor' as PromptPart,

@@ -2,7 +2,7 @@
  * @doc-comment-developing-promptpartdevelopment
  * domain: tool
  * intent: "Output description for text editor tool"
- * current_version: "GA1.50.0"
+ * current_version: "V26.50.0"
  * versions: []
  * benchmarks: [
  *   { "name": "success_indication", "test": "Does '{{content}}' clearly describe success/failure indication? Rate 0-1", "score": 0.50 },

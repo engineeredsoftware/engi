@@ -640,7 +640,7 @@ test('deliverable substep PromptParts express Bitcode need, written-asset, and a
 
   for (const [filename, source] of deliverableSubstepPromptPartSources) {
     assert.doesNotMatch(source, oldWorldDeliverableSubstepLanguage, `${filename} still uses generic old-world substep language`);
-    assert.doesNotMatch(source, /current_version:\s*"GA1/u, `${filename} still carries GA1 current_version metadata`);
+    assert.doesNotMatch(source, /current_version:\s*"G[A]1/u, `${filename} still carries G[A]1 current_version metadata`);
     assert.match(source, /current_version:\s*"0\.50\.0"/u, `${filename} should carry Bitcode current_version metadata`);
     assert.match(source, bitcodeSubstepDocCommentIntent, `${filename} should carry Bitcode doc-comment intent metadata`);
   }
@@ -661,7 +661,7 @@ test('retained deliverable-family PromptPart doc-comment metadata is Bitcode-nat
   );
 
   for (const [filename, source] of deliverablePromptPartMetadataSources) {
-    assert.doesNotMatch(source, /current_version:\s*"GA1/u, `${filename} still carries GA1 current_version metadata`);
+    assert.doesNotMatch(source, /current_version:\s*"G[A]1/u, `${filename} still carries G[A]1 current_version metadata`);
     assert.match(source, /current_version:\s*"0\.50\.0"/u, `${filename} should carry Bitcode current_version metadata`);
     assert.doesNotMatch(source, staleDeliverablePromptPartIntent, `${filename} still carries old deliverable intent metadata`);
     assert.match(

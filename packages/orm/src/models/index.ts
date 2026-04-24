@@ -1,29 +1,29 @@
 /**
- * ORM Models Index - GA-1 Tables Only
+ * ORM Models Index - V26 Tables Only
  * 
- * This file exports the active GA-1 plus retained compatibility owners that
+ * This file exports the active V26 plus retained compatibility owners that
  * still back live Bitcode surfaces.
  */
 
 // Base model
 export { BaseModel } from './base';
 
-// User-related models (GA-1)
+// User-related models (V26)
 export { UserProfilesModel } from './user-profiles';
 export { UserConnectionsModel } from './user-connections';
 export { UserModelPreferencesModel } from './user-model-preferences';
 export { UserBtdBalancesModel } from './user-btd-balances';
 export { UserBtdTransactionsModel } from './user-btd-transactions';
 
-// Deliverable models (GA-1)
+// Deliverable models (V26)
 export { DeliverablesModel } from './deliverables';
 export { PipelineExecutionsModel } from './pipeline-executions';
 export { ExecutionEventsModel } from './execution-events';
 
-// Pipeline models (GA-1)
+// Pipeline models (V26)
 export { PipelineRunsModel } from './pipeline-runs'; // generic metadata (legacy path)
 
-// System models (GA-1)
+// System models (V26)
 export { NotificationsModel } from './notifications';
 
 // Retained compatibility models
@@ -80,7 +80,7 @@ export type {
   ExecutionEventInsert,
 } from './execution-events';
 
-// Note: Missing GA-1 tables that may need model implementations:
+// Note: Missing V26 tables that may need model implementations:
 // - vcs_repositories
 // - user_github_connections  
 // - deliverable_vectors

@@ -20,7 +20,7 @@ load_env() {
   local files=(
     "$REPO_ROOT/.env.local"
     "$REPO_ROOT/.env"
-    "$REPO_ROOT/.ga1.env"
+    "$REPO_ROOT/.v26.env"
     "$REPO_ROOT/uapi/.env.local"
     "$REPO_ROOT/uapi/.env"
   )
@@ -123,7 +123,7 @@ EOF
   env:debug)
     # Verbose diagnostics: which files exist and which keys are set
     echo "[supabase.sh] Candidate env files:"
-    for f in "$REPO_ROOT/.env.local" "$REPO_ROOT/.env" "$REPO_ROOT/.ga1.env" "$REPO_ROOT/uapi/.env.local" "$REPO_ROOT/uapi/.env"; do
+    for f in "$REPO_ROOT/.env.local" "$REPO_ROOT/.env" "$REPO_ROOT/.v26.env" "$REPO_ROOT/uapi/.env.local" "$REPO_ROOT/uapi/.env"; do
       if [[ -f "$f" ]]; then echo "  [found]  $f"; else echo "  [missing] $f"; fi
     done
     load_env

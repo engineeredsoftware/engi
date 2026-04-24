@@ -2,7 +2,7 @@
  * @doc-comment-developing-promptpartdevelopment
  * domain: tool
  * intent: "Name for VCS list repositories tool"
- * current_version: "GA1.50.0"
+ * current_version: "V26.50.0"
  * versions: []
  * benchmarks: [
  *   { "name": "tool_identification_precision", "test": "Given the tool name '{{content}}', can an LLM immediately understand this is for listing repositories from VCS providers? Rate 0-1", "score": 0.50 },

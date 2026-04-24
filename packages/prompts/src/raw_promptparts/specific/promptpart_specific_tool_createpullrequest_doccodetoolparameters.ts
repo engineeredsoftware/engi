@@ -2,7 +2,7 @@
  * @doc-comment-developing-promptpartdevelopment
  * domain: parameters
  * intent: "Parameter specification for Create Pull Request Tool"
- * current_version: "GA1.02.0"
+ * current_version: "V26.02.0"
  * versions: []
  * benchmarks: [
  *   { "name": "parameter_completeness", "test": "Does '{{content}}' specify all necessary parameters for comprehensive PR creation? Rate 0-1" },

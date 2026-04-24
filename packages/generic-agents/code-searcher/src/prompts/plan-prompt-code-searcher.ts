@@ -11,11 +11,11 @@ import { PROMPTPART_GENERIC_AGENT_GENERATION_STRUCTURED_OUTPUT } from '@bitcode/
  * @doc-comment-developing-promptdevelopment
  * domain: agent
  * intent: "Plan step for Code Searcher: analyze task and create LSP-driven strategy"
- * current_version: "GA1.50.0"
+ * current_version: "V26.50.0"
  * dependencies: {
- *   "PROMPTPART_SPECIFIC_AGENT_CODESEARCHER_PLAN_INSTRUCTIONS": "GA1.00.0",
- *   "PROMPTPART_SPECIFIC_AGENT_CODESEARCHER_PLAN_ANALYSIS_APPROACH": "GA1.00.0",
- *   "PROMPTPART_SPECIFIC_AGENT_CODESEARCHER_PLAN_OUTPUT_FORMAT": "GA1.00.0"
+ *   "PROMPTPART_SPECIFIC_AGENT_CODESEARCHER_PLAN_INSTRUCTIONS": "V26.00.0",
+ *   "PROMPTPART_SPECIFIC_AGENT_CODESEARCHER_PLAN_ANALYSIS_APPROACH": "V26.00.0",
+ *   "PROMPTPART_SPECIFIC_AGENT_CODESEARCHER_PLAN_OUTPUT_FORMAT": "V26.00.0"
  * }
  * benchmarks: [
  *   { "name": "technical_accuracy", "test": "Concrete directives and purpose", "score": 0.46 },

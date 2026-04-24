@@ -2,7 +2,7 @@
  * @doc-comment-developing-promptpartdevelopment
  * domain: migration
  * intent: "Migration guide from deprecated git-interactor to VCS tools"
- * current_version: "GA1.00.0"
+ * current_version: "V26.00.0"
  * versions: []
  * benchmarks: [
  *   { "name": "import_replacement", "test": "Does '{{content}}' clearly specify the import replacement path? Rate 0-1" },

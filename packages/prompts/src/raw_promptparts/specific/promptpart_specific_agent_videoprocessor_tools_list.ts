@@ -4,10 +4,10 @@ import { PromptPart } from '../../parts/PromptPart';
  * @doc-comment-developing-promptpartdevelopment
  * domain: agent
  * intent: "List Video Processor agent tools"
- * current_version: "GA1.50.0"
+ * current_version: "V26.50.0"
  * versions: [
  *   {
- *     "version": "GA1.00.0",
+ *     "version": "V26.00.0",
  *     "content": "TRANSCENDENT TEMPORAL VISUAL CONSCIOUSNESS TOOLS with extreme metaphysical language",
  *     "score": 0.03,
  *     "reason": "Extreme metaphysical: transcendent, consciousness, dimensional, omniscient, quantum, multiversal"

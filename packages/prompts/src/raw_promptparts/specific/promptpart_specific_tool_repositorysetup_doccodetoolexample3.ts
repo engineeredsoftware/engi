@@ -2,7 +2,7 @@
  * @doc-comment-developing-promptpartdevelopment
  * domain: examples
  * intent: "Example showing custom path with cache disabled"
- * current_version: "GA1.00.0"
+ * current_version: "V26.00.0"
  * versions: []
  * benchmarks: [
  *   { "name": "custom_path_demo", "test": "Does '{{content}}' demonstrate custom target path usage? Rate 0-1" },

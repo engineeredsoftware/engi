@@ -13,12 +13,12 @@ import { PROMPTPART_GENERIC_AGENT_GENERATION_STRUCTURED_OUTPUT } from '@bitcode/
  * @doc-comment-developing-promptdevelopment
  * domain: agent
  * intent: "System prompt for Code Searcher agent: identity, role, context, instructions"
- * current_version: "GA1.50.0"
+ * current_version: "V26.50.0"
  * dependencies: {
- *   "PROMPTPART_SPECIFIC_AGENT_CODESEARCHER_SYSTEM_IDENTITY": "GA1.00.0",
- *   "PROMPTPART_SPECIFIC_AGENT_CODESEARCHER_SYSTEM_ROLE": "GA1.00.0",
- *   "PROMPTPART_SPECIFIC_AGENT_CODESEARCHER_SYSTEM_CONTEXT": "GA1.00.0",
- *   "PROMPTPART_SPECIFIC_AGENT_CODESEARCHER_SYSTEM_INSTRUCTIONS": "GA1.00.0"
+ *   "PROMPTPART_SPECIFIC_AGENT_CODESEARCHER_SYSTEM_IDENTITY": "V26.00.0",
+ *   "PROMPTPART_SPECIFIC_AGENT_CODESEARCHER_SYSTEM_ROLE": "V26.00.0",
+ *   "PROMPTPART_SPECIFIC_AGENT_CODESEARCHER_SYSTEM_CONTEXT": "V26.00.0",
+ *   "PROMPTPART_SPECIFIC_AGENT_CODESEARCHER_SYSTEM_INSTRUCTIONS": "V26.00.0"
  * }
  * benchmarks: [
  *   { "name": "technical_accuracy", "test": "Concrete directives and purpose", "score": 0.46 },

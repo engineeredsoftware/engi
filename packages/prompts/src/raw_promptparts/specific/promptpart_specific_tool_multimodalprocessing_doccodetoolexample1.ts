@@ -2,7 +2,7 @@
  * @doc-comment-developing-promptpartdevelopment
  * domain: examples
  * intent: "Example showing image analysis and description generation"
- * current_version: "GA1.00.0"
+ * current_version: "V26.00.0"
  * versions: []
  * benchmarks: [
  *   { "name": "example_clarity", "test": "Does '{{content}}' clearly demonstrate image processing functionality? Rate 0-1" },

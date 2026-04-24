@@ -12,7 +12,7 @@
 This file is not canonical system truth.
 Canonical V26 truth lives only in the active `BITCODE_SPEC_V26*` family.
 This document exists to keep the repository’s modular architecture legible while the V26 productionizing pass lands.
-V26 remains the active canon, but earlier through-fourth-gate promotion claims were overstated. Fourth-gate closure is procedurally reopened while fifth-gate minimum-functional Exchange/Terminal closure plus the broad old-world reform baseline stay active, followed by sixth-gate MVP elevation, seventh-gate commercial testnet refinement, and eighth-gate whole-repository provation.
+V26 remains the active canon. Earlier through-fourth-gate promotion claims were overstated, so fourth gate was reopened, the retained-system proof families were made explicit, and through-fourth-gate closure is now reclosed while fifth-gate minimum-functional Exchange/Terminal closure plus the broad old-world reform baseline stay active, followed by sixth-gate MVP elevation, seventh-gate commercial testnet refinement, and eighth-gate whole-repository provation.
 
 ## Retained old-world reform baseline
 
@@ -764,7 +764,7 @@ Operational rule:
 - the retained `/api/deliverables` route should also dual-store route-preprocess snapshots and completion metadata under semantic `assetPackWrittenAsset` / `need` / `assetPack` / `writtenAssetType` aliases so entry-time routing, persistence, and reread stay aligned on Bitcode-owned meaning even while the route name remains retained compatibility
 - the retained `/api/deliverables` telemetry, notification, and email-subject carriers should likewise preserve compatibility identifiers only as wrappers while emitting semantic asset-pack event aliases and asset-pack-run wording so operator/analytics surfaces no longer over-teach `deliverable` as the primary object
 - retained email-template filenames and promptpart identifiers in this corridor should also stay compatibility-only while their rendered copy and prompt content teach asset-pack-run, written-asset, and shipping-mechanism semantics
-- retained raw promptparts and promptpart-generation scripts in this corridor should likewise stay compatible by identifier while their actual prompt text and generation guidance describe asset-pack-run, need-satisfaction, written-asset, and shipping-wrapper semantics; deeper phase-purpose, setup-comprehension, shipping-finalization, deliverables-system, implementation-divider, create-code-change, PR-packaging, create-pull-request, ready-to-ship, code-change-readiness, and code-change-review-readiness promptparts should therefore teach Bitcode-first execution meaning instead of PR-first / deployment-ceremony-first / GA-1 residue
+- retained raw promptparts and promptpart-generation scripts in this corridor should likewise stay compatible by identifier while their actual prompt text and generation guidance describe asset-pack-run, need-satisfaction, written-asset, and shipping-wrapper semantics; deeper phase-purpose, setup-comprehension, shipping-finalization, deliverables-system, implementation-divider, create-code-change, PR-packaging, create-pull-request, ready-to-ship, code-change-readiness, and code-change-review-readiness promptparts should therefore teach Bitcode-first execution meaning instead of PR-first / deployment-ceremony-first / V26 residue
 - retained `packages/pipelines/deliverable/*` setup and prompt carriers should prefer canonical `comprehend-need` module paths and `DELIVERABLESETUPCOMPREHENDNEED` PromptParts, and retained discovery outputs should mirror compatibility `deliverables` / `definitionOfDone` fields into semantic `writtenAssets` / `needSatisfactionCriteria` so the commercial infrastructure expresses Bitcode meaning before later-gate renames
 - retained `packages/pipelines/deliverable/*` must also typecheck locally through the retained MCP/VCS/prompt/search support graph it still traverses; fifth-gate no longer treats runtime-only proof as sufficient for this corridor once it is claimed as live commercial infrastructure
 - the base `doc-comment` primitive and `doc-code` tool-injection path remain admitted support/compatibility corridors for build-time attachment of tool prompt descriptions into Bitcode agentic runs, but `generic-doc-comment-plugins`, `doc-comment` examples, and prompt-package developing experiments remain retained old-world reform corridors that may not teach prompt-package internal paths as public API; see `protocol-demonstration/V26_DOC_COMMENT_REFORM.md`
@@ -843,7 +843,7 @@ Fourth-gate must also converge the retained storage layer into explicit Bitcode 
 
 Current major retained owners:
 - `supabase/*`
-  Migration history, hosted-storage posture, auth/storage config, and database-side operational baseline, currently anchored by `supabase/migrations/001_ga1_production.sql`.
+  Migration history, hosted-storage posture, auth/storage config, and database-side operational baseline, currently anchored by `supabase/migrations/001_v26_production.sql`.
 - `packages/supabase/*`
   Typed client, SSR helpers, retained Supabase package ownership, and active helpers under `packages/supabase/src/*`.
 - `packages/orm/*`

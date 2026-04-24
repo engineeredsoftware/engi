@@ -2,7 +2,7 @@
  * @doc-comment-developing-promptpartdevelopment
  * domain: examples
  * intent: "Example showcasing financial services Aurora PostgreSQL with regulatory compliance"
- * current_version: "GA1.02.1"
+ * current_version: "V26.02.1"
  * versions: []
  * benchmarks: [
  *   { "name": "financial_compliance_demonstration", "test": "Does '{{content}}' demonstrate financial services compliance capabilities? Rate 0-1" },

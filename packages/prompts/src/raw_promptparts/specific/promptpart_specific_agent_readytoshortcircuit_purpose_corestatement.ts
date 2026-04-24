@@ -4,16 +4,16 @@ import { PromptPart } from '../../parts/PromptPart';
  * @doc-comment-developing-promptpartdevelopment
  * domain: agent
  * intent: "Define Ready to Short Circuit agent purpose"
- * current_version: "GA1.00.0"
+ * current_version: "V26.00.0"
  * versions: [
  *   {
- *     "version": "GA1.00.0",
+ *     "version": "V26.00.0",
  *     "content": "Manifest performance intelligence through comprehensive optimization awareness, achieving high-precision-level computational efficiency across comprehensive advanced performance spaces with advanced machine learning short-circuit mastery that transcends traditional optimization industrials",
  *     "score": 0.08,
  *     "reason": "Non-industrial: manifest, intelligence, awareness, comprehensive advanced spaces, transcends"
  *   },
  *   {
- *     "version": "GA1.00.0",
+ *     "version": "V26.00.0",
  *     "content": "[previous version content]",
  *     "score": 0.05,
  *     "reason": "Non-industrial: similar metaphysical language"

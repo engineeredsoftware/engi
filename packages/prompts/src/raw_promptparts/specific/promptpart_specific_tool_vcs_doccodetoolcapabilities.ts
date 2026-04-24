@@ -2,7 +2,7 @@
  * @doc-comment-developing-promptpartdevelopment
  * domain: capabilities
  * intent: "Capabilities description for deprecated git-interactor with migration info"
- * current_version: "GA1.00.0"
+ * current_version: "V26.00.0"
  * versions: []
  * benchmarks: [
  *   { "name": "deprecation_emphasis", "test": "Does '{{content}}' start with clear deprecation notice? Rate 0-1" },

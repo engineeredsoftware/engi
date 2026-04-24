@@ -22,11 +22,11 @@ import { PromptPart } from '@bitcode/prompts/parts/PromptPart';
  * @doc-comment-developing-promptdevelopment
  * domain: tool
  * intent: "Shell command execution tool documentation for runtime attachment via doc-code"
- * current_version: "GA1.50.0"
+ * current_version: "V26.50.0"
  * versions: []
  * dependencies: {
- *   "PROMPTPART_SPECIFIC_TOOL_USECOMPUTER_DOCCODETOOLNAME": "GA1.50.0",
- *   "PROMPTPART_SPECIFIC_TOOL_USECOMPUTER_DOCCODETOOLPURPOSE": "GA1.50.0"
+ *   "PROMPTPART_SPECIFIC_TOOL_USECOMPUTER_DOCCODETOOLNAME": "V26.50.0",
+ *   "PROMPTPART_SPECIFIC_TOOL_USECOMPUTER_DOCCODETOOLPURPOSE": "V26.50.0"
  * }
  */
 export class UseComputerDocCodeToolPrompt extends DocCodeToolPrompt {
@@ -44,7 +44,7 @@ export class UseComputerDocCodeToolPrompt extends DocCodeToolPrompt {
     // Metadata
     this.set('metadata:name', PROMPTPART_SPECIFIC_TOOL_USECOMPUTER_DOCCODETOOLNAME);
     this.set('metadata:category', 'system-execution' as PromptPart);
-    this.set('metadata:version', 'GA1.50.0' as PromptPart);
+    this.set('metadata:version', 'V26.50.0' as PromptPart);
     this.set('metadata:priority', 'high' as PromptPart);
     this.set('metadata:stability', 'stable' as PromptPart);
 

@@ -4,8 +4,8 @@ import { PromptPart } from '../../parts/PromptPart';
  * @doc-comment-developing-promptpartdevelopment
  * domain: agent
  * intent: "Define Audio Processor agent purpose"
- * current_version: "GA1.50.0"
- * versions: ["GA1.00.0"]
+ * current_version: "V26.50.0"
+ * versions: ["V26.00.0"]
  * benchmarks: [
  *   { "name": "processing_clarity", "test": "Does it clearly define audio processing capabilities? Rate 0-1", "score": 0.94 },
  *   { "name": "technical_precision", "test": "Does it specify audio analysis methods? Rate 0-1", "score": 0.91 },

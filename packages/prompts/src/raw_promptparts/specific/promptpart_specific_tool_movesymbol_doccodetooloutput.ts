@@ -2,7 +2,7 @@
  * @doc-comment-developing-promptpartdevelopment
  * domain: output
  * intent: "Output description for move symbol tool"
- * current_version: "GA1.00.0"
+ * current_version: "V26.00.0"
  * versions: []
  * benchmarks: [
  *   { "name": "output_clarity", "test": "Does '{{content}}' clearly describe what the tool outputs? Rate 0-1" },

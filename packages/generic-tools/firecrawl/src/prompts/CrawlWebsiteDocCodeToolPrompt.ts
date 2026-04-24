@@ -62,7 +62,7 @@ export class CrawlWebsiteDocCodeToolPrompt extends DocCodeToolPrompt {
     // Set metadata directly
     this.set('metadata:name', PROMPTPART_SPECIFIC_TOOL_CRAWLWEBSITE_DOCCODETOOLNAME);
     this.set('metadata:category', 'web-scraping' as PromptPart);
-    this.set('metadata:version', 'GA1.00.0' as PromptPart);
+    this.set('metadata:version', 'V26.00.0' as PromptPart);
     this.set('metadata:priority', 'medium' as PromptPart);
     this.set('metadata:stability', 'stable' as PromptPart);
     

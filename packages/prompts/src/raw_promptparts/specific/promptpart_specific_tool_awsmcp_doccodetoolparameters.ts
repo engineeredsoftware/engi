@@ -2,7 +2,7 @@
  * @doc-comment-developing-promptpartdevelopment
  * domain: parameters
  * intent: "Parameter specifications for AWS MCP tool configuration"
- * current_version: "GA1.00.0"
+ * current_version: "V26.00.0"
  * versions: []
  * benchmarks: [
  *   { "name": "parameter_completeness", "test": "Does '{{content}}' cover essential AWS configuration parameters? Rate 0-1" },

@@ -65,7 +65,7 @@ export class MultimodalProcessingDocCodeToolPrompt extends DocCodeToolPrompt {
     // Set metadata directly
     this.set('metadata:name', PROMPTPART_SPECIFIC_TOOL_MULTIMODALPROCESSING_DOCCODETOOLNAME);
     this.set('metadata:category', 'media-processing' as PromptPart);
-    this.set('metadata:version', 'GA1.00.0' as PromptPart);
+    this.set('metadata:version', 'V26.00.0' as PromptPart);
     this.set('metadata:priority', 'high' as PromptPart);
     this.set('metadata:stability', 'stable' as PromptPart);
     

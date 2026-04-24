@@ -2,7 +2,7 @@
  * @doc-comment-developing-promptpartdevelopment
  * domain: output
  * intent: "Output specification for Create Pull Request Tool"
- * current_version: "GA1.02.0"
+ * current_version: "V26.02.0"
  * versions: []
  * benchmarks: [
  *   { "name": "output_completeness", "test": "Does '{{content}}' specify comprehensive output for PR creation tracking and monitoring? Rate 0-1" },

@@ -1,13 +1,13 @@
 import { PromptPart } from '../../parts/PromptPart';
 
 /**
- * @doc-comment-developing-promptpartdevelopment PBV-GA1.09.0
+ * @doc-comment-developing-promptpartdevelopment PBV-V26.09.0
  * domain: agent
  * intent: "Industrial NLP processing instructions with concrete execution steps"
- * current_version: "GA1.50.0"
+ * current_version: "V26.50.0"
  * versions: [
  *   {
- *     "version": "GA1.00.0",
+ *     "version": "V26.00.0",
  *     "content": "Execute language detection workflows: parse file headers and magic numbers, analyze syntax patterns with regular expressions, extract import statements and package declarations, calculate language probability distributions, and output structured results with detected languages, frameworks, and confidence metrics ≥0.90",
  *     "score": 0.85,
  *     "reason": "Mostly industrial but focused on programming language detection rather than natural language processing"

@@ -2,7 +2,7 @@
  * @doc-comment-developing-promptpartdevelopment
  * domain: parameters
  * intent: "Parameter specification for Create Issue Tool"
- * current_version: "GA1.02.0"
+ * current_version: "V26.02.0"
  * versions: []
  * benchmarks: [
  *   { "name": "parameter_comprehensiveness", "test": "Do the parameters in '{{content}}' support comprehensive issue creation and management scenarios? Rate 0-1" },

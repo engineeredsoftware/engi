@@ -1,14 +1,14 @@
 /**
- * Bitcode ORM - GA-1 Database Access Layer
+ * Bitcode ORM - V26 Database Access Layer
  * 
- * Provides type-safe database access for GA-1 schema with:
+ * Provides type-safe database access for V26 schema with:
  * - Type-safe Supabase client wrapper
  * - Vector search support (pgvector)
  * - Consistent model patterns
  * - Row Level Security compliance
  * 
  * @doc-package
- * version: ga1-1.0.0
+ * version: v26-1.0.0
  * pattern: type-safe-orm
  * philosophy: "Database as a typed service"
  */
@@ -17,7 +17,7 @@
 export { createClient, createAdminClient } from './client';
 export type { EngiClient, AdminClient } from './client';
 
-// ==================== GA-1 MODELS ====================
+// ==================== V26 MODELS ====================
 // Base model for extension
 export { BaseModel } from './models/base';
 
@@ -61,13 +61,13 @@ export type {
   Updatable,
   TableName,
   QueryOptions,
-  // GA-1 specific types
+  // V26 specific types
   UserProfileWithBtd,
   DeliverableRunComplete,
   VCSRepositoryWithConnection
 } from './types/database';
 
-// Re-export GA-1 table types for convenience
+// Re-export V26 table types for convenience
 export type UserProfile = Tables<'user_profiles'>;
 export type UserConnection = Tables<'user_connections'>;
 export type UserModelPreference = Tables<'user_model_preferences'>;
@@ -98,11 +98,11 @@ export type {
   HydratedBitcodeProfileFields,
 } from './profile-contract';
 
-// Deliverables Pipeline structured streaming tables (GA-1)
+// Deliverables Pipeline structured streaming tables (V26)
 // Structured persistence (Execution hierarchy)
 export type PhaseExecution = Tables<'phase_executions'>;
 
-// Conversation System models (GA-1)
+// Conversation System models (V26)
 export { ConversationsModel } from './models/conversations';
 export { MessagesModel } from './models/messages';
 

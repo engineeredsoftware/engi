@@ -391,7 +391,7 @@ Use this quick checklist when promoting an environment.
 
 We ship with a minimal, fast CI for pre‑prod:
 
-- Workflow: `.github/workflows/ga1.yml`
+- Workflow: `.github/workflows/v26.yml`
 - Jobs:
   - core: pnpm install, lint (core), typecheck (core), deliverable bring‑up tests
   - db-verify (optional, commented): apply `000_squashed.sql` to a Postgres service once populated

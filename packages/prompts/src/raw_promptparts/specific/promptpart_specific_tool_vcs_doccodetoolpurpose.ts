@@ -2,7 +2,7 @@
  * @doc-comment-developing-promptpartdevelopment
  * domain: purpose
  * intent: "Purpose statement for deprecated git-interactor explaining migration"
- * current_version: "GA1.00.0"
+ * current_version: "V26.00.0"
  * versions: []
  * benchmarks: [
  *   { "name": "deprecation_clarity", "test": "Does the purpose '{{content}}' make it immediately clear this is deprecated? Rate 0-1" },

@@ -1,7 +1,7 @@
 -- Migration: Templates System, Minimal AI Documents Infrastructure + VCS Connections
--- Creates tables for templates, basic ai_documents support (disabled for GA-1), and VCS connections
+-- Creates tables for templates, basic ai_documents support (disabled for V26), and VCS connections
 
--- Deliverable Templates (ACTIVE FOR GA-1)
+-- Deliverable Templates (ACTIVE FOR V26)
 CREATE TABLE IF NOT EXISTS deliverable_templates (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   user_id UUID NOT NULL REFERENCES auth.users(id) ON DELETE CASCADE,
@@ -21,7 +21,7 @@ CREATE TABLE IF NOT EXISTS deliverable_templates (
   UNIQUE(user_id, name, deliverable_type)
 );
 
--- User Template Preferences (ACTIVE FOR GA-1)
+-- User Template Preferences (ACTIVE FOR V26)
 CREATE TABLE IF NOT EXISTS user_template_preferences (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   user_id UUID UNIQUE NOT NULL REFERENCES auth.users(id) ON DELETE CASCADE,
@@ -112,7 +112,7 @@ CREATE POLICY "Users can delete their own VCS connections" ON user_vcs_connectio
   FOR DELETE
   USING (auth.uid() = userId);
 
--- Minimal AI Documents Infrastructure (DISABLED FOR GA-1, structure kept for future)
+-- Minimal AI Documents Infrastructure (DISABLED FOR V26, structure kept for future)
 -- These tables maintain basic structure but ai_documents feature is behind feature flag
 
 -- AI Document Runs Table (minimal structure for future use)

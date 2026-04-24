@@ -1,4 +1,4 @@
-# Security Guidelines (GA-1)
+# Security Guidelines (V26)
 
 This document captures the minimum, critical controls required to begin safe GA‑1 production rollout. It focuses on practical, high‑impact items already present in the codebase and tightens usage expectations.
 

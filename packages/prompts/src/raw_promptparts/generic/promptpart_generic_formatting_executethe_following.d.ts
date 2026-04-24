@@ -3,7 +3,7 @@ import { PromptPart } from '../../parts/PromptPart';
  * @doc-comment-developing-promptpartdevelopment
  * domain: formatting
  * intent: "Provide transitional directive from context to execution instructions"
- * current_version: "GA1.50.0"
+ * current_version: "V26.50.0"
  * versions: []
  * benchmarks: [
  *   { "name": "directive_clarity", "test": "Is the execution directive clear?", "score": 0.90 },

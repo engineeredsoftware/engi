@@ -2,7 +2,7 @@
  * @doc-comment-developing-promptpartdevelopment
  * domain: agent
  * intent: "Agent semantic unit: Filepick Tools List"
- * current_version: "GA1.50.0"
+ * current_version: "V26.50.0"
  * versions: []
  * benchmarks: [
  *   { "name": "technical_accuracy", "test": "Uses concrete technical language", "score": 0.50 },
@@ -13,11 +13,11 @@
 import { PromptPart } from '../../parts/PromptPart';
 
 /**
- * @doc-comment-pbv-format-ga1-00-0
+ * @doc-comment-pbv-format-v26-00-0
  * domain: file_selection_agent
  * intent: "List File Selection Agent tools with concrete filesystem operations"
- * current_version: "GA1.50.0"
- * versions: ["GA1.00.0"]
+ * current_version: "V26.50.0"
+ * versions: ["V26.00.0"]
  * transformation: "metaphysical_to_industrial"
  * old_content_archived: "fileDiscoveryEngine with consciousness-aware assessment"
  */

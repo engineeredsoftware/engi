@@ -850,7 +850,7 @@ CREATE TABLE IF NOT EXISTS "public"."user_github_connections" (
 ALTER TABLE "public"."user_github_connections" OWNER TO "postgres";
 
 
-COMMENT ON TABLE "public"."user_github_connections" IS 'DEPRECATED: This table is kept for backward compatibility but not actively used. All VCS connections are now stored in user_connections table with provider field. TODO: Remove in post-GA-1 migration.';
+COMMENT ON TABLE "public"."user_github_connections" IS 'DEPRECATED: This table is kept for backward compatibility but not actively used. All VCS connections are now stored in user_connections table with provider field. TODO: Remove in post-V26 migration.';
 
 
 
@@ -3275,5 +3275,4 @@ RESET ALL;
 --
 
 CREATE OR REPLACE TRIGGER "on_auth_user_created" AFTER INSERT ON "auth"."users" FOR EACH ROW EXECUTE FUNCTION "public"."handle_new_user"();
-
 

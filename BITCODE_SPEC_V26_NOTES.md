@@ -9,8 +9,8 @@
 - Main spec companion: `/Users/garrettmaring/Developer/ENGI/BITCODE_SPEC_V26.md`
 - Delta companion: `/Users/garrettmaring/Developer/ENGI/BITCODE_SPEC_V26_DELTA.md`
 - Parity companion: `/Users/garrettmaring/Developer/ENGI/BITCODE_SPEC_V26_PARITY_MATRIX.md`
-- Current reopened-fourth-gate checkpoint artifact: `/Users/garrettmaring/Developer/ENGI/.bitcode/v26-gate-checkpoint-report.json`
-- V26 state: V26 remains active canon, but prior through-fourth-gate promotion claims were overstated; fourth-gate procedural closure is reopened while fifth-, sixth-, seventh-, and eighth-gate closure remain open
+- Current through-fourth-gate checkpoint artifact: `/Users/garrettmaring/Developer/ENGI/.bitcode/v26-gate-checkpoint-report.json`
+- V26 state: V26 remains active canon; prior through-fourth-gate promotion claims were reopened as overstated, the retained-system proof families now pass, and through-fourth-gate closure is reclosed while fifth-, sixth-, seventh-, and eighth-gate closure remain open
 
 ## Notes companion rule
 
@@ -34,7 +34,7 @@ The following items are no longer open draft questions:
 - the preserved late-stage navbar remains the integrated application navigation frame for Bitcode.
 - homepage embedded-demo posture remains removed.
 - mock-mode `/application` review is part of first-gate closure rather than second-gate work.
-- the earlier V26 checkpoint was first-gate plus second-gate closure with explicit third-gate preparation; later through-fourth-gate promotion claims proved overstated, so fourth-gate procedural closure is now reopened while fifth through eighth gate remain open.
+- the earlier V26 checkpoint was first-gate plus second-gate closure with explicit third-gate preparation; later through-fourth-gate promotion claims proved overstated and were reopened, and the current checkpoint now recloses fourth-gate on passing retained-system proof families while fifth through eighth gate remain open.
 - second-gate closure now includes route/package README refurbishment and user-facing preserved-runtime naming rather than treating those as optional cleanup after code lands.
 - fifth-gate closure now explicitly requires zero unreplaced `engi` product naming in active code/copy/route teaching unless the occurrence is historical lineage or a still-required structural namespace such as `.bitcode/` or `_legacy/ENGI_SPEC_*`.
 - the active root spec/toolchain family is now part of that same fifth-gate closure: `BITCODE_SPEC*.md`, `BITCODE_SPEC.txt`, and `scripts/check|generate|prepare|promote-bitcode-*.mjs` are canonical, while root `ENGI_SPEC_V26*` and root `ENGI_SPECIFYING.md` are no longer admissible outside `_legacy/`.
@@ -49,7 +49,7 @@ The following items are no longer open draft questions:
 - canonical auxillary pane files themselves are now active fifth-gate proof carriers too: `uapi/app/auxillaries/components/Auxillaries{Profile,Connects,Interfaces,BTD}Pane.tsx` hold the live pane implementations, while `uapi/app/orbitals/components/Orbitals{Profile,Connects,Interfaces,BTD}Pane.tsx` are compatibility re-exports only.
 - canonical auxillary lower-level implementation carriers are now active fifth-gate proof carriers too: `uapi/app/auxillaries/components/{headers/*,shared/*,models/*,AuxillariesDataSharingPanel.tsx,auxillary-pane-explainers.ts,profile-pane.module.css}` must remain the live owners for pane headers, onboarding overlays, model defaults, BTD data-share posture, explainer maps, and pane styling rather than silently drifting back to orbitals-owned internals.
 - retained orbitals lower-level carriers are now compatibility-only proof carriers too: `uapi/app/orbitals/components/{headers/*,shared/*,models/*,OrbitalsDataSharingPanel.tsx,orbital-pane-explainers.ts}` must stay as thin compatibility re-exports once their canonical auxillary equivalents exist, not re-accumulate duplicate live implementations behind the canonical route family.
-- canonical auxillary onboarding/data contracts and persistence semantics are now active fifth-gate proof carriers too: `uapi/app/auxillaries/auxillary-onboarding-contract.ts`, `uapi/app/api/auxillaries/{onboarding,data}/route.ts`, `uapi/hooks/useUserData.ts`, `uapi/app/auxillaries/components/AuxillariesSurface.tsx`, `supabase/migrations/001_ga1_production.sql`, and `supabase/scripts/grant_first_time_credits.sql` must agree on canonical `profile/connects/interfaces/btd` panes, expose canonical payload aliases, and must not preserve `models/credits` as active onboarding truth.
+- canonical auxillary onboarding/data contracts and persistence semantics are now active fifth-gate proof carriers too: `uapi/app/auxillaries/auxillary-onboarding-contract.ts`, `uapi/app/api/auxillaries/{onboarding,data}/route.ts`, `uapi/hooks/useUserData.ts`, `uapi/app/auxillaries/components/AuxillariesSurface.tsx`, `supabase/migrations/001_v26_production.sql`, and `supabase/scripts/grant_first_time_credits.sql` must agree on canonical `profile/connects/interfaces/btd` panes, expose canonical payload aliases, and must not preserve `models/credits` as active onboarding truth.
 - fifth-gate filesystem-path cleanup now explicitly includes non-_legacy historical carriers too: root prep memos and retained package-local historical docs such as `BITCODE_{V10,V11}_PREP_MEMO.md` and `protocol-demonstration/BITCODE_DEMO_SPEC_V15*.md` must not survive as `ENGI_*` filenames outside `_legacy/`.
 - mounted public-shell and retained route-teaching carriers are active fifth-gate proof carriers too: live marketing owners like `uapi/app/(root)/components/{MarketingFeaturesGrid,MarketingComputeSection,MarketingCompetitorTableSection,MarketingMarketplaceSection}.tsx`, route-adjacent teaching carriers like `uapi/app/orbitals/components/OrbitalsConnectsOrbitalEmailConnection.tsx`, and retained package docs like `packages/{web-search,registry}/*` must converge on Bitcode naming in user-facing strings, comments that teach active behavior, and canonical proof witnesses.
 - retained package API routes are active fifth-gate proof carriers too: user-facing strings in `packages/api/src/routes/*` such as auth welcomes, ChatGPT success messages, and deliverables permission guidance must converge on Bitcode naming exactly the same way active UI carriers do.
@@ -245,7 +245,7 @@ The current source now reflects that architecture more directly:
 - `packages/api/src/routes/executions.ts` now owns execution-history route orchestration and normalization, while `uapi/app/api/executions/{route.ts,history/route.ts,history/[runId]/route.ts}` stay thin interface bindings or compatibility re-exports so the transactions master, selected-transaction detail, and retained execution readers no longer depend on app-owned persistence logic or direct package source-path imports.
 - `protocol-demonstration/src/client-entry.js` now applies the host-wait guard to snapshot and control reads as well as shell mount, so the application shell bridge no longer imports the preserved shell module before `bitcodeApplicationRoot` and `heroEyebrow` exist.
 - `protocol-demonstration/V26_APPLICATION_SYSTEMS.md` and `protocol-demonstration/V26_PROOF_SURFACES.md` now exist as explicit supplementary non-canonical carriers for the converged application architecture and its expanded proof/test/spec obligations.
-- fourth-gate persistence convergence is now explicitly grounded in the retained source basis that actually exists today: `supabase/migrations/001_ga1_production.sql`, `packages/supabase/src/*`, `packages/orm/src/models/*`, `packages/orm/src/queries/*`, `packages/orm/src/types/database.generated.ts`, `packages/orm/src/types/database.ts`, and `packages/orm/scripts/generate-db-types.ts`, while `/edgetimes` remains a required fourth-gate Bitcode storage/API posture rather than an already-implemented source owner.
+- fourth-gate persistence convergence is now explicitly grounded in the retained source basis that actually exists today: `supabase/migrations/001_v26_production.sql`, `packages/supabase/src/*`, `packages/orm/src/models/*`, `packages/orm/src/queries/*`, `packages/orm/src/types/database.generated.ts`, `packages/orm/src/types/database.ts`, and `packages/orm/scripts/generate-db-types.ts`, with `/edgetimes` and `/api/edgetimes` acting as live fourth-gate Bitcode storage/API witnesses.
 - the active internal module namespace is now `@bitcode/*` across workspace manifests, path aliases, and active source imports.
 - V26 proof closure now explicitly requires the retained and repurposed whole repository that survives into V26 production canon to be proven up to Bitcode-grade satisfaction rather than leaving strong proof posture isolated to the former top-level demo core.
 
@@ -360,7 +360,7 @@ Mounted public-shell chrome is also now explicit:
 
 This now constitutes mounted third-gate closure for the public shell:
 - public route ownership, naming, metadata/title posture, docs-route authority, walkthrough fallback, and public orbital entry all hold under live verification
-- remaining V26 work should now shift primarily into fourth-gate retained-system convergence toward the promotion boundary and fifth-gate proof/finalization rather than reopening mounted public-shell identity work without cause
+- remaining V26 work should now shift primarily into fifth-gate proof/finalization and minimum-functional Exchange/Terminal closure rather than reopening mounted public-shell identity or through-fourth-gate retained-system convergence work without cause
 - `/edgetimes` and `/api/edgetimes` now exist as the first live fourth-gate storage/API witness so retained persistence convergence can proceed from explicit route/API ownership rather than only planning notes
 
 Current draft-only spine to preserve for that future gate:
@@ -386,15 +386,15 @@ Still open:
 
 ### 4. Fourth-gate retained-system convergence
 
-Still open:
-- how conversations should read as a Bitcode V26 system rather than an adjacent app subsystem,
-- how ChatGPT-like interaction should survive as a fullscreen first-class application mode,
-- how deliverables should be redefined under Bitcode runs/pipelines,
-- how far executions/runs should absorb current pipeline-specific APIs and data while porting their strongest master-detail patterns into `/application`,
-- how PostgreSQL/Supabase ownership should be cut between `supabase/*`, `packages/supabase/*`, retained API carriers, and the now-live `/edgetimes` + `/api/edgetimes` witness posture,
-- which migration family is treated as the initial V26 baseline and how schema drift is proven from there,
-- which retained packages are admissible,
-- and what proof obligations each retained package must satisfy to stay in V26.
+Now closed for through-fourth-gate promotion:
+- conversations read as a Bitcode V26 system through the route, fullscreen overlay, API, and retained conversation package proof family,
+- ChatGPT-like interaction survives as a fullscreen first-class application mode entered from `/application`,
+- deliverables are redefined under Bitcode runs/pipelines, asset-pack, written-asset, and connected-interface wrapper semantics,
+- executions/runs keep explicit compatibility APIs while their master-detail and inspection patterns are ported inward to `/application`,
+- PostgreSQL/Supabase ownership is grounded across `supabase/*`, `packages/supabase/*`, retained API carriers, and the live `/edgetimes` + `/api/edgetimes` witness posture,
+- `supabase/migrations/001_v26_production.sql` is the initial V26 persistence baseline for the current proof family,
+- retained packages are admitted through generated retained-package admissibility records,
+- and proof obligations are assigned to generated fourth-gate proof families rather than left as prose-only intent.
 
 ### 5. Longer-term package splitting after `protocol-demonstration`
 
@@ -441,7 +441,7 @@ Still open:
 Still open:
 - full Bitcode rename completion remains later-gate work rather than first-gate,
 - first-gate may preserve compatibility carriers while package/app migration closes,
-- fourth-gate should return to remaining active-source rename debt after second-gate and third-gate stability are established,
+- fifth-gate should return to remaining active-source rename debt after second-, third-, and fourth-gate closure are established,
 - and any remaining Bitcode-era naming that survives first-gate must be cataloged and intentionally retired rather than left implicit.
 
 ## Current sequencing bias
@@ -453,7 +453,7 @@ The current sequencing bias is:
 3. preserve the now-closed first-gate anonymous and signed-in app behavior while deeper hardening proceeds,
 4. execute second-gate application UX/UI plus external hardening,
 5. execute third-gate marketing refurbishment,
-6. execute fourth-gate retained-system convergence,
+6. preserve through-fourth-gate retained-system convergence closure,
 7. execute fifth-gate minimum-functional Exchange/Terminal closure plus broad old-world reform baseline including debug/environment controls,
 8. execute sixth-gate minimal viable product elevation,
 9. execute seventh-gate initial commercially-viable testnet live-launch refinement,
@@ -468,7 +468,7 @@ The following remain non-goals for this notes companion:
 - widening V26 into economics redesign,
 - or treating `_legacy/` code as current truth.
 
-Current fourth-gate reminders:
+Current fourth-gate closure reminders:
 - retained `/executions` health now explicitly depends on `/api/vcs`, `/api/templates/deliverables`, and `/api/auxillaries/template-preferences` as compatibility API owners rather than invisible glue, and those carriers are part of the promotion boundary
 - canonical auxillary health now explicitly depends on `/api/auxillaries/profile`, `/api/auxillaries/connections/github`, `/api/auxillaries/btd`, `/api/auxillaries/usage`, `/api/auxillaries/transactions`, and `/api/auxillaries/api-keys` as active owners rather than pane-side assumptions
 - old-world port scope is explicit in draft posture too: Jira remains reader-first Bitcode need ingestion while Git/GH remains the initial admitted settle-write boundary for fourth-gate testnet-ready promotion
@@ -519,7 +519,7 @@ Current fifth-gate reminders:
 - active external-realization witness tests and active Bitcode operating docs are inside that same boundary too: `uapi/tests/{api/externalRealizationRoute,applicationExternalRuntime}.test.ts` plus `protocol-demonstration/{CHECKLIST,SCRIPT,BITCODE_DEMO_SPEC_V15,SPEC_V6_GAP_ANALYSIS}.md` must also use `BITCODE_V24_*` and `BITCODE_NEED.md` so fifth-gate proof does not stop at runtime source while tests/docs still teach Engi-era contracts
 - active proof-teaching demo docs are inside that same boundary too: `protocol-demonstration/{SCRIPT,SCRIPT_SHORT,SPEC_V6_GAP_ANALYSIS,SPEC_V6_COVERAGE_MATRIX,ARCHITECTURE_MAP}.md` must teach Bitcode-owned demo identity, Bitcode branch CTAs, current API route names, and Bitcode package lineage rather than preserving `ENGI`, `Make ENGI branch`, `make-engi-branch`, or `engi-demo/` in still-active operator and reviewer materials
 - active Bitcode-core need-materialization and external-executor carriers are inside that same boundary too: `protocol-demonstration/src/canonical/{need-measurement,run-artifacts,v24-local-executors,v24-remote-adapters}.js` plus `protocol-demonstration/test/{api,workflow.integration}.test.js` must emit `BITCODE_NEED.md`, use `BITCODE_V24_*` env controls, and converge local/remote sample branch-runtime refs on Bitcode naming instead of preserving pre-Bitcode env ids, legacy local schemes, legacy review refs, or other old-brand active protocol examples
-- active helper and architecture docs are inside the same boundary too: `Makefile`, `docs/api/conversations-openapi.yaml`, `packages/email/README.md`, `uapi/.env.example`, `internal-docs/{USER-ONBOARDING-AND-SETTINGS,FRONTEND-ARCHITECTURE,DB}.md`, and `.ai/PRODUCT.md` must teach Bitcode, auxillaries, and the current onboarding/API/application posture rather than preserving old-brand, compatibility-route, or GA-1 examples in proof-bearing documentation
+- active helper and architecture docs are inside the same boundary too: `Makefile`, `docs/api/conversations-openapi.yaml`, `packages/email/README.md`, `uapi/.env.example`, `internal-docs/{USER-ONBOARDING-AND-SETTINGS,FRONTEND-ARCHITECTURE,DB}.md`, and `.ai/PRODUCT.md` must teach Bitcode, auxillaries, and the current onboarding/API/application posture rather than preserving old-brand, compatibility-route, or V26 examples in proof-bearing documentation
 - active internal/product teaching docs and operator scripts are inside that same boundary too: `PRODUCT.md`, `internal-docs/{THE_CODELESS_CUSTOMER_EXPERIENCE,INTEGRATIONS,CHAT,API}.md`, and `scripts/phase2-complete.sh` must teach Bitcode naming, Bitcode-owned examples, and the current conversations/API/integration posture rather than preserving old-brand product statements, sample orgs, share symbols, or hard-coded historical repo paths
 - active internal prompt/MCP/generated-contract docs are inside that same boundary too: `internal-docs/{TPS,DOC-CODING,PROMPT-ENGINEERING}.md`, `packages/executions-mcp/src/mcp-server/src/types/index.ts`, and `packages/orm/src/types/database.generated.ts` must use Bitcode-owned mock/path examples, Bitcode prompt identities, and clean generated output rather than preserving old mock-route names, old branded prompt constants, stale repo-root examples, or stray generator banner lines
 - active MCP/security/testing/web-search public carriers are inside that same boundary too: `packages/executions-mcp/src/mcp-server/{docs/public/{mcp-overview,mcp-api-reference}.md,src/docs/{mcp-spec-generator,openapi-generator}.ts,deployment/kubernetes/deployment.yaml}`, `packages/security/README.md`, `packages/testing/src/prompt-quality-framework/README.md`, and `packages/web-search/README.md` must use Bitcode-owned extension ids, webhook paths, deployment namespaces, action/image refs, support addresses, documentation links, and repo clone paths rather than preserving `engi.*`, `engi/mcp-*`, `security@engi.com`, `docs.engi.ai`, or `github.com/engi/engi` in active operator/public teaching
@@ -529,7 +529,7 @@ Current fifth-gate reminders:
 - active historical promotion-proof carriers are inside that same boundary too: `protocol-demonstration/test/v22-canon-drift.test.js` must use the current `scripts/{check,prepare,promote}-bitcode-*.mjs` toolchain and `protocol-demonstration/*` runtime fixtures while keeping historical V23/V24/V25 spec-family fixtures rooted only under `_legacy/ENGI_SPEC_*`, rather than preserving dead `check-engi-*` script refs or `engi-demo/*` runtime fixture ownership outside `_legacy/`
 - active historical matrix and companion docs are inside that same boundary too: `protocol-demonstration/{SPEC_V7_COVERAGE_MATRIX,SPEC_V8_COVERAGE_MATRIX,SPEC_V9_IMPLEMENTATION_MATRIX,SPEC_V10_IMPLEMENTATION_MATRIX,SPEC_V11_IMPLEMENTATION_MATRIX,SPEC_V12_IMPLEMENTATION_MATRIX,SPEC_V13_IMPLEMENTATION_MATRIX,SPEC_V14_IMPLEMENTATION_MATRIX,SPEC_V15_IMPLEMENTATION_MATRIX,BITCODE_DEMO_SPEC_V15}.md` must preserve legacy-spec lineage explicitly while no longer teaching live `ENGI_SPEC.txt`, `make-engi-branch`, `engi-demo/`, or canonical ENGI wording outside `_legacy/`
 - the preserved protocol owner move is inside that same boundary too: `protocol-demonstration/` is the only admissible live root-sibling owner for the preserved protocol/runtime surface, so `scripts/prepare-bitcode-runtime-canon-promotion.mjs`, `protocol-demonstration/src/canonical/{v21-specifying,proven-generator,v22-canon-posture}.js`, `.github/workflows/bitcode-canon-quality.yml`, `.gitignore`, and `protocol-demonstration/test/{canon-posture,v22-canon-drift,v26-canon-language,v26-active-product-naming}.test.js` must resolve that root-sibling owner directly and must not preserve `packages/bitcode` or `engi-demo` as active filesystem truth
-- active env examples, Storybook config, internal docs, and canon workflow carriers are inside that same boundary too: `.env`, `.env.local`, `.ga1.env`, `uapi/.env`, `uapi/.storybook/{main,preview}.tsx`, `internal-docs/{README,STYLE,EXECUTION-WORK-SUMMARIES,DEPLOYMENT}.md`, and `.github/workflows/protocol-demonstration-canon-quality.yml` must use `BITCODE_*` env examples, Bitcode Storybook aliases/comments, Bitcode internal-doc teaching, and Bitcode workflow/job names rather than preserving `ENGI_*` examples, `@engi/*` aliases, Engi-branded internal-doc headings, or the dead `engi-demo` CI path
+- active env examples, Storybook config, internal docs, and canon workflow carriers are inside that same boundary too: `.env`, `.env.local`, `.v26.env`, `uapi/.env`, `uapi/.storybook/{main,preview}.tsx`, `internal-docs/{README,STYLE,EXECUTION-WORK-SUMMARIES,DEPLOYMENT}.md`, and `.github/workflows/protocol-demonstration-canon-quality.yml` must use `BITCODE_*` env examples, Bitcode Storybook aliases/comments, Bitcode internal-doc teaching, and Bitcode workflow/job names rather than preserving `ENGI_*` examples, `@engi/*` aliases, Engi-branded internal-doc headings, or the dead `engi-demo` CI path
 - active marketing/style/operator carriers count the same way: `uapi/app/(root)/components/{MarketingFeatureBento,MarketingFeatureList,MarketingHeadlessMobileShowcase,MarketingSteps,MarketingTestimonialsCTA}.tsx`, `uapi/{components/base/README.md,styles/{CONSOLIDATED_SYSTEM_GUIDE,orbital}.css,tailwind.config.ts,public/email-logo.svg,stories/email-templates/*}`, `uapi/scripts/long-runner-worker.ts`, `Dockerfile.long-runner`, `packages/styling/README.md`, `packages/generic-tools/lsp-query/src/prompts/lsp-context-awareness-composition.ts`, `.ai/PRODUCT.md`, `INVESTOR_MEMO.md`, `VULNERABILITY_AUDIT_2026-04-02.md`, and `.sales/INTRO_PAMPHLET.md` must use Bitcode-owned asset names, domains, image tags, path teaching, and brand language rather than preserving `Engi`, `engi.dev`, `api.engi.sh`, `engi/long-runner`, or `engi/` base-component ownership in active repository truth
 - active integration/example/doc carriers count the same way too: `internal-docs/{API,TPS,STYLE}.md`, `packages/mysql/README.md`, and `uapi/mocking/generators/ComprehensiveMockDataGenerators.ts` must teach Bitcode-owned API hosts, auxillaries ownership, marketplace preview hosts, and package descriptions rather than preserving `api.engi.software`, orbitals-owned connects-pane references, `marketplace.engi.com`, or `ENGI platform` wording in active repository truth
 - active platform-package and auxillary-teaching carriers count the same way too: `packages/{auth,postgresql,jira,supabase}/README.md`, `packages/supabase/src/client.ts`, `packages/templates-generics/{src/types.ts,package.json}`, `internal-docs/STYLE.md`, and `uapi/mocking/{README.md,COMPREHENSIVE_SYSTEM_SUMMARY.md,generators/ComprehensiveMockDataGenerators.ts}` must teach Bitcode platform ownership and User Auxillaries wording rather than preserving `ENGI platform`, `engi system`, or `User Orbital` in active repository truth

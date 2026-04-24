@@ -17,23 +17,23 @@
 - Canonical companion reform strategy supplement: `/Users/garrettmaring/Developer/ENGI/protocol-demonstration/V26_REFORM_STRATEGY.md`
 - Canonical companion LSP measurement reform supplement: `/Users/garrettmaring/Developer/ENGI/protocol-demonstration/V26_LSP_MEASUREMENT_REFORM.md`
 - Draft posture source: `/Users/garrettmaring/Developer/ENGI/protocol-demonstration/src/canon-posture.js` keeps `ACTIVE_CANON_VERSION = 'V26'` and `DRAFT_TARGET_VERSION = 'V27'`
-- Source parity state: first-through-third-gate closure and large portions of retained-system convergence are canonicalized in source, but prior through-fourth-gate promotion claims were overstated and fourth-gate procedural closure is reopened while fifth-through-eighth-gate work remains active
-- V26 state: V26 remains the singular active Bitcode canon and current productization target, but fourth-gate promotion/closure is not honestly claimable today and fifth-, sixth-, seventh-, and eighth-gate closure remain open
+- Source parity state: first-through-fourth-gate closure is canonicalized in source after the reopened fourth-gate retained-system proof families passed; fifth-through-eighth-gate work remains active
+- V26 state: V26 remains the singular active Bitcode canon and current productization target, with through-fourth-gate promotion honestly reclosed while fifth-, sixth-, seventh-, and eighth-gate closure remain open
 
 ## Acceptance and remaining-open state
 
 V26 is not a rename-first version and it is not a light cleanup pass.
 V26 is the productionizing hardening version that reorganizes Bitcode from a transitional demo/site split into a package-owned, application-native, live-operation-ready system.
 
-With V26 active as the singular draft canon while fourth-gate promotion is procedurally reopened:
+With V26 active as the singular canon after through-fourth-gate reclosure:
 - V26 is active canonical truth,
-- fourth-gate retained-system convergence is materially advanced but not accepted as an honestly closed promotion boundary,
+- fourth-gate retained-system convergence is accepted as an honestly closed promotion boundary because the conversations, runs/pipelines, persistence/schema, prompt-system, inference-record, and retained-package proof families now pass,
 - fifth-gate minimum-functional Bitcode Exchange and Bitcode Terminal closure plus broad old-world reform baseline remain intentionally open and must not be hand-waved as complete,
 - sixth-gate minimal viable product elevation remains intentionally open,
 - seventh-gate initial commercially-viable testnet live-launch refinement remains intentionally open,
 - eighth-gate whole-repository provation and final closure remain intentionally open,
 - the current source-bearing implementation basis now includes the landed first-through-fourth-gate package/app migration surfaces cited below,
-- and the V26 main spec remains full-system and re-implementation-grade even while later version work may reopen ownership after this promotion.
+- and the V26 main spec remains full-system and re-implementation-grade even while later version work may reopen ownership after later-gate promotion.
 - the retained active repository systems outside first-gate Bitcode ownership must be elevated to Bitcode-grade auditability, proof-bearing precision, and knowability rather than pulling Bitcode down to older application looseness.
 
 ## Version executive summary
@@ -50,7 +50,7 @@ V26 therefore centers eight coordinated gates:
 1. first-gate ownership migration,
 2. second-gate application UX/UI plus external interfacing hardening,
 3. third-gate marketing refurbishment,
-4. fourth-gate retained-system convergence and the now-reopened question of truthful fourth-gate closure,
+4. fourth-gate retained-system convergence and truthful through-fourth-gate reclosure,
 5. fifth-gate minimum-functional Bitcode Exchange and Bitcode Terminal closure together with the maximally finished old-world reform baseline,
 6. sixth-gate minimal viable product elevation across Exchange, Terminal, Protocol, Proofs, and admitted interfaces,
 7. seventh-gate initial commercially-viable testnet live-launch refinement,
@@ -338,22 +338,22 @@ Third-gate acceptance is reached only when:
 
 Fourth-gate is the retained-system convergence gate.
 It ports the retained non-Bitcode-first-gate application systems into the V26 Bitcode total system instead of leaving them as adjacent Bitcode-era reservoirs.
-It is still the intended canonical V26 promotion boundary, but previous claims that this boundary had already been crossed were overstated. V26 remains the active canon while fourth-gate closure is procedurally reopened and must be reclosed honestly before promotion can be claimed.
+It is now the honestly reclosed V26 promotion boundary. Previous claims that this boundary had already been crossed were overstated, so V26 reopened the gate, assigned explicit retained-system proof families, and now accepts closure only because those proof families pass.
 It includes:
 - conversations and the chat-based / ChatGPT-like application interface,
 - executions, runs, pipelines, and the new Bitcode meaning of deliverables,
 - PostgreSQL persistence and Supabase-hosted storage/API convergence, including the `/edgetimes` application/API posture,
 - initial migration closure, active schema ownership, ORM/query-layer ownership, generated types, and their test/documentation/comment carriers,
-- with the current retained persistence basis explicitly anchored in `supabase/migrations/001_ga1_production.sql`, `packages/supabase/src/*`, `packages/orm/src/models/*`, `packages/orm/src/queries/*`, `packages/orm/src/types/database.generated.ts`, `packages/orm/src/types/database.ts`, and `packages/orm/scripts/generate-db-types.ts`, while `/edgetimes` and `/api/edgetimes` now act as the live fourth-gate storage/API witness for the promotion boundary,
+- with the current retained persistence basis explicitly anchored in `supabase/migrations/001_v26_production.sql`, `packages/supabase/src/*`, `packages/orm/src/models/*`, `packages/orm/src/queries/*`, `packages/orm/src/types/database.generated.ts`, `packages/orm/src/types/database.ts`, and `packages/orm/scripts/generate-db-types.ts`, while `/edgetimes` and `/api/edgetimes` now act as the live fourth-gate storage/API witness for the promotion boundary,
 - prompt abstraction and the proved prompt space,
 - retained agent and tool abstraction layers where those remain useful,
 - and retained package admissibility for the packages V26 keeps.
 
 ### Fifth-gate
 
-Fifth-gate is not a substitute for a false fourth-gate claim.
-It is the next major minimum-functional Bitcode Exchange and Bitcode Terminal gate, but it proceeds alongside an honest reopening of fourth-gate promotion posture.
-V26 may continue fifth-gate drafting and implementation before fourth-gate is procedurally reclosed, but it may not claim promotion through fourth-gate until that reopened closure work is satisfied.
+Fifth-gate is not a substitute for a fourth-gate proof claim.
+It is the next major minimum-functional Bitcode Exchange and Bitcode Terminal gate, and it proceeds only after fourth-gate reclosure is explicit.
+V26 may continue fifth-gate drafting and implementation after through-fourth-gate promotion, but it may not claim fifth-gate closure until the minimum-functional and old-world reform baseline is satisfied.
 It includes:
 - proof closure for the retained and repurposed whole repository that survives into V26 production canon rather than only the old demo-equivalent core,
 - proof closure for migrations, schema contracts, ORM/query carriers, generated types, storage/API contracts, and retained package boundaries,
@@ -656,7 +656,7 @@ Fourth-gate ports the retained application systems into the Bitcode V26 total sy
 | conversations and chat-based application interface | `uapi/app/conversations/components/*`, `packages/api/src/conversations/*`, `packages/conversations-generics/*` | remain first-class application interfaces and port onto the Bitcode V26 system model rather than sitting beside it |
 | executions, runs, pipelines, and retained compatibility APIs | `uapi/app/executions/*`, `uapi/app/api/vcs/route.ts`, `uapi/app/api/templates/deliverables/route.ts`, `uapi/app/api/auxillaries/template-preferences/route.ts`, `packages/api/src/routes/deliverables.ts`, `packages/api/src/pipelines/branch.ts`, `packages/execution-generics/*`, `packages/pipelines/*` | remain explicit merged-world `executions` primitives, with pipeline runs, need measurement, and retained compatibility APIs staying execution-shaped inside the broader `activity` family while retained selectors/template personalization stay healthy until inward convergence removes the dependency |
 | retained auxillaries routes, preferences, and companion panes | `uapi/app/auxillaries/*`, redirect-only `uapi/app/orbitals/*`, `uapi/app/api/auxillaries/data/route.ts`, `uapi/app/api/auxillaries/profile/route.ts`, `uapi/app/api/auxillaries/connections/github/route.ts`, `uapi/app/api/auxillaries/model-preferences/route.ts`, `uapi/app/api/auxillaries/btd/route.ts`, `uapi/app/api/auxillaries/usage/route.ts`, `uapi/app/api/auxillaries/transactions/route.ts`, `uapi/app/api/auxillaries/api-keys/route.ts`, `uapi/app/api/auxillaries/user/data-share/route.ts` | converge on merged-world `auxillaries`: extra-network, non-transactional, still-proven user preference, interface, identity, external-connection, and BTD-throughput surfaces that remain around the Bitcode core without being treated as the network/activity center |
-| PostgreSQL and Supabase persistence | `supabase/*`, `supabase/migrations/001_ga1_production.sql`, `packages/supabase/src/*`, `packages/orm/src/models/*`, `packages/orm/src/queries/*`, `packages/orm/src/types/database.generated.ts`, `packages/orm/src/types/database.ts`, `packages/orm/scripts/generate-db-types.ts`, active database-facing API carriers, `/edgetimes`, and `/api/edgetimes` | converge on one explicit Bitcode persistence owner with active migrations, schema contracts, typed query ownership, generated database types, and application/API boundaries that are no longer informal |
+| PostgreSQL and Supabase persistence | `supabase/*`, `supabase/migrations/001_v26_production.sql`, `packages/supabase/src/*`, `packages/orm/src/models/*`, `packages/orm/src/queries/*`, `packages/orm/src/types/database.generated.ts`, `packages/orm/src/types/database.ts`, `packages/orm/scripts/generate-db-types.ts`, active database-facing API carriers, `/edgetimes`, and `/api/edgetimes` | converge on one explicit Bitcode persistence owner with active migrations, schema contracts, typed query ownership, generated database types, and application/API boundaries that are no longer informal |
 | prompt abstraction and prompt space | `packages/prompts/src/*`, `uapi/prompts/conversations-system-prompt.ts`, `protocol-demonstration/src/canonical/type-contracts.ts` | become the direct source of prompt text and prompt contracts across retained V26 systems, and weave into a proved prompt space |
 | retained agent and tool abstractions | `packages/generic-agents/*`, `packages/git/*`, `packages/vcs/*`, related API/tool carriers | remain as retained abstractions only where V26 gives them a clear role inside conversations and pipeline capabilities |
 | retained `deliverable` compatibility semantics | `packages/api/src/routes/deliverables.ts`, `uapi/app/executions/*`, `packages/pipelines/deliverable/*`, current execution components | are redefined under Bitcode V26 so `deliverable` remains only a retained compatibility path/name while the canonical Bitcode meaning is `asset pack` plus connected-interface `written asset`; see `protocol-demonstration/V26_DELIVERABLE_REFORM.md` |
@@ -671,7 +671,7 @@ Fourth-gate requires:
 5. all retained prompt text must route through prompt abstraction rather than ad hoc inline prompt strings,
 6. the proved prompt space must cover retained conversation and pipeline prompts,
 7. PostgreSQL and Supabase persistence, including `/edgetimes`, must have one explicit Bitcode V26 owner rather than floating across informal API glue,
-8. `supabase/migrations/001_ga1_production.sql`, `packages/supabase/src/*`, `packages/orm/src/models/*`, `packages/orm/src/queries/*`, `packages/orm/src/types/database.generated.ts`, `packages/orm/src/types/database.ts`, and `packages/orm/scripts/generate-db-types.ts` must be treated as explicit retained-system owners with tests, docs, comments, and proof coverage rather than incidental infrastructure residue,
+8. `supabase/migrations/001_v26_production.sql`, `packages/supabase/src/*`, `packages/orm/src/models/*`, `packages/orm/src/queries/*`, `packages/orm/src/types/database.generated.ts`, `packages/orm/src/types/database.ts`, and `packages/orm/scripts/generate-db-types.ts` must be treated as explicit retained-system owners with tests, docs, comments, and proof coverage rather than incidental infrastructure residue,
 9. retained agent/tool abstractions must have explicit V26 roles or be excluded from retained-package status,
 10. old-world tool and agent ports must be reprompted and repurposed for Bitcode canonical use, with systems such as Jira scoped first to need-ingestion and need-measurement reads rather than expansive settle-write semantics,
 11. initial testnet-ready settle-write closure may remain Git/GH-branch/GH-PR centric even when later multi-surface settle writes are planned,
@@ -702,7 +702,7 @@ Fourth-gate is accepted only when:
 14. retained `/executions` and `/orbitals` compatibility routes visibly teach `executions` and `auxillaries` as the merged-world target, with `/orbitals/*` reduced to redirect-only compatibility that no longer renders canonical HTML,
 15. retained transaction, execution-event, and notification surfaces share one typed Bitcode activity vocabulary rather than drifting into separate activity semantics,
 16. fourth-gate proof obligations are assigned to generated proof families rather than left informal,
-17. and generated checkpoint/proven/promotion artifacts do not overclaim fourth-gate closure when retained-system convergence remains procedurally reopened.
+17. and generated checkpoint/proven/promotion artifacts claim fourth-gate closure only when retained-system convergence proof families pass and later fifth-through-eighth-gate work remains bounded as open.
 
 ## V26 fifth-through-eighth-gate closure contract
 
@@ -710,7 +710,7 @@ Fifth-gate is the minimum-functional Bitcode Exchange and Bitcode Terminal gate 
 Sixth-gate is the minimal viable product elevation gate for Exchange, Terminal, Protocol, Proofs, and admitted interfaces.
 Seventh-gate is the initial commercially-viable testnet live-launch refinement gate.
 Eighth-gate is the final whole-repository provation and closure gate for V26.
-V26 remains the active canon while fourth-gate closure is procedurally reopened and fifth through eighth remain open, but no part of V26 is considered fully proven until fourth-gate is honestly reclosed and those later-gate closure duties are explicit for the systems V26 keeps.
+V26 remains the active canon after through-fourth-gate reclosure while fifth through eighth remain open, but no part of V26 is considered fully proven until those later-gate closure duties are explicit for the systems V26 keeps.
 
 ### Fifth-gate minimum-functional north star
 
@@ -857,7 +857,7 @@ The production architecture above is constrained by the following fifth-gate rul
 - the retained `/api/deliverables` route must also dual-store semantic preprocess snapshots and completion metadata under `assetPackWrittenAsset` / semantic `need` / `assetPack` / `writtenAssetType` aliases even while the public route name and compatibility `deliverables` bookkeeping remain in place, so the commercial infrastructure itself shapes the protocol meaning at route entry and persistence time rather than only at final reread;
 - retained `/api/deliverables` telemetry, notifications, and email-subject copy may preserve compatibility event/template identifiers such as `deliverable_*` and `pipeline_execution_*`, but their payloads and user-facing wording should teach `asset-pack run` semantics and emit semantic event aliases / `assetPack` / `need` / `writtenAssetType` metadata alongside those compatibility names; failure telemetry must keep final-work semantic summaries available across success and catch paths so mid-run failures still emit Bitcode asset-pack metadata instead of losing source-to-shares context to route-local scoping;
 - retained deliverable email-template filenames and promptpart identifiers may remain compatibility-only carriers, but their rendered copy and prompt content should teach Bitcode asset-pack runs, written-asset synthesis, and Delivering mechanisms rather than centering `deliverable` as the primary Bitcode object;
-- retained raw promptparts and promptpart-generation scripts for this corridor should likewise describe discovery/implementation/validation/finish in asset-pack-run, need-satisfaction, written-asset, and delivery-wrapper terms, even when compatibility filenames and identifiers still include `deliverable`; this includes deeper phase-purpose, setup-comprehension, finish-finalization, deliverables-system, implementation-divider, create-code-change, PR-packaging, create-pull-request, ready-to-ship, code-change-readiness, and code-change-review-readiness promptparts, which must no longer teach PR-first, deployment-ceremony-first, or GA-1-first semantics where Bitcode now requires need-first asset-pack synthesis plus delivery wrappers; active setup prompt module paths should prefer `comprehend-need` carriers, `COMPREHENDNEED` base promptpart constants, and deliverable-corridor `DELIVERABLESETUPCOMPREHENDNEED` PromptParts, with task-named prompt modules and `DELIVERABLESETUPCOMPREHENDTASK` PromptParts admitted only as compatibility wrappers after semantic mirrors exist;
+- retained raw promptparts and promptpart-generation scripts for this corridor should likewise describe discovery/implementation/validation/finish in asset-pack-run, need-satisfaction, written-asset, and delivery-wrapper terms, even when compatibility filenames and identifiers still include `deliverable`; this includes deeper phase-purpose, setup-comprehension, finish-finalization, deliverables-system, implementation-divider, create-code-change, PR-packaging, create-pull-request, ready-to-ship, code-change-readiness, and code-change-review-readiness promptparts, which must no longer teach PR-first, deployment-ceremony-first, or pre-Bitcode semantics where Bitcode now requires need-first asset-pack synthesis plus delivery wrappers; active setup prompt module paths should prefer `comprehend-need` carriers, `COMPREHENDNEED` base promptpart constants, and deliverable-corridor `DELIVERABLESETUPCOMPREHENDNEED` PromptParts, with task-named prompt modules and `DELIVERABLESETUPCOMPREHENDTASK` PromptParts admitted only as compatibility wrappers after semantic mirrors exist;
 - retained generic tool prompt reservoirs must follow the same semantic-mirror rule before promotion or broader reuse: `packages/generic-tools/task-comprehension` remains a task-named compatibility package, but its `DocCodeToolPrompt` metadata, raw PromptParts, docs, and placeholder primitives must teach Bitcode need comprehension, written-asset expectations, asset-pack context, delivery-wrapper boundaries, proof/verification needs, and explicit compatibility boundaries rather than old task-first, cognitive, transcendent, or experimental old-world semantics;
 - retained generic agent and web-search prompt reservoirs must follow the same semantic-mirror rule before promotion or broader reuse: `packages/generic-agents/web-researcher` is admitted only as discovery-phase web research for Bitcode need synthesis, `packages/generic-agents/web-search` plus `packages/generic-tools/web-search` are admitted only as lower-level source-attributed web-search/content-retrieval support for that discovery-phase need-synthesis corridor, and `packages/generic-agents/danger-wall` is admitted only as Bitcode need/AssetPack risk admission for unsafe mutation, private-data exposure, proof/evidence gaps, AssetPack scope fit, delivery-wrapper fit, and manual-review triggers; none of these corridors may teach old scraping, generic security, content-safety, monitoring-product, canonical-need, proof, mutation, delivery, or live product ownership semantics;
 - all prompt, tool, agentic, pipeline, MCP, and execution-bearing systems must satisfy the V26 inference specification in `protocol-demonstration/V26_INFERENCE_SYSTEMS.md`: each active or admitted-support corridor must state its canonical need, prompt surface, tool contract, agentic role, execution carrier, asset-pack effect, boundary posture, and verification evidence before it can be treated as live Bitcode behavior; this includes an implementation-record posture for prompt primitives, tool prompt infrastructure, agent infrastructure, pipeline infrastructure, conversation inference, asset-pack synthesis compatibility, need-comprehension compatibility, and MCP/external ingress so no prompt or tool behavior is accepted only because old code happens to exist;
@@ -921,7 +921,7 @@ Later-gate polish, commercialization, and `mainnet` posture are not allowed to b
 | second-gate application composition | `.bitcode/application-composition-proof.json` | prove that `/application` is route-local application composition while preserving first-gate Bitcode semantics | `uapi/app/application/*`, `protocol-demonstration/public/app.js` |
 | conversations continuity | `.bitcode/conversations-continuity-proof.json` | prove that conversations and the chat-based interface remain first-class and correctly port into V26 Bitcode system semantics | `uapi/app/conversations/components/*`, `packages/api/src/conversations/*`, `packages/conversations-generics/*` |
 | runs and pipelines totality | `.bitcode/runs-pipelines-totality-proof.json` | prove that retained run/pipeline systems totalize Bitcode operations coherently, including deliverable meaning and the compatibility APIs still required to keep retained execution selectors healthy | `uapi/app/executions/*`, `uapi/app/api/vcs/route.ts`, `uapi/app/api/templates/deliverables/route.ts`, `uapi/app/api/auxillaries/template-preferences/route.ts`, `packages/api/src/routes/deliverables.ts`, `packages/pipelines/*`, `packages/execution-generics/*` |
-| persistence and schema totality | `.bitcode/persistence-schema-totality-proof.json` | prove that PostgreSQL/Supabase persistence, `/edgetimes`, migrations, schema contracts, ORM/query carriers, and generated types form one coherent Bitcode storage system | `supabase/*`, `supabase/migrations/001_ga1_production.sql`, `packages/supabase/src/*`, `packages/orm/src/models/*`, `packages/orm/src/queries/*`, `packages/orm/src/types/database.generated.ts`, `packages/orm/src/types/database.ts`, `packages/orm/scripts/generate-db-types.ts`, retained storage-facing API carriers, and generated database types |
+| persistence and schema totality | `.bitcode/persistence-schema-totality-proof.json` | prove that PostgreSQL/Supabase persistence, `/edgetimes`, migrations, schema contracts, ORM/query carriers, and generated types form one coherent Bitcode storage system | `supabase/*`, `supabase/migrations/001_v26_production.sql`, `packages/supabase/src/*`, `packages/orm/src/models/*`, `packages/orm/src/queries/*`, `packages/orm/src/types/database.generated.ts`, `packages/orm/src/types/database.ts`, `packages/orm/scripts/generate-db-types.ts`, retained storage-facing API carriers, and generated database types |
 | prompt system totality | `.bitcode/prompt-system-totality-proof.json` | prove that retained `PromptPart`/`Prompt`/`PromptExecution` carriers and old-world prompt ports remain explicit Bitcode-owned prompt infrastructure, that active inference packages consume those carriers through the public `@bitcode/prompts` boundary, and that the active/support/reference prompt consumer map remains explicit before later prompt-space completeness closure | `packages/prompts/src/*`, `packages/execution-generics/src/prompts/*`, `packages/agent-generics/src/prompts/*`, `packages/conversations-generics/src/prompts/*`, `protocol-demonstration/V26_PROMPT_SURFACES.md`, retained Jira prompt ports, and retained deliverable planning/measurement prompts |
 | inference implementation records | `.bitcode/inference-implementation-records-proof.json` | prove that prompt, tool, agentic, execution, pipeline, conversation, asset-pack, need-comprehension, and MCP/external ingress systems are represented by structurally checked source-visible V26 inference implementation records with canonical need, nested implementation fields, source-backed implementation owners, boundary posture, typed verification evidence, and executable/generated verification footing | `protocol-demonstration/src/canonical/inference-implementation-records.js`, `protocol-demonstration/test/v26-inference-implementation-records.test.js`, and `protocol-demonstration/V26_INFERENCE_SYSTEMS.md` |
 | prompt space completeness | `.bitcode/prompt-space-completeness-proof.json` | generate the later-gate prompt-space witness family now, with a fifth-gate `baselinePassed` witness over prompt primitives, active carriers, doc-code injection, asset-pack/need-comprehension compatibility, raw PromptPart runtime carry-through, app/MCP ingress, and proof/spec tests while keeping final `passed` false until eighth-gate completeness closes | `packages/prompts/src/*`, `packages/{execution-generics,pipelines-generics,agent-generics,conversations-generics,tools-generics,doc-comment,doc-code}/*`, `packages/pipelines/deliverable/*`, `packages/generic-tools/task-comprehension/*`, `packages/executions-mcp/*`, `uapi/prompts/conversations-system-prompt.ts`, `protocol-demonstration/V26_{PROMPT_SURFACES,INFERENCE_SYSTEMS}.md`, and prompt proof tests |
@@ -1013,7 +1013,7 @@ Current truth order for the active V26 canon is:
 8. current source and tests explicitly referenced by active V26 canon
 9. historical prior specs
 
-V26 is therefore the active canonical runtime truth even while fourth-gate promotion is procedurally reopened, and fifth-, sixth-, seventh-, and eighth-gate closure remain deliberate active work inside V26 before later-version reopening.
+V26 is therefore the active canonical runtime truth after through-fourth-gate reclosure, and fifth-, sixth-, seventh-, and eighth-gate closure remain deliberate active work inside V26 before later-version reopening.
 
 ## full-system, re-implementation, and audit rule
 
@@ -1843,8 +1843,8 @@ The source-bearing deliverable and artifact contract catalog includes:
 
 ## accepted boundaries and reopen conditions
 
-V26 accepts the following boundaries while fourth-gate promotion is procedurally reopened:
-- V26 is active canonical truth while honest fourth-gate reclosure and fifth-gate proof/finalization remain open.
+V26 accepts the following boundaries after through-fourth-gate reclosure:
+- V26 is active canonical truth while fifth-gate proof/finalization and later-gate closure remain open.
 - The useful Bitcode operator UX chain is preserved while the demonstration UI owner is replaced.
 - Package extraction may proceed incrementally so long as parity truth keeps the gap explicit.
 - Existing packages should be reused when they already fit the responsibility.

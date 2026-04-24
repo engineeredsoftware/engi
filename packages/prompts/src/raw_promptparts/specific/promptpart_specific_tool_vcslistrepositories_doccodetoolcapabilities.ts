@@ -2,7 +2,7 @@
  * @doc-comment-developing-promptpartdevelopment
  * domain: tool
  * intent: "Capabilities enumeration for VCS list repositories tool"
- * current_version: "GA1.50.0"
+ * current_version: "V26.50.0"
  * versions: []
  * benchmarks: [
  *   { "name": "capability_completeness", "test": "Does '{{content}}' comprehensively list all key capabilities? Rate 0-1", "score": 0.50 },

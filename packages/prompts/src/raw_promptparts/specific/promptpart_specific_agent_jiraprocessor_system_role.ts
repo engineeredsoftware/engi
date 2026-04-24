@@ -4,10 +4,10 @@ import { PromptPart } from '../../parts/PromptPart';
  * @doc-comment-developing-promptpartdevelopment
  * domain: agent
  * intent: "Define Jira Processor agent system role"
- * current_version: "GA1.50.0"
+ * current_version: "V26.50.0"
  * versions: [
  *   {
- *     "version": "GA1.00.0",
+ *     "version": "V26.00.0",
  *     "content": "Interface with JIRA Cloud/Server APIs via OAuth 2.0, execute JQL queries for data extraction, automate workflow transitions, generate velocity reports and burndown charts, synchronize with external systems through webhook integration, and maintain data consistency across project hierarchies",
  *     "score": 0.47,
  *     "reason": "Industrial: specific protocols, concrete operations, technical integration points"

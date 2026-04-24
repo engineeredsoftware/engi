@@ -2,7 +2,7 @@
  * @doc-comment-developing-promptpartdevelopment
  * domain: purpose
  * intent: "Core purpose statement for Create Or Update File Tool"
- * current_version: "GA1.02.0"
+ * current_version: "V26.02.0"
  * versions: []
  * benchmarks: [
  *   { "name": "dual_operation_clarity", "test": "Does '{{content}}' clearly articulate both create and update file operations? Rate 0-1" },

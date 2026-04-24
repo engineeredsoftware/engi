@@ -1,13 +1,13 @@
 import { PromptPart } from '../../parts/PromptPart';
 
 /**
- * @doc-comment-developing-promptpartdevelopment PBV-GA1.07.0
+ * @doc-comment-developing-promptpartdevelopment PBV-V26.07.0
  * domain: agent
  * intent: "Industrial NLP system context with concrete operational environment"
- * current_version: "GA1.50.0"
+ * current_version: "V26.50.0"
  * versions: [
  *   {
- *     "version": "GA1.00.0",
+ *     "version": "V26.00.0",
  *     "content": "Operating within code analysis pipelines, interfacing with Language Server Protocol (LSP) implementations, IDE extensions, static analysis tools (SonarQube/ESLint), maintaining detection accuracy >95% across 100+ programming languages and dialects",
  *     "score": 0.92,
  *     "reason": "Industrial: concrete systems, specific tools, measurable metrics"

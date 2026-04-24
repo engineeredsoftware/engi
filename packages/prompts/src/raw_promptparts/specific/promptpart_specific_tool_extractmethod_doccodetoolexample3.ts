@@ -2,7 +2,7 @@
  * @doc-comment-developing-promptpartdevelopment
  * domain: example
  * intent: "Error handling example for extract method tool"
- * current_version: "GA1.00.0"
+ * current_version: "V26.00.0"
  * versions: []
  * benchmarks: [
  *   { "name": "error_demonstration", "test": "Does '{{content}}' show error handling and edge cases? Rate 0-1" },

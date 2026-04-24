@@ -1,14 +1,14 @@
 /**
- * Bitcode ORM - GA-1 Database Access Layer
+ * Bitcode ORM - V26 Database Access Layer
  *
- * Provides type-safe database access for GA-1 schema with:
+ * Provides type-safe database access for V26 schema with:
  * - Type-safe Supabase client wrapper
  * - Vector search support (pgvector)
  * - Consistent model patterns
  * - Row Level Security compliance
  *
  * @doc-package
- * version: ga1-1.0.0
+ * version: v26-1.0.0
  * pattern: type-safe-orm
  * philosophy: "Database as a typed service"
  */

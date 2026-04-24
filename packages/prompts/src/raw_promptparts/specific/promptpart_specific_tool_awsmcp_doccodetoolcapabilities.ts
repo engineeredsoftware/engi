@@ -2,7 +2,7 @@
  * @doc-comment-developing-promptpartdevelopment
  * domain: capabilities
  * intent: "Comprehensive capabilities list for AWS MCP cloud services integration"
- * current_version: "GA1.00.0"
+ * current_version: "V26.00.0"
  * versions: []
  * benchmarks: [
  *   { "name": "service_coverage", "test": "Does '{{content}}' cover major AWS service capabilities? Rate 0-1" },

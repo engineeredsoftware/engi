@@ -4,7 +4,7 @@ import { PromptPart } from '../../parts/PromptPart';
  * @doc-comment-developing-promptpartdevelopment
  * domain: tool
  * intent: "JSON-output constraint for Digest Task Guides prompt"
- * current_version: "GA1.70.0"
+ * current_version: "V26.70.0"
  * versions: []
  * benchmarks: [
  *   { "name": "json_constraint", "test": "Does it forbid extra text and enforce array of {title, guide}? Rate 0-1", "score": 0.95 }

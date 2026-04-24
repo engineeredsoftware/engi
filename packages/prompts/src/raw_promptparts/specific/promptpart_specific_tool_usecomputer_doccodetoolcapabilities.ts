@@ -4,7 +4,7 @@ import { PromptPart } from '../../parts/PromptPart';
  * @doc-comment-developing-promptpartdevelopment
  * domain: tool
  * intent: "Capabilities description for use-computer tool"
- * current_version: "GA1.50.0"
+ * current_version: "V26.50.0"
  * versions: []
  * benchmarks: [
  *   { "name": "completeness", "test": "Lists key features (timeout, cwd, env, stdin, stdio capture)", "score": 0.50 },

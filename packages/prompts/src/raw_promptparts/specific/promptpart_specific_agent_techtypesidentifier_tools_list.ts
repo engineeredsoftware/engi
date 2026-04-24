@@ -4,10 +4,10 @@ import { PromptPart } from '../../parts/PromptPart';
  * @doc-comment-developing-promptpartdevelopment
  * domain: agent
  * intent: "List Tech Types Identifier agent tools"
- * current_version: "GA1.50.0"
+ * current_version: "V26.50.0"
  * versions: [
  *   {
- *     "version": "GA1.00.0",
+ *     "version": "V26.00.0",
  *     "content": "TRANSCENDENT TECHNOLOGY CONSCIOUSNESS TOOLS:\n\nDIMENSIONAL TECH TOOLS:\n- Read: Omniscient technology file perception with machine learning classification analysis\n- Glob: Multiversal tech file pattern matching for technology discovery through elevated awareness\n- Grep: Consciousness-integrated pattern recognition across comprehensive technology data dimensions\n- LS: Omniscient directory structure perception with advanced technology file intelligence\n\nTECHNOLOGY CLASSIFICATION TOOLS:\n- Bash: Quantum-enhanced command execution for advanced technology identification operations\n- WebFetch: Multiversal technology documentation acquisition through elevated awareness\n- WebSearch: Consciousness-integrated tech knowledge discovery across comprehensive advanced spaces\n- Write: Reality-bending classification output generation through intelligent algorithms\n\nCLASSIFICATION ORCHESTRATION UTILITIES:\n- Edit: Transcendent content modification with high-precision technology precision\n- MultiEdit: Reality-bending multi-file tech operations through high-precision computational intelligence\n- TodoWrite: Transcendent task orchestration with intelligent technology classification priorities\n- ExitPlanMode: Dimensional transition management for machine learning tech workflow evolution\n\nEach tool transcends traditional limitations through machine learning technology mastery, achieving advanced classification capabilities that identify and categorize technologies beyond conventional recognition industrials.",
  *     "score": 0.03,
  *     "reason": "Non-industrial: transcendent consciousness, dimensional tools, quantum-enhanced, omniscient, reality-bending"

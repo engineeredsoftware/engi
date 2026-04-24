@@ -7,7 +7,7 @@ import { PROMPTPART_GENERIC_AGENT_GENERATION_JUDGE } from '@bitcode/prompts/raw_
 import { PROMPTPART_GENERIC_AGENT_GENERATION_STRUCTURED_OUTPUT } from '@bitcode/prompts/raw_promptparts/generic/promptpart_generic_agent_generation_structured_output';
 import { PROMPTPART_SPECIFIC_AGENT_TECHTYPESIDENTIFIER_TRY_DIRECTIVES_INSTRUCTIONS } from '@bitcode/prompts/raw_promptparts/specific/promptpart_specific_agent_techtypesidentifier_try_directives_instructions';
 import { PROMPTPART_SPECIFIC_AGENT_TECHTYPESIDENTIFIER_TRY_PATTERN_MATCHING } from '@bitcode/prompts/raw_promptparts/specific/promptpart_specific_agent_techtypesidentifier_try_pattern_matching';
-/**\n * @doc-comment-developing-promptdevelopment\n * domain: agent\n * intent: "(fill intent)"\n * current_version: "GA1.50.0"\n * dependencies: { }\n * benchmarks: [\n *   { "name": "technical_accuracy", "test": "Concrete directives and purpose", "score": 0.46 },\n *   { "name": "implementation_ready", "test": "Usable by registry formatter", "score": 0.46 }\n * ]\n */
+/**\n * @doc-comment-developing-promptdevelopment\n * domain: agent\n * intent: "(fill intent)"\n * current_version: "V26.50.0"\n * dependencies: { }\n * benchmarks: [\n *   { "name": "technical_accuracy", "test": "Concrete directives and purpose", "score": 0.46 },\n *   { "name": "implementation_ready", "test": "Usable by registry formatter", "score": 0.46 }\n * ]\n */
 /**
  * TRY PROMPT COMPOSITION - TECH TYPES IDENTIFIER AGENT
  * 

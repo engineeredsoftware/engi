@@ -2,7 +2,7 @@
  * @doc-comment-developing-promptpartdevelopment
  * domain: capabilities
  * intent: "Comprehensive capabilities listing for Aurora PostgreSQL cloud database integration"
- * current_version: "GA1.02.1"
+ * current_version: "V26.02.1"
  * versions: []
  * benchmarks: [
  *   { "name": "enterprise_database_capabilities", "test": "Does '{{content}}' showcase enterprise database capabilities? Rate 0-1" },

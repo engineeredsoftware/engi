@@ -4,7 +4,7 @@ import { PromptPart } from '../../parts/PromptPart';
  * @doc-comment-developing-promptpartdevelopment
  * domain: tool
  * intent: "Identity statement for Digest Task Guides generator"
- * current_version: "GA1.70.0"
+ * current_version: "V26.70.0"
  * versions: []
  * benchmarks: [
  *   { "name": "role_precision", "test": "Does it identify the agent as a Bitcode task guide author? Rate 0-1", "score": 0.95 },

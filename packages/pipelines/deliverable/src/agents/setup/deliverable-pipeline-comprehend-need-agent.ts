@@ -39,7 +39,7 @@ const ComprehendNeedOutputSchema = z.object({
   need_satisfaction_criteria: z.string().optional().describe('Need-first analysis of intent, scope, acceptance shape, and success conditions'),
   written_asset_types: z.array(DeliverableTypeEnum).default([]).describe('Canonical written-asset classifications inferred from the need'),
 
-  // GA-1 minimal compatibility fields
+  // V26 minimal compatibility fields
   dod_analysis: z.string().optional().describe('Compatibility field for concise analysis of the expressed need'),
   comprehended_multimodal_attachments: z.array(z.object({
     name: z.string().optional(),
@@ -77,7 +77,7 @@ const ComprehendNeedOutputSchema = z.object({
  * @doc-comment-developing-promptdevelopment
  * domain: pipeline
  * intent: "Deliverables compatibility corridor – Comprehend Need prompt composition (system/plan/try/refine/retry)"
- * current_version: "GA1.50.0"
+ * current_version: "V26.50.0"
  * dependencies: { }
  * benchmarks: [
  *   { "name": "technical_accuracy", "test": "Uses concrete technical language", "score": 0.50 },

@@ -4,10 +4,10 @@ import { PromptPart } from '../../parts/PromptPart';
  * @doc-comment-developing-promptpartdevelopment
  * domain: agent
  * intent: "Define Jira Processor agent system context"
- * current_version: "GA1.50.0"
+ * current_version: "V26.50.0"
  * versions: [
  *   {
- *     "version": "GA1.00.0",
+ *     "version": "V26.00.0",
  *     "content": "Operating within agile development environments, interfacing with Confluence documentation, Bitbucket repositories, Slack notifications, maintaining API rate limits (300 req/minute), and supporting multi-tenant JIRA instances with permission-aware data access",
  *     "score": 0.47,
  *     "reason": "Industrial: specific technical constraints, integration patterns, performance limits"

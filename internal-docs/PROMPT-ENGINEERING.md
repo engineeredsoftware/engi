@@ -258,15 +258,15 @@ All versions follow the PBV pattern:
 GA<generation>.<quality_score>.<variant>
 ```
 
-- **Generation**: Major approach change (GA1, GA2, GA3...)
+- **Generation**: Major approach change (V26, GA2, GA3...)
 - **Quality Score**: Benchmark score 0-100  
 - **Variant**: Different phrasings at same generation/quality
 
 **Examples**:
-- `GA1.00.0`: Generation 1, unbenchmarked, original
-- `GA1.85.0`: Generation 1, quality variant, original phrasing
-- `GA1.85.1`: Generation 1, quality variant, alternative phrasing
-- `GA1.92.0`: Generation 1, quality variant (evolved from GA1.85.0)
+- `V26.00.0`: Generation 1, unbenchmarked, original
+- `V26.85.0`: Generation 1, quality variant, original phrasing
+- `V26.85.1`: Generation 1, quality variant, alternative phrasing
+- `V26.92.0`: Generation 1, quality variant (evolved from V26.85.0)
 - `GA2.78.0`: Generation 2, quality variant, new approach
 
 **Format**: All versions follow the GA<generation>.<quality_index>.<variant> pattern.
@@ -351,7 +351,7 @@ Every PromptPart MUST have this minimal doc-comment structure:
  * @doc-comment-developing-promptpartdevelopment
  * domain: formatting
  * intent: "Standard AI greeting prefix"
- * current_version: "GA1.00.0"  // Always start at GA1.00.0 for unbenchmarked
+ * current_version: "V26.00.0"  // Always start at V26.00.0 for unbenchmarked
  * versions: []                   // Empty for new PromptParts
  * benchmarks: [
  *   { "name": "technical_accuracy", "test": "Does it use concrete technical terms?", "score": 0.95 },
@@ -365,9 +365,9 @@ export const PROMPTPART_GENERIC_FORMATTING_YOUARE: PromptPart = 'You are' as Pro
 - `domain`: One of: tool, agent, pipeline, phase, formatting, validation, system
 - `intent`: Clear description of what this semantic unit achieves
 - `current_version`: PBV version (generation.quality_score.variant)
-  - Start at "GA1.00.0" for new, unbenchmarked PromptParts
-  - Quality score updates after benchmarking (e.g., "GA1.85.0" = 85% quality)
-  - NEVER use legacy formats like "2.0.0" - only PBV format GA1.XX.0 is acceptable
+  - Start at "V26.00.0" for new, unbenchmarked PromptParts
+  - Quality score updates after benchmarking (e.g., "V26.85.0" = 85% quality)
+  - NEVER use legacy formats like "2.0.0" - only PBV format V26.XX.0 is acceptable
 - `versions`: Version history (empty array for first version)
 
 **Optional Fields**:
@@ -807,7 +807,7 @@ This system represents prompt engineering through elegant simplicity:
 - **Simplicity enables scale**: Two layers support 10,000s of parts
 - **Industrial language enables reliability**: Concrete specifications over abstract concepts
 
-An AI system like Bitcode is fundamentally prompts and types with minimal infrastructure. At GA-1, performance gains come from the precise formatting of benchmarked semantic units, each measured and optimized based on empirical performance data.
+An AI system like Bitcode is fundamentally prompts and types with minimal infrastructure. At V26, performance gains come from the precise formatting of benchmarked semantic units, each measured and optimized based on empirical performance data.
 
 The prompt system is not just infrastructure - it is the core system through which all functionality operates.
 

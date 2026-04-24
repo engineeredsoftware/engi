@@ -1,8 +1,8 @@
-# UAPI Architecture - GA-1 Production Ready
+# UAPI Architecture - V26 Production Ready
 
 ## Overview
 
-UAPI is the main API and web application layer for Bitcode. It has been modernized for GA-1 production readiness with a clean, maintainable architecture.
+UAPI is the main API and web application layer for Bitcode. It has been modernized for V26 production readiness with a clean, maintainable architecture.
 
 ## Directory Structure
 
@@ -13,7 +13,7 @@ uapi/
 │   ├── (root)/            # Marketing pages
 │   ├── (dashboard)/       # Authenticated app pages
 │   └── utils/             # App-specific utilities
-├── middleware/            # Middleware pipeline (GA-1 ready)
+├── middleware/            # Middleware pipeline (V26 ready)
 │   ├── index.ts          # Pipeline orchestrator
 │   ├── authentication.ts # Auth handling with JWT validation
 │   ├── rate-limit.ts     # Token bucket rate limiting

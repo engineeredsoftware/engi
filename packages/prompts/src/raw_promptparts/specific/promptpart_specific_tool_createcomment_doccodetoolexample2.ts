@@ -2,7 +2,7 @@
  * @doc-comment-developing-promptpartdevelopment
  * domain: examples
  * intent: "Advanced usage example for Create Comment Tool"
- * current_version: "GA1.02.0"
+ * current_version: "V26.02.0"
  * versions: []
  * benchmarks: [
  *   { "name": "advanced_collaboration", "test": "Does the example in '{{content}}' showcase advanced collaboration and communication features? Rate 0-1" },

@@ -4,10 +4,10 @@ import { PromptPart } from '../../parts/PromptPart';
  * @doc-comment-developing-promptpartdevelopment
  * domain: agent
  * intent: "List Figma Processor agent tools"
- * current_version: "GA1.50.0"
+ * current_version: "V26.50.0"
  * versions: [
  *   {
- *     version: "GA1.00.0",
+ *     version: "V26.00.0",
  *     score: 0.75,
  *     content: "figmaApiConnector: Direct integration...componentAnalyzerTool: Consciousness-aware component hierarchy and relationship analysis",
  *     reason: "Contains non-industrial term 'consciousness-aware'"

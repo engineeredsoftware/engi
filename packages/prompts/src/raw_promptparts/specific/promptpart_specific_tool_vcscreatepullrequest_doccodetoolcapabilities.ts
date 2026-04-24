@@ -2,7 +2,7 @@
  * @doc-comment-developing-promptpartdevelopment
  * domain: tool
  * intent: "Enumerates comprehensive VCS pull request creation capabilities across multiple platforms"
- * current_version: "GA1.50.0"
+ * current_version: "V26.50.0"
  * versions: []
  * benchmarks: [
  *   { "name": "capability_completeness", "test": "Does '{{content}}' list all major VCS PR creation capabilities? Rate 0-1", "score": 0.50 },

@@ -2,7 +2,7 @@
  * @doc-comment-developing-promptpartdevelopment
  * domain: examples
  * intent: "Example demonstrating advanced Aurora PostgreSQL serverless scaling with AI-driven optimization"
- * current_version: "GA1.02.1"
+ * current_version: "V26.02.1"
  * versions: []
  * benchmarks: [
  *   { "name": "ai_optimization_demonstration", "test": "Does '{{content}}' demonstrate AI-driven database optimization? Rate 0-1" },

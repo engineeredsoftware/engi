@@ -1,5 +1,5 @@
 /**
- * Bitbucket Auth (GA-1 placeholder)
+ * Bitbucket Auth (V26 placeholder)
  */
 export class BitbucketAuth {}
 

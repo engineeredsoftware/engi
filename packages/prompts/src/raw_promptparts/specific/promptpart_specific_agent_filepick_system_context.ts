@@ -2,7 +2,7 @@
  * @doc-comment-developing-promptpartdevelopment
  * domain: agent
  * intent: "Agent semantic unit: Filepick System Context"
- * current_version: "GA1.50.0"
+ * current_version: "V26.50.0"
  * versions: []
  * benchmarks: [
  *   { "name": "technical_accuracy", "test": "Uses concrete technical language", "score": 0.50 },
@@ -13,10 +13,10 @@
 import { PromptPart } from '../../parts/PromptPart';
 
 /**
- * @doc-comment-pbv-format-ga1-00-0
+ * @doc-comment-pbv-format-v26-00-0
  * domain: file_selection_agent
  * intent: "Define File Selection Agent system context with concrete technical specifications"
- * current_version: "GA1.50.0"
+ * current_version: "V26.50.0"
  * versions: []
  * transformation: "metaphysical_to_industrial"
  * old_content_archived: "Operating within file management systems with cloud APIs"

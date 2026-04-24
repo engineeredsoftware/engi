@@ -2,7 +2,7 @@
  * @doc-comment-developing-promptpartdevelopment
  * domain: tool
  * intent: "Example showing basic file update operation"
- * current_version: "GA1.50.0"
+ * current_version: "V26.50.0"
  * versions: []
  * benchmarks: [
  *   { "name": "example_clarity", "test": "Does '{{content}}' clearly show how to update a file? Rate 0-1", "score": 0.50 },

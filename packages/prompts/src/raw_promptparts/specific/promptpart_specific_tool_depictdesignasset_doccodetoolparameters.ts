@@ -4,7 +4,7 @@ import { PromptPart } from '../../parts/PromptPart';
  * @doc-comment-developing-promptpartdevelopment
  * domain: tool
  * intent: "Parameter description for depict_design_asset"
- * current_version: "GA1.00.0"
+ * current_version: "V26.00.0"
  * versions: []
  */
 export const PROMPTPART_SPECIFIC_TOOL_DEPICTDESIGNASSET_DOCCODETOOLPARAMETERS: PromptPart =

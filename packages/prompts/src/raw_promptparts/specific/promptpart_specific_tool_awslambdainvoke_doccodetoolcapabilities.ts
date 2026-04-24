@@ -2,7 +2,7 @@
  * @doc-comment-developing-promptpartdevelopment
  * domain: capabilities
  * intent: "Comprehensive capabilities list for AWS Lambda function invocation"
- * current_version: "GA1.00.0"
+ * current_version: "V26.00.0"
  * versions: []
  * benchmarks: [
  *   { "name": "invocation_coverage", "test": "Does '{{content}}' cover Lambda invocation capabilities comprehensively? Rate 0-1" },

@@ -2,7 +2,7 @@
  * @doc-comment-developing-promptpartdevelopment
  * domain: tool
  * intent: "Comprehensive capabilities listing for Bitbucket MCP version control integration"
- * current_version: "GA1.50.0"
+ * current_version: "V26.50.0"
  * versions: []
  * benchmarks: [
  *   { "name": "version_control_capabilities", "test": "Does '{{content}}' showcase comprehensive version control capabilities? Rate 0-1" },

@@ -57,7 +57,7 @@ abstract class VCSProvider implements AbstractVCSProvider {
 
 ## Database Schema
 
-### user_connections (GA-1 Unified Table)
+### user_connections (V26 Unified Table)
 - **Purpose**: Unified storage for all provider connections (GitHub, GitLab, Bitbucket)
 - **Key Fields**: user_id, provider, connection_data (JSONB)
 - **Connection Data Structure**:

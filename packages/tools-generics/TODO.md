@@ -159,7 +159,7 @@ describe(SearchCodeTool, () => {
 - Dynamic imports for large tools
 - **Priority**: Low - optimization
 
-## GA-1 Requirements
+## V26 Requirements
 
 ### 🎯 Critical Path
 
@@ -177,27 +177,27 @@ describe(SearchCodeTool, () => {
 
 ## Future Evolution
 
-### 🔮 Post-GA-1 Considerations
+### 🔮 Post-V26 Considerations
 
 #### Tool Versioning
 - Version-aware tool selection
 - Backward compatibility patterns
 - Migration utilities
-- **Timeline**: Post-GA-1
+- **Timeline**: Post-V26
 
 #### Tool Analytics
 - Usage tracking
 - Performance metrics
 - Error patterns
 - Success rates
-- **Timeline**: Post-GA-1
+- **Timeline**: Post-V26
 
 #### Visual Tool Builder
 - GUI for creating tools
 - Automatic code generation
 - Test generation
 - Documentation generation
-- **Timeline**: Post-GA-1
+- **Timeline**: Post-V26
 
 ## Package Structure
 
@@ -223,22 +223,22 @@ describe(SearchCodeTool, () => {
 
 ## Priority Summary
 
-### 🔥 GA-1 Critical
+### 🔥 V26 Critical
 1. Tool discovery/registry mechanism
 2. Standard categories and conventions
 3. Testing framework
 4. Execution integration
 
-### 📋 GA-1 Important
+### 📋 V26 Important
 1. Complete documentation
 2. MCP guide
 3. Error standardization
 4. Basic composition patterns
 
-### 💭 Post-GA-1
+### 💭 Post-V26
 1. Advanced type inference
 2. Performance optimizations
 3. Analytics and versioning
 4. Visual builders
 
-The tools-generics architecture is solid and minimal. The main gap is tool discovery - agents need a way to find and select appropriate tools. Focus on registry integration and standardized patterns for GA-1.
+The tools-generics architecture is solid and minimal. The main gap is tool discovery - agents need a way to find and select appropriate tools. Focus on registry integration and standardized patterns for V26.

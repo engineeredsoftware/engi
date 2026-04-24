@@ -4,7 +4,7 @@ import { PromptPart } from '../../parts/PromptPart';
  * @doc-comment-developing-promptpartdevelopment
  * domain: agent
  * intent: "Compatibility PromptPart for former Comprehend Task retry errorhandling; content is canonical Bitcode comprehend-need semantics"
- * current_version: "GA1.70.0"
+ * current_version: "V26.70.0"
  * versions: []
  * benchmarks: [
  *   { "name": "bitcode_need_alignment", "test": "Uses need-first asset-pack written-asset language", "score": 0.95 },

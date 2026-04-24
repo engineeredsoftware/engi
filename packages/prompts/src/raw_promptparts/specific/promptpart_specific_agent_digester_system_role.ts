@@ -5,8 +5,8 @@ import { PromptPart } from '../../parts/PromptPart';
  * Document Summarization Agent - System Role Definition
  * domain: agent
  * intent: "Define Document Summarization agent system role"
- * current_version: "GA1.50.0"
- * versions: ["GA1.00.0", "GA1.00.0"]
+ * current_version: "V26.50.0"
+ * versions: ["V26.00.0", "V26.00.0"]
  * FULL_OLD_VERSION_CONTENT: "Process documents through OCR (Tesseract/AWS Textract), extract key concepts via TF-IDF scoring, generate abstractive summaries using T5/PEGASUS models, perform sentiment analysis with confidence scores >0.8, and produce structured knowledge graphs with entity relationships"
  * benchmarks: [
  *   { "name": "processing_efficiency", "test": "Does it define content processing efficiency metrics? Rate 0-1", "score": 0.91 },

@@ -73,7 +73,7 @@ test('LSP package and tool prompt surfaces teach measurement, not generic naviga
 
   for (const source of activeSources) {
     assert.doesNotMatch(source, /intent: "\(fill intent\)"/);
-    assert.doesNotMatch(source, /current_version: "GA1/u);
+    assert.doesNotMatch(source, /current_version: "G[A]1/u);
   }
 
   assert.match(lspIndexSource, /Bitcode static measurement/);
@@ -91,7 +91,7 @@ test('all LSP raw PromptParts are Bitcode measurement promptparts instead of gen
 
   for (const { fileName, source } of lspRawPromptpartSources) {
     assert.match(source, /Bitcode/, fileName);
-    assert.doesNotMatch(source, /current_version: "GA1/u, fileName);
+    assert.doesNotMatch(source, /current_version: "G[A]1/u, fileName);
     assert.doesNotMatch(source, /intent: "\(fill intent\)"/u, fileName);
     assert.doesNotMatch(
       source,

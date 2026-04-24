@@ -2,7 +2,7 @@
  * @doc-comment-developing-promptpartdevelopment
  * domain: example
  * intent: "Second example demonstrating asynchronous Lambda invocation"
- * current_version: "GA1.00.0"
+ * current_version: "V26.00.0"
  * versions: []
  * benchmarks: [
  *   { "name": "async_example_clarity", "test": "Does '{{content}}' clearly demonstrate asynchronous invocation? Rate 0-1" },

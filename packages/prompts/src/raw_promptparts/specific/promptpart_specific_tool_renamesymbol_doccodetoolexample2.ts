@@ -2,7 +2,7 @@
  * @doc-comment-developing-promptpartdevelopment
  * domain: example
  * intent: "Complex rename with conflict example"
- * current_version: "GA1.00.0"
+ * current_version: "V26.00.0"
  * versions: []
  * benchmarks: [
  *   { "name": "conflict_handling", "test": "Does '{{content}}' demonstrate how conflicts are handled? Rate 0-1" },

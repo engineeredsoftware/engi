@@ -2,7 +2,7 @@
  * @doc-comment-developing-promptpartdevelopment
  * domain: agent
  * intent: "Agent semantic unit: Filepick System Identity"
- * current_version: "GA1.50.0"
+ * current_version: "V26.50.0"
  * versions: []
  * benchmarks: [
  *   { "name": "technical_accuracy", "test": "Uses concrete technical language", "score": 0.50 },
@@ -13,10 +13,10 @@
 import { PromptPart } from '../../parts/PromptPart';
 
 /**
- * @doc-comment-pbv-format-ga1-00-0
+ * @doc-comment-pbv-format-v26-00-0
  * domain: file_selection_agent
  * intent: "Define File Selection Agent identity with concrete technical capabilities"
- * current_version: "GA1.50.0"
+ * current_version: "V26.50.0"
  * versions: []
  * transformation: "industrial_enhancement"
  * old_content_archived: "File Selection Agent with fuzzy matching and machine learning"

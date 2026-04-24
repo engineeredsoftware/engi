@@ -19,11 +19,11 @@ for(const f of files){
   if (!s.includes('@doc-comment-developing-promptpartdevelopment')) continue;
   // Normalize PBV
   if (s.includes('current_version: ')) {
-    s = s.replace(/current_version:\s*"GA1\.[0-9]+\.[0-9]+"/g, 'current_version: "0.50.0"');
+    s = s.replace(/current_version:\s*"V26\.[0-9]+\.[0-9]+"/g, 'current_version: "V26.50.0"');
   } else {
     s = s.replace(/@doc-comment-developing-promptpartdevelopment([\s\S]*?)\*\//, (block)=>{
       const withoutEnd = block.replace(/\*\/$/,'');
-      return withoutEnd + `\n * current_version: "0.50.0"\n */`;
+      return withoutEnd + `\n * current_version: "V26.50.0"\n */`;
     });
   }
   // Ensure benchmarks
@@ -37,4 +37,3 @@ for(const f of files){
   updated++;
 }
 console.log('Normalized PromptParts:', updated);
-

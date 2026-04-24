@@ -2,7 +2,7 @@
  * @doc-comment-developing-promptpartdevelopment
  * domain: agent
  * intent: "Agent semantic unit: Codesearcher Refine Quality Criteria"
- * current_version: "GA1.50.0"
+ * current_version: "V26.50.0"
  * versions: []
  * benchmarks: [
  *   { "name": "technical_accuracy", "test": "Uses concrete technical language", "score": 0.50 },
@@ -16,8 +16,8 @@ import { PromptPart } from '../../parts/PromptPart';
  * @doc-comment-industrial-agent-codesearcher-refine-quality
  * domain: agent
  * intent: "Industrial AST parsing refine quality criteria with concrete metrics"
- * current_version: "GA1.50.0"
- * versions: ["GA1.00.0"]
+ * current_version: "V26.50.0"
+ * versions: ["V26.00.0"]
  * old_content: "Assess snippet relevance (0-1 score), code completeness (full context captured), diversity (multiple implementation patterns), and technical accuracy. Filter snippets below 0.3 relevance threshold"
  * benchmarks: [
  *   { "name": "metrics_precision", "test": "Are quality metrics precisely defined? Rate 0-1", "score": 0.93 },

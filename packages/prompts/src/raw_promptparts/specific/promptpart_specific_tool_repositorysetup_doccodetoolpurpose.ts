@@ -2,7 +2,7 @@
  * @doc-comment-developing-promptpartdevelopment
  * domain: purpose
  * intent: "Purpose statement for repository setup (clone repository) tool"
- * current_version: "GA1.00.0"
+ * current_version: "V26.00.0"
  * versions: []
  * benchmarks: [
  *   { "name": "provider_agnostic_emphasis", "test": "Does '{{content}}' emphasize provider-agnostic capability? Rate 0-1" },

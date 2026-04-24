@@ -4,7 +4,7 @@ import { PromptPart } from '../../parts/PromptPart';
  * @doc-comment-developing-promptpartdevelopment
  * domain: tool
  * intent: "Base prompt for generating Task Guides (JSON array of {title, guide})"
- * current_version: "GA1.50.0"
+ * current_version: "V26.50.0"
  * versions: []
  * benchmarks: [
  *   { "name": "json_array_output", "test": "Specifies JSON-only output with schema", "score": 0.48 }

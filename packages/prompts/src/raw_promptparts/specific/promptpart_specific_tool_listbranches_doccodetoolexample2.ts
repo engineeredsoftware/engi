@@ -2,7 +2,7 @@
  * @doc-comment-developing-promptpartdevelopment
  * domain: examples
  * intent: "Advanced usage example for List Branches Tool"
- * current_version: "GA1.02.0"
+ * current_version: "V26.02.0"
  * versions: []
  * benchmarks: [
  *   { "name": "advanced_analysis", "test": "Does the example in '{{content}}' showcase advanced branch analysis and workflow optimization? Rate 0-1" },

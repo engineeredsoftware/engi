@@ -2,7 +2,7 @@
  * @doc-comment-developing-promptpartdevelopment
  * domain: example
  * intent: "Type/interface rename example showing cross-file impact"
- * current_version: "GA1.00.0"
+ * current_version: "V26.00.0"
  * versions: []
  * benchmarks: [
  *   { "name": "type_rename_clarity", "test": "Does '{{content}}' show how type renaming works across files? Rate 0-1" },

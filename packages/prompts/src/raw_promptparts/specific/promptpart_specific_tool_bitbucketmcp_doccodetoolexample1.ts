@@ -2,7 +2,7 @@
  * @doc-comment-developing-promptpartdevelopment
  * domain: tool
  * intent: "Example demonstrating enterprise-scale Bitbucket repository management with collaborative development workflows"
- * current_version: "GA1.50.0"
+ * current_version: "V26.50.0"
  * versions: []
  * benchmarks: [
  *   { "name": "enterprise_repository_demonstration", "test": "Does '{{content}}' demonstrate enterprise-scale repository management? Rate 0-1" },

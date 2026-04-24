@@ -2,7 +2,7 @@
  * @doc-comment-developing-promptpartdevelopment
  * domain: purpose
  * intent: "Core purpose statement for AWS Location geospatial services integration"
- * current_version: "GA1.01.0"
+ * current_version: "V26.01.0"
  * versions: []
  * benchmarks: [
  *   { "name": "geospatial_purpose_clarity", "test": "Does '{{content}}' clearly articulate geospatial services integration purpose? Rate 0-1" },

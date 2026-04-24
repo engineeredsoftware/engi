@@ -4,8 +4,8 @@ import { PromptPart } from '../../parts/PromptPart';
  * @doc-comment-developing-promptpartdevelopment
  * domain: agent
  * intent: "Define Audio Processor agent system instructions"
- * current_version: "GA1.50.0"
- * versions: ["GA1.00.0"]
+ * current_version: "V26.50.0"
+ * versions: ["V26.00.0"]
  * benchmarks: [
  *   { "name": "instruction_precision", "test": "Are instructions technically precise and actionable? Rate 0-1", "score": 0.94 },
  *   { "name": "error_handling", "test": "Does it specify error handling protocols? Rate 0-1", "score": 0.91 },

@@ -1,5 +1,5 @@
 /**
- * Bitbucket Connections (GA-1 placeholder)
+ * Bitbucket Connections (V26 placeholder)
  */
 export class BitbucketConnections {}
 

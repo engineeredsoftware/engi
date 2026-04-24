@@ -4,7 +4,7 @@ import { PromptPart } from '../../parts/PromptPart';
  * @doc-comment-developing-promptpartdevelopment
  * domain: tool
  * intent: "Doc-code metadata name for BeginTransaction helper"
- * current_version: "GA1.70.0"
+ * current_version: "V26.70.0"
  * versions: []
  * benchmarks: [
  *   { "name": "identifier_precision", "test": "Does it provide the canonical beginTransaction tool identifier? Rate 0-1", "score": 0.95 },

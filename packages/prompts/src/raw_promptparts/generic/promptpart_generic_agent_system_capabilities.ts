@@ -6,7 +6,7 @@ import { createPromptPart } from '../../parts/PromptPart';
  * @doc-comment-developing-promptpartdevelopment
  * domain: agent
  * intent: "Define core capabilities available to all agents including tools, LLMs, sub-agents, and registries"
- * current_version: "GA1.50.0"
+ * current_version: "V26.50.0"
  * versions: []
  * benchmarks: [
  *   { "name": "capabilities_clarity", "test": "Are agent capabilities clearly defined?", "score": 0.85 },

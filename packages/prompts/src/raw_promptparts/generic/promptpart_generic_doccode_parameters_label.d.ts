@@ -3,7 +3,7 @@ import { PromptPart } from '../../parts/PromptPart';
  * @doc-comment-developing-promptpartdevelopment
  * domain: formatting
  * intent: "Label for doc-code-tool parameters section"
- * current_version: "GA1.00.0"
+ * current_version: "V26.00.0"
  * versions: []
  * benchmarks: [
  *   { "name": "parameter_clarity", "test": "Does '{{content}}' clearly indicate the parameters/inputs section? Rate 0-1" },

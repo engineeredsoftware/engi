@@ -53,7 +53,7 @@ const rawPromptPartPaths = [
 ];
 
 const oldWorldDangerWallResiduePattern =
-  /GA1|Anti-Western|antiWestern|NSFW|nsfw|jailbreak|Jailbreaking|Nmap|Masscan|OpenVAS|WAF|SIEM|SOAR|Suricata|Snort|STIX|TAXII|MISP|CVSS|CWE|OWASP|SOC 2|ISO 27001|PCI DSS|zero-trust|threat intelligence|intrusion|malware|comprehensive security|security validation|taskContext|task context|content safety|Content Safety|value alignment/u;
+  /G[A]1|Anti-Western|antiWestern|NSFW|nsfw|jailbreak|Jailbreaking|Nmap|Masscan|OpenVAS|WAF|SIEM|SOAR|Suricata|Snort|STIX|TAXII|MISP|CVSS|CWE|OWASP|SOC 2|ISO 27001|PCI DSS|zero-trust|threat intelligence|intrusion|malware|comprehensive security|security validation|taskContext|task context|content safety|Content Safety|value alignment/u;
 
 const exportNamePattern = /export const ([A-Za-z0-9_]+)(?:: PromptPart)?\s*=/m;
 

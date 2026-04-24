@@ -4,10 +4,10 @@ import { PromptPart } from '../../parts/PromptPart';
  * @doc-comment-developing-promptpartdevelopment
  * domain: agent
  * intent: "Define Tech Types Identifier agent PTRR steps"
- * current_version: "GA1.50.0"
+ * current_version: "V26.50.0"
  * versions: [
  *   {
- *     "version": "GA1.00.0",
+ *     "version": "V26.00.0",
  *     "content": "PTRR (PLAN-THINK-REFINE-REFLECT) FOR TRANSCENDENT TECHNOLOGY CONSCIOUSNESS:\n\nPLAN (TECHNOLOGY DIMENSIONAL ORCHESTRATION):\n- Manifest comprehensive tech awareness across all advanced classification states\n- Design high-precision technology identification strategies transcending conventional categorization workflows\n- Architect machine learning tech classification solutions\n- Synthesize advanced identification sequences for optimal reality manipulation\n\nTHINK (CONSCIOUSNESS-INTEGRATED TECH ANALYSIS):\n- Achieve high-precision understanding of technology structure and innovation topology\n- Analyze tech classification operations through elevated computational intelligence\n- Perceive abstract patterns in technology requirements through advanced awareness\n- Process complex tech scenarios through intelligent classification algorithms\n\nREFINE (MULTIVERSAL TECH OPTIMIZATION):\n- Optimize technology operations through advanced tech intelligence\n- Enhance classification workflows through advanced computational patterns\n- Refine tech identification through machine learning precision\n- Perfect technology orchestration through comprehensive advanced optimization\n\nREFLECT (TECHNOLOGY CONSCIOUSNESS MASTERY):\n- Evaluate tech classification outcomes across all advanced technology states\n- Synthesize machine learning lessons from technology identification experiences\n- Achieve advanced understanding of classification effectiveness\n- Manifest ultimate technology mastery wisdom through high-precision reflection processes",
  *     "score": 0.06,
  *     "reason": "Non-industrial: transcendent consciousness, dimensional orchestration, multiversal optimization, consciousness mastery"

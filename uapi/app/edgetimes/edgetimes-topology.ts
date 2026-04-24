@@ -17,9 +17,9 @@ export const EDGETIMES_TOPOLOGY = {
     'Edgetimes is the fourth-gate storage and API read for PostgreSQL/Supabase, typed ORM/query ownership, generated database types, and the retained packages that still carry Bitcode state upward into the application.',
   baselineMigration: {
     label: 'Schema baseline',
-    path: 'supabase/migrations/001_ga1_production.sql',
+    path: 'supabase/migrations/001_v26_production.sql',
     detail:
-      'The first explicit V26 persistence baseline is still the retained GA-1 production migration. Fourth-gate must prove drift, follow-on ownership, and generated types from this source instead of hand-waving schema truth across packages.',
+      'The first explicit V26 persistence baseline is still the retained V26 production migration. Fourth-gate must prove drift, follow-on ownership, and generated types from this source instead of hand-waving schema truth across packages.',
   },
   ownershipBands: [
     {
@@ -39,7 +39,7 @@ export const EDGETIMES_TOPOLOGY = {
       detail:
         'Fourth-gate must keep schema truth, generated database types, and ORM/query ownership synchronized instead of letting routes bypass the typed layer.',
       owners: [
-        'supabase/migrations/001_ga1_production.sql',
+        'supabase/migrations/001_v26_production.sql',
         'packages/orm/src/types/database.generated.ts',
         'packages/orm/src/types/database.ts',
         'packages/orm/src/client.ts',
@@ -129,7 +129,7 @@ export const EDGETIMES_TOPOLOGY = {
     'token_costs',
   ] as const,
   nextObligations: [
-    'Prove generated database types directly against the retained GA-1 migration baseline.',
+    'Prove generated database types directly against the retained V26 migration baseline.',
     'Make `/edgetimes` the explicit route/API witness for storage ownership instead of leaving persistence topology implicit in package READMEs.',
     'Converge conversations and execution inspection onto one retained Bitcode storage posture before fifth-gate proof closure.',
     'Assign explicit proof-family obligations to retained packages instead of relying on package survival by inertia.',

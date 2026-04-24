@@ -2,7 +2,7 @@
  * @doc-comment-developing-promptpartdevelopment
  * domain: examples
  * intent: "Advanced usage example for Get File Content Tool"
- * current_version: "GA1.02.0"
+ * current_version: "V26.02.0"
  * versions: []
  * benchmarks: [
  *   { "name": "advanced_intelligence", "test": "Does the example in '{{content}}' showcase advanced AI-driven content intelligence and ecosystem analysis? Rate 0-1" },

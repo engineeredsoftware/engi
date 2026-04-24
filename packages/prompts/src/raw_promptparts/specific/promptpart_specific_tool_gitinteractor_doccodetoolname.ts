@@ -2,7 +2,7 @@
  * @doc-comment-developing-promptpartdevelopment
  * domain: tool
  * intent: "Name for Git interaction tool"
- * current_version: "GA1.50.0"
+ * current_version: "V26.50.0"
  * versions: []
  * benchmarks: [
  *   { "name": "name_clarity", "test": "Does '{{content}}' clearly indicate Git operations? Rate 0-1", "score": 0.5 },

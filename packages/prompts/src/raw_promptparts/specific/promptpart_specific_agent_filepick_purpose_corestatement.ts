@@ -4,7 +4,7 @@ import { PromptPart } from '../../parts/PromptPart';
  * @doc-comment-developing-promptpartdevelopment
  * domain: agent
  * intent: "Define File Selection Agent purpose with concrete algorithmic operations"
- * current_version: "GA1.50.0"
+ * current_version: "V26.50.0"
  * versions: []
  * benchmarks: [
  *   { "name": "purpose_clarity", "test": "Does it clearly explain the agent's purpose? Rate 0-1", "score": 0.50 },

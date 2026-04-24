@@ -2,7 +2,7 @@
  * @doc-comment-developing-promptpartdevelopment
  * domain: example
  * intent: "Basic rename example for rename symbol tool"
- * current_version: "GA1.00.0"
+ * current_version: "V26.00.0"
  * versions: []
  * benchmarks: [
  *   { "name": "example_clarity", "test": "Does '{{content}}' clearly show how to use the rename symbol tool? Rate 0-1" },

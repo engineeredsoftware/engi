@@ -15,7 +15,7 @@ describe('/api/edgetimes GET', () => {
 
     expect(response.status).toBe(200);
     expect(payload.ok).toBe(true);
-    expect(payload.topology.baselineMigration.path).toBe('supabase/migrations/001_ga1_production.sql');
+    expect(payload.topology.baselineMigration.path).toBe('supabase/migrations/001_v26_production.sql');
     expect(payload.topology.ownershipBands[2].owners).toContain('uapi/app/api/edgetimes/route.ts');
     expect(payload.topology.ownershipBands[3].owners).toContain('@bitcode/orm');
     expect(payload.summary.unresolvedTables).toBeGreaterThan(0);

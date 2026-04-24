@@ -2,7 +2,7 @@
  * @doc-comment-developing-promptpartdevelopment
  * domain: agent
  * intent: "Agent semantic unit: Codesearcher Try Execution Instructions"
- * current_version: "GA1.50.0"
+ * current_version: "V26.50.0"
  * versions: []
  * benchmarks: [
  *   { "name": "technical_accuracy", "test": "Uses concrete technical language", "score": 0.50 },
@@ -16,8 +16,8 @@ import { PromptPart } from '../../parts/PromptPart';
  * @doc-comment-industrial-agent-codesearcher-try-execution
  * domain: agent
  * intent: "Industrial AST parsing try step execution with concrete algorithmic instructions"
- * current_version: "GA1.50.0"
- * versions: ["GA1.00.0"]
+ * current_version: "V26.50.0"
+ * versions: ["V26.00.0"]
  * old_content: "Execute LSP workspace symbol search for each keyword. For each symbol found, retrieve document symbols and hover information. Extract code snippets with surrounding context. Fall back to text-based search if LSP tools fail"
  * benchmarks: [
  *   { "name": "algorithm_precision", "test": "Are AST parsing steps clearly specified? Rate 0-1", "score": 0.94 },

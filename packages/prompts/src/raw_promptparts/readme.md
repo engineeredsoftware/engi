@@ -48,9 +48,9 @@ export const PROMPT_GENERIC_FULL_PARAGRAPH: PromptPart =
   'This comprehensive tool performs advanced analysis...'; // NO!
 ```
 
-## GA-1 Industrial Language Requirements
+## V26 Industrial Language Requirements
 
-**FORBIDDEN TERMS** (instant GA-1 failure):
+**FORBIDDEN TERMS** (instant V26 failure):
 - ❌ quantum, consciousness, transcendent, multiversal, infinite
 - ❌ manifest, dimensional, reality-synthesis, elevated, mystical
 - ❌ Any abstract metaphysical concepts
@@ -141,7 +141,7 @@ Every PromptPart must include:
  * @doc-comment-developing-promptpartdevelopment
  * domain: tool
  * intent: "Define tool purpose for code searching"
- * current_version: "GA1.00.0"  // Start unbenchmarked at GA1.00.0
+ * current_version: "V26.00.0"  // Start unbenchmarked at V26.00.0
  * versions: []                   // Empty for new PromptParts
  * benchmarks: [
  *   { "name": "technical_accuracy", "test": "Uses specific algorithms?", "score": 0.94 },
@@ -155,7 +155,7 @@ export const PROMPTPART_SPECIFIC_TOOL_CODESEARCHER_PURPOSE: PromptPart =
 **Required Fields**:
 - `domain`: One of the allowed domains
 - `intent`: Clear technical description
-- `current_version`: PBV format (e.g., GA1.94.0)
+- `current_version`: PBV format (e.g., V26.94.0)
 - `versions`: History array (empty initially)
 - `benchmarks`: Quality metrics for industrial standards
 

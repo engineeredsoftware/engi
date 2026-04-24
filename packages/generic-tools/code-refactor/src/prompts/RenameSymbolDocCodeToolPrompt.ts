@@ -62,7 +62,7 @@ export class RenameSymbolDocCodeToolPrompt extends DocCodeToolPrompt {
     // Set metadata directly
     this.set('metadata:name', PROMPTPART_SPECIFIC_TOOL_RENAMESYMBOL_DOCCODETOOLNAME);
     this.set('metadata:category', 'code-refactoring' as PromptPart);
-    this.set('metadata:version', 'GA1.00.0' as PromptPart);
+    this.set('metadata:version', 'V26.00.0' as PromptPart);
     this.set('metadata:priority', 'medium' as PromptPart);
     this.set('metadata:stability', 'stable' as PromptPart);
     

@@ -2,7 +2,7 @@
  * @doc-comment-developing-promptpartdevelopment
  * domain: examples
  * intent: "Basic usage example for List Branches Tool"
- * current_version: "GA1.02.0"
+ * current_version: "V26.02.0"
  * versions: []
  * benchmarks: [
  *   { "name": "discovery_simplicity", "test": "Does the example in '{{content}}' demonstrate straightforward repository branch discovery? Rate 0-1" },

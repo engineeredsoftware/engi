@@ -2,7 +2,7 @@
  * @doc-comment-developing-promptpartdevelopment
  * domain: capabilities
  * intent: "Comprehensive capability listing for List Branches Tool"
- * current_version: "GA1.02.0"
+ * current_version: "V26.02.0"
  * versions: []
  * benchmarks: [
  *   { "name": "discovery_sophistication", "test": "Does '{{content}}' demonstrate sophisticated repository discovery capabilities beyond basic listing? Rate 0-1" },

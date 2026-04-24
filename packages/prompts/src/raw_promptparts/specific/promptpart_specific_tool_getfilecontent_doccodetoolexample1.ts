@@ -2,7 +2,7 @@
  * @doc-comment-developing-promptpartdevelopment
  * domain: examples
  * intent: "Basic usage example for Get File Content Tool"
- * current_version: "GA1.02.0"
+ * current_version: "V26.02.0"
  * versions: []
  * benchmarks: [
  *   { "name": "intelligent_access", "test": "Does the example in '{{content}}' demonstrate intelligent content access beyond basic file reading? Rate 0-1" },

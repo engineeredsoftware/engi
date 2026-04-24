@@ -101,7 +101,7 @@ function generatePromptPart(phase: string, agent: AgentMetadata, partType: Promp
  * @doc-comment-developing-promptpart
  * domain: agent
  * intent: "${partType.suffix.replace(/_/g, ' ')} for ${agent.display} agent"
- * current_version: "GA1.00.0"
+ * current_version: "V26.00.0"
  * versions: []
  * benchmarks: [
  *   { "name": "${partType.suffix}_clarity", "test": "Clear ${partType.suffix.replace(/_/g, ' ')}?", "score": 0.95 }
@@ -121,7 +121,7 @@ function generatePTRRStepPromptPart(phase: string, agent: AgentMetadata, step: P
  * @doc-comment-developing-promptpart
  * domain: agent
  * intent: "PTRR ${step.step} step purpose for ${agent.display} agent"
- * current_version: "GA1.00.0"
+ * current_version: "V26.00.0"
  * versions: []
  * benchmarks: [
  *   { "name": "step_${step.step}_clarity", "test": "Clear ${step.step} purpose?", "score": 0.95 }

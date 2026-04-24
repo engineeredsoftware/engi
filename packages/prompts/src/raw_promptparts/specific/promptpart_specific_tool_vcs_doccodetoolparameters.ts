@@ -2,7 +2,7 @@
  * @doc-comment-developing-promptpartdevelopment
  * domain: parameters
  * intent: "Parameters description for deprecated git-interactor"
- * current_version: "GA1.00.0"
+ * current_version: "V26.00.0"
  * versions: []
  * benchmarks: [
  *   { "name": "deprecation_notice", "test": "Does '{{content}}' start with deprecation notice? Rate 0-1" },

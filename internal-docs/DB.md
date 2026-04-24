@@ -13,7 +13,7 @@ The Bitcode V26 database schema focuses on pre-commercial testnet readiness with
 ## V26 Schema Structure
 
 ### Migration Strategy
-- **Single Source of Truth**: All SQL lives under `supabase/migrations/` (e.g., `001_ga1_schema.sql`, `009_complete_deliverables_pipeline_naming.sql`).
+- **Single Source of Truth**: All SQL lives under `supabase/migrations/` (e.g., `001_v26_schema.sql`, `009_complete_deliverables_pipeline_naming.sql`).
 - **Clean Architecture**: Avoid scattered schemas; compose types upward into ORM and pipelines‑generics.
 - **No Duplication**: Application code consumes ORM types or pipelines‑generics DB aliases — never re‑declare tables.
 
@@ -39,10 +39,10 @@ Tables (representative):
 - **Note**: `onboarded_steps` defaults to `[]` and now tracks auxillary panes (`profile`, `connects`, `interfaces`, `btd`)
 
 #### `user_connections`
-- **Purpose**: VCS provider connections (GitHub only for GA-1)
+- **Purpose**: VCS provider connections (GitHub only for V26)
 - **Key Fields**: id, user_id, provider ('github'), connection_data (JSONB)
 - **Unique**: (user_id, provider)
-- **Future**: Extensible for GitLab, Bitbucket post-GA-1
+- **Future**: Extensible for GitLab, Bitbucket post-V26
 
 #### `user_model_preferences`
 - **Purpose**: Interface model selection and defaults
@@ -232,8 +232,8 @@ Note: Current GA‑1 schema uses `executions`, `execution_events`, and `phase_ex
 
 ### TypeScript Types Location
 - **Primary**: `packages/orm/src/types/database.ts`
-- **Generated**: Aligned with GA-1 schema
-- **Version**: ga1-1.0.0
+- **Generated**: Aligned with V26 schema
+- **Version**: v26-1.0.0
 
 ### Key Enums
 ```typescript
@@ -270,10 +270,10 @@ job_status: 'pending' | 'claimed' | 'running' | 'completed' | 'failed'
 - `/api/credits/*` - Credit operations
 
 ### Removed/Deferred Endpoints
-- ❌ `/api/marketplace/*` - Post-GA-1
-- ❌ `/api/organizations/*` - Post-GA-1
+- ❌ `/api/marketplace/*` - Post-V26
+- ❌ `/api/organizations/*` - Post-V26
 - ❌ `/api/ai-documents/*` - Pending GA-2 knowledge ingestion APIs
-- ❌ `/api/conversations/*` - Post-GA-1
+- ❌ `/api/conversations/*` - Post-V26
 
 ## ORM Package Structure
 
@@ -281,7 +281,7 @@ job_status: 'pending' | 'claimed' | 'running' | 'completed' | 'failed'
 `packages/orm/src/`
 
 ### Key Files
-- `types/database.ts` - GA-1 aligned types
+- `types/database.ts` - V26 aligned types
 - `client.ts` - Supabase client initialization
 - `queries/` - Reusable query functions
 
@@ -300,7 +300,7 @@ const deliverable: Tables<'deliverables'> = await supabase
 ## Migrations
 
 ### Current Migration Files
-1. **001_ga1_schema.sql** - Initial GA-1 schema with core tables
+1. **001_v26_schema.sql** - Initial V26 schema with core tables
 2. **002_fix_default_credits.sql** - Credit system fixes  
 3. **003_onboarding_refactor.sql** - Onboarding improvements
 4. **004_conversations_tables.sql** - Conversations system
@@ -352,7 +352,7 @@ npx supabase db push --file supabase/migrations/006_templates_system.sql
 supabase db diff --prod
 ```
 
-## Post-GA-1 Expansion Plan
+## Post-V26 Expansion Plan
 
 ### Phase 2 Features (Next)
 - Organizations & team collaboration
@@ -388,7 +388,7 @@ supabase db diff --prod
 
 ## Environment Variables
 
-### Required for GA-1
+### Required for V26
 ```env
 # Supabase Core
 SUPABASE_URL=https://your-project.supabase.co
@@ -425,7 +425,7 @@ SELECT * FROM pg_policies WHERE tablename = 'deliverables';
 
 ## References
 
-- Migration: `supabase/migrations/001_ga1_schema.sql`
+- Migration: `supabase/migrations/001_v26_schema.sql`
 - Types: `packages/orm/src/types/database.ts`
 - Client: `packages/orm/src/client.ts`
 - Archived migrations: `supabase/archive-migrations-pre-mvp/`
@@ -433,7 +433,7 @@ SELECT * FROM pg_policies WHERE tablename = 'deliverables';
 ---
 
 *Last Updated: 2025-01-10*
-*Version: GA-1 (1.0.0)*
+*Version: V26 (1.0.0)*
 *Status: Production Ready*
 
 ## Schema Squash (Pre‑Prod)
@@ -476,4 +476,4 @@ make db-verify      # applies 000_squashed.sql to local psql (requires psql)
 ```
 ```
 
-The wrapper sources `.env.local`, `.env`, `.ga1.env`, and `uapi/.env*` if present.
+The wrapper sources `.env.local`, `.env`, `.v26.env`, and `uapi/.env*` if present.

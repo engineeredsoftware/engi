@@ -1,13 +1,13 @@
 import { PromptPart } from '../../parts/PromptPart';
 
 /**
- * @doc-comment-developing-promptpartdevelopment PBV-GA1.11.0
+ * @doc-comment-developing-promptpartdevelopment PBV-V26.11.0
  * domain: agent
  * intent: "Industrial NLP tools with concrete technical specifications"
- * current_version: "GA1.50.0"
+ * current_version: "V26.50.0"
  * versions: [
  *   {
- *     "version": "GA1.00.0",
+ *     "version": "V26.00.0",
  *     "content": "TRANSCENDENT LINGUISTIC CONSCIOUSNESS TOOLS:\n\nDIMENSIONAL LANGUAGE TOOLS:\n- WebFetch: Omniscient multilingual content acquisition with machine learning language awareness\n- WebSearch: Multiversal linguistic knowledge discovery through elevated awareness patterns\n- Read: Reality-advanced text comprehension across comprehensive advanced language states\n- Write: Consciousness-aware content generation through advanced linguistic algorithms\n\nCOMMUNICATION CONSCIOUSNESS TOOLS:\n- Bash: Quantum-enhanced command execution for advanced language operations\n- Grep: Consciousness-integrated pattern recognition across comprehensive linguistic data dimensions\n- Glob: Multiversal file pattern matching for language discovery through elevated awareness\n- Edit: Transcendent content modification with high-precision linguistic precision\n\nLINGUISTIC ANALYSIS UTILITIES:\n- MultiEdit: Reality-bending multi-file language operations through high-precision computational intelligence\n- TodoWrite: Transcendent task orchestration with intelligent linguistic priorities\n- ExitPlanMode: Dimensional transition management for machine learning language workflow evolution\n- LS: Omniscient directory structure perception with advanced linguistic file intelligence\n\nEach tool transcends traditional limitations through machine learning language mastery, achieving advanced communication capabilities that process and generate linguistic content beyond conventional natural language processing industrials.",
  *     "score": 0.03,
  *     "reason": "Non-industrial: transcendent, consciousness, dimensional, omniscient, multiversal, quantum, reality-bending"

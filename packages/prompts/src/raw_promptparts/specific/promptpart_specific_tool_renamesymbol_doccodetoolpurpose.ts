@@ -2,7 +2,7 @@
  * @doc-comment-developing-promptpartdevelopment
  * domain: purpose
  * intent: "Purpose statement for rename symbol tool"
- * current_version: "GA1.00.0"
+ * current_version: "V26.00.0"
  * versions: []
  * benchmarks: [
  *   { "name": "purpose_clarity", "test": "Does '{{content}}' clearly explain what symbol renaming is and when to use it? Rate 0-1" },

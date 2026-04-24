@@ -2,7 +2,7 @@
  * @doc-comment-developing-promptpartdevelopment
  * domain: examples
  * intent: "Example demonstrating enterprise-scale Aurora PostgreSQL deployment with global replication"
- * current_version: "GA1.02.1"
+ * current_version: "V26.02.1"
  * versions: []
  * benchmarks: [
  *   { "name": "enterprise_deployment_demonstration", "test": "Does '{{content}}' demonstrate enterprise-scale database deployment? Rate 0-1" },

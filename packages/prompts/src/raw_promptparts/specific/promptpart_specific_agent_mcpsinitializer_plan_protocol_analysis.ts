@@ -2,7 +2,7 @@
  * @doc-comment-developing-promptpartdevelopment
  * domain: agent
  * intent: "Agent-specific semantic unit (PROMPTPART_SPECIFIC_AGENT_MCPSINITIALIZER_PLAN_PROTOCOL_ANALYSIS)"
- * current_version: "GA1.50.0"
+ * current_version: "V26.50.0"
  * versions: []
  * benchmarks: [
  *   { "name": "technical_accuracy", "test": "Uses concrete technical language", "score": 0.50 },

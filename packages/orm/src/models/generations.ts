@@ -2,7 +2,7 @@
  * Generations Model
  *
  * Tracks LLM API calls with token usage and costs.
- * Formerly called "llm_calls" - renamed to "generations" in GA-1.
+ * Formerly called "llm_calls" - renamed to "generations" in V26.
  *
  * @package @bitcode/orm
  */

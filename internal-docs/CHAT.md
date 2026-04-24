@@ -37,7 +37,7 @@ Bitcode is complete. The conversational experience is chat-based engineering tha
 - Throttled scroll handlers (60fps target)
 
 ### Completed Refactoring
-Status for every Conversations refactor lives in `internal-docs/GA1.md`. That doc tracks the overlay modularization, hook extractions, ConversationAgent move, PTRR enforcement, and related follow-up work.
+Status for every Conversations refactor lives in `internal-docs/V26.md`. That doc tracks the overlay modularization, hook extractions, ConversationAgent move, PTRR enforcement, and related follow-up work.
 
 ### Remaining TODOs (inline in code)
 ```typescript

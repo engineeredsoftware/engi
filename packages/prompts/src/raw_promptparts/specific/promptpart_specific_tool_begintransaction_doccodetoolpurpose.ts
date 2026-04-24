@@ -4,7 +4,7 @@ import { PromptPart } from '../../parts/PromptPart';
  * @doc-comment-developing-promptpartdevelopment
  * domain: tool
  * intent: "Doc-code-tool purpose for beginTransaction helper that batches file edits"
- * current_version: "GA1.50.0"
+ * current_version: "V26.50.0"
  * versions: []
  * benchmarks: [
  *   { "name": "purpose_specificity", "test": "Does the statement define the helper's transactional scope? Rate 0-1", "score": 0.94 },

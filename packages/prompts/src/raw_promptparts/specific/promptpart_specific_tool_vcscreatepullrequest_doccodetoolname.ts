@@ -4,7 +4,7 @@
  * @doc-comment-developing-promptpartdevelopment
  * domain: tool
  * intent: "Tool name for VCS pull request creation"
- * current_version: "GA1.50.0"
+ * current_version: "V26.50.0"
  * versions: []
  * benchmarks: [
    { "name": "clarity", "test": "Does '{{content}}' clearly identify the tool?", "score": 0.50 },

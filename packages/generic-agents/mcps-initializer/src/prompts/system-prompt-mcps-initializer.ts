@@ -16,7 +16,7 @@ import { PROMPTPART_SPECIFIC_AGENT_MCPS_INITIALIZER_SYSTEM_INSTRUCTIONS } from '
  * @doc-comment-developing-promptdevelopment
  * domain: agent
  * intent: "System prompt for Mcps Initializer agent"
- * current_version: "GA1.50.0"
+ * current_version: "V26.50.0"
  * versions: [
  *   { "version": "1.0.0", "score": 0.45, "reason": "Initial implementation with industrial language" }
  * ]

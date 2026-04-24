@@ -2,7 +2,7 @@
  * @doc-comment-developing-promptpartdevelopment
  * domain: capabilities
  * intent: "Capabilities description for scrape URL tool"
- * current_version: "GA1.00.0"
+ * current_version: "V26.00.0"
  * versions: []
  * benchmarks: [
  *   { "name": "format_support", "test": "Does '{{content}}' mention multiple content formats (markdown, HTML, screenshot)? Rate 0-1" },

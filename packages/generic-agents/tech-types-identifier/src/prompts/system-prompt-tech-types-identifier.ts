@@ -16,7 +16,7 @@ import { PROMPTPART_SPECIFIC_AGENT_TECH_TYPES_IDENTIFIER_SYSTEM_INSTRUCTIONS } f
  * @doc-comment-developing-promptdevelopment
  * domain: agent
  * intent: "System prompt for Tech Types Identifier agent"
- * current_version: "GA1.50.0"
+ * current_version: "V26.50.0"
  * versions: [
  *   { "version": "1.0.0", "score": 0.45, "reason": "Initial implementation with industrial language" }
  * ]

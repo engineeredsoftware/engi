@@ -2,7 +2,7 @@
  * @doc-comment-developing-promptpartdevelopment
  * domain: examples
  * intent: "Example showing fast mode crawl for large sites"
- * current_version: "GA1.00.0"
+ * current_version: "V26.00.0"
  * versions: []
  * benchmarks: [
  *   { "name": "performance_mode", "test": "Does '{{content}}' demonstrate fast mode usage? Rate 0-1" },

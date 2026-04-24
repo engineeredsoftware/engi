@@ -3,7 +3,7 @@ import { PromptPart } from '../../parts/PromptPart';
  * @doc-comment-developing-promptpartdevelopment
  * domain: formatting
  * intent: "Generic analysis introduction phrase"
- * current_version: "GA1.50.0"
+ * current_version: "V26.50.0"
  * versions: []
  * benchmarks: [
  *   { "name": "semantic_clarity", "test": "Does it clearly introduce analysis context?", "score": 0.50 },

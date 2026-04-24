@@ -2,7 +2,7 @@
  * @doc-comment-developing-promptpartdevelopment
  * domain: example
  * intent: "Third example demonstrating versioned Lambda invocation with error handling"
- * current_version: "GA1.00.0"
+ * current_version: "V26.00.0"
  * versions: []
  * benchmarks: [
  *   { "name": "versioning_example_clarity", "test": "Does '{{content}}' clearly demonstrate version-specific invocation? Rate 0-1" },

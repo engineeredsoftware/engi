@@ -2,7 +2,7 @@
  * @doc-comment-developing-promptpartdevelopment
  * domain: examples
  * intent: "Basic usage example for Create Comment Tool"
- * current_version: "GA1.02.0"
+ * current_version: "V26.02.0"
  * versions: []
  * benchmarks: [
  *   { "name": "comment_clarity", "test": "Does the example in '{{content}}' clearly demonstrate straightforward comment creation? Rate 0-1" },

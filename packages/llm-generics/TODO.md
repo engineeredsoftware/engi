@@ -174,7 +174,7 @@ class LLMError extends Error {
 - Circuit breaker pattern
 - **Priority**: Low - resilience
 
-## GA-1 Requirements
+## V26 Requirements
 
 ### 🎯 Critical Path
 
@@ -192,7 +192,7 @@ class LLMError extends Error {
 
 ## Future Evolution
 
-### 🔮 Post-GA-1 Considerations
+### 🔮 Post-V26 Considerations
 
 #### Streaming Support
 ```typescript
@@ -200,19 +200,19 @@ type StreamingLLM = (input: LLMInput) => AsyncIterable<LLMOutput>;
 ```
 - Progressive responses
 - Token-by-token streaming
-- **Timeline**: Post-GA-1
+- **Timeline**: Post-V26
 
 #### Multi-Modal Support
 - Image inputs
 - Audio inputs
 - Mixed modalities
-- **Timeline**: Post-GA-1
+- **Timeline**: Post-V26
 
 #### Provider Marketplace
 - Community providers
 - Verified providers
 - Performance rankings
-- **Timeline**: Post-GA-1
+- **Timeline**: Post-V26
 
 ## Package Structure
 
@@ -233,19 +233,19 @@ type StreamingLLM = (input: LLMInput) => AsyncIterable<LLMOutput>;
 
 ## Priority Summary
 
-### 🔥 GA-1 Critical
+### 🔥 V26 Critical
 1. Provider implementation guide
 2. Mock provider for testing  
 3. Clear primitive vs implementation docs
 4. Basic error standardization
 
-### 📋 GA-1 Important
+### 📋 V26 Important
 1. Provider validation
 2. Test suite
 3. Integration examples
 4. Config validation
 
-### 💭 Post-GA-1
+### 💭 Post-V26
 1. Streaming support
 2. Multi-modal
 3. Advanced caching

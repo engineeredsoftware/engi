@@ -6,7 +6,7 @@ import { PromptPart } from '../../parts/PromptPart';
  * intent: "Bitcode retained deliverable-compatibility tool PromptPart for need-first asset-pack setup and written-asset evidence: tool deliverables imagecomprehension doccodetool capabilities addendum"
  * current_version: "0.50.0"
  * versions: [
- *   { "version": "GA1.20.0", "score": 0.50, "content": "Understands images", "reason": "Too vague; lacks industrial specificity" }
+ *   { "version": "V26.20.0", "score": 0.50, "content": "Understands images", "reason": "Too vague; lacks industrial specificity" }
  * ]
  * benchmarks: [
  *   { "name": "technical_accuracy", "test": "Uses concrete modality terms?", "score": 0.50 },

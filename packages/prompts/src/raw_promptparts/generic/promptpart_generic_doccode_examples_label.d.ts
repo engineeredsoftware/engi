@@ -3,10 +3,10 @@ import { PromptPart } from '../../parts/PromptPart';
  * @doc-comment-developing-promptpartdevelopment
  * domain: formatting
  * intent: "Section label used in DocCodeTool prompts for examples"
- * current_version: "GA1.50.0"
+ * current_version: "V26.50.0"
  * versions: [
  *   {
- *     version: "GA1.45.0",
+ *     version: "V26.45.0",
  *     score: 0.48,
  *     content: "Examples",
  *     reason: "Baseline industrial label, no ambiguity, ready for reuse"

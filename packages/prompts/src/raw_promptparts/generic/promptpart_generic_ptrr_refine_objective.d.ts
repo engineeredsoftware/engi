@@ -3,7 +3,7 @@ import { PromptPart } from '../../parts/PromptPart';
  * @doc-comment-developing-promptpartdevelopment
  * domain: ptrr
  * intent: "Generic REFINE step objective statement"
- * current_version: "GA1.50.0"
+ * current_version: "V26.50.0"
  * versions: []
  * benchmarks: [
  *   { "name": "objective_clarity", "test": "Does it clearly state REFINE step purpose?", "score": 0.50 },

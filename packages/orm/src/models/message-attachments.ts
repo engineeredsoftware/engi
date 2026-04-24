@@ -1,5 +1,5 @@
 /**
- * MESSAGE ATTACHMENTS MODEL - GA-1 Attachment management
+ * MESSAGE ATTACHMENTS MODEL - V26 Attachment management
  * 
  * Manages attachment references at the message level for conversations
  * Each attachment reference belongs to a specific message

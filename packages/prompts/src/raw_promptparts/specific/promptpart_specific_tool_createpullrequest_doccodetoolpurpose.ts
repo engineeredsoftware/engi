@@ -2,7 +2,7 @@
  * @doc-comment-developing-promptpartdevelopment
  * domain: purpose
  * intent: "Core purpose statement for Create Pull Request Tool"
- * current_version: "GA1.02.0"
+ * current_version: "V26.02.0"
  * versions: []
  * benchmarks: [
  *   { "name": "purpose_clarity", "test": "Does '{{content}}' clearly articulate the tool's role in PR creation workflows? Rate 0-1" },

@@ -1,13 +1,13 @@
 import { PromptPart } from '../../parts/PromptPart';
 
 /**
- * @doc-comment-developing-promptpartdevelopment PBV-GA1.10.0
+ * @doc-comment-developing-promptpartdevelopment PBV-V26.10.0
  * domain: agent
  * intent: "Industrial NLP role definition with concrete operational responsibilities"
- * current_version: "GA1.50.0"
+ * current_version: "V26.50.0"
  * versions: [
  *   {
- *     "version": "GA1.00.0",
+ *     "version": "V26.00.0",
  *     "content": "Analyze code files through lexical analysis, perform language detection using n-gram models and keyword frequency analysis, identify frameworks and libraries through import/dependency parsing, generate language statistics with confidence scores, and classify project technology stacks",
  *     "score": 0.82,
  *     "reason": "Mostly industrial but focused on code analysis rather than natural language processing"

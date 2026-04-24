@@ -2,7 +2,7 @@
  * @doc-comment-developing-promptpartdevelopment
  * domain: capabilities
  * intent: "Comprehensive capability listing for Create Pull Request Tool"
- * current_version: "GA1.02.0"
+ * current_version: "V26.02.0"
  * versions: []
  * benchmarks: [
  *   { "name": "capability_comprehensiveness", "test": "Does '{{content}}' cover all essential PR creation capabilities across major VCS platforms? Rate 0-1" },

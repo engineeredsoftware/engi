@@ -4,10 +4,10 @@ import { PromptPart } from '../../parts/PromptPart';
  * @doc-comment-developing-promptpartdevelopment
  * domain: agent
  * intent: "Define Figma Processor agent PTRR steps"
- * current_version: "GA1.50.0"
+ * current_version: "V26.50.0"
  * versions: [
  *   {
- *     version: "GA1.00.0",
+ *     version: "V26.00.0",
  *     score: 0.70,
  *     content: "Plan: Analyze Figma file structure...Retry: Optimize processing with intelligent design pattern recognition",
  *     reason: "Contains vague term 'intelligent design pattern recognition'"

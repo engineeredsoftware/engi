@@ -4,10 +4,10 @@ import { PromptPart } from '../../parts/PromptPart';
  * @doc-comment-developing-promptpartdevelopment
  * domain: agent
  * intent: "Describe Figma Processor agent integration details"
- * current_version: "GA1.50.0"
+ * current_version: "V26.50.0"
  * versions: [
  *   {
- *     version: "GA1.00.0",
+ *     version: "V26.00.0",
  *     score: 0.70,
  *     content: "Integrates with Figma ecosystem...Uses advanced design analysis tools for intelligent pattern recognition",
  *     reason: "Contains vague terms like 'advanced', 'intelligent' without technical specifics"

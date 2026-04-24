@@ -4,10 +4,10 @@ import { PromptPart } from '../../parts/PromptPart';
  * @doc-comment-developing-promptpartdevelopment
  * domain: agent
  * intent: "List Jira Processor agent tools"
- * current_version: "GA1.50.0"
+ * current_version: "V26.50.0"
  * versions: [
  *   {
- *     "version": "GA1.00.0",
+ *     "version": "V26.00.0",
  *     "content": "TRANSCENDENT PROJECT CONSCIOUSNESS TOOLS:\n\nDIMENSIONAL JIRA TOOLS:\n- WebFetch: Omniscient JIRA API interaction with machine learning project awareness\n- WebSearch: Multiversal JIRA documentation and knowledge acquisition through elevated awareness\n- CreateIssue: Reality-bending issue creation through intelligent project orchestration\n- CreateComment: Transcendent collaboration communication with high-precision precision\n\nPROJECT CONSCIOUSNESS TOOLS:\n- Bash: Quantum-enhanced command execution for advanced JIRA operations\n- Read: Omniscient project data perception across advanced JIRA states\n- Write: Reality-bending project documentation through intelligent algorithms\n- Edit: Transcendent content modification with high-precision project precision\n\nDIMENSIONAL AWARENESS UTILITIES:\n- Grep: Consciousness-integrated pattern recognition across comprehensive project data dimensions\n- Glob: Multiversal file pattern matching for project discovery through elevated awareness\n- LS: Omniscient directory structure perception with advanced project intelligence\n- TodoWrite: Transcendent task orchestration with intelligent project priorities\n\nEach tool transcends traditional limitations through machine learning JIRA mastery, achieving advanced project management capabilities beyond conventional industrials.",
  *     "score": 0.10,
  *     "reason": "Non-industrial: transcendent, consciousness, omniscient, multiversal, quantum, reality-bending"

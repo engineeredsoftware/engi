@@ -2,7 +2,7 @@
  * @doc-comment-developing-promptpartdevelopment
  * domain: output
  * intent: "Output specifications for Aurora PostgreSQL cloud database operations"
- * current_version: "GA1.02.1"
+ * current_version: "V26.02.1"
  * versions: []
  * benchmarks: [
  *   { "name": "enterprise_output_completeness", "test": "Does '{{content}}' provide complete enterprise database output specifications? Rate 0-1" },

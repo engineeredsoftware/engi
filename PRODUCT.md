@@ -31,7 +31,7 @@ Instructions are not requests - they are specifications. They contain:
 Every line of code must be:
 - **Deterministic**: Same input, same output, every time
 - **Measurable**: Performance metrics on every operation
-- **Versioned**: 10,000+ PromptParts at GA-1 scale
+- **Versioned**: 10,000+ PromptParts at V26 scale
 - **Traceable**: Complete execution graph visibility
 
 ### 3. DIGEST: Continuous Evolution
@@ -244,7 +244,7 @@ Every agent follows Plan → Try → Refine → Retry with 7-substep hierarchy:
 **Unified Control Plane**: All pipeline executions through single interface
 
 ### Execution Types
-- `pipeline:deliverables` (GA-1 only)
+- `pipeline:deliverables` (V26 only)
 - Future: measure, obfuscate pipelines
 
 ### State Management
@@ -343,7 +343,7 @@ Every agent follows Plan → Try → Refine → Retry with 7-substep hierarchy:
 
 ### Single Migration Truth
 ```sql
--- 001_ga1_production.sql
+-- 001_v26_production.sql
 -- Complete schema, no legacy, no backwards compatibility
 
 CREATE TABLE executions (
@@ -451,4 +451,4 @@ Make every execution perfect.
 Make every pattern permanent.
 Make every codebase intelligent.
 
-The GA-1 Global Phenomenon begins now.
+The V26 Global Phenomenon begins now.

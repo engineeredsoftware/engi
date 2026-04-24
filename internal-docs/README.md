@@ -1,13 +1,13 @@
 # Bitcode Internal Documentation
 
-**GA-1 Production Readiness Documentation**
+**V26 Production Readiness Documentation**
 
 Note:
-- GA-1 Tracking: `GA1-PRODUCTION-READINESS-TRACKING.md` is the sole authoritative tracking document.
+- V26 Tracking: `V26-PRODUCTION-READINESS-TRACKING.md` is the sole authoritative tracking document.
 - All other documents here are reference documentation.
-- GA-2 scope (measure, obfuscate pipelines and related features) is explicitly out of scope for GA-1 and not counted in GA-1 metrics.
+- GA-2 scope (measure, obfuscate pipelines and related features) is explicitly out of scope for V26 and not counted in V26 metrics.
 
-## 🚀 GA-1 Status
+## 🚀 V26 Status
 
 Production readiness targeting early 2025.
 - PromptParts (measured): 1324 typed exports in `packages/prompts/src/raw_promptparts/*`
@@ -37,14 +37,14 @@ AI engineering transformation document.
 - Common technical pitfalls
 
 #### 3. **[PROMPT-ENGINEERING.md](./PROMPT-ENGINEERING.md)**
-GA-1 production prompt system.
+V26 production prompt system.
 - Two-layer architecture: PromptParts and Prompts
 - Performance-Based Versioning (PBV)
 - Coverage and quality tracked via PBV; avoid unverified counts
 - Benchmarking and evolution
 
 #### 4. **[EXECUTABLE-PIPELINES.md](./EXECUTABLE-PIPELINES.md)**
-Pipeline implementations documentation (source-verified). Focuses on GA-1 deliverables pipeline; other pipelines are GA-2 reference only.
+Pipeline implementations documentation (source-verified). Focuses on V26 deliverables pipeline; other pipelines are GA-2 reference only.
 - SDIVS pattern implementation
 - Agent architecture with PTRR
 - OTF system integration
@@ -61,14 +61,14 @@ Doc-comments as prompts system.
 #### 6. **[API.md](./API.md)**
 RESTful API and client-side data management.
 - Endpoint specifications
-- GA-1 active vs post-GA-1 (501) endpoints
+- V26 active vs post-V26 (501) endpoints
 - React Query integration
 - Stripe payments
 - SSE streaming
 
 #### 7. **[DB.md](./DB.md)**
 Database architecture.
-- Migration strategy (001_ga1_schema.sql)
+- Migration strategy (001_v26_schema.sql)
 - Row Level Security patterns
 - Schema documentation
 
@@ -94,7 +94,7 @@ External service integrations.
 ### Infrastructure & Security
 
 #### 11. **[SECURITY.md](./SECURITY.md)** 🚨 **CRITICAL**
-Security audit findings - MUST FIX BEFORE GA-1.
+Security audit findings - MUST FIX BEFORE V26.
 - Hardcoded secrets in version control
 - JWT validation insufficient
 - SQL injection vulnerabilities
@@ -127,8 +127,8 @@ User onboarding and authentication.
 
 ### Project Management
 
-#### 15. **[GA1-PRODUCTION-READINESS-TRACKING.md](./GA1-PRODUCTION-READINESS-TRACKING.md)**
-GA-1 launch tracking.
+#### 15. **[V26-PRODUCTION-READINESS-TRACKING.md](./V26-PRODUCTION-READINESS-TRACKING.md)**
+V26 launch tracking.
 - Launch checklist
 - Progress tracking
 - Known issues
@@ -148,7 +148,7 @@ Archive of experimental concepts.
 - Other experimental ideas that didn't ship
 - Lessons learned from overengineering
 
-## 🚨 GA-1 Critical Path
+## 🚨 V26 Critical Path
 
 1. **Complete all feature work**
 2. **Fix all P0 bugs**
@@ -194,7 +194,7 @@ All documentation follows these principles:
 - Renamed and reorganized all documentation for clarity
 - Merged redundant documents (legacy master guide, SSO, REACT-QUERY-SETUP)
 - Added comprehensive MCP tools documentation
-- Updated for GA-1 production readiness
+- Updated for V26 production readiness
 - Consolidated authentication and onboarding documentation
 
 ## 📊 Documentation Coverage

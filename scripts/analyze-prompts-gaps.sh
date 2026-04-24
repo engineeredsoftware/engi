@@ -22,9 +22,9 @@ has_doc_tag() { # $1=file $2=pattern
   rg -n --hidden -S "$2" "$1" -g '!**/node_modules/**' >/dev/null 2>&1
 }
 
-# Helper: extract PBV version validity (GA1.XX.0)
+# Helper: extract PBV version validity (V26.XX.0)
 is_valid_pbv() { # $1=file; returns 0 if valid
-  rg -n --hidden -P "current_version\s*:\s*\"GA1\.[0-9]{2}\.0\"" "$1" -g '!**/node_modules/**' >/dev/null 2>&1
+  rg -n --hidden -P "current_version\s*:\s*\"V26\.[0-9]{2}\.0\"" "$1" -g '!**/node_modules/**' >/dev/null 2>&1
 }
 
 # Helper: compute average benchmark score in a file (0 if none)
@@ -60,7 +60,7 @@ rg --files packages/prompts/src/raw_promptparts -g '!**/node_modules/**' | rg "\
 done
 
 echo >> "$outfile"
-echo "## 2) PBV Version Validity (current_version must be GA1.XX.0)" >> "$outfile"
+echo "## 2) PBV Version Validity (current_version must be V26.XX.0)" >> "$outfile"
 echo >> "$outfile"
 echo "### Prompts with invalid PBV" >> "$outfile"
 echo >> "$outfile"
@@ -80,7 +80,7 @@ rg --files packages/prompts/src/raw_promptparts -g '!**/node_modules/**' | rg "\
 done
 
 echo >> "$outfile"
-echo "## 3) Benchmark Scores (avg < 0.45 is a GA-1 gap)" >> "$outfile"
+echo "## 3) Benchmark Scores (avg < 0.45 is a V26 gap)" >> "$outfile"
 echo >> "$outfile"
 echo "### Prompts with low benchmark averages" >> "$outfile"
 echo >> "$outfile"

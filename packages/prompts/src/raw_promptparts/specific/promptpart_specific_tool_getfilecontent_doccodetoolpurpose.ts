@@ -2,7 +2,7 @@
  * @doc-comment-developing-promptpartdevelopment
  * domain: purpose
  * intent: "Core purpose statement for Get File Content Tool"
- * current_version: "GA1.02.0"
+ * current_version: "V26.02.0"
  * versions: []
  * benchmarks: [
  *   { "name": "transcendent_purpose", "test": "Does '{{content}}' articulate a transcendent purpose that elevates content retrieval beyond basic access? Rate 0-1" },

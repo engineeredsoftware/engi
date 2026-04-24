@@ -2,7 +2,7 @@
  * @doc-comment-developing-promptpartdevelopment
  * domain: output
  * intent: "Output specification for Create Issue Tool"
- * current_version: "GA1.02.0"
+ * current_version: "V26.02.0"
  * versions: []
  * benchmarks: [
  *   { "name": "tracking_completeness", "test": "Does '{{content}}' provide comprehensive issue tracking and management output? Rate 0-1" },

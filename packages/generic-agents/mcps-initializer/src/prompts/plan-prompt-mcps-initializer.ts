@@ -10,10 +10,10 @@ import { PROMPTPART_SPECIFIC_AGENT_MCPSINITIALIZER_PLAN_INITIALIZATION_STRATEGY 
  * @doc-comment-developing-promptdevelopment
  * domain: agent
  * intent: "Plan step for MCPS Initializer: analyze MCP requirements and plan initialization"
- * current_version: "GA1.50.0"
+ * current_version: "V26.50.0"
  * dependencies: {
- *   "PROMPTPART_SPECIFIC_AGENT_MCPSINITIALIZER_PLAN_PROTOCOL_ANALYSIS": "GA1.00.0",
- *   "PROMPTPART_SPECIFIC_AGENT_MCPSINITIALIZER_PLAN_INITIALIZATION_STRATEGY": "GA1.00.0"
+ *   "PROMPTPART_SPECIFIC_AGENT_MCPSINITIALIZER_PLAN_PROTOCOL_ANALYSIS": "V26.00.0",
+ *   "PROMPTPART_SPECIFIC_AGENT_MCPSINITIALIZER_PLAN_INITIALIZATION_STRATEGY": "V26.00.0"
  * }
  * benchmarks: [
  *   { "name": "technical_accuracy", "test": "Concrete directives and purpose", "score": 0.46 },

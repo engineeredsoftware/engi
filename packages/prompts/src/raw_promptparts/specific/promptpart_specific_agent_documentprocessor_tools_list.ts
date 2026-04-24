@@ -4,10 +4,10 @@ import { PromptPart } from '../../parts/PromptPart';
  * @doc-comment-developing-promptpartdevelopment
  * domain: agent
  * intent: "List Document Processor agent tools"
- * current_version: "GA1.50.0"
+ * current_version: "V26.50.0"
  * versions: [
  *   {
- *     version: "GA1.00.0",
+ *     version: "V26.00.0",
  *     score: 0.40,
  *     content: "documentParserEngine: Multi-format document processing...semanticExtractorTool: Consciousness-aware content understanding and analysis",
  *     reason: "Non-industrial: 'Consciousness-aware' (metaphysical), vague terms like 'Advanced' without specifics"

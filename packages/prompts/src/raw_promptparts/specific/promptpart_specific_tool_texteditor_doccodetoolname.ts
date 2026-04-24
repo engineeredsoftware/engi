@@ -2,7 +2,7 @@
  * @doc-comment-developing-promptpartdevelopment
  * domain: tool
  * intent: "Name for text editor tool"
- * current_version: "GA1.50.0"
+ * current_version: "V26.50.0"
  * versions: []
  * benchmarks: [
  *   { "name": "name_clarity", "test": "Does the name '{{content}}' clearly indicate this is a text/file editing tool? Rate 0-1", "score": 0.50 },

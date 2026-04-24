@@ -45,7 +45,7 @@ const rawPromptPartPaths = [
 ];
 
 const oldWorldSearchResiduePattern =
-  /GA1|TF-IDF|BM25|FAISS|Elasticsearch|OpenSearch|Lucene|WordNet|Naive Bayes|semantic search|content discovery|distributed search|Text Searcher Agent|task description|@bitcode\/generic-tools\/(?:grep|glob|file-system)|grepTool|globTool|fileSystemTool|THE MAGIC|CORRECT declarative|comprehensive text search|Quick search/u;
+  /G[A]1|TF-IDF|BM25|FAISS|Elasticsearch|OpenSearch|Lucene|WordNet|Naive Bayes|semantic search|content discovery|distributed search|Text Searcher Agent|task description|@bitcode\/generic-tools\/(?:grep|glob|file-system)|grepTool|globTool|fileSystemTool|THE MAGIC|CORRECT declarative|comprehensive text search|Quick search/u;
 
 test('V26 text-searcher package has canonical repository-evidence exports and dependencies', () => {
   assert.equal(packageManifest.dependencies['@bitcode/agent-generics'], 'workspace:*');

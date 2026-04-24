@@ -2,7 +2,7 @@
  * @doc-comment-developing-promptpartdevelopment
  * domain: examples
  * intent: "Advanced usage example for Create Pull Request Tool"
- * current_version: "GA1.02.0"
+ * current_version: "V26.02.0"
  * versions: []
  * benchmarks: [
  *   { "name": "advanced_feature_demo", "test": "Does the example in '{{content}}' showcase advanced PR creation features? Rate 0-1" },

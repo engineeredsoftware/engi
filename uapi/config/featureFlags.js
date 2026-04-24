@@ -40,9 +40,9 @@ exports.MOCK_GITHUB_FILES_SCENARIO = process.env.NEXT_PUBLIC_MOCK_GITHUB_FILES_S
 // User template preferences
 exports.MOCK_USER_TEMPLATES = process.env.NEXT_PUBLIC_MOCK_USER_TEMPLATES === 'true';
 exports.MOCK_USER_TEMPLATES_SCENARIO = process.env.NEXT_PUBLIC_MOCK_USER_TEMPLATES_SCENARIO || 'default';
-// GA-1 Feature Flags - disable features not ready for production
+// V26 Feature Flags - disable features not ready for production
 exports.ENABLE_OTF_INSTRUCTIONS = process.env.NEXT_PUBLIC_ENABLE_OTF_INSTRUCTIONS === 'true';
 exports.ENABLE_ENHANCE_DOD = process.env.NEXT_PUBLIC_ENABLE_ENHANCE_DOD === 'true';
 exports.ENABLE_COMPUTE_TOGGLE = process.env.NEXT_PUBLIC_ENABLE_COMPUTE_TOGGLE === 'true';
 exports.ENABLE_MULTI_AGENT_TOGGLE = process.env.NEXT_PUBLIC_ENABLE_MULTI_AGENT_TOGGLE === 'true';
-exports.ENABLE_MEASURE = process.env.NEXT_PUBLIC_ENABLE_MEASURE === 'true'; // Disabled for GA-1
+exports.ENABLE_MEASURE = process.env.NEXT_PUBLIC_ENABLE_MEASURE === 'true'; // Disabled for V26

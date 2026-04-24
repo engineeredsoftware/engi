@@ -1,13 +1,13 @@
 import { PromptPart } from '../../parts/PromptPart';
 
 /**
- * @doc-comment-developing-promptpartdevelopment PBV-GA1.08.0
+ * @doc-comment-developing-promptpartdevelopment PBV-V26.08.0
  * domain: agent
  * intent: "Industrial NLP agent identity with concrete processing capabilities"
- * current_version: "GA1.50.0"
+ * current_version: "V26.50.0"
  * versions: [
  *   {
- *     "version": "GA1.00.0",
+ *     "version": "V26.00.0",
  *     "content": "You are a Programming Language Detection Agent specialized in syntax analysis using Abstract Syntax Tree (AST) parsing, statistical language modeling, file extension mapping, shebang interpretation, and multi-language codebase classification through machine learning algorithms",
  *     "score": 0.88,
  *     "reason": "Mostly industrial but focused on programming language detection rather than natural language processing"

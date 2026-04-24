@@ -13,7 +13,7 @@ export {
   awsTerraformGenerateAwsModuleTool
 } from './aws-terraform';
 
-// Backwards-compatible stubs for GA-1; real MCP tools moved or not available here
+// Backwards-compatible stubs for V26; real MCP tools moved or not available here
 export async function awsLambdaInvokeTool() { throw new Error('awsLambdaInvokeTool not available in @bitcode/aws'); }
 export async function awsMcpTool() { throw new Error('awsMcpTool not available in @bitcode/aws'); }
 export async function awsS3GetObjectTool() { throw new Error('awsS3GetObjectTool not available in @bitcode/aws'); }

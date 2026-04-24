@@ -2,7 +2,7 @@
  * @doc-comment-developing-promptpartdevelopment
  * domain: tool
  * intent: "Output specifications for Bitbucket MCP version control operations"
- * current_version: "GA1.50.0"
+ * current_version: "V26.50.0"
  * versions: []
  * benchmarks: [
  *   { "name": "version_control_output_comprehensiveness", "test": "Does '{{content}}' cover comprehensive version control outputs? Rate 0-1" },

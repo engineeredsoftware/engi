@@ -26,7 +26,7 @@ import { PROMPTPART_SPECIFIC_TOOL_CONTEXT_AWARENESS_LSP_FOOTER } from '@bitcode/
  * - Zero duplication, infinite reusability
  */
 
-// Context awareness phrases (GA-1 semantic units)
+// Context awareness phrases (V26 semantic units)
 
 
 

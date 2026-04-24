@@ -4,7 +4,7 @@ import { PromptPart } from '../../parts/PromptPart';
  * @doc-comment-developing-promptpartdevelopment
  * domain: tool
  * intent: "Section label for prerequisites in Digest Task Guides"
- * current_version: "GA1.70.0"
+ * current_version: "V26.70.0"
  * versions: []
  * benchmarks: [
  *   { "name": "label_precision", "test": "Does it list setup prerequisites with examples? Rate 0-1", "score": 0.95 }

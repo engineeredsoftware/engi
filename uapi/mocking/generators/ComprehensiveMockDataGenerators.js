@@ -76,7 +76,7 @@ class ComprehensiveMockDataGenerator {
         this.generators.set('DELIVERABLE_STREAM', () => this.generateDeliverableStream());
         this.generators.set('DELIVERABLE_LOGS', () => this.generateDeliverableLogs());
         this.generators.set('DELIVERABLE_RUN_EVENTS', () => this.generateDeliverableRunEvents());
-        // AI Documents Pipeline removed - not GA-1
+        // AI Documents Pipeline removed - not V26
         // ========================================================================
         // CONVERSATIONS (ChatGPT for Engineering)
         // ========================================================================
@@ -901,7 +901,7 @@ class ComprehensiveMockDataGenerator {
     generateDeliverableStream() { return this.generateStreamData('deliverable'); }
     generateDeliverableLogs() { return this.generateLogsData('deliverable'); }
     generateDeliverableRunEvents() { return this.generateRunEventsData('deliverable'); }
-    // AI Documents Pipeline removed - not GA-1
+    // AI Documents Pipeline removed - not V26
     // Conversations Features (continued)
     generateConversationRuns() { return [{ id: 'conversation_run_' + this.generateId(), status: 'completed', result: 'Analysis complete' }]; }
     generateConversationSources() { return [{ type: 'github', url: 'https://github.com/org/repo', status: 'connected' }]; }
@@ -1029,7 +1029,7 @@ class ComprehensiveMockDataGenerator {
     generateErrorScenarios() { return { type: 'timeout', message: 'Request timed out', code: 'TIMEOUT_ERROR' }; }
     generatePerformanceMetrics() { return { response_time: '89ms', memory_usage: '67%', cpu_usage: '23%' }; }
     // Utility methods for related generators
-    // adaptForAI Documents removed - not GA-1
+    // adaptForAI Documents removed - not V26
     generateInstructionsData(type) {
         return [
             { step: 1, instruction: `Analyze ${type} requirements`, status: 'completed' },

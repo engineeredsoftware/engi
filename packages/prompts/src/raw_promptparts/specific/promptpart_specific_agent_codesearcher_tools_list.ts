@@ -4,7 +4,7 @@ import { PromptPart } from '../../parts/PromptPart';
  * @doc-comment-developing-promptpartdevelopment
  * domain: agent
  * intent: "Industrial AST parsing tools with concrete algorithmic specifications"
- * current_version: "GA1.50.0"
+ * current_version: "V26.50.0"
  * versions: []
  * benchmarks: [
  *   { "name": "tool_specificity", "test": "Do tools specify concrete parsing operations? Rate 0-1", "score": 0.50 },

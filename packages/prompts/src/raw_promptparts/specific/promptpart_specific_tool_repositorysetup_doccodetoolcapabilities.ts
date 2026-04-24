@@ -2,7 +2,7 @@
  * @doc-comment-developing-promptpartdevelopment
  * domain: capabilities
  * intent: "Capabilities description for repository setup (clone repository) tool"
- * current_version: "GA1.00.0"
+ * current_version: "V26.00.0"
  * versions: []
  * benchmarks: [
  *   { "name": "feature_completeness", "test": "Does '{{content}}' cover all major cloning features? Rate 0-1" },

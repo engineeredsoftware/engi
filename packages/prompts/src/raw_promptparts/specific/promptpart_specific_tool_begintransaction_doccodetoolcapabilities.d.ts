@@ -3,7 +3,7 @@ import { PromptPart } from '../../parts/PromptPart';
  * @doc-comment-developing-promptpartdevelopment
  * domain: tool
  * intent: "Doc-code-tool capabilities for BeginTransaction helper"
- * current_version: "GA1.50.0"
+ * current_version: "V26.50.0"
  * versions: []
  * benchmarks: [
  *   { "name": "capability_scope", "test": "Does it enumerate audit, validation, and rollback behaviors? Rate 0-1", "score": 0.93 },

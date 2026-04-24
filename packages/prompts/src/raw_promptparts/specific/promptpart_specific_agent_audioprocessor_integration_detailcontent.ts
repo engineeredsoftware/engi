@@ -4,8 +4,8 @@ import { PromptPart } from '../../parts/PromptPart';
  * @doc-comment-developing-promptpartdevelopment
  * domain: agent
  * intent: "Describe Audio Processor agent integration details"
- * current_version: "GA1.50.0"
- * versions: ["GA1.00.0"]
+ * current_version: "V26.50.0"
+ * versions: ["V26.00.0"]
  * benchmarks: [
  *   { "name": "integration_clarity", "test": "Does it clearly describe integration capabilities? Rate 0-1", "score": 0.92 },
  *   { "name": "technical_detail", "test": "Does it provide sufficient technical integration details? Rate 0-1", "score": 0.88 },

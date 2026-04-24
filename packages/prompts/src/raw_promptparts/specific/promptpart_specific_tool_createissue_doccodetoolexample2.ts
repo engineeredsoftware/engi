@@ -2,7 +2,7 @@
  * @doc-comment-developing-promptpartdevelopment
  * domain: examples
  * intent: "Advanced usage example for Create Issue Tool"
- * current_version: "GA1.02.0"
+ * current_version: "V26.02.0"
  * versions: []
  * benchmarks: [
  *   { "name": "advanced_issue_management", "test": "Does the example in '{{content}}' showcase advanced issue management and workflow features? Rate 0-1" },

@@ -2,7 +2,7 @@
  * @doc-comment-developing-promptpartdevelopment
  * domain: examples
  * intent: "Example demonstrating enterprise logistics fleet management with real-time tracking"
- * current_version: "GA1.01.0"
+ * current_version: "V26.01.0"
  * versions: []
  * benchmarks: [
  *   { "name": "fleet_management_demonstration", "test": "Does '{{content}}' demonstrate enterprise fleet management capabilities? Rate 0-1" },

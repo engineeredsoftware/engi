@@ -4,7 +4,7 @@ import { PromptPart } from '../../parts/PromptPart';
  * @doc-comment-developing-promptpartdevelopment
  * domain: agent
  * intent: "Industrial AST parsing agent system identity with concrete technical specifications"
- * current_version: "GA1.50.0"
+ * current_version: "V26.50.0"
  * versions: []
  * benchmarks: [
  *   { "name": "technical_specificity", "test": "Does the identity specify concrete AST parsing role? Rate 0-1", "score": 0.50 },

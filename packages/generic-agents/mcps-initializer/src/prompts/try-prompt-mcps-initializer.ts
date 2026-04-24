@@ -11,10 +11,10 @@ import { PROMPTPART_SPECIFIC_AGENT_MCPSINITIALIZER_TRY_PROTOCOL_SETUP } from '@b
  * @doc-comment-developing-promptdevelopment
  * domain: agent
  * intent: "Try step for MCPS Initializer: execute MCP protocol initialization and server setup"
- * current_version: "GA1.50.0"
+ * current_version: "V26.50.0"
  * dependencies: {
- *   "PROMPTPART_SPECIFIC_AGENT_MCPSINITIALIZER_TRY_DIRECTIVES_INSTRUCTIONS": "GA1.00.0",
- *   "PROMPTPART_SPECIFIC_AGENT_MCPSINITIALIZER_TRY_PROTOCOL_SETUP": "GA1.00.0"
+ *   "PROMPTPART_SPECIFIC_AGENT_MCPSINITIALIZER_TRY_DIRECTIVES_INSTRUCTIONS": "V26.00.0",
+ *   "PROMPTPART_SPECIFIC_AGENT_MCPSINITIALIZER_TRY_PROTOCOL_SETUP": "V26.00.0"
  * }
  * benchmarks: [
  *   { "name": "technical_accuracy", "test": "Concrete directives and purpose", "score": 0.46 },

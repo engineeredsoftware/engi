@@ -94,7 +94,7 @@ const rawPromptPartPaths = [
 ];
 
 const oldWorldSearchResiduePattern =
-  /GA1|Enterprise WebSearch|enterprise-grade|Production-grade|production-grade|business intelligence|Prometheus|Grafana|Redis Cluster|Google Custom Search|Bing Web Search|DuckDuckGo API|machine learning result optimization|TF-IDF|PageRank|BERT|RoBERTa|TypeScript performance optimization|production outage kubernetes|web search specialist|Provide concrete|domain.appropriate|web-scraping|automated scraping/u;
+  /G[A]1|Enterprise WebSearch|enterprise-grade|Production-grade|production-grade|business intelligence|Prometheus|Grafana|Redis Cluster|Google Custom Search|Bing Web Search|DuckDuckGo API|machine learning result optimization|TF-IDF|PageRank|BERT|RoBERTa|TypeScript performance optimization|production outage kubernetes|web search specialist|Provide concrete|domain.appropriate|web-scraping|automated scraping/u;
 
 const exportNamePattern = /export const ([A-Za-z0-9_]+)(?:: PromptPart)?\s*=/m;
 

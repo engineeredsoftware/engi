@@ -2,7 +2,7 @@
  * @doc-comment-developing-promptpartdevelopment
  * domain: tool
  * intent: "Name for website crawling tool"
- * current_version: "GA1.50.0"
+ * current_version: "V26.50.0"
  * versions: []
  * benchmarks: [
  *   { "name": "name_clarity", "test": "Does '{{content}}' clearly indicate website crawling? Rate 0-1", "score": 0.5 },

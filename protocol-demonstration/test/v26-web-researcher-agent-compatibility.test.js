@@ -58,7 +58,7 @@ const rawPromptPartPaths = [
 ];
 
 const oldWorldWebResearchResiduePattern =
-  /GA1|Enterprise Web Data Extraction|Selenium|Puppeteer|Scrapy|BeautifulSoup|CAPTCHA|proxy rotation|Apache Airflow|Prometheus|Grafana|Revolutionary|task requirements|task context|taskType|automated web scraping|data extraction workflows|Production-grade web search framework/u;
+  /G[A]1|Enterprise Web Data Extraction|Selenium|Puppeteer|Scrapy|BeautifulSoup|CAPTCHA|proxy rotation|Apache Airflow|Prometheus|Grafana|Revolutionary|task requirements|task context|taskType|automated web scraping|data extraction workflows|Production-grade web search framework/u;
 
 const exportNamePattern = /export const ([A-Za-z0-9_]+)(?:: PromptPart)?\s*=/m;
 

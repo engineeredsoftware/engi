@@ -2,7 +2,7 @@
  * @doc-comment-developing-promptpartdevelopment
  * domain: tool
  * intent: "Example showing file creation with content"
- * current_version: "GA1.50.0"
+ * current_version: "V26.50.0"
  * versions: []
  * benchmarks: [
  *   { "name": "creation_clarity", "test": "Does '{{content}}' clearly show how to create a new file? Rate 0-1", "score": 0.50 },

@@ -7,7 +7,7 @@ import type { PromptPart } from '@bitcode/prompts/parts/PromptPart';
  * @doc-comment-developing-promptdevelopment
  * domain: tool
  * intent: "Base prompt class for doc-code-tool documentation composition"
- * current_version: "GA1.70.0"
+ * current_version: "V26.70.0"
  * versions: []
  * benchmarks: [
  *   { "name": "section_alignment", "test": "Does the base class enforce all doc-code-tool sections? Rate 0-1", "score": 0.96 },

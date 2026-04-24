@@ -26,7 +26,7 @@ type MetaPhaseConfig = {
  * Add meta-phase support to existing deliverable pipeline
  *
  * This is a minimal wrapper that:
- * 1. Initializes meta-phase state (default: Develop for GA-1)
+ * 1. Initializes meta-phase state (default: Develop for V26)
  * 2. Runs meta-phase preprocess before each DIV iteration
  * 3. Checks for transitions after validation
  * 4. Continues DIV loop within current meta-phase
@@ -35,12 +35,12 @@ export function withMetaPhaseSupport<TInput, TOutput>(
   basePipeline: Executor<TInput, TOutput>,
   options?: {
     /**
-     * Starting meta-phase (default: Develop for GA-1 backwards compat)
+     * Starting meta-phase (default: Develop for V26 backwards compat)
      */
     initialMetaPhase?: 'Design' | 'Develop' | 'Digest';
 
     /**
-     * Enable full DDD flow (default: false for GA-1)
+     * Enable full DDD flow (default: false for V26)
      * When false, stays in single meta-phase
      * When true, transitions through Design → Develop → Digest
      */
@@ -71,7 +71,7 @@ export function withMetaPhaseSupport<TInput, TOutput>(
         metaPhasePreprocess(input, execution);
 
         // Note: In full DDD implementation, would recursively run pipeline
-        // For GA-1, we just mark the transition and let UI handle next execution
+        // For V26, we just mark the transition and let UI handle next execution
         execution.store('meta', 'transitionedTo', newMetaPhase);
         execution.store('meta', 'requiresNewExecution', true);
       }

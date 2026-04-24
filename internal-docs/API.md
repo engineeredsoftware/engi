@@ -11,7 +11,7 @@ The Bitcode API provides RESTful endpoints for the V26 intelligence amplificatio
 2. **Consistency**: Uniform response shapes and error handling
 3. **Security**: Row Level Security (RLS) with auth tokens
 4. **Performance**: Streaming for long operations, pagination for lists
-5. **Clarity**: GA-1 features work, post-GA-1 features return 501
+5. **Clarity**: V26 features work, post-V26 features return 501
 
 ### Response Standards
 
@@ -46,18 +46,18 @@ The Bitcode API provides RESTful endpoints for the V26 intelligence amplificatio
 }
 ```
 
-#### Post-GA-1 Feature Response (501)
+#### Post-V26 Feature Response (501)
 ```typescript
 {
   error: 'Feature not available',
   message: 'Organizations and teams is planned for Q2 2025',
-  status: 'POST_GA1_FEATURE',
-  ga1_release: '2025-01',
+  status: 'POST_V26_FEATURE',
+  v26_release: '2025-01',
   planned_release: 'Q2 2025'
 }
 ```
 
-## GA-1 Active Endpoints
+## V26 Active Endpoints
 
 ### Authentication & User Management
 
@@ -127,7 +127,7 @@ Body: {
 }
 ```
 
-### VCS Integration (GitHub Only for GA-1)
+### VCS Integration (GitHub Only for V26)
 
 #### `GET /api/vcs/github/repositories`
 Lists user's GitHub repositories.
@@ -301,7 +301,7 @@ Response: {
 }
 ```
 
-## Post-GA-1 Endpoints (Return 501)
+## Post-V26 Endpoints (Return 501)
 
 ### Organizations & Teams (Q2 2025)
 - `GET /api/organizations`
@@ -333,10 +333,10 @@ Response: {
 
 ## Middleware Protection
 
-The `uapi/middleware.ts` file implements GA-1 route protection:
+The `uapi/middleware.ts` file implements V26 route protection:
 
 ```typescript
-const POST_GA1_ROUTES = [
+const POST_V26_ROUTES = [
   '/api/organizations',
   '/api/invitations',
   '/api/measure',        // placeholder for the need-measurement pipeline primitive
@@ -348,7 +348,7 @@ const POST_GA1_ROUTES = [
   '/api/integrations/notion',
 ]
 
-// Returns 501 with helpful message for post-GA-1 routes
+// Returns 501 with helpful message for post-V26 routes
 ```
 
 ## Authentication
@@ -388,7 +388,7 @@ X-RateLimit-Reset: 1234567890
 - `404` - Not Found
 - `429` - Rate Limited
 - `500` - Internal Server Error
-- `501` - Not Implemented (Post-GA-1 features)
+- `501` - Not Implemented (Post-V26 features)
 
 ### Application Error Codes
 - `AUTH_REQUIRED` - Authentication required
@@ -396,7 +396,7 @@ X-RateLimit-Reset: 1234567890
 - `INSUFFICIENT_CREDITS` - Not enough credits
 - `PIPELINE_FAILED` - Pipeline execution error
 - `VCS_ERROR` - Version control operation failed
-- `POST_GA1_FEATURE` - Feature not available in GA-1
+- `POST_V26_FEATURE` - Feature not available in V26
 
 ## Streaming & Real-time
 
@@ -548,5 +548,5 @@ OpenTelemetry integration for distributed tracing across pipeline execution.
 ---
 
 *Last Updated: 2025-01-10*
-*Version: GA-1 (1.0.0)*
+*Version: V26 (1.0.0)*
 *Status: Production Ready*

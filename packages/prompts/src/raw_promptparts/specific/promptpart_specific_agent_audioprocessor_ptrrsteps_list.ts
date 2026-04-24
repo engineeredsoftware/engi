@@ -4,8 +4,8 @@ import { PromptPart } from '../../parts/PromptPart';
  * @doc-comment-developing-promptpartdevelopment
  * domain: agent
  * intent: "Define Audio Processor agent PTRR steps"
- * current_version: "GA1.50.0"
- * versions: ["GA1.00.0"]
+ * current_version: "V26.50.0"
+ * versions: ["V26.00.0"]
  * benchmarks: [
  *   { "name": "step_clarity", "test": "Does it clearly define each PTRR step? Rate 0-1", "score": 0.92 },
  *   { "name": "technical_precision", "test": "Does it specify technical processing steps? Rate 0-1", "score": 0.89 },

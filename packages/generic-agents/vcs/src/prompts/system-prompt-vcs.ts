@@ -18,8 +18,8 @@ import { PROMPTPART_GENERIC_AGENT_GENERATION_STRUCTURED_OUTPUT } from '@bitcode/
  * @doc-comment-developing-promptdevelopment
  * domain: agent
  * intent: "System prompt for VCS agent"
- * current_version: "GA1.50.0"
- * versions: ["1.0.0", "2.0.0", "GA1.43.0"]
+ * current_version: "V26.50.0"
+ * versions: ["1.0.0", "2.0.0", "V26.43.0"]
  * benchmarks: [
  *   { "name": "system_coherence", "test": "Does the system prompt provide coherent instructions? Rate 0-1", "score": 0.94 },
  *   { "name": "vcs_completeness", "test": "Does it cover all version control requirements? Rate 0-1", "score": 0.93 },

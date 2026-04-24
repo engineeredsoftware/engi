@@ -2,7 +2,7 @@
  * @doc-comment-developing-promptpartdevelopment
  * domain: parameters
  * intent: "Parameter specification for List Branches Tool"
- * current_version: "GA1.02.0"
+ * current_version: "V26.02.0"
  * versions: []
  * benchmarks: [
  *   { "name": "discovery_flexibility", "test": "Do the parameters in '{{content}}' support flexible and comprehensive repository discovery scenarios? Rate 0-1" },

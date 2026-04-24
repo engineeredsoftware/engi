@@ -16,7 +16,7 @@ describe('EdgetimesPageContent', () => {
     expect(
       screen.getByText('Converge storage, schema, and retained package ownership.'),
     ).toBeInTheDocument();
-    expect(screen.getAllByText('supabase/migrations/001_ga1_production.sql').length).toBeGreaterThan(0);
+    expect(screen.getAllByText('supabase/migrations/001_v26_production.sql').length).toBeGreaterThan(0);
     expect(screen.getByText('@bitcode/supabase')).toBeInTheDocument();
     expect(screen.getByText('run_jobs')).toBeInTheDocument();
     expect(screen.getByRole('link', { name: 'Return to docs' })).toHaveAttribute('href', '/docs');

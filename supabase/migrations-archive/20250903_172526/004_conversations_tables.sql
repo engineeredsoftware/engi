@@ -20,8 +20,8 @@ CREATE TABLE IF NOT EXISTS messages (
   
   -- Optional references to entities that generated this message
   deliverable_id UUID REFERENCES deliverables(id) ON DELETE SET NULL,
-  -- ai_document_id UUID REFERENCES ai_documents(id) ON DELETE SET NULL, -- Disabled for GA-1 (ai_documents table not created yet)
-  ai_document_id UUID, -- Column exists but no FK constraint for GA-1
+  -- ai_document_id UUID REFERENCES ai_documents(id) ON DELETE SET NULL, -- Disabled for V26 (ai_documents table not created yet)
+  ai_document_id UUID, -- Column exists but no FK constraint for V26
   source_connection_id UUID REFERENCES user_connections(id) ON DELETE SET NULL,
   
   created_at TIMESTAMPTZ DEFAULT NOW()
@@ -35,8 +35,8 @@ CREATE TABLE IF NOT EXISTS conversation_attachments (
   
   -- References to actual entities (only one will be non-null)
   deliverable_id UUID REFERENCES deliverables(id) ON DELETE CASCADE,
-  -- ai_document_id UUID REFERENCES ai_documents(id) ON DELETE CASCADE, -- Disabled for GA-1 (ai_documents table not created yet)
-  ai_document_id UUID, -- Column exists but no FK constraint for GA-1
+  -- ai_document_id UUID REFERENCES ai_documents(id) ON DELETE CASCADE, -- Disabled for V26 (ai_documents table not created yet)
+  ai_document_id UUID, -- Column exists but no FK constraint for V26
   connection_id UUID REFERENCES user_connections(id) ON DELETE CASCADE,
   
   -- For direct file uploads

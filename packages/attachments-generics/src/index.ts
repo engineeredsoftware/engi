@@ -9,7 +9,7 @@
  * 3. URL Attachments - Web links and external resources
  * 4. Integration Attachments - Notion pages, Figma artboards, etc.
  * 
- * GA-1 version: 1.0.0
+ * V26 version: 1.0.0
  * Pattern: universal-types
  * Philosophy: "One attachment system to rule them all"
  */

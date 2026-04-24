@@ -285,7 +285,7 @@ exports.mockDeliverables = {
         performanceTracking: true
     })
 };
-// AI Documents pipeline removed - not GA-1
+// AI Documents pipeline removed - not V26
 // ============================================================================
 // ORGANIZATION & ENTERPRISE MIDDLEWARE
 // ============================================================================

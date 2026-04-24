@@ -34,7 +34,7 @@ const formatted = prompt.format(); // Validates and formats
 
 ## The /raw_promptparts/ Directory
 
-10,000+ PromptParts at GA-1 scale:
+10,000+ PromptParts at V26 scale:
 ```
 /raw_promptparts/
 ├── generic/     # Reusable across contexts (flat)
@@ -51,14 +51,14 @@ Every PromptPart has metadata:
  * @doc-comment-developing-promptpartdevelopment
  * domain: agent
  * intent: "Define agent identity for code analysis"
- * current_version: "GA1.92.0"
+ * current_version: "V26.92.0"
  */
 ```
 
 ## Performance-Based Versioning (PBV)
 
 Format: `GA<generation>.<quality>.<variant>`
-- GA1.92.0 = Generation 1, 92% quality, original
+- V26.92.0 = Generation 1, 92% quality, original
 - Quality from benchmarks: intent match, clarity, efficiency, stability
 
 ## Key Rules

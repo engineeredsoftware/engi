@@ -4,7 +4,7 @@ import { PromptPart } from '../../parts/PromptPart';
  * @doc-comment-developing-promptpartdevelopment
  * domain: agent
  * intent: "Define Technology Stack Analyzer agent identity and specialization"
- * current_version: "GA1.50.0"
+ * current_version: "V26.50.0"
  * versions: []
  * benchmarks: [
  *   { "name": "identity_clarity", "test": "Does it clearly define agent identity and capabilities? Rate 0-1", "score": 0.97 },

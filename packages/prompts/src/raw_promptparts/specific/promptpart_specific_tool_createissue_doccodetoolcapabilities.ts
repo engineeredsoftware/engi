@@ -2,7 +2,7 @@
  * @doc-comment-developing-promptpartdevelopment
  * domain: capabilities
  * intent: "Comprehensive capability listing for Create Issue Tool"
- * current_version: "GA1.02.0"
+ * current_version: "V26.02.0"
  * versions: []
  * benchmarks: [
  *   { "name": "issue_management_depth", "test": "Does '{{content}}' demonstrate deep issue management capabilities beyond basic creation? Rate 0-1" },

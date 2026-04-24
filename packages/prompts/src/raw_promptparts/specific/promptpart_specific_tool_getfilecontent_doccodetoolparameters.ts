@@ -2,7 +2,7 @@
  * @doc-comment-developing-promptpartdevelopment
  * domain: parameters
  * intent: "Parameter specification for Get File Content Tool"
- * current_version: "GA1.02.0"
+ * current_version: "V26.02.0"
  * versions: []
  * benchmarks: [
  *   { "name": "parameter_transcendence", "test": "Do the parameters in '{{content}}' support transcendent content access scenarios beyond traditional file retrieval? Rate 0-1" },

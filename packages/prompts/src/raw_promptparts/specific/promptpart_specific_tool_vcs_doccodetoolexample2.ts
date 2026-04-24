@@ -2,7 +2,7 @@
  * @doc-comment-developing-promptpartdevelopment
  * domain: examples
  * intent: "Example showing pull request creation migration from deprecated to VCS"
- * current_version: "GA1.00.0"
+ * current_version: "V26.00.0"
  * versions: []
  * benchmarks: [
  *   { "name": "pr_migration_clarity", "test": "Does '{{content}}' clearly show how to migrate pull request creation to VCS tools? Rate 0-1" },

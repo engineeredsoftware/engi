@@ -92,7 +92,7 @@ export class ComprehensiveMockDataGenerator {
     this.generators.set('DELIVERABLE_LOGS', () => this.generateDeliverableLogs());
     this.generators.set('DELIVERABLE_RUN_EVENTS', () => this.generateDeliverableRunEvents());
 
-    // AI Documents Pipeline removed - not GA-1
+    // AI Documents Pipeline removed - not V26
 
     // ========================================================================
     // CONVERSATIONS (ChatGPT for Engineering)
@@ -986,7 +986,7 @@ export class ComprehensiveMockDataGenerator {
   private generateDeliverableLogs() { return this.generateLogsData('deliverable'); }
   private generateDeliverableRunEvents() { return this.generateRunEventsData('deliverable'); }
 
-  // AI Documents Pipeline removed - not GA-1
+  // AI Documents Pipeline removed - not V26
 
   // Conversations Features (continued)
   private generateConversationRuns() { return [{ id: 'conversation_run_' + this.generateId(), status: 'completed', result: 'Analysis complete' }]; }
@@ -1134,7 +1134,7 @@ export class ComprehensiveMockDataGenerator {
   private generatePerformanceMetrics() { return { response_time: '89ms', memory_usage: '67%', cpu_usage: '23%' }; }
 
   // Utility methods for related generators
-  // adaptForAI Documents removed - not GA-1
+  // adaptForAI Documents removed - not V26
 
   private generateInstructionsData(type: string) {
     return [

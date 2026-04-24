@@ -2,7 +2,7 @@
  * @doc-comment-developing-promptpartdevelopment
  * domain: tool
  * intent: "Tool-specific semantic unit (PROMPTPART_SPECIFIC_TOOL_CLOUDFLAREMCP_DOCCODETOOLEXAMPLE3)"
- * current_version: "GA1.50.0"
+ * current_version: "V26.50.0"
  * versions: []
  * benchmarks: [
  *   { "name": "technical_accuracy", "test": "Uses concrete technical language", "score": 0.50 },

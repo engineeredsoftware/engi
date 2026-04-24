@@ -1,8 +1,8 @@
 #!/bin/bash
 
-# Update legacy language to industrial GA-1 language
+# Update legacy language to industrial V26 language
 
-echo "=== Updating legacy language to industrial GA-1 ==="
+echo "=== Updating legacy language to industrial V26 ==="
 
 # Files to update
 FILES=(
@@ -78,7 +78,7 @@ grep -h "consciousness\|transcendent\|quantum\|dimensional\|manifest\|elevated" 
 REMAINING=$(grep -l "consciousness\|transcendent\|quantum\|dimensional\|manifest\|elevated" "${FILES[@]}" 2>/dev/null | wc -l)
 echo ""
 if [ $REMAINING -eq 0 ]; then
-  echo "✓ All legacy language updated to industrial GA-1!"
+  echo "✓ All legacy language updated to industrial V26!"
 else
   echo "✗ $REMAINING files still contain legacy terms"
 fi

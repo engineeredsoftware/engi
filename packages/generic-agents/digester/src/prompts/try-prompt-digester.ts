@@ -16,7 +16,7 @@ import { PROMPTPART_GENERIC_AGENT_GENERATION_STRUCTURED_OUTPUT } from '@bitcode/
  * @doc-comment-developing-promptdevelopment
  * domain: agent
  * intent: "TRY step prompt for Digester agent"
- * current_version: "GA1.50.0"
+ * current_version: "V26.50.0"
  * versions: ["2.0.0", "1.0.0"]
  * benchmarks: [
  *   { "name": "execution_clarity", "test": "Does the prompt enable clear content synthesis execution? Rate 0-1", "score": 0.90 },

@@ -2,7 +2,7 @@
  * @doc-comment-developing-promptpartdevelopment
  * domain: tool
  * intent: "Provides example usage for VCS pull request creation tool"
- * current_version: "GA1.50.0"
+ * current_version: "V26.50.0"
  * versions: []
  * benchmarks: [
  *   { "name": "example_completeness", "test": "Does '{{content}}' provide a complete, realistic example? Rate 0-1", "score": 0.50 },

@@ -2,7 +2,7 @@
  * @doc-comment-developing-promptpartdevelopment
  * domain: tool
  * intent: "Parameter specification for VCS list repositories tool"
- * current_version: "GA1.50.0"
+ * current_version: "V26.50.0"
  * versions: []
  * benchmarks: [
  *   { "name": "parameter_completeness", "test": "Does '{{content}}' include all required and optional parameters? Rate 0-1", "score": 0.50 },

@@ -1,6 +1,6 @@
 /**
  * Template Types for the Bitcode platform
- * GA-1 Production Ready
+ * V26 Production Ready
  */
 
 // Deliverable template types matching UI categories

@@ -11,10 +11,10 @@ import { PROMPTPART_GENERIC_AGENT_GENERATION_STRUCTURED_OUTPUT } from '@bitcode/
  * @doc-comment-developing-promptdevelopment
  * domain: agent
  * intent: "Retry step for Code Searcher: deepen search and extract insights"
- * current_version: "GA1.50.0"
+ * current_version: "V26.50.0"
  * dependencies: {
- *   "PROMPTPART_SPECIFIC_AGENT_CODESEARCHER_RETRY_DEEPENING_STRATEGY": "GA1.00.0",
- *   "PROMPTPART_SPECIFIC_AGENT_CODESEARCHER_RETRY_INSIGHT_EXTRACTION": "GA1.00.0"
+ *   "PROMPTPART_SPECIFIC_AGENT_CODESEARCHER_RETRY_DEEPENING_STRATEGY": "V26.00.0",
+ *   "PROMPTPART_SPECIFIC_AGENT_CODESEARCHER_RETRY_INSIGHT_EXTRACTION": "V26.00.0"
  * }
  * benchmarks: [
  *   { "name": "technical_accuracy", "test": "Concrete directives and purpose", "score": 0.46 },

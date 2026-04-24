@@ -4,8 +4,8 @@ import { PromptPart } from '../../parts/PromptPart';
  * @doc-comment-developing-promptpartdevelopment
  * domain: agent
  * intent: "Define Document Processor agent system identity"
- * current_version: "GA1.50.0"
- * versions: ["GA1.00.0"]
+ * current_version: "V26.50.0"
+ * versions: ["V26.00.0"]
  * benchmarks: [
  *   { "name": "document_parsing_precision", "test": "Does it precisely define document parsing capabilities? Rate 0-1", "score": 0.95 },
  *   { "name": "format_coverage", "test": "Does it specify comprehensive format support? Rate 0-1", "score": 0.93 },

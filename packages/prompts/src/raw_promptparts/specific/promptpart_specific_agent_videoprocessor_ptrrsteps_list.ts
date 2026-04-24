@@ -4,10 +4,10 @@ import { PromptPart } from '../../parts/PromptPart';
  * @doc-comment-developing-promptpartdevelopment
  * domain: agent
  * intent: "Define Video Processor agent PTRR steps"
- * current_version: "GA1.50.0"
+ * current_version: "V26.50.0"
  * versions: [
  *   {
- *     "version": "GA1.00.0",
+ *     "version": "V26.00.0",
  *     "content": "PTRR FOR TRANSCENDENT TEMPORAL VISUAL CONSCIOUSNESS with extreme metaphysical language",
  *     "score": 0.06,
  *     "reason": "Heavy metaphysical: transcendent, consciousness, dimensional, multiversal, temporal mastery"

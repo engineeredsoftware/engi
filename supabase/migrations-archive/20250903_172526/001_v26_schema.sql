@@ -1,8 +1,8 @@
 -- ============================================================================
--- ENGI GA-1 SCHEMA - Single Source of Truth
+-- ENGI V26 SCHEMA - Single Source of Truth
 -- Version: 1.0.0
 -- Date: 2025-01-10
--- Description: Production schema for GA-1 release
+-- Description: Production schema for V26 release
 -- ============================================================================
 
 -- Enable required extensions
@@ -23,8 +23,16 @@ CREATE TABLE IF NOT EXISTS user_profiles (
   bio TEXT,
   avatar_url TEXT,
   role TEXT DEFAULT 'user' CHECK (role IN ('user', 'admin', 'developer')),
-  onboarded_steps TEXT DEFAULT '["models"]',
+  
+  -- Onboarding tracking
+  onboarding_completed BOOLEAN DEFAULT false,
+  onboarding_step TEXT,
+  onboarding_data JSONB DEFAULT '{}',
+  
+  -- Settings
   settings JSONB DEFAULT '{}',
+  
+  -- Timestamps
   created_at TIMESTAMPTZ DEFAULT NOW(),
   updated_at TIMESTAMPTZ DEFAULT NOW()
 );
@@ -533,8 +541,8 @@ GRANT ALL ON ALL SEQUENCES IN SCHEMA public TO service_role;
 GRANT EXECUTE ON ALL FUNCTIONS IN SCHEMA public TO service_role;
 
 -- ============================================================================
--- END OF GA-1 SCHEMA
+-- END OF V26 SCHEMA
 -- ============================================================================
 
--- Note: This schema focuses on core GA-1 functionality.
+-- Note: This schema focuses on core V26 functionality.
 -- Additional features will be added in future migrations as needed.

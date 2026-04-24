@@ -2,7 +2,7 @@
  * UAPI MIDDLEWARE - Centralized Middleware Pipeline
  *
  * Consolidates all middleware concerns into a unified, composable system.
- * Provides pipeline-based middleware composition for GA-1 production readiness.
+ * Provides pipeline-based middleware composition for V26 production readiness.
  */
 
 import { NextRequest, NextResponse } from 'next/server';

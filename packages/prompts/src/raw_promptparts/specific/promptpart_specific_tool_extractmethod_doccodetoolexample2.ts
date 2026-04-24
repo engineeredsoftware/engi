@@ -2,7 +2,7 @@
  * @doc-comment-developing-promptpartdevelopment
  * domain: example
  * intent: "Complex extraction example for extract method tool"
- * current_version: "GA1.00.0"
+ * current_version: "V26.00.0"
  * versions: []
  * benchmarks: [
  *   { "name": "complexity_demonstration", "test": "Does '{{content}}' show a more complex extraction scenario? Rate 0-1" },

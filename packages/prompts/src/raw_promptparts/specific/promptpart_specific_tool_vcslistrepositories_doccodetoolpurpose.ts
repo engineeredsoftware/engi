@@ -2,7 +2,7 @@
  * @doc-comment-developing-promptpartdevelopment
  * domain: tool
  * intent: "Purpose statement for VCS list repositories tool"
- * current_version: "GA1.50.0"
+ * current_version: "V26.50.0"
  * versions: []
  * benchmarks: [
  *   { "name": "purpose_clarity", "test": "Does '{{content}}' clearly explain what the tool does and why? Rate 0-1", "score": 0.50 },

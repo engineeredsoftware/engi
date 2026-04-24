@@ -2,7 +2,7 @@
  * @doc-comment-developing-promptpartdevelopment
  * domain: tool
  * intent: "Core purpose statement for replace file tool"
- * current_version: "GA1.50.0"
+ * current_version: "V26.50.0"
  * versions: []
  * benchmarks: [
  *   { "name": "purpose_clarity", "test": "Does '{{content}}' clearly explain what the tool does? Rate 0-1", "score": 0.50 },

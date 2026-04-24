@@ -15,10 +15,10 @@ import { PROMPTPART_GENERIC_AGENT_GENERATION_STRUCTURED_OUTPUT } from '@bitcode/
  * @doc-comment-developing-promptdevelopment
  * domain: agent
  * intent: "Agent-level prompt for Code Searcher: identity and documentation"
- * current_version: "GA1.45.0"
+ * current_version: "V26.45.0"
  * dependencies: {
- *   "PROMPTPART_SPECIFIC_AGENT_CODESEARCHER_PURPOSE_CORESTATEMENT": "GA1.00.0",
- *   "PROMPTPART_SPECIFIC_AGENT_CODESEARCHER_CAPABILITIES_LIST": "GA1.00.0"
+ *   "PROMPTPART_SPECIFIC_AGENT_CODESEARCHER_PURPOSE_CORESTATEMENT": "V26.00.0",
+ *   "PROMPTPART_SPECIFIC_AGENT_CODESEARCHER_CAPABILITIES_LIST": "V26.00.0"
  * }
  * benchmarks: [
  *   { "name": "technical_accuracy", "test": "Concrete agent identity and scope", "score": 0.46 },

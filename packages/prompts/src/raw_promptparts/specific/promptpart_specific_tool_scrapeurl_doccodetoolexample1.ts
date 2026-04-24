@@ -2,7 +2,7 @@
  * @doc-comment-developing-promptpartdevelopment
  * domain: examples
  * intent: "Example showing basic webpage scraping for markdown content"
- * current_version: "GA1.00.0"
+ * current_version: "V26.00.0"
  * versions: []
  * benchmarks: [
  *   { "name": "basic_usage", "test": "Does '{{content}}' demonstrate simple markdown extraction? Rate 0-1" },

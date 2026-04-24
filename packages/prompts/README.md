@@ -208,7 +208,7 @@ import { PROMPTPART_SPECIFIC_TOOL_WEBSEARCHTOOL_PURPOSE_CORESTATEMENT }
  * @doc-comment-developing-prompt
  * domain: tool
  * intent: "Format web search tool documentation"
- * current_version: "GA1.88.0"
+ * current_version: "V26.88.0"
  * versions: []
  * dependencies: {
  *   "PROMPTPART_GENERIC_FORMATTING_YOUARE": "1.95.0",
@@ -366,10 +366,10 @@ promptpart_generic_formatting_section_header.ts
 - **Self-Documenting**: Filename tells complete story
 - **Position Clarity**: Know exactly where each part goes
 
-## GA1 Semantic Units = Zero Inline Strings
+## V26 Semantic Units = Zero Inline Strings
 
 ### PTRR Phase & Output PromptParts
-Deliverable (and future GA1) pipelines now model every PTRR phase header, context statement, and output requirement as PromptParts under `raw_promptparts/specific`. Examples:
+Deliverable (and future V26) pipelines now model every PTRR phase header, context statement, and output requirement as PromptParts under `raw_promptparts/specific`. Examples:
 
 ```
 promptpart_specific_agent_analyzecodebase_phase_plan_label.ts
@@ -390,7 +390,7 @@ promptpart_specific_tool_digest_taskguides_structure_task_steps_label.ts
 promptpart_specific_tool_digest_codestyles_constraints_output_detailcontent.ts
 ```
 
-- Every doc section label (purpose, parameters, “Best For”, etc.) is a PromptPart with GA1 metadata.
+- Every doc section label (purpose, parameters, “Best For”, etc.) is a PromptPart with V26 metadata.
 - Metadata values such as tool name/category that affect inference are PromptParts. Enum-like fields (priority/stability) may remain literals if they never change semantically.
 - When creating a new doc-code prompt, add the necessary PromptParts first, then wire them through a `Prompt` subclass or builder—never `createPromptPart('Section: ...')` inline.
 
@@ -449,10 +449,10 @@ For PromptPart development with PBV versioning:
  * @doc-comment-developing-promptpart
  * domain: formatting
  * intent: "Standard AI greeting prefix"
- * current_version: "GA1.95.0"
+ * current_version: "V26.95.0"
  * versions: [
  *   {
- *     "version": "GA1.85.0",
+ *     "version": "V26.85.0",
  *     "content": "You are",
  *     "timestamp": "2024-01-15T10:00:00Z",
  *     "benchmarks": {
@@ -464,7 +464,7 @@ For PromptPart development with PBV versioning:
  *     "current": false
  *   },
  *   {
- *     "version": "GA1.95.0",
+ *     "version": "V26.95.0",
  *     "content": "You are an",
  *     "timestamp": "2024-01-20T14:00:00Z",
  *     "benchmarks": {
@@ -489,11 +489,11 @@ For full Prompt development with dependencies:
  * @doc-comment-developing-prompt
  * domain: tool
  * intent: "Format web search tool documentation"
- * current_version: "GA1.88.0"
+ * current_version: "V26.88.0"
  * versions: []
  * dependencies: {
- *   "PROMPTPART_GENERIC_FORMATTING_YOUARE": "GA1.95.0",
- *   "PROMPTPART_SPECIFIC_TOOL_WEBSEARCHTOOL_IDENTITY_CORESTATEMENT": "GA1.00.0"
+ *   "PROMPTPART_GENERIC_FORMATTING_YOUARE": "V26.95.0",
+ *   "PROMPTPART_SPECIFIC_TOOL_WEBSEARCHTOOL_IDENTITY_CORESTATEMENT": "V26.00.0"
  * }
  */
 ```
@@ -523,15 +523,15 @@ Version format follows PBV pattern:
 GA<generation>.<quality_score>.<variant>
 ```
 
-- **Generation**: Major approach change (GA1, GA2, GA3...)
+- **Generation**: Major approach change (V26, GA2, GA3...)
 - **Quality Score**: Benchmark score 0-100
 - **Variant**: Different phrasings at same generation
 
 Examples:
-- `GA1.00.0`: Generation 1, unbenchmarked, original
-- `GA1.85.0`: Generation 1, 85% quality, original
-- `GA1.85.1`: Generation 1, 85% quality, variant 1
-- `GA1.92.0`: Generation 1, 92% quality (evolved)
+- `V26.00.0`: Generation 1, unbenchmarked, original
+- `V26.85.0`: Generation 1, 85% quality, original
+- `V26.85.1`: Generation 1, 85% quality, variant 1
+- `V26.92.0`: Generation 1, 92% quality (evolved)
 - `GA2.78.0`: Generation 2, 78% quality, new approach
 
 
@@ -709,11 +709,11 @@ console.log(`Quality Score: ${result.overallScore}`);
 7. **Comprehensive Testing**: Quality gates and benchmarking
 8. **Dry Run Capabilities**: Development without LLM costs
 
-## GA-1 Readiness
+## V26 Readiness
 
-The prompts package is evolving toward GA-1 (Generally Available v1) with:
+The prompts package is evolving toward V26 (Generally Available v1) with:
 
-### GA-1 Requirements
+### V26 Requirements
 - **100% Industrial Language**: All PromptParts at v2.0.0 with concrete technical terms
 - **100% Doc-Comment Coverage**: Every file has @doc-comment-developing-promptpart
 - **Zero Non-Industrial Terms**: No "quantum", "consciousness", "transcendent", etc.
@@ -753,7 +753,7 @@ The prompts package is evolving toward GA-1 (Generally Available v1) with:
 
 This package represents prompt engineering as a primitive system - not through complex abstractions, but through elegant formatting of typed strings. The branded type system enables build-time tooling while maintaining runtime simplicity. Every prompt part is granular, discoverable, and formattable.
 
-At GA-1, capability emerges from the precise formatting of benchmarked, granular semantic units. Each unit is measured, versioned, and evolved based on empirical performance data. The system enables autonomous prompt evolution while maintaining human oversight through quality gates.
+At V26, capability emerges from the precise formatting of benchmarked, granular semantic units. Each unit is measured, versioned, and evolved based on empirical performance data. The system enables autonomous prompt evolution while maintaining human oversight through quality gates.
 
 The result is a foundation where capability is both measurable and evolvable.
 

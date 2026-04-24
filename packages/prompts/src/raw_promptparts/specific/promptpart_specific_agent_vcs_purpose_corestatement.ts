@@ -4,16 +4,16 @@ import { PromptPart } from '../../parts/PromptPart';
  * @doc-comment-developing-promptpartdevelopment
  * domain: agent
  * intent: "Define VCS agent purpose"
- * current_version: "GA1.50.0"
+ * current_version: "V26.50.0"
  * versions: [
  *   {
- *     version: "GA1.00.0",
+ *     version: "V26.00.0",
  *     score: 0.15,
  *     content: "Execute Git operations using libgit2 bindings, manage repository workflows via git commands",
  *     reason: "Non-industrial: used system commands instead of API operations"
  *   },
  *   {
- *     version: "GA1.47.0",
+ *     version: "V26.47.0",
  *     score: 0.47,
  *     content: "Execute version control operations through provider APIs, manage repository workflows via GitHub/GitLab/Bitbucket REST interfaces, implement merge conflict resolution through API endpoints, and automate branch management using provider-specific authentication protocols",
  *     reason: "Industrial language with API-only operations"

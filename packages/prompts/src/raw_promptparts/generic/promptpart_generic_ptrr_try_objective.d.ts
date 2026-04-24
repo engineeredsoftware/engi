@@ -3,7 +3,7 @@ import { PromptPart } from '../../parts/PromptPart';
  * @doc-comment-developing-promptpartdevelopment
  * domain: ptrr
  * intent: "Define objective and approach for TRY step initial execution attempt"
- * current_version: "GA1.50.0"
+ * current_version: "V26.50.0"
  * versions: []
  * benchmarks: [
  *   { "name": "try_guidance", "test": "Does it guide effective initial execution?", "score": 0.80 },

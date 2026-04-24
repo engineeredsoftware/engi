@@ -4,10 +4,10 @@ import { PromptPart } from '../../parts/PromptPart';
  * @doc-comment-developing-promptpartdevelopment
  * domain: agent
  * intent: "Define Video Processor agent purpose"
- * current_version: "GA1.50.0"
+ * current_version: "V26.50.0"
  * versions: [
  *   {
- *     "version": "GA1.00.0",
+ *     "version": "V26.00.0",
  *     "content": "Manifest temporal visual intelligence through comprehensive video reality synthesis...",
  *     "score": 0.12,
  *     "reason": "Metaphysical: manifest, temporal, reality synthesis, transcends"

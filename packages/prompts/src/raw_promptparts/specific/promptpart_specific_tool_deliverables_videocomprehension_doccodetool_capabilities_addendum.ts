@@ -6,7 +6,7 @@ import { PromptPart } from '../../parts/PromptPart';
  * intent: "Bitcode retained deliverable-compatibility tool PromptPart for need-first asset-pack setup and written-asset evidence: tool deliverables videocomprehension doccodetool capabilities addendum"
  * current_version: "0.50.0"
  * versions: [
- *   { "version": "GA1.20.0", "score": 0.50, "content": "Understands video", "reason": "Missing mention of frame analysis or audio track extraction" }
+ *   { "version": "V26.20.0", "score": 0.50, "content": "Understands video", "reason": "Missing mention of frame analysis or audio track extraction" }
  * ]
  * benchmarks: [
  *   { "name": "technical_accuracy", "test": "Mentions frame sampling and audio?", "score": 0.50 },

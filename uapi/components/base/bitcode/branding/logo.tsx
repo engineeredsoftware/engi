@@ -42,7 +42,7 @@ export default function Logo({
       />
       {beta && (
         <div className="absolute z-30 bottom-0 right-[-10px] translate-x-[65%] translate-y-[65%] text-xs font-medium text-nowrap">
-          <span className="text-[#65FEB7] [text-shadow:0_0_8px_rgba(101,254,183,0.8),0_0_16px_rgba(101,254,183,0.4)]">GA-1</span><sup className="text-[0.75em] ml-[1px] text-[#FF9547] [text-shadow:0_0_8px_rgba(255,149,71,0.8),0_0_16px_rgba(255,149,71,0.4)]">PRC</sup>
+          <span className="text-[#65FEB7] [text-shadow:0_0_8px_rgba(101,254,183,0.8),0_0_16px_rgba(101,254,183,0.4)]">V26</span><sup className="text-[0.75em] ml-[1px] text-[#FF9547] [text-shadow:0_0_8px_rgba(255,149,71,0.8),0_0_16px_rgba(255,149,71,0.4)]">PRC</sup>
         </div>
       )}
     </div>

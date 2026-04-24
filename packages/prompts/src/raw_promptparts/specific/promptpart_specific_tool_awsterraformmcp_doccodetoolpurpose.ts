@@ -2,7 +2,7 @@
  * @doc-comment-developing-promptpartdevelopment
  * domain: purpose
  * intent: "Core purpose statement for AWS Terraform infrastructure automation"
- * current_version: "GA1.03.0"
+ * current_version: "V26.03.0"
  * versions: []
  * benchmarks: [
  *   { "name": "infrastructure_automation_purpose_clarity", "test": "Does '{{content}}' clearly articulate infrastructure automation purpose? Rate 0-1" },

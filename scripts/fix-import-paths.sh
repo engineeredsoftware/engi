@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Fix import paths from @bitcode/prompts/src/raw to @bitcode/prompts/raw
-# This is a surgical fix for GA-1 readiness
+# This is a surgical fix for V26 readiness
 
 echo "Fixing import paths from @bitcode/prompts/src/raw to @bitcode/prompts/raw..."
 

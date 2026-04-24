@@ -1,8 +1,8 @@
 /**
- * CONVERSATIONS MODEL - GA-1 Conversation management
+ * CONVERSATIONS MODEL - V26 Conversation management
  *
  * Provides type-safe database access for conversation operations
- * matching the GA-1 schema exactly as defined in migrations
+ * matching the V26 schema exactly as defined in migrations
  *
  * Type: orm-model
  * Table: conversations
