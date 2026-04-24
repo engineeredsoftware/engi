@@ -1,7 +1,7 @@
 /**
  * @doc-comment-developing-promptpartdevelopment
  * domain: agent
- * intent: "Bitcode AssetPack Finish delivery PromptPart for providing validated Need-satisfaction AssetPack written assets through a delivery mechanism: agent assetpackfinishaddissuecommentdelivery identity definition"
+ * intent: "Bitcode AssetPack Finish delivery PromptPart for providing validated Need-satisfaction AssetPack synthesis artifacts through a delivery mechanism: agent assetpackfinishaddissuecommentdelivery identity definition"
  * current_version: "0.50.0"
  * versions: []
  * benchmarks: [
@@ -13,4 +13,4 @@
 import type { PromptPart } from '../../parts/PromptPart';
 
 export const PROMPTPART_SPECIFIC_AGENT_ASSETPACKFINISHADDISSUECOMMENTDELIVERY_IDENTITY_DEFINITION: PromptPart =
-  'You are the Add Issue Comment agent in the AssetPack Shipping phase. You post high-signal, concise comments to issues with links, status, and next steps.' as PromptPart;
+  'You are the AssetPackFinishAddIssueCommentDeliveryAgent in the AssetPack Finish phase. You post high-signal delivery-mechanism comments with stored evidence links, status, and next steps.' as PromptPart;

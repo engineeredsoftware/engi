@@ -6,6 +6,7 @@ Supersedes: `/Users/garrettmaring/Developer/ENGI/BITCODE_SPEC_TEMPLATEGUIDE.md`
 Applies to:
 - future canonical Bitcode system specification versions,
 - future canonical promotion commits,
+- concise `KISS` specification companions,
 - generated `_PROVEN_` appendices,
 - generated `.bitcode/vN-*` canonical artifacts,
 - system parity matrices,
@@ -37,11 +38,12 @@ This file defines the required shape, quality bar, and release discipline for su
 The priority order for specifying truth is:
 1. `BITCODE_SPEC.txt`
 2. the pointed `BITCODE_SPEC_VN.md`
-3. `BITCODE_SPEC_VN_DELTA.md`
-4. `BITCODE_SPEC_VN_PARITY_MATRIX.md`
-5. generated `BITCODE_SPEC_VN_PROVEN.md`
-6. generated `.bitcode/vN-*` artifacts
-7. named realization/demo specs and adjunct docs, only where the active spec family explicitly references them
+3. `BITCODE_SPEC_VN_KISS.md`
+4. `BITCODE_SPEC_VN_DELTA.md`
+5. `BITCODE_SPEC_VN_PARITY_MATRIX.md`
+6. generated `BITCODE_SPEC_VN_PROVEN.md`
+7. generated `.bitcode/vN-*` artifacts
+8. named realization/demo specs and adjunct docs, only where the active spec family explicitly references them
 
 Older versioned specs are historical.
 They may be cited for provenance, but the active `SPEC` must not require them for current semantic recovery.
@@ -50,10 +52,11 @@ They may be cited for provenance, but the active `SPEC` must not require them fo
 
 When drafting a new version, the minimum canonical input set is:
 1. the current pointed `SPEC`,
-2. the current generated `_PROVEN_`,
-3. the current parity matrix,
-4. the current canonical structured `.bitcode/vN-*` artifacts,
-5. and any canon-named realization or adjunct documents required by the active spec family.
+2. the current `KISS` companion from V26 onward,
+3. the current generated `_PROVEN_`,
+4. the current parity matrix,
+5. the current canonical structured `.bitcode/vN-*` artifacts,
+6. and any canon-named realization or adjunct documents required by the active spec family.
 
 Optional notes may still be useful for local working context, but they are not required canonical inputs and must not override canonical files.
 
@@ -101,6 +104,7 @@ That means `SPEC` itself must be:
 
 The supporting canonical family then adds:
 - `SPEC_DELTA` for version-local decisions and refinements,
+- `SPEC_KISS` for concise version reading and highest-level diffing,
 - `SPEC_PARITY_MATRIX` for source/generated/test/promotion truth,
 - `_PROVEN_` for generated proof rendering,
 - and `.bitcode/vN-*` for generated structured evidence.
@@ -237,20 +241,23 @@ Beginning with V21, the required hand-authored system-spec file family is:
 2. `BITCODE_SPEC_VN_DELTA.md`
    The version-local delta, decision record, implementation-revealed refinement record, accepted boundary ledger, and canonical commit-message input.
 
-3. `BITCODE_SPEC_VN_PARITY_MATRIX.md`
+3. `BITCODE_SPEC_VN_KISS.md`
+   The concise, current, highest-level version specification summary for fast reading and version-to-version diffing. It is required from V26 onward and is never a substitute for implementation-grade `SPEC`.
+
+4. `BITCODE_SPEC_VN_PARITY_MATRIX.md`
    The system parity matrix across spec claims, source implementation, generated artifacts, tests, operator surfaces, promotion gates, accepted boundaries, and known debt.
 
 Generated canonical artifacts are required separately when applicable:
 
-4. `BITCODE_SPEC_VN_PROVEN.md`
+5. `BITCODE_SPEC_VN_PROVEN.md`
    The generated-only proof appendix for the canonical version.
 
-5. `.bitcode/vN-*`
+6. `.bitcode/vN-*`
    Generated structured artifacts required by the version's proof, promotion, quality, replay, matrix, or contract-change canon.
 
 The root pointer is:
 
-6. `BITCODE_SPEC.txt`
+7. `BITCODE_SPEC.txt`
    The only active canonical pointer.
 
 ## 3.1 Renamed Files
@@ -375,6 +382,7 @@ Every `BITCODE_SPEC_VN.md` must begin with a status block that states:
 - and accepted realization/demo basis.
 
 The companion `DELTA` and `PARITY_MATRIX` must repeat the same status truth.
+From V26 onward, the companion `KISS` file must repeat the same status truth too.
 
 For V21+, those status lines should use stable literal labels so source-side checks can validate them mechanically.
 At minimum, the hand-authored canonical file family should expose:
@@ -946,7 +954,27 @@ If the rule remains current canon after promotion, it must also appear in `SPEC`
 
 ---
 
-# 10. `SPEC_PARITY_MATRIX` Requirements
+# 10. `SPEC_KISS` Requirements
+
+`BITCODE_SPEC_VN_KISS.md` is the concise version summary for a full Bitcode spec family.
+It is required from V26 onward.
+
+The KISS companion must:
+- repeat status truth from the family;
+- state the current protocol, product, and proof meaning in concise language;
+- identify the gate commitments that govern the version;
+- name the primary implementation and parity priorities at a high level;
+- distinguish protocol objects, product surfaces, and proof surfaces without implementation-grade tables;
+- be simple enough that comparing two `KISS` files gives the fastest high-level version diff;
+- and never be the only place a normative implementation rule exists.
+
+`KISS` is intentionally not `SPEC` compression.
+If a developer must implement behavior, they use `SPEC`.
+If a reviewer needs the fastest correct shape of the version, they read `KISS` first.
+
+---
+
+# 11. `SPEC_PARITY_MATRIX` Requirements
 
 `BITCODE_SPEC_VN_PARITY_MATRIX.md` is the source/spec/generated-artifact parity ledger.
 
@@ -972,7 +1000,7 @@ Recommended layer labels:
 - `documentation`,
 - `accepted-boundary`.
 
-## 10.1 Judgment Language
+## 11.1 Judgment Language
 
 Allowed judgments:
 - `drafted`,
@@ -1009,7 +1037,7 @@ For promoted versions, required parity rows must no longer use transitional judg
 Those are draft-phase or reopening judgments.
 A promoted parity matrix must either record `closed`, `accepted boundary`, `deprecated`, or `historical only` as appropriate.
 
-## 10.2 Promotion Status Rows
+## 11.2 Promotion Status Rows
 
 The parity matrix must include rows for:
 - pointer status,
@@ -1026,7 +1054,7 @@ For promoted-mode repository checks, the parity matrix should also expose a mach
 
 ---
 
-# 11. Promotion Requirements
+# 12. Promotion Requirements
 
 Canonical promotion is part of system specifying.
 
@@ -1056,6 +1084,7 @@ The preconditions are not limited to filenames.
 Promotion-time checks may and should validate:
 - required full-spec sections in `SPEC`,
 - required decision/change sections in `DELTA`,
+- required concise full-system sections in `KISS` from V26 onward,
 - required parity sections in `PARITY_MATRIX`,
 - consistent status truth across the hand-authored family,
 - and absence of stale promoted-status language.
@@ -1065,7 +1094,7 @@ That post-mutation validation must include any new current-version generated art
 
 If the hand-authored family still truthfully points at the prior canonical target during draft mode, the promotion workflow must include a dedicated preparation step that rewrites the hand-authored status truth to the promoted posture before post-mutation validation runs.
 
-## 11.1 Commit Message Body
+## 12.1 Commit Message Body
 
 The canonical commit message body must be derivable from:
 - version,
@@ -1080,7 +1109,7 @@ The body must not claim closure that the parity matrix does not support.
 
 ---
 
-# 12. Validation Requirements
+# 13. Validation Requirements
 
 Every full spec must define the validation stack.
 
@@ -1110,7 +1139,7 @@ This dual-family validation is the preferred way to detect a specifying rule tha
 
 ---
 
-# 13. Operator and Pedagogy Requirements
+# 14. Operator and Pedagogy Requirements
 
 Operator-facing surfaces are canonical when they carry product truth.
 
@@ -1132,7 +1161,7 @@ Pedagogy is correctness when operator misunderstanding would distort review, pro
 
 ---
 
-# 14. System-vs-Adjunct Realization Separation
+# 15. System-vs-Adjunct Realization Separation
 
 System canon and adjunct realization/demo canon must remain separate.
 That separation does not mean the main `SPEC` is protocol-only.
@@ -1167,7 +1196,7 @@ If current source only exists under a demo directory, the spec must still distin
 
 ---
 
-# 15. Content Quality Requirements
+# 16. Content Quality Requirements
 
 A full spec must be:
 - complete,
@@ -1180,7 +1209,7 @@ A full spec must be:
 - organized,
 - and honest about boundaries.
 
-## 15.1 Required Precision
+## 16.1 Required Precision
 
 Use exact:
 - ids,
@@ -1208,7 +1237,7 @@ Avoid:
 - prose-only proofs,
 - hidden source assumptions.
 
-## 15.2 Source References
+## 16.2 Source References
 
 Source references must be parity-bearing.
 They should identify:
@@ -1218,7 +1247,7 @@ They should identify:
 - test entrypoint,
 - and whether the surface is protocol, Exchange, Terminal, API, MCP, third-party interface, adjunct realization, generated, or operator-facing.
 
-## 15.3 Code Documentation Patterns
+## 16.3 Code Documentation Patterns
 
 Because current Bitcode canon now includes formal product implementations and active interface families, code-documentation surfaces can carry canonical truth and must be specified accordingly.
 
@@ -1236,7 +1265,7 @@ When a code-documentation surface teaches active behavior, the current `SPEC` mu
 - what product posture it carries,
 - and what parity or proof surface validates it.
 
-## 15.4 Boundary Honesty
+## 16.4 Boundary Honesty
 
 Accepted boundaries are allowed.
 Silent boundaries are not.
@@ -1250,7 +1279,7 @@ Every accepted boundary must include:
 
 ---
 
-# 16. Organization Requirements
+# 17. Organization Requirements
 
 The spec should be organized for both fast understanding and deep audit.
 
@@ -1269,7 +1298,7 @@ Required organization principles:
 
 ---
 
-# 17. Appendix Architecture
+# 18. Appendix Architecture
 
 A full `SPEC` must include appendices or appendix-equivalent sections for:
 - canonical type and surface catalog,
@@ -1312,7 +1341,7 @@ They must contain current inventories and matrices, not placeholder prose about 
 
 ---
 
-# 18. Full-Spec Completion Checklist
+# 19. Full-Spec Completion Checklist
 
 A full Bitcode `SPEC` is structurally complete only when:
 1. the current system can be understood without reading older specs,

@@ -4,7 +4,7 @@
 
 The **AssetPack Pipeline** is the Bitcode phased pipeline corridor:
 - the run satisfies a measured Need
-- the run synthesizes stable written assets and AssetPack evidence
+- the run synthesizes AssetPack synthesis artifacts and Exchange-stored AssetPack evidence
 - Finish saves results and Delivering optionally provides AssetPacks or AssetPackPartials to connected-interface destinations
 
 ## Architecture
@@ -33,8 +33,8 @@ const result = await assetPackPipeline({
 ## Key Features
 
 - **Need-Satisfying Pipeline Runs**: Each run is an inference corridor that satisfies a Bitcode Need
-- **Stable Written Assets**: The primary output is written assets and AssetPack evidence, not a third-party wrapper
-- **Delivery Mechanisms**: Delivering creates connected-interface handoffs such as PRs or comments on top of those assets
+- **AssetPack Synthesis Artifacts**: Implementation outputs Need-satisfaction content and source mutations that can be validated and stored as Exchange evidence
+- **Delivery Mechanisms**: Delivering creates connected-interface artifacts such as PRs or comments on top of stored AssetPack evidence
 - **Actual Code Editing**: Implementation uses code-editor agent for real file modifications
 - **SDIVF Pattern**: Setup → [Discovery → Implementation → Validation]* → Finish
 - **DIV Iteration**: Automatic iteration until validation passes (max 3)
@@ -44,4 +44,4 @@ const result = await assetPackPipeline({
 
 ## Why It Matters
 
-This is an early Bitcode productized inference corridor: it turns Need input into stable assets, then delivers them through interface-specific mechanisms like pull requests.
+This is an early Bitcode productized inference corridor: it turns Need input into AssetPack synthesis artifacts and stored evidence, then optionally delivers AssetPacks or AssetPackPartials through interface-specific mechanisms like pull requests.

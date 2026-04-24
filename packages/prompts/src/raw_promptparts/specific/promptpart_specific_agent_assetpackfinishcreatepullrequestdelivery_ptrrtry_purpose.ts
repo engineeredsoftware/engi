@@ -1,7 +1,7 @@
 /**
  * @doc-comment-developing-promptpartdevelopment
  * domain: auto
- * intent: "Bitcode AssetPack Finish delivery PromptPart for providing validated Need-satisfaction AssetPack written assets through a delivery mechanism: agent assetpackfinishcreatepullrequestdelivery ptrrtry purpose"
+ * intent: "Bitcode AssetPack Finish delivery PromptPart for providing validated Need-satisfaction AssetPack synthesis artifacts through a delivery mechanism: agent assetpackfinishcreatepullrequestdelivery ptrrtry purpose"
  * current_version: "0.50.0"
  * versions: []
  * benchmarks: [
@@ -15,7 +15,7 @@ import { PromptPart } from '../../parts/PromptPart';
 /**
  * @doc-comment-developing-promptpartdevelopment
  * domain: agent
- * intent: "Bitcode AssetPack Finish delivery PromptPart for providing validated Need-satisfaction AssetPack written assets through a delivery mechanism: agent assetpackfinishcreatepullrequestdelivery ptrrtry purpose"
+ * intent: "Bitcode AssetPack Finish delivery PromptPart for providing validated Need-satisfaction AssetPack synthesis artifacts through a delivery mechanism: agent assetpackfinishcreatepullrequestdelivery ptrrtry purpose"
  * current_version: "0.50.0"
  * versions: []
  * benchmarks: [
@@ -23,4 +23,4 @@ import { PromptPart } from '../../parts/PromptPart';
  * ]
  */
 export const PROMPTPART_SPECIFIC_AGENT_ASSETPACKFINISHCREATEPULLREQUESTDELIVERY_PTRRTRY_PURPOSE: PromptPart = 
-  'PTRR Try Step: execute the initial pull-request delivery mechanism creation attempt for validated Need-satisfaction AssetPack written assets on the VCS platform' as PromptPart;
+  'PTRR Try Step: execute the initial pull-request delivery mechanism creation attempt for validated Need-satisfaction AssetPack synthesis artifacts on the VCS platform' as PromptPart;

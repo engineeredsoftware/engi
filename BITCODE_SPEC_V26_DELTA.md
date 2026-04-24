@@ -6,12 +6,14 @@
 - Current canonical/latest target: `V26`
 - Canonical pointer: `/Users/garrettmaring/Developer/ENGI/BITCODE_SPEC.txt` -> `V26`
 - Active canonical anchor: `/Users/garrettmaring/Developer/ENGI/BITCODE_SPEC_V26.md`
+- KISS companion: `/Users/garrettmaring/Developer/ENGI/BITCODE_SPEC_V26_KISS.md`
 - Active generated proof appendix: `/Users/garrettmaring/Developer/ENGI/BITCODE_SPEC_V26_PROVEN.md`
 - Canonical proof-source commit: `9d0733fed5f63d2f977900384d4103f9fd887f03`
 - Prior canonical anchor: `/Users/garrettmaring/Developer/ENGI/_legacy/ENGI_SPEC_V25.md`
 - Prior generated proof appendix: `/Users/garrettmaring/Developer/ENGI/_legacy/ENGI_SPEC_V25_PROVEN.md`
 - Generated structured artifact inventory: active canonical `.bitcode/v19-*` reproducible reports, `.bitcode/v20-*` operator-quality reports, `.bitcode/v26-spec-family-report.json`, `.bitcode/v26-canonical-input-report.json`, `.bitcode/v26-gate-checkpoint-report.json`, `.bitcode/conversations-continuity-proof.json`, `.bitcode/runs-pipelines-totality-proof.json`, `.bitcode/persistence-schema-totality-proof.json`, `.bitcode/prompt-system-totality-proof.json`, `.bitcode/inference-implementation-records-proof.json`, `.bitcode/fourth-gate-reclosure-review-proof.json`, `.bitcode/source-to-shares-fifth-gate-proof.json`, `.bitcode/fifth-gate-closure-deepening-proof.json`, `.bitcode/retained-package-admissibility-proof.json`, and `BITCODE_SPEC_V26_PROVEN.md`
 - Spec companion: `/Users/garrettmaring/Developer/ENGI/BITCODE_SPEC_V26.md`
+- KISS companion: `/Users/garrettmaring/Developer/ENGI/BITCODE_SPEC_V26_KISS.md`
 - Parity companion: `/Users/garrettmaring/Developer/ENGI/BITCODE_SPEC_V26_PARITY_MATRIX.md`
 - Notes companion: `/Users/garrettmaring/Developer/ENGI/BITCODE_SPEC_V26_NOTES.md`
 - Source parity state: retained-system convergence now has material proof evidence across application routes, auxillary compatibility redirects, persistence witnesses, prompt-system ports, documentation/spec synchronization, and the fourth-gate reclosure review; fifth-gate source-to-shares and closure-deepening proof evidence exists while fifth through eighth gate remain open
@@ -42,6 +44,7 @@ The DELTA is allowed to include transition color that the main SPEC must not car
 - proof, test, typecheck, generated artifact, or specification witness required for closure.
 
 The main `BITCODE_SPEC_V26.md` specifies Bitcode as the system now is.
+`BITCODE_SPEC_V26_KISS.md` gives the concise, diff-friendly V26 reading of the same system; it is not dense enough to replace the main SPEC.
 `BITCODE_SPEC_V26_NOTES.md` records granular "was this, now is that" reform ledger details.
 This DELTA specifies the architectural movement between those two perspectives so future work can understand why the whole repository is being reformed at once.
 
@@ -103,7 +106,7 @@ It is not exhaustive; it fixes the expected descriptive density for later DELTA 
 | demonstration protocol runtime and proof shell | deterministic protocol witness and lower-rail proof reference | `protocol-demonstration/*` | reference implementation plus proof substrate | generated proof family, protocol tests, source-to-shares witnesses |
 | commercial application shell, routes, conversations, and auxillary panes | Terminal and Exchange operator experience | `uapi/app/application/*`, `uapi/app/api/*`, `uapi/app/auxillaries/*`, `packages/api/*` | direct-product and interface owner | app/API tests, route reread evidence, Terminal selected-detail persistence |
 | execution history and retained run surfaces | Exchange-readable activity, execution state, and Terminal transaction detail | `packages/api/src/routes/*`, `uapi/app/api/executions/*`, storage read models | direct-product persistence/interface corridor | persistence proof, API tests, execution-history reread |
-| deliverable pipeline orchestration | Need-satisfying agentic pipeline run that synthesizes AssetPacks and written assets, then Finishes and optionally Delivers through a destination mechanism | `packages/pipelines/asset-pack/*`, `@bitcode/pipeline-asset-pack`, `packages/pipelines-generics/*` | filesystem owner renamed to AssetPack while route/payload compatibility carriers remain bounded | pipeline finish reform tests, package-filesystem proof, inference records, runs-pipelines proof |
+| deliverable pipeline orchestration | Need-satisfying agentic pipeline run that synthesizes AssetPack synthesis artifacts, stores AssetPack evidence, then Finishes and optionally Delivers through a destination mechanism | `packages/pipelines/asset-pack/*`, `@bitcode/pipeline-asset-pack`, `packages/pipelines-generics/*` | filesystem owner renamed to AssetPack while route/payload compatibility carriers remain bounded | pipeline finish reform tests, package-filesystem proof, inference records, runs-pipelines proof |
 | task/deliverable comprehension tools | setup-phase Need comprehension, requirements, constraints, satisfaction criteria, validation, and implementation complexity | `packages/generic-tools/need-comprehension/*` | compatibility-only tool reservoir with canonical need-first exports | package typecheck, no source-co-located JS check, prompt boundary tests |
 | task/deliverable comprehension agent behavior | setup/pre-danger-wall PTRR Need-comprehension composer | `packages/generic-agents/need-comprehension/*` | admitted setup agent | package typecheck, pipeline setup wiring, inference records |
 | danger-wall safety gate | Need/AssetPack risk admission before unsafe, private-data-exposing, proof-missing, delivery-mismatched, or likely-failing execution proceeds | `packages/generic-agents/danger-wall/*` | admitted support agent with compatibility aliases | danger-wall witness, prompt-system proof, likely-failure schema assertions |
@@ -123,7 +126,7 @@ The following examples define how DELTA color should be read:
 | --- | --- | --- |
 | deterministic protocol witness | `protocol-demonstration/*` | retains the lower-level protocol behavior and proof model while commercial product rails move through `uapi` and packages |
 | commercial Terminal/Exchange application | `uapi/app/application/*`, `uapi/app/api/*`, `packages/api/*` | turns retained app infrastructure into product-facing Terminal, Exchange ingress, and state admission rather than a standalone demonstration |
-| AssetPack pipeline corridor, formerly deliverable pipeline | `packages/pipelines/asset-pack/*`, `@bitcode/pipeline-asset-pack` | live filesystem/package owner for Bitcode agentic pipeline runs that satisfy Needs, synthesize AssetPacks/written assets, Finish results, and use delivery mechanisms for third-party provision while public route/payload compatibility remains bounded |
+| AssetPack pipeline corridor, formerly deliverable pipeline | `packages/pipelines/asset-pack/*`, `@bitcode/pipeline-asset-pack` | live filesystem/package owner for Bitcode agentic pipeline runs that satisfy Needs, synthesize AssetPack contents, store Exchange evidence, Finish results, and use delivery mechanisms for third-party provision while public route/payload compatibility remains bounded |
 | need-comprehension tools | `packages/generic-tools/need-comprehension/*` | individually defined generic-tools own callable Need semantics, requirements, constraints, satisfaction criteria, validation, and implementation-complexity tools; `NeedComprehensionToolset` only collects them |
 | need-comprehension agent | `packages/generic-agents/need-comprehension/*` | setup/pre-danger-wall PTRR agent composes the individual tools to emit a reviewable Need model and risk-admission input |
 | danger-wall | `packages/generic-agents/danger-wall/*` | retained name for Bitcode risk admission that short-circuits unsafe, impossible, likely-failing, or underspecified pipeline execution before mutation or delivery proceeds |

@@ -1,7 +1,7 @@
 /**
  * @doc-comment-developing-promptpartdevelopment
  * domain: auto
- * intent: "Bitcode AssetPack validation PromptPart for deciding whether written assets are ready to enter Finish: agent assetpackvalidationreadytofinish purpose corestatement"
+ * intent: "Bitcode AssetPack validation PromptPart for deciding whether AssetPack synthesis artifacts and evidence are ready to enter Finish: agent assetpackvalidationreadytofinish purpose corestatement"
  * current_version: "0.50.0"
  * versions: []
  * benchmarks: [
@@ -15,7 +15,7 @@ import { PromptPart } from '../../parts/PromptPart';
 /**
  * @doc-comment-developing-promptpartdevelopment
  * domain: agent
- * intent: "Bitcode AssetPack validation PromptPart for deciding whether written assets are ready to enter Finish: agent assetpackvalidationreadytofinish purpose corestatement"
+ * intent: "Bitcode AssetPack validation PromptPart for deciding whether AssetPack synthesis artifacts and evidence are ready to enter Finish: agent assetpackvalidationreadytofinish purpose corestatement"
  * current_version: "0.50.0"
  * versions: []
  * benchmarks: [
@@ -23,4 +23,4 @@ import { PromptPart } from '../../parts/PromptPart';
  * ]
  */
 export const PROMPTPART_SPECIFIC_AGENT_ASSETPACKVALIDATIONREADYTOFINISH_PURPOSE_CORESTATEMENT: PromptPart =
-  'Core purpose: decide whether validated AssetPack written assets satisfy the Need and are safe to enter Finish, or short-circuit with refund and proof evidence' as PromptPart;
+  'Core purpose: decide whether validated Need-satisfaction AssetPack synthesis artifacts satisfy the Need and are safe to enter Finish, or short-circuit with refund and proof evidence' as PromptPart;

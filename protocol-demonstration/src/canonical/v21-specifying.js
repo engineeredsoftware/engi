@@ -216,6 +216,14 @@ function usesBitcodeSpecFamily(version) {
 
 /**
  * @param {string} version
+ * @returns {boolean}
+ */
+function usesKissSpecCompanion(version) {
+  return usesBitcodeSpecFamily(version) && versionNumber(version) >= 26;
+}
+
+/**
+ * @param {string} version
  * @returns {string}
  */
 function specPointerFilename(version) {
@@ -369,6 +377,17 @@ function buildV21LikeProfile(version) {
       'Pre-Implementation Sequence',
       'Commit-Body Direction'
     ],
+    requiredKissSections: usesKissSpecCompanion(version)
+      ? [
+        'Status',
+        'Concise full-system specification',
+        'Gate commitments',
+        'Protocol, products, and proofs',
+        'Fifth-gate closure priorities',
+        'Version-diff reading rule',
+        'Completion signal'
+      ]
+      : [],
     requiredParitySections: [
       'Status',
       'Purpose',
@@ -1078,6 +1097,7 @@ export function buildV21SpecFamilyReport({
   const requiredFiles = {
     spec: specAbsolutePath(resolvedRepoRoot, version),
     delta: specAbsolutePath(resolvedRepoRoot, version, '_DELTA'),
+    ...(usesKissSpecCompanion(version) ? { kiss: specAbsolutePath(resolvedRepoRoot, version, '_KISS') } : {}),
     parity: specAbsolutePath(resolvedRepoRoot, version, '_PARITY_MATRIX')
   };
   const supportFiles = {
@@ -1254,6 +1274,11 @@ export function buildV21SpecFamilyReport({
     recordFailure(failures, hasSection(deltaContent, phrase), `delta is missing required section containing "${phrase}".`);
   }
 
+  const kissContent = contents['kiss'] || '';
+  for (const phrase of profile.requiredKissSections || []) {
+    recordFailure(failures, hasSection(kissContent, phrase), `kiss is missing required section containing "${phrase}".`);
+  }
+
   const parityContent = contents['parity'] || '';
   for (const phrase of profile.requiredParitySections) {
     recordFailure(failures, hasSection(parityContent, phrase), `parity is missing required section containing "${phrase}".`);
@@ -1314,6 +1339,7 @@ export function buildV21SpecFamilyReport({
     requiredGeneratedArtifactCatalogSectionCount: profile.requiredGeneratedArtifactCatalogSections.length,
     requiredGeneratedAppendixContractPhraseCount: (profile.requiredGeneratedAppendixContractPhrases || []).length,
     requiredGeneratedArtifactPathCount: profile.requiredGeneratedArtifactPaths.length,
+    requiredKissSectionCount: (profile.requiredKissSections || []).length,
     requiredSubsystemCoverageCount: profile.requiredSubsystemCoveragePhrases.length,
     requiredSubsystemSectionCount: profile.requiredSubsystemSectionHeadings.length,
     requiredSubsystemDetailLabelCount: profile.requiredSubsystemDetailLabels.length,
@@ -1414,6 +1440,7 @@ export function buildV21CanonicalInputReport({
 
   const specPath = specAbsolutePath(resolvedRepoRoot, checkedTarget);
   const provenPath = specAbsolutePath(resolvedRepoRoot, checkedTarget, '_PROVEN');
+  const kissPath = specAbsolutePath(resolvedRepoRoot, checkedTarget, '_KISS');
   const parityCandidates = [
     specAbsolutePath(resolvedRepoRoot, checkedTarget, '_PARITY_MATRIX'),
     ...(Number(checkedTarget.slice(1)) < 21
@@ -1422,7 +1449,11 @@ export function buildV21CanonicalInputReport({
   ];
   const parityPath = parityCandidates.find((candidate) => existsOrAssumed(candidate)) || null;
 
-  for (const filePath of [specPath, provenPath]) {
+  for (const filePath of [
+    specPath,
+    ...(usesKissSpecCompanion(checkedTarget) ? [kissPath] : []),
+    provenPath
+  ]) {
     if (!existsOrAssumed(filePath)) failures.push(`Missing canonical input file: ${path.relative(resolvedRepoRoot, filePath)}`);
   }
   if (!parityPath) {
@@ -1443,6 +1474,7 @@ export function buildV21CanonicalInputReport({
     failureCount: failures.length,
     failures,
     specPath: path.relative(resolvedRepoRoot, specPath),
+    kissPath: usesKissSpecCompanion(checkedTarget) ? path.relative(resolvedRepoRoot, kissPath) : null,
     provenPath: path.relative(resolvedRepoRoot, provenPath),
     parityPath: parityPath ? path.relative(resolvedRepoRoot, parityPath) : null,
     requiredGeneratedArtifactPaths: artifactPaths.map((artifactPath) => path.relative(resolvedRepoRoot, artifactPath)),
@@ -1510,6 +1542,7 @@ export function buildV21GeneratedArtifactContents({
     failureCount: canonicalInputReport.failureCount,
     failures: canonicalInputReport.failures,
     specPath: canonicalInputReport.specPath,
+    kissPath: canonicalInputReport.kissPath,
     provenPath: canonicalInputReport.provenPath,
     parityPath: canonicalInputReport.parityPath,
     requiredGeneratedArtifactPaths: canonicalInputReport.requiredGeneratedArtifactPaths,

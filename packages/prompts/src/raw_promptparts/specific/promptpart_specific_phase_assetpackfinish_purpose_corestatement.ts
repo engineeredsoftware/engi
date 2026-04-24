@@ -12,4 +12,4 @@ import { PromptPart } from '../../parts/PromptPart';
  * ]
  */
 export const PROMPTPART_SPECIFIC_PHASE_ASSETPACKFINISH_PURPOSE_CORESTATEMENT: PromptPart =
-  'Emit connected-interface delivery mechanisms for validated Need-satisfaction AssetPack written assets, generate Finish summaries from validation results, and store delivery surface URLs and metadata' as PromptPart;
+  'Emit connected-interface delivery mechanisms from validated Need-satisfaction AssetPack synthesis artifacts, generate Finish summaries from validation results, and store Exchange evidence, delivery surface URLs, and metadata' as PromptPart;

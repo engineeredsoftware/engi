@@ -2,8 +2,8 @@
  * AssetPack Pipeline
  *
  * Canonical V26 package owner for Bitcode phased pipeline runs that satisfy
- * Needs, synthesize written assets / AssetPacks, and use Finish-phase
- * Delivering only for connected-interface delivery mechanisms.
+ * Needs, synthesize AssetPack artifacts and Exchange evidence, and use
+ * Finish-phase Delivering only for connected-interface delivery mechanisms.
  * Routes to Design/Develop/Digest gates based on execution.get('gate', 'current').
  */
 

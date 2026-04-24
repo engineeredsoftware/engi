@@ -1,9 +1,9 @@
 # AssetPack Pipeline
 
 Canonical V26 package owner for the Bitcode phased pipeline corridor.
-This package turns a measured Bitcode Need into stable written assets and
-AssetPack evidence, then optionally hands those assets to connected-interface
-delivery mechanisms.
+This package turns a measured Bitcode Need into AssetPack synthesis artifacts,
+Exchange-stored AssetPack evidence, and optional connected-interface
+delivery-mechanism artifacts.
 
 Active route and payload seams use Bitcode nouns: `definitionOfNeed`, `need`,
 `writtenAssetType`, `writtenAssets`, `Finish`, `Delivering`, and `SDIVF`.
@@ -14,7 +14,7 @@ semantics.
 
 1. **Setup** - repository context, Need comprehension, LSP/static measurement, and danger-wall admission.
 2. **Discovery** - source-grounded research, codebase search, file selection, and approach planning.
-3. **Implementation** - written-asset synthesis using Divide, Conquer, and Correct agents.
+3. **Implementation** - AssetPack synthesis artifacts using Divide, Conquer, and Correct agents.
 4. **Validation** - Need satisfaction, proof posture, and readiness-to-Finish checks.
 5. **Finish** - save result state, summarize AssetPack evidence, and run Delivering when requested.
 
@@ -35,7 +35,7 @@ AssetPackPipeline (SDIVF with DIV iteration)
 │   ├── Implementation
 │   └── Validation
 └── Finish
-    ├── Save written-asset / AssetPack evidence
+    ├── Save AssetPack synthesis artifacts and Exchange evidence
     ├── Produce final work summary
     └── Deliver AssetPacks or AssetPackPartials to connected destinations
 ```

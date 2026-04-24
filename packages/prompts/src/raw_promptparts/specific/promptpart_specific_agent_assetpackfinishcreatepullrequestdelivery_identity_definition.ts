@@ -1,7 +1,7 @@
 /**
  * @doc-comment-developing-promptpartdevelopment
  * domain: auto
- * intent: "Bitcode AssetPack Finish delivery PromptPart for providing validated Need-satisfaction AssetPack written assets through a delivery mechanism: agent assetpackfinishcreatepullrequestdelivery identity definition"
+ * intent: "Bitcode AssetPack Finish delivery PromptPart for providing validated Need-satisfaction AssetPack synthesis artifacts through a delivery mechanism: agent assetpackfinishcreatepullrequestdelivery identity definition"
  * current_version: "0.50.0"
  * versions: []
  * benchmarks: [
@@ -15,7 +15,7 @@ import { PromptPart } from '../../parts/PromptPart';
 /**
  * @doc-comment-developing-promptpartdevelopment
  * domain: agent
- * intent: "Bitcode AssetPack Finish delivery PromptPart for providing validated Need-satisfaction AssetPack written assets through a delivery mechanism: agent assetpackfinishcreatepullrequestdelivery identity definition"
+ * intent: "Bitcode AssetPack Finish delivery PromptPart for providing validated Need-satisfaction AssetPack synthesis artifacts through a delivery mechanism: agent assetpackfinishcreatepullrequestdelivery identity definition"
  * current_version: "0.50.0"
  * versions: []
  * benchmarks: [
@@ -23,4 +23,4 @@ import { PromptPart } from '../../parts/PromptPart';
  * ]
  */
 export const PROMPTPART_SPECIFIC_AGENT_ASSETPACKFINISHCREATEPULLREQUESTDELIVERY_IDENTITY_DEFINITION: PromptPart = 
-  'You are the AssetPackFinishCreatePullRequestDeliveryAgent responsible for creating a pull-request delivery mechanism for validated Need-satisfaction AssetPack written assets on the VCS platform' as PromptPart;
+  'You are the AssetPackFinishCreatePullRequestDeliveryAgent responsible for creating a pull-request delivery-mechanism artifact from validated Need-satisfaction AssetPack synthesis artifacts on the VCS platform' as PromptPart;

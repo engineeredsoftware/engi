@@ -5,6 +5,7 @@
 - Scope: working-note companion for the active V26 canonical family centered on Bitcode productionizing hardening, first-gate application migration, second-gate application UX/UI plus external hardening, third-gate marketing refurbishment, fourth-gate retained-system convergence, and fifth-through-eighth-gate closure
 - Canonical pointer: `/Users/garrettmaring/Developer/ENGI/BITCODE_SPEC.txt` -> `V26`
 - Active canonical anchor: `/Users/garrettmaring/Developer/ENGI/BITCODE_SPEC_V26.md`
+- KISS companion: `/Users/garrettmaring/Developer/ENGI/BITCODE_SPEC_V26_KISS.md`
 - Active generated proof appendix: `/Users/garrettmaring/Developer/ENGI/BITCODE_SPEC_V26_PROVEN.md`
 - Main spec companion: `/Users/garrettmaring/Developer/ENGI/BITCODE_SPEC_V26.md`
 - Delta companion: `/Users/garrettmaring/Developer/ENGI/BITCODE_SPEC_V26_DELTA.md`
@@ -21,6 +22,7 @@ It is also the V26 reform ledger: the main SPEC should state the Bitcode system 
 The NOTES boundary exists because V26 is both product canon and reformation canon:
 
 - `BITCODE_SPEC_V26.md` must read as a current Bitcode protocol/product/proof specification.
+- `BITCODE_SPEC_V26_KISS.md` must read as the concise, current, highest-level Bitcode specification summary for fast version-to-version diffing; it must not contain implementation density that only exists there.
 - `BITCODE_SPEC_V26_DELTA.md` must be formally specified as the chronological and architectural delta from the late-Engi repository into commercialized Bitcode; it may include enough color to explain why a retained corridor exists, but it must resolve each retained concept into current Bitcode ownership rather than leaving history as authority.
 - `BITCODE_SPEC_V26_PARITY_MATRIX.md` must judge current Bitcode implementation parity without depending on legacy product explanations.
 - `BITCODE_SPEC_V26_PROVEN.md` must stay generated evidence rather than historical rationale.
@@ -32,7 +34,8 @@ When a reform detail matters to implementation, the required sequence is:
 1. record the transition in NOTES with former meaning, Bitcode meaning, source owner, and closure condition;
 2. implement or remove the source residue so active source no longer needs the historical explanation;
 3. promote only the current Bitcode requirement into the main SPEC/PARITY/proof family;
-4. keep any remaining historical wording either in NOTES or under `_legacy/`, not in active product-facing implementation.
+4. update KISS only when the current high-level Protocol/Product/Proof reading changes;
+5. keep any remaining historical wording either in NOTES or under `_legacy/`, not in active product-facing implementation.
 
 ## DELTA companion rule
 
@@ -102,7 +105,7 @@ This section records transitions that are too historically specific for the main
 | Former/reform source | Current Bitcode owner | Closure meaning |
 | --- | --- | --- |
 | route-local run history | `packages/api/src/routes/executions.ts`, `uapi/app/api/executions/*`, Terminal transaction state | execution history is Exchange-readable activity and Terminal transaction detail |
-| loose deliverable route output | `/api/deliverables`, execution summaries, `writtenAssets`, `assetPack`, `deliveryMechanism` aliases | compatibility route remains only while output meaning is AssetPack and written assets |
+| loose deliverable route output | `/api/deliverables`, execution summaries, `writtenAssets`, `assetPack`, `deliveryMechanism` aliases | compatibility route remains only while output meaning is AssetPack synthesis artifacts, stored AssetPack evidence, and delivery-mechanism artifacts |
 | one-off client error endpoint assumption | `uapi/app/api/client-error/route.ts` | client failure telemetry is app-owned and proof-relevant |
 | untyped storage assumptions | `supabase/*`, `packages/supabase/*`, `packages/orm/*`, `packages/orm/src/models/bitcode-execution-storage.ts` | Exchange state persists Bitcode execution, AssetPack, activity, profile, readiness, and proof evidence |
 | local wallet/profile ambiguity | `Profile`, `Connects`, signed-settlement readiness, profile storage | manual wallet identity and verified signer/provider access must remain distinct until settlement is actually signed |
@@ -111,7 +114,7 @@ This section records transitions that are too historically specific for the main
 
 | Former/reform source | Current Bitcode owner | Closure meaning |
 | --- | --- | --- |
-| `deliverable` as product object | AssetPack, written asset, delivery mechanism | stable product output is AssetPack/written assets; delivery mechanisms are wrappers into third-party tools |
+| `deliverable` as product object | AssetPack, AssetPack synthesis artifact, stored AssetPack evidence, delivery mechanism | product output separates implementation-phase synthesis artifacts, Exchange-stored evidence, and optional delivery-mechanism artifacts |
 | `definitionOfDone` as owning input | `definitionOfNeed`, expressed Need, Need satisfaction criteria | removed from active V26 request/schema semantics; this row remains only as reform history |
 | `deliverableType` and four old request labels | `writtenAssetRequest` / `deliveryMechanismTemplate` compatibility hints plus canonical `writtenAssetType = need-satisfaction-asset-pack` | old labels may help choose a Finish delivery mechanism, but they do not define implementation or validation behavior |
 | `DeliverableType.ts` package primitive | `AssetPackWrittenAssetType.ts` and `AssetPackWrittenAssetType.NeedSatisfactionAssetPack` | package-owned type/export names now teach the single canonical AssetPack written-asset kind while route payloads may still carry compatibility `deliverableType` fields as mirrors |

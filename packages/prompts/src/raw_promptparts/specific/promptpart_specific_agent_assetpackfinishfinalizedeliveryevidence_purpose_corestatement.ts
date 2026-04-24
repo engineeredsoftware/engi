@@ -1,7 +1,7 @@
 /**
  * @doc-comment-developing-promptpartdevelopment
  * domain: auto
- * intent: "Bitcode AssetPack Finish PromptPart for delivery-evidence finalization over validated Need-satisfaction AssetPack written assets: agent assetpackfinishfinalizedeliveryevidence purpose corestatement"
+ * intent: "Bitcode AssetPack Finish PromptPart for delivery-evidence finalization over validated Need-satisfaction AssetPack synthesis artifacts, stored evidence, and delivery-mechanism artifacts: agent assetpackfinishfinalizedeliveryevidence purpose corestatement"
  * current_version: "0.50.0"
  * versions: []
  * benchmarks: [
@@ -15,7 +15,7 @@ import { PromptPart } from '../../parts/PromptPart';
 /**
  * @doc-comment-developing-promptpartdevelopment
  * domain: agent
- * intent: "Bitcode AssetPack Finish PromptPart for delivery-evidence finalization over validated Need-satisfaction AssetPack written assets: agent assetpackfinishfinalizedeliveryevidence purpose corestatement"
+ * intent: "Bitcode AssetPack Finish PromptPart for delivery-evidence finalization over validated Need-satisfaction AssetPack synthesis artifacts, stored evidence, and delivery-mechanism artifacts: agent assetpackfinishfinalizedeliveryevidence purpose corestatement"
  * current_version: "0.50.0"
  * versions: []
  * benchmarks: [
@@ -23,4 +23,4 @@ import { PromptPart } from '../../parts/PromptPart';
  * ]
  */
 export const PROMPTPART_SPECIFIC_AGENT_ASSETPACKFINISHFINALIZEDELIVERYEVIDENCE_PURPOSE_CORESTATEMENT: PromptPart =
-  'Core purpose: finalize Finish delivery evidence for validated AssetPack written assets with metrics and confirmation, ensuring quality, accuracy, and completeness at every step' as PromptPart;
+  'Core purpose: finalize Finish evidence for validated Need-satisfaction AssetPack synthesis artifacts with stored AssetPack evidence, delivery-mechanism artifacts, metrics, and confirmation' as PromptPart;

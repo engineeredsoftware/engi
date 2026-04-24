@@ -6,12 +6,14 @@
 - Current canonical/latest target: `V26`
 - Canonical pointer: `/Users/garrettmaring/Developer/ENGI/BITCODE_SPEC.txt` -> `V26`
 - Active canonical anchor: `/Users/garrettmaring/Developer/ENGI/BITCODE_SPEC_V26.md`
+- KISS companion: `/Users/garrettmaring/Developer/ENGI/BITCODE_SPEC_V26_KISS.md`
 - Active generated proof appendix: `/Users/garrettmaring/Developer/ENGI/BITCODE_SPEC_V26_PROVEN.md`
 - Canonical proof-source commit: `9d0733fed5f63d2f977900384d4103f9fd887f03`
 - Prior canonical anchor: `/Users/garrettmaring/Developer/ENGI/_legacy/ENGI_SPEC_V25.md`
 - Prior generated proof appendix: `/Users/garrettmaring/Developer/ENGI/_legacy/ENGI_SPEC_V25_PROVEN.md`
 - Generated structured artifact inventory: active canonical `.bitcode/v19-*` reproducible reports, `.bitcode/v20-*` operator-quality reports, `.bitcode/v26-spec-family-report.json`, `.bitcode/v26-canonical-input-report.json`, `.bitcode/v26-gate-checkpoint-report.json`, `.bitcode/conversations-continuity-proof.json`, `.bitcode/runs-pipelines-totality-proof.json`, `.bitcode/persistence-schema-totality-proof.json`, `.bitcode/prompt-system-totality-proof.json`, `.bitcode/inference-implementation-records-proof.json`, `.bitcode/fourth-gate-reclosure-review-proof.json`, `.bitcode/source-to-shares-fifth-gate-proof.json`, `.bitcode/fifth-gate-closure-deepening-proof.json`, `.bitcode/retained-package-admissibility-proof.json`, and `BITCODE_SPEC_V26_PROVEN.md`
 - Specification target: `/Users/garrettmaring/Developer/ENGI/BITCODE_SPEC_V26.md`
+- KISS companion: `/Users/garrettmaring/Developer/ENGI/BITCODE_SPEC_V26_KISS.md`
 - Delta companion: `/Users/garrettmaring/Developer/ENGI/BITCODE_SPEC_V26_DELTA.md`
 - Notes companion: `/Users/garrettmaring/Developer/ENGI/BITCODE_SPEC_V26_NOTES.md`
 - Source parity state: retained-system proof families pass as material evidence, fourth-gate procedural acceptance is promoted closed after generated re-review, and fifth-gate source-to-shares plus closure-deepening evidence exists while fifth-, sixth-, seventh-, and eighth-gate closure remain open
@@ -30,6 +32,7 @@ This file records the current parity gap between:
 This ledger is grounded in:
 - `/Users/garrettmaring/Developer/ENGI/_legacy/ENGI_SPEC_V25.md`
 - `/Users/garrettmaring/Developer/ENGI/BITCODE_SPEC_V26.md`
+- `/Users/garrettmaring/Developer/ENGI/BITCODE_SPEC_V26_KISS.md`
 - `/Users/garrettmaring/Developer/ENGI/BITCODE_SPEC_V26_DELTA.md`
 - `/Users/garrettmaring/Developer/ENGI/BITCODE_SPEC_V26_NOTES.md`
 - `/Users/garrettmaring/Developer/ENGI/protocol-demonstration/src/canon-posture.js`
@@ -59,7 +62,7 @@ This ledger is grounded in:
 
 | Area | Current source truth | V26 implementation expectation | Closure signal | Judgment |
 | --- | --- | --- | --- | --- |
-| Canonical file family presence | `BITCODE_SPEC_V26.md`, `_DELTA`, `_PARITY_MATRIX`, `_NOTES`, and active `_PROVEN_` exist with `BITCODE_SPEC.txt` promoted to `V26` | V26 requires a complete promoted canonical family | V26 file family exists and is the active canonical family | implemented |
+| Canonical file family presence | `BITCODE_SPEC_V26.md`, `_KISS`, `_DELTA`, `_PARITY_MATRIX`, `_NOTES`, and active `_PROVEN_` exist with `BITCODE_SPEC.txt` promoted to `V26` | V26 requires a complete promoted canonical family, with `_KISS` serving as the concise diff-friendly full-system companion rather than the implementation-grade SPEC | V26 file family exists and is the active canonical family | implemented |
 | Active-canon discipline | source pointer, runtime posture, and proof automation now treat `V26` as active | V26 must be the singular active truth through fourth-gate promotion | pointer remains `V26`; V26 artifacts are active canonical proof surfaces | implemented |
 | First-gate route ownership | `/application` is now the app-owned Bitcode carrier | V26 first-gate requires an application-native full-page route | `uapi/app/application/*` exists and marketing routes into it | implemented |
 | Embedded marketing demo removal | homepage no longer embeds the demo or treats it as standalone-primary | V26 must remove the embedded-homepage posture | homepage no longer depends on `MarketingEmbeddedDemoSection` or localhost demo CTA posture | implemented |

@@ -1,7 +1,7 @@
 /**
  * @doc-comment-developing-promptpartdevelopment
  * domain: auto
- * intent: "Bitcode AssetPack validation PromptPart for deciding whether written assets are ready to enter Finish: agent assetpackvalidationreadytofinish identity definition"
+ * intent: "Bitcode AssetPack validation PromptPart for deciding whether AssetPack synthesis artifacts and evidence are ready to enter Finish: agent assetpackvalidationreadytofinish identity definition"
  * current_version: "0.50.0"
  * versions: []
  * benchmarks: [
@@ -15,7 +15,7 @@ import { PromptPart } from '../../parts/PromptPart';
 /**
  * @doc-comment-developing-promptpartdevelopment
  * domain: agent
- * intent: "Bitcode AssetPack validation PromptPart for deciding whether written assets are ready to enter Finish: agent assetpackvalidationreadytofinish identity definition"
+ * intent: "Bitcode AssetPack validation PromptPart for deciding whether AssetPack synthesis artifacts and evidence are ready to enter Finish: agent assetpackvalidationreadytofinish identity definition"
  * current_version: "0.50.0"
  * versions: []
  * benchmarks: [
@@ -23,4 +23,4 @@ import { PromptPart } from '../../parts/PromptPart';
  * ]
  */
 export const PROMPTPART_SPECIFIC_AGENT_ASSETPACKVALIDATIONREADYTOFINISH_IDENTITY_DEFINITION: PromptPart =
-  'You are the AssetPackValidationReadyToFinishAgent responsible for deciding whether validated Need-satisfaction AssetPack written assets may enter Finish or must short-circuit with an auditable refund posture' as PromptPart;
+  'You are the AssetPackValidationReadyToFinishAgent responsible for deciding whether validated Need-satisfaction AssetPack synthesis artifacts and required evidence may enter Finish or must short-circuit with an auditable refund posture' as PromptPart;
