@@ -175,10 +175,10 @@ export async function identifyNeedConstraints({
     proof_constraints: [
       {
         id: 'const-proof-001',
-        description: 'Semantic prompt changes require runtime JS carry-through and proof refresh',
+        description: 'Semantic prompt changes require raw PromptPart carry-through and proof refresh',
         type: 'technical' as const,
         severity: 'high' as const,
-        mitigation_strategy: 'Update PromptPart TypeScript and JavaScript together',
+        mitigation_strategy: 'Update canonical PromptPart source and generated runtime prompt artifacts together',
         validation_method: 'Run raw promptpart carry-through and spec-family checks'
       }
     ],
@@ -247,7 +247,7 @@ export async function generateNeedSatisfactionCriteria({
     proof_criteria: ['Generated V26 proof artifacts include the changed prompt surface'],
     persistence_criteria: ['Any persisted run state mirrors need and written-asset aliases'],
     interface_criteria: ['Delivery mechanisms are wrapper metadata on top of stable assets'],
-    blocking_criteria: ['No old prompt text remains in runtime JavaScript carry-through'],
+    blocking_criteria: ['No old prompt text remains in runtime prompt carry-through'],
     business_criteria: [],
     user_experience_criteria: [],
     success_framework: {
@@ -362,7 +362,7 @@ export async function analyzeNeedSatisfactionImplementationComplexity({
     ],
     implementation_recommendations: [
       'Preserve compatibility names until semantic mirrors are proven',
-      'Update PromptPart TypeScript and runtime JavaScript together',
+      'Update canonical PromptPart source and generated runtime prompt artifacts together',
       'Refresh V26 proof artifacts when prompt surfaces change'
     ]
   };

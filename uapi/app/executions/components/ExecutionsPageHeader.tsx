@@ -265,7 +265,7 @@ interface ExecutionPageHeaderProps {
   showIterationsEdu?: boolean | 'minimize' | 'maximize';
   templates?: ShippingTemplateSets;
   onTemplateSelect?: (templateId: string, deliverableType: keyof ShippingTemplateSets) => void;
-  /** Compatibility shipping wrapper. Bitcode-owned meaning lives in written assets / asset packs. */
+  /** Compatibility delivery mechanism. Bitcode-owned meaning lives in written assets / asset packs. */
   deliverables?: {
     pullRequest?: ShippingSurface | null; // Compatibility wrapper stays singular for PR delivery.
     pullRequestReviews?: ShippingSurface[] | null;

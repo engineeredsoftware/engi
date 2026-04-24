@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { readFileSync } from 'node:fs';
+import { readdirSync, readFileSync, statSync } from 'node:fs';
 
 function readRepoFile(relativePath) {
   return readFileSync(new URL(`../../${relativePath}`, import.meta.url), 'utf8');
@@ -11,23 +11,16 @@ const packageManifest = JSON.parse(readRepoFile('packages/generic-agents/danger-
 const indexSource = readRepoFile('packages/generic-agents/danger-wall/src/index.ts');
 
 const packageSourceFilePaths = [
-  'packages/generic-agents/danger-wall/src/index.ts',
-  'packages/generic-agents/danger-wall/src/index.js'
+  'packages/generic-agents/danger-wall/src/index.ts'
 ];
 
 const promptFilePaths = [
   'packages/generic-agents/danger-wall/src/prompts/agent-prompt-danger-wall.ts',
-  'packages/generic-agents/danger-wall/src/prompts/agent-prompt-danger-wall.js',
   'packages/generic-agents/danger-wall/src/prompts/system-prompt-dangerwall.ts',
-  'packages/generic-agents/danger-wall/src/prompts/system-prompt-dangerwall.js',
   'packages/generic-agents/danger-wall/src/prompts/plan-prompt-dangerwall.ts',
-  'packages/generic-agents/danger-wall/src/prompts/plan-prompt-dangerwall.js',
   'packages/generic-agents/danger-wall/src/prompts/try-prompt-dangerwall.ts',
-  'packages/generic-agents/danger-wall/src/prompts/try-prompt-dangerwall.js',
   'packages/generic-agents/danger-wall/src/prompts/refine-prompt-dangerwall.ts',
-  'packages/generic-agents/danger-wall/src/prompts/refine-prompt-dangerwall.js',
-  'packages/generic-agents/danger-wall/src/prompts/retry-prompt-dangerwall.ts',
-  'packages/generic-agents/danger-wall/src/prompts/retry-prompt-dangerwall.js'
+  'packages/generic-agents/danger-wall/src/prompts/retry-prompt-dangerwall.ts'
 ];
 
 const rawPromptPartPaths = [
@@ -56,6 +49,19 @@ const oldWorldDangerWallResiduePattern =
   /G[A]1|Anti-Western|antiWestern|NSFW|nsfw|jailbreak|Jailbreaking|Nmap|Masscan|OpenVAS|WAF|SIEM|SOAR|Suricata|Snort|STIX|TAXII|MISP|CVSS|CWE|OWASP|SOC 2|ISO 27001|PCI DSS|zero-trust|threat intelligence|intrusion|malware|comprehensive security|security validation|taskContext|task context|content safety|Content Safety|value alignment/u;
 
 const exportNamePattern = /export const ([A-Za-z0-9_]+)(?:: PromptPart)?\s*=/m;
+
+function listFilesRecursively(relativePath) {
+  const directory = new URL(`../../${relativePath}`, import.meta.url);
+  const entries = readdirSync(directory);
+  return entries.flatMap((entry) => {
+    const childRelativePath = `${relativePath}/${entry}`;
+    const childUrl = new URL(`../../${childRelativePath}`, import.meta.url);
+    const stat = statSync(childUrl);
+
+    if (stat.isDirectory()) return listFilesRecursively(childRelativePath);
+    return [childRelativePath];
+  });
+}
 
 function unescapePromptLiteral(value, quote) {
   if (quote === '`') return value;
@@ -119,6 +125,9 @@ test('V26 danger-wall package has canonical Bitcode need risk-admission exports'
   assert.match(indexSource, /dangerWallAgent = bitcodeNeedRiskAdmissionAgent/u);
   assert.match(indexSource, /DANGER_WALL_AGENT/u);
   assert.match(indexSource, /BITCODE_NEED_RISK_ADMISSION_AGENT/u);
+  assert.match(indexSource, /checkLikelyExecutionFailure/u);
+  assert.match(indexSource, /likelyExecutionFailure/u);
+  assert.match(indexSource, /likelyExecutionFailureChecked/u);
   assert.doesNotMatch(indexSource, oldWorldDangerWallResiduePattern);
 });
 
@@ -131,11 +140,20 @@ test('V26 danger-wall source and runtime mirrors are Bitcode risk-admission carr
   }
 });
 
+test('V26 danger-wall package source is TypeScript-only under src', () => {
+  assert.deepEqual(
+    listFilesRecursively('packages/generic-agents/danger-wall/src').filter((filePath) => filePath.endsWith('.js')),
+    []
+  );
+});
+
 test('V26 danger-wall README states admitted support and compatibility semantics', () => {
   assert.match(packageReadme, /Bitcode Need Risk Admission Agent/u);
   assert.match(packageReadme, /bitcodeNeedRiskAdmissionAgent/u);
   assert.match(packageReadme, /not an autonomous security product/u);
   assert.match(packageReadme, /AssetPack/u);
+  assert.match(packageReadme, /likely execution failure/u);
+  assert.match(packageReadme, /delivery-mechanism mismatch/u);
   assert.match(packageReadme, /compatibility aliases/u);
   assert.doesNotMatch(packageReadme, oldWorldDangerWallResiduePattern);
 });

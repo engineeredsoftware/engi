@@ -51,7 +51,7 @@ export interface CompletionData {
   /**
    * Compatibility shipping surface.
    * Bitcode-owned reread should prefer `written_assets` / `final_work_summary.writtenAssets`
-   * for stable asset-pack meaning and treat these categories as delivery wrappers.
+   * for stable asset-pack meaning and treat these categories as delivery mechanisms.
    */
   deliverables: {
     pullRequest: Deliverable | null;
@@ -91,7 +91,7 @@ export interface CompletionData {
     } | null;
     summary?: string | null;
   } | null;
-  /** Shipping wrapper projected onto connected interfaces. */
+  /** Delivery mechanism projected onto connected interfaces. */
   deliveryMechanism?: {
     pullRequest?: Deliverable | null;
     pullRequestReviews?: Deliverable[] | null;
@@ -217,7 +217,7 @@ export interface PipelineExecution {
     fileChanges?: any;
     summary?: string | null;
   } | null;
-  /** Shipping wrapper projected onto connected interfaces like PRs, comments, and issues. */
+  /** Delivery mechanism projected onto connected interfaces like PRs, comments, and issues. */
   delivery_mechanism?: {
     pullRequest?: any;
     pullRequestReviews?: any[] | null;
@@ -238,7 +238,7 @@ export interface PipelineExecution {
   /** Canonical Final Work Summary payload */
   final_work_summary?: {
     summary?: string | null;
-    /** Compatibility shipping wrapper kept for retained consumers. */
+    /** Compatibility delivery mechanism kept for retained consumers. */
     deliverables?: {
       pullRequest?: any;
       pullRequestReviews?: any[] | null;
@@ -256,7 +256,7 @@ export interface PipelineExecution {
       fileChanges?: any;
       summary?: string | null;
     };
-    /** Shipping wrapper projected onto connected interfaces. */
+    /** Delivery mechanism projected onto connected interfaces. */
     deliveryMechanism?: {
       pullRequest?: any;
       pullRequestReviews?: any[] | null;

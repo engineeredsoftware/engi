@@ -1,7 +1,7 @@
 /**
  * @doc-comment-developing-promptpartdevelopment
  * domain: agent
- * intent: "Bitcode retained deliverable-compatibility PromptPart for delivery-wrapper separation over validated written assets: agent deliverableshippingaddissuecomment capabilities list"
+ * intent: "Bitcode retained deliverable-compatibility PromptPart for delivery-mechanism separation over validated written assets: agent deliverableshippingaddissuecomment capabilities list"
  * current_version: "0.50.0"
  * versions: []
  * benchmarks: [

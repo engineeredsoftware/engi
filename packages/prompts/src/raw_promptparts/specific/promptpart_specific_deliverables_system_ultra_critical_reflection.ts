@@ -21,7 +21,7 @@ Before proceeding with ANY action, ask yourself:
    - Not what would be "better"
    - EXACTLY what Bitcode must satisfy and ship
 
-2. Am I keeping written assets primary and shipping wrappers secondary?
+2. Am I keeping written assets primary and delivery mechanisms secondary?
    - PromptParts as semantic units
    - Execution-generics for orchestration
    - Need satisfaction before shipping completion

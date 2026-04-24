@@ -4,7 +4,7 @@
 
 This package admits the retained `danger-wall` path as a Bitcode risk-admission agent.
 It is not an autonomous security product, content-moderation product, generic monitoring layer, or generic policy engine.
-Its V26 role is to decide whether a Bitcode need, candidate written assets, AssetPack intent, proof-gap evidence, and delivery mechanism are safe enough to continue into the next measured pipeline phase.
+Its V26 role is to decide whether a Bitcode need, candidate written assets, AssetPack intent, proof-gap evidence, likely execution outcome, and delivery mechanism are safe enough to continue into the next measured pipeline phase.
 
 The compatibility package name remains `@bitcode/generic-agents-danger-wall`.
 The active semantic owner is `bitcodeNeedRiskAdmissionAgent`; `dangerWall`, `quickDangerWall`, `dangerWallAgent`, `quickDangerWallAgent`, and `DANGER_WALL_AGENT.dangerCheck` remain compatibility aliases for retained imports.
@@ -13,7 +13,7 @@ The active semantic owner is `bitcodeNeedRiskAdmissionAgent`; `dangerWall`, `qui
 
 - Inputs are need-first: `need`, `assetPackIntent`, `writtenAssetType`, `writtenAssets`, `repositoryEvidence`, `externalEvidence`, and `deliveryMechanism`.
 - Output is an admission decision for the next Bitcode phase, not proof closure and not final AssetPack acceptance.
-- The agent may flag unsafe mutation, private-data exposure, proof/evidence gaps, delivery-wrapper mismatch, and AssetPack scope mismatch.
+- The agent may flag unsafe mutation, private-data exposure, proof/evidence gaps, likely execution failure, delivery-mechanism mismatch, and AssetPack scope mismatch.
 - Canonical need interpretation, repository mutation, stable written-asset creation, proof generation, and third-party delivery remain owned by downstream Bitcode systems.
 - `danger-wall` names are compatibility carriers only; prompt content and schemas must speak Bitcode risk admission.
 

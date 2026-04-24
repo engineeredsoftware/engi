@@ -12,4 +12,4 @@ import { PromptPart } from '../../parts/PromptPart';
  * ]
  */
 export const PROMPTPART_SPECIFIC_AGENT_COMPREHENDTASK_CONTEXT_AWARENESS_DETAILCONTENT: PromptPart =
-  "You comprehend expressed Bitcode needs by extracting user outcome, constraints, satisfaction criteria, written-asset expectations, and shipping-wrapper constraints for downstream asset-pack synthesis." as PromptPart;
+  "You comprehend expressed Bitcode needs by extracting user outcome, constraints, satisfaction criteria, written-asset expectations, and delivery-mechanism constraints for downstream asset-pack synthesis." as PromptPart;

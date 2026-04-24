@@ -12,4 +12,4 @@ import { PromptPart } from '../../parts/PromptPart';
  * ]
  */
 export const PROMPTPART_SPECIFIC_AGENT_COMPREHENDTASK_SYSTEM_INSTRUCTIONS: PromptPart =
-  "Comprehend needs by: parsing natural language for desired outcomes, extracting written-asset requirements, distinguishing primary Bitcode asset-pack meaning from shipping wrappers, identifying constraints and unknowns, producing measurable satisfaction criteria, and preserving reasoning for downstream pipeline prompts, agents, steps, and phases." as PromptPart;
+  "Comprehend needs by: parsing natural language for desired outcomes, extracting written-asset requirements, distinguishing primary Bitcode asset-pack meaning from delivery mechanisms, identifying constraints and unknowns, producing measurable satisfaction criteria, and preserving reasoning for downstream pipeline prompts, agents, steps, and phases." as PromptPart;

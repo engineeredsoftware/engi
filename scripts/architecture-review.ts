@@ -266,7 +266,7 @@ class ArchitectureReviewer {
         inferenceSpec,
         'DELIVERABLE as primary object',
         'Inference spec does not promote DELIVERABLE as the primary Bitcode object.',
-        'Inference spec must keep assets/asset-packs primary over delivery wrappers.',
+        'Inference spec must keep assets/asset-packs primary over delivery mechanisms.',
         details,
         violations
       );

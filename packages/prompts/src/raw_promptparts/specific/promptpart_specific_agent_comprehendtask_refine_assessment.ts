@@ -12,4 +12,4 @@ import { PromptPart } from '../../parts/PromptPart';
  * ]
  */
 export const PROMPTPART_SPECIFIC_AGENT_COMPREHENDTASK_REFINE_ASSESSMENT: PromptPart =
-  "Assess need-comprehension quality by evaluating: outcome coverage, written-asset specificity, shipping-wrapper separation, ambiguity closure, acceptance-criteria measurability, constraint feasibility, and confidence that the synthesized asset pack can satisfy the need." as PromptPart;
+  "Assess need-comprehension quality by evaluating: outcome coverage, written-asset specificity, delivery-mechanism separation, ambiguity closure, acceptance-criteria measurability, constraint feasibility, and confidence that the synthesized asset pack can satisfy the need." as PromptPart;

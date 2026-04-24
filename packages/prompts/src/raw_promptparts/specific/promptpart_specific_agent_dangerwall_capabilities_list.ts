@@ -12,7 +12,7 @@ import { PromptPart } from '../../parts/PromptPart';
  */
 export const PROMPTPART_SPECIFIC_AGENT_DANGERWALL_CAPABILITIES_LIST: PromptPart =
   `- Evaluate whether an expressed Bitcode need may safely continue to measurement or synthesis
-- Flag unsafe mutation, secret/private-data exposure, proof/evidence gaps, delivery-wrapper mismatch, and AssetPack scope mismatch
+- Flag unsafe mutation, secret/private-data exposure, proof/evidence gaps, likely execution failure, delivery-mechanism mismatch, and AssetPack scope mismatch
 - Separate admission evidence from canonical need interpretation, proof closure, mutation ownership, and delivery execution
 - Return admit, block, or manual-review guidance with source-traceable reasons
 - Preserve retained danger-wall compatibility while speaking only Bitcode risk-admission semantics` as PromptPart;

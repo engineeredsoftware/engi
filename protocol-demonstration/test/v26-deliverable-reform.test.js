@@ -56,7 +56,7 @@ const preprocessSource = readFileSync(
   'utf8'
 );
 const shipAgentSource = readFileSync(
-  new URL('../../packages/pipelines/deliverable/src/agents/shipping/deliverable-pipeline-ship-agent.ts', import.meta.url),
+  new URL('../../packages/pipelines/deliverable/src/agents/finish/deliver-asset-pack-to-destination-agent.ts', import.meta.url),
   'utf8'
 );
 const createPullRequestSource = readFileSync(
@@ -72,7 +72,7 @@ const selectFilesSource = readFileSync(
   'utf8'
 );
 const finalSummarySource = readFileSync(
-  new URL('../../packages/pipelines/deliverable/src/agents/shipping/deliverable-pipeline-final-work-summary-agent.ts', import.meta.url),
+  new URL('../../packages/pipelines/deliverable/src/agents/finish/final-work-summary-agent.ts', import.meta.url),
   'utf8'
 );
 const semanticPayloadSource = readFileSync(
@@ -353,7 +353,7 @@ const oldWorldDeliverableSubstepLanguage =
   /combine partial outputs into complete coherent response|format results into schema-compliant structured output|break large inputs into manageable chunks and summarize for processing|extract and organize relevant context from execution state minimizing noise|execute required tools with appropriate parameters|evaluate quality and correctness of reasoning output/u;
 
 const bitcodeSubstepDocCommentIntent =
-  /intent:\s*"Bitcode [^"]*(need|written-asset|asset-pack|proof|deliveryMechanism|delivery-wrapper|writtenAssets|execution-history)/u;
+  /intent:\s*"Bitcode [^"]*(need|written-asset|asset-pack|proof|deliveryMechanism|delivery-mechanism|writtenAssets|execution-history)/u;
 
 const staleDeliverablePromptPartIntent =
   /intent:\s*"(?:Agent semantic unit|Define purpose|Adds Deliverables|Canonical deliverables|Compatibility PromptPart for the former deliverables|.*Deliverables Clone VCS Repository)/u;
@@ -431,7 +431,7 @@ test('V26 deliverable reform supplement requires semantic mirrors beyond retaine
   assert.match(reformSource, /teach `comprehend-need` \/ asset-pack-run semantics/u);
   assert.match(reformSource, /retained repair, generation, and export-verification scripts/u);
   assert.match(reformSource, /retained deliverable substep PromptParts/u);
-  assert.match(reformSource, /Bitcode need, written-asset, asset-pack, proof-evidence, delivery-wrapper/u);
+  assert.match(reformSource, /Bitcode need, written-asset, asset-pack, proof-evidence, delivery-mechanism/u);
   assert.match(reformSource, /runtime JavaScript carry-through must remain parseable and content-equivalent/u);
   assert.match(reformSource, /substep doc-comment metadata must also be reauthored as Bitcode metadata/u);
   assert.match(reformSource, /all retained deliverable-family raw PromptPart doc-comment metadata must move to Bitcode-native intent/u);
@@ -475,8 +475,10 @@ test('deliverable postprocess and finish summary carry asset-pack written-asset 
 });
 
 test('setup comprehension path mirrors semantic need and written-asset keys for downstream phases', () => {
-  assert.match(comprehendNeedSource, /name: 'deliverable-pipeline-comprehend-need-agent'/u);
-  assert.match(comprehendNeedSource, /deliverable-pipeline-comprehend-need-agent-prompts/u);
+  assert.match(comprehendNeedSource, /bitcodeSetupNeedComprehensionAgent/u);
+  assert.match(comprehendNeedSource, /phase: 'setup'/u);
+  assert.match(comprehendNeedSource, /beforeAgent: 'danger-wall'/u);
+  assert.match(comprehendNeedSource, /setup\/need-comprehension/u);
   assert.match(comprehendNeedSource, /need_satisfaction_criteria/u);
   assert.match(comprehendNeedSource, /written_asset_types/u);
   assert.match(comprehendNeedPromptSource, /DP_COMPREHEND_NEED_SYSTEM_PROMPT/u);
@@ -495,8 +497,8 @@ test('setup comprehension path mirrors semantic need and written-asset keys for 
       `${removedEntrypoint} must stay removed; canonical setup comprehension is comprehend-need`
     );
   }
-  assert.match(comprehendNeedRawIdentityPromptSource, /Bitcode Comprehend Need Agent/u);
-  assert.match(comprehendNeedRawIdentityPromptSource, /asset-pack synthesis and connected-interface shipping/u);
+  assert.match(comprehendNeedRawIdentityPromptSource, /Bitcode setup Need-comprehension agent/u);
+  assert.match(comprehendNeedRawIdentityPromptSource, /AssetPack synthesis and connected-interface delivery mechanisms before risk admission/u);
   assert.match(setupPhaseSource, /deliverable-pipeline-comprehend-need-agent/u);
   assert.match(preprocessSource, /deliverable-pipeline-comprehend-need-agent/u);
   assert.match(preprocessSource, /new PipelinePromptRegistry/u);
@@ -531,7 +533,7 @@ test('phase and shipping carriers resolve semantic written-asset type and need b
 
 test('operator-facing execution header and retained route teach shipping-mechanism compatibility semantics', () => {
   assert.match(executionsPageHeaderSource, /shipping-template selection/u);
-  assert.match(executionsPageHeaderSource, /Compatibility shipping wrapper\. Bitcode-owned meaning lives in written assets \/ asset packs\./u);
+  assert.match(executionsPageHeaderSource, /Compatibility delivery mechanism\. Bitcode-owned meaning lives in written assets \/ asset packs\./u);
   assert.match(executionsPageHeaderSource, /No shipping surfaces to summarize/u);
   assert.match(executionsPageHeaderSource, /expected written asset pack and shipping result/u);
   assert.match(executionsPageHeaderSource, /A shipping delivery mechanism can be a/u);
@@ -593,39 +595,39 @@ test('retained templates and promptparts keep compatibility names but teach asse
   assert.match(phaseImplementationPurposePromptSource, /Synthesize written assets using VCS-compatible operations/u);
   assert.match(phaseValidationPurposePromptSource, /verify need satisfaction and written-asset integrity/u);
   assert.match(phaseShippingPurposePromptSource, /Emit connected-interface delivery mechanisms for validated written assets/u);
-  assert.match(setupComprehendNeedPurposePromptSource, /written-asset expectations, shipping-wrapper expectations, asset-pack context/u);
+  assert.match(setupComprehendNeedPurposePromptSource, /written-asset expectations, delivery-mechanism expectations, asset-pack context/u);
   assert.match(setupComprehendNeedIdentityPromptSource, /Bitcode need, satisfaction criteria, written-asset expectations, asset-pack context/u);
   assert.match(setupComprehendTaskPurposePromptSource, /Bitcode retained comprehend-task compatibility PromptPart for canonical comprehend-need asset-pack synthesis/u);
-  assert.match(setupComprehendTaskPurposePromptSource, /written-asset expectations, shipping-wrapper expectations, asset-pack context/u);
+  assert.match(setupComprehendTaskPurposePromptSource, /written-asset expectations, delivery-mechanism expectations, asset-pack context/u);
   assert.match(setupComprehendTaskIdentityPromptSource, /Bitcode retained comprehend-task compatibility PromptPart for canonical comprehend-need asset-pack synthesis/u);
   assert.match(setupComprehendTaskIdentityPromptSource, /Bitcode need, satisfaction criteria, written-asset expectations, asset-pack context/u);
   assert.match(finalizeShipmentPurposePromptSource, /finalize shipping delivery mechanisms for validated written assets/u);
   assert.match(finalizeShipmentIdentityPromptSource, /finalizing shipping delivery mechanisms for validated written assets/u);
   assert.match(deliverablesSystemBasePromptSource, /satisfy an expressed need by synthesizing stable written assets \/ asset-packs/u);
-  assert.match(deliverablesSystemBasePromptSource, /shipping wrappers subordinate to the Bitcode asset-pack meaning/u);
+  assert.match(deliverablesSystemBasePromptSource, /delivery mechanisms subordinate to the Bitcode asset-pack meaning/u);
   assert.match(deliverablesSystemExcellencePromptSource, /NEED SATISFACTION/u);
   assert.match(deliverablesSystemCognitivePromptSource, /ASSET-PACK SYNTHESIS/u);
-  assert.match(deliverablesSystemUltraCriticalPromptSource, /written assets primary and shipping wrappers secondary/u);
+  assert.match(deliverablesSystemUltraCriticalPromptSource, /written assets primary and delivery mechanisms secondary/u);
   assert.match(implementationDividePullRequestPurposePromptSource, /written-asset synthesis that will later ship through a pull request wrapper/u);
-  assert.match(implementationDividePullRequestIdentityPromptSource, /validated written assets destined for a pull request shipping wrapper/u);
-  assert.match(implementationDividePullRequestPlanPromptSource, /synthesize validated written assets for a pull request shipping wrapper/u);
-  assert.match(packagePrPurposePromptSource, /pull request shipping wrapper/u);
+  assert.match(implementationDividePullRequestIdentityPromptSource, /validated written assets destined for a pull request delivery mechanism/u);
+  assert.match(implementationDividePullRequestPlanPromptSource, /synthesize validated written assets for a pull request delivery mechanism/u);
+  assert.match(packagePrPurposePromptSource, /pull request delivery mechanism/u);
   assert.match(packagePrCapabilitiesPromptSource, /pull request shipping summaries with written-asset context/u);
-  assert.match(createPullRequestPurposePromptSource, /pull request shipping wrapper for validated written assets/u);
-  assert.match(shippingCreatePullRequestPurposePromptSource, /create a pull request shipping wrapper for validated written assets/u);
-  assert.match(shippingCreatePullRequestIdentityPromptSource, /emitting a pull request shipping wrapper for validated written assets/u);
-  assert.match(createCodeChangeIdentityPromptSource, /validated written assets into production-ready pull request shipping wrappers/u);
-  assert.match(createCodeChangeRolePromptSource, /cohesive pull request shipping wrapper/u);
-  assert.match(createCodeChangeInstructionsPromptSource, /Create a pull request shipping wrapper by leveraging full execution context/u);
+  assert.match(createPullRequestPurposePromptSource, /pull request delivery mechanism for validated written assets/u);
+  assert.match(shippingCreatePullRequestPurposePromptSource, /create a pull request delivery mechanism for validated written assets/u);
+  assert.match(shippingCreatePullRequestIdentityPromptSource, /emitting a pull request delivery mechanism for validated written assets/u);
+  assert.match(createCodeChangeIdentityPromptSource, /validated written assets into production-ready pull request delivery mechanisms/u);
+  assert.match(createCodeChangeRolePromptSource, /cohesive pull request delivery mechanism/u);
+  assert.match(createCodeChangeInstructionsPromptSource, /Create a pull request delivery mechanism by leveraging full execution context/u);
   assert.match(readyToShipIdentityPromptSource, /final readiness orchestration for validated written assets/u);
   assert.match(readyToShipRolePromptSource, /authorize connected-interface delivery mechanisms for validated written assets/u);
   assert.match(readyToShipInstructionsPromptSource, /evaluating written-asset integrity/u);
   assert.match(readyToShipPurposePromptSource, /whether written assets satisfy the need and are safe to ship/u);
   assert.match(readyToShipCodeChangeIdentityPromptSource, /final certification for code written assets/u);
-  assert.match(readyToShipCodeChangeInstructionsPromptSource, /pull request shipping-wrapper emission/u);
+  assert.match(readyToShipCodeChangeInstructionsPromptSource, /pull request delivery-mechanism emission/u);
   assert.match(readyToShipCodeChangePlanPromptSource, /code written-asset readiness assessment/u);
   assert.match(readyToShipCodeChangeReviewIdentityPromptSource, /final validation of review readiness for code written assets/u);
-  assert.match(readyToShipCodeChangeReviewInstructionsPromptSource, /written assets and the shipping wrapper remain coherent/u);
+  assert.match(readyToShipCodeChangeReviewInstructionsPromptSource, /written assets and the delivery mechanism remain coherent/u);
   assert.match(readyToShipCodeChangeReviewPlanPromptSource, /written-asset coherence checks/u);
 });
 
@@ -646,7 +648,7 @@ test('deliverable substep PromptParts express Bitcode need, written-asset, and a
   assert.match(combinedPromptText, /Bitcode need/u);
   assert.match(combinedPromptText, /written-asset/u);
   assert.match(combinedPromptText, /asset-pack/u);
-  assert.match(combinedPromptText, /delivery-wrapper|deliveryMechanism/u);
+  assert.match(combinedPromptText, /delivery-mechanism|deliveryMechanism/u);
   assert.match(combinedPromptText, /proof obligations|proof reread|proof evidence/u);
   assert.match(combinedPromptText, /writtenAssets/u);
   assert.match(combinedPromptText, /assetPack/u);
@@ -758,10 +760,10 @@ test('reformed runtime promptpart JavaScript teaches Bitcode written-asset shipp
 
   assert.match(runtimePromptText, /retained Bitcode deliverable-compatibility pipeline AI system/u);
   assert.match(runtimePromptText, /written assets \/ asset-packs/u);
-  assert.match(runtimePromptText, /Create a pull request shipping wrapper by leveraging full execution context/u);
+  assert.match(runtimePromptText, /Create a pull request delivery mechanism by leveraging full execution context/u);
   assert.match(runtimePromptText, /final readiness orchestration for validated written assets/u);
-  assert.match(runtimePromptText, /pull request shipping-wrapper emission/u);
-  assert.match(runtimePromptText, /written assets and the shipping wrapper remain coherent/u);
+  assert.match(runtimePromptText, /pull request delivery-mechanism emission/u);
+  assert.match(runtimePromptText, /written assets and the delivery mechanism remain coherent/u);
 });
 
 test('prompt package public boundary documentation reflects canonical Bitcode prompt infrastructure', () => {

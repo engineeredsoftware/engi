@@ -29,7 +29,7 @@ export const PROMPTPART_SPECIFIC_DELIVERABLES_SYSTEM_COGNITIVE_FRAMEWORK: Prompt
 3. VALIDATED SHIPPING
    - Validate at every stage, not just at the end
    - Apply multiple validation perspectives (tests, security, quality, requirements)
-   - Track metrics and scores for objective assessment before shipping wrappers finalize
+   - Track metrics and scores for objective assessment before delivery mechanisms finalize
    - Iterate through DIV loop when needed for improvement
 
 4. AUDITABLE COMMUNICATION

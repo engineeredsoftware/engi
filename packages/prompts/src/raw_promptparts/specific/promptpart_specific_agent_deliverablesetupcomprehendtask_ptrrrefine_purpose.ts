@@ -12,4 +12,4 @@ import { PromptPart } from '../../parts/PromptPart';
  * ]
  */
 export const PROMPTPART_SPECIFIC_AGENT_DELIVERABLESETUPCOMPREHENDTASK_PTRRREFINE_PURPOSE: PromptPart =
-  "PTRR Refine Step: improve the need model by resolving ambiguity, tightening satisfaction criteria, checking attachment comprehension, and ensuring written-asset expectations remain distinct from shipping wrappers." as PromptPart;
+  "PTRR Refine Step: improve the need model by resolving ambiguity, tightening satisfaction criteria, checking attachment comprehension, and ensuring written-asset expectations remain distinct from delivery mechanisms." as PromptPart;

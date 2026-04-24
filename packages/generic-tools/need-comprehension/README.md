@@ -18,8 +18,11 @@ It accelerates Bitcode inference when it maps every compatibility entry point on
 - `need satisfaction criteria`: measurable acceptance and verification conditions.
 
 The package remains integrated with Bitcode's prompt primitives architecture through `DocCodeToolPrompt`, `PromptPart`, and raw promptparts exposed through the public `@bitcode/prompts/raw_promptparts/*` boundary.
+This package source is TypeScript-only; generated JavaScript artifacts must be emitted outside `src/` by the build system and must never become specification or proof evidence for this corridor.
 
-Canonical code owners now live in `AnalyzeNeedSemanticsTool`, `NeedComprehensionToolset`, `need-comprehension-primitives`, and `need-comprehension-schemas`.
+Canonical code owners now live in individually defined tool files: `AnalyzeNeedSemanticsTool`, `ExtractNeedRequirementsTool`, `IdentifyNeedConstraintsTool`, `GenerateNeedSatisfactionCriteriaTool`, `ValidateNeedComprehensionTool`, and `AnalyzeNeedSatisfactionImplementationComplexityTool`.
+`NeedComprehensionToolset` is only the collection surface used by agents and registries.
+Pure behavior and validation remain in `need-comprehension-primitives` and `need-comprehension-schemas`.
 The retained task-named tool, primitive, prompt, and schema files remain compatibility wrappers only and must not regain ownership of active Bitcode behavior.
 
 The PTRR agent that composes these tools during setup lives in `@bitcode/generic-agents-need-comprehension`.
@@ -154,7 +157,7 @@ console.log(semantics.delivery_mechanism_boundaries);
 
 The DocCode prompt classes in `src/prompts/*` must use the public prompt boundary and must keep `metadata:category` set to `need-comprehension`.
 Canonical prompt owners now live in `AnalyzeNeedSemanticsDocCodeToolPrompt`, `ExtractNeedRequirementsDocCodeToolPrompt`, `IdentifyNeedConstraintsDocCodeToolPrompt`, `GenerateNeedSatisfactionCriteriaDocCodeToolPrompt`, `ValidateNeedComprehensionDocCodeToolPrompt`, and `AnalyzeNeedSatisfactionImplementationComplexityDocCodeToolPrompt`; the task-named prompt files remain compatibility wrappers only.
-Canonical code owners must mirror that posture: `AnalyzeNeedSemanticsTool`, `NeedComprehensionToolset`, `need-comprehension-primitives`, and `need-comprehension-schemas` stay local to the package, while `AnalyzeTaskSemanticsTool`, `primitives.ts`, and `schemas.ts` remain compatibility wrappers only.
+Canonical code owners must mirror that posture: the need-first tool files, `NeedComprehensionToolset`, `need-comprehension-primitives`, and `need-comprehension-schemas` stay local to the package, while `AnalyzeTaskSemanticsTool`, `primitives.ts`, and `schemas.ts` remain compatibility wrappers only.
 
 The raw promptpart files under `packages/prompts/src/raw_promptparts/specific/promptpart_specific_tool_*` may retain task-named filenames and constants for compatibility, but their content must describe:
 

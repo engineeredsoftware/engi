@@ -30,14 +30,26 @@ const deliverablePhasesSource = readFileSync(
   'utf8'
 );
 const finishPhaseSource = readFileSync(
+  new URL('../../packages/pipelines/deliverable/src/phases/finish.ts', import.meta.url),
+  'utf8'
+);
+const shippingPhaseCompatibilitySource = readFileSync(
   new URL('../../packages/pipelines/deliverable/src/phases/shipping.ts', import.meta.url),
   'utf8'
 );
 const deliverAgentSource = readFileSync(
+  new URL('../../packages/pipelines/deliverable/src/agents/finish/deliver-asset-pack-to-destination-agent.ts', import.meta.url),
+  'utf8'
+);
+const deliverAgentCompatibilitySource = readFileSync(
   new URL('../../packages/pipelines/deliverable/src/agents/shipping/deliverable-pipeline-ship-agent.ts', import.meta.url),
   'utf8'
 );
 const finalSummarySource = readFileSync(
+  new URL('../../packages/pipelines/deliverable/src/agents/finish/final-work-summary-agent.ts', import.meta.url),
+  'utf8'
+);
+const finalSummaryCompatibilitySource = readFileSync(
   new URL('../../packages/pipelines/deliverable/src/agents/shipping/deliverable-pipeline-final-work-summary-agent.ts', import.meta.url),
   'utf8'
 );
@@ -62,7 +74,7 @@ test('V26 specifies Finish as the broad final phase and Delivering as destinatio
   assert.match(finishSpec, /`Delivering` owns connected-interface output/);
   assert.match(finishSpec, /`SDIVF` is the canonical retained phased pipeline implementation/);
   assert.match(deliverableSpec, /`SDIVS` \/ `shipping` compatibility APIs must forward to `SDIVF` \/ `finish` behavior/);
-  assert.match(canonicalSpec, /`SDIVF` is the canonical retained phased implementation/);
+  assert.match(canonicalSpec, /`SDIVF` is the canonical compatibility-mounted phased implementation/);
 });
 
 test('pipeline generics expose canonical SDIVF APIs with deprecated SDIVS wrappers', () => {
@@ -91,6 +103,8 @@ test('retained deliverable corridor executes Finish while preserving shipping co
   assert.match(finishPhaseSource, /registerFinishAgentsForType/);
   assert.match(finishPhaseSource, /finish:deliver-asset-pack-to-destination-agent/);
   assert.match(finishPhaseSource, /shipping:deliverable-pipeline-ship-agent/);
+  assert.match(finishPhaseSource, /agents\/finish\/deliver-asset-pack-to-destination-agent/);
+  assert.match(shippingPhaseCompatibilitySource, /Canonical V26 implementation lives in `\.\/finish`/);
 });
 
 test('Finish agents and postprocess prefer finish stores before shipping fallback', () => {
@@ -99,6 +113,8 @@ test('Finish agents and postprocess prefer finish stores before shipping fallbac
   assert.match(finalSummarySource, /name: 'finish:final-work-summary'/);
   assert.match(finalSummarySource, /finish\/final_work_summary/);
   assert.match(finalSummarySource, /get\?\.\('finish', 'pullRequestUrl'\).*get\?\.\('shipping', 'pullRequestUrl'\)/s);
+  assert.match(deliverAgentCompatibilitySource, /Canonical V26 Finish\/Delivering implementation lives/u);
+  assert.match(finalSummaryCompatibilitySource, /Canonical V26 Finish implementation lives/u);
   assert.match(postprocessSource, /execution\.get\('finish', 'pullRequestUrl'\)/);
   assert.match(postprocessSource, /get\?\.\('finish\/final_work_summary', 'writtenAssets'\)/);
 });

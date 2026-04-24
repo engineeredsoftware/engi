@@ -57,10 +57,10 @@ const AGENTS = {
     { name: 'readytoship', display: 'Ready to Ship', purpose: 'final validation gate determining ship or short-circuit with refund' }
   ],
   shipping: [
-    { name: 'createpullrequest', display: 'Create Pull Request', purpose: 'create a pull request shipping wrapper with title description and metadata on a VCS platform' },
-    { name: 'submitreview', display: 'Submit Review', purpose: 'submit a code-review shipping wrapper with comments suggestions and approval status' },
-    { name: 'createissue', display: 'Create Issue', purpose: 'create an issue shipping wrapper with design-document written assets on a VCS platform' },
-    { name: 'addissuecomment', display: 'Add Issue Comment', purpose: 'add an issue-comment shipping wrapper to an existing issue thread' },
+    { name: 'createpullrequest', display: 'Create Pull Request', purpose: 'create a pull request delivery mechanism with title description and metadata on a VCS platform' },
+    { name: 'submitreview', display: 'Submit Review', purpose: 'submit a code-review delivery mechanism with comments suggestions and approval status' },
+    { name: 'createissue', display: 'Create Issue', purpose: 'create an issue delivery mechanism with design-document written assets on a VCS platform' },
+    { name: 'addissuecomment', display: 'Add Issue Comment', purpose: 'add an issue-comment delivery mechanism to an existing issue thread' },
     { name: 'finalizeshipment', display: 'Finalize Shipment', purpose: 'complete asset-pack shipping with metrics and confirmation' }
   ]
 };
@@ -70,7 +70,7 @@ const PART_TYPES: PromptPartTemplate[] = [
     { suffix: 'identity_definition', template: (agent, phase) =>
     `'You are the retained Bitcode asset-pack pipeline ${capitalize(phase)} phase ${agent.display.replace(/\s/g, '')} agent responsible for ${agent.purpose}'` },
   { suffix: 'purpose_corestatement', template: (agent) =>
-    `'Core purpose: ${agent.purpose} while preserving need satisfaction, written-asset integrity, and shipping-wrapper correctness at every step'` },
+    `'Core purpose: ${agent.purpose} while preserving need satisfaction, written-asset integrity, and delivery-mechanism correctness at every step'` },
   { suffix: 'capabilities_list', template: () =>
     `'Capabilities: analyze expressed need and requirements, validate inputs and outputs, handle edge cases gracefully, provide detailed feedback, support parallel processing, integrate with VCS platforms, maintain execution state, and preserve asset-pack run semantics'` },
   { suffix: 'tools_available', template: () =>

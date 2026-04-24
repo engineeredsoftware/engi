@@ -30,6 +30,108 @@ The concrete V26 delta is:
 - the retained and repurposed whole repository now has to be proven up to Bitcode-grade production satisfaction rather than leaving strong proof closure isolated to the former demo core,
 - and production hardening had to continue beyond V25’s first rename gate.
 
+## Formal Delta Contract
+
+The V26 DELTA is a formal specification companion, not a loose change summary.
+Its job is to explain the repository-scale transformation from late-Engi software-agent infrastructure into commercialized Bitcode while keeping every transition tied to current Bitcode ownership.
+The DELTA is allowed to include transition color that the main SPEC must not carry, but every historical explanation must resolve into:
+
+- current Bitcode protocol/product/proof meaning;
+- current source owner or package/interface corridor;
+- gate where the reform is accepted, deferred, or rejected;
+- proof, test, typecheck, generated artifact, or specification witness required for closure.
+
+The main `BITCODE_SPEC_V26.md` specifies Bitcode as the system now is.
+`BITCODE_SPEC_V26_NOTES.md` records granular "was this, now is that" reform ledger details.
+This DELTA specifies the architectural movement between those two perspectives so future work can understand why the whole repository is being reformed at once.
+
+## Late-Engi To Commercialized Bitcode Reformation
+
+The starting repository was not only a demonstration protocol.
+It also contained a dense commercial software-agent system: retained application shells, conversations, executions, pipelines, prompt abstractions, doc-comment/doc-code prompt injection, generic agents/tools, storage helpers, MCP/API carriers, GitHub/VCS integrations, web/LSP/search utilities, observability, auth, and deployment-facing infrastructure.
+V26 does not preserve those systems as an Engi product.
+It selectively repurposes them into Bitcode where they materially accelerate a source-to-shares protocol, and removes or archives them where they remain experimental, parallel-product, or not yet specified.
+
+The Bitcode interpretation is:
+
+- `protocol-demonstration` remains a lower-rail protocol witness and deterministic proof/reference implementation, not the commercial product shell.
+- `uapi` becomes the Bitcode Terminal and Exchange-facing application/interface rail, with `/application`, conversations, auxillaries, APIs, and read/write admission routes carrying commercial product experience.
+- `packages/*` are no longer generic old-world inventory by default; each package must be direct-product, commercial infrastructure, ingress/support, compatibility, reference-only, cut, or deferred.
+- prompt, tool, agent, execution, pipeline, conversation, MCP, persistence, and proof corridors must be specified together because V26 claims Bitcode as a provable source-to-shares deployed financial system, not merely as a UI over a demo.
+- retained compatibility names may survive only when they are bounded carriers over Bitcode objects such as Need, AssetPack, written asset, delivery mechanism, fit quality, proof evidence, execution state, and settlement receipt.
+
+This reformation is why fifth-gate is majority implementation work.
+The gate is not satisfied by proof-family improvements alone; it must make the commercial repository behave as Bitcode across packages, interfaces, prompts, agents, APIs, persistence, and proofs.
+
+## Delta Information Model
+
+Each reformation described by this DELTA has a required information shape.
+This is deliberately more colorful than the main SPEC because V26 is simultaneously the product canon and the one-time repository reformation from a dense retained commercial software-agent codebase into commercialized Bitcode.
+
+For every material retained corridor, the DELTA must make these facts recoverable:
+
+- former operational job:
+  what the retained application, package, prompt, agent, tool, pipeline, storage, or proof corridor actually did before V26 reform;
+- current Bitcode object:
+  which Bitcode primitive or product behavior owns it now, such as Need measurement, Need review, fit-quality review, AssetPack synthesis, written-asset mutation, delivery mechanism, Exchange state, Terminal experience, connected-interface ingress, prompt infrastructure, execution evidence, or proof generation;
+- source owner:
+  the package, interface, route, schema, generated artifact, or protocol-demonstration witness that now owns the behavior;
+- reform action:
+  whether the corridor is direct-product, commercial infrastructure, ingress/support, compatibility-only, reference-only, deferred, archived, or cut;
+- semantic transfer:
+  the exact noun and data-flow shift that prevents old product meaning from remaining authority;
+- proof closure:
+  the static test, typecheck, generated proof, source-content check, runtime reread, or manual closure blocker required before the corridor can count toward fifth-gate acceptance;
+- residue rule:
+  whether any former name is temporarily permitted as a compatibility carrier, and where it must disappear before full V26 closure.
+
+This model prevents two common failure modes.
+It prevents underspecified reuse, where a retained package silently keeps its old product meaning because it still compiles.
+It also prevents destructive rename, where useful commercial infrastructure is renamed before Bitcode has specified the object, interface, proof, and data flow it now serves.
+
+The main SPEC should read as current Bitcode.
+The NOTES file may record granular "was this, now is that" rows.
+This DELTA must sit between them: explanatory enough to preserve reformation intent, but formal enough that every paragraph lands on current owner, implementation action, and proof evidence.
+
+## Repository Reformation Color Map
+
+The following map gives the current V26 interpretation of the largest retained corridors.
+It is not exhaustive; it fixes the expected descriptive density for later DELTA additions.
+
+| Former operational job | Current Bitcode object | Source owner | Reform action | Proof closure |
+| --- | --- | --- | --- | --- |
+| demonstration protocol runtime and proof shell | deterministic protocol witness and lower-rail proof reference | `protocol-demonstration/*` | reference implementation plus proof substrate | generated proof family, protocol tests, source-to-shares witnesses |
+| commercial application shell, routes, conversations, and auxillary panes | Terminal and Exchange operator experience | `uapi/app/application/*`, `uapi/app/api/*`, `uapi/app/auxillaries/*`, `packages/api/*` | direct-product and interface owner | app/API tests, route reread evidence, Terminal selected-detail persistence |
+| execution history and retained run surfaces | Exchange-readable activity, execution state, and Terminal transaction detail | `packages/api/src/routes/*`, `uapi/app/api/executions/*`, storage read models | direct-product persistence/interface corridor | persistence proof, API tests, execution-history reread |
+| deliverable pipeline orchestration | Need-satisfying agentic pipeline run that synthesizes AssetPacks and written assets, then Finishes and optionally Delivers through a destination mechanism | `packages/pipelines/deliverable/*`, `packages/pipelines-generics/*` | compatibility corridor being reformed to Bitcode nouns | pipeline finish reform tests, inference records, runs-pipelines proof |
+| task/deliverable comprehension tools | setup-phase Need comprehension, requirements, constraints, satisfaction criteria, validation, and implementation complexity | `packages/generic-tools/need-comprehension/*` | compatibility-only tool reservoir with canonical need-first exports | package typecheck, no source-co-located JS check, prompt boundary tests |
+| task/deliverable comprehension agent behavior | setup/pre-danger-wall PTRR Need-comprehension composer | `packages/generic-agents/need-comprehension/*` | admitted setup agent | package typecheck, pipeline setup wiring, inference records |
+| danger-wall safety gate | Need/AssetPack risk admission before unsafe, private-data-exposing, proof-missing, delivery-mismatched, or likely-failing execution proceeds | `packages/generic-agents/danger-wall/*` | admitted support agent with compatibility aliases | danger-wall witness, prompt-system proof, likely-failure schema assertions |
+| web research and web search agents/tools | source-attributed discovery-phase Need-synthesis evidence | `packages/generic-agents/web-researcher/*`, `packages/generic-agents/web-search/*`, `packages/generic-tools/web-search/*`, `packages/web-search/*` | admitted support | web research/search witnesses, inference records, prompt-system proof |
+| LSP and grep search utilities | repository evidence for Need measurement, fit reasoning, proof inspection, and AssetPack planning | `packages/generic-tools/lsp-query/*`, `packages/system-grep/*`, `packages/generic-tools/simple-system-text-search/*` | admitted support | package witnesses, inference records, proof-source checks |
+| doc-comment/doc-code prompt injection | build-time tool prompt descriptions for agentic Bitcode runs | `packages/doc-comment/*`, `packages/doc-code/*`, `packages/generic-doc-comment-plugins/*` | commercial infrastructure | doc-comment reform tests, prompt-system proof |
+| ChatGPT App, MCP, webhooks, and connected third-party APIs | connected-interface ingress or delivery mechanisms, never parallel Exchange ownership | `packages/chatgptapp/*`, `packages/executions-mcp/*`, `uapi/app/api/webhook/*`, provider packages | ingress/support or delivery mechanism | admission tests, MCP tests, write receipts, connected-interface proof rows |
+| Supabase/PostgreSQL/ORM state helpers | Exchange persistence, execution storage, profile/readiness, AssetPack and proof evidence | `supabase/*`, `packages/supabase/*`, `packages/orm/*` | commercial infrastructure | migrations, schema proof, ORM tests, generated database type evidence |
+| generated JavaScript emitted beside TypeScript source | build artifact only, never active source proof for commercial TypeScript packages | package build output outside `src/` | cut from source ownership | source-content tests and package-local typechecks |
+| field-intelligence and experimental cognitive/product ideas | historical idea material only | `_legacy/field-intelligence`, `_legacy/internal-docs-experimental/*` | archived/cut | active source absence tests and reform-strategy notes |
+
+## Current Reformation Examples
+
+The following examples define how DELTA color should be read:
+
+| Reform area | V26 current owner | Delta meaning |
+| --- | --- | --- |
+| deterministic protocol witness | `protocol-demonstration/*` | retains the lower-level protocol behavior and proof model while commercial product rails move through `uapi` and packages |
+| commercial Terminal/Exchange application | `uapi/app/application/*`, `uapi/app/api/*`, `packages/api/*` | turns retained app infrastructure into product-facing Terminal, Exchange ingress, and state admission rather than a standalone demonstration |
+| deliverable pipeline corridor | `packages/pipelines/deliverable/*` | compatibility corridor for Bitcode agentic pipeline runs that satisfy Needs, synthesize AssetPacks/written assets, Finish results, and use delivery mechanisms for third-party provision |
+| need-comprehension tools | `packages/generic-tools/need-comprehension/*` | individually defined generic-tools own callable Need semantics, requirements, constraints, satisfaction criteria, validation, and implementation-complexity tools; `NeedComprehensionToolset` only collects them |
+| need-comprehension agent | `packages/generic-agents/need-comprehension/*` | setup/pre-danger-wall PTRR agent composes the individual tools to emit a reviewable Need model and risk-admission input |
+| danger-wall | `packages/generic-agents/danger-wall/*` | retained name for Bitcode risk admission that short-circuits unsafe, impossible, likely-failing, or underspecified pipeline execution before mutation or delivery proceeds |
+| generated JavaScript beside TypeScript | build output outside package `src/` | commercial Bitcode package implementations are TypeScript source; source-co-located generated JavaScript cannot be proof evidence for reformed packages |
+| field-intelligence | `_legacy/field-intelligence` | removed from active Bitcode and retained only as historical idea material |
+
+The same pattern applies to subsequent reform work: identify the retained source corridor, name the Bitcode object it now serves, prove the current implementation boundary, and remove or archive the residue that cannot satisfy Bitcode specification.
+
 ## Gate Structure
 
 ### First-gate

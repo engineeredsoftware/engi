@@ -568,6 +568,26 @@ test('V26 need-comprehension prompt reservoir is canonical Bitcode need comprehe
     path.join(repoRoot, 'packages/generic-tools/need-comprehension/src/NeedComprehensionToolset.ts'),
     'utf8'
   );
+  const extractToolSource = readFileSync(
+    path.join(repoRoot, 'packages/generic-tools/need-comprehension/src/ExtractNeedRequirementsTool.ts'),
+    'utf8'
+  );
+  const identifyToolSource = readFileSync(
+    path.join(repoRoot, 'packages/generic-tools/need-comprehension/src/IdentifyNeedConstraintsTool.ts'),
+    'utf8'
+  );
+  const satisfactionToolSource = readFileSync(
+    path.join(repoRoot, 'packages/generic-tools/need-comprehension/src/GenerateNeedSatisfactionCriteriaTool.ts'),
+    'utf8'
+  );
+  const validateToolSource = readFileSync(
+    path.join(repoRoot, 'packages/generic-tools/need-comprehension/src/ValidateNeedComprehensionTool.ts'),
+    'utf8'
+  );
+  const complexityToolSource = readFileSync(
+    path.join(repoRoot, 'packages/generic-tools/need-comprehension/src/AnalyzeNeedSatisfactionImplementationComplexityTool.ts'),
+    'utf8'
+  );
   const canonicalPrimitivesSource = readFileSync(
     path.join(repoRoot, 'packages/generic-tools/need-comprehension/src/need-comprehension-primitives.ts'),
     'utf8'
@@ -674,6 +694,7 @@ test('V26 need-comprehension prompt reservoir is canonical Bitcode need comprehe
   assert.match(needComprehensionReadme, /delivery mechanism/u);
   assert.match(needComprehensionReadme, /callable tool reservoir, not the setup-phase agent/u);
   assert.match(needComprehensionReadme, /@bitcode\/generic-agents-need-comprehension/u);
+  assert.match(needComprehensionReadme, /source is TypeScript-only/u);
   assert.equal(needComprehensionPackageJson.dependencies['@bitcode/prompts'], 'workspace:*');
   assert.equal(needComprehensionPackageJson.dependencies['@bitcode/tools-generics'], 'workspace:*');
   assert.equal(needComprehensionAgentPackageJson.dependencies['@bitcode/generic-tools-need-comprehension'], 'workspace:*');
@@ -698,14 +719,26 @@ test('V26 need-comprehension prompt reservoir is canonical Bitcode need comprehe
   assert.doesNotMatch(JSON.stringify(needComprehensionTsconfig), /@bitcode\/prompts\/\*/u);
   assert.match(needComprehensionReadme, /Bitcode does not have tasks as canonical product semantics/u);
   assert.match(needComprehensionReadme, /Canonical prompt owners now live in `AnalyzeNeedSemanticsDocCodeToolPrompt`, `ExtractNeedRequirementsDocCodeToolPrompt`, `IdentifyNeedConstraintsDocCodeToolPrompt`, `GenerateNeedSatisfactionCriteriaDocCodeToolPrompt`, `ValidateNeedComprehensionDocCodeToolPrompt`, and `AnalyzeNeedSatisfactionImplementationComplexityDocCodeToolPrompt`/u);
-  assert.match(needComprehensionReadme, /Canonical code owners now live in `AnalyzeNeedSemanticsTool`, `NeedComprehensionToolset`, `need-comprehension-primitives`, and `need-comprehension-schemas`/u);
+  assert.match(needComprehensionReadme, /Canonical code owners now live in individually defined tool files/u);
+  assert.match(needComprehensionReadme, /`NeedComprehensionToolset` is only the collection surface used by agents and registries/u);
   assert.match(analyzeNeedToolSource, /Canonical Bitcode need-semantics tool owner/u);
   assert.match(analyzeNeedToolSource, /analyzeNeedSemantics/u);
   assert.match(analyzeTaskToolSource, /Compatibility wrapper for task-named tool calls/u);
   assert.match(analyzeTaskToolSource, /extends AnalyzeNeedSemanticsTool/u);
-  assert.match(toolsetSource, /Canonical Bitcode need-comprehension toolset/u);
-  assert.match(toolsetSource, /These tools are intentionally not agents/u);
+  assert.match(extractToolSource, /export class ExtractNeedRequirementsTool/u);
+  assert.match(identifyToolSource, /export class IdentifyNeedConstraintsTool/u);
+  assert.match(satisfactionToolSource, /export class GenerateNeedSatisfactionCriteriaTool/u);
+  assert.match(validateToolSource, /export class ValidateNeedComprehensionTool/u);
+  assert.match(complexityToolSource, /export class AnalyzeNeedSatisfactionImplementationComplexityTool/u);
+  assert.match(toolsetSource, /Canonical Bitcode need-comprehension tool collection/u);
+  assert.match(toolsetSource, /individually defined tools are intentionally not agents/u);
   assert.match(toolsetSource, /BITCODE_NEED_COMPREHENSION_TOOLSET/u);
+  assert.deepEqual(
+    listFilesRecursively('packages/generic-tools/need-comprehension/src')
+      .filter((filePath) => filePath.endsWith('.js')),
+    [],
+    'need-comprehension source must stay TypeScript-only; generated JavaScript belongs outside src'
+  );
   assert.match(canonicalPrimitivesSource, /export async function analyzeNeedSemantics/u);
   assert.match(canonicalPrimitivesSource, /export async function extractNeedRequirements/u);
   assert.match(canonicalPrimitivesSource, /export async function identifyNeedConstraints/u);
@@ -774,6 +807,11 @@ test('V26 need-comprehension prompt reservoir is canonical Bitcode need comprehe
     analyzeNeedToolSource,
     analyzeTaskToolSource,
     toolsetSource,
+    extractToolSource,
+    identifyToolSource,
+    satisfactionToolSource,
+    validateToolSource,
+    complexityToolSource,
     canonicalPrimitivesSource,
     analyzePromptSource,
     analyzeCompatibilityPromptSource,

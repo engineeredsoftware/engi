@@ -17,7 +17,7 @@ export const PROMPTPART_SPECIFIC_DELIVERABLES_SYSTEM_EXCELLENCE_STANDARDS: Promp
 NEED SATISFACTION
 - Keep the expressed need primary from setup through shipping
 - Make written assets and asset-pack structure legible at every phase
-- Treat pull requests, issues, reviews, and comments as shipping wrappers only
+- Treat pull requests, issues, reviews, and comments as delivery mechanisms only
 - Verify that shipping outputs still reflect the validated underlying assets
 
 WRITTEN-ASSET INTEGRITY

@@ -77,12 +77,12 @@ test('V26 prompt surface map keeps active, support, and reference corridors expl
   assert.match(promptSurfaceSource, /retained reference test\/build configs should use exact public prompt subpath maps/u);
   assert.match(promptSurfaceSource, /Jira remains reader-first need-ingestion\/reference posture/u);
   assert.match(promptSurfaceSource, /Runtime JavaScript PromptPart carry-through must match the TypeScript content/u);
-  assert.match(promptSurfaceSource, /retained deliverable substep PromptParts carrying Bitcode need \/ written-asset \/ asset-pack \/ proof \/ delivery-wrapper semantics/u);
+  assert.match(promptSurfaceSource, /retained deliverable substep PromptParts carrying Bitcode need \/ written-asset \/ asset-pack \/ proof \/ delivery-mechanism semantics/u);
   assert.match(promptSurfaceSource, /broad prompt normalization must be idempotent/u);
   assert.match(promptSurfaceSource, /runtime `\.js` PromptPart strings must synchronize from canonical `\.ts` PromptPart source/u);
   assert.match(promptSurfaceSource, /doc-comment metadata must also be Bitcode-native/u);
   assert.match(promptSurfaceSource, /`current_version` cannot preserve pre-Bitcode lineage/u);
-  assert.match(promptSurfaceSource, /every retained deliverable substep `intent` must name the need-first written-asset \/ asset-pack \/ proof \/ delivery-wrapper role/u);
+  assert.match(promptSurfaceSource, /every retained deliverable substep `intent` must name the need-first written-asset \/ asset-pack \/ proof \/ delivery-mechanism role/u);
   assert.match(promptSurfaceSource, /whole retained deliverable-family raw PromptPart corpus/u);
   assert.match(promptSurfaceSource, /agent, phase, pipeline, tool, setup, discovery, implementation, validation, and shipping PromptParts/u);
   assert.match(promptSurfaceSource, /doc-comment `intent` and `current_version` metadata must describe Bitcode need-first written-asset \/ asset-pack execution/u);

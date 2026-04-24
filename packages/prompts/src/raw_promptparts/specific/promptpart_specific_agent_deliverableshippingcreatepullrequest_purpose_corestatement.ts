@@ -1,7 +1,7 @@
 /**
  * @doc-comment-developing-promptpartdevelopment
  * domain: auto
- * intent: "Bitcode retained deliverable-compatibility PromptPart for delivery-wrapper separation over validated written assets: agent deliverableshippingcreatepullrequest purpose corestatement"
+ * intent: "Bitcode retained deliverable-compatibility PromptPart for delivery-mechanism separation over validated written assets: agent deliverableshippingcreatepullrequest purpose corestatement"
  * current_version: "0.50.0"
  * versions: []
  * benchmarks: [
@@ -15,7 +15,7 @@ import { PromptPart } from '../../parts/PromptPart';
 /**
  * @doc-comment-developing-promptpartdevelopment
  * domain: agent
- * intent: "Bitcode retained deliverable-compatibility PromptPart for delivery-wrapper separation over validated written assets: agent deliverableshippingcreatepullrequest purpose corestatement"
+ * intent: "Bitcode retained deliverable-compatibility PromptPart for delivery-mechanism separation over validated written assets: agent deliverableshippingcreatepullrequest purpose corestatement"
  * current_version: "0.50.0"
  * versions: []
  * benchmarks: [
@@ -23,4 +23,4 @@ import { PromptPart } from '../../parts/PromptPart';
  * ]
  */
 export const PROMPTPART_SPECIFIC_AGENT_DELIVERABLESHIPPINGCREATEPULLREQUEST_PURPOSE_CORESTATEMENT: PromptPart = 
-  'Core purpose: create a pull request shipping wrapper for validated written assets on the VCS platform, with title, description, and metadata ensuring quality, accuracy, and completeness at every step' as PromptPart;
+  'Core purpose: create a pull request delivery mechanism for validated written assets on the VCS platform, with title, description, and metadata ensuring quality, accuracy, and completeness at every step' as PromptPart;

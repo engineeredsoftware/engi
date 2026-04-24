@@ -1129,7 +1129,7 @@ Required closure posture:
   filtered `tsc` verification over the active `uapi` program for the retained Jira/multimodal/use-computer caller corridor
   proof surface:
   fifth-gate retained caller-contract compile-health and reform closure so Jira tool execution no longer preserves nullable connection or optional-started worklog drift, multimodal-processing re-exports only the kept factory-tool surface, shell-execution tools plus the deliverable wrapper use the actual Bitcode `Tool` property contract instead of the older schema-class pattern, use-computer is admitted only as internal Need-measurement evidence behind `BITCODE_ENABLE_COMPUTER_USE_NEED_MEASUREMENT`, and old Terminal/API multi-agent plus compute toggles are removed rather than preserved as V26 controls
-- `{packages/pipelines/deliverable/src/{tools/{DeliverablePipelineCloneVCSRepositoryTool.ts,DeliverablePipelineMultimodalProcessingTool.ts,DeliverablePipelineAudioComprehensionTool.ts,DeliverablePipelineImageComprehensionTool.ts,DeliverablePipelinePDFComprehensionTool.ts,DeliverablePipelineVideoComprehensionTool.ts,index.ts},agents/shipping/deliverable-pipeline-ship-agent.ts}}`
+- `{packages/pipelines/deliverable/src/{tools/{DeliverablePipelineCloneVCSRepositoryTool.ts,DeliverablePipelineMultimodalProcessingTool.ts,DeliverablePipelineAudioComprehensionTool.ts,DeliverablePipelineImageComprehensionTool.ts,DeliverablePipelinePDFComprehensionTool.ts,DeliverablePipelineVideoComprehensionTool.ts,index.ts},agents/finish/deliver-asset-pack-to-destination-agent.ts}}`
   test coverage:
   filtered `tsc` verification over the active `uapi` program for the Bitcode asset-pack tool wrapper and Finish/Delivering corridor
   proof surface:

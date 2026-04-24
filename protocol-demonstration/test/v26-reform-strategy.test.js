@@ -6,6 +6,7 @@ const reformStrategySource = readFileSync(new URL('../V26_REFORM_STRATEGY.md', i
 const specSource = readFileSync(new URL('../../BITCODE_SPEC_V26.md', import.meta.url), 'utf8');
 const paritySource = readFileSync(new URL('../../BITCODE_SPEC_V26_PARITY_MATRIX.md', import.meta.url), 'utf8');
 const notesSource = readFileSync(new URL('../../BITCODE_SPEC_V26_NOTES.md', import.meta.url), 'utf8');
+const deltaSource = readFileSync(new URL('../../BITCODE_SPEC_V26_DELTA.md', import.meta.url), 'utf8');
 const systemsSource = readFileSync(new URL('../V26_APPLICATION_SYSTEMS.md', import.meta.url), 'utf8');
 const deliverableReformSource = readFileSync(new URL('../V26_DELIVERABLE_REFORM.md', import.meta.url), 'utf8');
 const docCommentReformSource = readFileSync(new URL('../V26_DOC_COMMENT_REFORM.md', import.meta.url), 'utf8');
@@ -47,4 +48,20 @@ test('active V26 canon and supplementary reform notes point to the generic refor
   assert.match(systemsSource, /protocol-demonstration\/V26_REFORM_STRATEGY\.md/u);
   assert.match(deliverableReformSource, /protocol-demonstration\/V26_REFORM_STRATEGY\.md/u);
   assert.match(docCommentReformSource, /protocol-demonstration\/V26_REFORM_STRATEGY\.md/u);
+});
+
+test('V26 DELTA is a formal reformation specification with implementation color', () => {
+  assert.match(notesSource, /The required DELTA information color is formal too/u);
+  assert.match(notesSource, /former operational job/u);
+  assert.match(notesSource, /current-source rule remains stricter than the DELTA rule/u);
+  assert.match(deltaSource, /## Delta Information Model/u);
+  assert.match(deltaSource, /former operational job/u);
+  assert.match(deltaSource, /current Bitcode object/u);
+  assert.match(deltaSource, /semantic transfer/u);
+  assert.match(deltaSource, /proof closure/u);
+  assert.match(deltaSource, /## Repository Reformation Color Map/u);
+  assert.match(deltaSource, /deliverable pipeline orchestration/u);
+  assert.match(deltaSource, /Need\/AssetPack risk admission/u);
+  assert.match(deltaSource, /generated JavaScript emitted beside TypeScript source/u);
+  assert.match(deltaSource, /active source absence tests/u);
 });

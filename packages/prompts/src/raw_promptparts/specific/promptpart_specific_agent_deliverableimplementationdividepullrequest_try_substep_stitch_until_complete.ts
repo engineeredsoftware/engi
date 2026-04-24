@@ -23,4 +23,4 @@ import { PromptPart } from '../../parts/PromptPart';
  * ]
  */
 export const PROMPTPART_SPECIFIC_AGENT_DELIVERABLEIMPLEMENTATIONDIVIDEPULLREQUEST_TRY_SUBSTEP_STITCH_UNTIL_COMPLETE: PromptPart = 
-  'deliverableimplementationdividepullrequest try substep stitch until complete: combine partial findings, diffs, validations, and shipping-wrapper details into one coherent asset-pack result that can be reread from execution history.' as PromptPart;
+  'deliverableimplementationdividepullrequest try substep stitch until complete: combine partial findings, diffs, validations, and delivery-mechanism details into one coherent asset-pack result that can be reread from execution history.' as PromptPart;

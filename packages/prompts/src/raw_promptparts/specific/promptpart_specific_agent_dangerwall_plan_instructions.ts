@@ -11,4 +11,4 @@ import { PromptPart } from '../../parts/PromptPart';
  * ]
  */
 export const PROMPTPART_SPECIFIC_AGENT_DANGERWALL_PLAN_INSTRUCTIONS: PromptPart =
-  'Plan Bitcode risk admission by selecting evidence sources, defining checks for unsafe mutation, private-data exposure, proof gaps, AssetPack scope mismatch, delivery-wrapper mismatch, and setting admit/block/manual-review thresholds.' as PromptPart;
+  'Plan Bitcode risk admission by selecting evidence sources, defining checks for unsafe mutation, private-data exposure, proof gaps, likely execution failure, AssetPack scope mismatch, delivery-mechanism mismatch, and setting admit/block/manual-review thresholds.' as PromptPart;

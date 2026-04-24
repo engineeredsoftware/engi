@@ -11,4 +11,4 @@ import { PromptPart } from '../../parts/PromptPart';
  * ]
  */
 export const PROMPTPART_SPECIFIC_AGENT_DANGERWALL_REFINE_ASSESSMENT: PromptPart =
-  'Assess refined admission posture by checking evidence traceability, unresolved high-severity concerns, proof-gap clarity, scope fit, delivery-wrapper fit, and whether manual review is required.' as PromptPart;
+  'Assess refined admission posture by checking evidence traceability, unresolved high-severity concerns, proof-gap clarity, likely execution failure, scope fit, delivery-mechanism fit, and whether manual review is required.' as PromptPart;

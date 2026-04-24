@@ -12,4 +12,4 @@ import { PromptPart } from '../../parts/PromptPart';
  * ]
  */
 export const PROMPTPART_SPECIFIC_AGENT_DELIVERABLESETUPCOMPREHENDNEED_CAPABILITIES_LIST: PromptPart =
-  "Capabilities: translate expressed user needs into auditable need models; extract constraints, satisfaction criteria, written-asset expectations, attachment meaning, asset-pack context, and shipping-wrapper boundaries; preserve execution state for downstream Bitcode phases." as PromptPart;
+  "Capabilities: translate expressed user needs into auditable need models; extract constraints, satisfaction criteria, written-asset expectations, attachment meaning, asset-pack context, and delivery-mechanism boundaries; preserve execution state for downstream Bitcode phases." as PromptPart;

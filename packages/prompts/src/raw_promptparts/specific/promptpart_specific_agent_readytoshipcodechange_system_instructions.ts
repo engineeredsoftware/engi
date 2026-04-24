@@ -13,4 +13,4 @@ import { PromptPart } from '../../parts/PromptPart';
  * ]
  */
 export const PROMPTPART_SPECIFIC_AGENT_READYTOSHIPCODECHANGE_SYSTEM_INSTRUCTIONS: PromptPart = 
-  'Certify code written-asset readiness by: confirming all tests pass, verifying zero critical bugs, validating performance benchmarks met, ensuring security compliance achieved, checking rollback procedures ready, confirming documentation complete, and authorizing pull request shipping-wrapper emission' as PromptPart;
+  'Certify code written-asset readiness by: confirming all tests pass, verifying zero critical bugs, validating performance benchmarks met, ensuring security compliance achieved, checking rollback procedures ready, confirming documentation complete, and authorizing pull request delivery-mechanism emission' as PromptPart;

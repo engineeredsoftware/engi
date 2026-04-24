@@ -368,7 +368,7 @@ export const V26_INFERENCE_IMPLEMENTATION_RECORDS = Object.freeze([
   },
   {
     recordId: 'asset-pack-synthesis-compatibility',
-    canonicalNeed: 'Use retained deliverable corridor machinery as Bitcode asset-pack written-asset synthesis plus shipping-wrapper compatibility.',
+    canonicalNeed: 'Use retained deliverable corridor machinery as Bitcode asset-pack written-asset synthesis plus delivery-mechanism compatibility.',
     promptImplementation: {
       owners: [
         'packages/pipelines/deliverable/src/agents/prompts/comprehend-need-prompt.ts',
@@ -384,8 +384,8 @@ export const V26_INFERENCE_IMPLEMENTATION_RECORDS = Object.freeze([
         'packages/generic-tools/simple-system-text-search/src/prompts/SimpleSystemTextSearchDocCodeToolPrompt.ts'
       ],
       rawPromptPartBoundary: 'COMPREHENDNEED, DELIVERABLESETUPCOMPREHENDNEED, compatibility-named TEXTSEARCHER, and compatibility-named SYSTEMTEXTSEARCH PromptParts before compatibility COMPREHENDTASK wrappers',
-      registryLayering: 'Generic PTRR and formatting PromptParts form base layers while specific deliverable/setup/validation/finish PromptParts implement Bitcode need, written-asset, asset-pack, proof, and delivery-wrapper behavior; repository-evidence-search PromptParts add source-grounding behavior through retained prompt registries.',
-      runtimeCarryThrough: 'Deliverable-corridor and repository-evidence runtime promptparts must teach need-first asset-pack synthesis, source-grounding, and shipping wrappers.'
+      registryLayering: 'Generic PTRR and formatting PromptParts form base layers while specific deliverable/setup/validation/finish PromptParts implement Bitcode need, written-asset, asset-pack, proof, and delivery-mechanism behavior; repository-evidence-search PromptParts add source-grounding behavior through retained prompt registries.',
+      runtimeCarryThrough: 'Deliverable-corridor and repository-evidence runtime promptparts must teach need-first asset-pack synthesis, source-grounding, and delivery mechanisms.'
     },
     toolImplementation: {
       owners: [
@@ -400,7 +400,7 @@ export const V26_INFERENCE_IMPLEMENTATION_RECORDS = Object.freeze([
         'packages/generic-tools/files-maintaining/src/prompts/DeleteFileDocCodeToolPrompt.ts',
         'packages/generic-tools/files-maintaining/src/prompts/tool-prompt-transaction-begin.ts'
       ],
-      contract: 'Retained VCS/PR/comment/review tools are shipping mechanisms on top of stable written assets; retained repository-evidence search tools are bounded grep-backed support for need measurement and source-grounding; retained file-maintaining tools are written-asset mutation support and must expose Bitcode asset-pack semantics rather than generic file-system lineage.'
+      contract: 'Retained VCS/PR/comment/review tools are delivery mechanisms on top of stable written assets; retained repository-evidence search tools are bounded grep-backed support for need measurement and source-grounding; retained file-maintaining tools are written-asset mutation support and must expose Bitcode asset-pack semantics rather than generic file-system lineage.'
     },
     agentImplementation: {
       owners: [
@@ -408,8 +408,9 @@ export const V26_INFERENCE_IMPLEMENTATION_RECORDS = Object.freeze([
         'packages/generic-agents/text-searcher/src/index.ts',
         'packages/pipelines/deliverable/src/agents/setup/deliverable-pipeline-ready-to-iterate-agent.ts',
         'packages/pipelines/deliverable/src/phases/index.ts',
-        'packages/pipelines/deliverable/src/phases/shipping.ts',
-        'packages/pipelines/deliverable/src/agents/shipping/deliverable-pipeline-final-work-summary-agent.ts'
+        'packages/pipelines/deliverable/src/phases/finish.ts',
+        'packages/pipelines/deliverable/src/agents/finish/deliver-asset-pack-to-destination-agent.ts',
+        'packages/pipelines/deliverable/src/agents/finish/final-work-summary-agent.ts'
       ],
       contract: 'Setup, iteration, validation, and Finish agents must resolve semantic need/writtenAsset fields before compatibility deliverable fields; Delivering is only the third-party AssetPack/partial handoff inside Finish.'
     },
@@ -422,7 +423,7 @@ export const V26_INFERENCE_IMPLEMENTATION_RECORDS = Object.freeze([
       carriers: ['PipelineExecution compatibility entry', 'postprocess read model', 'execution history projections']
     },
     assetPackImplementation: {
-      outputKind: 'asset pack and delivery wrapper',
+      outputKind: 'asset pack and delivery mechanism',
       effect: 'Stable written assets and asset-pack snapshots are primary; PRs, Jira comments, reviews, and route payloads are delivery mechanisms.'
     },
     boundaryPosture: 'compatibility',
@@ -441,7 +442,7 @@ export const V26_INFERENCE_IMPLEMENTATION_RECORDS = Object.freeze([
       'protocol-demonstration/test/v26-text-searcher-agent-compatibility.test.js',
       'packages/pipelines/deliverable/src/index.ts',
       'packages/pipelines/deliverable/src/phases/index.ts',
-      'packages/pipelines/deliverable/src/phases/shipping.ts',
+      'packages/pipelines/deliverable/src/phases/finish.ts',
       'packages/pipelines/deliverable/src/postprocess.ts',
       'packages/pipelines/deliverable/src/types/PipelineSchemas.ts',
       'packages/pipelines/deliverable/src/agents/prompts/comprehend-need-prompt.ts',
@@ -501,16 +502,21 @@ export const V26_INFERENCE_IMPLEMENTATION_RECORDS = Object.freeze([
       ],
       rawPromptPartBoundary: '@bitcode/prompts/raw_promptparts/* with COMPREHENDNEED agent PromptParts and task-named tool compatibility filenames',
       registryLayering: 'The setup Need-comprehension agent owns AgentPrompt and AgentStepPrompt registries in packages/generic-agents/need-comprehension, while canonical need-first DocCodeToolPrompt owners stay local to packages/generic-tools/need-comprehension. Agent PromptParts specialize the setup/pre-danger-wall role; tool PromptParts specialize callable Need analysis, requirements, constraints, satisfaction criteria, validation, and complexity capabilities. Task-named prompt files remain compatibility wrappers only when their content maps into Bitcode need, written-asset, AssetPack, proof, and delivery-mechanism analysis.',
-      runtimeCarryThrough: 'COMPREHENDNEED agent PromptParts and task-named compatibility PromptParts must keep TypeScript and JavaScript carry-through aligned to canonical need-comprehension text.'
+      runtimeCarryThrough: 'COMPREHENDNEED agent PromptParts and task-named compatibility raw PromptParts must keep runtime carry-through aligned to canonical need-comprehension text, while packages/generic-tools/need-comprehension itself remains TypeScript-only source with any generated JavaScript emitted outside src.'
     },
     toolImplementation: {
       owners: [
         'packages/generic-tools/need-comprehension/src/AnalyzeNeedSemanticsTool.ts',
+        'packages/generic-tools/need-comprehension/src/ExtractNeedRequirementsTool.ts',
+        'packages/generic-tools/need-comprehension/src/IdentifyNeedConstraintsTool.ts',
+        'packages/generic-tools/need-comprehension/src/GenerateNeedSatisfactionCriteriaTool.ts',
+        'packages/generic-tools/need-comprehension/src/ValidateNeedComprehensionTool.ts',
+        'packages/generic-tools/need-comprehension/src/AnalyzeNeedSatisfactionImplementationComplexityTool.ts',
         'packages/generic-tools/need-comprehension/src/NeedComprehensionToolset.ts',
         'packages/generic-tools/need-comprehension/src/need-comprehension-primitives.ts',
         'packages/generic-tools/need-comprehension/src/need-comprehension-schemas.ts'
       ],
-      contract: 'Canonical need-first tool, primitive, schema, and toolset owners stay local to the generic-tools package. They are callable capabilities, not agents; retained task-named APIs remain compatibility carriers for canonical needComprehension outputs only.'
+      contract: 'Canonical need-first tools are individually defined in the generic-tools package and collected by NeedComprehensionToolset. They are callable capabilities, not agents; retained task-named APIs remain compatibility carriers for canonical needComprehension outputs only.'
     },
     agentImplementation: {
       owners: [
@@ -553,7 +559,11 @@ export const V26_INFERENCE_IMPLEMENTATION_RECORDS = Object.freeze([
       'packages/generic-tools/need-comprehension/tsconfig.json',
       'packages/generic-tools/need-comprehension/src/AnalyzeNeedSemanticsTool.ts',
       'packages/generic-tools/need-comprehension/src/NeedComprehensionToolset.ts',
-      'packages/generic-tools/need-comprehension/src/NeedComprehensionToolset.js',
+      'packages/generic-tools/need-comprehension/src/ExtractNeedRequirementsTool.ts',
+      'packages/generic-tools/need-comprehension/src/IdentifyNeedConstraintsTool.ts',
+      'packages/generic-tools/need-comprehension/src/GenerateNeedSatisfactionCriteriaTool.ts',
+      'packages/generic-tools/need-comprehension/src/ValidateNeedComprehensionTool.ts',
+      'packages/generic-tools/need-comprehension/src/AnalyzeNeedSatisfactionImplementationComplexityTool.ts',
       'packages/generic-tools/need-comprehension/src/AnalyzeTaskSemanticsTool.ts',
       'packages/generic-tools/need-comprehension/src/need-comprehension-primitives.ts',
       'packages/generic-tools/need-comprehension/src/primitives.ts',
@@ -752,7 +762,7 @@ export const V26_INFERENCE_IMPLEMENTATION_RECORDS = Object.freeze([
         'packages/generic-agents/danger-wall/src/prompts/retry-prompt-dangerwall.ts'
       ],
       rawPromptPartBoundary: 'Compatibility-named DANGERWALL PromptParts implement Bitcode need/AssetPack risk-admission support while generic generation/failsafe PromptParts remain reusable base layers.',
-      registryLayering: 'Generic generation/failsafe PromptParts form base layers; specific DANGERWALL PromptParts implement need, written-asset, AssetPack, proof-gap, private-data, mutation, delivery-wrapper, and manual-review admission behavior through package-local Prompt registries.',
+      registryLayering: 'Generic generation/failsafe PromptParts form base layers; specific DANGERWALL PromptParts implement need, written-asset, AssetPack, proof-gap, private-data, mutation, delivery-mechanism, likely-execution-failure, and manual-review admission behavior through package-local Prompt registries.',
       runtimeCarryThrough: 'Danger-wall PromptPart TypeScript and JavaScript must carry canonical Bitcode risk-admission text.'
     },
     toolImplementation: {

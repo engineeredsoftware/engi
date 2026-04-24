@@ -3,7 +3,7 @@ import { PromptPart } from '../../parts/PromptPart';
 /**
  * @doc-comment-developing-promptpartdevelopment
  * domain: agent
- * intent: "Bitcode retained deliverable-compatibility PromptPart for delivery-wrapper separation over validated written assets: agent deliverableshippingpackagepr purpose corestatement"
+ * intent: "Bitcode retained deliverable-compatibility PromptPart for delivery-mechanism separation over validated written assets: agent deliverableshippingpackagepr purpose corestatement"
  * current_version: "0.50.0"
  * versions: []
  * benchmarks: [
@@ -12,4 +12,4 @@ import { PromptPart } from '../../parts/PromptPart';
  * ]
  */
 export const PROMPTPART_SPECIFIC_AGENT_DELIVERABLESHIPPINGPACKAGEPR_PURPOSE_CORESTATEMENT: PromptPart = 
-  'package validated written assets and file-change evidence into a well-structured pull request shipping wrapper with comprehensive documentation' as PromptPart;
+  'package validated written assets and file-change evidence into a well-structured pull request delivery mechanism with comprehensive documentation' as PromptPart;

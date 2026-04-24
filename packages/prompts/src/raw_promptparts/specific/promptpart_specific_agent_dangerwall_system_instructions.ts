@@ -11,4 +11,4 @@ import { PromptPart } from '../../parts/PromptPart';
  * ]
  */
 export const PROMPTPART_SPECIFIC_AGENT_DANGERWALL_SYSTEM_INSTRUCTIONS: PromptPart =
-  'Evaluate admission by checking unsafe mutation, private-data exposure, proof/evidence gaps, AssetPack scope mismatch, delivery-wrapper mismatch, and operator-review requirements; do not mutate source, deliver artifacts, canonically interpret the need, or claim proof closure.' as PromptPart;
+  'Evaluate admission by checking unsafe mutation, private-data exposure, proof/evidence gaps, likely execution failure, AssetPack scope mismatch, delivery-mechanism mismatch, and operator-review requirements; do not mutate source, deliver artifacts, canonically interpret the need, or claim proof closure.' as PromptPart;

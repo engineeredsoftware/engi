@@ -23,4 +23,4 @@ import { PromptPart } from '../../parts/PromptPart';
  * ]
  */
 export const PROMPTPART_SPECIFIC_AGENT_DELIVERABLEIMPLEMENTATIONCORRECTPULLREQUEST_TRY_SUBSTEP_REASON: PromptPart = 
-  'deliverableimplementationcorrectpullrequest try substep reason: ground the step in the expressed Bitcode need, current execution state, written-asset target, proof obligations, and delivery-wrapper limits before selecting the next action.' as PromptPart;
+  'deliverableimplementationcorrectpullrequest try substep reason: ground the step in the expressed Bitcode need, current execution state, written-asset target, proof obligations, and delivery-mechanism limits before selecting the next action.' as PromptPart;

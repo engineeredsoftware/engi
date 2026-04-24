@@ -1,7 +1,7 @@
 /**
  * @doc-comment-developing-promptpartdevelopment
  * domain: tool
- * intent: "Demonstrates source-grounding proof and delivery-wrapper terminology in a package boundary"
+ * intent: "Demonstrates source-grounding proof and delivery-mechanism terminology in a package boundary"
  * current_version: "V26"
  * versions: []
  * benchmarks: [
@@ -14,4 +14,4 @@
 import { PromptPart } from '../../parts/PromptPart';
 
 export const PROMPTPART_SPECIFIC_TOOL_SYSTEMTEXTSEARCH_DOCCODETOOLEXAMPLE3: PromptPart = 
-  'Example 3 - Ground proof and delivery-wrapper terminology: simpleSystemTextSearch({ pattern: "proof|deliveryMechanism|writtenAsset", cwd: "/repo/packages/pipelines", maxResults: 75, ignoreCase: true })' as PromptPart;
+  'Example 3 - Ground proof and delivery-mechanism terminology: simpleSystemTextSearch({ pattern: "proof|deliveryMechanism|writtenAsset", cwd: "/repo/packages/pipelines", maxResults: 75, ignoreCase: true })' as PromptPart;

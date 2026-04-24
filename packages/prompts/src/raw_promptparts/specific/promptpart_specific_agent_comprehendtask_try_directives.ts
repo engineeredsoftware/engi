@@ -12,4 +12,4 @@ import { PromptPart } from '../../parts/PromptPart';
  * ]
  */
 export const PROMPTPART_SPECIFIC_AGENT_COMPREHENDTASK_TRY_DIRECTIVES: PromptPart =
-  "Execute need comprehension through: entity and intent extraction, written-asset classification, constraint mapping, acceptance-criteria formulation, shipping-wrapper separation, dependency identification, ambiguity scoring, and structured need-model generation." as PromptPart;
+  "Execute need comprehension through: entity and intent extraction, written-asset classification, constraint mapping, acceptance-criteria formulation, delivery-mechanism separation, dependency identification, ambiguity scoring, and structured need-model generation." as PromptPart;

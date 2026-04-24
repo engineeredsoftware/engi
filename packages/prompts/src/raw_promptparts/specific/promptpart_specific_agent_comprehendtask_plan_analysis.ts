@@ -12,4 +12,4 @@ import { PromptPart } from '../../parts/PromptPart';
  * ]
  */
 export const PROMPTPART_SPECIFIC_AGENT_COMPREHENDTASK_PLAN_ANALYSIS: PromptPart =
-  "Analyze the expressed need to identify: user outcome, implicit goals, written-asset type, repository or interface constraints, shipping-wrapper expectations, acceptance criteria, evidence requirements, and unknowns that could block need satisfaction." as PromptPart;
+  "Analyze the expressed need to identify: user outcome, implicit goals, written-asset type, repository or interface constraints, delivery-mechanism expectations, acceptance criteria, evidence requirements, and unknowns that could block need satisfaction." as PromptPart;

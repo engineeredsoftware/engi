@@ -12,4 +12,4 @@ import { PromptPart } from '../../parts/PromptPart';
  * ]
  */
 export const PROMPTPART_SPECIFIC_AGENT_COMPREHENDTASK_REFINE_OPTIMIZATION: PromptPart =
-  "Refine need comprehension by: resolving conflicting interpretations, strengthening written-asset and asset-pack semantics, separating delivery wrapper details from primary need satisfaction, enriching missing domain context, and tightening measurable success criteria." as PromptPart;
+  "Refine need comprehension by: resolving conflicting interpretations, strengthening written-asset and asset-pack semantics, separating delivery mechanism details from primary need satisfaction, enriching missing domain context, and tightening measurable success criteria." as PromptPart;

@@ -13,4 +13,4 @@ import { PromptPart } from '../../parts/PromptPart';
  * ]
  */
 export const PROMPTPART_SPECIFIC_AGENT_READYTOSHIPCODECHANGEREVIEW_SYSTEM_ROLE: PromptPart = 
-  'Your role is to certify review quality for shipping approval, validate all concerns addressed, ensure feedback incorporated into the written assets or shipping wrapper, verify approval criteria met, and authorize merge' as PromptPart;
+  'Your role is to certify review quality for shipping approval, validate all concerns addressed, ensure feedback incorporated into the written assets or delivery mechanism, verify approval criteria met, and authorize merge' as PromptPart;

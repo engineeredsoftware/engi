@@ -12,4 +12,4 @@ import { PromptPart } from '../../parts/PromptPart';
  * ]
  */
 export const PROMPTPART_SPECIFIC_AGENT_COMPREHENDTASK_RETRY_STRATEGY: PromptPart =
-  "Recover need comprehension by applying alternative domain parses, decomposing compound needs, inferring safe written-asset defaults only when evidence supports them, downgrading uncertain shipping-wrapper assumptions, and producing focused clarification prompts when confidence remains insufficient." as PromptPart;
+  "Recover need comprehension by applying alternative domain parses, decomposing compound needs, inferring safe written-asset defaults only when evidence supports them, downgrading uncertain delivery-mechanism assumptions, and producing focused clarification prompts when confidence remains insufficient." as PromptPart;

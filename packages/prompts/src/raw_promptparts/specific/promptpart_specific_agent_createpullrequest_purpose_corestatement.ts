@@ -12,4 +12,4 @@ import { PromptPart } from '../../parts/PromptPart';
  * ]
  */
 export const PROMPTPART_SPECIFIC_AGENT_CREATEPULLREQUEST_PURPOSE_CORESTATEMENT: PromptPart = 
-  'Create a pull request shipping wrapper for validated written assets with comprehensive description, change summary, test plan, and review checklist following repository conventions' as PromptPart;
+  'Create a pull request delivery mechanism for validated written assets with comprehensive description, change summary, test plan, and review checklist following repository conventions' as PromptPart;

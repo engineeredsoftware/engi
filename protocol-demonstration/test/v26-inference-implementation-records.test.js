@@ -87,6 +87,7 @@ test('V26 inference implementation registry binds records to canonical Bitcode s
   assert.match(recordsById['pipeline-infrastructure'].canonicalNeed, /Bitcode runs/u);
   assert.match(recordsById['conversation-inference'].canonicalNeed, /rich-input Bitcode write surface/u);
   assert.match(recordsById['asset-pack-synthesis-compatibility'].canonicalNeed, /asset-pack written-asset synthesis/u);
+  assert.match(recordsById['asset-pack-synthesis-compatibility'].canonicalNeed, /delivery-mechanism compatibility/u);
   assert.match(recordsById['need-comprehension-compatibility'].canonicalNeed, /setup-phase Bitcode Need comprehension/u);
   assert.match(recordsById['need-comprehension-compatibility'].canonicalNeed, /written-asset expectations/u);
   assert.match(recordsById['need-comprehension-compatibility'].canonicalNeed, /AssetPack context/u);
@@ -128,11 +129,17 @@ test('V26 inference implementation registry binds records to canonical Bitcode s
   );
   assert.deepEqual(recordsById['need-comprehension-compatibility'].toolImplementation.owners, [
     'packages/generic-tools/need-comprehension/src/AnalyzeNeedSemanticsTool.ts',
+    'packages/generic-tools/need-comprehension/src/ExtractNeedRequirementsTool.ts',
+    'packages/generic-tools/need-comprehension/src/IdentifyNeedConstraintsTool.ts',
+    'packages/generic-tools/need-comprehension/src/GenerateNeedSatisfactionCriteriaTool.ts',
+    'packages/generic-tools/need-comprehension/src/ValidateNeedComprehensionTool.ts',
+    'packages/generic-tools/need-comprehension/src/AnalyzeNeedSatisfactionImplementationComplexityTool.ts',
     'packages/generic-tools/need-comprehension/src/NeedComprehensionToolset.ts',
     'packages/generic-tools/need-comprehension/src/need-comprehension-primitives.ts',
     'packages/generic-tools/need-comprehension/src/need-comprehension-schemas.ts'
   ]);
-  assert.match(recordsById['need-comprehension-compatibility'].toolImplementation.contract, /Canonical need-first tool, primitive, schema, and toolset owners stay local/u);
+  assert.match(recordsById['need-comprehension-compatibility'].toolImplementation.contract, /Canonical need-first tools are individually defined/u);
+  assert.match(recordsById['need-comprehension-compatibility'].toolImplementation.contract, /collected by NeedComprehensionToolset/u);
   assert.match(recordsById['need-comprehension-compatibility'].toolImplementation.contract, /callable capabilities, not agents/u);
   assert.match(recordsById['need-comprehension-compatibility'].toolImplementation.contract, /retained task-named APIs remain compatibility carriers/u);
   assert.ok(
@@ -175,6 +182,8 @@ test('V26 inference implementation registry binds records to canonical Bitcode s
   );
   assert.match(recordsById['need-risk-admission-support'].promptImplementation.rawPromptPartBoundary, /DANGERWALL PromptParts/u);
   assert.match(recordsById['need-risk-admission-support'].promptImplementation.rawPromptPartBoundary, /risk-admission/u);
+  assert.match(recordsById['need-risk-admission-support'].promptImplementation.registryLayering, /delivery-mechanism/u);
+  assert.match(recordsById['need-risk-admission-support'].promptImplementation.registryLayering, /likely-execution-failure/u);
   assert.match(recordsById['need-risk-admission-support'].agentImplementation.contract, /bitcodeNeedRiskAdmissionAgent/u);
   assert.match(recordsById['need-risk-admission-support'].toolImplementation.contract, /admission ambiguity/u);
 

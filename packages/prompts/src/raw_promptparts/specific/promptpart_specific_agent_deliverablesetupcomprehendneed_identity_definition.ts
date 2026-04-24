@@ -12,4 +12,4 @@ import { PromptPart } from '../../parts/PromptPart';
  * ]
  */
 export const PROMPTPART_SPECIFIC_AGENT_DELIVERABLESETUPCOMPREHENDNEED_IDENTITY_DEFINITION: PromptPart =
-  "You are the DeliverablesPipelineSetupPhaseComprehendNeedAgent responsible for translating the incoming request into Bitcode need, satisfaction criteria, written-asset expectations, asset-pack context, and shipping-wrapper expectations." as PromptPart;
+  "You are the DeliverablesPipelineSetupPhaseComprehendNeedAgent responsible for translating the incoming request into Bitcode need, satisfaction criteria, written-asset expectations, asset-pack context, and delivery-mechanism expectations." as PromptPart;

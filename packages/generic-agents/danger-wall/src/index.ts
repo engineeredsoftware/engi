@@ -40,7 +40,7 @@ export const BitcodeNeedRiskAdmissionInputSchema = z.object({
   writtenAssets: z.array(z.unknown()).optional().describe('Candidate written assets or partials to admit for downstream work'),
   repositoryEvidence: z.array(BitcodeRiskEvidenceSchema).optional().describe('Source-grounded evidence already collected for risk admission'),
   externalEvidence: z.array(BitcodeRiskEvidenceSchema).optional().describe('Discovery-phase external evidence already collected for need synthesis'),
-  deliveryMechanism: z.string().optional().describe('Requested delivery wrapper such as GitHub pull request, Jira comment, or local artifact'),
+  deliveryMechanism: z.string().optional().describe('Requested delivery mechanism such as GitHub pull request, Jira comment, or local artifact'),
   strictMode: z.boolean().default(false).describe('Require manual review for unresolved high-impact ambiguity'),
   riskCategories: z.array(z.string()).optional().describe('Specific Bitcode risk categories to evaluate'),
   admissionThreshold: z.number().default(0.8).describe('Minimum confidence for admitting the next pipeline step')
@@ -71,7 +71,8 @@ export const BitcodeNeedRiskAdmissionPlanSchema = z.object({
     checkSecretOrPrivateDataExposure: z.boolean(),
     checkProofOrEvidenceGap: z.boolean(),
     checkDeliveryMechanismMismatch: z.boolean(),
-    checkAssetPackScopeMismatch: z.boolean()
+    checkAssetPackScopeMismatch: z.boolean(),
+    checkLikelyExecutionFailure: z.boolean()
   }),
   useTools: z.array(BitcodeRiskToolRequestSchema).optional().describe('Risk-evidence tools requested by the plan'),
   confidence: z.number().min(0).max(1),
@@ -88,6 +89,7 @@ export const BitcodeNeedRiskAdmissionTrySchema = z.object({
       proofOrEvidenceGap: z.boolean(),
       deliveryMechanismMismatch: z.boolean(),
       assetPackScopeMismatch: z.boolean(),
+      likelyExecutionFailure: z.boolean(),
       operatorReviewRequired: z.boolean()
     }),
     details: z.array(z.string()),
@@ -108,6 +110,7 @@ export const BitcodeNeedRiskAdmissionTrySchema = z.object({
     externalEvidenceChecked: z.boolean(),
     writtenAssetsChecked: z.boolean(),
     deliveryMechanismChecked: z.boolean(),
+    likelyExecutionFailureChecked: z.boolean(),
     totalEvidenceSources: z.number()
   }),
   useTools: z.array(BitcodeRiskToolRequestSchema).optional().describe('Risk-evidence tool requests'),
@@ -279,7 +282,7 @@ export const quickBitcodeNeedRiskAdmissionVariation = factoryAgentWithSingleStep
       riskInsights: {
         riskProfile: 'Minimal risk admitted by quick Bitcode boundary pass',
         threatLevel: 'minimal' as const,
-        riskRecommendations: ['Use the PTRR risk-admission variation for high-impact writes, delivery wrappers, or unresolved proof gaps'],
+        riskRecommendations: ['Use the PTRR risk-admission variation for high-impact writes, delivery mechanisms, likely execution failure, or unresolved proof gaps'],
         proofObligations: ['Downstream proof owners must still verify evidence and closure before promotion'],
         admissionBoundary: 'Quick pass admits the next phase; it does not prove the need or produce stable written assets'
       },
@@ -289,7 +292,7 @@ export const quickBitcodeNeedRiskAdmissionVariation = factoryAgentWithSingleStep
         assetPackSafeToSynthesize: true,
         deliveryMechanismSafeToAttempt: true
       },
-      recommendations: ['Proceed with downstream Bitcode phase under existing proof and delivery constraints'],
+      recommendations: ['Proceed with downstream Bitcode phase under existing proof, execution-failure, and delivery constraints'],
       success: true,
       validationMessage: 'Quick Bitcode risk admission completed'
     };

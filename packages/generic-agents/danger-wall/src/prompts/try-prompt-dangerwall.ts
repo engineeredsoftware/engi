@@ -16,7 +16,7 @@ import { PROMPTPART_GENERIC_AGENT_GENERATION_STRUCTURED_OUTPUT } from '@bitcode/
  * Bitcode Need Risk Admission Agent - Try Step Prompt
  * 
  * Execute Bitcode risk-admission checks against need, candidate written assets,
- * AssetPack scope, proof-gap evidence, and delivery wrapper.
+ * AssetPack scope, proof-gap evidence, likely execution failure, and delivery mechanism.
  * 
  * @doc-comment-developing-promptdevelopment
  * domain: agent
@@ -38,7 +38,7 @@ export const DANGER_WALL_TRY_PROMPT = new Prompt()
   .set('phase', 'TRY: Execute Bitcode Risk Admission')
   .set('system_instructions', PROMPTPART_SPECIFIC_AGENT_DANGERWALL_SYSTEM_INSTRUCTIONS)
   .set('tools', PROMPTPART_SPECIFIC_AGENT_DANGERWALL_TOOLS_LIST)
-  .set('execution_focus', 'Execute Bitcode risk admission using available evidence. Focus on unsafe mutation, private-data exposure, proof gaps, AssetPack scope mismatch, and delivery-wrapper mismatch without mutating source or claiming closure.')
+  .set('execution_focus', 'Execute Bitcode risk admission using available evidence. Focus on unsafe mutation, private-data exposure, proof gaps, likely execution failure, AssetPack scope mismatch, and delivery-mechanism mismatch without mutating source or claiming closure.')
   .set('generation:json_only_header', PROMPTPART_GENERIC_AGENT_GENERATION_JSON_ONLY_HEADER)
   .set('generation:use_this_structure', PROMPTPART_GENERIC_AGENT_GENERATION_USE_THIS_STRUCTURED_SCHEMA)
   .set('generation:if_unknown_empty', PROMPTPART_GENERIC_AGENT_GENERATION_IF_UNKNOWN_EMPTY)

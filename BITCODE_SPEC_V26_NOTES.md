@@ -21,6 +21,7 @@ It is also the V26 reform ledger: the main SPEC should state the Bitcode system 
 The NOTES boundary exists because V26 is both product canon and reformation canon:
 
 - `BITCODE_SPEC_V26.md` must read as a current Bitcode protocol/product/proof specification.
+- `BITCODE_SPEC_V26_DELTA.md` must be formally specified as the chronological and architectural delta from the late-Engi repository into commercialized Bitcode; it may include enough color to explain why a retained corridor exists, but it must resolve each retained concept into current Bitcode ownership rather than leaving history as authority.
 - `BITCODE_SPEC_V26_PARITY_MATRIX.md` must judge current Bitcode implementation parity without depending on legacy product explanations.
 - `BITCODE_SPEC_V26_PROVEN.md` must stay generated evidence rather than historical rationale.
 - active comments, prompt metadata, package READMEs, route copy, API payload descriptions, and implementation names must describe current Bitcode behavior directly.
@@ -32,6 +33,31 @@ When a reform detail matters to implementation, the required sequence is:
 2. implement or remove the source residue so active source no longer needs the historical explanation;
 3. promote only the current Bitcode requirement into the main SPEC/PARITY/proof family;
 4. keep any remaining historical wording either in NOTES or under `_legacy/`, not in active product-facing implementation.
+
+## DELTA companion rule
+
+The DELTA file is not a changelog appendage.
+For V26 it is a formal specification companion with three required jobs:
+
+- identify the commercialized Bitcode system that now exists where the late-Engi repository supplied reusable product rails, inference infrastructure, prompt/tool/agent abstractions, and application surfaces;
+- state the gate-by-gate architectural delta in enough detail that future empty-context work can understand why `protocol-demonstration`, packages, `uapi`, MCP/API surfaces, proof generators, and storage/schema owners are being reformed together rather than renamed independently;
+- keep transition color bounded to specification reasoning while the main SPEC, active source comments, package docs, and product copy speak current Bitcode behavior directly.
+
+The DELTA must therefore name both sides of a reform when it materially explains implementation strategy, but it must end every such explanation with current Bitcode owner, source/proof target, and closure condition.
+The NOTES file remains the more granular ledger for ongoing "was this, now is that" details; the DELTA is the formal, readable spine of the same repository-scale transformation.
+
+The required DELTA information color is formal too.
+When the DELTA describes a late-Engi corridor, it must include enough implementation context for an empty working context to understand:
+
+- former operational job: what the corridor formerly did in the dense commercial software-agent repository;
+- which Bitcode object now owns the behavior, such as Need, Need review, fit quality, AssetPack, written asset, delivery mechanism, Exchange state, Terminal route, MCP ingress, prompt primitive, tool, agent, execution, schema, or proof witness;
+- why the corridor is retained, repurposed, compatibility-only, archived, deferred, or cut;
+- what source files, package names, route/interface owners, database/schema owners, proof generators, or tests are responsible for the current Bitcode behavior;
+- what active source must no longer say because transition history belongs in NOTES, DELTA, or `_legacy/`;
+- what fifth-gate closure evidence proves the corridor is no longer an unowned legacy remnant.
+
+That color is not permission for current source to narrate history.
+The current-source rule remains stricter than the DELTA rule: implementation comments, package docs, prompt labels, API payload descriptions, and route copy must describe the Bitcode object directly unless the file is explicitly a compatibility wrapper or a noncanonical note.
 
 ## V26 reform ledger acceptance rule
 
@@ -100,8 +126,9 @@ This section records transitions that are too historically specific for the main
 | --- | --- | --- |
 | root prompt barrel reach-through | `@bitcode/prompts/{prompt,parts/PromptPart,formatters}` and exact raw PromptPart public subpaths | consumers import the minimum public prompt primitive they need |
 | package-local prompt text without Registry precision | Registry-backed Prompt and PromptPart owners | generic PromptParts remain in `packages/prompts`; implementation-specific Prompts stay local to the package/interface that uses them |
-| task-comprehension package boundary | `packages/generic-tools/need-comprehension` and `@bitcode/generic-tools-need-comprehension` | package owner is Bitcode Need comprehension; task-named classes remain compatibility wrappers only |
+| task-comprehension package boundary | `packages/generic-tools/need-comprehension`, `@bitcode/generic-tools-need-comprehension`, `packages/generic-agents/need-comprehension`, and `@bitcode/generic-agents-need-comprehension` | generic-tools owns individually defined callable Need-comprehension tools and a collection surface; generic-agents owns the setup/pre-danger-wall PTRR composer; task-named classes remain compatibility wrappers only |
 | task-first prompt behavior | Need semantics, Need requirements, Need constraints, Need satisfaction criteria, Need validation, Need satisfaction implementation complexity | canonical prompt classes own the live behavior; task-named prompt files are wrappers only |
+| source-co-located build output | TypeScript-only package source plus build output outside `src/` | package proof for commercial Bitcode implementations must not treat generated JavaScript beside TypeScript as active source evidence |
 | doc-comment prompt injection as experiment | `packages/doc-comment/*`, `packages/doc-code/*`, `packages/generic-doc-comment-plugins/*` | build-time tool prompt descriptions remain valuable support infrastructure when bounded and proven |
 | old prompt migration scripts | `_legacy/old-world-prompt-migration-scripts/*` | migration ideas are archived, not active prompt-system owners |
 
@@ -701,7 +728,7 @@ Current fifth-gate reminders:
 - retained VCS connection/provider runtime-contract drift counts the same way too: `packages/vcs/src/{connections.ts,provider.ts}` must normalize `user_connections.connection_data` before reading or writing access/refresh/install-token fields, map legacy installation auth into the canonical `VCSAuth` shape instead of returning half-ported payloads, and avoid claiming `AbstractVCSProvider` conformance from the base provider class unless that contract is actually declared; those are active repository-boundary carry-over errors in the Bitcode runtime corridor
 - retained generic-tool caller drift counts the same way too: `packages/generic-tools/{files-maintaining/src/index.ts,multimodal-processing/src/{MultimodalProcessingTool.ts,processing.ts},repository-setup/src/index.ts}` must not preserve stale package subpaths, old `Tool` class metadata/name/description assumptions, or half-ported repository-setup provider/auth contracts; those are caller-layer carry-over errors above the reusable Bitcode primitive boundary, not reasons to deform the underlying abstractions
 - retained Jira/use-computer caller drift counts the same way too: `packages/generic-tools/{mcps-tools/jira/src/index.ts,multimodal-processing/src/index.ts,use-computer/src/index.ts}` plus `packages/pipelines/deliverable/src/tools/DeliverablePipelineUseComputerTool.ts` must not preserve nullable Jira-connection assumptions, stale multimodal class exports after a factory-tool refactor, or the older schema-class `Tool` pattern for shell-execution tools; those are caller-layer carry-over errors above the reusable Bitcode tool primitive boundary
-- retained deliverable-tool wrapper and shipping drift counts the same way too: `packages/pipelines/deliverable/src/{tools/{DeliverablePipelineCloneVCSRepositoryTool,DeliverablePipeline{MultimodalProcessing,AudioComprehension,ImageComprehension,PDFComprehension,VideoComprehension}Tool,index}.ts,agents/shipping/deliverable-pipeline-ship-agent.ts}` must not preserve old variadic wrapper forwarding, optional-tool leakage into typed registries, raw string `Prompt.set(...)` payloads, or duplicate-Zod schema identity mismatches; those are caller/orchestration carry-over errors above the reusable Bitcode primitive boundary
+- retained deliverable-tool wrapper and Finish/Delivering drift counts the same way too: `packages/pipelines/deliverable/src/{tools/{DeliverablePipelineCloneVCSRepositoryTool,DeliverablePipeline{MultimodalProcessing,AudioComprehension,ImageComprehension,PDFComprehension,VideoComprehension}Tool,index}.ts,agents/finish/deliver-asset-pack-to-destination-agent.ts}` must not preserve old variadic wrapper forwarding, optional-tool leakage into typed registries, raw string `Prompt.set(...)` payloads, or duplicate-Zod schema identity mismatches; those are caller/orchestration carry-over errors above the reusable Bitcode primitive boundary
 - retained deliverable phase/index and setup-schema drift counts the same way too: `packages/pipelines/deliverable/src/{agents/{implementation/*.ts,setup/deliverable-pipeline-comprehend-task-agent.ts},phases/{setup,design,digest,discovery,implementation,index}.ts,index.ts,preprocess.ts,postprocess.ts}` plus `packages/pipelines-generics/src/{execution/PipelineExecutor.ts,phases/sdivs-factory.ts,streaming/pipeline-stream-integration.ts}` must not preserve dead declarative phase-runner metadata, unsupported PTRR config keys, wrong discovery-registration aliases, `PipelineExecution` over-narrowing at the phase-runner boundary, or stale schema-default variance in the setup comprehension agent; those are active caller/orchestration carry-over errors in the Bitcode deliverable corridor, not primitive justification for preserving wrong ports
 - retained repository-boundary VCS caller/provider drift counts the same way too: `packages/{generic-agents/vcs/src/index.ts,github/src/providers/github-provider.ts}` must not preserve schema-value-as-type misuse in the VCS agent layer, provider-local commit fields like `parentShas` that drift from canonical `VCSCommit.parents`, or webhook-verification helpers that leak the wrong sync/async contract into the stable provider abstraction; those are caller/provider carry-over errors above the reusable Bitcode VCS boundary
 - retained ORM persistence drift counts the same way too: `packages/orm/src/models/{user-btd-transactions,deliverables,notifications}.ts` must not preserve implicit-`any` reducers or null-key assumptions inside the active `$BTD` transaction and deliverable statistics carriers; those are active share/use storage-path carry-over errors in the Bitcode persistence corridor, not harmless model debt

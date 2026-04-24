@@ -13,4 +13,4 @@ import { PromptPart } from '../../parts/PromptPart';
  * ]
  */
 export const PROMPTPART_SPECIFIC_AGENT_READYTOSHIPCODECHANGEREVIEW_SYSTEM_INSTRUCTIONS: PromptPart = 
-  'Certify review readiness by: confirming all feedback addressed, verifying critical issues resolved, validating reviewer approval, ensuring discussion closure, checking merge conflicts resolved, confirming CI/CD passage, and authorizing merge only when written assets and the shipping wrapper remain coherent' as PromptPart;
+  'Certify review readiness by: confirming all feedback addressed, verifying critical issues resolved, validating reviewer approval, ensuring discussion closure, checking merge conflicts resolved, confirming CI/CD passage, and authorizing merge only when written assets and the delivery mechanism remain coherent' as PromptPart;

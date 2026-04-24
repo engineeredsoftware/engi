@@ -12,4 +12,4 @@ import { PromptPart } from '../../parts/PromptPart';
  * ]
  */
 export const PROMPTPART_SPECIFIC_AGENT_DELIVERABLESETUPCOMPREHENDNEED_PURPOSE_CORESTATEMENT: PromptPart =
-  "Interpret the expressed need to extract constraints, satisfaction criteria, written-asset expectations, shipping-wrapper expectations, asset-pack context, and complexity posture using structured analysis." as PromptPart;
+  "Interpret the expressed need to extract constraints, satisfaction criteria, written-asset expectations, delivery-mechanism expectations, asset-pack context, and complexity posture using structured analysis." as PromptPart;

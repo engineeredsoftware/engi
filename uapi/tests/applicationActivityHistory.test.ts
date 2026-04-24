@@ -245,13 +245,13 @@ describe('application-activity-history', () => {
         summary: null,
         writtenAssets: null,
         deliveryMechanism: {
-          summary: 'Opened the connected-interface shipping wrapper for the asset pack.',
+          summary: 'Opened the connected-interface delivery mechanism for the asset pack.',
         },
         deliverables: null,
       },
     } as PipelineExecution);
 
-    expect(run.summary).toBe('Opened the connected-interface shipping wrapper for the asset pack.');
+    expect(run.summary).toBe('Opened the connected-interface delivery mechanism for the asset pack.');
   });
 
   it('upserts workspace runs and keeps newest first', () => {

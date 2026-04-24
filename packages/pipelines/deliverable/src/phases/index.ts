@@ -10,7 +10,7 @@ import { deliverablesPipelineSetupPhaseExecutor } from './setup';
 import { registerDiscoveryAgents } from './discovery';
 import { registerImplementationAgentsForType } from './implementation';
 import { registerValidationAgentsForType } from './validation';
-import { registerFinishAgentsForType } from './shipping';
+import { registerFinishAgentsForType } from './finish';
 import { resolveWrittenAssetTypeFromExecution } from '../semantic-resolution';
 import type {
   DeliverableInput,
