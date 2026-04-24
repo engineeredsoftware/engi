@@ -1,6 +1,6 @@
 // @ts-check
 
-import { existsSync } from 'node:fs';
+import { existsSync, readFileSync } from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
@@ -712,6 +712,54 @@ function buildV26FilePresenceCheck(checkId, label, requiredFiles) {
       : `${missingFiles.length} files missing`,
     requiredFiles,
     missingFiles
+  };
+}
+
+/**
+ * @param {string} relativePath
+ * @returns {string}
+ */
+function readRepoFileText(relativePath) {
+  return readFileSync(path.resolve(REPO_ROOT, relativePath), 'utf8');
+}
+
+/**
+ * @param {string} checkId
+ * @param {string} label
+ * @param {{ file: string, evidence: string, description: string }[]} requiredEvidence
+ * @returns {{
+ *   checkId: string,
+ *   label: string,
+ *   passed: boolean,
+ *   detail: string,
+ *   requiredEvidence: { file: string, evidence: string, description: string }[],
+ *   missingFiles: string[],
+ *   missingEvidence: { file: string, evidence: string, description: string }[]
+ * }}
+ */
+function buildV26FileContentCheck(checkId, label, requiredEvidence) {
+  const fileTextByPath = new Map();
+  const missingFiles = [...new Set(requiredEvidence.map((entry) => entry.file))]
+    .filter((file) => !repoFileExists(file));
+  const missingFileSet = new Set(missingFiles);
+  const missingEvidence = requiredEvidence.filter((entry) => {
+    if (missingFileSet.has(entry.file)) return true;
+    if (!fileTextByPath.has(entry.file)) {
+      fileTextByPath.set(entry.file, readRepoFileText(entry.file));
+    }
+    return !String(fileTextByPath.get(entry.file)).includes(entry.evidence);
+  });
+
+  return {
+    checkId,
+    label,
+    passed: missingFiles.length === 0 && missingEvidence.length === 0,
+    detail: missingFiles.length === 0 && missingEvidence.length === 0
+      ? `${requiredEvidence.length} source evidence requirements satisfied`
+      : `${missingFiles.length} files missing; ${missingEvidence.length} evidence requirements missing`,
+    requiredEvidence,
+    missingFiles,
+    missingEvidence
   };
 }
 
@@ -1945,6 +1993,42 @@ function buildV26SourceToSharesFifthGateProof({
         'uapi/app/api/state/route.ts',
         'uapi/app/api/make-bitcode-branch/route.ts',
         'uapi/tests/api/needReviewProtocolParity.test.ts'
+      ]
+    ),
+    buildV26FileContentCheck(
+      'commercial-state-route-reread-contract',
+      'Commercial route reread proof checks the exact state-route assertions for accepted Need review, quantized source-to-shares continuity, private-file redaction, and settlement-proof carry-through',
+      [
+        {
+          file: 'uapi/app/api/state/route.ts',
+          evidence: 'getBitcodeAppContext().getState(principal)',
+          description: 'state route delegates principal-scoped reread to the protocol-backed app context'
+        },
+        {
+          file: 'uapi/tests/api/needReviewProtocolParity.test.ts',
+          evidence: 'rereads accepted Need review and source-to-shares settlement artifacts through the commercial /api/state route',
+          description: 'commercial parity test owns an explicit source-to-shares state-reread scenario'
+        },
+        {
+          file: 'uapi/tests/api/needReviewProtocolParity.test.ts',
+          evidence: 'http://localhost/api/state?principal=buyer',
+          description: 'reread uses the buyer projection instead of inspecting only a branch response'
+        },
+        {
+          file: 'uapi/tests/api/needReviewProtocolParity.test.ts',
+          evidence: 'statePayload.latestRun.sourceToSharesArtifact.quantizedFitQualities.fitQualityHash',
+          description: 'reread asserts quantized source-to-shares fit-quality hash continuity'
+        },
+        {
+          file: 'uapi/tests/api/needReviewProtocolParity.test.ts',
+          evidence: 'statePayload.latestRun.branchArtifacts.files).toBeUndefined()',
+          description: 'reread proves private raw branch files are not exposed through the buyer state projection'
+        },
+        {
+          file: 'uapi/tests/api/needReviewProtocolParity.test.ts',
+          evidence: 'statePayload.latestRun.settlementSourceToSharesProof.memberVerdicts',
+          description: 'reread asserts settlement-source-to-shares proof carry-through'
+        }
       ]
     ),
     buildV26FilePresenceCheck(

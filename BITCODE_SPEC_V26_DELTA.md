@@ -459,7 +459,7 @@ Fifth-gate is now specified as:
 - full production/staging/development mode completeness,
 - retained-package admissibility proof,
 - post-fourth-gate-promotion proof-bearing cleanup of any still-kept system,
-- source-to-shares and closure-deepening evidence through `.bitcode/source-to-shares-fifth-gate-proof.json` and `.bitcode/fifth-gate-closure-deepening-proof.json`, including app-owned state-route reread after accepted source-to-shares branch materialization,
+- source-to-shares and closure-deepening evidence through `.bitcode/source-to-shares-fifth-gate-proof.json` and `.bitcode/fifth-gate-closure-deepening-proof.json`, including app-owned state-route reread after accepted source-to-shares branch materialization and generated source-content checks for the route-reread assertions,
 - and no procedural fifth-gate closure claim until the remaining fifth-gate acceptance set is fully proven.
 
 Fifth-gate acceptance is reached only when:

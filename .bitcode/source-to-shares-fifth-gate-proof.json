@@ -1,8 +1,8 @@
 {
   "reportId": "v26-source-to-shares-fifth-gate-proof",
   "version": "V26",
-  "proofSourceCommit": "8a0ee5942593310fef4abd908867d4fb04c57e9f",
-  "generatedAt": "2026-04-23T23:01:59-03:00",
+  "proofSourceCommit": "cd01645142cca44bc8ddd1b34731247da6ab03d0",
+  "generatedAt": "2026-04-23T23:45:21-03:00",
   "generatorId": "bitcode.proven-generator.v1",
   "worktreeState": "dirty-preview",
   "gate": "gate-5",
@@ -54,6 +54,46 @@
         "uapi/tests/api/needReviewProtocolParity.test.ts"
       ],
       "missingFiles": []
+    },
+    {
+      "checkId": "commercial-state-route-reread-contract",
+      "label": "Commercial route reread proof checks the exact state-route assertions for accepted Need review, quantized source-to-shares continuity, private-file redaction, and settlement-proof carry-through",
+      "passed": true,
+      "detail": "6 source evidence requirements satisfied",
+      "requiredEvidence": [
+        {
+          "file": "uapi/app/api/state/route.ts",
+          "evidence": "getBitcodeAppContext().getState(principal)",
+          "description": "state route delegates principal-scoped reread to the protocol-backed app context"
+        },
+        {
+          "file": "uapi/tests/api/needReviewProtocolParity.test.ts",
+          "evidence": "rereads accepted Need review and source-to-shares settlement artifacts through the commercial /api/state route",
+          "description": "commercial parity test owns an explicit source-to-shares state-reread scenario"
+        },
+        {
+          "file": "uapi/tests/api/needReviewProtocolParity.test.ts",
+          "evidence": "http://localhost/api/state?principal=buyer",
+          "description": "reread uses the buyer projection instead of inspecting only a branch response"
+        },
+        {
+          "file": "uapi/tests/api/needReviewProtocolParity.test.ts",
+          "evidence": "statePayload.latestRun.sourceToSharesArtifact.quantizedFitQualities.fitQualityHash",
+          "description": "reread asserts quantized source-to-shares fit-quality hash continuity"
+        },
+        {
+          "file": "uapi/tests/api/needReviewProtocolParity.test.ts",
+          "evidence": "statePayload.latestRun.branchArtifacts.files).toBeUndefined()",
+          "description": "reread proves private raw branch files are not exposed through the buyer state projection"
+        },
+        {
+          "file": "uapi/tests/api/needReviewProtocolParity.test.ts",
+          "evidence": "statePayload.latestRun.settlementSourceToSharesProof.memberVerdicts",
+          "description": "reread asserts settlement-source-to-shares proof carry-through"
+        }
+      ],
+      "missingFiles": [],
+      "missingEvidence": []
     },
     {
       "checkId": "terminal-source-to-shares-settlement-read",
