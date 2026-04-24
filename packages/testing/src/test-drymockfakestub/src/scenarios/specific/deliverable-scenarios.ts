@@ -107,8 +107,8 @@ export const COMPLEX_DELIVERABLE_REQUEST = createTestPart({
     temperature: 0.3
   },
   features: {
-    multiAgent: true,
-    compute: true,
+    sourceToSharesFitReview: true,
+    computerUseNeedMeasurement: true,
     enhanceWithContext: true
   }
 });

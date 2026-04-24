@@ -1,9 +1,9 @@
 /**
  * Pipeline Test Orchestrator
  * 
- * Comprehensive orchestration system for testing entire pipelines with multiple
+ * Comprehensive orchestration system for testing entire pipelines with explicit
  * agents, phases, and interactions. Designed for production-grade validation
- * of complex multi-agent workflows at global scale.
+ * of specified Bitcode inference workflows at global scale.
  */
 
 import { z } from 'zod';

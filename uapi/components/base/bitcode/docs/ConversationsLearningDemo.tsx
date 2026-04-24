@@ -63,7 +63,7 @@ const LEARNING_LESSONS: LearningLesson[] = [
     description: 'Learn to give live instructions to running pipelines',
     prompt: 'Send to all pipelines: use TypeScript strict mode',
     expectedLearning: [
-      'Multi-pipeline targeting',
+      'Active execution targeting',
       'Real-time instruction delivery',
       'Cross-system coordination'
     ],

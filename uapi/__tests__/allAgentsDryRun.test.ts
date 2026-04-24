@@ -1,7 +1,7 @@
 import { testAgent } from './agentTestFactory';
 
 // ------------------------------------------------------------------
-// Deliverables – Setup
+// AssetPacks - Setup
 // ------------------------------------------------------------------
 import { COMPREHEND_TASK_AGENT } from '@bitcode/pipeline-deliverable';
 import { FAMILIARIZE_ATTACHMENTS_AGENT } from '@bitcode/pipeline-deliverable';

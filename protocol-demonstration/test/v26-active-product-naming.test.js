@@ -2218,7 +2218,7 @@ test('active V26 retained package surfaces use Bitcode naming instead of Engi na
   assert.match(chatgptAppServerSource, /Unknown bitcode tool/);
   assert.match(chatgptAppIndexSource, /BitcodeMCPServer/);
   assert.match(chatgptAppToolsSource, /Bitcode ChatGPT App/);
-  assert.match(chatgptAppToolsSource, /name: args\.name \?\? `bitcode-\$\{Date\.now\(\)\}`/);
+  assert.match(chatgptAppToolsSource, /const repositoryName = args\.name \?\? `bitcode-\$\{Date\.now\(\)\}`/);
   assert.match(chatgptAppToolsSource, /team_bitcode/);
   assert.match(chatgptAppToolsSource, /builder@bitcode\.dev/);
   assert.doesNotMatch(chatgptAppPackageSource, /Engi ChatGPT App MCP server scaffolding/);

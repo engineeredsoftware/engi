@@ -50,7 +50,7 @@ Goal: Precise, minimal, durable style rules that scale. Keep the current look 1:
 ### Component Placement & Naming
 
 - Base Bitcode Components: flat under `uapi/components/base/bitcode/*.tsx` (no `ui/` nesting).
-  - Examples: `typing-animation.tsx`, `multi-line-typing-animation.tsx`, `quantum-button.tsx`, `dock.tsx`, `metal-plate.tsx`, `word-rotate.tsx`, `multi-agents-icon.tsx`, `particle-effect.tsx`.
+  - Examples: `typing-animation.tsx`, `multi-line-typing-animation.tsx`, `quantum-button.tsx`, `dock.tsx`, `metal-plate.tsx`, `word-rotate.tsx`, `particle-effect.tsx`.
 - Vendor Components: one-per-file under `uapi/components/base/shadcn/*` (no re-exports).
 - Page-Specific Components: colocate under the page namespace: `uapi/app/<feature>/components/*`.
   - Naming: `Feature_Component` (and deeper parts as `Feature_Component_Subpart`).
@@ -537,7 +537,7 @@ Example:
 ### H. Reusable Bitcode Components (Base)
 
 Use directly from `components/base/bitcode`:
-- `typing-animation`, `multi-line-typing-animation`, `word-rotate`, `quantum-button`, `metal-plate`, `dock`, `multi-agents-icon`, `particle-effect`.
+- `typing-animation`, `multi-line-typing-animation`, `word-rotate`, `quantum-button`, `metal-plate`, `dock`, `particle-effect`.
 
 Example use:
 ```tsx

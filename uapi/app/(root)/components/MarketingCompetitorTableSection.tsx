@@ -77,40 +77,40 @@ const COLUMN_INFO: Record<(typeof COLUMNS)[number], DocBoxCopy> = {
       "Multi-layer reasoning that traverses your entire repository graph—Bitcode architects, implements, refactors and self-tests until the feature is fully production-ready, not just a half-baked snippet.",
   },
   "All Deliverables": {
-    title: "All Deliverables",
-    subtitle: "Complete Bundle",
+    title: "AssetPack Outputs",
+    subtitle: "Complete Receipts",
     description:
-      "From design docs and CI-passing code to tests, diagrams and review notes—every artifact required to merge and deploy ships automatically inside a single pull-request bundle.",
+      "From code diffs and tests to receipts, proofs, diagrams, and review notes, every accepted output is bundled as an AssetPack or connected-interface written asset.",
   },
   "Infinite Agents": {
-    title: "Infinite Agents",
-    subtitle: "Elastic Swarm",
+    title: "Bounded Inference",
+    subtitle: "Proof-Visible",
     description:
-      "Bitcode spins up an elastic swarm of specialised agents on-demand, scaling compute and expertise in lock-step with problem complexity—zero bottlenecks, zero quotas.",
+      "Bitcode uses specified inference roles, phase boundaries, and proof-visible execution records instead of unbounded orchestration claims.",
   },
   "Shepherding at Scale": {
-    title: "Shepherding at Scale",
-    subtitle: "Agent Coordination",
+    title: "Source-to-Shares Control",
+    subtitle: "Need to Settlement",
     description:
-      "Guide and re-route entire swarms of specialised AI agents via chat or scripted workflows for real-time, step-by-step orchestration.",
+      "Review measured Needs, inspect fit qualities, and follow AssetPack settlement artifacts through the same source-to-shares control plane.",
   },
   "Auto Agent Sequencing": {
-    title: "Auto Agent Sequencing",
-    subtitle: "Self-Orchestrated",
+    title: "Specified Phases",
+    subtitle: "Need Through Finish",
     description:
-      "Agents plan, reprioritise and hand-off tasks automatically—re-compiling tool-chains mid-flight for uncompromising velocity and quality.",
+      "Bitcode runs explicit Need, fit, implementation, review, and Finish phases so operators can inspect the execution boundary instead of trusting hidden orchestration.",
   },
   "Deep Evolution": {
     title: "Deep Evolution",
     subtitle: "Continuous Improvement",
     description:
-      "Closed-loop feedback from CI, runtime telemetry and merged PRs fine-tunes agent behaviour and code quality after every iteration—Bitcode literally learns from your codebase.",
+      "Closed-loop feedback from CI, runtime telemetry, proof receipts, and accepted AssetPacks improves inference behavior and code quality after every iteration.",
   },
   "Knowledge Procurement": {
     title: "Knowledge Procurement",
     subtitle: "Premium Data",
     description:
-      "When knowledge is missing, Bitcode’s agents autonomously acquire proprietary research, domain-specific datasets and live insights—eliminating hallucinations and blind spots before they surface in code.",
+      "When knowledge is missing, Bitcode performs source-attributed discovery and binds findings into reviewable Need evidence before fitting begins.",
   },
   "Data-Share Compensation": {
     title: "Data-Share Compensation",
@@ -633,7 +633,7 @@ export default function MarketingCompetitorTableSection() {
           The Autonomous, Self-Improving Software Factory
         </h2>
         <p className="text-base laptop:text-lg text-gray-300 max-w-3xl mx-auto">
-          End-to-end coding, testing & deployment executed by elastic swarms of learning agents—no prompts, no hand-offs.
+          Source-to-shares execution measures Needs, reviews fit, and produces AssetPacks with proof-visible settlement evidence.
         </p>
       </div>
 

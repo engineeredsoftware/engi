@@ -1,8 +1,8 @@
 {
   "reportId": "v26-system-reform-admissibility-proof",
   "version": "V26",
-  "proofSourceCommit": "661d3c82c3c9b2f500a567db81523e07a6beaaf0",
-  "generatedAt": "2026-04-24T09:17:25-03:00",
+  "proofSourceCommit": "1f281686a7ee879257c01f849fa8b61303a90935",
+  "generatedAt": "2026-04-24T10:02:57-03:00",
   "generatorId": "bitcode.proven-generator.v1",
   "worktreeState": "dirty-preview",
   "passed": true,
@@ -10,8 +10,8 @@
     "governance": 1,
     "ingress-only": 1,
     "compatibility-only": 1,
-    "reference-only": 3,
-    "ingress-or-support": 3
+    "reference-only": 2,
+    "ingress-or-support": 4
   },
   "reformClasses": [
     "governance",
@@ -83,17 +83,25 @@
       "livePathRole": "The VCS agent layer can support retained callers, but repository scope in the Bitcode product belongs to Connects and application-owned panels."
     },
     {
-      "checkId": "use-computer-reference-boundary",
-      "label": "Retained shell-execution tooling remains explicit reference-only automation",
+      "checkId": "computer-use-need-measurement-boundary",
+      "label": "Retained computer-use tooling is internal Need-measurement support only",
       "passed": true,
-      "detail": "2 required files present",
+      "detail": "10 required files present",
       "requiredFiles": [
         "packages/generic-tools/use-computer/src/index.ts",
-        "packages/pipelines/deliverable/src/tools/DeliverablePipelineUseComputerTool.ts"
+        "packages/generic-tools/use-computer/src/prompts/UseComputerDocCodeToolPrompt.ts",
+        "packages/prompts/src/raw_promptparts/specific/promptpart_specific_tool_usecomputer_doccodetoolpurpose.ts",
+        "packages/pipelines/deliverable/src/tools/DeliverablePipelineUseComputerTool.ts",
+        "packages/pipelines/deliverable/src/tools/index.ts",
+        "packages/api/src/routes/deliverables.ts",
+        "packages/execution-generics/src/store/registry.ts",
+        "uapi/app/executions/components/ExecutionsPageClient.tsx",
+        "uapi/components/base/bitcode/execution/execution-option-toggle.tsx",
+        "protocol-demonstration/test/v26-active-product-naming.test.js"
       ],
       "missingFiles": [],
-      "reformClass": "reference-only",
-      "livePathRole": "Shell execution may support admitted tooling paths, but it is not a Bitcode state owner."
+      "reformClass": "ingress-or-support",
+      "livePathRole": "Computer use may supply server-flagged Need-measurement evidence under BITCODE_ENABLE_COMPUTER_USE_NEED_MEASUREMENT, but it is not a Terminal option, implementation agent tool, Finish/Delivering tool, multi-agent substitute, or Bitcode state owner."
     },
     {
       "checkId": "jira-tool-reference-boundary",

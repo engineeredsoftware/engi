@@ -7,8 +7,8 @@ import { TSESTree as T, ESLintUtils } from '@typescript-eslint/utils';
  * Prevents any file other than the Conquer agent implementation from importing AI tools that have
  * side-effects on the codebase or external systems ("write" tools).
  *
- * Rationale: Our multi-agent pipeline purposely restricts mutating capabilities to the Conquer
- * phase.  Discovery, Divide, etc. must stay read-only to guarantee safety and determinism.
+ * Rationale: V26 Bitcode execution restricts mutating capabilities to implementation-phase
+ * agents. Discovery, Divide, etc. must stay read-only to guarantee safety and determinism.
  *
  * The rule reports an ESLint error whenever one of the WRITE_TOOLS identifiers is imported from a
  * file whose absolute path does NOT match the ALLOWED_FILES regex.

@@ -472,7 +472,7 @@ Critical gates (confidence = 0):
 **Location**: Dedicated page for running and tracking executions
 - **Path**: `/app/executions/`
 - **Routes**:
-- `/executions?type=pipeline:deliverables` (Deliverables – GA‑1)
+- `/executions?type=pipeline:deliverables` (AssetPack compatibility execution)
 - `/executions?type=pipeline:measure` (reserved need-measurement placeholder that currently redirects to deliverables)
 
 **Key Components**:

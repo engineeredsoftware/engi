@@ -277,7 +277,7 @@ withCreditReservation(userId, async (escrow) => {
 ### Not Implemented
 - OTF instructions stored but not integrated with pipeline execution
 - VCS data hooks return empty data
-- Compute and Multi-Deliverables are recorded as preprocessing options via Guided Pipeline Execution. UI uses lightweight chips; no "toggle" terminology.
+- Old compute and multi-deliverable controls are removed from the V26 live path. Computer-use evidence is internal, server-flagged Need-measurement support only.
 - E2E test coverage
 
 ## Testing Considerations

@@ -163,7 +163,6 @@ if (regressionResult.hasRegression) {
 │  └── QualityTrendAnalyzer    - Trend analysis & prediction  │
 ├─────────────────────────────────────────────────────────────┤
 │  Integration Testing                                        │
-│  ├── MultiAgentTestRunner    - Multi-agent workflows        │
 │  ├── PipelineIntegrationTester - Pipeline integration       │
 │  └── CrossModalValidator     - Cross-modal validation       │
 └─────────────────────────────────────────────────────────────┘
@@ -554,7 +553,6 @@ Comprehensive API documentation is available at [docs.bitcode.dev/prompt-quality
 
 ### Advanced APIs
 
-- [MultiAgentTestRunner](./docs/api/MultiAgentTestRunner.md)
 - [ValidationRules](./docs/api/ValidationRules.md)
 - [QualityMetrics](./docs/api/QualityMetrics.md)
 

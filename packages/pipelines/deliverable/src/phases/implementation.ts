@@ -2,8 +2,8 @@
  * Implementation Phase - Deliverables Pipeline
  *
  * The live implementation orchestration now lives in `phases/index.ts`.
- * This file remains as a thin compatibility carrier for older imports and
- * for agent registration keyed to the retained deliverable route names.
+ * This file remains as a thin AssetPack compatibility carrier for older
+ * imports and for agent registration keyed to written-asset route names.
  */
 
 import { createPhaseRunner, type AgentStep, type PhaseConfig } from '@bitcode/pipelines-generics';

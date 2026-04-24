@@ -7,8 +7,8 @@
  * - llms: LLM registry for agent LLM configuration
  * - agents: Agent registry for sub-agent delegation
  * 
- * This provides agents with full access to all registries,
- * enabling complex multi-agent orchestration and tool usage.
+ * This provides agents with full access to all registries for specified
+ * Bitcode inference roles, bounded tool usage, and explicit delegation.
  * 
  * @doc-code
  * type: execution

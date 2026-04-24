@@ -37,7 +37,7 @@ export const POST = mockAreas.pipelines.ai_documents.stream()(originalHandler);
 ### The 4 Toggles (Enhance DoD/IoI etc.)
 ```typescript
 // All toggles automatically work with mock data:
-// V26 no longer exposes old compute/multi-agent execution toggles.
+// V26 no longer exposes old execution-option controls.
 // - enhanceWithContext
 // - enhanceWithHistory
 

@@ -213,7 +213,7 @@ Short-circuit points (from phase configs):
 - Substeps: preserved (Failsafe parents and Generation children), owned by an Executor.
 ### Guided Pipeline Execution: Pre → Pipeline → Post
 
-- Preprocess (pre): Persist top-level intent and provisioning (deliverables: `{ computeEnabled, multiAgentEnabled }`). The legacy-named fields (`{ sync, spawn }`) now mirror AI Document overlays rather than a standalone pipeline.
+- Preprocess (pre): Persist top-level intent and provisioning. V26 records `computerUseNeedMeasurementEnabled` only as an internal server-flagged Need-measurement option; old compute and multi-agent fields are not live operator controls.
 - Pipeline: Deliverable pipeline executes today; the Measure variant stays feature-flagged. LLM-call adapters still inject preprocess + OTF data for every call.
 - Postprocess (post): Sugar objects finalized. Measure registration paths reuse these code paths and are currently no-ops in GA‑1.
 
@@ -260,7 +260,7 @@ Common namespaces/keys:
 - `execution`: `id`, `correlationId`, `dataStream`
 - `repository`: `connectionId`, `owner`, `name`, `branch`, `commit`
 - `task`: `description` (AI Document classification lives in `.ai/` overlay stores; future pipeline types will introduce their own keys when implemented)
-- `config`: `iterationCount`, `computeEnabled?`, `multiAgentEnabled?`, `mcpConfig?`
+- `config`: `iterationCount`, `computerUseNeedMeasurementEnabled?`, `mcpConfig?`
 - `attachments`: `list`
 - `route/preprocessed`: `deliverables` snapshot plus `ai_documents` snapshot for AI Document overlays and need-measurement activation
 - `shipping/final_work_summary`: `summary`, `processingStats`, `repoSnapshot`, `deliverables?`

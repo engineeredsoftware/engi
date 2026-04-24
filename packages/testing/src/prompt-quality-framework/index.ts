@@ -28,7 +28,6 @@ export * from './benchmarking/PerformanceBenchmark';
 export * from './benchmarking/TokenOptimizationAnalyzer';
 export * from './benchmarking/QualityTrendAnalyzer';
 
-export * from './integration/MultiAgentTestRunner';
 export * from './integration/PipelineIntegrationTester';
 export * from './integration/CrossModalValidator';
 

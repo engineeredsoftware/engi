@@ -2,7 +2,7 @@
 
 ## Overview
 
-Bitcode enables customers to accomplish complex software engineering tasks through natural language alone—no code required. **Executions** are the core mechanism: intelligent, multi-agent pipeline runs that transform requirements into production-ready code artifacts.
+Bitcode enables customers to accomplish complex software engineering tasks through natural language alone—no code required. **Executions** are the core mechanism: specified Bitcode agentic pipeline runs that measure Needs, synthesize AssetPacks, and deliver connected-interface written assets.
 
 This document describes the complete customer experience, expectations, and flows that define the codeless interaction model.
 
@@ -543,11 +543,10 @@ Customers can attach:
 - **Integrations**: Connect Notion, Figma, Jira resources
 - **Effort**: 0-60 seconds depending on context needs
 
-#### Step 4: Configure Preprocessing (Optional)
-- **Compute Mode**: Enhanced resources for large refactors
-- **Multi-Deliverables**: Allow system to create series of deliverables
+#### Step 4: Configure Execution Depth (Optional)
 - **Iteration Count**: Choose 3-100 iterations or Auto-Minimize/Auto-Maximize
-- **UI**: Lightweight chips with educational hover tooltips
+- **Need Measurement Evidence**: Computer-use evidence is internal, server-flagged, and not operator-visible in V26
+- **UI**: Iteration controls remain the visible power-user configuration for fifth-gate V26
 - **Effort**: 0-10 seconds for power users
 
 #### Step 5: Execute

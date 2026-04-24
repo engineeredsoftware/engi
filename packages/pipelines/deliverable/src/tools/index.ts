@@ -27,7 +27,7 @@ export const BITCODE_COMPUTER_USE_NEED_MEASUREMENT_FLAG =
   'BITCODE_ENABLE_COMPUTER_USE_NEED_MEASUREMENT' as const;
 
 export function isComputerUseNeedMeasurementEnabled(
-  env: Pick<NodeJS.ProcessEnv, typeof BITCODE_COMPUTER_USE_NEED_MEASUREMENT_FLAG> = process.env,
+  env: NodeJS.ProcessEnv = process.env,
 ): boolean {
   return env.BITCODE_ENABLE_COMPUTER_USE_NEED_MEASUREMENT === 'true';
 }
@@ -98,7 +98,7 @@ export const DISCOVERY_PHASE_TOOLS: Tool[] = [
  * expand the tool surface after the Need measurement contract is fully proven.
  */
 export function getComputerUseNeedMeasurementTools(
-  env: Pick<NodeJS.ProcessEnv, typeof BITCODE_COMPUTER_USE_NEED_MEASUREMENT_FLAG> = process.env,
+  env: NodeJS.ProcessEnv = process.env,
 ): Tool[] {
   return isComputerUseNeedMeasurementEnabled(env)
     ? [deliverablePipelineUseComputerTool]
