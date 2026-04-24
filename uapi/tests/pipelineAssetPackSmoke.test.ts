@@ -19,7 +19,7 @@ jest.mock('@bitcode/context', () => ({
     dataStream: {},
     abortSignal: {},
     execution: { phases: { iterations: [] } },
-    taskContext: { taskType: 'deliverables' },
+    needContext: { executionType: 'asset-pack' },
     repository: { name: 'repo', branch: 'main' },
     fileDependencies: new Map()
   }))
@@ -29,7 +29,7 @@ import { runSDIVFPipeline } from '@bitcode/engine/pipeline/pipelineSDIVF';
 import { executeSetupPhase } from '@bitcode/engine/pipeline/pipelineSetupPhaseWrapper';
 import { executeIteration } from '@bitcode/pipeline-engine-generics/iterations';
 
-describe('runSDIVFPipeline E2E smoke', () => {
+describe('runSDIVFPipeline AssetPack E2E smoke', () => {
   beforeEach(() => {
     jest.clearAllMocks();
     (executeSetupPhase as jest.Mock).mockResolvedValue({

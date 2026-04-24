@@ -4,7 +4,7 @@ import { action } from '@storybook/addon-actions';
 
 const sampleListing = {
   id: 'abc123',
-  type: 'deliverable' as const,
+  type: 'shippable' as const,
   asset: 'pr' as const,
   side: 'sell' as const,
   price: 200,

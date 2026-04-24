@@ -181,10 +181,10 @@ export const ATTACHMENTS = {
  * Pipeline execution results for different scenarios
  */
 export const PIPELINE_RESULTS = {
-  SUCCESSFUL_DELIVERABLE: {
+  SUCCESSFUL_ASSET_PACK: {
     pipelineId: 'pipeline-001',
     status: PipelineStatus.COMPLETED,
-    pipeline: 'deliverable' as any,
+    pipeline: 'asset-pack' as any,
     subtype: 'pull_request',
     task: 'Create user authentication system',
     repository: REPOSITORY_CONTEXTS.NEXT_JS_PROJECT,
@@ -197,7 +197,7 @@ export const PIPELINE_RESULTS = {
       testsAdded: 8,
       coverageIncrease: 5.2
     },
-    deliverables: [
+    assetPacks: [
       {
         type: 'pull_request',
         url: 'https://github.com/bitcode-labs/next-js-ecommerce/pull/123',
@@ -552,7 +552,7 @@ export const MOCK_DATA = {
           status: 'completed',
           created_at: '2023-12-01T10:00:00Z',
           updated_at: '2023-12-01T10:15:00Z',
-          type: 'deliverable',
+          type: 'asset-pack',
           repository: 'bitcode-labs/next-js-ecommerce'
         }
       ],

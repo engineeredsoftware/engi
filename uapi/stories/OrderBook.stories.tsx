@@ -17,7 +17,7 @@ const sampleListings: Listing[] = [
   },
   {
     id: "l2",
-    type: "deliverable",
+    type: "shippable",
     asset: "pr",
     side: "buy",
     price: 500,

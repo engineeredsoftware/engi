@@ -2,19 +2,17 @@
   "name": "@bitcode/streams",
   "version": "0.1.0",
   "private": true,
-  "description": "Streaming helpers (JS stub build).",
-  "main": "src/index.js",
+  "description": "Bitcode streaming helpers for execution, AssetPack, and Shippable progress.",
+  "main": "src/index.ts",
   "types": "src/index.ts",
   "exports": {
     ".": {
       "types": "./src/index.ts",
-      "require": "./src/index.js",
-      "default": "./src/index.js"
+      "default": "./src/index.ts"
     },
     "./src/streams": {
       "types": "./src/streams.ts",
-      "require": "./src/streams.js",
-      "default": "./src/streams.js"
+      "default": "./src/streams.ts"
     },
     "./src/*": "./src/*",
     "./package.json": "./package.json"

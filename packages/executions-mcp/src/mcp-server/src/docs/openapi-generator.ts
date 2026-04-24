@@ -33,7 +33,7 @@ The Model Context Protocol (MCP) server exposing Bitcode’s engineering intelli
 
 ## Features
 
-- Tools interface for Deliverable pipeline execution
+- Tools interface for AssetPack execution and optional Shippable delivery
 - Real‑time streaming (WebSocket)
 - Multi‑modal attachments (Figma, documents, images, audio, video)
 - Credit‑based usage (reserve → finalize → refund)

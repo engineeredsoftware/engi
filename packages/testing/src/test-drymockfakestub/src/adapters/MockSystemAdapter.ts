@@ -28,7 +28,7 @@ export interface MockScenarioConfig {
  * Mockable features from existing system
  */
 export type MockableFeature = 
-  | 'DELIVERABLES'
+  | 'ASSET_PACKS'
   | 'GITHUB_ACCOUNTS'
   | 'GITHUB_REPOS'
   | 'GITHUB_ISSUES'
@@ -266,7 +266,7 @@ export class MockSystemAdapter {
     const features: MockableFeature[] = [];
     const name = composition.name.toLowerCase();
     
-    if (name.includes('deliverable')) features.push('DELIVERABLES');
+    if (name.includes('asset-pack')) features.push('ASSET_PACKS');
     if (name.includes('github') || name.includes('repo')) features.push('GITHUB_REPOS');
     if (name.includes('user') || name.includes('profile')) features.push('USER_PROFILE');
     if (name.includes('credit')) features.push('CREDITS');

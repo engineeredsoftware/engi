@@ -50,9 +50,9 @@ const mockMessages = [
   {
     id: 'msg-2',
     role: 'assistant' as const,
-    content: "I'll help you implement OAuth authentication for your React app. Based on your source code and specification document, I can see you need:\n\n1. **OAuth Integration** - Google, GitHub, and Apple ID sign-in\n2. **JWT Token Management** - Secure token handling with proper expiry\n3. **Role-Based Access Control** - User roles and permission matrix\n4. **Route Protection** - Secure routing based on user roles\n\nI'm starting a deliverable pipeline to implement this complete authentication system.",
+    content: "I'll help you implement OAuth authentication for your React app. Based on your source code and specification document, I can see you need:\n\n1. **OAuth Integration** - Google, GitHub, and Apple ID sign-in\n2. **JWT Token Management** - Secure token handling with proper expiry\n3. **Role-Based Access Control** - User roles and permission matrix\n4. **Route Protection** - Secure routing based on user roles\n\nI'm starting a shippable pipeline to implement this complete authentication system.",
     created_at: '2024-01-15T10:31:00Z',
-    deliverable_id: 'del-456'
+    shippable_id: 'del-456'
   },
   {
     id: 'msg-3',
@@ -91,7 +91,7 @@ const mockMessages = [
 const mockPipelineEvents = [
   {
     id: 'pipeline-1',
-    type: 'deliverable',
+    type: 'shippable',
     runId: 'del-456',
     status: 'running',
     progress: 65,
@@ -161,11 +161,11 @@ export const MultiplePipelines: Story = {
       {
         id: 'msg-1',
         role: 'user' as const,
-        content: '@deliverable Create a React dashboard with user authentication\n@upgrade Migrate to TypeScript\n@deliverable Add real-time notifications',
+        content: '@shippable Create a React dashboard with user authentication\n@upgrade Migrate to TypeScript\n@shippable Add real-time notifications',
         created_at: '2024-01-15T09:00:00Z',
         tokens: [
           {
-            type: 'deliverable' as const,
+            type: 'shippable' as const,
             value: 'Create a React dashboard with user authentication',
             metadata: { priority: 'high' }
           },
@@ -175,7 +175,7 @@ export const MultiplePipelines: Story = {
             metadata: { priority: 'medium' }
           },
           {
-            type: 'deliverable' as const,
+            type: 'shippable' as const,
             value: 'Add real-time notifications',
             metadata: { priority: 'low' }
           }
@@ -189,7 +189,7 @@ export const MultiplePipelines: Story = {
     pipelineEvents: [
       {
         id: 'pipeline-1',
-        type: 'deliverable',
+        type: 'shippable',
         runId: 'del-789',
         status: 'running',
         progress: 30,
@@ -215,7 +215,7 @@ export const MultiplePipelines: Story = {
       },
       {
         id: 'pipeline-3',
-        type: 'deliverable',
+        type: 'shippable',
         runId: 'del-456',
         status: 'completed',
         progress: 100,
@@ -280,7 +280,7 @@ export const RichTextTokens: Story = {
       {
         id: 'msg-1',
         role: 'user' as const,
-        content: 'Help me implement a search feature #acme/search-service +requirements.pdf :history @deliverable',
+        content: 'Help me implement a search feature #acme/search-service +requirements.pdf :history @shippable',
         created_at: '2024-01-15T13:00:00Z',
         tokens: [
           {
@@ -312,7 +312,7 @@ export const RichTextTokens: Story = {
             }
           },
           {
-            type: 'deliverable' as const,
+            type: 'shippable' as const,
             value: 'Implement advanced search functionality',
             metadata: {
               priority: 'high',
@@ -324,9 +324,9 @@ export const RichTextTokens: Story = {
       {
         id: 'msg-2',
         role: 'assistant' as const,
-        content: "Perfect! I can see you want to implement an advanced search feature. Based on your source code in the search-service repository and the requirements document, I'll create a comprehensive search solution.\n\n**From your requirements document:**\n- Full-text search with relevance scoring\n- Advanced filtering and faceted search\n- Real-time search suggestions\n- Performance optimization for large datasets\n\n**From your repository analysis:**\n- Current basic search implementation in `src/search/index.js`\n- REST API endpoints in `src/api/search.js`\n- Opportunity to enhance with Elasticsearch integration\n\n🚀 **Starting deliverable pipeline** to implement the advanced search functionality with all your specified requirements.",
+        content: "Perfect! I can see you want to implement an advanced search feature. Based on your source code in the search-service repository and the requirements document, I'll create a comprehensive search solution.\n\n**From your requirements document:**\n- Full-text search with relevance scoring\n- Advanced filtering and faceted search\n- Real-time search suggestions\n- Performance optimization for large datasets\n\n**From your repository analysis:**\n- Current basic search implementation in `src/search/index.js`\n- REST API endpoints in `src/api/search.js`\n- Opportunity to enhance with Elasticsearch integration\n\n🚀 **Starting shippable pipeline** to implement the advanced search functionality with all your specified requirements.",
         created_at: '2024-01-15T13:01:00Z',
-        deliverable_id: 'del-999'
+        shippable_id: 'del-999'
       }
     ],
     isStreaming: false,
@@ -336,7 +336,7 @@ export const RichTextTokens: Story = {
     pipelineEvents: [
       {
         id: 'pipeline-search',
-        type: 'deliverable',
+        type: 'shippable',
         runId: 'del-999',
         status: 'running',
         progress: 20,

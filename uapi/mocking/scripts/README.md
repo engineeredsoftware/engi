@@ -229,7 +229,7 @@ node mocking/scripts/setup-mock-system.js
 # Edit .env.local after running setup script
 
 # Example customizations:
-NEXT_PUBLIC_MOCK_DELIVERABLES_SCENARIO=enterprise
+NEXT_PUBLIC_MOCK_ASSET_PACKS_SCENARIO=enterprise
 NEXT_PUBLIC_MOCK_GITHUB_REPOS=false  # Use real GitHub data
 NEXT_PUBLIC_MOCK_ERROR_INJECTION=true
 ```

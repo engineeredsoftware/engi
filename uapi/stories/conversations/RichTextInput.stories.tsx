@@ -92,7 +92,7 @@ const mockSources = [
   }
 ];
 
-const mockDeliverables = [
+const mockShippables = [
   {
     id: 'del-1',
     title: 'Authentication System',
@@ -145,16 +145,16 @@ const mockUpgrades = [
 
 const mockCommands = [
   {
-    id: 'deliverable',
-    name: 'deliverable',
-    description: 'Create a new deliverable pipeline',
+    id: 'shippable',
+    name: 'shippable',
+    description: 'Create a new shippable pipeline',
     category: 'pipeline',
     shortcut: 'Ctrl+D',
     icon: '🚀',
     requiresAuth: true,
     requiresGitHub: true,
-    text: '/deliverable',
-    displayInfo: 'Create deliverable pipeline • Requires GitHub'
+    text: '/shippable',
+    displayInfo: 'Create shippable pipeline • Requires GitHub'
   },
   {
     id: 'history',
@@ -190,7 +190,7 @@ export const BasicInput: Story = {
     isStreaming: false,
     attachments: mockAttachments,
     sources: mockSources,
-    deliverables: mockDeliverables,
+    shippables: mockShippables,
     upgrades: mockUpgrades,
     commands: mockCommands
   }
@@ -206,7 +206,7 @@ export const WithContent: Story = {
     isStreaming: false,
     attachments: mockAttachments,
     sources: mockSources,
-    deliverables: mockDeliverables,
+    shippables: mockShippables,
     upgrades: mockUpgrades,
     commands: mockCommands
   }
@@ -222,7 +222,7 @@ export const WithSourceToken: Story = {
     isStreaming: false,
     attachments: mockAttachments,
     sources: mockSources,
-    deliverables: mockDeliverables,
+    shippables: mockShippables,
     upgrades: mockUpgrades,
     commands: mockCommands,
     selectedTokens: [
@@ -249,7 +249,7 @@ export const WithAttachmentToken: Story = {
     isStreaming: false,
     attachments: mockAttachments,
     sources: mockSources,
-    deliverables: mockDeliverables,
+    shippables: mockShippables,
     upgrades: mockUpgrades,
     commands: mockCommands,
     selectedTokens: [
@@ -268,9 +268,9 @@ export const WithAttachmentToken: Story = {
   }
 };
 
-export const WithDeliverableToken: Story = {
+export const WithShippableToken: Story = {
   args: {
-    value: 'Create a new feature @deliverable Authentication System',
+    value: 'Create a new feature @shippable Authentication System',
     placeholder: 'Ask Conversations anything...',
     onSend: (content: string, tokens: any[]) => {
       console.log('Sent:', { content, tokens });
@@ -278,12 +278,12 @@ export const WithDeliverableToken: Story = {
     isStreaming: false,
     attachments: mockAttachments,
     sources: mockSources,
-    deliverables: mockDeliverables,
+    shippables: mockShippables,
     upgrades: mockUpgrades,
     commands: mockCommands,
     selectedTokens: [
       {
-        type: 'deliverable',
+        type: 'shippable',
         value: 'Authentication System',
         metadata: {
           id: 'del-1',
@@ -305,7 +305,7 @@ export const WithUpgradeToken: Story = {
     isStreaming: false,
     attachments: mockAttachments,
     sources: mockSources,
-    deliverables: mockDeliverables,
+    shippables: mockShippables,
     upgrades: mockUpgrades,
     commands: mockCommands,
     selectedTokens: [
@@ -332,7 +332,7 @@ export const WithCommandToken: Story = {
     isStreaming: false,
     attachments: mockAttachments,
     sources: mockSources,
-    deliverables: mockDeliverables,
+    shippables: mockShippables,
     upgrades: mockUpgrades,
     commands: mockCommands,
     selectedTokens: [
@@ -351,7 +351,7 @@ export const WithCommandToken: Story = {
 
 export const WithMultipleTokens: Story = {
   args: {
-    value: 'Implement auth for #mycompany/myapp using +requirements.pdf and create @deliverable Authentication System',
+    value: 'Implement auth for #mycompany/myapp using +requirements.pdf and create @shippable Authentication System',
     placeholder: 'Ask Conversations anything...',
     onSend: (content: string, tokens: any[]) => {
       console.log('Sent:', { content, tokens });
@@ -359,7 +359,7 @@ export const WithMultipleTokens: Story = {
     isStreaming: false,
     attachments: mockAttachments,
     sources: mockSources,
-    deliverables: mockDeliverables,
+    shippables: mockShippables,
     upgrades: mockUpgrades,
     commands: mockCommands,
     selectedTokens: [
@@ -384,7 +384,7 @@ export const WithMultipleTokens: Story = {
         }
       },
       {
-        type: 'deliverable',
+        type: 'shippable',
         value: 'Authentication System',
         metadata: {
           id: 'del-new',
@@ -407,7 +407,7 @@ export const StreamingState: Story = {
     disabled: true,
     attachments: mockAttachments,
     sources: mockSources,
-    deliverables: mockDeliverables,
+    shippables: mockShippables,
     upgrades: mockUpgrades,
     commands: mockCommands
   }
@@ -425,7 +425,7 @@ export const LoadingState: Story = {
     disabled: true,
     attachments: mockAttachments,
     sources: mockSources,
-    deliverables: mockDeliverables,
+    shippables: mockShippables,
     upgrades: mockUpgrades,
     commands: mockCommands
   }
@@ -442,7 +442,7 @@ export const ErrorState: Story = {
     error: 'Network connection failed. Please try again.',
     attachments: mockAttachments,
     sources: mockSources,
-    deliverables: mockDeliverables,
+    shippables: mockShippables,
     upgrades: mockUpgrades,
     commands: mockCommands
   }
@@ -458,7 +458,7 @@ export const EmptyDataStates: Story = {
     isStreaming: false,
     attachments: [],
     sources: [],
-    deliverables: [],
+    shippables: [],
     upgrades: [],
     commands: []
   }

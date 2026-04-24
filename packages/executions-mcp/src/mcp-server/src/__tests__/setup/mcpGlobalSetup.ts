@@ -159,7 +159,7 @@ async function initializeTestData(): Promise<void> {
     pipelines: [
       {
         id: 'test-pipeline-001',
-        type: 'deliverable',
+        type: 'asset-pack',
         subtype: 'pull_request',
         status: 'completed',
         repository: 'test-org/test-repo',

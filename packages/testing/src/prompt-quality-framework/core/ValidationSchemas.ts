@@ -385,7 +385,7 @@ export class ContextCompletenessRule extends ValidationRule {
       severity: 'high',
       parameters: {
         requiredContextElements: [
-          'task_description',
+          'need_description',
           'success_criteria',
           'constraints',
           'available_tools',
@@ -429,9 +429,9 @@ export class ContextCompletenessRule extends ValidationRule {
     const foundElements: string[] = [];
     const text = promptText.toLowerCase();
     
-    // Task description
-    if (text.includes('task') || text.includes('objective') || text.includes('goal')) {
-      foundElements.push('task_description');
+    // Need description
+    if (text.includes('need') || text.includes('objective') || text.includes('goal')) {
+      foundElements.push('need_description');
     }
     
     // Success criteria

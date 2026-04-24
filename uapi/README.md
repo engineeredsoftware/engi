@@ -102,8 +102,10 @@ Fourth-gate retained `/executions` health also now depends on explicit compatibi
 
 - `app/api/vcs/route.ts`
   Reader-first VCS compatibility carrier for retained execution selectors and repo context.
+- `app/api/templates/shippables/route.ts`
+  Active Shippable-template carrier for retained execution composition.
 - `app/api/templates/deliverables/route.ts`
-  Deliverable-template compatibility carrier for retained execution composition.
+  Compatibility wrapper for retained template callers.
 - `app/api/auxillaries/template-preferences/route.ts`
   Saved template-preference compatibility carrier for retained execution personalization.
 - `app/api/auxillaries/profile/route.ts`, `app/api/auxillaries/connections/github/route.ts`, `app/api/auxillaries/btd/route.ts`, `app/api/auxillaries/usage/route.ts`, `app/api/auxillaries/transactions/route.ts`, `app/api/auxillaries/api-keys/route.ts`

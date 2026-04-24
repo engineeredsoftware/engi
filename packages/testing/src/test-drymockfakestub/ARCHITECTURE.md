@@ -32,7 +32,7 @@ Test framework integrates:
  * @dimension enterprise-scale
  * @mode production
  * @dry-run-precision per-function
- * @targets ["DeliverablesPipeline.*.generate", "!DeliverablesPipeline.phase3.generate"]
+ * @targets ["AssetPackPipeline.*.generate", "!AssetPackPipeline.phase3.generate"]
  */
 export interface TestConfiguration {
   readonly dimension: TestDimension;
@@ -113,11 +113,11 @@ Test scenarios integrate with PromptParts:
 
 ```typescript
 /** @doc-comment-test-prompt
- * @test-context deliverable-pipeline
+ * @test-context asset-pack-pipeline
  * @verification-mode comprehensive
  */
 export const TEST_SCENARIO_PROMPT = PromptPart`
-You are verifying the deliverable pipeline in the enterprise context.
+You are verifying the AssetPack pipeline in the enterprise context.
 Generate test data that explores all states of the system.
 `;
 
@@ -189,11 +189,11 @@ export class TestExecution extends Execution {
 
 ```typescript
 /** @doc-comment-test-execution
- * @context enterprise-deliverables
+ * @context enterprise-asset-packs
  * @mode production
  * @dry-run all-except ["ComprehendTaskAgent.generate#iteration-2"]
  */
-export class DeliverableTestExecution extends TestExecution {
+export class AssetPackTestExecution extends TestExecution {
   async execute() {
     // Configure test context
     const configuration = await this.configure();

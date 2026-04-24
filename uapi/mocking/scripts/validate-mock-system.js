@@ -148,7 +148,7 @@ async function testMockSystemFiles(results) {
       
       // Check for key generator methods
       const requiredGenerators = [
-        'generateDeliverables',
+        'generateAssetPacks',
         'generateConversationConversations',
         'generateUserProfile',
         'generateGitHubRepos'
@@ -172,7 +172,7 @@ async function testMockSystemFiles(results) {
         'mockAreas',
         'mockAuth',
         'mockUser',
-        'mockDeliverables',
+        'mockAssetPacks',
         'mockConversation'
       ];
       

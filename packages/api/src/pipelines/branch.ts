@@ -1,5 +1,5 @@
 /**
- * Pipelines Branching API (Deliverables)
+ * AssetPack execution branching API.
  *
  * Creates a new executions row from an existing run
  * by copying its configuration and input/context, adding lineage metadata
@@ -13,7 +13,7 @@ interface ForkOptions {
   title?: string; // optional run title, stored in context
 }
 
-export async function branchDeliverableRun(
+export async function branchAssetPackRun(
   userId: string,
   sourceRunId: string,
   options: ForkOptions = {}
@@ -27,7 +27,7 @@ export async function branchDeliverableRun(
     .single();
 
   if (srcErr || !source) {
-    log('[api/pipelines] branchDeliverableRun: source not found or not owned', 'error', { userId, sourceRunId, error: srcErr });
+    log('[api/pipelines] branchAssetPackRun: source not found or not owned', 'error', { userId, sourceRunId, error: srcErr });
     throw new Error('Source run not found');
   }
 
@@ -42,7 +42,7 @@ export async function branchDeliverableRun(
   const insertRow = {
     user_id: userId,
     status: 'pending' as const,
-    type: source.type ||  'deliverable',
+    type: source.type ||  'agentic-execution:asset-pack',
     guide: source.guide || 'Develop',
     config: source.config || {},
     input: source.input ||  {},
@@ -62,7 +62,7 @@ export async function branchDeliverableRun(
     .single();
 
   if (insErr) {
-    log('[api/pipelines] branchDeliverableRun: failed to insert destination run', 'error', { error: insErr });
+    log('[api/pipelines] branchAssetPackRun: failed to insert destination run', 'error', { error: insErr });
     throw insErr;
   }
 

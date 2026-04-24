@@ -50,7 +50,7 @@ That's it. Everything else - agents, pipelines, phases, run histories, and need-
 Every AI operation in Bitcode creates a tree of executions that accumulate state:
 
 ```
-deliverable-pipeline
+asset-pack-execution
 ├── discovery-phase
 │   ├── web-search-agent
 │   │   ├── plan (what to search for)
@@ -77,14 +77,14 @@ Execution is a state container with:
 ```typescript
 // State flows down the tree
 const pipeline = new Execution('pipeline');
-pipeline.store('context', 'task', 'add dark mode');
+pipeline.store('context', 'need', 'add dark mode');
 
 const phase = pipeline.child('discovery'); 
 phase.store('strategy', 'search_terms', ['dark mode', 'theme toggle']);
 
 // Children can find parent state
 const agent = phase.child('search-agent');
-const task = agent.findUp('context', 'task'); // 'add dark mode'
+const need = agent.findUp('context', 'need'); // 'add dark mode'
 ```
 
 ### Sequence = Executors

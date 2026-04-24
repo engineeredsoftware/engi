@@ -11,8 +11,8 @@ import {
   dryRunAdapter,
   mockAdapter,
   storybookAdapter,
-  ENTERPRISE_DELIVERABLE_SCENARIO,
-  MINIMAL_DELIVERABLE_SCENARIO,
+  ENTERPRISE_ASSET_PACK_SCENARIO,
+  MINIMAL_ASSET_PACK_SCENARIO,
   type TestScenario
 } from '@bitcode/test-intelligence';
 
@@ -21,21 +21,21 @@ import {
 // =============================================================================
 
 /**
- * Configure dryrun for deliverable pipeline testing
+ * Configure dryrun for AssetPack pipeline testing
  */
-export async function setupDeliverableDryRun() {
+export async function setupAssetPackDryRun() {
   // Create dryrun config from scenario
-  const dryRunConfig = dryRunAdapter.adaptScenario(ENTERPRISE_DELIVERABLE_SCENARIO);
+  const dryRunConfig = dryRunAdapter.adaptScenario(ENTERPRISE_ASSET_PACK_SCENARIO);
   
   // Use in pipeline
   const pipelineConfig = {
-    pipeline: 'deliverable',
+    pipeline: 'asset-pack',
     dryRun: true,
     dryRunConfig,
     // Other pipeline config...
   };
   
-  console.log('DryRun configured for deliverable pipeline');
+  console.log('DryRun configured for AssetPack pipeline');
   console.log('Mock plan:', await dryRunConfig.mockPlan());
   console.log('Mock generate:', await dryRunConfig.mockGenerate());
   
@@ -46,7 +46,7 @@ export async function setupDeliverableDryRun() {
  * Create streaming dryrun for realistic testing
  */
 export async function* streamingDryRunExample() {
-  const streamingConfig = dryRunAdapter.createStreamingConfig(ENTERPRISE_DELIVERABLE_SCENARIO);
+  const streamingConfig = dryRunAdapter.createStreamingConfig(ENTERPRISE_ASSET_PACK_SCENARIO);
   
   // Stream events
   const generateFn = streamingConfig.mockGenerate as AsyncGeneratorFunction;
@@ -65,23 +65,23 @@ export async function* streamingDryRunExample() {
  */
 export async function setupMockOrchestrator() {
   // Register scenarios with mock features
-  mockAdapter.registerScenarioForFeatures(ENTERPRISE_DELIVERABLE_SCENARIO, [
-    'DELIVERABLES',
+  mockAdapter.registerScenarioForFeatures(ENTERPRISE_ASSET_PACK_SCENARIO, [
+    'ASSET_PACKS',
     'GITHUB_REPOS',
     'USER_PROFILE',
     'CREDITS'
   ]);
   
-  mockAdapter.registerScenarioForFeatures(MINIMAL_DELIVERABLE_SCENARIO, [
-    'DELIVERABLES'
+  mockAdapter.registerScenarioForFeatures(MINIMAL_ASSET_PACK_SCENARIO, [
+    'ASSET_PACKS'
   ]);
   
   // Get mock data for a feature
-  const deliverablesMock = await mockAdapter.getMockData('DELIVERABLES', 'enterprise');
-  console.log('Deliverables mock data:', deliverablesMock);
+  const assetPacksMock = await mockAdapter.getMockData('ASSET_PACKS', 'enterprise');
+  console.log('AssetPacks mock data:', assetPacksMock);
   
   // Stream mock data
-  const stream = mockAdapter.streamMockData('DELIVERABLES', {
+  const stream = mockAdapter.streamMockData('ASSET_PACKS', {
     eventCount: 5,
     eventDelay: 200,
     scaling: 'enterprise'
@@ -93,8 +93,8 @@ export async function setupMockOrchestrator() {
   
   // Create orchestrator configuration
   const orchestratorConfig = mockAdapter.createOrchestratorConfig([
-    ENTERPRISE_DELIVERABLE_SCENARIO,
-    MINIMAL_DELIVERABLE_SCENARIO
+    ENTERPRISE_ASSET_PACK_SCENARIO,
+    MINIMAL_ASSET_PACK_SCENARIO
   ]);
   
   return orchestratorConfig;
@@ -132,8 +132,8 @@ export function createMockMiddleware() {
 export function setupStorybook() {
   // Register scenarios for stories
   storybookAdapter.registerScenarios({
-    'deliverables-enterprise': ENTERPRISE_DELIVERABLE_SCENARIO,
-    'deliverables-minimal': MINIMAL_DELIVERABLE_SCENARIO
+    'asset-packs-enterprise': ENTERPRISE_ASSET_PACK_SCENARIO,
+    'asset-packs-minimal': MINIMAL_ASSET_PACK_SCENARIO
   });
   
   // Get decorator
@@ -155,10 +155,10 @@ export function setupStorybook() {
 /**
  * Create story variations from scenarios
  */
-export function createDeliverableStories() {
+export function createAssetPackStories() {
   const baseStory = {
     title: 'Pipelines/AssetPack',
-    component: DeliverablePipeline,
+    component: AssetPackPipeline,
     parameters: {
       layout: 'fullscreen'
     }
@@ -166,8 +166,8 @@ export function createDeliverableStories() {
   
   // Generate variations
   const variations = storybookAdapter.createStoryVariations(baseStory, [
-    ENTERPRISE_DELIVERABLE_SCENARIO,
-    MINIMAL_DELIVERABLE_SCENARIO
+    ENTERPRISE_ASSET_PACK_SCENARIO,
+    MINIMAL_ASSET_PACK_SCENARIO
   ]);
   
   return {
@@ -179,7 +179,7 @@ export function createDeliverableStories() {
 /**
  * Use Test Intelligence in a component
  */
-export function DeliverableComponent() {
+export function AssetPackComponent() {
   const { scenario, data, mode } = useTestIntelligence();
   
   return (
@@ -202,7 +202,7 @@ export function DeliverableComponent() {
 export function createUnifiedTestSuite() {
   describe('AssetPack Pipeline', () => {
     // Use scenario for test data
-    const scenario = ENTERPRISE_DELIVERABLE_SCENARIO;
+    const scenario = ENTERPRISE_ASSET_PACK_SCENARIO;
     const testData = generator.generateForScenario(scenario);
     
     beforeEach(() => {
@@ -210,9 +210,9 @@ export function createUnifiedTestSuite() {
       setupTestEnvironment(testData.data);
     });
     
-    it('should handle enterprise deliverable with conflicts', async () => {
+    it('should handle enterprise AssetPack with conflicts', async () => {
       // Run test with scenario data
-      const result = await runDeliverablePipeline(testData.data.request);
+      const result = await runAssetPackPipeline(testData.data.request);
       
       // Use scenario assertions
       for (const assertion of scenario.behavior.assertions || []) {
@@ -222,7 +222,7 @@ export function createUnifiedTestSuite() {
     
     it('should respect performance constraints', async () => {
       const start = Date.now();
-      const result = await runDeliverablePipeline(testData.data.request);
+      const result = await runAssetPackPipeline(testData.data.request);
       const duration = Date.now() - start;
       
       expect(duration).toBeLessThan(scenario.performance?.timeout || Infinity);
@@ -298,7 +298,7 @@ export async function performanceTestExample() {
   
   for (const mode of modes) {
     const start = performance.now();
-    const data = generator.generateForScenario(ENTERPRISE_DELIVERABLE_SCENARIO, mode);
+    const data = generator.generateForScenario(ENTERPRISE_ASSET_PACK_SCENARIO, mode);
     const duration = performance.now() - start;
     
     results.push({
@@ -360,7 +360,7 @@ function setupTestEnvironment(data: any) {
   // Mock implementation
 }
 
-async function runDeliverablePipeline(request: any) {
+async function runAssetPackPipeline(request: any) {
   // Mock implementation
   return { success: true };
 }
@@ -391,7 +391,7 @@ async function yourApiHandler(req: any, res: any) {
 }
 
 // Mock component for example
-function DeliverablePipeline(props: any) {
+function AssetPackPipeline(props: any) {
   return null;
 }
 

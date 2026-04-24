@@ -4,7 +4,7 @@
  * 🎯 COMPLETE SYSTEM COVERAGE (100+ Features):
  * - Auxillaries: onboarding, auth, profile, preferences (25+ features)
  * - Conversations: ChatGPT-style Bitcode experience (10+ features)  
- * - Deliverables/AI Documents: main pipeline experiences (16+ features)
+ * - AssetPacks/AI Documents: main pipeline experiences (16+ features)
  * - Organizations: enterprise team management (8+ features)
  * - Integrations: GitHub, GitLab, Bitbucket, Figma, Notion (25+ features)
  * - Marketplace: business listings and orders (5+ features)
@@ -31,13 +31,13 @@
  * NEXT_PUBLIC_MASTER_MOCK_MODE=true
  * 
  * // Use in React components
- * const { data } = useMockData('DELIVERABLES');
+ * const { data } = useMockData('ASSET_PACKS');
  * 
  * // Use in API routes (legacy)
- * export const GET = mockDeliverables(originalHandler);
+ * export const GET = mockAssetPacks(originalHandler);
  * 
  * // Use specialized middleware (recommended)
- * export const GET = mockAreas.pipelines.deliverables.main()(originalHandler);
+ * export const GET = mockAreas.pipelines.assetPacks.main()(originalHandler);
  * export const POST = mockAreas.auxillaries.auth.github()(originalHandler);
  * ```
  */
@@ -74,7 +74,7 @@ export type { MockContextValue, CacheStats } from './integration/MockProvider';
 export { 
   withMocking,
   withStreamingMocking,
-  mockDeliverables,
+  mockAssetPacks,
   mockGitHub,
   mockUserData,
   createMockMiddleware,
@@ -100,9 +100,9 @@ export {
   mockChat            // Stream, Completions with realistic AI simulation
 } from './middleware/SpecializedMockMiddleware';
 
-// Core Pipelines (Deliverables) - 16+ Features
+// Core Pipelines (AssetPacks) - 16+ Features
 export {
-  mockDeliverables as mockDeliverablesSpecialized  // Full pipeline with streaming
+  mockAssetPacks as mockAssetPacksSpecialized  // Full pipeline with streaming
 } from './middleware/SpecializedMockMiddleware';
 
 // Organization & Enterprise - 8+ Features
@@ -178,7 +178,7 @@ export type {
   ExecutionState,
   StreamStatusMessage,
   LlmCallData,
-  DeliverableTemplates,
+  ShippableTemplates,
   IntegrationOption,
   Issue
 } from './types/core';
@@ -281,8 +281,8 @@ function loadFeatureOverrides(): Partial<Record<MockableFeature, any>> {
   
   const allFeatures: MockableFeature[] = [
     // Core Pipeline Features (16 features)
-    'DELIVERABLES', 'DELIVERABLE_RUNS', 'DELIVERABLE_HISTORY', 'DELIVERABLE_ITEMS', 
-    'DELIVERABLE_INSTRUCTIONS', 'DELIVERABLE_STREAM', 'DELIVERABLE_LOGS', 'DELIVERABLE_RUN_EVENTS',
+    'ASSET_PACKS', 'ASSET_PACK_RUNS', 'ASSET_PACK_HISTORY', 'ASSET_PACK_ITEMS', 
+    'ASSET_PACK_INSTRUCTIONS', 'ASSET_PACK_STREAM', 'ASSET_PACK_LOGS', 'ASSET_PACK_RUN_EVENTS',
     'UPGRADES', 'UPGRADE_RUNS', 'UPGRADE_HISTORY', 'UPGRADE_ITEMS', 
     'UPGRADE_INSTRUCTIONS', 'UPGRADE_STREAM', 'UPGRADE_LOGS', 'UPGRADE_RUN_EVENTS',
     
@@ -313,7 +313,7 @@ function loadFeatureOverrides(): Partial<Record<MockableFeature, any>> {
     'BTC_SETTLEMENTS', 'BTD_ISSUANCES', 'WALLET_OBSERVATIONS', 'BTD_ACQUISITIONS', 'WALLET_CONNECTIONS',
     
     // Templates & MCP (8 features)
-    'DELIVERABLE_TEMPLATES', 'UPGRADE_TEMPLATES', 'TEMPLATE_PREFERENCES', 'TEMPLATE_CATEGORIES',
+    'ASSET_PACK_TEMPLATES', 'UPGRADE_TEMPLATES', 'TEMPLATE_PREFERENCES', 'TEMPLATE_CATEGORIES',
     'MCP_AWS', 'MCP_SUPABASE', 'MCP_VERCEL', 'MCP_TOOLS',
     
     // System & Health (20 features)
@@ -324,7 +324,7 @@ function loadFeatureOverrides(): Partial<Record<MockableFeature, any>> {
     'ADMIN_USERS', 'ADMIN_ORGANIZATIONS', 'ADMIN_RUNS', 'ADMIN_ANALYTICS', 'USAGE_ANALYTICS', 'FINANCIAL_ANALYTICS', 'RUN_MONITORING',
     
     // Vector & AI (5 features)
-    'DELIVERABLE_VECTORS', 'UPGRADE_VECTORS', 'USER_VECTORS', 'PATTERN_RECOGNITION', 'VECTOR_SEARCH',
+    'ASSET_PACK_VECTORS', 'UPGRADE_VECTORS', 'USER_VECTORS', 'PATTERN_RECOGNITION', 'VECTOR_SEARCH',
     
     // Legacy/Generic (6 features) 
     'COMPLETION_DATA', 'PROCESSING_STATS', 'REPO_SNAPSHOTS', 'API_RESPONSES', 'ERROR_SCENARIOS', 'PERFORMANCE_METRICS'

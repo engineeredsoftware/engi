@@ -62,7 +62,7 @@ const SidebarToggleComponent: React.FC<SidebarToggleProps> = ({
             <path d="M9 11l3-3 3 3" />
           </>
         );
-      case 'deliverables':
+      case 'asset-packs':
         return (
           <>
             <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
@@ -70,13 +70,6 @@ const SidebarToggleComponent: React.FC<SidebarToggleProps> = ({
             <path d="M16 13H8" />
             <path d="M16 17H8" />
             <path d="M10 9H8" />
-          </>
-        );
-        return (
-          <>
-            <rect x="3" y="3" width="18" height="18" rx="2" ry="2" />
-            <path d="M12 16V8" />
-            <path d="M8 12l4-4 4 4" />
           </>
         );
       default:

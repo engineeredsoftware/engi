@@ -51,7 +51,7 @@ describe('E2E: Conversation → Digest → Pipeline Flow (unit-backed)', () => {
         ],
         status: 'active',
         linkedPipelines: [
-          { id: 'pipe-1', type: 'deliverable', status: 'running', link: '/pipelines/pipe-1' }
+          { id: 'pipe-1', type: 'shippable', status: 'running', link: '/pipelines/pipe-1' }
         ],
         context: {
           repo: 'engineeredsoftware/bitcode',
@@ -140,15 +140,15 @@ describe('E2E: Conversation → Digest → Pipeline Flow (unit-backed)', () => {
   });
 
   describe('Pipeline Triggering', () => {
-    it('detects deliverable and ai_document trigger markers inside responses', () => {
+    it('detects shippable and ai_document trigger markers inside responses', () => {
       const response =
-        'Starting [PIPELINE_TRIGGER:deliverable:Add auth auditing] and ' +
+        'Starting [PIPELINE_TRIGGER:shippable:Add auth auditing] and ' +
         '[PIPELINE_TRIGGER:ai_document:Speed up tests] for you.';
 
       const triggers = detectPipelineTriggers(response);
 
       expect(triggers).toEqual([
-        { type: 'deliverable', task: 'Add auth auditing' },
+        { type: 'shippable', task: 'Add auth auditing' },
         { type: 'ai_document', task: 'Speed up tests' }
       ]);
     });

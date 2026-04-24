@@ -144,15 +144,12 @@ export const ExecutionNeedInput = ({
     }
 
     try {
-      const response = await fetch('/api/templates/deliverables', {
+      const response = await fetch('/api/templates/shippables', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           name: templateName.trim(),
           shippableTypes: templateCategories
-            .filter(cat => cat.checked)
-            .map(cat => cat.id),
-          deliverableTypes: templateCategories
             .filter(cat => cat.checked)
             .map(cat => cat.id),
           templateText: definitionOfNeed,

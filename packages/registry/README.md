@@ -13,7 +13,7 @@ Registry enables you to:
 ## Core Concept
 
 Registry is a hierarchical key-value store where:
-- **Paths** create namespaces: `pipeline:deliverable:phase:implementation`
+- **Paths** create namespaces: `pipeline:asset-pack:phase:implementation`
 - **Priorities** determine winners when same path has multiple values
 - **Cascading** combines values from multiple paths into final configuration
 
@@ -93,7 +93,7 @@ registry.set('default', {
 });
 
 // Pipeline overrides
-registry.set('pipeline:deliverable', { 
+registry.set('pipeline:asset-pack', { 
   model: 'claude-3-opus',  // Higher tier model
   temperature: 0.5         // More focused
 });
@@ -107,7 +107,7 @@ registry.set('agent:code-generator', {
 // Cascade to get final config
 const config = registry.get([
   'default',
-  'pipeline:deliverable',
+  'pipeline:asset-pack',
   'agent:code-generator'
 ]);
 // Result: { model: 'claude-3-opus', temperature: 0.2, maxTokens: 4096, stopSequences: ['```'] }
@@ -127,11 +127,11 @@ isParentRegistryPath('a:b', 'a:b:c');   // true
 
 // Path builder for complex hierarchies
 const path = RegistryPathBuilder
-  .from('pipeline', 'deliverable')
+  .from('pipeline', 'asset-pack')
   .add('phase').add('implementation')
   .add('agent').add('code-generator')
   .build();
-// 'pipeline:deliverable:phase:implementation:agent:code-generator'
+// 'pipeline:asset-pack:phase:implementation:agent:code-generator'
 ```
 
 ## Priority Resolution

@@ -32,7 +32,7 @@ export {
   type PipelineStreamEvent,
   // tool schemas (supported pipelines only)
   BasePipelineToolSchema,
-  DeliverablePipelineToolSchema,
+  AssetPackPipelineToolSchema,
   // filters and configs
   PipelineHistoryFilterSchema,
   IntelligenceSynthesisConfigSchema,

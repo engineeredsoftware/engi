@@ -143,7 +143,7 @@ const result = await client.callTool('bitcode://pipelines/asset-pack/create', {
 });
 ```
 
-<!-- Non-deliverable pipeline endpoints are not exposed via MCP -->
+<!-- Non-AssetPack pipeline endpoints are not exposed via MCP -->
 
 ## Intelligence Tools
 

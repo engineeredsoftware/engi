@@ -1,6 +1,6 @@
 import React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
-import ExecutionOnTheFlyInstructions from '@/app/executions/components/ExecutionOnTheFlyInstructions';
+import ExecutionInstructions from '@/app/executions/components/ExecutionsInstructions';
 
 // ---------------------------------------------------------------------------
 // Helpers – stub fetch + EventSource so stories run without a backend.
@@ -28,6 +28,7 @@ if (typeof globalThis.fetch === 'undefined') {
   // In the Storybook preview environment we override global fetch once.
   globalThis.fetch = async (input: RequestInfo) => {
     const url = typeof input === 'string' ? input : input.toString();
+    // Compatibility route mount; the story exercises AssetPack/Shippable instructions.
     if (url.includes('/api/deliverables/instructions')) {
       return new Response(JSON.stringify(inMemoryInstructions.slice()), { status: 200 });
     }
@@ -70,8 +71,8 @@ if (typeof globalThis.EventSource === 'undefined') {
 // ---------------------------------------------------------------------------
 
 const meta = {
-  title: 'Executions/OnTheFlyInstructions',
-  component: ExecutionOnTheFlyInstructions,
+  title: 'Shippables/RunInstructions',
+  component: ExecutionInstructions,
   tags: ['autodocs'],
   argTypes: {},
   parameters: {
@@ -80,7 +81,7 @@ const meta = {
       default: 'dark',
     },
   },
-} satisfies Meta<typeof RunInstructions>;
+} satisfies Meta<typeof ExecutionInstructions>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;
@@ -93,7 +94,7 @@ export const Empty: Story = {
   name: 'Empty list',
   render: () => (
     <div style={{ width: 420 }}>
-      <ExecutionOnTheFlyInstructions runId="storybook-run-empty" runKind="deliverable" />
+      <ExecutionInstructions runId="storybook-run-empty" runKind="asset-pack" />
     </div>
   ),
 };
@@ -102,7 +103,7 @@ export const WithInstructions: Story = {
   name: 'With existing instructions',
   render: () => (
     <div style={{ width: 420 }}>
-      <ExecutionOnTheFlyInstructions runId="storybook-run-full" runKind="deliverable" />
+      <ExecutionInstructions runId="storybook-run-full" runKind="asset-pack" />
     </div>
   ),
 };
@@ -112,8 +113,8 @@ export const WithProcessLogAbove: Story = {
   render: () => {
     // Use same process log sample from existing story
     const sampleOutput = `Setup: Initializing...\nImplementation: Generating...\nValidation: All tests passed`;
-    const { ProcessLog } = require('@/app/executions/components/ExecutionProcessLog');
-    const { ProcessLogHeader } = require('@/app/executions/components/ExecutionProcessLogHeader');
+    const { ProcessLog } = require('@/app/executions/components/ExecutionsProcessLog');
+    const { ProcessLogHeader } = require('@/app/executions/components/ExecutionsProcessLogHeader');
     return (
       <div style={{ width: 600 }}>
         <ProcessLogHeader
@@ -134,7 +135,7 @@ export const WithProcessLogAbove: Story = {
           setUserHasScrolled={() => {}}
           ref={null as any}
         />
-        <ExecutionOnTheFlyInstructions runId="storybook-run-with-log" runKind="deliverable" />
+        <ExecutionInstructions runId="storybook-run-with-log" runKind="asset-pack" />
       </div>
     );
   },
@@ -174,7 +175,7 @@ export const MixedStates: Story = {
     );
     return (
       <div style={{ width: 420 }}>
-        <ExecutionOnTheFlyInstructions runId="storybook-run-mixed" runKind="deliverable" />
+        <ExecutionInstructions runId="storybook-run-mixed" runKind="asset-pack" />
       </div>
     );
   },
@@ -199,7 +200,7 @@ export const WithAttachments: Story = {
     });
     return (
       <div style={{ width: 420 }}>
-        <ExecutionOnTheFlyInstructions runId="storybook-run-attach" runKind="deliverable" />
+        <ExecutionInstructions runId="storybook-run-attach" runKind="asset-pack" />
       </div>
     );
   },
@@ -220,7 +221,7 @@ export const LongList: Story = {
     }
     return (
       <div style={{ width: 420 }}>
-        <ExecutionOnTheFlyInstructions runId="storybook-run-long" runKind="deliverable" />
+        <ExecutionInstructions runId="storybook-run-long" runKind="asset-pack" />
       </div>
     );
   },

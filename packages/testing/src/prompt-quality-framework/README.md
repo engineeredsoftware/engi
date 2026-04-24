@@ -34,8 +34,8 @@ const qualityEngine = new PromptQualityEngine({
 
 // Create agent test suite
 const testSuite = new AgentPromptTestSuite({
-  agentId: 'deliverable-discovery-agent',
-  pipelineId: 'deliverable-pipeline',
+  agentId: 'asset-pack-discovery-agent',
+  pipelineId: 'asset-pack-execution',
   testSuiteId: 'discovery-comprehensive-tests',
 });
 
@@ -51,8 +51,8 @@ import { PipelineTestOrchestrator } from '@bitcode/prompt-quality-framework';
 
 // Configure pipeline testing
 const orchestrator = new PipelineTestOrchestrator({
-  pipelineId: 'deliverable-pipeline',
-  pipelineName: 'Feature Delivery Pipeline',
+  pipelineId: 'asset-pack-execution',
+  pipelineName: 'AssetPack Need-Satisfaction Pipeline',
   execution: {
     strategy: 'hybrid', // dependency-aware parallel execution
     maxConcurrency: 4,

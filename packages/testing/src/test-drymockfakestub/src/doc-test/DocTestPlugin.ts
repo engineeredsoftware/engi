@@ -6,10 +6,11 @@
  */
 
 import type { Compiler, Module } from 'webpack';
-import { parse } from '@babel/parser';
-import traverse from '@babel/traverse';
-import generate from '@babel/generator';
-import * as t from '@babel/types';
+
+const { parse } = require('@babel/parser') as { parse: (...args: any[]) => any };
+const traverse = require('@babel/traverse').default as (...args: any[]) => any;
+const generate = require('@babel/generator').default as (...args: any[]) => { code: string };
+const t = require('@babel/types') as any;
 
 /**
  * Doc-test comment types
@@ -77,7 +78,7 @@ export class DocTestPlugin {
       compilation.hooks.processAssets.tapAsync(
         {
           name: 'DocTestPlugin',
-          stage: compilation.PROCESS_ASSETS_STAGE_OPTIMIZE
+          stage: compiler.webpack.Compilation.PROCESS_ASSETS_STAGE_OPTIMIZE
         },
         async (assets, callback) => {
           try {
@@ -368,7 +369,7 @@ export class DocTestPlugin {
     }
   }
   
-  private valueToAST(value: any): t.Expression {
+  private valueToAST(value: any): any {
     if (typeof value === 'string') {
       return t.stringLiteral(value);
     } else if (typeof value === 'number') {

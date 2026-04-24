@@ -6,9 +6,9 @@
  * contexts override general defaults.
  * 
  * Example: A tool registry might have:
- * - 'pipeline:deliverable' -> all tools for deliverable pipeline (priority 0)
- * - 'pipeline:deliverable:phase:implementation' -> subset for implementation (priority 10)
- * - 'pipeline:deliverable:phase:implementation:agent:coder' -> further subset (priority 20)
+ * - 'pipeline:asset-pack' -> all tools for the AssetPack pipeline (priority 0)
+ * - 'pipeline:asset-pack:phase:implementation' -> subset for implementation (priority 10)
+ * - 'pipeline:asset-pack:phase:implementation:agent:synthesizer' -> further subset (priority 20)
  * 
  * Paths use colon (:) separator to create hierarchies for filtering and cascading.
  */

@@ -4,7 +4,7 @@
 
 It is not the final Bitcode product topology.
 Merged-world V26 keeps this retained route explicit as `executions`, where Bitcode execution primitives, pipelines, and measured-need follow-through remain inspectable while the broader `activity` family grows around transactions, executions, and notifications.
-The compatibility route must remain explicit and healthy while the strongest run, deliverable, and inspection patterns continue porting inward to `/application`.
+The compatibility route must remain explicit and healthy while the strongest execution, Shippable, and inspection patterns continue porting inward to `/application`.
 
 Current owners:
 - `page.tsx`
@@ -14,24 +14,26 @@ Current owners:
 - `components/ExecutionsPage.tsx`
   Route-level shell for the main retained executions read.
 - `components/ExecutionsPageClient.tsx`
-  The active retained runs, deliverables, and execution-log composition owner.
+  The active retained runs, Shippables, AssetPack evidence, and execution-log composition owner.
 - `components/ExecutionsDetailsView.tsx`
   Shared retained execution-detail carrier used by direct route and converged application reads.
 - `../api/executions/route.ts`
-  Active app-owned `/api/executions` route mounted from the canonical deliverables business-logic owner.
+  Active app-owned `/api/executions` route mounted from the canonical Shippables business-logic owner.
 - `../api/executions/history/*`
   App-owned retained history JSON carriers for selected-run hydration.
 - `../api/vcs/route.ts`
   Retained compatibility carrier for provider/account/repository/branch/commit/issue reads required by the execution selectors.
+- `../api/templates/shippables/route.ts`
+  Active Shippable template reads and writes used by the execution composer.
 - `../api/templates/deliverables/route.ts`
-  Retained compatibility carrier for deliverable template reads used by the execution composer.
+  Compatibility wrapper for retained template callers.
 - `../api/auxillaries/template-preferences/route.ts`
-  Retained compatibility carrier for saved deliverable-template preferences used by the execution composer.
+  Retained compatibility storage carrier for saved Shippable-template preferences used by the execution composer.
 
 This route should stay explicit about:
 - retained executions, measured-need runs, pipeline continuity, and execution-primitives naming,
 - the broader `activity` family above transactions, executions, and notifications,
-- deliverable and execution inspection semantics,
+- Shippable, AssetPack evidence, and execution inspection semantics,
 - retained compatibility API ownership required to keep the route healthy during inward convergence,
 - direct route/API ownership during fourth-gate,
 - and inward convergence toward `/application` plus merged-world `activity` ownership rather than peer-product permanence.

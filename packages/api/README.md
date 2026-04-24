@@ -16,7 +16,7 @@ In V26 fourth-gate this package is where merged-world Bitcode becomes concrete:
 ## Core Functionality
 
 ### Route Architecture
-- **Domain-Based Organization**: Routes structured by functional domains (auth, deliverables, integrations)
+- **Domain-Based Organization**: Routes structured by functional domains (auth, shippables, integrations)
 - **Bitcode Surface Ownership**: Route sets map onto merged-world Bitcode surfaces such as conversations, executions, activity, auxillaries, and persistence witnesses
 - **Handler Composition**: Clean orchestration of package functionality without business logic implementation
 - **Thin Interface Bindings**: Next.js FS routes and other interfaces stay as thin bindings over handlers exported here
@@ -51,8 +51,8 @@ Its job is to make the merged-world application concrete without flattening the 
 export * as auth from './routes/auth';
 export * as user from './routes/user';
 
-// Pipeline Operations  
-export * as deliverables from './routes/deliverables';
+// AssetPack execution and Shippable delivery operations
+export * as shippables from './routes/shippables';
 
 // Execution History Route Handlers
 export {
@@ -108,7 +108,7 @@ interface ApiResponse<T = unknown> {
 ```typescript
 // Next.js App Router compatibility
 app.use('/api/auth', auth);
-app.use('/api/deliverables', deliverables);
+app.use('/api/executions', shippables);
 app.use('/api/organizations', organizations);
 ```
 

@@ -9,7 +9,7 @@
 import type { TestScenario } from '../primitives/TestScenario';
 import type { UnifiedTestDataGenerator } from '../generators/UnifiedTestDataGenerator';
 import type { StoryContext, StoryFn } from '@storybook/react';
-import { createContext, useContext, type ReactNode } from 'react';
+import { createContext, createElement, useContext, type ReactNode } from 'react';
 
 /**
  * Test Intelligence context for Storybook
@@ -36,11 +36,7 @@ export function TestIntelligenceProvider({
   children: ReactNode; 
   value: TestIntelligenceContext;
 }) {
-  return (
-    <TestIntelligenceReactContext.Provider value={value}>
-      {children}
-    </TestIntelligenceReactContext.Provider>
-  );
+  return createElement(TestIntelligenceReactContext.Provider, { value }, children);
 }
 
 /**
@@ -109,7 +105,7 @@ export class StorybookAdapter {
     const scenario = this.findScenarioForStory(context);
     if (!scenario) {
       // No scenario, render story normally
-      return <Story {...context.args} />;
+      return createElement(Story as any, context.args);
     }
     
     // Determine generation mode
@@ -129,10 +125,10 @@ export class StorybookAdapter {
       mode
     };
     
-    return (
-      <TestIntelligenceProvider value={contextValue}>
-        <Story {...enhancedArgs} />
-      </TestIntelligenceProvider>
+    return createElement(
+      TestIntelligenceProvider,
+      { value: contextValue },
+      createElement(Story as any, enhancedArgs)
     );
   };
   
@@ -144,7 +140,7 @@ export class StorybookAdapter {
       const scenario = this.scenarioRegistry.get(scenarioId);
       if (!scenario) {
         console.warn(`Test scenario not found: ${scenarioId}`);
-        return <Story {...context.args} />;
+        return createElement(Story as any, context.args);
       }
       
       // Override context to use specific scenario
@@ -316,8 +312,8 @@ export class StorybookAdapter {
       args.repositories = data.repositories;
     }
     
-    if (data.deliverables) {
-      args.deliverables = data.deliverables;
+    if (data.assetPacks) {
+      args.assetPacks = data.assetPacks;
     }
     
     // Apply scenario-specific transformations

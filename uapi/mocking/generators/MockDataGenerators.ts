@@ -27,10 +27,10 @@ import type {
   IssueOrPR,
   RepoFile,
   UrlEntry,
-  DeliverableHistoryItem
+  ShippableHistoryItem
 } from '@/types/api';
 
-import type { DeliverableTemplates, AIDocumentTemplates } from '@/types/templates';
+import type { ShippableTemplates, AIDocumentTemplates } from '@/types/templates';
 import type { IntegrationOption } from '@/types/integrations';
 import type { Issue } from '@/types/issues';
 
@@ -151,7 +151,7 @@ export class MockDataGeneratorEngine {
     this.generators.set('GITHUB_FILES', new GitHubFileGenerator());
 
     // Pipeline generators
-    this.generators.set('DELIVERABLES', new DeliverableGenerator());
+    this.generators.set('ASSET_PACKS', new AssetPackGenerator());
     this.generators.set('UPGRADES', new AIDocumentGenerator());
     this.generators.set('COMPLETION_DATA', new CompletionDataGenerator());
     this.generators.set('PIPELINE_LOGS', new PipelineLogGenerator());
@@ -184,14 +184,14 @@ export class MockDataGeneratorEngine {
       influences: ['GITHUB_BRANCHES', 'GITHUB_COMMITS', 'GITHUB_ISSUES', 'GITHUB_FILES']
     });
 
-    this.relationships.set('DELIVERABLES', {
+    this.relationships.set('ASSET_PACKS', {
       dependsOn: ['GITHUB_REPOS', 'USER_PROFILE'],
       influences: ['COMPLETION_DATA', 'PIPELINE_LOGS']
     });
 
     this.relationships.set('USER_BTD', {
       dependsOn: ['USER_PROFILE'],
-      influences: ['DELIVERABLES', 'UPGRADES']
+      influences: ['ASSET_PACKS', 'UPGRADES']
     });
   }
 
@@ -412,14 +412,14 @@ class GitHubIssueGenerator extends BaseDataGenerator {
   }
 }
 
-class DeliverableGenerator extends BaseDataGenerator {
+class AssetPackGenerator extends BaseDataGenerator {
   async generate(context: GeneratorContext, config: GeneratorConfig): Promise<PipelineExecution[]> {
     const count = this.getItemCount(context, config);
     const runs: PipelineExecution[] = [];
 
     for (let i = 0; i < count; i++) {
       const itemCount = Math.floor(Math.random() * 3) + 1;
-      const items: DeliverableHistoryItem[] = [];
+      const items: ShippableHistoryItem[] = [];
 
       for (let j = 0; j < itemCount; j++) {
         items.push({
@@ -427,6 +427,7 @@ class DeliverableGenerator extends BaseDataGenerator {
           title: this.generateRealisticText(4),
           output: this.generateRealisticText(20),
           repository: 'mock-org/mock-repo',
+          // Compatibility storage keys are still shaped by the retained route contract.
           deliverable_type: this.pickRandom(['pr', 'issue', 'comment', 'review']),
           deliverable_id: (j + 1).toString(),
           deliverable_status: this.pickRandom(['open', 'closed', 'merged']),
@@ -478,7 +479,7 @@ class CompletionDataGenerator extends BaseDataGenerator {
         paths: ['src/main.ts', 'README.md', 'package.json'].slice(0, Math.floor(Math.random() * 3) + 1)
       } : null
     };
-    const deliveryMechanism = {
+    const shippables = {
       pullRequest: hasPR ? {
         url: 'https://github.com/mock/repo/pull/123',
         number: 123,
@@ -499,9 +500,16 @@ class CompletionDataGenerator extends BaseDataGenerator {
     return {
       summary: writtenAssets.summary || this.generateRealisticText(25),
       display: 'Mock Asset Pack',
-      deliverables: deliveryMechanism,
+      shippables,
+      // Compatibility mirror required by retained `/api/deliverables` readback shape.
+      deliverables: shippables,
+      assetPackSynthesisArtifacts: {
+        ...shippables,
+        proofEvidence: ['mock AssetPack evidence captured for reread'],
+        reviewNotes: ['mock Need-satisfaction artifacts synthesized'],
+      },
       writtenAssets,
-      deliveryMechanism,
+      deliveryMechanism: shippables,
       semanticKind: 'asset-pack-written-asset',
       need: this.generateRealisticText(10),
       writtenAssetType: this.pickRandom(['code-change', 'code-change-review', 'design-document']),
@@ -569,7 +577,7 @@ class UserProfileGenerator extends BaseDataGenerator {
 }
 
 class TemplateGenerator extends BaseDataGenerator {
-  async generate(context: GeneratorContext, config: GeneratorConfig): Promise<DeliverableTemplates> {
+  async generate(context: GeneratorContext, config: GeneratorConfig): Promise<ShippableTemplates> {
     const generateTemplateList = (category: string, count: number) => {
       const templates = [];
       for (let i = 0; i < count; i++) {
@@ -696,7 +704,7 @@ class UserCreditsGenerator extends BaseDataGenerator {
 // Placeholder generators for remaining features
 class AIDocumentGenerator extends BaseDataGenerator {
   async generate(context: GeneratorContext, config: GeneratorConfig): Promise<AIDocumentRun[]> {
-    return []; // Implementation similar to DeliverableGenerator
+    return []; // Implementation similar to AssetPackGenerator
   }
 }
 

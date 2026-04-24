@@ -29,7 +29,7 @@ export const AuthenticationError: Story = {
       {
         id: 'msg-1',
         role: 'user' as const,
-        content: 'Create a new deliverable for user authentication',
+        content: 'Create a new shippable for user authentication',
         created_at: '2024-01-15T10:00:00Z'
       },
       {
@@ -69,11 +69,11 @@ export const InsufficientCreditsError: Story = {
       {
         id: 'msg-1',
         role: 'user' as const,
-        content: '@deliverable Build a comprehensive e-commerce platform with payment processing',
+        content: '@shippable Build a comprehensive e-commerce platform with payment processing',
         created_at: '2024-01-15T10:00:00Z',
         tokens: [
           {
-            type: 'deliverable' as const,
+            type: 'shippable' as const,
             value: 'Build a comprehensive e-commerce platform with payment processing',
             metadata: {
               priority: 'high',
@@ -85,10 +85,10 @@ export const InsufficientCreditsError: Story = {
       {
         id: 'msg-2',
         role: 'assistant' as const,
-        content: 'I cannot start this deliverable pipeline because you have insufficient $BTD. This deliverable requires 500 $BTD, but you currently have 45 $BTD available.',
+        content: 'I cannot start this shippable pipeline because you have insufficient $BTD. This shippable requires 500 $BTD, but you currently have 45 $BTD available.',
         created_at: '2024-01-15T10:02:00Z',
         error: {
-          message: 'Insufficient $BTD for deliverable pipeline',
+          message: 'Insufficient $BTD for shippable pipeline',
           code: 'INSUFFICIENT_CREDITS',
           details: {
             required: 500,
@@ -107,7 +107,7 @@ export const InsufficientCreditsError: Story = {
     activePipelines: new Set(),
     completedPipelines: new Set(),
     pipelineEvents: [],
-    error: 'Insufficient $BTD for deliverable pipeline'
+    error: 'Insufficient $BTD for shippable pipeline'
   }
 };
 
@@ -250,11 +250,11 @@ export const PipelineFailureError: Story = {
       {
         id: 'msg-1',
         role: 'user' as const,
-        content: '@deliverable Create API documentation',
+        content: '@shippable Create API documentation',
         created_at: '2024-01-15T09:00:00Z',
         tokens: [
           {
-            type: 'deliverable' as const,
+            type: 'shippable' as const,
             value: 'Create API documentation',
             metadata: {
               priority: 'medium',
@@ -268,7 +268,7 @@ export const PipelineFailureError: Story = {
         role: 'assistant' as const,
         content: 'I started the API documentation pipeline, but it failed during the implementation phase due to repository permission issues.',
         created_at: '2024-01-15T09:30:00Z',
-        deliverable_id: 'del-failed'
+        shippable_id: 'del-failed'
       }
     ],
     isStreaming: false,
@@ -278,7 +278,7 @@ export const PipelineFailureError: Story = {
     pipelineEvents: [
       {
         id: 'pipeline-failed',
-        type: 'deliverable' as const,
+        type: 'shippable' as const,
         runId: 'del-failed',
         status: 'failed' as const,
         progress: 65,
@@ -441,7 +441,7 @@ export const RecoveryScenario: Story = {
     pipelineEvents: [
       {
         id: 'pipeline-recovery',
-        type: 'deliverable' as const,
+        type: 'shippable' as const,
         runId: 'del-deploy',
         status: 'running' as const,
         progress: 40,
@@ -532,7 +532,7 @@ export const InputTooLong: StoryObj<typeof EnhancedRichTextInput> = {
     maxLength: 10000,
     attachments: [],
     sources: [],
-    deliverables: [],
+    shippables: [],
     upgrades: [],
     commands: []
   }
@@ -555,7 +555,7 @@ export const TooManyTokens: StoryObj<typeof EnhancedRichTextInput> = {
     })),
     attachments: [],
     sources: [],
-    deliverables: [],
+    shippables: [],
     upgrades: [],
     commands: []
   }
@@ -572,7 +572,7 @@ export const InvalidTokenFormat: StoryObj<typeof EnhancedRichTextInput> = {
     error: 'Invalid repository format. Use owner/repository format (e.g., #mycompany/myapp).',
     attachments: [],
     sources: [],
-    deliverables: [],
+    shippables: [],
     upgrades: [],
     commands: []
   }
@@ -588,7 +588,7 @@ export const DataLoadingError: StoryObj<typeof EnhancedRichTextInput> = {
     isStreaming: false,
     attachments: [],
     sources: [],
-    deliverables: [],
+    shippables: [],
     upgrades: [],
     commands: [],
     error: 'Failed to load attachments. Please try again.',

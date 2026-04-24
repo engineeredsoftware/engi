@@ -40,7 +40,7 @@ import { useGeneratedModelConfigs } from '@bitcode/models';
 // In your models-step.tsx or similar component
 function ModelsConfiguration() {
   const { configs, stats, sources, isEmpty } = useGeneratedModelConfigs({
-    pipeline: 'deliverable',
+    pipeline: 'asset-pack',
     maxResults: 100
   });
 

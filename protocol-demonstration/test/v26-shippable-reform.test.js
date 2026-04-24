@@ -43,6 +43,14 @@ const removedComprehendTaskEntrypoints = [
   '../../packages/pipelines/asset-pack/src/agents/prompts/asset-pack-comprehend-task-agent-prompts.ts',
   '../../packages/pipelines/asset-pack/src/agents/prompts/asset-pack-comprehend-task-agent-prompts.js',
 ];
+const removedTerminalExecutionGeneratedJsMirrors = [
+  '../../uapi/app/application/ApplicationTransactionDetailSurface.js',
+  '../../uapi/app/application/application-experience-architecture.js',
+  '../../uapi/app/executions/page.js',
+  '../../uapi/app/executions/components/ExecutionsDoButton.js',
+  '../../uapi/components/base/bitcode/execution/DeliverablesDocPanel.js',
+  '../../uapi/components/base/bitcode/execution/deliver-button.js',
+];
 const removedTypeKeyedImplementationEntrypoints = [
   '../../packages/pipelines/asset-pack/src/agents/implementation-agents.ts',
   '../../packages/pipelines/asset-pack/src/agents/implementation/asset-pack-divide-code-change-agent.ts',
@@ -102,7 +110,7 @@ const finalSummarySource = readFileSync(
   'utf8'
 );
 const semanticPayloadSource = readFileSync(
-  new URL('../../packages/api/src/routes/deliverables-semantic-payload.ts', import.meta.url),
+  new URL('../../packages/api/src/routes/shippables-semantic-payload.ts', import.meta.url),
   'utf8'
 );
 const executionsRouteSource = readFileSync(
@@ -121,12 +129,24 @@ const executionsCompleteHeaderContentSource = readFileSync(
   new URL('../../uapi/app/executions/components/ExecutionsCompleteHeaderContent.tsx', import.meta.url),
   'utf8'
 );
-const deliverablesRouteSource = readFileSync(
-  new URL('../../packages/api/src/routes/deliverables.ts', import.meta.url),
+const shippablesRouteSource = readFileSync(
+  new URL('../../packages/api/src/routes/shippables.ts', import.meta.url),
+  'utf8'
+);
+const shippableTemplatesRouteSource = readFileSync(
+  new URL('../../uapi/app/api/templates/shippables/route.ts', import.meta.url),
+  'utf8'
+);
+const deliverableTemplatesRouteSource = readFileSync(
+  new URL('../../uapi/app/api/templates/deliverables/route.ts', import.meta.url),
   'utf8'
 );
 const streamParserSource = readFileSync(
   new URL('../../uapi/streaming/stream-parser.ts', import.meta.url),
+  'utf8'
+);
+const executionNeedInputSource = readFileSync(
+  new URL('../../uapi/components/base/bitcode/execution/ExecutionNeedInput.tsx', import.meta.url),
   'utf8'
 );
 const deliverableStartedTemplateSource = readFileSync(
@@ -587,23 +607,23 @@ test('operator-facing execution header and retained route teach Delivering mecha
   assert.match(executionsPageHeaderSource, /A shippable delivery mechanism can be a/u);
   assert.match(executionsPageHeaderSource, /each delivering a stable asset pack and always supplemented by a final work summary/u);
   assert.match(executionsPageHeaderSource, /single high-quality asset pack and its delivery result/u);
-  assert.match(deliverablesRouteSource, /Retained `\/api\/deliverables` compatibility route handlers for AssetPack/u);
-  assert.match(deliverablesRouteSource, /Create and execute the retained compatibility route for an AssetPack/u);
-  assert.match(deliverablesRouteSource, /execution\.store\('route\/preprocessed', 'assetPackWrittenAsset', preprocessing\);/u);
-  assert.match(deliverablesRouteSource, /semanticKind: 'asset-pack-written-asset' as const/u);
-  assert.match(deliverablesRouteSource, /need: finalWorkSummary\?\.need \|\| preprocessedSnapshot\?\.need \|\| definition_of_need/u);
-  assert.match(deliverablesRouteSource, /assetPack: finalWorkSummary\?\.assetPack \|\| preprocessedSnapshot\?\.assetPack \|\| null/u);
-  assert.match(deliverablesRouteSource, /semantic_event_type: 'asset_pack_run_created'/u);
-  assert.match(deliverablesRouteSource, /semantic_event_type: 'asset_pack_run_completed'/u);
-  assert.match(deliverablesRouteSource, /semantic_event_type: 'asset_pack_run_failed'/u);
-  assert.match(deliverablesRouteSource, /semantic_event_type: 'asset_pack_run_cancelled'/u);
-  assert.match(deliverablesRouteSource, /Bitcode Asset-Pack Run Started/u);
-  assert.match(deliverablesRouteSource, /Bitcode Asset-Pack Run Completed/u);
-  assert.match(deliverablesRouteSource, /Bitcode Asset-Pack Run Cancelled/u);
-  assert.match(deliverablesRouteSource, /Your Bitcode asset-pack run #\$\{runId\} has started/u);
-  assert.match(deliverablesRouteSource, /Your Bitcode asset-pack run #\$\{runId\} is complete/u);
-  assert.match(deliverablesRouteSource, /buildSemanticCompletionResult/u);
-  assert.match(deliverablesRouteSource, /finalWorkSummary\?\.assetPackSynthesisArtifacts/u);
+  assert.match(shippablesRouteSource, /Active handler owner for AssetPack pipeline runs with Finish\/Delivering/u);
+  assert.match(shippablesRouteSource, /Create and execute the retained compatibility route for an AssetPack/u);
+  assert.match(shippablesRouteSource, /execution\.store\('route\/preprocessed', 'assetPackWrittenAsset', preprocessing\);/u);
+  assert.match(shippablesRouteSource, /semanticKind: 'asset-pack-written-asset' as const/u);
+  assert.match(shippablesRouteSource, /need: finalWorkSummary\?\.need \|\| preprocessedSnapshot\?\.need \|\| definition_of_need/u);
+  assert.match(shippablesRouteSource, /assetPack: finalWorkSummary\?\.assetPack \|\| preprocessedSnapshot\?\.assetPack \|\| null/u);
+  assert.match(shippablesRouteSource, /semantic_event_type: 'asset_pack_run_created'/u);
+  assert.match(shippablesRouteSource, /semantic_event_type: 'asset_pack_run_completed'/u);
+  assert.match(shippablesRouteSource, /semantic_event_type: 'asset_pack_run_failed'/u);
+  assert.match(shippablesRouteSource, /semantic_event_type: 'asset_pack_run_cancelled'/u);
+  assert.match(shippablesRouteSource, /Bitcode Asset-Pack Run Started/u);
+  assert.match(shippablesRouteSource, /Bitcode Asset-Pack Run Completed/u);
+  assert.match(shippablesRouteSource, /Bitcode Asset-Pack Run Cancelled/u);
+  assert.match(shippablesRouteSource, /Your Bitcode asset-pack run #\$\{runId\} has started/u);
+  assert.match(shippablesRouteSource, /Your Bitcode asset-pack run #\$\{runId\} is complete/u);
+  assert.match(shippablesRouteSource, /buildSemanticCompletionResult/u);
+  assert.match(shippablesRouteSource, /finalWorkSummary\?\.assetPackSynthesisArtifacts/u);
   assert.match(semanticPayloadSource, /semanticKind: 'asset-pack-written-asset'/u);
   assert.match(semanticPayloadSource, /explicitAssetPackSynthesisArtifacts/u);
   assert.match(semanticPayloadSource, /assetPackSynthesisArtifacts/u);
@@ -626,6 +646,14 @@ test('operator-facing execution header and retained route teach Delivering mecha
 });
 
 test('retained templates and promptparts keep compatibility names but teach asset-pack-run semantics', () => {
+  assert.match(shippableTemplatesRouteSource, /getShippableTemplates/u);
+  assert.match(shippableTemplatesRouteSource, /createShippableTemplates/u);
+  assert.match(shippableTemplatesRouteSource, /shippableTypes/u);
+  assert.match(shippableTemplatesRouteSource, /Shippable template name/u);
+  assert.match(deliverableTemplatesRouteSource, /Compatibility route for retained `\/api\/templates\/deliverables` callers/u);
+  assert.match(deliverableTemplatesRouteSource, /from '\.\.\/shippables\/route'/u);
+  assert.match(executionNeedInputSource, /\/api\/templates\/shippables/u);
+  assert.doesNotMatch(executionNeedInputSource, /deliverableTypes/u);
   assert.match(deliverableStartedTemplateSource, /Bitcode asset-pack run started/u);
   assert.match(deliverableStartedTemplateSource, /synthesizing written assets and preparing delivery results/u);
   assert.match(deliverableCompleteTemplateSource, /Bitcode asset-pack run complete/u);
@@ -696,6 +724,18 @@ test('retained templates and promptparts keep compatibility names but teach asse
   assert.match(readyToFinishCodeChangeReviewIdentityPromptSource, /final validation of review readiness for code written assets/u);
   assert.match(readyToFinishCodeChangeReviewInstructionsPromptSource, /written assets and the delivery mechanism remain coherent/u);
   assert.match(readyToFinishCodeChangeReviewPlanPromptSource, /written-asset coherence checks/u);
+});
+
+test('Terminal execution surfaces do not keep generated JavaScript mirrors beside TypeScript source', () => {
+  assert.match(reformSource, /generated co-located JS cleanup/u);
+
+  for (const removedPath of removedTerminalExecutionGeneratedJsMirrors) {
+    assert.equal(
+      existsSync(new URL(removedPath, import.meta.url)),
+      false,
+      `${removedPath} must not remain as stale Terminal execution source`
+    );
+  }
 });
 
 test('deliverable substep PromptParts express Bitcode need, written-asset, and asset-pack semantics', () => {

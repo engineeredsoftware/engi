@@ -1,5 +1,5 @@
 import { branchConversation } from '../../conversations/conversations';
-import { branchDeliverableRun } from '../../pipelines/branch';
+import { branchAssetPackRun } from '../../pipelines/branch';
 import { Execution } from '@bitcode/execution-generics';
 import { enablePipelineStreaming } from '@bitcode/pipelines-generics/src/streaming/pipeline-stream-integration';
 
@@ -67,7 +67,7 @@ describe('Conversation branching + Run branching + Resume from deep execution no
     const { supabaseAdmin } = await import('@bitcode/supabase');
     await supabaseAdmin.from('conversations').insert({ id: convId, user_id: userId, title: 'Hist', created_at: new Date().toISOString(), updated_at: new Date().toISOString() });
     const completedRunId = 'run-101';
-    await supabaseAdmin.from('executions').insert({ id: completedRunId, user_id: userId, type: 'deliverable', guide: 'Develop', status: 'completed', config: { a:1 }, input: { task: 'done' }, output: {}, metadata: {}, created_at: new Date().toISOString(), updated_at: new Date().toISOString() });
+    await supabaseAdmin.from('executions').insert({ id: completedRunId, user_id: userId, type: 'agentic-execution:asset-pack', guide: 'Develop', status: 'completed', config: { a:1 }, input: { task: 'done' }, output: {}, metadata: {}, created_at: new Date().toISOString(), updated_at: new Date().toISOString() });
     await supabaseAdmin.from('messages').insert({ id: 'm1', conversation_id: convId, role: 'user', content: 'Please run', created_at: new Date().toISOString() });
     await supabaseAdmin.from('messages').insert({ id: 'm2', conversation_id: convId, role: 'assistant', content: 'Result', created_at: new Date().toISOString() });
     await supabaseAdmin.from('message_attachments').insert({ id: 'ma1', message_id: 'm2', attachment_id: completedRunId, attachment_category: 'pipeline_run', attachment_type: 'pipeline_run', metadata: { pipeline_run_id: completedRunId } });
@@ -80,7 +80,7 @@ describe('Conversation branching + Run branching + Resume from deep execution no
   it('branches from conversation with RUNNING run and resumes at deep execution node', async () => {
     const { supabaseAdmin } = await import('@bitcode/supabase');
     // Seed running run and stream some deep execution events
-    await supabaseAdmin.from('executions').insert({ id: runningRunId, user_id: userId, type: 'deliverable', guide: 'Develop', status: 'running', config: { a:2 }, input: { task: 'in-progress' }, output: {}, metadata: {}, created_at: new Date().toISOString(), updated_at: new Date().toISOString() });
+    await supabaseAdmin.from('executions').insert({ id: runningRunId, user_id: userId, type: 'agentic-execution:asset-pack', guide: 'Develop', status: 'running', config: { a:2 }, input: { task: 'in-progress' }, output: {}, metadata: {}, created_at: new Date().toISOString(), updated_at: new Date().toISOString() });
 
     const exec = new Execution(`exec-${runningRunId}`);
     // Wire DB streaming
@@ -97,7 +97,7 @@ describe('Conversation branching + Run branching + Resume from deep execution no
     await node.store('llm','output', { phase:'setup', agent:'danger-wall', step:'plan', failsafe:'prepare_concise_context', generation:'reason', output: 'ok' });
 
     // Branch the run for the user
-    const branched = await branchDeliverableRun(userId, runningRunId, { title: 'resume-branch' });
+    const branched = await branchAssetPackRun(userId, runningRunId, { title: 'resume-branch' });
     expect(branched.id).toBeTruthy();
 
     // Find last persisted event (assume last inserted)

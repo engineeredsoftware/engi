@@ -259,8 +259,9 @@ const V26_FOURTH_GATE_RUNS_PIPELINES_FILES = [
   'uapi/app/api/executions/_shared.ts',
   'uapi/app/api/vcs/route.ts',
   'uapi/app/api/auxillaries/template-preferences/route.ts',
+  'uapi/app/api/templates/shippables/route.ts',
   'uapi/app/api/templates/deliverables/route.ts',
-  'packages/api/src/routes/deliverables.ts',
+  'packages/api/src/routes/shippables.ts',
   'packages/api/src/pipelines/branch.ts',
   'packages/execution-generics/src/Execution.ts',
   'packages/execution-generics/src/execution-registry.ts',
@@ -3110,7 +3111,7 @@ function buildV26RunsPipelinesTotalityProof({
         'uapi/app/api/executions/history/route.ts',
         'uapi/app/api/executions/history/[runId]/route.ts',
         'uapi/app/api/executions/_shared.ts',
-        'packages/api/src/routes/deliverables.ts',
+        'packages/api/src/routes/shippables.ts',
         'packages/api/src/pipelines/branch.ts'
       ]
     ),
@@ -3126,13 +3127,14 @@ function buildV26RunsPipelinesTotalityProof({
         'uapi/app/api/auxillaries/usage/route.ts',
         'uapi/app/api/auxillaries/transactions/route.ts',
         'uapi/app/api/auxillaries/api-keys/route.ts',
+        'uapi/app/api/templates/shippables/route.ts',
         'uapi/app/api/templates/deliverables/route.ts',
         'uapi/tests/api/vcsCompatibilityRoute.test.ts',
         'uapi/tests/api/orbitalsTemplatePreferencesRoute.test.ts',
         'uapi/tests/api/orbitalsProfileRoute.test.ts',
         'uapi/tests/api/orbitalUsageRoute.test.ts',
         'uapi/tests/api/auxillariesTransactionsRoute.test.ts',
-        'uapi/tests/api/deliverableTemplatesRoute.test.ts',
+        'uapi/tests/api/shippableTemplatesRoute.test.ts',
         'uapi/tests/apiKeysRoutes.test.ts',
         'uapi/tests/userConnectionsGithubRoute.test.ts',
         'uapi/tests/api/userBtdRoute.test.ts'
@@ -3262,8 +3264,8 @@ function buildV26RunsPipelinesTotalityProof({
         },
         {
           file: 'uapi/app/api/webhook/route.ts',
-          evidence: "compatibilityCommand: 'bitcode-deliverable-trigger'",
-          description: 'asset-pack trigger command is bounded as an implementation compatibility detail'
+          evidence: "triggerCommand: 'bitcode-asset-pack-trigger'",
+          description: 'asset-pack trigger command uses current Bitcode ingress naming'
         },
         {
           file: 'uapi/tests/webhookRoute.test.ts',
@@ -3324,6 +3326,7 @@ function buildV26RunsPipelinesTotalityProof({
       '/api/executions/history/[runId]',
       '/api/vcs',
       '/api/auxillaries/template-preferences',
+      '/api/templates/shippables',
       '/api/templates/deliverables'
     ],
     requiredFiles: V26_FOURTH_GATE_RUNS_PIPELINES_FILES,
@@ -3391,7 +3394,7 @@ const V26_SYSTEM_REFORM_DECISIONS = [
       'packages/prompts/src/raw_promptparts/specific/promptpart_specific_tool_usecomputer_doccodetoolpurpose.ts',
       'packages/pipelines/asset-pack/src/tools/BitcodeNeedMeasurementComputerUseTool.ts',
       'packages/pipelines/asset-pack/src/tools/index.ts',
-      'packages/api/src/routes/deliverables.ts',
+      'packages/api/src/routes/shippables.ts',
       'packages/execution-generics/src/store/registry.ts',
       'uapi/app/executions/components/ExecutionsPageClient.tsx',
       'uapi/components/base/bitcode/execution/execution-option-toggle.tsx',

@@ -47,7 +47,7 @@ All test data is parsed and injected at build time through doc-test comments:
  * @scenario enterprise-user-with-team
  * @credits 50000
  * @team-size 10
- * @features ["deliverables", "ai_documents", "marketplace"]
+ * @features ["asset-packs", "ai_documents", "marketplace"]
  */
 export const ENTERPRISE_USER_FIXTURE = createTestPart<User>({
   // User data...
@@ -96,7 +96,7 @@ Defines reusable test fixtures:
 Defines complete test scenarios:
 ```typescript
 /** @doc-test-scenario
- * @id deliverable-creation-flow
+ * @id asset-pack-creation-flow
  * @phases ["setup", "discovery", "implementation"]
  * @agents ["ComprehendTaskAgent", "DivideByFileAgent"]
  * @expected-credits 500
@@ -107,7 +107,7 @@ Defines complete test scenarios:
 Defines expected behaviors:
 ```typescript
 /** @doc-test-behavior
- * @when user-submits-deliverable
+ * @when user-submits-asset-pack
  * @then pipeline-starts
  * @and credits-reserved
  * @timeout 30000
@@ -181,12 +181,12 @@ export const PR_WITH_CONFLICTS = createTestPart<PullRequest>({
 
 ### Composing Test Scenarios
 ```typescript
-export const DELIVERABLE_FLOW_SCENARIO = createTestScenario({
-  id: 'complete-deliverable-flow',
+export const ASSET_PACK_FLOW_SCENARIO = createTestScenario({
+  id: 'complete-asset-pack-flow',
   parts: [
     USER_WITH_CREDITS,
     REPOSITORY_WITH_LSP,
-    DELIVERABLE_REQUEST,
+    ASSET_PACK_REQUEST,
     PR_WITH_CONFLICTS
   ],
   behavior: {
@@ -200,7 +200,7 @@ export const DELIVERABLE_FLOW_SCENARIO = createTestScenario({
 ### Using in Tests
 ```typescript
 describe('AssetPack Pipeline', () => {
-  const scenario = TestIntelligence.getScenario('complete-deliverable-flow');
+  const scenario = TestIntelligence.getScenario('complete-asset-pack-flow');
   
   it('should handle PR with conflicts', async () => {
     const { data, behavior } = scenario;
@@ -217,7 +217,7 @@ export default {
   title: 'Pipelines/AssetPack',
   decorators: [withTestIntelligence],
   parameters: {
-    testScenario: 'complete-deliverable-flow'
+    testScenario: 'complete-asset-pack-flow'
   }
 };
 
@@ -252,7 +252,7 @@ export const WithConflicts = {
         user-scenarios.ts
         repository-scenarios.ts
       /specific/
-        deliverable-scenarios.ts
+        asset-pack-scenarios.ts
 ```
 
 ## Benefits

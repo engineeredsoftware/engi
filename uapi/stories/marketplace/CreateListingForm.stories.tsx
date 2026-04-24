@@ -15,7 +15,7 @@ export const Default: Story = {
   args: {
     onSubmit: action('createListing'),
     sourceItems: [
-      { id: 'd1', label: 'Auth Refactor PR', type: 'deliverable', asset: 'pr' },
+      { id: 'd1', label: 'Auth Refactor PR', type: 'shippable', asset: 'pr' },
       { id: 'u1', label: 'Rust Error Patterns', type: 'upgrade', asset: 'knowledge_extension' },
     ],
   },
@@ -43,11 +43,11 @@ export const SellListingPreset: Story = {
   args: {
     onSubmit: action('createListing'),
     sourceItems: [
-      { id: 'd1', label: 'Auth Refactor PR', type: 'deliverable', asset: 'pr' },
+      { id: 'd1', label: 'Auth Refactor PR', type: 'shippable', asset: 'pr' },
     ],
     initialData: {
       deliverable_id: 'd1',
-      type: 'deliverable',
+      type: 'shippable',
       asset: 'pr',
       side: 'sell',
       price: 320,

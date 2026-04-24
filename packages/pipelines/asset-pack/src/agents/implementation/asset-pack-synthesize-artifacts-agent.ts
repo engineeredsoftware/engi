@@ -33,19 +33,15 @@ const AssetPackSynthesisArtifactsSchema = z.object({
 });
 
 const AssetPackSynthesisOutputSchema = z.object({
-  success: z.boolean().default(true),
-  semanticKind: z.literal('asset-pack-written-asset').default('asset-pack-written-asset'),
-  writtenAssetType: z.literal(AssetPackWrittenAssetType.NeedSatisfactionAssetPack).default(
-    AssetPackWrittenAssetType.NeedSatisfactionAssetPack
-  ),
+  success: z.boolean().optional(),
+  semanticKind: z.literal('asset-pack-written-asset').optional(),
+  writtenAssetType: z.literal(AssetPackWrittenAssetType.NeedSatisfactionAssetPack).optional(),
   summary: z.string(),
   assetPackSynthesisArtifacts: AssetPackSynthesisArtifactsSchema.optional(),
   writtenAssets: AssetPackSynthesisArtifactsSchema.optional(),
   assetPack: z.object({
     need: z.string().optional(),
-    writtenAssetType: z.literal(AssetPackWrittenAssetType.NeedSatisfactionAssetPack).default(
-      AssetPackWrittenAssetType.NeedSatisfactionAssetPack
-    ),
+    writtenAssetType: z.literal(AssetPackWrittenAssetType.NeedSatisfactionAssetPack).optional(),
     deliveryMechanismTemplate: z.string().optional(),
     proofEvidence: z.array(z.string()).optional(),
   }),

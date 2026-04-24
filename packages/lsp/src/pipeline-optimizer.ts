@@ -2,7 +2,7 @@
  * Pipeline-Wide LSP Optimization Engine
  * 
  * Advanced optimization system for maximizing LSP performance across the entire
- * deliverable pipeline. Provides intelligent batching, predictive caching,
+ * AssetPack pipeline. Provides intelligent batching, predictive caching,
  * operation prioritization, and cross-phase optimization strategies.
  * 
  * Key Features:

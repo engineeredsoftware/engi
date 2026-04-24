@@ -654,7 +654,7 @@ export class StreamingPipelineEngine {
         paths: ['src/mock.ts', 'README.md']
       }
     };
-    const deliveryMechanism = {
+    const shippables = {
       pullRequest: {
         url: 'https://github.com/mock/repo/pull/123',
         number: 123,
@@ -670,9 +670,16 @@ export class StreamingPipelineEngine {
     return {
       summary: writtenAssets.summary,
       display: 'Mock Asset Pack',
-      deliverables: deliveryMechanism,
+      shippables,
+      // Compatibility mirror required by retained `/api/deliverables` readback shape.
+      deliverables: shippables,
+      assetPackSynthesisArtifacts: {
+        ...shippables,
+        proofEvidence: ['mock AssetPack evidence captured for reread'],
+        reviewNotes: ['mock Need-satisfaction artifacts synthesized'],
+      },
       writtenAssets,
-      deliveryMechanism,
+      deliveryMechanism: shippables,
       semanticKind: 'asset-pack-written-asset',
       need: 'Mock retained corridor need',
       writtenAssetType: 'code-change',
@@ -682,7 +689,7 @@ export class StreamingPipelineEngine {
         deliveryTarget: 'pr',
       },
       duration: this.performanceTracker.getTotalDuration(),
-      taskType: 'mock-task',
+      taskType: 'need-satisfaction',
       processingStats: {
         time: `${Math.floor(this.performanceTracker.getTotalDuration() / 1000)}s`,
         tokens: {
@@ -784,7 +791,7 @@ class PipelinePerformanceTracker {
 
 // Factory function for common pipeline configurations
 export const createStreamingPipelineEngine = {
-  deliverable: (scenario: MockScenarioType = 'demo'): StreamingPipelineEngine => {
+  assetPack: (scenario: MockScenarioType = 'demo'): StreamingPipelineEngine => {
     return new StreamingPipelineEngine({
       scenario,
       pipelineType: 'asset-pack',
@@ -799,7 +806,7 @@ export const createStreamingPipelineEngine = {
           llmCalls: [
             {
               model: 'claude-3-sonnet',
-              purpose: 'Task analysis',
+              purpose: 'Need analysis',
               durationMs: 5000,
               tokens: { prompt: 200, completion: 100, total: 300 },
               successProbability: 0.95
@@ -847,7 +854,7 @@ export const createStreamingPipelineEngine = {
           llmCalls: [
             {
               model: 'claude-3-sonnet',
-              purpose: 'Code generation',
+              purpose: 'AssetPack synthesis',
               durationMs: 25000,
               tokens: { prompt: 1500, completion: 800, total: 2300 },
               successProbability: 0.85
@@ -895,7 +902,7 @@ export const createStreamingPipelineEngine = {
           llmCalls: [
             {
               model: 'claude-3-sonnet',
-              purpose: 'PR description',
+              purpose: 'Shippable delivery evidence',
               durationMs: 8000,
               tokens: { prompt: 400, completion: 200, total: 600 },
               successProbability: 0.98

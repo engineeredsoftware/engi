@@ -9,15 +9,15 @@
 
 ### 🎯 CORE PIPELINE FEATURES (16 Features)
 
-**Deliverables Pipeline (Main Creation Flow)**
-- `DELIVERABLES` - Main deliverable interface
-- `DELIVERABLE_RUNS` - Execution tracking
-- `DELIVERABLE_HISTORY` - Run history
-- `DELIVERABLE_ITEMS` - Generated items
-- `DELIVERABLE_INSTRUCTIONS` - Step-by-step guidance
-- `DELIVERABLE_STREAM` - Real-time streaming
-- `DELIVERABLE_LOGS` - Execution logs
-- `DELIVERABLE_RUN_EVENTS` - Event tracking
+**AssetPacks Pipeline (Main Creation Flow)**
+- `ASSET_PACKS` - Main assetPack interface
+- `ASSET_PACK_RUNS` - Execution tracking
+- `ASSET_PACK_HISTORY` - Run history
+- `ASSET_PACK_ITEMS` - Generated items
+- `ASSET_PACK_INSTRUCTIONS` - Step-by-step guidance
+- `ASSET_PACK_STREAM` - Real-time streaming
+- `ASSET_PACK_LOGS` - Execution logs
+- `ASSET_PACK_RUN_EVENTS` - Event tracking
 
 **AI Documents Pipeline (Nearly Identical Experience)**
 - `UPGRADES` - Main ai_document interface
@@ -142,7 +142,7 @@
 
 ### 📋 TEMPLATES & PREFERENCES SYSTEM (4 Features)
 
-- `DELIVERABLE_TEMPLATES` - Deliverable templates
+- `ASSET_PACK_TEMPLATES` - AssetPack templates
 - `UPGRADE_TEMPLATES` - AI Document templates
 - `TEMPLATE_PREFERENCES` - Template preferences
 - `TEMPLATE_CATEGORIES` - Template categories
@@ -192,7 +192,7 @@
 
 ### 🧠 VECTOR & AI INTELLIGENCE (5 Features)
 
-- `DELIVERABLE_VECTORS` - Deliverable embeddings
+- `ASSET_PACK_VECTORS` - AssetPack embeddings
 - `UPGRADE_VECTORS` - AI Document embeddings
 - `USER_VECTORS` - User preference vectors
 - `PATTERN_RECOGNITION` - Pattern analysis
@@ -222,7 +222,7 @@ mockAreas.conversation.chat.stream()                  // Chat streaming
 mockAreas.conversation.conversations()                // Conversations
 
 // Pipelines
-mockAreas.pipelines.deliverables.main()       // Main deliverables
+mockAreas.pipelines.assetPacks.main()       // Main assetPacks
 mockAreas.pipelines.ai_documents.stream()         // AI Document streaming
 
 // Organizations
@@ -262,7 +262,7 @@ export const GET = async (request: NextRequest) => {
 };
 
 // After (With comprehensive mocking)
-export const GET = mockAreas.pipelines.deliverables.main()(async (request: NextRequest) => {
+export const GET = mockAreas.pipelines.assetPacks.main()(async (request: NextRequest) => {
   // Original logic unchanged!
 });
 ```
@@ -271,12 +271,12 @@ export const GET = mockAreas.pipelines.deliverables.main()(async (request: NextR
 
 ```typescript
 // Automatic mock data injection
-const { data, loading, error } = useMockData('DELIVERABLES');
+const { data, loading, error } = useMockData('ASSET_PACKS');
 
 // Multi-feature data loading
 const mockData = useMockDataMultiple([
   'USER_PROFILE',
-  'DELIVERABLES', 
+  'ASSET_PACKS', 
   'GITHUB_REPOS'
 ]);
 
@@ -323,8 +323,8 @@ NEXT_PUBLIC_MOCK_SCENARIO=demo                 # Global scenario
 
 ### Feature-Specific Control
 ```bash
-NEXT_PUBLIC_MOCK_DELIVERABLES=true
-NEXT_PUBLIC_MOCK_DELIVERABLES_SCENARIO=enterprise
+NEXT_PUBLIC_MOCK_ASSET_PACKS=true
+NEXT_PUBLIC_MOCK_ASSET_PACKS_SCENARIO=enterprise
 NEXT_PUBLIC_MOCK_CONVERSATION_CONVERSATIONS=true
 NEXT_PUBLIC_MOCK_GITHUB_REPOS=false
 ```
@@ -371,7 +371,7 @@ You now have a **production-ready enterprise mocking system** that:
 2. **Requires zero client-side changes** (drop-in replacement)
 3. **Scales to billions of users** (enterprise-grade performance)
 4. **Provides rich developer experience** (type-safe, debuggable)
-5. **Supports all major workflows** (onboarding → Conversations → deliverables → marketplace)
+5. **Supports all major workflows** (onboarding → Conversations → assetPacks → marketplace)
 6. **Maintains backward compatibility** (existing mocks continue working)
 7. **Enables single-flag control** (entire system with one environment variable)
 

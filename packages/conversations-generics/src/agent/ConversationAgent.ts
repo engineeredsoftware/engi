@@ -92,7 +92,7 @@ const ConversationTrySchema = z.object({
   
   // Pipeline suggestions
   pipelineSuggestions: z.array(z.object({
-    type: z.enum(['deliverable', 'measure']),
+    type: z.enum(['shippable', 'measure']),
     task: z.string(),
     reasoning: z.string(),
     confidence: z.number()
@@ -156,7 +156,7 @@ const ConversationRetrySchema = z.object({
   
   // Pipeline triggers if needed
   triggeredPipelines: z.array(z.object({
-    type: z.enum(['deliverable', 'measure']),
+    type: z.enum(['shippable', 'measure']),
     task: z.string(),
     runId: z.string().optional(),
     status: z.enum(['triggered', 'pending', 'failed'])

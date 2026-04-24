@@ -314,15 +314,15 @@ export function OrbitalsConnectsOrbitalEmailConnection({ userId, userEmail, onCo
                 <strong>From:</strong> {emailConfig?.email}
               </div>
               <div className="orbitals-connects-email-field">
-                <strong>Subject:</strong> Ship application deliverables
+                <strong>Subject:</strong> Deliver application shippables
               </div>
             </header>
             <div className="orbitals-connects-email-body">
-              <p>Trigger the application-deliverables pipeline for Bitcode transactions:</p>
+              <p>Trigger AssetPack execution for Bitcode transactions:</p>
               <ul>
-                <li>Attach updated orbital copy</li>
+                <li>Attach updated auxillary copy</li>
                 <li>Generate migration plan for production DB</li>
-                <li>Run post-deliverable regression tests</li>
+                <li>Run post-AssetPack regression tests</li>
               </ul>
             </div>
             <div className="orbitals-connects-features-grid">

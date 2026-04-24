@@ -267,7 +267,7 @@ npm run type-check
 
 ## Integration with Bitcode Pipelines
 
-This package can be integrated with Bitcode's existing pipeline system by adding Notion source handlers to discovery phases. For example, in the deliverable pipeline:
+This package can be integrated with Bitcode's existing pipeline system by adding Notion source handlers to discovery phases. For example, in AssetPack execution:
 
 ```typescript
 import { createNotionClient, notionSearchTool, notionGetPageContentTool } from '@bitcode/notion';

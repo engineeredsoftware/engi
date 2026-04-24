@@ -17,7 +17,7 @@ yarn dev
 ```
 
 ### 2. Visit Any Page - Mocking is Now Active!
-- **Deliverables:** Rich demo data automatically loads
+- **AssetPacks:** Rich demo data automatically loads
 - **Conversations Chat:** Realistic conversation history
 - **User Profile:** Complete user data with `$BTD`, usage, etc.
 - **GitHub Integration:** Full repository, branch, and commit data
@@ -25,7 +25,7 @@ yarn dev
 
 ### 3. See It in Action
 Visit these pages to see mocking in action:
-- `/deliverables` - Main pipeline experience
+- `/assetPacks` - Main pipeline experience
 - `/chat` - Conversations chat interface  
 - `/profile` - User profile and settings
 - `/organizations` - Team management
@@ -47,8 +47,8 @@ NEXT_PUBLIC_MOCK_SCENARIO=testing
 # Disable GitHub mocking (use real data)
 NEXT_PUBLIC_MOCK_GITHUB_REPOS=false
 
-# Enable only deliverables mocking
-NEXT_PUBLIC_MOCK_DELIVERABLES=true
+# Enable only assetPacks mocking
+NEXT_PUBLIC_MOCK_ASSET_PACKS=true
 NEXT_PUBLIC_MOCK_CONVERSATION_CONVERSATIONS=false
 ```
 
@@ -79,7 +79,7 @@ __bitcodeMockSystem.clearCache()
 
 ### Rich Demo Experience
 - **User Data:** Complete profiles with realistic usage history
-- **Deliverables:** 5-10 completed runs with complex outputs
+- **AssetPacks:** 5-10 completed runs with complex outputs
 - **Conversations:** Active conversations with AI responses
 - **GitHub:** Multiple repos with branches, commits, issues
 - **Organizations:** Teams with multiple members and roles

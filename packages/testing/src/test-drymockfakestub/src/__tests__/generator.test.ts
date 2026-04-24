@@ -93,7 +93,7 @@ describe('UnifiedTestDataGenerator', () => {
     ).toThrow('No scenario found for fixture');
 
     expect(() =>
-      generator.generateForDryRun({ pipeline: 'deliverable' }),
+      generator.generateForDryRun({ pipeline: 'asset-pack' }),
     ).toThrow('No scenario found for dryrun config');
 
     expect(() =>

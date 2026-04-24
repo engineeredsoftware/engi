@@ -73,11 +73,11 @@ const completeConversationData = {
     {
       id: 'msg-3',
       role: 'user' as const,
-      content: '@deliverable User Authentication System @deliverable Product Catalog with Search @deliverable Shopping Cart & Checkout',
+      content: '@shippable User Authentication System @shippable Product Catalog with Search @shippable Shopping Cart & Checkout',
       created_at: '2024-01-15T08:05:00Z',
       tokens: [
         {
-          type: 'deliverable' as const,
+          type: 'shippable' as const,
           value: 'User Authentication System',
           metadata: {
             priority: 'high',
@@ -85,7 +85,7 @@ const completeConversationData = {
           }
         },
         {
-          type: 'deliverable' as const,
+          type: 'shippable' as const,
           value: 'Product Catalog with Search',
           metadata: {
             priority: 'high',
@@ -93,7 +93,7 @@ const completeConversationData = {
           }
         },
         {
-          type: 'deliverable' as const,
+          type: 'shippable' as const,
           value: 'Shopping Cart & Checkout',
           metadata: {
             priority: 'medium',
@@ -105,7 +105,7 @@ const completeConversationData = {
     {
       id: 'msg-4',
       role: 'assistant' as const,
-      content: "Perfect! I've started three parallel deliverable pipelines:\n\n✅ **User Authentication System** (Pipeline #1)\n- OAuth integration (Google, GitHub, Apple)\n- JWT token management\n- Role-based access control\n- User profile management\n\n✅ **Need + Asset Pack Catalog** (Pipeline #2) \n- Need CRUD operations\n- Advanced search with filters\n- Asset pack grouping\n- Evidence upload and optimization\n\n✅ **Wallet Settlement & Treasury Flow** (Pipeline #3)\n- Wallet state management\n- BTC settlement and issued $BTD flow\n- GitHub-before-transacting gating\n- Notification and receipt workflow\n\nAll pipelines are running with full context from your repository and requirements. You can monitor progress in the sidebar!",
+      content: "Perfect! I've started three parallel shippable pipelines:\n\n✅ **User Authentication System** (Pipeline #1)\n- OAuth integration (Google, GitHub, Apple)\n- JWT token management\n- Role-based access control\n- User profile management\n\n✅ **Need + Asset Pack Catalog** (Pipeline #2) \n- Need CRUD operations\n- Advanced search with filters\n- Asset pack grouping\n- Evidence upload and optimization\n\n✅ **Wallet Settlement & Treasury Flow** (Pipeline #3)\n- Wallet state management\n- BTC settlement and issued $BTD flow\n- GitHub-before-transacting gating\n- Notification and receipt workflow\n\nAll pipelines are running with full context from your repository and requirements. You can monitor progress in the sidebar!",
       created_at: '2024-01-15T08:07:00Z'
     },
     {
@@ -159,7 +159,7 @@ const completeConversationData = {
     {
       id: 'msg-8',
       role: 'assistant' as const,
-      content: "🔄 **Upgrade Pipelines Started**\n\nI've initiated two upgrade pipelines to modernize your codebase:\n\n**⬆️ React 18 Migration** (upg-react18)\n- Upgrading from React 17 to React 18\n- Implementing concurrent features\n- Automatic batching optimizations\n- Updating dependencies and types\n- Testing concurrent rendering\n\n**📊 TypeScript Strict Mode** (upg-typescript)\n- Enabling strict TypeScript configuration\n- Fixing type errors across codebase\n- Adding comprehensive type definitions\n- Improving code quality and safety\n\nThese upgrades will run in parallel with your deliverable pipelines and will enhance the entire platform's performance and maintainability!",
+      content: "🔄 **Upgrade Pipelines Started**\n\nI've initiated two upgrade pipelines to modernize your codebase:\n\n**⬆️ React 18 Migration** (upg-react18)\n- Upgrading from React 17 to React 18\n- Implementing concurrent features\n- Automatic batching optimizations\n- Updating dependencies and types\n- Testing concurrent rendering\n\n**📊 TypeScript Strict Mode** (upg-typescript)\n- Enabling strict TypeScript configuration\n- Fixing type errors across codebase\n- Adding comprehensive type definitions\n- Improving code quality and safety\n\nThese upgrades will run in parallel with your shippable pipelines and will enhance the entire platform's performance and maintainability!",
       created_at: '2024-01-15T10:02:00Z'
     }
   ],
@@ -170,7 +170,7 @@ const completeConversationData = {
   pipelineEvents: [
     {
       id: 'pipeline-auth',
-      type: 'deliverable' as const,
+      type: 'shippable' as const,
       runId: 'del-auth',
       status: 'completed' as const,
       progress: 100,
@@ -205,7 +205,7 @@ const completeConversationData = {
     },
     {
       id: 'pipeline-catalog',
-      type: 'deliverable' as const,
+      type: 'shippable' as const,
       runId: 'del-catalog',
       status: 'running' as const,
       progress: 75,
@@ -226,7 +226,7 @@ const completeConversationData = {
     },
     {
       id: 'pipeline-cart',
-      type: 'deliverable' as const,
+      type: 'shippable' as const,
       runId: 'del-cart',
       status: 'running' as const,
       progress: 45,
@@ -399,7 +399,7 @@ export const PerformanceStressTest: Story = {
         activePipelines: new Set(['stress-test-1', 'stress-test-2', 'stress-test-3']),
         pipelineEvents: Array.from({ length: 10 }, (_, i) => ({
           id: `stress-pipeline-${i}`,
-          type: 'deliverable' as const,
+          type: 'shippable' as const,
           runId: `stress-test-${i}`,
           status: 'running' as const,
           progress: Math.floor(Math.random() * 100),
@@ -444,7 +444,7 @@ export const RealTimeStreamingDemo: Story = {
         pipelineEvents: [
           {
             id: 'streaming-pipeline',
-            type: 'deliverable' as const,
+            type: 'shippable' as const,
             runId: 'del-streaming',
             status: 'running' as const,
             progress: 55,

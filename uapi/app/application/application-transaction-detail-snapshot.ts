@@ -46,6 +46,7 @@ export interface ApplicationRunDetailSnapshot {
   assetPackSynthesisArtifacts?: ShippablesDoc | null;
   writtenAssets?: ShippablesDoc | null;
   deliveryMechanism?: ShippablesDoc | null;
+  /** Compatibility mirror for retained payload rows that still store Shippables under the old key. */
   deliverables?: ShippablesDoc | null;
   repoSnapshot: RepoSnapshot | null;
   processingStats: ProcessingStats;

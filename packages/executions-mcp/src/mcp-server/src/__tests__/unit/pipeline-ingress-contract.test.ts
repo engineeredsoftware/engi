@@ -61,7 +61,7 @@ jest.mock('../../pipeline-execution/adapter', () => {
 
 import { registerPipelineTools } from '../../tools/pipeline-tools.ts';
 import {
-  DeliverablePipelineToolSchema,
+  AssetPackPipelineToolSchema,
   type MCPAuthContext,
 } from '../../types';
 import {
@@ -110,7 +110,7 @@ describe('Bitcode MCP pipeline ingress contract', () => {
   });
 
   it('admits explicit repository/provider connections as ingress input', () => {
-    const parsed = DeliverablePipelineToolSchema.safeParse({
+    const parsed = AssetPackPipelineToolSchema.safeParse({
       task: 'Create a settlement-ready asset pack for a wallet-gated Bitcode transaction flow',
       repository: {
         owner: 'bitcode-labs',
@@ -206,7 +206,7 @@ describe('Bitcode MCP pipeline ingress contract', () => {
   it('returns normalized ingress and output meaning for queued MCP writes', async () => {
     mockedQueuePipelineJob.mockResolvedValue({
       runId: 'run-1',
-      deliverableId: 'deliv-1',
+      shippableCompatibilityId: 'ship-compat-1',
     });
 
     const tool = registerPipelineTools().find(
@@ -248,7 +248,7 @@ describe('Bitcode MCP pipeline ingress contract', () => {
 
     expect(result).toMatchObject({
       runId: 'run-1',
-      deliverableId: 'deliv-1',
+      shippableCompatibilityId: 'ship-compat-1',
       status: 'queued',
       interfaceSurface: 'bitcode_mcp',
       outputMeaning: 'asset_packs',
@@ -362,7 +362,7 @@ describe('Bitcode MCP pipeline ingress contract', () => {
   it('admits provider-authenticated repository ingress without explicit repository_connection', async () => {
     mockedQueuePipelineJob.mockResolvedValue({
       runId: 'run-credential',
-      deliverableId: 'deliv-credential',
+      shippableCompatibilityId: 'ship-compat-credential',
     });
 
     const tool = registerPipelineTools().find(
@@ -387,7 +387,7 @@ describe('Bitcode MCP pipeline ingress contract', () => {
 
     expect(result).toMatchObject({
       runId: 'run-credential',
-      deliverableId: 'deliv-credential',
+      shippableCompatibilityId: 'ship-compat-credential',
       status: 'queued',
       interfaceSurface: 'bitcode_mcp',
       outputMeaning: 'asset_packs',
@@ -403,7 +403,7 @@ describe('Bitcode MCP pipeline ingress contract', () => {
   it('returns asset-pack-normalized results for completed MCP writes', async () => {
     mockedQueuePipelineJob.mockResolvedValue({
       runId: 'run-2',
-      deliverableId: 'deliv-2',
+      shippableCompatibilityId: 'ship-compat-2',
     });
     mockedMonitorPipelineExecution.mockResolvedValue({
       runId: 'run-2',

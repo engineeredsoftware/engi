@@ -143,13 +143,13 @@ export function withStreamingMocking(
 /**
  * Simplified wrapper for common API endpoints
  */
-export const mockDeliverables = (handler: any) => withMocking({
-  feature: 'DELIVERABLES',
+export const mockAssetPacks = (handler: any) => withMocking({
+  feature: 'ASSET_PACKS',
   streamingSupported: true,
   performanceTracking: true
 }, handler);
 
-// Need-measurement pipeline placeholder reuses deliverables mocks until GA-2
+// Need-measurement pipeline placeholder reuses assetPacks mocks until GA-2
 
 export const mockGitHub = (feature: 'GITHUB_ACCOUNTS' | 'GITHUB_REPOS' | 'GITHUB_BRANCHES' | 'GITHUB_COMMITS' | 'GITHUB_ISSUES' | 'GITHUB_FILES') => 
   (handler: any) => withMocking({
@@ -174,7 +174,7 @@ async function handleStreamingRequest(
   context: MockRequestContext,
   scenario: MockScenarioType
 ): Promise<NextResponse> {
-  const engine = createStreamingPipelineEngine.deliverable(scenario);
+  const engine = createStreamingPipelineEngine.assetPack(scenario);
   const stream = engine.createStream();
 
   const headers = {
@@ -282,10 +282,10 @@ export async function handleGitHubMockRequest(
 }
 
 /**
- * Handle deliverable/ai_document pipeline responses
+ * Handle assetPack/ai_document pipeline responses
  */
 export async function handlePipelineMockRequest(
-  feature: 'DELIVERABLES' | 'UPGRADES',
+  feature: 'ASSET_PACKS' | 'UPGRADES',
   context: MockRequestContext,
   method: string
 ): Promise<any> {
@@ -300,7 +300,7 @@ export async function handlePipelineMockRequest(
     // Handle pipeline execution
     if (isStreamingRequest({ method } as any)) {
       // Return streaming response
-      const engine = createStreamingPipelineEngine.deliverable(scenario);
+      const engine = createStreamingPipelineEngine.assetPack(scenario);
       return engine.createStream();
     } else {
       // Return immediate completion data
@@ -463,8 +463,8 @@ function trackPerformance(
  * Create middleware for specific API routes with predefined configurations
  */
 export const createMockMiddleware = {
-  deliverables: () => withMocking({
-    feature: 'DELIVERABLES',
+  assetPacks: () => withMocking({
+    feature: 'ASSET_PACKS',
     streamingSupported: true,
     timing: 'realistic',
     performanceTracking: true,

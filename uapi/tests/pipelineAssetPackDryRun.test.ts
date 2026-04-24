@@ -11,7 +11,7 @@ jest.mock('@bitcode/context', () => ({
     dataStream: { writeData: jest.fn(), close: jest.fn() },
     abortSignal: {},
     execution: { phases: { iterations: [] } },
-    taskContext: { taskType: 'deliverables', task: 'test-task' },
+    needContext: { executionType: 'asset-pack', need: 'test-need' },
     repository: {
       owner: 'owner',
       name: 'repo',
@@ -28,7 +28,7 @@ jest.mock('@bitcode/context', () => ({
   }))
 }));
 
-describe('runSDIVFPipeline full dry-run', () => {
+describe('runSDIVFPipeline full AssetPack dry-run', () => {
   beforeAll(() => {
     // Enable dry run with mocked responses
     process.env.DRY_RUN_MODE = 'true';

@@ -28,8 +28,8 @@ import type {
 } from '@/types/api';
 const sidebarOptions: [SidebarOption, SidebarOption] = [
   {
-    id: 'deliverables',
-    label: 'Deliverables',
+    id: 'asset-packs',
+    label: 'AssetPacks',
     icon: renderDocToggleIcon(),
   },
   {
@@ -41,9 +41,9 @@ const sidebarOptions: [SidebarOption, SidebarOption] = [
 
 export default function LeftSidebar() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-  const [activeSidebar, setActiveSidebar] = useState<'deliverables' | 'measure'>('deliverables');
+  const [activeSidebar, setActiveSidebar] = useState<'asset-packs' | 'measure'>('asset-packs');
   // Items mode removed; show runs only
-  const [deliverableRuns, setDeliverableRuns] = useState<PipelineExecution[]>([]);
+  const [assetPackRuns, setAssetPackRuns] = useState<PipelineExecution[]>([]);
 
   const router = useRouter();
 
@@ -65,7 +65,7 @@ export default function LeftSidebar() {
       .then(
         (results) => {
           const [runs] = results as any[];
-          setDeliverableRuns(runs || []);
+          setAssetPackRuns(runs || []);
         },
       )
       .catch(console.error);
@@ -83,16 +83,6 @@ export default function LeftSidebar() {
 
   const onboardingLocked = useOnboardingLock();
 
-  const handleLoadDeliverableItem = (item: any) => {
-    const id = item.runId ?? item.run_id ?? '';
-    const params = new URLSearchParams();
-    params.set('type', 'agentic-execution:asset-pack');
-    params.set('executionId', id);
-    params.set('runId', id); // maintain compatibility for embedded components
-    params.set('itemId', item.id);
-    router.push(`/executions?${params.toString()}`);
-  };
-
   const sidebarTransition = { duration: 0.25, ease: 'easeInOut' } as const;
 
   return (
@@ -103,7 +93,7 @@ export default function LeftSidebar() {
         onToggle={() => setIsSidebarOpen(!isSidebarOpen)}
         options={sidebarOptions}
         activeOption={activeSidebar}
-        onOptionChange={(optionId) => setActiveSidebar(optionId as 'deliverables' | 'measure')}
+        onOptionChange={(optionId) => setActiveSidebar(optionId as 'asset-packs' | 'measure')}
         onboardingLocked={onboardingLocked}
       />
       {/* Sticky header inside the sidebar when open */}
@@ -117,7 +107,7 @@ export default function LeftSidebar() {
             transition={sidebarTransition}
             className="fixed top-0 left-0 w-[19rem] z-[51] flex items-center gap-2 px-4 py-2 border-b border-emerald-500/20 bg-[#0a1428]/90 backdrop-blur-xl"
           >
-            {activeSidebar === 'deliverables' ? (
+            {activeSidebar === 'asset-packs' ? (
               <div className="flex items-center gap-2">
                 {renderDocToggleIcon("w-4 h-4 text-gray-300 sidebar-text")}
                 <FlipText
@@ -139,18 +129,18 @@ export default function LeftSidebar() {
       </AnimatePresence>
 
       <AnimatePresence mode="wait">
-        {activeSidebar === 'deliverables' ? (
+        {activeSidebar === 'asset-packs' ? (
           isSidebarOpen ? (
             <motion.div
               className={`${sidebarBase} ${sidebarBg} ${sidebarLeft} ${sidebarW19} ${sidebarBorderColor} ${sidebarShadowLeft} z-50`}
-              key="deliverable-runs"
+              key="asset-pack-runs"
               initial={{ opacity: 0, x: -30 }}
               animate={{ opacity: 1, x: 0 }}
               exit={{ opacity: 0, x: 30 }}
               transition={sidebarTransition}
             >
               <div className="p-2 space-y-1 mt-11">
-                {deliverableRuns.map((run) => {
+                {assetPackRuns.map((run) => {
                   const summaryText = (() => {
                     let ctx: any = run.context;
                     if (typeof ctx === 'string') {
@@ -167,6 +157,7 @@ export default function LeftSidebar() {
                     const fwsSummary =
                       od?.final_work_summary?.assetPackSynthesisArtifacts?.summary ||
                       od?.final_work_summary?.writtenAssets?.summary ||
+                      // Compatibility summary for persisted runs that predate the shippable reform.
                       od?.final_work_summary?.deliverables?.summary ||
                       undefined;
                     return (
@@ -203,7 +194,7 @@ export default function LeftSidebar() {
                     </div>
                     );
                   })}
-                {deliverableRuns.length === 0 && (
+                {assetPackRuns.length === 0 && (
                   <div className="text-xs text-gray-500">No runs yet</div>
                 )}
               </div>
@@ -218,7 +209,7 @@ export default function LeftSidebar() {
             transition={sidebarTransition}
           >
             <div className="p-2 space-y-1 mt-11">
-              {deliverableRuns.map((run) => {
+              {assetPackRuns.map((run) => {
                 let ctx: any = (run as any).context;
                 if (typeof ctx === 'string') {
                   try { ctx = JSON.parse(ctx.replace(/^E'/, '').replace(/^'/, '').replace(/'$/, '')); } catch { ctx = undefined; }
@@ -249,7 +240,7 @@ export default function LeftSidebar() {
                   </div>
                 );
               })}
-              {deliverableRuns.length === 0 && (
+              {assetPackRuns.length === 0 && (
                 <div className="text-xs text-gray-500">No runs yet</div>
               )}
             </div>

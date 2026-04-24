@@ -18,7 +18,7 @@ import {
 import { BitcodeMCPServer } from '../../server';
 import { 
   BasePipelineToolSchema,
-  DeliverablePipelineToolSchema
+  AssetPackPipelineToolSchema
 } from '../../types';
 
 // ============================================================================
@@ -50,7 +50,7 @@ const TOOL_TEST_CONFIGS: ToolTestConfig[] = [
   {
     toolName: 'bitcode://pipelines/asset-pack/create',
     category: 'pipeline',
-    schema: DeliverablePipelineToolSchema,
+    schema: AssetPackPipelineToolSchema,
     requiredPermissions: ['pipelines.create'],
     expectedOutputs: ['pull_request', 'documentation', 'tests'],
     customerScenarios: [

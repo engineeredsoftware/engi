@@ -28,7 +28,7 @@ import {
 
 // Import types
 import type { MCPAuthContext } from '../types';
-import { DeliverablePipelineToolSchema, type PipelineName } from '../types';
+import { AssetPackPipelineToolSchema, type PipelineName } from '../types';
 
 /**
  * MCP Tool interface
@@ -49,7 +49,7 @@ async function estimatePipelineBtd(
   attachments: any[] = []
 ): Promise<number> {
   // Base BTD estimation based on pipeline type and complexity
-  const baseCosts = { deliverable: 100 } as const;
+  const baseCosts = { 'asset-pack': 100 } as const;
 
   let estimatedBtd = (baseCosts as Record<string, number>)[pipeline] || 100;
 
@@ -292,13 +292,13 @@ async function executePipelineWithMonitoring(
     };
 
     // Queue the pipeline job using ORM-based adapter
-    const { runId, deliverableId } = await queuePipelineJob(jobOptions);
+    const { runId, shippableCompatibilityId } = await queuePipelineJob(jobOptions);
     
     // If streaming is enabled, return immediately with run details
     if (params.streaming) {
       return {
         runId,
-        deliverableId,
+        shippableCompatibilityId,
         status: 'queued',
         interfaceSurface,
         inputContext,
@@ -338,7 +338,7 @@ async function executePipelineWithMonitoring(
 
     return {
       runId,
-      deliverableId,
+      shippableCompatibilityId,
       status: executionResult.status,
       interfaceSurface,
       inputContext,
@@ -383,7 +383,7 @@ async function executePipelineWithMonitoring(
  */
 export function registerPipelineTools(): MCPTool[] {
   return [
-    // Asset-pack pipeline tool, retained on the deliverable URI for compatibility.
+    // AssetPack pipeline tool.
     {
       name: 'bitcode://pipelines/asset-pack/create',
       description: `Create and execute a Bitcode asset-pack pipeline for complete software engineering needs.
@@ -414,13 +414,13 @@ Retained compatibility subtypes:
 • implementation_plan - Detailed technical planning
 • refactor_proposal - Code improvement recommendations`,
 
-      inputSchema: DeliverablePipelineToolSchema,
+      inputSchema: AssetPackPipelineToolSchema,
       
-      execute: async (args: z.infer<typeof DeliverablePipelineToolSchema>, context: MCPAuthContext) => {
+      execute: async (args: z.infer<typeof AssetPackPipelineToolSchema>, context: MCPAuthContext) => {
         return executePipelineWithMonitoring(
           args,
           context,
-          'deliverable'
+          'asset-pack'
         );
       }
     }

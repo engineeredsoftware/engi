@@ -2,7 +2,7 @@ const delegatedGet = jest.fn(async () =>
   new Response(JSON.stringify({ accounts: [{ id: 42, login: 'acme', type: 'User' }] }), { status: 200 }),
 );
 
-jest.mock('@bitcode/api/src/routes/deliverables', () => ({
+jest.mock('@bitcode/api/src/routes/shippables', () => ({
   GET: delegatedGet,
   POST: jest.fn(),
   DELETE: jest.fn(),

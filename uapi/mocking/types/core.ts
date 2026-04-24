@@ -24,6 +24,7 @@ import type {
 import type { ExecutionState, StreamStatusMessage, LlmCallData } from '@/types/stream';
 import type { IntegrationOption } from '@/types/integrations';
 import type { Issue } from '@/types/issues';
+import type { ShippableTemplates } from '@/types/templates';
 
 // ============================================================================
 // Core Mocking Framework Types
@@ -38,15 +39,15 @@ export type MockableFeature =
   // CORE PIPELINE FEATURES (Main Business Logic)
   // ============================================================================
   
-  // Deliverables Pipeline (Main Creation Flow)
-  | 'DELIVERABLES'
-  | 'DELIVERABLE_RUNS'
-  | 'DELIVERABLE_HISTORY' 
-  | 'DELIVERABLE_ITEMS'
-  | 'DELIVERABLE_INSTRUCTIONS'
-  | 'DELIVERABLE_STREAM'
-  | 'DELIVERABLE_LOGS'
-  | 'DELIVERABLE_RUN_EVENTS'
+  // AssetPacks Pipeline (Main Creation Flow)
+  | 'ASSET_PACKS'
+  | 'ASSET_PACK_RUNS'
+  | 'ASSET_PACK_HISTORY' 
+  | 'ASSET_PACK_ITEMS'
+  | 'ASSET_PACK_INSTRUCTIONS'
+  | 'ASSET_PACK_STREAM'
+  | 'ASSET_PACK_LOGS'
+  | 'ASSET_PACK_RUN_EVENTS'
   
   | 'UPGRADES'
   | 'UPGRADE_RUNS'
@@ -71,6 +72,7 @@ export type MockableFeature =
   | 'CHAT_STREAM'
   | 'CHAT_COMPLETIONS'
   | 'CONVERSATION_ATTACHMENTS'
+  | 'CONVERSATION_RESPONSES'
   
   // ============================================================================
   // USER AUXILLARIES (Onboarding, Profile, Configuration)
@@ -169,6 +171,7 @@ export type MockableFeature =
   | 'MARKETPLACE_ORDERS'
   | 'MARKETPLACE_TICKER'
   | 'MARKETPLACE_CATEGORIES'
+  | 'MARKETPLACE'
   
   // ============================================================================
   // BTC / $BTD TREASURY SYSTEM
@@ -184,10 +187,12 @@ export type MockableFeature =
   // TEMPLATES & PREFERENCES SYSTEM
   // ============================================================================
   
-  | 'DELIVERABLE_TEMPLATES'
+  | 'ASSET_PACK_TEMPLATES'
   | 'UPGRADE_TEMPLATES'
   | 'TEMPLATE_PREFERENCES'
   | 'TEMPLATE_CATEGORIES'
+  | 'TEMPLATES'
+  | 'USER_TEMPLATES'
   
   // ============================================================================
   // MCP (Model Context Protocol) TOOLS - Pure API
@@ -197,6 +202,11 @@ export type MockableFeature =
   | 'MCP_SUPABASE'
   | 'MCP_VERCEL'
   | 'MCP_TOOLS'
+  | 'INTEGRATIONS_NOTION'
+  | 'INTEGRATIONS_FIGMA'
+  | 'INTEGRATIONS_SLACK'
+  | 'INTEGRATIONS_GITLAB'
+  | 'INTEGRATIONS_BITBUCKET'
   
   // ============================================================================
   // TRIGGERS & API SYSTEMS (Non-Interface)
@@ -207,6 +217,7 @@ export type MockableFeature =
   | 'GENERIC_WEBHOOKS'
   | 'API_ENDPOINTS'
   | 'SCRIPTS'
+  | 'PIPELINE_LOGS'
   
   // ============================================================================
   // SYSTEM HEALTH & MONITORING
@@ -230,7 +241,7 @@ export type MockableFeature =
   // VECTOR & AI INTELLIGENCE
   // ============================================================================
   
-  | 'DELIVERABLE_VECTORS'
+  | 'ASSET_PACK_VECTORS'
   | 'UPGRADE_VECTORS'
   | 'USER_VECTORS'
   | 'PATTERN_RECOGNITION'
@@ -555,6 +566,7 @@ export interface MockPipelineStreamConfig {
   readonly scenario: MockScenarioType;
   
   /** Pipeline type */
+  readonly pipelineType: 'asset-pack' | 'measure';
   
   /** Total duration of the pipeline */
   readonly totalDurationMs: number;
@@ -596,8 +608,11 @@ export interface MockPipelinePhase {
   /** Events to generate in this phase */
   readonly events: readonly MockPipelineEventType[];
   
-  /** Generations in this phase */
-  readonly generations: readonly MockGeneration[];
+  /** LLM calls in this phase */
+  readonly llmCalls: readonly MockLlmCall[];
+
+  /** Compatibility mirror for retained mock callers that still read generations. */
+  readonly generations?: readonly MockGeneration[];
   
   /** Tool usage in this phase */
   readonly toolUsage: readonly MockToolUsage[];
@@ -632,6 +647,8 @@ export interface MockGeneration {
   /** Mock response */
   readonly response?: string;
 }
+
+export type MockLlmCall = MockGeneration;
 
 /**
  * Mock tool usage configuration
@@ -742,7 +759,7 @@ export type {
   ExecutionState,
   StreamStatusMessage,
   LlmCallData,
-  DeliverableTemplates,
+  ShippableTemplates,
   IntegrationOption,
   Issue
 };

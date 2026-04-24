@@ -31,7 +31,7 @@ export * from './pipelines/branch';
 // VCS - Version control system operations
 export * from './vcs';
 export * from './routes/auth';
-export * as deliverables from './routes/deliverables';
+export * as shippables from './routes/shippables';
 
 // Additional business logic modules will be added here as they're migrated
 // from routes to this package

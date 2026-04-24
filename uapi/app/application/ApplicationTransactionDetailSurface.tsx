@@ -114,7 +114,7 @@ export default function ApplicationTransactionDetailSurface({
     if (showConsole) {
       return `${normalizedSummary} The execution console remains available when you need the lower-level runtime view.`;
     }
-    return `${normalizedSummary} Asset packs, reviews, issues, comments, and summary text are the active detail focus.`;
+    return `${normalizedSummary} Finish-delivered Shippables, stored AssetPack evidence, reviews, issues, comments, and summary text are the active detail focus.`;
   }, [normalizedSummary, showActivity, showClosure, showConsole, showHistory, showProofs, showTransaction]);
   const transactionPayload = useMemo(
     () => ({

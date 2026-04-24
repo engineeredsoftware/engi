@@ -20,7 +20,7 @@ type Story = StoryObj<typeof meta>;
 const mockSinglePipeline = [
   {
     id: 'pipeline-1',
-    type: 'deliverable' as const,
+    type: 'shippable' as const,
     runId: 'del-456',
     status: 'running' as const,
     progress: 65,
@@ -94,7 +94,7 @@ const mockSinglePipeline = [
 const mockMultiplePipelines = [
   {
     id: 'pipeline-1',
-    type: 'deliverable' as const,
+    type: 'shippable' as const,
     runId: 'del-789',
     status: 'running' as const,
     progress: 30,
@@ -180,7 +180,7 @@ const mockMultiplePipelines = [
   },
   {
     id: 'pipeline-3',
-    type: 'deliverable' as const,
+    type: 'shippable' as const,
     runId: 'del-456',
     status: 'completed' as const,
     progress: 100,
@@ -218,7 +218,7 @@ const mockMultiplePipelines = [
 const mockFailedPipeline = [
   {
     id: 'pipeline-error',
-    type: 'deliverable' as const,
+    type: 'shippable' as const,
     runId: 'del-error',
     status: 'failed' as const,
     progress: 45,
@@ -368,7 +368,7 @@ export const HighVolumeStreaming: Story = {
     pipelines: [
       {
         id: 'pipeline-volume',
-        type: 'deliverable' as const,
+        type: 'shippable' as const,
         runId: 'del-volume',
         status: 'running' as const,
         progress: 85,
@@ -452,7 +452,7 @@ export const PipelineRecovery: Story = {
     pipelines: [
       {
         id: 'pipeline-recovery',
-        type: 'deliverable' as const,
+        type: 'shippable' as const,
         runId: 'del-recovery',
         status: 'running' as const,
         progress: 65,

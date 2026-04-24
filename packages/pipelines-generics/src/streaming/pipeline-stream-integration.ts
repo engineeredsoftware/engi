@@ -59,7 +59,7 @@ export function enablePipelineStreaming(
             id: config.runId,
             user_id: config.userId,
             status: 'running',
-            type: 'deliverable',
+            type: 'agentic-execution:asset-pack',
             started_at: now,
             created_at: now,
             updated_at: now

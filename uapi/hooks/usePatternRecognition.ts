@@ -410,7 +410,7 @@ const generateLearningInsights = (
   const successfulPatterns = history.filter(h => h.success);
   if (successfulPatterns.length > 5) {
     const avgBtd = successfulPatterns.reduce((sum, h) => sum + (h.btdUsed || 0), 0) / successfulPatterns.length;
-    insights.push(`Your average successful deliverable uses ${Math.round(avgBtd)} $BTD`);
+    insights.push(`Your average successful shippable uses ${Math.round(avgBtd)} $BTD`);
   }
   
   // Architecture insights
@@ -421,7 +421,7 @@ const generateLearningInsights = (
   // Risk assessment insights
   const highRiskPatterns = patterns.filter(p => p.riskLevel === 'high');
   if (highRiskPatterns.length > 0) {
-    insights.push(`Detected ${highRiskPatterns.length} high-risk pattern(s) - consider breaking into smaller deliverables`);
+    insights.push(`Detected ${highRiskPatterns.length} high-risk pattern(s) - consider splitting the AssetPack synthesis into smaller shippables`);
   }
   
   return insights;

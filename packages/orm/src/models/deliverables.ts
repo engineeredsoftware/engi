@@ -1,10 +1,10 @@
 /**
- * DELIVERABLES MODEL - Deliverable pipeline management
+ * SHIPPABLE COMPATIBILITY MODEL - retained delivery-record table access
  * 
  * @doc-code
  * type: orm-model
  * table: deliverables
- * capabilities: ["execution", "effectiveness", "scheduling"]
+ * capabilities: ["asset-pack-evidence-readback", "shippable-delivery-records"]
  */
 
 import { BaseModel } from './base';
@@ -70,7 +70,7 @@ export class DeliverablesModel extends BaseModel<'deliverables'> {
   ): Promise<DeliverableCompatibility> {
     const created = await super.create({
       ...data,
-      title: data.title ?? data.name ?? 'Untitled deliverable',
+      title: data.title ?? data.name ?? 'Untitled shippable compatibility record',
       config: data.config ?? data.metadata ?? null,
       user_id: data.user_id ?? data.organization_id ?? 'unknown-user',
     });

@@ -14,7 +14,7 @@ export type PipelinePhase =
   | 'validation'
   | 'finish';
 export type PipelineSubType = string;
-export type DeliverablesSubType = string;
+export type ShippableSubType = string;
 export type InterfaceIngressSurface =
   | 'bitcode_mcp'
   | 'third_party_mcp'
@@ -23,7 +23,7 @@ export type InterfaceIngressSurface =
   | 'conversation';
 
 // Supported pipeline names exposed via MCP (align with supported pipelines only)
-export const PipelineNameValues = ['deliverable'] as const;
+export const PipelineNameValues = ['asset-pack'] as const;
 export type PipelineName = typeof PipelineNameValues[number];
 
 // ============================================================================
@@ -141,7 +141,7 @@ export interface PipelineInputContext {
 }
 
 /**
- * Canonical output meaning for retained deliverable-style results.
+ * Canonical output meaning for AssetPack/Shippable results.
  * The legacy `deliverables` array is preserved as a compatibility alias,
  * but the product meaning is an asset pack emitted by Bitcode.
  */
@@ -282,16 +282,16 @@ export const BasePipelineToolSchema = z.object({
 });
 
 /**
- * Deliverable pipeline tool schema with subtype specialization
+ * AssetPack pipeline tool schema with Shippable subtype specialization.
  */
-export const DeliverablePipelineToolSchema = BasePipelineToolSchema.extend({
+export const AssetPackPipelineToolSchema = BasePipelineToolSchema.extend({
   subtype: z.enum([
     'pull_request', 'pr_review', 'issue', 'comment', 'blog_post', 
     'diagram', 'api_spec', 'frontend_scaffolder', 'scope_analysis',
     'implementation_plan', 'refactor_proposal'
-  ] as const).describe('Specific deliverable type to create'),
+  ] as const).describe('Specific Shippable subtype or AssetPack written-asset focus'),
   
-  // Deliverable-specific options
+  // AssetPack/Finish delivery options.
   options: z.object({
     createPR: z.boolean().optional().default(true).describe('Create GitHub pull request'),
     runTests: z.boolean().optional().default(true).describe('Run automated tests'),
@@ -300,7 +300,7 @@ export const DeliverablePipelineToolSchema = BasePipelineToolSchema.extend({
   }).optional().default({})
 });
 
-// (AI Document pipeline tool schema omitted; only Deliverable is exposed via MCP)
+// (AI Document pipeline tool schema omitted; only AssetPack is exposed via MCP)
 
 // (Measure pipeline tool schemas are not exposed via MCP)
 

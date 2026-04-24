@@ -1,17 +1,17 @@
 import React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 
-import IssueCard, { IssueData } from '@/components/deliverables/IssueCard';
-import PullRequestCard, { PullRequestData } from '@/components/deliverables/PullRequestCard';
-import ReviewCard, { ReviewData } from '@/components/deliverables/ReviewCard';
-import CommentCard, { CommentData } from '@/components/deliverables/CommentCard';
+import IssueCard, { IssueData } from '@/components/shippables/IssueCard';
+import PullRequestCard, { PullRequestData } from '@/components/shippables/PullRequestCard';
+import ReviewCard, { ReviewData } from '@/components/shippables/ReviewCard';
+import CommentCard, { CommentData } from '@/components/shippables/CommentCard';
 
 // ---------------------------------------------------------------------------
 //  Meta
 // ---------------------------------------------------------------------------
 
 const meta = {
-  title: 'Demos/Completed Deliverables',
+  title: 'Demos/Completed Shippables',
   parameters: {
     layout: 'fullscreen',
     backgrounds: { default: 'dark', values: [{ name: 'dark', value: '#0F172A' }] }, // slate-900

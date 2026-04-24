@@ -15,12 +15,11 @@ import { createClient } from '@bitcode/supabase';
 import { logger } from '@bitcode/logger';
 import { observability } from '@bitcode/observability';
 import {
-  DeliverablesModel,
   PipelineExecutionsModel,
   ExecutionEventsModel,
   UserBtdBalancesModel
 } from '@bitcode/orm';
-import deliverablePipeline from '@bitcode/pipelines/asset-pack';
+import assetPackPipeline from '@bitcode/pipelines/asset-pack';
 import {
   PipelineExecution,
   inferPipelineExecutionLineage
@@ -171,7 +170,7 @@ function enrichPipelineResult(
  */
 export async function queuePipelineJob(
   options: PipelineJobOptions
-): Promise<{ runId: string; deliverableId?: string }> {
+): Promise<{ runId: string; shippableCompatibilityId?: string }> {
   const span = observability.startSpan('queue_pipeline_job', {
     pipeline: options.pipeline,
     userId: options.userId,
@@ -180,7 +179,6 @@ export async function queuePipelineJob(
 
   try {
     const supabase = createClient();
-    const deliverables = new DeliverablesModel(supabase);
     const runs = new PipelineExecutionsModel(supabase);
     const userBtdBalances = new UserBtdBalancesModel(supabase);
 
@@ -203,27 +201,11 @@ export async function queuePipelineJob(
       throw new Error('Failed to reserve BTD');
     }
 
-    // Create deliverable if needed
-    let deliverableId: string | undefined;
-    if (options.pipeline === 'deliverable') {
-      const deliverable = await deliverables.create({
-        name: options.task,
-        description: `Deliverable created via MCP: ${options.task}`,
-        user_id: options.userId,
-        organization_id: options.organizationId ?? null,
-        status: 'pending',
-        metadata: {
-          ...options.metadata,
-          mcp_created: true,
-          api_key_id: options.apiKeyId
-        }
-      });
-      deliverableId = deliverable.id;
-    }
+    const shippableCompatibilityId = uuidv4();
 
     // Create run record
     const run = await runs.create({
-      deliverable_id: deliverableId || uuidv4(), // Compatibility id for asset-pack runs without a retained delivery mechanism.
+      deliverable_id: shippableCompatibilityId,
       user_id: options.userId,
       status: 'pending',
       metadata: {
@@ -244,12 +226,12 @@ export async function queuePipelineJob(
 
     logger.info('Pipeline job queued', {
       runId: run.id,
-      deliverableId,
+      shippableCompatibilityId,
       pipeline: options.pipeline,
       userId: options.userId
     });
 
-    return { runId: run.id, deliverableId };
+    return { runId: run.id, shippableCompatibilityId };
   } catch (error) {
     span.recordException(error as Error);
     throw error;
@@ -312,20 +294,20 @@ async function executePipelineJob(
     let actualBtdUsed = options.estimatedBtd;
 
     switch (options.pipeline) {
-      case 'deliverable': {
+      case 'asset-pack': {
         const inputContext = buildPipelineInputContext('bitcode_mcp', options.config);
         const execution = new PipelineExecution(
           runId,
           undefined,
-          inferPipelineExecutionLineage('deliverable')
+          inferPipelineExecutionLineage('asset-pack')
         );
         execution.store('interface', 'ingress', {
           surface: 'bitcode_mcp',
           interfaceKind: 'bitcode_exchange_interface',
-          pipeline: options.pipeline,
+          pipeline: 'asset-pack',
         } as any);
         execution.store('inputs', 'context', inputContext as any);
-        result = await deliverablePipeline({
+        result = await assetPackPipeline({
           task: options.task,
           config: options.config,
           userId: options.userId,

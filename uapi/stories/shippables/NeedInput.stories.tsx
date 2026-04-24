@@ -4,7 +4,7 @@ import { action } from '@storybook/addon-actions';
 import ExecutionNeedInput from '@/components/base/bitcode/execution/ExecutionNeedInput';
 
 const meta = {
-  title: 'Deliverables/NeedInput',
+  title: 'Shippables/NeedInput',
   component: ExecutionNeedInput,
   tags: ['autodocs'],
   argTypes: {

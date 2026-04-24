@@ -82,7 +82,7 @@ export {
 // SCENARIOS
 // =============================================================================
 
-export * from './scenarios/specific/deliverable-scenarios';
+export * from './scenarios/specific/asset-pack-scenarios';
 
 // =============================================================================
 // MAIN API
@@ -92,7 +92,8 @@ import { UnifiedTestDataGenerator } from './generators/UnifiedTestDataGenerator'
 import { DryRunAdapter } from './adapters/DryRunAdapter';
 import { MockSystemAdapter } from './adapters/MockSystemAdapter';
 import { StorybookAdapter } from './adapters/StorybookAdapter';
-import { DELIVERABLE_SCENARIOS } from './scenarios/specific/deliverable-scenarios';
+import type { TestScenario } from './primitives';
+import { ASSET_PACK_SCENARIOS } from './scenarios/specific/asset-pack-scenarios';
 
 /**
  * The main Test Intelligence instance
@@ -173,17 +174,17 @@ export class TestIntelligence {
   }
   
   private registerDefaultScenarios() {
-    // Register deliverable scenarios
-    for (const scenario of DELIVERABLE_SCENARIOS) {
+    // Register AssetPack scenarios
+    for (const scenario of ASSET_PACK_SCENARIOS) {
       // Register with adapters
-      this.mockAdapter.registerScenarioForFeatures(scenario, ['DELIVERABLES']);
-      this.storybookAdapter.registerScenario(`deliverables-${scenario.id}`, scenario);
+      this.mockAdapter.registerScenarioForFeatures(scenario, ['ASSET_PACKS']);
+      this.storybookAdapter.registerScenario(`asset-packs-${scenario.id}`, scenario);
     }
   }
   
   private findScenario(id: string): TestScenario | null {
     // Implementation would search all registered scenarios
-    return DELIVERABLE_SCENARIOS.find(s => s.id === id) || null;
+    return ASSET_PACK_SCENARIOS.find(s => s.id === id) || null;
   }
 }
 

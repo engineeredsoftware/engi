@@ -1,6 +1,6 @@
 # Pipeline-Wide LSP Optimization Guide
 
-This guide demonstrates how to leverage the LSP optimization engine for maximum performance across all phases of the deliverable pipeline.
+This guide demonstrates how to leverage the LSP optimization engine for maximum performance across all phases of the AssetPack pipeline.
 
 ## Overview
 
@@ -516,4 +516,4 @@ The LSP optimization engine provides significant performance improvements when u
 - **Consistent performance** across different pipeline phases
 - **Resource efficiency** through connection pooling and memory management
 
-Follow the patterns and best practices in this guide to achieve optimal LSP performance in your deliverable pipeline.
+Follow the patterns and best practices in this guide to achieve optimal LSP performance in your AssetPack pipeline.

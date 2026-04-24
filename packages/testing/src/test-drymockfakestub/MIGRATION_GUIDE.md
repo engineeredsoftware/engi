@@ -31,16 +31,16 @@ export default {
 ### 3. Basic Usage
 
 ```typescript
-import { testIntelligence, ENTERPRISE_DELIVERABLE_SCENARIO } from '@bitcode/test-intelligence';
+import { testIntelligence, ENTERPRISE_ASSET_PACK_SCENARIO } from '@bitcode/test-intelligence';
 
 // Generate test data
-const data = testIntelligence.generate('enterprise-deliverable-with-conflicts');
+const data = testIntelligence.generate('enterprise-asset-pack-with-conflicts');
 
 // Use with DryRun
-const dryRunConfig = testIntelligence.getDryRunAdapter().adaptScenario(ENTERPRISE_DELIVERABLE_SCENARIO);
+const dryRunConfig = testIntelligence.getDryRunAdapter().adaptScenario(ENTERPRISE_ASSET_PACK_SCENARIO);
 
 // Use with MockOrchestrator
-const mockData = await testIntelligence.getMockAdapter().getMockData('DELIVERABLES');
+const mockData = await testIntelligence.getMockAdapter().getMockData('ASSET_PACKS');
 
 // Use with Storybook
 export default {
@@ -93,7 +93,7 @@ if (ENABLE_MOCKS) {
 After:
 ```typescript
 const mockAdapter = testIntelligence.getMockAdapter();
-const mockData = await mockAdapter.getMockData('DELIVERABLES', 'enterprise');
+const mockData = await mockAdapter.getMockData('ASSET_PACKS', 'enterprise');
 return mockData.data;
 ```
 
@@ -111,7 +111,7 @@ After:
 ```typescript
 const dryRunConfig = testIntelligence
   .getDryRunAdapter()
-  .createForPipeline('deliverable', { phase: 'implementation' });
+  .createForPipeline('asset-pack', { phase: 'implementation' });
 ```
 
 ### From Storybook
@@ -131,7 +131,7 @@ After:
 export default {
   decorators: [storybookAdapter.withTestIntelligence],
   parameters: {
-    testScenario: 'enterprise-deliverable-with-conflicts'
+    testScenario: 'enterprise-asset-pack-with-conflicts'
   }
 };
 
@@ -213,8 +213,8 @@ storybookAdapter.registerScenario('premium-flow', PREMIUM_FLOW_SCENARIO);
 ### 1. Naming Conventions
 
 - Test Parts: `ENTITY_VARIANT` (e.g., `USER_ENTERPRISE`, `REPO_PRIVATE`)
-- Compositions: `FEATURE_DATA` (e.g., `DELIVERABLE_SETUP`, `AUTH_FLOW_DATA`)
-- Scenarios: `FEATURE_VARIANT_SCENARIO` (e.g., `DELIVERABLE_ENTERPRISE_SCENARIO`)
+- Compositions: `FEATURE_DATA` (e.g., `ASSET_PACK_SETUP`, `AUTH_FLOW_DATA`)
+- Scenarios: `FEATURE_VARIANT_SCENARIO` (e.g., `ASSET_PACK_ENTERPRISE_SCENARIO`)
 
 ### 2. Doc-Test Comments
 
@@ -256,7 +256,7 @@ const composition = createTestComposition<SetupData>({ ... });
 ### Streaming Data
 
 ```typescript
-const stream = mockAdapter.streamMockData('DELIVERABLES', {
+const stream = mockAdapter.streamMockData('ASSET_PACKS', {
   eventCount: 10,
   eventDelay: 100
 });

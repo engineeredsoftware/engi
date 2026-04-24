@@ -4,7 +4,7 @@
  * Provides specialized middleware functions for each major area of the Bitcode system:
  * - User Auxillaries (onboarding, auth, profile)
  * - Conversations (ChatGPT-style Bitcode usage)
- * - Deliverables/AI Documents (main pipelines)
+ * - AssetPacks/AI Documents (main pipelines)
  * - Organizations (enterprise features)
  * - Integrations (GitHub, GitLab, etc.)
  * - Marketplace (business features)
@@ -298,15 +298,15 @@ export const mockChat = {
 };
 
 // ============================================================================
-// DELIVERABLES & UPGRADES PIPELINE MIDDLEWARE
+// ASSETPACK & SHIPPABLE PIPELINE MIDDLEWARE
 // ============================================================================
 
 /**
- * Deliverables pipeline middleware (main creation flow)
+ * AssetPack pipeline middleware with optional Shippable delivery flow
  */
-export const mockDeliverables = {
+export const mockAssetPacks = {
   main: () => createSpecializedMiddleware({
-    feature: 'DELIVERABLES',
+    feature: 'ASSET_PACKS',
     timing: 'realistic',
     streamingSupported: true,
     performanceTracking: true,
@@ -318,39 +318,39 @@ export const mockDeliverables = {
   }),
   
   runs: () => createSpecializedMiddleware({
-    feature: 'DELIVERABLE_RUNS',
+    feature: 'ASSET_PACK_RUNS',
     timing: 'realistic',
     streamingSupported: true,
     performanceTracking: true
   }),
   
   history: () => createSpecializedMiddleware({
-    feature: 'DELIVERABLE_HISTORY',
+    feature: 'ASSET_PACK_HISTORY',
     timing: 'fast',
     cacheControl: { enabled: true, ttlSeconds: 300 }
   }),
   
   items: () => createSpecializedMiddleware({
-    feature: 'DELIVERABLE_ITEMS',
+    feature: 'ASSET_PACK_ITEMS',
     timing: 'fast',
     performanceTracking: true
   }),
   
   instructions: () => createSpecializedMiddleware({
-    feature: 'DELIVERABLE_INSTRUCTIONS',
+    feature: 'ASSET_PACK_INSTRUCTIONS',
     timing: 'fast',
     performanceTracking: true
   }),
   
   stream: () => createSpecializedMiddleware({
-    feature: 'DELIVERABLE_STREAM',
+    feature: 'ASSET_PACK_STREAM',
     timing: 'realistic',
     streamingSupported: true,
     performanceTracking: true
   }),
   
   logs: () => createSpecializedMiddleware({
-    feature: 'DELIVERABLE_LOGS',
+    feature: 'ASSET_PACK_LOGS',
     timing: 'fast',
     streamingSupported: true,
     performanceTracking: true
@@ -675,7 +675,7 @@ export const mockAdmin = {
  * Legacy middleware functions for backward compatibility
  */
 export const mockLegacy = {
-  deliverables: () => mockDeliverables.main(),
+  assetPacks: () => mockAssetPacks.main(),
   github: (type: 'repos' | 'issues' | 'accounts' = 'repos') => mockGitHub[type](),
   userData: (type: 'profile' | 'btd' | 'usage' = 'profile') => mockUser[type]()
 };
@@ -757,7 +757,7 @@ export const mockAreas = {
   auxillaries: { auth: mockAuth, user: mockUser, onboarding: mockOnboarding },
   orbital: { auth: mockAuth, user: mockUser, onboarding: mockOnboarding },
   conversation: { chat: mockChat, ...mockConversation },
-  pipelines: { deliverables: mockDeliverables },
+  pipelines: { assetPacks: mockAssetPacks },
   organizations: mockOrganizations,
   integrations: { github: mockGitHub, gitlab: mockGitLab, ...mockIntegrations },
   marketplace: mockMarketplace,
@@ -773,7 +773,7 @@ export {
   mockOnboarding,
   mockConversation,
   mockChat,
-  mockDeliverables,
+  mockAssetPacks,
   mockOrganizations,
   mockGitHub,
   mockGitLab,

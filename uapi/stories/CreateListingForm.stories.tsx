@@ -10,7 +10,7 @@ const meta: Meta<typeof CreateListingForm> = {
       {
         id: "d1",
         label: "Payments API PR",
-        type: "deliverable",
+        type: "shippable",
         asset: "pr",
       },
       {
@@ -22,7 +22,7 @@ const meta: Meta<typeof CreateListingForm> = {
     ],
     initialData: {
       deliverable_id: "d1",
-      type: "deliverable",
+      type: "shippable",
       asset: "pr",
       side: "sell",
       price: 750,

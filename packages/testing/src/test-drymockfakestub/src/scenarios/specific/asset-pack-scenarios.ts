@@ -1,8 +1,8 @@
 /**
- * Deliverable-specific test scenarios
+ * AssetPack-specific test scenarios
  * 
- * These scenarios provide comprehensive test data for the deliverable pipeline,
- * covering all phases from setup through shipping.
+ * These scenarios provide comprehensive test data for the AssetPack pipeline,
+ * covering all phases from setup through Finish.
  */
 
 import { createTestPart } from '../../primitives/TestPart';
@@ -18,7 +18,7 @@ import { createTestScenario, TestScenarioBuilder } from '../../primitives/TestSc
  * @type User
  * @credits 50000
  * @tier enterprise
-* @features ["deliverables", "ai_documents", "marketplace", "priority-support"]
+* @features ["asset-packs", "ai_documents", "marketplace", "priority-support"]
  */
 export const ENTERPRISE_USER = createTestPart({
   id: 'user-enterprise-001',
@@ -26,12 +26,12 @@ export const ENTERPRISE_USER = createTestPart({
   name: 'Enterprise User',
   credits: 50000,
   tier: 'enterprise',
-  features: ['deliverables', 'ai_documents', 'marketplace', 'priority-support'],
+  features: ['asset-packs', 'ai_documents', 'marketplace', 'priority-support'],
   metadata: {
     company: 'TechCorp Inc.',
     teamSize: 25,
     monthlyUsage: {
-      deliverables: 150,
+      assetPacks: 150,
       ai_documents: 75,
       averageCreditsPerRun: 300
     }
@@ -68,14 +68,14 @@ export const GITHUB_REPO_WITH_LSP = createTestPart({
 });
 
 /** @doc-test-fixture
- * @id complex-deliverable-request
- * @type DeliverableRequest
+ * @id complex-asset-pack-request
+ * @type AssetPackRequest
  * @complexity high
  * @estimated-credits 500
  */
-export const COMPLEX_DELIVERABLE_REQUEST = createTestPart({
+export const COMPLEX_ASSET_PACK_REQUEST = createTestPart({
   id: 'req-complex-001',
-  task: `Implement a comprehensive authentication system with the following requirements:
+  need: `Implement a comprehensive authentication system with the following requirements:
   
   1. JWT-based authentication with refresh tokens
   2. Role-based access control (RBAC) with permissions
@@ -156,21 +156,21 @@ export const PR_WITH_CONFLICTS = createTestPart({
 // =============================================================================
 
 /** @doc-test-composition
- * @id deliverable-setup-data
- * @parts ["enterprise-user", "github-repository-with-lsp", "complex-deliverable-request"]
+ * @id asset-pack-setup-data
+ * @parts ["enterprise-user", "github-repository-with-lsp", "complex-asset-pack-request"]
  */
-export const DELIVERABLE_SETUP_COMPOSITION = createTestComposition({
-  id: 'deliverable-setup-data',
-  name: 'Deliverable Setup Data',
+export const ASSET_PACK_SETUP_COMPOSITION = createTestComposition({
+  id: 'asset-pack-setup-data',
+  name: 'AssetPack Setup Data',
   parts: [
     ENTERPRISE_USER,
     GITHUB_REPO_WITH_LSP,
-    COMPLEX_DELIVERABLE_REQUEST
+    COMPLEX_ASSET_PACK_REQUEST
   ],
   compose: () => ({
     user: ENTERPRISE_USER,
     repository: GITHUB_REPO_WITH_LSP,
-    request: COMPLEX_DELIVERABLE_REQUEST,
+    request: COMPLEX_ASSET_PACK_REQUEST,
     context: {
       creditBalance: 50000,
       estimatedCost: 500,
@@ -181,16 +181,16 @@ export const DELIVERABLE_SETUP_COMPOSITION = createTestComposition({
 });
 
 /** @doc-test-composition
- * @id deliverable-result-data
+ * @id asset-pack-result-data
  * @parts ["pull-request-with-conflicts"]
  */
-export const DELIVERABLE_RESULT_COMPOSITION = createTestComposition({
-  id: 'deliverable-result-data',
-  name: 'Deliverable Result Data',
+export const ASSET_PACK_RESULT_COMPOSITION = createTestComposition({
+  id: 'asset-pack-result-data',
+  name: 'AssetPack Result Data',
   parts: [PR_WITH_CONFLICTS],
   compose: () => ({
     pullRequest: PR_WITH_CONFLICTS,
-    deliverable: {
+    assetPack: {
       id: 'dlv-001',
       status: 'completed',
       creditsUsed: 487,
@@ -200,7 +200,7 @@ export const DELIVERABLE_RESULT_COMPOSITION = createTestComposition({
         discovery: { duration: 15000, status: 'completed', iterations: 1 },
         implementation: { duration: 60000, status: 'completed', iterations: 2 },
         validation: { duration: 10000, status: 'completed', iterations: 1 },
-        shipping: { duration: 5000, status: 'completed' }
+        finish: { duration: 5000, status: 'completed' }
       },
       metrics: {
         filesChanged: 25,
@@ -218,22 +218,22 @@ export const DELIVERABLE_RESULT_COMPOSITION = createTestComposition({
 // =============================================================================
 
 /** @doc-test-scenario
- * @id enterprise-deliverable-with-conflicts
- * @phases ["setup", "discovery", "implementation", "validation", "shipping"]
+ * @id enterprise-asset-pack-with-conflicts
+ * @phases ["setup", "discovery", "implementation", "validation", "finish"]
  * @expected-credits 500
  * @expected-duration 120000
  */
-export const ENTERPRISE_DELIVERABLE_SCENARIO = new TestScenarioBuilder()
-  .id('enterprise-deliverable-with-conflicts')
-  .name('Enterprise Deliverable with PR Conflicts')
-  .description('Complete deliverable flow for an enterprise user implementing a complex feature that results in PR conflicts')
+export const ENTERPRISE_ASSET_PACK_SCENARIO = new TestScenarioBuilder()
+  .id('enterprise-asset-pack-with-conflicts')
+  .name('Enterprise AssetPack with PR Conflicts')
+  .description('Complete AssetPack flow for an enterprise user synthesizing a complex AssetPack that results in PR conflicts')
   .context({
     environment: 'test',
     user: {
       id: 'user-enterprise-001',
       role: 'owner',
       credits: 50000,
-      features: ['deliverables', 'ai_documents', 'marketplace', 'priority-support']
+      features: ['asset-packs', 'ai_documents', 'marketplace', 'priority-support']
     },
     repository: {
       owner: 'techcorp',
@@ -241,20 +241,20 @@ export const ENTERPRISE_DELIVERABLE_SCENARIO = new TestScenarioBuilder()
       branch: 'feature/auth-system',
       isPrivate: true
     },
-    pipeline: 'deliverable',
+    pipeline: 'asset-pack',
     allowedTools: ['read-file', 'write-file', 'list-files', 'run-tests']
   })
-  .addData(DELIVERABLE_SETUP_COMPOSITION)
-  .addData(DELIVERABLE_RESULT_COMPOSITION)
+  .addData(ASSET_PACK_SETUP_COMPOSITION)
+  .addData(ASSET_PACK_RESULT_COMPOSITION)
   .behavior({
-    phases: ['setup', 'discovery', 'implementation', 'validation', 'shipping'],
+    phases: ['setup', 'discovery', 'implementation', 'validation', 'finish'],
     expectedDuration: 120000,
     expectedCredits: 500,
     expectations: {
       success: true,
       resultPattern: {
         pullRequest: { state: 'open', mergeable: false },
-        deliverable: { status: 'completed' }
+        assetPack: { status: 'completed' }
       }
     },
     assertions: [
@@ -264,15 +264,15 @@ export const ENTERPRISE_DELIVERABLE_SCENARIO = new TestScenarioBuilder()
       },
       {
         name: 'Credits used should be reasonable',
-        check: (result) => result.deliverable?.creditsUsed > 400 && result.deliverable?.creditsUsed < 600
+        check: (result) => result.assetPack?.creditsUsed > 400 && result.assetPack?.creditsUsed < 600
       },
       {
         name: 'All phases should complete',
-        check: (result) => Object.values(result.deliverable?.phases || {}).every((p: any) => p.status === 'completed')
+        check: (result) => Object.values(result.assetPack?.phases || {}).every((p: any) => p.status === 'completed')
       }
     ]
   })
-  .tags('enterprise', 'complex', 'conflicts', 'feature:deliverables')
+  .tags('enterprise', 'complex', 'conflicts', 'feature:asset-packs')
   .performance({
     timeout: 180000,
     memoryLimit: 512 * 1024 * 1024, // 512MB
@@ -281,22 +281,22 @@ export const ENTERPRISE_DELIVERABLE_SCENARIO = new TestScenarioBuilder()
   .build();
 
 /** @doc-test-scenario
- * @id minimal-deliverable-success
- * @phases ["setup", "discovery", "implementation", "validation", "shipping"]
+ * @id minimal-asset-pack-success
+ * @phases ["setup", "discovery", "implementation", "validation", "finish"]
  * @expected-credits 100
  * @expected-duration 30000
  */
-export const MINIMAL_DELIVERABLE_SCENARIO = createTestScenario({
-  id: 'minimal-deliverable-success',
-  name: 'Minimal Deliverable Success',
-  description: 'Simple deliverable that completes quickly with minimal credit usage',
+export const MINIMAL_ASSET_PACK_SCENARIO = createTestScenario({
+  id: 'minimal-asset-pack-success',
+  name: 'Minimal AssetPack Success',
+  description: 'Simple AssetPack that completes quickly with minimal credit usage',
   context: {
     environment: 'test',
     user: {
       id: 'user-basic-001',
       role: 'developer',
       credits: 1000,
-      features: ['deliverables']
+      features: ['asset-packs']
     },
     repository: {
       owner: 'user',
@@ -304,7 +304,7 @@ export const MINIMAL_DELIVERABLE_SCENARIO = createTestScenario({
       branch: 'main',
       isPrivate: false
     },
-    pipeline: 'deliverable'
+    pipeline: 'asset-pack'
   },
   data: [
     createTestComposition({
@@ -312,14 +312,14 @@ export const MINIMAL_DELIVERABLE_SCENARIO = createTestScenario({
       name: 'Minimal Setup',
       parts: [
         createTestPart({
-          task: 'Fix typo in README.md',
+          need: 'Fix typo in README.md',
           repository: 'user/simple-app',
           branch: 'main'
         })
       ],
       compose: () => ({
         request: {
-          task: 'Fix typo in README.md',
+          need: 'Fix typo in README.md',
           repository: 'user/simple-app',
           branch: 'main'
         }
@@ -327,33 +327,33 @@ export const MINIMAL_DELIVERABLE_SCENARIO = createTestScenario({
     })
   ],
   behavior: {
-    phases: ['setup', 'discovery', 'implementation', 'validation', 'shipping'],
+    phases: ['setup', 'discovery', 'implementation', 'validation', 'finish'],
     expectedDuration: 30000,
     expectedCredits: 100,
     expectations: {
       success: true
     }
   },
-  tags: ['minimal', 'quick', 'feature:deliverables']
+  tags: ['minimal', 'quick', 'feature:asset-packs']
 });
 
 /** @doc-test-scenario
- * @id deliverable-error-insufficient-credits
+ * @id asset-pack-error-insufficient-credits
  * @phases ["setup"]
  * @expected-credits 500
  * @expected-error "INSUFFICIENT_CREDITS"
  */
-export const DELIVERABLE_ERROR_SCENARIO = createTestScenario({
-  id: 'deliverable-error-insufficient-credits',
-  name: 'Deliverable Error - Insufficient Credits',
-  description: 'Deliverable that fails due to insufficient credits',
+export const ASSET_PACK_ERROR_SCENARIO = createTestScenario({
+  id: 'asset-pack-error-insufficient-credits',
+  name: 'AssetPack Error - Insufficient Credits',
+  description: 'AssetPack that fails due to insufficient credits',
   context: {
     environment: 'test',
     user: {
       id: 'user-low-credits',
       role: 'developer',
       credits: 50, // Not enough for the task
-      features: ['deliverables']
+      features: ['asset-packs']
     },
     repository: {
       owner: 'user',
@@ -361,9 +361,9 @@ export const DELIVERABLE_ERROR_SCENARIO = createTestScenario({
       branch: 'main',
       isPrivate: false
     },
-    pipeline: 'deliverable'
+    pipeline: 'asset-pack'
   },
-  data: [DELIVERABLE_SETUP_COMPOSITION],
+  data: [ASSET_PACK_SETUP_COMPOSITION],
   behavior: {
     phases: ['setup'],
     expectedDuration: 5000,
@@ -373,21 +373,21 @@ export const DELIVERABLE_ERROR_SCENARIO = createTestScenario({
       errorType: 'INSUFFICIENT_CREDITS'
     }
   },
-  tags: ['error', 'insufficient-credits', 'feature:deliverables']
+  tags: ['error', 'insufficient-credits', 'feature:asset-packs']
 });
 
 // =============================================================================
 // SCENARIO REGISTRY - Export all scenarios for easy discovery
 // =============================================================================
 
-export const DELIVERABLE_SCENARIOS = [
-  ENTERPRISE_DELIVERABLE_SCENARIO,
-  MINIMAL_DELIVERABLE_SCENARIO,
-  DELIVERABLE_ERROR_SCENARIO
+export const ASSET_PACK_SCENARIOS = [
+  ENTERPRISE_ASSET_PACK_SCENARIO,
+  MINIMAL_ASSET_PACK_SCENARIO,
+  ASSET_PACK_ERROR_SCENARIO
 ];
 
-export const DELIVERABLE_SCENARIO_MAP = {
-  'enterprise-complex': ENTERPRISE_DELIVERABLE_SCENARIO,
-  'minimal-success': MINIMAL_DELIVERABLE_SCENARIO,
-  'error-credits': DELIVERABLE_ERROR_SCENARIO
+export const ASSET_PACK_SCENARIO_MAP = {
+  'enterprise-complex': ENTERPRISE_ASSET_PACK_SCENARIO,
+  'minimal-success': MINIMAL_ASSET_PACK_SCENARIO,
+  'error-credits': ASSET_PACK_ERROR_SCENARIO
 };

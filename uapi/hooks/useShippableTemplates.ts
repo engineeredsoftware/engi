@@ -26,7 +26,7 @@ export const useShippableTemplates = (): Hook => {
     setIsLoading(true);
     setError(null);
     try {
-      const res = await fetch('/api/templates/deliverables');
+      const res = await fetch('/api/templates/shippables');
       if (res.status === 401 || res.status === 404) {
         setTemplates({
           pullRequests: [],

@@ -48,7 +48,7 @@ describe('Marketplace navigation flow', () => {
       es.emit([
         {
           id: 'L1',
-          type: 'deliverable',
+          type: 'shippable',
           asset: 'pr',
           side: 'sell',
           price: 100,
@@ -60,7 +60,7 @@ describe('Marketplace navigation flow', () => {
     }
 
     // Wait for the row to appear
-    const row = await screen.findByText('deliverable');
+    const row = await screen.findByText('shippable');
     fireEvent.click(row);
 
     // Detail header appears
@@ -70,6 +70,6 @@ describe('Marketplace navigation flow', () => {
     fireEvent.click(screen.getByText('← Back'));
 
     // Order book appears again
-    await waitFor(() => expect(screen.getByText('deliverable')).toBeInTheDocument());
+    await waitFor(() => expect(screen.getByText('shippable')).toBeInTheDocument());
   });
 });

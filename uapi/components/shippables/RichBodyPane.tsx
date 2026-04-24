@@ -1,6 +1,6 @@
 "use client";
 
-// Unified scrollable markdown container used by all deliverable cards so they
+// Unified scrollable markdown container used by all Shippable cards so they
 // look identical (same padding, scrollbar, accent colour, etc.).
 
 import React from 'react';

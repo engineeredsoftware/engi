@@ -137,8 +137,8 @@ NEXT_PUBLIC_MOCK_ERROR_PROBABILITY=0.01
 NEXT_PUBLIC_MOCK_VALIDATION_ENABLED=true
 
 # Feature-specific overrides (examples - uncomment to customize)
-# NEXT_PUBLIC_MOCK_DELIVERABLES=true
-# NEXT_PUBLIC_MOCK_DELIVERABLES_SCENARIO=enterprise
+# NEXT_PUBLIC_MOCK_ASSET_PACKS=true
+# NEXT_PUBLIC_MOCK_ASSET_PACKS_SCENARIO=enterprise
 # NEXT_PUBLIC_MOCK_CONVERSATION_CONVERSATIONS=true
 # NEXT_PUBLIC_MOCK_GITHUB_REPOS=false
 
@@ -182,7 +182,7 @@ yarn dev
 \`\`\`
 
 ### 2. Visit Any Page - Mocking is Now Active!
-- **Deliverables:** Rich ${scenario} data automatically loads
+- **AssetPacks:** Rich ${scenario} data automatically loads
 - **Conversations Chat:** Realistic conversation history
 - **User Profile:** Complete user data with credits, usage, etc.
 - **GitHub Integration:** Full repository, branch, and commit data
@@ -190,7 +190,7 @@ yarn dev
 
 ### 3. See It in Action
 Visit these pages to see mocking in action:
-- \`/deliverables\` - Main pipeline experience
+- \`/assetPacks\` - Main pipeline experience
 - \`/chat\` - Conversations chat interface  
 - \`/profile\` - User profile and settings
 - \`/organizations\` - Team management
@@ -212,8 +212,8 @@ NEXT_PUBLIC_MOCK_SCENARIO=testing
 # Disable GitHub mocking (use real data)
 NEXT_PUBLIC_MOCK_GITHUB_REPOS=false
 
-# Enable only deliverables mocking
-NEXT_PUBLIC_MOCK_DELIVERABLES=true
+# Enable only assetPacks mocking
+NEXT_PUBLIC_MOCK_ASSET_PACKS=true
 NEXT_PUBLIC_MOCK_CONVERSATION_CONVERSATIONS=false
 \`\`\`
 
@@ -271,7 +271,7 @@ function getScenarioFeatures(scenario) {
     demo: `
 ### Rich Demo Experience
 - **User Data:** Complete profiles with realistic usage history
-- **Deliverables:** 5-10 completed runs with complex outputs
+- **AssetPacks:** 5-10 completed runs with complex outputs
 - **Conversations:** Active conversations with AI responses
 - **GitHub:** Multiple repos with branches, commits, issues
 - **Organizations:** Teams with multiple members and roles
@@ -281,7 +281,7 @@ function getScenarioFeatures(scenario) {
     enterprise: `
 ### Enterprise-Scale Data
 - **User Data:** Large organizations with many team members
-- **Deliverables:** 50+ runs across multiple repositories
+- **AssetPacks:** 50+ runs across multiple repositories
 - **Conversations:** Extensive conversation histories
 - **GitHub:** 100+ repositories with full branch/commit data
 - **Organizations:** Complex team structures and permissions
@@ -291,7 +291,7 @@ function getScenarioFeatures(scenario) {
     testing: `
 ### Minimal Test Data
 - **User Data:** Single user with basic profile
-- **Deliverables:** 1-3 simple runs with predictable outputs
+- **AssetPacks:** 1-3 simple runs with predictable outputs
 - **Conversations:** Basic conversation structure
 - **GitHub:** Minimal repo data for consistent testing
 - **Organizations:** Single organization setup
@@ -301,7 +301,7 @@ function getScenarioFeatures(scenario) {
     onboarding: `
 ### New User Experience
 - **User Data:** Fresh user profile ready for onboarding
-- **Deliverables:** Empty state with tutorial prompts
+- **AssetPacks:** Empty state with tutorial prompts
 - **Conversations:** Welcome conversation and guidance
 - **GitHub:** Repository connection prompts
 - **Organizations:** Team invitation workflows
@@ -311,7 +311,7 @@ function getScenarioFeatures(scenario) {
     empty: `
 ### Empty State Testing
 - **User Data:** Minimal user with no activity
-- **Deliverables:** Empty run history
+- **AssetPacks:** Empty run history
 - **Conversations:** No conversations
 - **GitHub:** No connected repositories
 - **Organizations:** No team memberships

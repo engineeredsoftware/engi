@@ -1,4 +1,4 @@
-import { branchDeliverableRun } from '../../pipelines/branch';
+import { branchAssetPackRun } from '../../pipelines/branch';
 
 jest.mock('@bitcode/supabase', () => {
   const tables: Record<string, any[]> = {
@@ -33,7 +33,7 @@ jest.mock('@bitcode/supabase', () => {
   return { supabaseAdmin: api };
 });
 
-describe('branchDeliverableRun', () => {
+describe('branchAssetPackRun', () => {
   const userId = 'user-1';
   const sourceId = 'run-1';
 
@@ -45,7 +45,7 @@ describe('branchDeliverableRun', () => {
       .insert({
         id: sourceId,
         user_id: userId,
-        type: 'deliverable',
+        type: 'agentic-execution:asset-pack',
         guide: 'Develop',
         status: 'running',
         config: { foo: 'bar' },
@@ -60,7 +60,7 @@ describe('branchDeliverableRun', () => {
   });
 
   it('creates a new run copying config/input and lineage', async () => {
-    const { id: branchedId } = await branchDeliverableRun(userId, sourceId, { title: 'branch-a' });
+    const { id: branchedId } = await branchAssetPackRun(userId, sourceId, { title: 'branch-a' });
     expect(branchedId).toBeTruthy();
 
     // @ts-ignore
@@ -80,8 +80,8 @@ describe('branchDeliverableRun', () => {
   });
 
   it('allows branching while source is running (mid-execution)', async () => {
-    const b1 = await branchDeliverableRun(userId, sourceId);
-    const b2 = await branchDeliverableRun(userId, sourceId);
+    const b1 = await branchAssetPackRun(userId, sourceId);
+    const b2 = await branchAssetPackRun(userId, sourceId);
     expect(b1.id).not.toEqual(b2.id);
   });
 });

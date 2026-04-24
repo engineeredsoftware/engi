@@ -10,7 +10,6 @@ jest.mock('@bitcode/engine/pipeline/iterationHandler', () => ({
   executeIteration: jest.fn(() => Promise.resolve({ success: true, validationPassed: true })),
   canRecoverIteration: jest.fn(() => ({ canRecover: true }))
 }));
-import { configureDryRun } from '@bitcode/dryrun';
 import { runSDIVFPipeline } from '@bitcode/engine/pipeline/pipelineSDIVF';
 
 // Mock global context to provide minimal data for pipeline
@@ -19,7 +18,7 @@ jest.mock('@bitcode/context', () => ({
     dataStream: { writeData: jest.fn(), close: jest.fn() },
     abortSignal: {},
     execution: { phases: { iterations: [] } },
-    taskContext: { taskType: 'deliverables', task: 'test-task' },
+    needContext: { executionType: 'asset-pack', need: 'test-need' },
     repository: {
       owner: 'owner',
       name: 'repo',
@@ -36,7 +35,7 @@ jest.mock('@bitcode/context', () => ({
   }))
 }));
 
-describe('Deliverables pipeline dry-run', () => {
+describe('AssetPack pipeline dry-run', () => {
   beforeAll(() => {
     // Enable dry run mode
     process.env.DRY_RUN_MODE = 'true';

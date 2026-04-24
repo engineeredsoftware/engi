@@ -48,7 +48,7 @@ Your entire Bitcode application now has rich, realistic mock data automatically.
 
 ✅ **User Auxillaries** (25+ features): Authentication, profiles, onboarding, preferences  
 ✅ **Conversations** (10+ features): ChatGPT-style Bitcode conversations, tool responses, AI replies  
-✅ **Deliverables/AI Documents** (16+ features): Main pipelines with 4 toggles, streaming  
+✅ **AssetPacks/AI Documents** (16+ features): Main pipelines with 4 toggles, streaming  
 ✅ **Organizations** (8+ features): Enterprise teams, members, treasury, invitations  
 ✅ **Integrations** (25+ features): GitHub, GitLab, Bitbucket, Figma, Notion  
 ✅ **Marketplace** (5+ features): Listings, orders, ticker, categories  
@@ -99,7 +99,7 @@ export const GET = async (request: NextRequest) => {
 // After: Enhanced with comprehensive mocking
 import { mockAreas } from '@/mocking';
 
-export const GET = mockAreas.pipelines.deliverables.main()(async (request: NextRequest) => {
+export const GET = mockAreas.pipelines.assetPacks.main()(async (request: NextRequest) => {
   // Your original logic - UNCHANGED!
 });
 ```
@@ -110,7 +110,7 @@ export const GET = mockAreas.pipelines.deliverables.main()(async (request: NextR
 import { useMockData } from '@/mocking';
 
 function MyComponent() {
-  const { data, loading, error } = useMockData('DELIVERABLES');
+  const { data, loading, error } = useMockData('ASSET_PACKS');
   
   // Your existing component logic works exactly the same!
   // Mock data appears automatically when enabled
@@ -180,8 +180,8 @@ NEXT_PUBLIC_MOCK_CACHE_MAX_SIZE_MB=100
 #### Feature-Specific Overrides
 ```bash
 # Override specific features
-NEXT_PUBLIC_MOCK_DELIVERABLES=true
-NEXT_PUBLIC_MOCK_DELIVERABLES_SCENARIO=enterprise
+NEXT_PUBLIC_MOCK_ASSET_PACKS=true
+NEXT_PUBLIC_MOCK_ASSET_PACKS_SCENARIO=enterprise
 NEXT_PUBLIC_MOCK_CONVERSATION_CONVERSATIONS=true
 NEXT_PUBLIC_MOCK_GITHUB_REPOS=false        # Keep GitHub real
 ```
@@ -202,7 +202,7 @@ initializeMockSystem({
   defaultScenario: 'enterprise',
   debug: true,
   features: {
-    DELIVERABLES: { enabled: true, scenario: 'demo' },
+    ASSET_PACKS: { enabled: true, scenario: 'demo' },
     GITHUB_REPOS: { enabled: false } // Use real GitHub data
   }
 });
@@ -211,8 +211,8 @@ initializeMockSystem({
 ## 📊 Features Overview
 
 ### Core Pipeline Features
-- **Deliverables:** Full pipeline with streaming, logs, events
-- **AI Documents:** Nearly identical to deliverables experience
+- **AssetPacks:** Full pipeline with streaming, logs, events
+- **AI Documents:** Nearly identical to assetPacks experience
 - **Real-time:** Streaming simulation with realistic timing
 
 ### User Experience Areas
@@ -246,7 +246,7 @@ orchestrator.registerScenario({
   complexity: 'moderate',
   timing: 'realistic',
   features: {
-    DELIVERABLES: { enabled: true, data: { /* custom data */ } }
+    ASSET_PACKS: { enabled: true, data: { /* custom data */ } }
   }
 });
 ```
@@ -391,7 +391,7 @@ import type {
 } from '@/mocking/types/core';
 
 // Comprehensive feature types
-const feature: MockableFeature = 'DELIVERABLES'; // 138+ options
+const feature: MockableFeature = 'ASSET_PACKS'; // 138+ options
 const scenario: MockScenarioType = 'demo';       // 6 scenario types
 ```
 

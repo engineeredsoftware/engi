@@ -254,8 +254,8 @@ Enable real-time streaming of pipeline execution progress:
 import { createStreamingExecution, emitPhaseTransition, emitAgentActivity } from '@bitcode/pipelines-generics';
 import { createClient } from '@supabase/supabase-js';
 
-// Example: Starting a deliverables pipeline with streaming
-async function runPipelineWithStreaming(userId: string, task: string) {
+// Example: starting AssetPack execution with streaming
+async function runPipelineWithStreaming(userId: string, need: string) {
   const supabase = createClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
     process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
@@ -267,7 +267,7 @@ async function runPipelineWithStreaming(userId: string, task: string) {
     .insert({
       user_id: userId,
       status: 'running',
-      context: { task },
+      context: { need },
       created_at: new Date().toISOString(),
     })
     .select()

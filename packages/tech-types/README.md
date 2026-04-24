@@ -93,4 +93,4 @@ console.log(technologyProfile);
 
 Provides standardized technology taxonomy and signal normalization for consistent identification across the Bitcode platform. In V26, this package is part of the Bitcode need-measurement spine: the preserved protocol defines the measurement realities, while productized dependents use these types and helpers to classify stacks, requests, assets, and execution contexts without semantic drift.
 
-Current dependent surfaces include the `tech-types-identifier` generic agent package and the deliverable pipeline setup chain, both of which rely on this package to keep inferred stack labels aligned with the preserved protocol's measured-need semantics.
+Current dependent surfaces include the `tech-types-identifier` generic agent package and the AssetPack setup chain, both of which rely on this package to keep inferred stack labels aligned with the preserved protocol's measured-need semantics.

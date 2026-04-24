@@ -5,7 +5,7 @@
  * identified in the comprehensive Bitcode system audit.
  * 
  * Features:
- * - Complete system coverage (User Auxillaries, Conversations, Deliverables, Organizations, etc.)
+ * - Complete system coverage (User Auxillaries, Conversations, AssetPacks, Organizations, etc.)
  * - Realistic data patterns with relationships
  * - Performance-optimized generation
  * - Scenario-aware complexity scaling
@@ -82,15 +82,15 @@ export class ComprehensiveMockDataGenerator {
     // CORE PIPELINE FEATURES
     // ========================================================================
 
-    // Deliverables Pipeline
-    this.generators.set('DELIVERABLES', () => this.generateDeliverables());
-    this.generators.set('DELIVERABLE_RUNS', () => this.generateDeliverableRuns());
-    this.generators.set('DELIVERABLE_HISTORY', () => this.generateDeliverableHistory());
-    this.generators.set('DELIVERABLE_ITEMS', () => this.generateDeliverableItems());
-    this.generators.set('DELIVERABLE_INSTRUCTIONS', () => this.generateDeliverableInstructions());
-    this.generators.set('DELIVERABLE_STREAM', () => this.generateDeliverableStream());
-    this.generators.set('DELIVERABLE_LOGS', () => this.generateDeliverableLogs());
-    this.generators.set('DELIVERABLE_RUN_EVENTS', () => this.generateDeliverableRunEvents());
+    // AssetPacks Pipeline
+    this.generators.set('ASSET_PACKS', () => this.generateAssetPacks());
+    this.generators.set('ASSET_PACK_RUNS', () => this.generateAssetPackRuns());
+    this.generators.set('ASSET_PACK_HISTORY', () => this.generateAssetPackHistory());
+    this.generators.set('ASSET_PACK_ITEMS', () => this.generateAssetPackItems());
+    this.generators.set('ASSET_PACK_INSTRUCTIONS', () => this.generateAssetPackInstructions());
+    this.generators.set('ASSET_PACK_STREAM', () => this.generateAssetPackStream());
+    this.generators.set('ASSET_PACK_LOGS', () => this.generateAssetPackLogs());
+    this.generators.set('ASSET_PACK_RUN_EVENTS', () => this.generateAssetPackRunEvents());
 
     // AI Documents Pipeline removed - not V26
 
@@ -221,7 +221,7 @@ export class ComprehensiveMockDataGenerator {
     // TEMPLATES & PREFERENCES
     // ========================================================================
 
-    this.generators.set('DELIVERABLE_TEMPLATES', () => this.generateDeliverableTemplates());
+    this.generators.set('ASSET_PACK_TEMPLATES', () => this.generateAssetPackTemplates());
     this.generators.set('UPGRADE_TEMPLATES', () => this.generateUpgradeTemplates());
     this.generators.set('TEMPLATE_PREFERENCES', () => this.generateTemplatePreferences());
     this.generators.set('TEMPLATE_CATEGORIES', () => this.generateTemplateCategories());
@@ -267,7 +267,7 @@ export class ComprehensiveMockDataGenerator {
     // VECTOR & AI
     // ========================================================================
 
-    this.generators.set('DELIVERABLE_VECTORS', () => this.generateDeliverableVectors());
+    this.generators.set('ASSET_PACK_VECTORS', () => this.generateAssetPackVectors());
     this.generators.set('UPGRADE_VECTORS', () => this.generateUpgradeVectors());
     this.generators.set('USER_VECTORS', () => this.generateUserVectors());
     this.generators.set('PATTERN_RECOGNITION', () => this.generatePatternRecognition());
@@ -295,20 +295,20 @@ export class ComprehensiveMockDataGenerator {
   }
 
   // ============================================================================
-  // DELIVERABLES PIPELINE GENERATORS
+  // ASSET_PACKS PIPELINE GENERATORS
   // ============================================================================
 
-  private generateDeliverables() {
+  private generateAssetPacks() {
     return [
       {
-        id: 'del_' + this.generateId(),
+        id: 'asset_pack_' + this.generateId(),
         created_at: this.generateTimestamp(),
         updated_at: this.generateTimestamp(),
         summary: 'Implement user authentication system with OAuth2 support',
-        task_description: 'Create a comprehensive authentication system that supports multiple OAuth providers including GitHub, Google, and Microsoft. The system should include secure session management, role-based access control, and proper token handling.',
+        need_description: 'Create a comprehensive authentication system that supports multiple OAuth providers including GitHub, Google, and Microsoft. The system should include secure session management, role-based access control, and proper token handling.',
         repository: 'bitcode-labs/auth-service',
         status: this.pickRandom(['pending', 'in_progress', 'completed', 'failed']),
-        items: this.generateDeliverableItems(),
+        items: this.generateAssetPackItems(),
         processing_stats: {
           time: '245s',
           tokens: { input: 1247, output: 623, total: 1870 },
@@ -322,14 +322,14 @@ export class ComprehensiveMockDataGenerator {
         }
       },
       {
-        id: 'del_' + this.generateId(),
+        id: 'asset_pack_' + this.generateId(),
         created_at: this.generateTimestamp(-1),
         updated_at: this.generateTimestamp(-1),
         summary: 'Optimize database query performance for user analytics',
-        task_description: 'Analyze and optimize slow-running database queries in the analytics service. Focus on user engagement metrics, conversion funnels, and reporting dashboards.',
+        need_description: 'Analyze and optimize slow-running database queries in the analytics service. Focus on user engagement metrics, conversion funnels, and reporting dashboards.',
         repository: 'bitcode-labs/analytics-service',
         status: 'completed',
-        items: this.generateDeliverableItems(),
+        items: this.generateAssetPackItems(),
         processing_stats: {
           time: '189s',
           tokens: { input: 892, output: 456, total: 1348 },
@@ -339,7 +339,7 @@ export class ComprehensiveMockDataGenerator {
     ];
   }
 
-  private generateDeliverableRuns() {
+  private generateAssetPackRuns() {
     return [
       {
         id: 'run_' + this.generateId(),
@@ -348,10 +348,10 @@ export class ComprehensiveMockDataGenerator {
         status: 'running',
         progress: 0.65,
         phase: 'Implementation',
-        current_agent: 'DeliveryAgent',
+        current_agent: 'AssetPackSynthesisAgent',
         estimated_completion: this.generateTimestamp(0, 15), // 15 minutes from now
         context: {
-          task: 'Add real-time notifications to the dashboard',
+          need: 'Add real-time notifications to the dashboard',
           repository: 'bitcode-labs/dashboard-ui',
           branch: 'feature/notifications',
           attachments: [],
@@ -367,12 +367,12 @@ export class ComprehensiveMockDataGenerator {
         progress: 1.0,
         phase: 'Completed',
         completion_time: this.generateTimestamp(-1, 12),
-        items: this.generateDeliverableItems()
+        items: this.generateAssetPackItems()
       }
     ];
   }
 
-  private generateDeliverableHistory() {
+  private generateAssetPackHistory() {
     return [
       {
         id: 'hist_' + this.generateId(),
@@ -381,7 +381,7 @@ export class ComprehensiveMockDataGenerator {
         summary: 'Implemented comprehensive API rate limiting system',
         status: 'completed',
         duration: '287s',
-        deliverables_count: 3,
+        assetPacks_count: 3,
         cost: 0.0234
       },
       {
@@ -391,7 +391,7 @@ export class ComprehensiveMockDataGenerator {
         summary: 'Enhanced mobile responsiveness for BTC-to-$BTD acquisition flow',
         status: 'completed',
         duration: '156s',
-        deliverables_count: 2,
+        assetPacks_count: 2,
         cost: 0.0156
       },
       {
@@ -401,23 +401,23 @@ export class ComprehensiveMockDataGenerator {
         summary: 'Optimized image processing pipeline',
         status: 'completed',
         duration: '412s',
-        deliverables_count: 4,
+        assetPacks_count: 4,
         cost: 0.0412
       }
     ];
   }
 
-  private generateDeliverableItems() {
+  private generateAssetPackItems() {
     return [
       {
         id: 'item_' + this.generateId(),
         title: 'OAuth2 Configuration Module',
         output: 'Created comprehensive OAuth2 configuration system with support for multiple providers. The module includes secure credential management, token validation, and automatic refresh capabilities.',
         repository: 'bitcode-labs/auth-service',
-        deliverable_type: 'pr',
-        deliverable_id: '245',
-        deliverable_status: 'open',
-        deliverable_url: 'https://github.com/bitcode-labs/auth-service/pull/245',
+        assetPack_type: 'pr',
+        assetPack_id: '245',
+        assetPack_status: 'open',
+        assetPack_url: 'https://github.com/bitcode-labs/auth-service/pull/245',
         attached_urls: ['https://docs.oauth.net/2/', 'https://auth0.com/docs/oauth2'],
         selected_files: ['src/auth/oauth.ts', 'src/config/providers.ts', 'tests/auth.test.ts'],
         created_at: this.generateTimestamp()
@@ -427,10 +427,10 @@ export class ComprehensiveMockDataGenerator {
         title: 'User Session Management',
         output: 'Implemented secure session management with Redis backend, automatic cleanup, and security monitoring. Sessions now include proper CSRF protection and secure cookie handling.',
         repository: 'bitcode-labs/auth-service',
-        deliverable_type: 'pr',
-        deliverable_id: '246',
-        deliverable_status: 'open',
-        deliverable_url: 'https://github.com/bitcode-labs/auth-service/pull/246',
+        assetPack_type: 'pr',
+        assetPack_id: '246',
+        assetPack_status: 'open',
+        assetPack_url: 'https://github.com/bitcode-labs/auth-service/pull/246',
         attached_urls: [],
         selected_files: ['src/session/manager.ts', 'src/middleware/session.ts'],
         created_at: this.generateTimestamp()
@@ -573,7 +573,7 @@ export class ComprehensiveMockDataGenerator {
         id: 'txn_' + this.generateId(),
         type: 'usage',
         amount: -23,
-        description: 'Deliverable run - Auth system implementation',
+        description: 'AssetPack run - Auth system implementation',
         created_at: this.generateTimestamp(-5),
         status: 'completed',
         run_id: 'run_' + this.generateId()
@@ -980,11 +980,11 @@ export class ComprehensiveMockDataGenerator {
   // GENERATOR STUBS (To be implemented as needed)
   // ============================================================================
 
-  // Deliverables Pipeline (continued)
-  private generateDeliverableInstructions() { return this.generateInstructionsData('deliverable'); }
-  private generateDeliverableStream() { return this.generateStreamData('deliverable'); }
-  private generateDeliverableLogs() { return this.generateLogsData('deliverable'); }
-  private generateDeliverableRunEvents() { return this.generateRunEventsData('deliverable'); }
+  // AssetPacks Pipeline (continued)
+  private generateAssetPackInstructions() { return this.generateInstructionsData('assetPack'); }
+  private generateAssetPackStream() { return this.generateStreamData('assetPack'); }
+  private generateAssetPackLogs() { return this.generateLogsData('assetPack'); }
+  private generateAssetPackRunEvents() { return this.generateRunEventsData('assetPack'); }
 
   // AI Documents Pipeline removed - not V26
 
@@ -1078,7 +1078,7 @@ export class ComprehensiveMockDataGenerator {
   private generateWalletConnections() { return [{ id: 'wallet_123', provider: 'metamask', network: 'bitcoin-testnet', status: 'connected' }]; }
 
   // Templates & Preferences
-  private generateDeliverableTemplates() { return [{ id: 'tpl_123', name: 'React Component', category: 'frontend', usage_count: 1247 }]; }
+  private generateAssetPackTemplates() { return [{ id: 'tpl_123', name: 'React Component', category: 'frontend', usage_count: 1247 }]; }
   private generateUpgradeTemplates() { return [{ id: 'tpl_456', name: 'Performance Optimization', category: 'optimization', usage_count: 567 }]; }
   private generateTemplatePreferences() { return { auto_suggest: true, categories: ['react', 'api'], recently_used: ['tpl_123'] }; }
   private generateTemplateCategories() { return [{ id: 'frontend', name: 'Frontend', templates_count: 89 }]; }
@@ -1090,7 +1090,7 @@ export class ComprehensiveMockDataGenerator {
   private generateMCPTools() { return [{ name: 'aws', status: 'enabled' }, { name: 'supabase', status: 'enabled' }]; }
 
   // Triggers & API Systems
-  private generateTriggers() { return [{ id: 'trigger_123', event: 'deliverable.completed', action: 'send_notification', enabled: true }]; }
+  private generateTriggers() { return [{ id: 'trigger_123', event: 'assetPack.completed', action: 'send_notification', enabled: true }]; }
   private generateWebhooks() { return [{ id: 'webhook_123', url: 'https://api.example.com/webhook', events: ['run.completed'] }]; }
   private generateGenericWebhooks() { return this.generateWebhooks(); }
   private generateAPIEndpoints() { return [{ path: '/api/executions', method: 'GET', rate_limit: '100/hour' }]; }
@@ -1110,7 +1110,7 @@ export class ComprehensiveMockDataGenerator {
   private generateSecurityAudit() { return [{ event: 'login_attempt', user_id: 'user_123', ip: '192.168.1.1', success: true }]; }
 
   // Vector & AI
-  private generateDeliverableVectors() { return [{ id: 'vec_123', deliverable_id: 'del_456', embedding: [0.1, 0.2, 0.3], metadata: { category: 'frontend' } }]; }
+  private generateAssetPackVectors() { return [{ id: 'vec_123', assetPack_id: 'asset_pack_456', embedding: [0.1, 0.2, 0.3], metadata: { category: 'frontend' } }]; }
   private generateUpgradeVectors() { return [{ id: 'vec_456', ai_document_id: 'upg_789', embedding: [0.4, 0.5, 0.6], metadata: { type: 'performance' } }]; }
   private generateUserVectors() { return [{ user_id: 'user_123', preferences_vector: [0.7, 0.8, 0.9], last_updated: this.generateTimestamp() }]; }
   private generatePatternRecognition() { return { patterns: [{ type: 'authentication_flow', confidence: 0.95, components: ['login', 'oauth', 'session'] }] }; }
@@ -1121,7 +1121,7 @@ export class ComprehensiveMockDataGenerator {
   private generateAdminOrganizations() { return this.generateOrganizations(); }
   private generateAdminRuns() { return [{ id: 'run_123', user_id: 'user_456', status: 'completed', cost: 0.25, duration: '120s' }]; }
   private generateAdminAnalytics() { return { users: { total: 1247, active: 567, new_this_month: 89 }, runs: { total: 5432, success_rate: 0.94 } }; }
-  private generateUsageAnalytics() { return { api_calls: 12470, btd_used: 5678, popular_features: ['deliverables', 'chat'] }; }
+  private generateUsageAnalytics() { return { api_calls: 12470, btd_used: 5678, popular_features: ['assetPacks', 'chat'] }; }
   private generateFinancialAnalytics() { return { revenue: { monthly: 12450, annual: 149400 }, costs: { infrastructure: 2300, ai_models: 5600 } }; }
   private generateRunMonitoring() { return [{ run_id: 'run_123', status: 'running', progress: 0.75, eta: '2 minutes' }]; }
 

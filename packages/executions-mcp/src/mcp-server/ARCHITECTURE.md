@@ -128,8 +128,8 @@ interface PipelineToolExecution {
 ```
 
 **Supported Pipelines:**
-- **Deliverable**: Complete software engineering workflows (pull requests, reviews, implementations)
-- The MCP server currently exposes the Deliverable pipeline. Other pipelines are not exposed via MCP.
+- **AssetPack**: Need-satisfaction execution that can Finish by delivering Shippables such as pull requests, reviews, issues, or comments.
+- The MCP server currently exposes AssetPack execution. Other pipeline families are not exposed via MCP.
 - **Ad-hoc**: Custom engineering tasks and investigations
 
 ### 4. Real-Time Streaming (`src/streaming/pipeline-stream.ts`)
@@ -336,9 +336,8 @@ Client Response
 ### 1. Bitcode Pipeline System Integration
 
 ```typescript
-// Direct integration with existing pipeline runners
-import { runDeliverablePipeline } from '@bitcode/pipeline-asset-pack';
-import { runUpgradesPipeline } from '@bitcode/pipeline-ai_document';
+// Direct integration with current Bitcode pipeline runners
+import { runAssetPackPipeline } from '@bitcode/pipeline-asset-pack';
 
 // MCP tools wrap pipeline execution with:
 // - Authentication and authorization

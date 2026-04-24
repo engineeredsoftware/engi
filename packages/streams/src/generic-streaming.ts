@@ -25,7 +25,7 @@ import { log } from '@bitcode/logger';
  * Pipeline-aware stream configuration
  */
 export interface PipelineStreamConfig {
-  pipeline: string; // Pipeline name like 'deliverable', 'measure'
+  pipeline: string; // Pipeline name like 'asset-pack' or 'measure'
   subtype?: string; // Subtype if applicable
   correlationId: string;
   dataStream?: any; // DataStream from 'ai' package
@@ -385,7 +385,7 @@ export class StreamFactory {
       correlationId,
       dataStream,
       metadata: {
-        streamType: 'shippable-execution'
+        streamType: 'asset-pack-shippable-execution'
       }
     });
   }

@@ -1,17 +1,17 @@
 import React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 
-import PullRequestCard, { PullRequestData } from '@/components/deliverables/PullRequestCard';
-import IssueCard, { IssueData } from '@/components/deliverables/IssueCard';
-import ReviewCard, { ReviewData } from '@/components/deliverables/ReviewCard';
-import CommentCard, { CommentData } from '@/components/deliverables/CommentCard';
+import PullRequestCard, { PullRequestData } from '@/components/shippables/PullRequestCard';
+import IssueCard, { IssueData } from '@/components/shippables/IssueCard';
+import ReviewCard, { ReviewData } from '@/components/shippables/ReviewCard';
+import CommentCard, { CommentData } from '@/components/shippables/CommentCard';
 
 // ---------------------------------------------------------------------------
 //  Meta
 // ---------------------------------------------------------------------------
 
 const meta = {
-  title: 'Deliverables/Rich Cards',
+  title: 'Shippables/Rich Cards',
   component: PullRequestCard,
   parameters: {
     layout: 'fullscreen',

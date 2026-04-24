@@ -330,10 +330,10 @@ const v23BitcoinDemonstrationServiceSource = readFileSync(
 );
 const v23BitcoinSource = readFileSync(new URL('../src/canonical/v23-bitcoin.js', import.meta.url), 'utf8');
 const streamsTsSource = readFileSync(new URL('../../packages/streams/src/streams.ts', import.meta.url), 'utf8');
-const streamsJsSource = readFileSync(new URL('../../packages/streams/src/streams.js', import.meta.url), 'utf8');
+const streamsJsSourceUrl = new URL('../../packages/streams/src/streams.js', import.meta.url);
 const apiAuthRouteSource = readFileSync(new URL('../../packages/api/src/routes/auth.ts', import.meta.url), 'utf8');
 const apiUserRouteSource = readFileSync(new URL('../../packages/api/src/routes/user.ts', import.meta.url), 'utf8');
-const apiDeliverablesRouteSource = readFileSync(new URL('../../packages/api/src/routes/deliverables.ts', import.meta.url), 'utf8');
+const apiShippablesRouteSource = readFileSync(new URL('../../packages/api/src/routes/shippables.ts', import.meta.url), 'utf8');
 const apiExecutionsRouteSource = readFileSync(new URL('../../packages/api/src/routes/executions.ts', import.meta.url), 'utf8');
 const apiPackageSource = readFileSync(new URL('../../packages/api/package.json', import.meta.url), 'utf8');
 const apiReadmeSource = readFileSync(new URL('../../packages/api/README.md', import.meta.url), 'utf8');
@@ -846,7 +846,7 @@ const testingArchitectureSource = readFileSync(new URL('../../packages/testing/s
 const testingMigrationGuideSource = readFileSync(new URL('../../packages/testing/src/test-drymockfakestub/MIGRATION_GUIDE.md', import.meta.url), 'utf8');
 const testingIntegrationExampleSource = readFileSync(new URL('../../packages/testing/src/test-drymockfakestub/examples/integration.example.ts', import.meta.url), 'utf8');
 const testingTsupConfigSource = readFileSync(new URL('../../packages/testing/src/test-drymockfakestub/tsup.config.ts', import.meta.url), 'utf8');
-const testingDeliverableScenariosSource = readFileSync(new URL('../../packages/testing/src/test-drymockfakestub/src/scenarios/specific/deliverable-scenarios.ts', import.meta.url), 'utf8');
+const testingAssetPackScenariosSource = readFileSync(new URL('../../packages/testing/src/test-drymockfakestub/src/scenarios/specific/asset-pack-scenarios.ts', import.meta.url), 'utf8');
 const promptQualityIndexSource = readFileSync(new URL('../../packages/testing/src/prompt-quality-framework/index.ts', import.meta.url), 'utf8');
 const promptQualityEngineSource = readFileSync(new URL('../../packages/testing/src/prompt-quality-framework/core/PromptQualityEngine.ts', import.meta.url), 'utf8');
 const promptQualityConfigSource = readFileSync(new URL('../../packages/testing/src/prompt-quality-framework/config/FrameworkConfig.ts', import.meta.url), 'utf8');
@@ -1013,7 +1013,7 @@ test('active V26 shared surface primitives use Bitcode naming instead of Engi na
   assert.match(comprehensiveMockDataGeneratorsSource, /marketplace\.bitcode\.ai\/previews\/react-perf-1\.png/);
   assert.match(comprehensiveMockDataGeneratorsSource, /BTC_SETTLEMENTS/);
   assert.match(comprehensiveMockDataGeneratorsSource, /wallet_observer/);
-  assert.match(comprehensiveMockDataGeneratorsSource, /Complete system coverage \(User Auxillaries, Conversations, Deliverables, Organizations, etc\.\)/);
+  assert.match(comprehensiveMockDataGeneratorsSource, /Complete system coverage \(User Auxillaries, Conversations, AssetPacks, Organizations, etc\.\)/);
   assert.match(mockingSummarySource, /User Auxillaries/);
   assert.match(specializedMockMiddlewareSource, /User Auxillaries/);
   assert.match(specializedMockMiddlewareSource, /auxillaries:\s*\{\s*auth: mockAuth,\s*user: mockUser,\s*onboarding: mockOnboarding\s*\}/);
@@ -1128,7 +1128,7 @@ test('active V26 canon posture and preserved runtime state use bitcode policy an
   assert.doesNotMatch(v18MatricesSource, /engi-demo\.js/);
   assert.doesNotMatch(provenGeneratorSource, /\brunMakeEngiBranch\b/);
   assert.doesNotMatch(v18MatricesSource, /\brunMakeEngiBranch\b/);
-  assert.match(deliverablesPromptBaseSource, /You are the retained Bitcode AssetPack compatibility pipeline AI system/);
+  assert.match(deliverablesPromptBaseSource, /You are the Bitcode AssetPack pipeline AI system/);
   assert.doesNotMatch(deliverablesPromptBaseSource, /You are the Engi Deliverables Pipeline AI System/);
   assert.match(executionsPageClientSource, /bitcode-mcp-configs/);
   assert.match(executionsToggleButtonsSource, /execution-option-toggle/);
@@ -1210,7 +1210,7 @@ test('active V26 canon posture and preserved runtime state use bitcode policy an
   assert.match(conversationsOverlaySource, /Rich write input with source attachments and output destinations/);
   assert.match(conversationsOverlaySource, /agentic execution events/);
   assert.match(conversationsEnhancedRichTextInputSource, /asset packs, attachments, source connects, and output destinations/);
-  assert.match(conversationsEnhancedRichTextInputSource, /Asset pack/);
+  assert.match(conversationsEnhancedRichTextInputSource, /Shippable/);
   assert.match(conversationsEnhancedRichTextInputSource, /Output destination/);
   assert.match(conversationsListSource, /execution run/);
   assert.match(conversationsSidebarLogsSource, /execution/);
@@ -1241,14 +1241,14 @@ test('active V26 canon posture and preserved runtime state use bitcode policy an
   assert.match(applicationTransactionActivitySurfaceSource, /Bitcode Terminal/);
   assert.match(applicationTransactionActivitySurfaceSource, /selected Bitcode activity/);
   assert.match(applicationTransactionDetailSurfaceSource, /selected Bitcode activity/);
-  assert.match(applicationTransactionDetailSurfaceSource, /Asset packs attached to this activity/);
+  assert.match(applicationTransactionDetailSurfaceSource, /Shippables attached to this activity/);
   assert.match(applicationTransactionDetailHeroSource, /Bitcode Terminal activity detail/);
   assert.match(applicationTransactionIdentityCardSource, /Selected activity/);
   assert.match(applicationTransactionIdentityCardSource, /Activity payload/);
   assert.match(applicationTransactionClosureCardSource, /selected Bitcode activity/);
   assert.match(applicationTransactionProofsCardSource, /Bounded proof stays in activity detail/);
   assert.match(applicationTransactionHistoryCardSource, /Recent activity history stays inline/);
-  assert.match(applicationTransactionDetailActionBarSource, /Asset packs/);
+  assert.match(applicationTransactionDetailActionBarSource, /Shippables/);
   assert.match(applicationTransactionDetailActionBarSource, /selected Bitcode activity/);
   assert.match(applicationClosureControlDeckSource, /active Bitcode activity detail/);
   assert.match(applicationTransactionWorkspaceSource, /Master-detail activity, asset packs, proofs, and history/);
@@ -1261,7 +1261,7 @@ test('active V26 canon posture and preserved runtime state use bitcode policy an
   assert.match(applicationExperienceArchitectureSource, /label: 'Bitcode Terminal'/);
   assert.match(applicationExperienceArchitectureSource, /Bitcode activity ledger/);
   assert.match(applicationExperienceArchitectureSource, /current Bitcode activity context/);
-  assert.match(applicationExperienceArchitectureSource, /label: 'Asset packs'/);
+  assert.match(applicationExperienceArchitectureSource, /label: 'Shippables'/);
   assert.match(applicationWorkspaceExplainersSource, /selected activity/);
   assert.match(applicationWorkspaceExplainersSource, /current Bitcode activity chain/);
   assert.match(applicationWorkspaceExplainersSource, /asset packs or settlement/);
@@ -1759,7 +1759,7 @@ test('active V26 auxillaries test ownership and retained examples use Bitcode na
   assert.match(testingMigrationGuideSource, /follows Bitcode's architectural principles/);
   assert.match(testingIntegrationExampleSource, /existing Bitcode infrastructure/);
   assert.match(testingTsupConfigSource, /Unified testing infrastructure for Bitcode/);
-  assert.match(testingDeliverableScenariosSource, /bitcode-bot/);
+  assert.match(testingAssetPackScenariosSource, /bitcode-bot/);
   assert.match(promptQualityIndexSource, /Bitcode Prompt Quality Assurance Framework/);
   assert.match(promptQualityEngineSource, /entire Bitcode ecosystem/);
   assert.match(promptQualityConfigSource, /BITCODE_ENVIRONMENT/);
@@ -1809,7 +1809,7 @@ test('active V26 auxillaries test ownership and retained examples use Bitcode na
   assert.doesNotMatch(testingMigrationGuideSource, /\bEngi\b/);
   assert.doesNotMatch(testingIntegrationExampleSource, /\bEngi\b/);
   assert.doesNotMatch(testingTsupConfigSource, /\bEngi\b/);
-  assert.doesNotMatch(testingDeliverableScenariosSource, /engi-bot/);
+  assert.doesNotMatch(testingAssetPackScenariosSource, /engi-bot/);
   assert.doesNotMatch(promptQualityIndexSource, /\bEngi\b/);
   assert.doesNotMatch(promptQualityEngineSource, /\bEngi\b/);
   assert.doesNotMatch(promptQualityConfigSource, /ENGI_ENVIRONMENT/);
@@ -1885,13 +1885,8 @@ test('active V26 prompt-system package uses Bitcode naming instead of Engi namin
 
 test('active V26 retained package surfaces use Bitcode naming instead of Engi naming', () => {
   assert.match(streamsTsSource, /used across Bitcode/);
-  assert.match(streamsJsSource, /used across Bitcode/);
-  assert.match(streamsJsSource, /@bitcode\/logger/);
-  assert.match(streamsJsSource, /@bitcode\/supabase/);
+  assert.equal(existsSync(streamsJsSourceUrl), false);
   assert.doesNotMatch(streamsTsSource, /used across Engi/);
-  assert.doesNotMatch(streamsJsSource, /used across Engi/);
-  assert.doesNotMatch(streamsJsSource, /@engi\/logger/);
-  assert.doesNotMatch(streamsJsSource, /@engi\/supabase/);
 
   assert.match(webSearchSource, /generated by Bitcode/);
   assert.match(webSearchSource, /Using mock Exa client for Bitcode ChatGPT App/);
@@ -1977,7 +1972,7 @@ test('active V26 retained package surfaces use Bitcode naming instead of Engi na
   assert.match(apiIndexSource, /export \* from '\.\/routes\/auxillaries';/);
   assert.match(apiIndexSource, /export \* from '\.\/routes\/auxillaries-contract';/);
   assert.match(apiIndexSource, /export \* from '\.\/routes\/executions';/);
-  assert.match(apiIndexSource, /export \* as deliverables from '\.\/routes\/deliverables';/);
+  assert.match(apiIndexSource, /export \* as shippables from '\.\/routes\/shippables';/);
   assert.match(apiReadmeSource, /auxillaries/);
   assert.match(apiAuxillariesRouteSource, /buildGetAuxillaryOnboardingRoute/);
   assert.match(apiAuxillariesRouteSource, /buildPostAuxillaryOnboardingRoute/);
@@ -1993,15 +1988,15 @@ test('active V26 retained package surfaces use Bitcode naming instead of Engi na
   assert.match(apiAuxillariesContractSource, /buildAuxillaryDataPayload/);
   assert.match(apiAuxillariesContractSource, /completedPanes/);
   assert.match(apiAuxillariesContractSource, /onboardedPanes/);
-  assert.match(apiDeliverablesRouteSource, /Please ensure the Bitcode GitHub App has access to this repository/);
-  assert.match(apiDeliverablesRouteSource, /BITCODE_LOG_TO_FILE/);
-  assert.match(apiDeliverablesRouteSource, /BITCODE_ENABLE_COMPUTER_USE_NEED_MEASUREMENT/);
-  assert.doesNotMatch(apiDeliverablesRouteSource, /BITCODE_ENABLE_COMPUTE_TOGGLE/);
-  assert.match(apiDeliverablesRouteSource, /BITCODE_ENABLE_NOTIFICATIONS/);
-  assert.match(apiDeliverablesRouteSource, /BITCODE_LLM_PROVIDER/);
-  assert.match(apiDeliverablesRouteSource, /BITCODE_LLM_MODEL/);
+  assert.match(apiShippablesRouteSource, /Please ensure the Bitcode GitHub App has access to this repository/);
+  assert.match(apiShippablesRouteSource, /BITCODE_LOG_TO_FILE/);
+  assert.match(apiShippablesRouteSource, /BITCODE_ENABLE_COMPUTER_USE_NEED_MEASUREMENT/);
+  assert.doesNotMatch(apiShippablesRouteSource, /BITCODE_ENABLE_COMPUTE_TOGGLE/);
+  assert.match(apiShippablesRouteSource, /BITCODE_ENABLE_NOTIFICATIONS/);
+  assert.match(apiShippablesRouteSource, /BITCODE_LLM_PROVIDER/);
+  assert.match(apiShippablesRouteSource, /BITCODE_LLM_MODEL/);
   assert.match(apiExecutionsRouteSource, /Executions API Route Handlers/);
-  assert.match(apiExecutionsRouteSource, /Route ownership lives here in the API kitchen-sink package/);
+  assert.match(apiExecutionsRouteSource, /Route ownership lives here in the API package/);
   assert.match(apiExecutionsRouteSource, /export async function getExecutionHistoryRoute/);
   assert.match(apiExecutionsRouteSource, /export async function postExecutionHistoryRoute/);
   assert.match(apiExecutionsRouteSource, /export async function getExecutionHistoryRunRoute/);
@@ -2015,7 +2010,7 @@ test('active V26 retained package surfaces use Bitcode naming instead of Engi na
   assert.match(conversationStreamApiRouteSource, /postConversationStreamRoute/);
   assert.match(conversationThreadStreamApiRouteSource, /from '@bitcode\/api\/src\/routes\/conversations'/);
   assert.match(conversationThreadStreamApiRouteSource, /postConversationThreadStreamRoute/);
-  assert.match(executionsApiRouteSource, /from '@bitcode\/api\/src\/routes\/deliverables'/);
+  assert.match(executionsApiRouteSource, /from '@bitcode\/api\/src\/routes\/shippables'/);
   assert.match(executionsApiRouteSource, /export \{ DELETE, GET, POST \}/);
   assert.match(executionHistoryApiRouteSource, /from '@bitcode\/api\/src\/routes\/executions'/);
   assert.match(executionHistoryApiRouteSource, /getExecutionHistoryRoute/);
@@ -2137,12 +2132,12 @@ test('active V26 retained package surfaces use Bitcode naming instead of Engi na
   assert.doesNotMatch(apiPackageSource, /for engi - the unified backend API layer/i);
   assert.doesNotMatch(apiIndexSource, /ENGI API - Kitchen sink of all API business logic/);
   assert.doesNotMatch(apiIndexSource, /this package contains all business logic for the engi platform/i);
-  assert.doesNotMatch(apiDeliverablesRouteSource, /Please ensure the Engi GitHub App has access to this repository/);
-  assert.doesNotMatch(apiDeliverablesRouteSource, /ENGI_LOG_TO_FILE/);
-  assert.doesNotMatch(apiDeliverablesRouteSource, /ENGI_ENABLE_COMPUTE_TOGGLE/);
-  assert.doesNotMatch(apiDeliverablesRouteSource, /ENGI_ENABLE_NOTIFICATIONS/);
-  assert.doesNotMatch(apiDeliverablesRouteSource, /ENGI_LLM_PROVIDER/);
-  assert.doesNotMatch(apiDeliverablesRouteSource, /ENGI_LLM_MODEL/);
+  assert.doesNotMatch(apiShippablesRouteSource, /Please ensure the Engi GitHub App has access to this repository/);
+  assert.doesNotMatch(apiShippablesRouteSource, /ENGI_LOG_TO_FILE/);
+  assert.doesNotMatch(apiShippablesRouteSource, /ENGI_ENABLE_COMPUTE_TOGGLE/);
+  assert.doesNotMatch(apiShippablesRouteSource, /ENGI_ENABLE_NOTIFICATIONS/);
+  assert.doesNotMatch(apiShippablesRouteSource, /ENGI_LLM_PROVIDER/);
+  assert.doesNotMatch(apiShippablesRouteSource, /ENGI_LLM_MODEL/);
   assert.doesNotMatch(apiExecutionsRouteSource, /ENGI/);
   assert.doesNotMatch(apiAuxillariesRouteSource, /\bENGI\b/);
   assert.doesNotMatch(apiAuxillariesContractSource, /"models","credits"/);
@@ -2380,7 +2375,7 @@ test('active V26 retained package surfaces use Bitcode naming instead of Engi na
   assert.match(updateDeliverableTableNamesScriptSource, /deliverable_pipeline_runs/);
   assert.match(updateDeliverableAgentsScriptSource, /retained asset-pack pipeline agents/);
   assert.match(updateDeliverableAgentsScriptSource, /repo_root="\$\(cd "\$\(dirname "\$\{BASH_SOURCE\[0\]\}"\)\/\.\."/);
-  assert.match(promptAuditScriptSource, /RETAINED ASSET-PACK PIPELINE PROMPT AUDIT/);
+  assert.match(promptAuditScriptSource, /ASSET-PACK PIPELINE PROMPT AUDIT/);
   assert.match(promptAuditScriptSource, /packages\/prompts\/src\/raw_promptparts\/specific/);
   assert.match(promptAuditScriptSource, /"comprehendneed"/);
   assert.match(generateDeliverablePromptPartsTsSource, /raw_promptparts\/specific/);

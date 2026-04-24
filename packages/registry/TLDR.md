@@ -88,7 +88,7 @@ const llm = agent.llms.getDefaultLLM(agent);
 
 ### Paths Create Hierarchy
 ```
-'pipeline:deliverable:phase:implementation:agent:coder'
+'pipeline:asset-pack:phase:implementation:agent:coder'
 ```
 Each colon (`:`) adds a level, creating natural namespaces.
 

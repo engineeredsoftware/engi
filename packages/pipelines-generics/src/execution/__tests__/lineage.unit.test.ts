@@ -36,11 +36,11 @@ describe('PipelineExecution lineage', () => {
   });
 
   it('stores lineage on root and child pipeline executions', () => {
-    const execution = factoryPipelineExecution('deliverable');
+    const execution = factoryPipelineExecution('asset-pack');
     const child = execution.child('phase-0');
 
     expect(execution.lineage.family).toBe('asset_pack');
-    expect(execution.get('pipeline', 'posture')).toBe('compatibility');
+    expect(execution.get('pipeline', 'posture')).toBe('live');
     expect(execution.get('execution', 'lineage')).toEqual(execution.lineage);
 
     expect(child.lineage).toEqual(execution.lineage);

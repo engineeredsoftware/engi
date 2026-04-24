@@ -1,9 +1,9 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
-import ExecutionPageHeader from '@/app/executions/components/ExecutionPageHeader';
+import ExecutionPageHeader from '@/app/executions/components/ExecutionsPageHeader';
 import { templates as defaultTemplates } from '@/config/templates';
 
-const sampleDeliverables = {
+const sampleShippables = {
   pullRequest: {
     url: 'https://github.com/openai/react/pull/574',
     number: 574,
@@ -120,7 +120,7 @@ const meta = {
   tags: ['autodocs'],
   argTypes: {
     executionStatus: { control: { type: 'radio' }, options: ['execute', 'executing', 'executed'] },
-    deliverables: { control: 'object' },
+    shippables: { control: 'object' },
     processingStats: { control: 'object' },
     repoSnapshot: { control: 'object' },
     showSourceEdu: { control: 'boolean' },
@@ -138,7 +138,7 @@ type Story = StoryObj<typeof meta>;
 export const Execute: Story = {
   args: {
     executionStatus: 'execute',
-    onExecuteDeliverableClickSetTask: action('onExecuteDeliverableClickSetTask'),
+    onSelectShippableTemplateDefinitionOfNeed: action('onSelectShippableTemplateDefinitionOfNeed'),
     showSourceEdu: false,
     showAttachmentsEdu: false,
     showEnhanceEdu: false,
@@ -152,7 +152,7 @@ export const Execute: Story = {
 export const Executed: Story = {
   args: {
     executionStatus: 'executed',
-    onExecuteDeliverableClickSetTask: action('onExecuteDeliverableClickSetTask'),
+    onSelectShippableTemplateDefinitionOfNeed: action('onSelectShippableTemplateDefinitionOfNeed'),
     showSourceEdu: false,
     showAttachmentsEdu: false,
     showEnhanceEdu: false,
@@ -160,7 +160,7 @@ export const Executed: Story = {
     showExecuteButtonEdu: false,
     templates: defaultTemplates,
     onTemplateSelect: action('onTemplateSelect'),
-    deliverables: sampleDeliverables,
+    shippables: sampleShippables,
     processingStats: sampleStats,
     repoSnapshot: sampleRepoSnapshot,
   },
@@ -173,7 +173,7 @@ export const Executed: Story = {
 export const Executing: Story = {
   args: {
     executionStatus: 'executing',
-    onExecuteDeliverableClickSetTask: action('onExecuteDeliverableClickSetTask'),
+    onSelectShippableTemplateDefinitionOfNeed: action('onSelectShippableTemplateDefinitionOfNeed'),
     showSourceEdu: false,
     showAttachmentsEdu: false,
     showEnhanceEdu: false,
@@ -181,7 +181,7 @@ export const Executing: Story = {
     showExecuteButtonEdu: false,
     templates: defaultTemplates,
     onTemplateSelect: action('onTemplateSelect'),
-    deliverables: sampleDeliverables,
+    shippables: sampleShippables,
     processingStats: {
       time: '2m 07s',
       tokens: { input: 900, output: 450, total: 1350 },
@@ -197,7 +197,7 @@ export const Executing: Story = {
 
 const eduBaseArgs = {
   executionStatus: 'execute' as const,
-  onExecuteDeliverableClickSetTask: action('onExecuteDeliverableClickSetTask'),
+  onSelectShippableTemplateDefinitionOfNeed: action('onSelectShippableTemplateDefinitionOfNeed'),
   templates: defaultTemplates,
   onTemplateSelect: action('onTemplateSelect'),
 };
@@ -246,7 +246,7 @@ export const Configurable: Story = {
   name: 'Configurable',
   args: {
     executionStatus: 'execute',
-    onExecuteDeliverableClickSetTask: action('onExecuteDeliverableClickSetTask'),
+    onSelectShippableTemplateDefinitionOfNeed: action('onSelectShippableTemplateDefinitionOfNeed'),
     showSourceEdu: false,
     showAttachmentsEdu: false,
     showEnhanceEdu: false,
@@ -254,7 +254,7 @@ export const Configurable: Story = {
     showExecuteButtonEdu: false,
     templates: defaultTemplates,
     onTemplateSelect: action('onTemplateSelect'),
-    deliverables: sampleDeliverables,
+    shippables: sampleShippables,
     processingStats: sampleStats,
     repoSnapshot: sampleRepoSnapshot,
   },

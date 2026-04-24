@@ -4,24 +4,24 @@
 
 Based on your comprehensive system audit, here's exactly how to integrate the mock system with your existing Bitcode routes and experiences:
 
-## 1. 🎯 DELIVERABLES/UPGRADES PAGES INTEGRATION
+## 1. 🎯 ASSET_PACKS/UPGRADES PAGES INTEGRATION
 
-### Your Current Route: `/api/deliverables/route.ts`
+### Your Current Route: `/api/assetPacks/route.ts`
 
 ```typescript
 // BEFORE: Your existing route
-export const GET = traceRoute('/deliverables', GETHandler);
-export const POST = traceRoute('/deliverables', POSTHandler);
+export const GET = traceRoute('/assetPacks', GETHandler);
+export const POST = traceRoute('/assetPacks', POSTHandler);
 
 // AFTER: Enhanced with comprehensive mocking (ZERO changes to logic!)
 import { mockAreas } from '@/mocking';
 
-export const GET = mockAreas.pipelines.deliverables.main()(
-  traceRoute('/deliverables', GETHandler)
+export const GET = mockAreas.pipelines.assetPacks.main()(
+  traceRoute('/assetPacks', GETHandler)
 );
 
-export const POST = mockAreas.pipelines.deliverables.stream()(
-  traceRoute('/deliverables', POSTHandler)
+export const POST = mockAreas.pipelines.assetPacks.stream()(
+  traceRoute('/assetPacks', POSTHandler)
 );
 ```
 
@@ -205,7 +205,7 @@ function Header() {
 ### Need Input & File Attachments
 ```typescript
 function NeedInput() {
-  const { data: templates } = useMockData('DELIVERABLE_TEMPLATES');
+  const { data: templates } = useMockData('ASSET_PACK_TEMPLATES');
   const { data: repos } = useMockData('GITHUB_REPOS');
   
   // Your existing Need input component
@@ -230,8 +230,8 @@ function GitHubSelectors() {
 ### Processing Indicator
 ```typescript
 function ProcessingIndicator({ runId }: { runId: string }) {
-  const { data: events } = useMockData('DELIVERABLE_RUN_EVENTS');
-  const { data: logs } = useMockData('DELIVERABLE_LOGS');
+  const { data: events } = useMockData('ASSET_PACK_RUN_EVENTS');
+  const { data: logs } = useMockData('ASSET_PACK_LOGS');
   
   // Your existing processing UI
   // Mock provides realistic streaming events
@@ -256,8 +256,8 @@ NEXT_PUBLIC_MOCK_SCENARIO=empty          # Empty states
 ### Feature-Specific Overrides
 ```bash
 # Override specific areas while keeping others real
-NEXT_PUBLIC_MOCK_DELIVERABLES=true
-NEXT_PUBLIC_MOCK_DELIVERABLES_SCENARIO=enterprise
+NEXT_PUBLIC_MOCK_ASSET_PACKS=true
+NEXT_PUBLIC_MOCK_ASSET_PACKS_SCENARIO=enterprise
 
 NEXT_PUBLIC_MOCK_CONVERSATION_CONVERSATIONS=true
 NEXT_PUBLIC_MOCK_CONVERSATION_CONVERSATIONS_SCENARIO=demo
@@ -275,7 +275,7 @@ NEXT_PUBLIC_MOCK_TIMING=realistic
 ```
 - Rich, interconnected data
 - Multiple team members
-- Complex deliverable histories
+- Complex assetPack histories
 - Realistic GitHub repos with branches/commits
 - Active conversations and runs
 
@@ -309,26 +309,26 @@ NEXT_PUBLIC_MASTER_MOCK_MODE=true
 NEXT_PUBLIC_MOCK_SCENARIO=demo
 ```
 
-### Step 2: Update Your Main Deliverables Route
+### Step 2: Update Your Main AssetPacks Route
 ```typescript
-// /api/deliverables/route.ts
+// /api/assetPacks/route.ts
 import { mockAreas } from '@/mocking';
 
 // Simply wrap your existing exports
-export const GET = mockAreas.pipelines.deliverables.main()(
-  traceRoute('/deliverables', GETHandler)
+export const GET = mockAreas.pipelines.assetPacks.main()(
+  traceRoute('/assetPacks', GETHandler)
 );
 
-export const POST = mockAreas.pipelines.deliverables.stream()(
-  traceRoute('/deliverables', POSTHandler)
+export const POST = mockAreas.pipelines.assetPacks.stream()(
+  traceRoute('/assetPacks', POSTHandler)
 );
 ```
 
 ### Step 3: Test the Integration
 1. Start your development server
-2. Navigate to deliverables page
+2. Navigate to assetPacks page
 3. See rich, realistic mock data automatically
-4. Try creating a deliverable - see realistic streaming
+4. Try creating a assetPack - see realistic streaming
 5. **Zero changes required to existing components!**
 
 ### Step 4: Expand to Other Routes
