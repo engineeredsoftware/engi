@@ -16,6 +16,7 @@ import {
 } from './auxillaries-contract';
 
 const EMPTY_TEMPLATE_PREFERENCES = {
+  shippable_templates: {},
   deliverable_templates: {},
   ai_document_templates: {},
 };
@@ -356,7 +357,15 @@ export function buildGetAuxillaryTemplatePreferencesRoute(options: AuxillaryRout
       );
     }
 
-    return createJsonResponse(data || EMPTY_TEMPLATE_PREFERENCES);
+    if (!data) {
+      return createJsonResponse(EMPTY_TEMPLATE_PREFERENCES);
+    }
+
+    return createJsonResponse({
+      shippable_templates: data.deliverable_templates || {},
+      deliverable_templates: data.deliverable_templates || {},
+      ai_document_templates: data.ai_document_templates || {},
+    });
   });
 }
 
@@ -386,6 +395,11 @@ export function buildPostAuxillaryTemplatePreferencesRoute(options: AuxillaryRou
     const payload =
       body && typeof body === 'object'
         ? {
+            shippable_templates:
+              typeof (body as Record<string, unknown>).shippable_templates === 'object' &&
+              (body as Record<string, unknown>).shippable_templates !== null
+                ? (body as Record<string, unknown>).shippable_templates
+                : null,
             deliverable_templates:
               typeof (body as Record<string, unknown>).deliverable_templates === 'object' &&
               (body as Record<string, unknown>).deliverable_templates !== null
@@ -398,18 +412,21 @@ export function buildPostAuxillaryTemplatePreferencesRoute(options: AuxillaryRou
                 : null,
           }
         : {
+            shippable_templates: null,
             deliverable_templates: null,
             ai_document_templates: null,
           };
 
-    if (!payload.deliverable_templates || !payload.ai_document_templates) {
+    const shippableTemplates = payload.shippable_templates || payload.deliverable_templates;
+
+    if (!shippableTemplates || !payload.ai_document_templates) {
       return createJsonResponse({ error: 'Invalid template preferences format' }, 400);
     }
 
     const { error: upsertError } = await supabaseAdmin.from('user_template_preferences').upsert(
       {
         user_id: user.id,
-        deliverable_templates: payload.deliverable_templates,
+        deliverable_templates: shippableTemplates,
         ai_document_templates: payload.ai_document_templates,
         updated_at: new Date().toISOString(),
       },

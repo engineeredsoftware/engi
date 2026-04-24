@@ -135,7 +135,10 @@ describe('POST /api/executions persistence', () => {
 
     const res = await POST(req);
     expect(pipelineExecutionsCreate).toHaveBeenCalledTimes(1);
-    expect(pipelineExecutionsCreate.mock.calls[0][0]).toMatchObject({ id: 'fixed-corr', type: 'deliverable' });
+    expect(pipelineExecutionsCreate.mock.calls[0][0]).toMatchObject({
+      id: 'fixed-corr',
+      type: 'agentic-execution:asset-pack',
+    });
     expect(executionEventsCreate).toHaveBeenCalledTimes(1);
     expect(executionEventsCreate.mock.calls[0][0]).toMatchObject({
       execution_id: 'fixed-corr',

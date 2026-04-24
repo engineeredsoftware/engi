@@ -367,25 +367,25 @@ export class GenericStreamManager {
  */
 export class StreamFactory {
   /**
-   * Create stream manager for deliverables pipeline
+   * Create stream manager for an AssetPack/Shippable-producing pipeline.
    */
   static createStreamManager(config: PipelineStreamConfig): GenericStreamManager {
     return new GenericStreamManager(config);
   }
   
   /**
-   * Create deliverables-specific stream manager
+   * Create Shippable-specific stream manager.
    */
-  static createDeliverablesStream(
+  static createShippablesStream(
     correlationId: string,
     dataStream?: any
   ): GenericStreamManager {
     return new GenericStreamManager({
-      pipeline: 'deliverable',
+      pipeline: 'asset-pack',
       correlationId,
       dataStream,
       metadata: {
-        streamType: 'deliverable-execution'
+        streamType: 'shippable-execution'
       }
     });
   }

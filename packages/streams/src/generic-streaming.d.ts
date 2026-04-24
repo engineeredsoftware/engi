@@ -131,7 +131,7 @@ export declare class StreamFactory {
     /**
      * Create deliverables-specific stream manager
      */
-    static createDeliverablesStream(correlationId: string, dataStream?: any): GenericStreamManager;
+    static createShippablesStream(correlationId: string, dataStream?: any): GenericStreamManager;
 }
 /**
  * @doc-decorator

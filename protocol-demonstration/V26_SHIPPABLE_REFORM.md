@@ -86,6 +86,7 @@ While the path/package may remain `deliverable` during V26 for compatibility and
 - old names may remain as bounded raw PromptPart or storage compatibility only when active code names expose canonical Bitcode meaning first
 - `SDIVS` / `shipping` compatibility APIs are reform residue outside active AssetPack Finish ownership; active AssetPack phase, registry, tool, and store code must use `SDIVF` / `finish` behavior directly
 - tactical deprecated exports remain admissible only when they are explicitly marked as compatibility aliases and are paired with precise canonical Bitcode names; full V26 closure requires removing these aliases rather than treating compatibility as canon
+- retained `/api/deliverables` route mounting is compatibility-only; active route logs, execution type, lineage, template hooks, header props, streaming parser names, and generated co-located JS cleanup must use `asset-pack` / `shippable` source names first
 
 ## Non-goal
 

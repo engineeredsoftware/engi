@@ -47,7 +47,7 @@ const MOCK_CONVERSATIONS: MockConversationRow[] = [
     last_message: 'Port the fullscreen conversations, activity runs, and write-side reservoirs inward to /application.',
   },
   {
-    id: 'conv-run-deliverable-reuse',
+    id: 'conv-run-shippable-reuse',
     user_id: MOCK_USER.id,
     title: 'Run and asset-pack inward reuse',
     created_at: '2026-04-16T09:08:00.000Z',

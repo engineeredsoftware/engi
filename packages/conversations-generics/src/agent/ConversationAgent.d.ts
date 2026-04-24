@@ -604,7 +604,7 @@ export declare function processMessageStream(input: ConversationInput, execution
  * Checks if response contains pipeline trigger markers
  */
 export declare function detectPipelineTriggers(response: string): Array<{
-    type: 'deliverable' | 'measure';
+    type: 'shippable' | 'measure';
     task: string;
 }>;
 /**

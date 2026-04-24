@@ -11,6 +11,7 @@ import userTemplatesDefaultMock from '@/mocks/user-template-preferences-default.
 import userTemplatesEmptyMock from '@/mocks/user-template-preferences-empty.json';
 
 const EMPTY_TEMPLATE_PREFERENCES = {
+  shippable_templates: {},
   deliverable_templates: {},
   ai_document_templates: {},
 };

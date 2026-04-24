@@ -71,6 +71,7 @@ Terminology is part of the system contract:
 The remaining fifth-gate work is prioritized by closure leverage:
 - reform active filesystem names and exported names so live package owners are Bitcode nouns rather than compatibility nouns;
 - complete AssetPack pipeline refurbishment across SDIVF phases, agents, tools, prompts, runtime outputs, postprocess types, tests, and route/API compatibility wrappers;
+- keep the retained `/api/deliverables` mount compatibility-only while source, hooks, templates, streaming parsers, route logs, telemetry aliases, and execution headers use AssetPack/Shippable names first;
 - make every Prompt, PromptPart, Registry primitive, agent prompt, tool prompt, and doc-comment injection path current-Bitcode precise;
 - finish package and interface parity for Terminal, Exchange APIs, MCP, ChatGPT App, webhooks, Supabase/ORM state, execution history, conversation rich-input execution evidence, and connected-interface write admission;
 - ensure Need review and fit review are explicit before settlement, including accept/reject/re-measure and fit-quality receipts;

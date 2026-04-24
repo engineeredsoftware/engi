@@ -131,11 +131,11 @@ async function triggerPipeline(trigger: string, userId: string, issueNumber: num
     isPR,
     issueNumber,
     pipelineMeaning: 'asset_pack_pipeline',
-    compatibilityCommand: 'bitcode-deliverable-trigger'
+    triggerCommand: 'bitcode-asset-pack-trigger'
   });
 
   return await new Promise<void>((resolve) => {
-    exec(`bitcode-deliverable-trigger ${trigger} ${issueNumber}`, async (error) => {
+    exec(`bitcode-asset-pack-trigger ${trigger} ${issueNumber}`, async (error) => {
       if (error) {
         await log('[route /webhook POST] Asset-pack pipeline trigger failed', 'error', {
           label: trigger,

@@ -160,6 +160,7 @@ This section records transitions that are too historically specific for the main
 | ChatGPT App writes without explicit admission | confirmation-gated connected-interface write receipts | write carriers must fail closed unless confirmed and must return admission evidence |
 | MCP tool sprawl | narrowed Bitcode MCP tool families | fifth-gate admits only current Exchange-facing families; non-admitted carriers are reference or cut |
 | GitHub webhook product trigger | ingress-only AssetPack automation | webhook schedules pipeline automation and records ingress basis; it is not product canon by itself |
+| webhook `bitcode-deliverable-trigger` command | `bitcode-asset-pack-trigger` | active webhook execution now invokes an AssetPack-named trigger; old command wording is not current source truth |
 
 ### Internal Documentation Reform
 

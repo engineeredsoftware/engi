@@ -182,7 +182,7 @@ async function aggregateLLMMetrics(runId: string): Promise<{
  */
 export const GET = traceRoute('/deliverables', async (request: NextRequest) => {
   const requestId = crypto.randomUUID();
-  try { if (process.env.BITCODE_LOG_TO_FILE === '1') reinitLoggerFile(requestId, { prefix: 'deliverables-get' }); } catch {}
+  try { if (process.env.BITCODE_LOG_TO_FILE === '1') reinitLoggerFile(requestId, { prefix: 'asset-pack-route-get' }); } catch {}
   const { searchParams } = new URL(request.url);
   const action = searchParams.get('action');
   const owner = searchParams.get('owner');
@@ -196,7 +196,7 @@ export const GET = traceRoute('/deliverables', async (request: NextRequest) => {
     const { data: { user }, error: authError } = await supabase.auth.getUser();
     
     if (authError || !user) {
-      log('[deliverables] Authentication failed', 'warn', { requestId });
+      log('[asset-pack-route] Authentication failed', 'warn', { requestId });
       return createAuthErrorResponse();
     }
 
@@ -207,7 +207,7 @@ export const GET = traceRoute('/deliverables', async (request: NextRequest) => {
       try {
         const conn = await orm.userConnections.getByUserAndProvider(user.id, 'github');
         const keys = conn?.connection_data ? Object.keys(conn.connection_data) : [];
-        log('[deliverables GET] connection_data shape (missing installationId)', 'debug', { requestId, keys });
+        log('[asset-pack-route GET] connection_data shape (missing installationId)', 'debug', { requestId, keys });
       } catch {}
       // Return 200 with empty data for graceful handling
       // Frontend will handle the missing connection state
@@ -249,7 +249,7 @@ export const GET = traceRoute('/deliverables', async (request: NextRequest) => {
         const repositories = await getVCSService().listRepositories(user.id, { perPage: 100 });
         return createJsonResponse({ repositories });
       } catch (error: any) {
-        log('[deliverables] Repository list error', 'error', { requestId, owner, error: error.message });
+        log('[asset-pack-route] Repository list error', 'error', { requestId, owner, error: error.message });
         
         if (error.status === 403 || error.message?.includes('rate limit')) {
           return createJsonResponse({
@@ -295,7 +295,7 @@ export const GET = traceRoute('/deliverables', async (request: NextRequest) => {
         
         return createJsonResponse({ issues: formattedIssues });
       } catch (error: any) {
-        log('[deliverables] Issues fetch error', 'error', { requestId, owner, repo, error: error.message });
+        log('[asset-pack-route] Issues fetch error', 'error', { requestId, owner, repo, error: error.message });
         
         // Check if it's a permissions error
         if (error.status === 404 || error.message?.includes('Not Found')) {
@@ -342,7 +342,7 @@ export const GET = traceRoute('/deliverables', async (request: NextRequest) => {
         
         return createJsonResponse({ files });
       } catch (error: any) {
-        log('[deliverables] Files fetch error', 'error', { requestId, owner, repo, path, error: error.message });
+        log('[asset-pack-route] Files fetch error', 'error', { requestId, owner, repo, path, error: error.message });
         
         if (error.status === 404) {
           return createJsonResponse({
@@ -380,7 +380,7 @@ export const GET = traceRoute('/deliverables', async (request: NextRequest) => {
         ]);
         return createJsonResponse({ repoInfo, branches });
       } catch (error: any) {
-        log('[deliverables] Repository info fetch error', 'error', { requestId, owner, repo, error: error.message });
+        log('[asset-pack-route] Repository info fetch error', 'error', { requestId, owner, repo, error: error.message });
         
         if (error.status === 404) {
           return createJsonResponse({
@@ -415,7 +415,7 @@ export const GET = traceRoute('/deliverables', async (request: NextRequest) => {
         const commits = await getVCSService().listCommits(connectionId, owner, repo, { branch });
         return createJsonResponse({ commits });
       } catch (error: any) {
-        log('[deliverables] Commits fetch error', 'error', { requestId, owner, repo, branch, error: error.message });
+        log('[asset-pack-route] Commits fetch error', 'error', { requestId, owner, repo, branch, error: error.message });
         
         if (error.status === 404) {
           return createJsonResponse({
@@ -448,7 +448,7 @@ export const GET = traceRoute('/deliverables', async (request: NextRequest) => {
     return createJsonResponse({ error: 'Missing required parameters' }, 400);
 
   } catch (error) {
-    log('[deliverables] Error', 'error', { requestId, error });
+    log('[asset-pack-route] Error', 'error', { requestId, error });
     return createErrorResponse(error);
   }
 });
@@ -475,9 +475,9 @@ export const POST = traceRoute('/deliverables', async (request: NextRequest) => 
   const correlationId = crypto.randomUUID();
   const startTime = Date.now();
   // Initialize request-scoped log file
-  try { if (process.env.BITCODE_LOG_TO_FILE === '1') reinitLoggerFile(correlationId, { prefix: 'deliverables-request' }); } catch {}
+  try { if (process.env.BITCODE_LOG_TO_FILE === '1') reinitLoggerFile(correlationId, { prefix: 'asset-pack-route-request' }); } catch {}
   
-  log('[deliverables] POST request received', 'info', {
+  log('[asset-pack-route] POST request received', 'info', {
     correlationId,
     contentType: request.headers.get('content-type'),
     userAgent: request.headers.get('user-agent')
@@ -489,11 +489,11 @@ export const POST = traceRoute('/deliverables', async (request: NextRequest) => 
     const { data: { user }, error: authError } = await supabase.auth.getUser();
     
     if (authError || !user) {
-      log('[deliverables] Authentication failed', 'warn', { correlationId, error: authError });
+      log('[asset-pack-route] Authentication failed', 'warn', { correlationId, error: authError });
       return createAuthErrorResponse();
     }
     
-    log('[deliverables] User authenticated', 'debug', { correlationId, userId: user.id });
+    log('[asset-pack-route] User authenticated', 'debug', { correlationId, userId: user.id });
 
     // Parse request body - support both JSON and multipart
     // CRITICAL: Multipart is used when files are attached
@@ -505,7 +505,7 @@ export const POST = traceRoute('/deliverables', async (request: NextRequest) => 
     
     if (contentType.includes('multipart/form-data')) {
       // Handle multipart form data with file uploads
-      log('[deliverables] Processing multipart form data', 'debug', { correlationId });
+      log('[asset-pack-route] Processing multipart form data', 'debug', { correlationId });
       const formData = await request.formData();
       
       // Extract JSON fields
@@ -518,7 +518,7 @@ export const POST = traceRoute('/deliverables', async (request: NextRequest) => 
       const { saveArtifact } = await import('@bitcode/artifacts');
       for (const [key, value] of Array.from(formData.entries())) {
         if (key.startsWith('file_') && value instanceof File) {
-          log('[deliverables] Processing uploaded file', 'debug', {
+          log('[asset-pack-route] Processing uploaded file', 'debug', {
             correlationId,
             fileName: value.name,
             fileSize: value.size,
@@ -542,7 +542,7 @@ export const POST = traceRoute('/deliverables', async (request: NextRequest) => 
             size: value.size
           });
           
-          log('[deliverables] File saved', 'debug', {
+          log('[asset-pack-route] File saved', 'debug', {
             correlationId,
             fileName: value.name,
             savedUrl: artifactInfo.url
@@ -603,7 +603,7 @@ export const POST = traceRoute('/deliverables', async (request: NextRequest) => 
     const computerUseNeedMeasurementEnabled =
       process.env.BITCODE_ENABLE_COMPUTER_USE_NEED_MEASUREMENT === 'true';
     // Validate inputs
-    log('[deliverables] Validating inputs', 'debug', {
+    log('[asset-pack-route] Validating inputs', 'debug', {
       correlationId,
       hasDefinitionOfNeed: !!definition_of_need,
       hasRepo: !!repoOwner && !!repoName,
@@ -616,7 +616,7 @@ export const POST = traceRoute('/deliverables', async (request: NextRequest) => 
     });
     
     if (!definition_of_need.trim()) {
-      log('[deliverables] Validation failed: missing definition of need', 'warn', { correlationId });
+      log('[asset-pack-route] Validation failed: missing definition of need', 'warn', { correlationId });
       throw new BitcodeError('Definition of Need is required', {
         code: 'MISSING_DEFINITION_OF_NEED',
         status: 400,
@@ -625,7 +625,7 @@ export const POST = traceRoute('/deliverables', async (request: NextRequest) => 
     }
 
     if (!repoOwner?.trim() || !repoName?.trim()) {
-      log('[deliverables] Validation failed: missing repo info', 'warn', { correlationId });
+      log('[asset-pack-route] Validation failed: missing repo info', 'warn', { correlationId });
       throw new BitcodeError('Repository owner and name are required', {
         code: 'MISSING_REPO_INFO',
         status: 400,
@@ -642,7 +642,7 @@ export const POST = traceRoute('/deliverables', async (request: NextRequest) => 
     const multiplier = baselineTotal > 0 ? (chosenTotal / baselineTotal) : 1;
     const cost = Math.round(baseCost * multiplier);
     
-    log('[deliverables] Cost calculated', 'debug', {
+    log('[asset-pack-route] Cost calculated', 'debug', {
       correlationId,
       baseCost,
       multiplier,
@@ -682,7 +682,7 @@ export const POST = traceRoute('/deliverables', async (request: NextRequest) => 
 
     const runId = execRow.id;
     // Switch log file to run-scoped file for pipeline execution
-    try { if (process.env.BITCODE_LOG_TO_FILE === '1') reinitLoggerFile(runId, { prefix: 'deliverables-run' }); } catch {}
+    try { if (process.env.BITCODE_LOG_TO_FILE === '1') reinitLoggerFile(runId, { prefix: 'asset-pack-route-run' }); } catch {}
 
     const routeSemanticAssetPack = {
       need: definition_of_need,
@@ -691,7 +691,7 @@ export const POST = traceRoute('/deliverables', async (request: NextRequest) => 
     let finalWorkSummary: any = undefined;
 
     // Send telemetry
-    log('[deliverables] Sending creation telemetry', 'debug', { correlationId, runId });
+    log('[asset-pack-route] Sending creation telemetry', 'debug', { correlationId, runId });
     await sendServerEvent('asset_pack_run_created', {
       run_id: runId,
       user_id: user.id,
@@ -730,6 +730,7 @@ export const POST = traceRoute('/deliverables', async (request: NextRequest) => 
         await sendEmail({
           to: user.email || '',
           subject: `Your Bitcode asset-pack run #${runId} has started`,
+          // Compatibility template id; rendered copy is Bitcode AssetPack/Shippable-owned.
           template: 'deliverable_started',
           vars: {
             name: user.user_metadata?.full_name || '',
@@ -741,13 +742,13 @@ export const POST = traceRoute('/deliverables', async (request: NextRequest) => 
           }
         });
       } catch (e) {
-        log('[deliverables] Email send failed', 'error', { error: e });
+        log('[asset-pack-route] Email send failed', 'error', { error: e });
       }
     }
 
     // Check for long-runner queue mode
     if (process.env.LONG_RUNNER_QUEUE === 'true') {
-      log('[deliverables] Queueing job for background processing', 'info', { correlationId, runId });
+      log('[asset-pack-route] Queueing job for background processing', 'info', { correlationId, runId });
       // Queue job for background processing
       await orm.executionEvents.create({
         execution_id: runId,
@@ -782,7 +783,7 @@ export const POST = traceRoute('/deliverables', async (request: NextRequest) => 
     // Execute pipeline in background
     (async () => {
       try {
-        log('[deliverables] Pipeline execution starting', 'info', {
+        log('[asset-pack-route] Pipeline execution starting', 'info', {
           correlationId,
           runId,
           definitionOfNeed: definition_of_need.substring(0, 100),
@@ -804,16 +805,16 @@ export const POST = traceRoute('/deliverables', async (request: NextRequest) => 
         })}\n\n`));
 
         // Get connection for VCS
-        log('[deliverables] Fetching GitHub connection', 'debug', { correlationId, userId: user.id });
+        log('[asset-pack-route] Fetching GitHub connection', 'debug', { correlationId, userId: user.id });
         const installationId = await orm.userConnections.getInstallationIdForUser(user.id, 'github');
         if (!installationId) {
           // Debug-only: log the shape (keys) of connection_data to detect schema drift
           try {
             const conn = await orm.userConnections.getByUserAndProvider(user.id, 'github');
             const keys = conn?.connection_data ? Object.keys(conn.connection_data) : [];
-            log('[deliverables POST] connection_data shape (missing installationId)', 'warn', { correlationId, keys });
+            log('[asset-pack-route POST] connection_data shape (missing installationId)', 'warn', { correlationId, keys });
           } catch {}
-          log('[deliverables] GitHub installation not found', 'error', { correlationId, userId: user.id });
+          log('[asset-pack-route] GitHub installation not found', 'error', { correlationId, userId: user.id });
           // Send error event to stream before closing
           const errorEvent = {
             type: 'error',
@@ -835,10 +836,10 @@ export const POST = traceRoute('/deliverables', async (request: NextRequest) => 
           try { streamer.complete(); ExecutionStreamAdapter.unregisterStreamer(runId); } catch {}
           return;
         }
-        log('[deliverables] GitHub connection found', 'debug', { correlationId, installationId });
+        log('[asset-pack-route] GitHub connection found', 'debug', { correlationId, installationId });
 
         // Create execution context
-        log('[deliverables] Creating execution context', 'debug', { correlationId, runId });
+        log('[asset-pack-route] Creating execution context', 'debug', { correlationId, runId });
         // Use PipelineExecution to ensure prompts/tools/llms/agents registries are available.
         execution = new PipelineExecution(
           runId,
@@ -875,7 +876,7 @@ export const POST = traceRoute('/deliverables', async (request: NextRequest) => 
               const eventData = JSON.parse(data);
               // Log phase transitions and important events
               if (eventData.type === 'phase' || eventData.type === 'agent') {
-                log(`[deliverables] ${eventData.type} event`, 'debug', {
+                log(`[asset-pack-route] ${eventData.type} event`, 'debug', {
                   correlationId,
                   phase: eventData.phase,
                   agent: eventData.agent,
@@ -888,7 +889,7 @@ export const POST = traceRoute('/deliverables', async (request: NextRequest) => 
                 event_data: { ...eventData, runId } as any
               } as any);
             } catch (parseError) {
-              log('[deliverables] Failed to parse event data', 'warn', { correlationId, data });
+              log('[asset-pack-route] Failed to parse event data', 'warn', { correlationId, data });
             }
           }
         } as any);
@@ -961,11 +962,12 @@ export const POST = traceRoute('/deliverables', async (request: NextRequest) => 
             },
           };
           execution.store('route/preprocessed', 'assetPackWrittenAsset', preprocessing);
+          // Compatibility mirror for persisted route readers that have not yet migrated storage keys.
           execution.store('route/preprocessed', 'deliverables', preprocessing);
         } catch {}
 
         // Execute pipeline with canonical $BTD reservation
-        log('[deliverables] Starting pipeline execution', 'info', {
+        log('[asset-pack-route] Starting pipeline execution', 'info', {
           correlationId,
           phases: ['setup', 'discovery', 'implementation', 'validation', 'finish'],
           maxIterations: iterationCount
@@ -980,7 +982,7 @@ export const POST = traceRoute('/deliverables', async (request: NextRequest) => 
         );
         
         const pipelineDuration = Date.now() - pipelineStartTime;
-        log('[deliverables] Pipeline execution completed', 'info', {
+        log('[asset-pack-route] Pipeline execution completed', 'info', {
           correlationId,
           duration: pipelineDuration,
           success: true,
@@ -989,7 +991,7 @@ export const POST = traceRoute('/deliverables', async (request: NextRequest) => 
 
         // Send completion
         const totalDuration = Date.now() - startTime;
-        log('[deliverables] Sending completion event', 'debug', {
+        log('[asset-pack-route] Sending completion event', 'debug', {
           correlationId,
           totalDuration,
           prUrl: result?.shippable?.prUrl || result?.deliveryMechanism?.prUrl || result?.deliverable?.prUrl
@@ -1321,6 +1323,7 @@ export const POST = traceRoute('/deliverables', async (request: NextRequest) => 
           await sendEmail({
             to: user.email || '',
             subject: `Your Bitcode asset-pack run #${runId} is complete`,
+            // Compatibility template id; rendered copy is Bitcode AssetPack/Shippable-owned.
             template: 'deliverable_completed',
             vars: {
               name: user.user_metadata?.full_name || '',
@@ -1334,7 +1337,7 @@ export const POST = traceRoute('/deliverables', async (request: NextRequest) => 
         }
 
         // Send completion telemetry
-        await sendServerEvent('deliverable_completed', {
+        await sendServerEvent('asset_pack_run_completed', {
           run_id: runId,
           user_id: user.id,
           duration_ms: Date.now() - startTime,
@@ -1357,7 +1360,7 @@ export const POST = traceRoute('/deliverables', async (request: NextRequest) => 
         const reportedError = reportError(error);
         const currentPhase = (execution?.get('pipeline', 'currentPhase') as string) || 'unknown';
         
-        log('[deliverables] Pipeline execution failed', 'error', {
+        log('[asset-pack-route] Pipeline execution failed', 'error', {
           correlationId,
           runId,
           phase: currentPhase,
@@ -1383,7 +1386,7 @@ export const POST = traceRoute('/deliverables', async (request: NextRequest) => 
         } as any);
 
         // Update run status
-        log('[deliverables] Updating run status to failed', 'debug', { correlationId });
+        log('[asset-pack-route] Updating run status to failed', 'debug', { correlationId });
         await orm.pipelineExecutions.update(runId, {
           status: 'failed',
           error: JSON.stringify({ message: reportedError.message, stack: reportedError.stack, phase: currentPhase }),
@@ -1409,7 +1412,7 @@ export const POST = traceRoute('/deliverables', async (request: NextRequest) => 
         // Avoid double-refunds or credit inflation here.
 
         // Send failure telemetry
-        await sendServerEvent('deliverable_failed', {
+        await sendServerEvent('asset_pack_run_failed', {
           run_id: runId,
           user_id: user.id,
           duration_ms: Date.now() - startTime,
@@ -1423,7 +1426,7 @@ export const POST = traceRoute('/deliverables', async (request: NextRequest) => 
         });
 
       } finally {
-        log('[deliverables] Closing stream writer', 'debug', { correlationId, runId });
+        log('[asset-pack-route] Closing stream writer', 'debug', { correlationId, runId });
         if (!streamClosed) {
           try { await writer.close(); streamClosed = true; } catch {}
         }
@@ -1442,7 +1445,7 @@ export const POST = traceRoute('/deliverables', async (request: NextRequest) => 
 
   } catch (error) {
     const reportedError = reportError(error);
-    log('[deliverables] Error', 'error', { correlationId, error: reportedError });
+    log('[asset-pack-route] Error', 'error', { correlationId, error: reportedError });
     return createErrorResponse(reportedError);
   }
 });
@@ -1450,7 +1453,7 @@ export const POST = traceRoute('/deliverables', async (request: NextRequest) => 
 /**
  * DELETE /api/deliverables/:runId
  * 
- * Cancel a running deliverable pipeline
+ * Cancel a running AssetPack pipeline mounted behind the retained route path.
  */
 export const DELETE = traceRoute('/deliverables', async (request: NextRequest) => {
   const correlationId = crypto.randomUUID();
@@ -1473,7 +1476,7 @@ export const DELETE = traceRoute('/deliverables', async (request: NextRequest) =
     const { data: { user }, error: authError } = await supabase.auth.getUser();
     
     if (authError || !user) {
-      log('[deliverables] Authentication failed for cancel', 'warn', { correlationId });
+      log('[asset-pack-route] Authentication failed for cancel', 'warn', { correlationId });
       return createAuthErrorResponse();
     }
     
@@ -1510,7 +1513,7 @@ export const DELETE = traceRoute('/deliverables', async (request: NextRequest) =
     }
     
     // Log cancellation event
-    await sendServerEvent('deliverable_cancelled', {
+    await sendServerEvent('asset_pack_run_cancelled', {
       run_id: runId,
       user_id: user.id,
       correlation_id: correlationId,
@@ -1526,7 +1529,7 @@ export const DELETE = traceRoute('/deliverables', async (request: NextRequest) =
     
   } catch (error) {
     const reportedError = reportError(error);
-    log('[deliverables] Cancel error', 'error', { correlationId, error: reportedError });
+    log('[asset-pack-route] Cancel error', 'error', { correlationId, error: reportedError });
     return createErrorResponse(reportedError);
   }
 });

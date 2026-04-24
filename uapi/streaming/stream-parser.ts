@@ -117,7 +117,7 @@ export const parseStreamChunk = (chunk: string): ParsedStreamData => {
             const explicitWrittenAssets = data.result.writtenAssets || null;
             const explicitDeliveryMechanism = data.result.deliveryMechanism || null;
             const explicitShippables = data.result.shippables || explicitDeliveryMechanism || null;
-            const explicitDeliverables = data.result.deliverables || null;
+            const compatibilityDeliverables = data.result.deliverables || null;
             const actionsFileChanges = data.result.actions?.files || null;
 
             const semanticFileChanges =
@@ -126,12 +126,12 @@ export const parseStreamChunk = (chunk: string): ParsedStreamData => {
               topLevelFileChanges ||
               explicitShippables?.fileChanges ||
               explicitDeliveryMechanism?.fileChanges ||
-              explicitDeliverables?.fileChanges ||
+              compatibilityDeliverables?.fileChanges ||
               actionsFileChanges ||
               null;
 
             const compatibilityFileChanges =
-              explicitDeliverables?.fileChanges ||
+              compatibilityDeliverables?.fileChanges ||
               topLevelFileChanges ||
               actionsFileChanges ||
               explicitDeliveryMechanism?.fileChanges ||
@@ -148,7 +148,7 @@ export const parseStreamChunk = (chunk: string): ParsedStreamData => {
                 topLevelFileChanges ||
                 actionsFileChanges ||
                 explicitShippables?.fileChanges ||
-                explicitDeliverables?.fileChanges ||
+                compatibilityDeliverables?.fileChanges ||
                 explicitDeliveryMechanism?.fileChanges ||
                 explicitWrittenAssets?.fileChanges ||
                 null,
@@ -158,7 +158,7 @@ export const parseStreamChunk = (chunk: string): ParsedStreamData => {
             const writtenAssets =
               explicitWrittenAssets ||
               explicitAssetPackSynthesisArtifacts ||
-              explicitDeliverables ||
+              compatibilityDeliverables ||
               (data.result.summary || semanticFileChanges
                 ? {
                     ...(data.result.summary ? { summary: data.result.summary } : {}),
@@ -169,16 +169,16 @@ export const parseStreamChunk = (chunk: string): ParsedStreamData => {
             const deliveryMechanism =
               explicitDeliveryMechanism ||
               explicitShippables ||
-              explicitDeliverables ||
+              compatibilityDeliverables ||
               actionsSurface;
 
             const shippables =
               explicitShippables ||
               deliveryMechanism ||
-              explicitDeliverables;
+              compatibilityDeliverables;
 
-            const deliverables =
-              explicitDeliverables ||
+            const compatibilitySurface =
+              compatibilityDeliverables ||
               (shippables || deliveryMechanism || writtenAssets
                 ? {
                     pullRequest: shippables?.pullRequest ?? deliveryMechanism?.pullRequest ?? writtenAssets?.pullRequest ?? null,
@@ -193,9 +193,9 @@ export const parseStreamChunk = (chunk: string): ParsedStreamData => {
 
             parsedData.completion = {
               ...data.result,
-              display: data.result.summary || data.result.message || 'Task completed',
+              display: data.result.summary || data.result.message || 'Need completed',
               shippables,
-              deliverables,
+              deliverables: compatibilitySurface,
               assetPackSynthesisArtifacts: explicitAssetPackSynthesisArtifacts || writtenAssets,
               writtenAssets,
               deliveryMechanism,

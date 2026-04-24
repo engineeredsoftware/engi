@@ -581,7 +581,7 @@ test('implementation, validation, and Finish carriers separate AssetPack kind fr
 
 test('operator-facing execution header and retained route teach Delivering mechanism semantics', () => {
   assert.match(executionsPageHeaderSource, /delivery-template selection/u);
-  assert.match(executionsPageHeaderSource, /Compatibility prop carrying Finish-delivered shippables/u);
+  assert.match(executionsPageHeaderSource, /Finish-delivered shippables/u);
   assert.match(executionsPageHeaderSource, /No shippables to summarize/u);
   assert.match(executionsPageHeaderSource, /expected AssetPack evidence and shippable result/u);
   assert.match(executionsPageHeaderSource, /A shippable delivery mechanism can be a/u);

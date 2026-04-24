@@ -208,7 +208,7 @@ describe('GitHub Webhook Route', () => {
         isPR: false,
         issueNumber: 6,
         pipelineMeaning: 'asset_pack_pipeline',
-        compatibilityCommand: 'bitcode-deliverable-trigger',
+        triggerCommand: 'bitcode-asset-pack-trigger',
       })
     );
     expect(track).toHaveBeenCalledWith(
