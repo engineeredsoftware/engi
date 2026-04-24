@@ -35,6 +35,7 @@ import {
 import { BITCOIN_PAYMENT_MODES } from './v23-bitcoin.js';
 import { ACTIVE_CANON_VERSION } from '../canon-posture.js';
 import { validateV26InferenceImplementationRecords } from './inference-implementation-records.js';
+import { buildV26ProductReadinessAudit } from './v26-product-readiness-audit.js';
 
 export const DEFAULT_PROVEN_BRANCH_MODES = ['patch', 'context'];
 export const DEFAULT_V23_PROVEN_PAYMENT_MODES = [...BITCOIN_PAYMENT_MODES];
@@ -2549,6 +2550,7 @@ function buildV26SourceToSharesFifthGateProof({
  *   promptSystemTotalityProof: any,
  *   inferenceImplementationRecordsProof: any,
  *   sourceToSharesFifthGateProof: any,
+ *   productReadinessAudit: any,
  *   promptSpaceCompletenessProof: any,
  *   retainedPackageAdmissibilityProof: any,
  *   systemReformAdmissibilityProof: any
@@ -2565,6 +2567,7 @@ function buildV26FifthGateClosureDeepeningProof({
   promptSystemTotalityProof,
   inferenceImplementationRecordsProof,
   sourceToSharesFifthGateProof,
+  productReadinessAudit,
   promptSpaceCompletenessProof,
   retainedPackageAdmissibilityProof,
   systemReformAdmissibilityProof
@@ -2611,6 +2614,11 @@ function buildV26FifthGateClosureDeepeningProof({
       passed: sourceToSharesFifthGateProof?.passed === true
     },
     {
+      proofId: 'product-readiness-audit',
+      artifactPath: '.bitcode/v26-product-readiness-audit.json',
+      passed: productReadinessAudit?.baselinePassed === true
+    },
+    {
       proofId: 'prompt-space-baseline',
       artifactPath: '.bitcode/prompt-space-completeness-proof.json',
       passed: promptSpaceCompletenessProof?.baselinePassed === true
@@ -2643,8 +2651,8 @@ function buildV26FifthGateClosureDeepeningProof({
     axis(
       'terminal-read-write-loop',
       'Bitcode Terminal read/write loop',
-      ['application-composition', 'source-to-shares', 'environment-mode-coherence'],
-      'Terminal-facing source-to-shares Need review, fit admission, settlement reading, and environment posture are generated and app/API-backed.',
+      ['application-composition', 'source-to-shares', 'product-readiness-audit', 'environment-mode-coherence'],
+      'Terminal-facing source-to-shares Need review, fit admission, settlement reading, product readiness audit, and environment posture are generated and app/API-backed.',
       'Whole browser acceptance, authenticated live-path reread, and all admitted interface write surfaces still need fifth-gate closure.'
     ),
     axis(
@@ -2657,7 +2665,7 @@ function buildV26FifthGateClosureDeepeningProof({
     axis(
       'transactional-readiness-and-repository-scope',
       'Transactional readiness and repository scope',
-      ['application-composition', 'source-to-shares', 'retained-package-admissibility'],
+      ['application-composition', 'source-to-shares', 'product-readiness-audit', 'retained-package-admissibility'],
       'Repository-bound source-to-shares admission and Git/GH connected-interface settlement posture are proof-backed as the current readiness baseline.',
       'Provider-backed wallet signing, authenticated repository runtime proof, and broader route/browser readiness remain open.'
     ),
@@ -2678,8 +2686,8 @@ function buildV26FifthGateClosureDeepeningProof({
     axis(
       'proof-family-and-environment-closure',
       'Proof-family and environment closure',
-      ['source-to-shares', 'environment-mode-coherence', 'prompt-space-baseline', 'system-reform-admissibility'],
-      'Fifth-gate proof families now include source-to-shares, environment coherence, prompt-space baseline, and system-reform admissibility.',
+      ['source-to-shares', 'product-readiness-audit', 'environment-mode-coherence', 'prompt-space-baseline', 'system-reform-admissibility'],
+      'Fifth-gate proof families now include source-to-shares, product readiness auditing, environment coherence, prompt-space baseline, and system-reform admissibility.',
       'Fifth-gate closure verdicts, clean-worktree promotion evidence, and later whole-repository proof closure remain open.'
     )
   ];
@@ -5118,6 +5126,27 @@ export function renderCanonicalProvenMarkdown(data) {
       ])
     ));
     lines.push('');
+    lines.push('### V26 Product Readiness Audit');
+    lines.push('');
+    lines.push(`- reportId: ${markdownCode(v26.productReadinessAudit.reportId)}`);
+    lines.push(`- baselinePassed: ${markdownCode(String(v26.productReadinessAudit.baselinePassed === true))}`);
+    lines.push(`- closureClaim: ${markdownCode(String(v26.productReadinessAudit.closureClaim === true))}`);
+    lines.push(`- productCount: ${markdownCode(String(v26.productReadinessAudit.productCount))}`);
+    lines.push(`- baselineReadyProductCount: ${markdownCode(String(v26.productReadinessAudit.baselineReadyProductCount))}`);
+    lines.push(`- closureReadyProductCount: ${markdownCode(String(v26.productReadinessAudit.closureReadyProductCount))}`);
+    lines.push(`- notReadyFor: ${v26.productReadinessAudit.notReadyFor.map(markdownCode).join(', ')}`);
+    lines.push('');
+    lines.push(renderMarkdownTable(
+      ['productId', 'baselineReadiness', 'baselineEvidencePassed', 'readyForFifthGateClosure', 'parityMatrixAnchor'],
+      v26.productReadinessAudit.products.map((product) => [
+        markdownCode(product.productId),
+        markdownCode(product.baselineReadiness),
+        markdownCode(String(product.baselineEvidencePassed)),
+        markdownCode(String(product.readyForFifthGateClosure)),
+        product.parityMatrixAnchor
+      ])
+    ));
+    lines.push('');
     lines.push('### V26 Fifth-Gate Closure Deepening Proof');
     lines.push('');
     lines.push(`- reportId: ${markdownCode(v26.fifthGateClosureDeepeningProof.reportId)}`);
@@ -6068,6 +6097,7 @@ function buildV26ProvenPackage(baseData, {
             '.bitcode/inference-implementation-records-proof.json',
             '.bitcode/fourth-gate-reclosure-review-proof.json',
             '.bitcode/source-to-shares-fifth-gate-proof.json',
+            '.bitcode/v26-product-readiness-audit.json',
             '.bitcode/fifth-gate-closure-deepening-proof.json',
             '.bitcode/prompt-space-completeness-proof.json',
             '.bitcode/retained-package-admissibility-proof.json',
@@ -6110,6 +6140,10 @@ function buildV26ProvenPackage(baseData, {
     generatedAt,
     baseData
   });
+  const productReadinessAudit = buildV26ProductReadinessAudit({
+    generatedAt,
+    baseData
+  });
   const retainedPackageAdmissibilityProof = buildV26RetainedPackageAdmissibilityProof({
     generatedAt,
     baseData
@@ -6144,6 +6178,7 @@ function buildV26ProvenPackage(baseData, {
     promptSystemTotalityProof,
     inferenceImplementationRecordsProof,
     sourceToSharesFifthGateProof,
+    productReadinessAudit,
     promptSpaceCompletenessProof,
     retainedPackageAdmissibilityProof,
     systemReformAdmissibilityProof
@@ -6194,6 +6229,7 @@ function buildV26ProvenPackage(baseData, {
     '.bitcode/inference-implementation-records-proof.json': `${JSON.stringify(inferenceImplementationRecordsProof, null, 2)}\n`,
     '.bitcode/fourth-gate-reclosure-review-proof.json': `${JSON.stringify(fourthGateReclosureReviewProof, null, 2)}\n`,
     '.bitcode/source-to-shares-fifth-gate-proof.json': `${JSON.stringify(sourceToSharesFifthGateProof, null, 2)}\n`,
+    '.bitcode/v26-product-readiness-audit.json': `${JSON.stringify(productReadinessAudit, null, 2)}\n`,
     '.bitcode/fifth-gate-closure-deepening-proof.json': `${JSON.stringify(fifthGateClosureDeepeningProof, null, 2)}\n`,
     '.bitcode/prompt-space-completeness-proof.json': `${JSON.stringify(promptSpaceCompletenessProof, null, 2)}\n`,
     '.bitcode/retained-package-admissibility-proof.json': `${JSON.stringify(retainedPackageAdmissibilityProof, null, 2)}\n`,
@@ -6236,6 +6272,7 @@ function buildV26ProvenPackage(baseData, {
       inferenceImplementationRecordsProof,
       fourthGateReclosureReviewProof,
       sourceToSharesFifthGateProof,
+      productReadinessAudit,
       fifthGateClosureDeepeningProof,
       promptSpaceCompletenessProof,
       retainedPackageAdmissibilityProof,

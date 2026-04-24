@@ -11,7 +11,7 @@
 - Canonical proof-source commit: `9d0733fed5f63d2f977900384d4103f9fd887f03`
 - Prior canonical anchor: recorded in `BITCODE_SPEC_V26_NOTES.md` only; it is not active V26 truth
 - Prior generated proof appendix: recorded in `BITCODE_SPEC_V26_NOTES.md` only; it is not active V26 truth
-- Generated structured artifact inventory: active canonical `.bitcode/v19-*` reproducible reports, `.bitcode/v20-*` operator-quality reports, `.bitcode/v26-spec-family-report.json`, `.bitcode/v26-canonical-input-report.json`, `.bitcode/v26-gate-checkpoint-report.json`, `.bitcode/conversations-continuity-proof.json`, `.bitcode/runs-pipelines-totality-proof.json`, `.bitcode/persistence-schema-totality-proof.json`, `.bitcode/prompt-system-totality-proof.json`, `.bitcode/inference-implementation-records-proof.json`, `.bitcode/fourth-gate-reclosure-review-proof.json`, `.bitcode/source-to-shares-fifth-gate-proof.json`, `.bitcode/fifth-gate-closure-deepening-proof.json`, `.bitcode/retained-package-admissibility-proof.json`, and `BITCODE_SPEC_V26_PROVEN.md`
+- Generated structured artifact inventory: active canonical `.bitcode/v19-*` reproducible reports, `.bitcode/v20-*` operator-quality reports, `.bitcode/v26-spec-family-report.json`, `.bitcode/v26-canonical-input-report.json`, `.bitcode/v26-gate-checkpoint-report.json`, `.bitcode/conversations-continuity-proof.json`, `.bitcode/runs-pipelines-totality-proof.json`, `.bitcode/persistence-schema-totality-proof.json`, `.bitcode/prompt-system-totality-proof.json`, `.bitcode/inference-implementation-records-proof.json`, `.bitcode/fourth-gate-reclosure-review-proof.json`, `.bitcode/source-to-shares-fifth-gate-proof.json`, `.bitcode/v26-product-readiness-audit.json`, `.bitcode/fifth-gate-closure-deepening-proof.json`, `.bitcode/retained-package-admissibility-proof.json`, and `BITCODE_SPEC_V26_PROVEN.md`
 - Canonical companion delta: `BITCODE_SPEC_V26_DELTA.md`
 - Canonical companion KISS summary: `BITCODE_SPEC_V26_KISS.md`
 - Canonical companion parity ledger: `BITCODE_SPEC_V26_PARITY_MATRIX.md`
@@ -756,6 +756,10 @@ It is the joined deployment of:
 - the admitted `Bitcode MCP` and ChatGPT-style app surfaces,
 - the retained protocol/runtime owners that those interfaces read from and write to,
 - and the `Bitcode Protocol` specification/proof/test family that audits those interfaces as one canonical system.
+
+Fifth-gate readiness auditing must remain product-specific and honest.
+`.bitcode/v26-product-readiness-audit.json` derives the current readiness map from the protocol-demonstration Exchange-lite implementation, the protocol-demonstration Terminal-lite shell UI, commercial `uapi` Exchange/Terminal surfaces, and `BITCODE_SPEC_V26_PARITY_MATRIX.md`.
+That audit may prove a product baseline is source-backed, but it must not mark fifth-gate closure, sixth-gate MVP, seventh-gate commercial testnet launch, or eighth-gate V26 definition-of-need readiness as complete.
 
 The following are required for fifth-gate minimum functionality:
 - activity-ledger master-detail read posture is searchable, filterable, paginatable, and stable,
@@ -1563,6 +1567,7 @@ Current V26 generated artifact inventories must cover:
 - `.bitcode/inference-implementation-records-proof.json`,
 - `.bitcode/fourth-gate-reclosure-review-proof.json`,
 - `.bitcode/source-to-shares-fifth-gate-proof.json`,
+- `.bitcode/v26-product-readiness-audit.json`,
 - `.bitcode/fifth-gate-closure-deepening-proof.json`,
 - `.bitcode/prompt-space-completeness-proof.json`,
 - `.bitcode/retained-package-admissibility-proof.json`,
@@ -1580,6 +1585,7 @@ V26 specifying artifacts are:
 - `.bitcode/v26-gate-checkpoint-report.json`
 - `.bitcode/fourth-gate-reclosure-review-proof.json`
 - `.bitcode/source-to-shares-fifth-gate-proof.json`
+- `.bitcode/v26-product-readiness-audit.json`
 - `.bitcode/fifth-gate-closure-deepening-proof.json`
 - `BITCODE_SPEC_V26_PROVEN.md`
 

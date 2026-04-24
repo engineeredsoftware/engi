@@ -1,0 +1,532 @@
+{
+  "reportId": "v26-product-readiness-audit",
+  "version": "V26",
+  "proofSourceCommit": "e55984450cefd5915c92dfde3e9cf75caa433909",
+  "generatedAt": "2026-04-24T19:52:46-03:00",
+  "generatorId": "bitcode.proven-generator.v1",
+  "worktreeState": "dirty-preview",
+  "gate": "gate-5",
+  "auditBasis": [
+    "protocol-demonstration Exchange-lite implementation",
+    "protocol-demonstration Terminal-lite shell UI",
+    "uapi commercial Exchange and Terminal product surfaces",
+    "BITCODE_SPEC_V26_PARITY_MATRIX.md acceptance rows"
+  ],
+  "baselinePassed": true,
+  "closureClaim": false,
+  "productCount": 9,
+  "baselineReadyProductCount": 9,
+  "closureReadyProductCount": 0,
+  "openProductCount": 9,
+  "notReadyFor": [
+    "fifth-gate-closure",
+    "sixth-gate-mvp",
+    "seventh-gate-commercial-testnet-launch",
+    "eighth-gate-v26-definition-of-need"
+  ],
+  "products": [
+    {
+      "productId": "bitcode-protocol",
+      "productName": "Bitcode Protocol",
+      "baselineReadiness": "deterministic-protocol-witness-backed",
+      "parityMatrixAnchor": "Source-to-shares fifth-gate proof",
+      "baselineEvidencePassed": true,
+      "readyForFifthGateBaseline": true,
+      "readyForFifthGateClosure": false,
+      "readyForSixthGateMvp": false,
+      "closureClaim": false,
+      "openReadiness": [
+        "fifth-gate closure still requires commercial product parity across every admitted interface",
+        "sixth-gate MVP and later launch readiness are intentionally open"
+      ],
+      "evidenceChecks": [
+        {
+          "file": "protocol-demonstration/src/bitcode-demo.js",
+          "requiredText": "runMakeBitcodeBranch",
+          "filePresent": true,
+          "evidencePresent": true,
+          "passed": true
+        },
+        {
+          "file": "protocol-demonstration/src/canonical/need-measurement.js",
+          "requiredText": "reviewNeedForFitSearch",
+          "filePresent": true,
+          "evidencePresent": true,
+          "passed": true
+        },
+        {
+          "file": "protocol-demonstration/src/canonical/settlement.js",
+          "requiredText": "quantizedFitQualities",
+          "filePresent": true,
+          "evidencePresent": true,
+          "passed": true
+        },
+        {
+          "file": "protocol-demonstration/test/v26-need-review-source-to-shares.test.js",
+          "requiredText": "V26 settlement review and receipts show quantized source-to-shares fit qualities",
+          "filePresent": true,
+          "evidencePresent": true,
+          "passed": true
+        },
+        {
+          "file": "BITCODE_SPEC_V26_PARITY_MATRIX.md",
+          "requiredText": "Source-to-shares fifth-gate proof",
+          "filePresent": true,
+          "evidencePresent": true,
+          "passed": true
+        }
+      ]
+    },
+    {
+      "productId": "bitcode-exchange",
+      "productName": "Bitcode Exchange",
+      "baselineReadiness": "exchange-lite-route-and-state-backed",
+      "parityMatrixAnchor": "App-owned protocol/API ownership",
+      "baselineEvidencePassed": true,
+      "readyForFifthGateBaseline": true,
+      "readyForFifthGateClosure": false,
+      "readyForSixthGateMvp": false,
+      "closureClaim": false,
+      "openReadiness": [
+        "authenticated live-path activity and storage runtime acceptance remains open",
+        "provider-backed signed settlement is not fifth-gate-closed"
+      ],
+      "evidenceChecks": [
+        {
+          "file": "protocol-demonstration/server.js",
+          "requiredText": "createAppContext",
+          "filePresent": true,
+          "evidencePresent": true,
+          "passed": true
+        },
+        {
+          "file": "protocol-demonstration/server.js",
+          "requiredText": "needFittingReview",
+          "filePresent": true,
+          "evidencePresent": true,
+          "passed": true
+        },
+        {
+          "file": "uapi/app/api/state/route.ts",
+          "requiredText": "getBitcodeAppContext().getState(principal)",
+          "filePresent": true,
+          "evidencePresent": true,
+          "passed": true
+        },
+        {
+          "file": "uapi/app/api/need-review/route.ts",
+          "requiredText": "getBitcodeAppContext().getNeedReview",
+          "filePresent": true,
+          "evidencePresent": true,
+          "passed": true
+        },
+        {
+          "file": "uapi/app/api/make-bitcode-branch/route.ts",
+          "requiredText": "makeBitcodeBranch",
+          "filePresent": true,
+          "evidencePresent": true,
+          "passed": true
+        },
+        {
+          "file": "uapi/tests/api/needReviewProtocolParity.test.ts",
+          "requiredText": "rereads accepted Need review and source-to-shares settlement artifacts through the commercial /api/state route",
+          "filePresent": true,
+          "evidencePresent": true,
+          "passed": true
+        },
+        {
+          "file": "BITCODE_SPEC_V26_PARITY_MATRIX.md",
+          "requiredText": "App-owned protocol/API ownership",
+          "filePresent": true,
+          "evidencePresent": true,
+          "passed": true
+        }
+      ]
+    },
+    {
+      "productId": "bitcode-terminal",
+      "productName": "Bitcode Terminal",
+      "baselineReadiness": "terminal-lite-and-application-read-backed",
+      "parityMatrixAnchor": "Bitcode Terminal read/write loop",
+      "baselineEvidencePassed": true,
+      "readyForFifthGateBaseline": true,
+      "readyForFifthGateClosure": false,
+      "readyForSixthGateMvp": false,
+      "closureClaim": false,
+      "openReadiness": [
+        "whole browser acceptance and live authenticated reread remain open",
+        "later-gate product polish and MVP flow completeness remain open"
+      ],
+      "evidenceChecks": [
+        {
+          "file": "protocol-demonstration/public/app.js",
+          "requiredText": "__BITCODE_APPLICATION_SHELL_SNAPSHOT__",
+          "filePresent": true,
+          "evidencePresent": true,
+          "passed": true
+        },
+        {
+          "file": "uapi/app/application/ApplicationPageClient.tsx",
+          "requiredText": "ApplicationNeedScenarioPanel",
+          "filePresent": true,
+          "evidencePresent": true,
+          "passed": true
+        },
+        {
+          "file": "uapi/app/application/ApplicationNeedScenarioPanel.tsx",
+          "requiredText": "Need-fitting Exchange review",
+          "filePresent": true,
+          "evidencePresent": true,
+          "passed": true
+        },
+        {
+          "file": "uapi/app/application/ApplicationClosureNativeSections.tsx",
+          "requiredText": "Read closure as one sequence from reviewable Need admission",
+          "filePresent": true,
+          "evidencePresent": true,
+          "passed": true
+        },
+        {
+          "file": "uapi/app/application/application-transaction-detail-snapshot.ts",
+          "requiredText": "fitQualities: coerceFitQualities",
+          "filePresent": true,
+          "evidencePresent": true,
+          "passed": true
+        },
+        {
+          "file": "uapi/tests/applicationNeedScenarios.test.ts",
+          "requiredText": "normalizes Exchange Need-fitting review state for Terminal review controls",
+          "filePresent": true,
+          "evidencePresent": true,
+          "passed": true
+        },
+        {
+          "file": "BITCODE_SPEC_V26_PARITY_MATRIX.md",
+          "requiredText": "`Bitcode Terminal` read/write loop",
+          "filePresent": true,
+          "evidencePresent": true,
+          "passed": true
+        }
+      ]
+    },
+    {
+      "productId": "source-to-shares-need-fitting",
+      "productName": "Need-fitting and settlement review",
+      "baselineReadiness": "implemented-fifth-gate-slice",
+      "parityMatrixAnchor": "Need review before fit search",
+      "baselineEvidencePassed": true,
+      "readyForFifthGateBaseline": true,
+      "readyForFifthGateClosure": false,
+      "readyForSixthGateMvp": false,
+      "closureClaim": false,
+      "openReadiness": [
+        "this slice is implemented but does not close all fifth-gate product readiness",
+        "fit-candidate marketplace UX and MVP settlement refinement remain later-gate work"
+      ],
+      "evidenceChecks": [
+        {
+          "file": "protocol-demonstration/server.js",
+          "requiredText": "bitcode-need-fitting-review",
+          "filePresent": true,
+          "evidencePresent": true,
+          "passed": true
+        },
+        {
+          "file": "uapi/app/application/application-need-scenarios.ts",
+          "requiredText": "normalizeApplicationNeedFittingReview",
+          "filePresent": true,
+          "evidencePresent": true,
+          "passed": true
+        },
+        {
+          "file": "uapi/tests/api/needReviewRoute.test.ts",
+          "requiredText": "presents a reviewable Need before fit search",
+          "filePresent": true,
+          "evidencePresent": true,
+          "passed": true
+        },
+        {
+          "file": "uapi/tests/api/needReviewProtocolParity.test.ts",
+          "requiredText": "needFittingReview",
+          "filePresent": true,
+          "evidencePresent": true,
+          "passed": true
+        },
+        {
+          "file": "BITCODE_SPEC_V26_PARITY_MATRIX.md",
+          "requiredText": "Need review before fit search",
+          "filePresent": true,
+          "evidencePresent": true,
+          "passed": true
+        }
+      ]
+    },
+    {
+      "productId": "assetpack-execution",
+      "productName": "AssetPack execution and Finish/Delivering",
+      "baselineReadiness": "materially-implemented-open",
+      "parityMatrixAnchor": "AssetPack pipeline corridor",
+      "baselineEvidencePassed": true,
+      "readyForFifthGateBaseline": true,
+      "readyForFifthGateClosure": false,
+      "readyForSixthGateMvp": false,
+      "closureClaim": false,
+      "openReadiness": [
+        "full semantic closure across retained pipeline carriers remains open",
+        "route compatibility names still require later retirement or bounded proof"
+      ],
+      "evidenceChecks": [
+        {
+          "file": "packages/pipelines/asset-pack/src/postprocess.ts",
+          "requiredText": "assetPackSynthesisArtifacts",
+          "filePresent": true,
+          "evidencePresent": true,
+          "passed": true
+        },
+        {
+          "file": "packages/pipelines/asset-pack/src/agents/finish-delivery-agents.ts",
+          "requiredText": "finish:asset-pack",
+          "filePresent": true,
+          "evidencePresent": true,
+          "passed": true
+        },
+        {
+          "file": "packages/pipelines-generics/src/phases/sdivf-factory.ts",
+          "requiredText": "SDIVF",
+          "filePresent": true,
+          "evidencePresent": true,
+          "passed": true
+        },
+        {
+          "file": "protocol-demonstration/test/v26-pipeline-finish-reform.test.js",
+          "requiredText": "SDIVF",
+          "filePresent": true,
+          "evidencePresent": true,
+          "passed": true
+        },
+        {
+          "file": "BITCODE_SPEC_V26_PARITY_MATRIX.md",
+          "requiredText": "full semantic closure across all retained carriers remains open",
+          "filePresent": true,
+          "evidencePresent": true,
+          "passed": true
+        }
+      ]
+    },
+    {
+      "productId": "conversations-rich-input",
+      "productName": "Conversations rich-input write surface",
+      "baselineReadiness": "implemented-active-slices-open",
+      "parityMatrixAnchor": "Conversations as Bitcode rich input",
+      "baselineEvidencePassed": true,
+      "readyForFifthGateBaseline": true,
+      "readyForFifthGateClosure": false,
+      "readyForSixthGateMvp": false,
+      "closureClaim": false,
+      "openReadiness": [
+        "persisted rich-input attachment and destination roundtrip remain open across all admitted interfaces",
+        "cross-interface parity is not fifth-gate-closed"
+      ],
+      "evidenceChecks": [
+        {
+          "file": "packages/api/src/routes/conversations.ts",
+          "requiredText": "rich_input",
+          "filePresent": true,
+          "evidencePresent": true,
+          "passed": true
+        },
+        {
+          "file": "packages/api/src/routes/conversations.ts",
+          "requiredText": "rich_input",
+          "filePresent": true,
+          "evidencePresent": true,
+          "passed": true
+        },
+        {
+          "file": "packages/api/src/conversations/attachments.ts",
+          "requiredText": "attachments",
+          "filePresent": true,
+          "evidencePresent": true,
+          "passed": true
+        },
+        {
+          "file": ".bitcode/conversations-continuity-proof.json",
+          "requiredText": "rich_input",
+          "filePresent": true,
+          "evidencePresent": true,
+          "passed": true
+        },
+        {
+          "file": "BITCODE_SPEC_V26_PARITY_MATRIX.md",
+          "requiredText": "Conversations and rich-input continuity",
+          "filePresent": true,
+          "evidencePresent": true,
+          "passed": true
+        }
+      ]
+    },
+    {
+      "productId": "auxillaries-readiness",
+      "productName": "Auxillaries readiness and transactional admission",
+      "baselineReadiness": "materially-implemented-open",
+      "parityMatrixAnchor": "Transactional readiness and signed-settlement admission",
+      "baselineEvidencePassed": true,
+      "readyForFifthGateBaseline": true,
+      "readyForFifthGateClosure": false,
+      "readyForSixthGateMvp": false,
+      "closureClaim": false,
+      "openReadiness": [
+        "provider-backed wallet signing and route/browser readiness proof remain open",
+        "manual wallet identity is not equivalent to signed settlement"
+      ],
+      "evidenceChecks": [
+        {
+          "file": "uapi/app/application/bitcode-transaction-readiness.ts",
+          "requiredText": "canSettle",
+          "filePresent": true,
+          "evidencePresent": true,
+          "passed": true
+        },
+        {
+          "file": "uapi/app/application/bitcode-transaction-route-readiness.ts",
+          "requiredText": "requireBitcodeSignedTransactionReadiness",
+          "filePresent": true,
+          "evidencePresent": true,
+          "passed": true
+        },
+        {
+          "file": "uapi/app/auxillaries/components/AuxillariesConnectsPane.tsx",
+          "requiredText": "Connects",
+          "filePresent": true,
+          "evidencePresent": true,
+          "passed": true
+        },
+        {
+          "file": "uapi/app/auxillaries/components/AuxillariesProfilePane.tsx",
+          "requiredText": "Profile",
+          "filePresent": true,
+          "evidencePresent": true,
+          "passed": true
+        },
+        {
+          "file": "uapi/tests/bitcodeTransactionReadiness.test.ts",
+          "requiredText": "signed settlement remains staged",
+          "filePresent": true,
+          "evidencePresent": true,
+          "passed": true
+        },
+        {
+          "file": "BITCODE_SPEC_V26_PARITY_MATRIX.md",
+          "requiredText": "Transactional readiness and signed-settlement admission",
+          "filePresent": true,
+          "evidencePresent": true,
+          "passed": true
+        }
+      ]
+    },
+    {
+      "productId": "connected-interfaces",
+      "productName": "Connected interfaces: MCP and ChatGPT App",
+      "baselineReadiness": "materially-implemented-open",
+      "parityMatrixAnchor": "API / MCP / third-party parity",
+      "baselineEvidencePassed": true,
+      "readyForFifthGateBaseline": true,
+      "readyForFifthGateClosure": false,
+      "readyForSixthGateMvp": false,
+      "closureClaim": false,
+      "openReadiness": [
+        "whole-interface acceptance remains open beyond current write-admission slices",
+        "broader third-party ingress coverage remains fifth-gate/later-gate work"
+      ],
+      "evidenceChecks": [
+        {
+          "file": "packages/executions-mcp/src/mcp-server/src/tools/pipeline-tools.ts",
+          "requiredText": "writeAdmission",
+          "filePresent": true,
+          "evidencePresent": true,
+          "passed": true
+        },
+        {
+          "file": "packages/executions-mcp/src/mcp-server/src/types/index.ts",
+          "requiredText": "RepositoryContextSchema",
+          "filePresent": true,
+          "evidencePresent": true,
+          "passed": true
+        },
+        {
+          "file": "packages/chatgptapp/src/tools.ts",
+          "requiredText": "confirmed",
+          "filePresent": true,
+          "evidencePresent": true,
+          "passed": true
+        },
+        {
+          "file": "packages/chatgptapp/src/__tests__/tools.test.ts",
+          "requiredText": "rejects ChatGPT App connected-interface writes without explicit confirmation",
+          "filePresent": true,
+          "evidencePresent": true,
+          "passed": true
+        },
+        {
+          "file": "BITCODE_SPEC_V26_PARITY_MATRIX.md",
+          "requiredText": "API / MCP / third-party parity",
+          "filePresent": true,
+          "evidencePresent": true,
+          "passed": true
+        }
+      ]
+    },
+    {
+      "productId": "proof-and-promotion",
+      "productName": "Proof and promotion controls",
+      "baselineReadiness": "proof-backed-open",
+      "parityMatrixAnchor": "Proof and generated-evidence parity matrix",
+      "baselineEvidencePassed": true,
+      "readyForFifthGateBaseline": true,
+      "readyForFifthGateClosure": false,
+      "readyForSixthGateMvp": false,
+      "closureClaim": false,
+      "openReadiness": [
+        "proof families deepen readiness but do not claim fifth-gate closure",
+        "clean-worktree promotion evidence and later-gate whole-repository closure remain open"
+      ],
+      "evidenceChecks": [
+        {
+          "file": "scripts/generate-bitcode-proven.mjs",
+          "requiredText": "generateCanonicalProvenMarkdown",
+          "filePresent": true,
+          "evidencePresent": true,
+          "passed": true
+        },
+        {
+          "file": "protocol-demonstration/src/canonical/proven-generator.js",
+          "requiredText": "buildV26FifthGateClosureDeepeningProof",
+          "filePresent": true,
+          "evidencePresent": true,
+          "passed": true
+        },
+        {
+          "file": ".bitcode/source-to-shares-fifth-gate-proof.json",
+          "requiredText": "v26-source-to-shares-fifth-gate-proof",
+          "filePresent": true,
+          "evidencePresent": true,
+          "passed": true
+        },
+        {
+          "file": ".bitcode/fifth-gate-closure-deepening-proof.json",
+          "requiredText": "v26-fifth-gate-closure-deepening-proof",
+          "filePresent": true,
+          "evidencePresent": true,
+          "passed": true
+        },
+        {
+          "file": "BITCODE_SPEC_V26_PARITY_MATRIX.md",
+          "requiredText": "Proof and generated-evidence parity matrix",
+          "filePresent": true,
+          "evidencePresent": true,
+          "passed": true
+        }
+      ]
+    }
+  ]
+}

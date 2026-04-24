@@ -343,6 +343,7 @@ function buildV21LikeProfile(version) {
           '.bitcode/inference-implementation-records-proof.json',
           '.bitcode/fourth-gate-reclosure-review-proof.json',
           '.bitcode/source-to-shares-fifth-gate-proof.json',
+          '.bitcode/v26-product-readiness-audit.json',
           '.bitcode/fifth-gate-closure-deepening-proof.json',
           '.bitcode/prompt-space-completeness-proof.json',
           '.bitcode/retained-package-admissibility-proof.json',
