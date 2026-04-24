@@ -78,6 +78,7 @@ export type RepoSnapshot = { org: string; repo: string; branch: string; commit: 
 export type HeaderFinalWorkSummary = {
   summary?: string | null;
   deliverables?: HeaderDeliverables;
+  assetPackSynthesisArtifacts?: HeaderDeliverables;
   writtenAssets?: HeaderDeliverables;
   deliveryMechanism?: HeaderDeliverables;
   need?: string | null;
@@ -372,7 +373,12 @@ export function CompleteHeaderContent({
 export function getHeaderWrittenAssets(
   finalWorkSummary?: HeaderFinalWorkSummary | null,
 ): HeaderDeliverables | null {
-  return finalWorkSummary?.writtenAssets || finalWorkSummary?.deliverables || null;
+  return (
+    finalWorkSummary?.assetPackSynthesisArtifacts ||
+    finalWorkSummary?.writtenAssets ||
+    finalWorkSummary?.deliverables ||
+    null
+  );
 }
 
 export function getHeaderDeliveryMechanism(

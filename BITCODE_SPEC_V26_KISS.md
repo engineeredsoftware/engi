@@ -47,13 +47,14 @@ Proof improvements matter, but they do not close the gate unless packages, inter
 The canonical object flow is:
 1. source is supplied, normalized, projected, and made auditable;
 2. a user expresses a Need;
-3. discovery and measurement synthesize a reviewable Need with evidence;
-4. the operator can accept, reject, or request re-measurement with feedback;
-5. fit candidates are found and presented with quantized objective-contract fit qualities;
-6. accepted settlement materializes source-to-shares accounting;
-7. AssetPack pipeline runs synthesize Need-satisfaction AssetPack contents and evidence;
-8. Finish stores Exchange evidence, records receipts, and optionally emits delivery-mechanism artifacts such as pull requests, comments, issues, reviews, or other connected-interface outputs;
-9. Terminal and connected interfaces reread the same Exchange state and proof evidence.
+3. Terminal conversation writes preserve source attachments, output destinations, AssetPack references, and Need-measurement intent as normalized rich-input evidence on the Exchange execution row;
+4. discovery and measurement synthesize a reviewable Need with evidence;
+5. the operator can accept, reject, or request re-measurement with feedback;
+6. fit candidates are found and presented with quantized objective-contract fit qualities;
+7. accepted settlement materializes source-to-shares accounting;
+8. AssetPack pipeline runs synthesize Need-satisfaction AssetPack contents and evidence;
+9. Finish stores Exchange evidence, records receipts, and optionally emits delivery-mechanism artifacts such as pull requests, comments, issues, reviews, or other connected-interface outputs;
+10. Terminal and connected interfaces reread the same Exchange state and proof evidence.
 
 Terminology is part of the system contract:
 - `Need` is the measured and reviewable demand object.
@@ -70,7 +71,7 @@ The remaining fifth-gate work is prioritized by closure leverage:
 - reform active filesystem names and exported names so live package owners are Bitcode nouns rather than compatibility nouns;
 - complete AssetPack pipeline refurbishment across SDIVF phases, agents, tools, prompts, runtime outputs, postprocess types, tests, and route/API compatibility wrappers;
 - make every Prompt, PromptPart, Registry primitive, agent prompt, tool prompt, and doc-comment injection path current-Bitcode precise;
-- finish package and interface parity for Terminal, Exchange APIs, MCP, ChatGPT App, webhooks, Supabase/ORM state, execution history, and connected-interface write admission;
+- finish package and interface parity for Terminal, Exchange APIs, MCP, ChatGPT App, webhooks, Supabase/ORM state, execution history, conversation rich-input execution evidence, and connected-interface write admission;
 - ensure Need review and fit review are explicit before settlement, including accept/reject/re-measure and fit-quality receipts;
 - keep computer-use as internal feature-flagged Need-measurement support and remove non-admitted orchestration families from V26 product scope;
 - remove source-co-located build output from TypeScript package proof ownership;
@@ -94,4 +95,3 @@ The closure signal is:
 - packages and interfaces are specified, implemented, tested, and proven at their admitted Bitcode roles;
 - active source, comments, docs, prompts, package READMEs, route/API copy, and generated proof inputs no longer require historical product knowledge;
 - generated V26 proof artifacts pass after the source-bearing work.
-

@@ -1,14 +1,8 @@
 /**
- * Conversation Business Logic
- * 
- * All conversation-related business logic lives here
- * Uses ORM models for database access
- * 
- * Architecture:
- * - Message-level attachments (not conversation-level)
- * - Universal attachment system (VCS, File, URL, Integration, Pipeline Execution)
- * - Pipeline executions attached to assistant messages
- * - User scoping for all operations
+ * Bitcode conversation persistence helpers.
+ *
+ * Conversations are the Terminal write corridor for rich source input,
+ * message-level attachments, assistant responses, and execution evidence.
  */
 
 // Export all conversation operations

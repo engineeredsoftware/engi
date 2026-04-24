@@ -8,6 +8,11 @@ import {
 export function normalizeAssetPackOutput(output: AssetPackOutput, execution: Execution): AssetPackOutput {
   const enhanced = { ...output };
   const deliveryMechanism = enhanced.deliveryMechanism || enhanced.deliverable;
+  const assetPackSynthesisArtifacts =
+    enhanced.assetPackSynthesisArtifacts ||
+    (execution as any).get?.('implementation', 'assetPackSynthesisArtifacts') ||
+    (execution as any).get?.('finish/final_work_summary', 'assetPackSynthesisArtifacts') ||
+    enhanced.writtenAssets;
   const writtenAssetType = resolveWrittenAssetTypeFromExecution(execution);
   const deliveryMechanismTemplate = resolveDeliveryMechanismTemplateFromExecution(execution);
 
@@ -37,12 +42,16 @@ export function normalizeAssetPackOutput(output: AssetPackOutput, execution: Exe
   // 3) Ensure a human-readable summary exists
   if (!enhanced.summary || !enhanced.summary.trim()) {
     const parts: string[] = [];
-    parts.push(enhanced.success ? 'Written asset completed.' : 'Written asset finished with issues.');
+    parts.push(enhanced.success ? 'AssetPack synthesis artifacts completed.' : 'AssetPack synthesis artifacts finished with issues.');
     if (prUrl) parts.push(`PR: ${prUrl}`);
     if (filesModified?.length) parts.push(`Files modified: ${filesModified.length}`);
     enhanced.summary = parts.join(' ');
   }
 
+  if (assetPackSynthesisArtifacts) {
+    enhanced.assetPackSynthesisArtifacts = assetPackSynthesisArtifacts as any;
+    enhanced.writtenAssets = enhanced.writtenAssets || assetPackSynthesisArtifacts as any;
+  }
   enhanced.semanticKind = 'asset-pack-written-asset';
   enhanced.need =
     enhanced.need ||
@@ -82,14 +91,18 @@ export function buildAssetPackPostprocessedResult(
 
   const finalSummary =
     (execution as any).get?.('finish/final_work_summary', 'summary') ||
+    (execution as any).get?.('finish/final_work_summary', 'assetPackSynthesisArtifacts')?.summary ||
     (execution as any).get?.('finish/final_work_summary', 'writtenAssets')?.summary ||
     (execution as any).get?.('finish/final_work_summary', 'deliverables')?.summary ||
+    normalized.assetPackSynthesisArtifacts?.summary ||
     normalized.summary ||
     undefined;
 
   const finishArtifacts =
+    (execution as any).get?.('finish/final_work_summary', 'assetPackSynthesisArtifacts') ||
     (execution as any).get?.('finish/final_work_summary', 'writtenAssets') ||
-    (execution as any).get?.('finish/final_work_summary', 'deliverables');
+    (execution as any).get?.('finish/final_work_summary', 'deliverables') ||
+    normalized.assetPackSynthesisArtifacts;
   const filesCreated =
     normalized.artifacts?.filesCreated ??
     finishArtifacts?.fileChanges?.created ??
@@ -129,6 +142,7 @@ export function buildAssetPackPostprocessedResult(
     repository,
     summary: finalSummary,
     deliveryMechanism: normalized.deliveryMechanism || normalized.deliverable,
+    assetPackSynthesisArtifacts: (finishArtifacts || normalized.assetPackSynthesisArtifacts || null) as any,
     artifacts,
     deliverableType: writtenAssetType,
     writtenAssetType,

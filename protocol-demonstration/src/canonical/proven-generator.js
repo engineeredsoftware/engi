@@ -209,10 +209,14 @@ const V26_FOURTH_GATE_CONVERSATION_FILES = [
   'packages/conversations-generics/src/index.ts',
   'packages/conversations-generics/src/agent/ConversationAgent.ts',
   'packages/conversations-generics/src/prompts/BitcodeTerminalConversationSystemPrompt.ts',
+  'packages/api/src/routes/conversations.ts',
   'packages/api/src/conversations/conversations.ts',
+  'packages/api/src/conversations/messages.ts',
+  'packages/api/src/conversations/attachments.ts',
   'packages/api/src/conversations/streaming.ts',
   'uapi/tests/api/conversationsRoute.test.ts',
   'uapi/tests/api/chatStreamRoute.test.ts',
+  'uapi/tests/api/conversationThreadStreamRoute.test.ts',
   'uapi/tests/conversationsRouteClient.test.tsx'
 ];
 const V26_FOURTH_GATE_ACTIVITY_FILES = [
@@ -2992,11 +2996,61 @@ function buildV26ConversationsContinuityProof({
         'packages/conversations-generics/src/index.ts',
         'packages/conversations-generics/src/agent/ConversationAgent.ts',
         'packages/conversations-generics/src/prompts/BitcodeTerminalConversationSystemPrompt.ts',
+        'packages/api/src/routes/conversations.ts',
         'packages/api/src/conversations/conversations.ts',
+        'packages/api/src/conversations/messages.ts',
+        'packages/api/src/conversations/attachments.ts',
         'packages/api/src/conversations/streaming.ts',
         'uapi/tests/api/conversationsRoute.test.ts',
         'uapi/tests/api/chatStreamRoute.test.ts',
+        'uapi/tests/api/conversationThreadStreamRoute.test.ts',
         'uapi/tests/conversationsRouteClient.test.tsx'
+      ]
+    ),
+    buildV26FileContentCheck(
+      'conversations-rich-input-execution-parity',
+      'Conversation rich-input persistence and execution evidence',
+      [
+        {
+          file: 'packages/api/src/routes/conversations.ts',
+          evidence: 'buildConversationRichInputSummary',
+          description: 'conversation stream route normalizes Bitcode rich input before execution creation'
+        },
+        {
+          file: 'packages/api/src/routes/conversations.ts',
+          evidence: 'source_attachments',
+          description: 'source attachments are first-class conversation execution evidence'
+        },
+        {
+          file: 'packages/api/src/routes/conversations.ts',
+          evidence: 'output_destinations',
+          description: 'output destinations are first-class conversation execution evidence'
+        },
+        {
+          file: 'packages/api/src/routes/conversations.ts',
+          evidence: 'asset_pack_references',
+          description: 'AssetPack references are first-class conversation execution evidence'
+        },
+        {
+          file: 'packages/api/src/routes/conversations.ts',
+          evidence: 'need_measurement_intents',
+          description: 'Need-measurement intent is first-class conversation execution evidence'
+        },
+        {
+          file: 'packages/api/src/conversations/messages.ts',
+          evidence: 'metadata: att',
+          description: 'message attachment rows preserve the full attachment reference payload'
+        },
+        {
+          file: 'uapi/tests/api/chatStreamRoute.test.ts',
+          evidence: "rich_input: expect.objectContaining",
+          description: 'root conversation stream test asserts persisted Need-measurement rich input'
+        },
+        {
+          file: 'uapi/tests/api/conversationThreadStreamRoute.test.ts',
+          evidence: "output_destinations: expect.arrayContaining",
+          description: 'thread conversation stream test asserts destination roundtrip into execution metadata'
+        }
       ]
     )
   ];

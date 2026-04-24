@@ -37,6 +37,11 @@ const WrittenAssetsSchema = z.object({
   summary: z.string().nullable().optional(),
 });
 
+const AssetPackSynthesisArtifactsSchema = WrittenAssetsSchema.extend({
+  proofEvidence: z.array(z.string()).optional(),
+  reviewNotes: z.array(z.string()).optional(),
+});
+
 const DeliveryMechanismSchema = z.object({
   pullRequest: DeliverableSchema.nullable().optional(),
   pullRequestReviews: z.array(DeliverableSchema).nullable().optional(),
@@ -54,6 +59,7 @@ export const FinalWorkSummaryOutputSchema = z.object({
     fileChanges: FileChangesSchema.nullable().optional(),
     summary: z.string().nullable().optional(),
   }),
+  assetPackSynthesisArtifacts: AssetPackSynthesisArtifactsSchema.optional(),
   writtenAssets: WrittenAssetsSchema.optional(),
   deliveryMechanism: DeliveryMechanismSchema.optional(),
   need: z.string().optional(),
@@ -101,7 +107,7 @@ const FinalWorkSummaryAgent = factoryAgentWithSingleStep<any, FinalWorkSummaryOu
       (execution as any).prompt?.setSpecificExecution(
         'specific_execution:output:shape',
         (
-          'Output JSON with keys: deliverables{pullRequest,pullRequestReviews,comments,issues,fileChanges,summary}, writtenAssets{pullRequest,pullRequestReviews,comments,issues,fileChanges,summary}, deliveryMechanism{pullRequest,pullRequestReviews,comments,issues,summary}, processingStats{time,tokens?,credits?}, repoSnapshot{org,repo,branch,commit}'
+          'Output JSON with keys: deliverables{pullRequest,pullRequestReviews,comments,issues,fileChanges,summary}, assetPackSynthesisArtifacts{pullRequest,pullRequestReviews,comments,issues,fileChanges,summary,proofEvidence?,reviewNotes?}, writtenAssets{pullRequest,pullRequestReviews,comments,issues,fileChanges,summary}, deliveryMechanism{pullRequest,pullRequestReviews,comments,issues,summary}, processingStats{time,tokens?,credits?}, repoSnapshot{org,repo,branch,commit}'
         ) as unknown as PromptPart
       );
     } catch {}
@@ -188,6 +194,17 @@ const FinalWorkSummaryAgent = factoryAgentWithSingleStep<any, FinalWorkSummaryOu
     const writtenAssets = {
       ...deliverables,
     };
+    const implementationArtifacts = (execution as any).get?.('implementation', 'assetPackSynthesisArtifacts');
+    const assetPackSynthesisArtifacts =
+      implementationArtifacts && typeof implementationArtifacts === 'object'
+        ? {
+            ...writtenAssets,
+            ...(implementationArtifacts as Record<string, unknown>),
+            summary: (implementationArtifacts as any).summary || writtenAssets.summary,
+          }
+        : {
+            ...writtenAssets,
+          };
     const deliveryMechanism = {
       pullRequest,
       pullRequestReviews: pullRequestReviews || undefined,
@@ -199,6 +216,7 @@ const FinalWorkSummaryAgent = factoryAgentWithSingleStep<any, FinalWorkSummaryOu
     // Validate and finalize output
     const validated = FinalWorkSummaryOutputSchema.parse({
       deliverables,
+      assetPackSynthesisArtifacts,
       writtenAssets,
       deliveryMechanism,
       need: need || undefined,
@@ -212,6 +230,7 @@ const FinalWorkSummaryAgent = factoryAgentWithSingleStep<any, FinalWorkSummaryOu
     // Store for API persistence
     try {
       (execution as any).store?.('finish/final_work_summary', 'deliverables', deliverables as any);
+      (execution as any).store?.('finish/final_work_summary', 'assetPackSynthesisArtifacts', assetPackSynthesisArtifacts as any);
       (execution as any).store?.('finish/final_work_summary', 'writtenAssets', writtenAssets as any);
       (execution as any).store?.('finish/final_work_summary', 'deliveryMechanism', deliveryMechanism as any);
       (execution as any).store?.('finish/final_work_summary', 'need', need || undefined);

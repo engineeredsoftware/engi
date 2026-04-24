@@ -1039,6 +1039,11 @@ export const POST = traceRoute('/deliverables', async (request: NextRequest) => 
             (execution as any).get?.('finish/final_work_summary', 'writtenAssets') ||
             (execution as any).get?.('finish/final_work_summary', 'deliverables') ||
             undefined;
+          const assetPackSynthesisArtifacts =
+            (execution as any).get?.('finish/final_work_summary', 'assetPackSynthesisArtifacts') ||
+            (execution as any).get?.('implementation', 'assetPackSynthesisArtifacts') ||
+            writtenAssets ||
+            undefined;
           const deliveryMechanism =
             (execution as any).get?.('finish/final_work_summary', 'deliveryMechanism') ||
             (execution as any).get?.('finish/final_work_summary', 'deliverables') ||
@@ -1062,6 +1067,7 @@ export const POST = traceRoute('/deliverables', async (request: NextRequest) => 
             processingStats: (execution as any).get?.('finish/final_work_summary', 'processingStats'),
             repoSnapshot: (execution as any).get?.('finish/final_work_summary', 'repoSnapshot'),
             deliverables: (execution as any).get?.('finish/final_work_summary', 'deliverables'),
+            assetPackSynthesisArtifacts,
             writtenAssets,
             deliveryMechanism,
             need,
@@ -1091,6 +1097,9 @@ export const POST = traceRoute('/deliverables', async (request: NextRequest) => 
           if (!finalWorkSummary.processingStats) finalWorkSummary.processingStats = {};
           if (!finalWorkSummary.summary && finalWorkSummary.writtenAssets?.summary) {
             finalWorkSummary.summary = finalWorkSummary.writtenAssets.summary;
+          }
+          if (!finalWorkSummary.summary && finalWorkSummary.assetPackSynthesisArtifacts?.summary) {
+            finalWorkSummary.summary = finalWorkSummary.assetPackSynthesisArtifacts.summary;
           }
           if (!finalWorkSummary.summary && finalWorkSummary.deliveryMechanism?.summary) {
             finalWorkSummary.summary = finalWorkSummary.deliveryMechanism.summary;
@@ -1233,7 +1242,9 @@ export const POST = traceRoute('/deliverables', async (request: NextRequest) => 
           writtenAssetType: finalWorkSummary?.writtenAssetType || deliverableType,
           need: finalWorkSummary?.need || preprocessedSnapshot?.need || definition_of_need,
           assetPack: finalWorkSummary?.assetPack || preprocessedSnapshot?.assetPack || null,
+          assetPackSynthesisArtifacts: finalWorkSummary?.assetPackSynthesisArtifacts || null,
           semanticKind:
+            finalWorkSummary?.assetPackSynthesisArtifacts ||
             finalWorkSummary?.writtenAssets ||
             finalWorkSummary?.deliveryMechanism ||
             finalWorkSummary?.assetPack

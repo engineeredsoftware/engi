@@ -1,7 +1,7 @@
 /**
  * Executions API Route Handlers
  *
- * Route ownership lives here in the API kitchen-sink package.
+ * Route ownership lives here in the API package.
  * Lower-level execution semantics remain in retained execution packages and
  * shared normalization helpers below rather than the Next.js FS routes.
  */
@@ -119,8 +119,20 @@ function buildWrittenAssets(row: ExecutionHistoryRow) {
 
   return (
     asRecord(finalWorkSummary?.writtenAssets) ||
+    buildAssetPackSynthesisArtifacts(row) ||
     asRecord(finalWorkSummary?.deliverables) ||
-    asRecord(output?.writtenAssets)
+    asRecord(output?.writtenAssets) ||
+    asRecord(output?.assetPackSynthesisArtifacts)
+  );
+}
+
+function buildAssetPackSynthesisArtifacts(row: ExecutionHistoryRow) {
+  const output = readOutputRecord(row);
+  const finalWorkSummary = readFinalWorkSummary(row);
+
+  return (
+    asRecord(finalWorkSummary?.assetPackSynthesisArtifacts) ||
+    asRecord(output?.assetPackSynthesisArtifacts)
   );
 }
 
@@ -277,11 +289,13 @@ function buildSummary(row: ExecutionHistoryRow) {
   const output = readOutputRecord(row);
   const context = readContextRecord(row);
   const finalWorkSummary = readFinalWorkSummary(row);
+  const assetPackSynthesisArtifacts = buildAssetPackSynthesisArtifacts(row);
   const writtenAssets = buildWrittenAssets(row);
 
   return (
     asString(output?.summary) ||
     asString(finalWorkSummary?.summary) ||
+    asString(assetPackSynthesisArtifacts?.summary) ||
     asString(writtenAssets?.summary) ||
     asString(context?.summary) ||
     null
@@ -301,6 +315,7 @@ function buildMetadata(row: ExecutionHistoryRow) {
 
 function buildNormalizedFinalWorkSummary(row: ExecutionHistoryRow) {
   const finalWorkSummary = readFinalWorkSummary(row);
+  const assetPackSynthesisArtifacts = buildAssetPackSynthesisArtifacts(row);
   const writtenAssets = buildWrittenAssets(row);
   const deliveryMechanism = buildDeliveryMechanism(row);
   const need = buildNeed(row);
@@ -309,10 +324,14 @@ function buildNormalizedFinalWorkSummary(row: ExecutionHistoryRow) {
   const processingStats = buildProcessingStats(row);
   const repoSnapshot = buildRepoSnapshot(row);
   const summary =
-    asString(finalWorkSummary?.summary) || asString(writtenAssets?.summary) || null;
+    asString(finalWorkSummary?.summary) ||
+    asString(assetPackSynthesisArtifacts?.summary) ||
+    asString(writtenAssets?.summary) ||
+    null;
 
   if (
     !finalWorkSummary &&
+    !assetPackSynthesisArtifacts &&
     !writtenAssets &&
     !deliveryMechanism &&
     !need &&
@@ -328,6 +347,7 @@ function buildNormalizedFinalWorkSummary(row: ExecutionHistoryRow) {
   return {
     ...(finalWorkSummary || {}),
     ...(summary ? { summary } : {}),
+    ...(assetPackSynthesisArtifacts ? { assetPackSynthesisArtifacts } : {}),
     ...(writtenAssets ? { writtenAssets } : {}),
     ...(deliveryMechanism ? { deliveryMechanism } : {}),
     ...((asRecord(finalWorkSummary?.deliverables) || writtenAssets)
@@ -365,6 +385,7 @@ export function normalizeExecutionHistoryRow(row: ExecutionHistoryRow) {
     summary: buildSummary(row),
     processing_stats: buildProcessingStats(row),
     repo_snapshot: buildRepoSnapshot(row),
+    asset_pack_synthesis_artifacts: buildAssetPackSynthesisArtifacts(row),
     written_assets: buildWrittenAssets(row),
     delivery_mechanism: buildDeliveryMechanism(row),
     need: buildNeed(row),

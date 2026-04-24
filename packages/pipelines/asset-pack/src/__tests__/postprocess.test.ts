@@ -10,6 +10,12 @@ describe('normalizeAssetPackOutput', () => {
     exec.store('pipeline', 'expressedNeed', 'Need a repository-backed pull request');
     exec.store('pipeline', 'writtenAssetType', 'code-change');
     exec.store('pipeline', 'deliveryMechanismTemplate', 'pull-request');
+    exec.store('implementation', 'assetPackSynthesisArtifacts', {
+      summary: 'Implementation-phase AssetPack synthesis artifacts ready.',
+      fileChanges: { edited: 2, created: 0, deleted: 0 },
+      proofEvidence: ['implementation-store-read'],
+      reviewNotes: ['finish must preserve this artifact surface'],
+    });
 
     const output: any = {
       success: true,
@@ -26,6 +32,11 @@ describe('normalizeAssetPackOutput', () => {
     expect(normalized.need).toBe('Need a repository-backed pull request');
     expect(normalized.writtenAssetType).toBe('need-satisfaction-asset-pack');
     expect(normalized.deliveryMechanismTemplate).toBe('pull-request');
+    expect(normalized.assetPackSynthesisArtifacts?.summary).toBe(
+      'Implementation-phase AssetPack synthesis artifacts ready.'
+    );
+    expect(normalized.writtenAssets?.summary).toBe('Implementation-phase AssetPack synthesis artifacts ready.');
+    expect(normalized.assetPackSynthesisArtifacts?.proofEvidence).toEqual(['implementation-store-read']);
     expect(normalized.semanticKind).toBe('asset-pack-written-asset');
     expect(typeof normalized.summary).toBe('string');
     expect(normalized.summary.length).toBeGreaterThan(0);
@@ -44,6 +55,11 @@ describe('normalizeAssetPackOutput', () => {
       writtenAssetType: 'need-satisfaction-asset-pack',
       deliveryMechanismTemplate: 'issue-comment',
     });
+    exec.store('finish/final_work_summary', 'assetPackSynthesisArtifacts', {
+      summary: 'Finish-preserved AssetPack synthesis artifacts.',
+      fileChanges: { edited: 1, created: 1, deleted: 0 },
+      proofEvidence: ['finish-summary-read'],
+    });
 
     const result = buildAssetPackPostprocessedResult(exec, {
       success: true,
@@ -57,6 +73,9 @@ describe('normalizeAssetPackOutput', () => {
     expect(result.writtenAssetType).toBe('need-satisfaction-asset-pack');
     expect(result.deliveryMechanismTemplate).toBe('issue-comment');
     expect(result.deliveryMechanism).toBeUndefined();
+    expect(result.summary).toBe('Finish-preserved AssetPack synthesis artifacts.');
+    expect(result.assetPackSynthesisArtifacts?.summary).toBe('Finish-preserved AssetPack synthesis artifacts.');
+    expect(result.assetPackSynthesisArtifacts?.proofEvidence).toEqual(['finish-summary-read']);
     expect(result.assetPack).toEqual({
       need: 'Need a review-ready written asset',
       writtenAssetType: 'need-satisfaction-asset-pack',

@@ -43,6 +43,7 @@ type ProcessingStats = {
 export interface ApplicationRunDetailSnapshot {
   summary: string | null;
   deliverables: DeliverablesDoc | null;
+  assetPackSynthesisArtifacts?: DeliverablesDoc | null;
   writtenAssets?: DeliverablesDoc | null;
   deliveryMechanism?: DeliverablesDoc | null;
   repoSnapshot: RepoSnapshot | null;
@@ -509,6 +510,7 @@ export function buildApplicationRunDetailFromSelectedRun(
   return {
     summary: selectedRun.summary || fallbackDeliverables?.summary || null,
     deliverables: fallbackDeliverables || null,
+    assetPackSynthesisArtifacts: null,
     writtenAssets: fallbackDeliverables || null,
     deliveryMechanism: fallbackDeliverables || null,
     repoSnapshot: parseRepository(selectedRun.repository, selectedRun.branch),
@@ -543,8 +545,13 @@ export function normalizeApplicationRunDetailPayload(
   if (!run) return base;
 
   const finalWorkSummary = readFinalWorkSummary(run);
+  const assetPackSynthesisArtifacts =
+    coerceDeliverables(finalWorkSummary?.assetPackSynthesisArtifacts) ||
+    coerceDeliverables(run.asset_pack_synthesis_artifacts) ||
+    coerceDeliverables(run.assetPackSynthesisArtifacts);
   const writtenAssets =
     coerceDeliverables(finalWorkSummary?.writtenAssets) ||
+    assetPackSynthesisArtifacts ||
     coerceDeliverables(run.written_assets) ||
     coerceDeliverables(finalWorkSummary?.deliverables) ||
     base.writtenAssets ||
@@ -583,10 +590,12 @@ export function normalizeApplicationRunDetailPayload(
       coerceString(run.summary) ||
       coerceString(finalWorkSummary?.summary) ||
       base.summary ||
+      assetPackSynthesisArtifacts?.summary ||
       writtenAssets?.summary ||
       deliverables?.summary ||
       null,
     deliverables,
+    assetPackSynthesisArtifacts,
     writtenAssets,
     deliveryMechanism,
     repoSnapshot,

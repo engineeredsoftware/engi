@@ -36,12 +36,22 @@ export interface AssetPackResultMeta {
 export type DeliveryMechanismMeta = AssetPackResultMeta;
 export type WrittenAssetResultMeta = AssetPackResultMeta;
 
+export interface AssetPackSynthesisArtifactsMeta {
+  summary?: string;
+  fileChanges?: unknown;
+  proofEvidence?: string[];
+  reviewNotes?: string[];
+  [key: string]: unknown;
+}
+
 export interface AssetPackOutput {
   success: boolean;
   summary?: string;
   deliverable?: AssetPackResultMeta;
   deliveryMechanism?: DeliveryMechanismMeta;
   writtenAsset?: WrittenAssetResultMeta;
+  assetPackSynthesisArtifacts?: AssetPackSynthesisArtifactsMeta;
+  writtenAssets?: AssetPackSynthesisArtifactsMeta;
   artifacts?: Partial<AssetPackArtifacts>;
   metrics?: Partial<AssetPackMetrics>;
   deliverableType?: AssetPackWrittenAssetType;
@@ -64,6 +74,7 @@ export interface AssetPackPostprocessed {
   repository?: string;
   summary?: string;
   deliveryMechanism?: DeliveryMechanismMeta;
+  assetPackSynthesisArtifacts?: AssetPackSynthesisArtifactsMeta | null;
   artifacts?: Partial<AssetPackArtifacts> | null;
   deliverableType?: AssetPackWrittenAssetType;
   writtenAssetType?: AssetPackWrittenAssetType;

@@ -979,7 +979,7 @@ Required closure posture:
   test coverage:
   `uapi/tests/api/conversationThreadStreamRoute.test.ts`, `uapi/tests/api/chatStreamRoute.test.ts`, and `uapi/tests/conversationMessages.test.ts`
   proof surface:
-  fifth-gate non-mock conversations write-path closure so the App Router conversation stream carriers now resolve or create conversations, persist user writes, bind structured-token attachments through retained message primitives, and start canonical agentic-execution rows on the preserved execution substrate instead of failing closed at `501`
+  fifth-gate non-mock conversations write-path closure so the App Router conversation stream carriers now resolve or create conversations, persist user writes, bind structured-token attachments through retained message primitives, and start canonical agentic-execution rows with normalized `rich_input` evidence for source attachments, output destinations, asset-pack references, and Need-measurement intent on the preserved execution substrate instead of failing closed at `501`
 - `{packages/api/src/{routes/conversations.ts,conversations/conversations.ts},uapi/app/api/conversations/[conversationId]/route.ts,uapi/hooks/{useConversationPages.ts,useConversationStream.ts},uapi/app/conversations/components/{ConversationsOverlay.tsx,hooks/useChatState.ts},uapi/tests/{api/conversationsRouteRead.test.ts,useConversationStream.firstWrite.test.ts}}`
   test coverage:
   `uapi/tests/api/conversationsRouteRead.test.ts` and `uapi/tests/useConversationStream.firstWrite.test.ts`

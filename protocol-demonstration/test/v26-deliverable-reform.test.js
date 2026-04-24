@@ -105,8 +105,20 @@ const semanticPayloadSource = readFileSync(
   new URL('../../packages/api/src/routes/deliverables-semantic-payload.ts', import.meta.url),
   'utf8'
 );
+const executionsRouteSource = readFileSync(
+  new URL('../../packages/api/src/routes/executions.ts', import.meta.url),
+  'utf8'
+);
+const applicationDetailSnapshotSource = readFileSync(
+  new URL('../../uapi/app/application/application-transaction-detail-snapshot.ts', import.meta.url),
+  'utf8'
+);
 const executionsPageHeaderSource = readFileSync(
   new URL('../../uapi/app/executions/components/ExecutionsPageHeader.tsx', import.meta.url),
+  'utf8'
+);
+const executionsCompleteHeaderContentSource = readFileSync(
+  new URL('../../uapi/app/executions/components/ExecutionsCompleteHeaderContent.tsx', import.meta.url),
   'utf8'
 );
 const deliverablesRouteSource = readFileSync(
@@ -415,7 +427,8 @@ test('V26 deliverable reform supplement requires semantic mirrors beyond retaine
   assert.match(reformSource, /`asset pack`/u);
   assert.match(reformSource, /`AssetPack synthesis artifact`/u);
   assert.match(reformSource, /`stored AssetPack evidence`/u);
-  assert.match(reformSource, /workspace-run summaries, mock reread projections, and active UI detail surfaces should prefer semantic `writtenAssets`/u);
+  assert.match(reformSource, /workspace-run summaries, mock reread projections, and active UI detail surfaces should prefer primary `assetPackSynthesisArtifacts`/u);
+  assert.match(reformSource, /streamed completion payload should emit primary `assetPackSynthesisArtifacts` plus semantic `writtenAssets`/u);
   assert.match(reformSource, /execution stores and postprocessed artifacts should mirror compatibility keys with semantic `need`, canonical `writtenAssetType = need-satisfaction-asset-pack`, `writtenAssetRequest`, `deliveryMechanismTemplate`, and asset-pack-shaped snapshots/u);
   assert.match(reformSource, /implementation and validation logic must resolve one canonical AssetPack synthesis kind/u);
   assert.match(reformSource, /shapes live protocol behavior through Bitcode's commercial infrastructure/u);
@@ -460,20 +473,27 @@ test('AssetPack preprocess stores need and written-asset semantic mirrors alongs
   assert.match(assetPackPipelineSource, /execution\.store\('route\/preprocessed', 'assetPackWrittenAsset', snapshot\);/u);
 });
 
-test('AssetPack postprocess and Finish summary carry written-asset meaning', () => {
+test('AssetPack postprocess and Finish summary carry synthesis-artifact and written-asset meaning', () => {
   assert.match(postprocessSource, /export function normalizeAssetPackOutput/u);
   assert.match(postprocessSource, /export function buildAssetPackPostprocessedResult/u);
   assert.match(postprocessSource, /const deliveryMechanism = enhanced\.deliveryMechanism \|\| enhanced\.deliverable;/u);
+  assert.match(postprocessSource, /const assetPackSynthesisArtifacts =/u);
+  assert.match(postprocessSource, /enhanced\.assetPackSynthesisArtifacts = assetPackSynthesisArtifacts as any;/u);
   assert.match(postprocessSource, /enhanced\.semanticKind = 'asset-pack-written-asset';/u);
   assert.match(postprocessSource, /enhanced\.deliveryMechanism = \{ \.\.\.\(deliveryMechanism \|\| \{\}\), prUrl \} as any;/u);
   assert.match(postprocessSource, /execution\.get\('finish', 'pullRequestUrl'\)/u);
   assert.match(postprocessSource, /deliveryMechanism: normalized\.deliveryMechanism \|\| normalized\.deliverable,/u);
+  assert.match(postprocessSource, /assetPackSynthesisArtifacts: \(finishArtifacts \|\| normalized\.assetPackSynthesisArtifacts \|\| null\) as any,/u);
   assert.match(postprocessSource, /enhanced\.writtenAssetType/u);
   assert.match(postprocessSource, /kind: 'deliverable'/u);
   assert.match(postprocessSource, /semanticKind: 'asset-pack-written-asset'/u);
+  assert.match(finalSummarySource, /const AssetPackSynthesisArtifactsSchema = WrittenAssetsSchema\.extend/u);
+  assert.match(finalSummarySource, /assetPackSynthesisArtifacts: AssetPackSynthesisArtifactsSchema\.optional\(\)/u);
   assert.match(finalSummarySource, /writtenAssets: WrittenAssetsSchema\.optional\(\)/u);
   assert.match(finalSummarySource, /deliveryMechanism: DeliveryMechanismSchema\.optional\(\)/u);
   assert.match(finalSummarySource, /lines\.push\('', `## Need`, need\.trim\(\)\);/u);
+  assert.match(finalSummarySource, /const implementationArtifacts = \(execution as any\)\.get\?\.\('implementation', 'assetPackSynthesisArtifacts'\);/u);
+  assert.match(finalSummarySource, /store\?\.\('finish\/final_work_summary', 'assetPackSynthesisArtifacts', assetPackSynthesisArtifacts as any\);/u);
   assert.match(finalSummarySource, /store\?\.\('finish\/final_work_summary', 'writtenAssets', writtenAssets as any\);/u);
   assert.match(finalSummarySource, /store\?\.\('finish\/final_work_summary', 'deliveryMechanism', deliveryMechanism as any\);/u);
   assert.match(finalSummarySource, /store\?\.\('finish\/final_work_summary', 'writtenAssetType', dtype \|\| undefined\);/u);
@@ -578,10 +598,21 @@ test('operator-facing execution header and retained route teach Delivering mecha
   assert.match(deliverablesRouteSource, /Your Bitcode asset-pack run #\$\{runId\} has started/u);
   assert.match(deliverablesRouteSource, /Your Bitcode asset-pack run #\$\{runId\} is complete/u);
   assert.match(deliverablesRouteSource, /buildSemanticCompletionResult/u);
+  assert.match(deliverablesRouteSource, /finalWorkSummary\?\.assetPackSynthesisArtifacts/u);
   assert.match(semanticPayloadSource, /semanticKind: 'asset-pack-written-asset'/u);
+  assert.match(semanticPayloadSource, /explicitAssetPackSynthesisArtifacts/u);
+  assert.match(semanticPayloadSource, /assetPackSynthesisArtifacts/u);
   assert.match(semanticPayloadSource, /writtenAssets/u);
   assert.match(semanticPayloadSource, /deliveryMechanism/u);
   assert.match(semanticPayloadSource, /assetPack/u);
+  assert.match(executionsRouteSource, /function buildAssetPackSynthesisArtifacts/u);
+  assert.match(executionsRouteSource, /asset_pack_synthesis_artifacts: buildAssetPackSynthesisArtifacts\(row\)/u);
+  assert.match(executionsRouteSource, /assetPackSynthesisArtifacts \? \{ assetPackSynthesisArtifacts \}/u);
+  assert.match(applicationDetailSnapshotSource, /assetPackSynthesisArtifacts\?: DeliverablesDoc \| null;/u);
+  assert.match(applicationDetailSnapshotSource, /coerceDeliverables\(finalWorkSummary\?\.assetPackSynthesisArtifacts\)/u);
+  assert.match(executionsCompleteHeaderContentSource, /assetPackSynthesisArtifacts\?: HeaderDeliverables;/u);
+  assert.match(executionsCompleteHeaderContentSource, /finalWorkSummary\?\.assetPackSynthesisArtifacts/u);
+  assert.match(streamParserSource, /assetPackSynthesisArtifacts/u);
   assert.match(streamParserSource, /writtenAssets,/u);
   assert.match(streamParserSource, /deliveryMechanism,/u);
   assert.match(streamParserSource, /semanticKind: data\.result\.semanticKind \|\|/u);

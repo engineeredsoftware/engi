@@ -286,6 +286,15 @@ describe('application-transaction-detail-snapshot helpers', () => {
                 pullRequest: { title: 'Live PR', url: 'https://example.com/pr/2', number: 2 },
                 issues: [{ title: 'Issue 1', url: 'https://example.com/issues/1', number: 1 }],
               },
+              assetPackSynthesisArtifacts: {
+                summary: 'Live AssetPack synthesis artifacts.',
+                fileChanges: {
+                  edited: 5,
+                  created: 1,
+                  deleted: 0,
+                  paths: ['src/app.ts'],
+                },
+              },
             },
           },
         },
@@ -297,7 +306,9 @@ describe('application-transaction-detail-snapshot helpers', () => {
     expect(snapshot.summary).toBe('Live execution summary.');
     expect(snapshot.deliverables?.summary).toBe('Deliverable bundle summary.');
     expect(snapshot.deliverables?.pullRequest?.title).toBe('Live PR');
-    expect(snapshot.writtenAssets?.summary).toBe('Deliverable bundle summary.');
+    expect(snapshot.assetPackSynthesisArtifacts?.summary).toBe('Live AssetPack synthesis artifacts.');
+    expect(snapshot.assetPackSynthesisArtifacts?.fileChanges?.edited).toBe(5);
+    expect(snapshot.writtenAssets?.summary).toBe('Live AssetPack synthesis artifacts.');
     expect(snapshot.deliveryMechanism?.pullRequest?.title).toBe('Live PR');
     expect(snapshot.repoSnapshot?.branch).toBe('main');
     expect(snapshot.processingStats.time).toBe('4m 12s');
@@ -425,7 +436,16 @@ describe('application-transaction-detail-snapshot helpers', () => {
           id: 'run-1',
           items: [],
           final_work_summary: {
-            summary: 'Semantic shipping summary.',
+            summary: 'Semantic Finish summary.',
+            assetPackSynthesisArtifacts: {
+              summary: 'Primary AssetPack synthesis artifact summary.',
+              fileChanges: {
+                edited: 4,
+                created: 0,
+                deleted: 0,
+                paths: ['src/asset-pack.ts'],
+              },
+            },
             writtenAssets: {
               summary: 'Stable written asset summary.',
               fileChanges: {
@@ -445,7 +465,9 @@ describe('application-transaction-detail-snapshot helpers', () => {
       baseRun,
     );
 
-    expect(snapshot.summary).toBe('Semantic shipping summary.');
+    expect(snapshot.summary).toBe('Semantic Finish summary.');
+    expect(snapshot.assetPackSynthesisArtifacts?.summary).toBe('Primary AssetPack synthesis artifact summary.');
+    expect(snapshot.assetPackSynthesisArtifacts?.fileChanges?.edited).toBe(4);
     expect(snapshot.writtenAssets?.summary).toBe('Stable written asset summary.');
     expect(snapshot.writtenAssets?.fileChanges?.edited).toBe(2);
     expect(snapshot.deliveryMechanism?.pullRequest?.title).toBe('Delivery PR');

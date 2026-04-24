@@ -350,6 +350,7 @@ export function ExecutionsClient() {
 
   const writtenAssetsForPanels =
     getHeaderWrittenAssets(historyFWS) ||
+    headerPostprocessed?.assetPackSynthesisArtifacts ||
     headerPostprocessed?.writtenAssets ||
     headerPostprocessed?.deliverables ||
     null;

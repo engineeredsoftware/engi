@@ -112,11 +112,13 @@ const parseStreamChunk = (chunk) => {
                 case 'completion': {
                     if (data.result) {
                         const topLevelFileChanges = data.fileChanges || null;
+                        const explicitAssetPackSynthesisArtifacts = data.result.assetPackSynthesisArtifacts || null;
                         const explicitWrittenAssets = data.result.writtenAssets || null;
                         const explicitDeliveryMechanism = data.result.deliveryMechanism || null;
                         const explicitDeliverables = data.result.deliverables || null;
                         const actionsFileChanges = data.result.actions?.files || null;
-                        const semanticFileChanges = explicitWrittenAssets?.fileChanges ||
+                        const semanticFileChanges = explicitAssetPackSynthesisArtifacts?.fileChanges ||
+                            explicitWrittenAssets?.fileChanges ||
                             topLevelFileChanges ||
                             explicitDeliveryMechanism?.fileChanges ||
                             explicitDeliverables?.fileChanges ||
@@ -127,6 +129,7 @@ const parseStreamChunk = (chunk) => {
                             actionsFileChanges ||
                             explicitDeliveryMechanism?.fileChanges ||
                             explicitWrittenAssets?.fileChanges ||
+                            explicitAssetPackSynthesisArtifacts?.fileChanges ||
                             null;
                         const actionsSurface = {
                             pullRequest: data.result.actions?.pullRequest || null,
@@ -142,6 +145,7 @@ const parseStreamChunk = (chunk) => {
                             summary: data.result.summary || null,
                         };
                         const writtenAssets = explicitWrittenAssets ||
+                            explicitAssetPackSynthesisArtifacts ||
                             explicitDeliverables ||
                             (data.result.summary || semanticFileChanges
                                 ? {
@@ -167,9 +171,10 @@ const parseStreamChunk = (chunk) => {
                             ...data.result,
                             display: data.result.summary || data.result.message || 'Task completed',
                             deliverables,
+                            assetPackSynthesisArtifacts: explicitAssetPackSynthesisArtifacts || writtenAssets,
                             writtenAssets,
                             deliveryMechanism,
-                            semanticKind: data.result.semanticKind || (writtenAssets || deliveryMechanism ? 'asset-pack-written-asset' : undefined),
+                            semanticKind: data.result.semanticKind || (explicitAssetPackSynthesisArtifacts || writtenAssets || deliveryMechanism ? 'asset-pack-written-asset' : undefined),
                             need: data.result.need || null,
                             writtenAssetType: data.result.writtenAssetType || null,
                             assetPack: data.result.assetPack || null,

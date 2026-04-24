@@ -56,6 +56,11 @@ describe('GET /api/executions/history/[runId]', () => {
             output: {
               final_work_summary: {
                 summary: 'Persisted closure posture.',
+                assetPackSynthesisArtifacts: {
+                  summary: 'Persisted AssetPack synthesis artifacts.',
+                  fileChanges: { edited: 3, created: 1, deleted: 0 },
+                  proofEvidence: ['history-detail-primary-artifacts'],
+                },
                 writtenAssets: {
                   summary: 'Persisted closure posture.',
                 },
@@ -163,6 +168,11 @@ describe('GET /api/executions/history/[runId]', () => {
         written_assets: {
           summary: 'Persisted closure posture.',
         },
+        asset_pack_synthesis_artifacts: {
+          summary: 'Persisted AssetPack synthesis artifacts.',
+          fileChanges: { edited: 3, created: 1, deleted: 0 },
+          proofEvidence: ['history-detail-primary-artifacts'],
+        },
         delivery_mechanism: {
           comments: [{ title: 'Proof note', url: 'https://example.com/comments/9', number: 9 }],
         },
@@ -175,6 +185,11 @@ describe('GET /api/executions/history/[runId]', () => {
         },
         final_work_summary: expect.objectContaining({
           summary: 'Persisted closure posture.',
+          assetPackSynthesisArtifacts: {
+            summary: 'Persisted AssetPack synthesis artifacts.',
+            fileChanges: { edited: 3, created: 1, deleted: 0 },
+            proofEvidence: ['history-detail-primary-artifacts'],
+          },
           writtenAssets: {
             summary: 'Persisted closure posture.',
           },

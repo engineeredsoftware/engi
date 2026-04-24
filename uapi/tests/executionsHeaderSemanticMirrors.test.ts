@@ -6,8 +6,17 @@ import {
 } from '@/app/executions/components/ExecutionsCompleteHeaderContent';
 
 describe('executions header semantic mirrors', () => {
-  it('prefers written assets for summary and file changes', () => {
+  it('prefers AssetPack synthesis artifacts for summary and file changes while preserving delivery mechanisms', () => {
     const finalWorkSummary: HeaderFinalWorkSummary = {
+      assetPackSynthesisArtifacts: {
+        summary: 'Primary AssetPack synthesis artifact summary.',
+        fileChanges: {
+          edited: 5,
+          created: 2,
+          deleted: 0,
+          paths: ['src/asset-pack.ts'],
+        },
+      },
       writtenAssets: {
         summary: 'Stable written asset summary.',
         fileChanges: {
@@ -26,7 +35,7 @@ describe('executions header semantic mirrors', () => {
       },
     };
 
-    expect(getHeaderWrittenAssets(finalWorkSummary)?.summary).toBe('Stable written asset summary.');
+    expect(getHeaderWrittenAssets(finalWorkSummary)?.summary).toBe('Primary AssetPack synthesis artifact summary.');
     expect(getHeaderDeliveryMechanism(finalWorkSummary)?.pullRequest?.title).toBe('Delivery PR');
     expect(
       mergeHeaderDeliverables(
@@ -43,12 +52,12 @@ describe('executions header semantic mirrors', () => {
       comments: null,
       issues: null,
       fileChanges: {
-        edited: 3,
-        created: 1,
+        edited: 5,
+        created: 2,
         deleted: 0,
-        paths: ['src/index.ts'],
+        paths: ['src/asset-pack.ts'],
       },
-      summary: 'Stable written asset summary.',
+      summary: 'Primary AssetPack synthesis artifact summary.',
     });
   });
 

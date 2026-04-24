@@ -198,6 +198,10 @@ describe('/api/conversations/stream POST (non-mock mode)', () => {
           attachment_id: 'file-1',
           attachment_category: 'file',
           attachment_type: 'pdf',
+          metadata: expect.objectContaining({
+            attachment_id: 'file-1',
+            token_type: 'attachment',
+          }),
         }),
       ]),
     );
@@ -205,8 +209,38 @@ describe('/api/conversations/stream POST (non-mock mode)', () => {
       expect.objectContaining({
         user_id: 'user-1',
         type: 'pipeline:measure',
+        input: expect.objectContaining({
+          rich_input: expect.objectContaining({
+            source_attachments: expect.arrayContaining([
+              expect.objectContaining({
+                attachment_id: 'file-1',
+                token_type: 'attachment',
+              }),
+            ]),
+            need_measurement_intents: expect.arrayContaining([
+              expect.objectContaining({
+                token_type: 'need_measurement',
+                value: 'fit review',
+              }),
+            ]),
+          }),
+        }),
         metadata: expect.objectContaining({
           canonical_type: 'agentic-execution:need-measurement',
+          rich_input: expect.objectContaining({
+            source_attachments: expect.arrayContaining([
+              expect.objectContaining({
+                attachment_id: 'file-1',
+                token_type: 'attachment',
+              }),
+            ]),
+            need_measurement_intents: expect.arrayContaining([
+              expect.objectContaining({
+                token_type: 'need_measurement',
+                value: 'fit review',
+              }),
+            ]),
+          }),
         }),
       }),
     );

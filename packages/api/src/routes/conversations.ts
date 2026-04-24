@@ -56,6 +56,27 @@ type ConversationStreamExecution = {
   label: string;
 };
 
+type ConversationAttachmentReference = AttachmentReference & {
+  token_type: string;
+  title?: string;
+  metadata: Record<string, unknown>;
+};
+
+type ConversationRichInputReference = {
+  token_type: string;
+  value: string | null;
+  metadata: Record<string, unknown>;
+};
+
+type ConversationRichInputSummary = {
+  rich_input_version: 'v26-conversation-rich-input-1';
+  source_attachments: ConversationAttachmentReference[];
+  output_destinations: ConversationAttachmentReference[];
+  asset_pack_references: ConversationRichInputReference[];
+  need_measurement_intents: ConversationRichInputReference[];
+  token_counts: ReturnType<typeof countTokenTypes>;
+};
+
 function parseLimit(value: string | null) {
   const parsed = Number.parseInt(String(value || ''), 10);
   if (!Number.isFinite(parsed)) {
@@ -84,6 +105,10 @@ function normalizeConversationText(value?: string | null) {
 
 function resolveConversationTokenValue(token?: ConversationStreamToken | null) {
   return normalizeConversationText(token?.value) || normalizeConversationText(token?.text);
+}
+
+function normalizeConversationTokenType(token?: ConversationStreamToken | null) {
+  return normalizeConversationText(token?.type).toLowerCase();
 }
 
 function deriveConversationInput(body: ConversationStreamRequest) {
@@ -117,8 +142,12 @@ function inferAttachmentCategory(token: ConversationStreamToken): AttachmentRefe
 
 function buildAttachmentReferences(tokens: ConversationStreamToken[]) {
   return tokens
-    .filter((token) => token.type === 'attachment' || token.type === 'source' || token.type === 'destination')
+    .filter((token) => {
+      const tokenType = normalizeConversationTokenType(token);
+      return tokenType === 'attachment' || tokenType === 'source' || tokenType === 'destination';
+    })
     .map((token) => {
+      const tokenType = normalizeConversationTokenType(token) || 'attachment';
       const attachmentId =
         (typeof token.metadata?.attachment_id === 'string' && normalizeConversationText(token.metadata.attachment_id)) ||
         (typeof token.metadata?.id === 'string' && normalizeConversationText(token.metadata.id)) ||
@@ -132,18 +161,53 @@ function buildAttachmentReferences(tokens: ConversationStreamToken[]) {
           (typeof token.metadata?.type === 'string' && normalizeConversationText(token.metadata.type)) ||
           token.type ||
           'attachment',
-        token_type: token.type || 'attachment',
-        title: resolveConversationTokenValue(token),
+        token_type: tokenType,
+        title: resolveConversationTokenValue(token) || undefined,
         metadata: token.metadata || {},
-      } satisfies AttachmentReference & Record<string, unknown>;
+      } satisfies ConversationAttachmentReference;
     });
+}
+
+function buildRichInputReference(token: ConversationStreamToken): ConversationRichInputReference {
+  return {
+    token_type: normalizeConversationTokenType(token),
+    value: resolveConversationTokenValue(token) || null,
+    metadata: token.metadata || {},
+  };
+}
+
+function tokenRequestsNeedMeasurement(token: ConversationStreamToken) {
+  const tokenType = normalizeConversationTokenType(token);
+  const pipelineType =
+    typeof token.metadata?.pipelineType === 'string' ? normalizeConversationText(token.metadata.pipelineType).toLowerCase() : '';
+
+  return tokenType === 'need_measurement' || tokenType === 'measure' || pipelineType.includes('measure');
+}
+
+function buildConversationRichInputSummary(
+  tokens: ConversationStreamToken[],
+  attachments: ConversationAttachmentReference[],
+): ConversationRichInputSummary {
+  return {
+    rich_input_version: 'v26-conversation-rich-input-1',
+    source_attachments: attachments.filter((attachment) => attachment.token_type === 'attachment' || attachment.token_type === 'source'),
+    output_destinations: attachments.filter((attachment) => attachment.token_type === 'destination'),
+    asset_pack_references: tokens
+      .filter((token) => {
+        const tokenType = normalizeConversationTokenType(token);
+        return tokenType === 'asset_pack' || tokenType === 'deliverable' || tokenType === 'ai_document';
+      })
+      .map(buildRichInputReference),
+    need_measurement_intents: tokens.filter(tokenRequestsNeedMeasurement).map(buildRichInputReference),
+    token_counts: countTokenTypes(tokens),
+  };
 }
 
 function deriveConversationExecutionType(tokens: ConversationStreamToken[]) {
   for (const token of tokens) {
     const metadataPipelineType =
       typeof token.metadata?.pipelineType === 'string' ? token.metadata.pipelineType : undefined;
-    const candidate = metadataPipelineType || token.type || resolveConversationTokenValue(token);
+    const candidate = metadataPipelineType || normalizeConversationTokenType(token) || resolveConversationTokenValue(token);
 
     if (candidate === 'need_measurement' || candidate === 'measure') {
       return normalizeAgenticExecutionType(candidate);
@@ -160,16 +224,17 @@ function deriveConversationExecutionType(tokens: ConversationStreamToken[]) {
 function countTokenTypes(tokens: ConversationStreamToken[]) {
   return tokens.reduce(
     (acc, token) => {
-      const normalized = normalizeConversationText(token.type);
+      const normalized = normalizeConversationTokenType(token);
       if (normalized === 'attachment') acc.attachments += 1;
       if (normalized === 'source') acc.sources += 1;
       if (normalized === 'destination') acc.destinations += 1;
       if (normalized === 'asset_pack' || normalized === 'deliverable' || normalized === 'ai_document') {
         acc.assetPacks += 1;
       }
+      if (tokenRequestsNeedMeasurement(token)) acc.needMeasurements += 1;
       return acc;
     },
-    { attachments: 0, sources: 0, destinations: 0, assetPacks: 0 },
+    { attachments: 0, sources: 0, destinations: 0, assetPacks: 0, needMeasurements: 0 },
   );
 }
 
@@ -227,6 +292,7 @@ async function createConversationExecution(options: {
   conversationId: string;
   content: string;
   tokens: ConversationStreamToken[];
+  richInput: ConversationRichInputSummary;
   canonicalType: string;
 }) {
   try {
@@ -245,11 +311,17 @@ async function createConversationExecution(options: {
         conversationId: options.conversationId,
         content: options.content,
         tokens: options.tokens,
+        rich_input: options.richInput,
       } as any,
       output: null,
       metadata: {
         canonical_type: options.canonicalType,
         entrypoint: 'conversations',
+        rich_input: options.richInput,
+        source_attachments: options.richInput.source_attachments,
+        output_destinations: options.richInput.output_destinations,
+        asset_pack_references: options.richInput.asset_pack_references,
+        need_measurement_intents: options.richInput.need_measurement_intents,
       } as any,
       started_at: nowIso,
       created_at: nowIso,
@@ -300,6 +372,7 @@ async function createConversationWriteStreamResponse(options: {
   tokens: ConversationStreamToken[];
 }) {
   const attachments = buildAttachmentReferences(options.tokens);
+  const richInput = buildConversationRichInputSummary(options.tokens, attachments);
   await createMessage({
     conversation_id: options.conversationId,
     role: 'user',
@@ -314,6 +387,7 @@ async function createConversationWriteStreamResponse(options: {
         conversationId: options.conversationId,
         content: options.content,
         tokens: options.tokens,
+        richInput,
         canonicalType: canonicalExecutionType,
       })
     : null;
@@ -477,14 +551,14 @@ export const postConversationsRoute = traceRoute('/conversations', async (reques
     return createJsonResponse({ error: 'Unauthorized' }, 401);
   }
 
-  const body = await request.json().catch(() => ({} as CreateConversationRequest));
+  const body = (await request.json().catch(() => ({}))) as CreateConversationRequest;
   const title = typeof body.title === 'string' ? body.title : undefined;
 
   return createJsonResponse(await createConversation(userId, title));
 });
 
 export const postConversationBranchRoute = traceRoute('/conversations/branch', async (request: Request) => {
-  const body = await request.json().catch(() => ({} as BranchConversationRequest));
+  const body = (await request.json().catch(() => ({}))) as BranchConversationRequest;
   const sourceConversationId = typeof body.sourceConversationId === 'string' ? body.sourceConversationId : '';
 
   if (!sourceConversationId) {
@@ -506,7 +580,7 @@ export const postConversationBranchRoute = traceRoute('/conversations/branch', a
 });
 
 export const postConversationStreamRoute = traceRoute('/conversations/stream', async (request: Request) => {
-  const body = await request.json().catch(() => ({} as ConversationStreamRequest));
+  const body = (await request.json().catch(() => ({}))) as ConversationStreamRequest;
   const userId = await getAuthenticatedConversationUserId();
 
   if (!userId) {
@@ -531,7 +605,7 @@ export const postConversationThreadStreamRoute = traceRoute(
   '/conversations/[conversationId]/stream',
   async (request: Request, context: { params: Promise<{ conversationId: string }> | { conversationId: string } }) => {
     const params = await context.params;
-    const body = await request.json().catch(() => ({} as ConversationStreamRequest));
+    const body = (await request.json().catch(() => ({}))) as ConversationStreamRequest;
     const userId = await getAuthenticatedConversationUserId();
 
     if (!userId) {

@@ -195,11 +195,19 @@ describe('/api/conversations/[conversationId]/stream POST (non-mock mode)', () =
           attachment_id: 'repo-1',
           attachment_category: 'integration',
           attachment_type: 'github_repo',
+          metadata: expect.objectContaining({
+            attachment_id: 'repo-1',
+            token_type: 'source',
+          }),
         }),
         expect.objectContaining({
           attachment_id: 'dest-1',
           attachment_category: 'integration',
           attachment_type: 'settlement_target',
+          metadata: expect.objectContaining({
+            attachment_id: 'dest-1',
+            token_type: 'destination',
+          }),
         }),
       ]),
     );
@@ -207,9 +215,51 @@ describe('/api/conversations/[conversationId]/stream POST (non-mock mode)', () =
       expect.objectContaining({
         user_id: 'user-1',
         type: 'pipeline:deliverables',
+        input: expect.objectContaining({
+          rich_input: expect.objectContaining({
+            source_attachments: expect.arrayContaining([
+              expect.objectContaining({
+                attachment_id: 'repo-1',
+                token_type: 'source',
+              }),
+            ]),
+            output_destinations: expect.arrayContaining([
+              expect.objectContaining({
+                attachment_id: 'dest-1',
+                token_type: 'destination',
+              }),
+            ]),
+            asset_pack_references: expect.arrayContaining([
+              expect.objectContaining({
+                token_type: 'asset_pack',
+                value: 'branch artifact',
+              }),
+            ]),
+          }),
+        }),
         metadata: expect.objectContaining({
           canonical_type: 'agentic-execution:asset-pack',
           entrypoint: 'conversations',
+          rich_input: expect.objectContaining({
+            source_attachments: expect.arrayContaining([
+              expect.objectContaining({
+                attachment_id: 'repo-1',
+                token_type: 'source',
+              }),
+            ]),
+            output_destinations: expect.arrayContaining([
+              expect.objectContaining({
+                attachment_id: 'dest-1',
+                token_type: 'destination',
+              }),
+            ]),
+            asset_pack_references: expect.arrayContaining([
+              expect.objectContaining({
+                token_type: 'asset_pack',
+                value: 'branch artifact',
+              }),
+            ]),
+          }),
         }),
       }),
     );

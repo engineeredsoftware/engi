@@ -50,8 +50,9 @@ export interface CompletionData {
   display: string;
   /**
    * Compatibility shipping surface.
-   * Bitcode-owned reread should prefer `written_assets` / `final_work_summary.writtenAssets`
-   * for stable asset-pack meaning and treat these categories as delivery mechanisms.
+   * Bitcode-owned reread should prefer `assetPackSynthesisArtifacts`
+   * and `final_work_summary.assetPackSynthesisArtifacts`; writtenAssets
+   * remains a compatibility mirror and these categories remain delivery mechanisms.
    */
   deliverables: {
     pullRequest: Deliverable | null;
@@ -72,7 +73,28 @@ export interface CompletionData {
       };
     } | null;
   };
-  /** Stable Bitcode-owned written asset / asset-pack projection. */
+  /** Bitcode-owned implementation-phase AssetPack synthesis artifacts. */
+  assetPackSynthesisArtifacts?: {
+    pullRequest?: Deliverable | null;
+    pullRequestReviews?: Deliverable[] | null;
+    comments?: Deliverable[] | null;
+    issues?: Deliverable[] | null;
+    fileChanges?: {
+      edited: number;
+      created: number;
+      deleted: number;
+      paths?: string[];
+      charDiff?: {
+        edited: number;
+        created: number;
+        deleted: number;
+      };
+    } | null;
+    proofEvidence?: string[] | null;
+    reviewNotes?: string[] | null;
+    summary?: string | null;
+  } | null;
+  /** Compatibility written-assets mirror of the AssetPack synthesis artifacts. */
   writtenAssets?: {
     pullRequest?: Deliverable | null;
     pullRequestReviews?: Deliverable[] | null;
@@ -208,7 +230,18 @@ export interface PipelineExecution {
 
   /** Repository snapshot meta */
   repo_snapshot?: { org: string; repo: string; branch: string; commit: string } | null;
-  /** Stable Bitcode-owned written asset / asset-pack projection. */
+  /** Bitcode-owned implementation-phase AssetPack synthesis artifacts. */
+  asset_pack_synthesis_artifacts?: {
+    pullRequest?: any;
+    pullRequestReviews?: any[] | null;
+    comments?: any[] | null;
+    issues?: any[] | null;
+    fileChanges?: any;
+    proofEvidence?: string[] | null;
+    reviewNotes?: string[] | null;
+    summary?: string | null;
+  } | null;
+  /** Compatibility written-assets mirror of the AssetPack synthesis artifacts. */
   written_assets?: {
     pullRequest?: any;
     pullRequestReviews?: any[] | null;
@@ -247,7 +280,18 @@ export interface PipelineExecution {
       fileChanges?: any;
       summary?: string | null;
     };
-    /** Stable Bitcode-owned written asset / asset-pack projection. */
+    /** Bitcode-owned implementation-phase AssetPack synthesis artifacts. */
+    assetPackSynthesisArtifacts?: {
+      pullRequest?: any;
+      pullRequestReviews?: any[] | null;
+      comments?: any[] | null;
+      issues?: any[] | null;
+      fileChanges?: any;
+      proofEvidence?: string[] | null;
+      reviewNotes?: string[] | null;
+      summary?: string | null;
+    };
+    /** Compatibility written-assets mirror of the AssetPack synthesis artifacts. */
     writtenAssets?: {
       pullRequest?: any;
       pullRequestReviews?: any[] | null;
@@ -328,6 +372,7 @@ export interface AIDocumentRun {
     }>;
   } | null;
   repo_snapshot?: { org: string; repo: string; branch: string; commit: string } | null;
+  asset_pack_synthesis_artifacts?: { summary?: string | null } | null;
   written_assets?: { summary?: string | null } | null;
   need?: string | null;
   written_asset_type?: string | null;
@@ -340,6 +385,7 @@ export interface AIDocumentRun {
   final_work_summary?: {
     summary?: string | null;
     deliverables?: { summary?: string | null };
+    assetPackSynthesisArtifacts?: { summary?: string | null };
     writtenAssets?: { summary?: string | null };
     need?: string | null;
     writtenAssetType?: string | null;

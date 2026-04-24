@@ -12,6 +12,8 @@ type SurfaceRecord = {
   comments?: unknown[] | null;
   issues?: unknown[] | null;
   fileChanges?: FileChanges;
+  proofEvidence?: string[] | null;
+  reviewNotes?: string[] | null;
   summary?: string | null;
 } | null;
 
@@ -20,6 +22,7 @@ type FinalWorkSummaryRecord = {
   processingStats?: unknown;
   repoSnapshot?: unknown;
   deliverables?: SurfaceRecord;
+  assetPackSynthesisArtifacts?: SurfaceRecord;
   writtenAssets?: SurfaceRecord;
   deliveryMechanism?: SurfaceRecord;
   need?: string | null;
@@ -42,6 +45,12 @@ function asSurfaceRecord(value: unknown): SurfaceRecord {
     comments: Array.isArray(record.comments) ? record.comments : null,
     issues: Array.isArray(record.issues) ? record.issues : null,
     fileChanges: asRecord(record.fileChanges) ? (record.fileChanges as FileChanges) : null,
+    proofEvidence: Array.isArray(record.proofEvidence)
+      ? record.proofEvidence.filter((item): item is string => typeof item === 'string')
+      : null,
+    reviewNotes: Array.isArray(record.reviewNotes)
+      ? record.reviewNotes.filter((item): item is string => typeof item === 'string')
+      : null,
     summary: typeof record.summary === 'string' ? record.summary : null,
   };
 }
@@ -94,6 +103,9 @@ export function buildSemanticCompletionResult(params: {
   const explicitWrittenAssets =
     asSurfaceRecord(finalWorkSummary?.writtenAssets) ||
     asSurfaceRecord(resultRecord.writtenAssets);
+  const explicitAssetPackSynthesisArtifacts =
+    asSurfaceRecord(finalWorkSummary?.assetPackSynthesisArtifacts) ||
+    asSurfaceRecord(resultRecord.assetPackSynthesisArtifacts);
   const explicitDeliveryMechanism =
     asSurfaceRecord(finalWorkSummary?.deliveryMechanism) ||
     asSurfaceRecord(resultRecord.deliveryMechanism);
@@ -102,6 +114,7 @@ export function buildSemanticCompletionResult(params: {
     asSurfaceRecord(finalWorkSummary?.deliverables);
   const actionsSurface = buildSurfaceFromActions(resultRecord, topLevelFileChanges);
   const semanticFileChanges =
+    explicitAssetPackSynthesisArtifacts?.fileChanges ||
     explicitWrittenAssets?.fileChanges ||
     topLevelFileChanges ||
     explicitDeliveryMechanism?.fileChanges ||
@@ -111,6 +124,7 @@ export function buildSemanticCompletionResult(params: {
 
   const writtenAssets =
     explicitWrittenAssets ||
+    explicitAssetPackSynthesisArtifacts ||
     explicitCompatibilityDeliverables ||
     ((semanticFileChanges || typeof resultRecord.summary === 'string')
       ? {
@@ -153,6 +167,7 @@ export function buildSemanticCompletionResult(params: {
 
   const summary =
     (typeof finalWorkSummary?.summary === 'string' && finalWorkSummary.summary) ||
+    explicitAssetPackSynthesisArtifacts?.summary ||
     writtenAssets?.summary ||
     deliveryMechanism?.summary ||
     (typeof resultRecord.summary === 'string' ? resultRecord.summary : null) ||
@@ -172,13 +187,14 @@ export function buildSemanticCompletionResult(params: {
       ...(summary ? { summary } : {}),
       ...(finalWorkSummary?.processingStats ? { processingStats: finalWorkSummary.processingStats } : {}),
       ...(finalWorkSummary?.repoSnapshot ? { repoSnapshot: finalWorkSummary.repoSnapshot } : {}),
+      ...(explicitAssetPackSynthesisArtifacts ? { assetPackSynthesisArtifacts: explicitAssetPackSynthesisArtifacts } : {}),
       ...(writtenAssets ? { writtenAssets } : {}),
       ...(deliveryMechanism ? { deliveryMechanism } : {}),
       ...(compatibilityDeliverables ? { deliverables: compatibilityDeliverables } : {}),
       ...(need ? { need } : {}),
       ...(writtenAssetType ? { writtenAssetType } : {}),
       ...(assetPack ? { assetPack } : {}),
-      ...(writtenAssets || deliveryMechanism ? { semanticKind: 'asset-pack-written-asset' } : {}),
+      ...(explicitAssetPackSynthesisArtifacts || writtenAssets || deliveryMechanism ? { semanticKind: 'asset-pack-written-asset' } : {}),
       actions: {
         pullRequest: compatibilityDeliverables?.pullRequest ?? null,
         pullRequestReviews: compatibilityDeliverables?.pullRequestReviews ?? null,

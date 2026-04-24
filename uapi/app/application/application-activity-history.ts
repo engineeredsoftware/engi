@@ -488,6 +488,7 @@ export function mapExecutionHistoryRunToWorkspaceRun(run: PipelineExecution): Wo
     summary:
       run.summary ||
       run.final_work_summary?.summary ||
+      run.final_work_summary?.assetPackSynthesisArtifacts?.summary ||
       run.final_work_summary?.writtenAssets?.summary ||
       run.final_work_summary?.deliveryMechanism?.summary ||
       run.final_work_summary?.deliverables?.summary ||

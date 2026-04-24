@@ -141,13 +141,13 @@ export async function deleteMessageAttachment(attachmentId: string): Promise<voi
 }
 
 /**
- * Legacy support - will be removed
- * @deprecated Use message-level attachments instead
+ * Attach conversation-scoped source evidence to the latest message row.
+ *
+ * Bitcode persists rich-input evidence at message granularity; this helper
+ * admits callers that only know the conversation id by creating a minimal
+ * assistant evidence row when no message exists yet.
  */
 export async function createConversationAttachment(options: any): Promise<any> {
-  log('[api/attachments] Warning: createConversationAttachment is deprecated', 'warn', { options });
-  
-  // For backwards compatibility, create on first message or stub message
   const { data: messages } = await supabaseAdmin
     .from('messages')
     .select('id')
@@ -158,14 +158,13 @@ export async function createConversationAttachment(options: any): Promise<any> {
   const messageId = messages?.[0]?.id || crypto.randomUUID();
   
   if (!messages?.[0]) {
-    // Create stub message for attachment
     await supabaseAdmin
       .from('messages')
       .insert({
         id: messageId,
         conversation_id: options.conversation_id,
         role: 'assistant',
-        content: 'Attachment added',
+        content: 'Bitcode conversation evidence attached.',
         created_at: new Date().toISOString()
       });
   }
