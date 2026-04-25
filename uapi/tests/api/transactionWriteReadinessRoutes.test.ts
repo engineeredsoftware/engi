@@ -44,6 +44,7 @@ import { POST as postMakeBitcodeBranch } from '@/app/api/make-bitcode-branch/rou
 type MockSupabaseBuilder = {
   select: jest.Mock;
   eq: jest.Mock;
+  limit: jest.Mock;
   maybeSingle: jest.Mock;
 };
 
@@ -51,10 +52,50 @@ function createBuilder(result: { data: unknown; error: unknown }): MockSupabaseB
   const builder = {
     select: jest.fn(),
     eq: jest.fn(),
+    limit: jest.fn(),
     maybeSingle: jest.fn().mockResolvedValue(result),
   } as MockSupabaseBuilder;
   builder.select.mockReturnValue(builder);
   builder.eq.mockReturnValue(builder);
+  builder.limit.mockReturnValue(builder);
+  return builder;
+}
+
+function createRepositoryInventoryBuilder(repositoryFullNames: string[]): MockSupabaseBuilder {
+  const builder = {
+    select: jest.fn(),
+    eq: jest.fn(),
+    limit: jest.fn(),
+    maybeSingle: jest.fn(),
+  } as MockSupabaseBuilder;
+  const filters: Record<string, unknown> = {};
+
+  builder.select.mockReturnValue(builder);
+  builder.eq.mockImplementation((column: string, value: unknown) => {
+    filters[column] = value;
+    return builder;
+  });
+  builder.limit.mockReturnValue(builder);
+  builder.maybeSingle.mockImplementation(async () => {
+    const exactRepositoryAnchor =
+      typeof filters.repo_full_name === 'string' ? filters.repo_full_name : null;
+    const matchedRepository = exactRepositoryAnchor
+      ? repositoryFullNames.find((entry) => entry === exactRepositoryAnchor) || null
+      : null;
+    const anyRepository = repositoryFullNames[0] || null;
+
+    return {
+      data: exactRepositoryAnchor
+        ? matchedRepository
+          ? { repo_full_name: matchedRepository }
+          : null
+        : anyRepository
+          ? { repo_full_name: anyRepository }
+          : null,
+      error: null,
+    };
+  });
+
   return builder;
 }
 
@@ -63,6 +104,7 @@ function installSupabaseReadinessMocks(options: {
   githubConnection?: Record<string, unknown> | null;
   profile?: Record<string, unknown> | null;
   userError?: { message: string } | null;
+  storedRepositoryInventory?: string[];
 }) {
   const profileBuilder = createBuilder({ data: options.profile ?? null, error: null });
   const connectionBuilder = createBuilder({
@@ -72,6 +114,9 @@ function installSupabaseReadinessMocks(options: {
   const from = jest.fn((table: string) => {
     if (table === 'user_profiles') return profileBuilder;
     if (table === 'user_connections') return connectionBuilder;
+    if (table === 'vcs_repositories') {
+      return createRepositoryInventoryBuilder(options.storedRepositoryInventory || []);
+    }
     throw new Error(`Unexpected table ${table}`);
   });
 
@@ -180,6 +225,7 @@ describe('Bitcode transaction write routes', () => {
     installSupabaseReadinessMocks({
       user: { id: 'user-1' },
       githubConnection: { installationId: 123 },
+      storedRepositoryInventory: ['bitcode/bitcode', 'bitcode/bitcode-core'],
       profile: {
         id: 'user-1',
         settings: {
@@ -220,10 +266,53 @@ describe('Bitcode transaction write routes', () => {
     expect(depositResponse.status).toBe(200);
     expect(branchResponse.status).toBe(200);
     expect(mockCreateDeposit).toHaveBeenCalledWith(
-      expect.objectContaining({ repositoryAnchor: 'bitcode/bitcode' }),
+      expect.objectContaining({
+        repositoryAnchor: 'bitcode/bitcode',
+        repositoryProvider: 'github',
+      }),
     );
     expect(mockMakeBitcodeBranch).toHaveBeenCalledWith(
-      expect.objectContaining({ repositoryAnchor: 'bitcode/bitcode' }),
+      expect.objectContaining({
+        repositoryAnchor: 'bitcode/bitcode',
+        repositoryProvider: 'github',
+      }),
     );
+  });
+
+  it('rejects deposit writes when the requested repository anchor is outside the connected provider inventory', async () => {
+    installSupabaseReadinessMocks({
+      user: { id: 'user-1' },
+      githubConnection: { installationId: 123 },
+      storedRepositoryInventory: ['bitcode/bitcode', 'bitcode/bitcode-core'],
+      profile: {
+        id: 'user-1',
+        settings: {
+          bitcodeProfile: {
+            walletBinding: {
+              address: 'bc1qbitcodeoperator',
+              provider: 'walletconnect',
+              status: 'verified',
+              boundAt: '2026-04-22T00:00:00.000Z',
+            },
+          },
+        },
+      },
+    });
+
+    const response = await postDeposit(
+      new Request('http://localhost/api/deposits', {
+        method: 'POST',
+        body: JSON.stringify({
+          repositoryAnchor: 'bitcode/not-admitted',
+          repositoryProvider: 'github',
+          title: 'asset draft',
+        }),
+      }),
+    );
+    const payload = await response.json();
+
+    expect(response.status).toBe(409);
+    expect(payload.error).toContain('not present in the connected GitHub repository inventory');
+    expect(mockCreateDeposit).not.toHaveBeenCalled();
   });
 });

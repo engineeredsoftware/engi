@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useEffect, useMemo, useState } from 'react';
+import type { VCSProviderType } from '@bitcode/vcs-core';
 
 import BitcodeChipCloud from '@/components/base/bitcode/execution/BitcodeChipCloud';
 import BitcodeInlineExplainer from '@/components/base/bitcode/execution/BitcodeInlineExplainer';
@@ -32,12 +33,14 @@ type SubmitState =
 interface ApplicationDepositComposerProps {
   onRecordActivity?: (draft: ApplicationActivityRecordDraft) => Promise<unknown>;
   repositoryAnchor?: string | null;
+  repositoryProvider?: VCSProviderType | null;
   transactionReadiness: BitcodeTransactionReadiness;
 }
 
 export default function ApplicationDepositComposer({
   onRecordActivity,
   repositoryAnchor,
+  repositoryProvider,
   transactionReadiness,
 }: ApplicationDepositComposerProps) {
   const { snapshot, runControl } = useApplicationShellBridge();
@@ -100,6 +103,7 @@ export default function ApplicationDepositComposer({
           authSessionId: composer.authSessionId || undefined,
           inventoryEntryIds: composer.selectedInventoryEntryIds,
           repositoryAnchor: repositoryAnchor || composer.sourceRepo || undefined,
+          repositoryProvider: repositoryProvider || undefined,
           sourceRepo: sourceRepo || undefined,
           sourceCommit,
           workflowRunId,

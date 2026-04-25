@@ -126,13 +126,15 @@ const PRODUCT_READINESS_AUDIT_ROWS = [
     requiredEvidence: [
       ['uapi/app/application/bitcode-transaction-readiness.ts', 'canSettle'],
       ['uapi/app/application/bitcode-transaction-route-readiness.ts', 'requireBitcodeSignedTransactionReadiness'],
+      ['uapi/app/application/bitcode-transaction-route-readiness.ts', 'repository inventory'],
       ['uapi/app/auxillaries/components/AuxillariesConnectsPane.tsx', 'Connects'],
       ['uapi/app/auxillaries/components/AuxillariesProfilePane.tsx', 'Profile'],
       ['uapi/tests/bitcodeTransactionReadiness.test.ts', 'signed settlement remains staged'],
+      ['uapi/tests/api/transactionWriteReadinessRoutes.test.ts', 'outside the connected provider inventory'],
       ['BITCODE_SPEC_V26_PARITY_MATRIX.md', 'Transactional readiness and signed-settlement admission']
     ],
     openReadiness: [
-      'provider-backed wallet signing and route/browser readiness proof remain open',
+      'provider-backed wallet signing and broader route/browser readiness proof remain open',
       'manual wallet identity is not equivalent to signed settlement'
     ]
   },

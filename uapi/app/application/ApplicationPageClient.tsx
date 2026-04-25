@@ -115,17 +115,20 @@ export default function ApplicationPageClient() {
   const runs = transactionSource.runs;
   const transactionDataMode: TransactionDataMode = transactionSource.dataMode;
   const runsError = transactionDataMode === 'review-fallback' ? null : runsLoadError;
+  const hasRepositoryProvider =
+    Boolean(repositoryContext?.connectionStatus?.connected && repositoryContext?.connectionStatus?.valid) ||
+    hasGitHubConnection;
   const transactionReadiness = useMemo(
     () =>
       deriveBitcodeTransactionReadiness({
         signedIn: Boolean(user),
-        hasRepositoryProvider: hasGitHubConnection,
+        hasRepositoryProvider,
         hasWalletBinding: hasWalletConnection,
         hasVerifiedWalletBinding: hasVerifiedWalletConnection,
         requiresRepositoryAnchor: true,
         hasRepositoryAnchor: Boolean(repositoryContext?.selectedRepository),
       }),
-    [hasGitHubConnection, hasVerifiedWalletConnection, hasWalletConnection, repositoryContext, user],
+    [hasRepositoryProvider, hasVerifiedWalletConnection, hasWalletConnection, repositoryContext, user],
   );
   const replaceApplicationSearchParams = useCallback(
     (nextParams: URLSearchParams) => {
@@ -419,6 +422,7 @@ export default function ApplicationPageClient() {
                     <ApplicationCommandDeck
                       onRecordActivity={handleRecordActivity}
                       repositoryAnchor={repositoryContext?.selectedRepository?.fullName || null}
+                      repositoryProvider={repositoryContext?.provider || null}
                       transactionReadiness={transactionReadiness}
                     />
                     <ApplicationLiveSummaryStrip />
@@ -451,6 +455,7 @@ export default function ApplicationPageClient() {
                     <ApplicationDepositComposer
                       onRecordActivity={handleRecordActivity}
                       repositoryAnchor={repositoryContext?.selectedRepository?.fullName || null}
+                      repositoryProvider={repositoryContext?.provider || null}
                       transactionReadiness={transactionReadiness}
                     />
                   </div>

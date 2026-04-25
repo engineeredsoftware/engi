@@ -2,6 +2,7 @@
 
 import React from 'react';
 import { useMemo, useState } from 'react';
+import type { VCSProviderType } from '@bitcode/vcs-core';
 
 import BitcodeInlineExplainer from '@/components/base/bitcode/execution/BitcodeInlineExplainer';
 
@@ -42,12 +43,14 @@ function optionLabel(
 interface ApplicationCommandDeckProps {
   onRecordActivity?: (draft: ApplicationActivityRecordDraft) => Promise<unknown>;
   repositoryAnchor?: string | null;
+  repositoryProvider?: VCSProviderType | null;
   transactionReadiness: BitcodeTransactionReadiness;
 }
 
 export default function ApplicationCommandDeck({
   onRecordActivity,
   repositoryAnchor,
+  repositoryProvider,
   transactionReadiness,
 }: ApplicationCommandDeckProps) {
   const { snapshot, runControl } = useApplicationShellBridge();
@@ -106,6 +109,7 @@ export default function ApplicationCommandDeck({
           branchMode: branchMode || undefined,
           principal: projection || undefined,
           repositoryAnchor: repositoryAnchor || undefined,
+          repositoryProvider: repositoryProvider || undefined,
         }),
       });
 

@@ -12,8 +12,15 @@ export const runtime = 'nodejs';
 export async function POST(request: Request) {
   try {
     const body = await readBitcodeRequestBody(request);
-    await requireBitcodeSignedTransactionReadiness(body, { requiresRepositoryAnchor: true });
-    return NextResponse.json(await getBitcodeAppContext().makeBitcodeBranch(body));
+    const readiness = await requireBitcodeSignedTransactionReadiness(body, {
+      requiresRepositoryAnchor: true,
+    });
+    return NextResponse.json(
+      await getBitcodeAppContext().makeBitcodeBranch({
+        ...body,
+        repositoryProvider: readiness.repositoryProvider,
+      }),
+    );
   } catch (error) {
     return toBitcodeErrorResponse(error);
   }

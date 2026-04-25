@@ -1,8 +1,8 @@
 {
   "reportId": "v26-spec-family-report",
   "version": "V26",
-  "proofSourceCommit": "ee66dbf13e3346b9344ed33102b3891a436c0688",
-  "generatedAt": "2026-04-25T09:32:24-03:00",
+  "proofSourceCommit": "b55539de436fec9168845fb50c5e98f138cc1514",
+  "generatedAt": "2026-04-25T10:12:47-03:00",
   "generatorId": "bitcode.proven-generator.v1",
   "worktreeState": "dirty-preview",
   "checkedVersion": "V26",
