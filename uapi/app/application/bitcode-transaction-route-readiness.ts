@@ -144,6 +144,55 @@ async function findLiveRepositoryInventoryMatch(
   }
 }
 
+async function readBitcodeRepositoryProviderReadiness(
+  supabase: Awaited<ReturnType<typeof createClient>>,
+  userId: string,
+  repositoryProvider: VCSProviderType,
+) {
+  if (isUserOrbitalMockMode()) {
+    return {
+      hasRepositoryProvider: true,
+      hasValidRepositoryProvider: true,
+    };
+  }
+
+  const manager = new VCSConnections(supabase as any);
+  const connection = await manager.getConnection(userId, repositoryProvider);
+  if (!connection) {
+    return {
+      hasRepositoryProvider: false,
+      hasValidRepositoryProvider: false,
+    };
+  }
+
+  const auth = await manager.getAuthFromConnection(connection.id);
+  if (!auth) {
+    return {
+      hasRepositoryProvider: true,
+      hasValidRepositoryProvider: false,
+    };
+  }
+
+  try {
+    const instanceUrl =
+      typeof connection.connectionData?.instance_url === 'string'
+        ? connection.connectionData.instance_url
+        : undefined;
+    const provider = await VCSProviderFactory.createFromEnvironment(repositoryProvider, instanceUrl);
+    const valid = await provider.validateToken(auth);
+
+    return {
+      hasRepositoryProvider: true,
+      hasValidRepositoryProvider: Boolean(valid),
+    };
+  } catch {
+    return {
+      hasRepositoryProvider: true,
+      hasValidRepositoryProvider: false,
+    };
+  }
+}
+
 async function requireBitcodeRepositoryInventoryMatch(
   supabase: Awaited<ReturnType<typeof createClient>>,
   userId: string,
@@ -232,29 +281,21 @@ export async function requireBitcodeSignedTransactionReadiness(
     throw createStatusError(readiness.summary, 401);
   }
 
-  const [profileResult, providerConnectionResult] = await Promise.all([
+  const [profileResult, providerReadiness] = await Promise.all([
     supabase.from('user_profiles').select('*').eq('id', user.id).maybeSingle(),
-    supabase
-      .from('user_connections')
-      .select('connection_data')
-      .eq('user_id', user.id)
-      .eq('provider', repositoryProvider)
-      .maybeSingle(),
+    readBitcodeRepositoryProviderReadiness(supabase, user.id, repositoryProvider),
   ]);
 
   if (profileResult.error) {
     throw createStatusError(profileResult.error.message, 500);
   }
 
-  if (providerConnectionResult.error) {
-    throw createStatusError(providerConnectionResult.error.message, 500);
-  }
-
   const profile = hydrateBitcodeProfile(profileResult.data ?? null);
   const walletCapability = readBitcodeWalletCapabilityFromProfile(profile);
   const readiness = deriveBitcodeTransactionReadiness({
     signedIn: true,
-    hasRepositoryProvider: Boolean(providerConnectionResult.data?.connection_data),
+    hasRepositoryProvider: providerReadiness.hasRepositoryProvider,
+    hasValidRepositoryProvider: providerReadiness.hasValidRepositoryProvider,
     hasWalletBinding: walletCapability.hasIdentity,
     hasVerifiedWalletBinding: walletCapability.isVerifiedSigner,
     requiresRepositoryAnchor,

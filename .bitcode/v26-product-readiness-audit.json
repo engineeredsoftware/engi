@@ -1,8 +1,8 @@
 {
   "reportId": "v26-product-readiness-audit",
   "version": "V26",
-  "proofSourceCommit": "72a79f6a1a170f9c9f7597f9f89af16137bc917b",
-  "generatedAt": "2026-04-25T10:28:40-03:00",
+  "proofSourceCommit": "c77dcbc2957792976c647015605843102a018668",
+  "generatedAt": "2026-04-25T13:12:11-03:00",
   "generatorId": "bitcode.proven-generator.v1",
   "worktreeState": "dirty-preview",
   "gate": "gate-5",
@@ -412,12 +412,20 @@
       "closureClaim": false,
       "openReadiness": [
         "provider-backed wallet signing and broader route/browser readiness proof remain open",
-        "manual wallet identity is not equivalent to signed settlement"
+        "manual wallet identity is not equivalent to signed settlement",
+        "stored repository inventory does not by itself prove a still-valid live provider session"
       ],
       "evidenceChecks": [
         {
           "file": "uapi/app/application/bitcode-transaction-readiness.ts",
           "requiredText": "canSettle",
+          "filePresent": true,
+          "evidencePresent": true,
+          "passed": true
+        },
+        {
+          "file": "uapi/app/application/bitcode-transaction-readiness.ts",
+          "requiredText": "repository reconnect required",
           "filePresent": true,
           "evidencePresent": true,
           "passed": true
@@ -438,6 +446,13 @@
         },
         {
           "file": "uapi/app/api/auxillaries/data/route.ts",
+          "requiredText": "repositoryConnectionStatus",
+          "filePresent": true,
+          "evidencePresent": true,
+          "passed": true
+        },
+        {
+          "file": "uapi/app/api/auxillaries/data/route.ts",
           "requiredText": "repositoryInventorySource",
           "filePresent": true,
           "evidencePresent": true,
@@ -446,6 +461,13 @@
         {
           "file": "uapi/app/auxillaries/components/AuxillariesConnectsPane.tsx",
           "requiredText": "Connects",
+          "filePresent": true,
+          "evidencePresent": true,
+          "passed": true
+        },
+        {
+          "file": "uapi/app/auxillaries/components/AuxillariesConnectsPane.tsx",
+          "requiredText": "Reconnect required",
           "filePresent": true,
           "evidencePresent": true,
           "passed": true
@@ -473,6 +495,13 @@
         },
         {
           "file": "uapi/tests/userDataRoute.test.ts",
+          "requiredText": "repositoryConnectionStatus",
+          "filePresent": true,
+          "evidencePresent": true,
+          "passed": true
+        },
+        {
+          "file": "uapi/tests/userDataRoute.test.ts",
           "requiredText": "repositoryInventorySource",
           "filePresent": true,
           "evidencePresent": true,
@@ -481,6 +510,41 @@
         {
           "file": "uapi/tests/auxillariesConnectsPane.test.tsx",
           "requiredText": "stored Exchange inventory",
+          "filePresent": true,
+          "evidencePresent": true,
+          "passed": true
+        },
+        {
+          "file": "uapi/tests/auxillariesConnectsPane.test.tsx",
+          "requiredText": "Reconnect required",
+          "filePresent": true,
+          "evidencePresent": true,
+          "passed": true
+        },
+        {
+          "file": "uapi/tests/applicationCommandDeck.test.tsx",
+          "requiredText": "repository reconnect required",
+          "filePresent": true,
+          "evidencePresent": true,
+          "passed": true
+        },
+        {
+          "file": "uapi/tests/applicationClosureControlDeck.test.tsx",
+          "requiredText": "repository reconnect required",
+          "filePresent": true,
+          "evidencePresent": true,
+          "passed": true
+        },
+        {
+          "file": "uapi/tests/applicationDepositComposerCard.test.tsx",
+          "requiredText": "repository reconnect required",
+          "filePresent": true,
+          "evidencePresent": true,
+          "passed": true
+        },
+        {
+          "file": "uapi/tests/api/transactionWriteReadinessRoutes.test.ts",
+          "requiredText": "Reconnect GitHub",
           "filePresent": true,
           "evidencePresent": true,
           "passed": true

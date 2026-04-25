@@ -65,7 +65,12 @@ const FIRST_GATE_STYLESHEET_HREF = '/application/first-gate-styles';
 
 export default function ApplicationPageClient() {
   const { user } = useAuth();
-  const { hasGitHubConnection, hasWalletConnection, hasVerifiedWalletConnection } = useUserData();
+  const {
+    hasGitHubConnection,
+    hasValidGitHubConnection = hasGitHubConnection,
+    hasWalletConnection,
+    hasVerifiedWalletConnection,
+  } = useUserData();
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
@@ -117,7 +122,7 @@ export default function ApplicationPageClient() {
   const runsError = transactionDataMode === 'review-fallback' ? null : runsLoadError;
   const hasRepositoryProvider =
     Boolean(repositoryContext?.connectionStatus?.connected && repositoryContext?.connectionStatus?.valid) ||
-    hasGitHubConnection;
+    hasValidGitHubConnection;
   const transactionReadiness = useMemo(
     () =>
       deriveBitcodeTransactionReadiness({

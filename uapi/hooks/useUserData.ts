@@ -14,10 +14,27 @@ type UserRepositoryInventorySource =
   | 'live_provider_inventory'
   | 'mock_repository_inventory';
 
+type RepositoryConnectionStatus = {
+  connected?: boolean;
+  valid?: boolean;
+  provider?: string;
+  username?: string;
+  instanceUrl?: string;
+  expiresAt?: string;
+  metadata?: {
+    repositories?: number;
+    account?: string;
+    status?: string;
+    mock_mode?: boolean;
+    supported?: boolean;
+  } | null;
+} | null;
+
 export interface AggregatedUserData {
   profile?: any | null;
   vcsConnections?: any[];
   githubConnection?: any | null;
+  repositoryConnectionStatus?: RepositoryConnectionStatus;
   repositories?: any[];
   repositoryInventorySource?: UserRepositoryInventorySource | null;
   organizations?: string[];
@@ -31,6 +48,7 @@ export interface AggregatedUserData {
 const ANONYMOUS_USER_DATA: AggregatedUserData = {
   profile: null,
   githubConnection: null,
+  repositoryConnectionStatus: null,
   repositories: [],
   repositoryInventorySource: null,
   organizations: [],
@@ -211,6 +229,14 @@ export function useUserData() {
   const hasGitHubConnection = Boolean(
     data?.githubConnection || data?.vcsConnections?.some(conn => conn.provider === 'github')
   );
+  const repositoryConnectionStatus =
+    data?.repositoryConnectionStatus && typeof data.repositoryConnectionStatus === 'object'
+      ? data.repositoryConnectionStatus
+      : null;
+  const hasValidGitHubConnection =
+    repositoryConnectionStatus
+      ? Boolean(repositoryConnectionStatus.connected && repositoryConnectionStatus.valid)
+      : hasGitHubConnection;
   const walletCapability = readBitcodeWalletCapabilityFromProfile(
     (data?.profile as Record<string, unknown> | null | undefined) ?? null,
   );
@@ -231,9 +257,11 @@ export function useUserData() {
   return {
     data,
     hasGitHubConnection,
+    hasValidGitHubConnection,
     hasWalletConnection,
     hasVerifiedWalletConnection,
     walletBindingStatus,
+    repositoryConnectionStatus,
     repositories,
     repositoryInventorySource,
     organizations,

@@ -100,6 +100,7 @@ const baseTransactionReadiness = {
   canSettle: false,
   signedIn: true,
   hasRepositoryProvider: true,
+  hasValidRepositoryProvider: true,
   hasWalletBinding: true,
   hasVerifiedWalletBinding: false,
   hasRepositoryAnchor: true,
@@ -136,5 +137,36 @@ describe('ApplicationDepositComposer', () => {
     );
 
     expect(screen.getByRole('button', { name: 'Deposit into Bitcode' })).toBeEnabled();
+  });
+
+  it('keeps deposit submission disabled when repository scope must be reconnected', () => {
+    render(
+      <ApplicationDepositComposer
+        repositoryAnchor="bitcode/bitcode"
+        transactionReadiness={{
+          ...baseTransactionReadiness,
+          status: 'repository-provider-pending',
+          label: 'repository reconnect required',
+          summary:
+            'Bitcode is in review-only mode. Reconnect GitHub or equivalent repository scope in Connects before you transact, settle, or sign Bitcode activity.',
+          nextAction: 'Open Connects and restore a valid repository-provider connection.',
+          blockers: [
+            {
+              id: 'repository-provider',
+              label: 'Reconnect GitHub or equivalent repository scope in Connects',
+            },
+          ],
+          canTransact: false,
+          canSettle: false,
+          hasValidRepositoryProvider: false,
+          hasVerifiedWalletBinding: true,
+        }}
+      />,
+    );
+
+    expect(screen.getByRole('button', { name: 'Deposit into Bitcode' })).toBeDisabled();
+    expect(
+      screen.getAllByText(/Reconnect GitHub or equivalent repository scope in Connects/i).length,
+    ).toBeGreaterThan(0);
   });
 });

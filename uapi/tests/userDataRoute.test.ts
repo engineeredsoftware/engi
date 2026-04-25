@@ -2,14 +2,28 @@ import { GET } from '@/app/api/auxillaries/data/route';
 
 jest.mock('@bitcode/supabase/ssr/server', () => ({ createClient: jest.fn() }));
 jest.mock('@/app/api/vcs/_shared', () => ({
+  buildDisconnectedConnectionStatus: jest.fn((provider: string) => ({
+    connected: false,
+    provider,
+    valid: false,
+  })),
+  buildStoredConnectionStatus: jest.fn((provider: string, connection: Record<string, unknown>, valid: boolean) => ({
+    connected: true,
+    provider,
+    valid,
+    metadata: connection.connectionData ?? null,
+  })),
   getStoredConnection: jest.fn(),
   listBitcodeRepositoriesForConnection: jest.fn(),
+  validateStoredConnection: jest.fn(),
 }));
 
 import { createClient } from '@bitcode/supabase/ssr/server';
 import {
+  buildStoredConnectionStatus,
   getStoredConnection,
   listBitcodeRepositoriesForConnection,
+  validateStoredConnection,
 } from '@/app/api/vcs/_shared';
 
 describe('GET /api/auxillaries/data', () => {
@@ -19,7 +33,7 @@ describe('GET /api/auxillaries/data', () => {
   let mockFrom: jest.Mock;
 
   beforeEach(() => {
-    jest.resetAllMocks();
+    jest.clearAllMocks();
     mockFrom = jest.fn();
     (createClient as jest.Mock).mockResolvedValue({ auth: { getUser: mockGetUser }, from: mockFrom });
   });
@@ -33,6 +47,7 @@ describe('GET /api/auxillaries/data', () => {
     expect(body).toEqual({
       profile: null,
       githubConnection: null,
+      repositoryConnectionStatus: null,
       repositories: [],
       repositoryInventorySource: null,
       btdBalance: 0,
@@ -86,8 +101,9 @@ describe('GET /api/auxillaries/data', () => {
     };
     (getStoredConnection as jest.Mock).mockResolvedValue({
       manager: { id: 'manager' },
-      connection: { id: 'connection-1' },
+      connection: { id: 'connection-1', connectionData: connectionData },
     });
+    (validateStoredConnection as jest.Mock).mockResolvedValue(true);
     (listBitcodeRepositoriesForConnection as jest.Mock).mockResolvedValue({
       repositories: [
         {
@@ -128,6 +144,11 @@ describe('GET /api/auxillaries/data', () => {
         wallet_binding_status: 'manual',
       }),
       githubConnection: connectionData,
+      repositoryConnectionStatus: expect.objectContaining({
+        connected: true,
+        provider: 'github',
+        valid: true,
+      }),
       repositories: [
         expect.objectContaining({
           id: 'repo-1',
@@ -149,6 +170,16 @@ describe('GET /api/auxillaries/data', () => {
       expect.anything(),
       'user-1',
       'github',
+    );
+    expect(validateStoredConnection).toHaveBeenCalledWith(
+      { id: 'manager' },
+      'github',
+      { id: 'connection-1', connectionData: connectionData },
+    );
+    expect(buildStoredConnectionStatus).toHaveBeenCalledWith(
+      'github',
+      { id: 'connection-1', connectionData: connectionData },
+      true,
     );
     expect(listBitcodeRepositoriesForConnection).toHaveBeenCalledWith(
       expect.objectContaining({

@@ -22,6 +22,7 @@ export interface BitcodeTransactionReadinessBlocker {
 export interface BitcodeTransactionReadinessInput {
   signedIn: boolean;
   hasRepositoryProvider: boolean;
+  hasValidRepositoryProvider?: boolean;
   hasWalletBinding: boolean;
   hasVerifiedWalletBinding?: boolean;
   requiresRepositoryAnchor?: boolean;
@@ -39,6 +40,7 @@ export interface BitcodeTransactionReadiness {
   canSettle: boolean;
   signedIn: boolean;
   hasRepositoryProvider: boolean;
+  hasValidRepositoryProvider: boolean;
   hasWalletBinding: boolean;
   hasVerifiedWalletBinding: boolean;
   hasRepositoryAnchor: boolean;
@@ -56,6 +58,9 @@ export function deriveBitcodeTransactionReadiness(
   const hasRepositoryAnchor = requiresRepositoryAnchor ? Boolean(input.hasRepositoryAnchor) : true;
   const signedIn = Boolean(input.signedIn);
   const hasRepositoryProvider = Boolean(input.hasRepositoryProvider);
+  const hasValidRepositoryProvider = hasRepositoryProvider
+    ? Boolean(input.hasValidRepositoryProvider ?? input.hasRepositoryProvider)
+    : false;
   const hasWalletBinding = Boolean(input.hasWalletBinding);
   const hasVerifiedWalletBinding = Boolean(input.hasVerifiedWalletBinding);
 
@@ -87,6 +92,16 @@ export function deriveBitcodeTransactionReadiness(
       blocker('wallet-binding', 'Wallet identity in Profile'),
       blocker('repository-provider', 'GitHub or equivalent repository scope in Connects'),
     ];
+  } else if (!hasValidRepositoryProvider && !hasWalletBinding) {
+    status = 'wallet-and-repository-pending';
+    label = 'wallet + repository pending';
+    summary =
+      'Bitcode is in review-only mode. Reconnect GitHub or equivalent repository scope in Connects and bind wallet identity in Profile before you transact, settle, or sign Bitcode activity.';
+    nextAction = 'Reconnect repository scope in Connects, then confirm wallet identity in Profile.';
+    blockers = [
+      blocker('wallet-binding', 'Wallet identity in Profile'),
+      blocker('repository-provider', 'Reconnect GitHub or equivalent repository scope in Connects'),
+    ];
   } else if (!hasRepositoryProvider) {
     status = 'repository-provider-pending';
     label = 'repository pending';
@@ -94,6 +109,13 @@ export function deriveBitcodeTransactionReadiness(
       'Bitcode is in review-only mode. Attach GitHub or equivalent repository scope in Connects before you transact, settle, or sign Bitcode activity.';
     nextAction = 'Open Connects and attach a repository provider.';
     blockers = [blocker('repository-provider', 'GitHub or equivalent repository scope in Connects')];
+  } else if (!hasValidRepositoryProvider) {
+    status = 'repository-provider-pending';
+    label = 'repository reconnect required';
+    summary =
+      'Bitcode is in review-only mode. Reconnect GitHub or equivalent repository scope in Connects before you transact, settle, or sign Bitcode activity.';
+    nextAction = 'Open Connects and restore a valid repository-provider connection.';
+    blockers = [blocker('repository-provider', 'Reconnect GitHub or equivalent repository scope in Connects')];
   } else if (!hasWalletBinding) {
     status = 'wallet-binding-pending';
     label = 'wallet pending';
@@ -128,6 +150,7 @@ export function deriveBitcodeTransactionReadiness(
     canSettle: status === 'ready',
     signedIn,
     hasRepositoryProvider,
+    hasValidRepositoryProvider,
     hasWalletBinding,
     hasVerifiedWalletBinding,
     hasRepositoryAnchor,

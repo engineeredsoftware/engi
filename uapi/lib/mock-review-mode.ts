@@ -7,6 +7,68 @@ const REVIEW_USER_ID = 'mock-bitcode-review-user';
 const REVIEW_TIMESTAMP = '2026-04-16T12:00:00.000Z';
 const REVIEW_COMPLETED_STEPS = ['profile', 'connects', 'interfaces', 'btd'] as const;
 
+type MockRepositoryConnectionStatus = {
+  connected: boolean;
+  provider: VCSProviderType;
+  valid: boolean;
+  username?: string;
+  instanceUrl?: string;
+  metadata: {
+    mock_mode: boolean;
+    repositories?: number;
+    account?: string;
+    status?: string;
+    supported?: boolean;
+  };
+};
+
+type MockGitHubConnection = {
+  installationId: number;
+  provider: 'github';
+  account: string;
+  login: string;
+  status: 'connected';
+  repositories: number;
+  mock_mode: true;
+};
+
+type MockOrbitalData = {
+  profile: {
+    user_id: string;
+    username: string;
+    display_name: string;
+    bio: string;
+    company_name: string;
+    avatar_url: string;
+    email: string;
+    is_verified: boolean;
+    onboarded_steps: string[];
+    team_members: {
+      id: string;
+      username: string;
+      display_name: string;
+      role: string;
+    }[];
+    mock_mode: true;
+    mock_scenario: string;
+  };
+  githubConnection: MockGitHubConnection;
+  repositoryConnectionStatus: MockRepositoryConnectionStatus;
+  repositories: VCSRepository[];
+  repositoryInventorySource: 'mock_repository_inventory';
+  organizations: string[];
+  btdBalance: number;
+  modelPreferences: {
+    preferred_model: string;
+    temperature: number;
+    max_tokens: number;
+    review_profile: string;
+  };
+  onboardedPanes: string[];
+  onboarded_steps: string[];
+  isOnboardingComplete: true;
+};
+
 export function isUserOrbitalMockMode() {
   return ENABLE_MOCKS && MOCK_USER_ORBITAL;
 }
@@ -42,9 +104,53 @@ export function buildMockReviewUser(): User {
   } as User;
 }
 
-export function buildMockOrbitalData() {
+function buildMockGitHubConnection(repositories: VCSRepository[]): MockGitHubConnection {
+  return {
+    installationId: 424242,
+    provider: 'github',
+    account: 'bitcode',
+    login: 'bitcode',
+    status: 'connected',
+    repositories: repositories.length,
+    mock_mode: true,
+  };
+}
+
+export function buildMockVcsConnectionStatus(provider: VCSProviderType): MockRepositoryConnectionStatus {
+  if (provider !== 'github') {
+    return {
+      connected: false,
+      provider,
+      valid: false,
+      metadata: {
+        mock_mode: true,
+        supported: false,
+      },
+    };
+  }
+
+  const repositories = buildMockVcsRepositories(provider);
+  const githubConnection = buildMockGitHubConnection(repositories);
+
+  return {
+    connected: true,
+    provider,
+    valid: true,
+    username: githubConnection.login || githubConnection.account || 'bitcode',
+    instanceUrl: undefined,
+    metadata: {
+      mock_mode: true,
+      repositories: githubConnection.repositories || 0,
+      account: githubConnection.account || 'bitcode',
+      status: githubConnection.status || 'connected',
+    },
+  };
+}
+
+export function buildMockOrbitalData(): MockOrbitalData {
   const onboardedPanes = [...REVIEW_COMPLETED_STEPS];
   const repositories = buildMockVcsRepositories('github');
+  const githubConnection = buildMockGitHubConnection(repositories);
   const organizations = Array.from(
     new Set(
       repositories
@@ -71,15 +177,8 @@ export function buildMockOrbitalData() {
       mock_mode: true,
       mock_scenario: getUserOrbitalMockScenario(),
     },
-    githubConnection: {
-      installationId: 424242,
-      provider: 'github',
-      account: 'bitcode',
-      login: 'bitcode',
-      status: 'connected',
-      repositories: repositories.length,
-      mock_mode: true,
-    },
+    githubConnection,
+    repositoryConnectionStatus: buildMockVcsConnectionStatus('github'),
     repositories,
     repositoryInventorySource: 'mock_repository_inventory',
     organizations,
@@ -103,37 +202,6 @@ export function buildMockOnboardingData() {
     currentPane: 'profile',
     currentStep: 'profile',
     isOnboardingComplete: true,
-  };
-}
-
-export function buildMockVcsConnectionStatus(provider: VCSProviderType) {
-  if (provider !== 'github') {
-    return {
-      connected: false,
-      provider,
-      valid: false,
-      metadata: {
-        mock_mode: true,
-        supported: false,
-      },
-    };
-  }
-
-  const orbitalData = buildMockOrbitalData();
-  const githubConnection = orbitalData.githubConnection;
-
-  return {
-    connected: true,
-    provider,
-    valid: true,
-    username: githubConnection?.login || githubConnection?.account || 'bitcode',
-    instanceUrl: undefined,
-    metadata: {
-      mock_mode: true,
-      repositories: githubConnection?.repositories || 0,
-      account: githubConnection?.account || 'bitcode',
-      status: githubConnection?.status || 'connected',
-    },
   };
 }
 

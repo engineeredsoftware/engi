@@ -21,6 +21,7 @@ describe('deriveBitcodeTransactionReadiness', () => {
     const readiness = deriveBitcodeTransactionReadiness({
       signedIn: true,
       hasRepositoryProvider: true,
+      hasValidRepositoryProvider: true,
       hasWalletBinding: true,
       hasVerifiedWalletBinding: true,
       requiresRepositoryAnchor: true,
@@ -36,6 +37,7 @@ describe('deriveBitcodeTransactionReadiness', () => {
     const readiness = deriveBitcodeTransactionReadiness({
       signedIn: true,
       hasRepositoryProvider: true,
+      hasValidRepositoryProvider: true,
       hasWalletBinding: true,
       hasVerifiedWalletBinding: false,
       requiresRepositoryAnchor: true,
@@ -48,10 +50,29 @@ describe('deriveBitcodeTransactionReadiness', () => {
     expect(readiness.summary).toContain('signed settlement remains staged');
   });
 
+  it('fails closed when the repository provider attachment exists but the live session is invalid', () => {
+    const readiness = deriveBitcodeTransactionReadiness({
+      signedIn: true,
+      hasRepositoryProvider: true,
+      hasValidRepositoryProvider: false,
+      hasWalletBinding: true,
+      hasVerifiedWalletBinding: true,
+      requiresRepositoryAnchor: true,
+      hasRepositoryAnchor: true,
+    });
+
+    expect(readiness.status).toBe('repository-provider-pending');
+    expect(readiness.label).toBe('repository reconnect required');
+    expect(readiness.canTransact).toBe(false);
+    expect(readiness.canSettle).toBe(false);
+    expect(readiness.summary).toContain('Reconnect GitHub');
+  });
+
   it('becomes ready once wallet identity, verified signing, and repository scope are all present', () => {
     const readiness = deriveBitcodeTransactionReadiness({
       signedIn: true,
       hasRepositoryProvider: true,
+      hasValidRepositoryProvider: true,
       hasWalletBinding: true,
       hasVerifiedWalletBinding: true,
       requiresRepositoryAnchor: true,

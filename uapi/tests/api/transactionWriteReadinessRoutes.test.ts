@@ -11,8 +11,31 @@ const mockMakeBitcodeBranch = jest.fn(async (body?: Record<string, unknown>) => 
   specVersion: 'V26',
   latestRun: { id: 'run-1', repositoryAnchor: body?.repositoryAnchor ?? null },
 }));
+const mockGetConnection = jest.fn();
+const mockGetAuthFromConnection = jest.fn();
+const mockValidateToken = jest.fn();
+const mockListRepositories = jest.fn();
 
 jest.mock('@bitcode/supabase/ssr/server', () => ({ createClient: jest.fn() }));
+jest.mock('@bitcode/vcs', () => ({
+  VCSConnections: class MockVCSConnections {
+    constructor(_supabase: unknown) {}
+
+    getConnection(userId: string, provider: string) {
+      return mockGetConnection(userId, provider);
+    }
+
+    getAuthFromConnection(connectionId: string) {
+      return mockGetAuthFromConnection(connectionId);
+    }
+  },
+  VCSProviderFactory: {
+    createFromEnvironment: jest.fn(async () => ({
+      validateToken: mockValidateToken,
+      listRepositories: mockListRepositories,
+    })),
+  },
+}));
 
 jest.mock('@/lib/bitcode-app-context', () => {
   return {
@@ -102,9 +125,11 @@ function createRepositoryInventoryBuilder(repositoryFullNames: string[]): MockSu
 function installSupabaseReadinessMocks(options: {
   user?: { id: string } | null;
   githubConnection?: Record<string, unknown> | null;
+  validRepositoryProvider?: boolean;
   profile?: Record<string, unknown> | null;
   userError?: { message: string } | null;
   storedRepositoryInventory?: string[];
+  liveRepositoryInventory?: string[];
 }) {
   const profileBuilder = createBuilder({ data: options.profile ?? null, error: null });
   const connectionBuilder = createBuilder({
@@ -130,12 +155,31 @@ function installSupabaseReadinessMocks(options: {
     from,
   });
 
+  mockGetConnection.mockResolvedValue(
+    options.githubConnection
+      ? { id: 'connection-1', connectionData: options.githubConnection }
+      : null,
+  );
+  mockGetAuthFromConnection.mockResolvedValue(
+    options.githubConnection ? { provider: 'github', token: 'test-token' } : null,
+  );
+  mockValidateToken.mockResolvedValue(options.validRepositoryProvider ?? Boolean(options.githubConnection));
+  mockListRepositories.mockResolvedValue(
+    (options.liveRepositoryInventory || []).map((fullName) => ({
+      id: fullName,
+      name: fullName.split('/')[1] || fullName,
+      fullName,
+    })),
+  );
+
   return { from, profileBuilder, connectionBuilder };
 }
 
 describe('Bitcode transaction write routes', () => {
   beforeEach(() => {
     jest.clearAllMocks();
+    mockValidateToken.mockResolvedValue(true);
+    mockListRepositories.mockResolvedValue([]);
   });
 
   it('rejects deposit writes when the operator is unauthenticated', async () => {
@@ -313,6 +357,44 @@ describe('Bitcode transaction write routes', () => {
 
     expect(response.status).toBe(409);
     expect(payload.error).toContain('not present in the connected GitHub repository inventory');
+    expect(mockCreateDeposit).not.toHaveBeenCalled();
+  });
+
+  it('rejects settlement-bearing writes when the saved repository provider session is no longer valid', async () => {
+    installSupabaseReadinessMocks({
+      user: { id: 'user-1' },
+      githubConnection: { installationId: 123 },
+      validRepositoryProvider: false,
+      storedRepositoryInventory: ['bitcode/bitcode'],
+      profile: {
+        id: 'user-1',
+        settings: {
+          bitcodeProfile: {
+            walletBinding: {
+              address: 'bc1qbitcodeoperator',
+              provider: 'walletconnect',
+              status: 'verified',
+              boundAt: '2026-04-22T00:00:00.000Z',
+            },
+          },
+        },
+      },
+    });
+
+    const response = await postDeposit(
+      new Request('http://localhost/api/deposits', {
+        method: 'POST',
+        body: JSON.stringify({
+          repositoryAnchor: 'bitcode/bitcode',
+          repositoryProvider: 'github',
+          title: 'asset draft',
+        }),
+      }),
+    );
+    const payload = await response.json();
+
+    expect(response.status).toBe(409);
+    expect(payload.error).toContain('Reconnect GitHub');
     expect(mockCreateDeposit).not.toHaveBeenCalled();
   });
 });

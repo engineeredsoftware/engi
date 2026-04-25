@@ -127,21 +127,31 @@ const PRODUCT_READINESS_AUDIT_ROWS = [
     parityMatrixAnchor: 'Transactional readiness and signed-settlement admission',
     requiredEvidence: [
       ['uapi/app/application/bitcode-transaction-readiness.ts', 'canSettle'],
+      ['uapi/app/application/bitcode-transaction-readiness.ts', 'repository reconnect required'],
       ['uapi/app/application/bitcode-transaction-route-readiness.ts', 'requireBitcodeSignedTransactionReadiness'],
       ['uapi/app/application/bitcode-transaction-route-readiness.ts', 'repository inventory'],
+      ['uapi/app/api/auxillaries/data/route.ts', 'repositoryConnectionStatus'],
       ['uapi/app/api/auxillaries/data/route.ts', 'repositoryInventorySource'],
       ['uapi/app/auxillaries/components/AuxillariesConnectsPane.tsx', 'Connects'],
+      ['uapi/app/auxillaries/components/AuxillariesConnectsPane.tsx', 'Reconnect required'],
       ['uapi/app/auxillaries/components/AuxillariesConnectsPane.tsx', 'stored-first or live-fallback inventory contract'],
       ['uapi/app/auxillaries/components/AuxillariesProfilePane.tsx', 'Profile'],
       ['uapi/tests/bitcodeTransactionReadiness.test.ts', 'signed settlement remains staged'],
+      ['uapi/tests/userDataRoute.test.ts', 'repositoryConnectionStatus'],
       ['uapi/tests/userDataRoute.test.ts', 'repositoryInventorySource'],
       ['uapi/tests/auxillariesConnectsPane.test.tsx', 'stored Exchange inventory'],
+      ['uapi/tests/auxillariesConnectsPane.test.tsx', 'Reconnect required'],
+      ['uapi/tests/applicationCommandDeck.test.tsx', 'repository reconnect required'],
+      ['uapi/tests/applicationClosureControlDeck.test.tsx', 'repository reconnect required'],
+      ['uapi/tests/applicationDepositComposerCard.test.tsx', 'repository reconnect required'],
+      ['uapi/tests/api/transactionWriteReadinessRoutes.test.ts', 'Reconnect GitHub'],
       ['uapi/tests/api/transactionWriteReadinessRoutes.test.ts', 'outside the connected provider inventory'],
       ['BITCODE_SPEC_V26_PARITY_MATRIX.md', 'Transactional readiness and signed-settlement admission']
     ],
     openReadiness: [
       'provider-backed wallet signing and broader route/browser readiness proof remain open',
-      'manual wallet identity is not equivalent to signed settlement'
+      'manual wallet identity is not equivalent to signed settlement',
+      'stored repository inventory does not by itself prove a still-valid live provider session'
     ]
   },
   {

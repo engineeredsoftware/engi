@@ -105,6 +105,7 @@ const baseTransactionReadiness = {
   canSettle: false,
   signedIn: true,
   hasRepositoryProvider: true,
+  hasValidRepositoryProvider: true,
   hasWalletBinding: true,
   hasVerifiedWalletBinding: false,
   hasRepositoryAnchor: true,
@@ -137,5 +138,33 @@ describe('ApplicationClosureControlDeck', () => {
     );
 
     expect(screen.getByRole('button', { name: 'Run closure' })).toBeEnabled();
+  });
+
+  it('keeps closure-bearing actions disabled when repository scope must be reconnected', () => {
+    render(
+      <ApplicationClosureControlDeck
+        transactionReadiness={{
+          ...baseTransactionReadiness,
+          status: 'repository-provider-pending',
+          label: 'repository reconnect required',
+          summary:
+            'Bitcode is in review-only mode. Reconnect GitHub or equivalent repository scope in Connects before you transact, settle, or sign Bitcode activity.',
+          nextAction: 'Open Connects and restore a valid repository-provider connection.',
+          blockers: [
+            {
+              id: 'repository-provider',
+              label: 'Reconnect GitHub or equivalent repository scope in Connects',
+            },
+          ],
+          canTransact: false,
+          canSettle: false,
+          hasValidRepositoryProvider: false,
+          hasVerifiedWalletBinding: true,
+        }}
+      />,
+    );
+
+    expect(screen.getByRole('button', { name: 'Run closure' })).toBeDisabled();
+    expect(screen.getByText(/Reconnect GitHub or equivalent repository scope in Connects/i)).toBeInTheDocument();
   });
 });

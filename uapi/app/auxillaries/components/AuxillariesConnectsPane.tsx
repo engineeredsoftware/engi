@@ -27,9 +27,11 @@ export default function AuxillariesConnectsPane({
   const { user } = useAuth();
   const {
     hasGitHubConnection,
+    hasValidGitHubConnection = hasGitHubConnection,
     hasWalletConnection,
     hasVerifiedWalletConnection,
     walletBindingStatus,
+    repositoryConnectionStatus = null,
     organizations = [],
     repositories = [],
     repositoryInventorySource = null,
@@ -38,12 +40,13 @@ export default function AuxillariesConnectsPane({
   } = useUserData();
 
   useEffect(() => {
-    onCompletionStatusChange?.(Boolean(user && hasGitHubConnection));
-  }, [hasGitHubConnection, onCompletionStatusChange, user]);
+    onCompletionStatusChange?.(Boolean(user && hasValidGitHubConnection));
+  }, [hasValidGitHubConnection, onCompletionStatusChange, user]);
 
   const transactionReadiness = deriveBitcodeTransactionReadiness({
     signedIn: Boolean(user),
     hasRepositoryProvider: hasGitHubConnection,
+    hasValidRepositoryProvider: hasValidGitHubConnection,
     hasWalletBinding: hasWalletConnection,
     hasVerifiedWalletBinding: hasVerifiedWalletConnection,
   });
@@ -143,6 +146,13 @@ export default function AuxillariesConnectsPane({
                         ? 'Bitcode can now reuse live repository context and Profile-owned wallet identity across need measurement, asset-pack synthesis, and transaction drafting. Signed settlement still waits on verified wallet-provider access.'
                         : `${transactionReadiness.summary} Bitcode may stay in review, but settlement requires both a live GitHub connection here and a wallet binding in Profile before it should move from evaluation into asset-pack delivery.`}
                     </p>
+                    {hasGitHubConnection && !hasValidGitHubConnection ? (
+                      <p className="mt-2 text-xs leading-6 text-amber-200/82">
+                        Connects found a saved repository-provider attachment, but the live provider
+                        session is no longer valid. Reconnect before Bitcode writes, settles, or
+                        signs source-to-shares activity.
+                      </p>
+                    ) : null}
                   </div>
                   <div className="mt-3 grid gap-3 tablet:grid-cols-3">
                     <div className="rounded-2xl border border-white/8 bg-white/5 p-4">
@@ -150,7 +160,11 @@ export default function AuxillariesConnectsPane({
                         GitHub
                       </p>
                       <p className="mt-2 text-sm font-medium text-white">
-                        {hasGitHubConnection ? 'Connected' : 'Pending'}
+                        {!hasGitHubConnection
+                          ? 'Pending'
+                          : hasValidGitHubConnection
+                            ? 'Connected'
+                            : 'Reconnect required'}
                       </p>
                     </div>
                     <div className="rounded-2xl border border-white/8 bg-white/5 p-4">
@@ -174,6 +188,12 @@ export default function AuxillariesConnectsPane({
                       <p className="mt-2 text-sm font-medium text-white">
                         {getRepositoryInventorySourceLabel(repositoryInventorySource)}
                       </p>
+                      {repositoryConnectionStatus && !repositoryConnectionStatus.valid ? (
+                        <p className="mt-2 text-[11px] leading-5 text-amber-200/75">
+                          Stored inventory can still be reread, but write admission will fail closed
+                          until the live provider connection is restored.
+                        </p>
+                      ) : null}
                     </div>
                   </div>
                   {!hasWalletConnection && (

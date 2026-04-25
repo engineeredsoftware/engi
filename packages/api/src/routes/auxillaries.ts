@@ -32,6 +32,7 @@ type AuxillaryRouteBuilderOptions = {
     supabase: Awaited<ReturnType<typeof createClient>>;
     userId: string;
   }) => Promise<{
+    repositoryConnectionStatus?: unknown | null;
     repositories?: unknown[];
     repositoryInventorySource?: string | null;
   }>;
@@ -162,10 +163,12 @@ export function buildGetAuxillaryDataRoute(options: AuxillaryRouteBuilderOptions
             userId: user.id,
           })
           .catch(() => ({
+            repositoryConnectionStatus: null,
             repositories: [],
             repositoryInventorySource: null,
           }))
       : Promise.resolve({
+          repositoryConnectionStatus: null,
           repositories: [],
           repositoryInventorySource: null,
         });
@@ -192,6 +195,7 @@ export function buildGetAuxillaryDataRoute(options: AuxillaryRouteBuilderOptions
       buildAuxillaryDataPayload({
         profile,
         githubConnection,
+        repositoryConnectionStatus: repositoryInventoryResult.repositoryConnectionStatus,
         repositories: repositoryInventoryResult.repositories,
         repositoryInventorySource: repositoryInventoryResult.repositoryInventorySource,
         btdBalance,

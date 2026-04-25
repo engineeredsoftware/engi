@@ -47,9 +47,15 @@ describe('AuxillariesConnectsPane', () => {
         },
       },
       hasGitHubConnection: true,
+      hasValidGitHubConnection: true,
       hasWalletConnection: true,
       hasVerifiedWalletConnection: false,
       walletBindingStatus: 'manual',
+      repositoryConnectionStatus: {
+        connected: true,
+        provider: 'github',
+        valid: true,
+      },
       repositories: [
         {
           id: 'repo-1',
@@ -97,5 +103,54 @@ describe('AuxillariesConnectsPane', () => {
     expect(
       screen.getByText(/same stored-first or live-fallback inventory contract/i),
     ).toBeInTheDocument();
+  });
+
+  it('treats an invalid saved provider session as reconnect-required readiness', () => {
+    mockUseUserData.mockReturnValue({
+      data: {
+        profile: {
+          wallet_address: 'bc1qbitcodeoperator',
+        },
+      },
+      hasGitHubConnection: true,
+      hasValidGitHubConnection: false,
+      hasWalletConnection: true,
+      hasVerifiedWalletConnection: true,
+      walletBindingStatus: 'verified',
+      repositoryConnectionStatus: {
+        connected: true,
+        provider: 'github',
+        valid: false,
+      },
+      repositories: [
+        {
+          id: 'repo-1',
+          name: 'bitcode',
+          fullName: 'bitcode/bitcode',
+          defaultBranch: 'main',
+          owner: { username: 'bitcode', type: 'organization' },
+        },
+      ],
+      repositoryInventorySource: 'stored_repository_inventory',
+      organizations: ['bitcode'],
+      btdBalance: 1200,
+      isLoading: false,
+      error: null,
+      refresh: jest.fn(),
+      isOnboardingComplete: true,
+      onboardedSteps: ['profile', 'connects', 'interfaces', 'btd'],
+    } as any);
+
+    render(
+      <AuxillariesConnectsPane
+        onSave={jest.fn()}
+        loading={false}
+        isOnboardingComplete
+      />,
+    );
+
+    expect(screen.getByText('Reconnect required')).toBeInTheDocument();
+    expect(screen.getByText(/repository-provider attachment, but the live provider session is no longer valid/i)).toBeInTheDocument();
+    expect(screen.getByText(/write admission will fail closed until the live provider connection is restored/i)).toBeInTheDocument();
   });
 });
