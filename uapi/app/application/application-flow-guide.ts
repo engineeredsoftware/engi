@@ -11,7 +11,15 @@ export type ApplicationFlowGuideStage = {
 };
 
 export type ApplicationFlowGuide = {
-  readinessLabel: 'syncing' | 'review-only' | 'draft-only' | 'drafting' | 'saved' | 'ready';
+  readinessLabel:
+    | 'syncing'
+    | 'review-only'
+    | 'draft-only'
+    | 'repository-reconnect-required'
+    | 'wallet-reconnect-required'
+    | 'drafting'
+    | 'saved'
+    | 'ready';
   statusSummary: string;
   stages: ApplicationFlowGuideStage[];
 };
@@ -54,7 +62,7 @@ function resolveCurrentStageIndex(commandState: ApplicationCommandState | null) 
 
 export function deriveApplicationFlowGuide(
   commandState: ApplicationCommandState | null,
-  transactionReadiness?: Pick<BitcodeTransactionReadiness, 'canTransact' | 'canSettle' | 'summary'> | null,
+  transactionReadiness?: Pick<BitcodeTransactionReadiness, 'canTransact' | 'canSettle' | 'summary' | 'label'> | null,
 ): ApplicationFlowGuide {
   const currentStageIndex = resolveCurrentStageIndex(commandState);
   const guideStep =
@@ -68,9 +76,17 @@ export function deriveApplicationFlowGuide(
       transactionReadiness.canTransact &&
       !transactionReadiness.canSettle,
   );
+  const repositoryReconnectRequired =
+    Boolean(commandState?.shellReady) && transactionReadiness?.label === 'repository reconnect required';
+  const walletReconnectRequired =
+    Boolean(commandState?.shellReady) && transactionReadiness?.label === 'wallet reconnect required';
 
   const readinessLabel = !commandState?.shellReady
     ? 'syncing'
+    : repositoryReconnectRequired
+      ? 'repository-reconnect-required'
+    : walletReconnectRequired
+      ? 'wallet-reconnect-required'
     : reviewOnly
       ? 'review-only'
     : draftOnly
@@ -83,6 +99,10 @@ export function deriveApplicationFlowGuide(
 
   const statusSummary = !commandState?.shellReady
     ? 'The flow guide is syncing to the current Bitcode Terminal.'
+    : repositoryReconnectRequired || walletReconnectRequired
+      ? guideStep
+        ? `The flow guide is ${commandState.flowGuideOpen ? 'open' : 'saved'} at ${guideStep}. ${transactionReadiness?.summary || 'Reconnect-required transactional readiness is blocking signed settlement.'}`
+        : transactionReadiness?.summary || 'Reconnect-required transactional readiness is blocking signed settlement.'
     : reviewOnly
       ? transactionReadiness?.summary || 'The Bitcode Terminal is in review-only mode until transactional readiness is complete.'
     : draftOnly

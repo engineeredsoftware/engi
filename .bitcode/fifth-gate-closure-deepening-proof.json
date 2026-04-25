@@ -1,8 +1,8 @@
 {
   "reportId": "v26-fifth-gate-closure-deepening-proof",
   "version": "V26",
-  "proofSourceCommit": "6383850a9ca959735b1a27ec2881a3019f3fb1c6",
-  "generatedAt": "2026-04-25T13:56:24-03:00",
+  "proofSourceCommit": "3a2c3b13e2b16b33458dcda7ee056ac074753afb",
+  "generatedAt": "2026-04-25T14:08:28-03:00",
   "generatorId": "bitcode.proven-generator.v1",
   "worktreeState": "dirty-preview",
   "gate": "gate-5",
@@ -112,7 +112,7 @@
       "label": "Transactional readiness and repository scope",
       "baselineAdvanced": true,
       "closurePassed": false,
-      "currentDeepening": "Repository-bound source-to-shares admission, stored-first/live-fallback connected-provider inventory validation, reconnect-required downgrade for invalid saved provider sessions, wallet-reconnect-required downgrade for saved verified signer posture without a live wallet-provider session, and Connects plus `$BTD` reread through `/api/auxillaries/data` are proof-backed as the current readiness baseline.",
+      "currentDeepening": "Repository-bound source-to-shares admission, stored-first/live-fallback connected-provider inventory validation, reconnect-required downgrade for invalid saved provider sessions, Terminal-side repository-supply reread that keeps stored inventory visible under reconnect-required provider drift, main-route Terminal pulse plus Give + Need flow-guide rendering of exact reconnect-required readiness, wallet-reconnect-required downgrade for saved verified signer posture without a live wallet-provider session, and Connects plus `$BTD` reread through `/api/auxillaries/data` are proof-backed as the current readiness baseline.",
       "remainingClosure": "Provider-backed wallet signing, authenticated repository runtime proof, and broader route/browser readiness remain open.",
       "evidenceArtifactPaths": [
         ".bitcode/application-composition-proof.json",

@@ -439,7 +439,10 @@ export default function ApplicationPageClient() {
                       repositoryProvider={repositoryContext?.provider || null}
                       transactionReadiness={transactionReadiness}
                     />
-                    <ApplicationLiveSummaryStrip />
+                    <ApplicationLiveSummaryStrip
+                      transactionReadiness={transactionReadiness}
+                      repositoryContext={repositoryContext}
+                    />
                   </div>
                   <div className="space-y-6">
                     <ApplicationExternalInterfacingPanel

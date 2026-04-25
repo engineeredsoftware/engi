@@ -1,5 +1,6 @@
 'use client';
 
+import React from 'react';
 import type { ApplicationCommandState } from './application-command-state';
 import { deriveApplicationFlowGuide } from './application-flow-guide';
 import type { BitcodeTransactionReadiness } from './bitcode-transaction-readiness';
@@ -17,11 +18,24 @@ function toneClasses(status: 'done' | 'current' | 'next') {
 }
 
 function readinessToneClasses(
-  readinessLabel: 'syncing' | 'review-only' | 'draft-only' | 'drafting' | 'saved' | 'ready',
+  readinessLabel:
+    | 'syncing'
+    | 'review-only'
+    | 'draft-only'
+    | 'repository-reconnect-required'
+    | 'wallet-reconnect-required'
+    | 'drafting'
+    | 'saved'
+    | 'ready',
 ) {
   if (readinessLabel === 'ready') return toneClasses('done');
   if (readinessLabel === 'drafting') return toneClasses('current');
-  if (readinessLabel === 'draft-only' || readinessLabel === 'review-only') {
+  if (
+    readinessLabel === 'draft-only' ||
+    readinessLabel === 'review-only' ||
+    readinessLabel === 'repository-reconnect-required' ||
+    readinessLabel === 'wallet-reconnect-required'
+  ) {
     return 'border-amber-400/25 bg-amber-400/10 text-amber-100';
   }
   return toneClasses('next');

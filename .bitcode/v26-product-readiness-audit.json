@@ -1,8 +1,8 @@
 {
   "reportId": "v26-product-readiness-audit",
   "version": "V26",
-  "proofSourceCommit": "6383850a9ca959735b1a27ec2881a3019f3fb1c6",
-  "generatedAt": "2026-04-25T13:56:24-03:00",
+  "proofSourceCommit": "3a2c3b13e2b16b33458dcda7ee056ac074753afb",
+  "generatedAt": "2026-04-25T14:08:28-03:00",
   "generatorId": "bitcode.proven-generator.v1",
   "worktreeState": "dirty-preview",
   "gate": "gate-5",
@@ -173,8 +173,50 @@
           "passed": true
         },
         {
+          "file": "uapi/app/application/ApplicationPageClient.tsx",
+          "requiredText": "ApplicationLiveSummaryStrip",
+          "filePresent": true,
+          "evidencePresent": true,
+          "passed": true
+        },
+        {
           "file": "uapi/app/application/ApplicationRepositoryContextPanel.tsx",
           "requiredText": "Inventory source",
+          "filePresent": true,
+          "evidencePresent": true,
+          "passed": true
+        },
+        {
+          "file": "uapi/app/application/ApplicationRepositoryContextPanel.tsx",
+          "requiredText": "Reconnect Connects to restore live write admission",
+          "filePresent": true,
+          "evidencePresent": true,
+          "passed": true
+        },
+        {
+          "file": "uapi/app/application/ApplicationLiveSummaryStrip.tsx",
+          "requiredText": "Settlement posture",
+          "filePresent": true,
+          "evidencePresent": true,
+          "passed": true
+        },
+        {
+          "file": "uapi/app/application/ApplicationLiveSummaryStrip.tsx",
+          "requiredText": "Repository posture",
+          "filePresent": true,
+          "evidencePresent": true,
+          "passed": true
+        },
+        {
+          "file": "uapi/app/application/ApplicationFlowGuideCard.tsx",
+          "requiredText": "repository-reconnect-required",
+          "filePresent": true,
+          "evidencePresent": true,
+          "passed": true
+        },
+        {
+          "file": "uapi/app/application/ApplicationFlowGuideCard.tsx",
+          "requiredText": "wallet-reconnect-required",
           "filePresent": true,
           "evidencePresent": true,
           "passed": true
@@ -217,6 +259,27 @@
         {
           "file": "uapi/tests/api/executionsHistoryWriteReadParity.test.ts",
           "requiredText": "round-trips give, need, and closure writes through the same Bitcode activity ledger",
+          "filePresent": true,
+          "evidencePresent": true,
+          "passed": true
+        },
+        {
+          "file": "uapi/tests/applicationLiveSummaryStrip.test.tsx",
+          "requiredText": "GitHub reconnect required · stored Exchange inventory",
+          "filePresent": true,
+          "evidencePresent": true,
+          "passed": true
+        },
+        {
+          "file": "uapi/tests/applicationFlowGuideCard.test.tsx",
+          "requiredText": "repository-reconnect-required",
+          "filePresent": true,
+          "evidencePresent": true,
+          "passed": true
+        },
+        {
+          "file": "uapi/tests/applicationRepositoryContextPanel.test.tsx",
+          "requiredText": "Saved GitHub attachment found, but the live provider session must reconnect",
           "filePresent": true,
           "evidencePresent": true,
           "passed": true

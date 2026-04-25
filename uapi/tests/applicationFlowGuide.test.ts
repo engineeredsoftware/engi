@@ -71,6 +71,42 @@ describe('deriveApplicationFlowGuide', () => {
     expect(guide.statusSummary).toContain('review-only mode');
   });
 
+  it('surfaces repository reconnect posture as a first-class flow-guide status', () => {
+    const commandState: ApplicationCommandState = {
+      scenario: 'need-1',
+      projection: 'reviewer',
+      branchMode: 'patch',
+      scenarioOptions: [{ value: 'need-1', label: 'priority need · producer' }],
+      projectionOptions: [{ value: 'reviewer', label: 'reviewer' }],
+      branchOptions: [{ value: 'patch', label: 'patch' }],
+      heroLede: 'shell posture',
+      heroTip: 'shell tip',
+      status: 'ready',
+      flowGuideLabel: 'Flow guide',
+      flowGuideOpen: false,
+      flowGuideStepIndex: 2,
+      flowGuideStepCount: 8,
+      shellReady: true,
+    };
+
+    const guide = deriveApplicationFlowGuide(
+      commandState,
+      deriveBitcodeTransactionReadiness({
+        signedIn: true,
+        hasRepositoryProvider: true,
+        hasValidRepositoryProvider: false,
+        hasWalletBinding: true,
+        hasVerifiedWalletBinding: true,
+        hasStoredVerifiedWalletBinding: true,
+        requiresRepositoryAnchor: true,
+        hasRepositoryAnchor: true,
+      }),
+    );
+
+    expect(guide.readinessLabel).toBe('repository-reconnect-required');
+    expect(guide.statusSummary).toContain('Reconnect GitHub or equivalent repository scope in Connects');
+  });
+
   it('keeps a draft-only posture when verified signing is still staged', () => {
     const commandState: ApplicationCommandState = {
       scenario: 'need-1',
@@ -103,6 +139,43 @@ describe('deriveApplicationFlowGuide', () => {
 
     expect(guide.readinessLabel).toBe('draft-only');
     expect(guide.statusSummary).toContain('signed settlement remains staged');
+    expect(guide.statusSummary).toContain('step 5 of 10');
+  });
+
+  it('surfaces wallet reconnect posture as a first-class flow-guide status', () => {
+    const commandState: ApplicationCommandState = {
+      scenario: 'need-1',
+      projection: 'reviewer',
+      branchMode: 'patch',
+      scenarioOptions: [{ value: 'need-1', label: 'priority need · producer' }],
+      projectionOptions: [{ value: 'reviewer', label: 'reviewer' }],
+      branchOptions: [{ value: 'patch', label: 'patch' }],
+      heroLede: 'shell posture',
+      heroTip: 'shell tip',
+      status: 'ready',
+      flowGuideLabel: 'Flow guide',
+      flowGuideOpen: true,
+      flowGuideStepIndex: 4,
+      flowGuideStepCount: 10,
+      shellReady: true,
+    };
+
+    const guide = deriveApplicationFlowGuide(
+      commandState,
+      deriveBitcodeTransactionReadiness({
+        signedIn: true,
+        hasRepositoryProvider: true,
+        hasValidRepositoryProvider: true,
+        hasWalletBinding: true,
+        hasVerifiedWalletBinding: false,
+        hasStoredVerifiedWalletBinding: true,
+        requiresRepositoryAnchor: true,
+        hasRepositoryAnchor: true,
+      }),
+    );
+
+    expect(guide.readinessLabel).toBe('wallet-reconnect-required');
+    expect(guide.statusSummary).toContain('live wallet-provider signing session is no longer available');
     expect(guide.statusSummary).toContain('step 5 of 10');
   });
 });

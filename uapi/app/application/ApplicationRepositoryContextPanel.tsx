@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { ArrowUpRight, CheckCircle2, FolderGit2, GitBranch, Lock, RefreshCw, ShieldCheck } from 'lucide-react';
 import type { VCSRepository } from '@bitcode/vcs-core';
@@ -105,7 +105,7 @@ export default function ApplicationRepositoryContextPanel({
   useEffect(() => {
     let disposed = false;
 
-    if (!connectionStatus?.connected || !connectionStatus.valid) {
+    if (!connectionStatus?.connected) {
       setRepositories([]);
       setInventorySource(null);
       setIsLoadingRepositories(false);
@@ -364,6 +364,43 @@ export default function ApplicationRepositoryContextPanel({
                     </div>
                   </dl>
                 </div>
+              ) : connectionStatus?.connected ? (
+                <div className="mt-4 space-y-4">
+                  <div className="flex items-center gap-2 text-sm text-amber-100">
+                    <RefreshCw className="h-4 w-4" />
+                    Saved {getProviderLabel(provider)} attachment found, but the live provider session must reconnect.
+                  </div>
+                  <p className="text-sm leading-6 text-neutral-300">
+                    Bitcode can keep rereading stored repository inventory from Exchange so repository supply stays
+                    explicit inside the Terminal, but settlement-bearing writes remain fail-closed until Connects
+                    restores a live {getProviderLabel(provider)} session.
+                  </p>
+                  <dl className="space-y-3 rounded-[1.2rem] border border-amber-400/20 bg-amber-400/10 px-4 py-4 text-sm">
+                    <div>
+                      <dt className="text-amber-100/70">Inventory count</dt>
+                      <dd className="mt-1 text-neutral-100">{connectionStatus.metadata?.repositories ?? repositories.length}</dd>
+                    </div>
+                    <div>
+                      <dt className="text-amber-100/70">Status</dt>
+                      <dd className="mt-1 text-neutral-100">{connectionStatus.metadata?.status || 'reconnect required'}</dd>
+                    </div>
+                    <div>
+                      <dt className="text-amber-100/70">Write admission</dt>
+                      <dd className="mt-1 text-neutral-100">Reconnect required before deposit, branch, or closure writes.</dd>
+                    </div>
+                    <div>
+                      <dt className="text-amber-100/70">Inventory source</dt>
+                      <dd className="mt-1 text-neutral-100">
+                        {getRepositoryInventorySourceLabel(inventorySource)}
+                      </dd>
+                    </div>
+                  </dl>
+                  <ApplicationOpenOrbitalsButton
+                    step="connects"
+                    label="Reconnect Connects to restore live write admission"
+                    className="rounded-[1.2rem] border border-amber-300/24 bg-amber-400/12 px-4 py-3 text-sm font-medium text-amber-50 transition hover:border-amber-300/42 hover:bg-amber-400/18"
+                  />
+                </div>
               ) : (
                 <div className="mt-4 space-y-4">
                   <p className="text-sm leading-6 text-neutral-300">
@@ -397,6 +434,12 @@ export default function ApplicationRepositoryContextPanel({
                     The selected repository now anchors the give-side application frame before the live Bitcode deposit
                     surfaces below.
                   </p>
+                  {connectionStatus?.connected && !connectionStatus.valid ? (
+                    <p className="rounded-[1.1rem] border border-amber-400/20 bg-amber-400/10 px-4 py-3 text-sm leading-6 text-amber-100">
+                      Stored repository inventory remains readable from Exchange, but Bitcode will fail closed on
+                      settlement-bearing writes until Connects reconnects the live {getProviderLabel(provider)} session.
+                    </p>
+                  ) : null}
                   <div className="grid gap-3 sm:grid-cols-2">
                     <div className="rounded-[1.15rem] border border-white/8 bg-white/5 px-4 py-4">
                       <p className="text-[0.64rem] uppercase tracking-[0.16em] text-neutral-500">Default branch</p>

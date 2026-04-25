@@ -1,16 +1,22 @@
 'use client';
 
+import React from 'react';
 import { useMemo } from 'react';
 
 import ApplicationWorkspaceCard from './ApplicationWorkspaceCard';
 import { APPLICATION_WORKSPACE_EXPLAINERS } from './application-workspace-explainers';
 import {
-  normalizeApplicationLiveSummary,
+  buildApplicationLiveSummary,
   type ApplicationLiveSummaryItem,
 } from './application-live-summary';
 import { useApplicationShellBridge } from './application-shell-bridge';
+import type { ApplicationRepositoryContextState } from './application-repository-context';
+import type { BitcodeTransactionReadiness } from './bitcode-transaction-readiness';
 
 const PINNED_LABELS = new Set([
+  'Settlement posture',
+  'Repository posture',
+  'Repository anchor',
   'Active scenario',
   'Branch mode',
   'Projection',
@@ -19,11 +25,22 @@ const PINNED_LABELS = new Set([
   'Blocking external interfaces',
 ]);
 
-export default function ApplicationLiveSummaryStrip() {
+interface ApplicationLiveSummaryStripProps {
+  transactionReadiness?: Pick<BitcodeTransactionReadiness, 'label' | 'canSettle' | 'canTransact'> | null;
+  repositoryContext?: Pick<
+    ApplicationRepositoryContextState,
+    'provider' | 'connectionStatus' | 'inventorySource' | 'selectedRepository'
+  > | null;
+}
+
+export default function ApplicationLiveSummaryStrip({
+  transactionReadiness,
+  repositoryContext,
+}: ApplicationLiveSummaryStripProps) {
   const { snapshot } = useApplicationShellBridge();
   const items = useMemo<ApplicationLiveSummaryItem[]>(
-    () => normalizeApplicationLiveSummary(snapshot),
-    [snapshot],
+    () => buildApplicationLiveSummary(snapshot, { transactionReadiness, repositoryContext }),
+    [repositoryContext, snapshot, transactionReadiness],
   );
 
   const pinnedItems = items.filter((item) => PINNED_LABELS.has(item.label));
