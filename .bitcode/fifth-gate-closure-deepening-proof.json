@@ -1,8 +1,8 @@
 {
   "reportId": "v26-fifth-gate-closure-deepening-proof",
   "version": "V26",
-  "proofSourceCommit": "81f8e64fd40b6f41b3ac8e300dc31850e49b8737",
-  "generatedAt": "2026-04-25T14:36:02-03:00",
+  "proofSourceCommit": "8c708a16c65889edbba7ba1665af060d9686eb0c",
+  "generatedAt": "2026-04-25T14:58:49-03:00",
   "generatorId": "bitcode.proven-generator.v1",
   "worktreeState": "dirty-preview",
   "gate": "gate-5",
@@ -85,7 +85,7 @@
       "label": "Bitcode Terminal read/write loop",
       "baselineAdvanced": true,
       "closurePassed": false,
-      "currentDeepening": "Terminal-facing source-to-shares Need review, fit admission, settlement reading, product readiness audit, and environment posture are generated and app/API-backed.",
+      "currentDeepening": "Terminal-facing source-to-shares Need review, fit admission, settlement reading, TypeScript-only uapi/app ownership, product readiness audit, and environment posture are generated and app/API-backed.",
       "remainingClosure": "Whole browser acceptance, authenticated live-path reread, and all admitted interface write surfaces still need fifth-gate closure.",
       "evidenceArtifactPaths": [
         ".bitcode/application-composition-proof.json",

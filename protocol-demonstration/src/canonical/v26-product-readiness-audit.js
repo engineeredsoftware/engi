@@ -52,6 +52,7 @@ const PRODUCT_READINESS_AUDIT_ROWS = [
     parityMatrixAnchor: 'Bitcode Terminal read/write loop',
     requiredEvidence: [
       ['protocol-demonstration/public/app.js', '__BITCODE_APPLICATION_SHELL_SNAPSHOT__'],
+      ['protocol-demonstration/test/v26-uapi-app-router-entrypoints.test.js', 'TypeScript-only'],
       ['uapi/app/application/ApplicationPageClient.tsx', 'ApplicationNeedScenarioPanel'],
       ['uapi/app/application/ApplicationPageClient.tsx', 'ApplicationLiveSummaryStrip'],
       ['uapi/app/application/application-transaction-readiness-source.ts', 'route_repository_context'],

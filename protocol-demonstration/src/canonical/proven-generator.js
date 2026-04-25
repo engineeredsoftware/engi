@@ -2689,7 +2689,7 @@ function buildV26FifthGateClosureDeepeningProof({
       'terminal-read-write-loop',
       'Bitcode Terminal read/write loop',
       ['application-composition', 'source-to-shares', 'product-readiness-audit', 'environment-mode-coherence'],
-      'Terminal-facing source-to-shares Need review, fit admission, settlement reading, product readiness audit, and environment posture are generated and app/API-backed.',
+      'Terminal-facing source-to-shares Need review, fit admission, settlement reading, TypeScript-only uapi/app ownership, product readiness audit, and environment posture are generated and app/API-backed.',
       'Whole browser acceptance, authenticated live-path reread, and all admitted interface write surfaces still need fifth-gate closure.'
     ),
     axis(
