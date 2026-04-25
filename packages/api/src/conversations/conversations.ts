@@ -10,6 +10,12 @@ import * as crypto from 'crypto';
 
 interface ConversationMessageAttachmentRow {
   id: string;
+  message_id: string;
+  attachment_id: string;
+  attachment_category: string;
+  attachment_type: string;
+  metadata?: Record<string, unknown> | null;
+  created_at?: string;
 }
 
 interface ConversationMessageRow {
@@ -22,6 +28,36 @@ interface ConversationMessageRow {
 
 interface ConversationRowWithMessages extends Conversation {
   messages?: ConversationMessageRow[] | null;
+}
+
+function buildBranchedConversationAttachmentRows(options: {
+  sourceMessages: ConversationMessageRow[];
+  copiedMessageIdsBySourceId: Map<string, string>;
+}) {
+  return options.sourceMessages.flatMap((message) => {
+    const destinationMessageId = options.copiedMessageIdsBySourceId.get(message.id);
+    if (!destinationMessageId || !Array.isArray(message.message_attachments)) {
+      return [];
+    }
+
+    return message.message_attachments.flatMap((attachment) => {
+      if (!attachment.attachment_category || !attachment.attachment_type) {
+        return [];
+      }
+
+      return [
+        {
+          id: crypto.randomUUID(),
+          message_id: destinationMessageId,
+          attachment_id: attachment.attachment_id,
+          attachment_category: attachment.attachment_category,
+          attachment_type: attachment.attachment_type,
+          metadata: attachment.metadata || {},
+          created_at: attachment.created_at || message.created_at,
+        },
+      ];
+    });
+  });
 }
 
 export async function createConversation(userId: string, title?: string): Promise<Conversation> {
@@ -147,7 +183,7 @@ export async function branchConversation(
   userId: string,
   sourceConversationId: string,
   options: { title?: string; branchMessageId?: string; copyMessages?: boolean } = {}
-): Promise<Conversation & { copiedCount?: number } > {
+): Promise<Conversation & { copiedCount?: number; copiedAttachmentCount?: number } > {
   // Verify source conversation ownership
   const { data: source, error: sourceErr } = await supabaseAdmin
     .from('conversations')
@@ -182,16 +218,32 @@ export async function branchConversation(
   }
 
   let copiedCount = 0;
+  let copiedAttachmentCount = 0;
   if (options.copyMessages !== false) {
     // Copy messages from source → dest, optionally up to branchMessageId
     // Fetch in ascending order
     const { data: msgs, error: msgsErr } = await supabaseAdmin
       .from('messages')
-      .select('*')
+      .select(`
+        *,
+        message_attachments (
+          id,
+          message_id,
+          attachment_id,
+          attachment_category,
+          attachment_type,
+          metadata,
+          created_at
+        )
+      `)
       .eq('conversation_id', sourceConversationId)
       .order('created_at', { ascending: true });
-      if (msgsErr) {
-        log('[api/conversations] Branch warning: could not load source messages', 'warn', { userId, sourceConversationId, error: msgsErr });
+    if (msgsErr) {
+      log('[api/conversations] Branch warning: could not load source messages', 'warn', {
+        userId,
+        sourceConversationId,
+        error: msgsErr,
+      });
     } else {
       const untilId = options.branchMessageId;
       const orderedMessages = (msgs ?? []) as ConversationMessageRow[];
@@ -225,12 +277,34 @@ export async function branchConversation(
           log('[api/conversations] Branch warning: failed to copy messages', 'warn', { error: insertErr, count: rows.length });
         } else {
           copiedCount = rows.length;
+
+          const copiedMessageIdsBySourceId = new Map(
+            toCopy.map((message, index) => [message.id, rows[index]?.id] as const),
+          );
+          const copiedAttachmentRows = buildBranchedConversationAttachmentRows({
+            sourceMessages: toCopy,
+            copiedMessageIdsBySourceId,
+          });
+
+          if (copiedAttachmentRows.length > 0) {
+            const { error: attachmentInsertErr } = await supabaseAdmin
+              .from('message_attachments')
+              .insert(copiedAttachmentRows);
+            if (attachmentInsertErr) {
+              log('[api/conversations] Branch warning: failed to copy message attachments', 'warn', {
+                error: attachmentInsertErr,
+                count: copiedAttachmentRows.length,
+              });
+            } else {
+              copiedAttachmentCount = copiedAttachmentRows.length;
+            }
+          }
         }
       }
     }
   }
 
-  return { ...dest, copiedCount } as any;
+  return { ...dest, copiedCount, copiedAttachmentCount } as any;
 }
 
 export async function updateConversation(

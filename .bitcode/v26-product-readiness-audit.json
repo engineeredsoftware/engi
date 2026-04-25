@@ -1,8 +1,8 @@
 {
   "reportId": "v26-product-readiness-audit",
   "version": "V26",
-  "proofSourceCommit": "4485ab2906621514d194888f55367c729441a0b7",
-  "generatedAt": "2026-04-24T20:16:11-03:00",
+  "proofSourceCommit": "ee66dbf13e3346b9344ed33102b3891a436c0688",
+  "generatedAt": "2026-04-25T09:32:24-03:00",
   "generatorId": "bitcode.proven-generator.v1",
   "worktreeState": "dirty-preview",
   "gate": "gate-5",
@@ -338,7 +338,7 @@
       "readyForSixthGateMvp": false,
       "closureClaim": false,
       "openReadiness": [
-        "persisted rich-input attachment and destination roundtrip remain open across all admitted interfaces",
+        "persisted rich-input attachment, branched continuity, and destination roundtrip remain open across all admitted interfaces",
         "cross-interface parity is not fifth-gate-closed"
       ],
       "evidenceChecks": [
@@ -350,15 +350,22 @@
           "passed": true
         },
         {
-          "file": "packages/api/src/routes/conversations.ts",
-          "requiredText": "rich_input",
+          "file": "packages/api/src/conversations/conversations.ts",
+          "requiredText": "copiedAttachmentCount",
           "filePresent": true,
           "evidencePresent": true,
           "passed": true
         },
         {
-          "file": "packages/api/src/conversations/attachments.ts",
-          "requiredText": "attachments",
+          "file": "packages/api/src/conversations/__tests__/branch-conversation.test.ts",
+          "requiredText": "copiedAttachmentCount",
+          "filePresent": true,
+          "evidencePresent": true,
+          "passed": true
+        },
+        {
+          "file": "uapi/tests/api/conversationBranchRoute.test.ts",
+          "requiredText": "copiedAttachmentCount",
           "filePresent": true,
           "evidencePresent": true,
           "passed": true

@@ -3047,8 +3047,10 @@ function buildV26ConversationsContinuityProof({
         'packages/api/src/conversations/messages.ts',
         'packages/api/src/conversations/attachments.ts',
         'packages/api/src/conversations/streaming.ts',
+        'packages/api/src/conversations/__tests__/branch-conversation.test.ts',
         'uapi/tests/api/conversationsRoute.test.ts',
         'uapi/tests/api/chatStreamRoute.test.ts',
+        'uapi/tests/api/conversationBranchRoute.test.ts',
         'uapi/tests/api/conversationThreadStreamRoute.test.ts',
         'uapi/tests/conversationsRouteClient.test.tsx'
       ]
@@ -3086,6 +3088,21 @@ function buildV26ConversationsContinuityProof({
           file: 'packages/api/src/conversations/messages.ts',
           evidence: 'metadata: att',
           description: 'message attachment rows preserve the full attachment reference payload'
+        },
+        {
+          file: 'packages/api/src/conversations/conversations.ts',
+          evidence: 'copiedAttachmentCount',
+          description: 'branched conversations preserve attachment and execution-reference continuity'
+        },
+        {
+          file: 'packages/api/src/conversations/__tests__/branch-conversation.test.ts',
+          evidence: 'copiedAttachmentCount',
+          description: 'package-level branching test proves copied attachment continuity'
+        },
+        {
+          file: 'uapi/tests/api/conversationBranchRoute.test.ts',
+          evidence: 'copiedAttachmentCount',
+          description: 'App Router branch route preserves copied attachment continuity at the interface boundary'
         },
         {
           file: 'uapi/tests/api/chatStreamRoute.test.ts',

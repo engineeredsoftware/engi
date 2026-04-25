@@ -1,8 +1,8 @@
 {
   "reportId": "v26-conversations-continuity-proof",
   "version": "V26",
-  "proofSourceCommit": "4485ab2906621514d194888f55367c729441a0b7",
-  "generatedAt": "2026-04-24T20:16:11-03:00",
+  "proofSourceCommit": "ee66dbf13e3346b9344ed33102b3891a436c0688",
+  "generatedAt": "2026-04-25T09:32:24-03:00",
   "generatorId": "bitcode.proven-generator.v1",
   "worktreeState": "dirty-preview",
   "passed": true,
@@ -75,7 +75,7 @@
       "checkId": "conversations-retained-package-basis",
       "label": "Retained conversations package and proof carriers",
       "passed": true,
-      "detail": "12 required files present",
+      "detail": "14 required files present",
       "requiredFiles": [
         "packages/conversations-generics/src/index.ts",
         "packages/conversations-generics/src/agent/ConversationAgent.ts",
@@ -85,8 +85,10 @@
         "packages/api/src/conversations/messages.ts",
         "packages/api/src/conversations/attachments.ts",
         "packages/api/src/conversations/streaming.ts",
+        "packages/api/src/conversations/__tests__/branch-conversation.test.ts",
         "uapi/tests/api/conversationsRoute.test.ts",
         "uapi/tests/api/chatStreamRoute.test.ts",
+        "uapi/tests/api/conversationBranchRoute.test.ts",
         "uapi/tests/api/conversationThreadStreamRoute.test.ts",
         "uapi/tests/conversationsRouteClient.test.tsx"
       ],
@@ -96,7 +98,7 @@
       "checkId": "conversations-rich-input-execution-parity",
       "label": "Conversation rich-input persistence and execution evidence",
       "passed": true,
-      "detail": "8 source evidence requirements satisfied",
+      "detail": "11 source evidence requirements satisfied",
       "requiredEvidence": [
         {
           "file": "packages/api/src/routes/conversations.ts",
@@ -127,6 +129,21 @@
           "file": "packages/api/src/conversations/messages.ts",
           "evidence": "metadata: att",
           "description": "message attachment rows preserve the full attachment reference payload"
+        },
+        {
+          "file": "packages/api/src/conversations/conversations.ts",
+          "evidence": "copiedAttachmentCount",
+          "description": "branched conversations preserve attachment and execution-reference continuity"
+        },
+        {
+          "file": "packages/api/src/conversations/__tests__/branch-conversation.test.ts",
+          "evidence": "copiedAttachmentCount",
+          "description": "package-level branching test proves copied attachment continuity"
+        },
+        {
+          "file": "uapi/tests/api/conversationBranchRoute.test.ts",
+          "evidence": "copiedAttachmentCount",
+          "description": "App Router branch route preserves copied attachment continuity at the interface boundary"
         },
         {
           "file": "uapi/tests/api/chatStreamRoute.test.ts",

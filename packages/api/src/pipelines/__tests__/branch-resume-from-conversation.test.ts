@@ -24,22 +24,47 @@ jest.mock('@bitcode/supabase', () => {
     executions: [],
     execution_events: [],
   };
+  const clone = <T>(value: T): T => JSON.parse(JSON.stringify(value));
   const api = {
     from: (table: string) => ({
-      select: (_?: string) => ({
+      select: (query?: string) => ({
         eq: (c1: string, v1: any) => ({
           eq: (c2: string, v2: any) => ({
             single: async () => {
               const row = tables[table].find(r => r[c1] === v1 && r[c2] === v2) || null;
               if (!row) return { data: null, error: { code: 'PGRST116' } };
-              return { data: row, error: null };
+              return { data: clone(row), error: null };
             },
           }),
+          order: (_field: string, _opts: any) => ({
+            data: tables[table]
+              .filter((row) => row[c1] === v1)
+              .sort((left, right) => String(left.created_at || '').localeCompare(String(right.created_at || '')))
+              .map((row) => {
+                if (table !== 'messages' || !String(query || '').includes('message_attachments')) {
+                  return clone(row);
+                }
+
+                return {
+                  ...clone(row),
+                  message_attachments: tables.message_attachments
+                    .filter((attachment) => attachment.message_id === row.id)
+                    .sort((left, right) => String(left.created_at || '').localeCompare(String(right.created_at || '')))
+                    .map((attachment) => clone(attachment)),
+                };
+              }),
+            error: null,
+          }),
         }),
-        single: async () => ({ data: tables[table][0] || null, error: null }),
+        single: async () => ({ data: clone(tables[table][0] || null), error: null }),
       }),
       insert: (row: any) => ({
-        then: (cb: any) => { tables[table].push(row); cb(); return { catch: () => ({}) }; },
+        then: (cb: any) => {
+          const rows = Array.isArray(row) ? row : [row];
+          rows.forEach((entry) => tables[table].push(entry));
+          cb();
+          return { catch: () => ({}) };
+        },
         catch: () => ({})
       }),
       // Upsert select returning id convenience
@@ -51,7 +76,7 @@ jest.mock('@bitcode/supabase', () => {
       // Generic insert used in code paths
       selectInsert: (row: any) => ({ select: () => ({ single: async () => { tables[table].push(row); return { data: row, error: null }; } }) }),
       update: (_: any) => ({ eq: () => ({}) }),
-      order: (_: string, __: any) => ({ data: tables[table], error: null }),
+      order: (_: string, __: any) => ({ data: tables[table].map((row) => clone(row)), error: null }),
     })
   };
   return { supabaseAdmin: api };
@@ -75,6 +100,7 @@ describe('Conversation branching + Run branching + Resume from deep execution no
     const branched = await branchConversation(userId, convId, { title: 'Branched', copyMessages: true });
     expect(branched.id).toBeTruthy();
     expect(branched.copiedCount).toBeGreaterThanOrEqual(2);
+    expect(branched.copiedAttachmentCount).toBeGreaterThanOrEqual(1);
   });
 
   it('branches from conversation with RUNNING run and resumes at deep execution node', async () => {

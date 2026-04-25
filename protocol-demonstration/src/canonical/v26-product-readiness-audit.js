@@ -107,13 +107,14 @@ const PRODUCT_READINESS_AUDIT_ROWS = [
     parityMatrixAnchor: 'Conversations as Bitcode rich input',
     requiredEvidence: [
       ['packages/api/src/routes/conversations.ts', 'rich_input'],
-      ['packages/api/src/routes/conversations.ts', 'rich_input'],
-      ['packages/api/src/conversations/attachments.ts', 'attachments'],
+      ['packages/api/src/conversations/conversations.ts', 'copiedAttachmentCount'],
+      ['packages/api/src/conversations/__tests__/branch-conversation.test.ts', 'copiedAttachmentCount'],
+      ['uapi/tests/api/conversationBranchRoute.test.ts', 'copiedAttachmentCount'],
       ['.bitcode/conversations-continuity-proof.json', 'rich_input'],
       ['BITCODE_SPEC_V26_PARITY_MATRIX.md', 'Conversations and rich-input continuity']
     ],
     openReadiness: [
-      'persisted rich-input attachment and destination roundtrip remain open across all admitted interfaces',
+      'persisted rich-input attachment, branched continuity, and destination roundtrip remain open across all admitted interfaces',
       'cross-interface parity is not fifth-gate-closed'
     ]
   },

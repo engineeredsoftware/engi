@@ -327,6 +327,8 @@ test('V26 proven generator renders the active Bitcode appendix with fourth gate 
   assert.equal(generated.data.v26.fifthGateClosureDeepeningProof.deepenedAxisCount, 6);
   assert.equal(generated.data.v26.fifthGateClosureDeepeningProof.openAxisCount, 0);
   assert.equal(generated.data.v26.fifthGateClosureProof, undefined);
+  assert.equal(generated.data.v26.productReadinessAudit.baselinePassed, true);
+  assert.equal(generated.data.v26.productReadinessAudit.closureClaim, false);
   assert.equal(generated.data.v26.promptSpaceCompletenessProof.passed, false);
   assert.equal(generated.data.v26.promptSpaceCompletenessProof.baselinePassed, true);
   assert.equal(generated.data.v26.promptSpaceCompletenessProof.witnessSetCount, 7);
@@ -436,6 +438,7 @@ test('V26 proven generator renders the active Bitcode appendix with fourth gate 
     '.bitcode/system-reform-admissibility-proof.json',
     '.bitcode/v26-canonical-input-report.json',
     '.bitcode/v26-gate-checkpoint-report.json',
+    '.bitcode/v26-product-readiness-audit.json',
     '.bitcode/v26-spec-family-report.json',
     '.bitcode/v26-total-closure-proof.json',
     '.bitcode/whole-repository-production-satisfaction-proof.json'
@@ -452,6 +455,7 @@ test('V26 proven generator renders the active Bitcode appendix with fourth gate 
   assert.ok(generated.markdown.includes('### V26 Inference Implementation Records Proof'));
   assert.ok(generated.markdown.includes('### V26 Fourth-Gate Reclosure Review Proof'));
   assert.ok(generated.markdown.includes('### V26 Source-To-Shares Fifth-Gate Proof'));
+  assert.ok(generated.markdown.includes('### V26 Product Readiness Audit'));
   assert.ok(generated.markdown.includes('### V26 Fifth-Gate Closure Deepening Proof'));
   assert.equal(generated.markdown.includes('### V26 Fifth-Gate Closure Proof'), false);
   assert.ok(generated.markdown.includes('### V26 Prompt Space Completeness Witness'));
@@ -469,6 +473,7 @@ test('V26 proven generator renders the active Bitcode appendix with fourth gate 
   assert.equal(generated.markdown.includes('.bitcode/fifth-gate-closure-proof.json'), false);
   assert.ok(generated.markdown.includes('.bitcode/inference-implementation-records-proof.json'));
   assert.ok(generated.markdown.includes('.bitcode/source-to-shares-fifth-gate-proof.json'));
+  assert.ok(generated.markdown.includes('.bitcode/v26-product-readiness-audit.json'));
   assert.ok(generated.markdown.includes('.bitcode/runs-pipelines-totality-proof.json'));
   assert.ok(generated.markdown.includes('.bitcode/persistence-schema-totality-proof.json'));
   assert.ok(generated.markdown.includes('.bitcode/prompt-space-completeness-proof.json'));
