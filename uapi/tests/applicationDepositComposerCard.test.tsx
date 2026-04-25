@@ -172,4 +172,29 @@ describe('ApplicationDepositComposer', () => {
       screen.getAllByText(/Reconnect GitHub or equivalent repository scope in Connects/i).length,
     ).toBeGreaterThan(0);
   });
+
+  it('keeps deposit submission disabled when verified wallet-provider signing must be reconnected', () => {
+    render(
+      <ApplicationDepositComposer
+        repositoryAnchor="bitcode/bitcode"
+        transactionReadiness={{
+          ...baseTransactionReadiness,
+          label: 'wallet reconnect required',
+          summary:
+            'Bitcode can reread the saved verified wallet signer posture in Profile, but the live wallet-provider signing session is no longer available. Reconnect the wallet provider before you settle or sign Bitcode activity.',
+          nextAction: 'Reconnect the wallet provider so verified signing access is live again.',
+          blockers: [
+            {
+              id: 'wallet-verification',
+              label: 'Reconnect verified wallet-provider signing access',
+            },
+          ],
+          hasStoredVerifiedWalletBinding: true,
+        }}
+      />,
+    );
+
+    expect(screen.getByRole('button', { name: 'Deposit into Bitcode' })).toBeDisabled();
+    expect(screen.getAllByText(/Reconnect verified wallet-provider signing access/i).length).toBeGreaterThan(0);
+  });
 });

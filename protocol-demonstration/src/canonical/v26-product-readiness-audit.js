@@ -128,30 +128,39 @@ const PRODUCT_READINESS_AUDIT_ROWS = [
     requiredEvidence: [
       ['uapi/app/application/bitcode-transaction-readiness.ts', 'canSettle'],
       ['uapi/app/application/bitcode-transaction-readiness.ts', 'repository reconnect required'],
+      ['uapi/app/application/bitcode-transaction-readiness.ts', 'wallet reconnect required'],
       ['uapi/app/application/bitcode-transaction-route-readiness.ts', 'requireBitcodeSignedTransactionReadiness'],
       ['uapi/app/application/bitcode-transaction-route-readiness.ts', 'repository inventory'],
+      ['uapi/app/application/bitcode-transaction-route-readiness.ts', 'readBitcodeWalletConnectionStatus'],
       ['uapi/app/api/auxillaries/data/route.ts', 'repositoryConnectionStatus'],
       ['uapi/app/api/auxillaries/data/route.ts', 'repositoryInventorySource'],
+      ['uapi/app/api/auxillaries/data/route.ts', 'resolveWalletConnectionStatus'],
       ['uapi/app/auxillaries/components/AuxillariesConnectsPane.tsx', 'Connects'],
       ['uapi/app/auxillaries/components/AuxillariesConnectsPane.tsx', 'Reconnect required'],
       ['uapi/app/auxillaries/components/AuxillariesConnectsPane.tsx', 'stored-first or live-fallback inventory contract'],
+      ['uapi/app/auxillaries/components/AuxillariesBTDPane.tsx', 'Saved verified wallet-provider signer posture exists, but the live signer session needs reconnect'],
       ['uapi/app/auxillaries/components/AuxillariesProfilePane.tsx', 'Profile'],
       ['uapi/tests/bitcodeTransactionReadiness.test.ts', 'signed settlement remains staged'],
+      ['uapi/tests/bitcodeTransactionReadiness.test.ts', 'wallet reconnect required'],
       ['uapi/tests/userDataRoute.test.ts', 'repositoryConnectionStatus'],
       ['uapi/tests/userDataRoute.test.ts', 'repositoryInventorySource'],
+      ['uapi/tests/userDataRoute.test.ts', 'walletConnectionStatus'],
       ['uapi/tests/auxillariesConnectsPane.test.tsx', 'stored Exchange inventory'],
       ['uapi/tests/auxillariesConnectsPane.test.tsx', 'Reconnect required'],
       ['uapi/tests/applicationCommandDeck.test.tsx', 'repository reconnect required'],
       ['uapi/tests/applicationClosureControlDeck.test.tsx', 'repository reconnect required'],
       ['uapi/tests/applicationDepositComposerCard.test.tsx', 'repository reconnect required'],
+      ['uapi/tests/orbitalsBTDPane.test.tsx', 'wallet provider must reconnect before Bitcode can rely on live signing again'],
       ['uapi/tests/api/transactionWriteReadinessRoutes.test.ts', 'Reconnect GitHub'],
+      ['uapi/tests/api/transactionWriteReadinessRoutes.test.ts', 'live wallet-provider signing session is no longer available'],
       ['uapi/tests/api/transactionWriteReadinessRoutes.test.ts', 'outside the connected provider inventory'],
       ['BITCODE_SPEC_V26_PARITY_MATRIX.md', 'Transactional readiness and signed-settlement admission']
     ],
     openReadiness: [
       'provider-backed wallet signing and broader route/browser readiness proof remain open',
       'manual wallet identity is not equivalent to signed settlement',
-      'stored repository inventory does not by itself prove a still-valid live provider session'
+      'stored repository inventory does not by itself prove a still-valid live provider session',
+      'saved verified wallet signer posture does not by itself prove a still-live wallet-provider signing session'
     ]
   },
   {

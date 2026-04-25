@@ -170,4 +170,28 @@ describe('ApplicationClosureControlDeck', () => {
     expect(screen.getByRole('button', { name: 'Run closure' })).toBeDisabled();
     expect(screen.getByText(/Reconnect GitHub or equivalent repository scope in Connects/i)).toBeInTheDocument();
   });
+
+  it('keeps closure-bearing actions disabled when verified wallet-provider signing must be reconnected', () => {
+    render(
+      <ApplicationClosureControlDeck
+        transactionReadiness={{
+          ...baseTransactionReadiness,
+          label: 'wallet reconnect required',
+          summary:
+            'Bitcode can reread the saved verified wallet signer posture in Profile, but the live wallet-provider signing session is no longer available. Reconnect the wallet provider before you settle or sign Bitcode activity.',
+          nextAction: 'Reconnect the wallet provider so verified signing access is live again.',
+          blockers: [
+            {
+              id: 'wallet-verification',
+              label: 'Reconnect verified wallet-provider signing access',
+            },
+          ],
+          hasStoredVerifiedWalletBinding: true,
+        }}
+      />,
+    );
+
+    expect(screen.getByRole('button', { name: 'Run closure' })).toBeDisabled();
+    expect(screen.getByText(/live wallet-provider signing session is no longer available/i)).toBeInTheDocument();
+  });
 });

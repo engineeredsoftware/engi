@@ -1,8 +1,8 @@
 {
   "reportId": "v26-product-readiness-audit",
   "version": "V26",
-  "proofSourceCommit": "c77dcbc2957792976c647015605843102a018668",
-  "generatedAt": "2026-04-25T13:12:11-03:00",
+  "proofSourceCommit": "6383850a9ca959735b1a27ec2881a3019f3fb1c6",
+  "generatedAt": "2026-04-25T13:56:24-03:00",
   "generatorId": "bitcode.proven-generator.v1",
   "worktreeState": "dirty-preview",
   "gate": "gate-5",
@@ -413,7 +413,8 @@
       "openReadiness": [
         "provider-backed wallet signing and broader route/browser readiness proof remain open",
         "manual wallet identity is not equivalent to signed settlement",
-        "stored repository inventory does not by itself prove a still-valid live provider session"
+        "stored repository inventory does not by itself prove a still-valid live provider session",
+        "saved verified wallet signer posture does not by itself prove a still-live wallet-provider signing session"
       ],
       "evidenceChecks": [
         {
@@ -426,6 +427,13 @@
         {
           "file": "uapi/app/application/bitcode-transaction-readiness.ts",
           "requiredText": "repository reconnect required",
+          "filePresent": true,
+          "evidencePresent": true,
+          "passed": true
+        },
+        {
+          "file": "uapi/app/application/bitcode-transaction-readiness.ts",
+          "requiredText": "wallet reconnect required",
           "filePresent": true,
           "evidencePresent": true,
           "passed": true
@@ -445,6 +453,13 @@
           "passed": true
         },
         {
+          "file": "uapi/app/application/bitcode-transaction-route-readiness.ts",
+          "requiredText": "readBitcodeWalletConnectionStatus",
+          "filePresent": true,
+          "evidencePresent": true,
+          "passed": true
+        },
+        {
           "file": "uapi/app/api/auxillaries/data/route.ts",
           "requiredText": "repositoryConnectionStatus",
           "filePresent": true,
@@ -454,6 +469,13 @@
         {
           "file": "uapi/app/api/auxillaries/data/route.ts",
           "requiredText": "repositoryInventorySource",
+          "filePresent": true,
+          "evidencePresent": true,
+          "passed": true
+        },
+        {
+          "file": "uapi/app/api/auxillaries/data/route.ts",
+          "requiredText": "resolveWalletConnectionStatus",
           "filePresent": true,
           "evidencePresent": true,
           "passed": true
@@ -480,6 +502,13 @@
           "passed": true
         },
         {
+          "file": "uapi/app/auxillaries/components/AuxillariesBTDPane.tsx",
+          "requiredText": "Saved verified wallet-provider signer posture exists, but the live signer session needs reconnect",
+          "filePresent": true,
+          "evidencePresent": true,
+          "passed": true
+        },
+        {
           "file": "uapi/app/auxillaries/components/AuxillariesProfilePane.tsx",
           "requiredText": "Profile",
           "filePresent": true,
@@ -494,6 +523,13 @@
           "passed": true
         },
         {
+          "file": "uapi/tests/bitcodeTransactionReadiness.test.ts",
+          "requiredText": "wallet reconnect required",
+          "filePresent": true,
+          "evidencePresent": true,
+          "passed": true
+        },
+        {
           "file": "uapi/tests/userDataRoute.test.ts",
           "requiredText": "repositoryConnectionStatus",
           "filePresent": true,
@@ -503,6 +539,13 @@
         {
           "file": "uapi/tests/userDataRoute.test.ts",
           "requiredText": "repositoryInventorySource",
+          "filePresent": true,
+          "evidencePresent": true,
+          "passed": true
+        },
+        {
+          "file": "uapi/tests/userDataRoute.test.ts",
+          "requiredText": "walletConnectionStatus",
           "filePresent": true,
           "evidencePresent": true,
           "passed": true
@@ -543,8 +586,22 @@
           "passed": true
         },
         {
+          "file": "uapi/tests/orbitalsBTDPane.test.tsx",
+          "requiredText": "wallet provider must reconnect before Bitcode can rely on live signing again",
+          "filePresent": true,
+          "evidencePresent": true,
+          "passed": true
+        },
+        {
           "file": "uapi/tests/api/transactionWriteReadinessRoutes.test.ts",
           "requiredText": "Reconnect GitHub",
+          "filePresent": true,
+          "evidencePresent": true,
+          "passed": true
+        },
+        {
+          "file": "uapi/tests/api/transactionWriteReadinessRoutes.test.ts",
+          "requiredText": "live wallet-provider signing session is no longer available",
           "filePresent": true,
           "evidencePresent": true,
           "passed": true

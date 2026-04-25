@@ -2703,7 +2703,7 @@ function buildV26FifthGateClosureDeepeningProof({
       'transactional-readiness-and-repository-scope',
       'Transactional readiness and repository scope',
       ['application-composition', 'source-to-shares', 'product-readiness-audit', 'retained-package-admissibility'],
-      'Repository-bound source-to-shares admission, stored-first/live-fallback connected-provider inventory validation, reconnect-required downgrade for invalid saved provider sessions, Connects reread through `/api/auxillaries/data`, and Git/GH connected-interface settlement posture are proof-backed as the current readiness baseline.',
+      'Repository-bound source-to-shares admission, stored-first/live-fallback connected-provider inventory validation, reconnect-required downgrade for invalid saved provider sessions, wallet-reconnect-required downgrade for saved verified signer posture without a live wallet-provider session, and Connects plus `$BTD` reread through `/api/auxillaries/data` are proof-backed as the current readiness baseline.',
       'Provider-backed wallet signing, authenticated repository runtime proof, and broader route/browser readiness remain open.'
     ),
     axis(

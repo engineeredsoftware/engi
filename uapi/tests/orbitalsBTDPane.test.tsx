@@ -6,12 +6,41 @@ import OrbitalsBTDPane from '@/app/auxillaries/components/AuxillariesBTDPane';
 import { useAuth } from '@/components/base/bitcode/auth/AuthProvider';
 import { useUserData } from '@/hooks/useUserData';
 
+jest.mock('@bitcode/orm', () => ({
+  readBitcodeWalletBindingFromProfile: (profile: Record<string, any> | null | undefined) => {
+    if (!profile) {
+      return null;
+    }
+
+    if (profile.wallet_binding && typeof profile.wallet_binding === 'object') {
+      return profile.wallet_binding;
+    }
+
+    if (typeof profile.wallet_address !== 'string' || !profile.wallet_address.trim()) {
+      return null;
+    }
+
+    return {
+      address: profile.wallet_address,
+      provider: typeof profile.wallet_provider === 'string' ? profile.wallet_provider : 'manual',
+      status: typeof profile.wallet_binding_status === 'string' ? profile.wallet_binding_status : 'manual',
+    };
+  },
+}));
+
 jest.mock('@/components/base/bitcode/auth/AuthProvider', () => ({
   useAuth: jest.fn(),
 }));
 
 jest.mock('@/hooks/useUserData', () => ({
   useUserData: jest.fn(),
+}));
+
+jest.mock('@/app/auxillaries/components/AuxillariesDataSharingPanel', () => ({
+  __esModule: true,
+  default: function MockAuxillariesDataSharingPanel() {
+    return <div data-testid="mock-data-sharing-panel">Data sharing panel</div>;
+  },
 }));
 
 const mockUseAuth = useAuth as jest.MockedFunction<typeof useAuth>;
@@ -113,5 +142,56 @@ describe('AuxillariesBTDPane', () => {
         }),
       }),
     );
+  });
+
+  it('surfaces reconnect-required copy when saved verified signer posture lacks a live wallet-provider session', async () => {
+    mockUseUserData.mockReturnValue({
+      data: {
+        profile: {
+          wallet_address: 'bc1qbitcodeoperator',
+          wallet_provider: 'walletconnect',
+          wallet_binding_status: 'verified',
+          wallet_binding: {
+            address: 'bc1qbitcodeoperator',
+            provider: 'walletconnect',
+            status: 'verified',
+            boundAt: '2026-04-18T12:00:00.000Z',
+          },
+          team_members: [],
+        },
+        modelPreferences: null,
+      },
+      hasGitHubConnection: true,
+      hasStoredVerifiedWalletConnection: true,
+      hasVerifiedWalletConnection: false,
+      walletConnectionStatus: {
+        connected: false,
+        provider: 'walletconnect',
+        valid: false,
+        address: 'bc1qbitcodeoperator',
+        verificationState: 'verified',
+      },
+      btdBalance: 1200,
+      isLoading: false,
+      error: null,
+      refresh: jest.fn(),
+      isOnboardingComplete: true,
+      onboardedSteps: ['profile', 'connects', 'interfaces', 'btd'],
+    } as any);
+
+    render(
+      <OrbitalsBTDPane
+        onSave={jest.fn()}
+        loading={false}
+        isOnboardingComplete={false}
+      />,
+    );
+
+    expect(
+      screen.getByText(/saved verified wallet-provider signer posture exists, but the live signer session needs reconnect/i),
+    ).toBeInTheDocument();
+    expect(
+      screen.getByText(/wallet provider must reconnect before Bitcode can rely on live signing again/i),
+    ).toBeInTheDocument();
   });
 });
