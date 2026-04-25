@@ -103,6 +103,7 @@ const baseTransactionReadiness = {
   hasValidRepositoryProvider: true,
   hasWalletBinding: true,
   hasVerifiedWalletBinding: false,
+  hasStoredVerifiedWalletBinding: false,
   hasRepositoryAnchor: true,
   requiresRepositoryAnchor: true,
 };
@@ -132,6 +133,7 @@ describe('ApplicationDepositComposer', () => {
           blockers: [],
           canSettle: true,
           hasVerifiedWalletBinding: true,
+          hasStoredVerifiedWalletBinding: true,
         }}
       />,
     );
@@ -160,6 +162,7 @@ describe('ApplicationDepositComposer', () => {
           canSettle: false,
           hasValidRepositoryProvider: false,
           hasVerifiedWalletBinding: true,
+          hasStoredVerifiedWalletBinding: true,
         }}
       />,
     );

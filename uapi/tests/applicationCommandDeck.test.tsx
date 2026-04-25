@@ -115,6 +115,7 @@ const baseTransactionReadiness = {
   hasValidRepositoryProvider: true,
   hasWalletBinding: true,
   hasVerifiedWalletBinding: false,
+  hasStoredVerifiedWalletBinding: false,
   hasRepositoryAnchor: true,
   requiresRepositoryAnchor: true,
 };
@@ -144,6 +145,7 @@ describe('ApplicationCommandDeck', () => {
           blockers: [],
           canSettle: true,
           hasVerifiedWalletBinding: true,
+          hasStoredVerifiedWalletBinding: true,
         }}
       />,
     );
@@ -172,6 +174,7 @@ describe('ApplicationCommandDeck', () => {
           canSettle: false,
           hasValidRepositoryProvider: false,
           hasVerifiedWalletBinding: true,
+          hasStoredVerifiedWalletBinding: true,
         }}
       />,
     );

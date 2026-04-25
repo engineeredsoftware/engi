@@ -25,6 +25,7 @@ export interface BitcodeTransactionReadinessInput {
   hasValidRepositoryProvider?: boolean;
   hasWalletBinding: boolean;
   hasVerifiedWalletBinding?: boolean;
+  hasStoredVerifiedWalletBinding?: boolean;
   requiresRepositoryAnchor?: boolean;
   hasRepositoryAnchor?: boolean;
 }
@@ -43,6 +44,7 @@ export interface BitcodeTransactionReadiness {
   hasValidRepositoryProvider: boolean;
   hasWalletBinding: boolean;
   hasVerifiedWalletBinding: boolean;
+  hasStoredVerifiedWalletBinding: boolean;
   hasRepositoryAnchor: boolean;
   requiresRepositoryAnchor: boolean;
 }
@@ -63,6 +65,7 @@ export function deriveBitcodeTransactionReadiness(
     : false;
   const hasWalletBinding = Boolean(input.hasWalletBinding);
   const hasVerifiedWalletBinding = Boolean(input.hasVerifiedWalletBinding);
+  const hasStoredVerifiedWalletBinding = Boolean(input.hasStoredVerifiedWalletBinding);
 
   let status: BitcodeTransactionReadinessStatus = 'ready';
   let label = 'ready';
@@ -130,6 +133,13 @@ export function deriveBitcodeTransactionReadiness(
       'Bitcode is in review-only mode. Select a repository anchor in the Bitcode Terminal before you transact, settle, or sign Bitcode activity.';
     nextAction = 'Choose a repository anchor inside the Bitcode Terminal.';
     blockers = [blocker('repository-anchor', 'Selected repository anchor in the Bitcode Terminal')];
+  } else if (!hasVerifiedWalletBinding && hasStoredVerifiedWalletBinding) {
+    status = 'wallet-verification-pending';
+    label = 'wallet reconnect required';
+    summary =
+      'Bitcode can reread the saved verified wallet signer posture in Profile, but the live wallet-provider signing session is no longer available. Reconnect the wallet provider before you settle or sign Bitcode activity.';
+    nextAction = 'Reconnect the wallet provider so verified signing access is live again.';
+    blockers = [blocker('wallet-verification', 'Reconnect verified wallet-provider signing access')];
   } else if (!hasVerifiedWalletBinding) {
     status = 'wallet-verification-pending';
     label = 'wallet verification pending';
@@ -153,6 +163,7 @@ export function deriveBitcodeTransactionReadiness(
     hasValidRepositoryProvider,
     hasWalletBinding,
     hasVerifiedWalletBinding,
+    hasStoredVerifiedWalletBinding,
     hasRepositoryAnchor,
     requiresRepositoryAnchor,
   };

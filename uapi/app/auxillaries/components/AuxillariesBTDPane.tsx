@@ -69,7 +69,12 @@ export default function AuxillariesBTDPane({
   onCompletionStatusChange,
 }: AuxillariesBTDPaneProps) {
   const { user } = useAuth();
-  const { data, btdBalance = 0 } = useUserData();
+  const {
+    data,
+    btdBalance = 0,
+    hasStoredVerifiedWalletConnection = false,
+    hasVerifiedWalletConnection,
+  } = useUserData();
   const hasCalledCompletionRef = useRef(false);
   const savedPreferences = (data?.modelPreferences as Record<string, any> | null) || null;
   const profile = (data?.profile as Record<string, any> | null) || null;
@@ -312,6 +317,8 @@ export default function AuxillariesBTDPane({
                     value: profile?.btc_balance ? `${profile.btc_balance} BTC` : "Binding pending",
                     detail: profile?.btc_balance
                       ? "Live BTC balance supplied by the connected wallet posture."
+                      : hasStoredVerifiedWalletConnection && !hasVerifiedWalletConnection
+                        ? "Saved verified wallet-provider signer posture exists, but the live signer session needs reconnect before signed settlement or refreshed BTC posture can resume."
                       : walletBinding?.status === 'verified'
                         ? "Verified wallet-provider posture is present, but live BTC balance has not populated yet."
                         : walletBinding?.address
@@ -322,7 +329,9 @@ export default function AuxillariesBTDPane({
                   {
                     label: "Wallet address",
                     value: resolveWalletAddress(profile, user.id),
-                    detail: walletBinding?.status === 'verified'
+                    detail: hasStoredVerifiedWalletConnection && !hasVerifiedWalletConnection
+                      ? "Saved verified signer posture is recorded, but the wallet provider must reconnect before Bitcode can rely on live signing again."
+                      : walletBinding?.status === 'verified'
                       ? "The verified signer posture the application will use for signed settlement follow-through."
                       : "The address posture the application will use once wallet identity is bound; verified wallet-provider signing still stages separately.",
                     tone: "violet",

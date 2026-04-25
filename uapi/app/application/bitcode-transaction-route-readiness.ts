@@ -12,6 +12,7 @@ import {
 } from '@bitcode/vcs';
 
 import { buildMockVcsRepositories, isUserOrbitalMockMode } from '@/lib/mock-review-mode';
+import { readBitcodeWalletConnectionStatus } from '@/app/api/wallet/_shared';
 
 type StatusError = Error & { statusCode?: number | undefined };
 type RepositoryInventoryMatchBasis = 'stored_repository_inventory' | 'live_provider_inventory';
@@ -193,6 +194,31 @@ async function readBitcodeRepositoryProviderReadiness(
   }
 }
 
+async function readBitcodeWalletProviderSigningReadiness(
+  supabase: Awaited<ReturnType<typeof createClient>>,
+  userId: string,
+  profile: Record<string, unknown> | null,
+) {
+  if (isUserOrbitalMockMode()) {
+    return {
+      hasStoredVerifiedWalletBinding: true,
+      hasVerifiedWalletBinding: true,
+    };
+  }
+
+  const walletCapability = readBitcodeWalletCapabilityFromProfile(profile);
+  const walletConnectionStatus = await readBitcodeWalletConnectionStatus({
+    supabase,
+    userId,
+    profile,
+  }).catch(() => null);
+
+  return {
+    hasStoredVerifiedWalletBinding: walletCapability.binding?.status === 'verified',
+    hasVerifiedWalletBinding: Boolean(walletConnectionStatus?.connected && walletConnectionStatus?.valid),
+  };
+}
+
 async function requireBitcodeRepositoryInventoryMatch(
   supabase: Awaited<ReturnType<typeof createClient>>,
   userId: string,
@@ -292,12 +318,18 @@ export async function requireBitcodeSignedTransactionReadiness(
 
   const profile = hydrateBitcodeProfile(profileResult.data ?? null);
   const walletCapability = readBitcodeWalletCapabilityFromProfile(profile);
+  const walletSigningReadiness = await readBitcodeWalletProviderSigningReadiness(
+    supabase,
+    user.id,
+    (profile as Record<string, unknown> | null) ?? null,
+  );
   const readiness = deriveBitcodeTransactionReadiness({
     signedIn: true,
     hasRepositoryProvider: providerReadiness.hasRepositoryProvider,
     hasValidRepositoryProvider: providerReadiness.hasValidRepositoryProvider,
     hasWalletBinding: walletCapability.hasIdentity,
-    hasVerifiedWalletBinding: walletCapability.isVerifiedSigner,
+    hasVerifiedWalletBinding: walletSigningReadiness.hasVerifiedWalletBinding,
+    hasStoredVerifiedWalletBinding: walletSigningReadiness.hasStoredVerifiedWalletBinding,
     requiresRepositoryAnchor,
     hasRepositoryAnchor: Boolean(repositoryAnchor),
   });

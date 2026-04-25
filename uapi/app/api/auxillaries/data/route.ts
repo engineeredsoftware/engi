@@ -1,5 +1,6 @@
 import { buildGetAuxillaryDataRoute } from '@bitcode/api/src/routes/auxillaries';
 import { buildMockOrbitalData, isUserOrbitalMockMode } from '@/lib/mock-review-mode';
+import { readBitcodeWalletConnectionStatus } from '@/app/api/wallet/_shared';
 import {
   buildDisconnectedConnectionStatus,
   buildStoredConnectionStatus,
@@ -13,6 +14,13 @@ export const runtime = 'nodejs';
 export const GET = buildGetAuxillaryDataRoute({
   isMockMode: isUserOrbitalMockMode,
   mockAuxillaryData: buildMockOrbitalData,
+  resolveWalletConnectionStatus: async ({ supabase, userId, profile }) => {
+    return readBitcodeWalletConnectionStatus({
+      supabase,
+      userId,
+      profile: (profile as Record<string, unknown> | null | undefined) ?? null,
+    });
+  },
   resolveRepositoryInventory: async ({ supabase, userId }) => {
     const { manager, connection } = await getStoredConnection(supabase, userId, 'github');
     if (!connection) {

@@ -2,6 +2,10 @@ import type { User } from '@supabase/supabase-js';
 import type { VCSProviderType, VCSRepository } from '@bitcode/vcs';
 
 import { ENABLE_MOCKS, MOCK_USER_ORBITAL, MOCK_USER_ORBITAL_SCENARIO } from '@/config/featureFlags';
+import {
+  buildMockBitcodeWalletConnectionStatus,
+  type BitcodeWalletConnectionStatus,
+} from '@/app/api/wallet/_shared';
 
 const REVIEW_USER_ID = 'mock-bitcode-review-user';
 const REVIEW_TIMESTAMP = '2026-04-16T12:00:00.000Z';
@@ -32,6 +36,13 @@ type MockGitHubConnection = {
   mock_mode: true;
 };
 
+type MockWalletBinding = {
+  address: string;
+  provider: string;
+  status: 'verified';
+  boundAt: string;
+};
+
 type MockOrbitalData = {
   profile: {
     user_id: string;
@@ -42,6 +53,11 @@ type MockOrbitalData = {
     avatar_url: string;
     email: string;
     is_verified: boolean;
+    wallet_address: string;
+    wallet_provider: string;
+    wallet_binding_status: 'verified';
+    wallet_bound_at: string;
+    wallet_binding: MockWalletBinding;
     onboarded_steps: string[];
     team_members: {
       id: string;
@@ -53,6 +69,7 @@ type MockOrbitalData = {
     mock_scenario: string;
   };
   githubConnection: MockGitHubConnection;
+  walletConnectionStatus: BitcodeWalletConnectionStatus;
   repositoryConnectionStatus: MockRepositoryConnectionStatus;
   repositories: VCSRepository[];
   repositoryInventorySource: 'mock_repository_inventory';
@@ -151,6 +168,12 @@ export function buildMockOrbitalData(): MockOrbitalData {
   const onboardedPanes = [...REVIEW_COMPLETED_STEPS];
   const repositories = buildMockVcsRepositories('github');
   const githubConnection = buildMockGitHubConnection(repositories);
+  const walletBinding: MockWalletBinding = {
+    address: 'tb1qbitcodemockoperator0000000000000000000000',
+    provider: 'walletconnect',
+    status: 'verified',
+    boundAt: REVIEW_TIMESTAMP,
+  };
   const organizations = Array.from(
     new Set(
       repositories
@@ -169,6 +192,11 @@ export function buildMockOrbitalData(): MockOrbitalData {
       avatar_url: 'https://avatars.githubusercontent.com/u/9919?v=4',
       email: 'reviewer@bitcode.ai',
       is_verified: true,
+      wallet_address: walletBinding.address,
+      wallet_provider: walletBinding.provider,
+      wallet_binding_status: walletBinding.status,
+      wallet_bound_at: walletBinding.boundAt,
+      wallet_binding: walletBinding,
       onboarded_steps: onboardedPanes,
       team_members: [
         { id: 'tm-1', username: 'lin', display_name: 'Lin Ortega', role: 'admin' },
@@ -178,6 +206,10 @@ export function buildMockOrbitalData(): MockOrbitalData {
       mock_scenario: getUserOrbitalMockScenario(),
     },
     githubConnection,
+    walletConnectionStatus: buildMockBitcodeWalletConnectionStatus(
+      walletBinding.provider,
+      walletBinding.address,
+    ),
     repositoryConnectionStatus: buildMockVcsConnectionStatus('github'),
     repositories,
     repositoryInventorySource: 'mock_repository_inventory',

@@ -1,6 +1,9 @@
 import { GET } from '@/app/api/auxillaries/data/route';
 
 jest.mock('@bitcode/supabase/ssr/server', () => ({ createClient: jest.fn() }));
+jest.mock('@/app/api/wallet/_shared', () => ({
+  readBitcodeWalletConnectionStatus: jest.fn(),
+}));
 jest.mock('@/app/api/vcs/_shared', () => ({
   buildDisconnectedConnectionStatus: jest.fn((provider: string) => ({
     connected: false,
@@ -19,6 +22,7 @@ jest.mock('@/app/api/vcs/_shared', () => ({
 }));
 
 import { createClient } from '@bitcode/supabase/ssr/server';
+import { readBitcodeWalletConnectionStatus } from '@/app/api/wallet/_shared';
 import {
   buildStoredConnectionStatus,
   getStoredConnection,
@@ -36,6 +40,7 @@ describe('GET /api/auxillaries/data', () => {
     jest.clearAllMocks();
     mockFrom = jest.fn();
     (createClient as jest.Mock).mockResolvedValue({ auth: { getUser: mockGetUser }, from: mockFrom });
+    (readBitcodeWalletConnectionStatus as jest.Mock).mockResolvedValue(null);
   });
 
   it('returns anonymous auxillary data if unauthenticated', async () => {
@@ -47,6 +52,7 @@ describe('GET /api/auxillaries/data', () => {
     expect(body).toEqual({
       profile: null,
       githubConnection: null,
+      walletConnectionStatus: null,
       repositoryConnectionStatus: null,
       repositories: [],
       repositoryInventorySource: null,
@@ -103,6 +109,13 @@ describe('GET /api/auxillaries/data', () => {
       manager: { id: 'manager' },
       connection: { id: 'connection-1', connectionData: connectionData },
     });
+    (readBitcodeWalletConnectionStatus as jest.Mock).mockResolvedValue({
+      connected: false,
+      provider: 'manual',
+      valid: false,
+      address: 'bc1qbitcodeoperator',
+      verificationState: 'manual',
+    });
     (validateStoredConnection as jest.Mock).mockResolvedValue(true);
     (listBitcodeRepositoriesForConnection as jest.Mock).mockResolvedValue({
       repositories: [
@@ -144,6 +157,11 @@ describe('GET /api/auxillaries/data', () => {
         wallet_binding_status: 'manual',
       }),
       githubConnection: connectionData,
+      walletConnectionStatus: expect.objectContaining({
+        connected: false,
+        provider: 'manual',
+        valid: false,
+      }),
       repositoryConnectionStatus: expect.objectContaining({
         connected: true,
         provider: 'github',
@@ -166,6 +184,11 @@ describe('GET /api/auxillaries/data', () => {
     // Ensure queries were scoped correctly
     expect(profileBuilder.eq).toHaveBeenCalledWith('id', 'user-1');
     expect(connectionBuilder.eq).toHaveBeenCalledWith('provider', 'github');
+    expect(readBitcodeWalletConnectionStatus).toHaveBeenCalledWith(
+      expect.objectContaining({
+        userId: 'user-1',
+      }),
+    );
     expect(getStoredConnection).toHaveBeenCalledWith(
       expect.anything(),
       'user-1',

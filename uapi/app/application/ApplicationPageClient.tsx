@@ -69,6 +69,7 @@ export default function ApplicationPageClient() {
     hasGitHubConnection,
     hasValidGitHubConnection = hasGitHubConnection,
     hasWalletConnection,
+    hasStoredVerifiedWalletConnection = false,
     hasVerifiedWalletConnection,
   } = useUserData();
   const router = useRouter();
@@ -130,10 +131,18 @@ export default function ApplicationPageClient() {
         hasRepositoryProvider,
         hasWalletBinding: hasWalletConnection,
         hasVerifiedWalletBinding: hasVerifiedWalletConnection,
+        hasStoredVerifiedWalletBinding: hasStoredVerifiedWalletConnection,
         requiresRepositoryAnchor: true,
         hasRepositoryAnchor: Boolean(repositoryContext?.selectedRepository),
       }),
-    [hasRepositoryProvider, hasVerifiedWalletConnection, hasWalletConnection, repositoryContext, user],
+    [
+      hasRepositoryProvider,
+      hasStoredVerifiedWalletConnection,
+      hasVerifiedWalletConnection,
+      hasWalletConnection,
+      repositoryContext,
+      user,
+    ],
   );
   const replaceApplicationSearchParams = useCallback(
     (nextParams: URLSearchParams) => {

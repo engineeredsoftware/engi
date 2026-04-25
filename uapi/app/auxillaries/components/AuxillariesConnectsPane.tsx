@@ -29,8 +29,10 @@ export default function AuxillariesConnectsPane({
     hasGitHubConnection,
     hasValidGitHubConnection = hasGitHubConnection,
     hasWalletConnection,
+    hasStoredVerifiedWalletConnection = false,
     hasVerifiedWalletConnection,
     walletBindingStatus,
+    walletConnectionStatus = null,
     repositoryConnectionStatus = null,
     organizations = [],
     repositories = [],
@@ -49,6 +51,7 @@ export default function AuxillariesConnectsPane({
     hasValidRepositoryProvider: hasValidGitHubConnection,
     hasWalletBinding: hasWalletConnection,
     hasVerifiedWalletBinding: hasVerifiedWalletConnection,
+    hasStoredVerifiedWalletBinding: hasStoredVerifiedWalletConnection,
   });
 
   return (
@@ -153,6 +156,13 @@ export default function AuxillariesConnectsPane({
                         signs source-to-shares activity.
                       </p>
                     ) : null}
+                    {hasStoredVerifiedWalletConnection && !hasVerifiedWalletConnection ? (
+                      <p className="mt-2 text-xs leading-6 text-amber-200/82">
+                        Connects found saved verified wallet-provider signer posture, but the live
+                        signer session is no longer available. Reconnect the wallet provider before
+                        signed settlement resumes.
+                      </p>
+                    ) : null}
                   </div>
                   <div className="mt-3 grid gap-3 tablet:grid-cols-3">
                     <div className="rounded-2xl border border-white/8 bg-white/5 p-4">
@@ -176,10 +186,20 @@ export default function AuxillariesConnectsPane({
                           ? 'Pending in Profile'
                           : hasVerifiedWalletConnection
                             ? 'Verified signer'
+                            : hasStoredVerifiedWalletConnection
+                              ? 'Reconnect required'
                             : walletBindingStatus === 'pending'
                               ? 'Verification staged'
                               : 'Identity bound'}
                       </p>
+                      {walletConnectionStatus &&
+                      hasStoredVerifiedWalletConnection &&
+                      !hasVerifiedWalletConnection ? (
+                        <p className="mt-2 text-[11px] leading-5 text-amber-200/75">
+                          Saved signer posture remains visible, but settlement still waits on a live
+                          wallet-provider connection.
+                        </p>
+                      ) : null}
                     </div>
                     <div className="rounded-2xl border border-white/8 bg-white/5 p-4">
                       <p className="text-xs font-semibold uppercase tracking-[0.18em] text-white/64">

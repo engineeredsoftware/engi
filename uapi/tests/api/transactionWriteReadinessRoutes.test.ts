@@ -15,8 +15,14 @@ const mockGetConnection = jest.fn();
 const mockGetAuthFromConnection = jest.fn();
 const mockValidateToken = jest.fn();
 const mockListRepositories = jest.fn();
+const mockReadBitcodeWalletConnectionStatus = jest.fn();
 
 jest.mock('@bitcode/supabase/ssr/server', () => ({ createClient: jest.fn() }));
+jest.mock('@/app/api/wallet/_shared', () => ({
+  readBitcodeWalletConnectionStatus: jest.fn((...args: unknown[]) =>
+    mockReadBitcodeWalletConnectionStatus(...args),
+  ),
+}));
 jest.mock('@bitcode/vcs', () => ({
   VCSConnections: class MockVCSConnections {
     constructor(_supabase: unknown) {}
@@ -126,6 +132,7 @@ function installSupabaseReadinessMocks(options: {
   user?: { id: string } | null;
   githubConnection?: Record<string, unknown> | null;
   validRepositoryProvider?: boolean;
+  walletConnectionStatus?: Record<string, unknown> | null;
   profile?: Record<string, unknown> | null;
   userError?: { message: string } | null;
   storedRepositoryInventory?: string[];
@@ -171,6 +178,27 @@ function installSupabaseReadinessMocks(options: {
       fullName,
     })),
   );
+  const walletBinding = (options.profile as any)?.settings?.bitcodeProfile?.walletBinding ?? null;
+  mockReadBitcodeWalletConnectionStatus.mockResolvedValue(
+    options.walletConnectionStatus ??
+      (walletBinding?.status === 'verified'
+        ? {
+            connected: true,
+            provider: walletBinding.provider ?? 'walletconnect',
+            valid: true,
+            address: walletBinding.address ?? null,
+            verificationState: 'verified',
+          }
+        : walletBinding?.address
+          ? {
+              connected: false,
+              provider: walletBinding.provider ?? 'manual',
+              valid: false,
+              address: walletBinding.address ?? null,
+              verificationState: walletBinding.status ?? 'manual',
+            }
+          : null),
+  );
 
   return { from, profileBuilder, connectionBuilder };
 }
@@ -180,6 +208,7 @@ describe('Bitcode transaction write routes', () => {
     jest.clearAllMocks();
     mockValidateToken.mockResolvedValue(true);
     mockListRepositories.mockResolvedValue([]);
+    mockReadBitcodeWalletConnectionStatus.mockResolvedValue(null);
   });
 
   it('rejects deposit writes when the operator is unauthenticated', async () => {
@@ -395,6 +424,50 @@ describe('Bitcode transaction write routes', () => {
 
     expect(response.status).toBe(409);
     expect(payload.error).toContain('Reconnect GitHub');
+    expect(mockCreateDeposit).not.toHaveBeenCalled();
+  });
+
+  it('rejects settlement-bearing writes when saved verified wallet signer posture lacks a live wallet-provider session', async () => {
+    installSupabaseReadinessMocks({
+      user: { id: 'user-1' },
+      githubConnection: { installationId: 123 },
+      storedRepositoryInventory: ['bitcode/bitcode'],
+      walletConnectionStatus: {
+        connected: false,
+        provider: 'walletconnect',
+        valid: false,
+        address: 'bc1qbitcodeoperator',
+        verificationState: 'verified',
+      },
+      profile: {
+        id: 'user-1',
+        settings: {
+          bitcodeProfile: {
+            walletBinding: {
+              address: 'bc1qbitcodeoperator',
+              provider: 'walletconnect',
+              status: 'verified',
+              boundAt: '2026-04-22T00:00:00.000Z',
+            },
+          },
+        },
+      },
+    });
+
+    const response = await postDeposit(
+      new Request('http://localhost/api/deposits', {
+        method: 'POST',
+        body: JSON.stringify({
+          repositoryAnchor: 'bitcode/bitcode',
+          repositoryProvider: 'github',
+          title: 'asset draft',
+        }),
+      }),
+    );
+    const payload = await response.json();
+
+    expect(response.status).toBe(409);
+    expect(payload.error).toContain('live wallet-provider signing session is no longer available');
     expect(mockCreateDeposit).not.toHaveBeenCalled();
   });
 });

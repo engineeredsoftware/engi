@@ -49,8 +49,15 @@ describe('AuxillariesConnectsPane', () => {
       hasGitHubConnection: true,
       hasValidGitHubConnection: true,
       hasWalletConnection: true,
+      hasStoredVerifiedWalletConnection: false,
       hasVerifiedWalletConnection: false,
       walletBindingStatus: 'manual',
+      walletConnectionStatus: {
+        connected: false,
+        provider: 'manual',
+        valid: false,
+        verificationState: 'manual',
+      },
       repositoryConnectionStatus: {
         connected: true,
         provider: 'github',
@@ -115,8 +122,15 @@ describe('AuxillariesConnectsPane', () => {
       hasGitHubConnection: true,
       hasValidGitHubConnection: false,
       hasWalletConnection: true,
+      hasStoredVerifiedWalletConnection: true,
       hasVerifiedWalletConnection: true,
       walletBindingStatus: 'verified',
+      walletConnectionStatus: {
+        connected: true,
+        provider: 'walletconnect',
+        valid: true,
+        verificationState: 'verified',
+      },
       repositoryConnectionStatus: {
         connected: true,
         provider: 'github',
@@ -152,5 +166,62 @@ describe('AuxillariesConnectsPane', () => {
     expect(screen.getByText('Reconnect required')).toBeInTheDocument();
     expect(screen.getByText(/repository-provider attachment, but the live provider session is no longer valid/i)).toBeInTheDocument();
     expect(screen.getByText(/write admission will fail closed until the live provider connection is restored/i)).toBeInTheDocument();
+  });
+
+  it('treats a saved verified wallet signer without a live wallet-provider session as reconnect-required settlement posture', () => {
+    mockUseUserData.mockReturnValue({
+      data: {
+        profile: {
+          wallet_address: 'bc1qbitcodeoperator',
+        },
+      },
+      hasGitHubConnection: true,
+      hasValidGitHubConnection: true,
+      hasWalletConnection: true,
+      hasStoredVerifiedWalletConnection: true,
+      hasVerifiedWalletConnection: false,
+      walletBindingStatus: 'verified',
+      walletConnectionStatus: {
+        connected: false,
+        provider: 'walletconnect',
+        valid: false,
+        address: 'bc1qbitcodeoperator',
+        verificationState: 'verified',
+      },
+      repositoryConnectionStatus: {
+        connected: true,
+        provider: 'github',
+        valid: true,
+      },
+      repositories: [
+        {
+          id: 'repo-1',
+          name: 'bitcode',
+          fullName: 'bitcode/bitcode',
+          defaultBranch: 'main',
+          owner: { username: 'bitcode', type: 'organization' },
+        },
+      ],
+      repositoryInventorySource: 'stored_repository_inventory',
+      organizations: ['bitcode'],
+      btdBalance: 1200,
+      isLoading: false,
+      error: null,
+      refresh: jest.fn(),
+      isOnboardingComplete: true,
+      onboardedSteps: ['profile', 'connects', 'interfaces', 'btd'],
+    } as any);
+
+    render(
+      <AuxillariesConnectsPane
+        onSave={jest.fn()}
+        loading={false}
+        isOnboardingComplete
+      />,
+    );
+
+    expect(screen.getAllByText('Reconnect required').length).toBeGreaterThan(0);
+    expect(screen.getByText(/saved verified wallet-provider signer posture, but the live signer session is no longer available/i)).toBeInTheDocument();
+    expect(screen.getByText(/settlement still waits on a live wallet-provider connection/i)).toBeInTheDocument();
   });
 });

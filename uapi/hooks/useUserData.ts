@@ -30,10 +30,26 @@ type RepositoryConnectionStatus = {
   } | null;
 } | null;
 
+type WalletConnectionStatus = {
+  connected?: boolean;
+  provider?: string | null;
+  valid?: boolean;
+  address?: string | null;
+  verificationState?: 'manual' | 'pending' | 'verified' | null;
+  metadata?: {
+    source?: 'profile_manual' | 'wallet_provider_connection' | 'mock';
+    connectionAddress?: string | null;
+    matchesBindingAddress?: boolean;
+    connectedAt?: string | null;
+    mock_mode?: boolean;
+  } | null;
+} | null;
+
 export interface AggregatedUserData {
   profile?: any | null;
   vcsConnections?: any[];
   githubConnection?: any | null;
+  walletConnectionStatus?: WalletConnectionStatus;
   repositoryConnectionStatus?: RepositoryConnectionStatus;
   repositories?: any[];
   repositoryInventorySource?: UserRepositoryInventorySource | null;
@@ -48,6 +64,7 @@ export interface AggregatedUserData {
 const ANONYMOUS_USER_DATA: AggregatedUserData = {
   profile: null,
   githubConnection: null,
+  walletConnectionStatus: null,
   repositoryConnectionStatus: null,
   repositories: [],
   repositoryInventorySource: null,
@@ -229,6 +246,10 @@ export function useUserData() {
   const hasGitHubConnection = Boolean(
     data?.githubConnection || data?.vcsConnections?.some(conn => conn.provider === 'github')
   );
+  const walletConnectionStatus =
+    data?.walletConnectionStatus && typeof data.walletConnectionStatus === 'object'
+      ? data.walletConnectionStatus
+      : null;
   const repositoryConnectionStatus =
     data?.repositoryConnectionStatus && typeof data.repositoryConnectionStatus === 'object'
       ? data.repositoryConnectionStatus
@@ -241,7 +262,11 @@ export function useUserData() {
     (data?.profile as Record<string, unknown> | null | undefined) ?? null,
   );
   const hasWalletConnection = walletCapability.hasIdentity;
-  const hasVerifiedWalletConnection = walletCapability.isVerifiedSigner;
+  const hasStoredVerifiedWalletConnection = walletCapability.isVerifiedSigner;
+  const hasVerifiedWalletConnection =
+    walletConnectionStatus
+      ? Boolean(walletConnectionStatus.connected && walletConnectionStatus.valid)
+      : hasStoredVerifiedWalletConnection;
   const walletBindingStatus = walletCapability.binding?.status ?? null;
   const repositories = Array.isArray(data?.repositories) ? data.repositories : [];
   const repositoryInventorySource =
@@ -259,8 +284,10 @@ export function useUserData() {
     hasGitHubConnection,
     hasValidGitHubConnection,
     hasWalletConnection,
+    hasStoredVerifiedWalletConnection,
     hasVerifiedWalletConnection,
     walletBindingStatus,
+    walletConnectionStatus,
     repositoryConnectionStatus,
     repositories,
     repositoryInventorySource,

@@ -24,6 +24,7 @@ describe('deriveBitcodeTransactionReadiness', () => {
       hasValidRepositoryProvider: true,
       hasWalletBinding: true,
       hasVerifiedWalletBinding: true,
+      hasStoredVerifiedWalletBinding: true,
       requiresRepositoryAnchor: true,
       hasRepositoryAnchor: false,
     });
@@ -40,6 +41,7 @@ describe('deriveBitcodeTransactionReadiness', () => {
       hasValidRepositoryProvider: true,
       hasWalletBinding: true,
       hasVerifiedWalletBinding: false,
+      hasStoredVerifiedWalletBinding: false,
       requiresRepositoryAnchor: true,
       hasRepositoryAnchor: true,
     });
@@ -57,6 +59,7 @@ describe('deriveBitcodeTransactionReadiness', () => {
       hasValidRepositoryProvider: false,
       hasWalletBinding: true,
       hasVerifiedWalletBinding: true,
+      hasStoredVerifiedWalletBinding: true,
       requiresRepositoryAnchor: true,
       hasRepositoryAnchor: true,
     });
@@ -68,6 +71,25 @@ describe('deriveBitcodeTransactionReadiness', () => {
     expect(readiness.summary).toContain('Reconnect GitHub');
   });
 
+  it('fails closed when saved verified wallet signer posture exists but the live signer session is missing', () => {
+    const readiness = deriveBitcodeTransactionReadiness({
+      signedIn: true,
+      hasRepositoryProvider: true,
+      hasValidRepositoryProvider: true,
+      hasWalletBinding: true,
+      hasVerifiedWalletBinding: false,
+      hasStoredVerifiedWalletBinding: true,
+      requiresRepositoryAnchor: true,
+      hasRepositoryAnchor: true,
+    });
+
+    expect(readiness.status).toBe('wallet-verification-pending');
+    expect(readiness.label).toBe('wallet reconnect required');
+    expect(readiness.canTransact).toBe(true);
+    expect(readiness.canSettle).toBe(false);
+    expect(readiness.summary).toContain('live wallet-provider signing session is no longer available');
+  });
+
   it('becomes ready once wallet identity, verified signing, and repository scope are all present', () => {
     const readiness = deriveBitcodeTransactionReadiness({
       signedIn: true,
@@ -75,6 +97,7 @@ describe('deriveBitcodeTransactionReadiness', () => {
       hasValidRepositoryProvider: true,
       hasWalletBinding: true,
       hasVerifiedWalletBinding: true,
+      hasStoredVerifiedWalletBinding: true,
       requiresRepositoryAnchor: true,
       hasRepositoryAnchor: true,
     });

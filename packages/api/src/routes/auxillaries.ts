@@ -36,6 +36,11 @@ type AuxillaryRouteBuilderOptions = {
     repositories?: unknown[];
     repositoryInventorySource?: string | null;
   }>;
+  resolveWalletConnectionStatus?: (input: {
+    supabase: Awaited<ReturnType<typeof createClient>>;
+    userId: string;
+    profile: unknown | null;
+  }) => Promise<unknown | null>;
 };
 
 async function getAuthenticatedUser() {
@@ -190,11 +195,21 @@ export function buildGetAuxillaryDataRoute(options: AuxillaryRouteBuilderOptions
     const githubConnection = githubConnectionResult.data?.connection_data ?? null;
     const btdBalance = typeof balanceResult.data?.balance === 'number' ? balanceResult.data.balance : 0;
     const modelPreferences = preferencesResult.data?.preferences ?? null;
+    const walletConnectionStatus = options.resolveWalletConnectionStatus
+      ? await options
+          .resolveWalletConnectionStatus({
+            supabase,
+            userId: user.id,
+            profile,
+          })
+          .catch(() => null)
+      : null;
 
     return createJsonResponse(
       buildAuxillaryDataPayload({
         profile,
         githubConnection,
+        walletConnectionStatus,
         repositoryConnectionStatus: repositoryInventoryResult.repositoryConnectionStatus,
         repositories: repositoryInventoryResult.repositories,
         repositoryInventorySource: repositoryInventoryResult.repositoryInventorySource,

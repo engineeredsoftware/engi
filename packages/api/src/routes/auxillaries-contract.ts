@@ -28,6 +28,7 @@ export interface AuxillaryOnboardingUpdatePayload {
 export interface AuxillaryDataPayload {
   profile: unknown | null;
   githubConnection: unknown | null;
+  walletConnectionStatus: unknown | null;
   repositoryConnectionStatus: unknown | null;
   repositories: unknown[];
   repositoryInventorySource: string | null;
@@ -109,6 +110,7 @@ export function buildAnonymousAuxillaryData(): AuxillaryDataPayload {
   return {
     profile: null,
     githubConnection: null,
+    walletConnectionStatus: null,
     repositoryConnectionStatus: null,
     repositories: [],
     repositoryInventorySource: null,
@@ -123,6 +125,7 @@ export function buildAnonymousAuxillaryData(): AuxillaryDataPayload {
 export function buildAuxillaryDataPayload({
   profile,
   githubConnection,
+  walletConnectionStatus,
   repositoryConnectionStatus,
   repositories,
   repositoryInventorySource,
@@ -132,6 +135,7 @@ export function buildAuxillaryDataPayload({
 }: {
   profile: unknown | null;
   githubConnection: unknown | null;
+  walletConnectionStatus?: unknown | null;
   repositoryConnectionStatus?: unknown | null;
   repositories?: unknown[] | null;
   repositoryInventorySource?: string | null;
@@ -145,6 +149,7 @@ export function buildAuxillaryDataPayload({
   return {
     profile,
     githubConnection,
+    walletConnectionStatus: walletConnectionStatus ?? null,
     repositoryConnectionStatus: repositoryConnectionStatus ?? null,
     repositories: Array.isArray(repositories) ? repositories : [],
     repositoryInventorySource:
