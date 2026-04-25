@@ -7,7 +7,6 @@ import { mountBitcodeApplicationShell, readBitcodeApplicationShellSnapshot } fro
 import type { TransactionDataMode } from '@/components/base/bitcode/execution/bitcode-transaction-types';
 import { useAuth } from '@/components/base/bitcode/auth/AuthProvider';
 import ConversationsOverlay from '@/app/conversations/components/ConversationsOverlay';
-import { deriveBitcodeTransactionReadiness } from '@/app/application/bitcode-transaction-readiness';
 import { useUserData } from '@/hooks/useUserData';
 import { fetchPipelineExecutionHistory } from '@/networking/api-client';
 import { isUserOrbitalMockMode } from '@/lib/mock-review-mode';
@@ -56,6 +55,7 @@ import {
   writeApplicationTransactionId,
   writeApplicationTransactionPagination,
 } from './application-transaction-query';
+import { deriveApplicationTransactionReadiness } from './application-transaction-readiness-source';
 import { resolveApplicationTransactionSource } from './application-transaction-source';
 import type { WorkspaceRun } from './application-run-data';
 import { buildProtocolProjectedWorkspaceRun } from './application-protocol-projection';
@@ -71,6 +71,7 @@ export default function ApplicationPageClient() {
     hasWalletConnection,
     hasStoredVerifiedWalletConnection = false,
     hasVerifiedWalletConnection,
+    repositoryConnectionStatus,
   } = useUserData();
   const router = useRouter();
   const pathname = usePathname();
@@ -121,26 +122,26 @@ export default function ApplicationPageClient() {
   const runs = transactionSource.runs;
   const transactionDataMode: TransactionDataMode = transactionSource.dataMode;
   const runsError = transactionDataMode === 'review-fallback' ? null : runsLoadError;
-  const hasRepositoryProvider =
-    Boolean(repositoryContext?.connectionStatus?.connected && repositoryContext?.connectionStatus?.valid) ||
-    hasValidGitHubConnection;
   const transactionReadiness = useMemo(
     () =>
-      deriveBitcodeTransactionReadiness({
+      deriveApplicationTransactionReadiness({
         signedIn: Boolean(user),
-        hasRepositoryProvider,
+        repositoryContext,
+        repositoryConnectionStatus,
+        hasRepositoryProviderAttachment: hasGitHubConnection,
+        hasValidRepositoryProviderAttachment: hasValidGitHubConnection,
         hasWalletBinding: hasWalletConnection,
         hasVerifiedWalletBinding: hasVerifiedWalletConnection,
         hasStoredVerifiedWalletBinding: hasStoredVerifiedWalletConnection,
-        requiresRepositoryAnchor: true,
-        hasRepositoryAnchor: Boolean(repositoryContext?.selectedRepository),
-      }),
+      }).readiness,
     [
-      hasRepositoryProvider,
+      hasGitHubConnection,
+      hasValidGitHubConnection,
       hasStoredVerifiedWalletConnection,
       hasVerifiedWalletConnection,
       hasWalletConnection,
       repositoryContext,
+      repositoryConnectionStatus,
       user,
     ],
   );

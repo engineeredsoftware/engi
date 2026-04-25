@@ -54,6 +54,7 @@ const PRODUCT_READINESS_AUDIT_ROWS = [
       ['protocol-demonstration/public/app.js', '__BITCODE_APPLICATION_SHELL_SNAPSHOT__'],
       ['uapi/app/application/ApplicationPageClient.tsx', 'ApplicationNeedScenarioPanel'],
       ['uapi/app/application/ApplicationPageClient.tsx', 'ApplicationLiveSummaryStrip'],
+      ['uapi/app/application/application-transaction-readiness-source.ts', 'route_repository_context'],
       ['uapi/app/application/ApplicationRepositoryContextPanel.tsx', 'Inventory source'],
       ['uapi/app/application/ApplicationRepositoryContextPanel.tsx', 'Reconnect Connects to restore live write admission'],
       ['uapi/app/application/ApplicationLiveSummaryStrip.tsx', 'Settlement posture'],
@@ -68,6 +69,7 @@ const PRODUCT_READINESS_AUDIT_ROWS = [
       ['uapi/tests/api/executionsHistoryWriteReadParity.test.ts', 'round-trips give, need, and closure writes through the same Bitcode activity ledger'],
       ['uapi/tests/applicationLiveSummaryStrip.test.tsx', 'GitHub reconnect required · stored Exchange inventory'],
       ['uapi/tests/applicationFlowGuideCard.test.tsx', 'repository-reconnect-required'],
+      ['uapi/tests/applicationTransactionReadinessSource.test.ts', 'route_repository_context'],
       ['uapi/tests/applicationRepositoryContextPanel.test.tsx', 'Saved GitHub attachment found, but the live provider session must reconnect'],
       ['uapi/tests/applicationNeedScenarios.test.ts', 'normalizes Exchange Need-fitting review state for Terminal review controls'],
       ['BITCODE_SPEC_V26_PARITY_MATRIX.md', '`Bitcode Terminal` read/write loop']
