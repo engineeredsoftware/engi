@@ -154,6 +154,7 @@ const detail: ApplicationRunDetailSnapshot = {
         connected: true,
         valid: true,
         mode: 'live connection',
+        inventorySource: 'stored_repository_inventory',
       },
     },
     giveWorkbench: {
@@ -305,7 +306,7 @@ describe('application-transaction-detail helpers', () => {
 
   it('builds overview metrics from selected activity and detail', () => {
     expect(buildApplicationTransactionOverviewMetrics(selectedTransaction, detail)).toEqual([
-      { label: 'Asset-pack surfaces', value: '2' },
+      { label: 'Shippables', value: '2' },
       { label: 'History items', value: '5' },
       { label: 'Event count', value: '3' },
       { label: 'Proof posture', value: 'proof witness ready' },
@@ -319,6 +320,7 @@ describe('application-transaction-detail helpers', () => {
       { label: 'Branch', value: 'main' },
       { label: 'Commit', value: 'abc123' },
       { label: 'Provider account', value: 'bitcode' },
+      { label: 'Inventory source', value: 'stored_repository_inventory' },
       { label: 'Projection', value: 'giver' },
       { label: 'Scenario', value: 'auth-remediation' },
       { label: 'Profile', value: 'Targeted deposit' },

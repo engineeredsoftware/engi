@@ -44,6 +44,14 @@ export function buildMockReviewUser(): User {
 
 export function buildMockOrbitalData() {
   const onboardedPanes = [...REVIEW_COMPLETED_STEPS];
+  const repositories = buildMockVcsRepositories('github');
+  const organizations = Array.from(
+    new Set(
+      repositories
+        .filter((repository) => repository.owner?.type === 'organization')
+        .map((repository) => repository.owner.username),
+    ),
+  );
 
   return {
     profile: {
@@ -69,9 +77,12 @@ export function buildMockOrbitalData() {
       account: 'bitcode',
       login: 'bitcode',
       status: 'connected',
-      repositories: 7,
+      repositories: repositories.length,
       mock_mode: true,
     },
+    repositories,
+    repositoryInventorySource: 'mock_repository_inventory',
+    organizations,
     btdBalance: 1200,
     modelPreferences: {
       preferred_model: 'claude-3-7-sonnet',

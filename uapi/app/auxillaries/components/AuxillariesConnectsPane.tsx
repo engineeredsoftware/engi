@@ -5,6 +5,7 @@ import React, { useEffect } from 'react';
 
 import { useAuth } from '@/components/base/bitcode/auth/AuthProvider';
 import { VCSIntegrationPanel } from '@/components/base/bitcode/vcs/VCSIntegrationPanel';
+import { getRepositoryInventorySourceLabel } from '@/app/application/application-repository-context';
 import { deriveBitcodeTransactionReadiness } from '@/app/application/bitcode-transaction-readiness';
 import { useUserData } from '@/hooks/useUserData';
 
@@ -25,11 +26,13 @@ export default function AuxillariesConnectsPane({
 }: AuxillariesConnectsPaneProps) {
   const { user } = useAuth();
   const {
-    data,
     hasGitHubConnection,
     hasWalletConnection,
     hasVerifiedWalletConnection,
     walletBindingStatus,
+    organizations = [],
+    repositories = [],
+    repositoryInventorySource = null,
     isLoading,
     refresh,
   } = useUserData();
@@ -38,8 +41,6 @@ export default function AuxillariesConnectsPane({
     onCompletionStatusChange?.(Boolean(user && hasGitHubConnection));
   }, [hasGitHubConnection, onCompletionStatusChange, user]);
 
-  const repositories = Array.isArray((data as any)?.repositories) ? (data as any).repositories : [];
-  const organizations = Array.isArray((data as any)?.organizations) ? (data as any).organizations : [];
   const transactionReadiness = deriveBitcodeTransactionReadiness({
     signedIn: Boolean(user),
     hasRepositoryProvider: hasGitHubConnection,
@@ -143,7 +144,7 @@ export default function AuxillariesConnectsPane({
                         : `${transactionReadiness.summary} Bitcode may stay in review, but settlement requires both a live GitHub connection here and a wallet binding in Profile before it should move from evaluation into asset-pack delivery.`}
                     </p>
                   </div>
-                  <div className="mt-3 grid gap-3 tablet:grid-cols-2">
+                  <div className="mt-3 grid gap-3 tablet:grid-cols-3">
                     <div className="rounded-2xl border border-white/8 bg-white/5 p-4">
                       <p className="text-xs font-semibold uppercase tracking-[0.18em] text-white/64">
                         GitHub
@@ -164,6 +165,14 @@ export default function AuxillariesConnectsPane({
                             : walletBindingStatus === 'pending'
                               ? 'Verification staged'
                               : 'Identity bound'}
+                      </p>
+                    </div>
+                    <div className="rounded-2xl border border-white/8 bg-white/5 p-4">
+                      <p className="text-xs font-semibold uppercase tracking-[0.18em] text-white/64">
+                        Inventory source
+                      </p>
+                      <p className="mt-2 text-sm font-medium text-white">
+                        {getRepositoryInventorySourceLabel(repositoryInventorySource)}
                       </p>
                     </div>
                   </div>
@@ -187,6 +196,7 @@ export default function AuxillariesConnectsPane({
                     <p className="mt-3 text-sm leading-7 text-white/68">
                       These repository attachments define the live scope Bitcode can read when it
                       measures need, synthesizes asset packs, and prepares settlement follow-through.
+                      The current source of truth is {getRepositoryInventorySourceLabel(repositoryInventorySource)}.
                     </p>
 
                     {organizations.length > 0 && (
@@ -215,7 +225,7 @@ export default function AuxillariesConnectsPane({
                             const label =
                               typeof repository === 'string'
                                 ? repository
-                                : repository?.full_name || repository?.name || 'repository';
+                                : repository?.fullName || repository?.full_name || repository?.name || 'repository';
                             return (
                               <span
                                 key={label}
@@ -238,6 +248,7 @@ export default function AuxillariesConnectsPane({
                   <ul className="mt-3 space-y-2 text-sm leading-7 text-white/68">
                     <li>Wallet identity stays grouped in Profile while Connects owns repository attachment and interface scope.</li>
                     <li>GitHub scope doubles as source-bearing inputability for need measurement, asset-pack synthesis, and proof follow-through.</li>
+                    <li>Connects now rereads repository scope through the same stored-first or live-fallback inventory contract that Bitcode write admission enforces.</li>
                     <li>GitHub plus wallet posture are the minimum live prerequisites before Bitcode settles or writes.</li>
                   </ul>
                 </div>

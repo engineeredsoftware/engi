@@ -20,6 +20,7 @@ describe('application-activity-history', () => {
   const repositoryContext: ApplicationRepositoryContextState = {
     provider: 'github',
     connectionStatus: null,
+    inventorySource: 'stored_repository_inventory',
     repositories: [],
     selectedRepository: {
       id: 'repo-1',
@@ -519,6 +520,9 @@ describe('application-activity-history', () => {
           fullName: 'bitcode/terminal',
           defaultBranch: 'main',
         },
+        connection: {
+          inventorySource: 'stored_repository_inventory',
+        },
       },
       finalWorkSummary: {
         bitcodeActivityState: {
@@ -529,9 +533,15 @@ describe('application-activity-history', () => {
               fullName: 'bitcode/terminal',
               defaultBranch: 'main',
             },
+            connection: {
+              inventorySource: 'stored_repository_inventory',
+            },
           },
         },
       },
+    });
+    expect(repositoryDraft.context).toMatchObject({
+      inventorySource: 'stored_repository_inventory',
     });
     expect(externalDraft).toMatchObject({
       type: 'agentic-execution:proof-refresh',

@@ -1,8 +1,16 @@
 import { GET } from '@/app/api/auxillaries/data/route';
 
 jest.mock('@bitcode/supabase/ssr/server', () => ({ createClient: jest.fn() }));
+jest.mock('@/app/api/vcs/_shared', () => ({
+  getStoredConnection: jest.fn(),
+  listBitcodeRepositoriesForConnection: jest.fn(),
+}));
 
 import { createClient } from '@bitcode/supabase/ssr/server';
+import {
+  getStoredConnection,
+  listBitcodeRepositoriesForConnection,
+} from '@/app/api/vcs/_shared';
 
 describe('GET /api/auxillaries/data', () => {
   const mockUser = { id: 'user-1' };
@@ -25,6 +33,8 @@ describe('GET /api/auxillaries/data', () => {
     expect(body).toEqual({
       profile: null,
       githubConnection: null,
+      repositories: [],
+      repositoryInventorySource: null,
       btdBalance: 0,
       modelPreferences: null,
       onboardedPanes: [],
@@ -74,6 +84,25 @@ describe('GET /api/auxillaries/data', () => {
     const prefBuilder: any = {
       select: jest.fn().mockReturnThis(), eq: jest.fn().mockReturnThis(), single: jest.fn().mockResolvedValue({ data: prefData, error: null })
     };
+    (getStoredConnection as jest.Mock).mockResolvedValue({
+      manager: { id: 'manager' },
+      connection: { id: 'connection-1' },
+    });
+    (listBitcodeRepositoriesForConnection as jest.Mock).mockResolvedValue({
+      repositories: [
+        {
+          id: 'repo-1',
+          name: 'bitcode',
+          fullName: 'bitcode/bitcode',
+          defaultBranch: 'main',
+          owner: {
+            username: 'bitcode',
+            type: 'organization',
+          },
+        },
+      ],
+      inventorySource: 'stored_repository_inventory',
+    });
     // Route multiplexing by table
     mockFrom.mockImplementation((table: string) => {
       if (table === 'user_profiles') return profileBuilder;
@@ -99,6 +128,14 @@ describe('GET /api/auxillaries/data', () => {
         wallet_binding_status: 'manual',
       }),
       githubConnection: connectionData,
+      repositories: [
+        expect.objectContaining({
+          id: 'repo-1',
+          fullName: 'bitcode/bitcode',
+          defaultBranch: 'main',
+        }),
+      ],
+      repositoryInventorySource: 'stored_repository_inventory',
       btdBalance: 50,
       modelPreferences: prefData.preferences,
       onboardedPanes: ['profile', 'interfaces', 'btd'],
@@ -108,5 +145,16 @@ describe('GET /api/auxillaries/data', () => {
     // Ensure queries were scoped correctly
     expect(profileBuilder.eq).toHaveBeenCalledWith('id', 'user-1');
     expect(connectionBuilder.eq).toHaveBeenCalledWith('provider', 'github');
+    expect(getStoredConnection).toHaveBeenCalledWith(
+      expect.anything(),
+      'user-1',
+      'github',
+    );
+    expect(listBitcodeRepositoriesForConnection).toHaveBeenCalledWith(
+      expect.objectContaining({
+        userId: 'user-1',
+        provider: 'github',
+      }),
+    );
   });
 });

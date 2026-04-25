@@ -88,6 +88,7 @@ export interface ApplicationRunDetailSnapshot {
         connected: boolean;
         valid: boolean;
         mode: string;
+        inventorySource?: string | null;
       };
     } | null;
   } | null;
@@ -473,8 +474,9 @@ function coerceBitcodeActivityState(value: unknown): ApplicationRunDetailSnapsho
               connected: Boolean(value.repositoryAnchor.connection.connected),
               valid: Boolean(value.repositoryAnchor.connection.valid),
               mode: coerceString(value.repositoryAnchor.connection.mode) || 'live connection',
+              inventorySource: coerceString(value.repositoryAnchor.connection.inventorySource),
             }
-          : { connected: false, valid: false, mode: 'live connection' },
+          : { connected: false, valid: false, mode: 'live connection', inventorySource: null },
       }
     : null;
 

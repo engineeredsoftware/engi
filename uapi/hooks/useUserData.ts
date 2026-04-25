@@ -9,10 +9,18 @@ import { useState, useEffect, useCallback } from 'react';
 import { normalizeAuxillarySteps } from '@/app/auxillaries/components/auxillary-pane-meta';
 import { readBitcodeWalletCapabilityFromProfile } from '@bitcode/orm';
 
+type UserRepositoryInventorySource =
+  | 'stored_repository_inventory'
+  | 'live_provider_inventory'
+  | 'mock_repository_inventory';
+
 export interface AggregatedUserData {
   profile?: any | null;
   vcsConnections?: any[];
   githubConnection?: any | null;
+  repositories?: any[];
+  repositoryInventorySource?: UserRepositoryInventorySource | null;
+  organizations?: string[];
   btdBalance?: number;
   modelPreferences?: any | null;
   onboardedPanes?: string[];
@@ -23,12 +31,74 @@ export interface AggregatedUserData {
 const ANONYMOUS_USER_DATA: AggregatedUserData = {
   profile: null,
   githubConnection: null,
+  repositories: [],
+  repositoryInventorySource: null,
+  organizations: [],
   btdBalance: 0,
   modelPreferences: null,
   onboardedPanes: [],
   onboarded_steps: [],
   isOnboardingComplete: false,
 };
+
+function readRepositoryOwnerUsername(repository: unknown) {
+  if (!repository || typeof repository !== 'object') return null;
+  const repositoryRecord = repository as Record<string, unknown>;
+  const owner = repositoryRecord.owner;
+
+  if (owner && typeof owner === 'object') {
+    const ownerRecord = owner as Record<string, unknown>;
+    if (typeof ownerRecord.username === 'string' && ownerRecord.username.trim()) {
+      return ownerRecord.username.trim();
+    }
+    if (typeof ownerRecord.login === 'string' && ownerRecord.login.trim()) {
+      return ownerRecord.login.trim();
+    }
+  }
+
+  const fullNameCandidate =
+    typeof repositoryRecord.fullName === 'string'
+      ? repositoryRecord.fullName
+      : typeof repositoryRecord.full_name === 'string'
+        ? repositoryRecord.full_name
+        : null;
+  if (!fullNameCandidate || !fullNameCandidate.includes('/')) return null;
+
+  const [ownerUsername] = fullNameCandidate.split('/');
+  return ownerUsername?.trim() || null;
+}
+
+function readRepositoryOwnerType(repository: unknown) {
+  if (!repository || typeof repository !== 'object') return null;
+  const owner = (repository as Record<string, unknown>).owner;
+  if (!owner || typeof owner !== 'object') return null;
+
+  const ownerType = (owner as Record<string, unknown>).type;
+  return typeof ownerType === 'string' && ownerType.trim() ? ownerType.trim().toLowerCase() : null;
+}
+
+function deriveConnectedOrganizations(
+  repositories: unknown[],
+  fallbackOrganizations: unknown,
+) {
+  if (Array.isArray(fallbackOrganizations)) {
+    const normalizedOrganizations = fallbackOrganizations
+      .map((organization) => (typeof organization === 'string' ? organization.trim() : ''))
+      .filter(Boolean);
+    if (normalizedOrganizations.length > 0) {
+      return Array.from(new Set(normalizedOrganizations));
+    }
+  }
+
+  return Array.from(
+    new Set(
+      repositories
+        .filter((repository) => readRepositoryOwnerType(repository) === 'organization')
+        .map((repository) => readRepositoryOwnerUsername(repository))
+        .filter((organization): organization is string => Boolean(organization)),
+    ),
+  );
+}
 
 // ---------------------------------------------------------------------------
 // Very lightweight shared cache (module-level).  We intentionally avoid adding
@@ -147,6 +217,12 @@ export function useUserData() {
   const hasWalletConnection = walletCapability.hasIdentity;
   const hasVerifiedWalletConnection = walletCapability.isVerifiedSigner;
   const walletBindingStatus = walletCapability.binding?.status ?? null;
+  const repositories = Array.isArray(data?.repositories) ? data.repositories : [];
+  const repositoryInventorySource =
+    typeof data?.repositoryInventorySource === 'string'
+      ? (data.repositoryInventorySource as UserRepositoryInventorySource)
+      : null;
+  const organizations = deriveConnectedOrganizations(repositories, data?.organizations);
   const btdBalance = typeof data?.btdBalance === 'number' ? data.btdBalance : hydratedBtdBalance;
 
   const onboardedSteps = normalizeAuxillarySteps(data?.onboardedPanes ?? data?.onboarded_steps ?? []);
@@ -158,6 +234,9 @@ export function useUserData() {
     hasWalletConnection,
     hasVerifiedWalletConnection,
     walletBindingStatus,
+    repositories,
+    repositoryInventorySource,
+    organizations,
     btdBalance,
     isLoading,
     error,

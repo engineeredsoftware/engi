@@ -28,6 +28,8 @@ export interface AuxillaryOnboardingUpdatePayload {
 export interface AuxillaryDataPayload {
   profile: unknown | null;
   githubConnection: unknown | null;
+  repositories: unknown[];
+  repositoryInventorySource: string | null;
   btdBalance: number;
   modelPreferences: unknown | null;
   onboardedPanes: ConcreteAuxillaryPane[];
@@ -106,6 +108,8 @@ export function buildAnonymousAuxillaryData(): AuxillaryDataPayload {
   return {
     profile: null,
     githubConnection: null,
+    repositories: [],
+    repositoryInventorySource: null,
     btdBalance: 0,
     modelPreferences: null,
     onboardedPanes,
@@ -117,12 +121,16 @@ export function buildAnonymousAuxillaryData(): AuxillaryDataPayload {
 export function buildAuxillaryDataPayload({
   profile,
   githubConnection,
+  repositories,
+  repositoryInventorySource,
   btdBalance,
   modelPreferences,
   onboardedSteps,
 }: {
   profile: unknown | null;
   githubConnection: unknown | null;
+  repositories?: unknown[] | null;
+  repositoryInventorySource?: string | null;
   btdBalance?: number;
   modelPreferences: unknown | null;
   onboardedSteps: unknown;
@@ -133,6 +141,11 @@ export function buildAuxillaryDataPayload({
   return {
     profile,
     githubConnection,
+    repositories: Array.isArray(repositories) ? repositories : [],
+    repositoryInventorySource:
+      typeof repositoryInventorySource === 'string' && repositoryInventorySource.trim()
+        ? repositoryInventorySource
+        : null,
     btdBalance: resolvedBtdBalance,
     modelPreferences,
     onboardedPanes,

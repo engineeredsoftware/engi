@@ -1,8 +1,8 @@
 {
   "reportId": "v26-product-readiness-audit",
   "version": "V26",
-  "proofSourceCommit": "b55539de436fec9168845fb50c5e98f138cc1514",
-  "generatedAt": "2026-04-25T10:12:47-03:00",
+  "proofSourceCommit": "72a79f6a1a170f9c9f7597f9f89af16137bc917b",
+  "generatedAt": "2026-04-25T10:28:40-03:00",
   "generatorId": "bitcode.proven-generator.v1",
   "worktreeState": "dirty-preview",
   "gate": "gate-5",
@@ -173,6 +173,13 @@
           "passed": true
         },
         {
+          "file": "uapi/app/application/ApplicationRepositoryContextPanel.tsx",
+          "requiredText": "Inventory source",
+          "filePresent": true,
+          "evidencePresent": true,
+          "passed": true
+        },
+        {
           "file": "uapi/app/application/application-activity-history.ts",
           "requiredText": "status: draft.status || 'completed'",
           "filePresent": true,
@@ -196,6 +203,13 @@
         {
           "file": "uapi/app/application/application-transaction-detail-snapshot.ts",
           "requiredText": "fitQualities: coerceFitQualities",
+          "filePresent": true,
+          "evidencePresent": true,
+          "passed": true
+        },
+        {
+          "file": "uapi/tests/api/vcsRepositoriesInventoryParity.test.ts",
+          "requiredText": "stored repository inventory and skips live provider reads",
           "filePresent": true,
           "evidencePresent": true,
           "passed": true
@@ -423,8 +437,22 @@
           "passed": true
         },
         {
+          "file": "uapi/app/api/auxillaries/data/route.ts",
+          "requiredText": "repositoryInventorySource",
+          "filePresent": true,
+          "evidencePresent": true,
+          "passed": true
+        },
+        {
           "file": "uapi/app/auxillaries/components/AuxillariesConnectsPane.tsx",
           "requiredText": "Connects",
+          "filePresent": true,
+          "evidencePresent": true,
+          "passed": true
+        },
+        {
+          "file": "uapi/app/auxillaries/components/AuxillariesConnectsPane.tsx",
+          "requiredText": "stored-first or live-fallback inventory contract",
           "filePresent": true,
           "evidencePresent": true,
           "passed": true
@@ -439,6 +467,20 @@
         {
           "file": "uapi/tests/bitcodeTransactionReadiness.test.ts",
           "requiredText": "signed settlement remains staged",
+          "filePresent": true,
+          "evidencePresent": true,
+          "passed": true
+        },
+        {
+          "file": "uapi/tests/userDataRoute.test.ts",
+          "requiredText": "repositoryInventorySource",
+          "filePresent": true,
+          "evidencePresent": true,
+          "passed": true
+        },
+        {
+          "file": "uapi/tests/auxillariesConnectsPane.test.tsx",
+          "requiredText": "stored Exchange inventory",
           "filePresent": true,
           "evidencePresent": true,
           "passed": true

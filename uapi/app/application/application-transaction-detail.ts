@@ -185,6 +185,12 @@ export function buildApplicationTransactionIdentityRows(
   if (activityState?.repositoryAnchor?.providerAccount) {
     rows.push({ label: 'Provider account', value: activityState.repositoryAnchor.providerAccount });
   }
+  if (activityState?.repositoryAnchor?.connection?.inventorySource) {
+    rows.push({
+      label: 'Inventory source',
+      value: activityState.repositoryAnchor.connection.inventorySource,
+    });
+  }
 
   const workbench = activityState?.giveWorkbench || activityState?.fitWorkbench;
   if (workbench) {

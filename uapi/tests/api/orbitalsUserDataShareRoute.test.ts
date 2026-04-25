@@ -5,7 +5,7 @@ jest.mock('@/app/api/vcs/_shared', () => ({
   getMockRepositories: jest.fn(),
   getStoredConnection: jest.fn(),
   isMockVcsMode: jest.fn(),
-  listStoredRepositories: jest.fn(),
+  listBitcodeRepositoriesForConnection: jest.fn(),
 }));
 
 import { createClient } from '@bitcode/supabase/ssr/server';
@@ -13,7 +13,7 @@ import {
   getMockRepositories,
   getStoredConnection,
   isMockVcsMode,
-  listStoredRepositories,
+  listBitcodeRepositoriesForConnection,
 } from '@/app/api/vcs/_shared';
 
 const mockGetUser = jest.fn();
@@ -47,10 +47,46 @@ describe('GET /api/auxillaries/user/data-share', () => {
     expect(res.status).toBe(200);
     expect(payload.success).toBe(true);
     expect(payload.repos).toHaveLength(1);
+    expect(payload.inventorySource).toBe('mock_repository_inventory');
     expect(payload.repos[0]).toMatchObject({
       fullName: 'bitcode/bitcode',
       branch: 'main',
       enabled: true,
+    });
+  });
+
+  it('reuses the Bitcode repository inventory helper for authenticated reads', async () => {
+    mockGetUser.mockResolvedValue({ data: { user: { id: 'user-1' } }, error: null });
+    (getStoredConnection as jest.Mock).mockResolvedValue({
+      manager: { id: 'manager' },
+      connection: { id: 'connection-1' },
+    });
+    (listBitcodeRepositoriesForConnection as jest.Mock).mockResolvedValue({
+      repositories: [
+        {
+          fullName: 'bitcode/bitcode',
+          defaultBranch: 'main',
+          updatedAt: '2026-04-16T12:00:00.000Z',
+        },
+      ],
+      inventorySource: 'stored_repository_inventory',
+    });
+
+    const res = await GET();
+    const payload = await res.json();
+
+    expect(res.status).toBe(200);
+    expect(payload.success).toBe(true);
+    expect(payload.inventorySource).toBe('stored_repository_inventory');
+    expect(listBitcodeRepositoriesForConnection).toHaveBeenCalledWith(
+      expect.objectContaining({
+        userId: 'user-1',
+        provider: 'github',
+      }),
+    );
+    expect(payload.repos[0]).toMatchObject({
+      fullName: 'bitcode/bitcode',
+      branch: 'main',
     });
   });
 });

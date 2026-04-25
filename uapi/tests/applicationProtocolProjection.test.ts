@@ -18,6 +18,7 @@ describe('application-protocol-projection', () => {
         account: 'bitcode',
       },
     },
+    inventorySource: 'stored_repository_inventory',
     repositories: [],
     selectedRepository: {
       id: 'repo-1',

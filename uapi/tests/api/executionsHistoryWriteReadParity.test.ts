@@ -120,6 +120,7 @@ describe('Bitcode execution-history write/read parity', () => {
       username: 'bitcode',
       metadata: { mock_mode: false },
     },
+    inventorySource: 'stored_repository_inventory',
     repositories: [],
     selectedRepository: {
       id: 'repo-1',

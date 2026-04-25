@@ -6,7 +6,7 @@ import {
   getMockRepositories,
   getStoredConnection,
   isMockVcsMode,
-  listStoredRepositories,
+  listBitcodeRepositoriesForConnection,
 } from '@/app/api/vcs/_shared';
 
 export const runtime = 'nodejs';
@@ -63,6 +63,7 @@ export async function GET() {
     return NextResponse.json({
       success: true,
       repos: mapRepositoryListToDataShare(getMockRepositories('github')),
+      inventorySource: 'mock_repository_inventory',
     });
   }
 
@@ -76,11 +77,18 @@ export async function GET() {
     return NextResponse.json({ success: true, repos: [] });
   }
 
-  const repositories = await listStoredRepositories(manager, 'github', connection);
+  const { repositories, inventorySource } = await listBitcodeRepositoriesForConnection({
+    supabase,
+    userId: user.id,
+    manager,
+    provider: 'github',
+    connection,
+  });
 
   return NextResponse.json({
     success: true,
     repos: mapRepositoryListToDataShare(repositories),
+    inventorySource,
   });
 }
 

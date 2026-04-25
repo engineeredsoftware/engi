@@ -53,10 +53,12 @@ const PRODUCT_READINESS_AUDIT_ROWS = [
     requiredEvidence: [
       ['protocol-demonstration/public/app.js', '__BITCODE_APPLICATION_SHELL_SNAPSHOT__'],
       ['uapi/app/application/ApplicationPageClient.tsx', 'ApplicationNeedScenarioPanel'],
+      ['uapi/app/application/ApplicationRepositoryContextPanel.tsx', 'Inventory source'],
       ['uapi/app/application/application-activity-history.ts', "status: draft.status || 'completed'"],
       ['uapi/app/application/ApplicationNeedScenarioPanel.tsx', 'Need-fitting Exchange review'],
       ['uapi/app/application/ApplicationClosureNativeSections.tsx', 'Read closure as one sequence from reviewable Need admission'],
       ['uapi/app/application/application-transaction-detail-snapshot.ts', 'fitQualities: coerceFitQualities'],
+      ['uapi/tests/api/vcsRepositoriesInventoryParity.test.ts', 'stored repository inventory and skips live provider reads'],
       ['uapi/tests/api/executionsHistoryWriteReadParity.test.ts', 'round-trips give, need, and closure writes through the same Bitcode activity ledger'],
       ['uapi/tests/applicationNeedScenarios.test.ts', 'normalizes Exchange Need-fitting review state for Terminal review controls'],
       ['BITCODE_SPEC_V26_PARITY_MATRIX.md', '`Bitcode Terminal` read/write loop']
@@ -127,9 +129,13 @@ const PRODUCT_READINESS_AUDIT_ROWS = [
       ['uapi/app/application/bitcode-transaction-readiness.ts', 'canSettle'],
       ['uapi/app/application/bitcode-transaction-route-readiness.ts', 'requireBitcodeSignedTransactionReadiness'],
       ['uapi/app/application/bitcode-transaction-route-readiness.ts', 'repository inventory'],
+      ['uapi/app/api/auxillaries/data/route.ts', 'repositoryInventorySource'],
       ['uapi/app/auxillaries/components/AuxillariesConnectsPane.tsx', 'Connects'],
+      ['uapi/app/auxillaries/components/AuxillariesConnectsPane.tsx', 'stored-first or live-fallback inventory contract'],
       ['uapi/app/auxillaries/components/AuxillariesProfilePane.tsx', 'Profile'],
       ['uapi/tests/bitcodeTransactionReadiness.test.ts', 'signed settlement remains staged'],
+      ['uapi/tests/userDataRoute.test.ts', 'repositoryInventorySource'],
+      ['uapi/tests/auxillariesConnectsPane.test.tsx', 'stored Exchange inventory'],
       ['uapi/tests/api/transactionWriteReadinessRoutes.test.ts', 'outside the connected provider inventory'],
       ['BITCODE_SPEC_V26_PARITY_MATRIX.md', 'Transactional readiness and signed-settlement admission']
     ],

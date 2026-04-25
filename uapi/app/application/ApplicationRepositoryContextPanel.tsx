@@ -20,7 +20,9 @@ import {
 } from './application-workspace-explainers';
 import {
   APPLICATION_REPOSITORY_PROVIDERS,
+  getRepositoryInventorySourceLabel,
   type ApplicationRepositoryConnectionStatus,
+  type ApplicationRepositoryInventorySource,
   type ApplicationRepositoryContextState,
   deriveSelectedRepository,
   getProviderLabel,
@@ -56,6 +58,7 @@ export default function ApplicationRepositoryContextPanel({
   const provider = normalizeRepositoryProvider(requestedProvider);
 
   const [connectionStatus, setConnectionStatus] = useState<ApplicationRepositoryConnectionStatus | null>(null);
+  const [inventorySource, setInventorySource] = useState<ApplicationRepositoryInventorySource | null>(null);
   const [repositories, setRepositories] = useState<VCSRepository[]>([]);
   const [isLoadingConnection, setIsLoadingConnection] = useState(true);
   const [isLoadingRepositories, setIsLoadingRepositories] = useState(false);
@@ -104,6 +107,7 @@ export default function ApplicationRepositoryContextPanel({
 
     if (!connectionStatus?.connected || !connectionStatus.valid) {
       setRepositories([]);
+      setInventorySource(null);
       setIsLoadingRepositories(false);
       return () => {
         disposed = true;
@@ -121,11 +125,17 @@ export default function ApplicationRepositoryContextPanel({
         }
         if (!disposed) {
           setRepositories(Array.isArray(payload.repositories) ? payload.repositories : []);
+          setInventorySource(
+            payload && typeof payload.inventorySource === 'string'
+              ? (payload.inventorySource as ApplicationRepositoryInventorySource)
+              : null,
+          );
         }
       })
       .catch((nextError) => {
         if (disposed) return;
         setRepositories([]);
+        setInventorySource(null);
         setError(nextError instanceof Error ? nextError.message : 'Unable to load repository inventory.');
       })
       .finally(() => {
@@ -141,10 +151,11 @@ export default function ApplicationRepositoryContextPanel({
     onContextChange?.({
       provider,
       connectionStatus,
+      inventorySource,
       repositories,
       selectedRepository,
     });
-  }, [connectionStatus, onContextChange, provider, repositories, selectedRepository]);
+  }, [connectionStatus, inventorySource, onContextChange, provider, repositories, selectedRepository]);
 
   useEffect(() => {
     const nextParams = new URLSearchParams(searchParams.toString());
@@ -171,6 +182,7 @@ export default function ApplicationRepositoryContextPanel({
 
   const refreshRepositoryContext = () => {
     setConnectionStatus(null);
+    setInventorySource(null);
     setRepositories([]);
     setError(null);
     setIsLoadingConnection(true);
@@ -189,6 +201,7 @@ export default function ApplicationRepositoryContextPanel({
         buildApplicationRepositoryAnchorDraft({
           provider,
           connectionStatus,
+          inventorySource,
           repositories,
           selectedRepository,
         }),
@@ -341,6 +354,12 @@ export default function ApplicationRepositoryContextPanel({
                       <dt className="text-neutral-500">Mode</dt>
                       <dd className="mt-1 text-neutral-100">
                         {connectionStatus.metadata?.mock_mode ? 'mock review' : 'live connection'}
+                      </dd>
+                    </div>
+                    <div>
+                      <dt className="text-neutral-500">Inventory source</dt>
+                      <dd className="mt-1 text-neutral-100">
+                        {getRepositoryInventorySourceLabel(inventorySource)}
                       </dd>
                     </div>
                   </dl>

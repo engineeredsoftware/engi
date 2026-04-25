@@ -44,6 +44,7 @@ describe('/api/vcs routes (mock mode)', () => {
     expect(response.status).toBe(200);
     expect(Array.isArray(payload.repositories)).toBe(true);
     expect(payload.repositories.length).toBeGreaterThan(0);
+    expect(payload.inventorySource).toBe('mock_repository_inventory');
     expect(payload.repositories[0].fullName).toBe('bitcode/bitcode');
   });
 

@@ -28,6 +28,13 @@ type AuxillaryRouteBuilderOptions = {
   mockModelPreferences?: () => unknown;
   useTemplateMock?: () => boolean;
   mockTemplatePreferences?: () => unknown;
+  resolveRepositoryInventory?: (input: {
+    supabase: Awaited<ReturnType<typeof createClient>>;
+    userId: string;
+  }) => Promise<{
+    repositories?: unknown[];
+    repositoryInventorySource?: string | null;
+  }>;
 };
 
 async function getAuthenticatedUser() {
@@ -148,7 +155,22 @@ export function buildGetAuxillaryDataRoute(options: AuxillaryRouteBuilderOptions
       return createJsonResponse(buildAnonymousAuxillaryData());
     }
 
-    const [profileResult, githubConnectionResult, balanceResult, preferencesResult] = await Promise.all([
+    const repositoryInventoryPromise = options.resolveRepositoryInventory
+      ? options
+          .resolveRepositoryInventory({
+            supabase,
+            userId: user.id,
+          })
+          .catch(() => ({
+            repositories: [],
+            repositoryInventorySource: null,
+          }))
+      : Promise.resolve({
+          repositories: [],
+          repositoryInventorySource: null,
+        });
+
+    const [profileResult, githubConnectionResult, balanceResult, preferencesResult, repositoryInventoryResult] = await Promise.all([
       supabase.from('user_profiles').select('*').eq('id', user.id).maybeSingle(),
       supabase
         .from('user_connections')
@@ -158,6 +180,7 @@ export function buildGetAuxillaryDataRoute(options: AuxillaryRouteBuilderOptions
         .maybeSingle(),
       supabase.from('user_credits').select('balance').eq('user_id', user.id).maybeSingle(),
       supabase.from('user_model_preferences').select('preferences').eq('user_id', user.id).single(),
+      repositoryInventoryPromise,
     ]);
 
     const profile = hydrateBitcodeProfile(profileResult.data ?? null);
@@ -169,6 +192,8 @@ export function buildGetAuxillaryDataRoute(options: AuxillaryRouteBuilderOptions
       buildAuxillaryDataPayload({
         profile,
         githubConnection,
+        repositories: repositoryInventoryResult.repositories,
+        repositoryInventorySource: repositoryInventoryResult.repositoryInventorySource,
         btdBalance,
         modelPreferences,
         onboardedSteps: (profile as { onboarded_steps?: unknown } | null)?.onboarded_steps,

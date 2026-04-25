@@ -85,6 +85,7 @@ describe('application-transaction-detail-snapshot helpers', () => {
               connected: true,
               valid: true,
               mode: 'live connection',
+              inventorySource: 'stored_repository_inventory',
             },
           },
         },
@@ -104,6 +105,9 @@ describe('application-transaction-detail-snapshot helpers', () => {
       bitcodeActivityState: {
         repositoryAnchor: {
           providerAccount: 'bitcode',
+          connection: {
+            inventorySource: 'stored_repository_inventory',
+          },
         },
       },
       historyItemCount: 3,

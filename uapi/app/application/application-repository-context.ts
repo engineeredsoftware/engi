@@ -1,5 +1,10 @@
 import type { VCSProviderType, VCSRepository } from '@bitcode/vcs-core';
 
+export type ApplicationRepositoryInventorySource =
+  | 'stored_repository_inventory'
+  | 'live_provider_inventory'
+  | 'mock_repository_inventory';
+
 export type ApplicationRepositoryConnectionStatus = {
   connected: boolean;
   provider: VCSProviderType;
@@ -18,6 +23,7 @@ export type ApplicationRepositoryConnectionStatus = {
 export type ApplicationRepositoryContextState = {
   provider: VCSProviderType;
   connectionStatus: ApplicationRepositoryConnectionStatus | null;
+  inventorySource: ApplicationRepositoryInventorySource | null;
   repositories: VCSRepository[];
   selectedRepository: VCSRepository | null;
 };
@@ -64,4 +70,13 @@ export function getProviderLabel(provider: VCSProviderType) {
   if (provider === 'gitlab') return 'GitLab';
   if (provider === 'bitbucket') return 'Bitbucket';
   return 'GitHub';
+}
+
+export function getRepositoryInventorySourceLabel(
+  source: ApplicationRepositoryInventorySource | null | undefined,
+) {
+  if (source === 'stored_repository_inventory') return 'stored Exchange inventory';
+  if (source === 'live_provider_inventory') return 'live provider inventory';
+  if (source === 'mock_repository_inventory') return 'mock review inventory';
+  return 'inventory pending';
 }

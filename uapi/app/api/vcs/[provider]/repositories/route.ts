@@ -1,4 +1,5 @@
 import { NextResponse } from 'next/server';
+import type { VCSRepository } from '@bitcode/vcs';
 
 import { createRouteWrapper } from '@bitcode/middleware';
 
@@ -7,7 +8,7 @@ import {
   getRouteSupabaseUser,
   getStoredConnection,
   isMockVcsMode,
-  listStoredRepositories,
+  listBitcodeRepositoriesForConnection,
   readInstanceUrl,
   resolveRouteProvider,
   type ProviderRouteContext,
@@ -19,7 +20,10 @@ export const GET = createRouteWrapper(async (request: Request, context: Provider
   const provider = await resolveRouteProvider(context);
 
   if (isMockVcsMode()) {
-    return NextResponse.json({ repositories: getMockRepositories(provider) });
+    return NextResponse.json({
+      repositories: getMockRepositories(provider),
+      inventorySource: 'mock_repository_inventory',
+    });
   }
 
   const { supabase, user } = await getRouteSupabaseUser();
@@ -34,21 +38,23 @@ export const GET = createRouteWrapper(async (request: Request, context: Provider
 
   const params = new URL(request.url).searchParams;
   const owner = params.get('owner');
-  const repositories = await listStoredRepositories(
+  const { repositories, inventorySource } = await listBitcodeRepositoriesForConnection({
+    supabase,
+    userId: user.id,
     manager,
     provider,
     connection,
-    readInstanceUrl(request),
-  );
+    instanceUrl: readInstanceUrl(request),
+  });
 
   const filteredRepositories = owner
     ? repositories.filter(
-        (repository) =>
+        (repository: VCSRepository) =>
           repository.owner.username === owner ||
           repository.owner.id === owner ||
           repository.fullName === owner,
       )
     : repositories;
 
-  return NextResponse.json({ repositories: filteredRepositories });
+  return NextResponse.json({ repositories: filteredRepositories, inventorySource });
 });

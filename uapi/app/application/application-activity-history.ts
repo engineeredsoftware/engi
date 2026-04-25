@@ -88,6 +88,7 @@ function buildRepositoryAnchorState(repositoryContext: ApplicationRepositoryCont
       connected: Boolean(connectionStatus?.connected),
       valid: Boolean(connectionStatus?.valid),
       mode: connectionStatus?.metadata?.mock_mode ? 'mock review' : 'live connection',
+      inventorySource: repositoryContext.inventorySource || null,
     },
   };
 }
@@ -422,6 +423,7 @@ export function buildApplicationRepositoryAnchorDraft(
           connected: Boolean(connectionStatus?.connected),
           valid: Boolean(connectionStatus?.valid),
           mode: connectionStatus?.metadata?.mock_mode ? 'mock review' : 'live connection',
+          inventorySource: repositoryContext.inventorySource || null,
         },
       },
       finalWorkSummary: {
@@ -434,6 +436,7 @@ export function buildApplicationRepositoryAnchorDraft(
       source: 'application-repository-context-panel',
       provider: repositoryContext.provider,
       providerAccount,
+      inventorySource: repositoryContext.inventorySource || null,
       repositoryFullName: selectedRepository?.fullName || null,
     },
   };
