@@ -1,23 +1,21 @@
 {
   "reportId": "v26-fifth-gate-closure-deepening-proof",
   "version": "V26",
-  "proofSourceCommit": "e55984450cefd5915c92dfde3e9cf75caa433909",
-  "generatedAt": "2026-04-24T19:52:46-03:00",
+  "proofSourceCommit": "4485ab2906621514d194888f55367c729441a0b7",
+  "generatedAt": "2026-04-24T20:16:11-03:00",
   "generatorId": "bitcode.proven-generator.v1",
   "worktreeState": "dirty-preview",
   "gate": "gate-5",
-  "passed": false,
-  "closureDeepened": false,
+  "passed": true,
+  "closureDeepened": true,
   "closureClaim": false,
   "proceduralGateClosure": false,
   "resumedAfterFourthGatePromotionClosed": true,
   "deepeningMode": "post-fourth-gate-promoted-closure",
   "axisCount": 6,
-  "deepenedAxisCount": 5,
-  "openAxisCount": 1,
-  "openAxes": [
-    "conversations-and-ad-hoc-execution"
-  ],
+  "deepenedAxisCount": 6,
+  "openAxisCount": 0,
+  "openAxes": [],
   "openReason": "This proof deepens fifth-gate closure evidence after fourth-gate promotion closure, but fifth gate remains open until make-shares/use-shares, interface parity, persistence, reform, and proof closure all carry final acceptance.",
   "proofInputs": [
     {
@@ -38,7 +36,7 @@
     {
       "proofId": "runs-pipelines-totality",
       "artifactPath": ".bitcode/runs-pipelines-totality-proof.json",
-      "passed": false
+      "passed": true
     },
     {
       "proofId": "persistence-schema-totality",
@@ -99,7 +97,7 @@
     {
       "axisId": "conversations-and-ad-hoc-execution",
       "label": "Conversations and ad hoc execution continuity",
-      "baselineAdvanced": false,
+      "baselineAdvanced": true,
       "closurePassed": false,
       "currentDeepening": "Fullscreen conversations, retained execution substrate, and source-visible inference records are bound into the make-shares/write surface.",
       "remainingClosure": "Persisted rich-input attachments, destination roundtrip, and cross-interface parity still need complete fifth-gate acceptance.",

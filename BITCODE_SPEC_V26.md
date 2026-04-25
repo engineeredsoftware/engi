@@ -6,16 +6,14 @@
 - Current canonical/latest target: `V26`
 - Canonical pointer: `BITCODE_SPEC.txt` -> `V26`
 - Active canonical anchor: `BITCODE_SPEC_V26.md`
-- Canonical KISS companion: `BITCODE_SPEC_V26_KISS.md`
 - Active generated proof appendix: `BITCODE_SPEC_V26_PROVEN.md`
 - Canonical proof-source commit: `9d0733fed5f63d2f977900384d4103f9fd887f03`
 - Prior canonical anchor: recorded in `BITCODE_SPEC_V26_NOTES.md` only; it is not active V26 truth
 - Prior generated proof appendix: recorded in `BITCODE_SPEC_V26_NOTES.md` only; it is not active V26 truth
 - Generated structured artifact inventory: active canonical `.bitcode/v19-*` reproducible reports, `.bitcode/v20-*` operator-quality reports, `.bitcode/v26-spec-family-report.json`, `.bitcode/v26-canonical-input-report.json`, `.bitcode/v26-gate-checkpoint-report.json`, `.bitcode/conversations-continuity-proof.json`, `.bitcode/runs-pipelines-totality-proof.json`, `.bitcode/persistence-schema-totality-proof.json`, `.bitcode/prompt-system-totality-proof.json`, `.bitcode/inference-implementation-records-proof.json`, `.bitcode/fourth-gate-reclosure-review-proof.json`, `.bitcode/source-to-shares-fifth-gate-proof.json`, `.bitcode/v26-product-readiness-audit.json`, `.bitcode/fifth-gate-closure-deepening-proof.json`, `.bitcode/retained-package-admissibility-proof.json`, and `BITCODE_SPEC_V26_PROVEN.md`
 - Canonical companion delta: `BITCODE_SPEC_V26_DELTA.md`
-- Canonical companion KISS summary: `BITCODE_SPEC_V26_KISS.md`
-- Canonical companion parity ledger: `BITCODE_SPEC_V26_PARITY_MATRIX.md`
 - Canonical companion notes file: `BITCODE_SPEC_V26_NOTES.md`
+- Canonical companion parity ledger: `BITCODE_SPEC_V26_PARITY_MATRIX.md`
 - Canonical companion reform strategy supplement: `protocol-demonstration/V26_REFORM_STRATEGY.md`
 - Canonical companion LSP measurement reform supplement: `protocol-demonstration/V26_LSP_MEASUREMENT_REFORM.md`
 - Draft posture source: `protocol-demonstration/src/canon-posture.js` keeps `ACTIVE_CANON_VERSION = 'V26'` and `DRAFT_TARGET_VERSION = 'V27'`
@@ -82,8 +80,8 @@ The intended result is:
 - maximize precise reuse of the retained active package/app code where those owners fit the new Bitcode totality,
 - and harden auth, GitHub, bitcoin, sidechain, repeated-read, compute, storage, telemetry, and reconciliation to a live-application-ready level.
 
-The KISS companion `BITCODE_SPEC_V26_KISS.md` is part of the active V26 hand-authored family.
-It is deliberately concise and diff-friendly, while this main SPEC remains the implementation-grade source for Protocol, Product, Proof, package, interface, and gate behavior.
+The simplified-spec reading for V26 now lives inside `BITCODE_SPEC_V26_NOTES.md`.
+It stays deliberately concise and diff-friendly there, while this main SPEC remains the implementation-grade source for Protocol, Product, Proof, package, interface, and gate behavior.
 
 ## V26 gate structure
 
@@ -763,7 +761,7 @@ That audit may prove a product baseline is source-backed, but it must not mark f
 
 The following are required for fifth-gate minimum functionality:
 - activity-ledger master-detail read posture is searchable, filterable, paginatable, and stable,
-- `/application` write surfaces for give, need, deposit, branch, and closure round-trip back into that same activity ledger rather than leaving the Bitcode Terminal for a separate write/read model,
+- `/application` write surfaces for give, need, deposit, branch, and closure round-trip back into that same activity ledger through the app-owned `/api/executions/history` route family rather than leaving the Bitcode Terminal for a separate write/read model,
 - when live protocol posture exists before retained execution-history persistence catches up, the Bitcode Terminal may project that posture into the same activity ledger as a protocol-owned live row rather than dropping back to review-only or mock-only state,
 - measured Needs are reviewable after synthesis and before find-fit/settlement search; the accepted/rejected/remeasure-with-feedback state is emitted as `.bitcode/need-review.json`, `/api/need-review` returns an Exchange `needFittingReview` payload for the Terminal, and fit search is not admitted until review accepts the Need,
 - conversations are a real rich-input write surface with source attachments, execution intent, and output destinations,

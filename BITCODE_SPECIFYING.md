@@ -6,7 +6,7 @@ Supersedes: `/Users/garrettmaring/Developer/ENGI/BITCODE_SPEC_TEMPLATEGUIDE.md`
 Applies to:
 - future canonical Bitcode system specification versions,
 - future canonical promotion commits,
-- concise `KISS` specification companions,
+- simplified-spec reading carried inside `NOTES`,
 - generated `_PROVEN_` appendices,
 - generated `.bitcode/vN-*` canonical artifacts,
 - system parity matrices,
@@ -38,7 +38,7 @@ This file defines the required shape, quality bar, and release discipline for su
 The priority order for specifying truth is:
 1. `BITCODE_SPEC.txt`
 2. the pointed `BITCODE_SPEC_VN.md`
-3. `BITCODE_SPEC_VN_KISS.md`
+3. `BITCODE_SPEC_VN_NOTES.md`
 4. `BITCODE_SPEC_VN_DELTA.md`
 5. `BITCODE_SPEC_VN_PARITY_MATRIX.md`
 6. generated `BITCODE_SPEC_VN_PROVEN.md`
@@ -52,13 +52,13 @@ They may be cited for provenance, but the active `SPEC` must not require them fo
 
 When drafting a new version, the minimum canonical input set is:
 1. the current pointed `SPEC`,
-2. the current `KISS` companion from V26 onward,
+2. the current `NOTES` companion from V26 onward, including its simplified-spec reading section,
 3. the current generated `_PROVEN_`,
 4. the current parity matrix,
 5. the current canonical structured `.bitcode/vN-*` artifacts,
 6. and any canon-named realization or adjunct documents required by the active spec family.
 
-Optional notes may still be useful for local working context, but they are not required canonical inputs and must not override canonical files.
+`NOTES` may still contain non-canonical working detail, but from V26 onward it is also a required family member and simplified-reading carrier; it must not override the main `SPEC`.
 
 This rule exists because Bitcode canon is no longer carried only by hand-authored prose.
 Generated appendices, generated structured artifacts, and parity ledgers are now part of the depended-on canonical input surface for future version drafting.
@@ -104,7 +104,7 @@ That means `SPEC` itself must be:
 
 The supporting canonical family then adds:
 - `SPEC_DELTA` for version-local decisions and refinements,
-- `SPEC_KISS` for concise version reading and highest-level diffing,
+- `SPEC_NOTES` for reform/work tracking plus simplified version reading,
 - `SPEC_PARITY_MATRIX` for source/generated/test/promotion truth,
 - `_PROVEN_` for generated proof rendering,
 - and `.bitcode/vN-*` for generated structured evidence.
@@ -238,11 +238,11 @@ Beginning with V21, the required hand-authored system-spec file family is:
 1. `BITCODE_SPEC_VN.md`
    The complete current system canon.
 
-2. `BITCODE_SPEC_VN_DELTA.md`
-   The version-local delta, decision record, implementation-revealed refinement record, accepted boundary ledger, and canonical commit-message input.
+2. `BITCODE_SPEC_VN_NOTES.md`
+   The working-note, reform-ledger, and simplified-spec-reading companion. From V26 onward it is required and replaces the standalone `KISS` concept.
 
-3. `BITCODE_SPEC_VN_KISS.md`
-   The concise, current, highest-level version specification summary for fast reading and version-to-version diffing. It is required from V26 onward and is never a substitute for implementation-grade `SPEC`.
+3. `BITCODE_SPEC_VN_DELTA.md`
+   The version-local delta, decision record, implementation-revealed refinement record, accepted boundary ledger, and canonical commit-message input.
 
 4. `BITCODE_SPEC_VN_PARITY_MATRIX.md`
    The system parity matrix across spec claims, source implementation, generated artifacts, tests, operator surfaces, promotion gates, accepted boundaries, and known debt.
@@ -274,7 +274,6 @@ Compatibility stubs may remain at old paths, but they must not contain a second 
 ## 3.2 Optional File Families
 
 Optional adjunct files may exist when justified:
-- `BITCODE_SPEC_VN_NOTES.md` for non-canonical iterative working notes during drafting and implementation,
 - `BITCODE_SPEC_VN_PROPER.md`, `BITCODE_SPEC_VN_PROPER_DELTA.md`, and `BITCODE_SPEC_VN_PROPER_PARITY_MATRIX.md` for non-canonical historical full-canon reconstructions used to validate specifying against an already-promoted version,
 - `BITCODE_SPEC_VN_INFORMATION_AUDIT.md` for density recovery or historical coverage audits,
 - realization or demo specs under their realization roots,
@@ -381,8 +380,7 @@ Every `BITCODE_SPEC_VN.md` must begin with a status block that states:
 - promotion state,
 - and accepted realization/demo basis.
 
-The companion `DELTA` and `PARITY_MATRIX` must repeat the same status truth.
-From V26 onward, the companion `KISS` file must repeat the same status truth too.
+The companion `NOTES`, `DELTA`, and `PARITY_MATRIX` must repeat the same status truth.
 
 For V21+, those status lines should use stable literal labels so source-side checks can validate them mechanically.
 At minimum, the hand-authored canonical file family should expose:
@@ -954,23 +952,24 @@ If the rule remains current canon after promotion, it must also appear in `SPEC`
 
 ---
 
-# 10. `SPEC_KISS` Requirements
+# 10. `SPEC_NOTES` Simplified-Reading Requirements
 
-`BITCODE_SPEC_VN_KISS.md` is the concise version summary for a full Bitcode spec family.
-It is required from V26 onward.
+`BITCODE_SPEC_VN_NOTES.md` is the reform/work ledger companion for a full Bitcode spec family.
+From V26 onward, it also carries the simplified-spec reading that replaced the standalone `KISS` file concept.
 
-The KISS companion must:
+The `NOTES` companion must:
 - repeat status truth from the family;
-- state the current protocol, product, and proof meaning in concise language;
+- contain a clearly named simplified-spec reading section;
+- state the current protocol, product, and proof meaning in concise language inside that section;
 - identify the gate commitments that govern the version;
 - name the primary implementation and parity priorities at a high level;
 - distinguish protocol objects, product surfaces, and proof surfaces without implementation-grade tables;
-- be simple enough that comparing two `KISS` files gives the fastest high-level version diff;
+- be concise enough that comparing simplified-reading sections across versions gives the fastest high-level diff;
 - and never be the only place a normative implementation rule exists.
 
-`KISS` is intentionally not `SPEC` compression.
+The simplified-spec reading inside `NOTES` is intentionally not `SPEC` compression.
 If a developer must implement behavior, they use `SPEC`.
-If a reviewer needs the fastest correct shape of the version, they read `KISS` first.
+If a reviewer needs the fastest correct shape of the version, they read the simplified-spec reading in `NOTES` first.
 
 ---
 
@@ -1084,7 +1083,7 @@ The preconditions are not limited to filenames.
 Promotion-time checks may and should validate:
 - required full-spec sections in `SPEC`,
 - required decision/change sections in `DELTA`,
-- required concise full-system sections in `KISS` from V26 onward,
+- required simplified-spec-reading sections in `NOTES` from V26 onward,
 - required parity sections in `PARITY_MATRIX`,
 - consistent status truth across the hand-authored family,
 - and absence of stale promoted-status language.

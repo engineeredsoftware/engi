@@ -494,24 +494,32 @@ export async function postExecutionHistoryRoute(request: Request) {
     (body.context as Record<string, unknown> | null | undefined) ||
     (body.metadata as Record<string, unknown> | null | undefined) ||
     null;
+  const normalizedType = normalizeAgenticExecutionStorageType(
+    typeof body.pipeline_type === 'string'
+      ? body.pipeline_type
+      : typeof body.type === 'string'
+        ? body.type
+        : 'agentic-execution:asset-pack',
+  );
+  const normalizedStatus = typeof body.status === 'string' ? body.status : 'completed';
+  const startedAt = asString(body.started_at) || (normalizedStatus === 'pending' ? null : now);
+  const completedAt =
+    asString(body.completed_at) ||
+    (['completed', 'failed', 'cancelled'].includes(normalizedStatus) ? now : null);
 
   const { data, error } = await supabaseAdmin
     .from('executions')
     .insert({
       user_id: userId,
-      type: normalizeAgenticExecutionStorageType(
-        typeof body.pipeline_type === 'string'
-          ? body.pipeline_type
-          : typeof body.type === 'string'
-            ? body.type
-            : 'agentic-execution:asset-pack',
-      ),
-      status: typeof body.status === 'string' ? body.status : 'pending',
+      type: normalizedType,
+      status: normalizedStatus,
       input: (body.input as Record<string, unknown> | null | undefined) || null,
       output,
       context,
       items,
       created_at: now,
+      started_at: startedAt,
+      completed_at: completedAt,
       updated_at: now,
     })
     .select(

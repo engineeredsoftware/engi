@@ -103,6 +103,7 @@ describe('application-activity-history', () => {
     );
 
     expect(request.pipeline_type).toBe('agentic-execution:asset-pack');
+    expect(request.status).toBe('completed');
     expect(request.output).toMatchObject({
       summary: 'Deposited a Bitcode asset pack.',
       repo_snapshot: {

@@ -6,14 +6,14 @@
 - Current canonical/latest target: `V26`
 - Canonical pointer: `/Users/garrettmaring/Developer/ENGI/BITCODE_SPEC.txt` -> `V26`
 - Active canonical anchor: `/Users/garrettmaring/Developer/ENGI/BITCODE_SPEC_V26.md`
-- KISS companion: `/Users/garrettmaring/Developer/ENGI/BITCODE_SPEC_V26_KISS.md`
+- Notes companion: `/Users/garrettmaring/Developer/ENGI/BITCODE_SPEC_V26_NOTES.md`
 - Active generated proof appendix: `/Users/garrettmaring/Developer/ENGI/BITCODE_SPEC_V26_PROVEN.md`
 - Canonical proof-source commit: `9d0733fed5f63d2f977900384d4103f9fd887f03`
 - Prior canonical anchor: `/Users/garrettmaring/Developer/ENGI/_legacy/ENGI_SPEC_V25.md`
 - Prior generated proof appendix: `/Users/garrettmaring/Developer/ENGI/_legacy/ENGI_SPEC_V25_PROVEN.md`
 - Generated structured artifact inventory: active canonical `.bitcode/v19-*` reproducible reports, `.bitcode/v20-*` operator-quality reports, `.bitcode/v26-spec-family-report.json`, `.bitcode/v26-canonical-input-report.json`, `.bitcode/v26-gate-checkpoint-report.json`, `.bitcode/conversations-continuity-proof.json`, `.bitcode/runs-pipelines-totality-proof.json`, `.bitcode/persistence-schema-totality-proof.json`, `.bitcode/prompt-system-totality-proof.json`, `.bitcode/inference-implementation-records-proof.json`, `.bitcode/fourth-gate-reclosure-review-proof.json`, `.bitcode/source-to-shares-fifth-gate-proof.json`, `.bitcode/v26-product-readiness-audit.json`, `.bitcode/fifth-gate-closure-deepening-proof.json`, `.bitcode/retained-package-admissibility-proof.json`, and `BITCODE_SPEC_V26_PROVEN.md`
 - Spec companion: `/Users/garrettmaring/Developer/ENGI/BITCODE_SPEC_V26.md`
-- KISS companion: `/Users/garrettmaring/Developer/ENGI/BITCODE_SPEC_V26_KISS.md`
+- Notes companion: `/Users/garrettmaring/Developer/ENGI/BITCODE_SPEC_V26_NOTES.md`
 - Parity companion: `/Users/garrettmaring/Developer/ENGI/BITCODE_SPEC_V26_PARITY_MATRIX.md`
 - Notes companion: `/Users/garrettmaring/Developer/ENGI/BITCODE_SPEC_V26_NOTES.md`
 - Source parity state: retained-system convergence now has material proof evidence across application routes, auxillary compatibility redirects, persistence witnesses, prompt-system ports, documentation/spec synchronization, and the fourth-gate reclosure review; fifth-gate source-to-shares and closure-deepening proof evidence exists while fifth through eighth gate remain open
@@ -44,8 +44,7 @@ The DELTA is allowed to include transition color that the main SPEC must not car
 - proof, test, typecheck, generated artifact, or specification witness required for closure.
 
 The main `BITCODE_SPEC_V26.md` specifies Bitcode as the system now is.
-`BITCODE_SPEC_V26_KISS.md` gives the concise, diff-friendly V26 reading of the same system; it is not dense enough to replace the main SPEC.
-`BITCODE_SPEC_V26_NOTES.md` records granular "was this, now is that" reform ledger details.
+`BITCODE_SPEC_V26_NOTES.md` records granular "was this, now is that" reform ledger details and now also carries the concise simplified-spec reading for fast version-to-version diffing.
 This DELTA specifies the architectural movement between those two perspectives so future work can understand why the whole repository is being reformed at once.
 
 ## Late-Engi To Commercialized Bitcode Reformation
@@ -126,6 +125,7 @@ The following examples define how DELTA color should be read:
 | --- | --- | --- |
 | deterministic protocol witness | `protocol-demonstration/*` | retains the lower-level protocol behavior and proof model while commercial product rails move through `uapi` and packages |
 | commercial Terminal/Exchange application | `uapi/app/application/*`, `uapi/app/api/*`, `packages/api/*` | turns retained app infrastructure into product-facing Terminal, Exchange ingress, and state admission rather than a standalone demonstration |
+| execution-history ledger write/read loop | `uapi/app/application/application-activity-history.ts`, `uapi/app/api/executions/history/route.ts`, `packages/api/src/routes/executions.ts` | converts retained execution-history storage from a generic run log into the Bitcode Terminal activity ledger write/read seam, where give/need/closure writes persist as completed Bitcode activity and reread through the same Exchange route family |
 | Need-fitting Exchange/Terminal review seam | `protocol-demonstration/server.js`, `uapi/app/api/need-review/route.ts`, `uapi/app/application/ApplicationNeedScenarioPanel.tsx` | promotes the post-measurement/pre-fit review from a raw branch artifact into an Exchange `needFittingReview` payload that Terminal renders before candidate recall, fit search, AssetPack assembly, and present-fit settlement review |
 | product readiness auditing | `.bitcode/v26-product-readiness-audit.json`, `protocol-demonstration/src/canonical/v26-product-readiness-audit.js` | converts the parity matrix plus Exchange-lite/Terminal-lite/commercial source evidence into an explicit readiness map that proves baselines while refusing fifth-gate closure, MVP, launch, or V26 definition-of-need overclaims |
 | AssetPack pipeline corridor, formerly deliverable pipeline | `packages/pipelines/asset-pack/*`, `@bitcode/pipeline-asset-pack` | live filesystem/package owner for Bitcode agentic pipeline runs that satisfy Needs, synthesize AssetPack contents, store Exchange evidence, Finish results, and use delivery mechanisms for third-party provision while public route/payload compatibility remains bounded |

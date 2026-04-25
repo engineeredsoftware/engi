@@ -53,9 +53,11 @@ const PRODUCT_READINESS_AUDIT_ROWS = [
     requiredEvidence: [
       ['protocol-demonstration/public/app.js', '__BITCODE_APPLICATION_SHELL_SNAPSHOT__'],
       ['uapi/app/application/ApplicationPageClient.tsx', 'ApplicationNeedScenarioPanel'],
+      ['uapi/app/application/application-activity-history.ts', "status: draft.status || 'completed'"],
       ['uapi/app/application/ApplicationNeedScenarioPanel.tsx', 'Need-fitting Exchange review'],
       ['uapi/app/application/ApplicationClosureNativeSections.tsx', 'Read closure as one sequence from reviewable Need admission'],
       ['uapi/app/application/application-transaction-detail-snapshot.ts', 'fitQualities: coerceFitQualities'],
+      ['uapi/tests/api/executionsHistoryWriteReadParity.test.ts', 'round-trips give, need, and closure writes through the same Bitcode activity ledger'],
       ['uapi/tests/applicationNeedScenarios.test.ts', 'normalizes Exchange Need-fitting review state for Terminal review controls'],
       ['BITCODE_SPEC_V26_PARITY_MATRIX.md', '`Bitcode Terminal` read/write loop']
     ],

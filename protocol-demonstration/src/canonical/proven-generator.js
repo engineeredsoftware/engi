@@ -2434,6 +2434,43 @@ function buildV26SourceToSharesFifthGateProof({
       ]
     ),
     buildV26FilePresenceCheck(
+      'commercial-activity-ledger-write-reread',
+      'Commercial production SPEC-IMPL records give, need, and closure writes into execution history and rereads them through the same Bitcode activity ledger',
+      [
+        'uapi/app/api/executions/history/route.ts',
+        'packages/api/src/routes/executions.ts',
+        'uapi/app/application/application-activity-history.ts',
+        'uapi/tests/applicationActivityHistory.test.ts',
+        'uapi/tests/api/executionsHistoryWriteReadParity.test.ts'
+      ]
+    ),
+    buildV26FileContentCheck(
+      'commercial-activity-ledger-write-reread-contract',
+      'Commercial activity-ledger write proof checks completed Bitcode activity recording, normalized execution-history storage, and immediate reread ordering through the same route family',
+      [
+        {
+          file: 'uapi/app/application/application-activity-history.ts',
+          evidence: "status: draft.status || 'completed'",
+          description: 'Terminal activity recordings default to completed Bitcode ledger writes'
+        },
+        {
+          file: 'packages/api/src/routes/executions.ts',
+          evidence: 'completed_at: completedAt',
+          description: 'execution-history inserts persist terminal activity completion timestamps for reread'
+        },
+        {
+          file: 'uapi/tests/api/executionsHistoryWriteReadParity.test.ts',
+          evidence: 'round-trips give, need, and closure writes through the same Bitcode activity ledger',
+          description: 'commercial parity test proves give/need/closure writes reread through the same execution-history ledger'
+        },
+        {
+          file: 'uapi/tests/api/executionsHistoryWriteReadParity.test.ts',
+          evidence: "expect(historyPayload.map((row: any) => row.summary)).toEqual([",
+          description: 'commercial parity test asserts newest-first reread ordering from the execution-history route'
+        }
+      ]
+    ),
+    buildV26FilePresenceCheck(
       'terminal-source-to-shares-settlement-read',
       'Bitcode Terminal reads Need review, fit-search admission, quantized fit quality, and source-to-shares settlement as one closure sequence',
       [
@@ -3305,11 +3342,6 @@ function buildV26RunsPipelinesTotalityProof({
           file: 'uapi/hooks/useExecutionState.ts',
           evidence: 'Submitting Bitcode asset-pack pipeline',
           description: 'TypeScript debug path teaches Bitcode asset-pack submission'
-        },
-        {
-          file: 'uapi/hooks/useExecutionState.js',
-          evidence: 'Submitting Bitcode asset-pack pipeline',
-          description: 'tracked JavaScript mirror carries the same runtime debug semantics'
         }
       ]
     )

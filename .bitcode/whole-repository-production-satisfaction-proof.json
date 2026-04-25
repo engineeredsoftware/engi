@@ -1,8 +1,8 @@
 {
   "reportId": "v26-whole-repository-production-satisfaction-proof",
   "version": "V26",
-  "proofSourceCommit": "e55984450cefd5915c92dfde3e9cf75caa433909",
-  "generatedAt": "2026-04-24T19:52:46-03:00",
+  "proofSourceCommit": "4485ab2906621514d194888f55367c729441a0b7",
+  "generatedAt": "2026-04-24T20:16:11-03:00",
   "generatorId": "bitcode.proven-generator.v1",
   "worktreeState": "dirty-preview",
   "passed": false,

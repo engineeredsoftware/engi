@@ -134,8 +134,10 @@ test('V26 Need-fitting Exchange and Terminal source stays TypeScript-owned witho
     'uapi/app/api/make-bitcode-branch/route.js',
     'uapi/app/api/state/route.js',
     'uapi/lib/bitcode-app-context.js',
+    'uapi/hooks/useExecutionState.js',
     'uapi/tests/api/needReviewRoute.test.js',
     'uapi/tests/api/needReviewProtocolParity.test.js',
+    'uapi/tests/api/executionsHistoryWriteReadParity.test.js',
     'uapi/tests/applicationNeedScenarios.test.js',
     'uapi/tests/applicationClosureState.test.js'
   ].forEach((sourcePath) => {

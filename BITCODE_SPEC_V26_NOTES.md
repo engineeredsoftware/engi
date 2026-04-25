@@ -3,13 +3,18 @@
 ## Status
 
 - Scope: working-note companion for the active V26 canonical family centered on Bitcode productionizing hardening, first-gate application migration, second-gate application UX/UI plus external hardening, third-gate marketing refurbishment, fourth-gate retained-system convergence, and fifth-through-eighth-gate closure
+- Current canonical/latest target: `V26`
 - Canonical pointer: `/Users/garrettmaring/Developer/ENGI/BITCODE_SPEC.txt` -> `V26`
 - Active canonical anchor: `/Users/garrettmaring/Developer/ENGI/BITCODE_SPEC_V26.md`
-- KISS companion: `/Users/garrettmaring/Developer/ENGI/BITCODE_SPEC_V26_KISS.md`
 - Active generated proof appendix: `/Users/garrettmaring/Developer/ENGI/BITCODE_SPEC_V26_PROVEN.md`
+- Canonical proof-source commit: `9d0733fed5f63d2f977900384d4103f9fd887f03`
+- Prior canonical anchor: recorded in `/Users/garrettmaring/Developer/ENGI/BITCODE_SPEC_V26_NOTES.md` only; it is not active V26 truth
+- Prior generated proof appendix: recorded in `/Users/garrettmaring/Developer/ENGI/BITCODE_SPEC_V26_NOTES.md` only; it is not active V26 truth
 - Main spec companion: `/Users/garrettmaring/Developer/ENGI/BITCODE_SPEC_V26.md`
 - Delta companion: `/Users/garrettmaring/Developer/ENGI/BITCODE_SPEC_V26_DELTA.md`
 - Parity companion: `/Users/garrettmaring/Developer/ENGI/BITCODE_SPEC_V26_PARITY_MATRIX.md`
+- Generated structured artifact inventory: active canonical `.bitcode/v19-*` reproducible reports, `.bitcode/v20-*` operator-quality reports, `.bitcode/v26-spec-family-report.json`, `.bitcode/v26-canonical-input-report.json`, `.bitcode/v26-gate-checkpoint-report.json`, `.bitcode/conversations-continuity-proof.json`, `.bitcode/runs-pipelines-totality-proof.json`, `.bitcode/persistence-schema-totality-proof.json`, `.bitcode/prompt-system-totality-proof.json`, `.bitcode/inference-implementation-records-proof.json`, `.bitcode/fourth-gate-reclosure-review-proof.json`, `.bitcode/source-to-shares-fifth-gate-proof.json`, `.bitcode/v26-product-readiness-audit.json`, `.bitcode/fifth-gate-closure-deepening-proof.json`, `.bitcode/retained-package-admissibility-proof.json`, and `BITCODE_SPEC_V26_PROVEN.md`
+- Source parity state: V26 source work has material first-through-fourth-gate implementation and proof evidence, fifth-gate implementation remains active, and later gates remain open
 - Current fourth-gate/fifth-gate checkpoint artifact: `/Users/garrettmaring/Developer/ENGI/.bitcode/v26-gate-checkpoint-report.json`
 - V26 state: V26 remains active canon; prior through-fourth-gate promotion claims were reopened as overstated and effectively false, retained-system proof families now pass as material evidence, fourth-gate procedural acceptance is promoted closed after generated re-review, and fifth-gate source-to-shares plus closure-deepening evidence has advanced while fifth-, sixth-, seventh-, and eighth-gate closure remain open
 
@@ -22,7 +27,7 @@ It is also the V26 reform ledger: the main SPEC should state the Bitcode system 
 The NOTES boundary exists because V26 is both product canon and reformation canon:
 
 - `BITCODE_SPEC_V26.md` must read as a current Bitcode protocol/product/proof specification.
-- `BITCODE_SPEC_V26_KISS.md` must read as the concise, current, highest-level Bitcode specification summary for fast version-to-version diffing; it must not contain implementation density that only exists there.
+- this `BITCODE_SPEC_V26_NOTES.md` file now also carries the simplified-spec reading that replaced the standalone `KISS` companion concept; that reading must stay concise, current, and never become the only place a normative rule exists.
 - `BITCODE_SPEC_V26_DELTA.md` must be formally specified as the chronological and architectural delta from the late-Engi repository into commercialized Bitcode; it may include enough color to explain why a retained corridor exists, but it must resolve each retained concept into current Bitcode ownership rather than leaving history as authority.
 - `BITCODE_SPEC_V26_PARITY_MATRIX.md` must judge current Bitcode implementation parity without depending on legacy product explanations.
 - `BITCODE_SPEC_V26_PROVEN.md` must stay generated evidence rather than historical rationale.
@@ -34,8 +39,73 @@ When a reform detail matters to implementation, the required sequence is:
 1. record the transition in NOTES with former meaning, Bitcode meaning, source owner, and closure condition;
 2. implement or remove the source residue so active source no longer needs the historical explanation;
 3. promote only the current Bitcode requirement into the main SPEC/PARITY/proof family;
-4. update KISS only when the current high-level Protocol/Product/Proof reading changes;
+4. update the NOTES simplified-spec reading when the current high-level Protocol/Product/Proof reading changes;
 5. keep any remaining historical wording either in NOTES or under `_legacy/`, not in active product-facing implementation.
+
+## Concise current-system reading
+
+Bitcode V26 is the productization version of the source-to-shares system.
+It specifies and implements Bitcode as one auditable protocol plus product family:
+
+- the Protocol defines source supply, measured demand, fit, proof, settlement, shares, and replayable evidence;
+- the Exchange is the deployed state, API, persistence, run, settlement, and ledger side of the protocol;
+- the Terminal is the operator product experience for giving source, needing work, reviewing measured Needs, reviewing fits, accepting settlement, and rereading receipts;
+- admitted interfaces such as MCP, ChatGPT App, webhooks, GitHub, and other connected tools are ingress or delivery surfaces, not parallel product owners;
+- `protocol-demonstration` remains the deterministic lower-rail protocol witness while `uapi`, `packages/*`, persistence, proof generators, and interface packages carry the commercial implementation rails.
+
+The shortest V26 rule is: every active source path must explain how it helps Bitcode turn source into accepted shares with auditable engineering knowledge for customers.
+If a source path cannot answer that, it must be re-specified, bounded as support, archived, or removed.
+
+### Gate commitments at simplified reading
+
+V26 is governed by eight gates:
+1. first-gate moves protocol ownership into app/package owners while preserving deterministic protocol behavior;
+2. second-gate makes the application route and external interfaces coherent enough for the product rail;
+3. third-gate refurbishes public/product teaching;
+4. fourth-gate is accepted only through explicit reclosure proof after earlier closure claims were overstated;
+5. fifth-gate closes minimum-functional Exchange and Terminal behavior plus broad current-world reform into Bitcode-only active source;
+6. sixth-gate raises Exchange, Terminal, Protocol, Proofs, and admitted interfaces to MVP;
+7. seventh-gate refines the testnet system toward initial commercial viability;
+8. eighth-gate closes whole-repository provation and the V26 definition of need.
+
+Fifth-gate is mostly implementation work.
+Proof improvements matter, but they do not close the gate unless packages, interfaces, prompts, agents, pipelines, routes, persistence, source comments, docs, tests, and generated proof inputs are all aligned to current Bitcode meaning.
+
+### Protocol, products, and proofs at simplified reading
+
+The canonical object flow is:
+1. source is supplied, normalized, projected, and made auditable;
+2. a user expresses a Need;
+3. Terminal conversation writes preserve source attachments, output destinations, AssetPack references, and Need-measurement intent as normalized rich-input evidence on the Exchange execution row;
+4. discovery and measurement synthesize a reviewable Need with evidence;
+5. the operator can accept, reject, or request re-measurement with feedback;
+6. fit candidates are found and presented with quantized objective-contract fit qualities;
+7. accepted settlement materializes source-to-shares accounting;
+8. AssetPack pipeline runs synthesize Need-satisfaction AssetPack contents and evidence;
+9. Finish stores Exchange evidence, records receipts, and can deliver Shippables such as pull requests, comments, issues, reviews, or other connected-interface outputs;
+10. Terminal and connected interfaces reread the same Exchange state and proof evidence.
+
+### Fifth-gate priorities at simplified reading
+
+The remaining fifth-gate work is prioritized by closure leverage:
+
+- reform active filesystem names and exported names so live package owners are Bitcode nouns rather than compatibility nouns;
+- complete AssetPack pipeline refurbishment across SDIVF phases, agents, tools, prompts, runtime outputs, postprocess types, tests, and route/API compatibility wrappers;
+- keep the retained `/api/deliverables` mount compatibility-only while source, hooks, templates, streaming parsers, route logs, telemetry aliases, and execution headers use AssetPack/Shippable names first;
+- make every Prompt, PromptPart, Registry primitive, agent prompt, tool prompt, and doc-comment injection path current-Bitcode precise;
+- finish package and interface parity for Terminal, Exchange APIs, MCP, ChatGPT App, webhooks, Supabase/ORM state, execution history, conversation rich-input execution evidence, and connected-interface write admission;
+- ensure Need review and fit review are explicit before settlement, including Exchange `needFittingReview`, Terminal review controls, accept/reject/re-measure, and fit-quality receipts;
+- keep product readiness auditing explicit through `.bitcode/v26-product-readiness-audit.json`, proving source-backed baselines while keeping fifth-gate closure and later-gate readiness open until actually closed;
+- remove source-co-located build output from TypeScript package proof ownership.
+
+## Simplified-spec reading rule
+
+There is no longer a standalone `BITCODE_SPEC_V26_KISS.md`.
+The simplified-spec reading now lives inside this NOTES document so the concise version-diff reading stays adjacent to reform history, gate reality, and implementation notes.
+
+The simplified-spec reading is intentionally not implementation-grade.
+If a developer must implement behavior, they use `BITCODE_SPEC_V26.md`.
+If a reviewer needs the fastest high-level shape of V26, they read the simplified-spec sections in this NOTES file first, then the formal DELTA, then the full SPEC.
 
 ## DELTA companion rule
 

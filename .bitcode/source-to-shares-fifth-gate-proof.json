@@ -1,8 +1,8 @@
 {
   "reportId": "v26-source-to-shares-fifth-gate-proof",
   "version": "V26",
-  "proofSourceCommit": "e55984450cefd5915c92dfde3e9cf75caa433909",
-  "generatedAt": "2026-04-24T19:52:46-03:00",
+  "proofSourceCommit": "4485ab2906621514d194888f55367c729441a0b7",
+  "generatedAt": "2026-04-24T20:16:11-03:00",
   "generatorId": "bitcode.proven-generator.v1",
   "worktreeState": "dirty-preview",
   "gate": "gate-5",
@@ -90,6 +90,50 @@
           "file": "uapi/tests/api/needReviewProtocolParity.test.ts",
           "evidence": "statePayload.latestRun.settlementSourceToSharesProof.memberVerdicts",
           "description": "reread asserts settlement-source-to-shares proof carry-through"
+        }
+      ],
+      "missingFiles": [],
+      "missingEvidence": []
+    },
+    {
+      "checkId": "commercial-activity-ledger-write-reread",
+      "label": "Commercial production SPEC-IMPL records give, need, and closure writes into execution history and rereads them through the same Bitcode activity ledger",
+      "passed": true,
+      "detail": "5 required files present",
+      "requiredFiles": [
+        "uapi/app/api/executions/history/route.ts",
+        "packages/api/src/routes/executions.ts",
+        "uapi/app/application/application-activity-history.ts",
+        "uapi/tests/applicationActivityHistory.test.ts",
+        "uapi/tests/api/executionsHistoryWriteReadParity.test.ts"
+      ],
+      "missingFiles": []
+    },
+    {
+      "checkId": "commercial-activity-ledger-write-reread-contract",
+      "label": "Commercial activity-ledger write proof checks completed Bitcode activity recording, normalized execution-history storage, and immediate reread ordering through the same route family",
+      "passed": true,
+      "detail": "4 source evidence requirements satisfied",
+      "requiredEvidence": [
+        {
+          "file": "uapi/app/application/application-activity-history.ts",
+          "evidence": "status: draft.status || 'completed'",
+          "description": "Terminal activity recordings default to completed Bitcode ledger writes"
+        },
+        {
+          "file": "packages/api/src/routes/executions.ts",
+          "evidence": "completed_at: completedAt",
+          "description": "execution-history inserts persist terminal activity completion timestamps for reread"
+        },
+        {
+          "file": "uapi/tests/api/executionsHistoryWriteReadParity.test.ts",
+          "evidence": "round-trips give, need, and closure writes through the same Bitcode activity ledger",
+          "description": "commercial parity test proves give/need/closure writes reread through the same execution-history ledger"
+        },
+        {
+          "file": "uapi/tests/api/executionsHistoryWriteReadParity.test.ts",
+          "evidence": "expect(historyPayload.map((row: any) => row.summary)).toEqual([",
+          "description": "commercial parity test asserts newest-first reread ordering from the execution-history route"
         }
       ],
       "missingFiles": [],
