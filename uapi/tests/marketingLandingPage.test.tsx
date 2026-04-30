@@ -83,7 +83,7 @@ describe('MarketingLandingPage', () => {
       screen.getByText('Bitcode is auditable market infrastructure for engineering knowledge.'),
     ).toBeInTheDocument();
     expect(
-      screen.getByRole('link', { name: 'Open full demo' }),
+      screen.getByRole('link', { name: 'Open Terminal' }),
     ).toHaveAttribute('href', '/application');
     expect(screen.getByRole('link', { name: 'Read docs' })).toHaveAttribute(
       'href',
@@ -95,7 +95,7 @@ describe('MarketingLandingPage', () => {
     expect(screen.getByText('Measurement vector')).toBeInTheDocument();
     expect(screen.getByText('Verified access')).toBeInTheDocument();
     expect(screen.getByText('SOURCE SHARES')).toBeInTheDocument();
-    expect(screen.getByText('MOCK DEMO')).toBeInTheDocument();
+    expect(screen.getByText('MOCKED TERMINAL')).toBeInTheDocument();
     expect(screen.getByText('Exchange')).toBeInTheDocument();
     expect(document.getElementById('bitcodeApplicationRoot')).toBeNull();
     expect(document.querySelector('iframe')).toBeNull();

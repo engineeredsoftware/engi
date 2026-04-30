@@ -13,18 +13,18 @@ export const BITCODE_PUBLIC_EXPLAINERS = {
       'Use this route when you want the highest-level public view of how Source Shares become measurable technical intelligence before you dive into full detail.',
     points: [
       'Frames Bitcode as the exchange for source-backed technical value',
-      'Connects public narrative directly to the mock demo, docs, and full Terminal',
+      'Connects public narrative directly to Terminal, docs, and Source Shares',
     ],
   }),
   transactions: buildExplainer({
     kicker: 'Live application',
     title: 'Terminal',
-    summary: 'Open the full Terminal for proofs, history, and give-to-settle demonstration detail.',
+    summary: 'Open the full Terminal for proofs, history, and give-to-settle detail.',
     detail:
       'This is the main operator-grade surface. Use it when you want the full master-detail ledger instead of the public exchange read.',
     points: [
       'Loads selected execution detail, proofs, history, and closure posture',
-      'Keeps the mock demonstration readable without requiring live external connectivity',
+      'Keeps mocked launch-mode state readable without requiring live external connectivity',
     ],
   }),
   docs: buildExplainer({

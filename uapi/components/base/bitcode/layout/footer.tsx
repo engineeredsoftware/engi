@@ -28,11 +28,11 @@ const CURRENT_PROTOCOL_SPEC_URL = 'https://github.com/engineeredsoftware/bitcode
 const BITCODE_REPOSITORY_URL = 'https://github.com/engineeredsoftware/bitcode';
 const DISABLED_FEATURE_TOOLTIPS = {
   exchange:
-    'Disabled for demo launch. When enabled, Exchange opens the public Source Shares activity and market-reading surface.',
+    'Disabled for launch mode. When enabled, Exchange opens the public Source Shares activity and market-reading surface.',
   terminal:
-    'Disabled for demo launch. When enabled, Terminal opens the full give-to-settle ledger, proofs, and history workspace.',
+    'Disabled for launch mode. When enabled, Terminal opens the full give-to-settle ledger, proofs, and history workspace.',
   auxillaries:
-    'Disabled for demo launch. When enabled, Auxillaries opens profile, connects, interface defaults, and $BTD posture.',
+    'Disabled for launch mode. When enabled, Auxillaries opens profile, connects, interface defaults, and $BTD posture.',
 } as const;
 
 const footerNavs = [
@@ -152,7 +152,7 @@ export default function Footer({ showPrimaryContent = true, className = '' }: Fo
     {
       ariaLabel: BITCODE_PUBLIC_COPY.footer.links.transactions,
       label: BITCODE_PUBLIC_COPY.footer.links.transactions,
-      meta: 'Full demo',
+      meta: 'Terminal',
       href: APPLICATION_URL,
       explainer: BITCODE_PUBLIC_EXPLAINERS.transactions,
       icon: (

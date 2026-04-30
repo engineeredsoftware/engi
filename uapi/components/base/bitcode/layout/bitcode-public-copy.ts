@@ -7,11 +7,11 @@ export const BITCODE_PUBLIC_COPY = {
     'SOURCE SHARES',
     'TERMINAL',
     'DOCS',
-    'MOCK DEMO',
+    'MOCKED TERMINAL',
   ],
   primaryCta: {
     href: '/application',
-    label: 'Open full demo',
+    label: 'Open Terminal',
   },
   secondaryCta: {
     href: '/docs',
@@ -22,11 +22,11 @@ export const BITCODE_PUBLIC_COPY = {
     title: 'Study the docs before you transact',
     meta: 'Docs hub',
     body:
-      'Docs teaches Bitcode step by step: what Source Shares are, how measurement works, and how the mock demo moves from source deposit to settlement.',
+      'Docs teaches Bitcode step by step: what Source Shares are, how measurement works, and how Terminal state moves from source deposit to settlement.',
   },
   terminalPreview: {
     pill: 'Exchange',
-    kicker: 'embedded demonstration',
+    kicker: 'Terminal preview',
     rail: ['give', 'need', 'settle'],
   },
   operatorFrame: {
@@ -75,7 +75,7 @@ export const BITCODE_PUBLIC_COPY = {
     eyebrow: 'Bitcode docs',
     heading: 'Study Bitcode step by step.',
     body:
-      'Docs teaches the system step by step with route maps, inline widgets, the recorded walkthrough, and direct links into the Exchange, Terminal, and mock demonstration.',
+      'Docs teaches the system step by step with route maps, action guides, read guides, the recorded walkthrough, and direct links into the Exchange and Terminal.',
     checkingVideoTitle: 'Recorded walkthrough',
     checkingVideoBody:
       'Checking the recorded Bitcode walkthrough for inline playback inside the docs.',

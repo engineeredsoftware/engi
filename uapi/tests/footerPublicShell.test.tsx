@@ -71,7 +71,7 @@ describe('Footer public shell', () => {
     expect(screen.getByRole('button', { name: 'Explain Terminal' })).toBeInTheDocument();
     expect(screen.getByRole('button', { name: 'Explain Docs' })).toBeInTheDocument();
     expect(screen.getByText('Public exchange')).toBeInTheDocument();
-    expect(screen.getByText('Full demo')).toBeInTheDocument();
+    expect(screen.getAllByText('Terminal').length).toBeGreaterThan(0);
     expect(screen.getByText('Docs hub')).toBeInTheDocument();
     expect(screen.getByText('Give')).toBeInTheDocument();
     expect(screen.getByText('Need')).toBeInTheDocument();

@@ -26,7 +26,7 @@ export default function ApplicationOpenOrbitalsButton({
   if (FEATURE_FLAGS.DISABLE_AUXILLARIES) {
     return (
       <DisabledTooltipWrapper
-        tooltip="Disabled for demo launch. When enabled, Auxillaries opens profile, connects, interface defaults, and $BTD posture."
+        tooltip="Disabled for launch mode. When enabled, Auxillaries opens profile, connects, interface defaults, and $BTD posture."
         className="block"
       >
         <button

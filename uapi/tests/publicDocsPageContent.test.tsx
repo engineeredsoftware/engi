@@ -21,13 +21,14 @@ describe('PublicDocsPageContent', () => {
     render(<PublicDocsPageContent sourcePlayable={false} />);
 
     expect(screen.getByText('Study Bitcode step by step.')).toBeInTheDocument();
-    expect(screen.getByRole('link', { name: 'Read the live Bitcode market frame' })).toHaveAttribute('href', '/');
-    expect(screen.getByRole('link', { name: 'Move into full give-to-settle detail' })).toHaveAttribute('href', '/application');
-    expect(screen.getByRole('link', { name: 'Shape identity, interfaces, and $BTD posture' })).toHaveAttribute('href', '/auxillaries/profile');
-    expect(screen.getByRole('link', { name: 'Inspect storage, schema, and package owners' })).toHaveAttribute('href', '/edgetimes');
-    expect(screen.getByText('Exchange')).toBeInTheDocument();
-    expect(screen.getByText('Terminal')).toBeInTheDocument();
-    expect(screen.getByText('Inline widgets')).toBeInTheDocument();
+    expect(screen.getByRole('link', { name: 'Source Shares and the Bitcode Exchange' })).toHaveAttribute('href', '/docs/source-shares');
+    expect(screen.getByRole('link', { name: 'Orient inside the Bitcode Terminal' })).toHaveAttribute('href', '/docs/terminal');
+    expect(screen.getByRole('link', { name: 'Terminal actions: what writes and what should read back' })).toHaveAttribute('href', '/docs/terminal-actions');
+    expect(screen.getByRole('link', { name: 'Terminal reads, proofs, readiness, and expected results' })).toHaveAttribute('href', '/docs/read-results');
+    expect(screen.getByText('Terminal action map')).toBeInTheDocument();
+    expect(screen.getByText('Every write has a read-back expectation.')).toBeInTheDocument();
+    expect(screen.getByText('Source Shares visual guide')).toBeInTheDocument();
+    expect(screen.getByText('Proof and readiness reads')).toBeInTheDocument();
     expect(screen.getByText('Guide fallback')).toBeInTheDocument();
   });
 });

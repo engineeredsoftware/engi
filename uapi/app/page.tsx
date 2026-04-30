@@ -6,7 +6,7 @@ import MarketingLandingPage from './(root)/components/MarketingLandingPage';
 export const metadata: Metadata = {
   title: 'Bitcode Exchange',
   description:
-    'The Bitcode Exchange for Source Shares, measured technical intelligence, mock demonstration, Terminal, and docs.',
+    'The Bitcode Exchange for Source Shares, measured technical intelligence, Terminal, and docs.',
   alternates: {
     canonical: '/',
   },

@@ -325,7 +325,7 @@ export default function ApplicationPageClient() {
       />
       <ApplicationShellBridgeProvider>
         <div className="min-h-screen bg-[radial-gradient(circle_at_top,rgba(73,203,146,0.16),transparent_26%),linear-gradient(180deg,#050915_0%,#02050d_100%)] text-neutral-100">
-          <div className="mx-auto flex w-full max-w-none flex-col gap-6 px-4 pb-24 pt-10 tablet:px-6 desktop:px-8">
+          <div className="mx-auto flex w-full max-w-none flex-col gap-6 px-4 pb-24 pt-32 tablet:px-6 desktop:px-8">
           <section className="overflow-hidden rounded-[2rem] border border-emerald-400/15 bg-[linear-gradient(135deg,rgba(7,14,26,0.96),rgba(4,9,18,0.92))] px-6 py-6 shadow-[0_30px_100px_rgba(0,0,0,0.38)]">
             <div className="flex flex-col gap-5 xl:flex-row xl:items-end xl:justify-between">
               <div className="max-w-4xl">

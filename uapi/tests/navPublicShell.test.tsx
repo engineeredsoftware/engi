@@ -100,6 +100,7 @@ describe('Nav public shell', () => {
 
     expect(screen.getByText('Brand network')).toBeInTheDocument();
     expect(screen.getByRole('link', { name: 'Exchange' })).toHaveAttribute('href', '/');
+    expect(screen.getByRole('link', { name: 'Exchange' })).not.toHaveAttribute('aria-current');
     expect(screen.getByRole('link', { name: 'Terminal' })).toHaveAttribute('href', '/application');
     expect(screen.getByRole('link', { name: 'Docs' })).toHaveAttribute('href', '/docs');
     expect(screen.getByRole('button', { name: 'Explain Exchange' })).toBeInTheDocument();

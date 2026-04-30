@@ -55,13 +55,13 @@ function shouldApplyCollapseAnimation(pathname: string | null): boolean {
 
 const DISABLED_FEATURE_TOOLTIPS = {
   exchange:
-    'Disabled for demo launch. When enabled, Exchange opens the public Source Shares activity and market-reading surface.',
+    'Disabled for launch mode. When enabled, Exchange opens the public Source Shares activity and market-reading surface.',
   terminal:
-    'Disabled for demo launch. When enabled, Terminal opens the full give-to-settle ledger, proofs, and history workspace.',
+    'Disabled for launch mode. When enabled, Terminal opens the full give-to-settle ledger, proofs, and history workspace.',
   auxillaries:
-    'Disabled for demo launch. When enabled, Auxillaries opens profile, connects, interface defaults, and $BTD posture.',
+    'Disabled for launch mode. When enabled, Auxillaries opens profile, connects, interface defaults, and $BTD posture.',
   createAccount:
-    'Disabled for demo launch. When enabled, Create Account starts identity and onboarding setup.',
+    'Disabled for launch mode. When enabled, Create Account starts identity and onboarding setup.',
 } as const;
 
 const publicActionClassName =
@@ -268,7 +268,9 @@ export default function Nav() {
           (href === '/application' && disableTerminalLink);
         const isActiveRoute =
           href === '/'
-            ? pathname === '/'
+            ? false
+            : href === '/docs'
+              ? pathname === '/docs' || pathname?.startsWith('/docs/')
             : pathname === href || pathname?.startsWith(`${href}/`);
 
         return (
@@ -339,7 +341,7 @@ export default function Nav() {
   return (
     <div className="relative">
       <div
-        className={`nav-container-global ${positionClass} z-50 ${usesWorkspaceOnlyChrome ? 'border-b border-white/8 bg-[rgba(4,8,18,0.92)] shadow-[0_18px_40px_rgba(0,0,0,0.22)] backdrop-blur-xl' : ''} ${usesProductChrome ? 'border-b border-emerald-300/10 bg-[linear-gradient(180deg,rgba(3,8,18,0.94),rgba(3,8,18,0.78)_72%,rgba(3,8,18,0.52))] shadow-[0_20px_50px_rgba(0,0,0,0.18)] backdrop-blur-xl' : ''} ${!usesWorkspaceOnlyChrome && !usesProductChrome && isCollapsed ? 'nav-scrolled-bg' : ''} ${isAnimated ? 'nav-container-animated' : 'opacity-0'} ${!usesWorkspaceOnlyChrome && !usesProductChrome && isCollapsed ? 'w-[80%]' : 'w-full'}`}
+        className={`nav-container-global ${positionClass} z-50 ${usesWorkspaceOnlyChrome ? 'border-b border-white/8 bg-[rgba(4,8,18,0.92)] shadow-[0_18px_40px_rgba(0,0,0,0.22)] backdrop-blur-xl' : ''} ${usesProductChrome ? 'bg-transparent shadow-none' : ''} ${!usesWorkspaceOnlyChrome && !usesProductChrome && isCollapsed ? 'nav-scrolled-bg' : ''} ${isAnimated ? 'nav-container-animated' : 'opacity-0'} ${!usesWorkspaceOnlyChrome && !usesProductChrome && isCollapsed ? 'w-[80%]' : 'w-full'}`}
         style={{
           transformOrigin: 'center top',
           transform: transformValue,
@@ -354,7 +356,7 @@ export default function Nav() {
               : 'transform 250ms ease-in-out, width 500ms ease-in-out'
             : undefined,
           padding: usesWorkspaceOnlyChrome ? '0px' : '2px',
-          paddingBottom: usesWorkspaceOnlyChrome ? '0px' : usesProductChrome ? '8px' : '16px',
+          paddingBottom: usesWorkspaceOnlyChrome ? '0px' : usesProductChrome ? '0px' : '16px',
           isolation: 'isolate',
           border: 'none',
         }}
@@ -494,7 +496,7 @@ export default function Nav() {
 
       {/* Spacer below the nav */}
       <div
-        className={`transition-all duration-500 ease-out ${shouldBeFixed ? (usesProductChrome ? 'h-28 phone:h-28 tablet:h-28' : isCollapsed ? 'h-28' : 'h-36') : 'h-0'
+        className={`transition-all duration-500 ease-out ${shouldBeFixed ? (usesProductChrome ? 'h-0' : isCollapsed ? 'h-28' : 'h-36') : 'h-0'
           }`}
       />
     </div>
