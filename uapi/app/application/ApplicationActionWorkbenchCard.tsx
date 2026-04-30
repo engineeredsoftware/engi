@@ -5,6 +5,7 @@ import React from 'react';
 import BitcodeChipCloud from '@/components/base/bitcode/execution/BitcodeChipCloud';
 import BitcodeDetailRowList from '@/components/base/bitcode/execution/BitcodeDetailRowList';
 import BitcodeMetricGrid from '@/components/base/bitcode/execution/BitcodeMetricGrid';
+import { DisabledTooltipWrapper } from '@/components/base/bitcode/overlays/disabled-tooltip-wrapper';
 
 import { jumpToShellSection } from './application-shell-reading';
 
@@ -37,6 +38,17 @@ export default function ApplicationActionWorkbenchCard({
   secondaryActionDisabled = false,
   onSecondaryAction,
 }: ApplicationActionWorkbenchCardProps) {
+  const secondaryAction = secondaryActionLabel && onSecondaryAction ? (
+    <button
+      type="button"
+      disabled={secondaryActionDisabled}
+      onClick={onSecondaryAction}
+      className="rounded-full border border-white/10 bg-white/5 px-3 py-2 text-[0.66rem] uppercase tracking-[0.18em] text-neutral-100 transition hover:border-white/18 hover:bg-white/10 disabled:cursor-not-allowed disabled:opacity-60"
+    >
+      {secondaryActionLabel}
+    </button>
+  ) : null;
+
   return (
     <article id={id} className="rounded-[1.6rem] border border-white/8 bg-black/20 px-5 py-5">
       <div className="flex items-start justify-between gap-3">
@@ -45,16 +57,14 @@ export default function ApplicationActionWorkbenchCard({
           <h3 className="mt-2 text-xl font-semibold text-white">{title}</h3>
         </div>
         <div className="flex flex-wrap items-center justify-end gap-2">
-          {secondaryActionLabel && onSecondaryAction ? (
-            <button
-              type="button"
-              disabled={secondaryActionDisabled}
-              onClick={onSecondaryAction}
-              className="rounded-full border border-white/10 bg-white/5 px-3 py-2 text-[0.66rem] uppercase tracking-[0.18em] text-neutral-100 transition hover:border-white/18 hover:bg-white/10 disabled:cursor-not-allowed disabled:opacity-60"
+          {secondaryAction && secondaryActionDisabled ? (
+            <DisabledTooltipWrapper
+              tooltip="Disabled while another Terminal write is in progress. When enabled, this records the current posture into the Bitcode activity ledger."
+              placement="top"
             >
-              {secondaryActionLabel}
-            </button>
-          ) : null}
+              {secondaryAction}
+            </DisabledTooltipWrapper>
+          ) : secondaryAction}
           <button
             type="button"
             onClick={() => jumpToShellSection(actionTarget)}

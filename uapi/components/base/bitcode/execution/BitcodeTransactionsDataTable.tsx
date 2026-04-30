@@ -47,7 +47,7 @@ export default function BitcodeTransactionsDataTable({
   error,
 }: BitcodeTransactionsDataTableProps) {
   return (
-    <div className="mt-5 overflow-hidden rounded-[1.35rem] border border-white/8 bg-[rgba(4,8,18,0.84)]">
+    <div className="mt-5 min-h-[25rem] overflow-hidden rounded-[1.35rem] border border-white/8 bg-[rgba(4,8,18,0.84)]">
       {isLoading ? (
         <div className="px-5 py-10 text-sm text-neutral-400">Loading Bitcode transactions…</div>
       ) : error ? (

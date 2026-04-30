@@ -76,6 +76,7 @@ describe('Footer public shell', () => {
     expect(screen.getByText('Give')).toBeInTheDocument();
     expect(screen.getByText('Need')).toBeInTheDocument();
     expect(screen.getAllByText('Settle').length).toBeGreaterThan(0);
+    expect(screen.getAllByText('🧪').length).toBeGreaterThan(0);
     const protocolSpecLink = screen.getByRole('link', { name: 'Protocol spec' });
     expect(protocolSpecLink).not.toHaveAttribute('title');
     expect(protocolSpecLink).toHaveAttribute(

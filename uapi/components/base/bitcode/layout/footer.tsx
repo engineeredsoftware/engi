@@ -264,7 +264,7 @@ export default function Footer({ showPrimaryContent = true, className = '' }: Fo
                             </>
                           ) : (
                             <>
-                              <span className="dragon-icon [filter:drop-shadow(0_0_6px_rgba(101,254,183,0.66))_drop-shadow(0_0_15px_rgba(101,254,183,0.33))]" style={{ display: 'inline-block', transform: 'scaleX(-1)' }}>🐉</span>
+                              <span className="flask-icon [filter:drop-shadow(0_0_6px_rgba(101,254,183,0.66))_drop-shadow(0_0_15px_rgba(101,254,183,0.33))]" style={{ display: 'inline-block', transform: 'scaleX(-1)' }}>🧪</span>
                               <span className="relative inline-block">
                                 <span className="relative z-10 bitcode-text">{step}</span>
                                 <span className="absolute left-0 top-0 z-0 bitcode-text-glow">{step}</span>
@@ -465,7 +465,7 @@ export default function Footer({ showPrimaryContent = true, className = '' }: Fo
                   className="[filter:drop-shadow(0_0_6px_rgba(101,254,183,0.66))_drop-shadow(0_0_15px_rgba(101,254,183,0.33))]"
                   style={{ display: 'inline-block', transform: 'scaleX(-1)' }}
                 >
-                  🐉
+                  🧪
                 </span>
                 <span>
                   Bitcode by Advanced Engineered Software, Inc. <span className="font-light">{new Date().getFullYear()}</span>

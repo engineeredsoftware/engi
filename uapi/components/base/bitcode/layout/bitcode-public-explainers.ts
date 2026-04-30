@@ -43,7 +43,7 @@ export const BITCODE_PUBLIC_EXPLAINERS = {
     title: 'Open Auxillaries',
     summary: 'Open the Bitcode auxillary shell for access, profile, interface defaults, and $BTD posture.',
     detail:
-      'Use this when you want the auxillary access layer directly. Create Account is for first-time onboarding; Open Auxillaries is for entering the contained shell.',
+      'Use this when you want the auxillary access layer directly. Connect Wallet is for first-time wallet identity and onboarding; Open Auxillaries is for entering the contained shell.',
     points: [
       'Opens the contained auxillary shell',
       'Keeps Auxillaries distinct from Exchange, Terminal, and Docs',

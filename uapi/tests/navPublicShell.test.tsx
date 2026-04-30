@@ -96,7 +96,7 @@ describe('Nav public shell', () => {
     render(<Nav />);
 
     const accessButton = screen.getByRole('button', { name: 'Open Auxillaries' });
-    const createButton = screen.getByRole('button', { name: 'Create Account' });
+    const createButton = screen.getByRole('button', { name: 'Connect Wallet' });
 
     expect(screen.getByText('Brand home')).toBeInTheDocument();
     expect(screen.getByRole('link', { name: 'Exchange' })).toHaveAttribute('href', '/');

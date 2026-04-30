@@ -94,7 +94,7 @@ function renderClosurePanelCard(panel: ApplicationClosurePanel) {
             onClick={() => jumpToShellSection(shellPanelId)}
             className="rounded-full border border-emerald-400/30 bg-emerald-400/10 px-3 py-2 text-emerald-100 transition hover:border-emerald-300/50 hover:bg-emerald-400/15"
           >
-            Open live detail
+            Focus live detail
           </button>
         </div>
       </div>

@@ -168,7 +168,7 @@ describe('ApplicationClosureControlDeck', () => {
     );
 
     expect(screen.getByRole('button', { name: 'Run closure' })).toBeDisabled();
-    expect(screen.getByText(/Reconnect GitHub or equivalent repository scope in Connects/i)).toBeInTheDocument();
+    expect(screen.getAllByText(/Reconnect GitHub or equivalent repository scope in Connects/i).length).toBeGreaterThan(0);
   });
 
   it('keeps closure-bearing actions disabled when verified wallet-provider signing must be reconnected', () => {
@@ -192,6 +192,6 @@ describe('ApplicationClosureControlDeck', () => {
     );
 
     expect(screen.getByRole('button', { name: 'Run closure' })).toBeDisabled();
-    expect(screen.getByText(/live wallet-provider signing session is no longer available/i)).toBeInTheDocument();
+    expect(screen.getAllByText(/live wallet-provider signing session is no longer available/i).length).toBeGreaterThan(0);
   });
 });

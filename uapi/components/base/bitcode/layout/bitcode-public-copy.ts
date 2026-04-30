@@ -18,11 +18,26 @@ export const BITCODE_PUBLIC_COPY = {
     label: 'Read docs',
   },
   guide: {
-    badge: 'Docs',
-    title: 'Study Bitcode before you operate',
-    meta: 'Docs hub',
-    body:
-      'Docs teaches Bitcode from zero to hero: Source Shares, Exchange state, Terminal actions, proofs, settlement, interfaces, and launch-mode readiness.',
+    posts: [
+      {
+        id: 'april-2026',
+        tab: 'April',
+        title: 'April micro-blog',
+        meta: 'April 2026 * Garrett Maring',
+        body:
+          "This month's Bitcode micro-blog will live here: Source Shares, the Terminal, public docs, and launch-mode readiness as Bitcode becomes easier to understand and operate.",
+        highlights: ['Source Shares', 'Terminal'],
+      },
+      {
+        id: 'march-2026',
+        tab: 'March',
+        title: "Bitcode's self-evolution, now",
+        meta: '2026 March * Garrett Maring',
+        body:
+          "$BTD's purpose is to hoard valuable technical information and compensate contributors fairly. Provable knowledge measuring algorithms build the foundations for collection and issuance. Ideal long-term partnerships for asset management and infrastructure will be finalized to empower the secure and thriving future of $BTD.",
+        highlights: ['$BTD'],
+      },
+    ],
   },
   terminalPreview: {
     pill: 'Exchange',
@@ -69,7 +84,7 @@ export const BITCODE_PUBLIC_COPY = {
       { href: '/docs', label: 'Docs' },
     ],
     guestPrimaryCta: 'Open Auxillaries',
-    guestSecondaryCta: 'Create Account',
+    guestSecondaryCta: 'Connect Wallet',
   },
   guideRoute: {
     eyebrow: 'Bitcode docs',

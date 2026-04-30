@@ -1,5 +1,7 @@
 'use client';
 
+import { DisabledTooltipWrapper } from '@/components/base/bitcode/overlays/disabled-tooltip-wrapper';
+
 import type { ApplicationTransactionDetailSection } from './application-transaction-query';
 
 type DetailAction = {
@@ -37,6 +39,32 @@ export default function ApplicationTransactionDetailActionBar({
   mockMode,
 }: ApplicationTransactionDetailActionBarProps) {
   const visibleActions = mockMode ? DETAIL_ACTIONS.filter((action) => action.id !== 'console') : DETAIL_ACTIONS;
+  const runtimeActionDisabled = isActing || !shellReady;
+  const runtimeActionDisabledTooltip = isActing
+    ? 'Disabled while closure is already running. When enabled, this button writes or refreshes the selected activity detail.'
+    : !shellReady
+      ? 'Disabled while the Terminal runtime is syncing. When enabled, this button writes or refreshes the selected activity detail.'
+      : undefined;
+  const runClosureButton = (
+    <button
+      type="button"
+      disabled={runtimeActionDisabled}
+      onClick={onRunClosure}
+      className="rounded-full border border-emerald-400/30 bg-emerald-400/10 px-3 py-2 text-[0.68rem] uppercase tracking-[0.18em] text-emerald-100 transition hover:border-emerald-300/45 hover:bg-emerald-400/15 disabled:cursor-not-allowed disabled:opacity-50"
+    >
+      {isActing ? 'Running closure…' : 'Re-run closure'}
+    </button>
+  );
+  const refreshButton = (
+    <button
+      type="button"
+      disabled={runtimeActionDisabled}
+      onClick={onRefreshDetail}
+      className="rounded-full border border-white/10 bg-white/5 px-3 py-2 text-[0.68rem] uppercase tracking-[0.18em] text-neutral-200 transition hover:border-emerald-300/35 hover:bg-emerald-400/10 disabled:cursor-not-allowed disabled:opacity-50"
+    >
+      Refresh detail
+    </button>
+  );
 
   return (
     <section className="rounded-[1.5rem] border border-white/8 bg-black/20 px-5 py-5">
@@ -50,22 +78,16 @@ export default function ApplicationTransactionDetailActionBar({
         </div>
 
         <div className="flex flex-wrap items-center gap-2">
-          <button
-            type="button"
-            disabled={isActing || !shellReady}
-            onClick={onRunClosure}
-            className="rounded-full border border-emerald-400/30 bg-emerald-400/10 px-3 py-2 text-[0.68rem] uppercase tracking-[0.18em] text-emerald-100 transition hover:border-emerald-300/45 hover:bg-emerald-400/15 disabled:cursor-not-allowed disabled:opacity-50"
-          >
-            {isActing ? 'Running closure…' : 'Re-run closure'}
-          </button>
-          <button
-            type="button"
-            disabled={isActing || !shellReady}
-            onClick={onRefreshDetail}
-            className="rounded-full border border-white/10 bg-white/5 px-3 py-2 text-[0.68rem] uppercase tracking-[0.18em] text-neutral-200 transition hover:border-emerald-300/35 hover:bg-emerald-400/10 disabled:cursor-not-allowed disabled:opacity-50"
-          >
-            Refresh detail
-          </button>
+          {runtimeActionDisabled && runtimeActionDisabledTooltip ? (
+            <DisabledTooltipWrapper tooltip={runtimeActionDisabledTooltip} placement="top">
+              {runClosureButton}
+            </DisabledTooltipWrapper>
+          ) : runClosureButton}
+          {runtimeActionDisabled && runtimeActionDisabledTooltip ? (
+            <DisabledTooltipWrapper tooltip={runtimeActionDisabledTooltip} placement="top">
+              {refreshButton}
+            </DisabledTooltipWrapper>
+          ) : refreshButton}
         </div>
       </div>
 

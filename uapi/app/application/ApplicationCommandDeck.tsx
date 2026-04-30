@@ -5,6 +5,7 @@ import { useMemo, useState } from 'react';
 import type { VCSProviderType } from '@bitcode/vcs-core';
 
 import BitcodeInlineExplainer from '@/components/base/bitcode/execution/BitcodeInlineExplainer';
+import { DisabledTooltipWrapper } from '@/components/base/bitcode/overlays/disabled-tooltip-wrapper';
 
 import ApplicationWorkspaceCard from './ApplicationWorkspaceCard';
 import {
@@ -86,6 +87,17 @@ export default function ApplicationCommandDeck({
     [commandState],
   );
   const settlementReady = transactionReadiness.canSettle;
+  const makeBranchDisabled = isActing || !shellReady || !settlementReady;
+  const makeBranchDisabledTooltip = isActing
+    ? 'Disabled while branch materialization is already running. When enabled, this writes the Bitcode branch flow.'
+    : !shellReady
+      ? 'Disabled while the Terminal runtime is syncing. When enabled, this writes the Bitcode branch flow.'
+      : !settlementReady
+        ? `${transactionReadiness.summary} When enabled, this writes the Bitcode branch flow.`
+        : undefined;
+  const runtimeButtonDisabledTooltip = isActing
+    ? 'Disabled while branch materialization is running. When enabled, this controls the local Terminal guide or runtime.'
+    : undefined;
   const readinessTone = settlementReady
     ? 'border-emerald-400/25 bg-emerald-400/10 text-emerald-100'
     : 'border-amber-400/25 bg-amber-400/10 text-amber-100';
@@ -256,38 +268,85 @@ export default function ApplicationCommandDeck({
           </div>
 
           <div className="grid gap-3 lg:grid-cols-3">
-            <button
-              type="button"
-              disabled={isActing || !shellReady || !settlementReady}
-              onClick={() => {
-                void handleMakeBranch();
-              }}
-              className="rounded-[1.4rem] border border-emerald-400/30 bg-emerald-400/10 px-4 py-4 text-left text-sm font-medium text-emerald-100 transition hover:border-emerald-300/50 hover:bg-emerald-400/15 disabled:cursor-not-allowed disabled:opacity-50"
-            >
-              {isActing ? 'Materializing branch…' : 'Make Bitcode branch'}
-            </button>
-            <button
-              type="button"
-              disabled={isActing}
-              onClick={() => {
-                void runControl((controls) =>
-                  controls.toggleFlowGuide?.() ?? controls.toggleTutorial?.(),
-                );
-              }}
-              className="rounded-[1.4rem] border border-white/10 bg-white/5 px-4 py-4 text-left text-sm font-medium text-neutral-100 transition hover:border-white/18 hover:bg-white/10"
-            >
-              {guideActionLabel}
-            </button>
-            <button
-              type="button"
-              disabled={isActing}
-              onClick={() => {
-                void runControl((controls) => controls.resetApplication?.());
-              }}
-              className="rounded-[1.4rem] border border-white/10 bg-white/5 px-4 py-4 text-left text-sm font-medium text-neutral-100 transition hover:border-white/18 hover:bg-white/10"
-            >
-              Reset runtime
-            </button>
+            {makeBranchDisabled && makeBranchDisabledTooltip ? (
+              <DisabledTooltipWrapper tooltip={makeBranchDisabledTooltip} placement="top" className="block w-full">
+                <button
+                  type="button"
+                  disabled
+                  onClick={() => {
+                    void handleMakeBranch();
+                  }}
+                  className="w-full rounded-[1.4rem] border border-emerald-400/30 bg-emerald-400/10 px-4 py-4 text-left text-sm font-medium text-emerald-100 transition hover:border-emerald-300/50 hover:bg-emerald-400/15 disabled:cursor-not-allowed disabled:opacity-50"
+                >
+                  {isActing ? 'Materializing branch…' : 'Make Bitcode branch'}
+                </button>
+              </DisabledTooltipWrapper>
+            ) : (
+              <button
+                type="button"
+                disabled={makeBranchDisabled}
+                onClick={() => {
+                  void handleMakeBranch();
+                }}
+                className="rounded-[1.4rem] border border-emerald-400/30 bg-emerald-400/10 px-4 py-4 text-left text-sm font-medium text-emerald-100 transition hover:border-emerald-300/50 hover:bg-emerald-400/15 disabled:cursor-not-allowed disabled:opacity-50"
+              >
+                {isActing ? 'Materializing branch…' : 'Make Bitcode branch'}
+              </button>
+            )}
+            {isActing && runtimeButtonDisabledTooltip ? (
+              <DisabledTooltipWrapper tooltip={runtimeButtonDisabledTooltip} placement="top" className="block w-full">
+                <button
+                  type="button"
+                  disabled
+                  onClick={() => {
+                    void runControl((controls) =>
+                      controls.toggleFlowGuide?.() ?? controls.toggleTutorial?.(),
+                    );
+                  }}
+                  className="w-full rounded-[1.4rem] border border-white/10 bg-white/5 px-4 py-4 text-left text-sm font-medium text-neutral-100 transition hover:border-white/18 hover:bg-white/10 disabled:cursor-not-allowed disabled:opacity-50"
+                >
+                  {guideActionLabel}
+                </button>
+              </DisabledTooltipWrapper>
+            ) : (
+              <button
+                type="button"
+                disabled={isActing}
+                onClick={() => {
+                  void runControl((controls) =>
+                    controls.toggleFlowGuide?.() ?? controls.toggleTutorial?.(),
+                  );
+                }}
+                className="rounded-[1.4rem] border border-white/10 bg-white/5 px-4 py-4 text-left text-sm font-medium text-neutral-100 transition hover:border-white/18 hover:bg-white/10 disabled:cursor-not-allowed disabled:opacity-50"
+              >
+                {guideActionLabel}
+              </button>
+            )}
+            {isActing && runtimeButtonDisabledTooltip ? (
+              <DisabledTooltipWrapper tooltip={runtimeButtonDisabledTooltip} placement="top" className="block w-full">
+                <button
+                  type="button"
+                  disabled
+                  onClick={() => {
+                    void runControl((controls) => controls.resetApplication?.());
+                  }}
+                  className="w-full rounded-[1.4rem] border border-white/10 bg-white/5 px-4 py-4 text-left text-sm font-medium text-neutral-100 transition hover:border-white/18 hover:bg-white/10 disabled:cursor-not-allowed disabled:opacity-50"
+                >
+                  Reset runtime
+                </button>
+              </DisabledTooltipWrapper>
+            ) : (
+              <button
+                type="button"
+                disabled={isActing}
+                onClick={() => {
+                  void runControl((controls) => controls.resetApplication?.());
+                }}
+                className="rounded-[1.4rem] border border-white/10 bg-white/5 px-4 py-4 text-left text-sm font-medium text-neutral-100 transition hover:border-white/18 hover:bg-white/10 disabled:cursor-not-allowed disabled:opacity-50"
+              >
+                Reset runtime
+              </button>
+            )}
           </div>
 
           {actionMessage ? (

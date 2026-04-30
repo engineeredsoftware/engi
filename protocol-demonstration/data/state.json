@@ -130,7 +130,7 @@
   "assets": [
     {
       "assetId": "asset_enterprise-auth-migration-rollback-playbook_10f7ba132a",
-      "depositedAt": "2026-04-20T14:53:19.122Z",
+      "depositedAt": "2026-04-30T18:48:46.176Z",
       "title": "Enterprise auth migration rollback playbook",
       "artifactKind": "runbook",
       "artifactType": "runbook/operator-playbook",
@@ -2720,7 +2720,7 @@
     },
     {
       "assetId": "asset_proof-carrying-session-validator-patch-kit_535567adae",
-      "depositedAt": "2026-04-20T14:53:19.124Z",
+      "depositedAt": "2026-04-30T18:48:46.177Z",
       "title": "Proof-carrying session validator patch kit",
       "artifactKind": "patch",
       "artifactType": "code/patch",
@@ -5252,7 +5252,7 @@
     },
     {
       "assetId": "asset_formal-replay-window-validator-proof-bundle_ebe682fd49",
-      "depositedAt": "2026-04-20T14:53:19.125Z",
+      "depositedAt": "2026-04-30T18:48:46.178Z",
       "title": "Formal replay-window validator proof bundle",
       "artifactKind": "proof",
       "artifactType": "proof/verification-log",
@@ -7380,7 +7380,7 @@
     },
     {
       "assetId": "asset_token-issuer-incident-escalation-notes_cdd908aa03",
-      "depositedAt": "2026-04-20T14:53:19.125Z",
+      "depositedAt": "2026-04-30T18:48:46.178Z",
       "title": "Token issuer incident escalation notes",
       "artifactKind": "incident-note",
       "artifactType": "notes/incident-retrospective",
@@ -9217,7 +9217,7 @@
     },
     {
       "assetId": "asset_policy-precedence-incident-governor-fixpack_24fd6bb39b",
-      "depositedAt": "2026-04-20T14:53:19.127Z",
+      "depositedAt": "2026-04-30T18:48:46.179Z",
       "title": "Policy precedence incident governor fixpack",
       "artifactKind": "config",
       "artifactType": "config/policy-change",
@@ -11291,7 +11291,7 @@
     },
     {
       "assetId": "asset_unsafe-patch-review-containment-checklist_d755cefe57",
-      "depositedAt": "2026-04-20T14:53:19.127Z",
+      "depositedAt": "2026-04-30T18:48:46.180Z",
       "title": "Unsafe patch review containment checklist",
       "artifactKind": "runbook",
       "artifactType": "runbook/operator-playbook",
@@ -13413,7 +13413,7 @@
     },
     {
       "assetId": "asset_deployment-drift-rollback-release-playbook_06609384ae",
-      "depositedAt": "2026-04-20T14:53:19.128Z",
+      "depositedAt": "2026-04-30T18:48:46.181Z",
       "title": "Deployment drift rollback release playbook",
       "artifactKind": "runbook",
       "artifactType": "runbook/operator-playbook",
@@ -15532,7 +15532,7 @@
     },
     {
       "assetId": "asset_projection-safe-bounded-proof-export-notes_a74e682378",
-      "depositedAt": "2026-04-20T14:53:19.128Z",
+      "depositedAt": "2026-04-30T18:48:46.182Z",
       "title": "Projection-safe bounded proof export notes",
       "artifactKind": "proof",
       "artifactType": "proof/verification-log",
@@ -17203,7 +17203,7 @@
     },
     {
       "assetId": "asset_session-validator-compatibility-witness-dossier_ced0ee25a5",
-      "depositedAt": "2026-04-20T14:53:19.129Z",
+      "depositedAt": "2026-04-30T18:48:46.183Z",
       "title": "Session validator compatibility witness dossier",
       "artifactKind": "proof",
       "artifactType": "proof/verification-log",
@@ -19497,7 +19497,7 @@
     },
     {
       "assetId": "asset_auth-audit-receipt-reconciliation-patchset_7a12545802",
-      "depositedAt": "2026-04-20T14:53:19.130Z",
+      "depositedAt": "2026-04-30T18:48:46.183Z",
       "title": "Auth audit receipt reconciliation patchset",
       "artifactKind": "patch",
       "artifactType": "code/patch",
@@ -21605,7 +21605,7 @@
     },
     {
       "assetId": "asset_polyglot-gateway-rollback-coordination-playbook_16aae88df7",
-      "depositedAt": "2026-04-20T14:53:19.131Z",
+      "depositedAt": "2026-04-30T18:48:46.184Z",
       "title": "Polyglot gateway rollback coordination playbook",
       "artifactKind": "runbook",
       "artifactType": "runbook/operator-playbook",
@@ -28491,6 +28491,13 @@
           "policyRef": "policy://bitcode/spec-v26-active-v27-system-draft/current",
           "reasons": [
             "Bitcode settlement engine executes deterministic journal settlement."
+          ]
+        },
+        "review:measured-need": {
+          "allow": true,
+          "policyRef": "policy://bitcode/spec-v26-active-v27-system-draft/current",
+          "reasons": [
+            "Bitcode need-review gate may accept, reject, or request remeasurement before fit search."
           ]
         },
         "write:private-branch": {

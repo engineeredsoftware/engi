@@ -61,7 +61,7 @@ const DISABLED_FEATURE_TOOLTIPS = {
   auxillaries:
     'Disabled for launch mode. When enabled, Auxillaries opens profile, connects, interface defaults, and $BTD posture.',
   createAccount:
-    'Disabled for launch mode. When enabled, Create Account starts identity and onboarding setup.',
+    'Disabled for launch mode. When enabled, Connect Wallet starts wallet identity and onboarding setup.',
 } as const;
 
 const publicActionClassName =
@@ -235,7 +235,7 @@ export default function Nav() {
             aria-disabled="true"
             className={disabledClassName('rounded-full border border-white/12 bg-white/5 px-4 py-2 text-[0.68rem] font-medium uppercase tracking-[0.18em] text-neutral-100 transition hover:border-white/22 hover:bg-white/10')}
           >
-            Create Account
+            Connect Wallet
           </button>
         </DisabledTooltipWrapper>
       ) : (
@@ -245,7 +245,7 @@ export default function Nav() {
           onClick={() => openAuxillaries('SignUpWindow')}
           className="rounded-full border border-white/12 bg-white/5 px-4 py-2 text-[0.68rem] font-medium uppercase tracking-[0.18em] text-neutral-100 transition hover:border-white/22 hover:bg-white/10"
         >
-          Create Account
+          Connect Wallet
         </button>
       )}
     </div>

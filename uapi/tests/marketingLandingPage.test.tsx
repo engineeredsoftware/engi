@@ -89,7 +89,10 @@ describe('MarketingLandingPage', () => {
       'href',
       '/docs',
     );
-    expect(screen.getByText('Study Bitcode before you operate')).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: 'April' })).toHaveAttribute('aria-pressed', 'true');
+    expect(screen.getByRole('button', { name: 'March' })).toBeInTheDocument();
+    expect(screen.getByText('April micro-blog')).toBeInTheDocument();
+    expect(screen.getByText('April 2026 * Garrett Maring')).toBeInTheDocument();
     expect(screen.getByText('Data Depot')).toBeInTheDocument();
     expect(screen.getByText('Depot Surface')).toBeInTheDocument();
     expect(screen.getByText('Measurement vector')).toBeInTheDocument();

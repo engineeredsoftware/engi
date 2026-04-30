@@ -81,6 +81,12 @@ type ApplicationMasterDetailSubstructure = (typeof MASTER_DETAIL_SUBSTRUCTURES)[
   rows: BitcodeDetailRow[];
 };
 
+const MASTER_DETAIL_ACTION_LABELS: Partial<Record<ApplicationMasterDetailSubstructure['id'], string>> = {
+  shippables: 'Focus shippables detail',
+  proofs: 'Focus proofs detail',
+  history: 'Focus history detail',
+};
+
 function buildMasterDetailSubstructures(
   selectedRun: WorkspaceRun,
   detail: ApplicationRunDetailSnapshot | null,
@@ -365,19 +371,23 @@ export default function ApplicationTransactionWorkspace({
             />
 
             <div className="grid gap-4 2xl:grid-cols-4">
-              {masterDetailSubstructures.map((substructure) => (
-                <BitcodeDetailPanel
-                  key={substructure.id}
-                  badge={substructure.badge}
-                  title={substructure.label}
-                  summary={substructure.summary}
-                  metrics={substructure.metrics}
-                  rows={substructure.rows}
-                  tagLabel="substructure"
-                  actionLabel={`Open ${substructure.label.toLowerCase()}`}
-                  onAction={() => jumpToShellSection(substructure.targetId)}
-                />
-              ))}
+              {masterDetailSubstructures.map((substructure) => {
+                const actionLabel = MASTER_DETAIL_ACTION_LABELS[substructure.id];
+
+                return (
+                  <BitcodeDetailPanel
+                    key={substructure.id}
+                    badge={substructure.badge}
+                    title={substructure.label}
+                    summary={substructure.summary}
+                    metrics={substructure.metrics}
+                    rows={substructure.rows}
+                    tagLabel="substructure"
+                    actionLabel={actionLabel}
+                    onAction={actionLabel ? () => jumpToShellSection(substructure.targetId) : undefined}
+                  />
+                );
+              })}
             </div>
 
             <ApplicationTransactionDetailSurface

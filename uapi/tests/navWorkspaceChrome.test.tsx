@@ -88,7 +88,7 @@ describe('Nav application product chrome', () => {
     render(<Nav />);
 
     const accessButton = screen.getByRole('button', { name: 'Open Auxillaries' });
-    const createButton = screen.getByRole('button', { name: 'Create Account' });
+    const createButton = screen.getByRole('button', { name: 'Connect Wallet' });
 
     expect(screen.getByRole('link', { name: 'Exchange' })).toHaveAttribute('href', '/');
     expect(screen.getByRole('link', { name: 'Terminal' })).toHaveAttribute('href', '/application');

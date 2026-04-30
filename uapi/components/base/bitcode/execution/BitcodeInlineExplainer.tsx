@@ -1,16 +1,21 @@
 'use client';
 
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
+import { createPortal } from 'react-dom';
 
 import { cn } from '@bitcode/styling';
 import type { BitcodeExplainer } from './bitcode-transaction-types';
 
 type TooltipSide = 'top' | 'bottom';
-type TooltipAlign = 'start' | 'center' | 'end';
 
 interface TooltipPlacement {
   side: TooltipSide;
-  align: TooltipAlign;
+  left: number;
+  width: number;
+  arrowLeft: number;
+  maxHeight: number;
+  top?: number;
+  bottom?: number;
 }
 
 interface BitcodeInlineExplainerProps {
@@ -23,10 +28,24 @@ interface BitcodeInlineExplainerProps {
 const tooltipViewportMargin = 16;
 const tooltipMaxWidth = 320;
 const tooltipMinVerticalRoom = 240;
+const tooltipGap = 12;
+const tooltipMinHeight = 140;
+
+function clamp(value: number, min: number, max: number) {
+  if (max < min) return min;
+  return Math.min(Math.max(value, min), max);
+}
 
 function resolveExplainerPlacement(trigger: HTMLElement, preferredSide: TooltipSide): TooltipPlacement {
   if (typeof window === 'undefined') {
-    return { side: preferredSide, align: 'center' };
+    return {
+      side: preferredSide,
+      left: tooltipViewportMargin,
+      width: tooltipMaxWidth,
+      arrowLeft: tooltipMaxWidth / 2,
+      maxHeight: 360,
+      top: tooltipViewportMargin,
+    };
   }
 
   const rect = trigger.getBoundingClientRect();
@@ -36,13 +55,12 @@ function resolveExplainerPlacement(trigger: HTMLElement, preferredSide: TooltipS
   const centerX = rect.left + rect.width / 2;
   const spaceAbove = rect.top;
   const spaceBelow = viewportHeight - rect.bottom;
-
-  let align: TooltipAlign = 'center';
-  if (centerX - tooltipWidth / 2 < tooltipViewportMargin) {
-    align = 'start';
-  } else if (centerX + tooltipWidth / 2 > viewportWidth - tooltipViewportMargin) {
-    align = 'end';
-  }
+  const left = clamp(
+    centerX - tooltipWidth / 2,
+    tooltipViewportMargin,
+    viewportWidth - tooltipViewportMargin - tooltipWidth,
+  );
+  const arrowLeft = clamp(centerX - left, 18, tooltipWidth - 18);
 
   let side = preferredSide;
   if (
@@ -59,34 +77,45 @@ function resolveExplainerPlacement(trigger: HTMLElement, preferredSide: TooltipS
     side = 'bottom';
   }
 
-  return { side, align };
+  if (side === 'top') {
+    const bottom = viewportHeight - rect.top + tooltipGap;
+    return {
+      side,
+      left,
+      width: tooltipWidth,
+      arrowLeft,
+      maxHeight: Math.max(tooltipMinHeight, rect.top - tooltipGap - tooltipViewportMargin),
+      bottom,
+    };
+  }
+
+  const top = rect.bottom + tooltipGap;
+  return {
+    side,
+    left,
+    width: tooltipWidth,
+    arrowLeft,
+    maxHeight: Math.max(tooltipMinHeight, viewportHeight - top - tooltipViewportMargin),
+    top,
+  };
 }
 
-function tooltipPositionClassName({ side, align }: TooltipPlacement) {
-  const sideClassName = side === 'bottom' ? 'top-full mt-3' : 'bottom-full mb-3';
-  const alignClassName =
-    align === 'start'
-      ? 'left-0'
-      : align === 'end'
-        ? 'right-0'
-        : 'left-1/2 -translate-x-1/2';
-
-  return `${sideClassName} ${alignClassName}`;
+function tooltipPositionStyle(placement: TooltipPlacement): React.CSSProperties {
+  return {
+    left: placement.left,
+    width: placement.width,
+    maxHeight: placement.maxHeight,
+    ...(placement.top !== undefined ? { top: placement.top } : { bottom: placement.bottom }),
+  };
 }
 
-function tooltipArrowClassName({ side, align }: TooltipPlacement) {
-  const alignClassName =
-    align === 'start'
-      ? 'left-4'
-      : align === 'end'
-        ? 'right-4'
-        : 'left-1/2 -translate-x-1/2';
+function tooltipArrowClassName({ side }: TooltipPlacement) {
   const sideClassName =
     side === 'bottom'
       ? '-top-[7px] border-x-[7px] border-b-[7px] border-x-transparent border-b-[rgba(4,8,18,0.98)]'
       : '-bottom-[7px] border-x-[7px] border-t-[7px] border-x-transparent border-t-[rgba(4,8,18,0.98)]';
 
-  return `${alignClassName} ${sideClassName}`;
+  return `-translate-x-1/2 ${sideClassName}`;
 }
 
 export default function BitcodeInlineExplainer({
@@ -95,7 +124,16 @@ export default function BitcodeInlineExplainer({
   className,
   triggerClassName,
 }: BitcodeInlineExplainerProps) {
-  const [placement, setPlacement] = useState<TooltipPlacement>({ side, align: 'center' });
+  const [placement, setPlacement] = useState<TooltipPlacement>({
+    side,
+    left: tooltipViewportMargin,
+    width: tooltipMaxWidth,
+    arrowLeft: tooltipMaxWidth / 2,
+    maxHeight: 360,
+    top: tooltipViewportMargin,
+  });
+  const [isMounted, setIsMounted] = useState(false);
+  const [isVisible, setIsVisible] = useState(false);
   const title = explainer.title;
   const summary = explainer.summary;
   const detail = explainer.detail;
@@ -103,47 +141,52 @@ export default function BitcodeInlineExplainer({
   const sourceRefs = explainer.references?.source || [];
   const canonRefs = explainer.references?.canon || [];
 
-  const updatePlacement = useCallback(
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
+
+  useEffect(() => {
+    if (!isVisible) return undefined;
+
+    const hideTooltip = () => setIsVisible(false);
+    window.addEventListener('scroll', hideTooltip, true);
+    window.addEventListener('resize', hideTooltip);
+    return () => {
+      window.removeEventListener('scroll', hideTooltip, true);
+      window.removeEventListener('resize', hideTooltip);
+    };
+  }, [isVisible]);
+
+  const showTooltip = useCallback(
     (event: React.SyntheticEvent<HTMLElement>) => {
       const trigger = event.currentTarget.querySelector('button');
       if (trigger instanceof HTMLElement) {
         setPlacement(resolveExplainerPlacement(trigger, side));
+        setIsVisible(true);
       }
     },
     [side],
   );
 
-  return (
-    <span
-      className={cn('group/bitcode-explainer relative inline-flex items-center', className)}
-      onFocus={updatePlacement}
-      onMouseEnter={updatePlacement}
-      onTouchStart={updatePlacement}
-    >
-      <button
-        type="button"
-        aria-label={`Explain ${title}`}
-        onClick={(event) => event.preventDefault()}
-        className={cn(
-          'inline-flex h-[1.125rem] min-h-[1.125rem] w-[1.125rem] min-w-[1.125rem] shrink-0 items-center justify-center rounded-full border border-white/12 bg-white/5 text-[0.62rem] font-semibold leading-none text-neutral-300 transition hover:border-emerald-300/35 hover:bg-emerald-400/10 hover:text-emerald-100 focus-visible:border-emerald-300/35 focus-visible:bg-emerald-400/10 focus-visible:text-emerald-100 focus-visible:outline-none',
-          triggerClassName,
-        )}
-      >
-        i
-      </button>
+  const hideTooltip = useCallback(() => {
+    setIsVisible(false);
+  }, []);
 
+  const tooltipMarkup = isMounted && isVisible
+    ? createPortal(
       <span
         role="tooltip"
         className={cn(
-          'pointer-events-none absolute z-30 w-[min(20rem,calc(100vw-2rem))] rounded-[1.15rem] border border-white/10 bg-[rgba(4,8,18,0.98)] px-4 py-4 text-left text-sm font-normal normal-case tracking-normal opacity-0 shadow-[0_24px_56px_rgba(0,0,0,0.42)] transition duration-150 ease-out group-hover/bitcode-explainer:opacity-100 group-focus-within/bitcode-explainer:opacity-100',
-          tooltipPositionClassName(placement),
+          'pointer-events-none fixed z-[90] overflow-y-auto rounded-[1.15rem] border border-white/10 bg-[rgba(4,8,18,0.98)] px-4 py-4 text-left text-sm font-normal normal-case tracking-normal opacity-100 shadow-[0_24px_56px_rgba(0,0,0,0.42)] transition duration-150 ease-out',
         )}
+        style={tooltipPositionStyle(placement)}
       >
         <span
           className={cn(
             'absolute h-0 w-0',
             tooltipArrowClassName(placement),
           )}
+          style={{ left: placement.arrowLeft }}
         />
         {explainer.kicker ? (
           <span className="relative block text-[0.62rem] font-medium uppercase tracking-[0.18em] text-emerald-300/80">{explainer.kicker}</span>
@@ -206,7 +249,32 @@ export default function BitcodeInlineExplainer({
             ) : null}
           </div>
         ) : null}
-      </span>
+      </span>,
+      document.body,
+    )
+    : null;
+
+  return (
+    <span
+      className={cn('relative inline-flex items-center', className)}
+      onBlur={hideTooltip}
+      onFocus={showTooltip}
+      onMouseEnter={showTooltip}
+      onMouseLeave={hideTooltip}
+      onTouchStart={showTooltip}
+    >
+      <button
+        type="button"
+        aria-label={`Explain ${title}`}
+        onClick={(event) => event.preventDefault()}
+        className={cn(
+          'inline-flex h-[1.125rem] min-h-[1.125rem] w-[1.125rem] min-w-[1.125rem] shrink-0 items-center justify-center rounded-full border border-white/12 bg-white/5 text-[0.62rem] font-semibold leading-none text-neutral-300 transition hover:border-emerald-300/35 hover:bg-emerald-400/10 hover:text-emerald-100 focus-visible:border-emerald-300/35 focus-visible:bg-emerald-400/10 focus-visible:text-emerald-100 focus-visible:outline-none',
+          triggerClassName,
+        )}
+      >
+        i
+      </button>
+      {tooltipMarkup}
     </span>
   );
 }

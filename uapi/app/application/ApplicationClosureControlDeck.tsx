@@ -5,6 +5,7 @@ import { useMemo, useState } from 'react';
 
 import BitcodeInlineExplainer from '@/components/base/bitcode/execution/BitcodeInlineExplainer';
 import BitcodeMetricGrid from '@/components/base/bitcode/execution/BitcodeMetricGrid';
+import { DisabledTooltipWrapper } from '@/components/base/bitcode/overlays/disabled-tooltip-wrapper';
 
 import ApplicationWorkspaceCard from './ApplicationWorkspaceCard';
 import {
@@ -37,6 +38,41 @@ function toneClasses(tone: ApplicationClosureControlState['statusTone']) {
   if (tone === 'running') return 'border-amber-500/25 bg-amber-500/10 text-amber-100';
   if (tone === 'attention') return 'border-red-500/25 bg-red-500/10 text-red-100';
   return 'border-sky-500/25 bg-sky-500/10 text-sky-100';
+}
+
+interface TerminalActionButtonProps {
+  children: React.ReactNode;
+  className: string;
+  disabled: boolean;
+  disabledTooltip?: string;
+  onClick: () => void;
+}
+
+function TerminalActionButton({
+  children,
+  className,
+  disabled,
+  disabledTooltip,
+  onClick,
+}: TerminalActionButtonProps) {
+  const button = (
+    <button
+      type="button"
+      disabled={disabled}
+      onClick={onClick}
+      className={`${className} w-full disabled:cursor-not-allowed disabled:opacity-50`}
+    >
+      {children}
+    </button>
+  );
+
+  if (!disabled || !disabledTooltip) return button;
+
+  return (
+    <DisabledTooltipWrapper tooltip={disabledTooltip} placement="top" className="block w-full">
+      {button}
+    </DisabledTooltipWrapper>
+  );
 }
 
 interface ApplicationClosureControlDeckProps {
@@ -72,6 +108,20 @@ export default function ApplicationClosureControlDeck({
 
   const state = normalizeApplicationClosureControlState(commandState, closureState);
   const settlementReady = transactionReadiness.canSettle;
+  const primaryActionDisabled = isActing || !state.shellReady || !settlementReady;
+  const runtimeActionDisabled = isActing || !state.shellReady;
+  const primaryActionDisabledTooltip = isActing
+    ? 'Disabled while closure is already running. When it finishes, this button can run the Make Bitcode branch write again.'
+    : !state.shellReady
+      ? 'Disabled while the Terminal runtime is syncing. When enabled, this runs closure from Need review through branch, settlement, and proof.'
+      : !settlementReady
+        ? `${transactionReadiness.summary} When enabled, this runs the Make Bitcode branch write and records the closure result.`
+        : undefined;
+  const runtimeActionDisabledTooltip = isActing
+    ? 'Disabled while another closure action is running. When enabled, this control refreshes or resets the local Terminal runtime.'
+    : !state.shellReady
+      ? 'Disabled while the Terminal runtime is syncing. When enabled, this control talks to the embedded proof and settlement runtime.'
+      : undefined;
   const handlePrimaryClosureAction = async () => {
     if (!settlementReady) {
       setActionError(transactionReadiness.summary);
@@ -185,36 +235,36 @@ export default function ApplicationClosureControlDeck({
           </div>
 
           <div className="mt-5 grid gap-3 lg:grid-cols-3">
-            <button
-              type="button"
-              disabled={isActing || !state.shellReady || !settlementReady}
+            <TerminalActionButton
+              disabled={primaryActionDisabled}
+              disabledTooltip={primaryActionDisabledTooltip}
               onClick={() => {
                 void handlePrimaryClosureAction();
               }}
-              className="rounded-[1.4rem] border border-emerald-400/30 bg-emerald-400/10 px-4 py-4 text-left text-sm font-medium text-emerald-100 transition hover:border-emerald-300/50 hover:bg-emerald-400/15 disabled:cursor-not-allowed disabled:opacity-50"
+              className="rounded-[1.4rem] border border-emerald-400/30 bg-emerald-400/10 px-4 py-4 text-left text-sm font-medium text-emerald-100 transition hover:border-emerald-300/50 hover:bg-emerald-400/15"
             >
               {isActing ? 'Running closure…' : state.primaryActionLabel}
-            </button>
-            <button
-              type="button"
-              disabled={isActing || !state.shellReady}
+            </TerminalActionButton>
+            <TerminalActionButton
+              disabled={runtimeActionDisabled}
+              disabledTooltip={runtimeActionDisabledTooltip}
               onClick={() => {
                 void handleControlAction((controls) => controls.refresh?.());
               }}
-              className="rounded-[1.4rem] border border-white/10 bg-white/5 px-4 py-4 text-left text-sm font-medium text-neutral-100 transition hover:border-white/18 hover:bg-white/10 disabled:cursor-not-allowed disabled:opacity-50"
+              className="rounded-[1.4rem] border border-white/10 bg-white/5 px-4 py-4 text-left text-sm font-medium text-neutral-100 transition hover:border-white/18 hover:bg-white/10"
             >
               Refresh closure
-            </button>
-            <button
-              type="button"
-              disabled={isActing || !state.shellReady}
+            </TerminalActionButton>
+            <TerminalActionButton
+              disabled={runtimeActionDisabled}
+              disabledTooltip={runtimeActionDisabledTooltip}
               onClick={() => {
                 void handleControlAction((controls) => controls.resetApplication?.());
               }}
-              className="rounded-[1.4rem] border border-white/10 bg-white/5 px-4 py-4 text-left text-sm font-medium text-neutral-100 transition hover:border-white/18 hover:bg-white/10 disabled:cursor-not-allowed disabled:opacity-50"
+              className="rounded-[1.4rem] border border-white/10 bg-white/5 px-4 py-4 text-left text-sm font-medium text-neutral-100 transition hover:border-white/18 hover:bg-white/10"
             >
               Reset closure state
-            </button>
+            </TerminalActionButton>
           </div>
 
           <div className="mt-4 rounded-[1.2rem] border border-white/8 bg-white/5 px-4 py-4 text-sm">
@@ -247,28 +297,28 @@ export default function ApplicationClosureControlDeck({
               onClick={() => jumpToShellSection('panelEvaluations')}
               className="rounded-[1.3rem] border border-white/10 bg-white/5 px-4 py-4 text-left text-sm font-medium text-neutral-100 transition hover:border-emerald-300/35 hover:bg-emerald-400/10"
             >
-              Open live verification detail
+              Focus live verification detail
             </button>
             <button
               type="button"
               onClick={() => jumpToShellSection('panelBranchArtifacts')}
               className="rounded-[1.3rem] border border-white/10 bg-white/5 px-4 py-4 text-left text-sm font-medium text-neutral-100 transition hover:border-emerald-300/35 hover:bg-emerald-400/10"
             >
-              Open live branch detail
+              Focus live branch detail
             </button>
             <button
               type="button"
               onClick={() => jumpToShellSection('panelSettlement')}
               className="rounded-[1.3rem] border border-white/10 bg-white/5 px-4 py-4 text-left text-sm font-medium text-neutral-100 transition hover:border-emerald-300/35 hover:bg-emerald-400/10"
             >
-              Open live settlement detail
+              Focus live settlement detail
             </button>
             <button
               type="button"
               onClick={() => jumpToShellSection('panelLedger')}
               className="rounded-[1.3rem] border border-white/10 bg-white/5 px-4 py-4 text-left text-sm font-medium text-neutral-100 transition hover:border-emerald-300/35 hover:bg-emerald-400/10"
             >
-              Open live ledger detail
+              Focus live ledger detail
             </button>
           </div>
         </article>
