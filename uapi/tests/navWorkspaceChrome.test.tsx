@@ -75,7 +75,7 @@ jest.mock('@/components/base/bitcode/nav/AuxillariesUseButton', () => ({
   AuxillariesUseButton: () => <div>Use button</div>,
 }));
 
-describe('Nav workspace chrome', () => {
+describe('Nav application product chrome', () => {
   beforeEach(() => {
     mockPush.mockReset();
     mockReplace.mockReset();
@@ -84,12 +84,15 @@ describe('Nav workspace chrome', () => {
     mockUseAuth.mockReturnValue({ user: null });
   });
 
-  it('shows focused workspace access actions for unauthenticated application routes', () => {
+  it('shows product-route links and guest access actions for unauthenticated application routes', () => {
     render(<Nav />);
 
     const accessButton = screen.getByRole('button', { name: 'Open Auxillaries' });
     const createButton = screen.getByRole('button', { name: 'Create Account' });
 
+    expect(screen.getByRole('link', { name: 'Exchange' })).toHaveAttribute('href', '/');
+    expect(screen.getByRole('link', { name: 'Terminal' })).toHaveAttribute('href', '/application');
+    expect(screen.getByRole('link', { name: 'Docs' })).toHaveAttribute('href', '/docs');
     fireEvent.mouseEnter(accessButton);
     fireEvent.click(accessButton);
     fireEvent.click(createButton);
@@ -100,7 +103,7 @@ describe('Nav workspace chrome', () => {
     expect(mockOpenOrbital).toHaveBeenNthCalledWith(2, 'SignUpWindow');
   });
 
-  it('reopens auxillaries from signed-in workspace chrome through the canonical auxillaries mode', () => {
+  it('keeps product-route links visible while reopening auxillaries from the signed-in menu', () => {
     mockUseAuth.mockReturnValue({
       user: {
         id: 'user-1',
@@ -110,6 +113,9 @@ describe('Nav workspace chrome', () => {
 
     render(<Nav />);
 
+    expect(screen.getByRole('link', { name: 'Exchange' })).toHaveAttribute('href', '/');
+    expect(screen.getByRole('link', { name: 'Terminal' })).toHaveAttribute('href', '/application');
+    expect(screen.getByRole('link', { name: 'Docs' })).toHaveAttribute('href', '/docs');
     expect(screen.queryByRole('button', { name: 'Open Auxillaries' })).toBeNull();
     expect(screen.getByText('Notifications')).toBeInTheDocument();
 

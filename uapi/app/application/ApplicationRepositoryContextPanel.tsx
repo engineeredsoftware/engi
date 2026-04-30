@@ -242,7 +242,7 @@ export default function ApplicationRepositoryContextPanel({
         </div>
       </div>
 
-      <div className="mt-6 grid gap-6 xl:grid-cols-[minmax(0,1.3fr)_minmax(19rem,0.7fr)]">
+      <div className="mt-6 grid gap-6">
         <div className="space-y-5">
           <div className="rounded-[1.5rem] border border-white/8 bg-black/20 px-5 py-5">
             <div className="flex items-center gap-2">

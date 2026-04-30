@@ -397,7 +397,7 @@ export default function ApplicationPageClient() {
                 summary={APPLICATION_SURFACE_COPY.frame.summary}
               >
                 <ApplicationExperienceFrame onOpenConversations={() => setIsConversationOverlayOpen(true)} />
-                <div className="grid gap-6 2xl:grid-cols-[minmax(0,1.05fr)_minmax(20rem,0.95fr)]">
+                <div className="grid gap-6">
                   <div className="space-y-6">
                     <ApplicationCommandDeck
                       onRecordActivity={handleRecordActivity}
@@ -427,7 +427,7 @@ export default function ApplicationPageClient() {
                 summary={APPLICATION_SURFACE_COPY.supply.summary}
                 tone="emerald"
               >
-                <div className="grid gap-6 2xl:grid-cols-[minmax(0,1.05fr)_minmax(20rem,0.95fr)]">
+                <div className="grid gap-6">
                   <div className="space-y-6">
                     <ApplicationRepositoryContextPanel
                       preferredRepository={selectedRun?.repository || null}

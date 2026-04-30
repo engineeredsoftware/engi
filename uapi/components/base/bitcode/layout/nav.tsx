@@ -127,15 +127,17 @@ export default function Nav() {
   const publicSurface = getPublicShellSurface(pathname);
   const usesWorkspaceChrome = navSurface !== null;
   const usesPublicChrome = usesPublicShellChrome(pathname);
+  const usesProductChrome = usesPublicChrome || navSurface === 'application';
+  const usesWorkspaceOnlyChrome = usesWorkspaceChrome && !usesProductChrome;
 
   // Determine if the nav should be fixed
   const shouldBeFixed = useMemo(() => {
-    if (usesWorkspaceChrome) return false;
-    if (usesPublicChrome) return true;
+    if (usesWorkspaceOnlyChrome) return false;
+    if (usesProductChrome) return true;
     if (user) return true;
     if (!pathname) return true;
     return true;
-  }, [usesWorkspaceChrome, usesPublicChrome, user, pathname]);
+  }, [usesWorkspaceOnlyChrome, usesProductChrome, user, pathname]);
 
   // Determine if the nav should be visually collapsed
   const isCollapsed = shouldCollapse && isScrolled;
@@ -145,16 +147,16 @@ export default function Nav() {
   const disableTerminalLink = Boolean(FEATURE_FLAGS.DISABLE_TERMINAL_LINK);
 
   // Compute positioning class
-  const positionClass = usesWorkspaceChrome
+  const positionClass = usesWorkspaceOnlyChrome
     ? 'sticky inset-x-0 top-0'
     : shouldBeFixed
       ? 'fixed inset-x-0 top-0 mx-auto'
       : 'relative';
 
   // Compute translateY for expanded (offset) or collapsed (pinned) state
-  const transformValue = usesWorkspaceChrome
+  const transformValue = usesWorkspaceOnlyChrome
     ? 'none'
-    : usesPublicChrome
+    : usesProductChrome
       ? 'translateY(0)'
     : isCollapsed
       ? 'translateY(0)'
@@ -164,7 +166,7 @@ export default function Nav() {
     router.push('/')
   }
 
-  const workspaceGuestActions = usesWorkspaceChrome && !user ? (
+  const workspaceGuestActions = usesWorkspaceOnlyChrome && !user ? (
     <div className={isAnimated ? 'nav-controls-animated flex items-center gap-2.5' : 'opacity-0 flex items-center gap-2.5'}>
       {disableAuxillaries ? (
         <DisabledTooltipWrapper tooltip={DISABLED_FEATURE_TOOLTIPS.auxillaries}>
@@ -211,7 +213,7 @@ export default function Nav() {
     </div>
   ) : null;
 
-  const publicGuestActions = usesPublicChrome && !user ? (
+  const publicGuestActions = usesProductChrome && !user ? (
     <div className={isAnimated ? 'nav-controls-animated flex w-full flex-wrap items-center gap-2 tablet:w-auto tablet:flex-nowrap tablet:justify-end tablet:gap-2.5' : 'opacity-0 flex w-full flex-wrap items-center gap-2 tablet:w-auto tablet:flex-nowrap tablet:justify-end tablet:gap-2.5'}>
       {disableAuxillaries ? (
         <DisabledTooltipWrapper tooltip={DISABLED_FEATURE_TOOLTIPS.auxillaries} className="flex-1 tablet:flex-none">
@@ -258,7 +260,7 @@ export default function Nav() {
     </div>
   ) : null;
 
-  const publicRouteLinks = usesPublicChrome ? (
+  const publicRouteLinks = usesProductChrome ? (
     <ul className="flex w-full flex-wrap items-center gap-2 phone:gap-3 tablet:ml-8 tablet:w-auto tablet:flex-1 tablet:flex-nowrap tablet:justify-center tablet:gap-4 laptop:ml-12 laptop:gap-6">
       {BITCODE_PUBLIC_COPY.publicNav.links.map(({ href, label }, index) => {
         const isDisabledRoute =
@@ -302,7 +304,7 @@ export default function Nav() {
                     rounded-full border px-3.5 py-2 text-[0.68rem] font-medium uppercase tracking-[0.18em] transition
                     ${isActiveRoute
                       ? 'border-emerald-300/38 bg-emerald-400/14 text-emerald-100 shadow-[0_0_20px_rgba(16,185,129,0.16)]'
-                      : 'border-white/10 bg-white/[0.03] text-neutral-200 hover:border-emerald-300/24 hover:bg-emerald-400/[0.08] hover:text-emerald-100'}
+                      : 'border-white/10 bg-white/[0.025] text-neutral-400 hover:border-emerald-300/24 hover:bg-emerald-400/[0.08] hover:text-emerald-100'}
                   `}
                 >
                   {label}
@@ -337,37 +339,37 @@ export default function Nav() {
   return (
     <div className="relative">
       <div
-        className={`nav-container-global ${positionClass} z-50 ${usesWorkspaceChrome ? 'border-b border-white/8 bg-[rgba(4,8,18,0.92)] shadow-[0_18px_40px_rgba(0,0,0,0.22)] backdrop-blur-xl' : ''} ${usesPublicChrome ? 'border-b border-white/8 bg-[rgba(3,8,18,0.82)] shadow-[0_20px_50px_rgba(0,0,0,0.18)] backdrop-blur-xl' : ''} ${!usesWorkspaceChrome && !usesPublicChrome && isCollapsed ? 'nav-scrolled-bg' : ''} ${isAnimated ? 'nav-container-animated' : 'opacity-0'} ${!usesWorkspaceChrome && !usesPublicChrome && isCollapsed ? 'w-[80%]' : 'w-full'}`}
+        className={`nav-container-global ${positionClass} z-50 ${usesWorkspaceOnlyChrome ? 'border-b border-white/8 bg-[rgba(4,8,18,0.92)] shadow-[0_18px_40px_rgba(0,0,0,0.22)] backdrop-blur-xl' : ''} ${usesProductChrome ? 'border-b border-emerald-300/10 bg-[linear-gradient(180deg,rgba(3,8,18,0.94),rgba(3,8,18,0.78)_72%,rgba(3,8,18,0.52))] shadow-[0_20px_50px_rgba(0,0,0,0.18)] backdrop-blur-xl' : ''} ${!usesWorkspaceOnlyChrome && !usesProductChrome && isCollapsed ? 'nav-scrolled-bg' : ''} ${isAnimated ? 'nav-container-animated' : 'opacity-0'} ${!usesWorkspaceOnlyChrome && !usesProductChrome && isCollapsed ? 'w-[80%]' : 'w-full'}`}
         style={{
           transformOrigin: 'center top',
           transform: transformValue,
-          width: !usesWorkspaceChrome && !usesPublicChrome && isCollapsed ? '80%' : '100%',
-          transition: usesWorkspaceChrome
+          width: !usesWorkspaceOnlyChrome && !usesProductChrome && isCollapsed ? '80%' : '100%',
+          transition: usesWorkspaceOnlyChrome
             ? 'opacity 250ms ease-out'
-            : usesPublicChrome
+            : usesProductChrome
               ? 'opacity 250ms ease-out'
             : shouldCollapse
             ? isCollapsed
               ? 'transform 500ms ease-in-out, width 250ms ease-in-out'
               : 'transform 250ms ease-in-out, width 500ms ease-in-out'
             : undefined,
-          padding: usesWorkspaceChrome ? '0px' : '2px',
-          paddingBottom: usesWorkspaceChrome ? '0px' : '16px',
+          padding: usesWorkspaceOnlyChrome ? '0px' : '2px',
+          paddingBottom: usesWorkspaceOnlyChrome ? '0px' : usesProductChrome ? '8px' : '16px',
           isolation: 'isolate',
           border: 'none',
         }}
       >
-        <div className={`max-w-7xl mx-auto px-4 tablet:px-6 laptop:px-8 desktop:px-12 wide:px-16 ${usesPublicChrome ? 'flex w-full flex-col gap-3 py-3 pb-4 tablet:flex-row tablet:items-center tablet:justify-between' : `flex items-center justify-between ${usesWorkspaceChrome ? 'py-3.5' : 'py-4 pb-6'}`}`}>
-          <div className={usesPublicChrome ? 'flex w-full flex-col gap-3 tablet:min-w-0 tablet:flex-1 tablet:flex-row tablet:items-center' : 'flex items-center w-full'}>
+        <div className={`max-w-7xl mx-auto px-4 tablet:px-6 laptop:px-8 desktop:px-12 wide:px-16 ${usesProductChrome ? 'flex w-full flex-col gap-3 py-3 tablet:flex-row tablet:items-center tablet:justify-between' : `flex items-center justify-between ${usesWorkspaceOnlyChrome ? 'py-3.5' : 'py-4 pb-6'}`}`}>
+          <div className={usesProductChrome ? 'flex w-full flex-col gap-3 tablet:min-w-0 tablet:flex-1 tablet:flex-row tablet:items-center' : 'flex items-center w-full'}>
             <NavBrand
               animated={isAnimated}
               onClick={handleLogoClick}
-              surface={usesWorkspaceChrome ? navSurface : publicSurface}
+              surface={navSurface ?? publicSurface}
             />
-            {usesPublicChrome ? publicRouteLinks : null}
-            {!usesPublicChrome && !user && <div className="flex-1" />}
-            {!usesPublicChrome && user && (
-              <ul className={`flex items-center space-x-2 phone:space-x-4 tablet:space-x-6 text-sm phone:text-base tablet:text-lg w-full justify-center ${usesWorkspaceChrome ? 'tablet:ml-10' : 'tablet:ml-[130px]'}`}>
+            {usesProductChrome ? publicRouteLinks : null}
+            {!usesProductChrome && !user && <div className="flex-1" />}
+            {!usesProductChrome && user && (
+              <ul className={`flex items-center space-x-2 phone:space-x-4 tablet:space-x-6 text-sm phone:text-base tablet:text-lg w-full justify-center ${usesWorkspaceOnlyChrome ? 'tablet:ml-10' : 'tablet:ml-[130px]'}`}>
                 {[
                   { href: '/application', label: 'application' },
                 ].map(({ href, label }, index) => {
@@ -433,7 +435,7 @@ export default function Nav() {
             )}
           </div>
 
-          <div className={usesPublicChrome ? 'flex w-full flex-wrap items-center gap-2 tablet:w-auto tablet:flex-nowrap tablet:justify-end tablet:gap-4' : 'flex items-center justify-center space-x-4'}>
+          <div className={usesProductChrome ? 'flex w-full flex-wrap items-center gap-2 tablet:w-auto tablet:flex-nowrap tablet:justify-end tablet:gap-4' : 'flex items-center justify-center space-x-4'}>
             {workspaceGuestActions ? (
               workspaceGuestActions
             ) : publicGuestActions ? (
@@ -492,7 +494,7 @@ export default function Nav() {
 
       {/* Spacer below the nav */}
       <div
-        className={`transition-all duration-500 ease-out ${shouldBeFixed ? (usesPublicChrome ? 'h-40 phone:h-44 tablet:h-36' : isCollapsed ? 'h-28' : 'h-36') : 'h-0'
+        className={`transition-all duration-500 ease-out ${shouldBeFixed ? (usesProductChrome ? 'h-28 phone:h-28 tablet:h-28' : isCollapsed ? 'h-28' : 'h-36') : 'h-0'
           }`}
       />
     </div>

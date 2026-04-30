@@ -1,7 +1,15 @@
 "use client";
 
-import React, { FC } from "react";
+import React, { FC, useCallback, useState } from "react";
 import { cn } from '@bitcode/styling';
+
+type TooltipSide = "bottom" | "top" | "right" | "left";
+type TooltipAlign = "start" | "center" | "end";
+
+interface ResolvedTooltipPlacement {
+  side: TooltipSide;
+  align: TooltipAlign;
+}
 
 interface DisabledTooltipWrapperProps {
   /** Tooltip text shown while the child element is hovered */
@@ -11,11 +19,91 @@ interface DisabledTooltipWrapperProps {
   /** Additional classes for the wrapper */
   className?: string;
   /** Optional positioning override – defaults to bottom-center */
-  placement?: "bottom" | "top" | "right" | "left"; // supports left now
+  placement?: TooltipSide;
 
   /** Colour theme.  Defaults to emerald (Bitcode green) but can be switched to
    *  'purple' for marketing / coming-soon variants. */
   variant?: "emerald" | "purple";
+}
+
+const tooltipViewportMargin = 16;
+const tooltipMaxWidth = 544;
+const tooltipMinVerticalRoom = 160;
+
+function resolveTooltipPlacement(trigger: HTMLElement, preferredSide: TooltipSide): ResolvedTooltipPlacement {
+  if (typeof window === 'undefined') {
+    return { side: preferredSide, align: 'center' };
+  }
+
+  const rect = trigger.getBoundingClientRect();
+  const viewportWidth = window.innerWidth;
+  const viewportHeight = window.innerHeight;
+  const tooltipWidth = Math.min(tooltipMaxWidth, viewportWidth - tooltipViewportMargin * 2);
+  const centerX = rect.left + rect.width / 2;
+  const spaceAbove = rect.top;
+  const spaceBelow = viewportHeight - rect.bottom;
+  const spaceLeft = rect.left;
+  const spaceRight = viewportWidth - rect.right;
+
+  let side = preferredSide;
+  if (preferredSide === 'bottom' && spaceBelow < tooltipMinVerticalRoom && spaceAbove > spaceBelow) {
+    side = 'top';
+  } else if (preferredSide === 'top' && spaceAbove < tooltipMinVerticalRoom && spaceBelow > spaceAbove) {
+    side = 'bottom';
+  } else if (preferredSide === 'right' && spaceRight < tooltipWidth && spaceLeft > spaceRight) {
+    side = 'left';
+  } else if (preferredSide === 'left' && spaceLeft < tooltipWidth && spaceRight > spaceLeft) {
+    side = 'right';
+  }
+
+  let align: TooltipAlign = 'center';
+  if (side === 'top' || side === 'bottom') {
+    if (centerX - tooltipWidth / 2 < tooltipViewportMargin) {
+      align = 'start';
+    } else if (centerX + tooltipWidth / 2 > viewportWidth - tooltipViewportMargin) {
+      align = 'end';
+    }
+  }
+
+  return { side, align };
+}
+
+function tooltipPositionClassName({ side, align }: ResolvedTooltipPlacement) {
+  if (side === 'right') return 'top-1/2 left-full ml-4 -translate-y-1/2';
+  if (side === 'left') return 'top-1/2 right-full mr-4 -translate-y-1/2';
+
+  const sideClassName = side === 'bottom' ? 'top-full mt-4' : 'bottom-full mb-4';
+  const alignClassName =
+    align === 'start'
+      ? 'left-0'
+      : align === 'end'
+        ? 'right-0'
+        : 'left-1/2 -translate-x-1/2';
+
+  return `${sideClassName} ${alignClassName}`;
+}
+
+function arrowClassName({ side, align }: ResolvedTooltipPlacement) {
+  if (side === 'right') {
+    return 'top-1/2 -left-[7px] -translate-y-1/2 border-y-[7px] border-r-[7px] border-y-transparent border-r-[rgba(3,7,18,0.95)]';
+  }
+
+  if (side === 'left') {
+    return 'top-1/2 -right-[7px] -translate-y-1/2 border-y-[7px] border-l-[7px] border-y-transparent border-l-[rgba(3,7,18,0.95)]';
+  }
+
+  const alignClassName =
+    align === 'start'
+      ? 'left-4'
+      : align === 'end'
+        ? 'right-4'
+        : 'left-1/2 -translate-x-1/2';
+  const sideClassName =
+    side === 'bottom'
+      ? '-top-[7px] border-x-[7px] border-b-[7px] border-x-transparent border-b-[rgba(3,7,18,0.95)]'
+      : '-bottom-[7px] border-x-[7px] border-t-[7px] border-x-transparent border-t-[rgba(3,7,18,0.95)]';
+
+  return `${alignClassName} ${sideClassName}`;
 }
 
 /**
@@ -31,26 +119,34 @@ export const DisabledTooltipWrapper: FC<DisabledTooltipWrapperProps> = ({
   placement = "bottom",
   variant = "emerald",
 }) => {
-  const isBottom = placement === "bottom";
-  const isTop = placement === "top";
-  const isRight = placement === "right";
-  const isLeft = placement === "left";
+  const [resolvedPlacement, setResolvedPlacement] = useState<ResolvedTooltipPlacement>({
+    side: placement,
+    align: 'center',
+  });
   const tooltipStyle: React.CSSProperties = {
     width: 'min(34rem, calc(100vw - 2rem))',
   };
+  const updatePlacement = useCallback(
+    (event: React.SyntheticEvent<HTMLElement>) => {
+      setResolvedPlacement(resolveTooltipPlacement(event.currentTarget, placement));
+    },
+    [placement],
+  );
 
   return (
-    <div className={cn("relative inline-block group/tooltip", className)}>
+    <div
+      className={cn("relative inline-block group/tooltip", className)}
+      onFocus={updatePlacement}
+      onMouseEnter={updatePlacement}
+      onTouchStart={updatePlacement}
+    >
       {children}
 
       {/* Tooltip bubble */}
       <div
         className={cn(
           "pointer-events-none absolute flex flex-col items-center z-50",
-          isBottom && "left-1/2 -translate-x-1/2 top-full mt-4",
-          isTop && "left-1/2 -translate-x-1/2 bottom-full mb-4",
-          isRight && "top-1/2 left-full ml-4 -translate-y-1/2",
-          isLeft && "top-1/2 right-full mr-4 -translate-y-1/2"
+          tooltipPositionClassName(resolvedPlacement),
         )}
         style={tooltipStyle}
       >
@@ -59,18 +155,12 @@ export const DisabledTooltipWrapper: FC<DisabledTooltipWrapperProps> = ({
           className="opacity-0 translate-y-1 scale-95 group-hover/tooltip:opacity-100 group-hover/tooltip:translate-y-0 group-hover/tooltip:scale-100 transition-all duration-300 ease-out"
           style={{ transformOrigin: "center" }}
         >
-          {/* Bubble with arrow (arrow is sibling so bubble overlays diamond’s inner edges) */}
+          {/* Bubble with a triangle-only pointer so no inner diamond edge is visible. */}
           <div className="relative">
-            {/* Arrow diamond (background + border + glow) */}
             <div
               className={cn(
-                "absolute w-3 h-3 -rotate-45 bg-gray-950/95 rounded-none z-0",
-                // Placement-based positioning
-          isBottom && "left-1/2 -translate-x-1/2 rounded-tr-[1px] -top-[0.38rem]",
-          isTop && "left-1/2 -translate-x-1/2 rounded-bl-[1px] -bottom-[0.38rem]",
-          isRight && "top-1/2 -translate-y-1/2 -left-[0.38rem] rounded-br-[1px]",
-          isLeft && "top-1/2 -translate-y-1/2 -right-[0.38rem] rounded-bl-[1px]",
-                // Variant ring / shadow
+                "absolute z-0 h-0 w-0",
+                arrowClassName(resolvedPlacement),
                 variant === 'purple'
                   ? 'ring-purple-500/20 shadow-[0_0_8px_rgba(186,84,236,0.45)]'
                   : 'ring-emerald-500/20 shadow-[0_0_8px_rgba(101,254,183,0.45)]'
@@ -80,25 +170,8 @@ export const DisabledTooltipWrapper: FC<DisabledTooltipWrapperProps> = ({
                   variant === 'purple'
                     ? 'drop-shadow(0 0 6px rgba(186,84,236,0.5))'
                     : 'drop-shadow(0 0 6px rgba(101,254,183,0.5))',
-              }}
+                }}
             />
-
-            {/* Canceller – overlays arrow base to hide inner border for vertical arrows only */}
-            {(isBottom || isTop) && (
-              <div
-                className={cn(
-                  "absolute left-1/2 -translate-x-1/2 w-[18px] h-[6px] overflow-hidden z-30 pointer-events-none",
-                  isBottom ? "-top-[0.38rem]" : "-bottom-[0.38rem]"
-                )}
-              >
-                <div className="relative w-[18px] h-[18px] overflow-hidden">
-                  <div
-                    className="absolute left-1/2 -translate-x-1/2 w-[18px] h-[18px] rotate-45 bg-gray-950"
-                    style={{ top: isBottom ? '2px' : '-14px' }}
-                  />
-                </div>
-              </div>
-            )}
 
             {/* Bubble */}
             <div

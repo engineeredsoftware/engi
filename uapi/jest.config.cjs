@@ -110,6 +110,7 @@ module.exports = {
     '<rootDir>/tests/marketingLandingPage.test.tsx',
     '<rootDir>/tests/publicDocsPageContent.test.tsx',
     '<rootDir>/tests/applicationPreservedShellSurface.test.tsx',
+    '<rootDir>/tests/applicationPageShell.test.tsx',
     '<rootDir>/tests/applicationShellBridge.test.tsx',
     '<rootDir>/tests/bitcodeApplicationRuntimeMount.test.tsx',
     '<rootDir>/tests/firstGateScopedStylesRoute.test.ts',

@@ -177,7 +177,7 @@ export const headlineText = BITCODE_PUBLIC_COPY.headline;
 export const heroHighlightClass = 'super-shiny-text special-text text-[rgba(103,254,183,0.95)]';
 export const headlineHighlights = [
   { text: 'Bitcode', className: `${heroHighlightClass} font-semibold text-white` },
-  { text: 'auditable market infrastructure', className: heroHighlightClass },
+  { text: 'market infrastructure for engineering', className: heroHighlightClass },
 ] as const;
 
 export function renderOrbitalBullet(className = '', variant: 'purple' | 'orange' | 'green' = 'purple') {

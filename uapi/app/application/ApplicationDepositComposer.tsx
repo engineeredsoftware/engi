@@ -212,7 +212,7 @@ export default function ApplicationDepositComposer({
       }
     >
 
-      <div className="mt-6 grid gap-5 xl:grid-cols-[minmax(0,1.25fr)_minmax(0,0.75fr)]">
+      <div className="mt-6 grid gap-5">
         <form onSubmit={handleSubmit} className="grid gap-4">
           <div className="grid gap-4 lg:grid-cols-2">
             <label className="rounded-[1.5rem] border border-white/8 bg-black/20 px-4 py-4">

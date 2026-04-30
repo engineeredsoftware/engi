@@ -102,7 +102,7 @@ export default function ApplicationSupplySelectionPanel({
         </div>
       ) : null}
 
-      <div className="mt-6 grid gap-4 xl:grid-cols-[minmax(0,1.2fr)_minmax(0,0.8fr)]">
+      <div className="mt-6 grid gap-4">
         <div className="grid gap-4 lg:grid-cols-3">
           <div className="rounded-[1.5rem] border border-white/8 bg-black/20 px-4 py-4">
             <span className="flex items-center gap-2 text-[0.66rem] uppercase tracking-[0.24em] text-neutral-400">

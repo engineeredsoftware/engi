@@ -382,7 +382,7 @@ export default function Footer({ showPrimaryContent = true, className = '' }: Fo
                       target="_blank"
                       rel="noopener noreferrer"
                       aria-label={social.ariaLabel}
-                      className="group inline-flex min-h-[4.25rem] items-start gap-3 rounded-[1.25rem] border border-white/8 bg-white/[0.03] px-3.5 py-3 text-left text-sm text-gray-500 transition-colors hover:border-emerald-300/20 hover:bg-emerald-400/[0.06] hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300"
+                      className="group inline-flex min-h-[4.25rem] w-full items-start gap-3 rounded-[1.25rem] border border-white/8 bg-white/[0.03] px-3.5 py-3 text-left text-sm text-gray-500 transition-colors hover:border-emerald-300/20 hover:bg-emerald-400/[0.06] hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300"
                     >
                       {social.icon}
                       <span className="flex min-w-0 flex-1 flex-col">
@@ -393,20 +393,20 @@ export default function Footer({ showPrimaryContent = true, className = '' }: Fo
                       </span>
                     </a>
                   ) : isDisabledRoute ? (
-                    <span key={social.ariaLabel} className="inline-flex items-start gap-2">
+                    <span key={social.ariaLabel} className="flex w-full items-start gap-2">
                       <DisabledTooltipWrapper
                         tooltip={
                           social.href === '/'
                             ? DISABLED_FEATURE_TOOLTIPS.exchange
                             : DISABLED_FEATURE_TOOLTIPS.terminal
                         }
-                        className="flex-1"
+                        className="w-full flex-1"
                       >
                         <span
                           role="link"
                           aria-disabled="true"
                           aria-label={social.ariaLabel}
-                          className="group inline-flex min-h-[4.25rem] flex-1 cursor-not-allowed items-start gap-3 rounded-[1.25rem] border border-white/8 bg-white/[0.02] px-3.5 py-3 text-left text-sm text-gray-500 opacity-65 grayscale"
+                          className="group inline-flex min-h-[4.25rem] w-full flex-1 cursor-not-allowed items-start gap-3 rounded-[1.25rem] border border-white/8 bg-white/[0.02] px-3.5 py-3 text-left text-sm text-gray-500 opacity-65 grayscale"
                         >
                           {social.icon}
                           <span className="flex min-w-0 flex-1 flex-col">
@@ -426,11 +426,11 @@ export default function Footer({ showPrimaryContent = true, className = '' }: Fo
                       ) : null}
                     </span>
                   ) : (
-                    <span key={social.ariaLabel} className="inline-flex items-start gap-2">
+                    <span key={social.ariaLabel} className="flex w-full items-start gap-2">
                       <Link
                         href={social.href}
                         aria-label={social.ariaLabel}
-                        className="group inline-flex min-h-[4.25rem] flex-1 items-start gap-3 rounded-[1.25rem] border border-white/8 bg-white/[0.03] px-3.5 py-3 text-left text-sm text-gray-500 transition-colors hover:border-emerald-300/20 hover:bg-emerald-400/[0.06] hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300"
+                        className="group inline-flex min-h-[4.25rem] w-full flex-1 items-start gap-3 rounded-[1.25rem] border border-white/8 bg-white/[0.03] px-3.5 py-3 text-left text-sm text-gray-500 transition-colors hover:border-emerald-300/20 hover:bg-emerald-400/[0.06] hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300"
                       >
                         {social.icon}
                         <span className="flex min-w-0 flex-1 flex-col">

@@ -2,7 +2,7 @@
 
 import '@testing-library/jest-dom';
 import React from 'react';
-import { render, screen, waitFor } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 
 import MarketingLandingPage from '@/app/(root)/components/MarketingLandingPage';
 
@@ -76,7 +76,7 @@ describe('MarketingLandingPage', () => {
     });
   });
 
-  it('renders Bitcode-facing landing CTAs and embedded built runtime', async () => {
+  it('renders Bitcode-facing landing CTAs and static depot preview', () => {
     render(<MarketingLandingPage />);
 
     expect(
@@ -90,18 +90,16 @@ describe('MarketingLandingPage', () => {
       '/docs',
     );
     expect(screen.getByText('Study the docs before you transact')).toBeInTheDocument();
-    expect(screen.getByText('Run the Source Shares demonstration in place.')).toBeInTheDocument();
+    expect(screen.getByText('Data Depot')).toBeInTheDocument();
+    expect(screen.getByText('Depot Surface')).toBeInTheDocument();
+    expect(screen.getByText('Measurement vector')).toBeInTheDocument();
+    expect(screen.getByText('Verified access')).toBeInTheDocument();
     expect(screen.getByText('SOURCE SHARES')).toBeInTheDocument();
     expect(screen.getByText('MOCK DEMO')).toBeInTheDocument();
     expect(screen.getByText('Exchange')).toBeInTheDocument();
-    expect(screen.getByTestId('landing-built-demo-embed')).toBeInTheDocument();
-    expect(screen.getByText('Interactive runtime')).toBeInTheDocument();
-    expect(document.getElementById('bitcodeApplicationRoot')).toHaveAttribute(
-      'data-bitcode-runtime-host',
-      'built-embedded',
-    );
+    expect(document.getElementById('bitcodeApplicationRoot')).toBeNull();
     expect(document.querySelector('iframe')).toBeNull();
-    await waitFor(() => expect(mountBitcodeApplicationShell).toHaveBeenCalledTimes(1));
+    expect(mountBitcodeApplicationShell).not.toHaveBeenCalled();
     expect(screen.getByTestId('landing-orbital-ambience')).toHaveClass('hidden', 'laptop:block');
     expect(screen.getByTestId('landing-pointer-glow')).toHaveClass('hidden', 'laptop:block');
     expect(screen.getByTestId('landing-ambient-glow')).toHaveClass('hidden', 'laptop:block');

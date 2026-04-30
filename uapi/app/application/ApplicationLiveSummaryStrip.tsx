@@ -63,7 +63,7 @@ export default function ApplicationLiveSummaryStrip({
         </div>
       </div>
 
-      <div className="mt-6 grid gap-4 xl:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)]">
+      <div className="mt-6 grid gap-4">
         <div className="rounded-[1.6rem] border border-white/8 bg-black/20 px-5 py-5">
           <p className="text-[0.68rem] uppercase tracking-[0.24em] text-neutral-400">Pinned signals</p>
           <div className="mt-4 grid gap-3 sm:grid-cols-2">

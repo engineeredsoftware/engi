@@ -148,7 +148,7 @@ export default function ApplicationClosureControlDeck({
       }
     >
 
-      <div className="mt-6 grid gap-5 xl:grid-cols-[minmax(0,1.05fr)_minmax(0,0.95fr)]">
+      <div className="mt-6 grid gap-5">
         <article className="rounded-[1.6rem] border border-white/8 bg-black/20 px-5 py-5">
           <div className="flex items-start justify-between gap-3">
             <div>

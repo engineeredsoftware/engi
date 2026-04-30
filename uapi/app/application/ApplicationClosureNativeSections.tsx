@@ -99,7 +99,7 @@ function renderClosurePanelCard(panel: ApplicationClosurePanel) {
         </div>
       </div>
 
-      <div className="mt-5 grid gap-4 xl:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)]">
+      <div className="mt-5 grid gap-4">
         <div className="space-y-4">
           <BitcodeMetricGrid
             metrics={panel.metrics}

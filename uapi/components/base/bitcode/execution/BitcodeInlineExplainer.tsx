@@ -1,15 +1,92 @@
 'use client';
 
-import React from 'react';
+import React, { useCallback, useState } from 'react';
 
 import { cn } from '@bitcode/styling';
 import type { BitcodeExplainer } from './bitcode-transaction-types';
 
+type TooltipSide = 'top' | 'bottom';
+type TooltipAlign = 'start' | 'center' | 'end';
+
+interface TooltipPlacement {
+  side: TooltipSide;
+  align: TooltipAlign;
+}
+
 interface BitcodeInlineExplainerProps {
   explainer: BitcodeExplainer;
-  side?: 'top' | 'bottom';
+  side?: TooltipSide;
   className?: string;
   triggerClassName?: string;
+}
+
+const tooltipViewportMargin = 16;
+const tooltipMaxWidth = 320;
+const tooltipMinVerticalRoom = 240;
+
+function resolveExplainerPlacement(trigger: HTMLElement, preferredSide: TooltipSide): TooltipPlacement {
+  if (typeof window === 'undefined') {
+    return { side: preferredSide, align: 'center' };
+  }
+
+  const rect = trigger.getBoundingClientRect();
+  const viewportWidth = window.innerWidth;
+  const viewportHeight = window.innerHeight;
+  const tooltipWidth = Math.min(tooltipMaxWidth, viewportWidth - tooltipViewportMargin * 2);
+  const centerX = rect.left + rect.width / 2;
+  const spaceAbove = rect.top;
+  const spaceBelow = viewportHeight - rect.bottom;
+
+  let align: TooltipAlign = 'center';
+  if (centerX - tooltipWidth / 2 < tooltipViewportMargin) {
+    align = 'start';
+  } else if (centerX + tooltipWidth / 2 > viewportWidth - tooltipViewportMargin) {
+    align = 'end';
+  }
+
+  let side = preferredSide;
+  if (
+    preferredSide === 'bottom' &&
+    spaceBelow < tooltipMinVerticalRoom &&
+    spaceAbove > spaceBelow
+  ) {
+    side = 'top';
+  } else if (
+    preferredSide === 'top' &&
+    spaceAbove < tooltipMinVerticalRoom &&
+    spaceBelow > spaceAbove
+  ) {
+    side = 'bottom';
+  }
+
+  return { side, align };
+}
+
+function tooltipPositionClassName({ side, align }: TooltipPlacement) {
+  const sideClassName = side === 'bottom' ? 'top-full mt-3' : 'bottom-full mb-3';
+  const alignClassName =
+    align === 'start'
+      ? 'left-0'
+      : align === 'end'
+        ? 'right-0'
+        : 'left-1/2 -translate-x-1/2';
+
+  return `${sideClassName} ${alignClassName}`;
+}
+
+function tooltipArrowClassName({ side, align }: TooltipPlacement) {
+  const alignClassName =
+    align === 'start'
+      ? 'left-4'
+      : align === 'end'
+        ? 'right-4'
+        : 'left-1/2 -translate-x-1/2';
+  const sideClassName =
+    side === 'bottom'
+      ? '-top-[7px] border-x-[7px] border-b-[7px] border-x-transparent border-b-[rgba(4,8,18,0.98)]'
+      : '-bottom-[7px] border-x-[7px] border-t-[7px] border-x-transparent border-t-[rgba(4,8,18,0.98)]';
+
+  return `${alignClassName} ${sideClassName}`;
 }
 
 export default function BitcodeInlineExplainer({
@@ -18,6 +95,7 @@ export default function BitcodeInlineExplainer({
   className,
   triggerClassName,
 }: BitcodeInlineExplainerProps) {
+  const [placement, setPlacement] = useState<TooltipPlacement>({ side, align: 'center' });
   const title = explainer.title;
   const summary = explainer.summary;
   const detail = explainer.detail;
@@ -25,14 +103,29 @@ export default function BitcodeInlineExplainer({
   const sourceRefs = explainer.references?.source || [];
   const canonRefs = explainer.references?.canon || [];
 
+  const updatePlacement = useCallback(
+    (event: React.SyntheticEvent<HTMLElement>) => {
+      const trigger = event.currentTarget.querySelector('button');
+      if (trigger instanceof HTMLElement) {
+        setPlacement(resolveExplainerPlacement(trigger, side));
+      }
+    },
+    [side],
+  );
+
   return (
-    <span className={cn('group/bitcode-explainer relative inline-flex items-center', className)}>
+    <span
+      className={cn('group/bitcode-explainer relative inline-flex items-center', className)}
+      onFocus={updatePlacement}
+      onMouseEnter={updatePlacement}
+      onTouchStart={updatePlacement}
+    >
       <button
         type="button"
         aria-label={`Explain ${title}`}
         onClick={(event) => event.preventDefault()}
         className={cn(
-          'inline-flex h-5 w-5 items-center justify-center rounded-full border border-white/12 bg-white/5 text-[0.62rem] font-semibold text-neutral-300 transition hover:border-emerald-300/35 hover:bg-emerald-400/10 hover:text-emerald-100 focus-visible:border-emerald-300/35 focus-visible:bg-emerald-400/10 focus-visible:text-emerald-100 focus-visible:outline-none',
+          'inline-flex h-[1.125rem] min-h-[1.125rem] w-[1.125rem] min-w-[1.125rem] shrink-0 items-center justify-center rounded-full border border-white/12 bg-white/5 text-[0.62rem] font-semibold leading-none text-neutral-300 transition hover:border-emerald-300/35 hover:bg-emerald-400/10 hover:text-emerald-100 focus-visible:border-emerald-300/35 focus-visible:bg-emerald-400/10 focus-visible:text-emerald-100 focus-visible:outline-none',
           triggerClassName,
         )}
       >
@@ -42,16 +135,14 @@ export default function BitcodeInlineExplainer({
       <span
         role="tooltip"
         className={cn(
-          'pointer-events-none absolute z-30 w-80 max-w-[calc(100vw-2rem)] rounded-[1.15rem] border border-white/10 bg-[rgba(4,8,18,0.98)] px-4 py-4 text-left opacity-0 shadow-[0_24px_56px_rgba(0,0,0,0.42)] transition duration-150 ease-out group-hover/bitcode-explainer:opacity-100 group-focus-within/bitcode-explainer:opacity-100',
-          side === 'bottom'
-            ? 'left-1/2 top-full mt-3 -translate-x-1/2'
-            : 'bottom-full left-1/2 mb-3 -translate-x-1/2',
+          'pointer-events-none absolute z-30 w-[min(20rem,calc(100vw-2rem))] rounded-[1.15rem] border border-white/10 bg-[rgba(4,8,18,0.98)] px-4 py-4 text-left opacity-0 shadow-[0_24px_56px_rgba(0,0,0,0.42)] transition duration-150 ease-out group-hover/bitcode-explainer:opacity-100 group-focus-within/bitcode-explainer:opacity-100',
+          tooltipPositionClassName(placement),
         )}
       >
         <span
           className={cn(
-            'absolute left-1/2 h-3.5 w-3.5 -translate-x-1/2 rotate-45 border border-white/10 bg-[rgba(4,8,18,0.98)]',
-            side === 'bottom' ? '-top-2' : '-bottom-2',
+            'absolute h-0 w-0',
+            tooltipArrowClassName(placement),
           )}
         />
         {explainer.kicker ? (

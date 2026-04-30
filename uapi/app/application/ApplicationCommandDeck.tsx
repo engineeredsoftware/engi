@@ -176,7 +176,7 @@ export default function ApplicationCommandDeck({
         </div>
       </div>
 
-      <div className="mt-6 grid gap-6 xl:grid-cols-[minmax(0,1.35fr)_minmax(20rem,0.65fr)]">
+      <div className="mt-6 grid gap-6">
         <div className="space-y-5">
           <div className="grid gap-4 lg:grid-cols-3">
             <div className="rounded-[1.5rem] border border-white/8 bg-black/20 px-4 py-4">

@@ -274,7 +274,7 @@ export default function ApplicationTransactionDetailSurface({
         </div>
       ) : null}
 
-      <div className="grid gap-6 2xl:grid-cols-[minmax(0,1.15fr)_minmax(20rem,0.85fr)]">
+      <div className="grid gap-6">
         <div className="space-y-5">
           <ApplicationTransactionDetailHero
             title={selectedRun.agentic_execution?.label || formatAgenticExecutionLabel(selectedRun.type)}
