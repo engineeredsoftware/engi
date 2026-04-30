@@ -374,6 +374,13 @@ export default function Footer({ showPrimaryContent = true, className = '' }: Fo
                   const isDisabledRoute =
                     (social.href === '/' && disableExchangeLink) ||
                     (social.href === APPLICATION_URL && disableTerminalLink);
+                  const explainerButton = social.explainer ? (
+                    <BitcodeInlineExplainer
+                      explainer={social.explainer}
+                      side="top"
+                      triggerClassName="h-4.5 w-4.5 shrink-0 border-white/8 bg-white/[0.03] text-[0.58rem] text-gray-400 hover:border-emerald-300/30 hover:bg-emerald-400/10 hover:text-emerald-100"
+                    />
+                  ) : null;
 
                   return isExternalHref(social.href) ? (
                     <a
@@ -393,60 +400,55 @@ export default function Footer({ showPrimaryContent = true, className = '' }: Fo
                       </span>
                     </a>
                   ) : isDisabledRoute ? (
-                    <span key={social.ariaLabel} className="flex w-full items-start gap-2">
+                    <span key={social.ariaLabel} className="block w-full">
                       <DisabledTooltipWrapper
                         tooltip={
                           social.href === '/'
                             ? DISABLED_FEATURE_TOOLTIPS.exchange
                             : DISABLED_FEATURE_TOOLTIPS.terminal
                         }
-                        className="w-full flex-1"
+                        className="w-full"
                       >
                         <span
                           role="link"
                           aria-disabled="true"
                           aria-label={social.ariaLabel}
-                          className="group inline-flex min-h-[4.25rem] w-full flex-1 cursor-not-allowed items-start gap-3 rounded-[1.25rem] border border-white/8 bg-white/[0.02] px-3.5 py-3 text-left text-sm text-gray-500 opacity-65 grayscale"
+                          className="group inline-flex min-h-[4.25rem] w-full cursor-not-allowed items-start gap-3 rounded-[1.25rem] border border-white/8 bg-white/[0.02] px-3.5 py-3 text-left text-sm text-gray-500 opacity-65 grayscale"
                         >
                           {social.icon}
                           <span className="flex min-w-0 flex-1 flex-col">
-                            <span className="whitespace-nowrap">{social.label}</span>
+                            <span className="flex min-w-0 items-start justify-between gap-2">
+                              <span className="min-w-0 whitespace-nowrap">{social.label}</span>
+                              {explainerButton}
+                            </span>
                             <span aria-hidden="true" className="mt-1 text-[11px] uppercase tracking-[0.18em] text-gray-500/70 dark:text-gray-500/80">
                               {social.meta}
                             </span>
                           </span>
                         </span>
                       </DisabledTooltipWrapper>
-                      {social.explainer ? (
-                        <BitcodeInlineExplainer
-                          explainer={social.explainer}
-                          side="top"
-                          triggerClassName="mt-2 h-4.5 w-4.5 shrink-0 border-white/8 bg-white/[0.03] text-[0.58rem] text-gray-400 hover:border-emerald-300/30 hover:bg-emerald-400/10 hover:text-emerald-100"
-                        />
-                      ) : null}
                     </span>
                   ) : (
-                    <span key={social.ariaLabel} className="flex w-full items-start gap-2">
-                      <Link
-                        href={social.href}
-                        aria-label={social.ariaLabel}
-                        className="group inline-flex min-h-[4.25rem] w-full flex-1 items-start gap-3 rounded-[1.25rem] border border-white/8 bg-white/[0.03] px-3.5 py-3 text-left text-sm text-gray-500 transition-colors hover:border-emerald-300/20 hover:bg-emerald-400/[0.06] hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300"
-                      >
-                        {social.icon}
-                        <span className="flex min-w-0 flex-1 flex-col">
-                          <span className="whitespace-nowrap">{social.label}</span>
-                          <span aria-hidden="true" className="mt-1 text-[11px] uppercase tracking-[0.18em] text-gray-500/70 dark:text-gray-500/80">
-                            {social.meta}
-                          </span>
+                    <span
+                      key={social.ariaLabel}
+                      className="group inline-flex min-h-[4.25rem] w-full items-start gap-3 rounded-[1.25rem] border border-white/8 bg-white/[0.03] px-3.5 py-3 text-left text-sm text-gray-500 transition-colors hover:border-emerald-300/20 hover:bg-emerald-400/[0.06] hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300"
+                    >
+                      {social.icon}
+                      <span className="flex min-w-0 flex-1 flex-col">
+                        <span className="flex min-w-0 items-start justify-between gap-2">
+                          <Link
+                            href={social.href}
+                            aria-label={social.ariaLabel}
+                            className="min-w-0 whitespace-nowrap transition-colors hover:text-emerald-100"
+                          >
+                            {social.label}
+                          </Link>
+                          {explainerButton}
                         </span>
-                      </Link>
-                      {social.explainer ? (
-                        <BitcodeInlineExplainer
-                          explainer={social.explainer}
-                          side="top"
-                          triggerClassName="mt-2 h-4.5 w-4.5 shrink-0 border-white/8 bg-white/[0.03] text-[0.58rem] text-gray-400 hover:border-emerald-300/30 hover:bg-emerald-400/10 hover:text-emerald-100"
-                        />
-                      ) : null}
+                        <span aria-hidden="true" className="mt-1 text-[11px] uppercase tracking-[0.18em] text-gray-500/70 dark:text-gray-500/80">
+                          {social.meta}
+                        </span>
+                      </span>
                     </span>
                   );
                 })}

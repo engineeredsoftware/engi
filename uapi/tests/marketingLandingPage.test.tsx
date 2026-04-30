@@ -89,7 +89,7 @@ describe('MarketingLandingPage', () => {
       'href',
       '/docs',
     );
-    expect(screen.getByText('Study the docs before you transact')).toBeInTheDocument();
+    expect(screen.getByText('Study Bitcode before you operate')).toBeInTheDocument();
     expect(screen.getByText('Data Depot')).toBeInTheDocument();
     expect(screen.getByText('Depot Surface')).toBeInTheDocument();
     expect(screen.getByText('Measurement vector')).toBeInTheDocument();

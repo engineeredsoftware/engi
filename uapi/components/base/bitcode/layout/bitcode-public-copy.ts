@@ -19,10 +19,10 @@ export const BITCODE_PUBLIC_COPY = {
   },
   guide: {
     badge: 'Docs',
-    title: 'Study the docs before you transact',
+    title: 'Study Bitcode before you operate',
     meta: 'Docs hub',
     body:
-      'Docs teaches Bitcode step by step: what Source Shares are, how measurement works, and how Terminal state moves from source deposit to settlement.',
+      'Docs teaches Bitcode from zero to hero: Source Shares, Exchange state, Terminal actions, proofs, settlement, interfaces, and launch-mode readiness.',
   },
   terminalPreview: {
     pill: 'Exchange',
@@ -73,9 +73,9 @@ export const BITCODE_PUBLIC_COPY = {
   },
   guideRoute: {
     eyebrow: 'Bitcode docs',
-    heading: 'Study Bitcode step by step.',
+    heading: 'Learn Bitcode from Source Shares to proof.',
     body:
-      'Docs teaches the system step by step with route maps, action guides, read guides, the recorded walkthrough, and direct links into the Exchange and Terminal.',
+      'Docs teaches the complete system in user order: Source Shares, Exchange, Terminal, proofs, settlement, Auxillaries, MCP/API, ChatGPT App, and connected interfaces.',
     checkingVideoTitle: 'Recorded walkthrough',
     checkingVideoBody:
       'Checking the recorded Bitcode walkthrough for inline playback inside the docs.',

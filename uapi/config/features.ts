@@ -105,7 +105,7 @@ export const FEATURE_FLAGS = {
   DISABLE_CREATE_ACCOUNT: envFlag('NEXT_PUBLIC_DISABLE_CREATE_ACCOUNT', true),
   DISABLE_AUXILLARIES: envFlag('NEXT_PUBLIC_DISABLE_AUXILLARIES', true),
   DISABLE_EXCHANGE_LINK: envFlag('NEXT_PUBLIC_DISABLE_EXCHANGE_LINK', true),
-  DISABLE_TERMINAL_LINK: envFlag('NEXT_PUBLIC_DISABLE_TERMINAL_LINK', true),
+  DISABLE_TERMINAL_LINK: envFlag('NEXT_PUBLIC_DISABLE_TERMINAL_LINK', false),
 
   // ----------------------------------------------------------------
   // Marketing banner at the top of the landing / marketplace page

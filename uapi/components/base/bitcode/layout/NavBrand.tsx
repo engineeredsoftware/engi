@@ -9,6 +9,7 @@ export type NavBrandSurface = Exclude<NavSurface, null> | 'network' | 'docs' | n
 
 interface NavBrandProps {
   animated?: boolean;
+  visible?: boolean;
   onClick: () => void;
   surface: NavBrandSurface;
 }
@@ -36,14 +37,15 @@ const SURFACE_COPY: Record<Exclude<NavBrandSurface, null>, { eyebrow: string; ti
   },
 };
 
-export default function NavBrand({ animated = true, onClick, surface }: NavBrandProps) {
+export default function NavBrand({ animated = true, visible = true, onClick, surface }: NavBrandProps) {
   const surfaceCopy = surface ? SURFACE_COPY[surface] : null;
+  const entranceClassName = animated ? 'nav-logo-animated' : visible ? 'opacity-100' : 'opacity-0';
 
   return (
     <button
       type="button"
       onClick={onClick}
-      className={`flex min-w-0 items-center gap-3 cursor-pointer appearance-none border-0 bg-transparent p-0 text-left ${animated ? "nav-logo-animated" : "opacity-0"}`}
+      className={`flex min-w-0 items-center gap-3 cursor-pointer appearance-none border-0 bg-transparent p-0 text-left ${entranceClassName}`}
     >
       <div
         className={

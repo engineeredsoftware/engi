@@ -4,7 +4,12 @@ import Link from 'next/link';
 import Footer from '@/components/base/bitcode/layout/footer';
 import { BITCODE_PUBLIC_COPY } from '@/components/base/bitcode/layout/bitcode-public-copy';
 import { BITCODE_PUBLIC_EXPLAINERS } from '@/components/base/bitcode/layout/bitcode-public-explainers';
-import { BITCODE_DOCS_PAGES, TERMINAL_ACTION_GUIDES, TERMINAL_READ_GUIDES } from '@/app/docs/bitcode-docs-content';
+import {
+  BITCODE_DOCS_CHAPTERS,
+  BITCODE_DOCS_PAGES,
+  TERMINAL_ACTION_GUIDES,
+  TERMINAL_READ_GUIDES,
+} from '@/app/docs/bitcode-docs-content';
 
 import MarketingOperatorGuideCard from './MarketingOperatorGuideCard';
 
@@ -12,11 +17,55 @@ type PublicDocsPageContentProps = {
   sourcePlayable: boolean;
 };
 
+const firstReadingPath = [
+  {
+    label: 'Understand the object',
+    body: 'Start with Source Shares so Bitcode reads as measured technical intelligence, not a generic app.',
+    href: '/docs/what-is-bitcode',
+  },
+  {
+    label: 'Learn the product surfaces',
+    body: 'Then separate Exchange state from Terminal operation before opening write controls.',
+    href: '/docs/exchange',
+  },
+  {
+    label: 'Practice write/read discipline',
+    body: 'Use the action guide to learn what every Terminal write should make rereadable.',
+    href: '/docs/terminal-actions',
+  },
+  {
+    label: 'Audit the system',
+    body: 'Finish with V26, proofs, settlement, and interface docs so the under-the-hood system is clear.',
+    href: '/docs/protocol-v26',
+  },
+] as const;
+
+const specCoverageCards = [
+  {
+    eyebrow: 'Protocol',
+    title: 'V26 source-to-shares canon',
+    body: 'Gates, domain model, operator chain, subsystem boundaries, validation, generated evidence, and promotion truth.',
+    href: '/docs/protocol-v26',
+  },
+  {
+    eyebrow: 'Proofs',
+    title: 'Witnesses, replay, and disclosure',
+    body: 'Proof families, theorem IDs, witness artifacts, generated appendices, projection, redaction, and fail-closed posture.',
+    href: '/docs/proofs',
+  },
+  {
+    eyebrow: 'Settlement',
+    title: '$BTD exact accounting',
+    body: 'Fit-quality receipts, journals, settlement participation, wallet readiness, payment modes, and source-to-shares allocation.',
+    href: '/docs/settlement-btd',
+  },
+] as const;
+
 const quickRouteCards = [
   {
     href: '/',
     eyebrow: 'Exchange',
-    title: 'Read the live market frame',
+    title: 'Read the public market frame',
     summary: BITCODE_PUBLIC_EXPLAINERS.network.summary,
   },
   {
@@ -34,79 +83,169 @@ const quickRouteCards = [
   },
 ] as const;
 
-const sourceShareWidgets = [
-  {
-    title: 'Give',
-    body: 'Supply stays attached to source, authorship, citations, and issuance context.',
-  },
-  {
-    title: 'Need',
-    body: 'Demand is read through quality, fit, dedupe, and proof-bearing trust signals.',
-  },
-  {
-    title: 'Settle',
-    body: 'Transactions carry proof, history, reads, and issuance through one auditable flow.',
-  },
-] as const;
-
 export default function PublicDocsPageContent({ sourcePlayable }: PublicDocsPageContentProps) {
   return (
-    <div className="min-h-screen bg-[radial-gradient(circle_at_top,rgba(16,185,129,0.16),transparent_30%),linear-gradient(180deg,#04101a_0%,#030816_45%,#02060d_100%)] text-white">
-      <main className="mx-auto flex w-full max-w-[1320px] flex-col gap-8 px-4 pb-16 pt-32 phone:px-5 tablet:px-6 laptop:px-8">
-        <div className="space-y-4">
-          <p className="text-[11px] uppercase tracking-[0.26em] text-emerald-200/70">
-            {BITCODE_PUBLIC_COPY.guideRoute.eyebrow}
-          </p>
-          <h1 className="max-w-[14ch] text-[2.35rem] font-semibold leading-[0.96] tracking-[-0.025em] text-white phone:text-[2.9rem] tablet:text-[3.6rem]">
-            {BITCODE_PUBLIC_COPY.guideRoute.heading}
-          </h1>
-          <p className="max-w-[54rem] text-[17px] leading-8 text-white/80">
-            {BITCODE_PUBLIC_COPY.guideRoute.body}
-          </p>
-        </div>
-
-        <div className="grid gap-5 laptop:grid-cols-[minmax(0,0.98fr)_minmax(360px,1.02fr)]">
-          <section className="rounded-[32px] border border-white/10 bg-black/28 p-5 shadow-[0_30px_100px_rgba(0,0,0,0.42)] backdrop-blur-xl">
-            <div className="flex flex-wrap items-center gap-2">
-              <span className="inline-flex items-center rounded-full border border-emerald-300/12 bg-emerald-400/6 px-3 py-1 text-[10px] uppercase tracking-[0.18em] text-emerald-100/70">
-                Documentation pages
+    <div className="min-h-screen bg-[radial-gradient(circle_at_16%_0%,rgba(16,185,129,0.18),transparent_32%),radial-gradient(circle_at_86%_12%,rgba(34,211,238,0.1),transparent_28%),linear-gradient(180deg,#04101a_0%,#030816_45%,#02060d_100%)] text-white">
+      <main className="mx-auto flex w-full max-w-[1400px] flex-col gap-8 px-4 pb-16 pt-32 phone:px-5 tablet:px-6 laptop:px-8">
+        <section className="grid gap-6 laptop:grid-cols-[minmax(0,1.05fr)_minmax(360px,0.95fr)]">
+          <div className="rounded-[36px] border border-white/10 bg-black/28 p-6 shadow-[0_34px_110px_rgba(0,0,0,0.44)] backdrop-blur-xl tablet:p-8">
+            <div className="flex flex-wrap gap-2">
+              <span className="rounded-full border border-emerald-300/14 bg-emerald-400/[0.06] px-3 py-1 text-[10px] uppercase tracking-[0.2em] text-emerald-100/70">
+                {BITCODE_PUBLIC_COPY.guideRoute.eyebrow}
               </span>
-              <span className="inline-flex items-center rounded-full border border-white/10 bg-white/5 px-3 py-1 text-[10px] uppercase tracking-[0.18em] text-white/55">
-                new and experienced users
+              <span className="rounded-full border border-white/10 bg-white/5 px-3 py-1 text-[10px] uppercase tracking-[0.2em] text-white/55">
+                Zero-to-hero
               </span>
             </div>
-
-            <div className="mt-5 grid gap-3">
-              {BITCODE_DOCS_PAGES.map((section) => (
-                <Link
-                  key={section.title}
-                  href={section.href}
-                  aria-label={section.title}
-                  className="rounded-[24px] border border-white/8 bg-white/[0.03] p-4 transition hover:border-emerald-300/22 hover:bg-emerald-400/[0.06]"
-                >
-                  <p className="text-[10px] uppercase tracking-[0.2em] text-emerald-200/70">
-                    {section.eyebrow}
-                  </p>
-                  <p className="mt-2 text-lg font-semibold text-white">{section.title}</p>
-                  <p className="mt-2 text-sm leading-6 text-white/80">{section.summary}</p>
-                  <p className="mt-2 text-[13px] leading-6 text-emerald-100/62">{section.detail}</p>
-                </Link>
-              ))}
+            <h1 className="mt-5 max-w-[14ch] text-[2.5rem] font-semibold leading-[0.96] tracking-[-0.025em] text-white phone:text-[3.15rem] tablet:text-[4.15rem]">
+              Learn Bitcode from Source Shares to proof.
+            </h1>
+            <p className="mt-5 max-w-[58rem] text-[17px] leading-8 text-white/82">
+              Bitcode docs teach the complete path: what a Source Share is, how Exchange
+              state works, how Terminal writes and reads, why proofs and $BTD settlement
+              matter, and how connected commercial interfaces stay bound to the same system.
+            </p>
+            <div className="mt-6 grid gap-3 tablet:grid-cols-3">
+              <div className="rounded-[22px] border border-emerald-300/12 bg-emerald-400/[0.055] px-4 py-4">
+                <p className="text-[10px] uppercase tracking-[0.2em] text-emerald-200/70">For new readers</p>
+                <p className="mt-2 text-sm leading-6 text-emerald-50/76">
+                  Start from the market object before touching Terminal controls.
+                </p>
+              </div>
+              <div className="rounded-[22px] border border-cyan-300/12 bg-cyan-400/[0.045] px-4 py-4">
+                <p className="text-[10px] uppercase tracking-[0.2em] text-cyan-200/70">For operators</p>
+                <p className="mt-2 text-sm leading-6 text-cyan-50/76">
+                  Learn every write, expected read, proof signal, and readiness blocker.
+                </p>
+              </div>
+              <div className="rounded-[22px] border border-amber-300/12 bg-amber-400/[0.045] px-4 py-4">
+                <p className="text-[10px] uppercase tracking-[0.2em] text-amber-200/70">For builders</p>
+                <p className="mt-2 text-sm leading-6 text-amber-50/76">
+                  Map MCP, ChatGPT App, GitHub, webhooks, compute, and storage into Exchange.
+                </p>
+              </div>
             </div>
-          </section>
+            <div className="mt-6 flex flex-wrap gap-3">
+              <Link
+                href="/docs/what-is-bitcode"
+                className="inline-flex rounded-full border border-emerald-300/24 bg-emerald-400/12 px-4 py-2 text-[11px] font-semibold uppercase tracking-[0.18em] text-emerald-50 transition hover:border-emerald-300/42 hover:bg-emerald-400/18"
+              >
+                Start reading
+              </Link>
+              <Link
+                href="/docs/terminal-actions"
+                className="inline-flex rounded-full border border-white/12 bg-white/5 px-4 py-2 text-[11px] font-semibold uppercase tracking-[0.18em] text-white/78 transition hover:border-white/22 hover:bg-white/10"
+              >
+                Terminal action manual
+              </Link>
+            </div>
+          </div>
 
           <section
             id="walkthrough"
-            className="overflow-hidden rounded-[32px] border border-white/10 bg-black/28 p-4 shadow-[0_30px_100px_rgba(0,0,0,0.42)] backdrop-blur-xl"
+            className="overflow-hidden rounded-[36px] border border-white/10 bg-black/28 p-4 shadow-[0_30px_100px_rgba(0,0,0,0.42)] backdrop-blur-xl"
           >
             <MarketingOperatorGuideCard
               initialSourcePlayable={sourcePlayable}
               initialSourceResolved
             />
           </section>
-        </div>
+        </section>
 
-        <section className="rounded-[32px] border border-white/10 bg-black/24 p-5 shadow-[0_24px_80px_rgba(0,0,0,0.28)] backdrop-blur-xl">
+        <section className="rounded-[34px] border border-white/10 bg-black/24 p-5 shadow-[0_24px_80px_rgba(0,0,0,0.28)] backdrop-blur-xl">
+          <div className="max-w-3xl">
+            <p className="text-[10px] uppercase tracking-[0.24em] text-emerald-200/72">
+              First-time path
+            </p>
+            <h2 className="mt-3 text-3xl font-semibold tracking-tight text-white">
+              Read in this order if Bitcode is new.
+            </h2>
+            <p className="mt-3 text-sm leading-7 text-white/72">
+              The docs are intentionally chaptered. You can jump anywhere, but the first path
+              moves from concept to product to proof without assuming prior Bitcode context.
+            </p>
+          </div>
+          <div className="mt-6 grid gap-3 laptop:grid-cols-4">
+            {firstReadingPath.map((item, index) => (
+              <Link
+                key={item.href}
+                href={item.href}
+                className="rounded-[24px] border border-white/8 bg-white/[0.03] p-4 transition hover:border-emerald-300/22 hover:bg-emerald-400/[0.06]"
+              >
+                <p className="text-[10px] uppercase tracking-[0.2em] text-emerald-200/68">
+                  {String(index + 1).padStart(2, '0')}
+                </p>
+                <p className="mt-2 text-base font-semibold text-white">{item.label}</p>
+                <p className="mt-2 text-sm leading-6 text-white/68">{item.body}</p>
+              </Link>
+            ))}
+          </div>
+        </section>
+
+        <section className="grid gap-5 laptop:grid-cols-[minmax(0,1.02fr)_minmax(360px,0.98fr)]">
+          <div className="rounded-[34px] border border-white/10 bg-black/24 p-5 shadow-[0_24px_80px_rgba(0,0,0,0.28)] backdrop-blur-xl">
+            <div className="flex flex-wrap items-center gap-2">
+              <span className="inline-flex items-center rounded-full border border-emerald-300/12 bg-emerald-400/6 px-3 py-1 text-[10px] uppercase tracking-[0.18em] text-emerald-100/70">
+                Chapters
+              </span>
+              <span className="inline-flex items-center rounded-full border border-white/10 bg-white/5 px-3 py-1 text-[10px] uppercase tracking-[0.18em] text-white/55">
+                {BITCODE_DOCS_PAGES.length} pages
+              </span>
+            </div>
+            <div className="mt-5 grid gap-4">
+              {BITCODE_DOCS_CHAPTERS.map((chapter) => (
+                <article key={chapter.id} className="rounded-[26px] border border-white/8 bg-white/[0.03] p-4">
+                  <p className="text-[10px] uppercase tracking-[0.22em] text-emerald-200/70">
+                    {chapter.number} / {chapter.title}
+                  </p>
+                  <p className="mt-2 text-sm leading-6 text-white/70">{chapter.summary}</p>
+                  <div className="mt-4 grid gap-2 tablet:grid-cols-2">
+                    {chapter.pages.map((page) => (
+                      <Link
+                        key={page.href}
+                        href={page.href}
+                        className="rounded-[18px] border border-white/8 bg-black/18 px-3 py-3 transition hover:border-emerald-300/22 hover:bg-emerald-400/[0.06]"
+                      >
+                        <p className="text-[10px] uppercase tracking-[0.18em] text-white/45">
+                          {page.eyebrow}
+                        </p>
+                        <p className="mt-1 text-sm font-semibold leading-5 text-white">{page.title}</p>
+                      </Link>
+                    ))}
+                  </div>
+                </article>
+              ))}
+            </div>
+          </div>
+
+          <div className="rounded-[34px] border border-white/10 bg-black/24 p-5 shadow-[0_24px_80px_rgba(0,0,0,0.28)] backdrop-blur-xl">
+            <p className="text-[10px] uppercase tracking-[0.24em] text-cyan-200/72">
+              V26 coverage
+            </p>
+            <h2 className="mt-3 text-3xl font-semibold tracking-tight text-white">
+              Product docs map back to the canon.
+            </h2>
+            <p className="mt-3 text-sm leading-7 text-white/72">
+              The public docs teach the whole V26 system in user order: Protocol,
+              Exchange, Terminal, proofs, settlement, interfaces, and configuration.
+            </p>
+            <div className="mt-5 grid gap-3">
+              {specCoverageCards.map((card) => (
+                <Link
+                  key={card.href}
+                  href={card.href}
+                  className="rounded-[24px] border border-cyan-300/10 bg-cyan-400/[0.035] p-4 transition hover:border-cyan-300/22 hover:bg-cyan-400/[0.06]"
+                >
+                  <p className="text-[10px] uppercase tracking-[0.2em] text-cyan-200/68">{card.eyebrow}</p>
+                  <p className="mt-2 text-base font-semibold text-white">{card.title}</p>
+                  <p className="mt-2 text-sm leading-6 text-cyan-50/70">{card.body}</p>
+                </Link>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        <section className="rounded-[34px] border border-white/10 bg-black/24 p-5 shadow-[0_24px_80px_rgba(0,0,0,0.28)] backdrop-blur-xl">
           <div className="grid gap-6 laptop:grid-cols-[0.72fr_1.28fr]">
             <div>
               <p className="text-[10px] uppercase tracking-[0.24em] text-emerald-200/72">
@@ -139,33 +278,8 @@ export default function PublicDocsPageContent({ sourcePlayable }: PublicDocsPage
           </div>
         </section>
 
-        <section className="rounded-[32px] border border-white/10 bg-black/24 p-5 shadow-[0_24px_80px_rgba(0,0,0,0.28)] backdrop-blur-xl">
-          <div className="flex flex-wrap items-center gap-2">
-            <span className="inline-flex items-center rounded-full border border-cyan-300/12 bg-cyan-400/6 px-3 py-1 text-[10px] uppercase tracking-[0.18em] text-cyan-100/70">
-              Source Shares visual guide
-            </span>
-            <span className="inline-flex items-center rounded-full border border-white/10 bg-white/5 px-3 py-1 text-[10px] uppercase tracking-[0.18em] text-white/55">
-              give, need, settle
-            </span>
-          </div>
-
-          <div className="mt-5 grid gap-3 tablet:grid-cols-3">
-            {sourceShareWidgets.map((widget) => (
-              <article
-                key={widget.title}
-                className="rounded-[22px] border border-white/8 bg-white/[0.03] p-4"
-              >
-                <p className="text-[10px] uppercase tracking-[0.18em] text-emerald-200/70">
-                  {widget.title}
-                </p>
-                <p className="mt-3 text-sm leading-6 text-white/78">{widget.body}</p>
-              </article>
-            ))}
-          </div>
-        </section>
-
         <section className="grid gap-5 laptop:grid-cols-[minmax(0,1.1fr)_minmax(340px,0.9fr)]">
-          <div className="rounded-[32px] border border-white/10 bg-black/24 p-5 shadow-[0_24px_80px_rgba(0,0,0,0.28)] backdrop-blur-xl">
+          <div className="rounded-[34px] border border-white/10 bg-black/24 p-5 shadow-[0_24px_80px_rgba(0,0,0,0.28)] backdrop-blur-xl">
             <p className="text-[10px] uppercase tracking-[0.24em] text-cyan-200/72">
               Proof and readiness reads
             </p>
@@ -183,7 +297,7 @@ export default function PublicDocsPageContent({ sourcePlayable }: PublicDocsPage
             </div>
           </div>
 
-          <div className="rounded-[32px] border border-white/10 bg-black/24 p-5 shadow-[0_24px_80px_rgba(0,0,0,0.28)] backdrop-blur-xl">
+          <div className="rounded-[34px] border border-white/10 bg-black/24 p-5 shadow-[0_24px_80px_rgba(0,0,0,0.28)] backdrop-blur-xl">
             <p className="text-[10px] uppercase tracking-[0.24em] text-emerald-200/72">
               Fast routes
             </p>
@@ -219,29 +333,6 @@ export default function PublicDocsPageContent({ sourcePlayable }: PublicDocsPage
             </div>
           </div>
         </section>
-
-          <div className="mt-5 flex flex-wrap gap-3">
-            <Link
-              href="/application"
-              className="inline-flex items-center rounded-full border border-emerald-300/22 bg-emerald-400/12 px-4 py-2 text-[11px] font-semibold uppercase tracking-[0.18em] text-emerald-50 transition hover:border-emerald-300/38 hover:bg-emerald-400/18"
-            >
-              Open Bitcode Terminal
-            </Link>
-            <Link
-              href="/auxillaries/profile"
-              className="inline-flex items-center rounded-full border border-white/12 bg-white/5 px-4 py-2 text-[11px] font-semibold uppercase tracking-[0.18em] text-white/84 transition hover:border-white/20 hover:bg-white/10"
-            >
-              Open Auxillaries
-            </Link>
-            <a
-              href="https://github.com/engineeredsoftware/bitcode/blob/main/BITCODE_SPEC.txt"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center rounded-full border border-white/12 bg-white/5 px-4 py-2 text-[11px] font-semibold uppercase tracking-[0.18em] text-white/84 transition hover:border-white/20 hover:bg-white/10"
-            >
-              Read protocol spec
-            </a>
-          </div>
       </main>
 
       <Footer showPrimaryContent={false} className="border-white/10 bg-[#02060d]/72 backdrop-blur-xl" />

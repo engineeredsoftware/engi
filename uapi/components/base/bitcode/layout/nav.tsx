@@ -73,6 +73,9 @@ const publicSecondaryActionClassName =
 const disabledActionClassName =
   'cursor-not-allowed border-white/10 bg-white/[0.025] text-neutral-400 opacity-65 grayscale hover:border-white/10 hover:bg-white/[0.025] hover:text-neutral-400';
 
+const NAV_ENTRANCE_STORAGE_KEY = 'bitcode.navEntrancePlayed';
+let navEntrancePlayedInRuntime = false;
+
 function disabledClassName(className: string) {
   return `${className} ${disabledActionClassName}`;
 }
@@ -84,7 +87,8 @@ export default function Nav() {
   const { btdBalance } = useUserData();
 
   const [showNavUse, setShowNavUse] = useState(false);
-  const [isAnimated, setIsAnimated] = useState(false);
+  const [showNavEntrance, setShowNavEntrance] = useState(navEntrancePlayedInRuntime);
+  const [shouldAnimateNavEntrance, setShouldAnimateNavEntrance] = useState(false);
 
   // Decorative elements for use button
   const orbitalElements = useMemo(() => [...Array(3)].map((_, i) => (
@@ -115,9 +119,30 @@ export default function Nav() {
     };
   }, []);
 
-  // Animation timing
+  // Entrance animation should happen once per tab/session, not on every route remount.
   useEffect(() => {
-    const timer = setTimeout(() => setIsAnimated(true), 100);
+    let shouldAnimate = !navEntrancePlayedInRuntime;
+
+    try {
+      const hasPlayedInSession = window.sessionStorage.getItem(NAV_ENTRANCE_STORAGE_KEY) === 'true';
+      shouldAnimate = shouldAnimate && !hasPlayedInSession;
+      if (shouldAnimate) {
+        window.sessionStorage.setItem(NAV_ENTRANCE_STORAGE_KEY, 'true');
+      }
+    } catch {
+      shouldAnimate = !navEntrancePlayedInRuntime;
+    }
+
+    navEntrancePlayedInRuntime = true;
+
+    if (!shouldAnimate) {
+      setShowNavEntrance(true);
+      setShouldAnimateNavEntrance(false);
+      return;
+    }
+
+    setShouldAnimateNavEntrance(true);
+    const timer = setTimeout(() => setShowNavEntrance(true), 100);
     return () => clearTimeout(timer);
   }, []);
 
@@ -145,6 +170,19 @@ export default function Nav() {
   const disableCreateAccount = Boolean(FEATURE_FLAGS.DISABLE_CREATE_ACCOUNT);
   const disableExchangeLink = Boolean(FEATURE_FLAGS.DISABLE_EXCHANGE_LINK);
   const disableTerminalLink = Boolean(FEATURE_FLAGS.DISABLE_TERMINAL_LINK);
+  const containerEntranceClassName = showNavEntrance
+    ? shouldAnimateNavEntrance
+      ? 'nav-container-animated'
+      : 'opacity-100'
+    : 'opacity-0';
+  const controlsEntranceClassName = showNavEntrance
+    ? shouldAnimateNavEntrance
+      ? 'nav-controls-animated'
+      : 'opacity-100'
+    : 'opacity-0';
+  const navItemEntranceClassName = showNavEntrance && shouldAnimateNavEntrance
+    ? 'nav-item-animated'
+    : '';
 
   // Compute positioning class
   const positionClass = usesWorkspaceOnlyChrome
@@ -167,7 +205,7 @@ export default function Nav() {
   }
 
   const workspaceGuestActions = usesWorkspaceOnlyChrome && !user ? (
-    <div className={isAnimated ? 'nav-controls-animated flex items-center gap-2.5' : 'opacity-0 flex items-center gap-2.5'}>
+    <div className={`${controlsEntranceClassName} flex items-center gap-2.5`}>
       {disableAuxillaries ? (
         <DisabledTooltipWrapper tooltip={DISABLED_FEATURE_TOOLTIPS.auxillaries}>
           <button
@@ -214,7 +252,7 @@ export default function Nav() {
   ) : null;
 
   const publicGuestActions = usesProductChrome && !user ? (
-    <div className={isAnimated ? 'nav-controls-animated flex w-full flex-wrap items-center gap-2 tablet:w-auto tablet:flex-nowrap tablet:justify-end tablet:gap-2.5' : 'opacity-0 flex w-full flex-wrap items-center gap-2 tablet:w-auto tablet:flex-nowrap tablet:justify-end tablet:gap-2.5'}>
+    <div className={`${controlsEntranceClassName} flex w-full flex-wrap items-center gap-2 tablet:w-auto tablet:flex-nowrap tablet:justify-end tablet:gap-2.5`}>
       {disableAuxillaries ? (
         <DisabledTooltipWrapper tooltip={DISABLED_FEATURE_TOOLTIPS.auxillaries} className="flex-1 tablet:flex-none">
           <button
@@ -276,7 +314,7 @@ export default function Nav() {
         return (
           <li
             key={href}
-            className="nav-item-animated"
+            className={navItemEntranceClassName}
             style={{ '--item-index': index } as React.CSSProperties}
           >
             <span className="inline-flex items-center gap-1.5">
@@ -341,7 +379,7 @@ export default function Nav() {
   return (
     <div className="relative">
       <div
-        className={`nav-container-global ${positionClass} z-50 ${usesWorkspaceOnlyChrome ? 'border-b border-white/8 bg-[rgba(4,8,18,0.92)] shadow-[0_18px_40px_rgba(0,0,0,0.22)] backdrop-blur-xl' : ''} ${usesProductChrome ? 'bg-transparent shadow-none' : ''} ${!usesWorkspaceOnlyChrome && !usesProductChrome && isCollapsed ? 'nav-scrolled-bg' : ''} ${isAnimated ? 'nav-container-animated' : 'opacity-0'} ${!usesWorkspaceOnlyChrome && !usesProductChrome && isCollapsed ? 'w-[80%]' : 'w-full'}`}
+        className={`nav-container-global ${positionClass} z-50 ${usesWorkspaceOnlyChrome ? 'border-b border-white/8 bg-[rgba(4,8,18,0.92)] shadow-[0_18px_40px_rgba(0,0,0,0.22)] backdrop-blur-xl' : ''} ${usesProductChrome ? 'bg-transparent shadow-none' : ''} ${!usesWorkspaceOnlyChrome && !usesProductChrome && isCollapsed ? 'nav-scrolled-bg' : ''} ${containerEntranceClassName} ${!usesWorkspaceOnlyChrome && !usesProductChrome && isCollapsed ? 'w-[80%]' : 'w-full'}`}
         style={{
           transformOrigin: 'center top',
           transform: transformValue,
@@ -364,7 +402,8 @@ export default function Nav() {
         <div className={`max-w-7xl mx-auto px-4 tablet:px-6 laptop:px-8 desktop:px-12 wide:px-16 ${usesProductChrome ? 'flex w-full flex-col gap-3 py-3 tablet:flex-row tablet:items-center tablet:justify-between' : `flex items-center justify-between ${usesWorkspaceOnlyChrome ? 'py-3.5' : 'py-4 pb-6'}`}`}>
           <div className={usesProductChrome ? 'flex w-full flex-col gap-3 tablet:min-w-0 tablet:flex-1 tablet:flex-row tablet:items-center' : 'flex items-center w-full'}>
             <NavBrand
-              animated={isAnimated}
+              animated={showNavEntrance && shouldAnimateNavEntrance}
+              visible={showNavEntrance}
               onClick={handleLogoClick}
               surface={navSurface ?? publicSurface}
             />
@@ -376,7 +415,7 @@ export default function Nav() {
                   { href: '/application', label: 'application' },
                 ].map(({ href, label }, index) => {
                   const isDisabled = false;
-                  const shouldAnimate = true;
+                  const shouldAnimate = showNavEntrance && shouldAnimateNavEntrance;
                   const isActiveRoute =
                     pathname === '/application' ||
                     pathname?.startsWith('/executions') ||
@@ -443,7 +482,7 @@ export default function Nav() {
             ) : publicGuestActions ? (
               publicGuestActions
             ) : user ? (
-              <div className={isAnimated ? 'nav-controls-animated flex items-center space-x-3.5' : 'opacity-0 flex items-center space-x-3.5'}>
+              <div className={`${controlsEntranceClassName} flex items-center space-x-3.5`}>
                 {!FEATURE_FLAGS.HIDE_CREDITS_TRACKER && (
                   <MemoBTDTracker
                     btdBalance={btdBalance}
@@ -474,7 +513,7 @@ export default function Nav() {
               </div>
             ) : (
               showNavUse && (
-                <div className={isAnimated ? 'opacity-100 transition-opacity duration-500 delay-300' : 'opacity-0'}>
+                <div className={showNavEntrance ? 'opacity-100 transition-opacity duration-500 delay-300' : 'opacity-0'}>
                   {FEATURE_FLAGS.DISABLE_USING ? (
                     <DisabledTooltipWrapper tooltip="Auxillaries access is refreshing" className="inline-block">
                       <AuxillariesUseButton isDisabled auxillaries={orbitalElements} particles={particleElements} />
