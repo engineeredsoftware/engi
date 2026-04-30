@@ -6,25 +6,25 @@ function buildExplainer(explainer: BitcodeExplainer): BitcodeExplainer {
 
 export const BITCODE_PUBLIC_EXPLAINERS = {
   network: buildExplainer({
-    kicker: 'Live network',
-    title: 'Network',
-    summary: 'Read the live Bitcode network frame where Give, Need, settlement posture, and public teaching surfaces meet.',
+    kicker: 'Bitcode Exchange',
+    title: 'Exchange',
+    summary: 'Read the public Bitcode exchange frame where source supply, measured need, settlement posture, and teaching surfaces meet.',
     detail:
-      'Use this route when you want the highest-level public view of how Bitcode is behaving before you dive into full transaction detail.',
+      'Use this route when you want the highest-level public view of how Source Shares become measurable technical intelligence before you dive into full detail.',
     points: [
-      'Frames Bitcode as the live market surface rather than a detached landing page',
-      'Connects public narrative directly to transactions, docs, and Auxillaries',
+      'Frames Bitcode as the exchange for source-backed technical value',
+      'Connects public narrative directly to the mock demo, docs, and full Terminal',
     ],
   }),
   transactions: buildExplainer({
     kicker: 'Live application',
-    title: 'Bitcode Terminal',
-    summary: 'Open the full Bitcode Terminal for proofs, history, conversations, and give-to-settle detail.',
+    title: 'Terminal',
+    summary: 'Open the full Terminal for proofs, history, and give-to-settle demonstration detail.',
     detail:
-      'This is the main operator-grade surface. Use it when you want the real master-detail ledger instead of the public network read.',
+      'This is the main operator-grade surface. Use it when you want the full master-detail ledger instead of the public exchange read.',
     points: [
       'Loads selected execution detail, proofs, history, and closure posture',
-      'Keeps Auxillaries and conversations available around the same execution flow',
+      'Keeps the mock demonstration readable without requiring live external connectivity',
     ],
   }),
   docs: buildExplainer({
@@ -32,7 +32,7 @@ export const BITCODE_PUBLIC_EXPLAINERS = {
     title: 'Docs',
     summary: 'Read the public Bitcode docs for stepwise explanations, inline widgets, route maps, and the recorded walkthrough.',
     detail:
-      'Use this when you want the system taught clearly before moving into the live Bitcode Terminal route.',
+      'Use this when you want the system taught clearly before moving into the full Terminal route.',
     points: [
       'Keeps walkthroughs and explainers under one documentation area',
       'Preserves pedagogical prose instead of flattening the system into a brochure',
@@ -46,7 +46,7 @@ export const BITCODE_PUBLIC_EXPLAINERS = {
       'Use this when you want the auxillary access layer directly. Create Account is for first-time onboarding; Open Auxillaries is for entering the contained shell.',
     points: [
       'Opens the contained auxillary shell',
-      'Keeps Auxillaries distinct from Network, the Bitcode Terminal, and Docs',
+      'Keeps Auxillaries distinct from Exchange, Terminal, and Docs',
     ],
   }),
   protocolSpec: buildExplainer({

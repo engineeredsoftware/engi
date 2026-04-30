@@ -78,7 +78,7 @@ export default function BitcodeTransactionsFilterBar({
         >
           <option value="all">All participants</option>
           <option value="mine">My transactions</option>
-          <option value="network">Network transactions</option>
+          <option value="network">Exchange transactions</option>
         </select>
       </label>
 

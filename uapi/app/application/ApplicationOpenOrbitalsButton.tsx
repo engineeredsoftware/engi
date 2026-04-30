@@ -5,6 +5,8 @@ import {
   getAuxillaryOpenActionLabel,
   type ConcreteAuxillaryPane,
 } from '@/app/auxillaries/components/auxillary-pane-meta';
+import { FEATURE_FLAGS } from '@/config/features';
+import { DisabledTooltipWrapper } from '@/components/base/bitcode/overlays/disabled-tooltip-wrapper';
 
 interface ApplicationOpenOrbitalsButtonProps {
   className?: string;
@@ -18,6 +20,26 @@ export default function ApplicationOpenOrbitalsButton({
   step,
 }: ApplicationOpenOrbitalsButtonProps) {
   const resolvedLabel = label || getAuxillaryOpenActionLabel(step);
+  const disabledClassName =
+    `${className} cursor-not-allowed border-white/10 bg-white/[0.025] text-neutral-400 opacity-65 grayscale hover:border-white/10 hover:bg-white/[0.025] hover:text-neutral-400`;
+
+  if (FEATURE_FLAGS.DISABLE_AUXILLARIES) {
+    return (
+      <DisabledTooltipWrapper
+        tooltip="Disabled for demo launch. When enabled, Auxillaries opens profile, connects, interface defaults, and $BTD posture."
+        className="block"
+      >
+        <button
+          type="button"
+          disabled
+          aria-disabled="true"
+          className={disabledClassName}
+        >
+          {resolvedLabel}
+        </button>
+      </DisabledTooltipWrapper>
+    );
+  }
 
   return (
     <button

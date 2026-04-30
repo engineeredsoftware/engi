@@ -35,6 +35,9 @@ export const DisabledTooltipWrapper: FC<DisabledTooltipWrapperProps> = ({
   const isTop = placement === "top";
   const isRight = placement === "right";
   const isLeft = placement === "left";
+  const tooltipStyle: React.CSSProperties = {
+    width: 'min(34rem, calc(100vw - 2rem))',
+  };
 
   return (
     <div className={cn("relative inline-block group/tooltip", className)}>
@@ -49,6 +52,7 @@ export const DisabledTooltipWrapper: FC<DisabledTooltipWrapperProps> = ({
           isRight && "top-1/2 left-full ml-4 -translate-y-1/2",
           isLeft && "top-1/2 right-full mr-4 -translate-y-1/2"
         )}
+        style={tooltipStyle}
       >
         {/* Entrance / exit animation */}
         <div
@@ -99,7 +103,7 @@ export const DisabledTooltipWrapper: FC<DisabledTooltipWrapperProps> = ({
             {/* Bubble */}
             <div
               className={cn(
-                "relative z-20 bg-gray-950/95 backdrop-blur-sm rounded-md py-1 px-3 whitespace-nowrap text-xs tablet:text-sm font-light",
+                "relative z-20 w-full rounded-md bg-gray-950/95 px-4 py-3 text-left text-xs font-light leading-5 backdrop-blur-sm tablet:text-sm",
                 variant === 'purple'
                   ? 'text-purple-200 ring-purple-500/20 shadow-[0_0_8px_rgba(186,84,236,0.35)]'
                   : 'text-emerald-200 ring-emerald-500/20 shadow-[0_0_8px_rgba(101,254,183,0.45)]'

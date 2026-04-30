@@ -3,7 +3,7 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 
-import { mountBitcodeApplicationShell, readBitcodeApplicationShellSnapshot } from '@bitcode/protocol-demonstration/src/client-entry.js';
+import { readBitcodeApplicationShellSnapshot } from '@bitcode/protocol-demonstration/src/client-entry.js';
 import type { TransactionDataMode } from '@/components/base/bitcode/execution/bitcode-transaction-types';
 import { useAuth } from '@/components/base/bitcode/auth/AuthProvider';
 import ConversationsOverlay from '@/app/conversations/components/ConversationsOverlay';
@@ -59,9 +59,6 @@ import { deriveApplicationTransactionReadiness } from './application-transaction
 import { resolveApplicationTransactionSource } from './application-transaction-source';
 import type { WorkspaceRun } from './application-run-data';
 import { buildProtocolProjectedWorkspaceRun } from './application-protocol-projection';
-
-const FIRST_GATE_STYLESHEET_ID = 'bitcode-first-gate-stylesheet';
-const FIRST_GATE_STYLESHEET_HREF = '/application/first-gate-styles';
 
 export default function ApplicationPageClient() {
   const { user } = useAuth();
@@ -162,38 +159,6 @@ export default function ApplicationPageClient() {
     },
     [replaceApplicationSearchParams, routeSearchParams, selectedTransactionDetailSection],
   );
-
-  useEffect(() => {
-    let disposed = false;
-    let cleanup: (() => void) | undefined;
-
-    let stylesheet = document.getElementById(FIRST_GATE_STYLESHEET_ID) as HTMLLinkElement | null;
-    if (!stylesheet) {
-      stylesheet = document.createElement('link');
-      stylesheet.id = FIRST_GATE_STYLESHEET_ID;
-      stylesheet.rel = 'stylesheet';
-      stylesheet.href = FIRST_GATE_STYLESHEET_HREF;
-      document.head.appendChild(stylesheet);
-    }
-
-    void mountBitcodeApplicationShell()
-      .then((dispose) => {
-        if (disposed) {
-          dispose?.();
-          return;
-        }
-        cleanup = dispose;
-      })
-      .catch((error) => {
-        console.error('Failed to mount Bitcode application shell', error);
-      });
-
-    return () => {
-      disposed = true;
-      cleanup?.();
-      stylesheet?.remove();
-    };
-  }, []);
 
   const refreshLiveRuns = useCallback(async () => {
     if (mockMode) {
@@ -360,7 +325,7 @@ export default function ApplicationPageClient() {
       />
       <ApplicationShellBridgeProvider>
         <div className="min-h-screen bg-[radial-gradient(circle_at_top,rgba(73,203,146,0.16),transparent_26%),linear-gradient(180deg,#050915_0%,#02050d_100%)] text-neutral-100">
-          <div className="mx-auto flex w-full max-w-[1800px] flex-col gap-6 px-4 pb-24 pt-10 tablet:px-6 desktop:px-8">
+          <div className="mx-auto flex w-full max-w-none flex-col gap-6 px-4 pb-24 pt-10 tablet:px-6 desktop:px-8">
           <section className="overflow-hidden rounded-[2rem] border border-emerald-400/15 bg-[linear-gradient(135deg,rgba(7,14,26,0.96),rgba(4,9,18,0.92))] px-6 py-6 shadow-[0_30px_100px_rgba(0,0,0,0.38)]">
             <div className="flex flex-col gap-5 xl:flex-row xl:items-end xl:justify-between">
               <div className="max-w-4xl">
@@ -392,7 +357,7 @@ export default function ApplicationPageClient() {
             </div>
           </section>
 
-          <div className="grid gap-6 2xl:grid-cols-[minmax(0,1fr)_24rem] 2xl:items-start">
+          <div className="grid gap-6">
             <div className="min-w-0">
               <ApplicationTransactionWorkspace
                 runs={runs}
@@ -411,7 +376,7 @@ export default function ApplicationPageClient() {
                 onRecordActivity={handleRecordActivity}
               />
             </div>
-            <aside className="min-w-0">
+            <aside className="min-w-0" aria-label="Terminal support controls">
               <ApplicationWorkspaceRail
                 onOpenConversations={() => setIsConversationOverlayOpen(true)}
                 runs={runs}

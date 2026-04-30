@@ -4,9 +4,9 @@ import PublicShellFrame from './(root)/components/PublicShellFrame';
 import MarketingLandingPage from './(root)/components/MarketingLandingPage';
 
 export const metadata: Metadata = {
-  title: 'Bitcode Network',
+  title: 'Bitcode Exchange',
   description:
-    'Live Bitcode activity, market posture, and route entry across network, transactions, docs, and Auxillaries.',
+    'The Bitcode Exchange for Source Shares, measured technical intelligence, mock demonstration, Terminal, and docs.',
   alternates: {
     canonical: '/',
   },

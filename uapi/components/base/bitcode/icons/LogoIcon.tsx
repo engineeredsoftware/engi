@@ -2,6 +2,13 @@
 
 import React from 'react';
 
+import {
+  BITCODE_LOGO_PATH,
+  BITCODE_LOGO_TRANSFORM,
+  BITCODE_LOGO_VIEW_BOX,
+  normalizeLogoColor,
+} from '@/components/base/bitcode/branding/bitcode-logo-mark';
+
 export interface LogoIconProps {
   /** Fill color for the logo */
   fill?: string;
@@ -15,16 +22,10 @@ export interface LogoIconProps {
   style?: React.CSSProperties;
 }
 
-function normalizeLogoColor(fill: string) {
-  if (fill === 'theme(colors.brand.emerald)') return '#65FEB7';
-  if (fill === 'theme(colors.brand.red)') return '#EF4444';
-  return fill;
-}
-
 /**
- * LogoIcon: Bitcode icon sourced from the canonical filesystem asset, themable via fill color.
+ * LogoIcon: Bitcode icon sourced from the shared Bitcode mark, themable via fill color.
  */
-const LogoIcon: React.FC<LogoIconProps & React.HTMLAttributes<HTMLSpanElement>> = ({
+const LogoIcon: React.FC<LogoIconProps & React.SVGProps<SVGSVGElement>> = ({
   fill = '#65FEB7',
   width = 24,
   height = 24,
@@ -35,27 +36,25 @@ const LogoIcon: React.FC<LogoIconProps & React.HTMLAttributes<HTMLSpanElement>> 
   const resolvedFill = normalizeLogoColor(fill);
 
   return (
-    <span
+    <svg
       role="img"
       aria-label="Bitcode icon"
+      viewBox={BITCODE_LOGO_VIEW_BOX}
+      preserveAspectRatio="xMidYMid meet"
       {...props}
       className={className}
       style={{
         display: 'inline-block',
         width,
         height,
-        backgroundColor: resolvedFill,
-        WebkitMaskImage: 'url("/bitcode.svg")',
-        maskImage: 'url("/bitcode.svg")',
-        WebkitMaskRepeat: 'no-repeat',
-        maskRepeat: 'no-repeat',
-        WebkitMaskPosition: 'center',
-        maskPosition: 'center',
-        WebkitMaskSize: 'contain',
-        maskSize: 'contain',
+        color: resolvedFill,
         ...style,
       }}
-    />
+    >
+      <g transform={BITCODE_LOGO_TRANSFORM}>
+        <path fill="currentColor" d={BITCODE_LOGO_PATH} />
+      </g>
+    </svg>
   );
 };
 

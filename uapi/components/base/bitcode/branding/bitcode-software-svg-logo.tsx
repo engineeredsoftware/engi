@@ -1,5 +1,14 @@
 import React from 'react';
 
+import {
+  BITCODE_LOGO_INTRINSIC_HEIGHT,
+  BITCODE_LOGO_INTRINSIC_WIDTH,
+  BITCODE_LOGO_PATH,
+  BITCODE_LOGO_TRANSFORM,
+  BITCODE_LOGO_VIEW_BOX,
+  normalizeLogoColor,
+} from './bitcode-logo-mark';
+
 type BitcodeSoftwareSvgLogoProps = {
   width?: string;
   height?: string;
@@ -10,16 +19,10 @@ type BitcodeSoftwareSvgLogoProps = {
   glow?: boolean;
 };
 
-function normalizeLogoColor(fill: string) {
-  if (fill === 'theme(colors.brand.emerald)') return '#65FEB7';
-  if (fill === 'theme(colors.brand.red)') return '#EF4444';
-  return fill;
-}
-
 function computeGlyphHeight(width: string) {
   const numericWidth = Number.parseFloat(width);
   if (Number.isNaN(numericWidth)) return 'auto';
-  return `${(numericWidth * 49) / 36}px`;
+  return `${(numericWidth * BITCODE_LOGO_INTRINSIC_HEIGHT) / BITCODE_LOGO_INTRINSIC_WIDTH}px`;
 }
 
 function computeWordmarkMetrics(width: string) {
@@ -57,24 +60,22 @@ export default function BitcodeSoftwareSvgLogo({
   const wordmarkOffset = softwareOffsetY ?? '-2px';
 
   const glyph = (
-    <span
+    <svg
       className="relative z-10"
       aria-hidden="true"
+      viewBox={BITCODE_LOGO_VIEW_BOX}
+      preserveAspectRatio="xMidYMid meet"
       style={{
         display: 'inline-block',
         width: glyphWidth,
         height: glyphHeight,
-        backgroundColor: resolvedFill,
-        WebkitMaskImage: 'url("/bitcode.svg")',
-        maskImage: 'url("/bitcode.svg")',
-        WebkitMaskRepeat: 'no-repeat',
-        maskRepeat: 'no-repeat',
-        WebkitMaskPosition: 'center',
-        maskPosition: 'center',
-        WebkitMaskSize: 'contain',
-        maskSize: 'contain',
+        color: resolvedFill,
       }}
-    />
+    >
+      <g transform={BITCODE_LOGO_TRANSFORM}>
+        <path fill="currentColor" d={BITCODE_LOGO_PATH} />
+      </g>
+    </svg>
   );
 
   return (

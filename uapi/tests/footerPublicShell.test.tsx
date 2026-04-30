@@ -51,11 +51,11 @@ describe('Footer public shell', () => {
   it('renders third-gate public labels and opens orbitals access for guests', () => {
     render(<Footer />);
 
-    expect(screen.getByRole('link', { name: 'Network' })).toHaveAttribute(
+    expect(screen.getByRole('link', { name: 'Exchange' })).toHaveAttribute(
       'href',
       '/',
     );
-    expect(screen.getByRole('link', { name: 'Bitcode Terminal' })).toHaveAttribute(
+    expect(screen.getByRole('link', { name: 'Terminal' })).toHaveAttribute(
       'href',
       '/application',
     );
@@ -67,11 +67,11 @@ describe('Footer public shell', () => {
       'href',
       'https://github.com/engineeredsoftware/bitcode',
     );
-    expect(screen.getByRole('button', { name: 'Explain Network' })).toBeInTheDocument();
-    expect(screen.getByRole('button', { name: 'Explain Bitcode Terminal' })).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: 'Explain Exchange' })).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: 'Explain Terminal' })).toBeInTheDocument();
     expect(screen.getByRole('button', { name: 'Explain Docs' })).toBeInTheDocument();
-    expect(screen.getByText('Public route')).toBeInTheDocument();
-    expect(screen.getByText('Bitcode app')).toBeInTheDocument();
+    expect(screen.getByText('Public exchange')).toBeInTheDocument();
+    expect(screen.getByText('Full demo')).toBeInTheDocument();
     expect(screen.getByText('Docs hub')).toBeInTheDocument();
     expect(screen.getByText('Give')).toBeInTheDocument();
     expect(screen.getByText('Need')).toBeInTheDocument();

@@ -9,15 +9,15 @@ describe('NavBrand', () => {
 
     expect(screen.getByLabelText('Bitcode logo')).toBeTruthy();
     expect(screen.getByText('Bitcode')).toBeTruthy();
-    expect(screen.getByText('transactions')).toBeTruthy();
+    expect(screen.getByText('terminal')).toBeTruthy();
   });
 
-  it('renders network copy for mounted network routes', () => {
+  it('renders exchange copy for mounted exchange routes', () => {
     render(<NavBrand surface="network" onClick={() => {}} />);
 
     expect(screen.getByLabelText('Bitcode logo')).toBeTruthy();
     expect(screen.getByText('Bitcode')).toBeTruthy();
-    expect(screen.getByText('network')).toBeTruthy();
+    expect(screen.getByText('exchange')).toBeTruthy();
   });
 
   it('renders docs copy for mounted docs routes', () => {

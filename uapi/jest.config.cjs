@@ -107,12 +107,21 @@ module.exports = {
     // Fifth-gate BTD and auxillaries coverage
     '<rootDir>/tests/userDataRoute.test.ts',
     '<rootDir>/tests/orbitalsBTDPane.test.tsx',
+    '<rootDir>/tests/marketingLandingPage.test.tsx',
+    '<rootDir>/tests/publicDocsPageContent.test.tsx',
+    '<rootDir>/tests/applicationPreservedShellSurface.test.tsx',
+    '<rootDir>/tests/applicationShellBridge.test.tsx',
+    '<rootDir>/tests/bitcodeApplicationRuntimeMount.test.tsx',
+    '<rootDir>/tests/firstGateScopedStylesRoute.test.ts',
     '<rootDir>/tests/btdStep.static.test.tsx',
     '<rootDir>/tests/btdStep.initialFlow.test.tsx',
     '<rootDir>/tests/btdStep.test.tsx',
     '<rootDir>/tests/btdStep.promoFlow.test.tsx',
     '<rootDir>/tests/btdStep.integration.test.tsx',
     '<rootDir>/tests/navPublicShell.test.tsx',
+    '<rootDir>/tests/footerPublicShell.test.tsx',
+    '<rootDir>/tests/bitcodeTransactionsFilterBar.test.tsx',
+    '<rootDir>/tests/bitcodeTransactionsActiveFilters.test.tsx',
     '<rootDir>/tests/navWorkspaceChrome.test.tsx'
   ],
   // Setup mocks and global configurations

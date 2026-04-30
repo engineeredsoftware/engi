@@ -25,6 +25,8 @@ describe('PublicDocsPageContent', () => {
     expect(screen.getByRole('link', { name: 'Move into full give-to-settle detail' })).toHaveAttribute('href', '/application');
     expect(screen.getByRole('link', { name: 'Shape identity, interfaces, and $BTD posture' })).toHaveAttribute('href', '/auxillaries/profile');
     expect(screen.getByRole('link', { name: 'Inspect storage, schema, and package owners' })).toHaveAttribute('href', '/edgetimes');
+    expect(screen.getByText('Exchange')).toBeInTheDocument();
+    expect(screen.getByText('Terminal')).toBeInTheDocument();
     expect(screen.getByText('Inline widgets')).toBeInTheDocument();
     expect(screen.getByText('Guide fallback')).toBeInTheDocument();
   });

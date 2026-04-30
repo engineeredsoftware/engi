@@ -19,12 +19,21 @@ import { openAuxillaries, prefetchAuxillaries } from '@/app/auxillaries/componen
 import { BITCODE_PUBLIC_COPY } from '@/components/base/bitcode/layout/bitcode-public-copy';
 import BitcodeInlineExplainer from '@/components/base/bitcode/execution/BitcodeInlineExplainer';
 import { BITCODE_PUBLIC_EXPLAINERS } from '@/components/base/bitcode/layout/bitcode-public-explainers';
+import { DisabledTooltipWrapper } from '@/components/base/bitcode/overlays/disabled-tooltip-wrapper';
 
 const APPLICATION_URL = '/application';
 const DEFAULT_OPERATOR_GUIDE_URL =
   process.env.NEXT_PUBLIC_BITCODE_OPERATOR_GUIDE_URL?.trim() || '/docs';
 const CURRENT_PROTOCOL_SPEC_URL = 'https://github.com/engineeredsoftware/bitcode/blob/main/BITCODE_SPEC.txt';
 const BITCODE_REPOSITORY_URL = 'https://github.com/engineeredsoftware/bitcode';
+const DISABLED_FEATURE_TOOLTIPS = {
+  exchange:
+    'Disabled for demo launch. When enabled, Exchange opens the public Source Shares activity and market-reading surface.',
+  terminal:
+    'Disabled for demo launch. When enabled, Terminal opens the full give-to-settle ledger, proofs, and history workspace.',
+  auxillaries:
+    'Disabled for demo launch. When enabled, Auxillaries opens profile, connects, interface defaults, and $BTD posture.',
+} as const;
 
 const footerNavs = [
   {
@@ -110,9 +119,9 @@ export default function Footer({ showPrimaryContent = true, className = '' }: Fo
     : BITCODE_PUBLIC_COPY.footer.guestCta;
   const footerLinks = useMemo(() => [
     {
-      ariaLabel: 'Network',
+      ariaLabel: 'Exchange',
       label: BITCODE_PUBLIC_COPY.footer.links.network,
-      meta: 'Public route',
+      meta: 'Public exchange',
       href: '/',
       explainer: BITCODE_PUBLIC_EXPLAINERS.network,
       icon: (
@@ -143,7 +152,7 @@ export default function Footer({ showPrimaryContent = true, className = '' }: Fo
     {
       ariaLabel: BITCODE_PUBLIC_COPY.footer.links.transactions,
       label: BITCODE_PUBLIC_COPY.footer.links.transactions,
-      meta: 'Bitcode app',
+      meta: 'Full demo',
       href: APPLICATION_URL,
       explainer: BITCODE_PUBLIC_EXPLAINERS.transactions,
       icon: (
@@ -225,6 +234,9 @@ export default function Footer({ showPrimaryContent = true, className = '' }: Fo
     },
   ], []);
   const isExternalHref = (href: string) => href.startsWith('http');
+  const disableAuxillaries = Boolean(FEATURE_FLAGS.DISABLE_AUXILLARIES);
+  const disableExchangeLink = Boolean(FEATURE_FLAGS.DISABLE_EXCHANGE_LINK);
+  const disableTerminalLink = Boolean(FEATURE_FLAGS.DISABLE_TERMINAL_LINK);
 
   return (
     <>
@@ -264,32 +276,35 @@ export default function Footer({ showPrimaryContent = true, className = '' }: Fo
                     </ol>
                   </div>
                 </div>
-                {FEATURE_FLAGS.DISABLE_USING && !user ? (
+                {(FEATURE_FLAGS.DISABLE_USING || disableAuxillaries) && !user ? (
                   <div className="w-full max-w-xs">
-                    <button
-                      disabled
-                      className="mt-3 flex w-full items-center justify-center gap-1 rounded-full bg-blue-600 px-4 py-2 text-white opacity-50 filter grayscale"
-                    >
-                      {BITCODE_PUBLIC_COPY.footer.guestCta}
-                      <svg
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="currentColor"
-                        strokeWidth="2"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        className="ml-1 size-4"
+                    <DisabledTooltipWrapper tooltip={DISABLED_FEATURE_TOOLTIPS.auxillaries} className="block w-full">
+                      <button
+                        disabled
+                        aria-disabled="true"
+                        className="mt-3 flex w-full cursor-not-allowed items-center justify-center gap-1 rounded-full border border-white/10 bg-white/[0.03] px-4 py-2 text-neutral-400 opacity-65 filter grayscale"
                       >
-                        <polyline points="9 18 15 12 9 6" />
-                      </svg>
-                    </button>
+                        {BITCODE_PUBLIC_COPY.footer.guestCta}
+                        <svg
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          stroke="currentColor"
+                          strokeWidth="2"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          className="ml-1 size-4"
+                        >
+                          <polyline points="9 18 15 12 9 6" />
+                        </svg>
+                      </button>
+                    </DisabledTooltipWrapper>
                   </div>
                 ) : (
                   <button
                     type="button"
                     onMouseEnter={() => prefetchAuxillaries()}
                     onClick={() => openAuxillaries(user ? 'auxillaries' : 'login', user ? 'profile' : undefined)}
-                    className="mt-3 inline-flex w-full max-w-xs items-center justify-center gap-1 rounded-full bg-blue-600 px-4 py-2 font-medium text-white hover:bg-blue-700"
+                    className="mt-3 inline-flex w-full max-w-xs items-center justify-center gap-1 rounded-full border border-emerald-300/24 bg-emerald-400/10 px-4 py-2 font-medium text-emerald-50 transition hover:border-emerald-300/42 hover:bg-emerald-400/16"
                   >
                     {footerCtaLabel}
                     <svg
@@ -355,8 +370,12 @@ export default function Footer({ showPrimaryContent = true, className = '' }: Fo
           <div className={`${showPrimaryContent ? 'border-t' : ''} w-full py-4`}>
             <div className="flex w-full flex-col gap-4 tablet:gap-5">
               <div className="grid w-full grid-cols-1 gap-2 phone:grid-cols-2 laptop:grid-cols-[repeat(4,minmax(0,1fr))]">
-                {footerLinks.map((social) => (
-                  isExternalHref(social.href) ? (
+                {footerLinks.map((social) => {
+                  const isDisabledRoute =
+                    (social.href === '/' && disableExchangeLink) ||
+                    (social.href === APPLICATION_URL && disableTerminalLink);
+
+                  return isExternalHref(social.href) ? (
                     <a
                       key={social.ariaLabel}
                       href={social.href}
@@ -373,6 +392,39 @@ export default function Footer({ showPrimaryContent = true, className = '' }: Fo
                         </span>
                       </span>
                     </a>
+                  ) : isDisabledRoute ? (
+                    <span key={social.ariaLabel} className="inline-flex items-start gap-2">
+                      <DisabledTooltipWrapper
+                        tooltip={
+                          social.href === '/'
+                            ? DISABLED_FEATURE_TOOLTIPS.exchange
+                            : DISABLED_FEATURE_TOOLTIPS.terminal
+                        }
+                        className="flex-1"
+                      >
+                        <span
+                          role="link"
+                          aria-disabled="true"
+                          aria-label={social.ariaLabel}
+                          className="group inline-flex min-h-[4.25rem] flex-1 cursor-not-allowed items-start gap-3 rounded-[1.25rem] border border-white/8 bg-white/[0.02] px-3.5 py-3 text-left text-sm text-gray-500 opacity-65 grayscale"
+                        >
+                          {social.icon}
+                          <span className="flex min-w-0 flex-1 flex-col">
+                            <span className="whitespace-nowrap">{social.label}</span>
+                            <span aria-hidden="true" className="mt-1 text-[11px] uppercase tracking-[0.18em] text-gray-500/70 dark:text-gray-500/80">
+                              {social.meta}
+                            </span>
+                          </span>
+                        </span>
+                      </DisabledTooltipWrapper>
+                      {social.explainer ? (
+                        <BitcodeInlineExplainer
+                          explainer={social.explainer}
+                          side="top"
+                          triggerClassName="mt-2 h-4.5 w-4.5 shrink-0 border-white/8 bg-white/[0.03] text-[0.58rem] text-gray-400 hover:border-emerald-300/30 hover:bg-emerald-400/10 hover:text-emerald-100"
+                        />
+                      ) : null}
+                    </span>
                   ) : (
                     <span key={social.ariaLabel} className="inline-flex items-start gap-2">
                       <Link
@@ -396,8 +448,8 @@ export default function Footer({ showPrimaryContent = true, className = '' }: Fo
                         />
                       ) : null}
                     </span>
-                  )
-                ))}
+                  );
+                })}
                 {/* FEATURE_FLAGS.FOOTER_MUSIC_PLAYER && (
                   <AudioPlayer
                     src="/audio/footer-vibe.mp3"

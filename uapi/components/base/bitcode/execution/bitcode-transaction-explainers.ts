@@ -26,9 +26,9 @@ export const BITCODE_TRANSACTION_FILTER_EXPLAINERS = {
   ownership: buildExplainer({
     kicker: 'Perspective filter',
     title: 'Ownership filter',
-    summary: 'Switch between your own Bitcode activity and broader network-visible activity without changing the detail surface.',
-    detail: 'This keeps one shared read surface while still letting you separate personal work from wider participation.',
-    points: ['Supports mine vs network posture', 'Preserves the same detail route and tools'],
+    summary: 'Switch between your own Bitcode activity and broader Exchange-visible activity without changing the detail surface.',
+    detail: 'This keeps one shared read surface while still letting you separate personal work from wider Source Shares participation.',
+    points: ['Supports mine vs Exchange posture', 'Preserves the same detail route and tools'],
   }),
   transactionLens: buildExplainer({
     kicker: 'Action filter',
@@ -99,9 +99,9 @@ export const BITCODE_TRANSACTION_COLUMN_EXPLAINERS = {
   participant: buildExplainer({
     kicker: 'Principal column',
     title: 'Participant column',
-    summary: 'Shows the surfaced principal plus whether the activity is yours or broader network activity.',
+    summary: 'Shows the surfaced principal plus whether the activity is yours or broader Exchange activity.',
     detail: 'This is the quickest way to see who the row belongs to before reading proofs, history, or asset packs.',
-    points: ['Carries both label and mine/network context'],
+    points: ['Carries both label and mine/Exchange context'],
   }),
   repository: buildExplainer({
     kicker: 'Boundary column',

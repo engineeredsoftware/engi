@@ -16,7 +16,7 @@ export default function BitcodeSoftwareLogo({
 }: BitcodeSoftwareLogoProps) {
   return (
     <div className={`flex items-center ${className}`}>
-      <Image src="/bitcode.svg" width={width} height={height} alt="Bitcode logo" />
+      <Image src="/logo.svg" width={width} height={height} alt="Bitcode logo" />
       <span className={softwareClassName}>.software</span>
     </div>
   );

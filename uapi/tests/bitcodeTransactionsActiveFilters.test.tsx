@@ -65,4 +65,24 @@ describe('BitcodeTransactionsActiveFilters', () => {
 
     expect(container.firstChild).toBeNull();
   });
+
+  it('renders exchange ownership copy for network-scoped transaction filters', () => {
+    render(
+      <BitcodeTransactionsActiveFilters
+        filters={{
+          searchTerm: '',
+          status: 'all',
+          ownership: 'network',
+          transactionLens: 'all',
+          repository: 'all',
+          participant: 'all',
+          proofStatus: 'all',
+          sort: 'newest',
+        }}
+        onFiltersChange={() => undefined}
+      />,
+    );
+
+    expect(screen.getByRole('button', { name: 'Ownership: Exchange transactions ×' })).toBeTruthy();
+  });
 });

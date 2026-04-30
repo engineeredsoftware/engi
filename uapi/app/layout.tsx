@@ -41,9 +41,9 @@ export const metadata: Metadata = {
   description: metadataDescription,
   applicationName: 'Bitcode',
   icons: {
-    icon: '/bitcode.svg',
-    shortcut: '/bitcode.svg',
-    apple: '/bitcode.svg',
+    icon: '/logo.svg',
+    shortcut: '/logo.svg',
+    apple: '/logo.svg',
   },
   alternates: {
     canonical: '/',

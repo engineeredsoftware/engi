@@ -99,11 +99,11 @@ describe('Nav public shell', () => {
     const createButton = screen.getByRole('button', { name: 'Create Account' });
 
     expect(screen.getByText('Brand network')).toBeInTheDocument();
-    expect(screen.getByRole('link', { name: 'Network' })).toHaveAttribute('href', '/');
-    expect(screen.getByRole('link', { name: 'Bitcode Terminal' })).toHaveAttribute('href', '/application');
+    expect(screen.getByRole('link', { name: 'Exchange' })).toHaveAttribute('href', '/');
+    expect(screen.getByRole('link', { name: 'Terminal' })).toHaveAttribute('href', '/application');
     expect(screen.getByRole('link', { name: 'Docs' })).toHaveAttribute('href', '/docs');
-    expect(screen.getByRole('button', { name: 'Explain Network' })).toBeInTheDocument();
-    expect(screen.getByRole('button', { name: 'Explain Bitcode Terminal' })).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: 'Explain Exchange' })).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: 'Explain Terminal' })).toBeInTheDocument();
     expect(screen.getByRole('button', { name: 'Explain Docs' })).toBeInTheDocument();
 
     fireEvent.mouseEnter(accessButton);
@@ -127,8 +127,8 @@ describe('Nav public shell', () => {
     render(<Nav />);
 
     expect(screen.getByText('Brand network')).toBeInTheDocument();
-    expect(screen.getByRole('link', { name: 'Bitcode Terminal' })).toHaveAttribute('href', '/application');
-    expect(screen.getByRole('button', { name: 'Explain Bitcode Terminal' })).toBeInTheDocument();
+    expect(screen.getByRole('link', { name: 'Terminal' })).toHaveAttribute('href', '/application');
+    expect(screen.getByRole('button', { name: 'Explain Terminal' })).toBeInTheDocument();
     expect(screen.getByText('Notifications')).toBeInTheDocument();
 
     fireEvent.click(screen.getByRole('button', { name: 'User menu' }));

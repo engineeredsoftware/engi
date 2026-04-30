@@ -1282,7 +1282,7 @@ test('active V26 canon posture and preserved runtime state use bitcode policy an
   assert.match(bitcodePublicCopySource, /Open Bitcode Terminal/);
   assert.match(bitcodePublicCopySource, /Bitcode Terminal/);
   assert.doesNotMatch(bitcodePublicCopySource, /Open transactions/);
-  assert.match(bitcodePublicExplainersSource, /title: 'Bitcode Terminal'/);
+  assert.match(bitcodePublicExplainersSource, /title: 'Terminal'/);
   assert.doesNotMatch(bitcodePublicExplainersSource, /title: 'Transactions'/);
   assert.match(executionsPageClientSource, /agentic-execution:asset-pack/);
   assert.match(executionsPageClientSource, /Open Bitcode Terminal/);
@@ -3133,7 +3133,10 @@ test('active V26 marketing, styling, asset, and operator carriers use Bitcode na
   assert.doesNotMatch(introPamphletSource, /'Engi Software Agents'/);
   assert.doesNotMatch(introPamphletSource, /AES' Unique Offering with ESAs/);
 
-  assert.equal(existsSync(new URL('../../uapi/public/bitcode.svg', import.meta.url)), true);
+  assert.equal(existsSync(new URL('../../uapi/public/bitcode.svg', import.meta.url)), false);
+  assert.equal(existsSync(new URL('../../uapi/public/logo.svg', import.meta.url)), true);
+  assert.equal(existsSync(new URL('../../uapi/public/icon.svg', import.meta.url)), true);
+  assert.equal(existsSync(new URL('../../uapi/public/icons/logo.svg', import.meta.url)), true);
   assert.equal(existsSync(new URL('../../uapi/public/bitcode-typelogo.png', import.meta.url)), true);
   assert.equal(existsSync(new URL('../../uapi/public/parse-issue-with-comment-from-bitcode.png', import.meta.url)), true);
   assert.equal(existsSync(new URL('../../uapi/public/engi.svg', import.meta.url)), false);

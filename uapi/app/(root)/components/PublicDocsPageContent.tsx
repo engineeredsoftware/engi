@@ -14,14 +14,14 @@ type PublicDocsPageContentProps = {
 const docsSections = [
   {
     href: '/',
-    eyebrow: 'Network',
+    eyebrow: 'Exchange',
     title: 'Read the live Bitcode market frame',
     summary: BITCODE_PUBLIC_EXPLAINERS.network.summary,
     detail: BITCODE_PUBLIC_EXPLAINERS.network.detail,
   },
   {
     href: '/application',
-    eyebrow: 'Transactions',
+    eyebrow: 'Terminal',
     title: 'Move into full give-to-settle detail',
     summary: BITCODE_PUBLIC_EXPLAINERS.transactions.summary,
     detail: BITCODE_PUBLIC_EXPLAINERS.transactions.detail,

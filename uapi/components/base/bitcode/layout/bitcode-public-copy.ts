@@ -1,17 +1,17 @@
 export const BITCODE_PUBLIC_COPY = {
-  eyebrow: 'Network, Bitcode Terminal, docs, and auxillaries',
-  headline: 'Bitcode is auditable market infrastructure for technical knowledge.',
+  eyebrow: 'Source Shares for measured technical intelligence',
+  headline: 'Bitcode is auditable market infrastructure for engineering knowledge.',
   description:
-    'Bitcode turns repositories, documents, measurements, rights, proofs, and settlement into one auditable market for technical knowledge. Network reads live activity, the Bitcode Terminal follows full give-to-settle detail, Docs teaches the system step by step, and Auxillaries shape interface, identity, and $BTD posture.',
+    'Bitcode turns code, docs, diagrams, and technical context into Source Shares: tradable, measured intelligence. Contributors deposit source, demand measures value, and proof-backed settlement can allocate $BTD to the people and rights behind useful work.',
   capabilityChips: [
-    'NETWORK',
-    'BITCODE TERMINAL',
+    'SOURCE SHARES',
+    'TERMINAL',
     'DOCS',
-    'AUXILLARIES',
+    'MOCK DEMO',
   ],
   primaryCta: {
     href: '/application',
-    label: 'Open Bitcode Terminal',
+    label: 'Open full demo',
   },
   secondaryCta: {
     href: '/docs',
@@ -22,11 +22,11 @@ export const BITCODE_PUBLIC_COPY = {
     title: 'Study the docs before you transact',
     meta: 'Docs hub',
     body:
-      'Docs teaches Bitcode step by step with route maps, inline widgets, the walkthrough, and direct links into Network, the Bitcode Terminal, and Auxillaries.',
+      'Docs teaches Bitcode step by step: what Source Shares are, how measurement works, and how the mock demo moves from source deposit to settlement.',
   },
   terminalPreview: {
-    pill: 'Network',
-    kicker: 'live Bitcode activity',
+    pill: 'Exchange',
+    kicker: 'embedded demonstration',
     rail: ['give', 'need', 'settle'],
   },
   operatorFrame: {
@@ -36,7 +36,7 @@ export const BITCODE_PUBLIC_COPY = {
     modes: ['Proofs', 'Conversations', 'Auxillaries', 'Give + Need'],
   },
   giveContribution: {
-    title: 'Network supply',
+    title: 'Exchange supply',
   },
   sourceToSettlement: {
     title: 'Source to settlement',
@@ -56,16 +56,16 @@ export const BITCODE_PUBLIC_COPY = {
     guestCta: 'Open Auxillaries',
     userCta: 'Open Auxillaries',
     links: {
-      network: 'Network',
-      transactions: 'Bitcode Terminal',
+      network: 'Exchange',
+      transactions: 'Terminal',
       docs: 'Docs',
       github: 'Bitcode on GitHub',
     },
   },
   publicNav: {
     links: [
-      { href: '/', label: 'Network' },
-      { href: '/application', label: 'Bitcode Terminal' },
+      { href: '/', label: 'Exchange' },
+      { href: '/application', label: 'Terminal' },
       { href: '/docs', label: 'Docs' },
     ],
     guestPrimaryCta: 'Open Auxillaries',
@@ -75,7 +75,7 @@ export const BITCODE_PUBLIC_COPY = {
     eyebrow: 'Bitcode docs',
     heading: 'Study Bitcode step by step.',
     body:
-      'Docs teaches the system step by step with route maps, inline widgets, the recorded walkthrough, and direct links into live Network, the Bitcode Terminal, and Auxillaries.',
+      'Docs teaches the system step by step with route maps, inline widgets, the recorded walkthrough, and direct links into the Exchange, Terminal, and mock demonstration.',
     checkingVideoTitle: 'Recorded walkthrough',
     checkingVideoBody:
       'Checking the recorded Bitcode walkthrough for inline playback inside the docs.',

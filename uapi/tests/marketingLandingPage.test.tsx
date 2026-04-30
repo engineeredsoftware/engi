@@ -2,7 +2,7 @@
 
 import '@testing-library/jest-dom';
 import React from 'react';
-import { render, screen } from '@testing-library/react';
+import { render, screen, waitFor } from '@testing-library/react';
 
 import MarketingLandingPage from '@/app/(root)/components/MarketingLandingPage';
 
@@ -51,8 +51,21 @@ jest.mock('@/components/base/bitcode/multi-line-typing-animation', () => ({
   default: ({ text }: { text: string }) => <>{text}</>,
 }));
 
+jest.mock('@bitcode/protocol-demonstration/src/client-entry.js', () => ({
+  mountBitcodeApplicationShell: jest.fn(async () => jest.fn()),
+  readBitcodeApplicationShellSnapshot: jest.fn(),
+  readBitcodeApplicationShellControls: jest.fn(),
+}));
+
+const { mountBitcodeApplicationShell } = jest.requireMock(
+  '@bitcode/protocol-demonstration/src/client-entry.js',
+) as {
+  mountBitcodeApplicationShell: jest.Mock;
+};
+
 describe('MarketingLandingPage', () => {
   beforeEach(() => {
+    jest.clearAllMocks();
     Object.defineProperty(window, 'matchMedia', {
       writable: true,
       value: jest.fn().mockImplementation(() => ({
@@ -63,23 +76,32 @@ describe('MarketingLandingPage', () => {
     });
   });
 
-  it('renders Bitcode-facing landing CTAs and operator guide copy', () => {
+  it('renders Bitcode-facing landing CTAs and embedded built runtime', async () => {
     render(<MarketingLandingPage />);
 
     expect(
-      screen.getByText('Bitcode is auditable market infrastructure for technical knowledge.'),
+      screen.getByText('Bitcode is auditable market infrastructure for engineering knowledge.'),
     ).toBeInTheDocument();
     expect(
-      screen.getByRole('link', { name: 'Open Bitcode Terminal' }),
+      screen.getByRole('link', { name: 'Open full demo' }),
     ).toHaveAttribute('href', '/application');
     expect(screen.getByRole('link', { name: 'Read docs' })).toHaveAttribute(
       'href',
       '/docs',
     );
     expect(screen.getByText('Study the docs before you transact')).toBeInTheDocument();
-    expect(screen.getByText('Compact network view')).toBeInTheDocument();
-    expect(screen.getAllByText('Bitcode Terminal').length).toBeGreaterThan(0);
-    expect(screen.getAllByText('Source to settlement').length).toBeGreaterThan(0);
+    expect(screen.getByText('Run the Source Shares demonstration in place.')).toBeInTheDocument();
+    expect(screen.getByText('SOURCE SHARES')).toBeInTheDocument();
+    expect(screen.getByText('MOCK DEMO')).toBeInTheDocument();
+    expect(screen.getByText('Exchange')).toBeInTheDocument();
+    expect(screen.getByTestId('landing-built-demo-embed')).toBeInTheDocument();
+    expect(screen.getByText('Interactive runtime')).toBeInTheDocument();
+    expect(document.getElementById('bitcodeApplicationRoot')).toHaveAttribute(
+      'data-bitcode-runtime-host',
+      'built-embedded',
+    );
+    expect(document.querySelector('iframe')).toBeNull();
+    await waitFor(() => expect(mountBitcodeApplicationShell).toHaveBeenCalledTimes(1));
     expect(screen.getByTestId('landing-orbital-ambience')).toHaveClass('hidden', 'laptop:block');
     expect(screen.getByTestId('landing-pointer-glow')).toHaveClass('hidden', 'laptop:block');
     expect(screen.getByTestId('landing-ambient-glow')).toHaveClass('hidden', 'laptop:block');

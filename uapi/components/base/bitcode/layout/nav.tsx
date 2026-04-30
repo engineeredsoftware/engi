@@ -53,6 +53,30 @@ function shouldApplyCollapseAnimation(pathname: string | null): boolean {
   return pathname.startsWith('/executions');
 }
 
+const DISABLED_FEATURE_TOOLTIPS = {
+  exchange:
+    'Disabled for demo launch. When enabled, Exchange opens the public Source Shares activity and market-reading surface.',
+  terminal:
+    'Disabled for demo launch. When enabled, Terminal opens the full give-to-settle ledger, proofs, and history workspace.',
+  auxillaries:
+    'Disabled for demo launch. When enabled, Auxillaries opens profile, connects, interface defaults, and $BTD posture.',
+  createAccount:
+    'Disabled for demo launch. When enabled, Create Account starts identity and onboarding setup.',
+} as const;
+
+const publicActionClassName =
+  'flex-1 rounded-full border border-emerald-400/28 bg-emerald-400/12 px-4 py-2 text-center text-[0.68rem] font-medium uppercase tracking-[0.18em] text-emerald-100 transition hover:border-emerald-300/45 hover:bg-emerald-400/18 tablet:flex-none';
+
+const publicSecondaryActionClassName =
+  'flex-1 rounded-full border border-white/12 bg-white/5 px-4 py-2 text-center text-[0.68rem] font-medium uppercase tracking-[0.18em] text-neutral-100 transition hover:border-white/22 hover:bg-white/10 tablet:flex-none';
+
+const disabledActionClassName =
+  'cursor-not-allowed border-white/10 bg-white/[0.025] text-neutral-400 opacity-65 grayscale hover:border-white/10 hover:bg-white/[0.025] hover:text-neutral-400';
+
+function disabledClassName(className: string) {
+  return `${className} ${disabledActionClassName}`;
+}
+
 export default function Nav() {
   const pathname = usePathname();
   const router = useRouter();
@@ -115,6 +139,10 @@ export default function Nav() {
 
   // Determine if the nav should be visually collapsed
   const isCollapsed = shouldCollapse && isScrolled;
+  const disableAuxillaries = Boolean(FEATURE_FLAGS.DISABLE_AUXILLARIES);
+  const disableCreateAccount = Boolean(FEATURE_FLAGS.DISABLE_CREATE_ACCOUNT);
+  const disableExchangeLink = Boolean(FEATURE_FLAGS.DISABLE_EXCHANGE_LINK);
+  const disableTerminalLink = Boolean(FEATURE_FLAGS.DISABLE_TERMINAL_LINK);
 
   // Compute positioning class
   const positionClass = usesWorkspaceChrome
@@ -138,49 +166,104 @@ export default function Nav() {
 
   const workspaceGuestActions = usesWorkspaceChrome && !user ? (
     <div className={isAnimated ? 'nav-controls-animated flex items-center gap-2.5' : 'opacity-0 flex items-center gap-2.5'}>
-      <button
-        type="button"
-        onMouseEnter={() => prefetchAuxillaries()}
-        onClick={() => openAuxillaries('login')}
-        className="rounded-full border border-emerald-400/28 bg-emerald-400/12 px-4 py-2 text-[0.68rem] font-medium uppercase tracking-[0.18em] text-emerald-100 transition hover:border-emerald-300/45 hover:bg-emerald-400/18"
-      >
-        Open Auxillaries
-      </button>
-      <button
-        type="button"
-        onMouseEnter={() => prefetchAuxillaries()}
-        onClick={() => openAuxillaries('SignUpWindow')}
-        className="rounded-full border border-white/12 bg-white/5 px-4 py-2 text-[0.68rem] font-medium uppercase tracking-[0.18em] text-neutral-100 transition hover:border-white/22 hover:bg-white/10"
-      >
-        Create Account
-      </button>
+      {disableAuxillaries ? (
+        <DisabledTooltipWrapper tooltip={DISABLED_FEATURE_TOOLTIPS.auxillaries}>
+          <button
+            type="button"
+            disabled
+            aria-disabled="true"
+            className={disabledClassName('rounded-full border border-emerald-400/28 bg-emerald-400/12 px-4 py-2 text-[0.68rem] font-medium uppercase tracking-[0.18em] text-emerald-100 transition hover:border-emerald-300/45 hover:bg-emerald-400/18')}
+          >
+            Open Auxillaries
+          </button>
+        </DisabledTooltipWrapper>
+      ) : (
+        <button
+          type="button"
+          onMouseEnter={() => prefetchAuxillaries()}
+          onClick={() => openAuxillaries('login')}
+          className="rounded-full border border-emerald-400/28 bg-emerald-400/12 px-4 py-2 text-[0.68rem] font-medium uppercase tracking-[0.18em] text-emerald-100 transition hover:border-emerald-300/45 hover:bg-emerald-400/18"
+        >
+          Open Auxillaries
+        </button>
+      )}
+      {disableCreateAccount ? (
+        <DisabledTooltipWrapper tooltip={DISABLED_FEATURE_TOOLTIPS.createAccount}>
+          <button
+            type="button"
+            disabled
+            aria-disabled="true"
+            className={disabledClassName('rounded-full border border-white/12 bg-white/5 px-4 py-2 text-[0.68rem] font-medium uppercase tracking-[0.18em] text-neutral-100 transition hover:border-white/22 hover:bg-white/10')}
+          >
+            Create Account
+          </button>
+        </DisabledTooltipWrapper>
+      ) : (
+        <button
+          type="button"
+          onMouseEnter={() => prefetchAuxillaries()}
+          onClick={() => openAuxillaries('SignUpWindow')}
+          className="rounded-full border border-white/12 bg-white/5 px-4 py-2 text-[0.68rem] font-medium uppercase tracking-[0.18em] text-neutral-100 transition hover:border-white/22 hover:bg-white/10"
+        >
+          Create Account
+        </button>
+      )}
     </div>
   ) : null;
 
   const publicGuestActions = usesPublicChrome && !user ? (
     <div className={isAnimated ? 'nav-controls-animated flex w-full flex-wrap items-center gap-2 tablet:w-auto tablet:flex-nowrap tablet:justify-end tablet:gap-2.5' : 'opacity-0 flex w-full flex-wrap items-center gap-2 tablet:w-auto tablet:flex-nowrap tablet:justify-end tablet:gap-2.5'}>
-      <button
-        type="button"
-        onMouseEnter={() => prefetchAuxillaries()}
-        onClick={() => openAuxillaries('login')}
-        className="flex-1 rounded-full border border-emerald-400/28 bg-emerald-400/12 px-4 py-2 text-center text-[0.68rem] font-medium uppercase tracking-[0.18em] text-emerald-100 transition hover:border-emerald-300/45 hover:bg-emerald-400/18 tablet:flex-none"
-      >
-        {BITCODE_PUBLIC_COPY.publicNav.guestPrimaryCta}
-      </button>
-      <button
-        type="button"
-        onMouseEnter={() => prefetchAuxillaries()}
-        onClick={() => openAuxillaries('SignUpWindow')}
-        className="flex-1 rounded-full border border-white/12 bg-white/5 px-4 py-2 text-center text-[0.68rem] font-medium uppercase tracking-[0.18em] text-neutral-100 transition hover:border-white/22 hover:bg-white/10 tablet:flex-none"
-      >
-        {BITCODE_PUBLIC_COPY.publicNav.guestSecondaryCta}
-      </button>
+      {disableAuxillaries ? (
+        <DisabledTooltipWrapper tooltip={DISABLED_FEATURE_TOOLTIPS.auxillaries} className="flex-1 tablet:flex-none">
+          <button
+            type="button"
+            disabled
+            aria-disabled="true"
+            className={disabledClassName(publicActionClassName)}
+          >
+            {BITCODE_PUBLIC_COPY.publicNav.guestPrimaryCta}
+          </button>
+        </DisabledTooltipWrapper>
+      ) : (
+        <button
+          type="button"
+          onMouseEnter={() => prefetchAuxillaries()}
+          onClick={() => openAuxillaries('login')}
+          className={publicActionClassName}
+        >
+          {BITCODE_PUBLIC_COPY.publicNav.guestPrimaryCta}
+        </button>
+      )}
+      {disableCreateAccount ? (
+        <DisabledTooltipWrapper tooltip={DISABLED_FEATURE_TOOLTIPS.createAccount} className="flex-1 tablet:flex-none">
+          <button
+            type="button"
+            disabled
+            aria-disabled="true"
+            className={disabledClassName(publicSecondaryActionClassName)}
+          >
+            {BITCODE_PUBLIC_COPY.publicNav.guestSecondaryCta}
+          </button>
+        </DisabledTooltipWrapper>
+      ) : (
+        <button
+          type="button"
+          onMouseEnter={() => prefetchAuxillaries()}
+          onClick={() => openAuxillaries('SignUpWindow')}
+          className={publicSecondaryActionClassName}
+        >
+          {BITCODE_PUBLIC_COPY.publicNav.guestSecondaryCta}
+        </button>
+      )}
     </div>
   ) : null;
 
   const publicRouteLinks = usesPublicChrome ? (
     <ul className="flex w-full flex-wrap items-center gap-2 phone:gap-3 tablet:ml-8 tablet:w-auto tablet:flex-1 tablet:flex-nowrap tablet:justify-center tablet:gap-4 laptop:ml-12 laptop:gap-6">
       {BITCODE_PUBLIC_COPY.publicNav.links.map(({ href, label }, index) => {
+        const isDisabledRoute =
+          (href === '/' && disableExchangeLink) ||
+          (href === '/application' && disableTerminalLink);
         const isActiveRoute =
           href === '/'
             ? pathname === '/'
@@ -193,18 +276,38 @@ export default function Nav() {
             style={{ '--item-index': index } as React.CSSProperties}
           >
             <span className="inline-flex items-center gap-1.5">
-              <Link
-                href={href}
-                aria-current={isActiveRoute ? 'page' : undefined}
-                className={`
-                  rounded-full border px-3.5 py-2 text-[0.68rem] font-medium uppercase tracking-[0.18em] transition
-                  ${isActiveRoute
-                    ? 'border-emerald-300/38 bg-emerald-400/14 text-emerald-100 shadow-[0_0_20px_rgba(16,185,129,0.16)]'
-                    : 'border-white/10 bg-white/[0.03] text-neutral-200 hover:border-emerald-300/24 hover:bg-emerald-400/[0.08] hover:text-emerald-100'}
-                `}
-              >
-                {label}
-              </Link>
+              {isDisabledRoute ? (
+                <DisabledTooltipWrapper
+                  tooltip={href === '/' ? DISABLED_FEATURE_TOOLTIPS.exchange : DISABLED_FEATURE_TOOLTIPS.terminal}
+                >
+                  <span
+                    role="link"
+                    aria-disabled="true"
+                    aria-current={isActiveRoute ? 'page' : undefined}
+                    className={`
+                      inline-flex cursor-not-allowed rounded-full border px-3.5 py-2 text-[0.68rem] font-medium uppercase tracking-[0.18em] transition
+                      ${isActiveRoute
+                        ? 'border-emerald-300/20 bg-emerald-400/[0.06] text-emerald-100/55'
+                        : 'border-white/10 bg-white/[0.025] text-neutral-500'}
+                    `}
+                  >
+                    {label}
+                  </span>
+                </DisabledTooltipWrapper>
+              ) : (
+                <Link
+                  href={href}
+                  aria-current={isActiveRoute ? 'page' : undefined}
+                  className={`
+                    rounded-full border px-3.5 py-2 text-[0.68rem] font-medium uppercase tracking-[0.18em] transition
+                    ${isActiveRoute
+                      ? 'border-emerald-300/38 bg-emerald-400/14 text-emerald-100 shadow-[0_0_20px_rgba(16,185,129,0.16)]'
+                      : 'border-white/10 bg-white/[0.03] text-neutral-200 hover:border-emerald-300/24 hover:bg-emerald-400/[0.08] hover:text-emerald-100'}
+                  `}
+                >
+                  {label}
+                </Link>
+              )}
               {href === '/' ? (
                 <BitcodeInlineExplainer
                   explainer={BITCODE_PUBLIC_EXPLAINERS.network}

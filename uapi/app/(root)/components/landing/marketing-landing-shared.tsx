@@ -143,14 +143,14 @@ export const verificationRows = [
 
 export const compactPreviewCards = [
   {
-    title: 'Network',
+    title: 'Exchange',
     body: 'Live give, need, and settlement posture',
     detail: 'Read the public market frame before you open a specific transaction.',
   },
   {
-    title: 'Transactions',
+    title: 'Terminal',
     body: 'Proofs • history • conversations • closure',
-    detail: 'Move into the full transactions route when you need exact give-to-settle detail.',
+    detail: 'Move into the full Terminal route when you need exact give-to-settle detail.',
   },
   {
     title: 'Auxillaries',

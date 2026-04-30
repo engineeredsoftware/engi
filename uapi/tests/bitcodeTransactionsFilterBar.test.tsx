@@ -27,9 +27,10 @@ describe('BitcodeTransactionsFilterBar', () => {
       />,
     );
 
-    expect(screen.getByRole('button', { name: 'Explain Search transactions' })).toBeTruthy();
+    expect(screen.getByRole('button', { name: 'Explain Search Bitcode activity' })).toBeTruthy();
     expect(screen.getByRole('button', { name: 'Explain Proof posture filter' })).toBeTruthy();
     expect(screen.getByRole('button', { name: 'Explain Sort order' })).toBeTruthy();
+    expect(screen.getByRole('option', { name: 'Exchange transactions' })).toBeTruthy();
 
     fireEvent.change(screen.getByRole('textbox', { name: 'Search transactions' }), {
       target: { value: 'proof bundle' },
