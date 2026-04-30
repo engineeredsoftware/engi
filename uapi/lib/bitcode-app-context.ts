@@ -1,9 +1,11 @@
 import { createAppContext } from '@bitcode/protocol-demonstration';
 import { NextResponse } from 'next/server';
 
+import { resolveBitcodeAppContextOptions } from '@/lib/bitcode-app-context-options';
+
 type StatusError = Error & { statusCode?: number | undefined };
 
-const bitcodeAppContext = createAppContext();
+const bitcodeAppContext = createAppContext(resolveBitcodeAppContextOptions());
 
 export function getBitcodeAppContext() {
   return bitcodeAppContext;
