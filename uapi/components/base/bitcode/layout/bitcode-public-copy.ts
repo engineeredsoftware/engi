@@ -22,11 +22,11 @@ export const BITCODE_PUBLIC_COPY = {
       {
         id: 'april-2026',
         tab: 'April',
-        title: 'April micro-blog',
-        meta: 'April 2026 * Garrett Maring',
+        title: '$BTD: Shares of Source Technical Knowledge',
+        meta: '2026 April * Garrett Maring',
         body:
-          "This month's Bitcode micro-blog will live here: Source Shares, the Terminal, public docs, and launch-mode readiness as Bitcode becomes easier to understand and operate.",
-        highlights: ['Source Shares', 'Terminal'],
+          "April launched the Bitcode Protocol. It is available at our open-source repository which includes a commercially-ready whole-system specification (auditable, reproducible). The website now includes the first pieces of the $BTD Terminal along with documentation on the internals and interfaces of the ecosystem.",
+        highlights: ['$BTD', 'Bitcode Protocol', 'Terminal'],
       },
       {
         id: 'march-2026',

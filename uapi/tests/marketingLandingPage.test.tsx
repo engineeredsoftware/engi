@@ -91,8 +91,8 @@ describe('MarketingLandingPage', () => {
     );
     expect(screen.getByRole('button', { name: 'April' })).toHaveAttribute('aria-pressed', 'true');
     expect(screen.getByRole('button', { name: 'March' })).toBeInTheDocument();
-    expect(screen.getByText('April micro-blog')).toBeInTheDocument();
-    expect(screen.getByText('April 2026 * Garrett Maring')).toBeInTheDocument();
+    expect(screen.getByText('$BTD: Shares of Source Technical Knowledge')).toBeInTheDocument();
+    expect(screen.getByTestId('micro-blog-meta')).toHaveAttribute('aria-label', 'April 2026 * Garrett Maring');
     expect(screen.getByText('Data Depot')).toBeInTheDocument();
     expect(screen.getByText('Depot Surface')).toBeInTheDocument();
     expect(screen.getByText('Measurement vector')).toBeInTheDocument();

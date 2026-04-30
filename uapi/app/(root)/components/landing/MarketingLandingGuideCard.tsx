@@ -27,6 +27,25 @@ function renderMicroBlogBody(body: string, highlights: readonly string[]) {
   });
 }
 
+function renderMicroBlogMeta(meta: string) {
+  const parts = meta.split(/\s+\*\s+|\s+•\s+/);
+  if (parts.length !== 2) return <span>{meta}</span>;
+
+  return (
+    <span aria-hidden="true" className="inline-flex items-center gap-2.5">
+      <span>{parts[0]}</span>
+      <span
+        className="mt-px size-1 rounded-full"
+        style={{
+          backgroundColor: 'rgba(255,255,255,0.88)',
+          boxShadow: '0 0 10px rgba(255,255,255,0.32), 0 0 16px rgba(101,254,183,0.35)',
+        }}
+      />
+      <span>{parts[1]}</span>
+    </span>
+  );
+}
+
 export const MarketingLandingGuideCard = memo(function MarketingLandingGuideCard() {
   const posts = BITCODE_PUBLIC_COPY.guide.posts;
   const [activePostId, setActivePostId] = useState<string>(posts[0].id);
@@ -71,8 +90,12 @@ export const MarketingLandingGuideCard = memo(function MarketingLandingGuideCard
             {activePost.title}
           </p>
         </div>
-        <div className="mt-3 inline-flex max-w-full flex-wrap items-center gap-2 rounded-full border border-emerald-300/10 bg-emerald-400/[0.05] px-2.5 py-1 text-[9px] uppercase leading-4 tracking-[0.18em] text-emerald-100/58 phone:text-[10px] laptop:mt-0 laptop:justify-self-start">
-          <span>{activePost.meta}</span>
+        <div
+          aria-label={activePost.meta}
+          data-testid="micro-blog-meta"
+          className="mt-3 inline-flex max-w-full flex-wrap items-center rounded-full border border-emerald-300/10 bg-emerald-400/[0.05] px-2.5 py-1 text-[9px] uppercase leading-4 tracking-[0.18em] text-emerald-100/58 phone:text-[10px] laptop:mt-0 laptop:justify-self-start"
+        >
+          {renderMicroBlogMeta(activePost.meta)}
         </div>
       </div>
 
