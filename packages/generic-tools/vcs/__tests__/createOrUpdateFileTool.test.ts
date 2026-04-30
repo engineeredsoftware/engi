@@ -1,6 +1,6 @@
 import { createOrUpdateFileTool } from '../src/index';
 
-jest.mock('@bitcode/generic-tools/files-maintaining', () => ({
+jest.mock('@bitcode/generic-tools-editing/execution-context', () => ({
   executionContext: {
     getStore: jest.fn(),
   },
@@ -31,7 +31,7 @@ jest.mock('@bitcode/vcs', () => ({
   },
 }));
 
-const { executionContext } = require('@bitcode/generic-tools/files-maintaining');
+const { executionContext } = require('@bitcode/generic-tools-editing/execution-context');
 const { validateFileOperation } = require('@bitcode/pipelines-generics/src/gate-system/file-gates');
 const { VCSConnections, VCSProviderFactory } = require('@bitcode/vcs');
 

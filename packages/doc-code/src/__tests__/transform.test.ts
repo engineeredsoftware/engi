@@ -21,6 +21,11 @@ class MissingPromptTool extends Tool<void> {}
 
 export const missingPromptTool = new MissingPromptTool();`;
 
+const TOOL_SOURCE_WITHOUT_SEMICOLON = TOOL_SOURCE.replace(
+  'export const exampleTool = new ExampleTool();',
+  'export const exampleTool = new ExampleTool()',
+);
+
 describe('createTransform', () => {
   it('attaches doc code prompt exactly once for generic-tools files', async () => {
     const transform = createTransform();
@@ -29,6 +34,8 @@ describe('createTransform', () => {
     const firstPass = await transform.transform(TOOL_SOURCE, filePath);
     expect(firstPass).toContain('__docCodePrompt');
     expect(firstPass).toContain('__promptParts');
+    expect(firstPass).toContain('export const exampleTool = new ExampleTool();');
+    expect(firstPass).toContain(';(exampleTool as any).__docCodePrompt = SOME_PROMPT;');
     expect(firstPass.match(/__docCodePrompt/g)).toHaveLength(1);
     expect(firstPass.match(/__promptParts/g)).toHaveLength(1);
 
@@ -43,6 +50,16 @@ describe('createTransform', () => {
 
     const result = await transform.transform(TOOL_SOURCE, filePath);
     expect(result).toBe(TOOL_SOURCE);
+  });
+
+  it('normalizes semicolonless tool instantiations before prompt attachment', async () => {
+    const transform = createTransform();
+    const filePath = '/workspace/packages/generic-tools/example/src/tool.ts';
+
+    const result = await transform.transform(TOOL_SOURCE_WITHOUT_SEMICOLON, filePath);
+    expect(result).toContain('export const exampleTool = new ExampleTool();');
+    expect(result).toContain(';(exampleTool as any).__docCodePrompt = SOME_PROMPT;');
+    expect(result.match(/__docCodePrompt/g)).toHaveLength(1);
   });
 });
 

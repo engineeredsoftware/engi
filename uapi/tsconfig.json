@@ -224,6 +224,9 @@
       "@bitcode/generic-tools-editing": [
         "../packages/generic-tools/files-maintaining/src/index.ts"
       ],
+      "@bitcode/generic-tools-editing/execution-context": [
+        "../packages/generic-tools/files-maintaining/src/execution-context.ts"
+      ],
       "@bitcode/vcs-tools": [
         "../packages/generic-tools/vcs/src/index.ts"
       ],

@@ -109,19 +109,19 @@ export async function supabaseDeleteTool(params: { table: string; match: any }):
 // This keeps the public API clear while preventing accidental client-side
 // inclusion of server-only code.
 
-export { createClient as createBrowserClient } from './ssr/client.js';
+export { createClient as createBrowserClient } from './ssr/client';
 // Backwards-compatible alias expected by some packages
-export { createClient as createClient } from './ssr/client.js';
+export { createClient as createClient } from './ssr/client';
 
 // ---------------------------------------------------------------------------
 // Re-export typed entities so downstream packages can simply
 //   import { DeliverableRunSnapshot } from '@bitcode/supabase';
 // ---------------------------------------------------------------------------
 
-export * from './deliverables.js';
+export * from './deliverables';
 
 // Streams helpers
-export { SupabaseStream, flushAndExit } from './streams.js';
+export { SupabaseStream, flushAndExit } from './streams';
 
 // NOTE:  Deliberately *not* re-exporting `createServerClient` or
 // `supabaseMiddleware` here – import them from their dedicated files instead.

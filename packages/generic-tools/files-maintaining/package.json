@@ -4,6 +4,17 @@
   "private": true,
   "main": "src/index.ts",
   "types": "src/index.ts",
+  "exports": {
+    ".": {
+      "types": "./src/index.ts",
+      "default": "./src/index.ts"
+    },
+    "./execution-context": {
+      "types": "./src/execution-context.ts",
+      "default": "./src/execution-context.ts"
+    },
+    "./src/*": "./src/*"
+  },
   "dependencies": {
     "@bitcode/editing": "workspace:*",
     "@bitcode/execution-generics": "workspace:*",

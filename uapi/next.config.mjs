@@ -370,6 +370,15 @@ let nextConfig = {
         'src',
         'index.ts'
       ),
+      '@bitcode/generic-tools-editing/execution-context': path.resolve(
+        __dirname,
+        '..',
+        'packages',
+        'generic-tools',
+        'files-maintaining',
+        'src',
+        'execution-context.ts'
+      ),
       '@bitcode/generic-tools-lsp-query': path.resolve(
         __dirname,
         '..',

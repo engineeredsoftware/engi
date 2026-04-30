@@ -34,7 +34,7 @@ export declare function supabaseDeleteTool(params: {
     table: string;
     match: any;
 }): Promise<any>;
-export { createClient as createBrowserClient } from './ssr/client.js';
-export { createClient as createClient } from './ssr/client.js';
-export * from './deliverables.js';
-export { SupabaseStream, flushAndExit } from './streams.js';
+export { createClient as createBrowserClient } from './ssr/client';
+export { createClient as createClient } from './ssr/client';
+export * from './deliverables';
+export { SupabaseStream, flushAndExit } from './streams';

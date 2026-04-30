@@ -1,21 +1,12 @@
-/**
- * Shared doc-code-tool transform logic.
- *
- * The V26 admitted path is narrow:
- * attach a DocCodeToolPrompt to tool instances in a consistent way for both
- * build-time and compatibility runtime consumption.
- */
+"use strict";
 
-/**
- * Transform source code to inject doc-code-tool attachments.
- */
-export function transformDocCodeTools(source: string, filename: string): string {
+function transformDocCodeTools(source, filename) {
   const toolClassRegex = /\/\*\*([\s\S]*?)@doc-code-tool([\s\S]*?)\*\/\s*class\s+(\w+)\s+extends\s+Tool/g;
   const toolInstantiationRegex = /export\s+const\s+(\w+)\s*=\s*new\s+(\w+)\(\);?/g;
   const promptPattern = /@prompt\s+(\w+)/;
 
-  const toolPromptMap = new Map<string, string>();
-  let match: RegExpExecArray | null;
+  const toolPromptMap = new Map();
+  let match;
 
   while ((match = toolClassRegex.exec(source)) !== null) {
     const afterTag = match[2];
@@ -64,3 +55,7 @@ export function transformDocCodeTools(source: string, filename: string): string 
 
   return transformedSource;
 }
+
+module.exports = {
+  transformDocCodeTools,
+};

@@ -55,7 +55,7 @@ import {
   LIST_BRANCHES_DOC_CODE_TOOL_PROMPT,
   GET_FILE_CONTENT_DOC_CODE_TOOL_PROMPT
 } from './prompts';
-import { executionContext } from '@bitcode/generic-tools/files-maintaining';
+import { executionContext } from '@bitcode/generic-tools-editing/execution-context';
 
 type VcsInputBase = {
   provider?: VCSProviderType;

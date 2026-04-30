@@ -909,7 +909,7 @@ export function factoryToolsExecution<T extends { output?: { useTools?: UseTool[
         // Set execution context for gate-aware tools
         let output: any;
         try {
-          const { executionContext } = await import('@bitcode/generic-tools/files-maintaining');
+          const { executionContext } = await import('@bitcode/generic-tools-editing/execution-context');
           output = await executionContext.run(execution, () => tool.execute(toolToUse.input));
         } catch (importError) {
           // Fallback if executionContext not available

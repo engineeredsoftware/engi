@@ -1,3 +1,3 @@
-import { unlinkAccount } from '@bitcode/api';
+import { unlinkAccount } from '@bitcode/api/src/routes/auth';
 
 export const POST = unlinkAccount;

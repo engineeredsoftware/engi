@@ -21,45 +21,9 @@ import {
   TransactionalFileEditor,
   EditError,
 } from '@bitcode/editing';
+import { executionContext } from './execution-context';
 
-// Gate-aware file operations
-import type { Execution } from '@bitcode/execution-generics';
-
-// Global execution context for gate checking (simple Map-based for Next.js compatibility)
-class ExecutionContextStore {
-  private contexts = new Map<string, Execution>();
-  private currentKey: string | null = null;
-
-  run<R>(execution: Execution, fn: () => R | Promise<R>): R | Promise<R> {
-    const key = `exec_${Date.now()}_${Math.random()}`;
-    this.contexts.set(key, execution);
-    const previousKey = this.currentKey;
-    this.currentKey = key;
-
-    try {
-      const result = fn();
-      if (result instanceof Promise) {
-        return result.finally(() => {
-          this.contexts.delete(key);
-          this.currentKey = previousKey;
-        }) as R;
-      }
-      this.contexts.delete(key);
-      this.currentKey = previousKey;
-      return result;
-    } catch (error) {
-      this.contexts.delete(key);
-      this.currentKey = previousKey;
-      throw error;
-    }
-  }
-
-  getStore(): Execution | undefined {
-    return this.currentKey ? this.contexts.get(this.currentKey) : undefined;
-  }
-}
-
-export const executionContext = new ExecutionContextStore();
+export { executionContext } from './execution-context';
 
 /**
  * Gate-aware wrapper for runEditCommand

@@ -69,6 +69,7 @@
       "@bitcode/objects-arrays-objects": ["packages/objects-arrays/objects/src/index.ts"],
     "@bitcode/generic-tools-registry": ["packages/tools-generics/src/registry.ts"],
     "@bitcode/generic-tools-editing": ["packages/generic-tools/files-maintaining/src/index.ts"],
+    "@bitcode/generic-tools-editing/execution-context": ["packages/generic-tools/files-maintaining/src/execution-context.ts"],
     "@bitcode/generic-tools/repository": ["packages/generic-tools/git-interactor/src/index.ts"],
     "@bitcode/generic-tools/file-tracker": ["packages/pipelines-generics/src/context/context.ts"],
     "@bitcode/generic-agents-git": ["packages/generic-agents/git-interactor/src/index.ts"],

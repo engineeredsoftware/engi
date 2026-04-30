@@ -23,7 +23,7 @@ export const BITCODE_PUBLIC_COPY = {
         id: 'april-2026',
         tab: 'April',
         title: '$BTD: Shares of Source Technical Knowledge',
-        meta: '2026 April * Garrett Maring',
+        meta: 'April 2026 * Garrett Maring',
         body:
           "April launched the Bitcode Protocol. It is available at our open-source repository which includes a commercially-ready whole-system specification (auditable, reproducible). The website now includes the first pieces of the $BTD Terminal along with documentation on the internals and interfaces of the ecosystem.",
         highlights: ['$BTD', 'Bitcode Protocol', 'Terminal'],
@@ -32,7 +32,7 @@ export const BITCODE_PUBLIC_COPY = {
         id: 'march-2026',
         tab: 'March',
         title: "Bitcode's self-evolution, now",
-        meta: '2026 March * Garrett Maring',
+        meta: 'March 2026 * Garrett Maring',
         body:
           "$BTD's purpose is to hoard valuable technical information and compensate contributors fairly. Provable knowledge measuring algorithms build the foundations for collection and issuance. Ideal long-term partnerships for asset management and infrastructure will be finalized to empower the secure and thriving future of $BTD.",
         highlights: ['$BTD'],

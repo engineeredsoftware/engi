@@ -11,11 +11,11 @@
     },
     "./loader": {
       "types": "./src/loaders/doc-code-tool-loader.ts",
-      "default": "./src/loaders/doc-code-tool-loader.js"
+      "default": "./loader.cjs"
     },
     "./transformDocCodeTools": {
       "types": "./src/transformDocCodeTools.ts",
-      "default": "./src/transformDocCodeTools.js"
+      "default": "./transformDocCodeTools.cjs"
     },
     "./package.json": "./package.json"
   },

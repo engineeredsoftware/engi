@@ -53,7 +53,7 @@
 
 import { ExecutionReality, NormalizationPressure } from './canonical/enums.js';
 import './canonical/types.js';
-import { inferTechnologySignals } from '../../packages/tech-types/src/signals-runtime.js';
+import { inferTechnologySignals } from '../../packages/tech-types/src/signals-runtime.mjs';
 import { buildRepoSupplySurface, buildDepositingSurface, buildNeedingSurface, buildDepositingToNeedingSurface, buildRepoToSettlementSurface, buildIdentityAuthSpineSurface, buildBoundaryRealitySurface, buildGithubBoundarySurface } from './canonical/surfaces.js';
 import { buildPipelineTelemetry, buildPromptImplementationSurface, buildSystemProofBundle, buildArtifactUploadManifest, buildDeliverablesManifest, buildScenarioFixtureManifest, buildTestCoverageReport } from './canonical/run-artifacts.js';
 import { createNeedMeasurementRuntime } from './canonical/need-measurement.js';
