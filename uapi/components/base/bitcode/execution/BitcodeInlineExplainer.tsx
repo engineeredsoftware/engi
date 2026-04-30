@@ -135,7 +135,7 @@ export default function BitcodeInlineExplainer({
       <span
         role="tooltip"
         className={cn(
-          'pointer-events-none absolute z-30 w-[min(20rem,calc(100vw-2rem))] rounded-[1.15rem] border border-white/10 bg-[rgba(4,8,18,0.98)] px-4 py-4 text-left opacity-0 shadow-[0_24px_56px_rgba(0,0,0,0.42)] transition duration-150 ease-out group-hover/bitcode-explainer:opacity-100 group-focus-within/bitcode-explainer:opacity-100',
+          'pointer-events-none absolute z-30 w-[min(20rem,calc(100vw-2rem))] rounded-[1.15rem] border border-white/10 bg-[rgba(4,8,18,0.98)] px-4 py-4 text-left text-sm font-normal normal-case tracking-normal opacity-0 shadow-[0_24px_56px_rgba(0,0,0,0.42)] transition duration-150 ease-out group-hover/bitcode-explainer:opacity-100 group-focus-within/bitcode-explainer:opacity-100',
           tooltipPositionClassName(placement),
         )}
       >
@@ -146,19 +146,19 @@ export default function BitcodeInlineExplainer({
           )}
         />
         {explainer.kicker ? (
-          <span className="relative block text-[0.62rem] uppercase tracking-[0.18em] text-emerald-300/80">{explainer.kicker}</span>
+          <span className="relative block text-[0.62rem] font-medium uppercase tracking-[0.18em] text-emerald-300/80">{explainer.kicker}</span>
         ) : null}
         <strong className="relative mt-2 block text-sm font-semibold tracking-[0.01em] text-white">{title}</strong>
-        <span className="relative mt-2 block text-sm leading-6 text-neutral-200">{summary}</span>
+        <span className="relative mt-2 block text-sm font-normal normal-case tracking-normal leading-6 text-neutral-200">{summary}</span>
         {detail ? (
-          <span className="relative mt-3 block border-t border-white/8 pt-3 text-sm leading-6 text-neutral-400">
+          <span className="relative mt-3 block border-t border-white/8 pt-3 text-sm font-normal normal-case tracking-normal leading-6 text-neutral-400">
             {detail}
           </span>
         ) : null}
         {points.length ? (
           <div className="relative mt-3 border-t border-white/8 pt-3">
             <span className="block text-[0.62rem] uppercase tracking-[0.18em] text-emerald-300/75">Use this to</span>
-            <ul className="mt-2 space-y-1.5 text-sm leading-6 text-neutral-200">
+            <ul className="mt-2 space-y-1.5 text-sm font-normal normal-case tracking-normal leading-6 text-neutral-200">
             {points.map((point) => (
               <li key={`${title}-${point}`} className="flex gap-2">
                 <span className="mt-[0.45rem] h-1.5 w-1.5 shrink-0 rounded-full bg-emerald-300/70" />

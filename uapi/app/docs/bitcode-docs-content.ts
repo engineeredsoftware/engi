@@ -30,6 +30,27 @@ export type DocsEmbeddedUiSpecimen = {
   }[];
 };
 
+export type DocsInterfaceApiFeature = {
+  name: string;
+  method?: string;
+  packagePath: string;
+  useWhen: string;
+  howToUse: string;
+  inputs: readonly string[];
+  outputs: readonly string[];
+  verifyInTerminal?: string;
+  failureModes?: readonly string[];
+  requiresConfirmation?: boolean;
+};
+
+export type DocsInterfaceApiSection = {
+  id: string;
+  title: string;
+  summary: string;
+  packagePath: string;
+  features: readonly DocsInterfaceApiFeature[];
+};
+
 export type BitcodeDocsPageSlug = string;
 
 export type BitcodeDocsPage = {
@@ -47,6 +68,7 @@ export type BitcodeDocsPage = {
   };
   sections: readonly DocsGuideCard[];
   embeddedUi?: readonly DocsEmbeddedUiSpecimen[];
+  apiReference?: readonly DocsInterfaceApiSection[];
 };
 
 export type BitcodeDocsChapter = {
@@ -401,6 +423,38 @@ const auxillariesSections = [
       'Review $BTD and wallet-adjacent controls before settlement.',
     ],
   },
+  {
+    id: 'third-party-connections',
+    eyebrow: 'Connects',
+    title: 'Third-party connections are source-bearing ingress, not hidden account settings',
+    summary:
+      'Connects owns GitHub and future provider bindings because repository scope becomes source-bearing input for Need measurement, AssetPack synthesis, proof follow-through, and settlement readiness.',
+    detail:
+      'A healthy connection read tells the user whether the provider is pending, connected, reconnect-required, or available only from stored inventory. It also explains that wallet identity stays in Profile while repository attachment and provider scope stay in Connects.',
+    reason:
+      'New users need to understand why a missing GitHub or wallet connection blocks live writes without blocking learning-mode Terminal review.',
+    points: [
+      'GitHub scope defines which repositories Bitcode can read for source supply.',
+      'Stored inventory can support reread, but live write admission fails closed until the provider is restored.',
+      'GitHub plus wallet posture are the minimum live prerequisites before settlement or signed delivery.',
+    ],
+  },
+  {
+    id: 'interface-defaults',
+    eyebrow: 'Interfaces',
+    title: 'Interface defaults shape how Terminal, conversations, and proofs open',
+    summary:
+      'Interfaces owns global model selection, system prompt posture, master-detail density, conversation launch behavior, proof read mode, instruction tone, and execution bias.',
+    detail:
+      'These are not cosmetic preferences. They change how much detail Terminal opens with, how conversations re-enter the product, which model family anchors work by default, and whether proof readers see visual, mixed, or raw evidence first.',
+    reason:
+      'Configuration becomes teachable when every preference says what operational consequence it has.',
+    points: [
+      'Master-detail density controls how much activity detail opens by default.',
+      'Conversation launch controls whether chat appears as overlay, focused work, or continuity-preserving mode.',
+      'Proof mode controls whether evidence opens visually, mixed with structured payloads, or raw first.',
+    ],
+  },
 ] as const satisfies readonly DocsGuideCard[];
 
 const conversationsSections = [
@@ -645,6 +699,594 @@ const chatGptAppSections = [
       'Users should never have to trust a chat transcript when Exchange and Terminal can show the actual state.',
   },
 ] as const satisfies readonly DocsGuideCard[];
+
+const chatGptAppApiReference = [
+  {
+    id: 'chatgpt-app-tools',
+    title: 'ChatGPT App MCP tools',
+    summary:
+      'These are the canonical tools exported by packages/chatgptapp. Read tools gather evidence; write tools require confirmed: true and return write-admission metadata.',
+    packagePath: 'packages/chatgptapp/src/tools.ts',
+    features: [
+      {
+        name: 'answer_codebase_query',
+        method: 'tools/call',
+        packagePath: 'packages/chatgptapp/src/tools.ts',
+        useWhen: 'Ask a targeted question about the current repository or find existing implementation points.',
+        howToUse:
+          'Call with a regex-friendly query and optional cwd/maxResults. Use the returned file lines to decide whether to extend existing behavior or introduce new behavior.',
+        inputs: [
+          'query: required search pattern.',
+          'cwd: optional working directory scope.',
+          'maxResults: optional 1-500 cap, default 100.',
+          'ignoreCase: optional boolean, default false.',
+        ],
+        outputs: [
+          'answer: plain-language summary plus file:line hits.',
+          'metadata.matches: structured match objects.',
+          'metadata.matchCount and guidance: count and next-step framing.',
+        ],
+        verifyInTerminal: 'Use the resulting files as source context before a Terminal or connected-interface write.',
+      },
+      {
+        name: 'answer_codeweb_query',
+        method: 'tools/call',
+        packagePath: 'packages/chatgptapp/src/tools.ts',
+        useWhen: 'Research external technical references, examples, or documentation for a product or implementation decision.',
+        howToUse:
+          'Call with a focused query. Keep the result as external reference evidence, not Exchange state, until it is attached to a real Bitcode action.',
+        inputs: [
+          'query: required web research query.',
+          'numResults: optional 1-20 cap, default 8.',
+          'useAutoprompt: optional provider refinement toggle, default true.',
+        ],
+        outputs: [
+          'answer: numbered reading list or no-source guidance.',
+          'metadata.provider: exa.',
+          'metadata.results: normalized title, url, and summary records.',
+        ],
+      },
+      {
+        name: 'depict_design_asset',
+        method: 'tools/call',
+        packagePath: 'packages/chatgptapp/src/tools.ts',
+        useWhen: 'Turn a screenshot, diagram, or wireframe into text that later tools can reference.',
+        howToUse:
+          'Pass base64 or text asset data with an optional focus. Use the depiction as context for design_code or code_design.',
+        inputs: [
+          'assetData: required base64 or UTF-8 asset representation.',
+          'focus: optional analysis emphasis.',
+          'notes: optional author hints.',
+        ],
+        outputs: [
+          'depiction: textual description of the asset.',
+          'metadata.focus: requested emphasis.',
+          'metadata.bytes: decoded/estimated asset size.',
+        ],
+      },
+      {
+        name: 'design_code',
+        method: 'tools/call',
+        packagePath: 'packages/chatgptapp/src/tools.ts',
+        useWhen: 'Capture conversational product intent into .ai/PRODUCT.md before planning implementation.',
+        howToUse:
+          'Pass raw ideas. Optionally include current PRODUCT.md or request digest regeneration before appending proposed updates.',
+        inputs: [
+          'ideas: required raw ideas or requirements.',
+          'currentProductMd: optional current .ai/PRODUCT.md snapshot.',
+          'regenerateFromDigest: optional boolean to rebuild the baseline from digest.',
+        ],
+        outputs: [
+          'update: proposed update block.',
+          'latest_design: full latest PRODUCT.md content.',
+          'metadata.aiDocument, guidance, digestUsed, and prepared context stats.',
+        ],
+        verifyInTerminal: 'Treat this as design context until a later write creates Exchange-readable activity.',
+      },
+      {
+        name: 'code_design',
+        method: 'tools/call',
+        packagePath: 'packages/chatgptapp/src/tools.ts',
+        useWhen: 'Translate accepted design intent into tasks and patch scaffolds before code changes.',
+        howToUse:
+          'Pass the design update and optional target files. Review the generated implementation actions before executing any write.',
+        inputs: [
+          'update: required implementation update or summary.',
+          'latest_design: optional PRODUCT.md content.',
+          'files: optional array of { path, intent } targets.',
+        ],
+        outputs: [
+          'update: numbered implementation actions plus diff scaffold.',
+          'latest_design: design basis used for the plan.',
+          'metadata.taskCount, fileCount, guidance, and prepared context stats.',
+        ],
+      },
+      {
+        name: 'read_code_changes_from_vcs',
+        method: 'tools/call',
+        packagePath: 'packages/chatgptapp/src/tools.ts',
+        useWhen: 'Summarize recent GitHub activity before deciding what changed or what to build next.',
+        howToUse:
+          'Pass a GitHub token, owner, repo, and optional branch/limit. Use the result as VCS read evidence.',
+        inputs: [
+          'accessToken: required GitHub repo-scoped token.',
+          'owner and repo: required repository coordinates.',
+          'branch: optional branch ref.',
+          'limit: optional 1-50 commit cap, default 10.',
+        ],
+        outputs: [
+          'changes: human-readable commit summary.',
+          'metadata.branch and commitCount.',
+          'metadata.urlSamples: source URLs for follow-up.',
+        ],
+      },
+      {
+        name: 'write_code_changes_to_vcs',
+        method: 'tools/call',
+        packagePath: 'packages/chatgptapp/src/tools.ts',
+        useWhen: 'Create a GitHub repository or write file contents after explicit user confirmation.',
+        howToUse:
+          'Set confirmed: true. For createRepository, pass name/description/private. For createOrUpdateFile, pass owner/repo/path/content/message/branch.',
+        inputs: [
+          'operation: createRepository or createOrUpdateFile.',
+          'confirmed: required true.',
+          'accessToken: required GitHub repo-scoped token.',
+          'name, description, private: repository creation inputs.',
+          'owner, repo, path, content, message, branch: file-write inputs.',
+        ],
+        outputs: [
+          'result: GitHub repository or commit response.',
+          'metadata.operation and optional sha.',
+          'metadata.writeAdmission: interfaceSurface, permission basis, operation, and targetAnchor.',
+        ],
+        verifyInTerminal: 'Reread the connected-interface result as a delivery mechanism, not independent Exchange truth.',
+        failureModes: [
+          'Throws if confirmed is not true.',
+          'Throws if createOrUpdateFile lacks owner, repo, or path.',
+        ],
+        requiresConfirmation: true,
+      },
+      {
+        name: 'improve_developing_behavior',
+        method: 'tools/call',
+        packagePath: 'packages/chatgptapp/src/tools.ts',
+        useWhen: 'Record collaboration rules or agent behavior preferences into .ai/AGENTS.md.',
+        howToUse:
+          'Pass improvement_betterment and optional current AGENTS.md. Use regenerateFromDigest when the baseline should be rebuilt first.',
+        inputs: [
+          'improvement_betterment: optional behavior note.',
+          'currentAgentsMd: optional current AGENTS.md snapshot.',
+          'regenerateFromDigest: optional boolean.',
+        ],
+        outputs: [
+          'thennnowevolution: appended behavior block.',
+          'concretelatestgreatestapproach and latest_behavior: latest AGENTS.md.',
+          'metadata.aiDocument, guidance, digestUsed, and prepared context stats.',
+        ],
+      },
+      {
+        name: 'use_vercel_read_external_mcp',
+        method: 'tools/call',
+        packagePath: 'packages/chatgptapp/src/tools.ts',
+        useWhen: 'Read Vercel teams, projects, deployments, build logs, events, or docs from ChatGPT.',
+        howToUse:
+          'Set request to the Vercel read operation and pass provider-specific arguments in payload.',
+        inputs: [
+          'request: list_teams, list_projects, get_project, list_deployments, get_deployment, get_deployment_events, get_deployment_build_logs, or search_documentation.',
+          'payload: optional Vercel arguments such as teamId, projectId, idOrUrl, limit, topic, or tokens.',
+        ],
+        outputs: [
+          'answer: Vercel tool response.',
+          'metadata.provider: vercel.',
+          'metadata.request, aiDocument, and guidance.',
+        ],
+      },
+      {
+        name: 'use_vercel_write_external_mcp',
+        method: 'tools/call',
+        packagePath: 'packages/chatgptapp/src/tools.ts',
+        useWhen: 'Request Vercel delivery actions after explicit user confirmation.',
+        howToUse:
+          'Set confirmed: true and request deploy_to_vercel, buy_domain, or check_domain_availability with provider arguments in payload.',
+        inputs: [
+          'request: deploy_to_vercel, buy_domain, or check_domain_availability.',
+          'confirmed: required true.',
+          'payload: projectId/teamId/message, domain names/contact, or availability names.',
+        ],
+        outputs: [
+          'result: Vercel write or availability result.',
+          'metadata.provider, request, guidance, and aiDocument.',
+          'metadata.writeAdmission with connectedInterface vercel and targetAnchor.',
+        ],
+        failureModes: ['Throws if confirmed is not true.'],
+        requiresConfirmation: true,
+      },
+      {
+        name: 'use_aws_read_external_mcp',
+        method: 'tools/call',
+        packagePath: 'packages/chatgptapp/src/tools.ts',
+        useWhen: 'Read AWS runtime state from ChatGPT for health checks or configuration confirmation.',
+        howToUse:
+          'Set request to the AWS read action and pass the raw AWS-style payload through to the underlying tool.',
+        inputs: [
+          'request: lambda.invoke, s3.getObject, dynamo.getItem, or cloudwatch.log.',
+          'payload: raw function, bucket/key, table/key, or log query arguments.',
+        ],
+        outputs: [
+          'answer: AWS read result.',
+          'metadata.provider: aws.',
+          'metadata.request, aiDocument, and guidance.',
+        ],
+      },
+      {
+        name: 'use_aws_write_external_mcp',
+        method: 'tools/call',
+        packagePath: 'packages/chatgptapp/src/tools.ts',
+        useWhen: 'Write scoped AWS delivery/configuration outputs after explicit user confirmation.',
+        howToUse:
+          'Set confirmed: true and request s3.putObject or dynamo.putItem with the underlying AWS payload.',
+        inputs: [
+          'request: s3.putObject or dynamo.putItem.',
+          'confirmed: required true.',
+          'payload: bucket/key/body or table/item style arguments.',
+        ],
+        outputs: [
+          'result: AWS write result.',
+          'metadata.provider, request, guidance, and aiDocument.',
+          'metadata.writeAdmission with connectedInterface aws and targetAnchor.',
+        ],
+        failureModes: ['Throws if confirmed is not true.'],
+        requiresConfirmation: true,
+      },
+    ],
+  },
+] as const satisfies readonly DocsInterfaceApiSection[];
+
+const mcpApiReference = [
+  {
+    id: 'mcp-call-lifecycle',
+    title: 'MCP call lifecycle',
+    summary:
+      'The Exchange-facing MCP server exposes tools/list and tools/call over the Model Context Protocol, authenticates each call, applies rate/resource limits, and dispatches by bitcode:// prefix.',
+    packagePath: 'packages/executions-mcp/src/mcp-server/src/server.ts',
+    features: [
+      {
+        name: 'tools/list',
+        method: 'MCP request',
+        packagePath: 'packages/executions-mcp/src/mcp-server/src/server.ts',
+        useWhen: 'Discover the active default Bitcode MCP tools available to a client.',
+        howToUse:
+          'Call tools/list after connecting. The default server registers pipeline, analysis, intelligence, enterprise, LSP, and observability categories.',
+        inputs: ['No body is required for discovery.'],
+        outputs: [
+          'tools: array of { name, description, inputSchema } records.',
+          'Server logs include count and failed category count.',
+        ],
+      },
+      {
+        name: 'tools/call',
+        method: 'MCP request',
+        packagePath: 'packages/executions-mcp/src/mcp-server/src/server.ts',
+        useWhen: 'Execute one Exchange-facing MCP feature.',
+        howToUse:
+          'Pass name and arguments. Include request params _meta.authorization when auth is required. Local repositories are prepared before execution when repository.provider is local.',
+        inputs: [
+          'name: required bitcode:// tool identifier.',
+          'arguments: tool-specific validated input object.',
+          '_meta.authorization: optional auth header used by authenticateMCPRequest.',
+        ],
+        outputs: [
+          'Tool-specific result object.',
+          'Execution passes through auth, rate limits, resource limits, and circuit breaker handling.',
+        ],
+        failureModes: [
+          'Authentication failure rejects the call.',
+          'Invalid schema arguments return validation errors.',
+          'Unknown tool names fail closed.',
+        ],
+      },
+    ],
+  },
+  {
+    id: 'mcp-pipeline-tools',
+    title: 'Pipeline tools',
+    summary:
+      'Pipeline tools write bounded AssetPack intent into Exchange-facing execution, require pipeline create permission, and return rereadable run/admission metadata.',
+    packagePath: 'packages/executions-mcp/src/mcp-server/src/tools/pipeline-tools.ts',
+    features: [
+      {
+        name: 'bitcode://pipelines/asset-pack/create',
+        method: 'tools/call',
+        packagePath: 'packages/executions-mcp/src/mcp-server/src/tools/pipeline-tools.ts',
+        useWhen: 'Create an AssetPack pipeline for implementation, review, issue work, docs, diagrams, API specs, scaffolding, planning, or refactoring.',
+        howToUse:
+          'Pass task, repository, subtype, and optional attachments/connections. Use streaming for queued run reread or wait for completion when streaming is false.',
+        inputs: [
+          'task: required detailed task, minimum 10 characters.',
+          'repository: required RepositoryContext, including provider/owner/name/branch or local path.',
+          'subtype: pull_request, pr_review, issue, comment, blog_post, diagram, api_spec, frontend_scaffolder, scope_analysis, implementation_plan, or refactor_proposal.',
+          'attachments: optional multimodal source context.',
+          'connections: optional repository/provider ingress context.',
+          'mcpConfig, streaming, organizationId, modelPreferences, and options.',
+        ],
+        outputs: [
+          'runId and shippableCompatibilityId.',
+          'status, interfaceSurface, inputContext, writeAdmission, and outputMeaning.',
+          'When completed: result, assetPacks/deliverables, btdUsed, timestamps, and events.',
+        ],
+        verifyInTerminal: 'Open the returned run/activity and inspect AssetPack, proof, delivery, and settlement posture.',
+        failureModes: [
+          'Requires pipelines.create permission.',
+          'Rejects incoherent repository_connection ingress.',
+          'Rejects non-local providers without matching connection or provider credential.',
+        ],
+        requiresConfirmation: true,
+      },
+    ],
+  },
+  {
+    id: 'mcp-analysis-tools',
+    title: 'Analysis tools',
+    summary:
+      'Analysis tools read repository, dependency, pattern, and trend evidence for Exchange and Terminal users.',
+    packagePath: 'packages/executions-mcp/src/mcp-server/src/tools/analysis-tools.ts',
+    features: [
+      {
+        name: 'bitcode://analysis/repository/analyze',
+        method: 'tools/call',
+        packagePath: 'packages/executions-mcp/src/mcp-server/src/tools/analysis-tools.ts',
+        useWhen: 'Analyze one repository for architecture, dependencies, security, performance, quality, complexity, patterns, or technical debt.',
+        howToUse: 'Pass repository coordinates, analysisType, and optional depth/output controls.',
+        inputs: [
+          'repository: { owner, name, branch? }.',
+          'analysisType: architecture, dependencies, security, performance, quality, complexity, patterns, or technical_debt.',
+          'depth: surface, medium, or deep.',
+          'includeMetrics and outputFormat.',
+        ],
+        outputs: ['repository, branch, analysisType, timestamp, analyst.', 'results and metadata with analysisId, duration, confidence, lines/files analyzed.'],
+      },
+      {
+        name: 'bitcode://analysis/intelligence/synthesize',
+        method: 'tools/call',
+        packagePath: 'packages/executions-mcp/src/mcp-server/src/tools/analysis-tools.ts',
+        useWhen: 'Synthesize trends across repository, organization, or user scope.',
+        howToUse: 'Pass scope/timeframe and optional repositories, analysisTypes, recommendation, and confidence settings.',
+        inputs: [
+          'scope: repository, organization, or user.',
+          'timeframe: 7d, 30d, 90d, or all.',
+          'repositories and analysisTypes.',
+          'includeRecommendations and confidenceThreshold.',
+        ],
+        outputs: ['insights, recommendations, trends, and metadata.', 'Confidence-scored strategic guidance for engineering decisions.'],
+      },
+      {
+        name: 'bitcode://analysis/patterns/detect',
+        method: 'tools/call',
+        packagePath: 'packages/executions-mcp/src/mcp-server/src/tools/analysis-tools.ts',
+        useWhen: 'Find design patterns, anti-patterns, architecture patterns, testing patterns, security patterns, or performance patterns.',
+        howToUse: 'Pass repository/path plus pattern type filters and severity.',
+        inputs: [
+          'repository: { owner, name, path? }.',
+          'patternTypes: optional array.',
+          'language, includeExamples, and severity.',
+        ],
+        outputs: ['patterns with type, name, confidence, locations, examples, severity, and recommendations.', 'summary totals and average confidence.'],
+      },
+      {
+        name: 'bitcode://analysis/dependencies/analyze',
+        method: 'tools/call',
+        packagePath: 'packages/executions-mcp/src/mcp-server/src/tools/analysis-tools.ts',
+        useWhen: 'Analyze dependency graph, vulnerabilities, licenses, updates, and dependency risk.',
+        howToUse: 'Pass repository plus depth and inclusion toggles.',
+        inputs: [
+          'repository: { owner, name }.',
+          'analysisDepth: direct, transitive, or full.',
+          'includeVulnerabilities, includeLicenses, includeUpdates.',
+          'outputFormat: json, graph, or report.',
+        ],
+        outputs: ['dependency counts, vulnerabilities, license summary, update recommendations, and risk posture.'],
+      },
+    ],
+  },
+  {
+    id: 'mcp-intelligence-tools',
+    title: 'Intelligence tools',
+    summary:
+      'Intelligence tools turn measured code, repositories, research, and attachments into higher-level recommendations.',
+    packagePath: 'packages/executions-mcp/src/mcp-server/src/tools/intelligence-tools.ts',
+    features: [
+      {
+        name: 'bitcode://intelligence/effectiveness/track',
+        method: 'tools/call',
+        packagePath: 'packages/executions-mcp/src/mcp-server/src/tools/intelligence-tools.ts',
+        useWhen: 'Measure, predict, learn, or optimize code-change effectiveness.',
+        howToUse: 'Choose operation and provide the matching metrics, proposedChanges, outcomes, or targetMetrics.',
+        inputs: ['operation: measure, predict, learn, or optimize.', 'pipelineId, beforeMetrics, afterMetrics, repository, proposedChanges, outcomes, targetMetrics, constraints, timeframe, includeConfidence.'],
+        outputs: ['Effectiveness scores, predictions, learning results, or optimization recommendations with confidence data.'],
+      },
+      {
+        name: 'bitcode://intelligence/cross-repo/learn',
+        method: 'tools/call',
+        packagePath: 'packages/executions-mcp/src/mcp-server/src/tools/intelligence-tools.ts',
+        useWhen: 'Extract, propagate, analyze, or recommend cross-repository patterns.',
+        howToUse: 'Choose operation and provide source repositories, patterns, targets, analysisType, or repositoryContext.',
+        inputs: ['operation: extract, propagate, analyze, or recommend.', 'sourceRepositories, patterns, targetRepositories, analysisType, repositoryContext, includeVisualization, maxResults.'],
+        outputs: ['Extracted patterns, propagation results, cross-repo insights, visualization data, and recommendations.'],
+      },
+      {
+        name: 'bitcode://intelligence/research/advanced',
+        method: 'tools/call',
+        packagePath: 'packages/executions-mcp/src/mcp-server/src/tools/intelligence-tools.ts',
+        useWhen: 'Run multi-provider research with URL credibility and synthesis.',
+        howToUse: 'Pass a detailed query, researchType, provider list, filters, and synthesis options.',
+        inputs: ['query, researchType, providers, filters, synthesisType, maxResults, includeUrlIntelligence, contextAware.'],
+        outputs: ['research_results, synthesis, url_intelligence, and credibility_scores.'],
+      },
+      {
+        name: 'bitcode://intelligence/multimodal/process',
+        method: 'tools/call',
+        packagePath: 'packages/executions-mcp/src/mcp-server/src/tools/intelligence-tools.ts',
+        useWhen: 'Process images, audio, video, documents, Figma files, or URLs into engineering intelligence.',
+        howToUse: 'Pass at least one attachment, a processingType, and desired output format/synthesis settings.',
+        inputs: ['attachments: array of { type, content, metadata? }.', 'processingType, outputFormat, crossModalSynthesis, includeImplementationGuidance, contextRepository, qualityThreshold.'],
+        outputs: ['processed_attachments, synthesis, implementation_guidance, and quality_scores.'],
+      },
+      {
+        name: 'bitcode://intelligence/enterprise/orchestrate',
+        method: 'tools/call',
+        packagePath: 'packages/executions-mcp/src/mcp-server/src/tools/intelligence-tools.ts',
+        useWhen: 'Analyze team, organization, knowledge, skill-gap, collaboration, innovation, risk, or strategy posture.',
+        howToUse: 'Pass operation, organizationId, scope, time horizon, depth, recommendation, benchmarking, and confidentiality settings.',
+        inputs: ['operation, organizationId, scope, timeHorizon, analysisDepth, includeRecommendations, includeBenchmarking, confidentialityLevel.'],
+        outputs: ['analysis, strategic_insights, benchmarking, and recommendations.'],
+      },
+      {
+        name: 'bitcode://intelligence/marketplace/analyze',
+        method: 'tools/call',
+        packagePath: 'packages/executions-mcp/src/mcp-server/src/tools/intelligence-tools.ts',
+        useWhen: 'Discover, assess, price, or risk-review marketplace solutions and providers.',
+        howToUse: 'Choose marketplace operation and provide requirements, listing/provider IDs, search query, filters, and risk settings.',
+        inputs: ['operation, requirements, listingId, providerId, searchQuery, filters, includeCompetitiveAnalysis, riskTolerance.'],
+        outputs: ['solutions, quality_assessment, provider_analysis, and recommendations.'],
+      },
+    ],
+  },
+  {
+    id: 'mcp-enterprise-tools',
+    title: 'Enterprise interface tools',
+    summary:
+      'Enterprise tools configure webhooks, managed APIs, integration marketplace connectors, and observability surfaces.',
+    packagePath: 'packages/executions-mcp/src/mcp-server/src/tools/enterprise-tools.ts',
+    features: [
+      {
+        name: 'bitcode://enterprise/webhook/orchestrate',
+        method: 'tools/call',
+        packagePath: 'packages/executions-mcp/src/mcp-server/src/tools/enterprise-tools.ts',
+        useWhen: 'Create, update, delete, test, route, batch, or inspect enterprise webhooks.',
+        howToUse: 'Pass operation and the webhook/routing/test/analytics payload that matches it.',
+        inputs: ['operation plus webhook config, testPayload, analyticsTimeRange, webhookIds, or routingRules.'],
+        outputs: ['Webhook operation result, analytics, delivery status, routing results, or audit-ready recommendations.'],
+      },
+      {
+        name: 'bitcode://enterprise/api/manage',
+        method: 'tools/call',
+        packagePath: 'packages/executions-mcp/src/mcp-server/src/tools/enterprise-tools.ts',
+        useWhen: 'Manage API lifecycle: create, version, deploy, govern, document, rate-limit, monitor, or test APIs.',
+        howToUse: 'Pass operation and API config, environment, versioning strategy, governance rules, or test suite.',
+        inputs: ['operation plus api, versioningStrategy, environment, governanceRules, or testSuite.'],
+        outputs: ['API operation result, governance score, documentation output, analytics, or test report.'],
+      },
+      {
+        name: 'bitcode://enterprise/integration/marketplace',
+        method: 'tools/call',
+        packagePath: 'packages/executions-mcp/src/mcp-server/src/tools/enterprise-tools.ts',
+        useWhen: 'Browse, install, configure, update, uninstall, analyze, develop, or publish enterprise integrations.',
+        howToUse: 'Pass operation and the relevant marketplace, integration, connector, or filter payload.',
+        inputs: ['operation plus filters, integration config, connector config, dataMapping, triggers, schedule, or tests.'],
+        outputs: ['integrations, marketplace_analytics, installation_status, and custom_connectors.'],
+      },
+      {
+        name: 'bitcode://enterprise/observability/configure',
+        method: 'tools/call',
+        packagePath: 'packages/executions-mcp/src/mcp-server/src/tools/enterprise-tools.ts',
+        useWhen: 'Configure metrics, traces, logs, alerts, dashboards, and analysis settings for enterprise observability.',
+        howToUse: 'Pass monitoringConfig, alerts, dashboard, and analysisConfig.',
+        inputs: ['monitoringConfig, alerts, dashboard, analysisConfig.'],
+        outputs: ['monitoring_status, dashboards, alerts, telemetry_endpoints, and related configuration results.'],
+      },
+    ],
+  },
+  {
+    id: 'mcp-lsp-tools',
+    title: 'LSP and code-intelligence tools',
+    summary:
+      'LSP tools provide semantic analysis, navigation/refactoring, diagnostics, and workspace-wide intelligence.',
+    packagePath: 'packages/executions-mcp/src/mcp-server/src/tools/lsp-tools.ts',
+    features: [
+      {
+        name: 'bitcode://lsp/semantic/analyze',
+        method: 'tools/call',
+        packagePath: 'packages/executions-mcp/src/mcp-server/src/tools/lsp-tools.ts',
+        useWhen: 'Analyze symbols, types, dependency graphs, call graphs, semantic search, hover, or signatures.',
+        howToUse: 'Pass repository, targets, optional position, analysisConfig, and filters.',
+        inputs: ['repository, targets, position, analysisConfig, filters.'],
+        outputs: ['Semantic analysis, symbol relationships, dependency/call graph data, and contextual code intelligence.'],
+      },
+      {
+        name: 'bitcode://lsp/intelligence/navigate',
+        method: 'tools/call',
+        packagePath: 'packages/executions-mcp/src/mcp-server/src/tools/lsp-tools.ts',
+        useWhen: 'Find references, rename symbols, extract methods, find implementations, get actions, or organize imports.',
+        howToUse: 'Pass repository, symbol target, refactoring config, optional range, and formatting options.',
+        inputs: ['repository, symbol, refactoringConfig, range, formattingOptions.'],
+        outputs: ['references, rename or refactor previews, implementations, code actions, quick fixes, and source actions.'],
+      },
+      {
+        name: 'bitcode://lsp/diagnostic/analyze',
+        method: 'tools/call',
+        packagePath: 'packages/executions-mcp/src/mcp-server/src/tools/lsp-tools.ts',
+        useWhen: 'Run diagnostics across syntax, semantics, performance, security, complexity, tests, or dependencies.',
+        howToUse: 'Pass repository, scope, diagnosticConfig, thresholds, preferences, and outputConfig.',
+        inputs: ['repository, scope, diagnosticConfig, qualityThresholds, analysisPreferences, outputConfig.'],
+        outputs: ['diagnostics, quality_score, recommendations, and metrics.'],
+      },
+      {
+        name: 'bitcode://lsp/workspace/intelligence',
+        method: 'tools/call',
+        packagePath: 'packages/executions-mcp/src/mcp-server/src/tools/lsp-tools.ts',
+        useWhen: 'Understand architecture, module dependencies, API surface, change impact, technical debt, and knowledge graph.',
+        howToUse: 'Pass repository, analysisScope, changeAnalysis, architectureConfig, knowledgeGraphConfig, migrationConfig, and visualizationConfig.',
+        inputs: ['repository, analysisScope, changeAnalysis, architectureConfig, knowledgeGraphConfig, migrationConfig, visualizationConfig.'],
+        outputs: ['workspace_analysis, architecture_insights, knowledge_graph, and recommendations.'],
+      },
+    ],
+  },
+  {
+    id: 'mcp-observability-tools',
+    title: 'Observability tools',
+    summary:
+      'Observability tools read and configure metrics, traces, business intelligence, and log analytics.',
+    packagePath: 'packages/executions-mcp/src/mcp-server/src/tools/observability-tools.ts',
+    features: [
+      {
+        name: 'bitcode://observability/metrics/realtime',
+        method: 'tools/call',
+        packagePath: 'packages/executions-mcp/src/mcp-server/src/tools/observability-tools.ts',
+        useWhen: 'Collect/query metrics, configure alerts, build dashboards, or stream real-time data.',
+        howToUse: 'Pass metrics, query, alert, dashboard, and streamConfig depending on the operation.',
+        inputs: ['metrics, query, alert, dashboard, streamConfig.'],
+        outputs: ['metrics result, alert status, dashboard data, stream configuration, anomalies, and benchmarks.'],
+      },
+      {
+        name: 'bitcode://observability/tracing/distributed',
+        method: 'tools/call',
+        packagePath: 'packages/executions-mcp/src/mcp-server/src/tools/observability-tools.ts',
+        useWhen: 'Analyze distributed traces, spans, service maps, profiling, bottlenecks, and request flow.',
+        howToUse: 'Pass trace/span data and analysis, profiling, and service-map config.',
+        inputs: ['trace, span, analysisConfig, profilingConfig, serviceMapConfig.'],
+        outputs: ['trace analysis, bottlenecks, dependencies, health, and visualization data.'],
+      },
+      {
+        name: 'bitcode://observability/intelligence/business',
+        method: 'tools/call',
+        packagePath: 'packages/executions-mcp/src/mcp-server/src/tools/observability-tools.ts',
+        useWhen: 'Read engineering productivity, ROI, technical debt cost, velocity, quality, innovation, and benchmark metrics.',
+        howToUse: 'Pass scope, metricsConfig, analysisPreferences, outputConfig, and benchmarkConfig.',
+        inputs: ['scope, metricsConfig, analysisPreferences, outputConfig, benchmarkConfig.'],
+        outputs: ['metrics, insights, recommendations, and forecasts.'],
+      },
+      {
+        name: 'bitcode://observability/logs/analytics',
+        method: 'tools/call',
+        packagePath: 'packages/executions-mcp/src/mcp-server/src/tools/observability-tools.ts',
+        useWhen: 'Run log search, pattern detection, anomaly analysis, security analysis, or compliance reporting.',
+        howToUse: 'Pass logs or searchQuery with analysis, pattern, anomaly, and compliance config.',
+        inputs: ['logs, analysisConfig, searchQuery, patternConfig, anomalyConfig, complianceConfig.'],
+        outputs: ['analysis, patterns, anomalies, compliance, and correlated log intelligence.'],
+      },
+    ],
+  },
+] as const satisfies readonly DocsInterfaceApiSection[];
 
 const configurationSections = [
   {
@@ -1298,6 +1940,7 @@ export const BITCODE_DOCS_PAGES = [
       'You can design an MCP or API interaction that mirrors Terminal write/read/proof discipline.',
     primaryCta: { href: '/docs/chatgpt-app', label: 'Read ChatGPT App guide' },
     sections: mcpSections,
+    apiReference: mcpApiReference,
     embeddedUi: [
       {
         id: 'mcp-result',
@@ -1327,6 +1970,7 @@ export const BITCODE_DOCS_PAGES = [
       'You can explain how a ChatGPT App can feel natural while still preserving Bitcode write admission and proof reread.',
     primaryCta: { href: '/docs/what-is-bitcode', label: 'Restart from overview' },
     sections: chatGptAppSections,
+    apiReference: chatGptAppApiReference,
     embeddedUi: [
       {
         id: 'chat-confirmation',

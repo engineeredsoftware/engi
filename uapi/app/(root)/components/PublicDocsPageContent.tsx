@@ -83,6 +83,21 @@ const quickRouteCards = [
   },
 ] as const;
 
+const interfaceReferenceCards = [
+  {
+    href: '/docs/mcp-api',
+    eyebrow: 'MCP API',
+    title: 'Public machine interface reference',
+    body: 'Active MCP tools are documented by feature, request shape, expected output, failure posture, and Terminal reread.',
+  },
+  {
+    href: '/docs/chatgpt-app',
+    eyebrow: 'ChatGPT App',
+    title: 'Conversational interface reference',
+    body: 'ChatGPT App tools list how to use each call, required inputs, returned metadata, and confirmation rules for writes.',
+  },
+] as const;
+
 export default function PublicDocsPageContent({ sourcePlayable }: PublicDocsPageContentProps) {
   return (
     <div className="min-h-screen bg-[radial-gradient(circle_at_16%_0%,rgba(16,185,129,0.18),transparent_32%),radial-gradient(circle_at_86%_12%,rgba(34,211,238,0.1),transparent_28%),linear-gradient(180deg,#04101a_0%,#030816_45%,#02060d_100%)] text-white">
@@ -242,6 +257,35 @@ export default function PublicDocsPageContent({ sourcePlayable }: PublicDocsPage
                 </Link>
               ))}
             </div>
+          </div>
+        </section>
+
+        <section className="rounded-[34px] border border-white/10 bg-black/24 p-5 shadow-[0_24px_80px_rgba(0,0,0,0.28)] backdrop-blur-xl">
+          <div className="max-w-3xl">
+            <p className="text-[10px] uppercase tracking-[0.24em] text-amber-200/72">
+              Interface API references
+            </p>
+            <h2 className="mt-3 text-3xl font-semibold tracking-tight text-white">
+              Build against Bitcode without losing the Exchange contract.
+            </h2>
+            <p className="mt-3 text-sm leading-7 text-white/72">
+              The interface docs now read like product-facing API docs: every feature says when
+              to call it, what inputs it accepts, what should return, and which Terminal or
+              Exchange read confirms the outcome.
+            </p>
+          </div>
+          <div className="mt-6 grid gap-3 tablet:grid-cols-2">
+            {interfaceReferenceCards.map((card) => (
+              <Link
+                key={card.href}
+                href={card.href}
+                className="rounded-[24px] border border-amber-300/10 bg-amber-400/[0.035] p-4 transition hover:border-amber-300/22 hover:bg-amber-400/[0.06]"
+              >
+                <p className="text-[10px] uppercase tracking-[0.2em] text-amber-100/68">{card.eyebrow}</p>
+                <p className="mt-2 text-base font-semibold text-white">{card.title}</p>
+                <p className="mt-2 text-sm leading-6 text-amber-50/70">{card.body}</p>
+              </Link>
+            ))}
           </div>
         </section>
 

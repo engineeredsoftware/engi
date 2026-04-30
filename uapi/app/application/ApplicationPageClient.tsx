@@ -10,6 +10,7 @@ import ConversationsOverlay from '@/app/conversations/components/ConversationsOv
 import { useUserData } from '@/hooks/useUserData';
 import { fetchPipelineExecutionHistory } from '@/networking/api-client';
 import { isUserOrbitalMockMode } from '@/lib/mock-review-mode';
+import { FEATURE_FLAGS } from '@/config/features';
 import type { PipelineExecution } from '@/types/api';
 
 import ApplicationCommandDeck from './ApplicationCommandDeck';
@@ -470,16 +471,18 @@ export default function ApplicationPageClient() {
           </div>
           </div>
         </div>
-        <ApplicationFloatingDebugWidget
-          debugEnabled={debugEnabled}
-          environmentMode={environmentMode}
-          transactionDataMode={transactionDataMode}
-          selectedTransactionId={selectedRun?.id || null}
-          hasRepositoryAnchor={Boolean(repositoryContext?.selectedRepository)}
-          hasVerifiedWalletBinding={hasVerifiedWalletConnection}
-          onDebugEnabledChange={handleDebugEnabledChange}
-          onEnvironmentModeChange={handleEnvironmentModeChange}
-        />
+        {FEATURE_FLAGS.APPLICATION_DEBUG_WIDGET ? (
+          <ApplicationFloatingDebugWidget
+            debugEnabled={debugEnabled}
+            environmentMode={environmentMode}
+            transactionDataMode={transactionDataMode}
+            selectedTransactionId={selectedRun?.id || null}
+            hasRepositoryAnchor={Boolean(repositoryContext?.selectedRepository)}
+            hasVerifiedWalletBinding={hasVerifiedWalletConnection}
+            onDebugEnabledChange={handleDebugEnabledChange}
+            onEnvironmentModeChange={handleEnvironmentModeChange}
+          />
+        ) : null}
       </ApplicationShellBridgeProvider>
     </>
   );

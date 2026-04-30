@@ -24,6 +24,8 @@ describe('PublicDocsPageContent', () => {
     expect(screen.getByRole('link', { name: 'Start reading' })).toHaveAttribute('href', '/docs/what-is-bitcode');
     expect(screen.getByText('Read in this order if Bitcode is new.')).toBeInTheDocument();
     expect(screen.getByText('Product docs map back to the canon.')).toBeInTheDocument();
+    expect(screen.getByText('Interface API references')).toBeInTheDocument();
+    expect(screen.getByText('Build against Bitcode without losing the Exchange contract.')).toBeInTheDocument();
     expect(screen.getByText('00 / Start Here')).toBeInTheDocument();
     expect(screen.getByText('04 / Commercial Interfaces')).toBeInTheDocument();
     expect(screen.getByRole('link', { name: /What Bitcode is/ })).toHaveAttribute('href', '/docs/what-is-bitcode');

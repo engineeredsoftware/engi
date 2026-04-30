@@ -98,7 +98,7 @@ describe('Nav public shell', () => {
     const accessButton = screen.getByRole('button', { name: 'Open Auxillaries' });
     const createButton = screen.getByRole('button', { name: 'Create Account' });
 
-    expect(screen.getByText('Brand network')).toBeInTheDocument();
+    expect(screen.getByText('Brand home')).toBeInTheDocument();
     expect(screen.getByRole('link', { name: 'Exchange' })).toHaveAttribute('href', '/');
     expect(screen.getByRole('link', { name: 'Exchange' })).not.toHaveAttribute('aria-current');
     expect(screen.getByRole('link', { name: 'Terminal' })).toHaveAttribute('href', '/application');
@@ -127,7 +127,7 @@ describe('Nav public shell', () => {
 
     render(<Nav />);
 
-    expect(screen.getByText('Brand network')).toBeInTheDocument();
+    expect(screen.getByText('Brand home')).toBeInTheDocument();
     expect(screen.getByRole('link', { name: 'Terminal' })).toHaveAttribute('href', '/application');
     expect(screen.getByRole('button', { name: 'Explain Terminal' })).toBeInTheDocument();
     expect(screen.getByText('Notifications')).toBeInTheDocument();

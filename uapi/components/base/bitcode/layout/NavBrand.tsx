@@ -5,7 +5,7 @@ import React from "react";
 import Logo from "@/components/base/bitcode/branding/logo";
 
 export type NavSurface = "application" | "auxillaries" | "conversations" | null;
-export type NavBrandSurface = Exclude<NavSurface, null> | 'network' | 'docs' | null;
+export type NavBrandSurface = Exclude<NavSurface, null> | 'home' | 'network' | 'docs' | null;
 
 interface NavBrandProps {
   animated?: boolean;
@@ -15,6 +15,10 @@ interface NavBrandProps {
 }
 
 const SURFACE_COPY: Record<Exclude<NavBrandSurface, null>, { eyebrow: string; title: string }> = {
+  home: {
+    eyebrow: "Bitcode",
+    title: "homepage",
+  },
   application: {
     eyebrow: "Bitcode",
     title: "terminal",

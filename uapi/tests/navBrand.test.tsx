@@ -20,6 +20,14 @@ describe('NavBrand', () => {
     expect(screen.getByText('exchange')).toBeTruthy();
   });
 
+  it('renders homepage copy for the public homepage', () => {
+    render(<NavBrand surface="home" onClick={() => {}} />);
+
+    expect(screen.getByLabelText('Bitcode logo')).toBeTruthy();
+    expect(screen.getByText('Bitcode')).toBeTruthy();
+    expect(screen.getByText('homepage')).toBeTruthy();
+  });
+
   it('renders docs copy for mounted docs routes', () => {
     render(<NavBrand surface="docs" onClick={() => {}} />);
 

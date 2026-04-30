@@ -1,6 +1,5 @@
 'use client';
 
-import Link from 'next/link';
 import { useEffect, useMemo, useState } from 'react';
 
 import {
@@ -328,12 +327,9 @@ export default function ApplicationTransactionWorkspace({
               <span className="rounded-full border border-white/12 bg-white/5 px-2.5 py-1 text-[0.68rem] uppercase tracking-[0.22em] text-neutral-200">
                 {getTransactionDataModeLabel(transactionDataMode)}
               </span>
-              <Link
-                href={`/application?transactionId=${encodeURIComponent(selectedRun.id)}&transactionDetail=activity`}
-                className="rounded-full border border-white/12 bg-white/5 px-3 py-2 text-[0.7rem] uppercase tracking-[0.2em] text-neutral-200 transition hover:border-white/20 hover:bg-white/10"
-              >
-                Open in Bitcode Terminal
-              </Link>
+              <span className="rounded-full border border-white/12 bg-white/5 px-3 py-2 text-[0.7rem] uppercase tracking-[0.2em] text-neutral-200">
+                Detail active
+              </span>
             </div>
           ) : null}
         </div>
