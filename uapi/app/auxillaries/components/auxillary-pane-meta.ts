@@ -109,13 +109,13 @@ export function getAuxillaryDescriptor(step: ConcreteAuxillaryPane) {
 export function getAuxillaryLayerLabel(step: ConcreteAuxillaryPane) {
   switch (step) {
     case 'connects':
-      return 'outer ring';
+      return 'connection lane';
     case 'interfaces':
-      return 'mid ring';
+      return 'interface lane';
     case 'profile':
-      return 'inner ring';
+      return 'identity lane';
     case 'btd':
-      return 'core ring';
+      return '$BTD lane';
     default:
       return 'auxillary';
   }
@@ -134,7 +134,7 @@ export function getAuxillariesWorkspaceHeading(mode: 'onboarding' | 'auxillaries
 
 export function getAuxillariesWorkspaceDescription(mode: 'onboarding' | 'auxillaries') {
   return mode === 'auxillaries'
-    ? 'The four-ring model stays visible while the active auxillary opens in a stable reading surface tuned for the Bitcode Terminal, need measurement, settlements, interface posture, and auxillary follow-through.'
+    ? 'Use the selector list to keep each auxillary attached to the same stable reading surface: connections, interface defaults, wallet identity, balances, and follow-through stay one click apart without changing the Terminal context.'
     : 'Open Bitcode access in a stable auxillary read, then move between Profile, Connects, Interfaces, and $BTD without losing the active pane or route context.';
 }
 

@@ -1,7 +1,7 @@
 "use client";
 
 import React, { createContext, useContext, useState, useCallback, useEffect } from 'react';
-import type { AuxillaryPane } from './auxillary-pane-meta';
+import { isAuxillariesPath, isOrbitalsCompatibilityPath, type AuxillaryPane } from './auxillary-pane-meta';
 import { createPortal } from 'react-dom';
 import dynamic from 'next/dynamic';
 
@@ -37,6 +37,15 @@ function normalizeAuxillaryWindow(winOrLegacy: AuxillaryOpenMode = 'SignUpWindow
   }
 
   return winOrLegacy;
+}
+
+function isDedicatedAuxillariesLocation() {
+  if (typeof window === 'undefined') {
+    return false;
+  }
+
+  const pathname = window.location.pathname;
+  return isAuxillariesPath(pathname) || isOrbitalsCompatibilityPath(pathname);
 }
 
 interface AuxillariesContextType {
@@ -82,6 +91,12 @@ export default function AuxillariesProvider({ children }: { children: React.Reac
         step?: AuxillaryPane;
       } | undefined;
 
+      if (isDedicatedAuxillariesLocation()) {
+        setIsOpen(false);
+        setDeepLinkStep(null);
+        return;
+      }
+
       if (detail?.window) setWindowState(detail.window);
       else if (detail?.mode) setWindowState(normalizeAuxillaryWindow(detail.mode));
       setDeepLinkStep(detail?.step ?? null);
@@ -103,6 +118,12 @@ export default function AuxillariesProvider({ children }: { children: React.Reac
   }, []);
 
   const openAuxillaries = useCallback((win: AuxillaryWindow = 'SignUpWindow') => {
+    if (isDedicatedAuxillariesLocation()) {
+      setIsOpen(false);
+      setDeepLinkStep(null);
+      return;
+    }
+
     setWindowState(win);
     setIsOpen(true);
   }, []);
@@ -113,6 +134,12 @@ export default function AuxillariesProvider({ children }: { children: React.Reac
   }, []);
 
   const toggleAuxillaries = useCallback((win?: AuxillaryWindow) => {
+    if (isDedicatedAuxillariesLocation()) {
+      setIsOpen(false);
+      setDeepLinkStep(null);
+      return;
+    }
+
     if (typeof win !== 'undefined') setWindowState(win);
     setIsOpen((prev) => {
       const next = !prev;

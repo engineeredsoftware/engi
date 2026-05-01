@@ -218,14 +218,16 @@ function AuxillariesContent(props: AuxillariesContentProps) {
       )}
 
       {usesContainedLayout ? (
-        <div className="orbital-workspace-shell">
-          <aside className="orbital-workspace-nav">
-            <div className="orbital-workspace-nav-copy">
-              <p className="orbital-workspace-kicker">
+        <div className="orbital-workspace-shell auxillaries-bitcode-shell">
+          <aside className="orbital-workspace-nav auxillaries-bitcode-selector">
+            <div className="orbital-workspace-nav-copy auxillaries-bitcode-selector-copy">
+              <p className="orbital-workspace-kicker auxillaries-bitcode-kicker">
                 {isAuxillariesMode ? AUXILLARIES_LABEL : AUXILLARIES_ACCESS_LABEL}
               </p>
-              <h3 className="orbital-workspace-title">{getAuxillariesWorkspaceHeading(mode)}</h3>
-              <p className="orbital-workspace-description">{getAuxillariesWorkspaceDescription(mode)}</p>
+              <h3 className="orbital-workspace-title auxillaries-bitcode-title">{getAuxillariesWorkspaceHeading(mode)}</h3>
+              <p className="orbital-workspace-description auxillaries-bitcode-description">
+                {getAuxillariesWorkspaceDescription(mode)}
+              </p>
             </div>
             <AuxillariesWorkspacePanels
               steps={steps}
@@ -233,16 +235,8 @@ function AuxillariesContent(props: AuxillariesContentProps) {
               availableSteps={availableSteps}
               onStepClick={onStepClick}
             />
-            <AuxillariesPaneTabs
-              mode={mode}
-              steps={steps}
-              currentStep={currentStep}
-              completedSteps={completedSteps}
-              availableSteps={availableSteps}
-              onStepClick={onStepClick}
-            />
           </aside>
-          <div className="orbital-workspace-stage">{contentPanel}</div>
+          <div className="orbital-workspace-stage auxillaries-bitcode-pane">{contentPanel}</div>
         </div>
       ) : (
         <>

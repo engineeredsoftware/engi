@@ -455,7 +455,8 @@ export default function AuxillariesSurface({
 
   const showLoginPane = activeWindow === 'SignInWindow' && !sessionUser;
   const usesApplicationOverlay = isApplicationRoute;
-  const usesContainedAuxillariesSurface = usesApplicationOverlay || isDedicatedAuxillariesRoute;
+  const usesContainedAuxillariesSurface = usesApplicationOverlay || isDedicatedAuxillariesRoute || isAuxillariesSurface;
+  const usesBitcodeAuxillariesSurface = usesContainedAuxillariesSurface;
   const auxillariesSurfaceClass = isDedicatedAuxillariesRoute ? 'orbital-system-route' : 'orbital-system-overlay';
   const auxillariesBackgroundClass = usesContainedAuxillariesSurface
     ? 'orbital-application-background'
@@ -468,7 +469,7 @@ export default function AuxillariesSurface({
   return (
     <div
       ref={containerRef}
-      className={`orbital-system ${auxillariesSurfaceClass} ${activeWindow === 'SignUpWindow' && !isAuxillariesSurface && !usesApplicationOverlay ? 'orbital-system-onboarding' : ''} ${usesApplicationOverlay ? 'orbital-system-application' : ''} ${isDedicatedAuxillariesRoute ? 'orbital-system-route-surface' : ''} ${deferredAnimationsEnabled ? '' : 'animations-disabled'} ${className}`}
+      className={`orbital-system ${auxillariesSurfaceClass} ${usesBitcodeAuxillariesSurface ? 'auxillaries-bitcode-surface' : ''} ${activeWindow === 'SignUpWindow' && !isAuxillariesSurface && !usesApplicationOverlay ? 'orbital-system-onboarding' : ''} ${usesApplicationOverlay ? 'orbital-system-application' : ''} ${isDedicatedAuxillariesRoute ? 'orbital-system-route-surface auxillaries-bitcode-route-surface' : ''} ${deferredAnimationsEnabled ? '' : 'animations-disabled'} ${className}`}
       tabIndex={0}
       onKeyDown={(event) => event.key === 'Escape' && onClose?.()}
     >
@@ -511,15 +512,17 @@ export default function AuxillariesSurface({
         )}
       </div>
 
-      <GPUAcceleration>
-        <OrbitalRings
-          count={4}
-          baseSize={30}
-          sizeIncrement={15}
-          activeIndex={showLoginPane ? 0 : getAuxillaryRingIndex(currentStep)}
-          className={`${auxillariesBackgroundClass} ${auxillariesBackgroundAnimationClass}`.trim()}
-        />
-      </GPUAcceleration>
+      {!usesContainedAuxillariesSurface ? (
+        <GPUAcceleration>
+          <OrbitalRings
+            count={4}
+            baseSize={30}
+            sizeIncrement={15}
+            activeIndex={showLoginPane ? 0 : getAuxillaryRingIndex(currentStep)}
+            className={`${auxillariesBackgroundClass} ${auxillariesBackgroundAnimationClass}`.trim()}
+          />
+        </GPUAcceleration>
+      ) : null}
 
       <ContentVisibility containSize="600px 400px">
         {showLoginPane ? (

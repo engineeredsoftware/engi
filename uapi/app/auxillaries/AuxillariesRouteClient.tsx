@@ -4,6 +4,7 @@ import React from 'react';
 import Link from 'next/link';
 
 import AuxillariesSurface from '@/app/auxillaries/components/AuxillariesSurface';
+import { closeAuxillaries } from '@/app/auxillaries/components/AuxillariesProvider';
 import {
   buildAuxillariesRoutePath,
   getAuxillaryDescriptor,
@@ -18,6 +19,10 @@ interface AuxillariesRouteClientProps {
 }
 
 export default function AuxillariesRouteClient({ step }: AuxillariesRouteClientProps) {
+  React.useEffect(() => {
+    closeAuxillaries();
+  }, []);
+
   const descriptor = getAuxillaryDescriptor(step);
   const auxillaries: AuxillaryPaneDescriptor[] = AUXILLARY_ROUTE_SEQUENCE.map((auxillaryStep) =>
     getAuxillaryDescriptor(auxillaryStep),

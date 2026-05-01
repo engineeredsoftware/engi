@@ -9,6 +9,7 @@ import "@/styles/marketing-animations.css";
 import "@/styles/orbital-rings.css";
 import "@/styles/orbital.css";
 import "@/styles/orbital-global.css";
+import "@/styles/auxillaries-bitcode.css";
 import "@/styles/skeleton-shine.css";
 import "@/styles/components.css";
 import { Analytics } from "@vercel/analytics/react"
