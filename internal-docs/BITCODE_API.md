@@ -32,7 +32,7 @@ Current V26 families:
 
 ## Execution and AssetPack Routes
 
-The current execution route corridor still uses compatibility parameters such as `type=pipeline:deliverables`. Product meaning is AssetPack execution.
+The current execution route corridor uses `agentic-execution:asset-pack` for V26 AssetPack execution.
 
 Route behavior must preserve:
 - typed input normalization,

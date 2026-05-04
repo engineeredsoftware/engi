@@ -110,7 +110,7 @@ export async function validateAPIResponse(rawResponse: string) {
 import { extractJsonFromResponse, parseResponse } from '@bitcode/parsing';
 import { z } from 'zod';
 
-const DeliverableSchema = z.object({
+const AssetPackEvidenceSchema = z.object({
   id: z.string(),
   title: z.string(),
   description: z.string(),
@@ -126,14 +126,14 @@ const DeliverableSchema = z.object({
   tags: z.array(z.string()).optional()
 });
 
-class DeliverableParser {
-  async parseDeliverable(llmOutput: string) {
+class AssetPackEvidenceParser {
+  async parseAssetPackEvidence(llmOutput: string) {
     try {
       // First attempt: direct parsing
       const result = await parseResponse(
         llmOutput,
-        DeliverableSchema,
-        this.createFallbackDeliverable
+        AssetPackEvidenceSchema,
+        this.createFallbackAssetPackEvidence
       );
       
       return result;
@@ -142,16 +142,16 @@ class DeliverableParser {
       const extracted = extractJsonFromResponse(llmOutput);
       return await parseResponse(
         extracted,
-        DeliverableSchema,
-        this.createFallbackDeliverable
+        AssetPackEvidenceSchema,
+        this.createFallbackAssetPackEvidence
       );
     }
   }
   
-  private createFallbackDeliverable() {
+  private createFallbackAssetPackEvidence() {
     return {
       id: generateId(),
-      title: 'Untitled Deliverable',
+      title: 'Untitled AssetPack evidence',
       description: 'Description not provided',
       requirements: [],
       timeline: {

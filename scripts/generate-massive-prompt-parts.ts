@@ -279,88 +279,86 @@ const genericCategories: PromptCategory[] = [
 
 const assetPackCategories: PromptCategory[] = [
   {
-    name: 'pr_excellence',
+    name: 'need_comprehension',
     parts: [
       {
-        suffix: 'pr_title_crafting',
-        description: 'Crafting perfect PR titles',
-        content: 'PR TITLE EXCELLENCE:\nBe specific and descriptive.\nUse conventional prefixes (feat, fix, chore).\nKeep under 50 characters.',
+        suffix: 'need_semantics',
+        description: 'Need semantics for AssetPack runs',
+        content: 'NEED SEMANTICS:\nPreserve the expressed need exactly.\nSeparate need facts from implementation guesses.\nRecord assumptions as evidence for Finish reread.',
         priority: 'high'
       },
       {
-        suffix: 'pr_description_structure',
-        description: 'PR description structure',
-        content: 'PR DESCRIPTION STRUCTURE:\n## What\nClear explanation of changes\n\n## Why\nContext and motivation\n\n## How\nImplementation approach\n\n## Testing\nHow changes were validated'
+        suffix: 'satisfaction_criteria',
+        description: 'Need-satisfaction criteria',
+        content: 'NEED-SATISFACTION CRITERIA:\nState measurable acceptance criteria.\nTie each criterion to source evidence.\nKeep delivery-mechanism preferences subordinate to need satisfaction.'
       },
       {
-        suffix: 'pr_commit_hygiene',
-        description: 'Commit message hygiene',
-        content: 'COMMIT HYGIENE:\nAtomic commits only.\nDescriptive messages.\nReference issues.\nSign-off when required.'
-      },
-      {
-        suffix: 'pr_review_readiness',
-        description: 'PR review readiness',
-        content: 'REVIEW READINESS:\nSelf-review first.\nResolve conflicts.\nUpdate documentation.\nAdd reviewer notes.'
+        suffix: 'delivery_boundary',
+        description: 'Delivery-mechanism boundary',
+        content: 'DELIVERY-MECHANISM BOUNDARY:\nTreat GitHub pull requests as V26 delivery mechanisms.\nDo not branch into issues, comments, reviews, or uploads.\nKeep stored AssetPack evidence primary.'
       }
     ]
   },
   {
-    name: 'review_excellence',
+    name: 'asset_pack_synthesis',
     parts: [
       {
-        suffix: 'review_thoroughness',
-        description: 'Thorough code review approach',
-        content: 'REVIEW THOROUGHNESS:\nCheck logic correctness.\nVerify test coverage.\nAssess performance impact.\nReview security implications.'
+        suffix: 'synthesis_plan',
+        description: 'AssetPack synthesis plan',
+        content: 'ASSETPACK SYNTHESIS PLAN:\nDerive implementation work from the expressed need.\nPreserve written-asset intent.\nName source files, proof hooks, and verification commands before mutation.',
+        priority: 'high'
       },
       {
-        suffix: 'review_constructiveness',
-        description: 'Constructive review feedback',
-        content: 'CONSTRUCTIVE FEEDBACK:\nSuggest improvements.\nExplain reasoning.\nProvide examples.\nAcknowledge good work.'
+        suffix: 'written_asset_integrity',
+        description: 'Written-asset integrity',
+        content: 'WRITTEN-ASSET INTEGRITY:\nKeep generated changes coherent as AssetPack synthesis artifacts.\nVerify changed files against need-satisfaction criteria.\nAvoid compatibility aliases once canonical Bitcode names exist.'
       },
       {
-        suffix: 'review_efficiency',
-        description: 'Efficient review process',
-        content: 'EFFICIENT REVIEWS:\nFocus on important issues.\nUse review tools effectively.\nBatch similar comments.\nPrioritize blockers.'
+        suffix: 'proof_evidence',
+        description: 'Proof evidence capture',
+        content: 'PROOF EVIDENCE:\nCapture tests, typechecks, scans, and source references.\nBind evidence to the AssetPack run.\nPreserve failures honestly for Finish completion.'
       }
     ]
   },
   {
-    name: 'implementation_excellence',
+    name: 'finish_evidence',
     parts: [
       {
-        suffix: 'implementation_planning',
-        description: 'Implementation planning',
-        content: 'IMPLEMENTATION PLANNING:\nBreak down into tasks.\nIdentify dependencies.\nEstimate complexity.\nPlan incrementally.'
+        suffix: 'stored_asset_pack_evidence',
+        description: 'Stored AssetPack evidence',
+        content: 'STORED ASSETPACK EVIDENCE:\nSummarize synthesized artifacts, proof commands, and repository state.\nStore evidence for Exchange and Terminal reread.\nDo not emit deliverables mirrors.',
+        priority: 'high'
       },
       {
-        suffix: 'implementation_execution',
-        description: 'Implementation execution',
-        content: 'IMPLEMENTATION EXECUTION:\nFollow established patterns.\nWrite tests first.\nRefactor as you go.\nCommit frequently.'
+        suffix: 'asset_pack_completion',
+        description: 'AssetPack completion payload',
+        content: 'ASSETPACK COMPLETION:\nCarry summary, assetPackSynthesisArtifacts, writtenAssets, shippables, deliveryMechanism, need, writtenAssetType, and repoSnapshot.\nReplace finalWorkSummary semantics completely.'
       },
       {
-        suffix: 'implementation_validation',
-        description: 'Implementation validation',
-        content: 'IMPLEMENTATION VALIDATION:\nRun all tests.\nCheck edge cases.\nVerify performance.\nReview security.'
+        suffix: 'terminal_reread',
+        description: 'Terminal reread evidence',
+        content: 'TERMINAL REREAD:\nPrefer assetPackSynthesisArtifacts, then semantic writtenAssets, then Shippables.\nExpose proof evidence without old-world output taxonomy.\nKeep payload fields Bitcode-native.'
       }
     ]
   },
   {
-    name: 'shipping_excellence',
+    name: 'pull_request_delivery',
     parts: [
       {
-        suffix: 'shipping_preparation',
-        description: 'Shipping preparation',
-        content: 'SHIPPING PREPARATION:\nVerify CI/CD green.\nUpdate changelogs.\nPrepare release notes.\nNotify stakeholders.'
+        suffix: 'pr_shippable',
+        description: 'GitHub pull-request Shippable',
+        content: 'PULL-REQUEST SHIPPABLE:\nCreate one GitHub pull request delivery mechanism from validated AssetPack evidence.\nLink summary and proof evidence.\nKeep the PR subordinate to the AssetPack completion.',
+        priority: 'high'
       },
       {
-        suffix: 'shipping_execution',
-        description: 'Shipping execution',
-        content: 'SHIPPING EXECUTION:\nFollow deployment procedures.\nMonitor rollout.\nVerify functionality.\nBe ready to rollback.'
+        suffix: 'delivery_metadata',
+        description: 'Delivery metadata',
+        content: 'DELIVERY METADATA:\nRecord pullRequestUrl, branch, repository, and proof context.\nDo not invent review, issue, comment, Jira, or upload branches in V26.\nPreserve delivery mechanism boundaries.'
       },
       {
-        suffix: 'shipping_celebration',
-        description: 'Shipping celebration',
-        content: 'SHIPPING CELEBRATION:\nAcknowledge team effort.\nShare success metrics.\nDocument learnings.\nPlan next iteration.'
+        suffix: 'delivery_review_context',
+        description: 'Delivery review context',
+        content: 'DELIVERY REVIEW CONTEXT:\nPrepare concise reviewer context from stored AssetPack evidence.\nName validation commands and known residual risks.\nAvoid broad release or deployment ceremony language.'
       }
     ]
   }
@@ -400,7 +398,7 @@ export const ${exportName}: PromptPart = \`${part.content}\` as PromptPart;`;
     });
   });
   
-  // Generate AssetPack specific prompt parts.
+  // Generate Bitcode AssetPack specific prompt parts.
   assetPackCategories.forEach(category => {
     category.parts.forEach(part => {
       const filename = `promptpart_specific_assetpack_${category.name}_${part.suffix}`;
@@ -412,7 +410,7 @@ export const ${exportName}: PromptPart = \`${part.content}\` as PromptPart;`;
  * name: "assetpack_${category.name}_${part.suffix}"
  * category: "assetpack_${category.name}"
  * description: "${part.description}"
- * usage: "AssetPack pipeline ${category.name} for Bitcode need-satisfaction runs"
+ * usage: "Bitcode AssetPack ${category.name} guidance for need-satisfaction, stored evidence, and PR Shippables"
  * priority: "${priority}"
  * version: "1.0.0"
  */

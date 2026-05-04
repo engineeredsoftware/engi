@@ -142,7 +142,7 @@ import {
  *   codeAnalysisFactRegistry: any,
  *   staticHeuristicsRegistry: any,
  *   needMeasurement: { measurementProvenance: any[] },
- *   deliverablesManifest: { deliverables: any[] },
+ *   assetPackEvidenceManifest: { assetPackEvidence: any[] },
  *   staticMeasurementReport: any,
  *   staticMeasurementProof: any,
  *   proofWitnessManifest?: any
@@ -867,10 +867,10 @@ test('runMakeBitcodeBranch emits V24 draft-target external realization artifacts
   assert.equal(latestRun.externalRealizationProof.allTheoremsPassed, true);
   assert.equal(latestRun.containerRealityProof.allTheoremsPassed, true);
   assert.equal(latestRun.githubLiveInterfaceProof.allTheoremsPassed, true);
-  assert.ok(latestRun.deliverablesManifest.deliverables.some((entry) => entry.path === '.bitcode/external-environment-profile.json'));
-  assert.ok(latestRun.deliverablesManifest.deliverables.some((entry) => entry.path === '.bitcode/external-telemetry-summary.json'));
-  assert.ok(latestRun.deliverablesManifest.deliverables.some((entry) => entry.path === '.bitcode/bitcoin-network-intent.json'));
-  assert.ok(latestRun.deliverablesManifest.deliverables.some((entry) => entry.path === '.bitcode/external-realization-proof.json'));
+  assert.ok(latestRun.assetPackEvidenceManifest.assetPackEvidence.some((entry) => entry.path === '.bitcode/external-environment-profile.json'));
+  assert.ok(latestRun.assetPackEvidenceManifest.assetPackEvidence.some((entry) => entry.path === '.bitcode/external-telemetry-summary.json'));
+  assert.ok(latestRun.assetPackEvidenceManifest.assetPackEvidence.some((entry) => entry.path === '.bitcode/bitcoin-network-intent.json'));
+  assert.ok(latestRun.assetPackEvidenceManifest.assetPackEvidence.some((entry) => entry.path === '.bitcode/external-realization-proof.json'));
   assert.ok(latestRun.branchArtifacts.files['.bitcode/external-environment-profile.json']);
   assert.ok(latestRun.branchArtifacts.files['.bitcode/external-execution-policy.json']);
   assert.ok(latestRun.branchArtifacts.files['.bitcode/external-telemetry-policy.json']);
@@ -1515,27 +1515,27 @@ test('measurement receipts and static report stay linked to provenance ids', () 
   assert.ok(latestRun.verificationReceipts.verificationReceipts.length >= latestRun.evaluatedCandidates.length);
 });
 
-test('deliverables manifest and journal receipts remain internally consistent', () => {
+test('AssetPack evidence manifest and journal receipts remain internally consistent', () => {
   const state = buildInitialStateTest();
   const { latestRun } = runMakeBitcodeBranchTest(state, {});
 
-  assert.ok(latestRun.deliverablesManifest.deliverables.some((entry) => entry.path === '.bitcode/need-measurement.json'));
-  assert.ok(latestRun.deliverablesManifest.deliverables.some((entry) => entry.path === '.bitcode/need-review.json'));
-  assert.ok(latestRun.deliverablesManifest.deliverables.some((entry) => entry.path === '.bitcode/eval-manifest.json'));
-  assert.ok(latestRun.deliverablesManifest.deliverables.some((entry) => entry.path === '.bitcode/settlement-proof.json'));
-  assert.ok(latestRun.deliverablesManifest.deliverables.some((entry) => entry.path === '.bitcode/journal-diff.json'));
-  assert.ok(latestRun.deliverablesManifest.deliverables.some((entry) => entry.path === '.bitcode/authorization-decisions.json'));
-  assert.ok(latestRun.deliverablesManifest.deliverables.some((entry) => entry.path === '.bitcode/sensitive-data-flow.json'));
-  assert.ok(latestRun.deliverablesManifest.deliverables.some((entry) => entry.path === '.bitcode/proof-witness-manifest.json'));
-  assert.ok(latestRun.deliverablesManifest.deliverables.some((entry) => entry.path === '.bitcode/static-heuristics-registry.json'));
-  assert.ok(latestRun.deliverablesManifest.deliverables.some((entry) => entry.path === '.bitcode/prompt-family-registry.json'));
-  assert.ok(latestRun.deliverablesManifest.deliverables.some((entry) => entry.path === '.bitcode/inference-moment-contracts.json'));
-  assert.ok(latestRun.deliverablesManifest.deliverables.some((entry) => entry.path === '.bitcode/inference-proofs.json'));
-  assert.ok(latestRun.deliverablesManifest.deliverables.some((entry) => entry.path === '.bitcode/prompt-implementation-surface.json'));
-  assert.ok(latestRun.deliverablesManifest.deliverables.some((entry) => entry.path === '.bitcode/materialization-proof.json'));
-  assert.ok(latestRun.deliverablesManifest.deliverables.some((entry) => entry.path === '.bitcode/materialization-exclusions.json'));
-  assert.ok(latestRun.deliverablesManifest.deliverables.some((entry) => entry.path === '.bitcode/deliverables.json'));
-  assert.ok(latestRun.branchArtifacts.files['.bitcode/deliverables.json']);
+  assert.ok(latestRun.assetPackEvidenceManifest.assetPackEvidence.some((entry) => entry.path === '.bitcode/need-measurement.json'));
+  assert.ok(latestRun.assetPackEvidenceManifest.assetPackEvidence.some((entry) => entry.path === '.bitcode/need-review.json'));
+  assert.ok(latestRun.assetPackEvidenceManifest.assetPackEvidence.some((entry) => entry.path === '.bitcode/eval-manifest.json'));
+  assert.ok(latestRun.assetPackEvidenceManifest.assetPackEvidence.some((entry) => entry.path === '.bitcode/settlement-proof.json'));
+  assert.ok(latestRun.assetPackEvidenceManifest.assetPackEvidence.some((entry) => entry.path === '.bitcode/journal-diff.json'));
+  assert.ok(latestRun.assetPackEvidenceManifest.assetPackEvidence.some((entry) => entry.path === '.bitcode/authorization-decisions.json'));
+  assert.ok(latestRun.assetPackEvidenceManifest.assetPackEvidence.some((entry) => entry.path === '.bitcode/sensitive-data-flow.json'));
+  assert.ok(latestRun.assetPackEvidenceManifest.assetPackEvidence.some((entry) => entry.path === '.bitcode/proof-witness-manifest.json'));
+  assert.ok(latestRun.assetPackEvidenceManifest.assetPackEvidence.some((entry) => entry.path === '.bitcode/static-heuristics-registry.json'));
+  assert.ok(latestRun.assetPackEvidenceManifest.assetPackEvidence.some((entry) => entry.path === '.bitcode/prompt-family-registry.json'));
+  assert.ok(latestRun.assetPackEvidenceManifest.assetPackEvidence.some((entry) => entry.path === '.bitcode/inference-moment-contracts.json'));
+  assert.ok(latestRun.assetPackEvidenceManifest.assetPackEvidence.some((entry) => entry.path === '.bitcode/inference-proofs.json'));
+  assert.ok(latestRun.assetPackEvidenceManifest.assetPackEvidence.some((entry) => entry.path === '.bitcode/prompt-implementation-surface.json'));
+  assert.ok(latestRun.assetPackEvidenceManifest.assetPackEvidence.some((entry) => entry.path === '.bitcode/materialization-proof.json'));
+  assert.ok(latestRun.assetPackEvidenceManifest.assetPackEvidence.some((entry) => entry.path === '.bitcode/materialization-exclusions.json'));
+  assert.ok(latestRun.assetPackEvidenceManifest.assetPackEvidence.some((entry) => entry.path === '.bitcode/asset-pack-evidence.json'));
+  assert.ok(latestRun.branchArtifacts.files['.bitcode/asset-pack-evidence.json']);
   assert.equal(latestRun.journalDiff.receipts.length, 3);
   assert.ok(latestRun.journalDiff.receipts.some((entry) => entry.receiptKind === 'settlement-asset-pack-fit-quality'));
   assert.ok(latestRun.journalDiff.credits.every((entry) => entry.unitRefs.length > 0));

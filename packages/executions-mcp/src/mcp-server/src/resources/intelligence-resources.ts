@@ -15,7 +15,7 @@ import { logger } from '@bitcode/logger';
 import { createClient } from '@bitcode/supabase';
 import {
   PipelineExecutionsModel,
-  DeliverablesModel,
+  AssetPackEvidenceModel as AssetPackEvidenceStorageModel,
   UserConnectionsModel,
   OrganizationsModel,
   UserProfilesModel
@@ -34,9 +34,9 @@ interface MCPResource {
 }
 
 type PipelineRun = Awaited<ReturnType<PipelineExecutionsModel['getAll']>>[number];
-type DeliverableRecord = Awaited<ReturnType<DeliverablesModel['getAll']>>[number];
+type AssetPackEvidenceRecord = Awaited<ReturnType<AssetPackEvidenceStorageModel['getAll']>>[number];
 type UpgradeRecommendationInput = {
-  deliverable: DeliverableRecord;
+  assetPackEvidence: AssetPackEvidenceRecord;
   runs: PipelineRun[];
 };
 
@@ -173,7 +173,7 @@ async function performIntelligenceSynthesis(
   // Analyze pipeline types usage
   const pipelineTypeUsage = pipelines.reduce((acc, pipeline) => {
     const metadata = getMetadata(pipeline);
-    const pipelineType = typeof metadata.pipeline === 'string' ? metadata.pipeline : 'deliverable';
+    const pipelineType = typeof metadata.pipeline === 'string' ? metadata.pipeline : 'asset-pack';
     acc[pipelineType] = (acc[pipelineType] || 0) + 1;
     return acc;
   }, {} as Record<string, number>);
@@ -550,33 +550,33 @@ function generateRecommendations(
  */
 async function getUpgradeRecommendations(context: MCPAuthContext, options: any = {}): Promise<any> {
   const supabase = createClient();
-  const deliverables = new DeliverablesModel(supabase);
+  const assetPackEvidenceStorage = new AssetPackEvidenceStorageModel(supabase);
   const pipelineRuns = new PipelineExecutionsModel(supabase);
 
   try {
-    // Get deliverables with ai_document metadata
-    let allDeliverables = await deliverables.getAll();
+    // Get AssetPack evidence rows with ai_document metadata
+    let allAssetPackEvidence = await assetPackEvidenceStorage.getAll();
     
     // Apply organization filtering
     if (context.organizationRole !== 'admin' && 
         context.organizationRole !== 'owner' && 
         context.organizationId) {
-      allDeliverables = allDeliverables.filter((deliverable) => deliverable.organization_id === context.organizationId);
+      allAssetPackEvidence = allAssetPackEvidence.filter((entry) => entry.organization_id === context.organizationId);
     }
 
-    // Filter for upgrade-related deliverables
-    const upgradeDeliverables = allDeliverables.filter((deliverable) => {
-      const metadata = deliverable.metadata as Record<string, any> | null;
+    // Filter for upgrade-related AssetPack evidence rows
+    const upgradeAssetPackEvidence = allAssetPackEvidence.filter((entry) => {
+      const metadata = entry.metadata as Record<string, any> | null;
       return metadata?.type === 'ai_document' ||
              metadata?.pipeline === 'ai_document' ||
-             deliverable.name?.toLowerCase().includes('ai_document');
+             entry.name?.toLowerCase().includes('ai_document');
     });
 
-    // Get runs for these deliverables to analyze effectiveness
+    // Get runs for these AssetPack evidence rows to analyze effectiveness
     const upgradeRuns: UpgradeRecommendationInput[] = await Promise.all(
-      upgradeDeliverables.slice(0, 50).map(async (d) => {
-        const deliverableRuns = await pipelineRuns.getByDeliverableId(d.id);
-        return { deliverable: d, runs: deliverableRuns };
+      upgradeAssetPackEvidence.slice(0, 50).map(async (entry) => {
+        const assetPackRuns = await pipelineRuns.getByAssetPackEvidenceId(entry.id);
+        return { assetPackEvidence: entry, runs: assetPackRuns };
       })
     );
 
@@ -608,7 +608,7 @@ function generateUpgradeRecommendations(
   const recommendations: Array<Record<string, unknown>> = [];
 
   for (const upgrade of upgradeData) {
-    const metadata = (upgrade.deliverable.metadata as Record<string, any> | null) || {};
+    const metadata = (upgrade.assetPackEvidence.metadata as Record<string, any> | null) || {};
     const packageName =
       (typeof metadata.package === 'string' && metadata.package) ||
       (typeof metadata.dependency === 'string' && metadata.dependency) ||
@@ -649,7 +649,7 @@ function generateUpgradeRecommendations(
       effort: typeof metadata.estimatedEffort === 'string' ? metadata.estimatedEffort : 'medium',
       reason:
         (typeof metadata.reason === 'string' && metadata.reason) ||
-        `Observed upgrade deliverable activity for ${packageName}`,
+        `Observed upgrade AssetPack evidence activity for ${packageName}`,
       repositories: repository ? [repository] : [],
       estimatedBtd,
       breakingChanges: Boolean(metadata.breakingChanges),

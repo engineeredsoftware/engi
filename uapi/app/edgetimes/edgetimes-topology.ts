@@ -100,7 +100,7 @@ export const EDGETIMES_TOPOLOGY = {
       title: 'Executions, runs, and AssetPacks',
       detail: 'Execution and AssetPack state is partially typed already, but fifth-gate still has to finish the run/pipeline meaning system.',
       models: [
-        'DeliverablesModel',
+        'AssetPackEvidenceModel',
         'PipelineExecutionsModel',
         'ExecutionEventsModel',
         'PhaseExecutionsModel',
@@ -118,8 +118,8 @@ export const EDGETIMES_TOPOLOGY = {
     },
   ] as const satisfies readonly EdgetimesModelGroup[],
   unresolvedTables: [
-    'deliverable_vectors',
-    'deliverable_run_phases',
+    'asset_pack_vectors',
+    'asset_pack_phase_executions',
     'run_jobs',
     'run_otf_instructions',
     'stream_logs',

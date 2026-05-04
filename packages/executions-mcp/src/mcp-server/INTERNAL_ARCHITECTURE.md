@@ -421,7 +421,7 @@ interface CreditConsumption {
 
 const CREDIT_STRUCTURE: CreditConsumption[] = [
   {
-    tool: 'deliverable/create',
+    tool: 'asset-pack/create',
     baseCredits: 100,
     modifiers: { complexity: 3, attachments: 10, streaming: 1.2, priority: 2 }
   },

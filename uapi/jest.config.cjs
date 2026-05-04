@@ -93,7 +93,7 @@ module.exports = {
     // '<rootDir>/tests/pipelineDiscoveryGetAI Documents.test.ts', // removed legacy test
     // Meta-level prompt builder tests
     '<rootDir>/tests/meta/**/buildMessagesWithSystemPrompt.test.ts',
-    // Include API integration tests for deliverables
+    // Include API integration tests for AssetPack and Shippable routes
     '<rootDir>/tests/api/**/*.test.ts',
     '<rootDir>/tests/api/**/*.test.tsx',
     '<rootDir>/tests/webhookRoute.test.ts',
@@ -102,7 +102,6 @@ module.exports = {
     ,
     // Added targeted AssetPack/runtime tests
     '<rootDir>/tests/searchRelevantAssetPackEvidence.test.ts',
-    '<rootDir>/tests/deliverablesStreamRoute.test.ts',
     '<rootDir>/tests/RunDetailsView.mapping.test.tsx',
     '<rootDir>/tests/usePipelineExecution.test.tsx',
     // Fifth-gate BTD and auxillaries coverage
@@ -139,9 +138,7 @@ module.exports = {
     // Do not run Playwright e2e tests in Jest
     '<rootDir>/tests/e2e/',
     // 'pipeline.*\.test\.[jt]sx?$', // allow pipelineDiscoveryGetAI Documents.test.ts
-    'setupDeliverablesAgents.test.[jt]sx?$',
     'fetchAI DocumentsAgent.test.[jt]sx?$',
-    'deliverables.test.[jt]sx?$',
   ],
   collectCoverage: false,
   coverageDirectory: 'coverage',

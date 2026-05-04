@@ -3,8 +3,8 @@ import { BaseModel } from './base';
 import type { Database, Insertable, Tables, Updatable } from '../types/database';
 
 export const BITCODE_EXECUTION_STORAGE_SCHEMA_PARITY = {
-  deliverable_run_phases: 'phase_executions',
-  deliverable_vectors: 'deliverable_vectors',
+  assetPackPhaseExecutions: 'phase_executions',
+  assetPackVectors: 'deliverable_vectors',
   run_jobs: 'run_jobs',
   run_otf_instructions: 'run_otf_instructions',
   stream_logs: 'stream_logs',
@@ -95,11 +95,11 @@ export class AssetPackVectorsModel extends BaseModel<'deliverable_vectors'> {
     super(supabase, 'deliverable_vectors');
   }
 
-  async listByDeliverableId(deliverableId: string, options?: { limit?: number }) {
+  async listByAssetPackEvidenceId(assetPackEvidenceId: string, options?: { limit?: number }) {
     let query = (this.client as any)
       .from(this.tableName)
       .select('*')
-      .eq('deliverable_id', deliverableId);
+      .eq('deliverable_id', assetPackEvidenceId);
 
     if (options?.limit) {
       query = query.limit(options.limit);

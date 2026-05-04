@@ -50,7 +50,7 @@ export const COMMON_REQUIRED_SPEC_APPENDIX_SECTIONS = [
   'Appendix H. Operator surface and quality contract catalog',
   'Appendix I. Scenario, workflow, and cross-product contract catalog',
   'Appendix J. Fail-closed contract and error posture matrix',
-  'Appendix K. Source-bearing deliverable and artifact contract catalog'
+  'Appendix K. Source-bearing AssetPack and artifact contract catalog'
 ];
 
 export const COMMON_REQUIRED_PROOF_FAMILY_SECTIONS = [
@@ -99,7 +99,7 @@ export const COMMON_REQUIRED_SUBSYSTEM_COVERAGE_PHRASES = [
   'recall and ranking',
   'verification decisions',
   'selection and materialization',
-  'branch artifacts and deliverables',
+  'branch artifacts and assetPackEvidence',
   'identity, authority, signing, and policy',
   'sensitive data and confidentiality flows',
   'projection, disclosure, and redaction',
@@ -360,8 +360,8 @@ function buildV21LikeProfile(version) {
     requiredCrossProductAppendixPhrases: COMMON_REQUIRED_CROSS_PRODUCT_APPENDIX_PHRASES,
     failClosedAppendixHeading: 'Appendix J. Fail-closed contract and error posture matrix',
     requiredFailClosedAppendixPhrases: COMMON_REQUIRED_FAIL_CLOSED_APPENDIX_PHRASES,
-    deliverableAppendixHeading: 'Appendix K. Source-bearing deliverable and artifact contract catalog',
-    requiredDeliverableAppendixPhrases: [
+    assetPackAppendixHeading: 'Appendix K. Source-bearing AssetPack and artifact contract catalog',
+    requiredAssetPackAppendixPhrases: [
       '.bitcode/asset-pack.lock.json',
       '.bitcode/selected-source-material.json',
       '.bitcode/verification-report.json',
@@ -424,8 +424,8 @@ function buildV22Profile() {
       ...base.requiredGeneratedArtifactPaths,
       '.bitcode/v22-canon-posture-drift-report.json'
     ],
-    requiredDeliverableAppendixPhrases: [
-      ...base.requiredDeliverableAppendixPhrases,
+    requiredAssetPackAppendixPhrases: [
+      ...base.requiredAssetPackAppendixPhrases,
       '.bitcode/v22-canon-posture-drift-report.json'
     ]
   };
@@ -517,8 +517,8 @@ function buildV23Profile() {
       'payment receipts must not finalize share- or journal-level consequences without explicit observation closure',
       'future promotion must fail closed if draft Bitcoin claims outrun implementation'
     ],
-    deliverableAppendixHeading: 'V23 artifact family additions',
-    requiredDeliverableAppendixPhrases: [
+    assetPackAppendixHeading: 'V23 artifact family additions',
+    requiredAssetPackAppendixPhrases: [
       '.bitcode/compute-reality-manifest.json',
       '.bitcode/storage-reality-manifest.json',
       '.bitcode/bitcoin-commitment-manifest.json',
@@ -637,8 +637,8 @@ function buildV24Profile() {
       'github observation drift',
       'spec checker profile omits full-canon carrier requirements'
     ],
-    requiredDeliverableAppendixPhrases: [
-      ...base.requiredDeliverableAppendixPhrases,
+    requiredAssetPackAppendixPhrases: [
+      ...base.requiredAssetPackAppendixPhrases,
       '.bitcode/external-environment-profile.json',
       '.bitcode/external-execution-policy.json',
       '.bitcode/external-telemetry-policy.json',
@@ -754,8 +754,8 @@ function buildV25Profile() {
       'no longer presents itself with pre-Bitcode product naming',
       'no longer presents itself as NGI'
     ],
-    deliverableAppendixHeading: 'V25 rename surface catalog',
-    requiredDeliverableAppendixPhrases: [
+    assetPackAppendixHeading: 'V25 rename surface catalog',
+    requiredAssetPackAppendixPhrases: [
       '.bitcode/*',
       'generated proof/report titles',
       'runtime posture strings',
@@ -855,8 +855,8 @@ function buildV20ProperProfile() {
       'public projection overexposure',
       'settlement conservation drift'
     ],
-    deliverableAppendixHeading: 'Appendix K. Source-bearing deliverable and artifact contract catalog',
-    requiredDeliverableAppendixPhrases: [
+    assetPackAppendixHeading: 'Appendix K. Source-bearing AssetPack and artifact contract catalog',
+    requiredAssetPackAppendixPhrases: [
       '.bitcode/asset-pack.lock.json',
       '.bitcode/selected-source-material.json',
       '.bitcode/verification-report.json',
@@ -1249,12 +1249,12 @@ export function buildV21SpecFamilyReport({
       `spec fail-closed appendix is missing "${phrase}".`
     );
   }
-  const deliverableAppendix = extractSection(specContent, profile.deliverableAppendixHeading);
-  for (const phrase of profile.requiredDeliverableAppendixPhrases) {
+  const assetPackAppendix = extractSection(specContent, profile.assetPackAppendixHeading);
+  for (const phrase of profile.requiredAssetPackAppendixPhrases) {
     recordFailure(
       failures,
-      containsPhrase(deliverableAppendix, phrase),
-      `spec deliverable/artifact appendix is missing "${phrase}".`
+      containsPhrase(assetPackAppendix, phrase),
+      `spec AssetPack/artifact appendix is missing "${phrase}".`
     );
   }
   for (const phrase of profile.forbiddenPhrases) {
@@ -1343,7 +1343,7 @@ export function buildV21SpecFamilyReport({
     requiredSubsystemDetailLabelCount: profile.requiredSubsystemDetailLabels.length,
     requiredCrossProductAppendixPhraseCount: profile.requiredCrossProductAppendixPhrases.length,
     requiredFailClosedAppendixPhraseCount: profile.requiredFailClosedAppendixPhrases.length,
-    requiredDeliverableAppendixPhraseCount: profile.requiredDeliverableAppendixPhrases.length
+    requiredAssetPackAppendixPhraseCount: profile.requiredAssetPackAppendixPhrases.length
   };
 }
 

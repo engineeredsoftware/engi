@@ -261,7 +261,6 @@ const V26_FOURTH_GATE_RUNS_PIPELINES_FILES = [
   'uapi/app/api/vcs/route.ts',
   'uapi/app/api/auxillaries/template-preferences/route.ts',
   'uapi/app/api/templates/shippables/route.ts',
-  'uapi/app/api/templates/deliverables/route.ts',
   'packages/api/src/routes/shippables.ts',
   'packages/api/src/pipelines/branch.ts',
   'packages/execution-generics/src/Execution.ts',
@@ -271,10 +270,7 @@ const V26_FOURTH_GATE_RUNS_PIPELINES_FILES = [
   'packages/pipelines-generics/src/execution/PipelineExecutor.ts',
   'packages/pipelines-generics/src/execution/route-pipeline-execution.ts',
   'packages/pipelines/asset-pack/src/run.ts',
-  'uapi/tests/deliverablesRoute.test.ts',
-  'uapi/tests/deliverablesInstallationsRoute.test.ts',
-  'uapi/tests/api/deliverables.test.ts',
-  'uapi/tests/api/deliverables.persistence.test.ts',
+  'uapi/tests/api/shippableTemplatesRoute.test.ts',
   'uapi/tests/api/vcsCompatibilityRoute.test.ts',
   'uapi/tests/api/orbitalsTemplatePreferencesRoute.test.ts',
   'uapi/tests/api/deliverableTemplatesRoute.test.ts',
@@ -1122,7 +1118,7 @@ function buildV26FourthGateReclosureReviewProof({
     ),
     criterion(
       'fourth-gate-criterion-04-inward-master-detail-port',
-      'Execution and deliverable master-detail patterns are ported inward to /application',
+      'Execution, AssetPack, and Shippable master-detail patterns are ported inward to /application',
       ['application-composition', 'runs-pipelines-totality'],
       'Application composition and runs proof families cover the inward master-detail transaction/workspace posture.'
     ),
@@ -1152,7 +1148,7 @@ function buildV26FourthGateReclosureReviewProof({
     ),
     criterion(
       'fourth-gate-criterion-09-run-pipeline-asset-meaning',
-      'Deliverable, run, and pipeline meaning are explicit under V26',
+      'AssetPack, Shippable, run, and pipeline meaning are explicit under V26',
       ['runs-pipelines-totality', 'inference-implementation-records'],
       'Runs/pipelines and inference records keep retained execution carriers tied to Bitcode activity, AssetPack, and written-asset semantics.'
     ),
@@ -1378,7 +1374,7 @@ function buildV26GateCheckpointReport({
       label: 'Fourth-gate runs and pipelines totality proof',
       passed: runsPipelinesTotalityProof?.passed === true,
       detail: runsPipelinesTotalityProof?.passed === true
-        ? 'Retained executions, activity, deliverables, and pipeline systems totalize under Bitcode'
+        ? 'Retained executions, activity, AssetPack evidence, and pipeline systems totalize under Bitcode'
         : 'Runs and pipelines totality proof remains open'
     },
     {
@@ -2265,7 +2261,7 @@ function buildV26PromptSystemTotalityProof({
         'packages/pipelines/asset-pack/src/agents/setup/asset-pack-setup-plan-agent.ts',
         'packages/pipelines/asset-pack/src/agents/finish/asset-pack-finish-create-pull-request-delivery-agent.ts',
         'packages/pipelines/asset-pack/src/agents/finish/deliver-asset-pack-to-destination-agent.ts',
-        'packages/pipelines/asset-pack/src/agents/finish/final-work-summary-agent.ts',
+        'packages/pipelines/asset-pack/src/agents/finish/asset-pack-completion-agent.ts',
         'packages/pipelines/asset-pack/src/tools/AssetPackCloneVCSRepositoryTool.ts',
         'scripts/fix-execution-to-directives.sh',
         'scripts/generate-asset-pack-promptparts.ts',
@@ -3190,7 +3186,7 @@ function buildV26RunsPipelinesTotalityProof({
         'uapi/app/api/auxillaries/transactions/route.ts',
         'uapi/app/api/auxillaries/api-keys/route.ts',
         'uapi/app/api/templates/shippables/route.ts',
-        'uapi/app/api/templates/deliverables/route.ts',
+        'uapi/app/api/templates/shippables/route.ts',
         'uapi/tests/api/vcsCompatibilityRoute.test.ts',
         'uapi/tests/api/orbitalsTemplatePreferencesRoute.test.ts',
         'uapi/tests/api/orbitalsProfileRoute.test.ts',
@@ -3213,10 +3209,7 @@ function buildV26RunsPipelinesTotalityProof({
         'packages/pipelines-generics/src/execution/PipelineExecutor.ts',
         'packages/pipelines-generics/src/execution/route-pipeline-execution.ts',
         'packages/pipelines/asset-pack/src/run.ts',
-        'uapi/tests/deliverablesRoute.test.ts',
-        'uapi/tests/deliverablesInstallationsRoute.test.ts',
-        'uapi/tests/api/deliverables.test.ts',
-        'uapi/tests/api/deliverables.persistence.test.ts',
+        'uapi/tests/api/shippableTemplatesRoute.test.ts',
         'uapi/tests/api/executionsHistoryRoute.test.ts',
         'uapi/tests/api/executionsHistoryRunRoute.test.ts',
         'uapi/tests/bitcodeExecutionStreamPanel.test.tsx',
@@ -3307,7 +3300,7 @@ function buildV26RunsPipelinesTotalityProof({
     ),
     buildV26FileContentCheck(
       'webhook-asset-pack-ingress-contract',
-      'GitHub webhook automation is source-checked as asset-pack pipeline ingress rather than Exchange ownership or deliverable-canon output',
+      'GitHub webhook automation is source-checked as asset-pack pipeline ingress rather than Exchange ownership or old-world output canon',
       [
         {
           file: 'uapi/app/api/webhook/route.ts',
@@ -3384,7 +3377,6 @@ function buildV26RunsPipelinesTotalityProof({
       '/api/vcs',
       '/api/auxillaries/template-preferences',
       '/api/templates/shippables',
-      '/api/templates/deliverables'
     ],
     requiredFiles: V26_FOURTH_GATE_RUNS_PIPELINES_FILES,
     checks
@@ -3420,7 +3412,7 @@ const V26_SYSTEM_REFORM_DECISIONS = [
     ]
   },
   {
-    checkId: 'deliverable-compatibility-export-boundary',
+    checkId: 'asset-pack-compatibility-export-boundary',
     label: 'AssetPack run export keeps route compatibility explicit while Shippable output is primary',
     reformClass: 'compatibility-only',
     livePathRole: 'Legacy path exports stay available for admitted callers while canonical Bitcode behavior remains elsewhere.',
@@ -3784,7 +3776,7 @@ export function collectCanonicalProvenRuns({
         const files = /** @type {Record<string, string>} */ (latestRun.branchArtifacts.files);
         const bundle = parseArtifactJson(files, '.bitcode/system-proof-bundle.json');
         const witnessManifest = parseArtifactJson(files, '.bitcode/proof-witness-manifest.json');
-        const deliverablesManifest = parseArtifactJson(files, '.bitcode/deliverables.json');
+        const assetPackEvidenceManifest = parseArtifactJson(files, '.bitcode/asset-pack-evidence.json');
         const policyRelease = parseArtifactJson(files, '.bitcode/policy-release.json');
         const need = parseArtifactJson(files, '.bitcode/need.json');
 
@@ -3802,13 +3794,13 @@ export function collectCanonicalProvenRuns({
           scenarioId,
           branchMode,
           paymentMode: paymentMode || null,
-          branchName: String(deliverablesManifest?.branchName || latestRun?.branchName || ''),
+          branchName: String(assetPackEvidenceManifest?.branchName || latestRun?.branchName || ''),
           needId: String(bundle?.needId || need?.needId || ''),
           assetPackId: String(bundle?.assetPackId || latestRun?.assetPack?.assetPackId || ''),
           branchArtifacts: files,
           systemProofBundle: bundle,
           proofWitnessManifest: witnessManifest,
-          deliverablesManifest,
+          assetPackEvidenceManifest,
           policyRelease,
           familyProofsByName
         });
@@ -3829,13 +3821,13 @@ export function collectCanonicalProvenRuns({
 }
 
 /**
- * @param {Record<string, any>} deliverablesByPath
+ * @param {Record<string, any>} assetPackEvidenceByPath
  * @param {Record<string, any>} classificationsByPath
  * @param {string} artifactPath
  * @param {string} contextLabel
  */
-function assertArtifactMetadata(deliverablesByPath, classificationsByPath, artifactPath, contextLabel) {
-  invariant(!!deliverablesByPath[artifactPath], `${contextLabel} is missing deliverables metadata for ${artifactPath}.`);
+function assertArtifactMetadata(assetPackEvidenceByPath, classificationsByPath, artifactPath, contextLabel) {
+  invariant(!!assetPackEvidenceByPath[artifactPath], `${contextLabel} is missing AssetPack evidence metadata for ${artifactPath}.`);
   invariant(!!classificationsByPath[artifactPath], `${contextLabel} is missing policy-release classification for ${artifactPath}.`);
 }
 
@@ -3847,7 +3839,7 @@ function validateAndNormalizeRun(run) {
   const runLabel = formatRunId(run);
   const bundle = run.systemProofBundle;
   const witnessManifest = run.proofWitnessManifest;
-  const deliverablesByPath = Object.fromEntries((run.deliverablesManifest?.deliverables || []).map((/** @type {any} */ entry) => [String(entry?.path || ''), entry]));
+  const assetPackEvidenceByPath = Object.fromEntries((run.assetPackEvidenceManifest?.assetPackEvidence || []).map((/** @type {any} */ entry) => [String(entry?.path || ''), entry]));
   const classificationsByPath = Object.fromEntries((run.policyRelease?.artifactClasses || []).map((/** @type {any} */ entry) => [String(entry?.path || ''), entry]));
   const artifactDigestByPath = /** @type {Record<string, any>} */ (witnessManifest?.artifactDigestByPath || {});
   const proofFamiliesByName = /** @type {Record<string, any>} */ (witnessManifest?.proofFamiliesByName || {});
@@ -3897,11 +3889,11 @@ function validateAndNormalizeRun(run) {
         NON_DIGESTED_RECURSIVE_ARTIFACT_PATHS.includes(artifactPath) || !!artifactDigestByPath[artifactPath],
         `Run ${runLabel} family ${catalog.proofFamily} is missing witness digest for ${artifactPath}.`
       );
-      assertArtifactMetadata(deliverablesByPath, classificationsByPath, artifactPath, `Run ${runLabel} family ${catalog.proofFamily}`);
+      assertArtifactMetadata(assetPackEvidenceByPath, classificationsByPath, artifactPath, `Run ${runLabel} family ${catalog.proofFamily}`);
     }
 
     invariant(!!run.branchArtifacts[catalog.proofArtifactPath], `Run ${runLabel} family ${catalog.proofFamily} is missing its proof artifact ${catalog.proofArtifactPath}.`);
-    assertArtifactMetadata(deliverablesByPath, classificationsByPath, catalog.proofArtifactPath, `Run ${runLabel} family ${catalog.proofFamily}`);
+    assertArtifactMetadata(assetPackEvidenceByPath, classificationsByPath, catalog.proofArtifactPath, `Run ${runLabel} family ${catalog.proofFamily}`);
 
     for (const artifactPath of catalog.replayArtifacts) {
       invariant(!!run.branchArtifacts[artifactPath], `Run ${runLabel} family ${catalog.proofFamily} is missing replay artifact ${artifactPath}.`);
@@ -3935,7 +3927,7 @@ function validateAndNormalizeRun(run) {
 
   const proofArtifactPaths = summarizeStrings(normalizedFamilies.flatMap((family) => [family.proofArtifactPath, ...family.witnessArtifactPaths]));
   for (const artifactPath of proofArtifactPaths) {
-    assertArtifactMetadata(deliverablesByPath, classificationsByPath, artifactPath, `Run ${runLabel}`);
+    assertArtifactMetadata(assetPackEvidenceByPath, classificationsByPath, artifactPath, `Run ${runLabel}`);
   }
 
   return {
@@ -3957,13 +3949,13 @@ function validateAndNormalizeRun(run) {
         digest: String(entry?.digest || ''),
         proofFamilies: summarizeStrings(entry?.proofFamilies || []),
         classification: classificationsByPath[String(entry?.path || '')] || null,
-        deliverable: deliverablesByPath[String(entry?.path || '')] || null
+        assetPackEvidence: assetPackEvidenceByPath[String(entry?.path || '')] || null
       }))
       .sort((left, right) => left.path.localeCompare(right.path)),
     proofArtifacts: proofArtifactPaths.sort((left, right) => left.localeCompare(right)).map((artifactPath) => ({
       path: artifactPath,
       classification: classificationsByPath[artifactPath] || null,
-      deliverable: deliverablesByPath[artifactPath] || null
+      assetPackEvidence: assetPackEvidenceByPath[artifactPath] || null
     })),
     families: normalizedFamilies
   };
@@ -5441,13 +5433,13 @@ export function renderCanonicalProvenMarkdown(data) {
     lines.push('#### Proof Artifact Disclosure Classification');
     lines.push('');
     lines.push(renderMarkdownTable(
-      ['path', 'sensitiveDataClass', 'disclosable', 'deliverableConfidentiality', 'potentiallyDisclosable'],
+      ['path', 'sensitiveDataClass', 'disclosable', 'assetPackEvidenceConfidentiality', 'potentiallyDisclosable'],
       run.proofArtifacts.map((/** @type {any} */ artifact) => [
         markdownCode(artifact.path),
         markdownCode(String(artifact.classification?.sensitiveDataClass || 'missing')),
         markdownCode(String(artifact.classification?.disclosable === true)),
-        markdownCode(String(artifact.deliverable?.confidentialityClass || 'missing')),
-        markdownCode(String(artifact.deliverable?.potentiallyDisclosable === true))
+        markdownCode(String(artifact.assetPackEvidence?.confidentialityClass || 'missing')),
+        markdownCode(String(artifact.assetPackEvidence?.potentiallyDisclosable === true))
       ])
     ));
     lines.push('');

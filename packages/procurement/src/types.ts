@@ -141,8 +141,8 @@ export interface ProcurementFulfillment {
   contributorId: string;
   contributorAddress: string; // Ethereum address for crypto compensation
   
-  // Deliverables
-  deliverables: Array<{
+  // FulfillmentArtifacts
+  fulfillmentArtifacts: Array<{
     type: 'code' | 'documentation' | 'configuration' | 'integration';
     content: string;
     metadata: Record<string, any>;
@@ -336,7 +336,7 @@ export interface ProcurementOrder {
     completedAt?: string;
   };
   requirements: string;
-  deliverables: string[];
+  fulfillmentArtifacts: string[];
   metadata: Record<string, any>;
 }
 

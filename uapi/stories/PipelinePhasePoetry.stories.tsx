@@ -591,7 +591,7 @@ export const EmotionalJourney: Story = {
             
             <div className="text-xs text-gray-400 space-y-1">
               <div>Phase: <span className="text-brand-emerald capitalize">{currentEmotionData.phase}</span></div>
-              <div>Deliverable: <span className="text-brand-emerald">Epic Complexity</span></div>
+              <div>AssetPack: <span className="text-brand-emerald">Epic Complexity</span></div>
               <div>Technical Depth: <span className="text-brand-emerald">95%</span></div>
             </div>
           </div>

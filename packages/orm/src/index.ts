@@ -29,7 +29,8 @@ export { UserBtdBalancesModel } from './models/user-btd-balances';
 export { UserBtdTransactionsModel } from './models/user-btd-transactions';
 
 // AssetPack and connected-interface models
-export { DeliverablesModel } from './models/deliverables';
+export { AssetPackEvidenceModel } from './models/asset-pack-evidence';
+export type { AssetPackEvidenceRecord } from './models/asset-pack-evidence';
 export {
   AssetPackGeneratedAssetsModel,
   AssetPackPhaseExecutionsModel,
@@ -64,7 +65,7 @@ export type {
   QueryOptions,
   // V26 specific types
   UserProfileWithBtd,
-  DeliverableRunComplete,
+  AssetPackRunComplete,
   VCSRepositoryWithConnection
 } from './types/database';
 
@@ -74,7 +75,7 @@ export type UserConnection = Tables<'user_connections'>;
 export type UserModelPreference = Tables<'user_model_preferences'>;
 export type UserBtdBalance = Tables<'user_credits'>;
 export type UserBtdTransaction = Tables<'user_credit_usages'>;
-export type Deliverable = Tables<'deliverables'>;
+export type AssetPackEvidence = Tables<'deliverables'>;
 export type PipelineExecution = Tables<'executions'>;
 export type ExecutionEvent = Tables<'execution_events'>;
 export type PipelineRun = Tables<'pipeline_runs'>;
@@ -150,7 +151,7 @@ export { OrganizationCreditUsagesModel } from './models/organization-credit-usag
  * 
  * // For API routes (user access)
  * const client = createClient(authToken);
- * const deliverables = await client.deliverables.list({ 
+ * const assetPackEvidence = await client.assetPackEvidence.list({
  *   filter: { status: 'active' },
  *   limit: 10 
  * });
@@ -159,14 +160,13 @@ export { OrganizationCreditUsagesModel } from './models/organization-credit-usag
  * const adminClient = createAdminClient();
  * const run = await adminClient.pipelineExecutions.create({
  *   user_id: userId,
- *   deliverable_id: deliverableId,
  *   status: 'pending'
  * });
  * 
  * // Vector search for similar AssetPack evidence
  * const similar = await client.vectors.search({
  *   embedding: queryEmbedding,
- *   table: 'deliverable_vectors',
+ *   table: 'asset_pack_vectors',
  *   limit: 5
  * });
  */

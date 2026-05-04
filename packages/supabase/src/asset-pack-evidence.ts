@@ -1,5 +1,5 @@
 /**
- * Manually-curated TypeScript interfaces for the deliverable-related tables.
+ * Manually-curated TypeScript interfaces for AssetPack evidence storage tables.
  *
  * These are **temporary** until we introduce automatic generation directly
  * from the Supabase Postgres schema.  Keeping them here unblocks typed API
@@ -7,10 +7,10 @@
  */
 
 // ---------------------------------------------------------------------------
-// Core deliverable entities
+// Core AssetPack evidence entities
 // ---------------------------------------------------------------------------
 
-export interface Deliverable {
+export interface AssetPackEvidenceRow {
   id: string;
   user_id: string;
   title: string;

@@ -61,7 +61,7 @@ Preferred active namespaces:
 - `config`: iteration count, MCP config, internal computer-use measurement flag.
 - `attachments`: source evidence.
 - `route/preprocessed`: route-owned snapshot and AssetPack written-asset snapshot.
-- `finish/final_work_summary`: saved final summary and delivery evidence.
+- `finish/asset_pack_completion`: saved AssetPack summary and PR Shippable evidence.
 - `postprocessed`: normalized AssetPack result.
 
 Compatibility state names should be treated as corridors until renamed, removed, or bounded by explicit proof.

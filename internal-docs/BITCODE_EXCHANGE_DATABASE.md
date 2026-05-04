@@ -33,7 +33,7 @@ Core V26 families:
 - credit usage, token cost, and payment idempotency records,
 - notifications, events, stream logs, and error logs.
 
-Some physical table names still preserve compatibility vocabulary such as `deliverables` or `pipeline_runs`. In V26 product language these rows must be read as AssetPack templates, AssetPack results, execution records, or compatibility storage corridors. Canonical SPEC text must not teach those table names as product concepts.
+Some physical table names still preserve compatibility vocabulary at the storage boundary. In V26 product language these rows must be read as AssetPack templates, AssetPack results, execution records, or compatibility storage corridors. Canonical SPEC text must not teach those table names as product concepts.
 
 ## Exchange State Requirements
 
@@ -52,4 +52,3 @@ Remaining database work should prioritize:
 - naming new columns/tables after Need, AssetPack, fit, settlement, Finish, and Exchange activity,
 - keeping compatibility table names hidden behind ORM or route adapters,
 - generating proof artifacts that show schema, ORM, route, and UI all describe the same Bitcode state.
-

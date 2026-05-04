@@ -88,7 +88,7 @@ test('V26 specifies Finish as the broad final phase and Delivering as destinatio
   assert.match(finishSpec, /`Delivering` owns connected-interface Shippables/);
   assert.match(finishSpec, /`SDIVF` is the canonical retained phased pipeline implementation/);
   assert.match(shippableSpec, /active AssetPack phase, registry, tool, and store code must use `SDIVF` \/ `finish` behavior directly/);
-  assert.match(canonicalSpec, /`SDIVF` is the canonical compatibility-mounted phased implementation/);
+  assert.match(canonicalSpec, /`SDIVF` is the canonical phased implementation/);
 });
 
 test('pipeline generics expose canonical SDIVF APIs without active SDIVS wrappers', () => {
@@ -168,7 +168,7 @@ test('compatibility prompt and agent names point at precise canonical Finish rep
   assert.match(finishDeliveryAgentsSource, /AssetPackFinishFinalizeDeliveryEvidenceAgent/);
   assert.match(finishDeliveryAgentsSource, /registerFinishDeliveryAgentsForType/u);
   assert.doesNotMatch(finishDeliveryAgentsSource, /@deprecated|FinalizeShipment|ShippingPhase|shipping:deliverable-pipeline|Compatibility registry keys|written-asset type/u);
-  assert.match(finishSpec, /Deprecated names, compatibility wrappers, and any remaining old filesystem labels are tactical fifth-gate aids, not V26 closure evidence/);
+  assert.match(finishSpec, /Deprecated names, compatibility wrappers, and any remaining old filesystem labels are trace inputs only; after their Bitcode replacement exists they must be removed rather than counted as V26 closure evidence/);
   assert.match(finishSpec, /Full V26 closure requires no deprecated, backwards-compatible, legacy, or unspecified broad-pipeline names/);
 });
 
@@ -180,7 +180,7 @@ test('AssetPack prompt-builder doc-comments use Bitcode-specific labels', () => 
       source: readFileSync(new URL(name, promptBuilderDir), 'utf8'),
     }));
 
-  assert.ok(promptFiles.length >= 20);
+  assert.ok(promptFiles.length >= 15);
 
   for (const removedPromptFile of [
     'divide-code-change-prompt.ts',

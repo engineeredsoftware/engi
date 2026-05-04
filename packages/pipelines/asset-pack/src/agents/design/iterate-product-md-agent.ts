@@ -51,7 +51,7 @@ const iterateProductMdPrompt = (() => {
   );
   prompt.set(
     'agent/constraints',
-    createPromptPart('Preserve operator-gated iteration, report open questions explicitly, and treat PRODUCT.md as a written asset carried by Bitcode AssetPacks rather than as an old-world deliverable.')
+    createPromptPart('Preserve operator-gated iteration, report open questions explicitly, and treat PRODUCT.md as a written asset carried by Bitcode AssetPacks rather than as a generic output bundle.')
   );
   prompt.set('ptrr/plan/purpose', createPromptPart('Plan the PRODUCT.md revision around the accepted Need, missing evidence, and reviewable product-spec sections.'));
   prompt.set('ptrr/try/purpose', createPromptPart('Draft precise PRODUCT.md changes and explain why each change advances the Bitcode source-to-shares requirement.'));

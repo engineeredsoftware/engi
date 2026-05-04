@@ -128,11 +128,11 @@ Instructions that ADAPT based on .ai/ knowledge:
 → Uses cookie-based sessions
 ```
 
-## Deliverables Pipeline
+## AssetPack Pipeline
 
-**SDIVS Pattern**: Setup → Discovery → Implementation → Validation → Shipping
+**SDIVF Pattern**: Setup → Discovery → Implementation → Validation → Finish
 
-### Four Precision Instruments
+### V26 Precision Instrument
 
 1. **Code Change** → Pull Request
    - Divide|Conquer|Correct execution pattern
@@ -244,7 +244,7 @@ Every agent follows Plan → Try → Refine → Retry with 7-substep hierarchy:
 **Unified Control Plane**: All pipeline executions through single interface
 
 ### Execution Types
-- `pipeline:deliverables` (V26 only)
+- `agentic-execution:asset-pack` (V26 only)
 - Future: measure, obfuscate pipelines
 
 ### State Management
@@ -349,12 +349,12 @@ Every agent follows Plan → Try → Refine → Retry with 7-substep hierarchy:
 CREATE TABLE executions (
   id UUID PRIMARY KEY,
   user_id UUID NOT NULL,
-  type TEXT DEFAULT 'deliverable',
+  type TEXT DEFAULT 'agentic-execution:asset-pack',
   status TEXT DEFAULT 'pending',
   -- Complete schema...
 );
 
--- Plus: generations, deliverables, artifacts, conversations,
+-- Plus: generations, AssetPack evidence, artifacts, conversations,
 -- user_credits, user_profiles, vcs_repositories, credit_reservations
 ```
 

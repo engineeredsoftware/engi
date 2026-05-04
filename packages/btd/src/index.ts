@@ -439,7 +439,6 @@ export const DEFAULT_BTD_RESERVATION = 100;
  */
 export const PIPELINE_BTD_ESCROW_REQUIREMENTS: Record<string, number> = {
   'asset-pack': 50,
-  'deliverable': 50,
 };
 
 /** Helper – returns reservation or DEFAULT if unknown */
@@ -612,7 +611,7 @@ export async function recordBtdReservationUsage(
  *     await recordBtdReservationUsage(escrow.id, 20);
  *     … heavy LLM calls …
  *     await recordBtdReservationUsage(escrow.id, 50);
- *     return deliverable;
+ *     return assetPackCompletion;
  *   });
  */
 export async function withBtdReservation<T>(

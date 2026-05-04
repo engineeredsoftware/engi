@@ -319,7 +319,7 @@ alerting:
 
 #### **Phase 1: Soft Launch (Weeks 1-2)**
 - **Target**: 50 existing enterprise customers
-- **Scope**: Core pipeline tools (deliverable only via MCP)
+- **Scope**: Core pipeline tools (asset-pack only via MCP)
 - **Goals**: Validate production stability and gather initial feedback
 - **Success Criteria**: 99%+ uptime, <5s response times, 90%+ customer satisfaction
 

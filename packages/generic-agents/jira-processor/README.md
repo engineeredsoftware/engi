@@ -121,6 +121,6 @@ The agent generates implementation plans with:
 - **Process Maturity Assessment**: Workflow optimization level and automation potential
 - **Team Effectiveness Metrics**: Collaboration efficiency and productivity measurements
 - **Strategic Recommendations**: Prioritized improvement initiatives with impact assessment
-- **Implementation Roadmap**: Phased deployment plan with deliverables and timelines
+- **Implementation Roadmap**: Phased deployment plan with artifacts and timelines
 
 The Jira Processor Agent transforms project chaos into organized, efficient delivery workflows with comprehensive team coordination and automated process optimization, enabling scalable project management excellence across development organizations.

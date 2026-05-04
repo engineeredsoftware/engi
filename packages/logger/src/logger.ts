@@ -56,9 +56,9 @@ function sanitizeId(id: string): string {
   return id.replace(/[^a-zA-Z0-9-_\.]/g, '-').slice(0, 200);
 }
 
-/**
+ /**
  * Reinitialize the log file path for subsequent writes.
- * Example: reinitLoggerFile('deliverables-request-<uuid>') → /tmp/.bitcode_logs/deliverables-request-<uuid>.log
+ * Example: reinitLoggerFile('asset-pack-request-<uuid>') -> /tmp/.bitcode_logs/asset-pack-request-<uuid>.log
  */
 export function reinitLoggerFile(identifier: string, opts?: { prefix?: string; dir?: string; ext?: string }) {
   const base = opts?.dir || DEFAULT_LOG_DIR;

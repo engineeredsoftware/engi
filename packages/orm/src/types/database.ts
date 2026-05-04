@@ -1571,7 +1571,7 @@ export type UserProfileWithBtd = Tables<'user_profiles'> & {
   btdBalance?: Tables<'user_credits'> | null
 }
 
-export type DeliverableRunComplete = Tables<'pipeline_runs'> & {
+export type AssetPackRunComplete = Tables<'pipeline_runs'> & {
   execution?: Tables<'executions'> | null
   events?: Tables<'execution_events'>[]
 }

@@ -378,7 +378,7 @@
  *   authorizationDecisions: unknown,
  *   sensitiveDataFlowRecords: unknown,
  *   policyRelease: { releaseId?: string | undefined, releasePolicyId?: string | undefined } & Record<string, unknown>,
- *   deliverablesManifest: unknown,
+ *   assetPackEvidenceManifest: unknown,
  *   unitCatalog: unknown,
  *   pipelineTelemetry: unknown,
  *   selectedCandidates: EvaluatedCandidate[],
@@ -1929,7 +1929,7 @@ export function createEvaluationMaterializationRuntime({
       '.bitcode/disclosure-proof.json',
       '.bitcode/disclosure-boundary-proof.json',
       '.bitcode/proof-contract.json',
-      '.bitcode/deliverables.json',
+      '.bitcode/asset-pack-evidence.json',
       'BITCODE_NEED.md'
     ];
     if (branchArtifacts.files['.bitcode/bitcoin-settlement-intent.json']) {
@@ -1984,7 +1984,7 @@ export function createEvaluationMaterializationRuntime({
    * @param {BuildBranchArtifactsInput} input
    * @returns {{ branchName: string, branchMode: string, confidentiality: string, files: Record<string, string> }}
    */
-  function buildBranchArtifacts({ need, needMeasurement, needReview, benchmarkTarget, branchMode, branchName, depositingSurface, needingSurface, depositingToNeedingSurface, matchReport, verificationReport, evalManifest, assetPack, assetPackLock, selectedSourceMaterialManifest, settlementPreview, settlementProof, systemProofBundle, authorizationDecisions, sensitiveDataFlowRecords, policyRelease, deliverablesManifest, unitCatalog, pipelineTelemetry, selectedCandidates, journalDiff, identityBindings, githubBoundarySurface, artifactUploadManifest, profileCompositionSurface, promptFamilyRegistry, promptSurfaces, promptContracts, inferenceProofs, inferenceMomentContracts, promptImplementationSurface, inferenceSynthesisProof, promptCompletenessProof, parsedCompletionEnvelopes, parsedCompletionEnvelopeArtifact, externalBoundaryManifest, measurementReceipts, staticMeasurementReport, staticMeasurementProof, codeAnalysisFactRegistry, staticHeuristicsRegistry, verificationReceiptsArtifact, verificationDecisionsProof, proofWitnessManifest, selectionConsistencyProof, selectionAndMaterializationProof, identityAuthorizationProof, sensitiveDataFlowProof, authorizationAndSensitiveFlowProof, materializationProof, materializationExclusions, materializationVisibilityProof, sourceToSharesArtifact, settlementParticipationArtifact, accountingPrecisionReport, journalCompletenessProof, settlementSourceToSharesProof, scenarioFixtureManifest, testCoverageReport, projectionPolicy, boundedPublicProof, redactionProof, disclosureProof, disclosureBoundaryProof, proofContract, computeRealityManifest, storageRealityManifest, bitcoinCommitmentManifest, bitcoinTreasuryPolicy, bitcoinAnchor, bitcoinBoundedPublicAnchor, bitcoinSettlementIntent, bitcoinSettlementObservation, bitcoinAuditAnchorProof, bitcoinSettlementInterfaceProof, externalEnvironmentProfile, externalExecutionPolicy, externalTelemetryPolicy, externalTelemetrySummary, networkCapabilityManifest, githubAppBinding, bitcoinNetworkIntent, bitcoinNetworkExecution, bitcoinNetworkObservation, repeatedReadPaymentIntent, repeatedReadPaymentExecution, repeatedReadPaymentObservation, sidechainExecutionReceipt, computeContainerManifest, computeContainerExecution, storageContainerManifest, storagePublicationReceipt, storageRetrievalReceipt, githubLiveSession, githubInventoryFetchReceipt, githubArtifactFetchReceipt, githubBranchPublicationReceipt, githubPrUpdateReceipt, externalRealizationProof, containerRealityProof, githubLiveInterfaceProof }) {
+  function buildBranchArtifacts({ need, needMeasurement, needReview, benchmarkTarget, branchMode, branchName, depositingSurface, needingSurface, depositingToNeedingSurface, matchReport, verificationReport, evalManifest, assetPack, assetPackLock, selectedSourceMaterialManifest, settlementPreview, settlementProof, systemProofBundle, authorizationDecisions, sensitiveDataFlowRecords, policyRelease, assetPackEvidenceManifest, unitCatalog, pipelineTelemetry, selectedCandidates, journalDiff, identityBindings, githubBoundarySurface, artifactUploadManifest, profileCompositionSurface, promptFamilyRegistry, promptSurfaces, promptContracts, inferenceProofs, inferenceMomentContracts, promptImplementationSurface, inferenceSynthesisProof, promptCompletenessProof, parsedCompletionEnvelopes, parsedCompletionEnvelopeArtifact, externalBoundaryManifest, measurementReceipts, staticMeasurementReport, staticMeasurementProof, codeAnalysisFactRegistry, staticHeuristicsRegistry, verificationReceiptsArtifact, verificationDecisionsProof, proofWitnessManifest, selectionConsistencyProof, selectionAndMaterializationProof, identityAuthorizationProof, sensitiveDataFlowProof, authorizationAndSensitiveFlowProof, materializationProof, materializationExclusions, materializationVisibilityProof, sourceToSharesArtifact, settlementParticipationArtifact, accountingPrecisionReport, journalCompletenessProof, settlementSourceToSharesProof, scenarioFixtureManifest, testCoverageReport, projectionPolicy, boundedPublicProof, redactionProof, disclosureProof, disclosureBoundaryProof, proofContract, computeRealityManifest, storageRealityManifest, bitcoinCommitmentManifest, bitcoinTreasuryPolicy, bitcoinAnchor, bitcoinBoundedPublicAnchor, bitcoinSettlementIntent, bitcoinSettlementObservation, bitcoinAuditAnchorProof, bitcoinSettlementInterfaceProof, externalEnvironmentProfile, externalExecutionPolicy, externalTelemetryPolicy, externalTelemetrySummary, networkCapabilityManifest, githubAppBinding, bitcoinNetworkIntent, bitcoinNetworkExecution, bitcoinNetworkObservation, repeatedReadPaymentIntent, repeatedReadPaymentExecution, repeatedReadPaymentObservation, sidechainExecutionReceipt, computeContainerManifest, computeContainerExecution, storageContainerManifest, storagePublicationReceipt, storageRetrievalReceipt, githubLiveSession, githubInventoryFetchReceipt, githubArtifactFetchReceipt, githubBranchPublicationReceipt, githubPrUpdateReceipt, externalRealizationProof, containerRealityProof, githubLiveInterfaceProof }) {
     const files = {
       '.bitcode/need.json': JSON.stringify(need, null, 2),
       '.bitcode/need-measurement.json': JSON.stringify(needMeasurement, null, 2),
@@ -2050,7 +2050,7 @@ export function createEvaluationMaterializationRuntime({
       '.bitcode/disclosure-proof.json': JSON.stringify(disclosureProof, null, 2),
       '.bitcode/disclosure-boundary-proof.json': JSON.stringify(disclosureBoundaryProof, null, 2),
       '.bitcode/proof-contract.json': JSON.stringify(proofContract, null, 2),
-      '.bitcode/deliverables.json': JSON.stringify(deliverablesManifest, null, 2),
+      '.bitcode/asset-pack-evidence.json': JSON.stringify(assetPackEvidenceManifest, null, 2),
       ...(computeRealityManifest ? { '.bitcode/compute-reality-manifest.json': JSON.stringify(computeRealityManifest, null, 2) } : {}),
       ...(storageRealityManifest ? { '.bitcode/storage-reality-manifest.json': JSON.stringify(storageRealityManifest, null, 2) } : {}),
       ...(bitcoinCommitmentManifest ? { '.bitcode/bitcoin-commitment-manifest.json': JSON.stringify(bitcoinCommitmentManifest, null, 2) } : {}),

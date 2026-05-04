@@ -40,7 +40,7 @@ export class TemplatesService {
 
   /**
    * Get Shippable templates for the current user.
-   * Physical table/column names still reflect the pre-V26 schema.
+   * Physical table/column names are retained Exchange storage identifiers.
    */
   async getShippableTemplates(userId: string, type?: ShippableTemplateType) {
     try {
@@ -107,7 +107,7 @@ export class TemplatesService {
 
   /**
    * Create Shippable templates.
-   * Physical table/column names still reflect the pre-V26 schema.
+   * Physical table/column names are retained Exchange storage identifiers.
    */
   async createShippableTemplates(
     userId: string,

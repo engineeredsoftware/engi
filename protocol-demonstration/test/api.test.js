@@ -939,10 +939,10 @@ testAny('POST /api/make-bitcode-branch persists V24 external continuity artifact
         .artifactRefs.includes('.bitcode/external-reconciliation-log.json')
     );
     assert.ok(
-      persisted.latestRun.deliverablesManifest.deliverables.some((entry) => entry.path === '.bitcode/external-execution-ledger.json')
+      persisted.latestRun.assetPackEvidenceManifest.assetPackEvidence.some((entry) => entry.path === '.bitcode/external-execution-ledger.json')
     );
     assert.ok(
-      persisted.latestRun.deliverablesManifest.deliverables.some((entry) => entry.path === '.bitcode/external-reconciliation-log.json')
+      persisted.latestRun.assetPackEvidenceManifest.assetPackEvidence.some((entry) => entry.path === '.bitcode/external-reconciliation-log.json')
     );
 
     const reviewer = await invoke(app, { method: 'GET', url: '/api/state?principal=reviewer' });

@@ -25,11 +25,11 @@ The Terminal execution surface should show:
 Current source routes and components include:
 - `uapi/app/executions/*`
 - `uapi/app/api/executions/*`
-- `packages/api/src/routes/deliverables.ts`
+- `packages/api/src/routes/shippables.ts`
 - `packages/pipelines/asset-pack/*`
 - execution history and event readers in `uapi/app/api/executions/history/*`
 
-Compatibility route names remain in source, but internal docs and SPEC promotion should use Bitcode execution, AssetPack execution, Need measurement, fit review, and Finish.
+Storage-edge compatibility names may remain behind explicit translation, but internal docs and SPEC promotion should use Bitcode execution, AssetPack execution, Need measurement, fit review, and Finish.
 
 ## Operator Decisions
 

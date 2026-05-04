@@ -192,7 +192,7 @@ export class ProcurementEngine {
     procurementId: string,
     contributorId: string,
     contributorAddress: string,
-    deliverables: Array<{
+    fulfillmentArtifacts: Array<{
       type: 'code' | 'documentation' | 'configuration' | 'integration';
       content: string;
       metadata: Record<string, any>;
@@ -211,9 +211,9 @@ export class ProcurementEngine {
         throw new Error('Procurement not found');
       }
 
-      // Measure deliverable quality using the measuring pipeline
-      const measurements = await this.measureDeliverables(
-        deliverables,
+      // Measure fulfillment artifact quality using the measuring pipeline
+      const measurements = await this.measureFulfillmentArtifacts(
+        fulfillmentArtifacts,
         procurement.measurementCriteria
       );
 
@@ -223,7 +223,7 @@ export class ProcurementEngine {
         completeness: measurements.completeness,
         innovation: measurements.innovation,
         impact: measurements.impact,
-        linesOfCode: this.calculateLinesOfCode(deliverables),
+        linesOfCode: this.calculateLinesOfCode(fulfillmentArtifacts),
         complexity: measurements.overall,
         testCoverage: measurements.customScores?.testCoverage,
         securityScore: measurements.customScores?.security
@@ -242,7 +242,7 @@ export class ProcurementEngine {
       const fulfillment: ProcurementFulfillment = {
         contributorId,
         contributorAddress,
-        deliverables,
+        fulfillmentArtifacts,
         measurements,
         reward: {
           baseAmount: reward.formattedReward,
@@ -378,7 +378,7 @@ export class ProcurementEngine {
     return techKeywords.filter(tech => text.includes(tech));
   }
 
-  private async measureDeliverables(deliverables: any[], criteria: MarksOfMeasurement): Promise<any> {
+  private async measureFulfillmentArtifacts(fulfillmentArtifacts: any[], criteria: MarksOfMeasurement): Promise<any> {
     // TODO: Integrate with measuring pipeline
     // For now, return mock measurements
     return {
@@ -394,10 +394,10 @@ export class ProcurementEngine {
     };
   }
 
-  private calculateLinesOfCode(deliverables: any[]): number {
-    return deliverables.reduce((total, deliverable) => {
-      if (deliverable.type === 'code') {
-        return total + deliverable.content.split('\n').length;
+  private calculateLinesOfCode(fulfillmentArtifacts: any[]): number {
+    return fulfillmentArtifacts.reduce((total, fulfillmentArtifact) => {
+      if (fulfillmentArtifact.type === 'code') {
+        return total + fulfillmentArtifact.content.split('\n').length;
       }
       return total;
     }, 0);

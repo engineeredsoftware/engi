@@ -142,8 +142,6 @@ export interface PipelineInputContext {
 
 /**
  * Canonical output meaning for AssetPack/Shippable results.
- * The legacy `deliverables` array is preserved as a compatibility alias,
- * but the product meaning is an asset pack emitted by Bitcode.
  */
 export interface AssetPackResult {
   kind: 'asset_pack';
@@ -185,7 +183,6 @@ export interface PipelineExecutionResult {
   // Results and outputs
   results?: any;
   assetPacks?: AssetPackResult[];
-  deliverables?: AssetPackResult[];
   
   // Performance metrics
   metrics: {

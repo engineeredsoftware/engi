@@ -258,22 +258,6 @@ export const notifyNewsletter = async (
     body: JSON.stringify(params),
   }); if (!res.ok) throw new Error('Notification newsletter failed');
 };
-export const notifyShippableStarted = async (
-  params: { email: string; name?: string; runId: number; runUrl: string; }
-): Promise<void> => {
-  const res = await fetch('/api/notifications/deliverable-started', {
-    method: 'POST', headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(params),
-  }); if (!res.ok) throw new Error('Notification shippable-started compatibility route failed');
-};
-export const notifyShippableCompleted = async (
-  params: { email: string; name?: string; runId: number; runUrl: string; }
-): Promise<void> => {
-  const res = await fetch('/api/notifications/deliverable-completed', {
-    method: 'POST', headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(params),
-  }); if (!res.ok) throw new Error('Notification shippable-completed compatibility route failed');
-};
 export const notifyLowBtdReminder = async (
   params: { email: string; name?: string; balance: number; threshold: number; purchaseUrl?: string; }
 ): Promise<void> => {

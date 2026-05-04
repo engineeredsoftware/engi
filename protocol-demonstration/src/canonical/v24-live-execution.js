@@ -53,7 +53,7 @@ const V24_BRANCH_ARTIFACT_PATH_BY_KEY = {
   githubBranchPublicationReceipt: '.bitcode/github-branch-publication-receipt.json',
   githubPrUpdateReceipt: '.bitcode/github-pr-update-receipt.json',
   externalBoundaryManifest: '.bitcode/external-boundary-manifest.json',
-  deliverablesManifest: '.bitcode/deliverables.json',
+  assetPackEvidenceManifest: '.bitcode/asset-pack-evidence.json',
   systemProofBundle: '.bitcode/system-proof-bundle.json',
   proofWitnessManifest: '.bitcode/proof-witness-manifest.json',
   proofContract: '.bitcode/proof-contract.json',
@@ -579,9 +579,9 @@ function refreshExternalBoundaryManifest(latestRun) {
  * @returns {void}
  */
 function augmentV24DeliverablesManifest(latestRun) {
-  if (!latestRun.deliverablesManifest || !Array.isArray(latestRun.deliverablesManifest.deliverables)) return;
-  const deliverables = latestRun.deliverablesManifest.deliverables;
-  const byPath = new Map(deliverables.map((entry) => [String(entry.path || ''), entry]));
+  if (!latestRun.assetPackEvidenceManifest || !Array.isArray(latestRun.assetPackEvidenceManifest.assetPackEvidence)) return;
+  const assetPackEvidence = latestRun.assetPackEvidenceManifest.assetPackEvidence;
+  const byPath = new Map(assetPackEvidence.map((entry) => [String(entry.path || ''), entry]));
   const requiredEntries = [
     latestRun.externalExecutionLedger
       ? {
@@ -605,7 +605,7 @@ function augmentV24DeliverablesManifest(latestRun) {
 
   for (const entry of requiredEntries) {
     if (!byPath.has(entry.path)) {
-      deliverables.push(entry);
+      assetPackEvidence.push(entry);
       byPath.set(entry.path, entry);
       continue;
     }
@@ -622,10 +622,10 @@ function augmentV24DeliverablesManifest(latestRun) {
     ]);
   }
 
-  latestRun.deliverablesManifest.deliverables = deliverables.slice().sort((left, right) =>
+  latestRun.assetPackEvidenceManifest.assetPackEvidence = assetPackEvidence.slice().sort((left, right) =>
     String(left.path || '').localeCompare(String(right.path || ''))
   );
-  patchArtifact(latestRun, 'deliverablesManifest', latestRun.deliverablesManifest);
+  patchArtifact(latestRun, 'assetPackEvidenceManifest', latestRun.assetPackEvidenceManifest);
 }
 
 /**

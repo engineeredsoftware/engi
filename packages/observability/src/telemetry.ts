@@ -42,21 +42,23 @@ const supabaseAdmin = createClient(SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY, {
   auth: { persistSession: false, autoRefreshToken: false },
 })
 
+const FEEDBACK_ASSET_PACK_EVIDENCE_STORAGE_COLUMN = 'deliverable_id'
+
 /**
- * Record thumbs-up / thumbs-down feedback for a deliverable. Errors are logged
+ * Record thumbs-up / thumbs-down feedback for AssetPack evidence. Errors are logged
  * to the console but never propagated to the caller – the calling API route
  * treats telemetry as a best-effort, fire-and-forget operation so that user
  * requests are not blocked by analytics.
  */
 export async function logFeedback(params: {
-  deliverableId: string
+  assetPackEvidenceId: string
   userId: string
   rating: -1 | 1
   comment?: string
 }) {
   try {
     const { error } = await supabaseAdmin.from('feedback').insert({
-      deliverable_id: params.deliverableId,
+      [FEEDBACK_ASSET_PACK_EVIDENCE_STORAGE_COLUMN]: params.assetPackEvidenceId,
       user_id: params.userId,
       rating: params.rating,
       comment: params.comment ?? null,

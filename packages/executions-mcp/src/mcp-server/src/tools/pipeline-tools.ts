@@ -74,10 +74,6 @@ function normalizeAssetPacks(result: any): any[] {
     return result.assetPacks;
   }
 
-  if (Array.isArray(result.deliverables)) {
-    return result.deliverables;
-  }
-
   return [];
 }
 
@@ -346,7 +342,6 @@ async function executePipelineWithMonitoring(
       outputMeaning: 'asset_packs',
       result: executionResult.result,
       assetPacks,
-      deliverables: assetPacks,
       error: executionResult.error,
       btdUsed: executionResult.btdUsed,
       startedAt: executionResult.startedAt,

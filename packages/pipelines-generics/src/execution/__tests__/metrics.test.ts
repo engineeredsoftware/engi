@@ -8,7 +8,7 @@ function mkExec(id: string, parent?: Execution): Execution {
 
 describe('computePipelineMetrics', () => {
   it('computes durations, agent counts, and token usage from execution tree', () => {
-    const root = mkExec('pipeline:deliverable');
+    const root = mkExec('pipeline:asset-pack');
     // pipeline times
     const start = Date.now();
     const end = start + 5000;

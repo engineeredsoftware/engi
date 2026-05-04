@@ -110,7 +110,7 @@ export const EfficientInvestor: Story = {
       }
     ],
     currentBalance: 2450,
-    upcomingDeliverable: {
+    upcomingNeed: {
       name: 'Wallet Settlement Coordination',
       estimatedBtd: 250,
       complexity: 'complex',
@@ -191,7 +191,7 @@ export const LearningFocused: Story = {
       }
     ],
     currentBalance: 1850,
-    upcomingDeliverable: {
+    upcomingNeed: {
       name: 'Kubernetes Orchestration Setup',
       estimatedBtd: 200,
       complexity: 'epic',
@@ -272,7 +272,7 @@ export const MagicalMoments: Story = {
       }
     ],
     currentBalance: 3200,
-    upcomingDeliverable: {
+    upcomingNeed: {
       name: 'Micro-Frontend Architecture',
       estimatedBtd: 500,
       complexity: 'epic',
@@ -353,7 +353,7 @@ export const ConservativeInvestor: Story = {
       }
     ],
     currentBalance: 980,
-    upcomingDeliverable: {
+    upcomingNeed: {
       name: 'Button Component Variants',
       estimatedBtd: 60,
       complexity: 'simple',
@@ -575,7 +575,7 @@ export const InvestmentJourney: Story = {
         <MarketingBtdInvestmentExperience
           investments={currentProfile.investments}
           currentBalance={currentProfile.balance}
-          upcomingDeliverable={{
+          upcomingNeed={{
             name: selectedInvestor === 0 ? 'Simple Button Component' :
                   selectedInvestor === 1 ? 'Advanced Form System' :
                   'Distributed Architecture Platform',
@@ -709,7 +709,7 @@ export const MagicalEnhancementComparison: Story = {
         <MarketingBtdInvestmentExperience
           investments={sampleInvestments}
           currentBalance={3500}
-          upcomingDeliverable={{
+          upcomingNeed={{
             name: 'AI-Powered Code Assistant',
             estimatedBtd: 400,
             complexity: 'epic',

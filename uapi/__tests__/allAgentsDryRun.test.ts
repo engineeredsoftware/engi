@@ -17,12 +17,6 @@ import { SIMPLE_TEXT_SEARCH_AGENT } from '@bitcode/generic-agents-text-search';
 // ------------------------------------------------------------------
 import { implementationOpenPRAgent } from '@bitcode/pipeline-asset-pack';
 
-// ------------------------------------------------------------------
-// Shipping (subset)
-// ------------------------------------------------------------------
-import { SHIPPING_AGENTS } from '@bitcode/generic-agents-git';
-
-
 // Matrix: [agentConst, phase, [expected tool names]]
 const MATRIX: Array<[any, string, string[]]> = [
   [COMPREHEND_TASK_AGENT, 'setup', []],
@@ -30,7 +24,6 @@ const MATRIX: Array<[any, string, string[]]> = [
   [SETUP_DELIVERABLES_AGENT_PREPARE_REPOSITORY, 'setup', ['cloneRepository', 'initializeFileTracker']],
   [SIMPLE_TEXT_SEARCH_AGENT, 'discovery', ['simpleSystemTextSearch']],
   [implementationOpenPRAgent, 'implementation', ['textEditorTool', 'deleteFileTool', 'renameFileTool', 'directoryTool']],
-  [SHIPPING_AGENTS.open_pr, 'shipping', ['executeOpenPROperations']],
 ];
 
 MATRIX.forEach(([agent, phase, tools]) => testAgent(agent, phase, tools));

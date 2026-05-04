@@ -2,7 +2,7 @@
  * Pipeline Runs Model - Meta model kept for historical/reference data; canonical user-visible records are pipeline executions
  * 
  * Captures all generic pipeline execution data from pipelines-generics.
- * Specific pipeline types (deliverable, measure, etc) extend this.
+ * Specific pipeline types (asset-pack, measure, etc.) extend this.
  */
 
 import { BaseModel } from './base';
@@ -15,7 +15,7 @@ export type PipelineRunUpdate = Updatable<'pipeline_runs'>;
 
 export interface PipelineExecutionData {
   // Core pipeline identification
-  pipelineType: 'deliverable' | 'measure' | 'patch';
+  pipelineType: 'asset-pack' | 'measure' | 'patch';
   pipelineName: string;
   pipelineVersion: string;
   
@@ -31,7 +31,7 @@ export interface PipelineExecutionData {
   
   // Status tracking
   status: 'pending' | 'running' | 'completed' | 'failed' | 'cancelled';
-  currentPhase?: 'setup' | 'discovery' | 'implementation' | 'validation' | 'shipping';
+  currentPhase?: 'setup' | 'discovery' | 'implementation' | 'validation' | 'finish';
   currentAgent?: string;
   iterationCount?: number;
   maxIterations?: number;

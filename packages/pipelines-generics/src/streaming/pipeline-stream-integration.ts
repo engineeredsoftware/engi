@@ -100,7 +100,7 @@ export function enablePipelineStreaming(
     let genSchemas: any = null;
     try {
       // eslint-disable-next-line @typescript-eslint/no-var-requires
-      genSchemas = require('@bitcode/orm/src/types/generated/deliverables_pipeline.generated');
+      genSchemas = require('@bitcode/orm/src/types/generated/asset_pack_execution_storage.generated');
     } catch {}
     const toPascal = (s: string) => s.split('_').map(p => p.charAt(0).toUpperCase() + p.slice(1)).join('');
     const validate = (table: string, row: any) => {

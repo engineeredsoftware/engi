@@ -25,16 +25,6 @@ describe('PipelineExecution lineage', () => {
     });
   });
 
-  it('infers compatibility lineage for deliverable route execution', () => {
-    const lineage = inferPipelineExecutionLineage('deliverable');
-    expect(lineage).toEqual({
-      pipelineName: 'deliverable',
-      family: 'asset_pack',
-      posture: 'compatibility',
-      admittedSurface: 'asset_pack_route_compatibility',
-    });
-  });
-
   it('stores lineage on root and child pipeline executions', () => {
     const execution = factoryPipelineExecution('asset-pack');
     const child = execution.child('phase-0');

@@ -321,7 +321,7 @@ export class ProductionMonitor {
       .neq('type', 'error')
       .gte('ts', since);
       
-    // Count deliverable runs started in the window
+    // Count AssetPack runs started in the window
     const { data: runs } = await supabaseAdmin
       .from('executions')
       .select('count')

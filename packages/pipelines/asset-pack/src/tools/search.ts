@@ -22,7 +22,6 @@ export async function searchRelevantAssetPackEvidence(params: {
   count?: number;
 }): Promise<Array<{
   assetPackEvidenceId: string;
-  deliverable_id: string;
   user_id: string;
   output: string;
   similarity: number;
@@ -61,7 +60,6 @@ export async function searchRelevantAssetPackEvidence(params: {
 
   return (data || []).map((row: any) => ({
     assetPackEvidenceId: row.asset_pack_evidence_id || row.deliverable_id,
-    deliverable_id: row.deliverable_id,
     user_id: row.user_id,
     output: row.output,
     similarity: row.similarity,

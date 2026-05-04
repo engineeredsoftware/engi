@@ -24,11 +24,11 @@ registry.registerProvider({
 });
 
 // Configure hierarchically  
-registry.configure('pipeline:deliverable', { model: 'gpt-4' });
+registry.configure('pipeline:asset-pack', { model: 'gpt-4' });
 registry.configure('agent:coder', { temperature: 0.2 });
 
 // Get LLM with cascading config
-const llm = registry.getLLM(['pipeline:deliverable', 'agent:coder']);
+const llm = registry.getLLM(['pipeline:asset-pack', 'agent:coder']);
 ```
 
 ## Provider Pattern

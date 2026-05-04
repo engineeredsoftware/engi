@@ -40,6 +40,39 @@ function normalizeAssetPackSurface(surface: any, fileChanges?: any, summary?: st
   };
 }
 
+function pickCanonicalCompletionResult(result: any) {
+  if (!result || typeof result !== 'object') {
+    return {};
+  }
+
+  const canonical: Record<string, unknown> = {};
+  const canonicalKeys = [
+    'assetPackSynthesisArtifacts',
+    'writtenAssets',
+    'deliveryMechanism',
+    'shippables',
+    'actions',
+    'summary',
+    'message',
+    'semanticKind',
+    'need',
+    'writtenAssetType',
+    'assetPack',
+    'duration',
+    'taskType',
+    'processingStats',
+    'repoSnapshot',
+  ] as const;
+
+  for (const key of canonicalKeys) {
+    if (key in result) {
+      canonical[key] = result[key];
+    }
+  }
+
+  return canonical;
+}
+
 export const parseStreamChunk = (chunk: string): ParsedStreamData => {
 
   const parsedData: ParsedStreamData = {
@@ -152,13 +185,7 @@ export const parseStreamChunk = (chunk: string): ParsedStreamData => {
         }
         case 'completion': {
           if (data.result) {
-            const {
-              deliverables: _legacyDeliverables,
-              pullRequestReviews: _legacyPullRequestReviews,
-              comments: _legacyComments,
-              issues: _legacyIssues,
-              ...canonicalResult
-            } = data.result;
+            const canonicalResult = pickCanonicalCompletionResult(data.result);
             const topLevelFileChanges = data.fileChanges || null;
             const explicitAssetPackSynthesisArtifacts = normalizeAssetPackSurface(data.result.assetPackSynthesisArtifacts);
             const explicitWrittenAssets = normalizeAssetPackSurface(data.result.writtenAssets);

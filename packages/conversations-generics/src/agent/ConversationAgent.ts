@@ -359,8 +359,8 @@ export function detectPipelineTriggers(response: string): Array<{
   
   for (const match of pipelineMatches) {
     const [, type, task] = match;
-    if (type === 'shippable' || type === 'deliverable' || type === 'measure') {
-      triggers.push({ type: type === 'deliverable' ? 'shippable' : type, task });
+    if (type === 'shippable' || type === 'measure') {
+      triggers.push({ type, task });
     }
   }
   

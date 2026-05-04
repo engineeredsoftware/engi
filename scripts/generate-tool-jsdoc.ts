@@ -82,7 +82,7 @@ const TOOL_PROMPT_DESCRIPTIONS: Record<string, ToolPromptDescription> = {
     integrationPattern:
       'Feeds VCS, proof, and delivery-mechanism wrappers such as pull request creation',
     contextAwareness:
-      'Reports branch and commit state so downstream proof and shipping phases can stay deterministic',
+      'Reports branch and commit state so downstream proof, Finish, and delivery-mechanism steps can stay deterministic',
     bitcodeRole:
       'support-tool-prompt'
   }

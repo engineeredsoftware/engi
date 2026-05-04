@@ -421,7 +421,7 @@ const memoryOptimizedConfig: PipelineOptimizationConfig = {
 ### Agent Integration
 
 ```typescript
-// In a deliverable agent
+// In an AssetPack synthesis agent
 import { 
   initializePipelineOptimizer,
   queueOptimizedLspOperation,

@@ -155,28 +155,28 @@ export function ExecutionDetailsView({ runId, executionId }: ExecutionDetailsVie
             )}
           </div>
           {/* Processing Stats */}
-          {fws.processingStats && (
+          {assetPackCompletion.processingStats && (
             <div className="mt-3 grid grid-cols-2 gap-3 text-xs text-gray-400">
               <div>
                 <span className="text-gray-500">Time: </span>
-                <span className="text-gray-300">{fws.processingStats.time}</span>
+                <span className="text-gray-300">{assetPackCompletion.processingStats.time}</span>
               </div>
-              {fws.processingStats.tokens && (
+              {assetPackCompletion.processingStats.tokens && (
                 <div>
                   <span className="text-gray-500">Tokens: </span>
-                  <span className="text-gray-300">{fws.processingStats.tokens.total} (in {fws.processingStats.tokens.input} / out {fws.processingStats.tokens.output})</span>
+                  <span className="text-gray-300">{assetPackCompletion.processingStats.tokens.total} (in {assetPackCompletion.processingStats.tokens.input} / out {assetPackCompletion.processingStats.tokens.output})</span>
                 </div>
               )}
-              {typeof fws.processingStats.btdUsed === 'number' && (
+              {typeof assetPackCompletion.processingStats.btdUsed === 'number' && (
                 <div>
                   <span className="text-gray-500">$BTD: </span>
-                  <span className="text-gray-300">{fws.processingStats.btdUsed}</span>
+                  <span className="text-gray-300">{assetPackCompletion.processingStats.btdUsed}</span>
                 </div>
               )}
-              {fws.repoSnapshot && (
+              {assetPackCompletion.repoSnapshot && (
                 <div>
                   <span className="text-gray-500">Repo: </span>
-                  <span className="text-gray-300">{`${fws.repoSnapshot.org}/${fws.repoSnapshot.repo} (${fws.repoSnapshot.branch}@${(fws.repoSnapshot.commit || '').slice(0,7)})`}</span>
+                  <span className="text-gray-300">{`${assetPackCompletion.repoSnapshot.org}/${assetPackCompletion.repoSnapshot.repo} (${assetPackCompletion.repoSnapshot.branch}@${(assetPackCompletion.repoSnapshot.commit || '').slice(0,7)})`}</span>
                 </div>
               )}
             </div>

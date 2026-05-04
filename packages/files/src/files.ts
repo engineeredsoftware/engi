@@ -233,8 +233,8 @@ export class FileTracker {
    * Record a file-level operation (create / modify / delete / rename). The
    * tracker itself does **not** apply the mutation – that is the
    * responsibility of higher-level editing utilities.  The sole purpose of
-   * this helper is bookkeeping so that downstream phases (validation,
-   * shipping) can inspect the list and to allow snapshot/rollback.
+   * this helper is bookkeeping so that downstream phases (validation and
+   * Finish delivery) can inspect the list and to allow snapshot/rollback.
    */
   track(op: FileOperation): void {
     this.operations.push({ ...op });

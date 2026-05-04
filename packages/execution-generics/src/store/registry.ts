@@ -135,7 +135,7 @@ export const EXECUTION_NAMESPACES = {
     'writtenAssetType', // semantic written-asset type
   ],
   postprocessed: [
-    'result',       // normalized postprocessed (deliverable/multi/measure)
+    'result',       // normalized postprocessed AssetPack or measurement result
   ],
   // Validation phase
   [NS_EXEC_ASSET_PACK_VALIDATION_READY_TO_FINISH]: [

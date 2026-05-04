@@ -11,17 +11,17 @@ The operator-facing product meaning is:
 - Bitcode Exchange measures a Need from that evidence.
 - The measured Need is reviewable before fitting.
 - Accepted Needs can search for source-to-shares fit.
-- Implementation produces AssetPacks or AssetPack partials.
-- Finish saves the result and delivers through a destination mechanism such as GitHub pull request, issue comment, Jira comment, or another connected interface.
+- Implementation produces AssetPack synthesis artifacts and stored AssetPack evidence.
+- Finish saves the result and delivers the V26 Shippable through a GitHub pull request.
 
 ## Current Source Carriers
 
 - `uapi/app/executions/*` remains a compatibility execution surface used by the Bitcode Terminal.
-- `packages/api/src/routes/deliverables.ts` remains the main server execution route while its product meaning is AssetPack execution.
-- `packages/pipelines/asset-pack/*` is the live package path for AssetPack and connected-interface written-asset synthesis; `packages/pipelines/deliverable/*` is no longer an active filesystem owner.
+- `packages/api/src/routes/shippables.ts` remains the main server execution route while its product meaning is AssetPack execution and PR Shippables.
+- `packages/pipelines/asset-pack/*` is the live package path for AssetPack and connected-interface written-asset synthesis; the predecessor package path is no longer an active filesystem owner.
 - `packages/execution-generics/*`, `packages/pipelines-generics/*`, `packages/agent-generics/*`, and `packages/prompts/*` provide the reusable execution, registry, and prompt substrate.
 
-These compatibility filesystem names are not product vocabulary. Any later SPEC promotion should describe the product as Bitcode Need measurement, fit review, AssetPack synthesis, Finish, and delivery mechanisms.
+Storage-edge compatibility names are not product vocabulary. Any later SPEC promotion should describe the product as Bitcode Need measurement, fit review, AssetPack synthesis, Finish, and delivery mechanisms.
 
 ## Product Flow
 
@@ -39,7 +39,7 @@ These compatibility filesystem names are not product vocabulary. Any later SPEC 
 - Computer use is not an operator-facing Terminal option in V26.
 - `BITCODE_ENABLE_COMPUTER_USE_NEED_MEASUREMENT` is the only admitted computer-use flag, and it is internal server-side evidence support for Need measurement.
 - Broad computer-using agents are deferred beyond V26.
-- Compatibility route/payload/code names survive only as implementation corridors until source filenames are fully renamed or removed; package filesystem ownership is already `asset-pack`.
+- Physical storage names survive only at storage boundaries until migrations are fully renamed or removed; package filesystem ownership is already `asset-pack`.
 
 ## SPEC Promotion Obligations
 

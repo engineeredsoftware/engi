@@ -3,7 +3,7 @@ import { PromptPart } from '../../parts/PromptPart';
 /**
  * @doc-comment-developing-promptpartdevelopment
  * domain: system
- * intent: "Bitcode AssetPack compatibility-system reflection for need, written assets, and delivery mechanisms"
+ * intent: "Bitcode AssetPack system reflection for need, written assets, and delivery mechanisms"
  * current_version: "V26.50.0"
  * versions: []
  * benchmarks: [
@@ -11,7 +11,7 @@ import { PromptPart } from '../../parts/PromptPart';
  *   { "name": "implementation_ready", "test": "Can developers implement?", "score": 0.95 }
  * ]
  */
-export const PROMPTPART_SPECIFIC_DELIVERABLES_SYSTEM_ULTRA_CRITICAL_REFLECTION: PromptPart = 
+export const PROMPTPART_SPECIFIC_ASSET_PACK_SYSTEM_ULTRA_CRITICAL_REFLECTION: PromptPart =
   `ULTRA-CRITICAL REFLECTION CHECKPOINT
 
 Before proceeding with ANY action, ask yourself:
@@ -25,7 +25,7 @@ Before proceeding with ANY action, ask yourself:
    - PromptParts as semantic units
    - Execution-generics for orchestration
    - Need satisfaction before Finish completion
-   - Compatibility names only as wrappers when required
+   - Storage-edge compatibility names translated before they reach active contracts
 
 3. Is my synthesis and Finish delivery implementation production-ready?
    - All tests passing
@@ -35,7 +35,7 @@ Before proceeding with ANY action, ask yourself:
 
 4. Have I avoided ALL forms of:
    - Feature creep beyond the expressed need or chosen delivery mechanism
-   - Deliverable-first thinking that hides the underlying written assets
+   - Output-first thinking that hides the underlying written assets
    - Legacy pattern usage
    - Abstract philosophical language
    - Incomplete or placeholder code

@@ -493,7 +493,7 @@ function compactClosureSurface(state) {
       replayArtifactCount: proofCatalog?.replayArtifactCount || 0,
       summary:
         run.materializationProof?.summary
-        || run.deliverablesManifest?.summary
+        || run.assetPackEvidenceManifest?.summary
         || 'Branch artifacts are the materialized closure bundle behind the active Bitcode projection.',
     },
     settlement: {
@@ -2600,7 +2600,7 @@ const EXTRA_EXPLAINERS = {
   'incident-response': {
     kicker: 'Capsule term',
     title: 'Incident response',
-    summary: 'Marks material or scenarios oriented around responding to an incident rather than only shipping a planned feature change.',
+    summary: 'Marks material or scenarios oriented around responding to an incident rather than only releasing a planned feature change.',
     detail: 'Incident-response capsules usually imply stronger pressure on rollback safety, auditability, and bounded disclosure.',
     points: [
       'Useful for policy and privacy scenarios',
@@ -4199,7 +4199,7 @@ function flowGuideSteps(state) {
       kicker: 'Flow step 8',
       title: 'Inspect the realized branch stack',
       body: branchUnlocked
-        ? 'The branch panel is the artifact-heavy core of the flow: lockfiles, policy release, prompt/proof artifacts, projection policy, witness manifest, and deliverables.'
+        ? 'The branch panel is the artifact-heavy core of the flow: lockfiles, policy release, prompt/proof artifacts, projection policy, witness manifest, and assetPackEvidence.'
         : 'This panel stays intentionally thin until you run “Make Bitcode branch”. Once realized, it becomes the artifact-heavy core of the flow.',
       targetHint: 'After a run, this is where you inspect the private remediation branch as a structured artifact system rather than a vague “output”.'
     },
@@ -7189,11 +7189,11 @@ function renderBranchArtifacts(state) {
       visual: renderSelectedSourceMaterialManifestVisual
     },
     {
-      title: 'Deliverables manifest',
-      subtitle: '.bitcode/deliverables.json',
+      title: 'AssetPack evidence manifest',
+      subtitle: '.bitcode/asset-pack-evidence.json',
       explainerKey: 'branch-artifacts',
-      data: run.deliverablesManifest,
-      raw: branchFiles['.bitcode/deliverables.json'],
+      data: run.assetPackEvidenceManifest,
+      raw: branchFiles['.bitcode/asset-pack-evidence.json'],
       visual: surfaceVisualFallback
     },
     {

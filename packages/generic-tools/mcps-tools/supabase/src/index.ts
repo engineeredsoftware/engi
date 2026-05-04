@@ -80,7 +80,7 @@ export type SupabaseDeleteToolFn = typeof supabaseDeleteTool;
 
 // Re-export additional types and utilities for convenience
 export type {
-  Deliverable,
+  AssetPackEvidenceRow,
   PipelineExecution,
   PhaseExecution,
   ExecutionEvent,

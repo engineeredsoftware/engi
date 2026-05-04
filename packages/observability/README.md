@@ -74,7 +74,7 @@ function generateDefaultResponse<T>(schema: z.ZodType<T>): T
 ```typescript
 // Feedback Collection
 async function logFeedback(params: {
-  deliverableId: string;
+  assetPackEvidenceId: string;
   userId: string;
   rating: -1 | 1;
   comment?: string;

@@ -16,7 +16,29 @@ import {
   MessageAttachment,
   CreateMessageAttachmentInput
 } from '@bitcode/conversations-generics';
-import { AttachmentReference } from '@bitcode/attachments-generics';
+
+type MessageAttachmentRow = Tables<'message_attachments'>;
+
+function asMetadata(value: MessageAttachmentRow['metadata']): Record<string, any> | undefined {
+  return value && typeof value === 'object' && !Array.isArray(value)
+    ? (value as Record<string, any>)
+    : undefined;
+}
+
+function toMessageAttachment(row: MessageAttachmentRow): MessageAttachment {
+  return {
+    id: row.id,
+    message_id: row.message_id,
+    attachment_reference: {
+      attachment_id: row.attachment_id,
+      category: row.attachment_category as MessageAttachment['attachment_reference']['category'],
+      type: row.attachment_type ?? undefined,
+    },
+    context: row.context ?? undefined,
+    metadata: asMetadata(row.metadata),
+    created_at: row.created_at ?? '',
+  };
+}
 
 export class MessageAttachmentsModel extends BaseModel<'message_attachments'> {
   constructor(supabase: SupabaseClient<Database>) {
@@ -26,7 +48,7 @@ export class MessageAttachmentsModel extends BaseModel<'message_attachments'> {
   /**
    * Get attachments for a specific message
    */
-  async findByMessage(messageId: string): Promise<ConversationAttachment[]> {
+  async findByMessage(messageId: string): Promise<MessageAttachment[]> {
     const { data, error } = await this.supabase
       .from(this.tableName)
       .select('*')
@@ -34,13 +56,13 @@ export class MessageAttachmentsModel extends BaseModel<'message_attachments'> {
       .order('created_at', { ascending: true });
 
     if (error) throw error;
-    return data || [];
+    return (data || []).map(toMessageAttachment);
   }
 
   /**
    * Get attachments for an entire conversation
    */
-  async findByConversation(conversationId: string): Promise<ConversationAttachment[]> {
+  async findByConversation(conversationId: string): Promise<MessageAttachment[]> {
     const { data, error } = await this.supabase
       .from(this.tableName)
       .select(`
@@ -51,7 +73,7 @@ export class MessageAttachmentsModel extends BaseModel<'message_attachments'> {
       .order('created_at', { ascending: true });
 
     if (error) throw error;
-    return data || [];
+    return (data || []).map(toMessageAttachment);
   }
 
   /**
@@ -59,20 +81,17 @@ export class MessageAttachmentsModel extends BaseModel<'message_attachments'> {
    */
   async createForMessage(
     messageId: string,
-    input: Omit<CreateAttachmentInput, 'message_id'>
-  ): Promise<ConversationAttachment> {
-    return this.create({
+    input: Omit<CreateMessageAttachmentInput, 'message_id'>
+  ): Promise<MessageAttachment> {
+    const row = await this.create({
       message_id: messageId,
-      attachment_type: input.attachment_type,
-      deliverable_id: input.deliverable_id || null,
-      ai_document_id: input.ai_document_id || null,
-      connection_id: input.connection_id || null,
-      pipeline_run_id: input.pipeline_run_id || null,
-      file_url: input.file_url || null,
-      file_name: input.file_name || null,
-      file_size: input.file_size || null,
-      metadata: input.metadata || {}
+      attachment_id: input.attachment_reference.attachment_id,
+      attachment_category: input.attachment_reference.category,
+      attachment_type: input.attachment_reference.type ?? null,
+      context: input.context ?? null,
+      metadata: input.metadata || {},
     });
+    return toMessageAttachment(row);
   }
 
   /**
@@ -80,22 +99,19 @@ export class MessageAttachmentsModel extends BaseModel<'message_attachments'> {
    */
   async createManyForMessage(
     messageId: string,
-    attachments: Array<Omit<CreateAttachmentInput, 'message_id'>>
-  ): Promise<ConversationAttachment[]> {
+    attachments: Array<Omit<CreateMessageAttachmentInput, 'message_id'>>
+  ): Promise<MessageAttachment[]> {
     const data = attachments.map(att => ({
       message_id: messageId,
-      attachment_type: att.attachment_type,
-      deliverable_id: att.deliverable_id || null,
-      ai_document_id: att.ai_document_id || null,
-      connection_id: att.connection_id || null,
-      pipeline_run_id: att.pipeline_run_id || null,
-      file_url: att.file_url || null,
-      file_name: att.file_name || null,
-      file_size: att.file_size || null,
-      metadata: att.metadata || {}
+      attachment_id: att.attachment_reference.attachment_id,
+      attachment_category: att.attachment_reference.category,
+      attachment_type: att.attachment_reference.type ?? null,
+      context: att.context ?? null,
+      metadata: att.metadata || {},
     }));
 
-    return this.createMany(data);
+    const rows = await this.createMany(data);
+    return rows.map(toMessageAttachment);
   }
 
   /**
@@ -104,7 +120,7 @@ export class MessageAttachmentsModel extends BaseModel<'message_attachments'> {
   async findByType(
     conversationId: string,
     attachmentType: string
-  ): Promise<ConversationAttachment[]> {
+  ): Promise<MessageAttachment[]> {
     const { data, error } = await this.supabase
       .from(this.tableName)
       .select(`
@@ -116,14 +132,14 @@ export class MessageAttachmentsModel extends BaseModel<'message_attachments'> {
       .order('created_at', { ascending: true });
 
     if (error) throw error;
-    return data || [];
+    return (data || []).map(toMessageAttachment);
   }
 
   /**
    * Count attachments by type for a message
    */
   async countByTypeForMessage(messageId: string): Promise<{
-    deliverable: number;
+    assetPackEvidence: number;
     ai_document: number;
     connection: number;
     pipeline_run: number;
@@ -137,7 +153,7 @@ export class MessageAttachmentsModel extends BaseModel<'message_attachments'> {
     if (error) throw error;
 
     const counts = {
-      deliverable: 0,
+      assetPackEvidence: 0,
       ai_document: 0,
       connection: 0,
       pipeline_run: 0,
@@ -145,6 +161,11 @@ export class MessageAttachmentsModel extends BaseModel<'message_attachments'> {
     };
 
     (data || []).forEach(att => {
+      if (att.attachment_type === 'asset_pack_evidence') {
+        counts.assetPackEvidence++;
+        return;
+      }
+
       if (att.attachment_type in counts) {
         counts[att.attachment_type as keyof typeof counts]++;
       }

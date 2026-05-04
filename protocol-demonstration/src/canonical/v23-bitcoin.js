@@ -171,15 +171,15 @@ export function buildComputeRealityManifest({
  * @param {{
  *   branchName: string,
  *   paymentMode: string,
- *   deliverablesManifest: { deliverables?: Array<{ path?: string, potentiallyDisclosable?: boolean }> | undefined },
+ *   assetPackEvidenceManifest: { assetPackEvidence?: Array<{ path?: string, potentiallyDisclosable?: boolean }> | undefined },
  *   policyRelease: { retentionRules?: Array<Record<string, unknown>> | undefined, releaseId?: string | undefined }
  * }} input
  * @returns {Record<string, unknown>}
  */
-export function buildStorageRealityManifest({ branchName, paymentMode, deliverablesManifest, policyRelease }) {
-  const deliverables = deliverablesManifest.deliverables || [];
-  const publicPaths = deliverables.filter((entry) => entry.potentiallyDisclosable).map((entry) => String(entry.path || ''));
-  const privatePaths = deliverables.filter((entry) => !entry.potentiallyDisclosable).map((entry) => String(entry.path || ''));
+export function buildStorageRealityManifest({ branchName, paymentMode, assetPackEvidenceManifest, policyRelease }) {
+  const assetPackEvidence = assetPackEvidenceManifest.assetPackEvidence || [];
+  const publicPaths = assetPackEvidence.filter((entry) => entry.potentiallyDisclosable).map((entry) => String(entry.path || ''));
+  const privatePaths = assetPackEvidence.filter((entry) => !entry.potentiallyDisclosable).map((entry) => String(entry.path || ''));
   return {
     realityId: `storage_reality_${sha256(`${branchName}:${paymentMode}`).slice(0, 12)}`,
     branchName,

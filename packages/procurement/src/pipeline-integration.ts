@@ -354,7 +354,7 @@ async function generateValidationRecommendations(procurement: Procurement): Prom
     recommendations.push('Monitor quality checkpoints and provide feedback');
   } else if (procurement.status === 'completed') {
     recommendations.push('Procurement work completed - ready for quality assessment');
-    recommendations.push('Review deliverables against Marks of Measurement criteria');
+    recommendations.push('Review fulfillment artifacts against Marks of Measurement criteria');
   }
 
   return recommendations;

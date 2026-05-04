@@ -16,10 +16,14 @@ import type { MarksOfMeasurement, QualityMetrics } from './types';
 interface CompletionData {
   procurementRequestId: string;
   contributorId: string;
-  deliverableUrl: string;
+  fulfillmentArtifactUrl: string;
   completionNotes: string;
   submittedAt?: string;
 }
+
+// Physical storage columns keep pre-V26 names until procurement migrations are recut.
+const FULFILLMENT_ARTIFACT_SPECS_STORAGE_SELECT = 'fulfillment_artifact_specs:deliverable_specs';
+const FULFILLMENT_ARTIFACT_URL_STORAGE_COLUMN = 'deliverable_url';
 
 interface QualityAssessmentResult {
   qualityScore: number; // 0.0 to 5.0
@@ -186,13 +190,16 @@ export class CreditPayoutEngine {
 
       // Extract quality criteria from procurement request
       const qualityCriteria = procurementDetails.qualityCriteria || this.getDefaultQualityCriteria();
+      const fulfillmentArtifactSpecs =
+        procurementDetails.fulfillmentArtifactSpecs ||
+        procurementDetails.fulfillment_artifact_specs;
 
       // Prepare measuring pipeline input
       const measurementInput = {
-        deliverableUrl: data.deliverableUrl,
+        fulfillmentArtifactUrl: data.fulfillmentArtifactUrl,
         completionNotes: data.completionNotes,
         requirements: procurementDetails.requirements,
-        acceptanceCriteria: procurementDetails.deliverableSpecs,
+        acceptanceCriteria: fulfillmentArtifactSpecs,
         qualityCriteria,
         submissionMetadata: {
           procurementRequestId: data.procurementRequestId,
@@ -432,7 +439,7 @@ export class CreditPayoutEngine {
       // For now, simulate quality measurements
       
       log('Executing measuring pipeline for quality assessment', 'info', {
-        deliverableUrl: input.deliverableUrl,
+        fulfillmentArtifactUrl: input.fulfillmentArtifactUrl,
         correlationId
       });
 
@@ -484,7 +491,7 @@ export class CreditPayoutEngine {
         deadline,
         status,
         requirements,
-        deliverable_specs,
+        ${FULFILLMENT_ARTIFACT_SPECS_STORAGE_SELECT},
         quality_criteria,
         created_at
       `)
@@ -521,7 +528,7 @@ export class CreditPayoutEngine {
       .insert({
         procurement_request_id: data.procurementRequestId,
         contributor_id: data.contributorId,
-        deliverable_url: data.deliverableUrl,
+        [FULFILLMENT_ARTIFACT_URL_STORAGE_COLUMN]: data.fulfillmentArtifactUrl,
         completion_notes: data.completionNotes,
         completed_at: new Date().toISOString()
       })

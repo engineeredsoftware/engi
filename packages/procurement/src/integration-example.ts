@@ -91,9 +91,9 @@ export class BitcodeProcurementSystem {
       });
 
       // Step 7: Run automated quality assessment
-      const qualityResult = await this.qualityAssessment.assessDeliverables(
+      const qualityResult = await this.qualityAssessment.assessFulfillmentArtifacts(
         procurement,
-        fulfillment.deliverables
+        fulfillment.fulfillmentArtifacts
       );
       log('🎯 Step 7: Quality assessment completed', 'info', {
         overallScore: qualityResult.overallScore,
@@ -361,7 +361,7 @@ export class BitcodeProcurementSystem {
     return {
       contributorId: 'contributor-expert-dev',
       contributorAddress: '0x1234567890123456789012345678901234567890',
-      deliverables: [
+      fulfillmentArtifacts: [
         {
           type: 'code',
           content: `

@@ -1298,7 +1298,7 @@ const configurationSections = [
     detail:
       'A disabled control should still teach what it will do. That keeps users oriented and avoids implying that missing connectivity is accidental breakage.',
     reason:
-      'This is especially important while Terminal is active and shipping with mocked state toward commercial readiness.',
+      'This is especially important while Terminal is active and advancing from mocked state toward commercial readiness.',
     points: [
       'Disabled controls remain visible with clear tooltip copy.',
       'Terminal is active; Exchange and Auxillaries can remain gated by launch flags.',

@@ -154,12 +154,12 @@ export default function LeftSidebar() {
                     }
                     const od: any = (run as any).output || (run as any).output_data || {};
                     const postprocessed = (od?.postprocessed) || (ctx?.postprocessed?.result || ctx?.postprocessed) || undefined;
-                    const fwsSummary =
+                    const assetPackCompletionSummary =
                       od?.asset_pack_completion?.assetPackSynthesisArtifacts?.summary ||
                       od?.asset_pack_completion?.writtenAssets?.summary ||
                       undefined;
                     return (
-                      postprocessed?.title || fwsSummary || ctx?.summary || `Run ${run.id}`
+                      postprocessed?.title || assetPackCompletionSummary || ctx?.summary || `Run ${run.id}`
                     );
                   })();
 

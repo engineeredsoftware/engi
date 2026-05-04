@@ -108,8 +108,8 @@ const validationPhase = factoryPhaseDelegator('validation', validationAgent);
 const finishPhase = factoryPhaseDelegator('finish', finishAgent);
 
 // Create pipeline that sequences phases
-const deliverablePipeline = factoryPipeline(
-  'deliverable',
+const assetPackPipeline = factoryPipeline(
+  'asset-pack',
   [setupPhase, discoveryPhase, implementationPhase, validationPhase, finishPhase]
 );
 ```
@@ -206,10 +206,10 @@ The generic prompt for Pipeline EE:
 import { PipelinePrompt } from '@bitcode/pipelines-generics';
 
 // Create pipeline-specific prompt
-const prompt = PipelinePrompt.create('deliverable');
+const prompt = PipelinePrompt.create('asset-pack');
 
 // Prompts flow through Registry pattern
-prompt.registry.set('pipeline.type', 'deliverable');
+prompt.registry.set('pipeline.type', 'asset-pack');
 prompt.registry.set('phase.current', 'implementation');
 ```
 
@@ -263,7 +263,7 @@ async function runPipelineWithStreaming(userId: string, need: string) {
 
   // Create pipeline execution record
   const { data: run } = await supabase
-    .from('deliverable_pipeline_runs')
+    .from('pipeline_runs')
     .insert({
       user_id: userId,
       status: 'running',

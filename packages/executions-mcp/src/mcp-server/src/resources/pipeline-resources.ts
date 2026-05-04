@@ -16,7 +16,7 @@ import { createClient } from '@bitcode/supabase';
 import {
   PipelineExecutionsModel,
   ExecutionEventsModel,
-  DeliverablesModel,
+  AssetPackEvidenceModel as AssetPackEvidenceStorageModel,
   UserProfilesModel
 } from '@bitcode/orm';
 import type { MCPAuthContext } from '../types';
@@ -97,7 +97,7 @@ async function getPipelineDetails(runId: string, context: MCPAuthContext): Promi
   const supabase = createClient();
   const runs = new PipelineExecutionsModel(supabase);
   const events = new ExecutionEventsModel(supabase);
-  const deliverables = new DeliverablesModel(supabase);
+  const assetPackEvidenceStorage = new AssetPackEvidenceStorageModel(supabase);
 
   try {
     // Get run details
@@ -122,17 +122,17 @@ async function getPipelineDetails(runId: string, context: MCPAuthContext): Promi
     // Get run events
     const runEvents = await events.getByRunId(runId);
 
-    // Get retained delivery-mechanism details when this asset-pack run still carries a deliverable_id.
-    let deliverable;
+    // Read physical storage evidence when this AssetPack run still carries a retained storage id.
+    let assetPackEvidence;
     if (run.deliverable_id) {
-      deliverable = await deliverables.getById(run.deliverable_id);
+      assetPackEvidence = await assetPackEvidenceStorage.getById(run.deliverable_id);
     }
 
     const result = {
       pipeline: {
         id: run.id,
-        deliverableId: run.deliverable_id,
-        type: metadata?.pipeline || 'deliverable',
+        assetPackEvidenceId: run.deliverable_id,
+        type: metadata?.pipeline || 'asset-pack',
         subtype: metadata?.subtype,
         status: run.status,
         task: metadata?.task,
@@ -141,11 +141,11 @@ async function getPipelineDetails(runId: string, context: MCPAuthContext): Promi
         endTime: run.completed_at,
         duration: run.execution_time_ms,
         results: run.result,
-        deliverable: deliverable ? {
-          id: deliverable.id,
-          name: deliverable.name,
-          description: deliverable.description,
-          status: deliverable.status
+        assetPackEvidence: assetPackEvidence ? {
+          id: assetPackEvidence.id,
+          name: assetPackEvidence.name,
+          description: assetPackEvidence.description,
+          status: assetPackEvidence.status
         } : null,
         metrics: metadata?.metrics || {},
         error: run.error_message
@@ -229,8 +229,8 @@ async function getPipelineHistory(context: MCPAuthContext, filters: any = {}): P
         const metadata = r.metadata as any;
         return {
           id: r.id,
-          deliverableId: r.deliverable_id,
-          pipeline: metadata?.pipeline || 'deliverable',
+          assetPackEvidenceId: r.deliverable_id,
+          pipeline: metadata?.pipeline || 'asset-pack',
           subtype: metadata?.subtype,
           status: r.status,
           task: metadata?.task ? (metadata.task.length > 200 ? metadata.task.substring(0, 200) + '...' : metadata.task) : '',
@@ -303,8 +303,8 @@ async function getActivePipelines(context: MCPAuthContext): Promise<any> {
         const metadata = r.metadata as any;
         return {
           id: r.id,
-          deliverableId: r.deliverable_id,
-          pipeline: metadata?.pipeline || 'deliverable',
+          assetPackEvidenceId: r.deliverable_id,
+          pipeline: metadata?.pipeline || 'asset-pack',
           subtype: metadata?.subtype,
           status: r.status,
           task: metadata?.task ? (metadata.task.length > 100 ? metadata.task.substring(0, 100) + '...' : metadata.task) : '',

@@ -316,7 +316,7 @@ function selectRepresentativeProofSurface(data) {
   const theorem = family?.theoremVerdicts?.[0];
   const witnessPath = String(family?.witnessArtifactPaths?.find((/** @type {string} */ path) => !['.bitcode/system-proof-bundle.json', '.bitcode/proof-witness-manifest.json'].includes(path)) || family?.witnessArtifactPaths?.[0] || '');
   const digestPath = String(run?.artifactDigestEntries?.find((/** @type {any} */ entry) => entry.path === witnessPath)?.path || run?.artifactDigestEntries?.[0]?.path || '');
-  const artifact = run?.proofArtifacts?.find((/** @type {any} */ entry) => entry.classification && entry.deliverable) || run?.proofArtifacts?.[0];
+  const artifact = run?.proofArtifacts?.find((/** @type {any} */ entry) => entry.classification && entry.assetPackEvidence) || run?.proofArtifacts?.[0];
   return { run, family, member, theorem, witnessPath, digestPath, artifact };
 }
 
@@ -384,7 +384,7 @@ export function buildV19NegativeProofMutationMatrix(data, {
   const reversedDigestEntries = [...sortedDigestEntries].reverse();
   const projectionArtifact = cloneJson(surface.artifact || {});
   if (projectionArtifact.classification) {
-    projectionArtifact.classification.disclosable = !(projectionArtifact.deliverable?.potentiallyDisclosable === true);
+    projectionArtifact.classification.disclosable = !(projectionArtifact.assetPackEvidence?.potentiallyDisclosable === true);
   }
 
   const definitions = [
@@ -464,7 +464,7 @@ export function buildV19NegativeProofMutationMatrix(data, {
       artifactPath: String(surface.artifact?.path || 'none'),
       execute: () => {
         assertMutation(
-          projectionArtifact.classification?.disclosable === projectionArtifact.deliverable?.potentiallyDisclosable,
+          projectionArtifact.classification?.disclosable === projectionArtifact.assetPackEvidence?.potentiallyDisclosable,
           'projection-policy-mismatch',
           `projection policy mismatch for ${projectionArtifact.path || 'unknown'}`
         );

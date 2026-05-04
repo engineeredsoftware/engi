@@ -12,12 +12,64 @@ const orm_1 = require("@bitcode/orm");
 const ANONYMOUS_USER_DATA = {
     profile: null,
     githubConnection: null,
+    walletConnectionStatus: null,
+    repositoryConnectionStatus: null,
+    repositories: [],
+    repositoryInventorySource: null,
+    organizations: [],
     btdBalance: 0,
     modelPreferences: null,
     onboardedPanes: [],
     onboarded_steps: [],
     isOnboardingComplete: false,
 };
+function readRepositoryOwnerUsername(repository) {
+    if (!repository || typeof repository !== 'object')
+        return null;
+    const repositoryRecord = repository;
+    const owner = repositoryRecord.owner;
+    if (owner && typeof owner === 'object') {
+        const ownerRecord = owner;
+        if (typeof ownerRecord.username === 'string' && ownerRecord.username.trim()) {
+            return ownerRecord.username.trim();
+        }
+        if (typeof ownerRecord.login === 'string' && ownerRecord.login.trim()) {
+            return ownerRecord.login.trim();
+        }
+    }
+    const fullNameCandidate = typeof repositoryRecord.fullName === 'string'
+        ? repositoryRecord.fullName
+        : typeof repositoryRecord.full_name === 'string'
+            ? repositoryRecord.full_name
+            : null;
+    if (!fullNameCandidate || !fullNameCandidate.includes('/'))
+        return null;
+    const [ownerUsername] = fullNameCandidate.split('/');
+    return ownerUsername?.trim() || null;
+}
+function readRepositoryOwnerType(repository) {
+    if (!repository || typeof repository !== 'object')
+        return null;
+    const owner = repository.owner;
+    if (!owner || typeof owner !== 'object')
+        return null;
+    const ownerType = owner.type;
+    return typeof ownerType === 'string' && ownerType.trim() ? ownerType.trim().toLowerCase() : null;
+}
+function deriveConnectedOrganizations(repositories, fallbackOrganizations) {
+    if (Array.isArray(fallbackOrganizations)) {
+        const normalizedOrganizations = fallbackOrganizations
+            .map((organization) => (typeof organization === 'string' ? organization.trim() : ''))
+            .filter(Boolean);
+        if (normalizedOrganizations.length > 0) {
+            return Array.from(new Set(normalizedOrganizations));
+        }
+    }
+    return Array.from(new Set(repositories
+        .filter((repository) => readRepositoryOwnerType(repository) === 'organization')
+        .map((repository) => readRepositoryOwnerUsername(repository))
+        .filter((organization) => Boolean(organization))));
+}
 // ---------------------------------------------------------------------------
 // Very lightweight shared cache (module-level).  We intentionally avoid adding
 // a new runtime dependency (e.g. SWR or React Query) to keep the patch
@@ -126,19 +178,43 @@ function useUserData() {
         };
     }, []);
     const hasGitHubConnection = Boolean(data?.githubConnection || data?.vcsConnections?.some(conn => conn.provider === 'github'));
+    const walletConnectionStatus = data?.walletConnectionStatus && typeof data.walletConnectionStatus === 'object'
+        ? data.walletConnectionStatus
+        : null;
+    const repositoryConnectionStatus = data?.repositoryConnectionStatus && typeof data.repositoryConnectionStatus === 'object'
+        ? data.repositoryConnectionStatus
+        : null;
+    const hasValidGitHubConnection = repositoryConnectionStatus
+        ? Boolean(repositoryConnectionStatus.connected && repositoryConnectionStatus.valid)
+        : hasGitHubConnection;
     const walletCapability = (0, orm_1.readBitcodeWalletCapabilityFromProfile)(data?.profile ?? null);
     const hasWalletConnection = walletCapability.hasIdentity;
-    const hasVerifiedWalletConnection = walletCapability.isVerifiedSigner;
+    const hasStoredVerifiedWalletConnection = walletCapability.isVerifiedSigner;
+    const hasVerifiedWalletConnection = walletConnectionStatus
+        ? Boolean(walletConnectionStatus.connected && walletConnectionStatus.valid)
+        : hasStoredVerifiedWalletConnection;
     const walletBindingStatus = walletCapability.binding?.status ?? null;
+    const repositories = Array.isArray(data?.repositories) ? data.repositories : [];
+    const repositoryInventorySource = typeof data?.repositoryInventorySource === 'string'
+        ? data.repositoryInventorySource
+        : null;
+    const organizations = deriveConnectedOrganizations(repositories, data?.organizations);
     const btdBalance = typeof data?.btdBalance === 'number' ? data.btdBalance : hydratedBtdBalance;
     const onboardedSteps = (0, auxillary_pane_meta_1.normalizeAuxillarySteps)(data?.onboardedPanes ?? data?.onboarded_steps ?? []);
     const isOnboardingComplete = data?.isOnboardingComplete || false;
     return {
         data,
         hasGitHubConnection,
+        hasValidGitHubConnection,
         hasWalletConnection,
+        hasStoredVerifiedWalletConnection,
         hasVerifiedWalletConnection,
         walletBindingStatus,
+        walletConnectionStatus,
+        repositoryConnectionStatus,
+        repositories,
+        repositoryInventorySource,
+        organizations,
         btdBalance,
         isLoading,
         error,

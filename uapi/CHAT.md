@@ -2,7 +2,7 @@
 
 Inline widgets for:
 
-`+`: this allows creation of an ai_document, this will be how live and deliverable feedback will be done
+`+`: this allows creation of an ai_document for live Bitcode feedback and AssetPack evidence review.
 
 
 ## UI

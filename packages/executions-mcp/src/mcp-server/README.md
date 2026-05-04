@@ -204,7 +204,7 @@ npm run test:load
 ## 📚 API Documentation
 
 ### Tool Categories
-1. **Pipeline Tools** - Execute the Deliverable SDIVS pipeline
+1. **Pipeline Tools** - Execute the AssetPack SDIVF pipeline
 2. **Analysis Tools** - Code analysis and insights
 3. **Intelligence Tools** - AI-powered features
 4. **Orchestration Tools** - Workflow management

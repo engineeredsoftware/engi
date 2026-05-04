@@ -32,7 +32,7 @@ export function buildBenchmarkComparison({ bundleId, benchmark, baselineBp, trea
         ? 'The licensed bundle supplied specific rollback sequencing, issuer-mismatch diagnosis, and proof-backed validator patch guidance that the baseline system lacked.'
         : 'The licensed bundle did not add enough task-specific knowledge to create measurable lift in this run.',
       businessImpact: improved
-        ? 'Higher confidence incident recovery, faster safe rollback, and lower risk of shipping an auth fix that breaks live sessions.'
+        ? 'Higher confidence incident recovery, faster safe rollback, and lower risk of releasing an auth fix that breaks live sessions.'
         : 'No measurable buyer impact established in this run.',
       interpretation: improved
         ? 'Licensed bundle improved the reader system\'s remediation performance on the target task.'

@@ -45,13 +45,13 @@ registry.registerProvider({
 });
 
 // Configure at different levels
-registry.configure('pipeline:deliverable', { model: 'gpt-4', temperature: 0.7 });
-registry.configure('pipeline:deliverable:phase:implementation', { temperature: 0.2 });
+registry.configure('pipeline:asset-pack', { model: 'gpt-4', temperature: 0.7 });
+registry.configure('pipeline:asset-pack:phase:implementation', { temperature: 0.2 });
 
 // Get LLM with cascading config
 const llm = registry.getLLM([
-  'pipeline:deliverable',
-  'pipeline:deliverable:phase:implementation'
+  'pipeline:asset-pack',
+  'pipeline:asset-pack:phase:implementation'
 ]);
 
 // Use it
@@ -155,11 +155,11 @@ registry.configure('*', {
   temperature: 0.7 
 }, 0); // Global default, priority 0
 
-registry.configure('pipeline:deliverable', { 
-  model: 'gpt-4' // Higher tier model for deliverables
+registry.configure('pipeline:asset-pack', { 
+  model: 'gpt-4' // Higher tier model for AssetPack synthesis
 }, 10);
 
-registry.configure('pipeline:deliverable:phase:implementation:agent:coder', {
+registry.configure('pipeline:asset-pack:phase:implementation:agent:coder', {
   temperature: 0.2,  // Precise for code generation
   maxTokens: 8192    // More tokens for code
 }, 20);
@@ -169,15 +169,15 @@ When requesting an LLM, the registry searches from most specific to least specif
 
 ```typescript
 // Looks for LLM at:
-// 1. ['pipeline', 'deliverable', 'phase', 'implementation', 'agent', 'coder']
-// 2. ['pipeline', 'deliverable', 'phase', 'implementation', 'agent']
-// 3. ['pipeline', 'deliverable', 'phase', 'implementation']
-// 4. ['pipeline', 'deliverable', 'phase']
-// 5. ['pipeline', 'deliverable']
+// 1. ['pipeline', 'asset-pack', 'phase', 'implementation', 'agent', 'coder']
+// 2. ['pipeline', 'asset-pack', 'phase', 'implementation', 'agent']
+// 3. ['pipeline', 'asset-pack', 'phase', 'implementation']
+// 4. ['pipeline', 'asset-pack', 'phase']
+// 5. ['pipeline', 'asset-pack']
 // 6. ['pipeline']
 // 7. []
 const llm = registry.getLLM(
-  ['pipeline', 'deliverable', 'phase', 'implementation', 'agent', 'coder']
+  ['pipeline', 'asset-pack', 'phase', 'implementation', 'agent', 'coder']
 );
 ```
 

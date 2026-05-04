@@ -410,9 +410,9 @@ export const V26_INFERENCE_IMPLEMENTATION_RECORDS = Object.freeze([
         'packages/pipelines/asset-pack/src/phases/index.ts',
         'packages/pipelines/asset-pack/src/phases/finish.ts',
         'packages/pipelines/asset-pack/src/agents/finish/deliver-asset-pack-to-destination-agent.ts',
-        'packages/pipelines/asset-pack/src/agents/finish/final-work-summary-agent.ts'
+        'packages/pipelines/asset-pack/src/agents/finish/asset-pack-completion-agent.ts'
       ],
-      contract: 'Setup, iteration, validation, and Finish agents must resolve semantic need/writtenAsset fields before compatibility deliverable fields; Delivering is only the third-party AssetPack/partial handoff inside Finish.'
+      contract: 'Setup, iteration, validation, and Finish agents must resolve semantic need and writtenAsset fields before bounded storage compatibility fields; Delivering is only the third-party AssetPack/partial handoff inside Finish.'
     },
     executionImplementation: {
       owners: [

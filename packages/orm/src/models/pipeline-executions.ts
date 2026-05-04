@@ -103,8 +103,8 @@ export class PipelineExecutionsModel extends BaseModel<'executions'> {
     return normalizeExecution(updated);
   }
 
-  async getByDeliverableId(deliverableId: string): Promise<PipelineExecutionCompatibility[]> {
-    const rows = await this.findBy('deliverable_id', deliverableId);
+  async getByAssetPackEvidenceId(assetPackEvidenceId: string): Promise<PipelineExecutionCompatibility[]> {
+    const rows = await this.findBy('deliverable_id', assetPackEvidenceId);
     return rows.map(normalizeExecution);
   }
 }

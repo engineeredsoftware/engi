@@ -55,7 +55,7 @@ import { ExecutionReality, NormalizationPressure } from './canonical/enums.js';
 import './canonical/types.js';
 import { inferTechnologySignals } from '../../packages/tech-types/src/signals-runtime.mjs';
 import { buildRepoSupplySurface, buildDepositingSurface, buildNeedingSurface, buildDepositingToNeedingSurface, buildRepoToSettlementSurface, buildIdentityAuthSpineSurface, buildBoundaryRealitySurface, buildGithubBoundarySurface } from './canonical/surfaces.js';
-import { buildPipelineTelemetry, buildPromptImplementationSurface, buildSystemProofBundle, buildArtifactUploadManifest, buildDeliverablesManifest, buildScenarioFixtureManifest, buildTestCoverageReport } from './canonical/run-artifacts.js';
+import { buildPipelineTelemetry, buildPromptImplementationSurface, buildSystemProofBundle, buildArtifactUploadManifest, buildAssetPackEvidenceManifest, buildScenarioFixtureManifest, buildTestCoverageReport } from './canonical/run-artifacts.js';
 import { createNeedMeasurementRuntime } from './canonical/need-measurement.js';
 import { createEvaluationMaterializationRuntime } from './canonical/evaluation-materialization.js';
 import { createSettlementRuntime } from './canonical/settlement.js';
@@ -209,7 +209,7 @@ const V23_PRIVATE_ROOT_EXCLUSION_PATHS = new Set([
   '.bitcode/bitcoin-bounded-public-anchor.json',
   '.bitcode/bitcoin-audit-anchor-proof.json',
   '.bitcode/bitcoin-settlement-interface-proof.json',
-  '.bitcode/deliverables.json',
+  '.bitcode/asset-pack-evidence.json',
   '.bitcode/pipeline-telemetry.json'
 ]);
 
@@ -2649,7 +2649,7 @@ function buildExternalBoundaryManifest({
         interfaceId: 'branch-pr-actions',
         label: 'Branch / PR / comment / review actions',
         status: 'modeled-local-boundary',
-        localPrototype: { implemented: true, surface: 'artifacts specify intended branch outputs without live writes', artifactRefs: ['.bitcode/deliverables.json', '.bitcode/profile-composition.json'] },
+        localPrototype: { implemented: true, surface: 'artifacts specify intended branch outputs without live writes', artifactRefs: ['.bitcode/asset-pack-evidence.json', '.bitcode/profile-composition.json'] },
         externalBoundary: { implemented: false, requiredForLive: true, contract: ['create/update branch', 'push materialized artifacts', 'open or update PR', 'publish comments / review annotations'], boundaryArtifacts: ['github.branch-action-request', 'github.pr-action-request', 'github.review-action-request'] }
       }),
       buildExternalBoundaryInterface({
@@ -5704,7 +5704,7 @@ function assertRequiredBranchArtifacts(branchArtifacts) {
  * @param {any} __0
  * @returns {any}
  */
-function buildBranchArtifacts({ need, needMeasurement, needReview, benchmarkTarget, branchMode, branchName, depositingSurface, needingSurface, depositingToNeedingSurface, matchReport, verificationReport, evalManifest, assetPack, assetPackLock, selectedSourceMaterialManifest, settlementPreview, settlementProof, systemProofBundle, authorizationDecisions, sensitiveDataFlowRecords, policyRelease, deliverablesManifest, unitCatalog, pipelineTelemetry, selectedCandidates, journalDiff, identityBindings, githubBoundarySurface, artifactUploadManifest, profileCompositionSurface, promptFamilyRegistry, promptSurfaces, promptContracts, inferenceProofs, inferenceMomentContracts, promptImplementationSurface, inferenceSynthesisProof, promptCompletenessProof, parsedCompletionEnvelopes, parsedCompletionEnvelopeArtifact, externalBoundaryManifest, measurementReceipts, staticMeasurementReport, staticMeasurementProof, codeAnalysisFactRegistry, staticHeuristicsRegistry, verificationReceiptsArtifact, verificationDecisionsProof, proofWitnessManifest, selectionConsistencyProof, selectionAndMaterializationProof, identityAuthorizationProof, sensitiveDataFlowProof, authorizationAndSensitiveFlowProof, materializationProof, materializationExclusions, materializationVisibilityProof, sourceToSharesArtifact, settlementParticipationArtifact, accountingPrecisionReport, journalCompletenessProof, settlementSourceToSharesProof, scenarioFixtureManifest, testCoverageReport, projectionPolicy, boundedPublicProof, redactionProof, disclosureProof, disclosureBoundaryProof, proofContract, computeRealityManifest, storageRealityManifest, bitcoinCommitmentManifest, bitcoinTreasuryPolicy, bitcoinAnchor, bitcoinBoundedPublicAnchor, bitcoinSettlementIntent, bitcoinSettlementObservation, bitcoinAuditAnchorProof, bitcoinSettlementInterfaceProof, externalEnvironmentProfile, externalExecutionPolicy, externalTelemetryPolicy, externalTelemetrySummary, networkCapabilityManifest, githubAppBinding, bitcoinNetworkIntent, bitcoinNetworkExecution, bitcoinNetworkObservation, repeatedReadPaymentIntent, repeatedReadPaymentExecution, repeatedReadPaymentObservation, sidechainExecutionReceipt, computeContainerManifest, computeContainerExecution, storageContainerManifest, storagePublicationReceipt, storageRetrievalReceipt, githubLiveSession, githubInventoryFetchReceipt, githubArtifactFetchReceipt, githubBranchPublicationReceipt, githubPrUpdateReceipt, externalRealizationProof, containerRealityProof, githubLiveInterfaceProof }) {
+function buildBranchArtifacts({ need, needMeasurement, needReview, benchmarkTarget, branchMode, branchName, depositingSurface, needingSurface, depositingToNeedingSurface, matchReport, verificationReport, evalManifest, assetPack, assetPackLock, selectedSourceMaterialManifest, settlementPreview, settlementProof, systemProofBundle, authorizationDecisions, sensitiveDataFlowRecords, policyRelease, assetPackEvidenceManifest, unitCatalog, pipelineTelemetry, selectedCandidates, journalDiff, identityBindings, githubBoundarySurface, artifactUploadManifest, profileCompositionSurface, promptFamilyRegistry, promptSurfaces, promptContracts, inferenceProofs, inferenceMomentContracts, promptImplementationSurface, inferenceSynthesisProof, promptCompletenessProof, parsedCompletionEnvelopes, parsedCompletionEnvelopeArtifact, externalBoundaryManifest, measurementReceipts, staticMeasurementReport, staticMeasurementProof, codeAnalysisFactRegistry, staticHeuristicsRegistry, verificationReceiptsArtifact, verificationDecisionsProof, proofWitnessManifest, selectionConsistencyProof, selectionAndMaterializationProof, identityAuthorizationProof, sensitiveDataFlowProof, authorizationAndSensitiveFlowProof, materializationProof, materializationExclusions, materializationVisibilityProof, sourceToSharesArtifact, settlementParticipationArtifact, accountingPrecisionReport, journalCompletenessProof, settlementSourceToSharesProof, scenarioFixtureManifest, testCoverageReport, projectionPolicy, boundedPublicProof, redactionProof, disclosureProof, disclosureBoundaryProof, proofContract, computeRealityManifest, storageRealityManifest, bitcoinCommitmentManifest, bitcoinTreasuryPolicy, bitcoinAnchor, bitcoinBoundedPublicAnchor, bitcoinSettlementIntent, bitcoinSettlementObservation, bitcoinAuditAnchorProof, bitcoinSettlementInterfaceProof, externalEnvironmentProfile, externalExecutionPolicy, externalTelemetryPolicy, externalTelemetrySummary, networkCapabilityManifest, githubAppBinding, bitcoinNetworkIntent, bitcoinNetworkExecution, bitcoinNetworkObservation, repeatedReadPaymentIntent, repeatedReadPaymentExecution, repeatedReadPaymentObservation, sidechainExecutionReceipt, computeContainerManifest, computeContainerExecution, storageContainerManifest, storagePublicationReceipt, storageRetrievalReceipt, githubLiveSession, githubInventoryFetchReceipt, githubArtifactFetchReceipt, githubBranchPublicationReceipt, githubPrUpdateReceipt, externalRealizationProof, containerRealityProof, githubLiveInterfaceProof }) {
   return evaluationMaterializationRuntime.buildBranchArtifacts({
     need,
     needMeasurement,
@@ -5727,7 +5727,7 @@ function buildBranchArtifacts({ need, needMeasurement, needReview, benchmarkTarg
     authorizationDecisions,
     sensitiveDataFlowRecords,
     policyRelease,
-    deliverablesManifest,
+    assetPackEvidenceManifest,
     unitCatalog,
     pipelineTelemetry,
     selectedCandidates,
@@ -5983,7 +5983,7 @@ export function runMakeBitcodeBranch(state, input = {}) {
     selectedCandidates,
     settlementParticipationArtifact: settlement.settlementParticipationArtifact
   });
-  const deliverablesManifest = buildDeliverablesManifest({
+  const assetPackEvidenceManifest = buildAssetPackEvidenceManifest({
     branchName,
     need,
     benchmarkTarget,
@@ -6191,7 +6191,7 @@ export function runMakeBitcodeBranch(state, input = {}) {
     authorizationDecisions,
     sensitiveDataFlowRecords,
     policyRelease,
-    deliverablesManifest,
+    assetPackEvidenceManifest,
     unitCatalog,
     pipelineTelemetry,
     selectedCandidates,
@@ -6450,7 +6450,7 @@ export function runMakeBitcodeBranch(state, input = {}) {
     storageRealityManifest = buildStorageRealityManifest({
       branchName,
       paymentMode,
-      deliverablesManifest,
+      assetPackEvidenceManifest,
       policyRelease
     });
     bitcoinTreasuryPolicy = buildBitcoinTreasuryPolicy({ paymentMode });
@@ -6496,11 +6496,11 @@ export function runMakeBitcodeBranch(state, input = {}) {
       '.bitcode/bitcoin-settlement-intent.json': ['bitcoin-settlement-interface'],
       '.bitcode/bitcoin-settlement-observation.json': ['bitcoin-settlement-interface']
     };
-    const deliverableByPath = Object.fromEntries(
-      (deliverablesManifest?.deliverables || []).map((entry) => [entry.path, entry])
+    const assetPackEvidenceByPath = Object.fromEntries(
+      (assetPackEvidenceManifest?.assetPackEvidence || []).map((entry) => [entry.path, entry])
     );
     const commitmentScopePayloadByPath = Object.fromEntries(
-      Object.entries(artifactPayloadByPath).filter(([path]) => !V23_PRIVATE_ROOT_EXCLUSION_PATHS.has(path) && !!deliverableByPath[path])
+      Object.entries(artifactPayloadByPath).filter(([path]) => !V23_PRIVATE_ROOT_EXCLUSION_PATHS.has(path) && !!assetPackEvidenceByPath[path])
     );
     const artifactDigestLookup = buildArtifactDigestLookup(commitmentScopePayloadByPath, proofFamiliesByPath);
     const artifactMetadataByPath = Object.fromEntries(
@@ -6509,8 +6509,8 @@ export function runMakeBitcodeBranch(state, input = {}) {
         {
           path,
           digest: artifactDigestLookup[path]?.digest,
-          confidentialityClass: deliverableByPath[path]?.confidentialityClass || 'private-proof-artifact',
-          potentiallyDisclosable: deliverableByPath[path]?.potentiallyDisclosable === true,
+          confidentialityClass: assetPackEvidenceByPath[path]?.confidentialityClass || 'private-proof-artifact',
+          potentiallyDisclosable: assetPackEvidenceByPath[path]?.potentiallyDisclosable === true,
           proofFamilies: artifactDigestLookup[path]?.proofFamilies || []
         }
       ])
@@ -6878,7 +6878,7 @@ export function runMakeBitcodeBranch(state, input = {}) {
     authorizationDecisions,
     sensitiveDataFlowRecords,
     policyRelease,
-    deliverablesManifest,
+    assetPackEvidenceManifest,
     unitCatalog,
     pipelineTelemetry,
     selectedCandidates,
@@ -7061,7 +7061,7 @@ export function runMakeBitcodeBranch(state, input = {}) {
     artifactUploadManifest,
     profileCompositionSurface,
     externalBoundaryManifest,
-    deliverablesManifest,
+    assetPackEvidenceManifest,
     unitCatalog,
     codeAnalysisFactRegistry,
     staticHeuristicsRegistry,

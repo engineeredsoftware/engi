@@ -129,7 +129,7 @@ interface StreamMessage {
 ### Execution State Configuration
 ```typescript
 interface ExecutionState {
-  phase: ExecutionPhase; // 'Setup' | 'Discovery' | 'Implementation' | 'Validation' | 'Shipping'
+  phase: ExecutionPhase; // 'Setup' | 'Discovery' | 'Implementation' | 'Validation' | 'Finish'
   agent?: string;
   step?: ExecutionStep; // 'Plan' | 'Try' | 'Refine' | 'Retry'
   failsafe?: FailsafeStep;      // 'prepare_concise_context' | 'chunk_then_sum' | 'stitch_until_complete'

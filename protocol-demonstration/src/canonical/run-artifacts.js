@@ -564,7 +564,7 @@ function buildArtifactUploadManifest(selectedCandidates) {
  *   v23BitcoinEnabled?: boolean | undefined
  * }} input
  */
-function buildDeliverablesManifest({
+function buildAssetPackEvidenceManifest({
   branchName,
   need,
   benchmarkTarget,
@@ -593,7 +593,7 @@ function buildDeliverablesManifest({
   v23BitcoinEnabled = false,
   v24ExternalRealizationEnabled = false
 }) {
-  const v23Deliverables = v23BitcoinEnabled
+  const v23AssetPackEvidence = v23BitcoinEnabled
     ? [
         {
           path: '.bitcode/compute-reality-manifest.json',
@@ -607,14 +607,14 @@ function buildDeliverablesManifest({
           useTiersContributed: ['settlement-eligible'],
           confidentialityClass: 'private-proof-artifact',
           potentiallyDisclosable: false,
-          dependsOn: ['deliverables-manifest', 'external-boundaries', 'bounded-public-proof']
+          dependsOn: ['asset-pack-evidence-manifest', 'external-boundaries', 'bounded-public-proof']
         },
         {
           path: '.bitcode/bitcoin-commitment-manifest.json',
           useTiersContributed: ['settlement-eligible'],
           confidentialityClass: 'private-proof-artifact',
           potentiallyDisclosable: false,
-          dependsOn: ['deliverables-manifest', 'disclosure-boundary', 'proof-contract']
+          dependsOn: ['asset-pack-evidence-manifest', 'disclosure-boundary', 'proof-contract']
         },
         {
           path: '.bitcode/bitcoin-treasury-policy.json',
@@ -667,14 +667,14 @@ function buildDeliverablesManifest({
         }
       ]
     : [];
-  const v24Deliverables = v24ExternalRealizationEnabled
+  const v24AssetPackEvidence = v24ExternalRealizationEnabled
     ? [
         {
           path: '.bitcode/external-environment-profile.json',
           useTiersContributed: ['settlement-eligible'],
           confidentialityClass: 'private-proof-artifact',
           potentiallyDisclosable: false,
-          dependsOn: ['external-boundaries', 'policy-release', 'deliverables-manifest']
+          dependsOn: ['external-boundaries', 'policy-release', 'asset-pack-evidence-manifest']
         },
         {
           path: '.bitcode/external-execution-policy.json',
@@ -688,7 +688,7 @@ function buildDeliverablesManifest({
           useTiersContributed: ['settlement-eligible'],
           confidentialityClass: 'private-proof-artifact',
           potentiallyDisclosable: false,
-          dependsOn: ['deliverables-manifest', 'external-execution-policy']
+          dependsOn: ['asset-pack-evidence-manifest', 'external-execution-policy']
         },
         {
           path: '.bitcode/external-telemetry-summary.json',
@@ -800,7 +800,7 @@ function buildDeliverablesManifest({
           useTiersContributed: ['settlement-eligible'],
           confidentialityClass: 'private-proof-artifact',
           potentiallyDisclosable: false,
-          dependsOn: ['github-live-session', 'deliverables-manifest']
+          dependsOn: ['github-live-session', 'asset-pack-evidence-manifest']
         },
         {
           path: '.bitcode/github-pr-update-receipt.json',
@@ -837,7 +837,7 @@ function buildDeliverablesManifest({
     needId: need.needId,
     conformanceProfile: PROFILE_A,
     productionIntentProfile: PROFILE_B,
-    deliverables: [
+    assetPackEvidence: [
       {
         path: '.bitcode/need.json',
         useTiersContributed: ['context-only', 'patch-eligible', 'settlement-eligible'],
@@ -1272,8 +1272,8 @@ function buildDeliverablesManifest({
         potentiallyDisclosable: false,
         dependsOn: ['proof-bundle', 'proof-witness-manifest']
       },
-      ...v23Deliverables,
-      ...v24Deliverables,
+      ...v23AssetPackEvidence,
+      ...v24AssetPackEvidence,
       {
         path: '.bitcode/scenario-fixture-manifest.json',
         useTiersContributed: ['context-only', 'patch-eligible', 'settlement-eligible'],
@@ -1289,11 +1289,11 @@ function buildDeliverablesManifest({
         dependsOn: ['scenario-fixture-manifest', 'proof-bundle', RealizationStage.SETTLEMENT]
       },
       {
-        path: '.bitcode/deliverables.json',
+        path: '.bitcode/asset-pack-evidence.json',
         useTiersContributed: assetPack.acceptedUseTiers,
         confidentialityClass: 'private-proof-artifact',
         potentiallyDisclosable: false,
-        dependsOn: ['deliverables-manifest', RealizationStage.BRANCH]
+        dependsOn: ['asset-pack-evidence-manifest', RealizationStage.BRANCH]
       },
       {
         path: 'BITCODE_NEED.md',
@@ -1324,8 +1324,8 @@ function buildDeliverablesManifest({
       promptImplementationPromptCount: Array.isArray((/** @type {any} */ (promptImplementationSurface))?.['promptTemplates']) ? (/** @type {any} */ (promptImplementationSurface))['promptTemplates'].length : 0,
       parsedCompletionEnvelopeCount: parsedCompletionEnvelopeArtifact?.envelopeCount || 0,
       externalBoundaryInterfaceCount: externalBoundaryManifest.interfaces.length,
-      bitcoinArtifactCount: v23BitcoinEnabled ? v23Deliverables.length : 0,
-      v24ExternalArtifactCount: v24ExternalRealizationEnabled ? v24Deliverables.length : 0
+      bitcoinArtifactCount: v23BitcoinEnabled ? v23AssetPackEvidence.length : 0,
+      v24ExternalArtifactCount: v24ExternalRealizationEnabled ? v24AssetPackEvidence.length : 0
     }
   };
 }
@@ -1435,7 +1435,7 @@ function buildTestCoverageReport({ state, scenarioFixtureManifest, activeScenari
           'core surface contracts and deterministic invariants',
           'asset-pack, proof, projection, and settlement consistency',
           'canonical appendix generator and proof-family catalog stability',
-          'deliverables and branch artifact completeness'
+          'assetPackEvidence and branch artifact completeness'
         ]
       },
       integration: {
@@ -1515,7 +1515,7 @@ export {
   buildPromptImplementationSurface,
   buildSystemProofBundle,
   buildArtifactUploadManifest,
-  buildDeliverablesManifest,
+  buildAssetPackEvidenceManifest,
   buildScenarioFixtureManifest,
   buildTestCoverageReport
 };

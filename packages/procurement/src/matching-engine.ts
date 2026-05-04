@@ -838,9 +838,9 @@ export class ProcurementMatchingEngine {
     
     if (totalHours > 40) {
       milestones.push({ name: 'Project kickoff', percentage: 0 });
-      milestones.push({ name: 'Initial deliverable', percentage: 25 });
+      milestones.push({ name: 'Initial fulfillment artifact', percentage: 25 });
       milestones.push({ name: 'Mid-project review', percentage: 50 });
-      milestones.push({ name: 'Final deliverable', percentage: 100 });
+      milestones.push({ name: 'Final fulfillment artifact', percentage: 100 });
     } else {
       milestones.push({ name: 'Project start', percentage: 0 });
       milestones.push({ name: 'Progress check', percentage: 50 });

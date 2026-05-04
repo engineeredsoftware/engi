@@ -44,8 +44,8 @@ function mkSupabase() {
 describe('Bitcode execution storage ORM parity', () => {
   it('declares the V26 schema bridge for every former unresolved storage table', () => {
     expect(BITCODE_EXECUTION_STORAGE_SCHEMA_PARITY).toEqual({
-      deliverable_run_phases: 'phase_executions',
-      deliverable_vectors: 'deliverable_vectors',
+      assetPackPhaseExecutions: 'phase_executions',
+      assetPackVectors: 'deliverable_vectors',
       run_jobs: 'run_jobs',
       run_otf_instructions: 'run_otf_instructions',
       stream_logs: 'stream_logs',
@@ -57,7 +57,7 @@ describe('Bitcode execution storage ORM parity', () => {
   });
 
   it.each([
-    [AssetPackVectorsModel, 'deliverable_vectors', 'listByDeliverableId', ['deliverable_id', 'asset-pack-1']],
+    [AssetPackVectorsModel, 'deliverable_vectors', 'listByAssetPackEvidenceId', ['deliverable_id', 'asset-pack-1']],
     [AssetPackPhaseExecutionsModel, 'phase_executions', 'listByRunId', ['run_id', 'run-1']],
     [AssetPackRunInstructionsModel, 'run_otf_instructions', 'listByRunId', ['run_id', 'run-1']],
     [AssetPackGeneratedAssetsModel, 'generated_assets', 'listByRunId', ['run_id', 'run-1']],

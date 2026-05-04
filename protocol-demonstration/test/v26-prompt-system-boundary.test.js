@@ -401,7 +401,7 @@ test('V26 source-bearing admitted deliverable and prompt-primitive support carri
   assert.deepEqual(
     violations,
     [],
-    `Source-bearing admitted deliverable and prompt-primitive support carriers must use narrow public prompt subpaths instead of the root @bitcode/prompts barrel: ${violations.join(', ')}`
+    `Source-bearing admitted AssetPack and prompt-primitive support carriers must use narrow public prompt subpaths instead of the root @bitcode/prompts barrel: ${violations.join(', ')}`
   );
 });
 

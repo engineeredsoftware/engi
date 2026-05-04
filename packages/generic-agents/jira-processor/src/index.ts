@@ -122,7 +122,7 @@ const JiraProcessorAgentPlanStepOutput = z.object({
   taskContext: z.object({
     requirements: z.array(z.string()),
     priorities: z.array(z.string()),
-    deliverables: z.array(z.string()),
+    artifacts: z.array(z.string()),
   }),
   success: z.boolean(),
   // Optional tool selection for execution after failsafes
@@ -242,10 +242,10 @@ const JiraProcessorAgentRetryStepOutput = z.object({
   implementationPlan: z.array(z.object({
     phase: z.string(),
     actions: z.array(z.string()),
-    deliverables: z.array(z.string()),
+    artifacts: z.array(z.string()),
     timeline: z.string(),
   })),
-  keyDeliverables: z.array(z.string()),
+  keyArtifacts: z.array(z.string()),
   integrationNotes: z.string(),
   processingTime: z.number().describe('Processing time in milliseconds'),
   success: z.boolean(),
@@ -302,7 +302,7 @@ const factoryPlanStep = async (input: JiraInput): Promise<JiraProcessorAgentPlan
     // Extract requirements from task context (preserving original parsing logic)
     const requirements = [];
     const priorities = [];
-    const deliverables = [];
+    const artifacts = [];
 
     // Parse task description for project management requirements
     if (task.toLowerCase().includes('project')) requirements.push('Project coordination');
@@ -322,15 +322,15 @@ const factoryPlanStep = async (input: JiraInput): Promise<JiraProcessorAgentPlan
       priorities.push('Team productivity');
     }
 
-    // Parse for deliverables
-    if (task.toLowerCase().includes('report')) deliverables.push('Project status reports');
-    if (task.toLowerCase().includes('dashboard')) deliverables.push('Issue management dashboard');
-    if (task.toLowerCase().includes('process')) deliverables.push('Team coordination workflows');
+    // Parse for artifacts
+    if (task.toLowerCase().includes('report')) artifacts.push('Project status reports');
+    if (task.toLowerCase().includes('dashboard')) artifacts.push('Issue management dashboard');
+    if (task.toLowerCase().includes('process')) artifacts.push('Team coordination workflows');
 
     // Default values if nothing parsed
     if (requirements.length === 0) requirements.push('General project management');
     if (priorities.length === 0) priorities.push('Team coordination improvement');
-    if (deliverables.length === 0) deliverables.push('Enhanced project visibility');
+    if (artifacts.length === 0) artifacts.push('Enhanced project visibility');
 
     const analysisStrategy = `Comprehensive Jira analysis focusing on:
 1. Project discovery and health assessment
@@ -346,7 +346,7 @@ const factoryPlanStep = async (input: JiraInput): Promise<JiraProcessorAgentPlan
       taskContext: {
         requirements,
         priorities,
-        deliverables
+        artifacts
       },
       success: true
     };
@@ -373,7 +373,7 @@ const factoryPlanStep = async (input: JiraInput): Promise<JiraProcessorAgentPlan
       taskContext: {
         requirements: ['Jira connection setup'],
         priorities: ['Authentication'],
-        deliverables: ['Connection establishment'],
+        artifacts: ['Connection establishment'],
       },
       success: false,
       error: error instanceof Error ? error.message : String(error)
@@ -665,7 +665,7 @@ const factoryRetryStep = async (
       timeline: opt.effort === 'high' ? '2-3 months' : opt.effort === 'medium' ? '3-6 weeks' : '1-2 weeks',
     }));
 
-    // Generate phased implementation plan with deliverables
+    // Generate phased implementation plan with artifacts
     const implementationPlan = [
       {
         phase: 'Foundation',
@@ -674,7 +674,7 @@ const factoryRetryStep = async (
           'Configure automated workflow transitions',
           'Set up team notification patterns and escalation rules'
         ],
-        deliverables: [
+        artifacts: [
           'Standardized project templates and issue types',
           'Automated workflow configurations',
           'Team communication protocols and notification setup'
@@ -688,7 +688,7 @@ const factoryRetryStep = async (
           'Establish comprehensive metrics and reporting dashboards',
           'Conduct team training on best practices and new processes'
         ],
-        deliverables: [
+        artifacts: [
           'Advanced workflow automation rules',
           'Project health dashboards and KPI tracking',
           'Team training materials and certification program'
@@ -702,7 +702,7 @@ const factoryRetryStep = async (
           'Integrate with advanced development workflow tools',
           'Establish team coaching and process refinement cycles'
         ],
-        deliverables: [
+        artifacts: [
           'Continuous improvement framework and metrics',
           'Integration with development tools and CI/CD pipelines',
           'Team excellence certification and ongoing coaching'
@@ -711,7 +711,7 @@ const factoryRetryStep = async (
       },
     ];
 
-    const keyDeliverables = [
+    const keyArtifacts = [
       'Comprehensive project coordination framework with automated workflows',
       'Optimized issue management processes with advanced categorization',
       'Enhanced team collaboration tools and communication protocols',
@@ -741,7 +741,7 @@ const factoryRetryStep = async (
       },
       strategicRecommendations,
       implementationPlan,
-      keyDeliverables,
+      keyArtifacts,
       integrationNotes,
       processingTime,
       success: true
@@ -775,7 +775,7 @@ const factoryRetryStep = async (
       },
       strategicRecommendations: [],
       implementationPlan: [],
-      keyDeliverables: [],
+      keyArtifacts: [],
       integrationNotes: 'Jira coordination failed - manual review required',
       processingTime: Date.now() - startTime,
       success: false,
@@ -865,10 +865,10 @@ const quickJiraVariation = factoryAgentWithSingleStep<JiraInput, JiraProcessorAg
       implementationPlan: [{
         phase: 'Quick Assessment',
         actions: ['Basic project analysis completed'],
-        deliverables: ['Initial coordination assessment'],
+        artifacts: ['Initial coordination assessment'],
         timeline: 'Immediate'
       }],
-      keyDeliverables: ['Basic project coordination assessment', 'Initial workflow recommendations'],
+      keyArtifacts: ['Basic project coordination assessment', 'Initial workflow recommendations'],
       integrationNotes: 'Quick Jira coordination completed - use comprehensive variation for detailed strategic analysis',
       processingTime: 1000,
       success: result.success,

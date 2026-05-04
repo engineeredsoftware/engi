@@ -307,7 +307,7 @@ export const STREAMING_EVENTS = {
       metadata: {
         totalDuration: 900000,
         btdUsed: 150,
-        deliverables: 2
+        assetPacks: 2
       },
       confidence: 0.92
     }

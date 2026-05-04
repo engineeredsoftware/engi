@@ -18,7 +18,7 @@ for f in $(rg --files -g 'packages/generic-agents/*/src/prompts/*-prompt-*.ts' |
   check_file "$f"
 done
 
-echo "Checking Deliverable overlays…"
+echo "Checking AssetPack prompt overlays..."
 for f in packages/pipelines/asset-pack/src/agents/prompts/*.ts; do
   # Skip non-Prompt files if any
   [ -f "$f" ] || continue
@@ -34,4 +34,3 @@ if [ "$missing" -gt 0 ]; then
 else
   echo "Scaffolding verification passed."
 fi
-

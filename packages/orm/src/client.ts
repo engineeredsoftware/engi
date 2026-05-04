@@ -10,7 +10,7 @@ import { UserProfilesModel } from './models/user-profiles';
 import { UserModelPreferencesModel } from './models/user-model-preferences';
 import { UserBtdTransactionsModel } from './models/user-btd-transactions';
 import { PipelineExecutionsModel } from './models/pipeline-executions';
-import { DeliverablesModel } from './models/deliverables';
+import { AssetPackEvidenceModel } from './models/asset-pack-evidence';
 import { ExecutionEventsModel } from './models/execution-events';
 import { PipelineRunsModel } from './models/pipeline-runs';
 import { NotificationsModel } from './models/notifications';
@@ -37,7 +37,7 @@ export interface BitcodeOrmClient {
   userBtdTransactions: UserBtdTransactionsModel;
   pipelineExecutions: PipelineExecutionsModel;
   pipelineRuns: PipelineRunsModel;
-  deliverables: DeliverablesModel;
+  assetPackEvidence: AssetPackEvidenceModel;
   executionEvents: ExecutionEventsModel;
   assetPackVectors: AssetPackVectorsModel;
   assetPackPhaseExecutions: AssetPackPhaseExecutionsModel;
@@ -84,7 +84,7 @@ export function createClient(authToken?: string): BitcodeOrmClient {
     userBtdTransactions: new UserBtdTransactionsModel(supabase),
     pipelineExecutions: new PipelineExecutionsModel(supabase),
     pipelineRuns: new PipelineRunsModel(supabase),
-    deliverables: new DeliverablesModel(supabase),
+    assetPackEvidence: new AssetPackEvidenceModel(supabase),
     executionEvents: new ExecutionEventsModel(supabase),
     assetPackVectors: new AssetPackVectorsModel(supabase),
     assetPackPhaseExecutions: new AssetPackPhaseExecutionsModel(supabase),
@@ -122,7 +122,7 @@ export function createAdminClient(): AdminClient {
     userBtdTransactions: new UserBtdTransactionsModel(supabase),
     pipelineExecutions: new PipelineExecutionsModel(supabase),
     pipelineRuns: new PipelineRunsModel(supabase),
-    deliverables: new DeliverablesModel(supabase),
+    assetPackEvidence: new AssetPackEvidenceModel(supabase),
     executionEvents: new ExecutionEventsModel(supabase),
     assetPackVectors: new AssetPackVectorsModel(supabase),
     assetPackPhaseExecutions: new AssetPackPhaseExecutionsModel(supabase),

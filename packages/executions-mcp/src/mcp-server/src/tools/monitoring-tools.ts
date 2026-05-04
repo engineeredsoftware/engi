@@ -105,7 +105,6 @@ async function getPipelineStatus(
         updated_at,
         completed_at,
         results,
-        deliverables,
         error_message,
         ${includeMetrics ? 'metrics,' : ''}
         stream_url
@@ -143,7 +142,7 @@ async function getPipelineStatus(
         ? new Date(pipeline.completed_at).getTime() - new Date(pipeline.created_at).getTime()
         : null,
       results: pipeline.results,
-      deliverables: pipeline.deliverables,
+      assetPacks: Array.isArray(pipeline.results?.assetPacks) ? pipeline.results.assetPacks : [],
       streamUrl: pipeline.stream_url
     };
 
@@ -406,7 +405,7 @@ export function registerMonitoringTools(): MCPTool[] {
 Provides comprehensive pipeline information including:
 • Current execution status and phase
 • Performance metrics and resource usage
-• Results and deliverables produced
+• AssetPack results and PR Shippables produced
 • Error information and recovery status
 • Real-time execution events (optional)
 

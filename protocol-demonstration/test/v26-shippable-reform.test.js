@@ -325,8 +325,8 @@ const deliverablesSystemCognitivePromptSource = readFileSync(
   new URL('../../packages/prompts/src/raw_promptparts/specific/promptpart_specific_deliverables_system_cognitive_framework.ts', import.meta.url),
   'utf8'
 );
-const deliverablesSystemUltraCriticalPromptSource = readFileSync(
-  new URL('../../packages/prompts/src/raw_promptparts/specific/promptpart_specific_deliverables_system_ultra_critical_reflection.ts', import.meta.url),
+const assetPackSystemUltraCriticalPromptSource = readFileSync(
+  new URL('../../packages/prompts/src/raw_promptparts/specific/promptpart_specific_asset_pack_system_ultra_critical_reflection.ts', import.meta.url),
   'utf8'
 );
 const finishCreatePullRequestPurposePromptSource = readFileSync(
@@ -726,7 +726,9 @@ test('AssetPack templates and bounded promptparts teach asset-pack-run semantics
   assert.match(repositorySetupPurposePromptSource, /synthesizes AssetPack artifacts for Finish delivery mechanisms/u);
   assert.match(repositorySetupMetadataPromptSource, /asset-pack setup/u);
   assert.match(repositorySetupCapabilitiesPromptSource, /need understanding and written-asset synthesis/u);
-  assert.match(generateMassivePromptPartsSource, /Retained deliverable-compatibility pipeline .* for Bitcode asset-pack runs/u);
+  assert.match(generateMassivePromptPartsSource, /Generate Bitcode AssetPack specific prompt parts/u);
+  assert.match(generateMassivePromptPartsSource, /STORED ASSETPACK EVIDENCE/u);
+  assert.doesNotMatch(generateMassivePromptPartsSource, /shipping_excellence|SHIPPING PREPARATION|SHIPPING EXECUTION|SHIPPING CELEBRATION/u);
   assert.equal(existsSync(new URL('../../packages/prompts/src/raw_promptparts/specific/promptpart_specific_phase_deliverableshipping_purpose_corestatement.ts', import.meta.url)), false);
   assert.match(phaseSetupPurposePromptSource, /PROMPTPART_SPECIFIC_PHASE_ASSETPACKSETUP_PURPOSE_CORESTATEMENT/u);
   assert.match(phaseDiscoveryPurposePromptSource, /PROMPTPART_SPECIFIC_PHASE_ASSETPACKDISCOVERY_PURPOSE_CORESTATEMENT/u);
@@ -750,7 +752,7 @@ test('AssetPack templates and bounded promptparts teach asset-pack-run semantics
   assert.match(deliverablesSystemBasePromptSource, /delivery mechanisms subordinate to the Bitcode asset-pack meaning/u);
   assert.match(deliverablesSystemExcellencePromptSource, /NEED SATISFACTION/u);
   assert.match(deliverablesSystemCognitivePromptSource, /ASSET-PACK SYNTHESIS/u);
-  assert.match(deliverablesSystemUltraCriticalPromptSource, /written assets primary and delivery mechanisms secondary/u);
+  assert.match(assetPackSystemUltraCriticalPromptSource, /written assets primary and delivery mechanisms secondary/u);
   assert.equal(existsSync(new URL('../../packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_deliverableimplementationdividepullrequest_purpose_corestatement.ts', import.meta.url)), false);
   assert.equal(existsSync(new URL('../../packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_deliverableimplementationdividepullrequest_identity_definition.ts', import.meta.url)), false);
   assert.equal(existsSync(new URL('../../packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_deliverableimplementationdividepullrequest_ptrrplan_purpose.ts', import.meta.url)), false);

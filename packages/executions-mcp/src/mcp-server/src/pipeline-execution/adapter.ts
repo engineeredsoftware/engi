@@ -126,11 +126,7 @@ export function buildPipelineInputContext(
 
 function normalizeAssetPacks(result: unknown): AssetPackResult[] {
   const record = asRecord(result);
-  const raw = Array.isArray(record?.assetPacks)
-    ? record?.assetPacks
-    : Array.isArray(record?.deliverables)
-      ? record?.deliverables
-      : [];
+  const raw = Array.isArray(record?.assetPacks) ? record?.assetPacks : [];
 
   return raw.map((item) => {
     const pack = asRecord(item) || {};
@@ -157,7 +153,6 @@ function enrichPipelineResult(
     interfaceSurface: ingress,
     inputContext,
     assetPacks,
-    deliverables: assetPacks,
     metadata: {
       ...(asRecord(record.metadata) || {}),
       outputMeaning: 'asset_packs',

@@ -26,12 +26,12 @@ const adminClient = createAdminClient();
 ```typescript
 import { 
   UsersModel, 
-  DeliverablesModel, 
+  AssetPackEvidenceModel, 
   ConversationsModel 
 } from '@bitcode/orm';
 
-// List user deliverables
-const deliverables = await client.deliverables.list({
+// List user AssetPack evidence
+const assetPackEvidence = await client.assetPackEvidence.list({
   filter: { status: 'completed' },
   limit: 10
 });
@@ -48,7 +48,7 @@ const relatedRuns = await client.vector.search({
 
 - **User Models**: Users, profiles, credits, connections, API keys
 - **Organization Models**: Organizations, members, credits, invitations  
-- **Pipeline Models**: Executions, deliverables, execution events
+- **Pipeline Models**: Executions, AssetPack evidence, execution events
 - **Communication Models**: Conversations, messages, notifications
 
 ## Bitcode Storage Capabilities

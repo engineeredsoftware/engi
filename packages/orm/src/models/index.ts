@@ -16,7 +16,8 @@ export { UserBtdBalancesModel } from './user-btd-balances';
 export { UserBtdTransactionsModel } from './user-btd-transactions';
 
 // AssetPack and connected-interface models (V26)
-export { DeliverablesModel } from './deliverables';
+export { AssetPackEvidenceModel } from './asset-pack-evidence';
+export type { AssetPackEvidenceRecord } from './asset-pack-evidence';
 export { PipelineExecutionsModel } from './pipeline-executions';
 export { ExecutionEventsModel } from './execution-events';
 export {

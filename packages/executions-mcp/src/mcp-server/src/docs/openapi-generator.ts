@@ -199,33 +199,33 @@ The Model Context Protocol (MCP) server exposing Bitcode’s engineering intelli
             }
           }
         },
-        Deliverable: {
+        AssetPack: {
           type: 'object',
           properties: {
             type: {
               type: 'string',
-              description: 'Type of deliverable created',
+              description: 'Type of AssetPack result created',
               example: 'pull_request'
             },
             url: {
               type: 'string',
               format: 'uri',
-              description: 'External URL for the deliverable',
+              description: 'External URL for the PR-backed Shippable',
               example: 'https://github.com/bitcode-labs/webapp/pull/123'
             },
             content: {
               type: 'string',
-              description: 'Inline content for the deliverable'
+              description: 'Inline AssetPack evidence content'
             },
             metadata: {
               type: 'object',
               additionalProperties: true,
-              description: 'Additional deliverable metadata'
+              description: 'Additional AssetPack metadata'
             }
           }
         },
         // Tool Requests
-        DeliverableRequest: {
+        AssetPackRequest: {
           type: 'object',
           required: ['task', 'repository', 'subtype'],
           properties: {
@@ -238,12 +238,8 @@ The Model Context Protocol (MCP) server exposing Bitcode’s engineering intelli
             repository: { $ref: '#/components/schemas/RepositoryContext' },
             subtype: {
               type: 'string',
-              enum: [
-                'pull_request', 'pr_review', 'issue', 'comment', 'blog_post',
-                'diagram', 'api_spec', 'frontend_scaffolder', 'scope_analysis',
-                'implementation_plan', 'refactor_proposal'
-              ],
-              description: 'Specific deliverable type to create'
+              enum: ['pull_request'],
+              description: 'V26 Shippable type to create'
             },
             attachments: {
               type: 'array',
@@ -298,10 +294,10 @@ The Model Context Protocol (MCP) server exposing Bitcode’s engineering intelli
               example: 'pipeline-123e4567-e89b-12d3-a456-426614174000'
             },
             status: { $ref: '#/components/schemas/PipelineStatus' },
-            deliverables: {
+            assetPacks: {
               type: 'array',
-              items: { $ref: '#/components/schemas/Deliverable' },
-              description: 'Generated deliverables and outputs'
+              items: { $ref: '#/components/schemas/AssetPack' },
+              description: 'Generated AssetPack results and PR Shippables'
             },
             metrics: { $ref: '#/components/schemas/ExecutionMetrics' },
             streamUrl: {
@@ -470,7 +466,7 @@ The Model Context Protocol (MCP) server exposing Bitcode’s engineering intelli
                             description: {
                               type: 'string',
                               description: 'Tool description and capabilities',
-                              example: 'Create production-ready deliverables with comprehensive testing and documentation'
+                              example: 'Create a PR-backed AssetPack with comprehensive testing and documentation'
                             },
                             category: {
                               type: 'string',
@@ -490,7 +486,7 @@ The Model Context Protocol (MCP) server exposing Bitcode’s engineering intelli
                     tools: [
                       {
                         name: 'bitcode://pipelines/asset-pack/create',
-                        description: 'Create production-ready deliverables with comprehensive testing and documentation',
+                        description: 'Create a PR-backed AssetPack with comprehensive testing and documentation',
                         category: 'pipeline',
                         schema: {
                           type: 'object',
@@ -498,7 +494,7 @@ The Model Context Protocol (MCP) server exposing Bitcode’s engineering intelli
                           properties: {
                             task: { type: 'string', minLength: 10 },
                             repository: { $ref: '#/components/schemas/RepositoryContext' },
-                            subtype: { type: 'string', enum: ['pull_request', 'pr_review'] }
+                            subtype: { type: 'string', enum: ['pull_request'] }
                           }
                         }
                       }
@@ -555,8 +551,8 @@ Supports both synchronous and streaming execution modes.`,
                   }
                 },
                 examples: {
-                  createDeliverable: {
-                    summary: 'Create Feature Deliverable',
+                  createAssetPack: {
+                    summary: 'Create Feature AssetPack',
                     description: 'Example of creating a complete feature with pull request',
                     value: {
                       name: 'bitcode://pipelines/asset-pack/create',
@@ -599,12 +595,12 @@ Supports both synchronous and streaming execution modes.`,
                 'application/json': {
                   schema: { $ref: '#/components/schemas/PipelineResponse' },
                   examples: {
-                    successfulDeliverable: {
+                    successfulAssetPack: {
                       summary: 'Successful Feature Creation',
                       value: {
                         pipelineId: 'pipeline-123e4567-e89b-12d3-a456-426614174000',
                         status: 'completed',
-                        deliverables: [
+                        assetPacks: [
                           {
                             type: 'pull_request',
                             url: 'https://github.com/mycompany/webapp/pull/123',
@@ -612,22 +608,6 @@ Supports both synchronous and streaming execution modes.`,
                               title: 'Add user authentication system',
                               commits: 7,
                               filesChanged: 15
-                            }
-                          },
-                          {
-                            type: 'documentation',
-                            content: '# Authentication System\n\nThis implementation provides...',
-                            metadata: {
-                              format: 'markdown',
-                              sections: 3
-                            }
-                          },
-                          {
-                            type: 'tests',
-                            content: 'Test suite with 12 comprehensive tests covering authentication flows',
-                            metadata: {
-                              coverage: 98,
-                              testCount: 12
                             }
                           }
                         ],

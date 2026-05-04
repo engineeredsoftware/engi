@@ -56,19 +56,10 @@ export function inferPipelineExecutionLineage(name: string): PipelineExecutionLi
     };
   }
 
-  if (normalized === 'deliverable') {
-    return {
-      pipelineName: name,
-      family: 'asset_pack',
-      posture: 'compatibility',
-      admittedSurface: 'asset_pack_route_compatibility'
-    };
-  }
-
   return {
     pipelineName: name,
     family: normalized === 'quick' ? 'quick' : 'custom',
-    posture: 'compatibility',
+    posture: 'reference',
     admittedSurface: 'custom_pipeline'
   };
 }

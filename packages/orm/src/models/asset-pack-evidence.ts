@@ -1,17 +1,16 @@
 /**
- * SHIPPABLE COMPATIBILITY MODEL - retained delivery-record table access
- * 
- * @doc-code
- * type: orm-model
- * table: deliverables
- * capabilities: ["asset-pack-evidence-readback", "shippable-delivery-records"]
+ * AssetPack evidence storage model.
+ *
+ * The physical table name is retained by the V26 migration boundary. This
+ * model is the Bitcode storage-edge translation layer for AssetPack evidence
+ * and PR Shippable delivery records.
  */
 
 import { BaseModel } from './base';
 import { Tables, Database, Insertable, Updatable, Json } from '../types/database';
 import { SupabaseClient } from '@supabase/supabase-js';
 
-export type DeliverableCompatibility = Tables<'deliverables'> & {
+export type AssetPackEvidenceRecord = Tables<'deliverables'> & {
   name: string;
   metadata?: Record<string, any> | null;
   organization_id?: string | null;
@@ -23,7 +22,7 @@ function asMetadata(value: Json | null | undefined): Record<string, any> | null 
     : null;
 }
 
-function normalizeDeliverable(row: Tables<'deliverables'>): DeliverableCompatibility {
+function normalizeAssetPackEvidence(row: Tables<'deliverables'>): AssetPackEvidenceRecord {
   return {
     ...row,
     name: row.title,
@@ -32,14 +31,14 @@ function normalizeDeliverable(row: Tables<'deliverables'>): DeliverableCompatibi
   };
 }
 
-export class DeliverablesModel extends BaseModel<'deliverables'> {
+export class AssetPackEvidenceModel extends BaseModel<'deliverables'> {
   constructor(supabase: SupabaseClient<Database>) {
     super(supabase, 'deliverables');
   }
 
-  async getById(id: string): Promise<DeliverableCompatibility | null> {
+  async getById(id: string): Promise<AssetPackEvidenceRecord | null> {
     const row = await super.getById(id);
-    return row ? normalizeDeliverable(row) : null;
+    return row ? normalizeAssetPackEvidence(row) : null;
   }
 
   async findAll(options?: {
@@ -47,9 +46,9 @@ export class DeliverablesModel extends BaseModel<'deliverables'> {
     offset?: number;
     orderBy?: keyof Tables<'deliverables'>;
     ascending?: boolean;
-  }): Promise<DeliverableCompatibility[]> {
+  }): Promise<AssetPackEvidenceRecord[]> {
     const rows = await super.findAll(options);
-    return rows.map(normalizeDeliverable);
+    return rows.map(normalizeAssetPackEvidence);
   }
 
   async getAll(options?: {
@@ -57,7 +56,7 @@ export class DeliverablesModel extends BaseModel<'deliverables'> {
     offset?: number;
     orderBy?: keyof Tables<'deliverables'>;
     ascending?: boolean;
-  }): Promise<DeliverableCompatibility[]> {
+  }): Promise<AssetPackEvidenceRecord[]> {
     return this.findAll(options);
   }
 
@@ -67,14 +66,14 @@ export class DeliverablesModel extends BaseModel<'deliverables'> {
       metadata?: Record<string, any>;
       organization_id?: string | null;
     }) | any,
-  ): Promise<DeliverableCompatibility> {
+  ): Promise<AssetPackEvidenceRecord> {
     const created = await super.create({
       ...data,
-      title: data.title ?? data.name ?? 'Untitled shippable compatibility record',
+      title: data.title ?? data.name ?? 'Untitled AssetPack evidence record',
       config: data.config ?? data.metadata ?? null,
       user_id: data.user_id ?? data.organization_id ?? 'unknown-user',
     });
-    return normalizeDeliverable(created);
+    return normalizeAssetPackEvidence(created);
   }
 
   async update(
@@ -84,23 +83,23 @@ export class DeliverablesModel extends BaseModel<'deliverables'> {
       metadata?: Record<string, any>;
       organization_id?: string | null;
     }) | any,
-  ): Promise<DeliverableCompatibility> {
+  ): Promise<AssetPackEvidenceRecord> {
     const updated = await super.update(id, {
       ...data,
       title: data.title ?? data.name,
       config: data.config ?? data.metadata,
       user_id: data.user_id ?? data.organization_id,
     });
-    return normalizeDeliverable(updated);
+    return normalizeAssetPackEvidence(updated);
   }
 
   /**
-   * Find deliverables by organization
+   * Find AssetPack evidence by organization.
    */
   async findByOrganization(
     organizationId: string,
     options?: { status?: Tables<'deliverables'>['status']; limit?: number }
-  ): Promise<DeliverableCompatibility[]> {
+  ): Promise<AssetPackEvidenceRecord[]> {
     let query = this.supabase
       .from(this.tableName)
       .select('*')
@@ -117,35 +116,35 @@ export class DeliverablesModel extends BaseModel<'deliverables'> {
 
     const { data, error } = await query;
     if (error) throw error;
-    return (data || []).map(normalizeDeliverable);
+    return (data || []).map(normalizeAssetPackEvidence);
   }
 
   /**
-   * Find deliverables by repository
+   * Find AssetPack evidence by repository.
    */
-  async findByRepository(repositoryId: string): Promise<DeliverableCompatibility[]> {
+  async findByRepository(repositoryId: string): Promise<AssetPackEvidenceRecord[]> {
     const rows = await this.findBy('template_id', repositoryId);
-    return rows.map(normalizeDeliverable);
+    return rows.map(normalizeAssetPackEvidence);
   }
 
   /**
-   * Update deliverable status
+   * Update AssetPack evidence status.
    */
   async updateStatus(
-    deliverableId: string,
+    assetPackEvidenceId: string,
     status: Tables<'deliverables'>['status']
-  ): Promise<DeliverableCompatibility> {
-    return this.update(deliverableId, { status });
+  ): Promise<AssetPackEvidenceRecord> {
+    return this.update(assetPackEvidenceId, { status });
   }
 
   /**
    * Update effectiveness score
    */
   async updateEffectiveness(
-    deliverableId: string,
+    assetPackEvidenceId: string,
     score: number
-  ): Promise<DeliverableCompatibility> {
-    return this.update(deliverableId, { 
+  ): Promise<AssetPackEvidenceRecord> {
+    return this.update(assetPackEvidenceId, {
       effectiveness_score: Math.min(1, Math.max(0, score))
     });
   }
@@ -153,17 +152,17 @@ export class DeliverablesModel extends BaseModel<'deliverables'> {
   /**
    * Mark as recently run
    */
-  async markAsRun(deliverableId: string): Promise<DeliverableCompatibility> {
-    return this.update(deliverableId, {
+  async markAsRun(assetPackEvidenceId: string): Promise<AssetPackEvidenceRecord> {
+    return this.update(assetPackEvidenceId, {
       execution_count: 1,
       updated_at: new Date().toISOString()
     });
   }
 
   /**
-   * Get high-performing deliverables
+   * Get high-performing AssetPack evidence records.
    */
-  async getHighPerformers(limit = 10): Promise<DeliverableCompatibility[]> {
+  async getHighPerformers(limit = 10): Promise<AssetPackEvidenceRecord[]> {
     const { data, error } = await this.supabase
       .from(this.tableName)
       .select('*')
@@ -172,13 +171,13 @@ export class DeliverablesModel extends BaseModel<'deliverables'> {
       .limit(limit);
 
     if (error) throw error;
-    return (data || []).map(normalizeDeliverable);
+    return (data || []).map(normalizeAssetPackEvidence);
   }
 
   /**
-   * Get deliverables needing attention
+   * Get AssetPack evidence needing attention.
    */
-  async getNeedingAttention(): Promise<DeliverableCompatibility[]> {
+  async getNeedingAttention(): Promise<AssetPackEvidenceRecord[]> {
     const { data, error } = await this.supabase
       .from(this.tableName)
       .select('*')
@@ -186,46 +185,46 @@ export class DeliverablesModel extends BaseModel<'deliverables'> {
       .order('updated_at', { ascending: false });
 
     if (error) throw error;
-    return (data || []).map(normalizeDeliverable);
+    return (data || []).map(normalizeAssetPackEvidence);
   }
 
   /**
-   * Get deliverable statistics by organization
+   * Get AssetPack evidence statistics by organization.
    */
   async getStatsByOrganization(organizationId: string): Promise<{
     total: number;
     byStatus: Record<string, number>;
     avgEffectiveness: number;
   }> {
-    const deliverables = await this.findByOrganization(organizationId);
-    
-    const byStatus = deliverables.reduce((acc, d) => {
+    const assetPackEvidence = await this.findByOrganization(organizationId);
+
+    const byStatus = assetPackEvidence.reduce((acc, d) => {
       const status = d.status || 'unknown';
       acc[status] = (acc[status] || 0) + 1;
       return acc;
     }, {} as Record<string, number>);
 
-    const withScores = deliverables.filter(d => d.effectiveness_score !== null);
+    const withScores = assetPackEvidence.filter(d => d.effectiveness_score !== null);
     const avgEffectiveness = withScores.length > 0
       ? withScores.reduce((sum, d) => sum + (d.effectiveness_score || 0), 0) / withScores.length
       : 0;
 
     return {
-      total: deliverables.length,
+      total: assetPackEvidence.length,
       byStatus,
       avgEffectiveness
     };
   }
 
   /**
-   * Clone a deliverable
+   * Clone an AssetPack evidence record.
    */
   async clone(
-    deliverableId: string,
+    assetPackEvidenceId: string,
     overrides?: Partial<Tables<'deliverables'>>
-  ): Promise<DeliverableCompatibility> {
-    const original = await this.findById(deliverableId);
-    if (!original) throw new Error('Deliverable not found');
+  ): Promise<AssetPackEvidenceRecord> {
+    const original = await this.findById(assetPackEvidenceId);
+    if (!original) throw new Error('AssetPack evidence not found');
 
     const { id, created_at, updated_at, ...cloneData } = original;
     

@@ -44,7 +44,7 @@ export interface RepositoryHealthMetrics {
 }
 
 export interface AIDocumentRecommendation {
-  type: 'deliverableFeedback' | 'knowledgeExtension' | 'codeQuality' | 'security';
+  type: 'assetPackEvidenceFeedback' | 'knowledgeExtension' | 'codeQuality' | 'security';
   priority: 'low' | 'medium' | 'high' | 'critical';
   reason: string;
   estimatedImpact: number; // 0-100
@@ -81,13 +81,13 @@ export class RepositoryHealthMonitor {
   async analyzeRepositoryHealth(
     repository: string,
     userId: string,
-    deliverableHistory: Array<{ content: string; files?: any[]; created_at: string }>
+    assetPackEvidenceHistory: Array<{ content: string; files?: any[]; created_at: string }>
   ): Promise<RepositoryHealthMetrics> {
     try {
       log('Analyzing repository health', 'info', { repository, userId });
 
-      // Analyze recent deliverables for quality trends
-      const codeQuality = await this.analyzeCodeQuality(deliverableHistory);
+      // Analyze recent AssetPack evidence for quality trends
+      const codeQuality = await this.analyzeCodeQuality(assetPackEvidenceHistory);
       
       // Get activity metrics from database
       const activity = await this.getActivityMetrics(repository, userId);
@@ -123,12 +123,12 @@ export class RepositoryHealthMonitor {
   }
 
   /**
-   * Analyze code quality from recent deliverables
+   * Analyze code quality from recent AssetPack evidence
    */
   private async analyzeCodeQuality(
-    deliverableHistory: Array<{ content: string; files?: any[]; created_at: string }>
+    assetPackEvidenceHistory: Array<{ content: string; files?: any[]; created_at: string }>
   ): Promise<RepositoryHealthMetrics['codeQuality']> {
-    if (deliverableHistory.length === 0) {
+    if (assetPackEvidenceHistory.length === 0) {
       return {
         overall: 50,
         testCoverage: 30,
@@ -139,8 +139,8 @@ export class RepositoryHealthMonitor {
       };
     }
 
-    // Analyze recent deliverables (last 10)
-    const recentDeliverables = deliverableHistory
+    // Analyze recent AssetPack evidence records (last 10)
+    const recentAssetPackEvidence = assetPackEvidenceHistory
       .sort((a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime())
       .slice(0, 10);
 
@@ -151,8 +151,8 @@ export class RepositoryHealthMonitor {
     let totalMaintainability = 0;
     let totalTechDebt = 0;
 
-    for (const deliverable of recentDeliverables) {
-      const analysis = this.analyzeDeliverableQuality(deliverable);
+    for (const assetPackEvidence of recentAssetPackEvidence) {
+      const analysis = this.analyzeAssetPackEvidenceQuality(assetPackEvidence);
       totalQuality += analysis.quality;
       totalTestCoverage += analysis.testCoverage;
       totalComplexity += analysis.complexity;
@@ -161,7 +161,7 @@ export class RepositoryHealthMonitor {
       totalTechDebt += analysis.techDebt;
     }
 
-    const count = recentDeliverables.length;
+    const count = recentAssetPackEvidence.length;
     return {
       overall: Math.round(totalQuality / count),
       testCoverage: Math.round(totalTestCoverage / count),
@@ -173,9 +173,9 @@ export class RepositoryHealthMonitor {
   }
 
   /**
-   * Analyze individual deliverable quality
+   * Analyze individual AssetPack evidence quality
    */
-  private analyzeDeliverableQuality(deliverable: { content: string; files?: any[] }): {
+  private analyzeAssetPackEvidenceQuality(assetPackEvidence: { content: string; files?: any[] }): {
     quality: number;
     testCoverage: number;
     complexity: number;
@@ -183,7 +183,7 @@ export class RepositoryHealthMonitor {
     maintainability: number;
     techDebt: number;
   } {
-    const content = deliverable.content.toLowerCase();
+    const content = assetPackEvidence.content.toLowerCase();
     
     // Quality indicators
     let quality = 60; // Base quality
@@ -240,7 +240,7 @@ export class RepositoryHealthMonitor {
     try {
       const lastWeek = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000).toISOString();
 
-      // Get recent deliverable executions as proxy for commits
+      // Get recent AssetPack executions as proxy for commits
       const { data: recentRuns } = await supabaseAdmin
         .from('executions')
         .select('created_at')

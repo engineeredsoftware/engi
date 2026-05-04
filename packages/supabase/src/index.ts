@@ -114,11 +114,11 @@ export { createClient as createBrowserClient } from './ssr/client';
 export { createClient as createClient } from './ssr/client';
 
 // ---------------------------------------------------------------------------
-// Re-export typed entities so downstream packages can simply
-//   import { DeliverableRunSnapshot } from '@bitcode/supabase';
+// Re-export typed entities so downstream packages can use storage-edge
+// AssetPack evidence contracts without importing schema internals.
 // ---------------------------------------------------------------------------
 
-export * from './deliverables';
+export * from './asset-pack-evidence';
 
 // Streams helpers
 export { SupabaseStream, flushAndExit } from './streams';

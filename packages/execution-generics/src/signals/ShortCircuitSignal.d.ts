@@ -2,7 +2,7 @@
  * Short Circuit Signal - Pipeline termination primitive
  *
  * Enables agents to signal pipeline termination with automatic refund handling.
- * This is a deliverables-pipeline specific pattern but implemented as a
+ * This is an AssetPack-pipeline pattern implemented as a
  * generic execution primitive for elegant composition.
  */
 import { z } from 'zod';

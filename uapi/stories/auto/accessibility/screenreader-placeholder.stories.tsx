@@ -30,7 +30,7 @@ export const ScreenreaderPlaceholder = {
           color: '#000000',
         }}
       >
-        Run Deliverable
+        Run AssetPack
       </button>
       <div
         role="status"
@@ -44,7 +44,7 @@ export const ScreenreaderPlaceholder = {
           background: '#1a1a1a',
         }}
       >
-        Deliverable complete
+        AssetPack complete
       </div>
     </div>
   ),

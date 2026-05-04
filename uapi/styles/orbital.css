@@ -2447,7 +2447,7 @@ to {
   border-left: 3px solid rgba(103, 254, 183, 0.5);
 }
 
-/* Improved vertical layout for "What Is A Deliverable" section */
+/* Improved vertical layout for the AssetPack evidence section */
 .anchor-content {
   display: grid;
   grid-template-columns: repeat(3, 1fr);

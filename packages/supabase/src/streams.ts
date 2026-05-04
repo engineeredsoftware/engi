@@ -7,8 +7,8 @@ export interface DataStreamLike {
 /**
  * SupabaseStream is a thin adapter that fulfils the `DataStream` interface
  * expected by Bitcode's streaming helpers (`writeStreamMessage`, `writeData`, …)
- * but persists every chunk into the `deliverable_run_events` table so that
- * existing SSE consumers continue to work unchanged.  All writes are
+ * and persists every chunk as execution-event evidence so existing SSE
+ * consumers continue to work unchanged.  All writes are
  * best-effort – a failed insert will throw to the caller so pipeline logic
  * can surface the failure to the user.
  *

@@ -348,7 +348,7 @@ jest.mock('@bitcode/supabase', () => {
 // Mock Bitcode pipelines
 jest.mock('@bitcode/pipelines-generics', () => ({
   Pipeline: {
-    DELIVERABLE: 'deliverable'
+    ASSET_PACK: 'asset-pack'
   },
   PipelinePhase: {
     SETUP: 'setup',
@@ -410,7 +410,7 @@ jest.mock('@bitcode/pipelines-generics', () => ({
     execute: jest.fn().mockResolvedValue({
       success: true,
       pipelineId: 'test-pipeline-id',
-      deliverables: [],
+      assetPacks: [],
       metrics: {
         btdUsed: 100,
         tokensProcessed: 1000,

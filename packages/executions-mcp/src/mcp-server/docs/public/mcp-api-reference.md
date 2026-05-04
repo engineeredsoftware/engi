@@ -43,7 +43,7 @@ interface ToolExecution {
   options?: ToolOptions;          // Tool-specific configuration
   
   // Output
-  result: ToolResult;             // Execution results and deliverables
+  result: ToolResult;             // Execution results and AssetPacks
   metrics: ExecutionMetrics;      // Performance and quality metrics
   streamUrl?: string;            // Real-time execution stream
 }
@@ -71,7 +71,7 @@ interface Attachment {
 
 ## Pipeline Tools
 
-### Deliverable Creation
+### AssetPack Creation
 **Tool**: `bitcode://pipelines/asset-pack/create`
 
 Create production-ready features with comprehensive testing and documentation.
@@ -101,7 +101,7 @@ interface DeliverableRequest {
 interface DeliverableResponse {
   pipelineId: string;
   status: 'pending' | 'running' | 'completed' | 'failed' | 'cancelled';
-  deliverables: Array<{
+  assetPacks: Array<{
     type: string;                 // 'pull_request', 'documentation', 'tests'
     url?: string;                // External URL (e.g., GitHub PR)
     content?: string;            // Inline content

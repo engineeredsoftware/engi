@@ -13,7 +13,7 @@ Supabase client utilities and MCP tools for the Bitcode platform. Provides centr
 - **Centralized Configuration**: Environment-aware client creation
 - **SSR Support**: Server-side rendering with Next.js integration
 - **MCP Tools**: Model Control Protocol database tools
-- **Deliverable Management**: Typed deliverable and AI Document entities
+- **AssetPack Evidence Management**: Typed AssetPack evidence and AI Document entities
 - **Security**: Automatic key sanitization and safe defaults
 
 ## Client Usage

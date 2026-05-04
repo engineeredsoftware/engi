@@ -138,28 +138,28 @@
           }
         }
       },
-      "Deliverable": {
+      "AssetPack": {
         "type": "object",
         "properties": {
           "type": {
             "type": "string",
-            "description": "Type of deliverable created",
+            "description": "Type of AssetPack result created",
             "example": "pull_request"
           },
           "url": {
             "type": "string",
             "format": "uri",
-            "description": "External URL for the deliverable",
+            "description": "External URL for the PR-backed Shippable",
             "example": "https://github.com/bitcode-labs/webapp/pull/123"
           },
           "content": {
             "type": "string",
-            "description": "Inline content for the deliverable"
+            "description": "Inline AssetPack evidence content"
           },
           "metadata": {
             "type": "object",
             "additionalProperties": true,
-            "description": "Additional deliverable metadata"
+            "description": "Additional AssetPack metadata"
           }
         }
       },
@@ -177,7 +177,7 @@
           "subtype": {
             "type": "string",
             "enum": ["pull_request", "pr_review", "issue", "comment", "blog_post", "diagram", "api_spec", "frontend_scaffolder", "scope_analysis", "implementation_plan", "refactor_proposal"],
-            "description": "Specific deliverable type to create"
+            "description": "V26 Shippable type to create"
           },
           "attachments": {
             "type": "array",
@@ -225,10 +225,10 @@
             "example": "pipeline-123e4567-e89b-12d3-a456-426614174000"
           },
           "status": { "$ref": "#/components/schemas/PipelineStatus" },
-          "deliverables": {
+          "assetPacks": {
             "type": "array",
-            "items": { "$ref": "#/components/schemas/Deliverable" },
-            "description": "Generated deliverables and outputs"
+            "items": { "$ref": "#/components/schemas/AssetPack" },
+            "description": "Generated AssetPack results and PR Shippables"
           },
           "metrics": { "$ref": "#/components/schemas/ExecutionMetrics" },
           "streamUrl": {
@@ -368,7 +368,7 @@
                           "description": {
                             "type": "string",
                             "description": "Tool description and capabilities",
-                            "example": "Create production-ready deliverables with comprehensive testing and documentation"
+                            "example": "Create a PR-backed AssetPack with comprehensive testing and documentation"
                           },
                           "category": {
                             "type": "string",
@@ -414,7 +414,7 @@
               },
               "examples": {
                 "createDeliverable": {
-                  "summary": "Create Feature Deliverable",
+                  "summary": "Create Feature AssetPack",
                   "description": "Example of creating a complete feature with pull request",
                   "value": {
                     "name": "bitcode://pipelines/asset-pack/create",

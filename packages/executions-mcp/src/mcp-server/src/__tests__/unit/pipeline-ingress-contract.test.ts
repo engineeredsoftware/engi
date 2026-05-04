@@ -409,7 +409,7 @@ describe('Bitcode MCP pipeline ingress contract', () => {
       runId: 'run-2',
       status: 'completed',
       result: {
-        deliverables: [
+        assetPacks: [
           {
             type: 'pull_request',
             url: 'https://github.com/bitcode-labs/application/pull/1',
@@ -460,6 +460,6 @@ describe('Bitcode MCP pipeline ingress contract', () => {
         url: 'https://github.com/bitcode-labs/application/pull/1',
       }),
     ]);
-    expect(result.deliverables).toEqual(result.assetPacks);
+    expect(result).not.toHaveProperty('deliverables');
   });
 });

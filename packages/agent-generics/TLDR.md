@@ -72,7 +72,7 @@ Each PTRR step runs IDENTICALLY:
 
 Set these env vars for maximum introspection during runs:
 
-- `BITCODE_LOG_TO_FILE=1` – Per-request and per-run log files (deliverables route uses run‑scoped files).
+- `BITCODE_LOG_TO_FILE=1` - Per-request and per-run log files for AssetPack and execution routes.
 - `BITCODE_LOG_FULL_PROMPTS=1` – Log full input prompts and full completions for each LLM call.
 - `BITCODE_LOG_FULL_PROMPTS_CORRELATION_IDS=<id1,id2>` – Restrict full logs to specific correlationIds (optional).
 - `BITCODE_DEBUG_REGISTRIES=1` – Emit registry debug (LLM/tool/agent lookup with execution paths).

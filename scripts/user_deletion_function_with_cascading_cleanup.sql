@@ -84,11 +84,11 @@ BEGIN
         -- Delete from pipeline_executions (canonical)
         DELETE FROM public.pipeline_executions WHERE user_id = target_user_id;
         
-        -- Delete from AssetPack evidence vector storage
+        -- Delete from AssetPack evidence vector storage (physical migration table names)
         DELETE FROM public.deliverable_vectors 
         WHERE deliverable_id IN (SELECT id FROM public.deliverables WHERE user_id = target_user_id);
         
-        -- Delete from former AssetPack item storage if table exists
+        -- Delete from former AssetPack item storage if the physical migration table exists
         IF EXISTS (
           SELECT 1 FROM information_schema.tables 
           WHERE table_schema = 'public' AND table_name = 'deliverable_items'
@@ -97,10 +97,10 @@ BEGIN
           WHERE deliverable_id IN (SELECT id FROM public.deliverables WHERE user_id = target_user_id);
         END IF;
         
-        -- Delete from AssetPack evidence storage
+        -- Delete from AssetPack evidence storage (physical migration table name)
         DELETE FROM public.deliverables WHERE user_id = target_user_id;
         
-        -- Delete template data
+        -- Delete template data, including physical compatibility template storage
         DELETE FROM public.user_template_preferences WHERE user_id = target_user_id;
         DELETE FROM public.deliverable_templates WHERE user_id = target_user_id;
         

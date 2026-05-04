@@ -71,7 +71,6 @@ describe('searchRelevantAssetPackEvidence', () => {
     expect(mockRpc).toHaveBeenCalledWith('match_deliverable_vectors', { query_embedding: [1, 2], match_count: 5 });
     expect(results).toEqual([{
       assetPackEvidenceId: 'd1',
-      deliverable_id: 'd1',
       user_id: 'u1',
       output: 'out1',
       similarity: 0.2,

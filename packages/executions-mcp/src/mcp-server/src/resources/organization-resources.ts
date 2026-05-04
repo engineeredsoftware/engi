@@ -225,7 +225,7 @@ function analyzeOrganizationData(data: {
       : 0,
     
     pipelineTypeDistribution: runs.reduce((acc, run) => {
-      const pipeline = (run.metadata as any)?.pipeline || 'deliverable';
+      const pipeline = (run.metadata as any)?.pipeline || 'asset-pack';
       acc[pipeline] = (acc[pipeline] || 0) + 1;
       return acc;
     }, {} as Record<string, number>),

@@ -128,10 +128,10 @@ function buildProofFamilyDetailBlock(heading, proofArtifactPath) {
  *   includeSubsystemDetailLabels?: boolean,
  *   includeCrossProductAppendix?: boolean,
  *   includeFailClosedAppendix?: boolean,
- *   includeDeliverableAppendix?: boolean,
+ *   includeAssetPackAppendix?: boolean,
  *   includeCrossProductDetails?: boolean,
  *   includeFailClosedDetails?: boolean,
- *   includeDeliverableDetails?: boolean,
+ *   includeAssetPackDetails?: boolean,
  *   includeProofFamilyDetailLabels?: boolean,
  *   includeGeneratedAppendixContract?: boolean,
  *   parityJudgment?: string
@@ -151,10 +151,10 @@ async function writeFixture(options = {}) {
   const includeSubsystemDetailLabels = options.includeSubsystemDetailLabels !== false;
   const includeCrossProductAppendix = options.includeCrossProductAppendix !== false;
   const includeFailClosedAppendix = options.includeFailClosedAppendix !== false;
-  const includeDeliverableAppendix = options.includeDeliverableAppendix !== false;
+  const includeAssetPackAppendix = options.includeAssetPackAppendix !== false;
   const includeCrossProductDetails = options.includeCrossProductDetails !== false;
   const includeFailClosedDetails = options.includeFailClosedDetails !== false;
-  const includeDeliverableDetails = options.includeDeliverableDetails !== false;
+  const includeAssetPackDetails = options.includeAssetPackDetails !== false;
   const includeProofFamilyDetailLabels = options.includeProofFamilyDetailLabels !== false;
   const includeGeneratedAppendixContract = options.includeGeneratedAppendixContract !== false;
   const parityJudgment = options.parityJudgment || (state.includes('canonical promotion complete') ? 'closed' : 'drafted');
@@ -426,7 +426,7 @@ async function writeFixture(options = {}) {
       '| recall and ranking | x | x | x | x | x |',
       '| verification decisions | x | x | x | x | x |',
       '| selection and materialization | x | x | x | x | x |',
-      '| branch artifacts and deliverables | x | x | x | x | x |',
+      '| branch artifacts and assetPackEvidence | x | x | x | x | x |',
       '| identity, authority, signing, and policy | x | x | x | x | x |',
       '| sensitive data and confidentiality flows | x | x | x | x | x |',
       '| projection, disclosure, and redaction | x | x | x | x | x |',
@@ -485,10 +485,10 @@ async function writeFixture(options = {}) {
       ''
     );
   }
-  if (includeDeliverableAppendix) {
+  if (includeAssetPackAppendix) {
     spec.push(
-      '### Appendix K. Source-bearing deliverable and artifact contract catalog',
-      ...(includeDeliverableDetails
+      '### Appendix K. Source-bearing AssetPack and artifact contract catalog',
+      ...(includeAssetPackDetails
         ? [
             '| Artifact path | Current role |',
             '| --- | --- |',
@@ -769,12 +769,12 @@ test('structural checking fails when the fail-closed appendix is omitted', async
   assert.match(stderr, /missing required appendix-grade section containing "Appendix J\. Fail-closed contract and error posture matrix"/i);
 });
 
-test('structural checking fails when the deliverable/artifact appendix is omitted', async () => {
+test('structural checking fails when the AssetPack/artifact appendix is omitted', async () => {
   const fixtureRoot = await writeFixture({
-    includeDeliverableAppendix: false
+    includeAssetPackAppendix: false
   });
   const stderr = runCheckFailure(['--version', 'V21', '--mode', 'draft', '--repo-root', fixtureRoot], fixtureRoot);
-  assert.match(stderr, /missing required appendix-grade section containing "Appendix K\. Source-bearing deliverable and artifact contract catalog"/i);
+  assert.match(stderr, /missing required appendix-grade section containing "Appendix K\. Source-bearing AssetPack and artifact contract catalog"/i);
 });
 
 test('structural checking fails when the scenario/workflow appendix lacks required current coverage truth', async () => {
@@ -793,12 +793,12 @@ test('structural checking fails when the fail-closed appendix lacks required cur
   assert.match(stderr, /fail-closed appendix is missing "invalid deposit"/i);
 });
 
-test('structural checking fails when the deliverable appendix lacks required artifact truth', async () => {
+test('structural checking fails when the AssetPack appendix lacks required artifact truth', async () => {
   const fixtureRoot = await writeFixture({
-    includeDeliverableDetails: false
+    includeAssetPackDetails: false
   });
   const stderr = runCheckFailure(['--version', 'V21', '--mode', 'draft', '--repo-root', fixtureRoot], fixtureRoot);
-  assert.match(stderr, /deliverable\/artifact appendix is missing "\.bitcode\/asset-pack\.lock\.json"/i);
+  assert.match(stderr, /AssetPack\/artifact appendix is missing "\.bitcode\/asset-pack\.lock\.json"/i);
 });
 
 test('structural checking fails when proof-family sections omit exact detail labels', async () => {

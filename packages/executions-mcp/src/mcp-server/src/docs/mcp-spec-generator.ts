@@ -256,7 +256,7 @@ export class MCPSpecificationGenerator {
     const examples = [];
     
     // Generate examples based on tool category
-    if (tool.name.includes('deliverable')) {
+    if (tool.name.includes('asset-pack')) {
       examples.push({
         name: 'React Component Creation',
         description: 'Create a reusable React component with TypeScript',

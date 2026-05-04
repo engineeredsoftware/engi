@@ -232,33 +232,33 @@ export function ExecutionsClient() {
   }, [activeRunId, runId]);
 
   // History hydration and postprocessed fetch
-  const [historyFWS, setHistoryFWS] = React.useState<HeaderAssetPackCompletion | null>(null);
+  const [historyAssetPackCompletion, setHistoryAssetPackCompletion] = React.useState<HeaderAssetPackCompletion | null>(null);
   const [headerPostprocessed, setHeaderPostprocessed] = React.useState<any | null>(null);
   useEffect(() => {
     let cancelled = false;
     (async () => {
-      if (!runId) { setHistoryFWS(null); return; }
+      if (!runId) { setHistoryAssetPackCompletion(null); return; }
       try {
         const params = new URLSearchParams(); params.set('type', 'agentic-execution:asset-pack');
         const res = await fetch(`/api/executions/history/${runId}?${params.toString()}`);
         if (!res.ok) return; const data = await res.json(); const run = data?.run || {};
         const runOutput = (run as any)?.output || run?.output_data || null;
-        const fws = runOutput?.asset_pack_completion || run?.asset_pack_completion || null;
+        const assetPackCompletion = runOutput?.asset_pack_completion || run?.asset_pack_completion || null;
         const guide = run?.guide || run?.guide || null;
         const gateHistory = (run?.metadata?.gateHistory || run?.metadata?.gate_history) ?? null;
-        const enrichedFws = fws
+        const enrichedAssetPackCompletion = assetPackCompletion
           ? {
-              ...fws,
+              ...assetPackCompletion,
               processingStats: {
-                ...(fws.processingStats || {}),
-                guide: guide || (fws.processingStats as any)?.guide || null,
+                ...(assetPackCompletion.processingStats || {}),
+                guide: guide || (assetPackCompletion.processingStats as any)?.guide || null,
                 ...(gateHistory ? { gateHistory } : {})
               }
             }
-          : fws;
-        if (!cancelled) setHistoryFWS(enrichedFws as any);
+          : assetPackCompletion;
+        if (!cancelled) setHistoryAssetPackCompletion(enrichedAssetPackCompletion as any);
         try { const ppRes = await fetch(`/api/executions/postprocessed?id=${encodeURIComponent(runId)}`); if (ppRes.ok) { const ppJson = await ppRes.json(); if (!cancelled) setHeaderPostprocessed(ppJson?.postprocessed || null); } else if (!cancelled) setHeaderPostprocessed(null); } catch { if (!cancelled) setHeaderPostprocessed(null); }
-      } catch { if (!cancelled) setHistoryFWS(null); }
+      } catch { if (!cancelled) setHistoryAssetPackCompletion(null); }
     })();
     return () => { cancelled = true; };
   }, [runId]);
@@ -343,12 +343,12 @@ export function ExecutionsClient() {
   ]);
 
   const writtenAssetsForPanels =
-    getHeaderWrittenAssets(historyFWS) ||
+    getHeaderWrittenAssets(historyAssetPackCompletion) ||
     headerPostprocessed?.assetPackSynthesisArtifacts ||
     headerPostprocessed?.writtenAssets ||
     null;
   const deliveryMechanismForPanels =
-    getHeaderShippables(historyFWS) ||
+    getHeaderShippables(historyAssetPackCompletion) ||
     headerPostprocessed?.shippables ||
     headerPostprocessed?.deliveryMechanism ||
     writtenAssetsForPanels;
@@ -372,7 +372,7 @@ export function ExecutionsClient() {
     setEnhanceError(null);
   }, []);
   const combinedProcessingStats = React.useMemo(() => {
-    const finalStats = historyFWS?.processingStats;
+    const finalStats = historyAssetPackCompletion?.processingStats;
     if (!finalStats && !liveProcessingStats) return undefined;
 
     const merged = {
@@ -407,7 +407,7 @@ export function ExecutionsClient() {
       undefined;
 
     return merged;
-  }, [activeRunId, currentGuide, historyFWS, liveProcessingStats]);
+  }, [activeRunId, currentGuide, historyAssetPackCompletion, liveProcessingStats]);
 
   if (!onboardingChecked) return (<><div className="h-[calc(100vh-9rem)]" /><div className="fixed inset-x-0 top-36 bottom-0 skeleton-shine" /></>);
   if (!onboardingAllowed) {
@@ -504,7 +504,7 @@ export function ExecutionsClient() {
           renderDocInsideHeader={false}
           renderCardsInsideHeader={false}
           onSelectShippableTemplateDefinitionOfNeed={handleSetDefinitionOfNeed}
-          executionStatus={isProcessing ? 'executing' : (!isProcessing && (isStreamingComplete || (!!runId && !!historyFWS))) ? 'executed' : 'execute'}
+          executionStatus={isProcessing ? 'executing' : (!isProcessing && (isStreamingComplete || (!!runId && !!historyAssetPackCompletion))) ? 'executed' : 'execute'}
           executionType={'agentic-execution:asset-pack'}
           postprocessed={headerPostprocessed || undefined}
           showSourceEdu={showSourceEdu}
@@ -525,12 +525,12 @@ export function ExecutionsClient() {
             fileChanges: writtenAssetsForPanels?.fileChanges ?? deliveryMechanismForPanels?.fileChanges ?? null,
             summary:
               writtenAssetsForPanels?.summary ||
-              historyFWS?.summary ||
+              historyAssetPackCompletion?.summary ||
               deliveryMechanismForPanels?.summary ||
               undefined,
           }}
           processingStats={combinedProcessingStats}
-          repoSnapshot={historyFWS?.repoSnapshot || undefined}
+          repoSnapshot={historyAssetPackCompletion?.repoSnapshot || undefined}
         />
 
       {/* AssetPack artifacts + execution log */}

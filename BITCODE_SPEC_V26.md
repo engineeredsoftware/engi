@@ -1028,7 +1028,7 @@ In V26, Bitcode remains:
 3. a system that already has external-realization, proof, settlement, disclosure, and fail-closed semantics in source,
 4. a system whose current operator story is useful but whose current ownership and presentation are transitional,
 5. a system that must move from demonstration-owned and marketing-embedded posture to application-native posture,
-6. a system that must keep repo supply and depositing, needing and measured demand, prompt/inference/evaluator ownership, depositing-to-needing fit, recall and ranking, verification decisions, selection and materialization, branch artifacts and deliverables, identity, authority, signing, and policy, sensitive data and confidentiality flows, projection, disclosure, and redaction, proof families, members, theorems, witnesses, and replay, settlement, source-to-shares, journals, and exact accounting, telemetry, persistence, state, and failure semantics, host/runtime capability truth, operator experience and pedagogy, validation and test stack, and generated artifacts and canonical promotion all explicitly in scope,
+6. a system that must keep repo supply and depositing, needing and measured demand, prompt/inference/evaluator ownership, depositing-to-needing fit, recall and ranking, verification decisions, selection and materialization, branch artifacts and assetPackEvidence/stored AssetPack evidence plus Shippables, identity, authority, signing, and policy, sensitive data and confidentiality flows, projection, disclosure, and redaction, proof families, members, theorems, witnesses, and replay, settlement, source-to-shares, journals, and exact accounting, telemetry, persistence, state, and failure semantics, host/runtime capability truth, operator experience and pedagogy, validation and test stack, and generated artifacts and canonical promotion all explicitly in scope,
 7. and a system that must now be legible as a real application rather than as an adjacent demonstration.
 
 ## source-of-truth hierarchy
@@ -1061,7 +1061,7 @@ That requirement applies to:
 - recall and ranking,
 - verification decisions,
 - selection and materialization,
-- branch artifacts, stored AssetPack evidence, and Shippables,
+- branch artifacts and assetPackEvidence (stored AssetPack evidence), and Shippables,
 - identity, authority, signing, and policy,
 - sensitive data and confidentiality flows,
 - projection, disclosure, and redaction,
@@ -1196,7 +1196,7 @@ The V26 canonical domain model includes the following object and surface classes
 - recall and ranking: retrieval candidates, ranking receipts, use-tier signals, and candidate ordering stability.
 - verification decisions: issuance, provenance, sufficiency, and issuer-policy decisions plus supporting receipts.
 - selection and materialization: asset-pack locks, selected-source manifests, materialization proofs, branch artifact outputs, and application-visible operator artifacts.
-- branch artifacts and Shippables: `.bitcode/` outputs, witness manifests, generated reports, route-facing views, stored AssetPack evidence, and PR publication receipts.
+- branch artifacts and assetPackEvidence/stored AssetPack evidence plus Shippables: `.bitcode/` outputs, witness manifests, generated reports, route-facing views, stored AssetPack evidence, and PR publication receipts.
 - identity, authority, signing, and policy: identity bindings, authorization decisions, wallet connection, signer or treasury policy, GitHub App binding, and external execution policy.
 - sensitive data and confidentiality flows: sensitive-data flow maps, disclosure classifications, retention policies, and publication controls.
 - projection, disclosure, and redaction: principal-scoped views over public, reviewer, buyer, and internal surfaces.
