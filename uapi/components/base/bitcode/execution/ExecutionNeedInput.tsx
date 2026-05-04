@@ -69,15 +69,12 @@ export const ExecutionNeedInput = ({
     if (type === 'knowledge' || type === 'mcp') {
       setTemplateCategories([
         { id: 'knowledgeExtension', name: 'Knowledge Extension', checked: true },
-        { id: 'shippableFeedback', name: 'Shippable Feedback', checked: false },
+        { id: 'assetPackFeedback', name: 'AssetPack Feedback', checked: false },
         { id: 'mcpConfig', name: 'MCP Config', checked: false },
       ]);
     } else {
       setTemplateCategories([
         { id: 'pullRequests', name: 'Pull Request', checked: true },
-        { id: 'pullRequestReviews', name: 'PR Review', checked: false },
-        { id: 'issues', name: 'Issue', checked: false },
-        { id: 'comments', name: 'Comment', checked: false },
       ]);
     }
   }, [type]);

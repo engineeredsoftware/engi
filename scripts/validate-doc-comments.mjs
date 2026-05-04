@@ -33,9 +33,9 @@ for (const f of ppFiles) {
   if (/intent:\s*"Auto-(generated|updated)/.test(s)) { console.log('[PART/INTENT]', f); ppBadIntent++; }
 }
 
-// Validate Prompts (deliverables + generic agents/tools)
+// Validate Prompts (AssetPack + generic agents/tools)
 const promptGlobs = [
-  path.join('packages','pipelines','deliverable','src','agents','prompts'),
+  path.join('packages','pipelines','asset-pack','src','agents','prompts'),
   path.join('packages','generic-agents'),
   path.join('packages','generic-tools')
 ];

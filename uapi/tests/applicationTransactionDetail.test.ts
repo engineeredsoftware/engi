@@ -32,15 +32,9 @@ const selectedTransaction: WorkspaceRun = {
 
 const detail: ApplicationRunDetailSnapshot = {
   summary: 'Normalized detail summary.',
-  deliverables: {
-    summary: 'Compatibility Shippable summary.',
-    pullRequest: { title: 'PR', url: 'https://example.com/pr/1', number: 1 },
-    comments: [{ title: 'Comment', url: 'https://example.com/comment/1', number: 1 }],
-  },
   shippables: {
     summary: 'Shippable summary.',
     pullRequest: { title: 'PR', url: 'https://example.com/pr/1', number: 1 },
-    comments: [{ title: 'Comment', url: 'https://example.com/comment/1', number: 1 }],
   },
   writtenAssets: {
     summary: 'Written asset summary.',
@@ -53,7 +47,6 @@ const detail: ApplicationRunDetailSnapshot = {
   },
   deliveryMechanism: {
     pullRequest: { title: 'PR', url: 'https://example.com/pr/1', number: 1 },
-    comments: [{ title: 'Comment', url: 'https://example.com/comment/1', number: 1 }],
   },
   repoSnapshot: {
     org: 'bitcode',
@@ -286,7 +279,7 @@ const closureState: ApplicationClosureState = {
 
 describe('application-transaction-detail helpers', () => {
   it('counts transaction Shippable surfaces', () => {
-    expect(countApplicationTransactionShippableSurfaces(detail)).toBe(2);
+    expect(countApplicationTransactionShippableSurfaces(detail)).toBe(1);
   });
 
   it('prefers written assets and delivery mechanisms through explicit helpers', () => {
@@ -295,18 +288,13 @@ describe('application-transaction-detail helpers', () => {
     expect(getApplicationTransactionDeliveryMechanism(detail)?.summary).toBe('Shippable summary.');
   });
 
-  it('counts delivery surfaces even when compatibility deliverables are absent', () => {
-    expect(
-      countApplicationTransactionShippableSurfaces({
-        ...detail,
-        deliverables: null,
-      }),
-    ).toBe(2);
+  it('keeps old deliverables fields out of the active detail contract', () => {
+    expect(detail).not.toHaveProperty('deliverables');
   });
 
   it('builds overview metrics from selected activity and detail', () => {
     expect(buildApplicationTransactionOverviewMetrics(selectedTransaction, detail)).toEqual([
-      { label: 'Shippables', value: '2' },
+      { label: 'Shippables', value: '1' },
       { label: 'History items', value: '5' },
       { label: 'Event count', value: '3' },
       { label: 'Proof posture', value: 'proof witness ready' },

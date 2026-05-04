@@ -17,7 +17,6 @@ import {
 
 const EMPTY_TEMPLATE_PREFERENCES = {
   shippable_templates: {},
-  deliverable_templates: {},
   ai_document_templates: {},
 };
 
@@ -407,7 +406,6 @@ export function buildGetAuxillaryTemplatePreferencesRoute(options: AuxillaryRout
 
     return createJsonResponse({
       shippable_templates: data.deliverable_templates || {},
-      deliverable_templates: data.deliverable_templates || {},
       ai_document_templates: data.ai_document_templates || {},
     });
   });
@@ -444,11 +442,6 @@ export function buildPostAuxillaryTemplatePreferencesRoute(options: AuxillaryRou
               (body as Record<string, unknown>).shippable_templates !== null
                 ? (body as Record<string, unknown>).shippable_templates
                 : null,
-            deliverable_templates:
-              typeof (body as Record<string, unknown>).deliverable_templates === 'object' &&
-              (body as Record<string, unknown>).deliverable_templates !== null
-                ? (body as Record<string, unknown>).deliverable_templates
-                : null,
             ai_document_templates:
               typeof (body as Record<string, unknown>).ai_document_templates === 'object' &&
               (body as Record<string, unknown>).ai_document_templates !== null
@@ -457,20 +450,17 @@ export function buildPostAuxillaryTemplatePreferencesRoute(options: AuxillaryRou
           }
         : {
             shippable_templates: null,
-            deliverable_templates: null,
             ai_document_templates: null,
           };
 
-    const shippableTemplates = payload.shippable_templates || payload.deliverable_templates;
-
-    if (!shippableTemplates || !payload.ai_document_templates) {
+    if (!payload.shippable_templates || !payload.ai_document_templates) {
       return createJsonResponse({ error: 'Invalid template preferences format' }, 400);
     }
 
     const { error: upsertError } = await supabaseAdmin.from('user_template_preferences').upsert(
       {
         user_id: user.id,
-        deliverable_templates: shippableTemplates,
+        deliverable_templates: payload.shippable_templates,
         ai_document_templates: payload.ai_document_templates,
         updated_at: new Date().toISOString(),
       },

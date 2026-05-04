@@ -28,6 +28,18 @@ function pickCanonicalProcessingStats(processingStats: any) {
   return canonicalStats;
 }
 
+function normalizeAssetPackSurface(surface: any, fileChanges?: any, summary?: string | null) {
+  if (!surface && !fileChanges && !summary) {
+    return null;
+  }
+
+  return {
+    pullRequest: surface?.pullRequest || null,
+    fileChanges: surface?.fileChanges || fileChanges || null,
+    summary: surface?.summary || summary || null,
+  };
+}
+
 export const parseStreamChunk = (chunk: string): ParsedStreamData => {
 
   const parsedData: ParsedStreamData = {
@@ -140,12 +152,18 @@ export const parseStreamChunk = (chunk: string): ParsedStreamData => {
         }
         case 'completion': {
           if (data.result) {
-            const { deliverables: _deliverables, ...canonicalResult } = data.result;
+            const {
+              deliverables: _legacyDeliverables,
+              pullRequestReviews: _legacyPullRequestReviews,
+              comments: _legacyComments,
+              issues: _legacyIssues,
+              ...canonicalResult
+            } = data.result;
             const topLevelFileChanges = data.fileChanges || null;
-            const explicitAssetPackSynthesisArtifacts = data.result.assetPackSynthesisArtifacts || null;
-            const explicitWrittenAssets = data.result.writtenAssets || null;
-            const explicitDeliveryMechanism = data.result.deliveryMechanism || null;
-            const explicitShippables = data.result.shippables || explicitDeliveryMechanism || null;
+            const explicitAssetPackSynthesisArtifacts = normalizeAssetPackSurface(data.result.assetPackSynthesisArtifacts);
+            const explicitWrittenAssets = normalizeAssetPackSurface(data.result.writtenAssets);
+            const explicitDeliveryMechanism = normalizeAssetPackSurface(data.result.deliveryMechanism);
+            const explicitShippables = normalizeAssetPackSurface(data.result.shippables) || explicitDeliveryMechanism;
             const actionsFileChanges = data.result.actions?.files || null;
 
             const semanticFileChanges =
@@ -157,29 +175,15 @@ export const parseStreamChunk = (chunk: string): ParsedStreamData => {
               actionsFileChanges ||
               null;
 
-            const actionsSurface = {
+            const actionsSurface = normalizeAssetPackSurface({
               pullRequest: data.result.actions?.pullRequest || null,
-              pullRequestReviews: data.result.actions?.pullRequestReviews || null,
-              comments: data.result.actions?.comments || null,
-              issues: data.result.actions?.issues || null,
-              fileChanges:
-                topLevelFileChanges ||
-                actionsFileChanges ||
-                explicitShippables?.fileChanges ||
-                explicitDeliveryMechanism?.fileChanges ||
-                explicitWrittenAssets?.fileChanges ||
-                null,
-              summary: data.result.summary || null,
-            };
+            }, topLevelFileChanges || actionsFileChanges || explicitShippables?.fileChanges || explicitDeliveryMechanism?.fileChanges || explicitWrittenAssets?.fileChanges || null, data.result.summary || null);
 
             const writtenAssets =
               explicitWrittenAssets ||
               explicitAssetPackSynthesisArtifacts ||
               (data.result.summary || semanticFileChanges
-                ? {
-                    ...(data.result.summary ? { summary: data.result.summary } : {}),
-                    ...(semanticFileChanges ? { fileChanges: semanticFileChanges } : {}),
-                  }
+                  ? normalizeAssetPackSurface(null, semanticFileChanges, data.result.summary || null)
                 : null);
 
             const deliveryMechanism =

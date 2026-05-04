@@ -12,8 +12,8 @@ async function loadFormatter() {
   return mod.hierarchicalFormatter;
 }
 
-function listDeliverablesPromptFiles() {
-  const dir = path.join(repoRoot, 'packages', 'pipelines', 'deliverable', 'src', 'agents', 'prompts');
+function listAssetPackPromptFiles() {
+  const dir = path.join(repoRoot, 'packages', 'pipelines', 'asset-pack', 'src', 'agents', 'prompts');
   if (!fs.existsSync(dir)) return [];
   return fs.readdirSync(dir).filter(f => f.endsWith('.ts')).map(f => path.join(dir, f));
 }
@@ -43,11 +43,11 @@ function listGenericToolsPromptFiles() {
 }
 
 function listPromptFiles(scope) {
-  if (scope === 'deliverables') return listDeliverablesPromptFiles();
+  if (scope === 'asset-pack') return listAssetPackPromptFiles();
   if (scope === 'generic-agents') return listGenericAgentsPromptFiles();
   if (scope === 'generic-tools') return listGenericToolsPromptFiles();
   return [
-    ...listDeliverablesPromptFiles(),
+    ...listAssetPackPromptFiles(),
     ...listGenericAgentsPromptFiles(),
     ...listGenericToolsPromptFiles(),
   ];
@@ -55,7 +55,7 @@ function listPromptFiles(scope) {
 
 async function render() {
   const arg = process.argv.find(a => a.startsWith('--scope='));
-  const scope = (arg ? arg.split('=')[1] : 'deliverables');
+  const scope = (arg ? arg.split('=')[1] : 'asset-pack');
   const outName = scope === 'all' ? 'prompts-rendered.all.md' : scope === 'generic-agents' ? 'prompts-rendered.generic-agents.md' : scope === 'generic-tools' ? 'prompts-rendered.generic-tools.md' : 'prompts-rendered.md';
   const outPath = path.join(repoRoot, 'reports', outName);
   fs.mkdirSync(path.dirname(outPath), { recursive: true });

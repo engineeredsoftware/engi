@@ -76,9 +76,6 @@ describe('application-transaction-query', () => {
       readApplicationTransactionDetailSection(new URLSearchParams('transactionDetail=history')),
     ).toBe('history');
     expect(readApplicationTransactionDetailSection(new URLSearchParams(''))).toBe('shippables');
-    expect(
-      readApplicationTransactionDetailSection(new URLSearchParams('transactionDetail=deliverables')),
-    ).toBe('shippables');
 
     const nextParams = writeApplicationTransactionDetailSection(
       new URLSearchParams('transactionId=tx-123'),

@@ -1,6 +1,6 @@
 #!/bin/bash
 
-echo "Comprehensive fix for all malformed imports in deliverable pipeline..."
+echo "Comprehensive fix for all malformed imports in AssetPack pipeline..."
 
 # Remove all lines with malformed lowercase promptpart imports ending with apostrophe
 find packages/pipelines/asset-pack -name "*.ts" -exec sed -i '' \

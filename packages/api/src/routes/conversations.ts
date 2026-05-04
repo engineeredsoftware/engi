@@ -108,9 +108,7 @@ function resolveConversationTokenValue(token?: ConversationStreamToken | null) {
 }
 
 function normalizeConversationTokenType(token?: ConversationStreamToken | null) {
-  const normalized = normalizeConversationText(token?.type).toLowerCase();
-  if (normalized === 'deliverable') return 'shippable';
-  return normalized;
+  return normalizeConversationText(token?.type).toLowerCase();
 }
 
 function deriveConversationInput(body: ConversationStreamRequest) {
@@ -209,8 +207,7 @@ function deriveConversationExecutionType(tokens: ConversationStreamToken[]) {
   for (const token of tokens) {
     const metadataPipelineType =
       typeof token.metadata?.pipelineType === 'string' ? token.metadata.pipelineType : undefined;
-    const rawCandidate = metadataPipelineType || normalizeConversationTokenType(token) || resolveConversationTokenValue(token);
-    const candidate = rawCandidate === 'deliverable' ? 'shippable' : rawCandidate;
+    const candidate = metadataPipelineType || normalizeConversationTokenType(token) || resolveConversationTokenValue(token);
 
     if (candidate === 'need_measurement' || candidate === 'measure') {
       return normalizeAgenticExecutionType(candidate);

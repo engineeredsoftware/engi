@@ -2296,15 +2296,15 @@ to {
 }
 /* coming-soon-badge removed - using unified AfterOnboardingOverlay component */
 
-/* Improved deliverable types styling */
-.deliverable-types-grid {
+/* Improved AssetPack type styling */
+.asset-pack-types-grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 20px;
   margin-top: 20px;
   margin-bottom: 32px;
 }
-.deliverable-type-item.improved {
+.asset-pack-type-item.improved {
   background: rgba(15, 25, 40, 0.5);
   border: 1px solid rgba(103, 254, 183, 0.15);
   border-radius: 12px;
@@ -2315,19 +2315,19 @@ to {
   transition: all 0.3s ease;
 }
 /* Hover effect removed - non-interactive element */
-.deliverable-type-header {
+.asset-pack-type-header {
   display: flex;
   align-items: center;
   margin-bottom: 12px;
   gap: 12px;
 }
-.deliverable-type-header h5 {
+.asset-pack-type-header h5 {
   margin: 0;
   font-size: 16px;
   font-weight: 600;
   color: rgba(255, 255, 255, 0.95);
 }
-.deliverable-type-icon {
+.asset-pack-type-icon {
   background: rgba(103, 254, 183, 0.1);
   color: rgba(103, 254, 183, 0.9);
   width: 36px;
@@ -2339,14 +2339,14 @@ to {
   flex-shrink: 0;
   border: 1px solid rgba(103, 254, 183, 0.2);
 }
-.deliverable-type-content p {
+.asset-pack-type-content p {
   margin: 0;
   font-size: 14px;
   color: rgba(255, 255, 255, 0.8);
   line-height: 1.5;
 }
 @media (max-width: 767px) /* phone */ {
-  .deliverable-types-grid {
+  .asset-pack-types-grid {
     grid-template-columns: 1fr;
   }
 
@@ -4163,7 +4163,7 @@ to {
   gap: 30px;
   margin: 2.5rem 0;
 }
-.deliverables-estimate {
+.asset-packs-estimate {
   font-size: 16px;
   font-weight: 600;
   color: rgba(103, 254, 183, 0.9);
@@ -4420,13 +4420,13 @@ to {
   background: rgba(103, 254, 183, 0.2);
   margin: 0 20px;
 }
-/* GitHub Deliverable Types Styling */
-.deliverable-types-container {
+/* GitHub AssetPack Type Styling */
+.asset-pack-types-container {
   margin-top: 30px;
   padding-top: 24px;
   border-top: 1px solid rgba(103, 254, 183, 0.2);
 }
-.deliverable-types-title {
+.asset-pack-types-title {
   font-size: 18px;
   font-weight: 600;
   color: white;
@@ -4434,7 +4434,7 @@ to {
   position: relative;
   display: inline-block;
 }
-.deliverable-types-title::after {
+.asset-pack-types-title::after {
   content: '';
   position: absolute;
   left: 0;
@@ -4444,18 +4444,18 @@ to {
   background: rgba(103, 254, 183, 0.7);
   border-radius: 1px;
 }
-.deliverable-types-description {
+.asset-pack-types-description {
   font-size: 15px;
   color: rgba(255, 255, 255, 0.8);
   margin-bottom: 20px;
   line-height: 1.5;
 }
-.deliverable-types-grid {
+.asset-pack-types-grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 20px;
 }
-.deliverable-type-item {
+.asset-pack-type-item {
   background: rgba(15, 25, 40, 0.5);
   border: 1px solid rgba(103, 254, 183, 0.15);
   border-radius: 12px;
@@ -4466,10 +4466,10 @@ to {
   transition: all 0.3s ease;
 }
 /* Hover effects removed - non-interactive elements */
-.deliverable-type-content {
+.asset-pack-type-content {
   flex: 1;
 }
-.deliverable-type-content h5 {
+.asset-pack-type-content h5 {
   font-size: 16px;
   font-weight: 600;
   color: white;
@@ -4591,8 +4591,8 @@ to {
   font-size: 16px;
   line-height: 1.2;
 }
-/* Remove top margin from deliverables badge inside pricing card */
-.pricing-glow-card .plan-deliverables {
+/* Remove top margin from AssetPack badge inside pricing card */
+.pricing-glow-card .plan-asset-packs {
   margin-top: 0 !important;
 }
 /* Remove bottom margins and unify font for first-row forms */
@@ -4602,10 +4602,10 @@ to {
   font-size: 3rem !important; /* slightly smaller, around text-6xl */
   line-height: 1.05;
 }
-.pricing-glow-card .plan-deliverables {
+.pricing-glow-card .plan-asset-packs {
   margin-top:0!important;
 }
-.plan-deliverables {
+.plan-asset-packs {
   display: flex;
   align-items: center;
   gap: 8px;
@@ -5892,7 +5892,7 @@ to {
   border-color: rgba(167, 139, 250, 0.7) !important;
   box-shadow: 0 0 60px rgba(167, 139, 250, 0.55) !important;
 }
-.pricing-glow-card.border-purple-400 .plan-deliverables {
+.pricing-glow-card.border-purple-400 .plan-asset-packs {
   background: rgba(167, 139, 250, 0.1) !important;
   color: rgba(167, 139, 250, 0.9) !important;
 }

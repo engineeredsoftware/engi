@@ -41,7 +41,7 @@ const EXAMPLE_QUESTIONS = [
 const SCREENSHOTS = [
   '/screenshots/sidebar-chats-chatting.png',
   '/screenshots/sidebar-chats-history.png',
-  '/screenshots/sidebar-deliverables.png',
+  '/screenshots/sidebar-shippables.png',
   '/screenshots/sidebar-feedbacks-history.png',
 ];
 

@@ -97,8 +97,8 @@ export const EDGETIMES_TOPOLOGY = {
       ],
     },
     {
-      title: 'Executions, runs, and deliverables',
-      detail: 'Execution and deliverable state is partially typed already, but fourth-gate still has to finish the run/pipeline meaning system.',
+      title: 'Executions, runs, and AssetPacks',
+      detail: 'Execution and AssetPack state is partially typed already, but fifth-gate still has to finish the run/pipeline meaning system.',
       models: [
         'DeliverablesModel',
         'PipelineExecutionsModel',

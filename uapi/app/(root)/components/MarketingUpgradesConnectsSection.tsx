@@ -235,14 +235,14 @@ export default function MarketingAIDocumentsConnectsSection() {
                 <h3 className="text-2xl tablet:text-3xl laptop:text-4xl desktop:text-5xl font-bold text-white">Agent AI Documents</h3>
               </div>
               <p className="text-base tablet:text-lg text-gray-200 leading-relaxed max-w-2xl">
-                Feedback and freeform knowledge are treated as intensely as any Deliverable — AI Documents are delivered to improve the system itself for your software team's specific needs.
+                Feedback and freeform knowledge are treated as intensely as AssetPack evidence. AI Documents improve the system itself for your software team's specific needs.
               </p>
               <div className="mt-6 border-t border-white/20 pt-6 space-y-6">
                 <FeatureCard className="border-l-4 border-purple-400 pl-4" icon={<SparklesIcon className="h-6 w-6 text-purple-400" />} title="Knowledge Extensions">
                   Bitcode can process critical, internal, and new documentation for deep study, improving interconnected reasoning later.
                 </FeatureCard>
-                <FeatureCard className="border-l-4 border-pink-400 pl-4" icon={<ArrowPathIcon className="h-6 w-6 text-pink-400" />} title="Deliverables Feedback">
-                  Feedback loops — both automatic from rejections and manual from your team — create a precise learning signal that improves every future deliverable.
+                <FeatureCard className="border-l-4 border-pink-400 pl-4" icon={<ArrowPathIcon className="h-6 w-6 text-pink-400" />} title="AssetPack Feedback">
+                  Feedback loops from reviews, tests, and operator decisions create a precise learning signal that improves every future AssetPack.
                 </FeatureCard>
               </div>
             </div>

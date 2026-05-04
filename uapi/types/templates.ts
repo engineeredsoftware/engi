@@ -6,13 +6,7 @@ export interface ShippableTemplate {
 
 export interface ShippableTemplates {
   pullRequests: ShippableTemplate[];
-  pullRequestReviews: ShippableTemplate[];
-  issues: ShippableTemplate[];
-  comments: ShippableTemplate[];
 }
-
-export type DeliverableTemplate = ShippableTemplate;
-export type DeliverableTemplates = ShippableTemplates;
 
 export interface AIDocumentTemplate {
   id: string;
@@ -22,8 +16,7 @@ export interface AIDocumentTemplate {
 
 export interface AIDocumentTemplates {
   knowledgeExtension: AIDocumentTemplate[];
+  assetPackFeedback: AIDocumentTemplate[];
   shippableFeedback?: AIDocumentTemplate[];
-  /** Compatibility key for stored preferences and retained template tables. */
-  deliverableFeedback: AIDocumentTemplate[];
   mcpConfig: AIDocumentTemplate[];
 }

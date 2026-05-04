@@ -18,8 +18,6 @@ import { DisabledTooltipWrapper } from "@/components/base/bitcode/overlays/disab
 import Logo from "@/components/base/bitcode/branding/logo";
 import BitcodeSoftwareSvgLogo from "@/components/base/bitcode/branding/bitcode-software-svg-logo";
 
-// Re-use the established EducationCard styling from deliverables/ai_documents headers.
-
 
 /**
  * The competitor comparison table for the marketing pages.
@@ -43,7 +41,7 @@ interface Row {
 
 const COLUMNS = [
   "Deep Coding",
-  "All Deliverables",
+  "AssetPack Finish",
   "Infinite Agents",
   "Shepherding at Scale",
   "Auto Agent Sequencing",
@@ -76,7 +74,7 @@ const COLUMN_INFO: Record<(typeof COLUMNS)[number], DocBoxCopy> = {
     description:
       "Multi-layer reasoning that traverses your entire repository graph—Bitcode architects, implements, refactors and self-tests until the feature is fully production-ready, not just a half-baked snippet.",
   },
-  "All Deliverables": {
+  "AssetPack Finish": {
     title: "AssetPack Outputs",
     subtitle: "Complete Receipts",
     description:
@@ -174,7 +172,7 @@ const BITCODE_CRUSH_COPY: Record<(typeof COLUMNS)[number], CrushCopy> = {
       "Ships code that passes CI before you even review",
     ],
   },
-  "All Deliverables": {
+  "AssetPack Finish": {
     headline: "One PR, All Assets",
     points: [
       "Docs, tests & configs auto-bundled",
@@ -289,7 +287,7 @@ type Column = (typeof COLUMNS)[number];
 const COMPETITOR_DATA: Record<string, Record<Column, Status>> = {
   Bitcode: {
     "Deep Coding": "✅",
-    "All Deliverables": "✅",
+    "AssetPack Finish": "✅",
     "Infinite Agents": "✅",
     "Shepherding at Scale": "✅",
     "Auto Agent Sequencing": "✅",
@@ -305,7 +303,7 @@ const COMPETITOR_DATA: Record<string, Record<Column, Status>> = {
   },
   Codex: {
     "Deep Coding": "✅",
-    "All Deliverables": "±",
+    "AssetPack Finish": "±",
     "Infinite Agents": "✅",
     "Shepherding at Scale": "✖",
     "Auto Agent Sequencing": "✖",
@@ -321,7 +319,7 @@ const COMPETITOR_DATA: Record<string, Record<Column, Status>> = {
   },
   Cognition: {
     "Deep Coding": "✅",
-    "All Deliverables": "✅",
+    "AssetPack Finish": "✅",
     "Infinite Agents": "✅",
     "Shepherding at Scale": "✖",
     "Auto Agent Sequencing": "✖",
@@ -337,7 +335,7 @@ const COMPETITOR_DATA: Record<string, Record<Column, Status>> = {
   },
   Copilot: {
     "Deep Coding": "✅",
-    "All Deliverables": "✅",
+    "AssetPack Finish": "✅",
     "Infinite Agents": "✅",
     "Shepherding at Scale": "✖",
     "Auto Agent Sequencing": "✖",
@@ -353,7 +351,7 @@ const COMPETITOR_DATA: Record<string, Record<Column, Status>> = {
   },
   Cursor: {
     "Deep Coding": "✅",
-    "All Deliverables": "✅",
+    "AssetPack Finish": "✅",
     "Infinite Agents": "✅",
     "Shepherding at Scale": "✖",
     "Auto Agent Sequencing": "±",
@@ -369,7 +367,7 @@ const COMPETITOR_DATA: Record<string, Record<Column, Status>> = {
   },
   Lovable: {
     "Deep Coding": "✅",
-    "All Deliverables": "✖",
+    "AssetPack Finish": "✖",
     "Infinite Agents": "✅",
     "Shepherding at Scale": "✖",
     "Auto Agent Sequencing": "✖",
@@ -420,7 +418,7 @@ const ROWS: Row[] = Object.entries(COMPETITOR_DATA).map(([name, colMap]) => ({
 }));
 
 /* -------------------------------------------------------------------------- */
-/* Re-usable DocBox (copied from deliverables/ai_documents header)                 */
+/* Re-usable DocBox for the marketing competitor table.                 */
 /* -------------------------------------------------------------------------- */
 
 function DocBox({
@@ -445,7 +443,7 @@ function DocBox({
         /*
          * Keep the internal card height consistent while the content swaps so
          * Framer-motion doesn’t have to recalc layout on every hover.  This was
-         * already the case in the deliverables / ai_documents headers but was
+         * already the case in the source header components but was
          * accidentally stripped when we copied the component into the
          * marketing competitors section, which resulted in a small ‘jump’ /
          * flicker mid-transition. Restoring the fixed height plus absolute

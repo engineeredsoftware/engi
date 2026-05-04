@@ -107,7 +107,7 @@ const ThumbnailStrip: React.FC<{
   );
 };
 // DocBox: hover-driven detailed view (formerly EducationCard)
-// Replicates deliverables/ai_documents header visual/animation language
+// Replicates AssetPack and AI Document header visual/animation language
 function DocBox({ content, className = '' }: { className: string, content: { title: string; subtitle?: string; body: string } | null }) {
   const prefersReducedMotion = useReducedMotion();
 
@@ -201,11 +201,11 @@ const MarketingAccelerationSection: React.FC = () => {
 
   // Top-level group descriptions for hover info
   const groupDescriptions: Record<string, string> = useMemo(() => ({
-    Deliverables: 'From auto-generated, Git-native design docs through merge-ready, CI-validated code, context-indexed discussions, and automated compliance reviews, Bitcode obliterates handoffs and friction across your entire SDLC.',
+    AssetPacks: 'From Need evidence through merge-ready, CI-validated code and proof receipts, Bitcode finishes work as a PR-backed AssetPack.',
     'AI Documents': 'Continuous system evolution via data-driven feedback loops: Bitcode ingests developer and user signals, orchestrates MCP integrations, and applies domain-specific Extensions to ensure each iteration aligns with real-world results.',
   }), []);
 
-  // Deliverable items for hover and EduBox content
+  // AssetPack items for hover and EduBox content
   const items = useMemo(() => [
     {
       name: 'Design Doc',
@@ -220,16 +220,16 @@ const MarketingAccelerationSection: React.FC = () => {
       description: 'Auto-generate merge-ready, fully tested code with typed definitions and integrated telemetry.',
     },
     {
-      name: 'Comments',
+      name: 'Proof Receipts',
       icon: ChatBubbleLeftRightIcon,
       color: 'text-gray-400',
-      description: 'Embed context-aware insights and live summaries into discussions, linking directly to code.',
+      description: 'Attach source-bearing proof, validation, and operator-visible receipts to the AssetPack.',
     },
     {
-      name: 'Reviews',
+      name: 'PR Shippable',
       icon: ClipboardDocumentCheckIcon,
       color: 'text-emerald-400',
-      description: 'Automate code quality with secure reviews, inline fixes, and compliance reports.',
+      description: 'Finish with a connected-interface pull request instead of parallel comment, issue, or review outputs.',
     },
     // AI Documents
     {
@@ -270,11 +270,11 @@ const MarketingAccelerationSection: React.FC = () => {
       stats: ['1000x Production Volume', '1/1000 Production Cost'],
       images: ['/screenshots/code-1.png', '/screenshots/code-2.png']
     },
-    Comments: {
+    'Proof Receipts': {
       stats: ['Deep Research', 'Deep Reasoning'],
       images: ['/screenshots/comments-1.png']
     },
-    Reviews: {
+    'PR Shippable': {
       stats: ['1000x Faster Response'],
       images: ['/screenshots/review-1.png', '/screenshots/review-2.png']
     },
@@ -355,13 +355,13 @@ const MarketingAccelerationSection: React.FC = () => {
             </p>
           </div>
           {/*
-          Deliverables & AI Documents icon row
+          AssetPacks & AI Documents icon row
 
           The original single-row layout is preserved but now split into two subtly
           highlighted groups:
 
           • The first four items are wrapped in a bordered container labelled
-            "Deliverables".
+            "AssetPacks".
           • The last three items are wrapped in a bordered container labelled
             "AI Documents".
 
@@ -369,14 +369,14 @@ const MarketingAccelerationSection: React.FC = () => {
           responsive behaviour remain unchanged.
         */}
           <div className="flex flex-wrap justify-center gap-8 mb-16 relative z-10">
-            {/* Deliverables */}
+            {/* AssetPacks */}
             <div className="flex gap-8 relative px-6 py-4 rounded-xl border border-purple-400/25">
               <div
                 className="absolute -top-2 left-1/2 -translate-x-1/2 flex items-center px-2 bg-[#020617] text-[10px] font-semibold uppercase tracking-wider text-purple-300 cursor-pointer"
-                onMouseEnter={() => setActiveEdu({ title: 'Deliverables', body: groupDescriptions.Deliverables })}
+                onMouseEnter={() => setActiveEdu({ title: 'AssetPacks', body: groupDescriptions.AssetPacks })}
               >
                 <InformationCircleIcon className="w-3 h-3 mr-1 text-purple-300" />
-                Deliverables
+                AssetPacks
               </div>
               {items.slice(0, 4).map((item) => (
                 <div

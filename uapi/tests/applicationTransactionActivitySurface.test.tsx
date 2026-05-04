@@ -30,7 +30,7 @@ const selectedRun: WorkspaceRun = {
 
 const detail: ApplicationRunDetailSnapshot = {
   summary: 'Normalized detail summary.',
-  deliverables: null,
+  shippables: null,
   repoSnapshot: null,
   processingStats: null,
   proofStatus: 'proof witness ready',

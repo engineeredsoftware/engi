@@ -335,16 +335,16 @@
     }
     
     .projection-content {
-      .next-deliverable {
+      .next-asset-pack {
         margin-bottom: 0.75rem;
         
-        .deliverable-label {
+        .asset-pack-label {
           color: rgba(165, 180, 252, 0.8);
           font-size: 0.75rem;
           margin-bottom: 0.25rem;
         }
         
-        .deliverable-name {
+        .asset-pack-name {
           color: rgba(199, 210, 254, 0.95);
           font-size: 0.875rem;
           font-weight: 500;

@@ -16,11 +16,7 @@ function readStringArray(value: unknown) {
 }
 
 function serializeShippableTemplate(template: any) {
-  return {
-    ...template,
-    // The database column remains a compatibility storage field.
-    shippable_type: template.shippable_type ?? template.deliverable_type,
-  };
+  return template;
 }
 
 export async function GET(request: Request) {
@@ -36,10 +32,13 @@ export async function GET(request: Request) {
 
   const url = new URL(request.url);
   const type = url.searchParams.get('type') || undefined;
+  if (type && type !== 'pullRequests') {
+    return NextResponse.json({ templates: [] });
+  }
   const templatesService = new TemplatesService(supabase as any);
 
   try {
-    const templates = await templatesService.getShippableTemplates(user.id, type);
+    const templates = await templatesService.getShippableTemplates(user.id, type as 'pullRequests' | undefined);
     return NextResponse.json({
       templates: templates.map(serializeShippableTemplate),
     });
@@ -74,14 +73,22 @@ export async function POST(request: Request) {
   const payload = body && typeof body === 'object' ? (body as Record<string, unknown>) : {};
   const name = readString(payload.name);
   const templateText = readString(payload.templateText);
-  const shippableTypes = readStringArray(payload.shippableTypes);
-  const compatibilityTypes = readStringArray(payload.deliverableTypes);
-  const types = shippableTypes.length ? shippableTypes : compatibilityTypes;
+  const types = readStringArray(payload.shippableTypes);
 
   if (!name || !templateText || !types.length) {
     return NextResponse.json(
       {
         error: 'Shippable template name, text, and at least one Shippable type are required',
+        templates: [],
+      },
+      { status: 400 },
+    );
+  }
+
+  if (types.some((type) => type !== 'pullRequests')) {
+    return NextResponse.json(
+      {
+        error: 'V26 Shippable templates support pull request delivery only',
         templates: [],
       },
       { status: 400 },
@@ -94,7 +101,7 @@ export async function POST(request: Request) {
     const templates = await templatesService.createShippableTemplates(
       user.id,
       name,
-      types,
+      types as ['pullRequests'],
       templateText,
     );
 

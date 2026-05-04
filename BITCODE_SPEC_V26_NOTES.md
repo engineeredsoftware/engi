@@ -82,7 +82,7 @@ The canonical object flow is:
 6. fit candidates are found and presented with quantized objective-contract fit qualities;
 7. accepted settlement materializes source-to-shares accounting;
 8. AssetPack pipeline runs synthesize Need-satisfaction AssetPack contents and evidence;
-9. Finish stores Exchange evidence, records receipts, and can deliver Shippables such as pull requests, comments, issues, reviews, or other connected-interface outputs;
+9. Finish stores Exchange evidence, records receipts, and delivers the V26 Shippable through a GitHub pull request; comments, issues, reviews, uploads, and other delivery branches are later-version design-space only;
 10. Terminal and connected interfaces reread the same Exchange state and proof evidence.
 
 ### Fifth-gate priorities at simplified reading
@@ -90,8 +90,8 @@ The canonical object flow is:
 The remaining fifth-gate work is prioritized by closure leverage:
 
 - reform active filesystem names and exported names so live package owners are Bitcode nouns rather than compatibility nouns;
-- complete AssetPack pipeline refurbishment across SDIVF phases, agents, tools, prompts, runtime outputs, postprocess types, tests, and route/API compatibility wrappers;
-- keep the retained `/api/deliverables` mount compatibility-only while source, hooks, templates, streaming parsers, route logs, telemetry aliases, and execution headers use AssetPack/Shippable names first;
+- complete AssetPack pipeline refurbishment across SDIVF phases, agents, tools, prompts, runtime outputs, postprocess types, tests, and route/API owners;
+- remove `/api/deliverables` and `/api/templates/deliverables` from active V26, leaving old names only as physical storage/generated-schema or bounded promptpart migration identifiers;
 - make every Prompt, PromptPart, Registry primitive, agent prompt, tool prompt, and doc-comment injection path current-Bitcode precise;
 - finish package and interface parity for Terminal, Exchange APIs, MCP, ChatGPT App, webhooks, Supabase/ORM state, execution history, conversation rich-input execution evidence, and connected-interface write admission;
 - ensure Need review and fit review are explicit before settlement, including Exchange `needFittingReview`, Terminal review controls, accept/reject/re-measure, and fit-quality receipts;
@@ -175,7 +175,7 @@ This section records transitions that are too historically specific for the main
 | Former/reform source | Current Bitcode owner | Closure meaning |
 | --- | --- | --- |
 | route-local run history | `packages/api/src/routes/executions.ts`, `uapi/app/api/executions/*`, Terminal transaction state | execution history is Exchange-readable activity and Terminal transaction detail |
-| loose deliverable route output | `/api/deliverables`, execution summaries, `writtenAssets`, `assetPack`, `deliveryMechanism` aliases | compatibility route remains only while output meaning is AssetPack synthesis artifacts, stored AssetPack evidence, and delivery-mechanism artifacts |
+| loose deliverable route output | active AssetPack/Shippable route summaries, `assetPackSynthesisArtifacts`, `writtenAssets`, `assetPack`, and `deliveryMechanism` aliases | `/api/deliverables` is removed from active V26; output meaning is AssetPack synthesis artifacts, stored AssetPack evidence, and PR delivery-mechanism artifacts |
 | one-off client error endpoint assumption | `uapi/app/api/client-error/route.ts` | client failure telemetry is app-owned and proof-relevant |
 | untyped storage assumptions | `supabase/*`, `packages/supabase/*`, `packages/orm/*`, `packages/orm/src/models/bitcode-execution-storage.ts` | Exchange state persists Bitcode execution, AssetPack, activity, profile, readiness, and proof evidence |
 | local wallet/profile ambiguity | `Profile`, `Connects`, signed-settlement readiness, profile storage | manual wallet identity and verified signer/provider access must remain distinct until settlement is actually signed |
@@ -186,18 +186,18 @@ This section records transitions that are too historically specific for the main
 | --- | --- | --- |
 | `deliverable` as product object | AssetPack, AssetPack synthesis artifact, stored AssetPack evidence, Shippable, delivery mechanism | product output separates implementation-phase synthesis artifacts, Exchange-stored evidence, and optional Shippables delivered through destination mechanisms |
 | `definitionOfDone` as owning input | `definitionOfNeed`, expressed Need, Need satisfaction criteria | removed from active V26 request/schema semantics; this row remains only as reform history |
-| `deliverableType` and four old request labels | `writtenAssetRequest` / `deliveryMechanismTemplate` compatibility hints plus canonical `writtenAssetType = need-satisfaction-asset-pack` | old labels may help choose a Finish delivery mechanism, but they do not define implementation or validation behavior |
-| `DeliverableType.ts` package primitive | `AssetPackWrittenAssetType.ts` and `AssetPackWrittenAssetType.NeedSatisfactionAssetPack` | package-owned type/export names now teach the single canonical AssetPack written-asset kind while route payloads may still carry compatibility `deliverableType` fields as mirrors |
+| `deliverableType` and four old request labels | canonical `writtenAssetType = need-satisfaction-asset-pack`, `writtenAssetRequest`, and `deliveryMechanismTemplate = pull-request` | old labels are trace inputs only; they must not define implementation, validation, route payloads, or active delivery branches |
+| `DeliverableType.ts` package primitive | `AssetPackWrittenAssetType.ts` and `AssetPackWrittenAssetType.NeedSatisfactionAssetPack` | package-owned type/export names now teach the single canonical AssetPack written-asset kind without route payload `deliverableType` mirrors |
 | `searchRelevantDeliverables` evidence helper | `searchRelevantAssetPackEvidence` | discovery support searches prior AssetPack evidence using Bitcode-owned env flags and exposes `assetPackEvidenceId` while the backing database RPC can remain a compatibility persistence detail |
 | `phase_deliverable*` PromptParts and phase-level shipping PromptPart filenames | `phase_assetpack{setup,discovery,implementation,validation,finish}` PromptParts | phase PromptPart filesystem/export ownership now teaches canonical AssetPack SDIVF phases directly |
-| implementation/validation agents named around written-asset synthesis | `asset-pack-synthesize-artifacts-agent`, `assetpacksynthesizeartifacts` PromptParts, and `validation:validate-asset-pack-synthesis-artifacts` | Implementation and validation registry ownership now teaches AssetPack synthesis artifacts directly; Finish final-work summary, postprocess output, execution-history normalization, `/api/deliverables` semantic completion payloads, and Terminal stream parsing preserve `assetPackSynthesisArtifacts` as the primary artifact/evidence read surface while `writtenAssets` remains only a compatibility/read mirror where route payloads still require it |
+| implementation/validation agents named around written-asset synthesis | `asset-pack-synthesize-artifacts-agent`, `assetpacksynthesizeartifacts` PromptParts, and `validation:validate-asset-pack-synthesis-artifacts` | Implementation and validation registry ownership now teaches AssetPack synthesis artifacts directly; AssetPack completion, postprocess output, execution-history normalization, active semantic completion payloads, and Terminal stream parsing preserve `assetPackSynthesisArtifacts` as the primary artifact/evidence read surface while `writtenAssets` remains only a semantic reread |
 | broad `Shipping` final phase | `Finish` | final phase saves results, records evidence, and invokes narrower Delivering |
 | `Shipping` as providing to external tools | `Delivering` inside Finish | Delivering specifically provides Shippables backed by AssetPacks or AssetPackPartials |
-| reused `deliverable(s)` as current output noun | `Shippable(s)` delivered by Finish | active new-world code must use `deliver` as the verb and `Shippable` as the noun for connected-interface objects; `deliverables` may remain only as `/api/deliverables`, compatibility `/api/templates/deliverables`, retained table/payload/email-template names, or proof-history compatibility |
+| reused `deliverable(s)` as current output noun | `Shippable(s)` delivered by Finish | active new-world code must use `deliver` as the verb and `Shippable` as the noun for connected-interface objects; `deliverables` may remain only as retained table/generated-schema/migration-boundary or bounded promptpart identifiers, not active routes, payload fields, template categories, email-template names, or tests |
 | `SDIVS` | `SDIVF` | canonical phased implementation is Setup, Discovery, Implementation, Validation, Finish; Simple remains the other canonical pipeline shape |
 | `packages/pipelines/asset-pack/src/agents/shipping/*`, `shipping-agents.ts`, `finish-compatibility/*`, and `deliverable-pipeline-*` Finish carriers | `packages/pipelines/asset-pack/src/agents/finish/asset-pack-finish-*`, `agents/prompts/finalize-delivery-evidence-prompt.ts`, and `finish-delivery-agents.ts` | filesystem ownership now teaches AssetPack Finish/Delivering directly; the live AssetPack phase/tool registry no longer registers `shipping:*` aliases or exports `shippingPhase`, and the AssetPack run export no longer exposes an SDIVS alias |
 | shippable/AssetPack support surfaces still named around retained output nouns | `StreamFactory.createShippablesStream`, `branchAssetPackRun`, `AssetPackPipelineToolSchema`, `PipelineNameValues = ['asset-pack']`, `uapi/components/shippables/*`, `uapi/stories/shippables/*`, and `asset-pack-scenarios.ts` | streams, branch execution, MCP, UI components, stories, and drymock scenarios now teach current Bitcode owners while retained route/storage fields stay compatibility-bound |
-| retained template route noun | active `/api/templates/shippables`, compatibility `/api/templates/deliverables`, and `TemplatesService.getShippableTemplates/createShippableTemplates` | Terminal execution inputs save Shippable templates through the current route; retained database columns/tables keep compatibility storage names only |
+| retained template route noun | active `/api/templates/shippables` and `TemplatesService.getShippableTemplates/createShippableTemplates` | Terminal execution inputs save PR-only Shippable templates through the current route; retained database columns/tables keep compatibility storage names only, and `/api/templates/deliverables` is not an active V26 route |
 | notification `runType` values and deep links named around retained run classes | `asset-pack` / `need-measurement` notification run types with `/executions/:runId` Terminal bridge links | user-facing notification copy now describes AssetPack and Need-measurement executions while retained route/table identifiers stay bounded |
 | `sync-deliverables-embeddings` operational script | `sync-asset-pack-evidence-embeddings` | active script/package-command/log names now describe stored AssetPack evidence embeddings while retained Exchange table/column names remain literal compatibility storage identifiers |
 | mock-system generated JavaScript beside TypeScript source | TypeScript-only mock owners plus real JavaScript setup/validation scripts | `uapi/mocking/{core,engines,generators,integration,middleware,types,index}.ts[x]` are active source; generated `.js` mirrors are removed, while operator scripts under `uapi/mocking/scripts/*` and `uapi/mocking/validate-system.js` remain hand-authored support scripts |
@@ -279,7 +279,7 @@ The following items are no longer open draft questions:
 - the preserved first-gate JSON contract now runs through interface-owned `uapi/app/api/*` filesystem route bindings over package-owned `packages/api/src/routes/*` handlers, with deeper behavior imported from narrower subsystem packages rather than absorbed by the Next.js route files themselves; route bindings may import specific `@bitcode/api/src/routes/*` modules instead of an eager top-level barrel when isolated handler loading is required for mock-mode or route-local proof stability.
 - the ringed auxillary overlay now reads through canonical `uapi/app/auxillaries/components/*` surface and pane owners, while retained `uapi/app/orbitals/*` code is compatibility-only or reused internals to be retired by full fifth-gate closure.
 - conversations remain a fullscreen application mode entered from within `/application`.
-- current executions and deliverables surfaces are reuse reservoirs for inward master-detail porting into `/application`.
+- current executions plus former deliverable-reading surfaces are reuse reservoirs for inward AssetPack/Shippable master-detail porting into `/application`.
 - fourth-gate merged-world naming now keeps retained `/executions` explicit as executions primitives inside the broader `activity` family and converges retained `/orbitals` on `auxillaries`, with transactions, executions, and notifications explicitly admitted as the broader activity family.
 - the preserved late-stage navbar remains the integrated application navigation frame for Bitcode.
 - homepage embedded-demo posture remains removed.
@@ -292,7 +292,7 @@ The following items are no longer open draft questions:
 - retained prompt-system package surfaces are now part of that active naming sweep: `packages/prompts/*` must read as Bitcode in package metadata, benchmarking/docs, promptpart examples, and active identity text while historical filename lineage may remain only where still-needed for safe fifth-gate porting.
 - active prompt-system JS carry-through and review-tooling carriers are part of that same fifth-gate proof boundary too: `packages/prompts/src/{index.js,parts/PromptPart.js}` and `scripts/code-review/{REVIEW_EXCELLENCE_GUIDE.md,reviews/review_prompt_primitives_evolution*.sh}` plus `scripts/phase2-naming-compliance.py` must use Bitcode-owned comments, examples, repo paths, and current `raw_promptparts/*` file references rather than silently preserving old-brand wording or dead prompt file paths.
 - active prompt/tooling repair scripts are part of that same fifth-gate proof boundary too: `scripts/{fix-remaining-imports,fix-barrel-imports,fix-multiline-imports,fix-corrupted-imports}.sh` and `scripts/code-review/base-review.sh` must rewrite toward `@bitcode/*` carriers and Bitcode-owned review output paths rather than preserving `@engi/*` repair targets or `/tmp/engi_review_*` runtime artifacts.
-- active maintenance validation and cleanup carriers are part of that same fifth-gate proof boundary too: `scripts/verify-deliverables-quality.sh`, `scripts/{cleanup_remaining_docs.py,cleanup_outdated_docs.py,cleanup-outdated-docs.sh}`, and `protocol-demonstration/CHECKLIST.md` must validate and teach Bitcode-owned paths, branch labels, CTA language, and cleanup targets rather than preserving `@engi/*`, `engi-demo`, or `ENGI_*` document references in active operator guidance.
+- active maintenance validation and cleanup carriers are part of that same fifth-gate proof boundary too: AssetPack/Shippable quality scripts, `scripts/{cleanup_remaining_docs.py,cleanup_outdated_docs.py,cleanup-outdated-docs.sh}`, and `protocol-demonstration/CHECKLIST.md` must validate and teach Bitcode-owned paths, branch labels, CTA language, and cleanup targets rather than preserving `@engi/*`, `engi-demo`, `deliverables`, or `ENGI_*` document references in active operator guidance.
 - retained package and shell follow-through is now explicit too: live footer/fill-gap styling carriers and retained package surfaces like `packages/chatgptapp/*`, `packages/web-search/*`, and `packages/streams/*` are active fifth-gate naming targets, with old-brand wording permitted only in historical documentation or still-unported fixture material that has not yet been promoted as active product truth.
 - retained package docs and communication surfaces are active fifth-gate proof carriers too: `packages/chatgptapp/{README,DEMO,TLDR,TODO}.md` and `packages/email/{README.md,package.json,src/services/*}` must read as Bitcode whenever they describe active product/runtime/package behavior rather than historical lineage.
 - active tests and Storybook carriers are proof-bearing import-path owners too: where canonical auxillary surfaces already exist, files such as `uapi/tests/{orbitalsPaneTabs,orbitalsWorkspacePanels,orbitalPaneMeta}.test.*` and `uapi/stories/{LoginPane,OnboardingPane,user/Auth,user/Onboarding}.stories.*` must import `uapi/app/auxillaries/*` rather than teaching compatibility `orbitals` owners as current truth.
@@ -303,7 +303,7 @@ The following items are no longer open draft questions:
 - fifth-gate filesystem-path cleanup now explicitly includes non-_legacy historical carriers too: root prep memos and retained package-local historical docs such as `BITCODE_{V10,V11}_PREP_MEMO.md` and `protocol-demonstration/BITCODE_DEMO_SPEC_V15*.md` must not survive as `ENGI_*` filenames outside `_legacy/`.
 - mounted public-shell and retained route-teaching carriers are active fifth-gate proof carriers too: live marketing owners like `uapi/app/(root)/components/{MarketingFeaturesGrid,MarketingComputeSection,MarketingCompetitorTableSection,MarketingMarketplaceSection}.tsx`, route-adjacent teaching carriers like `uapi/app/orbitals/components/OrbitalsConnectsOrbitalEmailConnection.tsx`, and retained package docs like `packages/{web-search,registry}/*` must converge on Bitcode naming in user-facing strings, comments that teach active behavior, and canonical proof witnesses.
 - retained package API routes are active fifth-gate proof carriers too: user-facing strings in `packages/api/src/routes/*` such as auth welcomes, ChatGPT success messages, and deliverables permission guidance must converge on Bitcode naming exactly the same way active UI carriers do.
-- retained shared contracts are active fifth-gate proof carriers too: `packages/errors/*` and direct consumers like `packages/api/src/routes/shippables.ts`, compatibility `packages/api/src/routes/deliverables.ts`, and `uapi/app/error.tsx` must not keep old branded error-contract naming in active exported symbols, docs, or user-facing error teaching once the rest of the product reads as Bitcode.
+- retained shared contracts are active fifth-gate proof carriers too: `packages/errors/*` and direct consumers like `packages/api/src/routes/shippables.ts` and `uapi/app/error.tsx` must not keep old branded error-contract naming in active exported symbols, docs, or user-facing error teaching once the rest of the product reads as Bitcode; deleted compatibility route names are trace inputs only.
 - retained runtime/debug/env contracts are active fifth-gate proof carriers too: active packages such as `packages/{logger,agent-generics,pipelines/asset-pack,parsing}/*` must converge on `BITCODE_*` environment/debug contracts, `.bitcode_logs` sidecar posture, and Bitcode-facing helper strings instead of leaving `ENGI_*` runtime flags or `.engi_logs` as surviving product truth.
 - retained LLM harness/config carriers are active fifth-gate proof carriers too: `packages/llm-generics/{jest.config.cjs,tsconfig.test.json,__mocks__/*,README.md}` and shared workspace config like `jest.base.cjs` / `pnpm-workspace.yaml` must not keep old-brand mock names, old import aliases, or dead pre-Bitcode package entries in active Bitcode test/runtime ownership.
 - shipped JS/runtime carry-through and Storybook/docs carriers are active fifth-gate proof carriers too: generated JS files under `packages/{errors,logger,observability}/*`, active docs/comments in `packages/{security,multimodal-utils,tech-types,supabase}/*`, and active `uapi/stories/*` titles/example copy must not keep old-brand sample values or old import aliases once the live product and packages read as Bitcode.
@@ -402,7 +402,7 @@ The next closure-side second-gate milestone is now materially implemented in sou
 - `/api/conversations/[conversationId]/stream`
 
 Those carriers now make fullscreen conversations application-owned from `/application` in mock-mode review instead of leaving the overlay mounted over missing App Router routes.
-They also place a central run-and-deliverable master-detail workspace directly inside `/application` instead of leaving inward reuse mostly confined to the right rail or the compatibility `/executions` route.
+They also place a central execution and AssetPack/Shippable master-detail workspace directly inside `/application` instead of leaving inward reuse mostly confined to the right rail or the compatibility `/executions` route.
 They also place route-local command and live-summary carriers above the preserved shell, with browser-verified proxying from the application frame into preserved-shell scenario/projection/branch state.
 They now also place a route-local body atlas above the preserved shell, with browser-verified card labels and deterministic jump behavior into the live operating, depositing, needing, fit, verification, artifact, settlement, and ledger panels.
 That atlas now also reads semantic core and closure bridges instead of scraping rendered shell panel text and card counts.
@@ -418,7 +418,7 @@ The V26 application architecture is now explicitly locked in the canonical famil
 - conversations as the fullscreen chat workspace entered from `/application`,
 - orbitals as the fullscreen orbital workspace entered from `/application`,
 - `Connects`, `Interfaces`, `Profile`, and `$BTD` as the fixed orbital ring model,
-- and runs/deliverables/proofs/history as master-detail substructures rather than separate primary experiences.
+- and runs, AssetPack/Shippables, proofs, and history as master-detail substructures rather than separate primary experiences.
 
 The current source now reflects that architecture more directly:
 
@@ -439,8 +439,8 @@ The current source now reflects that architecture more directly:
 - `ApplicationTransactionDetailActionBar.tsx` plus `ApplicationTransactionDetailSurface.tsx` now make transaction-detail focus, closure rerun, and detail refresh route-owned inside `/application` through query state and the shell bridge, with `transaction` as the preferred detail carrier and legacy `identity` accepted only for compatibility parsing,
 - `ApplicationTransactionClosureCard.tsx`, `ApplicationTransactionProofsCard.tsx`, and `ApplicationTransactionHistoryCard.tsx` now split selected-transaction closure, proofs, and history into explicit detail carriers instead of burying proofs/history under one closure pane,
 - `/application` now prefers `transactionId` as the master-detail query carrier while still accepting inbound `runId` for compatibility convergence, and the transactions master surface now filters by status, ownership, repository, participant, proof posture, and sort order in addition to free-text search,
-- `ApplicationTransactionWorkspace.tsx` now exposes transactions, deliverables, proofs, and history as explicit master-detail substructures instead of leaving them as adjacent imported detail panels,
-- `ApplicationTransactionDetailSurface.tsx` plus `application-transaction-detail-snapshot.ts` now normalize selected-run history payloads into one application-owned detail carrier so deliverable-reading panels render in both mock and live posture inside `/application`,
+- `ApplicationTransactionWorkspace.tsx` now exposes transactions, AssetPack/Shippables, proofs, and history as explicit master-detail substructures instead of leaving them as adjacent imported detail panels,
+- `ApplicationTransactionDetailSurface.tsx` plus `application-transaction-detail-snapshot.ts` now normalize selected-run history payloads into one application-owned detail carrier so AssetPack/Shippable reading panels render in both mock and live posture inside `/application`,
 - `ApplicationTransactionActivitySurface.tsx` plus `application-run-activity.ts` now elevate the retained execution/log/work-update system into the Bitcode application-owned detail space instead of leaving that depth mostly to the compatibility execution page,
 - `uapi/components/base/bitcode/activity/bitcode-activity-model.ts`, `application-run-activity.ts`, and `NotificationsWidget.tsx` now share one fourth-gate activity vocabulary so transactions remain dominant while notifications are admitted as the next converged activity class,
 - `ApplicationClosureNativeSections.tsx` plus `application-closure-state.ts` now read verification, branch, settlement, and ledger semantics from the mounted Bitcode shell snapshot rather than from rendered closure panel markup,
@@ -521,7 +521,7 @@ The second-gate collaboration pack must now include:
 - a semantic non-regression ledger,
 - a component adoption matrix keyed to `uapi/components/base/*`, route-local app sections, and orbital carriers,
 - an overlay choreography map for fullscreen conversations and orbitals within `/application`,
-- a master-detail reuse map for executions and deliverables patterns being ported inward,
+- a master-detail reuse map for executions plus AssetPack/Shippable patterns being ported inward,
 - an external interfacing hardening matrix,
 - a modular supplementary-doc rewrite map for non-canonical repository docs that need fuller system detail once V26 becomes more package- and subsystem-shaped,
 - and an acceptance matrix that separates second-gate from third-gate and fourth-gate work.
@@ -536,7 +536,7 @@ The fourth-gate collaboration pack must now include:
 - a runs/pipelines/asset-packs total-system map,
 - a PostgreSQL/Supabase storage convergence map covering `/edgetimes`, active migrations, schema owners, ORM/query owners, generated types, and API boundaries,
 - a schema and package admissibility map covering `packages/supabase`, `packages/orm`, `packages/prompts`, `packages/api`, `packages/conversations-generics`, and `packages/execution-generics`,
-- an inward-port map from current executions/deliverables surfaces into `/application`,
+- an inward-port map from current executions plus AssetPack/Shippable surfaces into `/application`,
 - a retained prompt-space map,
 - a retained package admissibility ledger,
 - and a proof-family assignment table for retained systems.
@@ -551,7 +551,7 @@ Still open:
 - how far the preserved first-gate shell should be decomposed into native application-facing components,
 - which sections should become route-local React composition first,
 - how aggressively the old shell CSS and DOM contract should be retired during second-gate,
-- the exact master-detail structure for transactions, deliverables, proofs, and history within `/application`,
+- the exact master-detail structure for transactions, AssetPack/Shippables, proofs, and history within `/application`,
 - the exact fullscreen overlay choreography for conversations relative to the main application workspace,
 - how the preserved late-stage design-system atmosphere should be preserved while the product expression stays entirely Bitcode,
 - and which external interfacings must be considered second-gate-stable before the new application page is considered ready.
@@ -643,7 +643,7 @@ Still open:
 Promoted closed after reopening re-review:
 - conversations read as a Bitcode V26 system through the route, fullscreen overlay, API, and retained conversation package proof family,
 - ChatGPT-like interaction survives as a fullscreen first-class application mode entered from `/application`,
-- deliverables are redefined under Bitcode runs/pipelines, asset-pack, written-asset, and connected-interface wrapper semantics,
+- former deliverable output meaning is redefined under Bitcode runs/pipelines, AssetPack, written-asset, stored evidence, and connected-interface Shippable semantics,
 - executions/runs keep explicit compatibility APIs while their master-detail and inspection patterns are ported inward to `/application`,
 - PostgreSQL/Supabase ownership is grounded across `supabase/*`, `packages/supabase/*`, retained API carriers, and the live `/edgetimes` + `/api/edgetimes` witness posture,
 - `supabase/migrations/001_v26_production.sql` is the initial V26 persistence baseline for the current proof family,
@@ -725,7 +725,7 @@ The following remain non-goals for this notes companion:
 - or treating `_legacy/` code as current truth.
 
 Current fourth-gate closure reminders:
-- retained `/executions` health now explicitly depends on `/api/vcs`, active `/api/templates/shippables`, compatibility `/api/templates/deliverables`, and `/api/auxillaries/template-preferences` as API owners rather than invisible glue, and those carriers are part of the promotion boundary
+- retained `/executions` health now explicitly depends on `/api/vcs`, active `/api/templates/shippables`, and `/api/auxillaries/template-preferences` as API owners rather than invisible glue; `/api/templates/deliverables` is removed from active V26
 - canonical auxillary health now explicitly depends on `/api/auxillaries/profile`, `/api/auxillaries/connections/github`, `/api/auxillaries/btd`, `/api/auxillaries/usage`, `/api/auxillaries/transactions`, and `/api/auxillaries/api-keys` as active owners rather than pane-side assumptions
 - old-world port scope is explicit in draft posture too: Jira remains reader-first Bitcode need ingestion while Git/GH remains the initial admitted settle-write boundary for fourth-gate testnet-ready promotion
 
@@ -777,7 +777,7 @@ Current fifth-gate reminders:
 - active orbital styling identifiers that still carry old-brand naming, even when buried in CSS selectors, count as unclosed fifth-gate residue and must be retired under proof like any other active code carrier
 - shared runtime and conversational primitives are part of the same closure boundary: active conversation-agent identity strings, repo-root helpers, LLM mock flags, and search-reservation globals must read as Bitcode because they are inherited infrastructure now driving the production application rather than isolated package internals
 - retained MCP proof carriers are part of that same closure boundary now: `packages/executions-mcp/src/mcp-server/src/__tests__/{tools,integration,unit/auth}.test.ts` must pass against the current server surface and exit without lingering Jest open-handle warnings, because imported singleton timers and background cleanup loops are active runtime truth, not tolerable harness noise
-- active auth and retained deliverable-template email carriers are inside the same boundary too: `supabase/config.toml`, `supabase/templates/*`, and the active vars passed from `packages/api/src/routes/shippables.ts` must read as Bitcode because those templates are live user-facing product surfaces, not deployment-only metadata
+- active auth and AssetPack email-template carriers are inside the same boundary too: `supabase/config.toml`, `supabase/templates/*`, and the active vars passed from `packages/api/src/routes/shippables.ts` must read as Bitcode because those templates are live user-facing product surfaces, not deployment-only metadata
 - persistence/debug/mock/API-key contracts are inside the same boundary too: active storage keys, local pattern-learning keys, mock API-key fixtures, and API-key generation prefixes must read as Bitcode because they are shipped runtime state carriers rather than harmless internal strings
 - Bitcode-core runtime truth is inside the same boundary too: `protocol-demonstration/{src/bitcode-demo.js,src/attestation-model.js,data/state.json,test/core.test.js}` must not keep `engi-*` attestation kinds, policy release ids, principal classes, or `workspace/engi-demo` provenance because those identifiers ship as active protocol/runtime state rather than incidental comments
 - retained external-realization and branch-artifact contracts are inside the same boundary too: `protocol-demonstration/src/canonical/v24-external-realization.js` and `protocol-demonstration/test/core.test.js` must use `BITCODE_V24_*` env contracts, Bitcode-owned example refs like `github-app://protocol-demonstration/...`, and `BITCODE_NEED.md` rather than preserving `ENGI_V24_*` or `ENGI_NEED.md` as active runtime truth

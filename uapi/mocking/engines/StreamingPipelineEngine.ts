@@ -661,9 +661,6 @@ export class StreamingPipelineEngine {
         title: 'Mock Pull Request',
         type: 'pr' as const
       },
-      pullRequestReviews: null,
-      comments: null,
-      issues: null,
       fileChanges: writtenAssets.fileChanges,
       summary: writtenAssets.summary,
     };
@@ -671,8 +668,6 @@ export class StreamingPipelineEngine {
       summary: writtenAssets.summary,
       display: 'Mock Asset Pack',
       shippables,
-      // Compatibility mirror required by retained `/api/deliverables` readback shape.
-      deliverables: shippables,
       assetPackSynthesisArtifacts: {
         ...shippables,
         proofEvidence: ['mock AssetPack evidence captured for reread'],

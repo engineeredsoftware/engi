@@ -105,7 +105,7 @@ function TerminalCurl() {
   -H "Content-Type: application/json" \
   -d '{
     "repo": "acme/widgets",
-    "need": "bitcode-deliver-comment",
+    "need": "bitcode-deliver-pr",
     "definition_of_need": "refactor utils + docs"
   }'
 `}
@@ -133,7 +133,7 @@ export default function MarketingHeadlessMobileShowcase() {
           <SkeletonImage src="/screenshots/setup-marketplace.png" alt="Headless Mode Integration" />
           <h3 className="mt-4 text-2xl font-semibold text-white">GitHub Triggers</h3>
           <p className="mt-2 text-gray-300 leading-relaxed">
-            Add labels like <code>bitcode-deliver-comment</code>, <code>bitcode-deliver-review</code>, <code>bitcode-deliver-pr</code>, and <code>bitcode-deliver-issue</code> to GitHub Issues and Pull Requests to request AI-powered deliverables directly in GitHub. Integrate automatically via CI/CD or programmatically via the Bitcode API.
+            Add <code>bitcode-deliver-pr</code> to a GitHub Issue or Pull Request to request a PR-backed AssetPack through Finish. Integrate automatically via CI/CD or programmatically via the Bitcode API.
           </p>
         </div>
         {/* Mobile Mode */}

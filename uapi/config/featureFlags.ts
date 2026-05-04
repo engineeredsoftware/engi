@@ -1,7 +1,6 @@
 // uapi/app/config/featureFlags.ts
 // Feature flags for enabling mocks and other dev utilities
 export const ENABLE_MOCKS = process.env.NEXT_PUBLIC_ENABLE_MOCKS === 'true';
-export const MOCK_DELIVERABLES = process.env.NEXT_PUBLIC_MOCK_DELIVERABLES === 'true';
 export const MOCK_MEASURE = process.env.NEXT_PUBLIC_MOCK_MEASURE === 'true';
 export const MOCK_USER_ORBITAL = process.env.NEXT_PUBLIC_MOCK_USER_ORBITAL === 'true';
 export const MOCK_USER_ORBITAL_SCENARIO = process.env.NEXT_PUBLIC_MOCK_USER_ORBITAL_SCENARIO || 'default';
@@ -9,13 +8,7 @@ export const MOCK_GET_TITLE = process.env.NEXT_PUBLIC_MOCK_GET_TITLE === 'true';
 export const MOCK_CHECKOUT_SESSION = process.env.NEXT_PUBLIC_MOCK_CHECKOUT_SESSION === 'true';
 export const MOCK_CHAT_STREAM = process.env.NEXT_PUBLIC_MOCK_CHAT_STREAM === 'true';
 export const MOCK_CHAT_SCENARIO = process.env.NEXT_PUBLIC_MOCK_CHAT_SCENARIO || 'default';
-export const MOCK_DELIVERABLES_SCENARIO = process.env.NEXT_PUBLIC_MOCK_DELIVERABLES_SCENARIO || 'default';
 export const MOCK_MEASURE_SCENARIO = process.env.NEXT_PUBLIC_MOCK_MEASURE_SCENARIO || 'default';
-// Deliverables history and items
-export const MOCK_DELIVERABLES_HISTORY = process.env.NEXT_PUBLIC_MOCK_DELIVERABLES_HISTORY === 'true';
-export const MOCK_DELIVERABLES_HISTORY_SCENARIO = process.env.NEXT_PUBLIC_MOCK_DELIVERABLES_HISTORY_SCENARIO || 'default';
-export const MOCK_DELIVERABLES_ITEMS = process.env.NEXT_PUBLIC_MOCK_DELIVERABLES_ITEMS === 'true';
-export const MOCK_DELIVERABLES_ITEMS_SCENARIO = process.env.NEXT_PUBLIC_MOCK_DELIVERABLES_ITEMS_SCENARIO || 'default';
 // Measure history and items (reserved for pipeline placeholder)
 export const MOCK_MEASURE_HISTORY = process.env.NEXT_PUBLIC_MOCK_MEASURE_HISTORY === 'true';
 export const MOCK_MEASURE_HISTORY_SCENARIO = process.env.NEXT_PUBLIC_MOCK_MEASURE_HISTORY_SCENARIO || 'default';

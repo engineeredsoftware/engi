@@ -10,9 +10,9 @@ const repoRoot = path.resolve(__dirname, '../../..', '..'); // go to repo root f
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const { hierarchicalFormatter } = require('@bitcode/prompts/formatters');
 
-type Scope = 'deliverables' | 'generic-agents' | 'generic-tools' | 'all';
+type Scope = 'asset-pack' | 'generic-agents' | 'generic-tools' | 'all';
 
-function listDeliverablesPromptFiles(): string[] {
+function listAssetPackPromptFiles(): string[] {
   const dir = path.resolve(__dirname, '../src/agents/prompts');
   if (!fs.existsSync(dir)) return [];
   return fs.readdirSync(dir)
@@ -49,12 +49,12 @@ function listGenericToolsPromptFiles(): string[] {
 }
 
 function listPromptFiles(scope: Scope): string[] {
-  if (scope === 'deliverables') return listDeliverablesPromptFiles();
+  if (scope === 'asset-pack') return listAssetPackPromptFiles();
   if (scope === 'generic-agents') return listGenericAgentsPromptFiles();
   if (scope === 'generic-tools') return listGenericToolsPromptFiles();
   // all
   return [
-    ...listDeliverablesPromptFiles(),
+    ...listAssetPackPromptFiles(),
     ...listGenericAgentsPromptFiles(),
     ...listGenericToolsPromptFiles(),
   ];
@@ -62,7 +62,7 @@ function listPromptFiles(scope: Scope): string[] {
 
 async function render(): Promise<void> {
   const arg = process.argv.find(a => a.startsWith('--scope='));
-  const scope = (arg ? (arg.split('=')[1] as Scope) : 'deliverables') || 'deliverables';
+  const scope = (arg ? (arg.split('=')[1] as Scope) : 'asset-pack') || 'asset-pack';
   const outName = scope === 'all' ? 'prompts-rendered.all.md' :
                   scope === 'generic-agents' ? 'prompts-rendered.generic-agents.md' :
                   scope === 'generic-tools' ? 'prompts-rendered.generic-tools.md' :
@@ -72,7 +72,7 @@ async function render(): Promise<void> {
   const lines: string[] = [];
   lines.push(`# Rendered Prompts (${scope})`);
   lines.push('');
-  const files = listPromptFiles();
+  const files = listPromptFiles(scope);
   const unique = new Set<string>();
   for (const fp of files) unique.add(fp);
   for (const fp of unique) {

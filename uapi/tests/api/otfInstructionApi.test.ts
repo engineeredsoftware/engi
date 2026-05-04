@@ -1,4 +1,4 @@
-// Unit-tests for the REST handlers in deliverables/ai_documents OTF instruction routes.
+// Unit-tests for the REST handlers in AssetPack and AI-document OTF instruction routes.
 
 jest.mock('@bitcode/supabase', () => {
   return {
@@ -22,17 +22,17 @@ jest.mock('@bitcode/supabase/ssr/server', () => ({
 
 import { supabaseAdmin } from '@bitcode/supabase';
 
-import { POST as deliverablePost } from '@/app/api/executions/instructions/route';
+import { POST as assetPackPost } from '@/app/api/executions/instructions/route';
 import { POST as ai_documentPost } from '@/app/api/ai_documents/instructions/route';
 
 describe('OTF instruction POST routes', () => {
-  it('inserts instruction and event for deliverables', async () => {
+  it('inserts instruction and event for AssetPack executions', async () => {
     const req = new Request('http://localhost', {
       method: 'POST',
       body: JSON.stringify({ runId: 'run1', content: 'hello' }),
     });
 
-    await deliverablePost(req as any);
+    await assetPackPost(req as any);
 
     // First call: insert into run_otf_instructions
     expect((supabaseAdmin.from as jest.Mock).mock.calls[0][0]).toBe('run_otf_instructions');

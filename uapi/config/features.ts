@@ -73,12 +73,9 @@ export const FEATURE_FLAGS = {
   // default to preserve current behaviour.
   NAV_BAR: envFlag('NEXT_PUBLIC_NAV_BAR', true),
 
-  // Deprecated flags kept for backward-compat build compatibility. Always
-  // return the value of SIDEBAR_LEFT so existing imports don’t blow up.
   SIDEBAR_UPGRADES: undefined as unknown as boolean,
   SIDEBAR_CHATS: undefined as unknown as boolean,
   SIDEBAR_FEEDBACKS: undefined as unknown as boolean,
-  RIGHT_RUNS_DELIVERABLES: undefined as unknown as boolean,
   RIGHT_RUNS_UPGRADES: undefined as unknown as boolean,
 
   // Marketing – Conversations experience section on the marketing homepage. Disabled

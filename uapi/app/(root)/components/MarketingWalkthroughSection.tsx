@@ -87,26 +87,26 @@ const STEP_SCREENSHOTS: Record<number, Screenshot[]> = {
   3: [
     {
       id: "wt-3-1",
-      src: "/screenshots/deliverables-page-minimal-state.png",
-      alt: "Deliverables page – minimal state",
+      src: "/screenshots/asset-pack-page-minimal-state.png",
+      alt: "AssetPack page - minimal state",
       type: "full_page",
-      category: "deliverables",
+      category: "asset-packs",
       revealingSoon: true,
     },
     {
       id: "wt-3-2",
-      src: "/screenshots/deliverables-page-maximal-state.png",
-      alt: "Deliverables page – maximal state",
+      src: "/screenshots/asset-pack-page-maximal-state.png",
+      alt: "AssetPack page - maximal state",
       type: "full_page",
-      category: "deliverables",
+      category: "asset-packs",
       revealingSoon: true,
     },
     {
       id: "wt-3-3",
-      src: "/screenshots/deliverables-page-minimal-state.png",
-      alt: "Deliverables page alt",
+      src: "/screenshots/asset-pack-page-minimal-state.png",
+      alt: "AssetPack page alt",
       type: "full_page",
-      category: "deliverables",
+      category: "asset-packs",
       revealingSoon: true,
     },
   ],
@@ -284,7 +284,7 @@ const NEW_SCENARIOS: Record<string, { label: string; steps: Step[] }> = {
 };
 
 const SCENARIOS = {
-  // --- Deliverables ---
+  // --- AssetPacks ---
   bugfix: {
     label: "Fix a Bug",
     steps: [
@@ -484,7 +484,7 @@ const SCENARIOS = {
       },
       {
         title: "Push – Auto-Run",
-        desc: "Every commit spawns Bitcode deliverables.",
+        desc: "Every admitted Need finishes as a PR-backed AssetPack.",
         Icon: ArrowRightIcon,
       },
     ],

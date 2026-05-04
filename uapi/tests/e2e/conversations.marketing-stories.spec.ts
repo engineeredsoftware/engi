@@ -6,7 +6,7 @@ const fixturesDir = path.join(__dirname, 'fixtures', 'stories');
 
 interface RunStep {
   type: 'run';
-  kind: 'deliverable' | 'measure';
+  kind: 'asset-pack' | 'measure';
   id: string;
   logChunks: string[];
 }

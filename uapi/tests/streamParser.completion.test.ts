@@ -18,17 +18,13 @@ describe('parseStreamChunk completion mapping', () => {
         },
         shippables: {
           pullRequest: { url: 'https://github.com/acme/web/pull/1', title: 'feat: add' },
-          comments: [{ url: 'https://github.com/acme/web/issues/2#comment-1', title: 'note' }],
-          issues: [{ url: 'https://github.com/acme/web/issues/3', title: 'bug' }],
         },
         deliveryMechanism: {
           pullRequest: { url: 'https://github.com/acme/web/pull/1', title: 'feat: add' },
-          comments: [{ url: 'https://github.com/acme/web/issues/2#comment-1', title: 'note' }],
-          issues: [{ url: 'https://github.com/acme/web/issues/3', title: 'bug' }],
         },
         need: 'Deliver the audited auth refactor.',
-        writtenAssetType: 'code-change',
-        assetPack: { need: 'Deliver the audited auth refactor.', writtenAssetType: 'code-change', deliveryTarget: 'pr' },
+        writtenAssetType: 'need-satisfaction-asset-pack',
+        assetPack: { need: 'Deliver the audited auth refactor.', writtenAssetType: 'need-satisfaction-asset-pack', deliveryTarget: 'pr' },
         processingStats: { time: '2m 05s', tokens: { input: 100, output: 50, total: 150 }, btdUsed: 2 },
         repoSnapshot: { org: 'acme', repo: 'web', branch: 'main', commit: 'deadbeef' },
         actions: {
@@ -50,8 +46,8 @@ describe('parseStreamChunk completion mapping', () => {
     expect(parsed.completion?.processingStats?.credits).toBeUndefined();
     expect(parsed.completion?.repoSnapshot?.org).toBe('acme');
     expect(parsed.completion?.shippables?.pullRequest?.url).toContain('/pull/1');
-    expect(parsed.completion?.shippables?.comments?.length).toBe(1);
-    expect(parsed.completion?.shippables?.issues?.length).toBe(1);
+    expect((parsed.completion?.shippables as any)?.comments).toBeUndefined();
+    expect((parsed.completion?.shippables as any)?.issues).toBeUndefined();
     expect(parsed.completion?.deliverables).toBeUndefined();
     expect(parsed.completion?.assetPackSynthesisArtifacts?.summary).toBe('Canonical synthesis artifacts.');
     expect(parsed.completion?.assetPackSynthesisArtifacts?.fileChanges?.edited).toBe(4);
@@ -61,7 +57,7 @@ describe('parseStreamChunk completion mapping', () => {
     expect(parsed.completion?.writtenAssets?.fileChanges?.edited).toBe(2);
     expect(parsed.completion?.deliveryMechanism?.pullRequest?.url).toContain('/pull/1');
     expect(parsed.completion?.need).toBe('Deliver the audited auth refactor.');
-    expect(parsed.completion?.writtenAssetType).toBe('code-change');
+    expect(parsed.completion?.writtenAssetType).toBe('need-satisfaction-asset-pack');
     expect(parsed.completion?.assetPack?.deliveryTarget).toBe('pr');
     expect(parsed.completion?.semanticKind).toBe('asset-pack-written-asset');
   });

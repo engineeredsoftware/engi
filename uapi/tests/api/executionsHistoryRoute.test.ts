@@ -124,9 +124,6 @@ describe('GET /api/executions/history', () => {
               summary: 'Branch AssetPack synthesis artifacts.',
               fileChanges: { edited: 1, created: 1, deleted: 0 },
             },
-            deliverables: {
-              summary: 'Branch artifact persisted.',
-            },
             repoSnapshot: {
               org: 'bitcode',
               repo: 'terminal',

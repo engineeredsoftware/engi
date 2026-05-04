@@ -89,7 +89,7 @@ const reviews: Review[] = [
   {
     name: 'Jordan Lee',
     username: '@jordanl',
-    body: 'Before Bitcode, every time I hopped between feature work, bug fixes, and PR reviews I lost all momentum. Now I can churn out deliverables non-stop—and Bitcode quietly watches over my shoulder. The moment I introduce a hiccup, it immediately builds a permanent fix right into my repo. It’s like having a tireless senior engineer who never sleeps. I’m blown away by how smooth my workflow has become.',
+    body: 'Before Bitcode, every time I hopped between feature work, bug fixes, and PR reviews I lost all momentum. Now each need ends in a PR-backed AssetPack, and Bitcode quietly keeps the repo state coherent. The moment I introduce a regression, it builds a permanent fix right into the branch.',
     img: 'https://avatar.vercel.sh/jordanl',
     rating: 5,
     jobTitle: 'Senior Software Engineer',

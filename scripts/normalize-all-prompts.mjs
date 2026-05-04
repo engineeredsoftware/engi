@@ -3,7 +3,7 @@ import fs from 'fs';
 import path from 'path';
 
 const roots = [
-  path.join('packages','pipelines','deliverable','src','agents','prompts'),
+  path.join('packages','pipelines','asset-pack','src','agents','prompts'),
   path.join('packages','generic-agents'),
   path.join('packages','generic-tools')
 ];

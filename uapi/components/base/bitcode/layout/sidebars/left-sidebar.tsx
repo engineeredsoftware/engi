@@ -157,8 +157,6 @@ export default function LeftSidebar() {
                     const fwsSummary =
                       od?.asset_pack_completion?.assetPackSynthesisArtifacts?.summary ||
                       od?.asset_pack_completion?.writtenAssets?.summary ||
-                      // Compatibility summary for persisted runs that predate the shippable reform.
-                      od?.asset_pack_completion?.deliverables?.summary ||
                       undefined;
                     return (
                       postprocessed?.title || fwsSummary || ctx?.summary || `Run ${run.id}`

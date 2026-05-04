@@ -73,13 +73,6 @@
         padding: 20px; 
         margin: 20px 0; 
       }
-      .deliverable-box { 
-        background: #f8f8f8; 
-        border: 1px solid #e0e0e0; 
-        border-radius: 6px; 
-        padding: 16px; 
-        margin: 16px 0; 
-      }
       .meta { 
         color: #6a6a6a; 
         font-size: 14px; 
@@ -135,27 +128,6 @@
                   <div style="margin: 4px 0;">Assets: <strong style="color: #1a1a1a;">{{ index .Data "Assets" }}</strong></div>
                 </div>
               </div>
-
-              {{ $max := 3 }}
-              {{ range $i, $d := index .Data "Deliverables" }}{{ if lt $i $max }}
-              <div class="deliverable-box">
-                <h3 style="margin: 0 0 8px; font-size: 16px; font-weight: 600; color: #1a1a1a;">Finish delivery mechanism: {{ index $d "Name" }}</h3>
-                <p style="margin: 0 0 12px; color: #6a6a6a; font-size: 14px;">{{ index $d "Summary" }}</p>
-                <div class="meta" style="margin: 0 0 12px;">
-                  {{ if index $d "LinesAdded" }}{{ index $d "LinesAdded" }}+ / {{ index $d "LinesDeleted" }}- {{ end }}
-                  {{ if index $d "WordsAdded" }}{{ index $d "WordsAdded" }} words {{ end }}
-                  {{ if index $d "Assets" }}{{ index $d "Assets" }} assets {{ end }}
-                </div>
-                <div>
-                  <a href="{{ index $d "GitHubURL" }}" class="button">Open delivery surface</a>
-                  <a href="{{ index $d "BitcodeURL" }}" class="button-outline">Details</a>
-                </div>
-              </div>
-              {{ end }}{{ end }}
-
-              {{ if gt (len (index .Data "Deliverables")) $max }}
-              <p style="text-align: center; color: #6a6a6a; font-size: 14px;">...and more Finish delivery mechanisms inside Bitcode</p>
-              {{ end }}
 
               <p style="text-align: center; margin: 30px 0;">
                 <a href="{{ index .Data "GitHubURL" }}" class="button">View on GitHub</a>

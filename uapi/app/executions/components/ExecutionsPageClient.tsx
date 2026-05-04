@@ -61,23 +61,17 @@ export function ExecutionsClient() {
 
   const templatesSource: ShippableTemplates = useMemo(() => ({
     pullRequests: [...defaultTemplates.pullRequests, ...(dbTemplates?.pullRequests ?? [])],
-    pullRequestReviews: [...defaultTemplates.pullRequestReviews, ...(dbTemplates?.pullRequestReviews ?? [])],
-    issues: [...defaultTemplates.issues, ...(dbTemplates?.issues ?? [])],
-    comments: [...defaultTemplates.comments, ...(dbTemplates?.comments ?? [])],
   }), [dbTemplates]);
 
   const mergedTemplates: ShippableTemplates = React.useMemo(() => {
     if (!preferences) return templatesSource;
     const filterByPrefs = (category: keyof ShippableTemplates, list: ShippableTemplates[keyof ShippableTemplates]) => {
-      const prefIds = preferences.shippable_templates?.[category] ?? preferences.deliverable_templates?.[category] ?? [];
+      const prefIds = preferences.shippable_templates?.[category] ?? [];
       if (!prefIds.length) return list;
       return list.filter((t) => prefIds.includes(t.id));
     };
     return {
       pullRequests: filterByPrefs('pullRequests', templatesSource.pullRequests),
-      pullRequestReviews: filterByPrefs('pullRequestReviews', templatesSource.pullRequestReviews),
-      issues: filterByPrefs('issues', templatesSource.issues),
-      comments: filterByPrefs('comments', templatesSource.comments),
     };
   }, [preferences, templatesSource]);
 

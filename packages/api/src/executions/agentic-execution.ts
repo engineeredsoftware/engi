@@ -15,12 +15,10 @@ export interface AgenticExecutionSummary {
 }
 
 const DEFAULT_CANONICAL_TYPE = 'agentic-execution:asset-pack' as const;
-// Storage type remains a database compatibility value while the canonical
-// execution family is AssetPack and Finish-delivered Shippables.
-const DEFAULT_STORAGE_TYPE = 'pipeline:deliverables';
+const DEFAULT_STORAGE_TYPE = DEFAULT_CANONICAL_TYPE;
 
 const CANONICAL_TO_STORAGE_TYPE = {
-  'agentic-execution:asset-pack': 'pipeline:deliverables',
+  'agentic-execution:asset-pack': 'agentic-execution:asset-pack',
   'agentic-execution:need-measurement': 'pipeline:measure',
   'agentic-execution:proof-refresh': 'pipeline:proof-refresh',
   'agentic-execution:upgrade': 'pipeline:upgrades',
@@ -49,7 +47,6 @@ export function normalizeAgenticExecutionType(value?: string | null) {
     normalized.includes('asset-pack') ||
     normalized.includes('asset_pack') ||
     normalized.includes('shippable') ||
-    normalized.includes('deliverable') ||
     normalized.includes('artifact')
   ) {
     return 'agentic-execution:asset-pack';
@@ -62,8 +59,6 @@ export function normalizeAgenticExecutionStorageType(value?: string | null) {
   const normalized = normalizeWhitespace(value).toLowerCase();
 
   if (!normalized) return DEFAULT_STORAGE_TYPE;
-  if (normalized.startsWith('pipeline:')) return normalized;
-
   const canonicalType = normalizeAgenticExecutionType(normalized);
   return CANONICAL_TO_STORAGE_TYPE[canonicalType] ?? DEFAULT_STORAGE_TYPE;
 }

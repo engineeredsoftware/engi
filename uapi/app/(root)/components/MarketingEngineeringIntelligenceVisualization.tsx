@@ -33,7 +33,7 @@ export default function MarketingEngineeringIntelligenceVisualization() {
       { id: 'headless-3', src: '/screenshots/btd-tracker-widget.png', alt: 'BTD tracker widget', type: 'component', category: 'btd', revealingSoon: true },
     ],
     mobile: [
-      { id: 'mobile-1', src: '/screenshots/sidebar-deliverables.png', alt: 'Mobile deliverables sidebar', type: 'component', category: 'sidebar', revealingSoon: true },
+      { id: 'mobile-1', src: '/screenshots/sidebar-shippables.png', alt: 'Mobile Shippables sidebar', type: 'component', category: 'sidebar', revealingSoon: true },
       { id: 'mobile-2', src: '/screenshots/sidebar-chats-chatting.png', alt: 'Mobile chat labeling', type: 'component', category: 'sidebar', revealingSoon: true },
       { id: 'mobile-3', src: '/screenshots/sidebar-feedbacks-history.png', alt: 'Mobile feedback history', type: 'component', category: 'sidebar', revealingSoon: true },
     ],

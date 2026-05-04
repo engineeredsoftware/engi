@@ -154,15 +154,6 @@ export function ExecutionDetailsView({ runId, executionId }: ExecutionDetailsVie
                 className="inline-flex items-center px-2.5 py-1 rounded-md bg-emerald-500/10 text-emerald-300 border border-emerald-500/20 hover:bg-emerald-500/20 text-xs"
               >PR: {deliveryMechanism.pullRequest.title || 'Open'}</a>
             )}
-            {(deliveryMechanism?.pullRequestReviews || []).map((r: any, i: number) => (
-              <a key={`review-${i}`} href={r.url} target="_blank" rel="noopener noreferrer" className="inline-flex items-center px-2.5 py-1 rounded-md bg-purple-500/10 text-purple-300 border border-purple-500/20 hover:bg-purple-500/20 text-xs">Review: {r.title || `#${r.number || ''}`}</a>
-            ))}
-            {(deliveryMechanism?.issues || []).map((it: any, i: number) => (
-              <a key={`issue-${i}`} href={it.url} target="_blank" rel="noopener noreferrer" className="inline-flex items-center px-2.5 py-1 rounded-md bg-amber-500/10 text-amber-300 border border-amber-500/20 hover:bg-amber-500/20 text-xs">Issue: {it.title || `#${it.number || ''}`}</a>
-            ))}
-            {(deliveryMechanism?.comments || []).map((c: any, i: number) => (
-              <a key={`comment-${i}`} href={c.url} target="_blank" rel="noopener noreferrer" className="inline-flex items-center px-2.5 py-1 rounded-md bg-blue-500/10 text-blue-300 border border-blue-500/20 hover:bg-blue-500/20 text-xs">Comment: {c.title || `#${c.number || ''}`}</a>
-            ))}
           </div>
           {/* Processing Stats */}
           {fws.processingStats && (

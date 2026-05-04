@@ -3,7 +3,7 @@
   "steps": [
     { "type": "user", "text": "Scaffold MVP SaaS with Auth, Billing, CI." },
     { "type": "agent", "text": "Bootstrapping Remix + Supabase…" },
-    { "type": "run", "kind": "deliverable", "id": "run_solo_001", "logChunks": ["queued", "setup project", "add auth", "add billing", "tests", "ci pipeline", "complete ✅"] },
+    { "type": "run", "kind": "asset-pack", "id": "run_solo_001", "logChunks": ["queued", "setup project", "add auth", "add billing", "tests", "ci pipeline", "complete ✅"] },
     { "type": "agent", "text": "Investor-ready MVP PR created." }
   ]
 }

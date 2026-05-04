@@ -38,7 +38,7 @@ export const MOCK_RUNS: WorkspaceRun[] = [
     usdTotal: 6.72,
     averageLatencyMs: 1180,
     proofStatus: 'bounded proof bundle ready',
-    closureFocus: 'branch artifacts + Delivering mechanisms',
+    closureFocus: 'AssetPack evidence + Finish PR mechanism',
   },
   {
     id: 'mock-run-need-measurement-pass',
@@ -95,30 +95,6 @@ export const MOCK_RUN_ASSET_PACK_SURFACES: Record<string, ShippablesDoc> = {
       description:
         'Pulls the remediated branch artifact pack into the selected activity detail and tightens bounded proof grouping.',
     },
-    pullRequestReviews: [
-      {
-        url: 'https://github.com/bitcode/bitcode/pull/268#pullrequestreview-1',
-        number: 1,
-        title: 'Review remediation transactions wiring',
-        description: 'Confirms branch visibility, proof grouping, and the current activity-detail posture.',
-      },
-    ],
-    issues: [
-      {
-        url: 'https://github.com/bitcode/bitcode/issues/411',
-        number: 411,
-        title: 'Tighten branch artifact disclosure grouping',
-        description: 'Track final grouping rules for remediation bundles, visibility posture, and working disclosure notes.',
-      },
-    ],
-    comments: [
-      {
-        url: 'https://github.com/bitcode/bitcode/issues/411#issuecomment-1',
-        number: 411,
-        title: 'Working note',
-        description: 'Branch artifacts can now be reviewed directly before opening deeper execution detail.',
-      },
-    ],
     fileChanges: {
       edited: 6,
       created: 2,
@@ -126,41 +102,19 @@ export const MOCK_RUN_ASSET_PACK_SURFACES: Record<string, ShippablesDoc> = {
       paths: ['uapi/app/application/ApplicationTransactionWorkspace.tsx', 'uapi/app/application/ApplicationPageClient.tsx'],
     },
     summary:
-      'The branch remediation pack now reads as one Bitcode Terminal surface. You can inspect the proposed pull request, reviews, issues, and disclosure notes without abandoning the main ledger window.',
+      'The branch remediation pack now reads as one Bitcode Terminal surface. You can inspect the proposed pull request and written AssetPack evidence without abandoning the main ledger window.',
   },
   'mock-run-need-measurement-pass': {
     pullRequest: null,
-    pullRequestReviews: null,
-    issues: [
-      {
-        url: 'https://github.com/bitcode/bitcode/issues/412',
-        number: 412,
-        title: 'Calibrate fit-pressure display tiers',
-        description: 'Capture the measurement adjustments surfaced by the latest deterministic review pass.',
-      },
-    ],
-    comments: [
-      {
-        url: 'https://github.com/bitcode/bitcode/issues/412#issuecomment-1',
-        number: 412,
-        title: 'Measurement note',
-        description: 'Normalization fit and decisive fit are now separated more clearly for transaction reading.',
-      },
-    ],
     summary:
       'Measurement results were refreshed and tied back into the Bitcode fit-reading model so verification pressure stays readable without leaving the Bitcode Terminal.',
   },
   'mock-run-proof-refresh': {
     pullRequest: null,
-    pullRequestReviews: null,
-    issues: null,
-    comments: null,
     summary:
       'Proof-family witnesses are still refreshing. Mock review keeps the Bitcode Terminal legible while the final proof bundle remains in-flight.',
   },
 };
-
-export const MOCK_RUN_DELIVERABLES = MOCK_RUN_ASSET_PACK_SURFACES;
 
 export const MOCK_RUN_ACTIVITY: Record<
   string,

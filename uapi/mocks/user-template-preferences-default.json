@@ -1,12 +1,9 @@
 {
-  "deliverable_templates": {
-    "pullRequests": ["pr-quick-todo"],
-    "pullRequestReviews": ["review-security"],
-    "issues": ["issue-bug"],
-    "comments": ["comment-clarify"]
+  "shippable_templates": {
+    "pullRequests": ["pr-quick-todo"]
   },
   "ai_document_templates": {
-    "deliverableFeedback": ["feedback-pr"],
+    "assetPackFeedback": ["feedback-pr"],
     "knowledgeExtension": ["know-framework"],
     "mcpConfig": ["mcp-supabase"]
   }

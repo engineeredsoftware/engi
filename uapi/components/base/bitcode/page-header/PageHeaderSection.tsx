@@ -4,8 +4,8 @@ import React from 'react';
 import { cn } from '@bitcode/styling';
 
 export interface PageHeaderSectionProps extends React.HTMLAttributes<HTMLElement> {
-  /** Optional experience identifier for diagnostics (e.g., 'deliverables', 'orbitals') */
-  experience?: 'deliverables' | 'measure' | 'marketing' | 'orbitals' | 'orbital' | 'conversations' | string;
+  /** Optional experience identifier for diagnostics (e.g., 'asset-pack', 'orbitals') */
+  experience?: 'asset-pack' | 'measure' | 'marketing' | 'orbitals' | 'orbital' | 'conversations' | string;
   /** Render an actions area aligned to the right (e.g., buttons) */
   actions?: React.ReactNode;
   /** Optional top meta area (badges, breadcrumbs) */

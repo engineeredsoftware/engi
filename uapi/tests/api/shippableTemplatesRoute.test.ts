@@ -28,11 +28,7 @@ describe('/api/templates/shippables route', () => {
     expect(payload).toEqual({ templates: [] });
   });
 
-  it('keeps the retained deliverables template route as a compatibility wrapper', async () => {
-    const shippablesRoute = await import('@/app/api/templates/shippables/route');
-    const compatibilityRoute = await import('@/app/api/templates/deliverables/route');
-
-    expect(compatibilityRoute.GET).toBe(shippablesRoute.GET);
-    expect(compatibilityRoute.POST).toBe(shippablesRoute.POST);
+  it('does not retain the old deliverables template route as an active wrapper', async () => {
+    await expect(import('@/app/api/templates/deliverables/route')).rejects.toThrow();
   });
 });

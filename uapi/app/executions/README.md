@@ -25,8 +25,6 @@ Current owners:
   Retained compatibility carrier for provider/account/repository/branch/commit/issue reads required by the execution selectors.
 - `../api/templates/shippables/route.ts`
   Active Shippable template reads and writes used by the execution composer.
-- `../api/templates/deliverables/route.ts`
-  Compatibility wrapper for retained template callers.
 - `../api/auxillaries/template-preferences/route.ts`
   Retained compatibility storage carrier for saved Shippable-template preferences used by the execution composer.
 

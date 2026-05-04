@@ -182,7 +182,8 @@ export async function createConversationAttachment(options: any): Promise<any> {
 
 function mapLegacyAttachmentType(type: string): AttachmentCategory {
   const mapping: Record<string, AttachmentCategory> = {
-    'deliverable': 'integration',
+    'asset-pack': 'integration',
+    'shippable': 'integration',
     'ai_document': 'integration', 
     'connection': 'integration',
     'file': 'file',

@@ -68,11 +68,10 @@ test.describe('@sso flows', () => {
   })
 
   test('Magic-link token_hash auto-verification', async ({ page }) => {
-    await page.goto('/tps/supabase/callback?token_hash=abc123&next=%2Fdeliverables')
+    await page.goto('/tps/supabase/callback?token_hash=abc123&next=%2Fapplication')
 
-    // Should ultimately end up on /deliverables after /auth/confirm redirects
-    await page.waitForURL('**/deliverables')
-    expect(page.url()).toContain('/deliverables')
+    await page.waitForURL('**/application')
+    expect(page.url()).toContain('/application')
   })
 
   test('GitHub OAuth happy path redirects to root', async ({ page }) => {
@@ -84,9 +83,9 @@ test.describe('@sso flows', () => {
   })
 
   test('Google OAuth happy path with next param', async ({ page }) => {
-    await page.goto('/tps/supabase/callback?code=google123&next=%2Fdeliverables')
+    await page.goto('/tps/supabase/callback?code=google123&next=%2Fapplication')
 
-    await page.waitForURL('**/deliverables')
-    expect(page.url()).toContain('/deliverables')
+    await page.waitForURL('**/application')
+    expect(page.url()).toContain('/application')
   })
 })

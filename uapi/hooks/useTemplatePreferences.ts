@@ -2,14 +2,11 @@ import { useCallback, useEffect, useState } from 'react';
 
 interface UserTemplatePreferencesApiResponse {
   shippable_templates?: Record<string, string[]>;
-  deliverable_templates?: Record<string, string[]>;
   ai_document_templates?: Record<string, string[]>;
 }
 
 export interface UserTemplatePreferences {
   shippable_templates: Record<string, string[]>;
-  /** Compatibility mirror for the retained preference storage key. */
-  deliverable_templates: Record<string, string[]>;
   ai_document_templates: Record<string, string[]>;
 }
 
@@ -44,7 +41,6 @@ export const useTemplatePreferences = (): UseTemplatePreferencesHook => {
       if (res.status === 401 || res.status === 404) {
         setPreferences({
           shippable_templates: {},
-          deliverable_templates: {},
           ai_document_templates: {},
         });
         return;
@@ -64,19 +60,13 @@ export const useTemplatePreferences = (): UseTemplatePreferencesHook => {
 
       const data = (await res.json()) as UserTemplatePreferencesApiResponse;
 
-      // Normalise the response so that we always have object shapes –
-      // avoids a lot of optional-chaining in consumers.
-      const shippableTemplates =
-        data.shippable_templates ?? data.deliverable_templates ?? {};
       setPreferences({
-        shippable_templates: shippableTemplates,
-        deliverable_templates: data.deliverable_templates ?? shippableTemplates,
+        shippable_templates: data.shippable_templates ?? {},
         ai_document_templates: data.ai_document_templates ?? {},
       });
     } catch (err) {
       setPreferences({
         shippable_templates: {},
-        deliverable_templates: {},
         ai_document_templates: {},
       });
       setError(err instanceof Error ? err.message : String(err));

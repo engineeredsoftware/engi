@@ -427,10 +427,9 @@ class AssetPackGenerator extends BaseDataGenerator {
           title: this.generateRealisticText(4),
           output: this.generateRealisticText(20),
           repository: 'mock-org/mock-repo',
-          // Compatibility storage keys are still shaped by the retained route contract.
-          deliverable_type: this.pickRandom(['pr', 'issue', 'comment', 'review']),
-          deliverable_id: (j + 1).toString(),
-          deliverable_status: this.pickRandom(['open', 'closed', 'merged']),
+          shippable_type: 'pr',
+          shippable_id: (j + 1).toString(),
+          shippable_status: this.pickRandom(['open', 'closed', 'merged']),
           attached_urls: [],
           selected_files: [],
           created_at: this.generateRealisticTimestamp(i),
@@ -469,7 +468,6 @@ class CompletionDataGenerator extends BaseDataGenerator {
   async generate(context: GeneratorContext, config: GeneratorConfig): Promise<CompletionData> {
     const hasFileChanges = Math.random() > 0.3;
     const hasPR = Math.random() > 0.5;
-    const hasComments = Math.random() > 0.7;
     const writtenAssets = {
       summary: this.generateRealisticText(25),
       fileChanges: hasFileChanges ? {
@@ -486,13 +484,6 @@ class CompletionDataGenerator extends BaseDataGenerator {
         title: this.generateRealisticText(8),
         type: 'pr' as const
       } : null,
-      pullRequestReviews: null,
-      comments: hasComments ? [{
-        url: 'https://github.com/mock/repo/issues/456#comment',
-        title: this.generateRealisticText(6),
-        type: 'comment' as const
-      }] : null,
-      issues: null,
       fileChanges: writtenAssets.fileChanges,
       summary: writtenAssets.summary,
     };
@@ -501,8 +492,6 @@ class CompletionDataGenerator extends BaseDataGenerator {
       summary: writtenAssets.summary || this.generateRealisticText(25),
       display: 'Mock Asset Pack',
       shippables,
-      // Compatibility mirror required by retained `/api/deliverables` readback shape.
-      deliverables: shippables,
       assetPackSynthesisArtifacts: {
         ...shippables,
         proofEvidence: ['mock AssetPack evidence captured for reread'],
@@ -592,9 +581,6 @@ class TemplateGenerator extends BaseDataGenerator {
 
     return {
       pullRequests: generateTemplateList('PR', this.getItemCount(context, config)),
-      pullRequestReviews: generateTemplateList('Review', this.getItemCount(context, config)),
-      issues: generateTemplateList('Issue', this.getItemCount(context, config)),
-      comments: generateTemplateList('Comment', this.getItemCount(context, config))
     };
   }
 }

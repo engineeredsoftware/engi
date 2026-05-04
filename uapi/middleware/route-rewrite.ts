@@ -1,7 +1,7 @@
 /**
  * ROUTE REWRITE MIDDLEWARE
  *
- * Handles retained route-compatibility rewrites and clean URLs.
+ * Handles retained clean URL rewrites.
  * Centralizes all routing logic in one place.
  */
 
@@ -20,11 +20,6 @@ const ROUTE_RULES: RouteRule[] = [
   {
     pattern: /^\/runs\/([^\/]+)$/,
     rewrite: (match) => `/executions/${match[1]}`
-  },
-  // Retained /deliverables shortcut -> executions
-  {
-    pattern: /^\/deliverables$/,
-    rewrite: () => '/executions'
   },
   // Retained conversation message shortcut
   {

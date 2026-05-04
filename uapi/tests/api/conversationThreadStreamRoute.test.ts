@@ -214,7 +214,7 @@ describe('/api/conversations/[conversationId]/stream POST (non-mock mode)', () =
     expect(pipelineExecutionsCreate).toHaveBeenCalledWith(
       expect.objectContaining({
         user_id: 'user-1',
-        type: 'pipeline:deliverables',
+        type: 'agentic-execution:asset-pack',
         input: expect.objectContaining({
           rich_input: expect.objectContaining({
             source_attachments: expect.arrayContaining([

@@ -564,7 +564,7 @@ const deliverableMetricsTestSource = readFileSync(new URL('../../packages/pipeli
 const deliverableSetupPlanAgentSource = readFileSync(new URL('../../packages/pipelines/asset-pack/src/agents/setup/asset-pack-setup-plan-agent.ts', import.meta.url), 'utf8');
 const deliverableCreatePullRequestAgentSource = readFileSync(new URL('../../packages/pipelines/asset-pack/src/agents/finish/asset-pack-finish-create-pull-request-delivery-agent.ts', import.meta.url), 'utf8');
 const parsingSource = readFileSync(new URL('../../packages/parsing/src/parsing.ts', import.meta.url), 'utf8');
-const deliverablesNotificationsTestSource = readFileSync(new URL('../../uapi/tests/api/deliverables.notifications.test.ts', import.meta.url), 'utf8');
+const assetPackNotificationsTestSource = readFileSync(new URL('../../uapi/tests/api/assetPack.notifications.test.ts', import.meta.url), 'utf8');
 const vercelIndexSource = readFileSync(new URL('../../packages/vercel/src/index.ts', import.meta.url), 'utf8');
 const vercelReadmeSource = readFileSync(new URL('../../packages/vercel/README.md', import.meta.url), 'utf8');
 const genericRepositorySetupPackageSource = readFileSync(new URL('../../packages/generic-tools/repository-setup/package.json', import.meta.url), 'utf8');
@@ -640,10 +640,10 @@ const executionsMcpToolsTestSuiteSource = readFileSync(new URL('../../packages/e
 const supabaseConfigSource = readFileSync(new URL('../../supabase/config.toml', import.meta.url), 'utf8');
 const supabaseMagicLinkTemplateSource = readFileSync(new URL('../../supabase/templates/magic_link.html', import.meta.url), 'utf8');
 const supabaseConfirmTemplateSource = readFileSync(new URL('../../supabase/templates/confirm.html', import.meta.url), 'utf8');
-const supabaseDeliverableStartedTemplateSource = readFileSync(new URL('../../supabase/templates/deliverable_started.html', import.meta.url), 'utf8');
-const supabaseDeliverableCompleteTemplateSource = readFileSync(new URL('../../supabase/templates/deliverable_complete.html', import.meta.url), 'utf8');
-const supabaseDeliverableShortCircuitTemplateSource = readFileSync(new URL('../../supabase/templates/deliverable_short_circuit.html', import.meta.url), 'utf8');
-const supabaseDeliverableFailedTemplateSource = readFileSync(new URL('../../supabase/templates/deliverable_failed.html', import.meta.url), 'utf8');
+const supabaseAssetPackStartedTemplateSource = readFileSync(new URL('../../supabase/templates/asset_pack_started.html', import.meta.url), 'utf8');
+const supabaseAssetPackCompleteTemplateSource = readFileSync(new URL('../../supabase/templates/asset_pack_complete.html', import.meta.url), 'utf8');
+const supabaseAssetPackShortCircuitTemplateSource = readFileSync(new URL('../../supabase/templates/asset_pack_short_circuit.html', import.meta.url), 'utf8');
+const supabaseAssetPackFailedTemplateSource = readFileSync(new URL('../../supabase/templates/asset_pack_failed.html', import.meta.url), 'utf8');
 const supabaseIndexJsSource = readFileSync(new URL('../../packages/supabase/src/index.js', import.meta.url), 'utf8');
 const supabaseStreamsJsSource = readFileSync(new URL('../../packages/supabase/src/streams.js', import.meta.url), 'utf8');
 const procurementVectorizeSource = readFileSync(new URL('../../packages/procurement/src/vectorize.ts', import.meta.url), 'utf8');
@@ -876,19 +876,19 @@ test('active V26 runtime and package tests no longer admit the make-engi-branch 
   assert.doesNotMatch(workflowTestSource, /\/api\/make-engi-branch/);
 });
 
-test('active V26 auth and deliverable email templates use Bitcode naming', () => {
+test('active V26 auth and AssetPack email templates use Bitcode naming', () => {
   assert.match(supabaseConfigSource, /Your Bitcode magic link/);
   assert.match(supabaseConfigSource, /Confirm your Bitcode account/);
   assert.match(supabaseMagicLinkTemplateSource, /Sign in to Bitcode/);
   assert.match(supabaseConfirmTemplateSource, /activate your Bitcode account/);
   assert.match(supabaseConfirmTemplateSource, /Connect GitHub and wallet posture/);
   assert.match(supabaseConfirmTemplateSource, /Review wallet and \$BTD readiness/);
-  assert.match(supabaseDeliverableCompleteTemplateSource, /inside Bitcode/);
-  assert.match(supabaseDeliverableCompleteTemplateSource, /BitcodeURL/);
-  assert.match(supabaseDeliverableStartedTemplateSource, /Estimated \$BTD/);
-  assert.match(supabaseDeliverableCompleteTemplateSource, /Estimated \$BTD/);
-  assert.match(supabaseDeliverableShortCircuitTemplateSource, /\$BTD budget released back/);
-  assert.match(supabaseDeliverableFailedTemplateSource, /\$BTD budget released back/);
+  assert.match(supabaseAssetPackCompleteTemplateSource, /Open in Bitcode/);
+  assert.match(supabaseAssetPackCompleteTemplateSource, /BitcodeURL/);
+  assert.match(supabaseAssetPackStartedTemplateSource, /Estimated \$BTD/);
+  assert.match(supabaseAssetPackCompleteTemplateSource, /Estimated \$BTD/);
+  assert.match(supabaseAssetPackShortCircuitTemplateSource, /\$BTD budget released back/);
+  assert.match(supabaseAssetPackFailedTemplateSource, /\$BTD budget released back/);
   assert.match(procurementVectorizeSource, /global Bitcode dataset/);
   assert.doesNotMatch(supabaseConfigSource, /Your Engi magic link/);
   assert.doesNotMatch(supabaseConfigSource, /Confirm your Engi account/);
@@ -896,12 +896,12 @@ test('active V26 auth and deliverable email templates use Bitcode naming', () =>
   assert.doesNotMatch(supabaseConfirmTemplateSource, /activate your Engi account/);
   assert.doesNotMatch(supabaseConfirmTemplateSource, /Engi Software Agents/);
   assert.doesNotMatch(supabaseConfirmTemplateSource, /Buy Credits/);
-  assert.doesNotMatch(supabaseDeliverableCompleteTemplateSource, /inside Engi/);
-  assert.doesNotMatch(supabaseDeliverableCompleteTemplateSource, /EngiURL/);
-  assert.doesNotMatch(supabaseDeliverableStartedTemplateSource, /Credits:/);
-  assert.doesNotMatch(supabaseDeliverableCompleteTemplateSource, /Credits:/);
-  assert.doesNotMatch(supabaseDeliverableShortCircuitTemplateSource, /credits were returned to your balance/);
-  assert.doesNotMatch(supabaseDeliverableFailedTemplateSource, /credits were returned to your balance/);
+  assert.doesNotMatch(supabaseAssetPackCompleteTemplateSource, /inside Engi/);
+  assert.doesNotMatch(supabaseAssetPackCompleteTemplateSource, /EngiURL/);
+  assert.doesNotMatch(supabaseAssetPackStartedTemplateSource, /Credits:/);
+  assert.doesNotMatch(supabaseAssetPackCompleteTemplateSource, /Credits:/);
+  assert.doesNotMatch(supabaseAssetPackShortCircuitTemplateSource, /credits were returned to your balance/);
+  assert.doesNotMatch(supabaseAssetPackFailedTemplateSource, /credits were returned to your balance/);
   assert.doesNotMatch(procurementVectorizeSource, /global Engi dataset/);
 });
 
@@ -1193,7 +1193,7 @@ test('active V26 canon posture and preserved runtime state use bitcode policy an
   assert.match(agenticExecutionSource, /agentic-execution:asset-pack/);
   assert.match(agenticExecutionSource, /agentic-execution:need-measurement/);
   assert.match(agenticExecutionSource, /resolveAgenticExecutionQueryTypes/);
-  assert.match(agenticExecutionSource, /pipeline:deliverables/);
+  assert.doesNotMatch(agenticExecutionSource, /pipeline:deliverables/);
   assert.match(agenticExecutionSource, /AssetPack execution/);
   assert.match(agenticExecutionSource, /need measurement execution/);
   assert.match(applicationPageSource, /Bitcode Terminal/);
@@ -2777,7 +2777,7 @@ test('active V26 retained package surfaces use Bitcode naming instead of Engi na
   assert.match(deliverableSetupPlanAgentSource, /BITCODE_DEBUG_ONLY_GENERATIONS/);
   assert.match(deliverableCreatePullRequestAgentSource, /feature\/bitcode-change/);
   assert.match(parsingSource, /BITCODE_LOG_FULL_PROMPTS/);
-  assert.match(deliverablesNotificationsTestSource, /BITCODE_ENABLE_NOTIFICATIONS/);
+  assert.match(assetPackNotificationsTestSource, /BITCODE_ENABLE_NOTIFICATIONS/);
   assert.doesNotMatch(deliverablePreprocessSource, /ENGI_LLM_PROVIDER/);
   assert.doesNotMatch(deliverablePreprocessSource, /ENGI_LLM_MODEL/);
   assert.doesNotMatch(deliverableBringupDemoSource, /ENGI_DEBUG_ONLY_FAILSAFES/);
@@ -2788,7 +2788,7 @@ test('active V26 retained package surfaces use Bitcode naming instead of Engi na
   assert.doesNotMatch(deliverableSetupPlanAgentSource, /ENGI_DEBUG_ONLY_GENERATIONS/);
   assert.doesNotMatch(deliverableCreatePullRequestAgentSource, /feature\/engi-change/);
   assert.doesNotMatch(parsingSource, /ENGI_LOG_FULL_PROMPTS/);
-  assert.doesNotMatch(deliverablesNotificationsTestSource, /ENGI_ENABLE_NOTIFICATIONS/);
+  assert.doesNotMatch(assetPackNotificationsTestSource, /ENGI_ENABLE_NOTIFICATIONS/);
 
   assert.match(vercelIndexSource, /vercel\.com\/bitcode\/yapper\/insights/);
   assert.match(vercelIndexSource, /bitcode-admin/);

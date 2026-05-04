@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-# Repair retained deliverable prompt imports that were corrupted during old
+# Repair AssetPack prompt imports that were corrupted during old
 # prompt-surface migrations. The target state is the public @bitcode/prompts
 # carrier plus current raw_promptparts subpaths, never old import namespaces or
 # removed raw prompt filesystem paths.

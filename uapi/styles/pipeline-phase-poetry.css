@@ -329,8 +329,8 @@
       }
     }
     
-    /* Deliverable context */
-    .deliverable-context {
+    /* Shippable context */
+    .shippable-context {
       margin-top: 1rem;
       padding-top: 1rem;
       border-top: 1px solid rgba(107, 114, 128, 0.3);

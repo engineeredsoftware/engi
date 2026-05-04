@@ -44,7 +44,7 @@ Contained auxillary rails should converge on the shared panel-plus-tabs carriers
 - `app/conversations/`
   Fullscreen conversation mode.
 - `app/executions/`
-  Retained runs, deliverables, and execution-detail route owners kept explicit during fourth-gate convergence and promotion-boundary proofing.
+  Retained execution route owners kept explicit while AssetPack/Shippable semantics converge into the application surface.
 - `app/edgetimes/`
   Fourth-gate storage/schema/package ownership route and shared topology owner for `/edgetimes`.
 - `app/api/`
@@ -104,8 +104,6 @@ Fourth-gate retained `/executions` health also now depends on explicit compatibi
   Reader-first VCS compatibility carrier for retained execution selectors and repo context.
 - `app/api/templates/shippables/route.ts`
   Active Shippable-template carrier for retained execution composition.
-- `app/api/templates/deliverables/route.ts`
-  Compatibility wrapper for retained template callers.
 - `app/api/auxillaries/template-preferences/route.ts`
   Saved template-preference compatibility carrier for retained execution personalization.
 - `app/api/auxillaries/profile/route.ts`, `app/api/auxillaries/connections/github/route.ts`, `app/api/auxillaries/btd/route.ts`, `app/api/auxillaries/usage/route.ts`, `app/api/auxillaries/transactions/route.ts`, `app/api/auxillaries/api-keys/route.ts`

@@ -174,7 +174,6 @@ export function buildProtocolProjectedRunDetail(
     writtenAssets: null,
     shippables: null,
     deliveryMechanism: null,
-    deliverables: null,
     repoSnapshot: repository
       ? {
           org: repository.org,

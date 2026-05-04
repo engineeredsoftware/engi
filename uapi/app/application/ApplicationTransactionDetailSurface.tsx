@@ -177,10 +177,6 @@ export default function ApplicationTransactionDetailSurface({
     writtenAssets || deliveryMechanism
       ? {
           pullRequest: deliveryMechanism?.pullRequest ?? writtenAssets?.pullRequest ?? null,
-          pullRequestReviews:
-            deliveryMechanism?.pullRequestReviews ?? writtenAssets?.pullRequestReviews ?? null,
-          comments: deliveryMechanism?.comments ?? writtenAssets?.comments ?? null,
-          issues: deliveryMechanism?.issues ?? writtenAssets?.issues ?? null,
           fileChanges: writtenAssets?.fileChanges ?? deliveryMechanism?.fileChanges ?? null,
           summary: writtenAssets?.summary ?? deliveryMechanism?.summary ?? null,
         }
@@ -319,9 +315,6 @@ export default function ApplicationTransactionDetailSurface({
               <ShippablesCardsPanel
                 shippables={{
                   pullRequest: mergedAssetPackSurface.pullRequest ?? null,
-                  pullRequestReviews: mergedAssetPackSurface.pullRequestReviews ?? null,
-                  comments: mergedAssetPackSurface.comments ?? null,
-                  issues: mergedAssetPackSurface.issues ?? null,
                 }}
               />
             </section>

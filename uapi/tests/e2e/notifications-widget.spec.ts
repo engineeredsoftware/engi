@@ -23,7 +23,7 @@ test.describe('Notifications Widget', () => {
     );
 
     // Navigate to a page that includes the widget
-    await page.goto('/executions?type=pipeline:deliverables');
+    await page.goto('/executions?type=agentic-execution:asset-pack');
     // No badge should be shown (no numeric span)
     const badges = await page.locator('span').filter({ hasText: /\d+/ }).count();
     expect(badges).toBe(0);
@@ -52,7 +52,7 @@ test.describe('Notifications Widget', () => {
       route.fulfill({ status: 200 })
     );
 
-    await page.goto('/executions?type=pipeline:deliverables');
+    await page.goto('/executions?type=agentic-execution:asset-pack');
     // Badge shows unread count = 1
     await expect(page.locator('text=1')).toBeVisible();
 

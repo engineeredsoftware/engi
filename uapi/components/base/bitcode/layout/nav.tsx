@@ -503,7 +503,7 @@ export default function Nav() {
                         // Show login pane after sign out
                         openAuxillaries('login');
                         // Redirect from authenticated pages
-                        if (pathname && (pathname.startsWith('/deliverables') || pathname.startsWith('/upgrades'))) {
+                        if (pathname && pathname.startsWith('/upgrades')) {
                           router.replace('/');
                         }
                       });

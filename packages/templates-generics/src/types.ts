@@ -3,18 +3,14 @@
  * V26 Production Ready
  */
 
-// Shippable template types matching Finish delivery-mechanism UI categories.
-export type ShippableTemplateType =
-  | 'pullRequests'
-  | 'pullRequestReviews'
-  | 'issues'
-  | 'comments';
+// V26 Finish ships AssetPacks through pull requests only.
+export type ShippableTemplateType = 'pullRequests';
 
 // AI Document template types matching UI categories  
 export type AIDocumentTemplateType =
   | 'knowledgeExtension'
   | 'shippableFeedback'
-  | 'deliverableFeedback'
+  | 'assetPackFeedback'
   | 'mcpIntegration';
 
 // Base template interface
@@ -28,10 +24,8 @@ interface BaseTemplate {
   updated_at: string;
 }
 
-// Shippable template. The storage column remains a compatibility key.
 export interface ShippableTemplate extends BaseTemplate {
-  shippable_type?: ShippableTemplateType;
-  deliverable_type: ShippableTemplateType;
+  shippable_type: ShippableTemplateType;
 }
 
 // AI Document template
@@ -44,7 +38,6 @@ export interface UserTemplatePreferences {
   id: string;
   user_id: string;
   default_shippable_template_id?: string;
-  default_deliverable_template_id?: string;
   default_ai_document_template_id?: string;
   auto_save_templates: boolean;
   created_at: string;
@@ -74,7 +67,3 @@ export interface TemplatePreferencesResponse {
   preferences: UserTemplatePreferences | null;
   error?: string;
 }
-
-export type DeliverableTemplateType = ShippableTemplateType;
-export type DeliverableTemplate = ShippableTemplate;
-export type CreateDeliverableTemplatePayload = CreateShippableTemplatePayload;

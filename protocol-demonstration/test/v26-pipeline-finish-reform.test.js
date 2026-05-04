@@ -21,7 +21,7 @@ const primitivesSource = readFileSync(
   new URL('../../packages/pipelines-generics/src/types/primitives.ts', import.meta.url),
   'utf8'
 );
-const deliverableIndexSource = readFileSync(
+const assetPackIndexSource = readFileSync(
   new URL('../../packages/pipelines/asset-pack/src/index.ts', import.meta.url),
   'utf8'
 );
@@ -52,12 +52,12 @@ const assetPackNamedDeliverAgentSource = readFileSync(
   new URL('../../packages/pipelines/asset-pack/src/agents/finish/asset-pack-finish-deliver-asset-pack-to-destination-agent.ts', import.meta.url),
   'utf8'
 );
-const finalSummarySource = readFileSync(
-  new URL('../../packages/pipelines/asset-pack/src/agents/finish/final-work-summary-agent.ts', import.meta.url),
+const assetPackCompletionSource = readFileSync(
+  new URL('../../packages/pipelines/asset-pack/src/agents/finish/asset-pack-completion-agent.ts', import.meta.url),
   'utf8'
 );
-const assetPackNamedFinalSummarySource = readFileSync(
-  new URL('../../packages/pipelines/asset-pack/src/agents/finish/asset-pack-finish-final-work-summary-agent.ts', import.meta.url),
+const assetPackNamedCompletionSource = readFileSync(
+  new URL('../../packages/pipelines/asset-pack/src/agents/finish/asset-pack-finish-asset-pack-completion-agent.ts', import.meta.url),
   'utf8'
 );
 const postprocessSource = readFileSync(
@@ -127,11 +127,11 @@ test('AssetPack pipeline owns the live package filesystem after deliverable pack
 });
 
 test('retained AssetPack corridor executes Finish through canonical Finish registry keys', () => {
-  assert.match(deliverableIndexSource, /factorySDIVFExecutorPipeline/);
-  assert.match(deliverableIndexSource, /finish: finishPhase/);
-  assert.match(deliverableIndexSource, /export const assetPackPipeline/);
-  assert.match(deliverableIndexSource, /export const runSDIVFPipeline = assetPackPipeline/);
-  assert.doesNotMatch(deliverableIndexSource, /export const deliverablePipeline|runSDIVSPipeline/u);
+  assert.match(assetPackIndexSource, /factorySDIVFExecutorPipeline/);
+  assert.match(assetPackIndexSource, /finish: finishPhase/);
+  assert.match(assetPackIndexSource, /export const assetPackPipeline/);
+  assert.match(assetPackIndexSource, /export const runSDIVFPipeline = assetPackPipeline/);
+  assert.doesNotMatch(assetPackIndexSource, /export const deliverablePipeline|runSDIVSPipeline/u);
   assert.match(assetPackPhasesSource, /export const assetPackPhases/);
   assert.match(assetPackPhasesSource, /export const finishPhase/);
   assert.match(assetPackPhasesSource, /createAgentExecutor\('finish:deliver-asset-pack-to-destination-agent'\)/);
@@ -146,13 +146,14 @@ test('retained AssetPack corridor executes Finish through canonical Finish regis
 test('Finish agents and postprocess use Finish stores without shipping fallbacks', () => {
   assert.match(deliverAgentSource, /Finish Deliver agent/);
   assert.match(deliverAgentSource, /execution\.store\('finish','pullRequestUrl'/);
-  assert.match(finalSummarySource, /name: 'finish:final-work-summary'/);
-  assert.match(finalSummarySource, /finish\/final_work_summary/);
-  assert.doesNotMatch(finalSummarySource, /get\?\.\('shipping|store\?\.\('shipping|phase\/shipping/u);
+  assert.match(assetPackCompletionSource, /name: 'finish:asset-pack-completion'/);
+  assert.match(assetPackCompletionSource, /finish\/asset_pack_completion/);
+  assert.doesNotMatch(assetPackCompletionSource, /final_work_summary|final-work-summary|get\?\.\('shipping|store\?\.\('shipping|phase\/shipping/u);
   assert.match(assetPackNamedDeliverAgentSource, /AssetPack-named Finish delivery entrypoint/u);
-  assert.match(assetPackNamedFinalSummarySource, /AssetPack-named Finish summary entrypoint/u);
+  assert.match(assetPackNamedCompletionSource, /AssetPack-named Finish completion entrypoint/u);
   assert.match(postprocessSource, /execution\.get\('finish', 'pullRequestUrl'\)/);
-  assert.match(postprocessSource, /get\?\.\('finish\/final_work_summary', 'writtenAssets'\)/);
+  assert.match(postprocessSource, /get\?\.\('finish\/asset_pack_completion', 'writtenAssets'\)/);
+  assert.doesNotMatch(postprocessSource, /finish\/final_work_summary/u);
 });
 
 test('compatibility prompt and agent names point at precise canonical Finish replacements', () => {

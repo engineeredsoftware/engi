@@ -4,7 +4,7 @@ import type { AIDocumentTemplates } from '@/types/templates';
 interface ApiTemplate {
   id: string;
   name: string;
-  ai_document_type: keyof AIDocumentTemplates;
+  ai_document_type: string;
   template_text: string;
 }
 
@@ -28,7 +28,7 @@ export const useAIDocumentTemplates = (): Hook => {
       if (!res.ok) throw new Error(`Failed to load templates (${res.status})`);
       const data = await res.json();
       const grouped: any = {
-        deliverableFeedback: [],
+        assetPackFeedback: [],
         knowledgeExtension: [],
         mcpConfig: [],
       } as AIDocumentTemplates;

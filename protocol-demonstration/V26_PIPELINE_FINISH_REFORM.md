@@ -19,9 +19,9 @@ Therefore:
   `Setup -> [Discovery -> Implementation -> Validation]* -> Finish`.
 - `SDIVS` is reform history and may not remain as an active generic pipeline API.
 - `Finish` owns saving results, preserving useful Need/AssetPack state, completing summaries, and invoking Delivering when the run needs a third-party destination.
-- `Delivering` owns connected-interface Shippables such as GitHub pull requests, Jira comments, issue comments, reviews, or similar destination-specific wrappers.
-- `Shippable` is the noun for what Finish delivers; `Deliverable` remains compatibility naming for old public corridors and wrapper payloads, not the general pipeline category.
-- Deprecated names, compatibility wrappers, and any remaining old filesystem labels are tactical fifth-gate aids, not V26 closure evidence.
+- `Delivering` owns connected-interface Shippables. V26 commercial behavior admits GitHub pull requests only; issue/review/comment/Jira or other destination branches are V27+ design space.
+- `Shippable` is the noun for what Finish delivers; `Deliverable` is old-world Engi residue used only as a trace word or literal migration-boundary identifier, not a current payload or reusable infrastructure field.
+- Deprecated names, compatibility wrappers, and any remaining old filesystem labels are trace inputs only; after their Bitcode replacement exists they must be removed rather than counted as V26 closure evidence.
 
 ## Pipeline Naming
 
@@ -33,7 +33,7 @@ Examples:
 - `FindFittingSettlementPipeline`
 - exact domain-specific Bitcode need pipelines
 
-The retained AssetPack package is a compatibility-mounted corridor for written-asset synthesis and destination delivery. It is not the primary abstraction for every Bitcode agentic pipeline, and `packages/pipelines/deliverable` is no longer an active filesystem owner.
+The AssetPack package is the active corridor for written-asset synthesis and destination delivery. It is not the primary abstraction for every Bitcode agentic pipeline, and `packages/pipelines/deliverable` is no longer an active filesystem owner.
 
 ## Implementation Requirements
 
@@ -44,9 +44,9 @@ Active source must satisfy the following:
 - Runtime execution metadata should store `pipeline.pattern = "SDIVF"` and final phase state as `phase.current = "finish"` for canonical paths.
 - Metrics, streaming completion, prompt registries, and primitive phase mappers in `packages/pipelines-generics` must use `finish` only.
 - The retained AssetPack corridor must execute `assetPackPhases.finish` through `finish:*` agent keys and must not register `shipping:*` phase aliases in active AssetPack phase/tool registries.
-- Finish agents may reuse old-world Ship implementations only after their prompts, descriptions, execution stores, and summaries describe Bitcode Need, AssetPack, WrittenAsset, proof evidence, and Delivering semantics.
-- AssetPack postprocess and reread must use `finish/final_work_summary` and `finish` stores directly; retained `shipping` store fallbacks are reform residue rather than current AssetPack behavior.
-- Deprecated `Ship`, `Shipping`, `ReadyToShip`, `FinalizeShipment`, and `Deliverable` compatibility names must always point to a more precise canonical replacement and a later-gate removal condition.
+- Finish agents may reuse old-world Ship implementation ideas only after their prompts, descriptions, execution stores, and summaries describe Bitcode Need, AssetPack, WrittenAsset, proof evidence, AssetPack completion, and PR Delivering semantics.
+- AssetPack postprocess and reread must use `finish/asset_pack_completion` and `finish` stores directly; retained `shipping` or `finish/final_work_summary` store fallbacks are reform residue rather than current AssetPack behavior.
+- Deprecated `Ship`, `Shipping`, `ReadyToShip`, `FinalizeShipment`, and `Deliverable` names must be removed from active implementation once the precise `Finish` / `Delivering` / `AssetPack completion` replacement is present.
 
 ## Deprecation Discipline
 

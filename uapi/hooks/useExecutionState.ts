@@ -62,8 +62,8 @@ export const useExecutionState = () => {
   const isDebug = () => {
     try {
       // eslint-disable-next-line no-undef
-      const envFlag = process.env.NEXT_PUBLIC_DEBUG_DELIVERABLES === '1';
-      const lsFlag = typeof window !== 'undefined' && window.localStorage?.getItem('DEBUG_DELIVERABLES') === '1';
+      const envFlag = process.env.NEXT_PUBLIC_DEBUG_ASSET_PACK === '1';
+      const lsFlag = typeof window !== 'undefined' && window.localStorage?.getItem('DEBUG_ASSET_PACK') === '1';
       // eslint-disable-next-line no-undef
       const devDefault = process.env.NODE_ENV !== 'production';
       return envFlag || lsFlag || devDefault;

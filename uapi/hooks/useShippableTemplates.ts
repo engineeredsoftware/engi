@@ -5,8 +5,6 @@ interface ApiTemplate {
   id: string;
   name: string;
   shippable_type?: keyof ShippableTemplates;
-  /** Compatibility field returned by the retained template route/table. */
-  deliverable_type?: keyof ShippableTemplates;
   template_text: string;
 }
 
@@ -30,9 +28,6 @@ export const useShippableTemplates = (): Hook => {
       if (res.status === 401 || res.status === 404) {
         setTemplates({
           pullRequests: [],
-          pullRequestReviews: [],
-          issues: [],
-          comments: [],
         });
         return;
       }
@@ -40,12 +35,9 @@ export const useShippableTemplates = (): Hook => {
       const data = await res.json();
       const grouped: ShippableTemplates = {
         pullRequests: [],
-        pullRequestReviews: [],
-        issues: [],
-        comments: [],
       };
       (data.templates as ApiTemplate[]).forEach(t => {
-        const category = t.shippable_type || t.deliverable_type;
+        const category = t.shippable_type;
         if (!category) return;
         const arr = grouped[category];
         if (arr) arr.push({ id: t.id, name: t.name, text: t.template_text });
@@ -54,9 +46,6 @@ export const useShippableTemplates = (): Hook => {
     } catch (err) {
       setTemplates({
         pullRequests: [],
-        pullRequestReviews: [],
-        issues: [],
-        comments: [],
       });
       setError(err instanceof Error ? err.message : String(err));
     } finally {

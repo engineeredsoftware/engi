@@ -162,11 +162,6 @@ function coerceShippableSurface(value: unknown): ShippablesDoc | null {
   if (!isRecord(value)) return null;
 
   const pullRequest = isRecord(value.pullRequest) ? (value.pullRequest as ShippablesDoc['pullRequest']) : null;
-  const pullRequestReviews = Array.isArray(value.pullRequestReviews)
-    ? (value.pullRequestReviews as NonNullable<ShippablesDoc['pullRequestReviews']>)
-    : null;
-  const comments = Array.isArray(value.comments) ? (value.comments as NonNullable<ShippablesDoc['comments']>) : null;
-  const issues = Array.isArray(value.issues) ? (value.issues as NonNullable<ShippablesDoc['issues']>) : null;
   const fileChanges = isRecord(value.fileChanges)
     ? {
         edited: coerceNumber(value.fileChanges.edited) || 0,
@@ -182,15 +177,12 @@ function coerceShippableSurface(value: unknown): ShippablesDoc | null {
     : null;
   const summary = coerceString(value.summary);
 
-  if (!pullRequest && !pullRequestReviews?.length && !comments?.length && !issues?.length && !summary && !fileChanges) {
+  if (!pullRequest && !summary && !fileChanges) {
     return null;
   }
 
   return {
     pullRequest,
-    pullRequestReviews,
-    comments,
-    issues,
     fileChanges,
     summary,
   };

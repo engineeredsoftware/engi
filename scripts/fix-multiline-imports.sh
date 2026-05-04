@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-# Repair incomplete multiline PromptPart imports in retained deliverable
+# Repair incomplete multiline PromptPart imports in AssetPack
 # prompt owners. Repaired imports use current @bitcode/prompts raw_promptparts
 # public subpaths, not removed raw prompt paths.
 

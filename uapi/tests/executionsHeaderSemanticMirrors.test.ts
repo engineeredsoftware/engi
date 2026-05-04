@@ -2,12 +2,12 @@ import {
   getHeaderDeliveryMechanism,
   getHeaderWrittenAssets,
   mergeHeaderShippables,
-  type HeaderFinalWorkSummary,
+  type HeaderAssetPackCompletion,
 } from '@/app/executions/components/ExecutionsCompleteHeaderContent';
 
 describe('executions header semantic mirrors', () => {
   it('prefers AssetPack synthesis artifacts for summary and file changes while preserving delivery mechanisms', () => {
-    const finalWorkSummary: HeaderFinalWorkSummary = {
+    const assetPackCompletion: HeaderAssetPackCompletion = {
       assetPackSynthesisArtifacts: {
         summary: 'Primary AssetPack synthesis artifact summary.',
         fileChanges: {
@@ -35,12 +35,12 @@ describe('executions header semantic mirrors', () => {
       },
     };
 
-    expect(getHeaderWrittenAssets(finalWorkSummary)?.summary).toBe('Primary AssetPack synthesis artifact summary.');
-    expect(getHeaderDeliveryMechanism(finalWorkSummary)?.pullRequest?.title).toBe('Shippable PR');
+    expect(getHeaderWrittenAssets(assetPackCompletion)?.summary).toBe('Primary AssetPack synthesis artifact summary.');
+    expect(getHeaderDeliveryMechanism(assetPackCompletion)?.pullRequest?.title).toBe('Shippable PR');
     expect(
       mergeHeaderShippables(
-        getHeaderWrittenAssets(finalWorkSummary),
-        getHeaderDeliveryMechanism(finalWorkSummary),
+        getHeaderWrittenAssets(assetPackCompletion),
+        getHeaderDeliveryMechanism(assetPackCompletion),
       ),
     ).toEqual({
       pullRequest: {
@@ -48,9 +48,6 @@ describe('executions header semantic mirrors', () => {
         url: 'https://example.com/pr/4',
         number: 4,
       },
-      pullRequestReviews: null,
-      comments: null,
-      issues: null,
       fileChanges: {
         edited: 5,
         created: 2,
@@ -59,17 +56,5 @@ describe('executions header semantic mirrors', () => {
       },
       summary: 'Primary AssetPack synthesis artifact summary.',
     });
-  });
-
-  it('falls back through compatibility deliverables only when explicit shippables are absent', () => {
-    const finalWorkSummary: HeaderFinalWorkSummary = {
-      deliverables: {
-        summary: 'Compatibility summary.',
-        comments: [{ title: 'Compatibility comment', url: 'https://example.com/comment/2', number: 2 }],
-      },
-    };
-
-    expect(getHeaderWrittenAssets(finalWorkSummary)?.summary).toBe('Compatibility summary.');
-    expect(getHeaderDeliveryMechanism(finalWorkSummary)?.comments?.[0]?.title).toBe('Compatibility comment');
   });
 });

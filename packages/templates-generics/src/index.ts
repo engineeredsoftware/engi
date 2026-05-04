@@ -6,6 +6,7 @@
 
 import { log } from '@bitcode/logger';
 import type { SupabaseClient } from '@supabase/supabase-js';
+import type { ShippableTemplate, ShippableTemplateType } from './types';
 
 // Export all types
 export * from './types';
@@ -27,11 +28,21 @@ export type {
 export class TemplatesService {
   constructor(private supabase: SupabaseClient) {}
 
+  private toShippableTemplate(row: Record<string, any>): ShippableTemplate | null {
+    const storageType = row.shippable_type ?? row.deliverable_type;
+    if (storageType !== 'pullRequests') return null;
+    const { deliverable_type: _storageType, ...template } = row;
+    return {
+      ...template,
+      shippable_type: 'pullRequests',
+    } as ShippableTemplate;
+  }
+
   /**
    * Get Shippable templates for the current user.
-   * The retained database table/column names are compatibility storage.
+   * Physical table/column names still reflect the pre-V26 schema.
    */
-  async getShippableTemplates(userId: string, type?: string) {
+  async getShippableTemplates(userId: string, type?: ShippableTemplateType) {
     try {
       let query = this.supabase
         .from('deliverable_templates')
@@ -39,6 +50,10 @@ export class TemplatesService {
         .eq('user_id', userId)
         .eq('is_active', true)
         .order('created_at', { ascending: false });
+
+      if (type && type !== 'pullRequests') {
+        return [];
+      }
 
       if (type) {
         query = query.eq('deliverable_type', type);
@@ -51,15 +66,13 @@ export class TemplatesService {
         throw error;
       }
 
-      return data || [];
+      return ((data || []) as Record<string, any>[])
+        .map((row) => this.toShippableTemplate(row))
+        .filter((template): template is ShippableTemplate => Boolean(template));
     } catch (error) {
       log('[TemplatesService] Failed to get Shippable templates', 'error', { error });
       throw error;
     }
-  }
-
-  async getDeliverableTemplates(userId: string, type?: string) {
-    return this.getShippableTemplates(userId, type);
   }
 
   /**
@@ -94,15 +107,20 @@ export class TemplatesService {
 
   /**
    * Create Shippable templates.
-   * The retained database table/column names are compatibility storage.
+   * Physical table/column names still reflect the pre-V26 schema.
    */
   async createShippableTemplates(
     userId: string,
     name: string,
-    types: string[],
+    types: ShippableTemplateType[],
     templateText: string
   ) {
     try {
+      const invalidType = types.find((type) => type !== 'pullRequests');
+      if (invalidType) {
+        throw new Error(`Unsupported V26 Shippable template type: ${invalidType}`);
+      }
+
       const rows = types.map((type) => ({
         user_id: userId,
         name: name.trim(),
@@ -121,20 +139,13 @@ export class TemplatesService {
         throw error;
       }
 
-      return data;
+      return ((data || []) as Record<string, any>[])
+        .map((row) => this.toShippableTemplate(row))
+        .filter((template): template is ShippableTemplate => Boolean(template));
     } catch (error) {
       log('[TemplatesService] Failed to create Shippable templates', 'error', { error });
       throw error;
     }
-  }
-
-  async createDeliverableTemplates(
-    userId: string,
-    name: string,
-    types: string[],
-    templateText: string
-  ) {
-    return this.createShippableTemplates(userId, name, types, templateText);
   }
 
   /**
@@ -202,7 +213,6 @@ export class TemplatesService {
     userId: string,
     preferences: Partial<{
       default_shippable_template_id: string | null;
-      default_deliverable_template_id: string | null;
       default_ai_document_template_id: string | null;
       auto_save_templates: boolean;
     }>
@@ -236,10 +246,10 @@ export class TemplatesService {
   async deleteTemplate(
     userId: string,
     templateId: string,
-    type: 'shippable' | 'deliverable' | 'ai_documents'
+    type: 'shippable' | 'ai_documents'
   ) {
     try {
-      const table = type === 'shippable' || type === 'deliverable' ? 'deliverable_templates' : 'ai_document_templates';
+      const table = type === 'shippable' ? 'deliverable_templates' : 'ai_document_templates';
       
       const { error } = await this.supabase
         .from(table)
@@ -248,7 +258,7 @@ export class TemplatesService {
         .eq('user_id', userId);
 
       if (error) {
-        log(`[TemplatesService] Error deleting ${type === 'deliverable' ? 'shippable compatibility' : type} template`, 'error', { error });
+        log(`[TemplatesService] Error deleting ${type} template`, 'error', { error });
         throw error;
       }
 

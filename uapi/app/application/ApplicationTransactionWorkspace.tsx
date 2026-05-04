@@ -68,9 +68,6 @@ function countShippableSurfaces(shippables?: ShippablesDoc | null) {
 
   let count = 0;
   if (shippables.pullRequest) count += 1;
-  count += shippables.pullRequestReviews?.length || 0;
-  count += shippables.issues?.length || 0;
-  count += shippables.comments?.length || 0;
 
   return count;
 }
@@ -95,9 +92,6 @@ function buildMasterDetailSubstructures(
   const deliveryMechanism = detail?.shippables || detail?.deliveryMechanism || writtenAssets;
   const mergedAssetPackSurface = {
     pullRequest: deliveryMechanism?.pullRequest ?? writtenAssets?.pullRequest ?? null,
-    pullRequestReviews: deliveryMechanism?.pullRequestReviews ?? writtenAssets?.pullRequestReviews ?? null,
-    comments: deliveryMechanism?.comments ?? writtenAssets?.comments ?? null,
-    issues: deliveryMechanism?.issues ?? writtenAssets?.issues ?? null,
     fileChanges: writtenAssets?.fileChanges ?? deliveryMechanism?.fileChanges ?? null,
     summary: writtenAssets?.summary ?? deliveryMechanism?.summary ?? null,
   };
@@ -140,15 +134,6 @@ function buildMasterDetailSubstructures(
         rows: [
           ...(mergedAssetPackSurface.pullRequest
             ? [{ label: 'Pull request', value: `#${mergedAssetPackSurface.pullRequest.number}` }]
-            : []),
-          ...(mergedAssetPackSurface.pullRequestReviews
-            ? [{ label: 'Reviews', value: formatNumber(mergedAssetPackSurface.pullRequestReviews.length) }]
-            : []),
-          ...(mergedAssetPackSurface.issues
-            ? [{ label: 'Issues', value: formatNumber(mergedAssetPackSurface.issues.length) }]
-            : []),
-          ...(mergedAssetPackSurface.comments
-            ? [{ label: 'Comments', value: formatNumber(mergedAssetPackSurface.comments.length) }]
             : []),
         ],
       };

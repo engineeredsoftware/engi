@@ -71,7 +71,7 @@ function createExecutionHistoryStore(userId = 'user-1') {
           started_at: insertPayload.started_at ?? createdAt,
           completed_at: insertPayload.completed_at ?? createdAt,
           status: insertPayload.status ?? 'completed',
-          type: insertPayload.type ?? 'pipeline:deliverables',
+          type: insertPayload.type ?? 'agentic-execution:asset-pack',
           input: insertPayload.input ?? null,
           output: insertPayload.output ?? null,
           context: insertPayload.context ?? null,
@@ -303,7 +303,7 @@ describe('Bitcode execution-history write/read parity', () => {
 
     expect(storedRows).toHaveLength(3);
     expect(storedRows.map((row) => row.type)).toEqual([
-      'pipeline:deliverables',
+      'agentic-execution:asset-pack',
       'pipeline:measure',
       'pipeline:proof-refresh',
     ]);

@@ -290,7 +290,7 @@ export const FlexibleBtdSelector: React.FC<FlexibleBtdSelectorProps> = ({
             ${perBtdCost.toFixed(2)} per BTD
           </div>
           <div
-            className={`plan-deliverables inline-flex items-center w-fit px-3 py-1 rounded-md gap-1 text-lg laptop:text-xl ${accent === 'purple'
+            className={`plan-asset-packs inline-flex items-center w-fit px-3 py-1 rounded-md gap-1 text-lg laptop:text-xl ${accent === 'purple'
               ? 'bg-purple-500/10 text-purple-300'
               : 'bg-emerald-500/10 text-emerald-300'
               }`}

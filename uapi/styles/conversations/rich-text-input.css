@@ -6,8 +6,8 @@
   --border-focus: rgba(103, 254, 183, 0.5);
   --token-upgrade-bg: rgba(103, 254, 183, 0.2);
   --token-upgrade-text: #67feb7;
-  --token-deliverable-bg: rgba(99, 102, 241, 0.2);
-  --token-deliverable-text: #818cf8;
+  --token-asset-pack-bg: rgba(99, 102, 241, 0.2);
+  --token-asset-pack-text: #818cf8;
   --token-attachment-bg: rgba(249, 115, 22, 0.2);
   --token-attachment-text: #fb923c;
   --token-source-bg: rgba(236, 72, 153, 0.2);
@@ -176,14 +176,14 @@
   background-color: var(--token-upgrade-text);
 }
 
-.rich-text-display .token-deliverable {
-  background-color: var(--token-deliverable-bg);
-  color: var(--token-deliverable-text);
-  border: 1px solid var(--token-deliverable-text);
+.rich-text-display .token-asset-pack {
+  background-color: var(--token-asset-pack-bg);
+  color: var(--token-asset-pack-text);
+  border: 1px solid var(--token-asset-pack-text);
 }
 
-.rich-text-display .token-deliverable::before {
-  background-color: var(--token-deliverable-text);
+.rich-text-display .token-asset-pack::before {
+  background-color: var(--token-asset-pack-text);
 }
 
 .rich-text-display .token-attachment {

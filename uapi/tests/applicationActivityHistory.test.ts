@@ -249,7 +249,6 @@ describe('application-activity-history', () => {
         deliveryMechanism: {
           summary: 'Opened the connected-interface delivery mechanism for the asset pack.',
         },
-        deliverables: null,
       },
     } as PipelineExecution);
 

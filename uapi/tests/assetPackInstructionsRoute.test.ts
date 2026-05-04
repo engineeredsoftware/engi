@@ -7,7 +7,7 @@ jest.mock('@bitcode/supabase/ssr/server');
 jest.mock('@bitcode/supabase');
 jest.mock('@bitcode/auth');
 
-describe('Deliverable OTF Instructions API', () => {
+describe('AssetPack OTF Instructions API', () => {
   const fakeUser = { id: 'user-1' };
   beforeEach(() => {
     (getUserBySessionOrThrow as jest.Mock).mockResolvedValue(fakeUser);

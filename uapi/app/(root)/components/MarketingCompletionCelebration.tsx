@@ -22,7 +22,6 @@ interface RepositoryContext {
   testCoverage?: number;
   componentCount?: number;
   totalShippables?: number;
-  totalDeliverables?: number;
   streakCount?: number;
   qualityAverage?: number;
 }
@@ -157,7 +156,7 @@ export const MarketingCompletionCelebration = ({
     const achievements: string[] = [];
     
     // First completion
-    if ((repositoryContext.totalShippables ?? repositoryContext.totalDeliverables) === 1) {
+    if (repositoryContext.totalShippables === 1) {
       achievements.push('first-completion');
     }
     
@@ -484,10 +483,10 @@ export const MarketingCompletionCelebration = ({
               >
                 <div className="text-sm text-gray-400 mb-3">Repository Impact</div>
                 <div className="grid grid-cols-2 gap-3 text-xs">
-                  {(repositoryContext.totalShippables ?? repositoryContext.totalDeliverables) && (
+                  {repositoryContext.totalShippables && (
                     <div>
                       <span className="text-gray-400">Total Shippables:</span>
-                      <span className="text-brand-emerald ml-2">{repositoryContext.totalShippables ?? repositoryContext.totalDeliverables}</span>
+                      <span className="text-brand-emerald ml-2">{repositoryContext.totalShippables}</span>
                     </div>
                   )}
                   {repositoryContext.streakCount && (

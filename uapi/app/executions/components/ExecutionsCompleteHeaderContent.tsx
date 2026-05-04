@@ -398,9 +398,9 @@ function PostprocessedSummary({ postprocessed }: { postprocessed: any }) {
     }
   }, []);
 
-  const compatibilityKind = postprocessed?.kind;
-  const isShippable = compatibilityKind === 'shippable' || compatibilityKind === 'deliverable';
-  const isMultiShippable = compatibilityKind === 'multi-shippable' || compatibilityKind === 'multi-deliverable';
+  const kind = postprocessed?.kind;
+  const isShippable = kind === 'shippable';
+  const isMultiShippable = kind === 'multi-shippable';
   const isAIDocument = postprocessed?.kind === 'ai_document';
   const series: any[] = Array.isArray(postprocessed?.entries)
     ? postprocessed.entries
@@ -440,9 +440,9 @@ function PostprocessedSummary({ postprocessed }: { postprocessed: any }) {
       {(isShippable || isMultiShippable) && (
         <div className="text-sm text-gray-300">
           {postprocessed?.title && <div className="text-emerald-200 mb-1">{postprocessed.title}</div>}
-          {formatWrittenAssetType(postprocessed?.writtenAssetType || postprocessed?.deliverableType) && (
+          {formatWrittenAssetType(postprocessed?.writtenAssetType) && (
             <div className="text-[11px] text-gray-400 mb-1">
-              Written Asset: {formatWrittenAssetType(postprocessed?.writtenAssetType || postprocessed?.deliverableType)}
+              Written Asset: {formatWrittenAssetType(postprocessed?.writtenAssetType)}
             </div>
           )}
           {postprocessed?.summary && <div className="opacity-90">{postprocessed.summary}</div>}

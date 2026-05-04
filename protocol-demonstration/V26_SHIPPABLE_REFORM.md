@@ -4,14 +4,14 @@
 
 - Scope: supplementary V26 reform note for the retained `packages/pipelines/asset-pack/*` corridor
 - Canonical pointer: `/Users/garrettmaring/Developer/ENGI/BITCODE_SPEC.txt -> V26`
-- Purpose: keep the old-world `deliverable` family legible while making Bitcode's shippable semantic ownership precise
+- Purpose: use the old-world `deliverable` family as a trace surface while removing it from active Bitcode shippable semantics
 - Generic strategy companion: `protocol-demonstration/V26_REFORM_STRATEGY.md`
 - Pipeline phase companion: `protocol-demonstration/V26_PIPELINE_FINISH_REFORM.md`
 
 ## Rule
 
-`deliverable` is not the primary Bitcode concept.
-Within V26, `deliverable` survives only as a retained compatibility path/name where that reuse still accelerates the productization program.
+`deliverable` is not a Bitcode concept.
+Within V26, `deliverable` is a trace word for old-world Engi residue. It may appear only as a physical migration identifier in generated schema, third-party storage, or bounded promptpart source that has not yet been renamed at the storage/proof boundary. It must not remain as an active route, payload field, application data model, reusable infrastructure name, exported API alias, mock feature, template category, email-template identifier, or algorithmic branch.
 
 The canonical Bitcode concepts are:
 - `need`
@@ -22,24 +22,23 @@ The canonical Bitcode concepts are:
   The Need-satisfying implementation-phase output synthesized by the AssetPack pipeline before Finish stores evidence or invokes a connected-interface handoff.
 - `stored AssetPack evidence`
   The Exchange-rereadable evidence and receipt material saved by Finish for proof, settlement, Terminal reread, and later delivery.
+- `AssetPack completion`
+  The final Finish-owned reread payload for an AssetPack run. It replaces the old-world `finalWorkSummary` / `final_work_summary` concept and carries summary, `assetPackSynthesisArtifacts`, `writtenAssets`, `shippables`, `deliveryMechanism`, `need`, `writtenAssetType`, `assetPack`, `processingStats`, and `repoSnapshot`.
 - `Shippable`
-  A connected-interface object that Finish can deliver after AssetPack evidence exists, such as a pull request, issue, review, comment, or destination-specific AssetPackPartial wrapper.
+  A connected-interface object that Finish can deliver after AssetPack evidence exists. V26 commercial delivery supports GitHub pull-request Shippables only.
 - `delivery mechanism`
-  The destination-specific procedure, tool, and template used to deliver a Shippable to a third-party destination after validation.
+  The destination-specific procedure, tool, and template used to deliver a Shippable to a third-party destination after validation. V26 admits only the pull-request delivery mechanism.
 
-Examples of Shippable forms include:
-- a pull request
-- an issue
-- a review
-- a comment
+The V26 Shippable form is:
+- a GitHub pull request
 
 ## Required mapping
 
 The retained `packages/pipelines/asset-pack/*` corridor is therefore interpreted as:
 - `deliverable pipeline`
-  compatibility-only path naming for an AssetPack synthesis and stored-evidence corridor
+  old-world path naming for an AssetPack synthesis and stored-evidence corridor; active code should move toward AssetPack / Shippable route, type, and payload names rather than introducing new `deliverable` wrappers
 - `deliverableType`
-  compatibility-only retained field naming for request/delivery hints; it must not select implementation or validation behavior
+  removed as an active field; it may be searched only to find and reform stale request/delivery hint logic
 - `DeliverableType`
   removed as an active package primitive; current source owns the canonical AssetPack written-asset kind through `AssetPackWrittenAssetType.NeedSatisfactionAssetPack`
 - `searchRelevantDeliverables`
@@ -51,28 +50,29 @@ The retained `packages/pipelines/asset-pack/*` corridor is therefore interpreted
 
 ## V26 reform requirement
 
-While the path/package may remain `deliverable` during V26 for compatibility and implementation-speed reasons:
+Where physical storage identifiers still include `deliverable` during V26:
 - the live Bitcode meaning is a need-satisfying agentic pipeline run, not a product concept named `deliverable`
-- each run synthesizes AssetPack synthesis artifacts and stores AssetPack evidence before optional shippables
+- active code must translate those physical identifiers at the storage edge and must not re-export them into client contracts, route contracts, template APIs, notification APIs, or UI props
+- each run synthesizes AssetPack synthesis artifacts and stores AssetPack evidence before producing a PR Shippable
 - the canonical broad final phase is now `Finish`; old `Shipping` phase names are reform history and may not remain as active AssetPack phase, registry, tool, or store ownership
-- `Delivering` is the narrower Finish subresponsibility that provides Shippables backed by AssetPacks or AssetPackPartials to third-party tools and destinations
-- the Finish phase may then emit `shippables` as connected-interface objects such as `Shippable.GitHubPullRequest`, `Shippable.JiraComment`, or similar wrappers around stored AssetPack evidence; `deliverables` may exist only as a retained compatibility mirror
+- `Delivering` is the narrower Finish subresponsibility that provides AssetPack-backed Shippables to third-party tools and destinations; V26 supports the GitHub pull-request path only
+- the Finish phase emits `shippables` as connected-interface objects such as `Shippable.GitHubPullRequest`; `deliverables` must not be emitted as a retained mirror on new V26 writes
 - spec text must teach `asset pack`, `AssetPack synthesis artifact`, `stored AssetPack evidence`, `Shippable`, and `delivery mechanism` as the Bitcode semantics
 - comments, descriptions, and exported names inside the retained corridor should use `comprehend need` where behavior is about Need understanding
-- execution stores and postprocessed artifacts should mirror compatibility keys with semantic `need`, canonical `writtenAssetType = need-satisfaction-asset-pack`, `writtenAssetRequest`, `deliveryMechanismTemplate`, `shippables`, and asset-pack-shaped snapshots so later-gate reform can remove the retained names without losing continuity
-- internal implementation and validation logic must resolve one canonical AssetPack synthesis kind from `need` and proof evidence; Finish/Delivering may separately resolve `deliveryMechanismTemplate`, so the retained corridor shapes live protocol behavior through Bitcode's commercial infrastructure rather than silently recentering old-world `deliverableType` logic
+- execution stores and postprocessed artifacts must use semantic `need`, canonical `writtenAssetType = need-satisfaction-asset-pack`, `writtenAssetRequest`, `deliveryMechanismTemplate = pull-request`, `assetPackCompletion`, `assetPackSynthesisArtifacts`, `writtenAssets`, `shippables`, and `deliveryMechanism` so later-gate reform does not have to recover meaning from old-world keys
+- internal implementation and validation logic must resolve one canonical AssetPack synthesis kind from `need` and proof evidence; Finish/Delivering must resolve the single V26 `pull-request` delivery mechanism, so the retained corridor shapes live protocol behavior through Bitcode's commercial infrastructure rather than silently recentering old-world `deliverableType` logic
 - package-owned filesystem and export names must prefer current Bitcode objects before compatibility payloads: `packages/pipelines/asset-pack/src/types/AssetPackWrittenAssetType.ts` owns written-asset kinds, `searchRelevantAssetPackEvidence` owns prior AssetPack evidence lookup, and stale `DeliverableType.ts` / `searchRelevantDeliverables` / shipping-wrapper test files are not active V26 surfaces
-- read routes, workspace-run summaries, mock reread projections, and active UI detail surfaces should prefer primary `assetPackSynthesisArtifacts` for Bitcode-owned AssetPack artifact/evidence and file-change meaning, mirror it into semantic `writtenAssets` only as a compatibility reread surface, then fall back through primary `shippables`, `deliveryMechanism`, and only finally compatibility `deliverables`, while PR/review/comment/issue surfaces are Shippables delivered through delivery mechanisms
-- the operator-facing executions header and the retained `/api/deliverables` route should teach this corridor as asset-pack synthesis plus Finish/Delivering mechanisms even while their compatibility names remain in place
-- the retained `/api/deliverables` streamed completion payload should emit primary `assetPackSynthesisArtifacts` plus semantic `writtenAssets`, `shippables`, `deliveryMechanism`, `need`, `writtenAssetType`, and `assetPack` aliases alongside compatibility `actions` / `deliverables`, so client convergence does not depend on reread-only recovery
-- the retained `/api/deliverables` route should also dual-store route-preprocess snapshots and completion metadata under semantic `assetPackWrittenAsset` / `need` / `assetPack` / `writtenAssetType` aliases, so route entry, persistence, and reread all carry Bitcode-owned meaning even while the public route name remains compatibility-only
-- retained `/api/deliverables` telemetry, notifications, and email-subject copy should keep compatibility identifiers only as wrappers; payloads and user-facing wording should explicitly describe Bitcode `asset-pack run` semantics and emit semantic event aliases / `assetPack` / `need` / `writtenAssetType` data
+- read routes, workspace-run summaries, mock reread projections, and active UI detail surfaces should prefer primary `assetPackSynthesisArtifacts` for Bitcode-owned AssetPack artifact/evidence and file-change meaning, expose `writtenAssets` only as a semantic reread of those artifacts, and expose `shippables` / `deliveryMechanism` only for the PR delivery object
+- the operator-facing executions header and active route/API surface must teach this corridor as asset-pack synthesis plus Finish/Delivering mechanisms; `/api/deliverables` compatibility mounting is removed from active V26 source
+- streamed completion payloads must emit primary `assetPackSynthesisArtifacts` plus semantic `writtenAssets`, `shippables`, `deliveryMechanism`, `need`, `writtenAssetType`, and `assetPack` fields; `actions` may remain only as the command-result envelope, not as a `deliverables` mirror
+- active route persistence must store route-preprocess snapshots and completion metadata under semantic `assetPackWrittenAsset` / `need` / `assetPack` / `writtenAssetType` aliases, so route entry, persistence, and reread all carry Bitcode-owned meaning instead of public compatibility route naming
+- telemetry, notifications, email subjects, and email-template IDs must use AssetPack and Shippable names; compatibility identifiers are not V26-active wrappers
 - active notification run types must use `asset-pack` and `need-measurement`, link into `/executions/:runId` as the Terminal execution bridge, and render user-facing copy as AssetPack or Need-measurement execution status rather than route/table compatibility nouns
 - active support rails must now follow the same noun/verb discipline: streams expose `createShippablesStream`, branch helpers expose `branchAssetPackRun`, MCP exposes `AssetPackPipelineToolSchema` and `PipelineNameValues = ['asset-pack']`, UI and Storybook owners live under `shippables`, drymock scenarios live under `asset-pack-scenarios`, and Finish agents deliver Shippables rather than "shipping deliverables"
 - active mock infrastructure is TypeScript source only for core owners (`core`, `engines`, `generators`, `integration`, `middleware`, `types`, and `index`); generated JavaScript mirrors in those source directories are removed from proof ownership, while hand-authored setup/validation scripts remain support tooling
 - active operational scripts must likewise use AssetPack evidence names first; retained storage table names may remain only as literal Exchange compatibility boundaries, not script names, logs, variables, or package commands
-- retained email-template filenames and promptpart identifiers should also remain compatibility wrappers only; rendered copy and prompt content should describe asset-pack runs, AssetPack synthesis artifacts, stored evidence, and Delivering Shippables through delivery mechanisms rather than teaching `deliverable` as the primary Bitcode object
-- retained raw promptparts and promptpart-generation scripts should likewise describe the corridor in asset-pack-run, need-satisfaction, AssetPack synthesis artifact, stored-evidence, Shippable, and delivery-mechanism terms, even when compatibility filenames and identifiers still include `deliverable`; phase-purpose, setup-comprehension, finish-finalization, deliverables-system, implementation planning, PR-packaging, create-pull-request, ready-to-finish, and readiness promptparts must not teach PR-first, deployment-ceremony-first, or four-type implementation semantics where Bitcode now requires need-first AssetPack synthesis artifacts plus delivered Shippables
+- email-template filenames and identifiers must be AssetPack-native; promptpart identifiers may remain bounded proof inputs only when their rendered prompt text describes asset-pack runs, AssetPack synthesis artifacts, stored evidence, and Delivering Shippables through delivery mechanisms rather than teaching `deliverable` as the primary Bitcode object
+- retained raw promptparts and promptpart-generation scripts should likewise describe the corridor in asset-pack-run, need-satisfaction, AssetPack synthesis artifact, stored-evidence, Shippable, and delivery-mechanism terms, even when compatibility filenames and identifiers still include `deliverable`; phase-purpose, setup-comprehension, finish-finalization, deliverables-system, implementation planning, PR-packaging, create-pull-request, ready-to-finish, and readiness promptparts must not teach deployment-ceremony-first or four-type implementation semantics where Bitcode now requires need-first AssetPack synthesis artifacts plus PR Shippables
 - phase-purpose raw PromptParts are current Bitcode AssetPack owners, not retained deliverable wrappers: `promptpart_specific_phase_assetpack{setup,discovery,implementation,validation,finish}_purpose_corestatement.ts` own the Setup/Discovery/Implementation/Validation/Finish phase labels, while `phase_deliverable*` and phase-level shipping PromptPart filenames are removed from active source
 - admitted MCP workflow/development prompt templates and the retained `bitcode://pipelines/asset-pack/create` tool description must follow the same rule: rendered prompt text should call the live behavior a Bitcode asset-pack pipeline over source-to-shares needs, while retained URI and subtype names are labeled compatibility surfaces rather than active product canon
 - all active AssetPack-family raw PromptPart doc-comment metadata must use Bitcode-native intent and version language across agent, phase, pipeline, tool, setup, discovery, implementation, validation, and Finish delivery files; `Agent semantic unit`, `Define purpose of ... deliverables`, `Adds Deliverables-specific ...`, and `Canonical deliverables ...` metadata strings may not survive as active metadata even when a bounded compatibility filename remains
@@ -82,15 +82,19 @@ While the path/package may remain `deliverable` during V26 for compatibility and
 - setup/bootstrap entry points and prompt ports must use canonical `comprehend-need` module paths, `COMPREHENDNEED` base PromptParts, and deliverable-corridor `DELIVERABLESETUPCOMPREHENDNEED` PromptParts; discovery carriers should admit semantic `need` / `writtenAssetType` directly, with `asset-pack-comprehend-need-agent` acting as the active setup owner while retained raw PromptPart compatibility names remain bounded proof inputs rather than active module paths
 - retained maintenance/audit scripts that operate on this corridor must resolve active paths from the repository root, inspect current raw PromptPart locations, and teach `comprehend-need` / asset-pack-run semantics instead of hard-coded old-world checkouts or `comprehend-task` ownership
 - retained repair, generation, and export-verification scripts must use the active `raw_promptparts` filesystem, `PROMPTPART_*` constants, portable shell/Python path resolution, and Bitcode asset-pack prompt semantics instead of the removed `raw/specific` prompt tree or old-world `@engi` import expectations
-- retained discovery outputs should mirror compatibility `deliverables` fields with semantic `writtenAssets` / `needSatisfactionCriteria` so downstream Bitcode reread and later-gate renaming do not have to recover meaning from old-world labels alone
+- retained discovery outputs should expose semantic `writtenAssets` / `needSatisfactionCriteria` directly so downstream Bitcode reread does not depend on old-world labels
 - retained corridor entry initialization must also hydrate a registry-bearing pipeline execution context when callers still enter through a bare `Execution`, so the commercial runtime remains phase/agent/prompt/tool legible instead of depending on hidden `PipelineExecution` assumptions
 - the retained package itself must clear an honest local typecheck boundary through the MCP/VCS/prompt/search support graph it still traverses, so runtime proof and asset-pack semantics are backed by a truthful source boundary rather than broad monorepo success alone
 - filesystem ownership has crossed the fifth-gate threshold for this corridor: `packages/pipelines/asset-pack` and `@bitcode/pipeline-asset-pack` are the live owners, `packages/pipelines/deliverable` is removed from active source, and generated JavaScript is not allowed under the AssetPack package `src/` tree
-- new-world semantic aliases should be added before broad destructive renames
-- old names may remain as bounded raw PromptPart or storage compatibility only when active code names expose canonical Bitcode meaning first
+- once a trace has identified the equivalent Bitcode object, destructive cleanup is preferred over aliases; aliases are temporary aids, not retained V26 behavior
+- old names may remain only as bounded raw PromptPart, table, generated-schema, or migration-boundary literals when active code names expose canonical Bitcode meaning first and the old name is not emitted as a new active payload field
 - `SDIVS` / `shipping` compatibility APIs are reform residue outside active AssetPack Finish ownership; active AssetPack phase, registry, tool, and store code must use `SDIVF` / `finish` behavior directly
-- tactical deprecated exports remain admissible only when they are explicitly marked as compatibility aliases and are paired with precise canonical Bitcode names; full V26 closure requires removing these aliases rather than treating compatibility as canon
-- retained `/api/deliverables` route mounting is compatibility-only; active route logs, execution type, lineage, `/api/templates/shippables`, header props, streaming parser names, and generated co-located JS cleanup must use `asset-pack` / `shippable` source names first while `/api/templates/deliverables` remains a wrapper only
+- deprecated exports are not admissible as V26 implementation after their Bitcode replacement exists; full V26 closure requires removing these aliases rather than treating compatibility as canon
+- active route logs, execution type, lineage, `/api/templates/shippables`, header props, streaming parser names, generated co-located JS cleanup, and client payload fields must use `asset-pack` / `AssetPack completion` / `shippable` source names; `/api/templates/deliverables` is not an active V26 wrapper
+
+## V27+ Design Space
+
+Generic third-party delivery mechanisms are a later-version design space. Reusable infrastructure may be shaped so that a future delivery mechanism can be added deliberately, but V26 must not register, advertise, type, test, or emit issue, review, comment, Jira, upload, or destination-specific delivery branches as commercial behavior.
 
 ## Non-goal
 

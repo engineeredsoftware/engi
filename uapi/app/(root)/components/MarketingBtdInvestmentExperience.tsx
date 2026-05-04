@@ -6,11 +6,9 @@ import { motion, AnimatePresence } from 'framer-motion';
 interface BtdInvestment {
   id: string;
   shippableName?: string;
-  deliverableName?: string;
   // Canonical V26 spend planning is expressed directly in $BTD.
   estimatedBtd?: number;
   actualBtd?: number;
-  // Compatibility aliases survive only while story/devex carriers converge.
   estimatedCredits?: number;
   actualCredits?: number;
   efficiency: number; // 0-1, calculated as estimatedBtd / actualBtd
@@ -59,14 +57,6 @@ interface BtdInvestmentExperienceProps {
     complexity: string;
     patterns: string[];
   };
-  /** Compatibility alias while story/devex callers migrate. */
-  upcomingDeliverable?: {
-    name: string;
-    estimatedBtd: number;
-    estimatedCredits?: number;
-    complexity: string;
-    patterns: string[];
-  };
   
   /** User's investment patterns */
   investmentPatterns?: {
@@ -93,7 +83,6 @@ interface BtdInvestmentExperienceProps {
   onMagicalMoment?: (moment: string) => void;
   onValueInsight?: (insight: string) => void;
   onBtdProjection?: (projection: number) => void;
-  /** Compatibility alias for older host surfaces that have not yet renamed. */
   onCreditProjection?: (projection: number) => void;
 }
 
@@ -218,7 +207,6 @@ export const MarketingBtdInvestmentExperience = ({
   investments,
   currentBalance,
   upcomingNeed,
-  upcomingDeliverable,
   investmentPatterns,
   showValueVisualization = true,
   showEfficiencyCoaching = true,
@@ -232,7 +220,7 @@ export const MarketingBtdInvestmentExperience = ({
   onBtdProjection,
   onCreditProjection
 }: BtdInvestmentExperienceProps) => {
-  const projectedNeed = upcomingNeed || upcomingDeliverable;
+  const projectedNeed = upcomingNeed;
   const projectedUpcomingBtd =
     projectedNeed?.estimatedBtd ?? projectedNeed?.estimatedCredits ?? null;
 
@@ -385,7 +373,7 @@ export const MarketingBtdInvestmentExperience = ({
     const exceptionalInvestments = investments.filter(inv => inv.magicalMultiplier > 2);
     if (exceptionalInvestments.length > 0) {
       const latestMagical = exceptionalInvestments[exceptionalInvestments.length - 1];
-      onMagicalMoment?.(`✨ Magical moment achieved in ${latestMagical.shippableName || latestMagical.deliverableName}! ${latestMagical.magicalMultiplier.toFixed(1)}x value multiplier!`);
+      onMagicalMoment?.(`✨ Magical moment achieved in ${latestMagical.shippableName || 'AssetPack'}! ${latestMagical.magicalMultiplier.toFixed(1)}x value multiplier!`);
     }
   }, [investments, onMagicalMoment]);
 

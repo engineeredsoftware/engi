@@ -40,10 +40,31 @@ export interface Shippable {
   url: string;
   number?: number;
   title?: string;
-  type: 'pr' | 'comment' | 'issue';
+  type: 'pr';
 }
 
-export type Deliverable = Shippable;
+export type AssetPackFileChanges = {
+  edited: number;
+  created: number;
+  deleted: number;
+  paths?: string[];
+  charDiff?: {
+    edited: number;
+    created: number;
+    deleted: number;
+  };
+};
+
+export type AssetPackSurface = {
+  pullRequest?: Shippable | null;
+  fileChanges?: AssetPackFileChanges | null;
+  summary?: string | null;
+};
+
+export type AssetPackSynthesisArtifactsSurface = AssetPackSurface & {
+  proofEvidence?: string[] | null;
+  reviewNotes?: string[] | null;
+};
 
 export interface CompletionData {
   /** Full markdown summary of work completed */
@@ -56,105 +77,13 @@ export interface CompletionData {
    * and `asset_pack_completion.assetPackSynthesisArtifacts` for synthesized
    * source evidence, then `shippables` for connected-interface artifacts.
    */
-  shippables: {
-    pullRequest: Shippable | null;
-    /** Reviews of pull requests */
-    pullRequestReviews: Shippable[] | null;
-    comments: Shippable[] | null;
-    issues: Shippable[] | null;
-    fileChanges: {
-      edited: number;
-      created: number;
-      deleted: number;
-      paths: string[];
-      /** Optional character-level diff metrics */
-      charDiff?: {
-        edited: number;
-        created: number;
-        deleted: number;
-      };
-    } | null;
-    summary?: string | null;
-  };
-  /** Compatibility mirror for retained route clients. */
-  deliverables: {
-    pullRequest: Shippable | null;
-    /** Reviews of pull requests */
-    pullRequestReviews: Shippable[] | null;
-    comments: Shippable[] | null;
-    issues: Shippable[] | null;
-    fileChanges: {
-      edited: number;
-      created: number;
-      deleted: number;
-      paths: string[];
-      /** Optional character-level diff metrics */
-      charDiff?: {
-        edited: number;
-        created: number;
-        deleted: number;
-      };
-    } | null;
-  };
+  shippables: AssetPackSurface;
   /** Bitcode-owned implementation-phase AssetPack synthesis artifacts. */
-  assetPackSynthesisArtifacts?: {
-    pullRequest?: Shippable | null;
-    pullRequestReviews?: Shippable[] | null;
-    comments?: Shippable[] | null;
-    issues?: Shippable[] | null;
-    fileChanges?: {
-      edited: number;
-      created: number;
-      deleted: number;
-      paths?: string[];
-      charDiff?: {
-        edited: number;
-        created: number;
-        deleted: number;
-      };
-    } | null;
-    proofEvidence?: string[] | null;
-    reviewNotes?: string[] | null;
-    summary?: string | null;
-  } | null;
-  /** Compatibility written-assets mirror of the AssetPack synthesis artifacts. */
-  writtenAssets?: {
-    pullRequest?: Shippable | null;
-    pullRequestReviews?: Shippable[] | null;
-    comments?: Shippable[] | null;
-    issues?: Shippable[] | null;
-    fileChanges?: {
-      edited: number;
-      created: number;
-      deleted: number;
-      paths?: string[];
-      charDiff?: {
-        edited: number;
-        created: number;
-        deleted: number;
-      };
-    } | null;
-    summary?: string | null;
-  } | null;
+  assetPackSynthesisArtifacts?: AssetPackSynthesisArtifactsSurface | null;
+  /** Semantic reread of the AssetPack synthesis artifacts. */
+  writtenAssets?: AssetPackSurface | null;
   /** Delivery mechanism projected onto connected interfaces. */
-  deliveryMechanism?: {
-    pullRequest?: Shippable | null;
-    pullRequestReviews?: Shippable[] | null;
-    comments?: Shippable[] | null;
-    issues?: Shippable[] | null;
-    fileChanges?: {
-      edited: number;
-      created: number;
-      deleted: number;
-      paths?: string[];
-      charDiff?: {
-        edited: number;
-        created: number;
-        deleted: number;
-      };
-    } | null;
-    summary?: string | null;
-  } | null;
+  deliveryMechanism?: AssetPackSurface | null;
   semanticKind?: 'asset-pack-written-asset';
   need?: string | null;
   writtenAssetType?: string | null;
@@ -196,23 +125,20 @@ export interface UrlEntry {
   origin: string;
   status?: 'success' | 'error';
 }
-// Record type for a single compatibility route Shippable history item.
+// Record type for a single Shippable history item.
 export interface ShippableHistoryItem {
   id: string;
   title: string;
   output?: string | null;
   repository?: string | null;
-  /** Compatibility storage fields preserved by the retained route. */
-  deliverable_type: string;
-  deliverable_id?: string | null;
-  deliverable_status?: string | null;
+  shippable_type: 'pr';
+  shippable_id?: string | null;
+  shippable_status?: string | null;
   attached_urls?: any;
   selected_files?: any;
   created_at: string;
   run_id: string;
 }
-
-export type DeliverableHistoryItem = ShippableHistoryItem;
 
 // Wrapper object representing a single AssetPack pipeline execution.
 export interface PipelineExecution {
@@ -258,52 +184,13 @@ export interface PipelineExecution {
   /** Repository snapshot meta */
   repo_snapshot?: { org: string; repo: string; branch: string; commit: string } | null;
   /** Bitcode-owned implementation-phase AssetPack synthesis artifacts. */
-  asset_pack_synthesis_artifacts?: {
-    pullRequest?: any;
-    pullRequestReviews?: any[] | null;
-    comments?: any[] | null;
-    issues?: any[] | null;
-    fileChanges?: any;
-    proofEvidence?: string[] | null;
-    reviewNotes?: string[] | null;
-    summary?: string | null;
-  } | null;
-  /** Compatibility written-assets mirror of the AssetPack synthesis artifacts. */
-  written_assets?: {
-    pullRequest?: any;
-    pullRequestReviews?: any[] | null;
-    comments?: any[] | null;
-    issues?: any[] | null;
-    fileChanges?: any;
-    summary?: string | null;
-  } | null;
-  /** Delivery mechanism projected onto connected interfaces like PRs, comments, and issues. */
-  shippables?: {
-    pullRequest?: any;
-    pullRequestReviews?: any[] | null;
-    comments?: any[] | null;
-    issues?: any[] | null;
-    fileChanges?: any;
-    summary?: string | null;
-  } | null;
-  /** Compatibility projection for retained route clients. */
-  deliverables?: {
-    pullRequest?: any;
-    pullRequestReviews?: any[] | null;
-    comments?: any[] | null;
-    issues?: any[] | null;
-    fileChanges?: any;
-    summary?: string | null;
-  } | null;
-  /** Delivery mechanism projected onto connected interfaces like PRs, comments, and issues. */
-  delivery_mechanism?: {
-    pullRequest?: any;
-    pullRequestReviews?: any[] | null;
-    comments?: any[] | null;
-    issues?: any[] | null;
-    fileChanges?: any;
-    summary?: string | null;
-  } | null;
+  asset_pack_synthesis_artifacts?: AssetPackSynthesisArtifactsSurface | null;
+  /** Semantic reread of the AssetPack synthesis artifacts. */
+  written_assets?: AssetPackSurface | null;
+  /** V26 Finish-delivered pull-request Shippable. */
+  shippables?: AssetPackSurface | null;
+  /** Delivery mechanism projected onto the connected pull-request interface. */
+  delivery_mechanism?: AssetPackSurface | null;
   need?: string | null;
   written_asset_type?: string | null;
   asset_pack?: {
@@ -313,56 +200,17 @@ export interface PipelineExecution {
     deliveryTarget?: string | null;
   } | null;
 
-  /** Canonical Final Work Summary payload */
+  /** Canonical AssetPack completion payload. */
   asset_pack_completion?: {
     summary?: string | null;
     /** Primary Finish-delivered Shippables. */
-    shippables?: {
-      pullRequest?: any;
-      pullRequestReviews?: any[] | null;
-      comments?: any[] | null;
-      issues?: any[] | null;
-      fileChanges?: any;
-      summary?: string | null;
-    };
-    /** Compatibility delivery-mechanism mirror kept for retained consumers. */
-    deliverables?: {
-      pullRequest?: any;
-      pullRequestReviews?: any[] | null;
-      comments?: any[] | null;
-      issues?: any[] | null;
-      fileChanges?: any;
-      summary?: string | null;
-    };
+    shippables?: AssetPackSurface;
     /** Bitcode-owned implementation-phase AssetPack synthesis artifacts. */
-    assetPackSynthesisArtifacts?: {
-      pullRequest?: any;
-      pullRequestReviews?: any[] | null;
-      comments?: any[] | null;
-      issues?: any[] | null;
-      fileChanges?: any;
-      proofEvidence?: string[] | null;
-      reviewNotes?: string[] | null;
-      summary?: string | null;
-    };
-    /** Compatibility written-assets mirror of the AssetPack synthesis artifacts. */
-    writtenAssets?: {
-      pullRequest?: any;
-      pullRequestReviews?: any[] | null;
-      comments?: any[] | null;
-      issues?: any[] | null;
-      fileChanges?: any;
-      summary?: string | null;
-    };
+    assetPackSynthesisArtifacts?: AssetPackSynthesisArtifactsSurface;
+    /** Semantic reread of the AssetPack synthesis artifacts. */
+    writtenAssets?: AssetPackSurface;
     /** Delivery mechanism projected onto connected interfaces. */
-    deliveryMechanism?: {
-      pullRequest?: any;
-      pullRequestReviews?: any[] | null;
-      comments?: any[] | null;
-      issues?: any[] | null;
-      fileChanges?: any;
-      summary?: string | null;
-    };
+    deliveryMechanism?: AssetPackSurface;
     need?: string | null;
     writtenAssetType?: string | null;
     assetPack?: {
@@ -440,7 +288,6 @@ export interface AIDocumentRun {
   asset_pack_completion?: {
     summary?: string | null;
     shippables?: { summary?: string | null };
-    deliverables?: { summary?: string | null };
     assetPackSynthesisArtifacts?: { summary?: string | null };
     writtenAssets?: { summary?: string | null };
     need?: string | null;
@@ -481,8 +328,6 @@ export type ShippableArtifacts = {
   documentation: string[];
 };
 
-export type DeliverableArtifacts = ShippableArtifacts;
-
 export type ValidationReadySnapshot = {
   approved: boolean;
   assessment?: unknown | null;
@@ -491,13 +336,10 @@ export type ValidationReadySnapshot = {
 
 export type PostprocessedResult = {
   executionId: string;
-  /** Primary values are shippable variants; deliverable variants are compatibility readback only. */
-  kind: 'shippable' | 'multi-shippable' | 'deliverable' | 'multi-deliverable' | 'ai_document';
+  kind: 'shippable' | 'multi-shippable' | 'ai_document';
   title: string;
   repository?: string;
   summary?: string;
-  /** Compatibility request hint from retained route payloads. */
-  deliverableType?: 'code-change' | 'code-change-review' | 'design-document' | 'design-document-review';
   artifacts?: ShippableArtifacts | null;
   validationReady?: ValidationReadySnapshot;
   entries?: PostprocessedResult[];
@@ -509,12 +351,6 @@ export type PostprocessedResult = {
 // Route Pipeline Execution – Preprocessed (top-level)
 export type RoutePreprocessed = {
   assetPackWrittenAsset?: {
-    preprocessing: { multi: boolean; compute: boolean };
-    selectedPipeline: 'multi' | 'standard';
-    provisioning: 'requested' | 'skipped' | 'ready' | 'failed';
-  };
-  /** Compatibility mirror from retained route preprocessing. */
-  deliverables?: {
     preprocessing: { multi: boolean; compute: boolean };
     selectedPipeline: 'multi' | 'standard';
     provisioning: 'requested' | 'skipped' | 'ready' | 'failed';

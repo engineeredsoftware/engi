@@ -457,8 +457,7 @@ export const GET = traceRoute('/executions', async (request: NextRequest) => {
 /**
  * POST /api/executions
  * 
- * Create and execute the retained compatibility route for an AssetPack
- * SDIVF pipeline run.
+ * Create and execute an AssetPack SDIVF pipeline run.
  * 
  * Flow:
  * 1. Parse request (JSON or multipart with file uploads)
@@ -634,8 +633,8 @@ export const POST = traceRoute('/executions', async (request: NextRequest) => {
       });
     }
 
-    // Calculate cost using USD pricing; relative to default model
-    const baseCost = parseInt(process.env.DELIVERABLE_BASE_COST || '100', 10);
+    // Calculate cost using USD pricing relative to the default model.
+    const baseCost = parseInt(process.env.ASSET_PACK_BASE_COST || '100', 10);
     const chosen = getUsdPricingForApiModel(modelId);
     const baseline = getUsdPricingForApiModel(DEFAULT_MODEL_API) || chosen;
     const chosenTotal = (chosen?.input ?? 1) + (chosen?.output ?? 1);
@@ -731,8 +730,7 @@ export const POST = traceRoute('/executions', async (request: NextRequest) => {
         await sendEmail({
           to: user.email || '',
           subject: `Your Bitcode asset-pack run #${runId} has started`,
-          // Compatibility template id; rendered copy is Bitcode AssetPack/Shippable-owned.
-          template: 'deliverable_started',
+          template: 'asset_pack_started',
           vars: {
             name: user.user_metadata?.full_name || '',
             runId,
@@ -1307,8 +1305,7 @@ export const POST = traceRoute('/executions', async (request: NextRequest) => {
           await sendEmail({
             to: user.email || '',
             subject: `Your Bitcode asset-pack run #${runId} is complete`,
-            // Compatibility template id; rendered copy is Bitcode AssetPack/Shippable-owned.
-            template: 'deliverable_completed',
+            template: 'asset_pack_complete',
             vars: {
               name: user.user_metadata?.full_name || '',
               runId,

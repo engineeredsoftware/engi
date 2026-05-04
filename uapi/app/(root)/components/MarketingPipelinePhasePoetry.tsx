@@ -27,7 +27,7 @@ interface PipelinePhasePoetryProps {
   currentPhase: PhasePoetry['phase'];
   
   /** Context about the Shippable being delivered from AssetPack evidence. */
-  deliverableContext: ShippableContext;
+  shippableContext: ShippableContext;
   
   /** Time spent in current phase (seconds) */
   timeInPhase?: number;
@@ -214,7 +214,7 @@ const POETRY_QUALITY = (() => {
 
 export const MarketingPipelinePhasePoetry = ({
   currentPhase,
-  deliverableContext,
+  shippableContext,
   timeInPhase = 0,
   completedPhases = [],
   isVisible = true,
@@ -244,27 +244,27 @@ export const MarketingPipelinePhasePoetry = ({
     
     switch (currentPhase) {
       case 'planning':
-        poetryType = deliverableContext.creativeEnergy > 0.7 ? 'creative' :
-                    deliverableContext.technicalDepth > 0.7 ? 'technical' : 'anticipation';
+        poetryType = shippableContext.creativeEnergy > 0.7 ? 'creative' :
+                    shippableContext.technicalDepth > 0.7 ? 'technical' : 'anticipation';
         break;
       case 'creating':
         poetryType = timeInPhase > 600 ? 'flow' : // 10+ minutes = flow state
-                    deliverableContext.creativeEnergy > 0.8 ? 'energy' : 'focus';
+                    shippableContext.creativeEnergy > 0.8 ? 'energy' : 'focus';
         break;
       case 'refining':
-        poetryType = deliverableContext.complexity === 'epic' ? 'mastery' :
-                    deliverableContext.technicalDepth > 0.8 ? 'craftsmanship' : 'clarity';
+        poetryType = shippableContext.complexity === 'epic' ? 'mastery' :
+                    shippableContext.technicalDepth > 0.8 ? 'craftsmanship' : 'clarity';
         break;
       case 'testing':
-        poetryType = deliverableContext.complexity === 'complex' ? 'resilience' :
+        poetryType = shippableContext.complexity === 'complex' ? 'resilience' :
                     completedPhases.length > 3 ? 'precision' : 'confidence';
         break;
       case 'delivering':
-        poetryType = deliverableContext.category === 'feature' ? 'impact' :
+        poetryType = shippableContext.category === 'feature' ? 'impact' :
                     completedPhases.length > 4 ? 'completion' : 'triumph';
         break;
       case 'celebrating':
-        poetryType = deliverableContext.complexity === 'epic' ? 'transcendence' :
+        poetryType = shippableContext.complexity === 'epic' ? 'transcendence' :
                     timeInPhase > 1800 ? 'fulfillment' : 'gratitude'; // 30+ minutes total
         break;
       default:
@@ -275,15 +275,15 @@ export const MarketingPipelinePhasePoetry = ({
     
     // Calculate emotional intensity based on context
     const intensity = Math.min(1, 
-      (deliverableContext.creativeEnergy + 
-       deliverableContext.technicalDepth + 
+      (shippableContext.creativeEnergy + 
+       shippableContext.technicalDepth + 
        (timeInPhase / 1800) + // normalize to 30 minutes
        (completedPhases.length / 6)) / 4 // 6 phases max
     );
     setEmotionalIntensity(intensity);
     
     return templates[poetryType] || [];
-  }, [currentPhase, deliverableContext, timeInPhase, completedPhases]);
+  }, [currentPhase, shippableContext, timeInPhase, completedPhases]);
 
   // Progressive narrative reveal
   useEffect(() => {
@@ -511,10 +511,10 @@ export const MarketingPipelinePhasePoetry = ({
           
           <div className="mt-4 pt-4 border-t border-gray-700/30">
             <div className="text-xs text-gray-400">
-              Shippable: <span className="text-brand-emerald">{deliverableContext.name}</span>
+              Shippable: <span className="text-brand-emerald">{shippableContext.name}</span>
             </div>
             <div className="text-xs text-gray-400 mt-1">
-              Complexity: <span className="text-brand-emerald capitalize">{deliverableContext.complexity}</span>
+              Complexity: <span className="text-brand-emerald capitalize">{shippableContext.complexity}</span>
             </div>
           </div>
         </motion.div>

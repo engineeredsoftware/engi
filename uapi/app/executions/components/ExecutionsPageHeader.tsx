@@ -1,24 +1,4 @@
-// Header of the execution page including inline delivery-template selection for
-// retained compatibility categories.
-//
-// how the template selection experience should be:
-// - terms: "delivery categories" (explicitly the words 'pull request',
-//   'pull request review', 'issue', 'issue comment'), "non-hover" (how the
-//   paragraph looks at right, i.e. the state of the previously interacted with
-//   delivery-category selected template(s))
-// - behaviors:
-//  - each delivery category is itself an interactive element that when clicked,
-//    populates some template text
-//  - templates are provided and include basic/default ones (it is always possible to click)
-//  - there are 2 sub-interactive elements, the word of the delivery category
-//    is clickable to use the template that was last selected, and the element
-//    to change the selected template
-//  - whenever the user is in the mode where they are changing the selected
-//    template for the delivery category, it should show that name in the place
-//    of the delivery-category word. we should also use a placeholder in the
-//    mode the first time to make it clear that the selection experience is in progress
-//  - from a UI perspective, it is imperative that these 2 interactive elements are clear easy to interact with and integrate seamlessly into what should look like effectively a partial interactive/live paragraph of text
-//
+// Header of the execution page including inline V26 pull-request delivery-template selection.
 "use client";
 
 /* eslint-disable react/no-multi-comp */
@@ -242,9 +222,6 @@ type ExtendedProcessingStats = HeaderProcessingStats & {
 
 interface DeliveryTemplateSets {
   pullRequests: DeliveryTemplate[];
-  pullRequestReviews: DeliveryTemplate[];
-  issues: DeliveryTemplate[];
-  comments: DeliveryTemplate[];
 }
 
 interface ExecutionPageHeaderProps {
@@ -267,18 +244,6 @@ interface ExecutionPageHeaderProps {
   /** Finish-delivered shippables. Bitcode-owned meaning lives in AssetPack evidence first. */
   shippables?: {
     pullRequest?: DeliveryMechanismSurface | null; // Singular PR delivery mechanism.
-    pullRequestReviews?: DeliveryMechanismSurface[] | null;
-    comments?: DeliveryMechanismSurface[] | null;
-    issues?: DeliveryMechanismSurface[] | null;
-    fileChanges?: FileChanges | null;
-    summary?: string | null;
-  };
-  /** Compatibility prop for callers that still mirror old stored completion shape. */
-  deliverables?: {
-    pullRequest?: DeliveryMechanismSurface | null; // Compatibility wrapper stays singular for PR delivery.
-    pullRequestReviews?: DeliveryMechanismSurface[] | null;
-    comments?: DeliveryMechanismSurface[] | null;
-    issues?: DeliveryMechanismSurface[] | null;
     fileChanges?: FileChanges | null;
     summary?: string | null;
   };
@@ -372,374 +337,9 @@ const childVariants = {
  * - Clean file changes sub-columns
  * - Larger spacing for comfortable reading
  */
-// Mock data for development mode - Rust Distributed Database Project
-const mockShippables = {
-  pullRequest: {
-    url: "https://github.com/rustdb/distributed-db/pull/123",
-    number: 123,
-    title: "Implement distributed consensus protocol with Raft",
-    description: "This PR implements a complete Raft consensus protocol for our distributed database system, enabling leader election, log replication, and cluster membership changes. The implementation follows the Raft paper specifications with optimizations for our specific use case.",
-    status: 'open' as const,
-    createdAt: "2025-04-07"
-  },
-  pullRequestReviews: [
-    {
-      url: "https://github.com/rustdb/distributed-db/pull/120#pullrequestreview-123",
-      number: 120,
-      title: "Review for network layer implementation",
-      content: "The network layer implementation looks solid overall. I have some concerns about the error handling in the connection manager:\n\n```rust\nfn handle_connection_error(&self, err: ConnectionError) -> Result<(), NetworkError> {\n    match err {\n        ConnectionError::Timeout(duration) => {\n            // We should implement exponential backoff here instead of fixed retry\n            self.retry_connection()\n        },\n        ConnectionError::Refused => {\n            // Need to check if node is in maintenance mode before marking as down\n            self.mark_node_down(err.node_id())\n        },\n        _ => Err(NetworkError::from(err))\n    }\n}\n```\n\nConsider implementing exponential backoff for timeout handling and checking node status before marking as down.",
-      status: 'open' as const,
-      createdAt: "2025-04-06"
-    },
-    {
-      url: "https://github.com/rustdb/distributed-db/pull/118#pullrequestreview-122",
-      number: 118,
-      title: "Review for storage engine optimizations",
-      content: "The B-tree implementation looks efficient, but I'm concerned about the memory usage during large range scans. Consider implementing a cursor-based approach:\n\n```rust\npub struct BTreeCursor<K, V> {\n    tree: Arc<BTree<K, V>>,\n    current_node: NodeId,\n    position: usize,\n    _phantom: PhantomData<(K, V)>,\n}\n\nimpl<K: Ord + Clone, V: Clone> BTreeCursor<K, V> {\n    pub fn new(tree: Arc<BTree<K, V>>) -> Self {\n        let root_id = tree.root_id();\n        Self {\n            tree,\n            current_node: root_id,\n            position: 0,\n            _phantom: PhantomData,\n        }\n    }\n    \n    pub fn next(&mut self) -> Option<(K, V)> {\n        // Implementation details...\n    }\n}\n```\n\nThis would reduce memory pressure during large scans.",
-      status: 'open' as const,
-      createdAt: "2025-04-05"
-    },
-    {
-      url: "https://github.com/rustdb/distributed-db/pull/116#pullrequestreview-121",
-      number: 116,
-      title: "Review for query optimizer",
-      content: "The query optimizer could benefit from cost-based optimization rather than just rule-based. Consider tracking statistics about data distribution:\n\n```rust\npub struct ColumnStatistics {\n    distinct_values: usize,\n    min_value: Option<Value>,\n    max_value: Option<Value>,\n    null_fraction: f64,\n    histogram: Option<Histogram>,\n}\n\nimpl QueryOptimizer {\n    fn estimate_cost(&self, plan: &QueryPlan) -> Cost {\n        // Use statistics to make better join ordering decisions\n        let table_stats = self.statistics_manager.get_table_statistics(plan.table_id());\n        // Implementation details...\n    }\n}\n```\n\nThis would significantly improve query performance for complex joins.",
-      status: 'open' as const,
-      createdAt: "2025-04-04"
-    }
-  ],
-  issues: [
-    {
-      url: "https://github.com/rustdb/distributed-db/issues/45",
-      number: 45,
-      title: "Performance degradation during node recovery",
-      description: "When a node rejoins the cluster after failure, we're seeing significant performance degradation across the entire cluster. Metrics show increased CPU usage and memory pressure on all nodes, not just the recovering one.\n\nReproduction steps:\n1. Start a 5-node cluster\n2. Run the benchmark suite to establish baseline\n3. Forcibly terminate one node\n4. Wait 30 seconds\n5. Restart the terminated node\n6. Observe performance metrics\n\nExpected: Minimal impact on non-recovering nodes\nActual: All nodes show 30-40% performance degradation for 3-5 minutes\n\nPossible causes:\n- Log replay mechanism might be too aggressive\n- Recovery traffic might not be properly rate-limited\n- Consensus protocol might be requiring too many round-trips during recovery",
-      status: 'open' as const,
-      createdAt: "2025-04-07"
-    },
-    {
-      url: "https://github.com/rustdb/distributed-db/issues/46",
-      number: 46,
-      title: "Feature request: Support for distributed transactions",
-      description: "We need to implement distributed transactions with ACID guarantees across the cluster. This should include:\n\n1. Two-phase commit protocol implementation\n2. Transaction coordinator selection mechanism\n3. Deadlock detection and resolution\n4. Recovery mechanism for in-progress transactions after node failure\n5. Isolation level configuration (read committed, repeatable read, serializable)\n\nProposed implementation approach:\n```rust\npub struct TransactionManager {\n    coordinator: Option<NodeId>,\n    participants: HashSet<NodeId>,\n    state: TransactionState,\n    isolation_level: IsolationLevel,\n    timeout: Duration,\n}\n\nimpl TransactionManager {\n    pub async fn begin_transaction(&mut self, isolation_level: IsolationLevel) -> Result<TransactionId, TransactionError> {\n        // Implementation details...\n    }\n    \n    pub async fn prepare(&mut self, txn_id: TransactionId) -> Result<PrepareStatus, TransactionError> {\n        // Implementation details...\n    }\n    \n    pub async fn commit(&mut self, txn_id: TransactionId) -> Result<(), TransactionError> {\n        // Implementation details...\n    }\n    \n    pub async fn rollback(&mut self, txn_id: TransactionId) -> Result<(), TransactionError> {\n        // Implementation details...\n    }\n}\n```",
-      status: 'open' as const,
-      createdAt: "2025-04-07"
-    },
-    {
-      url: "https://github.com/rustdb/distributed-db/issues/47",
-      number: 47,
-      title: "Query performance regression for complex joins",
-      description: "We've identified a performance regression in query execution for complex joins involving more than 3 tables. The regression appears to be related to the recent changes in the query optimizer.\n\nBenchmark results:\n- Simple queries: No change\n- 2-table joins: No change\n- 3-table joins: 5% slower\n- 4-table joins: 35% slower\n- 5+ table joins: 60-80% slower\n\nThe issue appears to be in the join ordering algorithm. The current greedy approach doesn't consider enough join combinations for complex queries.\n\nProposed fix:\n```rust\nfn find_optimal_join_order(&self, tables: &[TableRef], predicates: &[Predicate]) -> JoinOrder {\n    if tables.len() <= 3 {\n        // Use existing greedy algorithm for simple cases\n        return self.greedy_join_order(tables, predicates);\n    }\n    \n    // For complex joins, use dynamic programming approach\n    let mut best_plans: HashMap<BitSet, (Cost, JoinOrder)> = HashMap::new();\n    \n    // Initialize single-table plans\n    for (i, table) in tables.iter().enumerate() {\n        let bitset = BitSet::singleton(i);\n        let plan = self.create_table_scan(table, predicates);\n        best_plans.insert(bitset, (self.estimate_cost(&plan), JoinOrder::single(table.clone())));\n    }\n    \n    // Build up increasingly larger plans\n    for size in 2..=tables.len() {\n        for subset in BitSet::combinations(tables.len(), size) {\n            // Try all ways to join a subset of size-1 with a single table\n            // Implementation details...\n        }\n    }\n    \n    // Return the plan for all tables\n    best_plans.get(&BitSet::all(tables.len())).unwrap().1.clone()\n}\n```",
-      status: 'open' as const,
-      createdAt: "2025-04-07"
-    }
-  ],
-  comments: [
-    {
-      url: "https://github.com/rustdb/distributed-db/issues/40#issuecomment-123",
-      number: 40,
-      title: "Comment on replication protocol documentation",
-      content: "I've reviewed the replication protocol documentation and found some inconsistencies with the actual implementation. The documentation states that we use a pull-based replication model, but the code actually implements a hybrid push/pull approach:\n\n```rust\nimpl ReplicationManager {\n    fn replicate_logs(&self, target_node: NodeId) -> Result<(), ReplicationError> {\n        let last_index = self.get_last_replicated_index(target_node);\n        let entries = self.log_store.get_entries_after(last_index, MAX_BATCH_SIZE);\n        if entries.is_empty() {\n            return Ok(());\n        }\n\n        // This is push-based replication\n        match self.rpc_client.append_entries(target_node, entries) {\n            Ok(response) => {\n                if response.success {\n                    self.update_replication_progress(target_node, entries.last().unwrap().index);\n                    Ok(())\n                } else {\n                    // Handle conflict - this is where we switch to pull-based\n                    self.handle_replication_conflict(target_node, response.last_agreement_index)\n                }\n            }\n            Err(e) => Err(ReplicationError::from(e))\n        }\n    }\n    \n    fn handle_replication_conflict(&self, target_node: NodeId, last_agreement_index: LogIndex) -> Result<(), ReplicationError> {\n        // Pull-based recovery when there's a conflict\n        let missing_entries = self.rpc_client.get_entries(\n            target_node,\n            last_agreement_index + 1,\n            self.log_store.last_log_index()\n        )?;\n\n        // Process and apply missing entries\n        // Implementation details...\n\n        Ok(())\n    }\n}\n```\n\nWe should update the documentation to accurately reflect this hybrid approach.",
-      createdAt: "2025-04-07"
-    },
-    {
-      url: "https://github.com/rustdb/distributed-db/issues/42#issuecomment-124",
-      number: 42,
-      title: "Comment on test coverage for partition tolerance",
-      content: "We should increase test coverage for partition tolerance scenarios. Currently, we only test simple network partitions, but we need more comprehensive tests for:\n\n1. Split-brain scenarios with equal-sized partitions\n2. Majority/minority partitions with subsequent healing\n3. Flaky network conditions with intermittent connectivity\n\nHere's a proposed test case for split-brain detection and resolution:\n\n```rust\n#[test]\nfn test_split_brain_detection_and_resolution() {\n    let mut cluster = TestCluster::new(6); // 6-node cluster\n\n    // Create a perfect split: 3 nodes in each partition\n    let partition1 = vec![0, 1, 2];\n    let partition2 = vec![3, 4, 5];\n\n    // Isolate the partitions from each other\n    cluster.create_network_partition(partition1.clone(), partition2.clone());\n\n    // Let both partitions elect leaders\n    cluster.wait_for_leader_in_subset(&partition1);\n    cluster.wait_for_leader_in_subset(&partition2);\n\n    // Verify we have two leaders (split-brain)\n    let leaders = cluster.get_all_leaders();\n    assert_eq!(leaders.len(), 2, \"Should have exactly two leaders during split-brain\");\n\n    // Heal the partition\n    cluster.heal_network_partition();\n\n    // Wait for resolution\n    cluster.wait_for_leader_convergence(Duration::from_secs(10));\n\n    // Verify we now have exactly one leader\n    let leaders_after_healing = cluster.get_all_leaders();\n    assert_eq!(leaders_after_healing.len(), 1, \"Should have exactly one leader after healing\");\n\n    // Verify the cluster is still operational\n    cluster.assert_can_process_writes();\n}\n```\n\nWe should implement this and similar tests to ensure our system is robust against all types of network partitions.",
-      createdAt: "2025-04-06"
-    },
-    {
-      url: "https://github.com/rustdb/distributed-db/issues/43#issuecomment-125",
-      number: 43,
-      title: "Comment on query parser implementation",
-      content: "The current recursive descent parser for SQL has some issues with complex expressions. I suggest we switch to a more robust approach using a parser combinator library like `nom` or `pest`:\n\n```rust\nuse nom::{\n    IResult,\n    branch::alt,\n    bytes::complete::{tag, tag_no_case},\n    character::complete::{alpha1, alphanumeric1, multispace0, multispace1},\n    combinator::{map, opt, recognize},\n    multi::{many0, separated_list1},\n    sequence::{delimited, pair, preceded, terminated},\n};\n\n#[derive(Debug, PartialEq)]\npub enum SqlStatement {\n    Select(SelectStatement),\n    Insert(InsertStatement),\n    Update(UpdateStatement),\n    Delete(DeleteStatement),\n}\n\n#[derive(Debug, PartialEq)]\npub struct SelectStatement {\n    columns: Vec<String>,\n    from: String,\n    where_clause: Option<Expr>,\n    // Other clauses...\n}\n\nfn parse_select(input: &str) -> IResult<&str, SqlStatement> {\n    let(input, _) = tag_no_case(\"SELECT\")(input)?;\n    let(input, _) = multispace1(input)?;\n\n    let(input, columns) = separated_list1(\n        delimited(multispace0, tag(\",\"), multispace0),\n        parse_identifier\n    )(input)?;\n\n    let(input, _) = multispace1(input)?;\n    let(input, _) = tag_no_case(\"FROM\")(input)?;\n    let(input, _) = multispace1(input)?;\n\n    let(input, table) = parse_identifier(input)?;\n\n    let(input, where_clause) = opt(parse_where_clause)(input)?;\n\n    Ok((input, SqlStatement::Select(SelectStatement {\n        columns,\n        from: table.to_string(),\n        where_clause,\n    })))\n}\n\n// Additional parser functions...\n```\n\nThis approach would be more maintainable and handle edge cases better than our current implementation.",
-      createdAt: "2025-04-05"
-    }
-  ],
-  fileChanges: {
-    edited: 14,
-    created: 7,
-    deleted: 2,
-    paths: [
-      "src/consensus/raft.rs",
-      "src/consensus/log_replication.rs",
-      "src/consensus/state_machine.rs",
-      "src/consensus/leader_election.rs",
-      "src/consensus/membership.rs",
-      "src/network/rpc.rs",
-      "src/network/connection_manager.rs",
-      "src/storage/log_store.rs",
-      "src/storage/snapshot.rs",
-      "src/common/types.rs",
-      "src/common/error.rs",
-      "tests/consensus/raft_tests.rs",
-      "tests/consensus/leader_election_tests.rs",
-      "tests/consensus/log_replication_tests.rs",
-      "tests/network/network_partition_tests.rs",
-      "benches/consensus_benchmark.rs",
-      "docs/consensus_protocol.md"
-    ],
-    charDiff: {
-      edited: 8245,
-      created: 12567,
-      deleted: 1890
-    },
-    fileDiffs: [
-      { path: "src/consensus/raft.rs", added: 524, removed: 132 },
-      { path: "src/consensus/log_replication.rs", added: 356, removed: 78 },
-      { path: "src/consensus/state_machine.rs", added: 287, removed: 42 },
-      { path: "src/consensus/leader_election.rs", added: 312, removed: 56 },
-      { path: "src/consensus/membership.rs", added: 245, removed: 0 },
-      { path: "src/network/rpc.rs", added: 187, removed: 34 },
-      { path: "src/network/connection_manager.rs", added: 165, removed: 23 },
-      { path: "src/storage/log_store.rs", added: 278, removed: 45 },
-      { path: "src/storage/snapshot.rs", added: 234, removed: 0 },
-      { path: "src/common/types.rs", added: 112, removed: 24 },
-      { path: "src/common/error.rs", added: 87, removed: 12 },
-      { path: "tests/consensus/raft_tests.rs", added: 423, removed: 67 },
-      { path: "tests/consensus/leader_election_tests.rs", added: 345, removed: 0 },
-      { path: "tests/consensus/log_replication_tests.rs", added: 378, removed: 0 },
-      { path: "tests/network/network_partition_tests.rs", added: 412, removed: 0 },
-      { path: "benches/consensus_benchmark.rs", added: 156, removed: 0 },
-      { path: "docs/consensus_protocol.md", added: 245, removed: 32 }
-    ]
-  },
-  summary: `# Distributed Consensus Implementation with Raft
-
-## Overview
-I've implemented a complete Raft consensus protocol for our distributed database system as requested. The implementation includes:
-
-  - Leader election with randomized timeouts
-    - Log replication with strong consistency guarantees
-      - Cluster membership changes(dynamic node addition / removal)
-        - Snapshot creation and transfer for log compaction
-          - Optimized network layer for efficient RPC communication
-
-## Technical Details
-
-### Raft Implementation
-The core Raft implementation follows the paper specifications with optimizations for our specific use case:
-
-\`\`\`rust
-pub struct RaftNode {
-    // Node state
-    id: NodeId,
-    state: AtomicRaftState,
-    current_term: AtomicU64,
-    voted_for: Mutex<Option<NodeId>>,
-    
-    // Log management
-    log: Arc<LogStore>,
-    commit_index: AtomicU64,
-    last_applied: AtomicU64,
-    
-    // Cluster membership
-    peers: RwLock<HashMap<NodeId, PeerState>>,
-    
-    // Components
-    rpc_client: Arc<RpcClient>,
-    state_machine: Arc<StateMachine>,
-    
-    // Background tasks
-    election_task: Mutex<Option<JoinHandle<()>>>,
-    replication_task: Mutex<Option<JoinHandle<()>>>,
-}
-
-impl RaftNode {
-    pub fn start(&self) -> Result<(), RaftError> {
-        // Initialize node state
-        self.state.store(RaftState::Follower, Ordering::SeqCst);
-        self.reset_election_timeout();
-        
-        // Start background tasks
-        self.start_election_task()?;
-        self.start_replication_task()?;
-        
-        Ok(())
-    }
-    
-    fn become_candidate(&self) -> Result<(), RaftError> {
-        // Implementation details for leader election
-        let new_term = self.current_term.fetch_add(1, Ordering::SeqCst) + 1;
-        self.state.store(RaftState::Candidate, Ordering::SeqCst);
-        
-        // Vote for self
-        let mut voted_for = self.voted_for.lock().unwrap();
-        *voted_for = Some(self.id);
-        
-        // Request votes from peers
-        self.request_votes(new_term)
-    }
-    
-    fn replicate_logs(&self) -> Result<(), RaftError> {
-        // Implementation details for log replication
-        if self.state.load(Ordering::SeqCst) != RaftState::Leader {
-            return Ok(());
-        }
-        
-        for (peer_id, peer_state) in self.peers.read().unwrap().iter() {
-            let next_index = peer_state.next_index.load(Ordering::SeqCst);
-            let entries = self.log.get_entries_after(next_index - 1, MAX_BATCH_SIZE)?;
-            
-            // Send AppendEntries RPC
-            // Implementation details...
-        }
-        
-        Ok(())
-    }
-}
-\`\`\`
-
-### Log Replication
-The log replication mechanism ensures strong consistency across the cluster:
-
-\`\`\`rust
-impl LogReplication {
-    fn append_entries(&self, target: NodeId, prev_log_index: u64, prev_log_term: u64, entries: Vec<LogEntry>, leader_commit: u64) -> Result<AppendEntriesResponse, RpcError> {
-        // Implementation details...
-        
-        // Check term
-        if term < self.current_term.load(Ordering::SeqCst) {
-            return Ok(AppendEntriesResponse {
-                term: self.current_term.load(Ordering::SeqCst),
-                success: false,
-                last_log_index: self.log.last_index(),
-            });
-        }
-        
-        // Check log consistency
-        if !self.log.entry_matches(prev_log_index, prev_log_term)? {
-            return Ok(AppendEntriesResponse {
-                term: self.current_term.load(Ordering::SeqCst),
-                success: false,
-                last_log_index: self.log.last_index(),
-            });
-        }
-        
-        // Append new entries
-        self.log.append_entries(prev_log_index, entries.clone())?;
-        
-        // Update commit index
-        if leader_commit > self.commit_index.load(Ordering::SeqCst) {
-            let new_commit_index = min(leader_commit, self.log.last_index());
-            self.commit_index.store(new_commit_index, Ordering::SeqCst);
-            self.apply_committed_entries()?;
-        }
-        
-        Ok(AppendEntriesResponse {
-            term: self.current_term.load(Ordering::SeqCst),
-            success: true,
-            last_log_index: self.log.last_index(),
-        })
-    }
-}
-\`\`\`
-
-### Membership Changes
-The implementation supports dynamic cluster membership changes:
-
-\`\`\`rust
-impl MembershipManager {
-    pub fn add_server(&self, server_id: NodeId, address: SocketAddr) -> Result<(), MembershipError> {
-        // Implementation using joint consensus for safe configuration changes
-        let old_config = self.get_current_configuration()?;
-        let mut new_config = old_config.clone();
-        new_config.servers.insert(server_id, ServerConfig { address });
-        
-        // Phase 1: Joint consensus (old ∪ new)
-        let joint_config = Configuration {
-            old_servers: old_config.servers.clone(),
-            new_servers: new_config.servers.clone(),
-            is_joint: true,
-        };
-        
-        self.commit_configuration(joint_config)?;
-        
-        // Wait for joint configuration to be committed
-        self.wait_for_config_commit()?;
-        
-        // Phase 2: Switch to new configuration
-        self.commit_configuration(new_config)?;
-        
-        Ok(())
-    }
-}
-\`\`\`
-
-## Performance Benchmarks
-Performance testing shows excellent scalability with increasing cluster sizes:
-
-| Cluster Size | Write Throughput | Read Throughput | Commit Latency (p99) |
-| ------------ | --------------- | --------------- | -------------------- |
-| 3 nodes      | 15,200 ops/sec  | 42,500 ops/sec  | 8.5ms                |
-| 5 nodes      | 14,800 ops/sec  | 68,300 ops/sec  | 12.3ms               |
-| 7 nodes      | 14,100 ops/sec  | 95,700 ops/sec  | 18.7ms               |
-
-## Fault Tolerance Testing
-The implementation has been thoroughly tested for various failure scenarios:
-
-> During our chaos testing, we randomly killed nodes while maintaining a constant write workload. The system maintained availability and consistency with up to (N-1)/2 node failures, exactly as expected from the Raft protocol.
-
-## Next Steps
-Consider implementing these enhancements:
-
-1. Optimized log compaction with incremental snapshots
-2. Read-only quorum reads for improved read scalability
-3. Follower reads with consistency guarantees
-4. Pre-vote protocol to prevent disruptions during network partitions
-5. Prioritized log replication for high-priority transactions
-
-## References
-* [Raft Consensus Paper](https://raft.github.io/raft.pdf)
-* [Raft Dissertation](https://web.stanford.edu/~ouster/cgi-bin/papers/OngaroPhD.pdf)
-* [Consensus: Bridging Theory and Practice](https://github.com/ongardie/dissertation)`,
-  completionMetrics: {
-    time: "4m 18s",
-    tokens: {
-      input: 15456,
-      output: 6328,
-      total: 21784
-    },
-    models: [
-      { name: "GPT-4o", usage: "Primary reasoning" },
-      { name: "Claude 3 Opus", usage: "Code analysis" }
-    ],
-    filesConsidered: [
-      "src/consensus/**/*.rs",
-      "src/network/**/*.rs",
-      "src/storage/**/*.rs",
-      "src/common/**/*.rs",
-      "tests/consensus/**/*.rs",
-      "benches/consensus_benchmark.rs",
-      "docs/consensus_protocol.md"
-    ],
-    repoSnapshot: {
-      org: "rustdb",
-      repo: "distributed-db",
-      branch: "feature/raft",
-      commit: "abc1234"
-    },
-    attachments: [
-      { name: "raft-consensus-paper.pdf", type: "FILE", fileType: "PDF", size: "1.8 MB" },
-      { name: "system-architecture.json", type: "FILE", fileType: "JSON", size: "425 KB" },
-      { name: "https://raft.github.io", type: "URL" },
-      { name: "rustdb/distributed-db#123", type: "PR" },
-      { name: "Figma Frame id: abcdef", type: "INTEGRATION", integrationType: "Figma" },
-      { name: "Notion Page id: yz-987", type: "INTEGRATION", integrationType: "Notion" }
-    ],
-    ai_documents: [
-      { name: "Need measurement evidence", used: true },
-      { name: "AssetPack fit review", used: true, evidenceCount: 3 }
-    ],
-    completed: "2025-04-15T14:32:45Z"
-  }
-};
-
 export default function ExecutionsPageHeader({
   executionStatus: mode,
   shippables,
-  deliverables,
   processingStats,
   repoSnapshot,
   onSelectShippableTemplateDefinitionOfNeed,
@@ -767,30 +367,6 @@ export default function ExecutionsPageHeader({
     });
   }, []);
   
-  const handlePRReviewHover = useCallback(() => {
-    setActiveEdu({
-      title: "PR Reviews",
-      subtitle: "Code Quality",
-      body: "Thorough analysis with actionable feedback on bugs, completeness, quality, and security. Identifies and suggests specific improvements."
-    });
-  }, []);
-  
-  const handleIssueHover = useCallback(() => {
-    setActiveEdu({
-      title: "Issues",
-      subtitle: "Need Tracking",
-      body: "Structured problem statements with reproduction steps and acceptance criteria. Includes context, priority, and implementation suggestions."
-    });
-  }, []);
-  
-  const handleIssueCommentHover = useCallback(() => {
-    setActiveEdu({
-      title: "Comments",
-      subtitle: "Discussion",
-      body: "Technical discourse with proposed solutions, clarifications, and implementation details. Advances issue resolution through constructive dialogue."
-    });
-  }, []);
-  
   // Dev Mode feature flag (always off in production)
   const devMode = false;
   // State hooks for dev mode controls (not used when devMode=false)
@@ -801,9 +377,6 @@ export default function ExecutionsPageHeader({
     showMockData: false,
     enabledShippables: {
       pullRequest: false,
-      pullRequestReviews: false,
-      issues: false,
-      comments: false,
       fileChanges: false,
       summary: false,
     },
@@ -918,8 +491,7 @@ export default function ExecutionsPageHeader({
     };
   }, [entranceSpeedFactor]);
 
-  // Prefer Bitcode shippables while accepting compatibility completion mirrors.
-  const effectiveShippables = shippables ?? deliverables ?? {} as NonNullable<ExecutionPageHeaderProps['shippables']>;
+  const effectiveShippables = shippables ?? {} as NonNullable<ExecutionPageHeaderProps['shippables']>;
   const effectiveMode = mode;
   const activeGuide = (processingStats?.guide ?? processingStats?.gate ?? 'Develop') as string;
   const iterationConfidence = typeof processingStats?.confidence === 'number' ? processingStats?.confidence : undefined;
@@ -1052,7 +624,7 @@ export default function ExecutionsPageHeader({
     }
   }, [showSourceEdu, showAttachmentsEdu, showEnhanceEdu, showSaveTemplateEdu, showExecuteButtonEdu, showIterationsEdu]);
 
-  // Prepare TL;DR items for summary of delivery mechanisms.
+  // Prepare TL;DR items for the V26 pull-request delivery mechanism.
   const tldrItems: React.ReactNode[] = [];
 
   // Individual delivery-mechanism links with icons and titles (works for both real and
@@ -1076,57 +648,6 @@ export default function ExecutionsPageHeader({
       </a>
     );
   }
-
-  (effectiveShippables?.pullRequestReviews || []).forEach((r) => {
-    tldrItems.push(
-      <a
-        key={`review-${r.number}`}
-        href={r.url}
-        target="_blank"
-        rel="noopener noreferrer"
-        className="flex items-center text-purple-300 hover:text-purple-200 text-sm"
-      >
-        <svg className="w-4 h-4 mr-1 text-purple-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-        </svg>
-        <strong className="mr-1">Review:</strong> {r.title || `#${r.number}`}
-      </a>
-    );
-  });
-
-  (effectiveShippables?.issues || []).forEach((issue) => {
-    tldrItems.push(
-      <a
-        key={`issue-${issue.number}`}
-        href={issue.url}
-        target="_blank"
-        rel="noopener noreferrer"
-        className="flex items-center text-amber-300 hover:text-amber-200 text-sm"
-      >
-        <svg className="w-4 h-4 mr-1 text-amber-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-        </svg>
-        <strong className="mr-1">Issue:</strong> {issue.title || `#${issue.number}`}
-      </a>
-    );
-  });
-
-  (effectiveShippables?.comments || []).forEach((c) => {
-    tldrItems.push(
-      <a
-        key={`comment-${c.number}`}
-        href={c.url}
-        target="_blank"
-        rel="noopener noreferrer"
-        className="flex items-center text-blue-300 hover:text-blue-200 text-sm"
-      >
-        <svg className="w-4 h-4 mr-1 text-blue-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 8h10M7 12h4m1 8l-4-4H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-3l-4 4z" />
-        </svg>
-        <strong className="mr-1">Comment:</strong> {c.title || `#${c.number}`}
-      </a>
-    );
-  });
 
   if (tldrItems.length === 0) {
     tldrItems.push(<span key="none">No shippables to summarize</span>);
@@ -1347,7 +868,7 @@ export default function ExecutionsPageHeader({
                   <div className="text-gray-400 text-lg self-start">
                     {!executionType?.includes('ai_documents') ? (
                       <>
-                        A shippable delivery mechanism can be a{' '}
+                        V26 Finish delivers AssetPack evidence through a{' '}
                     <ShippableTemplateText
                       text="pull request"
                       templates={templates?.pullRequests}
@@ -1357,40 +878,7 @@ export default function ExecutionsPageHeader({
                       onMouseEnter={handlePullRequestHover}
                       duration={3.2}
                       width={250}
-                    />, {' '}
-                    <ShippableTemplateText
-                      text="pull request review"
-                      templates={templates?.pullRequestReviews}
-                      defaultNeed="a pull request review that addresses..."
-                      onSelect={onSelectShippableTemplateDefinitionOfNeed}
-                      onTemplateSelect={(templateId) => onTemplateSelect?.(templateId, 'pullRequestReviews')}
-                      onMouseEnter={handlePRReviewHover}
-                      duration={3.2}
-                      delay={0.8}
-                      width={250}
-                    />, {' '}
-                    <ShippableTemplateText
-                      text="issue"
-                      templates={templates?.issues}
-                      defaultNeed="an issue created describing..."
-                      onSelect={onSelectShippableTemplateDefinitionOfNeed}
-                      onTemplateSelect={(templateId) => onTemplateSelect?.(templateId, 'issues')}
-                      onMouseEnter={handleIssueHover}
-                      duration={3.2}
-                      delay={1.6}
-                      width={250}
-                    />, or {' '}
-                    <ShippableTemplateText
-                      text="issue comment"
-                      templates={templates?.comments}
-                      defaultNeed="a helpful comment that..."
-                      onSelect={onSelectShippableTemplateDefinitionOfNeed}
-                      onTemplateSelect={(templateId) => onTemplateSelect?.(templateId, 'comments')}
-                      onMouseEnter={handleIssueCommentHover}
-                      duration={3.2}
-                      delay={2.4}
-                      width={250}
-                    />, each delivering a stable asset pack and always supplemented by a final work summary.
+                    /> and records completion as AssetPack evidence.
                       </>
                     ) : (
                       <>

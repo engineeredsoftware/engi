@@ -78,38 +78,8 @@ test.describe('@profile UI Visual - Login Flows', () => {
         ]),
       })
     );
-    // Stub deliverables history API
-    await context.route('**/api/deliverables/history', route =>
-      route.fulfill({
-        status: 200,
-        contentType: 'application/json',
-        body: JSON.stringify([
-          {
-            id: 'test-run',
-            created_at: '2023-01-03T00:00:00Z',
-            items: [
-              {
-                id: '1',
-                run_id: 'test-run',
-                title: 'Add authentication',
-                repository: 'user/repo',
-                deliverable_type: 'pull_request',
-                deliverable_id: '42',
-                created_at: '2023-01-03T00:00:00Z',
-                deliverable_status: 'open',
-              },
-            ],
-            context: {
-              summary: 'Created PR #42 to add auth',
-              processingStats: { time: '2s', tokens: { input: 5, output: 10, total: 15 }, btdUsed: 1 },
-              repoSnapshot: {},
-            },
-          },
-        ]),
-      })
-    );
-    // Navigate to Deliverables history page
-    await page.goto('/deliverables?runId=test-run');
+    // Navigate to the Bitcode Terminal review surface.
+    await page.goto('/application?transactionId=test-run');
     // Open login modal
     await page.click('[data-auxillaries-testid="auxillaries-open-button"]');
     // Enter email and send code
@@ -119,9 +89,7 @@ test.describe('@profile UI Visual - Login Flows', () => {
     await page.waitForSelector('[data-testid="login-otp-input"]');
     await page.fill('[data-testid="login-otp-input"]', '123456');
     await page.click('[data-testid="login-verify-code"]');
-    // Wait for deliverables history summary to appear
-    await page.waitForURL('**/deliverables?runId=test-run');
-    await page.waitForSelector('[data-testid="deliverables-summary-header"]');
+    await page.waitForURL('**/application?transactionId=test-run');
     // Open notifications dropdown
     const notifButton = page.locator('[data-testid="notifications-toggle"]');
     await notifButton.click();

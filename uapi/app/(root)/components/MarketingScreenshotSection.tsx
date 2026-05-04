@@ -89,11 +89,11 @@ const MarketingScreenshotSection: React.FC = () => {
 
   const step2Screens: Screenshot[] = [
     {
-      id: 'deliverable-request',
-      src: '/screenshots/deliverables-page-minimal-state.png',
-      alt: 'Create a deliverable request',
+      id: 'asset-pack-request',
+      src: '/screenshots/asset-pack-page-minimal-state.png',
+      alt: 'Create an AssetPack request',
       revealingSoon: true,
-      description: 'Open a new deliverable describing what you need.'
+      description: 'Open a new Need describing the AssetPack you want finished.'
     },
     {
       id: 'execution-kickoff',
@@ -134,14 +134,6 @@ const MarketingScreenshotSection: React.FC = () => {
     //category: 'setup_steps',
     //description: 'Real-time view of your remaining $BTD balance.'
     //},
-    //{
-    //id: 'deliverable-summary',
-    //src: '/screenshots/deliverables-page-maximal-state.png',
-    //alt: 'Deliverable summary',
-    //type: 'component',
-    //category: 'list',
-    //description: 'Completed deliverable complete with code, design docs and reviews.'
-    //},
   ];
   // Refs for dynamic arrow
   const howItWorksRef = useRef<HTMLDivElement>(null);
@@ -174,7 +166,7 @@ const MarketingScreenshotSection: React.FC = () => {
   // Default to `true` when the animation already played once so any remounts
   // render the final resting state immediately.
   const [canAnimate, setCanAnimate] = useState(screenshotsAnimated);
-  const [highlightGroup, setHighlightGroup] = useState<null | 'deliverables' | 'ai_documents'>(null);
+  const [highlightGroup, setHighlightGroup] = useState<null | 'assetPacks' | 'ai_documents'>(null);
 
   // Reused class names (SRP/DRY)
   const screenshotFrameClass = "relative w-full aspect-video overflow-hidden rounded-lg shadow-lg";
@@ -319,7 +311,7 @@ const MarketingScreenshotSection: React.FC = () => {
           {(() => {
             const shots = [
               { src: '/screenshots/ai_documents-page.png', alt: 'AI Documents page screenshot' },
-              { src: '/screenshots/deliverables-page-minimal-state.png', alt: 'Deliverables list minimal state screenshot' },
+              { src: '/screenshots/asset-pack-page-minimal-state.png', alt: 'AssetPack request screenshot' },
               { src: '/screenshots/conversations-fullscreen.png', alt: 'Conversations fullscreen chat screenshot' },
               { src: '/screenshots/sidebar-ai_documents.png', alt: 'Sidebar ai_documents panel screenshot' },
               { src: '/screenshots/setup-marketplace.png', alt: 'Marketplace setup screenshot' },
@@ -602,7 +594,7 @@ const MarketingScreenshotSection: React.FC = () => {
                   }}
                 />
                 <Image
-                  src="/screenshots/deliverables-page-minimal-state.png"
+                  src="/screenshots/asset-pack-page-minimal-state.png"
                   alt="Center Bitcode screenshot"
                   className="relative w-full rounded-2xl object-cover border-2 border-green-400"
                   style={{}}
@@ -940,7 +932,7 @@ const MarketingScreenshotSection: React.FC = () => {
                   <div className="grid grid-cols-2 gap-6 text-xs place-content-center justify-items-center px-4 w-full mt-4 tablet:mt-8">
                     {/* source half */}
                     <div
-                      onMouseEnter={() => setHighlightGroup('deliverables')}
+                      onMouseEnter={() => setHighlightGroup('assetPacks')}
                       onMouseLeave={() => setHighlightGroup(null)}
                       className="relative flex flex-col justify-center items-center p-3 rounded-md border border-sky-400/15"
                     >
@@ -1042,22 +1034,20 @@ const MarketingScreenshotSection: React.FC = () => {
                   <p
                     className="absolute -top-4 left-4 right-4 text-center text-[12px] laptop:text-sm font-medium text-fuchsia-100 leading-snug select-none pointer-events-none px-3 py-1 rounded-md bg-fuchsia-500/15 backdrop-blur-sm border border-fuchsia-400/30 shadow-md"
                   >
-                    Deliverables From, For Your Bitcode AI
+                    AssetPacks Finished Through Pull Requests
                   </p>
-                  {/* Deliverables & AI Documents grouped tags */}
+                  {/* AssetPack & AI Documents grouped tags */}
                   <div className="space-y-4 mt-1 text-xs">
-                    {/* Deliverables group */}
+                    {/* AssetPack group */}
                     <div>
                       <p className="text-[10px] uppercase tracking-wider font-semibold text-emerald-300 select-none text-left mb-3">
-                        Deliverables
+                        AssetPack
                       </p>
                       <div className="flex flex-wrap gap-3">
                         {[
-
-                          { label: 'Pull Requests', icon: CodeBracketIcon, cls: 'bg-blue-600/20 text-blue-200 border-blue-500/40' },
-                          { label: 'Issues', icon: DocumentTextIcon, cls: 'bg-yellow-600/20 text-yellow-200 border-yellow-500/40' },
-                          { label: 'Comments', icon: ChatBubbleLeftRightIcon, cls: 'bg-gray-600/20 text-gray-200 border-gray-500/40' },
-                          { label: 'Reviews', icon: ClipboardDocumentCheckIcon, cls: 'bg-emerald-600/20 text-emerald-200 border-emerald-500/40' },
+                          { label: 'PR Shippable', icon: CodeBracketIcon, cls: 'bg-blue-600/20 text-blue-200 border-blue-500/40' },
+                          { label: 'Code Changes', icon: DocumentTextIcon, cls: 'bg-yellow-600/20 text-yellow-200 border-yellow-500/40' },
+                          { label: 'Proof Receipts', icon: ClipboardDocumentCheckIcon, cls: 'bg-emerald-600/20 text-emerald-200 border-emerald-500/40' },
                         ].map(({ label, icon: Icon, cls }) => (
                           <span
                             key={label}
