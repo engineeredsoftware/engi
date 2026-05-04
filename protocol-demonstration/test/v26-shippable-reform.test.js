@@ -51,6 +51,30 @@ const initializeLspPromptSource = readFileSync(
   new URL('../../packages/pipelines/asset-pack/src/agents/prompts/initialize-lsp-prompt.ts', import.meta.url),
   'utf8'
 );
+const understandRequirementsPromptSource = readFileSync(
+  new URL('../../packages/pipelines/asset-pack/src/agents/prompts/understand-requirements-prompt.ts', import.meta.url),
+  'utf8'
+);
+const analyzeParallelPromptSource = readFileSync(
+  new URL('../../packages/pipelines/asset-pack/src/agents/prompts/analyze-parallel-prompt.ts', import.meta.url),
+  'utf8'
+);
+const assessComplexityPromptSource = readFileSync(
+  new URL('../../packages/pipelines/asset-pack/src/agents/prompts/assess-complexity-prompt.ts', import.meta.url),
+  'utf8'
+);
+const planImplementationPromptSource = readFileSync(
+  new URL('../../packages/pipelines/asset-pack/src/agents/prompts/plan-implementation-prompt.ts', import.meta.url),
+  'utf8'
+);
+const comprehendAttachmentsPromptSource = readFileSync(
+  new URL('../../packages/pipelines/asset-pack/src/agents/prompts/comprehend-attachments-prompt.ts', import.meta.url),
+  'utf8'
+);
+const selectFilesParallelPromptSource = readFileSync(
+  new URL('../../packages/pipelines/asset-pack/src/agents/prompts/select-files-parallel-prompt.ts', import.meta.url),
+  'utf8'
+);
 const comprehendNeedBasePromptSource = readFileSync(
   new URL('../../packages/pipelines/asset-pack/src/agents/prompts/comprehend-need-prompt.ts', import.meta.url),
   'utf8'
@@ -385,6 +409,38 @@ const assetPackValidationReadyToFinishTryPromptSource = readFileSync(
   new URL('../../packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_assetpackvalidationreadytofinish_ptrrtry_purpose.ts', import.meta.url),
   'utf8'
 );
+const assetPackDiscoveryUnderstandRequirementsPurposePromptSource = readFileSync(
+  new URL('../../packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_assetpackdiscoveryunderstandrequirements_purpose_corestatement.ts', import.meta.url),
+  'utf8'
+);
+const assetPackDiscoveryAnalyzeParallelPurposePromptSource = readFileSync(
+  new URL('../../packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_assetpackdiscoveryanalyzeparallel_purpose_corestatement.ts', import.meta.url),
+  'utf8'
+);
+const assetPackDiscoveryAssessComplexityPurposePromptSource = readFileSync(
+  new URL('../../packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_assetpackdiscoveryassesscomplexity_purpose_corestatement.ts', import.meta.url),
+  'utf8'
+);
+const assetPackDiscoveryPlanImplementationPurposePromptSource = readFileSync(
+  new URL('../../packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_assetpackdiscoveryplanimplementation_purpose_corestatement.ts', import.meta.url),
+  'utf8'
+);
+const assetPackDiscoveryComprehendAttachmentsPurposePromptSource = readFileSync(
+  new URL('../../packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_assetpackdiscoverycomprehendattachments_purpose_corestatement.ts', import.meta.url),
+  'utf8'
+);
+const assetPackDiscoveryComprehendAttachmentsIdentityPromptSource = readFileSync(
+  new URL('../../packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_assetpackdiscoverycomprehendattachments_identity_definition.ts', import.meta.url),
+  'utf8'
+);
+const assetPackDiscoverySelectFilesPurposePromptSource = readFileSync(
+  new URL('../../packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_assetpackdiscoveryselectfilesparallel_purpose_corestatement.ts', import.meta.url),
+  'utf8'
+);
+const assetPackDiscoverySelectFilesIdentityPromptSource = readFileSync(
+  new URL('../../packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_assetpackdiscoveryselectfilesparallel_identity_definition.ts', import.meta.url),
+  'utf8'
+);
 const promptPackageIndexSource = readFileSync(
   new URL('../../packages/prompts/src/index.ts', import.meta.url),
   'utf8'
@@ -427,6 +483,16 @@ const removedReadyToFinishRawPromptParts = readdirSync(rawPromptPartDirs[0])
     /^promptpart_specific_agent_(?:readytofinish(?:codechange|codechangereview|designdocument|designdocumentreview)?|assetpackvalidationreadytofinish(?:codechange|codechangereview|designdocument|designdocumentreview))_.*(?:\.d)?\.(?:ts|js)$/u.test(filename)
   )
   .sort();
+const removedDeliverableDiscoveryAttachmentAndSelectionRawPromptParts = readdirSync(rawPromptPartDirs[0])
+  .filter((filename) =>
+    /^promptpart_specific_agent_deliverablediscovery(?:comprehendattachments|selectfilesparallel)_.*(?:\.d)?\.(?:ts|js)$/u.test(filename)
+  )
+  .sort();
+const removedDeliverableDiscoveryCoreRawPromptParts = readdirSync(rawPromptPartDirs[0])
+  .filter((filename) =>
+    /^promptpart_specific_agent_deliverablediscovery(?:analyze|analyzeparallel|assesscomplexity|planimplementation|understandrequirements)_.*(?:\.d)?\.(?:ts|js)$/u.test(filename)
+  )
+  .sort();
 
 const deliverableSubstepPromptPartSources = readdirSync(rawPromptPartDirs[0])
   .filter((filename) => /^promptpart_specific_agent_(?:deliverable.*|assetpackvalidationreadytofinish.*)_substep_.*\.ts$/u.test(filename))
@@ -435,7 +501,7 @@ const deliverableSubstepPromptPartSources = readdirSync(rawPromptPartDirs[0])
 
 const deliverablePromptPartMetadataSources = readdirSync(rawPromptPartDirs[0])
   .filter((filename) =>
-    /^promptpart_specific_(?:agent_deliverable|agent_finalizeshipment|phase_assetpack|pipeline_assetpackrun|tool_.*deliverable|agent_assetpackdiscoveryplanimplementation|agent_assetpackfinish|agent_assetpacksetup|agent_assetpackpipeline|agent_assetpacksynthesizeartifacts|agent_assetpackvalidationreadytofinish|tool_repositorysetup_assetpack|tool_assetpack).*?(?:\.d)?\.ts$/u.test(filename)
+    /^promptpart_specific_(?:agent_deliverable|agent_finalizeshipment|phase_assetpack|pipeline_assetpackrun|tool_.*deliverable|agent_assetpackdiscovery|agent_assetpackfinish|agent_assetpacksetup|agent_assetpackpipeline|agent_assetpacksynthesizeartifacts|agent_assetpackvalidationreadytofinish|tool_repositorysetup_assetpack|tool_assetpack).*?(?:\.d)?\.ts$/u.test(filename)
   )
   .sort()
   .map((filename) => [filename, readFileSync(new URL(filename, rawPromptPartDirs[0]), 'utf8')]);
@@ -666,6 +732,73 @@ test('setup safety and readiness prompts use AssetPack-native PromptPart reservo
   assert.match(assetPackReadyToIterateStructuredOutputSource, /PR Delivering/u);
   assert.doesNotMatch(assetPackDangerWallStructuredOutputSource, /\bshipping\b/u);
   assert.doesNotMatch(assetPackReadyToIterateStructuredOutputSource, /\bshipping\b/u);
+});
+
+test('core discovery prompts use AssetPack-native PromptPart reservoirs', () => {
+  const activeDiscoveryPromptSources = [
+    understandRequirementsPromptSource,
+    analyzeParallelPromptSource,
+    assessComplexityPromptSource,
+    planImplementationPromptSource,
+  ].join('\n');
+  const activeDiscoveryPromptPartSources = [
+    assetPackDiscoveryUnderstandRequirementsPurposePromptSource,
+    assetPackDiscoveryAnalyzeParallelPurposePromptSource,
+    assetPackDiscoveryAssessComplexityPurposePromptSource,
+    assetPackDiscoveryPlanImplementationPurposePromptSource,
+  ].join('\n');
+
+  assert.match(understandRequirementsPromptSource, /PROMPTPART_SPECIFIC_AGENT_ASSETPACKDISCOVERYUNDERSTANDREQUIREMENTS_IDENTITY_DEFINITION/u);
+  assert.match(analyzeParallelPromptSource, /PROMPTPART_SPECIFIC_AGENT_ASSETPACKDISCOVERYANALYZEPARALLEL_IDENTITY_DEFINITION/u);
+  assert.match(assessComplexityPromptSource, /PROMPTPART_SPECIFIC_AGENT_ASSETPACKDISCOVERYASSESSCOMPLEXITY_IDENTITY_DEFINITION/u);
+  assert.match(planImplementationPromptSource, /PROMPTPART_SPECIFIC_AGENT_ASSETPACKDISCOVERYPLANIMPLEMENTATION_IDENTITY_DEFINITION/u);
+  assert.doesNotMatch(activeDiscoveryPromptSources, /DELIVERABLEDISCOVERY|deliverablediscovery/u);
+  assert.equal(
+    removedDeliverableDiscoveryCoreRawPromptParts.length,
+    0,
+    `old core deliverable-discovery PromptParts remain: ${removedDeliverableDiscoveryCoreRawPromptParts.join(', ')}`
+  );
+  assert.match(activeDiscoveryPromptPartSources, /Need requirements, constraints, satisfaction criteria, and written-asset expectations/u);
+  assert.match(activeDiscoveryPromptPartSources, /Need relevance, dependency constraints, implementation risk, and proof evidence/u);
+  assert.match(activeDiscoveryPromptPartSources, /proof complexity for the Need-to-AssetPack path/u);
+  assert.match(activeDiscoveryPromptPartSources, /Need-satisfying AssetPack synthesis, validation, and Finish evidence/u);
+  assert.doesNotMatch(
+    activeDiscoveryPromptPartSources,
+    /retained deliverable-compatibility|quality accuracy and completeness|execute initial implementation attempt|guaranteed success/u
+  );
+});
+
+test('discovery attachment and file-selection prompts use AssetPack-native PromptPart reservoirs', () => {
+  assert.match(comprehendAttachmentsPromptSource, /PROMPTPART_SPECIFIC_AGENT_ASSETPACKDISCOVERYCOMPREHENDATTACHMENTS_IDENTITY_DEFINITION/u);
+  assert.match(comprehendAttachmentsPromptSource, /promptpart_specific_agent_assetpackdiscoverycomprehendattachments_identity_definition/u);
+  assert.match(selectFilesParallelPromptSource, /PROMPTPART_SPECIFIC_AGENT_ASSETPACKDISCOVERYSELECTFILESPARALLEL_IDENTITY_DEFINITION/u);
+  assert.match(selectFilesParallelPromptSource, /promptpart_specific_agent_assetpackdiscoveryselectfilesparallel_identity_definition/u);
+  assert.doesNotMatch(
+    comprehendAttachmentsPromptSource,
+    /DELIVERABLEDISCOVERYCOMPREHENDATTACHMENTS|deliverablediscoverycomprehendattachments/u
+  );
+  assert.doesNotMatch(
+    selectFilesParallelPromptSource,
+    /DELIVERABLEDISCOVERYSELECTFILESPARALLEL|deliverablediscoveryselectfilesparallel/u
+  );
+  assert.equal(
+    removedDeliverableDiscoveryAttachmentAndSelectionRawPromptParts.length,
+    0,
+    `old deliverable-discovery attachment/file-selection PromptParts remain: ${removedDeliverableDiscoveryAttachmentAndSelectionRawPromptParts.join(', ')}`
+  );
+  assert.match(assetPackDiscoveryComprehendAttachmentsPurposePromptSource, /structured Need and AssetPack context evidence/u);
+  assert.match(assetPackDiscoveryComprehendAttachmentsIdentityPromptSource, /clarifies the Need, constraints, acceptance criteria, and AssetPack context/u);
+  assert.match(assetPackDiscoverySelectFilesPurposePromptSource, /satisfy the Need, bound AssetPack scope, or supply proof evidence/u);
+  assert.match(assetPackDiscoverySelectFilesIdentityPromptSource, /Need satisfaction, proof evidence, and AssetPack scope/u);
+  assert.doesNotMatch(
+    [
+      assetPackDiscoveryComprehendAttachmentsPurposePromptSource,
+      assetPackDiscoveryComprehendAttachmentsIdentityPromptSource,
+      assetPackDiscoverySelectFilesPurposePromptSource,
+      assetPackDiscoverySelectFilesIdentityPromptSource,
+    ].join('\n'),
+    /retained deliverable-compatibility|files for modification/u
+  );
 });
 
 test('implementation, validation, and Finish carriers separate AssetPack kind from delivery templates', () => {
