@@ -110,7 +110,6 @@ export const BitcodeSetupNeedComprehensionResultSchema = z.object({
     complexity: z.any().optional()
   }).optional(),
   riskAdmissionInput: z.any().optional(),
-  deliverable_types: z.array(z.string()).default([]),
   need_definition_analysis: z.string().optional(),
   success: z.boolean().default(true),
   validationMessage: z.string().optional()

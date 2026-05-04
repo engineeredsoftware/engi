@@ -8,7 +8,7 @@ describe('normalizeAssetPackOutput', () => {
     exec.store('finish', 'pullRequestUrl', 'https://github.com/acme/repo/pull/123');
     exec.store('implementation', 'filesChanged', ['a.ts', 'b.ts']);
     exec.store('pipeline', 'expressedNeed', 'Need a repository-backed pull request');
-    exec.store('pipeline', 'writtenAssetType', 'code-change');
+    exec.store('pipeline', 'writtenAssetType', 'need-satisfaction-asset-pack');
     exec.store('pipeline', 'deliveryMechanismTemplate', 'pull-request');
     exec.store('implementation', 'assetPackSynthesisArtifacts', {
       summary: 'Implementation-phase AssetPack synthesis artifacts ready.',
@@ -48,7 +48,7 @@ describe('normalizeAssetPackOutput', () => {
     exec.store('source', 'owner', 'acme');
     exec.store('source', 'name', 'repo');
     exec.store('pipeline', 'expressedNeed', 'Need a review-ready written asset');
-    exec.store('pipeline', 'writtenAssetType', 'code-change');
+    exec.store('pipeline', 'writtenAssetType', 'need-satisfaction-asset-pack');
     exec.store('pipeline', 'deliveryMechanismTemplate', 'pull-request');
     exec.store('route/preprocessed', 'assetPackWrittenAsset', {
       need: 'Need a review-ready written asset',
@@ -64,7 +64,7 @@ describe('normalizeAssetPackOutput', () => {
     const result = buildAssetPackPostprocessedResult(exec, {
       success: true,
       summary: 'Written asset ready.',
-      writtenAssetType: 'design-document-review',
+      writtenAssetType: 'need-satisfaction-asset-pack',
       semanticKind: 'asset-pack-written-asset',
     } as any);
 

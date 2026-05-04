@@ -28,7 +28,6 @@ agents=(
   # Validation Phase
   "assetpackvalidation"
   "assetpackvalidationreadytofinish"
-  "readytofinish"
   
   # Finish Phase
   "assetpackfinishcreatepullrequestdelivery"

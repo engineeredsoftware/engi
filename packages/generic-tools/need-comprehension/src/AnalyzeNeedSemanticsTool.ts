@@ -3,9 +3,7 @@ import { ANALYZE_NEED_SEMANTICS_DOC_CODE_TOOL_PROMPT } from './prompts/AnalyzeNe
 import { analyzeNeedSemantics } from './need-comprehension-primitives';
 
 /**
- * Canonical Bitcode need-semantics tool owner for the retained compatibility
- * package. Task-named surfaces must wrap this owner rather than owning active
- * product semantics themselves.
+ * Canonical Bitcode need-semantics tool owner.
  */
 
 /**

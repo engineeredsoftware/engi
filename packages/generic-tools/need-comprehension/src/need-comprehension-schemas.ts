@@ -1,17 +1,17 @@
 /**
  * NEED COMPREHENSION SCHEMAS
  *
- * Canonical schema owners for the retained need-comprehension package.
- * Bitcode does not have task-first product semantics, so task-shaped
- * compatibility carriers must resolve through need-first schema ownership.
+ * Canonical schema owners for the need-comprehension package.
+ * Bitcode Need ownership is direct here; removed pre-reform schema aliases must
+ * not re-enter this source boundary.
  */
 
 import { z } from 'zod';
 
 /**
  * Canonical Bitcode classifier for the kind of Need being measured before an
- * AssetPack run. The string values are deliberately stable because external
- * compatibility callers may still send them, but the owner is need-first.
+ * AssetPack run. The string values are deliberately stable because execution
+ * evidence and prompt proofs depend on them.
  */
 export const NeedIntentTypeSchema = z.enum([
   'feature_implementation',
@@ -27,8 +27,6 @@ export const NeedIntentTypeSchema = z.enum([
   'migration',
   'other'
 ]);
-
-export const NeedComprehensionCompatibilityPrimaryTypeSchema = NeedIntentTypeSchema;
 
 export const NeedRequirementSchema = z.object({
   id: z.string(),

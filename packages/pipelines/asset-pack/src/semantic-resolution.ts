@@ -31,15 +31,15 @@ export function normalizeDeliveryMechanismTemplate(
   if (
     normalized === 'pull-request' ||
     normalized === 'pr' ||
-    normalized.includes('pull') ||
-    normalized.includes('branch') ||
-    normalized.includes('deployment') ||
-    normalized.includes('code')
+    normalized.includes('pull')
   ) {
     return 'pull-request';
   }
 
   if (
+    normalized.includes('branch') ||
+    normalized.includes('deployment') ||
+    normalized.includes('code') ||
     normalized.includes('review') ||
     normalized.includes('comment') ||
     normalized.includes('issue') ||
@@ -60,11 +60,9 @@ export function normalizeWrittenAssetRequest(
   const raw = firstString(candidate);
   if (!raw) return fallback;
   const normalized = raw.toLowerCase();
-  if (normalized.includes('review')) {
-    return normalized.includes('design') ? 'design-review-request' : 'code-review-request';
+  if (normalized.includes('need-satisfaction') || normalized.includes('asset-pack')) {
+    return 'need-satisfaction-asset-pack';
   }
-  if (normalized.includes('design')) return 'design-asset-request';
-  if (normalized.includes('code')) return 'code-asset-request';
   return fallback;
 }
 
@@ -80,11 +78,7 @@ export function resolveDeliveryMechanismTemplate(input: any): AssetPackDeliveryM
     input?.deliveryMechanismTemplate ??
       input?.deliveryMechanism?.template ??
       input?.deliveryMechanism?.type ??
-      input?.deliveryTarget ??
-      input?.writtenAssetType ??
-      input?.writtenAsset?.type ??
-      input?.type ??
-      input?.classification
+      input?.deliveryTarget
   );
 }
 
@@ -103,11 +97,7 @@ export function resolveDeliveryMechanismTemplateFromExecution(
     execution?.findUp?.('pipeline', 'deliveryMechanismTemplate') ??
       execution?.get?.('pipeline', 'deliveryMechanismTemplate') ??
       execution?.findUp?.('pipeline', 'deliveryTarget') ??
-      execution?.get?.('pipeline', 'deliveryTarget') ??
-      execution?.findUp?.('pipeline', 'writtenAssetRequest') ??
-      execution?.get?.('pipeline', 'writtenAssetRequest') ??
-      execution?.findUp?.('setup', 'writtenAssetRequest') ??
-      execution?.get?.('setup', 'writtenAssetRequest'),
+      execution?.get?.('pipeline', 'deliveryTarget'),
     fallback
   );
 }

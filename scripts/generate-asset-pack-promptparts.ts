@@ -47,9 +47,7 @@ const AGENTS = {
     { name: 'validatecodechanges', display: 'Validate Code Changes', purpose: 'validate all code changes meet requirements and quality standards' },
     { name: 'validatereview', display: 'Validate Review', purpose: 'ensure code review feedback is comprehensive and actionable' },
     { name: 'validatedocument', display: 'Validate Document', purpose: 'verify design document completeness accuracy and clarity' },
-    { name: 'readytofinishcodechange', display: 'Ready to Finish Code Change', purpose: 'determine if code changes are production ready or need refinement' },
-    { name: 'readytofinishdesigndocument', display: 'Ready to Finish Design Document', purpose: 'validate design document ready for stakeholder review' },
-    { name: 'readytofinish', display: 'Ready to Finish', purpose: 'final validation gate determining finish or short-circuit with refund' }
+    { name: 'readytofinish', display: 'AssetPack Ready to Finish', purpose: 'decide whether validated Need-satisfaction AssetPack synthesis artifacts and required evidence may enter Finish or must short-circuit with refund evidence' }
   ],
   finish: [
     { name: 'createpullrequest', display: 'Create Pull Request', purpose: 'create the PR Shippable with title description and metadata on a VCS platform' },

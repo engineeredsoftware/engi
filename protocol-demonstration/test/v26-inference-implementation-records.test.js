@@ -66,7 +66,7 @@ test('V26 inference implementation registry names every current fifth-gate infer
     'execution-infrastructure',
     'external-evidence-research-support',
     'mcp-external-ingress',
-    'need-comprehension-compatibility',
+    'need-comprehension-reform',
     'need-review-before-fit-search',
     'need-risk-admission-support',
     'pipeline-infrastructure',
@@ -88,11 +88,11 @@ test('V26 inference implementation registry binds records to canonical Bitcode s
   assert.match(recordsById['conversation-inference'].canonicalNeed, /rich-input Bitcode write surface/u);
   assert.match(recordsById['asset-pack-synthesis-compatibility'].canonicalNeed, /asset-pack written-asset synthesis/u);
   assert.match(recordsById['asset-pack-synthesis-compatibility'].canonicalNeed, /delivery-mechanism compatibility/u);
-  assert.match(recordsById['need-comprehension-compatibility'].canonicalNeed, /setup-phase Bitcode Need comprehension/u);
-  assert.match(recordsById['need-comprehension-compatibility'].canonicalNeed, /source-to-shares service questions/u);
-  assert.match(recordsById['need-comprehension-compatibility'].canonicalNeed, /commercial accountability/u);
-  assert.match(recordsById['need-comprehension-compatibility'].canonicalNeed, /written-asset expectations/u);
-  assert.match(recordsById['need-comprehension-compatibility'].canonicalNeed, /AssetPack context/u);
+  assert.match(recordsById['need-comprehension-reform'].canonicalNeed, /setup-phase Bitcode Need comprehension/u);
+  assert.match(recordsById['need-comprehension-reform'].canonicalNeed, /source-to-shares service questions/u);
+  assert.match(recordsById['need-comprehension-reform'].canonicalNeed, /commercial accountability/u);
+  assert.match(recordsById['need-comprehension-reform'].canonicalNeed, /written-asset expectations/u);
+  assert.match(recordsById['need-comprehension-reform'].canonicalNeed, /AssetPack context/u);
   assert.match(recordsById['need-review-before-fit-search'].canonicalNeed, /before any candidate recall/u);
   assert.match(recordsById['need-review-before-fit-search'].canonicalNeed, /source-to-shares settlement review/u);
   assert.match(recordsById['external-evidence-research-support'].canonicalNeed, /discovery phase/u);
@@ -136,7 +136,7 @@ test('V26 inference implementation registry binds records to canonical Bitcode s
       'packages/generic-tools/simple-system-text-search/src/index.ts'
     )
   );
-  assert.deepEqual(recordsById['need-comprehension-compatibility'].toolImplementation.owners, [
+  assert.deepEqual(recordsById['need-comprehension-reform'].toolImplementation.owners, [
     'packages/generic-tools/need-comprehension/src/AnalyzeNeedSemanticsTool.ts',
     'packages/generic-tools/need-comprehension/src/ExtractNeedRequirementsTool.ts',
     'packages/generic-tools/need-comprehension/src/IdentifyNeedConstraintsTool.ts',
@@ -147,27 +147,27 @@ test('V26 inference implementation registry binds records to canonical Bitcode s
     'packages/generic-tools/need-comprehension/src/need-comprehension-primitives.ts',
     'packages/generic-tools/need-comprehension/src/need-comprehension-schemas.ts'
   ]);
-  assert.match(recordsById['need-comprehension-compatibility'].toolImplementation.contract, /Canonical need-first tools are individually defined/u);
-  assert.match(recordsById['need-comprehension-compatibility'].toolImplementation.contract, /collected by NeedComprehensionToolset/u);
-  assert.match(recordsById['need-comprehension-compatibility'].toolImplementation.contract, /callable capabilities, not agents/u);
-  assert.match(recordsById['need-comprehension-compatibility'].toolImplementation.contract, /source-to-shares service questions/u);
-  assert.match(recordsById['need-comprehension-compatibility'].toolImplementation.contract, /commercial accountability evidence/u);
-  assert.doesNotMatch(recordsById['need-comprehension-compatibility'].toolImplementation.contract, /task-named/u);
+  assert.match(recordsById['need-comprehension-reform'].toolImplementation.contract, /Canonical need-first tools are individually defined/u);
+  assert.match(recordsById['need-comprehension-reform'].toolImplementation.contract, /collected by NeedComprehensionToolset/u);
+  assert.match(recordsById['need-comprehension-reform'].toolImplementation.contract, /callable capabilities, not agents/u);
+  assert.match(recordsById['need-comprehension-reform'].toolImplementation.contract, /source-to-shares service questions/u);
+  assert.match(recordsById['need-comprehension-reform'].toolImplementation.contract, /commercial accountability evidence/u);
+  assert.doesNotMatch(recordsById['need-comprehension-reform'].toolImplementation.contract, /noncanonical.*retained|compatibility/u);
   assert.ok(
-    recordsById['need-comprehension-compatibility'].agentImplementation.owners.includes(
+    recordsById['need-comprehension-reform'].agentImplementation.owners.includes(
       'packages/generic-agents/need-comprehension/src/index.ts'
     )
   );
   assert.ok(
-    recordsById['need-comprehension-compatibility'].agentImplementation.owners.includes(
+    recordsById['need-comprehension-reform'].agentImplementation.owners.includes(
       'packages/pipelines/asset-pack/src/agents/setup/asset-pack-comprehend-need-agent.ts'
     )
   );
-  assert.match(recordsById['need-comprehension-compatibility'].agentImplementation.contract, /bitcodeSetupNeedComprehensionAgent/u);
-  assert.match(recordsById['need-comprehension-compatibility'].agentImplementation.contract, /setup\/pre-danger-wall PTRR agent/u);
-  assert.match(recordsById['need-comprehension-compatibility'].agentImplementation.contract, /generic-tools Need-comprehension toolset/u);
-  assert.match(recordsById['need-comprehension-compatibility'].agentImplementation.contract, /service-question/u);
-  assert.match(recordsById['need-comprehension-compatibility'].agentImplementation.contract, /commercial-accountability/u);
+  assert.match(recordsById['need-comprehension-reform'].agentImplementation.contract, /bitcodeSetupNeedComprehensionAgent/u);
+  assert.match(recordsById['need-comprehension-reform'].agentImplementation.contract, /setup\/pre-danger-wall PTRR agent/u);
+  assert.match(recordsById['need-comprehension-reform'].agentImplementation.contract, /generic-tools Need-comprehension toolset/u);
+  assert.match(recordsById['need-comprehension-reform'].agentImplementation.contract, /service-question/u);
+  assert.match(recordsById['need-comprehension-reform'].agentImplementation.contract, /commercial-accountability/u);
   assert.match(recordsById['need-review-before-fit-search'].executionImplementation.carriers.join(' '), /\.bitcode\/need-review\.json/u);
   assert.match(recordsById['need-review-before-fit-search'].toolImplementation.contract, /blocked unless the measured Need review admits it/u);
   assert.equal(recordsById['need-review-before-fit-search'].boundaryPosture, 'active');
@@ -201,7 +201,7 @@ test('V26 inference implementation registry binds records to canonical Bitcode s
   assert.match(recordsById['need-risk-admission-support'].toolImplementation.contract, /admission ambiguity/u);
 
   assert.equal(recordsById['asset-pack-synthesis-compatibility'].boundaryPosture, 'compatibility');
-  assert.equal(recordsById['need-comprehension-compatibility'].boundaryPosture, 'compatibility');
+  assert.equal(recordsById['need-comprehension-reform'].boundaryPosture, 'active');
   assert.equal(recordsById['external-evidence-research-support'].boundaryPosture, 'admitted support');
   assert.equal(recordsById['need-risk-admission-support'].boundaryPosture, 'admitted support');
   assert.equal(recordsById['mcp-external-ingress'].boundaryPosture, 'ingress');

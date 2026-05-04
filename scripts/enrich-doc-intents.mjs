@@ -23,7 +23,7 @@ function titleize(s){
 function inferIntentFromFilename(f){
   const base = path.basename(f, '.ts');
   const parts = base.split('promptpart_').pop()?.split('_') || [];
-  // example: specific_agent_readytofinishcodechange_ptrrplan_purpose
+  // example: specific_agent_assetpackvalidationreadytofinish_ptrrplan_purpose
   // heuristic build
   const scope = parts[0]; // generic|specific
   const domain = parts[1]; // agent|tool|formatting|...

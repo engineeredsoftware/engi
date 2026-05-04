@@ -1,6 +1,5 @@
 import { Tool } from '@bitcode/tools-generics';
 import { validateNeedComprehension } from './need-comprehension-primitives';
-import { validateTaskComprehension } from './primitives';
 import {
   VALIDATE_NEED_COMPREHENSION_DOC_CODE_TOOL_PROMPT
 } from './prompts/ValidateNeedComprehensionDocCodeToolPrompt';
@@ -15,9 +14,4 @@ export class ValidateNeedComprehensionTool extends Tool<typeof validateNeedCompr
   use = validateNeedComprehension;
 }
 
-export class ValidateTaskComprehensionTool extends Tool<typeof validateTaskComprehension> {
-  use = validateTaskComprehension;
-}
-
 export const validateNeedComprehensionTool = new ValidateNeedComprehensionTool();
-export const validateTaskComprehensionTool = new ValidateTaskComprehensionTool();

@@ -4,25 +4,25 @@ import { PROMPTPART_GENERIC_DOCCODE_CAPABILITIES_LABEL } from '@bitcode/prompts/
 import { PROMPTPART_GENERIC_DOCCODE_PARAMETERS_LABEL } from '@bitcode/prompts/raw_promptparts/generic/promptpart_generic_doccode_parameters_label';
 import { PROMPTPART_GENERIC_DOCCODE_OUTPUT_LABEL } from '@bitcode/prompts/raw_promptparts/generic/promptpart_generic_doccode_output_label';
 import { PROMPTPART_GENERIC_DOCCODE_EXAMPLES_LABEL } from '@bitcode/prompts/raw_promptparts/generic/promptpart_generic_doccode_examples_label';
-import { PROMPTPART_SPECIFIC_TOOL_GENERATESUCCESSCRITERIA_DOCCODETOOLNAME } from '@bitcode/prompts/raw_promptparts/specific/promptpart_specific_tool_generatesuccesscriteria_doccodetoolname';
-import { PROMPTPART_SPECIFIC_TOOL_GENERATESUCCESSCRITERIA_DOCCODETOOLPURPOSE } from '@bitcode/prompts/raw_promptparts/specific/promptpart_specific_tool_generatesuccesscriteria_doccodetoolpurpose';
-import { PROMPTPART_SPECIFIC_TOOL_GENERATESUCCESSCRITERIA_DOCCODETOOLCAPABILITIES } from '@bitcode/prompts/raw_promptparts/specific/promptpart_specific_tool_generatesuccesscriteria_doccodetoolcapabilities';
-import { PROMPTPART_SPECIFIC_TOOL_GENERATESUCCESSCRITERIA_DOCCODETOOLPARAMETERS } from '@bitcode/prompts/raw_promptparts/specific/promptpart_specific_tool_generatesuccesscriteria_doccodetoolparameters';
-import { PROMPTPART_SPECIFIC_TOOL_GENERATESUCCESSCRITERIA_DOCCODETOOLOUTPUT } from '@bitcode/prompts/raw_promptparts/specific/promptpart_specific_tool_generatesuccesscriteria_doccodetooloutput';
-import { PROMPTPART_SPECIFIC_TOOL_GENERATESUCCESSCRITERIA_DOCCODETOOLEXAMPLE1 } from '@bitcode/prompts/raw_promptparts/specific/promptpart_specific_tool_generatesuccesscriteria_doccodetoolexample1';
-import { PROMPTPART_SPECIFIC_TOOL_GENERATESUCCESSCRITERIA_DOCCODETOOLEXAMPLE2 } from '@bitcode/prompts/raw_promptparts/specific/promptpart_specific_tool_generatesuccesscriteria_doccodetoolexample2';
-import { PROMPTPART_SPECIFIC_TOOL_GENERATESUCCESSCRITERIA_DOCCODETOOLEXAMPLE3 } from '@bitcode/prompts/raw_promptparts/specific/promptpart_specific_tool_generatesuccesscriteria_doccodetoolexample3';
+import { PROMPTPART_SPECIFIC_TOOL_GENERATENEEDSATISFACTIONCRITERIA_DOCCODETOOLNAME } from '@bitcode/prompts/raw_promptparts/specific/promptpart_specific_tool_generateneedsatisfactioncriteria_doccodetoolname';
+import { PROMPTPART_SPECIFIC_TOOL_GENERATENEEDSATISFACTIONCRITERIA_DOCCODETOOLPURPOSE } from '@bitcode/prompts/raw_promptparts/specific/promptpart_specific_tool_generateneedsatisfactioncriteria_doccodetoolpurpose';
+import { PROMPTPART_SPECIFIC_TOOL_GENERATENEEDSATISFACTIONCRITERIA_DOCCODETOOLCAPABILITIES } from '@bitcode/prompts/raw_promptparts/specific/promptpart_specific_tool_generateneedsatisfactioncriteria_doccodetoolcapabilities';
+import { PROMPTPART_SPECIFIC_TOOL_GENERATENEEDSATISFACTIONCRITERIA_DOCCODETOOLPARAMETERS } from '@bitcode/prompts/raw_promptparts/specific/promptpart_specific_tool_generateneedsatisfactioncriteria_doccodetoolparameters';
+import { PROMPTPART_SPECIFIC_TOOL_GENERATENEEDSATISFACTIONCRITERIA_DOCCODETOOLOUTPUT } from '@bitcode/prompts/raw_promptparts/specific/promptpart_specific_tool_generateneedsatisfactioncriteria_doccodetooloutput';
+import { PROMPTPART_SPECIFIC_TOOL_GENERATENEEDSATISFACTIONCRITERIA_DOCCODETOOLEXAMPLE1 } from '@bitcode/prompts/raw_promptparts/specific/promptpart_specific_tool_generateneedsatisfactioncriteria_doccodetoolexample1';
+import { PROMPTPART_SPECIFIC_TOOL_GENERATENEEDSATISFACTIONCRITERIA_DOCCODETOOLEXAMPLE2 } from '@bitcode/prompts/raw_promptparts/specific/promptpart_specific_tool_generateneedsatisfactioncriteria_doccodetoolexample2';
+import { PROMPTPART_SPECIFIC_TOOL_GENERATENEEDSATISFACTIONCRITERIA_DOCCODETOOLEXAMPLE3 } from '@bitcode/prompts/raw_promptparts/specific/promptpart_specific_tool_generateneedsatisfactioncriteria_doccodetoolexample3';
 import { DocCodeToolPrompt } from '@bitcode/tools-generics';
 import { PromptPart } from '@bitcode/prompts/parts/PromptPart';
 
 /**
  * GENERATE NEED SATISFACTION CRITERIA DOC-CODE-TOOL PROMPT
  *
- * Canonical Bitcode prompt owner for the retained generate-success-criteria
- * compatibility tool. The tool entry point remains compatibility-named, but
- * this prompt implementation is need-first, local to the package that owns its
- * use, and turns requirements and constraints into measurable need-satisfaction
- * criteria for written assets, proofs, persistence, and delivery mechanisms.
+ * Canonical Bitcode prompt owner for need-satisfaction criteria. It consumes
+ * canonical need-first raw PromptParts through the public prompt boundary, but
+ * the package-level prompt owner is need-first and turns requirements and
+ * constraints into measurable need-satisfaction criteria for written assets,
+ * proofs, persistence, and delivery mechanisms.
  */
 export class GenerateNeedSatisfactionCriteriaDocCodeToolPrompt extends DocCodeToolPrompt {
   constructor() {
@@ -35,7 +35,7 @@ export class GenerateNeedSatisfactionCriteriaDocCodeToolPrompt extends DocCodeTo
     this.set('output:label', PROMPTPART_GENERIC_DOCCODE_OUTPUT_LABEL);
     this.set('examples:label', PROMPTPART_GENERIC_DOCCODE_EXAMPLES_LABEL);
 
-    this.set('metadata:name', PROMPTPART_SPECIFIC_TOOL_GENERATESUCCESSCRITERIA_DOCCODETOOLNAME);
+    this.set('metadata:name', PROMPTPART_SPECIFIC_TOOL_GENERATENEEDSATISFACTIONCRITERIA_DOCCODETOOLNAME);
     this.set('metadata:category', 'need-comprehension' as PromptPart);
     this.set(
       'metadata:version',
@@ -44,14 +44,14 @@ export class GenerateNeedSatisfactionCriteriaDocCodeToolPrompt extends DocCodeTo
     this.set('metadata:priority', 'high' as PromptPart);
     this.set('metadata:stability', 'stable' as PromptPart);
 
-    this.setPurpose(PROMPTPART_SPECIFIC_TOOL_GENERATESUCCESSCRITERIA_DOCCODETOOLPURPOSE);
-    this.setCapabilities(PROMPTPART_SPECIFIC_TOOL_GENERATESUCCESSCRITERIA_DOCCODETOOLCAPABILITIES);
-    this.setParameters(PROMPTPART_SPECIFIC_TOOL_GENERATESUCCESSCRITERIA_DOCCODETOOLPARAMETERS);
-    this.setOutput(PROMPTPART_SPECIFIC_TOOL_GENERATESUCCESSCRITERIA_DOCCODETOOLOUTPUT);
+    this.setPurpose(PROMPTPART_SPECIFIC_TOOL_GENERATENEEDSATISFACTIONCRITERIA_DOCCODETOOLPURPOSE);
+    this.setCapabilities(PROMPTPART_SPECIFIC_TOOL_GENERATENEEDSATISFACTIONCRITERIA_DOCCODETOOLCAPABILITIES);
+    this.setParameters(PROMPTPART_SPECIFIC_TOOL_GENERATENEEDSATISFACTIONCRITERIA_DOCCODETOOLPARAMETERS);
+    this.setOutput(PROMPTPART_SPECIFIC_TOOL_GENERATENEEDSATISFACTIONCRITERIA_DOCCODETOOLOUTPUT);
 
-    this.set('examples:1', PROMPTPART_SPECIFIC_TOOL_GENERATESUCCESSCRITERIA_DOCCODETOOLEXAMPLE1);
-    this.set('examples:2', PROMPTPART_SPECIFIC_TOOL_GENERATESUCCESSCRITERIA_DOCCODETOOLEXAMPLE2);
-    this.set('examples:3', PROMPTPART_SPECIFIC_TOOL_GENERATESUCCESSCRITERIA_DOCCODETOOLEXAMPLE3);
+    this.set('examples:1', PROMPTPART_SPECIFIC_TOOL_GENERATENEEDSATISFACTIONCRITERIA_DOCCODETOOLEXAMPLE1);
+    this.set('examples:2', PROMPTPART_SPECIFIC_TOOL_GENERATENEEDSATISFACTIONCRITERIA_DOCCODETOOLEXAMPLE2);
+    this.set('examples:3', PROMPTPART_SPECIFIC_TOOL_GENERATENEEDSATISFACTIONCRITERIA_DOCCODETOOLEXAMPLE3);
   }
 }
 

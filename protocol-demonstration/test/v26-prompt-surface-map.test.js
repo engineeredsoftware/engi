@@ -42,7 +42,7 @@ test('V26 prompt surface map keeps active, support, and reference corridors expl
   assert.match(promptSurfaceSource, /packages\/pipelines-generics\/src\/prompts\/PipelinePrompt\.ts/u);
   assert.match(promptSurfaceSource, /packages\/agent-generics\/src\/\{prompts\/\*,agents\/factories\.ts,execution\/prompt-overlays\.ts,substeps\/factories\.ts\}/u);
   assert.match(promptSurfaceSource, /packages\/\{agent-generics\/src\/execution\/\{AgentExecution\.ts,Agent\*Registry\.ts\},pipelines-generics\/src\/execution\/\{PipelineExecution\.ts,Pipeline\*Registry\.ts\},conversations-generics\/src\/agent\/ConversationAgent\.ts\}/u);
-  assert.match(promptSurfaceSource, /packages\/\{agent-generics\/src\/\{agents\/factories\.ts,diagnostics\/\{trace\.ts,instrumentation\.ts\},execution\/file-diff-integration\.ts,substeps\/factories\.ts,types\.ts\},pipelines-generics\/src\/\{execution\/\{Metrics\.ts,pipeline-types\.ts,resume\.ts,route-pipeline-execution\.ts\},phases\/\{phase-factory\.ts,sdivs-factory\.ts\},pipeline-factory\.ts,gate-system\/\{meta-phase-orchestrator\.ts,types\.ts\},executors\/wait-for-instruction\.ts,streaming\/pipeline-stream-integration\.ts\}\}/u);
+  assert.match(promptSurfaceSource, /packages\/\{agent-generics\/src\/\{agents\/factories\.ts,diagnostics\/\{trace\.ts,instrumentation\.ts\},execution\/file-diff-integration\.ts,substeps\/factories\.ts,types\.ts\},pipelines-generics\/src\/\{execution\/\{Metrics\.ts,pipeline-types\.ts,resume\.ts,route-pipeline-execution\.ts\},phases\/\{phase-factory\.ts,sdivf-factory\.ts\},pipeline-factory\.ts,gate-system\/\{meta-phase-orchestrator\.ts,types\.ts\},executors\/wait-for-instruction\.ts,streaming\/pipeline-stream-integration\.ts\}\}/u);
   assert.match(promptSurfaceSource, /packages\/conversations-generics\/src\/\{prompts\/BitcodeTerminalConversationSystemPrompt\.ts,agent\/ConversationAgent\.ts\}/u);
   assert.match(promptSurfaceSource, /promptpart_specific_\{system_bitcodeterminalconversation_\*,agent_conversationagent_\*\}/u);
   assert.match(promptSurfaceSource, /uapi\/prompts\/bitcode-terminal-system-prompt\.ts/u);
@@ -58,7 +58,7 @@ test('V26 prompt surface map keeps active, support, and reference corridors expl
   assert.match(promptSurfaceSource, /scripts\/\{fix-remaining-imports,fix-barrel-imports,fix-multiline-imports,fix-corrupted-imports\}\.sh/u);
   assert.match(promptSurfaceSource, /public `@bitcode\/prompts` and `raw_promptparts` boundaries/u);
   assert.match(promptSurfaceSource, /Prompt generation and update scripts/u);
-  assert.match(promptSurfaceSource, /scripts\/\{generate-massive-prompt-parts,mass-update-prompt-parts,architecture-review\}\.ts/u);
+  assert.match(promptSurfaceSource, /scripts\/\{generate-massive-prompt-parts,mass-update-prompt-parts,architecture-review,generate-asset-pack-promptparts\}\.ts/u);
   assert.match(promptSurfaceSource, /public `@bitcode\/prompts\/raw_promptparts\/\*` package subpaths/u);
   assert.match(promptSurfaceSource, /canonical V26 inference records/u);
   assert.match(promptSurfaceSource, /doc-comment\/tool-prompt injection bridge/u);
@@ -68,15 +68,15 @@ test('V26 prompt surface map keeps active, support, and reference corridors expl
 
   assert.match(promptSurfaceSource, /packages\/generic-agents\/\*/u);
   assert.match(promptSurfaceSource, /packages\/generic-tools\/\*/u);
-  assert.match(promptSurfaceSource, /`need-comprehension` is now the canonical package boundary/u);
-  assert.match(promptSurfaceSource, /need-comprehension, written-asset, asset-pack, and delivery-mechanism analysis/u);
+  assert.match(promptSurfaceSource, /`need-comprehension` is now the canonical generic-tool package boundary/u);
+  assert.match(promptSurfaceSource, /Bitcode need-comprehension, written-asset, AssetPack, and delivery-mechanism analysis/u);
   assert.match(promptSurfaceSource, /protocol-demonstration\/V26_DOC_COMMENT_REFORM\.md/u);
   assert.match(promptSurfaceSource, /prefer `@bitcode\/prompts\/prompt` and `@bitcode\/prompts\/parts\/PromptPart`/u);
   assert.match(promptSurfaceSource, /prefer `@bitcode\/execution-generics\/Execution` and `@bitcode\/execution-generics\/prompts\/ExecutionPrompt`/u);
   assert.match(promptSurfaceSource, /broader active execution-bearing runtime carriers/u);
   assert.match(promptSurfaceSource, /retained reference test\/build configs should use exact public prompt subpath maps/u);
   assert.match(promptSurfaceSource, /Jira remains reader-first need-ingestion\/reference posture/u);
-  assert.match(promptSurfaceSource, /Runtime JavaScript PromptPart carry-through must match the TypeScript content/u);
+  assert.match(promptSurfaceSource, /runtime JavaScript carry-through files must stay content-equivalent/u);
   assert.match(promptSurfaceSource, /retained AssetPack compatibility substep PromptParts/u);
   assert.match(promptSurfaceSource, /broad prompt normalization must be idempotent/u);
   assert.match(promptSurfaceSource, /runtime `\.js` PromptPart strings must synchronize from canonical `\.ts` PromptPart source/u);
@@ -107,7 +107,7 @@ test('V26 inference systems spec binds prompts, tools, agents, and executions to
   assert.match(inferenceSystemsSource, /Agent ownership \| Identify agent role/u);
   assert.match(inferenceSystemsSource, /Execution ownership \| Identify where runtime state is stored/u);
   assert.match(inferenceSystemsSource, /`packages\/generic-tools\/need-comprehension\/\*`/u);
-  assert.match(inferenceSystemsSource, /retained compatibility tool reservoir now specified as Bitcode need-comprehension/u);
+  assert.match(inferenceSystemsSource, /individually owned Bitcode need-comprehension prompt\/tool primitives/u);
   assert.match(inferenceSystemsSource, /## Inference Implementation Record/u);
   assert.match(inferenceSystemsSource, /protocol-demonstration\/src\/canonical\/inference-implementation-records\.js/u);
   assert.match(inferenceSystemsSource, /\.bitcode\/inference-implementation-records-proof\.json/u);
@@ -125,7 +125,7 @@ test('V26 inference systems spec binds prompts, tools, agents, and executions to
   assert.match(inferenceSystemsSource, /Agent infrastructure \| `AgentPrompt`, `AgentStepPrompt`/u);
   assert.match(inferenceSystemsSource, /Pipeline infrastructure \| `PipelinePrompt`/u);
   assert.match(inferenceSystemsSource, /Conversation inference \| `BitcodeTerminalConversationSystemPrompt` and `uapi\/prompts\/bitcode-terminal-system-prompt\.ts`/u);
-  assert.match(inferenceSystemsSource, /Need-comprehension compatibility/u);
+  assert.match(inferenceSystemsSource, /Need-comprehension support/u);
   assert.match(inferenceSystemsSource, /package-local no-emit typecheck/u);
   assert.match(inferenceSystemsSource, /## Prompt-Space Witness Baseline/u);
   assert.match(inferenceSystemsSource, /application conversation prompt binding and admitted Bitcode MCP prompt\/tool ingress/u);
@@ -160,8 +160,8 @@ test('V26 prompt hierarchy lint rule enforces Bitcode Registry-backed prompt com
 test('V26 active app config no longer preserves deprecated prompt source aliases', () => {
   assert.doesNotMatch(uapiTsconfigSource, /"@bitcode\/prompts\/src\/\*"/u);
   assert.doesNotMatch(uapiTsconfigSource, /"@bitcode\/prompts\/src\/raw_promptparts\/\*"/u);
-  assert.match(uapiTsconfigSource, /"@bitcode\/prompts": \["\.\.\/packages\/prompts\/src\/index\.ts"\]/u);
-  assert.match(uapiTsconfigSource, /"@bitcode\/prompts\/\*": \["\.\.\/packages\/prompts\/src\/\*"\]/u);
+  assert.match(uapiTsconfigSource, /"@bitcode\/prompts":\s*\[\s*"\.\.\/packages\/prompts\/src\/index\.ts"\s*\]/u);
+  assert.match(uapiTsconfigSource, /"@bitcode\/prompts\/\*":\s*\[\s*"\.\.\/packages\/prompts\/src\/\*"\s*\]/u);
 });
 
 test('V26 prompt-space proof proves the fifth-gate baseline without claiming eighth-gate closure', () => {

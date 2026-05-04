@@ -13,4 +13,4 @@ import { PromptPart } from '../../parts/PromptPart';
  */
 
 export const PROMPTPART_SPECIFIC_TOOL_SUPABASEMCP_DOCCODETOOLEXAMPLE1: PromptPart =
-  'Example: Execute SELECT query on deliverables table and return rows.' as PromptPart;
+  'Example: Execute a SELECT query against AssetPack evidence storage and return rows.' as PromptPart;

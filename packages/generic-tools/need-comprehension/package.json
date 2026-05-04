@@ -1,7 +1,7 @@
 {
   "name": "@bitcode/generic-tools-need-comprehension",
   "version": "1.0.0",
-  "description": "Retained compatibility tools for Bitcode need comprehension and asset-pack written-asset analysis",
+  "description": "Canonical Bitcode Need-comprehension tools for asset-pack written-asset analysis",
   "main": "src/index.ts",
   "scripts": {
     "build": "tsc",

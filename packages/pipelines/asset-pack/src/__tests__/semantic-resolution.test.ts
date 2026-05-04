@@ -19,29 +19,38 @@ describe('AssetPack semantic resolution', () => {
     ).toBe('need-satisfaction-asset-pack');
   });
 
-  it('normalizes admitted V26 written-asset request labels to pull-request delivery', () => {
+  it('keeps written-asset labels out of delivery-mechanism selection', () => {
     expect(resolveDeliveryMechanismTemplate({ writtenAssetType: 'code-change' })).toBe('pull-request');
-    expect(resolveDeliveryMechanismTemplate({ writtenAssetType: 'branch-deployment' })).toBe('pull-request');
+    expect(resolveDeliveryMechanismTemplate({ writtenAssetType: 'design-document-review' })).toBe('pull-request');
+    expect(resolveDeliveryMechanismTemplate({ deliveryMechanismTemplate: 'pull-request' })).toBe('pull-request');
   });
 
   it('rejects old non-PR delivery labels instead of retaining them', () => {
-    expect(() => resolveDeliveryMechanismTemplate({ writtenAssetType: 'code-change-review' })).toThrow(
+    expect(() => resolveDeliveryMechanismTemplate({ deliveryMechanismTemplate: 'code-change-review' })).toThrow(
       /pull-request delivery only/
     );
-    expect(() => resolveDeliveryMechanismTemplate({ writtenAssetType: 'design-document' })).toThrow(
+    expect(() => resolveDeliveryMechanismTemplate({ deliveryTarget: 'branch-deployment' })).toThrow(
       /pull-request delivery only/
     );
-    expect(() => resolveDeliveryMechanismTemplate({ writtenAssetType: 'design-document-review' })).toThrow(
+    expect(() => resolveDeliveryMechanismTemplate({ deliveryMechanism: { type: 'design-document-review' } })).toThrow(
       /pull-request delivery only/
     );
   });
 
   it('reads delivery-mechanism templates from execution without changing written-asset kind', () => {
     const exec = new Execution('pipeline:asset-pack');
-    exec.store('pipeline', 'writtenAssetType', ['code-change']);
+    exec.store('pipeline', 'writtenAssetType', ['need-satisfaction-asset-pack']);
     exec.store('pipeline', 'deliveryMechanismTemplate', 'pull-request');
 
     expect(resolveWrittenAssetTypeFromExecution(exec)).toBe('need-satisfaction-asset-pack');
+    expect(resolveDeliveryMechanismTemplateFromExecution(exec)).toBe('pull-request');
+  });
+
+  it('does not resolve delivery mechanisms from written-asset request mirrors', () => {
+    const exec = new Execution('pipeline:asset-pack');
+    exec.store('pipeline', 'writtenAssetRequest', 'design-review-request');
+    exec.store('setup', 'writtenAssetRequest', 'code-review-request');
+
     expect(resolveDeliveryMechanismTemplateFromExecution(exec)).toBe('pull-request');
   });
 

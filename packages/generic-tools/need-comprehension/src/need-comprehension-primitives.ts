@@ -1,9 +1,9 @@
 /**
  * NEED COMPREHENSION PRIMITIVES
  *
- * Canonical pure-function owners behind the retained need-comprehension
- * package. Bitcode does not have task-first product semantics, so
- * task-named exports must remain wrapper carriers only.
+ * Canonical pure-function owners behind the need-comprehension package.
+ * Bitcode need-first product semantics own this package directly; removed
+ * pre-reform primitive files must not re-enter this source boundary.
  */
 
 import { z } from 'zod';
@@ -53,7 +53,7 @@ export async function analyzeNeedSemantics({
       semantic_keywords: ['need', 'written-asset', 'asset-pack', 'delivery-mechanism'],
       implied_requirements: [
         'Preserve proof-facing requirements',
-        'Keep compatibility names from owning product semantics'
+        'Keep canonical Bitcode names at product ownership boundaries'
       ],
       complexity_indicators: [
         'Repository/package impact',
@@ -72,7 +72,7 @@ export async function analyzeNeedSemantics({
       technology_stack: context_information?.technology_stack ?? [],
       attachment_names: context_information?.existing_attachments ?? []
     },
-    delivery_mechanism_boundaries: ['GitHubPullRequest', 'JiraComment', 'interface-specific wrapper'],
+    delivery_mechanism_boundaries: ['GitHubPullRequest', 'JiraComment', 'interface-specific transport'],
     need_classification: {
       primary_need_type: 'feature_implementation' as const,
       related_need_types: ['enhancement', 'integration'] as const,
@@ -106,7 +106,7 @@ export async function extractNeedRequirements({
       expressed_need: expressedNeed,
       written_asset_types: ['source-change', 'proof-update', 'interface-payload'],
       asset_pack_requirements: ['repository coherence', 'verification evidence'],
-      delivery_mechanism_requirements: ['wrapper payload does not redefine the written asset']
+      delivery_mechanism_requirements: ['transport payload does not redefine the written asset']
     },
     functional_requirements: [
       {
@@ -259,17 +259,17 @@ export async function generateNeedSatisfactionCriteria({
         description: 'Canonical Bitcode terminology is maintained',
         type: 'quality' as const,
         measurement_method: 'Static code analysis and review',
-        acceptance_threshold: 'Compatibility names are marked as wrappers',
+        acceptance_threshold: 'Canonical Bitcode names own product semantics at every boundary',
         validation_approach: 'Spec and prompt surface assertions'
       }
     ],
     proof_criteria: ['Generated V26 proof artifacts include the changed prompt surface'],
     commercial_accountability_criteria: [
       'Critical source-to-shares service questions are answered before fit search or settlement',
-      'The answer is reviewable by the customer/operator without relying on old-world terminology'
+      'The answer is reviewable by the customer/operator using canonical Bitcode terminology'
     ],
     persistence_criteria: ['Any persisted run state mirrors need and written-asset aliases'],
-    interface_criteria: ['Delivery mechanisms are wrapper metadata on top of stable assets'],
+    interface_criteria: ['Delivery mechanisms are transport metadata on top of stable assets'],
     blocking_criteria: ['No old prompt text remains in runtime prompt carry-through'],
     business_criteria: [],
     user_experience_criteria: [],
@@ -379,14 +379,14 @@ export async function analyzeNeedSatisfactionImplementationComplexity({
     },
     strategic_insights: [
       {
-        insight: 'Small asset-pack slices are safer than broad compatibility removal',
+        insight: 'Small asset-pack slices are safer than broad reform passes',
         priority: 'high' as const,
         actionable: true,
         confidence: 0.9
       }
     ],
     implementation_recommendations: [
-      'Preserve compatibility names until semantic mirrors are proven',
+      'Remove noncanonical names after semantic mirrors are proven',
       'Update canonical PromptPart source and generated runtime prompt artifacts together',
       'Refresh V26 proof artifacts when prompt surfaces change'
     ]

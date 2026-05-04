@@ -1,6 +1,5 @@
 import { Tool } from '@bitcode/tools-generics';
 import { extractNeedRequirements } from './need-comprehension-primitives';
-import { extractRequirements } from './primitives';
 import {
   EXTRACT_NEED_REQUIREMENTS_DOC_CODE_TOOL_PROMPT
 } from './prompts/ExtractNeedRequirementsDocCodeToolPrompt';
@@ -15,9 +14,4 @@ export class ExtractNeedRequirementsTool extends Tool<typeof extractNeedRequirem
   use = extractNeedRequirements;
 }
 
-export class ExtractRequirementsTool extends Tool<typeof extractRequirements> {
-  use = extractRequirements;
-}
-
 export const extractNeedRequirementsTool = new ExtractNeedRequirementsTool();
-export const extractRequirementsTool = new ExtractRequirementsTool();
