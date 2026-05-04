@@ -255,13 +255,13 @@ const formatted = toolPrompt.format();
 import { PROMPTPART_GENERIC_VALIDATION_INPUTCHECKS_NULLCHECK } 
   from '@bitcode/prompts';
 
-import { PROMPTPART_SPECIFIC_DELIVERABLE_SETUPREPOSITORY_ANALYSIS } 
+import { PROMPTPART_SPECIFIC_TOOL_REPOSITORYSETUP_ASSETPACK_METADATA_PIPELINE } 
   from '@bitcode/prompts';
 
 // Use in prompt formatting
 const prompt = createPrompt();
 prompt.set('validation:null', PROMPTPART_GENERIC_VALIDATION_INPUTCHECKS_NULLCHECK);
-prompt.set('deliverable:analysis', PROMPTPART_SPECIFIC_DELIVERABLE_SETUPREPOSITORY_ANALYSIS);
+prompt.set('asset-pack:metadata:pipeline', PROMPTPART_SPECIFIC_TOOL_REPOSITORYSETUP_ASSETPACK_METADATA_PIPELINE);
 ```
 
 ## Critical: NO String Formatting
@@ -369,7 +369,7 @@ promptpart_generic_formatting_section_header.ts
 ## V26 Semantic Units = Zero Inline Strings
 
 ### PTRR Phase & Output PromptParts
-Deliverable (and future V26) pipelines now model every PTRR phase header, context statement, and output requirement as PromptParts under `raw_promptparts/specific`. Examples:
+AssetPack and future Bitcode pipelines model every PTRR phase header, context statement, and output requirement as PromptParts under `raw_promptparts/specific`. Examples:
 
 ```
 promptpart_specific_agent_analyzecodebase_phase_plan_label.ts

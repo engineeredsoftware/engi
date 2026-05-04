@@ -2252,10 +2252,10 @@ function buildV26PromptSystemTotalityProof({
         'packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_comprehendneed_system_instructions.ts',
         'packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_comprehendneed_plan_strategy.ts',
         'packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_comprehendneed_try_directives.ts',
-        'packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_deliverablesetupcomprehendneed_identity_definition.ts',
-        'packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_deliverablesetupcomprehendneed_purpose_corestatement.ts',
-        'packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_deliverablesetupcomprehendneed_output_needdefinitionanalysis_spec.ts',
-        'packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_deliverablesetupcomprehendneed_output_types_spec.ts',
+        'packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_assetpacksetupcomprehendneed_identity_definition.ts',
+        'packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_assetpacksetupcomprehendneed_purpose_corestatement.ts',
+        'packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_assetpacksetupcomprehendneed_output_needdefinitionanalysis_spec.ts',
+        'packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_assetpacksetupcomprehendneed_output_types_spec.ts',
         'packages/pipelines/asset-pack/src/agents/setup/asset-pack-comprehend-need-agent.ts',
         'packages/pipelines/asset-pack/src/agents/setup/asset-pack-ready-to-iterate-agent.ts',
         'packages/pipelines/asset-pack/src/agents/setup/asset-pack-setup-plan-agent.ts',
@@ -2288,7 +2288,7 @@ function buildV26PromptSystemTotalityProof({
         'packages/prompts/src/raw_promptparts/specific/promptpart_specific_tool_lspquery_doccodetoolcapabilities.ts',
         'packages/prompts/src/raw_promptparts/specific/promptpart_specific_tool_lspquery_doccodetooloutput.ts',
         'packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_initializelsp_purpose_corestatement.ts',
-        'packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_deliverablesetupinitializelsp_purpose_corestatement.ts',
+        'packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_assetpacksetupinitializelsp_purpose_corestatement.ts',
         'packages/prompts/src/raw_promptparts/specific/promptpart_specific_tool_context_awareness_lsp_header.ts',
         'packages/prompts/src/raw_promptparts/specific/promptpart_specific_tool_context_awareness_lsp_footer.ts'
       ]

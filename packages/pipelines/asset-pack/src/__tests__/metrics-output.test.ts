@@ -56,16 +56,12 @@ describe('AssetPack pipeline bring-up (setup + PTRR plan: prepare→reason)', ()
       expect(res).toBeDefined();
 
       // Structured inserts occurred
-      const phaseRows = inserts.filter(i =>
-        i.table === 'phase_executions' || i.table === 'deliverables_pipeline_phase_delegations'
-      );
+      const phaseRows = inserts.filter(i => i.table === 'phase_executions');
       expect(phaseRows.length).toBeGreaterThanOrEqual(1);
       expect(
         phaseRows.some((row) => row.row.phase_name === 'setup' || row.row.phase === 'setup')
       ).toBe(true);
-      const agentRows = inserts.filter(i =>
-        i.table === 'step_executions' || i.table === 'deliverables_pipeline_agent_steps'
-      );
+      const agentRows = inserts.filter(i => i.table === 'step_executions');
       expect(agentRows.some(r => r.row.agent_name === 'asset-pack-setup-plan-agent')).toBe(true);
     } finally {
       delete process.env.BITCODE_ENABLE_ASSET_PACK_SETUP_PHASE_RUNTIME_IN_TEST;

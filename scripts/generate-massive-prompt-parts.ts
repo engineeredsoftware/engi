@@ -326,13 +326,13 @@ const assetPackCategories: PromptCategory[] = [
       {
         suffix: 'stored_asset_pack_evidence',
         description: 'Stored AssetPack evidence',
-        content: 'STORED ASSETPACK EVIDENCE:\nSummarize synthesized artifacts, proof commands, and repository state.\nStore evidence for Exchange and Terminal reread.\nDo not emit deliverables mirrors.',
+        content: 'STORED ASSETPACK EVIDENCE:\nSummarize synthesized artifacts, proof commands, and repository state.\nStore evidence for Exchange and Terminal reread.\nDo not emit old-world output mirrors.',
         priority: 'high'
       },
       {
         suffix: 'asset_pack_completion',
         description: 'AssetPack completion payload',
-        content: 'ASSETPACK COMPLETION:\nCarry summary, assetPackSynthesisArtifacts, writtenAssets, shippables, deliveryMechanism, need, writtenAssetType, and repoSnapshot.\nReplace finalWorkSummary semantics completely.'
+        content: 'ASSETPACK COMPLETION:\nCarry summary, assetPackSynthesisArtifacts, writtenAssets, shippables, deliveryMechanism, need, writtenAssetType, and repoSnapshot.\nReplace pre-V26 final-summary semantics completely.'
       },
       {
         suffix: 'terminal_reread',

@@ -383,7 +383,7 @@ export const V26_INFERENCE_IMPLEMENTATION_RECORDS = Object.freeze([
         'packages/generic-tools/simple-system-text-search/src/prompts/BitcodeRepositoryEvidenceSearchDocCodeToolPrompt.ts',
         'packages/generic-tools/simple-system-text-search/src/prompts/SimpleSystemTextSearchDocCodeToolPrompt.ts'
       ],
-      rawPromptPartBoundary: 'COMPREHENDNEED, DELIVERABLESETUPCOMPREHENDNEED, compatibility-file TEXTSEARCHER, and compatibility-file SYSTEMTEXTSEARCH PromptParts before compatibility COMPREHENDTASK wrappers',
+      rawPromptPartBoundary: 'COMPREHENDNEED, ASSETPACKSETUPCOMPREHENDNEED, compatibility-file TEXTSEARCHER, and compatibility-file SYSTEMTEXTSEARCH PromptParts before compatibility COMPREHENDTASK wrappers',
       registryLayering: 'Generic PTRR and formatting PromptParts form base layers while specific setup, validation, Finish, and delivery-mechanism PromptParts implement Bitcode need, written-asset, asset-pack, proof, and delivery-mechanism behavior; repository-evidence-search PromptParts add source-grounding behavior through prompt registries.',
       runtimeCarryThrough: 'AssetPack pipeline and repository-evidence runtime promptparts must teach need-first asset-pack synthesis, source-grounding, and delivery mechanisms.'
     },

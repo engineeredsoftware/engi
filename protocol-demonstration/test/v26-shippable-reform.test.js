@@ -31,6 +31,26 @@ const comprehendNeedPromptSource = readFileSync(
   new URL('../../packages/pipelines/asset-pack/src/agents/prompts/asset-pack-comprehend-need-agent-prompts.ts', import.meta.url),
   'utf8'
 );
+const cloneRepositoryPromptSource = readFileSync(
+  new URL('../../packages/pipelines/asset-pack/src/agents/prompts/clone-vcs-repository-prompt.ts', import.meta.url),
+  'utf8'
+);
+const assetPackCloneOverlayPromptSource = readFileSync(
+  new URL('../../packages/pipelines/asset-pack/src/agents/prompts/asset-pack-vcs-clone-repository-agent-prompts.ts', import.meta.url),
+  'utf8'
+);
+const dangerWallPromptSource = readFileSync(
+  new URL('../../packages/pipelines/asset-pack/src/agents/prompts/danger-wall-prompt.ts', import.meta.url),
+  'utf8'
+);
+const readyToIteratePromptSource = readFileSync(
+  new URL('../../packages/pipelines/asset-pack/src/agents/prompts/ready-to-iterate-prompt.ts', import.meta.url),
+  'utf8'
+);
+const initializeLspPromptSource = readFileSync(
+  new URL('../../packages/pipelines/asset-pack/src/agents/prompts/initialize-lsp-prompt.ts', import.meta.url),
+  'utf8'
+);
 const comprehendNeedBasePromptSource = readFileSync(
   new URL('../../packages/pipelines/asset-pack/src/agents/prompts/comprehend-need-prompt.ts', import.meta.url),
   'utf8'
@@ -86,6 +106,18 @@ const removedTypeKeyedImplementationEntrypoints = [
 ];
 const comprehendNeedRawIdentityPromptSource = readFileSync(
   new URL('../../packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_comprehendneed_system_identity.ts', import.meta.url),
+  'utf8'
+);
+const assetPackCloneRawTryDetailsSource = readFileSync(
+  new URL('../../packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_assetpackpipeline_clonevcsrepository_try_details.ts', import.meta.url),
+  'utf8'
+);
+const assetPackDangerWallStructuredOutputSource = readFileSync(
+  new URL('../../packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_assetpacksetupdangerwall_plan_substep_structured_output.ts', import.meta.url),
+  'utf8'
+);
+const assetPackReadyToIterateStructuredOutputSource = readFileSync(
+  new URL('../../packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_assetpacksetupreadytoiterate_try_substep_structured_output.ts', import.meta.url),
   'utf8'
 );
 const semanticResolutionSource = readFileSync(
@@ -289,20 +321,12 @@ const phaseFinishPurposePromptSource = readFileSync(
   new URL('../../packages/prompts/src/raw_promptparts/specific/promptpart_specific_phase_assetpackfinish_purpose_corestatement.ts', import.meta.url),
   'utf8'
 );
-const setupComprehendTaskPurposePromptSource = readFileSync(
-  new URL('../../packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_deliverablesetupcomprehendtask_purpose_corestatement.ts', import.meta.url),
-  'utf8'
-);
-const setupComprehendTaskIdentityPromptSource = readFileSync(
-  new URL('../../packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_deliverablesetupcomprehendtask_identity_definition.ts', import.meta.url),
-  'utf8'
-);
 const setupComprehendNeedPurposePromptSource = readFileSync(
-  new URL('../../packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_deliverablesetupcomprehendneed_purpose_corestatement.ts', import.meta.url),
+  new URL('../../packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_assetpacksetupcomprehendneed_purpose_corestatement.ts', import.meta.url),
   'utf8'
 );
 const setupComprehendNeedIdentityPromptSource = readFileSync(
-  new URL('../../packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_deliverablesetupcomprehendneed_identity_definition.ts', import.meta.url),
+  new URL('../../packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_assetpacksetupcomprehendneed_identity_definition.ts', import.meta.url),
   'utf8'
 );
 const finalizeDeliveryEvidencePurposePromptSource = readFileSync(
@@ -400,6 +424,9 @@ const rawPromptPartDirs = [
   '../../packages/prompts/src/raw_promptparts/specific/',
   '../../packages/prompts/src/raw_promptparts/generic/',
 ].map((relativePath) => new URL(relativePath, import.meta.url));
+const removedComprehendTaskRawPromptParts = readdirSync(rawPromptPartDirs[0])
+  .filter((filename) => /^promptpart_specific_agent_deliverablesetupcomprehendtask.*(?:\.d)?\.(?:ts|js)$/u.test(filename))
+  .sort();
 
 const deliverableSubstepPromptPartSources = readdirSync(rawPromptPartDirs[0])
   .filter((filename) => /^promptpart_specific_agent_(?:deliverable.*|assetpackvalidationreadytofinish.*)_substep_.*\.ts$/u.test(filename))
@@ -408,7 +435,7 @@ const deliverableSubstepPromptPartSources = readdirSync(rawPromptPartDirs[0])
 
 const deliverablePromptPartMetadataSources = readdirSync(rawPromptPartDirs[0])
   .filter((filename) =>
-    /^promptpart_specific_(?:agent_deliverable|agent_finalizeshipment|agent_determinedeliverabletype|phase_assetpack|pipeline_deliverable|tool_.*deliverable|agent_assetpackfinish|agent_assetpacksynthesizeartifacts|agent_assetpackvalidationreadytofinish|agent_readytofinish|tool_repositorysetup_assetpack|tool_assetpack).*?(?:\.d)?\.ts$/u.test(filename)
+    /^promptpart_specific_(?:agent_deliverable|agent_finalizeshipment|agent_determinedeliverabletype|phase_assetpack|pipeline_deliverable|tool_.*deliverable|agent_assetpackfinish|agent_assetpacksetup|agent_assetpackpipeline|agent_assetpacksynthesizeartifacts|agent_assetpackvalidationreadytofinish|agent_readytofinish|tool_repositorysetup_assetpack|tool_assetpack).*?(?:\.d)?\.ts$/u.test(filename)
   )
   .sort()
   .map((filename) => [filename, readFileSync(new URL(filename, rawPromptPartDirs[0]), 'utf8')]);
@@ -582,7 +609,8 @@ test('setup comprehension path mirrors semantic need and written-asset keys for 
   assert.match(comprehendNeedSource, /need_satisfaction_criteria/u);
   assert.match(comprehendNeedSource, /written_asset_types/u);
   assert.match(comprehendNeedPromptSource, /DP_COMPREHEND_NEED_SYSTEM_PROMPT/u);
-  assert.match(comprehendNeedPromptSource, /PROMPTPART_SPECIFIC_AGENT_DELIVERABLESETUPCOMPREHENDNEED_IDENTITY_DEFINITION/u);
+  assert.match(comprehendNeedPromptSource, /PROMPTPART_SPECIFIC_AGENT_ASSETPACKSETUPCOMPREHENDNEED_IDENTITY_DEFINITION/u);
+  assert.doesNotMatch(comprehendNeedPromptSource, /DELIVERABLESETUPCOMPREHENDNEED|deliverablesetupcomprehendneed/u);
   assert.doesNotMatch(comprehendNeedPromptSource, /PROMPTPART_SPECIFIC_AGENT_DELIVERABLESETUPCOMPREHENDTASK_IDENTITY_DEFINITION/u);
   assert.doesNotMatch(comprehendNeedPromptSource, /pipeline:compatibility/u);
   assert.match(comprehendNeedPromptSource, /asset-pack-written-asset/u);
@@ -611,6 +639,33 @@ test('setup comprehension path mirrors semantic need and written-asset keys for 
   assert.match(comprehendNeedSource, /execution\.store\('setup\/need', 'satisfactionCriteria', needSatisfactionCriteria\);/u);
   assert.match(comprehendNeedSource, /execution\.store\('setup\/need', 'comprehension', result\.comprehension\);/u);
   assert.match(comprehendNeedSource, /execution\.store\('setup\/need', 'entities', result\.entities\);/u);
+});
+
+test('setup clone repository prompts use AssetPack-native PromptPart reservoirs', () => {
+  assert.match(cloneRepositoryPromptSource, /PROMPTPART_SPECIFIC_AGENT_ASSETPACKSETUPCLONEREPOSITORY_IDENTITY_DEFINITION/u);
+  assert.match(cloneRepositoryPromptSource, /promptpart_specific_agent_assetpacksetupclonerepository_identity_definition/u);
+  assert.match(assetPackCloneOverlayPromptSource, /PROMPTPART_SPECIFIC_AGENT_ASSETPACKPIPELINE_CLONEVCSREPOSITORY_SYSTEM_IDENTITY/u);
+  assert.match(assetPackCloneOverlayPromptSource, /promptpart_specific_agent_assetpackpipeline_clonevcsrepository_system_identity/u);
+  assert.doesNotMatch(cloneRepositoryPromptSource, /DELIVERABLESETUPCLONEREPOSITORY|deliverablesetupclonerepository/u);
+  assert.doesNotMatch(assetPackCloneOverlayPromptSource, /DELIVERABLESPIPELINE_CLONEVCSREPOSITORY|deliverablespipeline_clonevcsrepository/u);
+  assert.match(assetPackCloneRawTryDetailsSource, /AssetPack repository clone tool/u);
+  assert.doesNotMatch(assetPackCloneRawTryDetailsSource, /deliverables clone tool/u);
+});
+
+test('setup safety and readiness prompts use AssetPack-native PromptPart reservoirs', () => {
+  assert.match(dangerWallPromptSource, /PROMPTPART_SPECIFIC_AGENT_ASSETPACKSETUPDANGERWALL_IDENTITY_DEFINITION/u);
+  assert.match(dangerWallPromptSource, /promptpart_specific_agent_assetpacksetupdangerwall_identity_definition/u);
+  assert.match(readyToIteratePromptSource, /PROMPTPART_SPECIFIC_AGENT_ASSETPACKSETUPREADYTOITERATE_IDENTITY_DEFINITION/u);
+  assert.match(readyToIteratePromptSource, /promptpart_specific_agent_assetpacksetupreadytoiterate_identity_definition/u);
+  assert.match(initializeLspPromptSource, /PROMPTPART_SPECIFIC_AGENT_ASSETPACKSETUPINITIALIZELSP_IDENTITY_DEFINITION/u);
+  assert.match(initializeLspPromptSource, /promptpart_specific_agent_assetpacksetupinitializelsp_identity_definition/u);
+  assert.doesNotMatch(dangerWallPromptSource, /DELIVERABLESETUPDANGERWALL|deliverablesetupdangerwall/u);
+  assert.doesNotMatch(readyToIteratePromptSource, /DELIVERABLESETUPREADYTOITERATE|deliverablesetupreadytoiterate/u);
+  assert.doesNotMatch(initializeLspPromptSource, /DELIVERABLESETUPINITIALIZELSP|deliverablesetupinitializelsp/u);
+  assert.match(assetPackDangerWallStructuredOutputSource, /PR Delivering/u);
+  assert.match(assetPackReadyToIterateStructuredOutputSource, /PR Delivering/u);
+  assert.doesNotMatch(assetPackDangerWallStructuredOutputSource, /\bshipping\b/u);
+  assert.doesNotMatch(assetPackReadyToIterateStructuredOutputSource, /\bshipping\b/u);
 });
 
 test('implementation, validation, and Finish carriers separate AssetPack kind from delivery templates', () => {
@@ -742,10 +797,11 @@ test('AssetPack templates and bounded promptparts teach asset-pack-run semantics
   assert.match(phaseFinishPurposePromptSource, /Emit connected-interface delivery mechanisms from validated Need-satisfaction AssetPack synthesis artifacts/u);
   assert.match(setupComprehendNeedPurposePromptSource, /written-asset expectations, delivery-mechanism expectations, asset-pack context/u);
   assert.match(setupComprehendNeedIdentityPromptSource, /Bitcode need, satisfaction criteria, written-asset expectations, asset-pack context/u);
-  assert.match(setupComprehendTaskPurposePromptSource, /Bitcode retained comprehend-task compatibility PromptPart for canonical comprehend-need asset-pack synthesis/u);
-  assert.match(setupComprehendTaskPurposePromptSource, /written-asset expectations, delivery-mechanism expectations, asset-pack context/u);
-  assert.match(setupComprehendTaskIdentityPromptSource, /Bitcode retained comprehend-task compatibility PromptPart for canonical comprehend-need asset-pack synthesis/u);
-  assert.match(setupComprehendTaskIdentityPromptSource, /Bitcode need, satisfaction criteria, written-asset expectations, asset-pack context/u);
+  assert.deepEqual(
+    removedComprehendTaskRawPromptParts,
+    [],
+    'task-named setup PromptParts must stay removed after ASSETPACKSETUPCOMPREHENDNEED becomes the active owner'
+  );
   assert.match(finalizeDeliveryEvidencePurposePromptSource, /finalize Finish evidence for validated Need-satisfaction AssetPack synthesis artifacts with stored AssetPack evidence, delivery-mechanism artifacts/u);
   assert.match(finalizeDeliveryEvidenceIdentityPromptSource, /finalizing Finish evidence for validated Need-satisfaction AssetPack synthesis artifacts, stored AssetPack evidence, delivery-mechanism artifacts/u);
   assert.match(deliverablesSystemBasePromptSource, /satisfy an expressed need by synthesizing stable Need-satisfaction AssetPack contents and evidence/u);
@@ -860,10 +916,10 @@ test('deliverable substep PromptParts express Bitcode need, written-asset, and a
   assert.match(combinedPromptText, /assetPack/u);
 });
 
-test('retained AssetPack compatibility PromptPart doc-comment metadata is Bitcode-native', () => {
+test('retained AssetPack trace PromptPart doc-comment metadata is Bitcode-native', () => {
   assert.ok(
-    deliverablePromptPartMetadataSources.length >= 490,
-    `expected broad AssetPack compatibility promptpart metadata coverage, saw ${deliverablePromptPartMetadataSources.length}`
+    deliverablePromptPartMetadataSources.length >= 470,
+    `expected broad AssetPack trace promptpart metadata coverage, saw ${deliverablePromptPartMetadataSources.length}`
   );
 
   for (const [filename, source] of deliverablePromptPartMetadataSources) {
@@ -873,7 +929,7 @@ test('retained AssetPack compatibility PromptPart doc-comment metadata is Bitcod
     assert.doesNotMatch(source, /Finalize Shipment|Determine Deliverable Type|shipment|shipping-phase/u, `${filename} still teaches shipment or deliverable-type semantics`);
     assert.match(
       source,
-      /intent:\s*"Bitcode [^"]*(?:need|written|asset-pack|assetPack|AssetPack|synthesis|evidence|delivery|Shippable|proof|comprehend-task)/u,
+      /intent:\s*"Bitcode [^"]*(?:need|written|asset-pack|assetPack|AssetPack|synthesis|evidence|delivery|Shippable|proof)/u,
       `${filename} should carry Bitcode intent metadata`
     );
   }

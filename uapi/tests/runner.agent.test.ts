@@ -51,7 +51,7 @@ describe('executeAgentSteps', () => {
       recordAgentStart: jest.fn(() => ({ id: 'exec1' })),
       recordAgentStep: jest.fn(),
       recordAgentComplete: jest.fn(),
-      execution: { phases: { setup: {}, discovery: { name: 'discovery', agents: [] }, implementation: { name: 'implementation', agents: [] }, validation: { name: 'validation', agents: [] }, shipping: { name: 'shipping', agents: [] } } },
+      execution: { phases: { setup: {}, discovery: { name: 'discovery', agents: [] }, implementation: { name: 'implementation', agents: [] }, validation: { name: 'validation', agents: [] }, finish: { name: 'finish', agents: [] } } },
       getCurrentIteration: jest.fn(() => ({ phases: { discovery: {}, implementation: {}, validation: {} }, llmCalls: [], correlationId: 'cid' })),
       fileTracker: { /* not used in this test */ }
     };

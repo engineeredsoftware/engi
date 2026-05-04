@@ -1140,11 +1140,31 @@ Required closure posture:
   filtered `tsc` verification over the active `uapi` program for the AssetPack phase/index/setup corridor
   proof surface:
   fifth-gate caller-contract compile-health closure so the AssetPack bring-up path no longer preserves dead declarative phase-runner metadata, unsupported PTRR config keys, wrong discovery-registration aliases, `PipelineExecution` over-narrowing in `createPhaseRunner`, or stale setup-schema default variance where the active AssetPack corridor rereads through the Bitcode pipeline primitives
-- `{packages/{generic-agents/vcs/src/index.ts,github/src/providers/github-provider.ts,orm/src/models/{user-btd-transactions.ts,deliverables.ts,notifications.ts}}}`
+- `{packages/{generic-agents/vcs/src/index.ts,github/src/providers/github-provider.ts,orm/src/models/{user-btd-transactions.ts,asset-pack-evidence.ts,notifications.ts}}}`
   test coverage:
   filtered `tsc` verification over the active `uapi` program for the retained repository-boundary VCS and ORM persistence corridor
   proof surface:
-  fifth-gate retained repository/persistence compile-health closure so the VCS agent layer no longer uses schema values as types, the GitHub provider now emits canonical `VCSCommit.parents` and a synchronous webhook-verification contract, and the active `$BTD` transaction plus deliverable/notification ORM carriers no longer preserve implicit-`any` reducers or null-key statistics drift
+  fifth-gate retained repository/persistence compile-health closure so the VCS agent layer no longer uses schema values as types, the GitHub provider now emits canonical `VCSCommit.parents` and a synchronous webhook-verification contract, and the active `$BTD` transaction plus AssetPack-evidence/notification ORM carriers no longer preserve implicit-`any` reducers or null-key statistics drift
+- `{packages/pipelines/asset-pack/src/__tests__/metrics-output.test.ts,packages/prompts/{README.md,src/{index.ts,formatters/hierarchical.ts}},scripts/{generate-massive-prompt-parts.ts,normalize-asset-pack-promptparts.mjs},uapi/tests/runner.agent.test.ts}`
+  test coverage:
+  focused source-residue scans over retained non-prompt infrastructure plus active AssetPack prompt scaffolding, followed by package-local type/protocol checks
+  proof surface:
+  fifth-gate output-noun and phase-residue closure so reusable prompt infrastructure now demonstrates AssetPack PromptPart imports and `pipeline:asset-pack` paths, generated prompt scaffolding no longer emits old completion-field names as prompt content, the prompt normalization helper no longer classifies broad pipeline completion by the old phase token, active runner fixtures use `finish` rather than `shipping`, and AssetPack metrics tests only accept canonical `phase_executions` / `step_executions` writes rather than treating removed storage-table aliases as success
+- `{packages/pipelines/asset-pack/src/agents/prompts/asset-pack-comprehend-need-agent-prompts.ts,packages/prompts/src/{index.ts,index.d.ts,raw_promptparts/specific/{index.ts,promptpart_specific_agent_assetpacksetupcomprehendneed_*}},protocol-demonstration/test/v26-shippable-reform.test.js,protocol-demonstration/V26_SHIPPABLE_REFORM.md}`
+  test coverage:
+  `protocol-demonstration/test/v26-shippable-reform.test.js` and `pnpm -C packages/pipelines/asset-pack typecheck`
+  proof surface:
+  fifth-gate prompt-reservoir recut closure for the active AssetPack setup/comprehend-need overlay so live prompt code imports `assetpacksetupcomprehendneed` raw PromptParts, the old `deliverablesetupcomprehendneed` file family is removed instead of aliased, the superseded `deliverablesetupcomprehendtask` raw PromptPart family and root exports are removed after semantic mirror closure, the new attachment-evidence refinement PromptPart has TypeScript and runtime JavaScript parity, and the reform note now treats old setup-comprehension PromptPart names as removal targets rather than active module paths
+- `{packages/pipelines/asset-pack/src/agents/prompts/{clone-vcs-repository-prompt.ts,asset-pack-vcs-clone-repository-agent-prompts.ts},packages/prompts/src/{index.ts,index.d.ts,raw_promptparts/specific/{index.ts,promptpart_specific_agent_assetpacksetupclonerepository_*,promptpart_specific_agent_assetpackpipeline_clonevcsrepository_*}},protocol-demonstration/test/v26-shippable-reform.test.js,protocol-demonstration/V26_SHIPPABLE_REFORM.md}`
+  test coverage:
+  `protocol-demonstration/test/v26-shippable-reform.test.js` and `pnpm -C packages/pipelines/asset-pack typecheck`
+  proof surface:
+  fifth-gate prompt-reservoir recut closure for active AssetPack setup clone-repository prompts so live code imports `assetpacksetupclonerepository` and `assetpackpipeline_clonevcsrepository` raw PromptParts, old `deliverablesetupclonerepository` / `deliverablespipeline_clonevcsrepository` file families are removed instead of aliased, and the runtime clone PromptPart text teaches an AssetPack repository clone tool rather than a deliverables clone tool
+- `{packages/pipelines/asset-pack/src/agents/prompts/{danger-wall-prompt.ts,initialize-lsp-prompt.ts,ready-to-iterate-prompt.ts},packages/prompts/src/{index.ts,index.d.ts,raw_promptparts/specific/{index.ts,promptpart_specific_agent_assetpacksetupdangerwall_*,promptpart_specific_agent_assetpacksetupinitializelsp_*,promptpart_specific_agent_assetpacksetupreadytoiterate_*}},protocol-demonstration/test/v26-shippable-reform.test.js,protocol-demonstration/V26_SHIPPABLE_REFORM.md,protocol-demonstration/src/canonical/proven-generator.js}`
+  test coverage:
+  `protocol-demonstration/test/v26-shippable-reform.test.js` and `pnpm -C packages/pipelines/asset-pack typecheck`
+  proof surface:
+  fifth-gate prompt-reservoir recut closure for active AssetPack setup safety, LSP evidence, and readiness prompts so live code imports `assetpacksetupdangerwall`, `assetpacksetupinitializelsp`, and `assetpacksetupreadytoiterate` raw PromptParts, old `deliverablesetupdangerwall` / `deliverablesetupinitializelsp` / `deliverablesetupreadytoiterate` file families are removed instead of aliased, canonical proof inventory points at the recut LSP PromptPart path, and setup structured-output PromptParts describe PR Delivering rather than broad shipping
 
 ## Module namespace proof note
 

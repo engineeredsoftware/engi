@@ -29,7 +29,7 @@ const substepSemantics = new Map([
   ],
   [
     'structured_output',
-    'return structured output with need satisfaction, writtenAssetType, writtenAssets, assetPack evidence, validation status, and deliveryMechanism wrapper fields when shipping is needed'
+    'return structured output with need satisfaction, writtenAssetType, writtenAssets, assetPack evidence, validation status, and deliveryMechanism wrapper fields when a pull-request Shippable is required'
   ],
   [
     'stitch_until_complete',
@@ -180,9 +180,6 @@ function assetPackTraceMetadataIntent(filename) {
   }
   if (lower.startsWith('promptpart_specific_pipeline_')) {
     return `Bitcode AssetPack trace pipeline PromptPart for need-first asset-pack execution and delivery-mechanism separation: ${label}`;
-  }
-  if (lower.includes('shipping')) {
-    return `Bitcode AssetPack trace PromptPart for delivery-mechanism separation over validated written assets: ${label}`;
   }
   if (lower.includes('validation')) {
     return `Bitcode AssetPack trace PromptPart for need satisfaction, written-asset validation, and proof evidence: ${label}`;
