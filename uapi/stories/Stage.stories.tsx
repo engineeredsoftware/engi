@@ -74,7 +74,7 @@ export const ActiveRun: Story = {
           />
           <h2 style={{ color: 'theme(colors.brand.emerald-bright)', margin: '2rem 0 0.5rem' }}>On-the-Fly Instruction</h2>
           <div style={{ background: 'theme(colors.slate.800)', padding: '1rem', borderRadius: '8px' }}>
-          <ExecutionOnTheFlyInstructions runId="demo-run-1" runKind="deliverable" onNewInstruction={action('newInstruction')} />
+          <ExecutionOnTheFlyInstructions runId="demo-run-1" runKind="asset-pack" onNewInstruction={action('newInstruction')} />
           </div>
         </div>
       </div>

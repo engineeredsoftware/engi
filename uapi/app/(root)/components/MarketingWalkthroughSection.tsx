@@ -325,12 +325,12 @@ const SCENARIOS = {
       },
       {
         title: "Line-by-Line Feedback",
-        desc: "Inline comments and suggestions committed.",
+        desc: "Pull-request guidance and suggestions committed.",
         Icon: WrenchScrewdriverIcon,
       },
       {
         title: "Approve or Fix",
-        desc: "Bitcode can push fixes or approve directly.",
+        desc: "Bitcode can push fixes through the PR-backed AssetPack path.",
         Icon: ArrowRightIcon,
       },
     ],

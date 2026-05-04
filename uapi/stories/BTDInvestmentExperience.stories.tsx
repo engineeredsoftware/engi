@@ -17,7 +17,7 @@ Transforms BTD allocation into intelligent value visualization with magical enha
 - **Investment alchemy** - Calculates magical value multipliers based on efficiency, learning, and reusability
 - **ROI visualization** - Shows return on investment trends with animated value counters and efficiency charts
 - **Efficiency coaching** - AI-powered insights with enchantment levels from spark to transcendence
-- **Value projection** - Predicts future deliverable value based on historical performance patterns
+- **Value projection** - Predicts future Shippable value based on historical performance patterns
 - **Magical moments** - Celebrates exceptional efficiency achievements with particle effects
 - **Pattern mastery tracking** - Visualizes learning acceleration and skill development over time
 - **Cosmic value calculation** - Transcendent metrics beyond mere BTD counting
@@ -48,7 +48,7 @@ The system transforms mundane resource allocation into **magical value alchemy**
     },
     showROIProjections: {
       control: 'boolean',
-      description: 'Show upcoming deliverable projections',
+      description: 'Show upcoming AssetPack projections',
     },
   },
 };
@@ -62,7 +62,7 @@ export const EfficientInvestor: Story = {
     investments: [
       {
         id: 'inv-001',
-        deliverableName: 'User Authentication Component',
+        shippableName: 'User Authentication Component',
         estimatedBtd: 120,
         actualBtd: 95,
         efficiency: 1.26, // Spent 26% less than estimated
@@ -78,7 +78,7 @@ export const EfficientInvestor: Story = {
       },
       {
         id: 'inv-002',
-        deliverableName: 'Dashboard Layout System',
+        shippableName: 'Dashboard Layout System',
         estimatedBtd: 200,
         actualBtd: 160,
         efficiency: 1.25,
@@ -94,7 +94,7 @@ export const EfficientInvestor: Story = {
       },
       {
         id: 'inv-003',
-        deliverableName: 'API Integration Service',
+        shippableName: 'API Integration Service',
         estimatedBtd: 300,
         actualBtd: 280,
         efficiency: 1.07,
@@ -143,7 +143,7 @@ export const LearningFocused: Story = {
     investments: [
       {
         id: 'learn-001',
-        deliverableName: 'GraphQL API Explorer',
+        shippableName: 'GraphQL API Explorer',
         estimatedBtd: 180,
         actualBtd: 220,
         efficiency: 0.82, // Spent more than estimated (learning curve)
@@ -159,7 +159,7 @@ export const LearningFocused: Story = {
       },
       {
         id: 'learn-002',
-        deliverableName: 'WebSocket Real-time Chat',
+        shippableName: 'WebSocket Real-time Chat',
         estimatedBtd: 150,
         actualBtd: 190,
         efficiency: 0.79,
@@ -175,7 +175,7 @@ export const LearningFocused: Story = {
       },
       {
         id: 'learn-003',
-        deliverableName: 'Docker Deployment Pipeline',
+        shippableName: 'Docker Deployment Pipeline',
         estimatedBtd: 100,
         actualBtd: 140,
         efficiency: 0.71,
@@ -224,7 +224,7 @@ export const MagicalMoments: Story = {
     investments: [
       {
         id: 'magic-001',
-        deliverableName: 'Component Library Foundation',
+        shippableName: 'Component Library Foundation',
         estimatedBtd: 400,
         actualBtd: 180,
         efficiency: 2.22, // Spent 55% less than estimated!
@@ -240,7 +240,7 @@ export const MagicalMoments: Story = {
       },
       {
         id: 'magic-002',
-        deliverableName: 'Automated Testing Suite',
+        shippableName: 'Automated Testing Suite',
         estimatedBtd: 250,
         actualBtd: 120,
         efficiency: 2.08,
@@ -256,7 +256,7 @@ export const MagicalMoments: Story = {
       },
       {
         id: 'magic-003',
-        deliverableName: 'Performance Optimization Bundle',
+        shippableName: 'Performance Optimization Bundle',
         estimatedBtd: 300,
         actualBtd: 150,
         efficiency: 2.0,
@@ -305,7 +305,7 @@ export const ConservativeInvestor: Story = {
     investments: [
       {
         id: 'cons-001',
-        deliverableName: 'Simple Contact Form',
+        shippableName: 'Simple Contact Form',
         estimatedBtd: 50,
         actualBtd: 55,
         efficiency: 0.91,
@@ -321,7 +321,7 @@ export const ConservativeInvestor: Story = {
       },
       {
         id: 'cons-002',
-        deliverableName: 'CSS Styling Updates',
+        shippableName: 'CSS Styling Updates',
         estimatedBtd: 30,
         actualBtd: 35,
         efficiency: 0.86,
@@ -337,7 +337,7 @@ export const ConservativeInvestor: Story = {
       },
       {
         id: 'cons-003',
-        deliverableName: 'Documentation Update',
+        shippableName: 'Documentation Update',
         estimatedBtd: 40,
         actualBtd: 42,
         efficiency: 0.95,
@@ -394,7 +394,7 @@ export const InvestmentJourney: Story = {
         investments: [
           {
             id: 'beginner-1',
-            deliverableName: 'Hello World Component',
+            shippableName: 'Hello World Component',
             estimatedBtd: 20,
             actualBtd: 25,
             efficiency: 0.8,
@@ -422,7 +422,7 @@ export const InvestmentJourney: Story = {
         investments: [
           {
             id: 'skilled-1',
-            deliverableName: 'User Dashboard',
+            shippableName: 'User Dashboard',
             estimatedBtd: 180,
             actualBtd: 150,
             efficiency: 1.2,
@@ -438,7 +438,7 @@ export const InvestmentJourney: Story = {
           },
           {
             id: 'skilled-2',
-            deliverableName: 'API Integration Layer',
+            shippableName: 'API Integration Layer',
             estimatedBtd: 220,
             actualBtd: 190,
             efficiency: 1.16,
@@ -466,7 +466,7 @@ export const InvestmentJourney: Story = {
         investments: [
           {
             id: 'wizard-1',
-            deliverableName: 'Micro-Frontend System',
+            shippableName: 'Micro-Frontend System',
             estimatedBtd: 600,
             actualBtd: 320,
             efficiency: 1.875,
@@ -482,7 +482,7 @@ export const InvestmentJourney: Story = {
           },
           {
             id: 'wizard-2',
-            deliverableName: 'Performance Optimization Suite',
+            shippableName: 'Performance Optimization Suite',
             estimatedBtd: 400,
             actualBtd: 180,
             efficiency: 2.22,
@@ -636,7 +636,7 @@ export const MagicalEnhancementComparison: Story = {
     const sampleInvestments = [
       {
         id: 'enhance-001',
-        deliverableName: 'Component Library System',
+        shippableName: 'Component Library System',
         estimatedBtd: 300,
         actualBtd: 200,
         efficiency: 1.5,
@@ -652,7 +652,7 @@ export const MagicalEnhancementComparison: Story = {
       },
       {
         id: 'enhance-002',
-        deliverableName: 'Performance Analytics Dashboard',
+        shippableName: 'Performance Analytics Dashboard',
         estimatedBtd: 250,
         actualBtd: 180,
         efficiency: 1.39,

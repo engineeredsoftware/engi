@@ -249,16 +249,16 @@ const promptAuditScriptSource = readFileSync(
   new URL('../../scripts/prompt-audit.sh', import.meta.url),
   'utf8'
 );
-const updateDeliverableTableNamesScriptSource = readFileSync(
-  new URL('../../scripts/update-deliverable-table-names.sh', import.meta.url),
+const updateAssetPackStorageTableNamesScriptSource = readFileSync(
+  new URL('../../scripts/update-asset-pack-storage-table-names.sh', import.meta.url),
   'utf8'
 );
-const updateDeliverableAgentsScriptSource = readFileSync(
-  new URL('../../scripts/update-deliverable-agents.sh', import.meta.url),
+const updateAssetPackAgentsScriptSource = readFileSync(
+  new URL('../../scripts/update-asset-pack-agents.sh', import.meta.url),
   'utf8'
 );
-const generateDeliverablePromptPartsTsSource = readFileSync(
-  new URL('../../scripts/generate-deliverable-promptparts.ts', import.meta.url),
+const generateAssetPackPromptPartsTsSource = readFileSync(
+  new URL('../../scripts/generate-asset-pack-promptparts.ts', import.meta.url),
   'utf8'
 );
 const fixExecutionToDirectivesScriptSource = readFileSync(
@@ -896,20 +896,20 @@ test('retained maintenance scripts audit current Bitcode prompt and asset-pack-r
   assert.doesNotMatch(promptAuditScriptSource, /Shipping Phase/u);
   assert.doesNotMatch(promptAuditScriptSource, /prompts\/src\/raw\/specific/u);
 
-  assert.match(updateDeliverableTableNamesScriptSource, /repo_root=/u);
-  assert.match(updateDeliverableTableNamesScriptSource, /deliverable_pipeline_runs/u);
-  assert.match(updateDeliverableTableNamesScriptSource, /Bitcode asset-pack pipeline corridor/u);
-  assert.doesNotMatch(updateDeliverableTableNamesScriptSource, /Developer\/engi\/engi/u);
+  assert.match(updateAssetPackStorageTableNamesScriptSource, /repo_root=/u);
+  assert.match(updateAssetPackStorageTableNamesScriptSource, /deliverable_pipeline_runs/u);
+  assert.match(updateAssetPackStorageTableNamesScriptSource, /active Bitcode corridor is AssetPack execution/u);
+  assert.doesNotMatch(updateAssetPackStorageTableNamesScriptSource, /Developer\/engi\/engi/u);
 
-  assert.match(updateDeliverableAgentsScriptSource, /repo_root=/u);
-  assert.match(updateDeliverableAgentsScriptSource, /retained asset-pack pipeline agents/u);
-  assert.match(updateDeliverableAgentsScriptSource, /packages\/pipelines\/asset-pack\/src\/agents/u);
-  assert.doesNotMatch(updateDeliverableAgentsScriptSource, /Developer\/engi\/engi/u);
+  assert.match(updateAssetPackAgentsScriptSource, /repo_root=/u);
+  assert.match(updateAssetPackAgentsScriptSource, /retained AssetPack pipeline agents/u);
+  assert.match(updateAssetPackAgentsScriptSource, /packages\/pipelines\/asset-pack\/src\/agents/u);
+  assert.doesNotMatch(updateAssetPackAgentsScriptSource, /Developer\/engi\/engi/u);
 
-  assert.match(generateDeliverablePromptPartsTsSource, /Comprehend Need/u);
-  assert.match(generateDeliverablePromptPartsTsSource, /raw_promptparts\/specific/u);
-  assert.match(generateDeliverablePromptPartsTsSource, /asset-pack run semantics/u);
-  assert.doesNotMatch(generateDeliverablePromptPartsTsSource, /comprehendtask/u);
+  assert.match(generateAssetPackPromptPartsTsSource, /Comprehend Need/u);
+  assert.match(generateAssetPackPromptPartsTsSource, /raw_promptparts\/specific/u);
+  assert.match(generateAssetPackPromptPartsTsSource, /AssetPack metadata/u);
+  assert.doesNotMatch(generateAssetPackPromptPartsTsSource, /comprehendtask/u);
 
   assert.match(fixExecutionToDirectivesScriptSource, /try_execution PromptParts to try_directives/u);
   assert.match(fixExecutionToDirectivesScriptSource, /packages\/prompts\/src\/raw_promptparts\/specific/u);

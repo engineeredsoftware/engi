@@ -114,7 +114,7 @@ export default function ApplicationTransactionDetailSurface({
     if (showConsole) {
       return `${normalizedSummary} The execution console remains available when you need the lower-level runtime view.`;
     }
-    return `${normalizedSummary} Finish-delivered Shippables, stored AssetPack evidence, reviews, issues, comments, and summary text are the active detail focus.`;
+    return `${normalizedSummary} Finish-delivered pull-request Shippables, stored AssetPack evidence, and summary text are the active detail focus.`;
   }, [normalizedSummary, showActivity, showClosure, showConsole, showHistory, showProofs, showTransaction]);
   const transactionPayload = useMemo(
     () => ({
@@ -303,8 +303,8 @@ export default function ApplicationTransactionDetailSurface({
                 <p className="text-[0.68rem] uppercase tracking-[0.24em] text-emerald-300/75">Finish-delivered Shippables</p>
                 <h3 className="mt-2 text-lg font-semibold text-white">Shippables attached to this activity</h3>
                 <p className="mt-2 text-sm leading-6 text-neutral-300">
-                  AssetPack evidence and file changes remain Exchange-owned, while pull requests, reviews, issues, and
-                  comments stay legible as Shippables delivered by Finish in both mock and live posture.
+                  AssetPack evidence and file changes remain Exchange-owned, while the GitHub pull request is the
+                  V26 Shippable delivered by Finish in both mock and live posture.
                 </p>
               </div>
               <ShippablesDocPanel

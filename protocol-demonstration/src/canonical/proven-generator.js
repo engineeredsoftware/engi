@@ -2015,7 +2015,7 @@ function buildV26PromptSystemTotalityProof({
         'scripts/fix-remaining-imports.sh',
         'scripts/generate-massive-prompt-parts.ts',
         'scripts/mass-update-prompt-parts.ts',
-        'scripts/normalize-deliverables-promptparts.mjs'
+        'scripts/normalize-asset-pack-promptparts.mjs'
       ]
     ),
     buildV26FilePresenceCheck(
@@ -2268,10 +2268,10 @@ function buildV26PromptSystemTotalityProof({
         'packages/pipelines/asset-pack/src/agents/finish/final-work-summary-agent.ts',
         'packages/pipelines/asset-pack/src/tools/AssetPackCloneVCSRepositoryTool.ts',
         'scripts/fix-execution-to-directives.sh',
-        'scripts/generate-deliverable-promptparts.ts',
+        'scripts/generate-asset-pack-promptparts.ts',
         'scripts/prompt-audit.sh',
-        'scripts/update-deliverable-agents.sh',
-        'scripts/update-deliverable-table-names.sh',
+        'scripts/update-asset-pack-agents.sh',
+        'scripts/update-asset-pack-storage-table-names.sh',
         'scripts/verify-prompt-exports.py'
       ]
     ),

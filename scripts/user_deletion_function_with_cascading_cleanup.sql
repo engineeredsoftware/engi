@@ -84,11 +84,11 @@ BEGIN
         -- Delete from pipeline_executions (canonical)
         DELETE FROM public.pipeline_executions WHERE user_id = target_user_id;
         
-        -- Delete from deliverable_vectors
+        -- Delete from AssetPack evidence vector storage
         DELETE FROM public.deliverable_vectors 
         WHERE deliverable_id IN (SELECT id FROM public.deliverables WHERE user_id = target_user_id);
         
-        -- Delete from deliverable_items (legacy) if table exists
+        -- Delete from former AssetPack item storage if table exists
         IF EXISTS (
           SELECT 1 FROM information_schema.tables 
           WHERE table_schema = 'public' AND table_name = 'deliverable_items'
@@ -97,7 +97,7 @@ BEGIN
           WHERE deliverable_id IN (SELECT id FROM public.deliverables WHERE user_id = target_user_id);
         END IF;
         
-        -- Delete from deliverables
+        -- Delete from AssetPack evidence storage
         DELETE FROM public.deliverables WHERE user_id = target_user_id;
         
         -- Delete template data

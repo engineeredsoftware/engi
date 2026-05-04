@@ -10,7 +10,7 @@ const meta: Meta<typeof RunInstructions> = {
   },
   args: {
     runId: "demo-run-1",
-    runKind: "deliverable",
+    runKind: "asset-pack",
   },
 };
 

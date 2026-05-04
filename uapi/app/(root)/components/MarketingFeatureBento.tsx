@@ -127,7 +127,7 @@ const features = [
     name: "Powerful SWE Agents",
     description: (
       <span className="">
-        Autonomous coding task completions, reviews, and discussions delivered cheap and fast through a simple interface
+        PR-backed AssetPacks delivered cheap and fast through a simple Bitcode interface
       </span>
     ),
     href: "/",

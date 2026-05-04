@@ -55,11 +55,10 @@ export function ExecutionDetailsView({ runId, executionId }: ExecutionDetailsVie
     );
   }
 
-  // Final Work Summary (if present)
   const runOutput = (run as any).output || (run as any).output_data || {};
-  const fws = runOutput?.asset_pack_completion || (run as any).asset_pack_completion || null;
-  const writtenAssets = getHeaderWrittenAssets(fws);
-  const shippables = getHeaderShippables(fws);
+  const assetPackCompletion = runOutput?.asset_pack_completion || (run as any).asset_pack_completion || null;
+  const writtenAssets = getHeaderWrittenAssets(assetPackCompletion);
+  const shippables = getHeaderShippables(assetPackCompletion);
   const deliveryMechanism = shippables;
   const mergedAssetPackSurface = mergeHeaderShippables(writtenAssets, shippables);
   const ReactMarkdown = dynamic(() => import('react-markdown'), { ssr: false });
@@ -135,8 +134,8 @@ export function ExecutionDetailsView({ runId, executionId }: ExecutionDetailsVie
 
   return (
     <div className="space-y-6">
-      {/* Final Work Summary (Markdown + TL;DR chips) */}
-      {fws && (
+      {/* AssetPack completion summary (Markdown + TL;DR chips) */}
+      {assetPackCompletion && (
         <div className={panelClass}>
           <h2 className="text-lg font-semibold mb-3">Summary</h2>
           {(writtenAssets?.summary || mergedAssetPackSurface?.summary) && (

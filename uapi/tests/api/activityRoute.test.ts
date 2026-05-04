@@ -93,7 +93,7 @@ describe('/api/activity GET', () => {
         input: { guide: 'refresh proof families' },
         output: {
           summary: 'Refreshed proof family.',
-          final_work_summary: {
+          asset_pack_completion: {
             summary: 'Refreshed proof family.',
             processingStats: {
               time: '4m 12s',
@@ -189,7 +189,7 @@ describe('/api/activity GET', () => {
         state: 'completed',
         payload: expect.objectContaining({
           summary: 'Refreshed proof family.',
-          final_work_summary: expect.objectContaining({
+          asset_pack_completion: expect.objectContaining({
             summary: 'Refreshed proof family.',
           }),
           repo_snapshot: expect.objectContaining({

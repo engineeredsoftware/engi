@@ -93,7 +93,7 @@ export const PipelineComplete: Story = {
   },
 };
 
-// 3. History with multiple runs / deliverables
+// 3. History with multiple runs / Shippables
 export const ConversationHistory: Story = {
   render: () => {
     const msgs: Message[] = [

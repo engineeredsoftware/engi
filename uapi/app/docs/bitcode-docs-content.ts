@@ -621,7 +621,7 @@ const commercialInterfaceSections = [
     eyebrow: 'GitHub + webhooks',
     title: 'GitHub and webhooks are connected-interface delivery and ingress surfaces',
     summary:
-      'GitHub can bind repository supply and deliver Shippables such as pull requests, comments, issues, or reviews. Webhooks can schedule AssetPack automation and record ingress basis.',
+      'GitHub can bind repository supply and deliver the V26 Shippable as a pull request. Webhooks can schedule AssetPack automation and record ingress basis.',
     detail:
       'Neither GitHub nor webhooks own product canon. Their job is to feed or receive Bitcode-controlled state and leave evidence behind.',
     reason:

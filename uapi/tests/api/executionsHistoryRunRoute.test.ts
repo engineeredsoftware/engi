@@ -54,7 +54,7 @@ describe('GET /api/executions/history/[runId]', () => {
               guide: 'refresh proof families',
             },
             output: {
-              final_work_summary: {
+              asset_pack_completion: {
                 summary: 'Persisted closure posture.',
                 assetPackSynthesisArtifacts: {
                   summary: 'Persisted AssetPack synthesis artifacts.',
@@ -186,7 +186,7 @@ describe('GET /api/executions/history/[runId]', () => {
           writtenAssetType: 'proof-refresh',
           deliveryTarget: 'proof',
         },
-        final_work_summary: expect.objectContaining({
+        asset_pack_completion: expect.objectContaining({
           summary: 'Persisted closure posture.',
           assetPackSynthesisArtifacts: {
             summary: 'Persisted AssetPack synthesis artifacts.',

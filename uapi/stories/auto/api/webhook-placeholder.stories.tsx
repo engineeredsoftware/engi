@@ -7,7 +7,7 @@ import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { vs2015 } from 'react-syntax-highlighter/dist/esm/styles/prism';
 
 const webhookJson = `{
-  "event": "deliverable.completed",
+  "event": "asset_pack.completed",
   "url": "https://yourapp.com/api/webhook",
   "payload": { "run_id": "abcd1234", "status": "completed" }
 }`;

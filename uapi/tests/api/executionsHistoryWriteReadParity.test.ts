@@ -10,7 +10,7 @@ import { supabaseAdmin } from '@bitcode/supabase';
 
 import { GET as getHistory, POST as postHistory } from '@/app/api/executions/history/route';
 import {
-  buildApplicationClosureFinalWorkSummary,
+  buildApplicationClosureAssetPackCompletion,
   buildApplicationExecutionHistoryRequest,
   buildApplicationGiveWorkbenchDraft,
   buildApplicationNeedMeasurementDraft,
@@ -255,7 +255,7 @@ describe('Bitcode execution-history write/read parity', () => {
         summary: 'Recorded closure posture.',
         output: {
           protocol: { ok: true },
-          finalWorkSummary: buildApplicationClosureFinalWorkSummary(closureState, {
+          assetPackCompletion: buildApplicationClosureAssetPackCompletion(closureState, {
             summary: 'Recorded closure posture.',
             processingStats: {
               time: '4m 12s',
@@ -343,7 +343,7 @@ describe('Bitcode execution-history write/read parity', () => {
           usdTotal: 1.62,
           averageLatencyMs: 930,
         },
-        final_work_summary: expect.objectContaining({
+        asset_pack_completion: expect.objectContaining({
           summary: 'Recorded closure posture.',
           closureFollowThrough: expect.objectContaining({
             canonLabel: 'Bitcode active posture',
@@ -364,7 +364,7 @@ describe('Bitcode execution-history write/read parity', () => {
     ]);
     expect(historyPayload[0]).toEqual(
       expect.objectContaining({
-        final_work_summary: expect.objectContaining({
+        asset_pack_completion: expect.objectContaining({
           closurePanels: expect.objectContaining({
             needReview: expect.objectContaining({
               label: 'Need review before fit search',

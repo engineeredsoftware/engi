@@ -60,7 +60,7 @@ export const MASTER_DETAIL_SUBSTRUCTURES = [
     label: 'Shippables',
     badge: 'materialized output',
     description:
-      'Read Finish-delivered Shippables, AssetPack evidence, reviews, issues, comments, and artifact bundles inside the selected activity context.',
+      'Read Finish-delivered pull-request Shippables, AssetPack evidence, and artifact bundles inside the selected activity context.',
     targetId: 'applicationTransactionShippables',
   },
   {

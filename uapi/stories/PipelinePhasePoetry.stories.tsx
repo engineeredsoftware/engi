@@ -15,12 +15,12 @@ const meta: Meta<typeof PipelinePhasePoetry> = {
 Transforms the technical pipeline into an emotional creative journey with contextual storytelling:
 
 - **Phase-aware poetry** - Generates contextual verses based on current pipeline phase
-- **Emotional intelligence** - Adapts narrative tone to deliverable complexity and user energy
+- **Emotional intelligence** - Adapts narrative tone to Shippable complexity and user energy
 - **Creative journey visualization** - Shows progression through planning → creating → refining → testing → delivering → celebrating
-- **Contextual storytelling** - Poetry adapts to deliverable type, complexity, and user patterns
+- **Contextual storytelling** - Poetry adapts to Shippable type, complexity, and user patterns
 - **Emotional state tracking** - Visualizes current emotional state with colors and intensity
 - **Progressive narrative reveal** - Individual poetry lines appear with thoughtful timing
-- **Epic poetry mode** - Full narrative panels for complex deliverables
+- **Epic poetry mode** - Full narrative panels for complex Shippables
 - **Phase progression** - Visual journey tracking with emotional states
 
 The poetry system celebrates the creative process itself, not just the outcomes, making every phase of development feel meaningful.
@@ -57,7 +57,7 @@ type Story = StoryObj<typeof meta>;
 export const PlanningPhase: Story = {
   args: {
     currentPhase: 'planning',
-    deliverableContext: {
+    shippableContext: {
       name: 'User Authentication Component',
       category: 'component',
       complexity: 'moderate',
@@ -86,7 +86,7 @@ export const PlanningPhase: Story = {
 export const CreatingPhase: Story = {
   args: {
     currentPhase: 'creating',
-    deliverableContext: {
+    shippableContext: {
       name: 'Payment Processing Service',
       category: 'service',
       complexity: 'complex',
@@ -115,7 +115,7 @@ export const CreatingPhase: Story = {
 export const RefiningPhase: Story = {
   args: {
     currentPhase: 'refining',
-    deliverableContext: {
+    shippableContext: {
       name: 'Design System Components',
       category: 'component',
       complexity: 'epic',
@@ -144,7 +144,7 @@ export const RefiningPhase: Story = {
 export const TestingPhase: Story = {
   args: {
     currentPhase: 'testing',
-    deliverableContext: {
+    shippableContext: {
       name: 'API Integration Tests',
       category: 'test',
       complexity: 'complex',
@@ -173,7 +173,7 @@ export const TestingPhase: Story = {
 export const DeliveringPhase: Story = {
   args: {
     currentPhase: 'delivering',
-    deliverableContext: {
+    shippableContext: {
       name: 'E-commerce Platform Feature',
       category: 'feature',
       complexity: 'epic',
@@ -202,7 +202,7 @@ export const DeliveringPhase: Story = {
 export const CelebratingPhase: Story = {
   args: {
     currentPhase: 'celebrating',
-    deliverableContext: {
+    shippableContext: {
       name: 'Architecture Refactor Complete',
       category: 'refactor',
       complexity: 'epic',
@@ -244,7 +244,7 @@ export const PoetryJourney: Story = {
       { phase: 'celebrating', duration: 180, name: 'Achievement & Reflection' }
     ];
     
-    const deliverableContext = {
+    const shippableContext = {
       name: 'Next-Gen User Dashboard',
       category: 'feature' as const,
       complexity: 'complex' as const,
@@ -389,7 +389,7 @@ export const PoetryJourney: Story = {
         {/* Main Poetry Display */}
         <PipelinePhasePoetry
           currentPhase={currentPhase}
-          deliverableContext={deliverableContext}
+          shippableContext={shippableContext}
           timeInPhase={timeInPhase}
           completedPhases={completedPhases as any}
           isVisible={true}
@@ -415,7 +415,7 @@ export const PoetryJourney: Story = {
               Poetry in Motion
             </div>
             <div className="text-sm text-gray-600 max-w-md">
-              Watch the emotional journey unfold as your deliverable moves through each phase of creation
+              Watch the emotional journey unfold as your Shippable moves through each phase of creation
             </div>
           </div>
         </div>
@@ -436,7 +436,7 @@ export const StyleComparison: Story = {
   render: () => {
     const [selectedStyle, setSelectedStyle] = useState<'minimal' | 'flowing' | 'epic'>('flowing');
     
-    const deliverableContext = {
+    const shippableContext = {
       name: 'Real-time Chat System',
       category: 'feature' as const,
       complexity: 'complex' as const,
@@ -485,7 +485,7 @@ export const StyleComparison: Story = {
         
         <PipelinePhasePoetry
           currentPhase="creating"
-          deliverableContext={deliverableContext}
+          shippableContext={shippableContext}
           timeInPhase={720} // 12 minutes - deep flow
           completedPhases={['planning']}
           isVisible={true}
@@ -533,7 +533,7 @@ export const EmotionalJourney: Story = {
       { name: 'fulfillment', color: '#ec4899', phase: 'celebrating' }
     ];
     
-    const deliverableContext = {
+    const shippableContext = {
       name: 'AI-Powered Code Assistant',
       category: 'feature' as const,
       complexity: 'epic' as const,
@@ -599,7 +599,7 @@ export const EmotionalJourney: Story = {
         
         <PipelinePhasePoetry
           currentPhase={currentEmotionData.phase as any}
-          deliverableContext={deliverableContext}
+          shippableContext={shippableContext}
           timeInPhase={300}
           completedPhases={[]}
           isVisible={true}

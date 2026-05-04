@@ -19,14 +19,13 @@ type PtrrStep = {
   purpose: string;
 };
 
-// Define retained asset-pack pipeline agents and their Bitcode semantics.
+// Define active AssetPack pipeline agents and their Bitcode semantics.
 const AGENTS = {
   setup: [
     { name: 'clonerepository', display: 'Clone VCS Repository', purpose: 'securely clone VCS repositories from GitHub GitLab or Bitbucket' },
     { name: 'initializelsp', display: 'Initialize LSP', purpose: 'initialize Language Server Protocol for code intelligence and analysis' },
     { name: 'dangerwall', display: 'Danger Wall', purpose: 'detect and prevent dangerous operations that could harm systems or violate policies' },
-    { name: 'comprehendneed', display: 'Comprehend Need', purpose: 'understand expressed need context, satisfaction criteria, written-asset posture, and shipping expectations' },
-    { name: 'determinedeliverabletype', display: 'Determine Deliverable Type', purpose: 'classify the written-asset synthesis and shipping mechanism posture as code-change code-review design-document or design-review' },
+    { name: 'comprehendneed', display: 'Comprehend Need', purpose: 'understand expressed need context, satisfaction criteria, written-asset posture, and PR-backed Finish expectations' },
     { name: 'analyzecodebase', display: 'Analyze Codebase', purpose: 'analyze codebase structure patterns dependencies and architecture' },
     { name: 'readytoiterate', display: 'Ready to Iterate', purpose: 'determine if sufficient context exists to proceed or short-circuit with refund' }
   ],
@@ -39,29 +38,22 @@ const AGENTS = {
     { name: 'assesscomplexity', display: 'Assess Complexity', purpose: 'evaluate technical business integration and testing complexity metrics' }
   ],
   implementation: [
-    { name: 'dividepullrequest', display: 'Divide Pull Request', purpose: 'plan code written assets that can later ship through a pull request wrapper' },
+    { name: 'dividepullrequest', display: 'Divide Pull Request', purpose: 'plan code written assets that can later finish through a pull request Shippable' },
     { name: 'conquerfile', display: 'Conquer File', purpose: 'implement changes in individual files according to plan' },
-    { name: 'correctpullrequest', display: 'Correct Pull Request', purpose: 'validate and correct code written assets for consistency and quality before shipping' },
-    { name: 'reviewpullrequest', display: 'Review Pull Request', purpose: 'perform comprehensive review of code written assets with suggestions and feedback' },
-    { name: 'createissue', display: 'Create Issue', purpose: 'create detailed design document as GitHub GitLab or Bitbucket issue' },
-    { name: 'commentonissue', display: 'Comment on Issue', purpose: 'provide thoughtful review comments on design document issues' }
+    { name: 'correctpullrequest', display: 'Correct Pull Request', purpose: 'validate and correct code written assets for consistency and quality before Finish' },
+    { name: 'reviewcodechanges', display: 'Review Code Changes', purpose: 'perform comprehensive review of code written assets before PR-backed Finish' }
   ],
   validation: [
     { name: 'validatecodechanges', display: 'Validate Code Changes', purpose: 'validate all code changes meet requirements and quality standards' },
     { name: 'validatereview', display: 'Validate Review', purpose: 'ensure code review feedback is comprehensive and actionable' },
     { name: 'validatedocument', display: 'Validate Document', purpose: 'verify design document completeness accuracy and clarity' },
     { name: 'readytofinishcodechange', display: 'Ready to Finish Code Change', purpose: 'determine if code changes are production ready or need refinement' },
-    { name: 'readytofinishcodechangereview', display: 'Ready to Finish Code Change Review', purpose: 'confirm code review meets quality standards for submission' },
     { name: 'readytofinishdesigndocument', display: 'Ready to Finish Design Document', purpose: 'validate design document ready for stakeholder review' },
-    { name: 'readytofinishdesigndocumentreview', display: 'Ready to Finish Design Document Review', purpose: 'ensure design review feedback ready for submission' },
     { name: 'readytofinish', display: 'Ready to Finish', purpose: 'final validation gate determining finish or short-circuit with refund' }
   ],
-  shipping: [
-    { name: 'createpullrequest', display: 'Create Pull Request', purpose: 'create a pull request delivery mechanism with title description and metadata on a VCS platform' },
-    { name: 'submitreview', display: 'Submit Review', purpose: 'submit a code-review delivery mechanism with comments suggestions and approval status' },
-    { name: 'createissue', display: 'Create Issue', purpose: 'create an issue delivery mechanism with design-document written assets on a VCS platform' },
-    { name: 'addissuecomment', display: 'Add Issue Comment', purpose: 'add an issue-comment delivery mechanism to an existing issue thread' },
-    { name: 'finalizeshipment', display: 'Finalize Shipment', purpose: 'complete asset-pack shipping with metrics and confirmation' }
+  finish: [
+    { name: 'createpullrequest', display: 'Create Pull Request', purpose: 'create the PR Shippable with title description and metadata on a VCS platform' },
+    { name: 'assetpackcompletion', display: 'AssetPack Completion', purpose: 'complete AssetPack Finish with metrics proof evidence and confirmation' }
   ]
 };
 
@@ -70,13 +62,13 @@ const PART_TYPES: PromptPartTemplate[] = [
     { suffix: 'identity_definition', template: (agent, phase) =>
     `'You are the retained Bitcode asset-pack pipeline ${capitalize(phase)} phase ${agent.display.replace(/\s/g, '')} agent responsible for ${agent.purpose}'` },
   { suffix: 'purpose_corestatement', template: (agent) =>
-    `'Core purpose: ${agent.purpose} while preserving need satisfaction, written-asset integrity, and delivery-mechanism correctness at every step'` },
+    `'Core purpose: ${agent.purpose} while preserving need satisfaction, written-asset integrity, and PR-backed Finish correctness at every step'` },
   { suffix: 'capabilities_list', template: () =>
     `'Capabilities: analyze expressed need and requirements, validate inputs and outputs, handle edge cases gracefully, provide detailed feedback, support parallel processing, integrate with VCS platforms, maintain execution state, and preserve asset-pack run semantics'` },
   { suffix: 'tools_available', template: () =>
     `'Available tools: file system operations, code analysis tools, VCS integrations, validation utilities, parallel execution framework, state management, error handling, and recovery'` },
   { suffix: 'requirements_context', template: () =>
-    `'Requirements: execution context from prior phases, expressed need description, written-asset expectations, asset-pack metadata, codebase metadata, VCS credentials when applicable, validation criteria, and quality thresholds'` }
+    `'Requirements: execution context from prior phases, expressed need description, written-asset expectations, AssetPack metadata, codebase metadata, VCS credentials when applicable, validation criteria, and quality thresholds'` }
 ];
 
 // PTRR step purposes
@@ -92,7 +84,7 @@ function capitalize(str: string): string {
 }
 
 function generatePromptPart(phase: string, agent: AgentMetadata, partType: PromptPartTemplate): string {
-  const agentKey = `deliverable${phase}${agent.name}`;
+  const agentKey = `assetpack${phase}${agent.name}`;
   const constName = `PROMPTPART_SPECIFIC_AGENT_${agentKey.toUpperCase()}_${partType.suffix.toUpperCase()}`;
   
   return `import { PromptPart } from '../../parts/PromptPart';
@@ -101,7 +93,7 @@ function generatePromptPart(phase: string, agent: AgentMetadata, partType: Promp
  * @doc-comment-developing-promptpart
  * domain: agent
  * intent: "${partType.suffix.replace(/_/g, ' ')} for ${agent.display} agent"
- * current_version: "V26.00.0"
+ * current_version: "0.50.0"
  * versions: []
  * benchmarks: [
  *   { "name": "${partType.suffix}_clarity", "test": "Clear ${partType.suffix.replace(/_/g, ' ')}?", "score": 0.95 }
@@ -112,7 +104,7 @@ export const ${constName}: PromptPart =
 }
 
 function generatePTRRStepPromptPart(phase: string, agent: AgentMetadata, step: PtrrStep): string {
-  const agentKey = `deliverable${phase}${agent.name}`;
+  const agentKey = `assetpack${phase}${agent.name}`;
   const constName = `PROMPTPART_SPECIFIC_AGENT_${agentKey.toUpperCase()}_PTRR${step.step.toUpperCase()}_PURPOSE`;
   
   return `import { PromptPart } from '../../parts/PromptPart';
@@ -121,7 +113,7 @@ function generatePTRRStepPromptPart(phase: string, agent: AgentMetadata, step: P
  * @doc-comment-developing-promptpart
  * domain: agent
  * intent: "PTRR ${step.step} step purpose for ${agent.display} agent"
- * current_version: "V26.00.0"
+ * current_version: "0.50.0"
  * versions: []
  * benchmarks: [
  *   { "name": "step_${step.step}_clarity", "test": "Clear ${step.step} purpose?", "score": 0.95 }
@@ -142,7 +134,7 @@ async function generateAll() {
       // Generate basic part types
       for (const partType of PART_TYPES) {
         const content = generatePromptPart(phase, agent, partType);
-        const fileName = `promptpart_specific_agent_deliverable${phase}${agent.name}_${partType.suffix}.ts`;
+        const fileName = `promptpart_specific_agent_assetpack${phase}${agent.name}_${partType.suffix}.ts`;
         const filePath = path.join(outputDir, fileName);
         
         if (!fs.existsSync(filePath)) {
@@ -155,7 +147,7 @@ async function generateAll() {
       // Generate PTRR step purposes
       for (const step of PTRR_STEPS) {
         const content = generatePTRRStepPromptPart(phase, agent, step);
-        const fileName = `promptpart_specific_agent_deliverable${phase}${agent.name}_ptrr${step.step}_purpose.ts`;
+        const fileName = `promptpart_specific_agent_assetpack${phase}${agent.name}_ptrr${step.step}_purpose.ts`;
         const filePath = path.join(outputDir, fileName);
         
         if (!fs.existsSync(filePath)) {

@@ -182,8 +182,8 @@ class ArchitectureReviewer {
         'scripts/generate-massive-prompt-parts.ts',
         'scripts/mass-update-prompt-parts.ts',
         'scripts/codemod-deep-promptparts.mjs',
-        'scripts/normalize-deliverables-promptparts.mjs',
-        'scripts/generate-deliverable-promptparts.ts',
+        'scripts/normalize-asset-pack-promptparts.mjs',
+        'scripts/generate-asset-pack-promptparts.ts',
         'scripts/prompt-audit.sh',
         'scripts/verify-prompt-exports.py'
       ];
@@ -217,20 +217,20 @@ class ArchitectureReviewer {
         );
       }
 
-      const deliverableGenerator = this.readText('scripts/generate-deliverable-promptparts.ts');
+      const assetPackGenerator = this.readText('scripts/generate-asset-pack-promptparts.ts');
       this.expectContains(
-        deliverableGenerator,
+        assetPackGenerator,
         'comprehendneed',
-        'Deliverable compatibility generator emits need-comprehension PromptParts.',
-        'Deliverable compatibility generator must emit need-comprehension PromptParts.',
+        'AssetPack generator emits need-comprehension PromptParts.',
+        'AssetPack generator must emit need-comprehension PromptParts.',
         details,
         violations
       );
       this.expectNotContains(
-        deliverableGenerator,
+        assetPackGenerator,
         'comprehendtask',
-        'Deliverable compatibility generator no longer emits task-comprehension as active truth.',
-        'Deliverable compatibility generator must not emit comprehendtask as active truth.',
+        'AssetPack generator no longer emits task-comprehension as active truth.',
+        'AssetPack generator must not emit comprehendtask as active truth.',
         details,
         violations
       );

@@ -51,7 +51,7 @@ describe('GET /api/executions/history', () => {
         },
         output: {
           summary: 'Recorded closure posture.',
-          final_work_summary: {
+          asset_pack_completion: {
             summary: 'Recorded closure posture.',
             assetPackSynthesisArtifacts: {
               summary: 'Recorded closure AssetPack synthesis artifacts.',
@@ -118,7 +118,7 @@ describe('GET /api/executions/history', () => {
               deliveryTarget: 'pr',
             },
           },
-          final_work_summary: {
+          asset_pack_completion: {
             summary: 'Branch artifact persisted.',
             assetPackSynthesisArtifacts: {
               summary: 'Branch AssetPack synthesis artifacts.',
@@ -204,7 +204,7 @@ describe('GET /api/executions/history', () => {
           writtenAssetType: 'proof-refresh',
           deliveryTarget: 'proof',
         },
-        final_work_summary: expect.objectContaining({
+        asset_pack_completion: expect.objectContaining({
           summary: 'Recorded closure posture.',
           assetPackSynthesisArtifacts: {
             summary: 'Recorded closure AssetPack synthesis artifacts.',
@@ -269,7 +269,7 @@ describe('GET /api/executions/history', () => {
           writtenAssetType: 'branch-artifact',
           deliveryTarget: 'pr',
         },
-        final_work_summary: expect.objectContaining({
+        asset_pack_completion: expect.objectContaining({
           summary: 'Branch artifact persisted.',
           assetPackSynthesisArtifacts: {
             summary: 'Branch AssetPack synthesis artifacts.',

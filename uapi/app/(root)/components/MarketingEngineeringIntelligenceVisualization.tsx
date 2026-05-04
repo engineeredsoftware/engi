@@ -377,7 +377,7 @@ export default function MarketingEngineeringIntelligenceVisualization() {
                     <div>
                       <h3 className="text-sm font-medium text-emerald-400 mb-1 font-mono">Seamless Integration</h3>
                       <p className="text-xs text-gray-400">
-                        Integrates directly with your GitHub workflow, responding to issues, PRs, and comments with minimal setup.
+                        Integrates directly with your GitHub workflow, opening PR-backed AssetPacks from repository context with minimal setup.
                       </p>
                     </div>
                   </div>

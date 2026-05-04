@@ -277,7 +277,7 @@ const genericCategories: PromptCategory[] = [
   }
 ];
 
-const deliverablesCategories: PromptCategory[] = [
+const assetPackCategories: PromptCategory[] = [
   {
     name: 'pr_excellence',
     parts: [
@@ -400,19 +400,19 @@ export const ${exportName}: PromptPart = \`${part.content}\` as PromptPart;`;
     });
   });
   
-  // Generate deliverables specific prompt parts
-  deliverablesCategories.forEach(category => {
+  // Generate AssetPack specific prompt parts.
+  assetPackCategories.forEach(category => {
     category.parts.forEach(part => {
-      const filename = `promptpart_specific_deliverables_${category.name}_${part.suffix}`;
+      const filename = `promptpart_specific_assetpack_${category.name}_${part.suffix}`;
       const exportName = filename.toUpperCase();
       const priority = part.priority || 'high';
       
       const content = `/**
  * @doc-comment-promptpartdoc
- * name: "deliverables_${category.name}_${part.suffix}"
- * category: "deliverables_${category.name}"
+ * name: "assetpack_${category.name}_${part.suffix}"
+ * category: "assetpack_${category.name}"
  * description: "${part.description}"
- * usage: "Retained deliverable-compatibility pipeline ${category.name} for Bitcode asset-pack runs"
+ * usage: "AssetPack pipeline ${category.name} for Bitcode need-satisfaction runs"
  * priority: "${priority}"
  * version: "1.0.0"
  */
@@ -427,7 +427,7 @@ export const ${exportName}: PromptPart = \`${part.content}\` as PromptPart;`;
   });
   
   console.log(`Generated ${genericCount} generic prompt parts across ${genericCategories.length} categories`);
-  console.log(`Generated ${specificCount} retained deliverable-compatibility prompt parts across ${deliverablesCategories.length} categories`);
+  console.log(`Generated ${specificCount} AssetPack prompt parts across ${assetPackCategories.length} categories`);
   console.log(`TOTAL PROMPT PARTS GENERATED: ${genericCount + specificCount}`);
 }
 

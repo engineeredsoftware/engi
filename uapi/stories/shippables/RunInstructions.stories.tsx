@@ -28,8 +28,7 @@ if (typeof globalThis.fetch === 'undefined') {
   // In the Storybook preview environment we override global fetch once.
   globalThis.fetch = async (input: RequestInfo) => {
     const url = typeof input === 'string' ? input : input.toString();
-    // Compatibility route mount; the story exercises AssetPack/Shippable instructions.
-    if (url.includes('/api/deliverables/instructions')) {
+    if (url.includes('/api/executions/instructions')) {
       return new Response(JSON.stringify(inMemoryInstructions.slice()), { status: 200 });
     }
     if (url.includes('/api/upgrades/instructions')) {

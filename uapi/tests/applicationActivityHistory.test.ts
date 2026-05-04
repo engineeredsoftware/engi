@@ -1,5 +1,5 @@
 import {
-  buildApplicationClosureFinalWorkSummary,
+  buildApplicationClosureAssetPackCompletion,
   buildApplicationExternalInterfacingDraft,
   buildApplicationFitWorkbenchDraft,
   buildApplicationGiveWorkbenchDraft,
@@ -126,14 +126,14 @@ describe('application-activity-history', () => {
     });
   });
 
-  it('merges closure follow-through into final_work_summary for persisted reread', () => {
+  it('merges closure follow-through into asset_pack_completion for persisted reread', () => {
     const request = buildApplicationExecutionHistoryRequest(
       {
         type: 'agentic-execution:proof-refresh',
         summary: 'Recorded closure posture.',
         output: {
           protocol: { ok: true },
-          finalWorkSummary: buildApplicationClosureFinalWorkSummary(closureState, {
+          assetPackCompletion: buildApplicationClosureAssetPackCompletion(closureState, {
             summary: 'Recorded closure posture.',
             processingStats: {
               time: '4m 12s',
@@ -150,7 +150,7 @@ describe('application-activity-history', () => {
 
     expect(request.output).toMatchObject({
       protocol: { ok: true },
-      final_work_summary: {
+      asset_pack_completion: {
         summary: 'Recorded closure posture.',
         closurePanels: {
           canonLabel: 'Bitcode active posture',
@@ -208,7 +208,7 @@ describe('application-activity-history', () => {
         usdTotal: 1.2,
         averageLatencyMs: 800,
       },
-      final_work_summary: null,
+      asset_pack_completion: null,
     } as PipelineExecution);
 
     expect(run).toMatchObject({
@@ -243,7 +243,7 @@ describe('application-activity-history', () => {
         commit: 'def456',
       },
       processing_stats: null,
-      final_work_summary: {
+      asset_pack_completion: {
         summary: null,
         writtenAssets: null,
         deliveryMechanism: {
@@ -323,7 +323,7 @@ describe('application-activity-history', () => {
       artifactKinds: ['runbook (1)', 'patch (1)'],
     });
     expect(draft.output).toMatchObject({
-      finalWorkSummary: {
+      assetPackCompletion: {
         bitcodeActivityState: {
           giveWorkbench: {
             canonLabel: 'Bitcode active posture',
@@ -364,7 +364,7 @@ describe('application-activity-history', () => {
         closureCriteriaCount: 2,
         targetKindCount: 3,
       },
-      finalWorkSummary: {
+      assetPackCompletion: {
         bitcodeActivityState: {
           needMeasurement: {
             parserKind: 'benchmark-parser',
@@ -445,7 +445,7 @@ describe('application-activity-history', () => {
       searchTerm: 'auth',
     });
     expect(selectionDraft.output).toMatchObject({
-      finalWorkSummary: {
+      assetPackCompletion: {
         bitcodeActivityState: {
           supplySelection: {
             authSessionLabel: 'bitcode/terminal · 42',
@@ -464,7 +464,7 @@ describe('application-activity-history', () => {
       summary: 'Recorded asset-pack fit and settlement posture for auth-remediation.',
     });
     expect(fitDraft.output).toMatchObject({
-      finalWorkSummary: {
+      assetPackCompletion: {
         bitcodeActivityState: {
           fitWorkbench: {
             projectionPrincipal: 'needer',
@@ -523,7 +523,7 @@ describe('application-activity-history', () => {
           inventorySource: 'stored_repository_inventory',
         },
       },
-      finalWorkSummary: {
+      assetPackCompletion: {
         bitcodeActivityState: {
           repositoryAnchor: {
             provider: 'github',

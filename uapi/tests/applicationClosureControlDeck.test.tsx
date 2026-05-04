@@ -90,7 +90,7 @@ jest.mock('@/app/application/application-closure-controls', () => ({
 }));
 
 jest.mock('@/app/application/application-activity-history', () => ({
-  buildApplicationClosureFinalWorkSummary: jest.fn(() => null),
+  buildApplicationClosureAssetPackCompletion: jest.fn(() => null),
   readApplicationRouteError: jest.fn(async () => 'route error'),
 }));
 

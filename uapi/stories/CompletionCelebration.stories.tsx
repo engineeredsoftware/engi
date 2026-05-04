@@ -73,7 +73,7 @@ export const ComponentSuccess: Story = {
       architecture: 'React/Next.js',
       testCoverage: 89,
       componentCount: 47,
-      totalDeliverables: 12,
+      totalShippables: 12,
       streakCount: 3,
       qualityAverage: 0.88
     },
@@ -112,7 +112,7 @@ export const ServiceMastery: Story = {
       architecture: 'microservices',
       testCoverage: 94,
       componentCount: 156,
-      totalDeliverables: 28,
+      totalShippables: 28,
       streakCount: 7,
       qualityAverage: 0.91
     },
@@ -151,7 +151,7 @@ export const FirstCompletion: Story = {
       architecture: 'React/Next.js',
       testCoverage: 75,
       componentCount: 1,
-      totalDeliverables: 1,
+      totalShippables: 1,
       streakCount: 1,
       qualityAverage: 0.85
     },
@@ -190,7 +190,7 @@ export const SpeedDemon: Story = {
       architecture: 'React/Next.js',
       testCoverage: 89,
       componentCount: 23,
-      totalDeliverables: 8,
+      totalShippables: 8,
       streakCount: 2,
       qualityAverage: 0.87
     },
@@ -229,7 +229,7 @@ export const TestingLegend: Story = {
       architecture: 'microservices',
       testCoverage: 96,
       componentCount: 89,
-      totalDeliverables: 34,
+      totalShippables: 34,
       streakCount: 5,
       qualityAverage: 0.92
     },
@@ -268,7 +268,7 @@ export const StreakWarrior: Story = {
       architecture: 'React/Next.js',
       testCoverage: 91,
       componentCount: 67,
-      totalDeliverables: 19,
+      totalShippables: 19,
       streakCount: 8,
       qualityAverage: 0.90
     },
@@ -349,7 +349,7 @@ export const InteractiveCelebration: Story = {
         architecture: 'React/Next.js',
         testCoverage: 75,
         componentCount: 1,
-        totalDeliverables: 1,
+        totalShippables: 1,
         streakCount: 1,
         qualityAverage: 0.82
       },
@@ -358,7 +358,7 @@ export const InteractiveCelebration: Story = {
         architecture: 'microservices',
         testCoverage: 89,
         componentCount: 15,
-        totalDeliverables: 5,
+        totalShippables: 5,
         streakCount: 3,
         qualityAverage: 0.88
       },
@@ -367,7 +367,7 @@ export const InteractiveCelebration: Story = {
         architecture: 'React/Next.js',
         testCoverage: 91,
         componentCount: 23,
-        totalDeliverables: 8,
+        totalShippables: 8,
         streakCount: 4,
         qualityAverage: 0.87
       },
@@ -376,7 +376,7 @@ export const InteractiveCelebration: Story = {
         architecture: 'microservices',
         testCoverage: 95,
         componentCount: 45,
-        totalDeliverables: 15,
+        totalShippables: 15,
         streakCount: 6,
         qualityAverage: 0.91
       }
@@ -477,7 +477,7 @@ export const PerformanceComparison: Story = {
       architecture: 'React/Next.js',
       testCoverage: 88,
       componentCount: 32,
-      totalDeliverables: 11,
+      totalShippables: 11,
       streakCount: 4,
       qualityAverage: 0.89
     };
@@ -569,7 +569,7 @@ export const AchievementGallery: Story = {
       architecture: 'hexagonal',
       testCoverage: 97,
       componentCount: 123,
-      totalDeliverables: 45,
+      totalShippables: 45,
       streakCount: 12,
       qualityAverage: 0.94
     },

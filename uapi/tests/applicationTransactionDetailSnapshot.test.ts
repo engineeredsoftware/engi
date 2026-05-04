@@ -113,7 +113,7 @@ describe('application-transaction-detail-snapshot helpers', () => {
     });
   });
 
-  it('normalizes live history payload with final work summary shippables', () => {
+  it('normalizes live history payload with asset-pack completion shippables', () => {
     const snapshot = normalizeApplicationRunDetailPayload(
       {
         run: {
@@ -129,7 +129,7 @@ describe('application-transaction-detail-snapshot helpers', () => {
           },
           items: [{ id: '1' }, { id: '2' }],
           output: {
-            final_work_summary: {
+            asset_pack_completion: {
               summary: 'Final work summary.',
               bitcodeActivityState: {
                 repositoryAnchor: {
@@ -412,7 +412,7 @@ describe('application-transaction-detail-snapshot helpers', () => {
         run: {
           id: 'run-1',
           items: [],
-          final_work_summary: {
+          asset_pack_completion: {
             processingStats: {
               time: '2m 08s',
             },
@@ -439,7 +439,7 @@ describe('application-transaction-detail-snapshot helpers', () => {
         run: {
           id: 'run-1',
           items: [],
-          final_work_summary: {
+          asset_pack_completion: {
             summary: 'Semantic Finish summary.',
             assetPackSynthesisArtifacts: {
               summary: 'Primary AssetPack synthesis artifact summary.',

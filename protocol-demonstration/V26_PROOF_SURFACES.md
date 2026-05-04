@@ -97,7 +97,7 @@ Required coverage posture:
 Required system families:
 - conversations continuity
 - runs and pipelines totalization
-- Bitcode-native deliverable meaning
+- Bitcode-native AssetPack and Shippable meaning
 - PostgreSQL/Supabase persistence, `/edgetimes`, migrations, schema contracts, ORM/query carriers, and generated database types
 - prompt abstraction and prompt-space routing
 - retained package admissibility
@@ -124,7 +124,7 @@ Required coverage posture:
   fifth-gate prompt/inference witnesses now also cover the retained `danger-wall` corridor as Bitcode need/AssetPack risk-admission support through `packages/generic-agents/danger-wall/*`, `packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_dangerwall_*`, `protocol-demonstration/test/v26-danger-wall-agent-compatibility.test.js`, and `protocol-demonstration/src/canonical/inference-implementation-records.js`, so old generic security, content-safety, and monitoring-product semantics cannot silently survive in a live retained setup gate
   package-by-package prompt consumer mapping is now also explicit in `protocol-demonstration/V26_PROMPT_SURFACES.md`, and active app configs such as `uapi/tsconfig.json` no longer keep `@bitcode/prompts/src/*` compatibility aliases on the live path
   fifth-gate active-product naming witnesses now also cover prompt/tooling repair scripts such as `scripts/{fix-remaining-imports,fix-barrel-imports,fix-multiline-imports,fix-corrupted-imports}.sh` and `scripts/code-review/base-review.sh`, so active script repair targets and review output paths cannot silently preserve `@engi/*` rewrite contracts or `/tmp/engi_review_*` runtime artifacts
-  fifth-gate active-product naming witnesses now also cover maintenance validation and cleanup carriers such as `scripts/verify-deliverables-quality.sh`, `scripts/{cleanup_remaining_docs.py,cleanup_outdated_docs.py,cleanup-outdated-docs.sh}`, and `protocol-demonstration/CHECKLIST.md`, so active operator validation logic, cleanup target lists, and demo-checklist guidance cannot silently preserve `@engi/*`, `engi-demo`, `Make ENGI branch`, or `ENGI_*` document targets
+  fifth-gate active-product naming witnesses now also cover maintenance validation and cleanup carriers such as `scripts/verify-asset-pack-quality.sh`, `scripts/{cleanup_remaining_docs.py,cleanup_outdated_docs.py,cleanup-outdated-docs.sh}`, and `protocol-demonstration/CHECKLIST.md`, so active operator validation logic, cleanup target lists, and demo-checklist guidance cannot silently preserve `@engi/*`, `engi-demo`, `Make ENGI branch`, or `ENGI_*` document targets
   fifth-gate active-product naming witnesses now also cover live public-shell style carriers and retained package surfaces such as `@bitcode/chatgptapp`, `@bitcode/web-search`, `@bitcode/streams`, and `@bitcode/email`, with the expectation that user-facing strings, active identifiers, package docs, and canonical package comments all converge on Bitcode naming rather than lingering old-brand residue
   fifth-gate active-product naming witnesses now also cover mounted public-shell teaching carriers and retained package docs such as `uapi/app/(root)/components/{MarketingFeaturesGrid,MarketingComputeSection,MarketingCompetitorTableSection,MarketingMarketplaceSection}.tsx`, `uapi/app/orbitals/components/OrbitalsConnectsOrbitalEmailConnection.tsx`, and `packages/{web-search,registry}/*`, so public demo-like terminal strings, active classnames/comments, and retained registry/web-search docs cannot silently drift back to old-brand wording
   fifth-gate active-product naming witnesses now also cover user-facing package API route strings in `packages/api/src/routes/*`, so auth welcome flows, ChatGPT success messages, and deliverables permission guidance cannot silently keep old-brand naming while the mounted product surfaces read as Bitcode
@@ -280,17 +280,17 @@ Current active assignments:
   centralized mounted-shell polling and control refresh for second-gate application carriers, including fail-closed refresh behavior during pre-mount and hot-reload rebuild windows
 - `uapi/app/api/executions/_shared.ts`
   test coverage:
-  `uapi/tests/deliverablesHistoryRoute.test.ts`, `uapi/tests/deliverablesHistoryRunRoute.test.ts`, and `uapi/tests/usePipelineExecution.test.tsx`
+  `uapi/tests/api/executionsHistoryRoute.test.ts`, `uapi/tests/api/executionsHistoryRunRoute.test.ts`, and `uapi/tests/usePipelineExecution.test.tsx`
   proof surface:
   normalized current execution-history payload shape shared by the transaction master, selected-transaction detail, and retained execution readers
 - `uapi/app/api/executions/history/route.ts`
   test coverage:
-  `uapi/tests/deliverablesHistoryRoute.test.ts`
+  `uapi/tests/api/executionsHistoryRoute.test.ts`
   proof surface:
   current app-owned execution-history collection route for transaction-master hydration, including anonymous-safe empty GET posture
 - `uapi/app/api/executions/history/[runId]/route.ts`
   test coverage:
-  `uapi/tests/deliverablesHistoryRunRoute.test.ts` and `uapi/tests/usePipelineExecution.test.tsx`
+  `uapi/tests/api/executionsHistoryRunRoute.test.ts` and `uapi/tests/usePipelineExecution.test.tsx`
   proof surface:
   current app-owned selected-execution history route for selected-transaction detail and retained execution activity hydration, including anonymous-safe empty GET posture
 - `uapi/app/api/client-error/route.ts`
@@ -373,7 +373,7 @@ Current active assignments:
   test coverage:
   live `/application` verification through the preserved runtime drawer and direct runtime load expectations
   proof surface:
-  preserved-runtime HTML parity for closure-runtime, flow-guide, give, need, and deliverables wording so direct runtime inspection does not regress to prototype/tutorial copy
+  preserved-runtime HTML parity for closure-runtime, flow-guide, give, need, AssetPack, and Shippable wording so direct runtime inspection does not regress to prototype/tutorial copy
 - `uapi/app/application/application-command-state.ts`
   test coverage:
   `uapi/tests/applicationCommandState.test.ts`
@@ -765,14 +765,14 @@ Current active assignments:
   second-gate external interfacing hardening and native boundary-actuality application read
 - `uapi/app/application/ApplicationTransactionWorkspace.tsx`
   test coverage:
-  browser verification and UI coverage around transactions/deliverables/proofs/history
+  browser verification and UI coverage around transactions, AssetPacks, proofs, and history
   proof surface:
   second-gate master-detail substructure closure
 - `uapi/app/application/application-transaction-detail-snapshot.ts`
   test coverage:
   `uapi/tests/applicationTransactionDetailSnapshot.test.ts`
   proof surface:
-  deterministic normalization of selected-transaction history payloads into application-owned deliverable/proof/history detail
+  deterministic normalization of selected-transaction history payloads into application-owned AssetPack/proof/history detail
 - `uapi/app/application/application-transaction-detail.ts`
   test coverage:
   `uapi/tests/applicationTransactionDetail.test.ts`
@@ -1044,12 +1044,12 @@ Required closure posture:
   test coverage:
   `uapi/tests/useConversationStream.firstWrite.test.ts`, `uapi/tests/api/chatStreamRoute.test.ts`, and `uapi/tests/api/conversationThreadStreamRoute.test.ts`
   proof surface:
-  fifth-gate active-source compile-health closure for the live Bitcode stream/auth/deliverables corridor so canonical execution typing, SSE tracking, retained route handlers, and VCS service wiring now compile through the active `uapi` program instead of remaining blocked on old Next-host assumptions, schema drift, or downlevel iteration mismatches
+  fifth-gate active-source compile-health closure for the live Bitcode stream/auth/AssetPack corridor so canonical execution typing, SSE tracking, retained route handlers, and VCS service wiring now compile through the active `uapi` program instead of remaining blocked on old Next-host assumptions, schema drift, or downlevel iteration mismatches
 - `{packages/api/src/routes/shippables.ts,packages/pipelines/asset-pack/src/agents/{design/iterate-product-md-agent.ts,digest/capture-learnings-agent.ts,validation/asset-pack-ready-to-instruct-agent.ts}}`
   test coverage:
   `pnpm exec tsc --noEmit --pretty false --project tsconfig.json` from `uapi`, plus `node --check` on the mirrored JavaScript carriers
   proof surface:
-  fifth-gate prompt-carrier and failure-telemetry compile-health closure so design/digest/validation PTRR agents now provide explicit Bitcode `Prompt` / `PromptPart` system and step registries, and `/api/deliverables` failure telemetry keeps semantic `need`, `writtenAssetType`, and `assetPack` context available across catch paths
+  fifth-gate prompt-carrier and failure-telemetry compile-health closure so design/digest/validation PTRR agents now provide explicit Bitcode `Prompt` / `PromptPart` system and step registries, and active Shippable route failure telemetry keeps semantic `need`, `writtenAssetType`, and `assetPack` context available across catch paths
 - `{packages/api/src/conversations/{attachments.ts,conversations.ts},uapi/components/base/bitcode/{execution/{github-selectors.tsx,pipeline-execution-log.tsx,TagOverflowList.tsx},icons/LogoIcon.tsx,typing-animation.tsx,layout/{nav.tsx,sidebars/left-sidebar.tsx}},uapi/config/features.ts,uapi/tests/{navPublicShell.test.tsx,navWorkspaceChrome.test.tsx}}`
   test coverage:
   `uapi/tests/navPublicShell.test.tsx` and `uapi/tests/navWorkspaceChrome.test.tsx`
@@ -1084,7 +1084,7 @@ Required closure posture:
   test coverage:
   `packages/executions-mcp/src/mcp-server/src/__tests__/unit/pipeline-ingress-contract.test.ts`
   proof surface:
-  fifth-gate Bitcode MCP write-acceptance closure so the live deliverable tool schema admits explicit repository/provider connection ingress, third-party MCP repository and attachment context is proven as input-only ingress, queued and completed MCP responses preserve normalized `interfaceSurface` plus `inputContext`, accepted writes return and queue an explicit `writeAdmission` receipt, and output meaning stays asset-pack-normalized at the active tool boundary rather than only in notes or retained execution metadata
+  fifth-gate Bitcode MCP write-acceptance closure so the live AssetPack tool schema admits explicit repository/provider connection ingress, third-party MCP repository and attachment context is proven as input-only ingress, queued and completed MCP responses preserve normalized `interfaceSurface` plus `inputContext`, accepted writes return and queue an explicit `writeAdmission` receipt, and output meaning stays asset-pack-normalized at the active tool boundary rather than only in notes or retained execution metadata
 - `{packages/executions-mcp/src/mcp-server/src/{prompts/{workflow-prompts,development-prompts}.ts,tools/pipeline-tools.ts,__tests__/unit/prompt-asset-pack-canon.test.ts}}`
   test coverage:
   `packages/executions-mcp/src/mcp-server/src/__tests__/unit/prompt-asset-pack-canon.test.ts`
@@ -1099,7 +1099,7 @@ Required closure posture:
   test coverage:
   generated source-content proof plus active UAPI execution route tests
   proof surface:
-  fifth-gate client execution-hook closure so the `/api/deliverables` caller teaches Bitcode asset-pack pipeline submission, uses canonical `definitionOfNeed` input-key naming, and carries the same debug semantics in the tracked JavaScript mirror
+  fifth-gate client execution-hook closure so the active execution caller teaches Bitcode AssetPack pipeline submission, uses canonical `definitionOfNeed` input-key naming, and carries the same debug semantics in the tracked JavaScript mirror
 - `{uapi/app/application/{ApplicationCommandDeck.tsx,ApplicationClosureControlDeck.tsx,ApplicationTransactionDetailSurface.tsx,application-activity-history.ts,application-transaction-detail-snapshot.ts,application-transaction-detail.ts},uapi/tests/{applicationActivityHistory.test.ts,applicationTransactionDetailSnapshot.test.ts,applicationTransactionDetail.test.ts}}`
   test coverage:
   `uapi/tests/applicationActivityHistory.test.ts`, `uapi/tests/applicationTransactionDetailSnapshot.test.ts`, and `uapi/tests/applicationTransactionDetail.test.ts`

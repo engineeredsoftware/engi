@@ -3,11 +3,11 @@ import fs from 'fs';
 import path from 'path';
 
 const repoRoot = process.cwd();
-const deliverableDirs = [
+const assetPackPromptDirs = [
   'packages/pipelines/asset-pack/src/agents/prompts',
   'packages/pipelines/asset-pack/src/tools'
 ].map((relativePath) => path.join(repoRoot, relativePath));
-const deliverablePromptpartsDir = path.join(repoRoot, 'packages/prompts/src/raw_promptparts/specific');
+const assetPackPromptpartsDir = path.join(repoRoot, 'packages/prompts/src/raw_promptparts/specific');
 const rawPromptpartsRoot = path.join(repoRoot, 'packages/prompts/src/raw_promptparts');
 
 const substepSemantics = new Map([
@@ -74,7 +74,7 @@ const substepIntentSemantics = new Map([
 
 function collectReferencedPromptParts() {
   const refs = new Set();
-  for (const d of deliverableDirs) {
+  for (const d of assetPackPromptDirs) {
     if (!fs.existsSync(d)) continue;
     for (const ent of fs.readdirSync(d)) {
       if (!ent.endsWith('.ts')) continue;
@@ -151,65 +151,65 @@ function repairRawPromptpartGeneratedFiles() {
   return updated;
 }
 
-function isDeliverableCompatibilityPromptpartFile(filename) {
+function isAssetPackTracePromptpartFile(filename) {
   return /^promptpart_specific_(?:agent_deliverable|phase_deliverable|pipeline_deliverable|tool_.*deliverable).*?(?:\.d)?\.ts$/u.test(filename);
 }
 
-function compatibilityLabelForPromptpartFile(filename) {
+function traceLabelForPromptpartFile(filename) {
   return filename
     .replace(/^promptpart_specific_/u, '')
     .replace(/(?:\.d)?\.ts$/u, '')
     .replace(/_/gu, ' ');
 }
 
-function deliverableMetadataIntent(filename) {
-  const label = compatibilityLabelForPromptpartFile(filename);
+function assetPackTraceMetadataIntent(filename) {
+  const label = traceLabelForPromptpartFile(filename);
   const lower = filename.toLowerCase();
 
   if (lower.includes('comprehendtask')) {
-    return `Bitcode retained comprehend-task compatibility PromptPart for canonical comprehend-need asset-pack synthesis: ${label}`;
+    return `Bitcode comprehend-task trace PromptPart for canonical comprehend-need asset-pack synthesis: ${label}`;
   }
   if (lower.includes('comprehendneed')) {
     return `Bitcode canonical comprehend-need PromptPart for need-first written-asset / asset-pack synthesis: ${label}`;
   }
   if (lower.startsWith('promptpart_specific_tool_')) {
-    return `Bitcode retained deliverable-compatibility tool PromptPart for need-first asset-pack setup and written-asset evidence: ${label}`;
+    return `Bitcode AssetPack trace tool PromptPart for need-first asset-pack setup and written-asset evidence: ${label}`;
   }
   if (lower.startsWith('promptpart_specific_phase_')) {
-    return `Bitcode retained deliverable-compatibility phase PromptPart for need-first asset-pack execution: ${label}`;
+    return `Bitcode AssetPack trace phase PromptPart for need-first asset-pack execution: ${label}`;
   }
   if (lower.startsWith('promptpart_specific_pipeline_')) {
-    return `Bitcode retained deliverable-compatibility pipeline PromptPart for need-first asset-pack execution and delivery-mechanism separation: ${label}`;
+    return `Bitcode AssetPack trace pipeline PromptPart for need-first asset-pack execution and delivery-mechanism separation: ${label}`;
   }
   if (lower.includes('shipping')) {
-    return `Bitcode retained deliverable-compatibility PromptPart for delivery-mechanism separation over validated written assets: ${label}`;
+    return `Bitcode AssetPack trace PromptPart for delivery-mechanism separation over validated written assets: ${label}`;
   }
   if (lower.includes('validation')) {
-    return `Bitcode retained deliverable-compatibility PromptPart for need satisfaction, written-asset validation, and proof evidence: ${label}`;
+    return `Bitcode AssetPack trace PromptPart for need satisfaction, written-asset validation, and proof evidence: ${label}`;
   }
   if (lower.includes('implementation') || lower.includes('implexecute') || lower.includes('impl')) {
-    return `Bitcode retained deliverable-compatibility PromptPart for written-asset synthesis from asset-pack execution: ${label}`;
+    return `Bitcode AssetPack trace PromptPart for written-asset synthesis from asset-pack execution: ${label}`;
   }
   if (lower.includes('discovery') || lower.includes('disc')) {
-    return `Bitcode retained deliverable-compatibility PromptPart for need discovery and asset-pack planning: ${label}`;
+    return `Bitcode AssetPack trace PromptPart for need discovery and asset-pack planning: ${label}`;
   }
   if (lower.includes('setup')) {
-    return `Bitcode retained deliverable-compatibility PromptPart for need-first asset-pack setup: ${label}`;
+    return `Bitcode AssetPack trace PromptPart for need-first asset-pack setup: ${label}`;
   }
 
-  return `Bitcode retained deliverable-compatibility PromptPart for need-first written-asset / asset-pack execution: ${label}`;
+  return `Bitcode AssetPack trace PromptPart for need-first written-asset / asset-pack execution: ${label}`;
 }
 
-function normalizeDeliverablePromptpartDocComments() {
-  if (!fs.existsSync(deliverablePromptpartsDir)) return 0;
+function normalizeAssetPackTracePromptpartDocComments() {
+  if (!fs.existsSync(assetPackPromptpartsDir)) return 0;
   let updated = 0;
-  for (const ent of fs.readdirSync(deliverablePromptpartsDir)) {
-    if (!isDeliverableCompatibilityPromptpartFile(ent)) continue;
+  for (const ent of fs.readdirSync(assetPackPromptpartsDir)) {
+    if (!isAssetPackTracePromptpartFile(ent)) continue;
     if (ent.includes('_substep_')) continue;
 
-    const fp = path.join(deliverablePromptpartsDir, ent);
+    const fp = path.join(assetPackPromptpartsDir, ent);
     const src = fs.readFileSync(fp, 'utf8');
-    const nextIntent = `intent: "${deliverableMetadataIntent(ent)}"`;
+    const nextIntent = `intent: "${assetPackTraceMetadataIntent(ent)}"`;
     const next = src
       .replace(/intent:\s*"[^"]*"/gu, nextIntent)
       .replace(/current_version:\s*"[^"]*"/gu, 'current_version: "0.50.0"');
@@ -222,24 +222,24 @@ function normalizeDeliverablePromptpartDocComments() {
 }
 
 function normalizeSubstepPromptparts() {
-  if (!fs.existsSync(deliverablePromptpartsDir)) return 0;
+  if (!fs.existsSync(assetPackPromptpartsDir)) return 0;
   let updated = 0;
-  for (const ent of fs.readdirSync(deliverablePromptpartsDir)) {
+  for (const ent of fs.readdirSync(assetPackPromptpartsDir)) {
     if (!/^promptpart_specific_agent_deliverable.*_substep_.*\.ts$/u.test(ent)) continue;
-    const fp = path.join(deliverablePromptpartsDir, ent);
+    const fp = path.join(assetPackPromptpartsDir, ent);
     const src = fs.readFileSync(fp, 'utf8');
     const substep = [...substepSemantics.keys()].find((key) => ent.includes(`_substep_${key}.ts`));
     if (!substep) continue;
     const match = src.match(/export const ([A-Z0-9_]+): PromptPart\s*=\s*\n\s*(['"])([\s\S]*?)\2 as PromptPart;/u);
     if (!match) continue;
     const [, exportName, quote] = match;
-    const compatibilityLabel = ent
+    const traceLabel = ent
       .replace(/^promptpart_specific_agent_/u, '')
       .replace(/\.ts$/u, '')
       .replace(/_/gu, ' ');
-    const nextPrompt = `${compatibilityLabel}: ${substepSemantics.get(substep)}.`;
+    const nextPrompt = `${traceLabel}: ${substepSemantics.get(substep)}.`;
     const nextAssignment = `export const ${exportName}: PromptPart = \n  ${quote}${nextPrompt}${quote} as PromptPart;`;
-    const nextIntent = `intent: "${substepIntentSemantics.get(substep)}: ${compatibilityLabel}"`;
+    const nextIntent = `intent: "${substepIntentSemantics.get(substep)}: ${traceLabel}"`;
     const next = src
       .replace(/intent:\s*"[^"]*"/gu, nextIntent)
       .replace(/current_version:\s*"[^"]*"/gu, 'current_version: "0.50.0"')
@@ -252,12 +252,12 @@ function normalizeSubstepPromptparts() {
 }
 
 function syncSubstepRuntimePromptparts() {
-  if (!fs.existsSync(deliverablePromptpartsDir)) return 0;
+  if (!fs.existsSync(assetPackPromptpartsDir)) return 0;
   let updated = 0;
 
-  for (const ent of fs.readdirSync(deliverablePromptpartsDir)) {
+  for (const ent of fs.readdirSync(assetPackPromptpartsDir)) {
     if (!/^promptpart_specific_agent_deliverable.*_substep_.*\.ts$/u.test(ent)) continue;
-    const fp = path.join(deliverablePromptpartsDir, ent);
+    const fp = path.join(assetPackPromptpartsDir, ent);
     const src = fs.readFileSync(fp, 'utf8');
     const match = src.match(/export const ([A-Z0-9_]+): PromptPart\s*=\s*\n\s*(['"])([\s\S]*?)\2 as PromptPart;/u);
     if (!match) continue;
@@ -288,7 +288,7 @@ for (const fp of refs) {
   if (status === 'updated') updated++; else if (status === 'missing') missing++;
 }
 const repairedGeneratedFiles = repairRawPromptpartGeneratedFiles();
-const deliverableMetadataUpdated = normalizeDeliverablePromptpartDocComments();
+const assetPackTraceMetadataUpdated = normalizeAssetPackTracePromptpartDocComments();
 const substepUpdated = normalizeSubstepPromptparts();
 const substepRuntimeUpdated = syncSubstepRuntimePromptparts();
-console.log(`normalized ${updated} files; missing ${missing}; repaired ${repairedGeneratedFiles} generated raw PromptPart files; normalized ${deliverableMetadataUpdated} deliverable metadata PromptParts; normalized ${substepUpdated} deliverable substep PromptParts; synced ${substepRuntimeUpdated} deliverable runtime PromptParts`);
+console.log(`normalized ${updated} files; missing ${missing}; repaired ${repairedGeneratedFiles} generated raw PromptPart files; normalized ${assetPackTraceMetadataUpdated} AssetPack trace metadata PromptParts; normalized ${substepUpdated} AssetPack trace substep PromptParts; synced ${substepRuntimeUpdated} AssetPack trace runtime PromptParts`);

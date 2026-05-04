@@ -1,10 +1,9 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-# Update retained legacy table references from deliverable_runs to
-# deliverable_pipeline_runs. This is a compatibility maintenance helper for the
-# Bitcode asset-pack pipeline corridor; it must never encode a local old-world
-# checkout path.
+# Update physical storage table references from deliverable_runs to
+# deliverable_pipeline_runs. The table names are storage-bound migration
+# identifiers; the active Bitcode corridor is AssetPack execution.
 
 repo_root="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 

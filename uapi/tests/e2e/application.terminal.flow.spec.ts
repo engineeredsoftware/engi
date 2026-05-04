@@ -80,7 +80,7 @@ test.describe('Bitcode Terminal browser flow', () => {
           usdTotal: 1.62,
           averageLatencyMs: 930,
         },
-        final_work_summary: {
+        asset_pack_completion: {
           summary: 'Recorded closure posture.',
           repoSnapshot: repositorySnapshot,
           processingStats: {
@@ -138,7 +138,7 @@ test.describe('Bitcode Terminal browser flow', () => {
           usdTotal: 0.22,
           averageLatencyMs: 480,
         },
-        final_work_summary: {
+        asset_pack_completion: {
           summary: 'Recorded need measurement for auth-remediation.',
           repoSnapshot: {
             org: 'bitcode',
@@ -315,8 +315,8 @@ test.describe('Bitcode Terminal browser flow', () => {
             usdTotal: 0.13,
             averageLatencyMs: 410,
           },
-          final_work_summary: {
-            ...(postedExecutionHistoryDraft.output?.final_work_summary || {}),
+          asset_pack_completion: {
+            ...(postedExecutionHistoryDraft.output?.asset_pack_completion || {}),
             processingStats: {
               time: '18s',
               tokens: { total: 73 },
@@ -408,7 +408,7 @@ test.describe('Bitcode Terminal browser flow', () => {
           branch: 'main',
           commit: '',
         },
-        final_work_summary: {
+        asset_pack_completion: {
           summary: 'Recorded repository anchor for bitcode/terminal.',
           repoSnapshot: {
             org: 'bitcode',
