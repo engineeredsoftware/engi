@@ -361,18 +361,6 @@ const finalizeDeliveryEvidenceIdentityPromptSource = readFileSync(
   new URL('../../packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_assetpackfinishfinalizedeliveryevidence_identity_definition.ts', import.meta.url),
   'utf8'
 );
-const deliverablesSystemBasePromptSource = readFileSync(
-  new URL('../../packages/prompts/src/raw_promptparts/specific/promptpart_specific_deliverables_system_base.ts', import.meta.url),
-  'utf8'
-);
-const deliverablesSystemExcellencePromptSource = readFileSync(
-  new URL('../../packages/prompts/src/raw_promptparts/specific/promptpart_specific_deliverables_system_excellence_standards.ts', import.meta.url),
-  'utf8'
-);
-const deliverablesSystemCognitivePromptSource = readFileSync(
-  new URL('../../packages/prompts/src/raw_promptparts/specific/promptpart_specific_deliverables_system_cognitive_framework.ts', import.meta.url),
-  'utf8'
-);
 const assetPackSystemUltraCriticalPromptSource = readFileSync(
   new URL('../../packages/prompts/src/raw_promptparts/specific/promptpart_specific_asset_pack_system_ultra_critical_reflection.ts', import.meta.url),
   'utf8'
@@ -454,7 +442,7 @@ const promptPackageRuntimeSource = readFileSync(
   'utf8'
 );
 const reformedRuntimePromptJsSources = [
-  '../../packages/prompts/src/raw_promptparts/specific/promptpart_specific_deliverables_system_base.js',
+  '../../packages/prompts/src/raw_promptparts/specific/promptpart_specific_asset_pack_system_ultra_critical_reflection.js',
   '../../packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_assetpackvalidationreadytofinish_identity_definition.js',
   '../../packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_assetpackvalidationreadytofinish_purpose_corestatement.js',
   '../../packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_assetpackvalidationreadytofinish_ptrrtry_purpose.js',
@@ -493,15 +481,30 @@ const removedDeliverableDiscoveryCoreRawPromptParts = readdirSync(rawPromptPartD
     /^promptpart_specific_agent_deliverablediscovery(?:analyze|analyzeparallel|assesscomplexity|planimplementation|understandrequirements)_.*(?:\.d)?\.(?:ts|js)$/u.test(filename)
   )
   .sort();
+const removedDeliverableImplementationRawPromptParts = readdirSync(rawPromptPartDirs[0])
+  .filter((filename) => /^promptpart_specific_agent_deliverable(?:impl|implementation).*?(?:\.d)?\.(?:ts|js)$/u.test(filename))
+  .sort();
+const removedDeliverableValidationRawPromptParts = readdirSync(rawPromptPartDirs[0])
+  .filter((filename) => /^promptpart_specific_agent_deliverablevalidation.*?(?:\.d)?\.(?:ts|js)$/u.test(filename))
+  .sort();
+const removedDeliverablesDiscoveryCodebaseAnalysisRawPromptParts = readdirSync(rawPromptPartDirs[0])
+  .filter((filename) => /^promptpart_specific_agent_deliverablesdiscoverycodebaseanalysis_.*(?:\.d)?\.(?:ts|js)$/u.test(filename))
+  .sort();
+const removedDeliverablesSystemRawPromptParts = readdirSync(rawPromptPartDirs[0])
+  .filter((filename) => /^promptpart_specific_deliverables_system_.*(?:\.d)?\.(?:ts|js)$/u.test(filename))
+  .sort();
+const removedNonPrFinishDeliveryRawPromptParts = readdirSync(rawPromptPartDirs[0])
+  .filter((filename) => /^promptpart_specific_agent_assetpackfinish(?:addissuecommentdelivery|createissuedelivery|submitreviewdelivery)_.*(?:\.d)?\.(?:ts|js)$/u.test(filename))
+  .sort();
 
-const deliverableSubstepPromptPartSources = readdirSync(rawPromptPartDirs[0])
-  .filter((filename) => /^promptpart_specific_agent_(?:deliverable.*|assetpackvalidationreadytofinish.*)_substep_.*\.ts$/u.test(filename))
+const assetPackSubstepPromptPartSources = readdirSync(rawPromptPartDirs[0])
+  .filter((filename) => /^promptpart_specific_agent_assetpack(?:setup(?:dangerwall|readytoiterate)|validationreadytofinish).*_substep_.*\.ts$/u.test(filename))
   .sort()
   .map((filename) => [filename, readFileSync(new URL(filename, rawPromptPartDirs[0]), 'utf8')]);
 
-const deliverablePromptPartMetadataSources = readdirSync(rawPromptPartDirs[0])
+const assetPackPromptPartMetadataSources = readdirSync(rawPromptPartDirs[0])
   .filter((filename) =>
-    /^promptpart_specific_(?:agent_deliverable|agent_finalizeshipment|phase_assetpack|pipeline_assetpackrun|tool_.*deliverable|agent_assetpackdiscovery|agent_assetpackfinish|agent_assetpacksetup|agent_assetpackpipeline|agent_assetpacksynthesizeartifacts|agent_assetpackvalidationreadytofinish|tool_repositorysetup_assetpack|tool_assetpack).*?(?:\.d)?\.ts$/u.test(filename)
+    /^promptpart_specific_(?:phase_assetpack|pipeline_assetpackrun|agent_assetpackdiscovery|agent_assetpackfinish|agent_assetpacksetup|agent_assetpackpipeline|agent_assetpacksynthesizeartifacts|agent_assetpackvalidationreadytofinish|tool_repositorysetup_assetpack|tool_assetpack|asset_pack_system).*?(?:\.d)?\.ts$/u.test(filename)
   )
   .sort()
   .map((filename) => [filename, readFileSync(new URL(filename, rawPromptPartDirs[0]), 'utf8')]);
@@ -957,11 +960,12 @@ test('AssetPack templates and bounded promptparts teach asset-pack-run semantics
   );
   assert.match(finalizeDeliveryEvidencePurposePromptSource, /finalize Finish evidence for validated Need-satisfaction AssetPack synthesis artifacts with stored AssetPack evidence, delivery-mechanism artifacts/u);
   assert.match(finalizeDeliveryEvidenceIdentityPromptSource, /finalizing Finish evidence for validated Need-satisfaction AssetPack synthesis artifacts, stored AssetPack evidence, delivery-mechanism artifacts/u);
-  assert.match(deliverablesSystemBasePromptSource, /satisfy an expressed need by synthesizing stable Need-satisfaction AssetPack contents and evidence/u);
-  assert.match(deliverablesSystemBasePromptSource, /delivery mechanisms subordinate to the Bitcode asset-pack meaning/u);
-  assert.match(deliverablesSystemExcellencePromptSource, /NEED SATISFACTION/u);
-  assert.match(deliverablesSystemCognitivePromptSource, /ASSET-PACK SYNTHESIS/u);
   assert.match(assetPackSystemUltraCriticalPromptSource, /written assets primary and delivery mechanisms secondary/u);
+  assert.deepEqual(
+    removedDeliverablesSystemRawPromptParts,
+    [],
+    'old deliverables_system PromptParts must not remain after asset_pack_system owns active reflection'
+  );
   assert.equal(existsSync(new URL('../../packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_deliverableimplementationdividepullrequest_purpose_corestatement.ts', import.meta.url)), false);
   assert.equal(existsSync(new URL('../../packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_deliverableimplementationdividepullrequest_identity_definition.ts', import.meta.url)), false);
   assert.equal(existsSync(new URL('../../packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_deliverableimplementationdividepullrequest_ptrrplan_purpose.ts', import.meta.url)), false);
@@ -973,6 +977,26 @@ test('AssetPack templates and bounded promptparts teach asset-pack-run semantics
   assert.equal(existsSync(new URL('../../packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_createcodechange_system_identity.ts', import.meta.url)), false);
   assert.equal(existsSync(new URL('../../packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_createcodechange_system_role.ts', import.meta.url)), false);
   assert.equal(existsSync(new URL('../../packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_createcodechange_system_instructions.ts', import.meta.url)), false);
+  assert.deepEqual(
+    removedDeliverableImplementationRawPromptParts,
+    [],
+    'old deliverable implementation PromptParts must not remain after AssetPack synthesis owns implementation'
+  );
+  assert.deepEqual(
+    removedDeliverableValidationRawPromptParts,
+    [],
+    'old deliverable validation PromptParts must not remain after AssetPack validation owns readiness'
+  );
+  assert.deepEqual(
+    removedDeliverablesDiscoveryCodebaseAnalysisRawPromptParts,
+    [],
+    'old deliverables-discovery codebase-analysis PromptParts must not remain after AssetPack discovery owners exist'
+  );
+  assert.deepEqual(
+    removedNonPrFinishDeliveryRawPromptParts,
+    [],
+    'non-PR AssetPack Finish delivery PromptParts must not remain in V26'
+  );
   assert.match(assetPackValidationReadyToFinishIdentityPromptSource, /deciding whether validated Need-satisfaction AssetPack synthesis artifacts and required evidence may enter Finish/u);
   assert.match(assetPackValidationReadyToFinishPurposePromptSource, /validated Need-satisfaction AssetPack synthesis artifacts satisfy the Need and are safe to enter Finish/u);
   assert.match(assetPackValidationReadyToFinishCapabilitiesPromptSource, /analyze AssetPack context and requirements/u);
@@ -1039,17 +1063,17 @@ test('execution notifications and support rails use AssetPack and Shippable nami
   }
 });
 
-test('deliverable substep PromptParts express Bitcode need, written-asset, and asset-pack semantics', () => {
+test('AssetPack substep PromptParts express Bitcode need, written-asset, and asset-pack semantics', () => {
   assert.ok(
-    deliverableSubstepPromptPartSources.length >= 20,
-    `expected remaining AssetPack substep promptpart coverage, saw ${deliverableSubstepPromptPartSources.length}`
+    assetPackSubstepPromptPartSources.length >= 20,
+    `expected remaining AssetPack substep promptpart coverage, saw ${assetPackSubstepPromptPartSources.length}`
   );
 
-  const combinedPromptText = deliverableSubstepPromptPartSources
+  const combinedPromptText = assetPackSubstepPromptPartSources
     .map(([_filename, source]) => source)
     .join('\n');
 
-  for (const [filename, source] of deliverableSubstepPromptPartSources) {
+  for (const [filename, source] of assetPackSubstepPromptPartSources) {
     assert.doesNotMatch(source, oldWorldDeliverableSubstepLanguage, `${filename} still uses generic old-world substep language`);
     assert.doesNotMatch(source, /current_version:\s*"G[A]1/u, `${filename} still carries G[A]1 current_version metadata`);
     assert.match(source, /current_version:\s*"0\.50\.0"/u, `${filename} should carry Bitcode current_version metadata`);
@@ -1065,13 +1089,13 @@ test('deliverable substep PromptParts express Bitcode need, written-asset, and a
   assert.match(combinedPromptText, /assetPack/u);
 });
 
-test('retained AssetPack trace PromptPart doc-comment metadata is Bitcode-native', () => {
+test('active AssetPack PromptPart doc-comment metadata is Bitcode-native', () => {
   assert.ok(
-    deliverablePromptPartMetadataSources.length >= 350,
-    `expected broad AssetPack trace promptpart metadata coverage, saw ${deliverablePromptPartMetadataSources.length}`
+    assetPackPromptPartMetadataSources.length >= 180,
+    `expected broad AssetPack promptpart metadata coverage, saw ${assetPackPromptPartMetadataSources.length}`
   );
 
-  for (const [filename, source] of deliverablePromptPartMetadataSources) {
+  for (const [filename, source] of assetPackPromptPartMetadataSources) {
     assert.doesNotMatch(source, /current_version:\s*"G[A]1/u, `${filename} still carries G[A]1 current_version metadata`);
     assert.match(source, /current_version:\s*"0\.50\.0"/u, `${filename} should carry Bitcode current_version metadata`);
     assert.doesNotMatch(source, staleDeliverablePromptPartIntent, `${filename} still carries old deliverable intent metadata`);
@@ -1085,7 +1109,7 @@ test('retained AssetPack trace PromptPart doc-comment metadata is Bitcode-native
 });
 
 test('raw PromptPart benchmark metadata stays parseable after broad normalization', () => {
-  assert.ok(rawPromptPartSourceEntries.length >= 1700, `expected broad raw PromptPart coverage, saw ${rawPromptPartSourceEntries.length}`);
+  assert.ok(rawPromptPartSourceEntries.length >= 1500, `expected broad raw PromptPart coverage, saw ${rawPromptPartSourceEntries.length}`);
 
   for (const [filename, source] of rawPromptPartSourceEntries) {
     assert.doesNotMatch(source, malformedPromptPartBenchmarkScorePattern, `${filename} has malformed benchmark score metadata`);
@@ -1100,6 +1124,7 @@ test('retained maintenance scripts audit current Bitcode prompt and asset-pack-r
   assert.match(promptAuditScriptSource, /"assetpackfinishcreatepullrequestdelivery"/u);
   assert.match(promptAuditScriptSource, /"try_directives"/u);
   assert.doesNotMatch(promptAuditScriptSource, /"comprehendtask"/u);
+  assert.doesNotMatch(promptAuditScriptSource, /assetpackfinish(?:submitreview|createissue|addissuecomment)delivery/u);
   assert.doesNotMatch(promptAuditScriptSource, /Shipping Phase/u);
   assert.doesNotMatch(promptAuditScriptSource, /prompts\/src\/raw\/specific/u);
 
@@ -1171,14 +1196,14 @@ test('raw promptpart runtime JavaScript carries canonical TypeScript PromptPart 
   assert.deepEqual(missingRuntimeFiles, []);
   assert.deepEqual(mismatches, []);
   assert.deepEqual(skippedNonPromptPartFiles, ['index.ts', 'index.ts']);
-  assert.ok(checkedPromptParts >= 1600, `expected broad promptpart carry-through coverage, checked ${checkedPromptParts}`);
+  assert.ok(checkedPromptParts >= 1450, `expected broad promptpart carry-through coverage, checked ${checkedPromptParts}`);
 });
 
 test('reformed runtime promptpart JavaScript teaches Bitcode written-asset Finish and delivery semantics', () => {
   const runtimePromptText = reformedRuntimePromptJsSources.join('\n');
 
-  assert.match(runtimePromptText, /Bitcode AssetPack pipeline AI system/u);
-  assert.match(runtimePromptText, /stable Need-satisfaction AssetPack contents and evidence/u);
+  assert.match(runtimePromptText, /Bitcode AssetPack system reflection/u);
+  assert.match(runtimePromptText, /written assets primary and delivery mechanisms secondary/u);
   assert.match(runtimePromptText, /deciding whether validated Need-satisfaction AssetPack synthesis artifacts and required evidence may enter Finish/u);
   assert.match(runtimePromptText, /validated Need-satisfaction AssetPack synthesis artifacts satisfy the Need and are safe to enter Finish/u);
   assert.match(runtimePromptText, /admits a validated AssetPack into Finish or short-circuits with evidence and refund posture/u);

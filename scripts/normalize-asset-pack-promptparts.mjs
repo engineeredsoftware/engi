@@ -152,7 +152,7 @@ function repairRawPromptpartGeneratedFiles() {
 }
 
 function isAssetPackTracePromptpartFile(filename) {
-  return /^promptpart_specific_(?:agent_deliverable|phase_deliverable|pipeline_deliverable|tool_.*deliverable).*?(?:\.d)?\.ts$/u.test(filename);
+  return /^promptpart_specific_(?:agent_assetpack|phase_assetpack|pipeline_assetpackrun|tool_.*assetpack|asset_pack_system).*?(?:\.d)?\.ts$/u.test(filename);
 }
 
 function traceLabelForPromptpartFile(filename) {
@@ -222,7 +222,7 @@ function normalizeSubstepPromptparts() {
   if (!fs.existsSync(assetPackPromptpartsDir)) return 0;
   let updated = 0;
   for (const ent of fs.readdirSync(assetPackPromptpartsDir)) {
-    if (!/^promptpart_specific_agent_deliverable.*_substep_.*\.ts$/u.test(ent)) continue;
+    if (!/^promptpart_specific_agent_assetpack(?:setup(?:dangerwall|readytoiterate)|validationreadytofinish).*_substep_.*\.ts$/u.test(ent)) continue;
     const fp = path.join(assetPackPromptpartsDir, ent);
     const src = fs.readFileSync(fp, 'utf8');
     const substep = [...substepSemantics.keys()].find((key) => ent.includes(`_substep_${key}.ts`));
@@ -253,7 +253,7 @@ function syncSubstepRuntimePromptparts() {
   let updated = 0;
 
   for (const ent of fs.readdirSync(assetPackPromptpartsDir)) {
-    if (!/^promptpart_specific_agent_deliverable.*_substep_.*\.ts$/u.test(ent)) continue;
+    if (!/^promptpart_specific_agent_assetpack(?:setup(?:dangerwall|readytoiterate)|validationreadytofinish).*_substep_.*\.ts$/u.test(ent)) continue;
     const fp = path.join(assetPackPromptpartsDir, ent);
     const src = fs.readFileSync(fp, 'utf8');
     const match = src.match(/export const ([A-Z0-9_]+): PromptPart\s*=\s*\n\s*(['"])([\s\S]*?)\2 as PromptPart;/u);

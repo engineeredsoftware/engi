@@ -4,7 +4,7 @@ import { PromptPart } from '../../parts/PromptPart';
  * @doc-comment-developing-promptpartdevelopment
  * domain: system
  * intent: "Bitcode AssetPack system reflection for need, written assets, and delivery mechanisms"
- * current_version: "V26.50.0"
+ * current_version: "0.50.0"
  * versions: []
  * benchmarks: [
  *   { "name": "technical_accuracy", "test": "Uses specific technical terms?", "score": 0.95 },

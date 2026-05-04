@@ -31,9 +31,6 @@ agents=(
   
   # Finish Phase
   "assetpackfinishcreatepullrequestdelivery"
-  "assetpackfinishsubmitreviewdelivery"
-  "assetpackfinishcreateissuedelivery"
-  "assetpackfinishaddissuecommentdelivery"
   "assetpackfinishfinalizedeliveryevidence"
 )
 
