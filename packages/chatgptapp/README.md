@@ -55,7 +55,7 @@ pnpm --filter @bitcode/chatgptapp dev
    - Environment: `BITCODE_LOG_STDOUT=0`
    - Click **Connect** (optionally tick “Remember”).
 
-The `tools/list` call should display the canonical identifiers below (no `engi:` prefix).
+The `tools/list` call should display the canonical Bitcode identifiers below with no retired product prefix.
 
 ## Canonical tools
 

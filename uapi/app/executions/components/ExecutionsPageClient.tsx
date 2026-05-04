@@ -35,7 +35,7 @@ import {
   getHeaderShippables,
   getHeaderWrittenAssets,
   mergeHeaderShippables,
-  type HeaderFinalWorkSummary,
+  type HeaderAssetPackCompletion,
 } from '@/app/executions/components/ExecutionsCompleteHeaderContent';
 
 const VCSSourceSelectors = React.memo(RawVCSSourceSelectors);
@@ -238,7 +238,7 @@ export function ExecutionsClient() {
   }, [activeRunId, runId]);
 
   // History hydration and postprocessed fetch
-  const [historyFWS, setHistoryFWS] = React.useState<HeaderFinalWorkSummary | null>(null);
+  const [historyFWS, setHistoryFWS] = React.useState<HeaderAssetPackCompletion | null>(null);
   const [headerPostprocessed, setHeaderPostprocessed] = React.useState<any | null>(null);
   useEffect(() => {
     let cancelled = false;
@@ -249,7 +249,7 @@ export function ExecutionsClient() {
         const res = await fetch(`/api/executions/history/${runId}?${params.toString()}`);
         if (!res.ok) return; const data = await res.json(); const run = data?.run || {};
         const runOutput = (run as any)?.output || run?.output_data || null;
-        const fws = runOutput?.final_work_summary || run?.final_work_summary || null;
+        const fws = runOutput?.asset_pack_completion || run?.asset_pack_completion || null;
         const guide = run?.guide || run?.guide || null;
         const gateHistory = (run?.metadata?.gateHistory || run?.metadata?.gate_history) ?? null;
         const enrichedFws = fws
@@ -352,15 +352,11 @@ export function ExecutionsClient() {
     getHeaderWrittenAssets(historyFWS) ||
     headerPostprocessed?.assetPackSynthesisArtifacts ||
     headerPostprocessed?.writtenAssets ||
-    // Compatibility-only fallback for historical postprocessed rows.
-    headerPostprocessed?.deliverables ||
     null;
   const deliveryMechanismForPanels =
     getHeaderShippables(historyFWS) ||
     headerPostprocessed?.shippables ||
     headerPostprocessed?.deliveryMechanism ||
-    // Compatibility-only fallback for historical postprocessed rows.
-    headerPostprocessed?.deliverables ||
     writtenAssetsForPanels;
   const shippablesForPanels = mergeHeaderShippables(
     writtenAssetsForPanels,
@@ -388,7 +384,7 @@ export function ExecutionsClient() {
     const merged = {
       ...(finalStats ?? {}),
       ...(liveProcessingStats ?? {}),
-    } as HeaderFinalWorkSummary['processingStats'] & {
+    } as HeaderAssetPackCompletion['processingStats'] & {
       gate?: string | null;
       phase?: string | null;
       agent?: string | null;
@@ -532,9 +528,6 @@ export function ExecutionsClient() {
           }}
           shippables={{
             pullRequest: deliveryMechanismForPanels?.pullRequest ?? null,
-            pullRequestReviews: deliveryMechanismForPanels?.pullRequestReviews ?? [],
-            issues: deliveryMechanismForPanels?.issues ?? [],
-            comments: deliveryMechanismForPanels?.comments ?? [],
             fileChanges: writtenAssetsForPanels?.fileChanges ?? deliveryMechanismForPanels?.fileChanges ?? null,
             summary:
               writtenAssetsForPanels?.summary ||
@@ -551,9 +544,6 @@ export function ExecutionsClient() {
         <ShippablesDocPanel
           shippables={{
             pullRequest: shippablesForPanels.pullRequest ?? null,
-            pullRequestReviews: shippablesForPanels.pullRequestReviews ?? null,
-            comments: shippablesForPanels.comments ?? null,
-            issues: shippablesForPanels.issues ?? null,
             fileChanges: shippablesForPanels.fileChanges ?? null,
             summary: shippablesForPanels.summary ?? null,
           }}
@@ -566,9 +556,6 @@ export function ExecutionsClient() {
         <ShippablesCardsPanel
           shippables={{
             pullRequest: shippablesForPanels.pullRequest ?? null,
-            pullRequestReviews: shippablesForPanels.pullRequestReviews ?? null,
-            comments: shippablesForPanels.comments ?? null,
-            issues: shippablesForPanels.issues ?? null,
           }}
         />
       )}

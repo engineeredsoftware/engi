@@ -689,7 +689,7 @@ export const POST = traceRoute('/executions', async (request: NextRequest) => {
       need: definition_of_need,
       deliveryTarget: 'pr' as const,
     };
-    let finalWorkSummary: any = undefined;
+    let assetPackCompletion: any = undefined;
 
     // Send telemetry
     log('[asset-pack-route] Sending creation telemetry', 'debug', { correlationId, runId });
@@ -943,8 +943,7 @@ export const POST = traceRoute('/executions', async (request: NextRequest) => {
           gate: gate as 'Design' | 'Develop' | 'Digest'
         };
 
-        // ROUTE PIPELINE EXECUTION: Preprocess the retained compatibility
-        // route while storing the Bitcode-owned asset-pack run snapshot.
+        // ROUTE PIPELINE EXECUTION: store the Bitcode-owned asset-pack run snapshot.
         try {
           const preprocessing = {
             selectedPipeline: 'asset-pack',
@@ -963,8 +962,6 @@ export const POST = traceRoute('/executions', async (request: NextRequest) => {
             },
           };
           execution.store('route/preprocessed', 'assetPackWrittenAsset', preprocessing);
-          // Compatibility mirror for persisted route readers that have not yet migrated storage keys.
-          execution.store('route/preprocessed', 'deliverables', preprocessing);
         } catch {}
 
         // Execute pipeline with canonical $BTD reservation
@@ -987,7 +984,7 @@ export const POST = traceRoute('/executions', async (request: NextRequest) => {
           correlationId,
           duration: pipelineDuration,
           success: true,
-          prCreated: !!result?.shippable?.prUrl || !!result?.deliveryMechanism?.prUrl || !!result?.deliverable?.prUrl
+          prCreated: !!result?.shippable?.prUrl || !!result?.deliveryMechanism?.prUrl
         });
 
         // Send completion
@@ -995,7 +992,7 @@ export const POST = traceRoute('/executions', async (request: NextRequest) => {
         log('[asset-pack-route] Sending completion event', 'debug', {
           correlationId,
           totalDuration,
-          prUrl: result?.shippable?.prUrl || result?.deliveryMechanism?.prUrl || result?.deliverable?.prUrl
+          prUrl: result?.shippable?.prUrl || result?.deliveryMechanism?.prUrl
         });
         
         // Telemetry: summarize file changes from editing history
@@ -1031,56 +1028,49 @@ export const POST = traceRoute('/executions', async (request: NextRequest) => {
             executionData.data[namespace] = Object.fromEntries(namespaceData.entries());
           }
         }
-        // Enrich final work summary with token/$BTD aggregates and merge into execution output
+        // Enrich AssetPack completion with token/$BTD aggregates and merge into execution output
         let preprocessedSnapshot: any = undefined;
         try {
           preprocessedSnapshot =
             (execution as any).get?.('route/preprocessed', 'assetPackWrittenAsset') ||
-            (execution as any).get?.('route/preprocessed', 'deliverables') ||
             undefined;
           const writtenAssets =
-            (execution as any).get?.('finish/final_work_summary', 'writtenAssets') ||
-            (execution as any).get?.('finish/final_work_summary', 'assetPackSynthesisArtifacts') ||
-            (execution as any).get?.('finish/final_work_summary', 'deliverables') ||
+            (execution as any).get?.('finish/asset_pack_completion', 'writtenAssets') ||
+            (execution as any).get?.('finish/asset_pack_completion', 'assetPackSynthesisArtifacts') ||
             undefined;
           const assetPackSynthesisArtifacts =
-            (execution as any).get?.('finish/final_work_summary', 'assetPackSynthesisArtifacts') ||
+            (execution as any).get?.('finish/asset_pack_completion', 'assetPackSynthesisArtifacts') ||
             (execution as any).get?.('implementation', 'assetPackSynthesisArtifacts') ||
             writtenAssets ||
             undefined;
           const shippables =
-            (execution as any).get?.('finish/final_work_summary', 'shippables') ||
-            (execution as any).get?.('finish/final_work_summary', 'deliveryMechanism') ||
-            (execution as any).get?.('finish/final_work_summary', 'deliverables') ||
+            (execution as any).get?.('finish/asset_pack_completion', 'shippables') ||
+            (execution as any).get?.('finish/asset_pack_completion', 'deliveryMechanism') ||
             undefined;
           const deliveryMechanism =
-            (execution as any).get?.('finish/final_work_summary', 'deliveryMechanism') ||
+            (execution as any).get?.('finish/asset_pack_completion', 'deliveryMechanism') ||
             shippables ||
             writtenAssets ||
             undefined;
           const need =
-            (execution as any).get?.('finish/final_work_summary', 'need') ||
+            (execution as any).get?.('finish/asset_pack_completion', 'need') ||
             (execution as any).get?.('pipeline', 'expressedNeed') ||
             preprocessedSnapshot?.need ||
             undefined;
           const writtenAssetType =
-            (execution as any).get?.('finish/final_work_summary', 'writtenAssetType') ||
+            (execution as any).get?.('finish/asset_pack_completion', 'writtenAssetType') ||
             (execution as any).get?.('pipeline', 'writtenAssetType') ||
-            (execution as any).get?.('pipeline', 'deliverableType') ||
             preprocessedSnapshot?.writtenAssetType ||
-            preprocessedSnapshot?.deliverableType ||
             undefined;
 
-          finalWorkSummary = {
-            summary: (execution as any).get?.('finish/final_work_summary', 'summary'),
-            processingStats: (execution as any).get?.('finish/final_work_summary', 'processingStats'),
-            repoSnapshot: (execution as any).get?.('finish/final_work_summary', 'repoSnapshot'),
+          assetPackCompletion = {
+            summary: (execution as any).get?.('finish/asset_pack_completion', 'summary'),
+            processingStats: (execution as any).get?.('finish/asset_pack_completion', 'processingStats'),
+            repoSnapshot: (execution as any).get?.('finish/asset_pack_completion', 'repoSnapshot'),
             assetPackSynthesisArtifacts,
             writtenAssets,
             shippables,
             deliveryMechanism,
-            // Compatibility mirror for retained readers that still expect final_work_summary.deliverables.
-            deliverables: (execution as any).get?.('finish/final_work_summary', 'deliverables') || shippables,
             need,
             writtenAssetType,
             assetPack:
@@ -1096,31 +1086,27 @@ export const POST = traceRoute('/executions', async (request: NextRequest) => {
                 : undefined),
           };
           if (
-            !finalWorkSummary?.summary &&
-            !finalWorkSummary?.writtenAssets?.summary &&
-            !finalWorkSummary?.shippables?.summary &&
-            !finalWorkSummary?.deliveryMechanism?.summary &&
-            !finalWorkSummary?.deliverables?.summary
-          ) finalWorkSummary = undefined;
+            !assetPackCompletion?.summary &&
+            !assetPackCompletion?.writtenAssets?.summary &&
+            !assetPackCompletion?.shippables?.summary &&
+            !assetPackCompletion?.deliveryMechanism?.summary
+          ) assetPackCompletion = undefined;
         } catch {}
 
         // Aggregate token usage and BTD spend if possible
-        if (finalWorkSummary) {
-          if (!finalWorkSummary.processingStats) finalWorkSummary.processingStats = {};
-          if (!finalWorkSummary.summary && finalWorkSummary.writtenAssets?.summary) {
-            finalWorkSummary.summary = finalWorkSummary.writtenAssets.summary;
+        if (assetPackCompletion) {
+          if (!assetPackCompletion.processingStats) assetPackCompletion.processingStats = {};
+          if (!assetPackCompletion.summary && assetPackCompletion.writtenAssets?.summary) {
+            assetPackCompletion.summary = assetPackCompletion.writtenAssets.summary;
           }
-          if (!finalWorkSummary.summary && finalWorkSummary.assetPackSynthesisArtifacts?.summary) {
-            finalWorkSummary.summary = finalWorkSummary.assetPackSynthesisArtifacts.summary;
+          if (!assetPackCompletion.summary && assetPackCompletion.assetPackSynthesisArtifacts?.summary) {
+            assetPackCompletion.summary = assetPackCompletion.assetPackSynthesisArtifacts.summary;
           }
-          if (!finalWorkSummary.summary && finalWorkSummary.deliveryMechanism?.summary) {
-            finalWorkSummary.summary = finalWorkSummary.deliveryMechanism.summary;
+          if (!assetPackCompletion.summary && assetPackCompletion.deliveryMechanism?.summary) {
+            assetPackCompletion.summary = assetPackCompletion.deliveryMechanism.summary;
           }
-          if (!finalWorkSummary.summary && finalWorkSummary.shippables?.summary) {
-            finalWorkSummary.summary = finalWorkSummary.shippables.summary;
-          }
-          if (!finalWorkSummary.summary && finalWorkSummary.deliverables?.summary) {
-            finalWorkSummary.summary = finalWorkSummary.deliverables.summary;
+          if (!assetPackCompletion.summary && assetPackCompletion.shippables?.summary) {
+            assetPackCompletion.summary = assetPackCompletion.shippables.summary;
           }
           try {
             const supa = getAdminSupabase();
@@ -1137,32 +1123,29 @@ export const POST = traceRoute('/executions', async (request: NextRequest) => {
                 return acc;
               }, { input: 0, output: 0, total: 0, usd: 0 });
               const btdUsed = Math.max(1, Math.ceil(tokens.usd * 10)); // 10 $BTD per USD
-              finalWorkSummary.processingStats.tokens = { input: tokens.input, output: tokens.output, total: tokens.total };
-              finalWorkSummary.processingStats.btdUsed = btdUsed;
-              finalWorkSummary.processingStats.usdTotal = Number(tokens.usd.toFixed(2));
+              assetPackCompletion.processingStats.tokens = { input: tokens.input, output: tokens.output, total: tokens.total };
+              assetPackCompletion.processingStats.btdUsed = btdUsed;
+              assetPackCompletion.processingStats.usdTotal = Number(tokens.usd.toFixed(2));
             }
           } catch {}
 
           try {
             const { averageLatencyMs, modelUsage } = await aggregateLLMMetrics(runId);
             if (averageLatencyMs !== null) {
-              finalWorkSummary.processingStats.averageLatencyMs = averageLatencyMs;
+              assetPackCompletion.processingStats.averageLatencyMs = averageLatencyMs;
             }
             if (modelUsage.length) {
-              finalWorkSummary.processingStats.modelUsage = modelUsage;
+              assetPackCompletion.processingStats.modelUsage = modelUsage;
             }
           } catch {}
         }
 
         // Attach postprocessed result for unified read, enriched with ReadyToFinish
         let postprocessed: any = undefined;
-        const assetPackRequestSnapshot =
-          preprocessedSnapshot || (execution as any).get?.('route/preprocessed', 'deliverables');
-        const compatibilityWrittenAssetType =
+        const assetPackRequestSnapshot = preprocessedSnapshot;
+        const writtenAssetType =
           (execution as any).get?.('pipeline', 'writtenAssetType') ||
-          (execution as any).get?.('pipeline', 'deliverableType') ||
           assetPackRequestSnapshot?.writtenAssetType ||
-          assetPackRequestSnapshot?.deliverableType ||
           undefined;
         let digestStatus: any = undefined;
         if (gate === 'Digest') {
@@ -1204,24 +1187,24 @@ export const POST = traceRoute('/executions', async (request: NextRequest) => {
         } catch {}
 
         if (digestStatus) {
-          if (!finalWorkSummary) {
-            finalWorkSummary = {};
+          if (!assetPackCompletion) {
+            assetPackCompletion = {};
           }
-          finalWorkSummary.processingStats = {
-            ...(finalWorkSummary.processingStats || {}),
+          assetPackCompletion.processingStats = {
+            ...(assetPackCompletion.processingStats || {}),
             digest: digestStatus
           };
-          if (!finalWorkSummary.summary && digestStatus.summary) {
-            finalWorkSummary.summary = digestStatus.summary;
+          if (!assetPackCompletion.summary && digestStatus.summary) {
+            assetPackCompletion.summary = digestStatus.summary;
           }
         }
 
-        // Build client-facing result only after semantic final-work-summary mirrors
+        // Build client-facing result only after semantic asset-pack-completion mirrors
         // have been extracted so the streamed completion payload can carry the
         // same Bitcode-owned meaning as persisted reread.
         const semanticCompletion = buildSemanticCompletionResult({
           result,
-          finalWorkSummary,
+          assetPackCompletion,
           fileChanges: fileChanges as any,
         });
         const clientResult: any = semanticCompletion.clientResult;
@@ -1253,19 +1236,18 @@ export const POST = traceRoute('/executions', async (request: NextRequest) => {
           definitionOfNeed: definition_of_need,
           durationMs: Date.now() - startTime,
           guide: execution?.get('meta', 'phase') || gate,
-          shippableWrittenAssetType: finalWorkSummary?.writtenAssetType || compatibilityWrittenAssetType,
-          deliverableType: compatibilityWrittenAssetType,
-          writtenAssetType: finalWorkSummary?.writtenAssetType || compatibilityWrittenAssetType,
-          need: finalWorkSummary?.need || preprocessedSnapshot?.need || definition_of_need,
-          assetPack: finalWorkSummary?.assetPack || preprocessedSnapshot?.assetPack || null,
-          assetPackSynthesisArtifacts: finalWorkSummary?.assetPackSynthesisArtifacts || null,
-          shippables: finalWorkSummary?.shippables || null,
+          shippableWrittenAssetType: assetPackCompletion?.writtenAssetType || writtenAssetType,
+          writtenAssetType: assetPackCompletion?.writtenAssetType || writtenAssetType,
+          need: assetPackCompletion?.need || preprocessedSnapshot?.need || definition_of_need,
+          assetPack: assetPackCompletion?.assetPack || preprocessedSnapshot?.assetPack || null,
+          assetPackSynthesisArtifacts: assetPackCompletion?.assetPackSynthesisArtifacts || null,
+          shippables: assetPackCompletion?.shippables || null,
           semanticKind:
-            finalWorkSummary?.assetPackSynthesisArtifacts ||
-            finalWorkSummary?.writtenAssets ||
-            finalWorkSummary?.shippables ||
-            finalWorkSummary?.deliveryMechanism ||
-            finalWorkSummary?.assetPack
+            assetPackCompletion?.assetPackSynthesisArtifacts ||
+            assetPackCompletion?.writtenAssets ||
+            assetPackCompletion?.shippables ||
+            assetPackCompletion?.deliveryMechanism ||
+            assetPackCompletion?.assetPack
               ? 'asset-pack-written-asset'
               : null,
         };
@@ -1282,7 +1264,7 @@ export const POST = traceRoute('/executions', async (request: NextRequest) => {
           status: 'completed',
           output: { ...(result as any),
             ...(preprocessedSnapshot ? { preprocessed: preprocessedSnapshot } : {}),
-            ...(finalWorkSummary ? { final_work_summary: finalWorkSummary } : {}),
+            ...(assetPackCompletion ? { asset_pack_completion: assetPackCompletion } : {}),
             ...(postprocessed ? { postprocessed } : {})
           } as any,
           metadata: completionMetadata as any,
@@ -1293,17 +1275,17 @@ export const POST = traceRoute('/executions', async (request: NextRequest) => {
         // Completion notifications/emails gated by flag
         if (process.env.BITCODE_ENABLE_NOTIFICATIONS === 'true') {
           const completionAssetPack =
-            finalWorkSummary?.assetPack ||
+            assetPackCompletion?.assetPack ||
             preprocessedSnapshot?.assetPack ||
             routeSemanticAssetPack;
           const completionNeed =
-            finalWorkSummary?.need ||
+            assetPackCompletion?.need ||
             preprocessedSnapshot?.need ||
             definition_of_need;
           const completionWrittenAssetType =
-            finalWorkSummary?.writtenAssetType ||
+            assetPackCompletion?.writtenAssetType ||
             preprocessedSnapshot?.writtenAssetType ||
-            compatibilityWrittenAssetType ||
+            writtenAssetType ||
             null;
 
           await orm.notifications.create({
@@ -1346,14 +1328,14 @@ export const POST = traceRoute('/executions', async (request: NextRequest) => {
           success: true,
           semantic_event_type: 'asset_pack_run_completed',
           semantic_kind: 'asset-pack-written-asset',
-          need: finalWorkSummary?.need || preprocessedSnapshot?.need || definition_of_need,
+          need: assetPackCompletion?.need || preprocessedSnapshot?.need || definition_of_need,
           written_asset_type:
-            finalWorkSummary?.writtenAssetType ||
+            assetPackCompletion?.writtenAssetType ||
             preprocessedSnapshot?.writtenAssetType ||
-            compatibilityWrittenAssetType ||
+            writtenAssetType ||
             null,
           asset_pack:
-            finalWorkSummary?.assetPack ||
+            assetPackCompletion?.assetPack ||
             preprocessedSnapshot?.assetPack ||
             routeSemanticAssetPack,
         });
@@ -1422,9 +1404,9 @@ export const POST = traceRoute('/executions', async (request: NextRequest) => {
           error_message: reportedError.message,
           semantic_event_type: 'asset_pack_run_failed',
           semantic_kind: 'asset-pack-written-asset',
-          need: finalWorkSummary?.need || definition_of_need,
-          written_asset_type: finalWorkSummary?.writtenAssetType || null,
-          asset_pack: finalWorkSummary?.assetPack || routeSemanticAssetPack,
+          need: assetPackCompletion?.need || definition_of_need,
+          written_asset_type: assetPackCompletion?.writtenAssetType || null,
+          asset_pack: assetPackCompletion?.assetPack || routeSemanticAssetPack,
         });
 
       } finally {

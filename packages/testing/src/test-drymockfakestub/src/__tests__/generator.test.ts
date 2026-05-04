@@ -24,8 +24,8 @@ const buildScenario = (id: string, tags: string[] = []) =>
     .description('Scenario description')
     .context({
       environment: 'test',
-      user: { id: 'user-123', role: 'owner', credits: 100 },
-      repository: { owner: 'engi', name: 'repo', isPrivate: true },
+      user: { id: 'user-123', role: 'owner', btdBalance: 100 },
+      repository: { owner: 'bitcode-labs', name: 'repo', isPrivate: true },
     })
     .addData(BASE_COMPOSITION)
     .behavior({ phases: ['setup'], expectations: { success: true } })
@@ -70,7 +70,7 @@ describe('UnifiedTestDataGenerator', () => {
     const result = generator.generateForScenario(scenario);
     expect(result.data).toMatchObject({
       userId: 'user-123',
-      repository: { owner: 'engi', name: 'repo', isPrivate: true },
+      repository: { owner: 'bitcode-labs', name: 'repo', isPrivate: true },
     });
   });
 

@@ -1,7 +1,7 @@
 /**
  * TEST UTILITIES - MODERN V1.0 EXCELLENCE
  * 
- * Shared test utilities for the engi codebase providing builders, factories,
+ * Shared test utilities for the Bitcode codebase providing builders, factories,
  * helpers, and patterns for comprehensive test coverage with v1.0 abstractions.
  * 
  * @doc-test-utils

@@ -22,7 +22,7 @@ export interface TestContext {
   user?: {
     id: string;
     role: 'owner' | 'admin' | 'developer' | 'limited';
-    credits?: number;
+    btdBalance?: number;
     features?: string[];
   };
   
@@ -57,9 +57,9 @@ export interface TestBehavior {
   expectedDuration?: number;
   
   /**
-   * Expected credit usage
+   * Expected $BTD usage
    */
-  expectedCredits?: number;
+  expectedBtd?: number;
   
   /**
    * Expected outcomes

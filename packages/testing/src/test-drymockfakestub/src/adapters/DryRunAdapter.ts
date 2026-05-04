@@ -168,7 +168,7 @@ export class DryRunAdapter {
     return {
       ...planData,
       phases: scenario.behavior.phases || ['discovery', 'implementation', 'validation'],
-      estimatedCredits: scenario.behavior.expectedCredits || 100,
+      estimatedBtd: scenario.behavior.expectedBtd || 100,
       estimatedDuration: scenario.behavior.expectedDuration || 60000
     };
   }

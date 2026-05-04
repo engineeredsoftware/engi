@@ -35,7 +35,6 @@ const SelectFilesInputSchema = z.object({
       relevance: z.number()
     }))
   }),
-  deliverableType: z.string().optional(),
   writtenAssetType: z.string().optional(),
   attachmentRequirements: z.array(z.any()).optional()
 });
@@ -114,7 +113,6 @@ export default async function selectFilesParallel(input: any, execution: any) {
       relevantFiles: execution.get('setup/codebase', 'relevantFiles')
     },
     writtenAssetType: resolveWrittenAssetTypeFromExecution(execution),
-    deliverableType: resolveWrittenAssetTypeFromExecution(execution),
     attachmentRequirements: execution.get('discovery/attachments', 'designRequirements')
   };
 

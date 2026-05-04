@@ -53,7 +53,7 @@ export interface CompletionData {
   /**
    * Primary Finish-delivered shippables surface.
    * Bitcode-owned reread should prefer `assetPackSynthesisArtifacts`
-   * and `final_work_summary.assetPackSynthesisArtifacts` for synthesized
+   * and `asset_pack_completion.assetPackSynthesisArtifacts` for synthesized
    * source evidence, then `shippables` for connected-interface artifacts.
    */
   shippables: {
@@ -314,7 +314,7 @@ export interface PipelineExecution {
   } | null;
 
   /** Canonical Final Work Summary payload */
-  final_work_summary?: {
+  asset_pack_completion?: {
     summary?: string | null;
     /** Primary Finish-delivered Shippables. */
     shippables?: {
@@ -437,7 +437,7 @@ export interface AIDocumentRun {
     definitionOfNeed?: string | null;
     deliveryTarget?: string | null;
   } | null;
-  final_work_summary?: {
+  asset_pack_completion?: {
     summary?: string | null;
     shippables?: { summary?: string | null };
     deliverables?: { summary?: string | null };

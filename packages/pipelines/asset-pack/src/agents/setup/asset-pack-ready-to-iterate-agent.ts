@@ -21,9 +21,8 @@ import {
 const ReadyToIterateInputSchema = z.object({
   cloneResult: z.any(), // From clone-vcs-repository
   lspInitialized: z.boolean(), // From initialize-lsp
-  dangerWallResult: z.any(), // Compatibility key for Bitcode need-risk-admission output
+  dangerWallResult: z.any(),
   needComprehension: z.any().optional(), // Semantic mirror from comprehend-need
-  deliverableType: z.union([z.string(), z.array(z.string())]).optional(), // Route compatibility mirror
   writtenAssetType: z.union([z.string(), z.array(z.string())]).optional(), // Semantic mirror
   codebaseAnalysis: z.any() // From analyze-codebase
 });
@@ -78,7 +77,6 @@ export default async function readyToIterateWithShortCircuit(input: any, executi
     lspInitialized: execution.get('setup/lsp', 'initialized') || false,
     dangerWallResult: execution.get('setup/danger-wall', 'result'),
     needComprehension: resolveNeedComprehensionFromExecution(execution),
-    deliverableType: resolveWrittenAssetTypeFromExecution(execution),
     writtenAssetType: resolveWrittenAssetTypeFromExecution(execution),
     codebaseAnalysis: execution.get('setup/codebase', 'analysis')
   };

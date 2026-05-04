@@ -1,7 +1,7 @@
 {
   "name": "@bitcode/generic-llms",
   "version": "0.1.0",
-  "description": "LLM provider implementations for engi",
+  "description": "LLM provider implementations for Bitcode",
   "main": "src/index.ts",
   "type": "commonjs",
   "scripts": {

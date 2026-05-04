@@ -46,7 +46,7 @@ NxOBomQA6izRhGiSrKybtF/d5YJ1kWyQ8Ji4i+BYuFxDpY4EVDFZJyi6Yvao8zEo
 
 export const app = new App(config);
 
-// iterate through all users signed up for engi and fetch the repositories they've installed
+// iterate through all users signed up for Bitcode and fetch the repositories they've installed
 /**
  * Returns all connected users' repositories by GitHub installation.
  */

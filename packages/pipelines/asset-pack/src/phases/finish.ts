@@ -3,8 +3,8 @@
  * 
  * Final phase that saves the run result and performs Delivering when requested:
  * 1. Provide AssetPacks/AssetPackPartials to third-party destinations
- * 2. Gather metrics from all phases
- * 3. Generate human-readable final response
+ * 2. Gather completion metrics from all phases
+ * 3. Generate AssetPack completion evidence
  * 4. Finalize pipeline execution
  */
 
@@ -17,10 +17,10 @@ import { createPhaseRunner, PhaseConfig } from '@bitcode/pipelines-generics';
  * change the broad Finish sequence.
  */
 function createFinishSequence(_deliveryMechanismTemplate: string): any[] {
-  // Exactly two agents: Deliver (PTRR) then FinalWorkSummary (Quick).
+  // Exactly two agents: Deliver (PTRR) then AssetPackCompletion (Quick).
   return [
     { agent: 'finish:deliver-asset-pack-to-destination-agent' },
-    { agent: 'finish:final-work-summary' }
+    { agent: 'finish:asset-pack-completion' }
   ];
 }
 
@@ -55,7 +55,7 @@ export function registerFinishAgentsForType(
     () => import('../agents/finish/deliver-asset-pack-to-destination-agent').then(m => m.default)
   );
   agentRegistry.registerAgent(
-    'finish:final-work-summary',
-    () => import('../agents/finish/final-work-summary-agent').then(m => m.default)
+    'finish:asset-pack-completion',
+    () => import('../agents/finish/asset-pack-completion-agent').then(m => m.default)
   );
 }

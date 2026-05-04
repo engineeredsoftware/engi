@@ -10,13 +10,13 @@ jest.mock('@bitcode/pipelines/measure/src/phases/discovery', () => ({
   runDiscoveryMeasure: jest.fn(async () => ({ success: true })),
 }));
 jest.mock('@bitcode/pipelines/measure/src/phases/implementation', () => ({
-  runMeasureImplementation: jest.fn(async () => ({ engi: 42, shown_work: 'stub' })),
+  runMeasureImplementation: jest.fn(async () => ({ bitcode: 42, shown_work: 'stub' })),
 }));
 jest.mock('@bitcode/pipelines/measure/src/phases/validation', () => ({
   runValidationMeasure: jest.fn(async () => ({ success: true })),
 }));
 jest.mock('@bitcode/pipelines/measure/src/phases/shipping', () => ({
-  runShippingMeasure: jest.fn(async () => ({ engi: 42, explanation: 'ok' })),
+  runShippingMeasure: jest.fn(async () => ({ bitcode: 42, explanation: 'ok' })),
 }));
 
 jest.mock('@bitcode/streams', () => ({ writeStreamMessage: jest.fn() }));
@@ -46,7 +46,7 @@ describe('Measure pipeline smoke', () => {
     expect(runShippingMeasure).toHaveBeenCalled();
 
     expect(result.success).toBe(true);
-    expect(result.engi).toBe(42);
+    expect(result.bitcode).toBe(42);
     expect(result.explanation).toBeDefined();
   });
 });

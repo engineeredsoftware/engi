@@ -155,10 +155,10 @@ export default function LeftSidebar() {
                     const od: any = (run as any).output || (run as any).output_data || {};
                     const postprocessed = (od?.postprocessed) || (ctx?.postprocessed?.result || ctx?.postprocessed) || undefined;
                     const fwsSummary =
-                      od?.final_work_summary?.assetPackSynthesisArtifacts?.summary ||
-                      od?.final_work_summary?.writtenAssets?.summary ||
+                      od?.asset_pack_completion?.assetPackSynthesisArtifacts?.summary ||
+                      od?.asset_pack_completion?.writtenAssets?.summary ||
                       // Compatibility summary for persisted runs that predate the shippable reform.
-                      od?.final_work_summary?.deliverables?.summary ||
+                      od?.asset_pack_completion?.deliverables?.summary ||
                       undefined;
                     return (
                       postprocessed?.title || fwsSummary || ctx?.summary || `Run ${run.id}`

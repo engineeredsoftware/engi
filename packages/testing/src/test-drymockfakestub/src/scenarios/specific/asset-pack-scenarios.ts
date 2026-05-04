@@ -16,7 +16,7 @@ import { createTestScenario, TestScenarioBuilder } from '../../primitives/TestSc
 /** @doc-test-fixture
  * @id enterprise-user
  * @type User
- * @credits 50000
+ * @btd 50000
  * @tier enterprise
 * @features ["asset-packs", "ai_documents", "marketplace", "priority-support"]
  */
@@ -24,7 +24,7 @@ export const ENTERPRISE_USER = createTestPart({
   id: 'user-enterprise-001',
   email: 'enterprise@example.com',
   name: 'Enterprise User',
-  credits: 50000,
+  btdBalance: 50000,
   tier: 'enterprise',
   features: ['asset-packs', 'ai_documents', 'marketplace', 'priority-support'],
   metadata: {
@@ -33,7 +33,7 @@ export const ENTERPRISE_USER = createTestPart({
     monthlyUsage: {
       assetPacks: 150,
       ai_documents: 75,
-      averageCreditsPerRun: 300
+      averageBtdPerRun: 300
     }
   }
 });
@@ -71,7 +71,7 @@ export const GITHUB_REPO_WITH_LSP = createTestPart({
  * @id complex-asset-pack-request
  * @type AssetPackRequest
  * @complexity high
- * @estimated-credits 500
+ * @estimated-btd 500
  */
 export const COMPLEX_ASSET_PACK_REQUEST = createTestPart({
   id: 'req-complex-001',
@@ -172,7 +172,7 @@ export const ASSET_PACK_SETUP_COMPOSITION = createTestComposition({
     repository: GITHUB_REPO_WITH_LSP,
     request: COMPLEX_ASSET_PACK_REQUEST,
     context: {
-      creditBalance: 50000,
+      btdBalance: 50000,
       estimatedCost: 500,
       availableAgents: 30,
       lspReady: true
@@ -193,7 +193,7 @@ export const ASSET_PACK_RESULT_COMPOSITION = createTestComposition({
     assetPack: {
       id: 'dlv-001',
       status: 'completed',
-      creditsUsed: 487,
+      btdUsed: 487,
       duration: 95000, // ms
       phases: {
         setup: { duration: 5000, status: 'completed' },
@@ -220,7 +220,7 @@ export const ASSET_PACK_RESULT_COMPOSITION = createTestComposition({
 /** @doc-test-scenario
  * @id enterprise-asset-pack-with-conflicts
  * @phases ["setup", "discovery", "implementation", "validation", "finish"]
- * @expected-credits 500
+ * @expected-btd 500
  * @expected-duration 120000
  */
 export const ENTERPRISE_ASSET_PACK_SCENARIO = new TestScenarioBuilder()
@@ -232,7 +232,7 @@ export const ENTERPRISE_ASSET_PACK_SCENARIO = new TestScenarioBuilder()
     user: {
       id: 'user-enterprise-001',
       role: 'owner',
-      credits: 50000,
+      btdBalance: 50000,
       features: ['asset-packs', 'ai_documents', 'marketplace', 'priority-support']
     },
     repository: {
@@ -249,7 +249,7 @@ export const ENTERPRISE_ASSET_PACK_SCENARIO = new TestScenarioBuilder()
   .behavior({
     phases: ['setup', 'discovery', 'implementation', 'validation', 'finish'],
     expectedDuration: 120000,
-    expectedCredits: 500,
+    expectedBtd: 500,
     expectations: {
       success: true,
       resultPattern: {
@@ -263,8 +263,8 @@ export const ENTERPRISE_ASSET_PACK_SCENARIO = new TestScenarioBuilder()
         check: (result) => result.pullRequest?.mergeable === false
       },
       {
-        name: 'Credits used should be reasonable',
-        check: (result) => result.assetPack?.creditsUsed > 400 && result.assetPack?.creditsUsed < 600
+        name: '$BTD used should be reasonable',
+        check: (result) => result.assetPack?.btdUsed > 400 && result.assetPack?.btdUsed < 600
       },
       {
         name: 'All phases should complete',
@@ -283,7 +283,7 @@ export const ENTERPRISE_ASSET_PACK_SCENARIO = new TestScenarioBuilder()
 /** @doc-test-scenario
  * @id minimal-asset-pack-success
  * @phases ["setup", "discovery", "implementation", "validation", "finish"]
- * @expected-credits 100
+ * @expected-btd 100
  * @expected-duration 30000
  */
 export const MINIMAL_ASSET_PACK_SCENARIO = createTestScenario({
@@ -295,7 +295,7 @@ export const MINIMAL_ASSET_PACK_SCENARIO = createTestScenario({
     user: {
       id: 'user-basic-001',
       role: 'developer',
-      credits: 1000,
+      btdBalance: 1000,
       features: ['asset-packs']
     },
     repository: {
@@ -329,7 +329,7 @@ export const MINIMAL_ASSET_PACK_SCENARIO = createTestScenario({
   behavior: {
     phases: ['setup', 'discovery', 'implementation', 'validation', 'finish'],
     expectedDuration: 30000,
-    expectedCredits: 100,
+    expectedBtd: 100,
     expectations: {
       success: true
     }
@@ -338,21 +338,21 @@ export const MINIMAL_ASSET_PACK_SCENARIO = createTestScenario({
 });
 
 /** @doc-test-scenario
- * @id asset-pack-error-insufficient-credits
+ * @id asset-pack-error-insufficient-btd
  * @phases ["setup"]
- * @expected-credits 500
- * @expected-error "INSUFFICIENT_CREDITS"
+ * @expected-btd 500
+ * @expected-error "INSUFFICIENT_BTD"
  */
 export const ASSET_PACK_ERROR_SCENARIO = createTestScenario({
-  id: 'asset-pack-error-insufficient-credits',
-  name: 'AssetPack Error - Insufficient Credits',
-  description: 'AssetPack that fails due to insufficient credits',
+  id: 'asset-pack-error-insufficient-btd',
+  name: 'AssetPack Error - Insufficient $BTD',
+  description: 'AssetPack that fails due to insufficient $BTD',
   context: {
     environment: 'test',
     user: {
-      id: 'user-low-credits',
+      id: 'user-low-btd',
       role: 'developer',
-      credits: 50, // Not enough for the task
+      btdBalance: 50,
       features: ['asset-packs']
     },
     repository: {
@@ -367,13 +367,13 @@ export const ASSET_PACK_ERROR_SCENARIO = createTestScenario({
   behavior: {
     phases: ['setup'],
     expectedDuration: 5000,
-    expectedCredits: 500,
+    expectedBtd: 500,
     expectations: {
       success: false,
-      errorType: 'INSUFFICIENT_CREDITS'
+      errorType: 'INSUFFICIENT_BTD'
     }
   },
-  tags: ['error', 'insufficient-credits', 'feature:asset-packs']
+  tags: ['error', 'insufficient-btd', 'feature:asset-packs']
 });
 
 // =============================================================================
@@ -389,5 +389,5 @@ export const ASSET_PACK_SCENARIOS = [
 export const ASSET_PACK_SCENARIO_MAP = {
   'enterprise-complex': ENTERPRISE_ASSET_PACK_SCENARIO,
   'minimal-success': MINIMAL_ASSET_PACK_SCENARIO,
-  'error-credits': ASSET_PACK_ERROR_SCENARIO
+  'error-btd': ASSET_PACK_ERROR_SCENARIO
 };

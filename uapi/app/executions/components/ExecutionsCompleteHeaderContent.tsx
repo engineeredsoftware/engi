@@ -26,9 +26,6 @@ type FileChanges = {
 
 export type HeaderShippables = {
   pullRequest?: Shippable | null;
-  pullRequestReviews?: Shippable[] | null;
-  comments?: Shippable[] | null;
-  issues?: Shippable[] | null;
   fileChanges?: FileChanges | null;
   summary?: string | null;
 };
@@ -75,11 +72,9 @@ export type HeaderProcessingStats = {
 
 export type RepoSnapshot = { org: string; repo: string; branch: string; commit: string };
 
-export type HeaderFinalWorkSummary = {
+export type HeaderAssetPackCompletion = {
   summary?: string | null;
   shippables?: HeaderShippables;
-  /** Compatibility mirror for old stored final-work-summary payloads. */
-  deliverables?: HeaderShippables;
   assetPackSynthesisArtifacts?: HeaderShippables;
   writtenAssets?: HeaderShippables;
   deliveryMechanism?: HeaderShippables;
@@ -98,14 +93,8 @@ export type HeaderFinalWorkSummary = {
 
 const formatWrittenAssetType = (type?: string | null) => {
   switch (type) {
-    case 'code-change':
-      return 'Code Change';
-    case 'code-change-review':
-      return 'Code Review';
-    case 'design-document':
-      return 'Design Document';
-    case 'design-document-review':
-      return 'Design Review';
+    case 'need-satisfaction-asset-pack':
+      return 'Need-Satisfaction AssetPack';
     default:
       return undefined;
   }
@@ -113,14 +102,12 @@ const formatWrittenAssetType = (type?: string | null) => {
 
 export function CompleteHeaderContent({
   shippables,
-  deliverables: compatibilityDeliverables,
   processingStats,
   repoSnapshot,
   postprocessed,
   executionType,
 }: {
   shippables?: HeaderShippables;
-  deliverables?: HeaderShippables;
   processingStats?: HeaderProcessingStats;
   repoSnapshot?: RepoSnapshot;
   postprocessed?: any;
@@ -129,10 +116,10 @@ export function CompleteHeaderContent({
   const router = useRouter();
   const search = useSearchParams();
   // E2E alignment note:
-  // - processingStats and repoSnapshot are sourced from server-computed final_work_summary objects
+  // - processingStats and repoSnapshot are sourced from server-computed asset_pack_completion objects
   //   emitted by both pipelines. The UI renders only server-provided values.
   const [showFileDetails, setShowFileDetails] = React.useState(false);
-  const finishDeliveredShippables = shippables || compatibilityDeliverables || {};
+  const finishDeliveredShippables = shippables || {};
   const tldr: React.ReactNode[] = [];
   if (finishDeliveredShippables?.pullRequest) {
     const pr = finishDeliveredShippables.pullRequest;
@@ -142,28 +129,6 @@ export function CompleteHeaderContent({
       </a>
     );
   }
-  (finishDeliveredShippables?.pullRequestReviews || []).forEach((r) => {
-    tldr.push(
-      <a key={`review-${r.number}`} href={r.url} target="_blank" rel="noopener noreferrer" className="text-purple-300 hover:text-purple-200">
-        Review: {r.title || `#${r.number}`}
-      </a>
-    );
-  });
-  (finishDeliveredShippables?.issues || []).forEach((i) => {
-    tldr.push(
-      <a key={`issue-${i.number}`} href={i.url} target="_blank" rel="noopener noreferrer" className="text-amber-300 hover:text-amber-200">
-        Issue: {i.title || `#${i.number}`}
-      </a>
-    );
-  });
-  (finishDeliveredShippables?.comments || []).forEach((c) => {
-    tldr.push(
-      <a key={`comment-${c.number}`} href={c.url} target="_blank" rel="noopener noreferrer" className="text-blue-300 hover:text-blue-200">
-        Comment: {c.title || `#${c.number}`}
-      </a>
-    );
-  });
-
   const headerTitle = 'Written Asset Ready';
   const digestStatus = processingStats?.digest || null;
 
@@ -376,26 +341,22 @@ export function CompleteHeaderContent({
 }
 
 export function getHeaderWrittenAssets(
-  finalWorkSummary?: HeaderFinalWorkSummary | null,
+  assetPackCompletion?: HeaderAssetPackCompletion | null,
 ): HeaderShippables | null {
   return (
-    finalWorkSummary?.assetPackSynthesisArtifacts ||
-    finalWorkSummary?.writtenAssets ||
-    // Compatibility-only fallback for stored runs written before shippables were primary.
-    finalWorkSummary?.deliverables ||
+    assetPackCompletion?.assetPackSynthesisArtifacts ||
+    assetPackCompletion?.writtenAssets ||
     null
   );
 }
 
 export function getHeaderShippables(
-  finalWorkSummary?: HeaderFinalWorkSummary | null,
+  assetPackCompletion?: HeaderAssetPackCompletion | null,
 ): HeaderShippables | null {
   return (
-    finalWorkSummary?.shippables ||
-    finalWorkSummary?.deliveryMechanism ||
-    // Compatibility-only fallback for stored runs written before shippables were primary.
-    finalWorkSummary?.deliverables ||
-    getHeaderWrittenAssets(finalWorkSummary)
+    assetPackCompletion?.shippables ||
+    assetPackCompletion?.deliveryMechanism ||
+    getHeaderWrittenAssets(assetPackCompletion)
   );
 }
 
@@ -409,10 +370,6 @@ export function mergeHeaderShippables(
 
   return {
     pullRequest: deliveryMechanism?.pullRequest ?? writtenAssets?.pullRequest ?? null,
-    pullRequestReviews:
-      deliveryMechanism?.pullRequestReviews ?? writtenAssets?.pullRequestReviews ?? null,
-    comments: deliveryMechanism?.comments ?? writtenAssets?.comments ?? null,
-    issues: deliveryMechanism?.issues ?? writtenAssets?.issues ?? null,
     fileChanges: writtenAssets?.fileChanges ?? deliveryMechanism?.fileChanges ?? null,
     summary: writtenAssets?.summary ?? deliveryMechanism?.summary ?? null,
   };

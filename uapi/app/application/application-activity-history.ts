@@ -149,19 +149,19 @@ export function buildApplicationExecutionHistoryRequest(
   const summary = normalizeWhitespace(draft.summary) || 'Bitcode activity recorded from the Bitcode Terminal.';
   const repoSnapshot = buildRepoSnapshot(options.repositoryContext, options.fallbackRun);
   const draftOutput = isRecord(draft.output) ? draft.output : null;
-  const finalWorkSummaryPatch = isRecord(draftOutput?.finalWorkSummary) ? draftOutput.finalWorkSummary : null;
-  const outputWithoutFinalWorkSummary = draftOutput
-    ? Object.fromEntries(Object.entries(draftOutput).filter(([key]) => key !== 'finalWorkSummary'))
+  const assetPackCompletionPatch = isRecord(draftOutput?.assetPackCompletion) ? draftOutput.assetPackCompletion : null;
+  const outputWithoutAssetPackCompletion = draftOutput
+    ? Object.fromEntries(Object.entries(draftOutput).filter(([key]) => key !== 'assetPackCompletion'))
     : null;
   const output = {
     summary,
     ...(repoSnapshot ? { repo_snapshot: repoSnapshot } : {}),
-    final_work_summary: {
+    asset_pack_completion: {
       summary,
       ...(repoSnapshot ? { repoSnapshot } : {}),
-      ...(finalWorkSummaryPatch || {}),
+      ...(assetPackCompletionPatch || {}),
     },
-    ...(outputWithoutFinalWorkSummary || {}),
+    ...(outputWithoutAssetPackCompletion || {}),
   };
   const context = {
     source: 'application-terminal',
@@ -199,7 +199,7 @@ function serializeProcessingStats(
   };
 }
 
-export function buildApplicationClosureFinalWorkSummary(
+export function buildApplicationClosureAssetPackCompletion(
   closureState: ApplicationClosureState | null,
   detail?: Pick<ApplicationRunDetailSnapshot, 'summary' | 'processingStats'> | null,
 ) {
@@ -257,7 +257,7 @@ export function buildApplicationGiveWorkbenchDraft(
         metrics: workbench.give.metrics,
         rows: workbench.give.rows,
       },
-      finalWorkSummary: {
+      assetPackCompletion: {
         bitcodeActivityState: {
           giveWorkbench: buildBitcodeWorkbenchState(workbench),
         },
@@ -303,7 +303,7 @@ export function buildApplicationNeedMeasurementDraft(
         targetKindCount: needState.targetKindCount,
         scenario,
       },
-      finalWorkSummary: {
+      assetPackCompletion: {
         bitcodeActivityState: {
           needMeasurement: buildNeedMeasurementState(needState, scenario),
         },
@@ -349,7 +349,7 @@ export function buildApplicationSupplySelectionDraft(
         filteredCount: selection.filteredCount,
         totalFilteredEntries: selection.totalFilteredEntries,
       },
-      finalWorkSummary: {
+      assetPackCompletion: {
         bitcodeActivityState: {
           supplySelection: buildSupplySelectionState(selection, authSessionLabel),
         },
@@ -377,7 +377,7 @@ export function buildApplicationFitWorkbenchDraft(
         metrics: workbench.fit.metrics,
         rows: workbench.fit.rows,
       },
-      finalWorkSummary: {
+      assetPackCompletion: {
         bitcodeActivityState: {
           fitWorkbench: buildBitcodeWorkbenchState(workbench),
         },
@@ -426,7 +426,7 @@ export function buildApplicationRepositoryAnchorDraft(
           inventorySource: repositoryContext.inventorySource || null,
         },
       },
-      finalWorkSummary: {
+      assetPackCompletion: {
         bitcodeActivityState: {
           repositoryAnchor: buildRepositoryAnchorState(repositoryContext, providerAccount),
         },
@@ -490,28 +490,27 @@ export function mapExecutionHistoryRunToWorkspaceRun(run: PipelineExecution): Wo
     sourceModel: 'execution-history',
     summary:
       run.summary ||
-      run.final_work_summary?.summary ||
-      run.final_work_summary?.assetPackSynthesisArtifacts?.summary ||
-      run.final_work_summary?.writtenAssets?.summary ||
-      run.final_work_summary?.shippables?.summary ||
-      run.final_work_summary?.deliveryMechanism?.summary ||
-      run.final_work_summary?.deliverables?.summary ||
+      run.asset_pack_completion?.summary ||
+      run.asset_pack_completion?.assetPackSynthesisArtifacts?.summary ||
+      run.asset_pack_completion?.writtenAssets?.summary ||
+      run.asset_pack_completion?.shippables?.summary ||
+      run.asset_pack_completion?.deliveryMechanism?.summary ||
       null,
     repository:
-      run.repo_snapshot || run.final_work_summary?.repoSnapshot
-        ? `${(run.repo_snapshot || run.final_work_summary?.repoSnapshot)?.org}/${(run.repo_snapshot || run.final_work_summary?.repoSnapshot)?.repo}`
+      run.repo_snapshot || run.asset_pack_completion?.repoSnapshot
+        ? `${(run.repo_snapshot || run.asset_pack_completion?.repoSnapshot)?.org}/${(run.repo_snapshot || run.asset_pack_completion?.repoSnapshot)?.repo}`
         : null,
-    branch: (run.repo_snapshot || run.final_work_summary?.repoSnapshot)?.branch || null,
-    participant: (run.repo_snapshot || run.final_work_summary?.repoSnapshot)?.org || 'connected account',
+    branch: (run.repo_snapshot || run.asset_pack_completion?.repoSnapshot)?.branch || null,
+    participant: (run.repo_snapshot || run.asset_pack_completion?.repoSnapshot)?.org || 'connected account',
     isOwnTransaction: true,
     transactionLens: agenticExecution.lens,
     itemCount: run.items?.length || 0,
     tokenTotal:
-      run.processing_stats?.tokens?.total ?? run.final_work_summary?.processingStats?.tokens?.total ?? null,
-    btdUsed: run.processing_stats?.btdUsed ?? run.final_work_summary?.processingStats?.btdUsed ?? null,
-    usdTotal: run.processing_stats?.usdTotal ?? run.final_work_summary?.processingStats?.usdTotal ?? null,
+      run.processing_stats?.tokens?.total ?? run.asset_pack_completion?.processingStats?.tokens?.total ?? null,
+    btdUsed: run.processing_stats?.btdUsed ?? run.asset_pack_completion?.processingStats?.btdUsed ?? null,
+    usdTotal: run.processing_stats?.usdTotal ?? run.asset_pack_completion?.processingStats?.usdTotal ?? null,
     averageLatencyMs:
-      run.processing_stats?.averageLatencyMs ?? run.final_work_summary?.processingStats?.averageLatencyMs ?? null,
+      run.processing_stats?.averageLatencyMs ?? run.asset_pack_completion?.processingStats?.averageLatencyMs ?? null,
     proofStatus: agenticExecution.proofStatus,
     closureFocus: agenticExecution.closureFocus,
   };

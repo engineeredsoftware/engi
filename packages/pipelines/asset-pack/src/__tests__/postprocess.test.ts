@@ -48,14 +48,14 @@ describe('normalizeAssetPackOutput', () => {
     exec.store('source', 'owner', 'acme');
     exec.store('source', 'name', 'repo');
     exec.store('pipeline', 'expressedNeed', 'Need a review-ready written asset');
-    exec.store('pipeline', 'writtenAssetType', 'design-document-review');
-    exec.store('pipeline', 'deliveryMechanismTemplate', 'issue-comment');
+    exec.store('pipeline', 'writtenAssetType', 'code-change');
+    exec.store('pipeline', 'deliveryMechanismTemplate', 'pull-request');
     exec.store('route/preprocessed', 'assetPackWrittenAsset', {
       need: 'Need a review-ready written asset',
       writtenAssetType: 'need-satisfaction-asset-pack',
-      deliveryMechanismTemplate: 'issue-comment',
+      deliveryMechanismTemplate: 'pull-request',
     });
-    exec.store('finish/final_work_summary', 'assetPackSynthesisArtifacts', {
+    exec.store('finish/asset_pack_completion', 'assetPackSynthesisArtifacts', {
       summary: 'Finish-preserved AssetPack synthesis artifacts.',
       fileChanges: { edited: 1, created: 1, deleted: 0 },
       proofEvidence: ['finish-summary-read'],
@@ -72,7 +72,7 @@ describe('normalizeAssetPackOutput', () => {
     expect(result.kind).toBe('shippable');
     expect(result.need).toBe('Need a review-ready written asset');
     expect(result.writtenAssetType).toBe('need-satisfaction-asset-pack');
-    expect(result.deliveryMechanismTemplate).toBe('issue-comment');
+    expect(result.deliveryMechanismTemplate).toBe('pull-request');
     expect(result.deliveryMechanism).toBeUndefined();
     expect(result.summary).toBe('Finish-preserved AssetPack synthesis artifacts.');
     expect(result.assetPackSynthesisArtifacts?.summary).toBe('Finish-preserved AssetPack synthesis artifacts.');
@@ -80,50 +80,35 @@ describe('normalizeAssetPackOutput', () => {
     expect(result.assetPack).toEqual({
       need: 'Need a review-ready written asset',
       writtenAssetType: 'need-satisfaction-asset-pack',
-      deliveryMechanismTemplate: 'issue-comment',
+      deliveryMechanismTemplate: 'pull-request',
     });
   });
 
-  it('preserves delivery mechanisms as compatibility mirrors on top of the written asset', () => {
+  it('uses pull-request delivery mechanisms as canonical shippable evidence for the written asset', () => {
     const exec = new Execution('pipeline:asset-pack');
     exec.store('execution', 'id', 'exec-2');
 
     const result = buildAssetPackPostprocessedResult(exec, {
       success: true,
-      summary: 'Written asset delivered through Jira comment.',
+      summary: 'Written asset delivered through PR.',
       writtenAsset: {
         title: 'Need satisfaction summary',
       },
       deliveryMechanism: {
-        title: 'Jira comment delivery',
-        mechanism: 'jira-comment',
-        payload: {
-          jira_comment_payload: {
-            issueKey: 'BIT-26',
-          },
-        },
+        title: 'AssetPack PR',
+        prUrl: 'https://github.com/acme/repo/pull/26',
       },
       semanticKind: 'asset-pack-written-asset',
     } as any);
 
     expect(result.title).toBe('Need satisfaction summary');
     expect(result.deliveryMechanism).toEqual({
-      title: 'Jira comment delivery',
-      mechanism: 'jira-comment',
-      payload: {
-        jira_comment_payload: {
-          issueKey: 'BIT-26',
-        },
-      },
+      title: 'AssetPack PR',
+      prUrl: 'https://github.com/acme/repo/pull/26',
     });
     expect(result.shippable).toEqual({
-      title: 'Jira comment delivery',
-      mechanism: 'jira-comment',
-      payload: {
-        jira_comment_payload: {
-          issueKey: 'BIT-26',
-        },
-      },
+      title: 'AssetPack PR',
+      prUrl: 'https://github.com/acme/repo/pull/26',
     });
   });
 });

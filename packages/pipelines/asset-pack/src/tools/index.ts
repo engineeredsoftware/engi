@@ -15,8 +15,8 @@ import { assetPackImageComprehensionTool } from './AssetPackImageComprehensionTo
 import { assetPackPDFComprehensionTool } from './AssetPackPDFComprehensionTool';
 import { assetPackAudioComprehensionTool } from './AssetPackAudioComprehensionTool';
 import { assetPackVideoComprehensionTool } from './AssetPackVideoComprehensionTool';
-// VCS tools used during Finish/Delivering
-import { createPullRequestTool, createIssueTool, createCommentTool } from '@bitcode/vcs-tools';
+// VCS tools used during V26 Finish/Delivering.
+import { createPullRequestTool } from '@bitcode/vcs-tools';
 
 // V26 policy:
 // - MCP tool wrappers are disabled pending future pipeline configuration.
@@ -120,14 +120,11 @@ export const VALIDATION_PHASE_TOOLS: Tool[] = [
 ].filter(present);
 
 /**
- * Finish/Delivering tools
- * VCS operations, PR/Issue creation, finalization
+ * Finish/Delivering tools.
+ * V26 commercial AssetPack delivery emits GitHub pull requests only.
  */
 export const FINISH_DELIVERY_TOOLS: Tool[] = [
-  // VCS provider-agnostic tools
   createPullRequestTool,
-  createIssueTool,
-  createCommentTool
 ].filter(present);
 
 // ==================== AGENT-SPECIFIC TOOL MAPPINGS ====================
@@ -171,12 +168,9 @@ export function getAssetPackPipelineToolsForAgent(agentName: string): Tool[] {
     'need-measurement:computer-use-evidence-agent': getComputerUseNeedMeasurementTools(),
 
     // Finish Phase / Delivering destination tools
-    'finish:deliver-asset-pack-to-destination-agent': [createPullRequestTool, createIssueTool, createCommentTool],
-    'finish:final-work-summary': [],
+    'finish:deliver-asset-pack-to-destination-agent': [createPullRequestTool],
+    'finish:asset-pack-completion': [],
     'finish:asset-pack-create-pull-request-delivery-agent': [createPullRequestTool],
-    'finish:asset-pack-submit-review-delivery-agent': [createCommentTool],
-    'finish:asset-pack-create-issue-delivery-agent': [createIssueTool],
-    'finish:asset-pack-add-comment-delivery-agent': [createCommentTool],
     'finish:asset-pack-gather-metrics-agent': [],
     'finish:asset-pack-generate-final-response-agent': [],
     'finish:asset-pack-finalize-delivery-evidence-agent': []

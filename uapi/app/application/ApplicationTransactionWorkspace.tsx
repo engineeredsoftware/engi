@@ -91,8 +91,8 @@ function buildMasterDetailSubstructures(
   selectedRun: WorkspaceRun,
   detail: ApplicationRunDetailSnapshot | null,
 ): ApplicationMasterDetailSubstructure[] {
-  const writtenAssets = detail?.writtenAssets || detail?.deliverables || null;
-  const deliveryMechanism = detail?.shippables || detail?.deliveryMechanism || detail?.deliverables || writtenAssets;
+  const writtenAssets = detail?.writtenAssets || null;
+  const deliveryMechanism = detail?.shippables || detail?.deliveryMechanism || writtenAssets;
   const mergedAssetPackSurface = {
     pullRequest: deliveryMechanism?.pullRequest ?? writtenAssets?.pullRequest ?? null,
     pullRequestReviews: deliveryMechanism?.pullRequestReviews ?? writtenAssets?.pullRequestReviews ?? null,

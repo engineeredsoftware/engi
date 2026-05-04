@@ -1,8 +1,8 @@
 /**
  * AssetPack Finish Phase - Deliver Agent (PTRR)
  *
- * Executes final Delivering actions based on the requested delivery mechanism,
- * after written assets have already been synthesized and validated.
+ * Executes final pull-request delivery after written assets have already been
+ * synthesized and validated.
  */
 import { factoryAgentWithPTRR } from '@bitcode/agent-generics';
 import { z } from 'zod';
@@ -18,16 +18,13 @@ import {
 const FinishDeliveryOutputSchema = z.object({
   status: z.enum(['delivered','partial']).default('delivered'),
   writtenAssetType: z.string().optional(),
-  deliverableType: z.string().optional(),
   deliveryMechanismTemplate: z.string().optional(),
   prUrl: z.string().optional(),
-  issueUrl: z.string().optional(),
-  commentUrl: z.string().optional(),
 });
 
 const systemPrompt = (() => {
   const p = new Prompt();
-  p.set('agent:identity', 'You are the Finish Deliver agent. Deliver shippables: connected-interface objects that wrap saved AssetPacks or AssetPackPartials for requested third-party destinations using delivery-mechanism tools.' as any);
+  p.set('agent:identity', 'You are the Finish Deliver agent. Deliver shippables as GitHub pull requests that wrap saved AssetPacks or AssetPackPartials.' as any);
   p.set('generation:json_only_header', PROMPTPART_GENERIC_AGENT_GENERATION_JSON_ONLY_HEADER as any);
   p.set('generation:use_this_structure', PROMPTPART_GENERIC_AGENT_GENERATION_USE_THIS_STRUCTURED_SCHEMA as any);
   p.set('failsafe:prepare_context', PROMPTPART_GENERIC_AGENT_FAILSAFE_PREPARE_CONTEXT as any);
@@ -35,27 +32,25 @@ const systemPrompt = (() => {
 })();
 
 const stepPrompts = {
-  plan: () => { const p = new Prompt(); p.set('step:purpose', 'Plan the exact Finish/Delivering actions and shippable evidence required for the requested destination.' as any); return p; },
+  plan: () => { const p = new Prompt(); p.set('step:purpose', 'Plan the exact Finish/Delivering actions and pull-request evidence required for the AssetPack.' as any); return p; },
   try: () => {
     const p = new Prompt();
     p.set('step:purpose', 'Execute Delivering actions through VCS tools after AssetPack synthesis artifacts are already saved.' as any);
     // Instruction for tool selection
-    p.set('tools:policy', 'Use the requested delivery mechanism template after the AssetPack is synthesized: pull-request uses vcs_create_pull_request, issue uses vcs_create_issue, and comment templates use vcs_create_comment. Computer use is reserved for internal Need-measurement evidence and is not a V26 Delivering tool.' as any);
+    p.set('tools:policy', 'Use vcs_create_pull_request after the AssetPack is synthesized. Computer use is reserved for internal Need-measurement evidence and is not a V26 Delivering tool.' as any);
     return p;
   },
-  refine: () => { const p = new Prompt(); p.set('step:purpose', 'Adjust shippable delivery actions if initial attempts failed, such as an existing branch or unavailable destination.' as any); return p; },
-  retry: () => { const p = new Prompt(); p.set('step:purpose', 'Retry Delivering shippables with fallback strategies.' as any); return p; }
+  refine: () => { const p = new Prompt(); p.set('step:purpose', 'Adjust pull-request delivery actions if initial attempts failed, such as an existing branch.' as any); return p; },
+  retry: () => { const p = new Prompt(); p.set('step:purpose', 'Retry pull-request delivery with auditable recovery steps.' as any); return p; }
 };
 
 export const AssetPackFinishDeliverAgent = factoryAgentWithPTRR<any, z.infer<typeof FinishDeliveryOutputSchema>>({
   name: 'finish:deliver-asset-pack-to-destination-agent',
-  description: 'Deliver final shippables through requested delivery mechanisms',
+  description: 'Deliver final AssetPack shippables through GitHub pull requests',
   outputSchema: FinishDeliveryOutputSchema as any,
   // Tools available to this agent
   tools: [
     'vcs_create_pull_request',
-    'vcs_create_issue',
-    'vcs_create_comment'
   ],
   prompt: systemPrompt,
   stepPrompts,
@@ -77,7 +72,6 @@ export default async function deliverAssetPackToDestination(input: any, executio
   const result = await AssetPackFinishDeliverAgent(
     {
       writtenAssetType: dtype,
-      deliverableType: dtype,
       deliveryMechanismTemplate,
       workspacePath,
       owner,
@@ -98,14 +92,6 @@ export default async function deliverAssetPackToDestination(input: any, executio
           execution.store('finish','pullRequestUrl', String(u.output.url));
           result.prUrl = String(u.output.url);
         }
-        if (u?.tool === 'vcs_create_issue' && u?.output?.url) {
-          execution.store('finish','issueUrl', String(u.output.url));
-          result.issueUrl = String(u.output.url);
-        }
-        if (u?.tool === 'vcs_create_comment' && u?.output?.url) {
-          execution.store('finish','commentUrl', String(u.output.url));
-          result.commentUrl = String(u.output.url);
-        }
       }
     }
   } catch {}
@@ -113,10 +99,7 @@ export default async function deliverAssetPackToDestination(input: any, executio
   return {
     status: result?.status || 'delivered',
     writtenAssetType: dtype,
-    deliverableType: dtype,
     deliveryMechanismTemplate,
     prUrl: (result as any)?.prUrl,
-    issueUrl: (result as any)?.issueUrl,
-    commentUrl: (result as any)?.commentUrl,
   };
 }

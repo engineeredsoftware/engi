@@ -141,7 +141,7 @@ export default function ApplicationNeedScenarioPanel({ onRecordActivity }: Appli
         output: {
           needReview: payload.needReview ?? null,
           reviewDecision: payload.reviewDecision ?? null,
-          finalWorkSummary: {
+          assetPackCompletion: {
             bitcodeActivityState: {
               needReview: payload,
             },

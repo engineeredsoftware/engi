@@ -1,5 +1,33 @@
 import type { ParsedStreamData } from '../types/stream';
 
+function pickCanonicalProcessingStats(processingStats: any) {
+  if (!processingStats || typeof processingStats !== 'object') {
+    return processingStats;
+  }
+
+  const canonicalStats: Record<string, unknown> = {};
+  if (typeof processingStats.time === 'string') {
+    canonicalStats.time = processingStats.time;
+  }
+  if (processingStats.tokens && typeof processingStats.tokens === 'object') {
+    canonicalStats.tokens = processingStats.tokens;
+  }
+  if (typeof processingStats.btdUsed === 'number') {
+    canonicalStats.btdUsed = processingStats.btdUsed;
+  }
+  if (typeof processingStats.usdTotal === 'number') {
+    canonicalStats.usdTotal = processingStats.usdTotal;
+  }
+  if (typeof processingStats.averageLatencyMs === 'number') {
+    canonicalStats.averageLatencyMs = processingStats.averageLatencyMs;
+  }
+  if (Array.isArray(processingStats.modelUsage)) {
+    canonicalStats.modelUsage = processingStats.modelUsage;
+  }
+
+  return canonicalStats;
+}
+
 export const parseStreamChunk = (chunk: string): ParsedStreamData => {
 
   const parsedData: ParsedStreamData = {
@@ -112,12 +140,12 @@ export const parseStreamChunk = (chunk: string): ParsedStreamData => {
         }
         case 'completion': {
           if (data.result) {
+            const { deliverables: _deliverables, ...canonicalResult } = data.result;
             const topLevelFileChanges = data.fileChanges || null;
             const explicitAssetPackSynthesisArtifacts = data.result.assetPackSynthesisArtifacts || null;
             const explicitWrittenAssets = data.result.writtenAssets || null;
             const explicitDeliveryMechanism = data.result.deliveryMechanism || null;
             const explicitShippables = data.result.shippables || explicitDeliveryMechanism || null;
-            const compatibilityDeliverables = data.result.deliverables || null;
             const actionsFileChanges = data.result.actions?.files || null;
 
             const semanticFileChanges =
@@ -126,17 +154,7 @@ export const parseStreamChunk = (chunk: string): ParsedStreamData => {
               topLevelFileChanges ||
               explicitShippables?.fileChanges ||
               explicitDeliveryMechanism?.fileChanges ||
-              compatibilityDeliverables?.fileChanges ||
               actionsFileChanges ||
-              null;
-
-            const compatibilityFileChanges =
-              compatibilityDeliverables?.fileChanges ||
-              topLevelFileChanges ||
-              actionsFileChanges ||
-              explicitDeliveryMechanism?.fileChanges ||
-              explicitWrittenAssets?.fileChanges ||
-              explicitAssetPackSynthesisArtifacts?.fileChanges ||
               null;
 
             const actionsSurface = {
@@ -148,7 +166,6 @@ export const parseStreamChunk = (chunk: string): ParsedStreamData => {
                 topLevelFileChanges ||
                 actionsFileChanges ||
                 explicitShippables?.fileChanges ||
-                compatibilityDeliverables?.fileChanges ||
                 explicitDeliveryMechanism?.fileChanges ||
                 explicitWrittenAssets?.fileChanges ||
                 null,
@@ -158,7 +175,6 @@ export const parseStreamChunk = (chunk: string): ParsedStreamData => {
             const writtenAssets =
               explicitWrittenAssets ||
               explicitAssetPackSynthesisArtifacts ||
-              compatibilityDeliverables ||
               (data.result.summary || semanticFileChanges
                 ? {
                     ...(data.result.summary ? { summary: data.result.summary } : {}),
@@ -169,33 +185,16 @@ export const parseStreamChunk = (chunk: string): ParsedStreamData => {
             const deliveryMechanism =
               explicitDeliveryMechanism ||
               explicitShippables ||
-              compatibilityDeliverables ||
               actionsSurface;
 
             const shippables =
               explicitShippables ||
-              deliveryMechanism ||
-              compatibilityDeliverables;
-
-            const compatibilitySurface =
-              compatibilityDeliverables ||
-              (shippables || deliveryMechanism || writtenAssets
-                ? {
-                    pullRequest: shippables?.pullRequest ?? deliveryMechanism?.pullRequest ?? writtenAssets?.pullRequest ?? null,
-                    pullRequestReviews:
-                      shippables?.pullRequestReviews ?? deliveryMechanism?.pullRequestReviews ?? writtenAssets?.pullRequestReviews ?? null,
-                    comments: shippables?.comments ?? deliveryMechanism?.comments ?? writtenAssets?.comments ?? null,
-                    issues: shippables?.issues ?? deliveryMechanism?.issues ?? writtenAssets?.issues ?? null,
-                    fileChanges: compatibilityFileChanges,
-                    summary: writtenAssets?.summary ?? shippables?.summary ?? deliveryMechanism?.summary ?? null,
-                  }
-                : null);
+              deliveryMechanism;
 
             parsedData.completion = {
-              ...data.result,
+              ...canonicalResult,
               display: data.result.summary || data.result.message || 'Need completed',
               shippables,
-              deliverables: compatibilitySurface,
               assetPackSynthesisArtifacts: explicitAssetPackSynthesisArtifacts || writtenAssets,
               writtenAssets,
               deliveryMechanism,
@@ -205,7 +204,7 @@ export const parseStreamChunk = (chunk: string): ParsedStreamData => {
               assetPack: data.result.assetPack || null,
               duration: data.duration || data.result.duration,
               taskType: data.result.taskType,
-              processingStats: data.result.processingStats,
+              processingStats: pickCanonicalProcessingStats(data.result.processingStats),
               repoSnapshot: data.result.repoSnapshot,
               summary: data.result.summary,
             };

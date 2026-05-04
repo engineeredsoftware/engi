@@ -31,9 +31,7 @@ export async function runComprehendNeedAgent(input: any, execution: any) {
     const result = out as any;
     const types = Array.isArray(result?.written_asset_types) && result?.written_asset_types.length
       ? result?.written_asset_types
-      : Array.isArray(result?.deliverable_types)
-      ? result?.deliverable_types
-      : (Array.isArray(result?.deliverableType) ? result?.deliverableType : (result?.deliverableType ? [result?.deliverableType] : []));
+      : [];
     if (types && types.length) {
       execution.store('setup', 'writtenAssetRequest', types);
       execution.store('setup/written-asset-request', 'type', types);

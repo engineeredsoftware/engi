@@ -579,13 +579,13 @@ export default function MarketingMarketplaceSection({ disableTickerFetch = false
                   <tr className="text-gray-300">
                     {[
                       "Bid/Ask",
-                      "engi",
+                      "bitcode",
                       "Tech",
                       "Price",
                       "Type",
                     ].map((h) => (
                       <th key={h} className="px-4 py-2 font-semibold whitespace-nowrap text-left">
-                        {h === "engi" ? (
+                        {h === "bitcode" ? (
                           <BitcodeSoftwareSvgLogo
                             width="60px"
                             softwareClassName="hidden"

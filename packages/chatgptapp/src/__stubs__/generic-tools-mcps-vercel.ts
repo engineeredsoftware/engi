@@ -24,7 +24,7 @@ export const vercelGetProjectTool = createTool(() => ({
   id: 'prj_Yapper',
   name: 'Yapper',
   targets: ['production'],
-  links: [{ rel: 'repo', href: 'https://github.com/engi/yapper' }]
+  links: [{ rel: 'repo', href: 'https://github.com/bitcode-labs/yapper' }]
 }));
 
 export const vercelListDeploymentsTool = createTool(() => ({

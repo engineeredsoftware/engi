@@ -49,8 +49,8 @@ export interface DirectoryOperation {
  * Converts any file path format to a complete absolute path
  * @param filePath - Path that could be:
  *   - Relative to repo root (e.g. "src/thing.py")
- *   - Partial absolute with tmp dir (e.g. "tmp/engi/repo/src/thing.py")
- * @returns Complete absolute path (e.g. "/home/user/tmp/engi/repo/src/thing.py")
+ *   - Partial absolute with tmp dir (e.g. "tmp/bitcode/repo/src/thing.py")
+ * @returns Complete absolute path (e.g. "/home/user/tmp/bitcode/repo/src/thing.py")
  */
 export function absolutifyPath(filePath: string): string {
   const repoPath = getGlobalContext().repoPath!;

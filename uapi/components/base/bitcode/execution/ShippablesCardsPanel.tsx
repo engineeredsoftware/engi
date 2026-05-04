@@ -19,9 +19,6 @@ type Shippable = {
 export interface ShippablesCardsPanelProps {
   shippables: {
     pullRequest?: Shippable | null;
-    pullRequestReviews?: Shippable[] | null;
-    comments?: Shippable[] | null;
-    issues?: Shippable[] | null;
   };
 }
 
@@ -50,11 +47,8 @@ export default function ShippablesCardsPanel({ shippables }: ShippablesCardsPane
   };
 
   const pr = shippables.pullRequest;
-  const reviews = shippables.pullRequestReviews || [];
-  const issues = shippables.issues || [];
-  const comments = shippables.comments || [];
 
-  const hasAny = !!(pr || reviews.length || issues.length || comments.length);
+  const hasAny = !!pr;
   if (!hasAny) return null;
 
   return (
@@ -110,173 +104,6 @@ export default function ShippablesCardsPanel({ shippables }: ShippablesCardsPane
             </div>
           </MetalPlate>
         </motion.div>
-      )}
-
-      {reviews.length > 0 && (
-        <div className="flex flex-col space-y-2 max-h-[340px] pr-1">
-          {reviews.map((review, idx) => (
-            <motion.div key={`review-${idx}`} variants={childVariants} initial="initial" animate="animate">
-              <MetalPlate
-                headline={`PR Review #${review.number}`}
-                icon={
-                  <svg className="w-5 h-5 text-emerald-300 opacity-80" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-                  </svg>
-                }
-                linkUrl={review.url}
-                linkTitle="View Review"
-                className="flex flex-col"
-                mainColor="#34d399"
-                glowColor="#6ee7b7"
-              >
-                <div className="mt-1 text-gray-200">
-                  {review.title && <div className="text-sm font-medium text-white/90">{review.title}</div>}
-                  {review.description && (
-                    <ScrollContainer className="text-gray-400 text-xs mt-1 max-h-[60px] pr-2 bg-black/20 p-2 rounded-md flex-grow">
-                      <ReactMarkdown
-                        className="prose prose-invert max-w-none prose-sm"
-                        components={{
-                          code: ({ node, className, children, ...props }) => {
-                            const match = /language-(\w+)/.exec(className || '');
-                            return match ? (
-                              <CodeBlock language={match[1]} className={className} style={{ fontSize: '0.7rem' }}>
-                                {children as string}
-                              </CodeBlock>
-                            ) : (
-                              <code {...props} className={className}>
-                                {children}
-                              </code>
-                            );
-                          },
-                        }}
-                      >
-                        {review.description}
-                      </ReactMarkdown>
-                    </ScrollContainer>
-                  )}
-                </div>
-              </MetalPlate>
-            </motion.div>
-          ))}
-        </div>
-      )}
-
-      {issues.length > 0 && (
-        <>
-          {issues.map((issue, idx) => (
-            <motion.div key={`issue-${idx}`} variants={childVariants} initial="initial" animate="animate">
-              <MetalPlate
-                headline={`Issue #${issue.number}`}
-                icon={
-                  <svg className="w-5 h-5 text-sky-300 opacity-80" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                  </svg>
-                }
-                linkUrl={issue.url}
-                linkTitle="View Issue"
-                className="flex flex-col"
-                mainColor="#38bdf8" /* sky-400 */
-                glowColor="#7dd3fc" /* sky-300 */
-              >
-                <div className="mt-1 text-gray-200 flex flex-col h-full">
-                  {issue.title && <div className="text-sm font-medium text-white/90">{issue.title}</div>}
-                  {issue.description && (
-                    <ScrollContainer className="mt-1 max-h-[60px] pr-2 bg-black/20 p-2 rounded-md flex-grow">
-                      <ReactMarkdown
-                        className="prose prose-invert max-w-none prose-sm"
-                        components={{
-                          code: ({ node, className, children, ...props }) => {
-                            const match = /language-(\w+)/.exec(className || '');
-                            return match ? (
-                              <CodeBlock language={match[1]} className={className} style={{ fontSize: '0.7rem' }}>
-                                {children as string}
-                              </CodeBlock>
-                            ) : (
-                              <code {...props} className={className}>
-                                {children}
-                              </code>
-                            );
-                          },
-                        }}
-                      >
-                        {issue.description}
-                      </ReactMarkdown>
-                    </ScrollContainer>
-                  )}
-                  <div className="flex items-center justify-end space-x-2 mt-3">
-                    <span className="text-xs px-2 py-1 bg-sky-500/5 text-sky-300/80 rounded-md border border-sky-500/10">
-                      {issue.number && issue.number > 40 ? 'Enhancement' : 'Bug'}
-                    </span>
-                    <span className="text-xs px-2 py-1 bg-sky-500/5 text-sky-300/80 rounded-md border border-sky-500/10">
-                      {issue.number && issue.number % 2 === 0 ? 'Frontend' : 'Backend'}
-                    </span>
-                  </div>
-                </div>
-              </MetalPlate>
-            </motion.div>
-          ))}
-        </>
-      )}
-
-      {comments.length > 0 && (
-        <ScrollContainer className="flex flex-col space-y-2 max-h-[340px] pr-1">
-          {comments.map((comment, idx) => {
-            const issueMatch = comment.url?.match(/issues\/(\d+)/);
-            const referencedIssue = issueMatch ? issueMatch[1] : null;
-            return (
-              <motion.div key={`comment-${idx}`} variants={childVariants} initial="initial" animate="animate">
-                <MetalPlate
-                  headline={`Comment on #${comment.number}`}
-                  icon={
-                    <svg className="w-5 h-5 text-yellow-300 opacity-80" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 8h10M7 12h4m1 8l-4-4H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-3l-4 4z" />
-                    </svg>
-                  }
-                  linkUrl={comment.url}
-                  linkTitle="View Comment"
-                  className="flex flex-col h-full"
-                  mainColor="#60a5fa" /* blue-400 */
-                  glowColor="#fde047" /* yellow */
-                >
-                  <div className="mt-1 text-gray-200 flex flex-col h-full">
-                    {referencedIssue && (
-                      <div className="mb-1 text-xs font-medium text-sky-300/80 flex items-center space-x-1">
-                        <svg className="w-3 h-3 text-sky-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                        </svg>
-                        <span>Issue #{referencedIssue}</span>
-                      </div>
-                    )}
-                    {comment.title && <div className="text-sm font-medium text-white/90">{comment.title}</div>}
-                    {comment.description && (
-                      <ScrollContainer className="text-gray-400 text-xs mt-1 max-h-[120px] pr-2 bg-black/20 p-2 rounded-md flex-grow">
-                        <ReactMarkdown
-                          className="prose prose-invert max-w-none prose-sm"
-                          components={{
-                            code: ({ node, className, children, ...props }) => {
-                              const match = /language-(\w+)/.exec(className || '');
-                              return match ? (
-                                <CodeBlock language={match[1]} className={className} style={{ fontSize: '0.7rem' }}>
-                                  {children as string}
-                                </CodeBlock>
-                              ) : (
-                                <code {...props} className={className}>
-                                  {children}
-                                </code>
-                              );
-                            },
-                          }}
-                        >
-                          {comment.description}
-                        </ReactMarkdown>
-                      </ScrollContainer>
-                    )}
-                  </div>
-                </MetalPlate>
-              </motion.div>
-            );
-          })}
-        </ScrollContainer>
       )}
     </motion.div>
   );

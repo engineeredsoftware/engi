@@ -1,7 +1,7 @@
 {
   "name": "@bitcode/vcs",
   "version": "1.0.0",
-  "description": "Version Control System abstraction layer for engi - provides unified interface for GitHub, GitLab, and Bitbucket",
+  "description": "Version Control System abstraction layer for Bitcode repository anchors - provides unified interface for GitHub, GitLab, and Bitbucket",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {

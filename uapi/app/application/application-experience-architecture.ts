@@ -3,7 +3,7 @@
 export const APPLICATION_EXPERIENCES = [
   {
     id: 'master-detail',
-    label: 'Master detail',
+    label: 'Bitcode Terminal',
     badge: 'primary',
     description:
       'The central Bitcode activity ledger: a searchable activity table with the selected activity opened into asset packs, proofs, and history.',
@@ -49,7 +49,7 @@ export const APPLICATION_ACTIONS = [
 export const MASTER_DETAIL_SUBSTRUCTURES = [
   {
     id: 'transactions',
-    label: 'Activity ledger',
+    label: 'Bitcode activity ledger',
     badge: 'master',
     description:
       'Search, filter, and inspect Bitcode agentic executions from one ledger window without breaking the selected detail read.',

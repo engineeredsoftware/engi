@@ -724,7 +724,7 @@ async function executeWriteCodeChanges(args: z.infer<typeof WRITE_CODE_CHANGES_V
     owner,
     repo: repoName,
     path,
-    message: args.message ?? `engi update ${new Date().toISOString()}`,
+    message: args.message ?? `Bitcode update ${new Date().toISOString()}`,
     content: Buffer.from(args.content ?? '', 'utf8').toString('base64'),
     branch: args.branch,
     sha

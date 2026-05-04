@@ -134,7 +134,7 @@ export const PipelineLogsCompactRenderer: React.FC<ConversationRichResponseRende
         <div className="flex items-center gap-4 text-xs text-muted-foreground">
           <span>{formatDuration(data.metrics.duration)}</span>
           <span>{data.metrics.tokensUsed.toLocaleString()} tokens</span>
-          <span>${data.metrics.creditsConsumed.toFixed(3)}</span>
+          <span>{data.metrics.btdConsumed.toFixed(3)} $BTD</span>
           
           {/* Expand/Collapse Icon */}
           <motion.div

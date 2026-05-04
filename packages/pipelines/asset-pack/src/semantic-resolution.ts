@@ -28,20 +28,32 @@ export function normalizeDeliveryMechanismTemplate(
   if (!raw) return fallback;
 
   const normalized = raw.toLowerCase();
-  if (normalized.includes('issue') && normalized.includes('comment')) return 'issue-comment';
-  if (normalized.includes('design') && (normalized.includes('review') || normalized.includes('comment'))) {
-    return 'issue-comment';
-  }
-  if (normalized.includes('review') || normalized.includes('comment')) return 'review-comment';
-  if (normalized.includes('issue') || normalized.includes('design')) return 'issue';
-  if (normalized.includes('branch') || normalized.includes('deployment') || normalized.includes('pr') || normalized.includes('pull')) {
+  if (
+    normalized === 'pull-request' ||
+    normalized === 'pr' ||
+    normalized.includes('pull') ||
+    normalized.includes('branch') ||
+    normalized.includes('deployment') ||
+    normalized.includes('code')
+  ) {
     return 'pull-request';
   }
-  if (normalized.includes('code')) return 'pull-request';
+
+  if (
+    normalized.includes('review') ||
+    normalized.includes('comment') ||
+    normalized.includes('issue') ||
+    normalized.includes('design')
+  ) {
+    throw new Error(
+      `V26 AssetPack Finish supports pull-request delivery only; received ${raw}`
+    );
+  }
+
   return fallback;
 }
 
-export function normalizeCompatibilityWrittenAssetRequest(
+export function normalizeWrittenAssetRequest(
   candidate: unknown,
   fallback = 'asset-pack'
 ): string {
@@ -71,8 +83,6 @@ export function resolveDeliveryMechanismTemplate(input: any): AssetPackDeliveryM
       input?.deliveryTarget ??
       input?.writtenAssetType ??
       input?.writtenAsset?.type ??
-      input?.deliverableType ??
-      input?.deliverable?.type ??
       input?.type ??
       input?.classification
   );
@@ -96,12 +106,8 @@ export function resolveDeliveryMechanismTemplateFromExecution(
       execution?.get?.('pipeline', 'deliveryTarget') ??
       execution?.findUp?.('pipeline', 'writtenAssetRequest') ??
       execution?.get?.('pipeline', 'writtenAssetRequest') ??
-      execution?.findUp?.('pipeline', 'deliverableType') ??
-      execution?.get?.('pipeline', 'deliverableType') ??
       execution?.findUp?.('setup', 'writtenAssetRequest') ??
-      execution?.get?.('setup', 'writtenAssetRequest') ??
-      execution?.findUp?.('setup', 'deliverableType') ??
-      execution?.get?.('setup', 'deliverableType'),
+      execution?.get?.('setup', 'writtenAssetRequest'),
     fallback
   );
 }

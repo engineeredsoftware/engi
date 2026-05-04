@@ -37,7 +37,7 @@ const { VCSConnections, VCSProviderFactory } = require('@bitcode/vcs');
 
 const baseInput = {
   provider: 'github' as const,
-  owner: 'engi',
+  owner: 'bitcode-labs',
   repo: 'repo',
   path: 'src/index.ts',
   content: 'hello',

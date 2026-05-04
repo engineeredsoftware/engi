@@ -7,11 +7,11 @@ import {
 
 export function normalizeAssetPackOutput(output: AssetPackOutput, execution: Execution): AssetPackOutput {
   const enhanced = { ...output };
-  const deliveryMechanism = enhanced.deliveryMechanism || enhanced.shippable || enhanced.deliverable;
+  const deliveryMechanism = enhanced.deliveryMechanism || enhanced.shippable;
   const assetPackSynthesisArtifacts =
     enhanced.assetPackSynthesisArtifacts ||
     (execution as any).get?.('implementation', 'assetPackSynthesisArtifacts') ||
-    (execution as any).get?.('finish/final_work_summary', 'assetPackSynthesisArtifacts') ||
+    (execution as any).get?.('finish/asset_pack_completion', 'assetPackSynthesisArtifacts') ||
     enhanced.writtenAssets;
   const writtenAssetType = resolveWrittenAssetTypeFromExecution(execution);
   const deliveryMechanismTemplate = resolveDeliveryMechanismTemplateFromExecution(execution);
@@ -25,7 +25,6 @@ export function normalizeAssetPackOutput(output: AssetPackOutput, execution: Exe
   if (prUrl) {
     enhanced.deliveryMechanism = { ...(deliveryMechanism || {}), prUrl } as any;
     enhanced.shippable = { ...(enhanced.shippable || enhanced.deliveryMechanism || {}), prUrl } as any;
-    enhanced.deliverable = { ...(enhanced.deliverable || enhanced.deliveryMechanism || {}), prUrl } as any;
     enhanced.writtenAsset = { ...(enhanced.writtenAsset || enhanced.deliveryMechanism || {}), prUrl } as any;
   }
 
@@ -60,22 +59,15 @@ export function normalizeAssetPackOutput(output: AssetPackOutput, execution: Exe
     (execution.get('need', 'description') as string) ||
     undefined;
   enhanced.writtenAssetType = writtenAssetType;
-  enhanced.deliverableType = writtenAssetType;
   enhanced.deliveryMechanismTemplate = deliveryMechanismTemplate;
   if (!enhanced.deliveryMechanism && enhanced.shippable) {
     enhanced.deliveryMechanism = { ...enhanced.shippable };
   }
-  if (!enhanced.deliveryMechanism && enhanced.deliverable) {
-    enhanced.deliveryMechanism = { ...enhanced.deliverable };
-  }
   if (!enhanced.shippable && enhanced.deliveryMechanism) {
     enhanced.shippable = { ...enhanced.deliveryMechanism };
   }
-  if (!enhanced.deliverable && enhanced.deliveryMechanism) {
-    enhanced.deliverable = { ...enhanced.deliveryMechanism };
-  }
-  if (!enhanced.writtenAsset && (enhanced.shippable || enhanced.deliverable)) {
-    enhanced.writtenAsset = { ...(enhanced.shippable || enhanced.deliverable) };
+  if (!enhanced.writtenAsset && enhanced.shippable) {
+    enhanced.writtenAsset = { ...enhanced.shippable };
   }
 
   return enhanced;
@@ -97,19 +89,17 @@ export function buildAssetPackPostprocessedResult(
         : undefined) || undefined;
 
   const finalSummary =
-    (execution as any).get?.('finish/final_work_summary', 'summary') ||
-    (execution as any).get?.('finish/final_work_summary', 'assetPackSynthesisArtifacts')?.summary ||
-    (execution as any).get?.('finish/final_work_summary', 'writtenAssets')?.summary ||
-    (execution as any).get?.('finish/final_work_summary', 'shippables')?.summary ||
-    (execution as any).get?.('finish/final_work_summary', 'deliverables')?.summary ||
+    (execution as any).get?.('finish/asset_pack_completion', 'summary') ||
+    (execution as any).get?.('finish/asset_pack_completion', 'assetPackSynthesisArtifacts')?.summary ||
+    (execution as any).get?.('finish/asset_pack_completion', 'writtenAssets')?.summary ||
+    (execution as any).get?.('finish/asset_pack_completion', 'shippables')?.summary ||
     normalized.assetPackSynthesisArtifacts?.summary ||
     normalized.summary ||
     undefined;
 
   const finishArtifacts =
-    (execution as any).get?.('finish/final_work_summary', 'assetPackSynthesisArtifacts') ||
-    (execution as any).get?.('finish/final_work_summary', 'writtenAssets') ||
-    (execution as any).get?.('finish/final_work_summary', 'deliverables') ||
+    (execution as any).get?.('finish/asset_pack_completion', 'assetPackSynthesisArtifacts') ||
+    (execution as any).get?.('finish/asset_pack_completion', 'writtenAssets') ||
     normalized.assetPackSynthesisArtifacts;
   const filesCreated =
     normalized.artifacts?.filesCreated ??
@@ -136,7 +126,7 @@ export function buildAssetPackPostprocessedResult(
   const validationReady = getValidationReadyToFinish(execution, 'asset-pack');
   const writtenAssetType = resolveWrittenAssetTypeFromExecution(execution);
   const deliveryMechanismTemplate = resolveDeliveryMechanismTemplateFromExecution(execution);
-  const shippable = normalized.shippable || normalized.deliveryMechanism || normalized.deliverable;
+  const shippable = normalized.shippable || normalized.deliveryMechanism;
   const shippables =
     normalized.shippables ||
     (shippable
@@ -154,7 +144,6 @@ export function buildAssetPackPostprocessedResult(
       normalized.writtenAsset?.title ||
       normalized.shippable?.title ||
       normalized.deliveryMechanism?.title ||
-      normalized.deliverable?.title ||
       normalized.summary ||
       'Written Asset',
     repository,
@@ -164,7 +153,6 @@ export function buildAssetPackPostprocessedResult(
     deliveryMechanism: normalized.deliveryMechanism || shippable,
     assetPackSynthesisArtifacts: (finishArtifacts || normalized.assetPackSynthesisArtifacts || null) as any,
     artifacts,
-    deliverableType: writtenAssetType,
     writtenAssetType,
     deliveryMechanismTemplate,
     need:
@@ -195,6 +183,3 @@ export function buildAssetPackPostprocessedResult(
       : {}),
   };
 }
-
-export const normalizeDeliverableOutput = normalizeAssetPackOutput;
-export const buildDeliverablePostprocessedResult = buildAssetPackPostprocessedResult;

@@ -14,7 +14,7 @@ import { initializeAssetPackPipeline } from './preprocess';
 import { normalizeAssetPackOutput, buildAssetPackPostprocessedResult } from './postprocess';
 import { AssetPackWrittenAssetType } from './types/AssetPackWrittenAssetType';
 import {
-  normalizeCompatibilityWrittenAssetRequest,
+  normalizeWrittenAssetRequest,
   resolveDeliveryMechanismTemplate,
   resolveExpressedNeed,
   resolveWrittenAssetType,
@@ -38,13 +38,12 @@ function storePreprocessedSnapshot(
       name: repo.name || repo.repo || null,
       branch: repo.branch || null,
     },
-    deliverableType: writtenAssetType,
     writtenAssetType,
     semanticKind: 'asset-pack-written-asset' as const,
     assetPack: {
       need,
       writtenAssetType,
-      writtenAssetRequest: normalizeCompatibilityWrittenAssetRequest(processedInput?.writtenAssetType ?? processedInput?.deliverableType),
+      writtenAssetRequest: normalizeWrittenAssetRequest(processedInput?.writtenAssetType),
       deliveryMechanismTemplate: resolveDeliveryMechanismTemplate(processedInput),
       deliveryTarget: processedInput?.deliveryTarget || null,
     },
@@ -55,7 +54,6 @@ function storePreprocessedSnapshot(
   };
 
   try {
-    execution.store('route/preprocessed', 'deliverables', snapshot);
     execution.store('route/preprocessed', 'assetPackWrittenAsset', snapshot);
   } catch {}
 }
@@ -69,18 +67,14 @@ function factoryPreprocess(): Executor<any, any> {
     const expressedNeed = resolveExpressedNeed(processedInput);
 
     const writtenAssetType = resolveWrittenAssetType(processedInput);
-    const writtenAssetRequest = normalizeCompatibilityWrittenAssetRequest(
-      processedInput?.writtenAssetType ?? processedInput?.deliverableType
-    );
+    const writtenAssetRequest = normalizeWrittenAssetRequest(processedInput?.writtenAssetType);
     const deliveryMechanismTemplate = resolveDeliveryMechanismTemplate(processedInput);
     try { processedInput.need = expressedNeed; } catch {}
     try { processedInput.definitionOfNeed = expressedNeed; } catch {}
     try { processedInput.writtenAssetType = writtenAssetType; } catch {}
-    try { processedInput.deliverableType = writtenAssetType; } catch {}
     try { processedInput.writtenAssetRequest = writtenAssetRequest; } catch {}
     try { processedInput.deliveryMechanismTemplate = deliveryMechanismTemplate; } catch {}
     execution.store('pipeline', 'input', processedInput);
-    execution.store('pipeline', 'deliverableType', writtenAssetType);
     execution.store('pipeline', 'writtenAssetType', writtenAssetType);
     execution.store('pipeline', 'writtenAssetRequest', writtenAssetRequest);
     execution.store('pipeline', 'deliveryMechanismTemplate', deliveryMechanismTemplate);
@@ -191,9 +185,8 @@ function factoryDevelopPhase(): Executor<any, any> {
           summary: 'test',
         },
         deliveryMechanism: pullRequestShippable,
-        deliverable: pullRequestShippable,
         artifacts: { filesCreated: [], filesModified: [], testsAdded: 1, testsPassing: 1, documentation: [] },
-        metrics: { duration: 0, tokensUsed: 0, creditsUsed: 0, confidence: 1, phases: {} },
+        metrics: { duration: 0, tokensUsed: 0, btdUsed: 0, confidence: 1, phases: {} },
         summary: 'test'
       };
     }

@@ -154,7 +154,7 @@ This product delivers voice-first social conversations for builders.
       metadata: { commitCount: number; urlSamples: string[] };
     }>('read_code_changes_from_vcs', {
       accessToken: 'ghp_mock',
-      owner: 'engi',
+      owner: 'bitcode-labs',
       repo: 'yapper',
       limit: 2
     });
@@ -162,7 +162,7 @@ This product delivers voice-first social conversations for builders.
     expect(codeChanges.changes).toContain('Bootstrap Yapper timeline');
     expect(listCommitsMock).toHaveBeenCalledWith(
       expect.any(Object),
-      'engi',
+      'bitcode-labs',
       'yapper',
       expect.objectContaining({ perPage: 2 })
     );

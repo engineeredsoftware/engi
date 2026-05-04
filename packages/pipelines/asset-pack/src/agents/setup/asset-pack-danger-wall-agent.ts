@@ -50,8 +50,7 @@ export default async function dangerWallWithShortCircuit(input: any, execution: 
       resolveWrittenAssetTypeFromExecution(execution),
     writtenAssetRequest:
       riskAdmissionInput?.writtenAssetRequest ??
-      execution?.get?.('setup', 'writtenAssetRequest') ??
-      execution?.get?.('setup', 'deliverableType'),
+      execution?.get?.('setup', 'writtenAssetRequest'),
     deliveryMechanism:
       riskAdmissionInput?.deliveryMechanism ??
       input?.deliveryMechanism,

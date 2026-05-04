@@ -101,7 +101,7 @@ test.describe('@profile UI Visual - Login Flows', () => {
             ],
             context: {
               summary: 'Created PR #42 to add auth',
-              processingStats: { time: '2s', tokens: { input: 5, output: 10, total: 15 }, credits: 1 },
+              processingStats: { time: '2s', tokens: { input: 5, output: 10, total: 15 }, btdUsed: 1 },
               repoSnapshot: {},
             },
           },

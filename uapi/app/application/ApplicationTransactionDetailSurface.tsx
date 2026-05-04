@@ -23,7 +23,7 @@ import ApplicationTransactionHistoryCard from './ApplicationTransactionHistoryCa
 import ApplicationTransactionIdentityCard from './ApplicationTransactionIdentityCard';
 import ApplicationTransactionProofsCard from './ApplicationTransactionProofsCard';
 import {
-  buildApplicationClosureFinalWorkSummary,
+  buildApplicationClosureAssetPackCompletion,
   readApplicationRouteError,
   type ApplicationActivityRecordDraft,
 } from './application-activity-history';
@@ -171,8 +171,8 @@ export default function ApplicationTransactionDetailSurface({
     () => buildApplicationTransactionClosurePayload(selectedRun, detail, closureState, closureFollowThrough),
     [closureFollowThrough, closureState, detail, selectedRun],
   );
-  const writtenAssets = detail?.writtenAssets || detail?.deliverables || null;
-  const deliveryMechanism = detail?.shippables || detail?.deliveryMechanism || detail?.deliverables || writtenAssets;
+  const writtenAssets = detail?.writtenAssets || null;
+  const deliveryMechanism = detail?.shippables || detail?.deliveryMechanism || writtenAssets;
   const mergedAssetPackSurface =
     writtenAssets || deliveryMechanism
       ? {
@@ -254,7 +254,7 @@ export default function ApplicationTransactionDetailSurface({
               ok: payload.ok ?? true,
               latestRun: payload.latestRun ?? null,
             },
-            finalWorkSummary: buildApplicationClosureFinalWorkSummary(runtimeClosureState, detail),
+            assetPackCompletion: buildApplicationClosureAssetPackCompletion(runtimeClosureState, detail),
           },
         });
     } catch (error) {

@@ -9,7 +9,7 @@ import { DisabledTooltipWrapper } from '@/components/base/bitcode/overlays/disab
 
 import ApplicationWorkspaceCard from './ApplicationWorkspaceCard';
 import {
-  buildApplicationClosureFinalWorkSummary,
+  buildApplicationClosureAssetPackCompletion,
   readApplicationRouteError,
   type ApplicationActivityRecordDraft,
 } from './application-activity-history';
@@ -165,7 +165,7 @@ export default function ApplicationClosureControlDeck({
               ok: payload.ok ?? true,
               latestRun: payload.latestRun ?? null,
             },
-            finalWorkSummary: buildApplicationClosureFinalWorkSummary(closureState),
+            assetPackCompletion: buildApplicationClosureAssetPackCompletion(closureState),
           },
         });
     } catch (error) {

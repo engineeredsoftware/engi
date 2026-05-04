@@ -335,11 +335,11 @@ testAny('browser flow keeps operator ordering and drives deposit to targeted set
 
     assert.deepEqual(await readPanelHeadings(page), [
       '0. Operating picture',
-      '1. Depositing + candidate assets',
-      '2. Needing + measured demand',
-      '3. Depositing-to-needing fit',
-      '4. Ranked candidates + verification determinisms',
-      '5. Asset pack + branch artifacts',
+      '1. Give draft + selected supply',
+      '2. Need draft + measured demand',
+      '3. Give-to-need fit',
+      '4. Ranked candidates + verification',
+      '5. Shippables + branch artifacts',
       '6. Settlement + journal diff',
       '7. Ledger + policy surfaces'
     ]);
@@ -359,7 +359,7 @@ testAny('browser flow keeps operator ordering and drives deposit to targeted set
     await page.fill('input[name="title"]', 'Browser-selected auth bundle');
     await page.fill('textarea[name="operatorNote"]', 'Browser verification deposit.');
     await page.getByRole('button', { name: 'Deposit candidate asset into Bitcode flow' }).click();
-    await waitForStatus(page, `Candidate asset deposited into the ${CURRENT_CANON_POSTURE.operatorLabel} repo-authenticated flow.`);
+    await waitForStatus(page, 'Candidate asset deposited into the repo-authenticated flow.');
 
     const depositedSummary = await readSummary(page);
     assert.equal(depositedSummary['Candidate assets'], '12');
@@ -430,8 +430,8 @@ testAny('browser operator matrix covers every scenario, branch mode, and project
           /** @type {number} */
           const pageErrorStart = pageErrors.length;
 
-          await page.getByRole('button', { name: 'Reset demo' }).click();
-          await waitForStatus(page, `Demo reset to the seeded ${CURRENT_CANON_POSTURE.operatorLabel} scenario state.`);
+          await page.getByRole('button', { name: 'Reset runtime' }).click();
+          await waitForStatus(page, 'Transactions reset to the seeded');
 
           await page.selectOption('#projectionPicker', principal);
           await waitForSummaryValue(page, 'Projection', principal);
@@ -550,7 +550,7 @@ testAny('browser flow recovers from an invalid deposit into a valid raw deposit 
     await page.fill('input[name="author"]', 'V17 Browser');
     await page.fill('textarea[name="content"]', 'Manual recovery evidence for a browser-visible invalid-to-valid deposit path.');
     await page.getByRole('button', { name: 'Deposit candidate asset into Bitcode flow' }).click();
-    await waitForStatus(page, `Candidate asset deposited into the ${CURRENT_CANON_POSTURE.operatorLabel} repo-authenticated flow.`);
+    await waitForStatus(page, 'Candidate asset deposited into the repo-authenticated flow.');
 
     const depositedSummary = await readSummary(page);
     assert.equal(depositedSummary['Candidate assets'], '12');
@@ -573,8 +573,8 @@ testAny('browser flow can reset back to the seeded state after a realized run', 
     await waitForStatus(page, 'Created bitcode/remediation-');
     assert.notEqual((await readSummary(page))['Latest bundle'], 'No run yet');
 
-    await page.getByRole('button', { name: 'Reset demo' }).click();
-    await waitForStatus(page, `Demo reset to the seeded ${CURRENT_CANON_POSTURE.operatorLabel} scenario state.`);
+    await page.getByRole('button', { name: 'Reset runtime' }).click();
+    await waitForStatus(page, 'Transactions reset to the seeded');
 
     const resetSummary = await readSummary(page);
     assert.equal(resetSummary['Candidate assets'], '11');
@@ -597,8 +597,8 @@ testAny('browser flow surfaces no-survivor branch conflicts and recovers after r
     await waitForStatus(page, 'No candidates survived into the asset pack');
     assert.equal((await readSummary(page))['Latest bundle'], 'No run yet');
 
-    await page.getByRole('button', { name: 'Reset demo' }).click();
-    await waitForStatus(page, `Demo reset to the seeded ${CURRENT_CANON_POSTURE.operatorLabel} scenario state.`);
+    await page.getByRole('button', { name: 'Reset runtime' }).click();
+    await waitForStatus(page, 'Transactions reset to the seeded');
     assert.equal((await readSummary(page))['Candidate assets'], '11');
 
     await page.getByRole('button', { name: 'Make Bitcode branch' }).click();
@@ -731,7 +731,7 @@ testAny('browser flow surfaces prompt and inference audit artifacts for internal
     await activeRawPanelPre(registrySurface).waitFor();
     const registryRawText = await activeRawPanelPre(registrySurface).textContent();
     assert.match(String(registryRawText), /"closureCriteria"/);
-    assert.match(String(registryRawText), /"ENGI_NEED\.md"/);
+    assert.match(String(registryRawText), /"BITCODE_NEED\.md"/);
 
     const inferenceSurface = await surfaceBySubtitleInSection(page, 'branchArtifacts', '.bitcode/inference-proofs.json');
     await switchSurfaceToRaw(inferenceSurface);

@@ -57,7 +57,7 @@ export function ExecutionDetailsView({ runId, executionId }: ExecutionDetailsVie
 
   // Final Work Summary (if present)
   const runOutput = (run as any).output || (run as any).output_data || {};
-  const fws = runOutput?.final_work_summary || (run as any).final_work_summary || null;
+  const fws = runOutput?.asset_pack_completion || (run as any).asset_pack_completion || null;
   const writtenAssets = getHeaderWrittenAssets(fws);
   const shippables = getHeaderShippables(fws);
   const deliveryMechanism = shippables;

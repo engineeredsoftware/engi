@@ -2,8 +2,9 @@
  * Canonical written-asset kind emitted by Bitcode AssetPack synthesis.
  *
  * V26 no longer models AssetPack implementation as a four-way request-label
- * taxonomy. Specific pull-request, issue, or comment
- * wrappers are delivery mechanisms in Finish, not implementation phase types.
+ * taxonomy. Commercial AssetPack delivery is GitHub pull-request delivery.
+ * Future third-party delivery mechanisms belong to a later spec version and
+ * must not be admitted by the V26 runtime surface.
  */
 export enum AssetPackWrittenAssetType {
   NeedSatisfactionAssetPack = 'need-satisfaction-asset-pack'
@@ -13,8 +14,4 @@ export type AssetPackWrittenAssetTypeSingleOrMany =
   | AssetPackWrittenAssetType
   | AssetPackWrittenAssetType[];
 
-export type AssetPackDeliveryMechanismTemplate =
-  | 'pull-request'
-  | 'review-comment'
-  | 'issue'
-  | 'issue-comment';
+export type AssetPackDeliveryMechanismTemplate = 'pull-request';

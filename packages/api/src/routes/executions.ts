@@ -103,9 +103,9 @@ function readContextRecord(row: ExecutionHistoryRow) {
   return asRecord(row.context);
 }
 
-function readFinalWorkSummary(row: ExecutionHistoryRow) {
+function readAssetPackCompletion(row: ExecutionHistoryRow) {
   const output = readOutputRecord(row);
-  return output ? asRecord(output.final_work_summary) : null;
+  return output ? asRecord(output.asset_pack_completion) : null;
 }
 
 function readPreprocessedRecord(row: ExecutionHistoryRow) {
@@ -115,13 +115,12 @@ function readPreprocessedRecord(row: ExecutionHistoryRow) {
 
 function buildWrittenAssets(row: ExecutionHistoryRow) {
   const output = readOutputRecord(row);
-  const finalWorkSummary = readFinalWorkSummary(row);
+  const assetPackCompletion = readAssetPackCompletion(row);
 
   return (
-    asRecord(finalWorkSummary?.writtenAssets) ||
+    asRecord(assetPackCompletion?.writtenAssets) ||
     buildAssetPackSynthesisArtifacts(row) ||
-    asRecord(finalWorkSummary?.shippables) ||
-    asRecord(finalWorkSummary?.deliverables) ||
+    asRecord(assetPackCompletion?.shippables) ||
     asRecord(output?.writtenAssets) ||
     asRecord(output?.assetPackSynthesisArtifacts)
   );
@@ -129,22 +128,21 @@ function buildWrittenAssets(row: ExecutionHistoryRow) {
 
 function buildAssetPackSynthesisArtifacts(row: ExecutionHistoryRow) {
   const output = readOutputRecord(row);
-  const finalWorkSummary = readFinalWorkSummary(row);
+  const assetPackCompletion = readAssetPackCompletion(row);
 
   return (
-    asRecord(finalWorkSummary?.assetPackSynthesisArtifacts) ||
+    asRecord(assetPackCompletion?.assetPackSynthesisArtifacts) ||
     asRecord(output?.assetPackSynthesisArtifacts)
   );
 }
 
 function buildDeliveryMechanism(row: ExecutionHistoryRow) {
   const output = readOutputRecord(row);
-  const finalWorkSummary = readFinalWorkSummary(row);
+  const assetPackCompletion = readAssetPackCompletion(row);
 
   return (
-    asRecord(finalWorkSummary?.deliveryMechanism) ||
-    asRecord(finalWorkSummary?.shippables) ||
-    asRecord(finalWorkSummary?.deliverables) ||
+    asRecord(assetPackCompletion?.deliveryMechanism) ||
+    asRecord(assetPackCompletion?.shippables) ||
     asRecord(output?.deliveryMechanism) ||
     asRecord(output?.shippables) ||
     buildWrittenAssets(row)
@@ -153,25 +151,23 @@ function buildDeliveryMechanism(row: ExecutionHistoryRow) {
 
 function buildShippables(row: ExecutionHistoryRow) {
   const output = readOutputRecord(row);
-  const finalWorkSummary = readFinalWorkSummary(row);
+  const assetPackCompletion = readAssetPackCompletion(row);
 
   return (
-    asRecord(finalWorkSummary?.shippables) ||
+    asRecord(assetPackCompletion?.shippables) ||
     buildDeliveryMechanism(row) ||
-    asRecord(output?.shippables) ||
-    asRecord(finalWorkSummary?.deliverables) ||
-    asRecord(output?.deliverables)
+    asRecord(output?.shippables)
   );
 }
 
 function buildNeed(row: ExecutionHistoryRow) {
   const output = readOutputRecord(row);
   const context = readContextRecord(row);
-  const finalWorkSummary = readFinalWorkSummary(row);
+  const assetPackCompletion = readAssetPackCompletion(row);
   const preprocessed = readPreprocessedRecord(row);
 
   return (
-    asString(finalWorkSummary?.need) ||
+    asString(assetPackCompletion?.need) ||
     asString(output?.need) ||
     asString(preprocessed?.need) ||
     asString(context?.need) ||
@@ -182,27 +178,24 @@ function buildNeed(row: ExecutionHistoryRow) {
 function buildWrittenAssetType(row: ExecutionHistoryRow) {
   const output = readOutputRecord(row);
   const context = readContextRecord(row);
-  const finalWorkSummary = readFinalWorkSummary(row);
+  const assetPackCompletion = readAssetPackCompletion(row);
   const preprocessed = readPreprocessedRecord(row);
 
   return (
-    asString(finalWorkSummary?.writtenAssetType) ||
+    asString(assetPackCompletion?.writtenAssetType) ||
     asString(output?.writtenAssetType) ||
     asString(preprocessed?.writtenAssetType) ||
-    asString(output?.deliverableType) ||
-    asString(preprocessed?.deliverableType) ||
     asString(context?.writtenAssetType) ||
-    asString(context?.deliverableType) ||
     null
   );
 }
 
 function buildAssetPack(row: ExecutionHistoryRow) {
   const output = readOutputRecord(row);
-  const finalWorkSummary = readFinalWorkSummary(row);
+  const assetPackCompletion = readAssetPackCompletion(row);
   const preprocessed = readPreprocessedRecord(row);
   const directAssetPack =
-    asRecord(finalWorkSummary?.assetPack) ||
+    asRecord(assetPackCompletion?.assetPack) ||
     asRecord(output?.assetPack) ||
     asRecord(preprocessed?.assetPack);
 
@@ -227,12 +220,12 @@ function buildAssetPack(row: ExecutionHistoryRow) {
 
 function readProcessingStatsSource(row: ExecutionHistoryRow) {
   const output = readOutputRecord(row);
-  const finalWorkSummary = readFinalWorkSummary(row);
+  const assetPackCompletion = readAssetPackCompletion(row);
 
   return (
     asRecord(output?.processing_stats) ||
     asRecord(output?.processingStats) ||
-    asRecord(finalWorkSummary?.processingStats)
+    asRecord(assetPackCompletion?.processingStats)
   );
 }
 
@@ -279,11 +272,11 @@ function buildProcessingStats(row: ExecutionHistoryRow) {
 function buildRepoSnapshot(row: ExecutionHistoryRow) {
   const output = readOutputRecord(row);
   const context = readContextRecord(row);
-  const finalWorkSummary = readFinalWorkSummary(row);
+  const assetPackCompletion = readAssetPackCompletion(row);
   const repoSnapshot =
     asRecord(output?.repo_snapshot) ||
     asRecord(output?.repoSnapshot) ||
-    asRecord(finalWorkSummary?.repoSnapshot) ||
+    asRecord(assetPackCompletion?.repoSnapshot) ||
     asRecord(context?.repo_snapshot) ||
     asRecord(context?.repoSnapshot);
 
@@ -304,13 +297,13 @@ function buildRepoSnapshot(row: ExecutionHistoryRow) {
 function buildSummary(row: ExecutionHistoryRow) {
   const output = readOutputRecord(row);
   const context = readContextRecord(row);
-  const finalWorkSummary = readFinalWorkSummary(row);
+  const assetPackCompletion = readAssetPackCompletion(row);
   const assetPackSynthesisArtifacts = buildAssetPackSynthesisArtifacts(row);
   const writtenAssets = buildWrittenAssets(row);
 
   return (
     asString(output?.summary) ||
-    asString(finalWorkSummary?.summary) ||
+    asString(assetPackCompletion?.summary) ||
     asString(assetPackSynthesisArtifacts?.summary) ||
     asString(writtenAssets?.summary) ||
     asString(context?.summary) ||
@@ -329,8 +322,8 @@ function buildMetadata(row: ExecutionHistoryRow) {
   return readContextRecord(row);
 }
 
-function buildNormalizedFinalWorkSummary(row: ExecutionHistoryRow) {
-  const finalWorkSummary = readFinalWorkSummary(row);
+function buildNormalizedAssetPackCompletion(row: ExecutionHistoryRow) {
+  const assetPackCompletion = readAssetPackCompletion(row);
   const assetPackSynthesisArtifacts = buildAssetPackSynthesisArtifacts(row);
   const writtenAssets = buildWrittenAssets(row);
   const shippables = buildShippables(row);
@@ -341,13 +334,13 @@ function buildNormalizedFinalWorkSummary(row: ExecutionHistoryRow) {
   const processingStats = buildProcessingStats(row);
   const repoSnapshot = buildRepoSnapshot(row);
   const summary =
-    asString(finalWorkSummary?.summary) ||
+    asString(assetPackCompletion?.summary) ||
     asString(assetPackSynthesisArtifacts?.summary) ||
     asString(writtenAssets?.summary) ||
     null;
 
   if (
-    !finalWorkSummary &&
+    !assetPackCompletion &&
     !assetPackSynthesisArtifacts &&
     !writtenAssets &&
     !shippables &&
@@ -363,22 +356,19 @@ function buildNormalizedFinalWorkSummary(row: ExecutionHistoryRow) {
   }
 
   return {
-    ...(finalWorkSummary || {}),
+    ...(assetPackCompletion || {}),
     ...(summary ? { summary } : {}),
     ...(assetPackSynthesisArtifacts ? { assetPackSynthesisArtifacts } : {}),
     ...(writtenAssets ? { writtenAssets } : {}),
     ...(shippables ? { shippables } : {}),
     ...(deliveryMechanism ? { deliveryMechanism } : {}),
-    ...((asRecord(finalWorkSummary?.deliverables) || shippables || writtenAssets)
-      ? { deliverables: asRecord(finalWorkSummary?.deliverables) || shippables || writtenAssets }
-      : {}),
     ...(need ? { need } : {}),
     ...(writtenAssetType ? { writtenAssetType } : {}),
     ...(assetPack ? { assetPack } : {}),
     ...(processingStats
-      ? { processingStats: asRecord(finalWorkSummary?.processingStats) || processingStats }
+      ? { processingStats: asRecord(assetPackCompletion?.processingStats) || processingStats }
       : {}),
-    ...(repoSnapshot ? { repoSnapshot: asRecord(finalWorkSummary?.repoSnapshot) || repoSnapshot } : {}),
+    ...(repoSnapshot ? { repoSnapshot: asRecord(assetPackCompletion?.repoSnapshot) || repoSnapshot } : {}),
   };
 }
 
@@ -411,7 +401,7 @@ export function normalizeExecutionHistoryRow(row: ExecutionHistoryRow) {
     need: buildNeed(row),
     written_asset_type: buildWrittenAssetType(row),
     asset_pack: buildAssetPack(row),
-    final_work_summary: buildNormalizedFinalWorkSummary(row),
+    asset_pack_completion: buildNormalizedAssetPackCompletion(row),
     error: row.error ?? null,
   };
 }

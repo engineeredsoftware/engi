@@ -16,9 +16,6 @@ type FileDiff = { path: string; added: number; removed: number };
 
 export interface ShippablesDoc {
   pullRequest?: Shippable | null;
-  pullRequestReviews?: Shippable[] | null;
-  comments?: Shippable[] | null;
-  issues?: Shippable[] | null;
   fileChanges?: {
     edited: number;
     created: number;
@@ -41,9 +38,6 @@ export interface ShippablesDocPanelProps {
 export function ShippablesDocPanel({ shippables, summaryOpen, onToggleSummary }: ShippablesDocPanelProps) {
   const tldr: React.ReactNode[] = [];
   if (shippables.pullRequest?.title) tldr.push(<span key="pr">Pull Request</span>);
-  if (shippables.pullRequestReviews?.length) tldr.push(<span key="reviews">PR Reviews</span>);
-  if (shippables.issues?.length) tldr.push(<span key="issues">Issues</span>);
-  if (shippables.comments?.length) tldr.push(<span key="comments">Comments</span>);
 
   return (
     <div className="relative flex flex-col space-y-8 w-full max-w-4.5xl mx-auto">

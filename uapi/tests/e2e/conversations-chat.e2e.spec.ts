@@ -51,9 +51,9 @@ test.describe('Conversations Chat Sidebars', () => {
     await chatSidebar.locator('text=New Chat').click();
     // Repository grouping
     await expect(chatSidebar.locator('text=Repositories')).toBeVisible();
-    await expect(chatSidebar.locator('text=engi/frontend')).toBeVisible();
-    await expect(chatSidebar.locator('text=engi/backend')).toBeVisible();
-    await expect(chatSidebar.locator('text=engi/database')).toBeVisible();
+    await expect(chatSidebar.locator('text=bitcode-labs/frontend')).toBeVisible();
+    await expect(chatSidebar.locator('text=bitcode-labs/backend')).toBeVisible();
+    await expect(chatSidebar.locator('text=bitcode-labs/database')).toBeVisible();
     // Time grouping
     await expect(chatSidebar.locator('text=Today')).toBeVisible();
     await expect(chatSidebar.locator('text=Yesterday')).toBeVisible();
@@ -139,9 +139,9 @@ test.describe('Conversations Chat Sidebars', () => {
     await feedbacksSidebar.locator('text=New Chat').click();
     // Repository grouping
     await expect(feedbacksSidebar.locator('text=Repositories')).toBeVisible();
-    await expect(feedbacksSidebar.locator('text=engi/frontend')).toBeVisible();
-    await expect(feedbacksSidebar.locator('text=engi/backend')).toBeVisible();
-    await expect(feedbacksSidebar.locator('text=engi/database')).toBeVisible();
+    await expect(feedbacksSidebar.locator('text=bitcode-labs/frontend')).toBeVisible();
+    await expect(feedbacksSidebar.locator('text=bitcode-labs/backend')).toBeVisible();
+    await expect(feedbacksSidebar.locator('text=bitcode-labs/database')).toBeVisible();
     // Time grouping
     await expect(feedbacksSidebar.locator('text=Today')).toBeVisible();
     await expect(feedbacksSidebar.locator('text=Yesterday')).toBeVisible();

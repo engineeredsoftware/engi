@@ -88,7 +88,6 @@ export default async function assetPackFinishCreatePullRequestDeliveryAgent(inpu
   return {
     status: 'created',
     writtenAssetType: 'need-satisfaction-asset-pack',
-    deliverableType: 'need-satisfaction-asset-pack',
     deliveryMechanismTemplate: 'pull-request',
     ...result,
   };

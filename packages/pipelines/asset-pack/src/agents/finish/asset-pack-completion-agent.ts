@@ -3,7 +3,6 @@ import type { PromptPart } from '@bitcode/prompts/parts/PromptPart';
 import { z } from 'zod';
 import {
   resolveExpressedNeedFromExecution,
-  resolveDeliveryMechanismTemplateFromExecution,
   resolveWrittenAssetTypeFromExecution,
 } from '../../semantic-resolution';
 
@@ -30,9 +29,6 @@ export const FileChangesSchema = z.object({
 
 const WrittenAssetsSchema = z.object({
   pullRequest: ShippableSchema.nullable().optional(),
-  pullRequestReviews: z.array(ShippableSchema).nullable().optional(),
-  comments: z.array(ShippableSchema).nullable().optional(),
-  issues: z.array(ShippableSchema).nullable().optional(),
   fileChanges: FileChangesSchema.nullable().optional(),
   summary: z.string().nullable().optional(),
 });
@@ -44,18 +40,12 @@ const AssetPackSynthesisArtifactsSchema = WrittenAssetsSchema.extend({
 
 const DeliveryMechanismSchema = z.object({
   pullRequest: ShippableSchema.nullable().optional(),
-  pullRequestReviews: z.array(ShippableSchema).nullable().optional(),
-  comments: z.array(ShippableSchema).nullable().optional(),
-  issues: z.array(ShippableSchema).nullable().optional(),
   summary: z.string().nullable().optional(),
 });
 
-export const FinalWorkSummaryOutputSchema = z.object({
+export const AssetPackCompletionOutputSchema = z.object({
   shippables: z.object({
     pullRequest: ShippableSchema.nullable().optional(),
-    pullRequestReviews: z.array(ShippableSchema).nullable().optional(),
-    comments: z.array(ShippableSchema).nullable().optional(),
-    issues: z.array(ShippableSchema).nullable().optional(),
     fileChanges: FileChangesSchema.nullable().optional(),
     summary: z.string().nullable().optional(),
   }),
@@ -69,12 +59,12 @@ export const FinalWorkSummaryOutputSchema = z.object({
     tokens: z
       .object({ input: z.number(), output: z.number(), total: z.number() })
       .optional(),
-    credits: z.number().optional(),
+    btdUsed: z.number().optional(),
   }),
   repoSnapshot: z.object({ org: z.string(), repo: z.string(), branch: z.string(), commit: z.string().optional().default('') }),
 });
 
-export type FinalWorkSummaryOutput = z.infer<typeof FinalWorkSummaryOutputSchema>;
+export type AssetPackCompletionOutput = z.infer<typeof AssetPackCompletionOutputSchema>;
 
 function formatDuration(ms: number): string {
   if (!ms || ms < 0) return '0s';
@@ -86,28 +76,28 @@ function formatDuration(ms: number): string {
 }
 
 /**
- * FinalWorkSummary Quick Agent (single-step)
+ * AssetPackCompletion Quick Agent (single-step)
  *
- * Prepares the final work summary for a completed AssetPack written-asset execution
+ * Prepares the final AssetPack completion for a written-asset execution
  * by reading the execution state (repository, need, phase timings, basic metrics)
  * and producing a concise markdown summary plus structured metadata. Stores the
- * result under `finish/final_work_summary/*` in the execution store for API
+ * result under `finish/asset_pack_completion/*` in the execution store for API
  * layers to persist into `executions.output`.
  */
-const FinalWorkSummaryAgent = factoryAgentWithSingleStep<any, FinalWorkSummaryOutput>({
-  name: 'finish:final-work-summary',
-  description: 'Prepare final asset-pack written-asset summary (markdown + metadata) from execution state',
+const AssetPackCompletionAgent = factoryAgentWithSingleStep<any, AssetPackCompletionOutput>({
+  name: 'finish:asset-pack-completion',
+  description: 'Prepare final AssetPack completion evidence from execution state',
   execute: async (_input, execution) => {
     // Minimal system prompt alignment (for logging/trace and future LLM)
     try {
       const identity = (
-        'You are the FinalWorkSummary agent. Produce a concise Markdown summary and a structured JSON payload matching FinalWorkSummaryOutputSchema for the execution header complete view.'
+        'You are the AssetPackCompletion agent. Produce a concise Markdown summary and a structured JSON payload matching AssetPackCompletionOutputSchema for the execution header complete view.'
       ) as unknown as PromptPart;
       (execution as any).prompt?.setSpecificExecution('specific_execution:agent:identity', identity);
       (execution as any).prompt?.setSpecificExecution(
         'specific_execution:output:shape',
         (
-          'Output JSON with keys: shippables{pullRequest,pullRequestReviews,comments,issues,fileChanges,summary}, assetPackSynthesisArtifacts{pullRequest,pullRequestReviews,comments,issues,fileChanges,summary,proofEvidence?,reviewNotes?}, writtenAssets{pullRequest,pullRequestReviews,comments,issues,fileChanges,summary}, deliveryMechanism{pullRequest,pullRequestReviews,comments,issues,summary}, processingStats{time,tokens?,credits?}, repoSnapshot{org,repo,branch,commit}. Finish delivers shippables; mirror shippables into compatibility deliverables only for retained route clients.'
+          'Output JSON with keys: shippables{pullRequest,fileChanges,summary}, assetPackSynthesisArtifacts{pullRequest,fileChanges,summary,proofEvidence?,reviewNotes?}, writtenAssets{pullRequest,fileChanges,summary}, deliveryMechanism{pullRequest,summary}, processingStats{time,tokens?,btdUsed?}, repoSnapshot{org,repo,branch,commit}. V26 Finish delivers AssetPack evidence through Bitcode-owned pull-request fields only.'
         ) as unknown as PromptPart
       );
     } catch {}
@@ -135,14 +125,14 @@ const FinalWorkSummaryAgent = factoryAgentWithSingleStep<any, FinalWorkSummaryOu
       }
     }
 
-    // Tokens / credits not wired here; leave undefined (API layer may enrich)
+    // Tokens / $BTD not wired here; leave undefined (API layer may enrich)
     const processingStats = {
       time: formatDuration(totalMs),
-    } as FinalWorkSummaryOutput['processingStats'];
+    } as AssetPackCompletionOutput['processingStats'];
 
     // Compose a minimal markdown summary
     const lines: string[] = [];
-    lines.push(`# Asset Pack Written Asset Summary`);
+    lines.push(`# AssetPack Completion`);
     if (need) {
       lines.push('', `## Need`, need.trim());
     }
@@ -157,37 +147,16 @@ const FinalWorkSummaryAgent = factoryAgentWithSingleStep<any, FinalWorkSummaryOu
     const summary = lines.join('\n');
 
     let pullRequest: any = null;
-    let pullRequestReviews: any[] | null = null;
-    let comments: any[] | null = null;
-    let issues: any[] | null = null;
     const dtype = resolveWrittenAssetTypeFromExecution(execution);
-    const deliveryMechanismTemplate = resolveDeliveryMechanismTemplateFromExecution(execution);
     try {
-      if (deliveryMechanismTemplate === 'pull-request') {
-        const prUrl = (execution as any).get?.('finish', 'pullRequestUrl') || '';
-        const prTitle = (execution as any).get?.('finish', 'pullRequestTitle') || (need || 'Pull Request');
-        const prNumber = (execution as any).get?.('finish', 'pullRequestNumber');
-        pullRequest = prUrl ? { url: prUrl, title: prTitle, number: prNumber } : null;
-      } else if (deliveryMechanismTemplate === 'review-comment') {
-        const reviewUrl = (execution as any).get?.('finish', 'reviewUrl') || '';
-        const reviewTitle = (execution as any).get?.('finish', 'reviewTitle') || 'PR Review';
-        pullRequestReviews = reviewUrl ? [{ url: reviewUrl, title: reviewTitle }] : null;
-      } else if (deliveryMechanismTemplate === 'issue') {
-        const issueUrl = (execution as any).get?.('finish', 'issueUrl') || '';
-        const issueTitle = (execution as any).get?.('finish', 'issueTitle') || 'Design Document';
-        issues = issueUrl ? [{ url: issueUrl, title: issueTitle }] : null;
-      } else if (deliveryMechanismTemplate === 'issue-comment') {
-        const commentUrl = (execution as any).get?.('finish', 'commentUrl') || '';
-        const commentTitle = (execution as any).get?.('finish', 'commentTitle') || 'Design Review Comment';
-        comments = commentUrl ? [{ url: commentUrl, title: commentTitle }] : null;
-      }
+      const prUrl = (execution as any).get?.('finish', 'pullRequestUrl') || '';
+      const prTitle = (execution as any).get?.('finish', 'pullRequestTitle') || (need || 'Pull Request');
+      const prNumber = (execution as any).get?.('finish', 'pullRequestNumber');
+      pullRequest = prUrl ? { url: prUrl, title: prTitle, number: prNumber } : null;
     } catch {}
 
     const shippables = {
       pullRequest,
-      pullRequestReviews: pullRequestReviews || undefined,
-      comments: comments || undefined,
-      issues: issues || undefined,
       fileChanges: undefined,
       summary,
     };
@@ -207,14 +176,11 @@ const FinalWorkSummaryAgent = factoryAgentWithSingleStep<any, FinalWorkSummaryOu
           };
     const deliveryMechanism = {
       pullRequest,
-      pullRequestReviews: pullRequestReviews || undefined,
-      comments: comments || undefined,
-      issues: issues || undefined,
       summary,
     };
 
     // Validate and finalize output
-    const validated = FinalWorkSummaryOutputSchema.parse({
+    const validated = AssetPackCompletionOutputSchema.parse({
       shippables,
       assetPackSynthesisArtifacts,
       writtenAssets,
@@ -225,24 +191,22 @@ const FinalWorkSummaryAgent = factoryAgentWithSingleStep<any, FinalWorkSummaryOu
       repoSnapshot,
     });
 
-    const output: FinalWorkSummaryOutput = validated;
+    const output: AssetPackCompletionOutput = validated;
 
     // Store for API persistence
     try {
-      (execution as any).store?.('finish/final_work_summary', 'shippables', shippables as any);
-      // Compatibility mirror only: retained route clients may still read this key.
-      (execution as any).store?.('finish/final_work_summary', 'deliverables', shippables as any);
-      (execution as any).store?.('finish/final_work_summary', 'assetPackSynthesisArtifacts', assetPackSynthesisArtifacts as any);
-      (execution as any).store?.('finish/final_work_summary', 'writtenAssets', writtenAssets as any);
-      (execution as any).store?.('finish/final_work_summary', 'deliveryMechanism', deliveryMechanism as any);
-      (execution as any).store?.('finish/final_work_summary', 'need', need || undefined);
-      (execution as any).store?.('finish/final_work_summary', 'writtenAssetType', dtype || undefined);
-      (execution as any).store?.('finish/final_work_summary', 'processingStats', processingStats as any);
-      (execution as any).store?.('finish/final_work_summary', 'repoSnapshot', repoSnapshot as any);
+      (execution as any).store?.('finish/asset_pack_completion', 'shippables', shippables as any);
+      (execution as any).store?.('finish/asset_pack_completion', 'assetPackSynthesisArtifacts', assetPackSynthesisArtifacts as any);
+      (execution as any).store?.('finish/asset_pack_completion', 'writtenAssets', writtenAssets as any);
+      (execution as any).store?.('finish/asset_pack_completion', 'deliveryMechanism', deliveryMechanism as any);
+      (execution as any).store?.('finish/asset_pack_completion', 'need', need || undefined);
+      (execution as any).store?.('finish/asset_pack_completion', 'writtenAssetType', dtype || undefined);
+      (execution as any).store?.('finish/asset_pack_completion', 'processingStats', processingStats as any);
+      (execution as any).store?.('finish/asset_pack_completion', 'repoSnapshot', repoSnapshot as any);
     } catch {}
 
     return output;
   }
 });
 
-export default FinalWorkSummaryAgent;
+export default AssetPackCompletionAgent;

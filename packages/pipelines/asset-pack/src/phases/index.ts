@@ -117,15 +117,15 @@ export const validationPhase: PhaseDelegator<ImplementationOutput, ValidationOut
 // ==================== FINISH PHASE ====================
 
 /**
- * Finish Phase - save the pipeline result and optionally Deliver AssetPacks /
- * AssetPackPartials to connected third-party destinations.
+ * Finish Phase - save the pipeline result and deliver AssetPacks /
+ * AssetPackPartials through V26 pull-request shippables.
  */
 export const finishPhase: PhaseDelegator<ValidationOutput, AssetPackOutput> = (async (input: any, execution: any) => {
   const deliveryMechanismTemplate = resolveDeliveryMechanismTemplateFromExecution(execution);
   try { registerFinishAgentsForType(deliveryMechanismTemplate, (execution as any).agents); } catch {}
   const exec: Executor<any, any> = sequential(
     createAgentExecutor('finish:deliver-asset-pack-to-destination-agent'),
-    createAgentExecutor('finish:final-work-summary')
+    createAgentExecutor('finish:asset-pack-completion')
   );
   return await exec(input, execution);
 }) as unknown as PhaseDelegator<ValidationOutput, AssetPackOutput>;

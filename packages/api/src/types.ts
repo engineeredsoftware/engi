@@ -1,5 +1,5 @@
 /**
- * API Types - Type definitions for the engi API layer
+ * API Types - Type definitions for the Bitcode API layer
  * 
  * Provides comprehensive type definitions for business logic
  */

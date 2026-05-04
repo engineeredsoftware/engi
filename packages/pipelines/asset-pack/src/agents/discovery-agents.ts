@@ -1,8 +1,6 @@
 /**
  * Discovery Phase Agents for the AssetPack Pipeline
  * 
- * Pattern: AssetPackDiscoveryPhase{Action}Agent compatibility exports
- * 
  * ALL agents use PTRR (Plan-Try-Refine-Retry) - no exceptions
  */
 
@@ -34,7 +32,6 @@ import {
 const UnderstandRequirementsInputSchema = z.object({
   needDescription: z.string().optional(),
   need: z.string().optional(),
-  deliverableType: z.string().optional(), // Compatibility mirror; writtenAssetType is canonical.
   writtenAssetType: z.string().optional(),
   codebaseAnalysis: z.any(), // From setup phase
   attachments: z.array(z.any()).optional()
@@ -86,7 +83,6 @@ export const AssetPackDiscoveryPhaseUnderstandRequirementsAgent = factoryAgentWi
 const ResearchApproachInputSchema = z.object({
   requirements: z.any(), // From understand requirements
   need: z.string().optional(),
-  deliverableType: z.string().optional(), // Compatibility mirror; writtenAssetType is canonical.
   writtenAssetType: z.string().optional(),
   codebaseAnalysis: z.any()
 });
@@ -99,8 +95,7 @@ const ResearchApproachOutputSchema = z.object({
       description: z.string(),
       assetPackSynthesisArtifacts: z.array(z.string()).optional(),
       shippables: z.array(z.string()).optional(),
-      writtenAssets: z.array(z.string()).optional(),
-      deliverables: z.array(z.string()).optional()
+      writtenAssets: z.array(z.string()).optional()
     })),
     tools: z.array(z.string()),
     estimatedEffort: z.string()
@@ -131,12 +126,10 @@ export function applyResearchApproachSemanticMirrors(
         writtenAssets:
           phase.writtenAssets ??
           phase.assetPackSynthesisArtifacts ??
-          phase.shippables ??
-          phase.deliverables,
+          phase.shippables,
         assetPackSynthesisArtifacts:
           phase.assetPackSynthesisArtifacts ??
-          phase.writtenAssets ??
-          phase.deliverables,
+          phase.writtenAssets,
       })),
     },
   };
@@ -181,7 +174,6 @@ const PlanImplementationInputSchema = z.object({
   requirements: z.any(),
   approach: z.any(),
   need: z.string().optional(),
-  deliverableType: z.string().optional(), // Compatibility mirror; writtenAssetType is canonical.
   writtenAssetType: z.string().optional(),
   codebaseAnalysis: z.any()
 });
@@ -259,7 +251,6 @@ const GatherContextInputSchema = z.object({
   need: z.string().optional(),
   codebaseAnalysis: z.any(),
   attachments: z.array(z.any()).optional(),
-  deliverableType: z.string().optional(), // Compatibility mirror; writtenAssetType is canonical.
   writtenAssetType: z.string().optional()
 });
 
@@ -310,7 +301,6 @@ const AssessComplexityInputSchema = z.object({
   implementationPlan: z.any(),
   context: z.any(),
   need: z.string().optional(),
-  deliverableType: z.string().optional(), // Compatibility mirror; writtenAssetType is canonical.
   writtenAssetType: z.string().optional()
 });
 

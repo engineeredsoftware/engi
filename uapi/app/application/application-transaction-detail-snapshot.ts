@@ -46,8 +46,6 @@ export interface ApplicationRunDetailSnapshot {
   assetPackSynthesisArtifacts?: ShippablesDoc | null;
   writtenAssets?: ShippablesDoc | null;
   deliveryMechanism?: ShippablesDoc | null;
-  /** Compatibility mirror for retained payload rows that still store Shippables under the old key. */
-  deliverables?: ShippablesDoc | null;
   repoSnapshot: RepoSnapshot | null;
   processingStats: ProcessingStats;
   proofStatus: string | null;
@@ -496,10 +494,10 @@ function coerceBitcodeActivityState(value: unknown): ApplicationRunDetailSnapsho
   };
 }
 
-function readFinalWorkSummary(run: Record<string, unknown>) {
-  if (isRecord(run.output) && isRecord(run.output.final_work_summary)) return run.output.final_work_summary;
-  if (isRecord(run.output_data) && isRecord(run.output_data.final_work_summary)) return run.output_data.final_work_summary;
-  if (isRecord(run.final_work_summary)) return run.final_work_summary;
+function readAssetPackCompletion(run: Record<string, unknown>) {
+  if (isRecord(run.output) && isRecord(run.output.asset_pack_completion)) return run.output.asset_pack_completion;
+  if (isRecord(run.output_data) && isRecord(run.output_data.asset_pack_completion)) return run.output_data.asset_pack_completion;
+  if (isRecord(run.asset_pack_completion)) return run.asset_pack_completion;
   return null;
 }
 
@@ -517,7 +515,6 @@ export function buildApplicationRunDetailFromSelectedRun(
     writtenAssets: fallbackShippables || null,
     shippables: fallbackShippables || null,
     deliveryMechanism: fallbackShippables || null,
-    deliverables: fallbackShippables || null,
     repoSnapshot: parseRepository(selectedRun.repository, selectedRun.branch),
     processingStats: {
       time: null,
@@ -549,71 +546,59 @@ export function normalizeApplicationRunDetailPayload(
   const run = isRecord(payload.run) ? payload.run : null;
   if (!run) return base;
 
-  const finalWorkSummary = readFinalWorkSummary(run);
+  const assetPackCompletion = readAssetPackCompletion(run);
   const assetPackSynthesisArtifacts =
-    coerceShippableSurface(finalWorkSummary?.assetPackSynthesisArtifacts) ||
+    coerceShippableSurface(assetPackCompletion?.assetPackSynthesisArtifacts) ||
     coerceShippableSurface(run.asset_pack_synthesis_artifacts) ||
     coerceShippableSurface(run.assetPackSynthesisArtifacts);
   const writtenAssets =
-    coerceShippableSurface(finalWorkSummary?.writtenAssets) ||
+    coerceShippableSurface(assetPackCompletion?.writtenAssets) ||
     assetPackSynthesisArtifacts ||
     coerceShippableSurface(run.written_assets) ||
-    coerceShippableSurface(finalWorkSummary?.deliverables) ||
-    base.writtenAssets ||
-    base.deliverables;
+    base.writtenAssets;
   const deliveryMechanism =
-    coerceShippableSurface(finalWorkSummary?.deliveryMechanism) ||
+    coerceShippableSurface(assetPackCompletion?.deliveryMechanism) ||
     coerceShippableSurface(run.delivery_mechanism) ||
-    coerceShippableSurface(finalWorkSummary?.shippables) ||
+    coerceShippableSurface(assetPackCompletion?.shippables) ||
     coerceShippableSurface(run.shippables) ||
-    coerceShippableSurface(finalWorkSummary?.deliverables) ||
     base.deliveryMechanism ||
-    base.deliverables ||
     writtenAssets;
   const shippables =
-    coerceShippableSurface(finalWorkSummary?.shippables) ||
+    coerceShippableSurface(assetPackCompletion?.shippables) ||
     coerceShippableSurface(run.shippables) ||
     deliveryMechanism ||
     base.shippables ||
     null;
-  const compatibilityDeliverables =
-    coerceShippableSurface(finalWorkSummary?.deliverables) ||
-    shippables ||
-    deliveryMechanism ||
-    writtenAssets ||
-    base.deliverables;
   const repoSnapshot =
-    coerceRepoSnapshot(run.repo_snapshot) || coerceRepoSnapshot(finalWorkSummary?.repoSnapshot) || base.repoSnapshot;
+    coerceRepoSnapshot(run.repo_snapshot) || coerceRepoSnapshot(assetPackCompletion?.repoSnapshot) || base.repoSnapshot;
   const closureFollowThrough =
-    coerceClosureFollowThrough(finalWorkSummary?.closureFollowThrough) || base.closureFollowThrough;
-  const closureState = coerceClosureState(finalWorkSummary?.closurePanels) || base.closureState;
+    coerceClosureFollowThrough(assetPackCompletion?.closureFollowThrough) || base.closureFollowThrough;
+  const closureState = coerceClosureState(assetPackCompletion?.closurePanels) || base.closureState;
   const bitcodeActivityState =
-    coerceBitcodeActivityState(finalWorkSummary?.bitcodeActivityState) || base.bitcodeActivityState;
+    coerceBitcodeActivityState(assetPackCompletion?.bitcodeActivityState) || base.bitcodeActivityState;
   const runProcessingStats = coerceProcessingStats(run.processing_stats);
-  const finalWorkSummaryProcessingStats = coerceProcessingStats(finalWorkSummary?.processingStats);
+  const assetPackCompletionProcessingStats = coerceProcessingStats(assetPackCompletion?.processingStats);
   const hasRunProcessingStats =
     runProcessingStats.time ||
     runProcessingStats.tokenTotal !== null ||
     runProcessingStats.btdUsed !== null ||
     runProcessingStats.usdTotal !== null ||
     runProcessingStats.averageLatencyMs !== null;
-  const processingStats = hasRunProcessingStats ? runProcessingStats : finalWorkSummaryProcessingStats;
+  const processingStats = hasRunProcessingStats ? runProcessingStats : assetPackCompletionProcessingStats;
 
   return {
     summary:
       coerceString(run.summary) ||
-      coerceString(finalWorkSummary?.summary) ||
+      coerceString(assetPackCompletion?.summary) ||
       base.summary ||
       assetPackSynthesisArtifacts?.summary ||
       writtenAssets?.summary ||
       shippables?.summary ||
-      compatibilityDeliverables?.summary ||
       null,
     assetPackSynthesisArtifacts,
     writtenAssets,
     shippables,
     deliveryMechanism,
-    deliverables: compatibilityDeliverables,
     repoSnapshot,
     processingStats: {
       time: processingStats.time || base.processingStats.time,

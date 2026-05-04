@@ -1,7 +1,7 @@
 /**
  * @bitcode/responses - HTTP response utilities
  * 
- * Standard response creation utilities for the engi API
+ * Standard response creation utilities for the Bitcode API
  */
 
 export function createJsonResponse(data: any, status = 200) {

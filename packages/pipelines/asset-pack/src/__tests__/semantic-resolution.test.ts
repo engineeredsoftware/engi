@@ -11,30 +11,38 @@ import {
 } from '../semantic-resolution';
 
 describe('AssetPack semantic resolution', () => {
-  it('collapses compatibility request labels to the canonical AssetPack kind', () => {
+  it('resolves request labels to the canonical AssetPack kind', () => {
     expect(
       resolveWrittenAssetType({
         writtenAssetType: 'design-document-review',
-        deliverableType: 'code-change',
       })
     ).toBe('need-satisfaction-asset-pack');
   });
 
-  it('normalizes old request labels as delivery-mechanism templates', () => {
+  it('normalizes admitted V26 written-asset request labels to pull-request delivery', () => {
     expect(resolveDeliveryMechanismTemplate({ writtenAssetType: 'code-change' })).toBe('pull-request');
-    expect(resolveDeliveryMechanismTemplate({ deliverableType: 'code-change-review' })).toBe('review-comment');
-    expect(resolveDeliveryMechanismTemplate({ writtenAssetType: 'design-document' })).toBe('issue');
-    expect(resolveDeliveryMechanismTemplate({ writtenAssetType: 'design-document-review' })).toBe('issue-comment');
+    expect(resolveDeliveryMechanismTemplate({ writtenAssetType: 'branch-deployment' })).toBe('pull-request');
+  });
+
+  it('rejects old non-PR delivery labels instead of retaining them', () => {
+    expect(() => resolveDeliveryMechanismTemplate({ writtenAssetType: 'code-change-review' })).toThrow(
+      /pull-request delivery only/
+    );
+    expect(() => resolveDeliveryMechanismTemplate({ writtenAssetType: 'design-document' })).toThrow(
+      /pull-request delivery only/
+    );
+    expect(() => resolveDeliveryMechanismTemplate({ writtenAssetType: 'design-document-review' })).toThrow(
+      /pull-request delivery only/
+    );
   });
 
   it('reads delivery-mechanism templates from execution without changing written-asset kind', () => {
     const exec = new Execution('pipeline:asset-pack');
-    exec.store('pipeline', 'deliverableType', 'code-change');
-    exec.store('pipeline', 'writtenAssetType', ['design-document']);
-    exec.store('pipeline', 'deliveryMechanismTemplate', 'issue-comment');
+    exec.store('pipeline', 'writtenAssetType', ['code-change']);
+    exec.store('pipeline', 'deliveryMechanismTemplate', 'pull-request');
 
     expect(resolveWrittenAssetTypeFromExecution(exec)).toBe('need-satisfaction-asset-pack');
-    expect(resolveDeliveryMechanismTemplateFromExecution(exec)).toBe('issue-comment');
+    expect(resolveDeliveryMechanismTemplateFromExecution(exec)).toBe('pull-request');
   });
 
   it('prefers semantic need over Definition of Need mirror fields', () => {
@@ -48,7 +56,7 @@ describe('AssetPack semantic resolution', () => {
 
   it('reads semantic need and need comprehension from execution mirrors first', () => {
     const exec = new Execution('pipeline:asset-pack');
-    exec.store('pipeline', 'expressedNeed', 'Compatibility fallback');
+    exec.store('pipeline', 'expressedNeed', 'Pipeline need fallback');
     exec.store('need', 'description', 'Need a repository-bound written asset');
     exec.store('setup/need-comprehension', 'comprehension', { intent: 'need-model' });
     exec.store('setup/need', 'comprehension', { intent: 'semantic-need' });

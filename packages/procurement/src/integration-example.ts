@@ -22,7 +22,7 @@ import type {
   SolutionCategory 
 } from './types';
 
-export class EngiProcurementSystem {
+export class BitcodeProcurementSystem {
   private procurementEngine: ProcurementEngine;
   private matchingEngine: AdvancedMatchingEngine;
   private analyticsEngine: ProcurementAnalyticsEngine;
@@ -31,7 +31,7 @@ export class EngiProcurementSystem {
   private fraudDetection: FraudDetectionEngine;
   private repositoryManager: RepositoryOptInManager;
   private datasetManager: GlobalDatasetManager;
-  private tokenContract: EngiTokenContract;
+  private tokenContract: BitcodeTokenContract;
 
   constructor() {
     this.procurementEngine = new ProcurementEngine();
@@ -42,7 +42,7 @@ export class EngiProcurementSystem {
     this.fraudDetection = new FraudDetectionEngine();
     this.repositoryManager = new RepositoryOptInManager();
     this.datasetManager = new GlobalDatasetManager();
-    this.tokenContract = new EngiTokenContract();
+    this.tokenContract = new BitcodeTokenContract();
   }
 
   /**
@@ -509,7 +509,7 @@ export class EngiProcurementSystem {
 
 // Example usage
 export async function runProcurementDemo(): Promise<void> {
-  const system = new EngiProcurementSystem();
+  const system = new BitcodeProcurementSystem();
   
   try {
     // Run the complete workflow

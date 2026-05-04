@@ -123,15 +123,13 @@ export const EXECUTION_NAMESPACES = {
     // iteration:<n> metadata entries may be set dynamically
   ],
   'route/preprocessed': [
-    'deliverables',  // object — route preprocess snapshot
     'assetPackWrittenAsset', // object — semantic asset-pack snapshot
     'ai_documents',  // object — route preprocess snapshot
   ],
-  'finish/final_work_summary': [
+  'finish/asset_pack_completion': [
     'summary',          // string | object
-    'processingStats',  // { time, tokens?, credits? }
+    'processingStats',  // { time, tokens?, btdUsed? }
     'repoSnapshot',     // { org, repo, branch, commit }
-    'deliverables',     // deliverable-specific rollups
     'writtenAssets',    // semantic written-asset rollups
     'need',             // semantic expressed need
     'writtenAssetType', // semantic written-asset type

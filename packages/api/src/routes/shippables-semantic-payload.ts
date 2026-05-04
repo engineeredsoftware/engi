@@ -8,21 +8,17 @@ type FileChanges = {
 
 type SurfaceRecord = {
   pullRequest?: unknown;
-  pullRequestReviews?: unknown[] | null;
-  comments?: unknown[] | null;
-  issues?: unknown[] | null;
   fileChanges?: FileChanges;
   proofEvidence?: string[] | null;
   reviewNotes?: string[] | null;
   summary?: string | null;
 } | null;
 
-type FinalWorkSummaryRecord = {
+type AssetPackCompletionRecord = {
   summary?: string | null;
   processingStats?: unknown;
   repoSnapshot?: unknown;
   shippables?: SurfaceRecord;
-  deliverables?: SurfaceRecord;
   assetPackSynthesisArtifacts?: SurfaceRecord;
   writtenAssets?: SurfaceRecord;
   deliveryMechanism?: SurfaceRecord;
@@ -42,9 +38,6 @@ function asSurfaceRecord(value: unknown): SurfaceRecord {
   if (!record) return null;
   return {
     pullRequest: record.pullRequest ?? null,
-    pullRequestReviews: Array.isArray(record.pullRequestReviews) ? record.pullRequestReviews : null,
-    comments: Array.isArray(record.comments) ? record.comments : null,
-    issues: Array.isArray(record.issues) ? record.issues : null,
     fileChanges: asRecord(record.fileChanges) ? (record.fileChanges as FileChanges) : null,
     proofEvidence: Array.isArray(record.proofEvidence)
       ? record.proofEvidence.filter((item): item is string => typeof item === 'string')
@@ -66,22 +59,19 @@ function buildSurfaceFromActions(result: Record<string, unknown>, fileChanges: F
 
   return {
     pullRequest: actions?.pullRequest ?? null,
-    pullRequestReviews: Array.isArray(actions?.pullRequestReviews) ? (actions?.pullRequestReviews as unknown[]) : null,
-    comments: Array.isArray(actions?.comments) ? (actions?.comments as unknown[]) : null,
-    issues: Array.isArray(actions?.issues) ? (actions?.issues as unknown[]) : null,
     fileChanges: resolvedFileChanges,
     summary: typeof result.summary === 'string' ? result.summary : null,
   };
 }
 
 function buildAssetPack(
-  finalWorkSummary: FinalWorkSummaryRecord,
+  assetPackCompletion: AssetPackCompletionRecord,
   result: Record<string, unknown>,
   need: string | null,
   writtenAssetType: string | null,
 ): Record<string, unknown> | null {
   const direct =
-    asRecord(finalWorkSummary?.assetPack) ||
+    asRecord(assetPackCompletion?.assetPack) ||
     asRecord(result.assetPack);
   if (direct) return direct;
 
@@ -95,28 +85,25 @@ function buildAssetPack(
 
 export function buildSemanticCompletionResult(params: {
   result: unknown;
-  finalWorkSummary?: FinalWorkSummaryRecord;
+  assetPackCompletion?: AssetPackCompletionRecord;
   fileChanges?: FileChanges;
 }) {
   const resultRecord = asRecord(params.result) || {};
-  const finalWorkSummary = params.finalWorkSummary || null;
+  const assetPackCompletion = params.assetPackCompletion || null;
   const topLevelFileChanges = params.fileChanges || null;
   const explicitWrittenAssets =
-    asSurfaceRecord(finalWorkSummary?.writtenAssets) ||
+    asSurfaceRecord(assetPackCompletion?.writtenAssets) ||
     asSurfaceRecord(resultRecord.writtenAssets);
   const explicitAssetPackSynthesisArtifacts =
-    asSurfaceRecord(finalWorkSummary?.assetPackSynthesisArtifacts) ||
+    asSurfaceRecord(assetPackCompletion?.assetPackSynthesisArtifacts) ||
     asSurfaceRecord(resultRecord.assetPackSynthesisArtifacts);
   const explicitDeliveryMechanism =
-    asSurfaceRecord(finalWorkSummary?.deliveryMechanism) ||
+    asSurfaceRecord(assetPackCompletion?.deliveryMechanism) ||
     asSurfaceRecord(resultRecord.deliveryMechanism);
   const explicitShippables =
-    asSurfaceRecord(finalWorkSummary?.shippables) ||
+    asSurfaceRecord(assetPackCompletion?.shippables) ||
     asSurfaceRecord(resultRecord.shippables) ||
     explicitDeliveryMechanism;
-  const explicitCompatibilityShippableMirror =
-    asSurfaceRecord(resultRecord.deliverables) ||
-    asSurfaceRecord(finalWorkSummary?.deliverables);
   const actionsSurface = buildSurfaceFromActions(resultRecord, topLevelFileChanges);
   const semanticFileChanges =
     explicitAssetPackSynthesisArtifacts?.fileChanges ||
@@ -124,20 +111,15 @@ export function buildSemanticCompletionResult(params: {
     topLevelFileChanges ||
     explicitDeliveryMechanism?.fileChanges ||
     explicitShippables?.fileChanges ||
-    explicitCompatibilityShippableMirror?.fileChanges ||
     actionsSurface?.fileChanges ||
     null;
 
   const writtenAssets =
     explicitWrittenAssets ||
     explicitAssetPackSynthesisArtifacts ||
-    explicitCompatibilityShippableMirror ||
     ((semanticFileChanges || typeof resultRecord.summary === 'string')
       ? {
           pullRequest: null,
-          pullRequestReviews: null,
-          comments: null,
-          issues: null,
           fileChanges: semanticFileChanges,
           summary: typeof resultRecord.summary === 'string' ? resultRecord.summary : null,
         }
@@ -146,41 +128,16 @@ export function buildSemanticCompletionResult(params: {
   const deliveryMechanism =
     explicitDeliveryMechanism ||
     explicitShippables ||
-    explicitCompatibilityShippableMirror ||
     actionsSurface ||
     writtenAssets;
 
   const shippables =
     explicitShippables ||
     deliveryMechanism ||
-    explicitCompatibilityShippableMirror ||
     null;
-
-  const compatibilityFileChanges =
-    explicitCompatibilityShippableMirror?.fileChanges ||
-    topLevelFileChanges ||
-    actionsSurface?.fileChanges ||
-    shippables?.fileChanges ||
-    explicitDeliveryMechanism?.fileChanges ||
-    writtenAssets?.fileChanges ||
-    null;
-
-  const compatibilityShippableMirror =
-    explicitCompatibilityShippableMirror ||
-    (deliveryMechanism || writtenAssets
-      ? {
-          pullRequest: deliveryMechanism?.pullRequest ?? writtenAssets?.pullRequest ?? null,
-          pullRequestReviews:
-            deliveryMechanism?.pullRequestReviews ?? writtenAssets?.pullRequestReviews ?? null,
-          comments: deliveryMechanism?.comments ?? writtenAssets?.comments ?? null,
-          issues: deliveryMechanism?.issues ?? writtenAssets?.issues ?? null,
-          fileChanges: compatibilityFileChanges,
-          summary: writtenAssets?.summary ?? deliveryMechanism?.summary ?? null,
-        }
-      : null);
 
   const summary =
-    (typeof finalWorkSummary?.summary === 'string' && finalWorkSummary.summary) ||
+    (typeof assetPackCompletion?.summary === 'string' && assetPackCompletion.summary) ||
     explicitAssetPackSynthesisArtifacts?.summary ||
     writtenAssets?.summary ||
     deliveryMechanism?.summary ||
@@ -188,44 +145,40 @@ export function buildSemanticCompletionResult(params: {
     (typeof resultRecord.message === 'string' ? resultRecord.message : null);
 
   const need =
-    (typeof finalWorkSummary?.need === 'string' && finalWorkSummary.need) ||
+    (typeof assetPackCompletion?.need === 'string' && assetPackCompletion.need) ||
     (typeof resultRecord.need === 'string' ? resultRecord.need : null);
   const writtenAssetType =
-    (typeof finalWorkSummary?.writtenAssetType === 'string' && finalWorkSummary.writtenAssetType) ||
+    (typeof assetPackCompletion?.writtenAssetType === 'string' && assetPackCompletion.writtenAssetType) ||
     (typeof resultRecord.writtenAssetType === 'string' ? resultRecord.writtenAssetType : null);
-  const assetPack = buildAssetPack(finalWorkSummary, resultRecord, need, writtenAssetType);
+  const assetPack = buildAssetPack(assetPackCompletion, resultRecord, need, writtenAssetType);
 
   return {
     clientResult: {
       ...resultRecord,
       ...(summary ? { summary } : {}),
-      ...(finalWorkSummary?.processingStats ? { processingStats: finalWorkSummary.processingStats } : {}),
-      ...(finalWorkSummary?.repoSnapshot ? { repoSnapshot: finalWorkSummary.repoSnapshot } : {}),
+      ...(assetPackCompletion?.processingStats ? { processingStats: assetPackCompletion.processingStats } : {}),
+      ...(assetPackCompletion?.repoSnapshot ? { repoSnapshot: assetPackCompletion.repoSnapshot } : {}),
       ...(explicitAssetPackSynthesisArtifacts ? { assetPackSynthesisArtifacts: explicitAssetPackSynthesisArtifacts } : {}),
       ...(writtenAssets ? { writtenAssets } : {}),
       ...(shippables ? { shippables } : {}),
       ...(deliveryMechanism ? { deliveryMechanism } : {}),
-      ...(compatibilityShippableMirror ? { deliverables: compatibilityShippableMirror } : {}),
       ...(need ? { need } : {}),
       ...(writtenAssetType ? { writtenAssetType } : {}),
       ...(assetPack ? { assetPack } : {}),
       ...(explicitAssetPackSynthesisArtifacts || writtenAssets || shippables || deliveryMechanism ? { semanticKind: 'asset-pack-written-asset' } : {}),
       actions: {
-        pullRequest: compatibilityShippableMirror?.pullRequest ?? null,
-        pullRequestReviews: compatibilityShippableMirror?.pullRequestReviews ?? null,
-        comments: compatibilityShippableMirror?.comments ?? null,
-        issues: compatibilityShippableMirror?.issues ?? null,
+        pullRequest: deliveryMechanism?.pullRequest ?? writtenAssets?.pullRequest ?? null,
         files:
           topLevelFileChanges ||
           actionsSurface?.fileChanges ||
-          compatibilityShippableMirror?.fileChanges ||
+          deliveryMechanism?.fileChanges ||
           writtenAssets?.fileChanges ||
           null,
       },
     },
     fileChanges:
       topLevelFileChanges ||
-      compatibilityShippableMirror?.fileChanges ||
+      deliveryMechanism?.fileChanges ||
       writtenAssets?.fileChanges ||
       null,
   };

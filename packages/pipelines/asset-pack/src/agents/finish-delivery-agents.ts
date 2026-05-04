@@ -15,18 +15,6 @@ import {
   AssetPackFinishCreatePullRequestDeliveryAgentPromptSteps
 } from './prompts/create-pull-request-prompt';
 import {
-  createAssetPackFinishSubmitReviewDeliveryAgentPrompt,
-  AssetPackFinishSubmitReviewDeliveryAgentPromptSteps
-} from './prompts/submit-review-prompt';
-import {
-  createAssetPackFinishCreateIssueDeliveryAgentPrompt,
-  AssetPackFinishCreateIssueDeliveryAgentPromptSteps
-} from './prompts/create-issue-prompt';
-import {
-  createAssetPackFinishAddIssueCommentDeliveryAgentPrompt,
-  AssetPackFinishAddIssueCommentDeliveryAgentPromptSteps
-} from './prompts/add-issue-comment-prompt';
-import {
   createAssetPackFinishFinalizeDeliveryEvidenceAgentPrompt,
   AssetPackFinishFinalizeDeliveryEvidenceAgentPromptSteps
 } from './prompts/finalize-delivery-evidence-prompt';
@@ -102,168 +90,6 @@ export const AssetPackFinishCreatePullRequestDeliveryAgent = factoryAgentWithPTR
   retry: { maxAttempts: 1 }
 });
 
-// ==================== SUBMIT REVIEW AGENT ====================
-
-const SubmitReviewInputSchema = z.object({
-  reviewResults: z.any(), // From implementation phase
-  pullRequest: z.object({
-    url: z.string(),
-    number: z.number()
-  }),
-  repository: z.object({
-    owner: z.string(),
-    name: z.string()
-  })
-});
-
-const SubmitReviewOutputSchema = z.object({
-  review: z.object({
-    id: z.number(),
-    state: z.enum(['APPROVED', 'CHANGES_REQUESTED', 'COMMENTED']),
-    body: z.string(),
-    submittedAt: z.string()
-  }),
-  comments: z.array(z.object({
-    id: z.number(),
-    path: z.string(),
-    line: z.number().optional(),
-    body: z.string()
-  })),
-  summary: z.object({
-    totalComments: z.number(),
-    filesReviewed: z.number(),
-    overallFeedback: z.string()
-  })
-});
-
-/**
- * AssetPackFinishSubmitReviewDeliveryAgent
- * 
- * Submits a pull request review delivery mechanism.
- */
-export const AssetPackFinishSubmitReviewDeliveryAgent = factoryAgentWithPTRR<
-  z.infer<typeof SubmitReviewInputSchema>,
-  z.infer<typeof SubmitReviewOutputSchema>
->({
-  name: 'finish:asset-pack-submit-review-delivery-agent',
-  description: 'Submits a pull request review delivery mechanism with AssetPack feedback',
-  
-  prompt: createAssetPackFinishSubmitReviewDeliveryAgentPrompt(),
-  stepPrompts: AssetPackFinishSubmitReviewDeliveryAgentPromptSteps,
-  
-  outputSchema: SubmitReviewOutputSchema,
-  
-  plan: { chunkThreshold: 1000 },
-  try: { chunkThreshold: 2000 },
-  refine: { maxAttempts: 1 },
-  retry: { maxAttempts: 1 }
-});
-
-// ==================== CREATE ISSUE AGENT ====================
-
-const CreateIssueInputSchema = z.object({
-  issueContent: z.any(), // From implementation phase
-  repository: z.object({
-    owner: z.string(),
-    name: z.string()
-  }),
-  labels: z.array(z.string()).optional(),
-  assignees: z.array(z.string()).optional(),
-  milestone: z.string().optional()
-});
-
-const CreateIssueOutputSchema = z.object({
-  issue: z.object({
-    url: z.string(),
-    number: z.number(),
-    title: z.string(),
-    body: z.string(),
-    state: z.string(),
-    labels: z.array(z.string()),
-    createdAt: z.string()
-  }),
-  metadata: z.object({
-    author: z.string(),
-    repository: z.string()
-  })
-});
-
-/**
- * AssetPackFinishCreateIssueDeliveryAgent
- * 
- * Creates an issue delivery mechanism for validated AssetPack evidence.
- */
-export const AssetPackFinishCreateIssueDeliveryAgent = factoryAgentWithPTRR<
-  z.infer<typeof CreateIssueInputSchema>,
-  z.infer<typeof CreateIssueOutputSchema>
->({
-  name: 'finish:asset-pack-create-issue-delivery-agent',
-  description: 'Creates an issue delivery mechanism with validated AssetPack evidence',
-  
-  prompt: createAssetPackFinishCreateIssueDeliveryAgentPrompt(),
-  stepPrompts: AssetPackFinishCreateIssueDeliveryAgentPromptSteps,
-  
-  outputSchema: CreateIssueOutputSchema,
-  
-  plan: { chunkThreshold: 1000 },
-  try: { chunkThreshold: 2000 },
-  refine: { maxAttempts: 1 },
-  retry: { maxAttempts: 1 }
-});
-
-// ==================== ADD ISSUE COMMENT AGENT ====================
-
-const AddIssueCommentInputSchema = z.object({
-  commentContent: z.any(), // From implementation phase
-  issue: z.object({
-    url: z.string(),
-    number: z.number()
-  }),
-  repository: z.object({
-    owner: z.string(),
-    name: z.string()
-  })
-});
-
-const AddIssueCommentOutputSchema = z.object({
-  comment: z.object({
-    id: z.number(),
-    url: z.string(),
-    body: z.string(),
-    createdAt: z.string()
-  }),
-  context: z.object({
-    issueNumber: z.number(),
-    issueTitle: z.string(),
-    totalComments: z.number()
-  })
-});
-
-/**
- * AssetPackFinishAddIssueCommentDeliveryAgent
- * 
- * Adds an issue-comment delivery mechanism to an existing issue.
- */
-export const AssetPackFinishAddIssueCommentDeliveryAgent = factoryAgentWithPTRR<
-  z.infer<typeof AddIssueCommentInputSchema>,
-  z.infer<typeof AddIssueCommentOutputSchema>
->({
-  name: 'finish:asset-pack-add-issue-comment-delivery-agent',
-  description: 'Adds an issue-comment delivery mechanism with AssetPack review evidence',
-  
-  prompt: createAssetPackFinishAddIssueCommentDeliveryAgentPrompt(),
-  stepPrompts: AssetPackFinishAddIssueCommentDeliveryAgentPromptSteps,
-  
-  outputSchema: AddIssueCommentOutputSchema,
-  
-  plan: { chunkThreshold: 800 },
-  try: { chunkThreshold: 1500 },
-  refine: { maxAttempts: 1 },
-  retry: { maxAttempts: 1 }
-});
-
-// ==================== DYNAMIC AGENT REGISTRATION ====================
-
 // ==================== GENERIC FINALIZE AGENT (RUNS LAST) ====================
 
 const FinalizeAssetPackDeliveryEvidenceInputSchema = z.object({
@@ -271,14 +97,12 @@ const FinalizeAssetPackDeliveryEvidenceInputSchema = z.object({
   validationResults: z.any(),
   discoveryMetrics: z.any(),
   need: z.string().optional(),
-  deliverableType: z.string().optional(),
   writtenAssetType: z.string().optional()
 });
 
 const FinalizeAssetPackDeliveryEvidenceOutputSchema = z.object({
   success: z.boolean(),
-  shippableUrl: z.string(), // PR URL, issue URL, review URL, comment URL, etc.
-  deliverableUrl: z.string().optional(), // Compatibility mirror for retained route clients.
+  shippableUrl: z.string(), // PR URL
   summary: z.object({
     type: z.string(),
     title: z.string(),
@@ -290,7 +114,7 @@ const FinalizeAssetPackDeliveryEvidenceOutputSchema = z.object({
     phaseDurations: z.record(z.string(), z.number()), // ms per phase
     totalDuration: z.number(),
     tokensUsed: z.number(),
-    creditsConsumed: z.number(),
+    btdConsumed: z.number(),
     qualityScore: z.number() // 0-100
   }),
   artifacts: z.object({
@@ -304,7 +128,7 @@ const FinalizeAssetPackDeliveryEvidenceOutputSchema = z.object({
 /**
  * AssetPackFinishFinalizeDeliveryEvidenceAgent
  * 
- * Generic final agent that runs after any delivery-mechanism template.
+ * Generic final agent that runs after pull-request delivery.
  * This is the last delivery-evidence agent in the Finish phase.
  */
 export const AssetPackFinishFinalizeDeliveryEvidenceAgent = factoryAgentWithPTRR<
@@ -312,7 +136,7 @@ export const AssetPackFinishFinalizeDeliveryEvidenceAgent = factoryAgentWithPTRR
   z.infer<typeof FinalizeAssetPackDeliveryEvidenceOutputSchema>
 >({
   name: 'finish:asset-pack-finalize-delivery-evidence-agent',
-  description: 'Finalizes Finish delivery evidence for any delivery-mechanism template',
+  description: 'Finalizes Finish delivery evidence for pull-request delivery',
   
   prompt: createAssetPackFinishFinalizeDeliveryEvidenceAgentPrompt(),
   stepPrompts: AssetPackFinishFinalizeDeliveryEvidenceAgentPromptSteps,
@@ -328,49 +152,22 @@ export const AssetPackFinishFinalizeDeliveryEvidenceAgent = factoryAgentWithPTRR
 // ==================== DYNAMIC AGENT REGISTRATION ====================
 
 /**
- * Registers Finish/Delivering agents based on delivery-mechanism template.
+ * Registers V26 Finish/Delivering agents.
  * Called after validation phase completes.
  * 
  * Sequence:
- * 1. Template-specific Delivering (CreatePR, SubmitReview, CreateIssue, AddComment)
+ * 1. Pull-request Delivering (CreatePR)
  * 2. Generic finalize (FinalizeAssetPackDeliveryEvidence) - ALWAYS LAST
  */
 export function registerFinishDeliveryAgentsForType(
   deliveryMechanismTemplate: string,
   agentRegistry: any // AgentAgentsRegistry from PipelineExecution
 ): void {
-  switch (normalizeDeliveryMechanismTemplate(deliveryMechanismTemplate)) {
-    case 'pull-request':
-      agentRegistry.registerAgent(
-        'finish:asset-pack-create-pull-request-delivery-agent',
-        AssetPackFinishCreatePullRequestDeliveryAgent
-      );
-      break;
-      
-    case 'review-comment':
-      agentRegistry.registerAgent(
-        'finish:asset-pack-submit-review-delivery-agent',
-        AssetPackFinishSubmitReviewDeliveryAgent
-      );
-      break;
-      
-    case 'issue':
-      agentRegistry.registerAgent(
-        'finish:asset-pack-create-issue-delivery-agent',
-        AssetPackFinishCreateIssueDeliveryAgent
-      );
-      break;
-      
-    case 'issue-comment':
-      agentRegistry.registerAgent(
-        'finish:asset-pack-add-issue-comment-delivery-agent',
-        AssetPackFinishAddIssueCommentDeliveryAgent
-      );
-      break;
-      
-    default:
-      throw new Error(`Unknown delivery-mechanism template for Finish/Delivering: ${deliveryMechanismTemplate}`);
-  }
+  normalizeDeliveryMechanismTemplate(deliveryMechanismTemplate);
+  agentRegistry.registerAgent(
+    'finish:asset-pack-create-pull-request-delivery-agent',
+    AssetPackFinishCreatePullRequestDeliveryAgent
+  );
   
   // ALWAYS register the generic finalize agent LAST.
   agentRegistry.registerAgent(
@@ -388,19 +185,10 @@ export function registerFinishDeliveryAgentsForType(
 export function createFinishDeliveryExecutorSequence(
   deliveryMechanismTemplate: string
 ): any[] {
-  const typeSpecificAgent = {
-    'pull-request': 'finish:asset-pack-create-pull-request-delivery-agent',
-    'review-comment': 'finish:asset-pack-submit-review-delivery-agent',
-    'issue': 'finish:asset-pack-create-issue-delivery-agent',
-    'issue-comment': 'finish:asset-pack-add-issue-comment-delivery-agent'
-  }[normalizeDeliveryMechanismTemplate(deliveryMechanismTemplate)];
-  
-  if (!typeSpecificAgent) {
-    throw new Error(`Unknown delivery-mechanism template for Finish/Delivering: ${deliveryMechanismTemplate}`);
-  }
+  normalizeDeliveryMechanismTemplate(deliveryMechanismTemplate);
   
   return [
-    { agent: typeSpecificAgent }, // Delivery-mechanism Delivering
+    { agent: 'finish:asset-pack-create-pull-request-delivery-agent' },
     { agent: 'finish:asset-pack-finalize-delivery-evidence-agent' } // Generic finalize - ALWAYS LAST
   ];
 }

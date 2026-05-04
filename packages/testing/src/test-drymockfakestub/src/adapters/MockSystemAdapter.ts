@@ -3,7 +3,7 @@
  * 
  * This adapter bridges the Test Intelligence system with the existing
  * MockOrchestrator, providing seamless integration while maintaining
- * backward compatibility.
+ * Bitcode-native mock data.
  */
 
 import type { TestScenario } from '../primitives/TestScenario';
@@ -36,7 +36,7 @@ export type MockableFeature =
   | 'GITHUB_COMMITS'
   | 'GITHUB_FILES'
   | 'USER_PROFILE'
-  | 'CREDITS'
+  | 'BTD'
   | 'PIPELINES'
   | string; // Allow extension
 
@@ -269,7 +269,7 @@ export class MockSystemAdapter {
     if (name.includes('asset-pack')) features.push('ASSET_PACKS');
     if (name.includes('github') || name.includes('repo')) features.push('GITHUB_REPOS');
     if (name.includes('user') || name.includes('profile')) features.push('USER_PROFILE');
-    if (name.includes('credit')) features.push('CREDITS');
+    if (name.includes('btd')) features.push('BTD');
     if (name.includes('pipeline')) features.push('PIPELINES');
     
     return features;

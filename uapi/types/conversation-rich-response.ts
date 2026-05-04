@@ -181,7 +181,7 @@ export interface PipelineLogsCompactData {
   metrics: {
     duration: number;
     tokensUsed: number;
-    creditsConsumed: number;
+    btdConsumed: number;
   };
 }
 

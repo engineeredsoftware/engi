@@ -53,13 +53,13 @@ export type ApplicationTransactionPersistedActivitySnapshot = {
 export function getApplicationTransactionWrittenAssets(
   detail: ApplicationRunDetailSnapshot | null,
 ): ShippablesDoc | null {
-  return detail?.writtenAssets || detail?.deliverables || null;
+  return detail?.writtenAssets || null;
 }
 
 export function getApplicationTransactionDeliveryMechanism(
   detail: ApplicationRunDetailSnapshot | null,
 ): ShippablesDoc | null {
-  return detail?.shippables || detail?.deliveryMechanism || detail?.deliverables || getApplicationTransactionWrittenAssets(detail);
+  return detail?.shippables || detail?.deliveryMechanism || getApplicationTransactionWrittenAssets(detail);
 }
 
 export function countApplicationTransactionShippableSurfaces(detail: ApplicationRunDetailSnapshot | null) {
@@ -68,9 +68,6 @@ export function countApplicationTransactionShippableSurfaces(detail: Application
 
   let count = 0;
   if (shippables.pullRequest) count += 1;
-  count += shippables.pullRequestReviews?.length || 0;
-  count += shippables.issues?.length || 0;
-  count += shippables.comments?.length || 0;
   return count;
 }
 
