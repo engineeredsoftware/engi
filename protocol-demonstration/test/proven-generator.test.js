@@ -253,7 +253,7 @@ test('V25 proven generator renders a Bitcode-branded appendix with BTD rename cl
   assert.ok(generated.markdown.includes('BTD'));
 });
 
-test('V26 proven generator renders the active Bitcode appendix with fourth gate promoted closed and fifth gate deepened', () => {
+test('V26 proven generator renders the active Bitcode appendix with fifth gate procedurally closed', () => {
   const generated = generateCanonicalProvenMarkdown({
     version: 'V26',
     canonicalCommit: 'draft-v26',
@@ -274,7 +274,7 @@ test('V26 proven generator renders the active Bitcode appendix with fourth gate 
   assert.equal(generated.data.v26.fourthGatePromotedClosed, true);
   assert.equal(generated.data.v26.throughFourthGatePromotionReady, ACTIVE_CANON_VERSION === 'V26');
   assert.equal(generated.data.v26.promotionReady, false);
-  assert.equal(generated.data.v26.fifthGateClosurePassed, false);
+  assert.equal(generated.data.v26.fifthGateClosurePassed, true);
   assert.equal(generated.data.v26.fifthGateClosureDeepeningPassed, true);
   assert.equal(generated.data.v26.sixthGateClosurePassed, false);
   assert.equal(generated.data.v26.seventhGateClosurePassed, false);
@@ -302,7 +302,7 @@ test('V26 proven generator renders the active Bitcode appendix with fourth gate 
     generated.data.v26.canonicalInputReport.requiredGeneratedArtifactPaths.includes(
       '.bitcode/fifth-gate-closure-proof.json'
     ),
-    false
+    true
   );
   assert.equal(generated.data.v26.conversationsContinuityProof.passed, true);
   assert.equal(generated.data.v26.runsPipelinesTotalityProof.passed, true);
@@ -321,14 +321,28 @@ test('V26 proven generator renders the active Bitcode appendix with fourth gate 
   assert.equal(generated.data.v26.sourceToSharesFifthGateProof.proceduralGateClosure, false);
   assert.equal(generated.data.v26.fifthGateClosureDeepeningProof.passed, true);
   assert.equal(generated.data.v26.fifthGateClosureDeepeningProof.closureDeepened, true);
-  assert.equal(generated.data.v26.fifthGateClosureDeepeningProof.closureClaim, false);
-  assert.equal(generated.data.v26.fifthGateClosureDeepeningProof.proceduralGateClosure, false);
+  assert.equal(generated.data.v26.fifthGateClosureDeepeningProof.closureClaim, true);
+  assert.equal(generated.data.v26.fifthGateClosureDeepeningProof.proceduralGateClosure, true);
   assert.equal(generated.data.v26.fifthGateClosureDeepeningProof.axisCount, 6);
   assert.equal(generated.data.v26.fifthGateClosureDeepeningProof.deepenedAxisCount, 6);
   assert.equal(generated.data.v26.fifthGateClosureDeepeningProof.openAxisCount, 0);
-  assert.equal(generated.data.v26.fifthGateClosureProof, undefined);
+  assert.equal(generated.data.v26.fifthGateClosureProof.passed, true);
+  assert.equal(generated.data.v26.fifthGateClosureProof.closureClaim, true);
+  assert.equal(generated.data.v26.fifthGateClosureProof.proceduralGateClosure, true);
+  assert.equal(generated.data.v26.fifthGateClosureProof.queueRowCount, 6);
+  assert.equal(generated.data.v26.fifthGateClosureProof.closedQueueRowCount, 6);
+  assert.deepEqual(generated.data.v26.fifthGateClosureProof.openQueueRows, []);
+  assert.deepEqual(generated.data.v26.fifthGateClosureProof.notReadyFor, [
+    'sixth-gate-mvp',
+    'seventh-gate-commercial-testnet-launch',
+    'eighth-gate-v26-definition-of-need'
+  ]);
   assert.equal(generated.data.v26.productReadinessAudit.baselinePassed, true);
-  assert.equal(generated.data.v26.productReadinessAudit.closureClaim, false);
+  assert.equal(generated.data.v26.productReadinessAudit.closureClaim, true);
+  assert.equal(
+    generated.data.v26.productReadinessAudit.closureReadyProductCount,
+    generated.data.v26.productReadinessAudit.productCount
+  );
   assert.equal(generated.data.v26.promptSpaceCompletenessProof.passed, false);
   assert.equal(generated.data.v26.promptSpaceCompletenessProof.baselinePassed, true);
   assert.equal(generated.data.v26.promptSpaceCompletenessProof.witnessSetCount, 7);
@@ -406,27 +420,29 @@ test('V26 proven generator renders the active Bitcode appendix with fourth gate 
     ),
     true,
   );
-  assert.equal(generated.data.v26.gateCheckpointReport.fifthGate.passed, false);
-  assert.equal(generated.data.v26.gateCheckpointReport.fifthGate.open, true);
+  assert.equal(generated.data.v26.gateCheckpointReport.fifthGate.passed, true);
+  assert.equal(generated.data.v26.gateCheckpointReport.fifthGate.open, false);
   assert.equal(generated.data.v26.gateCheckpointReport.fifthGate.sourceToSharesProofPassed, true);
   assert.equal(generated.data.v26.gateCheckpointReport.fifthGate.closureDeepeningProofPassed, true);
-  assert.equal(generated.data.v26.gateCheckpointReport.fifthGate.closureProofPassed, undefined);
-  assert.equal(generated.data.v26.gateCheckpointReport.fifthGate.proceduralClosurePassed, undefined);
-  assert.equal(generated.data.v26.gateCheckpointReport.fifthGate.promotionStatus, undefined);
+  assert.equal(generated.data.v26.gateCheckpointReport.fifthGate.closureProofPassed, true);
+  assert.equal(generated.data.v26.gateCheckpointReport.fifthGate.proceduralClosurePassed, true);
+  assert.equal(generated.data.v26.gateCheckpointReport.fifthGate.promotionStatus, 'promoted-closed');
   assert.equal(generated.data.v26.gateCheckpointReport.fifthGate.closureDeepened, true);
   assert.equal(
     generated.data.v26.gateCheckpointReport.fifthGate.checks.some(
-      (check) => check.checkId === 'fifth-gate-honest-open-status' && check.passed === true,
+      (check) => check.checkId === 'fifth-gate-closure-proof' && check.passed === true,
     ),
     true,
   );
   assert.equal(generated.data.v26.gateCheckpointReport.thirdGatePreparation.prepared, true);
+  assert.equal(generated.data.v26.gateCheckpointReport.sixthGate.prepared, true);
   assert.equal(generated.data.aggregate.fullyProven, false);
   assert.deepEqual(Object.keys(generated.artifacts).sort(), [
     '.bitcode/application-composition-proof.json',
     '.bitcode/conversations-continuity-proof.json',
     '.bitcode/environment-mode-coherence-proof.json',
     '.bitcode/fifth-gate-closure-deepening-proof.json',
+    '.bitcode/fifth-gate-closure-proof.json',
     '.bitcode/fourth-gate-reclosure-review-proof.json',
     '.bitcode/inference-implementation-records-proof.json',
     '.bitcode/persistence-schema-totality-proof.json',
@@ -457,20 +473,20 @@ test('V26 proven generator renders the active Bitcode appendix with fourth gate 
   assert.ok(generated.markdown.includes('### V26 Source-To-Shares Fifth-Gate Proof'));
   assert.ok(generated.markdown.includes('### V26 Product Readiness Audit'));
   assert.ok(generated.markdown.includes('### V26 Fifth-Gate Closure Deepening Proof'));
-  assert.equal(generated.markdown.includes('### V26 Fifth-Gate Closure Proof'), false);
+  assert.ok(generated.markdown.includes('### V26 Fifth-Gate Closure Proof'));
   assert.ok(generated.markdown.includes('### V26 Prompt Space Completeness Witness'));
   assert.ok(generated.markdown.includes('### V26 Retained Package Admissibility Proof'));
   assert.ok(generated.markdown.includes('### V26 System Reform Admissibility Proof'));
   assert.ok(generated.markdown.includes('### V26 Whole Repository Production Satisfaction Witness'));
   assert.ok(generated.markdown.includes('### V26 Total Closure Witness'));
-  assert.ok(generated.markdown.includes('Gate 5: minimum-functional Bitcode Exchange, Bitcode Terminal, and broad old-world reform baseline'));
+  assert.ok(generated.markdown.includes('Gate 6: minimal viable product elevation after fifth-gate minimum-functional closure'));
   assert.ok(generated.markdown.includes('application-native-full-page'));
   assert.ok(generated.markdown.includes('.bitcode/application-composition-proof.json'));
   assert.ok(generated.markdown.includes('.bitcode/conversations-continuity-proof.json'));
   assert.ok(generated.markdown.includes('.bitcode/environment-mode-coherence-proof.json'));
   assert.ok(generated.markdown.includes('.bitcode/fourth-gate-reclosure-review-proof.json'));
   assert.ok(generated.markdown.includes('.bitcode/fifth-gate-closure-deepening-proof.json'));
-  assert.equal(generated.markdown.includes('.bitcode/fifth-gate-closure-proof.json'), false);
+  assert.ok(generated.markdown.includes('.bitcode/fifth-gate-closure-proof.json'));
   assert.ok(generated.markdown.includes('.bitcode/inference-implementation-records-proof.json'));
   assert.ok(generated.markdown.includes('.bitcode/source-to-shares-fifth-gate-proof.json'));
   assert.ok(generated.markdown.includes('.bitcode/v26-product-readiness-audit.json'));

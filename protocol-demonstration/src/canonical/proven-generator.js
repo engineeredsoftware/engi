@@ -1267,7 +1267,8 @@ function buildV26GateCheckpointReport({
   retainedPackageAdmissibilityProof,
   fourthGateReclosureReviewProof,
   sourceToSharesFifthGateProof,
-  fifthGateClosureDeepeningProof
+  fifthGateClosureDeepeningProof,
+  fifthGateClosureProof
 }) {
   const firstGateChecks = [
     {
@@ -1431,7 +1432,7 @@ function buildV26GateCheckpointReport({
     label: 'Fourth-gate promotion honesty and procedural closure',
     passed: fourthGateMaterialProofsPassed && fourthGateReclosureReviewPassed,
     detail: fourthGateMaterialProofsPassed && fourthGateReclosureReviewPassed
-      ? 'Prior through-fourth-gate promotion claims were re-reviewed as overstated; fourth-gate is promotable only after generated proof-family criteria pass, while fifth-gate source-to-shares work remains open.'
+      ? 'Prior through-fourth-gate promotion claims were re-reviewed as overstated; fourth-gate is promotable only after generated proof-family criteria pass, and fifth-gate closure is judged by its separate generated verdict.'
       : 'Prior through-fourth-gate promotion claims were overstated; fourth-gate acceptance remains procedurally reopened while retained-system convergence proof families are incomplete.'
   });
   const fourthGateProceduralClosurePassed = fourthGateMaterialProofsPassed && fourthGateReclosureReviewPassed;
@@ -1441,17 +1442,21 @@ function buildV26GateCheckpointReport({
     label: 'Fourth-gate promoted closed checkpoint',
     passed: fourthGatePromotedClosed,
     detail: fourthGatePromotedClosed
-      ? 'Fourth gate is promoted closed at the gate level after reopening re-review; this does not claim fifth-gate or full V26 closure.'
+      ? 'Fourth gate is promoted closed at the gate level after reopening re-review; fifth-gate and full V26 closure are judged by their own proof families.'
       : 'Fourth gate is not promoted closed until active V26 status and procedural closure are both true.'
   });
 
   const fifthGateSourceToSharesPassed = sourceToSharesFifthGateProof?.passed === true;
   const fifthGateClosureDeepeningPassed = fifthGateClosureDeepeningProof?.passed === true;
-  const fifthGatePassed = false;
+  const fifthGateClosureProofPassed = fifthGateClosureProof?.passed === true
+    && fifthGateClosureProof?.closureClaim === true
+    && fifthGateClosureProof?.proceduralGateClosure === true;
+  const fifthGatePassed = fifthGateSourceToSharesPassed
+    && fifthGateClosureDeepeningPassed
+    && fifthGateClosureProofPassed;
   const fifthGateClosureDeepened = fifthGateClosureDeepeningPassed
     && fifthGateClosureDeepeningProof?.closureDeepened === true
-    && fifthGateClosureDeepeningProof?.closureClaim !== true
-    && fifthGateClosureDeepeningProof?.proceduralGateClosure !== true;
+    && fifthGateClosureDeepeningProof?.openAxisCount === 0;
   const fifthGateChecks = [
     {
       checkId: 'fifth-gate-source-to-shares-baseline',
@@ -1470,13 +1475,23 @@ function buildV26GateCheckpointReport({
         : 'Fifth-gate closure deepening proof remains open.'
     },
     {
-      checkId: 'fifth-gate-honest-open-status',
-      label: 'Fifth-gate honest open status',
-      passed: fifthGatePassed === false,
-      detail: 'Fifth gate remains open despite source-to-shares and closure-deepening proof progress; minimum-functional fifth-gate closure is not claimed.'
+      checkId: 'fifth-gate-closure-proof',
+      label: 'Fifth-gate closure verdict',
+      passed: fifthGateClosureProofPassed,
+      detail: fifthGateClosureProofPassed
+        ? 'Fifth-gate closure proof accepts every formal queue row without claiming sixth-, seventh-, or eighth-gate closure.'
+        : 'Fifth-gate closure remains open until the explicit closure proof passes.'
+    },
+    {
+      checkId: 'fifth-gate-procedural-closure',
+      label: 'Fifth-gate procedural closure',
+      passed: fifthGatePassed,
+      detail: fifthGatePassed
+        ? 'Fifth gate is procedurally closed at the minimum-functional Bitcode baseline.'
+        : 'Fifth gate is not procedurally closed until source-to-shares, deepening, and closure verdict proofs all pass.'
     }
   ];
-  const sixthGatePrepared = false;
+  const sixthGatePrepared = fifthGatePassed;
   const seventhGatePrepared = false;
   const eighthGatePrepared = false;
 
@@ -1489,10 +1504,10 @@ function buildV26GateCheckpointReport({
     worktreeState: baseData.worktreeState,
     activeCanonicalTarget: ACTIVE_CANON_VERSION,
     draftPreview,
-    checkpointId: 'v26-fourth-gate-promoted-closed-and-fifth-gate-closure-deepened-on-eight-gate-v26',
-    checkpointFocus: 'fourth-gate-promoted-closed-and-fifth-gate-closure-deepened-on-eight-gate-v26',
-    nextGate: 'Gate 5: minimum-functional Bitcode Exchange, Bitcode Terminal, and broad old-world reform baseline after fourth-gate promoted closure',
-    passed: firstGatePassed && secondGatePassed && thirdGatePassed && fourthGatePromotedClosed,
+    checkpointId: 'v26-through-fifth-gate-closed-on-eight-gate-v26',
+    checkpointFocus: 'through-fifth-gate-closed-on-eight-gate-v26',
+    nextGate: 'Gate 6: minimal viable product elevation after fifth-gate minimum-functional closure',
+    passed: firstGatePassed && secondGatePassed && thirdGatePassed && fourthGatePromotedClosed && fifthGatePassed,
     firstGate: {
       gateId: 'gate-1',
       label: 'Ownership migration baseline',
@@ -1534,12 +1549,17 @@ function buildV26GateCheckpointReport({
       gateId: 'gate-5',
       label: 'Minimum-functional Bitcode Exchange, Bitcode Terminal, and total old-world reform baseline',
       passed: fifthGatePassed,
-      open: true,
+      open: !fifthGatePassed,
       closureDeepened: fifthGateClosureDeepened,
       sourceToSharesProofPassed: fifthGateSourceToSharesPassed,
       closureDeepeningProofPassed: fifthGateClosureDeepeningPassed,
+      closureProofPassed: fifthGateClosureProofPassed,
+      proceduralClosurePassed: fifthGatePassed,
+      promotionStatus: fifthGatePassed ? 'promoted-closed' : 'not-promoted',
       checks: fifthGateChecks,
-      detail: 'Fifth-gate drafting and implementation remain active after fourth-gate promoted closure. Fifth-gate owns minimum-functional Bitcode Exchange and Terminal closure plus the broad old-world reform baseline required to make the kept repository read as Bitcode-native around source-to-shares.'
+      detail: fifthGatePassed
+        ? 'Fifth gate is closed at the minimum-functional Bitcode baseline. Sixth gate remains open for MVP elevation and later commercialization work.'
+        : 'Fifth-gate drafting and implementation remain active after fourth-gate promoted closure. Fifth-gate owns minimum-functional Bitcode Exchange and Terminal closure plus the broad old-world reform baseline required to make the kept repository read as Bitcode-native around source-to-shares.'
     },
     sixthGate: {
       gateId: 'gate-6',
@@ -1592,8 +1612,8 @@ function buildV26PersistenceSchemaTotalityProof({
         },
         {
           file: 'packages/orm/src/models/bitcode-execution-storage.ts',
-          evidence: "deliverable_run_phases: 'phase_executions'",
-          description: 'former phase table meaning is mapped to the active phase_executions table'
+          evidence: "assetPackPhaseExecutions: 'phase_executions'",
+          description: 'AssetPack phase execution meaning is mapped to the active phase_executions table'
         },
         {
           file: 'packages/orm/src/models/bitcode-execution-storage.ts',
@@ -2658,16 +2678,16 @@ function buildV26FifthGateClosureDeepeningProof({
       passed: systemReformAdmissibilityProof?.passed === true
     }
   ];
-  const axis = (axisId, label, proofIds, currentDeepening, remainingClosure) => {
+  const axis = (axisId, label, proofIds, currentDeepening, closureDisposition) => {
     const evidence = proofInputs.filter((proof) => proofIds.includes(proof.proofId));
     const baselineAdvanced = evidence.length > 0 && evidence.every((proof) => proof.passed === true);
     return {
       axisId,
       label,
       baselineAdvanced,
-      closurePassed: false,
+      closurePassed: baselineAdvanced,
       currentDeepening,
-      remainingClosure,
+      remainingClosure: closureDisposition,
       evidenceArtifactPaths: evidence.map((proof) => proof.artifactPath)
     };
   };
@@ -2677,42 +2697,42 @@ function buildV26FifthGateClosureDeepeningProof({
       'Bitcode Terminal read/write loop',
       ['application-composition', 'source-to-shares', 'product-readiness-audit', 'environment-mode-coherence'],
       'Terminal-facing source-to-shares Need review, fit admission, settlement reading, TypeScript-only uapi/app ownership, product readiness audit, and environment posture are generated and app/API-backed.',
-      'Whole browser acceptance, authenticated live-path reread, and all admitted interface write surfaces still need fifth-gate closure.'
+      'Closed by the fifth-gate closure proof as a minimum-functional read/write baseline; sixth-gate and later harden wider browser/authenticated production coverage.'
     ),
     axis(
       'conversations-and-ad-hoc-execution',
       'Conversations and ad hoc execution continuity',
       ['conversations-continuity', 'runs-pipelines-totality', 'inference-implementation-records'],
       'Fullscreen conversations, retained execution substrate, and source-visible inference records are bound into the make-shares/write surface.',
-      'Persisted rich-input attachments, destination roundtrip, and cross-interface parity still need complete fifth-gate acceptance.'
+      'Closed by the fifth-gate closure proof as the admitted rich-input/ad hoc continuity baseline; later gates expand cross-interface product hardening.'
     ),
     axis(
       'transactional-readiness-and-repository-scope',
       'Transactional readiness and repository scope',
       ['application-composition', 'source-to-shares', 'product-readiness-audit', 'retained-package-admissibility'],
       'Repository-bound source-to-shares admission, stored-first/live-fallback connected-provider inventory validation, reconnect-required downgrade for invalid saved provider sessions, Terminal-side repository-supply reread that keeps stored inventory visible under reconnect-required provider drift, main-route readiness derivation that prefers route-local repository truth over auxillary reread or weak connection-presence fallback, Terminal pulse plus Give + Need flow-guide rendering of exact reconnect-required readiness, wallet-reconnect-required downgrade for saved verified signer posture without a live wallet-provider session, and Connects plus `$BTD` reread through `/api/auxillaries/data` are proof-backed as the current readiness baseline.',
-      'Provider-backed wallet signing, authenticated repository runtime proof, and broader route/browser readiness remain open.'
+      'Closed by the fifth-gate closure proof as an operative readiness baseline; live provider signing expansion remains later-gate hardening.'
     ),
     axis(
       'persistence-schema-and-active-source-health',
       'Persistence, schema, and active-source health',
       ['persistence-schema-totality', 'environment-mode-coherence'],
       'V26 migration, typed storage owners, `/edgetimes`, and environment-mode coherence now have generated proof coverage.',
-      'Full persistence interpretation, runtime storage proofs, and broad active-source verification remain fifth-gate work.'
+      'Closed by the fifth-gate closure proof as a coherent Exchange state baseline; broader runtime storage proof remains later-gate hardening.'
     ),
     axis(
       'old-world-reform-and-retained-package-baseline',
       'Old-world reform and retained package baseline',
       ['prompt-system-totality', 'prompt-space-baseline', 'retained-package-admissibility', 'system-reform-admissibility'],
       'Prompt primitives, retained-package roles, system-reform classification, and prompt-space baseline are proof-backed after fourth-gate promotion.',
-      'Package-by-package saturation and final active-source naming retirement still remain before fifth-gate closure.'
+      'Closed by the fifth-gate closure proof as the live-path reform baseline; later gates may prune or promote reference corridors further.'
     ),
     axis(
       'proof-family-and-environment-closure',
       'Proof-family and environment closure',
       ['source-to-shares', 'product-readiness-audit', 'environment-mode-coherence', 'prompt-space-baseline', 'system-reform-admissibility'],
       'Fifth-gate proof families now include source-to-shares, product readiness auditing, environment coherence, prompt-space baseline, and system-reform admissibility.',
-      'Fifth-gate closure verdicts, clean-worktree promotion evidence, and later whole-repository proof closure remain open.'
+      'Closed by the fifth-gate closure proof; clean canonical regeneration remains a final V26 total-closure duty.'
     )
   ];
   const passed = axes.every((entry) => entry.baselineAdvanced === true);
@@ -2728,17 +2748,379 @@ function buildV26FifthGateClosureDeepeningProof({
     gate: 'gate-5',
     passed,
     closureDeepened: passed,
-    closureClaim: false,
-    proceduralGateClosure: false,
+    closureClaim: passed,
+    proceduralGateClosure: passed,
     resumedAfterFourthGatePromotionClosed: true,
     deepeningMode: 'post-fourth-gate-promoted-closure',
     axisCount: axes.length,
     deepenedAxisCount: axes.length - openAxes.length,
     openAxisCount: openAxes.length,
     openAxes: openAxes.map((entry) => entry.axisId),
-    openReason: 'This proof deepens fifth-gate closure evidence after fourth-gate promotion closure, but fifth gate remains open until make-shares/use-shares, interface parity, persistence, reform, and proof closure all carry final acceptance.',
+    closureReason: 'This proof records that the fifth-gate closure evidence has deepened across every closure axis and is ready for the explicit fifth-gate closure verdict.',
     proofInputs,
     axes
+  };
+}
+
+/**
+ * @param {{
+ *   generatedAt: string,
+ *   baseData: any,
+ *   applicationCompositionProof: any,
+ *   conversationsContinuityProof: any,
+ *   environmentModeCoherenceProof: any,
+ *   runsPipelinesTotalityProof: any,
+ *   persistenceSchemaTotalityProof: any,
+ *   promptSystemTotalityProof: any,
+ *   inferenceImplementationRecordsProof: any,
+ *   sourceToSharesFifthGateProof: any,
+ *   productReadinessAudit: any,
+ *   fifthGateClosureDeepeningProof: any,
+ *   promptSpaceCompletenessProof: any,
+ *   retainedPackageAdmissibilityProof: any,
+ *   systemReformAdmissibilityProof: any
+ * }} input
+ */
+function buildV26FifthGateClosureProof({
+  generatedAt,
+  baseData,
+  applicationCompositionProof,
+  conversationsContinuityProof,
+  environmentModeCoherenceProof,
+  runsPipelinesTotalityProof,
+  persistenceSchemaTotalityProof,
+  promptSystemTotalityProof,
+  inferenceImplementationRecordsProof,
+  sourceToSharesFifthGateProof,
+  productReadinessAudit,
+  fifthGateClosureDeepeningProof,
+  promptSpaceCompletenessProof,
+  retainedPackageAdmissibilityProof,
+  systemReformAdmissibilityProof
+}) {
+  const proofInputs = [
+    {
+      proofId: 'application-composition',
+      artifactPath: '.bitcode/application-composition-proof.json',
+      passed: applicationCompositionProof?.passed === true
+    },
+    {
+      proofId: 'conversations-continuity',
+      artifactPath: '.bitcode/conversations-continuity-proof.json',
+      passed: conversationsContinuityProof?.passed === true
+    },
+    {
+      proofId: 'environment-mode-coherence',
+      artifactPath: '.bitcode/environment-mode-coherence-proof.json',
+      passed: environmentModeCoherenceProof?.passed === true
+    },
+    {
+      proofId: 'runs-pipelines-totality',
+      artifactPath: '.bitcode/runs-pipelines-totality-proof.json',
+      passed: runsPipelinesTotalityProof?.passed === true
+    },
+    {
+      proofId: 'persistence-schema-totality',
+      artifactPath: '.bitcode/persistence-schema-totality-proof.json',
+      passed: persistenceSchemaTotalityProof?.passed === true
+    },
+    {
+      proofId: 'prompt-system-totality',
+      artifactPath: '.bitcode/prompt-system-totality-proof.json',
+      passed: promptSystemTotalityProof?.passed === true
+    },
+    {
+      proofId: 'inference-implementation-records',
+      artifactPath: '.bitcode/inference-implementation-records-proof.json',
+      passed: inferenceImplementationRecordsProof?.passed === true
+    },
+    {
+      proofId: 'source-to-shares',
+      artifactPath: '.bitcode/source-to-shares-fifth-gate-proof.json',
+      passed: sourceToSharesFifthGateProof?.passed === true
+        && sourceToSharesFifthGateProof?.focus === 'source-to-shares'
+    },
+    {
+      proofId: 'product-readiness-audit',
+      artifactPath: '.bitcode/v26-product-readiness-audit.json',
+      passed: productReadinessAudit?.baselinePassed === true
+        && productReadinessAudit?.closureClaim === true
+        && productReadinessAudit?.openProductCount === 0
+        && productReadinessAudit?.closureReadyProductCount === productReadinessAudit?.productCount
+    },
+    {
+      proofId: 'fifth-gate-closure-deepening',
+      artifactPath: '.bitcode/fifth-gate-closure-deepening-proof.json',
+      passed: fifthGateClosureDeepeningProof?.passed === true
+        && fifthGateClosureDeepeningProof?.closureDeepened === true
+        && fifthGateClosureDeepeningProof?.openAxisCount === 0
+    },
+    {
+      proofId: 'prompt-space-baseline',
+      artifactPath: '.bitcode/prompt-space-completeness-proof.json',
+      passed: promptSpaceCompletenessProof?.baselinePassed === true
+    },
+    {
+      proofId: 'retained-package-admissibility',
+      artifactPath: '.bitcode/retained-package-admissibility-proof.json',
+      passed: retainedPackageAdmissibilityProof?.passed === true
+        && retainedPackageAdmissibilityProof?.unclassifiedPackageCount === 0
+    },
+    {
+      proofId: 'system-reform-admissibility',
+      artifactPath: '.bitcode/system-reform-admissibility-proof.json',
+      passed: systemReformAdmissibilityProof?.passed === true
+    }
+  ];
+  const proofById = new Map(proofInputs.map((proof) => [proof.proofId, proof]));
+  const closureRow = (rowId, queueItem, gateAxis, proofIds, sourceCheck) => {
+    const evidence = proofIds.map((proofId) => proofById.get(proofId)).filter(Boolean);
+    const proofEvidencePassed = evidence.length > 0 && evidence.every((proof) => proof.passed === true);
+    return {
+      rowId,
+      queueItem,
+      gateAxis,
+      proofEvidencePassed,
+      sourceEvidencePassed: sourceCheck.passed === true,
+      closurePassed: proofEvidencePassed && sourceCheck.passed === true,
+      evidenceArtifactPaths: evidence.map((proof) => proof.artifactPath),
+      sourceCheck
+    };
+  };
+  const closureRows = [
+    closureRow(
+      'terminal-read-write-loop',
+      'Whole Terminal read/write acceptance',
+      'Terminal read/write loop',
+      ['application-composition', 'source-to-shares', 'product-readiness-audit', 'environment-mode-coherence'],
+      buildV26FileContentCheck(
+        'terminal-read-write-loop-source-evidence',
+        'Terminal give, need, deposit, branch, closure, selected-detail, and ledger reread are source-backed by route/API tests',
+        [
+          {
+            file: 'uapi/tests/api/executionsHistoryWriteReadParity.test.ts',
+            evidence: 'round-trips give, need, and closure writes through the same Bitcode activity ledger',
+            description: 'execution-history parity proves write/reread continuity'
+          },
+          {
+            file: 'uapi/tests/api/needReviewProtocolParity.test.ts',
+            evidence: 'rereads accepted Need review and source-to-shares settlement artifacts through the commercial /api/state route',
+            description: 'state route rereads accepted source-to-shares branch materialization'
+          },
+          {
+            file: 'uapi/tests/applicationTransactionDetailSnapshot.test.ts',
+            evidence: "{ label: 'Present-fit review', value: 'present-fit-for-settlement-review' }",
+            description: 'selected-detail snapshot preserves settlement review posture'
+          },
+          {
+            file: 'protocol-demonstration/test/v26-uapi-app-router-entrypoints.test.js',
+            evidence: 'V26 keeps active uapi app-owned source TypeScript-only',
+            description: 'active app-owned source has no JavaScript mirror ambiguity'
+          }
+        ]
+      )
+    ),
+    closureRow(
+      'conversations-and-ad-hoc-execution',
+      'Conversations and ad hoc parity',
+      'Conversations and ad hoc execution continuity',
+      ['conversations-continuity', 'runs-pipelines-totality', 'inference-implementation-records'],
+      buildV26FileContentCheck(
+        'conversations-and-ad-hoc-source-evidence',
+        'Conversations preserve rich input, attachments, destinations, and ad hoc execution evidence',
+        [
+          {
+            file: 'packages/api/src/routes/conversations.ts',
+            evidence: 'buildConversationRichInputSummary',
+            description: 'conversation execution normalizes rich input'
+          },
+          {
+            file: 'packages/api/src/conversations/__tests__/branch-conversation.test.ts',
+            evidence: 'copiedAttachmentCount',
+            description: 'package test locks branched attachment continuity'
+          },
+          {
+            file: 'uapi/tests/api/conversationThreadStreamRoute.test.ts',
+            evidence: "output_destinations: expect.arrayContaining",
+            description: 'thread stream route proves destination roundtrip'
+          },
+          {
+            file: 'uapi/tests/api/chatStreamRoute.test.ts',
+            evidence: "rich_input: expect.objectContaining",
+            description: 'root stream route proves normalized rich input execution evidence'
+          }
+        ]
+      )
+    ),
+    closureRow(
+      'transactional-readiness-and-repository-scope',
+      'Transactional readiness runtime proof',
+      'Transactional readiness and repository scope',
+      ['application-composition', 'source-to-shares', 'product-readiness-audit', 'retained-package-admissibility'],
+      buildV26FileContentCheck(
+        'transactional-readiness-source-evidence',
+        'Repository and wallet readiness distinguish manual identity, saved signer posture, live sessions, stored inventory, and reconnect-required failures',
+        [
+          {
+            file: 'uapi/tests/api/transactionWriteReadinessRoutes.test.ts',
+            evidence: 'live wallet-provider signing session is no longer available',
+            description: 'route admission downgrades saved wallet signer posture without a live provider session'
+          },
+          {
+            file: 'uapi/tests/api/transactionWriteReadinessRoutes.test.ts',
+            evidence: 'outside the connected provider inventory',
+            description: 'route admission rejects repository anchors outside connected provider inventory'
+          },
+          {
+            file: 'uapi/tests/applicationFlowGuideCard.test.tsx',
+            evidence: 'repository-reconnect-required',
+            description: 'Terminal flow guide exposes repository reconnect-required posture'
+          },
+          {
+            file: 'uapi/tests/orbitalsBTDPane.test.tsx',
+            evidence: 'wallet provider must reconnect before Bitcode can rely on live signing again',
+            description: '$BTD auxiliary read exposes live signing truth'
+          }
+        ]
+      )
+    ),
+    closureRow(
+      'persistence-schema-and-active-source-health',
+      'Persistence runtime acceptance',
+      'Persistence, schema, and active-source health',
+      ['persistence-schema-totality', 'environment-mode-coherence'],
+      buildV26FileContentCheck(
+        'persistence-runtime-source-evidence',
+        'Persistence, schema, execution storage, notifications, processing stats, and event rows form one Exchange state model',
+        [
+          {
+            file: 'packages/orm/src/models/bitcode-execution-storage.ts',
+            evidence: 'BITCODE_EXECUTION_STORAGE_SCHEMA_PARITY',
+            description: 'ORM model declares the V26 storage interpretation map'
+          },
+          {
+            file: 'packages/orm/src/__tests__/bitcode-execution-storage.test.ts',
+            evidence: 'declares the V26 schema bridge for every former unresolved storage table',
+            description: 'package-local storage test locks the schema bridge'
+          },
+          {
+            file: 'uapi/tests/api/executionsHistoryWriteReadParity.test.ts',
+            evidence: "repo_snapshot: {",
+            description: 'execution-history route test covers persisted repository snapshot reread'
+          },
+          {
+            file: 'uapi/tests/api/executionsHistoryWriteReadParity.test.ts',
+            evidence: 'processing_stats: {',
+            description: 'execution-history route test covers persisted processing statistics reread'
+          },
+          {
+            file: 'packages/orm/src/models/organization-btd-treasury.ts',
+            evidence: 'OrganizationBtdTreasuryModel',
+            description: 'organization treasury persistence uses BTD share/read-right naming instead of credit naming'
+          }
+        ]
+      )
+    ),
+    closureRow(
+      'old-world-reform-and-retained-package-baseline',
+      'Old-world reform saturation',
+      'Old-world reform and retained package baseline',
+      ['prompt-system-totality', 'prompt-space-baseline', 'retained-package-admissibility', 'system-reform-admissibility'],
+      buildV26FileContentCheck(
+        'old-world-reform-source-evidence',
+        'Retained live-path packages are classified, public-boundary clean, Bitcode-repurposed, and not teaching parallel old-world ownership',
+        [
+          {
+            file: 'protocol-demonstration/test/v26-active-product-naming.test.js',
+            evidence: 'active V26 retained package surfaces use Bitcode naming instead of Engi naming',
+            description: 'active naming test blocks old-world product-language reintroduction'
+          },
+          {
+            file: 'protocol-demonstration/src/canonical/proven-generator.js',
+            evidence: 'retained-package-admissibility',
+            description: 'generated proof owns retained-package admissibility classification'
+          },
+          {
+            file: 'protocol-demonstration/src/canonical/proven-generator.js',
+            evidence: 'system-reform-admissibility',
+            description: 'generated proof owns system-reform admissibility classification'
+          },
+          {
+            file: 'protocol-demonstration/V26_REFORM_STRATEGY.md',
+            evidence: 'semantic mirrors before destructive rename',
+            description: 'reform strategy documents the Bitcode-first rename/removal discipline'
+          }
+        ]
+      )
+    ),
+    closureRow(
+      'proof-family-and-environment-closure',
+      'Proof and promotion closure',
+      'Proof-family and environment closure',
+      ['source-to-shares', 'product-readiness-audit', 'fifth-gate-closure-deepening', 'environment-mode-coherence', 'prompt-space-baseline', 'system-reform-admissibility'],
+      buildV26FileContentCheck(
+        'proof-family-source-evidence',
+        'Fifth-gate closure has an explicit generated verdict without importing sixth-, seventh-, or eighth-gate claims',
+        [
+          {
+            file: 'protocol-demonstration/src/canonical/proven-generator.js',
+            evidence: 'buildV26FifthGateClosureProof',
+            description: 'generator owns the fifth-gate closure verdict'
+          },
+          {
+            file: 'protocol-demonstration/test/proven-generator.test.js',
+            evidence: 'fifthGateClosurePassed, true',
+            description: 'generator test asserts the fifth-gate closure flag'
+          },
+          {
+            file: 'protocol-demonstration/test/v26-gate-acceptance-criteria.test.js',
+            evidence: 'V26 generated proofs close fifth gate without claiming later gates',
+            description: 'formal gate test keeps sixth through eighth downstream'
+          },
+          {
+            file: 'BITCODE_SPEC_V26.md',
+            evidence: 'The current generated fifth-gate evidence includes an explicit closure verdict',
+            description: 'canonical spec text records the accepted fifth-gate closure verdict'
+          }
+        ]
+      )
+    )
+  ];
+  const passed = closureRows.every((row) => row.closurePassed === true);
+
+  return {
+    reportId: 'v26-fifth-gate-closure-proof',
+    version: 'V26',
+    proofSourceCommit: baseData.canonicalCommit,
+    generatedAt,
+    generatorId: baseData.generatorId,
+    worktreeState: baseData.worktreeState,
+    gate: 'gate-5',
+    focus: 'minimum-functional-bitcode',
+    passed,
+    closureClaim: passed,
+    proceduralGateClosure: passed,
+    queueRowCount: closureRows.length,
+    closedQueueRowCount: closureRows.filter((row) => row.closurePassed === true).length,
+    openQueueRows: closureRows.filter((row) => row.closurePassed !== true).map((row) => row.rowId),
+    minimumFunctionalNorthStar: {
+      makeShares: passed,
+      useShares: passed,
+      bitcodeOnlyActiveSemantics: passed,
+      retainedOldWorldLivePathReformed: passed
+    },
+    laterGateClaims: {
+      sixthGateMvp: false,
+      seventhGateCommercialTestnetLaunch: false,
+      eighthGateV26TotalClosure: false
+    },
+    notReadyFor: [
+      'sixth-gate-mvp',
+      'seventh-gate-commercial-testnet-launch',
+      'eighth-gate-v26-definition-of-need'
+    ],
+    proofInputs,
+    closureRows
   };
 }
 
@@ -5181,7 +5563,7 @@ export function renderCanonicalProvenMarkdown(data) {
     lines.push(`- axisCount: ${markdownCode(String(v26.fifthGateClosureDeepeningProof.axisCount))}`);
     lines.push(`- deepenedAxisCount: ${markdownCode(String(v26.fifthGateClosureDeepeningProof.deepenedAxisCount))}`);
     lines.push(`- openAxisCount: ${markdownCode(String(v26.fifthGateClosureDeepeningProof.openAxisCount))}`);
-    lines.push(`- openReason: ${v26.fifthGateClosureDeepeningProof.openReason}`);
+    lines.push(`- closureReason: ${v26.fifthGateClosureDeepeningProof.closureReason}`);
     lines.push('');
     lines.push(renderMarkdownTable(
       ['axisId', 'baselineAdvanced', 'closurePassed', 'remainingClosure'],
@@ -5190,6 +5572,28 @@ export function renderCanonicalProvenMarkdown(data) {
         markdownCode(String(axis.baselineAdvanced)),
         markdownCode(String(axis.closurePassed)),
         axis.remainingClosure
+      ])
+    ));
+    lines.push('');
+    lines.push('### V26 Fifth-Gate Closure Proof');
+    lines.push('');
+    lines.push(`- reportId: ${markdownCode(v26.fifthGateClosureProof.reportId)}`);
+    lines.push(`- passed: ${markdownCode(String(v26.fifthGateClosureProof.passed === true))}`);
+    lines.push(`- focus: ${markdownCode(v26.fifthGateClosureProof.focus)}`);
+    lines.push(`- closureClaim: ${markdownCode(String(v26.fifthGateClosureProof.closureClaim === true))}`);
+    lines.push(`- proceduralGateClosure: ${markdownCode(String(v26.fifthGateClosureProof.proceduralGateClosure === true))}`);
+    lines.push(`- queueRowCount: ${markdownCode(String(v26.fifthGateClosureProof.queueRowCount))}`);
+    lines.push(`- closedQueueRowCount: ${markdownCode(String(v26.fifthGateClosureProof.closedQueueRowCount))}`);
+    lines.push(`- notReadyFor: ${v26.fifthGateClosureProof.notReadyFor.map(markdownCode).join(', ')}`);
+    lines.push('');
+    lines.push(renderMarkdownTable(
+      ['rowId', 'queueItem', 'proofEvidencePassed', 'sourceEvidencePassed', 'closurePassed'],
+      v26.fifthGateClosureProof.closureRows.map((row) => [
+        markdownCode(row.rowId),
+        row.queueItem,
+        markdownCode(String(row.proofEvidencePassed)),
+        markdownCode(String(row.sourceEvidencePassed)),
+        markdownCode(String(row.closurePassed))
       ])
     ));
     lines.push('');
@@ -6123,6 +6527,7 @@ function buildV26ProvenPackage(baseData, {
             '.bitcode/source-to-shares-fifth-gate-proof.json',
             '.bitcode/v26-product-readiness-audit.json',
             '.bitcode/fifth-gate-closure-deepening-proof.json',
+            '.bitcode/fifth-gate-closure-proof.json',
             '.bitcode/prompt-space-completeness-proof.json',
             '.bitcode/retained-package-admissibility-proof.json',
             '.bitcode/system-reform-admissibility-proof.json',
@@ -6207,6 +6612,23 @@ function buildV26ProvenPackage(baseData, {
     retainedPackageAdmissibilityProof,
     systemReformAdmissibilityProof
   });
+  const fifthGateClosureProof = buildV26FifthGateClosureProof({
+    generatedAt,
+    baseData,
+    applicationCompositionProof,
+    conversationsContinuityProof,
+    environmentModeCoherenceProof,
+    runsPipelinesTotalityProof,
+    persistenceSchemaTotalityProof,
+    promptSystemTotalityProof,
+    inferenceImplementationRecordsProof,
+    sourceToSharesFifthGateProof,
+    productReadinessAudit,
+    fifthGateClosureDeepeningProof,
+    promptSpaceCompletenessProof,
+    retainedPackageAdmissibilityProof,
+    systemReformAdmissibilityProof
+  });
   const wholeRepositoryProductionSatisfactionProof = buildV26WholeRepositoryProductionSatisfactionProof({
     generatedAt,
     baseData
@@ -6231,7 +6653,8 @@ function buildV26ProvenPackage(baseData, {
     retainedPackageAdmissibilityProof,
     fourthGateReclosureReviewProof,
     sourceToSharesFifthGateProof,
-    fifthGateClosureDeepeningProof
+    fifthGateClosureDeepeningProof,
+    fifthGateClosureProof
   });
   const artifacts = {
     ...buildV21GeneratedArtifactContents({
@@ -6255,6 +6678,7 @@ function buildV26ProvenPackage(baseData, {
     '.bitcode/source-to-shares-fifth-gate-proof.json': `${JSON.stringify(sourceToSharesFifthGateProof, null, 2)}\n`,
     '.bitcode/v26-product-readiness-audit.json': `${JSON.stringify(productReadinessAudit, null, 2)}\n`,
     '.bitcode/fifth-gate-closure-deepening-proof.json': `${JSON.stringify(fifthGateClosureDeepeningProof, null, 2)}\n`,
+    '.bitcode/fifth-gate-closure-proof.json': `${JSON.stringify(fifthGateClosureProof, null, 2)}\n`,
     '.bitcode/prompt-space-completeness-proof.json': `${JSON.stringify(promptSpaceCompletenessProof, null, 2)}\n`,
     '.bitcode/retained-package-admissibility-proof.json': `${JSON.stringify(retainedPackageAdmissibilityProof, null, 2)}\n`,
     '.bitcode/system-reform-admissibility-proof.json': `${JSON.stringify(systemReformAdmissibilityProof, null, 2)}\n`,
@@ -6269,7 +6693,8 @@ function buildV26ProvenPackage(baseData, {
     && gateCheckpointReport.fourthGate?.acceptanceBlockedByReopenedPromotion !== true;
   const fourthGatePromotedClosed = gateCheckpointReport.fourthGate?.promotedClosed === true;
   const throughFourthGatePromotionReady = fourthGatePromotedClosed;
-  const fifthGateClosurePassed = false;
+  const fifthGateClosurePassed = gateCheckpointReport.fifthGate?.proceduralClosurePassed === true
+    && fifthGateClosureProof.passed === true;
   const fifthGateClosureDeepeningPassed = fifthGateClosureDeepeningProof.passed === true;
   const sixthGateClosurePassed = false;
   const seventhGateClosurePassed = false;
@@ -6298,6 +6723,7 @@ function buildV26ProvenPackage(baseData, {
       sourceToSharesFifthGateProof,
       productReadinessAudit,
       fifthGateClosureDeepeningProof,
+      fifthGateClosureProof,
       promptSpaceCompletenessProof,
       retainedPackageAdmissibilityProof,
       systemReformAdmissibilityProof,

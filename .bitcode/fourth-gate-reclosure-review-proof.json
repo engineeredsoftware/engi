@@ -1,8 +1,8 @@
 {
   "reportId": "v26-fourth-gate-reclosure-review-proof",
   "version": "V26",
-  "proofSourceCommit": "8c708a16c65889edbba7ba1665af060d9686eb0c",
-  "generatedAt": "2026-04-25T14:58:49-03:00",
+  "proofSourceCommit": "0b2f5b28fce623a74ae75f3f550d9ad02b27130d",
+  "generatedAt": "2026-05-05T07:44:02-03:00",
   "generatorId": "bitcode.proven-generator.v1",
   "worktreeState": "dirty-preview",
   "gate": "gate-4",
@@ -92,7 +92,7 @@
     },
     {
       "criterionId": "fourth-gate-criterion-04-inward-master-detail-port",
-      "label": "Execution and deliverable master-detail patterns are ported inward to /application",
+      "label": "Execution, AssetPack, and Shippable master-detail patterns are ported inward to /application",
       "status": "closed",
       "passed": true,
       "detail": "Application composition and runs proof families cover the inward master-detail transaction/workspace posture.",
@@ -143,7 +143,7 @@
     },
     {
       "criterionId": "fourth-gate-criterion-09-run-pipeline-asset-meaning",
-      "label": "Deliverable, run, and pipeline meaning are explicit under V26",
+      "label": "AssetPack, Shippable, run, and pipeline meaning are explicit under V26",
       "status": "closed",
       "passed": true,
       "detail": "Runs/pipelines and inference records keep retained execution carriers tied to Bitcode activity, AssetPack, and written-asset semantics.",

@@ -22,8 +22,8 @@ const PRODUCT_READINESS_AUDIT_ROWS = [
       ['BITCODE_SPEC_V26_PARITY_MATRIX.md', 'Source-to-shares fifth-gate proof']
     ],
     openReadiness: [
-      'fifth-gate closure still requires commercial product parity across every admitted interface',
-      'sixth-gate MVP and later launch readiness are intentionally open'
+      'sixth-gate MVP elevation and later launch readiness remain intentionally open',
+      'later gates must harden the commercial product beyond the minimum-functional fifth-gate baseline'
     ]
   },
   {
@@ -41,8 +41,8 @@ const PRODUCT_READINESS_AUDIT_ROWS = [
       ['BITCODE_SPEC_V26_PARITY_MATRIX.md', 'App-owned protocol/API ownership']
     ],
     openReadiness: [
-      'authenticated live-path activity and storage runtime acceptance remains open',
-      'provider-backed signed settlement is not fifth-gate-closed'
+      'sixth-gate MVP hardening must expand authenticated activity and storage runtime acceptance',
+      'provider-backed signed-settlement polish remains post-fifth-gate hardening rather than a V26 fifth-gate blocker'
     ]
   },
   {
@@ -76,7 +76,7 @@ const PRODUCT_READINESS_AUDIT_ROWS = [
       ['BITCODE_SPEC_V26_PARITY_MATRIX.md', '`Bitcode Terminal` read/write loop']
     ],
     openReadiness: [
-      'whole browser acceptance and live authenticated reread remain open',
+      'whole browser polish and broader live authenticated reread remain sixth-gate and later hardening',
       'later-gate product polish and MVP flow completeness remain open'
     ]
   },
@@ -93,7 +93,7 @@ const PRODUCT_READINESS_AUDIT_ROWS = [
       ['BITCODE_SPEC_V26_PARITY_MATRIX.md', 'Need review before fit search']
     ],
     openReadiness: [
-      'this slice is implemented but does not close all fifth-gate product readiness',
+      'this slice is fifth-gate complete but does not by itself claim sixth-gate MVP readiness',
       'fit-candidate marketplace UX and MVP settlement refinement remain later-gate work'
     ]
   },
@@ -110,7 +110,7 @@ const PRODUCT_READINESS_AUDIT_ROWS = [
       ['BITCODE_SPEC_V26_PARITY_MATRIX.md', 'full semantic closure across all retained carriers remains open']
     ],
     openReadiness: [
-      'full semantic closure across retained pipeline carriers remains open',
+      'full semantic refinement across retained pipeline carriers continues after the fifth-gate baseline',
       'route compatibility names still require later retirement or bounded proof'
     ]
   },
@@ -128,8 +128,8 @@ const PRODUCT_READINESS_AUDIT_ROWS = [
       ['BITCODE_SPEC_V26_PARITY_MATRIX.md', 'Conversations and rich-input continuity']
     ],
     openReadiness: [
-      'persisted rich-input attachment, branched continuity, and destination roundtrip remain open across all admitted interfaces',
-      'cross-interface parity is not fifth-gate-closed'
+      'persisted rich-input attachment, branched continuity, and destination roundtrip are fifth-gate source-backed and need broader browser hardening later',
+      'cross-interface parity remains a sixth-gate and later expansion surface'
     ]
   },
   {
@@ -169,7 +169,7 @@ const PRODUCT_READINESS_AUDIT_ROWS = [
       ['BITCODE_SPEC_V26_PARITY_MATRIX.md', 'Transactional readiness and signed-settlement admission']
     ],
     openReadiness: [
-      'provider-backed wallet signing and broader route/browser readiness proof remain open',
+      'provider-backed wallet signing and broader route/browser readiness proof remain sixth-gate and later hardening',
       'manual wallet identity is not equivalent to signed settlement',
       'stored repository inventory does not by itself prove a still-valid live provider session',
       'saved verified wallet signer posture does not by itself prove a still-live wallet-provider signing session'
@@ -188,8 +188,8 @@ const PRODUCT_READINESS_AUDIT_ROWS = [
       ['BITCODE_SPEC_V26_PARITY_MATRIX.md', 'API / MCP / third-party parity']
     ],
     openReadiness: [
-      'whole-interface acceptance remains open beyond current write-admission slices',
-      'broader third-party ingress coverage remains fifth-gate/later-gate work'
+      'whole-interface acceptance beyond current write-admission slices remains later-gate hardening',
+      'broader third-party ingress coverage remains sixth-gate and later work'
     ]
   },
   {
@@ -205,8 +205,8 @@ const PRODUCT_READINESS_AUDIT_ROWS = [
       ['BITCODE_SPEC_V26_PARITY_MATRIX.md', 'Proof and generated-evidence parity matrix']
     ],
     openReadiness: [
-      'proof families deepen readiness but do not claim fifth-gate closure',
-      'clean-worktree promotion evidence and later-gate whole-repository closure remain open'
+      'fifth-gate proof families now carry a closure verdict while later-gate whole-repository closure remains open',
+      'clean canonical regeneration is still required for final V26 total closure'
     ]
   }
 ];
@@ -265,9 +265,9 @@ export function buildV26ProductReadinessAudit({
       parityMatrixAnchor: row.parityMatrixAnchor,
       baselineEvidencePassed,
       readyForFifthGateBaseline: baselineEvidencePassed,
-      readyForFifthGateClosure: false,
+      readyForFifthGateClosure: baselineEvidencePassed,
       readyForSixthGateMvp: false,
-      closureClaim: false,
+      closureClaim: baselineEvidencePassed,
       openReadiness: row.openReadiness,
       evidenceChecks
     };
@@ -291,13 +291,12 @@ export function buildV26ProductReadinessAudit({
       'BITCODE_SPEC_V26_PARITY_MATRIX.md acceptance rows'
     ],
     baselinePassed,
-    closureClaim: false,
+    closureClaim: baselinePassed && openProducts.length === 0,
     productCount: products.length,
     baselineReadyProductCount: products.filter((product) => product.readyForFifthGateBaseline === true).length,
     closureReadyProductCount: closureReadyProducts.length,
     openProductCount: openProducts.length,
     notReadyFor: [
-      'fifth-gate-closure',
       'sixth-gate-mvp',
       'seventh-gate-commercial-testnet-launch',
       'eighth-gate-v26-definition-of-need'

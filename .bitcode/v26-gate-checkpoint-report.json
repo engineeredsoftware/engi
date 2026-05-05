@@ -1,15 +1,15 @@
 {
   "reportId": "v26-gate-checkpoint-report",
   "version": "V26",
-  "proofSourceCommit": "8c708a16c65889edbba7ba1665af060d9686eb0c",
-  "generatedAt": "2026-04-25T14:58:49-03:00",
+  "proofSourceCommit": "0b2f5b28fce623a74ae75f3f550d9ad02b27130d",
+  "generatedAt": "2026-05-05T07:44:02-03:00",
   "generatorId": "bitcode.proven-generator.v1",
   "worktreeState": "dirty-preview",
   "activeCanonicalTarget": "V26",
   "draftPreview": false,
-  "checkpointId": "v26-fourth-gate-promoted-closed-and-fifth-gate-closure-deepened-on-eight-gate-v26",
-  "checkpointFocus": "fourth-gate-promoted-closed-and-fifth-gate-closure-deepened-on-eight-gate-v26",
-  "nextGate": "Gate 5: minimum-functional Bitcode Exchange, Bitcode Terminal, and broad old-world reform baseline after fourth-gate promoted closure",
+  "checkpointId": "v26-through-fifth-gate-closed-on-eight-gate-v26",
+  "checkpointFocus": "through-fifth-gate-closed-on-eight-gate-v26",
+  "nextGate": "Gate 6: minimal viable product elevation after fifth-gate minimum-functional closure",
   "passed": true,
   "firstGate": {
     "gateId": "gate-1",
@@ -225,7 +225,7 @@
         "checkId": "fourth-gate-runs-pipelines-totality",
         "label": "Fourth-gate runs and pipelines totality proof",
         "passed": true,
-        "detail": "Retained executions, activity, deliverables, and pipeline systems totalize under Bitcode"
+        "detail": "Retained executions, activity, AssetPack evidence, and pipeline systems totalize under Bitcode"
       },
       {
         "checkId": "fourth-gate-persistence-schema-totality",
@@ -261,24 +261,27 @@
         "checkId": "fourth-gate-promotion-honesty",
         "label": "Fourth-gate promotion honesty and procedural closure",
         "passed": true,
-        "detail": "Prior through-fourth-gate promotion claims were re-reviewed as overstated; fourth-gate is promotable only after generated proof-family criteria pass, while fifth-gate source-to-shares work remains open."
+        "detail": "Prior through-fourth-gate promotion claims were re-reviewed as overstated; fourth-gate is promotable only after generated proof-family criteria pass, and fifth-gate closure is judged by its separate generated verdict."
       },
       {
         "checkId": "fourth-gate-promoted-closed",
         "label": "Fourth-gate promoted closed checkpoint",
         "passed": true,
-        "detail": "Fourth gate is promoted closed at the gate level after reopening re-review; this does not claim fifth-gate or full V26 closure."
+        "detail": "Fourth gate is promoted closed at the gate level after reopening re-review; fifth-gate and full V26 closure are judged by their own proof families."
       }
     ]
   },
   "fifthGate": {
     "gateId": "gate-5",
     "label": "Minimum-functional Bitcode Exchange, Bitcode Terminal, and total old-world reform baseline",
-    "passed": false,
-    "open": true,
+    "passed": true,
+    "open": false,
     "closureDeepened": true,
     "sourceToSharesProofPassed": true,
     "closureDeepeningProofPassed": true,
+    "closureProofPassed": true,
+    "proceduralClosurePassed": true,
+    "promotionStatus": "promoted-closed",
     "checks": [
       {
         "checkId": "fifth-gate-source-to-shares-baseline",
@@ -293,18 +296,24 @@
         "detail": "Fifth-gate closure evidence has deepened after fourth-gate promotion closure across Terminal, Exchange, persistence, reform, proof, and environment axes."
       },
       {
-        "checkId": "fifth-gate-honest-open-status",
-        "label": "Fifth-gate honest open status",
+        "checkId": "fifth-gate-closure-proof",
+        "label": "Fifth-gate closure verdict",
         "passed": true,
-        "detail": "Fifth gate remains open despite source-to-shares and closure-deepening proof progress; minimum-functional fifth-gate closure is not claimed."
+        "detail": "Fifth-gate closure proof accepts every formal queue row without claiming sixth-, seventh-, or eighth-gate closure."
+      },
+      {
+        "checkId": "fifth-gate-procedural-closure",
+        "label": "Fifth-gate procedural closure",
+        "passed": true,
+        "detail": "Fifth gate is procedurally closed at the minimum-functional Bitcode baseline."
       }
     ],
-    "detail": "Fifth-gate drafting and implementation remain active after fourth-gate promoted closure. Fifth-gate owns minimum-functional Bitcode Exchange and Terminal closure plus the broad old-world reform baseline required to make the kept repository read as Bitcode-native around source-to-shares."
+    "detail": "Fifth gate is closed at the minimum-functional Bitcode baseline. Sixth gate remains open for MVP elevation and later commercialization work."
   },
   "sixthGate": {
     "gateId": "gate-6",
     "label": "Minimal viable product elevation",
-    "prepared": false,
+    "prepared": true,
     "open": true,
     "detail": "Sixth-gate remains open and will elevate the fifth-gate baseline into a coherent minimal viable product across Exchange, Terminal, Protocol, Proofs, and admitted interfaces."
   },

@@ -200,7 +200,7 @@ const usePatternRecognition = (needDefinitionText, attachments = [], repositoryC
             pattern,
             timestamp: Date.now(),
             success: true,
-            btdUsed: metrics.btdUsed,
+            measuredBtd: metrics.measuredBtd,
             timeToComplete: metrics.timeToComplete
         };
         const newHistory = [...patternHistory, historyEntry];
@@ -284,8 +284,8 @@ const generateLearningInsights = (patterns, history, context) => {
     // Success rate insights
     const successfulPatterns = history.filter(h => h.success);
     if (successfulPatterns.length > 5) {
-        const avgBtd = successfulPatterns.reduce((sum, h) => sum + (h.btdUsed || 0), 0) / successfulPatterns.length;
-        insights.push(`Your average successful shippable uses ${Math.round(avgBtd)} $BTD`);
+        const avgMeasuredBtd = successfulPatterns.reduce((sum, h) => sum + (h.measuredBtd || 0), 0) / successfulPatterns.length;
+        insights.push(`Your average successful shippable uses ${Math.round(avgMeasuredBtd)} $BTD`);
     }
     // Architecture insights
     if (context?.architecture && patterns.some(p => p.architecturalFit > 0.9)) {

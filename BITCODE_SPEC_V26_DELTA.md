@@ -16,8 +16,8 @@
 - Notes companion: `/Users/garrettmaring/Developer/ENGI/BITCODE_SPEC_V26_NOTES.md`
 - Parity companion: `/Users/garrettmaring/Developer/ENGI/BITCODE_SPEC_V26_PARITY_MATRIX.md`
 - Notes companion: `/Users/garrettmaring/Developer/ENGI/BITCODE_SPEC_V26_NOTES.md`
-- Source parity state: retained-system convergence now has material proof evidence across application routes, auxillary compatibility redirects, persistence witnesses, prompt-system ports, documentation/spec synchronization, and the fourth-gate reclosure review; fifth-gate source-to-shares and closure-deepening proof evidence exists while fifth through eighth gate remain open
-- V26 state: earlier through-fourth-gate promotion claims were overstated and effectively false; V26 is the active Bitcode canon with fourth gate promoted closed after re-review while fifth-, sixth-, seventh-, and eighth-gate closure remain open
+- Source parity state: retained-system convergence now has material proof evidence across application routes, auxillary compatibility redirects, persistence witnesses, prompt-system ports, documentation/spec synchronization, fourth-gate reclosure review, and fifth-gate source-to-shares, closure-deepening, and closure proof evidence while sixth through eighth gates remain open
+- V26 state: earlier through-fourth-gate promotion claims were overstated and effectively false; V26 is the active Bitcode canon with fourth gate promoted closed after re-review and fifth gate closed by explicit verdict while sixth-, seventh-, and eighth-gate closure remain open
 
 ## Why V26 exists
 
@@ -570,8 +570,8 @@ Fifth-gate is now specified as:
 - full production/staging/development mode completeness,
 - retained-package admissibility proof plus generated whole-`packages/` census coverage with zero unclassified active package owners,
 - post-fourth-gate-promotion proof-bearing cleanup of any still-kept system,
-- source-to-shares and closure-deepening evidence through `.bitcode/source-to-shares-fifth-gate-proof.json` and `.bitcode/fifth-gate-closure-deepening-proof.json`, including app-owned state-route reread after accepted source-to-shares branch materialization, Terminal selected-detail persistence, and generated source-content checks for the route-reread and Terminal-read assertions,
-- and no procedural fifth-gate closure claim until the remaining fifth-gate acceptance set is fully proven.
+- source-to-shares, closure-deepening, and explicit closure evidence through `.bitcode/source-to-shares-fifth-gate-proof.json`, `.bitcode/fifth-gate-closure-deepening-proof.json`, and `.bitcode/fifth-gate-closure-proof.json`, including app-owned state-route reread after accepted source-to-shares branch materialization, Terminal selected-detail persistence, and generated source-content checks for the route-reread and Terminal-read assertions,
+- and no sixth-, seventh-, or eighth-gate claim until their acceptance sets are fully proven.
 
 Fifth-gate acceptance is reached only when:
 - the repository can make shares and use shares through Bitcode-owned interfaces, route-level reread, and state,

@@ -12,11 +12,20 @@ function pickCanonicalProcessingStats(processingStats) {
     if (processingStats.tokens && typeof processingStats.tokens === 'object') {
         canonicalStats.tokens = processingStats.tokens;
     }
-    if (typeof processingStats.btdUsed === 'number') {
-        canonicalStats.btdUsed = processingStats.btdUsed;
+    if (typeof processingStats.measuredBtd === 'number') {
+        canonicalStats.measuredBtd = processingStats.measuredBtd;
     }
-    if (typeof processingStats.usdTotal === 'number') {
-        canonicalStats.usdTotal = processingStats.usdTotal;
+    if (typeof processingStats.btdSemantics === 'string') {
+        canonicalStats.btdSemantics = processingStats.btdSemantics;
+    }
+    if (typeof processingStats.feeAsset === 'string') {
+        canonicalStats.feeAsset = processingStats.feeAsset;
+    }
+    if (typeof processingStats.btcFeesPaid === 'number') {
+        canonicalStats.btcFeesPaid = processingStats.btcFeesPaid;
+    }
+    if (typeof processingStats.btcFeeUsdEquivalent === 'number') {
+        canonicalStats.btcFeeUsdEquivalent = processingStats.btcFeeUsdEquivalent;
     }
     if (typeof processingStats.averageLatencyMs === 'number') {
         canonicalStats.averageLatencyMs = processingStats.averageLatencyMs;
@@ -30,11 +39,18 @@ function normalizeAssetPackSurface(surface, fileChanges, summary) {
     if (!surface && !fileChanges && !summary) {
         return null;
     }
-    return {
+    const normalized = {
         pullRequest: surface?.pullRequest || null,
         fileChanges: surface?.fileChanges || fileChanges || null,
         summary: surface?.summary || summary || null,
     };
+    if (Array.isArray(surface?.proofEvidence)) {
+        normalized.proofEvidence = surface.proofEvidence;
+    }
+    if (Array.isArray(surface?.reviewNotes)) {
+        normalized.reviewNotes = surface.reviewNotes;
+    }
+    return normalized;
 }
 function pickCanonicalCompletionResult(result) {
     if (!result || typeof result !== 'object') {

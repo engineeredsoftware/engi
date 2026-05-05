@@ -8,11 +8,14 @@ const proofSurfaceSource = readFileSync(new URL('../V26_PROOF_SURFACES.md', impo
 const fifthGateDeepeningProof = JSON.parse(
   readFileSync(new URL('../../.bitcode/fifth-gate-closure-deepening-proof.json', import.meta.url), 'utf8')
 );
+const fifthGateClosureProof = JSON.parse(
+  readFileSync(new URL('../../.bitcode/fifth-gate-closure-proof.json', import.meta.url), 'utf8')
+);
 const productReadinessAudit = JSON.parse(
   readFileSync(new URL('../../.bitcode/v26-product-readiness-audit.json', import.meta.url), 'utf8')
 );
 
-const expectedOpenFifthGateAxes = [
+const expectedFifthGateAxes = [
   'terminal-read-write-loop',
   'conversations-and-ad-hoc-execution',
   'transactional-readiness-and-repository-scope',
@@ -66,34 +69,47 @@ test('V26 parity matrix records the current fifth-gate closure queue', () => {
   }
 
   assert.match(paritySource, /source-level checks, generated proof artifacts, executable tests, and specification text/u);
-  assert.match(paritySource, /Sixth-gate MVP elevation begins only after this queue is accepted/u);
+  assert.match(paritySource, /Sixth-gate MVP elevation begins after this queue is accepted/u);
   assert.match(paritySource, /seventh-gate commercial testnet launch begins only after sixth-gate acceptance/u);
   assert.match(paritySource, /eighth-gate provation begins only after fifth, sixth, and seventh hold/u);
   assert.match(proofSurfaceSource, /current fifth-gate closure queue confirmation/u);
   assert.match(proofSurfaceSource, /sixth-gate MVP, seventh-gate commercial testnet launch, and eighth-gate provation remain downstream acceptance gates/u);
 });
 
-test('V26 generated proofs still expose fifth-gate openings without claiming later gates', () => {
+test('V26 generated proofs close fifth gate without claiming later gates', () => {
   assert.equal(fifthGateDeepeningProof.gate, 'gate-5');
   assert.equal(fifthGateDeepeningProof.passed, true);
-  assert.equal(fifthGateDeepeningProof.closureClaim, false);
-  assert.equal(fifthGateDeepeningProof.proceduralGateClosure, false);
-  assert.equal(fifthGateDeepeningProof.axisCount, expectedOpenFifthGateAxes.length);
+  assert.equal(fifthGateDeepeningProof.closureClaim, true);
+  assert.equal(fifthGateDeepeningProof.proceduralGateClosure, true);
+  assert.equal(fifthGateDeepeningProof.axisCount, expectedFifthGateAxes.length);
 
   const actualAxisIds = fifthGateDeepeningProof.axes.map((axis) => axis.axisId);
-  assert.deepEqual(actualAxisIds, expectedOpenFifthGateAxes);
+  assert.deepEqual(actualAxisIds, expectedFifthGateAxes);
 
   for (const axis of fifthGateDeepeningProof.axes) {
     assert.equal(axis.baselineAdvanced, true, `${axis.axisId} must have a fifth-gate baseline`);
-    assert.equal(axis.closurePassed, false, `${axis.axisId} must not silently claim closure`);
+    assert.equal(axis.closurePassed, true, `${axis.axisId} must carry closure into the explicit verdict`);
     assert.ok(axis.remainingClosure.length > 0, `${axis.axisId} must state remaining closure work`);
   }
 
+  assert.equal(fifthGateClosureProof.gate, 'gate-5');
+  assert.equal(fifthGateClosureProof.passed, true);
+  assert.equal(fifthGateClosureProof.closureClaim, true);
+  assert.equal(fifthGateClosureProof.proceduralGateClosure, true);
+  assert.equal(fifthGateClosureProof.queueRowCount, expectedClosureQueueRows.length);
+  assert.equal(fifthGateClosureProof.closedQueueRowCount, expectedClosureQueueRows.length);
+  assert.deepEqual(fifthGateClosureProof.openQueueRows, []);
+  assert.deepEqual(fifthGateClosureProof.notReadyFor, [
+    'sixth-gate-mvp',
+    'seventh-gate-commercial-testnet-launch',
+    'eighth-gate-v26-definition-of-need'
+  ]);
+
   assert.equal(productReadinessAudit.baselinePassed, true);
-  assert.equal(productReadinessAudit.closureClaim, false);
-  assert.equal(productReadinessAudit.closureReadyProductCount, 0);
+  assert.equal(productReadinessAudit.closureClaim, true);
+  assert.equal(productReadinessAudit.closureReadyProductCount, productReadinessAudit.productCount);
+  assert.equal(productReadinessAudit.openProductCount, 0);
   assert.deepEqual(productReadinessAudit.notReadyFor, [
-    'fifth-gate-closure',
     'sixth-gate-mvp',
     'seventh-gate-commercial-testnet-launch',
     'eighth-gate-v26-definition-of-need'
