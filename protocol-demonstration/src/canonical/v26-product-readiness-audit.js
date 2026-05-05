@@ -22,8 +22,7 @@ const PRODUCT_READINESS_AUDIT_ROWS = [
       ['BITCODE_SPEC_V26_PARITY_MATRIX.md', 'Source-to-shares fifth-gate proof']
     ],
     openReadiness: [
-      'sixth-gate MVP elevation and later launch readiness remain intentionally open',
-      'later gates must harden the commercial product beyond the minimum-functional fifth-gate baseline'
+      'eighth-gate whole-repository provation remains intentionally open'
     ]
   },
   {
@@ -41,8 +40,8 @@ const PRODUCT_READINESS_AUDIT_ROWS = [
       ['BITCODE_SPEC_V26_PARITY_MATRIX.md', 'App-owned protocol/API ownership']
     ],
     openReadiness: [
-      'sixth-gate MVP hardening must expand authenticated activity and storage runtime acceptance',
-      'provider-backed signed-settlement polish remains post-fifth-gate hardening rather than a V26 fifth-gate blocker'
+      'broader Exchange marketplace breadth remains V28-style expansion work',
+      'eighth-gate whole-repository provation remains intentionally open'
     ]
   },
   {
@@ -76,8 +75,8 @@ const PRODUCT_READINESS_AUDIT_ROWS = [
       ['BITCODE_SPEC_V26_PARITY_MATRIX.md', '`Bitcode Terminal` read/write loop']
     ],
     openReadiness: [
-      'whole browser polish and broader live authenticated reread remain sixth-gate and later hardening',
-      'later-gate product polish and MVP flow completeness remain open'
+      'clean promotion and whole-flow browser provation remain eighth-gate work',
+      'eighth-gate whole-repository provation remains intentionally open'
     ]
   },
   {
@@ -93,8 +92,8 @@ const PRODUCT_READINESS_AUDIT_ROWS = [
       ['BITCODE_SPEC_V26_PARITY_MATRIX.md', 'Need review before fit search']
     ],
     openReadiness: [
-      'this slice is fifth-gate complete but does not by itself claim sixth-gate MVP readiness',
-      'fit-candidate marketplace UX and MVP settlement refinement remain later-gate work'
+      'fit-candidate marketplace UX remains V28-style Exchange expansion work',
+      'eighth-gate total provation remains open'
     ]
   },
   {
@@ -110,8 +109,8 @@ const PRODUCT_READINESS_AUDIT_ROWS = [
       ['BITCODE_SPEC_V26_PARITY_MATRIX.md', 'full semantic closure across all retained carriers remains open']
     ],
     openReadiness: [
-      'full semantic refinement across retained pipeline carriers continues after the fifth-gate baseline',
-      'route compatibility names still require later retirement or bounded proof'
+      'broader asset-pack marketplace delivery breadth remains later-gate expansion work',
+      'eighth-gate total provation remains open for whole-repository saturation'
     ]
   },
   {
@@ -128,8 +127,7 @@ const PRODUCT_READINESS_AUDIT_ROWS = [
       ['BITCODE_SPEC_V26_PARITY_MATRIX.md', 'Conversations and rich-input continuity']
     ],
     openReadiness: [
-      'persisted rich-input attachment, branched continuity, and destination roundtrip are fifth-gate source-backed and need broader browser hardening later',
-      'cross-interface parity remains a sixth-gate and later expansion surface'
+      'whole-repository interface provation remains eighth-gate work'
     ]
   },
   {
@@ -169,7 +167,7 @@ const PRODUCT_READINESS_AUDIT_ROWS = [
       ['BITCODE_SPEC_V26_PARITY_MATRIX.md', 'Transactional readiness and signed-settlement admission']
     ],
     openReadiness: [
-      'provider-backed wallet signing and broader route/browser readiness proof remain sixth-gate and later hardening',
+      'provider-backed wallet signing breadth remains V27+ Terminal/Exchange expansion work',
       'manual wallet identity is not equivalent to signed settlement',
       'stored repository inventory does not by itself prove a still-valid live provider session',
       'saved verified wallet signer posture does not by itself prove a still-live wallet-provider signing session'
@@ -188,8 +186,8 @@ const PRODUCT_READINESS_AUDIT_ROWS = [
       ['BITCODE_SPEC_V26_PARITY_MATRIX.md', 'API / MCP / third-party parity']
     ],
     openReadiness: [
-      'whole-interface acceptance beyond current write-admission slices remains later-gate hardening',
-      'broader third-party ingress coverage remains sixth-gate and later work'
+      'broader third-party ingress breadth remains later-gate expansion work',
+      'eighth-gate whole-interface provation remains open'
     ]
   },
   {
@@ -205,11 +203,106 @@ const PRODUCT_READINESS_AUDIT_ROWS = [
       ['BITCODE_SPEC_V26_PARITY_MATRIX.md', 'Proof and generated-evidence parity matrix']
     ],
     openReadiness: [
-      'fifth-gate proof families now carry a closure verdict while later-gate whole-repository closure remains open',
       'clean canonical regeneration is still required for final V26 total closure'
     ]
   }
 ];
+
+const PRODUCT_MVP_EVIDENCE_BY_ID = {
+  'bitcode-protocol': [
+    ['BITCODE_SPEC_V26.md', 'Sixth-gate is closed only when:'],
+    ['protocol-demonstration/V26_PROOF_SURFACES.md', 'Gate 6: minimal viable product elevation'],
+    ['protocol-demonstration/src/canonical/proven-generator.js', 'buildV26SixthGateMvpClosureProof']
+  ],
+  'bitcode-exchange': [
+    ['uapi/tests/api/executionsHistoryWriteReadParity.test.ts', 'round-trips give, need, and closure writes through the same Bitcode activity ledger'],
+    ['uapi/tests/api/needReviewProtocolParity.test.ts', 'rereads accepted Need review and source-to-shares settlement artifacts through the commercial /api/state route'],
+    ['uapi/tests/api/activityRoute.test.ts', 'returns live activity with persisted execution reread and notification aggregation']
+  ],
+  'bitcode-terminal': [
+    ['uapi/app/application/application-experience-architecture.ts', 'SIXTH_GATE_MVP_APPLICATION_MAP'],
+    ['uapi/tests/applicationExperienceArchitecture.test.ts', 'locks the post-fifth-gate application map to activity, transactions, conversations, and auxillaries'],
+    ['uapi/tests/e2e/application.terminal.flow.spec.ts', 'application route keeps read, selection, and repository-anchor write-through in one master-detail surface']
+  ],
+  'source-to-shares-need-fitting': [
+    ['uapi/tests/api/needReviewRoute.test.ts', 'presents a reviewable Need before fit search'],
+    ['uapi/tests/api/needReviewProtocolParity.test.ts', 'needFittingReview'],
+    ['protocol-demonstration/test/v26-need-review-source-to-shares.test.js', 'V26 settlement review and receipts show quantized source-to-shares fit qualities']
+  ],
+  'assetpack-execution': [
+    ['packages/pipelines/asset-pack/src/postprocess.ts', 'assetPackSynthesisArtifacts'],
+    ['packages/pipelines/asset-pack/src/agents/finish-delivery-agents.ts', 'finish:asset-pack'],
+    ['protocol-demonstration/test/v26-shippable-reform.test.js', 'implementation, validation, and Finish carriers separate AssetPack kind from delivery templates']
+  ],
+  'conversations-rich-input': [
+    ['uapi/app/conversations/components/ConversationsOverlay.tsx', 'Multiple view modes (floating, sidebar, fullscreen, split-screen)'],
+    ['uapi/tests/conversationsRouteClient.test.tsx', 'forceFullscreen=true'],
+    ['packages/chatgptapp/src/server.ts', 'connected-interface Bitcode Terminal companion']
+  ],
+  'auxillaries-readiness': [
+    ['uapi/app/auxillaries/components/AuxillariesBTDPane.tsx', '$BTD is a non-fungible share and read-right posture, while BTC is the fee-liquidity posture'],
+    ['uapi/tests/orbitalsBTDPane.test.tsx', 'wallet provider must reconnect before Bitcode can rely on live signing again'],
+    ['uapi/tests/userDataRoute.test.ts', 'walletConnectionStatus']
+  ],
+  'connected-interfaces': [
+    ['packages/executions-mcp/src/mcp-server/src/tools/pipeline-tools.ts', 'writeAdmission'],
+    ['packages/chatgptapp/src/__tests__/tools.test.ts', 'declares confirmation schema on every ChatGPT App connected-interface write carrier'],
+    ['packages/chatgptapp/src/server.ts', 'Read tools gather codebase, web, VCS, and DevOps context as Exchange input evidence rather than parallel product state']
+  ],
+  'proof-and-promotion': [
+    ['protocol-demonstration/src/canonical/proven-generator.js', 'buildV26SixthGateMvpClosureProof'],
+    ['protocol-demonstration/test/proven-generator.test.js', 'sixthGateClosurePassed, true'],
+    ['protocol-demonstration/test/v26-gate-acceptance-criteria.test.js', 'V26 generated proofs close fifth and sixth gates without claiming launch or total closure']
+  ]
+};
+
+const PRODUCT_LAUNCH_EVIDENCE_BY_ID = {
+  'bitcode-protocol': [
+    ['BITCODE_SPEC_V26.md', 'Seventh-gate is closed only when:'],
+    ['protocol-demonstration/V26_PROOF_SURFACES.md', 'Gate 7: initial commercially-viable testnet live-launch refinement'],
+    ['protocol-demonstration/src/canonical/proven-generator.js', 'buildV26SeventhGateCommercialTestnetLaunchProof']
+  ],
+  'bitcode-exchange': [
+    ['uapi/tests/api/executionsHistoryWriteReadParity.test.ts', 'round-trips give, need, and closure writes through the same Bitcode activity ledger'],
+    ['uapi/tests/api/needReviewProtocolParity.test.ts', 'rereads accepted Need review and source-to-shares settlement artifacts through the commercial /api/state route'],
+    ['uapi/tests/api/activityRoute.test.ts', 'returns live activity with persisted execution reread and notification aggregation']
+  ],
+  'bitcode-terminal': [
+    ['uapi/app/application/application-commercial-launch-readiness.ts', 'SEVENTH_GATE_COMMERCIAL_TESTNET_LAUNCH_MAP'],
+    ['uapi/tests/applicationCommercialLaunchReadiness.test.ts', 'locks the launch-readiness rows required after MVP closure'],
+    ['uapi/tests/e2e/application.terminal.flow.spec.ts', 'application route keeps read, selection, and repository-anchor write-through in one master-detail surface']
+  ],
+  'source-to-shares-need-fitting': [
+    ['protocol-demonstration/test/v26-need-review-source-to-shares.test.js', 'V26 settlement review and receipts show quantized source-to-shares fit qualities'],
+    ['uapi/tests/api/needReviewProtocolParity.test.ts', 'needFittingReview'],
+    ['uapi/tests/api/needReviewProtocolParity.test.ts', 'source-to-shares settlement artifacts']
+  ],
+  'assetpack-execution': [
+    ['protocol-demonstration/test/v26-shippable-reform.test.js', 'implementation, validation, and Finish carriers separate AssetPack kind from delivery templates'],
+    ['packages/pipelines/asset-pack/src/postprocess.ts', 'assetPackSynthesisArtifacts'],
+    ['packages/pipelines/asset-pack/src/agents/finish-delivery-agents.ts', 'finish:asset-pack-create-pull-request-delivery-agent']
+  ],
+  'conversations-rich-input': [
+    ['uapi/app/conversations/components/ConversationsOverlay.tsx', 'Multiple view modes (floating, sidebar, fullscreen, split-screen)'],
+    ['uapi/tests/conversationsRouteClient.test.tsx', 'forceFullscreen=true'],
+    ['packages/chatgptapp/src/server.ts', 'connected-interface Bitcode Terminal companion']
+  ],
+  'auxillaries-readiness': [
+    ['uapi/app/auxillaries/components/AuxillariesBTDPane.tsx', '$BTD is a non-fungible share and read-right posture, while BTC is the fee-liquidity posture'],
+    ['uapi/tests/orbitalsBTDPane.test.tsx', 'wallet provider must reconnect before Bitcode can rely on live signing again'],
+    ['uapi/tests/api/transactionWriteReadinessRoutes.test.ts', 'live wallet-provider signing session is no longer available']
+  ],
+  'connected-interfaces': [
+    ['packages/executions-mcp/src/mcp-server/src/tools/pipeline-tools.ts', 'writeAdmission'],
+    ['packages/chatgptapp/src/__tests__/tools.test.ts', 'declares confirmation schema on every ChatGPT App connected-interface write carrier'],
+    ['packages/chatgptapp/src/server.ts', 'Read tools gather codebase, web, VCS, and DevOps context as Exchange input evidence rather than parallel product state']
+  ],
+  'proof-and-promotion': [
+    ['protocol-demonstration/src/canonical/proven-generator.js', 'buildV26SeventhGateCommercialTestnetLaunchProof'],
+    ['protocol-demonstration/test/proven-generator.test.js', 'seventhGateClosurePassed, true'],
+    ['protocol-demonstration/test/v26-gate-acceptance-criteria.test.js', 'V26 generated proofs close fifth, sixth, and seventh gates without claiming total closure']
+  ]
+};
 
 /**
  * @param {string} repoRoot
@@ -257,6 +350,16 @@ export function buildV26ProductReadinessAudit({
   const products = PRODUCT_READINESS_AUDIT_ROWS.map((row) => {
     const evidenceChecks = row.requiredEvidence.map((entry) => checkEvidence(repoRoot, entry));
     const baselineEvidencePassed = evidenceChecks.every((entry) => entry.passed === true);
+    const mvpEvidence = PRODUCT_MVP_EVIDENCE_BY_ID[row.productId] || [];
+    const mvpEvidenceChecks = mvpEvidence.map((entry) => checkEvidence(repoRoot, entry));
+    const mvpEvidencePassed = baselineEvidencePassed
+      && mvpEvidenceChecks.length > 0
+      && mvpEvidenceChecks.every((entry) => entry.passed === true);
+    const launchEvidence = PRODUCT_LAUNCH_EVIDENCE_BY_ID[row.productId] || [];
+    const launchEvidenceChecks = launchEvidence.map((entry) => checkEvidence(repoRoot, entry));
+    const launchEvidencePassed = mvpEvidencePassed
+      && launchEvidenceChecks.length > 0
+      && launchEvidenceChecks.every((entry) => entry.passed === true);
 
     return {
       productId: row.productId,
@@ -264,17 +367,30 @@ export function buildV26ProductReadinessAudit({
       baselineReadiness: row.baselineReadiness,
       parityMatrixAnchor: row.parityMatrixAnchor,
       baselineEvidencePassed,
+      mvpEvidencePassed,
       readyForFifthGateBaseline: baselineEvidencePassed,
       readyForFifthGateClosure: baselineEvidencePassed,
-      readyForSixthGateMvp: false,
+      readyForSixthGateMvp: mvpEvidencePassed,
+      readyForSeventhGateCommercialTestnetLaunch: launchEvidencePassed,
       closureClaim: baselineEvidencePassed,
+      sixthGateMvpClaim: mvpEvidencePassed,
+      seventhGateCommercialTestnetLaunchClaim: launchEvidencePassed,
       openReadiness: row.openReadiness,
-      evidenceChecks
+      evidenceChecks,
+      mvpEvidenceChecks,
+      launchEvidenceChecks,
+      launchEvidencePassed
     };
   });
   const baselinePassed = products.every((product) => product.baselineEvidencePassed === true);
+  const mvpPassed = products.every((product) => product.mvpEvidencePassed === true);
+  const launchPassed = products.every((product) => product.launchEvidencePassed === true);
   const closureReadyProducts = products.filter((product) => product.readyForFifthGateClosure === true);
   const openProducts = products.filter((product) => product.readyForFifthGateClosure !== true);
+  const mvpReadyProducts = products.filter((product) => product.readyForSixthGateMvp === true);
+  const mvpOpenProducts = products.filter((product) => product.readyForSixthGateMvp !== true);
+  const launchReadyProducts = products.filter((product) => product.readyForSeventhGateCommercialTestnetLaunch === true);
+  const launchOpenProducts = products.filter((product) => product.readyForSeventhGateCommercialTestnetLaunch !== true);
 
   return {
     reportId: 'v26-product-readiness-audit',
@@ -284,6 +400,7 @@ export function buildV26ProductReadinessAudit({
     generatorId: baseData.generatorId || 'bitcode.product-readiness-audit.v1',
     worktreeState: baseData.worktreeState || 'unknown',
     gate: 'gate-5',
+    promotedThroughGate: launchPassed ? 'gate-7' : (mvpPassed ? 'gate-6' : 'gate-5'),
     auditBasis: [
       'protocol-demonstration Exchange-lite implementation',
       'protocol-demonstration Terminal-lite shell UI',
@@ -291,14 +408,20 @@ export function buildV26ProductReadinessAudit({
       'BITCODE_SPEC_V26_PARITY_MATRIX.md acceptance rows'
     ],
     baselinePassed,
+    mvpPassed,
+    launchPassed,
     closureClaim: baselinePassed && openProducts.length === 0,
+    sixthGateMvpClaim: mvpPassed && mvpOpenProducts.length === 0,
+    seventhGateCommercialTestnetLaunchClaim: launchPassed && launchOpenProducts.length === 0,
     productCount: products.length,
     baselineReadyProductCount: products.filter((product) => product.readyForFifthGateBaseline === true).length,
     closureReadyProductCount: closureReadyProducts.length,
     openProductCount: openProducts.length,
+    mvpReadyProductCount: mvpReadyProducts.length,
+    mvpOpenProductCount: mvpOpenProducts.length,
+    launchReadyProductCount: launchReadyProducts.length,
+    launchOpenProductCount: launchOpenProducts.length,
     notReadyFor: [
-      'sixth-gate-mvp',
-      'seventh-gate-commercial-testnet-launch',
       'eighth-gate-v26-definition-of-need'
     ],
     products

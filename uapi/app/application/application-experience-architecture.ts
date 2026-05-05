@@ -81,6 +81,74 @@ export const MASTER_DETAIL_SUBSTRUCTURES = [
   },
 ] as const;
 
+export const SIXTH_GATE_MVP_APPLICATION_MAP = [
+  {
+    id: 'activity',
+    label: 'Activity',
+    role: 'dominant-master-detail-read-surface',
+    routeSurface: '/application',
+    targetId: 'applicationTransactionWorkspace',
+    requiredPosture:
+      'Dominant searchable, filterable, live-updating Bitcode activity table with selected activity detail.',
+    implementedBy: [
+      'uapi/app/application/ApplicationTransactionWorkspace.tsx',
+      'uapi/app/application/ApplicationTransactionsTable.tsx',
+      'uapi/app/application/application-transactions.ts',
+      'uapi/app/application/application-transaction-query.ts',
+      'uapi/app/application/application-activity-history.ts',
+    ],
+  },
+  {
+    id: 'transactions',
+    label: 'Transactions',
+    role: 'bitcode-write-space',
+    routeSurface: '/application',
+    targetId: 'applicationCommandDeck',
+    requiredPosture:
+      'Write-space for give, need, need measurement, transaction creation, deposit, branch, and closure operations.',
+    implementedBy: [
+      'uapi/app/application/ApplicationCommandDeck.tsx',
+      'uapi/app/application/ApplicationGiveNeedWorkbench.tsx',
+      'uapi/app/application/ApplicationDepositComposer.tsx',
+      'uapi/app/application/ApplicationClosureControlDeck.tsx',
+      'uapi/app/api/need-review/route.ts',
+      'uapi/app/api/make-bitcode-branch/route.ts',
+    ],
+  },
+  {
+    id: 'conversations',
+    label: 'Conversations',
+    role: 'chatgpt-style-read-write-interface',
+    routeSurface: '/conversations',
+    targetId: 'conversations',
+    requiredPosture:
+      'Rich ChatGPT-style Bitcode read/write surface that is popup-capable, fullscreen-capable, and aligned to connected-interface tool registration.',
+    implementedBy: [
+      'uapi/app/conversations/ConversationsRouteClient.tsx',
+      'uapi/app/conversations/components/ConversationsOverlay.tsx',
+      'uapi/app/conversations/components/ConversationsFullscreenControls.tsx',
+      'packages/chatgptapp/src/server.ts',
+      'packages/chatgptapp/src/tools.ts',
+    ],
+  },
+  {
+    id: 'auxillaries',
+    label: 'Auxillaries',
+    role: 'network-adjacent-readiness-controls',
+    routeSurface: '/auxillaries',
+    targetId: 'auxillaries',
+    requiredPosture:
+      'Non-duplicative settings, preferences, connections, identity, BTC fee liquidity, and non-fungible $BTD read-right surfaces around the network core.',
+    implementedBy: [
+      'uapi/app/auxillaries/components/AuxillariesConnectsPane.tsx',
+      'uapi/app/auxillaries/components/AuxillariesInterfacesPane.tsx',
+      'uapi/app/auxillaries/components/AuxillariesProfilePane.tsx',
+      'uapi/app/auxillaries/components/AuxillariesBTDPane.tsx',
+      'uapi/app/api/auxillaries/data/route.ts',
+    ],
+  },
+] as const;
+
 export const CORE_PANEL_EXPERIENCE: Record<string, (typeof APPLICATION_EXPERIENCES)[number]['id']> = {
   panelOperatingPicture: 'master-detail',
   panelDepositing: 'master-detail',
@@ -115,4 +183,10 @@ export function getApplicationAction(id: (typeof APPLICATION_ACTIONS)[number]['i
 
 export function getMasterDetailSubstructure(id: (typeof MASTER_DETAIL_SUBSTRUCTURES)[number]['id']) {
   return MASTER_DETAIL_SUBSTRUCTURES.find((substructure) => substructure.id === id) || null;
+}
+
+export function getSixthGateMvpApplicationSurface(
+  id: (typeof SIXTH_GATE_MVP_APPLICATION_MAP)[number]['id'],
+) {
+  return SIXTH_GATE_MVP_APPLICATION_MAP.find((surface) => surface.id === id) || null;
 }

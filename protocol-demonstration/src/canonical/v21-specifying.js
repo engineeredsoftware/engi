@@ -346,6 +346,7 @@ function buildV21LikeProfile(version) {
           '.bitcode/v26-product-readiness-audit.json',
           '.bitcode/fifth-gate-closure-deepening-proof.json',
           '.bitcode/fifth-gate-closure-proof.json',
+          '.bitcode/sixth-gate-mvp-closure-proof.json',
           '.bitcode/prompt-space-completeness-proof.json',
           '.bitcode/retained-package-admissibility-proof.json',
           '.bitcode/system-reform-admissibility-proof.json',

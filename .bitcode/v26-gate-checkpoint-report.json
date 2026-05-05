@@ -1,15 +1,15 @@
 {
   "reportId": "v26-gate-checkpoint-report",
   "version": "V26",
-  "proofSourceCommit": "0b2f5b28fce623a74ae75f3f550d9ad02b27130d",
-  "generatedAt": "2026-05-05T07:44:02-03:00",
+  "proofSourceCommit": "cb23460b15c8aaa50b637b6141b8914688e1ded0",
+  "generatedAt": "2026-05-05T08:53:04-03:00",
   "generatorId": "bitcode.proven-generator.v1",
   "worktreeState": "dirty-preview",
   "activeCanonicalTarget": "V26",
   "draftPreview": false,
-  "checkpointId": "v26-through-fifth-gate-closed-on-eight-gate-v26",
-  "checkpointFocus": "through-fifth-gate-closed-on-eight-gate-v26",
-  "nextGate": "Gate 6: minimal viable product elevation after fifth-gate minimum-functional closure",
+  "checkpointId": "v26-through-sixth-gate-closed-on-eight-gate-v26",
+  "checkpointFocus": "through-sixth-gate-closed-on-eight-gate-v26",
+  "nextGate": "Gate 7: initial commercially-viable testnet live-launch refinement after sixth-gate MVP closure",
   "passed": true,
   "firstGate": {
     "gateId": "gate-1",
@@ -299,7 +299,7 @@
         "checkId": "fifth-gate-closure-proof",
         "label": "Fifth-gate closure verdict",
         "passed": true,
-        "detail": "Fifth-gate closure proof accepts every formal queue row without claiming sixth-, seventh-, or eighth-gate closure."
+        "detail": "Fifth-gate closure proof accepts every formal queue row while launch and total closure remain separate gates."
       },
       {
         "checkId": "fifth-gate-procedural-closure",
@@ -314,13 +314,37 @@
     "gateId": "gate-6",
     "label": "Minimal viable product elevation",
     "prepared": true,
-    "open": true,
-    "detail": "Sixth-gate remains open and will elevate the fifth-gate baseline into a coherent minimal viable product across Exchange, Terminal, Protocol, Proofs, and admitted interfaces."
+    "passed": true,
+    "open": false,
+    "closureProofPassed": true,
+    "proceduralClosurePassed": true,
+    "promotionStatus": "promoted-closed",
+    "checks": [
+      {
+        "checkId": "sixth-gate-fifth-gate-prerequisite",
+        "label": "Fifth-gate prerequisite",
+        "passed": true,
+        "detail": "Fifth-gate minimum-functional Bitcode closure holds before MVP elevation."
+      },
+      {
+        "checkId": "sixth-gate-mvp-closure-proof",
+        "label": "Sixth-gate MVP closure proof",
+        "passed": true,
+        "detail": "Sixth-gate MVP closure proof accepts every MVP row across application map, operator loop, conversations, auxillaries, interfaces, and architecture."
+      },
+      {
+        "checkId": "sixth-gate-procedural-closure",
+        "label": "Sixth-gate procedural closure",
+        "passed": true,
+        "detail": "Sixth gate is procedurally closed at the minimal viable product baseline."
+      }
+    ],
+    "detail": "Sixth gate is closed at the minimal viable product baseline. Seventh gate remains open for commercial testnet launch refinement."
   },
   "seventhGate": {
     "gateId": "gate-7",
     "label": "Initial commercially-viable testnet live-launch refinement",
-    "prepared": false,
+    "prepared": true,
     "open": true,
     "detail": "Seventh-gate remains open and will refine the minimal viable Bitcode product into an initial commercially-viable testnet launch posture."
   },

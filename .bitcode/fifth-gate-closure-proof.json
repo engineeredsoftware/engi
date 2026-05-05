@@ -1,8 +1,8 @@
 {
   "reportId": "v26-fifth-gate-closure-proof",
   "version": "V26",
-  "proofSourceCommit": "0b2f5b28fce623a74ae75f3f550d9ad02b27130d",
-  "generatedAt": "2026-05-05T07:44:02-03:00",
+  "proofSourceCommit": "cb23460b15c8aaa50b637b6141b8914688e1ded0",
+  "generatedAt": "2026-05-05T08:53:04-03:00",
   "generatorId": "bitcode.proven-generator.v1",
   "worktreeState": "dirty-preview",
   "gate": "gate-5",
@@ -20,12 +20,10 @@
     "retainedOldWorldLivePathReformed": true
   },
   "laterGateClaims": {
-    "sixthGateMvp": false,
     "seventhGateCommercialTestnetLaunch": false,
     "eighthGateV26TotalClosure": false
   },
   "notReadyFor": [
-    "sixth-gate-mvp",
     "seventh-gate-commercial-testnet-launch",
     "eighth-gate-v26-definition-of-need"
   ],
@@ -336,7 +334,7 @@
       ],
       "sourceCheck": {
         "checkId": "proof-family-source-evidence",
-        "label": "Fifth-gate closure has an explicit generated verdict without importing sixth-, seventh-, or eighth-gate claims",
+        "label": "Fifth-gate closure has an explicit generated verdict while launch and total closure stay separate",
         "passed": true,
         "detail": "4 source evidence requirements satisfied",
         "requiredEvidence": [
@@ -352,8 +350,8 @@
           },
           {
             "file": "protocol-demonstration/test/v26-gate-acceptance-criteria.test.js",
-            "evidence": "V26 generated proofs close fifth gate without claiming later gates",
-            "description": "formal gate test keeps sixth through eighth downstream"
+            "evidence": "V26 generated proofs close fifth and sixth gates without claiming launch or total closure",
+            "description": "formal gate test keeps launch and total closure downstream"
           },
           {
             "file": "BITCODE_SPEC_V26.md",
