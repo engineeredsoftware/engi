@@ -1,17 +1,17 @@
 /**
  * @doc-comment-developing-promptpartdevelopment
  * domain: purpose
- * intent: "Purpose statement for deprecated git-interactor explaining migration"
+ * intent: "Purpose statement for the Git interactor and VCS tools relationship"
  * current_version: "V26.00.0"
  * versions: []
  * benchmarks: [
- *   { "name": "deprecation_clarity", "test": "Does the purpose '{{content}}' make it immediately clear this is deprecated? Rate 0-1" },
- *   { "name": "migration_path", "test": "Does '{{content}}' clearly indicate where to find the modern replacement (VCS tools)? Rate 0-1" },
- *   { "name": "github_limitation", "test": "Does '{{content}}' explain the GitHub-specific limitation that led to deprecation? Rate 0-1" }
+ *   { "name": "boundary_clarity", "test": "Does the purpose '{{content}}' make the Git/VCS boundary clear? Rate 0-1" },
+ *   { "name": "provider_path", "test": "Does '{{content}}' clearly indicate when to use VCS tools? Rate 0-1" },
+ *   { "name": "git_specificity", "test": "Does '{{content}}' explain the concrete Git operation role? Rate 0-1" }
  * ]
  */
 
 import type { PromptPart } from '../../parts/PromptPart';
 
 export const PROMPTPART_SPECIFIC_TOOL_VCS_DOCCODETOOLPURPOSE: PromptPart = 
-  'DEPRECATED: Legacy GitHub-specific Git operations. All functionality has been migrated to VCS tools for multi-provider support. Use @bitcode/generic-tools/vcs instead.' as PromptPart;
+  'Use VCS tools for provider-generic repository operations and Git interactor tools when the Bitcode workflow is concretely Git-shaped, such as AssetPack pull request delivery, branch evidence, file evidence, and repository anchor reads.' as PromptPart;

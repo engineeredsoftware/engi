@@ -13,4 +13,4 @@
 import type { PromptPart } from '../../parts/PromptPart';
 
 export const PROMPTPART_SPECIFIC_TOOL_GITINTERACTOR_DOCCODETOOLPURPOSE: PromptPart = 
-  'Provide concrete, domain‑appropriate content for this specific prompt segment. Use precise, operational language and ensure it integrates coherently with adjacent prompt parts.' as PromptPart;
+  'Expose Bitcode Git-shaped repository operations as Tool-compatible prompt context for AssetPack, Terminal, Exchange, and connected-interface workflows while routing provider behavior through the VCS abstraction.' as PromptPart;

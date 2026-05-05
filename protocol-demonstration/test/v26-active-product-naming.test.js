@@ -572,6 +572,9 @@ const genericRepositorySetupSource = readFileSync(new URL('../../packages/generi
 const genericSimpleSystemTextSearchSource = readFileSync(new URL('../../packages/generic-tools/simple-system-text-search/src/index.ts', import.meta.url), 'utf8');
 const genericSimpleSystemTextSearchReadmeSource = readFileSync(new URL('../../packages/generic-tools/simple-system-text-search/README.md', import.meta.url), 'utf8');
 const genericFilesMaintainingSource = readFileSync(new URL('../../packages/generic-tools/files-maintaining/src/index.ts', import.meta.url), 'utf8');
+const gitPackageSource = readFileSync(new URL('../../packages/git/src/index.ts', import.meta.url), 'utf8');
+const gitPackageReadmeSource = readFileSync(new URL('../../packages/git/README.md', import.meta.url), 'utf8');
+const gitPackageManifestSource = readFileSync(new URL('../../packages/git/package.json', import.meta.url), 'utf8');
 const genericGitInteractorSource = readFileSync(new URL('../../packages/generic-tools/git-interactor/src/index.ts', import.meta.url), 'utf8');
 const conversationsGenericsAgentSource = readFileSync(new URL('../../packages/conversations-generics/src/agent/ConversationAgent.ts', import.meta.url), 'utf8');
 const useConversationStreamSource = readFileSync(new URL('../../uapi/hooks/useConversationStream.ts', import.meta.url), 'utf8');
@@ -2823,6 +2826,9 @@ test('active V26 retained package surfaces use Bitcode naming instead of Engi na
   assert.match(genericFilesMaintainingSource, /Bitcode written-asset file mutation support/);
   assert.match(genericFilesMaintainingSource, /proof-facing operation evidence/);
   assert.match(genericFilesMaintainingSource, /asset-pack synthesis runs/);
+  assert.match(gitPackageManifestSource, /Bitcode Git operation bridge/);
+  assert.match(gitPackageSource, /Git is retained in V26 as concrete repository-transport infrastructure/);
+  assert.match(gitPackageReadmeSource, /Bitcode Git operation bridge/);
   assert.match(genericGitInteractorSource, /Bitcode's distributed version control intelligence/);
   assert.match(conversationsGenericsAgentSource, /PROMPTPART_SPECIFIC_AGENT_CONVERSATIONAGENT_IDENTITY_DEFINITION/);
   assert.doesNotMatch(conversationsGenericsAgentSource, /Bitcode conversational AI assistant/);
@@ -2844,7 +2850,11 @@ test('active V26 retained package surfaces use Bitcode naming instead of Engi na
   assert.doesNotMatch(genericFilesMaintainingSource, /Engi's atomic file management engine/);
   assert.doesNotMatch(genericFilesMaintainingSource, /Engi's comprehensive file system safety engine/);
   assert.doesNotMatch(genericFilesMaintainingSource, /Engi's comprehensive file system validation engine/);
+  assert.doesNotMatch(gitPackageManifestSource, /deprecated|0\\.0\\.0-deprecated/i);
+  assert.doesNotMatch(gitPackageSource, /deprecated|0\\.0\\.0-deprecated/i);
+  assert.doesNotMatch(gitPackageReadmeSource, /deprecated|0\\.0\\.0-deprecated/i);
   assert.doesNotMatch(genericGitInteractorSource, /Engi's distributed version control intelligence/);
+  assert.doesNotMatch(genericGitInteractorSource, /deprecated|0\\.0\\.0-deprecated/i);
   assert.doesNotMatch(conversationsGenericsAgentSource, /Engi conversational AI assistant/);
   assert.doesNotMatch(useConversationStreamSource, /@author Engi Team/);
   assert.doesNotMatch(lspIndexSource, /for Engi code editing/);

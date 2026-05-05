@@ -14,6 +14,7 @@ import { getUsdPricingForApiModel } from '@bitcode/models/src/pricing';
 
 export const BTD_ASSET_SEMANTICS = 'non_fungible_asset_pack_share_read_right' as const;
 export const BITCODE_FEE_ASSET = 'BTC' as const;
+export const BTD_MAX_MINTABLE_SUPPLY = 21_000_000 as const;
 
 export interface GenerationTokens {
   inputTokens: number;
@@ -111,6 +112,25 @@ export function calculateLlmBtcFeeEstimate(
 export function calculateMeasuredBtdFromTokens(tokens: GenerationTokens): number {
   const total = Math.max(0, tokens.inputTokens) + Math.max(0, tokens.outputTokens);
   return Math.max(1, Math.ceil(total / 1000));
+}
+
+export function assertBtdMintableSupplyLimit(
+  currentMintedBtd: number,
+  proposedMintBtd: number,
+): number {
+  if (!Number.isFinite(currentMintedBtd) || !Number.isFinite(proposedMintBtd)) {
+    throw new Error('$BTD mint supply inputs must be finite numbers.');
+  }
+
+  const nextSupply = Math.max(0, currentMintedBtd) + Math.max(0, proposedMintBtd);
+
+  if (nextSupply > BTD_MAX_MINTABLE_SUPPLY) {
+    throw new Error(
+      `$BTD minting is capped at ${BTD_MAX_MINTABLE_SUPPLY.toLocaleString()} measured non-fungible shares.`,
+    );
+  }
+
+  return nextSupply;
 }
 
 export function buildGenerationBitcodeAccounting(

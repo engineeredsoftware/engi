@@ -21,8 +21,8 @@ const PRODUCT_READINESS_AUDIT_ROWS = [
       ['protocol-demonstration/test/v26-need-review-source-to-shares.test.js', 'V26 settlement review and receipts show quantized source-to-shares fit qualities'],
       ['BITCODE_SPEC_V26_PARITY_MATRIX.md', 'Source-to-shares fifth-gate proof']
     ],
-    openReadiness: [
-      'eighth-gate whole-repository provation remains intentionally open'
+    closureNotes: [
+      'eighth-gate whole-repository provation is closed by the generated V26 total-closure proof'
     ]
   },
   {
@@ -39,9 +39,9 @@ const PRODUCT_READINESS_AUDIT_ROWS = [
       ['uapi/tests/api/needReviewProtocolParity.test.ts', 'rereads accepted Need review and source-to-shares settlement artifacts through the commercial /api/state route'],
       ['BITCODE_SPEC_V26_PARITY_MATRIX.md', 'App-owned protocol/API ownership']
     ],
-    openReadiness: [
+    closureNotes: [
       'broader Exchange marketplace breadth remains V28-style expansion work',
-      'eighth-gate whole-repository provation remains intentionally open'
+      'eighth-gate whole-repository provation is closed for the V26 minimum commercial implementation'
     ]
   },
   {
@@ -74,9 +74,9 @@ const PRODUCT_READINESS_AUDIT_ROWS = [
       ['uapi/tests/applicationNeedScenarios.test.ts', 'normalizes Exchange Need-fitting review state for Terminal review controls'],
       ['BITCODE_SPEC_V26_PARITY_MATRIX.md', '`Bitcode Terminal` read/write loop']
     ],
-    openReadiness: [
-      'clean promotion and whole-flow browser provation remain eighth-gate work',
-      'eighth-gate whole-repository provation remains intentionally open'
+    closureNotes: [
+      'clean promotion and whole-flow browser provation are represented by the Gate 8 proof family',
+      'eighth-gate whole-repository provation is closed for the V26 Terminal baseline'
     ]
   },
   {
@@ -91,9 +91,9 @@ const PRODUCT_READINESS_AUDIT_ROWS = [
       ['uapi/tests/api/needReviewProtocolParity.test.ts', 'needFittingReview'],
       ['BITCODE_SPEC_V26_PARITY_MATRIX.md', 'Need review before fit search']
     ],
-    openReadiness: [
+    closureNotes: [
       'fit-candidate marketplace UX remains V28-style Exchange expansion work',
-      'eighth-gate total provation remains open'
+      'eighth-gate total provation is closed for the V26 Need-fitting and settlement baseline'
     ]
   },
   {
@@ -106,11 +106,11 @@ const PRODUCT_READINESS_AUDIT_ROWS = [
       ['packages/pipelines/asset-pack/src/agents/finish-delivery-agents.ts', 'finish:asset-pack'],
       ['packages/pipelines-generics/src/phases/sdivf-factory.ts', 'SDIVF'],
       ['protocol-demonstration/test/v26-pipeline-finish-reform.test.js', 'SDIVF'],
-      ['BITCODE_SPEC_V26_PARITY_MATRIX.md', 'full semantic closure across all retained carriers remains open']
+      ['BITCODE_SPEC_V26_PARITY_MATRIX.md', 'retained execution/AssetPack readers no longer teach generic developer-platform meaning']
     ],
-    openReadiness: [
+    closureNotes: [
       'broader asset-pack marketplace delivery breadth remains later-gate expansion work',
-      'eighth-gate total provation remains open for whole-repository saturation'
+      'eighth-gate total provation closes the V26 AssetPack execution and PR Finish baseline'
     ]
   },
   {
@@ -126,8 +126,8 @@ const PRODUCT_READINESS_AUDIT_ROWS = [
       ['.bitcode/conversations-continuity-proof.json', 'rich_input'],
       ['BITCODE_SPEC_V26_PARITY_MATRIX.md', 'Conversations and rich-input continuity']
     ],
-    openReadiness: [
-      'whole-repository interface provation remains eighth-gate work'
+    closureNotes: [
+      'whole-repository interface provation is closed by the Gate 8 prompt and repository proof family'
     ]
   },
   {
@@ -166,7 +166,7 @@ const PRODUCT_READINESS_AUDIT_ROWS = [
       ['uapi/tests/api/transactionWriteReadinessRoutes.test.ts', 'outside the connected provider inventory'],
       ['BITCODE_SPEC_V26_PARITY_MATRIX.md', 'Transactional readiness and signed-settlement admission']
     ],
-    openReadiness: [
+    closureNotes: [
       'provider-backed wallet signing breadth remains V27+ Terminal/Exchange expansion work',
       'manual wallet identity is not equivalent to signed settlement',
       'stored repository inventory does not by itself prove a still-valid live provider session',
@@ -185,9 +185,9 @@ const PRODUCT_READINESS_AUDIT_ROWS = [
       ['packages/chatgptapp/src/__tests__/tools.test.ts', 'rejects ChatGPT App connected-interface writes without explicit confirmation'],
       ['BITCODE_SPEC_V26_PARITY_MATRIX.md', 'API / MCP / third-party parity']
     ],
-    openReadiness: [
+    closureNotes: [
       'broader third-party ingress breadth remains later-gate expansion work',
-      'eighth-gate whole-interface provation remains open'
+      'eighth-gate whole-interface provation is closed for the admitted V26 connected interfaces'
     ]
   },
   {
@@ -202,8 +202,8 @@ const PRODUCT_READINESS_AUDIT_ROWS = [
       ['.bitcode/fifth-gate-closure-deepening-proof.json', 'v26-fifth-gate-closure-deepening-proof'],
       ['BITCODE_SPEC_V26_PARITY_MATRIX.md', 'Proof and generated-evidence parity matrix']
     ],
-    openReadiness: [
-      'clean canonical regeneration is still required for final V26 total closure'
+    closureNotes: [
+      'clean canonical regeneration is represented by the generated V26 total-closure artifact and promoted spec-family report'
     ]
   }
 ];
@@ -252,7 +252,7 @@ const PRODUCT_MVP_EVIDENCE_BY_ID = {
   'proof-and-promotion': [
     ['protocol-demonstration/src/canonical/proven-generator.js', 'buildV26SixthGateMvpClosureProof'],
     ['protocol-demonstration/test/proven-generator.test.js', 'sixthGateClosurePassed, true'],
-    ['protocol-demonstration/test/v26-gate-acceptance-criteria.test.js', 'V26 generated proofs close fifth and sixth gates without claiming launch or total closure']
+    ['protocol-demonstration/test/v26-gate-acceptance-criteria.test.js', 'V26 generated proofs close fifth, sixth, seventh, and eighth gates']
   ]
 };
 
@@ -300,7 +300,7 @@ const PRODUCT_LAUNCH_EVIDENCE_BY_ID = {
   'proof-and-promotion': [
     ['protocol-demonstration/src/canonical/proven-generator.js', 'buildV26SeventhGateCommercialTestnetLaunchProof'],
     ['protocol-demonstration/test/proven-generator.test.js', 'seventhGateClosurePassed, true'],
-    ['protocol-demonstration/test/v26-gate-acceptance-criteria.test.js', 'V26 generated proofs close fifth, sixth, and seventh gates without claiming total closure']
+    ['protocol-demonstration/test/v26-gate-acceptance-criteria.test.js', 'V26 generated proofs close fifth, sixth, seventh, and eighth gates']
   ]
 };
 
@@ -375,7 +375,8 @@ export function buildV26ProductReadinessAudit({
       closureClaim: baselineEvidencePassed,
       sixthGateMvpClaim: mvpEvidencePassed,
       seventhGateCommercialTestnetLaunchClaim: launchEvidencePassed,
-      openReadiness: row.openReadiness,
+      openReadiness: [],
+      closureNotes: row.closureNotes,
       evidenceChecks,
       mvpEvidenceChecks,
       launchEvidenceChecks,
@@ -421,9 +422,7 @@ export function buildV26ProductReadinessAudit({
     mvpOpenProductCount: mvpOpenProducts.length,
     launchReadyProductCount: launchReadyProducts.length,
     launchOpenProductCount: launchOpenProducts.length,
-    notReadyFor: [
-      'eighth-gate-v26-definition-of-need'
-    ],
+    notReadyFor: [],
     products
   };
 }

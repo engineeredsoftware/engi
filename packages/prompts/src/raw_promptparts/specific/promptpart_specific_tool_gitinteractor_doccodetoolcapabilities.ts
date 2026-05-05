@@ -13,4 +13,4 @@
 import type { PromptPart } from '../../parts/PromptPart';
 
 export const PROMPTPART_SPECIFIC_TOOL_GITINTERACTOR_DOCCODETOOLCAPABILITIES: PromptPart = 
-  'Provide concrete, domain‑appropriate content for this specific prompt segment. Use precise, operational language and ensure it integrates coherently with adjacent prompt parts.' as PromptPart;
+  'Supports repository metadata reads, file listing, branch/reference reads, pull request creation, issue/comment operations, file content writes, file deletes, commit reads, and issue-with-comments evidence retrieval through admitted Bitcode repository anchors.' as PromptPart;

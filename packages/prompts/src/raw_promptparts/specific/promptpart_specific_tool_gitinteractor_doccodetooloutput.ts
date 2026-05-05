@@ -13,4 +13,4 @@
 import type { PromptPart } from '../../parts/PromptPart';
 
 export const PROMPTPART_SPECIFIC_TOOL_GITINTERACTOR_DOCCODETOOLOUTPUT: PromptPart = 
-  'Provide concrete, domain‑appropriate content for this specific prompt segment. Use precise, operational language and ensure it integrates coherently with adjacent prompt parts.' as PromptPart;
+  'Return provider-normalized VCS records for repositories, files, branches, pull requests, issues, comments, commits, or explicit fail-closed errors when the selected provider cannot prove the requested Git operation.' as PromptPart;

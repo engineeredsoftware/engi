@@ -14,6 +14,21 @@ const fifthGateClosureProof = JSON.parse(
 const sixthGateMvpClosureProof = JSON.parse(
   readFileSync(new URL('../../.bitcode/sixth-gate-mvp-closure-proof.json', import.meta.url), 'utf8')
 );
+const seventhGateCommercialTestnetLaunchProof = JSON.parse(
+  readFileSync(new URL('../../.bitcode/seventh-gate-commercial-testnet-launch-proof.json', import.meta.url), 'utf8')
+);
+const promptSpaceCompletenessProof = JSON.parse(
+  readFileSync(new URL('../../.bitcode/prompt-space-completeness-proof.json', import.meta.url), 'utf8')
+);
+const wholeRepositoryProductionSatisfactionProof = JSON.parse(
+  readFileSync(new URL('../../.bitcode/whole-repository-production-satisfaction-proof.json', import.meta.url), 'utf8')
+);
+const v26TotalClosureProof = JSON.parse(
+  readFileSync(new URL('../../.bitcode/v26-total-closure-proof.json', import.meta.url), 'utf8')
+);
+const gateCheckpointReport = JSON.parse(
+  readFileSync(new URL('../../.bitcode/v26-gate-checkpoint-report.json', import.meta.url), 'utf8')
+);
 const productReadinessAudit = JSON.parse(
   readFileSync(new URL('../../.bitcode/v26-product-readiness-audit.json', import.meta.url), 'utf8')
 );
@@ -45,6 +60,26 @@ const expectedSixthGateRows = [
   'auxillaries-readiness-and-btd',
   'admitted-interfaces-one-product',
   'mvp-quality-and-clean-architecture'
+];
+
+const expectedSeventhGateRows = [
+  'fifth-and-sixth-gate-acceptance-hold',
+  'commercial-testnet-product-readiness',
+  'testnet-first-launch-boundary',
+  'commercial-product-story',
+  'wallet-settlement-repository-readiness',
+  'proof-state-reread-operator-flows',
+  'connected-interface-launch-alignment',
+  'old-world-compatibility-explanations-retired'
+];
+
+const expectedEighthGateRows = [
+  'fifth-sixth-seventh-gate-acceptance-hold',
+  'prompt-space-completeness-closed',
+  'whole-repository-production-satisfaction-closed',
+  'spec-family-and-canonical-input-promoted',
+  'application-ready-bitcode-canon-no-silent-compatibility',
+  'promotion-without-interpretive-notes'
 ];
 
 test('V26 formal gate criteria keep fifth through eighth gates ordered and explicit', () => {
@@ -84,13 +119,16 @@ test('V26 parity matrix records the current fifth-gate closure queue', () => {
 
   assert.match(paritySource, /source-level checks, generated proof artifacts, executable tests, and specification text/u);
   assert.match(paritySource, /Sixth-gate MVP closure queue/u);
-  assert.match(paritySource, /seventh-gate commercial testnet launch begins only after sixth-gate acceptance/u);
-  assert.match(paritySource, /eighth-gate provation begins only after fifth, sixth, and seventh hold/u);
+  assert.match(paritySource, /Seventh-gate commercial testnet launch closure queue/u);
+  assert.match(paritySource, /commercial testnet launch is accepted because every row has source-level checks/u);
+  assert.match(paritySource, /eighth-gate whole-repository closure is explicit and closed/u);
   assert.match(proofSurfaceSource, /current fifth-gate closure queue confirmation/u);
   assert.match(proofSurfaceSource, /sixth-gate MVP closure proof/u);
+  assert.match(proofSurfaceSource, /seventh-gate commercial testnet launch proof/u);
+  assert.match(proofSurfaceSource, /generated V26 proof appendix and reports are eighth-gate final closure evidence/u);
 });
 
-test('V26 generated proofs close fifth and sixth gates without claiming launch or total closure', () => {
+test('V26 generated proofs close fifth, sixth, seventh, and eighth gates', () => {
   assert.equal(fifthGateDeepeningProof.gate, 'gate-5');
   assert.equal(fifthGateDeepeningProof.passed, true);
   assert.equal(fifthGateDeepeningProof.closureClaim, true);
@@ -113,23 +151,21 @@ test('V26 generated proofs close fifth and sixth gates without claiming launch o
   assert.equal(fifthGateClosureProof.queueRowCount, expectedClosureQueueRows.length);
   assert.equal(fifthGateClosureProof.closedQueueRowCount, expectedClosureQueueRows.length);
   assert.deepEqual(fifthGateClosureProof.openQueueRows, []);
-  assert.deepEqual(fifthGateClosureProof.notReadyFor, [
-    'seventh-gate-commercial-testnet-launch',
-    'eighth-gate-v26-definition-of-need'
-  ]);
+  assert.deepEqual(fifthGateClosureProof.notReadyFor, []);
 
   assert.equal(productReadinessAudit.baselinePassed, true);
   assert.equal(productReadinessAudit.mvpPassed, true);
+  assert.equal(productReadinessAudit.launchPassed, true);
   assert.equal(productReadinessAudit.closureClaim, true);
   assert.equal(productReadinessAudit.sixthGateMvpClaim, true);
+  assert.equal(productReadinessAudit.seventhGateCommercialTestnetLaunchClaim, true);
   assert.equal(productReadinessAudit.closureReadyProductCount, productReadinessAudit.productCount);
   assert.equal(productReadinessAudit.mvpReadyProductCount, productReadinessAudit.productCount);
+  assert.equal(productReadinessAudit.launchReadyProductCount, productReadinessAudit.productCount);
   assert.equal(productReadinessAudit.openProductCount, 0);
   assert.equal(productReadinessAudit.mvpOpenProductCount, 0);
-  assert.deepEqual(productReadinessAudit.notReadyFor, [
-    'seventh-gate-commercial-testnet-launch',
-    'eighth-gate-v26-definition-of-need'
-  ]);
+  assert.equal(productReadinessAudit.launchOpenProductCount, 0);
+  assert.deepEqual(productReadinessAudit.notReadyFor, []);
 
   assert.equal(sixthGateMvpClosureProof.gate, 'gate-6');
   assert.equal(sixthGateMvpClosureProof.passed, true);
@@ -139,8 +175,43 @@ test('V26 generated proofs close fifth and sixth gates without claiming launch o
   assert.equal(sixthGateMvpClosureProof.closedQueueRowCount, expectedSixthGateRows.length);
   assert.deepEqual(sixthGateMvpClosureProof.openQueueRows, []);
   assert.deepEqual(sixthGateMvpClosureProof.closureRows.map((row) => row.rowId), expectedSixthGateRows);
-  assert.deepEqual(sixthGateMvpClosureProof.notReadyFor, [
-    'seventh-gate-commercial-testnet-launch',
-    'eighth-gate-v26-definition-of-need'
-  ]);
+  assert.deepEqual(sixthGateMvpClosureProof.notReadyFor, []);
+
+  assert.equal(seventhGateCommercialTestnetLaunchProof.gate, 'gate-7');
+  assert.equal(seventhGateCommercialTestnetLaunchProof.passed, true);
+  assert.equal(seventhGateCommercialTestnetLaunchProof.closureClaim, true);
+  assert.equal(seventhGateCommercialTestnetLaunchProof.proceduralGateClosure, true);
+  assert.equal(seventhGateCommercialTestnetLaunchProof.queueRowCount, expectedSeventhGateRows.length);
+  assert.equal(seventhGateCommercialTestnetLaunchProof.closedQueueRowCount, expectedSeventhGateRows.length);
+  assert.deepEqual(seventhGateCommercialTestnetLaunchProof.openQueueRows, []);
+  assert.deepEqual(
+    seventhGateCommercialTestnetLaunchProof.closureRows.map((row) => row.rowId),
+    expectedSeventhGateRows
+  );
+  assert.deepEqual(seventhGateCommercialTestnetLaunchProof.notReadyFor, []);
+
+  assert.equal(promptSpaceCompletenessProof.passed, true);
+  assert.equal(promptSpaceCompletenessProof.closureClaim, true);
+  assert.equal(promptSpaceCompletenessProof.proceduralGateClosure, true);
+  assert.deepEqual(promptSpaceCompletenessProof.openCompletenessDimensions, []);
+
+  assert.equal(wholeRepositoryProductionSatisfactionProof.passed, true);
+  assert.equal(wholeRepositoryProductionSatisfactionProof.closureClaim, true);
+  assert.equal(wholeRepositoryProductionSatisfactionProof.proceduralGateClosure, true);
+
+  assert.equal(v26TotalClosureProof.gate, 'gate-8');
+  assert.equal(v26TotalClosureProof.passed, true);
+  assert.equal(v26TotalClosureProof.closureClaim, true);
+  assert.equal(v26TotalClosureProof.proceduralGateClosure, true);
+  assert.equal(v26TotalClosureProof.queueRowCount, expectedEighthGateRows.length);
+  assert.equal(v26TotalClosureProof.closedQueueRowCount, expectedEighthGateRows.length);
+  assert.deepEqual(v26TotalClosureProof.openQueueRows, []);
+  assert.deepEqual(v26TotalClosureProof.notReadyFor, []);
+  assert.deepEqual(v26TotalClosureProof.closureRows.map((row) => row.rowId), expectedEighthGateRows);
+
+  assert.equal(gateCheckpointReport.eighthGate.passed, true);
+  assert.equal(gateCheckpointReport.eighthGate.open, false);
+  assert.equal(gateCheckpointReport.eighthGate.proceduralClosurePassed, true);
+  assert.equal(gateCheckpointReport.eighthGate.promotionStatus, 'promoted-closed');
+  assert.equal(gateCheckpointReport.nextGate, 'V26 fully proven: ready for canonical promotion');
 });

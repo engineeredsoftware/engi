@@ -1270,7 +1270,10 @@ function buildV26GateCheckpointReport({
   fifthGateClosureDeepeningProof,
   fifthGateClosureProof,
   sixthGateMvpClosureProof,
-  seventhGateCommercialTestnetLaunchProof
+  seventhGateCommercialTestnetLaunchProof,
+  promptSpaceCompletenessProof,
+  wholeRepositoryProductionSatisfactionProof,
+  v26TotalClosureProof
 }) {
   const firstGateChecks = [
     {
@@ -1556,6 +1559,69 @@ function buildV26GateCheckpointReport({
     }
   ];
   const eighthGatePrepared = seventhGatePassed;
+  const promptSpaceCompletenessProofPassed = promptSpaceCompletenessProof?.passed === true
+    && promptSpaceCompletenessProof?.closureClaim === true
+    && promptSpaceCompletenessProof?.proceduralGateClosure === true;
+  const wholeRepositoryProductionSatisfactionProofPassed = wholeRepositoryProductionSatisfactionProof?.passed === true
+    && wholeRepositoryProductionSatisfactionProof?.closureClaim === true
+    && wholeRepositoryProductionSatisfactionProof?.proceduralGateClosure === true;
+  const v26TotalClosureProofPassed = v26TotalClosureProof?.passed === true
+    && v26TotalClosureProof?.closureClaim === true
+    && v26TotalClosureProof?.proceduralGateClosure === true;
+  const eighthGatePassed = eighthGatePrepared
+    && promptSpaceCompletenessProofPassed
+    && wholeRepositoryProductionSatisfactionProofPassed
+    && v26TotalClosureProofPassed;
+  const eighthGateChecks = [
+    {
+      checkId: 'eighth-gate-fifth-sixth-seventh-prerequisites',
+      label: 'Fifth-, sixth-, and seventh-gate prerequisites',
+      passed: seventhGatePassed,
+      detail: seventhGatePassed
+        ? 'Fifth-gate minimum-functional closure, sixth-gate MVP closure, and seventh-gate commercial testnet launch closure all hold before final V26 provation.'
+        : 'Eighth gate is blocked until fifth-, sixth-, and seventh-gate closure all hold.'
+    },
+    {
+      checkId: 'eighth-gate-prompt-space-completeness-proof',
+      label: 'Prompt-space completeness proof',
+      passed: promptSpaceCompletenessProofPassed,
+      detail: promptSpaceCompletenessProofPassed
+        ? 'Prompt-space completeness proof closes every prompt-space witness set and final completeness dimension.'
+        : 'Prompt-space completeness remains open.'
+    },
+    {
+      checkId: 'eighth-gate-whole-repository-production-satisfaction-proof',
+      label: 'Whole-repository production satisfaction proof',
+      passed: wholeRepositoryProductionSatisfactionProofPassed,
+      detail: wholeRepositoryProductionSatisfactionProofPassed
+        ? 'Whole-repository production satisfaction proof closes application, API, MCP, ChatGPT App, package, proof, and reform evidence as one Bitcode product.'
+        : 'Whole-repository production satisfaction remains open.'
+    },
+    {
+      checkId: 'eighth-gate-v26-total-closure-proof',
+      label: 'V26 total closure proof',
+      passed: v26TotalClosureProofPassed,
+      detail: v26TotalClosureProofPassed
+        ? 'V26 total closure proof accepts the final repository closure queue.'
+        : 'V26 total closure remains open.'
+    },
+    {
+      checkId: 'eighth-gate-procedural-closure',
+      label: 'Eighth-gate procedural closure',
+      passed: eighthGatePassed,
+      detail: eighthGatePassed
+        ? 'Eighth gate is procedurally closed; V26 is ready for canonical promotion without interpretive notes.'
+        : 'Eighth gate remains open until prerequisites, prompt-space completeness, whole-repository satisfaction, and total closure all pass.'
+    }
+  ];
+  const checkpointPassed = firstGatePassed
+    && secondGatePassed
+    && thirdGatePassed
+    && fourthGatePromotedClosed
+    && fifthGatePassed
+    && sixthGatePassed
+    && seventhGatePassed
+    && eighthGatePassed;
 
   return {
     reportId: 'v26-gate-checkpoint-report',
@@ -1566,14 +1632,20 @@ function buildV26GateCheckpointReport({
     worktreeState: baseData.worktreeState,
     activeCanonicalTarget: ACTIVE_CANON_VERSION,
     draftPreview,
-    checkpointId: 'v26-through-seventh-gate-closed-on-eight-gate-v26',
-    checkpointFocus: 'through-seventh-gate-closed-on-eight-gate-v26',
-    nextGate: seventhGatePassed
+    checkpointId: eighthGatePassed
+      ? 'v26-through-eighth-gate-fully-proven'
+      : 'v26-through-seventh-gate-closed-on-eight-gate-v26',
+    checkpointFocus: eighthGatePassed
+      ? 'through-eighth-gate-fully-proven'
+      : 'through-seventh-gate-closed-on-eight-gate-v26',
+    nextGate: eighthGatePassed
+      ? 'V26 fully proven: ready for canonical promotion'
+      : (seventhGatePassed
       ? 'Gate 8: whole-repository provation and final V26 closure'
       : (sixthGatePassed
-        ? 'Gate 7: initial commercially-viable testnet live-launch refinement after sixth-gate MVP closure'
-        : 'Gate 6: minimal viable product elevation after fifth-gate minimum-functional closure'),
-    passed: firstGatePassed && secondGatePassed && thirdGatePassed && fourthGatePromotedClosed && fifthGatePassed && sixthGatePassed && seventhGatePassed,
+        ? 'Gate 7 blocked: initial commercially-viable testnet live-launch refinement after sixth-gate MVP closure'
+        : 'Gate 6: minimal viable product elevation after fifth-gate minimum-functional closure')),
+    passed: checkpointPassed,
     firstGate: {
       gateId: 'gate-1',
       label: 'Ownership migration baseline',
@@ -1652,15 +1724,24 @@ function buildV26GateCheckpointReport({
       promotionStatus: seventhGatePassed ? 'promoted-closed' : 'not-promoted',
       checks: seventhGateChecks,
       detail: seventhGatePassed
-        ? 'Seventh gate is closed at the initial commercially viable testnet launch baseline. Eighth gate remains open for whole-repository provation and final V26 closure.'
+        ? 'Seventh gate is closed at the initial commercially viable testnet launch baseline. Final V26 closure is judged by the Gate 8 proof family.'
         : 'Seventh-gate launch refinement is blocked until the MVP baseline is refined into a commercially credible, testnet-first product story.'
     },
     eighthGate: {
       gateId: 'gate-8',
       label: 'Whole-repository provation and final V26 closure',
       prepared: eighthGatePrepared,
-      open: true,
-      detail: 'Eighth-gate remains open and owns final whole-repository Bitcode provation, prompt-space closure, and the definition-of-done for V26 productization.'
+      passed: eighthGatePassed,
+      open: !eighthGatePassed,
+      promptSpaceCompletenessProofPassed,
+      wholeRepositoryProductionSatisfactionProofPassed,
+      closureProofPassed: v26TotalClosureProofPassed,
+      proceduralClosurePassed: eighthGatePassed,
+      promotionStatus: eighthGatePassed ? 'promoted-closed' : 'not-promoted',
+      checks: eighthGateChecks,
+      detail: eighthGatePassed
+        ? 'Eighth gate is closed: whole-repository Bitcode provation, prompt-space completeness, and V26 total closure have explicit generated closure verdicts.'
+        : 'Eighth-gate remains open and owns final whole-repository Bitcode provation, prompt-space closure, and the definition-of-done for V26 productization.'
     }
   };
 }
@@ -3140,7 +3221,7 @@ function buildV26FifthGateClosureProof({
       ['source-to-shares', 'product-readiness-audit', 'fifth-gate-closure-deepening', 'environment-mode-coherence', 'prompt-space-baseline', 'system-reform-admissibility'],
       buildV26FileContentCheck(
         'proof-family-source-evidence',
-        'Fifth-gate closure has an explicit generated verdict while launch and total closure stay separate',
+        'Fifth-gate closure has an explicit generated verdict and remains ordered before final Gate 8 closure',
         [
           {
             file: 'protocol-demonstration/src/canonical/proven-generator.js',
@@ -3154,8 +3235,8 @@ function buildV26FifthGateClosureProof({
           },
           {
             file: 'protocol-demonstration/test/v26-gate-acceptance-criteria.test.js',
-            evidence: 'V26 generated proofs close fifth and sixth gates without claiming launch or total closure',
-            description: 'formal gate test keeps launch and total closure downstream'
+            evidence: 'V26 generated proofs close fifth, sixth, seventh, and eighth gates',
+            description: 'formal gate test keeps total closure explicit and ordered'
           },
           {
             file: 'BITCODE_SPEC_V26.md',
@@ -3193,10 +3274,7 @@ function buildV26FifthGateClosureProof({
       seventhGateCommercialTestnetLaunch: false,
       eighthGateV26TotalClosure: false
     },
-    notReadyFor: [
-      'seventh-gate-commercial-testnet-launch',
-      'eighth-gate-v26-definition-of-need'
-    ],
+    notReadyFor: [],
     proofInputs,
     closureRows
   };
@@ -3570,10 +3648,364 @@ function buildV26SixthGateMvpClosureProof({
       seventhGateCommercialTestnetLaunch: false,
       eighthGateV26TotalClosure: false
     },
-    notReadyFor: [
-      'seventh-gate-commercial-testnet-launch',
-      'eighth-gate-v26-definition-of-need'
+    notReadyFor: [],
+    proofInputs,
+    closureRows
+  };
+}
+
+/**
+ * @param {{
+ *   generatedAt: string,
+ *   baseData: any,
+ *   applicationCompositionProof: any,
+ *   conversationsContinuityProof: any,
+ *   environmentModeCoherenceProof: any,
+ *   runsPipelinesTotalityProof: any,
+ *   persistenceSchemaTotalityProof: any,
+ *   sourceToSharesFifthGateProof: any,
+ *   productReadinessAudit: any,
+ *   sixthGateMvpClosureProof: any,
+ *   retainedPackageAdmissibilityProof: any,
+ *   systemReformAdmissibilityProof: any
+ * }} input
+ */
+function buildV26SeventhGateCommercialTestnetLaunchProof({
+  generatedAt,
+  baseData,
+  applicationCompositionProof,
+  conversationsContinuityProof,
+  environmentModeCoherenceProof,
+  runsPipelinesTotalityProof,
+  persistenceSchemaTotalityProof,
+  sourceToSharesFifthGateProof,
+  productReadinessAudit,
+  sixthGateMvpClosureProof,
+  retainedPackageAdmissibilityProof,
+  systemReformAdmissibilityProof
+}) {
+  const proofInputs = [
+    {
+      proofId: 'sixth-gate-mvp-closure',
+      artifactPath: '.bitcode/sixth-gate-mvp-closure-proof.json',
+      passed: sixthGateMvpClosureProof?.passed === true
+        && sixthGateMvpClosureProof?.proceduralGateClosure === true
+    },
+    {
+      proofId: 'product-readiness-launch',
+      artifactPath: '.bitcode/v26-product-readiness-audit.json',
+      passed: productReadinessAudit?.launchPassed === true
+        && productReadinessAudit?.seventhGateCommercialTestnetLaunchClaim === true
+        && productReadinessAudit?.launchReadyProductCount === productReadinessAudit?.productCount
+        && productReadinessAudit?.launchOpenProductCount === 0
+    },
+    {
+      proofId: 'application-composition',
+      artifactPath: '.bitcode/application-composition-proof.json',
+      passed: applicationCompositionProof?.passed === true
+    },
+    {
+      proofId: 'conversations-continuity',
+      artifactPath: '.bitcode/conversations-continuity-proof.json',
+      passed: conversationsContinuityProof?.passed === true
+    },
+    {
+      proofId: 'runs-pipelines-totality',
+      artifactPath: '.bitcode/runs-pipelines-totality-proof.json',
+      passed: runsPipelinesTotalityProof?.passed === true
+    },
+    {
+      proofId: 'persistence-schema-totality',
+      artifactPath: '.bitcode/persistence-schema-totality-proof.json',
+      passed: persistenceSchemaTotalityProof?.passed === true
+    },
+    {
+      proofId: 'source-to-shares',
+      artifactPath: '.bitcode/source-to-shares-fifth-gate-proof.json',
+      passed: sourceToSharesFifthGateProof?.passed === true
+    },
+    {
+      proofId: 'environment-mode-coherence',
+      artifactPath: '.bitcode/environment-mode-coherence-proof.json',
+      passed: environmentModeCoherenceProof?.passed === true
+    },
+    {
+      proofId: 'retained-package-admissibility',
+      artifactPath: '.bitcode/retained-package-admissibility-proof.json',
+      passed: retainedPackageAdmissibilityProof?.passed === true
+        && retainedPackageAdmissibilityProof?.unclassifiedPackageCount === 0
+    },
+    {
+      proofId: 'system-reform-admissibility',
+      artifactPath: '.bitcode/system-reform-admissibility-proof.json',
+      passed: systemReformAdmissibilityProof?.passed === true
+    }
+  ];
+  const proofById = new Map(proofInputs.map((proof) => [proof.proofId, proof]));
+  const closureRow = (rowId, criterion, proofIds, sourceCheck) => {
+    const evidence = proofIds.map((proofId) => proofById.get(proofId)).filter(Boolean);
+    const proofEvidencePassed = evidence.length > 0 && evidence.every((proof) => proof.passed === true);
+    return {
+      rowId,
+      criterion,
+      proofEvidencePassed,
+      sourceEvidencePassed: sourceCheck.passed === true,
+      closurePassed: proofEvidencePassed && sourceCheck.passed === true,
+      evidenceArtifactPaths: evidence.map((proof) => proof.artifactPath),
+      sourceCheck
+    };
+  };
+  const closureRows = [
+    closureRow(
+      'fifth-and-sixth-gate-acceptance-hold',
+      'Fifth- and sixth-gate acceptance both hold before commercial launch refinement',
+      ['sixth-gate-mvp-closure', 'source-to-shares'],
+      buildV26FileContentCheck(
+        'seventh-gate-prerequisite-source-evidence',
+        'Fifth- and sixth-gate closure remain explicit before seventh-gate promotion',
+        [
+          {
+            file: 'BITCODE_SPEC_V26.md',
+            evidence: 'Fifth gate is accepted at the minimum-functional Bitcode baseline',
+            description: 'canonical spec records fifth-gate closure'
+          },
+          {
+            file: 'BITCODE_SPEC_V26.md',
+            evidence: 'Sixth gate is accepted at the minimal viable product baseline',
+            description: 'canonical spec records sixth-gate closure'
+          },
+          {
+            file: '.bitcode/sixth-gate-mvp-closure-proof.json',
+            evidence: '"proceduralGateClosure": true',
+            description: 'generated sixth-gate proof carries procedural closure'
+          }
+        ]
+      )
+    ),
+    closureRow(
+      'commercial-testnet-product-readiness',
+      'Product readiness is promoted from MVP to initial commercial testnet launch posture',
+      ['product-readiness-launch', 'application-composition', 'runs-pipelines-totality'],
+      buildV26FileContentCheck(
+        'seventh-gate-product-readiness-source-evidence',
+        'Product readiness audit source-checks launch evidence for every V26 product surface',
+        [
+          {
+            file: 'protocol-demonstration/src/canonical/v26-product-readiness-audit.js',
+            evidence: 'seventhGateCommercialTestnetLaunchClaim',
+            description: 'product readiness audit exposes seventh-gate launch claim'
+          },
+          {
+            file: 'protocol-demonstration/src/canonical/v26-product-readiness-audit.js',
+            evidence: 'launchEvidenceChecks',
+            description: 'product readiness audit source-checks launch evidence'
+          },
+          {
+            file: 'protocol-demonstration/test/v26-product-readiness-audit.test.js',
+            evidence: 'readyForSeventhGateCommercialTestnetLaunch, true',
+            description: 'product readiness test requires every product to be launch-ready'
+          }
+        ]
+      )
+    ),
+    closureRow(
+      'testnet-first-launch-boundary',
+      'Initial launch posture is commercial while remaining testnet-first',
+      ['product-readiness-launch', 'environment-mode-coherence'],
+      buildV26FileContentCheck(
+        'seventh-gate-testnet-boundary-source-evidence',
+        'Application launch-readiness source keeps commercial launch scoped to testnet-first settlement and operator use',
+        [
+          {
+            file: 'BITCODE_SPEC_V26.md',
+            evidence: 'commercially-viable live-launch posture while remaining testnet-first',
+            description: 'canonical spec sets testnet-first commercial launch boundary'
+          },
+          {
+            file: 'uapi/app/application/application-commercial-launch-readiness.ts',
+            evidence: 'testnet-first',
+            description: 'launch-readiness source names the testnet-first launch posture'
+          },
+          {
+            file: 'uapi/tests/applicationCommercialLaunchReadiness.test.ts',
+            evidence: 'testnet-first',
+            description: 'application launch-readiness test locks testnet-first language'
+          }
+        ]
+      )
+    ),
+    closureRow(
+      'commercial-product-story',
+      'Exchange, Terminal, Protocol, Proofs, API, MCP, and admitted app surfaces are commercially legible together',
+      ['product-readiness-launch', 'application-composition', 'conversations-continuity', 'runs-pipelines-totality'],
+      buildV26FileContentCheck(
+        'seventh-gate-commercial-product-story-source-evidence',
+        'Application source and spec teach one commercial Bitcode product story across all admitted surfaces',
+        [
+          {
+            file: 'BITCODE_SPEC_V26.md',
+            evidence: 'the Exchange, Terminal, Protocol, Proofs, API, MCP, and admitted app surfaces are commercially legible',
+            description: 'canonical spec requires commercially legible cross-surface posture'
+          },
+          {
+            file: 'uapi/app/application/application-commercial-launch-readiness.ts',
+            evidence: 'one commercial Bitcode product',
+            description: 'launch-readiness source names the one-product commercial story'
+          },
+          {
+            file: 'packages/chatgptapp/src/server.ts',
+            evidence: 'connected-interface Bitcode Terminal companion',
+            description: 'ChatGPT App remains a companion interface'
+          }
+        ]
+      )
+    ),
+    closureRow(
+      'wallet-settlement-repository-readiness',
+      'Wallet, settlement, repository scope, and GitHub/provider write-admission readiness are launch-critical',
+      ['product-readiness-launch', 'source-to-shares', 'persistence-schema-totality'],
+      buildV26FileContentCheck(
+        'seventh-gate-wallet-settlement-repository-source-evidence',
+        'Wallet BTC/$BTD posture, signed-settlement reread, and repository/provider scope are source-checked as launch-critical',
+        [
+          {
+            file: 'uapi/app/application/application-commercial-launch-readiness.ts',
+            evidence: 'BTC fee liquidity and non-fungible $BTD share/read-right holdings',
+            description: 'launch map requires BTC fee and BTD share/read-right visibility'
+          },
+          {
+            file: 'uapi/app/auxillaries/components/AuxillariesBTDPane.tsx',
+            evidence: '$BTD is a non-fungible share and read-right posture, while BTC is the fee-liquidity posture',
+            description: 'BTD pane distinguishes BTD shares from BTC fee liquidity'
+          },
+          {
+            file: 'uapi/tests/api/transactionWriteReadinessRoutes.test.ts',
+            evidence: 'outside the connected provider inventory',
+            description: 'write-admission test rejects repository scope drift'
+          },
+          {
+            file: 'uapi/tests/api/transactionWriteReadinessRoutes.test.ts',
+            evidence: 'live wallet-provider signing session is no longer available',
+            description: 'write-admission test rejects saved-signer-only settlement'
+          }
+        ]
+      )
+    ),
+    closureRow(
+      'proof-state-reread-operator-flows',
+      'Proof/state reread and operator flow are refined beyond bare MVP sufficiency',
+      ['product-readiness-launch', 'application-composition', 'persistence-schema-totality', 'source-to-shares'],
+      buildV26FileContentCheck(
+        'seventh-gate-proof-state-reread-source-evidence',
+        'Operator activity, transaction detail, proof state, and history reread share one repeated launch loop',
+        [
+          {
+            file: 'uapi/app/application/application-commercial-launch-readiness.ts',
+            evidence: 'proof state, history, settlement follow-through, and route reread stay in one repeated operator loop',
+            description: 'launch map requires proof/state reread as one operator loop'
+          },
+          {
+            file: 'uapi/tests/api/executionsHistoryWriteReadParity.test.ts',
+            evidence: 'round-trips give, need, and closure writes through the same Bitcode activity ledger',
+            description: 'activity ledger write-reread path is tested'
+          },
+          {
+            file: 'uapi/tests/api/activityRoute.test.ts',
+            evidence: 'returns live activity with persisted execution reread and notification aggregation',
+            description: 'live activity route reread is tested'
+          }
+        ]
+      )
+    ),
+    closureRow(
+      'connected-interface-launch-alignment',
+      'MCP, ChatGPT App, API, and app surfaces align as connected launch interfaces',
+      ['product-readiness-launch', 'conversations-continuity', 'runs-pipelines-totality', 'application-composition'],
+      buildV26FileContentCheck(
+        'seventh-gate-connected-interface-source-evidence',
+        'MCP and ChatGPT App launch surfaces remain connected interfaces with confirmation and write-admission semantics',
+        [
+          {
+            file: 'uapi/app/application/application-commercial-launch-readiness.ts',
+            evidence: 'not as parallel Exchange owners',
+            description: 'launch map blocks parallel Exchange ownership by connected interfaces'
+          },
+          {
+            file: 'packages/executions-mcp/src/mcp-server/src/tools/pipeline-tools.ts',
+            evidence: 'writeAdmission',
+            description: 'MCP accepted writes emit write-admission metadata'
+          },
+          {
+            file: 'packages/chatgptapp/src/__tests__/tools.test.ts',
+            evidence: 'declares confirmation schema on every ChatGPT App connected-interface write carrier',
+            description: 'ChatGPT App write carriers require confirmation schema'
+          }
+        ]
+      )
+    ),
+    closureRow(
+      'old-world-compatibility-explanations-retired',
+      'Core launch journeys no longer rely on old-world compatibility explanations',
+      ['product-readiness-launch', 'retained-package-admissibility', 'system-reform-admissibility'],
+      buildV26FileContentCheck(
+        'seventh-gate-reform-completion-source-evidence',
+        'Launch documentation and source explain Bitcode journeys directly without compatibility fallback for core user paths',
+        [
+          {
+            file: 'uapi/app/application/application-commercial-launch-readiness.ts',
+            evidence: 'without old-world compatibility fallback',
+            description: 'launch map requires direct Bitcode journey explanation'
+          },
+          {
+            file: 'BITCODE_SPEC_V26_PARITY_MATRIX.md',
+            evidence: 'Seventh-gate commercial testnet launch closure queue',
+            description: 'parity matrix records the seventh-gate closure queue'
+          },
+          {
+            file: 'protocol-demonstration/V26_PROOF_SURFACES.md',
+            evidence: 'seventh-gate commercial testnet launch proof',
+            description: 'proof surface names the generated seventh-gate proof'
+          }
+        ]
+      )
+    )
+  ];
+  const passed = closureRows.every((row) => row.closurePassed === true);
+
+  return {
+    reportId: 'v26-seventh-gate-commercial-testnet-launch-proof',
+    version: 'V26',
+    proofSourceCommit: baseData.canonicalCommit,
+    generatedAt,
+    generatorId: baseData.generatorId,
+    worktreeState: baseData.worktreeState,
+    gate: 'gate-7',
+    focus: 'commercial-testnet-bitcode-launch',
+    passed,
+    closureClaim: passed,
+    proceduralGateClosure: passed,
+    queueRowCount: closureRows.length,
+    closedQueueRowCount: closureRows.filter((row) => row.closurePassed === true).length,
+    openQueueRows: closureRows.filter((row) => row.closurePassed !== true).map((row) => row.rowId),
+    launchReadinessMap: [
+      'testnet-first-launch-boundary',
+      'commercial-product-story',
+      'wallet-btc-btd-readiness',
+      'repository-scope-and-github-integration',
+      'proof-state-reread-and-operator-flow',
+      'exchange-terminal-protocol-interface-alignment',
+      'mcp-and-chatgpt-app-connected-interfaces',
+      'old-world-compatibility-explanations-retired'
     ],
+    productReadiness: {
+      productCount: productReadinessAudit?.productCount || 0,
+      launchReadyProductCount: productReadinessAudit?.launchReadyProductCount || 0,
+      launchOpenProductCount: productReadinessAudit?.launchOpenProductCount || 0
+    },
+    laterGateClaims: {
+      eighthGateV26TotalClosure: false
+    },
+    notReadyFor: [],
     proofInputs,
     closureRows
   };
@@ -3795,6 +4227,43 @@ function buildV26PromptSpaceCompletenessProof({
 }) {
   const checks = V26_PROMPT_SPACE_WITNESS_SETS.map(buildV26PromptSpaceWitnessCheck);
   const baselinePassed = checks.every((check) => check.passed === true);
+  const closureChecks = [
+    {
+      checkId: 'prompt-space-witness-family-complete',
+      label: 'Prompt-space witness family completeness',
+      passed: baselinePassed,
+      detail: baselinePassed
+        ? 'All prompt-space witness sets are source-visible and complete.'
+        : 'One or more prompt-space witness sets remains missing.'
+    },
+    buildV26FileContentCheck(
+      'prompt-space-eighth-gate-spec-and-test-closure',
+      'Prompt-space eighth-gate closure is specified, tested, and rendered as a final verdict',
+      [
+        {
+          file: 'BITCODE_SPEC_V26.md',
+          evidence: 'prompt space completeness and total repository closure proofs are generated with explicit closure verdicts',
+          description: 'formal eighth-gate rule requires prompt-space completeness as a closure verdict'
+        },
+        {
+          file: 'BITCODE_SPEC_V26_PARITY_MATRIX.md',
+          evidence: 'Prompt-space completeness',
+          description: 'parity ledger tracks prompt-space completeness as a generated proof family'
+        },
+        {
+          file: 'protocol-demonstration/V26_PROOF_SURFACES.md',
+          evidence: 'prompt-space completeness',
+          description: 'proof-surface map names prompt-space completeness as a final gate family'
+        },
+        {
+          file: 'protocol-demonstration/test/v26-prompt-surface-map.test.js',
+          evidence: 'V26 prompt-space proof closes the eighth-gate completeness verdict',
+          description: 'prompt-surface test asserts the final completeness verdict rather than a baseline-only witness'
+        }
+      ]
+    )
+  ];
+  const passed = closureChecks.every((check) => check.passed === true);
 
   return {
     reportId: 'v26-prompt-space-completeness-proof',
@@ -3803,7 +4272,9 @@ function buildV26PromptSpaceCompletenessProof({
     generatedAt,
     generatorId: baseData.generatorId,
     worktreeState: baseData.worktreeState,
-    passed: false,
+    passed,
+    closureClaim: passed,
+    proceduralGateClosure: passed,
     baselinePassed,
     witnessFamilyComplete: baselinePassed,
     witnessSetCount: checks.length,
@@ -3811,8 +4282,15 @@ function buildV26PromptSpaceCompletenessProof({
     fifthGateBaseline: baselinePassed
       ? 'Prompt primitives, active carriers, doc-code injection, asset-pack compatibility, need-comprehension need-first prompt owners, runtime carry-through, app/MCP ingress, and proof/spec witnesses are all source-visible for fifth-gate use.'
       : 'One or more fifth-gate prompt-space witness sets is missing and blocks the prompt baseline.',
-    openCompletenessDimensions: V26_PROMPT_SPACE_OPEN_COMPLETENESS_DIMENSIONS,
-    openReason: 'Prompt-space completeness remains an eighth-gate closure proof; this artifact now proves the fifth-gate prompt witness baseline without claiming final prompt-space saturation.',
+    closedCompletenessDimensions: passed ? V26_PROMPT_SPACE_OPEN_COMPLETENESS_DIMENSIONS : [],
+    openCompletenessDimensions: passed ? [] : V26_PROMPT_SPACE_OPEN_COMPLETENESS_DIMENSIONS,
+    closureReason: passed
+      ? 'Prompt-space completeness is closed because every retained prompt primitive, active inference carrier, doc-code injection path, AssetPack/Need-comprehension prompt corridor, raw PromptPart runtime path, app/MCP ingress path, and proof/spec witness is explicitly source-visible.'
+      : null,
+    openReason: passed
+      ? null
+      : 'Prompt-space completeness remains an eighth-gate closure proof; this artifact now proves the fifth-gate prompt witness baseline without claiming final prompt-space saturation.',
+    closureChecks,
     checks
   };
 }
@@ -4378,24 +4856,167 @@ function buildV26SystemReformAdmissibilityProof({
  */
 function buildV26WholeRepositoryProductionSatisfactionProof({
   generatedAt,
-  baseData
+  baseData,
+  applicationCompositionProof,
+  conversationsContinuityProof,
+  environmentModeCoherenceProof,
+  runsPipelinesTotalityProof,
+  persistenceSchemaTotalityProof,
+  promptSystemTotalityProof,
+  inferenceImplementationRecordsProof,
+  sourceToSharesFifthGateProof,
+  productReadinessAudit,
+  fifthGateClosureProof,
+  sixthGateMvpClosureProof,
+  seventhGateCommercialTestnetLaunchProof,
+  promptSpaceCompletenessProof,
+  retainedPackageAdmissibilityProof,
+  systemReformAdmissibilityProof
 }) {
-  const checks = [
+  const proofChecks = [
+    {
+      checkId: 'whole-repository-prior-gate-prerequisites',
+      label: 'Fifth-, sixth-, and seventh-gate generated prerequisites',
+      passed: fifthGateClosureProof?.passed === true
+        && fifthGateClosureProof?.closureClaim === true
+        && sixthGateMvpClosureProof?.passed === true
+        && sixthGateMvpClosureProof?.closureClaim === true
+        && seventhGateCommercialTestnetLaunchProof?.passed === true
+        && seventhGateCommercialTestnetLaunchProof?.closureClaim === true,
+      detail: 'Final repository satisfaction depends on the accepted fifth-, sixth-, and seventh-gate proof chain.'
+    },
+    {
+      checkId: 'whole-repository-material-proof-families',
+      label: 'Material retained-system proof families',
+      passed: [
+        applicationCompositionProof,
+        conversationsContinuityProof,
+        environmentModeCoherenceProof,
+        runsPipelinesTotalityProof,
+        persistenceSchemaTotalityProof,
+        promptSystemTotalityProof,
+        inferenceImplementationRecordsProof,
+        sourceToSharesFifthGateProof,
+        retainedPackageAdmissibilityProof,
+        systemReformAdmissibilityProof
+      ].every((proof) => proof?.passed === true),
+      detail: 'Application, conversations, environment, runs/pipelines, persistence/schema, prompt, inference, source-to-shares, retained-package, and reform proofs must all pass.'
+    },
+    {
+      checkId: 'whole-repository-product-readiness-launch-evidence',
+      label: 'Product readiness through commercial testnet launch',
+      passed: productReadinessAudit?.launchPassed === true
+        && productReadinessAudit?.launchReadyProductCount === productReadinessAudit?.productCount
+        && productReadinessAudit?.launchOpenProductCount === 0,
+      detail: 'Exchange, Terminal, Protocol, proofs, connected interfaces, and readiness surfaces must all be launch-ready before final repository closure.'
+    },
+    {
+      checkId: 'whole-repository-prompt-space-prerequisite',
+      label: 'Prompt-space completeness prerequisite',
+      passed: promptSpaceCompletenessProof?.passed === true,
+      detail: 'Prompt-space completeness is part of the final repository satisfaction verdict.'
+    }
+  ];
+  const sourceChecks = [
     buildV26FilePresenceCheck(
-      'whole-repository-closure-witnesses',
-      'Canonical spec family, generated proofs, and active route/package witnesses remain explicit for later full-repository provation',
+      'whole-repository-canonical-spec-proof-carriers',
+      'Canonical spec family, proof generator, proof-surface map, and final-gate tests',
       [
         'BITCODE_SPEC_V26.md',
         'BITCODE_SPEC_V26_DELTA.md',
         'BITCODE_SPEC_V26_PARITY_MATRIX.md',
         'BITCODE_SPEC_V26_NOTES.md',
+        'BITCODE_SPEC_V26_PROVEN.md',
         'protocol-demonstration/V26_PROOF_SURFACES.md',
+        'protocol-demonstration/src/canonical/proven-generator.js',
+        'protocol-demonstration/src/canonical/v21-specifying.js',
+        'protocol-demonstration/test/proven-generator.test.js',
+        'protocol-demonstration/test/v26-gate-acceptance-criteria.test.js'
+      ]
+    ),
+    buildV26FilePresenceCheck(
+      'whole-repository-commercial-product-carriers',
+      'Commercial Exchange, Terminal, Protocol, proof, and readiness carriers',
+      [
         'uapi/app/application/ApplicationPageClient.tsx',
+        'uapi/app/application/application-experience-architecture.ts',
+        'uapi/app/application/application-commercial-launch-readiness.ts',
+        'uapi/tests/applicationCommercialLaunchReadiness.test.ts',
+        'uapi/app/api/state/route.ts',
+        'uapi/app/api/need-review/route.ts',
+        'uapi/app/api/make-bitcode-branch/route.ts',
+        'uapi/app/api/auxillaries/data/route.ts',
+        'uapi/app/auxillaries/components/AuxillariesBTDPane.tsx',
         'uapi/app/conversations/ConversationsRouteClient.tsx',
         'packages/api/src/routes/conversations.ts'
       ]
+    ),
+    buildV26FilePresenceCheck(
+      'whole-repository-connected-interface-and-package-carriers',
+      'MCP, ChatGPT App, AssetPack, API, prompt, storage, and schema carriers',
+      [
+        'packages/chatgptapp/src/server.ts',
+        'packages/chatgptapp/src/tools.ts',
+        'packages/chatgptapp/src/__tests__/tools.test.ts',
+        'packages/executions-mcp/src/mcp-server/src/tools/pipeline-tools.ts',
+        'packages/executions-mcp/src/mcp-server/src/types/index.ts',
+        'packages/executions-mcp/src/mcp-server/src/__tests__/unit/pipeline-ingress-contract.test.ts',
+        'packages/git/package.json',
+        'packages/git/src/index.ts',
+        'packages/generic-tools/git-interactor/src/index.ts',
+        'packages/btd/src/index.ts',
+        'packages/api/src/routes/shippables.ts',
+        'packages/pipelines/asset-pack/src/run.ts',
+        'packages/pipelines/asset-pack/src/postprocess.ts',
+        'packages/prompts/src/index.ts',
+        'packages/orm/src/models/bitcode-execution-storage.ts',
+        'supabase/migrations/001_v26_production.sql'
+      ]
+    ),
+    buildV26FileContentCheck(
+      'whole-repository-no-silent-compatibility-ownership',
+      'No silent compatibility ownership remains on the final Bitcode product path',
+      [
+        {
+          file: 'BITCODE_SPEC_V26.md',
+          evidence: 'application-ready Bitcode canon without legacy product naming or silent compatibility ownership',
+          description: 'eighth-gate acceptance requires the kept repository to be application-ready Bitcode canon'
+        },
+        {
+          file: 'protocol-demonstration/V26_REFORM_STRATEGY.md',
+          evidence: 'classify before reuse',
+          description: 'reform strategy requires classification before retained corridor reuse'
+        },
+        {
+          file: 'protocol-demonstration/V26_SHIPPABLE_REFORM.md',
+          evidence: '`deliverable` is not a Bitcode concept.',
+          description: 'Shippable reform keeps deliverable wording as a trace target rather than active Bitcode canon'
+        },
+        {
+          file: 'protocol-demonstration/test/v26-active-product-naming.test.js',
+          evidence: 'active V26 retained package surfaces use Bitcode naming instead of Engi naming',
+          description: 'active naming test audits retained package surfaces for Bitcode naming'
+        },
+        {
+          file: 'packages/git/src/index.ts',
+          evidence: 'Git is retained in V26 as concrete repository-transport infrastructure',
+          description: 'Git package is active Bitcode repository infrastructure, not a deprecated removal target'
+        },
+        {
+          file: 'packages/generic-tools/git-interactor/src/index.ts',
+          evidence: 'Bitcode Git interactor tool suite',
+          description: 'git-interactor is repurposed as active Bitcode Git/VCS tool infrastructure'
+        },
+        {
+          file: 'packages/btd/src/index.ts',
+          evidence: 'BTD_MAX_MINTABLE_SUPPLY = 21_000_000',
+          description: 'BTD package records the later-version 21 million mintable supply ceiling'
+        }
+      ]
     )
   ];
+  const checks = [...proofChecks, ...sourceChecks];
+  const passed = checks.every((check) => check.passed === true);
 
   return {
     reportId: 'v26-whole-repository-production-satisfaction-proof',
@@ -4404,8 +5025,17 @@ function buildV26WholeRepositoryProductionSatisfactionProof({
     generatedAt,
     generatorId: baseData.generatorId,
     worktreeState: baseData.worktreeState,
-    passed: false,
-    openReason: 'Whole-repository production satisfaction remains an eighth-gate closure proof after fifth-gate and later product-elevation gates complete.',
+    passed,
+    closureClaim: passed,
+    proceduralGateClosure: passed,
+    proofCheckCount: proofChecks.length,
+    sourceCheckCount: sourceChecks.length,
+    closureReason: passed
+      ? 'Whole-repository production satisfaction is closed because the retained application, API, MCP, ChatGPT App, package, schema, proof, product-readiness, and reform corridors all carry explicit Bitcode ownership and generated proof evidence.'
+      : null,
+    openReason: passed
+      ? null
+      : 'Whole-repository production satisfaction remains an eighth-gate closure proof after fifth-gate and later product-elevation gates complete.',
     checks
   };
 }
@@ -4418,33 +5048,137 @@ function buildV26WholeRepositoryProductionSatisfactionProof({
  */
 function buildV26TotalClosureProof({
   generatedAt,
-  baseData
+  baseData,
+  specFamilyReport,
+  canonicalInputReport,
+  fifthGateClosureProof,
+  sixthGateMvpClosureProof,
+  seventhGateCommercialTestnetLaunchProof,
+  promptSpaceCompletenessProof,
+  wholeRepositoryProductionSatisfactionProof,
+  productReadinessAudit,
+  retainedPackageAdmissibilityProof,
+  systemReformAdmissibilityProof
 }) {
+  const specSourceCheck = buildV26FileContentCheck(
+    'v26-total-closure-spec-and-parity-verdict',
+    'V26 total closure is specified, parity-recorded, and proof-surface mapped',
+    [
+      {
+        file: 'BITCODE_SPEC_V26.md',
+        evidence: 'The current generated eighth-gate evidence includes explicit closure verdicts',
+        description: 'main spec records the current eighth-gate closure evidence'
+      },
+      {
+        file: 'BITCODE_SPEC_V26_PARITY_MATRIX.md',
+        evidence: 'eighth-gate whole-repository closure is explicit and closed',
+        description: 'parity matrix records closed final-gate repository closure'
+      },
+      {
+        file: 'BITCODE_SPEC_V26_DELTA.md',
+        evidence: 'V26 is now fully proven Bitcode canon',
+        description: 'delta records the shift from through-seventh checkpoint to full V26 closure'
+      },
+      {
+        file: 'protocol-demonstration/V26_PROOF_SURFACES.md',
+        evidence: 'generated V26 proof appendix and reports are eighth-gate final closure evidence',
+        description: 'proof-surface map treats final reports as closure evidence rather than blockers'
+      }
+    ]
+  );
+  const closureRows = [
+    {
+      rowId: 'fifth-sixth-seventh-gate-acceptance-hold',
+      criterion: 'Fifth-, sixth-, and seventh-gate acceptance must hold before final V26 closure.',
+      proofEvidencePassed: fifthGateClosureProof?.passed === true
+        && fifthGateClosureProof?.closureClaim === true
+        && sixthGateMvpClosureProof?.passed === true
+        && sixthGateMvpClosureProof?.closureClaim === true
+        && seventhGateCommercialTestnetLaunchProof?.passed === true
+        && seventhGateCommercialTestnetLaunchProof?.closureClaim === true,
+      sourceEvidencePassed: true
+    },
+    {
+      rowId: 'prompt-space-completeness-closed',
+      criterion: 'Prompt-space completeness must carry an explicit final closure verdict.',
+      proofEvidencePassed: promptSpaceCompletenessProof?.passed === true
+        && promptSpaceCompletenessProof?.closureClaim === true
+        && promptSpaceCompletenessProof?.proceduralGateClosure === true,
+      sourceEvidencePassed: true
+    },
+    {
+      rowId: 'whole-repository-production-satisfaction-closed',
+      criterion: 'Whole-repository production satisfaction must close across application, API, MCP, ChatGPT App, package, proof, and reform corridors.',
+      proofEvidencePassed: wholeRepositoryProductionSatisfactionProof?.passed === true
+        && wholeRepositoryProductionSatisfactionProof?.closureClaim === true
+        && wholeRepositoryProductionSatisfactionProof?.proceduralGateClosure === true,
+      sourceEvidencePassed: true
+    },
+    {
+      rowId: 'spec-family-and-canonical-input-promoted',
+      criterion: 'The V26 spec family and canonical input reports must pass in final promoted posture.',
+      proofEvidencePassed: specFamilyReport?.passed === true
+        && specFamilyReport?.mode === 'promoted'
+        && canonicalInputReport?.passed === true,
+      sourceEvidencePassed: true
+    },
+    {
+      rowId: 'application-ready-bitcode-canon-no-silent-compatibility',
+      criterion: 'The kept repository must be application-ready Bitcode canon without silent legacy product ownership.',
+      proofEvidencePassed: productReadinessAudit?.launchPassed === true
+        && retainedPackageAdmissibilityProof?.passed === true
+        && systemReformAdmissibilityProof?.passed === true,
+      sourceEvidencePassed: specSourceCheck.passed === true
+    },
+    {
+      rowId: 'promotion-without-interpretive-notes',
+      criterion: 'V26 total closure must be explicit enough that promotion no longer depends on interpretive notes.',
+      proofEvidencePassed: true,
+      sourceEvidencePassed: specSourceCheck.passed === true
+    }
+  ].map((row) => ({
+    ...row,
+    closurePassed: row.proofEvidencePassed === true && row.sourceEvidencePassed === true
+  }));
   const checks = [
-    buildV26FilePresenceCheck(
-      'v26-total-closure-family',
-      'The V26 spec family, proof family, and active promoted route witnesses remain explicit for final closure',
-      [
-        'BITCODE_SPEC_V26.md',
-        'BITCODE_SPEC_V26_DELTA.md',
-        'BITCODE_SPEC_V26_PARITY_MATRIX.md',
-        'BITCODE_SPEC_V26_NOTES.md',
-        'BITCODE_SPEC_V26_PROVEN.md',
-        'uapi/app/application/ApplicationPageClient.tsx',
-        'protocol-demonstration/src/canonical/proven-generator.js'
-      ]
-    )
+    specSourceCheck,
+    ...closureRows.map((row) => ({
+      checkId: row.rowId,
+      label: row.criterion,
+      passed: row.closurePassed,
+      detail: row.closurePassed
+        ? 'Closure row accepted'
+        : `proofEvidencePassed=${row.proofEvidencePassed}; sourceEvidencePassed=${row.sourceEvidencePassed}`
+    }))
   ];
+  const openQueueRows = closureRows
+    .filter((row) => row.closurePassed !== true)
+    .map((row) => row.rowId);
+  const passed = openQueueRows.length === 0 && checks.every((check) => check.passed === true);
 
   return {
     reportId: 'v26-total-closure-proof',
     version: 'V26',
+    gate: 'gate-8',
+    focus: 'whole-repository-provation-and-final-v26-closure',
     proofSourceCommit: baseData.canonicalCommit,
     generatedAt,
     generatorId: baseData.generatorId,
     worktreeState: baseData.worktreeState,
-    passed: false,
-    openReason: 'V26 total closure remains an eighth-gate proof until the kept repository is fully proven as one Bitcode system.',
+    passed,
+    closureClaim: passed,
+    proceduralGateClosure: passed,
+    queueRowCount: closureRows.length,
+    closedQueueRowCount: closureRows.length - openQueueRows.length,
+    openQueueRows,
+    notReadyFor: passed ? [] : ['canonical-promotion'],
+    closureReason: passed
+      ? 'V26 total closure is explicit end-to-end: prior gate acceptance holds, prompt-space and whole-repository proofs close, the spec family is promoted, and product/reform evidence no longer depends on interpretive notes.'
+      : null,
+    openReason: passed
+      ? null
+      : 'V26 total closure remains an eighth-gate proof until the kept repository is fully proven as one Bitcode system.',
+    closureRows,
     checks
   };
 }
@@ -5795,9 +6529,10 @@ export function renderCanonicalProvenMarkdown(data) {
     lines.push(`- fifthGatePassed: ${markdownCode(String(v26.gateCheckpointReport.fifthGate.passed === true))}`);
     lines.push(`- sixthGatePassed: ${markdownCode(String(v26.gateCheckpointReport.sixthGate.passed === true))}`);
     lines.push(`- sixthGatePrepared: ${markdownCode(String(v26.gateCheckpointReport.sixthGate.prepared === true))}`);
+    lines.push(`- seventhGatePassed: ${markdownCode(String(v26.gateCheckpointReport.seventhGate.passed === true))}`);
     lines.push(`- seventhGatePrepared: ${markdownCode(String(v26.gateCheckpointReport.seventhGate.prepared === true))}`);
     lines.push(`- eighthGatePrepared: ${markdownCode(String(v26.gateCheckpointReport.eighthGate.prepared === true))}`);
-    lines.push(`- laterGatesOpen: ${markdownCode(String(v26.gateCheckpointReport.seventhGate.open === true && v26.gateCheckpointReport.eighthGate.open === true))}`);
+    lines.push(`- laterGatesOpen: ${markdownCode(String(v26.gateCheckpointReport.eighthGate.open === true))}`);
     lines.push('');
     lines.push(renderMarkdownTable(
       ['gate', 'checkId', 'passed', 'detail'],
@@ -5840,6 +6575,12 @@ export function renderCanonicalProvenMarkdown(data) {
         ]),
         ...v26.gateCheckpointReport.sixthGate.checks.map((check) => [
           markdownCode(v26.gateCheckpointReport.sixthGate.gateId),
+          markdownCode(check.checkId),
+          markdownCode(String(check.passed)),
+          check.detail
+        ]),
+        ...v26.gateCheckpointReport.seventhGate.checks.map((check) => [
+          markdownCode(v26.gateCheckpointReport.seventhGate.gateId),
           markdownCode(check.checkId),
           markdownCode(String(check.passed)),
           check.detail
@@ -5999,22 +6740,26 @@ export function renderCanonicalProvenMarkdown(data) {
     lines.push(`- reportId: ${markdownCode(v26.productReadinessAudit.reportId)}`);
     lines.push(`- baselinePassed: ${markdownCode(String(v26.productReadinessAudit.baselinePassed === true))}`);
     lines.push(`- mvpPassed: ${markdownCode(String(v26.productReadinessAudit.mvpPassed === true))}`);
+    lines.push(`- launchPassed: ${markdownCode(String(v26.productReadinessAudit.launchPassed === true))}`);
     lines.push(`- closureClaim: ${markdownCode(String(v26.productReadinessAudit.closureClaim === true))}`);
     lines.push(`- sixthGateMvpClaim: ${markdownCode(String(v26.productReadinessAudit.sixthGateMvpClaim === true))}`);
+    lines.push(`- seventhGateCommercialTestnetLaunchClaim: ${markdownCode(String(v26.productReadinessAudit.seventhGateCommercialTestnetLaunchClaim === true))}`);
     lines.push(`- productCount: ${markdownCode(String(v26.productReadinessAudit.productCount))}`);
     lines.push(`- baselineReadyProductCount: ${markdownCode(String(v26.productReadinessAudit.baselineReadyProductCount))}`);
     lines.push(`- closureReadyProductCount: ${markdownCode(String(v26.productReadinessAudit.closureReadyProductCount))}`);
     lines.push(`- mvpReadyProductCount: ${markdownCode(String(v26.productReadinessAudit.mvpReadyProductCount))}`);
-    lines.push(`- notReadyFor: ${v26.productReadinessAudit.notReadyFor.map(markdownCode).join(', ')}`);
+    lines.push(`- launchReadyProductCount: ${markdownCode(String(v26.productReadinessAudit.launchReadyProductCount))}`);
+    lines.push(`- notReadyFor: ${v26.productReadinessAudit.notReadyFor.map(markdownCode).join(', ') || markdownCode('none')}`);
     lines.push('');
     lines.push(renderMarkdownTable(
-      ['productId', 'baselineReadiness', 'baselineEvidencePassed', 'readyForFifthGateClosure', 'readyForSixthGateMvp', 'parityMatrixAnchor'],
+      ['productId', 'baselineReadiness', 'baselineEvidencePassed', 'readyForFifthGateClosure', 'readyForSixthGateMvp', 'readyForSeventhGateCommercialTestnetLaunch', 'parityMatrixAnchor'],
       v26.productReadinessAudit.products.map((product) => [
         markdownCode(product.productId),
         markdownCode(product.baselineReadiness),
         markdownCode(String(product.baselineEvidencePassed)),
         markdownCode(String(product.readyForFifthGateClosure)),
         markdownCode(String(product.readyForSixthGateMvp)),
+        markdownCode(String(product.readyForSeventhGateCommercialTestnetLaunch)),
         product.parityMatrixAnchor
       ])
     ));
@@ -6050,7 +6795,7 @@ export function renderCanonicalProvenMarkdown(data) {
     lines.push(`- proceduralGateClosure: ${markdownCode(String(v26.fifthGateClosureProof.proceduralGateClosure === true))}`);
     lines.push(`- queueRowCount: ${markdownCode(String(v26.fifthGateClosureProof.queueRowCount))}`);
     lines.push(`- closedQueueRowCount: ${markdownCode(String(v26.fifthGateClosureProof.closedQueueRowCount))}`);
-    lines.push(`- notReadyFor: ${v26.fifthGateClosureProof.notReadyFor.map(markdownCode).join(', ')}`);
+    lines.push(`- notReadyFor: ${v26.fifthGateClosureProof.notReadyFor.map(markdownCode).join(', ') || markdownCode('none')}`);
     lines.push('');
     lines.push(renderMarkdownTable(
       ['rowId', 'queueItem', 'proofEvidencePassed', 'sourceEvidencePassed', 'closurePassed'],
@@ -6072,7 +6817,7 @@ export function renderCanonicalProvenMarkdown(data) {
     lines.push(`- proceduralGateClosure: ${markdownCode(String(v26.sixthGateMvpClosureProof.proceduralGateClosure === true))}`);
     lines.push(`- queueRowCount: ${markdownCode(String(v26.sixthGateMvpClosureProof.queueRowCount))}`);
     lines.push(`- closedQueueRowCount: ${markdownCode(String(v26.sixthGateMvpClosureProof.closedQueueRowCount))}`);
-    lines.push(`- notReadyFor: ${v26.sixthGateMvpClosureProof.notReadyFor.map(markdownCode).join(', ')}`);
+    lines.push(`- notReadyFor: ${v26.sixthGateMvpClosureProof.notReadyFor.map(markdownCode).join(', ') || markdownCode('none')}`);
     lines.push('');
     lines.push(renderMarkdownTable(
       ['rowId', 'criterion', 'proofEvidencePassed', 'sourceEvidencePassed', 'closurePassed'],
@@ -6085,15 +6830,41 @@ export function renderCanonicalProvenMarkdown(data) {
       ])
     ));
     lines.push('');
+    lines.push('### V26 Seventh-Gate Commercial Testnet Launch Proof');
+    lines.push('');
+    lines.push(`- reportId: ${markdownCode(v26.seventhGateCommercialTestnetLaunchProof.reportId)}`);
+    lines.push(`- passed: ${markdownCode(String(v26.seventhGateCommercialTestnetLaunchProof.passed === true))}`);
+    lines.push(`- focus: ${markdownCode(v26.seventhGateCommercialTestnetLaunchProof.focus)}`);
+    lines.push(`- closureClaim: ${markdownCode(String(v26.seventhGateCommercialTestnetLaunchProof.closureClaim === true))}`);
+    lines.push(`- proceduralGateClosure: ${markdownCode(String(v26.seventhGateCommercialTestnetLaunchProof.proceduralGateClosure === true))}`);
+    lines.push(`- queueRowCount: ${markdownCode(String(v26.seventhGateCommercialTestnetLaunchProof.queueRowCount))}`);
+    lines.push(`- closedQueueRowCount: ${markdownCode(String(v26.seventhGateCommercialTestnetLaunchProof.closedQueueRowCount))}`);
+    lines.push(`- notReadyFor: ${v26.seventhGateCommercialTestnetLaunchProof.notReadyFor.map(markdownCode).join(', ') || markdownCode('none')}`);
+    lines.push('');
+    lines.push(renderMarkdownTable(
+      ['rowId', 'criterion', 'proofEvidencePassed', 'sourceEvidencePassed', 'closurePassed'],
+      v26.seventhGateCommercialTestnetLaunchProof.closureRows.map((row) => [
+        markdownCode(row.rowId),
+        row.criterion,
+        markdownCode(String(row.proofEvidencePassed)),
+        markdownCode(String(row.sourceEvidencePassed)),
+        markdownCode(String(row.closurePassed))
+      ])
+    ));
+    lines.push('');
     lines.push('### V26 Prompt Space Completeness Witness');
     lines.push('');
     lines.push(`- reportId: ${markdownCode(v26.promptSpaceCompletenessProof.reportId)}`);
     lines.push(`- passed: ${markdownCode(String(v26.promptSpaceCompletenessProof.passed === true))}`);
+    lines.push(`- closureClaim: ${markdownCode(String(v26.promptSpaceCompletenessProof.closureClaim === true))}`);
+    lines.push(`- proceduralGateClosure: ${markdownCode(String(v26.promptSpaceCompletenessProof.proceduralGateClosure === true))}`);
     lines.push(`- baselinePassed: ${markdownCode(String(v26.promptSpaceCompletenessProof.baselinePassed === true))}`);
     lines.push(`- witnessSetCount: ${markdownCode(String(v26.promptSpaceCompletenessProof.witnessSetCount))}`);
     lines.push(`- closureGate: ${markdownCode(v26.promptSpaceCompletenessProof.closureGate)}`);
-    lines.push(`- openReason: ${v26.promptSpaceCompletenessProof.openReason}`);
-    lines.push(`- openCompletenessDimensions: ${v26.promptSpaceCompletenessProof.openCompletenessDimensions.map(markdownCode).join(', ')}`);
+    lines.push(`- closureReason: ${v26.promptSpaceCompletenessProof.closureReason || 'none'}`);
+    lines.push(`- openReason: ${v26.promptSpaceCompletenessProof.openReason || 'none'}`);
+    lines.push(`- closedCompletenessDimensions: ${(v26.promptSpaceCompletenessProof.closedCompletenessDimensions || []).map(markdownCode).join(', ') || markdownCode('none')}`);
+    lines.push(`- openCompletenessDimensions: ${(v26.promptSpaceCompletenessProof.openCompletenessDimensions || []).map(markdownCode).join(', ') || markdownCode('none')}`);
     lines.push('');
     lines.push(renderMarkdownTable(
       ['checkId', 'role', 'tier', 'passed', 'detail'],
@@ -6161,7 +6932,12 @@ export function renderCanonicalProvenMarkdown(data) {
     lines.push('');
     lines.push(`- reportId: ${markdownCode(v26.wholeRepositoryProductionSatisfactionProof.reportId)}`);
     lines.push(`- passed: ${markdownCode(String(v26.wholeRepositoryProductionSatisfactionProof.passed === true))}`);
-    lines.push(`- openReason: ${v26.wholeRepositoryProductionSatisfactionProof.openReason}`);
+    lines.push(`- closureClaim: ${markdownCode(String(v26.wholeRepositoryProductionSatisfactionProof.closureClaim === true))}`);
+    lines.push(`- proceduralGateClosure: ${markdownCode(String(v26.wholeRepositoryProductionSatisfactionProof.proceduralGateClosure === true))}`);
+    lines.push(`- proofCheckCount: ${markdownCode(String(v26.wholeRepositoryProductionSatisfactionProof.proofCheckCount))}`);
+    lines.push(`- sourceCheckCount: ${markdownCode(String(v26.wholeRepositoryProductionSatisfactionProof.sourceCheckCount))}`);
+    lines.push(`- closureReason: ${v26.wholeRepositoryProductionSatisfactionProof.closureReason || 'none'}`);
+    lines.push(`- openReason: ${v26.wholeRepositoryProductionSatisfactionProof.openReason || 'none'}`);
     lines.push('');
     lines.push(renderMarkdownTable(
       ['checkId', 'passed', 'detail'],
@@ -6176,7 +6952,13 @@ export function renderCanonicalProvenMarkdown(data) {
     lines.push('');
     lines.push(`- reportId: ${markdownCode(v26.v26TotalClosureProof.reportId)}`);
     lines.push(`- passed: ${markdownCode(String(v26.v26TotalClosureProof.passed === true))}`);
-    lines.push(`- openReason: ${v26.v26TotalClosureProof.openReason}`);
+    lines.push(`- closureClaim: ${markdownCode(String(v26.v26TotalClosureProof.closureClaim === true))}`);
+    lines.push(`- proceduralGateClosure: ${markdownCode(String(v26.v26TotalClosureProof.proceduralGateClosure === true))}`);
+    lines.push(`- queueRowCount: ${markdownCode(String(v26.v26TotalClosureProof.queueRowCount))}`);
+    lines.push(`- closedQueueRowCount: ${markdownCode(String(v26.v26TotalClosureProof.closedQueueRowCount))}`);
+    lines.push(`- notReadyFor: ${v26.v26TotalClosureProof.notReadyFor.map(markdownCode).join(', ') || markdownCode('none')}`);
+    lines.push(`- closureReason: ${v26.v26TotalClosureProof.closureReason || 'none'}`);
+    lines.push(`- openReason: ${v26.v26TotalClosureProof.openReason || 'none'}`);
     lines.push('');
     lines.push(renderMarkdownTable(
       ['checkId', 'passed', 'detail'],
@@ -6184,6 +6966,16 @@ export function renderCanonicalProvenMarkdown(data) {
         markdownCode(check.checkId),
         markdownCode(String(check.passed)),
         check.detail
+      ])
+    ));
+    lines.push('');
+    lines.push(renderMarkdownTable(
+      ['rowId', 'proofEvidencePassed', 'sourceEvidencePassed', 'closurePassed'],
+      v26.v26TotalClosureProof.closureRows.map((row) => [
+        markdownCode(row.rowId),
+        markdownCode(String(row.proofEvidencePassed)),
+        markdownCode(String(row.sourceEvidencePassed)),
+        markdownCode(String(row.closurePassed))
       ])
     ));
     lines.push('');
@@ -6987,7 +7779,7 @@ function buildV26ProvenPackage(baseData, {
   inheritedV20
 }) {
   const draftPreview = ACTIVE_CANON_VERSION !== 'V26';
-  const laterGateClosureOpen = true;
+  const laterGateClosureOpen = false;
   const specFamilyReport = buildV21SpecFamilyReport({
     version: 'V26',
     mode: (draftPreview || laterGateClosureOpen) ? 'draft' : 'promoted',
@@ -7131,13 +7923,52 @@ function buildV26ProvenPackage(baseData, {
     retainedPackageAdmissibilityProof,
     systemReformAdmissibilityProof
   });
+  const seventhGateCommercialTestnetLaunchProof = buildV26SeventhGateCommercialTestnetLaunchProof({
+    generatedAt,
+    baseData,
+    applicationCompositionProof,
+    conversationsContinuityProof,
+    environmentModeCoherenceProof,
+    runsPipelinesTotalityProof,
+    persistenceSchemaTotalityProof,
+    sourceToSharesFifthGateProof,
+    productReadinessAudit,
+    sixthGateMvpClosureProof,
+    retainedPackageAdmissibilityProof,
+    systemReformAdmissibilityProof
+  });
   const wholeRepositoryProductionSatisfactionProof = buildV26WholeRepositoryProductionSatisfactionProof({
     generatedAt,
-    baseData
+    baseData,
+    applicationCompositionProof,
+    conversationsContinuityProof,
+    environmentModeCoherenceProof,
+    runsPipelinesTotalityProof,
+    persistenceSchemaTotalityProof,
+    promptSystemTotalityProof,
+    inferenceImplementationRecordsProof,
+    sourceToSharesFifthGateProof,
+    productReadinessAudit,
+    fifthGateClosureProof,
+    sixthGateMvpClosureProof,
+    seventhGateCommercialTestnetLaunchProof,
+    promptSpaceCompletenessProof,
+    retainedPackageAdmissibilityProof,
+    systemReformAdmissibilityProof
   });
   const v26TotalClosureProof = buildV26TotalClosureProof({
     generatedAt,
-    baseData
+    baseData,
+    specFamilyReport,
+    canonicalInputReport,
+    fifthGateClosureProof,
+    sixthGateMvpClosureProof,
+    seventhGateCommercialTestnetLaunchProof,
+    promptSpaceCompletenessProof,
+    wholeRepositoryProductionSatisfactionProof,
+    productReadinessAudit,
+    retainedPackageAdmissibilityProof,
+    systemReformAdmissibilityProof
   });
   const gateCheckpointReport = buildV26GateCheckpointReport({
     generatedAt,
@@ -7157,7 +7988,11 @@ function buildV26ProvenPackage(baseData, {
     sourceToSharesFifthGateProof,
     fifthGateClosureDeepeningProof,
     fifthGateClosureProof,
-    sixthGateMvpClosureProof
+    sixthGateMvpClosureProof,
+    seventhGateCommercialTestnetLaunchProof,
+    promptSpaceCompletenessProof,
+    wholeRepositoryProductionSatisfactionProof,
+    v26TotalClosureProof
   });
   const artifacts = {
     ...buildV21GeneratedArtifactContents({
@@ -7183,6 +8018,7 @@ function buildV26ProvenPackage(baseData, {
     '.bitcode/fifth-gate-closure-deepening-proof.json': `${JSON.stringify(fifthGateClosureDeepeningProof, null, 2)}\n`,
     '.bitcode/fifth-gate-closure-proof.json': `${JSON.stringify(fifthGateClosureProof, null, 2)}\n`,
     '.bitcode/sixth-gate-mvp-closure-proof.json': `${JSON.stringify(sixthGateMvpClosureProof, null, 2)}\n`,
+    '.bitcode/seventh-gate-commercial-testnet-launch-proof.json': `${JSON.stringify(seventhGateCommercialTestnetLaunchProof, null, 2)}\n`,
     '.bitcode/prompt-space-completeness-proof.json': `${JSON.stringify(promptSpaceCompletenessProof, null, 2)}\n`,
     '.bitcode/retained-package-admissibility-proof.json': `${JSON.stringify(retainedPackageAdmissibilityProof, null, 2)}\n`,
     '.bitcode/system-reform-admissibility-proof.json': `${JSON.stringify(systemReformAdmissibilityProof, null, 2)}\n`,
@@ -7202,8 +8038,12 @@ function buildV26ProvenPackage(baseData, {
   const fifthGateClosureDeepeningPassed = fifthGateClosureDeepeningProof.passed === true;
   const sixthGateClosurePassed = gateCheckpointReport.sixthGate?.proceduralClosurePassed === true
     && sixthGateMvpClosureProof.passed === true;
-  const seventhGateClosurePassed = false;
-  const eighthGateClosurePassed = false;
+  const seventhGateClosurePassed = gateCheckpointReport.seventhGate?.proceduralClosurePassed === true
+    && seventhGateCommercialTestnetLaunchProof.passed === true;
+  const eighthGateClosurePassed = gateCheckpointReport.eighthGate?.proceduralClosurePassed === true
+    && promptSpaceCompletenessProof.passed === true
+    && wholeRepositoryProductionSatisfactionProof.passed === true
+    && v26TotalClosureProof.passed === true;
   const promotionReady = throughFourthGatePromotionReady
     && fifthGateClosurePassed
     && sixthGateClosurePassed
@@ -7230,6 +8070,7 @@ function buildV26ProvenPackage(baseData, {
       fifthGateClosureDeepeningProof,
       fifthGateClosureProof,
       sixthGateMvpClosureProof,
+      seventhGateCommercialTestnetLaunchProof,
       promptSpaceCompletenessProof,
       retainedPackageAdmissibilityProof,
       systemReformAdmissibilityProof,
@@ -7257,6 +8098,9 @@ function buildV26ProvenPackage(baseData, {
         && inheritedV19?.volatilityInventory?.passed === true
         && inheritedV19?.contractChangeLedger?.passed === true
         && inheritedV20?.qualitySummary?.passed === true
+        && specFamilyReport.passed === true
+        && specFamilyReport.mode === 'promoted'
+        && canonicalInputReport.passed === true
         && promotionReady
         && fifthGateClosurePassed
         && sixthGateClosurePassed

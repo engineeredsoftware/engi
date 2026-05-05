@@ -93,7 +93,7 @@ test('V26 prompt surface map keeps active, support, and reference corridors expl
   assert.match(promptSurfaceSource, /specific implementation PromptParts that specialize the base type/u);
   assert.match(promptSurfaceSource, /Full V26 closure must eliminate any prompt implementation whose generic\/specific layer can only be inferred/u);
   assert.match(promptSurfaceSource, /fifth-gate prompt baseline proves/u);
-  assert.match(promptSurfaceSource, /final prompt-space completeness remains an eighth-gate closure obligation/u);
+  assert.match(promptSurfaceSource, /final prompt-space completeness is now closed by the eighth-gate proof family/u);
   assert.match(promptSurfaceSource, /baselinePassed/u);
   assert.match(promptSurfaceSource, /\.bitcode\/prompt-space-completeness-proof\.json/u);
   assert.match(promptSurfaceSource, /\.bitcode\/inference-implementation-records-proof\.json/u);
@@ -131,7 +131,7 @@ test('V26 inference systems spec binds prompts, tools, agents, and executions to
   assert.match(inferenceSystemsSource, /package-local no-emit typecheck/u);
   assert.match(inferenceSystemsSource, /## Prompt-Space Witness Baseline/u);
   assert.match(inferenceSystemsSource, /application conversation prompt binding and admitted Bitcode MCP prompt\/tool ingress/u);
-  assert.match(inferenceSystemsSource, /`passed: true` is not allowed until eighth-gate prompt-space saturation/u);
+  assert.match(inferenceSystemsSource, /`passed: true` is required after eighth-gate prompt-space saturation/u);
   assert.match(inferenceSystemsSource, /runtime and proof evidence can be regenerated from source/u);
   assert.match(inferenceSystemsSource, /treat `Prompt` as `RegistryImpl<PromptPart>`/u);
   assert.match(inferenceSystemsSource, /classify `raw_promptparts\/generic` \/ `PROMPTPART_GENERIC_\*` as reusable base PromptPart layers/u);
@@ -166,11 +166,13 @@ test('V26 active app config no longer preserves deprecated prompt source aliases
   assert.match(uapiTsconfigSource, /"@bitcode\/prompts\/\*":\s*\[\s*"\.\.\/packages\/prompts\/src\/\*"\s*\]/u);
 });
 
-test('V26 prompt-space proof proves the fifth-gate baseline without claiming eighth-gate closure', () => {
+test('V26 prompt-space proof closes the eighth-gate completeness verdict', () => {
   assert.equal(promptSpaceCompletenessProof.reportId, 'v26-prompt-space-completeness-proof');
   assert.equal(promptSpaceCompletenessProof.baselinePassed, true);
   assert.equal(promptSpaceCompletenessProof.witnessFamilyComplete, true);
-  assert.equal(promptSpaceCompletenessProof.passed, false);
+  assert.equal(promptSpaceCompletenessProof.passed, true);
+  assert.equal(promptSpaceCompletenessProof.closureClaim, true);
+  assert.equal(promptSpaceCompletenessProof.proceduralGateClosure, true);
   assert.equal(promptSpaceCompletenessProof.closureGate, 'eighth-gate');
   assert.deepEqual(
     promptSpaceCompletenessProof.checks.map((check) => check.promptSpaceRole),
@@ -188,10 +190,10 @@ test('V26 prompt-space proof proves the fifth-gate baseline without claiming eig
     promptSpaceCompletenessProof.checks.filter((check) => check.passed !== true),
     []
   );
-  assert.match(
-    promptSpaceCompletenessProof.openReason,
-    /without claiming final prompt-space saturation/u
-  );
+  assert.equal(promptSpaceCompletenessProof.openReason, null);
+  assert.deepEqual(promptSpaceCompletenessProof.openCompletenessDimensions, []);
+  assert.equal(promptSpaceCompletenessProof.closedCompletenessDimensions.length, 5);
+  assert.match(promptSpaceCompletenessProof.closureReason, /Prompt-space completeness is closed/u);
   const proofSpecificationWitness = promptSpaceCompletenessProof.checks.find(
     (check) => check.checkId === 'prompt-proof-and-specification-witnesses'
   );

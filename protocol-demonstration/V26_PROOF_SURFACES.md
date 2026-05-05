@@ -182,10 +182,11 @@ Required system families:
 - active-source product naming retirement
 - fifth-gate closure witnesses for retained app/package/runtime carriers
 - proof-bearing closure for newly admitted application, API, MCP, prompt, ChatGPT-app, and retained package systems at the same standard as the earlier proved Bitcode core
-- generated fifth-gate source-to-shares proof through `.bitcode/source-to-shares-fifth-gate-proof.json`, explicitly covering the make-shares/use-shares baseline without itself claiming fourth-gate or fifth-gate procedural closure
+- generated fifth-gate source-to-shares proof through `.bitcode/source-to-shares-fifth-gate-proof.json`, explicitly covering the make-shares/use-shares baseline as a source-to-shares input to fifth-gate procedural closure
 - generated fifth-gate closure-deepening proof through `.bitcode/fifth-gate-closure-deepening-proof.json`, explicitly recording post-fourth-gate-promotion evidence across Terminal, Exchange, persistence/schema, reform, proof, and environment axes
-- generated fifth-gate closure proof through `.bitcode/fifth-gate-closure-proof.json`, explicitly accepting the six fifth-gate closure rows while keeping launch and total provation downstream
-- generated sixth-gate MVP closure proof through `.bitcode/sixth-gate-mvp-closure-proof.json`, explicitly accepting the eight MVP closure rows while keeping seventh-gate commercial testnet launch and eighth-gate provation downstream
+- generated fifth-gate closure proof through `.bitcode/fifth-gate-closure-proof.json`, explicitly accepting the six fifth-gate closure rows as the minimum-functional prerequisite for later gates
+- generated sixth-gate MVP closure proof through `.bitcode/sixth-gate-mvp-closure-proof.json`, explicitly accepting the eight MVP closure rows as the prerequisite for commercial testnet launch
+- generated seventh-gate commercial testnet launch proof through `.bitcode/seventh-gate-commercial-testnet-launch-proof.json`, explicitly accepting the eight launch rows before the now-closed eighth-gate provation family
 - protocol proof closure for `.bitcode/need-review.json`, `.bitcode/settlement-preview.json`, `.bitcode/source-to-shares.json`, settlement AssetPack fit-quality receipts, and `settlement_source_to_shares.quantized_fit_quality_receipting`
 - application/API proof closure for `protocol-demonstration/public/app.js`, `protocol-demonstration/server.js`, `uapi/app/api/need-review/route.ts`, `uapi/app/api/make-bitcode-branch/route.ts`, `uapi/app/application/ApplicationNeedScenarioPanel.tsx`, `uapi/app/application/application-closure-state.ts`, `ApplicationClosureNativeSections.tsx`, `application-section-atlas.ts`, `application-transaction-detail.ts`, and `application-activity-history.ts` so review admission and quantized fit-quality rows remain reviewable, writable, parity-tested against protocol behavior, and readable through the Bitcode Terminal and app API rather than only through raw artifacts
 
@@ -225,11 +226,11 @@ Required system families:
 
 Required coverage posture:
 - spec:
-  commercial testnet refinement obligations are explicit
+  commercial testnet refinement obligations are explicit and closed by `.bitcode/seventh-gate-commercial-testnet-launch-proof.json`
 - tests:
   launch-critical operator and interface paths are exercised as one product story
 - proof surface:
-  later-gate launch artifacts explicitly name what was refined beyond MVP quality
+  seventh-gate commercial testnet launch proof explicitly names what was refined beyond MVP quality: product readiness, testnet-first boundary, commercial story, wallet/settlement/repository readiness, proof/state reread, connected interfaces, and retired old-world core-journey explanations
 
 ### Gate 8: whole-repository provation and final V26 closure
 
@@ -245,7 +246,7 @@ Required coverage posture:
 - tests:
   whole-repository final witnesses exercise the kept V26 system as one Bitcode application
 - proof surface:
-  generated V26 proof appendix and reports become seventh-gate final closure blockers
+  generated V26 proof appendix and reports are eighth-gate final closure evidence
 
 ## Immediate V26 code-system assignments
 
@@ -1187,11 +1188,11 @@ Required closure posture:
   `protocol-demonstration/test/v26-shippable-reform.test.js` and `protocol-demonstration/test/v26-active-product-naming.test.js`
   proof surface:
   fifth-gate aggressive PromptPart reservoir cleanup so old `agent_deliverable{impl,implementation,validation}*`, `agent_deliverablesdiscoverycodebaseanalysis_*`, and `deliverables_system_*` raw files/runtime mirrors/barrel exports are removed once AssetPack synthesis, AssetPack discovery, AssetPack validation, and `asset_pack_system` owners exist; non-PR Finish delivery reservoirs (`assetpackfinishsubmitreviewdelivery`, `assetpackfinishcreateissuedelivery`, `assetpackfinishaddissuecommentdelivery`) are cut from V26 prompt audit and raw PromptPart ownership so the active Finish delivery mechanism remains pull-request Shippables only
-- `{BITCODE_SPEC_V26_PARITY_MATRIX.md,.bitcode/{fifth-gate-closure-deepening-proof.json,fifth-gate-closure-proof.json,sixth-gate-mvp-closure-proof.json,v26-product-readiness-audit.json}}`
+- `{BITCODE_SPEC_V26_PARITY_MATRIX.md,.bitcode/{fifth-gate-closure-deepening-proof.json,fifth-gate-closure-proof.json,sixth-gate-mvp-closure-proof.json,seventh-gate-commercial-testnet-launch-proof.json,v26-product-readiness-audit.json}}`
   test coverage:
   source review against the formal fifth-gate acceptance rule and generated readiness/closure-axis artifacts
   proof surface:
-  current fifth-gate closure queue confirmation and sixth-gate MVP closure proof so accepted closure is explicitly bound to whole Terminal read/write acceptance, conversations/ad hoc parity, transactional readiness runtime proof, persistence runtime acceptance, old-world reform saturation, proof/promotion closure, MVP product readiness, explicit application map, activity/transactions repeated-operator loop, conversations ChatGPT-style parity, auxillaries readiness, admitted interface convergence, and clean architecture; seventh-gate commercial testnet launch and eighth-gate provation remain downstream acceptance gates and cannot be substituted for MVP closure evidence
+  current fifth-gate closure queue confirmation, sixth-gate MVP closure proof, and seventh-gate commercial testnet launch proof so accepted closure is explicitly bound to whole Terminal read/write acceptance, conversations/ad hoc parity, transactional readiness runtime proof, persistence runtime acceptance, old-world reform saturation, proof/promotion closure, MVP product readiness, explicit application map, activity/transactions repeated-operator loop, conversations ChatGPT-style parity, auxillaries readiness, admitted interface convergence, clean architecture, testnet-first launch boundary, wallet/BTC/`$BTD` launch readiness, proof/state reread, connected-interface launch alignment, and retirement of old-world compatibility explanations; eighth-gate provation remains downstream and cannot be substituted for launch closure evidence
 
 ## Module namespace proof note
 

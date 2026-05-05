@@ -253,7 +253,7 @@ test('V25 proven generator renders a Bitcode-branded appendix with BTD rename cl
   assert.ok(generated.markdown.includes('BTD'));
 });
 
-test('V26 proven generator renders the active Bitcode appendix with fifth and sixth gates procedurally closed', () => {
+test('V26 proven generator renders the active Bitcode appendix with all eight gates procedurally closed', () => {
   const generated = generateCanonicalProvenMarkdown({
     version: 'V26',
     canonicalCommit: 'draft-v26',
@@ -273,12 +273,14 @@ test('V26 proven generator renders the active Bitcode appendix with fifth and si
   assert.equal(generated.data.v26.throughFourthGateReady, true);
   assert.equal(generated.data.v26.fourthGatePromotedClosed, true);
   assert.equal(generated.data.v26.throughFourthGatePromotionReady, ACTIVE_CANON_VERSION === 'V26');
-  assert.equal(generated.data.v26.promotionReady, false);
+  assert.equal(generated.data.v26.promotionReady, true);
   assert.equal(generated.data.v26.fifthGateClosurePassed, true);
   assert.equal(generated.data.v26.fifthGateClosureDeepeningPassed, true);
   assert.equal(generated.data.v26.sixthGateClosurePassed, true);
-  assert.equal(generated.data.v26.seventhGateClosurePassed, false);
+  assert.equal(generated.data.v26.seventhGateClosurePassed, true);
+  assert.equal(generated.data.v26.eighthGateClosurePassed, true);
   assert.equal(generated.data.v26.specFamilyReport.passed, true);
+  assert.equal(generated.data.v26.specFamilyReport.mode, 'promoted');
   assert.equal(generated.data.v26.canonicalInputReport.passed, true);
   assert.equal(
     generated.data.v26.canonicalInputReport.requiredGeneratedArtifactPaths.includes(
@@ -310,6 +312,12 @@ test('V26 proven generator renders the active Bitcode appendix with fifth and si
     ),
     true
   );
+  assert.equal(
+    generated.data.v26.canonicalInputReport.requiredGeneratedArtifactPaths.includes(
+      '.bitcode/seventh-gate-commercial-testnet-launch-proof.json'
+    ),
+    true
+  );
   assert.equal(generated.data.v26.conversationsContinuityProof.passed, true);
   assert.equal(generated.data.v26.runsPipelinesTotalityProof.passed, true);
   assert.equal(generated.data.v26.persistenceSchemaTotalityProof.passed, true);
@@ -338,14 +346,13 @@ test('V26 proven generator renders the active Bitcode appendix with fifth and si
   assert.equal(generated.data.v26.fifthGateClosureProof.queueRowCount, 6);
   assert.equal(generated.data.v26.fifthGateClosureProof.closedQueueRowCount, 6);
   assert.deepEqual(generated.data.v26.fifthGateClosureProof.openQueueRows, []);
-  assert.deepEqual(generated.data.v26.fifthGateClosureProof.notReadyFor, [
-    'seventh-gate-commercial-testnet-launch',
-    'eighth-gate-v26-definition-of-need'
-  ]);
+  assert.deepEqual(generated.data.v26.fifthGateClosureProof.notReadyFor, []);
   assert.equal(generated.data.v26.productReadinessAudit.baselinePassed, true);
   assert.equal(generated.data.v26.productReadinessAudit.mvpPassed, true);
+  assert.equal(generated.data.v26.productReadinessAudit.launchPassed, true);
   assert.equal(generated.data.v26.productReadinessAudit.closureClaim, true);
   assert.equal(generated.data.v26.productReadinessAudit.sixthGateMvpClaim, true);
+  assert.equal(generated.data.v26.productReadinessAudit.seventhGateCommercialTestnetLaunchClaim, true);
   assert.equal(
     generated.data.v26.productReadinessAudit.closureReadyProductCount,
     generated.data.v26.productReadinessAudit.productCount
@@ -354,19 +361,30 @@ test('V26 proven generator renders the active Bitcode appendix with fifth and si
     generated.data.v26.productReadinessAudit.mvpReadyProductCount,
     generated.data.v26.productReadinessAudit.productCount
   );
+  assert.equal(
+    generated.data.v26.productReadinessAudit.launchReadyProductCount,
+    generated.data.v26.productReadinessAudit.productCount
+  );
   assert.equal(generated.data.v26.sixthGateMvpClosureProof.passed, true);
   assert.equal(generated.data.v26.sixthGateMvpClosureProof.closureClaim, true);
   assert.equal(generated.data.v26.sixthGateMvpClosureProof.proceduralGateClosure, true);
   assert.equal(generated.data.v26.sixthGateMvpClosureProof.queueRowCount, 8);
   assert.equal(generated.data.v26.sixthGateMvpClosureProof.closedQueueRowCount, 8);
   assert.deepEqual(generated.data.v26.sixthGateMvpClosureProof.openQueueRows, []);
-  assert.deepEqual(generated.data.v26.sixthGateMvpClosureProof.notReadyFor, [
-    'seventh-gate-commercial-testnet-launch',
-    'eighth-gate-v26-definition-of-need'
-  ]);
-  assert.equal(generated.data.v26.promptSpaceCompletenessProof.passed, false);
+  assert.deepEqual(generated.data.v26.sixthGateMvpClosureProof.notReadyFor, []);
+  assert.equal(generated.data.v26.seventhGateCommercialTestnetLaunchProof.passed, true);
+  assert.equal(generated.data.v26.seventhGateCommercialTestnetLaunchProof.closureClaim, true);
+  assert.equal(generated.data.v26.seventhGateCommercialTestnetLaunchProof.proceduralGateClosure, true);
+  assert.equal(generated.data.v26.seventhGateCommercialTestnetLaunchProof.queueRowCount, 8);
+  assert.equal(generated.data.v26.seventhGateCommercialTestnetLaunchProof.closedQueueRowCount, 8);
+  assert.deepEqual(generated.data.v26.seventhGateCommercialTestnetLaunchProof.openQueueRows, []);
+  assert.deepEqual(generated.data.v26.seventhGateCommercialTestnetLaunchProof.notReadyFor, []);
+  assert.equal(generated.data.v26.promptSpaceCompletenessProof.passed, true);
+  assert.equal(generated.data.v26.promptSpaceCompletenessProof.closureClaim, true);
+  assert.equal(generated.data.v26.promptSpaceCompletenessProof.proceduralGateClosure, true);
   assert.equal(generated.data.v26.promptSpaceCompletenessProof.baselinePassed, true);
   assert.equal(generated.data.v26.promptSpaceCompletenessProof.witnessSetCount, 7);
+  assert.deepEqual(generated.data.v26.promptSpaceCompletenessProof.openCompletenessDimensions, []);
   assert.equal(generated.data.v26.retainedPackageAdmissibilityProof.passed, true);
   assert.deepEqual(generated.data.v26.retainedPackageAdmissibilityProof.requiredFields, [
     'packageName',
@@ -405,8 +423,16 @@ test('V26 proven generator renders the active Bitcode appendix with fifth and si
     false
   );
   assert.equal(generated.data.v26.systemReformAdmissibilityProof.passed, true);
-  assert.equal(generated.data.v26.wholeRepositoryProductionSatisfactionProof.passed, false);
-  assert.equal(generated.data.v26.v26TotalClosureProof.passed, false);
+  assert.equal(generated.data.v26.wholeRepositoryProductionSatisfactionProof.passed, true);
+  assert.equal(generated.data.v26.wholeRepositoryProductionSatisfactionProof.closureClaim, true);
+  assert.equal(generated.data.v26.wholeRepositoryProductionSatisfactionProof.proceduralGateClosure, true);
+  assert.equal(generated.data.v26.v26TotalClosureProof.passed, true);
+  assert.equal(generated.data.v26.v26TotalClosureProof.closureClaim, true);
+  assert.equal(generated.data.v26.v26TotalClosureProof.proceduralGateClosure, true);
+  assert.equal(generated.data.v26.v26TotalClosureProof.queueRowCount, 6);
+  assert.equal(generated.data.v26.v26TotalClosureProof.closedQueueRowCount, 6);
+  assert.deepEqual(generated.data.v26.v26TotalClosureProof.openQueueRows, []);
+  assert.deepEqual(generated.data.v26.v26TotalClosureProof.notReadyFor, []);
   assert.equal(
     generated.data.v26.gateCheckpointReport.secondGate.checks.some(
       (check) => check.checkId === 'second-gate-documentation-carriers' && check.passed === true,
@@ -463,7 +489,20 @@ test('V26 proven generator renders the active Bitcode appendix with fifth and si
   assert.equal(generated.data.v26.gateCheckpointReport.sixthGate.proceduralClosurePassed, true);
   assert.equal(generated.data.v26.gateCheckpointReport.sixthGate.promotionStatus, 'promoted-closed');
   assert.equal(generated.data.v26.gateCheckpointReport.seventhGate.prepared, true);
-  assert.equal(generated.data.aggregate.fullyProven, false);
+  assert.equal(generated.data.v26.gateCheckpointReport.seventhGate.passed, true);
+  assert.equal(generated.data.v26.gateCheckpointReport.seventhGate.open, false);
+  assert.equal(generated.data.v26.gateCheckpointReport.seventhGate.closureProofPassed, true);
+  assert.equal(generated.data.v26.gateCheckpointReport.seventhGate.proceduralClosurePassed, true);
+  assert.equal(generated.data.v26.gateCheckpointReport.seventhGate.promotionStatus, 'promoted-closed');
+  assert.equal(generated.data.v26.gateCheckpointReport.eighthGate.prepared, true);
+  assert.equal(generated.data.v26.gateCheckpointReport.eighthGate.passed, true);
+  assert.equal(generated.data.v26.gateCheckpointReport.eighthGate.open, false);
+  assert.equal(generated.data.v26.gateCheckpointReport.eighthGate.promptSpaceCompletenessProofPassed, true);
+  assert.equal(generated.data.v26.gateCheckpointReport.eighthGate.wholeRepositoryProductionSatisfactionProofPassed, true);
+  assert.equal(generated.data.v26.gateCheckpointReport.eighthGate.closureProofPassed, true);
+  assert.equal(generated.data.v26.gateCheckpointReport.eighthGate.proceduralClosurePassed, true);
+  assert.equal(generated.data.v26.gateCheckpointReport.eighthGate.promotionStatus, 'promoted-closed');
+  assert.equal(generated.data.aggregate.fullyProven, true);
   assert.deepEqual(Object.keys(generated.artifacts).sort(), [
     '.bitcode/application-composition-proof.json',
     '.bitcode/conversations-continuity-proof.json',
@@ -477,6 +516,7 @@ test('V26 proven generator renders the active Bitcode appendix with fifth and si
     '.bitcode/prompt-system-totality-proof.json',
     '.bitcode/retained-package-admissibility-proof.json',
     '.bitcode/runs-pipelines-totality-proof.json',
+    '.bitcode/seventh-gate-commercial-testnet-launch-proof.json',
     '.bitcode/sixth-gate-mvp-closure-proof.json',
     '.bitcode/source-to-shares-fifth-gate-proof.json',
     '.bitcode/system-reform-admissibility-proof.json',
@@ -503,12 +543,13 @@ test('V26 proven generator renders the active Bitcode appendix with fifth and si
   assert.ok(generated.markdown.includes('### V26 Fifth-Gate Closure Deepening Proof'));
   assert.ok(generated.markdown.includes('### V26 Fifth-Gate Closure Proof'));
   assert.ok(generated.markdown.includes('### V26 Sixth-Gate MVP Closure Proof'));
+  assert.ok(generated.markdown.includes('### V26 Seventh-Gate Commercial Testnet Launch Proof'));
   assert.ok(generated.markdown.includes('### V26 Prompt Space Completeness Witness'));
   assert.ok(generated.markdown.includes('### V26 Retained Package Admissibility Proof'));
   assert.ok(generated.markdown.includes('### V26 System Reform Admissibility Proof'));
   assert.ok(generated.markdown.includes('### V26 Whole Repository Production Satisfaction Witness'));
   assert.ok(generated.markdown.includes('### V26 Total Closure Witness'));
-  assert.ok(generated.markdown.includes('Gate 7: initial commercially-viable testnet live-launch refinement after sixth-gate MVP closure'));
+  assert.ok(generated.markdown.includes('V26 fully proven: ready for canonical promotion'));
   assert.ok(generated.markdown.includes('application-native-full-page'));
   assert.ok(generated.markdown.includes('.bitcode/application-composition-proof.json'));
   assert.ok(generated.markdown.includes('.bitcode/conversations-continuity-proof.json'));
@@ -517,6 +558,7 @@ test('V26 proven generator renders the active Bitcode appendix with fifth and si
   assert.ok(generated.markdown.includes('.bitcode/fifth-gate-closure-deepening-proof.json'));
   assert.ok(generated.markdown.includes('.bitcode/fifth-gate-closure-proof.json'));
   assert.ok(generated.markdown.includes('.bitcode/sixth-gate-mvp-closure-proof.json'));
+  assert.ok(generated.markdown.includes('.bitcode/seventh-gate-commercial-testnet-launch-proof.json'));
   assert.ok(generated.markdown.includes('.bitcode/inference-implementation-records-proof.json'));
   assert.ok(generated.markdown.includes('.bitcode/source-to-shares-fifth-gate-proof.json'));
   assert.ok(generated.markdown.includes('.bitcode/v26-product-readiness-audit.json'));

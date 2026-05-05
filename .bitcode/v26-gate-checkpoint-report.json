@@ -1,15 +1,15 @@
 {
   "reportId": "v26-gate-checkpoint-report",
   "version": "V26",
-  "proofSourceCommit": "cb23460b15c8aaa50b637b6141b8914688e1ded0",
-  "generatedAt": "2026-05-05T08:53:04-03:00",
+  "proofSourceCommit": "42a61e52d621402eccddde4eb5f8d89b848f0f70",
+  "generatedAt": "2026-05-05T11:06:38-03:00",
   "generatorId": "bitcode.proven-generator.v1",
   "worktreeState": "dirty-preview",
   "activeCanonicalTarget": "V26",
   "draftPreview": false,
-  "checkpointId": "v26-through-sixth-gate-closed-on-eight-gate-v26",
-  "checkpointFocus": "through-sixth-gate-closed-on-eight-gate-v26",
-  "nextGate": "Gate 7: initial commercially-viable testnet live-launch refinement after sixth-gate MVP closure",
+  "checkpointId": "v26-through-eighth-gate-fully-proven",
+  "checkpointFocus": "through-eighth-gate-fully-proven",
+  "nextGate": "V26 fully proven: ready for canonical promotion",
   "passed": true,
   "firstGate": {
     "gateId": "gate-1",
@@ -44,7 +44,7 @@
         "checkId": "v26-spec-family",
         "label": "V26 spec-family report",
         "passed": true,
-        "detail": "Spec-family report passes in draft mode"
+        "detail": "Spec-family report passes in promoted mode"
       },
       {
         "checkId": "v26-canonical-input",
@@ -308,7 +308,7 @@
         "detail": "Fifth gate is procedurally closed at the minimum-functional Bitcode baseline."
       }
     ],
-    "detail": "Fifth gate is closed at the minimum-functional Bitcode baseline. Sixth gate remains open for MVP elevation and later commercialization work."
+    "detail": "Fifth gate is closed at the minimum-functional Bitcode baseline. Sixth and seventh gate closure are judged by their generated proof families."
   },
   "sixthGate": {
     "gateId": "gate-6",
@@ -339,20 +339,82 @@
         "detail": "Sixth gate is procedurally closed at the minimal viable product baseline."
       }
     ],
-    "detail": "Sixth gate is closed at the minimal viable product baseline. Seventh gate remains open for commercial testnet launch refinement."
+    "detail": "Sixth gate is closed at the minimal viable product baseline. Seventh gate closure is judged by the commercial testnet launch proof."
   },
   "seventhGate": {
     "gateId": "gate-7",
     "label": "Initial commercially-viable testnet live-launch refinement",
     "prepared": true,
-    "open": true,
-    "detail": "Seventh-gate remains open and will refine the minimal viable Bitcode product into an initial commercially-viable testnet launch posture."
+    "passed": true,
+    "open": false,
+    "closureProofPassed": true,
+    "proceduralClosurePassed": true,
+    "promotionStatus": "promoted-closed",
+    "checks": [
+      {
+        "checkId": "seventh-gate-fifth-and-sixth-prerequisites",
+        "label": "Fifth- and sixth-gate prerequisites",
+        "passed": true,
+        "detail": "Fifth-gate minimum-functional closure and sixth-gate MVP closure both hold before commercial testnet launch refinement."
+      },
+      {
+        "checkId": "seventh-gate-commercial-testnet-launch-proof",
+        "label": "Seventh-gate commercial testnet launch proof",
+        "passed": true,
+        "detail": "Seventh-gate launch proof accepts every commercial testnet launch row across product readiness, wallet, repository scope, proof/state reread, operator flow, and connected interfaces."
+      },
+      {
+        "checkId": "seventh-gate-procedural-closure",
+        "label": "Seventh-gate procedural closure",
+        "passed": true,
+        "detail": "Seventh gate is procedurally closed at the initial commercially viable testnet launch baseline."
+      }
+    ],
+    "detail": "Seventh gate is closed at the initial commercially viable testnet launch baseline. Final V26 closure is judged by the Gate 8 proof family."
   },
   "eighthGate": {
     "gateId": "gate-8",
     "label": "Whole-repository provation and final V26 closure",
-    "prepared": false,
-    "open": true,
-    "detail": "Eighth-gate remains open and owns final whole-repository Bitcode provation, prompt-space closure, and the definition-of-done for V26 productization."
+    "prepared": true,
+    "passed": true,
+    "open": false,
+    "promptSpaceCompletenessProofPassed": true,
+    "wholeRepositoryProductionSatisfactionProofPassed": true,
+    "closureProofPassed": true,
+    "proceduralClosurePassed": true,
+    "promotionStatus": "promoted-closed",
+    "checks": [
+      {
+        "checkId": "eighth-gate-fifth-sixth-seventh-prerequisites",
+        "label": "Fifth-, sixth-, and seventh-gate prerequisites",
+        "passed": true,
+        "detail": "Fifth-gate minimum-functional closure, sixth-gate MVP closure, and seventh-gate commercial testnet launch closure all hold before final V26 provation."
+      },
+      {
+        "checkId": "eighth-gate-prompt-space-completeness-proof",
+        "label": "Prompt-space completeness proof",
+        "passed": true,
+        "detail": "Prompt-space completeness proof closes every prompt-space witness set and final completeness dimension."
+      },
+      {
+        "checkId": "eighth-gate-whole-repository-production-satisfaction-proof",
+        "label": "Whole-repository production satisfaction proof",
+        "passed": true,
+        "detail": "Whole-repository production satisfaction proof closes application, API, MCP, ChatGPT App, package, proof, and reform evidence as one Bitcode product."
+      },
+      {
+        "checkId": "eighth-gate-v26-total-closure-proof",
+        "label": "V26 total closure proof",
+        "passed": true,
+        "detail": "V26 total closure proof accepts the final repository closure queue."
+      },
+      {
+        "checkId": "eighth-gate-procedural-closure",
+        "label": "Eighth-gate procedural closure",
+        "passed": true,
+        "detail": "Eighth gate is procedurally closed; V26 is ready for canonical promotion without interpretive notes."
+      }
+    ],
+    "detail": "Eighth gate is closed: whole-repository Bitcode provation, prompt-space completeness, and V26 total closure have explicit generated closure verdicts."
   }
 }

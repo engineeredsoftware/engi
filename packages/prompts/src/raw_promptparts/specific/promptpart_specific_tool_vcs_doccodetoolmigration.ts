@@ -1,7 +1,7 @@
 /**
  * @doc-comment-developing-promptpartdevelopment
- * domain: migration
- * intent: "Migration guide from deprecated git-interactor to VCS tools"
+ * domain: relationship
+ * intent: "Relationship guide for Git interactor and VCS tools"
  * current_version: "V26.00.0"
  * versions: []
  * benchmarks: [
@@ -14,4 +14,4 @@
 import type { PromptPart } from '../../parts/PromptPart';
 
 export const PROMPTPART_SPECIFIC_TOOL_VCS_DOCCODETOOLMIGRATION: PromptPart = 
-  'MIGRATION GUIDE: Replace all git-interactor imports with @bitcode/generic-tools/vcs. The VCS abstraction provides provider-agnostic operations supporting GitHub, GitLab, and Bitbucket with consistent APIs.' as PromptPart;
+  'RELATIONSHIP GUIDE: use @bitcode/vcs-tools for provider-agnostic operations across GitHub, GitLab, and Bitbucket; use @bitcode/generic-tools-git when the active Bitcode workflow needs concrete Git-shaped operation names.' as PromptPart;

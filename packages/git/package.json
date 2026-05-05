@@ -1,8 +1,14 @@
 {
   "name": "@bitcode/git",
-  "version": "0.0.0-deprecated",
-  "description": "DEPRECATED - Use @bitcode/vcs-core instead",
+  "version": "1.0.0",
+  "description": "Bitcode Git operation bridge for repository anchors, VCS provider calls, and AssetPack PR delivery support",
   "main": "src/index.ts",
-  "dependencies": {},
-  "deprecated": "This package has been replaced by @bitcode/vcs-core which supports multiple VCS providers"
+  "types": "src/index.ts",
+  "dependencies": {
+    "@bitcode/bitbucket": "workspace:*",
+    "@bitcode/github": "workspace:*",
+    "@bitcode/gitlab": "workspace:*",
+    "@bitcode/supabase": "workspace:*",
+    "@bitcode/vcs": "workspace:*"
+  }
 }

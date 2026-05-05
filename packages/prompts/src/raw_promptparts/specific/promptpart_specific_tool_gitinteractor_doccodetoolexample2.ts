@@ -13,4 +13,4 @@
 import type { PromptPart } from '../../parts/PromptPart';
 
 export const PROMPTPART_SPECIFIC_TOOL_GITINTERACTOR_DOCCODETOOLEXAMPLE2: PromptPart = 
-  'Provide concrete, domain‑appropriate content for this specific prompt segment. Use precise, operational language and ensure it integrates coherently with adjacent prompt parts.' as PromptPart;
+  'Deliver an AssetPack by PR: createPullRequestTool.use({ provider: "github", connectionId, owner, repo, title, sourceBranch: "asset-pack/run-123", targetBranch: "main" }) records the repository delivery mechanism.' as PromptPart;

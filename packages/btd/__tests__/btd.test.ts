@@ -7,7 +7,9 @@
 
 import {
   BtdFungibleMutationRejectedError,
+  BTD_MAX_MINTABLE_SUPPLY,
   BITCODE_FEE_ASSET,
+  assertBtdMintableSupplyLimit,
   calculateLlmBtcFeeEstimate,
   calculateMeasuredBtdFromTokens,
 } from '../src';
@@ -41,6 +43,17 @@ describe('calculateLlmBtcFeeEstimate', () => {
 describe('calculateMeasuredBtdFromTokens', () => {
   it('measures content amount without implying spend', () => {
     expect(calculateMeasuredBtdFromTokens({ inputTokens: 1200, outputTokens: 50 })).toBe(2);
+  });
+});
+
+describe('BTD mintable supply ceiling', () => {
+  it('records the V27+ fixed measured BTD mint ceiling', () => {
+    expect(BTD_MAX_MINTABLE_SUPPLY).toBe(21_000_000);
+  });
+
+  it('fails closed when a proposed mint would exceed the ceiling', () => {
+    expect(assertBtdMintableSupplyLimit(20_999_999, 1)).toBe(21_000_000);
+    expect(() => assertBtdMintableSupplyLimit(21_000_000, 1)).toThrow(/21,000,000/);
   });
 });
 

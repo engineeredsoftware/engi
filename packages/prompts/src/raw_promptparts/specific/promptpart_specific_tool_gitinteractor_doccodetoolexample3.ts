@@ -13,4 +13,4 @@
 import type { PromptPart } from '../../parts/PromptPart';
 
 export const PROMPTPART_SPECIFIC_TOOL_GITINTERACTOR_DOCCODETOOLEXAMPLE3: PromptPart = 
-  'Provide concrete, domain‑appropriate content for this specific prompt segment. Use precise, operational language and ensure it integrates coherently with adjacent prompt parts.' as PromptPart;
+  'Write source evidence: updateFileContentTool.use({ provider, userId, owner, repo, path, content, message, branch, sha }) writes through the provider boundary and fails closed without required write proof fields.' as PromptPart;

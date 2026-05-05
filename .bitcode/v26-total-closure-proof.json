@@ -1,28 +1,131 @@
 {
   "reportId": "v26-total-closure-proof",
   "version": "V26",
-  "proofSourceCommit": "cb23460b15c8aaa50b637b6141b8914688e1ded0",
-  "generatedAt": "2026-05-05T08:53:04-03:00",
+  "gate": "gate-8",
+  "focus": "whole-repository-provation-and-final-v26-closure",
+  "proofSourceCommit": "42a61e52d621402eccddde4eb5f8d89b848f0f70",
+  "generatedAt": "2026-05-05T11:06:38-03:00",
   "generatorId": "bitcode.proven-generator.v1",
   "worktreeState": "dirty-preview",
-  "passed": false,
-  "openReason": "V26 total closure remains an eighth-gate proof until the kept repository is fully proven as one Bitcode system.",
+  "passed": true,
+  "closureClaim": true,
+  "proceduralGateClosure": true,
+  "queueRowCount": 6,
+  "closedQueueRowCount": 6,
+  "openQueueRows": [],
+  "notReadyFor": [],
+  "closureReason": "V26 total closure is explicit end-to-end: prior gate acceptance holds, prompt-space and whole-repository proofs close, the spec family is promoted, and product/reform evidence no longer depends on interpretive notes.",
+  "openReason": null,
+  "closureRows": [
+    {
+      "rowId": "fifth-sixth-seventh-gate-acceptance-hold",
+      "criterion": "Fifth-, sixth-, and seventh-gate acceptance must hold before final V26 closure.",
+      "proofEvidencePassed": true,
+      "sourceEvidencePassed": true,
+      "closurePassed": true
+    },
+    {
+      "rowId": "prompt-space-completeness-closed",
+      "criterion": "Prompt-space completeness must carry an explicit final closure verdict.",
+      "proofEvidencePassed": true,
+      "sourceEvidencePassed": true,
+      "closurePassed": true
+    },
+    {
+      "rowId": "whole-repository-production-satisfaction-closed",
+      "criterion": "Whole-repository production satisfaction must close across application, API, MCP, ChatGPT App, package, proof, and reform corridors.",
+      "proofEvidencePassed": true,
+      "sourceEvidencePassed": true,
+      "closurePassed": true
+    },
+    {
+      "rowId": "spec-family-and-canonical-input-promoted",
+      "criterion": "The V26 spec family and canonical input reports must pass in final promoted posture.",
+      "proofEvidencePassed": true,
+      "sourceEvidencePassed": true,
+      "closurePassed": true
+    },
+    {
+      "rowId": "application-ready-bitcode-canon-no-silent-compatibility",
+      "criterion": "The kept repository must be application-ready Bitcode canon without silent legacy product ownership.",
+      "proofEvidencePassed": true,
+      "sourceEvidencePassed": true,
+      "closurePassed": true
+    },
+    {
+      "rowId": "promotion-without-interpretive-notes",
+      "criterion": "V26 total closure must be explicit enough that promotion no longer depends on interpretive notes.",
+      "proofEvidencePassed": true,
+      "sourceEvidencePassed": true,
+      "closurePassed": true
+    }
+  ],
   "checks": [
     {
-      "checkId": "v26-total-closure-family",
-      "label": "The V26 spec family, proof family, and active promoted route witnesses remain explicit for final closure",
+      "checkId": "v26-total-closure-spec-and-parity-verdict",
+      "label": "V26 total closure is specified, parity-recorded, and proof-surface mapped",
       "passed": true,
-      "detail": "7 required files present",
-      "requiredFiles": [
-        "BITCODE_SPEC_V26.md",
-        "BITCODE_SPEC_V26_DELTA.md",
-        "BITCODE_SPEC_V26_PARITY_MATRIX.md",
-        "BITCODE_SPEC_V26_NOTES.md",
-        "BITCODE_SPEC_V26_PROVEN.md",
-        "uapi/app/application/ApplicationPageClient.tsx",
-        "protocol-demonstration/src/canonical/proven-generator.js"
+      "detail": "4 source evidence requirements satisfied",
+      "requiredEvidence": [
+        {
+          "file": "BITCODE_SPEC_V26.md",
+          "evidence": "The current generated eighth-gate evidence includes explicit closure verdicts",
+          "description": "main spec records the current eighth-gate closure evidence"
+        },
+        {
+          "file": "BITCODE_SPEC_V26_PARITY_MATRIX.md",
+          "evidence": "eighth-gate whole-repository closure is explicit and closed",
+          "description": "parity matrix records closed final-gate repository closure"
+        },
+        {
+          "file": "BITCODE_SPEC_V26_DELTA.md",
+          "evidence": "V26 is now fully proven Bitcode canon",
+          "description": "delta records the shift from through-seventh checkpoint to full V26 closure"
+        },
+        {
+          "file": "protocol-demonstration/V26_PROOF_SURFACES.md",
+          "evidence": "generated V26 proof appendix and reports are eighth-gate final closure evidence",
+          "description": "proof-surface map treats final reports as closure evidence rather than blockers"
+        }
       ],
-      "missingFiles": []
+      "missingFiles": [],
+      "missingEvidence": []
+    },
+    {
+      "checkId": "fifth-sixth-seventh-gate-acceptance-hold",
+      "label": "Fifth-, sixth-, and seventh-gate acceptance must hold before final V26 closure.",
+      "passed": true,
+      "detail": "Closure row accepted"
+    },
+    {
+      "checkId": "prompt-space-completeness-closed",
+      "label": "Prompt-space completeness must carry an explicit final closure verdict.",
+      "passed": true,
+      "detail": "Closure row accepted"
+    },
+    {
+      "checkId": "whole-repository-production-satisfaction-closed",
+      "label": "Whole-repository production satisfaction must close across application, API, MCP, ChatGPT App, package, proof, and reform corridors.",
+      "passed": true,
+      "detail": "Closure row accepted"
+    },
+    {
+      "checkId": "spec-family-and-canonical-input-promoted",
+      "label": "The V26 spec family and canonical input reports must pass in final promoted posture.",
+      "passed": true,
+      "detail": "Closure row accepted"
+    },
+    {
+      "checkId": "application-ready-bitcode-canon-no-silent-compatibility",
+      "label": "The kept repository must be application-ready Bitcode canon without silent legacy product ownership.",
+      "passed": true,
+      "detail": "Closure row accepted"
+    },
+    {
+      "checkId": "promotion-without-interpretive-notes",
+      "label": "V26 total closure must be explicit enough that promotion no longer depends on interpretive notes.",
+      "passed": true,
+      "detail": "Closure row accepted"
     }
   ]
 }

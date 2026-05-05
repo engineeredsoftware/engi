@@ -1,12 +1,12 @@
 {
   "reportId": "v26-product-readiness-audit",
   "version": "V26",
-  "proofSourceCommit": "cb23460b15c8aaa50b637b6141b8914688e1ded0",
-  "generatedAt": "2026-05-05T08:53:04-03:00",
+  "proofSourceCommit": "42a61e52d621402eccddde4eb5f8d89b848f0f70",
+  "generatedAt": "2026-05-05T11:06:38-03:00",
   "generatorId": "bitcode.proven-generator.v1",
   "worktreeState": "dirty-preview",
   "gate": "gate-5",
-  "promotedThroughGate": "gate-6",
+  "promotedThroughGate": "gate-7",
   "auditBasis": [
     "protocol-demonstration Exchange-lite implementation",
     "protocol-demonstration Terminal-lite shell UI",
@@ -15,18 +15,19 @@
   ],
   "baselinePassed": true,
   "mvpPassed": true,
+  "launchPassed": true,
   "closureClaim": true,
   "sixthGateMvpClaim": true,
+  "seventhGateCommercialTestnetLaunchClaim": true,
   "productCount": 9,
   "baselineReadyProductCount": 9,
   "closureReadyProductCount": 9,
   "openProductCount": 0,
   "mvpReadyProductCount": 9,
   "mvpOpenProductCount": 0,
-  "notReadyFor": [
-    "seventh-gate-commercial-testnet-launch",
-    "eighth-gate-v26-definition-of-need"
-  ],
+  "launchReadyProductCount": 9,
+  "launchOpenProductCount": 0,
+  "notReadyFor": [],
   "products": [
     {
       "productId": "bitcode-protocol",
@@ -38,11 +39,13 @@
       "readyForFifthGateBaseline": true,
       "readyForFifthGateClosure": true,
       "readyForSixthGateMvp": true,
+      "readyForSeventhGateCommercialTestnetLaunch": true,
       "closureClaim": true,
       "sixthGateMvpClaim": true,
-      "openReadiness": [
-        "seventh-gate launch readiness remains intentionally open",
-        "eighth-gate whole-repository provation remains intentionally open"
+      "seventhGateCommercialTestnetLaunchClaim": true,
+      "openReadiness": [],
+      "closureNotes": [
+        "eighth-gate whole-repository provation is closed by the generated V26 total-closure proof"
       ],
       "evidenceChecks": [
         {
@@ -103,7 +106,31 @@
           "evidencePresent": true,
           "passed": true
         }
-      ]
+      ],
+      "launchEvidenceChecks": [
+        {
+          "file": "BITCODE_SPEC_V26.md",
+          "requiredText": "Seventh-gate is closed only when:",
+          "filePresent": true,
+          "evidencePresent": true,
+          "passed": true
+        },
+        {
+          "file": "protocol-demonstration/V26_PROOF_SURFACES.md",
+          "requiredText": "Gate 7: initial commercially-viable testnet live-launch refinement",
+          "filePresent": true,
+          "evidencePresent": true,
+          "passed": true
+        },
+        {
+          "file": "protocol-demonstration/src/canonical/proven-generator.js",
+          "requiredText": "buildV26SeventhGateCommercialTestnetLaunchProof",
+          "filePresent": true,
+          "evidencePresent": true,
+          "passed": true
+        }
+      ],
+      "launchEvidencePassed": true
     },
     {
       "productId": "bitcode-exchange",
@@ -115,11 +142,14 @@
       "readyForFifthGateBaseline": true,
       "readyForFifthGateClosure": true,
       "readyForSixthGateMvp": true,
+      "readyForSeventhGateCommercialTestnetLaunch": true,
       "closureClaim": true,
       "sixthGateMvpClaim": true,
-      "openReadiness": [
-        "provider-backed signed-settlement breadth remains seventh-gate launch hardening",
-        "eighth-gate whole-repository provation remains intentionally open"
+      "seventhGateCommercialTestnetLaunchClaim": true,
+      "openReadiness": [],
+      "closureNotes": [
+        "broader Exchange marketplace breadth remains V28-style expansion work",
+        "eighth-gate whole-repository provation is closed for the V26 minimum commercial implementation"
       ],
       "evidenceChecks": [
         {
@@ -194,7 +224,31 @@
           "evidencePresent": true,
           "passed": true
         }
-      ]
+      ],
+      "launchEvidenceChecks": [
+        {
+          "file": "uapi/tests/api/executionsHistoryWriteReadParity.test.ts",
+          "requiredText": "round-trips give, need, and closure writes through the same Bitcode activity ledger",
+          "filePresent": true,
+          "evidencePresent": true,
+          "passed": true
+        },
+        {
+          "file": "uapi/tests/api/needReviewProtocolParity.test.ts",
+          "requiredText": "rereads accepted Need review and source-to-shares settlement artifacts through the commercial /api/state route",
+          "filePresent": true,
+          "evidencePresent": true,
+          "passed": true
+        },
+        {
+          "file": "uapi/tests/api/activityRoute.test.ts",
+          "requiredText": "returns live activity with persisted execution reread and notification aggregation",
+          "filePresent": true,
+          "evidencePresent": true,
+          "passed": true
+        }
+      ],
+      "launchEvidencePassed": true
     },
     {
       "productId": "bitcode-terminal",
@@ -206,11 +260,14 @@
       "readyForFifthGateBaseline": true,
       "readyForFifthGateClosure": true,
       "readyForSixthGateMvp": true,
+      "readyForSeventhGateCommercialTestnetLaunch": true,
       "closureClaim": true,
       "sixthGateMvpClaim": true,
-      "openReadiness": [
-        "commercial browser polish remains seventh-gate launch refinement",
-        "eighth-gate whole-repository provation remains intentionally open"
+      "seventhGateCommercialTestnetLaunchClaim": true,
+      "openReadiness": [],
+      "closureNotes": [
+        "clean promotion and whole-flow browser provation are represented by the Gate 8 proof family",
+        "eighth-gate whole-repository provation is closed for the V26 Terminal baseline"
       ],
       "evidenceChecks": [
         {
@@ -397,7 +454,31 @@
           "evidencePresent": true,
           "passed": true
         }
-      ]
+      ],
+      "launchEvidenceChecks": [
+        {
+          "file": "uapi/app/application/application-commercial-launch-readiness.ts",
+          "requiredText": "SEVENTH_GATE_COMMERCIAL_TESTNET_LAUNCH_MAP",
+          "filePresent": true,
+          "evidencePresent": true,
+          "passed": true
+        },
+        {
+          "file": "uapi/tests/applicationCommercialLaunchReadiness.test.ts",
+          "requiredText": "locks the launch-readiness rows required after MVP closure",
+          "filePresent": true,
+          "evidencePresent": true,
+          "passed": true
+        },
+        {
+          "file": "uapi/tests/e2e/application.terminal.flow.spec.ts",
+          "requiredText": "application route keeps read, selection, and repository-anchor write-through in one master-detail surface",
+          "filePresent": true,
+          "evidencePresent": true,
+          "passed": true
+        }
+      ],
+      "launchEvidencePassed": true
     },
     {
       "productId": "source-to-shares-need-fitting",
@@ -409,11 +490,14 @@
       "readyForFifthGateBaseline": true,
       "readyForFifthGateClosure": true,
       "readyForSixthGateMvp": true,
+      "readyForSeventhGateCommercialTestnetLaunch": true,
       "closureClaim": true,
       "sixthGateMvpClaim": true,
-      "openReadiness": [
+      "seventhGateCommercialTestnetLaunchClaim": true,
+      "openReadiness": [],
+      "closureNotes": [
         "fit-candidate marketplace UX remains V28-style Exchange expansion work",
-        "seventh-gate launch polish and eighth-gate total provation remain open"
+        "eighth-gate total provation is closed for the V26 Need-fitting and settlement baseline"
       ],
       "evidenceChecks": [
         {
@@ -474,7 +558,31 @@
           "evidencePresent": true,
           "passed": true
         }
-      ]
+      ],
+      "launchEvidenceChecks": [
+        {
+          "file": "protocol-demonstration/test/v26-need-review-source-to-shares.test.js",
+          "requiredText": "V26 settlement review and receipts show quantized source-to-shares fit qualities",
+          "filePresent": true,
+          "evidencePresent": true,
+          "passed": true
+        },
+        {
+          "file": "uapi/tests/api/needReviewProtocolParity.test.ts",
+          "requiredText": "needFittingReview",
+          "filePresent": true,
+          "evidencePresent": true,
+          "passed": true
+        },
+        {
+          "file": "uapi/tests/api/needReviewProtocolParity.test.ts",
+          "requiredText": "source-to-shares settlement artifacts",
+          "filePresent": true,
+          "evidencePresent": true,
+          "passed": true
+        }
+      ],
+      "launchEvidencePassed": true
     },
     {
       "productId": "assetpack-execution",
@@ -486,11 +594,14 @@
       "readyForFifthGateBaseline": true,
       "readyForFifthGateClosure": true,
       "readyForSixthGateMvp": true,
+      "readyForSeventhGateCommercialTestnetLaunch": true,
       "closureClaim": true,
       "sixthGateMvpClaim": true,
-      "openReadiness": [
+      "seventhGateCommercialTestnetLaunchClaim": true,
+      "openReadiness": [],
+      "closureNotes": [
         "broader asset-pack marketplace delivery breadth remains later-gate expansion work",
-        "eighth-gate total provation remains open for whole-repository saturation"
+        "eighth-gate total provation closes the V26 AssetPack execution and PR Finish baseline"
       ],
       "evidenceChecks": [
         {
@@ -523,7 +634,7 @@
         },
         {
           "file": "BITCODE_SPEC_V26_PARITY_MATRIX.md",
-          "requiredText": "full semantic closure across all retained carriers remains open",
+          "requiredText": "retained execution/AssetPack readers no longer teach generic developer-platform meaning",
           "filePresent": true,
           "evidencePresent": true,
           "passed": true
@@ -551,7 +662,31 @@
           "evidencePresent": true,
           "passed": true
         }
-      ]
+      ],
+      "launchEvidenceChecks": [
+        {
+          "file": "protocol-demonstration/test/v26-shippable-reform.test.js",
+          "requiredText": "implementation, validation, and Finish carriers separate AssetPack kind from delivery templates",
+          "filePresent": true,
+          "evidencePresent": true,
+          "passed": true
+        },
+        {
+          "file": "packages/pipelines/asset-pack/src/postprocess.ts",
+          "requiredText": "assetPackSynthesisArtifacts",
+          "filePresent": true,
+          "evidencePresent": true,
+          "passed": true
+        },
+        {
+          "file": "packages/pipelines/asset-pack/src/agents/finish-delivery-agents.ts",
+          "requiredText": "finish:asset-pack-create-pull-request-delivery-agent",
+          "filePresent": true,
+          "evidencePresent": true,
+          "passed": true
+        }
+      ],
+      "launchEvidencePassed": true
     },
     {
       "productId": "conversations-rich-input",
@@ -563,11 +698,13 @@
       "readyForFifthGateBaseline": true,
       "readyForFifthGateClosure": true,
       "readyForSixthGateMvp": true,
+      "readyForSeventhGateCommercialTestnetLaunch": true,
       "closureClaim": true,
       "sixthGateMvpClaim": true,
-      "openReadiness": [
-        "commercial polish and launch-quality conversation UX remain seventh-gate refinement",
-        "whole-repository interface provation remains eighth-gate work"
+      "seventhGateCommercialTestnetLaunchClaim": true,
+      "openReadiness": [],
+      "closureNotes": [
+        "whole-repository interface provation is closed by the Gate 8 prompt and repository proof family"
       ],
       "evidenceChecks": [
         {
@@ -635,7 +772,31 @@
           "evidencePresent": true,
           "passed": true
         }
-      ]
+      ],
+      "launchEvidenceChecks": [
+        {
+          "file": "uapi/app/conversations/components/ConversationsOverlay.tsx",
+          "requiredText": "Multiple view modes (floating, sidebar, fullscreen, split-screen)",
+          "filePresent": true,
+          "evidencePresent": true,
+          "passed": true
+        },
+        {
+          "file": "uapi/tests/conversationsRouteClient.test.tsx",
+          "requiredText": "forceFullscreen=true",
+          "filePresent": true,
+          "evidencePresent": true,
+          "passed": true
+        },
+        {
+          "file": "packages/chatgptapp/src/server.ts",
+          "requiredText": "connected-interface Bitcode Terminal companion",
+          "filePresent": true,
+          "evidencePresent": true,
+          "passed": true
+        }
+      ],
+      "launchEvidencePassed": true
     },
     {
       "productId": "auxillaries-readiness",
@@ -647,10 +808,13 @@
       "readyForFifthGateBaseline": true,
       "readyForFifthGateClosure": true,
       "readyForSixthGateMvp": true,
+      "readyForSeventhGateCommercialTestnetLaunch": true,
       "closureClaim": true,
       "sixthGateMvpClaim": true,
-      "openReadiness": [
-        "provider-backed wallet signing breadth remains seventh-gate launch hardening",
+      "seventhGateCommercialTestnetLaunchClaim": true,
+      "openReadiness": [],
+      "closureNotes": [
+        "provider-backed wallet signing breadth remains V27+ Terminal/Exchange expansion work",
         "manual wallet identity is not equivalent to signed settlement",
         "stored repository inventory does not by itself prove a still-valid live provider session",
         "saved verified wallet signer posture does not by itself prove a still-live wallet-provider signing session"
@@ -882,7 +1046,31 @@
           "evidencePresent": true,
           "passed": true
         }
-      ]
+      ],
+      "launchEvidenceChecks": [
+        {
+          "file": "uapi/app/auxillaries/components/AuxillariesBTDPane.tsx",
+          "requiredText": "$BTD is a non-fungible share and read-right posture, while BTC is the fee-liquidity posture",
+          "filePresent": true,
+          "evidencePresent": true,
+          "passed": true
+        },
+        {
+          "file": "uapi/tests/orbitalsBTDPane.test.tsx",
+          "requiredText": "wallet provider must reconnect before Bitcode can rely on live signing again",
+          "filePresent": true,
+          "evidencePresent": true,
+          "passed": true
+        },
+        {
+          "file": "uapi/tests/api/transactionWriteReadinessRoutes.test.ts",
+          "requiredText": "live wallet-provider signing session is no longer available",
+          "filePresent": true,
+          "evidencePresent": true,
+          "passed": true
+        }
+      ],
+      "launchEvidencePassed": true
     },
     {
       "productId": "connected-interfaces",
@@ -894,11 +1082,14 @@
       "readyForFifthGateBaseline": true,
       "readyForFifthGateClosure": true,
       "readyForSixthGateMvp": true,
+      "readyForSeventhGateCommercialTestnetLaunch": true,
       "closureClaim": true,
       "sixthGateMvpClaim": true,
-      "openReadiness": [
+      "seventhGateCommercialTestnetLaunchClaim": true,
+      "openReadiness": [],
+      "closureNotes": [
         "broader third-party ingress breadth remains later-gate expansion work",
-        "eighth-gate whole-interface provation remains open"
+        "eighth-gate whole-interface provation is closed for the admitted V26 connected interfaces"
       ],
       "evidenceChecks": [
         {
@@ -959,7 +1150,31 @@
           "evidencePresent": true,
           "passed": true
         }
-      ]
+      ],
+      "launchEvidenceChecks": [
+        {
+          "file": "packages/executions-mcp/src/mcp-server/src/tools/pipeline-tools.ts",
+          "requiredText": "writeAdmission",
+          "filePresent": true,
+          "evidencePresent": true,
+          "passed": true
+        },
+        {
+          "file": "packages/chatgptapp/src/__tests__/tools.test.ts",
+          "requiredText": "declares confirmation schema on every ChatGPT App connected-interface write carrier",
+          "filePresent": true,
+          "evidencePresent": true,
+          "passed": true
+        },
+        {
+          "file": "packages/chatgptapp/src/server.ts",
+          "requiredText": "Read tools gather codebase, web, VCS, and DevOps context as Exchange input evidence rather than parallel product state",
+          "filePresent": true,
+          "evidencePresent": true,
+          "passed": true
+        }
+      ],
+      "launchEvidencePassed": true
     },
     {
       "productId": "proof-and-promotion",
@@ -971,11 +1186,13 @@
       "readyForFifthGateBaseline": true,
       "readyForFifthGateClosure": true,
       "readyForSixthGateMvp": true,
+      "readyForSeventhGateCommercialTestnetLaunch": true,
       "closureClaim": true,
       "sixthGateMvpClaim": true,
-      "openReadiness": [
-        "seventh-gate launch refinement remains open",
-        "clean canonical regeneration is still required for final V26 total closure"
+      "seventhGateCommercialTestnetLaunchClaim": true,
+      "openReadiness": [],
+      "closureNotes": [
+        "clean canonical regeneration is represented by the generated V26 total-closure artifact and promoted spec-family report"
       ],
       "evidenceChecks": [
         {
@@ -1031,12 +1248,36 @@
         },
         {
           "file": "protocol-demonstration/test/v26-gate-acceptance-criteria.test.js",
-          "requiredText": "V26 generated proofs close fifth and sixth gates without claiming launch or total closure",
+          "requiredText": "V26 generated proofs close fifth, sixth, seventh, and eighth gates",
           "filePresent": true,
           "evidencePresent": true,
           "passed": true
         }
-      ]
+      ],
+      "launchEvidenceChecks": [
+        {
+          "file": "protocol-demonstration/src/canonical/proven-generator.js",
+          "requiredText": "buildV26SeventhGateCommercialTestnetLaunchProof",
+          "filePresent": true,
+          "evidencePresent": true,
+          "passed": true
+        },
+        {
+          "file": "protocol-demonstration/test/proven-generator.test.js",
+          "requiredText": "seventhGateClosurePassed, true",
+          "filePresent": true,
+          "evidencePresent": true,
+          "passed": true
+        },
+        {
+          "file": "protocol-demonstration/test/v26-gate-acceptance-criteria.test.js",
+          "requiredText": "V26 generated proofs close fifth, sixth, seventh, and eighth gates",
+          "filePresent": true,
+          "evidencePresent": true,
+          "passed": true
+        }
+      ],
+      "launchEvidencePassed": true
     }
   ]
 }

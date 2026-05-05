@@ -13,4 +13,4 @@
 import type { PromptPart } from '../../parts/PromptPart';
 
 export const PROMPTPART_SPECIFIC_TOOL_GITINTERACTOR_DOCCODETOOLPARAMETERS: PromptPart = 
-  'Provide concrete, domain‑appropriate content for this specific prompt segment. Use precise, operational language and ensure it integrates coherently with adjacent prompt parts.' as PromptPart;
+  'Require provider plus one authenticated boundary (auth, accessToken, connectionId, installationId, or userId) and repository coordinates (owner/repo, repositoryFullName, or repoUrl). Write operations also require explicit path, message, branch/ref, content, or sha fields as applicable.' as PromptPart;

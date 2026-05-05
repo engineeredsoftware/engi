@@ -13,4 +13,4 @@
 import type { PromptPart } from '../../parts/PromptPart';
 
 export const PROMPTPART_SPECIFIC_TOOL_GITINTERACTOR_DOCCODETOOLEXAMPLE1: PromptPart = 
-  'Provide concrete, domain‑appropriate content for this specific prompt segment. Use precise, operational language and ensure it integrates coherently with adjacent prompt parts.' as PromptPart;
+  'Read repository files: listGitFilesTool.use({ provider: "github", userId, owner: "bitcode-labs", repo: "application", path: "packages" }) returns provider-normalized tree entries for evidence selection.' as PromptPart;

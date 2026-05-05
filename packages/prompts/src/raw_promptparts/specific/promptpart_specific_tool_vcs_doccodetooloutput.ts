@@ -1,7 +1,7 @@
 /**
  * @doc-comment-developing-promptpartdevelopment
  * domain: output
- * intent: "Output description for deprecated git-interactor"
+ * intent: "Output description for VCS and Git interactor repository operations"
  * current_version: "V26.00.0"
  * versions: []
  * benchmarks: [
@@ -13,4 +13,4 @@
 import type { PromptPart } from '../../parts/PromptPart';
 
 export const PROMPTPART_SPECIFIC_TOOL_VCS_DOCCODETOOLOUTPUT: PromptPart = 
-  'DEPRECATED: All operations throw deprecation errors directing to VCS tools.' as PromptPart;
+  'Return provider-normalized repository, branch, file, pull request, issue, comment, or commit records. Unsupported provider capabilities fail closed with explicit current-boundary errors.' as PromptPart;

@@ -13,10 +13,10 @@
 - Main spec companion: `/Users/garrettmaring/Developer/ENGI/BITCODE_SPEC_V26.md`
 - Delta companion: `/Users/garrettmaring/Developer/ENGI/BITCODE_SPEC_V26_DELTA.md`
 - Parity companion: `/Users/garrettmaring/Developer/ENGI/BITCODE_SPEC_V26_PARITY_MATRIX.md`
-- Generated structured artifact inventory: active canonical `.bitcode/v19-*` reproducible reports, `.bitcode/v20-*` operator-quality reports, `.bitcode/v26-spec-family-report.json`, `.bitcode/v26-canonical-input-report.json`, `.bitcode/v26-gate-checkpoint-report.json`, `.bitcode/conversations-continuity-proof.json`, `.bitcode/runs-pipelines-totality-proof.json`, `.bitcode/persistence-schema-totality-proof.json`, `.bitcode/prompt-system-totality-proof.json`, `.bitcode/inference-implementation-records-proof.json`, `.bitcode/fourth-gate-reclosure-review-proof.json`, `.bitcode/source-to-shares-fifth-gate-proof.json`, `.bitcode/v26-product-readiness-audit.json`, `.bitcode/fifth-gate-closure-deepening-proof.json`, `.bitcode/fifth-gate-closure-proof.json`, `.bitcode/sixth-gate-mvp-closure-proof.json`, `.bitcode/retained-package-admissibility-proof.json`, and `BITCODE_SPEC_V26_PROVEN.md`
-- Source parity state: V26 source work has material first-through-sixth-gate implementation and proof evidence, and seventh-/eighth-gate work remains open
+- Generated structured artifact inventory: active canonical `.bitcode/v19-*` reproducible reports, `.bitcode/v20-*` operator-quality reports, `.bitcode/v26-spec-family-report.json`, `.bitcode/v26-canonical-input-report.json`, `.bitcode/v26-gate-checkpoint-report.json`, `.bitcode/conversations-continuity-proof.json`, `.bitcode/runs-pipelines-totality-proof.json`, `.bitcode/persistence-schema-totality-proof.json`, `.bitcode/prompt-system-totality-proof.json`, `.bitcode/inference-implementation-records-proof.json`, `.bitcode/fourth-gate-reclosure-review-proof.json`, `.bitcode/source-to-shares-fifth-gate-proof.json`, `.bitcode/v26-product-readiness-audit.json`, `.bitcode/fifth-gate-closure-deepening-proof.json`, `.bitcode/fifth-gate-closure-proof.json`, `.bitcode/sixth-gate-mvp-closure-proof.json`, `.bitcode/seventh-gate-commercial-testnet-launch-proof.json`, `.bitcode/prompt-space-completeness-proof.json`, `.bitcode/retained-package-admissibility-proof.json`, `.bitcode/system-reform-admissibility-proof.json`, `.bitcode/whole-repository-production-satisfaction-proof.json`, `.bitcode/v26-total-closure-proof.json`, and `BITCODE_SPEC_V26_PROVEN.md`
+- Source parity state: V26 source work has material first-through-eighth-gate implementation and proof evidence
 - Current fourth-gate/fifth-gate checkpoint artifact: `/Users/garrettmaring/Developer/ENGI/.bitcode/v26-gate-checkpoint-report.json`
-- V26 state: V26 remains active canon; prior through-fourth-gate promotion claims were reopened as overstated and effectively false, retained-system proof families now pass as material evidence, fourth-gate procedural acceptance is promoted closed after generated re-review, fifth-gate source-to-shares plus closure-deepening evidence has advanced into explicit fifth-gate closure, sixth-gate MVP closure is explicit, and seventh-/eighth-gate closure remain open
+- V26 state: V26 remains active canon; prior through-fourth-gate promotion claims were reopened as overstated and effectively false, retained-system proof families now pass as material evidence, fourth-gate procedural acceptance is promoted closed after generated re-review, fifth-gate source-to-shares plus closure-deepening evidence has advanced into explicit fifth-gate closure, sixth-gate MVP closure is explicit, seventh-gate commercial testnet launch closure is explicit, and eighth-gate total closure is explicit
 
 ## Notes companion rule
 
@@ -65,8 +65,10 @@ V26 is governed by eight gates:
 4. fourth-gate is accepted only through explicit reclosure proof after earlier closure claims were overstated;
 5. fifth-gate closes minimum-functional Exchange and Terminal behavior plus broad current-world reform into Bitcode-only active source;
 6. sixth-gate raises Exchange, Terminal, Protocol, Proofs, and admitted interfaces to MVP;
-7. seventh-gate refines the testnet system toward initial commercial viability;
+7. seventh-gate refines and closes the testnet system at initial commercial viability;
 8. eighth-gate closes whole-repository provation and the V26 definition of need.
+
+All eight V26 gates now have generated closure evidence.
 
 Fifth-gate is mostly implementation work.
 Proof improvements matter, but they do not close the gate unless packages, interfaces, prompts, agents, pipelines, routes, persistence, source comments, docs, tests, and generated proof inputs are all aligned to current Bitcode meaning.
@@ -87,7 +89,7 @@ The canonical object flow is:
 
 ### Fifth-gate priorities at simplified reading
 
-The remaining fifth-gate work is prioritized by closure leverage:
+The fifth-gate closure work was prioritized by closure leverage:
 
 - reform active filesystem names and exported names so live package owners are Bitcode nouns rather than compatibility nouns;
 - complete AssetPack pipeline refurbishment across SDIVF phases, agents, tools, prompts, runtime outputs, postprocess types, tests, and route/API owners;
@@ -95,7 +97,7 @@ The remaining fifth-gate work is prioritized by closure leverage:
 - make every Prompt, PromptPart, Registry primitive, agent prompt, tool prompt, and doc-comment injection path current-Bitcode precise;
 - finish package and interface parity for Terminal, Exchange APIs, MCP, ChatGPT App, webhooks, Supabase/ORM state, execution history, conversation rich-input execution evidence, and connected-interface write admission;
 - ensure Need review and fit review are explicit before settlement, including Exchange `needFittingReview`, Terminal review controls, accept/reject/re-measure, and fit-quality receipts;
-- keep product readiness auditing explicit through `.bitcode/v26-product-readiness-audit.json`, proving source-backed fifth-gate closure and sixth-gate MVP readiness while keeping launch and total-closure readiness open until actually closed;
+- keep product readiness auditing explicit through `.bitcode/v26-product-readiness-audit.json`, proving source-backed fifth-gate closure, sixth-gate MVP readiness, and seventh-gate launch readiness while leaving final V26 total closure to the eighth-gate proof family that is now closed;
 - remove source-co-located build output from TypeScript package proof ownership.
 
 ## Simplified-spec reading rule
@@ -260,7 +262,7 @@ Internal docs remain non-canonical scratch notes. Their only canonical path is p
 
 ### Current closure pressure created by this ledger
 
-- Main SPEC historical language should be reduced over the remaining fifth-gate passes; the current main SPEC must increasingly state only present Bitcode requirements.
+- Main SPEC historical language should stay reduced after fifth-through-seventh closure; the current main SPEC must state only present Bitcode requirements except where a transition rule is still needed for eighth-gate provation.
 - PARITY may retain transition judgment only when it names the current Bitcode owner and closure condition.
 - Source comments should not explain current code by saying what it used to be; they should explain the Bitcode responsibility.
 - Compatibility wrappers should shrink as call sites migrate.
@@ -288,7 +290,7 @@ The following items are no longer open draft questions:
 - second-gate closure now includes route/package README refurbishment and user-facing preserved-runtime naming rather than treating those as optional cleanup after code lands.
 - fifth-gate closure now explicitly requires zero unreplaced `engi` product naming in active code/copy/route teaching unless the occurrence is historical lineage or a still-required structural namespace such as `.bitcode/` or `_legacy/ENGI_SPEC_*`.
 - the active root spec/toolchain family is now part of that same fifth-gate closure: `BITCODE_SPEC*.md`, `BITCODE_SPEC.txt`, and `scripts/check|generate|prepare|promote-bitcode-*.mjs` are canonical, while root `ENGI_SPEC_V26*` and root `ENGI_SPECIFYING.md` are no longer admissible outside `_legacy/`.
-- V26 remains the active productization canon; V27 is explicitly reserved for post-productization successor work after fifth-gate minimum-functional closure, sixth-gate MVP elevation, seventh-gate commercial testnet refinement, and eighth-gate provation close the V26 Bitcode transformation; fifth and sixth are now accepted, while seventh and eighth remain open.
+- V26 remains the active productization canon; V27 is explicitly reserved for post-productization successor work after fifth-gate minimum-functional closure, sixth-gate MVP elevation, seventh-gate commercial testnet refinement, and eighth-gate provation close the V26 Bitcode transformation; fifth, sixth, seventh, and eighth are now accepted by the generated proof family.
 - retained prompt-system package surfaces are now part of that active naming sweep: `packages/prompts/*` must read as Bitcode in package metadata, benchmarking/docs, promptpart examples, and active identity text while historical filename lineage may remain only where still-needed for safe fifth-gate porting.
 - active prompt-system JS carry-through and review-tooling carriers are part of that same fifth-gate proof boundary too: `packages/prompts/src/{index.js,parts/PromptPart.js}` and `scripts/code-review/{REVIEW_EXCELLENCE_GUIDE.md,reviews/review_prompt_primitives_evolution*.sh}` plus `scripts/phase2-naming-compliance.py` must use Bitcode-owned comments, examples, repo paths, and current `raw_promptparts/*` file references rather than silently preserving old-brand wording or dead prompt file paths.
 - active prompt/tooling repair scripts are part of that same fifth-gate proof boundary too: `scripts/{fix-remaining-imports,fix-barrel-imports,fix-multiline-imports,fix-corrupted-imports}.sh` and `scripts/code-review/base-review.sh` must rewrite toward `@bitcode/*` carriers and Bitcode-owned review output paths rather than preserving `@engi/*` repair targets or `/tmp/engi_review_*` runtime artifacts.
@@ -312,7 +314,7 @@ The following items are no longer open draft questions:
 - active webhook and mock-system carriers are fifth-gate proof carriers too: `uapi/app/api/webhook/{route,verify}.ts`, `uapi/tests/webhookRoute.test.ts`, and active `uapi/mocking/*` source owners must use Bitcode trigger labels, Bitcode comment commands, Bitcode mock globals, and Bitcode sample organizations rather than lingering `engi-deliver-*`, `@engi-*`, or `__engiMock*` runtime truth.
 - the active mock-system slice now also includes its shipped operator tooling and docs as fifth-gate proof carriers: `uapi/mocking/{README.md,INTEGRATION_GUIDE.md,QUICK_START_*.md,COMPREHENSIVE_SYSTEM_SUMMARY.md,validate-system.js}` plus `uapi/mocking/scripts/*` must use Bitcode naming and the real `mocking/*` ownership paths rather than stale `app/mocking` teaching.
 - sixth-gate reform now has to explicitly adjudicate retained old-world systems rather than leaving them in a vague later bucket: web-search tool/agent behavior now has a fifth-gate baseline as source-attributed discovery-phase need-synthesis evidence support, while webhook-trigger carriers and other pure-agentic surfaces must likewise either become explicit Bitcode need-measuring/support infrastructure or be cut from canonical V26 active source.
-- seventh-gate closure now owns the whole-repository application-ready Bitcode verdict: GUI, conversations, ChatGPT-style interface, ChatGPT app, API, MCP, schemas, proofs, docs, and retained packages must all close as one proven system with no silent legacy product ownership.
+- eighth-gate closure owns the whole-repository application-ready Bitcode verdict: GUI, conversations, ChatGPT-style interface, ChatGPT app, API, MCP, schemas, proofs, docs, and retained packages must all close as one proven system with no silent legacy product ownership.
 
 ## Current first-gate source reminders
 
@@ -805,7 +807,7 @@ Current fifth-gate reminders:
 - active application write-through carriers are inside that same boundary too: `uapi/app/application/{ApplicationPageClient,ApplicationCommandDeck,ApplicationDepositComposer,ApplicationClosureControlDeck,ApplicationTransactionWorkspace,ApplicationTransactionDetailSurface,application-activity-history}.tsx?` plus the retained `/api/executions/history` route must ensure Bitcode Terminal command/deposit/closure writes create, select, and reread canonical Bitcode activity rows rather than leaving those actions as shell-only side effects.
 - active `tech-types` dependent packages are inside that same boundary too: `packages/generic-agents/tech-types-identifier/{src/index.ts,src/technology-profile-contract.ts,src/__tests__/technology-profile-contract.test.ts,README.md}` must consume, prove, and describe the canonical `technologyProfile` envelope directly rather than flattening it back into ad hoc stack-only output contracts.
 - active `technologyProfile` compile follow-through is inside that same boundary too: `./node_modules/.bin/tsc -p packages/generic-agents/tech-types-identifier/tsconfig.json --noEmit` must stay green, with the shared closure carried through `packages/{orm,pipelines-generics,streams,supabase}/*`, so V26 does not treat package-local tests as sufficient while the real dependent compile chain is still broken.
-- active `$BTD` balance/package renaming is inside that same boundary too: `packages/{btd,api,digest,web-search,orm}/*`, `uapi/{app/api/auxillaries,app/application,app/executions,tests,components/base/bitcode/{btd,execution,inputs},stories/BTDInvestmentExperience.stories.tsx,.env.example,README.md,app/orbitals/README.md}/*`, and `protocol-demonstration/test/v26-active-product-naming.test.js` must carry canonical `$BTD` wording, `@bitcode/btd` imports, `UserBtdBalancesModel` / `UserBtdTransactionsModel` ownership, BTD-first route payloads, and BTD-named investment/resource-estimation surfaces rather than preserving `credits` as the live application/package canon; however, `$BTD` is not a fungible fee token. BTC pays fees, while `$BTD` is the non-fungible measured Bitcode content amount and read-right holding for an asset pack.
+- active `$BTD` balance/package renaming is inside that same boundary too: `packages/{btd,api,digest,web-search,orm}/*`, `uapi/{app/api/auxillaries,app/application,app/executions,tests,components/base/bitcode/{btd,execution,inputs},stories/BTDInvestmentExperience.stories.tsx,.env.example,README.md,app/orbitals/README.md}/*`, and `protocol-demonstration/test/v26-active-product-naming.test.js` must carry canonical `$BTD` wording, `@bitcode/btd` imports, `UserBtdBalancesModel` / `UserBtdTransactionsModel` ownership, BTD-first route payloads, and BTD-named investment/resource-estimation surfaces rather than preserving `credits` as the live application/package canon; however, `$BTD` is not a fungible fee token. BTC pays fees, while `$BTD` is the non-fungible measured Bitcode content amount and read-right holding for an asset pack. V27+ issuance must respect a fixed 21,000,000 `$BTD` mintable ceiling, now recorded in `packages/btd`.
 - active in-product BTD acquisition and BTD-notification execution paths are inside that same boundary too: `uapi/components/base/bitcode/btd/{btd-tracker,BTDPrices}.tsx`, `uapi/app/(root)/components/MarketingPricingSection.tsx`, `/auxillaries/btd`, `uapi/networking/api-client.ts`, and `supabase/templates/{low_btd_reminder,out_of_btd,btd_transfer}.html` must be canonical owners rather than routing through `app/_legacy`, and they must keep BTC fee-liquidity plus non-fungible `$BTD` share/read-right wording rather than preserving checkout/Stripe route owners, `credit-transfer`, `low-credits-reminder`, `out-of-credits`, old credit-purchase behavior, or `_legacy/tps/stripe/checkout`.
 - active organization treasury and interface-readiness carriers are inside that same boundary too: `uapi/app/{auxillaries/components/organization/{BTDTreasuryManagement,OrganizationSettings}.tsx,orbitals/components/organization/OrganizationSettings.tsx,(root)/components/MarketingSetupForm.tsx}` must keep wallet-settled BTC, issued `$BTD`, GitHub-before-transaction readiness, and Connects-owned SSO/auth policy posture rather than preserving Stripe-backed credit purchase scaffolding, and `uapi/app/_legacy` must not exist anywhere in the active application tree.
 - active E2E onboarding and auxillary proof carriers are inside that same boundary too: `uapi/tests/e2e/{auxillaries.helpers,auxillaries.profile,auxillaries.connections.flows,auxillaries.interfaces.flows,auxillaries.navigation,auxillaries.btd.flows,auxillaries.btd.interval.active,auxillaries.btd.chart.nodata,account.btd.visual,onboarding.visual,onboarding-full-flow}.spec.ts` must teach auxillaries and `$BTD` naming in filenames, onboarding-state helpers, test titles, and snapshot ids rather than preserving `orbital.*` / `credits.*` proof carriers as active product truth.
@@ -848,9 +850,10 @@ Current sixth-gate reminders:
 - conversations now carry interface and tool-registration parity evidence with the ChatGPT app surface rather than drifting into a lesser in-app chat adjunct
 
 Current seventh-gate reminders:
-- seventh-gate is where the MVP is refined into an initial commercially-viable live-launch posture on testnet rather than where whole-repository provation first happens
-- launch readiness has to be visible across Exchange, Terminal, Protocol, Proofs, API, MCP, and admitted app surfaces together
+- seventh-gate is now closed by `.bitcode/seventh-gate-commercial-testnet-launch-proof.json`
+- the MVP is refined into an initial commercially-viable live-launch posture on testnet rather than mistaken for whole-repository provation
+- launch readiness is visible across Exchange, Terminal, Protocol, Proofs, API, MCP, and admitted app surfaces together
 
-Current eighth-gate reminders:
-- V26 is not fully done when fifth-gate naming residue reaches zero or when seventh-gate launch quality is good enough; the whole repository still has to prove as one Bitcode system
-- sixth- and seventh-gate elevation/refinement work must be reflected in proof space, docs, and generated artifacts before eighth-gate can close
+Current eighth-gate closure notes:
+- V26 is fully done only because the whole repository now proves as one Bitcode system, not because fifth-gate naming residue reached zero or because seventh-gate launch quality was good enough.
+- sixth- and seventh-gate elevation/refinement work is reflected in proof space, docs, and generated artifacts, while eighth-gate closure is carried by whole-repository provation, prompt-space completeness, and total V26 closure passing together.

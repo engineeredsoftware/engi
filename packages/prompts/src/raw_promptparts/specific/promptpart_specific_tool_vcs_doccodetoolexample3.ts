@@ -1,7 +1,7 @@
 /**
  * @doc-comment-developing-promptpartdevelopment
  * domain: examples
- * intent: "Example showing file operations migration from deprecated to VCS"
+ * intent: "Example showing file operations through VCS and Git interactor tools"
  * current_version: "V26.00.0"
  * versions: []
  * benchmarks: [
@@ -13,4 +13,4 @@
 import type { PromptPart } from '../../parts/PromptPart';
 
 export const PROMPTPART_SPECIFIC_TOOL_VCS_DOCCODETOOLEXAMPLE3: PromptPart = 
-  'Example 3 - DEPRECATED file operations: Use vcsTools.createFile(), vcsTools.updateFile(), or vcsTools.deleteFile() instead of legacy file content tools' as PromptPart;
+  'Example 3 - File evidence and writes: use createOrUpdateFileTool for provider-generic writes, or createFileContentTool/updateFileContentTool/deleteFileContentTool when a Git-shaped Bitcode tool surface is required.' as PromptPart;

@@ -200,5 +200,5 @@ The generated `.bitcode/prompt-space-completeness-proof.json` witness must cover
 - application conversation prompt binding and admitted Bitcode MCP prompt/tool ingress
 - specification, implementation-record, and test witnesses tying the prompt surface to generated proof
 
-`baselinePassed: true` is allowed to support fifth-gate progress only when those witness sets are present.
-`passed: true` is not allowed until eighth-gate prompt-space saturation proves every live inference path across the retained repository is explainable from the explicit prompt substrate.
+`baselinePassed: true` supports fifth-gate progress only when those witness sets are present.
+`passed: true` is required after eighth-gate prompt-space saturation proves every live inference path across the retained repository is explainable from the explicit prompt substrate.
