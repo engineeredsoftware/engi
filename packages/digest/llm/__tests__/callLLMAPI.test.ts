@@ -10,7 +10,14 @@ jest.mock('@/llm/anthropicClient', () => ({
 
 jest.mock('@bitcode/btd', () => ({
   estimateTokens: jest.fn(() => 10),
-  deductGenerationBtd: jest.fn(),
+  buildGenerationBitcodeAccounting: jest.fn(() => ({
+    feeAsset: 'BTC',
+    btcFeesPaid: null,
+    btcFeeUsdEquivalent: 0.001,
+    feeStatus: 'estimated',
+    measuredBtd: 1,
+    btdSemantics: 'non_fungible_asset_pack_share_read_right',
+  })),
 }));
 
 jest.mock('@bitcode/supabase', () => ({
@@ -35,7 +42,7 @@ jest.mock('@/lib/dryrun', () => ({
 
 import { callGemini } from '@/llm/geminiClient';
 import { callAnthropic } from '@/llm/anthropicClient';
-import { deductGenerationBtd } from '@bitcode/btd';
+import { buildGenerationBitcodeAccounting } from '@bitcode/btd';
 import { callLLMAPI } from '../callLLMAPI';
 
 const callGeminiMock = callGemini as jest.MockedFunction<typeof callGemini>;
@@ -53,7 +60,7 @@ describe('callLLMAPI', () => {
     const response = await callLLMAPI('Summarise file', 1024, true, 'gemini-1.5-flash');
     expect(callGemini).toHaveBeenCalled();
     expect(response).toBe('[{"relativePath":"src/index.ts","summary":"Hello"}]');
-    expect(deductGenerationBtd).toHaveBeenCalledWith('user-123', { inputTokens: 10, outputTokens: 10 });
+    expect(buildGenerationBitcodeAccounting).toHaveBeenCalledWith('gemini-2.5-flash', { inputTokens: 10, outputTokens: 10 });
   });
 
   it('invokes Anthropic client and returns trimmed text when expectJson false', async () => {

@@ -166,7 +166,7 @@ async function initializeTestData(): Promise<void> {
         created_at: new Date().toISOString(),
         completed_at: new Date().toISOString(),
         metrics: {
-          btdUsed: 150,
+          measuredBtd: 150,
           tokensProcessed: 25000,
           confidence: 0.92
         }
@@ -198,7 +198,7 @@ async function initializeTestData(): Promise<void> {
         btdBalance: 10000,
         permissions: {
           pipelines: { create: true, read: true, cancel: true, retry: true },
-          organization: { manageMembers: true, viewAnalytics: true, manageBtd: true },
+          organization: { manageMembers: true, viewAnalytics: true, manageBtdHoldings: true },
           resources: { read: true, export: true }
         }
       }

@@ -3,28 +3,28 @@
 import React, { useState, useEffect, ChangeEvent } from 'react';
 
 export interface FlexibleBtdSelectorProps {
-  /** Current numeric value of BTD */
+  /** Current numeric BTC-fee reference value */
   value: number;
   /** Callback when value changes (after clamp) */
   onChange: (newValue: number) => void;
-  /** Slider minimum BTD amount */
+  /** Slider minimum reference amount */
   min: number;
-  /** Slider maximum BTD amount */
+  /** Slider maximum reference amount */
   max: number;
-  /** Cost per BTD in USD */
-  perBtdCost: number;
-  /** Factor for approximating asset pack count */
+  /** USD reference per measured BTD amount. BTC remains the fee asset. */
+  referenceUsdPerBtd: number;
+  /** Factor for approximating AssetPack count */
   assetPacksFactor?: number;
-  /** Disable typing into inputs (industrial fixed) */
+  /** Disable typing into inputs */
   inputDisabled?: boolean;
   /** accent color 'emerald' or 'purple' */
   accent?: 'emerald' | 'purple';
-  /** Treat the slider value as USD instead of BTD */
-  valueIsUSD?: boolean;
-  /** When valueIsUSD and Industrial tier selected */
-  isIndustrial?: boolean;
-  /** BTD granted when industrial */
-  industrialBtd?: number;
+  /** Treat the slider value as USD reference instead of BTD */
+  valueIsUsdReference?: boolean;
+  /** When valueIsUsdReference and Exchange preview selected */
+  isExchangePreview?: boolean;
+  /** Measured BTD reference when Exchange preview is selected */
+  exchangeReferenceBtd?: number;
   /** Advisory content displayed just above the slider track */
   advisoryContent?: React.ReactNode;
   /** Controls visibility & animation of the advisory */
@@ -36,13 +36,13 @@ export const FlexibleBtdSelector: React.FC<FlexibleBtdSelectorProps> = ({
   onChange,
   min,
   max,
-  perBtdCost,
+  referenceUsdPerBtd,
   assetPacksFactor = 100,
   accent = 'emerald',
   inputDisabled = false,
-  valueIsUSD = false,
-  isIndustrial = false,
-  industrialBtd,
+  valueIsUsdReference = false,
+  isExchangePreview = false,
+  exchangeReferenceBtd,
   advisoryContent,
   showAdvisory = false,
 }) => {
@@ -55,33 +55,33 @@ export const FlexibleBtdSelector: React.FC<FlexibleBtdSelectorProps> = ({
     return withDecimals.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
   };
 
-  // Derive BTD & price based on interpretation of `value`
-  const derivedBtd = valueIsUSD
-    ? isIndustrial
-      ? industrialBtd || 0
-      : Math.round(value / perBtdCost)
+  // Derive measured BTD and BTC-fee reference based on interpretation of `value`.
+  const derivedBtd = valueIsUsdReference
+    ? isExchangePreview
+      ? exchangeReferenceBtd || 0
+      : Math.round(value / referenceUsdPerBtd)
     : value;
-  const derivedPrice = valueIsUSD ? value : value * perBtdCost;
+  const derivedReferenceUsd = valueIsUsdReference ? value : value * referenceUsdPerBtd;
   const clamp = (val: number) => Math.max(min, Math.min(max, val));
 
   // Local input states for freeform typing
   const [btdInput, setBtdInput] = useState<string>(() => formatBtd(derivedBtd));
-  const [priceInput, setPriceInput] = useState<string>(() => formatPrice(derivedPrice));
+  const [referenceUsdInput, setReferenceUsdInput] = useState<string>(() => formatPrice(derivedReferenceUsd));
   // Track whether user entered an invalid (out-of-range / NaN) amount
   const [isInvalidInput, setIsInvalidInput] = useState<boolean>(false);
   // Flags for whether the user is actively editing each input
-  const [isEditingCredit, setIsEditingCredit] = useState<boolean>(false);
-  const [isEditingPrice, setIsEditingPrice] = useState<boolean>(false);
+  const [isEditingBtd, setIsEditingBtd] = useState<boolean>(false);
+  const [isEditingReferenceUsd, setIsEditingReferenceUsd] = useState<boolean>(false);
 
   // Sync inputs when external value changes, but avoid overwriting during user edit
   useEffect(() => {
-    if (!isEditingCredit) {
+    if (!isEditingBtd) {
       setBtdInput(formatBtd(derivedBtd));
     }
-    if (!isEditingPrice) {
-      setPriceInput(formatPrice(derivedPrice));
+    if (!isEditingReferenceUsd) {
+      setReferenceUsdInput(formatPrice(derivedReferenceUsd));
     }
-  }, [derivedBtd, derivedPrice, isEditingCredit, isEditingPrice]);
+  }, [derivedBtd, derivedReferenceUsd, isEditingBtd, isEditingReferenceUsd]);
 
   // Handle slider moves
   const handleSliderChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -89,34 +89,34 @@ export const FlexibleBtdSelector: React.FC<FlexibleBtdSelectorProps> = ({
     const clamped = clamp(parsed);
     onChange(clamped);
     // Update display values
-    if (valueIsUSD) {
-      if (isIndustrial) {
-        setBtdInput(formatBtd(industrialBtd || 0));
+    if (valueIsUsdReference) {
+      if (isExchangePreview) {
+        setBtdInput(formatBtd(exchangeReferenceBtd || 0));
       } else {
-        setBtdInput(formatBtd(Math.round(clamped / perBtdCost)));
+        setBtdInput(formatBtd(Math.round(clamped / referenceUsdPerBtd)));
       }
-      setPriceInput(formatPrice(clamped));
+      setReferenceUsdInput(formatPrice(clamped));
       setIsInvalidInput(false);
       // stop any input editing state when slider moves
-      setIsEditingCredit(false);
-      setIsEditingPrice(false);
+      setIsEditingBtd(false);
+      setIsEditingReferenceUsd(false);
     } else {
       setBtdInput(formatBtd(clamped));
-      setPriceInput(formatPrice(clamped * perBtdCost));
+      setReferenceUsdInput(formatPrice(clamped * referenceUsdPerBtd));
     }
   };
 
-  // Freeform BTD input when slider represents USD
+  // Freeform measured-BTD input when slider represents USD reference.
   const handleBtdInputChange = (e: ChangeEvent<HTMLInputElement>) => {
-    if (isIndustrial) return;
+    if (isExchangePreview) return;
     const txt = e.target.value;
     setBtdInput(txt);
     const parsed = parseInt(txt.replace(/,/g, ''), 10);
     if (!isNaN(parsed)) {
-      const usd = Math.round(parsed * perBtdCost);
+      const usd = Math.round(parsed * referenceUsdPerBtd);
       if (usd >= min && usd <= max) {
         onChange(usd);
-        setPriceInput(formatPrice(usd));
+        setReferenceUsdInput(formatPrice(usd));
         setIsInvalidInput(false);
       } else {
         setIsInvalidInput(true);
@@ -127,32 +127,32 @@ export const FlexibleBtdSelector: React.FC<FlexibleBtdSelectorProps> = ({
   };
 
   const handleBtdInputBlur = () => {
-    if (isIndustrial) return;
+    if (isExchangePreview) return;
     const parsed = parseInt(btdInput.replace(/,/g, ''), 10);
     if (isNaN(parsed)) {
       setBtdInput(formatBtd(derivedBtd));
       setIsInvalidInput(false);
     } else {
-      const usd = Math.round(parsed * perBtdCost);
+      const usd = Math.round(parsed * referenceUsdPerBtd);
       const clamped = clamp(usd);
       onChange(clamped);
-      setBtdInput(formatBtd(Math.round(clamped / perBtdCost)));
-      setPriceInput(formatPrice(clamped));
+      setBtdInput(formatBtd(Math.round(clamped / referenceUsdPerBtd)));
+      setReferenceUsdInput(formatPrice(clamped));
       setIsInvalidInput(false);
     }
   };
 
-  // Freeform price input typing
-  const handlePriceInputChange = (e: ChangeEvent<HTMLInputElement>) => {
-    if (isIndustrial) return;
+  // Freeform BTC-fee reference input typing.
+  const handleReferenceUsdInputChange = (e: ChangeEvent<HTMLInputElement>) => {
+    if (isExchangePreview) return;
     const txt = e.target.value;
-    setPriceInput(txt);
+    setReferenceUsdInput(txt);
     const parsed = parseFloat(txt.replace(/,/g, ''));
     if (!isNaN(parsed)) {
       const usd = Math.round(parsed);
       if (usd >= min && usd <= max) {
         onChange(usd);
-        setBtdInput(formatBtd(Math.round(usd / perBtdCost)));
+        setBtdInput(formatBtd(Math.round(usd / referenceUsdPerBtd)));
         setIsInvalidInput(false);
       } else {
         setIsInvalidInput(true);
@@ -162,18 +162,18 @@ export const FlexibleBtdSelector: React.FC<FlexibleBtdSelectorProps> = ({
     }
   };
 
-  const handlePriceInputBlur = () => {
-    if (isIndustrial) return;
-    const parsed = parseFloat(priceInput.replace(/,/g, ''));
+  const handleReferenceUsdInputBlur = () => {
+    if (isExchangePreview) return;
+    const parsed = parseFloat(referenceUsdInput.replace(/,/g, ''));
     if (isNaN(parsed)) {
-      setPriceInput(formatPrice(value));
+      setReferenceUsdInput(formatPrice(value));
       setIsInvalidInput(false);
     } else {
       const usd = Math.round(parsed);
       const clamped = clamp(usd);
       onChange(clamped);
-      setBtdInput(formatBtd(Math.round(clamped / perBtdCost)));
-      setPriceInput(formatPrice(clamped));
+      setBtdInput(formatBtd(Math.round(clamped / referenceUsdPerBtd)));
+      setReferenceUsdInput(formatPrice(clamped));
     }
   };
 
@@ -216,29 +216,29 @@ export const FlexibleBtdSelector: React.FC<FlexibleBtdSelectorProps> = ({
       </div>
       {/* Wrapper for forms + info so card has 3 flex children */}
       <div className="flex flex-col items-center gap-4">
-        {/* First row: $BTD | Dollars with vertical bar */}
+        {/* First row: $BTD | BTC-fee reference with vertical bar */}
         <div className="flex flex-col laptop:flex-row items-baseline justify-center w-full px-4 laptop:px-6">
-          {/* Price FIRST */}
+          {/* BTC-fee reference FIRST */}
           <div className="flex items-baseline justify-center font-extrabold gap-x-2">
             <span
               className={`text-xl laptop:text-2xl font-medium leading-tight whitespace-nowrap ${accent === 'purple' ? 'text-purple-300' : 'text-emerald-300'
                 }`}
             >
-              $ USD
+              BTC fee ref $
             </span>
             <input
               type="text"
-              value={priceInput}
-              onFocus={() => setIsEditingPrice(true)}
-              onChange={!isIndustrial ? handlePriceInputChange : undefined}
+              value={referenceUsdInput}
+              onFocus={() => setIsEditingReferenceUsd(true)}
+              onChange={!isExchangePreview ? handleReferenceUsdInputChange : undefined}
               onBlur={e => {
-                if (!isIndustrial) {
-                  handlePriceInputBlur();
-                  setIsEditingPrice(false);
+                if (!isExchangePreview) {
+                  handleReferenceUsdInputBlur();
+                  setIsEditingReferenceUsd(false);
                 }
               }}
               className="bg-transparent focus:outline-none text-left text-white underline decoration-gray-400 w-[5.1ch] pl-0 leading-tight text-5xl laptop:text-6xl"
-              readOnly={isIndustrial}
+              readOnly={isExchangePreview}
               onClick={(e) => e.stopPropagation()}
             />
           </div>
@@ -266,28 +266,28 @@ export const FlexibleBtdSelector: React.FC<FlexibleBtdSelectorProps> = ({
             <input
               type="text"
               value={btdInput}
-              onFocus={() => setIsEditingCredit(true)}
-              onChange={!isIndustrial ? handleBtdInputChange : undefined}
+              onFocus={() => setIsEditingBtd(true)}
+              onChange={!isExchangePreview ? handleBtdInputChange : undefined}
               onBlur={e => {
-                if (!isIndustrial) {
+                if (!isExchangePreview) {
                   handleBtdInputBlur();
-                  setIsEditingCredit(false);
+                  setIsEditingBtd(false);
                 }
               }}
               className="bg-transparent focus:outline-none text-left text-white underline decoration-gray-400 w-[5.3ch] leading-tight text-4xl laptop:text-5xl"
-              readOnly={isIndustrial}
+              readOnly={isExchangePreview}
               onClick={(e) => e.stopPropagation()}
             />
           </div>
         </div>
 
-        {/* Second row: price per BTD + asset packs */}
+        {/* Second row: BTC-fee reference plus AssetPack estimate */}
         <div className="flex flex-col laptop:flex-row items-center justify-center gap-6 laptop:items-center">
           <div
             className="plan-value text-lg laptop:text-xl font-medium leading-tight flex items-center"
             style={{ marginBottom: 0 }}
           >
-            ${perBtdCost.toFixed(2)} per BTD
+            BTC fee reference: ${referenceUsdPerBtd.toFixed(2)} / measured $BTD
           </div>
           <div
             className={`plan-asset-packs inline-flex items-center w-fit px-3 py-1 rounded-md gap-1 text-lg laptop:text-xl ${accent === 'purple'
@@ -295,8 +295,8 @@ export const FlexibleBtdSelector: React.FC<FlexibleBtdSelectorProps> = ({
               : 'bg-emerald-500/10 text-emerald-300'
               }`}
           >
-            <span>≈ {Math.round(derivedBtd / assetPacksFactor).toLocaleString()} asset packs</span>
-            <div className="tooltip-icon text-white/70" title="100 BTD per asset pack baseline">ⓘ</div>
+            <span>≈ {Math.round(derivedBtd / assetPacksFactor).toLocaleString()} AssetPacks</span>
+            <div className="tooltip-icon text-white/70" title="100 measured $BTD per AssetPack planning baseline">ⓘ</div>
           </div>
         </div> {/* end info row */}
       </div> {/* end wrapper */}

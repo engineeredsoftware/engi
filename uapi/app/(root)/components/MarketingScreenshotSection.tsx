@@ -5,7 +5,7 @@ import MarketingThumbnailStack from './MarketingThumbnailStack';
 import {
   EnvelopeIcon,
   ArrowDownTrayIcon,
-  CreditCardIcon,
+  WalletIcon,
   BuildingOfficeIcon,
   FolderIcon,
   ArrowPathRoundedSquareIcon,
@@ -857,7 +857,7 @@ const MarketingScreenshotSection: React.FC = () => {
                     {[
                       { label: 'Confirm email', icon: EnvelopeIcon },
                       { label: 'Install GitHub App', icon: ArrowDownTrayIcon },
-                      { label: 'Acquire $BTD', icon: CreditCardIcon },
+                      { label: 'Acquire $BTD', icon: WalletIcon },
                     ].map(({ label, icon: Icon }, idx) => (
                       <li
                         key={label}

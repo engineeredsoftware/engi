@@ -170,7 +170,7 @@ const pipelineDependencySchema = z.object({
   constraints: z.object({
     maxParallelism: z.number().optional(),
     resourceLimits: z.object({
-      totalCredits: z.number().optional(),
+      totalMeasuredBtd: z.number().optional(),
       cpuCores: z.number().optional(),
       memoryGb: z.number().optional()
     }).optional(),
@@ -553,7 +553,7 @@ async function executeSinglePipeline(pipeline: any, previousResult: any, context
     success: Math.random() > 0.1, // 90% success rate
     pipelineId: pipeline.id || uuidv4(),
     duration: Math.floor(Math.random() * 30000) + 5000,
-    btdUsed: Math.floor(Math.random() * 100) + 20,
+    measuredBtd: Math.floor(Math.random() * 100) + 20,
     results: { message: 'Pipeline executed successfully' }
   };
 }

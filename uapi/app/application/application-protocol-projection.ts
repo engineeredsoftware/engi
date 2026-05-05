@@ -185,8 +185,8 @@ export function buildProtocolProjectedRunDetail(
     processingStats: {
       time: null,
       tokenTotal: null,
-      btdUsed: null,
-      usdTotal: null,
+      measuredBtd: null,
+      btcFeeUsdEquivalent: null,
       averageLatencyMs: null,
     },
     proofStatus: agenticExecution.proofStatus,

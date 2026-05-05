@@ -1,7 +1,8 @@
-import { POST } from '@/app/api/auxillaries/btd/route';
-
 jest.mock('@bitcode/supabase/ssr/server', () => ({ createClient: jest.fn() }));
 jest.mock('@bitcode/supabase', () => ({ supabaseAdmin: { from: jest.fn(), rpc: jest.fn() } }));
+jest.mock('@/lib/mock-review-mode', () => ({ isUserOrbitalMockMode: jest.fn(() => false) }));
+
+import { POST } from '@/app/api/auxillaries/btd/route';
 
 import { createClient } from '@bitcode/supabase/ssr/server';
 import { supabaseAdmin } from '@bitcode/supabase';
@@ -25,36 +26,27 @@ beforeEach(() => {
   (createClient as jest.Mock).mockResolvedValue({ auth: { getUser: mockGetUser } });
 });
 
-describe('POST /api/auxillaries/btd RBAC', () => {
+describe('POST /api/auxillaries/btd canonical closure', () => {
   it('rejects unauthenticated user with 401', async () => {
     mockGetUser.mockResolvedValue({ data: { user: null }, error: { message: 'no auth' } });
     const res = await POST(new Request('http://localhost', { method: 'POST', body: '{}' }));
     expect(res.status).toBe(401);
   });
 
-  it('allows admin to update BTD balance', async () => {
+  it('keeps admin generic BTD mutation fail-closed', async () => {
     mockGetUser.mockResolvedValue({ data: { user: mockUser }, error: null });
 
     const profileBuilder = createQueryBuilder({ role: 'admin' });
-    const record = { id: 'tx-1', balance: 42 };
-    const balanceBuilder: any = {
-      upsert: jest.fn().mockReturnThis(),
-      select: jest.fn().mockReturnThis(),
-      single: jest.fn().mockResolvedValue({ data: record, error: null }),
-    };
 
-    (supabaseAdmin.from as jest.Mock)
-      .mockReturnValueOnce(profileBuilder)
-      .mockReturnValueOnce(balanceBuilder)
-      .mockReturnValueOnce(profileBuilder);
+    (supabaseAdmin.from as jest.Mock).mockReturnValueOnce(profileBuilder);
 
     const res = await POST(
       new Request('http://localhost', { method: 'POST', body: JSON.stringify({ btdBalance: 42 }) }),
     );
-    expect(res.status).toBe(200);
+    expect(res.status).toBe(410);
     const body = await res.json();
-    expect(body.btdBalance).toBe(42);
-    expect(body.newBalance).toBe(42);
+    expect(body.error).toContain('non-fungible asset-pack share/read-right');
+    expect(body.acquisitionPaths.terminalNeedMinting).toContain('/application');
   });
 
   it('forbids non-admin user with 403', async () => {

@@ -128,7 +128,7 @@ export const EXECUTION_NAMESPACES = {
   ],
   'finish/asset_pack_completion': [
     'summary',          // string | object
-    'processingStats',  // { time, tokens?, btdUsed? }
+    'processingStats',  // { time, tokens?, measuredBtd?, feeAsset?, btcFeesPaid? }
     'repoSnapshot',     // { org, repo, branch, commit }
     'writtenAssets',    // semantic written-asset rollups
     'need',             // semantic expressed need

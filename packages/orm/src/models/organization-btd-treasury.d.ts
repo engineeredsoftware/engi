@@ -1,11 +1,11 @@
 import type { SupabaseClient } from '@supabase/supabase-js';
 import type { Database } from '../types/database';
-export interface OrganizationCreditBalance {
+export interface OrganizationBtdTreasuryBalance {
     organization_id: string;
     balance: number;
 }
-export declare class OrganizationCreditsModel {
+export declare class OrganizationBtdTreasuryModel {
     private readonly supabase;
     constructor(supabase: SupabaseClient<Database>);
-    getByOrganizationId(organizationId: string): Promise<OrganizationCreditBalance | null>;
+    getByOrganizationId(organizationId: string): Promise<OrganizationBtdTreasuryBalance | null>;
 }

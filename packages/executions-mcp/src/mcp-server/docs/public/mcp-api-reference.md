@@ -78,7 +78,7 @@ Create production-ready features with comprehensive testing and documentation.
 
 #### Request Schema
 ```typescript
-interface DeliverableRequest {
+interface AssetPackRequest {
   task: string;                    // Feature description (min 10 characters)
   repository: RepositoryContext;
   subtype: 'pull_request' | 'pr_review' | 'issue' | 'comment' | 'blog_post' | 
@@ -98,7 +98,7 @@ interface DeliverableRequest {
 
 #### Response Schema
 ```typescript
-interface DeliverableResponse {
+interface AssetPackResponse {
   pipelineId: string;
   status: 'pending' | 'running' | 'completed' | 'failed' | 'cancelled';
   assetPacks: Array<{
@@ -108,7 +108,10 @@ interface DeliverableResponse {
     metadata?: any;              // Additional information
   }>;
   metrics: {
-    btdUsed: number;
+    measuredBtd: number;
+    btdSemantics: 'non_fungible_asset_pack_share_read_right';
+    feeAsset: 'BTC';
+    btcFeeUsdEquivalent?: number;
     tokensProcessed: number;
     confidence: number;          // 0-1 confidence score
     duration: number;            // Execution time in milliseconds

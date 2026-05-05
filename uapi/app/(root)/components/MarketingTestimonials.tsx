@@ -32,7 +32,7 @@ type Review = {
 // ---------------------------------------------------------------------------
 // Expanded set – 30 diverse, industry-specific testimonials highlighting the
 // breadth of Bitcode’s benefits (ease of use, evolving intelligence, multi-modal
-// context, quality PRs, observability, credit transparency, etc.).
+// context, quality PRs, observability, and measured-BTD transparency).
 // ---------------------------------------------------------------------------
 
 const reviews: Review[] = [

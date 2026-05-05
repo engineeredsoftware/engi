@@ -4,16 +4,19 @@ import {
   normalizeAuxillaryPane,
 } from '@/app/auxillaries/components/auxillary-pane-meta';
 
-describe('auxillary-pane-meta orbital compatibility', () => {
+describe('auxillary-pane-meta canonical routing', () => {
   it('uses profile as the canonical profile route segment', () => {
     expect(getAuxillaryRouteSegment('profile')).toBe('profile');
   });
 
-  it('keeps legacy route aliases compatible', () => {
+  it('accepts only canonical auxillary route segments', () => {
     expect(normalizeAuxillaryPane('profile')).toBe('profile');
-    expect(normalizeAuxillaryPane('users')).toBe('profile');
-    expect(normalizeAuxillaryPane('models')).toBe('interfaces');
-    expect(normalizeAuxillaryPane('credits')).toBe('btd');
+    expect(normalizeAuxillaryPane('connects')).toBe('connects');
+    expect(normalizeAuxillaryPane('interfaces')).toBe('interfaces');
+    expect(normalizeAuxillaryPane('btd')).toBe('btd');
+    expect(normalizeAuxillaryPane('users')).toBeNull();
+    expect(normalizeAuxillaryPane('models')).toBeNull();
+    expect(normalizeAuxillaryPane('credits')).toBeNull();
   });
 
   it('keeps orbital entry actions user-facing and specific when a target orbital is provided', () => {

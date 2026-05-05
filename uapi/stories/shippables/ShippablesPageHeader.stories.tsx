@@ -32,7 +32,7 @@ const sampleShippables = {
 const sampleStats = {
   time: '3m 12s',
   tokens: { input: 1500, output: 800, total: 2300 },
-  credits: 0.12,
+  btcFeesPaid: 0.000012,
 };
 
 const sampleRepoSnapshot = {
@@ -113,7 +113,7 @@ export const Executing: Story = {
     processingStats: {
       time: '2m 07s',
       tokens: { input: 900, output: 450, total: 1350 },
-      credits: 0.09,
+      btcFeesPaid: 0.000009,
     },
     repoSnapshot: sampleRepoSnapshot,
   },

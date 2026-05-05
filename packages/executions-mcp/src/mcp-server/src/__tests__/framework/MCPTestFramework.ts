@@ -478,7 +478,7 @@ export class MCPTestFramework {
       this.testSessionAuthentication(),
       this.testPermissionValidation(),
       this.testRoleBasedAccess(),
-      this.testCreditValidation()
+      this.testBtdHoldingReadValidation()
     ];
     this.performanceMonitor.recordNetworkCalls(authTests.length);
     
@@ -811,9 +811,9 @@ export class MCPTestFramework {
     // Implementation would validate owner/admin/dev separation
   }
 
-  private async testCreditValidation(): Promise<void> {
-    // Test credit validation
-    // Implementation would validate available credit posture
+  private async testBtdHoldingReadValidation(): Promise<void> {
+    // Test $BTD share/read-right holding validation.
+    // Implementation would validate available holding-read posture.
   }
   
   private async testToolCapabilities(): Promise<void> {

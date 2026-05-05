@@ -56,7 +56,7 @@ interface BitcodeMCPSpecification {
           useCases: string[];
           relatedTools: string[];
           complexity: 'simple' | 'moderate' | 'advanced' | 'expert';
-          creditCost: {
+          measuredBtdEstimate: {
             estimated: number;
             factors: string[];
           };
@@ -168,7 +168,7 @@ export class MCPSpecificationGenerator {
       useCases: this.extractUseCases(tool.description),
       relatedTools: this.findRelatedTools(tool.name),
       complexity: this.assessComplexity(tool),
-      creditCost: this.estimateCreditCost(tool, category)
+      measuredBtdEstimate: this.estimateMeasuredBtdAmount(tool, category)
     };
   }
 
@@ -324,30 +324,30 @@ export class MCPSpecificationGenerator {
   }
 
   /**
-   * Estimate credit cost for tool usage
-   */
-  private estimateCreditCost(tool: MCPTool, category: string): any {
-    let baseCost = 50;
+   * Estimate measured BTD amount for tool usage
+  */
+  private estimateMeasuredBtdAmount(tool: MCPTool, category: string): any {
+    let baseMeasuredBtd = 50;
     const factors = ['Base tool execution'];
     
     if (category === 'Pipeline Management') {
-      baseCost = 200;
+      baseMeasuredBtd = 200;
       factors.push('Pipeline execution', 'AI agent coordination');
     } else if (category === 'Advanced Intelligence') {
-      baseCost = 150;
+      baseMeasuredBtd = 150;
       factors.push('ML processing', 'Cross-repository analysis');
     } else if (category === 'Enterprise Integration') {
-      baseCost = 75;
+      baseMeasuredBtd = 75;
       factors.push('API integrations', 'Data processing');
     }
     
     if (tool.description.includes('comprehensive') || tool.description.includes('deep')) {
-      baseCost *= 1.5;
+      baseMeasuredBtd *= 1.5;
       factors.push('Comprehensive analysis');
     }
     
     return {
-      estimated: Math.round(baseCost),
+      estimated: Math.round(baseMeasuredBtd),
       factors
     };
   }
@@ -530,7 +530,7 @@ export class MCPSpecificationGenerator {
       for (const [toolName, tool] of Object.entries(category.tools)) {
         docs += `#### \`${tool.name}\`\n\n`;
         docs += `${tool.description}\n\n`;
-        docs += `**Complexity**: ${tool.complexity} | **Estimated Cost**: ${tool.creditCost.estimated} $BTD\n\n`;
+        docs += `**Complexity**: ${tool.complexity} | **Measured BTD Estimate**: ${tool.measuredBtdEstimate.estimated} $BTD\n\n`;
         
         if (tool.examples.length > 0) {
           docs += `**Example**:\n\`\`\`json\n${JSON.stringify(tool.examples[0].input, null, 2)}\n\`\`\`\n\n`;
@@ -602,7 +602,7 @@ export class MCPSpecificationGenerator {
             },
             'x-mcp-tool': {
               complexity: tool.complexity,
-              creditCost: tool.creditCost,
+              measuredBtdEstimate: tool.measuredBtdEstimate,
               useCases: tool.useCases,
               relatedTools: tool.relatedTools
             }

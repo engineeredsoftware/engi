@@ -174,7 +174,7 @@ export default function BitcodeTransactionsFilterBar({
           <option value="newest">Newest first</option>
           <option value="oldest">Oldest first</option>
           <option value="most-tokens">Most tokens</option>
-          <option value="highest-usd">Highest USD</option>
+          <option value="highest-btc-fee-basis">Highest BTC Fee Basis</option>
         </select>
       </label>
 

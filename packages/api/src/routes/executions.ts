@@ -235,8 +235,12 @@ function buildProcessingStats(row: ExecutionHistoryRow) {
   const totalTokens = asNumber(sourceTokens?.total) ?? row.total_tokens;
   const inputTokens = asNumber(sourceTokens?.input);
   const outputTokens = asNumber(sourceTokens?.output);
-  const usdTotal = asNumber(source?.usdTotal) ?? row.total_cost;
-  const btdUsed = asNumber(source?.btdUsed);
+  const btcFeeUsdEquivalent = asNumber(source?.btcFeeUsdEquivalent) ?? row.total_cost;
+  const btcFeesPaid = asNumber(source?.btcFeesPaid);
+  const measuredBtd = asNumber(source?.measuredBtd);
+  const feeAsset = asString(source?.feeAsset) || 'BTC';
+  const btdSemantics =
+    asString(source?.btdSemantics) || 'non_fungible_asset_pack_share_read_right';
   const averageLatencyMs = asNumber(source?.averageLatencyMs);
   const time = asString(source?.time) || formatDuration(row.duration_ms);
   const modelUsage = Array.isArray(source?.modelUsage) ? source.modelUsage : undefined;
@@ -244,8 +248,9 @@ function buildProcessingStats(row: ExecutionHistoryRow) {
   if (
     !time &&
     totalTokens === null &&
-    btdUsed === null &&
-    usdTotal === null &&
+    measuredBtd === null &&
+    btcFeesPaid === null &&
+    btcFeeUsdEquivalent === null &&
     averageLatencyMs === null &&
     !modelUsage
   ) {
@@ -262,8 +267,11 @@ function buildProcessingStats(row: ExecutionHistoryRow) {
             total: totalTokens,
           }
         : undefined,
-    btdUsed: btdUsed ?? undefined,
-    usdTotal: usdTotal ?? undefined,
+    measuredBtd: measuredBtd ?? undefined,
+    btdSemantics,
+    feeAsset,
+    btcFeesPaid: btcFeesPaid ?? undefined,
+    btcFeeUsdEquivalent: btcFeeUsdEquivalent ?? undefined,
     averageLatencyMs: averageLatencyMs ?? undefined,
     modelUsage,
   };

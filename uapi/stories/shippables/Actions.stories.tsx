@@ -72,7 +72,7 @@ export const AllEnabled: Story = {
   },
 };
 
-// Button disabled due to external constraint (e.g. insufficient credits)
+// Button disabled due to external constraint (for example, missing BTC fee liquidity or repository readiness)
 export const Disabled: Story = {
   ...Template,
   args: {

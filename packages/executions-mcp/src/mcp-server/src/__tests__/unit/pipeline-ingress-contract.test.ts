@@ -78,7 +78,7 @@ const AUTH_CONTEXT: MCPAuthContext = {
   organizationId: 'org-1',
   permissions: {
     pipelines: { create: true, read: true, cancel: true, retry: true },
-    organization: { manageMembers: true, viewAnalytics: true, manageBtd: true },
+    organization: { manageMembers: true, viewAnalytics: true, manageBtdHoldings: true },
     resources: { read: true, export: true },
   },
   btdBalance: 1000,
@@ -416,7 +416,7 @@ describe('Bitcode MCP pipeline ingress contract', () => {
           },
         ],
       },
-      btdUsed: 120,
+      measuredBtd: 120,
       startedAt: new Date('2026-04-22T00:00:00.000Z'),
       completedAt: new Date('2026-04-22T00:02:00.000Z'),
       events: [],

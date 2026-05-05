@@ -29,7 +29,7 @@ jest.mock('@bitcode/orm', () => ({
 const mockGetByKeyHash = jest.fn();
 const mockUpdateLastUsed = jest.fn();
 const mockGetById = jest.fn();
-const mockGetCreditsByUserId = jest.fn();
+const mockReadBtdHoldingAmount = jest.fn();
 const mockGetMembership = jest.fn();
 
 const resetOrmMocks = () => {
@@ -45,7 +45,7 @@ const resetOrmMocks = () => {
   }));
 
   (UserBtdBalancesModel as unknown as jest.Mock).mockImplementation(() => ({
-    getByUserId: mockGetCreditsByUserId
+    readBtdHoldingAmount: mockReadBtdHoldingAmount
   }));
 
   (OrganizationsModel as unknown as jest.Mock).mockImplementation(() => ({
@@ -94,7 +94,7 @@ describe('Authentication Middleware', () => {
           resources: ['read']
         }
       });
-      mockGetCreditsByUserId.mockResolvedValue({ balance: 120 });
+      mockReadBtdHoldingAmount.mockResolvedValue(120);
 
       const result = await authenticateMCPRequest('Bearer key_test123', {
         requireOrganization: true,
@@ -136,7 +136,7 @@ describe('Authentication Middleware', () => {
           full_name: 'Bitcode Operator',
           organization_id: undefined
         });
-      mockGetCreditsByUserId.mockResolvedValue({ balance: 50 });
+      mockReadBtdHoldingAmount.mockResolvedValue(50);
 
       const first = await authenticateMCPRequest('Bearer key_test123', {
         requiredPermissions: { resources: ['read'] }
@@ -177,7 +177,7 @@ describe('Authentication Middleware', () => {
         full_name: 'Bitcode Operator',
         organization_id: undefined
       });
-      mockGetCreditsByUserId.mockResolvedValue({ balance: 50 });
+      mockReadBtdHoldingAmount.mockResolvedValue(50);
 
       const result = await authenticateMCPRequest('Bearer key_test123', {
         requiredPermissions: { pipelines: ['create'] }
@@ -191,7 +191,7 @@ describe('Authentication Middleware', () => {
       expect(result.error?.message).toContain('pipelines.create');
     });
 
-    it('fails closed when minimum BTD is not satisfied', async () => {
+    it('fails closed when minimum BTD holding is not satisfied', async () => {
       mockGetByKeyHash.mockResolvedValue({
         id: 'key123',
         user_id: 'user123',
@@ -206,15 +206,15 @@ describe('Authentication Middleware', () => {
         full_name: 'Bitcode Operator',
         organization_id: undefined
       });
-      mockGetCreditsByUserId.mockResolvedValue({ balance: 10 });
+      mockReadBtdHoldingAmount.mockResolvedValue(10);
 
       const result = await authenticateMCPRequest('Bearer key_test123', {
-        minimumBtd: 100
+        minimumBtdHolding: 100
       });
 
       expect(result.success).toBe(false);
       expect(result.error).toMatchObject({
-        code: 'INSUFFICIENT_BTD',
+        code: 'INSUFFICIENT_BTD_HOLDING',
         statusCode: 402
       });
     });
@@ -233,7 +233,7 @@ describe('Authentication Middleware', () => {
           organization: {
             manageMembers: false,
             viewAnalytics: true,
-            manageBtd: false
+            manageBtdHoldings: false
           },
           resources: {
             read: true,
@@ -268,7 +268,7 @@ describe('Authentication Middleware', () => {
           organization: {
             manageMembers: false,
             viewAnalytics: false,
-            manageBtd: false
+            manageBtdHoldings: false
           },
           resources: {
             read: false,

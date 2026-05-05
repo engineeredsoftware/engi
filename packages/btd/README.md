@@ -1,47 +1,29 @@
 # BTD Core
 
-Canonical `$BTD` balance operations for Bitcode.
+Canonical `$BTD` read and measurement utilities for Bitcode.
 
 This package owns:
-- atomic `$BTD` debits and additions
-- model-aware LLM cost conversion into `$BTD`
-- reservation / escrow helpers for pipeline execution
+- aggregate `$BTD` holding reads from the current storage carrier
+- measured non-fungible `$BTD` content amount helpers
+- BTC fee-basis helpers for model usage
 - shared `$BTD` bundle definitions
 
-The current database layer still uses compatibility carriers such as
-`user_credits`, `user_credit_usages`, and `credit_reservations`, but the
-package contract is Bitcode-native:
+`$BTD` is not a fungible fee token. BTC pays fees. `$BTD` represents a
+non-fungible AssetPack share/read-right and the measured Bitcode amount in
+content.
+
+The current database layer still exposes `user_credits` as a storage carrier
+for aggregate holding reads until the persistence schema is re-cut. This
+package must not mutate it as a credit bucket.
 
 ```ts
 import {
-  deductBtdBalance,
-  addBtdBalance,
-  deductGenerationBtd,
-  deductLlmBtdByModel,
-  reserveBtdBalance,
-  recordBtdReservationUsage,
-  closeBtdReservation,
-  withBtdReservation,
-  calculateLlmBtdDebit,
-  InsufficientBtdBalanceError,
+  buildGenerationBitcodeAccounting,
+  calculateLlmBtcFeeEstimate,
+  calculateMeasuredBtdFromTokens,
+  getBtdBalance,
+  readBtdHoldings,
   btdBundles,
   btdBundleList,
 } from '@bitcode/btd';
-```
-
-Typical usage:
-
-```ts
-await withBtdReservation(userId, async (reservation) => {
-  await recordBtdReservationUsage(reservation.id, 20);
-  return runPipeline();
-}, { pipelineType: 'asset-pack' });
-```
-
-Bundle helpers:
-
-```ts
-import { btdBundles, type BtdBundleConfig } from '@bitcode/btd';
-
-const production = btdBundles.production;
 ```

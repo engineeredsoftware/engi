@@ -107,8 +107,12 @@ export interface CompletionData {
       output: number;
       total: number;
     };
-    /** Canonical $BTD consumed */
-    btdUsed?: number;
+    /** Measured non-fungible $BTD content amount */
+    measuredBtd?: number;
+    btdSemantics?: 'non_fungible_asset_pack_share_read_right' | string;
+    feeAsset?: 'BTC' | string;
+    btcFeesPaid?: number | null;
+    btcFeeUsdEquivalent?: number;
   };
   /** Snapshot of the repository at time of execution */
   repoSnapshot?: {
@@ -162,12 +166,15 @@ export interface PipelineExecution {
   /** Optional markdown summary stored by backend */
   summary?: string | null;
 
-  /** Execution metrics (time, tokens, $BTD, spend, latency) */
+  /** Execution metrics (time, tokens, measured $BTD, BTC fee posture, latency) */
   processing_stats?: {
     time: string;
     tokens?: { input: number; output: number; total: number };
-    btdUsed?: number;
-    usdTotal?: number;
+    measuredBtd?: number;
+    btdSemantics?: 'non_fungible_asset_pack_share_read_right' | string;
+    feeAsset?: 'BTC' | string;
+    btcFeesPaid?: number | null;
+    btcFeeUsdEquivalent?: number;
     averageLatencyMs?: number | null;
     modelUsage?: Array<{
       provider: string;
@@ -222,8 +229,11 @@ export interface PipelineExecution {
     processingStats?: {
       time: string;
       tokens?: { input: number; output: number; total: number };
-      btdUsed?: number;
-      usdTotal?: number;
+      measuredBtd?: number;
+      btdSemantics?: 'non_fungible_asset_pack_share_read_right' | string;
+      feeAsset?: 'BTC' | string;
+      btcFeesPaid?: number | null;
+      btcFeeUsdEquivalent?: number;
       averageLatencyMs?: number | null;
       modelUsage?: Array<{
         provider: string;
@@ -259,8 +269,11 @@ export interface AIDocumentRun {
   processing_stats?: {
     time: string;
     tokens?: { input: number; output: number; total: number };
-    btdUsed?: number;
-    usdTotal?: number;
+    measuredBtd?: number;
+    btdSemantics?: 'non_fungible_asset_pack_share_read_right' | string;
+    feeAsset?: 'BTC' | string;
+    btcFeesPaid?: number | null;
+    btcFeeUsdEquivalent?: number;
     averageLatencyMs?: number | null;
     modelUsage?: Array<{
       provider: string;
@@ -301,8 +314,11 @@ export interface AIDocumentRun {
     processingStats?: {
       time: string;
       tokens?: { input: number; output: number; total: number };
-      btdUsed?: number;
-      usdTotal?: number;
+      measuredBtd?: number;
+      btdSemantics?: 'non_fungible_asset_pack_share_read_right' | string;
+      feeAsset?: 'BTC' | string;
+      btcFeesPaid?: number | null;
+      btcFeeUsdEquivalent?: number;
       averageLatencyMs?: number | null;
       modelUsage?: Array<{
         provider: string;

@@ -197,20 +197,20 @@ async function performIntelligenceSynthesis(
   }, {} as Record<string, number>);
 
   // Calculate BTD usage patterns
-  const btdUsage = pipelines
+  const measuredBtdUsage = pipelines
     .map((pipeline) => {
       const metadata = getMetadata(pipeline);
       const metrics = (metadata.metrics as Record<string, unknown> | undefined) || {};
-      return typeof metrics.btdUsed === 'number'
-        ? metrics.btdUsed
-        : typeof metadata.btdUsed === 'number'
-          ? metadata.btdUsed
+      return typeof metrics.measuredBtd === 'number'
+        ? metrics.measuredBtd
+        : typeof metadata.measuredBtd === 'number'
+          ? metadata.measuredBtd
           : 0;
     })
     .filter((btd: number) => btd > 0);
   
-  const totalBtdUsed = btdUsage.reduce((sum, btd) => sum + btd, 0);
-  const avgBtdPerPipeline = btdUsage.length > 0 ? totalBtdUsed / btdUsage.length : 0;
+  const totalMeasuredBtd = measuredBtdUsage.reduce((sum, btd) => sum + btd, 0);
+  const avgMeasuredBtdPerPipeline = measuredBtdUsage.length > 0 ? totalMeasuredBtd / measuredBtdUsage.length : 0;
 
   // Identify trends
   const timeBasedAnalysis = analyzeTimeBasedTrends(pipelines);
@@ -230,8 +230,8 @@ async function performIntelligenceSynthesis(
       },
       
       efficiency: {
-        averageBtdPerPipeline: Math.round(avgBtdPerPipeline),
-        totalBtdUsed: totalBtdUsed,
+        averageMeasuredBtdPerPipeline: Math.round(avgMeasuredBtdPerPipeline),
+        totalMeasuredBtd: totalMeasuredBtd,
         costEfficiencyTrend: timeBasedAnalysis.costTrend,
         resourceUtilization: calculateResourceUtilization(pipelines)
       },
@@ -255,7 +255,7 @@ async function performIntelligenceSynthesis(
     recommendations: generateRecommendations(pipelines, {
       successRate,
       avgExecutionTime,
-      avgBtdPerPipeline,
+      avgMeasuredBtdPerPipeline,
       repositoryActivity
     }),
     
@@ -269,7 +269,7 @@ async function performIntelligenceSynthesis(
       industryComparison: {
         successRate: { yours: successRate, industry: 0.85 },
         avgExecutionTime: { yours: avgExecutionTime, industry: 900000 }, // 15 min
-        costEfficiency: { yours: avgBtdPerPipeline, industry: 120 }
+        measuredBtdEfficiency: { yours: avgMeasuredBtdPerPipeline, reference: 120 }
       }
     }
   };
@@ -289,12 +289,12 @@ function analyzeTimeBasedTrends(pipelines: PipelineRun[]): any {
       g.reduce((sum, pipeline) => {
         const metadata = getMetadata(pipeline);
         const metrics = (metadata.metrics as Record<string, unknown> | undefined) || {};
-        const btdUsed = typeof metrics.btdUsed === 'number'
-          ? metrics.btdUsed
-          : typeof metadata.btdUsed === 'number'
-            ? metadata.btdUsed
+        const measuredBtd = typeof metrics.measuredBtd === 'number'
+          ? metrics.measuredBtd
+          : typeof metadata.measuredBtd === 'number'
+            ? metadata.measuredBtd
             : 0;
-        return sum + btdUsed;
+        return sum + measuredBtd;
       }, 0)
     )),
     qualityTrend: calculateTrend(Object.values(weeklyGroups).map(g => {
@@ -467,7 +467,7 @@ function generateRecommendations(
   metrics: {
     successRate: number;
     avgExecutionTime: number;
-    avgBtdPerPipeline: number;
+    avgMeasuredBtdPerPipeline: number;
     repositoryActivity: Record<string, number>;
   },
 ): Array<Record<string, unknown>> {
@@ -508,12 +508,12 @@ function generateRecommendations(
   }
 
   // Cost optimization recommendations
-  if (metrics.avgBtdPerPipeline > 150) {
+  if (metrics.avgMeasuredBtdPerPipeline > 150) {
     recommendations.push({
       category: 'cost',
       priority: 'medium',
-      title: 'Optimize Credit Usage',
-      description: `Average credit usage of ${Math.round(metrics.avgBtdPerPipeline)} per pipeline is above optimal range.`,
+      title: 'Optimize Measured BTD Amount',
+      description: `Average measured BTD amount of ${Math.round(metrics.avgMeasuredBtdPerPipeline)} per pipeline is above optimal range.`,
       impact: 'medium',
       effort: 'low',
       actions: [
@@ -622,15 +622,15 @@ function generateUpgradeRecommendations(
     const repository = getRepositoryKey(metadata);
     const successfulRuns = upgrade.runs.filter((run) => run.status === 'completed').length;
     const successRate = upgrade.runs.length > 0 ? successfulRuns / upgrade.runs.length : 0;
-    const estimatedBtd = upgrade.runs.reduce((sum, run) => {
+    const measuredBtdEstimate = upgrade.runs.reduce((sum, run) => {
       const runMetadata = getMetadata(run);
       const metrics = (runMetadata.metrics as Record<string, unknown> | undefined) || {};
-      const btdUsed = typeof metrics.btdUsed === 'number'
-        ? metrics.btdUsed
-        : typeof runMetadata.btdUsed === 'number'
-          ? runMetadata.btdUsed
+      const measuredBtd = typeof metrics.measuredBtd === 'number'
+        ? metrics.measuredBtd
+        : typeof runMetadata.measuredBtd === 'number'
+          ? runMetadata.measuredBtd
           : 0;
-      return sum + btdUsed;
+      return sum + measuredBtd;
     }, 0);
 
     recommendations.push({
@@ -651,7 +651,7 @@ function generateUpgradeRecommendations(
         (typeof metadata.reason === 'string' && metadata.reason) ||
         `Observed upgrade AssetPack evidence activity for ${packageName}`,
       repositories: repository ? [repository] : [],
-      estimatedBtd,
+      measuredBtdEstimate,
       breakingChanges: Boolean(metadata.breakingChanges),
       migrationGuide: typeof metadata.migrationGuide === 'string' ? metadata.migrationGuide : null,
       confidence: successRate > 0 ? successRate : 0.5,

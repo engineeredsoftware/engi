@@ -2,7 +2,7 @@
 
 export type TransactionOwnership = 'all' | 'mine' | 'network';
 export type TransactionLens = 'all' | 'give' | 'need' | 'closure';
-export type TransactionSort = 'newest' | 'oldest' | 'most-tokens' | 'highest-usd';
+export type TransactionSort = 'newest' | 'oldest' | 'most-tokens' | 'highest-btc-fee-basis';
 export type TransactionDataMode = 'live' | 'mock-review' | 'review-fallback';
 export const BITCODE_TRANSACTION_PAGE_SIZES = [10, 25, 50] as const;
 export type TransactionPageSize = typeof BITCODE_TRANSACTION_PAGE_SIZES[number];

@@ -12,8 +12,7 @@ interface DeliverButtonProps {
   /** Intelligence layer */
   needDefinitionQuality?: number; // 0-1 assessment of Definition of Need quality
   contextConfidence?: number; // 0-1 based on attachments and repository context
-  estimatedBtd?: number;
-  estimatedCredits?: number;
+  measuredBtdEstimate?: number;
   estimatedDuration?: number; // in minutes
   
   /** Pattern recognition */
@@ -57,8 +56,7 @@ export const DeliverButton = ({
   disabled = false,
   needDefinitionQuality = 0,
   contextConfidence = 0,
-  estimatedBtd,
-  estimatedCredits,
+  measuredBtdEstimate,
   estimatedDuration,
   recognizedPatterns = [],
   repositoryContext,
@@ -168,8 +166,6 @@ export const DeliverButton = ({
     return artifacts;
   }, [recognizedPatterns, repositoryContext, overallConfidence]);
   
-  const estimatedBalanceUnit = estimatedBtd ?? estimatedCredits;
-
   return (
     <div className="deliver-button-container relative" ref={buttonRef}>
       {/* Enhanced Quantum Button with confidence styling */}
@@ -185,7 +181,7 @@ export const DeliverButton = ({
         `}
         style={{
           '--confidence': overallConfidence,
-          '--estimated-btd': estimatedBalanceUnit || 50,
+          '--measured-btd-estimate': measuredBtdEstimate || 50,
           '--estimated-duration': estimatedDuration || 3,
         } as React.CSSProperties}
         onMouseEnter={() => setIsHovered(true)}
@@ -246,14 +242,14 @@ export const DeliverButton = ({
       )}
       
       {/* Resource indicator */}
-      {(estimatedBalanceUnit || estimatedDuration) && overallConfidence > 0.5 && (
+      {(measuredBtdEstimate || estimatedDuration) && overallConfidence > 0.5 && (
         <div className="resource-indicator absolute -top-8 left-1/2 transform -translate-x-1/2">
           <div className="text-xs text-gray-400 bg-brand-cosmic-light/80 backdrop-blur-sm 
                          px-2 py-1 rounded-full border border-brand-emerald-glow-subtle
                          flex items-center space-x-2">
-            {estimatedBalanceUnit && (
+            {measuredBtdEstimate && (
               <span className="text-brand-emerald">
-                {estimatedBalanceUnit} $BTD
+                {measuredBtdEstimate} measured $BTD
               </span>
             )}
             {estimatedDuration && (

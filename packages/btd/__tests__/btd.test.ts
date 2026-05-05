@@ -1,47 +1,52 @@
 /*
- * Lightweight unit tests for critical `$BTD` maths and reservation logic.
+ * Lightweight unit tests for `$BTD` measurement and BTC fee-basis logic.
  * **NOTE** – These tests use Jest’s fake timers and a stub Supabase client so
  * they never touch a real database.  They are intended as documentation as
  * much as validation – CI may stub `@bitcode/supabase` with a local fake.
  */
 
 import {
-  calculateLlmBtdDebit,
-  MODEL_PRICING_USD_PER_MILLION,
-  InsufficientBtdBalanceError,
+  BtdFungibleMutationRejectedError,
+  BITCODE_FEE_ASSET,
+  calculateLlmBtcFeeEstimate,
+  calculateMeasuredBtdFromTokens,
 } from '../src';
 
-describe('calculateLlmBtdDebit', () => {
+describe('calculateLlmBtcFeeEstimate', () => {
   const table: Array<[
     model: string,
     input: number,
     output: number,
-    expectedBtd: number,
+    expectedUsd: number,
   ]> = [
-    ['gpt-3.5-turbo', 1000, 0, 1],
-    ['gpt-3.5-turbo', 1000000, 0, 5],
-    ['claude-3-opus', 0, 2000000, 1500],
+    ['gemini-2.5-flash', 1000, 0, 0.00035],
+    ['gemini-2.5-flash', 0, 1000, 0.0014],
+    ['sonnet-4', 1_000_000, 0, 3],
   ];
 
   it.each(table)('%s in=%i out=%i', (model, input, output, expected) => {
-    const { btdAmount } = calculateLlmBtdDebit(model, { inputTokens: input, outputTokens: output });
-    expect(btdAmount).toBe(expected);
+    const estimate = calculateLlmBtcFeeEstimate(model, { inputTokens: input, outputTokens: output });
+    expect(estimate.feeAsset).toBe(BITCODE_FEE_ASSET);
+    expect(estimate.btcFeesPaid).toBeNull();
+    expect(estimate.btcFeeUsdEquivalent).toBe(expected);
   });
 
   it('throws on unknown model', () => {
     expect(() =>
-      calculateLlmBtdDebit('unknown-model', { inputTokens: 10, outputTokens: 10 }),
+      calculateLlmBtcFeeEstimate('unknown-model', { inputTokens: 10, outputTokens: 10 }),
     ).toThrow();
   });
 });
 
-// -------------------------------------------------------------------------
-// Example InsufficientBtdBalanceError usage – purely illustrative.
-// -------------------------------------------------------------------------
+describe('calculateMeasuredBtdFromTokens', () => {
+  it('measures content amount without implying spend', () => {
+    expect(calculateMeasuredBtdFromTokens({ inputTokens: 1200, outputTokens: 50 })).toBe(2);
+  });
+});
 
-describe('InsufficientBtdBalanceError', () => {
-  it('has code=INSUFFICIENT_BTD_BALANCE', () => {
-    const err = new InsufficientBtdBalanceError('nope');
-    expect(err.code).toBe('INSUFFICIENT_BTD_BALANCE');
+describe('BtdFungibleMutationRejectedError', () => {
+  it('makes fungible BTD mutation attempts fail closed', () => {
+    const err = new BtdFungibleMutationRejectedError('nope');
+    expect(err.code).toBe('BTD_IS_NON_FUNGIBLE');
   });
 });

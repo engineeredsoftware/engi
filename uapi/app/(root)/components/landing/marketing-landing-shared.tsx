@@ -129,7 +129,7 @@ export const verificationRows = [
   },
   {
     label: 'Licensed reads',
-    detail: 'licensed readers consume the depot while metered usage issues $BTD',
+    detail: 'licensed readers hold AssetPack read-rights while metered usage records measured $BTD',
     status: 'private*',
     Icon: LockClosedIcon,
   },

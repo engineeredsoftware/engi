@@ -117,7 +117,7 @@ const MarketingCtaContactSection: React.FC = () => {
                     Build at 1000× speed—no code, just continuous evolution.
                   </p>
 
-                  {/* CTA buttons & credit indicator wrapper */}
+                  {/* CTA buttons and BTD reference indicator wrapper */}
                   <div className="flex flex-col items-center flex-1 space-y-12">
 
                     {/* Buttons row */}
@@ -171,7 +171,7 @@ const MarketingCtaContactSection: React.FC = () => {
                       {/* close buttons row */}
                     </div>
 
-                    {/* Credit indicator (below buttons) */}
+                    {/* BTD reference indicator (below buttons) */}
                     <div className="flex items-center justify-center space-x-3 select-none mt-2">
                       <span className="text-5xl font-bold text-emerald-300 drop-shadow-[0_0_8px_rgba(145,251,188,0.9)]">1</span>
                       {/* Bitcode "b" logo */}
@@ -182,18 +182,18 @@ const MarketingCtaContactSection: React.FC = () => {
                         alt="Bitcode BTD unit"
                         className="w-[47px] h-[47px] drop-shadow-[0_0_14px_rgba(145,251,188,0.9)] animate-pulse-slow"
                       />
-                      <span className="text-3xl font-semibold text-gray-200">≈ $0.10</span>
+                      <span className="text-3xl font-semibold text-gray-200">AssetPack read-right</span>
                     </div>
                   </div>
                   {/* Explain what the BTD equivalency represents */}
                   <div className="flex justify-center my-6 overflow-visible">
                     <span className="super-shiny-text-orange font-semibold leading-none tracking-tight text-2xl">
-                      worth of tokens &amp; compute
+                      measured Bitcode share/read-right
                     </span>
                   </div>
 
                   <div className="text-gray-400 text-base -mb-4">
-                    Agentic Short-Circuits Will Refund $BTD
+                    BTC pays fees. $BTD is issued as non-fungible AssetPack read-rights.
                   </div>
                 </div>
               </div>

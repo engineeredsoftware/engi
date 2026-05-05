@@ -71,7 +71,7 @@ export const GITHUB_REPO_WITH_LSP = createTestPart({
  * @id complex-asset-pack-request
  * @type AssetPackRequest
  * @complexity high
- * @estimated-btd 500
+ * @measured-btd-estimate 500
  */
 export const COMPLEX_ASSET_PACK_REQUEST = createTestPart({
   id: 'req-complex-001',
@@ -193,7 +193,9 @@ export const ASSET_PACK_RESULT_COMPOSITION = createTestComposition({
     assetPack: {
       id: 'dlv-001',
       status: 'completed',
-      btdUsed: 487,
+      measuredBtd: 487,
+      btdSemantics: 'non_fungible_asset_pack_share_read_right',
+      feeAsset: 'BTC',
       duration: 95000, // ms
       phases: {
         setup: { duration: 5000, status: 'completed' },
@@ -220,7 +222,7 @@ export const ASSET_PACK_RESULT_COMPOSITION = createTestComposition({
 /** @doc-test-scenario
  * @id enterprise-asset-pack-with-conflicts
  * @phases ["setup", "discovery", "implementation", "validation", "finish"]
- * @expected-btd 500
+ * @expected-measured-btd 500
  * @expected-duration 120000
  */
 export const ENTERPRISE_ASSET_PACK_SCENARIO = new TestScenarioBuilder()
@@ -249,7 +251,7 @@ export const ENTERPRISE_ASSET_PACK_SCENARIO = new TestScenarioBuilder()
   .behavior({
     phases: ['setup', 'discovery', 'implementation', 'validation', 'finish'],
     expectedDuration: 120000,
-    expectedBtd: 500,
+    expectedMeasuredBtd: 500,
     expectations: {
       success: true,
       resultPattern: {
@@ -263,8 +265,8 @@ export const ENTERPRISE_ASSET_PACK_SCENARIO = new TestScenarioBuilder()
         check: (result) => result.pullRequest?.mergeable === false
       },
       {
-        name: '$BTD used should be reasonable',
-        check: (result) => result.assetPack?.btdUsed > 400 && result.assetPack?.btdUsed < 600
+        name: 'Measured $BTD should be reasonable',
+        check: (result) => result.assetPack?.measuredBtd > 400 && result.assetPack?.measuredBtd < 600
       },
       {
         name: 'All phases should complete',
@@ -283,13 +285,13 @@ export const ENTERPRISE_ASSET_PACK_SCENARIO = new TestScenarioBuilder()
 /** @doc-test-scenario
  * @id minimal-asset-pack-success
  * @phases ["setup", "discovery", "implementation", "validation", "finish"]
- * @expected-btd 100
+ * @expected-measured-btd 100
  * @expected-duration 30000
  */
 export const MINIMAL_ASSET_PACK_SCENARIO = createTestScenario({
   id: 'minimal-asset-pack-success',
   name: 'Minimal AssetPack Success',
-  description: 'Simple AssetPack that completes quickly with minimal credit usage',
+  description: 'Simple AssetPack that completes quickly with low measured $BTD amount',
   context: {
     environment: 'test',
     user: {
@@ -329,7 +331,7 @@ export const MINIMAL_ASSET_PACK_SCENARIO = createTestScenario({
   behavior: {
     phases: ['setup', 'discovery', 'implementation', 'validation', 'finish'],
     expectedDuration: 30000,
-    expectedBtd: 100,
+    expectedMeasuredBtd: 100,
     expectations: {
       success: true
     }
@@ -338,21 +340,21 @@ export const MINIMAL_ASSET_PACK_SCENARIO = createTestScenario({
 });
 
 /** @doc-test-scenario
- * @id asset-pack-error-insufficient-btd
+ * @id asset-pack-error-insufficient-btd-holding
  * @phases ["setup"]
- * @expected-btd 500
- * @expected-error "INSUFFICIENT_BTD"
+ * @expected-measured-btd 500
+ * @expected-error "INSUFFICIENT_BTD_HOLDING"
  */
 export const ASSET_PACK_ERROR_SCENARIO = createTestScenario({
-  id: 'asset-pack-error-insufficient-btd',
-  name: 'AssetPack Error - Insufficient $BTD',
-  description: 'AssetPack that fails due to insufficient $BTD',
+  id: 'asset-pack-error-insufficient-btd-holding',
+  name: 'AssetPack Error - Insufficient $BTD Holding',
+  description: 'AssetPack that fails because the read-right holding is insufficient',
   context: {
     environment: 'test',
     user: {
       id: 'user-low-btd',
       role: 'developer',
-      btdBalance: 50,
+      btdHoldingAmount: 50,
       features: ['asset-packs']
     },
     repository: {
@@ -367,13 +369,13 @@ export const ASSET_PACK_ERROR_SCENARIO = createTestScenario({
   behavior: {
     phases: ['setup'],
     expectedDuration: 5000,
-    expectedBtd: 500,
+    expectedMeasuredBtd: 500,
     expectations: {
       success: false,
-      errorType: 'INSUFFICIENT_BTD'
+      errorType: 'INSUFFICIENT_BTD_HOLDING'
     }
   },
-  tags: ['error', 'insufficient-btd', 'feature:asset-packs']
+  tags: ['error', 'insufficient-btd-holding', 'feature:asset-packs']
 });
 
 // =============================================================================

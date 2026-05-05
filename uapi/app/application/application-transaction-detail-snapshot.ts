@@ -35,8 +35,8 @@ type RepoSnapshot = {
 type ProcessingStats = {
   time: string | null;
   tokenTotal: number | null;
-  btdUsed: number | null;
-  usdTotal: number | null;
+  measuredBtd: number | null;
+  btcFeeUsdEquivalent: number | null;
   averageLatencyMs: number | null;
 };
 
@@ -141,8 +141,8 @@ function coerceProcessingStats(value: unknown): ProcessingStats {
     return {
       time: null,
       tokenTotal: null,
-      btdUsed: null,
-      usdTotal: null,
+      measuredBtd: null,
+      btcFeeUsdEquivalent: null,
       averageLatencyMs: null,
     };
   }
@@ -152,8 +152,8 @@ function coerceProcessingStats(value: unknown): ProcessingStats {
   return {
     time: coerceString(value.time),
     tokenTotal: coerceNumber(tokens?.total),
-    btdUsed: coerceNumber(value.btdUsed),
-    usdTotal: coerceNumber(value.usdTotal),
+    measuredBtd: coerceNumber(value.measuredBtd),
+    btcFeeUsdEquivalent: coerceNumber(value.btcFeeUsdEquivalent),
     averageLatencyMs: coerceNumber(value.averageLatencyMs),
   };
 }
@@ -511,8 +511,8 @@ export function buildApplicationRunDetailFromSelectedRun(
     processingStats: {
       time: null,
       tokenTotal: selectedRun.tokenTotal ?? null,
-      btdUsed: selectedRun.btdUsed ?? null,
-      usdTotal: selectedRun.usdTotal ?? null,
+      measuredBtd: selectedRun.measuredBtd ?? null,
+      btcFeeUsdEquivalent: selectedRun.btcFeeUsdEquivalent ?? null,
       averageLatencyMs: selectedRun.averageLatencyMs ?? null,
     },
     proofStatus: selectedRun.proofStatus || null,
@@ -573,8 +573,8 @@ export function normalizeApplicationRunDetailPayload(
   const hasRunProcessingStats =
     runProcessingStats.time ||
     runProcessingStats.tokenTotal !== null ||
-    runProcessingStats.btdUsed !== null ||
-    runProcessingStats.usdTotal !== null ||
+    runProcessingStats.measuredBtd !== null ||
+    runProcessingStats.btcFeeUsdEquivalent !== null ||
     runProcessingStats.averageLatencyMs !== null;
   const processingStats = hasRunProcessingStats ? runProcessingStats : assetPackCompletionProcessingStats;
 
@@ -595,8 +595,8 @@ export function normalizeApplicationRunDetailPayload(
     processingStats: {
       time: processingStats.time || base.processingStats.time,
       tokenTotal: processingStats.tokenTotal ?? base.processingStats.tokenTotal,
-      btdUsed: processingStats.btdUsed ?? base.processingStats.btdUsed,
-      usdTotal: processingStats.usdTotal ?? base.processingStats.usdTotal,
+      measuredBtd: processingStats.measuredBtd ?? base.processingStats.measuredBtd,
+      btcFeeUsdEquivalent: processingStats.btcFeeUsdEquivalent ?? base.processingStats.btcFeeUsdEquivalent,
       averageLatencyMs: processingStats.averageLatencyMs ?? base.processingStats.averageLatencyMs,
     },
     proofStatus: base.proofStatus,

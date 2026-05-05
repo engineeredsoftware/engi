@@ -29,7 +29,7 @@ const SORT_LABELS: Record<TransactionSort, string> = {
   newest: 'Newest first',
   oldest: 'Oldest first',
   'most-tokens': 'Most tokens',
-  'highest-usd': 'Highest USD',
+  'highest-btc-fee-basis': 'Highest BTC Fee Basis',
 };
 
 export function buildBitcodeTransactionActiveFilterChips(

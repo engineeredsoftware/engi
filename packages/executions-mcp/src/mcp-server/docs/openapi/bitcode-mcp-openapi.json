@@ -114,10 +114,25 @@
       "ExecutionMetrics": {
         "type": "object",
         "properties": {
-          "btdUsed": {
+          "measuredBtd": {
             "type": "integer",
-            "description": "Amount of $BTD consumed",
+            "description": "Measured non-fungible $BTD content amount for the AssetPack",
             "example": 150
+          },
+          "btdSemantics": {
+            "type": "string",
+            "enum": ["non_fungible_asset_pack_share_read_right"],
+            "description": "Canonical $BTD semantics"
+          },
+          "feeAsset": {
+            "type": "string",
+            "enum": ["BTC"],
+            "description": "Fee settlement asset"
+          },
+          "btcFeeUsdEquivalent": {
+            "type": "number",
+            "description": "Reference USD equivalent for BTC fees, when known",
+            "example": 12.5
           },
           "tokensProcessed": {
             "type": "integer",

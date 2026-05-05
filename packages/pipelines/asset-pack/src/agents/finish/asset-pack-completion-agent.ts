@@ -59,7 +59,11 @@ export const AssetPackCompletionOutputSchema = z.object({
     tokens: z
       .object({ input: z.number(), output: z.number(), total: z.number() })
       .optional(),
-    btdUsed: z.number().optional(),
+    measuredBtd: z.number().optional(),
+    btdSemantics: z.string().optional(),
+    feeAsset: z.literal('BTC').optional(),
+    btcFeesPaid: z.number().nullable().optional(),
+    btcFeeUsdEquivalent: z.number().optional(),
   }),
   repoSnapshot: z.object({ org: z.string(), repo: z.string(), branch: z.string(), commit: z.string().optional().default('') }),
 });
@@ -97,7 +101,7 @@ const AssetPackCompletionAgent = factoryAgentWithSingleStep<any, AssetPackComple
       (execution as any).prompt?.setSpecificExecution(
         'specific_execution:output:shape',
         (
-          'Output JSON with keys: shippables{pullRequest,fileChanges,summary}, assetPackSynthesisArtifacts{pullRequest,fileChanges,summary,proofEvidence?,reviewNotes?}, writtenAssets{pullRequest,fileChanges,summary}, deliveryMechanism{pullRequest,summary}, processingStats{time,tokens?,btdUsed?}, repoSnapshot{org,repo,branch,commit}. V26 Finish delivers AssetPack evidence through Bitcode-owned pull-request fields only.'
+          'Output JSON with keys: shippables{pullRequest,fileChanges,summary}, assetPackSynthesisArtifacts{pullRequest,fileChanges,summary,proofEvidence?,reviewNotes?}, writtenAssets{pullRequest,fileChanges,summary}, deliveryMechanism{pullRequest,summary}, processingStats{time,tokens?,measuredBtd?,feeAsset?,btcFeesPaid?,btcFeeUsdEquivalent?}, repoSnapshot{org,repo,branch,commit}. V26 Finish delivers AssetPack evidence through Bitcode-owned pull-request fields only.'
         ) as unknown as PromptPart
       );
     } catch {}
@@ -125,7 +129,7 @@ const AssetPackCompletionAgent = factoryAgentWithSingleStep<any, AssetPackComple
       }
     }
 
-    // Tokens / $BTD not wired here; leave undefined (API layer may enrich)
+    // Tokens, measured BTD, and BTC fee posture are enriched by the API layer.
     const processingStats = {
       time: formatDuration(totalMs),
     } as AssetPackCompletionOutput['processingStats'];

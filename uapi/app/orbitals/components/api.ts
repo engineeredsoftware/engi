@@ -28,20 +28,6 @@ export const connectGitHub = async (connectionData: any) => {
   return res.json();
 };
 
-// Update the canonical BTD balance posture.
-export const updateBtdBalance = async (balanceData: any) => {
-  const res = await fetch('/api/auxillaries/btd', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(balanceData)
-  });
-  if (!res.ok) {
-    const errorData = await res.json().catch(() => null);
-    throw new Error(errorData?.error || 'Failed to update BTD balance');
-  }
-  return res.json();
-};
-
 // Update model preferences
 export const updateModelPreferences = async (modelData: any) => {
   const res = await fetch('/api/auxillaries/model-preferences', {

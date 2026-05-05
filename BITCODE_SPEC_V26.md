@@ -438,7 +438,7 @@ V26 also fixes Bitcode as one productized standard across protocol, product, and
 - `what`
   A protocol, product, and proof system for measured shares of technical intelligence.
 - `how`
-  `Bitcode Mainnet`: a live Bitcode operating posture with exact `$BTD` settlement/accounting, replayable tests, immutable witness artifacts, and auditable specification-bearing closure.
+  `Bitcode Mainnet`: a live Bitcode operating posture with exact BTC fee settlement, non-fungible `$BTD` share/read-right accounting, replayable tests, immutable witness artifacts, and auditable specification-bearing closure.
 - `where`
   `Bitcode Exchange` as the backend implementation, surfaced through the `Bitcode Terminal` at `/application`, plus admitted APIs, `Bitcode MCP`, and third-party app surfaces such as the ChatGPT App.
 - `who`
@@ -475,8 +475,8 @@ Selected-transaction proof, history, and identity detail must also support a reu
 The auxillary ring model is also fixed for V26:
 - `Connects` is the outer orbital and the closest retained canonical pane,
 - `Interfaces` owns application visual/default-behavioral posture for master-detail, conversations, and related reads,
-- `Profile` owns wallet identity, address/balance posture, organization roles, multi-sig membership, and authentication state,
-- `$BTD` is the inner orbital for share information, wallet-adjacent throughput posture, advanced `$BTD` controls, and `$BTD`-specific master-detail defaults.
+- `Profile` owns wallet identity, address posture, BTC fee-liquidity posture, organization roles, multi-sig membership, and authentication state,
+- `$BTD` is the inner orbital for non-fungible share/read-right holdings, measured content-amount posture, wallet-adjacent BTC fee posture, advanced `$BTD` controls, and `$BTD`-specific master-detail defaults.
 
 `Connects` also owns source-bearing inputability and interfacability for V26: GitHub attachment, repository scope, and future third-party bindings that Bitcode reuses for need measurement, asset-pack synthesis, settlement follow-through, and external application behavior.
 SSO providers remain admissible auth-entry posture, but Bitcode must not transact or settle until at minimum wallet identity is bound in `Profile` and GitHub or equivalent repository scope is attached in `Connects`.
@@ -767,6 +767,7 @@ The following are required for fifth-gate minimum functionality:
 - measured Needs are reviewable after synthesis and before find-fit/settlement search; the accepted/rejected/remeasure-with-feedback state is emitted as `.bitcode/need-review.json`, `/api/need-review` returns an Exchange `needFittingReview` payload for the Terminal, and fit search is not admitted until review accepts the Need,
 - conversations are a real rich-input write surface with source attachments, execution intent, and output destinations,
 - auxillaries hold the real preconditions for transacting and settling,
+- the top-right balance posture and `$BTD` auxillary read must distinguish BTC as fee liquidity from non-fungible `$BTD` as content-measured share/read-right holdings; replacing old credits with fungible `$BTD` spend semantics is not accepted V26 reform,
 - wallet identity in `Profile` plus GitHub or equivalent repository scope in `Connects` are enforced as the minimum transactional readiness posture, while signed settlement requires live verified wallet-provider signing access rather than saved profile posture alone; settlement-bearing route admission must prove that the selected repository anchor belongs to the connected provider inventory, that the live repository-provider session remains valid, and that any saved verified wallet signer posture still resolves to a live wallet-provider signing session before deposit or branch materialization can proceed,
 - protocol-owned routes like deposit and branch creation plus retained execution-history rows stay synchronized enough that a successful write can immediately be reread inside Bitcode Terminal detail,
 - retained persistence, ORM/query, and route carriers form one coherent state model rather than separate demo/app interpretations,
@@ -779,6 +780,7 @@ The following are explicitly not required for fifth-gate closure:
 - final financial-product aesthetic tightening and high-polish interface refinement; that is later quality/commercial-readiness work,
 - broad computer-using agents or operator-visible computer-use controls; V26 performs only the basic internal Need-measurement reformation and defers full computer-use ability beyond V26,
 - a `mainnet` split or post-testnet deployment posture; that belongs to later V28-style addition work beyond the V26 minimum-functional target,
+- full Exchange market implementation for buying existing `$BTD` is later V28 work, and full Terminal actuality for submitting Needs that mint new fit-derived `$BTD` is later V27 work; V26 must still scaffold these directions without presenting old credit purchase flows as current Bitcode truth,
 - or whole-repository proof saturation beyond the closure families already assigned to V26 later gates.
 
 ### Fifth-gate accepted closure set
@@ -1306,7 +1308,7 @@ The workflow stages remain:
 
 - Current canonical objects and emitted artifacts: settlement and exact accounting are represented by `.bitcode/source-to-shares.json`, `.bitcode/settlement-participation.json`, `.bitcode/accounting-precision-report.json`, `.bitcode/journal-diff.json`, `.bitcode/journal-completeness-proof.json`, `.bitcode/settlement-proof.json`, `.bitcode/settlement-source-to-shares-proof.json`, repeated-read payment receipts, bitcoin-network execution receipts, and sidechain execution receipts.
 - Current algorithms and derivation rules: Bitcode allocates exact BTD base units, normalizes basis points deterministically, binds payment intent and observation to bundle and settlement identities, and finalizes journals only under policy-bound execution observation. V26 preserves that accounting core while moving runtime ownership out of demo-local concentration.
-- Current terminology boundary: journal `debits` and `credits` inside settlement are exact accounting-entry semantics, not product denomination; live product balances, user-facing spend, route payloads, MCP metrics, and application language must use BTC and `$BTD`.
+- Current terminology boundary: journal `debits` and `credits` inside settlement are exact accounting-entry semantics, not product denomination; live product balances, user-facing spend, route payloads, MCP metrics, and application language must distinguish BTC fee liquidity from non-fungible `$BTD` share/read-right holdings and measured content amount.
 - Current invariants and fail-closed conditions: settlement conservation drift, missing execution receipt, journal finalization without observation, stale reconciliation, or cross-mode treasury drift fail closed.
 - Current proof obligations: contribution totality, normalization exactness, journal completeness, settlement theorem integrity, and payment-observation coherence must remain replayable.
 - Current source-bearing implementation basis: `protocol-demonstration/src/canonical/settlement.js`, `protocol-demonstration/src/settlement-structs.js`, `protocol-demonstration/src/canonical/v23-bitcoin.js`, `protocol-demonstration/src/canonical/v24-external-execution.js`, `protocol-demonstration/src/canonical/v24-live-execution.js`, and `protocol-demonstration/src/bitcode-demo.js`.

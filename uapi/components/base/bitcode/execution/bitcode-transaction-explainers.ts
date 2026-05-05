@@ -63,7 +63,7 @@ export const BITCODE_TRANSACTION_FILTER_EXPLAINERS = {
     title: 'Sort order',
     summary: 'Re-order the Bitcode Terminal by recency or economic weight without changing what transaction is selected.',
     detail: 'Sorting changes the view, not the route. You can compare the ledger from multiple angles without losing detail context.',
-    points: ['Supports newest, oldest, token-heavy, and spend-heavy reads'],
+    points: ['Supports newest, oldest, token-heavy, and BTC-fee-basis reads'],
   }),
   pageSize: buildExplainer({
     kicker: 'Window control',

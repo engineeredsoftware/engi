@@ -72,7 +72,7 @@ const InterfacesPane = dynamic(() => import("./AuxillariesInterfacesPane"), {
 
 function parseAuxillaryPath(pathname: string | null): ConcreteAuxillaryPane | null {
   if (!pathname) return null;
-  const match = pathname.match(/\/(?:auxillaries|orbitals)\/(profile|users|connects|interfaces|btd|models)\b/i);
+  const match = pathname.match(/\/(?:auxillaries|orbitals)\/(profile|connects|interfaces|btd)\b/i);
   if (!match) return null;
   return normalizeAuxillaryPane(match[1]);
 }
@@ -228,7 +228,7 @@ export default function AuxillariesSurface({
       const response = await fetch('/api/auxillaries/onboarding', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ completedStep: step }),
+        body: JSON.stringify({ completedPane: step }),
       });
 
       if (!response.ok) {

@@ -46,8 +46,8 @@ const relatedRuns = await client.vector.search({
 
 ## Available Models
 
-- **User Models**: Users, profiles, credits, connections, API keys
-- **Organization Models**: Organizations, members, credits, invitations  
+- **User Models**: Users, profiles, `$BTD` holding reads, connections, API keys
+- **Organization Models**: Organizations, members, treasury posture, invitations
 - **Pipeline Models**: Executions, AssetPack evidence, execution events
 - **Communication Models**: Conversations, messages, notifications
 

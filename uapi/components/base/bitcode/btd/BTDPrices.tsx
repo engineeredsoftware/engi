@@ -7,21 +7,21 @@ import FlexibleBtdSelector from './FlexibleBtdSelector';
 export interface BTDPricesProps {
   selectedPlan: string | null;
   onSelectPlan: (planId: string) => void;
-  customBtd: number;
-  onChangeCustomBtd: (btdAmount: number) => void;
-  onAcquireBtd: (planId: string, btdAmount: number, usdAmount: number) => void;
-  perBtdCost: number;
+  referenceUsdAmount: number;
+  onChangeReferenceUsdAmount: (usdAmount: number) => void;
+  onAcquireBtd: (intentId: string, measuredBtdTarget: number, usdReferenceAmount: number) => void;
+  referenceUsdPerBtd: number;
   /** Whether the user is signed in; disables acquisition click if false */
   isSignedIn: boolean;
 
-  /** Force the main pricing card to appear before the flank cards (useful in
+  /** Force the main acquisition card to appear before the flank cards (useful in
    *  narrow, embedded panes where vertical stacking is desired).  Keeps
    *  marketing default (flank–center–flank) when omitted */
   centerFirst?: boolean;
 }
 
 /**
- * Simple reusable informational side-card (left & right of the pricing card).
+ * Simple reusable informational side-card (left & right of the acquisition card).
  */
 import { ScaleIcon, ArrowPathIcon, SparklesIcon, ChatBubbleLeftEllipsisIcon } from '@heroicons/react/24/outline';
 
@@ -52,59 +52,55 @@ const SideInfoCard: React.FC<SideCardProps> = ({ title, accent, icon: Icon, chil
 export const BTDPrices: React.FC<BTDPricesProps> = ({
   selectedPlan,
   onSelectPlan,
-  customBtd,
-  onChangeCustomBtd,
+  referenceUsdAmount,
+  onChangeReferenceUsdAmount,
   onAcquireBtd,
-  perBtdCost,
+  referenceUsdPerBtd,
   isSignedIn,
   centerFirst = false,
 }) => {
   /* ------------------------------------------------------------------
-   * Slider bounds – keeps marketing max to $10 001 at the industrial rate.
+   * Slider bounds for a BTC-fee reference amount. V26 opens acquisition
+   * intent only; Terminal minting and Exchange purchase mature later.
    * ------------------------------------------------------------------ */
-  const FLEXIBLE_PRICE_PER_BTD = 0.25;
-  const INDUSTRIAL_PRICE_PER_BTD = 0.22;
-  const MAX_TOTAL_USD = 10_000;
+  const EXCHANGE_REFERENCE_USD_PER_BTD = 0.22;
+  const MAX_BTC_FEE_REFERENCE_USD = 10_000;
 
-  // BTD when slider at max (industrial)
-  const INDUSTRIAL_CREDITS = Math.floor(MAX_TOTAL_USD / INDUSTRIAL_PRICE_PER_BTD); // 45 454
+  const EXCHANGE_REFERENCE_BTD = Math.floor(MAX_BTC_FEE_REFERENCE_USD / EXCHANGE_REFERENCE_USD_PER_BTD);
 
-  // Slider bounds in USD now
+  // Slider bounds in USD-reference terms.
   const sliderMinUSD = 0;
-  const sliderMaxUSD = MAX_TOTAL_USD;
+  const sliderMaxUSD = MAX_BTC_FEE_REFERENCE_USD;
 
-  // value prop is spendUSD passed from parent
-  const spendUSD = customBtd;
+  const btcFeeReferenceUsd = referenceUsdAmount;
 
-  const isIndustrial = spendUSD === sliderMaxUSD;
+  const isExchangePreview = btcFeeReferenceUsd === sliderMaxUSD;
 
   // Derived values
-  const btdFromSpend = isIndustrial
-    ? INDUSTRIAL_CREDITS
-    : Math.round(spendUSD / FLEXIBLE_PRICE_PER_BTD);
+  const measuredBtdReference = isExchangePreview
+    ? EXCHANGE_REFERENCE_BTD
+    : Math.round(btcFeeReferenceUsd / referenceUsdPerBtd);
 
-  const planLabel = isIndustrial ? 'Industrial' : 'Flexible';
-  const planId = isIndustrial ? 'industrial' : 'flexible';
-  const accent = isIndustrial ? 'purple' : 'emerald';
+  const planLabel = isExchangePreview ? 'Exchange Preview' : 'Terminal Need';
+  const planId = isExchangePreview ? 'exchange-existing-btd' : 'terminal-need';
+  const accent = isExchangePreview ? 'purple' : 'emerald';
   const accentColor = accent;
 
-  // Subtitle beneath heading changes based on tier
-  const segmentText = isIndustrial
-    ? 'Save with discounted $BTD in bulk — best value at scale'
-    : 'Scale dynamically with transparent, per-BTD pricing';
+  const segmentText = isExchangePreview
+    ? 'Preview existing $BTD purchase routing for Exchange V28'
+    : 'Submit a Need so a future Fit can mint $BTD in Terminal V27';
 
   /* ------------------------------------------------------------------
-   * Over-payment advisory logic
+   * Exchange-preview advisory logic
    * ------------------------------------------------------------------ */
-  const flexibleCostUSD = spendUSD; // already dollars
-  const industrialEquivalentCostUSD = btdFromSpend * INDUSTRIAL_PRICE_PER_BTD;
-  const savingsUSD = flexibleCostUSD - industrialEquivalentCostUSD;
+  const flexibleReferenceUsd = btcFeeReferenceUsd;
+  const exchangeEquivalentUsd = measuredBtdReference * EXCHANGE_REFERENCE_USD_PER_BTD;
+  const referenceDeltaUsd = flexibleReferenceUsd - exchangeEquivalentUsd;
 
-  // Show advisory when user is still on Flexible tier and subtotal is ≥ 95% of $10k
-  const showAdvisory = !isIndustrial && flexibleCostUSD >= MAX_TOTAL_USD * 0.95;
+  const showAdvisory = !isExchangePreview && flexibleReferenceUsd >= MAX_BTC_FEE_REFERENCE_USD * 0.95;
 
-  const handleJumpToIndustrial = () => {
-    onChangeCustomBtd(MAX_TOTAL_USD); // sets slider to max (Industrial)
+  const handleJumpToExchangePreview = () => {
+    onChangeReferenceUsdAmount(MAX_BTC_FEE_REFERENCE_USD);
   };
 
   // Build advisory when visible
@@ -116,14 +112,17 @@ export const BTDPrices: React.FC<BTDPricesProps> = ({
         className="underline font-semibold text-purple-300 drop-shadow-[0_0_6px_rgba(167,139,250,0.85)] hover:text-purple-200 focus:outline-none pointer-events-auto"
         onClick={(e) => {
           e.stopPropagation();
-          handleJumpToIndustrial();
+          handleJumpToExchangePreview();
         }}
       >
-        Industrial
+        Exchange
       </button>{' '}
-      pricing, {btdFromSpend.toLocaleString()} $BTD ≈$
-      {industrialEquivalentCostUSD.toLocaleString('en-US', { maximumFractionDigits: 0 })}, saving you ≈$
-      {savingsUSD.toLocaleString('en-US', { maximumFractionDigits: 0 })} at bulk.
+      preview, {measuredBtdReference.toLocaleString()} measured $BTD maps to ≈$
+      {exchangeEquivalentUsd.toLocaleString('en-US', { maximumFractionDigits: 0 })} BTC-fee reference
+      {referenceDeltaUsd > 0
+        ? `, ≈$${referenceDeltaUsd.toLocaleString('en-US', { maximumFractionDigits: 0 })} below this planning reference`
+        : ''}
+      . V26 opens intent; purchase routing is V28.
     </>
   ) : undefined;
 
@@ -138,12 +137,12 @@ export const BTDPrices: React.FC<BTDPricesProps> = ({
       <div
         className={`sidecards-left grid grid-cols-2 gap-4 ${centerFirst ? '' : 'laptop:flex laptop:flex-col'} w-full ${flankWidthClass} laptop:gap-4 ${centerFirst ? '' : 'desktop:w-40'} desktop:gap-6 desktop:shrink-0 ${leftOrderClass} ${centerFirst ? '' : 'desktop:order-1'}`}
       >
-        <SideInfoCard title="Fair-Cost Compute" accent="text-emerald-400" icon={ScaleIcon} />
+        <SideInfoCard title="BTC Fee Basis" accent="text-emerald-400" icon={ScaleIcon} />
 
-        <SideInfoCard title="Effeciently Intelligent" accent="text-amber-300" icon={SparklesIcon} />
+        <SideInfoCard title="Non-Fungible Shares" accent="text-amber-300" icon={SparklesIcon} />
       </div>
 
-      {/* Central pricing card */}
+      {/* Central acquisition card */}
       <div className={`pricing-core ${centerFirst ? 'laptop:basis-full desktop:basis-full' : 'laptop:basis-1/2 desktop:basis-1/2'} flex-grow ${centerOrderClass} ${centerFirst ? '' : 'desktop:order-2'}`}>
         <div
           className={`pricing-glow-card min-w-0 h-full flex flex-col justify-between mx-auto border ring-[3px] ${accent === 'purple'
@@ -156,7 +155,7 @@ export const BTDPrices: React.FC<BTDPricesProps> = ({
             isSignedIn
               ? () => {
                 onSelectPlan(planId);
-                onAcquireBtd(planId, btdFromSpend, spendUSD);
+                onAcquireBtd(planId, measuredBtdReference, btcFeeReferenceUsd);
               }
               : undefined
           }
@@ -176,7 +175,7 @@ export const BTDPrices: React.FC<BTDPricesProps> = ({
                   : 'bg-emerald-500/30 text-emerald-200 border-emerald-400/50'
                   }`}
               >
-                {planLabel === 'Flexible' ? 'Per-BTD' : 'Volume'}
+                {planLabel === 'Terminal Need' ? 'V27' : 'V28'}
               </span>
             </div>
             <div className="plan-segment text-center text-2xl laptop:text-3xl font-medium max-w-lg mx-auto leading-snug mb-1">
@@ -188,14 +187,14 @@ export const BTDPrices: React.FC<BTDPricesProps> = ({
           <FlexibleBtdSelector
             min={sliderMinUSD}
             max={sliderMaxUSD}
-            value={spendUSD}
-            onChange={onChangeCustomBtd}
-            perBtdCost={perBtdCost}
+            value={btcFeeReferenceUsd}
+            onChange={onChangeReferenceUsdAmount}
+            referenceUsdPerBtd={referenceUsdPerBtd}
             accent={accentColor}
             inputDisabled={false}
-            valueIsUSD
-            isIndustrial={isIndustrial}
-            industrialBtd={INDUSTRIAL_CREDITS}
+            valueIsUsdReference
+            isExchangePreview={isExchangePreview}
+            exchangeReferenceBtd={EXCHANGE_REFERENCE_BTD}
             advisoryContent={advisoryContent}
             showAdvisory={showAdvisory}
           />
@@ -208,9 +207,9 @@ export const BTDPrices: React.FC<BTDPricesProps> = ({
       <div
         className={`sidecards-right grid grid-cols-2 gap-4 ${centerFirst ? '' : 'laptop:flex laptop:flex-col'} w-full ${flankWidthClass} laptop:gap-4 ${centerFirst ? '' : 'desktop:w-40'} desktop:gap-6 desktop:shrink-0 ${rightOrderClass}`}
       >
-        <SideInfoCard title="Learns From Failures" accent="text-sky-300" icon={ChatBubbleLeftEllipsisIcon} />
+        <SideInfoCard title="Terminal Mint Path" accent="text-sky-300" icon={ChatBubbleLeftEllipsisIcon} />
 
-        <SideInfoCard title="Short-Circuit Refunds" accent="text-indigo-300" icon={ArrowPathIcon} />
+        <SideInfoCard title="Exchange Buy Path" accent="text-indigo-300" icon={ArrowPathIcon} />
       </div>
     </div>
   );

@@ -5,12 +5,12 @@
  * as Bitcode moves BTC settlement and BTD issuance through wallet-native flows.
  */
 
-/** Shape of a purchasable `$BTD` bundle. */
+/** Shape of a future Exchange `$BTD` acquisition reference bundle. */
 export interface BtdBundleConfig {
   id: string;
   name: string;
   btdAmount: number;
-  /** Price in USD (without currency symbols). */
+  /** V28 reference price in USD-equivalent terms, not a V26 checkout amount. */
   price: number;
   description: string;
   /** Marks the bundle as highlighted / popular in the UI. */

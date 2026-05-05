@@ -46,7 +46,7 @@ describe('application-transaction-query', () => {
   it('reads transaction filters from route query params', () => {
     const filters = readApplicationTransactionFilters(
       new URLSearchParams(
-        'transactionSearch=proof%20ready&transactionStatus=completed&transactionOwnership=mine&transactionLens=give&transactionRepository=bitcode%2Fbitcode&transactionParticipant=garrett&transactionProof=bounded%20proof%20ready&transactionSort=highest-usd',
+        'transactionSearch=proof%20ready&transactionStatus=completed&transactionOwnership=mine&transactionLens=give&transactionRepository=bitcode%2Fbitcode&transactionParticipant=garrett&transactionProof=bounded%20proof%20ready&transactionSort=highest-btc-fee-basis',
       ),
     );
 
@@ -58,7 +58,7 @@ describe('application-transaction-query', () => {
       repository: 'bitcode/bitcode',
       participant: 'garrett',
       proofStatus: 'bounded proof ready',
-      sort: 'highest-usd',
+      sort: 'highest-btc-fee-basis',
     });
   });
 
@@ -157,7 +157,7 @@ describe('application-transaction-query', () => {
   it('resets all transaction filter query params while preserving selection and external params', () => {
     const resetParams = resetApplicationTransactionFilters(
       new URLSearchParams(
-        'transactionId=tx-123&transactionSearch=proof&transactionStatus=completed&transactionOwnership=mine&transactionLens=give&transactionRepository=bitcode%2Fbitcode&transactionParticipant=garrett&transactionProof=bounded%20proof%20ready&transactionSort=highest-usd&transactionPage=3&provider=github',
+        'transactionId=tx-123&transactionSearch=proof&transactionStatus=completed&transactionOwnership=mine&transactionLens=give&transactionRepository=bitcode%2Fbitcode&transactionParticipant=garrett&transactionProof=bounded%20proof%20ready&transactionSort=highest-btc-fee-basis&transactionPage=3&provider=github',
       ),
     );
 

@@ -3,15 +3,15 @@ import type { Database } from '../types/database';
 import { OrganizationMembersModel } from './organization-members';
 import { UserBtdBalancesModel } from './user-btd-balances';
 
-export interface OrganizationCreditBalance {
+export interface OrganizationBtdTreasuryBalance {
   organization_id: string;
   balance: number;
 }
 
-export class OrganizationCreditsModel {
+export class OrganizationBtdTreasuryModel {
   constructor(private readonly supabase: SupabaseClient<Database>) {}
 
-  async getByOrganizationId(organizationId: string): Promise<OrganizationCreditBalance | null> {
+  async getByOrganizationId(organizationId: string): Promise<OrganizationBtdTreasuryBalance | null> {
     const members = await new OrganizationMembersModel(this.supabase).listByOrganization(organizationId);
     if (members.length === 0) {
       return {

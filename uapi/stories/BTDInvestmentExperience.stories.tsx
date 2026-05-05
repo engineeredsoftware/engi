@@ -3,27 +3,27 @@ import { useState, useEffect } from 'react';
 import { MarketingBtdInvestmentExperience } from '../app/(root)/components/MarketingBtdInvestmentExperience';
 
 const meta: Meta<typeof MarketingBtdInvestmentExperience> = {
-  title: 'Bitcode/Surprise & Delight/BTD Investment Experience',
+  title: 'Bitcode/Surprise & Delight/BTD Holding Experience',
   component: MarketingBtdInvestmentExperience,
   parameters: {
     layout: 'fullscreen',
     docs: {
       description: {
         component: `
-### 💰 BTD Investment Experience - Magical Value Alchemy
+### BTD Holding Experience - Fit-Value Signal
 
-Transforms BTD allocation into intelligent value visualization with magical enhancement effects:
+Transforms measured-BTD allocation into fit-value visualization:
 
-- **Investment alchemy** - Calculates magical value multipliers based on efficiency, learning, and reusability
-- **ROI visualization** - Shows return on investment trends with animated value counters and efficiency charts
-- **Efficiency coaching** - AI-powered insights with enchantment levels from spark to transcendence
-- **Value projection** - Predicts future Shippable value based on historical performance patterns
-- **Magical moments** - Celebrates exceptional efficiency achievements with particle effects
+- **Allocation signal** - Calculates value multipliers based on efficiency, learning, and reusability
+- **Value-delta visualization** - Shows measured-BTD efficiency trends with animated value counters and charts
+- **Efficiency coaching** - AI-powered insights over measured-BTD allocation patterns
+- **Value projection** - Predicts future AssetPack value based on historical performance patterns
+- **High-fit runs** - Highlights exceptional efficiency achievements with particle effects
 - **Pattern mastery tracking** - Visualizes learning acceleration and skill development over time
-- **Cosmic value calculation** - Transcendent metrics beyond mere BTD counting
-- **Investment optimization** - Suggests potential savings and efficiency improvements
+- **Higher-order value calculation** - Metrics beyond raw measured-BTD counting
+- **Allocation optimization** - Suggests measured-BTD reduction and efficiency improvements
 
-The system transforms mundane resource allocation into **magical value alchemy** - making every BTD investment feel meaningful and every efficiency gain a celebration of growing mastery.
+The system keeps $BTD framed as a non-fungible AssetPack share/read-right while visualizing measured-BTD efficiency and fit-quality improvement.
         `,
       },
     },
@@ -62,9 +62,9 @@ export const EfficientInvestor: Story = {
     investments: [
       {
         id: 'inv-001',
-        shippableName: 'User Authentication Component',
-        estimatedBtd: 120,
-        actualBtd: 95,
+        assetPackName: 'User Authentication Component',
+        measuredBtdEstimate: 120,
+        measuredBtd: 95,
         efficiency: 1.26, // Spent 26% less than estimated
         timeSpent: 1800, // 30 minutes
         complexity: 'moderate',
@@ -78,9 +78,9 @@ export const EfficientInvestor: Story = {
       },
       {
         id: 'inv-002',
-        shippableName: 'Dashboard Layout System',
-        estimatedBtd: 200,
-        actualBtd: 160,
+        assetPackName: 'Dashboard Layout System',
+        measuredBtdEstimate: 200,
+        measuredBtd: 160,
         efficiency: 1.25,
         timeSpent: 2700, // 45 minutes
         complexity: 'complex',
@@ -94,9 +94,9 @@ export const EfficientInvestor: Story = {
       },
       {
         id: 'inv-003',
-        shippableName: 'API Integration Service',
-        estimatedBtd: 300,
-        actualBtd: 280,
+        assetPackName: 'API Integration Service',
+        measuredBtdEstimate: 300,
+        measuredBtd: 280,
         efficiency: 1.07,
         timeSpent: 3600, // 1 hour
         complexity: 'complex',
@@ -112,7 +112,7 @@ export const EfficientInvestor: Story = {
     currentBalance: 2450,
     upcomingNeed: {
       name: 'Wallet Settlement Coordination',
-      estimatedBtd: 250,
+      measuredBtdEstimate: 250,
       complexity: 'complex',
       patterns: ['wallet-settlement', 'security', 'error-handling']
     },
@@ -143,9 +143,9 @@ export const LearningFocused: Story = {
     investments: [
       {
         id: 'learn-001',
-        shippableName: 'GraphQL API Explorer',
-        estimatedBtd: 180,
-        actualBtd: 220,
+        assetPackName: 'GraphQL API Explorer',
+        measuredBtdEstimate: 180,
+        measuredBtd: 220,
         efficiency: 0.82, // Spent more than estimated (learning curve)
         timeSpent: 4200, // 70 minutes
         complexity: 'complex',
@@ -159,9 +159,9 @@ export const LearningFocused: Story = {
       },
       {
         id: 'learn-002',
-        shippableName: 'WebSocket Real-time Chat',
-        estimatedBtd: 150,
-        actualBtd: 190,
+        assetPackName: 'WebSocket Real-time Chat',
+        measuredBtdEstimate: 150,
+        measuredBtd: 190,
         efficiency: 0.79,
         timeSpent: 3900, // 65 minutes
         complexity: 'complex',
@@ -175,9 +175,9 @@ export const LearningFocused: Story = {
       },
       {
         id: 'learn-003',
-        shippableName: 'Docker Deployment Pipeline',
-        estimatedBtd: 100,
-        actualBtd: 140,
+        assetPackName: 'Docker Deployment Pipeline',
+        measuredBtdEstimate: 100,
+        measuredBtd: 140,
         efficiency: 0.71,
         timeSpent: 3000, // 50 minutes
         complexity: 'moderate',
@@ -193,7 +193,7 @@ export const LearningFocused: Story = {
     currentBalance: 1850,
     upcomingNeed: {
       name: 'Kubernetes Orchestration Setup',
-      estimatedBtd: 200,
+      measuredBtdEstimate: 200,
       complexity: 'epic',
       patterns: ['kubernetes', 'orchestration', 'scaling']
     },
@@ -224,9 +224,9 @@ export const MagicalMoments: Story = {
     investments: [
       {
         id: 'magic-001',
-        shippableName: 'Component Library Foundation',
-        estimatedBtd: 400,
-        actualBtd: 180,
+        assetPackName: 'Component Library Foundation',
+        measuredBtdEstimate: 400,
+        measuredBtd: 180,
         efficiency: 2.22, // Spent 55% less than estimated!
         timeSpent: 2400, // 40 minutes
         complexity: 'epic',
@@ -240,9 +240,9 @@ export const MagicalMoments: Story = {
       },
       {
         id: 'magic-002',
-        shippableName: 'Automated Testing Suite',
-        estimatedBtd: 250,
-        actualBtd: 120,
+        assetPackName: 'Automated Testing Suite',
+        measuredBtdEstimate: 250,
+        measuredBtd: 120,
         efficiency: 2.08,
         timeSpent: 1800, // 30 minutes
         complexity: 'complex',
@@ -256,9 +256,9 @@ export const MagicalMoments: Story = {
       },
       {
         id: 'magic-003',
-        shippableName: 'Performance Optimization Bundle',
-        estimatedBtd: 300,
-        actualBtd: 150,
+        assetPackName: 'Performance Optimization Bundle',
+        measuredBtdEstimate: 300,
+        measuredBtd: 150,
         efficiency: 2.0,
         timeSpent: 2100, // 35 minutes
         complexity: 'complex',
@@ -274,7 +274,7 @@ export const MagicalMoments: Story = {
     currentBalance: 3200,
     upcomingNeed: {
       name: 'Micro-Frontend Architecture',
-      estimatedBtd: 500,
+      measuredBtdEstimate: 500,
       complexity: 'epic',
       patterns: ['micro-frontends', 'module-federation', 'scalability']
     },
@@ -305,9 +305,9 @@ export const ConservativeInvestor: Story = {
     investments: [
       {
         id: 'cons-001',
-        shippableName: 'Simple Contact Form',
-        estimatedBtd: 50,
-        actualBtd: 55,
+        assetPackName: 'Simple Contact Form',
+        measuredBtdEstimate: 50,
+        measuredBtd: 55,
         efficiency: 0.91,
         timeSpent: 1200, // 20 minutes
         complexity: 'simple',
@@ -321,9 +321,9 @@ export const ConservativeInvestor: Story = {
       },
       {
         id: 'cons-002',
-        shippableName: 'CSS Styling Updates',
-        estimatedBtd: 30,
-        actualBtd: 35,
+        assetPackName: 'CSS Styling Updates',
+        measuredBtdEstimate: 30,
+        measuredBtd: 35,
         efficiency: 0.86,
         timeSpent: 900, // 15 minutes
         complexity: 'simple',
@@ -337,9 +337,9 @@ export const ConservativeInvestor: Story = {
       },
       {
         id: 'cons-003',
-        shippableName: 'Documentation Update',
-        estimatedBtd: 40,
-        actualBtd: 42,
+        assetPackName: 'Documentation Update',
+        measuredBtdEstimate: 40,
+        measuredBtd: 42,
         efficiency: 0.95,
         timeSpent: 1500, // 25 minutes
         complexity: 'simple',
@@ -355,7 +355,7 @@ export const ConservativeInvestor: Story = {
     currentBalance: 980,
     upcomingNeed: {
       name: 'Button Component Variants',
-      estimatedBtd: 60,
+      measuredBtdEstimate: 60,
       complexity: 'simple',
       patterns: ['components', 'variants', 'design-system']
     },
@@ -394,9 +394,9 @@ export const InvestmentJourney: Story = {
         investments: [
           {
             id: 'beginner-1',
-            shippableName: 'Hello World Component',
-            estimatedBtd: 20,
-            actualBtd: 25,
+            assetPackName: 'Hello World Component',
+            measuredBtdEstimate: 20,
+            measuredBtd: 25,
             efficiency: 0.8,
             timeSpent: 900,
             complexity: 'simple' as const,
@@ -422,9 +422,9 @@ export const InvestmentJourney: Story = {
         investments: [
           {
             id: 'skilled-1',
-            shippableName: 'User Dashboard',
-            estimatedBtd: 180,
-            actualBtd: 150,
+            assetPackName: 'User Dashboard',
+            measuredBtdEstimate: 180,
+            measuredBtd: 150,
             efficiency: 1.2,
             timeSpent: 2400,
             complexity: 'moderate' as const,
@@ -438,9 +438,9 @@ export const InvestmentJourney: Story = {
           },
           {
             id: 'skilled-2',
-            shippableName: 'API Integration Layer',
-            estimatedBtd: 220,
-            actualBtd: 190,
+            assetPackName: 'API Integration Layer',
+            measuredBtdEstimate: 220,
+            measuredBtd: 190,
             efficiency: 1.16,
             timeSpent: 3000,
             complexity: 'complex' as const,
@@ -466,9 +466,9 @@ export const InvestmentJourney: Story = {
         investments: [
           {
             id: 'wizard-1',
-            shippableName: 'Micro-Frontend System',
-            estimatedBtd: 600,
-            actualBtd: 320,
+            assetPackName: 'Micro-Frontend System',
+            measuredBtdEstimate: 600,
+            measuredBtd: 320,
             efficiency: 1.875,
             timeSpent: 4800,
             complexity: 'epic' as const,
@@ -482,9 +482,9 @@ export const InvestmentJourney: Story = {
           },
           {
             id: 'wizard-2',
-            shippableName: 'Performance Optimization Suite',
-            estimatedBtd: 400,
-            actualBtd: 180,
+            assetPackName: 'Performance Optimization Suite',
+            measuredBtdEstimate: 400,
+            measuredBtd: 180,
             efficiency: 2.22,
             timeSpent: 3600,
             complexity: 'complex' as const,
@@ -563,7 +563,7 @@ export const InvestmentJourney: Story = {
             
             <div className="pt-3 border-t border-emerald-700/30 text-xs text-emerald-300">
               <div className="space-y-1">
-                <div>Balance: <span className="text-emerald-100">{currentProfile.balance.toLocaleString()}c</span></div>
+                <div>Balance: <span className="text-emerald-100">{currentProfile.balance.toLocaleString()} $BTD</span></div>
                 <div>Efficiency: <span className="text-emerald-100">{(currentProfile.patterns.averageEfficiency * 100).toFixed(0)}%</span></div>
                 <div>Risk: <span className="text-emerald-100 capitalize">{currentProfile.patterns.riskTolerance}</span></div>
               </div>
@@ -571,7 +571,7 @@ export const InvestmentJourney: Story = {
           </div>
         </div>
         
-        {/* Credit Investment Experience */}
+        {/* BTD holding experience */}
         <MarketingBtdInvestmentExperience
           investments={currentProfile.investments}
           currentBalance={currentProfile.balance}
@@ -579,7 +579,7 @@ export const InvestmentJourney: Story = {
             name: selectedInvestor === 0 ? 'Simple Button Component' :
                   selectedInvestor === 1 ? 'Advanced Form System' :
                   'Distributed Architecture Platform',
-            estimatedBtd: selectedInvestor === 0 ? 40 :
+            measuredBtdEstimate: selectedInvestor === 0 ? 40 :
                              selectedInvestor === 1 ? 200 : 800,
             complexity: selectedInvestor === 0 ? 'simple' :
                        selectedInvestor === 1 ? 'moderate' : 'epic',
@@ -636,9 +636,9 @@ export const MagicalEnhancementComparison: Story = {
     const sampleInvestments = [
       {
         id: 'enhance-001',
-        shippableName: 'Component Library System',
-        estimatedBtd: 300,
-        actualBtd: 200,
+        assetPackName: 'Component Library System',
+        measuredBtdEstimate: 300,
+        measuredBtd: 200,
         efficiency: 1.5,
         timeSpent: 3600,
         complexity: 'complex' as const,
@@ -652,9 +652,9 @@ export const MagicalEnhancementComparison: Story = {
       },
       {
         id: 'enhance-002',
-        shippableName: 'Performance Analytics Dashboard',
-        estimatedBtd: 250,
-        actualBtd: 180,
+        assetPackName: 'Performance Analytics Dashboard',
+        measuredBtdEstimate: 250,
+        measuredBtd: 180,
         efficiency: 1.39,
         timeSpent: 2700,
         complexity: 'complex' as const,
@@ -711,7 +711,7 @@ export const MagicalEnhancementComparison: Story = {
           currentBalance={3500}
           upcomingNeed={{
             name: 'AI-Powered Code Assistant',
-            estimatedBtd: 400,
+            measuredBtdEstimate: 400,
             complexity: 'epic',
             patterns: ['ai-integration', 'natural-language', 'code-analysis']
           }}

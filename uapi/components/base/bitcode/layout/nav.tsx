@@ -84,7 +84,7 @@ export default function Nav() {
   const pathname = usePathname();
   const router = useRouter();
   const { user } = useAuth();
-  const { btdBalance } = useUserData();
+  const { btdBalance, btcFeeBalance } = useUserData();
 
   const [showNavUse, setShowNavUse] = useState(false);
   const [showNavEntrance, setShowNavEntrance] = useState(navEntrancePlayedInRuntime);
@@ -486,6 +486,7 @@ export default function Nav() {
                 {!FEATURE_FLAGS.HIDE_CREDITS_TRACKER && (
                   <MemoBTDTracker
                     btdBalance={btdBalance}
+                    btcFeeBalance={btcFeeBalance}
                   />
                 )}
 

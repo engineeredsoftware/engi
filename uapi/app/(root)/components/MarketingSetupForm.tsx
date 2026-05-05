@@ -13,12 +13,12 @@ const MarketingSetupForm = () => {
         </p>
       </div>
       <div className="space-y-2 text-sm text-slate-300">
-        <p>1. Connect wallet posture in /auxillaries/profile or /auxillaries/btd.</p>
+        <p>1. Connect wallet posture in /auxillaries/profile and keep BTC fee liquidity readable.</p>
         <p>2. Connect GitHub and SSO policy in /auxillaries/connects.</p>
-        <p>3. Issue and manage $BTD from the in-product treasury surface.</p>
+        <p>3. Acquire $BTD through Terminal Need minting or Exchange purchase planning.</p>
       </div>
       <div className="rounded-xl border border-emerald-400/20 bg-emerald-400/8 px-4 py-3 text-sm text-emerald-100">
-        BTC settles. $BTD is issued and managed inside Bitcode. There is no checkout intermediary.
+        BTC pays fees. $BTD is a non-fungible AssetPack share/read-right, not a checkout credit.
       </div>
     </div>
   );

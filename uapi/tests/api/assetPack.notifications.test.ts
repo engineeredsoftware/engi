@@ -33,7 +33,7 @@ jest.mock('@bitcode/orm', () => ({
 // Mock VCS service factory used by packages/api
 jest.mock('@bitcode/vcs', () => ({ VCSService: class { constructor(_: any) {} } }));
 
-// Mock models and credits
+// Mock models and wallet/share posture
 jest.mock('@bitcode/models', () => ({
   DEFAULT_PROVIDER: 'openai',
   DEFAULT_MODEL_API: 'gpt-4o',
@@ -41,7 +41,10 @@ jest.mock('@bitcode/models', () => ({
   getModelPricing: () => ({ multiplier: 1 }),
   defaultModelPricing: { provider: 'openai', model: 'gpt-4o' },
 }));
-jest.mock('@bitcode/btd', () => ({ withBtdReservation: (_u: any, fn: any) => fn() }));
+jest.mock('@bitcode/btd', () => ({
+  BITCODE_FEE_ASSET: 'BTC',
+  BTD_ASSET_SEMANTICS: 'non_fungible_asset_pack_share_read_right',
+}));
 jest.mock('@bitcode/logger', () => ({
   log: jest.fn(),
   reinitLoggerFile: jest.fn(),

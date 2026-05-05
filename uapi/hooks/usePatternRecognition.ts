@@ -37,7 +37,7 @@ interface PatternHistory {
   timestamp: number;
   success: boolean;
   actualComplexity?: 'simple' | 'moderate' | 'complex';
-  btdUsed?: number;
+  measuredBtd?: number;
   timeToComplete?: number;
 }
 
@@ -64,7 +64,7 @@ interface UsePatternRecognitionReturn {
   
   // Actions
   analyzePatterns: (needDefinition: string) => Promise<void>;
-  recordPatternSuccess: (pattern: RecognizedPattern, metrics: { btdUsed: number; timeToComplete: number }) => void;
+  recordPatternSuccess: (pattern: RecognizedPattern, metrics: { measuredBtd: number; timeToComplete: number }) => void;
   recordPatternFailure: (pattern: RecognizedPattern, reason: string) => void;
   clearAnalysis: () => void;
 }
@@ -301,12 +301,12 @@ export const usePatternRecognition = (
   }, [needDefinitionText, minLength, debounceMs, analyzePatterns]);
   
   // Record pattern success
-  const recordPatternSuccess = useCallback((pattern: RecognizedPattern, metrics: { btdUsed: number; timeToComplete: number }) => {
+  const recordPatternSuccess = useCallback((pattern: RecognizedPattern, metrics: { measuredBtd: number; timeToComplete: number }) => {
     const historyEntry: PatternHistory = {
       pattern,
       timestamp: Date.now(),
       success: true,
-      btdUsed: metrics.btdUsed,
+      measuredBtd: metrics.measuredBtd,
       timeToComplete: metrics.timeToComplete
     };
     
@@ -409,8 +409,8 @@ const generateLearningInsights = (
   // Success rate insights
   const successfulPatterns = history.filter(h => h.success);
   if (successfulPatterns.length > 5) {
-    const avgBtd = successfulPatterns.reduce((sum, h) => sum + (h.btdUsed || 0), 0) / successfulPatterns.length;
-    insights.push(`Your average successful shippable uses ${Math.round(avgBtd)} $BTD`);
+    const avgMeasuredBtd = successfulPatterns.reduce((sum, h) => sum + (h.measuredBtd || 0), 0) / successfulPatterns.length;
+    insights.push(`Your average successful shippable uses ${Math.round(avgMeasuredBtd)} $BTD`);
   }
   
   // Architecture insights

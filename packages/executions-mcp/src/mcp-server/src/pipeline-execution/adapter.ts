@@ -2,7 +2,8 @@
  * Pipeline Execution Adapter - ORM Integration
  * 
  * Updated to use ORM models for all database operations.
- * Manages pipeline execution lifecycle with proper BTD management.
+ * Manages pipeline execution lifecycle with measured BTD posture and BTC-fee
+ * separation. `$BTD` is never reserved or deducted by this adapter.
  * 
  * @doc-code
  * type: adapter
@@ -16,8 +17,7 @@ import { logger } from '@bitcode/logger';
 import { observability } from '@bitcode/observability';
 import {
   PipelineExecutionsModel,
-  ExecutionEventsModel,
-  UserBtdBalancesModel
+  ExecutionEventsModel
 } from '@bitcode/orm';
 import assetPackPipeline from '@bitcode/pipelines/asset-pack';
 import {
@@ -41,7 +41,7 @@ export interface PipelineJobOptions {
   userId: string;
   organizationId?: string;
   apiKeyId?: string;
-  estimatedBtd: number;
+  measuredBtdEstimate: number;
   priority?: 'low' | 'normal' | 'high' | 'critical';
   metadata?: Record<string, any>;
 }
@@ -53,7 +53,7 @@ export interface PipelineExecutionResult {
   completedAt?: Date;
   result?: any;
   error?: string;
-  btdUsed?: number;
+  measuredBtd?: number;
   events?: Array<{
     type: string;
     data: any;
@@ -175,26 +175,6 @@ export async function queuePipelineJob(
   try {
     const supabase = createClient();
     const runs = new PipelineExecutionsModel(supabase);
-    const userBtdBalances = new UserBtdBalancesModel(supabase);
-
-    // Check and reserve BTD
-    const btdBalance = await userBtdBalances.getByUserId(options.userId);
-    if (!btdBalance || (btdBalance.balance || 0) < options.estimatedBtd) {
-      throw new Error(
-        `Insufficient BTD. Required: ${options.estimatedBtd}, Available: ${btdBalance?.balance || 0}`
-      );
-    }
-
-    // Reserve BTD
-    const reservedBalance = await userBtdBalances.deductBtdBalance(
-      options.userId,
-      options.estimatedBtd,
-      'pipeline_reservation',
-    );
-
-    if (typeof reservedBalance !== 'number') {
-      throw new Error('Failed to reserve BTD');
-    }
 
     const shippableCompatibilityId = uuidv4();
 
@@ -210,7 +190,7 @@ export async function queuePipelineJob(
         userId: options.userId,
         organizationId: options.organizationId,
         apiKeyId: options.apiKeyId,
-        estimatedBtd: options.estimatedBtd,
+        measuredBtdEstimate: options.measuredBtdEstimate,
         priority: options.priority || 'normal',
         ...options.metadata
       }
@@ -265,7 +245,6 @@ async function executePipelineJob(
   const supabase = createClient();
   const runs = new PipelineExecutionsModel(supabase);
   const events = new ExecutionEventsModel(supabase);
-  const userBtdBalances = new UserBtdBalancesModel(supabase);
 
   try {
     // Update run status to running
@@ -286,7 +265,7 @@ async function executePipelineJob(
 
     // Execute pipeline based on type
     let result: any;
-    let actualBtdUsed = options.estimatedBtd;
+    let measuredBtd = options.measuredBtdEstimate;
 
     switch (options.pipeline) {
       case 'asset-pack': {
@@ -316,19 +295,9 @@ async function executePipelineJob(
         throw new Error(`Unsupported pipeline type: ${options.pipeline}`);
     }
 
-    // Calculate actual BTD used (could be based on tokens, time, etc.)
+    // Calculate measured BTD amount without treating it as spend.
     if (result.tokensUsed) {
-      actualBtdUsed = Math.ceil(result.tokensUsed / 1000); // 1 BTD per 1000 tokens
-    }
-
-    // Refund unused BTD if we overestimated
-    if (actualBtdUsed < options.estimatedBtd) {
-      const refundAmount = options.estimatedBtd - actualBtdUsed;
-      await userBtdBalances.addBtdBalance(
-        options.userId,
-        refundAmount,
-        'pipeline_refund',
-      );
+      measuredBtd = Math.ceil(result.tokensUsed / 1000);
     }
 
     // Update run with success
@@ -339,8 +308,10 @@ async function executePipelineJob(
       result: result.data || result,
       metadata: {
         ...result.metadata,
-        btdUsed: actualBtdUsed,
-        estimatedBtd: options.estimatedBtd
+        measuredBtd,
+        measuredBtdEstimate: options.measuredBtdEstimate,
+        btdSemantics: 'non_fungible_asset_pack_share_read_right',
+        feeAsset: 'BTC',
       }
     });
 
@@ -349,7 +320,9 @@ async function executePipelineJob(
       run_id: runId,
       event_type: 'pipeline_completed',
       event_data: {
-        btdUsed: actualBtdUsed,
+        measuredBtd,
+        btdSemantics: 'non_fungible_asset_pack_share_read_right',
+        feeAsset: 'BTC',
         executionTimeMs: result.executionTimeMs
       }
     });
@@ -357,7 +330,7 @@ async function executePipelineJob(
     logger.info('Pipeline execution completed', {
       runId,
       pipeline: options.pipeline,
-      btdUsed: actualBtdUsed
+      measuredBtd
     });
   } catch (error) {
     span.recordException(error as Error);
@@ -379,7 +352,8 @@ async function executePipelineJob(
       }
     });
 
-    // No refund on failure - reserved BTD was consumed attempting execution
+    // There is no `$BTD` refund path: BTC fees and non-fungible BTD holdings
+    // are accounted by wallet/settlement surfaces, not by pipeline mutation.
     logger.error('Pipeline execution failed', {
       runId,
       pipeline: options.pipeline,
@@ -416,7 +390,7 @@ export async function monitorPipelineExecution(
     completedAt: run.completed_at ? new Date(run.completed_at) : undefined,
     result: run.result,
     error: run.error_message || undefined,
-    btdUsed: run.metadata?.btdUsed,
+    measuredBtd: run.metadata?.measuredBtd,
     events: runEvents.map(e => ({
       type: e.event_type,
       data: e.event_data,
@@ -485,7 +459,7 @@ export async function getPipelineMetrics(
   successfulRuns: number;
   failedRuns: number;
   averageDurationMs: number;
-  totalCreditsUsed: number;
+  totalMeasuredBtd: number;
   successRate: number;
 }> {
   const supabase = createClient();
@@ -497,7 +471,7 @@ export async function getPipelineMetrics(
     successfulRuns: 0,
     failedRuns: 0,
     averageDurationMs: 0,
-    totalCreditsUsed: 0,
+    totalMeasuredBtd: 0,
     successRate: 0
   };
 }

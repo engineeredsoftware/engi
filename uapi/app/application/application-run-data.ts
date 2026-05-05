@@ -12,8 +12,8 @@ export type WorkspaceRun = Pick<PipelineExecution, 'id' | 'created_at' | 'type' 
   transactionLens?: 'give' | 'need' | 'closure';
   itemCount?: number;
   tokenTotal?: number | null;
-  btdUsed?: number | null;
-  usdTotal?: number | null;
+  measuredBtd?: number | null;
+  btcFeeUsdEquivalent?: number | null;
   averageLatencyMs?: number | null;
   proofStatus?: string | null;
   closureFocus?: string | null;
@@ -34,8 +34,8 @@ export const MOCK_RUNS: WorkspaceRun[] = [
     transactionLens: 'give',
     itemCount: 6,
     tokenTotal: 18420,
-    btdUsed: 148.4,
-    usdTotal: 6.72,
+    measuredBtd: 148.4,
+    btcFeeUsdEquivalent: 6.72,
     averageLatencyMs: 1180,
     proofStatus: 'bounded proof bundle ready',
     closureFocus: 'AssetPack evidence + Finish PR mechanism',
@@ -53,8 +53,8 @@ export const MOCK_RUNS: WorkspaceRun[] = [
     transactionLens: 'need',
     itemCount: 4,
     tokenTotal: 10980,
-    btdUsed: 82.1,
-    usdTotal: 3.11,
+    measuredBtd: 82.1,
+    btcFeeUsdEquivalent: 3.11,
     averageLatencyMs: 920,
     proofStatus: 'verification witness refreshed',
     closureFocus: 'need measurement + ledger refresh',
@@ -72,8 +72,8 @@ export const MOCK_RUNS: WorkspaceRun[] = [
     transactionLens: 'closure',
     itemCount: 3,
     tokenTotal: 7640,
-    btdUsed: 54.6,
-    usdTotal: 2.08,
+    measuredBtd: 54.6,
+    btcFeeUsdEquivalent: 2.08,
     averageLatencyMs: 1325,
     proofStatus: 'proof-family refresh in flight',
     closureFocus: 'settlement proof + operating posture',

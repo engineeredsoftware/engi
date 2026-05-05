@@ -284,7 +284,7 @@ describe('Bitcode MCP Server Test Suite', () => {
             btdBalance: 0,
             permissions: {
               pipelines: { create: false, read: false, cancel: false, retry: false },
-              organization: { manageMembers: false, viewAnalytics: false, manageBtd: false },
+              organization: { manageMembers: false, viewAnalytics: false, manageBtdHoldings: false },
               resources: { read: false, export: false }
             }
           }
@@ -485,7 +485,7 @@ describe('Bitcode MCP Server Test Suite', () => {
       const config = {
         ...TEST_CONFIGURATIONS.COMPREHENSIVE_INTEGRATION,
         testName: 'Budget-Conscious User Test',
-        customerScenarios: [CUSTOMER_SCENARIOS.FREELANCER_LIMITED_CREDITS]
+        customerScenarios: [CUSTOMER_SCENARIOS.FREELANCER_LIMITED_BTD]
       };
       
       testFramework = new MCPTestFramework(config);

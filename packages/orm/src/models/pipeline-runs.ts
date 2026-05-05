@@ -43,12 +43,12 @@ export interface PipelineExecutionData {
   // Metrics
   metrics: {
     totalTokensUsed: number;
-    totalBtdUsed: number;
+    totalMeasuredBtd: number;
     totalDuration: number;
     phases: Record<string, {
       duration: number;
       tokensUsed: number;
-      btdUsed: number;
+      measuredBtd: number;
       success: boolean;
       agentsInvoked: string[];
     }>;

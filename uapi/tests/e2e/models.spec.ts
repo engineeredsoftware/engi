@@ -26,7 +26,8 @@ test.describe('Models Configuration in Account Modal', () => {
         body: JSON.stringify({
           profile: { user_id: 'user-1', username: 'tester' },
           githubConnection: { installationId: 42 },
-          credits: 100,
+          btdBalance: 100,
+          btcFeeBalance: 0.01,
           modelPreferences: {
             modelCalls: [
               {

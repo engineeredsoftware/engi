@@ -191,8 +191,8 @@ function serializeProcessingStats(
     ...(typeof processingStats.tokenTotal === 'number'
       ? { tokens: { total: processingStats.tokenTotal } }
       : {}),
-    ...(typeof processingStats.btdUsed === 'number' ? { btdUsed: processingStats.btdUsed } : {}),
-    ...(typeof processingStats.usdTotal === 'number' ? { usdTotal: processingStats.usdTotal } : {}),
+    ...(typeof processingStats.measuredBtd === 'number' ? { measuredBtd: processingStats.measuredBtd } : {}),
+    ...(typeof processingStats.btcFeeUsdEquivalent === 'number' ? { btcFeeUsdEquivalent: processingStats.btcFeeUsdEquivalent } : {}),
     ...(typeof processingStats.averageLatencyMs === 'number'
       ? { averageLatencyMs: processingStats.averageLatencyMs }
       : {}),
@@ -507,8 +507,8 @@ export function mapExecutionHistoryRunToWorkspaceRun(run: PipelineExecution): Wo
     itemCount: run.items?.length || 0,
     tokenTotal:
       run.processing_stats?.tokens?.total ?? run.asset_pack_completion?.processingStats?.tokens?.total ?? null,
-    btdUsed: run.processing_stats?.btdUsed ?? run.asset_pack_completion?.processingStats?.btdUsed ?? null,
-    usdTotal: run.processing_stats?.usdTotal ?? run.asset_pack_completion?.processingStats?.usdTotal ?? null,
+    measuredBtd: run.processing_stats?.measuredBtd ?? run.asset_pack_completion?.processingStats?.measuredBtd ?? null,
+    btcFeeUsdEquivalent: run.processing_stats?.btcFeeUsdEquivalent ?? run.asset_pack_completion?.processingStats?.btcFeeUsdEquivalent ?? null,
     averageLatencyMs:
       run.processing_stats?.averageLatencyMs ?? run.asset_pack_completion?.processingStats?.averageLatencyMs ?? null,
     proofStatus: agenticExecution.proofStatus,

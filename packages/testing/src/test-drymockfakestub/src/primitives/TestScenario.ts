@@ -57,9 +57,9 @@ export interface TestBehavior {
   expectedDuration?: number;
   
   /**
-   * Expected $BTD usage
+   * Expected measured $BTD amount for the synthesized AssetPack.
    */
-  expectedBtd?: number;
+  expectedMeasuredBtd?: number;
   
   /**
    * Expected outcomes

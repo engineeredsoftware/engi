@@ -55,6 +55,7 @@ export interface AggregatedUserData {
   repositoryInventorySource?: UserRepositoryInventorySource | null;
   organizations?: string[];
   btdBalance?: number;
+  btcFeeBalance?: number | null;
   modelPreferences?: any | null;
   onboardedPanes?: string[];
   onboarded_steps?: string[];
@@ -70,6 +71,7 @@ const ANONYMOUS_USER_DATA: AggregatedUserData = {
   repositoryInventorySource: null,
   organizations: [],
   btdBalance: 0,
+  btcFeeBalance: null,
   modelPreferences: null,
   onboardedPanes: [],
   onboarded_steps: [],
@@ -133,6 +135,22 @@ function deriveConnectedOrganizations(
         .filter((organization): organization is string => Boolean(organization)),
     ),
   );
+}
+
+function readNumericField(source: unknown, ...keys: string[]) {
+  if (!source || typeof source !== 'object') return null;
+  const record = source as Record<string, unknown>;
+
+  for (const key of keys) {
+    const value = record[key];
+    if (typeof value === 'number' && Number.isFinite(value)) return value;
+    if (typeof value === 'string' && value.trim()) {
+      const parsed = Number(value);
+      if (Number.isFinite(parsed)) return parsed;
+    }
+  }
+
+  return null;
 }
 
 // ---------------------------------------------------------------------------
@@ -275,6 +293,10 @@ export function useUserData() {
       : null;
   const organizations = deriveConnectedOrganizations(repositories, data?.organizations);
   const btdBalance = typeof data?.btdBalance === 'number' ? data.btdBalance : hydratedBtdBalance;
+  const btcFeeBalance =
+    typeof data?.btcFeeBalance === 'number'
+      ? data.btcFeeBalance
+      : readNumericField(data?.profile, 'btcFeeBalance', 'btc_fee_balance', 'btc_balance');
 
   const onboardedSteps = normalizeAuxillarySteps(data?.onboardedPanes ?? data?.onboarded_steps ?? []);
   const isOnboardingComplete = data?.isOnboardingComplete || false;
@@ -293,6 +315,7 @@ export function useUserData() {
     repositoryInventorySource,
     organizations,
     btdBalance,
+    btcFeeBalance,
     isLoading,
     error,
     refresh,

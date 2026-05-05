@@ -44,11 +44,11 @@ export interface MCPAuthOptions {
   requireOrganization?: boolean;
   requiredPermissions?: {
     pipelines?: Array<'create' | 'read' | 'cancel' | 'retry'>;
-    organization?: Array<'manageMembers' | 'viewAnalytics' | 'manageBtd'>;
+    organization?: Array<'manageMembers' | 'viewAnalytics' | 'manageBtdHoldings'>;
     resources?: Array<'read' | 'export'>;
   };
   minimumRole?: 'viewer' | 'member' | 'admin' | 'owner';
-  minimumBtd?: number;
+  minimumBtdHolding?: number;
 }
 
 export const authCache = new LRUCache<string, MCPAuthContext>(10000);
@@ -159,7 +159,7 @@ export async function authenticateMCPRequest(
       // conservative defaults; will be updated below
       permissions: {
         pipelines: { create: false, read: true, cancel: false, retry: false },
-        organization: { manageMembers: false, viewAnalytics: false, manageBtd: false },
+        organization: { manageMembers: false, viewAnalytics: false, manageBtdHoldings: false },
         resources: { read: true, export: false }
       },
       btdBalance: 0,
@@ -217,11 +217,8 @@ export async function authenticateMCPRequest(
       context.organizationPermissions = membership.permissions || {};
     }
 
-    // Check credit requirements
-    // Always fetch credit balance for context (and optionally enforce minimum)
-    const btdBalanceRecord = await userBtdBalances.getByUserId(user.id);
-    const balance = btdBalanceRecord?.balance || 0;
-    context.btdBalance = balance;
+    // Always read aggregate non-fungible BTD holding posture for context.
+    context.btdBalance = await userBtdBalances.readBtdHoldingAmount(user.id);
 
     // Compute permissions from role/scopes/org permissions
     context.permissions = derivePermissions(context);
@@ -279,12 +276,12 @@ function validateAuthenticatedContext(
     }
   }
 
-  if (options.minimumBtd && options.minimumBtd > 0 && context.btdBalance < options.minimumBtd) {
+  if (options.minimumBtdHolding && options.minimumBtdHolding > 0 && context.btdBalance < options.minimumBtdHolding) {
     return {
       success: false,
       error: {
-        code: 'INSUFFICIENT_BTD',
-        message: `Requires at least ${options.minimumBtd} BTD (current balance: ${context.btdBalance})`,
+        code: 'INSUFFICIENT_BTD_HOLDING',
+        message: `Requires at least ${options.minimumBtdHolding} BTD share/read-right holding (current holding: ${context.btdBalance})`,
         statusCode: 402
       }
     };
@@ -403,7 +400,7 @@ function derivePermissions(context: MCPAuthContext): MCPAuthContext['permissions
     organization: {
       manageMembers: has('organization', 'manageMembers'),
       viewAnalytics: has('organization', 'viewAnalytics'),
-      manageBtd: has('organization', 'manageBtd')
+      manageBtdHoldings: has('organization', 'manageBtdHoldings')
     },
     resources: {
       read: has('resources', 'read') || true,

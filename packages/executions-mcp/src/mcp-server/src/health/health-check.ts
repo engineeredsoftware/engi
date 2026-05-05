@@ -79,7 +79,7 @@ export async function performHealthCheck(
       pipelines: await checkPipelines(),
       circuitBreakers: checkCircuitBreakers(circuitBreakers),
       memory: checkMemory(),
-      btd: await checkCredits()
+      btd: await checkBtdHoldingReadCarrier()
     },
     environment: process.env.NODE_ENV,
     serverId: process.env.SERVER_ID
@@ -309,11 +309,11 @@ function checkMemory(): MemoryStatus {
 }
 
 /**
- * Check credit system
+ * Check BTD holding read carrier
  */
-async function checkCredits(): Promise<HealthCheck> {
+async function checkBtdHoldingReadCarrier(): Promise<HealthCheck> {
   try {
-    // Check if credit system is functioning
+    // Check if BTD holding read carrier is functioning
     const { data, error } = await supabaseAdmin
       .from('user_credits')
       .select('user_id')
@@ -322,19 +322,19 @@ async function checkCredits(): Promise<HealthCheck> {
     if (error) {
       return {
         status: 'error',
-        message: 'Credit system unavailable',
+        message: 'BTD holding read carrier unavailable',
         details: { error: error.message }
       };
     }
     
     return {
       status: 'ok',
-      message: 'Credit system healthy'
+      message: 'BTD holding read carrier healthy'
     };
   } catch (error) {
     return {
       status: 'error',
-      message: 'Credit check failed',
+      message: 'BTD holding read-carrier check failed',
       details: { error: error instanceof Error ? error.message : error }
     };
   }

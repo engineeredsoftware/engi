@@ -1,7 +1,7 @@
 import React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 
-import AccountOrbital from '@/app/orbitals/components/OrbitalAccount';
+import AccountOrbital from '@/app/orbitals/components/OrbitalsAccount';
 
 const meta = {
   title: 'Bitcode/Auxillaries/Account Orbital',
@@ -21,7 +21,8 @@ const init = {
     bio: 'Dedicated to building autonomous software agents.',
   },
   githubConnection: { username: 'bitcode-swe' },
-  credits: 42,
+  btdBalance: 42,
+  btcFeeBalance: 0.042,
   modelPreferences: { model: 'gpt-4o' },
 };
 

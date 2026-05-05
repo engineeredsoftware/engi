@@ -47,7 +47,6 @@ export interface SDIVFPipelineUpdate extends WorkUpdate {
     confidence: number;
     suggestions: string[];
 }
-export type SDIVSPipelineUpdate = SDIVFPipelineUpdate;
 interface IterationAggregateState {
     files: FileChange[];
     tools: ToolUsageUpdate[];
@@ -89,7 +88,6 @@ export declare function buildSDIVFPipelineUpdate(params: {
     tools: ToolUsageUpdate[];
     meta?: Record<string, StorableValue>;
 }): SDIVFPipelineUpdate;
-export declare const buildSDIVSPipelineUpdate: typeof buildSDIVFPipelineUpdate;
 export declare function accumulateIterationWorkContext(execution: Execution, files: FileChange[], tools: ToolUsageUpdate[]): void;
 export declare function consumeIterationWorkContext(execution: Execution): IterationAggregateState;
 export {};

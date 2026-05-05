@@ -8,7 +8,6 @@ import {
   buildAnonymousAuxillaryData,
   buildAuxillaryDataPayload,
   buildAuxillaryOnboardingPayload,
-  type AuxillaryBtdUpdatePayload,
   type AuxillaryOnboardingUpdatePayload,
   normalizeCompletedAuxillaryPane,
   parseStoredAuxillarySteps,
@@ -73,6 +72,22 @@ async function getProfileRole(userId: string) {
   };
 }
 
+function readNumericProfileField(profile: unknown, ...keys: string[]) {
+  if (!profile || typeof profile !== 'object') return null;
+  const record = profile as Record<string, unknown>;
+
+  for (const key of keys) {
+    const value = record[key];
+    if (typeof value === 'number' && Number.isFinite(value)) return value;
+    if (typeof value === 'string' && value.trim()) {
+      const parsed = Number(value);
+      if (Number.isFinite(parsed)) return parsed;
+    }
+  }
+
+  return null;
+}
+
 export function buildGetAuxillaryOnboardingRoute(options: AuxillaryRouteBuilderOptions = {}) {
   return traceRoute('/auxillaries/onboarding', async () => {
     if (options.isMockMode?.()) {
@@ -114,7 +129,17 @@ export function buildPostAuxillaryOnboardingRoute(options: AuxillaryRouteBuilder
       return createJsonResponse({ error: 'Invalid JSON body' }, 400);
     }
 
-    const completedStep = normalizeCompletedAuxillaryPane(body.completedPane ?? body.completedStep);
+    const completedStep = normalizeCompletedAuxillaryPane(body.completedPane);
+
+    if (!completedStep) {
+      return createJsonResponse(
+        {
+          error:
+            'completedPane must be one of profile, connects, interfaces, or btd',
+        },
+        400,
+      );
+    }
 
     const { data: profile } = await supabaseAdmin
       .from('user_profiles')
@@ -193,6 +218,7 @@ export function buildGetAuxillaryDataRoute(options: AuxillaryRouteBuilderOptions
     const profile = hydrateBitcodeProfile(profileResult.data ?? null);
     const githubConnection = githubConnectionResult.data?.connection_data ?? null;
     const btdBalance = typeof balanceResult.data?.balance === 'number' ? balanceResult.data.balance : 0;
+    const btcFeeBalance = readNumericProfileField(profile, 'btcFeeBalance', 'btc_fee_balance', 'btc_balance');
     const modelPreferences = preferencesResult.data?.preferences ?? null;
     const walletConnectionStatus = options.resolveWalletConnectionStatus
       ? await options
@@ -213,6 +239,7 @@ export function buildGetAuxillaryDataRoute(options: AuxillaryRouteBuilderOptions
         repositories: repositoryInventoryResult.repositories,
         repositoryInventorySource: repositoryInventoryResult.repositoryInventorySource,
         btdBalance,
+        btcFeeBalance,
         modelPreferences,
         onboardedSteps: (profile as { onboarded_steps?: unknown } | null)?.onboarded_steps,
       }),
@@ -221,13 +248,12 @@ export function buildGetAuxillaryDataRoute(options: AuxillaryRouteBuilderOptions
 }
 
 export function buildPostAuxillaryBtdRoute(options: AuxillaryRouteBuilderOptions = {}) {
-  return traceRoute('/auxillaries/btd', async (request: Request) => {
+  return traceRoute('/auxillaries/btd', async (_request: Request) => {
     if (options.isMockMode?.()) {
       return createJsonResponse({
-        success: true,
-        btdBalance: 0,
-        newBalance: 0,
-      });
+        error:
+          'Generic BTD balance mutation is closed. $BTD is a non-fungible asset-pack share/read-right; acquisition must flow through Terminal Need minting or Exchange purchase.',
+      }, 410);
     }
 
     const user = await getAuthenticatedUser();
@@ -244,50 +270,14 @@ export function buildPostAuxillaryBtdRoute(options: AuxillaryRouteBuilderOptions
       return createJsonResponse({ error: 'Forbidden' }, 403);
     }
 
-    let body: AuxillaryBtdUpdatePayload = {};
-    try {
-      body = await request.json();
-    } catch {
-      return createJsonResponse({ error: 'Invalid JSON body' }, 400);
-    }
-
-    const rawRequestedBalance = body.btdBalance ?? body.totalBtd;
-    const requestedBtdBalance = Number(rawRequestedBalance);
-
-    if (!Number.isFinite(requestedBtdBalance) || requestedBtdBalance < 0) {
-      return createJsonResponse({ error: 'btdBalance must be a non-negative number' }, 400);
-    }
-
-    const { data, error } = await supabaseAdmin
-      .from('user_credits')
-      .upsert(
-        {
-          user_id: user.id,
-          balance: requestedBtdBalance,
-          updated_at: new Date().toISOString(),
-        },
-        { onConflict: 'user_id' },
-      )
-      .select('balance')
-      .single();
-
-    if (error) {
-      return createJsonResponse({ error: error.message }, 500);
-    }
-
-    await supabaseAdmin
-      .from('user_profiles')
-      .update({ updated_at: new Date().toISOString() })
-      .eq('id', user.id);
-
-    const resolvedBalance =
-      typeof data?.balance === 'number' ? data.balance : requestedBtdBalance;
-
     return createJsonResponse({
-      success: true,
-      btdBalance: resolvedBalance,
-      newBalance: resolvedBalance,
-    });
+      error:
+        'Generic BTD balance mutation is closed. $BTD is a non-fungible asset-pack share/read-right; acquisition must flow through Terminal Need minting or Exchange purchase.',
+      acquisitionPaths: {
+        terminalNeedMinting: '/application?intent=submit-need-for-btd',
+        exchangePurchase: '/exchange?intent=buy-existing-btd',
+      },
+    }, 410);
   });
 }
 

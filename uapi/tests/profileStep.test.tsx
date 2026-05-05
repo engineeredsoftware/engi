@@ -11,7 +11,7 @@ describe('ProfileStep (SSR)', () => {
         displayName: 'User One',
         avatarUrl: 'http://example.com/avatar1.png',
         role: 'admin',
-        creditBudget: 5000
+        btcFeeBudget: 5000
       }
     ];
     const html = renderToString(

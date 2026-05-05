@@ -56,12 +56,12 @@ export const AuthenticationError: Story = {
   }
 };
 
-// Credit Insufficient Errors
-export const InsufficientCreditsError: Story = {
+// BTD Insufficient Errors
+export const InsufficientBtdError: Story = {
   args: {
     conversation: {
-      id: 'conv-credits-error',
-      title: 'Insufficient Credits Demo',
+      id: 'conv-btd-error',
+      title: 'Insufficient $BTD Demo',
       created_at: '2024-01-15T10:00:00Z',
       updated_at: '2024-01-15T10:02:00Z'
     },
@@ -77,7 +77,7 @@ export const InsufficientCreditsError: Story = {
             value: 'Build a comprehensive e-commerce platform with payment processing',
             metadata: {
               priority: 'high',
-              estimatedCredits: 500
+              measuredBtdEstimate: 500
             }
           }
         ]
@@ -89,11 +89,11 @@ export const InsufficientCreditsError: Story = {
         created_at: '2024-01-15T10:02:00Z',
         error: {
           message: 'Insufficient $BTD for shippable pipeline',
-          code: 'INSUFFICIENT_CREDITS',
+          code: 'INSUFFICIENT_BTD',
           details: {
             required: 500,
             current: 45,
-            billingUrl: '/billing',
+            treasuryUrl: '/btd',
             btdPackages: [
               { name: 'Micro', btd: 100, price: 10 },
               { name: 'Industry', btd: 1000, price: 100 }
@@ -258,7 +258,7 @@ export const PipelineFailureError: Story = {
             value: 'Create API documentation',
             metadata: {
               priority: 'medium',
-              estimatedCredits: 80
+              measuredBtdEstimate: 80
             }
           }
         ]
@@ -283,7 +283,7 @@ export const PipelineFailureError: Story = {
         status: 'failed' as const,
         progress: 65,
         phase: 'Implementation',
-        estimatedCredits: 80,
+        measuredBtdEstimate: 80,
         usedCredits: 52,
         startedAt: '2024-01-15T09:01:00Z',
         failedAt: '2024-01-15T09:30:00Z',
@@ -446,7 +446,7 @@ export const RecoveryScenario: Story = {
         status: 'running' as const,
         progress: 40,
         phase: 'Implementation',
-        estimatedCredits: 100,
+        measuredBtdEstimate: 100,
         usedCredits: 40,
         startedAt: '2024-01-15T13:01:00Z',
         retryCount: 1,

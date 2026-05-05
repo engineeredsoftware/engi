@@ -158,9 +158,11 @@ export const getBtdBalance = traceRoute('/user/btd', async (request: NextRequest
 
 /**
  * POST /api/user/btd
- * Add BTD to user account (admin only)
+ * Closed in V26: $BTD is a non-fungible asset-pack share/read-right, not an
+ * admin-mutable credit bucket. Acquisition must flow through Terminal Need
+ * minting or Exchange purchase surfaces.
  */
-export const addBtdBalance = traceRoute('/user/btd', async (request: NextRequest) => {
+export const rejectBtdBalanceMutation = traceRoute('/user/btd', async (_request: NextRequest) => {
   try {
     const supabase = await createClient();
     const { data: { user }, error: authError } = await supabase.auth.getUser();
@@ -175,30 +177,19 @@ export const addBtdBalance = traceRoute('/user/btd', async (request: NextRequest
       return createJsonResponse({ error: 'Admin access required' }, 403);
     }
 
-    const body = await request.json();
-    const { userId, amount, description } = body;
-
-    if (!userId || !amount) {
-      return createJsonResponse({ error: 'User ID and amount required' }, 400);
-    }
-
-    // Add BTD using the existing balance storage model until the underlying
-    // persistence layer is renamed.
-    const newBalance = await userBtdBalances.addBtdBalance(
-      userId, 
-      amount, 
-      description || `Admin BTD adjustment by ${user.id}`
-    );
-
-    // Track event
-    await sendServerEvent('admin_btd_added', {
+    await sendServerEvent('generic_btd_mutation_rejected', {
       admin_id: user.id,
-      target_user_id: userId,
-      amount,
-      new_balance: newBalance
+      reason: 'btd_is_non_fungible_asset_pack_share_read_right',
     });
 
-    return createJsonResponse({ balance: newBalance, btdBalance: newBalance });
+    return createJsonResponse({
+      error:
+        'Generic BTD balance mutation is closed. $BTD is a non-fungible asset-pack share/read-right; acquisition must flow through Terminal Need minting or Exchange purchase.',
+      acquisitionPaths: {
+        terminalNeedMinting: '/application?intent=submit-need-for-btd',
+        exchangePurchase: '/exchange?intent=buy-existing-btd',
+      },
+    }, 410);
 
   } catch (error) {
     log('[user/btd] Add error', 'error', { error });
@@ -463,13 +454,13 @@ export const getUsage = traceRoute('/user/usage', async (request: NextRequest) =
     const startDate = new Date();
     startDate.setDate(startDate.getDate() - periodDays);
 
-    // Get usage stats
+    // Read historical aggregate posture without teaching BTD as spend.
     const btdUsage = await userBtdTransactions.getUsageStats(user.id, startDate);
 
     return createJsonResponse({
       period,
-      btdSpent: btdUsage.total,
-      btdUsed: btdUsage.total,
+      measuredBtd: btdUsage.total,
+      btdSemantics: 'non_fungible_asset_pack_share_read_right',
       dailyStats: btdUsage.daily
     });
 

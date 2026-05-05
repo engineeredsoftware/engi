@@ -47,8 +47,8 @@ interface TeamMember {
   avatarUrl?: string
   role: 'owner' | 'admin' | 'lead' | 'dev'
   status: 'active' | 'invited' | 'pending'
-  creditBudget: number
-  creditUsed: number
+  btcFeeBudget: number
+  btcFeesUsed: number
   joinedAt: string
   lastActive?: string
 }
@@ -57,7 +57,7 @@ interface PendingInvitation {
   id: string
   email: string
   role: 'admin' | 'lead' | 'dev'
-  creditBudget: number
+  btcFeeBudget: number
   createdAt: string
   expiresAt: string
   invitedBy: {
@@ -152,7 +152,7 @@ export default function TeamManagementInterface({
   const [inviteForm, setInviteForm] = useState({
     emails: '',
     role: 'dev' as 'admin' | 'lead' | 'dev',
-    creditBudget: 50000,
+    btcFeeBudget: 50000,
     bulkMode: false
   })
 
@@ -203,7 +203,7 @@ export default function TeamManagementInterface({
       const invitations = emails.map(email => ({
         email,
         role: inviteForm.role,
-        creditBudget: inviteForm.creditBudget
+        btcFeeBudget: inviteForm.btcFeeBudget
       }))
 
       const response = await fetch(`/api/organizations/${organizationId}/invitations`, {
@@ -237,7 +237,7 @@ export default function TeamManagementInterface({
       setInviteForm({
         emails: '',
         role: 'dev',
-        creditBudget: 50000,
+        btcFeeBudget: 50000,
         bulkMode: false
       })
       onRefresh()
@@ -270,24 +270,24 @@ export default function TeamManagementInterface({
     }
   }
 
-  const handleUpdateCreditBudget = async (memberId: string, creditBudget: number) => {
+  const handleUpdateBtcFeeBudget = async (memberId: string, btcFeeBudget: number) => {
     if (!canManageTeam) return
 
     try {
       const response = await fetch(`/api/organizations/${organizationId}/members/${memberId}`, {
         method: 'PATCH',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ creditBudget })
+        body: JSON.stringify({ btcFeeBudget })
       })
 
       if (!response.ok) {
-        throw new Error('Failed to update credit budget')
+        throw new Error('Failed to update BTC fee budget')
       }
 
-      toast.success('Credit budget updated successfully')
+      toast.success('BTC fee budget updated successfully')
       onRefresh()
     } catch (error: any) {
-      toast.error(error.message || 'Failed to update credit budget')
+      toast.error(error.message || 'Failed to update BTC fee budget')
     }
   }
 
@@ -383,7 +383,7 @@ export default function TeamManagementInterface({
                   </div>
                   <div className="text-xs text-slate-500">
                     <DollarSign className="w-3 h-3 inline mr-1" />
-                    {member.creditUsed.toLocaleString()} / {member.creditBudget.toLocaleString()}
+                    {member.btcFeesUsed.toLocaleString()} / {member.btcFeeBudget.toLocaleString()}
                   </div>
                 </div>
               </div>
@@ -409,13 +409,13 @@ export default function TeamManagementInterface({
                     Change Role
                   </DropdownMenuItem>
                   <DropdownMenuItem onClick={() => {
-                    const newBudget = prompt('New credit budget:', member.creditBudget.toString())
+                    const newBudget = prompt('New BTC fee budget:', member.btcFeeBudget.toString())
                     if (newBudget && !isNaN(Number(newBudget))) {
-                      handleUpdateCreditBudget(member.id, Number(newBudget))
+                      handleUpdateBtcFeeBudget(member.id, Number(newBudget))
                     }
                   }}>
                     <DollarSign className="w-4 h-4 mr-2" />
-                    Update Credits
+                    Update BTC Fees
                   </DropdownMenuItem>
                   <DropdownMenuSeparator />
                   <DropdownMenuItem 
@@ -466,7 +466,7 @@ export default function TeamManagementInterface({
                     Invited by {invitation.invitedBy.displayName || invitation.invitedBy.username}
                   </div>
                   <div>
-                    Credit budget: {invitation.creditBudget.toLocaleString()}
+                    BTC fee budget: {invitation.btcFeeBudget.toLocaleString()}
                   </div>
                   <div>
                     Expires: {new Date(invitation.expiresAt).toLocaleDateString()}
@@ -658,18 +658,18 @@ export default function TeamManagementInterface({
             </div>
 
             <div>
-              <Label htmlFor="creditBudget">Credit Budget</Label>
+              <Label htmlFor="btcFeeBudget">BTC Fee Budget</Label>
               <Input
-                id="creditBudget"
+                id="btcFeeBudget"
                 type="number"
                 min="0"
                 step="1000"
-                value={inviteForm.creditBudget}
-                onChange={(e) => setInviteForm(prev => ({ ...prev, creditBudget: Number(e.target.value) }))}
+                value={inviteForm.btcFeeBudget}
+                onChange={(e) => setInviteForm(prev => ({ ...prev, btcFeeBudget: Number(e.target.value) }))}
                 className="mt-1"
               />
               <p className="text-xs text-slate-500 mt-1">
-                Initial credit allocation for each invited member
+                Initial BTC fee allocation for each invited member
               </p>
             </div>
           </div>

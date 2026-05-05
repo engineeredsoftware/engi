@@ -34,7 +34,8 @@ test.describe.skip('Account Modal Flow (skipped - focusing on onboarding only)',
         body: JSON.stringify({
           profile: { user_id: 'user-1', username: 'test' },
           githubConnection: { installationId: 42 },
-          credits: 100,
+          btdBalance: 100,
+          btcFeeBalance: 0.01,
           modelPreferences: {},
           // Provide orgs and repo arrays for summary
           organizations: ['org1'],

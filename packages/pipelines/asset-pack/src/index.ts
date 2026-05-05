@@ -186,7 +186,7 @@ function factoryDevelopPhase(): Executor<any, any> {
         },
         deliveryMechanism: pullRequestShippable,
         artifacts: { filesCreated: [], filesModified: [], testsAdded: 1, testsPassing: 1, documentation: [] },
-        metrics: { duration: 0, tokensUsed: 0, btdUsed: 0, confidence: 1, phases: {} },
+        metrics: { duration: 0, tokensUsed: 0, measuredBtd: 0, confidence: 1, phases: {} },
         summary: 'test'
       };
     }

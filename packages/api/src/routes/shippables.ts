@@ -15,7 +15,7 @@ import { VCSService } from '@bitcode/vcs';
 import { createAdminClient, type Database } from '@bitcode/orm';
 import { createClient as createSupabaseClient } from '@supabase/supabase-js';
 import { DEFAULT_PROVIDER, DEFAULT_MODEL_API, getUsdPricingForApiModel } from '@bitcode/models';
-import { withBtdReservation } from '@bitcode/btd';
+import { BITCODE_FEE_ASSET, BTD_ASSET_SEMANTICS } from '@bitcode/btd';
 import { Execution, ExecutionStreamAdapter, NS_EXEC_ASSET_PACK_VALIDATION_READY_TO_FINISH } from '@bitcode/execution-generics';
 import {
   PipelineExecution,
@@ -462,13 +462,13 @@ export const GET = traceRoute('/executions', async (request: NextRequest) => {
  * Flow:
  * 1. Parse request (JSON or multipart with file uploads)
  * 2. Save uploaded files using saveArtifact
- * 3. Validate user auth & BTD balance
+ * 3. Validate user auth, repository readiness, and BTC fee posture
  * 4. Create pipeline execution in database
  * 5. Initialize SSE stream for real-time updates
  * 6. Store context in Execution (VCS, attachments, OTF instructions)
  * 7. Execute SDIVF pipeline (Setup -> Discovery -> Implementation -> Validation -> Finish)
  * 8. Stream events to client and persist to database
- * 9. Handle completion or failure with BTD balance refunds.
+ * 9. Handle completion or failure without mutating non-fungible BTD holdings.
  * Returns streaming response with pipeline events.
  */
 export const POST = traceRoute('/executions', async (request: NextRequest) => {
@@ -633,20 +633,21 @@ export const POST = traceRoute('/executions', async (request: NextRequest) => {
       });
     }
 
-    // Calculate cost using USD pricing relative to the default model.
-    const baseCost = parseInt(process.env.ASSET_PACK_BASE_COST || '100', 10);
+    // Calculate BTC fee-basis using USD model pricing relative to the default model.
+    const baseFeeUsd = parseInt(process.env.ASSET_PACK_BASE_FEE_USD || process.env.ASSET_PACK_BASE_COST || '100', 10);
     const chosen = getUsdPricingForApiModel(modelId);
     const baseline = getUsdPricingForApiModel(DEFAULT_MODEL_API) || chosen;
     const chosenTotal = (chosen?.input ?? 1) + (chosen?.output ?? 1);
     const baselineTotal = (baseline?.input ?? 1) + (baseline?.output ?? 1);
     const multiplier = baselineTotal > 0 ? (chosenTotal / baselineTotal) : 1;
-    const cost = Math.round(baseCost * multiplier);
+    const btcFeeUsdEquivalent = Math.round(baseFeeUsd * multiplier);
     
-    log('[asset-pack-route] Cost calculated', 'debug', {
+    log('[asset-pack-route] BTC fee basis calculated', 'debug', {
       correlationId,
-      baseCost,
+      baseFeeUsd,
       multiplier,
-      finalCost: cost,
+      feeAsset: BITCODE_FEE_ASSET,
+      btcFeeUsdEquivalent,
       modelProvider,
       modelId
     });
@@ -700,7 +701,9 @@ export const POST = traceRoute('/executions', async (request: NextRequest) => {
       repo_name: repoName,
       model_provider: modelProvider,
       model_id: modelId,
-      btd_used: cost,
+      fee_asset: BITCODE_FEE_ASSET,
+      btc_fee_usd_equivalent: btcFeeUsdEquivalent,
+      btd_semantics: BTD_ASSET_SEMANTICS,
       iteration_count: iterationCount,
       semantic_event_type: 'asset_pack_run_created',
       semantic_kind: 'asset-pack-written-asset',
@@ -962,7 +965,8 @@ export const POST = traceRoute('/executions', async (request: NextRequest) => {
           execution.store('route/preprocessed', 'assetPackWrittenAsset', preprocessing);
         } catch {}
 
-        // Execute pipeline with canonical $BTD reservation
+        // Execute pipeline directly. BTC fee settlement and non-fungible BTD
+        // share/read-right minting are separate wallet/Terminal/Exchange flows.
         log('[asset-pack-route] Starting pipeline execution', 'info', {
           correlationId,
           phases: ['setup', 'discovery', 'implementation', 'validation', 'finish'],
@@ -971,11 +975,7 @@ export const POST = traceRoute('/executions', async (request: NextRequest) => {
         
         const pipelineStartTime = Date.now();
 
-        const result = await withBtdReservation(
-          user.id,
-          async (_reservation) => assetPackPipeline(pipelineInput, execution!),
-          { pipelineType: 'asset-pack' }
-        );
+        const result = await assetPackPipeline(pipelineInput, execution!);
         
         const pipelineDuration = Date.now() - pipelineStartTime;
         log('[asset-pack-route] Pipeline execution completed', 'info', {
@@ -1026,7 +1026,8 @@ export const POST = traceRoute('/executions', async (request: NextRequest) => {
             executionData.data[namespace] = Object.fromEntries(namespaceData.entries());
           }
         }
-        // Enrich AssetPack completion with token/$BTD aggregates and merge into execution output
+        // Enrich AssetPack completion with token, BTC fee-basis, and measured
+        // non-fungible BTD aggregates before merging into execution output.
         let preprocessedSnapshot: any = undefined;
         try {
           preprocessedSnapshot =
@@ -1091,7 +1092,7 @@ export const POST = traceRoute('/executions', async (request: NextRequest) => {
           ) assetPackCompletion = undefined;
         } catch {}
 
-        // Aggregate token usage and BTD spend if possible
+        // Aggregate token usage, BTC fee posture, and measured BTD amount if possible.
         if (assetPackCompletion) {
           if (!assetPackCompletion.processingStats) assetPackCompletion.processingStats = {};
           if (!assetPackCompletion.summary && assetPackCompletion.writtenAssets?.summary) {
@@ -1120,10 +1121,13 @@ export const POST = traceRoute('/executions', async (request: NextRequest) => {
                 acc.usd += r.usd_cost || 0;
                 return acc;
               }, { input: 0, output: 0, total: 0, usd: 0 });
-              const btdUsed = Math.max(1, Math.ceil(tokens.usd * 10)); // 10 $BTD per USD
+              const measuredBtd = Math.max(1, Math.ceil(tokens.total / 1000));
               assetPackCompletion.processingStats.tokens = { input: tokens.input, output: tokens.output, total: tokens.total };
-              assetPackCompletion.processingStats.btdUsed = btdUsed;
-              assetPackCompletion.processingStats.usdTotal = Number(tokens.usd.toFixed(2));
+              assetPackCompletion.processingStats.measuredBtd = measuredBtd;
+              assetPackCompletion.processingStats.btdSemantics = BTD_ASSET_SEMANTICS;
+              assetPackCompletion.processingStats.feeAsset = BITCODE_FEE_ASSET;
+              assetPackCompletion.processingStats.btcFeesPaid = null;
+              assetPackCompletion.processingStats.btcFeeUsdEquivalent = Number(tokens.usd.toFixed(2));
             }
           } catch {}
 
@@ -1389,8 +1393,8 @@ export const POST = traceRoute('/executions', async (request: NextRequest) => {
           } as any);
         } catch {}
 
-        // Refunds are handled by withBtdReservation/closeBtdReservation.
-        // Avoid double-refunds or credit inflation here.
+        // There is no `$BTD` refund path here: `$BTD` is a non-fungible
+        // AssetPack share/read-right, while fees settle through BTC surfaces.
 
         // Send failure telemetry
         await sendServerEvent('asset_pack_run_failed', {

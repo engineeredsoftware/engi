@@ -692,7 +692,7 @@ export class StreamingPipelineEngine {
           output: 500,
           total: 1500
         },
-        btdUsed: 10
+        measuredBtd: 10
       },
       repoSnapshot: {
         org: 'mock-org',

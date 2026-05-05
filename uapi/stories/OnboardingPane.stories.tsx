@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from "@storybook/react";
 
 import AuxillariesContent from "../app/auxillaries/components/AuxillariesContent";
 
-const steps = ["profile", "connects", "credits", "models"] as const;
+const steps = ["profile", "connects", "interfaces", "btd"] as const;
 type Step = typeof steps[number];
 
 const meta: Meta<typeof AuxillariesContent> = {

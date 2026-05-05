@@ -3,7 +3,7 @@ import { MODEL_CONFIGS, BATCH_SUMMARY_MODEL, logInfo, logError, SupportedModel }
 import { PIPELINE_CONSTANTS } from '@/lib/engine/constants';
 import { callGemini } from '@/llm/geminiClient';
 import { callAnthropic } from '@/llm/anthropicClient';
-import { estimateTokens, deductGenerationBtd, GenerationTokens } from '@bitcode/btd';
+import { buildGenerationBitcodeAccounting, estimateTokens, GenerationTokens } from '@bitcode/btd';
 import { createClient } from '@bitcode/supabase';
 import { log } from '@bitcode/logger';
 
@@ -52,7 +52,7 @@ export async function callLLMAPI(
     throw new Error(`Unsupported model: ${model}`);
   }
 
-  // Deduct credits
+  // Record BTC fee posture and measured BTD amount. `$BTD` is not deducted here.
   try {
     const inputTokens = estimateTokens(prompt);
     const outputTokens = estimateTokens(resultText);
@@ -62,11 +62,18 @@ export async function callLLMAPI(
       data: { user }
     } = await supabase.auth.getUser();
     if (user?.id) {
-      await deductGenerationBtd(user.id, tokens);
-      log(`Deducted credits for generation in digest`, 'info', { userId: user.id, ...tokens });
+      const accountingModel = model.startsWith('gemini')
+        ? 'gemini-2.5-flash'
+        : 'sonnet-4';
+      const accounting = buildGenerationBitcodeAccounting(accountingModel, tokens);
+      log(`Recorded digest generation BTC fee posture and measured BTD amount`, 'info', {
+        userId: user.id,
+        ...tokens,
+        ...accounting,
+      });
     }
   } catch (err) {
-    log(`Failed to deduct credits in digest generation`, 'error', { error: err });
+    log(`Failed to record digest generation fee posture`, 'error', { error: err });
   }
 
   // For non-JSON usage, return early

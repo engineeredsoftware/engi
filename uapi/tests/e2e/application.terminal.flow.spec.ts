@@ -76,8 +76,8 @@ test.describe('Bitcode Terminal browser flow', () => {
         processing_stats: {
           time: '4m 12s',
           tokens: { input: 120, output: 40, total: 160 },
-          btdUsed: 24.5,
-          usdTotal: 1.62,
+          measuredBtd: 24.5,
+          btcFeeUsdEquivalent: 1.62,
           averageLatencyMs: 930,
         },
         asset_pack_completion: {
@@ -86,8 +86,8 @@ test.describe('Bitcode Terminal browser flow', () => {
           processingStats: {
             time: '4m 12s',
             tokens: { input: 120, output: 40, total: 160 },
-            btdUsed: 24.5,
-            usdTotal: 1.62,
+            measuredBtd: 24.5,
+            btcFeeUsdEquivalent: 1.62,
             averageLatencyMs: 930,
           },
           closureFollowThrough: {
@@ -134,8 +134,8 @@ test.describe('Bitcode Terminal browser flow', () => {
         processing_stats: {
           time: '55s',
           tokens: { input: 70, output: 10, total: 80 },
-          btdUsed: 5.5,
-          usdTotal: 0.22,
+          measuredBtd: 5.5,
+          btcFeeUsdEquivalent: 0.22,
           averageLatencyMs: 480,
         },
         asset_pack_completion: {
@@ -311,8 +311,8 @@ test.describe('Bitcode Terminal browser flow', () => {
           processing_stats: {
             time: '18s',
             tokens: { input: 55, output: 18, total: 73 },
-            btdUsed: 4.2,
-            usdTotal: 0.13,
+            measuredBtd: 4.2,
+            btcFeeUsdEquivalent: 0.13,
             averageLatencyMs: 410,
           },
           asset_pack_completion: {
@@ -320,8 +320,8 @@ test.describe('Bitcode Terminal browser flow', () => {
             processingStats: {
               time: '18s',
               tokens: { total: 73 },
-              btdUsed: 4.2,
-              usdTotal: 0.13,
+              measuredBtd: 4.2,
+              btcFeeUsdEquivalent: 0.13,
               averageLatencyMs: 410,
             },
           },

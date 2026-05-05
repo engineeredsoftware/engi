@@ -47,7 +47,7 @@ export interface MCPAuthContext {
     organization: {
       manageMembers: boolean;
       viewAnalytics: boolean;
-      manageBtd: boolean;
+      manageBtdHoldings: boolean;
     };
     resources: {
       read: boolean;
@@ -186,7 +186,7 @@ export interface PipelineExecutionResult {
   
   // Performance metrics
   metrics: {
-    btdUsed: number;
+    measuredBtd: number;
     tokensProcessed: number;
     confidence: number;
     phases: Record<PipelinePhase, {

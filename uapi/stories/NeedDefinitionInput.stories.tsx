@@ -162,7 +162,7 @@ export const InteractivePatternBuilding: Story = {
     const [value, setValue] = useState('');
     const [recognizedPatterns, setRecognizedPatterns] = useState<any[]>([]);
     const [confidence, setConfidence] = useState(0);
-    const [estimatedCredits, setEstimatedCredits] = useState(50);
+    const [measuredBtdEstimate, setEstimatedBtd] = useState(50);
     
     const sampleTexts = [
       '',
@@ -195,7 +195,7 @@ export const InteractivePatternBuilding: Story = {
           <div className="flex items-center justify-center space-x-4 text-xs">
             <span>Patterns: <span className="text-brand-emerald">{recognizedPatterns.length}</span></span>
             <span>Confidence: <span className="text-brand-emerald">{Math.round(confidence * 100)}%</span></span>
-            <span>Estimated: <span className="text-brand-emerald">{estimatedCredits}c</span></span>
+            <span>Measured estimate: <span className="text-brand-emerald">{measuredBtdEstimate} $BTD</span></span>
           </div>
         </div>
         
@@ -210,7 +210,7 @@ export const InteractivePatternBuilding: Story = {
           }}
           onPatternRecognized={setRecognizedPatterns}
           onConfidenceChange={setConfidence}
-          onCreditsEstimated={setEstimatedCredits}
+          onBtdEstimated={setEstimatedBtd}
           showPatternInsights={true}
           showEnhancementSuggestions={true}
           intensityLevel="enhanced"

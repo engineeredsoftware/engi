@@ -27,7 +27,7 @@ interface TeamMember {
   role: 'owner' | 'admin' | 'lead' | 'dev';
   /** Invitation / membership status so admins can track onboarding */
   status?: 'invited' | 'accepted';
-  creditBudget?: number;
+  btcFeeBudget?: number;
 }
 
 /**
@@ -315,7 +315,7 @@ export default function AuxillariesProfilePane({ onSave,
         avatarUrl: avatarUrl || '',
         role: 'admin',
         status: 'accepted',
-        creditBudget: 50000,
+        btcFeeBudget: 50000,
       }
     ]
   );

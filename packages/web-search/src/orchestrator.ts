@@ -7,7 +7,6 @@
  */
 
 import { log } from '@bitcode/logger';
-import { recordBtdReservationUsage } from '@bitcode/btd';
 import { 
   SearchProvider,
   SearchResult,
@@ -212,18 +211,6 @@ export class MultiProviderSearchOrchestrator {
       
       // Execute searches in parallel
       const searchPromises = selectedProviders.map(async providerName => {
-        // Track BTD usage for search operations (if reservation context is available)
-        try {
-          // Note: reservationId would come from global context in actual usage
-          // For now, we'll track this when we have the reservation context available
-          const reservationId = (globalThis as any).__bitcode_reservation_id;
-          if (reservationId) {
-            await recordBtdReservationUsage(reservationId, 2); // 2 BTD per search provider
-          }
-        } catch (err) {
-          log('Failed to record search BTD usage', 'warn', { error: err });
-        }
-        
         const provider = this.router.getProvider(providerName);
         if (!provider) {
           log('Provider not found', 'warn', { provider: providerName });

@@ -251,7 +251,7 @@ export const ErrorHandling: Story = {
         created_at: '2024-01-15T12:01:00Z',
         error: {
           message: 'Insufficient $BTD for deployment pipeline',
-          code: 'INSUFFICIENT_CREDITS',
+          code: 'INSUFFICIENT_BTD',
           details: {
             required: 150,
             current: 25
@@ -316,7 +316,7 @@ export const RichTextTokens: Story = {
             value: 'Implement advanced search functionality',
             metadata: {
               priority: 'high',
-              estimatedCredits: 200
+              measuredBtdEstimate: 200
             }
           }
         ]

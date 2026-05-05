@@ -58,6 +58,7 @@ type MockOrbitalData = {
     wallet_binding_status: 'verified';
     wallet_bound_at: string;
     wallet_binding: MockWalletBinding;
+    btc_balance: number;
     onboarded_steps: string[];
     team_members: {
       id: string;
@@ -75,6 +76,7 @@ type MockOrbitalData = {
   repositoryInventorySource: 'mock_repository_inventory';
   organizations: string[];
   btdBalance: number;
+  btcFeeBalance: number;
   modelPreferences: {
     preferred_model: string;
     temperature: number;
@@ -197,6 +199,7 @@ export function buildMockOrbitalData(): MockOrbitalData {
       wallet_binding_status: walletBinding.status,
       wallet_bound_at: walletBinding.boundAt,
       wallet_binding: walletBinding,
+      btc_balance: 0.042,
       onboarded_steps: onboardedPanes,
       team_members: [
         { id: 'tm-1', username: 'lin', display_name: 'Lin Ortega', role: 'admin' },
@@ -215,6 +218,7 @@ export function buildMockOrbitalData(): MockOrbitalData {
     repositoryInventorySource: 'mock_repository_inventory',
     organizations,
     btdBalance: 1200,
+    btcFeeBalance: 0.042,
     modelPreferences: {
       preferred_model: 'claude-3-7-sonnet',
       temperature: 0.4,

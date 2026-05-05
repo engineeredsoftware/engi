@@ -21,8 +21,8 @@ describe('application-transactions', () => {
       proofStatus: 'bounded proof ready',
       closureFocus: 'branch artifacts',
       tokenTotal: 400,
-      usdTotal: 1.5,
-      btdUsed: 12,
+      btcFeeUsdEquivalent: 1.5,
+      measuredBtd: 12,
     },
     {
       id: 'tx-2',
@@ -37,8 +37,8 @@ describe('application-transactions', () => {
       proofStatus: 'verification in flight',
       closureFocus: 'need measurement',
       tokenTotal: 200,
-      usdTotal: 0.75,
-      btdUsed: 6,
+      btcFeeUsdEquivalent: 0.75,
+      measuredBtd: 6,
     },
   ];
 
@@ -95,11 +95,11 @@ describe('application-transactions', () => {
     expect(filtered[0].id).toBe('tx-1');
   });
 
-  it('sorts transactions by highest usd when requested', () => {
+  it('sorts transactions by highest BTC fee basis when requested', () => {
     const records = normalizeApplicationTransactions(runs);
     const filters = {
       ...buildApplicationTransactionFilters(),
-      sort: 'highest-usd' as const,
+      sort: 'highest-btc-fee-basis' as const,
     };
 
     const filtered = filterApplicationTransactions(records, filters);

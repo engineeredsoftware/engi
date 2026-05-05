@@ -20,7 +20,7 @@ export interface AssetPackArtifacts {
 export interface AssetPackMetrics {
   duration: number;
   tokensUsed: number;
-  btdUsed: number;
+  measuredBtd: number;
   confidence: number;
 }
 

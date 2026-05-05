@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/react";
 
-import AccountOrbital from "../app/orbitals/components/OrbitalAccount";
+import AccountOrbital from "../app/orbitals/components/OrbitalsAccount";
 
 const meta: Meta<typeof AccountOrbital> = {
   title: "Bitcode/Auxillaries/Account",
@@ -16,7 +16,8 @@ const meta: Meta<typeof AccountOrbital> = {
         display_name: "Demo User",
       },
       githubConnection: { username: "demo" },
-      credits: 42,
+      btdBalance: 42,
+      btcFeeBalance: 0.042,
       modelPreferences: { preferred: "gpt-4o" },
     },
   },

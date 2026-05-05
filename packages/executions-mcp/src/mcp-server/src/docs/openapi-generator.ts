@@ -36,7 +36,7 @@ The Model Context Protocol (MCP) server exposing Bitcode’s engineering intelli
 - Tools interface for AssetPack execution and optional Shippable delivery
 - Real‑time streaming (WebSocket)
 - Multi‑modal attachments (Figma, documents, images, audio, video)
-- Credit‑based usage (reserve → finalize → refund)
+- BTC fee posture plus measured non-fungible $BTD AssetPack amount
 
 ## Getting Started
 
@@ -163,9 +163,9 @@ The Model Context Protocol (MCP) server exposing Bitcode’s engineering intelli
         ExecutionMetrics: {
           type: 'object',
           properties: {
-            btdUsed: {
+            measuredBtd: {
               type: 'integer',
-              description: 'Amount of `$BTD` consumed',
+              description: 'Measured non-fungible `$BTD` content amount for the AssetPack',
               example: 150
             },
             tokensProcessed: {
@@ -612,7 +612,7 @@ Supports both synchronous and streaming execution modes.`,
                           }
                         ],
                         metrics: {
-                          btdUsed: 150,
+                          measuredBtd: 150,
                           tokensProcessed: 25000,
                           confidence: 0.92,
                           duration: 480000,

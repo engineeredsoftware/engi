@@ -64,7 +64,7 @@ test.describe('@profile UI Visual - Auth and Onboarding Flows', () => {
     await page.click('[data-auxillaries-testid="auxillaries-label-btd"]');
     // Wait for the BTD-step elements.
     await page.waitForSelector('[data-testid="btd-step-badge"]');
-    await page.waitForSelector('[data-testid="credits-promo-input"]');
+    await page.waitForSelector('[data-testid="btd-pane-container"]');
     await page.waitForTimeout(500);
     expect(await page.screenshot({ fullPage: true }))
       .toMatchSnapshot('onboarding-btd-step.png');

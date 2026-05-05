@@ -133,13 +133,11 @@ export {
   storeIterationWorkUpdate,
   buildAgentStepWorkUpdate,
   buildSDIVFPipelineUpdate,
-  buildSDIVSPipelineUpdate,
   accumulateIterationWorkContext,
   consumeIterationWorkContext,
   type WorkUpdate,
   type AgentStepWorkUpdate,
   type SDIVFPipelineUpdate,
-  type SDIVSPipelineUpdate,
   type ToolUsageUpdate,
 } from './work-update';
 

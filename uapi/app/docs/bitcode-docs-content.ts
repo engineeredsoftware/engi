@@ -1012,7 +1012,7 @@ const mcpApiReference = [
         outputs: [
           'runId and shippableCompatibilityId.',
           'status, interfaceSurface, inputContext, writeAdmission, and outputMeaning.',
-          'When completed: result, AssetPack synthesis artifacts, Shippables, btdUsed, timestamps, and events.',
+          'When completed: result, AssetPack synthesis artifacts, Shippables, measuredBtd, BTC-fee posture, timestamps, and events.',
         ],
         verifyInTerminal: 'Open the returned run/activity and inspect AssetPack, proof, delivery, and settlement posture.',
         failureModes: [

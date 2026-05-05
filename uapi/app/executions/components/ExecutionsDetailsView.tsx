@@ -167,10 +167,10 @@ export function ExecutionDetailsView({ runId, executionId }: ExecutionDetailsVie
                   <span className="text-gray-300">{assetPackCompletion.processingStats.tokens.total} (in {assetPackCompletion.processingStats.tokens.input} / out {assetPackCompletion.processingStats.tokens.output})</span>
                 </div>
               )}
-              {typeof assetPackCompletion.processingStats.btdUsed === 'number' && (
+              {typeof assetPackCompletion.processingStats.measuredBtd === 'number' && (
                 <div>
-                  <span className="text-gray-500">$BTD: </span>
-                  <span className="text-gray-300">{assetPackCompletion.processingStats.btdUsed}</span>
+                  <span className="text-gray-500">Measured $BTD: </span>
+                  <span className="text-gray-300">{assetPackCompletion.processingStats.measuredBtd}</span>
                 </div>
               )}
               {assetPackCompletion.repoSnapshot && (

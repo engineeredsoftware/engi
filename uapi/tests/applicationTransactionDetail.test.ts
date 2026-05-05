@@ -23,8 +23,8 @@ const selectedTransaction: WorkspaceRun = {
   branch: 'application/refit',
   itemCount: 4,
   tokenTotal: 1200,
-  btdUsed: 18.5,
-  usdTotal: 0.84,
+  measuredBtd: 18.5,
+  btcFeeUsdEquivalent: 0.84,
   averageLatencyMs: 850,
   proofStatus: 'bounded proof ready',
   closureFocus: 'shippable bundle',
@@ -57,8 +57,8 @@ const detail: ApplicationRunDetailSnapshot = {
   processingStats: {
     time: '4m 12s',
     tokenTotal: 2200,
-    btdUsed: 24.5,
-    usdTotal: 1.62,
+    measuredBtd: 24.5,
+    btcFeeUsdEquivalent: 1.62,
     averageLatencyMs: 930,
   },
   proofStatus: 'proof witness ready',
@@ -345,8 +345,8 @@ describe('application-transaction-detail helpers', () => {
         processingStats: {
           time: '4m 12s',
           tokenTotal: 2200,
-          btdUsed: 24.5,
-          usdTotal: 1.62,
+          measuredBtd: 24.5,
+          btcFeeUsdEquivalent: 1.62,
           averageLatencyMs: 930,
         },
         bitcodeActivityState: detail.bitcodeActivityState,
@@ -360,8 +360,8 @@ describe('application-transaction-detail helpers', () => {
       { label: 'Closure focus', value: 'bounded disclosure' },
       { label: 'Processing time', value: '4m 12s' },
       { label: 'Token total', value: '2,200' },
-      { label: 'BTD throughput', value: '24.5' },
-      { label: 'Spend', value: '$1.62' },
+      { label: 'Measured $BTD', value: '24.5' },
+      { label: 'BTC fee basis', value: '$1.62' },
       { label: 'Latency', value: '930 ms' },
     ]);
   });
@@ -405,8 +405,8 @@ describe('application-transaction-detail helpers', () => {
         processingStats: {
           time: '4m 12s',
           tokenTotal: 2200,
-          btdUsed: 24.5,
-          usdTotal: 1.62,
+          measuredBtd: 24.5,
+          btcFeeUsdEquivalent: 1.62,
           averageLatencyMs: 930,
         },
         rows: [
@@ -414,8 +414,8 @@ describe('application-transaction-detail helpers', () => {
           { label: 'Closure focus', value: 'bounded disclosure' },
           { label: 'Processing time', value: '4m 12s' },
           { label: 'Token total', value: '2,200' },
-          { label: 'BTD throughput', value: '24.5' },
-          { label: 'Spend', value: '$1.62' },
+          { label: 'Measured $BTD', value: '24.5' },
+          { label: 'BTC fee basis', value: '$1.62' },
           { label: 'Latency', value: '930 ms' },
         ],
         settlementMetrics: [

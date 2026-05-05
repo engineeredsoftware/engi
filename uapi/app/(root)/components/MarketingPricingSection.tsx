@@ -4,7 +4,7 @@ import React, { useState, useMemo, useEffect } from 'react';
 import type { Session, User } from '@supabase/supabase-js';
 import { createClient } from '@bitcode/supabase/ssr/client';
 import MarketingSectionWrapper from './MarketingSectionWrapper';
-// Note: bundle presets removed from the UI – only dynamic Flexible pricing remains.
+// Note: bundle presets removed from the UI; V26 only opens BTD acquisition intent.
 import { ProcessingIndicator } from '@/components/base/bitcode/indicators/ProcessingIndicator';
 import BTDPrices from '@/components/base/bitcode/btd/BTDPrices';
 
@@ -14,43 +14,35 @@ const MarketingPricingSection: React.FC = () => {
   const [selectedPlan, setSelectedPlan] = useState<string | null>(null);
   /*
    * -------------------------------------------------------------------------
-   * Dynamic slider limits for the Flexible plan
+   * Dynamic slider limits for BTD acquisition planning
    * -------------------------------------------------------------------------
-   * We determine the minimum / maximum amount of $BTD that can be selected
-   * based on the next smaller and larger *available* bundles. This ensures the
-   * slider only covers the range where choosing the Flexible (per-BTD)
-   * option still makes economic sense.
+   * The public surface cannot treat $BTD as a fungible checkout token. BTC pays
+   * fees; $BTD is a non-fungible AssetPack share/read-right. This widget keeps
+   * a USD-denominated BTC-fee reference only so it can route the operator to
+   * the future Terminal minting path or Exchange purchase path.
    */
-  // Retain bundle definitions for potential future cross-reference but we no
-  // longer rely on them for the marketing pricing section layout.
-  // Flexible plan per-BTD cost
+  // Reference values only. Terminal minting is V27; Exchange purchase is V28.
   /* ------------------------------------------------------------------
-   * Dynamic per-BTD pricing
+   * Dynamic acquisition reference
    * ------------------------------------------------------------------
-   * We support two price tiers for the single, unified Flexible plan:
-   *   – Flexible  : $0.25 per BTD  (default)
-   *   – Industrial: $0.22 per BTD  (discount once you buy ≥ 111,111 BTD
-   *                                     or equivalently hit $5,555,555)
-   * The UI should seamlessly switch between the two as the user adjusts the
-   * BTD amount and keep everything – price field, slider, etc – in sync.
+   * Terminal Need reference: future Fit mints new $BTD (V27).
+   * Exchange reference: existing non-fungible $BTD can be bought (V28).
    */
 
-  const FLEXIBLE_PRICE_PER_BTD = 0.25;
-  const INDUSTRIAL_PRICE_PER_BTD = 0.22;
+  const TERMINAL_NEED_REFERENCE_USD_PER_BTD = 0.25;
+  const EXCHANGE_REFERENCE_USD_PER_BTD = 0.22;
 
   /* ------------------------------------------------------------------
    * Pricing / slider math helpers
    * ------------------------------------------------------------------ */
   const MAX_TOTAL_USD = 10_000;
-  // Industrial bundle size that also maps to ~$10k
-  const INDUSTRIAL_CREDITS = Math.floor(MAX_TOTAL_USD / INDUSTRIAL_PRICE_PER_BTD); // 45 454
+  const [btcFeeReferenceUsd, setBtcFeeReferenceUsd] = useState<number>(5_000);
 
-  // Slider directly controls spend USD (0 – 10 000)
-  const [spendUSD, setSpendUSD] = useState<number>(5_000);
+  const isExchangePreview = btcFeeReferenceUsd === MAX_TOTAL_USD;
 
-  const isIndustrialTier = spendUSD === MAX_TOTAL_USD;
-
-  const perBtdCost = isIndustrialTier ? INDUSTRIAL_PRICE_PER_BTD : FLEXIBLE_PRICE_PER_BTD;
+  const referenceUsdPerBtd = isExchangePreview
+    ? EXCHANGE_REFERENCE_USD_PER_BTD
+    : TERMINAL_NEED_REFERENCE_USD_PER_BTD;
   // Acquisition flow state
   const [activatingPlan, setActivatingPlan] = useState<string | null>(null);
   const [acquisitionError, setAcquisitionError] = useState<string | null>(null);
@@ -75,10 +67,10 @@ const MarketingPricingSection: React.FC = () => {
     };
   }, [supabase]);
 
-  const handleAcquireBtd = async (planId: string, btdAmount: number, usdAmount: number) => {
+  const handleAcquireBtd = async (intentId: string, measuredBtdTarget: number, usdReferenceAmount: number) => {
     // Initialize acquisition, clear errors, set loading
     setAcquisitionError(null);
-    setActivatingPlan(planId);
+    setActivatingPlan(intentId);
     // Check if user is authenticated; if not, trigger onboarding/login
     try {
       const { data: { user } } = await supabase.auth.getUser();
@@ -94,26 +86,31 @@ const MarketingPricingSection: React.FC = () => {
       window.dispatchEvent(new Event('start-onboarding'));
       return;
     }
-    setSelectedPlan(planId);
+    setSelectedPlan(intentId);
     try {
       window.sessionStorage.setItem(
         'bitcode:btd-acquisition-intent',
         JSON.stringify({
-          source: 'marketing-pricing',
-          planId,
-          targetBtd: btdAmount,
-          estimatedUsd: usdAmount,
-          settlementAsset: 'BTC',
-          issuedAsset: 'BTD',
+          source: 'marketing-btd-acquisition-reference',
+          intentId,
+          measuredBtdTarget,
+          btcFeeReferenceUsd: usdReferenceAmount,
+          feeAsset: 'BTC',
+          shareAsset: 'BTD',
+          btdSemantics: 'non-fungible asset-pack share/read-right',
+          paths: [
+            { mode: 'terminal-need', target: '/application?intent=submit-need-for-btd', gate: 'V27' },
+            { mode: 'exchange-existing-btd', target: '/exchange?intent=buy-existing-btd', gate: 'V28' },
+          ],
           createdAt: new Date().toISOString(),
         })
       );
-      window.location.assign('/auxillaries/btd');
+      window.location.assign('/application?intent=acquire-btd');
     } catch (err: unknown) {
-      const msg = err instanceof Error ? err.message : 'Error opening BTD workspace';
+      const msg = err instanceof Error ? err.message : 'Error opening BTD acquisition intent';
       setAcquisitionError(msg);
       setActivatingPlan(null);
-      console.error('Error opening BTD workspace:', err);
+      console.error('Error opening BTD acquisition intent:', err);
     }
   };
 
@@ -130,10 +127,10 @@ const MarketingPricingSection: React.FC = () => {
       {acquisitionError && (
         <div className="text-red-500 text-center mb-4">{acquisitionError}</div>
       )}
-      {/* Loading overlay while entering the canonical BTD workspace */}
+      {/* Loading overlay while entering the canonical BTD acquisition intent */}
       {activatingPlan && (
         <div className={overlayClass}>
-          <ProcessingIndicator label="Opening BTD Workspace" />
+          <ProcessingIndicator label="Opening BTD acquisition" />
         </div>
       )}
       <div className="max-w-6xl mx-auto px-4">
@@ -143,17 +140,17 @@ const MarketingPricingSection: React.FC = () => {
             <span className="block">Edge</span>
           </h2>
           <p className={subtitleClass}>
-            $BTD powers self-optimizing, no-code AI exchange activity. Each share compounds learning, refinement, settlement, and reusable technical intelligence at enterprise scale.
+            BTC pays fees. $BTD records non-fungible AssetPack share/read-right holdings and measured Bitcode content amount as Terminal and Exchange surfaces mature.
           </p>
           {/* Pricing card */}
           <div className="mb-12">
             <BTDPrices
               selectedPlan={selectedPlan}
               onSelectPlan={setSelectedPlan}
-              customBtd={spendUSD}
-              onChangeCustomBtd={setSpendUSD}
+              referenceUsdAmount={btcFeeReferenceUsd}
+              onChangeReferenceUsdAmount={setBtcFeeReferenceUsd}
               onAcquireBtd={handleAcquireBtd}
-              perBtdCost={perBtdCost}
+              referenceUsdPerBtd={referenceUsdPerBtd}
               isSignedIn={isSignedIn}
             />
           </div>

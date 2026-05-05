@@ -41,28 +41,28 @@ interface MCPTool {
 }
 
 /**
- * Estimate BTD required for pipeline execution
+ * Estimate the measured BTD content amount expected for pipeline execution.
  */
-async function estimatePipelineBtd(
+async function estimatePipelineMeasuredBtd(
   pipeline: PipelineName,
   task: string,
   attachments: any[] = []
 ): Promise<number> {
-  // Base BTD estimation based on pipeline type and complexity
+  // Base measured-BTD estimation based on pipeline type and complexity.
   const baseCosts = { 'asset-pack': 100 } as const;
 
-  let estimatedBtd = (baseCosts as Record<string, number>)[pipeline] || 100;
+  let measuredBtdEstimate = (baseCosts as Record<string, number>)[pipeline] || 100;
 
   // Adjust for task complexity (rough heuristic)
   const taskLength = task.length;
-  if (taskLength > 1000) estimatedBtd *= 1.5;
-  if (taskLength > 2000) estimatedBtd *= 2;
+  if (taskLength > 1000) measuredBtdEstimate *= 1.5;
+  if (taskLength > 2000) measuredBtdEstimate *= 2;
 
   // Adjust for attachments
-  estimatedBtd += attachments.length * 25;
+  measuredBtdEstimate += attachments.length * 25;
 
-  // Add buffer for safety
-  return Math.ceil(estimatedBtd * 1.2);
+  // Add tolerance so read surfaces have a conservative expected content amount.
+  return Math.ceil(measuredBtdEstimate * 1.2);
 }
 
 function normalizeAssetPacks(result: any): any[] {
@@ -245,8 +245,8 @@ async function executePipelineWithMonitoring(
 
   const writeAdmission = assertPipelineWriteAdmission(params, context, interfaceSurface);
 
-  // Estimate BTD
-  const estimatedBtd = await estimatePipelineBtd(
+  // Estimate measured BTD without using it as admission spend.
+  const measuredBtdEstimate = await estimatePipelineMeasuredBtd(
     pipelineType,
     params.task,
     params.attachments
@@ -256,7 +256,7 @@ async function executePipelineWithMonitoring(
     pipeline: pipelineType,
     userId: context.userId,
     organizationId: context.organizationId,
-    estimatedBtd,
+    measuredBtdEstimate,
     task: params.task.substring(0, 100) + '...'
   });
 
@@ -276,7 +276,7 @@ async function executePipelineWithMonitoring(
       userId: context.userId,
       organizationId: context.organizationId,
       apiKeyId: context.apiKeyId,
-      estimatedBtd,
+      measuredBtdEstimate,
       priority: params.priority || 'normal',
       metadata: {
         source: 'mcp',
@@ -316,7 +316,7 @@ async function executePipelineWithMonitoring(
       pipeline: pipelineType,
       subtype: params.subtype,
       duration,
-      btdUsed: executionResult.btdUsed || estimatedBtd,
+      measuredBtd: executionResult.measuredBtd || measuredBtdEstimate,
       success: executionResult.status === 'completed',
       userId: context.userId,
       organizationId: context.organizationId
@@ -327,7 +327,7 @@ async function executePipelineWithMonitoring(
       pipeline: pipelineType,
       duration,
       status: executionResult.status,
-      btdUsed: executionResult.btdUsed
+      measuredBtd: executionResult.measuredBtd
     });
 
     const assetPacks = normalizeAssetPacks(executionResult.result);
@@ -343,7 +343,7 @@ async function executePipelineWithMonitoring(
       result: executionResult.result,
       assetPacks,
       error: executionResult.error,
-      btdUsed: executionResult.btdUsed,
+      measuredBtd: executionResult.measuredBtd,
       startedAt: executionResult.startedAt,
       completedAt: executionResult.completedAt,
       events: executionResult.events

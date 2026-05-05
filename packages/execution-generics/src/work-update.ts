@@ -57,8 +57,6 @@ export interface SDIVFPipelineUpdate extends WorkUpdate {
   suggestions: string[];
 }
 
-export type SDIVSPipelineUpdate = SDIVFPipelineUpdate;
-
 const WORK_UPDATE_NAMESPACE = 'work-update';
 const LATEST_AGENT_STEP_KEY = 'latest-agent-step';
 
@@ -160,8 +158,6 @@ export function buildSDIVFPipelineUpdate(params: {
     meta,
   };
 }
-
-export const buildSDIVSPipelineUpdate = buildSDIVFPipelineUpdate;
 
 export function accumulateIterationWorkContext(
   execution: Execution,

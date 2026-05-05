@@ -19,7 +19,7 @@ const faqs = [
   {
     question: "So... is this a crypto scam?",
     answer:
-      "No. $BTD is just one powerful tool in Bitcode's large toolbox. $BTD transparently accelerates Bitcode's proprietary engineering capabilities efficiently and at scale. Contribution dividends, paid in a permissionless standards-compliant digital asset, flexibly credit technical knowledge creators anywhere in the world. Elegant tokenomics and layered security serve retail to complete the aligned foundational flywheel.",
+      "No. BTC is the fee asset, and $BTD is not a checkout credit or fungible currency token. $BTD records non-fungible AssetPack share/read-right holdings and the measured Bitcode amount in accepted content. Terminal minting and Exchange purchase flows mature after V26, with wallet-readable balances keeping the distinction explicit.",
   },
   {
     question: "Is this powerful tool easy to use?",
@@ -54,7 +54,7 @@ const faqs = [
   {
     question: "What are 'coins', 'tokens', and '$BTD'?",
     answer:
-      "Currently, currency coins, text tokens, and Bitcode-denominated $BTD are all distinct yet correlated entities.",
+      "Bitcoin is the fee currency, text tokens are model accounting units, and $BTD is the non-fungible share/read-right tied to AssetPacks and measured Bitcode content amount.",
   },
   {
     question: "Who is Advanced Engineered Software, Inc.?",

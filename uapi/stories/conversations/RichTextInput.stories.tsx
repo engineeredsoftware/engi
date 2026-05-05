@@ -288,7 +288,7 @@ export const WithShippableToken: Story = {
         metadata: {
           id: 'del-1',
           priority: 'high',
-          estimatedCredits: 150
+          measuredBtdEstimate: 150
         }
       }
     ]
@@ -315,7 +315,7 @@ export const WithUpgradeToken: Story = {
         metadata: {
           id: 'upg-1',
           type: 'framework_upgrade',
-          estimatedCredits: 100
+          measuredBtdEstimate: 100
         }
       }
     ]
@@ -389,7 +389,7 @@ export const WithMultipleTokens: Story = {
         metadata: {
           id: 'del-new',
           priority: 'high',
-          estimatedCredits: 150
+          measuredBtdEstimate: 150
         }
       }
     ]

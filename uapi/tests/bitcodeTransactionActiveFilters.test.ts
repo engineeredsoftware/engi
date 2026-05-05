@@ -13,14 +13,14 @@ describe('bitcode transaction active filters', () => {
         ownership: 'mine',
         transactionLens: 'closure',
         repository: 'bitcode/bitcode',
-        sort: 'highest-usd',
+        sort: 'highest-btc-fee-basis',
       }),
     ).toEqual([
       { key: 'searchTerm', label: 'Search', value: 'proof bundle' },
       { key: 'ownership', label: 'Ownership', value: 'My transactions' },
       { key: 'transactionLens', label: 'Lens', value: 'Closure' },
       { key: 'repository', label: 'Repository', value: 'bitcode/bitcode' },
-      { key: 'sort', label: 'Sort', value: 'Highest USD' },
+      { key: 'sort', label: 'Sort', value: 'Highest BTC Fee Basis' },
     ]);
   });
 

@@ -44,8 +44,11 @@ export type HeaderModelUsageStat = {
 export type HeaderProcessingStats = {
   time: string;
   tokens?: { input: number; output: number; total: number };
-  btdUsed?: number;
-  usdTotal?: number;
+  measuredBtd?: number;
+  btdSemantics?: string;
+  feeAsset?: 'BTC' | string;
+  btcFeesPaid?: number | null;
+  btcFeeUsdEquivalent?: number;
   averageLatencyMs?: number | null;
   modelUsage?: HeaderModelUsageStat[];
   guide?: string | null;
@@ -233,13 +236,19 @@ export function CompleteHeaderContent({
             )}
           </div>
           <div className="flex items-center justify-between">
-            <span className="text-gray-400 text-sm">$BTD</span>
-            <span className="text-emerald-300 font-medium text-sm">{processingStats?.btdUsed ?? 1}</span>
+            <span className="text-gray-400 text-sm">Measured $BTD</span>
+            <span className="text-emerald-300 font-medium text-sm">{processingStats?.measuredBtd ?? 1}</span>
           </div>
-          {typeof processingStats?.usdTotal === 'number' && (
+          {typeof processingStats?.btcFeeUsdEquivalent === 'number' && (
             <div className="flex items-center justify-between">
-              <span className="text-gray-400 text-sm">USD Spend</span>
-              <span className="text-emerald-300 font-medium text-sm">${processingStats.usdTotal.toFixed(2)}</span>
+              <span className="text-gray-400 text-sm">BTC Fee Basis</span>
+              <span className="text-emerald-300 font-medium text-sm">${processingStats.btcFeeUsdEquivalent.toFixed(2)}</span>
+            </div>
+          )}
+          {typeof processingStats?.btcFeesPaid === 'number' && (
+            <div className="flex items-center justify-between">
+              <span className="text-gray-400 text-sm">BTC Fees Paid</span>
+              <span className="text-emerald-300 font-medium text-sm">{processingStats.btcFeesPaid.toFixed(8)} BTC</span>
             </div>
           )}
           {typeof processingStats?.averageLatencyMs === 'number' && Number.isFinite(processingStats.averageLatencyMs) && (

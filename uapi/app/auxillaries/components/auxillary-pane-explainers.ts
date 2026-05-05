@@ -49,13 +49,13 @@ export const auxillaryPaneExplainers: Record<
     kicker: "$BTD auxillary",
     title: "Wallet posture",
     summary:
-      "Keep identity, balances, account trust, and membership posture legible before you lean on heavier Bitcode throughput.",
+      "Keep identity, BTC fee liquidity, $BTD holdings, account trust, and membership posture legible before you lean on heavier Bitcode throughput.",
     detail:
-      "The inner auxillary should make wallet-facing posture readable at a glance instead of hiding it behind account menus or detached account pages.",
+      "The inner auxillary should make wallet-facing BTC and non-fungible $BTD posture readable at a glance instead of hiding it behind account menus or detached account pages.",
     points: [
-      "Review current BTD balance and live access posture",
+      "Review current $BTD read-right holdings and live access posture",
       "Surface whether BTC and wallet binding are already attached",
-      "Keep team and membership posture visible beside balances",
+      "Keep team and membership posture visible beside fee and share posture",
     ],
   },
   btdShares: {

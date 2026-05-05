@@ -138,8 +138,8 @@ describe('application-activity-history', () => {
             processingStats: {
               time: '4m 12s',
               tokenTotal: 2200,
-              btdUsed: 24.5,
-              usdTotal: 1.62,
+              measuredBtd: 24.5,
+              btcFeeUsdEquivalent: 1.62,
               averageLatencyMs: 930,
             },
           }),
@@ -176,8 +176,8 @@ describe('application-activity-history', () => {
         processingStats: {
           time: '4m 12s',
           tokens: { total: 2200 },
-          btdUsed: 24.5,
-          usdTotal: 1.62,
+          measuredBtd: 24.5,
+          btcFeeUsdEquivalent: 1.62,
           averageLatencyMs: 930,
         },
       },
@@ -204,8 +204,8 @@ describe('application-activity-history', () => {
       processing_stats: {
         time: '12s',
         tokens: { input: 100, output: 200, total: 300 },
-        btdUsed: 21,
-        usdTotal: 1.2,
+        measuredBtd: 21,
+        btcFeeUsdEquivalent: 1.2,
         averageLatencyMs: 800,
       },
       asset_pack_completion: null,
@@ -220,8 +220,8 @@ describe('application-activity-history', () => {
       proofStatus: 'need-measurement witness ready',
       closureFocus: 'need measurement + verification posture',
       tokenTotal: 300,
-      btdUsed: 21,
-      usdTotal: 1.2,
+      measuredBtd: 21,
+      btcFeeUsdEquivalent: 1.2,
     });
   });
 

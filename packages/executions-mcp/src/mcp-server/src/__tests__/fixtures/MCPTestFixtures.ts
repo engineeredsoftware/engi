@@ -30,7 +30,7 @@ export const AUTH_CONTEXTS = {
     role: 'owner',
     permissions: {
       pipelines: { create: true, read: true, cancel: true, retry: true },
-      organization: { manageMembers: true, viewAnalytics: true, manageBtd: true },
+      organization: { manageMembers: true, viewAnalytics: true, manageBtdHoldings: true },
       resources: { read: true, export: true }
     },
     btdBalance: 10000,
@@ -47,7 +47,7 @@ export const AUTH_CONTEXTS = {
     role: 'admin',
     permissions: {
       pipelines: { create: true, read: true, cancel: true, retry: true },
-      organization: { manageMembers: true, viewAnalytics: true, manageBtd: false },
+      organization: { manageMembers: true, viewAnalytics: true, manageBtdHoldings: false },
       resources: { read: true, export: true }
     },
     btdBalance: 5000,
@@ -63,7 +63,7 @@ export const AUTH_CONTEXTS = {
     role: 'dev',
     permissions: {
       pipelines: { create: true, read: true, cancel: false, retry: false },
-      organization: { manageMembers: false, viewAnalytics: false, manageBtd: false },
+      organization: { manageMembers: false, viewAnalytics: false, manageBtdHoldings: false },
       resources: { read: true, export: false }
     },
     btdBalance: 1000,
@@ -78,7 +78,7 @@ export const AUTH_CONTEXTS = {
     role: 'dev',
     permissions: {
       pipelines: { create: false, read: true, cancel: false, retry: false },
-      organization: { manageMembers: false, viewAnalytics: false, manageBtd: false },
+      organization: { manageMembers: false, viewAnalytics: false, manageBtdHoldings: false },
       resources: { read: false, export: false }
     },
     btdBalance: 0,
@@ -210,7 +210,7 @@ export const PIPELINE_RESULTS = {
       }
     ],
     metrics: {
-      btdUsed: 150,
+      measuredBtd: 150,
       tokensProcessed: 25000,
       confidence: 0.92,
       phases: {
@@ -306,7 +306,7 @@ export const STREAMING_EVENTS = {
       message: 'Pipeline completed successfully',
       metadata: {
         totalDuration: 900000,
-        btdUsed: 150,
+        measuredBtd: 150,
         assetPacks: 2
       },
       confidence: 0.92
@@ -375,21 +375,6 @@ export const CUSTOMER_SCENARIOS = {
   },
   
   FREELANCER_LIMITED_BTD: {
-    name: 'Freelancer with Limited $BTD',
-    description: 'A freelancer with limited $BTD trying to complete a project',
-    userContext: AUTH_CONTEXTS.LIMITED_USER,
-    inputs: {
-      task: 'Build a complete landing page with contact form and animations',
-      repository: REPOSITORY_CONTEXTS.NEXT_JS_PROJECT,
-      attachments: [ATTACHMENTS.FIGMA_DESIGN],
-      mcpConfig: {
-        emailjs: { serviceId: 'mock-email-service' }
-      }
-    },
-    expectedOutcome: 'partial',
-    businessValue: 'Enable cost-effective development for budget-conscious users'
-  },
-  FREELANCER_LIMITED_CREDITS: {
     name: 'Freelancer with Limited $BTD',
     description: 'A freelancer with limited $BTD trying to complete a project',
     userContext: AUTH_CONTEXTS.LIMITED_USER,
@@ -565,7 +550,7 @@ export const MOCK_DATA = {
           id: 'org-001',
           name: 'Bitcode Labs',
           subscription_tier: 'enterprise',
-          credits_balance: 50000,
+          btd_holding_amount: 50000,
           created_at: '2023-01-01T00:00:00Z'
         }
       ],

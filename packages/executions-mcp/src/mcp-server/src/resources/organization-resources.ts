@@ -19,8 +19,7 @@ import {
   UserProfilesModel,
   UserConnectionsModel,
   PipelineExecutionsModel,
-  OrganizationCreditsModel,
-  OrganizationCreditUsagesModel
+  OrganizationBtdTreasuryModel,
 } from '@bitcode/orm';
 import type { MCPAuthContext } from '../types';
 
@@ -89,7 +88,7 @@ async function getOrganizationAnalytics(
   const userProfiles = new UserProfilesModel(supabase);
   const userConnections = new UserConnectionsModel(supabase);
   const runs = new PipelineExecutionsModel(supabase);
-  const organizationCredits = new OrganizationCreditsModel(supabase);
+  const organizationBtdTreasury = new OrganizationBtdTreasuryModel(supabase);
 
   try {
     // Verify organization access
@@ -117,7 +116,7 @@ async function getOrganizationAnalytics(
     );
 
     // Get organization treasury balance
-    const btdTreasury = await organizationCredits.getByOrganizationId(organizationId);
+    const btdTreasury = await organizationBtdTreasury.getByOrganizationId(organizationId);
 
     // Get repository connections
     const connections = await userConnections.getByOrganization(organizationId);
@@ -230,13 +229,13 @@ function analyzeOrganizationData(data: {
       return acc;
     }, {} as Record<string, number>),
     
-    totalBtdUsed: runs.reduce((sum, run) => 
-      sum + (((run.metadata as any)?.btdUsed) || 0), 0
+    totalMeasuredBtd: runs.reduce((sum, run) => 
+      sum + (((run.metadata as any)?.measuredBtd) || 0), 0
     ),
     
-    averageBtdPerPipeline: runs.length > 0 
+    averageMeasuredBtdPerPipeline: runs.length > 0 
       ? runs.reduce((sum, run) => 
-          sum + (((run.metadata as any)?.btdUsed) || 0), 0
+          sum + (((run.metadata as any)?.measuredBtd) || 0), 0
         ) / runs.length
       : 0,
     
@@ -265,8 +264,8 @@ function analyzeOrganizationData(data: {
       ? pipelineAnalytics.totalPipelines / teamAnalytics.totalMembers
       : 0,
     
-    creditsPerMember: teamAnalytics.totalMembers > 0 
-      ? pipelineAnalytics.totalBtdUsed / teamAnalytics.totalMembers
+    measuredBtdPerMember: teamAnalytics.totalMembers > 0 
+      ? pipelineAnalytics.totalMeasuredBtd / teamAnalytics.totalMembers
       : 0,
     
     repositoriesPerMember: teamAnalytics.totalMembers > 0 
@@ -557,12 +556,12 @@ function generateOrganizationRecommendations(metrics: any): any[] {
   }
 
   // Cost optimization recommendation
-  if (metrics.pipelineAnalytics.averageBtdPerPipeline > 150) {
+  if (metrics.pipelineAnalytics.averageMeasuredBtdPerPipeline > 150) {
     recommendations.push({
       category: 'cost',
       priority: 'medium',
       title: 'Optimize $BTD Usage',
-      description: `Average of ${Math.round(metrics.pipelineAnalytics.averageBtdPerPipeline)} $BTD per pipeline could be optimized`,
+      description: `Average of ${Math.round(metrics.pipelineAnalytics.averageMeasuredBtdPerPipeline)} measured $BTD per pipeline could be optimized`,
       actions: [
         'Review prompt optimization strategies',
         'Train team on efficient pipeline usage',
@@ -615,7 +614,7 @@ async function getTeamMembers(organizationId: string, context: MCPAuthContext): 
           email: profile?.email || '',
           avatar: profile?.avatar_url,
           role: member.role,
-          creditBudget: member.credit_budget,
+          btcFeeBudget: member.credit_budget,
           isActive: member.is_active,
           joinedAt: member.joined_at,
           recentActivity: {

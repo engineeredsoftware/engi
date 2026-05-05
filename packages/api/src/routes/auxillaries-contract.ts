@@ -2,15 +2,7 @@ export const AUXILLARY_FLOW_STEPS = ['profile', 'connects', 'interfaces', 'btd']
 
 export type ConcreteAuxillaryPane = (typeof AUXILLARY_FLOW_STEPS)[number];
 
-const AUXILLARY_COMPATIBILITY_MAP: Record<string, ConcreteAuxillaryPane> = {
-  users: 'profile',
-  profile: 'profile',
-  connects: 'connects',
-  models: 'interfaces',
-  interfaces: 'interfaces',
-  credits: 'btd',
-  btd: 'btd',
-};
+const CANONICAL_AUXILLARY_PANES = new Set<string>(AUXILLARY_FLOW_STEPS);
 
 export interface AuxillaryOnboardingPayload {
   completedPanes: ConcreteAuxillaryPane[];
@@ -22,7 +14,6 @@ export interface AuxillaryOnboardingPayload {
 
 export interface AuxillaryOnboardingUpdatePayload {
   completedPane?: string;
-  completedStep?: string;
 }
 
 export interface AuxillaryDataPayload {
@@ -33,20 +24,17 @@ export interface AuxillaryDataPayload {
   repositories: unknown[];
   repositoryInventorySource: string | null;
   btdBalance: number;
+  btcFeeBalance: number | null;
   modelPreferences: unknown | null;
   onboardedPanes: ConcreteAuxillaryPane[];
   onboarded_steps: ConcreteAuxillaryPane[];
   isOnboardingComplete: boolean;
 }
 
-export interface AuxillaryBtdUpdatePayload {
-  btdBalance?: number;
-  totalBtd?: number;
-}
-
 export function normalizeAuxillaryPane(value: string | null | undefined): ConcreteAuxillaryPane | null {
   if (!value) return null;
-  return AUXILLARY_COMPATIBILITY_MAP[value.trim().toLowerCase()] || null;
+  const normalized = value.trim().toLowerCase();
+  return CANONICAL_AUXILLARY_PANES.has(normalized) ? (normalized as ConcreteAuxillaryPane) : null;
 }
 
 export function normalizeAuxillarySteps(value: unknown): ConcreteAuxillaryPane[] {
@@ -115,6 +103,7 @@ export function buildAnonymousAuxillaryData(): AuxillaryDataPayload {
     repositories: [],
     repositoryInventorySource: null,
     btdBalance: 0,
+    btcFeeBalance: null,
     modelPreferences: null,
     onboardedPanes,
     onboarded_steps: onboardedPanes,
@@ -130,6 +119,7 @@ export function buildAuxillaryDataPayload({
   repositories,
   repositoryInventorySource,
   btdBalance,
+  btcFeeBalance,
   modelPreferences,
   onboardedSteps,
 }: {
@@ -140,11 +130,15 @@ export function buildAuxillaryDataPayload({
   repositories?: unknown[] | null;
   repositoryInventorySource?: string | null;
   btdBalance?: number;
+  btcFeeBalance?: number | null;
   modelPreferences: unknown | null;
   onboardedSteps: unknown;
 }): AuxillaryDataPayload {
   const onboardedPanes = parseStoredAuxillarySteps(onboardedSteps);
   const resolvedBtdBalance = typeof btdBalance === 'number' ? btdBalance : 0;
+  const resolvedBtcFeeBalance = typeof btcFeeBalance === 'number' && Number.isFinite(btcFeeBalance)
+    ? btcFeeBalance
+    : null;
 
   return {
     profile,
@@ -157,6 +151,7 @@ export function buildAuxillaryDataPayload({
         ? repositoryInventorySource
         : null,
     btdBalance: resolvedBtdBalance,
+    btcFeeBalance: resolvedBtcFeeBalance,
     modelPreferences,
     onboardedPanes,
     onboarded_steps: onboardedPanes,

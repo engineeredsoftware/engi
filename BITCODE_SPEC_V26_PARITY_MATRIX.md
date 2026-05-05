@@ -159,7 +159,7 @@ This ledger is grounded in:
 | Fifth-gate debug/environment and proof closure | application includes the debug widget, environment toggle, proof-family generation, retained-package admissibility, and cleanup controls needed to keep fifth-gate closure work moving beyond through-fourth-gate closure | implemented |
 | Orbital ring rehabilitation | orbitals behave like the real Connects/Interfaces/Profile/`$BTD` owner while preserving the ring overlay shell | implemented |
 | Wallet/auth hardening | production wallet connection and auth posture are explicit | implemented |
-| Credits carrier cutover | current credits surfaces remain transitional while orbitals still expose legacy credits posture; V26 end state cuts credits as a primary carrier and replaces it with wallet-connected Bitcoin for auth, share ownership, and token transfers | accepted boundary |
+| Credits carrier cutover | current credits surfaces remain transitional while active surfaces still risk treating `$BTD` like fungible spendable credits | V26 end state cuts credits as a primary carrier and separates wallet-read BTC fee liquidity from non-fungible `$BTD` share/read-right holdings and measured content amount; the top-right balance posture should show both instead of collapsing fees and share rights into one balance | accepted boundary |
 | External hardening | GitHub, bitcoin, sidechain, repeated-read, compute, storage, telemetry, and reconciliation are hardened under the new ownership model | implemented |
 | Documentation refresh | active V26 docs and second-gate readmes show the new file structure, route model, orbital model, and package roles precisely | implemented |
 

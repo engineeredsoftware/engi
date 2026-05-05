@@ -81,7 +81,7 @@ const completeConversationData = {
           value: 'User Authentication System',
           metadata: {
             priority: 'high',
-            estimatedCredits: 150
+            measuredBtdEstimate: 150
           }
         },
         {
@@ -89,7 +89,7 @@ const completeConversationData = {
           value: 'Product Catalog with Search',
           metadata: {
             priority: 'high',
-            estimatedCredits: 200
+            measuredBtdEstimate: 200
           }
         },
         {
@@ -97,7 +97,7 @@ const completeConversationData = {
           value: 'Shopping Cart & Checkout',
           metadata: {
             priority: 'medium',
-            estimatedCredits: 180
+            measuredBtdEstimate: 180
           }
         }
       ]
@@ -141,7 +141,7 @@ const completeConversationData = {
           value: 'React 18 Migration',
           metadata: {
             type: 'framework_upgrade',
-            estimatedCredits: 100,
+            measuredBtdEstimate: 100,
             recommendationScore: 90
           }
         },
@@ -150,7 +150,7 @@ const completeConversationData = {
           value: 'TypeScript Strict Mode',
           metadata: {
             type: 'code_improvement',
-            estimatedCredits: 120,
+            measuredBtdEstimate: 120,
             recommendationScore: 85
           }
         }
@@ -175,7 +175,7 @@ const completeConversationData = {
       status: 'completed' as const,
       progress: 100,
       phase: 'Complete',
-      estimatedCredits: 150,
+      measuredBtdEstimate: 150,
       usedCredits: 145,
       startedAt: '2024-01-15T08:07:00Z',
       completedAt: '2024-01-15T08:32:00Z',
@@ -210,7 +210,7 @@ const completeConversationData = {
       status: 'running' as const,
       progress: 75,
       phase: 'Implementation',
-      estimatedCredits: 200,
+      measuredBtdEstimate: 200,
       usedCredits: 150,
       startedAt: '2024-01-15T08:07:30Z',
       events: [
@@ -231,7 +231,7 @@ const completeConversationData = {
       status: 'running' as const,
       progress: 45,
       phase: 'Discovery',
-      estimatedCredits: 180,
+      measuredBtdEstimate: 180,
       usedCredits: 81,
       startedAt: '2024-01-15T08:07:45Z',
       events: [
@@ -251,7 +251,7 @@ const completeConversationData = {
       status: 'running' as const,
       progress: 30,
       phase: 'Implementation',
-      estimatedCredits: 100,
+      measuredBtdEstimate: 100,
       usedCredits: 30,
       startedAt: '2024-01-15T10:02:30Z',
       events: [
@@ -272,7 +272,7 @@ const completeConversationData = {
       status: 'running' as const,
       progress: 20,
       phase: 'Setup',
-      estimatedCredits: 120,
+      measuredBtdEstimate: 120,
       usedCredits: 24,
       startedAt: '2024-01-15T10:03:00Z',
       events: [
@@ -404,7 +404,7 @@ export const PerformanceStressTest: Story = {
           status: 'running' as const,
           progress: Math.floor(Math.random() * 100),
           phase: ['Setup', 'Discovery', 'Implementation', 'Validation', 'Finish'][Math.floor(Math.random() * 5)],
-          estimatedCredits: 100,
+          measuredBtdEstimate: 100,
           usedCredits: Math.floor(Math.random() * 100),
           startedAt: new Date(Date.now() - Math.random() * 3600000).toISOString(),
           events: Array.from({ length: 20 }, (_, j) => ({
@@ -449,7 +449,7 @@ export const RealTimeStreamingDemo: Story = {
             status: 'running' as const,
             progress: 55,
             phase: 'Implementation',
-            estimatedCredits: 250,
+            measuredBtdEstimate: 250,
             usedCredits: 138,
             startedAt: '2024-01-15T12:00:00Z',
             events: [

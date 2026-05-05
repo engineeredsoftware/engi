@@ -6,7 +6,7 @@
  * 
  * Foundation of:
  * - PTRR flow: sequential(plan, try, refine, retry)
- * - SDIVS pipeline: sequential(setup, divLoop, ship)
+ * - SDIVF pipeline: sequential(setup, divLoop, finish)
  * - PTRR substeps (conceptual): Steps compose parent Failsafes, each running Generation children.
  *   Do not sequence Reason/Judge/Structured across failsafes; parents orchestrate children.
  */

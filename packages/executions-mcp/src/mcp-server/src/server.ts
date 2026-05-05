@@ -244,7 +244,7 @@ export class BitcodeMCPServer {
           role: 'owner',
           permissions: {
             pipelines: { create: true, read: true, cancel: true, retry: true },
-            organization: { manageMembers: true, viewAnalytics: true, manageBtd: true },
+            organization: { manageMembers: true, viewAnalytics: true, manageBtdHoldings: true },
             resources: { read: true, export: true }
           },
           btdBalance: 10000,

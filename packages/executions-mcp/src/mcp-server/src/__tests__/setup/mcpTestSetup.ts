@@ -412,7 +412,7 @@ jest.mock('@bitcode/pipelines-generics', () => ({
       pipelineId: 'test-pipeline-id',
       assetPacks: [],
       metrics: {
-        btdUsed: 100,
+        measuredBtd: 100,
         tokensProcessed: 1000,
         confidence: 0.9
       }
@@ -522,7 +522,7 @@ global.testUtils = {
     role: 'owner',
     permissions: {
       pipelines: { create: true, read: true, cancel: true, retry: true },
-      organization: { manageMembers: true, viewAnalytics: true, manageBtd: true },
+      organization: { manageMembers: true, viewAnalytics: true, manageBtdHoldings: true },
       resources: { read: true, export: true }
     },
     btdBalance: 10000,

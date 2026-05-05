@@ -45,8 +45,25 @@ const DEFAULT_BTD_DEFAULTS: BtdDefaults = {
   walletSync: "manual",
 };
 
-function formatBtdBalance(btdBalance: number) {
-  return `${btdBalance.toLocaleString()} BTD`;
+function formatBtdHoldings(btdBalance: number) {
+  return `${btdBalance.toLocaleString()} $BTD`;
+}
+
+function formatBtcFeeBalance(balance: unknown) {
+  const numericBalance =
+    typeof balance === "number"
+      ? balance
+      : typeof balance === "string" && balance.trim()
+        ? Number(balance)
+        : null;
+
+  if (typeof numericBalance !== "number" || !Number.isFinite(numericBalance)) {
+    return "Binding pending";
+  }
+
+  return `${numericBalance.toLocaleString(undefined, {
+    maximumFractionDigits: numericBalance >= 1 ? 4 : 8,
+  })} BTC`;
 }
 
 function resolveWalletAddress(profile: Record<string, any> | null, userId: string | undefined) {
@@ -72,6 +89,7 @@ export default function AuxillariesBTDPane({
   const {
     data,
     btdBalance = 0,
+    btcFeeBalance = null,
     hasStoredVerifiedWalletConnection = false,
     hasVerifiedWalletConnection,
   } = useUserData();
@@ -79,6 +97,10 @@ export default function AuxillariesBTDPane({
   const savedPreferences = (data?.modelPreferences as Record<string, any> | null) || null;
   const profile = (data?.profile as Record<string, any> | null) || null;
   const walletBinding = readBitcodeWalletBindingFromProfile(profile);
+  const btcFeeBalanceSource = btcFeeBalance ?? profile?.btc_balance;
+  const hasReadableBtcFeeBalance =
+    typeof btcFeeBalanceSource === "number" ||
+    (typeof btcFeeBalanceSource === "string" && Number.isFinite(Number(btcFeeBalanceSource)));
   const teamMembers = Array.isArray(profile?.team_members) ? profile.team_members : [];
   const [defaults, setDefaults] = useState<BtdDefaults>(() => ({
     ...DEFAULT_BTD_DEFAULTS,
@@ -299,24 +321,24 @@ export default function AuxillariesBTDPane({
           <form onSubmit={handleSubmit} className="space-y-5">
             <AuxillariesWorkspaceSection
               kicker="Wallet posture"
-              title="Keep balances, identity, and membership readable together"
-              description="The $BTD auxillary should make account trust, balances, and team posture immediately legible before you return to transactions or closure."
+              title="Keep BTC fees, $BTD holdings, identity, and membership readable together"
+              description="$BTD is a non-fungible share and read-right posture, while BTC is the fee-liquidity posture that should be visible before you return to transactions or closure."
               explainer={auxillaryPaneExplainers.btdWallet}
               tone="amber"
             >
               <AuxillariesStatGrid
                 items={[
                   {
-                    label: "BTD balance",
-                    value: formatBtdBalance(btdBalance),
-                    detail: "Current inner-auxillary throughput balance visible to the account.",
+                    label: "$BTD holdings",
+                    value: formatBtdHoldings(btdBalance),
+                    detail: "Non-fungible share/read-right holdings visible to this account.",
                     tone: "amber",
                   },
                   {
-                    label: "BTC posture",
-                    value: profile?.btc_balance ? `${profile.btc_balance} BTC` : "Binding pending",
-                    detail: profile?.btc_balance
-                      ? "Live BTC balance supplied by the connected wallet posture."
+                    label: "BTC fee liquidity",
+                    value: formatBtcFeeBalance(btcFeeBalanceSource),
+                    detail: hasReadableBtcFeeBalance
+                      ? "Live BTC fee-liquidity posture supplied by the connected wallet posture."
                       : hasStoredVerifiedWalletConnection && !hasVerifiedWalletConnection
                         ? "Saved verified wallet-provider signer posture exists, but the live signer session needs reconnect before signed settlement or refreshed BTC posture can resume."
                       : walletBinding?.status === 'verified'

@@ -14,12 +14,12 @@ test.describe('User Story: Account Modal Navigation', () => {
     await context.route('**/api/auxillaries/data', route =>
       route.fulfill({ status: 200, contentType: 'application/json', body: JSON.stringify({
         profile: { user_id: 'user1', username: 'tester', display_name: 'Tester', bio: 'Bio', company_name: 'Acme', avatar_url: '', team_members: [] },
-        githubConnection: { installationId: 42 }, credits: 100, modelPreferences: {}
+        githubConnection: { installationId: 42 }, btdBalance: 100, btcFeeBalance: 0.01, modelPreferences: {}
       }) })
     );
   });
 
-  test('navigate through Profile, Connections, Models, Credits', async ({ page }) => {
+  test('navigate through Profile, Connects, Interfaces, and $BTD', async ({ page }) => {
     await page.goto('/');
     // Login modal
     await page.click('button:has-text("Login")');
@@ -46,16 +46,16 @@ test.describe('User Story: Account Modal Navigation', () => {
     expect(await page.screenshot({ fullPage: true }))
       .toMatchSnapshot('story-profile-connections.png');
 
-    // Models step
-    await page.click('.orbital-label:text("Models")');
+    // Interfaces step
+    await page.click('.orbital-label:text("Interfaces")');
     await page.waitForTimeout(300);
     expect(await page.screenshot({ fullPage: true }))
-      .toMatchSnapshot('story-profile-models.png');
+      .toMatchSnapshot('story-profile-interfaces.png');
 
-    // Credits step
-    await page.click('.orbital-label:text("Credits")');
+    // $BTD step
+    await page.click('.orbital-label:text("$BTD")');
     await page.waitForTimeout(300);
     expect(await page.screenshot({ fullPage: true }))
-      .toMatchSnapshot('story-profile-credits.png');
+      .toMatchSnapshot('story-profile-btd.png');
   });
 });

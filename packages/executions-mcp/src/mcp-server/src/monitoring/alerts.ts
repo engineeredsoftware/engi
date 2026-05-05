@@ -28,7 +28,7 @@ export enum AlertType {
   CIRCUIT_BREAKER_OPEN = 'circuit_breaker_open',
   HIGH_MEMORY_USAGE = 'high_memory_usage',
   HIGH_RESPONSE_TIME = 'high_response_time',
-  LOW_CREDIT_BALANCE = 'low_credit_balance',
+  LOW_BTC_FEE_LIQUIDITY = 'low_btc_fee_liquidity',
   AUTHENTICATION_FAILURES = 'auth_failures',
   PIPELINE_FAILURES = 'pipeline_failures',
   RATE_LIMIT_EXCEEDED = 'rate_limit_exceeded'

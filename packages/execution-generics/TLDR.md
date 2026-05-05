@@ -50,7 +50,7 @@ const agent = sequential(
 );
 ```
 
-### The SDIVS Pattern (How Pipelines Run Phases)
+### The SDIVF Pattern (How Pipelines Run Phases)
 ```typescript
 const pipeline = sequential(
   setup,

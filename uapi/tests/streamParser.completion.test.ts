@@ -1,7 +1,7 @@
 import { parseStreamChunk } from '@/streaming/stream-parser';
 
 describe('parseStreamChunk completion mapping', () => {
-  it('maps completion summary, processingStats (tokens/$BTD), repoSnapshot', () => {
+  it('maps completion summary, processingStats (tokens/measured $BTD/BTC fees), repoSnapshot', () => {
     const payload = {
       type: 'completion',
       result: {
@@ -25,7 +25,13 @@ describe('parseStreamChunk completion mapping', () => {
         need: 'Deliver the audited auth refactor.',
         writtenAssetType: 'need-satisfaction-asset-pack',
         assetPack: { need: 'Deliver the audited auth refactor.', writtenAssetType: 'need-satisfaction-asset-pack', deliveryTarget: 'pr' },
-        processingStats: { time: '2m 05s', tokens: { input: 100, output: 50, total: 150 }, btdUsed: 2 },
+        processingStats: {
+          time: '2m 05s',
+          tokens: { input: 100, output: 50, total: 150 },
+          measuredBtd: 2,
+          feeAsset: 'BTC',
+          btcFeesPaid: 0.00001,
+        },
         repoSnapshot: { org: 'acme', repo: 'web', branch: 'main', commit: 'deadbeef' },
         actions: {
           pullRequest: { url: 'https://github.com/acme/web/pull/1', title: 'feat: add' },
@@ -42,7 +48,9 @@ describe('parseStreamChunk completion mapping', () => {
     expect(parsed.completion?.summary).toBe('All done.');
     expect(parsed.completion?.processingStats?.time).toBe('2m 05s');
     expect(parsed.completion?.processingStats?.tokens?.total).toBe(150);
-    expect(parsed.completion?.processingStats?.btdUsed).toBe(2);
+    expect(parsed.completion?.processingStats?.measuredBtd).toBe(2);
+    expect(parsed.completion?.processingStats?.feeAsset).toBe('BTC');
+    expect(parsed.completion?.processingStats?.btcFeesPaid).toBe(0.00001);
     expect(parsed.completion?.processingStats?.credits).toBeUndefined();
     expect(parsed.completion?.repoSnapshot?.org).toBe('acme');
     expect(parsed.completion?.shippables?.pullRequest?.url).toContain('/pull/1');
@@ -73,7 +81,7 @@ describe('parseStreamChunk completion mapping', () => {
 
     const parsed = parseStreamChunk(`data: ${JSON.stringify(payload)}\n\n`);
     expect(parsed.completion?.processingStats?.time).toBe('4s');
-    expect(parsed.completion?.processingStats?.btdUsed).toBeUndefined();
+    expect(parsed.completion?.processingStats?.measuredBtd).toBeUndefined();
     expect(parsed.completion?.processingStats?.credits).toBeUndefined();
   });
 

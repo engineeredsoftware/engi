@@ -1,7 +1,11 @@
-import { GET, POST } from '@/app/api/auxillaries/onboarding/route';
-
 jest.mock('@bitcode/supabase/ssr/server', () => ({ createClient: jest.fn() }));
 jest.mock('@bitcode/supabase', () => ({ supabaseAdmin: { from: jest.fn() } }));
+jest.mock('@/lib/mock-review-mode', () => ({
+  isUserOrbitalMockMode: jest.fn(() => false),
+  buildMockOnboardingData: jest.fn(() => null),
+}));
+
+import { GET, POST } from '@/app/api/auxillaries/onboarding/route';
 
 import { createClient } from '@bitcode/supabase/ssr/server';
 import { supabaseAdmin } from '@bitcode/supabase';
@@ -15,14 +19,14 @@ describe('/api/auxillaries/onboarding', () => {
     (createClient as jest.Mock).mockResolvedValue({ auth: { getUser: mockGetUser } });
   });
 
-  it('normalizes legacy onboarding steps on GET', async () => {
+  it('returns canonical onboarding steps on GET', async () => {
     mockGetUser.mockResolvedValue({ data: { user: mockUser }, error: null });
 
     const builder: any = {
       select: jest.fn().mockReturnThis(),
       eq: jest.fn().mockReturnThis(),
       maybeSingle: jest.fn().mockResolvedValue({
-        data: { onboarded_steps: '["profile","connects","models","btd"]' },
+        data: { onboarded_steps: '["profile","connects","interfaces","btd"]' },
         error: null,
       }),
     };
@@ -65,7 +69,7 @@ describe('/api/auxillaries/onboarding', () => {
       select: jest.fn().mockReturnThis(),
       eq: jest.fn().mockReturnThis(),
       maybeSingle: jest.fn().mockResolvedValue({
-        data: { onboarded_steps: '["profile","connects","models"]' },
+        data: { onboarded_steps: '["profile","connects","interfaces"]' },
         error: null,
       }),
     };
@@ -103,26 +107,8 @@ describe('/api/auxillaries/onboarding', () => {
     });
   });
 
-  it('still accepts the legacy completedStep payload during compatibility transition', async () => {
+  it('rejects non-canonical onboarding payload aliases', async () => {
     mockGetUser.mockResolvedValue({ data: { user: mockUser }, error: null });
-
-    const selectBuilder: any = {
-      select: jest.fn().mockReturnThis(),
-      eq: jest.fn().mockReturnThis(),
-      maybeSingle: jest.fn().mockResolvedValue({
-        data: { onboarded_steps: '["profile"]' },
-        error: null,
-      }),
-    };
-
-    const updateBuilder: any = {
-      update: jest.fn().mockReturnThis(),
-      eq: jest.fn().mockResolvedValue({ error: null }),
-    };
-
-    (supabaseAdmin.from as jest.Mock)
-      .mockReturnValueOnce(selectBuilder)
-      .mockReturnValueOnce(updateBuilder);
 
     const request = new Request('http://localhost/api/auxillaries/onboarding', {
       method: 'POST',
@@ -133,18 +119,8 @@ describe('/api/auxillaries/onboarding', () => {
     const response = await POST(request);
     const payload = await response.json();
 
-    expect(response.status).toBe(200);
-    expect(updateBuilder.update).toHaveBeenCalledWith(
-      expect.objectContaining({
-        onboarded_steps: JSON.stringify(['profile', 'connects']),
-      }),
-    );
-    expect(payload).toEqual({
-      completedPanes: ['profile', 'connects'],
-      currentPane: 'interfaces',
-      completedSteps: ['profile', 'connects'],
-      currentStep: 'interfaces',
-      isOnboardingComplete: false,
-    });
+    expect(response.status).toBe(400);
+    expect(payload.error).toContain('completedPane');
+    expect(supabaseAdmin.from).not.toHaveBeenCalled();
   });
 });

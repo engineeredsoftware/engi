@@ -310,7 +310,7 @@ The remaining V26 delta is now concentrated in:
 - deeper package splitting beyond the immediate `protocol-demonstration` consolidation owner,
 - GitHub convergence onto longer-term package/API owners,
 - wallet productionization,
-- credits-to-wallet cutover so wallet-connected Bitcoin replaces credits as the end-state auth, share-ownership, and token-transfer carrier,
+- credits-to-wallet cutover so wallet-read BTC fee liquidity and non-fungible `$BTD` share/read-right holdings replace old credit/token semantics; BTC pays fees, while `$BTD` records measured Bitcode content amount and read-right ownership for specific asset packs,
 - deeper auth hardening,
 - richer external-interface hardening,
 - telemetry and reconciliation hardening,

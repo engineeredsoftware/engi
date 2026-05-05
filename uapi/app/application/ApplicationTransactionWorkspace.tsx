@@ -159,7 +159,7 @@ function buildMasterDetailSubstructures(
                 ? `${formatNumber(detail?.processingStats.averageLatencyMs ?? selectedRun.averageLatencyMs)} ms`
                 : 'n/a',
           },
-          { label: 'Spend', value: formatUsd(detail?.processingStats.usdTotal ?? selectedRun.usdTotal) },
+          { label: 'BTC fee basis', value: formatUsd(detail?.processingStats.btcFeeUsdEquivalent ?? selectedRun.btcFeeUsdEquivalent) },
         ],
       };
     }
@@ -171,8 +171,8 @@ function buildMasterDetailSubstructures(
       metrics: [
         { label: 'History items', value: formatNumber(detail?.historyItemCount ?? selectedRun.itemCount) },
         {
-          label: 'BTD throughput',
-          value: formatNumber(detail?.processingStats.btdUsed ?? selectedRun.btdUsed, { maximumFractionDigits: 1 }),
+          label: 'Measured $BTD',
+          value: formatNumber(detail?.processingStats.measuredBtd ?? selectedRun.measuredBtd, { maximumFractionDigits: 1 }),
         },
       ],
       rows: [

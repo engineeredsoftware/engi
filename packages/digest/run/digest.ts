@@ -10,8 +10,6 @@ import dotenv from 'dotenv';
 // import { register as tsNodeRegister } from 'ts-node'; // Removed - causing build issues
 import { FILE_SUMMARIES_PROMPT, FILE_SUMMARIES_TYPE_SPECIFIC_INSTRUCTIONS } from '@/digest/prompts/file-summaries-prompts';
 let debugMode = false;
-import { estimateTokens, deductGenerationBtd, GenerationTokens } from '@bitcode/btd';
-import { createClient } from '@bitcode/supabase';
 import * as git from '@/lib/git/git';
 import { log } from '@bitcode/logger';
 import { filterFilesByTask } from './filesFilters';

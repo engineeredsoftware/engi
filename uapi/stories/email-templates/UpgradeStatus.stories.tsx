@@ -23,7 +23,7 @@ export const Started: Story = {
     status: 'started',
     name: 'Upgrade GPT model',
     description: 'Migrating from gpt-4 to gpt-4o',
-    credits: 500,
+    btcFeesPaid: 0.00005,
     linkUrl: 'https://app.bitcode.ai/executions?type=pipeline:upgrades&runId=42',
   },
   render: createEmailStory(UpgradeStatusEmail),

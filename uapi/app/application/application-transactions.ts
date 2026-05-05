@@ -5,7 +5,7 @@ import type { WorkspaceRun } from './application-run-data';
 
 export type ApplicationTransactionOwnership = 'all' | 'mine' | 'network';
 export type ApplicationTransactionLens = 'all' | 'give' | 'need' | 'closure';
-export type ApplicationTransactionSort = 'newest' | 'oldest' | 'most-tokens' | 'highest-usd';
+export type ApplicationTransactionSort = 'newest' | 'oldest' | 'most-tokens' | 'highest-btc-fee-basis';
 
 export interface ApplicationTransactionRecord {
   id: string;
@@ -20,8 +20,8 @@ export interface ApplicationTransactionRecord {
   closureFocus: string;
   createdAt: string;
   tokenTotal: number | null;
-  usdTotal: number | null;
-  btdUsed: number | null;
+  btcFeeUsdEquivalent: number | null;
+  measuredBtd: number | null;
   itemCount: number;
   isOwnTransaction: boolean;
   transactionLens: Exclude<ApplicationTransactionLens, 'all'>;
@@ -99,8 +99,8 @@ export function normalizeApplicationTransactions(runs: WorkspaceRun[]): Applicat
       closureFocus,
       createdAt: run.created_at,
       tokenTotal: run.tokenTotal ?? null,
-      usdTotal: run.usdTotal ?? null,
-      btdUsed: run.btdUsed ?? null,
+      btcFeeUsdEquivalent: run.btcFeeUsdEquivalent ?? null,
+      measuredBtd: run.measuredBtd ?? null,
       itemCount: run.itemCount || 0,
       isOwnTransaction: Boolean(run.isOwnTransaction),
       transactionLens,
@@ -140,8 +140,8 @@ export function filterApplicationTransactions(
       return (right.tokenTotal ?? 0) - (left.tokenTotal ?? 0);
     }
 
-    if (filters.sort === 'highest-usd') {
-      return (right.usdTotal ?? 0) - (left.usdTotal ?? 0);
+    if (filters.sort === 'highest-btc-fee-basis') {
+      return (right.btcFeeUsdEquivalent ?? 0) - (left.btcFeeUsdEquivalent ?? 0);
     }
 
     return new Date(right.createdAt).getTime() - new Date(left.createdAt).getTime();
