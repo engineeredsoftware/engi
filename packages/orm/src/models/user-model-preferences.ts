@@ -14,7 +14,12 @@ import { Tables, Insertable, Updatable, Json } from '../types/database';
 export type UserModelPreference = Tables<'user_model_preferences'> & {
   preferences?: Record<string, unknown>;
 };
-export type UserModelPreferenceInsert = Insertable<'user_model_preferences'> & {
+export type UserModelPreferenceInsert = Omit<
+  Insertable<'user_model_preferences'>,
+  'model_provider' | 'model_name'
+> & {
+  model_provider?: string;
+  model_name?: string;
   preferences?: Record<string, unknown>;
 };
 export type UserModelPreferenceUpdate = Updatable<'user_model_preferences'> & {
@@ -62,10 +67,14 @@ export class UserModelPreferencesModel extends BaseModel<'user_model_preferences
   async upsert(preferences: UserModelPreferenceInsert): Promise<UserModelPreference> {
     const existing = await this.getByUserId(preferences.user_id);
     const compatibilityPreferences = preferences.preferences || {};
-    const payload: UserModelPreferenceUpdate & UserModelPreferenceInsert = {
+    const modelProvider = preferences.model_provider
+      || String(compatibilityPreferences.defaultProvider || existing?.model_provider || 'openai');
+    const modelName = preferences.model_name
+      || String(compatibilityPreferences.defaultModel || existing?.model_name || 'gpt-4');
+    const payload = {
       user_id: preferences.user_id,
-      model_provider: preferences.model_provider || String(compatibilityPreferences.defaultProvider || existing?.model_provider || 'openai'),
-      model_name: preferences.model_name || String(compatibilityPreferences.defaultModel || existing?.model_name || 'gpt-4'),
+      model_provider: modelProvider,
+      model_name: modelName,
       settings: {
         ...((existing?.settings as Record<string, unknown> | null) || {}),
         ...((preferences.settings as Record<string, unknown> | undefined) || {}),
@@ -73,7 +82,10 @@ export class UserModelPreferencesModel extends BaseModel<'user_model_preferences
       } as Json,
       is_default: preferences.is_default ?? existing?.is_default ?? true,
       updated_at: new Date().toISOString()
-    };
+    } satisfies UserModelPreferenceUpdate & Pick<
+      Insertable<'user_model_preferences'>,
+      'user_id' | 'model_provider' | 'model_name'
+    >;
 
     const data = existing
       ? await this.update(existing.id, payload)

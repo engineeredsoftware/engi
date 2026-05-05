@@ -7,7 +7,7 @@ import { PromptPart } from '../../parts/PromptPart';
  * current_version: "0.50.0"
  * versions: []
  * benchmarks: [
- *   { "name": "improvement_clarity", "test": "Does it specify improved integration/quality deliverable? Rate 0-1", "score": 0.95 },
+ *   { "name": "improvement_clarity", "test": "Does it specify an improved integration/quality outcome? Rate 0-1", "score": 0.95 },
  *   { "name": "actionability", "test": "Is the requested output concrete and verifiable? Rate 0-1", "score": 0.94 }
  * ]
  */

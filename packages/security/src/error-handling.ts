@@ -211,24 +211,25 @@ export class SecureErrorHandler {
       customMessage
     );
     
+    const details =
+      this.environment !== 'production'
+        ? {
+            originalError: originalMessage,
+            errorId,
+            category: context.category,
+            severity: context.severity
+          }
+        : undefined;
+
     // Create response
     const response: SecureErrorResponse = {
       error: category,
       message: safeMessage,
       code: this.getErrorCode(context),
       timestamp: new Date().toISOString(),
-      requestId: context.requestId
+      requestId: context.requestId,
+      ...(details ? { details } : {})
     };
-    
-    // Add details only in non-production environments
-    if (this.environment !== 'production') {
-      response.details = {
-        originalError: originalMessage,
-        errorId,
-        category: context.category,
-        severity: context.severity
-      };
-    }
     
     return response;
   }
@@ -528,6 +529,3 @@ export const ErrorUtils = {
 export const secureErrorHandler = new SecureErrorHandler(
   (process.env.NODE_ENV as any) || 'production'
 );
-
-// Type exports
-export type { SecureErrorResponse, ErrorContext };

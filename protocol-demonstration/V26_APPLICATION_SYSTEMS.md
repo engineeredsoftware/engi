@@ -12,7 +12,7 @@
 This file is not canonical system truth.
 Canonical V26 truth lives only in the active `BITCODE_SPEC_V26*` family.
 This document exists to keep the repository’s modular architecture legible while the V26 productionizing pass lands.
-V26 remains the active canon. Earlier through-fourth-gate promotion claims were overstated and effectively false, so fourth gate was procedurally reopened and is now promoted closed only through generated re-review/checkpoint proof over the retained-system proof families. Fifth-gate minimum-functional Exchange/Terminal closure plus the broad old-world reform baseline stay active and now have explicit source-to-shares plus closure-deepening proof without fifth-gate acceptance, followed by sixth-gate MVP elevation, seventh-gate commercial testnet refinement, and eighth-gate whole-repository provation.
+V26 remains the active canon. Earlier through-fourth-gate promotion claims were overstated and effectively false, so fourth gate was procedurally reopened and then promoted closed only through generated re-review/checkpoint proof over the retained-system proof families. Fifth-gate minimum-functional Exchange/Terminal closure, sixth-gate MVP elevation, seventh-gate commercial testnet refinement, and eighth-gate whole-repository provation now all have generated acceptance evidence. Remaining V26 work is promotion hardening only: keep spec/proof/source synchronized until completed-gate active-canon promotion.
 
 ## Retained old-world reform baseline
 
@@ -895,7 +895,7 @@ Current active proof and evidence carriers include:
 
 Operational rule:
 - generated proof families are part of the live production architecture because Bitcode requires a provable static codebase and deployed financial system
-- later-gate witness families may already be generated in source, but they must not be mistaken for later-gate completion while the underlying subsystem matrix remains open
+- later-gate witness families now participate in completed V26 promotion evidence and must stay synchronized with the subsystem matrix rather than being treated as independent proof decoration
 - observability and runtime-health carriers must remain Bitcode-facing and fail closed, not generic product-agnostic telemetry residue
 
 ## Module namespace direction

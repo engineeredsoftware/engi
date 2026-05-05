@@ -12,7 +12,7 @@ The database supports Bitcode Exchange and Bitcode Terminal state:
 - Need review state,
 - AssetPack outputs,
 - proof and settlement receipts,
-- credit and token accounting,
+- BTC fee accounting and non-fungible `$BTD` holding reads,
 - notifications and operational health.
 
 ## Source Of Truth
@@ -30,7 +30,7 @@ Core V26 families:
 - conversations, messages, and attachments,
 - executions, execution events, and phase executions,
 - generated assets and postprocessed execution output,
-- credit usage, token cost, and payment idempotency records,
+- BTC fee usage, measured `$BTD` amount, and payment idempotency records,
 - notifications, events, stream logs, and error logs.
 
 Some physical table names still preserve compatibility vocabulary at the storage boundary. In V26 product language these rows must be read as AssetPack templates, AssetPack results, execution records, or compatibility storage corridors. Canonical SPEC text must not teach those table names as product concepts.

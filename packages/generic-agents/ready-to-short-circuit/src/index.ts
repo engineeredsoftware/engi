@@ -87,7 +87,7 @@ const ReadyToShortCircuitAgentRetryStepOutput = z.object({
   reasoning: z.string().describe('Complete reasoning for decision'),
   confidence: z.number().min(0).max(1).describe('Final confidence level'),
   nextSteps: z.array(z.string()).describe('Recommended next steps'),
-  refundJustification: z.string().optional().describe('Justification for refund if short-circuiting'),
+  feeResolutionJustification: z.string().optional().describe('Justification for BTC fee-hold release or failure accounting if short-circuiting'),
   metadata: z.object({
     decisionMadeAt: z.string(),
     iterationAnalyzed: z.number(),
@@ -366,8 +366,8 @@ const factoryRefineStep = async (tryResult: ReadyToShortCircuitAgentTryStepOutpu
     const reasoning = `Verified analysis confirms ${finalRecommendation} with ${(refinedConfidence * 100).toFixed(0)}% confidence. Blocking issues: ${verifiedBlocking ? 'confirmed' : 'unconfirmed'}. Unresolvable: ${verifiedUnresolvable ? 'confirmed' : 'unconfirmed'}.`;
     
     const impactAssessment = finalRecommendation === 'SHORT_CIRCUIT' ?
-      'Pipeline will terminate, credits will be refunded, task marked as failed' :
-      'Pipeline will continue with next iteration, additional resources will be consumed';
+      'Pipeline will terminate, the BTC fee-hold will be released or accounted without mutating $BTD, and the task will be marked as failed' :
+      'Pipeline will continue with the next iteration and additional metered resources';
     
     return {
       verifiedBlocking,
@@ -405,9 +405,9 @@ async function retryShortCircuitFinalization(
     
     if (decision === 'SHORT_CIRCUIT') {
       nextSteps.push('Terminate pipeline execution immediately');
-      nextSteps.push('Initiate credit refund process');
+      nextSteps.push('Resolve the BTC fee-hold without mutating $BTD holdings');
       nextSteps.push('Log termination reason and context');
-      nextSteps.push('Notify user of task failure and refund');
+      nextSteps.push('Notify user of task failure and fee-hold resolution');
     } else {
       nextSteps.push('Proceed to next pipeline iteration');
       nextSteps.push('Apply learnings from previous iteration');
@@ -415,8 +415,8 @@ async function retryShortCircuitFinalization(
       nextSteps.push('Prepare for potential future short-circuit evaluation');
     }
     
-    // Prepare refund justification if short-circuiting
-    const refundJustification = decision === 'SHORT_CIRCUIT' ?
+    // Prepare fee-resolution justification if short-circuiting.
+    const feeResolutionJustification = decision === 'SHORT_CIRCUIT' ?
       `Task determined unrecoverable after ${input.iterationCount} iterations. ${refinementResult.reasoning}` :
       undefined;
     
@@ -425,7 +425,7 @@ async function retryShortCircuitFinalization(
       reasoning: refinementResult.reasoning,
       confidence: refinementResult.confidenceLevel,
       nextSteps,
-      refundJustification,
+      feeResolutionJustification,
       metadata: {
         decisionMadeAt: new Date().toISOString(),
         iterationAnalyzed: input.iterationCount,
@@ -496,9 +496,9 @@ const quickReadyToShortCircuit = factoryAgentWithSingleStep<ShortCircuitInput, R
       reasoning: analysis.reasoning,
       confidence: analysis.confidence,
       nextSteps: analysis.recommendation === 'SHORT_CIRCUIT' ? 
-        ['Terminate pipeline', 'Refund credits'] :
+        ['Terminate pipeline', 'Resolve BTC fee-hold without mutating $BTD'] :
         ['Continue pipeline'],
-      refundJustification: analysis.recommendation === 'SHORT_CIRCUIT' ? 
+      feeResolutionJustification: analysis.recommendation === 'SHORT_CIRCUIT' ? 
         'Quick analysis determined task unrecoverable' : undefined,
       metadata: {
         decisionMadeAt: new Date().toISOString(),

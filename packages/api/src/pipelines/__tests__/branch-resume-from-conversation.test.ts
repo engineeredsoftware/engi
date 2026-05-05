@@ -1,7 +1,7 @@
 import { branchConversation } from '../../conversations/conversations';
 import { branchAssetPackRun } from '../../pipelines/branch';
 import { Execution } from '@bitcode/execution-generics';
-import { enablePipelineStreaming } from '@bitcode/pipelines-generics/src/streaming/pipeline-stream-integration';
+import { enablePipelineStreaming } from '@bitcode/pipelines-generics';
 
 // Mock Streams to a simple in-memory Streamer
 jest.mock('@bitcode/streams', () => {

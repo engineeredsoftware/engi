@@ -7,7 +7,7 @@ import { PromptPart } from '../../parts/PromptPart';
  * current_version: "0.50.0"
  * versions: []
  * benchmarks: [
- *   { "name": "requirement_clarity", "test": "Does it state the validation/correction planning deliverable? Rate 0-1", "score": 0.95 },
+ *   { "name": "requirement_clarity", "test": "Does it state the validation/correction planning outcome? Rate 0-1", "score": 0.95 },
  *   { "name": "integration_focus", "test": "Does it mention integration + quality guarantees? Rate 0-1", "score": 0.94 }
  * ]
  */

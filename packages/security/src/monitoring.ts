@@ -82,11 +82,11 @@ export interface ActivityPattern {
   readonly userAgents: Set<string>;
   readonly locations: Set<string>;
   readonly hourlyActivity: Map<number, number>; // Hour of day -> count
-  readonly requestFrequency: number[]; // Recent request timestamps
-  readonly failedAttempts: number;
-  readonly successfulAttempts: number;
-  readonly credentialAccess: number;
-  readonly lastActivity: Date;
+  requestFrequency: number[]; // Recent request timestamps
+  failedAttempts: number;
+  successfulAttempts: number;
+  credentialAccess: number;
+  lastActivity: Date;
   readonly firstSeen: Date;
 }
 
@@ -649,10 +649,3 @@ export class SecurityMonitoringService {
     });
   }
 }
-
-// Type exports
-export type {
-  SecurityThresholds,
-  SecurityAlert,
-  ActivityPattern
-};

@@ -69,7 +69,7 @@ export async function setupMockOrchestrator() {
     'ASSET_PACKS',
     'GITHUB_REPOS',
     'USER_PROFILE',
-    'CREDITS'
+    'BTD_HOLDINGS'
   ]);
   
   mockAdapter.registerScenarioForFeatures(MINIMAL_ASSET_PACK_SCENARIO, [
@@ -181,15 +181,13 @@ export function createAssetPackStories() {
  */
 export function AssetPackComponent() {
   const { scenario, data, mode } = useTestIntelligence();
-  
-  return (
-    <div>
-      <h1>AssetPack Pipeline</h1>
-      <p>Scenario: {scenario.name}</p>
-      <p>Mode: {mode}</p>
-      <pre>{JSON.stringify(data, null, 2)}</pre>
-    </div>
-  );
+
+  return {
+    title: 'AssetPack Pipeline',
+    scenarioName: scenario.name,
+    mode,
+    serializedData: JSON.stringify(data, null, 2),
+  };
 }
 
 // =============================================================================
@@ -247,7 +245,7 @@ export function registerCustomScenarios() {
       user: {
         id: 'test-user',
         role: 'admin',
-        credits: 10000
+        btdBalance: 10000
       }
     },
     data: [

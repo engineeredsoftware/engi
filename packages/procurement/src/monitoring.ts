@@ -397,7 +397,7 @@ export class ProcurementMonitoring {
     // For now, return placeholder status
     return {
       'procurement-matching': { state: 'closed', failures: 0 },
-      'credit-payout': { state: 'closed', failures: 0 },
+      'btd-share-settlement': { state: 'closed', failures: 0 },
       'notifications': { state: 'closed', failures: 0 }
     };
   }

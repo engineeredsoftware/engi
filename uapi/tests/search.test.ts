@@ -1,4 +1,4 @@
-import { searchRelevantAI Documents } from '../lib/search';
+import { searchRelevantAIDocuments } from '../lib/search';
 import OpenAI from 'openai';
 import { supabaseAdmin } from '@bitcode/supabase';
 
@@ -31,10 +31,10 @@ jest.mock('@bitcode/supabase', () => ({
   }
 }));
 
-describe('searchRelevantAI Documents', () => {
+describe('searchRelevantAIDocuments', () => {
   it('embeds the query and calls the Supabase RPC to return ai_document suggestions', async () => {
     process.env.OPENAI_API_KEY = 'fake';
-    const results = await searchRelevantAI Documents({
+    const results = await searchRelevantAIDocuments({
       repoOwner: 'owner',
       repoName: 'repo',
       repoBranch: 'branch',

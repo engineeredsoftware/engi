@@ -83,8 +83,8 @@ const client = new BitcodeMCPClient({
   organizationId: 'your-org-id'
 });
 
-const result = await client.createDeliverable({
-  task: 'Build user authentication system',
+const result = await client.createAssetPack({
+  need: 'Build user authentication system',
   repository: { owner: 'myorg', name: 'myapp' },
   options: { createPR: true, runTests: true }
 });

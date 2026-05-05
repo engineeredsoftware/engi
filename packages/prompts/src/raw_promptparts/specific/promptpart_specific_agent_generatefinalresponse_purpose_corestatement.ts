@@ -12,4 +12,4 @@ import { PromptPart } from '../../parts/PromptPart';
  * ]
  */
 export const PROMPTPART_SPECIFIC_AGENT_GENERATEFINALRESPONSE_PURPOSE_CORESTATEMENT: PromptPart = 
-  'Generate human-readable final response summarizing deliverable creation, changes made, and next steps with appropriate formatting' as PromptPart;
+  'Generate human-readable final response summarizing AssetPack work, changes made, evidence, and next steps with appropriate formatting' as PromptPart;

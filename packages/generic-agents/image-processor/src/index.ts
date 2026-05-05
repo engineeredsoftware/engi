@@ -17,11 +17,6 @@ import { AgentPrompt, AgentStepPrompt } from '@bitcode/agent-generics';
 import type { PromptPart } from '@bitcode/prompts/parts/PromptPart';
 import { z } from 'zod';
 
-// ==================== TOOLS ====================
-// Tools this agent can use for image processing
-import { multimodalProcessingTool } from '@bitcode/generic-tools-multimodal-processing';
-import { visionAnalysisTool } from '@bitcode/generic-tools/vision-analysis';
-
 // ==================== INPUT SCHEMA ====================
 const ImageProcessorInputSchema = z.object({
   imageUrl: z.string().describe('URL or path to image file'),
@@ -295,8 +290,6 @@ const quickImageVariation = factoryAgentWithSingleStep<
   
   execute: async (input, execution) => {
     execution.store('variation', 'mode', 'quick');
-    
-    const llm = execution.llms.getDefaultLLM();
     
     return {
       finalDescription: 'Quick image analysis not fully implemented',

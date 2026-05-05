@@ -1,4 +1,5 @@
 import { Prompt } from '@bitcode/prompts/prompt';
+import { createPromptPart } from '@bitcode/prompts/parts/PromptPart';
 import { PROMPTPART_SPECIFIC_AGENT_DOCUMENTPROCESSOR_SYSTEM_CONTEXT } from '@bitcode/prompts/raw_promptparts/specific/promptpart_specific_agent_documentprocessor_system_context';
 import { PROMPTPART_SPECIFIC_AGENT_DOCUMENTPROCESSOR_EXECUTIONPATTERN_DETAILCONTENT } from '@bitcode/prompts/raw_promptparts/specific/promptpart_specific_agent_documentprocessor_executionpattern_detailcontent';
 import { PROMPTPART_GENERIC_AGENT_FAILSAFE_PREPARE_CONTEXT } from '@bitcode/prompts/raw_promptparts/generic/promptpart_generic_agent_failsafe_prepare_context';
@@ -25,10 +26,10 @@ import { PROMPTPART_GENERIC_AGENT_GENERATION_STRUCTURED_OUTPUT } from '@bitcode/
  * ]
  */
 export const DOCUMENT_PROCESSOR_RETRY_PROMPT = new Prompt()
-  .set('header', 'RETRY: Recover Document Processing')
+  .set('header', createPromptPart('RETRY: Recover Document Processing'))
   .set('context', PROMPTPART_SPECIFIC_AGENT_DOCUMENTPROCESSOR_SYSTEM_CONTEXT)
   .set('execution_pattern', PROMPTPART_SPECIFIC_AGENT_DOCUMENTPROCESSOR_EXECUTIONPATTERN_DETAILCONTENT)
-  .set('recovery_instructions', 'When document processing fails, analyze failure patterns, adjust processing parameters, select alternative extraction methods, and implement enhanced document parsing strategies.')
+  .set('recovery_instructions', createPromptPart('When document processing fails, analyze failure patterns, adjust processing parameters, select alternative extraction methods, and implement enhanced document parsing strategies.'))
   .set('generation:json_only_header', PROMPTPART_GENERIC_AGENT_GENERATION_JSON_ONLY_HEADER)
   .set('generation:use_this_structure', PROMPTPART_GENERIC_AGENT_GENERATION_USE_THIS_STRUCTURED_SCHEMA)
   .set('generation:if_unknown_empty', PROMPTPART_GENERIC_AGENT_GENERATION_IF_UNKNOWN_EMPTY)

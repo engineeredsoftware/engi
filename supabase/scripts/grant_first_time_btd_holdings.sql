@@ -1,14 +1,15 @@
 -- Script: Grant first-time user BTD balance
 -- Description: Function to grant BTD balance to users and mark the btd auxillary pane as complete
--- Usage: SELECT grant_user_credits('user@example.com');
---        SELECT grant_user_credits('user@example.com', 200, 'special_promotion', 'Special promotion credits');
+-- Usage: SELECT grant_user_btd_holdings('user@example.com');
+--        SELECT grant_user_btd_holdings('user@example.com', 200, 'special_promotion', 'Special promotion BTD holding grant');
 
--- Create the function for granting credits
-CREATE OR REPLACE FUNCTION grant_user_credits (
+-- Create the function for granting non-fungible BTD holding reads.
+-- The `user_credits` table name is a V26 storage-compatibility carrier only.
+CREATE OR REPLACE FUNCTION grant_user_btd_holdings (
   user_email TEXT,
-  credit_amount INTEGER DEFAULT 100,
-  credit_source TEXT DEFAULT 'signup_bonus',
-  credit_description TEXT DEFAULT 'First-time user bonus BTD'
+  btd_amount INTEGER DEFAULT 100,
+  btd_source TEXT DEFAULT 'signup_bonus',
+  btd_description TEXT DEFAULT 'First-time user BTD holding grant'
 ) RETURNS TEXT 
 LANGUAGE plpgsql 
 SECURITY DEFINER 
@@ -30,7 +31,7 @@ BEGIN
 
   -- Insert or update BTD balance for the user
   INSERT INTO user_credits (user_id, balance, updated_at)
-  VALUES (v_user_id, credit_amount, NOW())
+  VALUES (v_user_id, btd_amount, NOW())
   ON CONFLICT (user_id) 
   DO UPDATE SET 
     balance = user_credits.balance + EXCLUDED.balance,
@@ -50,7 +51,7 @@ BEGIN
     updated_at = NOW()
   WHERE id = v_user_id;
 
-  RETURN 'Successfully granted ' || credit_amount || ' BTD to ' || user_email || 
+  RETURN 'Successfully granted ' || btd_amount || ' BTD to ' || user_email || 
          '. New balance: ' || v_new_balance || ' BTD.';
 EXCEPTION
   WHEN OTHERS THEN
@@ -59,18 +60,18 @@ END;
 $$;
 
 -- Grant function execution permission to authenticated users (optional - remove if admin only)
--- GRANT EXECUTE ON FUNCTION grant_user_credits TO authenticated;
+-- GRANT EXECUTE ON FUNCTION grant_user_btd_holdings TO authenticated;
 
 -- Example usage:
--- SELECT grant_user_credits('user@example.com');
--- SELECT grant_user_credits('user@example.com', 200, 'special_promotion', 'Special promotion credits');
+-- SELECT grant_user_btd_holdings('user@example.com');
+-- SELECT grant_user_btd_holdings('user@example.com', 200, 'special_promotion', 'Special promotion BTD holding grant');
 
 -- One-time script version (if you don't want to create a function)
 /*
 DO $$
 DECLARE
   v_user_email TEXT := 'user@example.com'; -- Change this
-  v_credit_amount INTEGER := 100;
+  v_btd_amount INTEGER := 100;
   v_user_id UUID;
 BEGIN
   -- Find user ID from email
@@ -82,7 +83,7 @@ BEGIN
 
   -- Insert or update BTD balance
   INSERT INTO user_credits (user_id, balance, updated_at)
-  VALUES (v_user_id, v_credit_amount, NOW())
+  VALUES (v_user_id, v_btd_amount, NOW())
   ON CONFLICT (user_id) 
   DO UPDATE SET 
     balance = user_credits.balance + EXCLUDED.balance,
@@ -100,6 +101,6 @@ BEGIN
     updated_at = NOW()
   WHERE id = v_user_id;
   
-  RAISE NOTICE 'Successfully granted % BTD to %', v_credit_amount, v_user_email;
+  RAISE NOTICE 'Successfully granted % BTD to %', v_btd_amount, v_user_email;
 END $$;
 */

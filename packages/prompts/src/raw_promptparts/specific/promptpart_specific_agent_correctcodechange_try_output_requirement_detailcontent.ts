@@ -7,7 +7,7 @@ import { PromptPart } from '../../parts/PromptPart';
  * current_version: "0.50.0"
  * versions: []
  * benchmarks: [
- *   { "name": "requirement_clarity", "test": "Does it specify the execution deliverable (corrections + validation)? Rate 0-1", "score": 0.95 },
+ *   { "name": "requirement_clarity", "test": "Does it specify the execution outcome (corrections + validation)? Rate 0-1", "score": 0.95 },
  *   { "name": "readiness_focus", "test": "Does it mention readiness assessment? Rate 0-1", "score": 0.94 }
  * ]
  */

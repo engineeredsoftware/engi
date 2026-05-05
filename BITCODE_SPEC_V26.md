@@ -358,7 +358,7 @@ It includes:
 
 Fifth-gate is not a substitute for a fourth-gate proof claim.
 It is the minimum-functional Bitcode Exchange and Bitcode Terminal source-to-shares gate after fourth-gate promoted closure.
-Fifth-gate proceeds after fourth-gate promoted closure while remaining open until the minimum-functional make-shares/use-shares baseline, interface parity, persistence, reform, and proof closure all carry final acceptance.
+Fifth-gate proceeded after fourth-gate promoted closure and is accepted after the minimum-functional make-shares/use-shares baseline, interface parity, persistence, reform, and proof closure all carried final acceptance.
 It includes:
 - proof closure for the retained and repurposed whole repository that survives into V26 production canon rather than only the old demo-equivalent core,
 - proof closure for migrations, schema contracts, ORM/query carriers, generated types, storage/API contracts, and retained package boundaries,
@@ -779,8 +779,8 @@ The following are required for fifth-gate minimum functionality:
 The following are explicitly not required for fifth-gate closure:
 - final financial-product aesthetic tightening and high-polish interface refinement; that is later quality/commercial-readiness work,
 - broad computer-using agents or operator-visible computer-use controls; V26 performs only the basic internal Need-measurement reformation and defers full computer-use ability beyond V26,
-- a `mainnet` split or post-testnet deployment posture; that belongs to later V28-style addition work beyond the V26 minimum-functional target,
-- full Exchange market implementation for buying existing `$BTD` is later V28 work, and full Terminal actuality for submitting Needs that mint new fit-derived `$BTD` under the fixed 21,000,000 `$BTD` mintable ceiling is later V27 work; V26 must still scaffold these directions without presenting old credit purchase flows as current Bitcode truth,
+- a `mainnet` split or post-testnet deployment posture; that belongs to later-version addition work beyond the V26 minimum-functional target,
+- full `$BTD` tokenomics are V27 work, full Terminal actuality is V28 work, full Exchange market implementation is V29 work, external connections and interfaces including third-party integrations, MCP API, and ChatGPT App are V30 work, and the fully proven/tested/documented/shippable Proven Protocol line is V31 work; V26 must still scaffold these directions without presenting old credit purchase flows as current Bitcode truth,
 - or whole-repository proof saturation beyond the closure families already assigned to V26 later gates.
 
 ### Fifth-gate accepted closure set

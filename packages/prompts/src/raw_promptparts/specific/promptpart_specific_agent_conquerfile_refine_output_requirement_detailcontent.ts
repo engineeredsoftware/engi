@@ -8,7 +8,7 @@ import { PromptPart } from '../../parts/PromptPart';
  * versions: []
  * benchmarks: [
  *   { "name": "improvement_focus", "test": "Does it demand quality/performance/maintainability improvements? Rate 0-1", "score": 0.95 },
- *   { "name": "actionability", "test": "Is the refinement deliverable concrete? Rate 0-1", "score": 0.94 }
+ *   { "name": "actionability", "test": "Is the refinement outcome concrete? Rate 0-1", "score": 0.94 }
  * ]
  */
 export const PROMPTPART_SPECIFIC_AGENT_CONQUERFILE_REFINE_OUTPUT_REQUIREMENT_DETAILCONTENT: PromptPart =

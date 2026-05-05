@@ -1276,7 +1276,10 @@ export function buildV21SpecFamilyReport({
   }
 
   const notesContent = contents['notes'] || '';
-  for (const phrase of profile.requiredNotesSections || []) {
+  const requiredNotesSections = 'requiredNotesSections' in profile
+    ? profile.requiredNotesSections
+    : [];
+  for (const phrase of requiredNotesSections) {
     recordFailure(failures, hasSection(notesContent, phrase), `notes is missing required section containing "${phrase}".`);
   }
 
@@ -1340,7 +1343,7 @@ export function buildV21SpecFamilyReport({
     requiredGeneratedArtifactCatalogSectionCount: profile.requiredGeneratedArtifactCatalogSections.length,
     requiredGeneratedAppendixContractPhraseCount: (profile.requiredGeneratedAppendixContractPhrases || []).length,
     requiredGeneratedArtifactPathCount: profile.requiredGeneratedArtifactPaths.length,
-    requiredNotesSectionCount: (profile.requiredNotesSections || []).length,
+    requiredNotesSectionCount: requiredNotesSections.length,
     requiredSubsystemCoverageCount: profile.requiredSubsystemCoveragePhrases.length,
     requiredSubsystemSectionCount: profile.requiredSubsystemSectionHeadings.length,
     requiredSubsystemDetailLabelCount: profile.requiredSubsystemDetailLabels.length,

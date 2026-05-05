@@ -208,7 +208,7 @@ npm run test:load
 2. **Analysis Tools** - Code analysis and insights
 3. **Intelligence Tools** - AI-powered features
 4. **Orchestration Tools** - Workflow management
-5. **Enterprise Tools** - Team and credit management
+5. **Enterprise Tools** - Team, BTC-fee readiness, and $BTD holding management
 6. **LSP Tools** - Language server features
 7. **Observability Tools** - Monitoring and tracing
 8. **Jira Tools** - Project management integration

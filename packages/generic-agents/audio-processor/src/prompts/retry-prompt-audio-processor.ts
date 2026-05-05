@@ -29,6 +29,7 @@ import { PROMPTPART_GENERIC_AGENT_GENERATION_STRUCTURED_OUTPUT } from '@bitcode/
  */
 
 import { Prompt } from '@bitcode/prompts/prompt';
+import { createPromptPart } from '@bitcode/prompts/parts/PromptPart';
 
 
 
@@ -36,7 +37,7 @@ import { Prompt } from '@bitcode/prompts/prompt';
 
 
 export const AUDIO_PROCESSOR_RETRY_PROMPT = new Prompt()
-  .set('phase', 'RETRY: Recover Audio Processing')
+  .set('phase', createPromptPart('RETRY: Recover Audio Processing'))
   .set('context', PROMPTPART_SPECIFIC_AGENT_AUDIOPROCESSOR_SYSTEM_CONTEXT)
   .set('execution_pattern', PROMPTPART_SPECIFIC_AGENT_AUDIOPROCESSOR_EXECUTIONPATTERN_DETAILCONTENT)
   .set('deepening', PROMPTPART_SPECIFIC_AGENT_AUDIOPROCESSOR_RETRY_DEEPENING_STRATEGY)

@@ -8,7 +8,7 @@ import { PromptPart } from '../../parts/PromptPart';
  * versions: []
  * benchmarks: [
  *   { "name": "recovery_specificity", "test": "Does it require resolved issues + fallback approaches + adjusted scope? Rate 0-1", "score": 0.95 },
- *   { "name": "actionability", "test": "Is the recovery deliverable concrete and verifiable? Rate 0-1", "score": 0.94 }
+ *   { "name": "actionability", "test": "Is the recovery outcome concrete and verifiable? Rate 0-1", "score": 0.94 }
  * ]
  */
 export const PROMPTPART_SPECIFIC_AGENT_DIVIDECODECHANGE_RETRY_OUTPUT_REQUIREMENT_DETAILCONTENT: PromptPart =

@@ -9,7 +9,7 @@ Connected services are provider, source, and delivery mechanisms attached to Bit
 Examples:
 - GitHub and other VCS providers,
 - Supabase/Postgres,
-- Stripe or credit/payment systems,
+- wallet and fee-readiness systems for BTC fee liquidity and `$BTD` holding reads,
 - Figma and design-context providers,
 - Jira and issue systems,
 - MCP servers,
@@ -33,4 +33,3 @@ Examples:
 - `packages/chatgptapp/*`
 - `packages/executions-mcp/*`
 - `packages/api/src/routes/*`
-

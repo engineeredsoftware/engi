@@ -271,5 +271,10 @@
       "@bitcode/*": ["packages/*"]
     }
   },
-  "exclude": ["node_modules", "**/dist", "packages/pipeline-utils"]
+  "exclude": [
+    "node_modules",
+    "**/dist",
+    "packages/pipeline-utils",
+    "**/test-stubs.d.ts"
+  ]
 }

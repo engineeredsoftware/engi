@@ -20,7 +20,7 @@ import { Execution, ExecutionStreamAdapter, NS_EXEC_ASSET_PACK_VALIDATION_READY_
 import {
   PipelineExecution,
   inferPipelineExecutionLineage
-} from '@bitcode/pipelines-generics/src/execution/PipelineExecution';
+} from '@bitcode/pipelines-generics';
 import { assetPackPipeline } from '@bitcode/pipeline-asset-pack';
 import { factoryLLMRegistryWithProviders } from '@bitcode/generic-llms';
 import { sendServerEvent } from '@bitcode/google-analytics';
@@ -516,7 +516,7 @@ export const POST = traceRoute('/executions', async (request: NextRequest) => {
       
       // Process uploaded files
       const { saveArtifact } = await import('@bitcode/artifacts');
-      for (const [key, value] of Array.from(formData.entries())) {
+      for (const [key, value] of Array.from((formData as any).entries()) as Array<[string, any]>) {
         if (key.startsWith('file_') && value instanceof File) {
           log('[asset-pack-route] Processing uploaded file', 'debug', {
             correlationId,
@@ -1109,7 +1109,7 @@ export const POST = traceRoute('/executions', async (request: NextRequest) => {
           }
           try {
             const supa = getAdminSupabase();
-            const { data: tokenRows, error: tokenErr } = await supa
+            const { data: tokenRows, error: tokenErr } = await (supa as any)
               .from('token_costs')
               .select('input_tokens, output_tokens, total_tokens, usd_cost')
               .eq('execution_id', runId);

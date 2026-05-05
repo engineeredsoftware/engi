@@ -7,7 +7,7 @@
  * without exposing credentials in browser memory or dev tools.
  */
 
-import { useCallback, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState, type ChangeEvent } from 'react';
 
 /**
  * Secure credential input configuration
@@ -78,7 +78,7 @@ export function useSecureCredentialInput(config: SecureInputConfig = {}) {
   }, [finalConfig]);
 
   // Handle input changes
-  const handleChange = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChange = useCallback((event: ChangeEvent<HTMLInputElement>) => {
     let value = event.target.value;
     
     // Apply length limit
@@ -242,7 +242,7 @@ export function createSecureFormField(
     } = useSecureCredentialInput(config);
 
     // Cleanup on unmount
-    React.useEffect(() => {
+    useEffect(() => {
       return cleanup;
     }, [cleanup]);
 
@@ -383,6 +383,3 @@ export const SecureFormUtils = {
     return sanitized;
   }
 };
-
-// Type exports
-export type { SecureInputConfig, SecureFormState };

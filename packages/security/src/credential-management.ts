@@ -593,10 +593,3 @@ export const CredentialUtils = {
     return schedule;
   }
 };
-
-// Type exports
-export type {
-  CredentialRotationPolicy,
-  CredentialExpirationStatus,
-  CredentialRotationResult
-};

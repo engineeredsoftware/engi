@@ -1,6 +1,6 @@
 # Figma Integration for Bitcode
 
-This package provides complete Figma design extraction and analysis integration for Bitcode's AI-powered development pipeline.
+This package provides Figma design extraction and analysis integration for Bitcode AssetPack evidence and Need-satisfaction work.
 
 ## 🏗️ Architecture Overview
 
@@ -33,21 +33,20 @@ The Figma integration consists of three layers:
 
 ```typescript
 const agentGroups = [
-  [COMPREHEND_TASK_AGENT],
-  [FAMILIARIZE_ATTACHMENTS_AGENT],
-  [EXTRACT_FIGMA_DESIGNS_AGENT], // 🆕 NEW
-  [PREPARE_REPOSITORY_AGENT],
-  [READY_TO_ITERATE_AGENT],
+  { agent: 'setup:asset-pack-clone-vcs-repository-agent' },
+  { agent: 'setup:asset-pack-setup-plan-agent' },
+  { agent: 'setup:asset-pack-comprehend-need-agent' },
+  { agent: 'setup:asset-pack-initialize-mcps-tools-agent' },
 ];
 ```
 
-**Agent**: `setupDeliverablesAgentExtractFigmaDesigns`
+**Agent**: `figmaProcessor`
 - **When**: Runs in setup phase, after attachment familiarization, before repository prep
-- **Input**: Detects Figma URLs in task attachments
+- **Input**: Detects Figma URLs in Need attachments
 - **Output**: Extracts PNG images and adds them as new attachments to global context
 
 ### Discovery Phase Enhancement
-**File**: `packages/pipelines/asset-pack/src/agents/discoveryDeliverablesAgentComprehendAttachments/`
+**File**: `packages/pipelines/asset-pack/src/agents/discovery-agents.ts`
 
 **Enhanced**: Existing multimodal comprehension agent now detects Figma-extracted images
 - **Detection**: Identifies attachments with `metadata.extractedFromFigma = true`

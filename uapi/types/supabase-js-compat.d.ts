@@ -52,6 +52,10 @@ declare module '@supabase/supabase-js' {
     rpc(fn: string, params?: Record<string, unknown>): Promise<any>;
     auth: SupabaseAuthClient;
     storage: {
+      listBuckets(): Promise<{
+        data: Array<{ id?: string; name: string }> | null;
+        error?: Error | null;
+      }>;
       from(bucket: string): {
         upload(
           path: string,

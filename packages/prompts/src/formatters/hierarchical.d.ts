@@ -14,7 +14,7 @@ import { PromptFormatter } from '../prompt';
  * Transforms paths like:
  * - generic_system:identity
  * - generic_system:methodology:ptrr
- * - specific_execution:pipeline:deliverable
+ * - specific_execution:pipeline:asset-pack
  *
  * Into markdown like:
  * # GENERIC_SYSTEM

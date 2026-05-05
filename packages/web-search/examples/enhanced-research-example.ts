@@ -1,1 +1,422 @@
-/**\n * Enhanced Web Research Example\n * \n * This example demonstrates the state-of-the-art URL intelligence and \n * enhanced search capabilities of the Bitcode web research system.\n */\n\nimport {\n  searchWithUrlIntelligence,\n  analyzeUrlAttachments,\n  classifyUrl,\n  extractTechnologyContext,\n  discoverRelatedDomains,\n  search\n} from '@bitcode/web-search';\n\n// Example 1: Basic URL Classification\nexport async function demonstrateUrlClassification() {\n  console.log('🏷️  URL Classification Examples\\n');\n  \n  const urls = [\n    'https://reactjs.org/docs/hooks.html',\n    'https://github.com/facebook/react/issues/12345',\n    'https://stackoverflow.com/questions/react-authentication',\n    'https://api.stripe.com/docs/authentication',\n    'https://medium.com/@developer/react-patterns',\n    'https://arxiv.org/abs/2021.12345',\n    'https://npmjs.com/package/react'\n  ];\n\n  for (const url of urls) {\n    const classification = classifyUrl(url);\n    console.log(`📋 ${url}`);\n    console.log(`   Type: ${classification.type}`);\n    console.log(`   Domain: ${classification.domain}`);\n    console.log(`   Confidence: ${(classification.confidence * 100).toFixed(1)}%`);\n    console.log(`   Authority: ${classification.metadata.authority}`);\n    console.log('');\n  }\n}\n\n// Example 2: Technology Context Extraction\nexport async function demonstrateTechnologyExtraction() {\n  console.log('🔧 Technology Context Extraction\\n');\n  \n  const urlSets = [\n    {\n      name: 'Frontend Stack',\n      urls: [\n        'https://reactjs.org/docs',\n        'https://www.typescriptlang.org/docs',\n        'https://nextjs.org/docs'\n      ]\n    },\n    {\n      name: 'Backend Stack', \n      urls: [\n        'https://nodejs.org/api',\n        'https://expressjs.com/guide',\n        'https://www.postgresql.org/docs'\n      ]\n    },\n    {\n      name: 'Cloud Stack',\n      urls: [\n        'https://aws.amazon.com/s3',\n        'https://cloud.google.com/storage/docs',\n        'https://docs.docker.com'\n      ]\n    }\n  ];\n\n  for (const set of urlSets) {\n    const technologies = extractTechnologyContext(set.urls);\n    console.log(`📚 ${set.name}:`);\n    console.log(`   Technologies: ${technologies.join(', ')}`);\n    console.log('');\n  }\n}\n\n// Example 3: Related Domain Discovery\nexport async function demonstrateRelatedDomains() {\n  console.log('🌐 Related Domain Discovery\\n');\n  \n  const primaryDomains = [\n    'reactjs.org',\n    'nodejs.org', \n    'python.org',\n    'microsoft.com'\n  ];\n\n  for (const domain of primaryDomains) {\n    const related = discoverRelatedDomains(domain);\n    console.log(`🔗 ${domain}:`);\n    console.log(`   Related: ${related.slice(0, 5).join(', ')}`);\n    console.log('');\n  }\n}\n\n// Example 4: Comprehensive URL Attachment Analysis\nexport async function demonstrateUrlAttachmentAnalysis() {\n  console.log('📊 Comprehensive URL Attachment Analysis\\n');\n  \n  const urlAttachments = [\n    'https://reactjs.org/docs/hooks.html',\n    'https://github.com/facebook/react',\n    'https://stackoverflow.com/questions/tagged/react-hooks',\n    'https://auth0.com/docs/tokens/json-web-tokens',\n    'https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API'\n  ];\n\n  console.log('📎 Input URLs:');\n  urlAttachments.forEach((url, i) => console.log(`   ${i + 1}. ${url}`));\n  console.log('');\n\n  const analysis = await analyzeUrlAttachments(urlAttachments);\n  \n  console.log('🔍 Analysis Results:');\n  console.log(`   URLs Analyzed: ${analysis.classifications.length}`);\n  console.log(`   Suggested Domains: ${analysis.suggestedDomains.join(', ')}`);\n  console.log(`   Content Topics: ${analysis.contentTopics.join(', ')}`);\n  console.log(`   Related Domains: ${analysis.relatedDomains.slice(0, 5).join(', ')}`);\n  console.log('');\n  \n  console.log('🎯 Search Strategy:');\n  console.log(`   Include Domains: ${analysis.searchStrategy.includeDomains.slice(0, 5).join(', ')}`);\n  console.log(`   Categories: ${analysis.searchStrategy.categories.join(', ')}`);\n  console.log(`   Enhanced Queries: ${analysis.searchStrategy.enhancedQueries.slice(0, 3).join(', ')}`);\n  console.log('');\n  \n  console.log('📋 URL Classifications:');\n  analysis.classifications.forEach(classification => {\n    console.log(`   📌 ${classification.url}`);\n    console.log(`      Type: ${classification.type}`);\n    console.log(`      Confidence: ${(classification.confidence * 100).toFixed(1)}%`);\n    console.log(`      Authority: ${classification.metadata.authority}`);\n  });\n  console.log('');\n}\n\n// Example 5: Enhanced Search Comparison\nexport async function demonstrateEnhancedSearchComparison() {\n  console.log('⚖️  Enhanced Search vs Regular Search\\n');\n  \n  const query = 'React authentication with JWT tokens';\n  const urlAttachments = [\n    'https://reactjs.org/docs/hooks.html',\n    'https://auth0.com/docs/tokens/json-web-tokens'\n  ];\n\n  console.log(`🔍 Query: \"${query}\"`);\n  console.log(`📎 URL Attachments: ${urlAttachments.length}`);\n  console.log('');\n\n  // Regular search\n  console.log('🔍 Regular Search Results:');\n  const regularResults = await search(query, {\n    numResults: 5,\n    type: 'neural'\n  });\n  \n  regularResults.results.forEach((result, i) => {\n    console.log(`   ${i + 1}. ${result.title}`);\n    console.log(`      URL: ${result.url}`);\n    console.log(`      Score: ${(result.score * 100).toFixed(1)}%`);\n  });\n  console.log('');\n\n  // Enhanced search with URL intelligence\n  console.log('🚀 Enhanced Search Results (with URL Intelligence):');\n  const enhancedResults = await searchWithUrlIntelligence(\n    query,\n    urlAttachments,\n    {\n      numResults: 5,\n      type: 'neural',\n      contents: {\n        text: { maxCharacters: 3000 },\n        highlights: { numSentences: 2 },\n        summary: { query }\n      }\n    }\n  );\n  \n  enhancedResults.results.forEach((result, i) => {\n    console.log(`   ${i + 1}. ${result.title}`);\n    console.log(`      URL: ${result.url}`);\n    console.log(`      Score: ${(result.score * 100).toFixed(1)}%`);\n    if (result.summary) {\n      console.log(`      Summary: ${result.summary.slice(0, 100)}...`);\n    }\n  });\n  \n  if (enhancedResults.urlAnalysis) {\n    console.log('');\n    console.log('🧠 URL Intelligence Applied:');\n    console.log(`   Domains Scoped: ${enhancedResults.urlAnalysis.suggestedDomains.join(', ')}`);\n    console.log(`   Technologies: ${enhancedResults.urlAnalysis.contentTopics.join(', ')}`);\n    console.log(`   URL Types: ${enhancedResults.urlAnalysis.classifications.map(c => c.type).join(', ')}`);\n  }\n  console.log('');\n}\n\n// Example 6: Real-World Development Scenario\nexport async function demonstrateRealWorldScenario() {\n  console.log('🏗️  Real-World Development Scenario\\n');\n  \n  // Scenario: Developer working on a Next.js app with authentication\n  const task = 'Implement OAuth2 authentication in Next.js application with TypeScript';\n  const projectUrls = [\n    'https://nextjs.org/docs/authentication',\n    'https://github.com/nextauthjs/next-auth',\n    'https://www.typescriptlang.org/docs',\n    'https://oauth.net/2/',\n    'https://stackoverflow.com/questions/tagged/next.js+authentication'\n  ];\n\n  console.log(`📋 Task: ${task}`);\n  console.log('📎 Project Context URLs:');\n  projectUrls.forEach((url, i) => console.log(`   ${i + 1}. ${url}`));\n  console.log('');\n\n  // Step 1: Analyze project context\n  console.log('🔍 Step 1: Analyzing Project Context...');\n  const urlAnalysis = await analyzeUrlAttachments(projectUrls);\n  \n  console.log(`   📊 Technologies Detected: ${urlAnalysis.contentTopics.join(', ')}`);\n  console.log(`   🌐 Authoritative Domains: ${urlAnalysis.suggestedDomains.join(', ')}`);\n  console.log(`   🔗 Related Domains: ${urlAnalysis.relatedDomains.slice(0, 5).join(', ')}`);\n  console.log('');\n\n  // Step 2: Perform enhanced research\n  console.log('🚀 Step 2: Performing Enhanced Research...');\n  const researchResults = await searchWithUrlIntelligence(\n    task,\n    projectUrls,\n    {\n      numResults: 10,\n      type: 'neural',\n      contents: {\n        text: { maxCharacters: 5000 },\n        highlights: { numSentences: 3 },\n        summary: { query: task }\n      }\n    }\n  );\n\n  // Step 3: Analyze results by category\n  console.log('📚 Step 3: Categorized Research Results...');\n  \n  const categorizedResults = {\n    documentation: researchResults.results.filter(r => \n      r.url.includes('docs') || r.url.includes('nextjs.org')\n    ),\n    repositories: researchResults.results.filter(r => \n      r.url.includes('github.com')\n    ),\n    tutorials: researchResults.results.filter(r => \n      r.url.includes('tutorial') || r.url.includes('guide')\n    ),\n    community: researchResults.results.filter(r => \n      r.url.includes('stackoverflow.com') || r.url.includes('reddit.com')\n    )\n  };\n\n  Object.entries(categorizedResults).forEach(([category, results]) => {\n    if (results.length > 0) {\n      console.log(`   📖 ${category.toUpperCase()} (${results.length} results):`);\n      results.slice(0, 3).forEach((result, i) => {\n        console.log(`      ${i + 1}. ${result.title}`);\n        console.log(`         ${result.url}`);\n        console.log(`         Relevance: ${(result.score * 100).toFixed(1)}%`);\n      });\n      console.log('');\n    }\n  });\n\n  // Step 4: Generate implementation insights\n  console.log('💡 Step 4: Implementation Insights...');\n  const topResults = researchResults.results\n    .sort((a, b) => b.score - a.score)\n    .slice(0, 5);\n\n  console.log('   🎯 Top Recommendations:');\n  topResults.forEach((result, i) => {\n    console.log(`   ${i + 1}. ${result.title}`);\n    console.log(`      Authority Score: ${(result.score * 100).toFixed(1)}%`);\n    if (result.summary) {\n      console.log(`      Key Insight: ${result.summary.slice(0, 150)}...`);\n    }\n    console.log('');\n  });\n\n  return {\n    taskAnalysis: urlAnalysis,\n    researchResults: researchResults.results,\n    urlIntelligence: researchResults.urlAnalysis,\n    recommendations: topResults,\n    technologiesDetected: urlAnalysis.contentTopics\n  };\n}\n\n// Example 7: Performance and Quality Metrics\nexport async function demonstrateQualityMetrics() {\n  console.log('📈 Quality and Performance Metrics\\n');\n  \n  const testQuery = 'React performance optimization techniques';\n  const testUrls = [\n    'https://reactjs.org/docs/optimizing-performance.html',\n    'https://web.dev/react',\n    'https://github.com/facebook/react/issues'\n  ];\n\n  console.log(`🔍 Test Query: \"${testQuery}\"`);\n  console.log(`📎 Test URLs: ${testUrls.length}`);\n  console.log('');\n\n  const startTime = Date.now();\n  \n  const results = await searchWithUrlIntelligence(\n    testQuery,\n    testUrls,\n    { numResults: 15 }\n  );\n  \n  const endTime = Date.now();\n  const duration = endTime - startTime;\n\n  // Calculate quality metrics\n  const avgRelevance = results.results.reduce((sum, r) => sum + r.score, 0) / results.results.length;\n  const uniqueDomains = new Set(results.results.map(r => new URL(r.url).hostname));\n  const authorityDomains = ['reactjs.org', 'web.dev', 'developer.mozilla.org', 'github.com'];\n  const authorityResults = results.results.filter(r => \n    authorityDomains.some(domain => r.url.includes(domain))\n  );\n  \n  console.log('⚡ Performance Metrics:');\n  console.log(`   Search Duration: ${duration}ms`);\n  console.log(`   Results Retrieved: ${results.results.length}`);\n  console.log(`   URL Analysis: ${results.urlAnalysis ? 'Applied' : 'Not Applied'}`);\n  console.log('');\n  \n  console.log('🎯 Quality Metrics:');\n  console.log(`   Average Relevance: ${(avgRelevance * 100).toFixed(1)}%`);\n  console.log(`   Unique Domains: ${uniqueDomains.size}`);\n  console.log(`   Authority Sources: ${authorityResults.length}/${results.results.length} (${((authorityResults.length / results.results.length) * 100).toFixed(1)}%)`);\n  console.log(`   Coverage Score: ${Math.min(uniqueDomains.size / 5, 1).toFixed(2)}/1.0`);\n  console.log('');\n  \n  if (results.urlAnalysis) {\n    console.log('🧠 URL Intelligence Impact:');\n    console.log(`   Domains Scoped: ${results.urlAnalysis.suggestedDomains.length}`);\n    console.log(`   Technologies Detected: ${results.urlAnalysis.contentTopics.length}`);\n    console.log(`   Enhanced Queries: ${results.urlAnalysis.searchStrategy.enhancedQueries.length}`);\n    console.log('');\n  }\n  \n  console.log('🏆 Top Quality Results:');\n  results.results\n    .sort((a, b) => b.score - a.score)\n    .slice(0, 5)\n    .forEach((result, i) => {\n      console.log(`   ${i + 1}. ${result.title}`);\n      console.log(`      Domain: ${new URL(result.url).hostname}`);\n      console.log(`      Relevance: ${(result.score * 100).toFixed(1)}%`);\n      console.log(`      Authority: ${authorityDomains.some(d => result.url.includes(d)) ? 'High' : 'Medium'}`);\n    });\n}\n\n// Main demonstration function\nexport async function runEnhancedResearchDemo() {\n  console.log('🚀 Enhanced Web Research System Demonstration\\n');\n  console.log('=' .repeat(60));\n  console.log('');\n\n  try {\n    await demonstrateUrlClassification();\n    console.log('\\n' + '=' .repeat(60) + '\\n');\n    \n    await demonstrateTechnologyExtraction();\n    console.log('\\n' + '=' .repeat(60) + '\\n');\n    \n    await demonstrateRelatedDomains();\n    console.log('\\n' + '=' .repeat(60) + '\\n');\n    \n    await demonstrateUrlAttachmentAnalysis();\n    console.log('\\n' + '=' .repeat(60) + '\\n');\n    \n    await demonstrateEnhancedSearchComparison();\n    console.log('\\n' + '=' .repeat(60) + '\\n');\n    \n    const realWorldResults = await demonstrateRealWorldScenario();\n    console.log('\\n' + '=' .repeat(60) + '\\n');\n    \n    await demonstrateQualityMetrics();\n    console.log('\\n' + '=' .repeat(60) + '\\n');\n    \n    console.log('✅ Enhanced Web Research System Demonstration Complete!');\n    console.log('');\n    console.log('🎯 Key Capabilities Demonstrated:');\n    console.log('   • Intelligent URL classification and analysis');\n    console.log('   • Technology context extraction and awareness');\n    console.log('   • Automatic domain scoping and related domain discovery');\n    console.log('   • Enhanced query generation based on URL content');\n    console.log('   • Improved search relevance through URL intelligence');\n    console.log('   • Real-world development scenario optimization');\n    console.log('   • Quality metrics and performance measurement');\n    console.log('');\n    console.log('🏆 Result: State-of-the-art web research for engineering intelligence!');\n    \n    return realWorldResults;\n    \n  } catch (error) {\n    console.error('❌ Demo failed:', error);\n    throw error;\n  }\n}\n\n// Run the demo if this file is executed directly\nif (require.main === module) {\n  runEnhancedResearchDemo().catch(console.error);\n}
+/**
+ * Enhanced Web Research Example
+ * 
+ * This example demonstrates the state-of-the-art URL intelligence and 
+ * enhanced search capabilities of the Bitcode web research system.
+ */
+
+import {
+  searchWithUrlIntelligence,
+  analyzeUrlAttachments,
+  classifyUrl,
+  extractTechnologyContext,
+  discoverRelatedDomains,
+  search
+} from '@bitcode/web-search';
+
+// Example 1: Basic URL Classification
+export async function demonstrateUrlClassification() {
+  console.log('🏷️  URL Classification Examples\\n');
+  
+  const urls = [
+    'https://reactjs.org/docs/hooks.html',
+    'https://github.com/facebook/react/issues/12345',
+    'https://stackoverflow.com/questions/react-authentication',
+    'https://api.stripe.com/docs/authentication',
+    'https://medium.com/@developer/react-patterns',
+    'https://arxiv.org/abs/2021.12345',
+    'https://npmjs.com/package/react'
+  ];
+
+  for (const url of urls) {
+    const classification = classifyUrl(url);
+    console.log(`📋 ${url}`);
+    console.log(`   Type: ${classification.type}`);
+    console.log(`   Domain: ${classification.domain}`);
+    console.log(`   Confidence: ${(classification.confidence * 100).toFixed(1)}%`);
+    console.log(`   Authority: ${classification.metadata.authority}`);
+    console.log('');
+  }
+}
+
+// Example 2: Technology Context Extraction
+export async function demonstrateTechnologyExtraction() {
+  console.log('🔧 Technology Context Extraction\\n');
+  
+  const urlSets = [
+    {
+      name: 'Frontend Stack',
+      urls: [
+        'https://reactjs.org/docs',
+        'https://www.typescriptlang.org/docs',
+        'https://nextjs.org/docs'
+      ]
+    },
+    {
+      name: 'Backend Stack', 
+      urls: [
+        'https://nodejs.org/api',
+        'https://expressjs.com/guide',
+        'https://www.postgresql.org/docs'
+      ]
+    },
+    {
+      name: 'Cloud Stack',
+      urls: [
+        'https://aws.amazon.com/s3',
+        'https://cloud.google.com/storage/docs',
+        'https://docs.docker.com'
+      ]
+    }
+  ];
+
+  for (const set of urlSets) {
+    const technologies = extractTechnologyContext(set.urls);
+    console.log(`📚 ${set.name}:`);
+    console.log(`   Technologies: ${technologies.join(', ')}`);
+    console.log('');
+  }
+}
+
+// Example 3: Related Domain Discovery
+export async function demonstrateRelatedDomains() {
+  console.log('🌐 Related Domain Discovery\\n');
+  
+  const primaryDomains = [
+    'reactjs.org',
+    'nodejs.org', 
+    'python.org',
+    'microsoft.com'
+  ];
+
+  for (const domain of primaryDomains) {
+    const related = discoverRelatedDomains(domain);
+    console.log(`🔗 ${domain}:`);
+    console.log(`   Related: ${related.slice(0, 5).join(', ')}`);
+    console.log('');
+  }
+}
+
+// Example 4: Comprehensive URL Attachment Analysis
+export async function demonstrateUrlAttachmentAnalysis() {
+  console.log('📊 Comprehensive URL Attachment Analysis\\n');
+  
+  const urlAttachments = [
+    'https://reactjs.org/docs/hooks.html',
+    'https://github.com/facebook/react',
+    'https://stackoverflow.com/questions/tagged/react-hooks',
+    'https://auth0.com/docs/tokens/json-web-tokens',
+    'https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API'
+  ];
+
+  console.log('📎 Input URLs:');
+  urlAttachments.forEach((url, i) => console.log(`   ${i + 1}. ${url}`));
+  console.log('');
+
+  const analysis = await analyzeUrlAttachments(urlAttachments);
+  
+  console.log('🔍 Analysis Results:');
+  console.log(`   URLs Analyzed: ${analysis.classifications.length}`);
+  console.log(`   Suggested Domains: ${analysis.suggestedDomains.join(', ')}`);
+  console.log(`   Content Topics: ${analysis.contentTopics.join(', ')}`);
+  console.log(`   Related Domains: ${analysis.relatedDomains.slice(0, 5).join(', ')}`);
+  console.log('');
+  
+  console.log('🎯 Search Strategy:');
+  console.log(`   Include Domains: ${analysis.searchStrategy.includeDomains.slice(0, 5).join(', ')}`);
+  console.log(`   Categories: ${analysis.searchStrategy.categories.join(', ')}`);
+  console.log(`   Enhanced Queries: ${analysis.searchStrategy.enhancedQueries.slice(0, 3).join(', ')}`);
+  console.log('');
+  
+  console.log('📋 URL Classifications:');
+  analysis.classifications.forEach(classification => {
+    console.log(`   📌 ${classification.url}`);
+    console.log(`      Type: ${classification.type}`);
+    console.log(`      Confidence: ${(classification.confidence * 100).toFixed(1)}%`);
+    console.log(`      Authority: ${classification.metadata.authority}`);
+  });
+  console.log('');
+}
+
+// Example 5: Enhanced Search Comparison
+export async function demonstrateEnhancedSearchComparison() {
+  console.log('⚖️  Enhanced Search vs Regular Search\\n');
+  
+  const query = 'React authentication with JWT tokens';
+  const urlAttachments = [
+    'https://reactjs.org/docs/hooks.html',
+    'https://auth0.com/docs/tokens/json-web-tokens'
+  ];
+
+  console.log(`🔍 Query: \"${query}\"`);
+  console.log(`📎 URL Attachments: ${urlAttachments.length}`);
+  console.log('');
+
+  // Regular search
+  console.log('🔍 Regular Search Results:');
+  const regularResults = await search(query, {
+    numResults: 5,
+    type: 'neural'
+  });
+  
+  regularResults.results.forEach((result, i) => {
+    console.log(`   ${i + 1}. ${result.title}`);
+    console.log(`      URL: ${result.url}`);
+    console.log(`      Score: ${(result.score * 100).toFixed(1)}%`);
+  });
+  console.log('');
+
+  // Enhanced search with URL intelligence
+  console.log('🚀 Enhanced Search Results (with URL Intelligence):');
+  const enhancedResults = await searchWithUrlIntelligence(
+    query,
+    urlAttachments,
+    {
+      numResults: 5,
+      type: 'neural',
+      contents: {
+        text: { maxCharacters: 3000 },
+        highlights: { numSentences: 2 },
+        summary: { query }
+      }
+    }
+  );
+  
+  enhancedResults.results.forEach((result, i) => {
+    console.log(`   ${i + 1}. ${result.title}`);
+    console.log(`      URL: ${result.url}`);
+    console.log(`      Score: ${(result.score * 100).toFixed(1)}%`);
+    if (result.summary) {
+      console.log(`      Summary: ${result.summary.slice(0, 100)}...`);
+    }
+  });
+  
+  if (enhancedResults.urlAnalysis) {
+    console.log('');
+    console.log('🧠 URL Intelligence Applied:');
+    console.log(`   Domains Scoped: ${enhancedResults.urlAnalysis.suggestedDomains.join(', ')}`);
+    console.log(`   Technologies: ${enhancedResults.urlAnalysis.contentTopics.join(', ')}`);
+    console.log(`   URL Types: ${enhancedResults.urlAnalysis.classifications.map(c => c.type).join(', ')}`);
+  }
+  console.log('');
+}
+
+// Example 6: Real-World Development Scenario
+export async function demonstrateRealWorldScenario() {
+  console.log('🏗️  Real-World Development Scenario\\n');
+  
+  // Scenario: Developer working on a Next.js app with authentication
+  const task = 'Implement OAuth2 authentication in Next.js application with TypeScript';
+  const projectUrls = [
+    'https://nextjs.org/docs/authentication',
+    'https://github.com/nextauthjs/next-auth',
+    'https://www.typescriptlang.org/docs',
+    'https://oauth.net/2/',
+    'https://stackoverflow.com/questions/tagged/next.js+authentication'
+  ];
+
+  console.log(`📋 Task: ${task}`);
+  console.log('📎 Project Context URLs:');
+  projectUrls.forEach((url, i) => console.log(`   ${i + 1}. ${url}`));
+  console.log('');
+
+  // Step 1: Analyze project context
+  console.log('🔍 Step 1: Analyzing Project Context...');
+  const urlAnalysis = await analyzeUrlAttachments(projectUrls);
+  
+  console.log(`   📊 Technologies Detected: ${urlAnalysis.contentTopics.join(', ')}`);
+  console.log(`   🌐 Authoritative Domains: ${urlAnalysis.suggestedDomains.join(', ')}`);
+  console.log(`   🔗 Related Domains: ${urlAnalysis.relatedDomains.slice(0, 5).join(', ')}`);
+  console.log('');
+
+  // Step 2: Perform enhanced research
+  console.log('🚀 Step 2: Performing Enhanced Research...');
+  const researchResults = await searchWithUrlIntelligence(
+    task,
+    projectUrls,
+    {
+      numResults: 10,
+      type: 'neural',
+      contents: {
+        text: { maxCharacters: 5000 },
+        highlights: { numSentences: 3 },
+        summary: { query: task }
+      }
+    }
+  );
+
+  // Step 3: Analyze results by category
+  console.log('📚 Step 3: Categorized Research Results...');
+  
+  const categorizedResults = {
+    documentation: researchResults.results.filter(r => 
+      r.url.includes('docs') || r.url.includes('nextjs.org')
+    ),
+    repositories: researchResults.results.filter(r => 
+      r.url.includes('github.com')
+    ),
+    tutorials: researchResults.results.filter(r => 
+      r.url.includes('tutorial') || r.url.includes('guide')
+    ),
+    community: researchResults.results.filter(r => 
+      r.url.includes('stackoverflow.com') || r.url.includes('reddit.com')
+    )
+  };
+
+  Object.entries(categorizedResults).forEach(([category, results]) => {
+    if (results.length > 0) {
+      console.log(`   📖 ${category.toUpperCase()} (${results.length} results):`);
+      results.slice(0, 3).forEach((result, i) => {
+        console.log(`      ${i + 1}. ${result.title}`);
+        console.log(`         ${result.url}`);
+        console.log(`         Relevance: ${(result.score * 100).toFixed(1)}%`);
+      });
+      console.log('');
+    }
+  });
+
+  // Step 4: Generate implementation insights
+  console.log('💡 Step 4: Implementation Insights...');
+  const topResults = researchResults.results
+    .sort((a, b) => b.score - a.score)
+    .slice(0, 5);
+
+  console.log('   🎯 Top Recommendations:');
+  topResults.forEach((result, i) => {
+    console.log(`   ${i + 1}. ${result.title}`);
+    console.log(`      Authority Score: ${(result.score * 100).toFixed(1)}%`);
+    if (result.summary) {
+      console.log(`      Key Insight: ${result.summary.slice(0, 150)}...`);
+    }
+    console.log('');
+  });
+
+  return {
+    taskAnalysis: urlAnalysis,
+    researchResults: researchResults.results,
+    urlIntelligence: researchResults.urlAnalysis,
+    recommendations: topResults,
+    technologiesDetected: urlAnalysis.contentTopics
+  };
+}
+
+// Example 7: Performance and Quality Metrics
+export async function demonstrateQualityMetrics() {
+  console.log('📈 Quality and Performance Metrics\\n');
+  
+  const testQuery = 'React performance optimization techniques';
+  const testUrls = [
+    'https://reactjs.org/docs/optimizing-performance.html',
+    'https://web.dev/react',
+    'https://github.com/facebook/react/issues'
+  ];
+
+  console.log(`🔍 Test Query: \"${testQuery}\"`);
+  console.log(`📎 Test URLs: ${testUrls.length}`);
+  console.log('');
+
+  const startTime = Date.now();
+  
+  const results = await searchWithUrlIntelligence(
+    testQuery,
+    testUrls,
+    { numResults: 15 }
+  );
+  
+  const endTime = Date.now();
+  const duration = endTime - startTime;
+
+  // Calculate quality metrics
+  const avgRelevance = results.results.reduce((sum, r) => sum + r.score, 0) / results.results.length;
+  const uniqueDomains = new Set(results.results.map(r => new URL(r.url).hostname));
+  const authorityDomains = ['reactjs.org', 'web.dev', 'developer.mozilla.org', 'github.com'];
+  const authorityResults = results.results.filter(r => 
+    authorityDomains.some(domain => r.url.includes(domain))
+  );
+  
+  console.log('⚡ Performance Metrics:');
+  console.log(`   Search Duration: ${duration}ms`);
+  console.log(`   Results Retrieved: ${results.results.length}`);
+  console.log(`   URL Analysis: ${results.urlAnalysis ? 'Applied' : 'Not Applied'}`);
+  console.log('');
+  
+  console.log('🎯 Quality Metrics:');
+  console.log(`   Average Relevance: ${(avgRelevance * 100).toFixed(1)}%`);
+  console.log(`   Unique Domains: ${uniqueDomains.size}`);
+  console.log(`   Authority Sources: ${authorityResults.length}/${results.results.length} (${((authorityResults.length / results.results.length) * 100).toFixed(1)}%)`);
+  console.log(`   Coverage Score: ${Math.min(uniqueDomains.size / 5, 1).toFixed(2)}/1.0`);
+  console.log('');
+  
+  if (results.urlAnalysis) {
+    console.log('🧠 URL Intelligence Impact:');
+    console.log(`   Domains Scoped: ${results.urlAnalysis.suggestedDomains.length}`);
+    console.log(`   Technologies Detected: ${results.urlAnalysis.contentTopics.length}`);
+    console.log(`   Enhanced Queries: ${results.urlAnalysis.searchStrategy.enhancedQueries.length}`);
+    console.log('');
+  }
+  
+  console.log('🏆 Top Quality Results:');
+  results.results
+    .sort((a, b) => b.score - a.score)
+    .slice(0, 5)
+    .forEach((result, i) => {
+      console.log(`   ${i + 1}. ${result.title}`);
+      console.log(`      Domain: ${new URL(result.url).hostname}`);
+      console.log(`      Relevance: ${(result.score * 100).toFixed(1)}%`);
+      console.log(`      Authority: ${authorityDomains.some(d => result.url.includes(d)) ? 'High' : 'Medium'}`);
+    });
+}
+
+// Main demonstration function
+export async function runEnhancedResearchDemo() {
+  console.log('🚀 Enhanced Web Research System Demonstration\\n');
+  console.log('=' .repeat(60));
+  console.log('');
+
+  try {
+    await demonstrateUrlClassification();
+    console.log('\\n' + '=' .repeat(60) + '\\n');
+    
+    await demonstrateTechnologyExtraction();
+    console.log('\\n' + '=' .repeat(60) + '\\n');
+    
+    await demonstrateRelatedDomains();
+    console.log('\\n' + '=' .repeat(60) + '\\n');
+    
+    await demonstrateUrlAttachmentAnalysis();
+    console.log('\\n' + '=' .repeat(60) + '\\n');
+    
+    await demonstrateEnhancedSearchComparison();
+    console.log('\\n' + '=' .repeat(60) + '\\n');
+    
+    const realWorldResults = await demonstrateRealWorldScenario();
+    console.log('\\n' + '=' .repeat(60) + '\\n');
+    
+    await demonstrateQualityMetrics();
+    console.log('\\n' + '=' .repeat(60) + '\\n');
+    
+    console.log('✅ Enhanced Web Research System Demonstration Complete!');
+    console.log('');
+    console.log('🎯 Key Capabilities Demonstrated:');
+    console.log('   • Intelligent URL classification and analysis');
+    console.log('   • Technology context extraction and awareness');
+    console.log('   • Automatic domain scoping and related domain discovery');
+    console.log('   • Enhanced query generation based on URL content');
+    console.log('   • Improved search relevance through URL intelligence');
+    console.log('   • Real-world development scenario optimization');
+    console.log('   • Quality metrics and performance measurement');
+    console.log('');
+    console.log('🏆 Result: State-of-the-art web research for engineering intelligence!');
+    
+    return realWorldResults;
+    
+  } catch (error) {
+    console.error('❌ Demo failed:', error);
+    throw error;
+  }
+}
+
+// Run the demo if this file is executed directly
+if (require.main === module) {
+  runEnhancedResearchDemo().catch(console.error);
+}

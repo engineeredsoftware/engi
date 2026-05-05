@@ -66,12 +66,12 @@ const testData = {
 After:
 ```typescript
 /** @doc-test-fixture
- * @id user-with-credits
- * @credits 1000
+ * @id user-with-btd-balance
+ * @btd-balance 1000
  */
 export const USER_FIXTURE = createTestPart({
   id: 'user-001',
-  credits: 1000
+  btdBalance: 1000
 });
 
 const composition = createTestComposition({
@@ -121,7 +121,7 @@ Before:
 export const Default = {
   args: {
     user: { id: 1, name: 'Test' },
-    credits: 1000
+    btdBalance: 1000
   }
 };
 ```
@@ -152,7 +152,7 @@ export const PREMIUM_USER = createTestPart({
   id: 'user-premium-001',
   email: 'premium@example.com',
   tier: 'premium',
-  credits: 5000
+  btdBalance: 5000
 });
 ```
 

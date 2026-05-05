@@ -50,7 +50,7 @@ All test generation happens at compile time through AST transformation:
 /** @doc-comment-test-fixture
  * @context enterprise
  * @scenario high-load
- * @credits 50000
+ * @btd-balance 50000
  */
 export const ENTERPRISE_USER = {};
 
@@ -58,7 +58,7 @@ export const ENTERPRISE_USER = {};
 ENTERPRISE_USER.__proto__.testMetadata = {
   context: 'enterprise',
   scenario: 'high-load',
-  credits: 50000,
+  btdBalance: 50000,
   generator: () => generateFromContext('enterprise', 'high-load')
 };
 ```

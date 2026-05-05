@@ -354,7 +354,7 @@ export const ASSET_PACK_ERROR_SCENARIO = createTestScenario({
     user: {
       id: 'user-low-btd',
       role: 'developer',
-      btdHoldingAmount: 50,
+      btdBalance: 50,
       features: ['asset-packs']
     },
     repository: {

@@ -32,7 +32,7 @@ The Bitcode MCP Server represents a **controlled frontier system** - operating a
 │  ├─ API Key Validation                                         │
 │  ├─ Role-Based Access Control (RBAC)                          │
 │  ├─ Organization-Level Isolation                              │
-│  └─ Credit & Usage Tracking                                   │
+│  └─ BTC Fee Readiness & $BTD Holding Tracking                 │
 ├─────────────────────────────────────────────────────────────────┤
 │  🧠  Intelligence Orchestration Layer                          │
 │  ├─ Model Context Protocol Handler                            │
@@ -404,16 +404,16 @@ const AI_PROVIDER_STRATEGY: AIProviderConfig = {
 - **Feature Requests**: Monthly review and quarterly roadmap updates
 - **Community Support**: Discord community with <2 hour average response
 
-### 💰 **Credit System & Fair Usage**
+### 💰 **BTC Fee Readiness and $BTD Holding Reads**
 
-#### **Credit Consumption Model**
+#### **MCP Usage Readiness Model**
 ```typescript
-interface CreditConsumption {
+interface MCPUsageReadiness {
   tool: string;
-  baseCredits: number;
+  baseFeeSats: number;
   modifiers: {
     complexity: number;     // 1x-5x multiplier
-    attachments: number;    // +10 credits per attachment
+    attachments: number;    // additional fee weight per attachment
     streaming: number;      // +20% for real-time streaming
     priority: number;       // 2x for high-priority execution
   };

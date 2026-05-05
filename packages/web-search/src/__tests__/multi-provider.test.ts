@@ -1,1 +1,738 @@
-import {\n  QueryAnalyzer,\n  ProviderRouter,\n  ResultFusionEngine,\n  SearchQuery,\n  SearchResult,\n  SearchProvider\n} from '../multi-provider';\nimport { GitHubSearchProvider } from '../providers/github';\nimport { StackOverflowSearchProvider } from '../providers/stackoverflow';\nimport { SemanticScholarSearchProvider } from '../providers/semantic-scholar';\nimport {\n  MultiProviderSearchOrchestrator,\n  multiProviderSearch,\n  getProviderHealth,\n  getProviderStatistics\n} from '../orchestrator';\n\n// Mock external APIs\njest.mock('@bitcode/logger');\njest.mock('../index');\n\n// Mock environment variables\nprocess.env.GITHUB_API_KEY = 'test-github-key';\nprocess.env.STACKEXCHANGE_API_KEY = 'test-stack-key';\nprocess.env.SEMANTIC_SCHOLAR_API_KEY = 'test-scholar-key';\n\n// Mock fetch globally\nglobal.fetch = jest.fn();\n\ndescribe('Multi-Provider Search System', () => {\n  beforeEach(() => {\n    jest.clearAllMocks();\n    (global.fetch as jest.Mock).mockClear();\n  });\n\n  describe('QueryAnalyzer', () => {\n    let analyzer: QueryAnalyzer;\n\n    beforeEach(() => {\n      analyzer = new QueryAnalyzer();\n    });\n\n    test('should analyze code queries correctly', () => {\n      const query = analyzer.analyzeQuery(\n        'how to implement React authentication',\n        ['https://reactjs.org/docs/hooks.html']\n      );\n\n      expect(query.category).toBe('code');\n      expect(query.technologies).toContain('react');\n      expect(query.urgency).toBe('medium');\n      expect(query.domains).toContain('reactjs.org');\n    });\n\n    test('should analyze documentation queries correctly', () => {\n      const query = analyzer.analyzeQuery(\n        'API documentation for Express.js',\n        ['https://expressjs.com/en/api.html']\n      );\n\n      expect(query.category).toBe('documentation');\n      expect(query.technologies).toContain('express');\n    });\n\n    test('should analyze QA queries correctly', () => {\n      const query = analyzer.analyzeQuery(\n        'how to fix React hook error',\n        []\n      );\n\n      expect(query.category).toBe('qa');\n      expect(query.technologies).toContain('react');\n    });\n\n    test('should analyze academic queries correctly', () => {\n      const query = analyzer.analyzeQuery(\n        'machine learning algorithm research paper',\n        []\n      );\n\n      expect(query.category).toBe('academic');\n      expect(query.technologies).toContain('machine learning');\n    });\n\n    test('should detect urgency correctly', () => {\n      const urgentQuery = analyzer.analyzeQuery('urgent React bug fix needed');\n      expect(urgentQuery.urgency).toBe('high');\n\n      const researchQuery = analyzer.analyzeQuery('research best practices for Vue.js');\n      expect(researchQuery.urgency).toBe('low');\n    });\n\n    test('should extract multiple technologies', () => {\n      const query = analyzer.analyzeQuery(\n        'Node.js Express PostgreSQL authentication',\n        ['https://nodejs.org/docs', 'https://www.postgresql.org/docs']\n      );\n\n      expect(query.technologies).toEqual(\n        expect.arrayContaining(['nodejs', 'postgresql'])\n      );\n    });\n  });\n\n  describe('ProviderRouter', () => {\n    let router: ProviderRouter;\n    let mockGitHubProvider: GitHubSearchProvider;\n    let mockStackOverflowProvider: StackOverflowSearchProvider;\n\n    beforeEach(() => {\n      router = new ProviderRouter();\n      mockGitHubProvider = new GitHubSearchProvider();\n      mockStackOverflowProvider = new StackOverflowSearchProvider();\n      \n      // Mock provider stats to be healthy\n      jest.spyOn(mockGitHubProvider, 'getStats').mockReturnValue({\n        provider: 'github',\n        isHealthy: true,\n        lastHealthCheck: new Date(),\n        requestsThisMinute: 0,\n        requestsToday: 0,\n        averageResponseTime: 500,\n        successRate: 0.95,\n        qualityScore: 0.9\n      });\n      \n      jest.spyOn(mockStackOverflowProvider, 'getStats').mockReturnValue({\n        provider: 'stackoverflow',\n        isHealthy: true,\n        lastHealthCheck: new Date(),\n        requestsThisMinute: 0,\n        requestsToday: 0,\n        averageResponseTime: 300,\n        successRate: 0.98,\n        qualityScore: 0.85\n      });\n\n      router.registerProvider(mockGitHubProvider);\n      router.registerProvider(mockStackOverflowProvider);\n    });\n\n    test('should route code queries to GitHub', async () => {\n      const query: SearchQuery = {\n        text: 'React component implementation',\n        category: 'code',\n        technologies: ['react'],\n        urgency: 'medium'\n      };\n\n      const providers = await router.routeQuery(query);\n      expect(providers).toContain('github');\n    });\n\n    test('should route QA queries to Stack Overflow', async () => {\n      const query: SearchQuery = {\n        text: 'how to fix JavaScript error',\n        category: 'qa',\n        technologies: ['javascript'],\n        urgency: 'high'\n      };\n\n      const providers = await router.routeQuery(query);\n      expect(providers).toContain('stackoverflow');\n    });\n\n    test('should prioritize healthy providers', async () => {\n      // Make GitHub unhealthy\n      jest.spyOn(mockGitHubProvider, 'getStats').mockReturnValue({\n        provider: 'github',\n        isHealthy: false,\n        lastHealthCheck: new Date(),\n        requestsThisMinute: 0,\n        requestsToday: 0,\n        averageResponseTime: 5000,\n        successRate: 0.1,\n        qualityScore: 0.2\n      });\n\n      const query: SearchQuery = {\n        text: 'code example',\n        category: 'code',\n        technologies: ['javascript'],\n        urgency: 'medium'\n      };\n\n      const providers = await router.routeQuery(query);\n      expect(providers).not.toContain('github');\n      expect(providers).toContain('stackoverflow');\n    });\n  });\n\n  describe('ResultFusionEngine', () => {\n    let fusionEngine: ResultFusionEngine;\n\n    beforeEach(() => {\n      fusionEngine = new ResultFusionEngine();\n    });\n\n    test('should remove duplicate results', () => {\n      const providerResults = [\n        {\n          provider: 'github' as SearchProvider,\n          results: [\n            {\n              id: 'github-1',\n              title: 'React Authentication Tutorial',\n              url: 'https://github.com/example/react-auth',\n              snippet: 'Tutorial content',\n              score: 0.9,\n              provider: 'github' as SearchProvider,\n              metadata: { type: 'github_repo' as const, authority: 'high' as const }\n            }\n          ]\n        },\n        {\n          provider: 'stackoverflow' as SearchProvider,\n          results: [\n            {\n              id: 'so-1',\n              title: 'React Authentication Tutorial', // Same title\n              url: 'https://github.com/example/react-auth', // Same URL\n              snippet: 'Similar content',\n              score: 0.8,\n              provider: 'stackoverflow' as SearchProvider,\n              metadata: { type: 'stackoverflow' as const, authority: 'medium' as const }\n            },\n            {\n              id: 'so-2',\n              title: 'Different React Tutorial',\n              url: 'https://stackoverflow.com/questions/12345',\n              snippet: 'Different content',\n              score: 0.7,\n              provider: 'stackoverflow' as SearchProvider,\n              metadata: { type: 'stackoverflow' as const, authority: 'medium' as const }\n            }\n          ]\n        }\n      ];\n\n      const query: SearchQuery = {\n        text: 'React authentication',\n        category: 'code',\n        technologies: ['react'],\n        urgency: 'medium'\n      };\n\n      const result = fusionEngine.fuseResults(providerResults, query);\n\n      expect(result.results).toHaveLength(2); // Duplicate removed\n      expect(result.fusionMetrics.duplicatesRemoved).toBe(1);\n      expect(result.results[0].score).toBeGreaterThanOrEqual(result.results[1].score);\n    });\n\n    test('should optimize for diversity', () => {\n      const sameSourceResults = Array.from({ length: 10 }, (_, i) => ({\n        id: `result-${i}`,\n        title: `Result ${i}`,\n        url: `https://same-domain.com/page${i}`,\n        snippet: `Content ${i}`,\n        score: 0.8,\n        provider: 'github' as SearchProvider,\n        metadata: { type: 'github_repo' as const, authority: 'medium' as const }\n      }));\n\n      const providerResults = [\n        {\n          provider: 'github' as SearchProvider,\n          results: sameSourceResults\n        }\n      ];\n\n      const query: SearchQuery = {\n        text: 'test query',\n        category: 'general',\n        technologies: [],\n        urgency: 'medium'\n      };\n\n      const result = fusionEngine.fuseResults(providerResults, query);\n\n      // Should limit results from same domain when many are available\n      expect(result.results.length).toBeLessThan(10);\n      expect(result.fusionMetrics.diversityScore).toBeGreaterThan(0);\n    });\n\n    test('should generate relevant follow-up queries', () => {\n      const providerResults = [\n        {\n          provider: 'github' as SearchProvider,\n          results: [\n            {\n              id: 'result-1',\n              title: 'React Hooks Authentication Best Practices',\n              url: 'https://example.com/react-hooks-auth',\n              snippet: 'Using hooks for authentication state management',\n              score: 0.9,\n              provider: 'github' as SearchProvider,\n              metadata: { type: 'github_repo' as const, authority: 'high' as const }\n            }\n          ]\n        }\n      ];\n\n      const query: SearchQuery = {\n        text: 'React authentication',\n        category: 'code',\n        technologies: ['react'],\n        urgency: 'medium'\n      };\n\n      const result = fusionEngine.fuseResults(providerResults, query);\n\n      expect(result.recommendedFollowUp).toEqual(\n        expect.arrayContaining([\n          expect.stringContaining('react')\n        ])\n      );\n      expect(result.recommendedFollowUp.length).toBeGreaterThan(0);\n    });\n  });\n\n  describe('GitHubSearchProvider', () => {\n    let provider: GitHubSearchProvider;\n\n    beforeEach(() => {\n      provider = new GitHubSearchProvider();\n      \n      // Mock successful API responses\n      (global.fetch as jest.Mock).mockResolvedValue({\n        ok: true,\n        json: () => Promise.resolve({\n          total_count: 1,\n          incomplete_results: false,\n          items: [\n            {\n              id: 12345,\n              name: 'react-auth',\n              full_name: 'example/react-auth',\n              description: 'React authentication library',\n              html_url: 'https://github.com/example/react-auth',\n              stargazers_count: 1500,\n              forks_count: 200,\n              language: 'JavaScript',\n              topics: ['react', 'authentication', 'jwt'],\n              updated_at: '2024-01-01T00:00:00Z',\n              owner: {\n                login: 'example',\n                type: 'User'\n              },\n              license: {\n                name: 'MIT'\n              }\n            }\n          ]\n        })\n      });\n    });\n\n    test('should search repositories successfully', async () => {\n      const query: SearchQuery = {\n        text: 'React authentication',\n        category: 'code',\n        technologies: ['react'],\n        urgency: 'medium'\n      };\n\n      const results = await provider.search(query, {\n        searchType: 'repositories',\n        maxResults: 10\n      });\n\n      expect(results).toHaveLength(1);\n      expect(results[0].title).toContain('react-auth');\n      expect(results[0].provider).toBe('github');\n      expect(results[0].metadata.stars).toBe(1500);\n    });\n\n    test('should handle API errors gracefully', async () => {\n      (global.fetch as jest.Mock).mockResolvedValue({\n        ok: false,\n        status: 403,\n        statusText: 'Forbidden',\n        text: () => Promise.resolve('Rate limit exceeded')\n      });\n\n      const query: SearchQuery = {\n        text: 'test query',\n        category: 'code',\n        technologies: [],\n        urgency: 'medium'\n      };\n\n      await expect(provider.search(query)).rejects.toThrow('GitHub API request failed');\n    });\n\n    test('should perform health check', async () => {\n      (global.fetch as jest.Mock).mockResolvedValue({\n        ok: true,\n        json: () => Promise.resolve({\n          rate: {\n            remaining: 50,\n            reset: Date.now() + 3600000\n          }\n        })\n      });\n\n      const isHealthy = await provider.healthCheck();\n      expect(isHealthy).toBe(true);\n    });\n  });\n\n  describe('StackOverflowSearchProvider', () => {\n    let provider: StackOverflowSearchProvider;\n\n    beforeEach(() => {\n      provider = new StackOverflowSearchProvider();\n      \n      (global.fetch as jest.Mock).mockResolvedValue({\n        ok: true,\n        json: () => Promise.resolve({\n          total: 1,\n          items: [\n            {\n              question_id: 12345,\n              title: 'How to implement React authentication?',\n              body: 'I need help with React authentication...',\n              link: 'https://stackoverflow.com/questions/12345',\n              score: 25,\n              view_count: 1500,\n              answer_count: 3,\n              tags: ['reactjs', 'authentication', 'javascript'],\n              owner: {\n                display_name: 'developer123',\n                reputation: 5000,\n                user_type: 'registered'\n              },\n              creation_date: 1640995200, // 2022-01-01\n              last_activity_date: 1641081600,\n              is_answered: true,\n              accepted_answer_id: 12346\n            }\n          ],\n          quota_remaining: 300,\n          quota_max: 300\n        })\n      });\n    });\n\n    test('should search questions successfully', async () => {\n      const query: SearchQuery = {\n        text: 'React authentication',\n        category: 'qa',\n        technologies: ['react'],\n        urgency: 'medium'\n      };\n\n      const results = await provider.search(query, {\n        searchType: 'questions',\n        maxResults: 10\n      });\n\n      expect(results).toHaveLength(1);\n      expect(results[0].title).toContain('React authentication');\n      expect(results[0].provider).toBe('stackoverflow');\n      expect(results[0].metadata.tags).toContain('reactjs');\n    });\n\n    test('should handle Stack Exchange API errors', async () => {\n      (global.fetch as jest.Mock).mockResolvedValue({\n        ok: true,\n        json: () => Promise.resolve({\n          error_id: 400,\n          error_name: 'bad_parameter',\n          error_message: 'Invalid parameter'\n        })\n      });\n\n      const query: SearchQuery = {\n        text: 'test query',\n        category: 'qa',\n        technologies: [],\n        urgency: 'medium'\n      };\n\n      await expect(provider.search(query)).rejects.toThrow('Stack Exchange API error');\n    });\n  });\n\n  describe('SemanticScholarSearchProvider', () => {\n    let provider: SemanticScholarSearchProvider;\n\n    beforeEach(() => {\n      provider = new SemanticScholarSearchProvider();\n      \n      (global.fetch as jest.Mock).mockResolvedValue({\n        ok: true,\n        json: () => Promise.resolve({\n          total: 1,\n          offset: 0,\n          data: [\n            {\n              paperId: 'abc123',\n              title: 'Deep Learning for Computer Vision: A Survey',\n              abstract: 'This paper provides a comprehensive survey...',\n              url: 'https://www.semanticscholar.org/paper/abc123',\n              venue: 'IEEE Transactions on Pattern Analysis',\n              year: 2023,\n              citationCount: 150,\n              influentialCitationCount: 25,\n              authors: [\n                { name: 'Jane Smith' },\n                { name: 'John Doe' }\n              ],\n              fieldsOfStudy: ['Computer Science'],\n              publicationDate: '2023-06-01',\n              openAccessPdf: {\n                url: 'https://example.com/paper.pdf',\n                status: 'GREEN'\n              },\n              tldr: {\n                model: 'tldr@v2.0',\n                text: 'A comprehensive survey of deep learning in computer vision.'\n              }\n            }\n          ]\n        })\n      });\n    });\n\n    test('should search papers successfully', async () => {\n      const query: SearchQuery = {\n        text: 'deep learning computer vision',\n        category: 'academic',\n        technologies: ['computer vision', 'deep learning'],\n        urgency: 'low'\n      };\n\n      const results = await provider.search(query, {\n        maxResults: 10\n      });\n\n      expect(results).toHaveLength(1);\n      expect(results[0].title).toContain('Deep Learning');\n      expect(results[0].provider).toBe('semantic_scholar');\n      expect(results[0].metadata.citations).toBe(150);\n    });\n\n    test('should handle missing paper URLs', async () => {\n      (global.fetch as jest.Mock).mockResolvedValue({\n        ok: true,\n        json: () => Promise.resolve({\n          total: 1,\n          data: [\n            {\n              paperId: 'def456',\n              title: 'Test Paper',\n              citationCount: 5,\n              influentialCitationCount: 1,\n              authors: [{ name: 'Test Author' }],\n              year: 2023\n            }\n          ]\n        })\n      });\n\n      const query: SearchQuery = {\n        text: 'test research',\n        category: 'academic',\n        technologies: [],\n        urgency: 'low'\n      };\n\n      const results = await provider.search(query);\n      \n      expect(results[0].url).toContain('semanticscholar.org/paper/def456');\n    });\n  });\n\n  describe('MultiProviderSearchOrchestrator', () => {\n    let orchestrator: MultiProviderSearchOrchestrator;\n\n    beforeEach(() => {\n      orchestrator = new MultiProviderSearchOrchestrator();\n      \n      // Mock all provider searches\n      (global.fetch as jest.Mock).mockImplementation((url: string) => {\n        if (url.includes('github.com')) {\n          return Promise.resolve({\n            ok: true,\n            json: () => Promise.resolve({\n              total_count: 1,\n              items: [{\n                id: 1,\n                full_name: 'test/repo',\n                description: 'Test repository',\n                html_url: 'https://github.com/test/repo',\n                stargazers_count: 100,\n                language: 'JavaScript'\n              }]\n            })\n          });\n        }\n        \n        if (url.includes('stackexchange.com')) {\n          return Promise.resolve({\n            ok: true,\n            json: () => Promise.resolve({\n              items: [{\n                question_id: 1,\n                title: 'Test Question',\n                link: 'https://stackoverflow.com/q/1',\n                score: 10,\n                tags: ['javascript']\n              }],\n              quota_remaining: 100\n            })\n          });\n        }\n        \n        if (url.includes('semanticscholar.org')) {\n          return Promise.resolve({\n            ok: true,\n            json: () => Promise.resolve({\n              data: [{\n                paperId: '1',\n                title: 'Test Paper',\n                citationCount: 50,\n                authors: [{ name: 'Test Author' }]\n              }]\n            })\n          });\n        }\n        \n        return Promise.reject(new Error('Unknown URL'));\n      });\n    });\n\n    afterEach(async () => {\n      await orchestrator.destroy();\n    });\n\n    test('should orchestrate multi-provider search', async () => {\n      const result = await orchestrator.orchestrateSearch(\n        'React authentication tutorial',\n        [],\n        {\n          maxResults: 10,\n          category: 'code'\n        }\n      );\n\n      expect(result.results.length).toBeGreaterThan(0);\n      expect(result.providerUsage.length).toBeGreaterThan(0);\n      expect(result.fusionMetrics).toBeDefined();\n      expect(result.recommendedFollowUp.length).toBeGreaterThan(0);\n    });\n\n    test('should respect provider forcing', async () => {\n      const result = await orchestrator.orchestrateSearch(\n        'test query',\n        [],\n        {\n          maxResults: 5,\n          forceProviders: ['github', 'stackoverflow']\n        }\n      );\n\n      const usedProviders = result.providerUsage.map(p => p.provider);\n      expect(usedProviders).toEqual(expect.arrayContaining(['github', 'stackoverflow']));\n    });\n\n    test('should get provider health status', async () => {\n      const healthStatus = await orchestrator.getProviderHealthStatus();\n      \n      expect(healthStatus).toHaveProperty('github');\n      expect(healthStatus).toHaveProperty('stackoverflow');\n      expect(healthStatus).toHaveProperty('semantic_scholar');\n      expect(healthStatus).toHaveProperty('exa');\n    });\n  });\n\n  describe('Integration Functions', () => {\n    beforeEach(() => {\n      // Mock Exa search\n      const mockExaSearch = require('../index');\n      mockExaSearch.search = jest.fn().mockResolvedValue({\n        results: [{\n          id: 'exa-1',\n          title: 'Exa Result',\n          url: 'https://example.com/exa',\n          score: 0.9\n        }]\n      });\n      \n      // Mock other providers\n      (global.fetch as jest.Mock).mockResolvedValue({\n        ok: true,\n        json: () => Promise.resolve({\n          items: [],\n          data: [],\n          quota_remaining: 100\n        })\n      });\n    });\n\n    test('multiProviderSearch should work end-to-end', async () => {\n      const result = await multiProviderSearch(\n        'React hooks tutorial',\n        ['https://reactjs.org/docs/hooks.html'],\n        {\n          maxResults: 10,\n          category: 'documentation'\n        }\n      );\n\n      expect(result.results).toBeDefined();\n      expect(result.providerUsage).toBeDefined();\n      expect(result.fusionMetrics).toBeDefined();\n    });\n\n    test('getProviderHealth should return health status', async () => {\n      const health = await getProviderHealth();\n      \n      expect(typeof health).toBe('object');\n      expect(health).toHaveProperty('exa');\n      expect(health).toHaveProperty('github');\n    });\n\n    test('getProviderStatistics should return stats', () => {\n      const stats = getProviderStatistics();\n      \n      expect(typeof stats).toBe('object');\n      expect(stats).toHaveProperty('exa');\n      expect(stats).toHaveProperty('github');\n    });\n  });\n});
+import {
+  QueryAnalyzer,
+  ProviderRouter,
+  ResultFusionEngine,
+  SearchQuery,
+  SearchResult,
+  SearchProvider
+} from '../multi-provider';
+import { GitHubSearchProvider } from '../providers/github';
+import { StackOverflowSearchProvider } from '../providers/stackoverflow';
+import { SemanticScholarSearchProvider } from '../providers/semantic-scholar';
+import {
+  MultiProviderSearchOrchestrator,
+  multiProviderSearch,
+  getProviderHealth,
+  getProviderStatistics
+} from '../orchestrator';
+
+// Mock external APIs
+jest.mock('@bitcode/logger');
+jest.mock('../index');
+
+// Mock environment variables
+process.env.GITHUB_API_KEY = 'test-github-key';
+process.env.STACKEXCHANGE_API_KEY = 'test-stack-key';
+process.env.SEMANTIC_SCHOLAR_API_KEY = 'test-scholar-key';
+
+// Mock fetch globally
+global.fetch = jest.fn();
+
+describe('Multi-Provider Search System', () => {
+  beforeEach(() => {
+    jest.clearAllMocks();
+    (global.fetch as jest.Mock).mockClear();
+  });
+
+  describe('QueryAnalyzer', () => {
+    let analyzer: QueryAnalyzer;
+
+    beforeEach(() => {
+      analyzer = new QueryAnalyzer();
+    });
+
+    test('should analyze code queries correctly', () => {
+      const query = analyzer.analyzeQuery(
+        'how to implement React authentication',
+        ['https://reactjs.org/docs/hooks.html']
+      );
+
+      expect(query.category).toBe('code');
+      expect(query.technologies).toContain('react');
+      expect(query.urgency).toBe('medium');
+      expect(query.domains).toContain('reactjs.org');
+    });
+
+    test('should analyze documentation queries correctly', () => {
+      const query = analyzer.analyzeQuery(
+        'API documentation for Express.js',
+        ['https://expressjs.com/en/api.html']
+      );
+
+      expect(query.category).toBe('documentation');
+      expect(query.technologies).toContain('express');
+    });
+
+    test('should analyze QA queries correctly', () => {
+      const query = analyzer.analyzeQuery(
+        'how to fix React hook error',
+        []
+      );
+
+      expect(query.category).toBe('qa');
+      expect(query.technologies).toContain('react');
+    });
+
+    test('should analyze academic queries correctly', () => {
+      const query = analyzer.analyzeQuery(
+        'machine learning algorithm research paper',
+        []
+      );
+
+      expect(query.category).toBe('academic');
+      expect(query.technologies).toContain('machine learning');
+    });
+
+    test('should detect urgency correctly', () => {
+      const urgentQuery = analyzer.analyzeQuery('urgent React bug fix needed');
+      expect(urgentQuery.urgency).toBe('high');
+
+      const researchQuery = analyzer.analyzeQuery('research best practices for Vue.js');
+      expect(researchQuery.urgency).toBe('low');
+    });
+
+    test('should extract multiple technologies', () => {
+      const query = analyzer.analyzeQuery(
+        'Node.js Express PostgreSQL authentication',
+        ['https://nodejs.org/docs', 'https://www.postgresql.org/docs']
+      );
+
+      expect(query.technologies).toEqual(
+        expect.arrayContaining(['nodejs', 'postgresql'])
+      );
+    });
+  });
+
+  describe('ProviderRouter', () => {
+    let router: ProviderRouter;
+    let mockGitHubProvider: GitHubSearchProvider;
+    let mockStackOverflowProvider: StackOverflowSearchProvider;
+
+    beforeEach(() => {
+      router = new ProviderRouter();
+      mockGitHubProvider = new GitHubSearchProvider();
+      mockStackOverflowProvider = new StackOverflowSearchProvider();
+      
+      // Mock provider stats to be healthy
+      jest.spyOn(mockGitHubProvider, 'getStats').mockReturnValue({
+        provider: 'github',
+        isHealthy: true,
+        lastHealthCheck: new Date(),
+        requestsThisMinute: 0,
+        requestsToday: 0,
+        averageResponseTime: 500,
+        successRate: 0.95,
+        qualityScore: 0.9
+      });
+      
+      jest.spyOn(mockStackOverflowProvider, 'getStats').mockReturnValue({
+        provider: 'stackoverflow',
+        isHealthy: true,
+        lastHealthCheck: new Date(),
+        requestsThisMinute: 0,
+        requestsToday: 0,
+        averageResponseTime: 300,
+        successRate: 0.98,
+        qualityScore: 0.85
+      });
+
+      router.registerProvider(mockGitHubProvider);
+      router.registerProvider(mockStackOverflowProvider);
+    });
+
+    test('should route code queries to GitHub', async () => {
+      const query: SearchQuery = {
+        text: 'React component implementation',
+        category: 'code',
+        technologies: ['react'],
+        urgency: 'medium'
+      };
+
+      const providers = await router.routeQuery(query);
+      expect(providers).toContain('github');
+    });
+
+    test('should route QA queries to Stack Overflow', async () => {
+      const query: SearchQuery = {
+        text: 'how to fix JavaScript error',
+        category: 'qa',
+        technologies: ['javascript'],
+        urgency: 'high'
+      };
+
+      const providers = await router.routeQuery(query);
+      expect(providers).toContain('stackoverflow');
+    });
+
+    test('should prioritize healthy providers', async () => {
+      // Make GitHub unhealthy
+      jest.spyOn(mockGitHubProvider, 'getStats').mockReturnValue({
+        provider: 'github',
+        isHealthy: false,
+        lastHealthCheck: new Date(),
+        requestsThisMinute: 0,
+        requestsToday: 0,
+        averageResponseTime: 5000,
+        successRate: 0.1,
+        qualityScore: 0.2
+      });
+
+      const query: SearchQuery = {
+        text: 'code example',
+        category: 'code',
+        technologies: ['javascript'],
+        urgency: 'medium'
+      };
+
+      const providers = await router.routeQuery(query);
+      expect(providers).not.toContain('github');
+      expect(providers).toContain('stackoverflow');
+    });
+  });
+
+  describe('ResultFusionEngine', () => {
+    let fusionEngine: ResultFusionEngine;
+
+    beforeEach(() => {
+      fusionEngine = new ResultFusionEngine();
+    });
+
+    test('should remove duplicate results', () => {
+      const providerResults = [
+        {
+          provider: 'github' as SearchProvider,
+          results: [
+            {
+              id: 'github-1',
+              title: 'React Authentication Tutorial',
+              url: 'https://github.com/example/react-auth',
+              snippet: 'Tutorial content',
+              score: 0.9,
+              provider: 'github' as SearchProvider,
+              metadata: { type: 'github_repo' as const, authority: 'high' as const }
+            }
+          ]
+        },
+        {
+          provider: 'stackoverflow' as SearchProvider,
+          results: [
+            {
+              id: 'so-1',
+              title: 'React Authentication Tutorial', // Same title
+              url: 'https://github.com/example/react-auth', // Same URL
+              snippet: 'Similar content',
+              score: 0.8,
+              provider: 'stackoverflow' as SearchProvider,
+              metadata: { type: 'stackoverflow' as const, authority: 'medium' as const }
+            },
+            {
+              id: 'so-2',
+              title: 'Different React Tutorial',
+              url: 'https://stackoverflow.com/questions/12345',
+              snippet: 'Different content',
+              score: 0.7,
+              provider: 'stackoverflow' as SearchProvider,
+              metadata: { type: 'stackoverflow' as const, authority: 'medium' as const }
+            }
+          ]
+        }
+      ];
+
+      const query: SearchQuery = {
+        text: 'React authentication',
+        category: 'code',
+        technologies: ['react'],
+        urgency: 'medium'
+      };
+
+      const result = fusionEngine.fuseResults(providerResults, query);
+
+      expect(result.results).toHaveLength(2); // Duplicate removed
+      expect(result.fusionMetrics.duplicatesRemoved).toBe(1);
+      expect(result.results[0].score).toBeGreaterThanOrEqual(result.results[1].score);
+    });
+
+    test('should optimize for diversity', () => {
+      const sameSourceResults = Array.from({ length: 10 }, (_, i) => ({
+        id: `result-${i}`,
+        title: `Result ${i}`,
+        url: `https://same-domain.com/page${i}`,
+        snippet: `Content ${i}`,
+        score: 0.8,
+        provider: 'github' as SearchProvider,
+        metadata: { type: 'github_repo' as const, authority: 'medium' as const }
+      }));
+
+      const providerResults = [
+        {
+          provider: 'github' as SearchProvider,
+          results: sameSourceResults
+        }
+      ];
+
+      const query: SearchQuery = {
+        text: 'test query',
+        category: 'general',
+        technologies: [],
+        urgency: 'medium'
+      };
+
+      const result = fusionEngine.fuseResults(providerResults, query);
+
+      // Should limit results from same domain when many are available
+      expect(result.results.length).toBeLessThan(10);
+      expect(result.fusionMetrics.diversityScore).toBeGreaterThan(0);
+    });
+
+    test('should generate relevant follow-up queries', () => {
+      const providerResults = [
+        {
+          provider: 'github' as SearchProvider,
+          results: [
+            {
+              id: 'result-1',
+              title: 'React Hooks Authentication Best Practices',
+              url: 'https://example.com/react-hooks-auth',
+              snippet: 'Using hooks for authentication state management',
+              score: 0.9,
+              provider: 'github' as SearchProvider,
+              metadata: { type: 'github_repo' as const, authority: 'high' as const }
+            }
+          ]
+        }
+      ];
+
+      const query: SearchQuery = {
+        text: 'React authentication',
+        category: 'code',
+        technologies: ['react'],
+        urgency: 'medium'
+      };
+
+      const result = fusionEngine.fuseResults(providerResults, query);
+
+      expect(result.recommendedFollowUp).toEqual(
+        expect.arrayContaining([
+          expect.stringContaining('react')
+        ])
+      );
+      expect(result.recommendedFollowUp.length).toBeGreaterThan(0);
+    });
+  });
+
+  describe('GitHubSearchProvider', () => {
+    let provider: GitHubSearchProvider;
+
+    beforeEach(() => {
+      provider = new GitHubSearchProvider();
+      
+      // Mock successful API responses
+      (global.fetch as jest.Mock).mockResolvedValue({
+        ok: true,
+        json: () => Promise.resolve({
+          total_count: 1,
+          incomplete_results: false,
+          items: [
+            {
+              id: 12345,
+              name: 'react-auth',
+              full_name: 'example/react-auth',
+              description: 'React authentication library',
+              html_url: 'https://github.com/example/react-auth',
+              stargazers_count: 1500,
+              forks_count: 200,
+              language: 'JavaScript',
+              topics: ['react', 'authentication', 'jwt'],
+              updated_at: '2024-01-01T00:00:00Z',
+              owner: {
+                login: 'example',
+                type: 'User'
+              },
+              license: {
+                name: 'MIT'
+              }
+            }
+          ]
+        })
+      });
+    });
+
+    test('should search repositories successfully', async () => {
+      const query: SearchQuery = {
+        text: 'React authentication',
+        category: 'code',
+        technologies: ['react'],
+        urgency: 'medium'
+      };
+
+      const results = await provider.search(query, {
+        searchType: 'repositories',
+        maxResults: 10
+      });
+
+      expect(results).toHaveLength(1);
+      expect(results[0].title).toContain('react-auth');
+      expect(results[0].provider).toBe('github');
+      expect(results[0].metadata.stars).toBe(1500);
+    });
+
+    test('should handle API errors gracefully', async () => {
+      (global.fetch as jest.Mock).mockResolvedValue({
+        ok: false,
+        status: 403,
+        statusText: 'Forbidden',
+        text: () => Promise.resolve('Rate limit exceeded')
+      });
+
+      const query: SearchQuery = {
+        text: 'test query',
+        category: 'code',
+        technologies: [],
+        urgency: 'medium'
+      };
+
+      await expect(provider.search(query)).rejects.toThrow('GitHub API request failed');
+    });
+
+    test('should perform health check', async () => {
+      (global.fetch as jest.Mock).mockResolvedValue({
+        ok: true,
+        json: () => Promise.resolve({
+          rate: {
+            remaining: 50,
+            reset: Date.now() + 3600000
+          }
+        })
+      });
+
+      const isHealthy = await provider.healthCheck();
+      expect(isHealthy).toBe(true);
+    });
+  });
+
+  describe('StackOverflowSearchProvider', () => {
+    let provider: StackOverflowSearchProvider;
+
+    beforeEach(() => {
+      provider = new StackOverflowSearchProvider();
+      
+      (global.fetch as jest.Mock).mockResolvedValue({
+        ok: true,
+        json: () => Promise.resolve({
+          total: 1,
+          items: [
+            {
+              question_id: 12345,
+              title: 'How to implement React authentication?',
+              body: 'I need help with React authentication...',
+              link: 'https://stackoverflow.com/questions/12345',
+              score: 25,
+              view_count: 1500,
+              answer_count: 3,
+              tags: ['reactjs', 'authentication', 'javascript'],
+              owner: {
+                display_name: 'developer123',
+                reputation: 5000,
+                user_type: 'registered'
+              },
+              creation_date: 1640995200, // 2022-01-01
+              last_activity_date: 1641081600,
+              is_answered: true,
+              accepted_answer_id: 12346
+            }
+          ],
+          quota_remaining: 300,
+          quota_max: 300
+        })
+      });
+    });
+
+    test('should search questions successfully', async () => {
+      const query: SearchQuery = {
+        text: 'React authentication',
+        category: 'qa',
+        technologies: ['react'],
+        urgency: 'medium'
+      };
+
+      const results = await provider.search(query, {
+        searchType: 'questions',
+        maxResults: 10
+      });
+
+      expect(results).toHaveLength(1);
+      expect(results[0].title).toContain('React authentication');
+      expect(results[0].provider).toBe('stackoverflow');
+      expect(results[0].metadata.tags).toContain('reactjs');
+    });
+
+    test('should handle Stack Exchange API errors', async () => {
+      (global.fetch as jest.Mock).mockResolvedValue({
+        ok: true,
+        json: () => Promise.resolve({
+          error_id: 400,
+          error_name: 'bad_parameter',
+          error_message: 'Invalid parameter'
+        })
+      });
+
+      const query: SearchQuery = {
+        text: 'test query',
+        category: 'qa',
+        technologies: [],
+        urgency: 'medium'
+      };
+
+      await expect(provider.search(query)).rejects.toThrow('Stack Exchange API error');
+    });
+  });
+
+  describe('SemanticScholarSearchProvider', () => {
+    let provider: SemanticScholarSearchProvider;
+
+    beforeEach(() => {
+      provider = new SemanticScholarSearchProvider();
+      
+      (global.fetch as jest.Mock).mockResolvedValue({
+        ok: true,
+        json: () => Promise.resolve({
+          total: 1,
+          offset: 0,
+          data: [
+            {
+              paperId: 'abc123',
+              title: 'Deep Learning for Computer Vision: A Survey',
+              abstract: 'This paper provides a comprehensive survey...',
+              url: 'https://www.semanticscholar.org/paper/abc123',
+              venue: 'IEEE Transactions on Pattern Analysis',
+              year: 2023,
+              citationCount: 150,
+              influentialCitationCount: 25,
+              authors: [
+                { name: 'Jane Smith' },
+                { name: 'John Doe' }
+              ],
+              fieldsOfStudy: ['Computer Science'],
+              publicationDate: '2023-06-01',
+              openAccessPdf: {
+                url: 'https://example.com/paper.pdf',
+                status: 'GREEN'
+              },
+              tldr: {
+                model: 'tldr@v2.0',
+                text: 'A comprehensive survey of deep learning in computer vision.'
+              }
+            }
+          ]
+        })
+      });
+    });
+
+    test('should search papers successfully', async () => {
+      const query: SearchQuery = {
+        text: 'deep learning computer vision',
+        category: 'academic',
+        technologies: ['computer vision', 'deep learning'],
+        urgency: 'low'
+      };
+
+      const results = await provider.search(query, {
+        maxResults: 10
+      });
+
+      expect(results).toHaveLength(1);
+      expect(results[0].title).toContain('Deep Learning');
+      expect(results[0].provider).toBe('semantic_scholar');
+      expect(results[0].metadata.citations).toBe(150);
+    });
+
+    test('should handle missing paper URLs', async () => {
+      (global.fetch as jest.Mock).mockResolvedValue({
+        ok: true,
+        json: () => Promise.resolve({
+          total: 1,
+          data: [
+            {
+              paperId: 'def456',
+              title: 'Test Paper',
+              citationCount: 5,
+              influentialCitationCount: 1,
+              authors: [{ name: 'Test Author' }],
+              year: 2023
+            }
+          ]
+        })
+      });
+
+      const query: SearchQuery = {
+        text: 'test research',
+        category: 'academic',
+        technologies: [],
+        urgency: 'low'
+      };
+
+      const results = await provider.search(query);
+      
+      expect(results[0].url).toContain('semanticscholar.org/paper/def456');
+    });
+  });
+
+  describe('MultiProviderSearchOrchestrator', () => {
+    let orchestrator: MultiProviderSearchOrchestrator;
+
+    beforeEach(() => {
+      orchestrator = new MultiProviderSearchOrchestrator();
+      
+      // Mock all provider searches
+      (global.fetch as jest.Mock).mockImplementation((url: string) => {
+        if (url.includes('github.com')) {
+          return Promise.resolve({
+            ok: true,
+            json: () => Promise.resolve({
+              total_count: 1,
+              items: [{
+                id: 1,
+                full_name: 'test/repo',
+                description: 'Test repository',
+                html_url: 'https://github.com/test/repo',
+                stargazers_count: 100,
+                language: 'JavaScript'
+              }]
+            })
+          });
+        }
+        
+        if (url.includes('stackexchange.com')) {
+          return Promise.resolve({
+            ok: true,
+            json: () => Promise.resolve({
+              items: [{
+                question_id: 1,
+                title: 'Test Question',
+                link: 'https://stackoverflow.com/q/1',
+                score: 10,
+                tags: ['javascript']
+              }],
+              quota_remaining: 100
+            })
+          });
+        }
+        
+        if (url.includes('semanticscholar.org')) {
+          return Promise.resolve({
+            ok: true,
+            json: () => Promise.resolve({
+              data: [{
+                paperId: '1',
+                title: 'Test Paper',
+                citationCount: 50,
+                authors: [{ name: 'Test Author' }]
+              }]
+            })
+          });
+        }
+        
+        return Promise.reject(new Error('Unknown URL'));
+      });
+    });
+
+    afterEach(async () => {
+      await orchestrator.destroy();
+    });
+
+    test('should orchestrate multi-provider search', async () => {
+      const result = await orchestrator.orchestrateSearch(
+        'React authentication tutorial',
+        [],
+        {
+          maxResults: 10,
+          category: 'code'
+        }
+      );
+
+      expect(result.results.length).toBeGreaterThan(0);
+      expect(result.providerUsage.length).toBeGreaterThan(0);
+      expect(result.fusionMetrics).toBeDefined();
+      expect(result.recommendedFollowUp.length).toBeGreaterThan(0);
+    });
+
+    test('should respect provider forcing', async () => {
+      const result = await orchestrator.orchestrateSearch(
+        'test query',
+        [],
+        {
+          maxResults: 5,
+          forceProviders: ['github', 'stackoverflow']
+        }
+      );
+
+      const usedProviders = result.providerUsage.map(p => p.provider);
+      expect(usedProviders).toEqual(expect.arrayContaining(['github', 'stackoverflow']));
+    });
+
+    test('should get provider health status', async () => {
+      const healthStatus = await orchestrator.getProviderHealthStatus();
+      
+      expect(healthStatus).toHaveProperty('github');
+      expect(healthStatus).toHaveProperty('stackoverflow');
+      expect(healthStatus).toHaveProperty('semantic_scholar');
+      expect(healthStatus).toHaveProperty('exa');
+    });
+  });
+
+  describe('Integration Functions', () => {
+    beforeEach(() => {
+      // Mock Exa search
+      const mockExaSearch = require('../index');
+      mockExaSearch.search = jest.fn().mockResolvedValue({
+        results: [{
+          id: 'exa-1',
+          title: 'Exa Result',
+          url: 'https://example.com/exa',
+          score: 0.9
+        }]
+      });
+      
+      // Mock other providers
+      (global.fetch as jest.Mock).mockResolvedValue({
+        ok: true,
+        json: () => Promise.resolve({
+          items: [],
+          data: [],
+          quota_remaining: 100
+        })
+      });
+    });
+
+    test('multiProviderSearch should work end-to-end', async () => {
+      const result = await multiProviderSearch(
+        'React hooks tutorial',
+        ['https://reactjs.org/docs/hooks.html'],
+        {
+          maxResults: 10,
+          category: 'documentation'
+        }
+      );
+
+      expect(result.results).toBeDefined();
+      expect(result.providerUsage).toBeDefined();
+      expect(result.fusionMetrics).toBeDefined();
+    });
+
+    test('getProviderHealth should return health status', async () => {
+      const health = await getProviderHealth();
+      
+      expect(typeof health).toBe('object');
+      expect(health).toHaveProperty('exa');
+      expect(health).toHaveProperty('github');
+    });
+
+    test('getProviderStatistics should return stats', () => {
+      const stats = getProviderStatistics();
+      
+      expect(typeof stats).toBe('object');
+      expect(stats).toHaveProperty('exa');
+      expect(stats).toHaveProperty('github');
+    });
+  });
+});

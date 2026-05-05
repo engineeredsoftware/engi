@@ -10,7 +10,8 @@
   },
   "dependencies": {
     "@bitcode/supabase": "workspace:*",
-    "@bitcode/logger": "workspace:*"
+    "@bitcode/logger": "workspace:*",
+    "@supabase/supabase-js": "^2.49.4"
   },
   "devDependencies": {
     "@types/node": "^20.0.0",

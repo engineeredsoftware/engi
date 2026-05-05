@@ -178,7 +178,7 @@
           }
         }
       },
-      "DeliverableRequest": {
+      "AssetPackRequest": {
         "type": "object",
         "required": ["task", "repository", "subtype"],
         "properties": {
@@ -428,7 +428,7 @@
                 }
               },
               "examples": {
-                "createDeliverable": {
+                "createAssetPack": {
                   "summary": "Create Feature AssetPack",
                   "description": "Example of creating a complete feature with pull request",
                   "value": {

@@ -1,4 +1,5 @@
 import { Prompt } from '@bitcode/prompts/prompt';
+import { createPromptPart } from '@bitcode/prompts/parts/PromptPart';
 import { PROMPTPART_SPECIFIC_AGENT_DOCUMENTPROCESSOR_SYSTEM_INSTRUCTIONS } from '@bitcode/prompts/raw_promptparts/specific/promptpart_specific_agent_documentprocessor_system_instructions';
 import { PROMPTPART_SPECIFIC_AGENT_DOCUMENTPROCESSOR_TOOLS_LIST } from '@bitcode/prompts/raw_promptparts/specific/promptpart_specific_agent_documentprocessor_tools_list';
 import { PROMPTPART_GENERIC_AGENT_FAILSAFE_PREPARE_CONTEXT } from '@bitcode/prompts/raw_promptparts/generic/promptpart_generic_agent_failsafe_prepare_context';
@@ -25,10 +26,10 @@ import { PROMPTPART_GENERIC_AGENT_GENERATION_STRUCTURED_OUTPUT } from '@bitcode/
  * ]
  */
 export const DOCUMENT_PROCESSOR_TRY_PROMPT = new Prompt()
-  .set('header', 'TRY: Execute Document Processing')
+  .set('header', createPromptPart('TRY: Execute Document Processing'))
   .set('instructions', PROMPTPART_SPECIFIC_AGENT_DOCUMENTPROCESSOR_SYSTEM_INSTRUCTIONS)
   .set('tools', PROMPTPART_SPECIFIC_AGENT_DOCUMENTPROCESSOR_TOOLS_LIST)
-  .set('execution_focus', 'Execute document processing using selected tools and methodologies. Focus on comprehensive content extraction, format conversion, and structured data output generation.')
+  .set('execution_focus', createPromptPart('Execute document processing using selected tools and methodologies. Focus on comprehensive content extraction, format conversion, and structured data output generation.'))
   .set('generation:json_only_header', PROMPTPART_GENERIC_AGENT_GENERATION_JSON_ONLY_HEADER)
   .set('generation:use_this_structure', PROMPTPART_GENERIC_AGENT_GENERATION_USE_THIS_STRUCTURED_SCHEMA)
   .set('generation:if_unknown_empty', PROMPTPART_GENERIC_AGENT_GENERATION_IF_UNKNOWN_EMPTY)

@@ -45,7 +45,7 @@ All test data is parsed and injected at build time through doc-test comments:
 ```typescript
 /** @doc-test-fixture
  * @scenario enterprise-user-with-team
- * @credits 50000
+ * @btd-balance 50000
  * @team-size 10
  * @features ["asset-packs", "ai_documents", "marketplace"]
  */
@@ -85,9 +85,9 @@ export class UnifiedTestDataGenerator {
 Defines reusable test fixtures:
 ```typescript
 /** @doc-test-fixture
- * @id user-with-credits
+ * @id user-with-btd-balance
  * @type User
- * @credits 1000
+ * @btd-balance 1000
  * @tier professional
  */
 ```
@@ -99,7 +99,7 @@ Defines complete test scenarios:
  * @id asset-pack-creation-flow
  * @phases ["setup", "discovery", "implementation"]
  * @agents ["ComprehendTaskAgent", "DivideByFileAgent"]
- * @expected-credits 500
+ * @expected-measured-btd 500
  */
 ```
 
@@ -109,7 +109,7 @@ Defines expected behaviors:
 /** @doc-test-behavior
  * @when user-submits-asset-pack
  * @then pipeline-starts
- * @and credits-reserved
+ * @and btc-fee-hold-reserved
  * @timeout 30000
  */
 ```
@@ -184,14 +184,14 @@ export const PR_WITH_CONFLICTS = createTestPart<PullRequest>({
 export const ASSET_PACK_FLOW_SCENARIO = createTestScenario({
   id: 'complete-asset-pack-flow',
   parts: [
-    USER_WITH_CREDITS,
+    USER_WITH_BTD_BALANCE,
     REPOSITORY_WITH_LSP,
     ASSET_PACK_REQUEST,
     PR_WITH_CONFLICTS
   ],
   behavior: {
     phases: ['setup', 'discovery', 'implementation', 'validation'],
-    expectedCredits: 500,
+    expectedMeasuredBtd: 500,
     expectedDuration: 120000
   }
 });

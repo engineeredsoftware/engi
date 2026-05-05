@@ -549,10 +549,3 @@ export const SecurityUtils = {
 export const securityHeaders = new SecurityHeadersMiddleware();
 export const csrfProtection = new CSRFProtection();
 export const securityMiddleware = new SecurityMiddleware();
-
-// Type exports
-export type {
-  SecurityHeadersConfig,
-  CSPDirectives,
-  CSRFConfig
-};

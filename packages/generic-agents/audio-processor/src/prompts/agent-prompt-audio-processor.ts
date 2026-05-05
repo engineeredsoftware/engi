@@ -25,7 +25,7 @@ import { PROMPTPART_GENERIC_AGENT_GENERATION_STRUCTURED_OUTPUT } from '@bitcode/
  * pattern: Audio processing with FFmpeg transcoding and speech recognition
  */
 
-import { AgentPrompt } from '@bitcode/agent-generics';
+import { Prompt } from '@bitcode/prompts/prompt';
 
 
 
@@ -34,26 +34,10 @@ import { AgentPrompt } from '@bitcode/agent-generics';
 
 
 
-export const AUDIO_PROCESSOR_AGENT_PROMPT = new AgentPrompt({
-  // Metadata
-  name: 'Audio Processor Agent',
-  category: 'Multimedia Processing',
-  version: '1.0.0',
-  specificity: 'Generic',
-  
-  // Core documentation
-  purpose: PROMPTPART_SPECIFIC_AGENT_AUDIOPROCESSOR_PURPOSE_CORESTATEMENT,
-  capabilities: PROMPTPART_SPECIFIC_AGENT_AUDIOPROCESSOR_CAPABILITIES_LIST,
-  
-  // Execution pattern
-  executionPattern: PROMPTPART_SPECIFIC_AGENT_AUDIOPROCESSOR_EXECUTIONPATTERN_DETAILCONTENT,
-  
-  // PTRR Steps
-  steps: PROMPTPART_SPECIFIC_AGENT_AUDIOPROCESSOR_PTRRSTEPS_LIST,
-  
-  // Tools used
-  tools: PROMPTPART_SPECIFIC_AGENT_AUDIOPROCESSOR_TOOLS_LIST,
-  
-  // Integration details
-  integration: PROMPTPART_SPECIFIC_AGENT_AUDIOPROCESSOR_INTEGRATION_DETAILCONTENT
-});
+export const AUDIO_PROCESSOR_AGENT_PROMPT = new Prompt()
+  .set('purpose', PROMPTPART_SPECIFIC_AGENT_AUDIOPROCESSOR_PURPOSE_CORESTATEMENT)
+  .set('capabilities', PROMPTPART_SPECIFIC_AGENT_AUDIOPROCESSOR_CAPABILITIES_LIST)
+  .set('execution', PROMPTPART_SPECIFIC_AGENT_AUDIOPROCESSOR_EXECUTIONPATTERN_DETAILCONTENT)
+  .set('steps', PROMPTPART_SPECIFIC_AGENT_AUDIOPROCESSOR_PTRRSTEPS_LIST)
+  .set('tools', PROMPTPART_SPECIFIC_AGENT_AUDIOPROCESSOR_TOOLS_LIST)
+  .set('integration', PROMPTPART_SPECIFIC_AGENT_AUDIOPROCESSOR_INTEGRATION_DETAILCONTENT);

@@ -19,11 +19,6 @@ import { z } from 'zod';
 import { AgentPrompt, AgentStepPrompt } from '@bitcode/agent-generics';
 import type { PromptPart } from '@bitcode/prompts/parts/PromptPart';
 
-// ==================== TOOLS ====================
-// Tools this agent can use - declared at agent level
-import { multimodalProcessingTool } from '@bitcode/generic-tools-multimodal-processing';
-import { webSearchTool } from '@bitcode/generic-tools-web-search';
-
 // ==================== INPUT SCHEMA ====================
 const AudioProcessorInputSchema = z.object({
   audioUrl: z.string().describe('URL or path to audio file'),
@@ -288,12 +283,6 @@ const quickAudioVariation = factoryAgentWithSingleStep<
   execute: async (input, execution) => {
     // This executor is wrapped and tracked automatically
     execution.store('variation', 'mode', 'quick');
-    
-    // Prompts would be set in execution registries
-    execution.prompt.set('variation:type', 'quick' as PromptPart);
-    
-    // Tools would be accessed from execution registry
-    // execution.tools.getTool('multimodal-processing');
     
     // Quick processing logic here
     // Return matches the Retry schema for consistency

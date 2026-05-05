@@ -19,12 +19,6 @@ import { z } from 'zod';
 import { AgentPrompt, AgentStepPrompt } from '@bitcode/agent-generics';
 import type { PromptPart } from '@bitcode/prompts/parts/PromptPart';
 
-// ==================== TOOLS ====================
-// Tools this agent can use for video processing
-import { multimodalProcessingTool } from '@bitcode/generic-tools-multimodal-processing';
-import { whisperTool } from '@bitcode/generic-tools/whisper';
-import { ffmpegTool } from '@bitcode/generic-tools/ffmpeg';
-
 // ==================== INPUT SCHEMA ====================
 const VideoProcessorInputSchema = z.object({
   videoUrl: z.string().optional().describe('Direct video URL to process'),
@@ -352,10 +346,6 @@ const quickVideo = factoryAgentWithSingleStep<
   execute: async (input, execution) => {
     // This executor is wrapped and tracked automatically
     execution.store('variation', 'mode', 'quick');
-    
-    // Even simple variations can use the execution's registries
-    const llm = execution.llms.getDefaultLLM();
-    const multimodalTool = execution.tools.getTool('multimodal-processing');
     
     // Quick processing logic here
     // Return matches the Retry schema for consistency

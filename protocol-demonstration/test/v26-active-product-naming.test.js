@@ -2303,10 +2303,18 @@ test('active V26 retained package surfaces use Bitcode naming instead of Engi na
   );
   assert.equal(
     existsSync(new URL('../../packages/chatgptapp/src/types/bitcode__github.d.ts', import.meta.url)),
-    true,
+    false,
   );
   assert.equal(
     existsSync(new URL('../../packages/chatgptapp/src/types/bitcode__vcs.d.ts', import.meta.url)),
+    false,
+  );
+  assert.equal(
+    existsSync(new URL('../../packages/chatgptapp/src/__stubs__/github.ts', import.meta.url)),
+    true,
+  );
+  assert.equal(
+    existsSync(new URL('../../packages/chatgptapp/src/__stubs__/vcs.ts', import.meta.url)),
     true,
   );
 

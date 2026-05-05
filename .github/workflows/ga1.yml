@@ -24,8 +24,8 @@ jobs:
         run: pnpm run lint:core
       - name: Typecheck core
         run: pnpm run typecheck:core
-      - name: Run deliverable bring-up tests
-        run: pnpm -C packages/pipelines/deliverable test
+      - name: Run AssetPack bring-up tests
+        run: pnpm -C packages/pipelines/asset-pack test
 
   codegen-consistency:
     runs-on: ubuntu-latest

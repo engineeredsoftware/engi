@@ -1,4 +1,5 @@
 import { Prompt } from '@bitcode/prompts/prompt';
+import { createPromptPart } from '@bitcode/prompts/parts/PromptPart';
 import { PROMPTPART_SPECIFIC_AGENT_DOCUMENTPROCESSOR_PURPOSE_CORESTATEMENT } from '@bitcode/prompts/raw_promptparts/specific/promptpart_specific_agent_documentprocessor_purpose_corestatement';
 import { PROMPTPART_SPECIFIC_AGENT_DOCUMENTPROCESSOR_SYSTEM_CONTEXT } from '@bitcode/prompts/raw_promptparts/specific/promptpart_specific_agent_documentprocessor_system_context';
 import { PROMPTPART_GENERIC_AGENT_FAILSAFE_PREPARE_CONTEXT } from '@bitcode/prompts/raw_promptparts/generic/promptpart_generic_agent_failsafe_prepare_context';
@@ -25,10 +26,10 @@ import { PROMPTPART_GENERIC_AGENT_GENERATION_STRUCTURED_OUTPUT } from '@bitcode/
  * ]
  */
 export const DOCUMENT_PROCESSOR_REFINE_PROMPT = new Prompt()
-  .set('header', 'REFINE: Enhance Document Processing')
+  .set('header', createPromptPart('REFINE: Enhance Document Processing'))
   .set('purpose', PROMPTPART_SPECIFIC_AGENT_DOCUMENTPROCESSOR_PURPOSE_CORESTATEMENT)
   .set('context', PROMPTPART_SPECIFIC_AGENT_DOCUMENTPROCESSOR_SYSTEM_CONTEXT)
-  .set('instructions', 'Refine document processing results by improving accuracy of content extraction, enhancing completeness of format conversion, and strengthening output structure and metadata quality.')
+  .set('instructions', createPromptPart('Refine document processing results by improving accuracy of content extraction, enhancing completeness of format conversion, and strengthening output structure and metadata quality.'))
   .set('generation:json_only_header', PROMPTPART_GENERIC_AGENT_GENERATION_JSON_ONLY_HEADER)
   .set('generation:use_this_structure', PROMPTPART_GENERIC_AGENT_GENERATION_USE_THIS_STRUCTURED_SCHEMA)
   .set('generation:reason', PROMPTPART_GENERIC_AGENT_GENERATION_REASON)

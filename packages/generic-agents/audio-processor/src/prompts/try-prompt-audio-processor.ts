@@ -28,13 +28,14 @@ import { PROMPTPART_GENERIC_AGENT_GENERATION_STRUCTURED_OUTPUT } from '@bitcode/
  */
 
 import { Prompt } from '@bitcode/prompts/prompt';
+import { createPromptPart } from '@bitcode/prompts/parts/PromptPart';
 
 
 
 
 
 export const AUDIO_PROCESSOR_TRY_PROMPT = new Prompt()
-  .set('phase', 'TRY: Execute Audio Processing')
+  .set('phase', createPromptPart('TRY: Execute Audio Processing'))
   .set('instructions', PROMPTPART_SPECIFIC_AGENT_AUDIOPROCESSOR_TRY_DIRECTIVES_INSTRUCTIONS)
   .set('strategy', PROMPTPART_SPECIFIC_AGENT_AUDIOPROCESSOR_TRY_PROCESSING_STRATEGY)
   .set('tools', PROMPTPART_SPECIFIC_AGENT_AUDIOPROCESSOR_TOOLS_LIST)

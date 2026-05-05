@@ -90,7 +90,7 @@ DEEPSEEK_API_KEY=YOUR_DEEPSEEK_API_KEY
 # ============================================
 STRIPE_SECRET_KEY=YOUR_STRIPE_SECRET_KEY
 STRIPE_WEBHOOK_SECRET=YOUR_STRIPE_WEBHOOK_SECRET
-# Slider plans (per‑credit products)
+# V26 does not sell credit products. BTC pays fees; $BTD is a non-fungible share/read-right.
 STRIPE_PRODUCT_ID_FLEXIBLE=YOUR_STRIPE_FLEXIBLE_PRODUCT_ID
 STRIPE_PRODUCT_ID_INDUSTRIAL=YOUR_STRIPE_INDUSTRIAL_PRODUCT_ID
 # Optional bundle overrides
@@ -255,8 +255,8 @@ NEXT_PUBLIC_MOCK_CHAT_STREAM=false
 - **Setup**: Stripe Dashboard → Webhooks → Add endpoint
 
 #### `STRIPE_PRODUCT_ID_*`
-- **Required**: For credit bundles and slider plans
-- **Description**: Stripe Product IDs for credit tiers. Use `STRIPE_PRODUCT_ID_FLEXIBLE` and `STRIPE_PRODUCT_ID_INDUSTRIAL` for per‑credit slider plans.
+- **Required**: Not required for V26 Bitcode economics.
+- **Description**: Historical payment-provider placeholders only. V26 commercial posture uses BTC fee liquidity and non-fungible `$BTD` share/read-right holdings; do not model these as credit tiers.
 - **Format**: `prod_[alphanumeric]`
 
 ## Third‑Party Service External Settings (Callbacks/Webhooks)

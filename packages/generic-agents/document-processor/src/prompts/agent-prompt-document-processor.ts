@@ -25,7 +25,7 @@ import { PROMPTPART_GENERIC_AGENT_GENERATION_STRUCTURED_OUTPUT } from '@bitcode/
  * pattern: Document parsing with format detection and extraction
  */
 
-import { AgentPrompt } from '@bitcode/agent-generics';
+import { Prompt } from '@bitcode/prompts/prompt';
 
 
 
@@ -34,26 +34,10 @@ import { AgentPrompt } from '@bitcode/agent-generics';
 
 
 
-export const DOCUMENT_PROCESSOR_AGENT_PROMPT = new AgentPrompt({
-  // Metadata
-  name: 'Document Processor Agent',
-  category: 'Document Processing',
-  version: '1.0.0',
-  specificity: 'Generic',
-  
-  // Core documentation
-  purpose: PROMPTPART_SPECIFIC_AGENT_DOCUMENTPROCESSOR_PURPOSE_CORESTATEMENT,
-  capabilities: PROMPTPART_SPECIFIC_AGENT_DOCUMENTPROCESSOR_CAPABILITIES_LIST,
-  
-  // Execution pattern
-  executionPattern: PROMPTPART_SPECIFIC_AGENT_DOCUMENTPROCESSOR_EXECUTIONPATTERN_DETAILCONTENT,
-  
-  // PTRR Steps
-  steps: PROMPTPART_SPECIFIC_AGENT_DOCUMENTPROCESSOR_PTRRSTEPS_LIST,
-  
-  // Tools used
-  tools: PROMPTPART_SPECIFIC_AGENT_DOCUMENTPROCESSOR_TOOLS_LIST,
-  
-  // Integration details
-  integration: PROMPTPART_SPECIFIC_AGENT_DOCUMENTPROCESSOR_INTEGRATION_DETAILCONTENT
-});
+export const DOCUMENT_PROCESSOR_AGENT_PROMPT = new Prompt()
+  .set('purpose', PROMPTPART_SPECIFIC_AGENT_DOCUMENTPROCESSOR_PURPOSE_CORESTATEMENT)
+  .set('capabilities', PROMPTPART_SPECIFIC_AGENT_DOCUMENTPROCESSOR_CAPABILITIES_LIST)
+  .set('execution', PROMPTPART_SPECIFIC_AGENT_DOCUMENTPROCESSOR_EXECUTIONPATTERN_DETAILCONTENT)
+  .set('steps', PROMPTPART_SPECIFIC_AGENT_DOCUMENTPROCESSOR_PTRRSTEPS_LIST)
+  .set('tools', PROMPTPART_SPECIFIC_AGENT_DOCUMENTPROCESSOR_TOOLS_LIST)
+  .set('integration', PROMPTPART_SPECIFIC_AGENT_DOCUMENTPROCESSOR_INTEGRATION_DETAILCONTENT);
