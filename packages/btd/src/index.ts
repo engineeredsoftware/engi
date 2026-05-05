@@ -6,7 +6,7 @@
  *
  * The persistence schema still exposes the historical `user_credits` table as
  * a storage carrier for aggregate read posture until the schema is re-cut, but
- * this package must not mutate that table as a credit bucket.
+ * this package must not mutate that table as a spendable balance bucket.
  */
 
 import { supabaseAdmin } from '@bitcode/supabase';
@@ -36,12 +36,12 @@ export interface BtcFeeEstimate {
 }
 
 /**
- * Raised when a caller attempts to use `$BTD` as a fungible credit/debit token.
+ * Raised when a caller attempts to use `$BTD` as a fungible spend/debit token.
  */
 export class BtdFungibleMutationRejectedError extends Error {
   public readonly code = 'BTD_IS_NON_FUNGIBLE';
 
-  constructor(message = '$BTD is a non-fungible AssetPack share/read-right, not a spendable credit balance.') {
+  constructor(message = '$BTD is a non-fungible AssetPack share/read-right, not a spendable balance.') {
     super(message);
     this.name = 'BtdFungibleMutationRejectedError';
   }

@@ -2,14 +2,14 @@
 
 ## What It Is
 
-A **production code editing agent** that implements **Divide|Conquer|Correct** pattern for reliable file modifications with transactional support.
+A **production code editing agent** that implements **Divide|Apply|Correct** pattern for reliable file modifications with transactional support.
 
 ## Architecture
 
 ```
-CodeEditorAgent (Divide|Conquer|Correct)
+CodeEditorAgent (Divide|Apply|Correct)
 ├── DIVIDE (analyze changes → create patches)
-├── CONQUER (execute edits → track results)
+├── APPLY (execute edits → track results)
 └── CORRECT (validate syntax → fix issues)
 ```
 
@@ -38,7 +38,7 @@ await codeEditorAgent({
 - **Automatic Validation**: Syntax checking and correction
 - **File Backups**: Automatic backup before modifications  
 - **Precise Patches**: Exact content matching and replacement
-- **Two Variations**: `divide-conquer-correct` for complex, `simple-edit` for basic
+- **Two Variations**: `divide-apply-correct` for complex, `simple-edit` for basic
 
 ## Why It Matters
 

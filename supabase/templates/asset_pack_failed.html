@@ -116,7 +116,7 @@
             
             <div class="content">
 
-              <div class="preview-text">Bitcode asset-pack run "{{ index .Data "Name" }}" failed – $BTD budget released back.</div>
+              <div class="preview-text">Bitcode asset-pack run "{{ index .Data "Name" }}" failed - BTC fee hold released.</div>
 
               <h1>Bitcode asset-pack run failed</h1>
 
@@ -129,7 +129,7 @@
 
               <div class="status-box">
                 <div style="color: #1a1a1a; font-weight: 500;">
-                  {{ index .Data "CreditsRefunded" }} $BTD were returned to your available balance.
+                  BTC fee hold released: {{ index .Data "BtcFeeHoldReleased" }}.
                 </div>
               </div>
 

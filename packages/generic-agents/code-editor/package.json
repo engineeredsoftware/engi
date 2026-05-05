@@ -1,7 +1,7 @@
 {
   "name": "@bitcode/generic-agent-code-editor",
   "version": "1.0.0",
-  "description": "Code editing agent with Divide|Conquer|Correct pattern for reliable code modifications",
+  "description": "Code editing agent with Divide|Apply|Correct pattern for reliable code modifications",
   "main": "src/index.ts",
   "types": "src/index.ts",
   "scripts": {

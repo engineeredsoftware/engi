@@ -97,7 +97,7 @@ describe('E2E: Conversation → Digest → Pipeline Flow (unit-backed)', () => {
       recentLogs: [
         { timestamp: baseTimestamp, level: 'info', message: 'Planning', phase: 'plan', agent: 'planner' }
       ],
-      metrics: { duration: 45, tokensUsed: 1200, creditsConsumed: 4 },
+      metrics: { duration: 45, tokensUsed: 1200, btdConsumed: 4 },
       fullLogs: [
         {
           id: 'log-1',
@@ -169,7 +169,7 @@ describe('E2E: Conversation → Digest → Pipeline Flow (unit-backed)', () => {
       recentLogs: [
         { timestamp: baseTimestamp, level: 'info', message: 'Running try', phase: 'try', agent: 'executor' }
       ],
-      metrics: { duration: 60, tokensUsed: 2_400, creditsConsumed: 8 }
+      metrics: { duration: 60, tokensUsed: 2_400, btdConsumed: 8 }
     };
 
     it('enables live updates and exposes pause/stop controls mid-run', () => {
@@ -248,7 +248,7 @@ describe('E2E: Conversation → Digest → Pipeline Flow (unit-backed)', () => {
         recentLogs: [
           { timestamp: baseTimestamp, level: 'info', message: 'Planning', phase: 'plan', agent: 'planner' }
         ],
-        metrics: { duration: 45, tokensUsed: 1200, creditsConsumed: 4 }
+        metrics: { duration: 45, tokensUsed: 1200, btdConsumed: 4 }
       });
 
       const fallback = ConversationRichResponseEdgeCaseHandler.handleRenderFailure(
@@ -298,7 +298,7 @@ describe('E2E: Conversation → Digest → Pipeline Flow (unit-backed)', () => {
           recentLogs: [
             { timestamp: baseTimestamp, level: 'error', message: 'Lint step failed', phase: 'refine', agent: 'validator' }
           ],
-          metrics: { duration: 120, tokensUsed: 3_000, creditsConsumed: 12 }
+          metrics: { duration: 120, tokensUsed: 3_000, btdConsumed: 12 }
         })
       ];
 

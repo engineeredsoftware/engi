@@ -39,7 +39,7 @@ const env = {
   NEXT_PUBLIC_INVISIBLE_INTERFACES_GROUP: process.env.NEXT_PUBLIC_INVISIBLE_INTERFACES_GROUP,
   NEXT_PUBLIC_NAV_BAR: process.env.NEXT_PUBLIC_NAV_BAR,
   NEXT_PUBLIC_MCP_UPGRADES: process.env.NEXT_PUBLIC_MCP_UPGRADES,
-  NEXT_PUBLIC_LIVE_DAY_CREDIT_BUY: process.env.NEXT_PUBLIC_LIVE_DAY_CREDIT_BUY,
+  NEXT_PUBLIC_LIVE_DAY_BTD_ACQUIRE: process.env.NEXT_PUBLIC_LIVE_DAY_BTD_ACQUIRE,
   ENHANCE_WITH_DIGEST: process.env.ENHANCE_WITH_DIGEST,
   NEXT_PUBLIC_FOOTER_MUSIC_PLAYER: process.env.NEXT_PUBLIC_FOOTER_MUSIC_PLAYER,
 }
@@ -90,11 +90,11 @@ export const FEATURE_FLAGS = {
   // Notifications widget is enabled by default.
   NOTIFICATIONS_WIDGET: envFlag('NEXT_PUBLIC_NOTIFICATIONS_WIDGET', true),
   NOTIFICATIONS: envFlag('NEXT_PUBLIC_NOTIFICATIONS_WIDGET', true),
-  HIDE_CREDITS_TRACKER: false,
+  HIDE_BTD_TRACKER: false,
   // Misc controls retain their old default "off" behaviour.
   MCP_UPGRADES: envFlag('NEXT_PUBLIC_MCP_UPGRADES'),
   SOFT_LAUNCH: envFlag('NEXT_PUBLIC_SOFT_LAUNCH'),
-  LIVE_DAY_CREDIT_BUY: envFlag('NEXT_PUBLIC_LIVE_DAY_CREDIT_BUY'),
+  LIVE_DAY_BTD_ACQUIRE: envFlag('NEXT_PUBLIC_LIVE_DAY_BTD_ACQUIRE'),
   // Disable all public “use / sign-in / sign-up” entry points. We use direct
   // static access so Next.js’ DefinePlugin inlines the env string at build
   // time which ensures the value is available in the client bundle (dynamic

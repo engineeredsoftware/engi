@@ -240,7 +240,7 @@ const usePatternRecognition = (needDefinitionText, attachments = [], repositoryC
         if (patterns.length === 0) {
             return { suggestedBtd: 50, suggestedDuration: 5 };
         }
-        const baseCredits = 40;
+        const baseMeasuredBtd = 40;
         const baseDuration = 3;
         const complexityMultiplier = patterns.reduce((avg, p) => {
             const mult = p.estimatedComplexity === 'simple' ? 0.8 : p.estimatedComplexity === 'complex' ? 1.4 : 1.0;
@@ -249,7 +249,7 @@ const usePatternRecognition = (needDefinitionText, attachments = [], repositoryC
         const confidenceMultiplier = 1.2 - (confidence * 0.4); // Higher confidence = lower cost
         const riskMultiplier = patterns.some(p => p.riskLevel === 'high') ? 1.3 : patterns.some(p => p.riskLevel === 'medium') ? 1.1 : 1.0;
         return {
-            suggestedBtd: Math.round(baseCredits * complexityMultiplier * confidenceMultiplier * riskMultiplier),
+            suggestedBtd: Math.round(baseMeasuredBtd * complexityMultiplier * confidenceMultiplier * riskMultiplier),
             suggestedDuration: Math.round(baseDuration * complexityMultiplier * riskMultiplier)
         };
     }, [patterns, confidence]);

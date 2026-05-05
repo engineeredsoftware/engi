@@ -99,7 +99,7 @@ const reviews: Review[] = [
   {
     name: 'Olivia Nguyen',
     username: '@oliviang',
-    body: 'Token Metrics Dashboard gave me real-time insight into our $BTD spend. We optimized usage and saved 35% in the first month.',
+    body: 'Token Metrics Dashboard gave me real-time insight into BTC fee basis and measured $BTD issuance. We optimized usage and saved 35% in the first month.',
     img: 'https://avatar.vercel.sh/olivia',
     rating: 5,
     jobTitle: 'Finance Analyst',

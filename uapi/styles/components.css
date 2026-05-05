@@ -642,7 +642,7 @@ button.quantum-button[disabled]::before {
   margin-bottom: 8px;
 }
 
-.scenario-credits {
+.scenario-btd {
   font-size: 18px;
   font-weight: 700;
   color: rgba(103, 254, 183, 0.9);

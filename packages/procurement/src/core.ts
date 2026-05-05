@@ -2,7 +2,7 @@
  * Core Procurement Engine
  * 
  * Handles the complete procurement lifecycle from request creation to fulfillment
- * and crypto compensation based on Marks of Measurement (MoM).
+ * and BTD share settlement based on Marks of Measurement (MoM).
  */
 
 import { log } from '@bitcode/logger';

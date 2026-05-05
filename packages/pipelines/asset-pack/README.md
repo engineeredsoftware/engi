@@ -14,7 +14,7 @@ semantics.
 
 1. **Setup** - repository context, Need comprehension, LSP/static measurement, and danger-wall admission.
 2. **Discovery** - source-grounded research, codebase search, file selection, and approach planning.
-3. **Implementation** - AssetPack synthesis artifacts using Divide, Conquer, and Correct agents.
+3. **Implementation** - AssetPack synthesis artifacts using Divide, Apply, and Correct agents.
 4. **Validation** - Need satisfaction, proof posture, and readiness-to-Finish checks.
 5. **Finish** - save result state, summarize AssetPack evidence, and run Delivering when requested.
 
@@ -36,7 +36,7 @@ AssetPackPipeline (SDIVF with DIV iteration)
 │   └── Validation
 └── Finish
     ├── Save AssetPack synthesis artifacts and Exchange evidence
-    ├── Produce final work summary
+    ├── Produce AssetPack completion summary
     └── Deliver AssetPacks or AssetPackPartials to connected destinations
 ```
 

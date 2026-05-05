@@ -135,7 +135,7 @@ export function getFriendlyIdFromApiId(provider: ProviderId, apiId: string): str
   return getModelByApiId(provider, apiId)?.id;
 }
 
-// USD pricing lookup helpers for credits and cost estimation
+// USD pricing lookup helpers for BTC fee and model-cost estimation
 export function getUsdPricingForApiModel(apiModel: string): { input: number; output: number } | undefined {
   for (const p of SUPPORTED_LLM_MODELS) {
     const found = p.models.find((m) => m.apiId === apiModel);

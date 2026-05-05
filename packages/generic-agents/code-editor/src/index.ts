@@ -1,9 +1,9 @@
 /**
- * Code Editor Agent - Production-grade code editing with Divide|Conquer|Correct pattern
+ * Code Editor Agent - Production-grade code editing with Divide|Apply|Correct pattern
  * 
  * This agent implements reliable code editing through:
  * - Divide: Analyze code changes and create atomic edit plans
- * - Conquer: Execute edits using atomic file operations
+ * - Apply: Execute edits using atomic file operations
  * - Correct: Validate and fix any issues
  * 
  * @doc-code-agent
@@ -68,7 +68,7 @@ const transactionalEditTool = new AtomicEditTool();
 // ==================== INPUT SCHEMA ====================
 
 const CodeEditorInputSchema = z.object({
-  // File-level changes (for Divide|Conquer|Correct pattern)
+  // File-level changes (for Divide|Apply|Correct pattern)
   changes: z.array(z.object({
     filePath: z.string().describe('Path to the file to edit'),
     patches: z.array(z.object({
@@ -140,9 +140,9 @@ const CodeEditorDivideSchema = z.object({
   confidence: z.number().min(0).max(1)
 });
 
-// ==================== CONQUER STEP SCHEMA (Try) ====================
+// ==================== APPLY STEP SCHEMA (Try) ====================
 
-const CodeEditorConquerSchema = z.object({
+const CodeEditorApplySchema = z.object({
   // Tool execution
   useTools: z.array(z.object({
     name: z.literal('transactionalEdit'),
@@ -258,7 +258,7 @@ const CodeEditorOutputSchema = z.object({
 
 export type CodeEditorInput = z.infer<typeof CodeEditorInputSchema>;
 export type CodeEditorDivideOutput = z.infer<typeof CodeEditorDivideSchema>;
-export type CodeEditorConquerOutput = z.infer<typeof CodeEditorConquerSchema>;
+export type CodeEditorApplyOutput = z.infer<typeof CodeEditorApplySchema>;
 export type CodeEditorCorrectOutput = z.infer<typeof CodeEditorCorrectSchema>;
 export type CodeEditorOutput = z.infer<typeof CodeEditorOutputSchema>;
 
@@ -266,11 +266,11 @@ export type CodeEditorOutput = z.infer<typeof CodeEditorOutputSchema>;
 
 export const codeEditorPrompt = new AgentPrompt({
   name: createPromptPart('code-editor'),
-  identity: createPromptPart(`You are a precision code editing agent that implements the Divide|Conquer|Correct pattern for reliable code modifications.
+  identity: createPromptPart(`You are a precision code editing agent that implements the Divide|Apply|Correct pattern for reliable code modifications.
   
 Your approach:
 - DIVIDE: Analyze the required changes and create a detailed, atomic edit plan
-- CONQUER: Execute the edits using atomic file operations with transaction support
+- APPLY: Execute the edits using atomic file operations with transaction support
 - CORRECT: Validate the changes and fix any issues that arise
 
 You ensure:
@@ -285,7 +285,7 @@ export const codeEditorStepPrompts = {
   divide: new AgentStepPrompt({ 
     purpose: createPromptPart('Analyze the required code changes and create a detailed edit plan broken down by file and patch')
   }),
-  conquer: new AgentStepPrompt({ 
+  apply: new AgentStepPrompt({
     purpose: createPromptPart('Execute the edit plan using atomic file operations, ensuring each edit is applied correctly')
   }),
   correct: new AgentStepPrompt({ 
@@ -299,18 +299,18 @@ export const codeEditorStepPrompts = {
 // ==================== AGENT CONFIGURATION ====================
 
 /**
- * Comprehensive Code Editor Agent using Divide|Conquer|Correct pattern
+ * Comprehensive Code Editor Agent using Divide|Apply|Correct pattern
  */
 export const codeEditorComprehensiveAgent = factoryAgentWithPTRR<
   CodeEditorInput,
   CodeEditorOutput
 >({
-  name: 'divide-conquer-correct',
-  description: 'Systematic code editing using Divide|Conquer|Correct pattern',
+  name: 'divide-apply-correct',
+  description: 'Systematic code editing using Divide|Apply|Correct pattern',
   prompt: codeEditorPrompt,
   stepPrompts: {
     plan: () => codeEditorStepPrompts.divide,
-    try: () => codeEditorStepPrompts.conquer,
+    try: () => codeEditorStepPrompts.apply,
     refine: () => codeEditorStepPrompts.correct,
     retry: () => codeEditorStepPrompts.finalize
   },
@@ -424,7 +424,7 @@ export function selectCodeEditorAgent(input: CodeEditorInput): string {
 /**
  * THE PATTERN EXPLAINED:
  * 
- * The Divide|Conquer|Correct pattern ensures reliable code editing:
+ * The Divide|Apply|Correct pattern ensures reliable code editing:
  * 
  * 1. DIVIDE (Plan Step):
  *    - Analyzes all required changes
@@ -432,7 +432,7 @@ export function selectCodeEditorAgent(input: CodeEditorInput): string {
  *    - Identifies dependencies and ordering
  *    - Estimates risk and complexity
  * 
- * 2. CONQUER (Try Step):
+ * 2. APPLY (Try Step):
  *    - Executes edits using transactionalEdit tool
  *    - Maintains transaction for rollback
  *    - Creates backups before changes

@@ -98,7 +98,7 @@ await client.mapUrl('https://example.com', {
 ## Configuration
 
 Requires Firecrawl API credentials with appropriate service tier access:
-- API key with sufficient credit allocation
+- API key with sufficient provider quota
 - Rate limiting configuration based on subscription tier
 - Custom extraction model access for AI-powered features
 - WebSocket connection permissions for real-time operations
@@ -120,4 +120,4 @@ FIRECRAWL_BASE_URL=https://api.firecrawl.dev (optional)
 
 ## Integration Notes
 
-Optimized for AI agent workflows requiring large-scale web data acquisition. Supports both real-time content monitoring and batch data processing patterns. All operations include comprehensive error handling, detailed logging, and credit usage tracking for production deployment monitoring. Ideal for autonomous research systems, content aggregation platforms, and competitive intelligence applications.
+Optimized for AI agent workflows requiring large-scale web data acquisition. Supports both real-time content monitoring and batch data processing patterns. All operations include comprehensive error handling, detailed logging, and provider quota tracking for production deployment monitoring. Ideal for autonomous research systems, content aggregation platforms, and competitive intelligence applications.

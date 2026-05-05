@@ -135,7 +135,7 @@ Instructions that ADAPT based on .ai/ knowledge:
 ### V26 Precision Instrument
 
 1. **Code Change** → Pull Request
-   - Divide|Conquer|Correct execution pattern
+   - Divide|Apply|Correct execution pattern
    - AST-based symbol resolution
    - Automatic test generation
    - Performance regression detection
@@ -163,7 +163,7 @@ Instructions that ADAPT based on .ai/ knowledge:
 **Real-Time Intelligence Flow**:
 - Server-Sent Events with <50ms latency
 - Hierarchical execution visibility
-- Credit consumption transparency (100 credit default reservation)
+- BTC fee-liquidity readiness and measured `$BTD` evidence transparency
 - Tool execution tracing with industrial precision
 - Generation streaming with token-level visibility
 
@@ -179,10 +179,10 @@ Every agent follows Plan → Try → Refine → Retry with 7-substep hierarchy:
 
 **Your Command Center for Engineering Intelligence**
 
-### Credit Management
-- Real-time balance with reservation system
-- Automatic refunds on failure
-- Usage analytics with model breakdown
+### BTC Fee Readiness and BTD Holdings
+- Real-time BTC fee-liquidity posture
+- Automatic fee-hold release on failure
+- Usage analytics with model-cost breakdown
 - Cost optimization recommendations
 - Budget alerts and limits
 
@@ -209,7 +209,7 @@ Every agent follows Plan → Try → Refine → Retry with 7-substep hierarchy:
 
 ### Notification Streams
 - Execution start/complete/fail
-- Credit threshold warnings
+- BTC fee-liquidity threshold warnings
 - PR merge notifications
 - Review request alerts
 - Performance anomaly detection
@@ -321,7 +321,7 @@ Every agent follows Plan → Try → Refine → Retry with 7-substep hierarchy:
 ### Latency Targets
 - **Instruction → Execution**: <500ms
 - **SSE Event Delivery**: <50ms
-- **Credit Calculation**: <10ms
+- **BTC Fee Estimate Calculation**: <10ms
 - **Pattern Match**: <100ms
 - **Tool Execution**: Parallel with DAG
 
@@ -355,7 +355,7 @@ CREATE TABLE executions (
 );
 
 -- Plus: generations, AssetPack evidence, artifacts, conversations,
--- user_credits, user_profiles, vcs_repositories, credit_reservations
+-- BTD holding storage, user_profiles, vcs_repositories, and BTC fee readiness state
 ```
 
 ### Performance Optimizations
@@ -393,7 +393,7 @@ CREATE TABLE executions (
 ### User Success
 - Instructions → Merged PRs in <10 minutes
 - Zero failed executions due to ambiguity
-- 100% credit transparency and refunds
+- Transparent BTC fee readiness, measured `$BTD` holdings, and fail-closed settlement receipts
 - Pattern recognition accuracy >95%
 - User satisfaction NPS >70
 

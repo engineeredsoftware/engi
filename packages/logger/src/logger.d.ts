@@ -1,6 +1,6 @@
 /**
  * Reinitialize the log file path for subsequent writes.
- * Example: reinitLoggerFile('deliverables-request-<uuid>') → /tmp/.bitcode_logs/deliverables-request-<uuid>.log
+ * Example: reinitLoggerFile('asset-pack-request-<uuid>') -> /tmp/.bitcode_logs/asset-pack-request-<uuid>.log
  */
 export declare function reinitLoggerFile(identifier: string, opts?: {
     prefix?: string;

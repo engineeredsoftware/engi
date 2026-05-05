@@ -376,7 +376,7 @@ export default function OrganizationSettings({
                 <span>Organization Treasury</span>
               </CardTitle>
               <CardDescription>
-                Treasury posture is wallet-settled in BTC and issued in $BTD. Bitcode does not use Stripe or credit checkout.
+                Treasury posture is wallet-settled in BTC and issued in $BTD. Bitcode does not use Stripe or prepaid checkout units.
               </CardDescription>
             </CardHeader>
             <CardContent className="space-y-4">

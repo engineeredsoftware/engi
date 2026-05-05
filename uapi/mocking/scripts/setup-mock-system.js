@@ -184,7 +184,7 @@ yarn dev
 ### 2. Visit Any Page - Mocking is Now Active!
 - **AssetPacks:** Rich ${scenario} data automatically loads
 - **Conversations Chat:** Realistic conversation history
-- **User Profile:** Complete user data with credits, usage, etc.
+- **User Profile:** Complete user data with BTD holdings and BTC fee-readiness, etc.
 - **GitHub Integration:** Full repository, branch, and commit data
 - **Organizations:** Team and member management data
 
@@ -276,7 +276,7 @@ function getScenarioFeatures(scenario) {
 - **GitHub:** Multiple repos with branches, commits, issues
 - **Organizations:** Teams with multiple members and roles
 - **Marketplace:** Featured listings and order history
-- **Credits:** Realistic transaction history and usage patterns`,
+- **BTD holdings:** Realistic BTD holding and settlement history`,
 
     enterprise: `
 ### Enterprise-Scale Data
@@ -286,7 +286,7 @@ function getScenarioFeatures(scenario) {
 - **GitHub:** 100+ repositories with full branch/commit data
 - **Organizations:** Complex team structures and permissions
 - **Marketplace:** Full catalog with order management
-- **Credits:** Enterprise billing and usage analytics`,
+- **BTD holdings:** Enterprise BTD holding and BTC fee-readiness analytics`,
 
     testing: `
 ### Minimal Test Data
@@ -296,7 +296,7 @@ function getScenarioFeatures(scenario) {
 - **GitHub:** Minimal repo data for consistent testing
 - **Organizations:** Single organization setup
 - **Marketplace:** Basic listing structure
-- **Credits:** Simple credit balance and transactions`,
+- **BTD holdings:** Simple BTD holding state and settlement rows`,
 
     onboarding: `
 ### New User Experience
@@ -306,7 +306,7 @@ function getScenarioFeatures(scenario) {
 - **GitHub:** Repository connection prompts
 - **Organizations:** Team invitation workflows
 - **Marketplace:** Discovery and browsing experience
-- **Credits:** Initial credit allocation and purchase flows`,
+- **BTD holdings:** Initial BTD acquisition and Terminal minting previews`,
 
     empty: `
 ### Empty State Testing
@@ -316,7 +316,7 @@ function getScenarioFeatures(scenario) {
 - **GitHub:** No connected repositories
 - **Organizations:** No team memberships
 - **Marketplace:** Empty catalog views
-- **Credits:** Zero balances and empty transaction history`
+- **BTD holdings:** Zero holdings and empty settlement history`
   };
 
   return features[scenario] || features.demo;

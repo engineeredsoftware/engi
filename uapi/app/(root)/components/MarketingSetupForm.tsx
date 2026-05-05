@@ -18,7 +18,7 @@ const MarketingSetupForm = () => {
         <p>3. Acquire $BTD through Terminal Need minting or Exchange purchase planning.</p>
       </div>
       <div className="rounded-xl border border-emerald-400/20 bg-emerald-400/8 px-4 py-3 text-sm text-emerald-100">
-        BTC pays fees. $BTD is a non-fungible AssetPack share/read-right, not a checkout credit.
+        BTC pays fees. $BTD is a non-fungible AssetPack share/read-right, not a checkout spend unit.
       </div>
     </div>
   );

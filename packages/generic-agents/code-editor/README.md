@@ -1,12 +1,12 @@
 # Code Editor Agent
 
-Production-grade code editing agent implementing the **Divide|Conquer|Correct** pattern for reliable file modifications.
+Production-grade code editing agent implementing the **Divide|Apply|Correct** pattern for reliable file modifications.
 
 ## Overview
 
 The Code Editor Agent provides systematic, transactional code editing with automatic validation and rollback capabilities. It transforms high-level change specifications into precise file edits while maintaining code quality and consistency.
 
-## Core Pattern: Divide|Conquer|Correct
+## Core Pattern: Divide|Apply|Correct
 
 ### 1. **DIVIDE** (Plan Phase)
 - Analyzes required changes across the codebase
@@ -14,7 +14,7 @@ The Code Editor Agent provides systematic, transactional code editing with autom
 - Identifies dependencies and execution order
 - Estimates complexity and risk
 
-### 2. **CONQUER** (Try Phase)  
+### 2. **APPLY** (Try Phase)
 - Executes file edits using `TransactionalFileEditor`
 - Maintains transaction boundaries for rollback
 - Creates automatic backups before changes
@@ -31,7 +31,7 @@ The Code Editor Agent provides systematic, transactional code editing with autom
 ```typescript
 import { codeEditorAgent } from '@bitcode/generic-agent-code-editor';
 
-// Multi-file editing with Divide|Conquer|Correct
+// Multi-file editing with Divide|Apply|Correct
 const result = await codeEditorAgent({
   changes: [
     {
@@ -64,7 +64,7 @@ const result = await codeEditorAgent({
 
 ## Variations
 
-### `divide-conquer-correct`
+### `divide-apply-correct`
 Full PTRR cycle for complex multi-file edits with validation and correction.
 
 ### `simple-edit`

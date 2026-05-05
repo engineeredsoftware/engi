@@ -2359,7 +2359,7 @@ to {
   }
 
 }
-/* Credits step specific styling */
+/* BTD step specific styling */
 /* Replace & Augment section styling */
 .replace-augment-section {
   background: rgba(15, 25, 40, 0.6);
@@ -2489,8 +2489,8 @@ to {
 }
 /* Remove the horizontal dividers since we're using a grid layout */
 
-/* Credits Explanation Section */
-.credits-explanation {
+/* BTD Explanation Section */
+.btd-explanation {
   margin: 2rem 0;
   background: rgba(15, 25, 40, 0.7);
   border: 1px solid rgba(103, 254, 183, 0.25);
@@ -2531,7 +2531,7 @@ to {
   font-size: 0.875rem;
   line-height: 1.5;
 }
-/* Original credits step styling */
+/* Original BTD step styling */
 .onboarding-offers-row {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -2962,7 +2962,7 @@ to {
   margin-bottom: 2rem;
 }
 
-/* Responsive styles for the anchor content in credits step */
+/* Responsive styles for the anchor content in BTD step */
 @media (max-width: 640px) {
   .anchor-content {
     grid-template-columns: 1fr;
@@ -3138,7 +3138,7 @@ to {
   border: 1px solid rgba(150, 150, 150, 0.3);
   white-space: nowrap;
 }
-.credit-plan.glow-card {
+.btd-plan.glow-card {
   box-shadow: 0 0 60px rgba(52, 211, 153, 0.55) !important;
 }
 /* Profile step: position After Onboarding badge at top-right outside overlay */
@@ -3637,7 +3637,7 @@ to {
 .interfaces-step .disabled-section::before,
 .profile-step .disabled-section::before,
 .connects-step .disabled-section::before,
-.credits-step .disabled-section::before,
+.btd-step .disabled-section::before,
 .btd-step .disabled-section::before {
   background: rgba(5, 10, 20, 0.65);
   /* Lighter overlay to reveal more beneath */
@@ -3930,9 +3930,9 @@ to {
   cursor: not-allowed !important;
   pointer-events: none !important;
 }
-/* =========== Credits Step Fixes =========== */
-/* Current credits display */
-.current-credits-display {
+/* =========== BTD Step Fixes =========== */
+/* Current BTD display */
+.current-btd-display {
   display: flex;
   align-items: center;
   background: rgba(15, 25, 40, 0.7);
@@ -3942,7 +3942,7 @@ to {
   margin-bottom: 24px;
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
 }
-.credits-icon {
+.btd-icon {
   background: rgba(103, 254, 183, 0.1);
   color: rgba(103, 254, 183, 0.9);
   border-radius: 50%;
@@ -3955,18 +3955,18 @@ to {
   flex-shrink: 0;
   border: 1px solid rgba(103, 254, 183, 0.3);
 }
-.credits-info {
+.btd-info {
   flex: 1;
 }
-.credits-label-container {
+.btd-label-container {
   margin-bottom: 0.5rem;
 }
-.credits-label {
+.btd-label {
   font-size: 1rem;
   color: rgba(255, 255, 255, 0.7);
   font-weight: 500;
 }
-.credits-amount {
+.btd-amount {
   font-size: 2.5rem;
   font-weight: 700;
   color: rgba(103, 254, 183, 0.95);
@@ -4059,7 +4059,7 @@ to {
   overflow: hidden;
   transition: all 0.3s cubic-bezier(0.19, 1, 0.22, 1);
 }
-.big-picture-section .credits-usage-title {
+.big-picture-section .btd-usage-title {
   margin-bottom: 28px;
   font-size: 24px;
 }
@@ -4232,7 +4232,7 @@ to {
   border-color: rgba(103, 254, 183, 0.4);
   color: rgba(103, 254, 183, 1);
 }
-.starter-plan-credits {
+.starter-plan-btd {
   margin-bottom: 20px;
 }
 .original-amount,
@@ -4286,7 +4286,7 @@ to {
   }
 
 }
-.credit-rate {
+.btd-rate {
   font-size: 1rem;
   color: rgba(255, 255, 255, 0.7);
   margin-bottom: 20px;
@@ -4476,14 +4476,14 @@ to {
   margin: 0 0 8px 0;
 }
 
-/* Credit plans */
-.credit-plans {
+/* BTD plans */
+.btd-plans {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
   gap: 20px;
   margin-bottom: 30px;
 }
-.credit-plan {
+.btd-plan {
   /* strip background completely on marketing page cards */
   background: transparent !important;
   border: 1px solid rgba(103, 254, 183, 0.2);
@@ -4494,7 +4494,7 @@ to {
   position: relative;
 }
 /* Default hover lift for pricing cards EXCEPT the special glowing marketing card */
-.credit-plan:not(.glow-card):not(.pricing-glow-card):hover {
+.btd-plan:not(.glow-card):not(.pricing-glow-card):hover {
   transform: translateY(-4px);
   border-color: rgba(103, 254, 183, 0.4);
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
@@ -4519,10 +4519,10 @@ to {
   transform: none !important;
 }
 /* Glowing marketing pricing card – keep static, suppress hover transform/border */
-.credit-plan.glow-card {
+.btd-plan.glow-card {
   transition: box-shadow 0.4s ease, ring 0.4s ease;
 }
-.credit-plan.glow-card:hover {
+.btd-plan.glow-card:hover {
   /* Absolutely lock all properties so the glow never disappears */
   transform: none !important;
   border-color: rgba(16, 185, 129, 0.7) !important;
@@ -4539,18 +4539,18 @@ to {
   background: transparent !important;
 }
 /* Disable hover effects for non-clickable instances */
-.credit-plan[aria-disabled="true"],
-.credit-plan.credit-plan--disabled {
+.btd-plan[aria-disabled="true"],
+.btd-plan.btd-plan--disabled {
   cursor: default !important;
 }
-.credit-plan[aria-disabled="true"]:hover,
-.credit-plan.credit-plan--disabled:hover {
+.btd-plan[aria-disabled="true"]:hover,
+.btd-plan.btd-plan--disabled:hover {
   transform: none !important;
   border-color: rgba(103, 254, 183, 0.2) !important;
   box-shadow: none !important;
   cursor: default !important;
 }
-.credit-plan.selected {
+.btd-plan.selected {
   background: transparent !important;
   border-color: rgba(103, 254, 183, 0.5);
   box-shadow: 0 0 30px rgba(103, 254, 183, 0.2);
@@ -4568,7 +4568,7 @@ to {
   padding-bottom: 16px;
   border-bottom: 1px solid rgba(103, 254, 183, 0.15);
 }
-.plan-credits {
+.plan-btd {
   font-size: 24px;
   font-weight: 700;
   color: rgba(103, 254, 183, 0.95);
@@ -4596,7 +4596,7 @@ to {
   margin-top: 0 !important;
 }
 /* Remove bottom margins and unify font for first-row forms */
-.pricing-glow-card .plan-credits,
+.pricing-glow-card .plan-btd,
 .pricing-glow-card .plan-price {
   margin-bottom: 0 !important;
   font-size: 3rem !important; /* slightly smaller, around text-6xl */
@@ -4710,8 +4710,8 @@ to {
   box-shadow: 0 0 15px rgba(103, 254, 183, 0.4);
   border: 2px solid rgba(255, 255, 255, 0.8);
 }
-/* Credits usage info */
-.credits-usage-info {
+/* BTD usage info */
+.btd-usage-info {
   background: rgba(15, 25, 40, 0.7);
   border: 1px solid rgba(103, 254, 183, 0.2);
   border-radius: 16px;
@@ -4719,7 +4719,7 @@ to {
   margin-top: 32px;
   margin-bottom: 12px;
 }
-.credits-usage-title {
+.btd-usage-title {
   font-size: 22px;
   font-weight: 700;
   color: white;
@@ -4727,7 +4727,7 @@ to {
   position: relative;
   display: inline-block;
 }
-.credits-usage-title::after {
+.btd-usage-title::after {
   content: '';
   position: absolute;
   left: 0;
@@ -4737,31 +4737,31 @@ to {
   background: linear-gradient(90deg, rgba(103, 254, 183, 0.9), rgba(103, 254, 183, 0.1));
   border-radius: 1.5px;
 }
-/* Enhanced Credits Usage Styling */
-.credits-usage-enhanced {
+/* Enhanced BTD Usage Styling */
+.btd-usage-enhanced {
   display: flex;
   flex-direction: column;
   gap: 12px;
   margin-top: 12px;
 }
-.credits-usage-factors {
+.btd-usage-factors {
   background: rgba(15, 25, 40, 0.5);
   border: 1px solid rgba(103, 254, 183, 0.15);
   border-radius: 12px;
   padding: 20px;
 }
-.credits-factors-title {
+.btd-factors-title {
   font-size: 18px;
   font-weight: 600;
   color: white;
   margin: 0 0 16px 0;
 }
-.credits-factors-grid {
+.btd-factors-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
   gap: 16px;
 }
-.credits-factor-item {
+.btd-factor-item {
   display: flex;
   align-items: center;
   gap: 12px;
@@ -4789,7 +4789,7 @@ to {
   font-weight: 500;
   color: rgba(255, 255, 255, 0.9);
 }
-.credits-usage-tiers {
+.btd-usage-tiers {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
   gap: 20px;
@@ -4840,7 +4840,7 @@ to {
   font-weight: 600;
   color: white;
 }
-.tier-credits {
+.tier-btd {
   font-size: 18px;
   font-weight: 700;
   color: rgba(103, 254, 183, 0.95);
@@ -4856,7 +4856,7 @@ to {
   color: rgba(255, 255, 255, 0.8);
   line-height: 1.4;
 }
-.credits-never-expire {
+.btd-read-rights {
   display: flex;
   align-items: center;
   gap: 16px;
@@ -4883,8 +4883,8 @@ to {
   font-weight: 500;
 }
 
-/* Credits pane section spacing */
-.credits-pane > h4 {
+/* BTD pane section spacing */
+.btd-pane > h4 {
   margin-top: 32px;
   margin-bottom: 16px;
 }
@@ -4965,12 +4965,12 @@ to {
   color: rgba(255, 255, 255, 0.85);
   line-height: 1.5;
 }
-.credits-usage-chart-container {
+.btd-usage-chart-container {
   margin-top: 2rem;
   overflow: visible;
 }
 /* Summary statistics styling under the usage chart */
-.credits-usage-summary {
+.btd-usage-summary {
   display: flex;
   justify-content: space-between;
   gap: 16px;
@@ -5006,33 +5006,33 @@ to {
   color: #60a5fa;
 }
 
-.credits-usage-list {
+.btd-usage-list {
   list-style-type: none;
   padding: 0;
   margin: 0 0 20px 0;
 }
-.credits-usage-list li {
+.btd-usage-list li {
   margin-bottom: 12px;
   color: rgba(255, 255, 255, 0.85);
   line-height: 1.6;
 }
-.credit-factors-list {
+.btd-factors-list {
   list-style-type: disc;
   padding-left: 20px;
   margin: 8px 0;
 }
-.credit-highlight {
+.btd-highlight {
   color: rgba(103, 254, 183, 0.95);
   font-weight: 500;
 }
-.credit-benefit {
+.btd-benefit {
   background: rgba(103, 254, 183, 0.1);
   color: rgba(103, 254, 183, 0.9);
   padding: 2px 8px;
   border-radius: 4px;
   font-weight: 500;
 }
-.credit-calculation-info {
+.btd-calculation-info {
   background: rgba(15, 25, 40, 0.5);
   border-radius: 12px;
   padding: 24px;
@@ -5089,7 +5089,7 @@ to {
 .calculation-item {
   flex: 1;
 }
-.credit-amount {
+.btd-amount {
   font-size: 20px;
   font-weight: 700;
   color: rgba(103, 254, 183, 0.95);
@@ -5153,8 +5153,8 @@ to {
   padding-top: 24px;
   border-top: 1px solid rgba(103, 254, 183, 0.2);
 }
-/* Credits Usage Chart */
-.credits-usage-chart {
+/* BTD Usage Chart */
+.btd-usage-chart {
   background: rgba(15, 25, 40, 0.6);
   border-radius: 12px;
   padding: 20px;
@@ -5171,32 +5171,32 @@ to {
   display: block;
 }
 /* Transaction History Table */
-.credits-transactions-container {
+.btd-transactions-container {
   margin-top: 2rem;
 }
-.credits-transactions-container table {
+.btd-transactions-container table {
   width: 100%;
   background: rgba(15, 25, 40, 0.6);
   border-radius: 12px;
   overflow: hidden;
   border: 1px solid rgba(103, 254, 183, 0.2);
 }
-.credits-transactions-container thead {
+.btd-transactions-container thead {
   background: rgba(103, 254, 183, 0.1);
 }
-.credits-transactions-container th {
+.btd-transactions-container th {
   padding: 12px 16px;
   font-weight: 600;
   color: rgba(103, 254, 183, 0.95);
   text-align: left;
   border-bottom: 1px solid rgba(103, 254, 183, 0.2);
 }
-.credits-transactions-container td {
+.btd-transactions-container td {
   padding: 12px 16px;
   color: rgba(255, 255, 255, 0.85);
   border-bottom: 1px solid rgba(103, 254, 183, 0.1);
 }
-.credits-transactions-container tr:hover td {
+.btd-transactions-container tr:hover td {
   background: rgba(103, 254, 183, 0.05);
 }
 /* Usage Interval Switcher */
@@ -5746,7 +5746,7 @@ to {
   color: white;
   margin-bottom: 8px;
 }
-.scenario-credits {
+.scenario-btd {
   font-size: 18px;
   font-weight: 700;
   color: rgba(103, 254, 183, 0.95);
@@ -5896,7 +5896,7 @@ to {
   background: rgba(167, 139, 250, 0.1) !important;
   color: rgba(167, 139, 250, 0.9) !important;
 }
-.pricing-glow-card.border-purple-400 .plan-credits,
+.pricing-glow-card.border-purple-400 .plan-btd,
 .pricing-glow-card.border-purple-400 .plan-price {
   color: rgba(167, 139, 250, 0.95) !important;
 }

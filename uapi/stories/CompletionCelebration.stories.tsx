@@ -1,10 +1,10 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import { useState } from 'react';
-import { CompletionCelebration } from '../app/components/completion-celebration';
+import MarketingCompletionCelebration from '../app/(root)/components/MarketingCompletionCelebration';
 
-const meta: Meta<typeof CompletionCelebration> = {
+const meta: Meta<typeof MarketingCompletionCelebration> = {
   title: 'Bitcode/Surprise & Delight/Completion Celebration',
-  component: CompletionCelebration,
+  component: MarketingCompletionCelebration,
   parameters: {
     layout: 'fullscreen',
     docs: {
@@ -62,7 +62,7 @@ export const ComponentSuccess: Story = {
       category: 'component',
       complexity: 'moderate',
       timeSpent: 420, // 7 minutes
-      creditsUsed: 85,
+      measuredBtd: 85,
       patterns: ['react-hooks', 'typescript-interfaces', 'form-validation'],
       quality: 0.92,
       timestamp: new Date(),
@@ -101,7 +101,7 @@ export const ServiceMastery: Story = {
       category: 'service',
       complexity: 'complex',
       timeSpent: 1200, // 20 minutes
-      creditsUsed: 340,
+      measuredBtd: 340,
       patterns: ['microservices', 'hexagonal-architecture', 'jwt-auth', 'rate-limiting'],
       quality: 0.95,
       timestamp: new Date(),
@@ -140,7 +140,7 @@ export const FirstCompletion: Story = {
       category: 'component',
       complexity: 'simple',
       timeSpent: 180, // 3 minutes
-      creditsUsed: 25,
+      measuredBtd: 25,
       patterns: ['react-functional-component'],
       quality: 0.85,
       timestamp: new Date(),
@@ -179,7 +179,7 @@ export const SpeedDemon: Story = {
       category: 'bug',
       complexity: 'simple',
       timeSpent: 120, // 2 minutes
-      creditsUsed: 15,
+      measuredBtd: 15,
       patterns: ['bug-fix', 'typescript'],
       quality: 0.88,
       timestamp: new Date(),
@@ -218,7 +218,7 @@ export const TestingLegend: Story = {
       category: 'test',
       complexity: 'complex',
       timeSpent: 900, // 15 minutes
-      creditsUsed: 150,
+      measuredBtd: 150,
       patterns: ['unit-testing', 'integration-testing', 'mocking', 'edge-cases'],
       quality: 0.96,
       timestamp: new Date(),
@@ -257,7 +257,7 @@ export const StreakWarrior: Story = {
       category: 'feature',
       complexity: 'moderate',
       timeSpent: 600, // 10 minutes
-      creditsUsed: 120,
+      measuredBtd: 120,
       patterns: ['react-hooks', 'state-management', 'notification-system'],
       quality: 0.89,
       timestamp: new Date(),
@@ -299,7 +299,7 @@ export const InteractiveCelebration: Story = {
         category: 'component' as const,
         complexity: 'simple' as const,
         timeSpent: 240,
-        creditsUsed: 35,
+        measuredBtd: 35,
         patterns: ['react-component'],
         quality: 0.82,
         timestamp: new Date(),
@@ -311,7 +311,7 @@ export const InteractiveCelebration: Story = {
         category: 'service' as const,
         complexity: 'complex' as const,
         timeSpent: 1080,
-        creditsUsed: 280,
+        measuredBtd: 280,
         patterns: ['microservices', 'jwt', 'security'],
         quality: 0.94,
         timestamp: new Date(),
@@ -323,7 +323,7 @@ export const InteractiveCelebration: Story = {
         category: 'bug' as const,
         complexity: 'simple' as const,
         timeSpent: 90,
-        creditsUsed: 12,
+        measuredBtd: 12,
         patterns: ['css-fix'],
         quality: 0.87,
         timestamp: new Date(),
@@ -335,7 +335,7 @@ export const InteractiveCelebration: Story = {
         category: 'test' as const,
         complexity: 'complex' as const,
         timeSpent: 840,
-        creditsUsed: 160,
+        measuredBtd: 160,
         patterns: ['unit-testing', 'integration-testing', 'mocking'],
         quality: 0.97,
         timestamp: new Date(),
@@ -430,7 +430,7 @@ export const InteractiveCelebration: Story = {
           </div>
         </div>
         
-        <CompletionCelebration
+        <MarketingCompletionCelebration
           milestone={milestones[currentMilestone]}
           repositoryContext={repositoryContexts[currentMilestone]}
           isVisible={isVisible}
@@ -465,7 +465,7 @@ export const PerformanceComparison: Story = {
       category: 'component' as const,
       complexity: 'moderate' as const,
       timeSpent: 360,
-      creditsUsed: 75,
+      measuredBtd: 75,
       patterns: ['react-hooks', 'responsive-design', 'typescript'],
       quality: 0.91,
       timestamp: new Date(),
@@ -519,7 +519,7 @@ export const PerformanceComparison: Story = {
           </div>
         </div>
         
-        <CompletionCelebration
+        <MarketingCompletionCelebration
           milestone={milestone}
           repositoryContext={repositoryContext}
           isVisible={isVisible}
@@ -552,7 +552,7 @@ export const AchievementGallery: Story = {
       category: 'refactor',
       complexity: 'complex',
       timeSpent: 1440, // 24 minutes
-      creditsUsed: 320,
+      measuredBtd: 320,
       patterns: ['refactoring', 'performance-optimization', 'code-cleanup', 'testing'],
       quality: 0.98,
       timestamp: new Date(),

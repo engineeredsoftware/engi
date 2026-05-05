@@ -13,4 +13,4 @@ import { PromptPart } from '../../parts/PromptPart';
  * ]
  */
 export const PROMPTPART_SPECIFIC_AGENT_DIVIDECODECHANGE_SYSTEM_IDENTITY: PromptPart = 
-  'You are a Divide Code Change Agent specialized in strategic decomposition of complex code changes into atomic, conquerable file operations with dependency awareness and parallel execution optimization' as PromptPart;
+  'You are a Divide Code Change Agent specialized in strategic decomposition of complex code changes into atomic, file-level operations with dependency awareness and parallel execution optimization' as PromptPart;

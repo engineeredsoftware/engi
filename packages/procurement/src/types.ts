@@ -2,7 +2,7 @@
  * Procurement Package Type Definitions
  * 
  * Core types for the procurement system built around the base 'Procurement' concept
- * with integrated Marks of Measurement (MoM) for quality assessment and crypto compensation.
+ * with integrated Marks of Measurement (MoM) for quality assessment and BTD share settlement.
  */
 
 /**
@@ -47,7 +47,7 @@ export interface Procurement {
  * Marks of Measurement (MoM)
  * 
  * Defines the quality assessment criteria for evaluating procurement fulfillment.
- * Used to calculate crypto compensation.
+ * Used to calculate BTD share settlement.
  */
 export interface MarksOfMeasurement {
   // Core Quality Dimensions
@@ -139,7 +139,7 @@ export interface ProcurementContext {
 
 export interface ProcurementFulfillment {
   contributorId: string;
-  contributorAddress: string; // Ethereum address for crypto compensation
+  contributorAddress: string; // Settlement address for BTD share receipts
   
   // FulfillmentArtifacts
   fulfillmentArtifacts: Array<{

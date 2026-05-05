@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.notifyOutOfCredits = exports.notifyOutOfBtd = exports.notifyLowCreditsReminder = exports.notifyLowBtdReminder = exports.notifyNewsletter = exports.notifyCreditTransfer = exports.notifyBtdTransfer = exports.postShippableInstruction = exports.fetchShippableInstructions = exports.fetchPostprocessed = exports.fetchPipelineExecutionHistory = exports.callAssetPackExecutionsAPI = exports.fetchFiles = exports.fetchIssuesAndPRs = exports.fetchCommits = exports.fetchBranchesAndInfo = exports.fetchRepositories = exports.fetchAccounts = void 0;
+exports.notifyOutOfBtd = exports.notifyLowBtdReminder = exports.notifyNewsletter = exports.notifyBtdTransfer = exports.postShippableInstruction = exports.fetchShippableInstructions = exports.fetchPostprocessed = exports.fetchPipelineExecutionHistory = exports.callAssetPackExecutionsAPI = exports.fetchFiles = exports.fetchIssuesAndPRs = exports.fetchCommits = exports.fetchBranchesAndInfo = exports.fetchRepositories = exports.fetchAccounts = void 0;
 const fetchAccounts = async () => {
     try {
         const response = await fetch('/api/vcs?resource=accounts&provider=github', {
@@ -228,7 +228,6 @@ const notifyBtdTransfer = async (params) => {
         throw new Error('Notification btd-transfer failed');
 };
 exports.notifyBtdTransfer = notifyBtdTransfer;
-exports.notifyCreditTransfer = exports.notifyBtdTransfer;
 const notifyNewsletter = async (params) => {
     const res = await fetch('/api/notifications/newsletter', {
         method: 'POST', headers: { 'Content-Type': 'application/json' },
@@ -247,7 +246,6 @@ const notifyLowBtdReminder = async (params) => {
         throw new Error('Notification low-btd-reminder failed');
 };
 exports.notifyLowBtdReminder = notifyLowBtdReminder;
-exports.notifyLowCreditsReminder = exports.notifyLowBtdReminder;
 const notifyOutOfBtd = async (params) => {
     const res = await fetch('/api/notifications/out-of-btd', {
         method: 'POST', headers: { 'Content-Type': 'application/json' },
@@ -257,4 +255,3 @@ const notifyOutOfBtd = async (params) => {
         throw new Error('Notification out-of-btd failed');
 };
 exports.notifyOutOfBtd = notifyOutOfBtd;
-exports.notifyOutOfCredits = exports.notifyOutOfBtd;

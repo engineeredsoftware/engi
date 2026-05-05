@@ -543,7 +543,7 @@ const reviewPromptPrimitivesEvolutionStdoutSource = readFileSync(new URL('../../
 const bitcodeCanonWorkflowSource = readFileSync(new URL('../../.github/workflows/bitcode-canon-quality.yml', import.meta.url), 'utf8');
 const rootEslintConfigSource = readFileSync(new URL('../../.eslintrc.cjs', import.meta.url), 'utf8');
 const eslintPluginBitcodePackageSource = readFileSync(new URL('../../packages/eslint-plugin-bitcode/package.json', import.meta.url), 'utf8');
-const eslintPluginBitcodeDocSource = readFileSync(new URL('../../packages/eslint-plugin-bitcode/docs/no-write-tools-outside-conquer.md', import.meta.url), 'utf8');
+const eslintPluginBitcodeDocSource = readFileSync(new URL('../../packages/eslint-plugin-bitcode/docs/no-write-tools-outside-implementation.md', import.meta.url), 'utf8');
 const bitcodeChecklistSource = readFileSync(new URL('../CHECKLIST.md', import.meta.url), 'utf8');
 const loggerPackageSource = readFileSync(new URL('../../packages/logger/package.json', import.meta.url), 'utf8');
 const loggerTsSource = readFileSync(new URL('../../packages/logger/src/logger.ts', import.meta.url), 'utf8');
@@ -680,6 +680,15 @@ const pipelinePhasePoetryStorySource = readFileSync(new URL('../../uapi/stories/
 const conversationsCompleteSystemStorySource = readFileSync(new URL('../../uapi/stories/conversations/CompleteSystem.stories.tsx', import.meta.url), 'utf8');
 const btdInvestmentExperienceStorySource = readFileSync(new URL('../../uapi/stories/BTDInvestmentExperience.stories.tsx', import.meta.url), 'utf8');
 const marketingBtdInvestmentExperienceSource = readFileSync(new URL('../../uapi/app/(root)/components/MarketingBtdInvestmentExperience.tsx', import.meta.url), 'utf8');
+const marketingTestimonialsSource = readFileSync(new URL('../../uapi/app/(root)/components/MarketingTestimonials.tsx', import.meta.url), 'utf8');
+const btdPricesSource = [
+  readFileSync(new URL('../../uapi/components/base/bitcode/btd/BTDPrices.tsx', import.meta.url), 'utf8'),
+  readFileSync(new URL('../../uapi/components/base/bitcode/btd/BTDPrices.js', import.meta.url), 'utf8'),
+].join('\n');
+const flexibleBtdSelectorSource = [
+  readFileSync(new URL('../../uapi/components/base/bitcode/btd/FlexibleBtdSelector.tsx', import.meta.url), 'utf8'),
+  readFileSync(new URL('../../uapi/components/base/bitcode/btd/FlexibleBtdSelector.js', import.meta.url), 'utf8'),
+].join('\n');
 const intelligentProcessingIndicatorStorySource = readFileSync(new URL('../../uapi/stories/IntelligentProcessingIndicator.stories.tsx', import.meta.url), 'utf8');
 const userAccountOrbitalStorySource = readFileSync(new URL('../../uapi/stories/user/AccountOrbital.stories.tsx', import.meta.url), 'utf8');
 const markdownElementsStorySource = readFileSync(new URL('../../uapi/stories/docs/MarkdownElements.stories.tsx', import.meta.url), 'utf8');
@@ -888,10 +897,10 @@ test('active V26 auth and AssetPack email templates use Bitcode naming', () => {
   assert.match(supabaseConfirmTemplateSource, /Review wallet and \$BTD readiness/);
   assert.match(supabaseAssetPackCompleteTemplateSource, /Open in Bitcode/);
   assert.match(supabaseAssetPackCompleteTemplateSource, /BitcodeURL/);
-  assert.match(supabaseAssetPackStartedTemplateSource, /Estimated \$BTD/);
-  assert.match(supabaseAssetPackCompleteTemplateSource, /Estimated \$BTD/);
-  assert.match(supabaseAssetPackShortCircuitTemplateSource, /\$BTD budget released back/);
-  assert.match(supabaseAssetPackFailedTemplateSource, /\$BTD budget released back/);
+  assert.match(supabaseAssetPackStartedTemplateSource, /Estimated measured \$BTD/);
+  assert.match(supabaseAssetPackCompleteTemplateSource, /Measured \$BTD/);
+  assert.match(supabaseAssetPackShortCircuitTemplateSource, /BTC fee hold released/);
+  assert.match(supabaseAssetPackFailedTemplateSource, /BTC fee hold released/);
   assert.match(procurementVectorizeSource, /global Bitcode dataset/);
   assert.doesNotMatch(supabaseConfigSource, /Your Engi magic link/);
   assert.doesNotMatch(supabaseConfigSource, /Confirm your Engi account/);
@@ -1446,12 +1455,12 @@ test('active V26 canon posture and preserved runtime state use bitcode policy an
   assert.doesNotMatch(onboardingVisualSpecSource, /orbital-label-credits/);
   assert.match(onboardingFullFlowSpecSource, /onboarding-full-btd\.png/);
   assert.doesNotMatch(onboardingFullFlowSpecSource, /onboarding-full-credits\.png/);
-  assert.match(auxillariesBtdTreasuryManagementSource, /Bitcode does not use credit bundles or Stripe checkout/);
+  assert.match(auxillariesBtdTreasuryManagementSource, /Bitcode does not use prepaid spend bundles or Stripe checkout/);
   assert.match(auxillariesBtdTreasuryManagementSource, /GitHub required before transacting/);
   assert.match(auxillariesBtdTreasuryManagementSource, /Open \$BTD Auxillary/);
   assert.doesNotMatch(auxillariesBtdTreasuryManagementSource, /\/api\/organizations\/\$\{organizationId\}\/credits/);
   assert.doesNotMatch(auxillariesBtdTreasuryManagementSource, /Purchase Credits/);
-  assert.match(auxillariesOrganizationSettingsSource, /Bitcode does not use Stripe or credit checkout/);
+  assert.match(auxillariesOrganizationSettingsSource, /Bitcode does not use Stripe or prepaid checkout units/);
   assert.match(auxillariesOrganizationSettingsSource, /Open Connects Auxillary/);
   assert.match(auxillariesOrganizationSettingsSource, /GitHub before transacting/);
   assert.doesNotMatch(auxillariesOrganizationSettingsSource, /paymentMethod:\s*'stripe'/);
@@ -2063,6 +2072,15 @@ test('active V26 retained package surfaces use Bitcode naming instead of Engi na
   assert.match(btdInvestmentExperienceStorySource, /Bitcode\/Surprise & Delight\/BTD Holding Experience/);
   assert.match(marketingBtdInvestmentExperienceSource, /btd-holding-experience/);
   assert.match(marketingBtdInvestmentExperienceSource, /\$BTD/);
+  assert.match(marketingTestimonialsSource, /BTC fee basis and measured \$BTD issuance/);
+  assert.doesNotMatch(marketingTestimonialsSource, /\$BTD spend|BTD spend/);
+  assert.match(btdPricesSource, /Terminal Need/);
+  assert.match(btdPricesSource, /Exchange Preview/);
+  assert.match(btdPricesSource, /BTC Fee Basis/);
+  assert.match(btdPricesSource, /Non-Fungible Shares/);
+  assert.doesNotMatch(btdPricesSource, /Industrial|Fair-Cost|Short-Circuit Refunds|spendUSD|INDUSTRIAL_CREDITS|perBtdCost/);
+  assert.match(flexibleBtdSelectorSource, /BTC fee reference: \$\{referenceUsdPerBtd\.toFixed\(2\)\} \/ measured \$BTD/);
+  assert.doesNotMatch(flexibleBtdSelectorSource, /isIndustrial|industrialBtd|perBtdCost|isEditingCredit|setIsEditingCredit/);
   assert.match(intelligentProcessingIndicatorStorySource, /Bitcode\/Surprise & Delight\/Intelligent Processing Indicator/);
   assert.match(userAccountOrbitalStorySource, /Bitcode\/Auxillaries\/Account Orbital/);
   assert.match(userAccountOrbitalStorySource, /Bitcode Engineer/);
@@ -2464,9 +2482,9 @@ test('active V26 retained package surfaces use Bitcode naming instead of Engi na
   assert.match(eslintPluginBitcodePackageSource, /"name": "eslint-plugin-bitcode"/);
   assert.match(eslintPluginBitcodeDocSource, /eslint-plugin-bitcode/);
   assert.match(eslintPluginBitcodeDocSource, /plugins: \['bitcode'\]/);
-  assert.match(eslintPluginBitcodeDocSource, /bitcode\/no-write-tools-outside-conquer/);
+  assert.match(eslintPluginBitcodeDocSource, /bitcode\/no-write-tools-outside-implementation/);
   assert.match(rootEslintConfigSource, /plugins: \['@typescript-eslint', 'bitcode', 'react'\]/);
-  assert.match(rootEslintConfigSource, /'bitcode\/no-write-tools-outside-conquer': 'error'/);
+  assert.match(rootEslintConfigSource, /'bitcode\/no-write-tools-outside-implementation': 'error'/);
   assert.match(rootEslintConfigSource, /'bitcode\/require-prompt-hierarchy': 'error'/);
   assert.doesNotMatch(makefileSource, /Engi Makefile shortcuts/);
   assert.doesNotMatch(makefileSource, /\bdb=engi\b/);
@@ -2474,7 +2492,7 @@ test('active V26 retained package surfaces use Bitcode naming instead of Engi na
   assert.doesNotMatch(rootPackageSource, /"name": "engi-monorepo"/);
   assert.doesNotMatch(rootPackageSource, /eslint-plugin-engi/);
   assert.doesNotMatch(rootEslintConfigSource, /plugins: \['@typescript-eslint', 'engi', 'react'\]/);
-  assert.doesNotMatch(rootEslintConfigSource, /'engi\/no-write-tools-outside-conquer': 'error'/);
+  assert.doesNotMatch(rootEslintConfigSource, /'engi\/no-write-tools-outside-implementation': 'error'/);
   assert.doesNotMatch(rootEslintConfigSource, /'engi\/require-prompt-hierarchy': 'error'/);
   assert.doesNotMatch(rootPackageSource, /start-engi-mcp/);
   assert.doesNotMatch(rootPnpmLockSource, /eslint-plugin-engi:/);
@@ -2614,7 +2632,7 @@ test('active V26 retained package surfaces use Bitcode naming instead of Engi na
   assert.doesNotMatch(eslintPluginBitcodePackageSource, /eslint-plugin-engi/);
   assert.doesNotMatch(eslintPluginBitcodeDocSource, /\bEngi\b/);
   assert.doesNotMatch(eslintPluginBitcodeDocSource, /plugins: \['engi'\]/);
-  assert.doesNotMatch(eslintPluginBitcodeDocSource, /engi\/no-write-tools-outside-conquer/);
+  assert.doesNotMatch(eslintPluginBitcodeDocSource, /engi\/no-write-tools-outside-implementation/);
 
   assert.match(conversationsOpenApiSource, /name: Bitcode API Support/);
   assert.match(conversationsOpenApiSource, /docs\.bitcode\.example/);

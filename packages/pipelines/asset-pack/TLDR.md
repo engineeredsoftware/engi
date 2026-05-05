@@ -14,7 +14,7 @@ AssetPackPipeline (Bitcode agentic pipeline run with SDIVF + DIV loop)
 ├── Setup (vcs → digester → tech-types → danger-wall)
 ├── [DIV Loop - up to 3 iterations]
 │   ├── Discovery (web-researcher → code-searcher → file-pick)
-│   ├── Implementation (Divide|Conquer|Correct with code-editor)
+│   ├── Implementation (Divide|Apply|Correct with code-editor)
 │   └── Validation (short-circuit tool used in readiness checks)
 └── Finish (save AssetPack evidence → delivery mechanism handling)
 ```

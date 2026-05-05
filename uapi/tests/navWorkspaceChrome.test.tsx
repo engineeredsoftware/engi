@@ -32,7 +32,7 @@ jest.mock('@/app/auxillaries/components/AuxillariesProvider', () => ({
 
 jest.mock('@/config/features', () => ({
   FEATURE_FLAGS: {
-    HIDE_CREDITS_TRACKER: false,
+    HIDE_BTD_TRACKER: false,
     NOTIFICATIONS: true,
     DISABLE_USING: true,
   },

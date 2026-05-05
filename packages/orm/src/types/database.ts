@@ -1341,10 +1341,6 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
-      add_credits: {
-        Args: { p_amount: number; p_user_id: string }
-        Returns: number
-      }
       binary_quantize: {
         Args: { "": string } | { "": unknown }
         Returns: unknown
@@ -1353,21 +1349,8 @@ export type Database = {
         Args: { p_job_type: string; p_worker_id: string }
         Returns: string
       }
-      deduct_credits: {
-        Args: { p_user_id: string; p_amount: number }
-        Returns: number
-      }
       delete_user_by_email: {
         Args: { user_email: string }
-        Returns: string
-      }
-      grant_user_credits: {
-        Args: {
-          credit_source?: string
-          credit_description?: string
-          user_email: string
-          credit_amount?: number
-        }
         Returns: string
       }
       halfvec_avg: {

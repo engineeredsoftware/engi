@@ -43,7 +43,7 @@ jobs:
       - name: Detect squashed schema presence
         id: detect
         run: |
-          if [ -f supabase/migrations/000_squashed.sql ] && grep -Eq 'CREATE TABLE|ALTER TABLE|deliverables_pipeline' supabase/migrations/000_squashed.sql; then
+          if [ -f supabase/migrations/000_squashed.sql ] && grep -Eq 'CREATE TABLE|ALTER TABLE|pipeline_runs|asset_pack' supabase/migrations/000_squashed.sql; then
             echo "present=true" >> $GITHUB_OUTPUT
           else
             echo "present=false" >> $GITHUB_OUTPUT

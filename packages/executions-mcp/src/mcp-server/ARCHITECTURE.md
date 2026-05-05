@@ -31,14 +31,14 @@ This document provides a comprehensive overview of the Bitcode MCP Server archit
 ├─────────────────────────────────────────────────────────────────┤
 │                  Bitcode Pipeline System                          │
 │   ┌─────────┐                                              │
-│   │ Deliver │                                              │
-│   │  ables  │                                              │
+│   │ Asset   │                                              │
+│   │ Packs   │                                              │
 │   └─────────┘                                              │
 ├─────────────────────────────────────────────────────────────────┤
 │                    Bitcode Infrastructure                         │
 │  ┌─────────────┐  ┌─────────────┐  ┌─────────────┐             │
-│  │  Supabase   │  │   Credits   │  │    Agent    │             │
-│  │  Database   │  │   System    │  │   System    │             │
+│  │  Supabase   │  │ BTC Fees &  │  │    Agent    │             │
+│  │  Database   │  │ BTD Reads   │  │   System    │             │
 │  └─────────────┘  └─────────────┘  └─────────────┘             │
 └─────────────────────────────────────────────────────────────────┘
 ```
@@ -114,11 +114,11 @@ Direct interface to Bitcode's sophisticated pipeline system:
 
 ```typescript
 interface PipelineToolExecution {
-  // Credit Management
-  - estimatePipelineCredits()  // Pre-execution estimation
-  - reserveCredits()           // Upfront reservation
-  - trackActualUsage()         // Real-time tracking
-  - refundUnusedCredits()      // Automatic refunds
+  // BTC fee readiness and measured $BTD holding reads
+  - estimatePipelineBtcFees()  // Pre-execution BTC fee estimation
+  - reserveBtcFeeHold()        // Upfront fee-hold reservation
+  - trackActualUsage()         // Real-time usage tracking
+  - resolveUnusedFeeHold()     // Automatic fee-hold release
   
   // Pipeline Execution
   - executePipelineWithMonitoring()  // Comprehensive execution
@@ -180,7 +180,7 @@ Read-only data access with intelligent filtering:
 #### Organization Resources (`organization-resources.ts`)
 - **Team Analytics**: Member activity and productivity metrics
 - **Repository Coverage**: Multi-repo analysis and insights
-- **Credit Usage**: Financial tracking and optimization
+- **BTC Fee Readiness and BTD Holdings**: Fee-liquidity tracking and non-fungible share/read-right visibility
 - **Collaboration Patterns**: Team workflow analysis
 
 ### 6. Workflow Prompts (`src/prompts/`)
@@ -253,7 +253,7 @@ PipelineExecution → PipelineEvent → StreamBroadcast → ClientNotification
 │                    Application Layer                       │
 │  • Business logic authorization                            │
 │  • Resource-level access control                          │
-│  • Credit balance validation                              │
+│  • BTC fee readiness and BTD holding validation           │
 └─────────────────────────────────────────────────────────────┘
 ┌─────────────────────────────────────────────────────────────┐
 │                   Authentication Layer                     │
@@ -278,7 +278,7 @@ Client Request
     ↓
 Authentication & Authorization
     ↓
-Credit Reservation
+BTC Fee-Hold Reservation
     ↓
 Pipeline Execution (SDIVF)
     ├─ Setup Phase
@@ -289,7 +289,7 @@ Pipeline Execution (SDIVF)
     ↓
 AssetPack Results & Delivery Receipts
     ↓
-Credit Finalization
+BTC Fee-Hold Resolution
     ↓
 Response to Client
 ```

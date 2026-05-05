@@ -265,7 +265,7 @@ export default function MarketingAIDocumentsConnectsSection() {
                     30+ ready-made MCPs link agents to the tools you already use—from repos and CI/CD to chat and analytics—while custom rules tune each connector.
                   </StepCard>
                   <StepCard className="border-l-4 border-blue-300 pl-4" icon={<ClipboardDocumentListIcon className="h-6 w-6 text-blue-300" />} title="Knowledge Procurement & Compensation">
-                    Agents fetch just the knowledge they need from code, systems, and services—automatically crediting sources and keeping context fresh, compliant, and fairly valued.
+                    Agents fetch just the knowledge they need from code, systems, and services—automatically attributing sources and keeping context fresh, compliant, and fairly valued.
                   </StepCard>
                 </div>
               </div>

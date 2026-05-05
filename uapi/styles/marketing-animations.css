@@ -472,7 +472,7 @@
   background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg width='3' height='3' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='1.5' cy='1.5' r='0.5' fill='rgba(255,255,255,0.1)'/%3E%3C/svg%3E");
 }
 
-/* Bounce animation for credit spend icon */
+/* Bounce animation for BTD movement icon */
 @keyframes bounce-slow {
   0%, 100% { transform: translateY(0); }
   50%      { transform: translateY(-10px); }

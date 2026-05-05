@@ -36,7 +36,7 @@ describe('BTD read posture', () => {
     expect(maybeSingleMock).toHaveBeenCalled();
   });
 
-  it('rejects attempts to mutate BTD as a fungible credit balance', () => {
+  it('rejects attempts to mutate BTD as a fungible spend balance', () => {
     expect(() => rejectFungibleBtdMutation()).toThrow(BtdFungibleMutationRejectedError);
   });
 

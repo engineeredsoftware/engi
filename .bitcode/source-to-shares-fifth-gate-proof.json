@@ -1,8 +1,8 @@
 {
   "reportId": "v26-source-to-shares-fifth-gate-proof",
   "version": "V26",
-  "proofSourceCommit": "4d60947a8b588a974dd8a9afe83658cb1aa8e98f",
-  "generatedAt": "2026-05-05T16:57:47-03:00",
+  "proofSourceCommit": "9619813fa735b3bcf8b63ef8ae02dff78ceb90f9",
+  "generatedAt": "2026-05-05T17:39:48-03:00",
   "generatorId": "bitcode.proven-generator.v1",
   "worktreeState": "dirty-preview",
   "gate": "gate-5",

@@ -85,11 +85,11 @@ export async function handleAPIRequest(request: Request) {
 ```typescript
 import { createSupabaseSSEPollStream } from '@bitcode/networking';
 
-export function createDeliverableUpdatesStream(userId: string, signal: AbortSignal) {
+export function createAssetPackUpdatesStream(userId: string, signal: AbortSignal) {
   return createSupabaseSSEPollStream({
     fetchRows: async (cursor) => {
       return await supabase
-        .from('deliverable_runs')
+        .from('asset_pack_runs')
         .select('*')
         .eq('user_id', userId)
         .gt('id', cursor)
@@ -100,7 +100,7 @@ export function createDeliverableUpdatesStream(userId: string, signal: AbortSign
     formatRow: (row) => ({
       id: row.id,
       payload: {
-        deliverableId: row.deliverable_id,
+        assetPackId: row.asset_pack_id,
         status: row.status,
         progress: row.progress,
         updatedAt: row.updated_at

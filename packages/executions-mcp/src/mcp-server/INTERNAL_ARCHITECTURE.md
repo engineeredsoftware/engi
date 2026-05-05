@@ -419,15 +419,15 @@ interface MCPUsageReadiness {
   };
 }
 
-const CREDIT_STRUCTURE: CreditConsumption[] = [
+const BTC_FEE_READINESS_STRUCTURE: MCPUsageReadiness[] = [
   {
     tool: 'asset-pack/create',
-    baseCredits: 100,
+    baseFeeSats: 100,
     modifiers: { complexity: 3, attachments: 10, streaming: 1.2, priority: 2 }
   },
   {
     tool: 'analysis/repository/analyze',
-    baseCredits: 50,
+    baseFeeSats: 50,
     modifiers: { complexity: 2, attachments: 5, streaming: 1.1, priority: 1.5 }
   }
 ];

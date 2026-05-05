@@ -79,7 +79,7 @@ describe('normalizeApplicationSectionAtlas', () => {
           creditedAssetCount: 2,
           participatingAssetCount: 3,
           debitCount: 2,
-          creditCount: 4,
+          settlementEntryCount: 4,
           proofFamilyCount: 4,
           bundleId: 'bundle-001',
           settlementIntentSummary: 'Settlement closes the active fit with replayable source-to-shares and proof-bearing accounting.',

@@ -72,8 +72,6 @@ packages/**/prompts/**/*.js
 packages/doc-code/scripts/*.js
 packages/doc-comment/examples/*.js
 packages/web-search/examples/**/*.js
-packages/pipelines/deliverable/test/**/*.js
 packages/digest/**/*.js
-packages/pipelines/deliverable/test-pipeline.js
 scripts/*.js
 uapi/tailwind.config.js

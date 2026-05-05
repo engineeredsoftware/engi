@@ -170,7 +170,7 @@ export default function BTDTreasuryManagement({
             Canonical Bitcode treasury boundary
           </CardTitle>
           <CardDescription className="text-emerald-900/80">
-            Bitcode does not use credit bundles or Stripe checkout. Connected wallets settle in BTC and issued $BTD is then tracked,
+            Bitcode does not use prepaid spend bundles or Stripe checkout. Connected wallets settle in BTC and issued $BTD is then tracked,
             allocated, and audited through the auxillaries and protocol-facing execution surfaces.
           </CardDescription>
         </CardHeader>

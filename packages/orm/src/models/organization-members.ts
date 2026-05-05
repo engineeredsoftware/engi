@@ -16,7 +16,7 @@ export interface OrganizationMember {
   user_id: string;
   role: string;
   permissions?: Record<string, unknown> | null;
-  credit_budget?: number | null;
+  btc_fee_budget?: number | null;
   is_active?: boolean | null;
   joined_at?: string | null;
   updated_at?: string | null;

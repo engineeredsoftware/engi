@@ -15,7 +15,7 @@ content. Later Terminal/Exchange issuance work must respect the fixed
 
 The current database layer still exposes `user_credits` as a storage carrier
 for aggregate holding reads until the persistence schema is re-cut. This
-package must not mutate it as a credit bucket.
+package must not mutate it as a spendable balance bucket.
 
 ```ts
 import {

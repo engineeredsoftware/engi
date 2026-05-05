@@ -1,12 +1,12 @@
 /* =====================================================================
- * CREDIT INVESTMENT EXPERIENCE - Magical Value Alchemy
+ * BTD HOLDING EXPERIENCE - Magical Value Alchemy
  * 
- * Transforms credit allocation into value visualization with magical
+ * Transforms BTD share allocation into value visualization with magical
  * enhancement effects, efficiency coaching, and ROI projections.
  * ===================================================================== */
 
 @layer components {
-  /* Main credit investment experience container */
+  /* Main BTD holding experience container */
   .btd-investment-experience {
     position: fixed;
     bottom: 1.5rem;

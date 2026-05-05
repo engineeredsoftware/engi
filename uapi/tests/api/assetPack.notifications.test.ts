@@ -25,7 +25,6 @@ jest.mock('@bitcode/orm', () => ({
     executionEvents: { create: executionEventsCreate },
     pipelineRuns: { update: pipelineRunsUpdate },
     notifications: { create: notificationsCreate },
-    userCredits: { getByUserId: jest.fn(), addCredits: jest.fn() },
     userConnections: { getByUserAndProvider: jest.fn().mockResolvedValue({ connection_data: { installation_id: 1 } }) }
   })
 }));

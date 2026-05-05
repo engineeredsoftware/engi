@@ -26,7 +26,7 @@ const mockSinglePipeline = [
     progress: 65,
     phase: 'Implementation',
     measuredBtdEstimate: 150,
-    usedCredits: 98,
+    measuredBtd: 98,
     startedAt: '2024-01-15T10:31:00Z',
     events: [
       {
@@ -100,7 +100,7 @@ const mockMultiplePipelines = [
     progress: 30,
     phase: 'Discovery',
     measuredBtdEstimate: 200,
-    usedCredits: 60,
+    measuredBtd: 60,
     startedAt: '2024-01-15T09:00:00Z',
     events: [
       {
@@ -141,7 +141,7 @@ const mockMultiplePipelines = [
     progress: 75,
     phase: 'Implementation',
     measuredBtdEstimate: 100,
-    usedCredits: 75,
+    measuredBtd: 75,
     startedAt: '2024-01-15T09:05:00Z',
     events: [
       {
@@ -186,7 +186,7 @@ const mockMultiplePipelines = [
     progress: 100,
     phase: 'Complete',
     measuredBtdEstimate: 150,
-    usedCredits: 145,
+    measuredBtd: 145,
     startedAt: '2024-01-15T08:00:00Z',
     completedAt: '2024-01-15T08:30:00Z',
     pullRequestUrl: 'https://github.com/mycompany/myapp/pull/123',
@@ -224,7 +224,7 @@ const mockFailedPipeline = [
     progress: 45,
     phase: 'Implementation',
     measuredBtdEstimate: 180,
-    usedCredits: 81,
+    measuredBtd: 81,
     startedAt: '2024-01-15T11:00:00Z',
     failedAt: '2024-01-15T11:15:00Z',
     error: {
@@ -374,7 +374,7 @@ export const HighVolumeStreaming: Story = {
         progress: 85,
         phase: 'Implementation',
         measuredBtdEstimate: 300,
-        usedCredits: 255,
+        measuredBtd: 255,
         startedAt: '2024-01-15T12:00:00Z',
         events: Array.from({ length: 50 }, (_, i) => ({
           id: `evt-volume-${i}`,
@@ -412,7 +412,7 @@ export const RealTimeUpdates: Story = {
         progress: 42,
         phase: 'Implementation',
         measuredBtdEstimate: 120,
-        usedCredits: 50,
+        measuredBtd: 50,
         startedAt: '2024-01-15T13:00:00Z',
         events: [
           {
@@ -458,7 +458,7 @@ export const PipelineRecovery: Story = {
         progress: 65,
         phase: 'Implementation',
         measuredBtdEstimate: 150,
-        usedCredits: 98,
+        measuredBtd: 98,
         startedAt: '2024-01-15T14:00:00Z',
         retryCount: 2,
         events: [

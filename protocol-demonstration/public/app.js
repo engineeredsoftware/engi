@@ -511,7 +511,7 @@ function compactClosureSurface(state) {
             : 0,
       participatingAssetCount: participatingAssetIds.length,
       debitCount: Array.isArray(journalDiff.debits) ? journalDiff.debits.length : 0,
-      creditCount: Array.isArray(journalDiff.credits) ? journalDiff.credits.length : 0,
+      settlementEntryCount: Array.isArray(journalDiff.credits) ? journalDiff.credits.length : 0,
       proofFamilyCount: proofCatalog?.proofFamilyCount || 0,
       proofFamilies: (proofCatalog?.proofFamilies || []).map(compactProofFamily).filter(Boolean).slice(0, 6),
       protocolFocus: fitQualitySurface.protocolFocus,
@@ -5978,7 +5978,7 @@ function renderJournalDiffVisual(diff) {
           ${surfaceVisualFallback(diff.debits || [])}
         </div>
         <div class="section-card">
-          <div class="section-head"><h4>${labelWithExplainer('Credits', 'journal-diff')}</h4><span class="badge">${(diff.credits || []).length}</span></div>
+          <div class="section-head"><h4>${labelWithExplainer('Contributor entries', 'journal-diff')}</h4><span class="badge">${(diff.credits || []).length}</span></div>
           ${surfaceVisualFallback(diff.credits || [])}
         </div>
       </div>

@@ -15,7 +15,7 @@ Global solution procurement engine for Bitcode. Provides vector-based solution m
 
 - Vector-based semantic solution search
 - Global dataset management with opt-in controls
-- Credit payout engine for solution providers
+- BTD share settlement engine for solution providers
 - Real-time fraud detection and monitoring
 - Automated quality assessment and scoring
 - Pipeline integration for seamless procurement

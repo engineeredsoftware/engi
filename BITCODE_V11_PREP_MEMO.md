@@ -163,7 +163,7 @@ Profile A MUST NOT:
 - fake live branch or PR writes,
 - fake network-backed settlement or signer verification.
 
-## Deliverables for this pass
+## Artifacts for this pass
 
 Required outputs:
 

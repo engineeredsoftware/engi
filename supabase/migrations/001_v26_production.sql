@@ -66,46 +66,6 @@ CREATE EXTENSION IF NOT EXISTS "vector" WITH SCHEMA "public";
 
 
 
-CREATE OR REPLACE FUNCTION "public"."add_credits"("p_user_id" "uuid", "p_amount" numeric) RETURNS numeric
-    LANGUAGE "plpgsql"
-    AS $$
-DECLARE
-  v_prev numeric;
-  v_new numeric;
-BEGIN
-  IF p_amount <= 0 THEN
-    RAISE EXCEPTION 'Invalid amount %', p_amount USING ERRCODE = '22003';
-  END IF;
-
-  SELECT balance INTO v_prev FROM public.user_credits WHERE user_id = p_user_id FOR UPDATE;
-
-  IF v_prev IS NULL THEN
-    INSERT INTO public.user_credits(user_id, balance, total_purchased, total_used)
-      VALUES (p_user_id, p_amount, p_amount, 0)
-      ON CONFLICT (user_id) DO UPDATE SET balance = public.user_credits.balance + EXCLUDED.balance,
-                                          total_purchased = public.user_credits.total_purchased + EXCLUDED.balance,
-                                          updated_at = NOW()
-      RETURNING public.user_credits.balance INTO v_new;
-  ELSE
-    UPDATE public.user_credits
-      SET balance = balance + p_amount,
-          total_purchased = total_purchased + p_amount,
-          updated_at = NOW()
-      WHERE user_id = p_user_id
-      RETURNING balance INTO v_new;
-  END IF;
-
-  INSERT INTO public.user_credit_usages(user_id, amount, operation_type, metadata)
-    VALUES (p_user_id, p_amount, 'credit', jsonb_build_object('reason', 'top_up'));
-
-  RETURN v_new;
-END;
-$$;
-
-
-ALTER FUNCTION "public"."add_credits"("p_user_id" "uuid", "p_amount" numeric) OWNER TO "postgres";
-
-
 CREATE OR REPLACE FUNCTION "public"."claim_run_job"("p_job_type" "text", "p_worker_id" "text") RETURNS "uuid"
     LANGUAGE "plpgsql"
     AS $$
@@ -136,48 +96,6 @@ $$;
 ALTER FUNCTION "public"."claim_run_job"("p_job_type" "text", "p_worker_id" "text") OWNER TO "postgres";
 
 
-CREATE OR REPLACE FUNCTION "public"."deduct_credits"("p_user_id" "uuid", "p_amount" numeric) RETURNS numeric
-    LANGUAGE "plpgsql"
-    AS $$
-DECLARE
-  v_prev numeric;
-  v_new numeric;
-BEGIN
-  IF p_amount <= 0 THEN
-    RAISE EXCEPTION 'Invalid amount %', p_amount USING ERRCODE = '22003';
-  END IF;
-
-  SELECT balance INTO v_prev FROM public.user_credits WHERE user_id = p_user_id FOR UPDATE;
-
-  IF v_prev IS NULL THEN
-    v_prev := 0;
-    INSERT INTO public.user_credits(user_id, balance, total_purchased, total_used)
-      VALUES (p_user_id, 0, 0, 0)
-      ON CONFLICT (user_id) DO NOTHING;
-  END IF;
-
-  IF v_prev < p_amount THEN
-    RAISE EXCEPTION 'Insufficient credits: have %, need %', v_prev, p_amount USING ERRCODE = 'PAYS0';
-  END IF;
-
-  UPDATE public.user_credits
-    SET balance = balance - p_amount,
-        total_used = total_used + p_amount,
-        updated_at = NOW()
-    WHERE user_id = p_user_id
-    RETURNING balance INTO v_new;
-
-  INSERT INTO public.user_credit_usages(user_id, amount, operation_type, metadata)
-    VALUES (p_user_id, p_amount, 'debit', jsonb_build_object('reason', 'pipeline_run'));
-
-  RETURN v_new;
-END;
-$$;
-
-
-ALTER FUNCTION "public"."deduct_credits"("p_user_id" "uuid", "p_amount" numeric) OWNER TO "postgres";
-
-
 CREATE OR REPLACE FUNCTION "public"."handle_new_user"() RETURNS "trigger"
     LANGUAGE "plpgsql" SECURITY DEFINER
     AS $$
@@ -187,9 +105,9 @@ BEGIN
   VALUES (NEW.id, NOW(), NOW())
   ON CONFLICT (id) DO NOTHING;
   
-  -- Initialize user credits with 0 balance
+  -- Initialize BTD holding storage through the V26 compatibility table.
   INSERT INTO public.user_credits (user_id, balance, created_at, updated_at)
-  VALUES (NEW.id, 0.00, NOW(), NOW()) -- Start with 0 credits
+  VALUES (NEW.id, 0.00, NOW(), NOW()) -- Start with no issued BTD holdings.
   ON CONFLICT (user_id) DO NOTHING;
   
   RETURN NEW;
@@ -484,7 +402,7 @@ CREATE TABLE IF NOT EXISTS "public"."deliverable_pipeline_runs" (
 ALTER TABLE "public"."deliverable_pipeline_runs" OWNER TO "postgres";
 
 
-COMMENT ON TABLE "public"."deliverable_pipeline_runs" IS 'Deliverable-specific extension of pipeline_runs';
+COMMENT ON TABLE "public"."deliverable_pipeline_runs" IS 'AssetPack storage-compatibility extension of pipeline_runs';
 
 
 
@@ -649,7 +567,7 @@ CREATE TABLE IF NOT EXISTS "public"."messages" (
 ALTER TABLE "public"."messages" OWNER TO "postgres";
 
 
-COMMENT ON TABLE "public"."messages" IS 'Messages within conversations, can reference deliverables/ai_documents that generated them';
+COMMENT ON TABLE "public"."messages" IS 'Messages within conversations, can reference AssetPack evidence and ai_documents that generated them';
 
 
 
@@ -1805,11 +1723,11 @@ CREATE POLICY "Users can view own conversations" ON "public"."conversations" FOR
 
 
 
-CREATE POLICY "Users can view own credit usage" ON "public"."user_credit_usages" FOR SELECT USING (("auth"."uid"() = "user_id"));
+CREATE POLICY "Users can view own BTD settlement history" ON "public"."user_credit_usages" FOR SELECT USING (("auth"."uid"() = "user_id"));
 
 
 
-CREATE POLICY "Users can view own credits" ON "public"."user_credits" FOR SELECT USING (("auth"."uid"() = "user_id"));
+CREATE POLICY "Users can view own BTD holdings" ON "public"."user_credits" FOR SELECT USING (("auth"."uid"() = "user_id"));
 
 
 
@@ -2375,12 +2293,6 @@ GRANT ALL ON FUNCTION "public"."vector"("public"."vector", integer, boolean) TO 
 
 
 
-GRANT ALL ON FUNCTION "public"."add_credits"("p_user_id" "uuid", "p_amount" numeric) TO "anon";
-GRANT ALL ON FUNCTION "public"."add_credits"("p_user_id" "uuid", "p_amount" numeric) TO "authenticated";
-GRANT ALL ON FUNCTION "public"."add_credits"("p_user_id" "uuid", "p_amount" numeric) TO "service_role";
-
-
-
 GRANT ALL ON FUNCTION "public"."binary_quantize"("public"."halfvec") TO "postgres";
 GRANT ALL ON FUNCTION "public"."binary_quantize"("public"."halfvec") TO "anon";
 GRANT ALL ON FUNCTION "public"."binary_quantize"("public"."halfvec") TO "authenticated";
@@ -2419,12 +2331,6 @@ GRANT ALL ON FUNCTION "public"."cosine_distance"("public"."vector", "public"."ve
 GRANT ALL ON FUNCTION "public"."cosine_distance"("public"."vector", "public"."vector") TO "anon";
 GRANT ALL ON FUNCTION "public"."cosine_distance"("public"."vector", "public"."vector") TO "authenticated";
 GRANT ALL ON FUNCTION "public"."cosine_distance"("public"."vector", "public"."vector") TO "service_role";
-
-
-
-GRANT ALL ON FUNCTION "public"."deduct_credits"("p_user_id" "uuid", "p_amount" numeric) TO "anon";
-GRANT ALL ON FUNCTION "public"."deduct_credits"("p_user_id" "uuid", "p_amount" numeric) TO "authenticated";
-GRANT ALL ON FUNCTION "public"."deduct_credits"("p_user_id" "uuid", "p_amount" numeric) TO "service_role";
 
 
 
@@ -3275,4 +3181,3 @@ RESET ALL;
 --
 
 CREATE OR REPLACE TRIGGER "on_auth_user_created" AFTER INSERT ON "auth"."users" FOR EACH ROW EXECUTE FUNCTION "public"."handle_new_user"();
-

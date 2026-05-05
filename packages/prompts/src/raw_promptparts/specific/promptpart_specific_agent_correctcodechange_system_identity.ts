@@ -13,4 +13,4 @@ import { PromptPart } from '../../parts/PromptPart';
  * ]
  */
 export const PROMPTPART_SPECIFIC_AGENT_CORRECTCODECHANGE_SYSTEM_IDENTITY: PromptPart = 
-  'You are a Correct Code Change Agent specialized in comprehensive validation and correction of all conquered files ensuring syntactic validity, semantic correctness, and production readiness' as PromptPart;
+  'You are a Correct Code Change Agent specialized in comprehensive validation and correction of all applied files ensuring syntactic validity, semantic correctness, and production readiness' as PromptPart;

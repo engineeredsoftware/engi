@@ -33,7 +33,7 @@ export interface BusinessMetrics {
   totalProposals: number;
   acceptedProposals: number;
   averageCompletionTime: number;
-  totalCreditsTransferred: number;
+  totalBtdSettled: number;
   averageQualityScore: number;
   topContributors: Array<{
     userId: string;
@@ -128,7 +128,7 @@ export class ProcurementMonitoring {
    * Record business event metrics
    */
   static recordBusinessEvent(
-    eventType: 'request_created' | 'proposal_submitted' | 'proposal_accepted' | 'project_completed' | 'credit_payout',
+    eventType: 'request_created' | 'proposal_submitted' | 'proposal_accepted' | 'project_completed' | 'btd_share_settlement',
     metadata: Record<string, any> = {}
   ): void {
     this.recordMetric(`business.${eventType}`, 1, 'count', {
@@ -174,7 +174,7 @@ export class ProcurementMonitoring {
         totalProposals: proposalStats?.[0]?.total_proposals || 0,
         acceptedProposals: proposalStats?.[0]?.accepted_proposals || 0,
         averageCompletionTime: completionStats?.[0]?.avg_completion_hours || 0,
-        totalCreditsTransferred: completionStats?.[0]?.total_credits_paid || 0,
+        totalBtdSettled: completionStats?.[0]?.total_btd_settled ?? 0,
         averageQualityScore: completionStats?.[0]?.avg_quality_score || 0,
         topContributors: topContributors || []
       };
@@ -199,7 +199,7 @@ export class ProcurementMonitoring {
         totalProposals: 0,
         acceptedProposals: 0,
         averageCompletionTime: 0,
-        totalCreditsTransferred: 0,
+        totalBtdSettled: 0,
         averageQualityScore: 0,
         topContributors: []
       };

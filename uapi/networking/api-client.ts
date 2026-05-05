@@ -249,7 +249,6 @@ export const notifyBtdTransfer = async (
     }),
   }); if (!res.ok) throw new Error('Notification btd-transfer failed');
 };
-export const notifyCreditTransfer = notifyBtdTransfer;
 export const notifyNewsletter = async (
   params: { email: string; name?: string; subject: string; headline: string; body: string; buttonText?: string; buttonUrl?: string; unsubscribeUrl?: string; }
 ): Promise<void> => {
@@ -266,7 +265,6 @@ export const notifyLowBtdReminder = async (
     body: JSON.stringify(params),
   }); if (!res.ok) throw new Error('Notification low-btd-reminder failed');
 };
-export const notifyLowCreditsReminder = notifyLowBtdReminder;
 export const notifyOutOfBtd = async (
   params: { email: string; name?: string; purchaseUrl?: string; }
 ): Promise<void> => {
@@ -275,4 +273,3 @@ export const notifyOutOfBtd = async (
     body: JSON.stringify(params),
   }); if (!res.ok) throw new Error('Notification out-of-btd failed');
 };
-export const notifyOutOfCredits = notifyOutOfBtd;

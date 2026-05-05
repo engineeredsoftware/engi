@@ -284,7 +284,7 @@ export const PipelineFailureError: Story = {
         progress: 65,
         phase: 'Implementation',
         measuredBtdEstimate: 80,
-        usedCredits: 52,
+        measuredBtd: 52,
         startedAt: '2024-01-15T09:01:00Z',
         failedAt: '2024-01-15T09:30:00Z',
         error: {
@@ -447,7 +447,7 @@ export const RecoveryScenario: Story = {
         progress: 40,
         phase: 'Implementation',
         measuredBtdEstimate: 100,
-        usedCredits: 40,
+        measuredBtd: 40,
         startedAt: '2024-01-15T13:01:00Z',
         retryCount: 1,
         events: [

@@ -485,13 +485,13 @@ class ComprehensiveMockDataGenerator {
             }
         };
     }
-    generateUserCredits() {
+    generateUserBtdHoldings() {
         return {
             user_id: 'user_' + this.generateId(),
             balance: 847,
-            total_purchased: 2500,
-            total_used: 1653,
-            last_purchase: this.generateTimestamp(-30),
+            total_acquired: 2500,
+            total_measured: 1653,
+            last_acquisition: this.generateTimestamp(-30),
             usage_this_month: 234,
             plan_btd_included: 500,
             bonus_btd: 47,
@@ -503,10 +503,10 @@ class ComprehensiveMockDataGenerator {
         return [
             {
                 id: 'txn_' + this.generateId(),
-                type: 'purchase',
+                type: 'exchange_acquisition_preview',
                 amount: 500,
-                cost: '$49.99',
-                description: 'Credit purchase - Pro plan',
+                btc_fee_reference: '0.00075 BTC',
+                description: 'BTD acquisition - Exchange preview',
                 created_at: this.generateTimestamp(-30),
                 status: 'completed'
             },
@@ -550,7 +550,7 @@ class ComprehensiveMockDataGenerator {
                     tech_contact: 'tech@bitcode.dev',
                     allow_public_repos: true,
                     require_2fa: true,
-                    credit_limit: 10000
+                    btd_read_limit: 10000
                 },
                 subscription: {
                     plan: 'enterprise',

@@ -82,7 +82,7 @@ print("\n✅ Final documentation structure will be:")
 print("  - README.md (main entry point)")
 print("  - DEVELOPING.md (comprehensive guide)")
 print("  - TEAM_MANAGEMENT.md (team features)")
-print("  - CREDITS_AND_PAYMENTS.md (payment system)")
+print("  - BTD_AND_BTC_SETTLEMENT.md (wallet and BTD settlement system)")
 print("  - ELI5.md (simple guide)")
 print("  - UI_FEATURES.md (to be created from EMERALD_DREAM.md)")
 

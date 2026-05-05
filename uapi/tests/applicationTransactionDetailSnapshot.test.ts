@@ -130,7 +130,7 @@ describe('application-transaction-detail-snapshot helpers', () => {
           items: [{ id: '1' }, { id: '2' }],
           output: {
             asset_pack_completion: {
-              summary: 'Final work summary.',
+              summary: 'AssetPack completion summary.',
               bitcodeActivityState: {
                 repositoryAnchor: {
                   provider: 'github',

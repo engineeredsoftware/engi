@@ -31,7 +31,12 @@ function normalizeDelta(row: UsageRow) {
 
   const amount = parseNumeric(row.amount);
   const operationType = String(row.operation_type || '').toLowerCase();
-  return operationType.includes('purchase') || operationType.includes('grant') || operationType.includes('credit')
+  return operationType.includes('purchase') ||
+    operationType.includes('grant') ||
+    operationType.includes('mint') ||
+    operationType.includes('btd') ||
+    operationType.includes('share') ||
+    operationType.includes('settlement')
     ? Math.abs(amount)
     : -Math.abs(amount);
 }

@@ -96,9 +96,9 @@ describe('GET /api/auxillaries/data', () => {
       select: jest.fn().mockReturnThis(), eq: jest.fn().mockReturnThis(), maybeSingle: jest.fn().mockResolvedValue({ data: { connection_data: connectionData }, error: null })
     };
     // Mock BTD balance
-    const creditsData = { balance: 50 };
-    const creditsBuilder: any = {
-      select: jest.fn().mockReturnThis(), eq: jest.fn().mockReturnThis(), maybeSingle: jest.fn().mockResolvedValue({ data: creditsData, error: null })
+    const btdData = { balance: 50 };
+    const btdBuilder: any = {
+      select: jest.fn().mockReturnThis(), eq: jest.fn().mockReturnThis(), maybeSingle: jest.fn().mockResolvedValue({ data: btdData, error: null })
     };
     // Mock model preferences
     const prefData = { preferences: { model: 'gpt' } };
@@ -136,7 +136,7 @@ describe('GET /api/auxillaries/data', () => {
     mockFrom.mockImplementation((table: string) => {
       if (table === 'user_profiles') return profileBuilder;
       if (table === 'user_connections') return connectionBuilder;
-      if (table === 'user_credits') return creditsBuilder;
+      if (table === 'user_credits') return btdBuilder;
       if (table === 'user_model_preferences') return prefBuilder;
       throw new Error('Unexpected table ' + table);
     });

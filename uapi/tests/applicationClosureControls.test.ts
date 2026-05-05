@@ -63,7 +63,7 @@ describe('normalizeApplicationClosureControlState', () => {
             { label: 'Credited assets', value: '2' },
             { label: 'Participating assets', value: '3' },
             { label: 'Debit lines', value: '2' },
-            { label: 'Credit lines', value: '4' },
+            { label: 'Settlement lines', value: '4' },
           ],
           rows: [
             { label: 'Bundle', value: 'bundle-001' },

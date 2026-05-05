@@ -483,7 +483,7 @@ export default function Nav() {
               publicGuestActions
             ) : user ? (
               <div className={`${controlsEntranceClassName} flex items-center space-x-3.5`}>
-                {!FEATURE_FLAGS.HIDE_CREDITS_TRACKER && (
+                {!FEATURE_FLAGS.HIDE_BTD_TRACKER && (
                   <MemoBTDTracker
                     btdBalance={btdBalance}
                     btcFeeBalance={btcFeeBalance}

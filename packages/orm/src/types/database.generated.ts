@@ -1281,15 +1281,6 @@ export type Database = {
         Args: { user_email: string }
         Returns: string
       }
-      grant_user_credits: {
-        Args: {
-          credit_amount?: number
-          credit_description?: string
-          credit_source?: string
-          user_email: string
-        }
-        Returns: string
-      }
       halfvec_avg: {
         Args: { "": number[] }
         Returns: unknown

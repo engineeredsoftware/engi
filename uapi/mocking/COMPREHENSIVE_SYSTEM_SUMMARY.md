@@ -133,7 +133,7 @@
 - `MARKETPLACE_TICKER` - Market data
 - `MARKETPLACE_CATEGORIES` - Category management
 
-**Payment & Credits System (5 Features)**
+**Wallet & BTD System (5 Features)**
 - `BTC_SETTLEMENTS` - Wallet-settled BTC observations
 - `BTD_ISSUANCES` - `$BTD` issuance events
 - `WALLET_OBSERVATIONS` - Wallet/network observation events

@@ -90,7 +90,7 @@ type ClosureSurfaceSnapshot = {
     creditedAssetCount?: number | null;
     participatingAssetCount?: number | null;
     debitCount?: number | null;
-    creditCount?: number | null;
+    settlementEntryCount?: number | null;
     proofFamilyCount?: number | null;
     proofFamilies?: ClosureProofFamilySnapshot[] | null;
     protocolFocus?: string | null;

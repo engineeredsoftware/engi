@@ -78,7 +78,6 @@ export interface FirecrawlJobStatus {
   status: 'pending' | 'in_progress' | 'completed' | 'failed' | 'cancelled';
   total?: number;
   completed?: number;
-  creditsUsed?: number;
   expiresAt?: string;
   data?: FirecrawlPageData[];
   partial_data?: FirecrawlPageData[];
@@ -129,7 +128,6 @@ export interface FirecrawlCrawlResponse {
   data?: FirecrawlPageData[];
   error?: string;
   total?: number;
-  creditsUsed?: number;
 }
 
 export interface FirecrawlBatchResponse {
@@ -138,7 +136,6 @@ export interface FirecrawlBatchResponse {
   data?: FirecrawlPageData[];
   error?: string;
   total?: number;
-  creditsUsed?: number;
 }
 
 export interface FirecrawlSearchResponse {
@@ -146,7 +143,6 @@ export interface FirecrawlSearchResponse {
   data?: FirecrawlPageData[];
   error?: string;
   total?: number;
-  creditsUsed?: number;
 }
 
 export interface FirecrawlMapResponse {
@@ -156,7 +152,6 @@ export interface FirecrawlMapResponse {
     metadata?: Record<string, any>;
   };
   error?: string;
-  creditsUsed?: number;
 }
 
 // ---------------------------------------------------------------------------
@@ -270,8 +265,7 @@ export class FirecrawlClient {
         success: result.success,
         duration,
         totalPages: result.total || 0,
-        pagesReturned: result.data?.length || 0,
-        creditsUsed: result.creditsUsed
+        pagesReturned: result.data?.length || 0
       });
 
       return result;
@@ -436,8 +430,7 @@ export class FirecrawlClient {
         urlCount: urls.length,
         success: result.success,
         duration,
-        pagesReturned: result.data?.length || 0,
-        creditsUsed: result.creditsUsed
+        pagesReturned: result.data?.length || 0
       });
 
       return result;
@@ -536,8 +529,7 @@ export class FirecrawlClient {
         url,
         success: result.success,
         duration,
-        urlsFound: result.data?.urls?.length || 0,
-        creditsUsed: result.creditsUsed
+        urlsFound: result.data?.urls?.length || 0
       });
 
       return result;
@@ -585,8 +577,7 @@ export class FirecrawlClient {
         query,
         success: result.success,
         duration,
-        resultsFound: result.data?.length || 0,
-        creditsUsed: result.creditsUsed
+        resultsFound: result.data?.length || 0
       });
 
       return result;

@@ -35,7 +35,7 @@ const profileDefinitions = /** @type {Record<RealizationProfileId, RealizationPr
     depositMode: 'Deposit one or a few decisive repo-authenticated artifacts so the asset pack can stay tight.',
     needMode: 'Need is sharply bounded by a narrow benchmark slice with a short list of failure modes and clear closure criteria.',
     assetPackShape: 'Tight pack with minimal normalization and quick branch closure.',
-    settlementShape: 'Credits concentrate on the decisive assets; zero-credit passengers should be rare and explicit.',
+    settlementShape: 'Positive settlement entries concentrate on the decisive assets; zero-credit participants should be rare and explicit.',
     scenarioFamilies: Object.freeze([
       'monorepo-auth-rollback',
       'proof-heavy-rust-validator',

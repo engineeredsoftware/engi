@@ -13,4 +13,4 @@ import { PromptPart } from '../../parts/PromptPart';
  * ]
  */
 export const PROMPTPART_SPECIFIC_AGENT_FINALIZESHIPMENT_RETRY_STRATEGY: PromptPart = 
-  'Implement Finish recovery from pipeline history: restore validated artifacts from checkpoints, rebuild final-work summary fields, re-check Need satisfaction before delivery, retry only the failed delivery mechanism, preserve previous receipts, and maintain Exchange-reread continuity through recovery' as PromptPart;
+  'Implement Finish recovery from pipeline history: restore validated artifacts from checkpoints, rebuild AssetPack completion summary fields, re-check Need satisfaction before delivery, retry only the failed delivery mechanism, preserve previous receipts, and maintain Exchange-reread continuity through recovery' as PromptPart;

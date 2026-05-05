@@ -736,6 +736,10 @@ export const POST = traceRoute('/executions', async (request: NextRequest) => {
           template: 'asset_pack_started',
           vars: {
             name: user.user_metadata?.full_name || '',
+            Name: definition_of_need.trim().slice(0, 120) || 'AssetPack run',
+            Description: `${repoOwner}/${repoName}@${repoBranch}`,
+            MeasuredBtdEstimate: 'pending need measurement',
+            BtcFeeHold: `$${btcFeeUsdEquivalent} BTC fee basis`,
             runId,
             runUrl: `${origin}/runs/${runId}`,
             BitcodeURL: `${origin}/runs/${runId}`,
@@ -1289,6 +1293,33 @@ export const POST = traceRoute('/executions', async (request: NextRequest) => {
             preprocessedSnapshot?.writtenAssetType ||
             writtenAssetType ||
             null;
+          const completionWrittenAssets =
+            assetPackCompletion?.writtenAssets ||
+            assetPackCompletion?.assetPackSynthesisArtifacts ||
+            assetPackCompletion?.shippables ||
+            null;
+          const completionFileChanges = completionWrittenAssets?.fileChanges || null;
+          const completionFilesChanged = Array.isArray(completionFileChanges?.paths)
+            ? completionFileChanges.paths.length
+            : typeof completionFileChanges?.edited === 'number' ||
+                typeof completionFileChanges?.created === 'number' ||
+                typeof completionFileChanges?.deleted === 'number'
+              ? (completionFileChanges.edited || 0) +
+                (completionFileChanges.created || 0) +
+                (completionFileChanges.deleted || 0)
+              : 'pending';
+          const completionMeasuredBtd =
+            typeof assetPackCompletion?.processingStats?.measuredBtd === 'number'
+              ? assetPackCompletion.processingStats.measuredBtd
+              : 'pending final measurement';
+          const completionSummary =
+            assetPackCompletion?.summary ||
+            completionWrittenAssets?.summary ||
+            `${completionWrittenAssetType || 'AssetPack'} completed for ${repoOwner}/${repoName}`;
+          const completionDeliveryMechanism =
+            completionWrittenAssets?.pullRequest?.url || completionAssetPack?.deliveryTarget === 'pr'
+              ? 'Pull request'
+              : 'AssetPack record';
 
           await orm.notifications.create({
             user_id: user.id,
@@ -1312,6 +1343,11 @@ export const POST = traceRoute('/executions', async (request: NextRequest) => {
             template: 'asset_pack_complete',
             vars: {
               name: user.user_metadata?.full_name || '',
+              Name: String(completionNeed || 'AssetPack run').slice(0, 120),
+              Description: completionSummary,
+              MeasuredBtd: completionMeasuredBtd,
+              FilesChanged: completionFilesChanged,
+              DeliveryMechanism: completionDeliveryMechanism,
               runId,
               runUrl: `${origin}/executions/${runId}`,
               BitcodeURL: `${origin}/executions/${runId}`,

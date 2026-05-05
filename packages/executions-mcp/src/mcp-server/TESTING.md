@@ -163,7 +163,7 @@ Every test includes customer impact metrics:
 1. **Startup Developer Building MVP**: E-commerce checkout with 80% time-to-market acceleration
 2. **Enterprise Team Lead Upgrading**: Legacy system migration with 95% risk reduction
 3. **Mobile Developer**: Real-time chat feature 3x faster delivery
-4. **Freelancer with Limited Credits**: Cost-effective development validation
+4. **Freelancer with Limited BTC Fee Liquidity**: Cost-effective development validation
 5. **Security Team Audit**: 95% automated vulnerability identification
 
 ## Advanced Features

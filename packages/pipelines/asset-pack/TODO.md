@@ -5,7 +5,7 @@
 - [ ] Complete integration tests with Bitcode execution contexts
 - [ ] Add performance benchmarks for full pipeline execution
 - [ ] Implement progress streaming for real-time updates
-- [ ] Add credit usage tracking and estimation
+- [ ] Add BTC fee readiness and measured `$BTD` estimation
 
 ## Short Term (v1.1)
 

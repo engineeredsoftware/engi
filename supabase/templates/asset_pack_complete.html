@@ -123,9 +123,9 @@
                 <h2 style="margin: 0 0 8px; font-size: 18px; font-weight: 600; color: #1a1a1a;">{{ index .Data "Name" }}</h2>
                 <p style="margin: 0 0 16px; color: #4a4a4a;">{{ index .Data "Description" }}</p>
                 <div class="meta">
-                  <div style="margin: 4px 0;">Estimated $BTD: <strong style="color: #1a1a1a;">{{ index .Data "Credits" }}</strong></div>
-                  <div style="margin: 4px 0;">Lines: <strong style="color: #1a1a1a;">{{ index .Data "LinesAdded" }}+</strong> / {{ index .Data "LinesDeleted" }}-</div>
-                  <div style="margin: 4px 0;">Assets: <strong style="color: #1a1a1a;">{{ index .Data "Assets" }}</strong></div>
+                  <div style="margin: 4px 0;">Measured $BTD: <strong style="color: #1a1a1a;">{{ index .Data "MeasuredBtd" }}</strong></div>
+                  <div style="margin: 4px 0;">Files changed: <strong style="color: #1a1a1a;">{{ index .Data "FilesChanged" }}</strong></div>
+                  <div style="margin: 4px 0;">Delivery: <strong style="color: #1a1a1a;">{{ index .Data "DeliveryMechanism" }}</strong></div>
                 </div>
               </div>
 

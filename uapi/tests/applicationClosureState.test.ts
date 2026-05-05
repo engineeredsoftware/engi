@@ -60,7 +60,7 @@ describe('normalizeApplicationClosureState', () => {
           creditedAssetCount: 2,
           participatingAssetCount: 3,
           debitCount: 2,
-          creditCount: 4,
+          settlementEntryCount: 4,
           proofFamilyCount: 4,
           settlementIntentSummary: 'Settlement closes the fit with replayable accounting.',
           protocolFocus: 'source-to-shares',

@@ -565,7 +565,7 @@ function generateOrganizationRecommendations(metrics: any): any[] {
       actions: [
         'Review prompt optimization strategies',
         'Train team on efficient pipeline usage',
-        'Implement $BTD budgets and monitoring'
+        'Implement measured $BTD holding-read monitoring'
       ],
       impact: 'medium',
       effort: 'low'
@@ -614,7 +614,7 @@ async function getTeamMembers(organizationId: string, context: MCPAuthContext): 
           email: profile?.email || '',
           avatar: profile?.avatar_url,
           role: member.role,
-          btcFeeBudget: member.credit_budget,
+          btcFeeBudget: member.btc_fee_budget,
           isActive: member.is_active,
           joinedAt: member.joined_at,
           recentActivity: {

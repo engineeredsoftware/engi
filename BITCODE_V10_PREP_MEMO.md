@@ -132,7 +132,7 @@ Profile A MUST NOT:
 
 Therefore V10 should make the live boundary explicit while still improving the local canonical surfaces substantially.
 
-## Deliverables for this pass
+## Artifacts for this pass
 
 Required outputs:
 

@@ -84,7 +84,7 @@ __bitcodeMockSystem.clearCache()
 - **GitHub:** Multiple repos with branches, commits, issues
 - **Organizations:** Teams with multiple members and roles
 - **Marketplace:** Featured listings and order history
-- **Credits:** Realistic transaction history and usage patterns
+- **BTD holdings:** Realistic BTD holding and settlement history
 
 ## 🆘 Need Help?
 

@@ -83,7 +83,7 @@ class MockDataGeneratorEngine {
         this.generators.set('PIPELINE_LOGS', new PipelineLogGenerator());
         // User data generators
         this.generators.set('USER_PROFILE', new UserProfileGenerator());
-        this.generators.set('USER_BTD', new UserCreditsGenerator());
+        this.generators.set('USER_BTD', new UserBtdHoldingsGenerator());
         this.generators.set('USER_NOTIFICATIONS', new UserNotificationGenerator());
         this.generators.set('USER_CONNECTIONS', new UserConnectionGenerator());
         // Template generators
@@ -500,10 +500,10 @@ class GitHubFileGenerator extends BaseDataGenerator {
         return files.slice(0, this.getItemCount(context, config));
     }
 }
-class UserCreditsGenerator extends BaseDataGenerator {
+class UserBtdHoldingsGenerator extends BaseDataGenerator {
     async generate(context, config) {
         const complexity = context.complexity;
-        const baseCredits = {
+        const baseBtdHoldings = {
             'minimal': 100,
             'moderate': 500,
             'complex': 1000,
@@ -511,8 +511,8 @@ class UserCreditsGenerator extends BaseDataGenerator {
             'stress': 10000
         };
         return {
-            btdBalance: baseCredits[complexity] || 500,
-            usage_this_month: Math.floor(Math.random() * 200),
+            btdBalance: baseBtdHoldings[complexity] || 500,
+            measured_this_month: Math.floor(Math.random() * 200),
             lastAcquisition: this.generateRealisticTimestamp(30)
         };
     }

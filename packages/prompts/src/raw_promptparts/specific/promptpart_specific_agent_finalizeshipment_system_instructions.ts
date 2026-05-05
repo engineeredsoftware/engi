@@ -13,4 +13,4 @@ import { PromptPart } from '../../parts/PromptPart';
  * ]
  */
 export const PROMPTPART_SPECIFIC_AGENT_FINALIZESHIPMENT_SYSTEM_INSTRUCTIONS: PromptPart = 
-  'Execute Finish with complete pipeline context: verify Need satisfaction, store AssetPack evidence and proof receipts, write the final work summary, prepare only requested Shippables, deliver them through the chosen delivery mechanism, record destination evidence, and keep compatibility mirrors subordinate to canonical AssetPack and Shippable fields' as PromptPart;
+  'Execute Finish with complete pipeline context: verify Need satisfaction, store AssetPack evidence and proof receipts, write the AssetPack completion summary, prepare only requested Shippables, deliver them through the chosen delivery mechanism, record destination evidence, and keep compatibility mirrors subordinate to canonical AssetPack and Shippable fields' as PromptPart;

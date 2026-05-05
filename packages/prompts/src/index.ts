@@ -134,17 +134,17 @@ export { PROMPTPART_GENERIC_AGENT_GENERATION_REASON } from './raw_promptparts/ge
 export { PROMPTPART_GENERIC_AGENT_GENERATION_JUDGE } from './raw_promptparts/generic/promptpart_generic_agent_generation_judge';
 export { PROMPTPART_GENERIC_AGENT_GENERATION_STRUCTURED_OUTPUT } from './raw_promptparts/generic/promptpart_generic_agent_generation_structured_output';
 
-// Specific: ConquerFile agent
-export { PROMPTPART_SPECIFIC_AGENT_CONQUERFILE_SYSTEM_IDENTITY } from './raw_promptparts/specific/promptpart_specific_agent_conquerfile_system_identity';
-export { PROMPTPART_SPECIFIC_AGENT_CONQUERFILE_SYSTEM_ROLE } from './raw_promptparts/specific/promptpart_specific_agent_conquerfile_system_role';
-export { PROMPTPART_SPECIFIC_AGENT_CONQUERFILE_SYSTEM_INSTRUCTIONS } from './raw_promptparts/specific/promptpart_specific_agent_conquerfile_system_instructions';
-export { PROMPTPART_SPECIFIC_AGENT_CONQUERFILE_PLAN_STRATEGY } from './raw_promptparts/specific/promptpart_specific_agent_conquerfile_plan_strategy';
-export { PROMPTPART_SPECIFIC_AGENT_CONQUERFILE_PLAN_ANALYSIS } from './raw_promptparts/specific/promptpart_specific_agent_conquerfile_plan_analysis';
-export { PROMPTPART_SPECIFIC_AGENT_CONQUERFILE_TRY_DIRECTIVES } from './raw_promptparts/specific/promptpart_specific_agent_conquerfile_try_directives';
-export { PROMPTPART_SPECIFIC_AGENT_CONQUERFILE_REFINE_OPTIMIZATION } from './raw_promptparts/specific/promptpart_specific_agent_conquerfile_refine_optimization';
-export { PROMPTPART_SPECIFIC_AGENT_CONQUERFILE_REFINE_ASSESSMENT } from './raw_promptparts/specific/promptpart_specific_agent_conquerfile_refine_assessment';
-export { PROMPTPART_SPECIFIC_AGENT_CONQUERFILE_RETRY_STRATEGY } from './raw_promptparts/specific/promptpart_specific_agent_conquerfile_retry_strategy';
-export { PROMPTPART_SPECIFIC_AGENT_CONQUERFILE_RETRY_ERRORHANDLING } from './raw_promptparts/specific/promptpart_specific_agent_conquerfile_retry_errorhandling';
+// Specific: ApplyFile agent
+export { PROMPTPART_SPECIFIC_AGENT_APPLYFILE_SYSTEM_IDENTITY } from './raw_promptparts/specific/promptpart_specific_agent_applyfile_system_identity';
+export { PROMPTPART_SPECIFIC_AGENT_APPLYFILE_SYSTEM_ROLE } from './raw_promptparts/specific/promptpart_specific_agent_applyfile_system_role';
+export { PROMPTPART_SPECIFIC_AGENT_APPLYFILE_SYSTEM_INSTRUCTIONS } from './raw_promptparts/specific/promptpart_specific_agent_applyfile_system_instructions';
+export { PROMPTPART_SPECIFIC_AGENT_APPLYFILE_PLAN_STRATEGY } from './raw_promptparts/specific/promptpart_specific_agent_applyfile_plan_strategy';
+export { PROMPTPART_SPECIFIC_AGENT_APPLYFILE_PLAN_ANALYSIS } from './raw_promptparts/specific/promptpart_specific_agent_applyfile_plan_analysis';
+export { PROMPTPART_SPECIFIC_AGENT_APPLYFILE_TRY_DIRECTIVES } from './raw_promptparts/specific/promptpart_specific_agent_applyfile_try_directives';
+export { PROMPTPART_SPECIFIC_AGENT_APPLYFILE_REFINE_OPTIMIZATION } from './raw_promptparts/specific/promptpart_specific_agent_applyfile_refine_optimization';
+export { PROMPTPART_SPECIFIC_AGENT_APPLYFILE_REFINE_ASSESSMENT } from './raw_promptparts/specific/promptpart_specific_agent_applyfile_refine_assessment';
+export { PROMPTPART_SPECIFIC_AGENT_APPLYFILE_RETRY_STRATEGY } from './raw_promptparts/specific/promptpart_specific_agent_applyfile_retry_strategy';
+export { PROMPTPART_SPECIFIC_AGENT_APPLYFILE_RETRY_ERRORHANDLING } from './raw_promptparts/specific/promptpart_specific_agent_applyfile_retry_errorhandling';
 
 // AssetPack Tool PromptParts (Repository Setup additions)
 export { PROMPTPART_SPECIFIC_TOOL_REPOSITORYSETUP_ASSETPACK_METADATA_PIPELINE } from './raw_promptparts/specific/promptpart_specific_tool_repositorysetup_assetpack_metadata_pipeline';

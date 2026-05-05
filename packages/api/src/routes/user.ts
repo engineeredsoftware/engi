@@ -159,7 +159,7 @@ export const getBtdBalance = traceRoute('/user/btd', async (request: NextRequest
 /**
  * POST /api/user/btd
  * Closed in V26: $BTD is a non-fungible asset-pack share/read-right, not an
- * admin-mutable credit bucket. Acquisition must flow through Terminal Need
+ * admin-mutable spend bucket. Acquisition must flow through Terminal Need
  * minting or Exchange purchase surfaces.
  */
 export const rejectBtdBalanceMutation = traceRoute('/user/btd', async (_request: NextRequest) => {

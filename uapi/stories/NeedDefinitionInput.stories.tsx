@@ -19,7 +19,7 @@ The core creative interface transformed into an intelligent, pattern-recognizing
 - **Intelligence enhancement** - Context-aware suggestions based on patterns and repository
 - **Pattern celebration** - ✨ Golden celebration when AI achieves pattern mastery
 - **Learning insights** - Shows how AI is learning from your patterns over time
-- **Cost estimation** - Real-time credit and time predictions based on complexity
+- **Measurement estimation** - Real-time measured $BTD and time predictions based on complexity
 - **Repository awareness** - Adapts suggestions to your tech stack and architecture
 
 The intelligence layer builds as you type, providing increasingly sophisticated assistance.

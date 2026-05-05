@@ -704,7 +704,7 @@ export class ProcurementMatchingEngine {
       availability: profile.availability,
       preferredProjectTypes: profile.preferred_project_types || [],
       bio: profile.bio,
-      totalEarnedCredits: profile.total_earned_credits || 0,
+      totalBtdSettled: profile.total_btd_settled ?? 0,
       completedProjects: profile.completed_projects || 0,
       averageRating: profile.average_rating || 0
     }));

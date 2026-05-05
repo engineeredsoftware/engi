@@ -1,94 +1,78 @@
 # Bitcode V26 Product Guide
 
-This document is the source-of-truth description of the shipping Bitcode V26 experience. Every section maps directly to code in this repository; keep it synchronized whenever source changes.
+This document is a current, non-canonical operator guide for the shipping V26 repository. Canonical truth remains `BITCODE_SPEC.txt` -> `BITCODE_SPEC_V26.md`; this file must not introduce product concepts that are absent from the V26 spec family.
 
-## Experience Gates
+## Product Shape
 
-- Guided execution routes tasks through Design → Develop → Digest using `createGuidedPipelineExecution` (`packages/pipelines/deliverable/src/index.ts:115`).
-- Phase handlers live alongside the pipeline: `phases/design.ts`, `phases/index.ts` (Develop SDIVS loop), and `phases/digest.ts`.
-- The current gate is stored in the execution store (`execution.store('guide', ...)`) and exposed to clients through the SSE stream (`uapi/streaming/stream-parser.ts:35` and `uapi/app/executions/components/ExecutionsPageHeader.tsx`).
+Bitcode V26 is the first commercial promotion of the source-to-shares system:
 
-### Gate Responsibilities
-- **Design**: contextual analysis, attachment digestion, deliverable classification (`packages/pipelines/deliverable/src/phases/design.ts`).
-- **Develop**: SDIVS pipeline with PTRR agents, iteration cap 3 (`packages/pipelines/deliverable/src/index.ts:86-106`).
-- **Digest**: captures work updates, prepares `.ai` diff proposals, and ensures learnings are persisted (`packages/pipelines/deliverable/src/phases/digest.ts`).
+- `protocol-demonstration/` is the deterministic protocol witness and proof substrate.
+- `uapi/app/application/*` is the Bitcode Terminal route for give, need, review, fit, settlement, and reread.
+- `packages/api/*`, `uapi/app/api/*`, `packages/orm/*`, and Supabase schemas carry Bitcode Exchange state.
+- `packages/pipelines/asset-pack/*` carries Need-satisfaction AssetPack synthesis and Finish delivery.
+- MCP, ChatGPT App, GitHub/VCS, webhooks, and other connections are admitted interfaces, not separate product owners.
 
-## Deliverables Pipeline (Develop Gate)
+## Terminal
 
-The Develop gate is the only gate that mutates customer repositories. It is composed of SDIVS phases that delegate to execution-generics patterns (`packages/pipelines/deliverable/src/phases/index.ts`).
+The Terminal centers one activity ledger and three operator experiences:
 
-### Setup
-- Uses the phase runner declared in `deliverablesPipelineSetupPhaseExecutor` to clone the repository, normalize workspace metadata, and enforce the danger wall before continuing (`setup.ts`).
-- Short-circuit signals issued here propagate to credit refunds (`packages/execution-generics/src/signals/ShortCircuitSignal.ts`).
+- master-detail Bitcode activity under `/application`,
+- conversations as rich-input ingress and fullscreen continuation,
+- auxillaries for Profile, Connects, Interfaces, and `$BTD`.
 
-### Discovery
-- Sequential executor running five research agents (`packages/pipelines/deliverable/src/phases/index.ts:37-47`):
-  - `gather-context`, `understand-requirements`, `research-approach`, `plan-implementation`, `assess-complexity`.
-- Outputs validation criteria consumed later by implementation/validation agents.
+Activity compatibility page lives under `/executions`.
+Transactions write-space lives under `/application`.
+Auxillaries live under `/auxillaries/*`.
+Shared execution update carrier: `uapi/components/base/bitcode/execution/WorkUpdatePanel.tsx`.
 
-### Implementation
-- Determines deliverable type via execution store and selects the correct agent sequence (`packages/pipelines/deliverable/src/phases/index.ts:60-101`).
-- **Code Change**: Divide → parallel Conquer per file → Correct (`implementation:deliverable-pipeline-*` agents).
-- **Code Change Review / Design Document / Design Review**: single PTRR agent per type.
-- File level work emits structured results consumed by validators and shipping agents.
+The main operator actions are `give` and `need`. Repository choice, Need review, fit review, transaction readiness, proof follow-through, and closure rereads must all resolve through Bitcode-owned state rather than shell-only side effects.
 
-### Validation
-- Parallel validators write issues into `validation/*` stores before the `ready-to-instruct` + `waitIfNeeded` + `ready-to-ship` chain (`packages/pipelines/deliverable/src/phases/index.ts:122-167`).
-- Self-instruction confidence is stored for Digest and UI timers.
+## Exchange
 
-### Shipping
-- Always two steps: ship deliverable (VCS interaction) then produce final work summary (`packages/pipelines/deliverable/src/phases/index.ts:172-183`).
-- Uses VCS gated tools so only Develop gate can write to repositories.
+The Exchange stores and rereads:
 
-### Postprocess & Iterations
-- `factoryIterationPreprocess` loads on-the-fly instructions and attachments per iteration (`packages/pipelines/deliverable/src/index.ts:28-63`).
-- `factoryPostprocess` captures normalized output + artifacts for UI (`packages/pipelines/deliverable/src/index.ts:66-83`).
+- source/provider connections and repository scope,
+- conversations, attachments, and normalized rich input,
+- execution rows, events, phases, and activity history,
+- Need review and fit-quality receipts,
+- AssetPack synthesis artifacts, written assets, Shippables, and delivery-mechanism evidence,
+- settlement, proof, and operational telemetry.
 
-## Streaming & Work Surfaces
+Some storage table or column names still preserve compatibility vocabulary. Product language must read those rows as AssetPack evidence, Bitcode activity, BTD holding reads, or bounded storage carriers.
 
-- `enablePipelineStreaming` writes execution state into `execution_events`; SSE polling endpoint streams them to the client (`uapi/app/api/executions/stream/route.ts`).
-- `parseStreamChunk` normalizes events (phase, agent, generation, tool-use, work-update) for UI consumption (`uapi/streaming/stream-parser.ts`).
-- `WorkUpdatePanel` renders agent and iteration updates between the log and instructions (`uapi/components/base/bitcode/execution/WorkUpdatePanel.tsx`).
-- Completion payloads surface PR/issue metadata, file diffs, duration, and metrics in `ExecutionsCompleteHeaderContent` (`uapi/app/executions/components/ExecutionsCompleteHeaderContent.tsx`).
+## AssetPack Pipeline
 
-## User Flow & UI Surfaces
+The current phased pipeline is SDIVF:
 
-- Activity compatibility page lives under `/executions`; SSR wrapper keeps `runId` compatibility while teaching merged-world activity (`uapi/app/executions/page.tsx`).
-- Transactions write-space lives under `/application`.
-- Auxillaries live under `/auxillaries/*`, with `/orbitals/*` retained only as compatibility carriers.
-- `ExecutionsPageClient` orchestrates repository selection, template persistence, model selection, attachment intake, and iteration timers (`uapi/app/executions/components/ExecutionsPageClient.tsx:55-200`).
-- Onboarding gate checks for a VCS connection and positive credit balance before allowing execution (`ExecutionsPageClient.tsx:176-197`).
-- SSE state hydrates UI components through `useExecutionState` and `PipelineExecutionLog`.
+- Setup
+- Discovery
+- Implementation
+- Validation
+- Finish
 
-## API Surface
+Finish records evidence and can deliver the V26 Shippable through a GitHub pull request. Other delivery mechanisms are later-version design space unless admitted by the spec.
 
-- `/api/executions` provides unified access; internally delegates to deliverables handlers to avoid regressions (`uapi/app/api/executions/route.ts`, `packages/api/src/routes/deliverables.ts`).
-- `/api/executions/stream` streams execution events with ownership checks and cursor resume support (`uapi/app/api/executions/stream/route.ts:1-200`).
-- `/api/executions/history` rehydrates past runs including guide metadata (`uapi/app/api/executions/history/route.ts`).
-- Stripe webhooks and checkout session endpoints live under `/api/stripe/*` (`uapi/app/api/stripe` routes) and feed the credit ledger.
+## Economics
 
-## Data & Persistence
+BTC pays fees. `$BTD` is not a fungible checkout credit or spendable currency token. `$BTD` is a non-fungible AssetPack share/read-right and measured Bitcode content amount.
 
-- Primary tables: `executions`, `execution_events`, `phase_executions`, plus append-only ledgers (`user_credits`, `user_credit_usages`, `generations`) and auxillary user-state carriers. Schema lives in `supabase/migrations/**`.
-- ORM exports typed accessors in `packages/orm/src/index.ts`, aligning with SSOT declared in `packages/orm/src/types/database.ts`.
-- Pipeline iteration metadata (self-instruction, work updates) stored via execution stores; digest guide consumes them to produce `.ai` diffs.
+V26 reads `$BTD` holdings and BTC fee posture; V27 owns full `$BTD` tokenomics. V27+ issuance must respect the 21,000,000 `$BTD` mintable ceiling recorded in `packages/btd`.
 
-## Credits & Billing
+## Interfaces
 
-- Credit reservation + settlement handled by `withCreditReservation` around pipeline execution (`packages/api/src/routes/deliverables.ts:152-360`).
-- Escrow tuning constants, ledger writes, and RPC fallback logic reside in `packages/credits/src/index.ts:13-200`.
-- Refunds triggered by short-circuit signals and propagated through credit helpers; partial refunds annotated in execution metadata.
+Admitted interfaces must return write-admission metadata and fail closed without readiness:
 
-## Digest Responsibilities
+- MCP API for Exchange-facing execution and activity operations,
+- ChatGPT App for confirmed connected-interface writes,
+- GitHub/VCS providers for repository scope and pull-request delivery,
+- webhooks and external-realization routes for bounded ingress.
 
-- Digest agents collect learnings, propose `.ai` document updates, and ensure follow-up tasks are queued (`packages/pipelines/deliverable/src/phases/digest.ts`).
-- Work-update iteration summaries expose self-instruction confidence and suggested follow-ups for future executions.
-- GA-1 backlog: enforce `.ai` persistence + approval flow before Digest completes (tracked in `internal-docs/GA1.md`).
+Interfaces can submit, continue, or deliver Bitcode work. They do not own separate state machines.
 
-## Known GA-1 Follow-Ups
+## Version Staging
 
-- Digest gate approval mechanics and guide history serialization (see `internal-docs/GA1.md`).
-- Finalize structured persistence tables (`deliverables_pipeline_*`) once migrations land.
-- Complete UI polish for WorkUpdatePanel expand/collapse and accessibility.
-
-Keep this document authoritative: when a capability, endpoint, or flow changes in code, update the relevant section with precise paths.
+- V27: `$BTD` tokenomics.
+- V28: Terminal.
+- V29: Exchange.
+- V30: external connections and interfaces.
+- V31: Proven Protocol across specification, demonstration minimal product, commercial product rails, testnet/mainnet workability, telemetry, and alerts.

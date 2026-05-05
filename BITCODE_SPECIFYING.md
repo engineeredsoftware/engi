@@ -555,7 +555,7 @@ Minimum subsystem coverage:
 5. recall and ranking,
 6. verification decisions,
 7. selection and materialization,
-8. branch artifacts and deliverables,
+8. branch artifacts, AssetPacks, Shippables, and emitted artifacts,
 9. identity, authority, signing, and policy,
 10. sensitive data and confidentiality flows,
 11. projection, disclosure, and redaction,
@@ -646,9 +646,9 @@ Each row must identify:
 This matrix exists so omission is mechanically visible.
 If one of the minimum subsystem coverage items in Section 6 has no row, the `SPEC` is structurally incomplete.
 
-## 6.4 Cross-Product, Fail-Closed, and Deliverable Coverage
+## 6.4 Cross-Product, Fail-Closed, and Artifact Coverage
 
-Whole-system derivability also requires explicit coverage of the system's current cross-products, fail-closed posture, and emitted deliverables.
+Whole-system derivability also requires explicit coverage of the system's current cross-products, fail-closed posture, and emitted artifacts.
 
 Every full `SPEC` must therefore make the following visible in appendix-grade carriers or section-equivalent matrices:
 - realization profiles to scenario-family coverage,
@@ -658,9 +658,9 @@ Every full `SPEC` must therefore make the following visible in appendix-grade ca
 - interface ingress/input contexts to operator/runtime meaning,
 - interface egress/output meanings to emitted artifact/share semantics,
 - fail-closed contract and error postures across the major subsystems,
-- and current source-bearing deliverables/artifacts plus their generators, consumers, and fail-closed meaning.
+- and current source-bearing AssetPacks, Shippables, artifacts, and evidence plus their generators, consumers, and fail-closed meaning.
 
-If the current system depends on one of those cross-products or deliverables and the `SPEC` does not enumerate it explicitly, the `SPEC` is still density-incomplete even if its top-level sections look whole.
+If the current system depends on one of those cross-products, AssetPacks, Shippables, artifacts, or evidence carriers and the `SPEC` does not enumerate it explicitly, the `SPEC` is still density-incomplete even if its top-level sections look whole.
 
 ---
 
@@ -1310,13 +1310,13 @@ A full `SPEC` must include appendices or appendix-equivalent sections for:
 - code-documentation and package-teaching contract catalog,
 - scenario, workflow, and cross-product contract catalog,
 - fail-closed contract and error posture matrix,
-- source-bearing deliverable and artifact contract catalog,
+- source-bearing AssetPack, Shippable, evidence, and artifact contract catalog,
 - accepted boundaries or an accepted-boundary ledger.
 
 Depending on the version, it should also include:
 - inference and evaluator contract detail,
 - member and theorem catalogs,
-- artifact and deliverable contracts,
+- artifact, AssetPack, Shippable, and evidence contracts,
 - scenario and workflow matrices,
 - test coverage expansions,
 - and promotion checklists.
@@ -1364,7 +1364,7 @@ A full Bitcode `SPEC` is structurally complete only when:
 18. scenario/workflow/principal/branch cross-products are explicit where current canon depends on them,
 19. interface ingress/input and egress/output meaning are explicit where current canon depends on them,
 20. fail-closed contract posture is cataloged rather than implied,
-21. source-bearing deliverables and artifacts are enumerated with generators and consumers,
+21. source-bearing AssetPacks, Shippables, evidence, and artifacts are enumerated with generators and consumers,
 22. and `BITCODE_SPEC.txt` points to the promoted version only in the same commit that includes required generated canon.
 
 When the version is changing specifying itself, completion should also include:

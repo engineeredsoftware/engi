@@ -176,7 +176,7 @@ const completeConversationData = {
       progress: 100,
       phase: 'Complete',
       measuredBtdEstimate: 150,
-      usedCredits: 145,
+      measuredBtd: 145,
       startedAt: '2024-01-15T08:07:00Z',
       completedAt: '2024-01-15T08:32:00Z',
       pullRequestUrl: 'https://github.com/mycompany/ecommerce-platform/pull/156',
@@ -211,7 +211,7 @@ const completeConversationData = {
       progress: 75,
       phase: 'Implementation',
       measuredBtdEstimate: 200,
-      usedCredits: 150,
+      measuredBtd: 150,
       startedAt: '2024-01-15T08:07:30Z',
       events: [
         {
@@ -232,7 +232,7 @@ const completeConversationData = {
       progress: 45,
       phase: 'Discovery',
       measuredBtdEstimate: 180,
-      usedCredits: 81,
+      measuredBtd: 81,
       startedAt: '2024-01-15T08:07:45Z',
       events: [
         {
@@ -252,7 +252,7 @@ const completeConversationData = {
       progress: 30,
       phase: 'Implementation',
       measuredBtdEstimate: 100,
-      usedCredits: 30,
+      measuredBtd: 30,
       startedAt: '2024-01-15T10:02:30Z',
       events: [
         {
@@ -273,7 +273,7 @@ const completeConversationData = {
       progress: 20,
       phase: 'Setup',
       measuredBtdEstimate: 120,
-      usedCredits: 24,
+      measuredBtd: 24,
       startedAt: '2024-01-15T10:03:00Z',
       events: [
         {
@@ -405,7 +405,7 @@ export const PerformanceStressTest: Story = {
           progress: Math.floor(Math.random() * 100),
           phase: ['Setup', 'Discovery', 'Implementation', 'Validation', 'Finish'][Math.floor(Math.random() * 5)],
           measuredBtdEstimate: 100,
-          usedCredits: Math.floor(Math.random() * 100),
+          measuredBtd: Math.floor(Math.random() * 100),
           startedAt: new Date(Date.now() - Math.random() * 3600000).toISOString(),
           events: Array.from({ length: 20 }, (_, j) => ({
             id: `stress-evt-${i}-${j}`,
@@ -450,7 +450,7 @@ export const RealTimeStreamingDemo: Story = {
             progress: 55,
             phase: 'Implementation',
             measuredBtdEstimate: 250,
-            usedCredits: 138,
+            measuredBtd: 138,
             startedAt: '2024-01-15T12:00:00Z',
             events: [
               {

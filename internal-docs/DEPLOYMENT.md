@@ -90,7 +90,7 @@ DEEPSEEK_API_KEY=YOUR_DEEPSEEK_API_KEY
 # ============================================
 STRIPE_SECRET_KEY=YOUR_STRIPE_SECRET_KEY
 STRIPE_WEBHOOK_SECRET=YOUR_STRIPE_WEBHOOK_SECRET
-# V26 does not sell credit products. BTC pays fees; $BTD is a non-fungible share/read-right.
+# V26 does not sell prepaid usage products. BTC pays fees; $BTD is a non-fungible share/read-right.
 STRIPE_PRODUCT_ID_FLEXIBLE=YOUR_STRIPE_FLEXIBLE_PRODUCT_ID
 STRIPE_PRODUCT_ID_INDUSTRIAL=YOUR_STRIPE_INDUSTRIAL_PRODUCT_ID
 # Optional bundle overrides

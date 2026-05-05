@@ -185,7 +185,7 @@ export const PREMIUM_FLOW_SCENARIO = new TestScenarioBuilder()
   .addData(PREMIUM_SETUP)
   .behavior({
     phases: ['setup', 'discovery', 'implementation'],
-    expectedCredits: 200,
+    expectedMeasuredBtd: 200,
     expectations: { success: true }
   })
   .tags('premium', 'e2e')

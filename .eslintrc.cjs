@@ -14,7 +14,7 @@ module.exports = {
     'eslint:recommended'
   ],
   rules: {
-    'bitcode/no-write-tools-outside-conquer': 'error',
+    'bitcode/no-write-tools-outside-implementation': 'error',
     'bitcode/require-prompt-hierarchy': 'error',
     // Forbid legacy deep-imports into prompts using /src in consumer code.
     // Canonical pattern is: @bitcode/prompts/raw_promptparts/*

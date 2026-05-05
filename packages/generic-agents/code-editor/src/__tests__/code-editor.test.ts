@@ -48,7 +48,7 @@ describe('Code Editor Agent', () => {
     jest.clearAllMocks();
   });
 
-  describe('Divide|Conquer|Correct Pattern', () => {
+  describe('Divide|Apply|Correct Pattern', () => {
     test('should execute full pattern for multi-file changes', async () => {
       const input = {
         changes: [
@@ -266,7 +266,7 @@ describe('Code Editor Agent', () => {
     });
 
     test('should handle variation selection correctly', async () => {
-      // Test that complex changes trigger divide-conquer-correct
+      // Test that complex changes trigger divide-apply-correct
       const complexInput = {
         changes: [{}, {}],  // Multiple files
         taskDescription: 'Complex task'
@@ -274,7 +274,7 @@ describe('Code Editor Agent', () => {
 
       await codeEditorAgent(complexInput, execution);
       expect(execution.get('agent', 'variation_reasoning').selected)
-        .toBe('divide-conquer-correct');
+        .toBe('divide-apply-correct');
 
       // Test that simple edit triggers simple-edit variation
       const simpleInput = {
@@ -300,7 +300,7 @@ describe('Code Editor Agent', () => {
         },
         data: [],
         behavior: {
-          phases: ['divide', 'conquer', 'correct'],
+          phases: ['divide', 'apply', 'correct'],
           expectedDuration: 5000,
           expectations: {
             success: true,
