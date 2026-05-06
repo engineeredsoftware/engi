@@ -5,7 +5,7 @@
 - Scope: supplementary V26 reform note for phased Bitcode agentic pipelines
 - Canonical pointer: `/Users/garrettmaring/Developer/ENGI/BITCODE_SPEC.txt -> V26`
 - Companion: `protocol-demonstration/V26_SHIPPABLE_REFORM.md`
-- Purpose: prevent old-world `Ship` / `Shipping` language from owning broad Bitcode pipeline completion semantics
+- Purpose: prevent non-Bitcode `Ship` / `Shipping` language from owning broad Bitcode pipeline completion semantics
 
 ## Rule
 
@@ -20,7 +20,7 @@ Therefore:
 - `SDIVS` is reform history and may not remain as an active generic pipeline API.
 - `Finish` owns saving results, preserving useful Need/AssetPack state, completing summaries, and invoking Delivering when the run needs a third-party destination.
 - `Delivering` owns connected-interface Shippables. V26 commercial behavior admits GitHub pull requests only; issue/review/comment/Jira or other destination branches are V27+ design space.
-- `Shippable` is the noun for what Finish delivers; `Deliverable` is old-world Engi residue used only as a trace word or literal migration-boundary identifier, not a current payload or reusable infrastructure field.
+- `Shippable` is the noun for what Finish delivers; `Deliverable` is non-Bitcode residue used only as a trace word or literal migration-boundary identifier, not a current payload or reusable infrastructure field.
 - Former names, compatibility wrappers, and any remaining old filesystem labels are trace inputs only; after their Bitcode replacement exists they must be removed rather than counted as V26 closure evidence.
 
 ## Pipeline Naming
@@ -44,7 +44,7 @@ Active source must satisfy the following:
 - Runtime execution metadata should store `pipeline.pattern = "SDIVF"` and final phase state as `phase.current = "finish"` for canonical paths.
 - Metrics, streaming completion, prompt registries, and primitive phase mappers in `packages/pipelines-generics` must use `finish` only.
 - The retained AssetPack corridor must execute `assetPackPhases.finish` through `finish:*` agent keys and must not register `shipping:*` phase aliases in active AssetPack phase/tool registries.
-- Finish agents may reuse old-world Ship implementation ideas only after their prompts, descriptions, execution stores, and summaries describe Bitcode Need, AssetPack, WrittenAsset, proof evidence, AssetPack completion, and PR Delivering semantics.
+- Finish agents may reuse non-Bitcode Ship implementation ideas only after their prompts, descriptions, execution stores, and summaries describe Bitcode Need, AssetPack, WrittenAsset, proof evidence, AssetPack completion, and PR Delivering semantics.
 - AssetPack postprocess and reread must use `finish/asset_pack_completion` and `finish` stores directly; retained `shipping` or `finish/final_work_summary` store fallbacks are reform residue rather than current AssetPack behavior.
 - Former `Ship`, `Shipping`, `ReadyToShip`, `FinalizeShipment`, and `Deliverable` names must be removed from active implementation once the precise `Finish` / `Delivering` / `AssetPack completion` replacement is present.
 
@@ -58,7 +58,7 @@ Filesystem names and code names must converge on the precise Bitcode objects the
 
 ## Proof Requirement
 
-This reform is a fifth-gate blocker because it is a precise example of the Engi-to-Bitcode migration pattern:
+This reform is a fifth-gate blocker because it is a precise example of the retained-system-to-Bitcode reform pattern:
 
 - retain useful modularity;
 - rename only after semantic ownership is clear;

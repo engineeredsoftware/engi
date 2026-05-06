@@ -1,9 +1,9 @@
-# Old-World Prompt Migration Scripts
+# Removed Prompt Migration Scripts
 
 ## Status
 
 These notes document active-source scripts removed during V26 fifth-gate reform.
-They were one-off old-world migration utilities, not canonical Bitcode runtime or
+They were one-off migration utilities, not canonical Bitcode runtime or
 maintenance surfaces.
 
 ## Removed Active Scripts
@@ -31,7 +31,7 @@ maintenance surfaces.
 The removed scripts encoded hard-coded local checkout paths, removed
 `packages/prompts/src/raw/*` filesystem assumptions, old prompt organization
 names, or broad destructive migration behavior. Keeping them under active
-`scripts/` would falsely teach that old-world migration layout as current
+`scripts/` would falsely teach that removed migration layout as current
 Bitcode tooling.
 
 The V26 active source replacements are the current prompt maintenance,

@@ -37,7 +37,7 @@ test('V26 specifies LSP as static Need and AssetPack measurement infrastructure'
   assert.match(reformSpec, /bitcode\.lsp\.measure-need-static\.v26/);
   assert.match(reformSpec, /NeedDescriptor\.staticMeasurements/);
   assert.match(reformSpec, /AssetPack fit/);
-  assert.match(reformSpec, /Deprecation flags are acceptable in fifth-gate/);
+  assert.match(reformSpec, /Former-name trace flags are acceptable only as reform discovery aids/);
   assert.match(canonicalSpec, /retained LSP infrastructure is admitted as static Need\/AssetPack measurement evidence/);
   assert.match(canonicalSpec, /bitcode\.lsp\.measure-need-static\.v26/);
 });
@@ -86,7 +86,7 @@ test('LSP package and tool prompt surfaces teach measurement, not generic naviga
   assert.doesNotMatch(lspCapabilityFooterPromptPartSource, /accelerate development workflows/);
 });
 
-test('all LSP raw PromptParts are Bitcode measurement promptparts instead of generic old-world intelligence promptparts', () => {
+test('all LSP raw PromptParts are Bitcode measurement promptparts instead of generic non-Bitcode intelligence promptparts', () => {
   assert.ok(lspRawPromptpartSources.length > 40);
 
   for (const { fileName, source } of lspRawPromptpartSources) {

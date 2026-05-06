@@ -36,7 +36,7 @@ Before proceeding with ANY action, ask yourself:
 4. Have I avoided ALL forms of:
    - Feature creep beyond the expressed need or chosen delivery mechanism
    - Output-first thinking that hides the underlying written assets
-   - Old-world pattern usage
+   - Non-Bitcode product patterns
    - Abstract philosophical language
    - Incomplete or placeholder code
 

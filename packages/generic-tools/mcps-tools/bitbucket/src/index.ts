@@ -1,8 +1,9 @@
 /**
- * BITBUCKET MCP TOOLS - MODERN TOOL CLASS ARCHITECTURE
- * 
- * Unified Bitbucket API operations through MCP integration using the new abstract Tool class
- * with DocCodeToolPrompt documentation. Zero old-world patterns, maximum elegance.
+ * Bitbucket MCP tool adapter for Bitcode runs.
+ *
+ * The adapter exposes unified Bitbucket API operations through the shared Tool
+ * class and DocCodeToolPrompt documentation while keeping operation behavior in
+ * the Bitbucket primitive implementation.
  */
 
 // Import and export the unified Tool class implementation
@@ -12,15 +13,15 @@ export { BitbucketMCPTool, bitbucketMCPTool } from './BitbucketMCPTool';
 export type { BitbucketMCPTool as BitbucketMCPToolType } from './BitbucketMCPTool';
 
 /**
- * ARCHITECTURAL EXCELLENCE ACHIEVED
- * 
- * ✅ ELIMINATED:
+ * Bitcode support boundary
+ *
+ * Removed from this adapter layer:
  * - tool() from 'ai' package
  * - Direct Vercel AI SDK dependency
  * - Multiple scattered tool definitions
  * - Redundant parameter definitions
- * 
- * ✅ ACHIEVED:
+ *
+ * Current adapter contract:
  * - Single unified Tool class for all Bitbucket operations
  * - DocCodeToolPrompt documentation
  * - Clean .use = primitiveFunction pattern

@@ -1,8 +1,8 @@
 {
   "reportId": "v26-fifth-gate-closure-deepening-proof",
   "version": "V26",
-  "proofSourceCommit": "288a6db8d92ac876a80b811dfecf8eb71a7798f5",
-  "generatedAt": "2026-05-05T21:59:08-03:00",
+  "proofSourceCommit": "93b652b76315046863c456db20b6970460bd7901",
+  "generatedAt": "2026-05-06T01:29:27-03:00",
   "generatorId": "bitcode.proven-generator.v1",
   "worktreeState": "dirty-preview",
   "gate": "gate-5",
@@ -134,8 +134,8 @@
       ]
     },
     {
-      "axisId": "old-world-reform-and-retained-package-baseline",
-      "label": "Old-world reform and retained package baseline",
+      "axisId": "retained-system-reform-and-retained-package-baseline",
+      "label": "Retained-system reform and retained package baseline",
       "baselineAdvanced": true,
       "closurePassed": true,
       "currentDeepening": "Prompt primitives, retained-package roles, system-reform classification, and prompt-space baseline are proof-backed after fourth-gate promotion.",

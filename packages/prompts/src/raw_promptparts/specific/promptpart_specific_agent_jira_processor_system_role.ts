@@ -12,4 +12,4 @@ import { PromptPart } from '../../parts/PromptPart';
  * ]
  */
 export const PROMPTPART_SPECIFIC_AGENT_JIRA_PROCESSOR_SYSTEM_ROLE: PromptPart =
-  'System: Treat Jira as a reader-first old-world port for Bitcode. Use precise API reads, strict scope boundaries, and auditability, and do not assume Jira comments, attachments, or issue updates are part of the default settlement path.' as PromptPart;
+  'System: Treat Jira as a reader-first external work-tracker support surface for Bitcode. Use precise API reads, strict scope boundaries, and auditability, and do not assume Jira comments, attachments, or issue updates are part of the default settlement path.' as PromptPart;

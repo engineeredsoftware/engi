@@ -1,8 +1,8 @@
 {
   "reportId": "v26-system-reform-admissibility-proof",
   "version": "V26",
-  "proofSourceCommit": "288a6db8d92ac876a80b811dfecf8eb71a7798f5",
-  "generatedAt": "2026-05-05T21:59:08-03:00",
+  "proofSourceCommit": "93b652b76315046863c456db20b6970460bd7901",
+  "generatedAt": "2026-05-06T01:29:27-03:00",
   "generatorId": "bitcode.proven-generator.v1",
   "worktreeState": "dirty-preview",
   "passed": true,
@@ -20,7 +20,7 @@
     "reference-only",
     "ingress-or-support"
   ],
-  "closureBasis": "Retained old-world families are admissible for fifth-gate only when their live-path role is explicitly classified as governance, ingress-only, compatibility-only, reference-only, or auxiliary-input rather than surviving as parallel product ownership.",
+  "closureBasis": "Retained families are admissible for fifth-gate only when their live-path role is explicitly classified as governance, ingress-only, compatibility-only, reference-only, or auxiliary-input rather than surviving as parallel product ownership.",
   "checks": [
     {
       "checkId": "system-reform-governance-witnesses",
@@ -38,7 +38,7 @@
       ],
       "missingFiles": [],
       "reformClass": "governance",
-      "livePathRole": "The canonical spec family and supplementary architecture/proof docs classify compatibility-bounded old-world families rather than leaving them implicit."
+      "livePathRole": "The canonical spec family and supplementary architecture/proof docs classify compatibility-bounded retained families rather than leaving them implicit."
     },
     {
       "checkId": "webhook-ingress-boundary",
@@ -66,7 +66,7 @@
       ],
       "missingFiles": [],
       "reformClass": "compatibility-only",
-      "livePathRole": "Legacy path exports stay available for admitted callers while canonical Bitcode behavior remains elsewhere."
+      "livePathRole": "Admitted path exports stay available for current callers while canonical Bitcode behavior remains elsewhere."
     },
     {
       "checkId": "vcs-agent-reference-boundary",

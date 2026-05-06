@@ -1,8 +1,8 @@
 {
   "reportId": "v26-fourth-gate-reclosure-review-proof",
   "version": "V26",
-  "proofSourceCommit": "288a6db8d92ac876a80b811dfecf8eb71a7798f5",
-  "generatedAt": "2026-05-05T21:59:08-03:00",
+  "proofSourceCommit": "93b652b76315046863c456db20b6970460bd7901",
+  "generatedAt": "2026-05-06T01:29:27-03:00",
   "generatorId": "bitcode.proven-generator.v1",
   "worktreeState": "dirty-preview",
   "gate": "gate-4",
@@ -153,11 +153,11 @@
       ]
     },
     {
-      "criterionId": "fourth-gate-criterion-10-old-world-tools-repurposed",
-      "label": "Old-world tools and agents are Bitcode-purposed with prompt ownership and reader-first scope",
+      "criterionId": "fourth-gate-criterion-10-retained-tools-repurposed",
+      "label": "Retained tools and agents are Bitcode-purposed with prompt ownership and reader-first scope",
       "status": "closed",
       "passed": true,
-      "detail": "Prompt, inference, and retained-package proofs keep old-world ports bounded to Bitcode roles such as need ingestion and source-attributed support.",
+      "detail": "Prompt, inference, and retained-package proofs keep retained ports bounded to Bitcode roles such as need ingestion and source-attributed support.",
       "evidenceArtifactPaths": [
         ".bitcode/prompt-system-totality-proof.json",
         ".bitcode/inference-implementation-records-proof.json",

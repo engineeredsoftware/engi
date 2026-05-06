@@ -2362,8 +2362,10 @@ test('active V26 retained package surfaces use Bitcode naming instead of Engi na
   assert.match(rootPnpmLockSource, /link:packages\/eslint-plugin-bitcode/);
   assert.match(rootReadmeSource, /`\.bitcode\/`/);
   assert.match(rootReadmeSource, /\.bitcode\/conversations-continuity-proof\.json/);
-  assert.match(rootProductSource, /# PRODUCT: BITCODE V26 GLOBAL PHENOMENON/);
-  assert.match(rootProductSource, /Bitcode is not a tool/);
+  assert.match(rootProductSource, /# PRODUCT: BITCODE V26 COMMERCIAL SYSTEM/);
+  assert.match(rootProductSource, /Auditable market infrastructure for technical knowledge exchange/);
+  assert.match(rootProductSource, /V26 is the first commercial Bitcode promotion baseline/);
+  assert.doesNotMatch(rootProductSource, /GLOBAL PHENOMENON|engineering intelligence market infrastructure/u);
   assert.match(webSearchProductionWorkflowSource, /https:\/\/staging\.bitcode\.ai/);
   assert.match(webSearchProductionWorkflowSource, /https:\/\/bitcode\.ai/);
   assert.match(terminalOperatorExperienceDocSource, /# Bitcode Terminal Operator Experience Notes/);

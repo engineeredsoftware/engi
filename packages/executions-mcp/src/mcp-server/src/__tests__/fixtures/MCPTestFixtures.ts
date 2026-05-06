@@ -117,7 +117,7 @@ export const REPOSITORY_CONTEXTS = {
     connectionId: 12347
   } as RepositoryContext,
   
-  LEGACY_PROJECT: {
+  RETIRED_PROJECT: {
     owner: 'bitcode-labs',
     name: 'retired-monolith',
     branch: 'main',
@@ -346,7 +346,7 @@ export const CUSTOMER_SCENARIOS = {
     userContext: AUTH_CONTEXTS.ADMIN,
     inputs: {
       task: 'Migrate authentication system from custom JWT to OAuth 2.0 with PKCE',
-      repository: REPOSITORY_CONTEXTS.LEGACY_PROJECT,
+      repository: REPOSITORY_CONTEXTS.RETIRED_PROJECT,
       attachments: [ATTACHMENTS.SCREENSHOT, ATTACHMENTS.REQUIREMENTS_DOC],
       mcpConfig: {
         auth0: { domain: 'mock.auth0.com', clientId: 'mock-client-id' },

@@ -4,7 +4,7 @@
 
 - Scope: reform-generic supplementary strategy for active V26 implementation work
 - Canonical pointer: `/Users/garrettmaring/Developer/ENGI/BITCODE_SPEC.txt -> V26`
-- Purpose: keep old-world reuse useful without letting retained corridors silently define Bitcode meaning
+- Purpose: keep retained reuse useful without letting retained corridors silently define Bitcode meaning
 
 ## Canonical rule
 
@@ -22,7 +22,7 @@ Every retained corridor must therefore be classified before it is edited:
 - `reference-only`
   The corridor may remain readable and reusable for reform work, but it is not allowed to own live Bitcode behavior.
 - `cut`
-  The corridor is experimental, intentionally old-world, or outside Bitcode and should be removed from live registration and archived under `_legacy/` when its ideas still matter.
+  The corridor is experimental, intentionally non-Bitcode, or outside Bitcode and should be removed from live registration and archived under `_legacy/` when its ideas still matter.
 
 ## Successful tactics now demonstrated in V26
 
@@ -66,7 +66,7 @@ Every retained corridor must therefore be classified before it is edited:
 - `Need review and quantized fit-quality reform`
   The active protocol runtime now emits `.bitcode/need-review.json` between need measurement and fit search, supports accept/reject/remeasure-with-feedback outcomes, exposes the same boundary through app-owned `/api/need-review`, and keeps explicit non-accept decisions from being bypassed by branch materialization. The native Bitcode Terminal need-scenario controls now present and record those decisions before fit search, while the accepted source-to-shares focus carries into settlement preview. The commercial API route now has a focused dual SPEC-IMPL parity test against the protocol runtime so low-level Bitcode behavior drives production behavior rather than being restated as a route-local mock, including accepted branch materialization carrying `.bitcode/source-to-shares.json`, present-fit settlement review, and quantized fit-quality receipt proof through `/api/make-bitcode-branch`. The same slice makes fit quality a quantized objective contract that appears in `.bitcode/source-to-shares.json`, the present-fit-for-settlement-review surface, settlement AssetPack receipts, and `settlement_source_to_shares.quantized_fit_quality_receipting`. The Bitcode Terminal now reads those as first-class closure panels too: Need review appears before verification, and settlement shows the objective contract, source-to-shares ref, receipt refs, fit-quality hash, and quality rows instead of treating them as raw artifact-only evidence.
 - `field-intelligence`
-  A clearly experimental old-world corridor was removed from live Bitcode and documented only under `_legacy/field-intelligence`.
+  A clearly experimental non-Bitcode corridor was removed from live Bitcode and documented only under `_legacy/field-intelligence`.
   Active retained-package proof no longer admits `packages/orm/src/queries/field-intelligence.ts`, and active prompt exports no longer admit `promptpart_specific_fielddoc_intelligencecontext_detailcontent`.
 
 ## Generic repurposing rule
@@ -77,11 +77,11 @@ For example, `comprehend-task -> comprehend-need` is the right class of repurpos
 Bitcode therefore prefers:
 - reuse when the retained abstraction is already the right primitive
 - repurposing when the retained abstraction becomes correct after explicit semantic boundary work
-- removal when the retained abstraction is not actually needed or would keep old-world product logic alive
+- removal when the retained abstraction is not actually needed or would keep non-Bitcode product logic alive
 
 ## Current reform needs
 
-- deeper phase/agent/runtime internals still use old-world names or branching logic even after boundary mirrors exist
+- deeper phase/agent/runtime internals still use non-Bitcode names or branching logic even after boundary mirrors exist
 - retained readers and writers still sometimes collapse back to compatibility keys instead of rereading semantic `need`, `writtenAssetType`, `writtenAssets`, and asset-pack structure
 - some admitted corridors still need honest local compile/runtime boundaries before they can count as fifth-gate-credible
 - browser/runtime/proof closure still has to verify whole flows, not only static source presence
@@ -89,7 +89,7 @@ Bitcode therefore prefers:
 
 ## Reform ordering rule
 
-For any old-world corridor that still matters to V26, the implementation order is:
+For any retained corridor that still matters to V26, the implementation order is:
 1. classify the corridor
 2. decide keep, repurpose, or cut
 3. add semantic mirrors and public boundaries
@@ -100,4 +100,4 @@ For any old-world corridor that still matters to V26, the implementation order i
 ## Non-goal
 
 This supplement does not authorize speculative cleanup.
-It exists to keep V26 reform precise enough that old-world density can be reused where optimal, repurposed where correct, and removed where Bitcode does not actually need it.
+It exists to keep V26 reform precise enough that retained density can be reused where optimal, repurposed where correct, and removed where Bitcode does not actually need it.

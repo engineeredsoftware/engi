@@ -63,7 +63,7 @@ Operational rules:
 - raw promptparts may stay explicit and file-granular, but route-local ad hoc strings may not silently replace prompt-owned product logic
 - raw promptparts must keep their implementation-layer meaning legible: `raw_promptparts/generic` is the base/inheritable PromptPart layer, `raw_promptparts/specific` is the concrete implementation PromptPart layer, and every active/admitted prompt registry must be able to explain which layer it consumes
 - raw promptpart TypeScript sources and runtime JavaScript carry-through files must stay content-equivalent so commercial runtime imports cannot silently use old prompt text after the canonical TS prompt has been reformed
-- prompt behavior that remains old-world, experimental, or pre-Bitcode may survive only as reference-only or auxiliary-input corridors
+- prompt behavior that remains non-Bitcode, experimental, or pre-Bitcode may survive only as reference-only or auxiliary-input corridors
 - the base `doc-comment` primitive plus `doc-code` tool prompt injection may remain admitted support/compatibility infrastructure where Bitcode still needs build-time prompt attachment for tool runs, but `generic-doc-comment-plugins`, `doc-comment` examples, and prompt-package developing experiments remain reference-only reform material under `protocol-demonstration/V26_DOC_COMMENT_REFORM.md`; package docs in those corridors must not present prompt-package internal paths as public consumer APIs
 
 ## Active fifth-gate prompt consumers
@@ -100,9 +100,9 @@ These corridors do not define the live product center directly, but they remain 
 | Prompt generation and update scripts | `scripts/{generate-massive-prompt-parts,mass-update-prompt-parts,architecture-review,generate-asset-pack-promptparts}.ts`, `scripts/{codemod-deep-promptparts,normalize-asset-pack-promptparts}.mjs` | retained generation/codemod/verifier carriers that must target `promptpart_*`, `PROMPTPART_*`, active `raw_promptparts/{generic,specific}` folders, public `@bitcode/prompts/raw_promptparts/*` package subpaths, canonical V26 inference records, and the doc-comment/tool-prompt injection bridge |
 
 Obsolete one-off prompt migration scripts that hard-coded removed raw prompt trees, local checkout paths, old prompt organization names, or destructive reorganizations are cut from active source during fifth-gate reform.
-Their old-world implementation ideas are documented under `_legacy/old-world-prompt-migration-scripts/README.md`; that document is not an active prompt-system owner and must not be used as live Bitcode implementation truth.
+Their removed implementation ideas are documented under `_legacy/prompt-migration-scripts/README.md`; that document is not an active prompt-system owner and must not be used as live Bitcode implementation truth.
 
-## Reference-only or retained old-world prompt ports
+## Reference-only or retained prompt ports
 
 These corridors still consume prompt abstractions or raw promptparts, but they are not allowed to silently own the live Bitcode product path.
 
@@ -126,8 +126,8 @@ The remaining honest prompt-side closure work is:
 
 1. prompt-space completeness across retained consumer families, not just active boundary hygiene
 2. package-by-package admissibility for retained prompt-bearing generic agents/tools
-3. narrowing or cutting prompt reservoirs that still imply parallel old-world product logic
-4. continued canonicalization of retained trace names after semantic mirrors exist, exemplified by `comprehend-need` becoming the active setup prompt carrier, old `deliverablesetup*` AssetPack setup raw reservoirs being removed rather than retained once semantic mirrors exist, `ASSETPACKSETUPCOMPREHENDNEED`, `ASSETPACKSETUPCLONEREPOSITORY`, `ASSETPACKPIPELINE_CLONEVCSREPOSITORY`, `ASSETPACKSETUPDANGERWALL`, `ASSETPACKSETUPINITIALIZELSP`, and `ASSETPACKSETUPREADYTOITERATE` PromptParts owning active AssetPack setup overlays after recut, and retained trace substep PromptParts carrying Bitcode need / written-asset / AssetPack / proof / delivery-mechanism semantics instead of generic old-world agent boilerplate
+3. narrowing or cutting prompt reservoirs that still imply parallel non-Bitcode product logic
+4. continued canonicalization of retained trace names after semantic mirrors exist, exemplified by `comprehend-need` becoming the active setup prompt carrier, old `deliverablesetup*` AssetPack setup raw reservoirs being removed rather than retained once semantic mirrors exist, `ASSETPACKSETUPCOMPREHENDNEED`, `ASSETPACKSETUPCLONEREPOSITORY`, `ASSETPACKPIPELINE_CLONEVCSREPOSITORY`, `ASSETPACKSETUPDANGERWALL`, `ASSETPACKSETUPINITIALIZELSP`, and `ASSETPACKSETUPREADYTOITERATE` PromptParts owning active AssetPack setup overlays after recut, and retained trace substep PromptParts carrying Bitcode need / written-asset / AssetPack / proof / delivery-mechanism semantics instead of generic non-Bitcode agent boilerplate
 5. proving that app- and MCP-facing inference behavior is fully explainable from the explicit prompt substrate rather than hidden composition seams
 
 The `packages/generic-tools/need-comprehension` and `packages/generic-agents/need-comprehension` families are the next generic tool/agent encapsulation example of this rule:

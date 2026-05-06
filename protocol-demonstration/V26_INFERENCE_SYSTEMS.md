@@ -119,7 +119,7 @@ Prompt-bearing systems must:
 - keep package-local prompt typecheck configs source-backed and no-emit when they verify retained prompt reservoirs without owning emitted artifacts;
 - prefer semantic aliases such as `need`, `writtenAssetType`, `writtenAssets`, `assetPack`, `needSatisfactionCriteria`, and `deliveryMechanism` before legacy compatibility aliases;
 - preserve doc-comment/doc-code prompt injection where tools need build-time tool descriptions in agentic runs;
-- reject old-world prompt content that teaches parallel product semantics, hidden task-first planning, PR-first delivery, or experimental cognitive/transcendent language as live Bitcode behavior.
+- reject non-Bitcode prompt content that teaches parallel product semantics, hidden task-first planning, PR-first delivery, or experimental cognitive/transcendent language as live Bitcode behavior.
 
 ## Tool Requirements
 

@@ -1,8 +1,8 @@
 {
   "reportId": "v26-persistence-schema-totality-proof",
   "version": "V26",
-  "proofSourceCommit": "288a6db8d92ac876a80b811dfecf8eb71a7798f5",
-  "generatedAt": "2026-05-05T21:59:08-03:00",
+  "proofSourceCommit": "93b652b76315046863c456db20b6970460bd7901",
+  "generatedAt": "2026-05-06T01:29:27-03:00",
   "generatorId": "bitcode.proven-generator.v1",
   "worktreeState": "dirty-preview",
   "passed": true,
@@ -89,7 +89,7 @@
         {
           "file": "packages/orm/src/client.ts",
           "evidence": "export interface BitcodeOrmClient",
-          "description": "public ORM client is named as Bitcode infrastructure rather than old-world Engi infrastructure"
+          "description": "public ORM client is named as Bitcode infrastructure rather than Engi infrastructure"
         },
         {
           "file": "packages/orm/src/client.d.ts",

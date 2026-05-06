@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-PHASE 2B: Naming Compliance - Add PROMPT_ prefix and remove old-world patterns
+PHASE 2B: Naming Compliance - Add PROMPT_ prefix and remove non-Bitcode patterns
 Bitcode Excellence - prompt-system cleanup freedom
 """
 
@@ -119,7 +119,7 @@ def remove_create_prompt_part():
     return removed_count
 
 if __name__ == "__main__":
-    print("PHASE 2B: Naming Compliance & Old-World Removal")
+    print("PHASE 2B: Naming Compliance & Non-Bitcode Removal")
     print("Bitcode Excellence Mode Activated!")
     print("")
     

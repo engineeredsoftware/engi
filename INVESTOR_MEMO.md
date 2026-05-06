@@ -4,7 +4,7 @@
 
 Engineering knowledge is valuable, but today it is still difficult to measure, difficult to permission, and difficult to compensate with auditability. Bitcode is building auditable market infrastructure for engineering knowledge: a proof-bearing operating system for engineering assetizing that ingests repo-authenticated technical supply, measures it against concrete engineering need, selects and verifies asset packs, discloses outputs by principal, and settles contribution consequences through exact source-to-shares accounting.
 
-Legacy V22 already carried that system through a proof-bearing runtime, API, browser shell, tests, generated proof artifacts, and source promotion workflow. The V22 package-local realization identified itself as the `V22 canonical deterministic local prototype`, and the historical V22 canon said runtime, API, browser shell, tests, demo-local docs, and generated canon had to stay aligned. ([GitHub][1])
+Earlier V22 already carried that system through a proof-bearing runtime, API, browser shell, tests, generated proof artifacts, and source promotion workflow. The V22 package-local realization identified itself as the `V22 canonical deterministic local prototype`, and the historical V22 canon said runtime, API, browser shell, tests, demo-local docs, and generated canon had to stay aligned. ([GitHub][1])
 
 ---
 
@@ -16,7 +16,7 @@ Use the opening page to define Bitcode as infrastructure first. Keep the ladder 
 
 **Useable facts to write from**
 
-- the legacy V22 package-local realization under `protocol-demonstration/` identified itself as the `V22 canonical deterministic local prototype` and the deterministic local realization of the full Bitcode operating chain. ([GitHub][1])
+- the earlier V22 package-local realization under `protocol-demonstration/` identified itself as the `V22 canonical deterministic local prototype` and the deterministic local realization of the full Bitcode operating chain. ([GitHub][1])
 - V22 says Bitcode "remains a proof-bearing operating system for engineering assetizing." ([GitHub][2])
 - `src/canon-posture.js` sets `ACTIVE_CANON_VERSION = 'V22'` and `DRAFT_TARGET_VERSION = 'V23'`, and its hero posture says runtime, API, browser shell, tests, and demo-local docs must stay aligned so canon drift fails closed. ([GitHub][3])
 
@@ -139,11 +139,11 @@ Supply -> need -> fit -> ranking/verification -> asset pack -> branch/proof/witn
 
 ---
 
-## 4. Why Legacy V22 Matters
+## 4. Why V22 Matters
 
 **Writing note**
 
-Present legacy V22 as a truth-alignment and hardening release.
+Present V22 as a truth-alignment and hardening release.
 
 **Useable facts to write from**
 
@@ -267,7 +267,7 @@ This section should explain **what** Bitcode anchors to Bitcoin, **what it does 
 - Bitcoin developer docs say null-data outputs are provably unspendable and do not have to be stored in the UTXO set, but also say it is usually preferable to store data outside transactions if possible. ([Bitcoin Developer Documentation][15])
 - Taproot lets a spend commit to a Merkle tree of scripts and reveal only the executed branch when needed. ([BIPs][7])
 - Bitcode's settlement proof family binds source-to-shares, readiness, and persistence through `.bitcode/source-to-shares-fifth-gate-proof.json`, `.bitcode/fifth-gate-closure-proof.json`, and `.bitcode/persistence-schema-totality-proof.json`; V26 requires those surfaces to remain exact and replayable. ([GitHub][2])
-- Bitcode's disclosure-boundary proof family binds prompt-space completeness, retained-package admissibility, and whole-repository production satisfaction through `.bitcode/prompt-space-completeness-proof.json`, `.bitcode/retained-package-admissibility-proof.json`, and `.bitcode/whole-repository-production-satisfaction-proof.json`; V26 makes public overexposure and old-world leakage blocking failures. ([GitHub][2])
+- Bitcode's disclosure-boundary proof family binds prompt-space completeness, retained-package admissibility, and whole-repository production satisfaction through `.bitcode/prompt-space-completeness-proof.json`, `.bitcode/retained-package-admissibility-proof.json`, and `.bitcode/whole-repository-production-satisfaction-proof.json`; V26 makes public overexposure and non-Bitcode product leakage blocking failures. ([GitHub][2])
 - Bitcode's proof-contract family binds `.bitcode/v26-total-closure-proof.json`, `.bitcode/v26-product-readiness-audit.json`, and `BITCODE_SPEC_V26_PROVEN.md` as generated audit surfaces. ([GitHub][2])
 
 **Recommended memo position**

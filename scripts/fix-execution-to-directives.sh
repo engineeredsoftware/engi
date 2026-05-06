@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-# Fix retained old-world try_execution naming to Bitcode try_directives naming.
+# Fix retained try_execution naming to Bitcode try_directives naming.
 # Operates only on the active repository tree and current raw PromptPart layout.
 
 repo_root="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"

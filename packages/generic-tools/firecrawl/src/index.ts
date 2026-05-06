@@ -1,16 +1,17 @@
 /**
- * FIRECRAWL TOOLS - MODERN TOOL CLASS ARCHITECTURE
- * 
- * Production-grade web scraping and crawling tools using the new abstract Tool class
- * with DocCodeToolPrompt documentation. Zero old-world patterns, maximum elegance.
- * 
- * ARCHITECTURAL PRINCIPLES:
- * ✅ Abstract Tool class inheritance
- * ✅ DocCodeToolPrompt documentation system
- * ✅ Clean .use = primitiveFunction pattern
- * ✅ Type-safe exports with proper naming
- * ✅ Zero implementation logic in tools
- * ✅ Industry-standard ToolUse/UsedTool terminology
+ * Firecrawl tool adapters for Bitcode runs.
+ *
+ * These adapters bind web scraping and crawling primitives to doc-code prompt
+ * documentation. Runtime behavior stays in primitive functions; Tool classes
+ * expose stable `.use` carriers for agentic Bitcode execution.
+ *
+ * Architectural principles:
+ * - Abstract Tool class inheritance
+ * - DocCodeToolPrompt documentation
+ * - Clean .use = primitiveFunction pattern
+ * - Type-safe exports with proper naming
+ * - No implementation logic in tool adapter classes
+ * - ToolUse/UsedTool terminology at the package boundary
  */
 
 // Import and export individual tools
@@ -18,7 +19,7 @@ export { ScrapeUrlTool, scrapeUrlTool } from './ScrapeUrlTool';
 export { CrawlWebsiteTool, crawlWebsiteTool } from './CrawlWebsiteTool';
 export { SearchWebTool, searchWebTool } from './SearchWebTool';
 
-// TODO: Migrate remaining tools
+// Additional primitive adapters can be exposed as their Bitcode support contract lands.
 // export { MapWebsiteTool, mapWebsiteTool } from './MapWebsiteTool';
 // export { ExtractStructuredDataTool, extractStructuredDataTool } from './ExtractStructuredDataTool';
 // export { BatchScrapeUrlsTool, batchScrapeUrlsTool } from './BatchScrapeUrlsTool';
@@ -48,14 +49,14 @@ export type {
 } from '@bitcode/firecrawl';
 
 /**
- * MIGRATION STATUS
- * 
- * ✅ COMPLETED:
+ * Bitcode adapter status
+ *
+ * Exposed:
  * - ScrapeUrlTool - Single page scraping
- * - CrawlWebsiteTool - Recursive website crawling  
+ * - CrawlWebsiteTool - Recursive website crawling
  * - SearchWebTool - Web search with auto-scraping
- * 
- * 🚧 TODO:
+ *
+ * Pending support-contract exposure:
  * - MapWebsiteTool - URL discovery without content
  * - ExtractStructuredDataTool - AI-powered data extraction
  * - BatchScrapeUrlsTool - Parallel multi-URL scraping

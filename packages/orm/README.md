@@ -60,4 +60,4 @@ const relatedRuns = await client.vector.search({
 
 ## Architecture
 
-Provides database as a typed service philosophy. 1:1 mapping with Supabase schema ensures consistency. Vector search, profile contracts, and generated types support Bitcode application, Exchange, Terminal, and proof-facing storage without admitting experimental old-world query corridors.
+Provides database as a typed service philosophy. 1:1 mapping with Supabase schema ensures consistency. Vector search, profile contracts, and generated types support Bitcode application, Exchange, Terminal, and proof-facing storage without admitting experimental non-Bitcode query corridors.

@@ -82,6 +82,6 @@ This naming convention makes it immediately clear whether a plugin affects runti
 ## V26 reform note
 
 The examples under `packages/doc-comment/examples/*` are illustrative reference material.
-They may describe intricate old-world tactics for comments-as-prompts, but they are not by themselves proof that the same behavior is admitted on the live Bitcode path.
-The admitted use of this package is the base parsing primitive, not the blanket promotion of every old-world example or plugin.
+They may describe intricate non-Bitcode tactics for comments-as-prompts, but they are not by themselves proof that the same behavior is admitted on the live Bitcode path.
+The admitted use of this package is the base parsing primitive, not the blanket promotion of every non-Bitcode example or plugin.
 See `protocol-demonstration/V26_DOC_COMMENT_REFORM.md` for the active reform boundary.

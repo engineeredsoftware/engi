@@ -1,7 +1,7 @@
 # V26 Doc-Comment Reform
 
 `doc-comment` is one of the clearest examples of why V26 reform cannot be done with blanket renames or indiscriminate promotion.
-The old-world Engi implementation is intricate, layered, and tightly coupled to prompt authoring, build-time transformation, and experimental inference tactics.
+The retained non-Bitcode implementation is intricate, layered, and tightly coupled to prompt authoring, build-time transformation, and experimental inference tactics.
 That intricacy is useful as a reform rope, but it is not itself the live Bitcode product contract.
 
 ## V26 status
@@ -45,7 +45,7 @@ The currently admissible V26 use of this corridor is:
 - build-time parsing of doc-comment metadata through `packages/doc-comment/*`,
 - build-time attachment of `DocCodeToolPrompt` instances through `packages/doc-code/*`,
 - runtime consumption of those attached tool prompts through `packages/tools-generics/src/doc-code-tool/*` while the prompt/doc-code carriers remain loadable without pulling the full execution storage/logging stack and while their support primitives resolve through honest public package subpaths rather than repo-relative cross-package imports,
-- reading old-world implementation ideas,
+- reading non-Bitcode implementation ideas,
 - preserving examples that explain how prompt-bearing metadata once composed,
 - and supporting careful reform analysis.
 

@@ -787,7 +787,7 @@ test('discovery attachment and file-selection prompts use AssetPack-native Promp
   assert.equal(
     removedDeliverableDiscoveryAttachmentAndSelectionRawPromptParts.length,
     0,
-    `old deliverable-discovery attachment/file-selection PromptParts remain: ${removedDeliverableDiscoveryAttachmentAndSelectionRawPromptParts.join(', ')}`
+    `removed deliverable-discovery attachment/file-selection PromptParts remain: ${removedDeliverableDiscoveryAttachmentAndSelectionRawPromptParts.join(', ')}`
   );
   assert.match(assetPackDiscoveryComprehendAttachmentsPurposePromptSource, /structured Need and AssetPack context evidence/u);
   assert.match(assetPackDiscoveryComprehendAttachmentsIdentityPromptSource, /clarifies the Need, constraints, acceptance criteria, and AssetPack context/u);
@@ -910,12 +910,12 @@ test('AssetPack templates and bounded promptparts teach asset-pack-run semantics
   assert.equal(
     removedDeliverablesDiscImplPlanRawPromptParts.length,
     0,
-    `old deliverablesdiscimplplan PromptParts remain: ${removedDeliverablesDiscImplPlanRawPromptParts.join(', ')}`
+    `removed deliverablesdiscimplplan PromptParts remain: ${removedDeliverablesDiscImplPlanRawPromptParts.join(', ')}`
   );
   assert.equal(
     removedDeliverableTypeClassificationRawPromptParts.length,
     0,
-    `old deliverable type-classification PromptParts remain: ${removedDeliverableTypeClassificationRawPromptParts.join(', ')}`
+    `removed deliverable type-classification PromptParts remain: ${removedDeliverableTypeClassificationRawPromptParts.join(', ')}`
   );
   assert.equal(
     removedReadyToFinishRawPromptParts.length,
@@ -956,7 +956,7 @@ test('AssetPack templates and bounded promptparts teach asset-pack-run semantics
   assert.deepEqual(
     removedDeliverableSetupRawPromptParts,
     [],
-    'old deliverablesetup PromptParts must stay removed after AssetPack-native setup owners become active'
+    'removed deliverablesetup PromptParts must stay removed after AssetPack-native setup owners become active'
   );
   assert.match(finalizeDeliveryEvidencePurposePromptSource, /finalize Finish evidence for validated Need-satisfaction AssetPack synthesis artifacts with stored AssetPack evidence, delivery-mechanism artifacts/u);
   assert.match(finalizeDeliveryEvidenceIdentityPromptSource, /finalizing Finish evidence for validated Need-satisfaction AssetPack synthesis artifacts, stored AssetPack evidence, delivery-mechanism artifacts/u);
@@ -964,7 +964,7 @@ test('AssetPack templates and bounded promptparts teach asset-pack-run semantics
   assert.deepEqual(
     removedDeliverablesSystemRawPromptParts,
     [],
-    'old deliverables_system PromptParts must not remain after asset_pack_system owns active reflection'
+    'removed deliverables_system PromptParts must not remain after asset_pack_system owns active reflection'
   );
   assert.equal(existsSync(new URL('../../packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_deliverableimplementationdividepullrequest_purpose_corestatement.ts', import.meta.url)), false);
   assert.equal(existsSync(new URL('../../packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_deliverableimplementationdividepullrequest_identity_definition.ts', import.meta.url)), false);
@@ -980,17 +980,17 @@ test('AssetPack templates and bounded promptparts teach asset-pack-run semantics
   assert.deepEqual(
     removedDeliverableImplementationRawPromptParts,
     [],
-    'old deliverable implementation PromptParts must not remain after AssetPack synthesis owns implementation'
+    'removed deliverable implementation PromptParts must not remain after AssetPack synthesis owns implementation'
   );
   assert.deepEqual(
     removedDeliverableValidationRawPromptParts,
     [],
-    'old deliverable validation PromptParts must not remain after AssetPack validation owns readiness'
+    'removed deliverable validation PromptParts must not remain after AssetPack validation owns readiness'
   );
   assert.deepEqual(
     removedDeliverablesDiscoveryCodebaseAnalysisRawPromptParts,
     [],
-    'old deliverables-discovery codebase-analysis PromptParts must not remain after AssetPack discovery owners exist'
+    'removed deliverables-discovery codebase-analysis PromptParts must not remain after AssetPack discovery owners exist'
   );
   assert.deepEqual(
     removedNonPrFinishDeliveryRawPromptParts,
@@ -1074,7 +1074,7 @@ test('AssetPack substep PromptParts express Bitcode need, written-asset, and ass
     .join('\n');
 
   for (const [filename, source] of assetPackSubstepPromptPartSources) {
-    assert.doesNotMatch(source, oldWorldDeliverableSubstepLanguage, `${filename} still uses generic old-world substep language`);
+    assert.doesNotMatch(source, oldWorldDeliverableSubstepLanguage, `${filename} still uses generic non-Bitcode substep language`);
     assert.doesNotMatch(source, /current_version:\s*"G[A]1/u, `${filename} still carries G[A]1 current_version metadata`);
     assert.match(source, /current_version:\s*"0\.50\.0"/u, `${filename} should carry Bitcode current_version metadata`);
     assert.match(source, bitcodeSubstepDocCommentIntent, `${filename} should carry Bitcode doc-comment intent metadata`);
@@ -1098,7 +1098,7 @@ test('active AssetPack PromptPart doc-comment metadata is Bitcode-native', () =>
   for (const [filename, source] of assetPackPromptPartMetadataSources) {
     assert.doesNotMatch(source, /current_version:\s*"G[A]1/u, `${filename} still carries G[A]1 current_version metadata`);
     assert.match(source, /current_version:\s*"0\.50\.0"/u, `${filename} should carry Bitcode current_version metadata`);
-    assert.doesNotMatch(source, staleDeliverablePromptPartIntent, `${filename} still carries old deliverable intent metadata`);
+    assert.doesNotMatch(source, staleDeliverablePromptPartIntent, `${filename} still carries removed deliverable intent metadata`);
     assert.doesNotMatch(source, /Finalize Shipment|Determine Deliverable Type|shipment|shipping-phase/u, `${filename} still teaches shipment or deliverable-type semantics`);
     assert.match(
       source,

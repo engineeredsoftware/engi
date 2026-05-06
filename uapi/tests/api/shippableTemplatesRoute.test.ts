@@ -28,7 +28,7 @@ describe('/api/templates/shippables route', () => {
     expect(payload).toEqual({ templates: [] });
   });
 
-  it('does not retain the old deliverables template route as an active wrapper', async () => {
+  it('does not retain the removed deliverables template route as an active wrapper', async () => {
     await expect(import('@/app/api/templates/deliverables/route')).rejects.toThrow();
   });
 });

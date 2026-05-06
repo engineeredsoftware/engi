@@ -469,7 +469,7 @@ const V26_RETAINED_PACKAGE_ADMISSIONS = [
     rationale: 'retained execution abstractions remain admitted while runs and pipelines converge onto Bitcode semantics',
     role: 'retained runs-and-pipelines abstractions',
     writeBoundary: 'execution orchestration only; settle-write meaning is owned by Bitcode routes and Git/GH-facing carriers',
-    proofObligation: 'runs/pipelines, prompt-space, and inference-record proofs must keep execution primitives separated from old-world orchestration ownership',
+    proofObligation: 'runs/pipelines, prompt-space, and inference-record proofs must keep execution primitives separated from non-Bitcode orchestration ownership',
     requiredFiles: [
       'packages/execution-generics/README.md',
       'packages/execution-generics/src/index.ts',
@@ -482,7 +482,7 @@ const V26_RETAINED_PACKAGE_ADMISSIONS = [
     packageName: '@bitcode/jira-tools',
     primaryRole: 'ingress-or-support',
     rationale: 'retained Jira MCP tools remain admitted only as reader-first need-ingestion and need-measurement carriers during fourth-gate convergence',
-    role: 'old-world Jira read-first ingestion port',
+    role: 'Jira read-first external work-tracker ingestion port',
     writeBoundary: 'default scope is authenticated read and normalization; expansive settle-write to Jira comments or attachments is deferred beyond fourth-gate',
     proofObligation: 'retained-package admissibility and system-reform proof must keep Jira outside Bitcode Exchange state ownership',
     requiredFiles: [
@@ -494,7 +494,7 @@ const V26_RETAINED_PACKAGE_ADMISSIONS = [
     packageName: '@bitcode/generic-agents-jira',
     primaryRole: 'reference-only',
     rationale: 'retained Jira agent prompt ownership remains admitted only where it repurposes Jira data into Bitcode need context instead of generic project-management automation',
-    role: 'old-world Jira prompt-owned ingestion agent',
+    role: 'Jira prompt-owned ingestion agent',
     writeBoundary: 'reader-first Jira scope; propose writes only when explicitly requested and never as the default Bitcode settlement path',
     proofObligation: 'prompt and reform proofs must keep this agent as need-ingestion reference material until explicitly promoted',
     requiredFiles: [
@@ -564,12 +564,12 @@ const V26_RETAINED_PACKAGE_CENSUS_POLICY_BY_ROLE = {
   },
   compatibility: {
     role: 'compatibility corridor retained during Bitcode reform',
-    rationale: 'package keeps old-world naming or behavior temporarily while its semantics are repurposed to need, asset-pack, or support meaning',
+    rationale: 'package keeps retained naming or behavior temporarily while its semantics are repurposed to need, asset-pack, or support meaning',
     writeBoundary: 'compatibility packages must expose Bitcode semantics at active boundaries and avoid becoming new source-of-truth product owners',
     proofObligation: 'compatibility packages must keep source-visible reform notes, tests, prompt proof, and a later retirement or promotion path'
   },
   'reference-only': {
-    role: 'reference-only old-world package corridor',
+    role: 'reference-only retained package corridor',
     rationale: 'package remains in the repository as bounded reference material, not as live Bitcode product behavior',
     writeBoundary: 'reference packages do not own Exchange state, Terminal state, settlement writes, or canonical source-to-shares behavior',
     proofObligation: 'reference packages must stay classified, non-canonical for product writes, and eligible for later removal or explicit promotion'
@@ -1153,10 +1153,10 @@ function buildV26FourthGateReclosureReviewProof({
       'Runs/pipelines and inference records keep retained execution carriers tied to Bitcode activity, AssetPack, and written-asset semantics.'
     ),
     criterion(
-      'fourth-gate-criterion-10-old-world-tools-repurposed',
-      'Old-world tools and agents are Bitcode-purposed with prompt ownership and reader-first scope',
+      'fourth-gate-criterion-10-retained-tools-repurposed',
+      'Retained tools and agents are Bitcode-purposed with prompt ownership and reader-first scope',
       ['prompt-system-totality', 'inference-implementation-records', 'retained-package-admissibility'],
-      'Prompt, inference, and retained-package proofs keep old-world ports bounded to Bitcode roles such as need ingestion and source-attributed support.'
+      'Prompt, inference, and retained-package proofs keep retained ports bounded to Bitcode roles such as need ingestion and source-attributed support.'
     ),
     criterion(
       'fourth-gate-criterion-11-git-gh-initial-settle-write',
@@ -1685,7 +1685,7 @@ function buildV26GateCheckpointReport({
     },
     fifthGate: {
       gateId: 'gate-5',
-      label: 'Minimum-functional Bitcode Exchange, Bitcode Terminal, and total old-world reform baseline',
+      label: 'Minimum-functional Bitcode Exchange, Bitcode Terminal, and total retained-system reform baseline',
       passed: fifthGatePassed,
       open: !fifthGatePassed,
       closureDeepened: fifthGateClosureDeepened,
@@ -1697,7 +1697,7 @@ function buildV26GateCheckpointReport({
       checks: fifthGateChecks,
       detail: fifthGatePassed
         ? 'Fifth gate is closed at the minimum-functional Bitcode baseline. Sixth and seventh gate closure are judged by their generated proof families.'
-        : 'Fifth-gate drafting and implementation remain active after fourth-gate promoted closure. Fifth-gate owns minimum-functional Bitcode Exchange and Terminal closure plus the broad old-world reform baseline required to make the kept repository read as Bitcode-native around source-to-shares.'
+        : 'Fifth-gate drafting and implementation remain active after fourth-gate promoted closure. Fifth-gate owns minimum-functional Bitcode Exchange and Terminal closure plus the broad retained-system reform baseline required to make the kept repository read as Bitcode-native around source-to-shares.'
     },
     sixthGate: {
       gateId: 'gate-6',
@@ -1789,7 +1789,7 @@ function buildV26PersistenceSchemaTotalityProof({
         {
           file: 'packages/orm/src/client.ts',
           evidence: 'export interface BitcodeOrmClient',
-          description: 'public ORM client is named as Bitcode infrastructure rather than old-world Engi infrastructure'
+          description: 'public ORM client is named as Bitcode infrastructure rather than Engi infrastructure'
         },
         {
           file: 'packages/orm/src/client.d.ts',
@@ -2882,8 +2882,8 @@ function buildV26FifthGateClosureDeepeningProof({
       'Closed by the fifth-gate closure proof as a coherent Exchange state baseline; broader runtime storage proof remains later-gate hardening.'
     ),
     axis(
-      'old-world-reform-and-retained-package-baseline',
-      'Old-world reform and retained package baseline',
+      'retained-system-reform-and-retained-package-baseline',
+      'Retained-system reform and retained package baseline',
       ['prompt-system-totality', 'prompt-space-baseline', 'retained-package-admissibility', 'system-reform-admissibility'],
       'Prompt primitives, retained-package roles, system-reform classification, and prompt-space baseline are proof-backed after fourth-gate promotion.',
       'Closed by the fifth-gate closure proof as the live-path reform baseline; later gates may prune or promote reference corridors further.'
@@ -3183,18 +3183,18 @@ function buildV26FifthGateClosureProof({
       )
     ),
     closureRow(
-      'old-world-reform-and-retained-package-baseline',
-      'Old-world reform saturation',
-      'Old-world reform and retained package baseline',
+      'retained-system-reform-and-retained-package-baseline',
+      'Retained-system reform saturation',
+      'Retained-system reform and retained package baseline',
       ['prompt-system-totality', 'prompt-space-baseline', 'retained-package-admissibility', 'system-reform-admissibility'],
       buildV26FileContentCheck(
-        'old-world-reform-source-evidence',
-        'Retained live-path packages are classified, public-boundary clean, Bitcode-repurposed, and not teaching parallel old-world ownership',
+        'retained-system-reform-source-evidence',
+        'Retained live-path packages are classified, public-boundary clean, Bitcode-repurposed, and not teaching parallel non-Bitcode ownership',
         [
           {
             file: 'protocol-demonstration/test/v26-active-product-naming.test.js',
             evidence: 'active V26 retained package surfaces use Bitcode naming instead of Engi naming',
-            description: 'active naming test blocks old-world product-language reintroduction'
+            description: 'active naming test blocks non-Bitcode product-language reintroduction'
           },
           {
             file: 'protocol-demonstration/src/canonical/proven-generator.js',
@@ -3944,8 +3944,8 @@ function buildV26SeventhGateCommercialTestnetLaunchProof({
       )
     ),
     closureRow(
-      'old-world-compatibility-explanations-retired',
-      'Core launch journeys no longer rely on old-world compatibility explanations',
+      'non-bitcode-compatibility-explanations-retired',
+      'Core launch journeys no longer rely on non-Bitcode compatibility explanations',
       ['product-readiness-launch', 'retained-package-admissibility', 'system-reform-admissibility'],
       buildV26FileContentCheck(
         'seventh-gate-reform-completion-source-evidence',
@@ -3953,7 +3953,7 @@ function buildV26SeventhGateCommercialTestnetLaunchProof({
         [
           {
             file: 'uapi/app/application/application-commercial-launch-readiness.ts',
-            evidence: 'without old-world compatibility fallback',
+            evidence: 'without non-Bitcode compatibility fallback',
             description: 'launch map requires direct Bitcode journey explanation'
           },
           {
@@ -3995,7 +3995,7 @@ function buildV26SeventhGateCommercialTestnetLaunchProof({
       'proof-state-reread-and-operator-flow',
       'exchange-terminal-protocol-interface-alignment',
       'mcp-and-chatgpt-app-connected-interfaces',
-      'old-world-compatibility-explanations-retired'
+      'non-bitcode-compatibility-explanations-retired'
     ],
     productReadiness: {
       productCount: productReadinessAudit?.productCount || 0,
@@ -4121,7 +4121,7 @@ const V26_PROMPT_SPACE_WITNESS_SETS = [
     label: 'Reformed raw PromptParts retain TypeScript and runtime JavaScript carry-through witnesses',
     promptSpaceRole: 'raw-promptpart-carry-through',
     closureTier: 'fifth-gate-baseline',
-    fifthGateUse: 'Prevents runtime JavaScript from silently preserving old-world prompt text after TypeScript prompt reform.',
+    fifthGateUse: 'Prevents runtime JavaScript from silently preserving non-Bitcode prompt text after TypeScript prompt reform.',
     laterGateRemaining: 'The full raw promptpart reservoir remains subject to later prompt-space saturation and product-copy quality review.',
     requiredFiles: [
       'packages/prompts/src/raw_promptparts/specific/promptpart_specific_tool_analyzeneedsemantics_doccodetoolpurpose.ts',
@@ -4195,7 +4195,7 @@ const V26_PROMPT_SPACE_OPEN_COMPLETENESS_DIMENSIONS = [
   'whole-repository prompt inventory saturation across every retained consumer',
   'product-grade prompt quality and commercial readiness for Exchange, Terminal, MCP, and third-party interfaces',
   'final retirement or promotion of compatibility prompt names after all callers converge',
-  'full raw promptpart reservoir audit for old-world product semantics and reference-only language',
+  'full raw promptpart reservoir audit for non-Bitcode product semantics and reference-only language',
   'eighth-gate total proof that every live inference path is explainable from the explicit prompt substrate'
 ];
 
@@ -4598,7 +4598,7 @@ function buildV26RunsPipelinesTotalityProof({
     ),
     buildV26FileContentCheck(
       'webhook-asset-pack-ingress-contract',
-      'GitHub webhook automation is source-checked as asset-pack pipeline ingress rather than Exchange ownership or old-world output canon',
+      'GitHub webhook automation is source-checked as asset-pack pipeline ingress rather than Exchange ownership or non-Bitcode output canon',
       [
         {
           file: 'uapi/app/api/webhook/route.ts',
@@ -4686,7 +4686,7 @@ const V26_SYSTEM_REFORM_DECISIONS = [
     checkId: 'system-reform-governance-witnesses',
     label: 'System-reform governance remains explicit in the active V26 family',
     reformClass: 'governance',
-    livePathRole: 'The canonical spec family and supplementary architecture/proof docs classify compatibility-bounded old-world families rather than leaving them implicit.',
+    livePathRole: 'The canonical spec family and supplementary architecture/proof docs classify compatibility-bounded retained families rather than leaving them implicit.',
     requiredFiles: [
       'BITCODE_SPEC_V26.md',
       'BITCODE_SPEC_V26_PARITY_MATRIX.md',
@@ -4713,7 +4713,7 @@ const V26_SYSTEM_REFORM_DECISIONS = [
     checkId: 'asset-pack-compatibility-export-boundary',
     label: 'AssetPack run export keeps route compatibility explicit while Shippable output is primary',
     reformClass: 'compatibility-only',
-    livePathRole: 'Legacy path exports stay available for admitted callers while canonical Bitcode behavior remains elsewhere.',
+    livePathRole: 'Admitted path exports stay available for current callers while canonical Bitcode behavior remains elsewhere.',
     requiredFiles: [
       'packages/pipelines/asset-pack/src/run.ts',
       'packages/pipelines/asset-pack/src/index.ts'
@@ -4843,7 +4843,7 @@ function buildV26SystemReformAdmissibilityProof({
     passed,
     classificationCounts,
     reformClasses: Object.keys(classificationCounts),
-    closureBasis: 'Retained old-world families are admissible for fifth-gate only when their live-path role is explicitly classified as governance, ingress-only, compatibility-only, reference-only, or auxiliary-input rather than surviving as parallel product ownership.',
+    closureBasis: 'Retained families are admissible for fifth-gate only when their live-path role is explicitly classified as governance, ingress-only, compatibility-only, reference-only, or auxiliary-input rather than surviving as parallel product ownership.',
     checks
   };
 }

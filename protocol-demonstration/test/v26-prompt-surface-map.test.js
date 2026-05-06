@@ -35,7 +35,7 @@ test('V26 prompt surface map keeps active, support, and reference corridors expl
   assert.match(promptSurfaceSource, /rather than inline string-cast prompt fragments/u);
   assert.match(promptSurfaceSource, /## Active fifth-gate prompt consumers/u);
   assert.match(promptSurfaceSource, /## Support prompt consumers/u);
-  assert.match(promptSurfaceSource, /## Reference-only or retained old-world prompt ports/u);
+  assert.match(promptSurfaceSource, /## Reference-only or retained prompt ports/u);
 
   assert.match(promptSurfaceSource, /packages\/execution-generics\/src\/prompts\/ExecutionPrompt\.ts/u);
   assert.match(promptSurfaceSource, /@bitcode\/execution-generics\/prompts\/ExecutionPrompt/u);
@@ -63,7 +63,7 @@ test('V26 prompt surface map keeps active, support, and reference corridors expl
   assert.match(promptSurfaceSource, /canonical V26 inference records/u);
   assert.match(promptSurfaceSource, /doc-comment\/tool-prompt injection bridge/u);
   assert.match(promptSurfaceSource, /Obsolete one-off prompt migration scripts/u);
-  assert.match(promptSurfaceSource, /_legacy\/old-world-prompt-migration-scripts\/README\.md/u);
+  assert.match(promptSurfaceSource, /_legacy\/prompt-migration-scripts\/README\.md/u);
   assert.match(promptSurfaceSource, /not an active prompt-system owner/u);
 
   assert.match(promptSurfaceSource, /packages\/generic-agents\/\*/u);

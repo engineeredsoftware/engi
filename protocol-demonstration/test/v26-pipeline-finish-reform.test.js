@@ -211,7 +211,7 @@ test('AssetPack prompt-builder doc-comments use Bitcode-specific labels', () => 
     for (const match of source.matchAll(/intent: "([^"]+)"/gu)) {
       const intent = match[1];
       assert.match(intent, /\bBitcode\b/u, `${name} intent lacks Bitcode ownership: ${intent}`);
-      assert.doesNotMatch(intent, /^Deliverables\b/u, `${name} intent starts from old-world deliverables: ${intent}`);
+      assert.doesNotMatch(intent, /^Deliverables\b/u, `${name} intent starts from removed deliverables vocabulary: ${intent}`);
       assert.match(
         intent,
         /\b(Need|AssetPack|Finish|Delivering|written-asset|proof|repository|LSP|review|document|delivery)\b/u,

@@ -7,7 +7,7 @@
 1. **PromptPart** - Branded strings representing semantic units
 2. **Prompt** - Registry that formats PromptParts into strings
 
-That's the entire abstraction. No "tokens", no old-world composition layer — only semantic units.
+That's the entire abstraction. No "tokens", no product-specific composition layer - only semantic units.
 
 ## PromptPart: Semantic Units
 

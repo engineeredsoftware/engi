@@ -138,5 +138,5 @@ Current fourth-gate promotion boundary is now explicit too:
 - `/edgetimes` is a live Bitcode docs-branded storage/schema/package ownership route rather than draft-only intent
 - `/api/edgetimes` is the JSON witness for that same fourth-gate storage/API topology
 - `.bitcode/conversations-continuity-proof.json`, `.bitcode/runs-pipelines-totality-proof.json`, `.bitcode/persistence-schema-totality-proof.json`, `.bitcode/prompt-system-totality-proof.json`, and `.bitcode/retained-package-admissibility-proof.json` are the current generated fourth-gate promotion proofs
-- retained Jira and GitHub old-world ports are now explicitly admitted only under Bitcode-owned fourth-gate roles: Jira as reader-first need ingestion and Git/GH as the initial settle-write boundary
-- the retained persistence, conversations, runs/pipelines, and old-world port basis is now surfaced through explicit route/API/package owners instead of living only in spec prose while fifth-gate proving remains open
+- retained Jira and GitHub non-Bitcode ports are now explicitly admitted only under Bitcode-owned fourth-gate roles: Jira as reader-first need ingestion and Git/GH as the initial settle-write boundary
+- the retained persistence, conversations, runs/pipelines, and non-Bitcode port basis is now surfaced through explicit route/API/package owners instead of living only in spec prose while fifth-gate proving remains open

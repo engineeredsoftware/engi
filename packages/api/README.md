@@ -40,7 +40,7 @@ In V26 fourth-gate this package is where merged-world Bitcode becomes concrete:
 
 This package should stay orchestration-first.
 It should not absorb prompt ownership, schema ownership, or execution semantics that already belong in retained Bitcode packages.
-Its job is to make the merged-world application concrete without flattening the old-world architectural boundaries that still serve the system.
+Its job is to make the merged-world application concrete without flattening package boundaries that still serve the Bitcode system.
 
 ## API Reference
 

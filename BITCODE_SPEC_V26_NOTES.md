@@ -203,7 +203,7 @@ This section records transitions that are too historically specific for the main
 | notification `runType` values and deep links named around retained run classes | `asset-pack` / `need-measurement` notification run types with `/executions/:runId` Terminal bridge links | user-facing notification copy now describes AssetPack and Need-measurement executions while retained route/table identifiers stay bounded |
 | `sync-deliverables-embeddings` operational script | `sync-asset-pack-evidence-embeddings` | active script/package-command/log names now describe stored AssetPack evidence embeddings while retained Exchange table/column names remain literal compatibility storage identifiers |
 | mock-system generated JavaScript beside TypeScript source | TypeScript-only mock owners plus real JavaScript setup/validation scripts | `uapi/mocking/{core,engines,generators,integration,middleware,types,index}.ts[x]` are active source; generated `.js` mirrors are removed, while operator scripts under `uapi/mocking/scripts/*` and `uapi/mocking/validate-system.js` remain hand-authored support scripts |
-| Terminal execution/application generated JavaScript beside TypeScript source | TypeScript-only `/application`, `/executions`, and shared Bitcode execution component owners | generated `.js` mirrors under `uapi/app/application`, `uapi/app/executions`, and `uapi/components/base/bitcode/execution` are removed so stale old-world labels cannot remain parallel active source |
+| Terminal execution/application generated JavaScript beside TypeScript source | TypeScript-only `/application`, `/executions`, and shared Bitcode execution component owners | generated `.js` mirrors under `uapi/app/application`, `uapi/app/executions`, and `uapi/components/base/bitcode/execution` are removed so stale non-Bitcode labels cannot remain parallel active source |
 | active `uapi/app` JavaScript beside TypeScript source | TypeScript-only `uapi/app` owners across entrypoints, route-local components, hooks, and API helper carriers | duplicate `page`, `route`, `layout`, `error`, `head`, and broader app-owned JavaScript mirrors are removed from live App Router and route-local ownership so Bitcode runtime no longer sees parallel active source inside Terminal, conversations, auxillaries, orbitals, or public-product corridors |
 | notification and execution-support generated JavaScript beside TypeScript source | TypeScript-only notification, middleware, hook, and long-runner script owners | generated `.js` mirrors under `packages/notifications/src`, touched `uapi/middleware`, touched `uapi/hooks`, and long-runner script mirrors are removed so notification/run-support proof reads from TypeScript source |
 | multi-agent pipeline selection | removed from V26 live controls | public orchestration selection is not a Bitcode V26 product feature |
@@ -220,7 +220,7 @@ This section records transitions that are too historically specific for the main
 | implicit usefulness judgment | source-to-shares service questions and commercial accountability evidence | need-comprehension must ask why/how/when/where/what/who the code serves for an Advanced Engineered Software, Inc. customer and what evidence makes that answer auditable |
 | source-co-located build output | TypeScript-only package source plus build output outside `src/` | package proof for commercial Bitcode implementations must not treat generated JavaScript beside TypeScript as active source evidence; the AssetPack package now proves no generated `.js` remains under `packages/pipelines/asset-pack/src` |
 | doc-comment prompt injection as experiment | `packages/doc-comment/*`, `packages/doc-code/*`, `packages/generic-doc-comment-plugins/*` | build-time tool prompt descriptions remain valuable support infrastructure when bounded and proven |
-| old prompt migration scripts | `_legacy/old-world-prompt-migration-scripts/*` | migration ideas are archived, not active prompt-system owners |
+| removed prompt migration scripts | `_legacy/prompt-migration-scripts/*` | migration ideas are archived, not active prompt-system owners |
 
 ### Inference, Research, and Measurement
 
@@ -313,7 +313,7 @@ The following items are no longer open draft questions:
 - retained product-adjacent package surfaces are active fifth-gate proof carriers too: active helpers such as `packages/vercel/*` and `packages/generic-tools/{repository-setup,simple-system-text-search,files-maintaining,git-interactor}/*` must read as Bitcode in package metadata, fixture copy, and doc-code teaching wherever they describe active product/runtime behavior.
 - active webhook and mock-system carriers are fifth-gate proof carriers too: `uapi/app/api/webhook/{route,verify}.ts`, `uapi/tests/webhookRoute.test.ts`, and active `uapi/mocking/*` source owners must use Bitcode trigger labels, Bitcode comment commands, Bitcode mock globals, and Bitcode sample organizations rather than lingering `engi-deliver-*`, `@engi-*`, or `__engiMock*` runtime truth.
 - the active mock-system slice now also includes its shipped operator tooling and docs as fifth-gate proof carriers: `uapi/mocking/{README.md,INTEGRATION_GUIDE.md,QUICK_START_*.md,COMPREHENSIVE_SYSTEM_SUMMARY.md,validate-system.js}` plus `uapi/mocking/scripts/*` must use Bitcode naming and the real `mocking/*` ownership paths rather than stale `app/mocking` teaching.
-- sixth-gate reform now has to explicitly adjudicate retained old-world systems rather than leaving them in a vague later bucket: web-search tool/agent behavior now has a fifth-gate baseline as source-attributed discovery-phase need-synthesis evidence support, while webhook-trigger carriers and other pure-agentic surfaces must likewise either become explicit Bitcode need-measuring/support infrastructure or be cut from canonical V26 active source.
+- sixth-gate reform now has to explicitly adjudicate retained systems rather than leaving them in a vague later bucket: web-search tool/agent behavior now has a fifth-gate baseline as source-attributed discovery-phase need-synthesis evidence support, while webhook-trigger carriers and other pure-agentic surfaces must likewise either become explicit Bitcode need-measuring/support infrastructure or be cut from canonical V26 active source.
 - eighth-gate closure owns the whole-repository application-ready Bitcode verdict: GUI, conversations, ChatGPT-style interface, ChatGPT app, API, MCP, schemas, proofs, docs, and retained packages must all close as one proven system with no silent legacy product ownership.
 
 ## Current first-gate source reminders
@@ -696,7 +696,7 @@ Closed for V26:
 Closed for V26:
 - full active product naming is Bitcode-owned wherever the source is product, route, prompt, API, interface, or package teaching;
 - remaining historical names are admitted only as bounded compatibility, storage, generated-schema, proof-lineage, or `_legacy/` references;
-- and any future rename cleanup must not reopen V26 unless it reveals active product behavior that still depends on old-world Engi semantics.
+- and any future rename cleanup must not reopen V26 unless it reveals active product behavior that still depends on Engi semantics.
 
 ## Current promotion sequencing posture
 
@@ -707,7 +707,7 @@ The V26 sequencing record is now:
 3. second-gate application UX/UI plus external hardening is closed for V26,
 4. third-gate marketing/public-shell refurbishment is closed for V26,
 5. fourth-gate retained-system convergence is promoted closed after explicit re-review,
-6. fifth-gate minimum-functional Exchange/Terminal closure plus old-world reform baseline is closed,
+6. fifth-gate minimum-functional Exchange/Terminal closure plus retained-system reform baseline is closed,
 7. sixth-gate minimal viable product elevation is closed,
 8. seventh-gate initial commercially viable testnet launch refinement is closed,
 9. eighth-gate total-repository provation and final closure is closed,
@@ -724,11 +724,11 @@ The following remain non-goals for this notes companion:
 Current fourth-gate closure reminders:
 - retained `/executions` health now explicitly depends on `/api/vcs`, active `/api/templates/shippables`, and `/api/auxillaries/template-preferences` as API owners rather than invisible glue; `/api/templates/deliverables` is removed from active V26
 - canonical auxillary health now explicitly depends on `/api/auxillaries/profile`, `/api/auxillaries/connections/github`, `/api/auxillaries/btd`, `/api/auxillaries/usage`, `/api/auxillaries/transactions`, and `/api/auxillaries/api-keys` as active owners rather than pane-side assumptions
-- old-world port scope is explicit in draft posture too: Jira remains reader-first Bitcode need ingestion while Git/GH remains the initial admitted settle-write boundary for fourth-gate testnet-ready promotion
+- retained port scope is explicit in draft posture too: Jira remains reader-first Bitcode need ingestion while Git/GH remains the initial admitted settle-write boundary for fourth-gate testnet-ready promotion
 
 Current fifth-gate reminders:
 - fifth-gate is the minimum-functional Bitcode gate, not a generic residue-cleanup gate; the north star is the repository being able to make shares and use shares through Bitcode-owned interfaces and state
-- fifth-gate now also owns the broad old-world reform baseline: anything retained from the old world has to be cut, isolated, or Bitcode-repurposed enough that the live Bitcode path already reads as a new-world product rather than a renamed compatibility shell
+- fifth-gate now also owns the broad retained-system reform baseline: anything retained has to be cut, isolated, or Bitcode-repurposed enough that the live Bitcode path already reads as a new-world product rather than a renamed compatibility shell
 - V26 commercial implementation work extends the `protocol-demonstration/` Bitcode protocol into Exchange, Terminal, API, MCP, ChatGPT App, and package-owned product surfaces; the demonstration protocol is not merely an external reference, and commercial surfaces must carry the same low-level source-to-shares semantics upward rather than restating them as route-local product copy
 - `.bitcode/fifth-gate-closure-deepening-proof.json` records post-fourth-gate-promotion closure evidence across Terminal, Exchange, persistence/schema, reform, proof, and environment axes, and `.bitcode/fifth-gate-closure-proof.json` supersedes that precursor with explicit fifth-gate closure
 - `make shares` means authenticated source-bearing give/need writes can produce need measurement, branch artifacts, asset packs, proof, and history without falling back to demo-only or compatibility-only posture
@@ -835,7 +835,7 @@ Current fifth-gate reminders:
 - retained repository-boundary VCS caller/provider drift counts the same way too: `packages/{generic-agents/vcs/src/index.ts,github/src/providers/github-provider.ts}` must not preserve schema-value-as-type misuse in the VCS agent layer, provider-local commit fields like `parentShas` that drift from canonical `VCSCommit.parents`, or webhook-verification helpers that leak the wrong sync/async contract into the stable provider abstraction; those are caller/provider carry-over errors above the reusable Bitcode VCS boundary
 - retained ORM persistence drift counts the same way too: `packages/orm/src/models/{user-btd-transactions,deliverables,notifications}.ts` must not preserve implicit-`any` reducers or null-key assumptions inside the active `$BTD` transaction and deliverable statistics carriers; those are active share/use storage-path carry-over errors in the Bitcode persistence corridor, not harmless model debt
 - fifth-gate proof closure is not allowed to stop at rename cleanup; the newly admitted application, API, MCP, prompt, ChatGPT-app, and retained package surfaces have to prove to the same rigorous standard the earlier Bitcode core already established
-- broad old-world reform now follows `protocol-demonstration/V26_REFORM_STRATEGY.md`; corridor-by-corridor work is expected to classify, mirror, boundary-harden, verify, and only then rename or cut
+- broad retained-system reform now follows `protocol-demonstration/V26_REFORM_STRATEGY.md`; corridor-by-corridor work is expected to classify, mirror, boundary-harden, verify, and only then rename or cut
 - the fifth-gate closure checklist is now explicit and closed too:
   - `make shares`: repository anchor, give-side supply selection, need measurement, fit/settlement posture, deposit, branch, and closure must all be writable back into the Bitcode activity ledger rather than only mutating preserved shell state
   - `use shares`: the Bitcode activity ledger must remain the dominant searchable/filterable/paginatable read surface, with selected activity exposing asset packs, proofs, history, and settlement follow-through without teaching a separate primary route

@@ -1,10 +1,10 @@
-# PRODUCT: BITCODE V26 GLOBAL PHENOMENON
+# PRODUCT: BITCODE V26 COMMERCIAL SYSTEM
 
-**The Engineering Intelligence Platform That Transforms How Software Is Built**
+**Auditable market infrastructure for technical knowledge exchange**
 
-## I. CORE PARADIGM: DESIGN → DEVELOP → DIGEST
+## I. CORE PARADIGM: GIVE -> NEED -> FIT -> FINISH
 
-### The Three Sacred Phases
+### The Core Operating Chain
 
 ```typescript
 interface BitcodeExperience {
@@ -177,7 +177,7 @@ Every agent follows Plan → Try → Refine → Retry with 7-substep hierarchy:
 
 ## Orbitals Experience
 
-**Your Command Center for Engineering Intelligence**
+**Your Bitcode operations workspace**
 
 ### BTC Fee Readiness and BTD Holdings
 - Real-time BTC fee-liquidity posture
@@ -214,9 +214,9 @@ Every agent follows Plan → Try → Refine → Retry with 7-substep hierarchy:
 - Review request alerts
 - Performance anomaly detection
 
-## Conversations Intelligence
+## Conversations Reasoning
 
-**The Quantum Orb**: Always-available engineering intelligence
+**Conversation Surface**: Always-available Bitcode reasoning over repository and Exchange context
 
 ### Contextual Understanding
 - Repository-aware responses
@@ -344,7 +344,7 @@ Every agent follows Plan → Try → Refine → Retry with 7-substep hierarchy:
 ### Single Migration Truth
 ```sql
 -- 001_v26_production.sql
--- Complete schema, no legacy, no backwards compatibility
+-- Current Bitcode schema, transitional shims excluded
 
 CREATE TABLE executions (
   id UUID PRIMARY KEY,
@@ -427,7 +427,7 @@ Users provide Instructions
 
 ## REMEMBER
 
-**Bitcode is not a tool. It's engineering intelligence market infrastructure.**
+**Bitcode is market infrastructure for auditable technical knowledge exchange.**
 
 Every instruction becomes architecture.
 Every execution becomes learning.
@@ -435,20 +435,18 @@ Every pattern becomes permanent.
 Every codebase becomes auditable technical knowledge.
 Every user makes it better for everyone.
 
-This is not automation.
-This is augmentation.
-This is intelligence amplification.
-This is engineering excellence at global scale.
+This is not a generic automation surface.
+This is the commercial Bitcode baseline for source, Need, fit, proof, settlement, and AssetPack reread.
 
 ---
 
-**THE PRODUCT IS THE EXPERIENCE**
-**THE EXPERIENCE IS EXCELLENCE**
-**EXCELLENCE IS INEVITABLE**
+**THE PRODUCT IS THE PROTOCOL**
+**THE PROTOCOL IS PROVEN**
+**THE PROOF IS REPLAYABLE**
 
-Make every instruction count.
-Make every execution perfect.
-Make every pattern permanent.
-Make every codebase intelligent.
+Make every Need measurable.
+Make every fit reviewable.
+Make every AssetPack auditable.
+Make every share traceable.
 
-The V26 Global Phenomenon begins now.
+V26 is the first commercial Bitcode promotion baseline.

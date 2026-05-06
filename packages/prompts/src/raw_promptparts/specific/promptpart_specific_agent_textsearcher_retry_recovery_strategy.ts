@@ -5,7 +5,7 @@
  * current_version: "V26"
  * versions: []
  * benchmarks: [
- *   { "name": "bounded_recovery", "test": "Recovers evidence search without broad old-world expansion", "score": 1.00 }
+ *   { "name": "bounded_recovery", "test": "Recovers evidence search without broad non-Bitcode expansion", "score": 1.00 }
  * ]
  */
 

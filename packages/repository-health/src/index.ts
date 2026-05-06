@@ -369,7 +369,7 @@ export class RepositoryHealthMonitor {
           suggestedActions: [
             'Schedule refactoring sessions',
             'Address code smells and anti-patterns',
-            'Modernize old-world code components'
+            'Reform support-code components to current Bitcode contracts'
           ]
         });
       }

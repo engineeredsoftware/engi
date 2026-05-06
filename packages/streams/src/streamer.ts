@@ -1,8 +1,8 @@
 /**
  * STREAMER - Clean event emission for pipeline streaming
  * 
- * A minimal streamer focused on emitting events to subscribers
- * without old-world complexity or domain coupling.
+ * A minimal streamer focused on emitting events to subscribers without product
+ * domain coupling.
  */
 
 export type StreamEventHandler = (event: any) => void | Promise<void>;

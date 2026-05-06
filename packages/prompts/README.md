@@ -6,7 +6,7 @@ The canonical Bitcode prompt-primitives package. It keeps the merged-world promp
 
 Fourth-gate keeps this package as the admitted owner for prompt abstraction.
 That means:
-- old-world prompt parts stay alive only where they are repurposed into Bitcode execution and need-measurement behavior
+- retained prompt parts stay active only where they are repurposed into Bitcode execution and need-measurement behavior
 - conversations, Jira ingestion, Git/GitHub settle-write tooling, and retained agents all consume one shared prompt contract
 - fifth-gate proving can verify the prompt space without first reopening package ownership
 

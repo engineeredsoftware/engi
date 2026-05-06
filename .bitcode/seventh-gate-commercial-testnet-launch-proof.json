@@ -1,8 +1,8 @@
 {
   "reportId": "v26-seventh-gate-commercial-testnet-launch-proof",
   "version": "V26",
-  "proofSourceCommit": "288a6db8d92ac876a80b811dfecf8eb71a7798f5",
-  "generatedAt": "2026-05-05T21:59:08-03:00",
+  "proofSourceCommit": "93b652b76315046863c456db20b6970460bd7901",
+  "generatedAt": "2026-05-06T01:29:27-03:00",
   "generatorId": "bitcode.proven-generator.v1",
   "worktreeState": "dirty-preview",
   "gate": "gate-7",
@@ -21,7 +21,7 @@
     "proof-state-reread-and-operator-flow",
     "exchange-terminal-protocol-interface-alignment",
     "mcp-and-chatgpt-app-connected-interfaces",
-    "old-world-compatibility-explanations-retired"
+    "non-bitcode-compatibility-explanations-retired"
   ],
   "productReadiness": {
     "productCount": 9,
@@ -351,8 +351,8 @@
       }
     },
     {
-      "rowId": "old-world-compatibility-explanations-retired",
-      "criterion": "Core launch journeys no longer rely on old-world compatibility explanations",
+      "rowId": "non-bitcode-compatibility-explanations-retired",
+      "criterion": "Core launch journeys no longer rely on non-Bitcode compatibility explanations",
       "proofEvidencePassed": true,
       "sourceEvidencePassed": true,
       "closurePassed": true,
@@ -369,7 +369,7 @@
         "requiredEvidence": [
           {
             "file": "uapi/app/application/application-commercial-launch-readiness.ts",
-            "evidence": "without old-world compatibility fallback",
+            "evidence": "without non-Bitcode compatibility fallback",
             "description": "launch map requires direct Bitcode journey explanation"
           },
           {

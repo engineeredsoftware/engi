@@ -5,7 +5,7 @@
  * Every doc-comment here becomes part of the prompt intelligence.
  *
  * V26 note:
- * This file is preserved as reference-only example material for old-world reform analysis.
+ * This file is preserved as reference-only example material for non-Bitcode reform analysis.
  * It does not by itself define admitted live Bitcode runtime behavior.
  */
 

@@ -680,7 +680,7 @@ export const analyzeFileContentTool = new AnalyzeFileContentTool();
 
 // Removed: initializeFileTrackerTool (File tracking handled at telemetry level)
 
-// ==================== LEGACY ALIASES ====================
+// ==================== ADMITTED TOOL NAME ALIASES ====================
 
 // Provide aliases for the string-based tool names used in agents
 export const cloneRepository = cloneRepositoryTool;

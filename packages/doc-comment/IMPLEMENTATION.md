@@ -1,7 +1,7 @@
 # Doc-Comments Implementation: How Comments Become Prompts
 
 V26 note:
-This document is preserved as a retained implementation sketch for old-world doc-comment behavior.
+This document is preserved as a retained implementation sketch for non-Bitcode doc-comment behavior.
 The base parsing abstraction remains admitted support when Bitcode-owned build-time injection corridors consume it, but this document does not by itself describe an admitted live Bitcode runtime.
 Where this document shows transformation or injection flows beyond the explicit `doc-code` tool prompt path, read them as illustrative tactics unless the active package source, spec, and proofs explicitly promote them.
 

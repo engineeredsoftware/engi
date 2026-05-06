@@ -114,7 +114,7 @@ Required coverage posture:
   active API-boundary proof now also includes the route-owner split for executions history: `uapi/app/api/executions/{route.ts,history/route.ts,history/[runId]/route.ts}` must stay as thin interface bindings over `packages/api/src/routes/{shippables,executions}.ts`, while execution-history normalization and persistence orchestration remain in the API package rather than drifting back into app-owned route files; route bindings may use specific `@bitcode/api/src/routes/{shippables,executions}` entries when isolated loading is required
   current generated fourth-gate promotion proofs are `.bitcode/conversations-continuity-proof.json`, `.bitcode/runs-pipelines-totality-proof.json`, `.bitcode/persistence-schema-totality-proof.json`, `.bitcode/prompt-system-totality-proof.json`, `.bitcode/inference-implementation-records-proof.json`, `.bitcode/retained-package-admissibility-proof.json`, `.bitcode/fourth-gate-reclosure-review-proof.json`, and `.bitcode/v26-gate-checkpoint-report.json`
   fourth-gate reclosure proof must keep the earlier overstated promotion claim visible, map every material acceptance criterion to generated evidence, and report no blocking fourth-gate deviance before the gate checkpoint marks fourth gate promoted closed and fifth-gate work proceeds
-  retained-package admissibility now also has to state old-world port roles explicitly, including Jira as reader-first need ingestion and Git/GH as the initial settle-write boundary; the generated proof now adds a whole-`packages/` census so every active package manifest has a role classification, file witness, write boundary, and zero-unclassified-package result instead of relying on selective exemplar admissions
+  retained-package admissibility now also has to state retained port roles explicitly, including Jira as reader-first need ingestion and Git/GH as the initial settle-write boundary; the generated proof now adds a whole-`packages/` census so every active package manifest has a role classification, file witness, write boundary, and zero-unclassified-package result instead of relying on selective exemplar admissions
   retained MCP proof carriers are now explicit too: `packages/executions-mcp/src/mcp-server/src/__tests__/{tools/MCPToolsTestSuite.test.ts,integration/mcp-server.test.ts,unit/auth.test.ts}` must stay green against the current server surface and must not emit lingering Jest open-handle warnings, with imported singleton intervals handled as real runtime teardown obligations rather than ignored test noise
   active email-template carriers are explicit fifth-gate witnesses too: `supabase/config.toml`, `supabase/templates/{magic_link,confirm,password_recovery,email_change,invite,newsletter,deliverable_*}.html`, and the active shippable-route email vars in `packages/api/src/routes/shippables.ts` must converge on Bitcode naming and current placeholder contracts rather than leaving `Engi` product copy in live email/auth flows
   active AssetPack package primitives are explicit fifth-gate witnesses too: `packages/pipelines/asset-pack/src/types/AssetPackWrittenAssetType.ts`, `packages/pipelines/asset-pack/src/semantic-resolution.ts`, `packages/pipelines/asset-pack/src/tools/search.ts`, and `uapi/tests/searchRelevantAssetPackEvidence.test.ts` must keep written-asset type ownership and prior-run evidence search named as Bitcode AssetPack behavior, with `deliverableType` and vector-RPC naming treated only as compatibility payload/storage detail
@@ -166,7 +166,7 @@ Required coverage posture:
   fifth-gate active-product naming witnesses now also cover preserved-protocol runtime posture carriers such as `protocol-demonstration/{src/bitcode-demo.js,src/canon-posture.js,test/e2e.test.js}`, so active runtime branch namespaces, operator wait states, and canon/spec-family posture remain Bitcode-only and do not silently regress to `engi/remediation-*` or an `ENGI_SPEC` fallback in live runtime and interface proof
   fifth-gate active-product naming witnesses now also cover the canonical auxillary-onboarding contract and reserved need-measurement teaching layer such as `uapi/app/{application/application-run-data.ts,api/auxillaries/onboarding/route.ts,api/auxillaries/notifications/_shared.ts}`, `uapi/hooks/useConversationStream.ts`, `uapi/mocking/middleware/MockMiddleware.ts`, `uapi/tests/{orbitalsOnboardingRoute,applicationTransactions}.test.ts`, and `internal-docs/{BITCODE_AUXILLARIES_READINESS,BITCODE_CONNECTED_SERVICES,BITCODE_FRONTEND_ARCHITECTURE,BITCODE_EXCHANGE_DATABASE,BITCODE_API,BITCODE_EXECUTIONS,BITCODE_AGENTIC_EXECUTION,BITCODE_INTERFACE_STYLE}.md`, so active Bitcode proof also guards the canonical pane payloads, unauthorized onboarding response shape, and need-measurement placeholder posture instead of leaving stale step-only or Measure wording behind in code/docs/tests
 
-### Gate 5: minimum-functional Bitcode Exchange, Bitcode Terminal, and broad old-world reform baseline
+### Gate 5: minimum-functional Bitcode Exchange, Bitcode Terminal, and broad retained-system reform baseline
 
 Required system families:
 - minimum-functional Exchange/Terminal read-write closure
@@ -177,8 +177,8 @@ Required system families:
 - production/staging/development mode completeness
 - migration/schema/type/API closure for retained storage systems
 - retained-package admissibility proof
-- retained old-world kept/cut/isolated reform baseline
-- explicit removal proof for old-world multi-agent / multi-output execution controls and internal-only `use-computer` Need-measurement admission under `BITCODE_ENABLE_COMPUTER_USE_NEED_MEASUREMENT`
+- retained kept/cut/isolated reform baseline
+- explicit removal proof for non-Bitcode multi-agent / multi-output execution controls and internal-only `use-computer` Need-measurement admission under `BITCODE_ENABLE_COMPUTER_USE_NEED_MEASUREMENT`
 - active-source product naming retirement
 - fifth-gate closure witnesses for retained app/package/runtime carriers
 - proof-bearing closure for newly admitted application, API, MCP, prompt, ChatGPT-app, and retained package systems at the same standard as the earlier proved Bitcode core
@@ -230,7 +230,7 @@ Required coverage posture:
 - tests:
   launch-critical operator and interface paths are exercised as one product story
 - proof surface:
-  seventh-gate commercial testnet launch proof explicitly names what was refined beyond MVP quality: product readiness, testnet-first boundary, commercial story, wallet/settlement/repository readiness, proof/state reread, connected interfaces, and retired old-world core-journey explanations
+  seventh-gate commercial testnet launch proof explicitly names what was refined beyond MVP quality: product readiness, testnet-first boundary, commercial story, wallet/settlement/repository readiness, proof/state reread, connected interfaces, and retired non-Bitcode core-journey explanations
 
 ### Gate 8: whole-repository provation and final V26 closure
 
@@ -1192,7 +1192,7 @@ Required closure posture:
   test coverage:
   source review against the formal fifth-gate acceptance rule and generated readiness/closure-axis artifacts
   proof surface:
-  current fifth-gate closure queue confirmation, sixth-gate MVP closure proof, and seventh-gate commercial testnet launch proof so accepted closure is explicitly bound to whole Terminal read/write acceptance, conversations/ad hoc parity, transactional readiness runtime proof, persistence runtime acceptance, old-world reform saturation, proof/promotion closure, MVP product readiness, explicit application map, activity/transactions repeated-operator loop, conversations ChatGPT-style parity, auxillaries readiness, admitted interface convergence, clean architecture, testnet-first launch boundary, wallet/BTC/`$BTD` launch readiness, proof/state reread, connected-interface launch alignment, and retirement of old-world compatibility explanations; eighth-gate provation remains downstream and cannot be substituted for launch closure evidence
+  current fifth-gate closure queue confirmation, sixth-gate MVP closure proof, and seventh-gate commercial testnet launch proof so accepted closure is explicitly bound to whole Terminal read/write acceptance, conversations/ad hoc parity, transactional readiness runtime proof, persistence runtime acceptance, non-Bitcode reform saturation, proof/promotion closure, MVP product readiness, explicit application map, activity/transactions repeated-operator loop, conversations ChatGPT-style parity, auxillaries readiness, admitted interface convergence, clean architecture, testnet-first launch boundary, wallet/BTC/`$BTD` launch readiness, proof/state reread, connected-interface launch alignment, and retirement of non-Bitcode compatibility explanations; eighth-gate provation remains downstream and cannot be substituted for launch closure evidence
 
 ## Module namespace proof note
 

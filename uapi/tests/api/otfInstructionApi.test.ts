@@ -39,7 +39,7 @@ describe('OTF instruction POST routes', () => {
     expect((supabaseAdmin.from as jest.Mock).mock.calls[1][0]).toBe('execution_events');
   });
 
-  it('does not retain the old Evidence Document instruction route as a live wrapper', async () => {
+  it('does not retain the removed Evidence Document instruction route as a live wrapper', async () => {
     await expect(import('@/app/api/evidence-documents/instructions/route')).rejects.toThrow();
   });
 });

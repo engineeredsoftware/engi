@@ -98,6 +98,7 @@ module.exports = {
     '<rootDir>/tests/MockOrchestrator.test.ts',
     // Added targeted AssetPack/runtime tests
     '<rootDir>/tests/searchRelevantAssetPackEvidence.test.ts',
+    '<rootDir>/tests/assetPackInstructionsRoute.test.ts',
     '<rootDir>/tests/RunDetailsView.mapping.test.tsx',
     '<rootDir>/tests/usePipelineExecution.test.tsx',
     // Fifth-gate BTD and auxillaries coverage

@@ -198,7 +198,7 @@
 - `PATTERN_RECOGNITION` - Pattern analysis
 - `VECTOR_SEARCH` - Semantic search
 
-### 🔄 LEGACY/GENERIC FEATURES (6 Features)
+### Retained/Generic Support Features (6 Features)
 
 - `COMPLETION_DATA` - AI completions
 - `PROCESSING_STATS` - Processing statistics

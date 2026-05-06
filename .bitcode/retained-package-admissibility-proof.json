@@ -1,8 +1,8 @@
 {
   "reportId": "v26-retained-package-admissibility-proof",
   "version": "V26",
-  "proofSourceCommit": "288a6db8d92ac876a80b811dfecf8eb71a7798f5",
-  "generatedAt": "2026-05-05T21:59:08-03:00",
+  "proofSourceCommit": "93b652b76315046863c456db20b6970460bd7901",
+  "generatedAt": "2026-05-06T01:29:27-03:00",
   "generatorId": "bitcode.proven-generator.v1",
   "worktreeState": "dirty-preview",
   "passed": true,
@@ -111,7 +111,7 @@
       "rationale": "retained execution abstractions remain admitted while runs and pipelines converge onto Bitcode semantics",
       "role": "retained runs-and-pipelines abstractions",
       "writeBoundary": "execution orchestration only; settle-write meaning is owned by Bitcode routes and Git/GH-facing carriers",
-      "proofObligation": "runs/pipelines, prompt-space, and inference-record proofs must keep execution primitives separated from old-world orchestration ownership",
+      "proofObligation": "runs/pipelines, prompt-space, and inference-record proofs must keep execution primitives separated from non-Bitcode orchestration ownership",
       "requiredFiles": [
         "packages/execution-generics/README.md",
         "packages/execution-generics/src/index.ts",
@@ -128,7 +128,7 @@
       "packageName": "@bitcode/jira-tools",
       "primaryRole": "ingress-or-support",
       "rationale": "retained Jira MCP tools remain admitted only as reader-first need-ingestion and need-measurement carriers during fourth-gate convergence",
-      "role": "old-world Jira read-first ingestion port",
+      "role": "Jira read-first external work-tracker ingestion port",
       "writeBoundary": "default scope is authenticated read and normalization; expansive settle-write to Jira comments or attachments is deferred beyond fourth-gate",
       "proofObligation": "retained-package admissibility and system-reform proof must keep Jira outside Bitcode Exchange state ownership",
       "requiredFiles": [
@@ -144,7 +144,7 @@
       "packageName": "@bitcode/generic-agents-jira",
       "primaryRole": "reference-only",
       "rationale": "retained Jira agent prompt ownership remains admitted only where it repurposes Jira data into Bitcode need context instead of generic project-management automation",
-      "role": "old-world Jira prompt-owned ingestion agent",
+      "role": "Jira prompt-owned ingestion agent",
       "writeBoundary": "reader-first Jira scope; propose writes only when explicitly requested and never as the default Bitcode settlement path",
       "proofObligation": "prompt and reform proofs must keep this agent as need-ingestion reference material until explicitly promoted",
       "requiredFiles": [
@@ -735,7 +735,7 @@
       "primaryRole": "reference-only",
       "classificationBasis": "reference-only-directory",
       "rationale": "package remains in the repository as bounded reference material, not as live Bitcode product behavior",
-      "role": "reference-only old-world package corridor",
+      "role": "reference-only retained package corridor",
       "writeBoundary": "reference packages do not own Exchange state, Terminal state, settlement writes, or canonical source-to-shares behavior",
       "proofObligation": "reference packages must stay classified, non-canonical for product writes, and eligible for later removal or explicit promotion",
       "requiredFiles": [
@@ -753,7 +753,7 @@
       "primaryRole": "reference-only",
       "classificationBasis": "reference-only-directory",
       "rationale": "package remains in the repository as bounded reference material, not as live Bitcode product behavior",
-      "role": "reference-only old-world package corridor",
+      "role": "reference-only retained package corridor",
       "writeBoundary": "reference packages do not own Exchange state, Terminal state, settlement writes, or canonical source-to-shares behavior",
       "proofObligation": "reference packages must stay classified, non-canonical for product writes, and eligible for later removal or explicit promotion",
       "requiredFiles": [
@@ -771,7 +771,7 @@
       "primaryRole": "reference-only",
       "classificationBasis": "reference-only-directory",
       "rationale": "package remains in the repository as bounded reference material, not as live Bitcode product behavior",
-      "role": "reference-only old-world package corridor",
+      "role": "reference-only retained package corridor",
       "writeBoundary": "reference packages do not own Exchange state, Terminal state, settlement writes, or canonical source-to-shares behavior",
       "proofObligation": "reference packages must stay classified, non-canonical for product writes, and eligible for later removal or explicit promotion",
       "requiredFiles": [
@@ -807,7 +807,7 @@
       "primaryRole": "reference-only",
       "classificationBasis": "reference-only-directory",
       "rationale": "package remains in the repository as bounded reference material, not as live Bitcode product behavior",
-      "role": "reference-only old-world package corridor",
+      "role": "reference-only retained package corridor",
       "writeBoundary": "reference packages do not own Exchange state, Terminal state, settlement writes, or canonical source-to-shares behavior",
       "proofObligation": "reference packages must stay classified, non-canonical for product writes, and eligible for later removal or explicit promotion",
       "requiredFiles": [
@@ -825,7 +825,7 @@
       "primaryRole": "reference-only",
       "classificationBasis": "reference-only-directory",
       "rationale": "package remains in the repository as bounded reference material, not as live Bitcode product behavior",
-      "role": "reference-only old-world package corridor",
+      "role": "reference-only retained package corridor",
       "writeBoundary": "reference packages do not own Exchange state, Terminal state, settlement writes, or canonical source-to-shares behavior",
       "proofObligation": "reference packages must stay classified, non-canonical for product writes, and eligible for later removal or explicit promotion",
       "requiredFiles": [
@@ -843,7 +843,7 @@
       "primaryRole": "reference-only",
       "classificationBasis": "reference-only-directory",
       "rationale": "package remains in the repository as bounded reference material, not as live Bitcode product behavior",
-      "role": "reference-only old-world package corridor",
+      "role": "reference-only retained package corridor",
       "writeBoundary": "reference packages do not own Exchange state, Terminal state, settlement writes, or canonical source-to-shares behavior",
       "proofObligation": "reference packages must stay classified, non-canonical for product writes, and eligible for later removal or explicit promotion",
       "requiredFiles": [
@@ -861,7 +861,7 @@
       "primaryRole": "reference-only",
       "classificationBasis": "reference-only-directory",
       "rationale": "package remains in the repository as bounded reference material, not as live Bitcode product behavior",
-      "role": "reference-only old-world package corridor",
+      "role": "reference-only retained package corridor",
       "writeBoundary": "reference packages do not own Exchange state, Terminal state, settlement writes, or canonical source-to-shares behavior",
       "proofObligation": "reference packages must stay classified, non-canonical for product writes, and eligible for later removal or explicit promotion",
       "requiredFiles": [
@@ -879,7 +879,7 @@
       "primaryRole": "reference-only",
       "classificationBasis": "reference-only-directory",
       "rationale": "package remains in the repository as bounded reference material, not as live Bitcode product behavior",
-      "role": "reference-only old-world package corridor",
+      "role": "reference-only retained package corridor",
       "writeBoundary": "reference packages do not own Exchange state, Terminal state, settlement writes, or canonical source-to-shares behavior",
       "proofObligation": "reference packages must stay classified, non-canonical for product writes, and eligible for later removal or explicit promotion",
       "requiredFiles": [
@@ -897,7 +897,7 @@
       "primaryRole": "reference-only",
       "classificationBasis": "reference-only-directory",
       "rationale": "package remains in the repository as bounded reference material, not as live Bitcode product behavior",
-      "role": "reference-only old-world package corridor",
+      "role": "reference-only retained package corridor",
       "writeBoundary": "reference packages do not own Exchange state, Terminal state, settlement writes, or canonical source-to-shares behavior",
       "proofObligation": "reference packages must stay classified, non-canonical for product writes, and eligible for later removal or explicit promotion",
       "requiredFiles": [
@@ -915,7 +915,7 @@
       "primaryRole": "reference-only",
       "classificationBasis": "reference-only-directory",
       "rationale": "package remains in the repository as bounded reference material, not as live Bitcode product behavior",
-      "role": "reference-only old-world package corridor",
+      "role": "reference-only retained package corridor",
       "writeBoundary": "reference packages do not own Exchange state, Terminal state, settlement writes, or canonical source-to-shares behavior",
       "proofObligation": "reference packages must stay classified, non-canonical for product writes, and eligible for later removal or explicit promotion",
       "requiredFiles": [
@@ -933,7 +933,7 @@
       "primaryRole": "reference-only",
       "classificationBasis": "reference-only-directory",
       "rationale": "package remains in the repository as bounded reference material, not as live Bitcode product behavior",
-      "role": "reference-only old-world package corridor",
+      "role": "reference-only retained package corridor",
       "writeBoundary": "reference packages do not own Exchange state, Terminal state, settlement writes, or canonical source-to-shares behavior",
       "proofObligation": "reference packages must stay classified, non-canonical for product writes, and eligible for later removal or explicit promotion",
       "requiredFiles": [
@@ -969,7 +969,7 @@
       "primaryRole": "reference-only",
       "classificationBasis": "reference-only-directory",
       "rationale": "package remains in the repository as bounded reference material, not as live Bitcode product behavior",
-      "role": "reference-only old-world package corridor",
+      "role": "reference-only retained package corridor",
       "writeBoundary": "reference packages do not own Exchange state, Terminal state, settlement writes, or canonical source-to-shares behavior",
       "proofObligation": "reference packages must stay classified, non-canonical for product writes, and eligible for later removal or explicit promotion",
       "requiredFiles": [
@@ -987,7 +987,7 @@
       "primaryRole": "reference-only",
       "classificationBasis": "reference-only-directory",
       "rationale": "package remains in the repository as bounded reference material, not as live Bitcode product behavior",
-      "role": "reference-only old-world package corridor",
+      "role": "reference-only retained package corridor",
       "writeBoundary": "reference packages do not own Exchange state, Terminal state, settlement writes, or canonical source-to-shares behavior",
       "proofObligation": "reference packages must stay classified, non-canonical for product writes, and eligible for later removal or explicit promotion",
       "requiredFiles": [
@@ -1005,7 +1005,7 @@
       "primaryRole": "reference-only",
       "classificationBasis": "reference-only-directory",
       "rationale": "package remains in the repository as bounded reference material, not as live Bitcode product behavior",
-      "role": "reference-only old-world package corridor",
+      "role": "reference-only retained package corridor",
       "writeBoundary": "reference packages do not own Exchange state, Terminal state, settlement writes, or canonical source-to-shares behavior",
       "proofObligation": "reference packages must stay classified, non-canonical for product writes, and eligible for later removal or explicit promotion",
       "requiredFiles": [
@@ -1023,7 +1023,7 @@
       "primaryRole": "reference-only",
       "classificationBasis": "reference-only-directory",
       "rationale": "package remains in the repository as bounded reference material, not as live Bitcode product behavior",
-      "role": "reference-only old-world package corridor",
+      "role": "reference-only retained package corridor",
       "writeBoundary": "reference packages do not own Exchange state, Terminal state, settlement writes, or canonical source-to-shares behavior",
       "proofObligation": "reference packages must stay classified, non-canonical for product writes, and eligible for later removal or explicit promotion",
       "requiredFiles": [
@@ -1041,7 +1041,7 @@
       "primaryRole": "reference-only",
       "classificationBasis": "reference-only-directory",
       "rationale": "package remains in the repository as bounded reference material, not as live Bitcode product behavior",
-      "role": "reference-only old-world package corridor",
+      "role": "reference-only retained package corridor",
       "writeBoundary": "reference packages do not own Exchange state, Terminal state, settlement writes, or canonical source-to-shares behavior",
       "proofObligation": "reference packages must stay classified, non-canonical for product writes, and eligible for later removal or explicit promotion",
       "requiredFiles": [
@@ -1095,7 +1095,7 @@
       "primaryRole": "reference-only",
       "classificationBasis": "reference-only-directory",
       "rationale": "package remains in the repository as bounded reference material, not as live Bitcode product behavior",
-      "role": "reference-only old-world package corridor",
+      "role": "reference-only retained package corridor",
       "writeBoundary": "reference packages do not own Exchange state, Terminal state, settlement writes, or canonical source-to-shares behavior",
       "proofObligation": "reference packages must stay classified, non-canonical for product writes, and eligible for later removal or explicit promotion",
       "requiredFiles": [
@@ -1595,7 +1595,7 @@
       "packagePath": "packages/generic-tools/need-comprehension/package.json",
       "primaryRole": "compatibility",
       "classificationBasis": "compatibility-name",
-      "rationale": "package keeps old-world naming or behavior temporarily while its semantics are repurposed to need, asset-pack, or support meaning",
+      "rationale": "package keeps retained naming or behavior temporarily while its semantics are repurposed to need, asset-pack, or support meaning",
       "role": "compatibility corridor retained during Bitcode reform",
       "writeBoundary": "compatibility packages must expose Bitcode semantics at active boundaries and avoid becoming new source-of-truth product owners",
       "proofObligation": "compatibility packages must keep source-visible reform notes, tests, prompt proof, and a later retirement or promotion path",
@@ -2078,7 +2078,7 @@
       "packagePath": "packages/pipelines/asset-pack/package.json",
       "primaryRole": "compatibility",
       "classificationBasis": "compatibility-name",
-      "rationale": "package keeps old-world naming or behavior temporarily while its semantics are repurposed to need, asset-pack, or support meaning",
+      "rationale": "package keeps retained naming or behavior temporarily while its semantics are repurposed to need, asset-pack, or support meaning",
       "role": "compatibility corridor retained during Bitcode reform",
       "writeBoundary": "compatibility packages must expose Bitcode semantics at active boundaries and avoid becoming new source-of-truth product owners",
       "proofObligation": "compatibility packages must keep source-visible reform notes, tests, prompt proof, and a later retirement or promotion path",
@@ -2345,7 +2345,7 @@
       "packagePath": "packages/testing/src/test-drymockfakestub/package.json",
       "primaryRole": "compatibility",
       "classificationBasis": "compatibility-name",
-      "rationale": "package keeps old-world naming or behavior temporarily while its semantics are repurposed to need, asset-pack, or support meaning",
+      "rationale": "package keeps retained naming or behavior temporarily while its semantics are repurposed to need, asset-pack, or support meaning",
       "role": "compatibility corridor retained during Bitcode reform",
       "writeBoundary": "compatibility packages must expose Bitcode semantics at active boundaries and avoid becoming new source-of-truth product owners",
       "proofObligation": "compatibility packages must keep source-visible reform notes, tests, prompt proof, and a later retirement or promotion path",

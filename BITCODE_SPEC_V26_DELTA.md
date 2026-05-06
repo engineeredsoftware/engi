@@ -58,7 +58,7 @@ The Bitcode interpretation is:
 
 - `protocol-demonstration` remains a lower-rail protocol witness and deterministic proof/reference implementation, not the commercial product shell.
 - `uapi` becomes the Bitcode Terminal and Exchange-facing application/interface rail, with `/application`, conversations, auxillaries, APIs, and read/write admission routes carrying commercial product experience.
-- `packages/*` are no longer generic old-world inventory by default; each package must be direct-product, commercial infrastructure, ingress/support, compatibility, reference-only, cut, or deferred.
+- `packages/*` are no longer generic non-Bitcode inventory by default; each package must be direct-product, commercial infrastructure, ingress/support, compatibility, reference-only, cut, or deferred.
 - prompt, tool, agent, execution, pipeline, conversation, MCP, persistence, and proof corridors must be specified together because V26 claims Bitcode as a provable source-to-shares deployed financial system, not merely as a UI over a demo.
 - retained compatibility names may survive only when they are bounded carriers over Bitcode objects such as Need, AssetPack, written asset, delivery mechanism, fit quality, proof evidence, execution state, and settlement receipt.
 
@@ -285,7 +285,7 @@ The accepted V26 decisions are now:
 14. Fourth-gate merged-world naming now keeps `executions` explicit as executions primitives inside the broader `activity` family, where transactions, executions, and notifications can coexist precisely.
 15. Fourth-gate now also requires one shared Bitcode activity vocabulary so transactions, retained execution events, and user-facing notifications normalize through the same typed activity model before later activity classes are admitted.
 16. Fourth-gate merged-world naming now converges `orbitals` on `auxillaries`, keeping non-transactional, extra-network, still-proven preference/interface/identity/connection surfaces around the Bitcode core.
-17. Old-world port scope is now explicit: Jira is reader-first need ingestion and Git/GH is the initial admitted settle-write boundary for testnet-ready promotion.
+17. Retained port scope is now explicit: Jira is reader-first need ingestion and Git/GH is the initial admitted settle-write boundary for testnet-ready promotion.
 18. `/application` is the only primary Bitcode destination in the finished V26 product posture.
 19. Auxillaries and conversations are fullscreen overlays entered from within `/application` rather than peer product destinations.
 20. Auxillaries are fixed as four rings: `Connects`, `Interfaces`, `Profile`, and `$BTD`.
@@ -546,7 +546,7 @@ Fourth-gate is now specified as:
 - redefining old deliverable output meaning as AssetPack run, stored evidence, and PR Shippable semantics,
 - porting current executions plus AssetPack/Shippable master-detail and inspection patterns inward to `/application`,
 - routing retained prompt text through prompt abstraction and the proved prompt space,
-- reprompting old-world tools and agents for Bitcode canonical use with reader-first fourth-gate scope such as Jira need ingestion,
+- reprompting retained tools and agents for Bitcode canonical use with reader-first fourth-gate scope such as Jira need ingestion,
 - keeping initial testnet-ready settle-write focused on Git/GH asset settlement while broader write surfaces stay later,
 - and retaining packages only when V26 explicitly admits and proves their role.
 
@@ -557,7 +557,7 @@ Fourth-gate acceptance is reached only when:
 - execution plus AssetPack/Shippable workspace reuse is ported inward to `/application`,
 - prompt abstraction directly owns retained prompt text,
 - retained agent/tool abstractions have explicit V26 roles,
-- old-world tool ports are scoped clearly enough that read/measure behavior closes now while broader settle-write expansion can wait,
+- retained tool ports are scoped clearly enough that read/measure behavior closes now while broader settle-write expansion can wait,
 - and retained packages are admitted intentionally with proof obligations.
 
 ## Precise fifth-gate specification targets
@@ -565,7 +565,7 @@ Fourth-gate acceptance is reached only when:
 Fifth-gate is now specified as:
 - minimum-functional Bitcode Exchange and Bitcode Terminal closure for the kept V26 system,
 - complete active-source Bitcode rename closure, proof precision, and system completeness for that minimum-functional system,
-- maximally finished old-world reform baseline for everything that still survives on the live Bitcode path,
+- maximally finished retained-system reform baseline for everything that still survives on the live Bitcode path,
 - debug/environment controls required for proving mode coherence,
 - full production/staging/development mode completeness,
 - retained-package admissibility proof plus generated whole-`packages/` census coverage with zero unclassified active package owners,
@@ -578,7 +578,7 @@ Fifth-gate is now specified as:
 Fifth-gate acceptance is reached only when:
 - the repository can make shares and use shares through Bitcode-owned interfaces, route-level reread, and state,
 - package and interface PARITY closure is backed by specification text, generated proof artifacts, source-content checks, executable tests when the surface carries make-share or use-share behavior, and package-by-package census classification rather than selective package examples alone,
-- the Bitcode MCP write-admission slice proves accepted write receipts, queued write-admission metadata, third-party MCP ingress as input context, and asset-pack output meaning instead of thin old-world run-id residue,
+- the Bitcode MCP write-admission slice proves accepted write receipts, queued write-admission metadata, third-party MCP ingress as input context, and asset-pack output meaning instead of thin non-Bitcode run-id residue,
 - the Bitcode MCP prompt-canon slice proves workflow/development prompts and the retained pipeline tool describe asset-pack pipeline execution over source-to-shares needs while preserving compatibility URI/subtype names only as compatibility surfaces,
 - the GitHub webhook ingress slice proves retained labels and `@bitcode-*` comments schedule asset-pack pipeline automation with `github_webhook` ingress, `asset_packs` output meaning, and ingress-only Exchange role while retaining the old trigger command only as compatibility implementation detail,
 - the UAPI client execution-hook slice proves active AssetPack submission is described as route-backed asset-pack pipeline execution through canonical `definitionOfNeed` input rather than old acceptance-field naming, and that `/api/deliverables` is no longer an active V26 mount,
@@ -587,7 +587,7 @@ Fifth-gate acceptance is reached only when:
 - their closure verdicts are explicit,
 - debug/environment behavior is proven coherent,
 - unreplaced active `engi` product naming is retired from active code/copy/route teaching,
-- retained old-world systems are already cut, isolated, or Bitcode-repurposed enough that the live path reads as a new-world Bitcode product baseline,
+- retained systems are already cut, isolated, or Bitcode-repurposed enough that the live path reads as a current Bitcode product baseline,
 - newly admitted application, API, MCP, prompt, and retained package systems are proven to the same Bitcode-grade standard expected of the former proved core,
 - and the kept V26 system can be treated as Bitcode-complete without relying on informal interpretation across merged systems.
 
@@ -659,7 +659,7 @@ The current V26 sequencing is now:
 4. execute second-gate application UX/UI plus external-interfacing hardening,
 5. execute third-gate marketing refurbishment,
 6. execute fourth-gate retained-system convergence,
-7. execute fifth-gate minimum-functional Exchange/Terminal closure plus broad old-world reform baseline including debug/environment controls,
+7. execute fifth-gate minimum-functional Exchange/Terminal closure plus broad retained-system reform baseline including debug/environment controls,
 8. execute sixth-gate minimal viable product elevation,
 9. execute seventh-gate initial commercially-viable testnet live-launch refinement,
 10. execute eighth-gate total-repository provation and final closure,

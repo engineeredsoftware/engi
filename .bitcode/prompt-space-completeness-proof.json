@@ -1,8 +1,8 @@
 {
   "reportId": "v26-prompt-space-completeness-proof",
   "version": "V26",
-  "proofSourceCommit": "288a6db8d92ac876a80b811dfecf8eb71a7798f5",
-  "generatedAt": "2026-05-05T21:59:08-03:00",
+  "proofSourceCommit": "93b652b76315046863c456db20b6970460bd7901",
+  "generatedAt": "2026-05-06T01:29:27-03:00",
   "generatorId": "bitcode.proven-generator.v1",
   "worktreeState": "dirty-preview",
   "passed": true,
@@ -17,7 +17,7 @@
     "whole-repository prompt inventory saturation across every retained consumer",
     "product-grade prompt quality and commercial readiness for Exchange, Terminal, MCP, and third-party interfaces",
     "final retirement or promotion of compatibility prompt names after all callers converge",
-    "full raw promptpart reservoir audit for old-world product semantics and reference-only language",
+    "full raw promptpart reservoir audit for non-Bitcode product semantics and reference-only language",
     "eighth-gate total proof that every live inference path is explainable from the explicit prompt substrate"
   ],
   "openCompletenessDimensions": [],
@@ -210,7 +210,7 @@
       "missingFiles": [],
       "promptSpaceRole": "raw-promptpart-carry-through",
       "closureTier": "fifth-gate-baseline",
-      "fifthGateUse": "Prevents runtime JavaScript from silently preserving old-world prompt text after TypeScript prompt reform.",
+      "fifthGateUse": "Prevents runtime JavaScript from silently preserving non-Bitcode prompt text after TypeScript prompt reform.",
       "laterGateRemaining": "The full raw promptpart reservoir remains subject to later prompt-space saturation and product-copy quality review."
     },
     {

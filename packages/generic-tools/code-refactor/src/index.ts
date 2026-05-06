@@ -40,7 +40,7 @@ import {
  * @capabilities Symbol identification, dependency tracking, cross-file renaming, rollback support, semantic validation, and conflict detection
  * @keyParameters filePath (target file), position (symbol position), newName (replacement name), atomic (safety mode), validateReferences (dependency check)
  * @output Detailed rename report with affected files, change counts, dependency analysis, and success confirmation with rollback information
- * @bestFor Large-scale refactoring, symbol standardization, repository-wide consistency improvements, and old-world code modernization
+ * @bestFor Large-scale refactoring, symbol standardization, repository-wide consistency improvements, and Bitcode support-code reform
  * @strategicUsage Critical for maintaining code quality during refactoring operations, enabling safe large-scale changes without breaking dependencies
  * @integrationPattern Works with LSP servers, TypeScript compiler, and version control systems for comprehensive rename safety and validation
  * @contextAwareness Uses semantic analysis to understand symbol usage, import relationships, and cross-file dependencies for complete rename safety

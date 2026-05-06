@@ -172,7 +172,7 @@ Read-only data access with intelligent filtering:
 - **Pipeline Events**: Real-time event streams and logs
 
 #### Intelligence Resources (`intelligence-resources.ts`)
-- **Engineering Intelligence**: AI-powered insights synthesis
+- **Technical Knowledge**: Bitcode evidence and insight synthesis
 - **Evidence Document Recommendations**: ML-driven Evidence Document suggestions
 - **Trend Analysis**: Pattern recognition across time periods
 - **Quality Metrics**: Comprehensive quality assessment
@@ -548,4 +548,4 @@ interface HealthStatus {
 - **Performance Tests**: Load and stress testing
 - **Security Tests**: Penetration testing and vulnerability scanning
 
-This architecture provides a robust, scalable, and secure foundation for exposing Bitcode's engineering intelligence through the Model Context Protocol, while maintaining high performance and comprehensive observability.
+This architecture provides a robust, scalable, and secure foundation for exposing Bitcode technical knowledge through the Model Context Protocol, while maintaining high performance and comprehensive observability.

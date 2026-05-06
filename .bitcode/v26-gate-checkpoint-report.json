@@ -1,8 +1,8 @@
 {
   "reportId": "v26-gate-checkpoint-report",
   "version": "V26",
-  "proofSourceCommit": "288a6db8d92ac876a80b811dfecf8eb71a7798f5",
-  "generatedAt": "2026-05-05T21:59:08-03:00",
+  "proofSourceCommit": "93b652b76315046863c456db20b6970460bd7901",
+  "generatedAt": "2026-05-06T01:29:27-03:00",
   "generatorId": "bitcode.proven-generator.v1",
   "worktreeState": "dirty-preview",
   "activeCanonicalTarget": "V26",
@@ -273,7 +273,7 @@
   },
   "fifthGate": {
     "gateId": "gate-5",
-    "label": "Minimum-functional Bitcode Exchange, Bitcode Terminal, and total old-world reform baseline",
+    "label": "Minimum-functional Bitcode Exchange, Bitcode Terminal, and total retained-system reform baseline",
     "passed": true,
     "open": false,
     "closureDeepened": true,

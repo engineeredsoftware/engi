@@ -39,7 +39,7 @@ const expectedFifthGateAxes = [
   'conversations-and-ad-hoc-execution',
   'transactional-readiness-and-repository-scope',
   'persistence-schema-and-active-source-health',
-  'old-world-reform-and-retained-package-baseline',
+  'retained-system-reform-and-retained-package-baseline',
   'proof-family-and-environment-closure'
 ];
 
@@ -48,7 +48,7 @@ const expectedClosureQueueRows = [
   'Conversations and ad hoc parity',
   'Transactional readiness runtime proof',
   'Persistence runtime acceptance',
-  'Old-world reform saturation',
+  'Retained-system reform saturation',
   'Proof and promotion closure'
 ];
 
@@ -71,7 +71,7 @@ const expectedSeventhGateRows = [
   'wallet-settlement-repository-readiness',
   'proof-state-reread-operator-flows',
   'connected-interface-launch-alignment',
-  'old-world-compatibility-explanations-retired'
+  'non-bitcode-compatibility-explanations-retired'
 ];
 
 const expectedEighthGateRows = [
@@ -89,7 +89,7 @@ test('V26 formal gate criteria keep fifth through eighth gates ordered and expli
   assert.match(specSource, /the minimum-functional north star is satisfied/u);
   assert.match(specSource, /make shares and use shares through Bitcode-owned interfaces, route-level reread, and state/u);
   assert.match(specSource, /Bitcode Terminal plus admitted API\/MCP\/app interfaces/u);
-  assert.match(specSource, /retained old-world systems are already cut, isolated, or Bitcode-repurposed/u);
+  assert.match(specSource, /retained systems are already cut, isolated, or Bitcode-repurposed/u);
   assert.match(specSource, /not being falsely claimed by importing sixth-\/seventh-\/eighth-gate polish/u);
 
   assert.match(specSource, /### Sixth-gate formal acceptance rule/u);
@@ -133,7 +133,7 @@ test('V26 notes companion cannot contradict promoted gate closure', () => {
   assert.match(notesSource, /## Closed-gate audit boundaries and future reopen conditions/u);
   assert.match(notesSource, /## Current promotion sequencing posture/u);
   assert.match(notesSource, /second-gate application UX\/UI plus external hardening is closed for V26/u);
-  assert.match(notesSource, /fifth-gate minimum-functional Exchange\/Terminal closure plus old-world reform baseline is closed/u);
+  assert.match(notesSource, /fifth-gate minimum-functional Exchange\/Terminal closure plus retained-system reform baseline is closed/u);
   assert.match(notesSource, /eighth-gate total-repository provation and final closure is closed/u);
   assert.match(notesSource, /source-backed baseline, MVP, and launch readiness with zero open product rows for V26 closure/u);
   assert.doesNotMatch(notesSource, /Still open:/u);

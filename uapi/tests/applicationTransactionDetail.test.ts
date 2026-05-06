@@ -288,7 +288,7 @@ describe('application-transaction-detail helpers', () => {
     expect(getApplicationTransactionDeliveryMechanism(detail)?.summary).toBe('Shippable summary.');
   });
 
-  it('keeps old deliverables fields out of the active detail contract', () => {
+  it('keeps removed deliverables fields out of the active detail contract', () => {
     expect(detail).not.toHaveProperty('deliverables');
   });
 

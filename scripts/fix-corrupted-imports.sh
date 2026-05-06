@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-# Repair malformed prompt imports left by old-world prompt codemods. Valid
+# Repair malformed prompt imports left by prompt codemods. Valid
 # targets are the public @bitcode/prompts carrier and current raw_promptparts
 # public subpaths.
 
