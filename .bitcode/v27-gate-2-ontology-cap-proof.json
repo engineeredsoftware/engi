@@ -81,13 +81,6 @@
     "No value-bearing mainnet readiness or launch is claimed by Gate 2 closure"
   ],
   "remainingGateFamilies": [
-    "Gate 7: Access And Policy",
-    "Gate 8: Allocation And Revenue",
-    "Gate 9: Ancestry And Anti-Game",
-    "Gate 10: Wallet And BTC Fee Settlement",
-    "Gate 11: Ledgerized AssetPack Anchoring",
-    "Gate 12: Minimal AssetPack Exchange",
-    "Gate 13: Terminal Transactions And Journal Diffing",
     "Gate 14: Ledger/Database Reconciliation",
     "Gate 15: Testnet/Mainnet Telemetry And Upgrades",
     "Gate 16: Product Surfaces, Research Rebinding, And Promotion Proof"

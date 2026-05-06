@@ -2,6 +2,7 @@ import {
   BITCODE_FEE_ASSET,
   BtdTokenId,
   assertNonEmptyString,
+  assertPositiveBigInt,
   assertPositiveSafeInteger,
   toBigIntAmount,
 } from './constants';
@@ -45,7 +46,7 @@ export interface AssetPackRightsTransferReceipt {
   priceSats: bigint;
   accessPolicyHash: string;
   btcFeeReceiptId: string;
-  ledgerAnchorId?: string;
+  ledgerAnchorId: string;
   exchangeSequence: bigint;
   issuedAt: string;
 }
@@ -61,6 +62,7 @@ export function createAssetPackExchangeOrder(input: {
   accessPolicyHash: string;
   createdAtExchangeSequence: bigint;
 }): AssetPackExchangeOrder {
+  assertOrderKind(input.orderKind);
   const rangeStart = assertRangeStart(input.rangeStart);
   const rangeEndExclusive = assertPositiveSafeInteger(
     input.rangeEndExclusive,
@@ -86,7 +88,10 @@ export function createAssetPackExchangeOrder(input: {
     priceSats,
     accessPolicyHash: assertNonEmptyString(input.accessPolicyHash, 'accessPolicyHash'),
     orderState: 'open',
-    createdAtExchangeSequence: input.createdAtExchangeSequence,
+    createdAtExchangeSequence: assertPositiveBigInt(
+      input.createdAtExchangeSequence,
+      'createdAtExchangeSequence',
+    ),
   };
 }
 
@@ -123,6 +128,8 @@ export function settleAssetPackExchangeOrder(
     throw new Error('Only accepted Exchange orders can settle.');
   }
 
+  assertPositiveBigInt(input.settledAtExchangeSequence, 'settledAtExchangeSequence');
+
   if (!order.takerWalletId) {
     throw new Error('Accepted Exchange order is missing taker wallet.');
   }
@@ -147,6 +154,7 @@ export function buildAssetPackRightsTransferReceipt(input: {
   if (settledOrder.orderState !== 'settled' || settledOrder.settledAtExchangeSequence === undefined) {
     throw new Error('Rights transfer requires a settled Exchange order.');
   }
+  assertNonEmptyString(settledOrder.ledgerAnchorId, 'ledgerAnchorId');
 
   return {
     kind: 'btd.asset_pack_rights_transfer',
@@ -183,4 +191,10 @@ function assertRangeStart(value: number): number {
   }
 
   return value;
+}
+
+function assertOrderKind(kind: AssetPackExchangeOrderKind): void {
+  if (kind !== 'sell' && kind !== 'buy' && kind !== 'bid' && kind !== 'ask') {
+    throw new Error(`Unsupported AssetPack Exchange order kind: ${kind}.`);
+  }
 }

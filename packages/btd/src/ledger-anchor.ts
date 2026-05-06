@@ -82,9 +82,7 @@ export function buildPreparedAssetPackLedgerAnchor(input: {
     txidOrHash: null,
     contractAddress: input.contractAddress,
     tokenId: input.tokenId,
-    commitmentMethod:
-      input.commitmentMethod ??
-      (chain === 'bitcoin' ? 'standard_output_commitment' : 'internal_journal'),
+    commitmentMethod: input.commitmentMethod ?? (chain === 'bitcoin' ? 'taproot' : 'internal_journal'),
     commitmentRoot: assertNonEmptyString(input.commitmentRoot, 'commitmentRoot'),
     sourceManifestRoot: assertNonEmptyString(input.sourceManifestRoot, 'sourceManifestRoot'),
     proofRoot: assertNonEmptyString(input.proofRoot, 'proofRoot'),

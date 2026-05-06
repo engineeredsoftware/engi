@@ -5,6 +5,21 @@ export const BTD_QUANTIZATION_Q = 1000n;
 export const BITCODE_FEE_ASSET = 'BTC';
 export const BITCODE_PUBLIC_BITCOIN_PROOF_NETWORK = 'signet';
 export const BTD_MEASUREMINT_CURVE = 'hyperbolic_saturation';
+export const REQUIRED_TERMINAL_TRANSACTION_KINDS = [
+  'need_submission',
+  'fit_closure',
+  'proof_admission',
+  'asset_pack_mint',
+  'btc_fee_payment',
+  'asset_pack_anchor',
+  'licensed_read_purchase',
+  'exchange_order',
+  'exchange_order_cancel',
+  'rights_transfer',
+  'dispute_holdback',
+  'settlement_finalization',
+  'ledger_database_reconciliation'
+];
 
 /**
  * @param {{
@@ -434,31 +449,135 @@ export function buildContributorAllocationReceipt(input) {
  * @param {{
  *   receiptId: string,
  *   childAssetPackId: string,
- *   edges: Array<{ parentAssetPackId: string, edgeKind: string, confidenceBps: number, timelessnessBps: number, depth: number, evidenceRoot: string }>,
+ *   existingEdges?: Array<{ parentAssetPackId: string, childAssetPackId: string, status?: string }>,
+ *   duplicateSourceRoots?: string[],
+ *   edges: Array<{ parentAssetPackId: string, childAssetPackId?: string, edgeKind: string, confidenceBps: number, timelessnessBps: number, depth: number, evidenceRoot: string, sourceFingerprintRoot?: string, claimantId?: string, reviewerId?: string, createdAfterChildFit?: boolean, conflictDisclosure?: string[] }>,
  *   issuedAt: string
  * }} input
  */
 export function buildAncestryReviewReceipt(input) {
   const minConfidenceBps = 2500;
+  const duplicateSourceRoots = new Set(input.duplicateSourceRoots || []);
+  const graphEdges = [...(input.existingEdges || [])];
+  const seen = new Set();
+  const edges = input.edges.map((edge) => {
+    const normalized = {
+      ...edge,
+      childAssetPackId: edge.childAssetPackId || input.childAssetPackId,
+      createdAfterChildFit: edge.createdAfterChildFit !== false,
+      conflictDisclosure: edge.conflictDisclosure || []
+    };
+    const key = `${normalized.parentAssetPackId}->${normalized.childAssetPackId}:${normalized.edgeKind}`;
+    let status = 'payable';
+    let rejectionReason = undefined;
+    let riskFlags = [];
+
+    if (seen.has(key)) {
+      status = 'rejected';
+      rejectionReason = 'duplicate_edge';
+      riskFlags = ['duplicate_edge'];
+    } else if (normalized.childAssetPackId !== input.childAssetPackId) {
+      status = 'rejected';
+      rejectionReason = 'child_mismatch';
+      riskFlags = ['child_mismatch'];
+    } else if (normalized.parentAssetPackId === normalized.childAssetPackId) {
+      status = 'rejected';
+      rejectionReason = 'self_edge';
+      riskFlags = ['self_edge'];
+    } else if (normalized.createdAfterChildFit !== true) {
+      status = 'rejected';
+      rejectionReason = 'not_late_bound';
+      riskFlags = ['not_late_bound'];
+    } else if (normalized.sourceFingerprintRoot && duplicateSourceRoots.has(normalized.sourceFingerprintRoot)) {
+      status = 'rejected';
+      rejectionReason = 'duplicate_source';
+      riskFlags = ['duplicate_source'];
+    } else if (normalized.claimantId && normalized.claimantId === normalized.reviewerId) {
+      status = 'rejected';
+      rejectionReason = 'claimant_reviewer_conflict';
+      riskFlags = ['claimant_reviewer_conflict'];
+    } else if (hasDirectReciprocalDemoEdge(graphEdges, normalized)) {
+      status = 'rejected';
+      rejectionReason = 'reciprocal_loop';
+      riskFlags = ['reciprocal_loop'];
+    } else if (wouldCreateDemoCycle(graphEdges, normalized)) {
+      status = 'rejected';
+      rejectionReason = 'dependency_cycle';
+      riskFlags = ['dependency_cycle'];
+    } else if (normalized.confidenceBps < minConfidenceBps) {
+      status = 'recorded_unpaid';
+      rejectionReason = 'confidence_below_threshold';
+      riskFlags = ['confidence_below_threshold'];
+    } else if (normalized.edgeKind === 'citation_only') {
+      status = 'recorded_unpaid';
+      rejectionReason = 'citation_only';
+      riskFlags = ['citation_only'];
+    } else if (normalized.conflictDisclosure.length > 0) {
+      status = 'recorded_unpaid';
+      rejectionReason = 'conflict_disclosed';
+      riskFlags = ['conflict_disclosed'];
+    }
+    seen.add(key);
+    const routeWeight =
+      status === 'payable'
+        ? String((BigInt(normalized.confidenceBps) * BigInt(normalized.timelessnessBps)) / BigInt((1 + normalized.depth) ** 2))
+        : '0';
+    const reviewed = {
+      ...normalized,
+      status,
+      rejectionReason,
+      riskFlags,
+      routeWeight,
+      supplyEffect: 'none',
+      mintCountDelta: 0
+    };
+    if (status !== 'rejected') {
+      graphEdges.push(reviewed);
+    }
+    return reviewed;
+  });
   return {
     type: 'btd_ancestry_review',
     receiptId: input.receiptId,
     childAssetPackId: input.childAssetPackId,
     minConfidenceBps,
-    edges: input.edges.map((edge) => {
-      const payable = edge.edgeKind !== 'citation_only' && edge.confidenceBps >= minConfidenceBps;
-      return {
-        ...edge,
-        childAssetPackId: input.childAssetPackId,
-        createdAfterChildFit: true,
-        status: payable ? 'payable' : 'recorded_unpaid',
-        routeWeight: payable
-          ? String((BigInt(edge.confidenceBps) * BigInt(edge.timelessnessBps)) / BigInt((1 + edge.depth) ** 2))
-          : '0'
-      };
-    }),
+    payableEdgeCount: edges.filter((edge) => edge.status === 'payable').length,
+    recordedUnpaidEdgeCount: edges.filter((edge) => edge.status === 'recorded_unpaid').length,
+    rejectedEdgeCount: edges.filter((edge) => edge.status === 'rejected').length,
+    supplyEffect: 'none',
+    mintCountDelta: 0,
+    edges,
     issuedAt: input.issuedAt
   };
+}
+
+function hasDirectReciprocalDemoEdge(graphEdges, edge) {
+  return graphEdges.some(
+    (known) =>
+      known.status !== 'rejected' &&
+      known.parentAssetPackId === edge.childAssetPackId &&
+      known.childAssetPackId === edge.parentAssetPackId
+  );
+}
+
+function wouldCreateDemoCycle(graphEdges, edge) {
+  const adjacency = new Map();
+  for (const known of graphEdges) {
+    if (known.status === 'rejected') continue;
+    const children = adjacency.get(known.parentAssetPackId) || [];
+    children.push(known.childAssetPackId);
+    adjacency.set(known.parentAssetPackId, children);
+  }
+  const stack = [edge.childAssetPackId];
+  const visited = new Set();
+  while (stack.length) {
+    const current = stack.pop();
+    if (!current || visited.has(current)) continue;
+    if (current === edge.parentAssetPackId) return true;
+    visited.add(current);
+    stack.push(...(adjacency.get(current) || []));
+  }
+  return false;
 }
 
 /**
@@ -470,14 +589,43 @@ export function buildAncestryReviewReceipt(input) {
  *   directWalletId: string,
  *   ancestorWalletId: string,
  *   treasuryWalletId: string,
+ *   disputeHoldbackWalletId?: string,
+ *   disputeHoldbackBps?: bigint,
  *   exchangeSequence: bigint,
  *   issuedAt: string
  * }} input
  */
 export function buildLicensedReadRevenueRouteReceipt(input) {
-  const directSats = (input.grossSats * 8000n) / 10000n;
-  const ancestorSats = (input.grossSats * 1200n) / 10000n;
-  const treasurySats = input.grossSats - directSats - ancestorSats;
+  const holdbackBps = input.disputeHoldbackBps && input.disputeHoldbackBps > 0n
+    ? input.disputeHoldbackBps
+    : 0n;
+  const directBps = holdbackBps > 0n ? 7000n : 8000n;
+  const ancestorBps = holdbackBps > 0n ? 1000n : 1200n;
+  const treasuryBps = 10000n - directBps - ancestorBps - holdbackBps;
+  const directSats = (input.grossSats * directBps) / 10000n;
+  const ancestorSats = (input.grossSats * ancestorBps) / 10000n;
+  const disputeHoldbackSats =
+    holdbackBps > 0n
+      ? (input.grossSats * holdbackBps) / 10000n
+      : 0n;
+  const treasurySats = input.grossSats - directSats - ancestorSats - disputeHoldbackSats;
+  if (treasuryBps < 0n || treasurySats < 0n) {
+    throw new Error('licensed-read revenue split is overallocated');
+  }
+  if (disputeHoldbackSats > 0n && !input.disputeHoldbackWalletId) {
+    throw new Error('dispute holdback wallet is required');
+  }
+  const pendingRoutes =
+    disputeHoldbackSats > 0n
+      ? [
+          {
+            category: 'dispute_holdback',
+            walletId: input.disputeHoldbackWalletId,
+            sats: disputeHoldbackSats.toString(),
+            reason: 'dispute_holdback_pending'
+          }
+        ]
+      : [];
 
   return {
     type: 'btd_licensed_read_revenue_route',
@@ -489,8 +637,14 @@ export function buildLicensedReadRevenueRouteReceipt(input) {
     directSats: directSats.toString(),
     ancestorSats: ancestorSats.toString(),
     treasurySats: treasurySats.toString(),
+    disputeHoldbackSats: disputeHoldbackSats.toString(),
     directRoutes: [{ walletId: input.directWalletId, sats: directSats.toString(), weight: '1' }],
     ancestorRoutes: [{ walletId: input.ancestorWalletId, sats: ancestorSats.toString(), weight: '1' }],
+    treasuryRoutes: [{ walletId: input.treasuryWalletId, sats: treasurySats.toString(), weight: '1' }],
+    disputeHoldbackWalletId: input.disputeHoldbackWalletId,
+    pendingRoutes,
+    failedRoutes: [],
+    routeState: pendingRoutes.length ? 'pending' : 'settled',
     treasuryWalletId: input.treasuryWalletId,
     exchangeSequence: input.exchangeSequence.toString(),
     issuedAt: input.issuedAt
@@ -513,6 +667,9 @@ export function buildPreparedBtcFeeReceipt(input) {
   if (input.network !== 'regtest' && input.network !== 'signet') {
     throw new Error('V27 demonstration fee proof uses regtest or signet');
   }
+  if (!input.walletAuthorizationProof) {
+    throw new Error('wallet authorization proof is required for BTC fee receipts');
+  }
   if (input.satsPaid <= 0n) {
     throw new Error('satsPaid must be positive');
   }
@@ -524,6 +681,7 @@ export function buildPreparedBtcFeeReceipt(input) {
     payerWalletId: input.payerWalletId,
     walletSessionId: input.walletSessionId,
     network: input.network,
+    walletAuthorizationProof: input.walletAuthorizationProof,
     txid: null,
     psbt: 'demo-psbt',
     satsPaid: input.satsPaid.toString(),
@@ -582,6 +740,7 @@ export function buildBitcoinAnchorReceipt(input) {
     assetPackId: input.assetPackId,
     chain: 'bitcoin',
     network: BITCODE_PUBLIC_BITCOIN_PROOF_NETWORK,
+    commitmentMethod: 'taproot',
     commitmentRoot: input.commitmentRoot,
     sourceManifestRoot: input.sourceManifestRoot,
     proofRoot: input.proofRoot,
@@ -590,6 +749,77 @@ export function buildBitcoinAnchorReceipt(input) {
     btdRangeEndExclusive: input.rangeEndExclusive,
     finalityState: 'prepared',
     confirmations: 0,
+    issuedAt: input.issuedAt
+  };
+}
+
+/**
+ * @param {{
+ *   receiptId: string,
+ *   orderId: string,
+ *   assetPackId: string,
+ *   rangeStart: number,
+ *   rangeEndExclusive: number,
+ *   fromWalletId: string,
+ *   toWalletId: string,
+ *   priceSats: bigint,
+ *   accessPolicyHash: string,
+ *   btcFeeReceiptId: string,
+ *   ledgerAnchorId: string,
+ *   exchangeSequence: bigint,
+ *   issuedAt: string
+ * }} input
+ */
+export function buildRightsTransferReceipt(input) {
+  if (input.rangeEndExclusive <= input.rangeStart) {
+    throw new Error('rights-transfer range must be non-empty');
+  }
+  if (!input.btcFeeReceiptId || !input.ledgerAnchorId || !input.accessPolicyHash) {
+    throw new Error('rights transfer requires fee, ledger anchor, and policy evidence');
+  }
+
+  return {
+    type: 'btd_asset_pack_rights_transfer',
+    receiptId: input.receiptId,
+    orderId: input.orderId,
+    assetPackId: input.assetPackId,
+    rangeStart: input.rangeStart,
+    rangeEndExclusive: input.rangeEndExclusive,
+    fromWalletId: input.fromWalletId,
+    toWalletId: input.toWalletId,
+    priceAsset: BITCODE_FEE_ASSET,
+    priceSats: input.priceSats.toString(),
+    accessPolicyHash: input.accessPolicyHash,
+    btcFeeReceiptId: input.btcFeeReceiptId,
+    ledgerAnchorId: input.ledgerAnchorId,
+    exchangeSequence: input.exchangeSequence.toString(),
+    issuedAt: input.issuedAt
+  };
+}
+
+/**
+ * @param {{
+ *   receiptId: string,
+ *   entries: Array<{ transactionKind: string }>,
+ *   issuedAt: string
+ * }} input
+ */
+export function buildTerminalJournalCoverageReceipt(input) {
+  const observedTransactionKinds = Array.from(
+    new Set(input.entries.map((entry) => entry.transactionKind))
+  ).sort();
+  const observed = new Set(observedTransactionKinds);
+  const missingTransactionKinds = REQUIRED_TERMINAL_TRANSACTION_KINDS.filter(
+    (kind) => !observed.has(kind)
+  );
+
+  return {
+    type: 'btd_terminal_journal_coverage',
+    receiptId: input.receiptId,
+    requiredTransactionKinds: REQUIRED_TERMINAL_TRANSACTION_KINDS,
+    observedTransactionKinds,
+    missingTransactionKinds,
+    blocking: missingTransactionKinds.length > 0,
     issuedAt: input.issuedAt
   };
 }

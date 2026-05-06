@@ -88,15 +88,15 @@ Required database truths:
 - `btd_ownership_events` projects mint allocation and rights-transfer ownership movement from receipts and ledger anchors.
 - `btd_read_licenses` projects scoped licensed-read grants without implying `$BTD` ownership transfer.
 - `btd_contributor_allocations` preserves whole-cell allocation conservation for the minted range.
-- `btd_ancestor_edges` records late-bound non-supply dependency evidence; low-confidence and citation-only edges can remain unpaid.
-- `btd_licensed_read_revenue_routes` routes BTC sats locally across holders, admitted ancestors, and treasury.
-- `btc_fee_transactions.fee_asset` is always `BTC`; `server_custody` is always `false`.
+- `btd_ancestor_edges` records late-bound non-supply dependency evidence; low-confidence, citation-only, disclosed-conflict, duplicate-source, reciprocal-loop, dependency-cycle, and claimant/reviewer-conflict outcomes remain auditable without changing supply.
+- `btd_licensed_read_revenue_routes` routes BTC sats locally across holders, admitted ancestors, treasury, explicit dispute holdback custody, and pending/failed route metadata.
+- `btc_fee_transactions.fee_asset` is always `BTC`; `server_custody` is always `false`; wallet authorization proof, PSBT/signed handoff state, txid, sats, Exchange sequence, and Terminal journal root remain in the receipt projection.
 - ledger anchors store commitments and finality projection only; ledgers remain source of truth for cryptographic finality.
-- Exchange orders and rights-transfer receipts use BTC prices and access-policy hashes.
-- Terminal journal rows and reconciliation repairs are projection/proof surfaces that prevent UI or API state from claiming unsupported finality.
+- Exchange orders and rights-transfer receipts use BTC prices and access-policy hashes; rights-transfer receipts require non-empty BTC fee and ledger-anchor evidence before ownership projection can move.
+- Terminal journal rows constrain the V27 transaction-family set and positive Exchange sequence; journal diffs and reconciliation repairs are projection/proof surfaces that prevent UI or API state from claiming unsupported finality.
 - `btd_protocol_upgrade_receipts` records deployment/migration state roots, approvals, rollback roots, and network scope.
 - V27 registry tables enable row-level security without user-facing policies; writes are expected through service-role route/worker boundaries until a narrower policy set is specified.
 - `user_credits` and `user_credit_usages` are compatibility read corridors only. They are not canonical tokenomics truth, cannot mint `$BTD`, and cannot settle AssetPack rights.
 
 `packages/orm/src/models/btd-registry.ts` is the V27 ORM boundary until generated Supabase types are refreshed from the migration.
-`packages/api/src/routes/btd-crypto.ts` may read registry snapshots and produce deterministic mint-draft projections through that ORM/package boundary, but it is not a committing Exchange write path until persistence, wallet fee, ledger anchor, and replay proofs close.
+`packages/api/src/routes/btd-crypto.ts` reads registry snapshots, produces deterministic mint/access/settlement projections, and commit-gates V27 registry writes for revenue, ancestry, BTC fee transactions, AssetPack anchors, and minimal AssetPack Exchange receipts.

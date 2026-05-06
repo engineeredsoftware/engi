@@ -5,6 +5,7 @@ import { schemaForReceipt } from '../src/receipt-schemas.js';
 import {
   BITCODE_FEE_ASSET,
   BITCODE_PUBLIC_BITCOIN_PROOF_NETWORK,
+  REQUIRED_TERMINAL_TRANSACTION_KINDS,
   buildAncestryReviewReceipt,
   buildAssetPackMintReceipt,
   allocateRange,
@@ -12,6 +13,8 @@ import {
   buildContributorAllocationReceipt,
   buildLicensedReadRevenueRouteReceipt,
   buildPreparedBtcFeeReceipt,
+  buildRightsTransferReceipt,
+  buildTerminalJournalCoverageReceipt,
   buildProtocolUpgradeReceipt,
   buildReconciliationReceipt,
   confirmBtcFeeReceipt,
@@ -30,6 +33,7 @@ test('V27 demonstration schemas expose crypto receipt families', () => {
   assert.equal(schemaForReceipt('btc_fee_transaction').predicateType.endsWith('/v27'), true);
   assert.equal(schemaForReceipt('btd_asset_pack_ledger_anchor').predicateType.endsWith('/v27'), true);
   assert.equal(schemaForReceipt('btd_asset_pack_rights_transfer').predicateType.endsWith('/v27'), true);
+  assert.equal(schemaForReceipt('btd_terminal_journal_coverage').predicateType.endsWith('/v27'), true);
   assert.equal(schemaForReceipt('btd_ledger_database_reconciliation').predicateType.endsWith('/v27'), true);
   assert.equal(schemaForReceipt('btd_contributor_allocation').predicateType.endsWith('/v27'), true);
   assert.equal(schemaForReceipt('btd_ancestry_review').predicateType.endsWith('/v27'), true);
@@ -271,6 +275,12 @@ test('V27 demonstration BTC fee and anchor receipts use signet and BTC', () => {
     payerWalletId: 'wallet-1',
     walletSessionId: 'session-1',
     network: 'signet',
+    walletAuthorizationProof: {
+      proofKind: 'message_signature',
+      message: 'Authorize Bitcode demonstration wallet session',
+      signature: 'signature-1',
+      verifiedAt: issuedAt
+    },
     satsPaid: 1200n,
     terminalJournalRoot: 'journal-root',
     exchangeSequence: 1n,
@@ -288,6 +298,21 @@ test('V27 demonstration BTC fee and anchor receipts use signet and BTC', () => {
   assert.equal(confirmedFee.finalityState, 'confirmed');
   assert.equal(confirmedFee.txid, 'txid-1');
 
+  assert.throws(
+    () =>
+      buildPreparedBtcFeeReceipt({
+        receiptId: 'fee-unproved',
+        payerWalletId: 'wallet-1',
+        walletSessionId: 'session-1',
+        network: 'signet',
+        satsPaid: 1200n,
+        terminalJournalRoot: 'journal-root',
+        exchangeSequence: 1n,
+        issuedAt
+      }),
+    /wallet authorization proof/
+  );
+
   const anchor = buildBitcoinAnchorReceipt({
     receiptId: 'anchor-1',
     assetPackId: 'asset-pack-1',
@@ -302,6 +327,45 @@ test('V27 demonstration BTC fee and anchor receipts use signet and BTC', () => {
 
   assert.equal(anchor.chain, 'bitcoin');
   assert.equal(anchor.network, BITCODE_PUBLIC_BITCOIN_PROOF_NETWORK);
+  assert.equal(anchor.commitmentMethod, 'taproot');
+
+  const transfer = buildRightsTransferReceipt({
+    receiptId: 'rights-transfer-1',
+    orderId: 'order-1',
+    assetPackId: 'asset-pack-1',
+    rangeStart: 0,
+    rangeEndExclusive: 2,
+    fromWalletId: 'wallet-seller',
+    toWalletId: 'wallet-buyer',
+    priceSats: 5000n,
+    accessPolicyHash: 'policy-hash',
+    btcFeeReceiptId: confirmedFee.receiptId,
+    ledgerAnchorId: anchor.receiptId,
+    exchangeSequence: 2n,
+    issuedAt
+  });
+
+  assert.equal(transfer.priceAsset, BITCODE_FEE_ASSET);
+  assert.equal(transfer.ledgerAnchorId, anchor.receiptId);
+  assert.throws(
+    () =>
+      buildRightsTransferReceipt({
+        receiptId: 'rights-transfer-missing-ledger',
+        orderId: 'order-1',
+        assetPackId: 'asset-pack-1',
+        rangeStart: 0,
+        rangeEndExclusive: 2,
+        fromWalletId: 'wallet-seller',
+        toWalletId: 'wallet-buyer',
+        priceSats: 5000n,
+        accessPolicyHash: 'policy-hash',
+        btcFeeReceiptId: confirmedFee.receiptId,
+        ledgerAnchorId: '',
+        exchangeSequence: 2n,
+        issuedAt
+      }),
+    /fee, ledger anchor, and policy evidence/
+  );
 });
 
 test('V27 demonstration allocation, ancestry, and revenue receipts conserve protocol value', () => {
@@ -321,6 +385,19 @@ test('V27 demonstration allocation, ancestry, and revenue receipts conserve prot
   const ancestry = buildAncestryReviewReceipt({
     receiptId: 'ancestry-1',
     childAssetPackId: 'asset-pack-child',
+    existingEdges: [
+      {
+        parentAssetPackId: 'asset-pack-child',
+        childAssetPackId: 'asset-pack-loop-middle',
+        status: 'payable'
+      },
+      {
+        parentAssetPackId: 'asset-pack-loop-middle',
+        childAssetPackId: 'asset-pack-loop-root',
+        status: 'payable'
+      }
+    ],
+    duplicateSourceRoots: ['duplicate-source-root'],
     edges: [
       {
         parentAssetPackId: 'asset-pack-parent',
@@ -337,12 +414,48 @@ test('V27 demonstration allocation, ancestry, and revenue receipts conserve prot
         timelessnessBps: 7500,
         depth: 1,
         evidenceRoot: 'citation-root'
+      },
+      {
+        parentAssetPackId: 'asset-pack-loop-root',
+        childAssetPackId: 'asset-pack-child',
+        edgeKind: 'proof_dependency',
+        confidenceBps: 8000,
+        timelessnessBps: 7500,
+        depth: 1,
+        evidenceRoot: 'loop-root'
+      },
+      {
+        parentAssetPackId: 'asset-pack-duplicate',
+        childAssetPackId: 'asset-pack-child',
+        edgeKind: 'source_reuse',
+        confidenceBps: 8000,
+        timelessnessBps: 7500,
+        depth: 1,
+        evidenceRoot: 'duplicate-root',
+        sourceFingerprintRoot: 'duplicate-source-root'
+      },
+      {
+        parentAssetPackId: 'asset-pack-conflicted',
+        childAssetPackId: 'asset-pack-child',
+        edgeKind: 'implementation_dependency',
+        confidenceBps: 8000,
+        timelessnessBps: 7500,
+        depth: 1,
+        evidenceRoot: 'conflict-root',
+        claimantId: 'reviewer-a',
+        reviewerId: 'reviewer-a'
       }
     ],
     issuedAt
   });
   assert.equal(ancestry.edges[0].status, 'payable');
   assert.equal(ancestry.edges[1].status, 'recorded_unpaid');
+  assert.equal(ancestry.edges[2].rejectionReason, 'dependency_cycle');
+  assert.equal(ancestry.edges[3].rejectionReason, 'duplicate_source');
+  assert.equal(ancestry.edges[4].rejectionReason, 'claimant_reviewer_conflict');
+  assert.equal(ancestry.supplyEffect, 'none');
+  assert.equal(ancestry.mintCountDelta, 0);
+  assert.equal(ancestry.rejectedEdgeCount, 3);
 
   const route = buildLicensedReadRevenueRouteReceipt({
     receiptId: 'revenue-1',
@@ -352,22 +465,47 @@ test('V27 demonstration allocation, ancestry, and revenue receipts conserve prot
     directWalletId: 'wallet-a',
     ancestorWalletId: 'wallet-parent',
     treasuryWalletId: 'wallet-treasury',
+    disputeHoldbackWalletId: 'wallet-holdback',
+    disputeHoldbackBps: 1000n,
     exchangeSequence: 2n,
     issuedAt
   });
   assert.equal(
-    BigInt(route.directSats) + BigInt(route.ancestorSats) + BigInt(route.treasurySats),
+    BigInt(route.directSats) +
+      BigInt(route.ancestorSats) +
+      BigInt(route.treasurySats) +
+      BigInt(route.disputeHoldbackSats),
     BigInt(route.grossSats)
   );
+  assert.equal(route.routeState, 'pending');
+  assert.equal(route.pendingRoutes[0].category, 'dispute_holdback');
 });
 
 test('V27 demonstration reconciliation receipts block projection drift', () => {
+  const coverage = buildTerminalJournalCoverageReceipt({
+    receiptId: 'terminal-coverage-1',
+    entries: REQUIRED_TERMINAL_TRANSACTION_KINDS.map((transactionKind) => ({
+      transactionKind
+    })),
+    issuedAt
+  });
+  const missing = buildTerminalJournalCoverageReceipt({
+    receiptId: 'terminal-coverage-missing',
+    entries: REQUIRED_TERMINAL_TRANSACTION_KINDS.filter(
+      (transactionKind) => transactionKind !== 'rights_transfer'
+    ).map((transactionKind) => ({ transactionKind })),
+    issuedAt
+  });
   const reconciliation = buildReconciliationReceipt({
     receiptId: 'reconciliation-1',
     repairs: [{ repairId: 'repair-1', blocking: true }],
     issuedAt
   });
 
+  assert.equal(coverage.blocking, false);
+  assert.deepEqual(coverage.missingTransactionKinds, []);
+  assert.equal(missing.blocking, true);
+  assert.deepEqual(missing.missingTransactionKinds, ['rights_transfer']);
   assert.equal(reconciliation.blocking, true);
 });
 

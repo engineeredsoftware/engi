@@ -42,28 +42,33 @@ export const RECEIPT_SCHEMAS = {
   },
   btd_ancestry_review: {
     predicateType: 'https://bitcode.ai/receipt/btd-ancestry-review/v27',
-    required: ['type', 'receiptId', 'childAssetPackId', 'minConfidenceBps', 'edges', 'issuedAt'],
-    publicClaim: 'Late-bound ancestry edges were reviewed as attribution and routing evidence without changing BTD supply.'
+    required: ['type', 'receiptId', 'childAssetPackId', 'minConfidenceBps', 'payableEdgeCount', 'recordedUnpaidEdgeCount', 'rejectedEdgeCount', 'supplyEffect', 'mintCountDelta', 'edges', 'issuedAt'],
+    publicClaim: 'Late-bound ancestry edges were reviewed with loop, duplicate-source, and conflict checks as attribution and routing evidence without changing BTD supply.'
   },
   btd_licensed_read_revenue_route: {
     predicateType: 'https://bitcode.ai/receipt/btd-licensed-read-revenue-route/v27',
-    required: ['type', 'receiptId', 'paymentId', 'assetPackId', 'priceAsset', 'grossSats', 'directSats', 'ancestorSats', 'treasurySats', 'directRoutes', 'ancestorRoutes', 'treasuryWalletId', 'exchangeSequence', 'issuedAt'],
-    publicClaim: 'A licensed-read BTC payment was routed locally across holders, proven ancestors, and treasury without relying on marketplace royalty signaling.'
+    required: ['type', 'receiptId', 'paymentId', 'assetPackId', 'priceAsset', 'grossSats', 'directSats', 'ancestorSats', 'treasurySats', 'disputeHoldbackSats', 'directRoutes', 'ancestorRoutes', 'treasuryRoutes', 'pendingRoutes', 'failedRoutes', 'routeState', 'treasuryWalletId', 'exchangeSequence', 'issuedAt'],
+    publicClaim: 'A licensed-read BTC payment was routed locally across holders, proven ancestors, treasury, and dispute holdback without relying on marketplace royalty signaling.'
   },
   btc_fee_transaction: {
     predicateType: 'https://bitcode.ai/receipt/btc-fee-transaction/v27',
-    required: ['type', 'receiptId', 'feePurpose', 'payerWalletId', 'walletSessionId', 'network', 'satsPaid', 'exchangeSequence', 'terminalJournalRoot', 'finalityState', 'confirmations', 'feeAsset', 'serverCustody', 'issuedAt'],
+    required: ['type', 'receiptId', 'feePurpose', 'payerWalletId', 'walletSessionId', 'network', 'walletAuthorizationProof', 'satsPaid', 'exchangeSequence', 'terminalJournalRoot', 'finalityState', 'confirmations', 'feeAsset', 'serverCustody', 'issuedAt'],
     publicClaim: 'A BTC fee transaction was prepared, signed, broadcast, or confirmed without using BTD as a spend token.'
   },
   btd_asset_pack_ledger_anchor: {
     predicateType: 'https://bitcode.ai/receipt/btd-asset-pack-ledger-anchor/v27',
-    required: ['type', 'receiptId', 'assetPackId', 'chain', 'network', 'commitmentRoot', 'sourceManifestRoot', 'proofRoot', 'accessPolicyHash', 'btdRangeStart', 'btdRangeEndExclusive', 'finalityState', 'confirmations', 'issuedAt'],
+    required: ['type', 'receiptId', 'assetPackId', 'chain', 'network', 'commitmentMethod', 'commitmentRoot', 'sourceManifestRoot', 'proofRoot', 'accessPolicyHash', 'btdRangeStart', 'btdRangeEndExclusive', 'finalityState', 'confirmations', 'issuedAt'],
     publicClaim: 'An AssetPack range commitment was anchored or prepared for anchoring on an admitted ledger path.'
   },
   btd_asset_pack_rights_transfer: {
     predicateType: 'https://bitcode.ai/receipt/btd-asset-pack-rights-transfer/v27',
-    required: ['type', 'receiptId', 'orderId', 'assetPackId', 'rangeStart', 'rangeEndExclusive', 'fromWalletId', 'toWalletId', 'priceAsset', 'priceSats', 'accessPolicyHash', 'btcFeeReceiptId', 'exchangeSequence', 'issuedAt'],
+    required: ['type', 'receiptId', 'orderId', 'assetPackId', 'rangeStart', 'rangeEndExclusive', 'fromWalletId', 'toWalletId', 'priceAsset', 'priceSats', 'accessPolicyHash', 'btcFeeReceiptId', 'ledgerAnchorId', 'exchangeSequence', 'issuedAt'],
     publicClaim: 'An AssetPack range changed commercial rights through a BTC-priced Exchange settlement receipt.'
+  },
+  btd_terminal_journal_coverage: {
+    predicateType: 'https://bitcode.ai/receipt/btd-terminal-journal-coverage/v27',
+    required: ['type', 'receiptId', 'requiredTransactionKinds', 'observedTransactionKinds', 'missingTransactionKinds', 'blocking', 'issuedAt'],
+    publicClaim: 'Terminal journal coverage proves the minimum V27 transaction families are represented before commercial finality can be claimed.'
   },
   btd_ledger_database_reconciliation: {
     predicateType: 'https://bitcode.ai/receipt/btd-ledger-database-reconciliation/v27',

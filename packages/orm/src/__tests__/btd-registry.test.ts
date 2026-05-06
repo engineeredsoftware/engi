@@ -39,6 +39,26 @@ describe('BtdRegistryModel V27 persistence boundary', () => {
     expect(migrationSource).toContain('btd_asset_pack_ranges_no_overlap');
     expect(migrationSource).toContain('btd_asset_pack_ranges_policy');
     expect(migrationSource).toContain('btd_rights_transfer_non_empty');
+    expect(migrationSource).toContain('dispute_holdback_sats');
+    expect(migrationSource).toContain('pending_routes');
+    expect(migrationSource).toContain('failed_routes');
+    expect(migrationSource).toContain('review_id text NOT NULL');
+    expect(migrationSource).toContain('source_fingerprint_root text');
+    expect(migrationSource).toContain('btd_ancestor_edges_non_supply');
+    expect(migrationSource).toContain('btd_ancestor_edges_reviewer_conflict');
+    expect(migrationSource).toContain('sats_per_vbyte integer');
+    expect(migrationSource).toContain('related_asset_pack_id text');
+    expect(migrationSource).toContain('wallet_authorization_proof jsonb NOT NULL');
+    expect(migrationSource).toContain('output_index integer');
+    expect(migrationSource).toContain('btd_asset_pack_ledger_anchors_method');
+    expect(migrationSource).toContain("'taproot'");
+    expect(migrationSource).toContain('ledger_anchor_id text NOT NULL');
+    expect(migrationSource).toContain('btd_rights_transfer_ledger_anchor');
+    expect(migrationSource).toContain('btd_terminal_journal_kind');
+    expect(migrationSource).toContain('btd_terminal_journal_exchange_sequence');
+    expect(migrationSource).toContain(
+      'gross_sats = direct_sats + ancestor_sats + treasury_sats + dispute_holdback_sats',
+    );
     expect(migrationSource).not.toContain('user_credits');
     expect(migrationSource).not.toContain('user_credit_usages');
   });

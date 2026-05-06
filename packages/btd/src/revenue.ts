@@ -11,6 +11,15 @@ export interface BtdRevenueRecipientRoute {
   weight: string;
 }
 
+export type BtdRevenueRouteCategory = 'direct' | 'ancestor' | 'treasury' | 'dispute_holdback';
+
+export interface BtdRevenueRouteException {
+  category: BtdRevenueRouteCategory;
+  walletId?: string;
+  sats: bigint;
+  reason: string;
+}
+
 export interface BtdLicensedReadRevenueRouteReceipt {
   kind: 'btd.licensed_read_revenue_route';
   paymentId: string;
@@ -20,8 +29,14 @@ export interface BtdLicensedReadRevenueRouteReceipt {
   directSats: bigint;
   ancestorSats: bigint;
   treasurySats: bigint;
+  disputeHoldbackSats: bigint;
   directRoutes: BtdRevenueRecipientRoute[];
   ancestorRoutes: BtdRevenueRecipientRoute[];
+  treasuryRoutes: BtdRevenueRecipientRoute[];
+  disputeHoldbackWalletId?: string;
+  pendingRoutes: BtdRevenueRouteException[];
+  failedRoutes: BtdRevenueRouteException[];
+  routeState: 'settled' | 'pending' | 'failed';
   treasuryWalletId: string;
   exchangeSequence: bigint;
   issuedAt: string;
@@ -38,6 +53,10 @@ export function buildLicensedReadRevenueRoute(input: {
   directSplitBps?: number;
   ancestorSplitBps?: number;
   treasurySplitBps?: number;
+  disputeHoldbackBps?: number;
+  disputeHoldbackWalletId?: string;
+  pendingRoutes?: BtdRevenueRouteException[];
+  failedRoutes?: BtdRevenueRouteException[];
   issuedAt?: string;
 }): BtdLicensedReadRevenueRouteReceipt {
   const directSplitBps = assertBasisPoints(input.directSplitBps ?? 8_000, 'directSplitBps');
@@ -46,8 +65,15 @@ export function buildLicensedReadRevenueRoute(input: {
     'ancestorSplitBps',
   );
   const treasurySplitBps = assertBasisPoints(input.treasurySplitBps ?? 800, 'treasurySplitBps');
+  const disputeHoldbackBps = assertBasisPoints(
+    input.disputeHoldbackBps ?? 0,
+    'disputeHoldbackBps',
+  );
 
-  if (directSplitBps + ancestorSplitBps + treasurySplitBps !== 10_000) {
+  if (
+    directSplitBps + ancestorSplitBps + treasurySplitBps + disputeHoldbackBps !==
+    10_000
+  ) {
     throw new Error('Revenue splits must sum to 10000 basis points.');
   }
 
@@ -58,9 +84,34 @@ export function buildLicensedReadRevenueRoute(input: {
 
   const directSats = (grossSats * BigInt(directSplitBps)) / 10_000n;
   const requestedAncestorSats = (grossSats * BigInt(ancestorSplitBps)) / 10_000n;
+  const disputeHoldbackSats = (grossSats * BigInt(disputeHoldbackBps)) / 10_000n;
   const hasAncestors = (input.ancestorRecipients ?? []).length > 0;
   const ancestorSats = hasAncestors ? requestedAncestorSats : 0n;
-  const treasurySats = grossSats - directSats - ancestorSats;
+  const treasurySats = grossSats - directSats - ancestorSats - disputeHoldbackSats;
+  const treasuryWalletId = assertNonEmptyString(input.treasuryWalletId, 'treasuryWalletId');
+  const disputeHoldbackWalletId =
+    disputeHoldbackSats > 0n
+      ? assertNonEmptyString(
+          input.disputeHoldbackWalletId,
+          'disputeHoldbackWalletId',
+        )
+      : input.disputeHoldbackWalletId
+        ? assertNonEmptyString(input.disputeHoldbackWalletId, 'disputeHoldbackWalletId')
+        : undefined;
+  const pendingRoutes = (input.pendingRoutes ?? []).map(assertRouteException);
+  const failedRoutes = (input.failedRoutes ?? []).map(assertRouteException);
+  const holdbackPendingRoutes =
+    disputeHoldbackSats > 0n
+      ? [
+          ...pendingRoutes,
+          {
+            category: 'dispute_holdback' as const,
+            walletId: disputeHoldbackWalletId,
+            sats: disputeHoldbackSats,
+            reason: 'dispute_holdback_pending',
+          },
+        ]
+      : pendingRoutes;
 
   return {
     kind: 'btd.licensed_read_revenue_route',
@@ -71,10 +122,20 @@ export function buildLicensedReadRevenueRoute(input: {
     directSats,
     ancestorSats,
     treasurySats,
+    disputeHoldbackSats,
     directRoutes: splitSatsByWeight(directSats, input.directRecipients),
     ancestorRoutes: splitSatsByWeight(ancestorSats, input.ancestorRecipients ?? []),
-    treasuryWalletId: assertNonEmptyString(input.treasuryWalletId, 'treasuryWalletId'),
-    exchangeSequence: input.exchangeSequence,
+    treasuryRoutes: [{ walletId: treasuryWalletId, sats: treasurySats, weight: '1' }],
+    disputeHoldbackWalletId,
+    pendingRoutes: holdbackPendingRoutes,
+    failedRoutes,
+    routeState: failedRoutes.length
+      ? 'failed'
+      : holdbackPendingRoutes.length
+        ? 'pending'
+        : 'settled',
+    treasuryWalletId,
+    exchangeSequence: assertPositiveExchangeSequence(input.exchangeSequence),
     issuedAt: input.issuedAt ?? new Date().toISOString(),
   };
 }
@@ -84,6 +145,7 @@ export function assertLicensedReadRevenueRouteConserved(
 ): BtdLicensedReadRevenueRouteReceipt {
   const directTotal = receipt.directRoutes.reduce((sum, route) => sum + route.sats, 0n);
   const ancestorTotal = receipt.ancestorRoutes.reduce((sum, route) => sum + route.sats, 0n);
+  const treasuryTotal = receipt.treasuryRoutes.reduce((sum, route) => sum + route.sats, 0n);
 
   if (receipt.priceAsset !== BITCODE_FEE_ASSET) {
     throw new Error('Licensed-read revenue must route BTC sats.');
@@ -97,8 +159,22 @@ export function assertLicensedReadRevenueRouteConserved(
     throw new Error('Ancestor revenue routes do not conserve ancestor sats.');
   }
 
-  if (receipt.directSats + receipt.ancestorSats + receipt.treasurySats !== receipt.grossSats) {
+  if (treasuryTotal !== receipt.treasurySats) {
+    throw new Error('Treasury revenue routes do not conserve treasury sats.');
+  }
+
+  if (
+    receipt.directSats +
+      receipt.ancestorSats +
+      receipt.treasurySats +
+      receipt.disputeHoldbackSats !==
+    receipt.grossSats
+  ) {
     throw new Error('Revenue route receipt does not conserve gross sats.');
+  }
+
+  for (const route of [...receipt.pendingRoutes, ...receipt.failedRoutes]) {
+    assertRouteException(route);
   }
 
   return receipt;
@@ -165,6 +241,43 @@ function splitSatsByWeight(
       sats: recipient.base + (extraByWallet.get(recipient.walletId) ?? 0n),
       weight: recipient.weight.toString(),
     }));
+}
+
+function assertRouteException(route: BtdRevenueRouteException): BtdRevenueRouteException {
+  if (
+    route.category !== 'direct' &&
+    route.category !== 'ancestor' &&
+    route.category !== 'treasury' &&
+    route.category !== 'dispute_holdback'
+  ) {
+    throw new Error(`Unsupported revenue route category: ${route.category}.`);
+  }
+
+  const sats = toBigIntAmount(route.sats, 'routeException.sats');
+  if (sats < 0n) {
+    throw new Error('routeException.sats must be non-negative.');
+  }
+
+  if (route.walletId) {
+    assertNonEmptyString(route.walletId, 'routeException.walletId');
+  }
+
+  assertNonEmptyString(route.reason, 'routeException.reason');
+
+  return {
+    category: route.category,
+    walletId: route.walletId,
+    sats,
+    reason: route.reason,
+  };
+}
+
+function assertPositiveExchangeSequence(value: bigint): bigint {
+  if (typeof value !== 'bigint' || value <= 0n) {
+    throw new Error('exchangeSequence must be a positive bigint.');
+  }
+
+  return value;
 }
 
 function assertBasisPoints(value: number, label: string): number {

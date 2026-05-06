@@ -5,7 +5,11 @@ import {
   assertNonEmptyString,
   toBigIntAmount,
 } from './constants';
-import { WalletSignerSession, assertWalletCanSign } from './wallet';
+import {
+  WalletAddressAuthorizationProof,
+  WalletSignerSession,
+  assertWalletCanSign,
+} from './wallet';
 
 export type BtcFeePurpose =
   | 'asset_pack_mint'
@@ -31,6 +35,7 @@ export interface BtcFeeTransactionReceipt {
   payerWalletId: string;
   walletSessionId: string;
   network: BitcoinNetwork;
+  walletAuthorizationProof: WalletAddressAuthorizationProof;
   txid: string | null;
   vout?: number;
   psbt: string | null;
@@ -70,7 +75,7 @@ export function buildPreparedBtcFeeTransactionReceipt(input: {
   relatedOrderId?: string;
   issuedAt?: string;
 }): BtcFeeTransactionReceipt {
-  assertWalletCanSign(input.payerSession, 'psbt_sign');
+  const payerSession = assertWalletCanSign(input.payerSession, 'psbt_sign');
   const satsPaid = toBigIntAmount(input.satsPaid, 'satsPaid');
   if (satsPaid <= 0n) {
     throw new Error('satsPaid must be positive.');
@@ -80,9 +85,10 @@ export function buildPreparedBtcFeeTransactionReceipt(input: {
     kind: 'btc.fee_transaction',
     receiptId: assertNonEmptyString(input.receiptId, 'receiptId'),
     feePurpose: input.feePurpose,
-    payerWalletId: input.payerSession.walletId,
-    walletSessionId: input.payerSession.walletSessionId,
-    network: assertBitcoinNetwork(input.payerSession.network),
+    payerWalletId: payerSession.walletId,
+    walletSessionId: payerSession.walletSessionId,
+    network: assertBitcoinNetwork(payerSession.network),
+    walletAuthorizationProof: payerSession.authorizationProof as WalletAddressAuthorizationProof,
     txid: null,
     psbt: assertNonEmptyString(input.psbt, 'psbt'),
     satsPaid,
@@ -155,6 +161,8 @@ export function assertBtcFeeTransactionReceipt(
   assertNonEmptyString(receipt.payerWalletId, 'payerWalletId');
   assertNonEmptyString(receipt.walletSessionId, 'walletSessionId');
   assertBitcoinNetwork(receipt.network);
+  assertNonEmptyString(receipt.walletAuthorizationProof?.message, 'walletAuthorizationProof.message');
+  assertNonEmptyString(receipt.walletAuthorizationProof?.verifiedAt, 'walletAuthorizationProof.verifiedAt');
   assertNonEmptyString(receipt.terminalJournalRoot, 'terminalJournalRoot');
 
   if (receipt.satsPaid <= 0n) {

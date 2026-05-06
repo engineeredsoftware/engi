@@ -1032,6 +1032,10 @@ Acceptance:
 
 ### Gate 8: Settlement Allocation And Revenue Routing
 
+Status: closed as a draft-target allocation and revenue gate.
+Closure proof: `.bitcode/v27-gate-8-allocation-revenue-proof.json`.
+This closure proves deterministic contributor allocation, licensed-read BTC revenue receipts, explicit direct/ancestor/treasury/dispute-holdback conservation, pending/failed route metadata, and an unversioned API settlement boundary; live wallet settlement, broadcaster finality, and generated proof-family promotion remain later work.
+
 Acceptance:
 
 - deterministic allocation conserves token count.
@@ -1039,6 +1043,10 @@ Acceptance:
 - settlement receipts prove conservation.
 
 ### Gate 9: Ancestry And Anti-Game
+
+Status: closed as a draft-target ancestry and anti-game gate.
+Closure proof: `.bitcode/v27-gate-9-ancestry-antigame-proof.json`.
+This closure proves late-bound non-supply ancestry reviews, weak/citation/conflicted edge unpaid handling, loop/cycle/duplicate-source/reviewer-conflict rejection, persisted ancestry review rows, and an unversioned API settlement boundary; generated proof-family promotion and full live revenue settlement remain later work.
 
 Acceptance:
 
@@ -1048,6 +1056,10 @@ Acceptance:
 
 ### Gate 10: Wallet And BTC Fee Settlement
 
+Status: closed as a draft-target wallet and BTC fee settlement gate.
+Closure proof: `.bitcode/v27-gate-10-wallet-btc-fee-proof.json`.
+This closure proves signer-session authorization proof, fail-closed unauthorised sessions, BTC-only PSBT-style fee receipt lifecycle, signed/broadcast/confirmed handoff, signet provider observation harness, Terminal journal binding, and unversioned API persistence; live wallet adapters and value-bearing broadcast credentials remain later operational work.
+
 Acceptance:
 
 - wallet integration supports network selection, signer session, address ownership or authorization proof, and fail-closed state.
@@ -1056,6 +1068,10 @@ Acceptance:
 - tests prove `$BTD` is not spendable as the fee asset.
 
 ### Gate 11: Ledgerized AssetPack Anchoring
+
+Status: closed as a draft-target ledgerized AssetPack anchor gate.
+Closure proof: `.bitcode/v27-gate-11-ledger-anchor-proof.json`.
+This closure proves AssetPack range/root/policy anchor receipts, Taproot as the selected Bitcoin primary commitment method, signet/local-compatible anchor lifecycle, explicit secondary Ethereum registry/event anchoring, unversioned API persistence, and modeled prepared/broadcast/confirmed/reorged/failed states; live value-bearing Bitcoin/Ethereum broadcaster credentials remain later operational work.
 
 Acceptance:
 
@@ -1068,6 +1084,10 @@ Acceptance:
 
 ### Gate 12: Minimal AssetPack Exchange
 
+Status: closed as a draft-target minimal Exchange gate.
+Closure proof: `.bitcode/v27-gate-12-minimal-exchange-proof.json`.
+This closure proves BTC-priced buy/sell/bid/ask order primitives, cancel/accept/settle transitions, rights-transfer receipts, ledger-anchor/policy/fee guards, unversioned API persistence, and the demonstration rights-transfer witness; V28+ market depth, full order-book UX, and live value-bearing settlement remain later work.
+
 Acceptance:
 
 - buy, sell, bid, ask, cancel, accept, settle, and rights-transfer models exist.
@@ -1076,6 +1096,10 @@ Acceptance:
 - broader market depth remains V28+ only after the minimal V27 path is proved.
 
 ### Gate 13: Terminal Transactions And Journal Diffing
+
+Status: closed as a draft-target Terminal journal and diff gate.
+Closure proof: `.bitcode/v27-gate-13-terminal-journal-proof.json`.
+This closure proves required V27 Terminal transaction-family coverage, journal entry validation, persisted journal constraints, unversioned route commit/diff/coverage actions, and blocking projection drift; broader V28 Terminal product workflows and live value-bearing UX remain later work.
 
 Acceptance:
 
@@ -1153,5 +1177,5 @@ V27 is not promotable until those generated families or their accepted equivalen
 - Marketing and auxillary UI currently disclose BTC vs `$BTD` distinction; V27 must make route and range-level disclosure exact.
 - Ancestry is specified as conditional and non-supply.
 - External token standard comparisons are design inputs only until rebound to primary sources and translated into Bitcode-native law.
-- Practical crypto library choices, chain standards, wallet compatibility, RPC/provider choices, live broadcaster/observer implementation, route/API persistence, generated proofs, and UI range/policy disclosure remain open before promotion.
+- Practical crypto library choices, chain standards, wallet compatibility, RPC/provider choices, live broadcaster/observer implementation, generated proofs, live migration/type refresh, and remaining UI range/policy disclosure remain open before promotion.
 - Value-bearing mainnet launch is not automatic promotion; it requires separate operational approval after V27 proves mainnet-ready controls.

@@ -201,23 +201,32 @@ CREATE TABLE IF NOT EXISTS public.btd_contributor_allocations (
 CREATE TABLE IF NOT EXISTS public.btd_ancestor_edges (
   id uuid PRIMARY KEY DEFAULT gen_random_uuid(),
   edge_id text NOT NULL UNIQUE,
+  review_id text NOT NULL,
   parent_asset_pack_id text NOT NULL,
   child_asset_pack_id text NOT NULL,
   edge_kind text NOT NULL,
   evidence_root text NOT NULL,
+  source_fingerprint_root text,
   reviewer_receipt_root text,
+  claimant_id text,
+  reviewer_id text,
   confidence_bps integer NOT NULL,
   timelessness_bps integer NOT NULL,
   depth integer NOT NULL,
   status text NOT NULL,
   rejection_reason text,
+  risk_flags jsonb NOT NULL DEFAULT '[]'::jsonb,
   route_weight numeric(38, 0) NOT NULL DEFAULT 0,
   created_after_child_fit boolean NOT NULL DEFAULT true,
   conflict_disclosure jsonb NOT NULL DEFAULT '[]'::jsonb,
+  supply_effect text NOT NULL DEFAULT 'none',
+  mint_count_delta integer NOT NULL DEFAULT 0,
   receipt jsonb NOT NULL,
   issued_at timestamp with time zone NOT NULL,
   created_at timestamp with time zone DEFAULT now() NOT NULL,
-  CONSTRAINT btd_ancestor_edges_not_self CHECK (parent_asset_pack_id <> child_asset_pack_id),
+  CONSTRAINT btd_ancestor_edges_not_self CHECK (
+    status = 'rejected' OR parent_asset_pack_id <> child_asset_pack_id
+  ),
   CONSTRAINT btd_ancestor_edges_kind CHECK (edge_kind IN (
     'implementation_dependency',
     'proof_dependency',
@@ -232,7 +241,22 @@ CREATE TABLE IF NOT EXISTS public.btd_ancestor_edges (
   ),
   CONSTRAINT btd_ancestor_edges_depth CHECK (depth >= 0),
   CONSTRAINT btd_ancestor_edges_status CHECK (status IN ('payable', 'recorded_unpaid', 'rejected')),
-  CONSTRAINT btd_ancestor_edges_late_bound CHECK (created_after_child_fit = true)
+  CONSTRAINT btd_ancestor_edges_late_bound CHECK (
+    status = 'rejected' OR created_after_child_fit = true
+  ),
+  CONSTRAINT btd_ancestor_edges_non_supply CHECK (
+    supply_effect = 'none' AND mint_count_delta = 0
+  ),
+  CONSTRAINT btd_ancestor_edges_route_weight_status CHECK (
+    (status = 'payable' AND route_weight > 0)
+    OR (status <> 'payable' AND route_weight = 0)
+  ),
+  CONSTRAINT btd_ancestor_edges_reviewer_conflict CHECK (
+    status = 'rejected'
+    OR claimant_id IS NULL
+    OR reviewer_id IS NULL
+    OR claimant_id <> reviewer_id
+  )
 );
 
 CREATE TABLE IF NOT EXISTS public.btd_licensed_read_revenue_routes (
@@ -244,16 +268,31 @@ CREATE TABLE IF NOT EXISTS public.btd_licensed_read_revenue_routes (
   direct_sats numeric(38, 0) NOT NULL,
   ancestor_sats numeric(38, 0) NOT NULL,
   treasury_sats numeric(38, 0) NOT NULL,
+  dispute_holdback_sats numeric(38, 0) NOT NULL DEFAULT 0,
   direct_routes jsonb NOT NULL DEFAULT '[]'::jsonb,
   ancestor_routes jsonb NOT NULL DEFAULT '[]'::jsonb,
+  treasury_routes jsonb NOT NULL DEFAULT '[]'::jsonb,
   treasury_wallet_id text NOT NULL,
+  dispute_holdback_wallet_id text,
+  pending_routes jsonb NOT NULL DEFAULT '[]'::jsonb,
+  failed_routes jsonb NOT NULL DEFAULT '[]'::jsonb,
+  route_state text NOT NULL DEFAULT 'settled',
   exchange_sequence bigint NOT NULL,
   receipt jsonb NOT NULL,
   issued_at timestamp with time zone NOT NULL,
   created_at timestamp with time zone DEFAULT now() NOT NULL,
   CONSTRAINT btd_revenue_route_price_asset CHECK (price_asset = 'BTC'),
   CONSTRAINT btd_revenue_route_positive CHECK (gross_sats > 0),
-  CONSTRAINT btd_revenue_route_conserved CHECK (gross_sats = direct_sats + ancestor_sats + treasury_sats)
+  CONSTRAINT btd_revenue_route_non_negative CHECK (
+    direct_sats >= 0 AND ancestor_sats >= 0 AND treasury_sats >= 0 AND dispute_holdback_sats >= 0
+  ),
+  CONSTRAINT btd_revenue_route_conserved CHECK (
+    gross_sats = direct_sats + ancestor_sats + treasury_sats + dispute_holdback_sats
+  ),
+  CONSTRAINT btd_revenue_route_holdback_wallet CHECK (
+    dispute_holdback_sats = 0 OR length(trim(coalesce(dispute_holdback_wallet_id, ''))) > 0
+  ),
+  CONSTRAINT btd_revenue_route_state CHECK (route_state IN ('settled', 'pending', 'failed'))
 );
 
 CREATE TABLE IF NOT EXISTS public.btc_fee_transactions (
@@ -263,11 +302,16 @@ CREATE TABLE IF NOT EXISTS public.btc_fee_transactions (
   payer_wallet_id text NOT NULL,
   wallet_session_id text NOT NULL,
   network text NOT NULL,
+  wallet_authorization_proof jsonb NOT NULL,
   txid text,
+  vout integer,
   psbt text,
   sats_paid numeric(38, 0) NOT NULL,
+  sats_per_vbyte integer,
   exchange_sequence bigint NOT NULL,
   terminal_journal_root text NOT NULL,
+  related_asset_pack_id text,
+  related_order_id text,
   finality_state text NOT NULL,
   confirmations integer NOT NULL DEFAULT 0,
   fee_asset text NOT NULL DEFAULT 'BTC',
@@ -290,6 +334,9 @@ CREATE TABLE IF NOT EXISTS public.btd_asset_pack_ledger_anchors (
   chain text NOT NULL,
   network text NOT NULL,
   txid_or_hash text,
+  output_index integer,
+  contract_address text,
+  token_id text,
   commitment_method text,
   commitment_root text NOT NULL,
   source_manifest_root text NOT NULL,
@@ -306,6 +353,9 @@ CREATE TABLE IF NOT EXISTS public.btd_asset_pack_ledger_anchors (
   CONSTRAINT btd_asset_pack_ledger_anchors_non_empty CHECK (btd_range_end_exclusive > btd_range_start),
   CONSTRAINT btd_asset_pack_ledger_anchors_cap CHECK (btd_range_start >= 0 AND btd_range_end_exclusive <= 21000000),
   CONSTRAINT btd_asset_pack_ledger_anchors_policy CHECK (length(trim(access_policy_hash)) > 0),
+  CONSTRAINT btd_asset_pack_ledger_anchors_method CHECK (
+    commitment_method IN ('taproot', 'op_return', 'standard_output_commitment', 'ethereum_registry_event', 'internal_journal')
+  ),
   CONSTRAINT btd_asset_pack_ledger_anchors_state CHECK (finality_state IN ('prepared', 'broadcast', 'confirmed', 'reorged', 'failed')),
   CONSTRAINT btd_asset_pack_ledger_anchors_confirmations CHECK (confirmations >= 0)
 );
@@ -351,6 +401,7 @@ CREATE TABLE IF NOT EXISTS public.btd_rights_transfer_receipts (
   price_sats numeric(38, 0) NOT NULL,
   access_policy_hash text NOT NULL,
   btc_fee_receipt_id text NOT NULL,
+  ledger_anchor_id text NOT NULL,
   exchange_sequence bigint NOT NULL,
   receipt jsonb NOT NULL,
   issued_at timestamp with time zone NOT NULL,
@@ -358,6 +409,7 @@ CREATE TABLE IF NOT EXISTS public.btd_rights_transfer_receipts (
   CONSTRAINT btd_rights_transfer_non_empty CHECK (range_end_exclusive > range_start),
   CONSTRAINT btd_rights_transfer_cap CHECK (range_start >= 0 AND range_end_exclusive <= 21000000),
   CONSTRAINT btd_rights_transfer_policy CHECK (length(trim(access_policy_hash)) > 0),
+  CONSTRAINT btd_rights_transfer_ledger_anchor CHECK (length(trim(ledger_anchor_id)) > 0),
   CONSTRAINT btd_rights_transfer_price_asset CHECK (price_asset = 'BTC'),
   CONSTRAINT btd_rights_transfer_price CHECK (price_sats > 0)
 );
@@ -373,7 +425,26 @@ CREATE TABLE IF NOT EXISTS public.btd_terminal_journal_entries (
   ledger_anchor_ids jsonb NOT NULL DEFAULT '[]'::jsonb,
   exchange_sequence bigint NOT NULL,
   issued_at timestamp with time zone NOT NULL,
-  created_at timestamp with time zone DEFAULT now() NOT NULL
+  created_at timestamp with time zone DEFAULT now() NOT NULL,
+  CONSTRAINT btd_terminal_journal_kind CHECK (
+    transaction_kind IN (
+      'need_submission',
+      'fit_closure',
+      'proof_admission',
+      'asset_pack_mint',
+      'measure_mint_tail',
+      'btc_fee_payment',
+      'asset_pack_anchor',
+      'licensed_read_purchase',
+      'exchange_order',
+      'exchange_order_cancel',
+      'rights_transfer',
+      'dispute_holdback',
+      'settlement_finalization',
+      'ledger_database_reconciliation'
+    )
+  ),
+  CONSTRAINT btd_terminal_journal_exchange_sequence CHECK (exchange_sequence > 0)
 );
 
 CREATE TABLE IF NOT EXISTS public.btd_ledger_database_reconciliation_repairs (

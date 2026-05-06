@@ -149,18 +149,18 @@ Audit query classes:
 | Mint admission | only Need-Fit-Prove-Settle can mint | `packages/btd/src/range.ts` and `packages/api/src/routes/btd-crypto.ts` enforce accepted Need, accepted Fit, required roots, access policy, and positive Exchange sequence before range allocation or mint-draft return; package/API tests prove negative paths | partial | Gate 4 package/API admission closure is proved; integrate package guard into persisted Terminal/Exchange write paths and generated proof families in later gates |
 | Supply state | canonical state machine exists | `packages/btd/src/supply.ts` exists; `packages/btd/__tests__/v27-crypto-primitives.test.ts` proves cap/advance behavior and replayable `nextTokenId` through range allocation | partial | Gate 3 package primitive closure is proved; bind to DB singleton and generated proof replay in later gates |
 | Range allocator | one AssetPack gets one contiguous range | `packages/btd/src/range.ts` allocates contiguous ranges and validates integrity/placement; package tests cover success, cap exceed, invalid input, duplicate primary range rejection, stale-state overlap rejection, and replay | partial | Gate 3 package primitive closure is proved; add DB insertion and generated no-overlap proof in later gates |
-| Allocation algorithm | deterministic contributor allocation conserves token count | `packages/btd/src/allocation.ts` implements weighted Hare-Niemeyer allocation; package and demo tests prove conservation | partial blocking | integrate with source-to-shares settlement and generated proof artifacts |
+| Allocation algorithm | deterministic contributor allocation conserves token count | `packages/btd/src/allocation.ts` implements weighted Hare-Niemeyer allocation; package/API/demo tests prove range conservation and deterministic remainder ordering | closed for Gate 8 | full source-to-shares write integration and generated proof-family promotion remain later |
 | Mint receipt replay | receipts reconstruct supply and range state | `packages/btd/src/replay.ts` reconstructs supply checkpoints, ranges, allocations, total minted, and nextTokenId; `protocol-demonstration/src/v27-crypto-primitives.js` includes the minimal replay witness | partial | Gate 5 receipt replay closure is proved; add persisted receipt tests and total generated proof family later |
 | Access policy | owner-read and licensed-read are distinct | `packages/btd/src/access.ts` evaluates owner-read/licensed-read/denied decisions by policy hash; `/api/btd/read-access` can evaluate payload-supplied or registry-derived ownership claims/read licenses; package/API/demo tests cover owner-read, licensed-read, expired license, unauthorized access, and policy mismatch | closed for Gate 7 | live value-bearing access operations and generated proof-family promotion remain later |
 | Legal rights disclosure | UI avoids overclaiming `$BTD` rights | `$BTD` auxillary now discloses policy id/hash, AssetPack range posture, and distinct owner/licensed read branches; overclaim scan found no public-surface matches for copyright ownership, guaranteed royalty, dividend, or price-appreciation phrases | closed for Gate 7 | final legal template review remains later |
-| Revenue routing | licensed read routes to holders/ancestors/treasury | `packages/btd/src/revenue.ts` emits conserved BTC licensed-read revenue-route receipts | partial blocking | integrate with Exchange settlement, holdbacks, and persistence |
-| Ancestry | late-bound, non-supply ancestry module | `packages/btd/src/ancestry.ts` reviews payable, unpaid, and rejected edges without changing supply | partial blocking | add loop/collusion graph tests and persisted proof |
-| Anti-game | dedupe, disputes, loop/collusion checks | source-to-shares has dedupe/fit concepts; ancestry review rejects duplicates/self edges and keeps weak/citation edges unpaid | partial | add attack-specific graph, dispute, and fragmentation tests |
+| Revenue routing | licensed read routes to holders/ancestors/treasury/holdback | `packages/btd/src/revenue.ts`, `/api/btd/licensed-read-revenue`, `protocol-demonstration/src/v27-crypto-primitives.js`, and `btd_licensed_read_revenue_routes` conserve direct, ancestor, treasury, and dispute-holdback sats and record pending/failed routes | closed for Gate 8 | live wallet settlement, broadcaster finality, and generated proof-family promotion remain later |
+| Ancestry | late-bound, non-supply ancestry module | `packages/btd/src/ancestry.ts`, `/api/btd/ancestry-review`, `protocol-demonstration/src/v27-crypto-primitives.js`, and `btd_ancestor_edges` review and persist payable, unpaid, and rejected edges with `supplyEffect: 'none'` and `mintCountDelta: 0` | closed for Gate 9 | generated proof-family promotion and live revenue-route consumption remain later |
+| Anti-game | dedupe, disputes, loop/collusion checks | ancestry review rejects duplicate edges, duplicate source roots, self edges, child mismatches, pre-fit claims, reciprocal loops, dependency cycles, and claimant/reviewer conflicts; low-confidence, citation-only, and disclosed-conflict edges remain unpaid | closed for Gate 9 | broader graph anomaly telemetry and fragmentation proof remain later |
 | Tail behavior | zero-cell receipts then refit-only tail | measuremint package/demo tests cover below-integer zero-cell receipt | partial blocking | integrate zero-cell receipts into settlement/revenue/refit flows |
 | Exchange DB docs | DB target names BTD registry tables | `internal-docs/BITCODE_EXCHANGE_DATABASE.md` documents V27 registry/projection tables, service-role/RLS posture, and compatibility-table noncanonical limits | partial | Gate 6 documentation closure is proved; keep synchronized as later gates add live writes |
 | SQL migration | DB constraints for supply/range/cells/crypto receipts | `supabase/migrations/002_v27_btd_crypto_registry.sql` adds V27 registry, allocation, ancestry, revenue, upgrade, crypto projection, RLS, access-policy, cap, unique token, and no-overlap constraints | partial | Gate 6 migration closure is proved; live migration execution and generated DB type refresh remain later work |
 | ORM models | Bitcode-native BTD registry models | `packages/orm/src/models/btd-registry.ts` exposes the V27 registry/allocation/revenue/upgrade boundary; `packages/orm/src/client.ts` exposes `btdRegistry` on standard/admin clients; ORM tests verify table routing | partial | Gate 6 ORM boundary closure is proved; replace raw V27 table boundary with generated types after DB codegen |
-| BTD API route boundary | authenticated commercial routes expose registry and mint-draft projections | `packages/api/src/routes/btd-crypto.ts`, Next wrappers under `uapi/app/api/btd/*`, and `btd-crypto.test.ts` cover registry snapshots and JSON-safe mint drafts without versioned route paths | partial blocking | add write-committing Exchange persistence, wallet/fee/anchor proof checks, and route-level replay proof |
+| BTD API route boundary | authenticated commercial routes expose registry, mint-draft, fee, anchor, ancestry, revenue, and minimal Exchange projections | `packages/api/src/routes/btd-crypto.ts`, Next wrappers under `uapi/app/api/btd/*`, and `btd-crypto.test.ts` cover registry snapshots, JSON-safe mint drafts, read access, revenue, ancestry, BTC fee, ledger anchor, and minimal Exchange route paths without versioned route paths | closed through Gate 12 | generated proof-family promotion and full live value-bearing rollout remain later |
 | UAPI balance widget | top-right balance distinguishes BTC and `$BTD` | `btd-tracker.tsx` shows BTC and `$BTD`; acquisition intent stores V27/V28 paths | implemented baseline | later read registry/range data |
 | UAPI acquisition card | Terminal Need and Exchange minimal acquisition split | `BTDPrices.tsx` labels Terminal Need V27 and Exchange Preview V28 | partial | route Terminal intent and minimal Exchange acquisition to V27 lifecycle; leave market depth V28+ |
 | Auxillary BTD pane | wallet and holdings are readable | `AuxillariesBTDPane.tsx` shows BTC fee liquidity, holdings, wallet posture | implemented baseline | add range/policy/supply details |
@@ -168,16 +168,16 @@ Audit query classes:
 | Token/range route | route shows range, policy, and rights | no active `uapi/app/[token]/page.tsx` found in current tree | gap | add route or successor under V27/V28 plan |
 | MCP holding gate | MCP can require BTD holding | MCP auth middleware checks `minimumBtdHolding` against aggregate balance | partial | switch to registry-derived holding/read-right checks |
 | Proof generator | V26 generator knows cap evidence | `proven-generator.js` references `BTD_MAX_MINTABLE_SUPPLY = 21_000_000` | partial | add V27 proof families |
-| Wallet signer session | user wallet authorizes crypto operations | `packages/btd/src/wallet.ts` implements signer session/capability guards; no live wallet adapter yet | partial blocking | wire into UI/API wallet adapters and route tests |
-| PSBT fee transaction | BTC fees are actual user-signed transactions | `packages/btd/src/bitcoin-fees.ts` implements PSBT-style receipt lifecycle; `bitcoin-provider.ts` adds a network-checked provider boundary | partial blocking | add live wallet adapter, regtest/signet broadcaster, and provider reconciliation |
-| Fee asset separation | `$BTD` cannot pay fees | package/API reject fungible mutation; UI states BTC fee asset | implemented baseline | prove BTC receipts cannot mint or spend `$BTD` directly |
-| Bitcoin ledger anchor | AssetPack can anchor on selected Bitcoin commitment path | `packages/btd/src/ledger-anchor.ts` implements anchor receipt state machine; commitment method still unselected | partial blocking | select method and add regtest/signet adapter proof |
-| Ethereum ledger anchor | Ethereum is secondary or optional registry/event anchor | no V27 Ethereum registry/event module found | gap | implement bounded secondary path or explicitly mark not ready |
-| AssetPack ledger anchor receipt | anchor binds range, roots, policy, and finality | package and demonstration now include ledger anchor receipts | partial blocking | add persisted replay and chain adapter proof |
-| Minimal Exchange orders | buy/sell/bid/ask/cancel/accept/settle exist | `packages/btd/src/exchange.ts` implements order and settlement receipt primitives | partial blocking | integrate with Exchange route/database writes |
-| Rights transfer | `$BTD` range rights can transfer after settlement | `buildAssetPackRightsTransferReceipt` emits BTC-priced rights-transfer receipt | partial blocking | add policy/ownership DB enforcement and UI/API integration |
-| Terminal transaction journal | Terminal actions produce replayable transaction journal entries | `packages/btd/src/terminal-journal.ts` implements journal entries and projection diffing | partial blocking | wire Terminal flows and persisted journal writes |
-| Ledgerized journal diff | journal, ledger, DB, proof, and telemetry can be compared | package tests cover blocking projection drift | partial blocking | add full proof-harness over persisted rows |
+| Wallet signer session | user wallet authorizes crypto operations | `packages/btd/src/wallet.ts` requires address authorization proof before signing; proofless sessions stay prepared and fail closed; `/api/btd/btc-fee-transaction` accepts authorized signer sessions for BTC fee handoff | closed for Gate 10 | live wallet adapter UX remains later |
+| PSBT fee transaction | BTC fees are actual user-signed transactions | `packages/btd/src/bitcoin-fees.ts`, `packages/btd/src/bitcoin-provider.ts`, `/api/btd/btc-fee-transaction`, `btc_fee_transactions`, and demonstration receipts cover prepare, signed, broadcast, observed/confirmed, txid, sats, Exchange sequence, Terminal journal root, and signet harness observation | closed for Gate 10 | value-bearing broadcaster credentials and production observer rollout remain later |
+| Fee asset separation | `$BTD` cannot pay fees | package/API reject fungible mutation; BTC fee receipts are constrained to `BTC` and tests reject altered `$BTD` fee assets | closed for Gate 10 | continue preserving BTC-only fee receipts in later Exchange/Terminal routes |
+| Bitcoin ledger anchor | AssetPack can anchor on selected Bitcoin commitment path | `packages/btd/src/ledger-anchor.ts` selects Taproot for Bitcoin anchors; `/api/btd/asset-pack-ledger-anchor`, `btd_asset_pack_ledger_anchors`, package/API/demo tests cover signet-ready prepare, broadcast, observe, and confirmed states | closed for Gate 11 | live broadcaster credentials and production observer rollout remain later |
+| Ethereum ledger anchor | Ethereum is secondary or optional registry/event anchor | `packages/btd/src/ledger-anchor.ts` supports only explicit `ethereum_registry_event` anchors for Ethereum and rejects implicit Ethereum commitment readiness | closed for Gate 11 | value-bearing Ethereum deployment remains later and secondary |
+| AssetPack ledger anchor receipt | anchor binds range, roots, policy, and finality | package/API/demo/migration surfaces bind AssetPack id, source manifest root, proof root, access policy hash, `$BTD` range, commitment method, txid/hash, and finality state | closed for Gate 11 | generated proof-family promotion remains later |
+| Minimal Exchange orders | buy/sell/bid/ask/cancel/accept/settle exist | `packages/btd/src/exchange.ts`, `/api/btd/asset-pack-exchange`, `btd_exchange_orders`, and package/API tests implement BTC-priced order creation, cancellation, acceptance, settlement, Terminal journal binding, JSON-safe projection, and explicit registry writes | closed for Gate 12 | V28+ market depth, full order-book UX, and live value-bearing settlement remain later |
+| Rights transfer | `$BTD` range rights can transfer after settlement | `buildAssetPackRightsTransferReceipt`, `/api/btd/asset-pack-exchange`, `btd_rights_transfer_receipts`, and package/API/demo tests emit BTC-priced rights-transfer receipts and reject transfer without settled order, policy hash, BTC fee receipt, and ledger anchor | closed for Gate 12 | live value-bearing settlement and broader ownership UI remain later |
+| Terminal transaction journal | Terminal actions produce replayable transaction journal entries | `packages/btd/src/terminal-journal.ts`, `/api/btd/terminal-journal`, `btd_terminal_journal_entries`, and package/API/demo tests cover required transaction-family coverage, stable journal rows, commit-gated persistence, and missing-family blocking | closed for Gate 13 | broader V28 Terminal product UX and generated proof-family promotion remain later |
+| Ledgerized journal diff | journal, ledger, DB, proof, and telemetry can be compared | `diffTerminalJournalProjection` and `/api/btd/terminal-journal` block stale post-state, receipt-root, journal-id, and ledger-anchor projection drift before UI/API can claim finality | closed for Gate 13 | full live ledger observer integration continues in Gate 14/15 |
 | Ledger/database reconciliation | DB is ledger-derived plus metaphysical canonical store | `packages/btd/src/reconciliation.ts` emits projection repair reports | partial blocking | connect to ledger observers and database repairs |
 | Signet proof lane | public Bitcoin proof prefers signet | package constants and demo enforce signet posture; no signet harness found | partial blocking | document and implement signet proof lane; keep public testnet supplementary |
 | Mainnet-ready lane | mainnet controls exist without automatic launch | `packages/btd/src/deployment-lanes.ts` models local/regtest/signet/testnet/mainnet-ready/value-bearing lanes and approval roots | partial blocking | document env, key, fee, rollback, approval, and telemetry controls |
@@ -277,12 +277,12 @@ This does not close live Supabase migration execution, generated DB type refresh
 | Gate 5: Receipt And Replay | closed | no Gate 5 package/demonstration replay blockers remain; persisted receipt writes, database projection replay, and generated total proof closure remain later-gate work |
 | Gate 6: Exchange Persistence | closed | no Gate 6 migration/ORM boundary blockers remain; live migration execution, generated DB type refresh, and value-bearing rollout controls remain later work |
 | Gate 7: Access And Policy | closed | no Gate 7 blockers remain; live value-bearing access operation rollout and final legal templates remain later |
-| Gate 8: Allocation And Revenue | package implementation started | settlement integration, holdbacks, route/API persistence, and generated proof missing |
-| Gate 9: Ancestry And Anti-Game | package implementation started | graph-level loop/collusion/dispute tests and persisted proof missing |
-| Gate 10: Wallet And BTC Fee Settlement | package and provider boundary implementation started | live wallet adapter, broadcaster, and signet proof missing |
-| Gate 11: Ledgerized AssetPack Anchoring | package implementation started | selected Bitcoin anchor adapter and signet proof missing |
-| Gate 12: Minimal AssetPack Exchange | package implementation started | Exchange route/database integration missing |
-| Gate 13: Terminal Transactions And Journal Diffing | package implementation started | Terminal flow integration and persisted proof missing |
+| Gate 8: Allocation And Revenue | closed | no Gate 8 blockers remain; live wallet settlement and generated proof-family promotion remain later |
+| Gate 9: Ancestry And Anti-Game | closed | no Gate 9 blockers remain; graph anomaly telemetry, live revenue-route consumption, and generated proof-family promotion remain later |
+| Gate 10: Wallet And BTC Fee Settlement | closed | no Gate 10 blockers remain; live wallet adapter UX, value-bearing broadcaster credentials, and production observer rollout remain later |
+| Gate 11: Ledgerized AssetPack Anchoring | closed | no Gate 11 blockers remain; live broadcaster credentials, production observer rollout, and generated proof-family promotion remain later |
+| Gate 12: Minimal AssetPack Exchange | closed | no Gate 12 blockers remain; V28+ market depth, full order-book UX, live value-bearing settlement, and generated proof-family promotion remain later |
+| Gate 13: Terminal Transactions And Journal Diffing | closed | no Gate 13 blockers remain; broader V28 Terminal workflows, live UX, and generated proof-family promotion remain later |
 | Gate 14: Ledger/Database Reconciliation | package implementation started | ledger observer/database repair integration missing |
 | Gate 15: Testnet/Mainnet Telemetry And Upgrades | telemetry, deployment-lane, and upgrade receipt primitives started | env docs, alert sinks, mainnet operational runbook, and generated proof missing |
 | Gate 16: Product Surfaces, Research Rebinding, And Promotion Proof | not started | web-rebound choices, V27 generated proofs, and promotion checks missing |
@@ -368,18 +368,15 @@ Remaining queue:
 1. Expand replay coverage into generated V27 proof families.
 2. Integrate semantic-volume/range/mint admission into source-to-shares settlement.
 3. Apply/test V27 migration and refresh generated Supabase types.
-4. Add DB persistence and route-write tests for V27 registry rows and constraints.
-5. Add range/policy UI disclosure and route/API license checks.
-6. Add live wallet adapter and PSBT provider boundary.
+4. Broaden DB route-write tests from closed V27 registry rows into live migration execution and generated DB type refresh.
+5. Add remaining range/policy UI disclosure surfaces beyond the current access route and Auxillary pane.
+6. Add live wallet adapter UX and value-bearing PSBT provider credentials.
 7. Add regtest and signet broadcaster/observer harnesses.
-8. Select Bitcoin commitment method for AssetPack anchors.
-9. Wire minimal Exchange routes/database writes to order, rights-transfer, allocation, and revenue primitives.
-10. Wire Terminal transaction flows to journal entries and diff checks.
-11. Connect ledger observer to reconciliation repair writes.
-12. Connect crypto telemetry taxonomy to production alert sinks.
-13. Add deployment lanes, mainnet operational controls, and upgrade receipt wiring.
-14. Complete graph-level ancestry attack tests and dispute holdback persistence.
-15. Complete web research rebinding for selected crypto standards and libraries.
+8. Connect ledger observer to reconciliation repair writes.
+9. Connect crypto telemetry taxonomy to production alert sinks.
+10. Add deployment lanes, mainnet operational controls, and upgrade receipt wiring.
+11. Complete dispute holdback persistence and live route consumption.
+12. Complete web research rebinding for selected crypto standards and libraries.
 
 ## Promotion Risk
 
@@ -391,8 +388,8 @@ The highest-risk gaps are:
 - defining normalized Bitcode volume precisely enough to drive mint count;
 - proving semantic-volume measurement resists byte/tokenizer/fragmentation inflation;
 - moving from aggregate compatibility balances to registry cell/range state;
-- proving actual BTC fee transactions and ledgerized AssetPack anchors;
-- choosing Bitcoin anchoring method and crypto libraries from current primary-source research;
+- proving live value-bearing BTC fee transactions and ledgerized AssetPack anchors beyond the closed receipt/provider boundary;
+- rebinding selected crypto libraries from current primary-source research;
 - reconciling external ledger finality with Bitcode database and private canonical facts;
 - proving minimal Exchange transfers without reintroducing fungible `$BTD` balance semantics;
 - avoiding legal overclaim in read-right UI;

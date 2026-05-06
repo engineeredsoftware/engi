@@ -18,6 +18,22 @@ export interface DatabaseProjectedFact {
   projectedFinalityState: 'prepared' | 'broadcast' | 'confirmed' | 'reorged' | 'failed';
 }
 
+export type MetaphysicalCanonicalFactKind =
+  | 'private_source_metadata'
+  | 'need_fit_context'
+  | 'access_policy_document'
+  | 'encrypted_storage_pointer'
+  | 'dispute_record'
+  | 'telemetry_context';
+
+export interface MetaphysicalCanonicalFact {
+  factId: string;
+  factKind: MetaphysicalCanonicalFactKind;
+  canonicalRoot: string;
+  receiptRoot?: string;
+  private: boolean;
+}
+
 export interface ProjectionRepairReceipt {
   kind: 'btd.ledger_database_projection_repair';
   repairId: string;
@@ -33,6 +49,7 @@ export interface LedgerDatabaseReconciliationReport {
   kind: 'btd.ledger_database_reconciliation';
   reconciliationId: string;
   repairs: ProjectionRepairReceipt[];
+  metaphysicalFacts: MetaphysicalCanonicalFact[];
   blocking: boolean;
 }
 
@@ -40,10 +57,12 @@ export function reconcileLedgerDatabaseProjection(input: {
   reconciliationId: string;
   ledgerFacts: LedgerObservedFact[];
   databaseFacts: DatabaseProjectedFact[];
+  metaphysicalFacts?: MetaphysicalCanonicalFact[];
   issuedAt?: string;
 }): LedgerDatabaseReconciliationReport {
   const reconciliationId = assertNonEmptyString(input.reconciliationId, 'reconciliationId');
   const databaseByFactId = new Map(input.databaseFacts.map((fact) => [fact.factId, fact]));
+  const metaphysicalFacts = (input.metaphysicalFacts ?? []).map(assertMetaphysicalFact);
   const repairs: ProjectionRepairReceipt[] = [];
   const issuedAt = input.issuedAt ?? new Date().toISOString();
 
@@ -86,7 +105,10 @@ export function reconcileLedgerDatabaseProjection(input: {
         repairKind: 'ledger_finality_state',
         before: projected.projectedFinalityState,
         after: ledgerFact.finalityState,
-        blocking: ledgerFact.finalityState === 'reorged' || ledgerFact.finalityState === 'failed',
+        blocking:
+          ledgerFact.finalityState === 'confirmed' ||
+          ledgerFact.finalityState === 'reorged' ||
+          ledgerFact.finalityState === 'failed',
         issuedAt,
       });
     }
@@ -96,6 +118,7 @@ export function reconcileLedgerDatabaseProjection(input: {
     kind: 'btd.ledger_database_reconciliation',
     reconciliationId,
     repairs,
+    metaphysicalFacts,
     blocking: repairs.some((repair) => repair.blocking),
   };
 }
@@ -103,4 +126,18 @@ export function reconcileLedgerDatabaseProjection(input: {
 function assertLedgerFact(fact: LedgerObservedFact): void {
   assertNonEmptyString(fact.factId, 'factId');
   assertNonEmptyString(fact.ledgerRoot, 'ledgerRoot');
+}
+
+function assertMetaphysicalFact(fact: MetaphysicalCanonicalFact): MetaphysicalCanonicalFact {
+  assertNonEmptyString(fact.factId, 'factId');
+  assertNonEmptyString(fact.factKind, 'factKind');
+  assertNonEmptyString(fact.canonicalRoot, 'canonicalRoot');
+  if (fact.receiptRoot !== undefined) {
+    assertNonEmptyString(fact.receiptRoot, 'receiptRoot');
+  }
+  if (fact.private !== true) {
+    throw new Error('Metaphysical canonical facts must be marked private.');
+  }
+
+  return fact;
 }

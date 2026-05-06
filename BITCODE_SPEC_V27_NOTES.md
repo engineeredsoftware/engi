@@ -368,10 +368,11 @@ Default licensed-read revenue split:
 R_direct = 0.80 * R;
 R_ancestor = 0.12 * R;
 R_treasury = 0.08 * R;
+R_dispute_holdback = 0.00 * R; // nonzero only when settlement policy or dispute posture requires custody
 ```
 
 This split is tunable.
-The structure is not optional: direct holders, proven ancestors, and protocol/proof treasury must be explicit settlement categories.
+The structure is not optional: direct holders, proven ancestors, protocol/proof treasury, dispute holdback, and pending/failed route states must be explicit settlement categories.
 
 ## Access Rights
 
@@ -478,12 +479,19 @@ export interface BtdAncestorEdge {
     | 'teaching_dependency'
     | 'citation_only';
   evidenceRoot: string;
+  sourceFingerprintRoot?: string;
   reviewerReceiptRoot?: string;
+  claimantId?: string;
+  reviewerId?: string;
   confidence: number;
   timelessness: number;
   depth: number;
   createdAfterChildFit: true;
   conflictDisclosure: string[];
+  riskFlags: string[];
+  status: 'payable' | 'recorded_unpaid' | 'rejected';
+  supplyEffect: 'none';
+  mintCountDelta: 0;
 }
 ```
 
@@ -530,6 +538,13 @@ export const MIN_ANCESTOR_CONFIDENCE = 0.25;
 ```
 
 Weak edges may be recorded but must not receive revenue.
+
+Gate 9 closes the draft-target implementation of this module:
+
+- `packages/btd/src/ancestry.ts` owns the review function and graph checks.
+- `/api/btd/ancestry-review` owns the unversioned commercial review route.
+- `btd_ancestor_edges` persists review rows with review id, source fingerprint root, claimant/reviewer ids, risk flags, status, route weight, and non-supply constraints.
+- reciprocal loops, dependency cycles, duplicate source roots, claimant/reviewer conflicts, low confidence, citation-only edges, and disclosed conflicts are tested in package/API/demonstration coverage.
 
 ## Ancestry Attack Surface
 
@@ -639,6 +654,8 @@ Database constraints must include:
 - access policy hash is not nullable after committed mint;
 - ownership events cannot create negative holdings;
 - licensed reads cannot imply ownership transfer.
+- licensed-read revenue rows must conserve gross sats across direct, ancestor, treasury, and dispute-holdback categories.
+- pending or failed revenue routes must be explicit metadata, not invisible settlement drift.
 
 ## Demonstration Test Matrix
 
@@ -793,6 +810,38 @@ WDRR implementation posture:
 - public Bitcoin proof should use signet.
 - public Bitcoin testnet may be used as supplementary coverage but is not the canonical V27 proof lane.
 - Ethereum anchoring, if included, should be a minimal immutable registry/event emitter for commitments and should remain secondary to Bitcoin in V27.
+
+Gate 10 closes the draft-target wallet/BTC fee implementation:
+
+- signer sessions require message-signature or wallet-provider authorization proof before `psbt_sign` can execute;
+- proofless sessions remain prepared and fail closed;
+- BTC fee receipts bind wallet authorization proof, PSBT or signed handoff state, txid when broadcast, sats paid, Exchange sequence, Terminal journal root, network, and no-server-custody posture;
+- `/api/btd/btc-fee-transaction` exposes the unversioned commercial receipt transition route;
+- `btc_fee_transactions` persists the receipt projection with BTC-only/no-custody constraints.
+
+Gate 11 closes the draft-target ledgerized AssetPack anchor implementation:
+
+- Bitcoin AssetPack anchors use Taproot as the selected primary commitment method;
+- signet remains the public Bitcoin proof lane while local/regtest-compatible receipt transitions use the same package state machine;
+- Ethereum anchoring is secondary and explicit through `ethereum_registry_event`, never implicit;
+- `/api/btd/asset-pack-ledger-anchor` exposes the unversioned commercial anchor transition route;
+- `btd_asset_pack_ledger_anchors` persists commitment method, txid/hash, roots, policy hash, `$BTD` range, finality, and receipt projection.
+
+Gate 12 closes the draft-target minimal AssetPack Exchange implementation:
+
+- `packages/btd/src/exchange.ts` implements BTC-priced buy, sell, bid, ask, cancel, accept, settle, and rights-transfer primitives without fungible `$BTD` balances;
+- rights-transfer receipts require a settled order, access policy hash, BTC fee receipt, and ledger anchor;
+- `/api/btd/asset-pack-exchange` exposes the unversioned commercial route for order transitions, rights transfer, Terminal journal binding, and explicit registry commits;
+- `btd_exchange_orders` and `btd_rights_transfer_receipts` persist range, parties, BTC price, order state, access policy hash, receipt projection, Exchange sequence, and ledger-anchor evidence;
+- package, API, ORM, and demonstration tests prove the minimal lifecycle while leaving broader market depth to V28+.
+
+Gate 13 closes the draft-target Terminal journal and diff implementation:
+
+- `packages/btd/src/terminal-journal.ts` defines the required V27 Terminal transaction-family set and emits blocking coverage receipts when a family is missing;
+- journal entries carry stable ids, transaction kind, actor, pre/post state roots, receipt roots, ledger anchor ids, positive Exchange sequence, and issued time;
+- `/api/btd/terminal-journal` exposes the unversioned commercial route for commit, projection diff, and coverage checks;
+- `btd_terminal_journal_entries` constrains supported transaction kinds and positive Exchange sequence;
+- package, API, ORM, and demonstration tests prove full family coverage, missing-family blocking, commit-gated persistence, and stale projection blocking.
 
 The key truth split:
 

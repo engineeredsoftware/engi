@@ -14,15 +14,48 @@ jest.mock(
 );
 
 import {
+  buildBtdAncestryReviewSettlement,
+  buildBtdAssetPackLedgerAnchorSettlement,
+  buildBtdAssetPackExchangeSettlement,
+  buildBtdBtcFeeTransactionSettlement,
+  buildBtdLedgerDatabaseReconciliationSettlement,
+  buildBtdLicensedReadRevenueSettlement,
   buildBtdMintDraft,
   buildBtdReadAccessDecision,
+  buildBtdTerminalJournalSettlement,
   buildGetBtdRegistrySnapshotRoute,
+  buildPostBtdAncestryReviewRoute,
+  buildPostBtdAssetPackLedgerAnchorRoute,
+  buildPostBtdAssetPackExchangeRoute,
+  buildPostBtdBtcFeeTransactionRoute,
+  buildPostBtdLedgerDatabaseReconciliationRoute,
+  buildPostBtdLicensedReadRevenueRoute,
   buildPostBtdMintDraftRoute,
   buildPostBtdReadAccessRoute,
+  buildPostBtdTerminalJournalRoute,
 } from '../btd-crypto';
 import { createBtdMeasureMintState } from '@bitcode/btd';
 
 const issuedAt = '2026-05-06T00:00:00.000Z';
+
+function walletSessionInput() {
+  return {
+    walletSessionId: 'wallet-session-api-1',
+    walletId: 'wallet-api-1',
+    userId: 'user-1',
+    address: 'tb1papi',
+    network: 'signet' as const,
+    nonce: 'nonce-api-1',
+    capabilities: ['psbt_sign' as const],
+    authorizationProof: {
+      proofKind: 'message_signature' as const,
+      message: 'Authorize Bitcode API wallet session',
+      signature: 'signature-api-1',
+      verifiedAt: issuedAt,
+    },
+    authorizedAt: issuedAt,
+  };
+}
 
 function mintDraftInput() {
   return {
@@ -405,5 +438,728 @@ describe('BTD crypto API builders', () => {
 
     expect((await expiredResponse.json()).decision.reason).toBe('license_expired');
     expect((await mismatchResponse.json()).decision.reason).toBe('policy_mismatch');
+  });
+
+  it('builds licensed-read revenue settlement receipts with holdback and route state', () => {
+    const settlement = buildBtdLicensedReadRevenueSettlement({
+      actorId: 'user-1',
+      paymentId: 'payment-api-1',
+      assetPackId: 'asset-pack-api-1',
+      grossSats: 10_000n,
+      directRecipients: [{ walletId: 'wallet-direct', weight: 1n }],
+      ancestorRecipients: [{ walletId: 'wallet-ancestor', weight: 1n }],
+      treasuryWalletId: 'wallet-treasury',
+      disputeHoldbackWalletId: 'wallet-holdback',
+      exchangeSequence: 9n,
+      directSplitBps: 7_000,
+      ancestorSplitBps: 1_000,
+      treasurySplitBps: 1_000,
+      disputeHoldbackBps: 1_000,
+      issuedAt,
+    });
+
+    expect(settlement.receipt.directSats).toBe(7_000n);
+    expect(settlement.receipt.ancestorSats).toBe(1_000n);
+    expect(settlement.receipt.treasurySats).toBe(1_000n);
+    expect(settlement.receipt.disputeHoldbackSats).toBe(1_000n);
+    expect(settlement.receipt.routeState).toBe('pending');
+    expect(settlement.terminalJournalEntry.transactionKind).toBe('settlement_finalization');
+  });
+
+  it('builds ancestry review receipts with anti-game rejection and no supply effect', () => {
+    const settlement = buildBtdAncestryReviewSettlement({
+      actorId: 'user-1',
+      reviewId: 'ancestry-review-api-1',
+      childAssetPackId: 'asset-pack-child',
+      exchangeSequence: 10n,
+      existingEdges: [
+        {
+          parentAssetPackId: 'asset-pack-child',
+          childAssetPackId: 'asset-pack-parent',
+          status: 'payable',
+        },
+      ],
+      edges: [
+        {
+          parentAssetPackId: 'asset-pack-parent',
+          childAssetPackId: 'asset-pack-child',
+          edgeKind: 'implementation_dependency',
+          evidenceRoot: 'evidence-root',
+          confidenceBps: 9_000,
+          timelessnessBps: 9_000,
+          depth: 1,
+          createdAfterChildFit: true,
+          conflictDisclosure: [],
+        },
+      ],
+      issuedAt,
+    });
+
+    expect(settlement.receipt.edges[0].status).toBe('rejected');
+    expect(settlement.receipt.edges[0].rejectionReason).toBe('reciprocal_loop');
+    expect(settlement.receipt.supplyEffect).toBe('none');
+    expect(settlement.receipt.mintCountDelta).toBe(0);
+    expect(settlement.terminalJournalEntry.receiptRoots).toEqual(['ancestry-review-api-1']);
+  });
+
+  it('builds BTC fee transaction settlements from user-authorized PSBT handoff receipts', () => {
+    const prepared = buildBtdBtcFeeTransactionSettlement({
+      actorId: 'user-1',
+      action: 'prepare',
+      receiptId: 'btc-fee-api-1',
+      feePurpose: 'asset_pack_anchor',
+      payerSession: walletSessionInput(),
+      psbt: 'cHNidP8BAHECAAAAA',
+      satsPaid: 1200n,
+      satsPerVbyte: 4,
+      exchangeSequence: 11n,
+      terminalJournalRoot: 'terminal-journal-root',
+      relatedAssetPackId: 'asset-pack-api-1',
+      issuedAt,
+    });
+    const signed = buildBtdBtcFeeTransactionSettlement({
+      actorId: 'user-1',
+      action: 'mark_signed',
+      previousReceipt: prepared.receipt,
+      signedPsbt: 'signed-psbt',
+      issuedAt,
+    });
+    const broadcast = buildBtdBtcFeeTransactionSettlement({
+      actorId: 'user-1',
+      action: 'mark_broadcast',
+      previousReceipt: signed.receipt,
+      txid: 'btc-txid-api-1',
+      issuedAt,
+    });
+    const confirmed = buildBtdBtcFeeTransactionSettlement({
+      actorId: 'user-1',
+      action: 'observe',
+      previousReceipt: broadcast.receipt,
+      observedFinalityState: 'confirmed',
+      confirmations: 2,
+      issuedAt,
+    });
+
+    expect(prepared.receipt.serverCustody).toBe(false);
+    expect(prepared.receipt.feeAsset).toBe('BTC');
+    expect(prepared.receipt.walletAuthorizationProof.proofKind).toBe('message_signature');
+    expect(prepared.receipt.exchangeSequence).toBe(11n);
+    expect(prepared.terminalJournalEntry.transactionKind).toBe('btc_fee_payment');
+    expect(confirmed.receipt.txid).toBe('btc-txid-api-1');
+    expect(confirmed.receipt.confirmations).toBe(2);
+  });
+
+  it('builds AssetPack ledger anchor settlements on the selected Taproot path', () => {
+    const prepared = buildBtdAssetPackLedgerAnchorSettlement({
+      actorId: 'user-1',
+      action: 'prepare',
+      anchorId: 'anchor-api-1',
+      assetPackId: 'asset-pack-api-1',
+      chain: 'bitcoin',
+      network: 'signet',
+      commitmentRoot: 'commitment-root',
+      sourceManifestRoot: 'source-root',
+      proofRoot: 'proof-root',
+      accessPolicyHash: 'policy-hash',
+      btdRangeStart: 0,
+      btdRangeEndExclusive: 10,
+      exchangeSequence: 12n,
+      issuedAt,
+    });
+    const broadcast = buildBtdAssetPackLedgerAnchorSettlement({
+      actorId: 'user-1',
+      action: 'mark_broadcast',
+      previousAnchor: prepared.anchor,
+      txidOrHash: 'anchor-txid-api-1',
+      outputIndex: 0,
+      exchangeSequence: 12n,
+      issuedAt,
+    });
+    const confirmed = buildBtdAssetPackLedgerAnchorSettlement({
+      actorId: 'user-1',
+      action: 'observe',
+      previousAnchor: broadcast.anchor,
+      observedFinalityState: 'confirmed',
+      confirmations: 3,
+      exchangeSequence: 12n,
+      issuedAt,
+    });
+
+    expect(prepared.anchor.commitmentMethod).toBe('taproot');
+    expect(prepared.terminalJournalEntry.transactionKind).toBe('asset_pack_anchor');
+    expect(confirmed.anchor.finalityState).toBe('confirmed');
+    expect(confirmed.anchor.txidOrHash).toBe('anchor-txid-api-1');
+  });
+
+  it('builds minimal AssetPack Exchange order and rights-transfer settlements', () => {
+    const created = buildBtdAssetPackExchangeSettlement({
+      actorId: 'user-1',
+      action: 'create_order',
+      orderId: 'order-api-1',
+      orderKind: 'sell',
+      assetPackId: 'asset-pack-api-1',
+      rangeStart: 0,
+      rangeEndExclusive: 10,
+      makerWalletId: 'wallet-seller',
+      priceSats: 50_000n,
+      accessPolicyHash: 'policy-hash',
+      createdAtExchangeSequence: 13n,
+      issuedAt,
+    });
+    const accepted = buildBtdAssetPackExchangeSettlement({
+      actorId: 'user-1',
+      action: 'accept_order',
+      previousOrder: created.order,
+      takerWalletId: 'wallet-buyer',
+      issuedAt,
+    });
+    const settled = buildBtdAssetPackExchangeSettlement({
+      actorId: 'user-1',
+      action: 'settle_order',
+      previousOrder: accepted.order,
+      settledAtExchangeSequence: 14n,
+      ledgerAnchorId: 'anchor-api-1',
+      issuedAt,
+    });
+    const transfer = buildBtdAssetPackExchangeSettlement({
+      actorId: 'user-1',
+      action: 'transfer_rights',
+      previousOrder: settled.order,
+      receiptId: 'transfer-api-1',
+      fromWalletId: 'wallet-seller',
+      toWalletId: 'wallet-buyer',
+      btcFeeReceiptId: 'btc-fee-api-1',
+      issuedAt,
+    });
+
+    expect(created.order?.priceAsset).toBe('BTC');
+    expect(settled.order?.orderState).toBe('settled');
+    expect(transfer.rightsTransfer?.ledgerAnchorId).toBe('anchor-api-1');
+    expect(transfer.terminalJournalEntry.transactionKind).toBe('rights_transfer');
+  });
+
+  it('builds Terminal journal coverage and blocking diff settlements', () => {
+    const entry = buildBtdTerminalJournalSettlement({
+      actorId: 'user-1',
+      action: 'commit_entry',
+      journalEntryId: 'journal-api-1',
+      transactionKind: 'rights_transfer',
+      preStateRoot: 'pre-root',
+      postStateRoot: 'post-root',
+      receiptRoots: ['transfer-api-1'],
+      ledgerAnchorIds: ['anchor-api-1'],
+      exchangeSequence: 15n,
+      issuedAt,
+    });
+    const diff = buildBtdTerminalJournalSettlement({
+      actorId: 'user-1',
+      action: 'diff_projection',
+      entry: entry.entry,
+      projection: {
+        journalEntryId: 'journal-api-1',
+        postStateRoot: 'stale-root',
+        receiptRoots: ['transfer-api-1'],
+        ledgerAnchorIds: ['anchor-api-1'],
+      },
+      issuedAt,
+    });
+    const coverage = buildBtdTerminalJournalSettlement({
+      actorId: 'user-1',
+      action: 'coverage',
+      coverageId: 'terminal-coverage-api-1',
+      entries: [
+        'need_submission',
+        'fit_closure',
+        'proof_admission',
+        'asset_pack_mint',
+        'btc_fee_payment',
+        'asset_pack_anchor',
+        'licensed_read_purchase',
+        'exchange_order',
+        'exchange_order_cancel',
+        'rights_transfer',
+        'dispute_holdback',
+        'settlement_finalization',
+        'ledger_database_reconciliation',
+      ].map((transactionKind, index) => ({
+        journalEntryId: `journal-${transactionKind}`,
+        transactionKind: transactionKind as any,
+        actorId: 'user-1',
+        preStateRoot: `pre-${transactionKind}`,
+        postStateRoot: `post-${transactionKind}`,
+        receiptRoots: [`receipt-${transactionKind}`],
+        ledgerAnchorIds: [],
+        exchangeSequence: BigInt(index + 1),
+        issuedAt,
+      })),
+      issuedAt,
+    });
+
+    expect(entry.entry?.transactionKind).toBe('rights_transfer');
+    expect(diff.diff?.blocking).toBe(true);
+    expect(diff.diff?.mismatches).toContain('post_state_root');
+    expect(coverage.coverage?.blocking).toBe(false);
+  });
+
+  it('builds ledger/database reconciliation settlements with private canonical facts', () => {
+    const settlement = buildBtdLedgerDatabaseReconciliationSettlement({
+      actorId: 'user-1',
+      reconciliationId: 'reconciliation-api-1',
+      ledgerFacts: [
+        {
+          factId: 'anchor-api-1',
+          ledgerRoot: 'confirmed-root',
+          finalityState: 'confirmed',
+        },
+      ],
+      databaseFacts: [
+        {
+          factId: 'anchor-api-1',
+          projectedLedgerRoot: 'confirmed-root',
+          projectedFinalityState: 'broadcast',
+        },
+      ],
+      metaphysicalFacts: [
+        {
+          factId: 'private-source-api-1',
+          factKind: 'private_source_metadata',
+          canonicalRoot: 'private-source-root',
+          receiptRoot: 'private-source-receipt-root',
+          private: true,
+        },
+      ],
+      issuedAt,
+    });
+
+    expect(settlement.report.blocking).toBe(true);
+    expect(settlement.report.repairs[0].repairKind).toBe('ledger_finality_state');
+    expect(settlement.report.metaphysicalFacts[0].canonicalRoot).toBe('private-source-root');
+    expect(settlement.terminalJournalEntry.transactionKind).toBe('ledger_database_reconciliation');
+  });
+
+  it('returns JSON-safe licensed-read revenue settlements and persists only on explicit commit', async () => {
+    const insertLicensedReadRevenueRoute = jest.fn(async (row) => ({
+      payment_id: row.payment_id,
+      route_state: row.route_state,
+    }));
+    const route = buildPostBtdLicensedReadRevenueRoute({
+      resolveAuthenticatedUser: async () => ({ userId: 'user-1' }),
+      registry: {
+        insertLicensedReadRevenueRoute,
+      } as any,
+    });
+    const response = await route(
+      new Request('https://bitcode.test/api/btd/licensed-read-revenue', {
+        method: 'POST',
+        body: JSON.stringify({
+          paymentId: 'payment-api-1',
+          assetPackId: 'asset-pack-api-1',
+          grossSats: '10000',
+          directRecipients: [{ walletId: 'wallet-direct', weight: '1' }],
+          ancestorRecipients: [{ walletId: 'wallet-ancestor', weight: '1' }],
+          treasuryWalletId: 'wallet-treasury',
+          disputeHoldbackWalletId: 'wallet-holdback',
+          exchangeSequence: '9',
+          directSplitBps: 7000,
+          ancestorSplitBps: 1000,
+          treasurySplitBps: 1000,
+          disputeHoldbackBps: 1000,
+          commitToRegistry: true,
+          issuedAt,
+        }),
+      }),
+    );
+    const body = await response.json();
+
+    expect(response.status).toBe(200);
+    expect(body.kind).toBe('btd_licensed_read_revenue_settlement');
+    expect(body.receipt.disputeHoldbackSats).toBe('1000');
+    expect(body.receipt.routeState).toBe('pending');
+    expect(body.committed).toBe(true);
+    expect(insertLicensedReadRevenueRoute).toHaveBeenCalledWith(
+      expect.objectContaining({
+        payment_id: 'payment-api-1',
+        gross_sats: '10000',
+        dispute_holdback_sats: '1000',
+        route_state: 'pending',
+      }),
+    );
+  });
+
+  it('returns JSON-safe ancestry reviews and persists review rows only on explicit commit', async () => {
+    const insertAncestorEdge = jest.fn(async (row) => ({
+      edge_id: row.edge_id,
+      status: row.status,
+    }));
+    const route = buildPostBtdAncestryReviewRoute({
+      resolveAuthenticatedUser: async () => ({ userId: 'user-1' }),
+      registry: {
+        insertAncestorEdge,
+      } as any,
+    });
+    const response = await route(
+      new Request('https://bitcode.test/api/btd/ancestry-review', {
+        method: 'POST',
+        body: JSON.stringify({
+          reviewId: 'ancestry-review-api-1',
+          childAssetPackId: 'asset-pack-child',
+          exchangeSequence: '10',
+          duplicateSourceRoots: ['duplicate-source-root'],
+          commitToRegistry: true,
+          issuedAt,
+          edges: [
+            {
+              parentAssetPackId: 'asset-pack-parent',
+              childAssetPackId: 'asset-pack-child',
+              edgeKind: 'source_reuse',
+              evidenceRoot: 'evidence-root',
+              sourceFingerprintRoot: 'duplicate-source-root',
+              confidenceBps: 9000,
+              timelessnessBps: 9000,
+              depth: 1,
+              createdAfterChildFit: true,
+              conflictDisclosure: [],
+            },
+          ],
+        }),
+      }),
+    );
+    const body = await response.json();
+
+    expect(response.status).toBe(200);
+    expect(body.kind).toBe('btd_ancestry_review_settlement');
+    expect(body.receipt.supplyEffect).toBe('none');
+    expect(body.receipt.edges[0].status).toBe('rejected');
+    expect(body.receipt.edges[0].rejectionReason).toBe('duplicate_source');
+    expect(body.committed).toBe(true);
+    expect(insertAncestorEdge).toHaveBeenCalledWith(
+      expect.objectContaining({
+        review_id: 'ancestry-review-api-1',
+        child_asset_pack_id: 'asset-pack-child',
+        status: 'rejected',
+        rejection_reason: 'duplicate_source',
+        source_fingerprint_root: 'duplicate-source-root',
+        supply_effect: 'none',
+        mint_count_delta: 0,
+      }),
+    );
+  });
+
+  it('returns JSON-safe BTC fee transaction settlements and persists only on explicit commit', async () => {
+    const insertBtcFeeTransaction = jest.fn(async (row) => ({
+      receipt_id: row.receipt_id,
+      finality_state: row.finality_state,
+    }));
+    const route = buildPostBtdBtcFeeTransactionRoute({
+      resolveAuthenticatedUser: async () => ({ userId: 'user-1' }),
+      registry: {
+        insertBtcFeeTransaction,
+      } as any,
+    });
+    const response = await route(
+      new Request('https://bitcode.test/api/btd/btc-fee-transaction', {
+        method: 'POST',
+        body: JSON.stringify({
+          action: 'prepare',
+          receiptId: 'btc-fee-api-1',
+          feePurpose: 'asset_pack_anchor',
+          payerSession: walletSessionInput(),
+          psbt: 'cHNidP8BAHECAAAAA',
+          satsPaid: '1200',
+          satsPerVbyte: 4,
+          exchangeSequence: '11',
+          terminalJournalRoot: 'terminal-journal-root',
+          relatedAssetPackId: 'asset-pack-api-1',
+          commitToRegistry: true,
+          issuedAt,
+        }),
+      }),
+    );
+    const body = await response.json();
+
+    expect(response.status).toBe(200);
+    expect(body.kind).toBe('btd_btc_fee_transaction_settlement');
+    expect(body.receipt.feeAsset).toBe('BTC');
+    expect(body.receipt.serverCustody).toBe(false);
+    expect(body.receipt.exchangeSequence).toBe('11');
+    expect(body.committed).toBe(true);
+    expect(insertBtcFeeTransaction).toHaveBeenCalledWith(
+      expect.objectContaining({
+        receipt_id: 'btc-fee-api-1',
+        fee_purpose: 'asset_pack_anchor',
+        fee_asset: 'BTC',
+        server_custody: false,
+        wallet_authorization_proof: expect.objectContaining({
+          proofKind: 'message_signature',
+        }),
+        sats_paid: '1200',
+        sats_per_vbyte: 4,
+        related_asset_pack_id: 'asset-pack-api-1',
+      }),
+    );
+  });
+
+  it('returns JSON-safe AssetPack ledger anchor settlements and persists only on explicit commit', async () => {
+    const insertLedgerAnchor = jest.fn(async (row) => ({
+      anchor_id: row.anchor_id,
+      finality_state: row.finality_state,
+    }));
+    const route = buildPostBtdAssetPackLedgerAnchorRoute({
+      resolveAuthenticatedUser: async () => ({ userId: 'user-1' }),
+      registry: {
+        insertLedgerAnchor,
+      } as any,
+    });
+    const response = await route(
+      new Request('https://bitcode.test/api/btd/asset-pack-ledger-anchor', {
+        method: 'POST',
+        body: JSON.stringify({
+          action: 'prepare',
+          anchorId: 'anchor-api-1',
+          assetPackId: 'asset-pack-api-1',
+          chain: 'bitcoin',
+          network: 'signet',
+          commitmentRoot: 'commitment-root',
+          sourceManifestRoot: 'source-root',
+          proofRoot: 'proof-root',
+          accessPolicyHash: 'policy-hash',
+          btdRangeStart: 0,
+          btdRangeEndExclusive: 10,
+          exchangeSequence: '12',
+          commitToRegistry: true,
+          issuedAt,
+        }),
+      }),
+    );
+    const body = await response.json();
+
+    expect(response.status).toBe(200);
+    expect(body.kind).toBe('btd_asset_pack_ledger_anchor_settlement');
+    expect(body.anchor.commitmentMethod).toBe('taproot');
+    expect(body.anchor.network).toBe('signet');
+    expect(body.committed).toBe(true);
+    expect(insertLedgerAnchor).toHaveBeenCalledWith(
+      expect.objectContaining({
+        anchor_id: 'anchor-api-1',
+        chain: 'bitcoin',
+        network: 'signet',
+        commitment_method: 'taproot',
+        btd_range_start: 0,
+        btd_range_end_exclusive: 10,
+      }),
+    );
+  });
+
+  it('returns JSON-safe AssetPack Exchange settlements and persists explicit commits', async () => {
+    const insertExchangeOrder = jest.fn(async (row) => ({
+      order_id: row.order_id,
+      order_state: row.order_state,
+    }));
+    const updateExchangeOrder = jest.fn(async (orderId, row) => ({
+      order_id: orderId,
+      order_state: row.order_state,
+    }));
+    const insertRightsTransferReceipt = jest.fn(async (row) => ({
+      receipt_id: row.receipt_id,
+    }));
+    const route = buildPostBtdAssetPackExchangeRoute({
+      resolveAuthenticatedUser: async () => ({ userId: 'user-1' }),
+      registry: {
+        insertExchangeOrder,
+        updateExchangeOrder,
+        insertRightsTransferReceipt,
+      } as any,
+    });
+    const createdResponse = await route(
+      new Request('https://bitcode.test/api/btd/asset-pack-exchange', {
+        method: 'POST',
+        body: JSON.stringify({
+          action: 'create_order',
+          orderId: 'order-api-1',
+          orderKind: 'sell',
+          assetPackId: 'asset-pack-api-1',
+          rangeStart: 0,
+          rangeEndExclusive: 10,
+          makerWalletId: 'wallet-seller',
+          priceSats: '50000',
+          accessPolicyHash: 'policy-hash',
+          createdAtExchangeSequence: '13',
+          commitToRegistry: true,
+          issuedAt,
+        }),
+      }),
+    );
+    const createdBody = await createdResponse.json();
+    const settledOrder = {
+      ...createdBody.order,
+      priceSats: '50000',
+      createdAtExchangeSequence: '13',
+      takerWalletId: 'wallet-buyer',
+      orderState: 'settled',
+      settledAtExchangeSequence: '14',
+      ledgerAnchorId: 'anchor-api-1',
+    };
+    const transferResponse = await route(
+      new Request('https://bitcode.test/api/btd/asset-pack-exchange', {
+        method: 'POST',
+        body: JSON.stringify({
+          action: 'transfer_rights',
+          previousOrder: settledOrder,
+          receiptId: 'transfer-api-1',
+          fromWalletId: 'wallet-seller',
+          toWalletId: 'wallet-buyer',
+          btcFeeReceiptId: 'btc-fee-api-1',
+          commitToRegistry: true,
+          issuedAt,
+        }),
+      }),
+    );
+    const transferBody = await transferResponse.json();
+
+    expect(createdResponse.status).toBe(200);
+    expect(createdBody.order.priceAsset).toBe('BTC');
+    expect(createdBody.committed).toBe(true);
+    expect(transferResponse.status).toBe(200);
+    expect(transferBody.rightsTransfer.ledgerAnchorId).toBe('anchor-api-1');
+    expect(insertExchangeOrder).toHaveBeenCalledWith(
+      expect.objectContaining({
+        order_id: 'order-api-1',
+        price_asset: 'BTC',
+        price_sats: '50000',
+      }),
+    );
+    expect(insertRightsTransferReceipt).toHaveBeenCalledWith(
+      expect.objectContaining({
+        receipt_id: 'transfer-api-1',
+        btc_fee_receipt_id: 'btc-fee-api-1',
+        ledger_anchor_id: 'anchor-api-1',
+      }),
+    );
+    expect(updateExchangeOrder).not.toHaveBeenCalled();
+  });
+
+  it('returns JSON-safe Terminal journal settlements and persists explicit commits', async () => {
+    const insertTerminalJournalEntry = jest.fn(async (row) => ({
+      journal_entry_id: row.journal_entry_id,
+      transaction_kind: row.transaction_kind,
+    }));
+    const route = buildPostBtdTerminalJournalRoute({
+      resolveAuthenticatedUser: async () => ({ userId: 'user-1' }),
+      registry: {
+        insertTerminalJournalEntry,
+      } as any,
+    });
+    const commitResponse = await route(
+      new Request('https://bitcode.test/api/btd/terminal-journal', {
+        method: 'POST',
+        body: JSON.stringify({
+          action: 'commit_entry',
+          journalEntryId: 'journal-api-1',
+          transactionKind: 'rights_transfer',
+          preStateRoot: 'pre-root',
+          postStateRoot: 'post-root',
+          receiptRoots: ['transfer-api-1'],
+          ledgerAnchorIds: ['anchor-api-1'],
+          exchangeSequence: '15',
+          commitToRegistry: true,
+          issuedAt,
+        }),
+      }),
+    );
+    const commitBody = await commitResponse.json();
+    const diffResponse = await route(
+      new Request('https://bitcode.test/api/btd/terminal-journal', {
+        method: 'POST',
+        body: JSON.stringify({
+          action: 'diff_projection',
+          entry: commitBody.entry,
+          projection: {
+            journalEntryId: 'journal-api-1',
+            postStateRoot: 'stale-root',
+            receiptRoots: ['transfer-api-1'],
+            ledgerAnchorIds: ['anchor-api-1'],
+          },
+          issuedAt,
+        }),
+      }),
+    );
+    const diffBody = await diffResponse.json();
+
+    expect(commitResponse.status).toBe(200);
+    expect(commitBody.entry.exchangeSequence).toBe('15');
+    expect(commitBody.committed).toBe(true);
+    expect(diffResponse.status).toBe(200);
+    expect(diffBody.diff.blocking).toBe(true);
+    expect(insertTerminalJournalEntry).toHaveBeenCalledWith(
+      expect.objectContaining({
+        journal_entry_id: 'journal-api-1',
+        transaction_kind: 'rights_transfer',
+        ledger_anchor_ids: ['anchor-api-1'],
+        exchange_sequence: '15',
+      }),
+    );
+  });
+
+  it('returns JSON-safe ledger/database reconciliation settlements and persists repairs', async () => {
+    const insertReconciliationRepair = jest.fn(async (row) => ({
+      repair_id: row.repair_id,
+      blocking: row.blocking,
+    }));
+    const route = buildPostBtdLedgerDatabaseReconciliationRoute({
+      resolveAuthenticatedUser: async () => ({ userId: 'user-1' }),
+      registry: {
+        insertReconciliationRepair,
+      } as any,
+    });
+    const response = await route(
+      new Request('https://bitcode.test/api/btd/ledger-database-reconciliation', {
+        method: 'POST',
+        body: JSON.stringify({
+          reconciliationId: 'reconciliation-api-1',
+          ledgerFacts: [
+            {
+              factId: 'anchor-api-1',
+              ledgerRoot: 'confirmed-root',
+              finalityState: 'confirmed',
+            },
+          ],
+          databaseFacts: [
+            {
+              factId: 'anchor-api-1',
+              projectedLedgerRoot: 'confirmed-root',
+              projectedFinalityState: 'broadcast',
+            },
+          ],
+          metaphysicalFacts: [
+            {
+              factId: 'private-source-api-1',
+              factKind: 'private_source_metadata',
+              canonicalRoot: 'private-source-root',
+              receiptRoot: 'private-source-receipt-root',
+              private: true,
+            },
+          ],
+          commitToRegistry: true,
+          issuedAt,
+        }),
+      }),
+    );
+    const body = await response.json();
+
+    expect(response.status).toBe(200);
+    expect(body.kind).toBe('btd_ledger_database_reconciliation_settlement');
+    expect(body.report.blocking).toBe(true);
+    expect(body.report.metaphysicalFacts[0].canonicalRoot).toBe('private-source-root');
+    expect(body.committed).toBe(true);
+    expect(insertReconciliationRepair).toHaveBeenCalledWith(
+      expect.objectContaining({
+        reconciliation_id: 'reconciliation-api-1',
+        fact_id: 'anchor-api-1',
+        repair_kind: 'ledger_finality_state',
+        before_value: 'broadcast',
+        after_value: 'confirmed',
+        blocking: true,
+      }),
+    );
   });
 });

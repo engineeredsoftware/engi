@@ -224,6 +224,10 @@ Closure criteria:
 
 ### Gate 8: Allocation And Revenue Closure
 
+Closed as a draft-target allocation and revenue gate.
+Closure proof: `.bitcode/v27-gate-8-allocation-revenue-proof.json`.
+Later gates still own live wallet settlement, broadcaster finality, full source-to-shares write integration, and generated proof-family promotion.
+
 Purpose:
 Make deterministic allocation and licensed-read economics exact.
 
@@ -239,6 +243,9 @@ Closure criteria:
 Purpose:
 Add late-bound knowledge ancestry without creating early-token rent seeking.
 
+Status:
+Closed for draft-target implementation by `.bitcode/v27-gate-9-ancestry-antigame-proof.json`.
+
 Closure criteria:
 
 - ancestry edge schema exists.
@@ -248,10 +255,20 @@ Closure criteria:
 - loop/collusion/duplicate-source mitigations are tested.
 - ancestry is optional for base `$BTD` validity.
 
+Closure evidence:
+
+- `packages/btd/src/ancestry.ts` records `supplyEffect: 'none'` and `mintCountDelta: 0` on review receipts and every edge.
+- `/api/btd/ancestry-review` is the unversioned commercial route boundary for ancestry review and optional registry commit.
+- `btd_ancestor_edges` persists review rows with review id, risk flags, source fingerprint root, claimant/reviewer ids, non-supply constraints, route-weight/status constraints, and reviewer-conflict constraints.
+- package, API, ORM, and demonstration tests cover payable, weak unpaid, citation unpaid, disclosed conflict unpaid, reciprocal loop, dependency cycle, duplicate source, and claimant/reviewer conflict outcomes.
+
 ### Gate 10: Wallet And BTC Fee Settlement Closure
 
 Purpose:
 Make user-controlled wallet authorization and BTC fee payment real enough for V27 commercial operation.
+
+Status:
+Closed for draft-target implementation by `.bitcode/v27-gate-10-wallet-btc-fee-proof.json`.
 
 Closure criteria:
 
@@ -263,10 +280,21 @@ Closure criteria:
 - signet proof covers public-network transaction observation.
 - `$BTD` remains rejected as a fee asset.
 
+Closure evidence:
+
+- `packages/btd/src/wallet.ts` requires address authorization proof before a session can sign; sessions without proof remain `prepared` and fail closed.
+- `packages/btd/src/bitcoin-fees.ts` emits BTC-only, no-server-custody receipts with wallet authorization proof, PSBT, txid, network, sats paid, Exchange sequence, and Terminal journal root.
+- `packages/btd/src/bitcoin-provider.ts` owns the network-checked provider boundary used by the signet harness for prepare, broadcast, and observe.
+- `/api/btd/btc-fee-transaction` is the unversioned commercial route boundary for prepare, signed, broadcast, and observed fee receipt transitions.
+- `btc_fee_transactions` persists BTC fee receipt projections with wallet authorization proof, fee asset, no-custody, finality, txid, PSBT, sats, Exchange sequence, and Terminal journal root constraints.
+
 ### Gate 11: Ledgerized AssetPack Anchor Closure
 
 Purpose:
 Make AssetPack ranges, proof roots, and access policy hashes ledger-observable without leaking private source.
+
+Status:
+Closed for draft-target implementation by `.bitcode/v27-gate-11-ledger-anchor-proof.json`.
 
 Closure criteria:
 
@@ -277,10 +305,21 @@ Closure criteria:
 - anchors bind AssetPack id, `$BTD` range, source manifest root, proof root, and access policy hash.
 - pending, confirmed, reorged, and failed states replay.
 
+Closure evidence:
+
+- `packages/btd/src/ledger-anchor.ts` owns `AssetPackLedgerAnchor` and selects `taproot` by default for Bitcoin anchors.
+- Ethereum anchoring is implemented only as an explicit secondary `ethereum_registry_event` commitment path and rejects implicit Ethereum anchor readiness.
+- `/api/btd/asset-pack-ledger-anchor` is the unversioned commercial route boundary for prepare, broadcast, and observed anchor transitions.
+- `btd_asset_pack_ledger_anchors` persists chain, network, commitment method, txid/hash, output index, roots, policy hash, `$BTD` range, finality, and receipt projection.
+- package, API, ORM, and demonstration tests prove Taproot selection, signet posture, secondary Ethereum explicitness, range/root/policy binding, and confirmed-state observation.
+
 ### Gate 12: Minimal AssetPack Exchange Closure
 
 Purpose:
 Prove that AssetPack rights can be bought, sold, bid, asked, cancelled, settled, and transferred without fungible `$BTD` balances.
+
+Status:
+Closed for draft-target implementation by `.bitcode/v27-gate-12-minimal-exchange-proof.json`.
 
 Closure criteria:
 
@@ -290,10 +329,20 @@ Closure criteria:
 - rights transfer cannot bypass policy, proof, fee, or ledger requirements.
 - V28+ market depth is not needed for V27 closure.
 
+Closure evidence:
+
+- `packages/btd/src/exchange.ts` owns BTC-priced buy, sell, bid, ask, cancel, accept, settle, and rights-transfer primitives.
+- `/api/btd/asset-pack-exchange` is the unversioned commercial route boundary for order transitions, rights-transfer receipt construction, Terminal journal binding, and optional registry commit.
+- `btd_exchange_orders` and `btd_rights_transfer_receipts` persist range, parties, BTC price, access policy hash, order state, Exchange sequence, receipt projection, and non-empty ledger-anchor evidence.
+- package, API, ORM, and demonstration tests prove all order kinds, cancel/accept/settle, rights transfer, JSON-safe route projection, explicit commit behavior, and failure without settled order or ledger anchor.
+
 ### Gate 13: Terminal Transaction And Journal Diff Closure
 
 Purpose:
 Make Terminal actions accountable from user intent through Exchange settlement and ledger observation.
+
+Status:
+Closed for draft-target implementation by `.bitcode/v27-gate-13-terminal-journal-proof.json`.
 
 Closure criteria:
 
@@ -301,6 +350,13 @@ Closure criteria:
 - journal entries carry stable ids, pre-state roots, post-state roots, receipt roots, and ledger anchor references.
 - journal diffing detects disagreement among Terminal intent, Exchange journal, ledger observation, database projection, and proof artifacts.
 - blocking diffs fail closed before UI or API claims finality.
+
+Closure evidence:
+
+- `packages/btd/src/terminal-journal.ts` owns the required V27 Terminal transaction family list, journal entry validation, coverage receipts, and projection diffing.
+- `/api/btd/terminal-journal` is the unversioned commercial route boundary for journal entry commit, projection diff, and transaction-family coverage checks.
+- `btd_terminal_journal_entries` persists stable ids, transaction kind, actor, pre/post state roots, receipt roots, ledger anchor ids, and positive Exchange sequence under SQL constraints.
+- package, API, ORM, and demonstration tests prove complete family coverage, missing-family blocking, persisted journal commits, and stale post-state drift blocking.
 
 ### Gate 14: Ledger/Database Reconciliation Closure
 
