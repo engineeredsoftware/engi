@@ -16,7 +16,7 @@ import {
 
 const EMPTY_TEMPLATE_PREFERENCES = {
   shippable_templates: {},
-  ai_document_templates: {},
+  evidence_document_templates: {},
 };
 
 type AuxillaryRouteBuilderOptions = {
@@ -396,7 +396,7 @@ export function buildGetAuxillaryTemplatePreferencesRoute(options: AuxillaryRout
 
     return createJsonResponse({
       shippable_templates: data.deliverable_templates || {},
-      ai_document_templates: data.ai_document_templates || {},
+      evidence_document_templates: data.ai_document_templates || {},
     });
   });
 }
@@ -432,18 +432,18 @@ export function buildPostAuxillaryTemplatePreferencesRoute(options: AuxillaryRou
               (body as Record<string, unknown>).shippable_templates !== null
                 ? (body as Record<string, unknown>).shippable_templates
                 : null,
-            ai_document_templates:
-              typeof (body as Record<string, unknown>).ai_document_templates === 'object' &&
-              (body as Record<string, unknown>).ai_document_templates !== null
-                ? (body as Record<string, unknown>).ai_document_templates
+            evidence_document_templates:
+              typeof (body as Record<string, unknown>).evidence_document_templates === 'object' &&
+              (body as Record<string, unknown>).evidence_document_templates !== null
+                ? (body as Record<string, unknown>).evidence_document_templates
                 : null,
           }
         : {
             shippable_templates: null,
-            ai_document_templates: null,
+            evidence_document_templates: null,
           };
 
-    if (!payload.shippable_templates || !payload.ai_document_templates) {
+    if (!payload.shippable_templates || !payload.evidence_document_templates) {
       return createJsonResponse({ error: 'Invalid template preferences format' }, 400);
     }
 
@@ -451,7 +451,7 @@ export function buildPostAuxillaryTemplatePreferencesRoute(options: AuxillaryRou
       {
         user_id: user.id,
         deliverable_templates: payload.shippable_templates,
-        ai_document_templates: payload.ai_document_templates,
+        ai_document_templates: payload.evidence_document_templates,
         updated_at: new Date().toISOString(),
       },
       { onConflict: 'user_id' },

@@ -268,7 +268,7 @@ export function factorySDIVFExecutorPipeline<TInput, TOutput>(
     async (input, exec) => {
       let current: any = input;
       for (let i = 0; i < maxIter; i++) {
-        // Optional per-iteration preprocess (e.g., fetch AI Document updates for context)
+        // Optional per-iteration preprocess (e.g., fetch Evidence Document updates for context)
         if (cfg.iterationPreprocess) {
           try { current = await cfg.iterationPreprocess(current, exec); } catch {}
         }

@@ -13,4 +13,4 @@ import { PromptPart } from '../../parts/PromptPart';
  * ]
  */
 export const PROMPTPART_SPECIFIC_AGENT_AUDIOPROCESSOR_PLAN_ANALYSIS_APPROACH: PromptPart = 
-  'Apply systematic audio analysis methodology: frequency domain decomposition via FFT, temporal feature extraction using window functions, machine learning model selection for classification tasks, and performance optimization through algorithm complexity analysis' as PromptPart;
+  'Apply systematic audio analysis methodology: frequency domain decomposition via FFT, time-aware feature extraction using window functions, machine learning model selection for classification tasks, and performance optimization through algorithm complexity analysis' as PromptPart;

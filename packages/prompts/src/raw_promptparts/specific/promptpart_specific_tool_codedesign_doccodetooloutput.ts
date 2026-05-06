@@ -11,4 +11,4 @@ export const PROMPTPART_SPECIFIC_TOOL_CODEDESIGN_DOCCODETOOLOUTPUT: PromptPart =
   `Output:
 - update (string): Markdown summary containing task list and diff stubs
 - latest_design (string | null): PRODUCT.md snapshot used for planning
-- metadata: taskCount, fileCount, aiDocument, prepared context stats` as PromptPart;
+- metadata: taskCount, fileCount, evidenceDocument, prepared context stats` as PromptPart;

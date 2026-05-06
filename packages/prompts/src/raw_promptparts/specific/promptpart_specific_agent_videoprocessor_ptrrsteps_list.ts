@@ -10,7 +10,7 @@ import { PromptPart } from '../../parts/PromptPart';
  *     "version": "V26.00.0",
  *     "content": "PTRR FOR TECHNICAL TEMPORAL VISUAL WORKFLOW with extreme abstract language",
  *     "score": 0.06,
- *     "reason": "Heavy abstract: technical, context, dimensional, multiversal, temporal mastery"
+ *     "reason": "Heavy abstract: technical, context, abstract, multi-context, time-aware mastery"
  *   }
  * ]
  * benchmarks: [

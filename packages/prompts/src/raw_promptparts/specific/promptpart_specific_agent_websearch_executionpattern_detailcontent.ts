@@ -16,5 +16,5 @@ export const PROMPTPART_SPECIFIC_AGENT_WEBSEARCH_EXECUTIONPATTERN_DETAILCONTENT:
 1. Normalize the Bitcode need, proof gap, interface question, or AssetPack planning question.
 2. Plan source classes and queries that favor authoritative sources and narrow volatility.
 3. Execute bounded searches and optional URL content retrieval with source attribution preserved.
-4. Refine findings into source quality, contradiction, relevance, and temporal-risk context.
+4. Refine findings into source quality, contradiction, relevance, and time-aware-risk context.
 5. Return downstream synthesis actions and proof-boundary warnings without asserting final Bitcode truth.` as PromptPart;

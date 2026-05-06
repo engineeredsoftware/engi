@@ -3,7 +3,7 @@
   "steps": [
     { "type": "user", "text": "Carve checkout domain out of monolith." },
     { "type": "agent", "text": "Mapping endpoints & tables…" },
-    { "type": "run", "kind": "ai_document", "id": "run_checkout_001", "logChunks": ["queued", "generating strangler proxy", "writing service", "contract tests", "cut-over script", "completed ✅"] },
+    { "type": "run", "kind": "evidence_document", "id": "run_checkout_001", "logChunks": ["queued", "generating strangler proxy", "writing service", "contract tests", "cut-over script", "completed ✅"] },
     { "type": "agent", "text": "Cut-over PR ready for review." }
   ]
 }

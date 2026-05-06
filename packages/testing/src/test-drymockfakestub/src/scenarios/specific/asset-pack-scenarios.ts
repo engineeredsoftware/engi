@@ -18,7 +18,7 @@ import { createTestScenario, TestScenarioBuilder } from '../../primitives/TestSc
  * @type User
  * @btd 50000
  * @tier enterprise
-* @features ["asset-packs", "ai_documents", "marketplace", "priority-support"]
+* @features ["asset-packs", "evidence_documents", "marketplace", "priority-support"]
  */
 export const ENTERPRISE_USER = createTestPart({
   id: 'user-enterprise-001',
@@ -26,13 +26,13 @@ export const ENTERPRISE_USER = createTestPart({
   name: 'Enterprise User',
   btdBalance: 50000,
   tier: 'enterprise',
-  features: ['asset-packs', 'ai_documents', 'marketplace', 'priority-support'],
+  features: ['asset-packs', 'evidence_documents', 'marketplace', 'priority-support'],
   metadata: {
     company: 'TechCorp Inc.',
     teamSize: 25,
     monthlyUsage: {
       assetPacks: 150,
-      ai_documents: 75,
+      evidence_documents: 75,
       averageBtdPerRun: 300
     }
   }
@@ -235,7 +235,7 @@ export const ENTERPRISE_ASSET_PACK_SCENARIO = new TestScenarioBuilder()
       id: 'user-enterprise-001',
       role: 'owner',
       btdBalance: 50000,
-      features: ['asset-packs', 'ai_documents', 'marketplace', 'priority-support']
+      features: ['asset-packs', 'evidence_documents', 'marketplace', 'priority-support']
     },
     repository: {
       owner: 'techcorp',

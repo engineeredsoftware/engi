@@ -10,7 +10,7 @@ import { PromptPart } from '../../parts/PromptPart';
  *     "version": "V26.00.0",
  *     "content": "TECHNICAL TEMPORAL VISUAL WORKFLOW TOOLS with extreme abstract language",
  *     "score": 0.03,
- *     "reason": "Extreme abstract: technical, context, dimensional, broad, system, multiversal"
+ *     "reason": "Extreme abstract: technical, context, abstract, broad, system, multi-context"
  *   }
  * ]
  * benchmarks: [

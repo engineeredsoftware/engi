@@ -1,8 +1,8 @@
-@keyframes token-quantum-spin { from { transform: rotate(0deg);} to { transform: rotate(360deg);} }
-.tokenQuantumRing { animation: token-quantum-spin linear infinite; will-change: transform; }
+@keyframes btd-share-orbit-spin { from { transform: rotate(0deg);} to { transform: rotate(360deg);} }
+.btdShareOrbitRing { animation: btd-share-orbit-spin linear infinite; will-change: transform; }
 
-@keyframes token-bar-grow { 0% { width: 0; } 100% { width: 56%; } }
-.tokenBar { animation: token-bar-grow 1.6s ease-out forwards; }
+@keyframes btd-share-bar-grow { 0% { width: 0; } 100% { width: 56%; } }
+.btdShareBar { animation: btd-share-bar-grow 1.6s ease-out forwards; }
 
 .glassOverlay {
   background: rgba(255, 255, 255, 0.04) !important;

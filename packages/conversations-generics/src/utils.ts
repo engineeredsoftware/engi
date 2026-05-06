@@ -156,13 +156,13 @@ export function canUserAccessConversation(
  */
 export function createSystemMessage(
   conversationId: string,
-  event: 'created' | 'asset_pack_evidence_attached' | 'ai_document_attached' | 'connection_attached',
+  event: 'created' | 'asset_pack_evidence_attached' | 'evidence_document_attached' | 'connection_attached',
   metadata?: Record<string, any>
 ): ConversationMessage {
   const messages: Record<typeof event, string> = {
     created: 'Conversation started',
     asset_pack_evidence_attached: 'AssetPack evidence attached to conversation',
-    ai_document_attached: 'AI Document attached to conversation',
+    evidence_document_attached: 'Evidence Document attached to conversation',
     connection_attached: 'Connection attached to conversation'
   };
   

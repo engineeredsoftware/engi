@@ -3,7 +3,7 @@
   "steps": [
     { "type": "user", "text": "Apply new Figma tokens & assets across web-suite." },
     { "type": "agent", "text": "Updating CSS variables & assets…" },
-    { "type": "run", "kind": "ai_document", "id": "run_brand_001", "logChunks": ["queued", "update css", "playwright visual diff", "lighthouse 98", "done ✅"] },
+    { "type": "run", "kind": "evidence_document", "id": "run_brand_001", "logChunks": ["queued", "update css", "playwright visual diff", "lighthouse 98", "done ✅"] },
     { "type": "agent", "text": "Pixel-perfect PR with >95 lighthouse score." }
   ]
 }

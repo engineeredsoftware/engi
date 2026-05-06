@@ -546,7 +546,7 @@ function generateRecommendations(
 }
 
 /**
- * Get ai_document recommendations
+ * Get Evidence Document recommendations
  */
 async function getUpgradeRecommendations(context: MCPAuthContext, options: any = {}): Promise<any> {
   const supabase = createClient();
@@ -554,7 +554,7 @@ async function getUpgradeRecommendations(context: MCPAuthContext, options: any =
   const pipelineRuns = new PipelineExecutionsModel(supabase);
 
   try {
-    // Get AssetPack evidence rows with ai_document metadata
+    // Get AssetPack evidence rows with Evidence Document metadata.
     let allAssetPackEvidence = await assetPackEvidenceStorage.getAll();
     
     // Apply organization filtering
@@ -567,9 +567,9 @@ async function getUpgradeRecommendations(context: MCPAuthContext, options: any =
     // Filter for upgrade-related AssetPack evidence rows
     const upgradeAssetPackEvidence = allAssetPackEvidence.filter((entry) => {
       const metadata = entry.metadata as Record<string, any> | null;
-      return metadata?.type === 'ai_document' ||
-             metadata?.pipeline === 'ai_document' ||
-             entry.name?.toLowerCase().includes('ai_document');
+      return metadata?.type === 'evidence_document' ||
+             metadata?.pipeline === 'evidence_document' ||
+             entry.name?.toLowerCase().includes('evidence_document');
     });
 
     // Get runs for these AssetPack evidence rows to analyze effectiveness
@@ -580,7 +580,7 @@ async function getUpgradeRecommendations(context: MCPAuthContext, options: any =
       })
     );
 
-    // Generate recommendations based on ai_document history
+    // Generate recommendations based on Evidence Document history.
     const recommendations = generateUpgradeRecommendations(upgradeRuns, options);
 
     return {
@@ -593,13 +593,13 @@ async function getUpgradeRecommendations(context: MCPAuthContext, options: any =
     };
 
   } catch (error) {
-    logger.error('Error getting ai_document recommendations', { error });
+    logger.error('Error getting Evidence Document recommendations', { error });
     throw error;
   }
 }
 
 /**
- * Generate ai_document recommendations
+ * Generate Evidence Document recommendations
  */
 function generateUpgradeRecommendations(
   upgradeData: UpgradeRecommendationInput[],
@@ -679,9 +679,9 @@ export function registerIntelligenceResources(): MCPResource[] {
     },
 
     {
-      uri: 'bitcode://resources/intelligence/recommendations/ai_documents',
-      name: 'AI Document Recommendations',
-      description: 'AI-generated recommendations for dependency and framework ai_documents',
+      uri: 'bitcode://resources/intelligence/recommendations/evidence-documents',
+      name: 'Evidence Document Recommendations',
+      description: 'Evidence-backed recommendations for dependency and framework updates',
       mimeType: 'application/json',
       
       read: async (uri: string, context: MCPAuthContext) => {

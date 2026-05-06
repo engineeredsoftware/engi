@@ -110,7 +110,7 @@ This is the memo's main systems page. Keep the sequence stable each time you exp
 **Useable facts to write from**
 
 - The README says the prototype already demonstrates asset-pack assembly and private branch artifact materialization. ([GitHub][1])
-- V22's selection-and-materialization proof family binds to `.engi/asset-pack.lock.json`, `.engi/selected-source-material.json`, `.engi/materialization-proof.json`, and related visibility proofs. ([GitHub][2])
+- V26's AssetPack proof family binds execution, source-to-shares, and whole-repository closure through `.bitcode/runs-pipelines-totality-proof.json`, `.bitcode/source-to-shares-fifth-gate-proof.json`, and `.bitcode/whole-repository-production-satisfaction-proof.json`. ([GitHub][2])
 
 ### 3.6 Principal-scoped disclosure
 
@@ -149,7 +149,7 @@ Present legacy V22 as a truth-alignment and hardening release.
 
 - V22 calls itself a `system-facing` version rather than a specifying-centered version. ([GitHub][2])
 - V22 says `protocol-demonstration/src/canon-posture.js` is now the executable canon-posture source, and that runtime, API, browser shell, README posture, and tests derive from that source. ([GitHub][2])
-- V22 adds `.engi/v22-canon-posture-drift-report.json` and promotion-time runtime posture preparation so canonical promotion cannot silently leave the runtime or operator shell behind. ([GitHub][2])
+- V26 adds `.bitcode/v26-canonical-input-report.json`, `.bitcode/v26-spec-family-report.json`, and `.bitcode/v26-total-closure-proof.json` so canonical promotion cannot silently leave runtime, proof, or operator surfaces behind. ([GitHub][2])
 
 **Drafting cues**
 
@@ -208,7 +208,7 @@ Lead with auditability, not speculation.
 
 - Bitcoin block headers store the Merkle root of transaction data and the hash of the previous block's header; the developer guide says this chaining ensures a transaction cannot be modified without modifying the block that records it and all following blocks. ([Bitcoin Developer Documentation][5])
 - Bitcoin's transaction model is UTXO-based: each input spends a previous output, and each output becomes an Unspent Transaction Output until later spent. ([Bitcoin Developer Documentation][6])
-- Bitcode already emits auditable runtime and proof artifacts such as `.engi/asset-pack.lock.json`, `.engi/source-to-shares.json`, `.engi/projection-policy.json`, `.engi/system-proof-bundle.json`, and `.engi/v22-canon-posture-drift-report.json`. ([GitHub][2])
+- Bitcode already emits auditable runtime and proof artifacts such as `.bitcode/source-to-shares-fifth-gate-proof.json`, `.bitcode/persistence-schema-totality-proof.json`, `.bitcode/prompt-space-completeness-proof.json`, `.bitcode/v26-product-readiness-audit.json`, and `.bitcode/v26-total-closure-proof.json`. ([GitHub][2])
 
 **Drafting cue**
 
@@ -266,9 +266,9 @@ This section should explain **what** Bitcode anchors to Bitcoin, **what it does 
 
 - Bitcoin developer docs say null-data outputs are provably unspendable and do not have to be stored in the UTXO set, but also say it is usually preferable to store data outside transactions if possible. ([Bitcoin Developer Documentation][15])
 - Taproot lets a spend commit to a Merkle tree of scripts and reveal only the executed branch when needed. ([BIPs][7])
-- Bitcode's settlement proof family binds to `.engi/source-to-shares.json`, `.engi/settlement-participation.json`, `.engi/accounting-precision-report.json`, `.engi/journal-diff.json`, `.engi/settlement-proof.json`, and `.engi/settlement-source-to-shares-proof.json`, and V22 requires those surfaces to remain exact and replayable. ([GitHub][2])
-- Bitcode's disclosure-boundary proof family binds to `.engi/projection-policy.json`, `.engi/bounded-public-proof.json`, `.engi/redaction-proof.json`, and `.engi/disclosure-proof.json`, and V22 makes public overexposure a blocking failure. ([GitHub][2])
-- Bitcode's proof-contract family binds to `.engi/system-proof-bundle.json` and `.engi/proof-witness-manifest.json`; V22 also requires `_legacy/ENGI_SPEC_V22_PROVEN.md` and `.engi/v22-canon-posture-drift-report.json` as generated audit surfaces. ([GitHub][2])
+- Bitcode's settlement proof family binds source-to-shares, readiness, and persistence through `.bitcode/source-to-shares-fifth-gate-proof.json`, `.bitcode/fifth-gate-closure-proof.json`, and `.bitcode/persistence-schema-totality-proof.json`; V26 requires those surfaces to remain exact and replayable. ([GitHub][2])
+- Bitcode's disclosure-boundary proof family binds prompt-space completeness, retained-package admissibility, and whole-repository production satisfaction through `.bitcode/prompt-space-completeness-proof.json`, `.bitcode/retained-package-admissibility-proof.json`, and `.bitcode/whole-repository-production-satisfaction-proof.json`; V26 makes public overexposure and old-world leakage blocking failures. ([GitHub][2])
+- Bitcode's proof-contract family binds `.bitcode/v26-total-closure-proof.json`, `.bitcode/v26-product-readiness-audit.json`, and `BITCODE_SPEC_V26_PROVEN.md` as generated audit surfaces. ([GitHub][2])
 
 **Recommended memo position**
 
@@ -450,13 +450,13 @@ Use three layers:
 
 Use:
 
-- `.engi/asset-pack.lock.json`
-- `.engi/source-to-shares.json`
-- `.engi/projection-policy.json`
-- `.engi/system-proof-bundle.json`
-- `.engi/settlement-proof.json`
-- `.engi/v22-canon-posture-drift-report.json`
-- `_legacy/ENGI_SPEC_V22_PROVEN.md`. ([GitHub][2])
+- `.bitcode/runs-pipelines-totality-proof.json`
+- `.bitcode/source-to-shares-fifth-gate-proof.json`
+- `.bitcode/persistence-schema-totality-proof.json`
+- `.bitcode/prompt-space-completeness-proof.json`
+- `.bitcode/whole-repository-production-satisfaction-proof.json`
+- `.bitcode/v26-total-closure-proof.json`
+- `BITCODE_SPEC_V26_PROVEN.md`. ([GitHub][2])
 
 ### F. Spend flow exhibit
 
@@ -473,7 +473,7 @@ Steps 2, 4, and 5 are grounded in current Bitcoin/Bitcode primitives; the overal
 The cleanest next move is drafting the new Section 6 in finished prose first, because that will lock the Bitcoin narrative before it leaks into the rest of the memo in a looser, less disciplined way.
 
 [1]: https://raw.githubusercontent.com/engineeredsoftware/bitcode/main/protocol-demonstration/README.md "https://raw.githubusercontent.com/engineeredsoftware/bitcode/main/protocol-demonstration/README.md"
-[2]: https://raw.githubusercontent.com/engineeredsoftware/bitcode/main/_legacy/ENGI_SPEC_V22.md "https://raw.githubusercontent.com/engineeredsoftware/bitcode/main/_legacy/ENGI_SPEC_V22.md"
+[2]: https://raw.githubusercontent.com/engineeredsoftware/bitcode/main/BITCODE_SPEC_V26.md "https://raw.githubusercontent.com/engineeredsoftware/bitcode/main/BITCODE_SPEC_V26.md"
 [3]: https://raw.githubusercontent.com/engineeredsoftware/bitcode/main/protocol-demonstration/src/canon-posture.js "https://raw.githubusercontent.com/engineeredsoftware/bitcode/main/protocol-demonstration/src/canon-posture.js"
 [4]: https://raw.githubusercontent.com/engineeredsoftware/bitcode/main/protocol-demonstration/public/app.js "https://raw.githubusercontent.com/engineeredsoftware/bitcode/main/protocol-demonstration/public/app.js"
 [5]: https://developer.bitcoin.org/devguide/block_chain.html?highlight=consensus "https://developer.bitcoin.org/devguide/block_chain.html?highlight=consensus"

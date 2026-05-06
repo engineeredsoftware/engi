@@ -9,7 +9,7 @@ async function getSupabaseAdmin() {
   return mod.supabaseAdmin;
 }
 
-interface SearchRelevantAIDocumentsParams {
+interface SearchRelevantEvidenceDocumentsParams {
   repoOwner: string;
   repoName: string;
   repoBranch: string;
@@ -18,7 +18,7 @@ interface SearchRelevantAIDocumentsParams {
   count?: number;
 }
 
-export async function searchRelevantAIDocuments(params: SearchRelevantAIDocumentsParams) {
+export async function searchRelevantEvidenceDocuments(params: SearchRelevantEvidenceDocumentsParams) {
   const client = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
   const summary = [
     `Repository: ${params.repoOwner}/${params.repoName}`,
@@ -41,6 +41,7 @@ export async function searchRelevantAIDocuments(params: SearchRelevantAIDocument
   const supabaseAdmin = await getSupabaseAdmin();
 
   if (process.env.LOCAL_VECTOR_SEARCH === 'true') {
+    // Physical table name is a retained Exchange storage identifier.
     const { data, error } = await supabaseAdmin
       .from('ai_document_templates')
       .select('template_id, title, description, content, embedding');
@@ -67,6 +68,7 @@ export async function searchRelevantAIDocuments(params: SearchRelevantAIDocument
     return scored;
   }
 
+  // Physical RPC name is a retained Exchange storage identifier.
   const { data, error } = await supabaseAdmin.rpc('match_ai_document_templates', {
     query_embedding: embedding,
     match_count: matchCount

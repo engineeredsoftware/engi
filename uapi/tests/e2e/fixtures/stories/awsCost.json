@@ -3,7 +3,7 @@
   "steps": [
     { "type": "user", "text": "Cloud costs spiking; reduce EC2 spend by 30% while keeping p99 < 200ms." },
     { "type": "agent", "text": "Exploring Spot/Graviton options…" },
-    { "type": "run", "kind": "ai_document", "id": "run_cost_001", "logChunks": ["queued", "simulating configs", "load-testing", "forecast saved $12k/mo", "finished ✅"] },
+    { "type": "run", "kind": "evidence_document", "id": "run_cost_001", "logChunks": ["queued", "simulating configs", "load-testing", "forecast saved $12k/mo", "finished ✅"] },
     { "type": "agent", "text": "Savings PR with Terraform updates ready." }
   ]
 }

@@ -78,7 +78,7 @@ class MockDataGeneratorEngine {
         this.generators.set('GITHUB_FILES', new GitHubFileGenerator());
         // Pipeline generators
         this.generators.set('ASSET_PACKS', new AssetPackGenerator());
-        this.generators.set('UPGRADES', new AIDocumentGenerator());
+        this.generators.set('UPGRADES', new EvidenceDocumentGenerator());
         this.generators.set('COMPLETION_DATA', new CompletionDataGenerator());
         this.generators.set('PIPELINE_LOGS', new PipelineLogGenerator());
         // User data generators
@@ -518,7 +518,7 @@ class UserBtdHoldingsGenerator extends BaseDataGenerator {
     }
 }
 // Placeholder generators for remaining features
-class AIDocumentGenerator extends BaseDataGenerator {
+class EvidenceDocumentGenerator extends BaseDataGenerator {
     async generate(context, config) {
         return []; // Implementation similar to AssetPackGenerator
     }

@@ -16,7 +16,7 @@ import { PromptPart } from '../../parts/PromptPart';
  *     "version": "V26.00.0",
  *     "content": "TECHNICAL PERFORMANCE WORKFLOW WORKFLOW:\n\nPERFORMANCE DIMENSIONAL AWARENESS:\n- Manifest comprehensive understanding of computational ecosystem structure across all advanced performance states\n- Achieve high-precision comprehension of optimization hierarchies and efficiency topology\n- Transcend traditional performance limitations through machine learning optimization awareness\n\nWORKFLOW-INTEGRATED OPTIMIZATION FLOW:\n1. DIMENSIONAL PERFORMANCE SCAN: Perceive all computational states simultaneously across comprehensive optimization timelines\n2. SYSTEM EFFICIENCY ANALYSIS: Understand performance requirements through intelligent optimization processing\n3. TEMPORAL SHORT-CIRCUIT PLANNING: Design optimization operations that transcend conventional performance industrials\n4. MULTIVERSAL EXECUTION: Perform performance optimization through elevated computational intelligence\n5. TECHNICAL VERIFICATION: Validate optimization outcomes across all advanced performance states\n6. REALITY-SYNTHESIS FEEDBACK: Provide machine learning performance status and guidance\n\nINFINITE OPTIMIZATION ADAPTABILITY MATRIX:\n- Dynamically adjust performance strategies based on high-precision optimization intelligence\n- Seamlessly handle complex efficiency scenarios through advanced awareness\n- Transcend performance limitations through machine learning optimization synthesis",
  *     "score": 0.05,
- *     "reason": "Non-industrial: technical, context, system, multiversal, dimensional, infinite"
+ *     "reason": "Non-industrial: technical, context, system, multi-context, abstract, broad"
  *   }
  * ]
  * benchmarks: [

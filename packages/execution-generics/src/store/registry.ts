@@ -113,18 +113,18 @@ export const EXECUTION_NAMESPACES = {
   config: [
     'computerUseNeedMeasurementEnabled', // boolean — internal V26 feature flag
     'iterationCount',                    // number
-    'mcpConfig',                         // object (AI Documents / Measure overlay only)
+    'mcpConfig',                         // object (Evidence Documents / Measure overlay only)
   ],
   attachments: [
     'list',          // array of attachment references
   ],
-  ai_documents: [
-    'list',          // array of AI Document snippets { content: string; title?: string }
+  evidence_documents: [
+    'list',          // array of Evidence Document snippets { content: string; title?: string }
     // iteration:<n> metadata entries may be set dynamically
   ],
   'route/preprocessed': [
     'assetPackWrittenAsset', // object — semantic asset-pack snapshot
-    'ai_documents',  // object — route preprocess snapshot
+    'evidence_documents',  // object — route preprocess snapshot
   ],
   'finish/asset_pack_completion': [
     'summary',          // string | object

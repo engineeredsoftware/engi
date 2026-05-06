@@ -198,7 +198,7 @@ const executionToggleButtonsSource = readFileSync(new URL('../../uapi/components
 const deliverableToolsIndexSource = readFileSync(new URL('../../packages/pipelines/asset-pack/src/tools/index.ts', import.meta.url), 'utf8');
 const multiPipelinePackagePath = new URL('../../packages/pipelines/multi', import.meta.url);
 const preprocessTogglePath = new URL('../../uapi/components/base/bitcode/execution/preprocess-toggle.tsx', import.meta.url);
-const aiDocumentTemplatesSource = readFileSync(new URL('../../uapi/hooks/useAIDocumentTemplates.ts', import.meta.url), 'utf8');
+const evidenceDocumentTemplatesSource = readFileSync(new URL('../../uapi/hooks/useEvidenceDocumentTemplates.ts', import.meta.url), 'utf8');
 const orbitalsConnectsEmailSource = readFileSync(new URL('../../uapi/app/orbitals/components/OrbitalsConnectsOrbitalEmailConnection.tsx', import.meta.url), 'utf8');
 const pipelineToastsSource = readFileSync(new URL('../../uapi/components/base/bitcode/toast/pipeline-toasts.ts', import.meta.url), 'utf8');
 const pipelineExecutionLogSource = readFileSync(new URL('../../uapi/components/base/bitcode/execution/pipeline-execution-log.tsx', import.meta.url), 'utf8');
@@ -1161,9 +1161,9 @@ test('active V26 canon posture and preserved runtime state use bitcode policy an
   assert.doesNotMatch(executionsPageClientSource, /computeEnabled/);
   assert.doesNotMatch(executionsPageClientSource, /multiAgentEnabled/);
   assert.doesNotMatch(executionsPageClientSource, /PreprocessToggle/);
-  assert.match(aiDocumentTemplatesSource, /bitcode-mcp-configs/);
+  assert.match(evidenceDocumentTemplatesSource, /bitcode-mcp-configs/);
   assert.doesNotMatch(executionsPageClientSource, /engi-mcp-configs/);
-  assert.doesNotMatch(aiDocumentTemplatesSource, /engi-mcp-configs/);
+  assert.doesNotMatch(evidenceDocumentTemplatesSource, /engi-mcp-configs/);
   assert.doesNotMatch(auxillariesProviderSource, /open-orbitals/);
   assert.doesNotMatch(auxillariesProviderSource, /close-orbitals/);
   assert.doesNotMatch(auxillariesProviderSource, /open-orbital/);
@@ -1908,7 +1908,7 @@ test('active V26 retained package surfaces use Bitcode naming instead of Engi na
   assert.match(webSearchSource, /Using mock Exa client for Bitcode ChatGPT App/);
   assert.match(webSearchSource, /BITCODE_MOCK_EXA/);
   assert.match(webSearchSource, /BITCODE_MOCK_EXTERNAL/);
-  assert.match(webSearchReadmeSource, /for the Bitcode development platform/);
+  assert.match(webSearchReadmeSource, /Production web research infrastructure for Bitcode technical-knowledge workflows/);
   assert.match(webSearchReadmeSource, /github\.com\/engineeredsoftware\/bitcode\.git/);
   assert.match(webSearchReadmeSource, /cd bitcode\/packages\/web-search/);
   assert.match(googleAnalyticsReadmeSource, /wrapper for the Bitcode platform/);
@@ -2912,7 +2912,7 @@ test('active V26 retained package surfaces use Bitcode naming instead of Engi na
   assert.match(executionsMcpIndexSource, /Bitcode Exchange-facing MCP interface surface/);
   assert.match(executionsMcpShutdownSource, /\bBitcodeMCPServer\b/);
   assert.match(executionsMcpTypesSource, /\bPipelinePhase\b/);
-  assert.match(executionsMcpTypesSource, /\/Users\/garrettmaring\/Developer\/ENGI/);
+  assert.match(executionsMcpTypesSource, /\/Users\/garrettmaring\/Developer\/Bitcode/);
   assert.match(executionsMcpPipelineToolsSource, /bitcode:\/\/pipelines\/asset-pack\/create/);
   assert.match(executionsMcpAnalysisToolsSource, /bitcode:\/\/analysis\/repository\/analyze/);
   assert.match(executionsMcpMonitoringToolsSource, /bitcode:\/\/monitoring\/pipeline\/status/);
@@ -3172,7 +3172,7 @@ test('active V26 marketing, styling, asset, and operator carriers use Bitcode na
 
   assert.match(productGuideSource, /uapi\/components\/base\/bitcode\/execution\/WorkUpdatePanel\.tsx/);
   assert.match(investorMemoSource, /raw\.githubusercontent\.com\/engineeredsoftware\/bitcode\/main/);
-  assert.match(introPamphletSource, /Bitcode technical intelligence/);
+  assert.match(introPamphletSource, /Bitcode Technical-Knowledge Exchange/);
   assert.match(introPamphletSource, /AES' Unique Offering with Bitcode/);
   assert.doesNotMatch(productGuideSource, /uapi\/components\/base\/engi\/execution\/WorkUpdatePanel\.tsx/);
   assert.doesNotMatch(investorMemoSource, /raw\.githubusercontent\.com\/engineeredsoftware\/ENGI\/main/);

@@ -1,16 +1,18 @@
 import { GET, POST } from '@/app/api/executions/instructions/route';
 import { createClient } from '@bitcode/supabase/ssr/server';
 import { supabaseAdmin } from '@bitcode/supabase';
-import { getUserBySessionOrThrow } from '@bitcode/auth';
 
 jest.mock('@bitcode/supabase/ssr/server');
 jest.mock('@bitcode/supabase');
-jest.mock('@bitcode/auth');
 
 describe('AssetPack OTF Instructions API', () => {
   const fakeUser = { id: 'user-1' };
   beforeEach(() => {
-    (getUserBySessionOrThrow as jest.Mock).mockResolvedValue(fakeUser);
+    (createClient as jest.Mock).mockResolvedValue({
+      auth: {
+        getUser: jest.fn().mockResolvedValue({ data: { user: fakeUser }, error: null }),
+      },
+    });
     const mockFrom: any = {
       select: jest.fn().mockReturnThis(),
       eq: jest.fn().mockReturnThis(),

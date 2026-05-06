@@ -28,8 +28,8 @@ export interface ParsedStreamData {
   completion: any;
   statusMessages: StreamStatusMessage[];
   type?: string;
-  /** For ai_document suggestion messages, list of relevant ai_documents */
-  ai_documents?: any[];
+  /** For Evidence Document suggestion messages, list of relevant Evidence Documents. */
+  evidence_documents?: any[];
   /** For on-the-fly instruction messages, list of user instructions */
   instructions?: any[];
   /** For work-update events (agent step / iteration) */

@@ -195,7 +195,7 @@ function buildConversationRichInputSummary(
     asset_pack_references: tokens
       .filter((token) => {
         const tokenType = normalizeConversationTokenType(token);
-        return tokenType === 'asset_pack' || tokenType === 'shippable' || tokenType === 'ai_document';
+        return tokenType === 'asset_pack' || tokenType === 'shippable' || tokenType === 'evidence_document';
       })
       .map(buildRichInputReference),
     need_measurement_intents: tokens.filter(tokenRequestsNeedMeasurement).map(buildRichInputReference),
@@ -213,7 +213,7 @@ function deriveConversationExecutionType(tokens: ConversationStreamToken[]) {
       return normalizeAgenticExecutionType(candidate);
     }
 
-    if (candidate === 'asset_pack' || candidate === 'shippable' || candidate === 'ai_document') {
+    if (candidate === 'asset_pack' || candidate === 'shippable' || candidate === 'evidence_document') {
       return normalizeAgenticExecutionType(candidate);
     }
   }
@@ -228,7 +228,7 @@ function countTokenTypes(tokens: ConversationStreamToken[]) {
       if (normalized === 'attachment') acc.attachments += 1;
       if (normalized === 'source') acc.sources += 1;
       if (normalized === 'destination') acc.destinations += 1;
-      if (normalized === 'asset_pack' || normalized === 'shippable' || normalized === 'ai_document') {
+      if (normalized === 'asset_pack' || normalized === 'shippable' || normalized === 'evidence_document') {
         acc.assetPacks += 1;
       }
       if (tokenRequestsNeedMeasurement(token)) acc.needMeasurements += 1;

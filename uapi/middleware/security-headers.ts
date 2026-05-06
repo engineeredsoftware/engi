@@ -85,7 +85,7 @@ function generateCSP(pathname: string): string {
     "frame-ancestors 'none'",
     "base-uri 'self'",
     "form-action 'self'",
-    "ai_document-insecure-requests"
+    "upgrade-insecure-requests"
   ];
 
   // Add WebSocket support for SSE/streaming

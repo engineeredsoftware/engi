@@ -92,7 +92,7 @@ export class ComprehensiveMockDataGenerator {
     this.generators.set('ASSET_PACK_LOGS', () => this.generateAssetPackLogs());
     this.generators.set('ASSET_PACK_RUN_EVENTS', () => this.generateAssetPackRunEvents());
 
-    // AI Documents Pipeline removed - not V26
+    // Evidence Document pipeline removed - not V26
 
     // ========================================================================
     // CONVERSATIONS (ChatGPT for Engineering)
@@ -986,7 +986,7 @@ export class ComprehensiveMockDataGenerator {
   private generateAssetPackLogs() { return this.generateLogsData('assetPack'); }
   private generateAssetPackRunEvents() { return this.generateRunEventsData('assetPack'); }
 
-  // AI Documents Pipeline removed - not V26
+  // Evidence Document pipeline removed - not V26
 
   // Conversations Features (continued)
   private generateConversationRuns() { return [{ id: 'conversation_run_' + this.generateId(), status: 'completed', result: 'Analysis complete' }]; }
@@ -1111,7 +1111,7 @@ export class ComprehensiveMockDataGenerator {
 
   // Vector & AI
   private generateAssetPackVectors() { return [{ id: 'vec_123', assetPack_id: 'asset_pack_456', embedding: [0.1, 0.2, 0.3], metadata: { category: 'frontend' } }]; }
-  private generateUpgradeVectors() { return [{ id: 'vec_456', ai_document_id: 'upg_789', embedding: [0.4, 0.5, 0.6], metadata: { type: 'performance' } }]; }
+  private generateUpgradeVectors() { return [{ id: 'vec_456', evidence_document_id: 'upg_789', embedding: [0.4, 0.5, 0.6], metadata: { type: 'performance' } }]; }
   private generateUserVectors() { return [{ user_id: 'user_123', preferences_vector: [0.7, 0.8, 0.9], last_updated: this.generateTimestamp() }]; }
   private generatePatternRecognition() { return { patterns: [{ type: 'authentication_flow', confidence: 0.95, components: ['login', 'oauth', 'session'] }] }; }
   private generateVectorSearch() { return { query: 'react component', results: [{ id: 'vec_123', score: 0.89 }] }; }
@@ -1134,7 +1134,7 @@ export class ComprehensiveMockDataGenerator {
   private generatePerformanceMetrics() { return { response_time: '89ms', memory_usage: '67%', cpu_usage: '23%' }; }
 
   // Utility methods for related generators
-  // adaptForAI Documents removed - not V26
+  // Evidence Document adapter removed - not V26
 
   private generateInstructionsData(type: string) {
     return [

@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useMemo, useRef, useState, useEffect } from "react";
-import styles from './marketing-token-metrics-section.module.css';
+import styles from './marketing-btd-share-metrics-section.module.css';
 import BitcodePill from "@/components/base/bitcode/branding/bitcode-pill";
 import RevealingSoonOverlay from "@/components/base/bitcode/overlays/RevealingSoonOverlay";
 
@@ -79,7 +79,7 @@ export default function MarketingBtdShareMetricsSection() {
     <span className="relative mt-0.5 flex items-center justify-center h-4 w-4">
       <span className="absolute inset-0 rounded-full bg-orange-400/70 opacity-30" />
       <span
-        className={`absolute inset-0 rounded-full border border-orange-400/60 ${styles.tokenQuantumRing}`}
+        className={`absolute inset-0 rounded-full border border-orange-400/60 ${styles.btdShareOrbitRing}`}
         style={{
           animationDuration: `${18 - idx * 2}s`,
           animationPlayState: inView ? 'running' : 'paused',
@@ -158,7 +158,7 @@ export default function MarketingBtdShareMetricsSection() {
           fill="currentColor"
           opacity="0.15"
         >
-          Ξ
+          $BTD
         </text>
       </svg>
 
@@ -379,7 +379,7 @@ export default function MarketingBtdShareMetricsSection() {
                 </p>
                 <div className="relative w-full h-3 rounded-full overflow-hidden bg-white/10">
 
-                  <span className={`${styles.tokenBar} absolute left-0 top-0 h-full bg-gradient-to-r from-orange-300 via-orange-400 to-orange-500`} />
+                  <span className={`${styles.btdShareBar} absolute left-0 top-0 h-full bg-gradient-to-r from-orange-300 via-orange-400 to-orange-500`} />
                   {[25, 50, 75].map((m) => (
                     <div
                       key={m}

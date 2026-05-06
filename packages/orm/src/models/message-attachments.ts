@@ -140,7 +140,7 @@ export class MessageAttachmentsModel extends BaseModel<'message_attachments'> {
    */
   async countByTypeForMessage(messageId: string): Promise<{
     assetPackEvidence: number;
-    ai_document: number;
+    evidence_document: number;
     connection: number;
     pipeline_run: number;
     file: number;
@@ -154,7 +154,7 @@ export class MessageAttachmentsModel extends BaseModel<'message_attachments'> {
 
     const counts = {
       assetPackEvidence: 0,
-      ai_document: 0,
+      evidence_document: 0,
       connection: 0,
       pipeline_run: 0,
       file: 0

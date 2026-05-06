@@ -799,11 +799,11 @@ Supports both synchronous and streaming execution modes.`,
             '101': {
               description: 'WebSocket connection upgraded',
               headers: {
-                'AI Document': {
+                Upgrade: {
                   schema: { type: 'string', enum: ['websocket'] }
                 },
                 'Connection': {
-                  schema: { type: 'string', enum: ['AI Document'] }
+                  schema: { type: 'string', enum: ['Upgrade'] }
                 }
               }
             },
@@ -842,7 +842,7 @@ Supports both synchronous and streaming execution modes.`,
                           'pipeline.cancelled',
                           'analysis.finished',
                           'security.alert',
-                          'ai_document.completed'
+                          'evidence_document.completed'
                         ]
                       },
                       description: 'Events to subscribe to',

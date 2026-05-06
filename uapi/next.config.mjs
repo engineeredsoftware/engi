@@ -328,15 +328,6 @@ let nextConfig = {
         'src',
         'run.ts'
       ),
-      '@bitcode/engine/pipeline/pipelineAI DocumentsSDIVS': path.resolve(
-        __dirname,
-        '..',
-        'packages',
-        'pipelines',
-        'ai_document',
-        'src',
-        'run.ts'
-      ),
       '@bitcode/mcp/validation': path.resolve(__dirname, '..', 'packages', 'executions-mcp', 'src', 'index.ts'),
       '@bitcode/git': path.resolve(__dirname, '..', 'packages', 'git', 'src', 'index.ts'),
       '@bitcode/mcp': path.resolve(__dirname, '..', 'packages', 'executions-mcp', 'src', 'index.ts'),

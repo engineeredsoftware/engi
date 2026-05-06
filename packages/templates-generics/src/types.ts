@@ -6,12 +6,12 @@
 // V26 Finish ships AssetPacks through pull requests only.
 export type ShippableTemplateType = 'pullRequests';
 
-// AI Document template types matching UI categories  
-export type AIDocumentTemplateType =
+// Evidence Document template types matching UI categories.
+export type EvidenceDocumentTemplateType =
   | 'knowledgeExtension'
   | 'shippableFeedback'
   | 'assetPackFeedback'
-  | 'mcpIntegration';
+  | 'mcpConfig';
 
 // Base template interface
 interface BaseTemplate {
@@ -28,9 +28,9 @@ export interface ShippableTemplate extends BaseTemplate {
   shippable_type: ShippableTemplateType;
 }
 
-// AI Document template
-export interface AIDocumentTemplate extends BaseTemplate {
-  ai_document_type: AIDocumentTemplateType;
+// Evidence Document template.
+export interface EvidenceDocumentTemplate extends BaseTemplate {
+  evidenceDocumentType: EvidenceDocumentTemplateType;
 }
 
 // User template preferences
@@ -38,7 +38,7 @@ export interface UserTemplatePreferences {
   id: string;
   user_id: string;
   default_shippable_template_id?: string;
-  default_ai_document_template_id?: string;
+  default_evidence_document_template_id?: string;
   auto_save_templates: boolean;
   created_at: string;
   updated_at: string;
@@ -51,9 +51,9 @@ export interface CreateShippableTemplatePayload {
   templateText: string;
 }
 
-export interface CreateAIDocumentTemplatePayload {
+export interface CreateEvidenceDocumentTemplatePayload {
   name: string;
-  aiDocumentTypes: AIDocumentTemplateType[];
+  evidenceDocumentTypes: EvidenceDocumentTemplateType[];
   templateText: string;
 }
 

@@ -173,7 +173,7 @@ Read-only data access with intelligent filtering:
 
 #### Intelligence Resources (`intelligence-resources.ts`)
 - **Engineering Intelligence**: AI-powered insights synthesis
-- **AI Document Recommendations**: ML-driven ai_document suggestions
+- **Evidence Document Recommendations**: ML-driven Evidence Document suggestions
 - **Trend Analysis**: Pattern recognition across time periods
 - **Quality Metrics**: Comprehensive quality assessment
 
@@ -358,7 +358,7 @@ const supabaseAdmin = createAdminClient(); // Server/admin client
 // - user_profiles, user_api_keys, user_credits
 // - organizations, organization_memberships
 // - pipeline_executions, pipeline_events, pipeline_phases
-// - analysis_results, ai_documents, security_audit_log
+// - analysis_results, Evidence Document storage, security_audit_log
 ```
 
 ### 3. $BTD Treasury Integration

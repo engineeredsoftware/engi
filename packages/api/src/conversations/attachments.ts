@@ -184,7 +184,7 @@ function mapAttachmentTypeCarrier(type: string): AttachmentCategory {
   const mapping: Record<string, AttachmentCategory> = {
     'asset-pack': 'integration',
     'shippable': 'integration',
-    'ai_document': 'integration', 
+    'evidence_document': 'integration',
     'connection': 'integration',
     'file': 'file',
     'image': 'file',

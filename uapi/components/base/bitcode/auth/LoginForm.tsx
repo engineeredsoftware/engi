@@ -35,7 +35,7 @@ const PLANET_SIZE = 64 // px diameter, fixed
 // single circular radius (the previous width/2 implementation) works only
 // when the ring renders as a perfect circle – any future responsive tweaks
 // that stretch it into an oval throw the planets way off course.  Storing
-// both radii fixes the mis-alignment reported in ENG-516.
+// both radii fixes the previously reported orbital misalignment.
 
 interface OrbitData {
   cx: number

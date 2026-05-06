@@ -4,7 +4,7 @@
  * This module handles the vectorization of global marketplace solutions
  * to enable procurement pipeline search operations across the global Bitcode dataset.
  * 
- * Key differences from ai_documents:
+ * Key differences from user-scoped Evidence Documents:
  * - Accesses global/community data instead of user-specific data
  * - Includes procurement-specific factors (cost, access, vendor reputation)
  * - Supports marketplace transactions and vendor ratings

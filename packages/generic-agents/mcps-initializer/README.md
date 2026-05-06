@@ -7,7 +7,7 @@ The MCPs Initializer Agent provides comprehensive Master Control Program (MCP) s
 ## Core Capabilities
 
 ### MCP Service Management
-- **Dynamic Service Discovery**: Automatic identification of configured MCP services from user context and AI Document learnings
+- **Dynamic Service Discovery**: Automatic identification of configured MCP services from user context and Evidence Document learnings
 - **Initialization Orchestration**: Systematic startup and configuration of multiple MCP services with dependency management
 - **Tool Registry Management**: Comprehensive tool discovery, registration, and availability tracking across initialized services
 - **Configuration Validation**: Service configuration verification and parameter validation before initialization
@@ -32,7 +32,7 @@ The agent processes MCP configurations from multiple sources with priority order
 ```typescript
 // Configuration Sources (Priority Order)
 1. User-Provided Context: ctx.userProvidedContext?.mcpConfig || {}
-2. Historical AI Document learnings: ctx.execution.phases.setup.data.finalAIDocuments || []
+2. Historical Evidence Document learnings: ctx.execution.phases.setup.data.finalEvidenceDocuments || []
 3. Default Configurations: Built-in MCP service defaults
 ```
 
@@ -123,7 +123,7 @@ globalContext.mcpTools = {
 - **JSON-RPC Protocol**: Standards-compliant MCP service communication with error handling and timeout management
 - **Global Context Integration**: Tool registry population for cross-agent tool discovery and utilization
 - **Pipeline Lifecycle**: Integration with setup phase execution and service dependency management
-- **Configuration Management**: Support for user-provided configurations and historical AI Document processing
+- **Configuration Management**: Support for user-provided configurations and historical Evidence Document processing
 
 ### Error Handling and Recovery
 - **Graceful Failure**: Individual service failures do not prevent other services from initializing

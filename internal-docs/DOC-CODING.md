@@ -198,7 +198,7 @@ const parser = createParser();
 
 ### The Philosophy
 - "Comments ARE prompts" - They contain executable intelligence
-- "Build-time magic, zero runtime cost" - All processing at compile time
+- "Build-time processing, zero runtime cost" - All processing at compile time
 - "Self-documenting code" - Code carries its own intelligence
 
 ### The Reality

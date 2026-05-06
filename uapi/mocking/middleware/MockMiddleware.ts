@@ -282,7 +282,7 @@ export async function handleGitHubMockRequest(
 }
 
 /**
- * Handle assetPack/ai_document pipeline responses
+ * Handle AssetPack/Evidence Document pipeline responses
  */
 export async function handlePipelineMockRequest(
   feature: 'ASSET_PACKS' | 'UPGRADES',
@@ -471,7 +471,7 @@ export const createMockMiddleware = {
     cacheControl: { enabled: true, ttlSeconds: 300 }
   }),
   
-  ai_documents: () => withMocking({
+  evidenceDocuments: () => withMocking({
     feature: 'UPGRADES',
     streamingSupported: true,
     timing: 'realistic',

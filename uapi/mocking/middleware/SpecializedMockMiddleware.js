@@ -5,7 +5,7 @@
  * Provides specialized middleware functions for each major area of the Bitcode system:
  * - User Auxillaries (onboarding, auth, profile)
  * - Conversations (ChatGPT-style Bitcode usage)
- * - AssetPacks/AI Documents (main pipelines)
+ * - AssetPacks/Evidence Documents (main pipelines)
  * - Organizations (enterprise features)
  * - Integrations (GitHub, GitLab, etc.)
  * - Marketplace (business features)
@@ -285,7 +285,7 @@ exports.mockAssetPacks = {
         performanceTracking: true
     })
 };
-// AI Documents pipeline removed - not V26
+// Evidence Documents pipeline removed - not V26
 // ============================================================================
 // ORGANIZATION & ENTERPRISE MIDDLEWARE
 // ============================================================================

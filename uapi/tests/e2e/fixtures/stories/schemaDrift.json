@@ -3,7 +3,7 @@
   "steps": [
     { "type": "user", "text": "Enable schema guard to prevent drift." },
     { "type": "agent", "text": "Diffing prod vs code…" },
-    { "type": "run", "kind": "ai_document", "id": "run_schema_001", "logChunks": ["queued", "generate migration", "update types", "ci gate", "complete ✅"] },
+    { "type": "run", "kind": "evidence_document", "id": "run_schema_001", "logChunks": ["queued", "generate migration", "update types", "ci gate", "complete ✅"] },
     { "type": "agent", "text": "Schema-aligned PR created." }
   ]
 }

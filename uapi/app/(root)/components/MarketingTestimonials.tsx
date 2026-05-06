@@ -99,7 +99,7 @@ const reviews: Review[] = [
   {
     name: 'Olivia Nguyen',
     username: '@oliviang',
-    body: 'The BTD share dashboard gave me clear separation between BTC fee readiness and measured $BTD holdings. We optimized usage and saved 35% in the first month.',
+    body: 'The BTD share dashboard gave me clear separation between BTC fee basis and measured $BTD issuance. We optimized usage and saved 35% in the first month.',
     img: 'https://avatar.vercel.sh/olivia',
     rating: 5,
     jobTitle: 'Finance Analyst',

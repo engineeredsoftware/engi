@@ -26,7 +26,7 @@ export const PROMPTPART_SPECIFIC_AGENT_VIDEOPROCESSOR_PREPROCESSING_DETAILCONTEN
 - Decode video streams through FFmpeg with optimal hardware acceleration (NVENC, VAAPI, VideoToolbox, Quick Sync)
 - Apply deinterlacing filters for interlaced content using yadif or bwdif algorithms
 - Perform color space conversion (YUV420p, YUV444p, RGB) based on processing requirements
-- Implement temporal sampling strategies: uniform sampling, keyframe extraction, scene-based sampling
+- Implement time-aware sampling strategies: uniform sampling, keyframe extraction, scene-based sampling
 - Audio stream preprocessing: normalize levels, extract channels, synchronization validation
 - Subtitle stream detection and extraction for multi-language content processing
 - Quality assessment: detect corruption, compression artifacts, and encoding issues

@@ -21,7 +21,7 @@ import type {
 import type {
   CompletionData,
   PipelineExecution,
-  AIDocumentRun,
+  EvidenceDocumentRun,
   Account,
   Repository,
   IssueOrPR,
@@ -30,7 +30,7 @@ import type {
   ShippableHistoryItem
 } from '@/types/api';
 
-import type { ShippableTemplates, AIDocumentTemplates } from '@/types/templates';
+import type { ShippableTemplates } from '@/types/templates';
 import type { IntegrationOption } from '@/types/integrations';
 import type { Issue } from '@/types/issues';
 
@@ -152,7 +152,7 @@ export class MockDataGeneratorEngine {
 
     // Pipeline generators
     this.generators.set('ASSET_PACKS', new AssetPackGenerator());
-    this.generators.set('UPGRADES', new AIDocumentGenerator());
+    this.generators.set('UPGRADES', new EvidenceDocumentGenerator());
     this.generators.set('COMPLETION_DATA', new CompletionDataGenerator());
     this.generators.set('PIPELINE_LOGS', new PipelineLogGenerator());
 
@@ -688,8 +688,8 @@ class UserBtdHoldingsGenerator extends BaseDataGenerator {
 }
 
 // Placeholder generators for remaining features
-class AIDocumentGenerator extends BaseDataGenerator {
-  async generate(context: GeneratorContext, config: GeneratorConfig): Promise<AIDocumentRun[]> {
+class EvidenceDocumentGenerator extends BaseDataGenerator {
+  async generate(context: GeneratorContext, config: GeneratorConfig): Promise<EvidenceDocumentRun[]> {
     return []; // Implementation similar to AssetPackGenerator
   }
 }

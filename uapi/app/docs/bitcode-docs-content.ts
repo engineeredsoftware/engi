@@ -779,7 +779,7 @@ const chatGptAppApiReference = [
         outputs: [
           'update: proposed update block.',
           'latest_design: full latest PRODUCT.md content.',
-          'metadata.aiDocument, guidance, digestUsed, and prepared context stats.',
+          'metadata.evidenceDocument, guidance, digestUsed, and prepared context stats.',
         ],
         verifyInTerminal: 'Treat this as design context until a later write creates Exchange-readable activity.',
       },
@@ -861,7 +861,7 @@ const chatGptAppApiReference = [
         outputs: [
           'behaviorDelta: appended behavior block.',
           'latestBehaviorDocument and latestBehavior: latest AGENTS.md.',
-          'metadata.aiDocument, guidance, digestUsed, and prepared context stats.',
+          'metadata.evidenceDocument, guidance, digestUsed, and prepared context stats.',
         ],
       },
       {
@@ -878,7 +878,7 @@ const chatGptAppApiReference = [
         outputs: [
           'answer: Vercel tool response.',
           'metadata.provider: vercel.',
-          'metadata.request, aiDocument, and guidance.',
+          'metadata.request, evidenceDocument, and guidance.',
         ],
       },
       {
@@ -895,7 +895,7 @@ const chatGptAppApiReference = [
         ],
         outputs: [
           'result: Vercel write or availability result.',
-          'metadata.provider, request, guidance, and aiDocument.',
+          'metadata.provider, request, guidance, and evidenceDocument.',
           'metadata.writeAdmission with connectedInterface vercel and targetAnchor.',
         ],
         failureModes: ['Throws if confirmed is not true.'],
@@ -915,7 +915,7 @@ const chatGptAppApiReference = [
         outputs: [
           'answer: AWS read result.',
           'metadata.provider: aws.',
-          'metadata.request, aiDocument, and guidance.',
+          'metadata.request, evidenceDocument, and guidance.',
         ],
       },
       {
@@ -932,7 +932,7 @@ const chatGptAppApiReference = [
         ],
         outputs: [
           'result: AWS write result.',
-          'metadata.provider, request, guidance, and aiDocument.',
+          'metadata.provider, request, guidance, and evidenceDocument.',
           'metadata.writeAdmission with connectedInterface aws and targetAnchor.',
         ],
         failureModes: ['Throws if confirmed is not true.'],

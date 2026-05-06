@@ -297,7 +297,7 @@ export const AssetPackPipelineToolSchema = BasePipelineToolSchema.extend({
   }).optional().default({})
 });
 
-// (AI Document pipeline tool schema omitted; only AssetPack is exposed via MCP)
+// (Evidence Document pipeline tool schema omitted; only AssetPack is exposed via MCP)
 
 // (Measure pipeline tool schemas are not exposed via MCP)
 

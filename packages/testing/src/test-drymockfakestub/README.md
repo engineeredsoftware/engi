@@ -47,7 +47,7 @@ All test data is parsed and injected at build time through doc-test comments:
  * @scenario enterprise-user-with-team
  * @btd-balance 50000
  * @team-size 10
- * @features ["asset-packs", "ai_documents", "marketplace"]
+ * @features ["asset-packs", "evidence_documents", "marketplace"]
  */
 export const ENTERPRISE_USER_FIXTURE = createTestPart<User>({
   // User data...

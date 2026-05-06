@@ -84,12 +84,10 @@ module.exports = {
 
     '\\.txt$': '<rootDir>/tests/textMock.js',
   },
-  // Limit to ai_document search & discovery agent tests for targeted CI
+  // Limit to Evidence Document search and active Bitcode tests for targeted CI
   testMatch: [
-    '<rootDir>/tests/searchRelevantAI Documents.test.ts',
+    '<rootDir>/tests/search.test.ts',
     '<rootDir>/tests/searchLocalVector.test.ts',
-    '<rootDir>/tests/discoveryGetAI DocumentsAgent.test.ts',
-    // '<rootDir>/tests/pipelineDiscoveryGetAI Documents.test.ts', // removed former test
     // Meta-level prompt builder tests
     '<rootDir>/tests/meta/**/buildMessagesWithSystemPrompt.test.ts',
     // Include API integration tests for AssetPack and Shippable routes
@@ -97,8 +95,7 @@ module.exports = {
     '<rootDir>/tests/api/**/*.test.tsx',
     '<rootDir>/tests/webhookRoute.test.ts',
     // Include mock system tests
-    '<rootDir>/tests/MockOrchestrator.test.ts'
-    ,
+    '<rootDir>/tests/MockOrchestrator.test.ts',
     // Added targeted AssetPack/runtime tests
     '<rootDir>/tests/searchRelevantAssetPackEvidence.test.ts',
     '<rootDir>/tests/RunDetailsView.mapping.test.tsx',
@@ -138,8 +135,7 @@ module.exports = {
   testPathIgnorePatterns: [
     // Do not run Playwright e2e tests in Jest
     '<rootDir>/tests/e2e/',
-    // 'pipeline.*\.test\.[jt]sx?$', // allow pipelineDiscoveryGetAI Documents.test.ts
-    'fetchAI DocumentsAgent.test.[jt]sx?$',
+    'fetchEvidenceDocumentsAgent.test.[jt]sx?$',
   ],
   collectCoverage: false,
   coverageDirectory: 'coverage',

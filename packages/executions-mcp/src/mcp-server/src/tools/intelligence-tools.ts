@@ -579,7 +579,7 @@ export function registerIntelligenceTools(): MCPTool[] {
       name: 'bitcode://intelligence/effectiveness/track',
       description: `Effectiveness tracking system with real-time quality measurement.
 
-This system provides unprecedented insight into code change effectiveness:
+This system provides measurable insight into code change effectiveness:
 • Real-time before/after quality measurement
 • ML-powered effectiveness prediction for proposed changes  
 • Continuous learning from outcome data to improve recommendations

@@ -760,7 +760,7 @@ Enables confident code navigation and refactoring with enterprise-grade safety.`
 
     {
       name: 'bitcode://lsp/diagnostic/analyze',
-      description: `Comprehensive diagnostic engine with multi-dimensional code quality analysis.
+      description: `Comprehensive diagnostic engine with multi-axis code quality analysis.
 
 Advanced diagnostic capabilities:
 • Multi-language syntax and semantic validation

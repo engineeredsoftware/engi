@@ -1,7 +1,7 @@
 /**
  * Repository Health Monitoring System
- * 
- * Monitors repository health metrics to trigger proactive AI Document updates when
+ *
+ * Monitors repository health metrics to trigger proactive Evidence Document updates when
  * code quality declines or technical debt accumulates.
  */
 
@@ -12,7 +12,7 @@ export interface RepositoryHealthMetrics {
   repository: string;
   userId: string;
   timestamp: string;
-  
+
   // Code Quality Metrics
   codeQuality: {
     overall: number; // 0-100
@@ -22,7 +22,7 @@ export interface RepositoryHealthMetrics {
     maintainabilityIndex: number; // 0-100
     technicalDebt: number; // Estimated hours to fix
   };
-  
+
   // Activity Metrics
   activity: {
     commitsLastWeek: number;
@@ -31,19 +31,19 @@ export interface RepositoryHealthMetrics {
     bugsReported: number;
     velocityTrend: 'increasing' | 'stable' | 'decreasing';
   };
-  
-  // AI Document Opportunity Signals
-  aiDocumentSignals: {
+
+  // Evidence Document Opportunity Signals
+  evidenceDocumentSignals: {
     dependencyUpdatesAvailable: number;
     securityVulnerabilities: number;
     performanceBottlenecks: string[];
     codeSmells: string[];
-    lastAIDocumentDate: string | null;
-    aiDocumentRecommendations: AIDocumentRecommendation[];
+    lastEvidenceDocumentDate: string | null;
+    evidenceDocumentRecommendations: EvidenceDocumentRecommendation[];
   };
 }
 
-export interface AIDocumentRecommendation {
+export interface EvidenceDocumentRecommendation {
   type: 'assetPackEvidenceFeedback' | 'knowledgeExtension' | 'codeQuality' | 'security';
   priority: 'low' | 'medium' | 'high' | 'critical';
   reason: string;
@@ -56,10 +56,10 @@ export interface HealthAlert {
   id: string;
   repository: string;
   userId: string;
-  alertType: 'quality_decline' | 'security_issue' | 'performance_regression' | 'ai_document_overdue';
+  alertType: 'quality_decline' | 'security_issue' | 'performance_regression' | 'evidence_document_overdue';
   severity: 'low' | 'medium' | 'high' | 'critical';
   message: string;
-  recommendations: AIDocumentRecommendation[];
+  recommendations: EvidenceDocumentRecommendation[];
   createdAt: string;
   status: 'active' | 'acknowledged' | 'resolved';
 }
@@ -72,7 +72,7 @@ export class RepositoryHealthMonitor {
     codeQuality: 60,      // Alert if quality drops below 60%
     testCoverage: 50,     // Alert if coverage drops below 50%
     technicalDebt: 40,    // Alert if debt exceeds 40 hours
-    aiDocumentOverdue: 30    // Alert if no AI Document update for 30 days
+    evidenceDocumentOverdue: 30    // Alert if no Evidence Document update for 30 days
   };
 
   /**
@@ -88,15 +88,15 @@ export class RepositoryHealthMonitor {
 
       // Analyze recent AssetPack evidence for quality trends
       const codeQuality = await this.analyzeCodeQuality(assetPackEvidenceHistory);
-      
+
       // Get activity metrics from database
       const activity = await this.getActivityMetrics(repository, userId);
-      
-      // Identify AI Document opportunities
-      const aiDocumentSignals = await this.identifyAIDocumentSignals(
-        repository, 
-        userId, 
-        codeQuality, 
+
+      // Identify Evidence Document opportunities
+      const evidenceDocumentSignals = await this.identifyEvidenceDocumentSignals(
+        repository,
+        userId,
+        codeQuality,
         activity
       );
 
@@ -106,7 +106,7 @@ export class RepositoryHealthMonitor {
         timestamp: new Date().toISOString(),
         codeQuality,
         activity,
-        aiDocumentSignals
+        evidenceDocumentSignals
       };
 
       // Store health metrics
@@ -184,7 +184,7 @@ export class RepositoryHealthMonitor {
     techDebt: number;
   } {
     const content = assetPackEvidence.content.toLowerCase();
-    
+
     // Quality indicators
     let quality = 60; // Base quality
     if (content.includes('test') || content.includes('spec')) quality += 15;
@@ -247,8 +247,9 @@ export class RepositoryHealthMonitor {
         .eq('user_id', userId)
         .gte('created_at', lastWeek);
 
-      // Get AI Document activity (proxy for issues/PRs)
-      const { data: recentAIDocuments } = await supabaseAdmin
+      // Get Evidence Document activity (proxy for issues/PRs)
+      // Physical table/column names are retained Exchange storage identifiers.
+      const { data: recentEvidenceDocuments } = await supabaseAdmin
         .from('ai_documents')
         .select('created_at, ai_document_status')
         .eq('user_id', userId)
@@ -256,8 +257,8 @@ export class RepositoryHealthMonitor {
         .gte('created_at', lastWeek);
 
       const commitsLastWeek = recentRuns?.length || 0;
-      const issuesCreated = recentAIDocuments?.length || 0;
-      const prsMerged = recentAIDocuments?.filter(u => u.ai_document_status === 'completed').length || 0;
+      const issuesCreated = recentEvidenceDocuments?.length || 0;
+      const prsMerged = recentEvidenceDocuments?.filter(u => u.ai_document_status === 'completed').length || 0;
       const bugsReported = 0; // Would need GitHub API integration
 
       // Calculate velocity trend (compare with previous week)
@@ -271,7 +272,7 @@ export class RepositoryHealthMonitor {
 
       const previousWeekCommits = previousWeekRuns?.length || 0;
       let velocityTrend: 'increasing' | 'stable' | 'decreasing' = 'stable';
-      
+
       if (commitsLastWeek > previousWeekCommits * 1.2) {
         velocityTrend = 'increasing';
       } else if (commitsLastWeek < previousWeekCommits * 0.8) {
@@ -298,17 +299,18 @@ export class RepositoryHealthMonitor {
   }
 
   /**
-   * Identify AI Document opportunities based on health metrics
+   * Identify Evidence Document opportunities based on health metrics
    */
-  private async identifyAIDocumentSignals(
+  private async identifyEvidenceDocumentSignals(
     repository: string,
     userId: string,
     codeQuality: RepositoryHealthMetrics['codeQuality'],
     activity: RepositoryHealthMetrics['activity']
-  ): Promise<RepositoryHealthMetrics['aiDocumentSignals']> {
+  ): Promise<RepositoryHealthMetrics['evidenceDocumentSignals']> {
     try {
-      // Get last AI Document date
-      const { data: lastAIDocument } = await supabaseAdmin
+      // Get last Evidence Document date
+      // Physical table name is a retained Exchange storage identifier.
+      const { data: lastEvidenceDocument } = await supabaseAdmin
         .from('ai_documents')
         .select('created_at')
         .eq('user_id', userId)
@@ -317,12 +319,12 @@ export class RepositoryHealthMonitor {
         .limit(1)
         .single();
 
-      const lastAIDocumentDate = lastAIDocument?.created_at || null;
-      const daysSinceLastAIDocument = lastAIDocumentDate ? 
-        (Date.now() - new Date(lastAIDocumentDate).getTime()) / (1000 * 60 * 60 * 24) : 999;
+      const lastEvidenceDocumentDate = lastEvidenceDocument?.created_at || null;
+      const daysSinceLastEvidenceDocument = lastEvidenceDocumentDate ?
+        (Date.now() - new Date(lastEvidenceDocumentDate).getTime()) / (1000 * 60 * 60 * 24) : 999;
 
       // Generate recommendations based on metrics
-      const recommendations: AIDocumentRecommendation[] = [];
+      const recommendations: EvidenceDocumentRecommendation[] = [];
 
       // Code quality recommendations
       if (codeQuality.overall < 60) {
@@ -333,7 +335,7 @@ export class RepositoryHealthMonitor {
           estimatedImpact: 80,
           confidence: 0.8,
           suggestedActions: [
-            'Run code quality AI Document update to improve standards',
+            'Run code quality Evidence Document update to improve standards',
             'Add automated linting and formatting',
             'Implement refactoring improvements'
           ]
@@ -372,12 +374,12 @@ export class RepositoryHealthMonitor {
         });
       }
 
-      // AI Document overdue recommendations
-      if (daysSinceLastAIDocument > 30) {
+      // Evidence Document overdue recommendations
+      if (daysSinceLastEvidenceDocument > 30) {
         recommendations.push({
           type: 'knowledgeExtension',
-          priority: daysSinceLastAIDocument > 90 ? 'high' : 'medium',
-          reason: `No AI Document updates applied in ${Math.round(daysSinceLastAIDocument)} days`,
+          priority: daysSinceLastEvidenceDocument > 90 ? 'high' : 'medium',
+          reason: `No Evidence Document updates applied in ${Math.round(daysSinceLastEvidenceDocument)} days`,
           estimatedImpact: 50,
           confidence: 0.5,
           suggestedActions: [
@@ -393,18 +395,18 @@ export class RepositoryHealthMonitor {
         securityVulnerabilities: 0,    // Would need security scan
         performanceBottlenecks: codeQuality.cyclomaticComplexity > 10 ? ['High complexity functions'] : [],
         codeSmells: codeQuality.duplicateCode > 15 ? ['Code duplication detected'] : [],
-        lastAIDocumentDate,
-        aiDocumentRecommendations: recommendations
+        lastEvidenceDocumentDate,
+        evidenceDocumentRecommendations: recommendations
       };
     } catch (error) {
-      log('Failed to identify AI Document signals', 'error', { repository, userId, error });
+      log('Failed to identify Evidence Document signals', 'error', { repository, userId, error });
       return {
         dependencyUpdatesAvailable: 0,
         securityVulnerabilities: 0,
         performanceBottlenecks: [],
         codeSmells: [],
-        lastAIDocumentDate: null,
-        aiDocumentRecommendations: []
+        lastEvidenceDocumentDate: null,
+        evidenceDocumentRecommendations: []
       };
     }
   }
@@ -421,14 +423,15 @@ export class RepositoryHealthMonitor {
           user_id: metrics.userId,
           code_quality_metrics: metrics.codeQuality,
           activity_metrics: metrics.activity,
-        ai_document_signals: metrics.aiDocumentSignals,
+          // Physical column name is a retained Exchange storage identifier.
+          ai_document_signals: metrics.evidenceDocumentSignals,
           created_at: metrics.timestamp
         });
     } catch (error) {
-      log('Failed to store health metrics', 'error', { 
-        repository: metrics.repository, 
-        userId: metrics.userId, 
-        error 
+      log('Failed to store health metrics', 'error', {
+        repository: metrics.repository,
+        userId: metrics.userId,
+        error
       });
     }
   }
@@ -448,7 +451,7 @@ export class RepositoryHealthMonitor {
         alertType: 'quality_decline',
         severity: metrics.codeQuality.overall < 40 ? 'high' : 'medium',
         message: `Code quality has declined to ${metrics.codeQuality.overall}%`,
-        recommendations: metrics.aiDocumentSignals.aiDocumentRecommendations.filter(r => r.type === 'codeQuality'),
+        recommendations: metrics.evidenceDocumentSignals.evidenceDocumentRecommendations.filter(r => r.type === 'codeQuality'),
         createdAt: new Date().toISOString(),
         status: 'active'
       });
@@ -463,7 +466,7 @@ export class RepositoryHealthMonitor {
         alertType: 'quality_decline',
         severity: 'medium',
         message: `Test coverage has dropped to ${metrics.codeQuality.testCoverage}%`,
-        recommendations: metrics.aiDocumentSignals.aiDocumentRecommendations.filter(r => 
+        recommendations: metrics.evidenceDocumentSignals.evidenceDocumentRecommendations.filter(r =>
           r.suggestedActions.some(action => action.includes('test'))
         ),
         createdAt: new Date().toISOString(),
@@ -480,7 +483,7 @@ export class RepositoryHealthMonitor {
         alertType: 'quality_decline',
         severity: 'medium',
         message: `Technical debt has reached ${metrics.codeQuality.technicalDebt} hours`,
-        recommendations: metrics.aiDocumentSignals.aiDocumentRecommendations.filter(r => 
+        recommendations: metrics.evidenceDocumentSignals.evidenceDocumentRecommendations.filter(r =>
           r.reason.includes('debt') || r.reason.includes('refactor')
         ),
         createdAt: new Date().toISOString(),
@@ -488,18 +491,18 @@ export class RepositoryHealthMonitor {
       });
     }
 
-    // AI Document overdue alert
-    if (metrics.aiDocumentSignals.lastAIDocumentDate) {
-      const daysSince = (Date.now() - new Date(metrics.aiDocumentSignals.lastAIDocumentDate).getTime()) / (1000 * 60 * 60 * 24);
-      if (daysSince > this.alertThresholds.aiDocumentOverdue) {
+    // Evidence Document overdue alert
+    if (metrics.evidenceDocumentSignals.lastEvidenceDocumentDate) {
+      const daysSince = (Date.now() - new Date(metrics.evidenceDocumentSignals.lastEvidenceDocumentDate).getTime()) / (1000 * 60 * 60 * 24);
+      if (daysSince > this.alertThresholds.evidenceDocumentOverdue) {
         alerts.push({
           id: `overdue_${Date.now()}`,
           repository: metrics.repository,
           userId: metrics.userId,
-          alertType: 'ai_document_overdue',
+          alertType: 'evidence_document_overdue',
           severity: daysSince > 90 ? 'high' : 'medium',
-          message: `Repository hasn't been updated via AI Documents in ${Math.round(daysSince)} days`,
-          recommendations: metrics.aiDocumentSignals.aiDocumentRecommendations,
+          message: `Repository hasn't been updated via Evidence Documents in ${Math.round(daysSince)} days`,
+          recommendations: metrics.evidenceDocumentSignals.evidenceDocumentRecommendations,
           createdAt: new Date().toISOString(),
           status: 'active'
         });
@@ -547,12 +550,13 @@ export async function getRepositoryHealthTrends(
   qualityTrend: 'improving' | 'stable' | 'declining';
   averageQuality: number;
   alertCount: number;
-  recommendations: AIDocumentRecommendation[];
+  recommendations: EvidenceDocumentRecommendation[];
 }> {
   try {
     const cutoffDate = new Date(Date.now() - days * 24 * 60 * 60 * 1000).toISOString();
 
-    // Get health metrics history
+    // Get health metrics history. The selected signal column name is a
+    // retained Exchange storage identifier.
     const { data: metrics } = await supabaseAdmin
       .from('repository_health_metrics')
       .select('code_quality_metrics, ai_document_signals, created_at')
@@ -573,10 +577,10 @@ export async function getRepositoryHealthTrends(
     // Calculate quality trend
     const qualityScores = metrics.map(m => m.code_quality_metrics.overall);
     const averageQuality = qualityScores.reduce((sum, score) => sum + score, 0) / qualityScores.length;
-    
+
     const recentQuality = qualityScores.slice(-5).reduce((sum, score) => sum + score, 0) / Math.min(5, qualityScores.length);
     const olderQuality = qualityScores.slice(0, -5).reduce((sum, score) => sum + score, 0) / Math.max(1, qualityScores.length - 5);
-    
+
     let qualityTrend: 'improving' | 'stable' | 'declining' = 'stable';
     if (recentQuality > olderQuality + 5) {
       qualityTrend = 'improving';
@@ -594,7 +598,7 @@ export async function getRepositoryHealthTrends(
 
     // Get latest recommendations
     const latestMetric = metrics[metrics.length - 1];
-    const recommendations = latestMetric.ai_document_signals?.aiDocumentRecommendations || [];
+    const recommendations = latestMetric.ai_document_signals?.evidenceDocumentRecommendations || [];
 
     return {
       qualityTrend,

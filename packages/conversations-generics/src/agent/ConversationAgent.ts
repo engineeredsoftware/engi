@@ -349,17 +349,17 @@ export async function* processMessageStream(
  * Checks if response contains pipeline trigger markers
  */
 export function detectPipelineTriggers(response: string): Array<{
-  type: 'shippable' | 'measure';
+  type: 'shippable' | 'measure' | 'evidence_document';
   task: string;
 }> {
-  const triggers: Array<{ type: 'shippable' | 'measure'; task: string }> = [];
+  const triggers: Array<{ type: 'shippable' | 'measure' | 'evidence_document'; task: string }> = [];
   
   // Look for pipeline trigger markers
   const pipelineMatches = response.matchAll(/\[PIPELINE_TRIGGER:(\w+):(.+?)\]/g);
   
   for (const match of pipelineMatches) {
     const [, type, task] = match;
-    if (type === 'shippable' || type === 'measure') {
+    if (type === 'shippable' || type === 'measure' || type === 'evidence_document') {
       triggers.push({ type, task });
     }
   }

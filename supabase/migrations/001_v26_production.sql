@@ -567,7 +567,7 @@ CREATE TABLE IF NOT EXISTS "public"."messages" (
 ALTER TABLE "public"."messages" OWNER TO "postgres";
 
 
-COMMENT ON TABLE "public"."messages" IS 'Messages within conversations, can reference AssetPack evidence and ai_documents that generated them';
+COMMENT ON TABLE "public"."messages" IS 'Messages within conversations, can reference AssetPack evidence and Evidence Document storage rows that generated them';
 
 
 
@@ -697,7 +697,7 @@ CREATE TABLE IF NOT EXISTS "public"."ai_documents" (
     "metrics" "jsonb",
     "created_at" timestamp with time zone DEFAULT "now"(),
     "updated_at" timestamp with time zone DEFAULT "now"(),
-    CONSTRAINT "ai_documents_ai_document_type_check" CHECK ((("ai_document_type")::"text" = ANY ((ARRAY['knowledgeExtension'::character varying, 'deliverableFeedback'::character varying, 'mcpIntegration'::character varying])::"text"[])))
+    CONSTRAINT "ai_documents_ai_document_type_check" CHECK ((("ai_document_type")::"text" = ANY ((ARRAY['knowledgeExtension'::character varying, 'assetPackFeedback'::character varying, 'shippableFeedback'::character varying, 'mcpConfig'::character varying])::"text"[])))
 );
 
 

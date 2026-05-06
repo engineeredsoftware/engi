@@ -46,16 +46,16 @@ Your entire Bitcode application now has rich, realistic mock data automatically.
 
 ### Complete Bitcode Application Coverage (138+ Features)
 
-✅ **User Auxillaries** (25+ features): Authentication, profiles, onboarding, preferences  
-✅ **Conversations** (10+ features): ChatGPT-style Bitcode conversations, tool responses, AI replies  
-✅ **AssetPacks/AI Documents** (16+ features): Main pipelines with 4 toggles, streaming  
-✅ **Organizations** (8+ features): Enterprise teams, members, treasury, invitations  
-✅ **Integrations** (25+ features): GitHub, GitLab, Bitbucket, Figma, Notion  
-✅ **Marketplace** (5+ features): Listings, orders, ticker, categories  
-✅ **MCP Tools** (4+ features): AWS, Supabase, Vercel integrations  
-✅ **System Health** (15+ features): Monitoring, analytics, admin dashboards  
-✅ **Treasury** (5+ features): BTC settlement, `$BTD` issuance, wallets  
-✅ **Vector/AI** (5+ features): Embeddings, pattern recognition, semantic search  
+✅ **User Auxillaries** (25+ features): Authentication, profiles, onboarding, preferences
+✅ **Conversations** (10+ features): ChatGPT-style Bitcode conversations, tool responses, AI replies
+✅ **AssetPacks/Evidence Documents** (16+ features): Main pipelines with 4 toggles, streaming
+✅ **Organizations** (8+ features): Enterprise teams, members, treasury, invitations
+✅ **Integrations** (25+ features): GitHub, GitLab, Bitbucket, Figma, Notion
+✅ **Marketplace** (5+ features): Listings, orders, ticker, categories
+✅ **MCP Tools** (4+ features): AWS, Supabase, Vercel integrations
+✅ **System Health** (15+ features): Monitoring, analytics, admin dashboards
+✅ **Treasury** (5+ features): BTC settlement, `$BTD` issuance, wallets
+✅ **Vector/AI** (5+ features): Embeddings, pattern recognition, semantic search
 
 ## ⚙️ Setup Options
 
@@ -212,7 +212,7 @@ initializeMockSystem({
 
 ### Core Pipeline Features
 - **AssetPacks:** Full pipeline with streaming, logs, events
-- **AI Documents:** Nearly identical to assetPacks experience
+- **Evidence Documents:** Nearly identical to AssetPacks experience
 - **Real-time:** Streaming simulation with realistic timing
 
 ### User Experience Areas

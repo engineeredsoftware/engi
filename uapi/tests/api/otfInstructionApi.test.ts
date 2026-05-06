@@ -1,4 +1,4 @@
-// Unit-tests for the REST handlers in AssetPack and AI-document OTF instruction routes.
+// Unit-tests for the REST handlers in AssetPack OTF instruction routes.
 
 jest.mock('@bitcode/supabase', () => {
   return {
@@ -23,7 +23,6 @@ jest.mock('@bitcode/supabase/ssr/server', () => ({
 import { supabaseAdmin } from '@bitcode/supabase';
 
 import { POST as assetPackPost } from '@/app/api/executions/instructions/route';
-import { POST as ai_documentPost } from '@/app/api/ai_documents/instructions/route';
 
 describe('OTF instruction POST routes', () => {
   it('inserts instruction and event for AssetPack executions', async () => {
@@ -40,18 +39,7 @@ describe('OTF instruction POST routes', () => {
     expect((supabaseAdmin.from as jest.Mock).mock.calls[1][0]).toBe('execution_events');
   });
 
-  it('inserts instruction and event for ai_documents', async () => {
-    // reset mock call log
-    (supabaseAdmin.from as jest.Mock).mockClear();
-
-    const req = new Request('http://localhost', {
-      method: 'POST',
-      body: JSON.stringify({ runId: 'run2', content: 'hi' }),
-    });
-
-    await ai_documentPost(req as any);
-
-    expect((supabaseAdmin.from as jest.Mock).mock.calls[0][0]).toBe('run_otf_instructions');
-    expect((supabaseAdmin.from as jest.Mock).mock.calls[1][0]).toBe('ai_document_run_events');
+  it('does not retain the old Evidence Document instruction route as a live wrapper', async () => {
+    await expect(import('@/app/api/evidence-documents/instructions/route')).rejects.toThrow();
   });
 });

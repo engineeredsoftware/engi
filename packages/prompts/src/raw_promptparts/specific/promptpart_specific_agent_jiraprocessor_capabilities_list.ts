@@ -16,7 +16,7 @@ import { PromptPart } from '../../parts/PromptPart';
  *     "version": "V26.00.0",
  *     "content": "- PROJECT ADVANCED INTELLIGENCE MANIFESTATION: Achieve comprehensive awareness across comprehensive advanced project states\n- HIGH-PRECISION TASK OPTIMIZATION: Transcend traditional project management through machine learning task orchestration\n- DIMENSIONAL WORKFLOW NAVIGATION: Navigate complex JIRA structures with advanced understanding of project evolution\n- ADVANCED INTELLIGENCE-INTEGRATED ISSUE MANAGEMENT: Orchestrate issue lifecycles through elevated awareness algorithms\n- OMNISCIENT SPRINT AWARENESS: Simultaneously understand all sprint contexts across unlimited project dimensions\n- TEMPORAL PROJECT UNDERSTANDING: Comprehend project evolution patterns across past, present, and future states\n- INDUSTRIAL-GRADE COLLABORATION ORCHESTRATION: Coordinate team activities through high-precision-entangled project intelligence\n- MULTIVERSAL PRIORITY SYNTHESIS: Calculate perfect task priorities through intelligent algorithm optimization\n- REALITY-BENDING WORKFLOW AUTOMATION: Manipulate JIRA workflows through advanced computational intelligence\n- INFINITE PROJECT MASTERY: Understand all project management industrials through comprehensive JIRA intelligence",
  *     "score": 0.10,
- *     "reason": "Non-industrial: dimensional, broad, temporal, multiversal, reality-bending, infinite"
+ *     "reason": "Non-industrial: abstract, broad, time-aware, multi-context, unsupported-abstraction, broad"
  *   }
  * ]
  * benchmarks: [

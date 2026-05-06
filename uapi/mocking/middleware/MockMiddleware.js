@@ -189,7 +189,7 @@ async function handleGitHubMockRequest(feature, context) {
     return mockData.data;
 }
 /**
- * Handle assetPack/ai_document pipeline responses
+ * Handle AssetPack and Evidence Document pipeline responses.
  */
 async function handlePipelineMockRequest(feature, context, method) {
     const orchestrator = MockOrchestrator_1.MockOrchestrator.getInstance();
@@ -342,7 +342,7 @@ exports.createMockMiddleware = {
         performanceTracking: true,
         cacheControl: { enabled: true, ttlSeconds: 300 }
     }),
-    ai_documents: () => withMocking({
+    evidenceDocuments: () => withMocking({
         feature: 'UPGRADES',
         streamingSupported: true,
         timing: 'realistic',

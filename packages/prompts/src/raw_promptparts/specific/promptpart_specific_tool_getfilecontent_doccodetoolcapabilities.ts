@@ -6,9 +6,9 @@
  * versions: [
  *   {
  *     "version": "V26.01.0",
- *     "content": "Universal content access across 200+ file formats with real-time transcoding, system-encrypted content streaming with zero-trust architecture, AI-native semantic parsing and contextual understanding across programming languages, neural network-powered code intent analysis and documentation generation, autonomous dependency resolution and architectural pattern recognition, multi-dimensional content indexing with vector embeddings and similarity search, predictive content evolution modeling using machine learning, cross-repository knowledge graph construction and relationship inference, real-time collaborative content synchronization with conflict-free replicated data types, system-resistant content integrity verification with blockchain attestation, emergent pattern detection for architectural insights and technical debt identification, and autonomous content optimization recommendations with impact analysis across enterprise software portfolios",
+ *     "content": "Universal content access across 200+ file formats with real-time transcoding, system-encrypted content streaming with zero-trust architecture, AI-native semantic parsing and contextual understanding across programming languages, neural network-powered code intent analysis and documentation generation, autonomous dependency resolution and architectural pattern recognition, multi-abstract content indexing with vector embeddings and similarity search, predictive content evolution modeling using machine learning, cross-repository knowledge graph construction and relationship inference, real-time collaborative content synchronization with conflict-free replicated data types, system-resistant content integrity verification with blockchain attestation, emergent pattern detection for architectural insights and technical debt identification, and autonomous content optimization recommendations with impact analysis across enterprise software portfolios",
  *     "score": 0.60,
- *     "reason": "Contains 'system', 'multi-dimensional' - non-industrial terms"
+ *     "reason": "Contains 'system', 'multi-abstract' - non-industrial terms"
  *   }
  * ]
  * benchmarks: [

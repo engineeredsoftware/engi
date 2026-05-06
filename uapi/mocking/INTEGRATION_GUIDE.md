@@ -25,13 +25,13 @@ export const POST = mockAreas.pipelines.assetPacks.stream()(
 );
 ```
 
-### AI Documents Route Integration
+### Evidence Documents Route Integration
 ```typescript
-// /api/ai_documents/route.ts
+// /api/templates/evidence-documents/route.ts
 import { mockAreas } from '@/mocking';
 
-export const GET = mockAreas.pipelines.ai_documents.main()(originalHandler);
-export const POST = mockAreas.pipelines.ai_documents.stream()(originalHandler);
+export const GET = mockAreas.pipelines.evidenceDocuments.main()(originalHandler);
+export const POST = mockAreas.pipelines.evidenceDocuments.stream()(originalHandler);
 ```
 
 ### The 4 Toggles (Enhance Definition of Need/IoI etc.)

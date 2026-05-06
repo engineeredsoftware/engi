@@ -13,7 +13,7 @@ const PRE_CONTEXT_MATCH_COUNT = parseInt(process.env.PRE_CONTEXT_PROCUREMENT_COU
 const POST_CONTEXT_MATCH_COUNT = parseInt(process.env.POST_CONTEXT_PROCUREMENT_COUNT ?? '10', 10);
 
 // ---------------------------------------------------------------------------
-// Public API – procurement search inspired by ai_documents but accessing global data
+// Public API - procurement search over global evidence sources.
 // ---------------------------------------------------------------------------
 
 // Export core procurement engine

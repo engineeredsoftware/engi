@@ -76,7 +76,7 @@ Attachments are stored separately from their usage:
 1. **attachments** table - Stores the actual attachment data
 2. **message_attachments** table - Links messages to attachments
 3. **AssetPack evidence references** - Link stored AssetPack evidence to attachments at the storage edge
-4. **ai_document_attachments** table - Links AI Document updates to attachments
+4. **ai_document_attachments** storage table - Links Evidence Document updates to attachments while the physical table name remains a bounded storage identifier
 
 Each attachment is stored once and referenced many times.
 

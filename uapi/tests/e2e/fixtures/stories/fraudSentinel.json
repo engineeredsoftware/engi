@@ -3,7 +3,7 @@
   "steps": [
     { "type": "user", "text": "Restore fraud model F1 ≥ 92%." },
     { "type": "agent", "text": "Labeling fresh data & retraining…" },
-    { "type": "run", "kind": "ai_document", "id": "run_fraud_001", "logChunks": ["queued", "auto-label", "train", "A/B test", "champion selected", "finished ✅"] },
+    { "type": "run", "kind": "evidence_document", "id": "run_fraud_001", "logChunks": ["queued", "auto-label", "train", "A/B test", "champion selected", "finished ✅"] },
     { "type": "agent", "text": "Champion model deployed via PR." }
   ]
 }

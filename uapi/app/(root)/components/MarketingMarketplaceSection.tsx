@@ -90,7 +90,7 @@ interface Listing {
    * Amount of Bitcode `$BTD` involved in this listing. This will be highlighted
    * in the detail card together with the glowing "e" logo.
    */
-  tokens: number;
+  measuredBtd: number;
 
   /** Remaining quantity for this listing */
   available: number;
@@ -155,7 +155,7 @@ function generateListing(): Listing {
     price: randomInt(80, 600),
     title: randomElement(titles[asset]),
     tech: [...techSets[chosen]],
-    tokens: randomInt(40, 600),
+    measuredBtd: randomInt(40, 600),
     available: randomInt(1, 20),
     measure: randomInt(60, 99),
     flash: "add",
@@ -185,7 +185,7 @@ export default function MarketingMarketplaceSection({ disableTickerFetch = false
       title: "Auth Refactor PR",
       tech: ["react", "typescript"],
       price: 420,
-      tokens: 420,
+      measuredBtd: 420,
       available: 3,
       measure: 95,
     },
@@ -197,7 +197,7 @@ export default function MarketingMarketplaceSection({ disableTickerFetch = false
       title: "CI Optimisation PR",
       tech: ["python"],
       price: 280,
-      tokens: 280,
+      measuredBtd: 280,
       available: 7,
       measure: 91,
     },
@@ -209,7 +209,7 @@ export default function MarketingMarketplaceSection({ disableTickerFetch = false
       title: "Rust Error Patterns",
       tech: ["rust"],
       price: 140,
-      tokens: 140,
+      measuredBtd: 140,
       available: 12,
       measure: 88,
     },
@@ -221,7 +221,7 @@ export default function MarketingMarketplaceSection({ disableTickerFetch = false
       title: "OpenCV Snippets",
       tech: ["python"],
       price: 190,
-      tokens: 190,
+      measuredBtd: 190,
       available: 5,
       measure: 92,
     },
@@ -543,7 +543,7 @@ export default function MarketingMarketplaceSection({ disableTickerFetch = false
                   ))}
                 </span>
                 <span className="text-blue-300 font-semibold">${l.price}</span>
-                <span className="text-teal-300 font-semibold">{l.tokens.toLocaleString()} ENG</span>
+                <span className="text-teal-300 font-semibold">{l.measuredBtd.toLocaleString()} $BTD</span>
                 <span className="opacity-85">Avail:{l.available}</span>
                 <span className="text-orange-400 font-semibold">{(l.measure / 100).toFixed(2)}</span>
               </div>
@@ -753,7 +753,7 @@ export default function MarketingMarketplaceSection({ disableTickerFetch = false
                         className="w-12 h-12 drop-shadow-glow-emerald animate-pulse-slow"
                       />
                       <span className="ml-3 text-6xl laptop:text-7xl font-extrabold text-emerald-300 drop-shadow-glow-emerald">
-                        {detail.tokens.toLocaleString()}
+                        {detail.measuredBtd.toLocaleString()}
                       </span>
                     </div>
                     {/* Available (right, aligned to center) */}
@@ -769,9 +769,9 @@ export default function MarketingMarketplaceSection({ disableTickerFetch = false
                   <div className="flex items-center justify-center gap-12 text-lg tablet:text-xl">
                     {/* Tokens */}
                     <div className="flex items-center gap-1">
-                      <span className="opacity-70 text-orange-400">Tokens:</span>
+                      <span className="opacity-70 text-orange-400">Measured $BTD:</span>
                       <span className="font-semibold text-orange-300">
-                        {detail.tokens.toLocaleString()}
+                        {detail.measuredBtd.toLocaleString()}
                       </span>
                     </div>
                     {/* Relevancy */}
@@ -798,7 +798,7 @@ export default function MarketingMarketplaceSection({ disableTickerFetch = false
                 { label: 'List, Order, Fill', icon: ClipboardDocumentListIcon },
                 { label: 'Recycled Code', icon: ArrowPathIcon },
                 { label: 'Passive Satisfaction', icon: CurrencyDollarIcon },
-                { label: 'Trades Measured-Tokens', icon: BanknotesIcon },
+                { label: 'Trades Measured $BTD', icon: BanknotesIcon },
                 { label: 'Managed Activity', icon: ArrowsUpDownIcon },
                 { label: 'Invisible Marketplace', icon: PuzzlePieceIcon },
               ].map(({ label, icon: IconC }) => (

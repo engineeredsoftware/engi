@@ -4,7 +4,7 @@
 
 ## Overview
 
-The Bitcode MCP API provides programmatic access to our revolutionary engineering intelligence platform through the standardized Model Context Protocol. This reference covers all available tools, resources, and integration patterns.
+The Bitcode MCP API provides programmatic access to Bitcode technical-knowledge exchange infrastructure through the standardized Model Context Protocol. This reference covers all available tools, resources, and integration patterns.
 
 ## Authentication
 

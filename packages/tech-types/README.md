@@ -85,7 +85,7 @@ console.log(technologyProfile);
 - Technology stack analysis and reporting
 - Project dependency identification
 - Framework compatibility checking
-- Version tracking and AI Document planning
+- Version tracking and Evidence Document planning
 - Technology recommendation systems
 - Shared classification for dependent Bitcode packages, APIs, and application surfaces
 

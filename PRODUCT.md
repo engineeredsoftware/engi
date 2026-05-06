@@ -44,9 +44,9 @@ The system digests:
 - **User Patterns**: Anticipate needs before they're expressed
 - **Code Patterns**: Learn architectural preferences per repository
 
-## AI Documents System
+## Evidence Documents System
 
-**The Revolutionary Breakthrough**: Every codebase becomes self-aware through living documents that evolve with each interaction.
+**Evidence basis**: repository-facing documents keep product intent, operating instructions, and tool configuration readable across Bitcode sessions.
 
 ### Architecture
 
@@ -432,7 +432,7 @@ Users provide Instructions
 Every instruction becomes architecture.
 Every execution becomes learning.
 Every pattern becomes permanent.
-Every codebase becomes self-aware.
+Every codebase becomes auditable technical knowledge.
 Every user makes it better for everyone.
 
 This is not automation.

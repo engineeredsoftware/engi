@@ -101,7 +101,7 @@ export const SEVENTH_GATE_COMMERCIAL_TESTNET_LAUNCH_MAP = [
     label: 'Old-world fallback explanations retired',
     launchAxis: 'reform-completion',
     requiredPosture:
-      'Core user journeys explain Bitcode Need, source-to-shares, AssetPack, Shippable, BTC fee, and $BTD read-right behavior directly without old-world fallback semantics.',
+      'Core user journeys explain Bitcode Need, source-to-shares, AssetPack, Shippable, BTC fee, and $BTD read-right behavior directly without old-world compatibility fallback semantics.',
     sourceBasis: [
       'BITCODE_SPEC_V26_DELTA.md',
       'BITCODE_SPEC_V26_PARITY_MATRIX.md',

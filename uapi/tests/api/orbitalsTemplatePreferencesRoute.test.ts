@@ -32,8 +32,8 @@ describe('/api/auxillaries/template-preferences route', () => {
 
     expect(response.status).toBe(200);
     expect(payload).toEqual({
-      deliverable_templates: {},
-      ai_document_templates: {},
+      shippable_templates: {},
+      evidence_document_templates: {},
     });
   });
 });

@@ -4,7 +4,7 @@ exports.useTemplatePreferences = void 0;
 const react_1 = require("react");
 /**
  * Client-side hook that fetches the current user's saved template
- * preferences (Shippable & AI Document) from `/api/auxillaries/template-preferences`.
+ * preferences (Shippable & Evidence Document) from `/api/auxillaries/template-preferences`.
  *
  * It automatically fetches once on mount but also returns a `reload`
  * function should the caller need to refresh the data (e.g. after a
@@ -22,7 +22,7 @@ const useTemplatePreferences = () => {
             if (res.status === 401 || res.status === 404) {
                 setPreferences({
                     shippable_templates: {},
-                    ai_document_templates: {},
+                    evidence_document_templates: {},
                 });
                 return;
             }
@@ -43,13 +43,13 @@ const useTemplatePreferences = () => {
             const data = (await res.json());
             setPreferences({
                 shippable_templates: data.shippable_templates ?? {},
-                ai_document_templates: data.ai_document_templates ?? {},
+                evidence_document_templates: data.evidence_document_templates ?? {},
             });
         }
         catch (err) {
             setPreferences({
                 shippable_templates: {},
-                ai_document_templates: {},
+                evidence_document_templates: {},
             });
             setError(err instanceof Error ? err.message : String(err));
         }

@@ -41,7 +41,7 @@ module.exports = {
     // Temporarily allow multiple components in complex route headers
     {
       files: [
-        'uapi/app/ai_documents/ai_documentsPageHeader.tsx',
+        'uapi/app/conversations/components/ConversationsOverlay.tsx',
         'uapi/app/executions/components/ExecutionPageHeader.tsx'
       ],
       rules: {

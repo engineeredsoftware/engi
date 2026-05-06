@@ -8,10 +8,10 @@ import { fileURLToPath } from 'node:url';
 import { ACTIVE_CANON_VERSION, DRAFT_TARGET_VERSION } from '../src/canon-posture.js';
 
 const repoRoot = fileURLToPath(new URL('../..', import.meta.url));
-const scriptPath = fileURLToPath(new URL('../../scripts/run-engi-spec-quality.mjs', import.meta.url));
-const preCommitScriptPath = fileURLToPath(new URL('../../scripts/check-engi-pre-commit.mjs', import.meta.url));
-const commitMsgScriptPath = fileURLToPath(new URL('../../scripts/check-engi-commit-msg.mjs', import.meta.url));
-const setupHooksScriptPath = fileURLToPath(new URL('../../scripts/setup-engi-git-hooks.mjs', import.meta.url));
+const scriptPath = fileURLToPath(new URL('../../scripts/run-bitcode-spec-quality.mjs', import.meta.url));
+const preCommitScriptPath = fileURLToPath(new URL('../../scripts/check-bitcode-pre-commit.mjs', import.meta.url));
+const commitMsgScriptPath = fileURLToPath(new URL('../../scripts/check-bitcode-commit-msg.mjs', import.meta.url));
+const setupHooksScriptPath = fileURLToPath(new URL('../../scripts/setup-bitcode-git-hooks.mjs', import.meta.url));
 
 function projectLabel(version) {
   const numeric = Number.parseInt(String(version || '').replace(/^V/u, ''), 10);
@@ -32,7 +32,7 @@ function runScript(args) {
  * @returns {string}
  */
 function createTempGitRepo() {
-  const repoPath = mkdtempSync(path.join(os.tmpdir(), 'engi-v24-build-'));
+  const repoPath = mkdtempSync(path.join(os.tmpdir(), 'bitcode-v24-build-'));
   execFileSync('git', ['init'], { cwd: repoPath, stdio: 'ignore' });
   execFileSync('git', ['config', 'user.name', `${projectLabel(ACTIVE_CANON_VERSION)} Test`], { cwd: repoPath, stdio: 'ignore' });
   execFileSync('git', ['config', 'user.email', 'spec-quality-test@example.com'], { cwd: repoPath, stdio: 'ignore' });

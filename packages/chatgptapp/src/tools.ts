@@ -459,7 +459,7 @@ async function executeDesignCode(args: z.infer<typeof DESIGN_CODE_VALIDATOR>) {
     metadata: {
       sections,
       created: !args.currentProductMd,
-      aiDocument: '.ai/PRODUCT.md',
+      evidenceDocument: '.ai/PRODUCT.md',
       guidance,
       digestUsed,
       digestError,
@@ -537,7 +537,7 @@ async function executeCodeDesign(args: z.infer<typeof CODE_DESIGN_VALIDATOR>) {
     metadata: {
       taskCount: tasks.length,
       fileCount: files.length,
-      aiDocument: '.ai/PRODUCT.md',
+      evidenceDocument: '.ai/PRODUCT.md',
       guidance,
       ...(contextMetadata ?? {})
     }
@@ -873,7 +873,7 @@ async function executeImproveDevelopingBehavior(args: z.infer<typeof IMPROVE_BEH
     metadata: {
       focus,
       created,
-      aiDocument: '.ai/AGENTS.md',
+      evidenceDocument: '.ai/AGENTS.md',
       digestUsed,
       digestError,
       guidance,
@@ -983,7 +983,7 @@ async function executeUseVercelReadExternalMcp(args: z.infer<typeof VERCEL_READ_
     metadata: {
       provider: 'vercel',
       request: args.request,
-      aiDocument: '.ai/MCPS.md',
+      evidenceDocument: '.ai/MCPS.md',
       guidance
     }
   };
@@ -1068,7 +1068,7 @@ async function executeUseVercelWriteExternalMcp(args: z.infer<typeof VERCEL_WRIT
     metadata: {
       provider: 'vercel',
       request: args.request,
-      aiDocument: '.ai/MCPS.md',
+      evidenceDocument: '.ai/MCPS.md',
       guidance,
       writeAdmission: buildChatGptAppWriteAdmission({
         connectedInterface: 'vercel',
@@ -1143,7 +1143,7 @@ async function executeUseAwsReadExternalMcp(args: z.infer<typeof AWS_READ_VALIDA
     metadata: {
       provider: 'aws',
       request: args.request,
-      aiDocument: '.ai/MCPS.md',
+      evidenceDocument: '.ai/MCPS.md',
       guidance
     }
   };
@@ -1200,7 +1200,7 @@ async function executeUseAwsWriteExternalMcp(args: z.infer<typeof AWS_WRITE_VALI
     metadata: {
       provider: 'aws',
       request: args.request,
-      aiDocument: '.ai/MCPS.md',
+      evidenceDocument: '.ai/MCPS.md',
       guidance,
       writeAdmission: buildChatGptAppWriteAdmission({
         connectedInterface: 'aws',

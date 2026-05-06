@@ -279,7 +279,7 @@ export class MCPSpecificationGenerator {
     const useCases = [];
     
     if (description.includes('feature')) useCases.push('Feature Development');
-    if (description.includes('ai_document')) useCases.push('Code Modernization');
+    if (description.includes('evidence_document')) useCases.push('Code Modernization');
     if (description.includes('security')) useCases.push('Security Analysis');
     if (description.includes('performance')) useCases.push('Performance Optimization');
     if (description.includes('test')) useCases.push('Test Generation');

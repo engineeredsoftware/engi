@@ -90,7 +90,7 @@ promptpart_[generic|specific]_[domain]_[PROMPTCLASSNAME]_[semanticcontext]_[POSI
 - Transformer not integrated in build process
 - Automatic prototype injection not active
 - Runtime access functions don't exist
-- Build-time magic is aspirational
+- Build-time processing is aspirational
 
 ### Available Annotations
 

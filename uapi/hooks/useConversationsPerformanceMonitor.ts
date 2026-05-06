@@ -2,7 +2,7 @@
  * CONVERSATIONS PERFORMANCE MONITOR - PRODUCTION-GRADE PERFORMANCE TRACKING
  * 
  * Monitors and optimizes Conversations rich response performance for production deployment.
- * Ensures the revolutionary interface remains blazing fast under all conditions.
+ * Ensures the interface remains fast under production conditions.
  */
 
 'use client';

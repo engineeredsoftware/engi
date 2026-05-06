@@ -113,10 +113,10 @@ describe('Bitcode MCP Server Test Suite', () => {
       expect(result.validationResults.errors.filter(e => e.severity === 'critical')).toHaveLength(0);
     }, 300000); // 5 minute timeout
 
-    it('should handle enterprise team lead ai_document scenario', async () => {
+    it('should handle enterprise team lead Evidence Document scenario', async () => {
       const config = {
         ...TEST_CONFIGURATIONS.COMPREHENSIVE_INTEGRATION,
-        testName: 'Enterprise Team Lead AI Document Scenario',
+        testName: 'Enterprise Team Lead Evidence Document Scenario',
         customerScenarios: [CUSTOMER_SCENARIOS.ENTERPRISE_TEAM_LEAD]
       };
       

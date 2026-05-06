@@ -2,7 +2,7 @@
   "shippable_templates": {
     "pullRequests": ["pr-quick-todo"]
   },
-  "ai_document_templates": {
+  "evidence_document_templates": {
     "assetPackFeedback": ["feedback-pr"],
     "knowledgeExtension": ["know-framework"],
     "mcpConfig": ["mcp-supabase"]

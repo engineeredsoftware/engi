@@ -56,8 +56,8 @@ export declare const EXECUTION_NAMESPACES: {
     readonly task: readonly ["description"];
     readonly config: readonly ["computerUseNeedMeasurementEnabled", "iterationCount", "mcpConfig"];
     readonly attachments: readonly ["list"];
-    readonly ai_documents: readonly ["list"];
-    readonly 'route/preprocessed': readonly ["assetPackWrittenAsset", "ai_documents"];
+    readonly evidence_documents: readonly ["list"];
+    readonly 'route/preprocessed': readonly ["assetPackWrittenAsset", "evidence_documents"];
     readonly 'finish/asset_pack_completion': readonly ["summary", "processingStats", "repoSnapshot", "writtenAssets", "need", "writtenAssetType"];
     readonly postprocessed: readonly ["result"];
     readonly "execution-asset-pack-pipeline-phase-validation-ready-to-finish-agent": readonly ["approved", "confidence", "assessment", "result", "timestamp"];

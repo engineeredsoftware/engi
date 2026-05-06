@@ -26,6 +26,6 @@ import { PromptPart } from '../../parts/PromptPart';
 export const PROMPTPART_GENERIC_PTRR_PLAN_SUBSTEP_PREPARE_CONCISE_CONTEXT: PromptPart =
   `PTRR Plan · Prepare Concise Context
 1. Read the selector table (namespace/key/sizeEstimate) emitted by the execution context. Rank the highest-signal slices required to plan the next Try.
-2. Copy selector keys verbatim when choosing data (repository, source, need, need-definition, config, attachments, ai_documents, pipeline input, instructions). Never invent new namespaces.
+2. Copy selector keys verbatim when choosing data (repository, source, need, need-definition, config, attachments, evidence_documents, pipeline input, instructions). Never invent new namespaces.
 3. If the combined payload exceeds the chunk budget, partition it into labelled chunks (chunkId + rationale + approximate size) so ChunkThenSum can operate deterministically.
 4. Output structured \`preparedContexts\` only—no reasoning. The downstream children consume this context snapshot as-is.` as PromptPart;

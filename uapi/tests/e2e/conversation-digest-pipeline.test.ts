@@ -140,21 +140,21 @@ describe('E2E: Conversation → Digest → Pipeline Flow (unit-backed)', () => {
   });
 
   describe('Pipeline Triggering', () => {
-    it('detects shippable and ai_document trigger markers inside responses', () => {
+    it('detects shippable and evidence_document trigger markers inside responses', () => {
       const response =
         'Starting [PIPELINE_TRIGGER:shippable:Add auth auditing] and ' +
-        '[PIPELINE_TRIGGER:ai_document:Speed up tests] for you.';
+        '[PIPELINE_TRIGGER:evidence_document:Speed up tests] for you.';
 
       const triggers = detectPipelineTriggers(response);
 
       expect(triggers).toEqual([
         { type: 'shippable', task: 'Add auth auditing' },
-        { type: 'ai_document', task: 'Speed up tests' }
+        { type: 'evidence_document', task: 'Speed up tests' }
       ]);
     });
 
     it('ignores malformed pipeline trigger content', () => {
-      const response = 'No triggers here [PIPELINE_TRIGGER:unknown:???] [PIPELINE_TRIGGER:ai_document]';
+      const response = 'No triggers here [PIPELINE_TRIGGER:unknown:???] [PIPELINE_TRIGGER:evidence_document]';
       expect(detectPipelineTriggers(response)).toEqual([]);
     });
   });
@@ -162,7 +162,7 @@ describe('E2E: Conversation → Digest → Pipeline Flow (unit-backed)', () => {
   describe('SSE Streaming & Live Updates', () => {
     const compactData: PipelineLogsCompactData = {
       runId: 'run-compact',
-      pipelineType: 'ai_document',
+      pipelineType: 'evidence_document',
       status: 'running',
       currentPhase: 'try',
       progress: { completed: 2, total: 5, percentage: 40 },
@@ -241,7 +241,7 @@ describe('E2E: Conversation → Digest → Pipeline Flow (unit-backed)', () => {
     it('offers render failure fallbacks that stay actionable', () => {
       const streaming = conversationRichResponseFactory.createPipelineLogsCompact('run-compact', {
         runId: 'run-compact',
-        pipelineType: 'ai_document',
+        pipelineType: 'evidence_document',
         status: 'running',
         currentPhase: 'try',
         progress: { completed: 1, total: 4, percentage: 25 },
@@ -291,7 +291,7 @@ describe('E2E: Conversation → Digest → Pipeline Flow (unit-backed)', () => {
         }),
         conversationRichResponseFactory.createPipelineLogsCompact('run-compact', {
           runId: 'run-compact',
-          pipelineType: 'ai_document',
+          pipelineType: 'evidence_document',
           status: 'failed',
           currentPhase: 'refine',
           progress: { completed: 3, total: 4, percentage: 75 },

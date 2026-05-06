@@ -92,7 +92,7 @@ const features = [
   {
     id: 'synthetic-data',
     title: 'Synthetic Data Generation',
-    description: 'Bitcode generates and utilizes synthetic data to train and improve its models, enabling it to understand and predict code behavior with unprecedented accuracy.',
+    description: 'Bitcode uses generated scenarios and synthetic datasets to test models, compare code-behavior predictions, and improve measured execution quality.',
     icon: (
       <svg className="w-6 h-6" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
         <path d="M21 7L13 15L9 11L3 17" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
@@ -106,8 +106,8 @@ const features = [
   },
   {
     id: 'economic-impact',
-    title: 'Economic Transformation',
-    description: 'By dramatically reducing the cost and time of software development while increasing quality, Bitcode is poised to create trillions in economic value and accelerate technological progress.',
+    title: 'Economic Settlement',
+    description: 'Bitcode connects software work to measurable source, Need, Fit, proof, BTC fees, and non-fungible $BTD share/read-right accounting.',
     icon: (
       <svg className="w-6 h-6" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
         <path d="M12 1V23" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
@@ -121,8 +121,8 @@ const features = [
   },
   {
     id: 'future-tech',
-    title: 'Future Technology Creation',
-    description: 'Bitcode is designed to accelerate the development of future technologies, creating a virtuous cycle of innovation that will propel humanity forward in unprecedented ways.',
+    title: 'Versioned Product Growth',
+    description: 'Bitcode keeps V26 focused on commercial AssetPack execution while later versions expand Terminal, Exchange, and external-connection flows.',
     icon: (
       <svg className="w-6 h-6" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
         <path d="M22 12H18L15 21L9 3L6 12H2" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />

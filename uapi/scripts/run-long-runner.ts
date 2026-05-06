@@ -81,10 +81,10 @@ async function main() {
           if (!GITHUB_APP_ID || !GITHUB_PRIVATE_KEY || !ctx.connectionId) throw new Error('Missing GitHub app credentials or connectionId');
           const jwtMod = await import('jsonwebtoken');
           const jwtToken = jwtMod.default.sign({ iat: Math.floor(Date.now() / 1000), exp: Math.floor(Date.now() / 1000) + 600, iss: GITHUB_APP_ID }, GITHUB_PRIVATE_KEY, { algorithm: 'RS256' });
-          const accessResp = await fetch(`https://api.github.com/app/installations/${ctx.connectionId}/access_tokens`, { method: 'POST', headers: { Authorization: `Bearer ${jwtToken}`, Accept: 'application/vnd.github+json', 'User-Agent': 'engi-long-runner' } });
+          const accessResp = await fetch(`https://api.github.com/app/installations/${ctx.connectionId}/access_tokens`, { method: 'POST', headers: { Authorization: `Bearer ${jwtToken}`, Accept: 'application/vnd.github+json', 'User-Agent': 'bitcode-long-runner' } });
           if (!accessResp.ok) throw new Error(`GH token fetch failed ${accessResp.status}`);
           const { token } = await accessResp.json() as any;
-          const patchResp = await fetch(`https://api.github.com/repos/${owner}/${repo}/pulls/${prNumber}`, { headers: { Authorization: `token ${token}`, Accept: 'application/vnd.github.v3.patch', 'User-Agent': 'engi-long-runner' } });
+          const patchResp = await fetch(`https://api.github.com/repos/${owner}/${repo}/pulls/${prNumber}`, { headers: { Authorization: `token ${token}`, Accept: 'application/vnd.github.v3.patch', 'User-Agent': 'bitcode-long-runner' } });
           if (patchResp.ok) {
             const patchText = await patchResp.text();
             const artifact = await saveArtifact(patchText, `pr-${prNumber}.patch`, 'text/x-diff');

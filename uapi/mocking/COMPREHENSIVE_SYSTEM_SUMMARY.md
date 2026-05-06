@@ -19,8 +19,8 @@
 - `ASSET_PACK_LOGS` - Execution logs
 - `ASSET_PACK_RUN_EVENTS` - Event tracking
 
-**AI Documents Pipeline (Nearly Identical Experience)**
-- `UPGRADES` - Main ai_document interface
+**Evidence Documents Pipeline (Nearly Identical Experience)**
+- `UPGRADES` - Main Evidence Document interface
 - `UPGRADE_RUNS` - Execution tracking
 - `UPGRADE_HISTORY` - Run history
 - `UPGRADE_ITEMS` - Generated items
@@ -143,7 +143,7 @@
 ### 📋 TEMPLATES & PREFERENCES SYSTEM (4 Features)
 
 - `ASSET_PACK_TEMPLATES` - AssetPack templates
-- `UPGRADE_TEMPLATES` - AI Document templates
+- `UPGRADE_TEMPLATES` - Evidence Document templates
 - `TEMPLATE_PREFERENCES` - Template preferences
 - `TEMPLATE_CATEGORIES` - Template categories
 
@@ -193,7 +193,7 @@
 ### 🧠 VECTOR & AI INTELLIGENCE (5 Features)
 
 - `ASSET_PACK_VECTORS` - AssetPack embeddings
-- `UPGRADE_VECTORS` - AI Document embeddings
+- `UPGRADE_VECTORS` - Evidence Document embeddings
 - `USER_VECTORS` - User preference vectors
 - `PATTERN_RECOGNITION` - Pattern analysis
 - `VECTOR_SEARCH` - Semantic search
@@ -223,7 +223,7 @@ mockAreas.conversation.conversations()                // Conversations
 
 // Pipelines
 mockAreas.pipelines.assetPacks.main()       // Main assetPacks
-mockAreas.pipelines.ai_documents.stream()         // AI Document streaming
+mockAreas.pipelines.evidenceDocuments.stream()    // Evidence Document streaming
 
 // Organizations
 mockAreas.organizations.main()                // Organization management

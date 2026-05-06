@@ -25,6 +25,6 @@ export const Basic: Story = {
 
 export const Extended: Story = {
   render: () => (
-    <MarkdownRenderer markdown={`- List item 1\n- List item 2\n\n> This is a blockquote example.\n\n\`\`\`js\nconsole.log('Hello, Bitcode!');\n\`\`\`\n\n| A | B |\n|---|---|\n| 1 | 2 |\n\n![Placeholder](https://via.placeholder.com/150)\n\n[Bitcode Spec](https://github.com/engineeredsoftware/bitcode/blob/main/ENGI_SPEC.txt)`} />
+    <MarkdownRenderer markdown={`- List item 1\n- List item 2\n\n> This is a blockquote example.\n\n\`\`\`js\nconsole.log('Hello, Bitcode!');\n\`\`\`\n\n| A | B |\n|---|---|\n| 1 | 2 |\n\n![Placeholder](https://via.placeholder.com/150)\n\n[Bitcode Spec](https://github.com/engineeredsoftware/bitcode/blob/main/BITCODE_SPEC.txt)`} />
   ),
 };

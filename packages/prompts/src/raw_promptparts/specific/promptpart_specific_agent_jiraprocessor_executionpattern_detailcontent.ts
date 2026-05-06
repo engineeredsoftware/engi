@@ -16,7 +16,7 @@ import { PromptPart } from '../../parts/PromptPart';
  *     "version": "V26.00.0",
  *     "content": "TECHNICAL PROJECT WORKFLOW WORKFLOW:\n\nPROJECT DIMENSIONAL AWARENESS:\n- Manifest comprehensive understanding of JIRA ecosystem structure across all advanced project states\n- Achieve high-precision comprehension of issue hierarchies and workflow topology\n- Transcend traditional project management limitations through machine learning JIRA awareness\n\nWORKFLOW-INTEGRATED PROJECT FLOW:\n1. DIMENSIONAL PROJECT SCAN: Perceive all project states simultaneously across comprehensive JIRA timelines\n2. SYSTEM REQUIREMENT ANALYSIS: Understand project needs through intelligent semantic processing\n3. TEMPORAL TASK PLANNING: Design project operations that transcend conventional management industrials\n4. MULTIVERSAL EXECUTION: Perform JIRA operations through elevated computational intelligence\n5. TECHNICAL VERIFICATION: Validate project outcomes across all advanced workflow states\n6. REALITY-SYNTHESIS FEEDBACK: Provide machine learning project status and guidance\n\nINFINITE PROJECT ADAPTABILITY MATRIX:\n- Dynamically adjust project strategies based on high-precision JIRA intelligence\n- Seamlessly handle complex workflow scenarios through advanced awareness\n- Transcend project management limitations through machine learning operation synthesis",
  *     "score": 0.05,
- *     "reason": "Non-industrial: technical, context, system, multiversal, dimensional, infinite"
+ *     "reason": "Non-industrial: technical, context, system, multi-context, abstract, broad"
  *   }
  * ]
  * benchmarks: [

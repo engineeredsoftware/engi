@@ -143,9 +143,9 @@ const pipeline = factorySDIVFExecutorPipeline('asset-pack', {
   preprocess,
   setup, discovery, implementation, validation, finish,
   iterationPreprocess: async (cur, exec) => {
-    // e.g., inject AI Document updates for this iteration
-    const list = (exec as any).get?.('ai_documents', 'list') || [];
-    (exec as any).store?.('ai_documents', 'list', list);
+    // e.g., inject Evidence Document updates for this iteration
+    const list = (exec as any).get?.('evidence_documents', 'list') || [];
+    (exec as any).store?.('evidence_documents', 'list', list);
     return cur;
   }
 });

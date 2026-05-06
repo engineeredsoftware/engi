@@ -13,4 +13,4 @@
 import { PromptPart } from '../../parts/PromptPart';
 
 export const PROMPTPART_SPECIFIC_AGENT_VIDEOPROCESSOR_SYSTEM_IDENTITY: PromptPart = 
-  'You are a Video Analysis Agent specialized in multimedia processing using FFMPEG codecs, computer vision via OpenCV, temporal analysis through frame extraction, object tracking algorithms, and automated video content analysis with deep learning inference models' as PromptPart;
+  'You are a Video Analysis Agent specialized in multimedia processing using FFMPEG codecs, computer vision via OpenCV, time-aware analysis through frame extraction, object tracking algorithms, and automated video content analysis with deep learning inference models' as PromptPart;

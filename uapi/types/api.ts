@@ -157,9 +157,8 @@ export interface PipelineExecution {
   items: ShippableHistoryItem[];
   /**
    * Arbitrary JSON context blob attached to the run. Current pipelines attach
-   * a rich object matching `GlobalContext` (see `lib/context`), while former
-   * runs stored a raw JSON string with only ai_document suggestions or a
-   * summary. Keep this loosely typed so callers can narrow as needed.
+   * a rich object matching `GlobalContext` (see `lib/context`). Keep this
+   * loosely typed so callers can narrow as needed.
    */
   context?: Record<string, any> | string | null;
 
@@ -249,22 +248,22 @@ export interface PipelineExecution {
     repoSnapshot?: { org: string; repo: string; branch: string; commit: string };
   } | null;
 }
-// Record type for a single ai_document history item
-export interface AIDocumentHistoryItem {
+// Record type for a single Evidence Document history item.
+export interface EvidenceDocumentHistoryItem {
   id: string;
   title: string;
   output?: string | null;
   repository?: string | null;
-  ai_document_type: string;
+  evidenceDocumentType: string;
   metrics?: any;
   created_at: string;
   run_id: string;
 }
-// Wrapper object representing a single user 'run' that may contain multiple ai_documents
-export interface AIDocumentRun {
+// Wrapper object representing a single user run that may contain multiple Evidence Documents.
+export interface EvidenceDocumentRun {
   id: string;
   created_at: string;
-  items: AIDocumentHistoryItem[];
+  items: EvidenceDocumentHistoryItem[];
   summary?: string | null;
   processing_stats?: {
     time: string;
@@ -352,7 +351,7 @@ export type ValidationReadySnapshot = {
 
 export type PostprocessedResult = {
   executionId: string;
-  kind: 'shippable' | 'multi-shippable' | 'ai_document';
+  kind: 'shippable' | 'multi-shippable' | 'evidence_document';
   title: string;
   repository?: string;
   summary?: string;
@@ -360,7 +359,7 @@ export type PostprocessedResult = {
   validationReady?: ValidationReadySnapshot;
   entries?: PostprocessedResult[];
   series?: PostprocessedResult[];
-  ai_documentType?: string;
+  evidenceDocumentType?: string;
   output?: string;
 };
 

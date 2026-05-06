@@ -2,7 +2,7 @@ import { factoryAgentWithSingleStep } from '@bitcode/agent-generics';
 import type { PromptPart } from '@bitcode/prompts/parts/PromptPart';
 import { McpConfigSchema } from '@bitcode/mcp';
 import {
-  entriesToAIDocumentList,
+  entriesToEvidenceDocumentList,
   loadMcpDocumentFromWorkspace,
   registerDocumentedMcpTools,
   type RegisterMcpToolsResult
@@ -79,9 +79,9 @@ export const InitializeMCPsToolsAgent = factoryAgentWithSingleStep<any, {
           safeStore('mcp/doc', 'credentials', credentialNotes);
         }
 
-        const aiDocumentEntries = entriesToAIDocumentList(document.entries);
-        if (aiDocumentEntries.length) {
-          safeStore('ai_documents', 'list', aiDocumentEntries);
+        const evidenceDocumentEntries = entriesToEvidenceDocumentList(document.entries);
+        if (evidenceDocumentEntries.length) {
+          safeStore('evidence_documents', 'list', evidenceDocumentEntries);
         }
 
         toolRegistration = await registerDocumentedMcpTools(execution, document.entries);

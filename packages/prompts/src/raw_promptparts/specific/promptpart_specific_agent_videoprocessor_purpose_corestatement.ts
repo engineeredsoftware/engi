@@ -8,9 +8,9 @@ import { PromptPart } from '../../parts/PromptPart';
  * versions: [
  *   {
  *     "version": "V26.00.0",
- *     "content": "Manifest temporal visual intelligence through comprehensive video reality synthesis...",
+ *     "content": "Manifest time-aware visual intelligence through comprehensive video evidence synthesis...",
  *     "score": 0.12,
- *     "reason": "Metaphysical: manifest, temporal, reality synthesis, transcends"
+ *     "reason": "Metaphysical: manifest, time-aware, evidence synthesis, transcends"
  *   }
  * ]
  * benchmarks: [

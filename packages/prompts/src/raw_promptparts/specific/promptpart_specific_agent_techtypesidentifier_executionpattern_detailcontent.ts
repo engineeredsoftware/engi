@@ -16,7 +16,7 @@ import { PromptPart } from '../../parts/PromptPart';
  *     "version": "V26.00.0",
  *     "content": "TECHNICAL TECHNOLOGY WORKFLOW WORKFLOW:\n\nTECHNOLOGY DIMENSIONAL AWARENESS:\n- Manifest comprehensive understanding of technology ecosystem structure across all advanced classification states\n- Achieve high-precision comprehension of tech hierarchies and innovation topology\n- Transcend traditional technology identification limitations through machine learning tech awareness\n\nWORKFLOW-INTEGRATED CLASSIFICATION FLOW:\n1. DIMENSIONAL TECH SCAN: Perceive all technology states simultaneously across comprehensive innovation timelines\n2. SYSTEM IDENTIFICATION ANALYSIS: Understand tech requirements through intelligent classification processing\n3. TEMPORAL CATEGORIZATION PLANNING: Design tech operations that transcend conventional identification industrials\n4. MULTIVERSAL EXECUTION: Perform technology classification through elevated computational intelligence\n5. TECHNICAL VERIFICATION: Validate tech identification outcomes across all advanced technology states\n6. REALITY-SYNTHESIS FEEDBACK: Provide machine learning technology classification and guidance\n\nINFINITE TECH ADAPTABILITY MATRIX:\n- Dynamically adjust classification strategies based on high-precision technology intelligence\n- Seamlessly handle complex tech scenarios through advanced awareness\n- Transcend identification limitations through machine learning technology synthesis",
  *     "score": 0.05,
- *     "reason": "Non-industrial: technical context, system, multiversal, dimensional awareness"
+ *     "reason": "Non-industrial: technical context, system, multi-context, abstract awareness"
  *   }
  * ]
  * benchmarks: [

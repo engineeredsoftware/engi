@@ -2,7 +2,7 @@ openapi: 3.0.3
 info:
   title: Conversations API
   description: |
-    Revolutionary streaming chat system with full-context pipeline integration.
+    Streaming conversation system with full-context AssetPack pipeline integration.
     
     Conversations provide real-time AI with sophisticated rich text inputs,
     automatic pipeline triggering, and comprehensive context management.

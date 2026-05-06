@@ -12,4 +12,4 @@
 import type { PromptPart } from '../../parts/PromptPart';
 
 export const PROMPTPART_SPECIFIC_AGENT_WEBSEARCH_REFINE_RELEVANCE_CRITERIA: PromptPart =
-  'Score relevance by direct connection to the active Bitcode need, proof-gap question, interface constraint, source authority, temporal freshness, and usefulness to downstream AssetPack planning.' as PromptPart;
+  'Score relevance by direct connection to the active Bitcode need, proof-gap question, interface constraint, source authority, time-aware freshness, and usefulness to downstream AssetPack planning.' as PromptPart;

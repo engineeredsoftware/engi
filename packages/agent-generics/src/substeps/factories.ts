@@ -204,7 +204,7 @@ function factoryLLMSubStep<TInput, TOutput>(
       );
     }
 
-    // 3.5 Apply overlays from execution (AI Documents, OTF, etc.)
+    // 3.5 Apply overlays from execution (Evidence Documents, OTF, etc.)
     try {
       const { applyPromptOverlays } = require('../execution/prompt-overlays');
       applyPromptOverlays(execution as any, (substep as any).prompt);
@@ -361,7 +361,7 @@ export function factoryPrepareConciseContext<T>(
     };
     const attachments = (greatestParent as any).get?.('attachments', 'list') || [];
     const instructions = (greatestParent as any).get?.('instructions', 'all') || [];
-    const aiDocuments = (greatestParent as any).get?.('ai_documents', 'list') || [];
+    const evidenceDocuments = (greatestParent as any).get?.('evidence_documents', 'list') || [];
     const pipelineInput = (greatestParent as any).get?.('pipeline', 'input');
 
     const fullContext = {
@@ -372,7 +372,7 @@ export function factoryPrepareConciseContext<T>(
       config: toObject(greatestParent.getAll('config')),
       attachments,
       instructions,
-      ai_documents: aiDocuments,
+      evidence_documents: evidenceDocuments,
       pipeline: pipelineInput ? { input: pipelineInput } : undefined
     } as any;
 
@@ -387,7 +387,7 @@ export function factoryPrepareConciseContext<T>(
       [
         { namespace: 'attachments', key: 'list', value: attachments },
         { namespace: 'instructions', key: 'all', value: instructions },
-        { namespace: 'ai_documents', key: 'list', value: aiDocuments },
+        { namespace: 'evidence_documents', key: 'list', value: evidenceDocuments },
         ...(pipelineInput ? [{ namespace: 'pipeline', key: 'input', value: pipelineInput }] : [])
       ]
     );

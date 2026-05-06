@@ -8,15 +8,15 @@ export interface ShippableTemplates {
   pullRequests: ShippableTemplate[];
 }
 
-export interface AIDocumentTemplate {
+export interface EvidenceDocumentTemplate {
   id: string;
   name: string;
   text: string;
 }
 
-export interface AIDocumentTemplates {
-  knowledgeExtension: AIDocumentTemplate[];
-  assetPackFeedback: AIDocumentTemplate[];
-  shippableFeedback?: AIDocumentTemplate[];
-  mcpConfig: AIDocumentTemplate[];
+export interface EvidenceDocumentTemplates {
+  knowledgeExtension: EvidenceDocumentTemplate[];
+  assetPackFeedback: EvidenceDocumentTemplate[];
+  shippableFeedback?: EvidenceDocumentTemplate[];
+  mcpConfig: EvidenceDocumentTemplate[];
 }

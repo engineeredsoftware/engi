@@ -76,7 +76,7 @@ class ComprehensiveMockDataGenerator {
         this.generators.set('ASSET_PACK_STREAM', () => this.generateAssetPackStream());
         this.generators.set('ASSET_PACK_LOGS', () => this.generateAssetPackLogs());
         this.generators.set('ASSET_PACK_RUN_EVENTS', () => this.generateAssetPackRunEvents());
-        // AI Documents Pipeline removed - not V26
+        // Evidence Documents Pipeline removed - not V26
         // ========================================================================
         // CONVERSATIONS (ChatGPT for Engineering)
         // ========================================================================
@@ -901,7 +901,7 @@ class ComprehensiveMockDataGenerator {
     generateAssetPackStream() { return this.generateStreamData('assetPack'); }
     generateAssetPackLogs() { return this.generateLogsData('assetPack'); }
     generateAssetPackRunEvents() { return this.generateRunEventsData('assetPack'); }
-    // AI Documents Pipeline removed - not V26
+    // Evidence Documents Pipeline removed - not V26
     // Conversations Features (continued)
     generateConversationRuns() { return [{ id: 'conversation_run_' + this.generateId(), status: 'completed', result: 'Analysis complete' }]; }
     generateConversationSources() { return [{ type: 'github', url: 'https://github.com/org/repo', status: 'connected' }]; }
@@ -1009,7 +1009,7 @@ class ComprehensiveMockDataGenerator {
     generateSecurityAudit() { return [{ event: 'login_attempt', user_id: 'user_123', ip: '192.168.1.1', success: true }]; }
     // Vector & AI
     generateAssetPackVectors() { return [{ id: 'vec_123', assetPack_id: 'asset_pack_456', embedding: [0.1, 0.2, 0.3], metadata: { category: 'frontend' } }]; }
-    generateUpgradeVectors() { return [{ id: 'vec_456', ai_document_id: 'upg_789', embedding: [0.4, 0.5, 0.6], metadata: { type: 'performance' } }]; }
+    generateUpgradeVectors() { return [{ id: 'vec_456', evidence_document_id: 'upg_789', embedding: [0.4, 0.5, 0.6], metadata: { type: 'performance' } }]; }
     generateUserVectors() { return [{ user_id: 'user_123', preferences_vector: [0.7, 0.8, 0.9], last_updated: this.generateTimestamp() }]; }
     generatePatternRecognition() { return { patterns: [{ type: 'authentication_flow', confidence: 0.95, components: ['login', 'oauth', 'session'] }] }; }
     generateVectorSearch() { return { query: 'react component', results: [{ id: 'vec_123', score: 0.89 }] }; }
@@ -1029,7 +1029,7 @@ class ComprehensiveMockDataGenerator {
     generateErrorScenarios() { return { type: 'timeout', message: 'Request timed out', code: 'TIMEOUT_ERROR' }; }
     generatePerformanceMetrics() { return { response_time: '89ms', memory_usage: '67%', cpu_usage: '23%' }; }
     // Utility methods for related generators
-    // adaptForAI Documents removed - not V26
+    // adaptForEvidence Documents removed - not V26
     generateInstructionsData(type) {
         return [
             { step: 1, instruction: `Analyze ${type} requirements`, status: 'completed' },

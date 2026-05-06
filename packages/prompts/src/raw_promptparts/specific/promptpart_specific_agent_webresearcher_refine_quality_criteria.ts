@@ -5,7 +5,7 @@
  * current_version: "V26"
  * versions: []
  * benchmarks: [
- *   { "name": "quality_boundary", "test": "Prioritizes primary source quality and temporal risk", "score": 1.00 }
+ *   { "name": "quality_boundary", "test": "Prioritizes primary source quality and time-aware risk", "score": 1.00 }
  * ]
  */
 

@@ -2,12 +2,12 @@ import { useCallback, useEffect, useState } from 'react';
 
 interface UserTemplatePreferencesApiResponse {
   shippable_templates?: Record<string, string[]>;
-  ai_document_templates?: Record<string, string[]>;
+  evidence_document_templates?: Record<string, string[]>;
 }
 
 export interface UserTemplatePreferences {
   shippable_templates: Record<string, string[]>;
-  ai_document_templates: Record<string, string[]>;
+  evidence_document_templates: Record<string, string[]>;
 }
 
 interface UseTemplatePreferencesHook {
@@ -22,7 +22,7 @@ interface UseTemplatePreferencesHook {
 
 /**
  * Client-side hook that fetches the current user's saved template
- * preferences (Shippable & AI Document) from `/api/auxillaries/template-preferences`.
+ * preferences (Shippable & Evidence Document) from `/api/auxillaries/template-preferences`.
  *
  * It automatically fetches once on mount but also returns a `reload`
  * function should the caller need to refresh the data (e.g. after a
@@ -41,7 +41,7 @@ export const useTemplatePreferences = (): UseTemplatePreferencesHook => {
       if (res.status === 401 || res.status === 404) {
         setPreferences({
           shippable_templates: {},
-          ai_document_templates: {},
+          evidence_document_templates: {},
         });
         return;
       }
@@ -62,12 +62,12 @@ export const useTemplatePreferences = (): UseTemplatePreferencesHook => {
 
       setPreferences({
         shippable_templates: data.shippable_templates ?? {},
-        ai_document_templates: data.ai_document_templates ?? {},
+        evidence_document_templates: data.evidence_document_templates ?? {},
       });
     } catch (err) {
       setPreferences({
         shippable_templates: {},
-        ai_document_templates: {},
+        evidence_document_templates: {},
       });
       setError(err instanceof Error ? err.message : String(err));
     } finally {

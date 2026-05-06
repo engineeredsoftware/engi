@@ -1,6 +1,6 @@
 # @bitcode/chatgptapp
 
-Bitcode’s ChatGPT App MCP package lets product-minded builders participate in the Bitcode source-to-shares loop without touching a code editor. Inside a single ChatGPT thread, Bitcode captures intent, keeps AI design documents truthful, narrates repository behaviour in plain language, drafts implementation moves, and coordinates GitHub plus DevOps delivery mechanisms only after explicit confirmation.
+Bitcode’s ChatGPT App MCP package lets product-minded builders participate in the Bitcode source-to-shares loop without touching a code editor. Inside a single ChatGPT thread, Bitcode captures intent, keeps Evidence Documents truthful, narrates repository behaviour in plain language, drafts implementation moves, and coordinates GitHub plus DevOps delivery mechanisms only after explicit confirmation.
 
 > Docs live alongside the package for consistency. Use this README for positioning + tool catalog, skim `TLDR.md` to get oriented in under a minute, check `TODO.md` for the active backlog, and follow `DEMO.md` to rehearse the Yapper launch video.
 
@@ -9,7 +9,7 @@ Bitcode’s ChatGPT App MCP package lets product-minded builders participate in 
 - **Audience** – Semi-technical builders (founders, product leads, architects) who can articulate intent but prefer AI to execute.
 - **Promise** – “Design software conversationally, let Bitcode deliver the connected-interface artifacts.” Every artifact lives in `.ai/PRODUCT.md`, `.ai/AGENTS.md`, committed code, or a write-admission receipt with attribution and history.
 - **Relationship to Codex** – Codex remains the editing IDE for expert engineers. Bitcode owns the design-first loop, keeps state synchronised, and triggers write operations with explicit confirmation.
-- **AI Documents** – Templates for `.ai/PRODUCT.md` and `.ai/AGENTS.md` ship inside `src/tools.ts`; sessions create and evolve them via the `design_code`, `code_design`, and `improve_developing_behavior` tools.
+- **Evidence Documents** – Templates for `.ai/PRODUCT.md` and `.ai/AGENTS.md` ship inside `src/tools.ts`; sessions create and evolve them via the `design_code`, `code_design`, and `improve_developing_behavior` tools.
 
 ## Why Bitcode (landing narrative)
 

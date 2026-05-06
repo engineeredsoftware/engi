@@ -4,7 +4,7 @@
  * 🎯 COMPLETE SYSTEM COVERAGE (100+ Features):
  * - Auxillaries: onboarding, auth, profile, preferences (25+ features)
  * - Conversations: ChatGPT-style Bitcode experience (10+ features)  
- * - AssetPacks/AI Documents: main pipeline experiences (16+ features)
+ * - AssetPacks/Evidence Documents: main pipeline experiences (16+ features)
  * - Organizations: enterprise team management (8+ features)
  * - Integrations: GitHub, GitLab, Bitbucket, Figma, Notion (25+ features)
  * - Marketplace: business listings and orders (5+ features)

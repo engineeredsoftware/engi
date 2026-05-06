@@ -1,7 +1,7 @@
 Glassy Menus
 
 Purpose
-- A reusable purple‑glassy dropdown surface that unifies menus across the app while keeping the AI Document inline template selector unchanged.
+- A reusable purple-glassy dropdown surface that unifies menus across the app while keeping the Evidence Document inline template selector unchanged.
 
 Usage
 - Import CSS module and apply to the container surface.
@@ -16,5 +16,5 @@ File
   - `.pickerSurface`: surface for Big‑O pickers.
 
 Notes
-- Keep the AI Document inline template selector unmodified.
+- Keep the Evidence Document inline template selector unmodified.
 - Use reduced motion where applicable for animated menus.

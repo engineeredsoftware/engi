@@ -255,7 +255,7 @@ export async function executeAgentTask(
  * patterns: ["audit-logging", "transaction-integrity", "rate-limiting"]
  * 
  * ALL THESE DOC-COMMENTS ARE PROMPTS!
- * They stack to create multi-dimensional intelligence.
+ * They stack to create layered technical context.
  */
 export class FullStackAgent {
   async buildFeature(spec: FeatureSpec): Promise<Feature> {

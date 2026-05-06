@@ -12,12 +12,12 @@ import type { ShippableTemplate, ShippableTemplateType } from './types';
 export * from './types';
 export type {
   ShippableTemplate,
-  AIDocumentTemplate,
+  EvidenceDocumentTemplate,
   UserTemplatePreferences,
   ShippableTemplateType,
-  AIDocumentTemplateType,
+  EvidenceDocumentTemplateType,
   CreateShippableTemplatePayload,
-  CreateAIDocumentTemplatePayload,
+  CreateEvidenceDocumentTemplatePayload,
   TemplatesResponse,
   TemplatePreferencesResponse
 } from './types';
@@ -75,10 +75,19 @@ export class TemplatesService {
     }
   }
 
+  private toEvidenceDocumentTemplate(row: Record<string, any>) {
+    const { ai_document_type: evidenceDocumentType, ...template } = row;
+    return {
+      ...template,
+      evidenceDocumentType,
+    };
+  }
+
   /**
-   * Get AI Document templates for the current user
+   * Get Evidence Document templates for the current user.
+   * Physical table/column names are retained Exchange storage identifiers.
    */
-  async getAIDocumentTemplates(userId: string, type?: string) {
+  async getEvidenceDocumentTemplates(userId: string, type?: string) {
     try {
       let query = this.supabase
         .from('ai_document_templates')
@@ -94,13 +103,13 @@ export class TemplatesService {
       const { data, error } = await query;
       
       if (error) {
-        log('[TemplatesService] Error fetching AI Document templates', 'error', { error });
+        log('[TemplatesService] Error fetching Evidence Document templates', 'error', { error });
         throw error;
       }
 
-      return data || [];
+      return ((data || []) as Record<string, any>[]).map((row) => this.toEvidenceDocumentTemplate(row));
     } catch (error) {
-      log('[TemplatesService] Failed to get AI Document templates', 'error', { error });
+      log('[TemplatesService] Failed to get Evidence Document templates', 'error', { error });
       throw error;
     }
   }
@@ -149,9 +158,10 @@ export class TemplatesService {
   }
 
   /**
-   * Create AI Document templates
+   * Create Evidence Document templates.
+   * Physical table/column names are retained Exchange storage identifiers.
    */
-  async createAIDocumentTemplates(
+  async createEvidenceDocumentTemplates(
     userId: string,
     name: string,
     types: string[],
@@ -172,13 +182,13 @@ export class TemplatesService {
         .select();
 
       if (error) {
-        log('[TemplatesService] Error creating AI Document templates', 'error', { error });
+        log('[TemplatesService] Error creating Evidence Document templates', 'error', { error });
         throw error;
       }
 
-      return data;
+      return ((data || []) as Record<string, any>[]).map((row) => this.toEvidenceDocumentTemplate(row));
     } catch (error) {
-      log('[TemplatesService] Failed to create AI Document templates', 'error', { error });
+      log('[TemplatesService] Failed to create Evidence Document templates', 'error', { error });
       throw error;
     }
   }
@@ -213,16 +223,25 @@ export class TemplatesService {
     userId: string,
     preferences: Partial<{
       default_shippable_template_id: string | null;
-      default_ai_document_template_id: string | null;
+      default_evidence_document_template_id: string | null;
       auto_save_templates: boolean;
     }>
   ) {
     try {
+      const storagePreferences: Record<string, unknown> = {
+        ...preferences,
+      };
+      if ('default_evidence_document_template_id' in preferences) {
+        storagePreferences.default_ai_document_template_id =
+          preferences.default_evidence_document_template_id;
+        delete storagePreferences.default_evidence_document_template_id;
+      }
+
       const { data, error } = await this.supabase
         .from('user_template_preferences')
         .upsert({
           user_id: userId,
-          ...preferences,
+          ...storagePreferences,
           updated_at: new Date().toISOString()
         })
         .select()
@@ -246,7 +265,7 @@ export class TemplatesService {
   async deleteTemplate(
     userId: string,
     templateId: string,
-    type: 'shippable' | 'ai_documents'
+    type: 'shippable' | 'evidence_documents'
   ) {
     try {
       const table = type === 'shippable' ? 'deliverable_templates' : 'ai_document_templates';

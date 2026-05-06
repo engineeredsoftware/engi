@@ -1,4 +1,4 @@
-import { searchRelevantAIDocuments } from '../lib/search';
+import { searchRelevantEvidenceDocuments } from '../lib/search';
 import OpenAI from 'openai';
 import { supabaseAdmin } from '@bitcode/supabase';
 
@@ -20,9 +20,9 @@ jest.mock('@bitcode/supabase', () => ({
       data: [
         {
           template_id: 'template-1',
-          title: 'AI Document One',
-          description: 'First ai_document template',
-          content: 'AI Document content here',
+          title: 'Evidence Document One',
+          description: 'First Evidence Document template',
+          content: 'Evidence Document content here',
           similarity: 0.123
         }
       ],
@@ -31,10 +31,10 @@ jest.mock('@bitcode/supabase', () => ({
   }
 }));
 
-describe('searchRelevantAIDocuments', () => {
-  it('embeds the query and calls the Supabase RPC to return ai_document suggestions', async () => {
+describe('searchRelevantEvidenceDocuments', () => {
+  it('embeds the query and calls the Supabase RPC to return Evidence Document suggestions', async () => {
     process.env.OPENAI_API_KEY = 'fake';
-    const results = await searchRelevantAIDocuments({
+    const results = await searchRelevantEvidenceDocuments({
       repoOwner: 'owner',
       repoName: 'repo',
       repoBranch: 'branch',
@@ -44,9 +44,9 @@ describe('searchRelevantAIDocuments', () => {
     expect(results).toHaveLength(1);
     expect(results[0]).toEqual({
       id: 'template-1',
-      title: 'AI Document One',
-      description: 'First ai_document template',
-      content: 'AI Document content here',
+      title: 'Evidence Document One',
+      description: 'First Evidence Document template',
+      content: 'Evidence Document content here',
       similarity: 0.123
     });
     expect(OpenAI).toHaveBeenCalledWith({ apiKey: 'fake' });

@@ -192,7 +192,7 @@ export async function registerDocumentedMcpTools(execution: any, entries: Docume
   return { registered, missing };
 }
 
-export function entriesToAIDocumentList(entries: DocumentedMcp[]): Array<{ title: string; content: string }> {
+export function entriesToEvidenceDocumentList(entries: DocumentedMcp[]): Array<{ title: string; content: string }> {
   return entries.map((entry) => ({
     title: entry.name,
     content: entry.raw.trim()
