@@ -852,23 +852,20 @@ export default function ExecutionsPageHeader({
                         <span
                           className="text-gray-300 hover:border-b hover:border-purple-300/90 transition-all duration-150 cursor-help"
                           onMouseEnter={() => setActiveEdu({
-                            title: executionType?.includes('ai_documents') ? 'Intent to Improve' : 'Definition of Need',
-                            subtitle: executionType?.includes('ai_documents') ? 'Targeted Enhancement' : 'Success Criteria',
-                            body: executionType?.includes('ai_documents')
-                              ? 'Describe what you intend to improve and why — focused, actionable, and beneficial to users or maintainers.'
-                              : 'Articulate the precise outcome that defines success. Clear criteria ensure shared understanding of the expected AssetPack evidence and shippable result.'
+                            title: 'Definition of Need',
+                            subtitle: 'Success Criteria',
+                            body: 'Articulate the precise outcome that defines success. Clear criteria ensure shared understanding of the expected AssetPack evidence and shippable result.'
                           })}
                         >
-                          {executionType?.includes('ai_documents') ? 'Intent to Improve' : 'Definition of Need'}
+                          Definition of Need
                         </span>.
                       </p>
                     </div>
                   </div>
 
                   <div className="text-gray-400 text-lg self-start">
-                    {!executionType?.includes('ai_documents') ? (
-                      <>
-                        V26 Finish delivers AssetPack evidence through a{' '}
+                    <>
+                      V26 Finish delivers AssetPack evidence through a{' '}
                     <ShippableTemplateText
                       text="pull request"
                       templates={templates?.pullRequests}
@@ -879,15 +876,7 @@ export default function ExecutionsPageHeader({
                       duration={3.2}
                       width={250}
                     /> and records completion as AssetPack evidence.
-                      </>
-                    ) : (
-                      <>
-                        An ai_document can be a{' '}
-                        <span className="text-gray-300">knowledge extension</span>,{' '}
-                        <span className="text-gray-300">asset-pack feedback</span>, or{' '}
-                        <span className="text-gray-300">MCP Config</span> — keep the intent focused and actionable.
-                      </>
-                    )}
+                    </>
                   </div>
                 </motion.div>
 

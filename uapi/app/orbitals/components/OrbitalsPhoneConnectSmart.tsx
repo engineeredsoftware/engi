@@ -229,7 +229,7 @@ export function PhoneConnectSmart({
                     <div className="flex flex-wrap gap-2 mt-3">
                       <code className="text-xs bg-gray-800 px-2 py-1 rounded">deliver auth system</code>
                       <code className="text-xs bg-gray-800 px-2 py-1 rounded">analyze security</code>
-                      <code className="text-xs bg-gray-800 px-2 py-1 rounded">ai_document react</code>
+                      <code className="text-xs bg-gray-800 px-2 py-1 rounded">evidence react</code>
                     </div>
                   </div>
                 </div>
@@ -301,7 +301,7 @@ export function PhoneConnectSmart({
                   <div className="space-y-1">
                     <p className="text-sm text-gray-300">📱 "deliver auth system"</p>
                     <p className="text-sm text-gray-300">📱 "analyze security vulnerabilities"</p>
-                    <p className="text-sm text-gray-300">📱 "ai_document to React 18"</p>
+                    <p className="text-sm text-gray-300">📱 "evidence to React 18"</p>
                   </div>
                 </div>
                 

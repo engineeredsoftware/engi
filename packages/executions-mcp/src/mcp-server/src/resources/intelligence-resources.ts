@@ -2,7 +2,7 @@
  * Bitcode MCP Intelligence Resources - ORM Integration
  * 
  * Updated to use ORM models for all database operations.
- * Provides AI-generated engineering intelligence through MCP resources.
+ * Provides AI-generated technical knowledge through MCP resources.
  * 
  * @doc-code
  * type: resources
@@ -87,7 +87,7 @@ function parseQueryParams(uri: string): Record<string, any> {
 }
 
 /**
- * Synthesize engineering intelligence
+ * Synthesize technical knowledge
  */
 async function synthesizeIntelligence(
   context: MCPAuthContext,
@@ -97,7 +97,7 @@ async function synthesizeIntelligence(
   const pipelineRuns = new PipelineExecutionsModel(supabase);
 
   try {
-    logger.info('Synthesizing engineering intelligence', {
+    logger.info('Synthesizing technical knowledge', {
       scope: options.scope,
       timeframe: options.timeframe,
       userId: context.userId
@@ -668,8 +668,8 @@ export function registerIntelligenceResources(): MCPResource[] {
   return [
     {
       uri: 'bitcode://resources/intelligence/synthesis',
-      name: 'Engineering Intelligence Synthesis',
-      description: 'AI-powered synthesis of engineering insights, trends, and recommendations',
+      name: 'Technical Knowledge Synthesis',
+      description: 'AI-powered synthesis of technical insights, trends, and recommendations',
       mimeType: 'application/json',
       
       read: async (uri: string, context: MCPAuthContext) => {

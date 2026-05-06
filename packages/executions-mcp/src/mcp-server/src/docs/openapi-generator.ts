@@ -29,7 +29,7 @@ export function generateOpenAPISpec(): OpenAPIV3.Document {
       description: `
 # Bitcode MCP Server API
 
-The Model Context Protocol (MCP) server exposing Bitcode’s engineering intelligence via standardized tools, resources, and prompts.
+The Model Context Protocol (MCP) server exposing Bitcode’s technical knowledge exchange via standardized tools, resources, and prompts.
 
 ## Features
 

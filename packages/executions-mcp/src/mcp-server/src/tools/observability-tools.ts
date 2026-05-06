@@ -171,7 +171,7 @@ const distributedTracingSchema = z.object({
 
 /**
  * BUSINESS INTELLIGENCE & ANALYTICS
- * Engineering metrics, KPIs, and strategic insights
+ * Technical metrics, KPIs, and strategic insights
  */
 const businessIntelligenceSchema = z.object({
   operation: z.enum([
@@ -596,7 +596,7 @@ Enables deep performance understanding in distributed systems.`,
       description: `Business intelligence platform for engineering metrics and strategic insights.
 
 Strategic analytics capabilities:
-• Engineering productivity metrics with team comparisons
+• Technical productivity metrics with team comparisons
 • ROI calculation for engineering investments
 • Technical debt analysis with cost implications
 • Velocity trends with predictive forecasting

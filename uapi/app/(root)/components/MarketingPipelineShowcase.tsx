@@ -57,8 +57,8 @@ import {
 //        tweak copy without touching any of the rendering logic.
 //        For each phase we guarantee:
 //          • Exactly ONE `step` (high-level action)
-//          • A list of `agents` actively involved in the phase
-//          • Zero-or-more `tools` utilised by those agents
+//          • A list of `roles` actively involved in the phase
+//          • Zero-or-more `tools` utilised by those roles
 //          • Several `metaSteps`, each with its own `subSteps`
 // -----------------------------------------------------------------------------
 
@@ -67,7 +67,7 @@ type Phase = {
   title: string;
   description: string;
   step: string; // single, high-level pipeline step
-  agents: string[];
+  roles: string[];
   tools: string[];
   metaSteps: {
     id: string;
@@ -83,7 +83,7 @@ const phases: Phase[] = [
     description:
       'Bitcode analyzes your repository, understanding your code structure and patterns.',
     step: 'Plan',
-    agents: ['Architect Agent', 'Researcher Agent'],
+    roles: ['Architecture', 'Research'],
     tools: ['Git Clone', 'Context Preparer'],
     metaSteps: [
       {
@@ -109,7 +109,7 @@ const phases: Phase[] = [
     description:
       'Bitcode explores your requirements, researches solutions, and plans the approach.',
     step: 'Generate',
-    agents: ['Researcher Agent'],
+    roles: ['Research'],
     tools: ['Web Crawler', 'Snippet Collector'],
     metaSteps: [
       {
@@ -134,7 +134,7 @@ const phases: Phase[] = [
     title: 'Implementation',
     description: 'Bitcode writes code, tests, and documentation matching standards.',
     step: 'Refine',
-    agents: ['Coder Agent'],
+    roles: ['Implementation'],
     tools: ['Codegen Engine', 'Formatter'],
     metaSteps: [
       {
@@ -160,7 +160,7 @@ const phases: Phase[] = [
     description:
       'Bitcode verifies the solution via testing, reviews, and quality checks.',
     step: 'Judge',
-    agents: ['Tester Agent', 'Security Agent'],
+    roles: ['Validation', 'Security'],
     tools: ['Test Runner', 'Security Scanner'],
     metaSteps: [
       {
@@ -186,7 +186,7 @@ const phases: Phase[] = [
     description:
       'Bitcode stores AssetPack evidence and delivers any requested Shippables with receipts.',
     step: 'Deliver Shippable',
-    agents: ['DevOps Agent', 'Review Agent'],
+    roles: ['Delivery', 'Review'],
     tools: ['CI/CD Pipeline', 'Release Manager'],
     metaSteps: [
       {
@@ -227,10 +227,10 @@ export default function MarketingPipelineShowcase() {
       <div className="text-center mb-16">
         {/* Increased bottom margin for better separation from the subtitle */}
         <h2 className="text-2xl laptop:text-3xl font-bold text-white mb-4 tracking-tight block super-shiny-text">
-          Under the Hood: AI-Powered, No-Code Engineering Pipeline
+          Under the Hood: Need-to-AssetPack Pipeline
         </h2>
         <p className="text-base laptop:text-lg text-gray-400 max-w-2xl mx-auto">
-          Explore how our graphical workflows orchestrate specialized AI agents and tools—plan, generate, refine, test, and deploy code while continuously learning and optimizing at every cycle, all without you writing a single line.
+          Explore how Bitcode measures Needs, searches for fit, synthesizes AssetPacks, validates evidence, and delivers reviewable PR-backed work through connected interfaces.
         </p>
       </div>
 
@@ -263,10 +263,10 @@ export default function MarketingPipelineShowcase() {
           <LinkIcon className="h-5 w-5 text-emerald-400" />
           <span className="text-xs">Steps</span>
         </div>
-        {/* Agent */}
+        {/* Roles */}
         <div className={legendPill}>
           <UserGroupIcon className="h-5 w-5 text-amber-400" />
-          <span className="text-xs">Agents</span>
+          <span className="text-xs">Roles</span>
         </div>
         {/* Meta / Sub-Step */}
         <div className={legendPill}>
@@ -306,7 +306,7 @@ export default function MarketingPipelineShowcase() {
                   </h3>
                   <p className="text-gray-400 mb-4">{phase.description}</p>
 
-                  {/* Step + Agents + Tools badges */}
+                  {/* Step + roles + tools badges */}
                   <div className="flex flex-wrap gap-2 mb-4">
                     {/* STEP */}
                     <span className="flex items-center gap-1 px-2 py-1 bg-[#1f2937]/50 text-xs text-emerald-400 rounded">
@@ -314,14 +314,14 @@ export default function MarketingPipelineShowcase() {
                       {phase.step}
                     </span>
 
-                    {/* AGENTS */}
-                    {phase.agents.map((agent) => (
+                    {/* ROLES */}
+                    {phase.roles.map((role) => (
                       <span
-                        key={agent}
+                        key={role}
                         className="flex items-center gap-1 px-2 py-1 bg-[#1f2937]/50 text-xs text-amber-400 rounded shadow-sm"
                       >
                         <UserGroupIcon className="h-4 w-4" />
-                        {agent}
+                        {role}
                       </span>
                     ))}
 
@@ -374,7 +374,7 @@ export default function MarketingPipelineShowcase() {
                     </div>
                   </div>
 
-                  {/* Agents & Tools sections removed – now shown in top badge row */}
+                  {/* Roles & tools sections removed - now shown in top badge row */}
                 </motion.div>
 
                 {/* Right column – image placeholder + caption (stack) */}

@@ -1,6 +1,6 @@
 export const BITCODE_PUBLIC_COPY = {
   eyebrow: 'Source Shares for measured technical intelligence',
-  headline: 'Bitcode is auditable market infrastructure for engineering knowledge.',
+  headline: 'Bitcode is auditable market infrastructure for technical knowledge.',
   description:
     'Bitcode turns code, docs, diagrams, and technical context into Source Shares: tradable, measured intelligence. Contributors deposit source, demand measures value, and proof-backed settlement can allocate $BTD to the people and rights behind useful work.',
   capabilityChips: [
@@ -31,7 +31,7 @@ export const BITCODE_PUBLIC_COPY = {
       {
         id: 'march-2026',
         tab: 'March',
-        title: "Bitcode's self-evolution, now",
+        title: "Bitcode's source-to-shares protocol, now",
         meta: 'March 2026 * Garrett Maring',
         body:
           "$BTD's purpose is to hoard valuable technical information and compensate contributors fairly. Provable knowledge measuring algorithms build the foundations for collection and issuance. Ideal long-term partnerships for asset management and infrastructure will be finalized to empower the secure and thriving future of $BTD.",

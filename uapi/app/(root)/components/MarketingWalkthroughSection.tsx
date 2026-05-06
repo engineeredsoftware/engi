@@ -113,16 +113,16 @@ const STEP_SCREENSHOTS: Record<number, Screenshot[]> = {
   4: [
     {
       id: "wt-4-1",
-      src: "/screenshots/ai_documents-page.png",
-      alt: "AI Documents page screenshot",
+      src: "/screenshots/asset-pack-page-maximal-state.png",
+      alt: "AssetPack evidence page screenshot",
       type: "full_page",
-      category: "ai_documents",
+      category: "asset-packs",
       revealingSoon: true,
     },
     {
       id: "wt-4-2",
-      src: "/screenshots/sidebar-ai_documents.png",
-      alt: "AI Documents sidebar screenshot",
+      src: "/screenshots/sidebar-shippables.png",
+      alt: "Shippables sidebar screenshot",
       type: "component",
       category: "sidebar",
       revealingSoon: true,
@@ -171,7 +171,7 @@ type Step = {
 };
 
 // ---------------------------------------------------------------------------
-// Launch-Day Scenarios – Evolutionary Engineering AI
+// Launch-Day Scenarios - Bitcode Technical Exchange
 // ---------------------------------------------------------------------------
 
 const NEW_SCENARIOS: Record<string, { label: string; steps: Step[] }> = {
@@ -288,7 +288,7 @@ const SCENARIOS = {
       },
       {
         title: "Diagnose Root Cause",
-        desc: "Agents trace stack & reproduce issue.",
+        desc: "Bitcode traces stack and reproduces the issue.",
         Icon: AcademicCapIcon,
       },
       {
@@ -338,7 +338,7 @@ const SCENARIOS = {
       },
       {
         title: "Collect Sources",
-        desc: "Agents search docs, papers, code, benchmarks.",
+        desc: "Bitcode searches docs, papers, code, and benchmarks.",
         Icon: AcademicCapIcon,
       },
       {
@@ -379,9 +379,9 @@ const SCENARIOS = {
     ],
   },
 
-  // --- AI Documents ---
-  ai_documentKnowledge: {
-    label: "Knowledge AI Document",
+  // --- Evidence Documents ---
+  evidenceDocumentKnowledge: {
+    label: "Knowledge Evidence Document",
     steps: [
       {
         title: "Pick Knowledge Gap",
@@ -390,7 +390,7 @@ const SCENARIOS = {
       },
       {
         title: "Ingest Docs & Examples",
-        desc: "Agents scrape, chunk, embed sources.",
+        desc: "Bitcode chunks, embeds, and cites sources.",
         Icon: AcademicCapIcon,
       },
       {
@@ -405,8 +405,8 @@ const SCENARIOS = {
       },
     ],
   },
-  ai_documentTemplate: {
-    label: "Template AI Document",
+  evidenceDocumentTemplate: {
+    label: "Template Evidence Document",
     steps: [
       {
         title: "Select Template Goal",
@@ -430,8 +430,8 @@ const SCENARIOS = {
       },
     ],
   },
-  ai_documentGuidance: {
-    label: "Guidance AI Document",
+  evidenceDocumentGuidance: {
+    label: "Guidance Evidence Document",
     steps: [
       {
         title: "Identify Pain Point",
@@ -497,7 +497,7 @@ const SCENARIOS = {
       },
       {
         title: "Deploy MCP",
-        desc: "Agents validate & publish package.",
+        desc: "Bitcode validates and publishes the package.",
         Icon: WrenchScrewdriverIcon,
       },
       {
@@ -522,7 +522,7 @@ const SCENARIOS = {
       },
       {
         title: "Bitcode Executes Task",
-        desc: "Agents run asynchronously.",
+        desc: "Bitcode runs asynchronously.",
         Icon: WrenchScrewdriverIcon,
       },
       {
@@ -657,10 +657,10 @@ export default function MarketingWalkthroughSection() {
     >
       <div className="mx-auto max-w-6xl text-center mb-12">
         <h2 className="text-3xl laptop:text-4xl font-extrabold mb-5 tracking-tight super-shiny-text">
-          Self-Learning Workflows That Perpetually Evolve Your Software
+          Need-to-AssetPack Workflows for Reliable Software Change
         </h2>
         <p className="text-base laptop:text-lg text-gray-400 max-w-2xl mx-auto leading-relaxed">
-          Every merge trains Bitcode’s <span className="font-semibold text-white">Evolutionary Engineering&nbsp;AI</span>&nbsp;— delivering faster, higher-quality code while you sleep.
+          Every accepted AssetPack strengthens Bitcode’s <span className="font-semibold text-white">source-to-shares evidence</span>&nbsp;for faster, higher-quality technical work.
         </p>
 
         {/* scenario selector */}

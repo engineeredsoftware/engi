@@ -39,7 +39,7 @@ Default local URL:
 
 Say something like:
 
-> Bitcode is a system for turning engineering knowledge into an inspectable remediation pipeline.
+> Bitcode is a system for turning technical knowledge into an inspectable remediation pipeline.
 >
 > In Spec V8, the key idea is not just storing or retrieving technical knowledge. The key idea is measuring a real GitHub-bound need, selecting the right technical intelligence supply for that need, materializing governed artifacts for remediation, and proving how value and rights flow through the system.
 
@@ -237,7 +237,7 @@ Important line:
 
 ## Recommended close
 
-> Bitcode turns engineering knowledge into a measurable, governable, inspectable remediation pipeline.
+> Bitcode turns technical knowledge into a measurable, governable, inspectable remediation pipeline.
 >
 > In this V8 prototype, the system measures a GitHub-bound need, selects the right technical intelligence supply, materializes a governed branch artifact set, and proves both the operational and economic consequences.
 

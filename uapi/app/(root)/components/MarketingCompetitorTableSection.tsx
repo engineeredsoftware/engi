@@ -42,7 +42,7 @@ interface Row {
 const COLUMNS = [
   "Deep Coding",
   "AssetPack Finish",
-  "Infinite Agents",
+  "Parallel Workflows",
   "Shepherding at Scale",
   "Auto Agent Sequencing",
   "Deep Evolution",
@@ -80,7 +80,7 @@ const COLUMN_INFO: Record<(typeof COLUMNS)[number], DocBoxCopy> = {
     description:
       "From code diffs and tests to receipts, proofs, diagrams, and review notes, every accepted output is bundled as an AssetPack or connected-interface written asset.",
   },
-  "Infinite Agents": {
+  "Parallel Workflows": {
     title: "Bounded Inference",
     subtitle: "Proof-Visible",
     description:
@@ -114,13 +114,13 @@ const COLUMN_INFO: Record<(typeof COLUMNS)[number], DocBoxCopy> = {
     title: "Data-Share Compensation",
     subtitle: "Earn $BTD",
     description:
-      "Opt-in once and automatically earn $BTD whenever your anonymised traces are used to sharpen the global Bitcode intelligence.",
+      "Opt in once and earn $BTD when admitted source evidence improves source-to-shares fit.",
   },
   "Retail Aligned": {
     title: "Retail Aligned",
     subtitle: "Investable Dataset",
     description:
-      "Bitcode converts its compounding knowledge graph into an investable asset. Holding $BTD lets anyone capture upside as agents learn, datasets expand, and developer demand accelerates—all under a deflationary supply curve tied to real usage.",
+      "Bitcode converts its compounding knowledge graph into source-backed shares. Holding $BTD captures upside as source evidence compounds, datasets expand, and technical demand accelerates.",
   },
   "Local Interfaces": {
     title: "Local Interfaces",
@@ -180,7 +180,7 @@ const BITCODE_CRUSH_COPY: Record<(typeof COLUMNS)[number], CrushCopy> = {
       "Zero manual hand-offs or stitching",
     ],
   },
-  "Infinite Agents": {
+  "Parallel Workflows": {
     headline: "Bounded Inference",
     points: [
       "Need-first inference stages",
@@ -241,7 +241,7 @@ const BITCODE_CRUSH_COPY: Record<(typeof COLUMNS)[number], CrushCopy> = {
     points: [
       "Reading and writing code doesn't scale",
       "Local machines can't auto-scale or provision on-demand",
-      "Cloud-native AI pipelines self-orchestrate and evolve in real-time, obviating manual maintenance",
+      "Cloud-native Bitcode workflows coordinate in real time, reducing manual maintenance",
     ],
   },
   "Cloud Interfaces": {
@@ -288,7 +288,7 @@ const COMPETITOR_DATA: Record<string, Record<Column, Status>> = {
   Bitcode: {
     "Deep Coding": "✅",
     "AssetPack Finish": "✅",
-    "Infinite Agents": "✅",
+    "Parallel Workflows": "✅",
     "Shepherding at Scale": "✅",
     "Auto Agent Sequencing": "✅",
     "Deep Evolution": "✅",
@@ -304,7 +304,7 @@ const COMPETITOR_DATA: Record<string, Record<Column, Status>> = {
   Codex: {
     "Deep Coding": "✅",
     "AssetPack Finish": "±",
-    "Infinite Agents": "✅",
+    "Parallel Workflows": "✅",
     "Shepherding at Scale": "✖",
     "Auto Agent Sequencing": "✖",
     "Deep Evolution": "✖",
@@ -320,7 +320,7 @@ const COMPETITOR_DATA: Record<string, Record<Column, Status>> = {
   Cognition: {
     "Deep Coding": "✅",
     "AssetPack Finish": "✅",
-    "Infinite Agents": "✅",
+    "Parallel Workflows": "✅",
     "Shepherding at Scale": "✖",
     "Auto Agent Sequencing": "✖",
     "Deep Evolution": "✖",
@@ -336,7 +336,7 @@ const COMPETITOR_DATA: Record<string, Record<Column, Status>> = {
   Copilot: {
     "Deep Coding": "✅",
     "AssetPack Finish": "✅",
-    "Infinite Agents": "✅",
+    "Parallel Workflows": "✅",
     "Shepherding at Scale": "✖",
     "Auto Agent Sequencing": "✖",
     "Deep Evolution": "✖",
@@ -352,7 +352,7 @@ const COMPETITOR_DATA: Record<string, Record<Column, Status>> = {
   Cursor: {
     "Deep Coding": "✅",
     "AssetPack Finish": "✅",
-    "Infinite Agents": "✅",
+    "Parallel Workflows": "✅",
     "Shepherding at Scale": "✖",
     "Auto Agent Sequencing": "±",
     "Deep Evolution": "✖",
@@ -368,7 +368,7 @@ const COMPETITOR_DATA: Record<string, Record<Column, Status>> = {
   Lovable: {
     "Deep Coding": "✅",
     "AssetPack Finish": "✖",
-    "Infinite Agents": "✅",
+    "Parallel Workflows": "✅",
     "Shepherding at Scale": "✖",
     "Auto Agent Sequencing": "✖",
     "Deep Evolution": "✖",

@@ -15,7 +15,7 @@ export default function MarketingGuaranteesSection() {
     <MarketingSectionWrapper className="overflow-visible" id="guarantees-section" disableHorizontalPadding>
       <div className="text-center mb-10">
         <h2 className={sectionTitleClass}>
-          Unmatched Engineering Guarantees
+          Unmatched Technical Guarantees
         </h2>
       </div>
       <div className="flex flex-col gap-y-10 laptop:flex-row laptop:gap-y-0 items-start laptop:items-center">
@@ -57,7 +57,7 @@ export default function MarketingGuaranteesSection() {
             <li className="flex items-start tablet:items-center">
               <NavProcessingIndicator className="scale-75 mr-3 mt-1 tablet:mt-0 text-emerald-400 flex-shrink-0" />
               <span className="text-gray-300 text-sm tablet:text-base laptop:text-lg leading-snug">
-                <strong className="text-white">Prepared AI Documents</strong>: remembers mistakes, readies tools, studies documentation
+                <strong className="text-white">Prepared Evidence Documents</strong>: records mistakes, readies tools, studies documentation
               </span>
             </li>
           </ul>

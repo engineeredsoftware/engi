@@ -39,7 +39,7 @@ const reviews: Review[] = [
   {
     name: 'Anita Lopez',
     username: '@anital',
-    body: 'I selected the “prod-infra” plane in Bitcode pointed at our Terraform repo, and within minutes its AI Documents & Integrations optimized our AWS, Kubernetes, and Docker pipelines. Our CI/CD now runs end-to-end with no manual configs.',
+    body: 'I selected the “prod-infra” plane in Bitcode pointed at our Terraform repo, and within minutes its evidence documents and integrations optimized our AWS, Kubernetes, and Docker pipelines. Our CI/CD now runs end-to-end with no manual configs.',
     img: 'https://avatar.vercel.sh/anita',
     rating: 5,
     jobTitle: 'DevOps Engineer',
@@ -59,7 +59,7 @@ const reviews: Review[] = [
   {
     name: 'Maria Rossi',
     username: '@mariar',
-    body: 'Bitcode’s Multi-Agent orchestration scaled parallel testing across branches, doubling our release cadence without extra headcount.',
+    body: 'Bitcode’s parallel workflow orchestration scaled testing across branches, doubling our release cadence without extra headcount.',
     img: 'https://avatar.vercel.sh/maria',
     rating: 5,
     jobTitle: 'QA Manager',
@@ -99,7 +99,7 @@ const reviews: Review[] = [
   {
     name: 'Olivia Nguyen',
     username: '@oliviang',
-    body: 'Token Metrics Dashboard gave me real-time insight into BTC fee basis and measured $BTD issuance. We optimized usage and saved 35% in the first month.',
+    body: 'The BTD share dashboard gave me clear separation between BTC fee readiness and measured $BTD holdings. We optimized usage and saved 35% in the first month.',
     img: 'https://avatar.vercel.sh/olivia',
     rating: 5,
     jobTitle: 'Finance Analyst',
@@ -139,7 +139,7 @@ const reviews: Review[] = [
   {
     name: 'Marcus Leblanc',
     username: '@marcus',
-    body: 'From code snippet to production-grade PR in under an hour, thanks to Bitcode’s knowledge-extension ai_documents. Best assistant I’ve had.',
+    body: 'From code snippet to production-grade PR in under an hour, thanks to Bitcode’s knowledge-extension evidence documents. Best assistant I’ve had.',
     img: 'https://avatar.vercel.sh/marcus',
     rating: 5,
     jobTitle: 'Software Engineer',
@@ -149,17 +149,17 @@ const reviews: Review[] = [
   {
     name: 'Arjun Kapoor',
     username: '@arjunk',
-    body: 'My team and I ran Bitcode’s evolution ai_documents across our microservices and were amazed: each pass delivered smarter, more precise PRs—automating database migrations, updating configs, even generating unit tests. It feels like collaborating with an engineer who already knows our entire codebase.',
+    body: 'My team and I ran Bitcode’s evidence documents across our microservices and were amazed: each pass delivered more precise PRs, automating database migrations, updating configs, and generating unit tests. It feels like collaborating with a system that already knows our entire codebase.',
     img: 'https://avatar.vercel.sh/arjunk',
     rating: 5,
     jobTitle: 'Engineering Lead',
     company: 'EvoTech',
-    metadata: '10 microservices • nightly evolution • 8 engineers',
+    metadata: '10 microservices • nightly evidence refresh • 8 engineers',
   },
   {
     name: 'Liam Nguyen',
     username: '@liamn',
-    body: 'My team and I hooked up Bitcode to our GitHub repo so every push now triggers automatic code reviews, ai_documents, and documentation updates. It’s freed us from repetitive checks and let us focus on building new features.',
+    body: 'My team and I hooked up Bitcode to our GitHub repo so every push now triggers reviewable checks, evidence documents, and documentation updates. It’s freed us from repetitive checks and let us focus on building new features.',
     img: 'https://avatar.vercel.sh/liamn',
     rating: 5,
     jobTitle: 'DevOps Engineer',

@@ -2,18 +2,18 @@
 
 /*
  * InvisibleInterfacesGroup – lightweight wrapper that visually groups the
- * Marketplace and TokenMetrics marketing sections under the umbrella label
+ * Marketplace and BTD share metrics marketing sections under the umbrella label
  * “Invisible Interfaces”.
  *
  * The component purposely contains **zero business logic** – it only adds a
  * decorative container with subtle side/bottom borders, a soft-light radial
  * glow and a capsule-style heading.  All heavy lifting (live order book,
- * token metrics polling, …) stays inside its children.
+ * share-readiness presentation, etc.) stays inside its children.
  *
  * Usage:
  *   <InvisibleInterfacesGroup>
  *     <MarketplaceSection />
- *     <TokenMetricsSection />
+ *     <BtdShareMetricsSection />
  *   </InvisibleInterfacesGroup>
  */
 

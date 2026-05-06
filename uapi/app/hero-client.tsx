@@ -200,8 +200,8 @@ function HeroClientInner() {
    * -------------------------------------------------------------------
    */
 
-  const rawText = 'evolutionary AI software engineering agents';
-  const HIGHLIGHT_PHRASE = 'AI software engineering';
+  const rawText = 'provable technical-knowledge exchange';
+  const HIGHLIGHT_PHRASE = 'technical-knowledge exchange';
 
   // Holds the text with dynamically-inserted line breaks.
   const [typingText, setTypingText] = useState<string>(rawText);

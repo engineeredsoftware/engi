@@ -10,7 +10,7 @@ const meta: Meta<typeof PipelinePhasePoetry> = {
     docs: {
       description: {
         component: `
-### 📝 Pipeline Phase Poetry System
+### Pipeline Phase Receipt Narrative
 
 Transforms the technical pipeline into an emotional creative journey with contextual storytelling:
 
@@ -221,7 +221,7 @@ export const CelebratingPhase: Story = {
   parameters: {
     docs: {
       description: {
-        story: 'Celebrating phase with transcendent poetry for epic architectural achievement',
+        story: 'Celebrating phase with receipt narrative for a major architectural AssetPack',
       },
     },
   },

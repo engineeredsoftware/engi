@@ -75,7 +75,7 @@ function TechIcon({ tech }: { tech: string }) {
 // ---------------------------------------------------------------------------
 
 type Side = "buy" | "sell";
-type ListingType = "shippable" | "ai_document";
+type ListingType = "shippable" | "evidence_document";
 type Asset = "pr" | "knowledge_extension";
 
 interface Listing {
@@ -121,7 +121,7 @@ let idCounter = 1;
 const genId = () => `L${idCounter++}`;
 
 function generateListing(): Listing {
-  const type = randomElement(["shippable", "ai_document"] as const);
+  const type = randomElement(["shippable", "evidence_document"] as const);
   const asset = type === "shippable" ? "pr" : "knowledge_extension";
   const side = randomElement(["buy", "sell"] as const);
   const titles = {
@@ -203,7 +203,7 @@ export default function MarketingMarketplaceSection({ disableTickerFetch = false
     },
     {
       id: "3",
-      type: "ai_document",
+      type: "evidence_document",
       asset: "knowledge_extension",
       side: "buy",
       title: "Rust Error Patterns",
@@ -215,7 +215,7 @@ export default function MarketingMarketplaceSection({ disableTickerFetch = false
     },
     {
       id: "4",
-      type: "ai_document",
+      type: "evidence_document",
       asset: "knowledge_extension",
       side: "sell",
       title: "OpenCV Snippets",
@@ -565,7 +565,7 @@ export default function MarketingMarketplaceSection({ disableTickerFetch = false
               Answers Beyond Public Data — Premium Knowledge Procurement
             </h2>
             <p className="text-base laptop:text-lg text-emerald-100 max-w-3xl mx-auto">
-              Public datasets leave blind spots. Bitcode agents fill them in real&nbsp;time—settling $BTD against proprietary research, niche domain files, and expert answers the moment they become available. No waiting, no manual sourcing—just continuous, gap-free intelligence that keeps your build moving.
+              Public datasets leave blind spots. Bitcode fills them in real&nbsp;time - settling $BTD against proprietary research, niche domain files, and expert answers the moment they become available. No waiting, no manual sourcing - just source-attributed knowledge that keeps your build moving.
             </p>
           </div>
 
@@ -642,8 +642,8 @@ export default function MarketingMarketplaceSection({ disableTickerFetch = false
 
                         {/* Type */}
                         <td className="px-4 py-2 capitalize">
-                          {l.type === "ai_document" ? (
-                            <BitcodePill className="bg-amber-500/20 text-amber-300">AI Document</BitcodePill>
+                          {l.type === "evidence_document" ? (
+                            <BitcodePill className="bg-amber-500/20 text-amber-300">Evidence Document</BitcodePill>
                           ) : (
                             <BitcodePill className="bg-sky-500/20 text-sky-300">Shippable</BitcodePill>
                           )}
@@ -663,8 +663,8 @@ export default function MarketingMarketplaceSection({ disableTickerFetch = false
               {[
                 {
                   icon: ArrowTrendingUpIcon,
-                  title: 'Autonomous Procuring Tool',
-                  body: 'Agents identify persistent and severe gaps and purchase the expertise required to unblock themselves.',
+                  title: 'Need Gap Procurement',
+                  body: 'Bitcode identifies persistent and severe gaps and purchases the expertise required to unblock a Need.',
                 },
                 {
                   icon: GlobeAltIcon,
@@ -674,12 +674,12 @@ export default function MarketingMarketplaceSection({ disableTickerFetch = false
                 {
                   icon: BanknotesIcon,
                   title: 'Granular Budgets',
-                  body: 'Topical procurement allowances can help agents decide when paid knowledge is worth the spend.',
+                  body: 'Topical procurement allowances can help fit search decide when paid knowledge is worth the spend.',
                 },
                 {
                   icon: ChartBarIcon,
                   title: 'Visible Impactfulness',
-                  body: 'Procured extension ai_documents are benchmarked as usage in subsequent Needs and AssetPacks.',
+                  body: 'Procured evidence documents are benchmarked as usage in subsequent Needs and AssetPacks.',
                 },
               ].map(({ icon: IconC, title, body }) => (
                 <div
@@ -725,8 +725,8 @@ export default function MarketingMarketplaceSection({ disableTickerFetch = false
                     </div>
                     {/* Type & Side */}
                     <div className="flex items-center gap-3 ml-auto text-sm tablet:text-base text-gray-100">
-                      {detail.type === "ai_document" ? (
-                        <BitcodePill className="px-3 py-1 border-amber-500/30 bg-amber-500/20 text-amber-300">AI Document</BitcodePill>
+                      {detail.type === "evidence_document" ? (
+                        <BitcodePill className="px-3 py-1 border-amber-500/30 bg-amber-500/20 text-amber-300">Evidence Document</BitcodePill>
                       ) : (
                         <BitcodePill className="px-3 py-1 border-sky-500/30 bg-sky-500/20 text-sky-300">Shippable</BitcodePill>
                       )}
@@ -792,7 +792,7 @@ export default function MarketingMarketplaceSection({ disableTickerFetch = false
 
             <div className="grid grid-cols-3 gap-2">
               {[
-                { label: 'Procured AI Documents', icon: WrenchScrewdriverIcon },
+                { label: 'Procured Evidence', icon: WrenchScrewdriverIcon },
                 { label: 'Industrial Knowledge', icon: RocketLaunchIcon },
                 { label: 'Innovation Exchange', icon: CodeBracketIcon },
                 { label: 'List, Order, Fill', icon: ClipboardDocumentListIcon },

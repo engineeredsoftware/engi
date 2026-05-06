@@ -803,14 +803,14 @@ const WRITE_CODE_CHANGES_SCHEMA = {
 };
 
 const IMPROVE_BEHAVIOR_VALIDATOR = z.object({
-  improvement_betterment: z.string().optional().describe('Notes about desired agent behavior changes'),
+  behaviorImprovement: z.string().optional().describe('Notes about desired development behavior changes'),
   currentAgentsMd: z.string().optional().describe('Optional current AGENTS.md for reference'),
   regenerateFromDigest: z.boolean().optional().describe('Regenerate the baseline AGENTS.md from digest before applying updates')
 }).strict();
 
 async function executeImproveDevelopingBehavior(args: z.infer<typeof IMPROVE_BEHAVIOR_VALIDATOR>) {
-  const focus = args.improvement_betterment?.slice(0, 120) || 'general';
-  const update = ['### Behavior Evolution', args.improvement_betterment ?? 'Capture new behaviors next session.'].join('\n');
+  const focus = args.behaviorImprovement?.slice(0, 120) || 'general';
+  const update = ['### Behavior Improvement', args.behaviorImprovement ?? 'Capture new behaviors next session.'].join('\n');
 
   let baseDocument = args.currentAgentsMd && args.currentAgentsMd.trim().length > 0
     ? args.currentAgentsMd.trim()
@@ -855,8 +855,8 @@ async function executeImproveDevelopingBehavior(args: z.infer<typeof IMPROVE_BEH
       ? `Digest refresh unavailable (${digestError}); using provided AGENTS.md context.`
       : 'Appended behaviour notes to the provided AGENTS.md context.';
 
-  const behaviorInsights = args.improvement_betterment
-    ? args.improvement_betterment
+  const behaviorInsights = args.behaviorImprovement
+    ? args.behaviorImprovement
         .split(/\r?\n/)
         .map((line) => line.trim())
         .filter(Boolean)
@@ -867,9 +867,9 @@ async function executeImproveDevelopingBehavior(args: z.infer<typeof IMPROVE_BEH
   });
 
   return {
-    thennnowevolution: update,
-    concretelatestgreatestapproach: latestBehavior,
-    latest_behavior: latestBehavior,
+    behaviorDelta: update,
+    latestBehaviorDocument: latestBehavior,
+    latestBehavior: latestBehavior,
     metadata: {
       focus,
       created,
@@ -886,9 +886,9 @@ const IMPROVE_BEHAVIOR_SCHEMA = {
   type: 'object',
   additionalProperties: false,
   properties: {
-    improvement_betterment: {
+    behaviorImprovement: {
       type: 'string',
-      description: 'Notes about desired agent behavior changes'
+      description: 'Notes about desired development behavior changes'
     },
     currentAgentsMd: {
       type: 'string',

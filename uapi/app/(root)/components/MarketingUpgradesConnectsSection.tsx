@@ -1,4 +1,4 @@
-// Server component wrapper for the largely static AI Documents & Integrations
+// Server component wrapper for the largely static Evidence Documents & Integrations
 // section.  The animated canvas background is lazy-loaded on the client so no
 // extra JS ships for the static markup.
 
@@ -165,7 +165,7 @@ export default function MarketingAIDocumentsConnectsSection() {
   return (
     <section
       ref={sectionRef}
-      id="ai_documents-connects"
+      id="evidence-documents-connects"
       className="relative w-full pt-8 tablet:pt-10 laptop:pt-12 desktop:pt-16 pb-8 tablet:pb-10 laptop:pb-12 desktop:pb-16 overflow-visible px-4 tablet:px-6 desktop:px-8 wide:px-12"
       style={{ contain: 'layout style', contentVisibility: 'auto' } as any}
       data-rotate-active={inView}
@@ -222,20 +222,20 @@ export default function MarketingAIDocumentsConnectsSection() {
             <span className="block wide:inline">Reactive Correction</span>
           </h2>
           <p className="text-sm tablet:text-base laptop:text-lg desktop:text-xl text-gray-200 max-w-2xl mx-auto">
-            Agents actively develop expertise - manual guidance and automatic analysis fuel perpetual growth and alignment
+            Bitcode actively develops repository-specific evidence - manual guidance and automatic analysis keep work aligned
           </p>
         </div>
         <div className="grid grid-cols-1 laptop:grid-cols-2 gap-6 tablet:gap-8 laptop:gap-10 desktop:gap-12 wide:gap-16 items-stretch">
-          {/* AI Documents group */}
+          {/* Evidence Documents group */}
           <div className="relative overflow-visible bg-black/20 backdrop-blur-md border border-white/20 rounded-3xl p-6 tablet:p-8 laptop:p-10 shadow-2xl self-start">
             {/* (Decorative pulse canvas removed for performance) */}
             <div className="space-y-6">
               <div className="flex items-center mb-2">
                 <SparklesIcon className="h-6 w-6 tablet:h-8 tablet:w-8 laptop:h-10 laptop:w-10 text-purple-400 mr-2 tablet:mr-3" />
-                <h3 className="text-2xl tablet:text-3xl laptop:text-4xl desktop:text-5xl font-bold text-white">Agent AI Documents</h3>
+                <h3 className="text-2xl tablet:text-3xl laptop:text-4xl desktop:text-5xl font-bold text-white">Bitcode Evidence Documents</h3>
               </div>
               <p className="text-base tablet:text-lg text-gray-200 leading-relaxed max-w-2xl">
-                Feedback and freeform knowledge are treated as intensely as AssetPack evidence. AI Documents improve the system itself for your software team's specific needs.
+                Feedback and freeform knowledge are treated as intensely as AssetPack evidence. Evidence documents improve Bitcode's repository-specific guidance for your software team's needs.
               </p>
               <div className="mt-6 border-t border-white/20 pt-6 space-y-6">
                 <FeatureCard className="border-l-4 border-purple-400 pl-4" icon={<SparklesIcon className="h-6 w-6 text-purple-400" />} title="Knowledge Extensions">
@@ -257,15 +257,15 @@ export default function MarketingAIDocumentsConnectsSection() {
                 <h3 className="text-2xl tablet:text-3xl laptop:text-4xl desktop:text-5xl font-bold text-white">Interconnectivity</h3>
               </div>
               <p className="text-base tablet:text-lg text-gray-200 leading-relaxed max-w-2xl">
-                Agents tap directly into the places where work and value flow—fusing tools and trade so every response arrives with live context and clear provenance.
+                Bitcode connects directly to the places where work and value flow, fusing tools and trade so every response arrives with live context and clear provenance.
               </p>
               <div className="mt-6 border-t border-white/20 pt-6">
                 <div className="space-y-6">
                   <StepCard className="border-l-4 border-green-300 pl-4" icon={<CodeBracketIcon className="h-6 w-6 text-green-300" />} title="Configure Your MCPs">
-                    30+ ready-made MCPs link agents to the tools you already use—from repos and CI/CD to chat and analytics—while custom rules tune each connector.
+                    30+ ready-made MCPs link Bitcode to the tools you already use, from repos and CI/CD to chat and analytics, while custom rules tune each connector.
                   </StepCard>
                   <StepCard className="border-l-4 border-blue-300 pl-4" icon={<ClipboardDocumentListIcon className="h-6 w-6 text-blue-300" />} title="Knowledge Procurement & Compensation">
-                    Agents fetch just the knowledge they need from code, systems, and services—automatically attributing sources and keeping context fresh, compliant, and fairly valued.
+                    Bitcode fetches just the knowledge it needs from code, systems, and services, attributing sources while keeping context fresh, compliant, and fairly valued.
                   </StepCard>
                 </div>
               </div>

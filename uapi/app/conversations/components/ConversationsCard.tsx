@@ -13,7 +13,7 @@ import "@/styles/conversations/conversation-card.css";
 
 interface MessageToken {
   id: string;
-  type: "ai_document" | "shippable" | "attachment" | "source" | "command" | "destination" | "pipeline_run";
+  type: "evidence_document" | "shippable" | "attachment" | "source" | "command" | "destination" | "pipeline_run";
   text: string;
   data: any;
 }
@@ -318,7 +318,7 @@ export function ConversationsCard({
               {renderLog()}
             </div>
             <div style={{ flex: 1, overflowY: "auto", borderTop: "1px solid rgba(55,65,81)", padding: "0.5rem", backgroundColor: "#0a1428" }}>
-              <h3 style={{ fontSize: "0.8rem", color: "#ccc", marginBottom: "0.5rem" }}>Shippables & AI Documents</h3>
+              <h3 style={{ fontSize: "0.8rem", color: "#ccc", marginBottom: "0.5rem" }}>Shippables & Evidence Documents</h3>
               {chat.messages.flatMap(m => m.actions || []).length > 0 ? (
                 chat.messages.flatMap(m => m.actions || []).map((action, idx) => (
                   <div key={idx} style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "0.25rem 0" }}>

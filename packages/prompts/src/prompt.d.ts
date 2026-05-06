@@ -1,7 +1,7 @@
 /**
  * prompts/src/prompt.ts - Prompt as Registry
  *
- * Revolutionary design: Prompt IS a Registry.
+ * Registry design: Prompt IS a Registry.
  * This enables hierarchical prompt composition with typed paths.
  */
 import { RegistryImpl } from '@bitcode/registry';

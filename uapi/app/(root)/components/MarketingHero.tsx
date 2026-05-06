@@ -35,10 +35,10 @@ export default function MarketingHero() {
       </div>
       <div className="text-center">
         <h1 className="text-4xl phone:text-5xl tablet:text-6xl laptop:text-7xl font-bold tracking-tighter ">
-          Accelerate your Engineering Productivity with AI
+          Accelerate Technical Output with Bitcode
         </h1>
         <p className="mt-8 text-base phone:text-lg tablet:text-xl max-w-72 phone:max-w-80 tablet:max-w-3xl inline-block leading-6 phone:leading-7 tablet:leading-8 text-gray-600 dark:text-gray-200 font-light">
-          State-of-the-Art technical AIs that integrate seamlessly into your workflow and excel at <span className='font-medium'>producing and analyzing</span> code, documentation, and designs
+          Convert measured Needs into PR-backed AssetPacks with reviewable source evidence, $BTD share/read-rights, and connected-interface delivery
         </p>
         <div className="mt-10 desktop:mt-12 flex flex-col items-center w-full">
           <MarketingButtonShimmer large={true} className="relative w-fit border-green-primary pr-4" innerClassName='flex items-center'>

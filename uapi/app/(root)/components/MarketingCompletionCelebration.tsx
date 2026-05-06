@@ -94,7 +94,7 @@ const CELEBRATION_MESSAGES = {
   refactor: [
     "🔄 Code transformation complete!",
     "✨ Refactoring mastery unlocked!",
-    "🏗️ Architecture evolution achieved!",
+    "🏗️ Architecture improvement achieved!",
     "💫 Code elegance perfected!"
   ],
   feature: [

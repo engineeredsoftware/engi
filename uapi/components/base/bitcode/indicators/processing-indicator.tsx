@@ -6,12 +6,12 @@ import { useEffect, useRef, memo } from 'react';
 interface ProcessingIndicatorProps {
   /**
    * Optional label that appears before the animated ellipsis.
-   * Defaults to "Engineering" to maintain existing behaviour.
+   * Defaults to "Processing" for neutral Bitcode run state.
    */
   label?: string;
 }
 
-export const ProcessingIndicator = memo(({ label = 'Engineering' }: ProcessingIndicatorProps) => {
+export const ProcessingIndicator = memo(({ label = 'Processing' }: ProcessingIndicatorProps) => {
   const orbRef = useRef<HTMLDivElement>(null);
   const textRef = useRef<HTMLDivElement>(null);
   const underlineRef = useRef<HTMLDivElement>(null);

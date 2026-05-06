@@ -223,7 +223,7 @@ export const FitMoments: Story = {
   args: {
     investments: [
       {
-        id: 'magic-001',
+        id: 'fit-001',
         assetPackName: 'Component Library Foundation',
         measuredBtdEstimate: 400,
         measuredBtd: 180,
@@ -239,7 +239,7 @@ export const FitMoments: Story = {
         timestamp: new Date(Date.now() - 1200000) // 20 minutes ago
       },
       {
-        id: 'magic-002',
+        id: 'fit-002',
         assetPackName: 'Automated Testing Suite',
         measuredBtdEstimate: 250,
         measuredBtd: 120,
@@ -255,7 +255,7 @@ export const FitMoments: Story = {
         timestamp: new Date(Date.now() - 3600000) // 1 hour ago
       },
       {
-        id: 'magic-003',
+        id: 'fit-003',
         assetPackName: 'Performance Optimization Bundle',
         measuredBtdEstimate: 300,
         measuredBtd: 150,

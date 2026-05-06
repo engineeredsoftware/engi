@@ -1,7 +1,7 @@
 /**
  * PIPELINE LOGS COMPACT RENDERER - ULTRA INLINE COMPACT MODE
  * 
- * Revolutionary pipeline log visualization in ultra-compact inline mode.
+ * Pipeline log visualization in ultra-compact inline mode.
  * Perfect for when "2 pipelines got started" and we want inline log views.
  */
 

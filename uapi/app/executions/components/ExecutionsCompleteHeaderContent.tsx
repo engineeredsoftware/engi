@@ -201,7 +201,7 @@ export function CompleteHeaderContent({
           <div className="flex items-center justify-between">
             <p className="text-sm font-semibold text-sky-200">Digest Guide</p>
             <span className={`text-xs px-2 py-0.5 rounded-full ${digestStatus.agentsDocUpdated ? 'bg-emerald-500/20 text-emerald-200' : 'bg-amber-500/20 text-amber-200'}`}>
-              {digestStatus.agentsDocUpdated ? 'Agents doc updated' : 'Agents doc pending'}
+              {digestStatus.agentsDocUpdated ? 'AGENTS.md updated' : 'AGENTS.md pending'}
             </span>
           </div>
           {digestStatus.summary && (
@@ -410,7 +410,8 @@ function PostprocessedSummary({ postprocessed }: { postprocessed: any }) {
   const kind = postprocessed?.kind;
   const isShippable = kind === 'shippable';
   const isMultiShippable = kind === 'multi-shippable';
-  const isAIDocument = postprocessed?.kind === 'ai_document';
+  const isEvidenceDocument = postprocessed?.kind === 'evidence_document';
+  const evidenceDocumentType = postprocessed?.evidenceDocumentType;
   const series: any[] = Array.isArray(postprocessed?.entries)
     ? postprocessed.entries
     : (Array.isArray(postprocessed?.series) ? postprocessed.series : []);
@@ -527,11 +528,11 @@ function PostprocessedSummary({ postprocessed }: { postprocessed: any }) {
           )}
         </div>
       )}
-      {isAIDocument && (
+      {isEvidenceDocument && (
         <div className="text-sm text-gray-300">
-          <div className="text-emerald-200 mb-1">{postprocessed?.title || 'AI Document'}</div>
-          {postprocessed?.ai_documentType && (
-            <div className="text-[11px] text-gray-400 mb-1">Type: {postprocessed.ai_documentType}</div>
+          <div className="text-emerald-200 mb-1">{postprocessed?.title || 'Evidence Document'}</div>
+          {evidenceDocumentType && (
+            <div className="text-[11px] text-gray-400 mb-1">Type: {evidenceDocumentType}</div>
           )}
           {postprocessed?.output && (
             <pre className="text-[11px] text-gray-300 whitespace-pre-wrap max-h-56 overflow-auto border border-emerald-500/10 rounded p-2 bg-black/20">

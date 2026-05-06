@@ -1,6 +1,6 @@
 "use client";
 // Route-level page component for /executions
-// Unifies Shippables and AI Documents flows behind a single execution experience.
+// Unifies Shippables and evidence-document flows behind a single execution experience.
 
 import React, { Suspense } from 'react';
 import { ExecutionsClient } from './ExecutionsPageClient';

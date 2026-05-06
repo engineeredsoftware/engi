@@ -12,7 +12,7 @@ import glassyInputStyles from '@/components/base/bitcode/inputs/glassy-input.mod
 
 interface Token {
   id: string;
-  type: 'ai_document' | 'shippable' | 'attachment' | 'source' | 'destination' | 'pipeline_run' | 'command';
+  type: 'evidence_document' | 'shippable' | 'attachment' | 'source' | 'destination' | 'pipeline_run' | 'command';
   text: string;
   data: any;
   displayInfo?: string;
@@ -105,7 +105,7 @@ export default function RichTextInput({
       if (afterTrigger === '' || afterTrigger.startsWith(' ')) {
         switch (lastChar) {
           case '^':
-            setActivePicker('ai_document');
+            setActivePicker('evidence_document');
             break;
           case '@':
             setActivePicker('shippable');
@@ -125,7 +125,7 @@ export default function RichTextInput({
     } else if (activePicker) {
       // If a picker is open, update the search term
       const triggerChar =
-        activePicker === 'ai_document' ? '^' :
+        activePicker === 'evidence_document' ? '^' :
           activePicker === 'shippable' ? '@' :
             activePicker === 'attachment' ? '+' :
               activePicker === 'source' ? '#' :
@@ -177,12 +177,12 @@ export default function RichTextInput({
   };
 
   // Handle selection from pickers
-  const handleSelectAiDocument = (ai_document: any) => {
+  const handleSelectEvidenceDocument = (evidence_document: any) => {
     insertToken({
-      id: `ai_document-${Date.now()}`,
-      type: 'ai_document',
-      text: ai_document.title,
-      data: ai_document
+      id: `evidence_document-${Date.now()}`,
+      type: 'evidence_document',
+      text: evidence_document.title,
+      data: evidence_document
     });
   };
 
@@ -236,7 +236,7 @@ export default function RichTextInput({
     if (!textareaRef.current) return;
 
     const triggerChar =
-      token.type === 'ai_document' ? '^' :
+      token.type === 'evidence_document' ? '^' :
         token.type === 'shippable' ? '@' :
           token.type === 'attachment' ? '+' :
             token.type === 'source' ? '#' :
@@ -312,7 +312,7 @@ export default function RichTextInput({
   // Helper function to get additional display information for tokens
   const getTokenDisplayInfo = (token: Token) => {
     switch (token.type) {
-      case 'ai_document':
+      case 'evidence_document':
         return token.data?.description ? token.data.description.substring(0, 30) : '';
       case 'shippable':
         return token.data?.status ? token.data.status : '';
@@ -508,7 +508,7 @@ export default function RichTextInput({
   // Helper function to get the appropriate icon for each token type
   const getTokenIcon = (type: string) => {
     switch (type) {
-      case 'ai_document':
+      case 'evidence_document':
         return '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 16v-3a2 2 0 0 0-2-2h-4V7a2 2 0 0 0-2-2H6"></path><path d="M18 14v4a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2v-4"></path><path d="M6 5l4 4-4 4"></path></svg>';
       case 'shippable':
         return '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><path d="M22 4L12 14.01l-3-3"></path></svg>';
@@ -529,8 +529,8 @@ export default function RichTextInput({
   // Helper function to get a human-readable label for each token type
   const getTokenTypeLabel = (type: string) => {
     switch (type) {
-      case 'ai_document':
-        return 'AI Document';
+      case 'evidence_document':
+        return 'Evidence Document';
       case 'shippable':
         return 'Shippable';
       case 'attachment':
@@ -650,10 +650,10 @@ export default function RichTextInput({
       </button>
 
       {/* Pickers */}
-      {activePicker === 'ai_document' && (
+      {activePicker === 'evidence_document' && (
         <ShippablePicker
           isOpen={true}
-          onSelect={handleSelectAiDocument}
+          onSelect={handleSelectEvidenceDocument}
           onClose={() => setActivePicker(null)}
           searchTerm={searchTerm}
         />

@@ -20,7 +20,7 @@ Bitcode measures a GitHub-bound engineering need, matches the right technical in
 >
 > From there, it assembles a locked asset pack, materializes a private remediation branch artifact set, emits authorization, policy, telemetry, and proof artifacts, and computes exact micro-unit settlement with a journal diff.
 >
-> So the claim is not “we stored some docs” or “we retrieved some text.” The claim is that the right engineering knowledge was measured, selected, governed, materialized, and settled in a fully inspectable pipeline.
+> So the claim is not “we stored some docs” or “we retrieved some text.” The claim is that the right technical knowledge was measured, selected, governed, materialized, and settled in a fully inspectable pipeline.
 
 ---
 
@@ -36,7 +36,7 @@ Bitcode measures a GitHub-bound engineering need, matches the right technical in
 
 ## One-line close
 
-> Bitcode turns engineering knowledge into a measurable, governable, inspectable remediation pipeline — not just a search result.
+> Bitcode turns technical knowledge into a measurable, governable, inspectable remediation pipeline — not just a search result.
 
 ---
 

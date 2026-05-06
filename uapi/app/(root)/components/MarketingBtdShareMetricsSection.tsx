@@ -2,16 +2,12 @@
 
 import React, { useMemo, useRef, useState, useEffect } from "react";
 import styles from './marketing-token-metrics-section.module.css';
-import useSWR from "swr";
 import BitcodePill from "@/components/base/bitcode/branding/bitcode-pill";
 import RevealingSoonOverlay from "@/components/base/bitcode/overlays/RevealingSoonOverlay";
 
-// small fetch util (placeholder coin id)
-const fetcher = (u: string) => fetch(u).then((r) => r.json());
-
-export default function MarketingTokenMetricsSection() {
+export default function MarketingBtdShareMetricsSection() {
   // ------------------------------------------------------------------
-  // Pause price polling when the section scrolls out of view to save network
+  // Pause animation-heavy presentation when the section scrolls out of view.
   // ------------------------------------------------------------------
 
   const sectionRef = useRef<HTMLElement | null>(null);
@@ -29,17 +25,6 @@ export default function MarketingTokenMetricsSection() {
     return () => obs.disconnect();
   }, []);
 
-  const { data } = useSWR<any>(
-    inView
-      ? "https://api.coingecko.com/api/v3/simple/price?ids=bitcoin&vs_currencies=usd&include_24hr_change=true"
-      : null,
-    fetcher,
-    { refreshInterval: inView ? 30000 : 0 }
-  );
-
-  const price = 26.94;
-  const change = 1.87;
-
   // Reused class names (SRP/DRY) – identical visuals
   const roundedContainer = "relative overflow-hidden rounded-3xl shadow-2xl";
   const darkGlassOverlay = "absolute inset-0 bg-black/80 backdrop-blur-md";
@@ -47,43 +32,42 @@ export default function MarketingTokenMetricsSection() {
   const bullets = useMemo(
     () => [
       {
-        t: "Earn Procurement Rewards", // what it's for?
+        t: "Read Share Rights",
         c: <>
-          Opt-in any repo, branch, or commit snapshot and walk away—value is
-          harvested around the clock, crediting <span className="text-emerald-300 drop-shadow-[0_0_12px_rgba(101,254,183,0.9)] animate-pulse-slow">$BTD</span>{' '}
-          whenever the contribution satisfies procurement anywhere.
+          Wallet-readable <span className="text-emerald-300 drop-shadow-[0_0_12px_rgba(101,254,183,0.9)] animate-pulse-slow">$BTD</span>{' '}
+          represents non-fungible AssetPack share/read-right holdings, not checkout currency.
         </>,
       },
       {
-        t: "Compensating Data-Sharing", // whyyy?
+        t: "Pay Fees in BTC",
         c: <>
-          Permissionless assets enable more lucrative and scalable incentives. Globalizing the dataset accelerates participation, demand, and opportunity to improve agents.
+          BTC remains the fee-liquidity asset for settlement and connected-interface execution.
         </>,
       },
       {
-        t: "Measure, Ingest, Mint", // how?
+        t: "Measure Content Amount",
         c: <>
-          Procured contributions are agentically <span className="italic font-bold text-purple-300 drop-shadow-[0_0_12px_rgba(168,85,247,0.9)] animate-pulse-slow">measuremint</span>ed—quantifying and qualifying engineering knowledge and rewarding <span className="text-emerald-300 drop-shadow-[0_0_12px_rgba(101,254,183,0.9)] animate-pulse-slow">$BTD</span> relative to dataset valence.
+          Accepted content records measured Bitcode amount and fit evidence before later Terminal minting flows.
         </>,
       },
       {
-        t: "Digital Knowledge Scarcity", // DATA BACKED
+        t: "21M Mintable Ceiling",
         c: <>
-          USD inflates arbitrarily, BTC deflates with time, and <span className="text-emerald-300 drop-shadow-[0_0_12px_rgba(101,254,183,0.9)] animate-pulse-slow">$BTD</span> deflates with work.
-          Coinage scarcity and dataset omniscience are deterministically inversely proportional—backing
-          tokens with tokens.
+          Later tokenomics preserve a 21,000,000 mintable <span className="text-emerald-300 drop-shadow-[0_0_12px_rgba(101,254,183,0.9)] animate-pulse-slow">$BTD</span>{' '}
+          ceiling while V26 keeps read posture explicit.
         </>,
       },
       {
-        t: "Token Opportunity Vehicle", // investing in $BTD
+        t: "Acquire Through Fit",
         c: <>
-          <span className="text-emerald-300 drop-shadow-[0_0_12px_rgba(101,254,183,0.9)] animate-pulse-slow">$BTD</span> is immutable, transparent, and recorded on-chain. A finite supply with infinitely decaying issuance simplifies data investing.
+          Future Terminal flows can mint after accepted Need/Fit work; Exchange flows can transfer existing holdings.
         </>,
       },
       {
-        t: "Ethereum, Base, EigenLayer", // infra
+        t: "AssetPack-Bound Rights",
         c: <>
-          An Ethereum ERC-1155, optimized on Base, and secured by EigenLayer. Gradually, fully decentralized minting operations will unlock super scale.
+          Each <span className="text-emerald-300 drop-shadow-[0_0_12px_rgba(101,254,183,0.9)] animate-pulse-slow">$BTD</span>{' '}
+          position remains tied to the AssetPack evidence and read-right context it represents.
         </>,
       },
     ],
@@ -314,11 +298,11 @@ export default function MarketingTokenMetricsSection() {
         {/* narrative side */}
         <div>
           <h2 className="text-4xl desktop:text-5xl font-bold mb-6 bg-clip-text text-transparent bg-gradient-to-r from-white via-orange-100 to-white/80 drop-shadow-sm">
-            Connect Knowledge, Collect{' '}
+            Read BTC Fees and{' '}
             <span className="text-emerald-300 drop-shadow-[0_0_12px_rgba(101,254,183,0.9)] animate-pulse-slow">$BTD</span>
           </h2>
           <p className="text-lg laptop:text-xl text-white/90 mb-10 max-w-xl">
-            Share any slice of your codebase and watch value stream in. Purely passive procurement pairs your technical knowledge with intra-platform demand while your balance climbs automagically.
+            The Bitcode balance surface separates BTC fee liquidity from non-fungible $BTD share/read-right holdings so users can see fee readiness and AssetPack ownership at a glance.
           </p>
 
           {/* benefits list – displayed in a responsive 2×2 grid instead of a vertical stack */}
@@ -373,25 +357,25 @@ export default function MarketingTokenMetricsSection() {
             />
           </div>
 
-          {/* live price card container */}
+          {/* wallet posture card container */}
           <div className={roundedContainer}>
             {/* black translucent backdrop */}
             <div className={darkGlassOverlay} />
 
             <div className="relative p-11 space-y-9">
-              {/* Live price */}
+              {/* wallet readiness */}
               <div>
-                <p className="text-[15px] text-orange-200 mb-1">Live Price</p>
+                <p className="text-[15px] text-orange-200 mb-1">BTC Fee Liquidity</p>
                 <p className="text-[2.125rem] font-semibold text-white flex items-baseline">
-                  ${price.toFixed(3)}
-                  <span className={`ml-3 text-[17px] font-medium ${change >= 0 ? "text-green-400" : "text-red-400"}`}>{change >= 0 ? "▲" : "▼"} {Math.abs(change).toFixed(2)}%</span>
+                  0.042 BTC
+                  <span className="ml-3 text-[17px] font-medium text-green-400">ready</span>
                 </p>
               </div>
 
-              {/* dataset bar */}
+              {/* measured source bar */}
               <div>
                 <p className="text-[15px] text-orange-200 mb-1 flex items-center gap-2">
-                  Dataset Size
+                  Measured Source Amount
                 </p>
                 <div className="relative w-full h-3 rounded-full overflow-hidden bg-white/10">
 
@@ -404,25 +388,25 @@ export default function MarketingTokenMetricsSection() {
                     />
                   ))}
                 </div>
-                <p className="text-[13px] text-orange-100/80 mt-1">1.4 PB / 2.5 PB target by 2027</p>
+                <p className="text-[13px] text-orange-100/80 mt-1">12,480 measured $BTD across accepted AssetPacks</p>
               </div>
 
-              {/* total contributions */}
+              {/* total evidence */}
               <div>
-                <p className="text-[15px] text-orange-200 mb-1">Total Contributions</p>
-                <p className="text-lg font-semibold text-white">4,187,902</p>
+                <p className="text-[15px] text-orange-200 mb-1">AssetPack Evidence Records</p>
+                <p className="text-lg font-semibold text-white">4,187</p>
               </div>
 
-              {/* paid to users */}
+              {/* posture summary */}
               <div className="text-center">
                 <p className="text-[19px] font-semibold bg-clip-text text-transparent bg-gradient-to-r from-white via-orange-100 to-white/80">
-                  $42,213 paid to users as of {new Date().toLocaleDateString(undefined, { month: 'short', day: 'numeric', year: 'numeric' })}
+                  BTC fees and $BTD read-rights stay distinct as of {new Date().toLocaleDateString(undefined, { month: 'short', day: 'numeric', year: 'numeric' })}
                 </p>
               </div>
 
               <button className="relative overflow-hidden rounded-md w-full h-11 group">
                 <span className="absolute inset-0 bg-gradient-to-r from-orange-400 via-orange-500 to-orange-600 transition-transform group-hover:scale-105" />
-                <span className="relative z-10 font-semibold text-black">Buy on Uniswap ↗</span>
+                <span className="relative z-10 font-semibold text-black">Review in Terminal ↗</span>
               </button>
             </div>
 

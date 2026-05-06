@@ -217,14 +217,14 @@ This product delivers voice-first social conversations for builders.
 
     // Step 11: Capture agent learnings, regenerating baseline
     const agentsUpdate = await runTool<{
-      latest_behavior: string;
+      latestBehavior: string;
       metadata: { digestUsed?: boolean };
     }>('improve_developing_behavior', {
-      improvement_betterment: 'Always cite file paths with numbers when summarising code.',
+      behaviorImprovement: 'Always cite file paths with numbers when summarising code.',
       regenerateFromDigest: true,
     });
     expect(generateDigestMock).toHaveBeenCalledTimes(2);
     expect(agentsUpdate.metadata.digestUsed).toBe(true);
-    expect(agentsUpdate.latest_behavior).toContain('Always cite file paths');
+    expect(agentsUpdate.latestBehavior).toContain('Always cite file paths');
   });
 });

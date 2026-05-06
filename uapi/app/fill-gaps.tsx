@@ -78,7 +78,7 @@ export default function ReadLightpaper({ reavealingSoon = false }: ReadLightpape
           <span className={`font-light tracking-wide text-green-primary ${baseShadow}`}>
             <span className="font-medium text-xl desktop:text-2xl whitespace-normal laptop:whitespace-nowrap flex items-baseline justify-center laptop:justify-start">
               <span className="text-gray-300/60 font-serif text-3xl desktop:text-4xl mr-1 leading-none">"</span>
-              Incentivizing&nbsp;Prescience&nbsp;in&nbsp;Self-Evolving&nbsp;Engineering&nbsp;AIs
+              Incentivizing&nbsp;Measured&nbsp;Technical&nbsp;Knowledge&nbsp;Exchange
               <span className="text-gray-300/60 font-serif text-3xl desktop:text-4xl ml-1 leading-none">"</span>
             </span>
           </span>

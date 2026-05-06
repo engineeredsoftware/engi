@@ -29,7 +29,7 @@ let notifications = [
   },
   {
     name: "Learn Latest React API",
-    description: "via Bitcode AI Document Bounty",
+    description: "via Bitcode Evidence Bounty",
     time: "5m ago",
     icon: "🧠",
     color: "#FF3D71",

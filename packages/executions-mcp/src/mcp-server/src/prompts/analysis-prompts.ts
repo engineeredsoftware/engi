@@ -2,7 +2,7 @@
  * Bitcode MCP Analysis Prompts
  * 
  * Specialized prompts for technical analysis, code investigation,
- * and engineering intelligence gathering.
+ * and technical knowledge gathering.
  */
 
 import { z } from 'zod';

@@ -28,7 +28,7 @@ const structuredData = {
       '@type': 'Review',
       author: { '@type': 'Person', name: 'Olivia Chen' },
       reviewBody:
-        'Defects per KLOC dropped 38 % after Bitcode learned our code base through Auto-Alike ai_documents.',
+        'Defects per KLOC dropped 38 % after Bitcode measured our codebase through reusable evidence documents.',
       reviewRating: { '@type': 'Rating', ratingValue: 5, bestRating: 5 },
     },
     {
@@ -74,7 +74,7 @@ const MarketingTestimonialsSection: React.FC = () => {
 
           {/* Subtitle */}
           <p className={subtitleClass}>
-            Teams of all backgrounds use Bitcode's no-code AI agents to automate workflows and evolve software effortlessly.
+            Teams of all backgrounds use Bitcode to measure Needs, prepare AssetPacks, and deliver reviewable software changes.
           </p>
 
           {/* Marquee of company logos – temporarily hidden */}

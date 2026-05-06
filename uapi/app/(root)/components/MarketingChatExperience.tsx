@@ -59,10 +59,10 @@ const SCREENSHOT_OBJS: Screenshot[] = SCREENSHOTS.map((src, idx) => ({
 const ChatHeader = memo(() => (
   <div className="relative z-10 text-center mb-14 desktop:mb-16">
     <h2 className="super-shiny-text text-3xl tablet:text-4xl laptop:text-5xl desktop:text-6xl font-bold tracking-tight mb-6 block text-[#67feb7]">
-      Self-Learning Chat Operator—No Coding Required
+      Bitcode Chat Operator for Need Review
     </h2>
     <p className="text-base laptop:text-lg text-gray-400 max-w-3xl mx-auto leading-relaxed">
-      One conversational interface, infinitely improving—no code, pure evolution.
+      One conversational interface for Need measurement, source evidence, AssetPacks, and connected review.
     </p>
   </div>
 ));
@@ -461,7 +461,7 @@ const ChatDynamic: React.FC = () => {
 };
 
 // Static wrapper for the Chat experience section – mirrors the full-width,
-// large-padding pattern of our alt background bands (e.g. AI Documents/Connects).
+// large-padding pattern of our alt background bands (e.g. Evidence Documents/Connects).
 const MarketingChatExperience: React.FC = memo(() => (
   <section
     id="chat-experience"

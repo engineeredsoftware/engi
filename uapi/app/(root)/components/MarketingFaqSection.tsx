@@ -12,7 +12,7 @@ const faqs = [
   },
 
   {
-    question: 'Everyone\'s building "amazing agents". These are...?',
+    question: 'Everyone\'s building "amazing AI tools". These are...?',
     answer:
       "Source-to-shares inference systems. Simple shepherding, proactive preparation, reactive calibration, deep iteration scoping, source-attributed research evidence, progress logging, measured-knowledge procurement, diverse command interfaces, 3rd-party integrations, and much more make Bitcode a technical collaborator for measuring Needs, finding fits, and delivering AssetPacks. Everyone from non-technical solopreneurs to large industrial engineering teams use Bitcode to make software development operations lean, mean, and green.",
   },
@@ -24,7 +24,7 @@ const faqs = [
   {
     question: "Is this powerful tool easy to use?",
     answer:
-      "Easy to learn, hard to master. Within minutes, you'll have your tools connected and be chatting your way through your first real-world Needs into AssetPacks and Shippables. Quickly, shepherding engineering and guiding perpetual evolution becomes second nature. Advanced users utilize triggered coordinated-learning sequencing, operating the operator with operators, deeper workstation compute capabilities, connecting internal tool MCPs, knowledge-gap arbitrage, and more to expand technical value creation levers throughout their autonomous engineering organizations.",
+      "Easy to learn, hard to master. Within minutes, you'll have your tools connected and be chatting your way through your first real-world Needs into AssetPacks and Shippables. Quickly, Need measurement, fit review, and AssetPack guidance become second nature. Advanced users utilize triggered coordinated-learning sequencing, deeper workstation compute capabilities, internal MCPs, knowledge-gap arbitrage, and more to expand technical value creation across their organizations.",
   },
   {
     question: "Does Bitcode work with private repositories and APIs?",
@@ -34,7 +34,7 @@ const faqs = [
   {
     question: "AI codes slop! Now I'm supposed to code less... how does this really work?",
     answer:
-      "Off-the-shelf AIs generally over-fit to their wide programming example training data. Enterprise misalignment is demonstrated through disrespected coding principles, underused abstractions, over-confident incomplete solutions, intrusive regressions, and worse. Conversely, orchestral engineering targets systemic improvements and full-context comprehension that compound to raise code quality on your specific IP. By applying proactive and reactive first-class agency to personalization, investing time with Bitcode is well worth it.",
+      "Off-the-shelf AIs generally over-fit to their wide programming example training data. Enterprise misalignment is demonstrated through disrespected coding principles, underused abstractions, over-confident incomplete solutions, intrusive regressions, and worse. Bitcode orchestration targets systemic improvements and full-context comprehension that compound to raise code quality on your specific IP. By pairing proactive preparation with reactive calibration, investing time with Bitcode is well worth it.",
   },
   {
     question: "So, Bitcode supports my stack and can do what I need it to do?",
@@ -44,7 +44,7 @@ const faqs = [
   {
     question: "We don't use cloud tools. Is self-hosting supported?",
     answer:
-      "Yes. Some internet-native tools will be unavailable including one that will require replacement implementation: the LLM API. Contact sales to benefit from enterprise self-hosting to bring-your-own keys, fully own security, and build on Bitcode's strong agentic foundations.",
+      "Yes. Some internet-native tools will be unavailable including one that will require replacement implementation: the LLM API. Contact sales to benefit from enterprise self-hosting to bring your own keys, fully own security, and build on Bitcode's protocol foundations.",
   },
   {
     question: "Can it be cheaper?",
@@ -59,7 +59,7 @@ const faqs = [
   {
     question: "Who is Advanced Engineered Software, Inc.?",
     answer:
-      "Advanced Engineered Software, Inc. (USA C-Corp) invents self-evolving engineering intelligence systems that accelerate technical development efficiency and capabilities. Enterprises across the world deliver better software to their customers for lower costs by using our tools. Bitcode and $BTD are the first pair of revolutionary products generally available to the public.",
+      "Advanced Engineered Software, Inc. (USA C-Corp) builds provable technical-knowledge exchange systems that accelerate reliable software delivery. Enterprises across the world deliver better software to their customers for lower costs by using our tools. Bitcode and $BTD are the first generally available commercial product pair.",
   },
 ];
 
@@ -76,10 +76,10 @@ const MarketingFaqSection: React.FC = () => {
     <MarketingSectionWrapper id="faq" className="bg-transparent">
       <div className="text-center mb-12">
         <h2 className="text-2xl laptop:text-3xl font-bold mb-4 block super-shiny-text">
-          No-Code Evolution FAQs
+          Bitcode Protocol FAQs
         </h2>
         <p className="text-base laptop:text-lg text-gray-300 max-w-3xl mx-auto">
-          Everything you need to know about self-learning, code-free software evolution.
+          Everything you need to know about Need measurement, AssetPacks, $BTD, BTC fees, and connected-interface delivery.
         </p>
       </div>
 

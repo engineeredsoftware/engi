@@ -49,7 +49,7 @@ export const AppShell = ({ children }: AppShellProps) => {
   const systemStatus = {
     blockchain: networkStatus === 'connected' ? 'operational' : 'degraded',
     ai: aiStatus === 'ready' ? 'operational' : 'degraded',
-    agents: activeAgents.length > 0 ? 'operational' : 'standby',
+    workflows: activeAgents.length > 0 ? 'operational' : 'standby',
     security: 'operational'
   };
 
@@ -81,7 +81,7 @@ export const AppShell = ({ children }: AppShellProps) => {
                 <div className="grid grid-cols-2 gap-2">
                   {[
                     { icon: Brain, label: 'AI Assistance', shortcut: '⌘ A' },
-                    { icon: Cpu, label: 'Agent Control', shortcut: '⌘ G' },
+                    { icon: Cpu, label: 'Workflow Control', shortcut: '⌘ G' },
                     { icon: Network, label: 'Network Status', shortcut: '⌘ N' },
                     { icon: Shield, label: 'Security Center', shortcut: '⌘ S' },
                   ].map((item) => (

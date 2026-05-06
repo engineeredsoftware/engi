@@ -142,16 +142,16 @@ This product delivers voice-first social conversations for builders.
 
   it('improve_developing_behavior refreshes baseline via digest when requested', async () => {
     const result = await runTool<{
-      latest_behavior: string;
+      latestBehavior: string;
       metadata: { digestUsed?: boolean };
     }>('improve_developing_behavior', {
-      improvement_betterment: 'Always cite file paths with line numbers.',
+      behaviorImprovement: 'Always cite file paths with line numbers.',
       regenerateFromDigest: true,
     });
     expect(generateDigestMock).toHaveBeenCalled();
     expect(result.metadata.digestUsed).toBe(true);
-    expect(result.latest_behavior).toContain('Confirm Supabase credentials before coding.');
-    expect(result.latest_behavior).toContain('Always cite file paths');
+    expect(result.latestBehavior).toContain('Confirm Supabase credentials before coding.');
+    expect(result.latestBehavior).toContain('Always cite file paths');
   });
 
   it('use_vercel_read_external_mcp handles list_deployments', async () => {
@@ -290,17 +290,17 @@ This product delivers voice-first social conversations for builders.
   it('improve_developing_behavior reports digest errors and uses template baseline', async () => {
     generateDigestMock.mockRejectedValueOnce(new Error('agents digest unavailable'));
     const result = await runTool<{
-      latest_behavior: string;
+      latestBehavior: string;
       metadata: { digestUsed?: boolean; digestError?: string };
     }>('improve_developing_behavior', {
-      improvement_betterment: 'Record when successors need live narration.',
+      behaviorImprovement: 'Record when successors need live narration.',
       regenerateFromDigest: true,
     });
 
     expect(result.metadata.digestUsed).toBe(false);
     expect(result.metadata.digestError).toBe('agents digest unavailable');
-    expect(result.latest_behavior).toContain('### Behavior Evolution');
-    expect(result.latest_behavior).toContain('Record when successors need live narration.');
-    expect(result.latest_behavior).toContain('# AGENTS\' INSTRUCTIONS:\n\n- []');
+    expect(result.latestBehavior).toContain('### Behavior Improvement');
+    expect(result.latestBehavior).toContain('Record when successors need live narration.');
+    expect(result.latestBehavior).toContain('# AGENTS\' INSTRUCTIONS:\n\n- []');
   });
 });

@@ -107,7 +107,7 @@ const ThumbnailStrip: React.FC<{
   );
 };
 // DocBox: hover-driven detailed view (formerly EducationCard)
-// Replicates AssetPack and AI Document header visual/animation language
+// Replicates AssetPack and evidence-document header visual/animation language
 function DocBox({ content, className = '' }: { className: string, content: { title: string; subtitle?: string; body: string } | null }) {
   const prefersReducedMotion = useReducedMotion();
 
@@ -202,7 +202,7 @@ const MarketingAccelerationSection: React.FC = () => {
   // Top-level group descriptions for hover info
   const groupDescriptions: Record<string, string> = useMemo(() => ({
     AssetPacks: 'From Need evidence through merge-ready, CI-validated code and proof receipts, Bitcode finishes work as a PR-backed AssetPack.',
-    'AI Documents': 'Continuous system evolution via data-driven feedback loops: Bitcode ingests developer and user signals, orchestrates MCP integrations, and applies domain-specific Extensions to ensure each iteration aligns with real-world results.',
+    'Evidence Documents': 'Evidence-driven system refinement: Bitcode ingests developer and user signals, orchestrates MCP integrations, and applies domain-specific Extensions so each iteration aligns with real-world results.',
   }), []);
 
   // AssetPack items for hover and EduBox content
@@ -211,7 +211,7 @@ const MarketingAccelerationSection: React.FC = () => {
       name: 'Design Doc',
       icon: DocumentTextIcon,
       color: 'text-yellow-400',
-      description: 'Generate evolving, versioned design specs with diagrams and decision logs in seconds.',
+      description: 'Generate versioned design specs with diagrams and decision logs in seconds.',
     },
     {
       name: 'Source Code',
@@ -231,7 +231,7 @@ const MarketingAccelerationSection: React.FC = () => {
       color: 'text-emerald-400',
       description: 'Finish with a connected-interface pull request instead of parallel comment, issue, or review outputs.',
     },
-    // AI Documents
+    // Evidence Documents
     {
       name: 'Feedback',
       icon: MegaphoneIcon,
@@ -242,13 +242,13 @@ const MarketingAccelerationSection: React.FC = () => {
       name: 'MCP',
       icon: WrenchScrewdriverIcon,
       color: 'text-indigo-400',
-      description: 'Control agents via a schema-validated API, orchestrating workflows and exporting results.',
+      description: 'Control Bitcode workflows via a schema-validated API, orchestrating work and exporting results.',
     },
     {
       name: 'Extension',
       icon: PuzzlePieceIcon,
       color: 'text-purple-400',
-      description: 'Auto-apply code patterns via Extensions for consistent standards and evolving modules.',
+      description: 'Auto-apply code patterns via Extensions for consistent standards and maintainable modules.',
     }
   ], []);
   const defaultEdu = { title: items[0].name, body: items[0].description };
@@ -348,14 +348,14 @@ const MarketingAccelerationSection: React.FC = () => {
           <div className="text-center mb-12">
             {/* Increased bottom margin for better separation from the subtitle */}
             <h2 className="text-2xl laptop:text-3xl font-bold text-white mb-4 tracking-tight block super-shiny-text">
-              Supercharge Your No-Code Workflow with Self-Evolving AI Agents
+              Supercharge Need-to-AssetPack Workflows
             </h2>
             <p className="text-base laptop:text-lg text-gray-400 max-w-2xl mx-auto">
-              Orchestrate AI agents instead of writing code—ship production-ready iterations that continuously evolve toward excellence.
+              Measure Needs, synthesize AssetPacks, and ship production-ready iterations through connected review interfaces.
             </p>
           </div>
           {/*
-          AssetPacks & AI Documents icon row
+          AssetPacks & evidence documents icon row
 
           The original single-row layout is preserved but now split into two subtly
           highlighted groups:
@@ -363,7 +363,7 @@ const MarketingAccelerationSection: React.FC = () => {
           • The first four items are wrapped in a bordered container labelled
             "AssetPacks".
           • The last three items are wrapped in a bordered container labelled
-            "AI Documents".
+            "Evidence Documents".
 
           Both wrappers share the same gap spacing so the overall arrangement and
           responsive behaviour remain unchanged.
@@ -390,14 +390,14 @@ const MarketingAccelerationSection: React.FC = () => {
               ))}
             </div>
 
-            {/* AI Documents */}
+            {/* Evidence Documents */}
             <div className="flex gap-8 relative px-6 py-4 rounded-xl border border-emerald-400/25">
               <div
                 className="absolute -top-2 left-1/2 -translate-x-1/2 flex items-center px-2 bg-[#020617] text-[10px] font-semibold uppercase tracking-wider text-emerald-300 cursor-pointer"
-                onMouseEnter={() => setActiveEdu({ title: 'AI Documents', body: groupDescriptions['AI Documents'] })}
+                onMouseEnter={() => setActiveEdu({ title: 'Evidence Documents', body: groupDescriptions['Evidence Documents'] })}
               >
                 <InformationCircleIcon className="w-3 h-3 mr-1 text-emerald-300" />
-                AI Documents
+                Evidence Documents
               </div>
               {items.slice(4).map((item) => (
                 <div
@@ -550,7 +550,7 @@ const MarketingAccelerationSection: React.FC = () => {
                 {/* Mobile-only floating header */}
                 <div className="absolute -top-4 left-1/2 -translate-x-1/2 tablet:hidden pointer-events-none">
                   <span className="inline-flex items-center rounded-full bg-sky-300 text-gray-900 text-[12px] font-semibold px-4 py-0.5 whitespace-nowrap shadow">
-                    Self-Evolving
+                    Evidence-Driven
                   </span>
                 </div>
 
@@ -559,7 +559,7 @@ const MarketingAccelerationSection: React.FC = () => {
                     <div className="transform scale-150">
                       <NavProcessingIndicator />
                     </div>
-                    <h3 className={`text-xl font-semibold text-white ${styles.neon}`}>Self-Evolving</h3>
+                    <h3 className={`text-xl font-semibold text-white ${styles.neon}`}>Evidence-Driven</h3>
                   </div>
                   <p className="text-gray-300 max-w-xs text-[13px] tablet:text-sm laptop:text-base leading-relaxed">
                     Digests code and external context to deliver automated fixes, patterns, and best practices.

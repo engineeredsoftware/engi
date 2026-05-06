@@ -22,7 +22,7 @@ interface MCPTool {
 
 /**
  * EFFECTIVENESS TRACKING INTELLIGENCE
- * Revolutionary real-time quality measurement and learning system
+ * Real-time quality measurement and learning system
  */
 const effectivenessTrackingToolSchema = z.object({
   operation: z.enum(['measure', 'predict', 'learn', 'optimize'])
@@ -577,7 +577,7 @@ export function registerIntelligenceTools(): MCPTool[] {
   return [
     {
       name: 'bitcode://intelligence/effectiveness/track',
-      description: `Revolutionary effectiveness tracking system with real-time quality measurement.
+      description: `Effectiveness tracking system with real-time quality measurement.
 
 This system provides unprecedented insight into code change effectiveness:
 • Real-time before/after quality measurement
@@ -610,7 +610,7 @@ Enables knowledge transfer and standardization across your entire codebase ecosy
 
     {
       name: 'bitcode://intelligence/research/advanced',
-      description: `Revolutionary multi-provider web research with URL intelligence and synthesis.
+      description: `Multi-provider web research with URL intelligence and synthesis.
 
 Multi-wave research orchestration across diverse sources:
 • GitHub, Stack Overflow, academic papers, documentation sites
@@ -645,7 +645,7 @@ Advanced multimodal intelligence processing:
 • Figma design analysis with implementation guidance
 • Cross-modal synthesis for unified understanding
 
-Transforms any media type into actionable engineering intelligence.`,
+Transforms any media type into actionable technical knowledge evidence.`,
 
       inputSchema: multimodalProcessingToolSchema,
       execute: async (args, context) => {

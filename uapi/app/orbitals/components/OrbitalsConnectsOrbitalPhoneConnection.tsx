@@ -296,7 +296,7 @@ export function OrbitalsConnectsOrbitalPhoneConnection({
                 {[
                   { cmd: 'deliver auth system', color: 'emerald' },
                   { cmd: 'analyze security', color: 'blue' },
-                  { cmd: 'ai_document to react 18', color: 'purple' }
+                  { cmd: 'evidence to react 18', color: 'purple' }
                 ].map((example, i) => (
                   <motion.div
                     key={example.cmd}

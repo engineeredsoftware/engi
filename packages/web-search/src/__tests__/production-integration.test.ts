@@ -1,5 +1,5 @@
 /**
- * Production Integration Tests for Revolutionary Multi-Wave Research System
+ * Production Integration Tests for Multi-Wave Research System
  * End-to-End Testing for Enterprise-Grade Web Research Infrastructure
  */
 
@@ -271,7 +271,7 @@ describe('Production Integration Tests', () => {
     });
   });
 
-  describe('Revolutionary Web Research Agent Integration', () => {
+  describe('Multi-Wave Web Research Integration', () => {
     beforeEach(() => {
       // Mock global context for agent testing
       const mockGetGlobalContext = require('@bitcode/context').getGlobalContext;

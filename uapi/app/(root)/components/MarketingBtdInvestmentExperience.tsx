@@ -155,7 +155,7 @@ const generateEfficiencyCoaching = (
     fitGuidance = 'Precise Need framing improves measured-BTD predictability.';
   } else if (avgEfficiency > 1.3) {
     insight = 'Exceptional measured-BTD efficiency detected across recent AssetPacks';
-    suggestion = 'Consider taking on more complex challenges to maximize your evolved capabilities';
+    suggestion = 'Consider taking on more complex challenges to maximize your validated capabilities';
     potentialSavings = 0;
     guidanceLevel = 'critical';
     fitGuidance = 'Use this efficiency window to attempt more complex Needs.';

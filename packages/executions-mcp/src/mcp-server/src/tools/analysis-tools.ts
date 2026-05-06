@@ -2,7 +2,7 @@
  * Bitcode MCP Analysis Tools
  * 
  * Advanced AI-powered analysis tools for repository intelligence,
- * architectural insights, and engineering intelligence synthesis.
+ * architectural insights, and technical knowledge synthesis.
  */
 
 import { z } from 'zod';
@@ -418,17 +418,17 @@ Generates actionable insights with confidence scoring and remediation guidance.`
 
     {
       name: 'bitcode://analysis/intelligence/synthesize',
-      description: `Synthesize engineering intelligence across repositories and time periods.
+      description: `Synthesize technical knowledge across repositories and time periods.
 
 AI-powered intelligence synthesis providing:
 • Cross-repository pattern identification
-• Engineering productivity trend analysis
+• Technical productivity trend analysis
 • Quality and security posture evolution
 • Technology adoption and migration insights
 • Team performance and collaboration patterns
 • Predictive insights for technical decisions
 
-Generates strategic insights for engineering leadership with confidence-scored recommendations.`,
+Generates strategic insights for technical leadership with confidence-scored recommendations.`,
 
       inputSchema: IntelligenceSynthesisSchema,
       

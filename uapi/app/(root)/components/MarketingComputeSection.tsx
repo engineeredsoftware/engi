@@ -30,7 +30,7 @@ const CARDS: Card[] = [
   {
     icon: CpuChipIcon,
     title: "On-Demand Virtual Workstations",
-    desc: "Agents auto-spin GPU or CPU boxes in seconds, pre-loaded with your exact stack — zero tickets, zero wait.",
+    desc: "Bitcode provisions GPU or CPU boxes in seconds, pre-loaded with your exact stack - zero tickets, zero wait.",
   },
   {
     icon: GlobeAltIcon,
@@ -40,7 +40,7 @@ const CARDS: Card[] = [
   {
     icon: CommandLineIcon,
     title: "Beyond the Terminal",
-    desc: "Need Chrome for UI tests or a custom debugger? Agents conjure GUI apps—or even write helper tools on the fly—without human assistance.",
+    desc: "Need Chrome for UI tests or a custom debugger? Bitcode can run GUI apps or prepare helper tools when a Need requires workstation evidence.",
   },
 ];
 

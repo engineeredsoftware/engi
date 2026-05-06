@@ -48,7 +48,7 @@ import { PromptPart } from '@bitcode/prompts/parts/PromptPart';
  * domain: tool
  * intent: "Containerization intelligence MCP tool for advanced application packaging with AI-driven orchestration optimization"
  * 
- * This containerization intelligence MCP tool represents the evolutionary leap in application packaging,
+ * This containerization intelligence MCP tool supports reliable application packaging,
  * enabling advanced containerization with AI-driven orchestration optimization and
  * high-isolated execution environments for reliable microservices architecture excellence.
  */

@@ -1,7 +1,7 @@
 /**
  * Test Intelligence System - Unified testing infrastructure for Bitcode
  * 
- * This package provides a revolutionary approach to test data management,
+ * This package provides a reproducible approach to test data management,
  * unifying fixtures, mocks, dryrun, and Storybook through build-time
  * intelligence and zero-overhead runtime access.
  */

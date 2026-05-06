@@ -124,7 +124,7 @@ export { BentoCard, BentoGrid };
 const features = [
   {
     Icon: RiRobot2Line,
-    name: "Powerful SWE Agents",
+    name: "Powerful AssetPack Workflows",
     description: (
       <span className="">
         PR-backed AssetPacks delivered cheap and fast through a simple Bitcode interface
@@ -231,14 +231,14 @@ const features = [
     name: (<span className="text-green-primary">$BTD-Data Marketplace</span>),
     description: (
       <>
-        <span className="text-neutral-200">Engineering assets are measured by AI, priced, and exchanged on a decentralized economic substrate</span>
+        <span className="text-neutral-200">Technical assets are measured, priced, and exchanged as source-backed Bitcode shares</span>
       </>
     ),
     special: true,
     className: "col-span-3 desktop:col-span-1",
     //href: "/market",
     href: "/",
-    cta: "AI Document your Bitcode, Earn knowledge tokens",
+    cta: "Document your Bitcode, earn source shares",
     //disabled: true,
     background: (
       <Image

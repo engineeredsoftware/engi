@@ -38,7 +38,7 @@ const reviews = [
   {
     name: "Riley Nguyen",
     username: "@rnguyen",
-    body: "Really cool to see the evolution and refinement. Bitcode is a great GitHub app.",
+    body: "Really cool to see the refinement. Bitcode is a great GitHub app.",
     img: "https://avatar.vercel.sh/jenny",
   },
   {

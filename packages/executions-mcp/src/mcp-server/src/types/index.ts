@@ -73,7 +73,7 @@ export const RepositoryContextSchema = z.object({
   owner: z.string().optional().describe('Repository owner (user or organization) - not needed for local repos'),
   name: z.string().describe('Repository name or local directory name'),
   branch: z.string().optional().default('main').describe('Git branch to work on'),
-  path: z.string().optional().describe('Local file system path (e.g., /Users/garrettmaring/Developer/ENGI)'),
+  path: z.string().optional().describe('Local file system path (e.g., /Users/garrettmaring/Developer/Bitcode)'),
   url: z.string().optional().describe('Optional canonical repository URL or local file URI'),
   connectionId: z.number().optional().describe('GitHub App installation ID'),
   provider: z.enum(['github', 'gitlab', 'bitbucket', 'local']).optional().default('github')

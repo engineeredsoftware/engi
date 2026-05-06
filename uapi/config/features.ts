@@ -113,7 +113,7 @@ export const FEATURE_FLAGS = {
   LIGHTPAPER_BANNER: envFlag('NEXT_PUBLIC_LIGHTPAPER_BANNER'),
 
   // ----------------------------------------------------------------
-  // Marketing – Invisible Interfaces (Marketplace + Token Metrics) group.
+  // Marketing – Invisible Interfaces (Marketplace + BTD share metrics) group.
   // Disabled by default until the section is ready for public launch.
   INVISIBLE_INTERFACES_GROUP: envFlag('NEXT_PUBLIC_INVISIBLE_INTERFACES_GROUP'),
 

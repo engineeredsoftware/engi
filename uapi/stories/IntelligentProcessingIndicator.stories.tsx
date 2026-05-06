@@ -10,9 +10,9 @@ const meta: Meta<typeof IntelligentProcessingIndicator> = {
     docs: {
       description: {
         component: `
-### 🧠 Intelligent Processing Indicator
+### Intelligent Processing Indicator
 
-A consciousness-aware evolution of the standard processing indicator that demonstrates true AI intelligence through:
+A context-aware processing indicator that demonstrates Bitcode run state through:
 
 - **Phase-aware personality** - Contextual messages based on current pipeline phase
 - **Pattern recognition celebration** - ✨ Sparkle animation when AI recognizes familiar patterns  
@@ -62,7 +62,7 @@ type Story = StoryObj<typeof meta>;
 // Standard Processing Indicator (baseline)
 export const Standard: Story = {
   args: {
-    label: 'Engineering',
+    label: 'Processing',
     showIntelligence: false,
   },
   parameters: {

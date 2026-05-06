@@ -97,7 +97,7 @@ export class MCPSpecificationGenerator {
       serverInfo: {
         name: 'bitcode-market-infrastructure',
         version: '1.0.0',
-        description: 'Engineering intelligence platform exposing comprehensive capabilities through MCP',
+        description: 'Technical knowledge exchange platform exposing comprehensive capabilities through MCP',
         capabilities: [
           'Pipeline Management', 'Advanced Intelligence', 'Enterprise Integration',
           'LSP Integration', 'Observability', 'Cross-Repository Learning'
@@ -287,7 +287,7 @@ export class MCPSpecificationGenerator {
     if (description.includes('refactor')) useCases.push('Code Refactoring');
     if (description.includes('analytics')) useCases.push('Business Intelligence');
     
-    return useCases.length > 0 ? useCases : ['General Engineering'];
+    return useCases.length > 0 ? useCases : ['General Technical Work'];
   }
 
   /**
@@ -375,7 +375,7 @@ export class MCPSpecificationGenerator {
       'Analysis': 'Code analysis and repository intelligence'
     };
     
-    return descriptions[category] || 'Engineering intelligence tools';
+    return descriptions[category] || 'Technical knowledge tools';
   }
 
   /**

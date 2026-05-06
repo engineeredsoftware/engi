@@ -34,7 +34,7 @@ const inter = { className: '' } as const;
 const appUrl = process.env.NEXT_PUBLIC_APP_URL || 'https://app.bitcode.ai';
 const metadataTitle = "Bitcode";
 const metadataDescription =
-  "Bitcode is auditable market infrastructure for engineering knowledge, with BTD-denominated settlement over the networked Bitcode system.";
+  "Bitcode is auditable market infrastructure for technical knowledge, with BTD-denominated settlement over the networked Bitcode system.";
 
 export const metadata: Metadata = {
   metadataBase: new URL(appUrl),

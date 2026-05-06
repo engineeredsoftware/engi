@@ -1,7 +1,7 @@
 /**
  * Phone/SMS Connect Component for Orbital Panel
  * 
- * Revolutionary phone number setup experience - the fastest path to Bitcode.
+ * Phone number setup experience - the fastest path to Bitcode.
  * Supports phone SSO, SMS commands, and Conversations chat via text.
  */
 
@@ -481,7 +481,7 @@ export function PhoneConnect({ userId, onComplete }: PhoneConnectProps) {
               <ul className="space-y-1 text-sm text-white font-mono">
                 <li>• deliver auth system with JWT</li>
                 <li>• analyze security vulnerabilities</li>
-                <li>• ai_document react to latest</li>
+                <li>• evidence react to latest</li>
                 <li>• measure performance</li>
               </ul>
             </div>

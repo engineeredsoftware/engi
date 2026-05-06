@@ -110,11 +110,11 @@ const MarketingCtaContactSection: React.FC = () => {
 
                 <div className="relative z-10 p-8 text-center flex flex-col h-full">
                   <h2 className="text-2xl laptop:text-3xl font-semibold text-white mb-6 laptop:mb-8 super-shiny-text">
-                    Launch Your First No-Code AI PR in Minutes
+                    Launch Your First Bitcode AssetPack in Minutes
                   </h2>
 
                   <p className="text-lg text-gray-300 mb-8">
-                    Build at 1000× speed—no code, just continuous evolution.
+                    Measure a Need, review the fit, and open a PR-backed AssetPack.
                   </p>
 
                   {/* CTA buttons and BTD reference indicator wrapper */}
@@ -215,10 +215,10 @@ const MarketingCtaContactSection: React.FC = () => {
                   className="relative z-10 p-8 space-y-6 flex flex-col h-full"
                 >
                   <h4 className="text-3xl font-semibold text-white text-center">
-                    Questions About No-Code Evolution?
+                    Questions About Bitcode?
                   </h4>
                   <p className="text-lg text-center text-gray-300">
-                    Tell us where you want to see evolution in action—no code needed.
+                    Tell us which Need, repository, or connected interface should be measured first.
                   </p>
 
                   {/* Inputs grid */}

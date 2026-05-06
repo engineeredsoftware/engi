@@ -8,22 +8,22 @@ import Image from 'next/image';
 const features = [
   {
     id: 'capability-leap',
-    title: 'Capability Leap in Engineering',
-    description: 'Experience a reliable system that improves engineering affordability, production speed, and quality by orders of magnitude, fundamentally transforming how technology is created.',
+    title: 'Capability Leap for Technical Work',
+    description: 'Experience a reliable system that improves affordability, production speed, and reviewable quality by orders of magnitude for technical work.',
     icon: (
       <svg className="w-6 h-6" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
         <path d="M13 2L3 14H12L11 22L21 10H12L13 2Z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
       </svg>
     ),
-    image: '/capability-leap.png',
+    image: '/working-on-implementing.png',
     color: 'from-emerald-500/20 to-emerald-600/20',
     borderColor: 'border-emerald-500/30',
     textColor: 'text-emerald-400',
   },
   {
     id: 'recursive-improvement',
-    title: 'Recursive Self-Improvement',
-    description: 'Bitcode continuously evolves and improves itself, learning from each interaction to become more powerful, efficient, and capable over time.',
+    title: 'Reusable Proof Improvement',
+    description: 'Bitcode records measured patterns from accepted AssetPacks so future Needs can reuse stronger evidence and implementation paths.',
     icon: (
       <svg className="w-6 h-6" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
         <path d="M21 12C21 16.9706 16.9706 21 12 21C7.02944 21 3 16.9706 3 12C3 7.02944 7.02944 3 12 3C16.9706 3 21 7.02944 21 12Z" stroke="currentColor" strokeWidth="2" />
@@ -34,7 +34,7 @@ const features = [
         <path d="M3 12H8" stroke="currentColor" strokeWidth="2" />
       </svg>
     ),
-    image: '/recursive-improvement.png',
+    image: '/marketplace-features.png',
     color: 'from-purple-500/20 to-purple-600/20',
     borderColor: 'border-purple-500/30',
     textColor: 'text-purple-400',
@@ -59,7 +59,7 @@ const features = [
   {
     id: 'parallel-state-search',
     title: 'Parallel State Search',
-    description: 'Leveraging advanced techniques inspired by quantum computing for state exploration and pre-computation, enabling Bitcode to predict code behavior and optimize solutions.',
+    description: 'Leveraging parallel state exploration and pre-computation so Bitcode can compare code behavior and optimize AssetPack candidates.',
     icon: (
       <svg className="w-6 h-6" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
         <path d="M12 3V21" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
@@ -70,7 +70,7 @@ const features = [
         <path d="M12 12C10.3431 12 9 13.3431 9 15C9 16.6569 10.3431 18 12 18C13.6569 18 15 16.6569 15 15C15 13.3431 13.6569 12 12 12Z" stroke="currentColor" strokeWidth="2" />
       </svg>
     ),
-    image: '/parallel-state-search.png',
+    image: '/parse-issue-with-comment-from-bitcode.png',
     color: 'from-indigo-500/20 to-indigo-600/20',
     borderColor: 'border-indigo-500/30',
     textColor: 'text-indigo-400',

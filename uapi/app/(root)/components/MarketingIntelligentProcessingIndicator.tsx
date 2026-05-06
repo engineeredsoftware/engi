@@ -55,7 +55,7 @@ const DELIGHT_QUALITY_MULTIPLIER = (() => {
 })();
 
 export const MarketingIntelligentProcessingIndicator = ({
-  label = 'Engineering',
+  label = 'Processing',
   repositoryContext,
   recognizedPattern,
   currentPhase = 'setup',
@@ -95,7 +95,7 @@ export const MarketingIntelligentProcessingIndicator = ({
           return 'Applying your proven patterns...';
         }
         if (recognizedPattern?.complexity === 'complex') {
-          return 'Engineering sophisticated solution...';
+          return 'Building sophisticated solution...';
         }
         return 'Implementing with your style...';
         

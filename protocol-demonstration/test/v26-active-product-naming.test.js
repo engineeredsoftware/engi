@@ -2464,7 +2464,7 @@ test('active V26 retained package surfaces use Bitcode naming instead of Engi na
   assert.match(bitcodeScriptSource, /current Bitcode V8 deterministic prototype/);
   assert.match(bitcodeScriptSource, /Bitcode measures a GitHub-bound engineering need/);
   assert.match(bitcodeScriptSource, /behavior for Bitcode Spec V8/);
-  assert.match(bitcodeScriptSource, /Bitcode turns engineering knowledge into a measurable, governable, inspectable remediation pipeline/);
+  assert.match(bitcodeScriptSource, /Bitcode turns technical knowledge into a measurable, governable, inspectable remediation pipeline/);
   assert.match(bitcodeScriptSource, /click \*\*Make Bitcode branch\*\*/);
   assert.match(bitcodeScriptShortSource, /# Bitcode Demo Script — Short Version \(Spec V8\)/);
   assert.match(bitcodeScriptShortSource, /This demo shows Bitcode as a Spec V8 deterministic prototype/);

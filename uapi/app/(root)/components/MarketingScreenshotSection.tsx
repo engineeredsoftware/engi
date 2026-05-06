@@ -166,7 +166,7 @@ const MarketingScreenshotSection: React.FC = () => {
   // Default to `true` when the animation already played once so any remounts
   // render the final resting state immediately.
   const [canAnimate, setCanAnimate] = useState(screenshotsAnimated);
-  const [highlightGroup, setHighlightGroup] = useState<null | 'assetPacks' | 'ai_documents'>(null);
+  const [highlightGroup, setHighlightGroup] = useState<null | 'assetPacks' | 'evidenceDocuments'>(null);
 
   // Reused class names (SRP/DRY)
   const screenshotFrameClass = "relative w-full aspect-video overflow-hidden rounded-lg shadow-lg";
@@ -310,10 +310,10 @@ const MarketingScreenshotSection: React.FC = () => {
         <div className="block laptop:hidden px-4 py-6 space-y-2">
           {(() => {
             const shots = [
-              { src: '/screenshots/ai_documents-page.png', alt: 'AI Documents page screenshot' },
+              { src: '/screenshots/asset-pack-page-maximal-state.png', alt: 'AssetPack evidence screenshot' },
               { src: '/screenshots/asset-pack-page-minimal-state.png', alt: 'AssetPack request screenshot' },
               { src: '/screenshots/conversations-fullscreen.png', alt: 'Conversations fullscreen chat screenshot' },
-              { src: '/screenshots/sidebar-ai_documents.png', alt: 'Sidebar ai_documents panel screenshot' },
+              { src: '/screenshots/sidebar-shippables.png', alt: 'Sidebar Shippables panel screenshot' },
               { src: '/screenshots/setup-marketplace.png', alt: 'Marketplace setup screenshot' },
               { src: '/screenshots/setup-btd-balance.png', alt: 'BTD balance panel screenshot' },
             ] as const;
@@ -442,7 +442,7 @@ const MarketingScreenshotSection: React.FC = () => {
                 }}
               />
               <Image
-                src="/screenshots/ai_documents-page.png"
+                src="/screenshots/asset-pack-page-maximal-state.png"
                 alt="Left Bitcode screenshot"
                 className="relative w-full rounded-xl object-cover border-2 border-orange-400"
                 style={{}}
@@ -475,7 +475,7 @@ const MarketingScreenshotSection: React.FC = () => {
               >
                 {[
                   {
-                    src: '/screenshots/sidebar-ai_documents.png',
+                    src: '/screenshots/sidebar-shippables.png',
                     border: 'border-orange-400',
                     glow: 'rgba(249,168,38,0.6)',
                     rotate: 0,
@@ -785,7 +785,7 @@ const MarketingScreenshotSection: React.FC = () => {
             <h2
               className="text-4xl laptop:text-7xl font-extrabold tracking-tight leading-tight bg-gradient-to-r from-emerald-300 via-sky-400 to-fuchsia-500 bg-clip-text text-transparent drop-shadow-[0_3px_15px_rgba(0,0,0,0.25)] pb-2 laptop:pb-3"
             >
-              <span className="block">Powerful No-Coding Agents</span>
+              <span className="block">Powerful Bitcode Workflows</span>
               <span className="block">That Adapt To Your Stack</span>
             </h2>
             <div className="mt-6 max-w-4xl mx-auto leading-relaxed px-4 overflow-hidden">
@@ -800,9 +800,9 @@ const MarketingScreenshotSection: React.FC = () => {
                   rel="noopener noreferrer"
                   className="glowing-underline text-slate-100 hover:text-white transition-colors font-semibold"
                 >
-                  Bitcode&nbsp;Software&nbsp;Agents&nbsp;GitHub&nbsp;Plugin
+                  Bitcode&nbsp;GitHub&nbsp;App
                 </a>{' '}
-                lets you build with clicks, not code — self-improving agents with advanced tools iteratively deliver production-ready work.
+                lets you turn repository context into PR-backed AssetPacks with reviewable evidence and connected-interface delivery.
               </p>
             </div>
 
@@ -964,7 +964,7 @@ const MarketingScreenshotSection: React.FC = () => {
 
                     {/* Attachemesn half */}
                     <div
-                      onMouseEnter={() => setHighlightGroup('ai_documents')}
+                      onMouseEnter={() => setHighlightGroup('evidenceDocuments')}
                       onMouseLeave={() => setHighlightGroup(null)}
                       className="relative flex flex-col justify-center items-center p-3 rounded-md border border-sky-400/15 "
                     >
@@ -1036,7 +1036,7 @@ const MarketingScreenshotSection: React.FC = () => {
                   >
                     AssetPacks Finished Through Pull Requests
                   </p>
-                  {/* AssetPack & AI Documents grouped tags */}
+                  {/* AssetPack & evidence documents grouped tags */}
                   <div className="space-y-4 mt-1 text-xs">
                     {/* AssetPack group */}
                     <div>
@@ -1060,10 +1060,10 @@ const MarketingScreenshotSection: React.FC = () => {
                       </div>
                     </div>
 
-                    {/* AI Documents group */}
+                    {/* Evidence Documents group */}
                     <div>
                       <p className="text-[10px] uppercase tracking-wider font-semibold text-emerald-300 select-none text-left mb-3">
-                        AI Documents
+                        Evidence Documents
                       </p>
                       <div className="flex flex-wrap gap-3">
                         {[
