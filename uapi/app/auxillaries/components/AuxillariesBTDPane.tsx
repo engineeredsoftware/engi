@@ -79,6 +79,97 @@ function resolveWalletAddress(profile: Record<string, any> | null, userId: strin
   return `Binding pending for ${userId.slice(0, 8)}...`;
 }
 
+function readProfileString(profile: Record<string, any> | null, ...keys: string[]) {
+  if (!profile) {
+    return null;
+  }
+
+  for (const key of keys) {
+    const value = profile[key];
+    if (typeof value === "string" && value.trim()) {
+      return value.trim();
+    }
+  }
+
+  return null;
+}
+
+function readProfileNumber(profile: Record<string, any> | null, ...keys: string[]) {
+  if (!profile) {
+    return null;
+  }
+
+  for (const key of keys) {
+    const value = profile[key];
+    if (typeof value === "number" && Number.isFinite(value)) {
+      return value;
+    }
+    if (typeof value === "string" && value.trim()) {
+      const parsed = Number(value);
+      if (Number.isFinite(parsed)) {
+        return parsed;
+      }
+    }
+  }
+
+  return null;
+}
+
+function formatPolicyHash(hash: string | null) {
+  if (!hash) {
+    return "Policy hash pending";
+  }
+
+  return hash.length > 18 ? `${hash.slice(0, 10)}...${hash.slice(-6)}` : hash;
+}
+
+function resolveBtdAccessDisclosure(profile: Record<string, any> | null) {
+  const policyId = readProfileString(
+    profile,
+    "btdAccessPolicyId",
+    "btd_access_policy_id",
+    "accessPolicyId",
+    "access_policy_id",
+  );
+  const policyHash = readProfileString(
+    profile,
+    "btdAccessPolicyHash",
+    "btd_access_policy_hash",
+    "accessPolicyHash",
+    "access_policy_hash",
+  );
+  const rangeStart = readProfileNumber(
+    profile,
+    "btdRangeStart",
+    "btd_range_start",
+    "rangeStart",
+    "range_start",
+  );
+  const rangeEndExclusive = readProfileNumber(
+    profile,
+    "btdRangeEndExclusive",
+    "btd_range_end_exclusive",
+    "rangeEndExclusive",
+    "range_end_exclusive",
+  );
+  const readBranch =
+    readProfileString(profile, "btdReadBranch", "btd_read_branch", "readBranch", "read_branch") ||
+    "Owner-read / licensed-read";
+
+  return {
+    policyId: policyId || "Policy id pending",
+    policyHash: formatPolicyHash(policyHash),
+    rawPolicyHash: policyHash,
+    range:
+      typeof rangeStart === "number" &&
+      typeof rangeEndExclusive === "number" &&
+      rangeEndExclusive > rangeStart
+        ? `${rangeStart.toLocaleString()}-${(rangeEndExclusive - 1).toLocaleString()}`
+        : "AssetPack range pending",
+    readBranch,
+  };
+}
+
 export default function AuxillariesBTDPane({
   onSave,
   loading,
@@ -98,6 +189,7 @@ export default function AuxillariesBTDPane({
   const profile = (data?.profile as Record<string, any> | null) || null;
   const walletBinding = readBitcodeWalletBindingFromProfile(profile);
   const btcFeeBalanceSource = btcFeeBalance ?? profile?.btc_balance;
+  const accessDisclosure = resolveBtdAccessDisclosure(profile);
   const hasReadableBtcFeeBalance =
     typeof btcFeeBalanceSource === "number" ||
     (typeof btcFeeBalanceSource === "string" && Number.isFinite(Number(btcFeeBalanceSource)));
@@ -369,6 +461,40 @@ export default function AuxillariesBTDPane({
                 ]}
                 columns={4}
               />
+
+              <div className="mt-4">
+                <AuxillariesStatGrid
+                  items={[
+                    {
+                      label: "Access policy",
+                      value: accessDisclosure.policyId,
+                      detail: "Owner-read and licensed-read branches resolve against this policy id.",
+                      tone: "amber",
+                    },
+                    {
+                      label: "Policy hash",
+                      value: accessDisclosure.policyHash,
+                      detail: accessDisclosure.rawPolicyHash
+                        ? "Committed mint receipts and read-license checks must match this hash before private source read opens."
+                        : "A committed AssetPack range will surface its immutable policy hash here.",
+                      tone: "sky",
+                    },
+                    {
+                      label: "AssetPack range",
+                      value: accessDisclosure.range,
+                      detail: "The commercial source-share object is a contiguous range, not a fungible checkout balance.",
+                      tone: "violet",
+                    },
+                    {
+                      label: "Read branch",
+                      value: accessDisclosure.readBranch,
+                      detail: "Ownership posture and licensed read posture remain separate when access is evaluated.",
+                      tone: "emerald",
+                    },
+                  ]}
+                  columns={4}
+                />
+              </div>
             </AuxillariesWorkspaceSection>
 
             <AuxillariesWorkspaceSection

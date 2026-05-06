@@ -54,11 +54,19 @@ describe('BtdRegistryModel V27 persistence boundary', () => {
     await expect(
       registry.insertAssetPackRange({ asset_pack_id: 'asset-pack-1' }),
     ).resolves.toEqual({ id: 'row-1' });
+    await expect(
+      registry.listOwnershipClaims({ walletId: 'wallet-1', assetPackId: 'asset-pack-1' }),
+    ).resolves.toEqual([{ asset_pack_id: 'asset-pack-1' }]);
+    await expect(
+      registry.listReadLicenses({ walletId: 'wallet-1', assetPackId: 'asset-pack-1' }),
+    ).resolves.toEqual([{ asset_pack_id: 'asset-pack-1' }]);
 
     expect(supabase.calls.map((call) => call.table)).toEqual([
       'btd_supply_state',
       'btd_asset_pack_ranges',
       'btd_asset_pack_ranges',
+      'btd_ownership_events',
+      'btd_read_licenses',
     ]);
   });
 

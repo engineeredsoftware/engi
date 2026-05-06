@@ -15,8 +15,10 @@ jest.mock(
 
 import {
   buildBtdMintDraft,
+  buildBtdReadAccessDecision,
   buildGetBtdRegistrySnapshotRoute,
   buildPostBtdMintDraftRoute,
+  buildPostBtdReadAccessRoute,
 } from '../btd-crypto';
 import { createBtdMeasureMintState } from '@bitcode/btd';
 
@@ -204,5 +206,162 @@ describe('BTD crypto API builders', () => {
 
     expect(response.status).toBe(400);
     expect(body.error).toBe('V27 BTD mint draft requires a positive Exchange sequence.');
+  });
+
+  it('builds read-access decisions without merging owner-read and licensed-read rights', () => {
+    const policy = {
+      accessPolicyId: 'policy-api-1',
+      accessPolicyHash: 'policy-api-hash',
+      ownerRead: true,
+      licensedRead: true,
+      derivativeUse: false,
+      redistributionAllowed: false,
+      confidentiality: 'public_proof_private_source' as const,
+    };
+
+    const owner = buildBtdReadAccessDecision({
+      actorId: 'user-1',
+      walletId: 'wallet-owner',
+      assetPackId: 'asset-pack-api-1',
+      accessPolicy: policy,
+      ownershipClaims: [
+        {
+          walletId: 'wallet-owner',
+          assetPackId: 'asset-pack-api-1',
+          rangeStart: 0,
+          rangeEndExclusive: 10,
+          accessPolicyHash: 'policy-api-hash',
+        },
+      ],
+      at: issuedAt,
+    });
+    const licensed = buildBtdReadAccessDecision({
+      actorId: 'user-1',
+      walletId: 'wallet-reader',
+      assetPackId: 'asset-pack-api-1',
+      accessPolicy: policy,
+      licenses: [
+        {
+          licenseId: 'license-api-1',
+          walletId: 'wallet-reader',
+          assetPackId: 'asset-pack-api-1',
+          accessPolicyHash: 'policy-api-hash',
+          validFrom: '2026-05-01T00:00:00.000Z',
+          expiresAt: '2026-05-07T00:00:00.000Z',
+        },
+      ],
+      at: issuedAt,
+    });
+
+    expect(owner.decision.decision).toBe('owner_read');
+    expect(licensed.decision.decision).toBe('licensed_read');
+    expect(owner.policyDisclosure.accessPolicyHash).toBe('policy-api-hash');
+  });
+
+  it('returns JSON-safe read-access decisions from the route boundary', async () => {
+    const route = buildPostBtdReadAccessRoute({
+      resolveAuthenticatedUser: async () => ({ userId: 'user-1' }),
+    });
+    const response = await route(
+      new Request('https://bitcode.test/api/btd/read-access', {
+        method: 'POST',
+        body: JSON.stringify({
+          walletId: 'wallet-reader',
+          assetPackId: 'asset-pack-api-1',
+          accessPolicy: {
+            accessPolicyId: 'policy-api-1',
+            accessPolicyHash: 'policy-api-hash',
+            ownerRead: true,
+            licensedRead: true,
+            derivativeUse: false,
+            redistributionAllowed: false,
+            confidentiality: 'public_proof_private_source',
+          },
+          licenses: [
+            {
+              licenseId: 'license-api-1',
+              walletId: 'wallet-reader',
+              assetPackId: 'asset-pack-api-1',
+              accessPolicyHash: 'policy-api-hash',
+              validFrom: '2026-05-01T00:00:00.000Z',
+              expiresAt: '2026-05-07T00:00:00.000Z',
+            },
+          ],
+          at: issuedAt,
+        }),
+      }),
+    );
+    const body = await response.json();
+
+    expect(response.status).toBe(200);
+    expect(body.kind).toBe('btd_read_access_decision');
+    expect(body.decision.decision).toBe('licensed_read');
+    expect(body.policyDisclosure.accessPolicyId).toBe('policy-api-1');
+  });
+
+  it('keeps expired license and policy mismatch failures explicit at the route boundary', async () => {
+    const route = buildPostBtdReadAccessRoute({
+      resolveAuthenticatedUser: async () => ({ userId: 'user-1' }),
+    });
+    const expiredResponse = await route(
+      new Request('https://bitcode.test/api/btd/read-access', {
+        method: 'POST',
+        body: JSON.stringify({
+          walletId: 'wallet-reader',
+          assetPackId: 'asset-pack-api-1',
+          accessPolicy: {
+            accessPolicyId: 'policy-api-1',
+            accessPolicyHash: 'policy-api-hash',
+            ownerRead: true,
+            licensedRead: true,
+            derivativeUse: false,
+            redistributionAllowed: false,
+            confidentiality: 'public_proof_private_source',
+          },
+          licenses: [
+            {
+              licenseId: 'license-expired',
+              walletId: 'wallet-reader',
+              assetPackId: 'asset-pack-api-1',
+              accessPolicyHash: 'policy-api-hash',
+              validFrom: '2026-05-01T00:00:00.000Z',
+              expiresAt: '2026-05-05T00:00:00.000Z',
+            },
+          ],
+          at: issuedAt,
+        }),
+      }),
+    );
+    const mismatchResponse = await route(
+      new Request('https://bitcode.test/api/btd/read-access', {
+        method: 'POST',
+        body: JSON.stringify({
+          walletId: 'wallet-owner',
+          assetPackId: 'asset-pack-api-1',
+          accessPolicy: {
+            accessPolicyId: 'policy-api-1',
+            accessPolicyHash: 'policy-api-hash',
+            ownerRead: true,
+            licensedRead: true,
+            derivativeUse: false,
+            redistributionAllowed: false,
+            confidentiality: 'public_proof_private_source',
+          },
+          ownershipClaims: [
+            {
+              walletId: 'wallet-owner',
+              assetPackId: 'asset-pack-api-1',
+              rangeStart: 0,
+              rangeEndExclusive: 10,
+              accessPolicyHash: 'stale-policy-hash',
+            },
+          ],
+          at: issuedAt,
+        }),
+      }),
+    );
+
+    expect((await expiredResponse.json()).decision.reason).toBe('license_expired');
+    expect((await mismatchResponse.json()).decision.reason).toBe('policy_mismatch');
   });
 });

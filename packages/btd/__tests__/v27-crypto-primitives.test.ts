@@ -572,6 +572,97 @@ describe('V27 access and replay primitives', () => {
     ).toBe('denied');
   });
 
+  it('rejects expired licensed reads without treating them as ownership', () => {
+    const policy = {
+      accessPolicyId: 'policy-1',
+      accessPolicyHash: 'policy-hash',
+      ownerRead: true,
+      licensedRead: true,
+      derivativeUse: false,
+      redistributionAllowed: false,
+      confidentiality: 'public_proof_private_source' as const,
+    };
+    const decision = evaluateBtdReadAccess({
+      walletId: 'wallet-reader',
+      assetPackId: 'asset-pack-1',
+      accessPolicy: policy,
+      licenses: [
+        {
+          licenseId: 'license-expired',
+          walletId: 'wallet-reader',
+          assetPackId: 'asset-pack-1',
+          accessPolicyHash: 'policy-hash',
+          validFrom: '2026-05-01T00:00:00.000Z',
+          expiresAt: '2026-05-05T00:00:00.000Z',
+        },
+      ],
+      at: issuedAt,
+    });
+
+    expect(decision).toEqual({
+      decision: 'denied',
+      accessPolicyHash: 'policy-hash',
+      reason: 'license_expired',
+    });
+  });
+
+  it('rejects policy-hash drift on ownership and licensed-read inputs', () => {
+    const policy = {
+      accessPolicyId: 'policy-1',
+      accessPolicyHash: 'policy-hash-committed',
+      ownerRead: true,
+      licensedRead: true,
+      derivativeUse: false,
+      redistributionAllowed: false,
+      confidentiality: 'public_proof_private_source' as const,
+    };
+
+    expect(
+      evaluateBtdReadAccess({
+        walletId: 'wallet-owner',
+        assetPackId: 'asset-pack-1',
+        accessPolicy: policy,
+        ownershipClaims: [
+          {
+            walletId: 'wallet-owner',
+            assetPackId: 'asset-pack-1',
+            rangeStart: 0,
+            rangeEndExclusive: 2,
+            accessPolicyHash: 'policy-hash-stale',
+          },
+        ],
+        at: issuedAt,
+      }),
+    ).toEqual({
+      decision: 'denied',
+      accessPolicyHash: 'policy-hash-committed',
+      reason: 'policy_mismatch',
+    });
+
+    expect(
+      evaluateBtdReadAccess({
+        walletId: 'wallet-reader',
+        assetPackId: 'asset-pack-1',
+        accessPolicy: policy,
+        licenses: [
+          {
+            licenseId: 'license-stale-policy',
+            walletId: 'wallet-reader',
+            assetPackId: 'asset-pack-1',
+            accessPolicyHash: 'policy-hash-stale',
+            validFrom: '2026-05-01T00:00:00.000Z',
+            expiresAt: '2026-05-07T00:00:00.000Z',
+          },
+        ],
+        at: issuedAt,
+      }),
+    ).toEqual({
+      decision: 'denied',
+      accessPolicyHash: 'policy-hash-committed',
+      reason: 'policy_mismatch',
+    });
+  });
+
   it('replays measuremint receipts including zero-cell tail events', () => {
     const first = applyBtdMeasureMint({
       state: createBtdMeasureMintState({ curveParameter: 10_000n }),

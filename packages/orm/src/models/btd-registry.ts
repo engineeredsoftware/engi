@@ -69,6 +69,34 @@ export class BtdRegistryModel {
     return data ?? [];
   }
 
+  async listOwnershipClaims(input: {
+    walletId: string;
+    assetPackId: string;
+  }): Promise<Record<string, unknown>[]> {
+    const { data, error } = await this.table('btd_ownership_events')
+      .select('*')
+      .eq('to_wallet_id', input.walletId)
+      .eq('asset_pack_id', input.assetPackId)
+      .order('issued_at', { ascending: false });
+
+    if (error) throw error;
+    return data ?? [];
+  }
+
+  async listReadLicenses(input: {
+    walletId: string;
+    assetPackId: string;
+  }): Promise<Record<string, unknown>[]> {
+    const { data, error } = await this.table('btd_read_licenses')
+      .select('*')
+      .eq('wallet_id', input.walletId)
+      .eq('asset_pack_id', input.assetPackId)
+      .order('valid_from', { ascending: false });
+
+    if (error) throw error;
+    return data ?? [];
+  }
+
   insertSemanticVolumeMeasurement(row: Record<string, unknown>): Promise<BtdRegistryInsertResult> {
     return this.insertReturning('btd_semantic_volume_measurements', row);
   }

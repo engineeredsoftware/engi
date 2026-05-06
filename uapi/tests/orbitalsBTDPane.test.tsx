@@ -66,6 +66,10 @@ describe('AuxillariesBTDPane', () => {
         profile: {
           wallet_address: 'bc1qbitcodeoperator',
           btc_balance: '0.125',
+          btdAccessPolicyId: 'policy-main',
+          btdAccessPolicyHash: 'policy-hash-abcdef1234567890',
+          btdRangeStart: 1200,
+          btdRangeEndExclusive: 1212,
           team_members: [
             { id: 'tm-1', display_name: 'Lin Ortega', role: 'admin' },
             { id: 'tm-2', display_name: 'Sora Ames', role: 'lead' },
@@ -112,7 +116,11 @@ describe('AuxillariesBTDPane', () => {
     });
 
     expect(screen.getByTestId('btd-step-badge')).toHaveTextContent('Auxillary step 4');
-    expect(screen.getByText(/Keep balances, identity, and membership readable together/i)).toBeTruthy();
+    expect(screen.getByText(/Keep BTC fees, \$BTD holdings, identity, and membership readable together/i)).toBeTruthy();
+    expect(screen.getByText('Access policy')).toBeInTheDocument();
+    expect(screen.getByText('policy-main')).toBeInTheDocument();
+    expect(screen.getByText('policy-has...567890')).toBeInTheDocument();
+    expect(screen.getByText('1,200-1,211')).toBeInTheDocument();
     expect(screen.getByRole('heading', { name: /Choose how \$BTD detail should read back into transactions/i })).toBeTruthy();
 
     fireEvent.click(screen.getByRole('button', { name: /organization/i }));

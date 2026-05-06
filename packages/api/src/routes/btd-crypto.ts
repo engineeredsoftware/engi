@@ -5,8 +5,11 @@ import { createClient } from '@bitcode/supabase/ssr/server';
 import { createJsonResponse } from '@bitcode/responses';
 import {
   BTD_MAX_MINTABLE_SUPPLY,
+  type BtdAccessPolicy,
   type BtdContributorMeasure,
   type BtdMeasureMintState,
+  type BtdOwnershipClaim,
+  type BtdReadLicense,
   type SemanticVolumeUnitInput,
   allocateAssetPackRange,
   allocateBtdContributorCells,
@@ -16,6 +19,7 @@ import {
   buildTerminalJournalEntry,
   createBtdMeasureMintState,
   createBtdSupplyState,
+  evaluateBtdReadAccess,
   measureProofAddressableSemanticVolume,
 } from '@bitcode/btd';
 
@@ -62,6 +66,31 @@ export interface BtdMintDraft {
   terminalJournalEntry: ReturnType<typeof buildTerminalJournalEntry>;
   blocking: boolean;
   zeroCell: boolean;
+}
+
+export interface BtdReadAccessInput {
+  walletId: string;
+  assetPackId: string;
+  accessPolicy: BtdAccessPolicy;
+  ownershipClaims?: BtdOwnershipClaim[];
+  licenses?: BtdReadLicense[];
+  at?: string;
+}
+
+export interface BtdReadAccessDecision {
+  kind: 'btd_read_access_decision';
+  actorId: string;
+  assetPackId: string;
+  decision: ReturnType<typeof evaluateBtdReadAccess>;
+  policyDisclosure: {
+    accessPolicyId: string;
+    accessPolicyHash: string;
+    ownerRead: boolean;
+    licensedRead: boolean;
+    derivativeUse: boolean;
+    redistributionAllowed: boolean;
+    confidentiality: BtdAccessPolicy['confidentiality'];
+  };
 }
 
 let defaultRegistry: BtdRegistryModel | null = null;
@@ -219,6 +248,31 @@ export function buildBtdMintDraft(input: BtdMintDraftInput): BtdMintDraft {
   };
 }
 
+export function buildBtdReadAccessDecision(
+  input: BtdReadAccessInput & { actorId: string },
+): BtdReadAccessDecision {
+  assertNonEmptyString(input.actorId, 'actorId');
+  assertNonEmptyString(input.walletId, 'walletId');
+  assertNonEmptyString(input.assetPackId, 'assetPackId');
+  const decision = evaluateBtdReadAccess(input);
+
+  return {
+    kind: 'btd_read_access_decision',
+    actorId: input.actorId,
+    assetPackId: input.assetPackId,
+    decision,
+    policyDisclosure: {
+      accessPolicyId: input.accessPolicy.accessPolicyId,
+      accessPolicyHash: input.accessPolicy.accessPolicyHash,
+      ownerRead: input.accessPolicy.ownerRead,
+      licensedRead: input.accessPolicy.licensedRead,
+      derivativeUse: input.accessPolicy.derivativeUse,
+      redistributionAllowed: input.accessPolicy.redistributionAllowed,
+      confidentiality: input.accessPolicy.confidentiality,
+    },
+  };
+}
+
 export function buildGetBtdRegistrySnapshotRoute(options: BtdRouteOptions = {}) {
   return traceRoute('/btd/registry', async (request: Request) => {
     const user = await (options.resolveAuthenticatedUser ?? defaultResolveAuthenticatedUser)(
@@ -271,8 +325,39 @@ export function buildPostBtdMintDraftRoute(options: BtdRouteOptions = {}) {
   });
 }
 
+export function buildPostBtdReadAccessRoute(options: BtdRouteOptions = {}) {
+  return traceRoute('/btd/read-access', async (request: Request) => {
+    const user = await (options.resolveAuthenticatedUser ?? defaultResolveAuthenticatedUser)(
+      request,
+    );
+    if (!user) {
+      return createJsonResponse({ error: 'Unauthorized' }, 401);
+    }
+
+    let body: BtdReadAccessInput;
+    try {
+      body = await request.json();
+    } catch {
+      return createJsonResponse({ error: 'Invalid JSON body' }, 400);
+    }
+
+    let decision: BtdReadAccessDecision;
+    try {
+      decision = buildBtdReadAccessDecision({
+        ...body,
+        actorId: user.userId,
+      });
+    } catch (error) {
+      return createJsonResponse({ error: toBadRequestMessage(error) }, 400);
+    }
+
+    return createJsonResponse(toJsonSafe(decision));
+  });
+}
+
 export const getBtdRegistrySnapshot = buildGetBtdRegistrySnapshotRoute();
 export const postBtdMintDraft = buildPostBtdMintDraftRoute();
+export const postBtdReadAccess = buildPostBtdReadAccessRoute();
 
 function assertMintDraftAdmission(input: BtdMintDraftInput): void {
   if (input.acceptedNeed !== true) {
