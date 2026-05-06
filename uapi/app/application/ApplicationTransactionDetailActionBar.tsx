@@ -27,6 +27,7 @@ interface ApplicationTransactionDetailActionBarProps {
   isActing: boolean;
   shellReady: boolean;
   mockMode: boolean;
+  surface?: 'terminal' | 'exchange';
 }
 
 export default function ApplicationTransactionDetailActionBar({
@@ -37,8 +38,10 @@ export default function ApplicationTransactionDetailActionBar({
   isActing,
   shellReady,
   mockMode,
+  surface = 'terminal',
 }: ApplicationTransactionDetailActionBarProps) {
   const visibleActions = mockMode ? DETAIL_ACTIONS.filter((action) => action.id !== 'console') : DETAIL_ACTIONS;
+  const isExchangeSurface = surface === 'exchange';
   const runtimeActionDisabled = isActing || !shellReady;
   const runtimeActionDisabledTooltip = isActing
     ? 'Disabled while closure is already running. When enabled, this button writes or refreshes the selected activity detail.'
@@ -70,25 +73,33 @@ export default function ApplicationTransactionDetailActionBar({
     <section className="rounded-[1.5rem] border border-white/8 bg-black/20 px-5 py-5">
       <div className="flex flex-col gap-4 xl:flex-row xl:items-end xl:justify-between">
         <div>
-          <p className="text-[0.68rem] uppercase tracking-[0.24em] text-neutral-400">Activity interaction</p>
-          <h3 className="mt-2 text-lg font-semibold text-white">Route-owned detail focus and closure actions</h3>
+          <p className="text-[0.68rem] uppercase tracking-[0.24em] text-neutral-400">
+            {isExchangeSurface ? 'Exchange detail interaction' : 'Activity interaction'}
+          </p>
+          <h3 className="mt-2 text-lg font-semibold text-white">
+            {isExchangeSurface ? 'Route-owned Exchange detail focus' : 'Route-owned detail focus and closure actions'}
+          </h3>
           <p className="mt-2 max-w-3xl text-sm leading-6 text-neutral-300">
-            Switch detail focus, rerun closure, and refresh the selected Bitcode activity from the same place you read it.
+            {isExchangeSurface
+              ? 'Switch detail focus for the selected Exchange activity while preserving the route-owned master selection.'
+              : 'Switch detail focus, rerun closure, and refresh the selected Bitcode activity from the same place you read it.'}
           </p>
         </div>
 
-        <div className="flex flex-wrap items-center gap-2">
-          {runtimeActionDisabled && runtimeActionDisabledTooltip ? (
-            <DisabledTooltipWrapper tooltip={runtimeActionDisabledTooltip} placement="top">
-              {runClosureButton}
-            </DisabledTooltipWrapper>
-          ) : runClosureButton}
-          {runtimeActionDisabled && runtimeActionDisabledTooltip ? (
-            <DisabledTooltipWrapper tooltip={runtimeActionDisabledTooltip} placement="top">
-              {refreshButton}
-            </DisabledTooltipWrapper>
-          ) : refreshButton}
-        </div>
+        {!isExchangeSurface ? (
+          <div className="flex flex-wrap items-center gap-2">
+            {runtimeActionDisabled && runtimeActionDisabledTooltip ? (
+              <DisabledTooltipWrapper tooltip={runtimeActionDisabledTooltip} placement="top">
+                {runClosureButton}
+              </DisabledTooltipWrapper>
+            ) : runClosureButton}
+            {runtimeActionDisabled && runtimeActionDisabledTooltip ? (
+              <DisabledTooltipWrapper tooltip={runtimeActionDisabledTooltip} placement="top">
+                {refreshButton}
+              </DisabledTooltipWrapper>
+            ) : refreshButton}
+          </div>
+        ) : null}
       </div>
 
       <div className="mt-4 flex flex-wrap gap-2">

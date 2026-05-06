@@ -99,7 +99,7 @@ describe('Nav public shell', () => {
     const createButton = screen.getByRole('button', { name: 'Connect Wallet' });
 
     expect(screen.getByText('Brand home')).toBeInTheDocument();
-    expect(screen.getByRole('link', { name: 'Exchange' })).toHaveAttribute('href', '/');
+    expect(screen.getByRole('link', { name: 'Exchange' })).toHaveAttribute('href', '/exchange');
     expect(screen.getByRole('link', { name: 'Exchange' })).not.toHaveAttribute('aria-current');
     expect(screen.getByRole('link', { name: 'Terminal' })).toHaveAttribute('href', '/application');
     expect(screen.getByRole('link', { name: 'Docs' })).toHaveAttribute('href', '/docs');
@@ -144,6 +144,16 @@ describe('Nav public shell', () => {
 
     expect(screen.getByText('Brand docs')).toBeInTheDocument();
     expect(screen.getByRole('link', { name: 'Docs' })).toHaveAttribute('href', '/docs');
+  });
+
+  it('renders exchange brand posture and active nav on exchange routes', () => {
+    mockPathname = '/exchange';
+
+    render(<Nav />);
+
+    expect(screen.getByText('Brand network')).toBeInTheDocument();
+    expect(screen.getByRole('link', { name: 'Exchange' })).toHaveAttribute('href', '/exchange');
+    expect(screen.getByRole('link', { name: 'Exchange' })).toHaveAttribute('aria-current', 'page');
   });
 
   it('treats /edgetimes as a docs-branded public route', () => {

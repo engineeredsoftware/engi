@@ -32,6 +32,7 @@ interface BitcodeTransactionsTableProps {
   isLoading: boolean;
   error: string | null;
   dataMode: TransactionDataMode;
+  surface?: 'terminal' | 'exchange';
 }
 
 export default function BitcodeTransactionsTable({
@@ -53,7 +54,10 @@ export default function BitcodeTransactionsTable({
   isLoading,
   error,
   dataMode,
+  surface = 'terminal',
 }: BitcodeTransactionsTableProps) {
+  const surfaceName = surface === 'exchange' ? 'Bitcode Exchange' : 'central Bitcode Terminal';
+
   return (
     <section className="rounded-[1.6rem] border border-white/8 bg-black/20 px-5 py-5">
       <div className="flex flex-col gap-5 xl:flex-row xl:items-end xl:justify-between">
@@ -62,7 +66,7 @@ export default function BitcodeTransactionsTable({
           <h3 className="mt-2 text-xl font-semibold text-white">Rich Bitcode activity ledger</h3>
           <p className="mt-3 text-sm leading-6 text-neutral-300">
             Master detail is concretely a searchable, filterable ledger of Bitcode activity. Select any row to load
-            activity detail, asset packs, proofs, history, and execution updates in the central Bitcode Terminal.
+            activity detail, asset packs, proofs, history, and execution updates in the {surfaceName}.
           </p>
         </div>
 

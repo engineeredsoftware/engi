@@ -204,6 +204,7 @@ interface ApplicationTransactionWorkspaceProps {
   transactionDataMode: TransactionDataMode;
   onSelectTransaction: (transactionId: string) => void;
   onRecordActivity?: (draft: ApplicationActivityRecordDraft) => Promise<unknown>;
+  surface?: 'terminal' | 'exchange';
 }
 
 export default function ApplicationTransactionWorkspace({
@@ -221,7 +222,17 @@ export default function ApplicationTransactionWorkspace({
   transactionDataMode,
   onSelectTransaction,
   onRecordActivity,
+  surface = 'terminal',
 }: ApplicationTransactionWorkspaceProps) {
+  const isExchangeSurface = surface === 'exchange';
+  const surfaceKicker = isExchangeSurface ? 'Bitcode Exchange' : 'Bitcode Terminal';
+  const surfaceTitle = isExchangeSurface
+    ? 'Activity search, master table, and selected detail'
+    : 'Master-detail activity, asset packs, proofs, and history';
+  const surfaceSummary = isExchangeSurface
+    ? 'Search Exchange activity, select a row, and inspect its AssetPack evidence, proof posture, history, and execution detail from the Exchange state layer.'
+    : 'Use the central ledger as the main read surface: select Bitcode activity, inspect its asset packs, proofs, and history, and keep the full operating chain readable without leaving the page.';
+  const loadingLabel = isExchangeSurface ? 'Loading Bitcode Exchange…' : 'Loading Bitcode Terminal…';
   const mockAssetPackSurface = selectedRun ? MOCK_RUN_ASSET_PACK_SURFACES[selectedRun.id] : null;
   const usesMockTransactions = isMockTransactionDataMode(transactionDataMode);
   const [runDetail, setRunDetail] = useState<ApplicationRunDetailSnapshot | null>(null);
@@ -296,13 +307,12 @@ export default function ApplicationTransactionWorkspace({
       <div className="border-b border-white/8 px-6 py-5">
         <div className="flex flex-col gap-5 xl:flex-row xl:items-end xl:justify-between">
           <div className="max-w-4xl">
-            <p className="text-[0.7rem] uppercase tracking-[0.28em] text-neutral-400">Bitcode Terminal</p>
+            <p className="text-[0.7rem] uppercase tracking-[0.28em] text-neutral-400">{surfaceKicker}</p>
             <h2 className="mt-2 text-2xl font-semibold tracking-tight text-white">
-              Master-detail activity, asset packs, proofs, and history
+              {surfaceTitle}
             </h2>
             <p className="mt-2 max-w-3xl text-sm leading-6 text-neutral-300">
-              Use the central ledger as the main read surface: select Bitcode activity, inspect its asset packs,
-              proofs, and history, and keep the full operating chain readable without leaving the page.
+              {surfaceSummary}
             </p>
           </div>
           {selectedRun ? (
@@ -326,7 +336,7 @@ export default function ApplicationTransactionWorkspace({
       <div className="px-6 py-6">
         {isLoadingRuns ? (
           <div className="rounded-[1.5rem] border border-white/6 bg-black/20 px-5 py-10 text-sm text-neutral-400">
-            Loading Bitcode Terminal…
+            {loadingLabel}
           </div>
         ) : runsError ? (
           <div className="rounded-[1.5rem] border border-red-500/20 bg-red-500/10 px-5 py-5 text-sm text-red-200">
@@ -350,6 +360,7 @@ export default function ApplicationTransactionWorkspace({
               isLoadingRuns={isLoadingRuns}
               runsError={runsError}
               transactionDataMode={transactionDataMode}
+              surface={surface}
             />
 
             <div className="grid gap-4 2xl:grid-cols-4">
@@ -381,6 +392,7 @@ export default function ApplicationTransactionWorkspace({
               detailSection={detailSection}
               onDetailSectionChange={onDetailSectionChange}
               onRecordActivity={onRecordActivity}
+              surface={surface}
             />
           </div>
         )}

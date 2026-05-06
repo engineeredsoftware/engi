@@ -60,6 +60,7 @@ interface ApplicationTransactionDetailSurfaceProps {
   detailSection: ApplicationTransactionDetailSection;
   onDetailSectionChange: (detailSection: ApplicationTransactionDetailSection) => void;
   onRecordActivity?: (draft: ApplicationActivityRecordDraft) => Promise<unknown>;
+  surface?: 'terminal' | 'exchange';
 }
 
 export default function ApplicationTransactionDetailSurface({
@@ -71,6 +72,7 @@ export default function ApplicationTransactionDetailSurface({
   detailSection,
   onDetailSectionChange,
   onRecordActivity,
+  surface = 'terminal',
 }: ApplicationTransactionDetailSurfaceProps) {
   const [summaryOpen, setSummaryOpen] = useState(true);
   const [isActing, setIsActing] = useState(false);
@@ -292,6 +294,7 @@ export default function ApplicationTransactionDetailSurface({
             isActing={isActing}
             shellReady={shellReady}
             mockMode={usesMockTransactions}
+            surface={surface}
           />
 
           {showShippables && mergedAssetPackSurface ? (

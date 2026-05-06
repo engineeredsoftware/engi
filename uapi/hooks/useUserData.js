@@ -18,6 +18,7 @@ const ANONYMOUS_USER_DATA = {
     repositoryInventorySource: null,
     organizations: [],
     btdBalance: 0,
+    btcFeeBalance: null,
     modelPreferences: null,
     onboardedPanes: [],
     onboarded_steps: [],
@@ -70,6 +71,22 @@ function deriveConnectedOrganizations(repositories, fallbackOrganizations) {
         .map((repository) => readRepositoryOwnerUsername(repository))
         .filter((organization) => Boolean(organization))));
 }
+function readNumericField(source, ...keys) {
+    if (!source || typeof source !== 'object')
+        return null;
+    const record = source;
+    for (const key of keys) {
+        const value = record[key];
+        if (typeof value === 'number' && Number.isFinite(value))
+            return value;
+        if (typeof value === 'string' && value.trim()) {
+            const parsed = Number(value);
+            if (Number.isFinite(parsed))
+                return parsed;
+        }
+    }
+    return null;
+}
 // ---------------------------------------------------------------------------
 // Very lightweight shared cache (module-level).  We intentionally avoid adding
 // a new runtime dependency (e.g. SWR or React Query) to keep the patch
@@ -118,22 +135,20 @@ async function mutateUserData() {
  * “flipping” nav bug where different widgets would overwrite each other.
  */
 function useUserData() {
-    // Seed the BTD balance from localStorage synchronously so we can render an immediate
-    // non-zero balance while the network request is pending.
-    const hydratedBtdBalance = (() => {
-        try {
-            if (typeof window === 'undefined')
-                return 0;
-            const raw = localStorage.getItem('btd_balance_cached');
-            return raw ? parseInt(raw, 10) || 0 : 0;
-        }
-        catch {
-            return 0;
-        }
-    })();
     const [data, setData] = (0, react_1.useState)(cached);
     const [error, setError] = (0, react_1.useState)(null);
+    const [cachedBtdBalance, setCachedBtdBalance] = (0, react_1.useState)(0);
     const isLoading = data === null && error === null;
+    (0, react_1.useEffect)(() => {
+        try {
+            const raw = localStorage.getItem('btd_balance_cached');
+            const balance = raw ? parseInt(raw, 10) || 0 : 0;
+            setCachedBtdBalance(balance);
+        }
+        catch {
+            setCachedBtdBalance(0);
+        }
+    }, []);
     const refresh = (0, react_1.useCallback)(async () => {
         try {
             const fresh = await mutateUserData();
@@ -199,7 +214,10 @@ function useUserData() {
         ? data.repositoryInventorySource
         : null;
     const organizations = deriveConnectedOrganizations(repositories, data?.organizations);
-    const btdBalance = typeof data?.btdBalance === 'number' ? data.btdBalance : hydratedBtdBalance;
+    const btdBalance = typeof data?.btdBalance === 'number' ? data.btdBalance : cachedBtdBalance;
+    const btcFeeBalance = typeof data?.btcFeeBalance === 'number'
+        ? data.btcFeeBalance
+        : readNumericField(data?.profile, 'btcFeeBalance', 'btc_fee_balance', 'btc_balance');
     const onboardedSteps = (0, auxillary_pane_meta_1.normalizeAuxillarySteps)(data?.onboardedPanes ?? data?.onboarded_steps ?? []);
     const isOnboardingComplete = data?.isOnboardingComplete || false;
     return {
@@ -216,6 +234,7 @@ function useUserData() {
         repositoryInventorySource,
         organizations,
         btdBalance,
+        btcFeeBalance,
         isLoading,
         error,
         refresh,

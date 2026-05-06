@@ -1,13 +1,33 @@
-function loadFeatureFlags(nodeEnv: string, applicationDebugWidget?: string) {
+type FeatureFlagOverrides = {
+  applicationDebugWidget?: string;
+  bitcodeEnv?: string;
+  disableExchangeLink?: string;
+  disableAuxillaries?: string;
+  disableCreateAccount?: string;
+};
+
+function loadFeatureFlags(nodeEnv: string, overrides: FeatureFlagOverrides = {}) {
   const previousNodeEnv = process.env.NODE_ENV;
   const previousDebugWidget = process.env.NEXT_PUBLIC_APPLICATION_DEBUG_WIDGET;
+  const previousBitcodeEnv = process.env.NEXT_PUBLIC_BITCODE_ENV;
+  const previousDisableExchangeLink = process.env.NEXT_PUBLIC_DISABLE_EXCHANGE_LINK;
+  const previousDisableAuxillaries = process.env.NEXT_PUBLIC_DISABLE_AUXILLARIES;
+  const previousDisableCreateAccount = process.env.NEXT_PUBLIC_DISABLE_CREATE_ACCOUNT;
 
   process.env.NODE_ENV = nodeEnv;
-  if (applicationDebugWidget === undefined) {
+  if (overrides.applicationDebugWidget === undefined) {
     delete process.env.NEXT_PUBLIC_APPLICATION_DEBUG_WIDGET;
   } else {
-    process.env.NEXT_PUBLIC_APPLICATION_DEBUG_WIDGET = applicationDebugWidget;
+    process.env.NEXT_PUBLIC_APPLICATION_DEBUG_WIDGET = overrides.applicationDebugWidget;
   }
+  if (overrides.bitcodeEnv === undefined) delete process.env.NEXT_PUBLIC_BITCODE_ENV;
+  else process.env.NEXT_PUBLIC_BITCODE_ENV = overrides.bitcodeEnv;
+  if (overrides.disableExchangeLink === undefined) delete process.env.NEXT_PUBLIC_DISABLE_EXCHANGE_LINK;
+  else process.env.NEXT_PUBLIC_DISABLE_EXCHANGE_LINK = overrides.disableExchangeLink;
+  if (overrides.disableAuxillaries === undefined) delete process.env.NEXT_PUBLIC_DISABLE_AUXILLARIES;
+  else process.env.NEXT_PUBLIC_DISABLE_AUXILLARIES = overrides.disableAuxillaries;
+  if (overrides.disableCreateAccount === undefined) delete process.env.NEXT_PUBLIC_DISABLE_CREATE_ACCOUNT;
+  else process.env.NEXT_PUBLIC_DISABLE_CREATE_ACCOUNT = overrides.disableCreateAccount;
 
   let featureFlags: typeof import('@/config/features').FEATURE_FLAGS | null = null;
   jest.isolateModules(() => {
@@ -20,6 +40,14 @@ function loadFeatureFlags(nodeEnv: string, applicationDebugWidget?: string) {
   } else {
     process.env.NEXT_PUBLIC_APPLICATION_DEBUG_WIDGET = previousDebugWidget;
   }
+  if (previousBitcodeEnv === undefined) delete process.env.NEXT_PUBLIC_BITCODE_ENV;
+  else process.env.NEXT_PUBLIC_BITCODE_ENV = previousBitcodeEnv;
+  if (previousDisableExchangeLink === undefined) delete process.env.NEXT_PUBLIC_DISABLE_EXCHANGE_LINK;
+  else process.env.NEXT_PUBLIC_DISABLE_EXCHANGE_LINK = previousDisableExchangeLink;
+  if (previousDisableAuxillaries === undefined) delete process.env.NEXT_PUBLIC_DISABLE_AUXILLARIES;
+  else process.env.NEXT_PUBLIC_DISABLE_AUXILLARIES = previousDisableAuxillaries;
+  if (previousDisableCreateAccount === undefined) delete process.env.NEXT_PUBLIC_DISABLE_CREATE_ACCOUNT;
+  else process.env.NEXT_PUBLIC_DISABLE_CREATE_ACCOUNT = previousDisableCreateAccount;
 
   return featureFlags;
 }
@@ -31,7 +59,23 @@ describe('FEATURE_FLAGS', () => {
   });
 
   it('lets NEXT_PUBLIC_APPLICATION_DEBUG_WIDGET override the environment default', () => {
-    expect(loadFeatureFlags('production', 'true')?.APPLICATION_DEBUG_WIDGET).toBe(true);
-    expect(loadFeatureFlags('development', 'false')?.APPLICATION_DEBUG_WIDGET).toBe(false);
+    expect(loadFeatureFlags('production', { applicationDebugWidget: 'true' })?.APPLICATION_DEBUG_WIDGET).toBe(true);
+    expect(loadFeatureFlags('development', { applicationDebugWidget: 'false' })?.APPLICATION_DEBUG_WIDGET).toBe(false);
+  });
+
+  it('keeps Exchange and QA-entry surfaces open by default in development and testnet', () => {
+    expect(loadFeatureFlags('development')?.DISABLE_EXCHANGE_LINK).toBe(false);
+    expect(loadFeatureFlags('development')?.DISABLE_AUXILLARIES).toBe(false);
+    expect(loadFeatureFlags('development')?.DISABLE_CREATE_ACCOUNT).toBe(false);
+
+    expect(loadFeatureFlags('production', { bitcodeEnv: 'testnet' })?.DISABLE_EXCHANGE_LINK).toBe(false);
+  });
+
+  it('keeps launch-gated surfaces disabled by default in production unless explicitly opened', () => {
+    expect(loadFeatureFlags('production')?.DISABLE_EXCHANGE_LINK).toBe(true);
+    expect(loadFeatureFlags('production')?.DISABLE_AUXILLARIES).toBe(true);
+    expect(loadFeatureFlags('production')?.DISABLE_CREATE_ACCOUNT).toBe(true);
+
+    expect(loadFeatureFlags('production', { disableExchangeLink: 'false' })?.DISABLE_EXCHANGE_LINK).toBe(false);
   });
 });

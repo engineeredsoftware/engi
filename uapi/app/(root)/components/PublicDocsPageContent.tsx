@@ -63,7 +63,7 @@ const specCoverageCards = [
 
 const quickRouteCards = [
   {
-    href: '/',
+    href: '/exchange',
     eyebrow: 'Exchange',
     title: 'Read the public market frame',
     summary: BITCODE_PUBLIC_EXPLAINERS.network.summary,

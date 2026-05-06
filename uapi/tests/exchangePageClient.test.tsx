@@ -1,0 +1,73 @@
+import React from 'react';
+import '@testing-library/jest-dom';
+import { render, screen, waitFor } from '@testing-library/react';
+
+import ExchangePageClient from '@/app/exchange/ExchangePageClient';
+
+const mockReplace = jest.fn();
+let mockQuery = 'intent=buy-existing-btd';
+
+jest.mock('next/navigation', () => ({
+  usePathname: () => '/exchange',
+  useRouter: () => ({ replace: mockReplace }),
+  useSearchParams: () => new URLSearchParams(mockQuery),
+}));
+
+jest.mock('@/lib/mock-review-mode', () => ({
+  isUserOrbitalMockMode: () => true,
+}));
+
+jest.mock('@/networking/api-client', () => ({
+  fetchPipelineExecutionHistory: jest.fn(),
+}));
+
+jest.mock('@/app/application/application-shell-bridge', () => ({
+  ApplicationShellBridgeProvider: ({ children }: { children: React.ReactNode }) => <>{children}</>,
+}));
+
+jest.mock('@/app/application/ApplicationTransactionWorkspace', () => ({
+  __esModule: true,
+  default: ({
+    runs,
+    selectedRun,
+    surface,
+  }: {
+    runs: Array<{ id: string }>;
+    selectedRun: { id: string } | null;
+    surface?: string;
+  }) => (
+    <div
+      data-testid="exchange-workspace"
+      data-run-count={runs.length}
+      data-selected-run={selectedRun?.id || ''}
+      data-surface={surface || ''}
+    />
+  ),
+}));
+
+describe('ExchangePageClient', () => {
+  beforeEach(() => {
+    mockReplace.mockReset();
+    mockQuery = 'intent=buy-existing-btd';
+  });
+
+  it('renders the Exchange activity master-detail surface without redirecting to the homepage', async () => {
+    render(<ExchangePageClient />);
+
+    expect(
+      screen.getByRole('heading', { name: /Search activity, select a row, and read Exchange state/i }),
+    ).toBeInTheDocument();
+    expect(screen.getByTestId('exchange-workspace')).toHaveAttribute('data-surface', 'exchange');
+    expect(screen.getByTestId('exchange-workspace')).toHaveAttribute(
+      'data-selected-run',
+      'mock-run-branch-remediation',
+    );
+
+    await waitFor(() => {
+      expect(mockReplace).toHaveBeenCalledWith(
+        '/exchange?intent=buy-existing-btd&transactionId=mock-run-branch-remediation',
+        { scroll: false },
+      );
+    });
+  });
+});

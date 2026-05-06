@@ -22,6 +22,7 @@ import { BITCODE_PUBLIC_EXPLAINERS } from '@/components/base/bitcode/layout/bitc
 import { DisabledTooltipWrapper } from '@/components/base/bitcode/overlays/disabled-tooltip-wrapper';
 
 const APPLICATION_URL = '/application';
+const EXCHANGE_URL = '/exchange';
 const DEFAULT_OPERATOR_GUIDE_URL =
   process.env.NEXT_PUBLIC_BITCODE_OPERATOR_GUIDE_URL?.trim() || '/docs';
 const CURRENT_PROTOCOL_SPEC_URL = 'https://github.com/engineeredsoftware/bitcode/blob/main/BITCODE_SPEC.txt';
@@ -122,7 +123,7 @@ export default function Footer({ showPrimaryContent = true, className = '' }: Fo
       ariaLabel: 'Exchange',
       label: BITCODE_PUBLIC_COPY.footer.links.network,
       meta: 'Public exchange',
-      href: '/',
+      href: EXCHANGE_URL,
       explainer: BITCODE_PUBLIC_EXPLAINERS.network,
       icon: (
         <span
@@ -372,7 +373,7 @@ export default function Footer({ showPrimaryContent = true, className = '' }: Fo
               <div className="grid w-full grid-cols-1 gap-2 phone:grid-cols-2 laptop:grid-cols-[repeat(4,minmax(0,1fr))]">
                 {footerLinks.map((social) => {
                   const isDisabledRoute =
-                    (social.href === '/' && disableExchangeLink) ||
+                    (social.href === EXCHANGE_URL && disableExchangeLink) ||
                     (social.href === APPLICATION_URL && disableTerminalLink);
                   const explainerButton = social.explainer ? (
                     <BitcodeInlineExplainer
@@ -403,7 +404,7 @@ export default function Footer({ showPrimaryContent = true, className = '' }: Fo
                     <span key={social.ariaLabel} className="block w-full">
                       <DisabledTooltipWrapper
                         tooltip={
-                          social.href === '/'
+                          social.href === EXCHANGE_URL
                             ? DISABLED_FEATURE_TOOLTIPS.exchange
                             : DISABLED_FEATURE_TOOLTIPS.terminal
                         }

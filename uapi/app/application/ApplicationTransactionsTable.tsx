@@ -28,6 +28,7 @@ interface ApplicationTransactionsTableProps {
   isLoadingRuns: boolean;
   runsError: string | null;
   transactionDataMode: TransactionDataMode;
+  surface?: 'terminal' | 'exchange';
 }
 
 export default function ApplicationTransactionsTable({
@@ -42,6 +43,7 @@ export default function ApplicationTransactionsTable({
   isLoadingRuns,
   runsError,
   transactionDataMode,
+  surface = 'terminal',
 }: ApplicationTransactionsTableProps) {
   const records = useMemo(() => normalizeApplicationTransactions(runs), [runs]);
   const options = useMemo(() => buildApplicationTransactionFilterOptions(records), [records]);
@@ -98,6 +100,7 @@ export default function ApplicationTransactionsTable({
       isLoading={isLoadingRuns}
       error={runsError}
       dataMode={transactionDataMode}
+      surface={surface}
     />
   );
 }

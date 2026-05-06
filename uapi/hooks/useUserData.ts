@@ -204,21 +204,20 @@ export async function mutateUserData(): Promise<AggregatedUserData> {
  * “flipping” nav bug where different widgets would overwrite each other.
  */
 export function useUserData() {
-  // Seed the BTD balance from localStorage synchronously so we can render an immediate
-  // non-zero balance while the network request is pending.
-  const hydratedBtdBalance = (() => {
-    try {
-      if (typeof window === 'undefined') return 0;
-      const raw = localStorage.getItem('btd_balance_cached');
-      return raw ? parseInt(raw, 10) || 0 : 0;
-    } catch {
-      return 0;
-    }
-  })();
-
   const [data, setData] = useState<AggregatedUserData | null>(cached);
   const [error, setError] = useState<unknown>(null);
+  const [cachedBtdBalance, setCachedBtdBalance] = useState(0);
   const isLoading = data === null && error === null;
+
+  useEffect(() => {
+    try {
+      const raw = localStorage.getItem('btd_balance_cached');
+      const balance = raw ? parseInt(raw, 10) || 0 : 0;
+      setCachedBtdBalance(balance);
+    } catch {
+      setCachedBtdBalance(0);
+    }
+  }, []);
 
   const refresh = useCallback(async () => {
     try {
@@ -292,7 +291,7 @@ export function useUserData() {
       ? (data.repositoryInventorySource as UserRepositoryInventorySource)
       : null;
   const organizations = deriveConnectedOrganizations(repositories, data?.organizations);
-  const btdBalance = typeof data?.btdBalance === 'number' ? data.btdBalance : hydratedBtdBalance;
+  const btdBalance = typeof data?.btdBalance === 'number' ? data.btdBalance : cachedBtdBalance;
   const btcFeeBalance =
     typeof data?.btcFeeBalance === 'number'
       ? data.btcFeeBalance

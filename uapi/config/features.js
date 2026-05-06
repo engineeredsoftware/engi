@@ -42,6 +42,7 @@ const env = {
     NEXT_PUBLIC_NAV_BAR: process.env.NEXT_PUBLIC_NAV_BAR,
     NEXT_PUBLIC_MCP_UPGRADES: process.env.NEXT_PUBLIC_MCP_UPGRADES,
     NEXT_PUBLIC_LIVE_DAY_BTD_ACQUIRE: process.env.NEXT_PUBLIC_LIVE_DAY_BTD_ACQUIRE,
+    NEXT_PUBLIC_BITCODE_ENV: process.env.NEXT_PUBLIC_BITCODE_ENV,
     ENHANCE_WITH_DIGEST: process.env.ENHANCE_WITH_DIGEST,
     NEXT_PUBLIC_FOOTER_MUSIC_PLAYER: process.env.NEXT_PUBLIC_FOOTER_MUSIC_PLAYER,
 };
@@ -57,6 +58,8 @@ const envFlag = (key, fallback = false) => {
         return false;
     return fallback;
 };
+const isQaOpenEnvironment = process.env.NODE_ENV !== 'production' ||
+    env.NEXT_PUBLIC_BITCODE_ENV?.trim().toLowerCase() === 'testnet';
 exports.FEATURE_FLAGS = {
     MAINTENANCE_MODE: envFlag('NEXT_PUBLIC_MAINTENANCE_MODE'),
     // ——————————————————————————————————————————————————————————
@@ -94,9 +97,9 @@ exports.FEATURE_FLAGS = {
     // time which ensures the value is available in the client bundle (dynamic
     // `process.env[key]` look-ups are tree-shaken away for public env vars).
     DISABLE_USING: process.env.NEXT_PUBLIC_DISABLE_USING === 'true',
-    DISABLE_CREATE_ACCOUNT: envFlag('NEXT_PUBLIC_DISABLE_CREATE_ACCOUNT', true),
-    DISABLE_AUXILLARIES: envFlag('NEXT_PUBLIC_DISABLE_AUXILLARIES', true),
-    DISABLE_EXCHANGE_LINK: envFlag('NEXT_PUBLIC_DISABLE_EXCHANGE_LINK', true),
+    DISABLE_CREATE_ACCOUNT: envFlag('NEXT_PUBLIC_DISABLE_CREATE_ACCOUNT', !isQaOpenEnvironment),
+    DISABLE_AUXILLARIES: envFlag('NEXT_PUBLIC_DISABLE_AUXILLARIES', !isQaOpenEnvironment),
+    DISABLE_EXCHANGE_LINK: envFlag('NEXT_PUBLIC_DISABLE_EXCHANGE_LINK', !isQaOpenEnvironment),
     DISABLE_TERMINAL_LINK: envFlag('NEXT_PUBLIC_DISABLE_TERMINAL_LINK', false),
     APPLICATION_DEBUG_WIDGET: envFlag('NEXT_PUBLIC_APPLICATION_DEBUG_WIDGET', process.env.NODE_ENV !== 'production'),
     // ----------------------------------------------------------------

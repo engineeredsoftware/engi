@@ -301,12 +301,13 @@ export default function Nav() {
   const publicRouteLinks = usesProductChrome ? (
     <ul className="flex w-full flex-wrap items-center gap-2 phone:gap-3 tablet:ml-8 tablet:w-auto tablet:flex-1 tablet:flex-nowrap tablet:justify-center tablet:gap-4 laptop:ml-12 laptop:gap-6">
       {BITCODE_PUBLIC_COPY.publicNav.links.map(({ href, label }, index) => {
+        const isExchangeRoute = href === '/exchange';
         const isDisabledRoute =
-          (href === '/' && disableExchangeLink) ||
+          (isExchangeRoute && disableExchangeLink) ||
           (href === '/application' && disableTerminalLink);
         const isActiveRoute =
-          href === '/'
-            ? false
+          isExchangeRoute
+            ? pathname === '/exchange' || pathname?.startsWith('/exchange/')
             : href === '/docs'
               ? pathname === '/docs' || pathname?.startsWith('/docs/')
             : pathname === href || pathname?.startsWith(`${href}/`);
@@ -320,7 +321,7 @@ export default function Nav() {
             <span className="inline-flex items-center gap-1.5">
               {isDisabledRoute ? (
                 <DisabledTooltipWrapper
-                  tooltip={href === '/' ? DISABLED_FEATURE_TOOLTIPS.exchange : DISABLED_FEATURE_TOOLTIPS.terminal}
+                  tooltip={isExchangeRoute ? DISABLED_FEATURE_TOOLTIPS.exchange : DISABLED_FEATURE_TOOLTIPS.terminal}
                 >
                   <span
                     role="link"
@@ -350,7 +351,7 @@ export default function Nav() {
                   {label}
                 </Link>
               )}
-              {href === '/' ? (
+              {isExchangeRoute ? (
                 <BitcodeInlineExplainer
                   explainer={BITCODE_PUBLIC_EXPLAINERS.network}
                   side="bottom"

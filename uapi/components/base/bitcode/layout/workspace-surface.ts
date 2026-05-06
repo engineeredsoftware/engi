@@ -20,6 +20,7 @@ export function usesPublicShellChrome(pathname: string | null | undefined): bool
 export function getPublicShellSurface(pathname: string | null | undefined): PublicShellSurface {
   if (!pathname) return null;
   if (pathname === '/') return 'home';
+  if (pathname.startsWith('/exchange')) return 'network';
   if (pathname.startsWith('/docs') || pathname.startsWith('/demo-video') || pathname.startsWith('/edgetimes')) return 'docs';
   return null;
 }

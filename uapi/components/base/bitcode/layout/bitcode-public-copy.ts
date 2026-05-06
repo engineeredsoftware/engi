@@ -79,7 +79,7 @@ export const BITCODE_PUBLIC_COPY = {
   },
   publicNav: {
     links: [
-      { href: '/', label: 'Exchange' },
+      { href: '/exchange', label: 'Exchange' },
       { href: '/application', label: 'Terminal' },
       { href: '/docs', label: 'Docs' },
     ],
