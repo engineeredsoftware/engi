@@ -45,8 +45,9 @@ export function testAgent(agent: any, phase: string, tools: string[]) {
 
       const resolveMock = resolveTool as jest.Mock;
       tools.forEach((t) => expect(resolveMock).toHaveBeenCalledWith(t));
-      // Runner should have called the dummy implementation for each tool
-      expect(dummy).toHaveBeenCalled();
+      if (tools.length) {
+        expect(dummy).toHaveBeenCalled();
+      }
     });
   });
 }

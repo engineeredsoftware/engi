@@ -126,7 +126,7 @@ const ACHIEVEMENT_DEFINITIONS = {
   'efficiency-guru': '💎 Efficiency Guru',
   'architecture-sage': '🏗️ Architecture Sage',
   'testing-legend': '🧪 Testing Legend',
-  'refactor-wizard': '✨ Refactor Wizard',
+  'refactor-specialist': '✨ Refactor Specialist',
   'innovation-pioneer': '🚀 Innovation Pioneer'
 };
 
@@ -195,9 +195,9 @@ export const MarketingCompletionCelebration = ({
       achievements.push('testing-legend');
     }
     
-    // Refactor wizard (refactor with high quality)
+    // Refactor specialist (refactor with high quality)
     if (milestone.category === 'refactor' && milestone.quality >= 0.9) {
-      achievements.push('refactor-wizard');
+      achievements.push('refactor-specialist');
     }
     
     // Innovation pioneer (new feature with multiple patterns)

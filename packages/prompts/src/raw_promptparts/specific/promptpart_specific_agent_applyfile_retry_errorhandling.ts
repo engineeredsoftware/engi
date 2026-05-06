@@ -13,4 +13,4 @@ import { PromptPart } from '../../parts/PromptPart';
  * ]
  */
 export const PROMPTPART_SPECIFIC_AGENT_APPLYFILE_RETRY_ERRORHANDLING: PromptPart = 
-  'Handle conquest failures through: syntax error correction, merge conflict resolution, encoding issue mitigation, permission error handling, size limitation management, corruption recovery procedures' as PromptPart;
+  'Handle application failures through: syntax error correction, merge conflict resolution, encoding issue mitigation, permission error handling, size limitation management, corruption recovery procedures' as PromptPart;

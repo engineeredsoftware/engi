@@ -7,7 +7,6 @@ import { PromptPart } from '../../parts/PromptPart';
  * intent: "List Document Summarization agent capabilities"
  * current_version: "V26.50.0"
  * versions: ["V26.00.0", "V26.00.0"]
- * FULL_OLD_VERSION_CONTENT: "- Large-scale information processing and synthesis\n- Multi-source data integration with semantic understanding\n- Structured insight generation with intelligence awareness\n- Intelligent summarization with key concept extraction\n- Pattern recognition across diverse information types\n- Contextual analysis and relationship mapping\n- Knowledge graph construction and maintenance\n- Real-time information stream processing"
   * benchmarks: [
  *   { "name": "technical_accuracy", "test": "Uses concrete technical language", "score": 0.50 },
  *   { "name": "implementation_ready", "test": "Provides clear actionable guidance", "score": 0.50 }

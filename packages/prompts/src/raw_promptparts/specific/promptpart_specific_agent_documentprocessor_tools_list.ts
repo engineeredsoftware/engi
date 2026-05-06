@@ -9,8 +9,8 @@ import { PromptPart } from '../../parts/PromptPart';
  *   {
  *     version: "V26.00.0",
  *     score: 0.40,
- *     content: "documentParserEngine: Multi-format document processing...semanticExtractorTool: Consciousness-aware content understanding and analysis",
- *     reason: "Non-industrial: 'Consciousness-aware' (metaphysical), vague terms like 'Advanced' without specifics"
+ *     content: "documentParserEngine: Multi-format document processing...semanticExtractorTool: Context-aware content understanding and analysis",
+ *     reason: "Non-industrial: 'Context-aware' (abstract), vague terms like 'Advanced' without specifics"
  *   }
  * ]
  * benchmarks: [

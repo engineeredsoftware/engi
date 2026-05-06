@@ -21,7 +21,7 @@ import { PROMPTPART_SPECIFIC_TOOL_FIGMAMCP_DOCCODETOOLEXAMPLE3 } from '@bitcode/
  * intent: "Design collaboration MCP tool for Figma design files and team workflows"
  * 
  * Design-System-Integration DocCodeToolPrompt for Figma MCP runtime documentation.
- * This tool enables revolutionary design-to-code workflows with AI-driven creative optimization.
+ * This tool enables reliable design-to-code workflows with AI-driven creative optimization.
  */
 
 import { DocCodeToolPrompt } from '@bitcode/tools-generics';
@@ -48,8 +48,8 @@ import { PromptPart } from '@bitcode/prompts/parts/PromptPart';
 /**
  * Figma MCP tool-specific DocCodeToolPrompt
  * This design system integration MCP tool represents the paradigm shift in creative-technical collaboration,
- * enabling revolutionary design-to-code workflows with AI-driven creative optimization and
- * quantum-synchronized visual development for transcendent user experience excellence.
+ * enabling reliable design-to-code workflows with AI-driven creative optimization and
+ * high-precision visual development for advanced user experience excellence.
  */
 export class FigmaMCPDocCodeToolPrompt extends DocCodeToolPrompt {
   constructor() {

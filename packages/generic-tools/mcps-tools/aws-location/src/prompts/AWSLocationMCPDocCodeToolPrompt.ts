@@ -50,7 +50,7 @@ import { PromptPart } from '@bitcode/prompts/parts/PromptPart';
  * 
  * This geospatial intelligence MCP tool represents the evolution of location-aware applications,
  * enabling next-generation spatial computing with AI-driven geospatial optimization and
- * quantum-precise coordinate transformation for hyperconnected location services.
+ * high-precision coordinate transformation for integrated location services.
  */
 export class AWSLocationMCPDocCodeToolPrompt extends DocCodeToolPrompt {
   constructor() {

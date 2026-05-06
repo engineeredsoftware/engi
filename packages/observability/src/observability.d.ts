@@ -7,7 +7,7 @@ declare function init(config?: Record<string, unknown>): Promise<void>;
 declare function recordMetric(name: string, payload?: ObservabilityPayload): void;
 declare function recordError(name: string, payload?: ObservabilityPayload): void;
 declare function recordEvent(name: string, payload?: ObservabilityPayload): void;
-type CompatibilitySpan = {
+type ObservabilitySpan = {
     id: string;
     name: string;
     payload: Record<string, unknown>;
@@ -17,14 +17,14 @@ type CompatibilitySpan = {
     end: () => void;
     finish: () => void;
 };
-declare function startCompatibilitySpan(name: string, payload?: ObservabilityPayload): CompatibilitySpan;
-declare function createSpan(name: string, payload?: ObservabilityPayload): CompatibilitySpan;
+declare function startNoopSpan(name: string, payload?: ObservabilityPayload): ObservabilitySpan;
+declare function createSpan(name: string, payload?: ObservabilityPayload): ObservabilitySpan;
 export declare const observability: {
     init: typeof init;
     recordMetric: typeof recordMetric;
     recordError: typeof recordError;
     recordEvent: typeof recordEvent;
-    startSpan: typeof startCompatibilitySpan;
+    startSpan: typeof startNoopSpan;
     createSpan: typeof createSpan;
 };
 export declare const metrics: {

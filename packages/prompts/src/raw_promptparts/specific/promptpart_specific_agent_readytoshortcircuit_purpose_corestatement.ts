@@ -16,7 +16,7 @@ import { PromptPart } from '../../parts/PromptPart';
  *     "version": "V26.00.0",
  *     "content": "[previous version content]",
  *     "score": 0.05,
- *     "reason": "Non-industrial: similar metaphysical language"
+ *     "reason": "Non-industrial: similar abstract language"
  *   }
  * ]
  * benchmarks: [

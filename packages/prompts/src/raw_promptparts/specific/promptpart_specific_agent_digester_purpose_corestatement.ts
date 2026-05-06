@@ -7,7 +7,6 @@ import { PromptPart } from '../../parts/PromptPart';
  * intent: "Define Document Summarization agent purpose"
  * current_version: "V26.50.0"
  * versions: ["V26.00.0", "V26.00.0"]
- * FULL_OLD_VERSION_CONTENT: "Process and synthesize large volumes of information into structured, actionable insights with machine learning understanding and comprehensive analysis"
  * benchmarks: [
  *   { "name": "processing_clarity", "test": "Does it clearly define information processing capabilities? Rate 0-1", "score": 0.93 },
  *   { "name": "synthesis_precision", "test": "Does it specify synthesis methods? Rate 0-1", "score": 0.90 }

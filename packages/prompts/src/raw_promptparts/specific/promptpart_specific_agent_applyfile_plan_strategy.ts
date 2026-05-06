@@ -13,4 +13,4 @@ import { PromptPart } from '../../parts/PromptPart';
  * ]
  */
 export const PROMPTPART_SPECIFIC_AGENT_APPLYFILE_PLAN_STRATEGY: PromptPart = 
-  'Plan conquest strategy by determining: modification approach selection, insertion point identification, deletion scope boundaries, refactoring requirements, style preservation tactics, test impact analysis' as PromptPart;
+  'Plan application strategy by determining: modification approach selection, insertion point identification, deletion scope boundaries, refactoring requirements, style preservation tactics, test impact analysis' as PromptPart;

@@ -8,7 +8,7 @@
  *   { "name": "enterprise_deployment_demonstration", "test": "Does '{{content}}' demonstrate enterprise-scale database deployment? Rate 0-1" },
  *   { "name": "global_infrastructure_showcase", "test": "Does '{{content}}' showcase global infrastructure capabilities? Rate 0-1" },
  *   { "name": "critical_infrastructure_example", "test": "Is '{{content}}' relevant for critical infrastructure scenarios? Rate 0-1" },
- *   { "name": "transcendent_database_quality", "test": "Does '{{content}}' exemplify transcendent database management quality? Rate 0-1" }
+ *   { "name": "technical_database_quality", "test": "Does '{{content}}' exemplify technical database management quality? Rate 0-1" }
  * ]
  */
 

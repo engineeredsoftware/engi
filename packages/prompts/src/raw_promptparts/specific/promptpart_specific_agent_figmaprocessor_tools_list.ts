@@ -9,8 +9,8 @@ import { PromptPart } from '../../parts/PromptPart';
  *   {
  *     version: "V26.00.0",
  *     score: 0.75,
- *     content: "figmaApiConnector: Direct integration...componentAnalyzerTool: Consciousness-aware component hierarchy and relationship analysis",
- *     reason: "Contains non-industrial term 'consciousness-aware'"
+ *     content: "figmaApiConnector: Direct integration...componentAnalyzerTool: Context-aware component hierarchy and relationship analysis",
+ *     reason: "Contains non-industrial term 'context-aware'"
  *   }
  * ]
  * benchmarks: [

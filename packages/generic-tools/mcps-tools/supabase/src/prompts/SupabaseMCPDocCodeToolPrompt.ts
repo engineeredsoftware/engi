@@ -21,7 +21,7 @@ import { PROMPTPART_SPECIFIC_TOOL_SUPABASEMCP_DOCCODETOOLEXAMPLE3 } from '@bitco
  * intent: "Backend-as-a-service MCP tool for Supabase database and authentication"
  * 
  * Backend-as-Service-Excellence DocCodeToolPrompt for Supabase MCP runtime documentation.
- * This tool enables revolutionary serverless backend with AI-driven real-time optimization.
+ * This tool enables reliable serverless backend with AI-driven real-time optimization.
  */
 
 import { DocCodeToolPrompt } from '@bitcode/tools-generics';
@@ -48,8 +48,8 @@ import { PromptPart } from '@bitcode/prompts/parts/PromptPart';
 /**
  * Supabase MCP tool-specific DocCodeToolPrompt
  * This backend-as-service excellence MCP tool represents the pinnacle of serverless architecture,
- * enabling revolutionary serverless backend with AI-driven real-time optimization and
- * quantum-synchronized database operations for transcendent full-stack development excellence.
+ * enabling reliable serverless backend with AI-driven real-time optimization and
+ * high-precision database operations for advanced full-stack development excellence.
  */
 export class SupabaseMCPDocCodeToolPrompt extends DocCodeToolPrompt {
   constructor() {

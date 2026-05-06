@@ -21,7 +21,7 @@ import { PROMPTPART_SPECIFIC_TOOL_CLOUDFLAREMCP_DOCCODETOOLEXAMPLE3 } from '@bit
  * intent: "Edge computing MCP tool for Cloudflare CDN and security services"
  * 
  * Edge-Computing-Optimization DocCodeToolPrompt for Cloudflare MCP runtime documentation.
- * This tool enables quantum-edge performance with AI-driven global network optimization.
+ * This tool enables edge performance with AI-driven global network optimization.
  */
 
 import { DocCodeToolPrompt } from '@bitcode/tools-generics';
@@ -48,8 +48,8 @@ import { PromptPart } from '@bitcode/prompts/parts/PromptPart';
 /**
  * Cloudflare MCP tool-specific DocCodeToolPrompt
  * This edge computing optimization MCP tool represents the zenith of global network intelligence,
- * enabling quantum-edge performance with AI-driven global network optimization and
- * hyperconnected content delivery for transcendent web acceleration excellence.
+ * enabling edge performance with AI-driven global network optimization and
+ * integrated content delivery for advanced web acceleration excellence.
  */
 export class CloudflareMCPDocCodeToolPrompt extends DocCodeToolPrompt {
   constructor() {

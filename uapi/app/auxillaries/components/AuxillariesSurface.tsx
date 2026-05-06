@@ -15,7 +15,7 @@ import { ContentVisibility } from '@/components/base/bitcode/perf/ContentVisibil
 import {
   getAuxillaryRingIndex,
   isAuxillariesPath,
-  isOrbitalsCompatibilityPath,
+  isOrbitalsSupportPath,
   normalizeAuxillaryPane,
   normalizeAuxillarySteps,
   AUXILLARY_FLOW_STEPS,
@@ -105,7 +105,7 @@ export default function AuxillariesSurface({
   const pathname = usePathname();
   const routeStep = useMemo(() => parseAuxillaryPath(pathname), [pathname]);
   const isApplicationRoute = Boolean(pathname?.startsWith('/application'));
-  const isDedicatedAuxillariesRoute = isAuxillariesPath(pathname) || isOrbitalsCompatibilityPath(pathname);
+  const isDedicatedAuxillariesRoute = isAuxillariesPath(pathname) || isOrbitalsSupportPath(pathname);
 
   const [activeWindow, setActiveWindow] = useState<'SignInWindow' | 'SignUpWindow'>(windowProp);
   const [currentStep, setCurrentStep] = useState<ConcreteAuxillaryPane>(

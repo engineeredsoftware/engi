@@ -5,7 +5,7 @@
  * current_version: "V26"
  * versions: []
  * benchmarks: [
- *   { "name": "identity_precision", "test": "Defines the web_search compatibility role as Bitcode support", "score": 1.00 }
+ *   { "name": "identity_precision", "test": "Defines the web_search role as Bitcode support", "score": 1.00 }
  * ]
  */
 

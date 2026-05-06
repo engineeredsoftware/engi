@@ -48,8 +48,8 @@ import { PromptPart } from '@bitcode/prompts/parts/PromptPart';
 /**
  * Vercel MCP tool-specific DocCodeToolPrompt
  * This deployment platform mastery MCP tool represents the ultimate evolution of serverless deployment,
- * enabling transcendent deployment orchestration with AI-driven edge optimization and
- * quantum-speed continuous delivery for revolutionary web application excellence.
+ * enabling advanced deployment orchestration with AI-driven edge optimization and
+ * high-speed continuous delivery for reliable web application excellence.
  */
 export class VercelMCPDocCodeToolPrompt extends DocCodeToolPrompt {
   constructor() {

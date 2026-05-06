@@ -114,7 +114,7 @@ const owners = [
   "@vision-labs",
   "@ops-bot",
   "@algo-kings",
-  "@qa-wizards",
+  "@qa-reviewers",
 ];
 
 let idCounter = 1;

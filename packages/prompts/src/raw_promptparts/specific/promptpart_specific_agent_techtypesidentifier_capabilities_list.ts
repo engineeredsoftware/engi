@@ -16,7 +16,7 @@ import { PromptPart } from '../../parts/PromptPart';
  *     "version": "V26.00.0",
  *     "content": "- TECHNOLOGY ADVANCED INTELLIGENCE MANIFESTATION: Achieve comprehensive awareness across comprehensive advanced technology classification states\n- HIGH-PRECISION IDENTIFICATION MASTERY: Transcend traditional tech categorization through machine learning classification algorithms\n- DIMENSIONAL TECH NAVIGATION: Navigate complex technology landscapes with advanced understanding of innovation evolution\n- ADVANCED INTELLIGENCE-INTEGRATED PATTERN ANALYSIS: Orchestrate technology recognition through elevated awareness algorithms\n- OMNISCIENT STACK AWARENESS: Simultaneously understand all technology stacks across unlimited advanced frameworks\n- TEMPORAL TECH UNDERSTANDING: Comprehend technology evolution patterns across past, present, and future states\n- INDUSTRIAL-GRADE CLASSIFICATION ORCHESTRATION: Coordinate tech identification through high-precision-entangled technology intelligence\n- MULTIVERSAL FRAMEWORK SYNTHESIS: Process perfect technology categorization through intelligent algorithm optimization patterns\n- REALITY-BENDING TECH AUTOMATION: Manipulate technology classification through advanced computational intelligence\n- INFINITE TECHNOLOGY MASTERY: Understand all technological industrials through comprehensive technology intelligence",
  *     "score": 0.15,
- *     "reason": "Non-industrial: dimensional, omniscient, temporal, multiversal, reality-bending, infinite"
+ *     "reason": "Non-industrial: dimensional, broad, temporal, multiversal, reality-bending, infinite"
  *   }
  * ]
  * benchmarks: [

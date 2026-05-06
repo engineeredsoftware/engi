@@ -16,7 +16,7 @@ import { PromptPart } from '../../parts/PromptPart';
  *     "version": "V26.00.0",
  *     "content": "- TEMPORAL VISUAL ADVANCED INTELLIGENCE MANIFESTATION: Achieve comprehensive awareness across comprehensive advanced video timeline states\n- HIGH-PRECISION VIDEO SYNTHESIS: Transcend traditional video processing through machine learning temporal analysis algorithms\n- DIMENSIONAL MULTIMEDIA NAVIGATION: Navigate complex video structures with advanced understanding of temporal visual evolution\n- ADVANCED INTELLIGENCE-INTEGRATED FRAME ANALYSIS: Orchestrate video frame processing through elevated awareness algorithms\n- OMNISCIENT TEMPORAL AWARENESS: Simultaneously understand all video timelines across unlimited advanced multimedia spaces\n- TEMPORAL VIDEO UNDERSTANDING: Comprehend video evolution patterns across past, present, and future temporal states\n- INDUSTRIAL-GRADE VISUAL ORCHESTRATION: Coordinate video processing through high-precision-entangled temporal visual intelligence\n- MULTIVERSAL CODEC SYNTHESIS: Process perfect video encoding through intelligent algorithm optimization patterns\n- REALITY-BENDING VIDEO AUTOMATION: Manipulate video processing through advanced computational intelligence\n- INFINITE MULTIMEDIA MASTERY: Understand all video formats and temporal industrials through comprehensive video intelligence",
  *     "score": 0.10,
- *     "reason": "Non-industrial: temporal, dimensional, omniscient, multiversal, reality-bending, infinite"
+ *     "reason": "Non-industrial: temporal, dimensional, broad, multiversal, reality-bending, infinite"
  *   }
  * ]
  * benchmarks: [

@@ -7,15 +7,15 @@ import Image from 'next/image';
 
 const features = [
   {
-    id: 'quantum-leap',
-    title: 'Quantum Leap in Engineering',
-    description: 'Experience a revolutionary system that improves engineering affordability, production speed, and quality by orders of magnitude, fundamentally transforming how technology is created.',
+    id: 'capability-leap',
+    title: 'Capability Leap in Engineering',
+    description: 'Experience a reliable system that improves engineering affordability, production speed, and quality by orders of magnitude, fundamentally transforming how technology is created.',
     icon: (
       <svg className="w-6 h-6" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
         <path d="M13 2L3 14H12L11 22L21 10H12L13 2Z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
       </svg>
     ),
-    image: '/quantum-leap.png',
+    image: '/capability-leap.png',
     color: 'from-emerald-500/20 to-emerald-600/20',
     borderColor: 'border-emerald-500/30',
     textColor: 'text-emerald-400',
@@ -57,8 +57,8 @@ const features = [
     textColor: 'text-blue-400',
   },
   {
-    id: 'quantum-computing',
-    title: 'Quantum-Inspired Computation',
+    id: 'parallel-state-search',
+    title: 'Parallel State Search',
     description: 'Leveraging advanced techniques inspired by quantum computing for state exploration and pre-computation, enabling Bitcode to predict code behavior and optimize solutions.',
     icon: (
       <svg className="w-6 h-6" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -70,7 +70,7 @@ const features = [
         <path d="M12 12C10.3431 12 9 13.3431 9 15C9 16.6569 10.3431 18 12 18C13.6569 18 15 16.6569 15 15C15 13.3431 13.6569 12 12 12Z" stroke="currentColor" strokeWidth="2" />
       </svg>
     ),
-    image: '/quantum-computing.png',
+    image: '/parallel-state-search.png',
     color: 'from-indigo-500/20 to-indigo-600/20',
     borderColor: 'border-indigo-500/30',
     textColor: 'text-indigo-400',
@@ -136,7 +136,7 @@ const features = [
 ];
 
 const MarketingFeaturesGrid = () => {
-  const [activeFeature, setActiveFeature] = useState('quantum-leap');
+  const [activeFeature, setActiveFeature] = useState('capability-leap');
 
   // File-local class constants (SRP/DRY; no visual changes)
   const featureCardBase = [
@@ -160,10 +160,10 @@ const MarketingFeaturesGrid = () => {
       <div className="text-center mb-12">
         {/* Increased bottom margin for better separation from the subtitle */}
         <h2 className="text-2xl laptop:text-3xl font-bold mb-4 tracking-tight text-white block super-shiny-text">
-          Revolutionary Capabilities
+          Reliable Capabilities
         </h2>
         <p className="text-sm text-gray-400 max-w-2xl mx-auto">
-          Bitcode represents a paradigm shift in technology creation, combining advanced AI with revolutionary approaches to engineering.
+          Bitcode represents a paradigm shift in technology creation, combining advanced AI with reliable approaches to engineering.
         </p>
       </div>
 

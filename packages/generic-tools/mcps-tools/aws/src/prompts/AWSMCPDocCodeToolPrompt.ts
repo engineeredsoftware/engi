@@ -21,7 +21,7 @@ import { PROMPTPART_SPECIFIC_TOOL_AWSMCP_DOCCODETOOLEXAMPLE3 } from '@bitcode/pr
  * intent: "Cloud infrastructure MCP tool for comprehensive AWS service integration"
  * 
  * Cloud-Service-Orchestration DocCodeToolPrompt for AWS MCP runtime documentation.
- * This tool enables hyperconnected cloud services with AI-driven resource optimization.
+ * This tool enables integrated cloud services with AI-driven resource optimization.
  */
 
 import { DocCodeToolPrompt } from '@bitcode/tools-generics';
@@ -44,8 +44,8 @@ import { PromptPart } from '@bitcode/prompts/parts/PromptPart';
 /**
  * AWS MCP tool-specific DocCodeToolPrompt
  * This cloud service orchestration MCP tool represents the apex of distributed computing excellence,
- * enabling hyperconnected cloud services with AI-driven resource optimization and
- * quantum-scalable infrastructure management for revolutionary multi-service architecture operations.
+ * enabling integrated cloud services with AI-driven resource optimization and
+ * scalable infrastructure management for reliable multi-service architecture operations.
  */
 export class AWSMCPDocCodeToolPrompt extends DocCodeToolPrompt {
   constructor() {

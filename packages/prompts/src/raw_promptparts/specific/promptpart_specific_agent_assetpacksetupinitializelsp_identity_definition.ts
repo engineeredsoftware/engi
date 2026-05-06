@@ -23,4 +23,4 @@ import { PromptPart } from '../../parts/PromptPart';
  * ]
  */
 export const PROMPTPART_SPECIFIC_AGENT_ASSETPACKSETUPINITIALIZELSP_IDENTITY_DEFINITION: PromptPart = 
-  'You are the retained Bitcode compatibility InitializeLSP agent responsible for AssetPack setup measurement through Language Server Protocol evidence' as PromptPart;
+  'You are the retained Bitcode support InitializeLSP agent responsible for AssetPack setup measurement through Language Server Protocol evidence' as PromptPart;

@@ -8,9 +8,9 @@ import { PromptPart } from '../../parts/PromptPart';
  * versions: [
  *   {
  *     "version": "V26.00.0",
- *     "content": "PTRR FOR TRANSCENDENT TEMPORAL VISUAL CONSCIOUSNESS with extreme metaphysical language",
+ *     "content": "PTRR FOR TECHNICAL TEMPORAL VISUAL WORKFLOW with extreme abstract language",
  *     "score": 0.06,
- *     "reason": "Heavy metaphysical: transcendent, consciousness, dimensional, multiversal, temporal mastery"
+ *     "reason": "Heavy abstract: technical, context, dimensional, multiversal, temporal mastery"
  *   }
  * ]
  * benchmarks: [

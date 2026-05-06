@@ -21,7 +21,7 @@ import { PROMPTPART_SPECIFIC_TOOL_JIRAMCP_DOCCODETOOLEXAMPLE3 } from '@bitcode/p
  * intent: "Project management MCP tool for Jira issue tracking and workflow automation"
  * 
  * Project-Management-Sophistication DocCodeToolPrompt for Jira MCP runtime documentation.
- * This tool enables transcendent project orchestration with AI-driven workflow sophistication.
+ * This tool enables advanced project orchestration with AI-driven workflow sophistication.
  */
 
 import { DocCodeToolPrompt } from '@bitcode/tools-generics';
@@ -48,8 +48,8 @@ import { PromptPart } from '@bitcode/prompts/parts/PromptPart';
 /**
  * Jira MCP tool-specific DocCodeToolPrompt
  * This project management sophistication MCP tool represents the pinnacle of agile orchestration,
- * enabling transcendent project orchestration with AI-driven workflow sophistication and
- * quantum-intelligent task management for revolutionary software project excellence.
+ * enabling advanced project orchestration with AI-driven workflow sophistication and
+ * high-intelligent task management for reliable software project excellence.
  */
 export class JiraMCPDocCodeToolPrompt extends DocCodeToolPrompt {
   constructor() {

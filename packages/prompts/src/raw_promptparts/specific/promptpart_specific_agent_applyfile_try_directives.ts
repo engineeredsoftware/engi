@@ -13,4 +13,4 @@ import { PromptPart } from '../../parts/PromptPart';
  * ]
  */
 export const PROMPTPART_SPECIFIC_AGENT_APPLYFILE_TRY_DIRECTIVES: PromptPart = 
-  'Execute conquest through: precise AST manipulation, syntax-aware text transformation, semantic-preserving refactoring, style-consistent code generation, import management and optimization, comment preservation and updates, diff generation and validation' as PromptPart;
+  'Execute application through: precise AST manipulation, syntax-aware text transformation, semantic-preserving refactoring, style-consistent code generation, import management and optimization, comment preservation and updates, diff generation and validation' as PromptPart;

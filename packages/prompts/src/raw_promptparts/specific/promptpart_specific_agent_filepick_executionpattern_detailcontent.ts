@@ -18,8 +18,7 @@ import { PromptPart } from '../../parts/PromptPart';
  * intent: "Define File Selection Agent execution pattern with concrete algorithmic operations"
  * current_version: "V26.50.0"
  * versions: ["V26.00.0"]
- * transformation: "metaphysical_to_industrial"
- * old_content_archived: "CONTEXTUAL_SELECTION with intelligent analysis"
+ * transformation: "abstract_to_operational"
  */
 export const PROMPTPART_SPECIFIC_AGENT_FILEPICK_EXECUTIONPATTERN_DETAILCONTENT: PromptPart = 
   `FILE_SELECTION_ALGORITHM - Executes deterministic file selection through concrete operations:

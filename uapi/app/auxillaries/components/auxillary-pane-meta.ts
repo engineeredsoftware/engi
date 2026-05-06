@@ -14,7 +14,7 @@ export const AUXILLARIES_LIST_COMPACT_LABEL = 'Connects, Interfaces, Profile, $B
 export const OPEN_AUXILLARIES_FULLSCREEN_LABEL = 'Open Auxillaries fullscreen';
 export const OPEN_TRANSACTIONS_LABEL = 'Open Bitcode Terminal';
 export const AUXILLARIES_ROUTE_ROOT = '/auxillaries';
-export const ORBITALS_COMPATIBILITY_ROUTE_ROOT = '/orbitals';
+export const ORBITALS_SUPPORT_ROUTE_ROOT = '/orbitals';
 
 export type AuxillaryPane = ConcreteAuxillaryPane | null;
 
@@ -90,8 +90,8 @@ export function isAuxillariesPath(pathname: string | null | undefined) {
   return Boolean(pathname?.startsWith(AUXILLARIES_ROUTE_ROOT));
 }
 
-export function isOrbitalsCompatibilityPath(pathname: string | null | undefined) {
-  return Boolean(pathname?.startsWith(ORBITALS_COMPATIBILITY_ROUTE_ROOT));
+export function isOrbitalsSupportPath(pathname: string | null | undefined) {
+  return Boolean(pathname?.startsWith(ORBITALS_SUPPORT_ROUTE_ROOT));
 }
 
 export function getAuxillaryRingIndex(step: ConcreteAuxillaryPane) {

@@ -21,7 +21,7 @@ import { PROMPTPART_SPECIFIC_TOOL_FIREBASEMCP_DOCCODETOOLEXAMPLE3 } from '@bitco
  * intent: "Cloud platform MCP tool for Firebase backend and real-time database services"
  * 
  * Real-Time-Database-Mastery DocCodeToolPrompt for Firebase MCP runtime documentation.
- * This tool enables quantum-synchronized data operations with AI-driven backend optimization.
+ * This tool enables high-precision data operations with AI-driven backend optimization.
  */
 
 import { DocCodeToolPrompt } from '@bitcode/tools-generics';
@@ -47,9 +47,9 @@ import { PromptPart } from '@bitcode/prompts/parts/PromptPart';
 
 /**
  * Firebase MCP tool-specific DocCodeToolPrompt
- * This real-time database mastery MCP tool represents the quantum evolution of backend-as-a-service,
- * enabling quantum-synchronized data operations with AI-driven backend optimization and
- * hyperconnected real-time synchronization for transcendent application data excellence.
+ * This real-time database mastery MCP tool represents the high-precision evolution of backend-as-a-service,
+ * enabling high-precision data operations with AI-driven backend optimization and
+ * integrated real-time synchronization for advanced application data excellence.
  */
 export class FirebaseMCPDocCodeToolPrompt extends DocCodeToolPrompt {
   constructor() {

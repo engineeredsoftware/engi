@@ -11,7 +11,7 @@ import {
   AUXILLARY_ROUTE_SEQUENCE as ORBITAL_ROUTE_SEQUENCE,
   OPEN_AUXILLARIES_FULLSCREEN_LABEL as OPEN_ORBITALS_FULLSCREEN_LABEL,
   OPEN_TRANSACTIONS_LABEL,
-  ORBITALS_COMPATIBILITY_ROUTE_ROOT,
+  ORBITALS_SUPPORT_ROUTE_ROOT,
   buildAuxillariesRoutePath,
   getAuxillariesTabsDescription,
   getAuxillariesWorkspaceDescription,
@@ -23,7 +23,7 @@ import {
   getAuxillaryRingIndex,
   getAuxillaryRouteSegment,
   isAuxillariesPath,
-  isOrbitalsCompatibilityPath,
+  isOrbitalsSupportPath,
   labelForAuxillaryPane,
   normalizeAuxillaryPane,
   normalizeAuxillarySteps,
@@ -42,13 +42,13 @@ export {
   ORBITAL_RING_STEPS,
   ORBITAL_ROUTE_SEQUENCE,
   ORBITALS_ACCESS_LABEL,
-  ORBITALS_COMPATIBILITY_ROUTE_ROOT,
+  ORBITALS_SUPPORT_ROUTE_ROOT,
   ORBITALS_LABEL,
   ORBITALS_LIST_COMPACT_LABEL,
   ORBITALS_LIST_LABEL,
   buildAuxillariesRoutePath,
   isAuxillariesPath,
-  isOrbitalsCompatibilityPath,
+  isOrbitalsSupportPath,
 };
 
 export type ConcreteOrbitalPane = ConcreteAuxillaryPane;

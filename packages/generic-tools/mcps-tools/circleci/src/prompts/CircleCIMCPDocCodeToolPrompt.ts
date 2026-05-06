@@ -21,7 +21,7 @@ import { PROMPTPART_SPECIFIC_TOOL_CIRCLECIMCP_DOCCODETOOLEXAMPLE3 } from '@bitco
  * intent: "Continuous integration MCP tool for CircleCI pipeline automation"
  * 
  * Continuous-Integration-Mastery DocCodeToolPrompt for CircleCI MCP runtime documentation.
- * This tool enables revolutionary CI/CD pipelines with AI-driven automation optimization.
+ * This tool enables reliable CI/CD pipelines with AI-driven automation optimization.
  */
 
 import { DocCodeToolPrompt } from '@bitcode/tools-generics';
@@ -47,9 +47,9 @@ import { PromptPart } from '@bitcode/prompts/parts/PromptPart';
 
 /**
  * CircleCI MCP tool-specific DocCodeToolPrompt
- * This continuous integration mastery MCP tool represents the quantum evolution of automated pipelines,
- * enabling revolutionary CI/CD orchestration with AI-driven automation optimization and
- * hyperspeed deployment intelligence for transcendent software delivery excellence.
+ * This continuous integration mastery MCP tool represents the high-precision evolution of automated pipelines,
+ * enabling reliable CI/CD orchestration with AI-driven automation optimization and
+ * high-speed deployment intelligence for advanced software delivery excellence.
  */
 export class CircleCIMCPDocCodeToolPrompt extends DocCodeToolPrompt {
   constructor() {

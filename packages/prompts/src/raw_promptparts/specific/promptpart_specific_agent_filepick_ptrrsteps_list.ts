@@ -18,8 +18,7 @@ import { PromptPart } from '../../parts/PromptPart';
  * intent: "Define File Selection Agent PTRR algorithmic execution steps"
  * current_version: "V26.50.0"
  * versions: ["V26.00.0"]
- * transformation: "metaphysical_to_industrial"
- * old_content_archived: "Plan/Try/Refine/Retry with contextual analysis"
+ * transformation: "abstract_to_operational"
  */
 export const PROMPTPART_SPECIFIC_AGENT_FILEPICK_PTRRSTEPS_LIST: PromptPart = 
   `Plan: Parse glob patterns, compile regex filters, set recursion depth limits

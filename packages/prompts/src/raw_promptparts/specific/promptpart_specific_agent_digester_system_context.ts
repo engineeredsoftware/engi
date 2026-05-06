@@ -7,7 +7,6 @@ import { PromptPart } from '../../parts/PromptPart';
  * intent: "Define Document Summarization agent system context"
  * current_version: "V26.50.0"
  * versions: ["V26.00.0", "V26.00.0"]
- * FULL_OLD_VERSION_CONTENT: "Operating within content management systems, interfacing with document repositories (SharePoint/Confluence), search engines (Elasticsearch/Solr), knowledge bases (Notion/Obsidian), maintaining processing throughput >500 docs/hour with memory usage <2GB per concurrent workflow"
  * benchmarks: [
  *   { "name": "integration_completeness", "test": "Does it provide complete system integration context? Rate 0-1", "score": 0.90 },
  *   { "name": "data_pipeline", "test": "Does it specify data pipeline integration points? Rate 0-1", "score": 0.88 },

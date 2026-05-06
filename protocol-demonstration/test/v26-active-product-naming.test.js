@@ -676,7 +676,7 @@ const completionCelebrationStorySource = readFileSync(new URL('../../uapi/storie
 const needDefinitionInputStorySource = readFileSync(new URL('../../uapi/stories/NeedDefinitionInput.stories.tsx', import.meta.url), 'utf8');
 const executionActionsStorySource = readFileSync(new URL('../../uapi/stories/shippables/Actions.stories.tsx', import.meta.url), 'utf8');
 const errorRecoveryGraceStorySource = readFileSync(new URL('../../uapi/stories/ErrorRecoveryGrace.stories.tsx', import.meta.url), 'utf8');
-const memoryManifestationStorySource = readFileSync(new URL('../../uapi/stories/MemoryManifestation.stories.tsx', import.meta.url), 'utf8');
+const patternMemoryStorySource = readFileSync(new URL('../../uapi/stories/PatternMemory.stories.tsx', import.meta.url), 'utf8');
 const pipelinePhasePoetryStorySource = readFileSync(new URL('../../uapi/stories/PipelinePhasePoetry.stories.tsx', import.meta.url), 'utf8');
 const conversationsCompleteSystemStorySource = readFileSync(new URL('../../uapi/stories/conversations/CompleteSystem.stories.tsx', import.meta.url), 'utf8');
 const btdInvestmentExperienceStorySource = readFileSync(new URL('../../uapi/stories/BTDInvestmentExperience.stories.tsx', import.meta.url), 'utf8');
@@ -2069,7 +2069,7 @@ test('active V26 retained package surfaces use Bitcode naming instead of Engi na
   assert.match(needDefinitionInputStorySource, /Bitcode\/Surprise & Delight\/Definition of Need Input/);
   assert.match(executionActionsStorySource, /Executions\/Actions/);
   assert.match(errorRecoveryGraceStorySource, /Bitcode\/Surprise & Delight\/Error Recovery Grace/);
-  assert.match(memoryManifestationStorySource, /Bitcode\/Surprise & Delight\/Memory Manifestation/);
+  assert.match(patternMemoryStorySource, /Bitcode\/Surprise & Delight\/Pattern Memory/);
   assert.match(pipelinePhasePoetryStorySource, /Bitcode\/Surprise & Delight\/Pipeline Phase Poetry/);
   assert.match(conversationsCompleteSystemStorySource, /Conversations\/Complete System Demo/);
   assert.match(conversationsCompleteSystemStorySource, /Bitcode Transaction Workspace Development/);
@@ -2211,7 +2211,7 @@ test('active V26 retained package surfaces use Bitcode naming instead of Engi na
   assert.doesNotMatch(needDefinitionInputStorySource, /Engi\/Surprise & Delight\/Definition of Need Input/);
   assert.doesNotMatch(executionActionsStorySource, /The most critical moment in the engi experience|Engi\/Surprise/u);
   assert.doesNotMatch(errorRecoveryGraceStorySource, /Engi\/Surprise & Delight\/Error Recovery Grace/);
-  assert.doesNotMatch(memoryManifestationStorySource, /Engi\/Surprise & Delight\/Memory Manifestation/);
+  assert.doesNotMatch(patternMemoryStorySource, /Engi\/Surprise & Delight\/Memory Manifestation/);
   assert.doesNotMatch(pipelinePhasePoetryStorySource, /Engi\/Surprise & Delight\/Pipeline Phase Poetry/);
   assert.doesNotMatch(conversationsCompleteSystemStorySource, /Engi\/Surprise & Delight|Engi Transaction Workspace/u);
   assert.doesNotMatch(btdInvestmentExperienceStorySource, /Engi\/Surprise & Delight\/Credit Investment Experience/);

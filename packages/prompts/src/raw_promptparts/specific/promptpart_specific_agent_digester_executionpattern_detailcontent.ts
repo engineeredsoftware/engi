@@ -7,7 +7,6 @@ import { PromptPart } from '../../parts/PromptPart';
  * intent: "Define Document Summarization agent execution pattern"
  * current_version: "V26.50.0"
  * versions: ["V26.00.0"]
- * FULL_OLD_VERSION_CONTENT: "SYNTHESIS_PROCESSING - Processes information through comprehensive analysis and synthesis:\n1. Multi-source information ingestion with format normalization\n2. Semantic analysis and concept extraction with intelligence awareness\n3. Cross-reference analysis and relationship mapping\n4. Structured insight synthesis with priority ranking\n5. Knowledge graph construction and validation\n6. Actionable recommendation generation with confidence scoring"
   * benchmarks: [
  *   { "name": "technical_accuracy", "test": "Uses concrete technical language", "score": 0.50 },
  *   { "name": "implementation_ready", "test": "Provides clear actionable guidance", "score": 0.50 }

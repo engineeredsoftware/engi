@@ -7,7 +7,6 @@ import { PromptPart } from '../../parts/PromptPart';
  * intent: "Describe Document Summarization agent integration details"
  * current_version: "V26.50.0"
  * versions: ["V26.00.0"]
- * FULL_OLD_VERSION_CONTENT: "Integrates with comprehensive information processing infrastructure:\n- Connects to multiple data sources and content management systems\n- Uses advanced semantic analysis tools for intelligent understanding\n- Implements real-time processing with streaming data capabilities\n- Outputs structured insights with actionable recommendations and confidence metrics\n- Supports integration with knowledge management and decision support systems"
   * benchmarks: [
  *   { "name": "technical_accuracy", "test": "Uses concrete technical language", "score": 0.50 },
  *   { "name": "implementation_ready", "test": "Provides clear actionable guidance", "score": 0.50 }

@@ -21,7 +21,7 @@ import { PROMPTPART_SPECIFIC_TOOL_KUBERNETESMCP_DOCCODETOOLEXAMPLE3 } from '@bit
  * intent: "Container orchestration MCP tool for Kubernetes cluster management"
  * 
  * Orchestration-Mastery DocCodeToolPrompt for Kubernetes MCP runtime documentation.
- * This tool enables quantum-scale container orchestration with AI-driven cluster optimization.
+ * This tool enables scalable container orchestration with AI-driven cluster optimization.
  */
 
 import { DocCodeToolPrompt } from '@bitcode/tools-generics';
@@ -48,8 +48,8 @@ import { PromptPart } from '@bitcode/prompts/parts/PromptPart';
 /**
  * Kubernetes MCP tool-specific DocCodeToolPrompt
  * This orchestration mastery MCP tool represents the apex of distributed systems management,
- * enabling quantum-scale container orchestration with AI-driven cluster optimization and
- * hyperintelligent workload distribution for transcendent cloud-native excellence.
+ * enabling scalable container orchestration with AI-driven cluster optimization and
+ * optimized workload distribution for advanced cloud-native excellence.
  */
 export class KubernetesMCPDocCodeToolPrompt extends DocCodeToolPrompt {
   constructor() {

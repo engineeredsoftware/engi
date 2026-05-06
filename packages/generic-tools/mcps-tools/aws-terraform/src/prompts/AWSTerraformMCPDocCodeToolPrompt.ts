@@ -21,7 +21,7 @@ import { PROMPTPART_SPECIFIC_TOOL_AWSTERRAFORMMCP_DOCCODETOOLEXAMPLE2 } from '@b
  * intent: "Infrastructure-as-code MCP tool for AWS resource provisioning and management"
  * 
  * Infrastructure-as-Code DocCodeToolPrompt for AWS Terraform MCP runtime documentation.
- * This tool enables transcendent infrastructure orchestration with AI-driven IaC optimization.
+ * This tool enables advanced infrastructure orchestration with AI-driven IaC optimization.
  */
 
 import { DocCodeToolPrompt } from '@bitcode/tools-generics';
@@ -47,9 +47,9 @@ import { PromptPart } from '@bitcode/prompts/parts/PromptPart';
 
 /**
  * AWS Terraform MCP tool-specific DocCodeToolPrompt
- * This infrastructure-as-code mastery MCP tool represents the quantum evolution of cloud infrastructure,
- * enabling transcendent infrastructure orchestration with AI-driven declarative optimization and
- * hyperintelligent resource provisioning for revolutionary cloud architecture management.
+ * This infrastructure-as-code mastery MCP tool represents the high-precision evolution of cloud infrastructure,
+ * enabling advanced infrastructure orchestration with AI-driven declarative optimization and
+ * optimized resource provisioning for reliable cloud architecture management.
  */
 export class AWSTerraformMCPDocCodeToolPrompt extends DocCodeToolPrompt {
   constructor() {

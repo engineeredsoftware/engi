@@ -18,8 +18,7 @@ import { PromptPart } from '../../parts/PromptPart';
  * intent: "List File Selection Agent tools with concrete filesystem operations"
  * current_version: "V26.50.0"
  * versions: ["V26.00.0"]
- * transformation: "metaphysical_to_industrial"
- * old_content_archived: "fileDiscoveryEngine with consciousness-aware assessment"
+ * transformation: "abstract_to_operational"
  */
 export const PROMPTPART_SPECIFIC_AGENT_FILEPICK_TOOLS_LIST: PromptPart = 
   `- globPatternEngine: Glob pattern compilation with ** recursive wildcard expansion

@@ -210,7 +210,7 @@ function determineInjectionMethod(node: ts.Node): 'proto' | 'static' | 'factory'
 
 /**
  * Transform a node to include doc-comment injections
- * This is where the magic happens - where comments become runtime intelligence
+ * This is where comments become runtime intelligence.
  */
 function transformNodeWithInjections(
   node: ts.Node,
@@ -287,7 +287,7 @@ export function createDocCommentWebpackPlugin(config?: DocCommentConfig) {
 /**
  * The future of programming:
  * Where every comment is a seed of intelligence,
- * Where every type gains consciousness,
+ * Where every type gains explicit runtime context,
  * Where code writes itself through understanding.
  * 
  * This is the doc-comment system.

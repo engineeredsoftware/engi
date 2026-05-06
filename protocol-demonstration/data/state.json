@@ -149,7 +149,7 @@
           "text": "Objective: recover an enterprise monorepo auth migration without leaving half-migrated services or invalid sessions in production.",
           "codeAnalysisFacts": {
             "symbols": [
-              "restoreLegacyVerifier",
+              "restorePriorVerifier",
               "emitAuditReceipt",
               "validateIssuerCompatibility",
               "Objective",
@@ -382,7 +382,7 @@
               ],
               "normalizedOutputEnvelope": {
                 "symbols": [
-                  "restoreLegacyVerifier",
+                  "restorePriorVerifier",
                   "emitAuditReceipt",
                   "validateIssuerCompatibility",
                   "Objective",
@@ -444,10 +444,10 @@
           "unitId": "asset_enterprise-auth-migration-rollback-playbook_10f7ba132a:unit-2",
           "assetId": "asset_enterprise-auth-migration-rollback-playbook_10f7ba132a",
           "unitKind": "config-block",
-          "text": "Procedure: freeze writes, capture a signed migration snapshot, validate token issuer compatibility, restore old verifier configuration, replay only idempotent schema steps, and re-enable traffic behind a kill switch.",
+          "text": "Procedure: freeze writes, capture a signed migration snapshot, validate token issuer compatibility, restore prior verifier configuration, replay only idempotent schema steps, and re-enable traffic behind a kill switch.",
           "codeAnalysisFacts": {
             "symbols": [
-              "restoreLegacyVerifier",
+              "restorePriorVerifier",
               "emitAuditReceipt",
               "validateIssuerCompatibility",
               "Objective",
@@ -680,7 +680,7 @@
               ],
               "normalizedOutputEnvelope": {
                 "symbols": [
-                  "restoreLegacyVerifier",
+                  "restorePriorVerifier",
                   "emitAuditReceipt",
                   "validateIssuerCompatibility",
                   "Objective",
@@ -745,7 +745,7 @@
           "text": "Validation: rerun auth benchmark cases, verify session validator invariants, and confirm rollback audit receipts include repo, commit, workflow run, and migration batch.",
           "codeAnalysisFacts": {
             "symbols": [
-              "restoreLegacyVerifier",
+              "restorePriorVerifier",
               "emitAuditReceipt",
               "validateIssuerCompatibility",
               "Objective",
@@ -978,7 +978,7 @@
               ],
               "normalizedOutputEnvelope": {
                 "symbols": [
-                  "restoreLegacyVerifier",
+                  "restorePriorVerifier",
                   "emitAuditReceipt",
                   "validateIssuerCompatibility",
                   "Objective",
@@ -1043,7 +1043,7 @@
           "text": "Expected touched areas: services/auth/rollback.ts, config/auth/issuer-compat.yml, and the Bitcode remediation branch validation notes.",
           "codeAnalysisFacts": {
             "symbols": [
-              "restoreLegacyVerifier",
+              "restorePriorVerifier",
               "emitAuditReceipt",
               "validateIssuerCompatibility",
               "Objective",
@@ -1276,7 +1276,7 @@
               ],
               "normalizedOutputEnvelope": {
                 "symbols": [
-                  "restoreLegacyVerifier",
+                  "restorePriorVerifier",
                   "emitAuditReceipt",
                   "validateIssuerCompatibility",
                   "Objective",
@@ -1829,14 +1829,14 @@
           "record operator ordering"
         ],
         "summary": "Objective: recover an enterprise monorepo auth migration without leaving half-migrated services or invalid sessions in production.\n\nProcedure: freeze writes, capture a signed migration snapshot, validate token issuer com",
-        "privateContent": "Objective: recover an enterprise monorepo auth migration without leaving half-migrated services or invalid sessions in production.\n\nProcedure: freeze writes, capture a signed migration snapshot, validate token issuer compatibility, restore old verifier configuration, replay only idempotent schema steps, and re-enable traffic behind a kill switch.\n\nValidation: rerun auth benchmark cases, verify session validator invariants, and confirm rollback audit receipts include repo, commit, workflow run, and migration batch.\n\nExpected touched areas: services/auth/rollback.ts, config/auth/issuer-compat.yml, and the Bitcode remediation branch validation notes.",
+        "privateContent": "Objective: recover an enterprise monorepo auth migration without leaving half-migrated services or invalid sessions in production.\n\nProcedure: freeze writes, capture a signed migration snapshot, validate token issuer compatibility, restore prior verifier configuration, replay only idempotent schema steps, and re-enable traffic behind a kill switch.\n\nValidation: rerun auth benchmark cases, verify session validator invariants, and confirm rollback audit receipts include repo, commit, workflow run, and migration batch.\n\nExpected touched areas: services/auth/rollback.ts, config/auth/issuer-compat.yml, and the Bitcode remediation branch validation notes.",
         "issuerPolicyStatus": "allowed"
       },
       "assetMeasurement": {
         "assetId": "asset_enterprise-auth-migration-rollback-playbook_10f7ba132a",
         "codeAnalysisFacts": {
           "symbols": [
-            "restoreLegacyVerifier",
+            "restorePriorVerifier",
             "emitAuditReceipt",
             "validateIssuerCompatibility",
             "Objective",
@@ -2148,7 +2148,7 @@
             ],
             "normalizedOutputEnvelope": {
               "symbols": [
-                "restoreLegacyVerifier",
+                "restorePriorVerifier",
                 "emitAuditReceipt",
                 "validateIssuerCompatibility",
                 "Objective",
@@ -2208,7 +2208,7 @@
             ],
             "normalizedOutputEnvelope": {
               "symbols": [
-                "restoreLegacyVerifier",
+                "restorePriorVerifier",
                 "emitAuditReceipt",
                 "validateIssuerCompatibility",
                 "Objective",
@@ -2274,7 +2274,7 @@
             ],
             "normalizedOutputEnvelope": {
               "symbols": [
-                "restoreLegacyVerifier",
+                "restorePriorVerifier",
                 "emitAuditReceipt",
                 "validateIssuerCompatibility",
                 "Objective",
@@ -2340,7 +2340,7 @@
             ],
             "normalizedOutputEnvelope": {
               "symbols": [
-                "restoreLegacyVerifier",
+                "restorePriorVerifier",
                 "emitAuditReceipt",
                 "validateIssuerCompatibility",
                 "Objective",
@@ -2406,7 +2406,7 @@
             ],
             "normalizedOutputEnvelope": {
               "symbols": [
-                "restoreLegacyVerifier",
+                "restorePriorVerifier",
                 "emitAuditReceipt",
                 "validateIssuerCompatibility",
                 "Objective",
@@ -7396,7 +7396,7 @@
           "unitId": "asset_token-issuer-incident-escalation-notes_cdd908aa03:unit-1",
           "assetId": "asset_token-issuer-incident-escalation-notes_cdd908aa03",
           "unitKind": "config-block",
-          "text": "Incident pattern: auth migration changed issuer and audience validation together, which broke older services still pinned to the previous JWKS endpoint.",
+          "text": "Incident pattern: auth migration changed issuer and audience validation together, which broke pre-migration services still pinned to the previous JWKS endpoint.",
           "codeAnalysisFacts": {
             "symbols": [
               "issuerCompatibilityWindow",
@@ -8239,14 +8239,14 @@
             "mediaType": "text/markdown",
             "role": "visual",
             "available": true,
-            "valuePreview": "Incident pattern: auth migration changed issuer and audience validation together, which broke older services still pinned to the previous JWKS endpoint."
+            "valuePreview": "Incident pattern: auth migration changed issuer and audience validation together, which broke pre-migration services still pinned to the previous JWKS endpoint."
           },
           {
             "surfaceId": "raw-content",
             "mediaType": "text/plain",
             "role": "raw",
             "available": true,
-            "valuePreview": "Incident pattern: auth migration changed issuer and audience validation together, which broke older services still pinned to the previous JWKS endpoint.\n\nRecovery pattern: split issuer migration from audience migration, "
+            "valuePreview": "Incident pattern: auth migration changed issuer and audience validation together, which broke pre-migration services still pinned to the previous JWKS endpoint.\n\nRecovery pattern: split issuer migration from audience migration, "
           },
           {
             "surfaceId": "code-analysis-summary",
@@ -8524,8 +8524,8 @@
           "compatibility window",
           "record operator ordering"
         ],
-        "summary": "Incident pattern: auth migration changed issuer and audience validation together, which broke older services still pinned to the previous JWKS endpoint.\n\nRecovery pattern: split issuer migration from audience migration, ",
-        "privateContent": "Incident pattern: auth migration changed issuer and audience validation together, which broke older services still pinned to the previous JWKS endpoint.\n\nRecovery pattern: split issuer migration from audience migration, ship an explicit compatibility window, and add a runtime audit that rejects mixed config before rollout.\n\nOperator note: most failed recoveries came from restoring schema before restoring validator config.",
+        "summary": "Incident pattern: auth migration changed issuer and audience validation together, which broke pre-migration services still pinned to the previous JWKS endpoint.\n\nRecovery pattern: split issuer migration from audience migration, ",
+        "privateContent": "Incident pattern: auth migration changed issuer and audience validation together, which broke pre-migration services still pinned to the previous JWKS endpoint.\n\nRecovery pattern: split issuer migration from audience migration, ship an explicit compatibility window, and add a runtime audit that rejects mixed config before rollout.\n\nOperator note: most failed recoveries came from restoring schema before restoring validator config.",
         "issuerPolicyStatus": "restricted"
       },
       "assetMeasurement": {
@@ -17224,7 +17224,7 @@
             "symbols": [
               "SessionValidator",
               "emitAuditReceipt",
-              "restoreLegacyVerifier",
+              "restorePriorVerifier",
               "validateIssuerAudience",
               "Witness",
               "Implementation",
@@ -17474,7 +17474,7 @@
                 "symbols": [
                   "SessionValidator",
                   "emitAuditReceipt",
-                  "restoreLegacyVerifier",
+                  "restorePriorVerifier",
                   "validateIssuerAudience",
                   "Witness",
                   "Implementation",
@@ -17539,12 +17539,12 @@
           "unitId": "asset_session-validator-compatibility-witness-dossier_ced0ee25a5:unit-2",
           "assetId": "asset_session-validator-compatibility-witness-dossier_ced0ee25a5",
           "unitKind": "text",
-          "text": "Implementation note: keep SessionValidator and restoreLegacyVerifier on the same rollback boundary, bind emitAuditReceipt to the exact workflow run and commit, and reject any compatibility-window repair that is not reflected in both session and receipt evidence.",
+          "text": "Implementation note: keep SessionValidator and restorePriorVerifier on the same rollback boundary, bind emitAuditReceipt to the exact workflow run and commit, and reject any compatibility-window repair that is not reflected in both session and receipt evidence.",
           "codeAnalysisFacts": {
             "symbols": [
               "SessionValidator",
               "emitAuditReceipt",
-              "restoreLegacyVerifier",
+              "restorePriorVerifier",
               "validateIssuerAudience",
               "Witness",
               "Implementation",
@@ -17794,7 +17794,7 @@
                 "symbols": [
                   "SessionValidator",
                   "emitAuditReceipt",
-                  "restoreLegacyVerifier",
+                  "restorePriorVerifier",
                   "validateIssuerAudience",
                   "Witness",
                   "Implementation",
@@ -17864,7 +17864,7 @@
             "symbols": [
               "SessionValidator",
               "emitAuditReceipt",
-              "restoreLegacyVerifier",
+              "restorePriorVerifier",
               "validateIssuerAudience",
               "Witness",
               "Implementation",
@@ -18114,7 +18114,7 @@
                 "symbols": [
                   "SessionValidator",
                   "emitAuditReceipt",
-                  "restoreLegacyVerifier",
+                  "restorePriorVerifier",
                   "validateIssuerAudience",
                   "Witness",
                   "Implementation",
@@ -18678,7 +18678,7 @@
           "compatibility window required"
         ],
         "summary": "Witness objective: prove that session validation, issuer compatibility rollback, and audit receipt emission remain aligned for the normalization-heavy auth remediation branch.\n\nImplementation note: keep SessionValidator ",
-        "privateContent": "Witness objective: prove that session validation, issuer compatibility rollback, and audit receipt emission remain aligned for the normalization-heavy auth remediation branch.\n\nImplementation note: keep SessionValidator and restoreLegacyVerifier on the same rollback boundary, bind emitAuditReceipt to the exact workflow run and commit, and reject any compatibility-window repair that is not reflected in both session and receipt evidence.\n\nVerification steps: rerun the auth normalization benchmark, replay the validator proof log against services/auth/session_validator.rs, and confirm that services/auth/audit_receipt.ts and config/auth/issuer-compat.yml preserve the same workflow-bound compatibility window.",
+        "privateContent": "Witness objective: prove that session validation, issuer compatibility rollback, and audit receipt emission remain aligned for the normalization-heavy auth remediation branch.\n\nImplementation note: keep SessionValidator and restorePriorVerifier on the same rollback boundary, bind emitAuditReceipt to the exact workflow run and commit, and reject any compatibility-window repair that is not reflected in both session and receipt evidence.\n\nVerification steps: rerun the auth normalization benchmark, replay the validator proof log against services/auth/session_validator.rs, and confirm that services/auth/audit_receipt.ts and config/auth/issuer-compat.yml preserve the same workflow-bound compatibility window.",
         "issuerPolicyStatus": "allowed"
       },
       "assetMeasurement": {
@@ -18687,7 +18687,7 @@
           "symbols": [
             "SessionValidator",
             "emitAuditReceipt",
-            "restoreLegacyVerifier",
+            "restorePriorVerifier",
             "validateIssuerAudience",
             "Witness",
             "Implementation",
@@ -18961,7 +18961,7 @@
               "symbols": [
                 "SessionValidator",
                 "emitAuditReceipt",
-                "restoreLegacyVerifier",
+                "restorePriorVerifier",
                 "validateIssuerAudience",
                 "Witness",
                 "Implementation",
@@ -19028,7 +19028,7 @@
               "symbols": [
                 "SessionValidator",
                 "emitAuditReceipt",
-                "restoreLegacyVerifier",
+                "restorePriorVerifier",
                 "validateIssuerAudience",
                 "Witness",
                 "Implementation",
@@ -19103,7 +19103,7 @@
               "symbols": [
                 "SessionValidator",
                 "emitAuditReceipt",
-                "restoreLegacyVerifier",
+                "restorePriorVerifier",
                 "validateIssuerAudience",
                 "Witness",
                 "Implementation",
@@ -19178,7 +19178,7 @@
               "symbols": [
                 "SessionValidator",
                 "emitAuditReceipt",
-                "restoreLegacyVerifier",
+                "restorePriorVerifier",
                 "validateIssuerAudience",
                 "Witness",
                 "Implementation",
@@ -19518,7 +19518,7 @@
             "symbols": [
               "emitAuditReceipt",
               "reconcileRollbackReceipt",
-              "restoreLegacyVerifier",
+              "restorePriorVerifier",
               "Patch",
               "Implementation",
               "Validation"
@@ -19743,7 +19743,7 @@
                 "symbols": [
                   "emitAuditReceipt",
                   "reconcileRollbackReceipt",
-                  "restoreLegacyVerifier",
+                  "restorePriorVerifier",
                   "Patch",
                   "Implementation",
                   "Validation"
@@ -19798,12 +19798,12 @@
           "unitId": "asset_auth-audit-receipt-reconciliation-patchset_7a12545802:unit-2",
           "assetId": "asset_auth-audit-receipt-reconciliation-patchset_7a12545802",
           "unitKind": "config-block",
-          "text": "Implementation note: write the workflow run and commit into emitAuditReceipt, keep restoreLegacyVerifier and issuer compatibility updates in the same remediation patch, and fail closed if receipt linkage is missing.",
+          "text": "Implementation note: write the workflow run and commit into emitAuditReceipt, keep restorePriorVerifier and issuer compatibility updates in the same remediation patch, and fail closed if receipt linkage is missing.",
           "codeAnalysisFacts": {
             "symbols": [
               "emitAuditReceipt",
               "reconcileRollbackReceipt",
-              "restoreLegacyVerifier",
+              "restorePriorVerifier",
               "Patch",
               "Implementation",
               "Validation"
@@ -20028,7 +20028,7 @@
                 "symbols": [
                   "emitAuditReceipt",
                   "reconcileRollbackReceipt",
-                  "restoreLegacyVerifier",
+                  "restorePriorVerifier",
                   "Patch",
                   "Implementation",
                   "Validation"
@@ -20088,7 +20088,7 @@
             "symbols": [
               "emitAuditReceipt",
               "reconcileRollbackReceipt",
-              "restoreLegacyVerifier",
+              "restorePriorVerifier",
               "Patch",
               "Implementation",
               "Validation"
@@ -20313,7 +20313,7 @@
                 "symbols": [
                   "emitAuditReceipt",
                   "reconcileRollbackReceipt",
-                  "restoreLegacyVerifier",
+                  "restorePriorVerifier",
                   "Patch",
                   "Implementation",
                   "Validation"
@@ -20851,7 +20851,7 @@
           "compatibility window required"
         ],
         "summary": "Patch objective: reconcile auth rollback receipts with the workflow run, commit, and issuer compatibility window so rollback evidence stays settlement-grade.\n\nImplementation note: write the workflow run and commit into e",
-        "privateContent": "Patch objective: reconcile auth rollback receipts with the workflow run, commit, and issuer compatibility window so rollback evidence stays settlement-grade.\n\nImplementation note: write the workflow run and commit into emitAuditReceipt, keep restoreLegacyVerifier and issuer compatibility updates in the same remediation patch, and fail closed if receipt linkage is missing.\n\nValidation steps: rerun the auth benchmark, inspect receipt reconciliation logs, and confirm that rollback receipts stay hash-bound to services/auth/audit_receipt.ts.",
+        "privateContent": "Patch objective: reconcile auth rollback receipts with the workflow run, commit, and issuer compatibility window so rollback evidence stays settlement-grade.\n\nImplementation note: write the workflow run and commit into emitAuditReceipt, keep restorePriorVerifier and issuer compatibility updates in the same remediation patch, and fail closed if receipt linkage is missing.\n\nValidation steps: rerun the auth benchmark, inspect receipt reconciliation logs, and confirm that rollback receipts stay hash-bound to services/auth/audit_receipt.ts.",
         "issuerPolicyStatus": "allowed"
       },
       "assetMeasurement": {
@@ -20860,7 +20860,7 @@
           "symbols": [
             "emitAuditReceipt",
             "reconcileRollbackReceipt",
-            "restoreLegacyVerifier",
+            "restorePriorVerifier",
             "Patch",
             "Implementation",
             "Validation"
@@ -21123,7 +21123,7 @@
               "symbols": [
                 "emitAuditReceipt",
                 "reconcileRollbackReceipt",
-                "restoreLegacyVerifier",
+                "restorePriorVerifier",
                 "Patch",
                 "Implementation",
                 "Validation"
@@ -21178,7 +21178,7 @@
               "symbols": [
                 "emitAuditReceipt",
                 "reconcileRollbackReceipt",
-                "restoreLegacyVerifier",
+                "restorePriorVerifier",
                 "Patch",
                 "Implementation",
                 "Validation"
@@ -21238,7 +21238,7 @@
               "symbols": [
                 "emitAuditReceipt",
                 "reconcileRollbackReceipt",
-                "restoreLegacyVerifier",
+                "restorePriorVerifier",
                 "Patch",
                 "Implementation",
                 "Validation"
@@ -21298,7 +21298,7 @@
               "symbols": [
                 "emitAuditReceipt",
                 "reconcileRollbackReceipt",
-                "restoreLegacyVerifier",
+                "restorePriorVerifier",
                 "Patch",
                 "Implementation",
                 "Validation"
@@ -24040,7 +24040,7 @@
           "monorepo"
         ],
         "symbols": [
-          "restoreLegacyVerifier",
+          "restorePriorVerifier",
           "validateIssuerAudience",
           "emitAuditReceipt"
         ],
@@ -24055,7 +24055,7 @@
       },
       "expectedTask": "Recover a production auth migration with issuer mismatch while preserving session validity and rollback safety.",
       "expectedFailureModes": [
-        "issuer mismatch breaks older services",
+        "issuer mismatch breaks pre-migration services",
         "rollback restores schema before verifier compatibility",
         "audit receipts missing repo and commit linkage"
       ],
@@ -24098,7 +24098,7 @@
         ],
         "extractedOutputs": {
           "failingCases": [
-            "issuer-mismatch-legacy-service",
+            "issuer-mismatch-pre-migration-service",
             "rollback-ordering-audit-receipt"
           ],
           "weakDimensions": [
@@ -24117,7 +24117,7 @@
             "config/auth/issuer-compat.yml"
           ],
           "symbols": [
-            "restoreLegacyVerifier",
+            "restorePriorVerifier",
             "validateIssuerAudience",
             "emitAuditReceipt"
           ],
@@ -24917,7 +24917,7 @@
           "jwt"
         ],
         "symbols": [
-          "restoreLegacyVerifier",
+          "restorePriorVerifier",
           "SessionValidator",
           "emitAuditReceipt"
         ],
@@ -24985,7 +24985,7 @@
         "extractedOutputs": {
           "failingCases": [
             "rollback-ordering-audit-receipt",
-            "issuer-mismatch-legacy-service",
+            "issuer-mismatch-pre-migration-service",
             "workflow-run-receipt-gap"
           ],
           "weakDimensions": [
@@ -25005,7 +25005,7 @@
             "config/auth/issuer-compat.yml"
           ],
           "symbols": [
-            "restoreLegacyVerifier",
+            "restorePriorVerifier",
             "SessionValidator",
             "emitAuditReceipt"
           ],
@@ -25473,7 +25473,7 @@
         "emit audit receipt"
       ],
       "previewSurface": "Workflow artifact: auth-remediation-report.json",
-      "content": "Workflow artifact report\n- failing: issuer mismatch legacy services\n- weak dimensions: rollback safety, session validity, auditability\n- action: restore verifier compatibility before schema replay",
+      "content": "Workflow artifact report\n- failing: issuer mismatch pre-migration services\n- weak dimensions: rollback safety, session validity, auditability\n- action: restore verifier compatibility before schema replay",
       "signerAddress": "did:key:frontier-ci-signer",
       "authSessionId": "ghapp_frontier-demo-auth_gh-inst-bitcode-001",
       "installationId": "gh_inst_bitcode_001",
@@ -25588,7 +25588,7 @@
         "restore verifier before schema replay"
       ],
       "previewSurface": "services/auth/rollback.ts",
-      "content": "Patch intent\n- restoreLegacyVerifier before schema replay\n- block traffic reopen until issuer compatibility audit passes",
+      "content": "Patch intent\n- restorePriorVerifier before schema replay\n- block traffic reopen until issuer compatibility audit passes",
       "signerAddress": "did:key:frontier-ci-signer",
       "authSessionId": "ghapp_frontier-demo-auth_gh-inst-bitcode-001",
       "installationId": "gh_inst_bitcode_001",

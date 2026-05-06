@@ -16,7 +16,7 @@ import { PROMPTPART_SPECIFIC_TOOL_DOCKERMCP_DOCCODETOOLEXAMPLE3 } from '@bitcode
  * DOCKER MCP DOC-CODE-TOOL PROMPT
  * 
  * Containerization-Intelligence DocCodeToolPrompt for Docker MCP runtime documentation.
- * This tool enables transcendent containerization with AI-driven orchestration optimization.
+ * This tool enables advanced containerization with AI-driven orchestration optimization.
  */
 
 import { DocCodeToolPrompt } from '@bitcode/tools-generics';
@@ -46,11 +46,11 @@ import { PromptPart } from '@bitcode/prompts/parts/PromptPart';
  * @doc-comment-developing-promptdevelopment
  * versions: []
  * domain: tool
- * intent: "Containerization intelligence MCP tool for transcendent application packaging with AI-driven orchestration optimization"
+ * intent: "Containerization intelligence MCP tool for advanced application packaging with AI-driven orchestration optimization"
  * 
  * This containerization intelligence MCP tool represents the evolutionary leap in application packaging,
- * enabling transcendent containerization with AI-driven orchestration optimization and
- * quantum-isolated execution environments for revolutionary microservices architecture excellence.
+ * enabling advanced containerization with AI-driven orchestration optimization and
+ * high-isolated execution environments for reliable microservices architecture excellence.
  */
 export class DockerMCPDocCodeToolPrompt extends DocCodeToolPrompt {
   constructor() {

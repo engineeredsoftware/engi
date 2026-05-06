@@ -1,4 +1,4 @@
-// Canonical auxillary owner using canonical auxillary internals while fifth-gate compatibility retirement proceeds.
+// Canonical auxillary owner using canonical auxillary internals while fifth-gate support-route retirement proceeds.
 
 import React, { useState, useEffect, useRef } from 'react';
 import SocialLoginButton from '@/components/base/bitcode/auth/SocialLoginButton';
@@ -139,7 +139,7 @@ export default function AuxillariesProfilePane({ onSave,
    *      reactively without requiring a full page refresh.
    *
    * Updating `email` + `isVerified` triggers the upstream
-   * `onCompletionStatusChange` callback which in turn lets the parent wizard
+   * `onCompletionStatusChange` callback which in turn lets the parent flow
    * auto-advance to the next onboarding step.
    */
   useEffect(() => {

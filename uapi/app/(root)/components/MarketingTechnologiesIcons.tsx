@@ -19,7 +19,7 @@ import classNames from 'classnames';
 
 type TechnologyIconProps = {
   className?: string;
-  /** Identifier for the technology – kept for API compatibility. */
+  /** Stable public identifier for the technology. */
   value?: string;
 };
 

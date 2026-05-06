@@ -21,7 +21,7 @@ import { PROMPTPART_SPECIFIC_TOOL_NOTIONMCP_DOCCODETOOLEXAMPLE2 } from '@bitcode
  * intent: "Knowledge management MCP tool for Notion workspace and content operations"
  * 
  * Knowledge-Management-Intelligence DocCodeToolPrompt for Notion MCP runtime documentation.
- * This tool enables transcendent knowledge orchestration with AI-driven information architecture.
+ * This tool enables advanced knowledge orchestration with AI-driven information architecture.
  */
 
 import { DocCodeToolPrompt } from '@bitcode/tools-generics';
@@ -47,9 +47,9 @@ import { PromptPart } from '@bitcode/prompts/parts/PromptPart';
 
 /**
  * Notion MCP tool-specific DocCodeToolPrompt
- * This knowledge management intelligence MCP tool represents the quantum evolution of information organization,
- * enabling transcendent knowledge orchestration with AI-driven information architecture and
- * hyperconnected collaborative intelligence for revolutionary workspace excellence.
+ * This knowledge management intelligence MCP tool represents the high-precision evolution of information organization,
+ * enabling advanced knowledge orchestration with AI-driven information architecture and
+ * integrated collaborative intelligence for reliable workspace excellence.
  */
 export class NotionMCPDocCodeToolPrompt extends DocCodeToolPrompt {
   constructor() {

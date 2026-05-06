@@ -15,12 +15,12 @@ import { mergeBitcodeProfileSettings } from '../profile-contract';
 export type UserProfile = Tables<'user_profiles'>;
 export type UserProfileInsert = Insertable<'user_profiles'>;
 export type UserProfileUpdate = Updatable<'user_profiles'>;
-export type UserProfileCompatibility = UserProfile & {
+export type UserProfileReadModel = UserProfile & {
   email?: string | null;
   full_name?: string | null;
 };
 
-function normalizeProfile(row: UserProfile): UserProfileCompatibility {
+function normalizeProfile(row: UserProfile): UserProfileReadModel {
   const settings = (row.settings as Record<string, unknown> | null) || {};
   return {
     ...row,
@@ -37,7 +37,7 @@ export class UserProfilesModel extends BaseModel<'user_profiles'> {
   /**
    * Get profile by user ID
    */
-  async getByUserId(userId: string): Promise<UserProfileCompatibility | null> {
+  async getByUserId(userId: string): Promise<UserProfileReadModel | null> {
     const { data, error } = await this.client
       .from(this.table)
       .select('*')

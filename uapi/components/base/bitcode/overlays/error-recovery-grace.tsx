@@ -29,7 +29,7 @@ interface LearningMoment {
   preventionTip: string;
   relatedConcepts: string[];
   masteryLevel: 'beginner' | 'intermediate' | 'advanced' | 'expert';
-  wizardWisdom: string;
+  expertGuidance: string;
 }
 
 interface RecoveryGuidance {
@@ -88,14 +88,14 @@ interface ErrorRecoveryGraceProps {
   };
   
   /** Visual presentation controls */
-  graceStyle?: 'gentle' | 'encouraging' | 'wisdom' | 'transcendent';
+  graceStyle?: 'gentle' | 'encouraging' | 'instructional' | 'intensive';
   showLearningMoments?: boolean;
   showRecoveryGuidance?: boolean;
   showPatternInsights?: boolean;
-  showWizardWisdom?: boolean;
+  showExpertGuidance?: boolean;
   
-  /** Magical enhancement level */
-  graceIntensity?: 'subtle' | 'nurturing' | 'enlightening' | 'transcendent';
+  /** Supportive enhancement level */
+  graceIntensity?: 'subtle' | 'standard' | 'deep' | 'intensive';
   
   /** Performance controls */
   respectReducedMotion?: boolean;
@@ -104,7 +104,7 @@ interface ErrorRecoveryGraceProps {
   onErrorResolved?: (resolution: { method: string; timeToResolve: number; learned: boolean }) => void;
   onLearningMoment?: (moment: LearningMoment) => void;
   onPatternRecognized?: (pattern: string) => void;
-  onWisdomGained?: (wisdom: string) => void;
+  onGuidanceAccepted?: (guidance: string) => void;
 }
 
 // Intelligent error analysis and learning synthesis
@@ -118,7 +118,7 @@ const analyzeErrorForLearning = (error: ErrorContext, patterns: ErrorPattern[], 
   let preventionTip = '';
   let relatedConcepts: string[] = [];
   let masteryLevel: LearningMoment['masteryLevel'] = 'beginner';
-  let wizardWisdom = '';
+  let expertGuidance = '';
   
   switch (error.type) {
     case 'syntax':
@@ -129,18 +129,18 @@ const analyzeErrorForLearning = (error: ErrorContext, patterns: ErrorPattern[], 
       preventionTip = 'Enable syntax highlighting and real-time error checking in your editor to catch these early';
       relatedConcepts = ['syntax-highlighting', 'linting', 'parser-rules', 'language-grammar'];
       masteryLevel = userMastery === 'struggling' ? 'beginner' : 'intermediate';
-      wizardWisdom = '✨ Every master programmer once wrote their first syntax error - it\'s the beginning of fluency, not a failure';
+      expertGuidance = '✨ Every experienced engineer has fixed syntax errors - it\'s the beginning of fluency, not a failure';
       break;
       
     case 'type':
       insight = isRecurring ?
         'Type mismatches suggest an opportunity to deepen your understanding of the type system' :
-        'Type errors are your guardian angels, protecting you from runtime surprises';
+        'Type errors are your static guardrails, protecting you from runtime surprises';
       explanation = 'The type system is catching a potential mismatch between what you\'re providing and what the code expects. This is actually helpful!';
       preventionTip = 'Consider adding explicit type annotations to make your intentions clear to both TypeScript and future you';
       relatedConcepts = ['type-safety', 'type-inference', 'type-annotations', 'static-analysis'];
       masteryLevel = userMastery === 'mastered' ? 'advanced' : 'intermediate';
-      wizardWisdom = '🔮 Types are not constraints but clarity - they make the invisible visible and the implicit explicit';
+      expertGuidance = '◇ Types are not constraints but clarity - they make the invisible visible and the implicit explicit';
       break;
       
     case 'runtime':
@@ -149,7 +149,7 @@ const analyzeErrorForLearning = (error: ErrorContext, patterns: ErrorPattern[], 
       preventionTip = 'Add defensive programming techniques like null checks, try-catch blocks, and input validation';
       relatedConcepts = ['defensive-programming', 'error-handling', 'edge-cases', 'debugging'];
       masteryLevel = 'intermediate';
-      wizardWisdom = '⚡ Runtime errors are teachers in disguise - they show us the paths our code actually travels, not just the ones we intended';
+      expertGuidance = '⚡ Runtime errors are diagnostic signals - they show us the paths our code actually travels, not just the ones we intended';
       break;
       
     case 'logic':
@@ -158,7 +158,7 @@ const analyzeErrorForLearning = (error: ErrorContext, patterns: ErrorPattern[], 
       preventionTip = 'Use debugger breakpoints or console logging to trace the actual flow vs. expected flow';
       relatedConcepts = ['debugging', 'logical-reasoning', 'step-through-debugging', 'unit-testing'];
       masteryLevel = 'advanced';
-      wizardWisdom = '🧙‍♂️ Logic errors are puzzles wrapped in learning - solving them strengthens both coding skills and problem-solving wisdom';
+      expertGuidance = '💡 Logic errors are mismatches worth isolating - solving them strengthens both coding skill and verification discipline';
       break;
       
     default:
@@ -167,7 +167,7 @@ const analyzeErrorForLearning = (error: ErrorContext, patterns: ErrorPattern[], 
       preventionTip = 'Document what you learn from this error to build your personal knowledge base';
       relatedConcepts = ['problem-solving', 'debugging', 'learning'];
       masteryLevel = 'intermediate';
-      wizardWisdom = '💫 In the realm of code, every error is a stepping stone to greater understanding';
+      expertGuidance = '💫 In production code, every error is evidence for a clearer guardrail';
   }
   
   return {
@@ -176,7 +176,7 @@ const analyzeErrorForLearning = (error: ErrorContext, patterns: ErrorPattern[], 
     preventionTip,
     relatedConcepts,
     masteryLevel,
-    wizardWisdom
+    expertGuidance
   };
 };
 
@@ -286,17 +286,17 @@ export const ErrorRecoveryGrace = ({
     recentProgress: 0.1
   },
   repositoryContext,
-  graceStyle = 'wisdom',
+  graceStyle = 'instructional',
   showLearningMoments = true,
   showRecoveryGuidance = true,
   showPatternInsights = true,
-  showWizardWisdom = true,
-  graceIntensity = 'enlightening',
+  showExpertGuidance = true,
+  graceIntensity = 'deep',
   respectReducedMotion = true,
   onErrorResolved,
   onLearningMoment,
   onPatternRecognized,
-  onWisdomGained
+  onGuidanceAccepted
 }: ErrorRecoveryGraceProps) => {
   const [showGrace, setShowGrace] = useState(false);
   const [gracefulParticles, setGracefulParticles] = useState<Array<{
@@ -362,9 +362,9 @@ export const ErrorRecoveryGrace = ({
       id: `grace-particle-${index}`,
       x: Math.random() * 80 + 10,
       y: Math.random() * 80 + 10,
-      symbol: ['✨', '🌟', '💫', '🔮', '⭐'][index % 5],
-      color: graceStyle === 'transcendent' ? '#a855f7' :
-             graceStyle === 'wisdom' ? '#10b981' :
+      symbol: ['✨', '🌟', '💫', '◇', '⭐'][index % 5],
+      color: graceStyle === 'intensive' ? '#a855f7' :
+             graceStyle === 'instructional' ? '#10b981' :
              graceStyle === 'encouraging' ? '#3b82f6' : '#6b7280',
       opacity: 0.6
     }));
@@ -395,9 +395,9 @@ export const ErrorRecoveryGrace = ({
   }, [learningMoment, learningExpanded, onLearningMoment]);
   
   // Calculate grace enhancement factor
-  const graceEnhancement = graceIntensity === 'transcendent' ? 1.0 :
-                          graceIntensity === 'enlightening' ? 0.8 :
-                          graceIntensity === 'nurturing' ? 0.6 : 0.3;
+  const graceEnhancement = graceIntensity === 'intensive' ? 1.0 :
+                          graceIntensity === 'deep' ? 0.8 :
+                          graceIntensity === 'standard' ? 0.6 : 0.3;
   
   const enhancementGlow = GRACE_QUALITY * graceEnhancement;
   
@@ -416,9 +416,9 @@ export const ErrorRecoveryGrace = ({
         <div 
           className={`
             backdrop-blur-xl rounded-2xl p-6 border shadow-2xl
-            ${graceStyle === 'transcendent' ? 
+            ${graceStyle === 'intensive' ? 
               'bg-gradient-to-br from-purple-900/95 to-indigo-900/95 border-purple-400/40' :
-            graceStyle === 'wisdom' ?
+            graceStyle === 'instructional' ?
               'bg-gradient-to-br from-emerald-900/95 to-teal-900/95 border-emerald-400/40' :
             graceStyle === 'encouraging' ?
               'bg-gradient-to-br from-blue-900/95 to-cyan-900/95 border-blue-400/40' :
@@ -427,8 +427,8 @@ export const ErrorRecoveryGrace = ({
           `}
           style={{
             boxShadow: `0 0 40px ${
-              graceStyle === 'transcendent' ? 'rgba(147, 51, 234, 0.4)' :
-              graceStyle === 'wisdom' ? 'rgba(16, 185, 129, 0.4)' :
+              graceStyle === 'intensive' ? 'rgba(147, 51, 234, 0.4)' :
+              graceStyle === 'instructional' ? 'rgba(16, 185, 129, 0.4)' :
               graceStyle === 'encouraging' ? 'rgba(59, 130, 246, 0.4)' :
               'rgba(107, 114, 128, 0.3)'
             }`
@@ -441,14 +441,14 @@ export const ErrorRecoveryGrace = ({
                 className="text-3xl"
                 style={{
                   filter: `drop-shadow(0 0 8px ${
-                    graceStyle === 'transcendent' ? '#a855f7' :
-                    graceStyle === 'wisdom' ? '#10b981' :
+                    graceStyle === 'intensive' ? '#a855f7' :
+                    graceStyle === 'instructional' ? '#10b981' :
                     graceStyle === 'encouraging' ? '#3b82f6' : '#6b7280'
                   })`
                 }}
               >
-                {graceStyle === 'transcendent' ? '🔮' :
-                 graceStyle === 'wisdom' ? '🧙‍♂️' :
+                {graceStyle === 'intensive' ? '◇' :
+                 graceStyle === 'instructional' ? '💡' :
                  graceStyle === 'encouraging' ? '💫' : '✨'}
               </div>
               <div>
@@ -507,7 +507,7 @@ export const ErrorRecoveryGrace = ({
               <button
                 onClick={() => {
                   setLearningExpanded(!learningExpanded);
-                  if (!learningExpanded) onWisdomGained?.(learningMoment.wizardWisdom);
+                  if (!learningExpanded) onGuidanceAccepted?.(learningMoment.expertGuidance);
                 }}
                 className="w-full text-left p-4 bg-emerald-500/10 hover:bg-emerald-500/20 
                          border border-emerald-400/30 rounded-lg transition-all duration-200
@@ -555,10 +555,10 @@ export const ErrorRecoveryGrace = ({
                         </div>
                       </div>
                       
-                      {showWizardWisdom && (
+                      {showExpertGuidance && (
                         <div className="pt-3 border-t border-emerald-400/20">
                           <div className="text-sm italic text-purple-300 leading-relaxed">
-                            {learningMoment.wizardWisdom}
+                            {learningMoment.expertGuidance}
                           </div>
                         </div>
                       )}

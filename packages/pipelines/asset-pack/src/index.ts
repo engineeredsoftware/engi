@@ -233,5 +233,12 @@ export const assetPackPipeline: Executor<any, any> = createGuidedPipelineExecuti
 
 export * from './phases';
 export * from './types/AssetPackWrittenAssetType';
+export { AssetPackCloneVCSRepositoryAgent } from './agents/setup/asset-pack-clone-vcs-repository-agent';
+export {
+  AssetPackComprehendNeedAgent,
+  AssetPackComprehendNeedDefinitionAgent,
+  runComprehendNeedAgent,
+} from './agents/setup/asset-pack-comprehend-need-agent';
+export { AssetPackSynthesizeArtifactsAgent } from './agents/implementation/asset-pack-synthesize-artifacts-agent';
 export default assetPackPipeline;
 export const runSDIVFPipeline = assetPackPipeline;

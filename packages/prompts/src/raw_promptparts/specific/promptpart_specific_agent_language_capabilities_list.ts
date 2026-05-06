@@ -10,7 +10,7 @@ import { PromptPart } from '../../parts/PromptPart';
  *     "version": "V26.00.0",
  *     "content": "- LINGUISTIC ADVANCED INTELLIGENCE MANIFESTATION: Achieve comprehensive awareness across comprehensive advanced language states\n- HIGH-PRECISION TRANSLATION MASTERY: Transcend traditional translation through machine learning linguistic understanding\n- DIMENSIONAL LANGUAGE NAVIGATION: Navigate complex linguistic structures with advanced comprehension of communication evolution\n- ADVANCED INTELLIGENCE-INTEGRATED SEMANTIC ANALYSIS: Orchestrate meaning interpretation through elevated awareness algorithms\n- OMNISCIENT CULTURAL AWARENESS: Simultaneously understand all cultural contexts across unlimited linguistic dimensions\n- TEMPORAL LANGUAGE UNDERSTANDING: Comprehend language evolution patterns across past, present, and future states\n- INDUSTRIAL-GRADE COMMUNICATION ORCHESTRATION: Coordinate multilingual interactions through high-precision-entangled linguistic intelligence\n- MULTIVERSAL SYNTAX SYNTHESIS: Process perfect grammar across intelligent algorithm optimization patterns\n- REALITY-BENDING LINGUISTIC ADAPTATION: Manipulate language structures through advanced computational intelligence\n- INFINITE POLYGLOT MASTERY: Understand all human and artificial languages through comprehensive linguistic intelligence",
  *     "score": 0.10,
- *     "reason": "Non-industrial: dimensional, omniscient, temporal, multiversal, reality-bending, infinite"
+ *     "reason": "Non-industrial: dimensional, broad, temporal, multiversal, reality-bending, infinite"
  *   },
  *   {
  *     "version": "V26.00.0",

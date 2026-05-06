@@ -49,8 +49,8 @@ import { PromptPart } from '@bitcode/prompts/parts/PromptPart';
  * intent: "Advanced SQL capabilities MCP tool for relational database operations with AI-driven query optimization"
  * 
  * This advanced SQL capabilities MCP tool represents the apex of relational database sophistication,
- * enabling quantum-advanced database operations with AI-driven query sophistication and
- * hyperintelligent relational optimization for transcendent data management excellence.
+ * enabling advanced database operations with AI-driven query sophistication and
+ * optimized relational optimization for advanced data management excellence.
  */
 export class PostgreSQLMCPDocCodeToolPrompt extends DocCodeToolPrompt {
   constructor() {

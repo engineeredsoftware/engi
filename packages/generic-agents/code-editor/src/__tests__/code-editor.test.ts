@@ -84,7 +84,7 @@ describe('Code Editor Agent', () => {
       expect(execution.get('plan', 'changeAnalysis')).toBeDefined();
       expect(execution.get('plan', 'editPlan')).toHaveLength(2);
 
-      // Verify CONQUER phase executed edits
+      // Verify APPLY phase executed edits
       expect(execution.get('try', 'executedEdits')).toBeDefined();
       expect(execution.get('try', 'allEditsSuccessful')).toBe(true);
 
@@ -143,7 +143,7 @@ describe('Code Editor Agent', () => {
       expect(editPlan[0].estimatedRisk).toBeDefined();
     });
 
-    test('should handle CONQUER phase with transaction support', async () => {
+    test('should handle APPLY phase with transaction support', async () => {
       const input = {
         changes: [{
           filePath: 'src/file.ts',

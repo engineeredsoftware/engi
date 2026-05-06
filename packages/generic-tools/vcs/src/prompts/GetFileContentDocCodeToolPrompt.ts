@@ -21,7 +21,7 @@ import { PROMPTPART_SPECIFIC_TOOL_GETFILECONTENT_DOCCODETOOLEXAMPLE3 } from '@bi
  * intent: "VCS tool for file content retrieval and version management"
  * 
  * Fundamental-Access DocCodeToolPrompt for file content retrieval runtime documentation.
- * This tool enables TRANSCENDENT content access with quantum-encrypted streaming and AI-native parsing.
+ * This tool enables ADVANCED content access with encrypted streaming and AI-native parsing.
  */
 
 import { DocCodeToolPrompt } from '@bitcode/tools-generics';
@@ -47,8 +47,8 @@ import { PromptPart } from '@bitcode/prompts/parts/PromptPart';
 
 /**
  * Get File Content tool-specific DocCodeToolPrompt
- * This TRANSCENDENT content retrieval tool represents the evolution of file access,
- * enabling quantum-encrypted streaming with AI-native semantic parsing and
+ * This ADVANCED content retrieval tool represents the evolution of file access,
+ * enabling encrypted streaming with AI-native semantic parsing and
  * autonomous system evolution for paradigm-transcending content intelligence.
  */
 export class GetFileContentDocCodeToolPrompt extends DocCodeToolPrompt {
@@ -76,7 +76,7 @@ export class GetFileContentDocCodeToolPrompt extends DocCodeToolPrompt {
     this.setParameters(PROMPTPART_SPECIFIC_TOOL_GETFILECONTENT_DOCCODETOOLPARAMETERS);
     this.setOutput(PROMPTPART_SPECIFIC_TOOL_GETFILECONTENT_DOCCODETOOLOUTPUT);
     
-    // Add examples - demonstrating TRANSCENDENT content intelligence
+    // Add examples - demonstrating ADVANCED content intelligence
     this.set('examples:1', PROMPTPART_SPECIFIC_TOOL_GETFILECONTENT_DOCCODETOOLEXAMPLE1);
     this.set('examples:2', PROMPTPART_SPECIFIC_TOOL_GETFILECONTENT_DOCCODETOOLEXAMPLE2);
     this.set('examples:3', PROMPTPART_SPECIFIC_TOOL_GETFILECONTENT_DOCCODETOOLEXAMPLE3);

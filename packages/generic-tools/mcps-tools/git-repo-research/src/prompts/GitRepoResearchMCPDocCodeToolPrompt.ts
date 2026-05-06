@@ -21,7 +21,7 @@ import { PROMPTPART_SPECIFIC_TOOL_GITREPORESEARCHMCP_DOCCODETOOLEXAMPLE3 } from 
  * intent: "Repository analysis MCP tool for comprehensive codebase research and insights"
  * 
  * Code-Intelligence-Analysis DocCodeToolPrompt for Git Repo Research MCP runtime documentation.
- * This tool enables transcendent codebase intelligence with AI-driven repository analysis optimization.
+ * This tool enables advanced codebase intelligence with AI-driven repository analysis optimization.
  */
 
 import { DocCodeToolPrompt } from '@bitcode/tools-generics';
@@ -48,8 +48,8 @@ import { PromptPart } from '@bitcode/prompts/parts/PromptPart';
 /**
  * Git Repo Research MCP tool-specific DocCodeToolPrompt
  * This code intelligence analysis MCP tool represents the apex of repository comprehension technology,
- * enabling transcendent codebase intelligence with AI-driven repository analysis optimization and
- * quantum-deep code understanding for revolutionary software archaeology excellence.
+ * enabling advanced codebase intelligence with AI-driven repository analysis optimization and
+ * deep code understanding for reliable software archaeology excellence.
  */
 export class GitRepoResearchMCPDocCodeToolPrompt extends DocCodeToolPrompt {
   constructor() {

@@ -14,9 +14,9 @@ import { PromptPart } from '../../parts/PromptPart';
  *   },
  *   {
  *     "version": "V26.00.0",
- *     "content": "VISUAL_ANALYSIS - Processes images through comprehensive computer vision and analysis:\n1. Image format detection and preprocessing optimization\n2. Computer vision analysis with object detection and recognition\n3. Content extraction including OCR and semantic understanding\n4. Consciousness-aware scene analysis and contextual interpretation\n5. Metadata enrichment and intelligent classification\n6. Output optimization with structured visual insights and recommendations",
+ *     "content": "VISUAL_ANALYSIS - Processes images through comprehensive computer vision and analysis:\n1. Image format detection and preprocessing optimization\n2. Computer vision analysis with object detection and recognition\n3. Content extraction including OCR and semantic understanding\n4. Context-aware scene analysis and contextual interpretation\n5. Metadata enrichment and intelligent classification\n6. Output optimization with structured visual insights and recommendations",
  *     "score": 0.75,
- *     "reason": "Contains 'consciousness-aware' - non-industrial term"
+ *     "reason": "Contains 'context-aware' - non-industrial term"
  *   }
  * ]
  * benchmarks: [

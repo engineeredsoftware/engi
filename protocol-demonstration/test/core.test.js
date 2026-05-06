@@ -527,7 +527,7 @@ test('revoked issuer becomes rejected', () => {
     author: 'Bad Actor',
     artifactKind: 'patch',
     issuerPolicyStatus: 'revoked',
-    content: 'restoreLegacyVerifier for services/auth/rollback.ts'
+    content: 'restorePriorVerifier for services/auth/rollback.ts'
   });
   const need = buildNeedDescriptorTest(state.needScenarios[0]);
   const evaluated = evaluateCandidatesTest(need, [revokedAsset, ...state.assets]);
@@ -906,7 +906,7 @@ test('context-mode asset pack can admit context-only candidates while patch mode
     typecheckPassed: false,
     staticAnalysisPassed: false,
     benchmarkRan: false,
-    content: 'issuer mismatch breaks older services and audit receipts'
+    content: 'issuer mismatch breaks pre-migration services and audit receipts'
   });
   const need = buildNeedDescriptorTest(state.needScenarios[0]);
   const evaluated = evaluateCandidatesTest(need, [lowEvidence]);

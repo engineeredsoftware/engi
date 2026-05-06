@@ -19,7 +19,6 @@ import { PromptPart } from '../../parts/PromptPart';
  * current_version: "V26.50.0"
  * versions: []
  * transformation: "industrial_enhancement"
- * old_content_archived: "Analyze file systems with confidence scores >0.75"
  */
 export const PROMPTPART_SPECIFIC_AGENT_FILEPICK_SYSTEM_ROLE: PromptPart = 
   'Execute filesystem analysis via optimized directory traversal (depth-first/breadth-first), apply Levenshtein distance with edit cost weighting for fuzzy name matching, perform SHA-256/Blake3 content fingerprinting with parallel hashing, execute metadata extraction via libexif/ExifTool APIs, and generate statistically ranked file recommendations with confidence scores ≥0.80 and performance SLA <100ms/1K files' as PromptPart;

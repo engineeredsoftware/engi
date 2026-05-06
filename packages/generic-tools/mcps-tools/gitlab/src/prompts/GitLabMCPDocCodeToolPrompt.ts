@@ -21,7 +21,7 @@ import { PROMPTPART_SPECIFIC_TOOL_GITLABMCP_DOCCODETOOLEXAMPLE3 } from '@bitcode
  * intent: "DevOps integration MCP tool for GitLab repository and CI/CD management"
  * 
  * DevOps-Platform-Excellence DocCodeToolPrompt for GitLab MCP runtime documentation.
- * This tool enables revolutionary DevOps orchestration with AI-driven pipeline optimization.
+ * This tool enables reliable DevOps orchestration with AI-driven pipeline optimization.
  */
 
 import { DocCodeToolPrompt } from '@bitcode/tools-generics';
@@ -47,9 +47,9 @@ import { PromptPart } from '@bitcode/prompts/parts/PromptPart';
 
 /**
  * GitLab MCP tool-specific DocCodeToolPrompt
- * This DevOps platform excellence MCP tool represents the quantum evolution of integrated development,
- * enabling revolutionary DevOps orchestration with AI-driven pipeline optimization and
- * hyperconnected full-lifecycle management for transcendent software delivery excellence.
+ * This DevOps platform excellence MCP tool represents the high-precision evolution of integrated development,
+ * enabling reliable DevOps orchestration with AI-driven pipeline optimization and
+ * integrated full-lifecycle management for advanced software delivery excellence.
  */
 export class GitLabMCPDocCodeToolPrompt extends DocCodeToolPrompt {
   constructor() {

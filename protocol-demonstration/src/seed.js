@@ -15,7 +15,7 @@ export function initialState() {
       noveltyBp: 2400,
       demandBp: 3200,
       antiNoiseBp: 1900,
-      content: `Objective: recover an enterprise monorepo auth migration without leaving half-migrated services or invalid sessions in production.\n\nProcedure: freeze writes, capture a signed migration snapshot, validate token issuer compatibility, restore old verifier configuration, replay only idempotent schema steps, and re-enable traffic behind a kill switch.\n\nGuardrail: every rollback step must preserve session validation invariants and emit an audit receipt that ties environment, commit, and migration batch together.\n\nBuyer value: this artifact cuts mean time to safe rollback during a revenue-sensitive auth incident and gives downstream agents a high-confidence recovery path instead of generic advice.`
+      content: `Objective: recover an enterprise monorepo auth migration without leaving half-migrated services or invalid sessions in production.\n\nProcedure: freeze writes, capture a signed migration snapshot, validate token issuer compatibility, restore prior verifier configuration, replay only idempotent schema steps, and re-enable traffic behind a kill switch.\n\nGuardrail: every rollback step must preserve session validation invariants and emit an audit receipt that ties environment, commit, and migration batch together.\n\nBuyer value: this artifact cuts mean time to safe rollback during a revenue-sensitive auth incident and gives downstream agents a high-confidence recovery path instead of generic advice.`
     }),
     makeAssetCommitment({
       title: 'Proof-carrying session validator patch kit',
@@ -43,7 +43,7 @@ export function initialState() {
       noveltyBp: 1700,
       demandBp: 2500,
       antiNoiseBp: 1600,
-      content: `Incident pattern: auth migration changed issuer and audience validation together, which broke older services still pinned to the previous JWKS endpoint.\n\nRecovery pattern: split issuer migration from audience migration, ship an explicit compatibility window, and add a runtime audit that rejects mixed config before rollout.\n\nOperator note: most failed recoveries came from restoring schema before restoring validator config.\n\nBuyer value: this note shortens on-call diagnosis by telling the reader where prior recoveries actually failed.`
+      content: `Incident pattern: auth migration changed issuer and audience validation together, which broke pre-migration services still pinned to the previous JWKS endpoint.\n\nRecovery pattern: split issuer migration from audience migration, ship an explicit compatibility window, and add a runtime audit that rejects mixed config before rollout.\n\nOperator note: most failed recoveries came from restoring schema before restoring validator config.\n\nBuyer value: this note shortens on-call diagnosis by telling the reader where prior recoveries actually failed.`
     })
   ];
 

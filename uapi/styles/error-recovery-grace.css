@@ -1,8 +1,8 @@
 /* =====================================================================
  * ERROR RECOVERY GRACE - Diagnostic Intelligence & Learning Moments
  * 
- * Transforms errors from roadblocks into wisdom, providing graceful
- * recovery guidance with learning opportunities and magical comfort.
+ * Transforms errors from roadblocks into guidance, providing graceful
+ * recovery guidance with learning opportunities and supportive comfort.
  * ===================================================================== */
 
 @layer components {
@@ -31,7 +31,7 @@
     pointer-events: auto;
     
     /* Grace style variations */
-    &.transcendent {
+    &.intensive {
       background: linear-gradient(135deg, 
         rgba(91, 33, 182, 0.95) 0%,
         rgba(67, 56, 202, 0.95) 100%);
@@ -39,7 +39,7 @@
       box-shadow: 0 0 40px rgba(147, 51, 234, 0.4);
     }
     
-    &.wisdom {
+    &.guidance {
       background: linear-gradient(135deg, 
         rgba(6, 95, 70, 0.95) 0%,
         rgba(13, 148, 136, 0.95) 100%);
@@ -245,11 +245,11 @@
           }
         }
         
-        .wizard-wisdom {
+        .expert-guidance {
           padding-top: 0.75rem;
           border-top: 1px solid rgba(16, 185, 129, 0.2);
           
-          .wisdom-text {
+          .guidance-text {
             color: #c084fc;
             font-size: 0.875rem;
             font-style: italic;

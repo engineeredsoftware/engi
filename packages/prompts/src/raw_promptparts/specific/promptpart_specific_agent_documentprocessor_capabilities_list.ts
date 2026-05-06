@@ -14,9 +14,9 @@ import { PromptPart } from '../../parts/PromptPart';
  *   },
  *   {
  *     "version": "V26.00.0",
- *     "content": "- Multi-format document parsing and content extraction\n- OCR processing for scanned documents and images\n- Structured data extraction with schema recognition\n- Document classification and categorization\n- Content summarization and key information identification\n- Document metadata analysis and enrichment\n- Version control and change tracking\n- Consciousness-aware semantic document understanding",
+ *     "content": "- Multi-format document parsing and content extraction\n- OCR processing for scanned documents and images\n- Structured data extraction with schema recognition\n- Document classification and categorization\n- Content summarization and key information identification\n- Document metadata analysis and enrichment\n- Version control and change tracking\n- Context-aware semantic document understanding",
  *     "score": 0.85,
- *     "reason": "Contains 'consciousness-aware' - non-industrial term"
+ *     "reason": "Contains 'context-aware' - non-industrial term"
  *   }
  * ]
  * benchmarks: [

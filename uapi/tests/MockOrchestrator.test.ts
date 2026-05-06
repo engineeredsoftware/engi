@@ -60,7 +60,7 @@ describe('MockOrchestrator', () => {
 
   describe('Feature Mocking Control', () => {
     it('should mock features when master mode is enabled', () => {
-      expect(orchestrator.shouldMock('DELIVERABLES')).toBe(true);
+      expect(orchestrator.shouldMock('ASSET_PACKS')).toBe(true);
       expect(orchestrator.shouldMock('USER_PROFILE')).toBe(true);
       expect(orchestrator.shouldMock('GITHUB_REPOS')).toBe(true);
     });
@@ -68,18 +68,18 @@ describe('MockOrchestrator', () => {
     it('should not mock when master mode is disabled', () => {
       process.env.NEXT_PUBLIC_MASTER_MOCK_MODE = 'false';
       const newOrchestrator = MockOrchestrator.getInstance();
-      expect(newOrchestrator.shouldMock('DELIVERABLES')).toBe(false);
+      expect(newOrchestrator.shouldMock('ASSET_PACKS')).toBe(false);
     });
 
     it('should respect feature-specific overrides', () => {
-      process.env.NEXT_PUBLIC_MOCK_DELIVERABLES = 'false';
-      expect(orchestrator.shouldMock('DELIVERABLES')).toBe(false);
+      process.env.NEXT_PUBLIC_MOCK_ASSET_PACKS = 'false';
+      expect(orchestrator.shouldMock('ASSET_PACKS')).toBe(false);
       expect(orchestrator.shouldMock('USER_PROFILE')).toBe(true);
     });
 
     it('should handle scenario selection correctly', () => {
-      process.env.NEXT_PUBLIC_MOCK_DELIVERABLES_SCENARIO = 'demo';
-      expect(orchestrator.getScenario('DELIVERABLES')).toBe('demo');
+      process.env.NEXT_PUBLIC_MOCK_ASSET_PACKS_SCENARIO = 'demo';
+      expect(orchestrator.getScenario('ASSET_PACKS')).toBe('demo');
       
       process.env.NEXT_PUBLIC_MOCK_USER_PROFILE_SCENARIO = 'testing';
       expect(orchestrator.getScenario('USER_PROFILE')).toBe('testing');
@@ -92,7 +92,7 @@ describe('MockOrchestrator', () => {
     });
 
     it('should generate mock data for supported features', async () => {
-      const mockData = await orchestrator.getMockData('DELIVERABLES', 'test-scenario');
+      const mockData = await orchestrator.getMockData('ASSET_PACKS', 'test-scenario');
       expect(mockData).not.toBeNull();
       expect(mockData?.metadata).toBeDefined();
       expect(mockData?.metadata.version).toBe('1.0.0');
@@ -101,17 +101,17 @@ describe('MockOrchestrator', () => {
     it('should return null when mocking is disabled', async () => {
       process.env.NEXT_PUBLIC_MASTER_MOCK_MODE = 'false';
       const newOrchestrator = MockOrchestrator.getInstance();
-      const mockData = await newOrchestrator.getMockData('DELIVERABLES');
+      const mockData = await newOrchestrator.getMockData('ASSET_PACKS');
       expect(mockData).toBeNull();
     });
 
     it('should handle unknown scenarios gracefully', async () => {
-      const mockData = await orchestrator.getMockData('DELIVERABLES', 'unknown-scenario');
+      const mockData = await orchestrator.getMockData('ASSET_PACKS', 'unknown-scenario');
       expect(mockData).toBeNull();
     });
 
     it('should include proper metadata in mock data', async () => {
-      const mockData = await orchestrator.getMockData('DELIVERABLES', 'test-scenario');
+      const mockData = await orchestrator.getMockData('ASSET_PACKS', 'test-scenario');
       expect(mockData?.metadata).toMatchObject({
         version: expect.any(String),
         generatedAt: expect.any(String),
@@ -128,7 +128,7 @@ describe('MockOrchestrator', () => {
 
   describe('Performance Metrics', () => {
     it('should track performance metrics', async () => {
-      await orchestrator.getMockData('DELIVERABLES');
+      await orchestrator.getMockData('ASSET_PACKS');
       await orchestrator.getMockData('USER_PROFILE');
       
       const metrics = orchestrator.getPerformanceMetrics();
@@ -139,23 +139,23 @@ describe('MockOrchestrator', () => {
 
     it('should calculate cache hit ratios', async () => {
       // First call - cache miss
-      await orchestrator.getMockData('DELIVERABLES');
+      await orchestrator.getMockData('ASSET_PACKS');
       
       // Second call - cache hit
-      await orchestrator.getMockData('DELIVERABLES');
+      await orchestrator.getMockData('ASSET_PACKS');
       
       const metrics = orchestrator.getPerformanceMetrics();
       expect(metrics.mocking.cacheHitRatio).toBeGreaterThan(0);
     });
 
     it('should track feature-specific metrics', async () => {
-      await orchestrator.getMockData('DELIVERABLES');
+      await orchestrator.getMockData('ASSET_PACKS');
       await orchestrator.getMockData('USER_PROFILE');
       
       const metrics = orchestrator.getPerformanceMetrics();
-      expect(metrics.features.DELIVERABLES).toBeDefined();
+      expect(metrics.features.ASSET_PACKS).toBeDefined();
       expect(metrics.features.USER_PROFILE).toBeDefined();
-      expect(metrics.features.DELIVERABLES.callCount).toBe(1);
+      expect(metrics.features.ASSET_PACKS.callCount).toBe(1);
     });
   });
 
@@ -201,11 +201,11 @@ describe('MockOrchestrator', () => {
   describe('Cache Management', () => {
     it('should cache mock data for better performance', async () => {
       const start1 = performance.now();
-      await orchestrator.getMockData('DELIVERABLES');
+      await orchestrator.getMockData('ASSET_PACKS');
       const duration1 = performance.now() - start1;
 
       const start2 = performance.now();
-      await orchestrator.getMockData('DELIVERABLES');
+      await orchestrator.getMockData('ASSET_PACKS');
       const duration2 = performance.now() - start2;
 
       // Second call should be faster due to caching
@@ -213,7 +213,7 @@ describe('MockOrchestrator', () => {
     });
 
     it('should clear cache on reset', async () => {
-      await orchestrator.getMockData('DELIVERABLES');
+      await orchestrator.getMockData('ASSET_PACKS');
       const metrics1 = orchestrator.getPerformanceMetrics();
       
       orchestrator.reset();
@@ -225,7 +225,7 @@ describe('MockOrchestrator', () => {
     it('should handle cache cleanup', async () => {
       // Generate lots of data to trigger cleanup
       for (let i = 0; i < 100; i++) {
-        await orchestrator.getMockData('DELIVERABLES', `scenario-${i}`);
+        await orchestrator.getMockData('ASSET_PACKS', `scenario-${i}`);
       }
       
       const metrics = orchestrator.getPerformanceMetrics();
@@ -278,7 +278,7 @@ describe('MockOrchestrator', () => {
     it('should handle generator exceptions', async () => {
       // This would require mocking a failing generator
       // For now, ensure the system is resilient
-      const mockData = await orchestrator.getMockData('DELIVERABLES');
+      const mockData = await orchestrator.getMockData('ASSET_PACKS');
       expect(mockData).not.toBeNull();
     });
   });
@@ -286,7 +286,7 @@ describe('MockOrchestrator', () => {
   describe('Concurrent Access', () => {
     it('should handle concurrent requests', async () => {
       const promises = [
-        orchestrator.getMockData('DELIVERABLES'),
+        orchestrator.getMockData('ASSET_PACKS'),
         orchestrator.getMockData('USER_PROFILE'),
         orchestrator.getMockData('GITHUB_REPOS'),
         orchestrator.getMockData('TEMPLATES')
@@ -300,7 +300,7 @@ describe('MockOrchestrator', () => {
 
     it('should maintain cache consistency under load', async () => {
       const promises = Array(20).fill(null).map(() => 
-        orchestrator.getMockData('DELIVERABLES')
+        orchestrator.getMockData('ASSET_PACKS')
       );
       
       const results = await Promise.all(promises);
@@ -319,7 +319,7 @@ describe('MockOrchestrator', () => {
       
       // Make many calls
       for (let i = 0; i < 50; i++) {
-        await orchestrator.getMockData('DELIVERABLES');
+        await orchestrator.getMockData('ASSET_PACKS');
       }
       
       const finalMetrics = orchestrator.getPerformanceMetrics();
@@ -349,7 +349,7 @@ function createTestScenario(id: string): MockScenarioConfig {
     complexity: 'minimal',
     timing: 'fast',
     features: {
-      DELIVERABLES: {
+      ASSET_PACKS: {
         enabled: true,
         data: { test: 'data' }
       }

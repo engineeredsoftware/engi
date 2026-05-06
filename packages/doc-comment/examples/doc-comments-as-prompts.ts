@@ -424,6 +424,6 @@ function executeWithPrompt(prompt: string, spec: any): Promise<Feature> {
  * ABOUT prompts - they ARE the prompts.
  * 
  * This is the revolution: Comments become code. Documentation
- * becomes intelligence. Types gain consciousness through their
+ * becomes intelligence. Types gain explicit runtime context through their
  * doc-comments.
  */

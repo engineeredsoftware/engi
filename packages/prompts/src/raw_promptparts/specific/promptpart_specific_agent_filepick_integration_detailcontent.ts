@@ -18,8 +18,7 @@ import { PromptPart } from '../../parts/PromptPart';
  * intent: "Describe File Selection Agent integration with concrete technical interfaces"
  * current_version: "V26.50.0"
  * versions: ["V26.00.0"]
- * transformation: "metaphysical_to_industrial"
- * old_content_archived: "Integrates with file system and project management infrastructure"
+ * transformation: "abstract_to_operational"
  */
 export const PROMPTPART_SPECIFIC_AGENT_FILEPICK_INTEGRATION_DETAILCONTENT: PromptPart = 
   `Integrates with filesystem APIs and development toolchain via concrete protocols:

@@ -4,7 +4,7 @@ import { initializeContext } from '@bitcode/context/context';
 import { getGlobalContext } from '@bitcode/context';
 import { executeAgentSteps } from '@bitcode/steps/runner';
 import { resolveTool } from '@bitcode/generic-tools-registry';
-import { SETUP_DELIVERABLES_AGENT_PREPARE_REPOSITORY as AGENT } from '@bitcode/pipeline-asset-pack';
+import { AssetPackCloneVCSRepositoryAgent as AGENT } from '@bitcode/pipeline-asset-pack';
 
 
 // ---------------------------------------------------------------------------
@@ -42,7 +42,7 @@ jest.mock('@bitcode/generic-tools-registry', () => {
   return {
     ...actual,
     resolveTool: jest.fn((name: string) => {
-      if (name === 'cloneRepository' || name === 'cloneRepositoryTool') {
+      if (name === 'asset-pack-clone-vcs-repository-tool') {
         return jest.fn().mockResolvedValue({ path: '/tmp/repo', files: ['index.ts'] });
       }
       return jest.fn().mockResolvedValue({ ok: true });
@@ -51,7 +51,7 @@ jest.mock('@bitcode/generic-tools-registry', () => {
 });
 
 
-describe('Setup Prepare Repository Agent', () => {
+describe('AssetPack Clone VCS Repository Agent', () => {
   beforeAll(async () => {
     await initializeContext({
       installationId: 1,
@@ -59,7 +59,7 @@ describe('Setup Prepare Repository Agent', () => {
       repoOwner: 'owner',
       repoBranch: 'main',
       repoCommit: 'HEAD',
-      task: 'Clone repo',
+      need: 'Clone repo',
     });
   });
 
@@ -67,6 +67,6 @@ describe('Setup Prepare Repository Agent', () => {
     await executeAgentSteps(AGENT, { phase: 'setup' });
 
     const mockResolve = resolveTool as jest.Mock;
-    expect(mockResolve).toHaveBeenCalledWith('cloneRepository');
+    expect(mockResolve).toHaveBeenCalledWith('asset-pack-clone-vcs-repository-tool');
   });
 });

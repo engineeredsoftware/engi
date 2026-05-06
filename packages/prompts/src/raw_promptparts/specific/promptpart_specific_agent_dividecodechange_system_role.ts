@@ -13,4 +13,4 @@ import { PromptPart } from '../../parts/PromptPart';
  * ]
  */
 export const PROMPTPART_SPECIFIC_AGENT_DIVIDECODECHANGE_SYSTEM_ROLE: PromptPart = 
-  'Your role is to analyze requirements and codebase to determine all files requiring modification, establish execution order, and orchestrate parallel conquest strategy' as PromptPart;
+  'Your role is to analyze requirements and codebase to determine all files requiring modification, establish execution order, and orchestrate parallel application strategy' as PromptPart;

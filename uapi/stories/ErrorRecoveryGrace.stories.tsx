@@ -10,16 +10,16 @@ const meta: Meta<typeof ErrorRecoveryGrace> = {
     docs: {
       description: {
         component: `
-### 🔮 Error Recovery Grace - Diagnostic Intelligence & Learning Moments
+### ◇ Error Recovery Grace - Diagnostic Intelligence & Learning Moments
 
-Transforms errors from frustrating roadblocks into graceful learning opportunities with wisdom and guidance:
+Transforms errors from frustrating roadblocks into graceful learning opportunities with guidance and learning:
 
 - **Intelligent error analysis** - Contextual understanding of error types, patterns, and user skill level
 - **Learning moment synthesis** - Converts each error into educational insights with prevention tips
 - **Recovery guidance system** - Step-by-step solutions with confidence ratings and time estimates
 - **Pattern recognition** - Tracks recurring errors to provide personalized coaching
-- **Graceful UX design** - Makes errors feel like part of the magical journey rather than failures
-- **Wizard wisdom integration** - Provides encouraging, mystical insights to maintain positive mindset
+- **Graceful UX design** - Makes errors feel like part of the supportive journey rather than failures
+- **Expert guidance integration** - Provides encouraging, advanced insights to maintain positive mindset
 - **Progressive disclosure** - Expandable sections to avoid overwhelming users
 - **Alternative solutions** - Multiple recovery paths based on complexity and user preferences
 
@@ -31,12 +31,12 @@ The system embodies **graceful error recovery** - transforming moments of frustr
   argTypes: {
     graceStyle: {
       control: { type: 'select' },
-      options: ['gentle', 'encouraging', 'wisdom', 'transcendent'],
+      options: ['gentle', 'encouraging', 'instructional', 'intensive'],
       description: 'Visual and emotional style of grace presentation',
     },
     graceIntensity: {
       control: { type: 'select' },
-      options: ['subtle', 'nurturing', 'enlightening', 'transcendent'],
+      options: ['subtle', 'standard', 'deep', 'intensive'],
       description: 'Intensity of graceful visual effects',
     },
     showLearningMoments: {
@@ -51,9 +51,9 @@ The system embodies **graceful error recovery** - transforming moments of frustr
       control: 'boolean',
       description: 'Show error pattern recognition insights',
     },
-    showWizardWisdom: {
+    showExpertGuidance: {
       control: 'boolean',
-      description: 'Show encouraging wizard wisdom quotes',
+      description: 'Show encouraging expert guidance quotes',
     },
   },
 };
@@ -108,8 +108,8 @@ export const SyntaxErrorBeginner: Story = {
     showLearningMoments: true,
     showRecoveryGuidance: true,
     showPatternInsights: true,
-    showWizardWisdom: true,
-    graceIntensity: 'nurturing',
+    showExpertGuidance: true,
+    graceIntensity: 'standard',
   },
   parameters: {
     docs: {
@@ -163,17 +163,17 @@ export const TypeErrorIntermediate: Story = {
       complexity: 0.6,
       commonPatterns: ['hooks', 'type-safety', 'data-fetching']
     },
-    graceStyle: 'wisdom',
+    graceStyle: 'instructional',
     showLearningMoments: true,
     showRecoveryGuidance: true,
     showPatternInsights: true,
-    showWizardWisdom: true,
-    graceIntensity: 'enlightening',
+    showExpertGuidance: true,
+    graceIntensity: 'deep',
   },
   parameters: {
     docs: {
       description: {
-        story: 'Intermediate TypeScript error with wisdom-focused guidance and type safety education',
+        story: 'Intermediate TypeScript error with guidance-focused guidance and type safety education',
       },
     },
   },
@@ -229,17 +229,17 @@ export const RuntimeErrorAdvanced: Story = {
       complexity: 0.8,
       commonPatterns: ['async-data', 'error-handling', 'performance', 'data-visualization']
     },
-    graceStyle: 'transcendent',
+    graceStyle: 'intensive',
     showLearningMoments: true,
     showRecoveryGuidance: true,
     showPatternInsights: true,
-    showWizardWisdom: true,
-    graceIntensity: 'transcendent',
+    showExpertGuidance: true,
+    graceIntensity: 'intensive',
   },
   parameters: {
     docs: {
       description: {
-        story: 'Advanced runtime error with transcendent guidance and defensive programming insights',
+        story: 'Advanced runtime error with intensive guidance and defensive programming insights',
       },
     },
   },
@@ -289,17 +289,17 @@ export const LogicErrorExpert: Story = {
       complexity: 0.95,
       commonPatterns: ['performance-optimization', 'data-processing', 'algorithm-design', 'testing']
     },
-    graceStyle: 'transcendent',
+    graceStyle: 'intensive',
     showLearningMoments: true,
     showRecoveryGuidance: true,
     showPatternInsights: true,
-    showWizardWisdom: true,
-    graceIntensity: 'transcendent',
+    showExpertGuidance: true,
+    graceIntensity: 'intensive',
   },
   parameters: {
     docs: {
       description: {
-        story: 'Expert-level logic error with transcendent wisdom and algorithm optimization guidance',
+        story: 'Expert-level logic error with intensive guidance and algorithm optimization guidance',
       },
     },
   },
@@ -309,7 +309,7 @@ export const LogicErrorExpert: Story = {
 export const InteractiveErrorScenarios: Story = {
   render: () => {
     const [selectedScenario, setSelectedScenario] = useState(0);
-    const [graceStyle, setGraceStyle] = useState<'gentle' | 'encouraging' | 'wisdom' | 'transcendent'>('wisdom');
+    const [graceStyle, setGraceStyle] = useState<'gentle' | 'encouraging' | 'instructional' | 'intensive'>('instructional');
     const [showError, setShowError] = useState(true);
     
     const errorScenarios = [
@@ -401,7 +401,7 @@ export const InteractiveErrorScenarios: Story = {
         {/* Control Panel */}
         <div className="absolute top-4 left-1/2 transform -translate-x-1/2 z-50 bg-slate-900/90 backdrop-blur-md border border-slate-400/30 rounded-lg p-4 max-w-2xl">
           <h3 className="text-lg font-medium text-slate-100 mb-4 text-center">
-            🔮 Error Recovery Grace Scenarios
+            ◇ Error Recovery Grace Scenarios
           </h3>
           
           <div className="space-y-4">
@@ -429,7 +429,7 @@ export const InteractiveErrorScenarios: Story = {
               
               <div className="space-y-2">
                 <div className="text-sm text-slate-300">Grace Style</div>
-                {(['gentle', 'encouraging', 'wisdom', 'transcendent'] as const).map((style) => (
+                {(['gentle', 'encouraging', 'instructional', 'intensive'] as const).map((style) => (
                   <button
                     key={style}
                     onClick={() => setGraceStyle(style)}
@@ -443,8 +443,8 @@ export const InteractiveErrorScenarios: Story = {
                     <div className="text-xs opacity-75">
                       {style === 'gentle' && 'Soft, non-intimidating approach'}
                       {style === 'encouraging' && 'Positive, motivating guidance'}
-                      {style === 'wisdom' && 'Educational, insightful coaching'}
-                      {style === 'transcendent' && 'Mystical, profound understanding'}
+                      {style === 'instructional' && 'Educational, insightful coaching'}
+                      {style === 'intensive' && 'Advanced, profound understanding'}
                     </div>
                   </button>
                 ))}
@@ -495,11 +495,11 @@ export const InteractiveErrorScenarios: Story = {
             showLearningMoments={true}
             showRecoveryGuidance={true}
             showPatternInsights={true}
-            showWizardWisdom={true}
+            showExpertGuidance={true}
             graceIntensity={
-              graceStyle === 'transcendent' ? 'transcendent' :
-              graceStyle === 'wisdom' ? 'enlightening' :
-              graceStyle === 'encouraging' ? 'nurturing' : 'subtle'
+              graceStyle === 'intensive' ? 'intensive' :
+              graceStyle === 'instructional' ? 'deep' :
+              graceStyle === 'encouraging' ? 'standard' : 'subtle'
             }
             onErrorResolved={(resolution) => {
               console.log('Error resolved:', resolution);
@@ -510,8 +510,8 @@ export const InteractiveErrorScenarios: Story = {
             onPatternRecognized={(pattern) => {
               console.log('Pattern recognized:', pattern);
             }}
-            onWisdomGained={(wisdom) => {
-              console.log('Wisdom gained:', wisdom);
+            onGuidanceAccepted={(guidance) => {
+              console.log('Guidance gained:', guidance);
             }}
           />
         )}
@@ -519,7 +519,7 @@ export const InteractiveErrorScenarios: Story = {
         {/* Background decoration */}
         <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
           <div className="text-center space-y-4 opacity-10">
-            <div className="text-9xl">🔮</div>
+            <div className="text-9xl">◇</div>
             <div className="text-3xl text-slate-300 font-light">
               Graceful Recovery
             </div>
@@ -543,7 +543,7 @@ export const InteractiveErrorScenarios: Story = {
 // Grace Style Comparison
 export const GraceStyleComparison: Story = {
   render: () => {
-    const [selectedStyle, setSelectedStyle] = useState<'gentle' | 'encouraging' | 'wisdom' | 'transcendent'>('wisdom');
+    const [selectedStyle, setSelectedStyle] = useState<'gentle' | 'encouraging' | 'instructional' | 'intensive'>('instructional');
     
     const sampleError = {
       id: 'comparison-error',
@@ -571,7 +571,7 @@ export const GraceStyleComparison: Story = {
           </h3>
           
           <div className="space-y-3">
-            {(['gentle', 'encouraging', 'wisdom', 'transcendent'] as const).map((style) => (
+            {(['gentle', 'encouraging', 'instructional', 'intensive'] as const).map((style) => (
               <button
                 key={style}
                 onClick={() => setSelectedStyle(style)}
@@ -585,8 +585,8 @@ export const GraceStyleComparison: Story = {
                 <div className="text-xs opacity-75 mt-1">
                   {style === 'gentle' && 'Soft, non-intimidating comfort'}
                   {style === 'encouraging' && 'Positive, motivating energy'}
-                  {style === 'wisdom' && 'Educational, insightful guidance'}
-                  {style === 'transcendent' && 'Mystical, profound understanding'}
+                  {style === 'instructional' && 'Educational, insightful guidance'}
+                  {style === 'intensive' && 'Advanced, profound understanding'}
                 </div>
               </button>
             ))}
@@ -628,11 +628,11 @@ export const GraceStyleComparison: Story = {
           showLearningMoments={true}
           showRecoveryGuidance={true}
           showPatternInsights={true}
-          showWizardWisdom={true}
+          showExpertGuidance={true}
           graceIntensity={
-            selectedStyle === 'transcendent' ? 'transcendent' :
-            selectedStyle === 'wisdom' ? 'enlightening' :
-            selectedStyle === 'encouraging' ? 'nurturing' : 'subtle'
+            selectedStyle === 'intensive' ? 'intensive' :
+            selectedStyle === 'instructional' ? 'deep' :
+            selectedStyle === 'encouraging' ? 'standard' : 'subtle'
           }
         />
         
@@ -653,7 +653,7 @@ export const GraceStyleComparison: Story = {
   parameters: {
     docs: {
       description: {
-        story: 'Compare different grace styles from gentle to transcendent wisdom',
+        story: 'Compare different grace styles from gentle to intensive guidance',
       },
     },
   },
@@ -703,17 +703,17 @@ export const LearningMomentFocus: Story = {
       complexity: 0.6,
       commonPatterns: ['async-data', 'error-handling', 'user-management', 'loading-states']
     },
-    graceStyle: 'wisdom',
+    graceStyle: 'instructional',
     showLearningMoments: true,
     showRecoveryGuidance: true,
     showPatternInsights: false,
-    showWizardWisdom: true,
-    graceIntensity: 'enlightening',
+    showExpertGuidance: true,
+    graceIntensity: 'deep',
   },
   parameters: {
     docs: {
       description: {
-        story: 'Focus on learning moments with educational insights and wisdom synthesis',
+        story: 'Focus on learning moments with educational insights and guidance synthesis',
       },
     },
   },

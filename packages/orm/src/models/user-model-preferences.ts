@@ -66,11 +66,11 @@ export class UserModelPreferencesModel extends BaseModel<'user_model_preferences
    */
   async upsert(preferences: UserModelPreferenceInsert): Promise<UserModelPreference> {
     const existing = await this.getByUserId(preferences.user_id);
-    const compatibilityPreferences = preferences.preferences || {};
+    const storedPreferenceOverrides = preferences.preferences || {};
     const modelProvider = preferences.model_provider
-      || String(compatibilityPreferences.defaultProvider || existing?.model_provider || 'openai');
+      || String(storedPreferenceOverrides.defaultProvider || existing?.model_provider || 'openai');
     const modelName = preferences.model_name
-      || String(compatibilityPreferences.defaultModel || existing?.model_name || 'gpt-4');
+      || String(storedPreferenceOverrides.defaultModel || existing?.model_name || 'gpt-4');
     const payload = {
       user_id: preferences.user_id,
       model_provider: modelProvider,
@@ -78,7 +78,7 @@ export class UserModelPreferencesModel extends BaseModel<'user_model_preferences
       settings: {
         ...((existing?.settings as Record<string, unknown> | null) || {}),
         ...((preferences.settings as Record<string, unknown> | undefined) || {}),
-        ...compatibilityPreferences
+        ...storedPreferenceOverrides
       } as Json,
       is_default: preferences.is_default ?? existing?.is_default ?? true,
       updated_at: new Date().toISOString()

@@ -94,7 +94,7 @@ const genericCategories: PromptCategory[] = [
       {
         suffix: 'regression_prevention',
         description: 'Regression prevention',
-        content: 'REGRESSION PREVENTION:\nMaintain behavior compatibility.\nTest edge cases thoroughly.\nDocument changes clearly.'
+        content: 'REGRESSION PREVENTION:\nMaintain observed behavior.\nTest edge cases thoroughly.\nDocument changes clearly.'
       }
     ]
   },

@@ -7,7 +7,6 @@ import { PromptPart } from '../../parts/PromptPart';
  * intent: "Define Document Summarization agent system instructions"
  * current_version: "V26.50.0"
  * versions: ["V26.00.0", "V26.00.0"]
- * FULL_OLD_VERSION_CONTENT: "Execute content synthesis workflows: parse multi-format documents (PDF/DOCX/HTML), apply semantic segmentation with sliding window approach, extract actionable insights using dependency parsing, generate executive summaries with ROUGE scores ≥0.75, and output structured JSON with topic hierarchies and confidence intervals"
  * benchmarks: [
  *   { "name": "synthesis_instruction_clarity", "test": "Are synthesis instructions technically clear? Rate 0-1", "score": 0.93 },
  *   { "name": "quality_metrics", "test": "Does it define content quality validation metrics? Rate 0-1", "score": 0.91 },

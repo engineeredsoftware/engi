@@ -50,7 +50,7 @@ import { PromptPart } from '@bitcode/prompts/parts/PromptPart';
  * 
  * This critical infrastructure MCP tool represents the evolution of cloud database integration,
  * enabling enterprise-grade reliability with AI-driven serverless scaling and
- * quantum-optimized performance for mission-critical data operations.
+ * high-optimized performance for mission-critical data operations.
  */
 export class AuroraPostgresMCPDocCodeToolPrompt extends DocCodeToolPrompt {
   constructor() {

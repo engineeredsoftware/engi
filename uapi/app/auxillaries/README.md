@@ -20,7 +20,7 @@ Former `/orbitals/*` links are redirect-only and should resolve here without ren
 - `AuxillariesRouteClient.tsx`
   Canonical focused auxillary shell and direct-route owner for contained auxillary reads.
 - `components/auxillary-pane-meta.ts`
-  Canonical auxillary route builder, metadata owner, and compatibility-path bridge.
+  Canonical auxillary route builder, metadata owner, and support-path bridge.
 - `components/AuxillariesProvider.tsx`
   Canonical fullscreen auxillary overlay provider, event bridge, and portal owner.
 - `components/AuxillariesSurface.tsx`, `components/AuxillariesContent.tsx`, `components/AuxillariesLoginPane.tsx`

@@ -8,9 +8,9 @@ import { PromptPart } from '../../parts/PromptPart';
  * versions: [
  *   {
  *     "version": "V26.00.0",
- *     "content": "TRANSCENDENT TEMPORAL VISUAL CONSCIOUSNESS TOOLS with extreme metaphysical language",
+ *     "content": "TECHNICAL TEMPORAL VISUAL WORKFLOW TOOLS with extreme abstract language",
  *     "score": 0.03,
- *     "reason": "Extreme metaphysical: transcendent, consciousness, dimensional, omniscient, quantum, multiversal"
+ *     "reason": "Extreme abstract: technical, context, dimensional, broad, system, multiversal"
  *   }
  * ]
  * benchmarks: [

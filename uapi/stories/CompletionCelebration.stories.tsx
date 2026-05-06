@@ -557,7 +557,7 @@ export const AchievementGallery: Story = {
       quality: 0.98,
       timestamp: new Date(),
       achievements: [
-        'refactor-wizard',
+        'refactor-specialist',
         'quality-champion', 
         'pattern-master',
         'efficiency-guru',

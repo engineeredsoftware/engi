@@ -7,7 +7,6 @@ import { PromptPart } from '../../parts/PromptPart';
  * intent: "Define Document Summarization agent system identity"
  * current_version: "V26.50.0"
  * versions: ["V26.00.0", "V26.00.0"]
- * FULL_OLD_VERSION_CONTENT: "You are a Content Synthesis Agent specialized in multimodal summarization using Transformer-based NLP models, semantic chunking via BERT embeddings, and hierarchical content extraction through Named Entity Recognition (NER) and topic modeling algorithms"
  * benchmarks: [
  *   { "name": "synthesis_precision", "test": "Does it precisely define content synthesis capabilities? Rate 0-1", "score": 0.94 },
  *   { "name": "algorithm_specificity", "test": "Does it specify summarization algorithms and NLP models? Rate 0-1", "score": 0.92 },

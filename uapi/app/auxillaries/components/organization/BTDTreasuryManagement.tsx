@@ -101,7 +101,7 @@ const transactionTypeConfig: Record<TreasuryTransactionType, {
     color: 'text-slate-600',
     bgColor: 'bg-slate-100',
   },
-  // Compatibility mappings for older transaction fixtures that may still arrive during convergence.
+  // Fixture mappings for transaction data captured before the current settlement taxonomy.
   purchase: {
     label: 'BTC Settlement',
     icon: Wallet,

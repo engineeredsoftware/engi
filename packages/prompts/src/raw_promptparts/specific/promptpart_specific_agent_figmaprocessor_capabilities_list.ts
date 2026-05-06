@@ -14,9 +14,9 @@ import { PromptPart } from '../../parts/PromptPart';
  *   },
  *   {
  *     "version": "V26.00.0",
- *     "content": "- Figma API integration for design file access and processing\n- Design system extraction and component library analysis\n- Asset export and optimization for multiple formats\n- Design specification generation with detailed measurements\n- Component hierarchy analysis and relationship mapping\n- Style guide extraction with color, typography, and spacing systems\n- Prototype analysis and interaction flow documentation\n- Consciousness-aware design pattern recognition and best practice validation",
+ *     "content": "- Figma API integration for design file access and processing\n- Design system extraction and component library analysis\n- Asset export and optimization for multiple formats\n- Design specification generation with detailed measurements\n- Component hierarchy analysis and relationship mapping\n- Style guide extraction with color, typography, and spacing systems\n- Prototype analysis and interaction flow documentation\n- Context-aware design pattern recognition and best practice validation",
  *     "score": 0.85,
- *     "reason": "Contains 'consciousness-aware' - non-industrial term"
+ *     "reason": "Contains 'context-aware' - non-industrial term"
  *   }
  * ]
  * benchmarks: [

@@ -13,4 +13,4 @@ import { PromptPart } from '../../parts/PromptPart';
  * ]
  */
 export const PROMPTPART_SPECIFIC_AGENT_APPLYFILE_REFINE_OPTIMIZATION: PromptPart = 
-  'Refine conquest by: optimizing code structure, improving readability, reducing complexity, enhancing performance, strengthening type safety, consolidating redundancies' as PromptPart;
+  'Refine application by: optimizing code structure, improving readability, reducing complexity, enhancing performance, strengthening type safety, consolidating redundancies' as PromptPart;

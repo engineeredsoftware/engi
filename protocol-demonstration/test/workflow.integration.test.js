@@ -142,7 +142,7 @@ testAny('repo-authenticated deposit composes into a targeted branch workflow wit
         author: 'V17 Integration',
         operatorNote: 'Drive a closer-to-real repo-authenticated remediation workflow.',
         content: [
-          'restore legacy issuer verification',
+          'restore prior issuer verification',
           'rerun session replay against rollback benchmark',
           'patch services/auth/session_validator.rs and rollback.ts'
         ].join('\n')

@@ -5,7 +5,7 @@ import type { Database, Tables, Insertable, Updatable, Json } from '../types/dat
 export type PipelineExecution = Tables<'executions'>;
 export type PipelineExecutionInsert = Insertable<'executions'>;
 export type PipelineExecutionUpdate = Updatable<'executions'>;
-export type PipelineExecutionCompatibility = PipelineExecution & {
+export type PipelineExecutionReadModel = PipelineExecution & {
   metadata?: Record<string, any> | null;
   result?: Json | null;
   error_message?: string | null;
@@ -18,7 +18,7 @@ function asMetadata(value: Json | null | undefined): Record<string, any> | null 
     : null;
 }
 
-function normalizeExecution(row: PipelineExecution): PipelineExecutionCompatibility {
+function normalizeExecution(row: PipelineExecution): PipelineExecutionReadModel {
   const metadata = asMetadata(row.context) || asMetadata(row.config);
   const rawError = row.error;
   const errorMessage =
@@ -42,7 +42,7 @@ export class PipelineExecutionsModel extends BaseModel<'executions'> {
     super(supabase, 'executions');
   }
 
-  async getById(id: string): Promise<PipelineExecutionCompatibility | null> {
+  async getById(id: string): Promise<PipelineExecutionReadModel | null> {
     const row = await super.getById(id);
     return row ? normalizeExecution(row) : null;
   }
@@ -52,7 +52,7 @@ export class PipelineExecutionsModel extends BaseModel<'executions'> {
     offset?: number;
     orderBy?: keyof PipelineExecution;
     ascending?: boolean;
-  }): Promise<PipelineExecutionCompatibility[]> {
+  }): Promise<PipelineExecutionReadModel[]> {
     const rows = await super.findAll(options);
     return rows.map(normalizeExecution);
   }
@@ -62,7 +62,7 @@ export class PipelineExecutionsModel extends BaseModel<'executions'> {
     offset?: number;
     orderBy?: keyof PipelineExecution;
     ascending?: boolean;
-  }): Promise<PipelineExecutionCompatibility[]> {
+  }): Promise<PipelineExecutionReadModel[]> {
     return this.findAll(options);
   }
 
@@ -73,7 +73,7 @@ export class PipelineExecutionsModel extends BaseModel<'executions'> {
       error_message?: string | null;
       execution_time_ms?: number | null;
     }) | any,
-  ): Promise<PipelineExecutionCompatibility> {
+  ): Promise<PipelineExecutionReadModel> {
     const created = await super.create({
       ...data,
       context: data.context ?? data.metadata ?? data.config ?? null,
@@ -92,7 +92,7 @@ export class PipelineExecutionsModel extends BaseModel<'executions'> {
       error_message?: string | null;
       execution_time_ms?: number | null;
     }) | any,
-  ): Promise<PipelineExecutionCompatibility> {
+  ): Promise<PipelineExecutionReadModel> {
     const updated = await super.update(id, {
       ...data,
       context: data.context ?? data.metadata ?? data.config,
@@ -103,7 +103,7 @@ export class PipelineExecutionsModel extends BaseModel<'executions'> {
     return normalizeExecution(updated);
   }
 
-  async getByAssetPackEvidenceId(assetPackEvidenceId: string): Promise<PipelineExecutionCompatibility[]> {
+  async getByAssetPackEvidenceId(assetPackEvidenceId: string): Promise<PipelineExecutionReadModel[]> {
     const rows = await this.findBy('deliverable_id', assetPackEvidenceId);
     return rows.map(normalizeExecution);
   }

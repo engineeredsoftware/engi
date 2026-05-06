@@ -21,7 +21,7 @@ const resourceSchema = z.enum([
 ]);
 const providerSchema = z.enum(['github', 'gitlab', 'bitbucket']);
 
-function getCompatibilityVcsService() {
+function getRouteVcsService() {
   return new VCSService({ supabaseClient: supabaseAdmin as any });
 }
 
@@ -203,7 +203,7 @@ export async function GET(request: Request) {
   const repo = url.searchParams.get('repo') || undefined;
   const branch = url.searchParams.get('branch') || undefined;
   const connectionHandle = resolveConnectionHandle(connection);
-  const vcsService = getCompatibilityVcsService();
+  const vcsService = getRouteVcsService();
 
   if (!connectionHandle) {
     return NextResponse.json(buildEmptyResourcePayload(resource));

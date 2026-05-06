@@ -13,4 +13,4 @@ import { PromptPart } from '../../parts/PromptPart';
  * ]
  */
 export const PROMPTPART_SPECIFIC_AGENT_APPLYFILE_REFINE_ASSESSMENT: PromptPart = 
-  'Assess conquest quality by evaluating: syntax validity checks, semantic preservation verification, style consistency scores, test compatibility metrics, performance impact analysis, maintainability improvements' as PromptPart;
+  'Assess file-application quality by evaluating: syntax validity checks, semantic preservation verification, style consistency scores, test continuity metrics, performance impact analysis, maintainability improvements' as PromptPart;

@@ -1684,7 +1684,7 @@ function buildSeedRepoArtifactInventoryEntries(sessions = buildSeedGitHubAppSess
       declaredStacks: ['typescript', 'node', 'github-actions', 'auth'],
       declaredConstraints: ['preserve session validity', 'emit audit receipt'],
       previewSurface: 'Workflow artifact: auth-remediation-report.json',
-      content: 'Workflow artifact report\n- failing: issuer mismatch legacy services\n- weak dimensions: rollback safety, session validity, auditability\n- action: restore verifier compatibility before schema replay'
+      content: 'Workflow artifact report\n- failing: issuer mismatch pre-migration services\n- weak dimensions: rollback safety, session validity, auditability\n- action: restore verifier compatibility before schema replay'
     }),
     withSession('frontier/demo-auth', {
       artifactKind: 'patch',
@@ -1698,7 +1698,7 @@ function buildSeedRepoArtifactInventoryEntries(sessions = buildSeedGitHubAppSess
       declaredStacks: ['typescript', 'node', 'auth'],
       declaredConstraints: ['restore verifier before schema replay'],
       previewSurface: 'services/auth/rollback.ts',
-      content: 'Patch intent\n- restoreLegacyVerifier before schema replay\n- block traffic reopen until issuer compatibility audit passes'
+      content: 'Patch intent\n- restorePriorVerifier before schema replay\n- block traffic reopen until issuer compatibility audit passes'
     }),
     withSession('frontier/demo-auth', {
       artifactKind: 'config',
@@ -3130,12 +3130,12 @@ export function buildInitialState() {
       organization: `$${ACTIVE_DENOMINATION_LABEL}`,
       artifactKind: 'runbook',
       sourcePaths: ['services/auth/rollback.ts', 'config/auth/issuer-compat.yml'],
-      symbols: ['restoreLegacyVerifier', 'emitAuditReceipt', 'validateIssuerCompatibility'],
+      symbols: ['restorePriorVerifier', 'emitAuditReceipt', 'validateIssuerCompatibility'],
       configKeys: ['auth.issuer.compatibilityWindow', 'auth.rollback.killSwitch'],
       tags: ['auth', 'migration', 'rollback', 'monorepo', 'enterprise'],
       declaredStacks: ['typescript', 'node', 'auth', 'github-actions', 'jwt', 'monorepo'],
       declaredConstraints: ['preserve session validity', 'replay only idempotent schema steps', 'emit audit receipt'],
-      content: `Objective: recover an enterprise monorepo auth migration without leaving half-migrated services or invalid sessions in production.\n\nProcedure: freeze writes, capture a signed migration snapshot, validate token issuer compatibility, restore old verifier configuration, replay only idempotent schema steps, and re-enable traffic behind a kill switch.\n\nValidation: rerun auth benchmark cases, verify session validator invariants, and confirm rollback audit receipts include repo, commit, workflow run, and migration batch.\n\nExpected touched areas: services/auth/rollback.ts, config/auth/issuer-compat.yml, and the ${ACTIVE_PROJECT_LABEL} remediation branch validation notes.`,
+      content: `Objective: recover an enterprise monorepo auth migration without leaving half-migrated services or invalid sessions in production.\n\nProcedure: freeze writes, capture a signed migration snapshot, validate token issuer compatibility, restore prior verifier configuration, replay only idempotent schema steps, and re-enable traffic behind a kill switch.\n\nValidation: rerun auth benchmark cases, verify session validator invariants, and confirm rollback audit receipts include repo, commit, workflow run, and migration batch.\n\nExpected touched areas: services/auth/rollback.ts, config/auth/issuer-compat.yml, and the ${ACTIVE_PROJECT_LABEL} remediation branch validation notes.`,
       proofLogs: ['creusot-session-validator-proof.log'],
       pinnedEnvironment: 'ubuntu-24.04 + node 22'
     }, ['Auth rollback benchmark summary', 'Issuer compatibility config snapshot', 'Issuer mismatch incident notes'])),
@@ -3184,7 +3184,7 @@ export function buildInitialState() {
       tags: ['issuer', 'incident-response', 'runbook', 'escalation'],
       declaredStacks: ['auth', 'jwt'],
       declaredConstraints: ['compatibility window'],
-      content: `Incident pattern: auth migration changed issuer and audience validation together, which broke older services still pinned to the previous JWKS endpoint.\n\nRecovery pattern: split issuer migration from audience migration, ship an explicit compatibility window, and add a runtime audit that rejects mixed config before rollout.\n\nOperator note: most failed recoveries came from restoring schema before restoring validator config.`,
+      content: `Incident pattern: auth migration changed issuer and audience validation together, which broke pre-migration services still pinned to the previous JWKS endpoint.\n\nRecovery pattern: split issuer migration from audience migration, ship an explicit compatibility window, and add a runtime audit that rejects mixed config before rollout.\n\nOperator note: most failed recoveries came from restoring schema before restoring validator config.`,
       typecheckPassed: false,
       staticAnalysisPassed: false,
       benchmarkRan: false,
@@ -3276,12 +3276,12 @@ export function buildInitialState() {
       workflowRunId: 'gha_run_auth_019',
       benchmarkRunId: 'gha_run_auth_019',
       sourcePaths: ['services/auth/session_validator.rs', 'services/auth/audit_receipt.ts', 'services/auth/rollback.ts', 'config/auth/issuer-compat.yml'],
-      symbols: ['SessionValidator', 'emitAuditReceipt', 'restoreLegacyVerifier', 'validateIssuerAudience'],
+      symbols: ['SessionValidator', 'emitAuditReceipt', 'restorePriorVerifier', 'validateIssuerAudience'],
       configKeys: ['auth.session.cache.maxAgeSeconds', 'auth.audit.requireWorkflowRun', 'auth.issuer.compatibilityWindow'],
       tags: ['auth', 'session-validity', 'proof', 'rollback', 'auditability'],
       declaredStacks: ['rust', 'typescript', 'node', 'auth', 'github-actions', 'jwt'],
       declaredConstraints: ['preserve session validity', 'bind workflow run to receipt', 'keep issuer compatibility explicit', 'no unchecked validator panic'],
-      content: `Witness objective: prove that session validation, issuer compatibility rollback, and audit receipt emission remain aligned for the normalization-heavy auth remediation branch.\n\nImplementation note: keep SessionValidator and restoreLegacyVerifier on the same rollback boundary, bind emitAuditReceipt to the exact workflow run and commit, and reject any compatibility-window repair that is not reflected in both session and receipt evidence.\n\nVerification steps: rerun the auth normalization benchmark, replay the validator proof log against services/auth/session_validator.rs, and confirm that services/auth/audit_receipt.ts and config/auth/issuer-compat.yml preserve the same workflow-bound compatibility window.`,
+      content: `Witness objective: prove that session validation, issuer compatibility rollback, and audit receipt emission remain aligned for the normalization-heavy auth remediation branch.\n\nImplementation note: keep SessionValidator and restorePriorVerifier on the same rollback boundary, bind emitAuditReceipt to the exact workflow run and commit, and reject any compatibility-window repair that is not reflected in both session and receipt evidence.\n\nVerification steps: rerun the auth normalization benchmark, replay the validator proof log against services/auth/session_validator.rs, and confirm that services/auth/audit_receipt.ts and config/auth/issuer-compat.yml preserve the same workflow-bound compatibility window.`,
       proofLogs: ['auth019-session-validator-proof.log'],
       pinnedEnvironment: 'ubuntu-24.04 + rust stable + node 22'
     }, ['Session validator proof log', 'Auth rollback benchmark summary', 'Issuer compatibility config snapshot'])),
@@ -3295,12 +3295,12 @@ export function buildInitialState() {
       workflowRunId: 'gha_run_auth_019',
       benchmarkRunId: 'gha_run_auth_019',
       sourcePaths: ['services/auth/audit_receipt.ts', 'services/auth/rollback.ts', 'config/auth/issuer-compat.yml'],
-      symbols: ['emitAuditReceipt', 'reconcileRollbackReceipt', 'restoreLegacyVerifier'],
+      symbols: ['emitAuditReceipt', 'reconcileRollbackReceipt', 'restorePriorVerifier'],
       configKeys: ['auth.audit.requireWorkflowRun', 'auth.issuer.compatibilityWindow'],
       tags: ['auth', 'auditability', 'patch', 'rollback'],
       declaredStacks: ['typescript', 'node', 'auth', 'github-actions'],
       declaredConstraints: ['emit audit receipt', 'preserve session validity', 'bind workflow run to receipt'],
-      content: `Patch objective: reconcile auth rollback receipts with the workflow run, commit, and issuer compatibility window so rollback evidence stays settlement-grade.\n\nImplementation note: write the workflow run and commit into emitAuditReceipt, keep restoreLegacyVerifier and issuer compatibility updates in the same remediation patch, and fail closed if receipt linkage is missing.\n\nValidation steps: rerun the auth benchmark, inspect receipt reconciliation logs, and confirm that rollback receipts stay hash-bound to services/auth/audit_receipt.ts.`,
+      content: `Patch objective: reconcile auth rollback receipts with the workflow run, commit, and issuer compatibility window so rollback evidence stays settlement-grade.\n\nImplementation note: write the workflow run and commit into emitAuditReceipt, keep restorePriorVerifier and issuer compatibility updates in the same remediation patch, and fail closed if receipt linkage is missing.\n\nValidation steps: rerun the auth benchmark, inspect receipt reconciliation logs, and confirm that rollback receipts stay hash-bound to services/auth/audit_receipt.ts.`,
       pinnedEnvironment: 'ubuntu-24.04 + node 22'
     }, ['Auth audit receipt patchset', 'Auth rollback benchmark summary', 'Issuer compatibility config snapshot'])),
     makeCandidateAsset(bindSeedRepoSelection({
@@ -3358,7 +3358,7 @@ export function buildInitialState() {
           'benchmarks/auth_remediation.yaml'
         ],
         stackHints: ['typescript', 'node', 'auth', 'github-actions', 'jwt', 'monorepo'],
-        symbols: ['restoreLegacyVerifier', 'validateIssuerAudience', 'emitAuditReceipt'],
+        symbols: ['restorePriorVerifier', 'validateIssuerAudience', 'emitAuditReceipt'],
         configKeys: ['auth.issuer.compatibilityWindow', 'auth.rollback.killSwitch'],
         benchmarkTarget: {
           harnessPath: 'benchmarks/auth_remediation.yaml',
@@ -3367,7 +3367,7 @@ export function buildInitialState() {
       },
       expectedTask: 'Recover a production auth migration with issuer mismatch while preserving session validity and rollback safety.',
       expectedFailureModes: [
-        'issuer mismatch breaks older services',
+        'issuer mismatch breaks pre-migration services',
         'rollback restores schema before verifier compatibility',
         'audit receipts missing repo and commit linkage'
       ],
@@ -3394,7 +3394,7 @@ export function buildInitialState() {
           { name: 'session validation', conclusion: 'failure' }
         ],
         extractedOutputs: {
-          failingCases: ['issuer-mismatch-legacy-service', 'rollback-ordering-audit-receipt'],
+          failingCases: ['issuer-mismatch-pre-migration-service', 'rollback-ordering-audit-receipt'],
           weakDimensions: ['rollback-safety', 'session-validity', 'auditability'],
           baselineMetrics: {
             rollbackSafety: 0.41,
@@ -3402,7 +3402,7 @@ export function buildInitialState() {
             auditability: 0.32
           },
           touchedPaths: ['services/auth/rollback.ts', 'services/auth/session_validator.rs', 'config/auth/issuer-compat.yml'],
-          symbols: ['restoreLegacyVerifier', 'validateIssuerAudience', 'emitAuditReceipt'],
+          symbols: ['restorePriorVerifier', 'validateIssuerAudience', 'emitAuditReceipt'],
           configKeys: ['auth.issuer.compatibilityWindow', 'auth.rollback.killSwitch'],
           parserKind: 'github-actions.auth-remediation.v3',
           parserVersion: '3.0.0'
@@ -3867,7 +3867,7 @@ export function buildInitialState() {
           'benchmarks/auth_settlement_normalization.yaml'
         ],
         stackHints: ['typescript', 'node', 'rust', 'auth', 'github-actions', 'jwt'],
-        symbols: ['restoreLegacyVerifier', 'SessionValidator', 'emitAuditReceipt'],
+        symbols: ['restorePriorVerifier', 'SessionValidator', 'emitAuditReceipt'],
         configKeys: ['auth.audit.requireWorkflowRun', 'auth.issuer.compatibilityWindow'],
         benchmarkTarget: {
           harnessPath: 'benchmarks/auth_settlement_normalization.yaml',
@@ -3905,7 +3905,7 @@ export function buildInitialState() {
           { name: 'session validator compatibility', conclusion: 'failure' }
         ],
         extractedOutputs: {
-          failingCases: ['rollback-ordering-audit-receipt', 'issuer-mismatch-legacy-service', 'workflow-run-receipt-gap'],
+          failingCases: ['rollback-ordering-audit-receipt', 'issuer-mismatch-pre-migration-service', 'workflow-run-receipt-gap'],
           weakDimensions: ['rollback-safety', 'session-validity', 'auditability'],
           baselineMetrics: {
             rollbackSafety: 0.44,
@@ -3913,7 +3913,7 @@ export function buildInitialState() {
             auditability: 0.36
           },
           touchedPaths: ['services/auth/rollback.ts', 'services/auth/session_validator.rs', 'services/auth/audit_receipt.ts', 'config/auth/issuer-compat.yml'],
-          symbols: ['restoreLegacyVerifier', 'SessionValidator', 'emitAuditReceipt'],
+          symbols: ['restorePriorVerifier', 'SessionValidator', 'emitAuditReceipt'],
           configKeys: ['auth.audit.requireWorkflowRun', 'auth.issuer.compatibilityWindow'],
           parserKind: 'github-actions.auth-remediation.v3',
           parserVersion: '3.0.0'

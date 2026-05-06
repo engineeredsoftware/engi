@@ -1220,7 +1220,7 @@ test('prompt package public boundary documentation reflects canonical Bitcode pr
   assert.match(promptPackageSurface, /PromptExecution: Execution-bound prompt registry carrier/u);
   assert.match(promptPackageSurface, /Canonical root exports for public primitives only/u);
   assert.match(promptPackageSurface, /Narrow promptpart imports for raw prompt assets/u);
-  assert.match(promptPackageSurface, /curated compatibility surface, not the default import style/u);
+  assert.match(promptPackageSurface, /curated support surface, not the default import style/u);
   assert.match(promptPackageSurface, /PROMPTPART_SPECIFIC_TOOL_REPOSITORYSETUP_ASSETPACK_METADATA_PIPELINE/u);
   assert.doesNotMatch(promptPackageSurface, /PROMPTPART_SPECIFIC_TOOL_REPOSITORYSETUP_DELIVERABLES/u);
   assert.doesNotMatch(promptPackageSurface, /promptpart_specific_tool_repositorysetup_deliverables/u);

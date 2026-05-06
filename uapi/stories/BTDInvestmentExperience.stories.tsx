@@ -29,22 +29,22 @@ The system keeps $BTD framed as a non-fungible AssetPack share/read-right while 
     },
   },
   argTypes: {
-    magicalIntensity: {
+    visualIntensity: {
       control: { type: 'select' },
-      options: ['mundane', 'enchanted', 'mystical', 'transcendent'],
-      description: 'Level of magical enhancement effects',
+      options: ['minimal', 'standard', 'rich', 'maximum'],
+      description: 'Level of fit signal effects',
     },
     showValueVisualization: {
       control: 'boolean',
-      description: 'Show investment alchemy value panel',
+      description: 'Show BTD fit-value panel',
     },
     showEfficiencyCoaching: {
       control: 'boolean',
       description: 'Show AI efficiency coaching insights',
     },
-    showMagicalInsights: {
+    showFitInsights: {
       control: 'boolean',
-      description: 'Show magical particle effects and moments',
+      description: 'Show fit particle effects and moments',
     },
     showROIProjections: {
       control: 'boolean',
@@ -73,7 +73,7 @@ export const EfficientInvestor: Story = {
         learningValue: 0.7,
         reuseablilityPotential: 0.9,
         businessImpact: 0.8,
-        magicalMultiplier: 1.8,
+        fitValueMultiplier: 1.8,
         timestamp: new Date(Date.now() - 3600000) // 1 hour ago
       },
       {
@@ -89,7 +89,7 @@ export const EfficientInvestor: Story = {
         learningValue: 0.8,
         reuseablilityPotential: 0.95,
         businessImpact: 0.9,
-        magicalMultiplier: 2.1,
+        fitValueMultiplier: 2.1,
         timestamp: new Date(Date.now() - 7200000) // 2 hours ago
       },
       {
@@ -105,7 +105,7 @@ export const EfficientInvestor: Story = {
         learningValue: 0.6,
         reuseablilityPotential: 0.7,
         businessImpact: 0.85,
-        magicalMultiplier: 1.4,
+        fitValueMultiplier: 1.4,
         timestamp: new Date(Date.now() - 10800000) // 3 hours ago
       }
     ],
@@ -124,20 +124,20 @@ export const EfficientInvestor: Story = {
     },
     showValueVisualization: true,
     showEfficiencyCoaching: true,
-    showMagicalInsights: true,
+    showFitInsights: true,
     showROIProjections: true,
-    magicalIntensity: 'mystical',
+    visualIntensity: 'rich',
   },
   parameters: {
     docs: {
       description: {
-        story: 'Efficient investor with high ROI and magical value multipliers',
+        story: 'Efficient investor with high ROI and fit value multipliers',
       },
     },
   },
 };
 
-// Learning Focused - Transcendent Coaching
+// Learning Focused - Maximum Coaching
 export const LearningFocused: Story = {
   args: {
     investments: [
@@ -154,7 +154,7 @@ export const LearningFocused: Story = {
         learningValue: 0.95, // High learning value
         reuseablilityPotential: 0.8,
         businessImpact: 0.7,
-        magicalMultiplier: 1.6, // Still good due to high learning
+        fitValueMultiplier: 1.6, // Still good due to high learning
         timestamp: new Date(Date.now() - 1800000) // 30 minutes ago
       },
       {
@@ -170,7 +170,7 @@ export const LearningFocused: Story = {
         learningValue: 0.9,
         reuseablilityPotential: 0.75,
         businessImpact: 0.85,
-        magicalMultiplier: 1.5,
+        fitValueMultiplier: 1.5,
         timestamp: new Date(Date.now() - 5400000) // 90 minutes ago
       },
       {
@@ -186,7 +186,7 @@ export const LearningFocused: Story = {
         learningValue: 0.85,
         reuseablilityPotential: 0.9,
         businessImpact: 0.8,
-        magicalMultiplier: 1.3,
+        fitValueMultiplier: 1.3,
         timestamp: new Date(Date.now() - 9000000) // 2.5 hours ago
       }
     ],
@@ -205,21 +205,21 @@ export const LearningFocused: Story = {
     },
     showValueVisualization: true,
     showEfficiencyCoaching: true,
-    showMagicalInsights: true,
+    showFitInsights: true,
     showROIProjections: true,
-    magicalIntensity: 'transcendent',
+    visualIntensity: 'maximum',
   },
   parameters: {
     docs: {
       description: {
-        story: 'Learning-focused investor with transcendent coaching for skill development',
+        story: 'Learning-focused investor with maximum coaching for skill development',
       },
     },
   },
 };
 
-// Magical Moments - Exceptional Efficiency
-export const MagicalMoments: Story = {
+// High-Fit Moments - Exceptional Efficiency
+export const FitMoments: Story = {
   args: {
     investments: [
       {
@@ -235,7 +235,7 @@ export const MagicalMoments: Story = {
         learningValue: 0.8,
         reuseablilityPotential: 0.98,
         businessImpact: 0.95,
-        magicalMultiplier: 2.8, // Magical moment!
+        fitValueMultiplier: 2.8, // High-fit moment!
         timestamp: new Date(Date.now() - 1200000) // 20 minutes ago
       },
       {
@@ -251,7 +251,7 @@ export const MagicalMoments: Story = {
         learningValue: 0.7,
         reuseablilityPotential: 0.9,
         businessImpact: 0.9,
-        magicalMultiplier: 2.5,
+        fitValueMultiplier: 2.5,
         timestamp: new Date(Date.now() - 3600000) // 1 hour ago
       },
       {
@@ -267,7 +267,7 @@ export const MagicalMoments: Story = {
         learningValue: 0.75,
         reuseablilityPotential: 0.85,
         businessImpact: 0.88,
-        magicalMultiplier: 2.3,
+        fitValueMultiplier: 2.3,
         timestamp: new Date(Date.now() - 7200000) // 2 hours ago
       }
     ],
@@ -286,14 +286,14 @@ export const MagicalMoments: Story = {
     },
     showValueVisualization: true,
     showEfficiencyCoaching: true,
-    showMagicalInsights: true,
+    showFitInsights: true,
     showROIProjections: true,
-    magicalIntensity: 'transcendent',
+    visualIntensity: 'maximum',
   },
   parameters: {
     docs: {
       description: {
-        story: 'Exceptional efficiency with multiple magical moments and transcendent value',
+        story: 'Exceptional efficiency with multiple high-fit moments and maximum value',
       },
     },
   },
@@ -316,7 +316,7 @@ export const ConservativeInvestor: Story = {
         learningValue: 0.4,
         reuseablilityPotential: 0.6,
         businessImpact: 0.5,
-        magicalMultiplier: 1.1,
+        fitValueMultiplier: 1.1,
         timestamp: new Date(Date.now() - 1800000) // 30 minutes ago
       },
       {
@@ -332,7 +332,7 @@ export const ConservativeInvestor: Story = {
         learningValue: 0.3,
         reuseablilityPotential: 0.4,
         businessImpact: 0.4,
-        magicalMultiplier: 1.0,
+        fitValueMultiplier: 1.0,
         timestamp: new Date(Date.now() - 3600000) // 1 hour ago
       },
       {
@@ -348,7 +348,7 @@ export const ConservativeInvestor: Story = {
         learningValue: 0.2,
         reuseablilityPotential: 0.3,
         businessImpact: 0.6,
-        magicalMultiplier: 1.05,
+        fitValueMultiplier: 1.05,
         timestamp: new Date(Date.now() - 5400000) // 90 minutes ago
       }
     ],
@@ -367,9 +367,9 @@ export const ConservativeInvestor: Story = {
     },
     showValueVisualization: true,
     showEfficiencyCoaching: true,
-    showMagicalInsights: true,
+    showFitInsights: true,
     showROIProjections: true,
-    magicalIntensity: 'enchanted',
+    visualIntensity: 'standard',
   },
   parameters: {
     docs: {
@@ -384,7 +384,7 @@ export const ConservativeInvestor: Story = {
 export const InvestmentJourney: Story = {
   render: () => {
     const [selectedInvestor, setSelectedInvestor] = useState(0);
-    const [magicalIntensity, setMagicalIntensity] = useState<'mundane' | 'enchanted' | 'mystical' | 'transcendent'>('mystical');
+    const [visualIntensity, setVisualIntensity] = useState<'minimal' | 'standard' | 'rich' | 'maximum'>('rich');
     const [showCoaching, setShowCoaching] = useState(true);
     
     const investorProfiles = [
@@ -405,7 +405,7 @@ export const InvestmentJourney: Story = {
             learningValue: 0.6,
             reuseablilityPotential: 0.3,
             businessImpact: 0.2,
-            magicalMultiplier: 1.2,
+            fitValueMultiplier: 1.2,
             timestamp: new Date(Date.now() - 1800000)
           }
         ],
@@ -433,7 +433,7 @@ export const InvestmentJourney: Story = {
             learningValue: 0.7,
             reuseablilityPotential: 0.8,
             businessImpact: 0.85,
-            magicalMultiplier: 1.6,
+            fitValueMultiplier: 1.6,
             timestamp: new Date(Date.now() - 3600000)
           },
           {
@@ -449,7 +449,7 @@ export const InvestmentJourney: Story = {
             learningValue: 0.6,
             reuseablilityPotential: 0.9,
             businessImpact: 0.9,
-            magicalMultiplier: 1.5,
+            fitValueMultiplier: 1.5,
             timestamp: new Date(Date.now() - 7200000)
           }
         ],
@@ -461,11 +461,11 @@ export const InvestmentJourney: Story = {
         }
       },
       {
-        name: 'Architecture Wizard',
+        name: 'Architecture Lead',
         balance: 5000,
         investments: [
           {
-            id: 'wizard-1',
+            id: 'architecture-lead-1',
             assetPackName: 'Micro-Frontend System',
             measuredBtdEstimate: 600,
             measuredBtd: 320,
@@ -477,11 +477,11 @@ export const InvestmentJourney: Story = {
             learningValue: 0.9,
             reuseablilityPotential: 0.95,
             businessImpact: 0.98,
-            magicalMultiplier: 2.7,
+            fitValueMultiplier: 2.7,
             timestamp: new Date(Date.now() - 1800000)
           },
           {
-            id: 'wizard-2',
+            id: 'architecture-lead-2',
             assetPackName: 'Performance Optimization Suite',
             measuredBtdEstimate: 400,
             measuredBtd: 180,
@@ -493,7 +493,7 @@ export const InvestmentJourney: Story = {
             learningValue: 0.8,
             reuseablilityPotential: 0.9,
             businessImpact: 0.95,
-            magicalMultiplier: 2.5,
+            fitValueMultiplier: 2.5,
             timestamp: new Date(Date.now() - 5400000)
           }
         ],
@@ -535,16 +535,16 @@ export const InvestmentJourney: Story = {
             </div>
             
             <div className="space-y-2">
-              <div className="text-sm text-emerald-300">Magical Intensity</div>
+              <div className="text-sm text-emerald-300">Visual Intensity</div>
               <select
-                value={magicalIntensity}
-                onChange={(e) => setMagicalIntensity(e.target.value as any)}
+                value={visualIntensity}
+                onChange={(e) => setVisualIntensity(e.target.value as any)}
                 className="w-full px-3 py-2 bg-emerald-800/50 text-emerald-100 border border-emerald-600/50 rounded"
               >
-                <option value="mundane">Mundane</option>
-                <option value="enchanted">Enchanted</option>
-                <option value="mystical">Mystical</option>
-                <option value="transcendent">Transcendent</option>
+                <option value="minimal">Minimal</option>
+                <option value="standard">Standard</option>
+                <option value="rich">Rich</option>
+                <option value="maximum">Maximum</option>
               </select>
             </div>
             
@@ -590,14 +590,14 @@ export const InvestmentJourney: Story = {
           investmentPatterns={currentProfile.patterns}
           showValueVisualization={true}
           showEfficiencyCoaching={showCoaching}
-          showMagicalInsights={true}
+          showFitInsights={true}
           showROIProjections={true}
-          magicalIntensity={magicalIntensity}
+          visualIntensity={visualIntensity}
           onInvestmentOptimized={(coaching) => {
             console.log('Investment optimization:', coaching);
           }}
-          onMagicalMoment={(moment) => {
-            console.log('Magical moment:', moment);
+          onHighFitMoment={(moment) => {
+            console.log('High-fit moment:', moment);
           }}
           onValueInsight={(insight) => {
             console.log('Value insight:', insight);
@@ -612,7 +612,7 @@ export const InvestmentJourney: Story = {
               {currentProfile.name}
             </div>
             <div className="text-xl text-emerald-400 italic">
-              Investment Alchemy
+              Investment Signal
             </div>
           </div>
         </div>
@@ -622,16 +622,16 @@ export const InvestmentJourney: Story = {
   parameters: {
     docs: {
       description: {
-        story: 'Interactive journey through different investor profiles and magical enhancement levels',
+        story: 'Interactive journey through different investor profiles and fit signal levels',
       },
     },
   },
 };
 
-// Magical Enhancement Comparison
-export const MagicalEnhancementComparison: Story = {
+// Fit Signal Comparison
+export const FitEnhancementComparison: Story = {
   render: () => {
-    const [selectedEnhancement, setSelectedEnhancement] = useState<'mundane' | 'enchanted' | 'mystical' | 'transcendent'>('mystical');
+    const [selectedEnhancement, setSelectedEnhancement] = useState<'minimal' | 'standard' | 'rich' | 'maximum'>('rich');
     
     const sampleInvestments = [
       {
@@ -647,7 +647,7 @@ export const MagicalEnhancementComparison: Story = {
         learningValue: 0.8,
         reuseablilityPotential: 0.95,
         businessImpact: 0.9,
-        magicalMultiplier: 2.2,
+        fitValueMultiplier: 2.2,
         timestamp: new Date(Date.now() - 1800000)
       },
       {
@@ -663,7 +663,7 @@ export const MagicalEnhancementComparison: Story = {
         learningValue: 0.7,
         reuseablilityPotential: 0.8,
         businessImpact: 0.85,
-        magicalMultiplier: 1.8,
+        fitValueMultiplier: 1.8,
         timestamp: new Date(Date.now() - 5400000)
       }
     ];
@@ -672,11 +672,11 @@ export const MagicalEnhancementComparison: Story = {
       <div className="relative w-full h-screen bg-gradient-to-br from-emerald-950 via-teal-900 to-green-950">
         <div className="absolute top-4 right-4 z-50 bg-emerald-900/90 backdrop-blur-md border border-emerald-400/30 rounded-lg p-4">
           <h3 className="text-lg font-medium text-emerald-100 mb-4">
-            ✨ Magical Enhancement Levels
+            Fit Signal Levels
           </h3>
           
           <div className="space-y-3">
-            {(['mundane', 'enchanted', 'mystical', 'transcendent'] as const).map((enhancement) => (
+            {(['minimal', 'standard', 'rich', 'maximum'] as const).map((enhancement) => (
               <button
                 key={enhancement}
                 onClick={() => setSelectedEnhancement(enhancement)}
@@ -688,10 +688,10 @@ export const MagicalEnhancementComparison: Story = {
               >
                 <div className="font-medium capitalize">{enhancement}</div>
                 <div className="text-xs opacity-75 mt-1">
-                  {enhancement === 'mundane' && 'No magical effects, pure efficiency'}
-                  {enhancement === 'enchanted' && 'Subtle magical enhancements'}
-                  {enhancement === 'mystical' && 'Rich magical value visualization'}
-                  {enhancement === 'transcendent' && 'Maximum magical transformation'}
+                  {enhancement === 'minimal' && 'No visual signal effects, pure efficiency'}
+                  {enhancement === 'standard' && 'Subtle fit signals'}
+                  {enhancement === 'rich' && 'Rich fit value visualization'}
+                  {enhancement === 'maximum' && 'Maximum fit signal'}
                 </div>
               </button>
             ))}
@@ -701,7 +701,7 @@ export const MagicalEnhancementComparison: Story = {
             <div className="space-y-1">
               <div>ROI: <span className="text-emerald-100">+47%</span></div>
               <div>Efficiency: <span className="text-emerald-100">145%</span></div>
-              <div>Magical Moments: <span className="text-emerald-100">2</span></div>
+              <div>High-Fit Moments: <span className="text-emerald-100">2</span></div>
             </div>
           </div>
         </div>
@@ -723,16 +723,16 @@ export const MagicalEnhancementComparison: Story = {
           }}
           showValueVisualization={true}
           showEfficiencyCoaching={true}
-          showMagicalInsights={true}
+          showFitInsights={true}
           showROIProjections={true}
-          magicalIntensity={selectedEnhancement}
+          visualIntensity={selectedEnhancement}
         />
         
         <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
           <div className="text-center space-y-4 opacity-20">
-            <div className="text-9xl">🪄</div>
+            <div className="text-9xl">💎</div>
             <div className="text-3xl text-emerald-300 font-light">
-              Magical Enhancement
+              Fit Signal
             </div>
             <div className="text-xl text-emerald-400 italic capitalize">
               {selectedEnhancement} level
@@ -745,7 +745,7 @@ export const MagicalEnhancementComparison: Story = {
   parameters: {
     docs: {
       description: {
-        story: 'Compare different levels of magical enhancement from mundane to transcendent',
+        story: 'Compare different levels of fit signal from minimal to maximum',
       },
     },
   },

@@ -12,7 +12,7 @@ import { Tables, Insertable, Updatable, type Json } from '../types/database';
 export type UserProfile = Tables<'user_profiles'>;
 export type UserProfileInsert = Insertable<'user_profiles'>;
 export type UserProfileUpdate = Updatable<'user_profiles'>;
-export type UserProfileCompatibility = UserProfile & {
+export type UserProfileReadModel = UserProfile & {
     email?: string | null;
     full_name?: string | null;
 };
@@ -21,7 +21,7 @@ export declare class UserProfilesModel extends BaseModel<'user_profiles'> {
     /**
      * Get profile by user ID
      */
-    getByUserId(userId: string): Promise<UserProfileCompatibility | null>;
+    getByUserId(userId: string): Promise<UserProfileReadModel | null>;
     /**
      * Upsert user profile
      */

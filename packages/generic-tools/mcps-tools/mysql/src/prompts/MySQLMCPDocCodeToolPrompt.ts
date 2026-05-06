@@ -49,7 +49,7 @@ import { PromptPart } from '@bitcode/prompts/parts/PromptPart';
  * MySQL MCP tool-specific DocCodeToolPrompt
  * This relational database optimization MCP tool represents the zenith of structured data management,
  * enabling hyperoptimized relational operations with AI-driven query optimization and
- * quantum-precise transactional integrity for transcendent data persistence excellence.
+ * high-precision transactional integrity for advanced data persistence excellence.
  */
 export class MySQLMCPDocCodeToolPrompt extends DocCodeToolPrompt {
   constructor() {

@@ -87,7 +87,7 @@ function recordEvent(name: string, payload?: ObservabilityPayload): void {
   void payload;
 }
 
-type CompatibilitySpan = {
+type ObservabilitySpan = {
   id: string;
   name: string;
   payload: Record<string, unknown>;
@@ -98,7 +98,7 @@ type CompatibilitySpan = {
   finish: () => void;
 };
 
-function startCompatibilitySpan(name: string, payload?: ObservabilityPayload): CompatibilitySpan {
+function startNoopSpan(name: string, payload?: ObservabilityPayload): ObservabilitySpan {
   return {
     id: `${name}:${Date.now()}`,
     name,
@@ -111,8 +111,8 @@ function startCompatibilitySpan(name: string, payload?: ObservabilityPayload): C
   };
 }
 
-function createSpan(name: string, payload?: ObservabilityPayload): CompatibilitySpan {
-  return startCompatibilitySpan(name, payload);
+function createSpan(name: string, payload?: ObservabilityPayload): ObservabilitySpan {
+  return startNoopSpan(name, payload);
 }
 
 export const observability = {
@@ -120,7 +120,7 @@ export const observability = {
   recordMetric,
   recordError,
   recordEvent,
-  startSpan: startCompatibilitySpan,
+  startSpan: startNoopSpan,
   createSpan,
 };
 

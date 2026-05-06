@@ -16,7 +16,7 @@ interface BtdInvestment {
   learningValue: number; // 0-1
   reuseablilityPotential: number; // 0-1
   businessImpact: number; // 0-1
-  magicalMultiplier: number; // 1-3, value multiplier for exceptional efficiency
+  fitValueMultiplier: number; // 1-3, value multiplier for exceptional efficiency
   timestamp: Date;
 }
 
@@ -27,16 +27,16 @@ interface ValueVisualization {
   efficiencyTrend: number[]; // Last 10 investments
   learningAcceleration: number; // 0-1
   patternMastery: number; // 0-1
-  magicalMoments: number; // Count of exceptional high-fit runs
-  cosmicValue: number; // Higher-order value beyond raw measured-BTD volume
+  highFitMoments: number; // Count of exceptional high-fit runs
+  extendedValue: number; // Higher-order value beyond raw measured-BTD volume
 }
 
 interface EfficiencyCoaching {
   insight: string;
   suggestion: string;
   potentialSavings: number;
-  magicalWisdom: string;
-  enchantmentLevel: 'spark' | 'glow' | 'radiance' | 'transcendence';
+  fitGuidance: string;
+  guidanceLevel: 'baseline' | 'steady' | 'elevated' | 'critical';
 }
 
 interface BtdInvestmentExperienceProps {
@@ -65,18 +65,18 @@ interface BtdInvestmentExperienceProps {
   /** Show different visualization modes */
   showValueVisualization?: boolean;
   showEfficiencyCoaching?: boolean;
-  showMagicalInsights?: boolean;
+  showFitInsights?: boolean;
   showROIProjections?: boolean;
   
   /** Visual enhancement level */
-  magicalIntensity?: 'mundane' | 'enchanted' | 'mystical' | 'transcendent';
+  visualIntensity?: 'minimal' | 'standard' | 'rich' | 'maximum';
   
   /** Performance controls */
   respectReducedMotion?: boolean;
   
   /** Callbacks */
   onInvestmentOptimized?: (optimization: EfficiencyCoaching) => void;
-  onMagicalMoment?: (moment: string) => void;
+  onHighFitMoment?: (moment: string) => void;
   onValueInsight?: (insight: string) => void;
   onBtdProjection?: (projection: number) => void;
 }
@@ -88,7 +88,7 @@ const getActualBtd = (investment: BtdInvestment): number =>
   investment.measuredBtd;
 
 // Value-multiplier formulas for measured-BTD efficiency.
-const calculateMagicalMultiplier = (investment: BtdInvestment): number => {
+const calculateFitValueMultiplier = (investment: BtdInvestment): number => {
   let multiplier = 1;
   
   // Efficiency bonus
@@ -134,8 +134,8 @@ const generateEfficiencyCoaching = (
   let insight = '';
   let suggestion = '';
   let potentialSavings = 0;
-  let enchantmentLevel: EfficiencyCoaching['enchantmentLevel'] = 'spark';
-  let magicalWisdom = '';
+  let guidanceLevel: EfficiencyCoaching['guidanceLevel'] = 'baseline';
+  let fitGuidance = '';
   
   if (avgEfficiency < 0.7) {
     insight = 'Recent AssetPack runs are measuring above their expected $BTD range';
@@ -143,43 +143,43 @@ const generateEfficiencyCoaching = (
     potentialSavings = Math.round(
       recentInvestments.reduce((sum, inv) => sum + (getActualBtd(inv) - getEstimatedBtd(inv)), 0) * 0.3
     );
-    enchantmentLevel = 'transcendence';
-    magicalWisdom = 'Tighten Need scope before attempting broader AssetPack synthesis.';
+    guidanceLevel = 'critical';
+    fitGuidance = 'Tighten Need scope before attempting broader AssetPack synthesis.';
   } else if (avgEfficiency < 0.9) {
     insight = `Pattern detected: ${topInefficient?.[0] || 'certain types'} of work measuring above expectation`;
     suggestion = `Consider breaking down ${topInefficient?.[0] || 'complex'} Needs into smaller, more predictable components`;
     potentialSavings = Math.round(
       recentInvestments.reduce((sum, inv) => sum + Math.max(0, getActualBtd(inv) - getEstimatedBtd(inv)), 0) * 0.2
     );
-    enchantmentLevel = 'radiance';
-    magicalWisdom = 'Precise Need framing improves measured-BTD predictability.';
+    guidanceLevel = 'elevated';
+    fitGuidance = 'Precise Need framing improves measured-BTD predictability.';
   } else if (avgEfficiency > 1.3) {
     insight = 'Exceptional measured-BTD efficiency detected across recent AssetPacks';
     suggestion = 'Consider taking on more complex challenges to maximize your evolved capabilities';
     potentialSavings = 0;
-    enchantmentLevel = 'transcendence';
-    magicalWisdom = 'Use this efficiency window to attempt more complex Needs.';
+    guidanceLevel = 'critical';
+    fitGuidance = 'Use this efficiency window to attempt more complex Needs.';
   } else {
     insight = 'Your measured-BTD allocation pattern is balanced and improving';
     suggestion = 'Continue current practices while watching for optimization opportunities';
     potentialSavings = Math.round(
       recentInvestments.reduce((sum, inv) => sum + Math.max(0, getActualBtd(inv) - getEstimatedBtd(inv)), 0) * 0.1
     );
-    enchantmentLevel = 'glow';
-    magicalWisdom = 'Steady fit-quality improvement compounds across AssetPacks.';
+    guidanceLevel = 'steady';
+    fitGuidance = 'Steady fit-quality improvement compounds across AssetPacks.';
   }
   
   return {
     insight,
     suggestion,
     potentialSavings,
-    magicalWisdom,
-    enchantmentLevel
+    fitGuidance,
+    guidanceLevel
   };
 };
 
 // Device capability detection for visual effects.
-const MAGICAL_QUALITY = (() => {
+const VISUAL_SIGNAL_QUALITY = (() => {
   if (typeof navigator === 'undefined') return 1;
   
   const mem = (navigator as any).deviceMemory;
@@ -204,12 +204,12 @@ export const MarketingBtdInvestmentExperience = ({
   investmentPatterns,
   showValueVisualization = true,
   showEfficiencyCoaching = true,
-  showMagicalInsights = true,
+  showFitInsights = true,
   showROIProjections = true,
-  magicalIntensity = 'mystical',
+  visualIntensity = 'rich',
   respectReducedMotion = true,
   onInvestmentOptimized,
-  onMagicalMoment,
+  onHighFitMoment,
   onValueInsight,
   onBtdProjection
 }: BtdInvestmentExperienceProps) => {
@@ -218,7 +218,7 @@ export const MarketingBtdInvestmentExperience = ({
 
   const [selectedTimeframe, setSelectedTimeframe] = useState<'week' | 'month' | 'quarter'>('month');
   const [showCoachingInsight, setShowCoachingInsight] = useState(false);
-  const [magicalParticles, setMagicalParticles] = useState<Array<{
+  const [fitParticles, setFitParticles] = useState<Array<{
     id: string;
     x: number;
     y: number;
@@ -245,9 +245,9 @@ export const MarketingBtdInvestmentExperience = ({
       const learningValue = baseValue * inv.learningValue * 0.5;
       const reuseValue = baseValue * inv.reuseablilityPotential * 0.3;
       const businessValue = baseValue * inv.businessImpact * 0.7;
-      const magicalBonus = baseValue * (inv.magicalMultiplier - 1);
+      const fitValueBonus = baseValue * (inv.fitValueMultiplier - 1);
       
-      return sum + baseValue + learningValue + reuseValue + businessValue + magicalBonus;
+      return sum + baseValue + learningValue + reuseValue + businessValue + fitValueBonus;
     }, 0);
     
     const roi = totalInvested > 0 ? (totalReturned - totalInvested) / totalInvested : 0;
@@ -261,10 +261,10 @@ export const MarketingBtdInvestmentExperience = ({
       return sum + masteryScore;
     }, 0) / (relevantInvestments.length * 10) || 0; // Normalize to 0-1
     
-    const magicalMoments = relevantInvestments.filter(inv => inv.magicalMultiplier > 2).length;
+    const highFitMoments = relevantInvestments.filter(inv => inv.fitValueMultiplier > 2).length;
     
-    const cosmicValue = relevantInvestments.reduce((sum, inv) => {
-      return sum + (inv.learningValue + inv.reuseablilityPotential + inv.businessImpact) * inv.magicalMultiplier;
+    const extendedValue = relevantInvestments.reduce((sum, inv) => {
+      return sum + (inv.learningValue + inv.reuseablilityPotential + inv.businessImpact) * inv.fitValueMultiplier;
     }, 0);
     
     return {
@@ -274,8 +274,8 @@ export const MarketingBtdInvestmentExperience = ({
       efficiencyTrend,
       learningAcceleration,
       patternMastery,
-      magicalMoments,
-      cosmicValue
+      highFitMoments,
+      extendedValue
     };
   }, [investments, selectedTimeframe]);
   
@@ -286,8 +286,8 @@ export const MarketingBtdInvestmentExperience = ({
   );
   
   // Generate particles for value visualization.
-  const generateMagicalParticles = useCallback(() => {
-    if (magicalIntensity === 'mundane' || MAGICAL_QUALITY < 0.5) return;
+  const generateFitParticles = useCallback(() => {
+    if (visualIntensity === 'minimal' || VISUAL_SIGNAL_QUALITY < 0.5) return;
     
     const recentInvestments = investments.slice(-5);
     const particles = recentInvestments.map((investment, index) => ({
@@ -303,8 +303,8 @@ export const MarketingBtdInvestmentExperience = ({
       value: getActualBtd(investment)
     }));
     
-    setMagicalParticles(particles);
-  }, [investments, magicalIntensity]);
+    setFitParticles(particles);
+  }, [investments, visualIntensity]);
   
   // Animate value counters
   useEffect(() => {
@@ -347,27 +347,27 @@ export const MarketingBtdInvestmentExperience = ({
   
   // Value particle generation.
   useEffect(() => {
-    if (!showMagicalInsights) return;
+    if (!showFitInsights) return;
     
-    generateMagicalParticles();
+    generateFitParticles();
     
     particleIntervalRef.current = setInterval(() => {
-      generateMagicalParticles();
+      generateFitParticles();
     }, 5000);
     
     return () => {
       if (particleIntervalRef.current) clearInterval(particleIntervalRef.current);
     };
-  }, [generateMagicalParticles, showMagicalInsights]);
+  }, [generateFitParticles, showFitInsights]);
   
   // High-fit run detection.
   useEffect(() => {
-    const exceptionalInvestments = investments.filter(inv => inv.magicalMultiplier > 2);
+    const exceptionalInvestments = investments.filter(inv => inv.fitValueMultiplier > 2);
     if (exceptionalInvestments.length > 0) {
-      const latestMagical = exceptionalInvestments[exceptionalInvestments.length - 1];
-      onMagicalMoment?.(`High-fit AssetPack recorded for ${latestMagical.assetPackName || 'AssetPack'}: ${latestMagical.magicalMultiplier.toFixed(1)}x value multiplier`);
+      const latestHighFit = exceptionalInvestments[exceptionalInvestments.length - 1];
+      onHighFitMoment?.(`High-fit AssetPack recorded for ${latestHighFit.assetPackName || 'AssetPack'}: ${latestHighFit.fitValueMultiplier.toFixed(1)}x value multiplier`);
     }
-  }, [investments, onMagicalMoment]);
+  }, [investments, onHighFitMoment]);
 
   useEffect(() => {
     if (projectedUpcomingBtd === null) return;
@@ -375,11 +375,11 @@ export const MarketingBtdInvestmentExperience = ({
   }, [onBtdProjection, projectedUpcomingBtd]);
   
   // Calculate visual enhancement factor.
-  const magicalEnhancement = magicalIntensity === 'transcendent' ? 1.0 :
-                            magicalIntensity === 'mystical' ? 0.8 :
-                            magicalIntensity === 'enchanted' ? 0.6 : 0.3;
+  const visualEnhancement = visualIntensity === 'maximum' ? 1.0 :
+                            visualIntensity === 'rich' ? 0.8 :
+                            visualIntensity === 'standard' ? 0.6 : 0.3;
   
-  const enhancementGlow = MAGICAL_QUALITY * magicalEnhancement;
+  const enhancementGlow = VISUAL_SIGNAL_QUALITY * visualEnhancement;
   
   return (
     <div className="btd-holding-experience fixed bottom-6 right-6 z-30 pointer-events-none">
@@ -460,7 +460,7 @@ export const MarketingBtdInvestmentExperience = ({
                 <div className="text-xs text-emerald-300">High-Fit Runs</div>
                 <div className="text-lg font-bold text-yellow-400 flex items-center space-x-1">
                   <span>✨</span>
-                  <span>{valueVisualization.magicalMoments}</span>
+                  <span>{valueVisualization.highFitMoments}</span>
                 </div>
               </div>
             </div>
@@ -520,20 +520,20 @@ export const MarketingBtdInvestmentExperience = ({
             <div 
               className={`
                 backdrop-blur-xl rounded-xl p-4 w-80 border
-                ${efficiencyCoaching.enchantmentLevel === 'transcendence' ? 
+                ${efficiencyCoaching.guidanceLevel === 'critical' ? 
                   'bg-gradient-to-br from-purple-900/95 to-pink-900/95 border-purple-400/40' :
-                efficiencyCoaching.enchantmentLevel === 'radiance' ?
+                efficiencyCoaching.guidanceLevel === 'elevated' ?
                   'bg-gradient-to-br from-yellow-900/95 to-orange-900/95 border-yellow-400/40' :
-                efficiencyCoaching.enchantmentLevel === 'glow' ?
+                efficiencyCoaching.guidanceLevel === 'steady' ?
                   'bg-gradient-to-br from-blue-900/95 to-cyan-900/95 border-blue-400/40' :
                   'bg-gradient-to-br from-gray-900/95 to-slate-900/95 border-gray-400/40'
                 }
               `}
               style={{
                 boxShadow: `0 0 30px ${
-                  efficiencyCoaching.enchantmentLevel === 'transcendence' ? 'rgba(147, 51, 234, 0.5)' :
-                  efficiencyCoaching.enchantmentLevel === 'radiance' ? 'rgba(245, 158, 11, 0.5)' :
-                  efficiencyCoaching.enchantmentLevel === 'glow' ? 'rgba(59, 130, 246, 0.5)' :
+                  efficiencyCoaching.guidanceLevel === 'critical' ? 'rgba(147, 51, 234, 0.5)' :
+                  efficiencyCoaching.guidanceLevel === 'elevated' ? 'rgba(245, 158, 11, 0.5)' :
+                  efficiencyCoaching.guidanceLevel === 'steady' ? 'rgba(59, 130, 246, 0.5)' :
                   'rgba(107, 114, 128, 0.3)'
                 }`
               }}
@@ -543,15 +543,15 @@ export const MarketingBtdInvestmentExperience = ({
                   className="text-2xl animate-pulse"
                   style={{
                     filter: `drop-shadow(0 0 8px ${
-                      efficiencyCoaching.enchantmentLevel === 'transcendence' ? '#a855f7' :
-                      efficiencyCoaching.enchantmentLevel === 'radiance' ? '#f59e0b' :
-                      efficiencyCoaching.enchantmentLevel === 'glow' ? '#3b82f6' : '#6b7280'
+                      efficiencyCoaching.guidanceLevel === 'critical' ? '#a855f7' :
+                      efficiencyCoaching.guidanceLevel === 'elevated' ? '#f59e0b' :
+                      efficiencyCoaching.guidanceLevel === 'steady' ? '#3b82f6' : '#6b7280'
                     })`
                   }}
                 >
-                  {efficiencyCoaching.enchantmentLevel === 'transcendence' ? '🔮' :
-                   efficiencyCoaching.enchantmentLevel === 'radiance' ? '⭐' :
-                   efficiencyCoaching.enchantmentLevel === 'glow' ? '💫' : '✨'}
+                  {efficiencyCoaching.guidanceLevel === 'critical' ? '🔮' :
+                   efficiencyCoaching.guidanceLevel === 'elevated' ? '⭐' :
+                   efficiencyCoaching.guidanceLevel === 'steady' ? '💫' : '✨'}
                 </div>
                 <div className="flex-1">
                   <div className="text-sm font-medium text-white mb-2">
@@ -569,7 +569,7 @@ export const MarketingBtdInvestmentExperience = ({
                     </div>
                   )}
                   <div className="text-sm italic text-purple-300 border-l-2 border-purple-400/30 pl-3">
-                    {efficiencyCoaching.magicalWisdom}
+                    {efficiencyCoaching.fitGuidance}
                   </div>
                 </div>
               </div>
@@ -634,10 +634,10 @@ export const MarketingBtdInvestmentExperience = ({
       )}
       
       {/* Fit-value particles */}
-      {showMagicalInsights && magicalIntensity !== 'mundane' && (
+      {showFitInsights && visualIntensity !== 'minimal' && (
         <div className="absolute inset-0 pointer-events-none overflow-hidden">
           <AnimatePresence>
-            {magicalParticles.map(particle => (
+            {fitParticles.map(particle => (
               <motion.div
                 key={particle.id}
                 className="absolute text-lg opacity-60"

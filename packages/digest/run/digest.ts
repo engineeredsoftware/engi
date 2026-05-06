@@ -893,7 +893,7 @@ export async function generateDigest(options: DigestOptions = {}): Promise<Gener
         .digest('hex')
         .slice(0, 24);
 
-      // Include version prefix for future compatibility
+      // Include version prefix for future hash-format evolution.
       const hash = `v1_${pathHash}_${contentHash}`;
 
       if (debug) {

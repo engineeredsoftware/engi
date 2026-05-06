@@ -384,7 +384,7 @@ testAny('POST /api/deposits can create a revoked issuer candidate without crashi
         title: 'Revoked note',
         author: 'Restricted Tester',
         issuerPolicyStatus: 'revoked',
-        content: 'legacy issuer note with private remediation content'
+        content: 'revoked issuer note with private remediation content'
       })
     });
 
@@ -412,7 +412,7 @@ testAny('POST /api/deposits accepts artifact precision and boundary fields', asy
         workflowRunId: 'gha_run_custom',
         signerAddress: 'did:key:tester',
         visualPreview: 'Short visual preview',
-        content: 'restoreLegacyVerifier in services/auth/rollback.ts'
+        content: 'restorePriorVerifier in services/auth/rollback.ts'
       })
     });
 

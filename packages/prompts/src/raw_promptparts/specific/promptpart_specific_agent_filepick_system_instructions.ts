@@ -19,7 +19,6 @@ import { PromptPart } from '../../parts/PromptPart';
  * current_version: "V26.50.0"
  * versions: []
  * transformation: "industrial_enhancement"
- * old_content_archived: "Execute file selection workflows with confidence ≥0.80"
  */
 export const PROMPTPART_SPECIFIC_AGENT_FILEPICK_SYSTEM_INSTRUCTIONS: PromptPart = 
   'Execute optimized file selection workflows: initiate directory scanning with configurable depth-first/breadth-first traversal algorithms, apply multi-stage filtering (glob patterns → MIME validation → extension verification), calculate relevance vectors using TF-IDF with cosine similarity and weighted scoring, perform SHA-256 duplicate detection with bloom filter optimization, and return JSON-structured file manifests with enriched metadata (size, mtime, permissions, hash) and statistical confidence ≥0.80' as PromptPart;
