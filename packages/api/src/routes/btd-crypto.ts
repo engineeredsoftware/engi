@@ -457,8 +457,8 @@ export async function buildBtdRegistrySnapshot(input: {
 
   return {
     kind: 'btd_registry_snapshot',
-    activeCanonicalPointer: 'V26',
-    draftTargetVersion: 'V27',
+    activeCanonicalPointer: 'V27',
+    draftTargetVersion: 'V28',
     maxSupply: BTD_MAX_MINTABLE_SUPPLY,
     supplyState,
     ranges,

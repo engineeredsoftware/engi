@@ -2,14 +2,53 @@
 
 ## Status
 
-- Scope: draft-target notes for V28 Terminal productization and promotion-tail cleanup after V27 `$BTD` tokenomics and cryptographic-commercialization closure.
+- Version: `V28`
+- V28 state: draft target notes opened
+- Current canonical/latest target: `V27`
+- Prior canonical anchor: `BITCODE_SPEC_V27.md`
+- Prior generated proof appendix: `BITCODE_SPEC_V27_PROVEN.md`
+- Generated structured artifact inventory: `.bitcode/v28-gate-1-draft-opening-proof.json`; V28 spec-family and canonical-input reports are planned generated artifacts
+- Source parity state: first-gate draft parity opened in `BITCODE_SPEC_V28_PARITY_MATRIX.md`
+- Scope: draft-target notes for V28 commercial application MVP QA and promotion-tail cleanup after V27 `$BTD` tokenomics and cryptographic-commercialization closure.
 - Active canonical pointer: `BITCODE_SPEC.txt` -> `V27`.
 - Draft target: `V28`.
-- Primary V28 focus: the Terminal as the operator-facing place where Need submission, Fit review, measureminting posture, wallet authorization, BTC fees, AssetPack range reads, licensed reads, journal diffs, and reconciliation become coherent product workflows.
-- Adjacent later-version focus: V29 owns broader Exchange market depth; V30 owns external connections and interfaces; V31 owns the proven protocol V0.
+- Primary V28 focus: commercial application MVP QA across Terminal, Exchange, Auxillaries, BTD range disclosure, auth/readiness, and navigation, with Exchange MVP and Auxillaries shell cleanup treated as first-class blockers.
+- Adjacent later-version focus: V29 owns deeper Terminal workflows; V30 owns deeper Exchange; V31 owns deeper Auxillaries; V32 owns deeper provation and testing; V33 owns deeper Interfaces; V34 owns deeper Deployment; V35 owns deeper telemetry and documenting across internal codebase docs plus public `/docs` usage material.
 
 This NOTES file does not promote V28.
 It records the deep-review handoff from V26 and V27 promotion so V28 starts with known source/spec/proof issues rather than rediscovering them during implementation.
+
+## Notes companion rule
+
+This NOTES file is a drafting companion.
+It can capture review findings, discovered source truth, and future-version handoffs, but requirements become binding only when promoted into the V28 SPEC, DELTA, PARITY, proof artifacts, or accepted implementation tests.
+
+## Concise current-system reading
+
+V27 is active canon.
+V28 is open as draft target.
+V27 provides exact `$BTD` law and crypto primitives; V28 must make the active commercial application MVP-operable.
+
+## Simplified-spec reading rule
+
+When V28 docs use simplified product wording, read it through V27 law:
+BTC pays fees, `$BTD` is non-fungible, AssetPack ranges are commercial units, Terminal reads are registry-derived, and ledger/database drift must fail closed.
+
+## QA Scope Refinement
+
+Screenshots captured on May 6, 2026 show the active Auxillaries experience mixing the old orbital shell with the newer contained tabs-left approach.
+The issue appears in sign-in, create-account, and signed-in profile states: large orbital backgrounds and layout wrappers push or obscure the active contained pane, and old card styling conflicts with the simpler commercial app shell.
+
+This is V28 work.
+It should not wait for V31 Auxillaries expansion because it affects the current commercial MVP experience.
+
+V28 therefore starts as commercial application MVP QA:
+
+- clean active Auxillaries auth/profile/readiness states to the contained tabs-left model;
+- keep any old orbital aesthetic only as isolated styling reference or inactive retained route behavior;
+- QA `/`, `/application`, `/exchange`, `/auxillaries/*`, `/btd/[assetPackId]`, and conversations;
+- harden Exchange MVP route/search/detail/range-acquisition readiness without broad market depth;
+- then advance Terminal transaction depth once the application shell is commercially coherent.
 
 ## Promotion Review Basis
 
@@ -42,24 +81,29 @@ They are V28 inputs because V27 closed the protocol law and minimum crypto-comme
 | `shippable` remains as a Finish-delivered PR/asset-pack-output term in some UI/tests/stories | V27 route/tokenomics work does not require renaming every UI/styling/test fixture term | Reconfirm in V28 whether Terminal product language should keep `Shippable` for PR delivery only or replace it with AssetPack delivery/range language |
 | Legal/access-policy templates remain incomplete | V27 proves policy id/hash and rights separation, not final legal forms | Draft Terminal-visible access-policy templates for owner-read, licensed-read, derivative use, redistribution, confidentiality, dispute, and takedown posture |
 | Product telemetry sinks are configured as receipt/event boundaries, not production alert dashboards | V27 closes taxonomy and persistence | Add operator-facing Terminal health panels and alert sink integration for wallet, fee, ledger, journal, database, access, settlement, and upgrade failures |
-| External VCS providers beyond GitHub remain incomplete or not started | V27 does not require broad third-party provider completion, and V30 owns external connections and interfaces | Keep V28 Terminal provider UX honest about GitHub-only readiness and hand off Bitbucket, GitLab, Azure DevOps, generic Git, webhooks, and provider-feature detection to the V30 external-connections scope |
+| External VCS providers beyond GitHub remain incomplete or not started | V27 does not require broad third-party provider completion, and V28 is MVP QA | Keep V28 provider UX honest about GitHub-only readiness and hand off broader provider readiness to the later product version that owns the affected surface |
+| Auxillaries still mixes old orbital-era shell styles with the active contained tabs-left experience | V27 closed protocol law, not full commercial application visual QA | Remove or strictly contain conflicting `orbital-*` layout/background classes from active Auxillaries auth/profile/readiness paths, preserve only reusable aesthetic pieces that do not control commercial layout, and prove with desktop/mobile screenshots |
 | V26 proof generator and older promotion scripts still contain version-specific historical logic | V27 accepted generated-equivalent proof artifacts rather than fully modernizing promotion automation | Decide whether V28 should update proof generation for V28+ families or leave older promotion scripts as historical tooling |
 
 ## V28 Gate Sketch
 
-V28 should not start by widening the Exchange.
-The minimum useful V28 gate plan is Terminal-first:
+V28 should not start by widening the Exchange into a deep market.
+The minimum useful V28 gate plan is commercial-application-MVP-first:
 
 1. **Gate 1: V28 Draft Opening And Promotion Review**
    - Confirm `BITCODE_SPEC.txt` points to `V27`.
    - Read V26 and V27 promoted families.
    - Convert this NOTES file into SPEC, DELTA, and PARITY only after source audit.
 
-2. **Gate 2: Terminal Wallet And BTC Fee UX**
+2. **Gate 2: Commercial Application MVP QA Baseline**
+   - QA primary active routes and navigation.
+   - Remove Auxillaries old orbital shell conflicts from active contained tabs-left paths.
+   - Harden Exchange MVP activity/search/detail/range-acquisition readiness.
+   - Capture desktop/mobile visual proof for sign-in, create-account, signed-in profile, Exchange, Terminal, and BTD range disclosure.
+
+3. **Gate 3: Terminal Wallet, BTC Fee, And Need-Fit-Measuremint Workflow**
    - Terminal wallet connection and signer-session review.
    - BTC fee preparation, PSBT handoff, signature status, broadcast status, confirmation/replacement/reorg readout.
-
-3. **Gate 3: Terminal Need-Fit-Measuremint Workflow**
    - Need submission and Fit closure make measuremint entitlement, zero-cell/refit receipt, source roots, proof roots, and access policy visible.
 
 4. **Gate 4: Terminal AssetPack Range Detail**
@@ -77,11 +121,11 @@ The minimum useful V28 gate plan is Terminal-first:
 8. **Gate 8: V28 Promotion Proof**
    - SPEC, DELTA, NOTES, PARITY, and PROVEN exist.
    - Terminal tests, package/API tests, route tests, UAPI build, and demonstration tests pass.
-   - V29 Exchange depth is explicitly staged rather than mixed into V28.
+   - V29 Terminal depth, V30 Exchange depth, V31 Auxillaries depth, V32 provation/testing depth, V33 interface depth, V34 deployment depth, and V35 telemetry/documenting depth are explicitly staged rather than mixed into V28.
 
 ## Non-Goals For V28
 
-- V28 does not implement broad order-book depth, external market routing, wrapper liquidity, or third-party marketplace integration. Those belong to V29 unless Terminal correctness requires a narrow hook.
+- V28 does not implement broad order-book depth, external market routing, wrapper liquidity, or third-party marketplace integration. V28 owns Exchange MVP QA only.
 - V28 does not approve value-bearing mainnet launch.
 - V28 does not redefine `$BTD` supply, measureminting, access-right, or ancestry law except through explicit V27 supersession.
 - V28 does not treat storage-edge compatibility table names as product vocabulary.
@@ -96,6 +140,6 @@ Before V28 implementation closes, rerun at minimum:
 - `pnpm -C packages/api build`
 - `pnpm -C packages/orm build`
 - `pnpm -C protocol-demonstration test:v27-crypto`
-- Terminal-specific Jest/Playwright coverage once added
+- Commercial application and Terminal-specific Jest/Playwright coverage once added
 - `pnpm -C uapi build`
 - `git diff --check`

@@ -1,0 +1,188 @@
+# Bitcode Spec V28 Parity Matrix
+
+## Status
+
+- Version: `V28`
+- V28 state: draft target parity matrix opened
+- Current canonical/latest target: `V27`
+- Prior canonical anchor: `BITCODE_SPEC_V27.md`
+- Prior generated proof appendix: `BITCODE_SPEC_V27_PROVEN.md`
+- Generated structured artifact inventory: `.bitcode/v28-gate-1-draft-opening-proof.json`; V28 spec-family and canonical-input reports are planned generated artifacts
+- Source parity state: first-gate draft parity opened
+- State: draft target parity matrix opened
+- Active canonical pointer during draft opening: `BITCODE_SPEC.txt` -> `V27`
+- Scope: source-to-spec parity for V28 commercial application MVP QA over V27 tokenomics and crypto-commercial rails
+- Spec companion: `BITCODE_SPEC_V28.md`
+- Notes companion: `BITCODE_SPEC_V28_NOTES.md`
+- Delta companion: `BITCODE_SPEC_V28_DELTA.md`
+- Generated proof appendix: none until V28 promotion
+
+This matrix records the initial V28 source audit.
+It separates V27-implemented primitive truth from V28 commercial application MVP QA work and later-version deferrals.
+
+## Purpose
+
+The V28 parity matrix keeps commercial application MVP QA tied to exact source surfaces.
+It prevents draft work from claiming V28 closure when only V27 primitives exist.
+
+## Audit Basis
+
+Fresh audit inputs:
+
+- `BITCODE_SPEC.txt`
+- `BITCODE_SPEC_V27.md`
+- `BITCODE_SPEC_V27_DELTA.md`
+- `BITCODE_SPEC_V27_NOTES.md`
+- `BITCODE_SPEC_V27_PARITY_MATRIX.md`
+- `BITCODE_SPEC_V27_PROVEN.md`
+- `BITCODE_SPEC_V28_NOTES.md`
+- `protocol-demonstration/src/canon-posture.js`
+- `protocol-demonstration/data/state.json`
+- `protocol-demonstration/HOST_CAPABILITIES.json`
+- `packages/btd/src/constants.ts`
+- `packages/btd/src/supply.ts`
+- `packages/btd/src/measuremint.ts`
+- `packages/btd/src/semantic-volume.ts`
+- `packages/btd/src/range.ts`
+- `packages/btd/src/receipts.ts`
+- `packages/btd/src/replay.ts`
+- `packages/btd/src/allocation.ts`
+- `packages/btd/src/access.ts`
+- `packages/btd/src/ancestry.ts`
+- `packages/btd/src/revenue.ts`
+- `packages/btd/src/wallet.ts`
+- `packages/btd/src/bitcoin-fees.ts`
+- `packages/btd/src/bitcoin-provider.ts`
+- `packages/btd/src/ledger-anchor.ts`
+- `packages/btd/src/exchange.ts`
+- `packages/btd/src/terminal-journal.ts`
+- `packages/btd/src/reconciliation.ts`
+- `packages/btd/src/deployment-lanes.ts`
+- `packages/btd/src/telemetry.ts`
+- `packages/btd/src/upgrade.ts`
+- `packages/api/src/routes/btd-crypto.ts`
+- `uapi/app/api/btd/*`
+- `uapi/app/application/*`
+- `uapi/app/exchange/*`
+- `uapi/app/btd/[assetPackId]/page.tsx`
+- `uapi/app/auxillaries/*`
+- `uapi/app/executions/*`
+- `uapi/components/base/bitcode/btd/*`
+- `internal-docs/BITCODE_TERMINAL_OPERATOR_EXPERIENCE.md`
+- `internal-docs/BITCODE_FRONTEND_ARCHITECTURE.md`
+- `internal-docs/BITCODE_AUXILLARIES_READINESS.md`
+- `internal-docs/BITCODE_EXCHANGE_DATABASE.md`
+- `internal-docs/INTEGRATIONS.md`
+
+No `_legacy/` source is active source truth.
+
+Audit query classes:
+
+- active canonical pointer and draft target posture;
+- V27 promoted tokenomics and crypto rails;
+- Terminal, Application, Exchange, Auxillaries, executions, BTD route, auth/readiness, and BTD component discovery;
+- wallet, BTC fee, PSBT, signer, finality, ledger, journal, reconciliation, telemetry, upgrade, migration, AssetPack range, licensed read, Need, Fit, and organization readiness searches;
+- route versioning scan under `uapi/app/api`.
+
+## Judgment Legend
+
+- `implemented baseline`: present from V27 and suitable as a V28 starting point.
+- `partial`: present but not Terminal-productized enough for V28 closure.
+- `gap`: required by V28 and not yet implemented at the product/source level.
+- `deferred`: intentionally owned by a later version.
+- `closed`: satisfied for the current V28 draft-opening gate.
+
+## Gate 1 Parity
+
+| Requirement | Source evidence | Judgment |
+| --- | --- | --- |
+| Active canon remains V27 during V28 draft opening | `BITCODE_SPEC.txt` contains `V27` | closed |
+| Runtime draft target moves to V28 | `protocol-demonstration/src/canon-posture.js` now declares V27 active canon and V28 draft target | closed |
+| Static demo state mirrors V28 draft target | `protocol-demonstration/data/state.json` and `HOST_CAPABILITIES.json` now report V27 active / V28 draft | closed |
+| BTD registry snapshots report the current posture | `packages/api/src/routes/btd-crypto.ts` reports V27 active / V28 draft | closed |
+| V28 SPEC family exists as draft | `BITCODE_SPEC_V28.md`, DELTA, NOTES, and PARITY exist | closed |
+| UAPI implementation routes remain unversioned | `find uapi/app/api -path '*v[0-9]*' -print` returns empty | closed |
+| V28 does not claim PROVEN before closure | no `BITCODE_SPEC_V28_PROVEN.md` is created in Gate 1 | closed |
+
+## V28 Implementation Parity
+
+## V28 implementation matrix
+
+| Area | Current source evidence | Judgment | Gate owner |
+| --- | --- | --- | --- |
+| Commercial application MVP route QA | `/`, `/application`, `/exchange`, `/auxillaries/*`, `/btd/[assetPackId]`, conversations | pending | Gate 2 |
+| Auxillaries old orbital shell conflicts removed from active contained tabs-left experience | screenshots plus `uapi/app/auxillaries/components/AuxillariesContent.tsx`, `AuxillariesLoginPane.tsx`, shared `orbital-*` classes, and `uapi/styles/auxillaries-bitcode.css` | pending | Gate 2 |
+| Exchange MVP activity/search/detail/range-acquisition readiness | `uapi/app/exchange/*`, `/api/btd/asset-pack-exchange`, `/btd/[assetPackId]` | pending | Gate 2 |
+| Terminal wallet connection and signer-session review | `packages/btd/src/wallet.ts`; profile and wallet API readiness helpers | implemented prerequisite | Gate 3 |
+| BTC fee PSBT handoff and finality display | `packages/btd/src/bitcoin-fees.ts`, `bitcoin-provider.ts`, `/api/btd/btc-fee-transaction` | implemented prerequisite | Gate 3 |
+| Need review before Fit review | application/executions Need components and internal Terminal notes | implemented prerequisite | Gate 3 |
+| semantic-volume and measuremint display | `semantic-volume.ts`, `measuremint.ts`, mint draft route | implemented prerequisite | Gate 3 |
+| access policy id/hash shown before commitment | V27 access primitives and `/btd/[assetPackId]` disclosure route | implemented prerequisite | Gate 3 |
+| AssetPack range detail from registry state | `range.ts`, registry route, `/btd/[assetPackId]` | implemented prerequisite | Gate 4 |
+| owner-read/licensed-read/denied branches | `access.ts`, read-access route, licensed-read revenue route | implemented prerequisite | Gate 4 |
+| Terminal journal rows as transaction detail | `terminal-journal.ts`, terminal-journal route | implemented prerequisite | Gate 5 |
+| ledger/database reconciliation as operator read | `reconciliation.ts`, reconciliation route | implemented prerequisite | Gate 5 |
+| organization holdings and read-license usage from registry | organization BTD models plus V27 registry docs | pending | Gate 6 |
+| MCP authorization based on range/read-license/policy truth | MCP holding-gate work remains aggregate-compatibility oriented | pending | Gate 6 |
+| access-policy legal templates | policy id/hash exists; full templates not complete | pending | Gate 6 |
+| deployment lanes and telemetry surfaced in Terminal | `deployment-lanes.ts`, `telemetry.ts`, deployment-readiness route | implemented prerequisite | Gate 7 |
+| migration/type refresh visible as readiness | V27 migration exists; generated type refresh is deferred | pending | Gate 7 |
+| GitHub-only provider readiness disclosed | `internal-docs/INTEGRATIONS.md` shows GitHub implemented and broader providers incomplete | implemented prerequisite | Gate 7 |
+
+## V28 implementation checklist
+
+| Area | Required V28 result | Judgment |
+| --- | --- | --- |
+| Draft family | SPEC, DELTA, NOTES, PARITY exist | closed |
+| Canon posture | V27 active / V28 draft in source posture carriers | closed |
+| Routes | unversioned UAPI route scan passes | closed |
+| Commercial app QA | primary route, auth, Auxillaries, Exchange, and BTD range visual QA | pending |
+| Auxillaries shell | contained tabs-left active experience without orbital layout collision | pending |
+| Exchange MVP | activity/search/detail/range-acquisition route readiness | pending |
+| Terminal wallet | wallet and signer-session UX built over V27 primitives | pending |
+| Terminal BTC fees | PSBT/finality UX built over V27 primitives | pending |
+| Terminal Need/Fit | Need, Fit, semantic volume, measuremint, policy UX | pending |
+| Terminal range/read | AssetPack range and read-right detail | pending |
+| Terminal journal/reconcile | journal diff and repair detail | pending |
+| Terminal operations | telemetry, lanes, upgrade, migration readiness | pending |
+
+## Later-Version Deferrals
+
+| Finding | Current disposition |
+| --- | --- |
+| Broad Exchange market depth, high-volume order book, wrappers, and third-party market routing | deferred to V30 beyond V28 Exchange MVP QA |
+| Deeper Terminal transaction operation beyond MVP QA | deferred to V29 |
+| Auxillaries expansion beyond active-shell cleanup | deferred to V31 |
+| Bitbucket, GitLab, Azure DevOps, generic Git, webhook abstraction, and provider feature detection | deferred to the later product version that owns the affected commercial surface unless V28 commercial-app QA requires a narrow readiness hook |
+| MCP API, ChatGPT App, and non-Auxillaries non-website application interface maturation beyond registry-derived access checks | deferred to V33 |
+| Deeper provation and testing | deferred to V32 |
+| Deeper deployment | deferred to V34 |
+| Deeper telemetry and documenting | deferred to V35 |
+| Value-bearing mainnet launch | blocked until explicit operational approval root |
+
+## accepted boundaries
+
+- V28 is commercial-application-MVP-first.
+- V29 owns deeper Terminal workflows.
+- V30 owns deeper Exchange.
+- V31 owns deeper Auxillaries.
+- V32 owns deeper provation and testing.
+- V33 owns deeper Interfaces.
+- V34 owns deeper Deployment.
+- V35 owns deeper telemetry and documenting.
+- value-bearing mainnet launch remains separately gated.
+
+## completion condition
+
+V28 parity closes when every V28 implementation matrix row is `closed` or explicitly `deferred`, the V28 proof appendix exists, required tests/builds pass, and `BITCODE_SPEC.txt` is promoted only at final V28 closure.
+
+## V28 Proof Expectations
+
+Before V28 promotion:
+
+- `BITCODE_SPEC_V28_PROVEN.md` must be generated or manually bound to accepted proof artifacts.
+- package/API/ORM/protocol-demonstration tests must pass.
+- Terminal UI tests or Playwright checks must cover wallet, BTC fee, Need/Fit, range, read-right, journal, reconciliation, and operational health flows.
+- `pnpm -C uapi build` must pass.
+- `find uapi/app/api -path '*v[0-9]*' -print | sort` must remain empty.
+- `git diff --check` must pass.

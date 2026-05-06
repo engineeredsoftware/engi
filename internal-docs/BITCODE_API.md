@@ -1,6 +1,6 @@
 # Bitcode API Notes
 
-Status: non-canonical internal note. API requirements are canonical only when promoted into the active V26 SPEC/proof family.
+Status: non-canonical internal note. API requirements are canonical only when promoted into the active SPEC/proof family or the explicitly opened draft-target family.
 
 ## API Role
 
@@ -17,7 +17,7 @@ API surfaces must:
 
 ## Active Interface Families
 
-Current V26 families:
+Current Bitcode API families:
 - `/api/state`
 - `/api/activity`
 - `/api/deposits`
@@ -62,11 +62,11 @@ Rules:
 
 ## Environment Keys
 
-Current V26 Bitcode keys include:
+Current Bitcode keys include:
 - `BITCODE_LLM_PROVIDER`
 - `BITCODE_LLM_MODEL`
 - `BITCODE_LOG_TO_FILE`
 - `BITCODE_ENABLE_NOTIFICATIONS`
 - `BITCODE_ENABLE_COMPUTER_USE_NEED_MEASUREMENT`
 
-Removed compute and orchestration toggle keys are not admitted V26 API contract.
+Removed compute and orchestration toggle keys are not admitted API contract.

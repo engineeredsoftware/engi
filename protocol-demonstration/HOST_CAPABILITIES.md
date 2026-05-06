@@ -1,14 +1,14 @@
-# Bitcode First-Gate Host Capabilities
+# Bitcode Host Capabilities
 
 Last inspected: 2026-04-16 (America/Sao_Paulo)
-Host scope: local machine capabilities relevant to the active V26 canon and the current V26 through-fourth-gate Bitcode application carrier.
+Host scope: local machine capabilities relevant to active V27 canon and V28 draft-target Terminal preparation.
 
 ## Canon status
 
-- Canonical pointer: `/Users/garrettmaring/Developer/ENGI/BITCODE_SPEC.txt -> V26`
-- Current canonical/latest target: `V26`
-- Current draft-target family: `V27`
-- Current first-gate owner: `protocol-demonstration` mounted through `uapi/app/application/*`
+- Canonical pointer: `/Users/garrettmaring/Developer/ENGI/BITCODE_SPEC.txt -> V27`
+- Current canonical/latest target: `V27`
+- Current draft-target family: `V28`
+- Current protocol owner: `protocol-demonstration` mounted through `uapi/app/application/*`
 
 ## Purpose
 
@@ -18,8 +18,8 @@ The source of truth for this document is:
 
 - live host inspection commands run on 2026-04-16,
 - the current repo implementation in `protocol-demonstration/*` and `uapi/app/application/*`,
-- the active V25 canonical family,
-- and the active V26 first-gate draft family.
+- the active V27 canonical family,
+- and the V28 draft-target family.
 
 ## First-gate runtime truth
 

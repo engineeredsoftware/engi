@@ -1,8 +1,8 @@
 {
   "inspectedAt": "2026-04-16",
-  "specVersion": "Bitcode V26 active canon with V27 draft-target closure",
-  "canonicalPointerVersion": "V26",
-  "draftTargetVersion": "V27",
+  "specVersion": "Bitcode V27 active canon with V28 draft-target preparation",
+  "canonicalPointerVersion": "V27",
+  "draftTargetVersion": "V28",
   "packageOwner": "protocol-demonstration",
   "primaryApplicationCarrier": "uapi/app/application",
   "host": {

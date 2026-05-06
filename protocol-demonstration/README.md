@@ -1,15 +1,15 @@
-# Bitcode Protocol Demonstration - V26 canonical deterministic local prototype
+# Bitcode Protocol Demonstration - V27 canonical deterministic local prototype
 
-This demo is governed by the active V26 canonical spec.
+This demo is governed by the active V27 canonical spec.
 
-- `BITCODE_SPEC.txt -> V26`
-- current generated appendix: `BITCODE_SPEC_V26_PROVEN.md`
+- `BITCODE_SPEC.txt -> V27`
+- current generated appendix: `BITCODE_SPEC_V27_PROVEN.md`
 
-`protocol-demonstration` is the preserved Bitcode protocol owner that survived first-gate ownership migration and now feeds the application-owned V26 transactions and auxillary surfaces.
+`protocol-demonstration` is the preserved Bitcode protocol owner that survived first-gate ownership migration and now feeds the application-owned Bitcode transactions and auxillary surfaces.
 
-Active canon remains `V26`.
-V27 is the next draft target after this promotion.
-V26 uses this root protocol owner as:
+Active canon remains `V27`.
+V28 is the next draft target after this promotion.
+V27 uses this root protocol owner as:
 - the deterministic runtime/state owner,
 - the preserved lower runtime mounted inside `/application`,
 - the semantic shell snapshot/control bridge,
@@ -21,7 +21,7 @@ V26 uses this root protocol owner as:
 - the preserved runtime shell under `public/`
 - the browser bridge consumed by `uapi/app/application/application-shell-bridge.tsx`
 - standalone local validation runtime via `server.js`
-- proof/checkpoint generation inputs used by the active V26 spec family
+- proof/checkpoint generation inputs used by the active V27 spec family
 
 ## Main files
 
