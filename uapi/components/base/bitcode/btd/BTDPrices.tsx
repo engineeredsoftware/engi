@@ -60,8 +60,9 @@ export const BTDPrices: React.FC<BTDPricesProps> = ({
   centerFirst = false,
 }) => {
   /* ------------------------------------------------------------------
-   * Slider bounds for a BTC-fee reference amount. V26 opens acquisition
-   * intent only; Terminal minting and Exchange purchase mature later.
+   * Slider bounds for a BTC-fee reference amount. V27 owns both Terminal
+   * Need minting and the minimal Exchange path for existing AssetPack ranges.
+   * Broader market depth remains later-version work.
    * ------------------------------------------------------------------ */
   const EXCHANGE_REFERENCE_USD_PER_BTD = 0.22;
   const MAX_BTC_FEE_REFERENCE_USD = 10_000;
@@ -81,13 +82,13 @@ export const BTDPrices: React.FC<BTDPricesProps> = ({
     ? EXCHANGE_REFERENCE_BTD
     : Math.round(btcFeeReferenceUsd / referenceUsdPerBtd);
 
-  const planLabel = isExchangePreview ? 'Exchange Preview' : 'Terminal Need';
+  const planLabel = isExchangePreview ? 'Exchange Range' : 'Terminal Need';
   const planId = isExchangePreview ? 'exchange-existing-btd' : 'terminal-need';
   const accent = isExchangePreview ? 'purple' : 'emerald';
   const accentColor = accent;
 
   const segmentText = isExchangePreview
-    ? 'Preview existing $BTD purchase routing for Exchange V28'
+    ? 'Acquire existing $BTD AssetPack range rights through the minimal V27 Exchange path'
     : 'Submit a Need so a future Fit can mint $BTD in Terminal V27';
 
   /* ------------------------------------------------------------------
@@ -122,7 +123,7 @@ export const BTDPrices: React.FC<BTDPricesProps> = ({
       {referenceDeltaUsd > 0
         ? `, ≈$${referenceDeltaUsd.toLocaleString('en-US', { maximumFractionDigits: 0 })} below this planning reference`
         : ''}
-      . V26 opens intent; purchase routing is V28.
+      . V27 opens the minimal Exchange acquisition path; deeper market depth is later-version work.
     </>
   ) : undefined;
 
@@ -175,7 +176,7 @@ export const BTDPrices: React.FC<BTDPricesProps> = ({
                   : 'bg-emerald-500/30 text-emerald-200 border-emerald-400/50'
                   }`}
               >
-                {planLabel === 'Terminal Need' ? 'V27' : 'V28'}
+                V27
               </span>
             </div>
             <div className="plan-segment text-center text-2xl laptop:text-3xl font-medium max-w-lg mx-auto leading-snug mb-1">

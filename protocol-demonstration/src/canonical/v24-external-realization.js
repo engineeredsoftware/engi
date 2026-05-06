@@ -518,7 +518,7 @@ function applyLocalExecutorSupport(interfaceId, binding, configuredEnvironmentMo
     ...binding,
     executorUrl: buildV24LocalExecutorUrl(interfaceId),
     executorKind: 'built-in-demonstration-adapter',
-    executorRouteRef: `/api/v24/executors/${interfaceId}`
+    executorRouteRef: `/api/executors/${interfaceId}`
   };
 }
 

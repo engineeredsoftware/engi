@@ -18,7 +18,12 @@ import {
   observeBtcFeeWithProvider,
   prepareBtcFeeWithProvider,
 } from '../src/bitcoin-provider';
-import { buildV27CryptoDeploymentLane } from '../src/deployment-lanes';
+import {
+  V27_CRYPTO_DEPLOYMENT_ENVIRONMENT_KEYS,
+  buildV27CryptoDeploymentLane,
+  buildV27CryptoDeploymentReadinessReceipt,
+} from '../src/deployment-lanes';
+import { buildV27CryptoTelemetryRecord } from '../src/telemetry';
 import {
   advanceAssetPackLedgerAnchor,
   buildPreparedAssetPackLedgerAnchor,
@@ -871,6 +876,39 @@ describe('V27 deployment lane primitives', () => {
         rollbackPlanRoot: 'rollback-root',
       }),
     ).toThrow(/operational approval root/);
+  });
+
+  it('records environment readiness and telemetry severity for crypto operations', () => {
+    const signet = buildV27CryptoDeploymentLane({
+      lane: 'signet',
+      bitcoinNetwork: 'signet',
+      ledgerNetwork: 'signet',
+      rollbackPlanRoot: 'rollback-root',
+    });
+    const complete = buildV27CryptoDeploymentReadinessReceipt({
+      readinessId: 'readiness-signet',
+      lane: signet,
+      presentEnvironmentKeys: [...V27_CRYPTO_DEPLOYMENT_ENVIRONMENT_KEYS],
+      issuedAt,
+    });
+    const missing = buildV27CryptoDeploymentReadinessReceipt({
+      readinessId: 'readiness-missing',
+      lane: signet,
+      presentEnvironmentKeys: ['BITCODE_CRYPTO_LANE'],
+      issuedAt,
+    });
+    const telemetry = buildV27CryptoTelemetryRecord({
+      event: 'ledger_provider.disagreement',
+      subjectId: 'anchor-1',
+      receiptRoot: 'receipt-root',
+      ledgerAnchorId: 'anchor-1',
+      issuedAt,
+    });
+
+    expect(complete.blocking).toBe(false);
+    expect(missing.blocking).toBe(true);
+    expect(missing.missingEnvironmentKeys).toContain('BITCODE_BTC_RPC_URL');
+    expect(telemetry.severity).toBe('critical');
   });
 });
 

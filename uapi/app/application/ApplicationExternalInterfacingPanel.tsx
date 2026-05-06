@@ -32,12 +32,12 @@ function formatLabel(value: string) {
 
 function buildExternalRealizationRequestPath(environmentMode: ApplicationEnvironmentMode | null) {
   if (!environmentMode) {
-    return '/api/v24/external-realization';
+    return '/api/external-realization';
   }
 
   const params = new URLSearchParams();
   params.set('environmentMode', environmentMode);
-  return `/api/v24/external-realization?${params.toString()}`;
+  return `/api/external-realization?${params.toString()}`;
 }
 
 function runtimeTone(runtimeState: string, blocking: boolean) {

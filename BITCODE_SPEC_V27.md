@@ -3,18 +3,18 @@
 ## Status
 
 - Version: `V27`
-- State: draft target, not promoted
-- Active canonical pointer while this draft opens: `BITCODE_SPEC.txt` -> `V26`
+- State: promoted canonical
+- Active canonical pointer after promotion: `BITCODE_SPEC.txt` -> `V27`
 - Draft target source: `protocol-demonstration/src/canon-posture.js` declares `DRAFT_TARGET_VERSION = 'V27'`
 - Primary scope: formal `$BTD` tokenomics and practical cryptotechnological commercialization
 - Prior active canon: `BITCODE_SPEC_V26.md`
 - Notes companion: `BITCODE_SPEC_V27_NOTES.md`
 - Delta companion: `BITCODE_SPEC_V27_DELTA.md`
 - Parity companion: `BITCODE_SPEC_V27_PARITY_MATRIX.md`
-- Generated proof appendix: not generated yet
+- Generated proof appendix: `BITCODE_SPEC_V27_PROVEN.md`
 
 V27 begins the first post-commercialization Bitcode version.
-V26 remains the active canon until V27 completes its gates, generated artifacts, proof appendix, parity matrix, implementation, and promotion commit.
+V27 is active canon after completing its gates, generated artifacts, proof appendix, parity matrix, implementation, and promotion commit.
 
 V27 does not reopen V26 commercial promotion.
 V27 takes V26's proved commercial baseline and specifies the `$BTD` tokenomics and cryptotechnological application layer that V26 intentionally deferred.
@@ -944,12 +944,12 @@ Every admitted UI/API/interface surface must disclose:
 
 Status: closed as a draft-target audit gate.
 Closure proof: `.bitcode/v27-gate-1-source-audit-proof.json`.
-This closure keeps `BITCODE_SPEC.txt` on `V26` and does not create `BITCODE_SPEC_V27_PROVEN.md`.
+This closure kept `BITCODE_SPEC.txt` on `V26` and did not create `BITCODE_SPEC_V27_PROVEN.md` at Gate 1.
 
 Acceptance:
 
 - `BITCODE_SPEC_V27.md`, `BITCODE_SPEC_V27_DELTA.md`, `BITCODE_SPEC_V27_NOTES.md`, and `BITCODE_SPEC_V27_PARITY_MATRIX.md` exist.
-- V26 remains active pointer.
+- V26 remained active pointer at Gate 1.
 - current `$BTD` source surfaces are audited.
 - parity rows distinguish implemented baseline, partial baseline, and V27 gaps.
 
@@ -1109,6 +1109,10 @@ Acceptance:
 
 ### Gate 14: Ledger/Database Reconciliation
 
+Status: closed as a draft-target ledger/database reconciliation gate.
+Closure proof: `.bitcode/v27-gate-14-ledger-database-reconciliation-proof.json`.
+This closure proves ledger-observed finality precedence, blocking confirmed/reorged/failed repair receipts, private/metaphysical canonical database fact binding, idempotent repair ids, and unversioned reconciliation route persistence; production ledger observer rollout remains later work.
+
 Acceptance:
 
 - truth model is implemented or specified with implementation-ready precision.
@@ -1118,6 +1122,10 @@ Acceptance:
 - reconciliation is idempotent and produces repair/alert receipts.
 
 ### Gate 15: Testnet, Mainnet, Telemetry, And Upgrades
+
+Status: closed as a draft-target readiness, telemetry, and upgrade gate.
+Closure proof: `.bitcode/v27-gate-15-testnet-mainnet-telemetry-upgrade-proof.json`.
+This closure proves deployment-lane guards, environment readiness receipts, signet/mainnet-ready posture, crypto telemetry classification, upgrade receipt persistence, and value-bearing mainnet approval gating; it does not approve value-bearing mainnet launch.
 
 Acceptance:
 
@@ -1130,6 +1138,11 @@ Acceptance:
 
 ### Gate 16: Product Surfaces, Research Rebinding, And Promotion Proof
 
+Status: closed as V27 promotion gate.
+Closure proof: `.bitcode/v27-gate-16-promotion-proof.json`.
+Total closure proof: `.bitcode/v27-total-closure-proof.json`.
+Proven appendix: `BITCODE_SPEC_V27_PROVEN.md`.
+
 Acceptance:
 
 - Terminal/Exchange/acquire surfaces reflect V27 tokenomics and minimal crypto functionality without claiming V28 market depth.
@@ -1138,6 +1151,14 @@ Acceptance:
 - `.bitcode/v27-*` proof artifacts exist.
 - parity matrix has no blocking rows.
 - `BITCODE_SPEC.txt` is promoted only after proof closure.
+
+Closure evidence:
+
+- `BTDPrices.tsx`, `MarketingPricingSection.tsx`, and `btd-tracker.tsx` treat Terminal Need minting and minimal Exchange range acquisition as V27 functionality while reserving broader market depth for later-version work.
+- `uapi/app/btd/[assetPackId]/page.tsx` provides an unversioned range disclosure route for AssetPack range, access policy id/hash, owner-read/licensed-read branch, proof root, and source manifest root.
+- the former version-prefixed UAPI protocol corridors are ported to unversioned `/api/external-realization` and `/api/executors/[interfaceId]`, and no `uapi/app/api/v*` route remains.
+- `internal-docs/BITCODE_V27_CRYPTO_RESEARCH_REBINDING.md` and `.bitcode/v27-crypto-library-research-proof.json` bind official-source crypto and library research into V27 without turning candidate libraries into protocol law.
+- `BITCODE_SPEC_V27_PROVEN.md` and `.bitcode/v27-total-closure-proof.json` map all required V27 proof families to gate artifacts or accepted equivalents.
 
 ## V27 Proof Expectations
 
@@ -1166,16 +1187,16 @@ Generated proof families must include:
 - `v27-crypto-library-research-proof`
 - `v27-total-closure-proof`
 
-V27 is not promotable until those generated families or their accepted equivalents exist and pass.
+V27 is promotable because those generated families or their accepted equivalents exist and pass.
 
 ## Accepted Boundaries At Draft Opening
 
-- V26 remains active canon.
+- V27 is active canon after `BITCODE_SPEC.txt` is updated to `V27`.
 - V27 notes are draft-target only.
 - `packages/btd` now contains draft V27 primitives for constants, supply, measureminting, range allocation, semantic volume, mint receipts, replay, access, contributor allocation, ancestry review, licensed-read revenue routing, wallet sessions, BTC fee receipts, ledger anchors, minimal Exchange orders, Terminal journals, reconciliation, telemetry, and upgrade receipts.
 - `user_credits` and `user_credit_usages` remain compatibility storage carriers; V27 must replace or strictly bound them.
 - Marketing and auxillary UI currently disclose BTC vs `$BTD` distinction; V27 must make route and range-level disclosure exact.
 - Ancestry is specified as conditional and non-supply.
 - External token standard comparisons are design inputs only until rebound to primary sources and translated into Bitcode-native law.
-- Practical crypto library choices, chain standards, wallet compatibility, RPC/provider choices, live broadcaster/observer implementation, generated proofs, live migration/type refresh, and remaining UI range/policy disclosure remain open before promotion.
+- Practical crypto library choices, chain standards, wallet compatibility, RPC/provider choices, generated proof appendix, and UI range/policy disclosure are closed at V27's protocol boundary. Live broadcaster/observer credentials, migration execution/type refresh, and value-bearing operations remain post-promotion rollout work.
 - Value-bearing mainnet launch is not automatic promotion; it requires separate operational approval after V27 proves mainnet-ready controls.

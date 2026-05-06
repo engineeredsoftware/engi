@@ -5,6 +5,7 @@ import { createClient } from '@bitcode/supabase/ssr/server';
 import { createJsonResponse } from '@bitcode/responses';
 import {
   BTD_MAX_MINTABLE_SUPPLY,
+  type BitcoinNetwork,
   type BtdAncestorEdgeInput,
   type BtdAncestorGraphEdge,
   type BtdAccessPolicy,
@@ -14,6 +15,8 @@ import {
   type BtdReadLicense,
   type BtdRevenueRecipientInput,
   type BtdRevenueRouteException,
+  type BtdProtocolUpgradeReceipt,
+  type BtdProtocolUpgradeState,
   type AssetPackLedgerAnchor,
   type AssetPackExchangeOrder,
   type AssetPackExchangeOrderKind,
@@ -24,12 +27,16 @@ import {
   type BtcFeeTransactionReceipt,
   type LedgerObservedFact,
   type LedgerFinalityState,
+  type LedgerNetwork,
   type MetaphysicalCanonicalFact,
   type ProjectionRepairReceipt,
   type SemanticVolumeUnitInput,
   type TerminalJournalEntry,
   type TerminalJournalProjection,
   type TerminalTransactionKind,
+  type V27CryptoDeploymentLaneKind,
+  type V27CryptoTelemetryEvent,
+  type V27CryptoTelemetryRecord,
   type WalletSignerSession,
   allocateAssetPackRange,
   allocateBtdContributorCells,
@@ -43,9 +50,13 @@ import {
   applyBtdMeasureMint,
   buildBtdMintReceipt,
   buildAssetPackRightsTransferReceipt,
+  buildV27CryptoDeploymentLane,
+  buildV27CryptoDeploymentReadinessReceipt,
+  buildV27CryptoTelemetryRecord,
   buildPreparedAssetPackLedgerAnchor,
   buildPreparedBtcFeeTransactionReceipt,
   buildLicensedReadRevenueRoute,
+  buildPlannedBtdProtocolUpgradeReceipt,
   buildTerminalJournalEntry,
   buildTerminalJournalCoverageReceipt,
   createWalletSignerSession,
@@ -58,6 +69,8 @@ import {
   reviewBtdAncestorEdges,
   settleAssetPackExchangeOrder,
   diffTerminalJournalProjection,
+  reconcileLedgerDatabaseProjection,
+  advanceBtdProtocolUpgradeReceipt,
 } from '@bitcode/btd';
 
 type AuthenticatedUser = {
@@ -288,6 +301,40 @@ export interface BtdLedgerDatabaseReconciliationInput {
   issuedAt?: string;
 }
 
+export type BtdDeploymentReadinessAction =
+  | 'deployment_lane'
+  | 'telemetry_event'
+  | 'upgrade_plan'
+  | 'upgrade_transition';
+
+export interface BtdDeploymentReadinessInput {
+  action: BtdDeploymentReadinessAction;
+  readinessId?: string;
+  lane?: V27CryptoDeploymentLaneKind;
+  bitcoinNetwork?: BitcoinNetwork;
+  ledgerNetwork?: LedgerNetwork;
+  rollbackPlanRoot?: string;
+  operationalApprovalRoot?: string;
+  presentEnvironmentKeys?: string[];
+  telemetryEvent?: V27CryptoTelemetryEvent;
+  telemetrySubjectId?: string;
+  telemetryReceiptRoot?: string;
+  telemetryLedgerAnchorId?: string;
+  upgradeId?: string;
+  fromVersion?: string;
+  toVersion?: string;
+  migrationRoot?: string;
+  preStateRoot?: string;
+  postStateRoot?: string;
+  approvalReceiptRoot?: string;
+  previousUpgradeReceipt?: BtdProtocolUpgradeReceipt;
+  nextUpgradeState?: Exclude<BtdProtocolUpgradeState, 'planned'>;
+  ledgerAnchorId?: string;
+  commitToRegistry?: boolean;
+  actorId?: string;
+  issuedAt?: string;
+}
+
 export interface BtdLicensedReadRevenueSettlement {
   kind: 'btd_licensed_read_revenue_settlement';
   actorId: string;
@@ -358,6 +405,20 @@ export interface BtdLedgerDatabaseReconciliationSettlement {
   report: ReturnType<typeof reconcileLedgerDatabaseProjection>;
   terminalJournalEntry: ReturnType<typeof buildTerminalJournalEntry>;
   registryWrites?: Awaited<ReturnType<BtdRegistryModel['insertReconciliationRepair']>>[];
+  committed: boolean;
+}
+
+export interface BtdDeploymentReadinessSettlement {
+  kind: 'btd_deployment_readiness_settlement';
+  actorId: string;
+  action: BtdDeploymentReadinessAction;
+  readiness?: ReturnType<typeof buildV27CryptoDeploymentReadinessReceipt>;
+  telemetry?: V27CryptoTelemetryRecord;
+  upgradeReceipt?: BtdProtocolUpgradeReceipt;
+  registryWrite?: Awaited<
+    | ReturnType<BtdRegistryModel['insertCryptoTelemetryEvent']>
+    | ReturnType<BtdRegistryModel['insertProtocolUpgradeReceipt']>
+  >;
   committed: boolean;
 }
 
@@ -887,6 +948,115 @@ export function buildBtdLedgerDatabaseReconciliationSettlement(
   };
 }
 
+export function buildBtdDeploymentReadinessSettlement(
+  input: BtdDeploymentReadinessInput & { actorId: string },
+): Omit<BtdDeploymentReadinessSettlement, 'registryWrite' | 'committed'> {
+  const actorId = assertNonEmptyString(input.actorId, 'actorId');
+
+  switch (input.action) {
+    case 'deployment_lane': {
+      if (!input.readinessId) throw new Error('Deployment readiness requires readinessId.');
+      if (!input.lane) throw new Error('Deployment readiness requires lane.');
+      if (!input.bitcoinNetwork) throw new Error('Deployment readiness requires bitcoinNetwork.');
+      if (!input.ledgerNetwork) throw new Error('Deployment readiness requires ledgerNetwork.');
+      if (!input.rollbackPlanRoot) {
+        throw new Error('Deployment readiness requires rollbackPlanRoot.');
+      }
+
+      const lane = buildV27CryptoDeploymentLane({
+        lane: input.lane,
+        bitcoinNetwork: input.bitcoinNetwork,
+        ledgerNetwork: input.ledgerNetwork,
+        rollbackPlanRoot: input.rollbackPlanRoot,
+        operationalApprovalRoot: input.operationalApprovalRoot,
+      });
+
+      return {
+        kind: 'btd_deployment_readiness_settlement',
+        actorId,
+        action: input.action,
+        readiness: buildV27CryptoDeploymentReadinessReceipt({
+          readinessId: input.readinessId,
+          lane,
+          presentEnvironmentKeys: input.presentEnvironmentKeys ?? [],
+          issuedAt: input.issuedAt,
+        }),
+      };
+    }
+    case 'telemetry_event': {
+      if (!input.telemetryEvent) throw new Error('Telemetry settlement requires event.');
+      if (!input.telemetrySubjectId) {
+        throw new Error('Telemetry settlement requires subjectId.');
+      }
+
+      return {
+        kind: 'btd_deployment_readiness_settlement',
+        actorId,
+        action: input.action,
+        telemetry: buildV27CryptoTelemetryRecord({
+          event: input.telemetryEvent,
+          subjectId: input.telemetrySubjectId,
+          receiptRoot: input.telemetryReceiptRoot,
+          ledgerAnchorId: input.telemetryLedgerAnchorId,
+          issuedAt: input.issuedAt,
+        }),
+      };
+    }
+    case 'upgrade_plan': {
+      if (!input.upgradeId) throw new Error('Upgrade plan requires upgradeId.');
+      if (!input.fromVersion) throw new Error('Upgrade plan requires fromVersion.');
+      if (!input.toVersion) throw new Error('Upgrade plan requires toVersion.');
+      if (!input.ledgerNetwork) throw new Error('Upgrade plan requires ledgerNetwork.');
+      if (!input.migrationRoot) throw new Error('Upgrade plan requires migrationRoot.');
+      if (!input.preStateRoot) throw new Error('Upgrade plan requires preStateRoot.');
+      if (!input.approvalReceiptRoot) {
+        throw new Error('Upgrade plan requires approvalReceiptRoot.');
+      }
+      if (!input.rollbackPlanRoot) throw new Error('Upgrade plan requires rollbackPlanRoot.');
+
+      return {
+        kind: 'btd_deployment_readiness_settlement',
+        actorId,
+        action: input.action,
+        upgradeReceipt: buildPlannedBtdProtocolUpgradeReceipt({
+          upgradeId: input.upgradeId,
+          fromVersion: input.fromVersion,
+          toVersion: input.toVersion,
+          network: input.ledgerNetwork,
+          migrationRoot: input.migrationRoot,
+          preStateRoot: input.preStateRoot,
+          approvalReceiptRoot: input.approvalReceiptRoot,
+          rollbackPlanRoot: input.rollbackPlanRoot,
+          issuedAt: input.issuedAt,
+        }),
+      };
+    }
+    case 'upgrade_transition': {
+      if (!input.previousUpgradeReceipt) {
+        throw new Error('Upgrade transition requires previousUpgradeReceipt.');
+      }
+      if (!input.nextUpgradeState) {
+        throw new Error('Upgrade transition requires nextUpgradeState.');
+      }
+
+      return {
+        kind: 'btd_deployment_readiness_settlement',
+        actorId,
+        action: input.action,
+        upgradeReceipt: advanceBtdProtocolUpgradeReceipt(input.previousUpgradeReceipt, {
+          upgradeState: input.nextUpgradeState,
+          postStateRoot: input.postStateRoot,
+          ledgerAnchorId: input.ledgerAnchorId,
+        }),
+      };
+    }
+    default:
+      throw new Error(
+        `Unsupported deployment readiness action: ${(input as { action: string }).action}.`,
+      );
+  }
+}
+
 export function buildGetBtdRegistrySnapshotRoute(options: BtdRouteOptions = {}) {
   return traceRoute('/btd/registry', async (request: Request) => {
     const user = await (options.resolveAuthenticatedUser ?? defaultResolveAuthenticatedUser)(
@@ -1317,6 +1487,52 @@ export function buildPostBtdLedgerDatabaseReconciliationRoute(options: BtdRouteO
   });
 }
 
+export function buildPostBtdDeploymentReadinessRoute(options: BtdRouteOptions = {}) {
+  return traceRoute('/btd/deployment-readiness', async (request: Request) => {
+    const user = await (options.resolveAuthenticatedUser ?? defaultResolveAuthenticatedUser)(
+      request,
+    );
+    if (!user) {
+      return createJsonResponse({ error: 'Unauthorized' }, 401);
+    }
+
+    let body: BtdDeploymentReadinessInput;
+    try {
+      body = await request.json();
+    } catch {
+      return createJsonResponse({ error: 'Invalid JSON body' }, 400);
+    }
+
+    let settlement: BtdDeploymentReadinessSettlement;
+    try {
+      const draft = buildBtdDeploymentReadinessSettlement({
+        ...body,
+        actorId: user.userId,
+      });
+      const registry =
+        body.commitToRegistry === true ? options.registry ?? getDefaultRegistry() : undefined;
+      const registryWrite =
+        registry && draft.telemetry
+          ? await registry.insertCryptoTelemetryEvent(toCryptoTelemetryRegistryRow(draft.telemetry))
+          : registry && draft.upgradeReceipt
+            ? await registry.insertProtocolUpgradeReceipt(
+                toProtocolUpgradeRegistryRow(draft.upgradeReceipt),
+              )
+            : undefined;
+
+      settlement = {
+        ...draft,
+        registryWrite,
+        committed: Boolean(registryWrite),
+      };
+    } catch (error) {
+      return createJsonResponse({ error: toBadRequestMessage(error) }, 400);
+    }
+
+    return createJsonResponse(toJsonSafe(settlement));
+  });
+}
+
 export const getBtdRegistrySnapshot = buildGetBtdRegistrySnapshotRoute();
 export const postBtdMintDraft = buildPostBtdMintDraftRoute();
 export const postBtdReadAccess = buildPostBtdReadAccessRoute();
@@ -1328,6 +1544,7 @@ export const postBtdAssetPackExchange = buildPostBtdAssetPackExchangeRoute();
 export const postBtdTerminalJournal = buildPostBtdTerminalJournalRoute();
 export const postBtdLedgerDatabaseReconciliation =
   buildPostBtdLedgerDatabaseReconciliationRoute();
+export const postBtdDeploymentReadiness = buildPostBtdDeploymentReadinessRoute();
 
 function assertMintDraftAdmission(input: BtdMintDraftInput): void {
   if (input.acceptedNeed !== true) {
@@ -1919,6 +2136,35 @@ function toLedgerDatabaseReconciliationRepairRegistryRow(
     after_value: repair.after,
     blocking: repair.blocking,
     issued_at: repair.issuedAt,
+  };
+}
+
+function toCryptoTelemetryRegistryRow(record: V27CryptoTelemetryRecord): Record<string, unknown> {
+  return {
+    event: record.event,
+    severity: record.severity,
+    subject_id: record.subjectId,
+    receipt_root: record.receiptRoot ?? null,
+    ledger_anchor_id: record.ledgerAnchorId ?? null,
+    issued_at: record.issuedAt,
+  };
+}
+
+function toProtocolUpgradeRegistryRow(receipt: BtdProtocolUpgradeReceipt): Record<string, unknown> {
+  return {
+    upgrade_id: receipt.upgradeId,
+    from_version: receipt.fromVersion,
+    to_version: receipt.toVersion,
+    network: receipt.network,
+    migration_root: receipt.migrationRoot,
+    pre_state_root: receipt.preStateRoot,
+    post_state_root: receipt.postStateRoot,
+    approval_receipt_root: receipt.approvalReceiptRoot,
+    rollback_plan_root: receipt.rollbackPlanRoot,
+    ledger_anchor_id: receipt.ledgerAnchorId ?? null,
+    upgrade_state: receipt.upgradeState,
+    receipt: toJsonSafe(receipt),
+    issued_at: receipt.issuedAt,
   };
 }
 

@@ -178,7 +178,8 @@ export function BTDTracker({ btdBalance, btcFeeBalance = null }: BTDTrackerProps
 
   /**
    * Handle acquisition click: check auth, refresh the displayed balance, then
-   * take the operator into the V26 Terminal scaffold for BTD acquisition intent.
+   * take the operator into the V27 acquisition posture: Terminal Need minting or
+   * minimal Exchange range-right transfer.
    */
   const handleAcquireBtd = async () => {
     // Prevent duplicate clicks and enter loading state
@@ -231,7 +232,7 @@ export function BTDTracker({ btdBalance, btcFeeBalance = null }: BTDTrackerProps
           btdSemantics: 'non-fungible asset-pack share and read-right',
           paths: [
             { mode: 'terminal-need', target: '/application?intent=submit-need-for-btd', gate: 'V27' },
-            { mode: 'exchange-existing-btd', target: '/exchange?intent=buy-existing-btd', gate: 'V28' },
+            { mode: 'exchange-existing-btd', target: '/exchange?intent=buy-existing-btd', gate: 'V27' },
           ],
           createdAt: new Date().toISOString(),
         })
@@ -252,7 +253,7 @@ export function BTDTracker({ btdBalance, btcFeeBalance = null }: BTDTrackerProps
       onHoverEnd={handleHoverEnd}
       onClick={isSignedIn ? handleAcquireBtd : undefined}
       aria-disabled={!isSignedIn}
-      aria-label={`${balanceLabel}. Acquire BTD through Terminal or Exchange planning.`}
+      aria-label={`${balanceLabel}. Acquire BTD through Terminal Need minting or minimal Exchange range transfer.`}
       title={`${balanceLabel}. BTC pays fees; $BTD is a non-fungible asset-pack share/read-right.`}
     >
       <motion.div

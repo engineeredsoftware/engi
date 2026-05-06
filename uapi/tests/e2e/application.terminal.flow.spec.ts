@@ -279,7 +279,7 @@ test.describe('Bitcode Terminal browser flow', () => {
       );
     });
 
-    await context.route('**/api/v24/external-realization*', async (route) => {
+    await context.route('**/api/external-realization*', async (route) => {
       await route.fulfill(json(buildExternalRuntimePayload()));
     });
 

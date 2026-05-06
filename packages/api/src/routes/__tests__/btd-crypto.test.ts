@@ -18,6 +18,7 @@ import {
   buildBtdAssetPackLedgerAnchorSettlement,
   buildBtdAssetPackExchangeSettlement,
   buildBtdBtcFeeTransactionSettlement,
+  buildBtdDeploymentReadinessSettlement,
   buildBtdLedgerDatabaseReconciliationSettlement,
   buildBtdLicensedReadRevenueSettlement,
   buildBtdMintDraft,
@@ -28,6 +29,7 @@ import {
   buildPostBtdAssetPackLedgerAnchorRoute,
   buildPostBtdAssetPackExchangeRoute,
   buildPostBtdBtcFeeTransactionRoute,
+  buildPostBtdDeploymentReadinessRoute,
   buildPostBtdLedgerDatabaseReconciliationRoute,
   buildPostBtdLicensedReadRevenueRoute,
   buildPostBtdMintDraftRoute,
@@ -737,6 +739,55 @@ describe('BTD crypto API builders', () => {
     expect(settlement.terminalJournalEntry.transactionKind).toBe('ledger_database_reconciliation');
   });
 
+  it('builds deployment readiness, telemetry, and upgrade settlements', () => {
+    const readiness = buildBtdDeploymentReadinessSettlement({
+      actorId: 'user-1',
+      action: 'deployment_lane',
+      readinessId: 'readiness-api-1',
+      lane: 'signet',
+      bitcoinNetwork: 'signet',
+      ledgerNetwork: 'signet',
+      rollbackPlanRoot: 'rollback-root',
+      presentEnvironmentKeys: [
+        'BITCODE_CRYPTO_LANE',
+        'BITCODE_BITCOIN_NETWORK',
+        'BITCODE_LEDGER_NETWORK',
+        'BITCODE_BTC_RPC_URL',
+        'BITCODE_BTC_FEE_WALLET_CONNECTOR',
+        'BITCODE_LEDGER_ANCHOR_PROVIDER',
+        'BITCODE_CRYPTO_TELEMETRY_SINK',
+        'BITCODE_ROLLBACK_PLAN_ROOT',
+      ],
+      issuedAt,
+    });
+    const telemetry = buildBtdDeploymentReadinessSettlement({
+      actorId: 'user-1',
+      action: 'telemetry_event',
+      telemetryEvent: 'ledger_provider.disagreement',
+      telemetrySubjectId: 'anchor-api-1',
+      telemetryReceiptRoot: 'receipt-root',
+      telemetryLedgerAnchorId: 'anchor-api-1',
+      issuedAt,
+    });
+    const upgrade = buildBtdDeploymentReadinessSettlement({
+      actorId: 'user-1',
+      action: 'upgrade_plan',
+      upgradeId: 'upgrade-api-1',
+      fromVersion: 'V26',
+      toVersion: 'V27',
+      ledgerNetwork: 'signet',
+      migrationRoot: 'migration-root',
+      preStateRoot: 'pre-root',
+      approvalReceiptRoot: 'approval-root',
+      rollbackPlanRoot: 'rollback-root',
+      issuedAt,
+    });
+
+    expect(readiness.readiness?.blocking).toBe(false);
+    expect(telemetry.telemetry?.severity).toBe('critical');
+    expect(upgrade.upgradeReceipt?.upgradeState).toBe('planned');
+  });
+
   it('returns JSON-safe licensed-read revenue settlements and persists only on explicit commit', async () => {
     const insertLicensedReadRevenueRoute = jest.fn(async (row) => ({
       payment_id: row.payment_id,
@@ -1159,6 +1210,80 @@ describe('BTD crypto API builders', () => {
         before_value: 'broadcast',
         after_value: 'confirmed',
         blocking: true,
+      }),
+    );
+  });
+
+  it('returns JSON-safe deployment readiness settlements and persists telemetry or upgrades', async () => {
+    const insertCryptoTelemetryEvent = jest.fn(async (row) => ({
+      event: row.event,
+      severity: row.severity,
+    }));
+    const insertProtocolUpgradeReceipt = jest.fn(async (row) => ({
+      upgrade_id: row.upgrade_id,
+      upgrade_state: row.upgrade_state,
+    }));
+    const route = buildPostBtdDeploymentReadinessRoute({
+      resolveAuthenticatedUser: async () => ({ userId: 'user-1' }),
+      registry: {
+        insertCryptoTelemetryEvent,
+        insertProtocolUpgradeReceipt,
+      } as any,
+    });
+    const telemetryResponse = await route(
+      new Request('https://bitcode.test/api/btd/deployment-readiness', {
+        method: 'POST',
+        body: JSON.stringify({
+          action: 'telemetry_event',
+          telemetryEvent: 'btc_fee.confirmation_lag',
+          telemetrySubjectId: 'fee-api-1',
+          telemetryReceiptRoot: 'fee-receipt-root',
+          commitToRegistry: true,
+          issuedAt,
+        }),
+      }),
+    );
+    const upgradeResponse = await route(
+      new Request('https://bitcode.test/api/btd/deployment-readiness', {
+        method: 'POST',
+        body: JSON.stringify({
+          action: 'upgrade_plan',
+          upgradeId: 'upgrade-api-1',
+          fromVersion: 'V26',
+          toVersion: 'V27',
+          ledgerNetwork: 'signet',
+          migrationRoot: 'migration-root',
+          preStateRoot: 'pre-root',
+          approvalReceiptRoot: 'approval-root',
+          rollbackPlanRoot: 'rollback-root',
+          commitToRegistry: true,
+          issuedAt,
+        }),
+      }),
+    );
+    const telemetryBody = await telemetryResponse.json();
+    const upgradeBody = await upgradeResponse.json();
+
+    expect(telemetryResponse.status).toBe(200);
+    expect(telemetryBody.telemetry.severity).toBe('warning');
+    expect(telemetryBody.committed).toBe(true);
+    expect(upgradeResponse.status).toBe(200);
+    expect(upgradeBody.upgradeReceipt.upgradeState).toBe('planned');
+    expect(upgradeBody.committed).toBe(true);
+    expect(insertCryptoTelemetryEvent).toHaveBeenCalledWith(
+      expect.objectContaining({
+        event: 'btc_fee.confirmation_lag',
+        severity: 'warning',
+        subject_id: 'fee-api-1',
+      }),
+    );
+    expect(insertProtocolUpgradeReceipt).toHaveBeenCalledWith(
+      expect.objectContaining({
+        upgrade_id: 'upgrade-api-1',
+        from_version: 'V26',
+        to_version: 'V27',
+        network: 'signet',
+        upgrade_state: 'planned',
       }),
     );
   });

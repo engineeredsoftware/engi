@@ -1,6 +1,9 @@
+import { assertNonEmptyString } from './constants';
+
 export const V27_CRYPTO_TELEMETRY_EVENTS = [
   'wallet.connection_failed',
   'wallet.signing_failed',
+  'btc_fee.estimation_drift',
   'btc_fee.transaction_construction_failed',
   'btc_fee.broadcast_rejected',
   'btc_fee.confirmation_lag',
@@ -43,6 +46,7 @@ export function classifyV27CryptoTelemetryEvent(
 
   if (
     event === 'wallet.signing_failed' ||
+    event === 'btc_fee.estimation_drift' ||
     event === 'btc_fee.broadcast_rejected' ||
     event === 'btc_fee.confirmation_lag' ||
     event === 'database_projection.lag' ||
@@ -53,4 +57,26 @@ export function classifyV27CryptoTelemetryEvent(
   }
 
   return 'info';
+}
+
+export function buildV27CryptoTelemetryRecord(input: {
+  event: V27CryptoTelemetryEvent;
+  subjectId: string;
+  receiptRoot?: string;
+  ledgerAnchorId?: string;
+  severity?: V27CryptoTelemetrySeverity;
+  issuedAt?: string;
+}): V27CryptoTelemetryRecord {
+  return {
+    event: input.event,
+    severity: input.severity ?? classifyV27CryptoTelemetryEvent(input.event),
+    subjectId: assertNonEmptyString(input.subjectId, 'subjectId'),
+    receiptRoot: input.receiptRoot
+      ? assertNonEmptyString(input.receiptRoot, 'receiptRoot')
+      : undefined,
+    ledgerAnchorId: input.ledgerAnchorId
+      ? assertNonEmptyString(input.ledgerAnchorId, 'ledgerAnchorId')
+      : undefined,
+    issuedAt: input.issuedAt ?? new Date().toISOString(),
+  };
 }

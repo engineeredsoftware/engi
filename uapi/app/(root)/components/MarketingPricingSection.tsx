@@ -4,7 +4,8 @@ import React, { useState, useMemo, useEffect } from 'react';
 import type { Session, User } from '@supabase/supabase-js';
 import { createClient } from '@bitcode/supabase/ssr/client';
 import MarketingSectionWrapper from './MarketingSectionWrapper';
-// Note: bundle presets removed from the UI; V26 only opens BTD acquisition intent.
+// Bundle presets are intentionally absent: V27 routes acquisition through Terminal Need
+// minting or minimal Exchange range-right transfer, not fungible checkout bundles.
 import { ProcessingIndicator } from '@/components/base/bitcode/indicators/ProcessingIndicator';
 import BTDPrices from '@/components/base/bitcode/btd/BTDPrices';
 
@@ -19,14 +20,15 @@ const MarketingPricingSection: React.FC = () => {
    * The public surface cannot treat $BTD as a fungible checkout token. BTC pays
    * fees; $BTD is a non-fungible AssetPack share/read-right. This widget keeps
    * a USD-denominated BTC-fee reference only so it can route the operator to
-   * the future Terminal minting path or Exchange purchase path.
+   * Terminal minting or Exchange range-right transfer.
    */
-  // Reference values only. Terminal minting is V27; Exchange purchase is V28.
+  // Reference values only. Terminal minting and minimal Exchange acquisition are V27;
+  // broader order-book depth remains later-version work.
   /* ------------------------------------------------------------------
    * Dynamic acquisition reference
    * ------------------------------------------------------------------
-   * Terminal Need reference: future Fit mints new $BTD (V27).
-   * Exchange reference: existing non-fungible $BTD can be bought (V28).
+   * Terminal Need reference: future Fit mints new $BTD.
+   * Exchange reference: existing non-fungible $BTD range rights can transfer.
    */
 
   const TERMINAL_NEED_REFERENCE_USD_PER_BTD = 0.25;
@@ -100,7 +102,7 @@ const MarketingPricingSection: React.FC = () => {
           btdSemantics: 'non-fungible asset-pack share/read-right',
           paths: [
             { mode: 'terminal-need', target: '/application?intent=submit-need-for-btd', gate: 'V27' },
-            { mode: 'exchange-existing-btd', target: '/exchange?intent=buy-existing-btd', gate: 'V28' },
+            { mode: 'exchange-existing-btd', target: '/exchange?intent=buy-existing-btd', gate: 'V27' },
           ],
           createdAt: new Date().toISOString(),
         })

@@ -1965,7 +1965,7 @@ function buildV26EnvironmentModeCoherenceProof({
       [
         'protocol-demonstration/src/canonical/v24-external-realization.js',
         'protocol-demonstration/server.js',
-        'uapi/app/api/v24/external-realization/route.ts'
+        'uapi/app/api/external-realization/route.ts'
       ]
     ),
     buildV26FilePresenceCheck(

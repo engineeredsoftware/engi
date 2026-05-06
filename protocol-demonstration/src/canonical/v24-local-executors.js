@@ -3,7 +3,7 @@
 import crypto from 'node:crypto';
 
 export const V24_LOCAL_EXECUTOR_SCHEME = 'bitcode-local://';
-export const V24_LOCAL_EXECUTOR_ROUTE_PREFIX = '/api/v24/executors/';
+export const V24_LOCAL_EXECUTOR_ROUTE_PREFIX = '/api/executors/';
 
 /**
  * @param {unknown} value

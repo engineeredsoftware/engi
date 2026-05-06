@@ -75,7 +75,7 @@ describe('ApplicationExternalInterfacingPanel', () => {
     render(<ApplicationExternalInterfacingPanel environmentMode="staging" />);
 
     await waitFor(() => {
-      expect(global.fetch).toHaveBeenCalledWith('/api/v24/external-realization?environmentMode=staging');
+      expect(global.fetch).toHaveBeenCalledWith('/api/external-realization?environmentMode=staging');
     });
 
     expect(await screen.findByText('staging')).toBeInTheDocument();
@@ -87,7 +87,7 @@ describe('ApplicationExternalInterfacingPanel', () => {
       expect((global.fetch as jest.Mock).mock.calls).toHaveLength(2);
     });
     expect((global.fetch as jest.Mock).mock.calls[1]?.[0]).toBe(
-      '/api/v24/external-realization?environmentMode=staging',
+      '/api/external-realization?environmentMode=staging',
     );
   });
 });

@@ -2,7 +2,7 @@
   "proofId": "v27-receipt-replay-proof",
   "version": "V27",
   "generatedAt": "2026-05-06T00:00:00.000Z",
-  "activeCanonicalPointer": "V26",
+  "activeCanonicalPointer": "V27",
   "state": "draft-target-receipt-replay-proof-slice",
   "scope": [
     "BtdMintReceipt schema validation",
@@ -58,8 +58,9 @@
     }
   ],
   "nonPromotionAssertions": [
-    "BITCODE_SPEC.txt remains V26",
-    "BITCODE_SPEC_V27_PROVEN.md does not exist",
+    "BITCODE_SPEC.txt remained V26 until Gate 16 promotion",
+    "BITCODE_SPEC_V27_PROVEN.md did not exist until Gate 16 promotion",
     "This proof slice does not claim persisted Exchange receipt writes, database projection replay, ledger finality, generated total proof-family closure, or V27 promotion"
-  ]
+  ],
+  "activeCanonicalPointerAtGeneration": "V26"
 }

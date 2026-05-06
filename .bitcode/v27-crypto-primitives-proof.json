@@ -2,7 +2,7 @@
   "proofId": "v27-crypto-primitives-proof",
   "version": "V27",
   "generatedAt": "2026-05-06T00:00:00.000Z",
-  "activeCanonicalPointer": "V26",
+  "activeCanonicalPointer": "V27",
   "state": "draft-target-proof-slice",
   "scope": [
     "fixed-supply measureminting primitives",
@@ -39,6 +39,13 @@
     "ledger-anchored rights-transfer receipt guard",
     "Terminal journal coverage and diff route boundary",
     "required Terminal transaction family coverage",
+    "ledger/database reconciliation route boundary",
+    "confirmed-ledger precedence over database projections",
+    "private metaphysical canonical fact root binding",
+    "deployment readiness route boundary",
+    "classified crypto telemetry records",
+    "mainnet value-bearing operational approval guard",
+    "versioned protocol upgrade receipt route boundary",
     "package/API Need-Fit-Prove-Settle mint admission rejection",
     "source-to-shares minted range proof binding",
     "mint receipt and contributor allocation replay",
@@ -49,7 +56,9 @@
     "Wallet And BTC Fee Settlement gate closure",
     "Ledgerized AssetPack Anchoring gate closure",
     "Minimal AssetPack Exchange gate closure",
-    "Terminal Transactions And Journal Diffing gate closure"
+    "Terminal Transactions And Journal Diffing gate closure",
+    "Ledger Database Reconciliation gate closure",
+    "Testnet Mainnet Telemetry And Upgrades gate closure"
   ],
   "sourceSurfaces": [
     "BITCODE_SPEC_V27.md",
@@ -91,6 +100,8 @@
     "uapi/app/api/btd/asset-pack-ledger-anchor/route.ts",
     "uapi/app/api/btd/asset-pack-exchange/route.ts",
     "uapi/app/api/btd/terminal-journal/route.ts",
+    "uapi/app/api/btd/ledger-database-reconciliation/route.ts",
+    "uapi/app/api/btd/deployment-readiness/route.ts",
     "uapi/app/auxillaries/components/AuxillariesBTDPane.tsx",
     "uapi/tests/orbitalsBTDPane.test.tsx",
     "protocol-demonstration/src/receipt-schemas.js",
@@ -113,13 +124,15 @@
     ".bitcode/v27-gate-10-wallet-btc-fee-proof.json",
     ".bitcode/v27-gate-11-ledger-anchor-proof.json",
     ".bitcode/v27-gate-12-minimal-exchange-proof.json",
-    ".bitcode/v27-gate-13-terminal-journal-proof.json"
+    ".bitcode/v27-gate-13-terminal-journal-proof.json",
+    ".bitcode/v27-gate-14-ledger-database-reconciliation-proof.json",
+    ".bitcode/v27-gate-15-testnet-mainnet-telemetry-upgrade-proof.json"
   ],
   "validation": [
     {
       "command": "./uapi/node_modules/.bin/jest --config '{...packages/api + packages/btd focused ts-jest config...}' --runInBand",
       "status": "passed",
-      "assertions": 57,
+      "assertions": 62,
       "notes": "Jest still reports pre-existing duplicate manual mock warnings outside the V27 package/API slice."
     },
     {
@@ -197,7 +210,13 @@
     "Gate 12 Minimal AssetPack Exchange closure",
     "required Terminal transaction family coverage",
     "Terminal journal route commit and projection diff checks",
-    "Gate 13 Terminal Transactions And Journal Diffing closure"
+    "Gate 13 Terminal Transactions And Journal Diffing closure",
+    "confirmed ledger fact reconciliation precedence over database projection",
+    "private/metaphysical canonical fact root binding",
+    "Gate 14 Ledger/Database Reconciliation closure",
+    "deployment readiness environment-key checks",
+    "classified crypto telemetry and upgrade receipt route persistence",
+    "Gate 15 Testnet/Mainnet Telemetry And Upgrades closure"
   ],
   "remainingBlockingForPromotion": [
     "production wallet adapter UX and credential binding",
@@ -206,5 +225,6 @@
     "Supabase migration execution and generated DB type refresh",
     "full source-to-shares settlement integration",
     "external crypto library and standards rebinding proof"
-  ]
+  ],
+  "activeCanonicalPointerAtGeneration": "V26"
 }

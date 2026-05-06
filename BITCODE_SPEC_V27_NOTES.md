@@ -2,18 +2,18 @@
 
 ## Status
 
-- Scope: non-canonical future-version notes for Bitcode `$BTD` tokenomics and practical cryptotechnological commercialization.
-- Active canonical pointer: `BITCODE_SPEC.txt` -> `V26`.
-- Draft target: `V27`.
+- Scope: promoted V27 notes for Bitcode `$BTD` tokenomics and practical cryptotechnological commercialization.
+- Active canonical pointer after promotion: `BITCODE_SPEC.txt` -> `V27`.
+- Target version: `V27`.
 - Primary V27 focus: formal `$BTD` tokenomics plus the minimum real crypto-application path for wallet authorization, BTC fee transactions, ledgerized AssetPacks, minimal Exchange rights transfer, Terminal transactions, ledger/database synchronization, testnet/mainnet readiness, telemetry, and upgrades.
 - Adjacent future implementation focus: larger Terminal product breadth, larger Exchange market depth, and broad external-interface expansion remain V28+ work only after V27 proves the minimal crypto-commercial path.
 
-These notes do not promote V27 and do not reopen V26.
+These notes accompany the promoted V27 canon and do not reopen V26.
 They record the tokenomics handoff that V26 intentionally deferred after proving the commercial Bitcode baseline.
 
 The source research memo that seeded this file contained external citation handles and prior-work references.
-Those references must be rebound to durable primary sources before any V27 normative specification is promoted.
-Until then, this file is an internal specification note, not a cited public paper.
+Those references are rebound in `internal-docs/BITCODE_V27_CRYPTO_RESEARCH_REBINDING.md` before promotion.
+This file remains an internal specification note, not a cited public paper.
 
 ## WDRR Digest Incorporated
 
@@ -842,6 +842,31 @@ Gate 13 closes the draft-target Terminal journal and diff implementation:
 - `/api/btd/terminal-journal` exposes the unversioned commercial route for commit, projection diff, and coverage checks;
 - `btd_terminal_journal_entries` constrains supported transaction kinds and positive Exchange sequence;
 - package, API, ORM, and demonstration tests prove full family coverage, missing-family blocking, commit-gated persistence, and stale projection blocking.
+
+Gate 14 closes the draft-target ledger/database reconciliation implementation:
+
+- `packages/btd/src/reconciliation.ts` makes ledger-observed finality the source of truth for cryptographic facts;
+- confirmed, reorged, and failed ledger facts produce blocking repair receipts when database projection disagrees;
+- private/metaphysical canonical database facts must carry hash-bound canonical roots or receipt roots and must be marked private;
+- `/api/btd/ledger-database-reconciliation` exposes the unversioned commercial route for reports, Terminal journal binding, and explicit repair-row commits;
+- package, API, ORM, and demonstration tests prove confirmed-ledger precedence, idempotent repair ids, private canonical fact binding, and rejection of unmarked/unbound metaphysical facts.
+
+Gate 15 closes the draft-target testnet/mainnet-ready, telemetry, and upgrade implementation:
+
+- `packages/btd/src/deployment-lanes.ts` defines local, regtest, signet, supplementary testnet, mainnet-ready, and mainnet-value-bearing lanes plus required environment keys;
+- signet remains the canonical public Bitcoin proof lane and public testnet remains supplementary;
+- value-bearing mainnet is blocked unless an operational approval root is supplied;
+- `packages/btd/src/telemetry.ts` classifies wallet, fee, ledger, provider, journal, database, access, settlement, and upgrade events for alerting;
+- `packages/btd/src/upgrade.ts` records versioned upgrade/migration receipts with approval, state roots, rollback posture, and ledger anchor ids;
+- `/api/btd/deployment-readiness` exposes unversioned readiness, telemetry, and upgrade receipt actions with explicit registry commits.
+
+Gate 16 closes product-surface, research, and promotion proof readiness:
+
+- Terminal Need minting and minimal Exchange range-right acquisition are both V27 product surfaces;
+- broader Exchange market depth and broader Terminal product workflows remain later-version work;
+- `/btd/[assetPackId]` is the unversioned AssetPack range disclosure route for range, access policy, read branch, proof root, and source manifest root;
+- `internal-docs/BITCODE_V27_CRYPTO_RESEARCH_REBINDING.md` binds official-source crypto research to V27 choices without freezing candidate adapter libraries as protocol law;
+- `BITCODE_SPEC_V27_PROVEN.md` and `.bitcode/v27-total-closure-proof.json` map required proof families to gate artifacts or accepted equivalents.
 
 The key truth split:
 

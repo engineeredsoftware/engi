@@ -27,7 +27,7 @@ Current V26 families:
 - `/api/executions/*`
 - `/api/vcs/*`
 - `/api/auxillaries/*`
-- `/api/v24/*` retained protocol realization corridors
+- `/api/*` in-place protocol realization corridors; versioned route prefixes are not canonical
 - package API route owners under `packages/api/src/routes/*`
 
 ## Execution and AssetPack Routes

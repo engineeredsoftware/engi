@@ -20,6 +20,14 @@ export const REQUIRED_TERMINAL_TRANSACTION_KINDS = [
   'settlement_finalization',
   'ledger_database_reconciliation'
 ];
+export const REQUIRED_DEPLOYMENT_ENVIRONMENT_KEYS = [
+  'BITCODE_CRYPTO_LANE',
+  'BITCODE_BITCOIN_NETWORK',
+  'BITCODE_LEDGER_NETWORK',
+  'BITCODE_BTC_RPC_URL',
+  'BITCODE_CRYPTO_TELEMETRY_SINK',
+  'BITCODE_ROLLBACK_PLAN_ROOT'
+];
 
 /**
  * @param {{
@@ -828,14 +836,21 @@ export function buildTerminalJournalCoverageReceipt(input) {
  * @param {{
  *   receiptId: string,
  *   repairs: Array<{ repairId: string, blocking: boolean }>,
+ *   metaphysicalFacts?: Array<{ factId: string, canonicalRoot: string, private: boolean }>,
  *   issuedAt: string
  * }} input
  */
 export function buildReconciliationReceipt(input) {
+  const metaphysicalFacts = input.metaphysicalFacts || [];
+  if (metaphysicalFacts.some((fact) => !fact.private || !fact.canonicalRoot)) {
+    throw new Error('metaphysical canonical facts require private hash-bound roots');
+  }
+
   return {
     type: 'btd_ledger_database_reconciliation',
     receiptId: input.receiptId,
     repairs: input.repairs,
+    metaphysicalFacts,
     blocking: input.repairs.some((repair) => repair.blocking),
     issuedAt: input.issuedAt
   };
@@ -869,6 +884,58 @@ export function buildProtocolUpgradeReceipt(input) {
     approvalReceiptRoot: input.approvalReceiptRoot,
     rollbackPlanRoot: input.rollbackPlanRoot,
     upgradeState: 'planned',
+    issuedAt: input.issuedAt
+  };
+}
+
+/**
+ * @param {{
+ *   receiptId: string,
+ *   lane: 'local' | 'regtest' | 'signet' | 'testnet' | 'mainnet-ready' | 'mainnet-value-bearing',
+ *   network: 'regtest' | 'signet' | 'testnet' | 'mainnet',
+ *   presentEnvironmentKeys: string[],
+ *   operationalApprovalRoot?: string,
+ *   issuedAt: string
+ * }} input
+ */
+export function buildDeploymentReadinessReceipt(input) {
+  if (input.lane === 'mainnet-value-bearing' && !input.operationalApprovalRoot) {
+    throw new Error('value-bearing mainnet requires operational approval');
+  }
+  const present = new Set(input.presentEnvironmentKeys);
+  const missingEnvironmentKeys = REQUIRED_DEPLOYMENT_ENVIRONMENT_KEYS.filter(
+    (key) => !present.has(key)
+  );
+
+  return {
+    type: 'btd_deployment_readiness',
+    receiptId: input.receiptId,
+    lane: input.lane,
+    network: input.network,
+    requiredEnvironmentKeys: REQUIRED_DEPLOYMENT_ENVIRONMENT_KEYS,
+    missingEnvironmentKeys,
+    blocking: missingEnvironmentKeys.length > 0,
+    issuedAt: input.issuedAt
+  };
+}
+
+/**
+ * @param {{
+ *   receiptId: string,
+ *   event: string,
+ *   subjectId: string,
+ *   issuedAt: string
+ * }} input
+ */
+export function buildCryptoTelemetryEventReceipt(input) {
+  const critical = ['ledger_provider.disagreement', 'exchange_journal.drift', 'upgrade_migration.failed'];
+  const warning = ['wallet.signing_failed', 'btc_fee.confirmation_lag', 'database_projection.lag', 'settlement_route.failed'];
+  return {
+    type: 'btd_crypto_telemetry_event',
+    receiptId: input.receiptId,
+    event: input.event,
+    severity: critical.includes(input.event) ? 'critical' : warning.includes(input.event) ? 'warning' : 'info',
+    subjectId: input.subjectId,
     issuedAt: input.issuedAt
   };
 }

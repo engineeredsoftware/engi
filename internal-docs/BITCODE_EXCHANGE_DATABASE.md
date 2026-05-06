@@ -93,8 +93,9 @@ Required database truths:
 - `btc_fee_transactions.fee_asset` is always `BTC`; `server_custody` is always `false`; wallet authorization proof, PSBT/signed handoff state, txid, sats, Exchange sequence, and Terminal journal root remain in the receipt projection.
 - ledger anchors store commitments and finality projection only; ledgers remain source of truth for cryptographic finality.
 - Exchange orders and rights-transfer receipts use BTC prices and access-policy hashes; rights-transfer receipts require non-empty BTC fee and ledger-anchor evidence before ownership projection can move.
-- Terminal journal rows constrain the V27 transaction-family set and positive Exchange sequence; journal diffs and reconciliation repairs are projection/proof surfaces that prevent UI or API state from claiming unsupported finality.
+- Terminal journal rows constrain the V27 transaction-family set and positive Exchange sequence; journal diffs and reconciliation repairs are projection/proof surfaces that prevent UI or API state from claiming unsupported finality. Reconciliation treats confirmed, reorged, and failed ledger facts as blocking truth when projections disagree, while private/metaphysical canonical database facts must remain hash-bound by canonical roots or receipt roots.
 - `btd_protocol_upgrade_receipts` records deployment/migration state roots, approvals, rollback roots, and network scope.
+- `btd_crypto_telemetry_events` stores classified operational events from the deployment-readiness boundary; production alert sinks consume this projection and do not define tokenomics truth.
 - V27 registry tables enable row-level security without user-facing policies; writes are expected through service-role route/worker boundaries until a narrower policy set is specified.
 - `user_credits` and `user_credit_usages` are compatibility read corridors only. They are not canonical tokenomics truth, cannot mint `$BTD`, and cannot settle AssetPack rights.
 

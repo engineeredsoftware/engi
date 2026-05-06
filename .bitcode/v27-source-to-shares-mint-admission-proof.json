@@ -2,7 +2,7 @@
   "proofId": "v27-source-to-shares-mint-admission-proof",
   "version": "V27",
   "generatedAt": "2026-05-06T00:00:00.000Z",
-  "activeCanonicalPointer": "V26",
+  "activeCanonicalPointer": "V27",
   "state": "draft-target-source-to-shares-mint-binding",
   "scope": [
     "Need-Fit-Prove-Settle mint admission binding",
@@ -48,8 +48,9 @@
     "accepted Need, accepted Fit, source root, proof root, dedupe root, settlement root, access policy, Exchange receipt root, and positive Exchange sequence are required before a mint draft may allocate a range"
   ],
   "nonPromotionAssertions": [
-    "BITCODE_SPEC.txt remains V26",
-    "BITCODE_SPEC_V27_PROVEN.md does not exist",
+    "BITCODE_SPEC.txt remained V26 until Gate 16 promotion",
+    "BITCODE_SPEC_V27_PROVEN.md did not exist until Gate 16 promotion",
     "This proof binds a V27 mint-admission source-to-shares draft artifact and does not claim persisted Exchange finality or value-bearing mainnet launch"
-  ]
+  ],
+  "activeCanonicalPointerAtGeneration": "V26"
 }

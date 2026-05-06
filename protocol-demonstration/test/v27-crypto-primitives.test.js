@@ -11,6 +11,8 @@ import {
   allocateRange,
   buildBitcoinAnchorReceipt,
   buildContributorAllocationReceipt,
+  buildCryptoTelemetryEventReceipt,
+  buildDeploymentReadinessReceipt,
   buildLicensedReadRevenueRouteReceipt,
   buildPreparedBtcFeeReceipt,
   buildRightsTransferReceipt,
@@ -39,6 +41,8 @@ test('V27 demonstration schemas expose crypto receipt families', () => {
   assert.equal(schemaForReceipt('btd_ancestry_review').predicateType.endsWith('/v27'), true);
   assert.equal(schemaForReceipt('btd_licensed_read_revenue_route').predicateType.endsWith('/v27'), true);
   assert.equal(schemaForReceipt('btd_protocol_upgrade').predicateType.endsWith('/v27'), true);
+  assert.equal(schemaForReceipt('btd_deployment_readiness').predicateType.endsWith('/v27'), true);
+  assert.equal(schemaForReceipt('btd_crypto_telemetry_event').predicateType.endsWith('/v27'), true);
 });
 
 test('V27 demonstration semantic volume is proof-addressable and range-allocatable', () => {
@@ -499,6 +503,13 @@ test('V27 demonstration reconciliation receipts block projection drift', () => {
   const reconciliation = buildReconciliationReceipt({
     receiptId: 'reconciliation-1',
     repairs: [{ repairId: 'repair-1', blocking: true }],
+    metaphysicalFacts: [
+      {
+        factId: 'private-source-1',
+        canonicalRoot: 'private-source-root',
+        private: true
+      }
+    ],
     issuedAt
   });
 
@@ -507,9 +518,46 @@ test('V27 demonstration reconciliation receipts block projection drift', () => {
   assert.equal(missing.blocking, true);
   assert.deepEqual(missing.missingTransactionKinds, ['rights_transfer']);
   assert.equal(reconciliation.blocking, true);
+  assert.equal(reconciliation.metaphysicalFacts[0].canonicalRoot, 'private-source-root');
+  assert.throws(
+    () =>
+      buildReconciliationReceipt({
+        receiptId: 'reconciliation-unbound',
+        repairs: [],
+        metaphysicalFacts: [
+          {
+            factId: 'public-fact',
+            canonicalRoot: '',
+            private: false
+          }
+        ],
+        issuedAt
+      }),
+    /private hash-bound roots/
+  );
 });
 
 test('V27 demonstration protocol upgrade receipts keep deployment changes auditable', () => {
+  const readiness = buildDeploymentReadinessReceipt({
+    receiptId: 'readiness-1',
+    lane: 'signet',
+    network: 'signet',
+    presentEnvironmentKeys: [
+      'BITCODE_CRYPTO_LANE',
+      'BITCODE_BITCOIN_NETWORK',
+      'BITCODE_LEDGER_NETWORK',
+      'BITCODE_BTC_RPC_URL',
+      'BITCODE_CRYPTO_TELEMETRY_SINK',
+      'BITCODE_ROLLBACK_PLAN_ROOT'
+    ],
+    issuedAt
+  });
+  const telemetry = buildCryptoTelemetryEventReceipt({
+    receiptId: 'telemetry-1',
+    event: 'ledger_provider.disagreement',
+    subjectId: 'anchor-1',
+    issuedAt
+  });
   const upgrade = buildProtocolUpgradeReceipt({
     receiptId: 'upgrade-1',
     upgradeId: 'v27-upgrade-1',
@@ -523,6 +571,19 @@ test('V27 demonstration protocol upgrade receipts keep deployment changes audita
     issuedAt
   });
 
+  assert.equal(readiness.blocking, false);
+  assert.equal(telemetry.severity, 'critical');
   assert.equal(upgrade.upgradeState, 'planned');
   assert.equal(upgrade.network, 'signet');
+  assert.throws(
+    () =>
+      buildDeploymentReadinessReceipt({
+        receiptId: 'readiness-mainnet',
+        lane: 'mainnet-value-bearing',
+        network: 'mainnet',
+        presentEnvironmentKeys: [],
+        issuedAt
+      }),
+    /operational approval/
+  );
 });

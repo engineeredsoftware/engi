@@ -72,13 +72,23 @@ export const RECEIPT_SCHEMAS = {
   },
   btd_ledger_database_reconciliation: {
     predicateType: 'https://bitcode.ai/receipt/btd-ledger-database-reconciliation/v27',
-    required: ['type', 'receiptId', 'repairs', 'blocking', 'issuedAt'],
+    required: ['type', 'receiptId', 'repairs', 'metaphysicalFacts', 'blocking', 'issuedAt'],
     publicClaim: 'Ledger-derived projection drift was detected or cleared through a replayable reconciliation receipt.'
   },
   btd_protocol_upgrade: {
     predicateType: 'https://bitcode.ai/receipt/btd-protocol-upgrade/v27',
     required: ['type', 'receiptId', 'upgradeId', 'fromVersion', 'toVersion', 'network', 'migrationRoot', 'preStateRoot', 'approvalReceiptRoot', 'rollbackPlanRoot', 'upgradeState', 'issuedAt'],
     publicClaim: 'A Bitcode protocol upgrade or deployment migration was recorded with approval, state roots, rollback posture, and network scope.'
+  },
+  btd_deployment_readiness: {
+    predicateType: 'https://bitcode.ai/receipt/btd-deployment-readiness/v27',
+    required: ['type', 'receiptId', 'lane', 'network', 'requiredEnvironmentKeys', 'missingEnvironmentKeys', 'blocking', 'issuedAt'],
+    publicClaim: 'A V27 crypto deployment lane was checked for network posture, environment readiness, telemetry, and approval gating.'
+  },
+  btd_crypto_telemetry_event: {
+    predicateType: 'https://bitcode.ai/receipt/btd-crypto-telemetry-event/v27',
+    required: ['type', 'receiptId', 'event', 'severity', 'subjectId', 'issuedAt'],
+    publicClaim: 'A V27 crypto operational event was classified for alerting without changing protocol state.'
   },
   utility: {
     predicateType: 'https://bitcode.ai/receipt/utility/v1',

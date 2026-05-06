@@ -899,7 +899,7 @@ export function createAppContext({
         return sendJson(res, 200, getBitcoinDemonstrationService());
       }
 
-      if (req.method === 'GET' && req.url?.startsWith('/api/v24/external-realization')) {
+      if (req.method === 'GET' && req.url?.startsWith('/api/external-realization')) {
         const url = new URL(req.url, 'http://127.0.0.1');
         return sendJson(
           res,
@@ -910,7 +910,7 @@ export function createAppContext({
         );
       }
 
-      if (req.method === 'POST' && req.url?.startsWith('/api/v24/executors/')) {
+      if (req.method === 'POST' && req.url?.startsWith('/api/executors/')) {
         const url = new URL(req.url, 'http://127.0.0.1');
         const interfaceId = getV24LocalExecutorInterfaceIdFromPath(url.pathname);
         if (!interfaceId) {

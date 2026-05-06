@@ -14,6 +14,17 @@ export type V27CryptoDeploymentLaneKind =
   | 'mainnet-ready'
   | 'mainnet-value-bearing';
 
+export const V27_CRYPTO_DEPLOYMENT_ENVIRONMENT_KEYS = [
+  'BITCODE_CRYPTO_LANE',
+  'BITCODE_BITCOIN_NETWORK',
+  'BITCODE_LEDGER_NETWORK',
+  'BITCODE_BTC_RPC_URL',
+  'BITCODE_BTC_FEE_WALLET_CONNECTOR',
+  'BITCODE_LEDGER_ANCHOR_PROVIDER',
+  'BITCODE_CRYPTO_TELEMETRY_SINK',
+  'BITCODE_ROLLBACK_PLAN_ROOT',
+] as const;
+
 export interface V27CryptoDeploymentLane {
   lane: V27CryptoDeploymentLaneKind;
   bitcoinNetwork: BitcoinNetwork;
@@ -23,6 +34,18 @@ export interface V27CryptoDeploymentLane {
   operationalApprovalRoot?: string;
   telemetryRequired: boolean;
   rollbackPlanRoot: string;
+}
+
+export interface V27CryptoDeploymentReadinessReceipt {
+  kind: 'btd.v27_crypto_deployment_readiness';
+  readinessId: string;
+  lane: V27CryptoDeploymentLane;
+  requiredEnvironmentKeys: string[];
+  presentEnvironmentKeys: string[];
+  missingEnvironmentKeys: string[];
+  mainnetValueBearingBlocked: boolean;
+  blocking: boolean;
+  issuedAt: string;
 }
 
 export function buildV27CryptoDeploymentLane(input: {
@@ -70,5 +93,33 @@ export function buildV27CryptoDeploymentLane(input: {
       : undefined,
     telemetryRequired: input.lane !== 'local',
     rollbackPlanRoot: assertNonEmptyString(input.rollbackPlanRoot, 'rollbackPlanRoot'),
+  };
+}
+
+export function buildV27CryptoDeploymentReadinessReceipt(input: {
+  readinessId: string;
+  lane: V27CryptoDeploymentLane;
+  presentEnvironmentKeys: string[];
+  requiredEnvironmentKeys?: readonly string[];
+  issuedAt?: string;
+}): V27CryptoDeploymentReadinessReceipt {
+  const requiredEnvironmentKeys = [
+    ...(input.requiredEnvironmentKeys ?? V27_CRYPTO_DEPLOYMENT_ENVIRONMENT_KEYS),
+  ];
+  const present = new Set(input.presentEnvironmentKeys);
+  const missingEnvironmentKeys = requiredEnvironmentKeys.filter((key) => !present.has(key));
+  const mainnetValueBearingBlocked =
+    input.lane.lane === 'mainnet-value-bearing' && !input.lane.operationalApprovalRoot;
+
+  return {
+    kind: 'btd.v27_crypto_deployment_readiness',
+    readinessId: assertNonEmptyString(input.readinessId, 'readinessId'),
+    lane: input.lane,
+    requiredEnvironmentKeys,
+    presentEnvironmentKeys: input.presentEnvironmentKeys,
+    missingEnvironmentKeys,
+    mainnetValueBearingBlocked,
+    blocking: missingEnvironmentKeys.length > 0 || mainnetValueBearingBlocked,
+    issuedAt: input.issuedAt ?? new Date().toISOString(),
   };
 }

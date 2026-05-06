@@ -596,9 +596,9 @@ testAny('GET /api/bitcoin-demonstration-service returns the V23 stubbed-testnet 
   });
 });
 
-testAny('GET /api/v24/external-realization returns the draft-target environment and telemetry descriptor', async (t) => {
+testAny('GET /api/external-realization returns the draft-target environment and telemetry descriptor', async (t) => {
   await withApp(t, async ({ app }) => {
-    const response = await invoke(app, { method: 'GET', url: '/api/v24/external-realization' });
+    const response = await invoke(app, { method: 'GET', url: '/api/external-realization' });
     const descriptor = response.json.externalRealization;
     const activeRuntime = response.json.activeRuntime;
     const stagingProfile = descriptor.environmentProfiles.find((profile) => profile.environmentMode === 'staging');
@@ -622,7 +622,7 @@ testAny('GET /api/v24/external-realization returns the draft-target environment 
   });
 });
 
-testAny('GET /api/v24/external-realization promotes enabled local executors to live-configured runtime state', async (t) => {
+testAny('GET /api/external-realization promotes enabled local executors to live-configured runtime state', async (t) => {
   await withApp(t, async ({ app }) => {
     await withEnv({
       BITCODE_V24_ENVIRONMENT_MODE: 'development',
@@ -634,7 +634,7 @@ testAny('GET /api/v24/external-realization promotes enabled local executors to l
       BITCODE_V24_ENABLE_STORAGE: '1',
       BITCODE_V24_ENABLE_GITHUB: '1'
     }, async () => {
-      const response = await invoke(app, { method: 'GET', url: '/api/v24/external-realization' });
+      const response = await invoke(app, { method: 'GET', url: '/api/external-realization' });
       const activeRuntime = response.json.activeRuntime;
 
       assert.equal(response.statusCode, 200);
@@ -650,7 +650,7 @@ testAny('GET /api/v24/external-realization promotes enabled local executors to l
   });
 });
 
-testAny('GET /api/v24/external-realization marks secret-dependent GitHub App execution as live-misconfigured when key material is absent', async (t) => {
+testAny('GET /api/external-realization marks secret-dependent GitHub App execution as live-misconfigured when key material is absent', async (t) => {
   await withApp(t, async ({ app }) => {
     await withEnv({
       BITCODE_V24_ENVIRONMENT_MODE: 'development',
@@ -659,7 +659,7 @@ testAny('GET /api/v24/external-realization marks secret-dependent GitHub App exe
       BITCODE_V24_GITHUB_EXECUTOR_KIND: 'github-app-rest-v3',
       BITCODE_V24_GITHUB_APP_PRIVATE_KEY_PEM: undefined
     }, async () => {
-      const response = await invoke(app, { method: 'GET', url: '/api/v24/external-realization' });
+      const response = await invoke(app, { method: 'GET', url: '/api/external-realization' });
       const githubRuntime = response.json.activeRuntime.interfaceRuntimeStateById['github-live-interface'];
 
       assert.equal(response.statusCode, 200);
@@ -670,11 +670,11 @@ testAny('GET /api/v24/external-realization marks secret-dependent GitHub App exe
   });
 });
 
-testAny('POST /api/v24/executors/:interfaceId serves built-in demonstration executor patches', async (t) => {
+testAny('POST /api/executors/:interfaceId serves built-in demonstration executor patches', async (t) => {
   await withApp(t, async ({ app }) => {
     const response = await invoke(app, {
       method: 'POST',
-      url: '/api/v24/executors/github-live-interface',
+      url: '/api/executors/github-live-interface',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
         interfaceId: 'github-live-interface',

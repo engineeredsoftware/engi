@@ -32,7 +32,7 @@ jest.mock('@/lib/bitcode-app-context', () => ({
     }),
 }));
 
-describe('/api/v24/external-realization GET', () => {
+describe('/api/external-realization GET', () => {
   const envBackup = { ...process.env };
 
   beforeAll(() => {
@@ -49,9 +49,9 @@ describe('/api/v24/external-realization GET', () => {
   });
 
   it('returns the app-owned external realization payload used by /application', async () => {
-    const { GET } = await import('@/app/api/v24/external-realization/route');
+    const { GET } = await import('@/app/api/external-realization/route');
 
-    const response = await GET(new Request('http://localhost/api/v24/external-realization'));
+    const response = await GET(new Request('http://localhost/api/external-realization'));
     const payload = await response.json();
 
     expect(response.status).toBe(200);
@@ -68,10 +68,10 @@ describe('/api/v24/external-realization GET', () => {
   });
 
   it('forwards explicit environment-mode overrides into the runtime context', async () => {
-    const { GET } = await import('@/app/api/v24/external-realization/route');
+    const { GET } = await import('@/app/api/external-realization/route');
 
     const response = await GET(
-      new Request('http://localhost/api/v24/external-realization?environmentMode=development'),
+      new Request('http://localhost/api/external-realization?environmentMode=development'),
     );
     const payload = await response.json();
 
