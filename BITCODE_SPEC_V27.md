@@ -46,7 +46,7 @@ V27 answers that question by specifying:
 - testnet, mainnet, telemetry, and upgrade readiness for the crypto surfaces;
 - protocol-local licensed-read revenue routing;
 - optional late-bound knowledge ancestry as an attribution and routing module, never as a supply primitive;
-- post-cap `refit-only` exhaustion behavior;
+- fixed-supply measureminting decay with zero-cell/refit tail behavior;
 - database, proof, receipt, package, and UI invariants that fail closed on drift.
 
 ## Version Boundaries
@@ -133,7 +133,7 @@ Candidate fit alone cannot mint $BTD.
 Uncommitted proof cannot mint $BTD.
 Quality can affect allocation and revenue routing, but not supply inflation.
 Ancestry can affect routing and attribution, but not mint count.
-After the cap is exhausted, the policy is refit-only.
+Issuance follows fixed-supply measureminting decay; when the decayed entitlement is below one whole cell or the tail is exhausted, the event emits a zero-cell receipt and routes through refit, license, ancestry, proof, and revenue receipts.
 ```
 
 Every implementation, proof, receipt, database row, API, and UI surface that speaks about `$BTD` must preserve these laws.
@@ -200,7 +200,7 @@ export interface BtcFeeTransactionReceipt {
     | 'terminal_operation';
   payerWalletId: string;
   network: 'regtest' | 'signet' | 'testnet' | 'mainnet';
-  txid: string;
+  txid: string | null;
   vout?: number;
   satsPaid: bigint;
   satsPerVbyte?: number;
@@ -236,7 +236,7 @@ export interface AssetPackLedgerAnchor {
     | 'sepolia'
     | 'holesky'
     | 'local';
-  txidOrHash: string;
+  txidOrHash: string | null;
   outputIndex?: number;
   contractAddress?: string;
   tokenId?: string;
@@ -395,7 +395,11 @@ export interface BtdSupplyState {
   maxSupply: 21_000_000;
   totalMinted: number;
   nextTokenId: BtdTokenId;
-  exhaustionPolicy: 'refit-only';
+  cumulativeAdmittedMeasurement: bigint;
+  residualMintCredit: bigint;
+  curve: 'hyperbolic_saturation';
+  curveParameter: bigint;
+  tailPolicy: 'zero_cell_receipt_then_refit_only';
   exhaustedAtExchangeSequence?: bigint;
 }
 ```
@@ -406,7 +410,10 @@ Required invariants:
 - `totalMinted >= 0`.
 - `totalMinted <= maxSupply`.
 - `nextTokenId === totalMinted` for the base contiguous allocator unless a future spec explicitly introduces sparse registry repair.
-- any proposed mint must satisfy `totalMinted + tokenCount <= maxSupply`;
+- any proposed measuremint must satisfy `totalMinted + tokenCount <= maxSupply`;
+- cumulative admitted measurement advances only after Need-Fit-Prove-Settle;
+- residual mint credit is deterministic and replayable;
+- zero-cell receipts are valid receipts, not failed mints;
 - overflow fails closed before state mutation;
 - non-finite, negative, NaN, or unsafe integer mint inputs fail closed.
 
@@ -489,13 +496,13 @@ Mint admission requires:
 - settlement journal root;
 - access policy id and hash;
 - Exchange sequence;
-- deterministic token count;
+- deterministic measureminted token count, including valid zero-cell tail receipts;
 - deterministic allocation;
 - and successful supply cap check.
 
 No UI button, API route, MCP tool, ChatGPT App action, admin route, script, seed, migration, or treasury process may mint `$BTD` outside this lifecycle.
 
-## Quantity Rule
+## Measureminting Quantity Rule
 
 Range length is determined by normalized Bitcode volume after dedupe and admissibility checks.
 V27 defines normalized Bitcode volume as a proof-addressable semantic unit derived from fit-accepted contribution segments.
@@ -510,18 +517,77 @@ Required normalized-volume properties:
 - semantic units carry enough stable identity to replay the same token count from receipts;
 - excluded units record an exclusion reason.
 
-Initial V27 default:
+V27 replaces simple per-pack quantization as the primary issuance law with fixed-supply measureminting decay.
+The simple `floor(volume / Q)` rule remains useful as a local measurement witness, but it is not the final supply issuance rule.
+
+Primary V27 law:
 
 ```ts
-export const BTD_QUANTIZATION_Q = 1_000n;
+S_MAX = 21_000_000;
 
-tokenCount = floor(normalizedBitcodeVolume / BTD_QUANTIZATION_Q);
-require(tokenCount >= 1);
-require(totalMinted + tokenCount <= BTD_MAX_MINTABLE_SUPPLY);
+M_before = cumulativeAdmittedMeasurement;
+M_after = M_before + normalizedBitcodeVolume;
+
+targetMinted(M) = floor(S_MAX * M / (M + K));
+
+tokenCount = targetMinted(M_after) - targetMinted(M_before);
+tokenCount = min(tokenCount, S_MAX - totalMinted);
 ```
+
+`K` is the measurement half-saturation constant.
+When cumulative admitted measurement equals `K`, roughly half of the supply has been minted.
+As cumulative measurement grows, issuance approaches but never exceeds the fixed cap.
+
+Whole-cell indivisibility means nonzero issuance cannot be infinite.
+V27 therefore admits zero-cell measuremint receipts:
+
+```ts
+zeroCellReason =
+  | 'below_integer_threshold'
+  | 'tail_exhausted'
+  | 'refit_only_policy';
+```
+
+Zero-cell receipts advance measurement and settlement truth without minting a new cell.
+They are not failed mints.
 
 V27 implementation must still define the exact measurement algorithm, but the scalar class is now closed: proof-addressable semantic units.
 Promotion may not proceed with a byte-count or tokenizer-count quantity rule.
+
+Required measureminting anti-game invariants:
+
+- settlement order is Exchange-sequence order, not user-selected order;
+- splitting or merging equivalent source cannot improve total minted count;
+- residual mint credit is deterministic and replayable;
+- cumulative measurement advances only after admitted Need-Fit-Prove-Settle;
+- duplicate normalized source cannot increase cumulative measurement;
+- upload time, claim time, and broad abstract scope do not determine issuance.
+
+Canonical measuremint receipt:
+
+```ts
+export interface BtdMeasureMintReceipt {
+  kind: 'btd.measure_mint';
+  assetPackId: string;
+  normalizedBitcodeVolume: bigint;
+  cumulativeMeasurementBefore: bigint;
+  cumulativeMeasurementAfter: bigint;
+  targetMintedBefore: number;
+  targetMintedAfter: number;
+  residualMintCreditBefore: bigint;
+  residualMintCreditAfter: bigint;
+  tokenCount: number;
+  rangeStart?: BtdTokenId;
+  rangeEndExclusive?: BtdTokenId;
+  zeroCellReason?: 'below_integer_threshold' | 'tail_exhausted' | 'refit_only_policy';
+  totalMintedBefore: number;
+  totalMintedAfter: number;
+  maxSupply: 21_000_000;
+  proofRoot: string;
+  settlementJournalRoot: string;
+  accessPolicyHash: string;
+}
+```
 
 ## Allocation Rule
 
@@ -761,13 +827,24 @@ Anti-game controls are therefore protocol requirements, not moderation polish.
 V27 requires Exchange schema support equivalent to:
 
 - `btd_supply_state`
+- `btd_semantic_volume_measurements`
+- `btd_measure_mint_receipts`
 - `btd_asset_pack_ranges`
 - `btd_cells`
-- `btd_mint_receipts`
 - `btd_ownership_events`
 - `btd_read_licenses`
+- `btd_mint_receipts`
+- `btd_contributor_allocations`
 - `btd_ancestor_edges`
-- `btd_revenue_routes`
+- `btd_licensed_read_revenue_routes`
+- `btc_fee_transactions`
+- `btd_asset_pack_ledger_anchors`
+- `btd_exchange_orders`
+- `btd_rights_transfer_receipts`
+- `btd_terminal_journal_entries`
+- `btd_ledger_database_reconciliation_repairs`
+- `btd_protocol_upgrade_receipts`
+- `btd_crypto_telemetry_events`
 
 Database constraints must enforce:
 
@@ -799,17 +876,30 @@ If retained temporarily, it must stay a compatibility read carrier only.
 - replay helpers;
 - and rejection of fungible mutation.
 
-Recommended module split:
+Current draft module split:
 
 ```text
 packages/btd/src/constants.ts
 packages/btd/src/supply.ts
+packages/btd/src/measuremint.ts
 packages/btd/src/range.ts
-packages/btd/src/allocation.ts
-packages/btd/src/access.ts
-packages/btd/src/ancestor.ts
+packages/btd/src/semantic-volume.ts
 packages/btd/src/receipts.ts
 packages/btd/src/replay.ts
+packages/btd/src/allocation.ts
+packages/btd/src/access.ts
+packages/btd/src/ancestry.ts
+packages/btd/src/revenue.ts
+packages/btd/src/wallet.ts
+packages/btd/src/bitcoin-fees.ts
+packages/btd/src/bitcoin-provider.ts
+packages/btd/src/deployment-lanes.ts
+packages/btd/src/ledger-anchor.ts
+packages/btd/src/exchange.ts
+packages/btd/src/terminal-journal.ts
+packages/btd/src/reconciliation.ts
+packages/btd/src/telemetry.ts
+packages/btd/src/upgrade.ts
 ```
 
 ## Interface Requirements
@@ -982,6 +1072,7 @@ Generated proof families must include:
 - `v27-canonical-input-report`
 - `v27-btd-supply-proof`
 - `v27-btd-range-proof`
+- `v27-btd-measuremint-proof`
 - `v27-btd-mint-admission-proof`
 - `v27-btd-receipt-replay-proof`
 - `v27-btd-access-rights-proof`
@@ -1006,10 +1097,10 @@ V27 is not promotable until those generated families or their accepted equivalen
 
 - V26 remains active canon.
 - V27 notes are draft-target only.
-- `packages/btd` currently has cap, BTC fee-basis helpers, measured `$BTD`, and fungible mutation rejection, but not full range/mint/access/ancestry implementation.
+- `packages/btd` now contains draft V27 primitives for constants, supply, measureminting, range allocation, semantic volume, mint receipts, replay, access, contributor allocation, ancestry review, licensed-read revenue routing, wallet sessions, BTC fee receipts, ledger anchors, minimal Exchange orders, Terminal journals, reconciliation, telemetry, and upgrade receipts.
 - `user_credits` and `user_credit_usages` remain compatibility storage carriers; V27 must replace or strictly bound them.
 - Marketing and auxillary UI currently disclose BTC vs `$BTD` distinction; V27 must make route and range-level disclosure exact.
 - Ancestry is specified as conditional and non-supply.
 - External token standard comparisons are design inputs only until rebound to primary sources and translated into Bitcode-native law.
-- Practical crypto library choices, chain standards, wallet compatibility, and RPC/provider choices must be web-researched and rebound to primary sources before promotion.
+- Practical crypto library choices, chain standards, wallet compatibility, RPC/provider choices, live broadcaster/observer implementation, route/API persistence, generated proofs, and UI range/policy disclosure remain open before promotion.
 - Value-bearing mainnet launch is not automatic promotion; it requires separate operational approval after V27 proves mainnet-ready controls.

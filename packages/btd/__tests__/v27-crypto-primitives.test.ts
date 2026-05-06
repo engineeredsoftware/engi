@@ -1,0 +1,712 @@
+import { BITCODE_FEE_ASSET, BTD_MAX_MINTABLE_SUPPLY } from '../src/constants';
+import { measureProofAddressableSemanticVolume } from '../src/semantic-volume';
+import { createBtdSupplyState } from '../src/supply';
+import { applyBtdMeasureMint, createBtdMeasureMintState } from '../src/measuremint';
+import { evaluateBtdReadAccess } from '../src/access';
+import { allocateAssetPackRange } from '../src/range';
+import { buildBtdMintReceipt } from '../src/receipts';
+import { replayBtdMeasureMintReceipts, replayBtdMintReceipts } from '../src/replay';
+import { createWalletSignerSession } from '../src/wallet';
+import {
+  advanceBtcFeeTransactionReceipt,
+  buildPreparedBtcFeeTransactionReceipt,
+} from '../src/bitcoin-fees';
+import {
+  BitcoinFeeTransactionProvider,
+  broadcastBtcFeeWithProvider,
+  observeBtcFeeWithProvider,
+  prepareBtcFeeWithProvider,
+} from '../src/bitcoin-provider';
+import { buildV27CryptoDeploymentLane } from '../src/deployment-lanes';
+import {
+  advanceAssetPackLedgerAnchor,
+  buildPreparedAssetPackLedgerAnchor,
+} from '../src/ledger-anchor';
+import {
+  acceptAssetPackExchangeOrder,
+  buildAssetPackRightsTransferReceipt,
+  cancelAssetPackExchangeOrder,
+  createAssetPackExchangeOrder,
+  settleAssetPackExchangeOrder,
+} from '../src/exchange';
+import {
+  buildTerminalJournalEntry,
+  diffTerminalJournalProjection,
+} from '../src/terminal-journal';
+import { reconcileLedgerDatabaseProjection } from '../src/reconciliation';
+import { allocateBtdContributorCells } from '../src/allocation';
+import { reviewBtdAncestorEdges } from '../src/ancestry';
+import {
+  assertLicensedReadRevenueRouteConserved,
+  buildLicensedReadRevenueRoute,
+} from '../src/revenue';
+import {
+  advanceBtdProtocolUpgradeReceipt,
+  buildPlannedBtdProtocolUpgradeReceipt,
+} from '../src/upgrade';
+
+const issuedAt = '2026-05-06T00:00:00.000Z';
+
+describe('V27 proof-addressable semantic volume', () => {
+  it('measures only fit-accepted, deduped semantic units and quantizes deterministically', () => {
+    const receipt = measureProofAddressableSemanticVolume({
+      measurementId: 'measurement-1',
+      assetPackId: 'asset-pack-1',
+      issuedAt,
+      units: [
+        {
+          unitId: 'unit-a',
+          proofReceiptRoot: 'proof-a',
+          dedupeReceiptRoot: 'dedupe-a',
+          fitAccepted: true,
+          normalizedUnits: 1500n,
+        },
+        {
+          unitId: 'unit-b',
+          proofReceiptRoot: 'proof-b',
+          dedupeReceiptRoot: 'dedupe-b',
+          fitAccepted: true,
+          normalizedUnits: 800n,
+        },
+        {
+          unitId: 'unit-c',
+          proofReceiptRoot: 'proof-c',
+          dedupeReceiptRoot: 'dedupe-c',
+          fitAccepted: false,
+          normalizedUnits: 9999n,
+        },
+      ],
+    });
+
+    expect(receipt.normalizedBitcodeVolume).toBe(2300n);
+    expect(receipt.tokenCount).toBe(2);
+    expect(receipt.includedUnits).toHaveLength(2);
+    expect(receipt.excludedUnits).toEqual([
+      {
+        unitId: 'unit-c',
+        proofReceiptRoot: 'proof-c',
+        dedupeReceiptRoot: 'dedupe-c',
+        excludedReason: 'fit_not_accepted',
+      },
+    ]);
+  });
+
+  it('rejects duplicate included proof roots because replay would be ambiguous', () => {
+    expect(() =>
+      measureProofAddressableSemanticVolume({
+        measurementId: 'measurement-dup',
+        assetPackId: 'asset-pack-1',
+        units: [
+          {
+            unitId: 'unit-a',
+            proofReceiptRoot: 'proof-shared',
+            dedupeReceiptRoot: 'dedupe-a',
+            fitAccepted: true,
+            normalizedUnits: 1000n,
+          },
+          {
+            unitId: 'unit-b',
+            proofReceiptRoot: 'proof-shared',
+            dedupeReceiptRoot: 'dedupe-b',
+            fitAccepted: true,
+            normalizedUnits: 1000n,
+          },
+        ],
+      }),
+    ).toThrow(/Duplicate included proof receipt root/);
+  });
+});
+
+describe('V27 supply, range, and mint receipt primitives', () => {
+  it('uses fixed-supply measureminting decay before range allocation', () => {
+    const first = applyBtdMeasureMint({
+      state: createBtdMeasureMintState({ curveParameter: 10_000n }),
+      assetPackId: 'asset-pack-measuremint-1',
+      semanticVolume: { normalizedBitcodeVolume: 10_000n },
+      proofRoot: 'proof-root-1',
+      settlementJournalRoot: 'settlement-root-1',
+      accessPolicyHash: 'policy-hash-1',
+      exchangeSequence: 1n,
+      issuedAt,
+    });
+    const second = applyBtdMeasureMint({
+      state: first.nextState,
+      assetPackId: 'asset-pack-measuremint-2',
+      semanticVolume: { normalizedBitcodeVolume: 10_000n },
+      proofRoot: 'proof-root-2',
+      settlementJournalRoot: 'settlement-root-2',
+      accessPolicyHash: 'policy-hash-2',
+      exchangeSequence: 2n,
+      issuedAt,
+    });
+
+    expect(first.receipt.tokenCount).toBe(10_500_000);
+    expect(second.receipt.tokenCount).toBe(3_500_000);
+    expect(second.nextState.totalMinted).toBe(14_000_000);
+    expect(second.nextState.totalMinted).toBeLessThanOrEqual(BTD_MAX_MINTABLE_SUPPLY);
+  });
+
+  it('emits zero-cell receipts in the practical tail instead of failing valid measurement', () => {
+    const result = applyBtdMeasureMint({
+      state: createBtdMeasureMintState({
+        totalMinted: 20_999_999,
+        nextTokenId: 20_999_999,
+        cumulativeAdmittedMeasurement: 209_999_990_000_000n,
+        curveParameter: 10_000n,
+      }),
+      assetPackId: 'asset-pack-tail',
+      semanticVolume: { normalizedBitcodeVolume: 1n },
+      proofRoot: 'proof-root-tail',
+      settlementJournalRoot: 'settlement-root-tail',
+      accessPolicyHash: 'policy-hash-tail',
+      exchangeSequence: 3n,
+      issuedAt,
+    });
+
+    expect(result.receipt.tokenCount).toBe(0);
+    expect(result.receipt.zeroCellReason).toBe('below_integer_threshold');
+    expect(result.nextState.cumulativeAdmittedMeasurement).toBe(209_999_990_000_001n);
+  });
+
+  it('allocates a contiguous AssetPack range and emits a conserved mint receipt', () => {
+    const measurement = measureProofAddressableSemanticVolume({
+      measurementId: 'measurement-range',
+      assetPackId: 'asset-pack-range',
+      units: [
+        {
+          unitId: 'unit-a',
+          proofReceiptRoot: 'proof-a',
+          dedupeReceiptRoot: 'dedupe-a',
+          fitAccepted: true,
+          normalizedUnits: 2500n,
+        },
+      ],
+    });
+
+    const allocation = allocateAssetPackRange(createBtdSupplyState(), {
+      assetPackId: 'asset-pack-range',
+      needId: 'need-1',
+      acceptedNeed: true,
+      acceptedFit: true,
+      sourceManifestRoot: 'source-root',
+      measurementReceiptRoot: measurement.measurementId,
+      fitReceiptRoot: 'fit-root',
+      proofRoot: 'proof-root',
+      dedupeReceiptRoot: 'dedupe-root',
+      settlementJournalRoot: 'settlement-root',
+      exchangeReceiptRoot: 'exchange-root',
+      accessPolicyId: 'policy-1',
+      accessPolicyHash: 'policy-hash',
+      normalizedBitcodeVolume: measurement.normalizedBitcodeVolume,
+      tokenCount: measurement.tokenCount,
+      mintedAtExchangeSequence: 1n,
+    });
+
+    const receipt = buildBtdMintReceipt(allocation, issuedAt);
+    const replay = replayBtdMintReceipts([receipt]);
+
+    expect(allocation.range.rangeStart).toBe(0);
+    expect(allocation.range.rangeEndExclusive).toBe(2);
+    expect(allocation.nextSupply.totalMinted).toBe(2);
+    expect(receipt.totalMintedBefore).toBe(0);
+    expect(receipt.totalMintedAfter).toBe(2);
+    expect(receipt.maxSupply).toBe(BTD_MAX_MINTABLE_SUPPLY);
+    expect(replay.blocking).toBe(false);
+    expect(replay.totalMinted).toBe(2);
+  });
+});
+
+describe('V27 access and replay primitives', () => {
+  it('separates owner-read, licensed-read, and denied access by policy hash', () => {
+    const policy = {
+      accessPolicyId: 'policy-1',
+      accessPolicyHash: 'policy-hash',
+      ownerRead: true,
+      licensedRead: true,
+      derivativeUse: false,
+      redistributionAllowed: false,
+      confidentiality: 'public_proof_private_source' as const,
+    };
+
+    expect(
+      evaluateBtdReadAccess({
+        walletId: 'wallet-owner',
+        assetPackId: 'asset-pack-1',
+        accessPolicy: policy,
+        ownershipClaims: [
+          {
+            walletId: 'wallet-owner',
+            assetPackId: 'asset-pack-1',
+            rangeStart: 0,
+            rangeEndExclusive: 2,
+            accessPolicyHash: 'policy-hash',
+          },
+        ],
+        at: issuedAt,
+      }).decision,
+    ).toBe('owner_read');
+
+    expect(
+      evaluateBtdReadAccess({
+        walletId: 'wallet-reader',
+        assetPackId: 'asset-pack-1',
+        accessPolicy: policy,
+        licenses: [
+          {
+            licenseId: 'license-1',
+            walletId: 'wallet-reader',
+            assetPackId: 'asset-pack-1',
+            accessPolicyHash: 'policy-hash',
+            validFrom: '2026-05-05T00:00:00.000Z',
+            expiresAt: '2026-05-07T00:00:00.000Z',
+          },
+        ],
+        at: issuedAt,
+      }).decision,
+    ).toBe('licensed_read');
+
+    expect(
+      evaluateBtdReadAccess({
+        walletId: 'wallet-denied',
+        assetPackId: 'asset-pack-1',
+        accessPolicy: policy,
+        at: issuedAt,
+      }).decision,
+    ).toBe('denied');
+  });
+
+  it('replays measuremint receipts including zero-cell tail events', () => {
+    const first = applyBtdMeasureMint({
+      state: createBtdMeasureMintState({ curveParameter: 10_000n }),
+      assetPackId: 'asset-pack-replay-1',
+      semanticVolume: { normalizedBitcodeVolume: 10_000n },
+      proofRoot: 'proof-root-1',
+      settlementJournalRoot: 'settlement-root-1',
+      accessPolicyHash: 'policy-hash-1',
+      exchangeSequence: 1n,
+      issuedAt,
+    });
+    const second = applyBtdMeasureMint({
+      state: first.nextState,
+      assetPackId: 'asset-pack-replay-2',
+      semanticVolume: { normalizedBitcodeVolume: 1n },
+      proofRoot: 'proof-root-2',
+      settlementJournalRoot: 'settlement-root-2',
+      accessPolicyHash: 'policy-hash-2',
+      exchangeSequence: 2n,
+      issuedAt,
+    });
+
+    const replay = replayBtdMeasureMintReceipts([first.receipt, second.receipt]);
+
+    expect(replay.blocking).toBe(false);
+    expect(replay.totalMinted).toBe(second.receipt.totalMintedAfter);
+    expect(replay.cumulativeAdmittedMeasurement).toBe(10_001n);
+  });
+});
+
+describe('V27 wallet and BTC fee transaction primitives', () => {
+  it('keeps BTC fee signing user-controlled through the PSBT lifecycle', () => {
+    const session = createWalletSignerSession({
+      walletSessionId: 'session-1',
+      walletId: 'wallet-1',
+      userId: 'user-1',
+      address: 'tb1ptest',
+      network: 'signet',
+      nonce: 'nonce-1',
+      capabilities: ['psbt_sign', 'rights_transfer'],
+      authorizedAt: issuedAt,
+    });
+
+    const prepared = buildPreparedBtcFeeTransactionReceipt({
+      receiptId: 'fee-1',
+      feePurpose: 'asset_pack_anchor',
+      payerSession: session,
+      psbt: 'cHNidP8BAHECAAAAA',
+      satsPaid: 1200n,
+      exchangeSequence: 2n,
+      terminalJournalRoot: 'journal-root',
+      relatedAssetPackId: 'asset-pack-range',
+      issuedAt,
+    });
+
+    const signed = advanceBtcFeeTransactionReceipt(prepared, {
+      finalityState: 'signed',
+      psbt: 'signed-psbt',
+    });
+    const broadcast = advanceBtcFeeTransactionReceipt(signed, {
+      finalityState: 'broadcast',
+      txid: 'txid-1',
+    });
+    const confirmed = advanceBtcFeeTransactionReceipt(broadcast, {
+      finalityState: 'confirmed',
+      confirmations: 2,
+    });
+
+    expect(prepared.feeAsset).toBe(BITCODE_FEE_ASSET);
+    expect(prepared.serverCustody).toBe(false);
+    expect(prepared.txid).toBeNull();
+    expect(confirmed.txid).toBe('txid-1');
+    expect(confirmed.confirmations).toBe(2);
+    expect(() =>
+      advanceBtcFeeTransactionReceipt(confirmed, { finalityState: 'failed' }),
+    ).toThrow(/Invalid BTC fee transition/);
+  });
+
+  it('keeps live Bitcoin provider integration behind a network-checked receipt boundary', async () => {
+    const session = createWalletSignerSession({
+      walletSessionId: 'session-provider',
+      walletId: 'wallet-provider',
+      userId: 'user-provider',
+      address: 'tb1pprovider',
+      network: 'signet',
+      nonce: 'nonce-provider',
+      capabilities: ['psbt_sign'],
+      authorizedAt: issuedAt,
+    });
+    const provider: BitcoinFeeTransactionProvider = {
+      network: 'signet',
+      async prepareFeePsbt() {
+        return { psbt: 'provider-psbt', satsPerVbyte: 2 };
+      },
+      async broadcastSignedPsbt() {
+        return { txid: 'provider-txid', vout: 0 };
+      },
+      async observeTransaction(txid) {
+        return {
+          txid,
+          network: 'signet',
+          confirmations: 2,
+          finalityState: 'confirmed',
+        };
+      },
+    };
+
+    const prepared = await prepareBtcFeeWithProvider({
+      provider,
+      receiptId: 'fee-provider',
+      payerSession: session,
+      feePurpose: 'asset_pack_anchor',
+      satsPaid: 1400n,
+      exchangeSequence: 9n,
+      terminalJournalRoot: 'journal-root-provider',
+      issuedAt,
+    });
+    const broadcast = await broadcastBtcFeeWithProvider({
+      provider,
+      signedReceipt: prepared,
+      signedPsbt: 'signed-provider-psbt',
+    });
+    const confirmed = await observeBtcFeeWithProvider({
+      provider,
+      broadcastReceipt: broadcast,
+    });
+
+    expect(prepared.finalityState).toBe('prepared');
+    expect(broadcast.finalityState).toBe('broadcast');
+    expect(confirmed.finalityState).toBe('confirmed');
+    expect(confirmed.confirmations).toBe(2);
+  });
+});
+
+describe('V27 deployment lane primitives', () => {
+  it('separates signet proof and mainnet-ready controls from value-bearing launch', () => {
+    const signet = buildV27CryptoDeploymentLane({
+      lane: 'signet',
+      bitcoinNetwork: 'signet',
+      ledgerNetwork: 'signet',
+      rollbackPlanRoot: 'rollback-root',
+    });
+    const mainnetReady = buildV27CryptoDeploymentLane({
+      lane: 'mainnet-ready',
+      bitcoinNetwork: 'mainnet',
+      ledgerNetwork: 'mainnet',
+      rollbackPlanRoot: 'rollback-root',
+    });
+
+    expect(signet.signetProofRequired).toBe(true);
+    expect(mainnetReady.valueBearing).toBe(false);
+    expect(() =>
+      buildV27CryptoDeploymentLane({
+        lane: 'mainnet-value-bearing',
+        bitcoinNetwork: 'mainnet',
+        ledgerNetwork: 'mainnet',
+        rollbackPlanRoot: 'rollback-root',
+      }),
+    ).toThrow(/operational approval root/);
+  });
+});
+
+describe('V27 ledger anchor and minimal Exchange primitives', () => {
+  it('anchors an AssetPack range on the Bitcoin primary path', () => {
+    const prepared = buildPreparedAssetPackLedgerAnchor({
+      anchorId: 'anchor-1',
+      assetPackId: 'asset-pack-range',
+      chain: 'bitcoin',
+      network: 'signet',
+      commitmentMethod: 'standard_output_commitment',
+      commitmentRoot: 'commitment-root',
+      sourceManifestRoot: 'source-root',
+      proofRoot: 'proof-root',
+      accessPolicyHash: 'policy-hash',
+      btdRangeStart: 0,
+      btdRangeEndExclusive: 2,
+    });
+
+    const confirmed = advanceAssetPackLedgerAnchor(
+      advanceAssetPackLedgerAnchor(prepared, {
+        finalityState: 'broadcast',
+        txidOrHash: 'anchor-txid',
+      }),
+      {
+        finalityState: 'confirmed',
+        confirmations: 3,
+      },
+    );
+
+    expect(confirmed.finalityState).toBe('confirmed');
+    expect(confirmed.txidOrHash).toBe('anchor-txid');
+  });
+
+  it('replays minimal Exchange rights transfer only after order settlement', () => {
+    const order = createAssetPackExchangeOrder({
+      orderId: 'order-1',
+      orderKind: 'sell',
+      assetPackId: 'asset-pack-range',
+      rangeStart: 0,
+      rangeEndExclusive: 2,
+      makerWalletId: 'wallet-seller',
+      priceSats: 5000n,
+      accessPolicyHash: 'policy-hash',
+      createdAtExchangeSequence: 3n,
+    });
+
+    expect(cancelAssetPackExchangeOrder(order).orderState).toBe('cancelled');
+
+    const settled = settleAssetPackExchangeOrder(
+      acceptAssetPackExchangeOrder(order, 'wallet-buyer'),
+      {
+        settledAtExchangeSequence: 4n,
+        ledgerAnchorId: 'anchor-1',
+      },
+    );
+    const transfer = buildAssetPackRightsTransferReceipt({
+      receiptId: 'transfer-1',
+      settledOrder: settled,
+      fromWalletId: 'wallet-seller',
+      toWalletId: 'wallet-buyer',
+      btcFeeReceiptId: 'fee-1',
+      issuedAt,
+    });
+
+    expect(transfer.kind).toBe('btd.asset_pack_rights_transfer');
+    expect(transfer.priceAsset).toBe(BITCODE_FEE_ASSET);
+    expect(transfer.exchangeSequence).toBe(4n);
+  });
+});
+
+describe('V27 allocation, ancestry, and licensed-read revenue primitives', () => {
+  it('allocates whole cells by deterministic weighted fit without losing range conservation', () => {
+    const allocation = allocateBtdContributorCells({
+      assetPackId: 'asset-pack-allocation',
+      rangeStart: 10,
+      rangeEndExclusive: 15,
+      issuedAt,
+      contributors: [
+        {
+          contributorId: 'contributor-b',
+          walletId: 'wallet-b',
+          normalizedContributionVolume: 1000n,
+          fitBps: 10_000,
+          qualityBps: 10_000,
+          provenanceBps: 10_000,
+          noveltyBps: 10_000,
+          antiNoiseBps: 10_000,
+        },
+        {
+          contributorId: 'contributor-a',
+          walletId: 'wallet-a',
+          normalizedContributionVolume: 3000n,
+          fitBps: 10_000,
+          qualityBps: 10_000,
+          provenanceBps: 10_000,
+          noveltyBps: 10_000,
+          antiNoiseBps: 10_000,
+        },
+      ],
+    });
+
+    expect(allocation.allocations.map((item) => item.contributorId)).toEqual([
+      'contributor-a',
+      'contributor-b',
+    ]);
+    expect(allocation.allocations.reduce((sum, item) => sum + item.tokenCount, 0)).toBe(5);
+    expect(allocation.allocations[0].rangeStart).toBe(10);
+    expect(allocation.allocations[1].rangeEndExclusive).toBe(15);
+  });
+
+  it('keeps ancestry late-bound and payable only after evidence thresholds pass', () => {
+    const review = reviewBtdAncestorEdges({
+      childAssetPackId: 'asset-pack-child',
+      issuedAt,
+      edges: [
+        {
+          parentAssetPackId: 'asset-pack-parent',
+          childAssetPackId: 'asset-pack-child',
+          edgeKind: 'implementation_dependency',
+          evidenceRoot: 'evidence-root',
+          confidenceBps: 8_000,
+          timelessnessBps: 7_500,
+          depth: 1,
+          createdAfterChildFit: true,
+          conflictDisclosure: [],
+        },
+        {
+          parentAssetPackId: 'asset-pack-citation',
+          childAssetPackId: 'asset-pack-child',
+          edgeKind: 'citation_only',
+          evidenceRoot: 'citation-root',
+          confidenceBps: 8_000,
+          timelessnessBps: 7_500,
+          depth: 1,
+          createdAfterChildFit: true,
+          conflictDisclosure: [],
+        },
+        {
+          parentAssetPackId: 'asset-pack-premint',
+          childAssetPackId: 'asset-pack-child',
+          edgeKind: 'proof_dependency',
+          evidenceRoot: 'premint-root',
+          confidenceBps: 9_000,
+          timelessnessBps: 9_000,
+          depth: 1,
+          createdAfterChildFit: false,
+          conflictDisclosure: [],
+        },
+      ],
+    });
+
+    expect(review.edges[0].status).toBe('payable');
+    expect(review.edges[1].status).toBe('recorded_unpaid');
+    expect(review.edges[2].status).toBe('rejected');
+    expect(review.edges[2].rejectionReason).toBe('not_late_bound');
+    expect(BigInt(review.edges[0].routeWeight)).toBeGreaterThan(0n);
+  });
+
+  it('routes licensed-read sats locally and conserves direct, ancestry, and treasury pools', () => {
+    const route = buildLicensedReadRevenueRoute({
+      paymentId: 'read-payment-1',
+      assetPackId: 'asset-pack-allocation',
+      grossSats: 10_001n,
+      treasuryWalletId: 'wallet-treasury',
+      exchangeSequence: 7n,
+      issuedAt,
+      directRecipients: [
+        { walletId: 'wallet-a', weight: 3n },
+        { walletId: 'wallet-b', weight: 1n },
+      ],
+      ancestorRecipients: [{ walletId: 'wallet-ancestor', weight: 1n }],
+    });
+
+    expect(route.priceAsset).toBe(BITCODE_FEE_ASSET);
+    expect(route.directSats + route.ancestorSats + route.treasurySats).toBe(10_001n);
+    expect(assertLicensedReadRevenueRouteConserved(route)).toBe(route);
+  });
+
+  it('keeps licensed-read revenue valid when no payable ancestry exists', () => {
+    const route = buildLicensedReadRevenueRoute({
+      paymentId: 'read-payment-no-ancestor',
+      assetPackId: 'asset-pack-allocation',
+      grossSats: 10_000n,
+      treasuryWalletId: 'wallet-treasury',
+      exchangeSequence: 8n,
+      issuedAt,
+      directRecipients: [{ walletId: 'wallet-a', weight: 1n }],
+    });
+
+    expect(route.ancestorSats).toBe(0n);
+    expect(route.ancestorRoutes).toEqual([]);
+    expect(route.treasurySats).toBe(2_000n);
+    expect(assertLicensedReadRevenueRouteConserved(route)).toBe(route);
+  });
+});
+
+describe('V27 Terminal journal and ledger/database reconciliation primitives', () => {
+  it('marks projection drift as blocking before UI can claim finality', () => {
+    const entry = buildTerminalJournalEntry({
+      journalEntryId: 'journal-1',
+      transactionKind: 'asset_pack_anchor',
+      actorId: 'user-1',
+      preStateRoot: 'pre-root',
+      postStateRoot: 'post-root',
+      receiptRoots: ['fee-1', 'anchor-1'],
+      ledgerAnchorIds: ['anchor-1'],
+      exchangeSequence: 5n,
+      issuedAt,
+    });
+
+    const diff = diffTerminalJournalProjection(entry, {
+      journalEntryId: 'journal-1',
+      postStateRoot: 'stale-post-root',
+      receiptRoots: ['fee-1', 'anchor-1'],
+      ledgerAnchorIds: ['anchor-1'],
+    });
+
+    expect(diff.blocking).toBe(true);
+    expect(diff.mismatches).toContain('post_state_root');
+  });
+
+  it('emits projection repair receipts when database state contradicts ledger facts', () => {
+    const report = reconcileLedgerDatabaseProjection({
+      reconciliationId: 'reconcile-1',
+      ledgerFacts: [
+        {
+          factId: 'anchor-1',
+          ledgerRoot: 'confirmed-root',
+          finalityState: 'confirmed',
+        },
+      ],
+      databaseFacts: [
+        {
+          factId: 'anchor-1',
+          projectedLedgerRoot: 'stale-root',
+          projectedFinalityState: 'broadcast',
+        },
+      ],
+      issuedAt,
+    });
+
+    expect(report.repairs).toHaveLength(2);
+    expect(report.blocking).toBe(true);
+  });
+});
+
+describe('V27 protocol upgrade receipt primitives', () => {
+  it('keeps testnet/mainnet upgrade work receipt-bound and reversible before verification', () => {
+    const planned = buildPlannedBtdProtocolUpgradeReceipt({
+      upgradeId: 'upgrade-v27-1',
+      fromVersion: 'V26',
+      toVersion: 'V27',
+      network: 'signet',
+      migrationRoot: 'migration-root',
+      preStateRoot: 'pre-state-root',
+      approvalReceiptRoot: 'approval-root',
+      rollbackPlanRoot: 'rollback-root',
+      issuedAt,
+    });
+    const applied = advanceBtdProtocolUpgradeReceipt(planned, {
+      upgradeState: 'applied',
+      postStateRoot: 'post-state-root',
+      ledgerAnchorId: 'anchor-1',
+    });
+    const verified = advanceBtdProtocolUpgradeReceipt(applied, {
+      upgradeState: 'verified',
+    });
+
+    expect(planned.upgradeState).toBe('planned');
+    expect(verified.upgradeState).toBe('verified');
+    expect(() =>
+      advanceBtdProtocolUpgradeReceipt(verified, { upgradeState: 'failed' }),
+    ).toThrow(/Invalid upgrade transition/);
+  });
+});

@@ -20,6 +20,61 @@ export const RECEIPT_SCHEMAS = {
     required: ['type', 'receiptId', 'bundleId', 'assetPackId', 'sourceToSharesRef', 'quantizedObjectiveContractId', 'quantizedFitQualities', 'issuedAt'],
     publicClaim: 'A settlement AssetPack exposed source-to-shares fit qualities under the quantized objective contract before settlement receipts were finalized.'
   },
+  btd_semantic_volume_measurement: {
+    predicateType: 'https://bitcode.ai/receipt/btd-semantic-volume-measurement/v27',
+    required: ['type', 'receiptId', 'assetPackId', 'normalizedBitcodeVolume', 'tokenCount', 'includedUnits', 'excludedUnits', 'issuedAt'],
+    publicClaim: 'An AssetPack was measured with proof-addressable semantic volume before range minting.'
+  },
+  btd_asset_pack_mint: {
+    predicateType: 'https://bitcode.ai/receipt/btd-asset-pack-mint/v27',
+    required: ['type', 'receiptId', 'assetPackId', 'rangeStart', 'rangeEndExclusive', 'tokenCount', 'totalMintedBefore', 'totalMintedAfter', 'maxSupply', 'sourceManifestRoot', 'measurementReceiptRoot', 'fitReceiptRoot', 'proofRoot', 'dedupeReceiptRoot', 'settlementJournalRoot', 'exchangeReceiptRoot', 'accessPolicyId', 'accessPolicyHash', 'issuedAt'],
+    publicClaim: 'A proof-backed Need-Fit settlement minted a contiguous AssetPack range without exceeding the fixed BTD supply cap.'
+  },
+  btd_measure_mint: {
+    predicateType: 'https://bitcode.ai/receipt/btd-measure-mint/v27',
+    required: ['type', 'receiptId', 'assetPackId', 'normalizedBitcodeVolume', 'cumulativeMeasurementBefore', 'cumulativeMeasurementAfter', 'targetMintedBefore', 'targetMintedAfter', 'residualMintCreditBefore', 'residualMintCreditAfter', 'tokenCount', 'totalMintedBefore', 'totalMintedAfter', 'maxSupply', 'proofRoot', 'settlementJournalRoot', 'accessPolicyHash', 'issuedAt'],
+    publicClaim: 'A Need-Fit-Prove-Settle measurement advanced the fixed-supply measureminting curve and either minted cells or emitted a zero-cell tail receipt.'
+  },
+  btd_contributor_allocation: {
+    predicateType: 'https://bitcode.ai/receipt/btd-contributor-allocation/v27',
+    required: ['type', 'receiptId', 'assetPackId', 'rangeStart', 'rangeEndExclusive', 'tokenCount', 'allocationMethod', 'allocations', 'issuedAt'],
+    publicClaim: 'A minted AssetPack range was allocated across contributors without losing or creating BTD cells.'
+  },
+  btd_ancestry_review: {
+    predicateType: 'https://bitcode.ai/receipt/btd-ancestry-review/v27',
+    required: ['type', 'receiptId', 'childAssetPackId', 'minConfidenceBps', 'edges', 'issuedAt'],
+    publicClaim: 'Late-bound ancestry edges were reviewed as attribution and routing evidence without changing BTD supply.'
+  },
+  btd_licensed_read_revenue_route: {
+    predicateType: 'https://bitcode.ai/receipt/btd-licensed-read-revenue-route/v27',
+    required: ['type', 'receiptId', 'paymentId', 'assetPackId', 'priceAsset', 'grossSats', 'directSats', 'ancestorSats', 'treasurySats', 'directRoutes', 'ancestorRoutes', 'treasuryWalletId', 'exchangeSequence', 'issuedAt'],
+    publicClaim: 'A licensed-read BTC payment was routed locally across holders, proven ancestors, and treasury without relying on marketplace royalty signaling.'
+  },
+  btc_fee_transaction: {
+    predicateType: 'https://bitcode.ai/receipt/btc-fee-transaction/v27',
+    required: ['type', 'receiptId', 'feePurpose', 'payerWalletId', 'walletSessionId', 'network', 'satsPaid', 'exchangeSequence', 'terminalJournalRoot', 'finalityState', 'confirmations', 'feeAsset', 'serverCustody', 'issuedAt'],
+    publicClaim: 'A BTC fee transaction was prepared, signed, broadcast, or confirmed without using BTD as a spend token.'
+  },
+  btd_asset_pack_ledger_anchor: {
+    predicateType: 'https://bitcode.ai/receipt/btd-asset-pack-ledger-anchor/v27',
+    required: ['type', 'receiptId', 'assetPackId', 'chain', 'network', 'commitmentRoot', 'sourceManifestRoot', 'proofRoot', 'accessPolicyHash', 'btdRangeStart', 'btdRangeEndExclusive', 'finalityState', 'confirmations', 'issuedAt'],
+    publicClaim: 'An AssetPack range commitment was anchored or prepared for anchoring on an admitted ledger path.'
+  },
+  btd_asset_pack_rights_transfer: {
+    predicateType: 'https://bitcode.ai/receipt/btd-asset-pack-rights-transfer/v27',
+    required: ['type', 'receiptId', 'orderId', 'assetPackId', 'rangeStart', 'rangeEndExclusive', 'fromWalletId', 'toWalletId', 'priceAsset', 'priceSats', 'accessPolicyHash', 'btcFeeReceiptId', 'exchangeSequence', 'issuedAt'],
+    publicClaim: 'An AssetPack range changed commercial rights through a BTC-priced Exchange settlement receipt.'
+  },
+  btd_ledger_database_reconciliation: {
+    predicateType: 'https://bitcode.ai/receipt/btd-ledger-database-reconciliation/v27',
+    required: ['type', 'receiptId', 'repairs', 'blocking', 'issuedAt'],
+    publicClaim: 'Ledger-derived projection drift was detected or cleared through a replayable reconciliation receipt.'
+  },
+  btd_protocol_upgrade: {
+    predicateType: 'https://bitcode.ai/receipt/btd-protocol-upgrade/v27',
+    required: ['type', 'receiptId', 'upgradeId', 'fromVersion', 'toVersion', 'network', 'migrationRoot', 'preStateRoot', 'approvalReceiptRoot', 'rollbackPlanRoot', 'upgradeState', 'issuedAt'],
+    publicClaim: 'A Bitcode protocol upgrade or deployment migration was recorded with approval, state roots, rollback posture, and network scope.'
+  },
   utility: {
     predicateType: 'https://bitcode.ai/receipt/utility/v1',
     required: ['type', 'receiptId', 'bundleId', 'benchmark', 'baselineBp', 'treatmentBp', 'upliftBp', 'issuedAt'],

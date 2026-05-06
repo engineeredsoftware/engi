@@ -27,6 +27,8 @@ export { UserConnectionsModel } from './models/user-connections';
 export { UserModelPreferencesModel } from './models/user-model-preferences';
 export { UserBtdBalancesModel } from './models/user-btd-balances';
 export { UserBtdTransactionsModel } from './models/user-btd-transactions';
+export { BtdRegistryModel } from './models/btd-registry';
+export type { BtdRegistryInsertResult, BtdRegistryTable } from './models/btd-registry';
 
 // AssetPack and connected-interface models
 export { AssetPackEvidenceModel } from './models/asset-pack-evidence';

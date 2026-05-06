@@ -1,6 +1,6 @@
 # Bitcode Exchange Database Notes
 
-Status: non-canonical internal note. Database requirements become canonical only after they are promoted into the active V26 SPEC/proof family.
+Status: non-canonical internal note. V26 remains active canon; V27 registry requirements become canonical only after the V27 SPEC/proof family is promoted.
 
 ## Purpose
 
@@ -52,3 +52,48 @@ Remaining database work should prioritize:
 - naming new columns/tables after Need, AssetPack, fit, settlement, Finish, and Exchange activity,
 - keeping storage-edge table names hidden behind ORM or route adapters,
 - generating proof artifacts that show schema, ORM, route, and UI all describe the same Bitcode state.
+
+## V27 BTD Registry And Crypto Projection
+
+V27 introduces `supabase/migrations/002_v27_btd_crypto_registry.sql` as the draft registry/projection migration for cryptographic Bitcode.
+
+The V27 tables are:
+- `btd_supply_state`
+- `btd_semantic_volume_measurements`
+- `btd_measure_mint_receipts`
+- `btd_asset_pack_ranges`
+- `btd_cells`
+- `btd_ownership_events`
+- `btd_read_licenses`
+- `btd_mint_receipts`
+- `btd_contributor_allocations`
+- `btd_ancestor_edges`
+- `btd_licensed_read_revenue_routes`
+- `btc_fee_transactions`
+- `btd_asset_pack_ledger_anchors`
+- `btd_exchange_orders`
+- `btd_rights_transfer_receipts`
+- `btd_terminal_journal_entries`
+- `btd_ledger_database_reconciliation_repairs`
+- `btd_protocol_upgrade_receipts`
+- `btd_crypto_telemetry_events`
+
+Required database truths:
+- `btd_supply_state.max_supply` is exactly `21000000`.
+- `btd_supply_state.next_token_id` equals `total_minted` for the V27 contiguous allocator.
+- `btd_supply_state` carries cumulative admitted measurement, residual mint credit, hyperbolic saturation curve, curve parameter, and zero-cell/refit tail policy.
+- `btd_measure_mint_receipts` records the decayed issuance target before/after each admitted measurement and permits zero-cell receipts in the practical tail.
+- `btd_asset_pack_ranges` owns canonical AssetPack ranges and enforces non-empty ranges under the cap.
+- `btd_cells` owns token-level registry identity and points back to AssetPack ranges.
+- `btd_ownership_events` projects mint allocation and rights-transfer ownership movement from receipts and ledger anchors.
+- `btd_read_licenses` projects scoped licensed-read grants without implying `$BTD` ownership transfer.
+- `btd_contributor_allocations` preserves whole-cell allocation conservation for the minted range.
+- `btd_ancestor_edges` records late-bound non-supply dependency evidence; low-confidence and citation-only edges can remain unpaid.
+- `btd_licensed_read_revenue_routes` routes BTC sats locally across holders, admitted ancestors, and treasury.
+- `btc_fee_transactions.fee_asset` is always `BTC`; `server_custody` is always `false`.
+- ledger anchors store commitments and finality projection only; ledgers remain source of truth for cryptographic finality.
+- Exchange orders and rights-transfer receipts use BTC prices and access-policy hashes.
+- Terminal journal rows and reconciliation repairs are projection/proof surfaces that prevent UI or API state from claiming unsupported finality.
+- `btd_protocol_upgrade_receipts` records deployment/migration state roots, approvals, rollback roots, and network scope.
+
+`packages/orm/src/models/btd-registry.ts` is the V27 ORM boundary until generated Supabase types are refreshed from the migration.

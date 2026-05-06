@@ -1,14 +1,16 @@
 /**
- * BTD bundle definitions and helpers.
+ * V28+ Exchange acquisition reference bundles.
  *
- * This remains the shared source of truth for canonical `$BTD` bundle posture
- * as Bitcode moves BTC settlement and BTD issuance through wallet-native flows.
+ * These are UX planning records for future market discovery and must not be
+ * read as fungible checkout SKUs. V27 issuance is owned by proof-backed
+ * measureminting and Exchange rights transfers over AssetPack ranges.
  */
 
 /** Shape of a future Exchange `$BTD` acquisition reference bundle. */
 export interface BtdBundleConfig {
   id: string;
   name: string;
+  /** Approximate range-size discovery hint, not a spendable balance quantity. */
   btdAmount: number;
   /** V28 reference price in USD-equivalent terms, not a V26 checkout amount. */
   price: number;

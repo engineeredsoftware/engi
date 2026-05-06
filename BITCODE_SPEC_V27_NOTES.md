@@ -145,7 +145,8 @@ Recommended exact additions:
 | `packages/btd/src/supply.ts` | Canonical supply-state machine and cap checks |
 | `packages/btd/src/range.ts` | Contiguous AssetPack range allocation and overlap prevention |
 | `packages/btd/src/allocation.ts` | Contributor weight calculation and largest-remainder allocation |
-| `packages/btd/src/ancestor.ts` | Ancestor-edge schema, confidence thresholds, and decay logic |
+| `packages/btd/src/ancestry.ts` | Ancestor-edge schema, confidence thresholds, and decay logic |
+| `packages/btd/src/revenue.ts` | Licensed-read BTC revenue routing and conservation |
 | `packages/btd/src/access.ts` | Owner-read vs licensed-read policy evaluation |
 | `packages/btd/src/receipts.ts` | Mint receipts, ancestor receipts, and revenue-route receipts |
 | `protocol-demonstration/test/btd-range-mint.spec.ts` | Mint path, cap, and range-overlap tests |
@@ -193,7 +194,11 @@ export interface BtdSupplyState {
   maxSupply: 21_000_000;
   totalMinted: number;
   nextTokenId: BtdTokenId;
-  exhaustionPolicy: 'refit-only';
+  cumulativeAdmittedMeasurement: bigint;
+  residualMintCredit: bigint;
+  curve: 'hyperbolic_saturation';
+  curveParameter: bigint;
+  tailPolicy: 'zero_cell_receipt_then_refit_only';
   exhaustedAtExchangeSequence?: bigint;
 }
 
@@ -289,15 +294,21 @@ Only proof-backed Need-Fit settlement mints $BTD.
 
 V27 should separate supply quantity from quality-weighted allocation.
 
-Quantity rule:
+Primary measureminting quantity rule:
 
 ```ts
-tokenCount = Math.floor(normalizedBitcodeVolume / QUANTIZATION_Q);
-require(tokenCount >= 1);
-require(totalMinted + tokenCount <= 21_000_000);
+S_MAX = 21_000_000;
+M_before = cumulativeAdmittedMeasurement;
+M_after = M_before + normalizedBitcodeVolume;
+targetMinted(M) = floor(S_MAX * M / (M + K));
+tokenCount = targetMinted(M_after) - targetMinted(M_before);
+tokenCount = min(tokenCount, S_MAX - totalMinted);
 ```
 
-Default starting value:
+`K` is the measurement half-saturation constant.
+This replaces the cliff-like post-cap posture with fixed-supply measureminting decay and a zero-cell/refit tail.
+
+Simple semantic-volume quantization remains a measurement witness:
 
 ```ts
 export const BTD_QUANTIZATION_Q = 1_000n;
@@ -316,6 +327,16 @@ Required semantic-volume properties:
 - repeated wording, compression artifacts, tokenizer drift, and pack fragmentation cannot inflate count;
 - excluded candidate units have exact exclusion reasons;
 - replay reconstructs the same `tokenCount` from receipt roots.
+
+Measureminting-specific invariants:
+
+- settlement order is Exchange-sequence order;
+- cumulative measurement advances only after Need-Fit-Prove-Settle;
+- duplicate normalized source cannot increase cumulative measurement;
+- splitting or merging equivalent source cannot improve total minted count;
+- residual mint credit is deterministic and replayable;
+- zero-cell receipts are valid receipts, not failed mints;
+- when entitlement falls below one whole cell, the event emits refit, license, ancestry, proof, and revenue-routing receipts.
 
 Quality should determine allocation and revenue weighting, not mint inflation.
 
@@ -389,16 +410,20 @@ V27 should define three layers:
 The base layer must remain non-fungible.
 Any later fungible or semi-fungible exposure must be a wrapper over cells/ranges, not a replacement for them.
 
-## Exhaustion Policy
+## Measureminting Decay And Tail Policy
 
-V27 should prefer `refit-only` after the 21,000,000 cap is reached.
+V27 should use fixed-supply measureminting decay as the primary issuance law and refit-only as the tail fallback.
 
 ```text
-After totalMinted reaches 21,000,000:
-  no new cells mint;
-  future Need-Fit value can still route through existing cells;
-  refit, lineage, licensing, and wrapper economics can continue;
-  the finite registry remains finite.
+Before tail:
+  Need-Fit-Prove-Settle events mint cells according to decayed cumulative measurement.
+
+During tail:
+  valid events may mint zero or one cells depending on deterministic residual entitlement.
+
+After practical exhaustion:
+  valid events emit zero-cell, refit, license, ancestry, proof, and revenue-routing receipts,
+  but no new primary cells.
 ```
 
 Rejected policies:
@@ -407,6 +432,9 @@ Rejected policies:
 - burn-to-mint as the default;
 - governance-based post-cap inflation;
 - age-based rent to old token IDs after exhaustion.
+
+Whole-cell indivisibility means infinite nonzero minting from 21,000,000 cells is impossible.
+V27 therefore treats infinite future Need-Fit activity as infinite possible receipts, not infinite possible cell mints.
 
 ## Ancestry Finding
 
@@ -571,7 +599,7 @@ V27 must repeat a small rigid rule set across spec, packages, receipts, database
 | no fungible spend semantics | `$BTD` cannot be debited as a currency balance |
 | treasury separation | treasury can hold, route, distribute, escrow, and report, but cannot mint |
 | ancestry non-supply | ancestor edges cannot increase mint count |
-| post-cap refit only | exhaustion routes value through existing cells without new cells |
+| measureminting tail | zero-cell receipts route value through refit, license, ancestry, proof, and revenue receipts without new cells |
 
 Recommended package-level expressions:
 
@@ -596,7 +624,9 @@ V27 should specify or create Exchange tables equivalent to:
 - `btd_ownership_events`
 - `btd_read_licenses`
 - `btd_ancestor_edges`
-- `btd_revenue_routes`
+- `btd_contributor_allocations`
+- `btd_licensed_read_revenue_routes`
+- `btd_protocol_upgrade_receipts`
 
 Database constraints must include:
 
@@ -621,7 +651,7 @@ V27 should add a compact but high-leverage proof/test matrix:
 | `protocol-demonstration/test/btd-access-rights.spec.ts` | owner-read succeeds; licensed read succeeds within term; expired or unauthorized read fails |
 | `protocol-demonstration/test/btd-ancestor-routing.spec.ts` | direct dependency pays; weak edge records but does not pay; depth decay is deterministic |
 | `protocol-demonstration/test/btd-dedupe.spec.ts` | duplicate normalized source cannot remint without new derivative justification |
-| `protocol-demonstration/test/btd-exhaustion.spec.ts` | post-cap refit routes value but does not mint new cells |
+| `protocol-demonstration/test/btd-exhaustion.spec.ts` | zero-cell tail receipts route value but do not mint new cells |
 | `protocol-demonstration/test/btd-replay.spec.ts` | receipt replay reconstructs identical supply state, allocations, and ancestor payouts |
 
 ## Tunable Defaults
@@ -709,7 +739,7 @@ V27 must answer these before promotion:
 8. Which reviewer/prover roles need reputation or bond requirements?
 9. What is the exact minimal V27 Exchange boundary for buy, sell, bid, ask, cancellation, settlement, and rights transfer before broader V28+ market depth begins?
 10. Should wrapper slices exist in V27 tests only, or be postponed until the base range registry has live evidence?
-11. How does post-cap refit-only value routing work when a new Need depends on an exhausted registry?
+11. How does zero-cell/refit tail value routing work when a new Need depends on a practically exhausted registry?
 
 ## Implementation Priority
 
@@ -801,7 +831,7 @@ export interface BtcFeeTransactionReceipt {
     | 'terminal_operation';
   payerWalletId: string;
   network: 'regtest' | 'signet' | 'testnet' | 'mainnet';
-  txid: string;
+  txid: string | null;
   vout?: number;
   satsPaid: bigint;
   satsPerVbyte?: number;
@@ -825,7 +855,7 @@ export interface AssetPackLedgerAnchor {
     | 'sepolia'
     | 'holesky'
     | 'local';
-  txidOrHash: string;
+  txidOrHash: string | null;
   outputIndex?: number;
   contractAddress?: string;
   tokenId?: string;
@@ -984,6 +1014,6 @@ V27 should be closable only when all of the following are true:
 - testnet/mainnet-ready controls, telemetry, and upgrade receipts exist.
 - crypto concepts and library choices are rebound to current primary web sources before normative selection.
 - ancestry is specified as a non-supply late-bound module.
-- post-cap refit-only policy is specified.
+- fixed-supply measureminting decay and zero-cell/refit tail policy are specified.
 - UI surfaces disclose BTC fee asset, non-fungible `$BTD`, access rights, range, supply remaining, and policy hash.
 - V28+ Terminal and Exchange breadth is scoped without weakening V27's minimal crypto-commercial proof path.

@@ -32,6 +32,8 @@ V27 exists to make that deferred `$BTD` model exact and to close the minimum wal
 The WDRR sharpens V27's draft direction:
 
 - normalized Bitcode volume is proof-addressable semantic volume, not byte count or tokenizer count;
+- primary issuance law is fixed-supply measureminting decay, with refit-only demoted to tail behavior;
+- zero-cell receipts are valid V27 receipts when decayed entitlement falls below one whole cell;
 - BTC fee transactions use PSBT-style user signing and do not place user private keys under Bitcode server custody;
 - regtest or equivalent local chain is the deterministic local proof lane;
 - signet is the canonical public Bitcoin proof lane;
@@ -59,7 +61,8 @@ V27 must make all of these implementation-derivable:
 - revenue routing;
 - optional proof-backed ancestry;
 - anti-game and dispute posture;
-- post-cap refit-only behavior.
+- fixed-supply measureminting decay;
+- zero-cell/refit tail behavior.
 - wallet authorization and signing posture;
 - actual BTC fee transaction receipts;
 - PSBT-style signing handoff without server custody of user private keys;
@@ -165,7 +168,7 @@ Replace aggregate compatibility storage with Exchange registry state.
 
 Closure criteria:
 
-- migration creates or plans `btd_supply_state`, `btd_asset_pack_ranges`, `btd_cells`, `btd_mint_receipts`, `btd_ownership_events`, `btd_read_licenses`, `btd_ancestor_edges`, and `btd_revenue_routes`.
+- migration creates or plans supply, semantic-volume, measuremint, range, cell, mint receipt, ownership, read-license, allocation, ancestry, licensed-read revenue, fee, anchor, order, transfer, journal, reconciliation, upgrade, and telemetry tables.
 - SQL constraints cover cap, uniqueness, no overlap, access policy, and service-role mutation.
 - ORM exposes Bitcode-native model names.
 - `user_credits` is no longer canonical tokenomics truth.
@@ -307,6 +310,32 @@ Closure criteria:
 
 Implemented baseline:
 
+- `packages/btd/src/constants.ts` owns V27 `$BTD` constants, Bitcoin network constants, and validation helpers.
+- `packages/btd/src/supply.ts` owns strict supply state and cap advancement.
+- `packages/btd/src/range.ts` owns Need/Fit/root/policy-guarded contiguous AssetPack range allocation.
+- `packages/btd/src/semantic-volume.ts` owns proof-addressable semantic-volume measurement and quantization.
+- `packages/btd/src/measuremint.ts` owns fixed-supply hyperbolic measureminting, residual accounting, and zero-cell tail receipts.
+- `packages/btd/src/receipts.ts` owns conserved BTD mint receipts.
+- `packages/btd/src/allocation.ts` owns Hare-Niemeyer contributor cell allocation.
+- `packages/btd/src/access.ts` owns owner-read/licensed-read/denied policy evaluation.
+- `packages/btd/src/ancestry.ts` owns late-bound, non-supply ancestry review.
+- `packages/btd/src/revenue.ts` owns local licensed-read BTC revenue routing.
+- `packages/btd/src/wallet.ts` owns signer-session capability guards without server custody.
+- `packages/btd/src/bitcoin-fees.ts` owns PSBT-style BTC fee receipt lifecycle.
+- `packages/btd/src/bitcoin-provider.ts` owns the network-checked Bitcoin fee provider boundary.
+- `packages/btd/src/deployment-lanes.ts` owns local/regtest/signet/testnet/mainnet-ready lane guards.
+- `packages/btd/src/ledger-anchor.ts` owns AssetPack ledger-anchor receipt lifecycle.
+- `packages/btd/src/exchange.ts` owns minimal buy/sell/bid/ask order and rights-transfer receipt primitives.
+- `packages/btd/src/terminal-journal.ts` owns Terminal journal entries and projection diffing.
+- `packages/btd/src/reconciliation.ts` owns ledger/database projection repair reports.
+- `packages/btd/src/telemetry.ts` owns V27 crypto telemetry event taxonomy.
+- `packages/btd/src/upgrade.ts` owns versioned protocol upgrade receipts.
+- `packages/btd/__tests__/v27-crypto-primitives.test.ts` proves the package primitives.
+- `protocol-demonstration/src/v27-crypto-primitives.js` and `test/v27-crypto-primitives.test.js` demonstrate the minimum protocol witness.
+- `protocol-demonstration/src/receipt-schemas.js` exposes V27 semantic-volume, mint, allocation, ancestry, revenue-route, BTC fee, ledger-anchor, rights-transfer, reconciliation, and upgrade receipt families.
+- `supabase/migrations/002_v27_btd_crypto_registry.sql` defines the V27 registry/projection table set.
+- `packages/orm/src/models/btd-registry.ts` gives commercial source a Bitcode-native ORM boundary for V27 tables until generated types refresh.
+- `.bitcode/v27-crypto-primitives-proof.json` records the first V27 proof slice for package, demonstration, registry, and validation surfaces.
 - `packages/btd/src/index.ts` exports `BTD_MAX_MINTABLE_SUPPLY = 21_000_000`.
 - `packages/btd/src/index.ts` exports BTC fee-basis helpers.
 - `packages/btd/src/index.ts` rejects fungible mutation through `BtdFungibleMutationRejectedError`.
@@ -326,44 +355,28 @@ Partial baseline:
 
 - `packages/orm/src/models/user-btd-balances.ts` and `user-btd-transactions.ts` wrap compatibility tables `user_credits` and `user_credit_usages`.
 - `packages/orm/src/models/organization-btd-treasury.ts` aggregates user holdings but does not own registry supply.
-- `internal-docs/BITCODE_EXCHANGE_DATABASE.md` names BTD holding reads but not V27 registry tables.
-- `supabase/migrations/001_v26_production.sql` contains compatibility storage and RLS, not V27 range/cell registry constraints.
+- `internal-docs/BITCODE_EXCHANGE_DATABASE.md` now names the V27 registry/projection table set, but deployment must still apply and prove it.
+- `supabase/migrations/001_v26_production.sql` contains compatibility storage and RLS; `002_v27_btd_crypto_registry.sql` starts the V27 range/cell registry and crypto projection constraints.
 - UI surfaces can show holdings and intent, but not minted range boundaries or access policy hashes.
-- auxillary wallet UI can display wallet posture, but no V27 signer/session/transaction lifecycle is yet canonical.
-- BTC fee basis helpers exist, but no actual BTC transaction receipt, PSBT/signing flow, broadcast flow, or confirmation reconciler is canonical.
-- demonstration settlement primitives can account for source-to-shares value, but not ledgerized AssetPack anchors or external chain observations.
+- auxillary wallet UI can display wallet posture; the V27 signer/session/transaction lifecycle exists in package primitives but is not wired to live adapters.
+- BTC fee receipt and PSBT-style lifecycle primitives exist, but no broadcaster or confirmation reconciler is wired yet.
+- demonstration settlement primitives can account for source-to-shares value and now witness V27 crypto receipts, but not external chain observations.
 - V27 drafts previously left normalized Bitcode volume as an open scalar class; WDRR closes it as proof-addressable semantic volume while leaving exact measurement algorithm as implementation work.
 - V27 drafts previously treated public testnet/signet generically; WDRR makes signet canonical for public Bitcoin proof and public testnet supplementary.
 - V27 drafts previously treated Bitcoin and Ethereum anchor paths as peer candidates; WDRR makes Bitcoin primary and Ethereum secondary or optional.
 
-Gaps:
+Remaining gaps:
 
-- no `packages/btd/src/supply.ts`;
-- no `packages/btd/src/range.ts`;
-- no `packages/btd/src/allocation.ts`;
-- no `packages/btd/src/access.ts`;
-- no `packages/btd/src/ancestor.ts`;
-- no `packages/btd/src/receipts.ts`;
-- no BTD registry migration;
 - no V27 minted range proof artifact;
 - no V27 receipt replay proof;
-- no owner/licensed read evaluator;
 - no V27 token/range route;
-- no ancestry proof module;
 - no V27 generated proof appendix;
-- no wallet integration module for V27 signer sessions and network selection;
-- no Bitcoin transaction builder/broadcaster/reconciler for fee payment;
+- no live wallet adapter over the V27 signer-session boundary;
+- no Bitcoin transaction broadcaster/reconciler for fee payment;
 - no Taproot or other Bitcoin AssetPack anchor path;
 - no Ethereum AssetPack registry/event path;
-- no `AssetPackLedgerAnchor` module or receipt family;
-- no minimal AssetPack buy/sell/bid/ask order model;
-- no rights-transfer settlement receipt;
-- no Terminal transaction journal diff module;
-- no ledger/database reconciler;
-- no crypto telemetry event taxonomy;
 - no testnet/mainnet deployment lane documentation for V27 crypto paths;
-- no V27 external library and chain-standard research proof.
-- no semantic-volume measurement algorithm or receipts;
+- no V27 external library and chain-standard research proof;
 - no signet proof lane harness;
 - no explicit Ethereum-secondary boundary in implementation code;
 
@@ -381,8 +394,8 @@ The following are not V27 blockers unless a V27 invariant requires a minimal hoo
 
 The following are V27 blockers:
 
-- no actual BTC fee transaction proof path;
-- no PSBT-style user signing proof path;
+- no actual BTC fee broadcaster/observer proof path;
+- no live PSBT user signing adapter proof path;
 - no ledgerized AssetPack anchor proof path;
 - no proof-addressable semantic volume measurement proof;
 - no minimal existing-`$BTD` acquisition or rights-transfer proof path;

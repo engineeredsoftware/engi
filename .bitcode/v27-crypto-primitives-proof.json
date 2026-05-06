@@ -1,0 +1,111 @@
+{
+  "proofId": "v27-crypto-primitives-proof",
+  "version": "V27",
+  "generatedAt": "2026-05-06T00:00:00.000Z",
+  "activeCanonicalPointer": "V26",
+  "state": "draft-target-proof-slice",
+  "scope": [
+    "fixed-supply measureminting primitives",
+    "proof-addressable semantic volume",
+    "contiguous AssetPack range and mint receipts",
+    "owner-read and licensed-read access evaluation",
+    "whole-cell contributor allocation",
+    "late-bound non-supply ancestry review",
+    "local licensed-read BTC revenue routing",
+    "wallet signer-session and BTC fee receipt lifecycle",
+    "network-checked Bitcoin fee provider boundary",
+    "AssetPack ledger anchor receipts",
+    "minimal Exchange orders and rights-transfer receipts",
+    "Terminal journal diffing",
+    "ledger/database reconciliation repairs",
+    "V27 crypto telemetry taxonomy",
+    "deployment-lane guards",
+    "protocol upgrade receipts",
+    "protocol-demonstration V27 crypto receipt witness",
+    "V27 registry/projection migration and ORM boundary"
+  ],
+  "sourceSurfaces": [
+    "BITCODE_SPEC_V27.md",
+    "BITCODE_SPEC_V27_DELTA.md",
+    "BITCODE_SPEC_V27_NOTES.md",
+    "BITCODE_SPEC_V27_PARITY_MATRIX.md",
+    "packages/btd/src/constants.ts",
+    "packages/btd/src/supply.ts",
+    "packages/btd/src/measuremint.ts",
+    "packages/btd/src/semantic-volume.ts",
+    "packages/btd/src/range.ts",
+    "packages/btd/src/receipts.ts",
+    "packages/btd/src/replay.ts",
+    "packages/btd/src/access.ts",
+    "packages/btd/src/allocation.ts",
+    "packages/btd/src/ancestry.ts",
+    "packages/btd/src/revenue.ts",
+    "packages/btd/src/wallet.ts",
+    "packages/btd/src/bitcoin-fees.ts",
+    "packages/btd/src/bitcoin-provider.ts",
+    "packages/btd/src/deployment-lanes.ts",
+    "packages/btd/src/ledger-anchor.ts",
+    "packages/btd/src/exchange.ts",
+    "packages/btd/src/terminal-journal.ts",
+    "packages/btd/src/reconciliation.ts",
+    "packages/btd/src/telemetry.ts",
+    "packages/btd/src/upgrade.ts",
+    "packages/btd/__tests__/v27-crypto-primitives.test.ts",
+    "protocol-demonstration/src/receipt-schemas.js",
+    "protocol-demonstration/src/v27-crypto-primitives.js",
+    "protocol-demonstration/test/v27-crypto-primitives.test.js",
+    "supabase/migrations/002_v27_btd_crypto_registry.sql",
+    "packages/orm/src/models/btd-registry.ts",
+    "internal-docs/BITCODE_EXCHANGE_DATABASE.md"
+  ],
+  "validation": [
+    {
+      "command": "./uapi/node_modules/.bin/jest --config '{...packages/btd focused ts-jest config...}' --runInBand",
+      "status": "passed",
+      "assertions": 27,
+      "notes": "Jest still reports pre-existing duplicate manual mock warnings outside the V27 package slice."
+    },
+    {
+      "command": "pnpm -C protocol-demonstration test:v27-crypto",
+      "status": "passed",
+      "assertions": 7
+    },
+    {
+      "command": "pnpm -C packages/orm build",
+      "status": "passed"
+    },
+    {
+      "command": "git diff --check",
+      "status": "passed"
+    },
+    {
+      "command": "targeted trailing-whitespace scan over V27 changed files",
+      "status": "passed"
+    }
+  ],
+  "closedInThisSlice": [
+    "package-level fixed cap and measureminting law",
+    "package-level zero-cell tail receipt behavior",
+    "package-level semantic-volume measurement",
+    "package-level range/mint/access/replay primitives",
+    "package-level contributor allocation conservation",
+    "package-level optional ancestry review with unpaid weak/citation edges",
+    "package-level local BTC revenue-route conservation",
+    "package-level BTC fee receipt lifecycle and provider boundary",
+    "package-level deployment-lane mainnet approval guard",
+    "demonstration receipt family coverage for V27 crypto primitives",
+    "database migration and ORM projection boundary for V27 registry tables"
+  ],
+  "remainingBlockingForPromotion": [
+    "live wallet adapters",
+    "regtest/signet broadcaster and observer proof",
+    "selected Bitcoin commitment method with implementation proof",
+    "Ethereum secondary boundary or explicit deferral proof",
+    "route/API persistence integration",
+    "range/policy UI disclosure",
+    "generated V27 proof family set and BITCODE_SPEC_V27_PROVEN.md",
+    "Supabase migration execution and generated DB type refresh",
+    "full source-to-shares settlement integration",
+    "external crypto library and standards rebinding proof"
+  ]
+}
