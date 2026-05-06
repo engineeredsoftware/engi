@@ -77,6 +77,13 @@ type MockOrbitalData = {
   organizations: string[];
   btdBalance: number;
   btcFeeBalance: number;
+  recentBtdAssetPacks: Array<{
+    assetPackId: string;
+    label: string;
+    rangeStart: number;
+    rangeEndExclusive: number;
+    acquiredAt: string;
+  }>;
   modelPreferences: {
     preferred_model: string;
     temperature: number;
@@ -219,6 +226,36 @@ export function buildMockOrbitalData(): MockOrbitalData {
     organizations,
     btdBalance: 1200,
     btcFeeBalance: 0.042,
+    recentBtdAssetPacks: [
+      {
+        assetPackId: 'asset-pack-run-branch-remediation',
+        label: 'Run Branch Remediation',
+        rangeStart: 1190,
+        rangeEndExclusive: 1200,
+        acquiredAt: '2026-05-06T18:12:00.000Z',
+      },
+      {
+        assetPackId: 'asset-pack-exchange-route-rendering',
+        label: 'Exchange Route Rendering',
+        rangeStart: 1178,
+        rangeEndExclusive: 1190,
+        acquiredAt: '2026-05-06T17:44:00.000Z',
+      },
+      {
+        assetPackId: 'asset-pack-wallet-fee-rehearsal',
+        label: 'Wallet Fee Rehearsal',
+        rangeStart: 1164,
+        rangeEndExclusive: 1178,
+        acquiredAt: '2026-05-06T16:58:00.000Z',
+      },
+      {
+        assetPackId: 'asset-pack-auxillaries-mvp-qa',
+        label: 'Auxillaries MVP QA',
+        rangeStart: 1148,
+        rangeEndExclusive: 1164,
+        acquiredAt: '2026-05-06T16:21:00.000Z',
+      },
+    ],
     modelPreferences: {
       preferred_model: 'claude-3-7-sonnet',
       temperature: 0.4,

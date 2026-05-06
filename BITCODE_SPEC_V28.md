@@ -202,6 +202,8 @@ Acceptance criteria:
 - sign-in, sign-up, signed-in, and signed-out Auxillaries states are responsive and not pushed offscreen.
 - route QA covers `/`, `/application`, `/exchange`, `/auxillaries/*`, `/btd/[assetPackId]`, and conversations.
 - Exchange MVP activity/search/detail route renders without homepage redirects or disabled navigation.
+- signed-in navigation shows BTC and BTD balances as peer wallet facts, without `$BTD` currency-token styling, with a distinct visual separator, and with hover context reserved for recent BTD AssetPacks rather than explanatory product copy.
+- top-right BTD action copy says `Exchange BTD` and routes to `/exchange?intent=buy-existing-btd`.
 - visual QA proves no framework overlay, blank page, major content overlap, or unreadable primary controls.
 
 ### Gate 3: Terminal Wallet, BTC Fee, And Need-Fit-Measuremint Workflow

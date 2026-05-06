@@ -25,10 +25,19 @@ export interface AuxillaryDataPayload {
   repositoryInventorySource: string | null;
   btdBalance: number;
   btcFeeBalance: number | null;
+  recentBtdAssetPacks: AuxillaryBtdAssetPackSummary[];
   modelPreferences: unknown | null;
   onboardedPanes: ConcreteAuxillaryPane[];
   onboarded_steps: ConcreteAuxillaryPane[];
   isOnboardingComplete: boolean;
+}
+
+export interface AuxillaryBtdAssetPackSummary {
+  assetPackId: string;
+  label?: string;
+  rangeStart?: number;
+  rangeEndExclusive?: number;
+  acquiredAt?: string | null;
 }
 
 export function normalizeAuxillaryPane(value: string | null | undefined): ConcreteAuxillaryPane | null {
@@ -104,6 +113,7 @@ export function buildAnonymousAuxillaryData(): AuxillaryDataPayload {
     repositoryInventorySource: null,
     btdBalance: 0,
     btcFeeBalance: null,
+    recentBtdAssetPacks: [],
     modelPreferences: null,
     onboardedPanes,
     onboarded_steps: onboardedPanes,
@@ -120,6 +130,7 @@ export function buildAuxillaryDataPayload({
   repositoryInventorySource,
   btdBalance,
   btcFeeBalance,
+  recentBtdAssetPacks,
   modelPreferences,
   onboardedSteps,
 }: {
@@ -131,6 +142,7 @@ export function buildAuxillaryDataPayload({
   repositoryInventorySource?: string | null;
   btdBalance?: number;
   btcFeeBalance?: number | null;
+  recentBtdAssetPacks?: AuxillaryBtdAssetPackSummary[] | null;
   modelPreferences: unknown | null;
   onboardedSteps: unknown;
 }): AuxillaryDataPayload {
@@ -152,6 +164,7 @@ export function buildAuxillaryDataPayload({
         : null,
     btdBalance: resolvedBtdBalance,
     btcFeeBalance: resolvedBtcFeeBalance,
+    recentBtdAssetPacks: Array.isArray(recentBtdAssetPacks) ? recentBtdAssetPacks : [],
     modelPreferences,
     onboardedPanes,
     onboarded_steps: onboardedPanes,

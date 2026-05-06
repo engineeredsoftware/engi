@@ -111,6 +111,7 @@ Audit query classes:
 | Area | Current source evidence | Judgment | Gate owner |
 | --- | --- | --- | --- |
 | Commercial application MVP route QA | `/`, `/application`, `/exchange`, `/auxillaries/*`, `/btd/[assetPackId]`, conversations | pending | Gate 2 |
+| Signed-in BTD balance widget uses V28 commercial semantics | `uapi/components/base/bitcode/btd/btd-tracker.tsx`, `uapi/components/base/bitcode/layout/nav.tsx`, `uapi/hooks/useUserData.ts`, `packages/api/src/routes/auxillaries-contract.ts`, `protocol-demonstration/test/v28-commercial-mvp-qa.test.js` | closed for current micro-interface | Gate 2 |
 | Auxillaries old orbital shell conflicts removed from active contained tabs-left experience | screenshots plus `uapi/app/auxillaries/components/AuxillariesContent.tsx`, `AuxillariesLoginPane.tsx`, shared `orbital-*` classes, and `uapi/styles/auxillaries-bitcode.css` | pending | Gate 2 |
 | Exchange MVP activity/search/detail/range-acquisition readiness | `uapi/app/exchange/*`, `/api/btd/asset-pack-exchange`, `/btd/[assetPackId]` | pending | Gate 2 |
 | Terminal wallet connection and signer-session review | `packages/btd/src/wallet.ts`; profile and wallet API readiness helpers | implemented prerequisite | Gate 3 |

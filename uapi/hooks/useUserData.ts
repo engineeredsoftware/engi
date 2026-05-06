@@ -56,6 +56,13 @@ export interface AggregatedUserData {
   organizations?: string[];
   btdBalance?: number;
   btcFeeBalance?: number | null;
+  recentBtdAssetPacks?: Array<{
+    assetPackId: string;
+    label?: string;
+    rangeStart?: number;
+    rangeEndExclusive?: number;
+    acquiredAt?: string | null;
+  }>;
   modelPreferences?: any | null;
   onboardedPanes?: string[];
   onboarded_steps?: string[];
@@ -72,6 +79,7 @@ const ANONYMOUS_USER_DATA: AggregatedUserData = {
   organizations: [],
   btdBalance: 0,
   btcFeeBalance: null,
+  recentBtdAssetPacks: [],
   modelPreferences: null,
   onboardedPanes: [],
   onboarded_steps: [],
@@ -296,6 +304,7 @@ export function useUserData() {
     typeof data?.btcFeeBalance === 'number'
       ? data.btcFeeBalance
       : readNumericField(data?.profile, 'btcFeeBalance', 'btc_fee_balance', 'btc_balance');
+  const recentBtdAssetPacks = Array.isArray(data?.recentBtdAssetPacks) ? data.recentBtdAssetPacks : [];
 
   const onboardedSteps = normalizeAuxillarySteps(data?.onboardedPanes ?? data?.onboarded_steps ?? []);
   const isOnboardingComplete = data?.isOnboardingComplete || false;
@@ -315,6 +324,7 @@ export function useUserData() {
     organizations,
     btdBalance,
     btcFeeBalance,
+    recentBtdAssetPacks,
     isLoading,
     error,
     refresh,

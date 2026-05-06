@@ -50,6 +50,21 @@ V28 therefore starts as commercial application MVP QA:
 - harden Exchange MVP route/search/detail/range-acquisition readiness without broad market depth;
 - then advance Terminal transaction depth once the application shell is commercially coherent.
 
+## QA Workshop Notes
+
+### Top-right BTD balance widget
+
+Manual QA on May 6, 2026 showed the signed-in balance widget rendering `0.042 BTC | 1,200 $BTD`, using a raw pipe separator, explaining BTC/BTD ontology in the native hover title, and presenting `Acquire BTD` as the hover action.
+
+V28 refinement:
+
+- render BTC and BTD as peer wallet facts: `BTC` and `BTD`, not `BTC` and `$BTD`;
+- replace the literal pipe character with a styled vertical divider;
+- use hover title context for the user's most recent BTD AssetPacks when known;
+- leave hover title absent when no recent AssetPack facts are known instead of showing explanatory copy;
+- route the hover action as `Exchange BTD` to `/exchange?intent=buy-existing-btd`;
+- keep the demonstration protocol aligned with a source-reading V28 MVP QA proof.
+
 ## Promotion Review Basis
 
 The V28 handoff is grounded in:

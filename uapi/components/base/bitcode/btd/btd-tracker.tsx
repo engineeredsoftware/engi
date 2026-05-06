@@ -3,13 +3,21 @@
 
 import { useEffect, useState, useMemo, useRef, useLayoutEffect } from 'react';
 import { useAuth } from '@/components/base/bitcode/auth/AuthProvider';
-import { createClient } from '@bitcode/supabase/ssr/client';
 import Logo from '@/components/base/bitcode/branding/logo';
 import { motion, AnimatePresence } from 'framer-motion';
+
+interface BtdAssetPackSummary {
+  assetPackId: string;
+  label?: string;
+  rangeStart?: number;
+  rangeEndExclusive?: number;
+  acquiredAt?: string | null;
+}
 
 interface BTDTrackerProps {
   btdBalance: number;
   btcFeeBalance?: number | null;
+  recentBtdAssetPacks?: BtdAssetPackSummary[];
 }
 
 function formatBtcFeeBalance(balance: number | null | undefined) {
@@ -35,32 +43,51 @@ function readNumericField(source: unknown, ...keys: string[]) {
   return null;
 }
 
-export function BTDTracker({ btdBalance, btcFeeBalance = null }: BTDTrackerProps) {
+function formatAssetPackSummary(assetPack: BtdAssetPackSummary) {
+  const label = assetPack.label?.trim() || assetPack.assetPackId.trim();
+  if (!label) return null;
+  return label;
+}
+
+export function BTDTracker({
+  btdBalance,
+  btcFeeBalance = null,
+  recentBtdAssetPacks = [],
+}: BTDTrackerProps) {
   const [displayedBtdBalance, setDisplayedBtdBalance] = useState(btdBalance);
   const [displayedBtcFeeBalance, setDisplayedBtcFeeBalance] = useState<number | null>(btcFeeBalance);
   const [isHovered, setIsHovered] = useState(false);
   const [isAnimating, setIsAnimating] = useState(false);
-  // Track acquisition intent state: idle, loading, success, error
-  const [acquireState, setAcquireState] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
-  // Show acquisition affordance only on hover
-  const shouldShowAcquireNow = isHovered;
-  const balanceLabel = `${formatBtcFeeBalance(displayedBtcFeeBalance)} | ${displayedBtdBalance.toLocaleString()} $BTD`;
+  const [exchangeState, setExchangeState] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
+  const shouldShowExchangeNow = isHovered;
+  const btcBalanceLabel = formatBtcFeeBalance(displayedBtcFeeBalance);
+  const btdBalanceLabel = `${displayedBtdBalance.toLocaleString()} BTD`;
+  const balanceLabel = `${btcBalanceLabel}; ${btdBalanceLabel}`;
+  const recentAssetPackTitle = useMemo(() => {
+    const labels = recentBtdAssetPacks
+      .slice(0, 5)
+      .map(formatAssetPackSummary)
+      .filter((label): label is string => Boolean(label));
 
-  // Measure max text width of "Acquire $BTD" vs balance posture for static sizing
-  const buyRef = useRef<HTMLSpanElement>(null);
+    if (labels.length === 0) return undefined;
+    return `Recent BTD AssetPacks: ${labels.join(', ')}`;
+  }, [recentBtdAssetPacks]);
+
+  // Measure the widest hover/rest posture so the tracker does not resize on hover.
+  const exchangeRef = useRef<HTMLSpanElement>(null);
   const btdRef = useRef<HTMLSpanElement>(null);
   const [textWidth, setTextWidth] = useState(0);
   useLayoutEffect(() => {
-    if (buyRef.current && btdRef.current) {
-      const buyW = buyRef.current.offsetWidth;
+    if (exchangeRef.current && btdRef.current) {
+      const exchangeW = exchangeRef.current.offsetWidth;
       const btdW = btdRef.current.offsetWidth;
-      setTextWidth(Math.ceil(Math.max(buyW, btdW)));
+      setTextWidth(Math.ceil(Math.max(exchangeW, btdW)));
     }
   }, [displayedBtcFeeBalance, displayedBtdBalance]);
   // Compute static container min-width: icon + gap + text + horizontal paddings
   const paddingPx = 24; // px-6
   const iconWidthPx = 16; // w-4
-  const gapPx = 10; // gap-x-2.5
+  const gapPx = 14; // gap-x-3.5
   const minWidth = iconWidthPx + gapPx + textWidth + paddingPx * 2;
 
   // Animate balance posture changes
@@ -105,7 +132,6 @@ export function BTDTracker({ btdBalance, btcFeeBalance = null }: BTDTrackerProps
   // Use shared auth context so we don't open duplicate listeners.
   const { user } = useAuth();
   const isSignedIn = Boolean(user);
-  const supabase = useMemo(() => createClient(), []);
 
   // Particle state for dynamic burst
   const [particles, setParticles] = useState<Array<{
@@ -177,28 +203,18 @@ export function BTDTracker({ btdBalance, btcFeeBalance = null }: BTDTrackerProps
   }, [isHovered]);
 
   /**
-   * Handle acquisition click: check auth, refresh the displayed balance, then
-   * take the operator into the V27 acquisition posture: Terminal Need minting or
-   * minimal Exchange range-right transfer.
+   * Handle Exchange click: check auth, refresh the displayed balance, then
+   * take the operator into the Exchange range-right transfer posture.
    */
-  const handleAcquireBtd = async () => {
+  const handleExchangeBtd = async () => {
     // Prevent duplicate clicks and enter loading state
-    if (acquireState !== 'idle') return;
-    setAcquireState('loading');
-    // Ensure user is authenticated
-    try {
-      const { data: { user } } = await supabase.auth.getUser();
-      if (!user) {
-        setAcquireState('idle');
-        window.dispatchEvent(new Event('start-onboarding'));
-        return;
-      }
-    } catch (err) {
-      console.error('Auth check failed:', err);
-      setAcquireState('idle');
+    if (exchangeState !== 'idle') return;
+    if (!isSignedIn) {
       window.dispatchEvent(new Event('start-onboarding'));
       return;
     }
+    setExchangeState('loading');
+
     // Refresh displayed BTD balance from server
     try {
       const res = await fetch('/api/auxillaries/data');
@@ -218,31 +234,30 @@ export function BTDTracker({ btdBalance, btcFeeBalance = null }: BTDTrackerProps
         }
       }
     } catch (err) {
-      console.error('Error fetching user BTC/$BTD balance posture:', err);
+      console.error('Error fetching user BTC/BTD balance posture:', err);
     }
 
     try {
       window.sessionStorage.setItem(
-        'bitcode:btd-acquisition-intent',
+        'bitcode:btd-exchange-intent',
         JSON.stringify({
           source: 'btd-tracker',
-          intent: 'acquire-btd',
+          intent: 'exchange-btd',
           feeAsset: 'BTC',
           shareAsset: 'BTD',
           btdSemantics: 'non-fungible asset-pack share and read-right',
           paths: [
-            { mode: 'terminal-need', target: '/application?intent=submit-need-for-btd', gate: 'V27' },
-            { mode: 'exchange-existing-btd', target: '/exchange?intent=buy-existing-btd', gate: 'V27' },
+            { mode: 'exchange-existing-btd', target: '/exchange?intent=buy-existing-btd' },
           ],
           createdAt: new Date().toISOString(),
         })
       );
-      setAcquireState('success');
-      window.location.assign('/application?intent=acquire-btd');
+      setExchangeState('success');
+      window.location.assign('/exchange?intent=buy-existing-btd');
     } catch (err) {
-      console.error('Error opening BTD acquisition surface:', err);
-      setAcquireState('error');
-      setTimeout(() => setAcquireState('idle'), 2000);
+      console.error('Error opening BTD Exchange surface:', err);
+      setExchangeState('error');
+      setTimeout(() => setExchangeState('idle'), 2000);
     }
   };
 
@@ -251,10 +266,10 @@ export function BTDTracker({ btdBalance, btcFeeBalance = null }: BTDTrackerProps
       className={`relative group inline-block ${isSignedIn ? 'cursor-pointer' : 'cursor-not-allowed opacity-50 pointer-events-none'}`}
       onHoverStart={handleHoverStart}
       onHoverEnd={handleHoverEnd}
-      onClick={isSignedIn ? handleAcquireBtd : undefined}
+      onClick={isSignedIn ? handleExchangeBtd : undefined}
       aria-disabled={!isSignedIn}
-      aria-label={`${balanceLabel}. Acquire BTD through Terminal Need minting or minimal Exchange range transfer.`}
-      title={`${balanceLabel}. BTC pays fees; $BTD is a non-fungible asset-pack share/read-right.`}
+      aria-label={`${balanceLabel}. Open Exchange to buy or transfer BTD AssetPack rights.`}
+      title={recentAssetPackTitle}
     >
       <motion.div
         className="relative inline-flex items-center justify-between gap-x-2.5 px-6 h-8 border rounded-full border-emerald-500/30 shadow-[0_0_12px_rgba(103,254,183,0.15)] bg-emerald-500/5 transition-colors transition-shadow duration-500 ease-out overflow-hidden group-hover:border-emerald-400/50 group-hover:shadow-[0_0_18px_rgba(103,254,183,0.25)] group-hover:bg-emerald-500/10"
@@ -297,17 +312,24 @@ export function BTDTracker({ btdBalance, btcFeeBalance = null }: BTDTrackerProps
 
         {/* Icon + Text fixed layout */}
         <div
-          className="absolute inset-y-0 left-6 right-6 grid items-center gap-x-2.5 pointer-events-none"
+          className="absolute inset-y-0 left-6 right-6 grid items-center gap-x-3.5 pointer-events-none"
           style={{ gridTemplateColumns: `auto ${textWidth}px` }}
         >
           {/* Hidden measurement spans */}
           <div style={{ position: 'absolute', visibility: 'hidden', pointerEvents: 'none' }}>
-            <span ref={buyRef} className="whitespace-nowrap font-normal tracking-wide text-sm">Acquire $BTD</span>
-            <span ref={btdRef} className="whitespace-nowrap font-medium tracking-wide text-sm">{balanceLabel}</span>
+            <span ref={exchangeRef} className="whitespace-nowrap font-normal tracking-wide text-sm">Exchange BTD</span>
+            <span ref={btdRef} className="inline-flex items-center whitespace-nowrap font-medium tracking-wide text-sm">
+              <span>{btcBalanceLabel}</span>
+              <span
+                aria-hidden="true"
+                className="mx-3 inline-block h-4 w-[2px] shrink-0 rounded-full"
+              />
+              <span>{btdBalanceLabel}</span>
+            </span>
           </div>
           {/* Icon slot */}
           <AnimatePresence initial={false} mode="wait">
-            {acquireState === 'loading' ? (
+            {exchangeState === 'loading' ? (
               <motion.div
                 key="spinner"
                 className="flex items-center justify-center w-4 h-4"
@@ -346,7 +368,7 @@ export function BTDTracker({ btdBalance, btcFeeBalance = null }: BTDTrackerProps
           </AnimatePresence>
           {/* Text slot */}
           <AnimatePresence initial={false} mode="wait">
-            {acquireState === 'loading' ? (
+            {exchangeState === 'loading' ? (
               <motion.span
                 key="loading"
                 className="w-full text-center whitespace-nowrap font-normal tracking-wide text-sm text-emerald-400/90"
@@ -354,25 +376,32 @@ export function BTDTracker({ btdBalance, btcFeeBalance = null }: BTDTrackerProps
                 animate={{ opacity: 1, rotateX: 0 }}
                 exit={{ opacity: 0, rotateX: 90 }}
                 transition={{ duration: 0.3, ease: 'easeInOut' }}
-              >Opening BTD...</motion.span>
-            ) : acquireState === 'idle' && shouldShowAcquireNow ? (
+              >Opening Exchange...</motion.span>
+            ) : exchangeState === 'idle' && shouldShowExchangeNow ? (
               <motion.span
-                key="buy"
+                key="exchange"
                 className="w-full text-center whitespace-nowrap font-normal tracking-wide text-sm text-emerald-400/90"
                 initial={{ opacity: 0, rotateX: -90 }}
                 animate={{ opacity: 1, rotateX: 0 }}
                 exit={{ opacity: 0, rotateX: 90 }}
                 transition={{ duration: 0.3, ease: 'easeInOut' }}
-              >Acquire $BTD</motion.span>
+              >Exchange BTD</motion.span>
             ) : (
               <motion.span
                 key="btd"
-                className="w-full text-center whitespace-nowrap font-medium tracking-wide text-sm text-emerald-400/90 leading-none"
+                className="inline-flex w-full items-center justify-center whitespace-nowrap font-medium tracking-wide text-sm text-emerald-400/90 leading-none"
                 initial={{ opacity: 0, rotateX: -90 }}
                 animate={{ opacity: 1, rotateX: 0 }}
                 exit={{ opacity: 0, rotateX: 90 }}
                 transition={{ duration: 0.3, ease: 'easeInOut' }}
-              >{balanceLabel}</motion.span>
+              >
+                <span>{btcBalanceLabel}</span>
+                <span
+                  aria-hidden="true"
+                  className="mx-3 inline-block h-4 w-[2px] shrink-0 rounded-full bg-emerald-100/75 shadow-[0_0_8px_rgba(103,254,183,0.6)]"
+                />
+                <span>{btdBalanceLabel}</span>
+              </motion.span>
             )}
           </AnimatePresence>
         </div>

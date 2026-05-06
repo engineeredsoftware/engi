@@ -84,7 +84,7 @@ export default function Nav() {
   const pathname = usePathname();
   const router = useRouter();
   const { user } = useAuth();
-  const { btdBalance, btcFeeBalance } = useUserData();
+  const { btdBalance, btcFeeBalance, recentBtdAssetPacks } = useUserData();
 
   const [showNavUse, setShowNavUse] = useState(false);
   const [showNavEntrance, setShowNavEntrance] = useState(navEntrancePlayedInRuntime);
@@ -488,6 +488,7 @@ export default function Nav() {
                   <MemoBTDTracker
                     btdBalance={btdBalance}
                     btcFeeBalance={btcFeeBalance}
+                    recentBtdAssetPacks={recentBtdAssetPacks}
                   />
                 )}
 

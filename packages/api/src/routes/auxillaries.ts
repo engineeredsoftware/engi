@@ -8,6 +8,7 @@ import {
   buildAnonymousAuxillaryData,
   buildAuxillaryDataPayload,
   buildAuxillaryOnboardingPayload,
+  type AuxillaryBtdAssetPackSummary,
   type AuxillaryOnboardingUpdatePayload,
   normalizeCompletedAuxillaryPane,
   parseStoredAuxillarySteps,
@@ -86,6 +87,85 @@ function readNumericProfileField(profile: unknown, ...keys: string[]) {
   }
 
   return null;
+}
+
+function readStringProfileField(profile: unknown, ...keys: string[]) {
+  if (!profile || typeof profile !== 'object') return null;
+  const record = profile as Record<string, unknown>;
+
+  for (const key of keys) {
+    const value = record[key];
+    if (typeof value === 'string' && value.trim()) {
+      return value.trim();
+    }
+  }
+
+  return null;
+}
+
+function readNumberField(row: Record<string, unknown>, ...keys: string[]) {
+  for (const key of keys) {
+    const value = row[key];
+    if (typeof value === 'number' && Number.isFinite(value)) return value;
+    if (typeof value === 'string' && value.trim()) {
+      const parsed = Number(value);
+      if (Number.isFinite(parsed)) return parsed;
+    }
+  }
+
+  return undefined;
+}
+
+function readStringField(row: Record<string, unknown>, ...keys: string[]) {
+  for (const key of keys) {
+    const value = row[key];
+    if (typeof value === 'string' && value.trim()) return value.trim();
+  }
+
+  return null;
+}
+
+async function listRecentBtdAssetPacksForProfile(
+  profile: unknown,
+  limit = 5,
+): Promise<AuxillaryBtdAssetPackSummary[]> {
+  const walletId = readStringProfileField(
+    profile,
+    'wallet_address',
+    'walletAddress',
+    'wallet_id',
+    'walletId',
+  );
+  if (!walletId) return [];
+
+  const { data, error } = await (supabaseAdmin as any)
+    .from('btd_ownership_events')
+    .select('*')
+    .eq('to_wallet_id', walletId)
+    .order('issued_at', { ascending: false })
+    .limit(limit);
+
+  if (error || !Array.isArray(data)) return [];
+
+  return data
+    .map((row: Record<string, unknown>): AuxillaryBtdAssetPackSummary | null => {
+      const assetPackId = readStringField(row, 'asset_pack_id', 'assetPackId');
+      if (!assetPackId) return null;
+
+      const summary: AuxillaryBtdAssetPackSummary = { assetPackId };
+      const label = readStringField(row, 'label', 'title', 'summary');
+      const rangeStart = readNumberField(row, 'range_start', 'rangeStart');
+      const rangeEndExclusive = readNumberField(row, 'range_end_exclusive', 'rangeEndExclusive');
+      const acquiredAt = readStringField(row, 'issued_at', 'acquiredAt');
+
+      if (label) summary.label = label;
+      if (typeof rangeStart === 'number') summary.rangeStart = rangeStart;
+      if (typeof rangeEndExclusive === 'number') summary.rangeEndExclusive = rangeEndExclusive;
+      if (acquiredAt) summary.acquiredAt = acquiredAt;
+
+      return summary;
+    })
+    .filter((entry): entry is AuxillaryBtdAssetPackSummary => Boolean(entry));
 }
 
 export function buildGetAuxillaryOnboardingRoute(options: AuxillaryRouteBuilderOptions = {}) {
@@ -220,6 +300,7 @@ export function buildGetAuxillaryDataRoute(options: AuxillaryRouteBuilderOptions
     const btdBalance = typeof balanceResult.data?.balance === 'number' ? balanceResult.data.balance : 0;
     const btcFeeBalance = readNumericProfileField(profile, 'btcFeeBalance', 'btc_fee_balance', 'btc_balance');
     const modelPreferences = preferencesResult.data?.preferences ?? null;
+    const recentBtdAssetPacks = await listRecentBtdAssetPacksForProfile(profile).catch(() => []);
     const walletConnectionStatus = options.resolveWalletConnectionStatus
       ? await options
           .resolveWalletConnectionStatus({
@@ -240,6 +321,7 @@ export function buildGetAuxillaryDataRoute(options: AuxillaryRouteBuilderOptions
         repositoryInventorySource: repositoryInventoryResult.repositoryInventorySource,
         btdBalance,
         btcFeeBalance,
+        recentBtdAssetPacks,
         modelPreferences,
         onboardedSteps: (profile as { onboarded_steps?: unknown } | null)?.onboarded_steps,
       }),
