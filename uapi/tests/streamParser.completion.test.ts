@@ -103,4 +103,25 @@ describe('parseStreamChunk completion mapping', () => {
     expect(parsed.completion?.deliverables).toBeUndefined();
     expect(parsed.completion?.semanticKind).toBe('asset-pack-written-asset');
   });
+
+  it('does not synthesize shippables from summary-only delivery surfaces', () => {
+    const payload = {
+      type: 'completion',
+      result: {
+        summary: 'Finished without PR delivery.',
+        deliveryMechanism: {
+          summary: 'Finish recorded evidence without a PR delivery mechanism.',
+        },
+        writtenAssets: {
+          summary: 'Evidence-only AssetPack surface.',
+          fileChanges: { edited: 1, created: 0, deleted: 0 },
+        },
+      },
+    } as any;
+
+    const parsed = parseStreamChunk(`data: ${JSON.stringify(payload)}\n\n`);
+    expect(parsed.completion?.writtenAssets?.fileChanges?.edited).toBe(1);
+    expect(parsed.completion?.deliveryMechanism?.summary).toBe('Finish recorded evidence without a PR delivery mechanism.');
+    expect(parsed.completion?.shippables).toBeNull();
+  });
 });

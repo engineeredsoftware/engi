@@ -27,9 +27,8 @@ export interface AssetPackMetrics {
 export interface AssetPackResultMeta {
   prUrl?: string;
   branch?: string;
-  deploymentUrl?: string;
   title?: string;
-  mechanism?: string;
+  mechanism?: AssetPackDeliveryMechanismTemplate;
   payload?: Record<string, unknown>;
 }
 
@@ -78,6 +77,7 @@ export interface AssetPackPostprocessed {
   shippables?: AssetPackSynthesisArtifactsMeta | null;
   deliveryMechanism?: DeliveryMechanismMeta;
   assetPackSynthesisArtifacts?: AssetPackSynthesisArtifactsMeta | null;
+  writtenAssets?: AssetPackSynthesisArtifactsMeta | null;
   artifacts?: Partial<AssetPackArtifacts> | null;
   writtenAssetType?: AssetPackWrittenAssetType;
   deliveryMechanismTemplate?: AssetPackDeliveryMechanismTemplate;

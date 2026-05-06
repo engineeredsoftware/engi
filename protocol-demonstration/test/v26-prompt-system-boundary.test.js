@@ -141,7 +141,6 @@ const ADMITTED_PROMPT_PRIMITIVE_FILES = [
 ];
 const ACTIVE_EXECUTION_PROMPT_CARRIERS = [
   'packages/agent-generics/src/execution/AgentExecution.ts',
-  'packages/agent-generics/src/execution/AgentExecution.js',
   'packages/agent-generics/src/execution/AgentExecution.d.ts',
   'packages/agent-generics/src/execution/index.ts',
   'packages/agent-generics/src/execution/index.js',

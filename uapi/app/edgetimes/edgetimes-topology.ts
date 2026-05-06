@@ -109,11 +109,12 @@ export const EDGETIMES_TOPOLOGY = {
     },
     {
       title: 'Artifacts and repository context',
-      detail: 'Repository and artifact ownership is already explicit enough to anchor storage convergence around source-bearing Bitcode state.',
+      detail: 'Repository, generated AssetPack assets, token-cost, and vector ownership anchor source-bearing Bitcode state without generic storage tables.',
       models: [
         'VCSRepositoryModel',
-        'ArtifactModel',
-        'GenerationModel',
+        'AssetPackGeneratedAssetsModel',
+        'BitcodeTokenCostsModel',
+        'AssetPackVectorsModel',
       ],
     },
   ] as const satisfies readonly EdgetimesModelGroup[],

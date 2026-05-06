@@ -5,7 +5,7 @@
 import { parseStreamChunk } from '@/streaming/stream-parser';
 
 describe('parseStreamChunk completion.fileChanges mapping', () => {
-  it('prefers top-level fileChanges and mirrors them into semantic AssetPack surfaces', () => {
+  it('prefers top-level fileChanges and mirrors them into AssetPack evidence only', () => {
     const chunk =
       'data: ' +
       JSON.stringify({
@@ -33,15 +33,7 @@ describe('parseStreamChunk completion.fileChanges mapping', () => {
       modified: ['y'],
       deleted: ['z'],
     });
-    expect(parsed.completion!.shippables.fileChanges).toEqual({
-      created: ['x'],
-      modified: ['y'],
-      deleted: ['z'],
-    });
-    expect(parsed.completion!.deliveryMechanism.fileChanges).toEqual({
-      created: ['x'],
-      modified: ['y'],
-      deleted: ['z'],
-    });
+    expect(parsed.completion!.shippables).toBeNull();
+    expect(parsed.completion!.deliveryMechanism).toBeNull();
   });
 });

@@ -1053,7 +1053,6 @@ export const POST = traceRoute('/executions', async (request: NextRequest) => {
           const deliveryMechanism =
             (execution as any).get?.('finish/asset_pack_completion', 'deliveryMechanism') ||
             shippables ||
-            writtenAssets ||
             undefined;
           const need =
             (execution as any).get?.('finish/asset_pack_completion', 'need') ||
@@ -1090,6 +1089,7 @@ export const POST = traceRoute('/executions', async (request: NextRequest) => {
           };
           if (
             !assetPackCompletion?.summary &&
+            !assetPackCompletion?.assetPackSynthesisArtifacts?.summary &&
             !assetPackCompletion?.writtenAssets?.summary &&
             !assetPackCompletion?.shippables?.summary &&
             !assetPackCompletion?.deliveryMechanism?.summary
@@ -1296,6 +1296,9 @@ export const POST = traceRoute('/executions', async (request: NextRequest) => {
           const completionWrittenAssets =
             assetPackCompletion?.writtenAssets ||
             assetPackCompletion?.assetPackSynthesisArtifacts ||
+            null;
+          const completionDelivery =
+            assetPackCompletion?.deliveryMechanism ||
             assetPackCompletion?.shippables ||
             null;
           const completionFileChanges = completionWrittenAssets?.fileChanges || null;
@@ -1317,7 +1320,7 @@ export const POST = traceRoute('/executions', async (request: NextRequest) => {
             completionWrittenAssets?.summary ||
             `${completionWrittenAssetType || 'AssetPack'} completed for ${repoOwner}/${repoName}`;
           const completionDeliveryMechanism =
-            completionWrittenAssets?.pullRequest?.url || completionAssetPack?.deliveryTarget === 'pr'
+            completionDelivery?.pullRequest?.url || completionAssetPack?.deliveryTarget === 'pr'
               ? 'Pull request'
               : 'AssetPack record';
 
@@ -1349,8 +1352,8 @@ export const POST = traceRoute('/executions', async (request: NextRequest) => {
               FilesChanged: completionFilesChanged,
               DeliveryMechanism: completionDeliveryMechanism,
               runId,
-              runUrl: `${origin}/executions/${runId}`,
-              BitcodeURL: `${origin}/executions/${runId}`,
+              runUrl: `${origin}/application?transactionId=${encodeURIComponent(runId)}`,
+              BitcodeURL: `${origin}/application?transactionId=${encodeURIComponent(runId)}`,
               origin,
               year: new Date().getFullYear()
             }

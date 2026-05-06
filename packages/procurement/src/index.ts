@@ -11,6 +11,10 @@ import { log } from '@bitcode/logger';
 
 const PRE_CONTEXT_MATCH_COUNT = parseInt(process.env.PRE_CONTEXT_PROCUREMENT_COUNT ?? '5', 10);
 const POST_CONTEXT_MATCH_COUNT = parseInt(process.env.POST_CONTEXT_PROCUREMENT_COUNT ?? '10', 10);
+const PROCUREMENT_EMBEDDING_MODEL =
+  process.env.BITCODE_PROCUREMENT_EMBEDDING_MODEL ||
+  process.env.BITCODE_DEFAULT_EMBEDDING_MODEL ||
+  'text-embedding-ada-002';
 
 // ---------------------------------------------------------------------------
 // Public API - procurement search over global evidence sources.
@@ -125,12 +129,17 @@ export async function searchRelevantSolutions(params: {
   const contextText = contextLines.join('\n');
 
   try {
+    if (!process.env.OPENAI_API_KEY) {
+      log('OPENAI_API_KEY not set, cannot perform Bitcode procurement evidence search', 'warn');
+      return [];
+    }
+
     // ---------------------------------------------------------------
     // 1) Embed the textual context
     // ---------------------------------------------------------------
-    const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY! });
+    const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
     const embedRes = await openai.embeddings.create({
-      model: 'text-embedding-ada-002',
+      model: PROCUREMENT_EMBEDDING_MODEL,
       input: contextText
     });
     const queryEmbedding = embedRes.data[0].embedding;

@@ -181,20 +181,19 @@ export class MessageAttachmentsModel extends BaseModel<'message_attachments'> {
     const { data, error } = await this.supabase
       .from(this.tableName)
       .select(`
-        pipeline_run_id,
+        attachment_id,
         messages!inner(conversation_id)
       `)
       .eq('messages.conversation_id', conversationId)
-      .eq('attachment_type', 'pipeline_run')
-      .not('pipeline_run_id', 'is', null);
+      .eq('attachment_type', 'pipeline_run');
 
     if (error) throw error;
 
     // Return unique pipeline execution IDs
     const runIds = new Set<string>();
     (data || []).forEach(att => {
-      if (att.pipeline_run_id) {
-        runIds.add(att.pipeline_run_id);
+      if (att.attachment_id) {
+        runIds.add(att.attachment_id);
       }
     });
 

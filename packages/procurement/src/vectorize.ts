@@ -20,7 +20,10 @@ import { log } from '@bitcode/logger';
 // ---------------------------------------------------------------------------
 
 const OPENAI_API_KEY = process.env.OPENAI_API_KEY;
-const EMBEDDING_MODEL = 'text-embedding-ada-002';
+const EMBEDDING_MODEL =
+  process.env.BITCODE_PROCUREMENT_EMBEDDING_MODEL ||
+  process.env.BITCODE_DEFAULT_EMBEDDING_MODEL ||
+  'text-embedding-ada-002';
 const EMBEDDING_DIMENSIONS = 1536;
 
 // ---------------------------------------------------------------------------

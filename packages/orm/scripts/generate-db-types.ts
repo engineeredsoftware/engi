@@ -5,12 +5,12 @@ import fs from 'fs';
 import path from 'path';
 
 type Column = { name: string; sqlType: string };
-type Table = { name: string; columns: Column[] };
+type Table = { name: string; physicalName: string; columns: Column[] };
 
-const ROOT = path.resolve(__dirname, '../../../..');
+const ROOT = path.resolve(__dirname, '../../..');
 const MIGRATIONS_DIR = path.join(ROOT, 'supabase', 'migrations');
 const OUT_DIR = path.join(__dirname, '..', 'src', 'types', 'generated');
-const OUT_FILE = path.join(OUT_DIR, 'deliverables_pipeline.generated.ts');
+const OUT_FILE = path.join(OUT_DIR, 'asset_pack_pipeline.generated.ts');
 
 function readMigrations(): string {
   const files = fs.readdirSync(MIGRATIONS_DIR).filter(f => f.endsWith('.sql')).sort();
@@ -19,23 +19,25 @@ function readMigrations(): string {
 
 function parseTables(sql: string): Table[] {
   const tables: Table[] = [];
-  const re = /CREATE\s+TABLE\s+IF\s+NOT\s+EXISTS\s+([a-zA-Z0-9_]+)\s*\(([^;]+?)\)\s*;/gims;
+  const re = /CREATE\s+TABLE\s+IF\s+NOT\s+EXISTS\s+(?:"[^"]+"\.)?"?([a-zA-Z0-9_]+)"?\s*\(([^;]+?)\)\s*;/gims;
   let m: RegExpExecArray | null;
   while ((m = re.exec(sql))) {
     const name = m[1];
-    if (!name.startsWith('deliverables_pipeline_')) continue;
+    if (!name.startsWith('deliverable_pipeline_') && !name.startsWith('asset_pack_pipeline_')) continue;
+    const semanticName = name.replace(/^deliverable_pipeline_/, 'asset_pack_pipeline_');
     const body = m[2];
     const columns: Column[] = [];
     for (const line of body.split('\n')) {
       const trimmed = line.trim().replace(/,$/, '');
       if (!trimmed || trimmed.startsWith('--')) continue;
-      const colMatch = trimmed.match(/^(\"?[a-zA-Z0-9_]+\"?)\s+([A-Z]+(?:\([^)]+\))?)/);
+      if (/^(CONSTRAINT|PRIMARY|FOREIGN|UNIQUE|CHECK)\b/i.test(trimmed)) continue;
+      const colMatch = trimmed.match(/^"?([a-zA-Z0-9_]+)"?\s+"?([a-zA-Z0-9_]+)"?(?:\(([^)]+)\))?/i);
       if (!colMatch) continue;
-      const colName = colMatch[1].replace(/\"/g, '');
-      const sqlType = colMatch[2];
+      const colName = colMatch[1];
+      const sqlType = `${colMatch[2]}${colMatch[3] ? `(${colMatch[3]})` : ''}`;
       columns.push({ name: colName, sqlType });
     }
-    tables.push({ name, columns });
+    tables.push({ name: semanticName, physicalName: name, columns });
   }
   return tables;
 }
@@ -63,10 +65,11 @@ function sqlToZod(sqlType: string): string {
 }
 
 function generate(tables: Table[]): string {
-  const header = `/* AUTO-GENERATED FROM supabase/migrations (AssetPack pipeline storage tables) */\nimport { z } from 'zod';\n`;
+  const header = `/* AUTO-GENERATED FROM supabase/migrations (AssetPack pipeline storage tables). */\n/* Some physical table names are retained storage identifiers; generated types expose AssetPack names. */\nimport { z } from 'zod';\n`;
   let body = '';
   for (const tbl of tables) {
     const ifaceName = toPascal(tbl.name);
+    body += `\nexport const ${ifaceName}PhysicalTable = '${tbl.physicalName}' as const;\n`;
     body += `\nexport interface ${ifaceName} {\n`;
     for (const c of tbl.columns) {
       body += `  ${c.name}: ${sqlToTs(c.sqlType)};\n`;

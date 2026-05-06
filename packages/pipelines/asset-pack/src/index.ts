@@ -137,7 +137,7 @@ function factoryPostprocess(): Executor<any, any> {
     const norm = normalizeAssetPackOutput(output, execution);
     const snapshot = buildAssetPackPostprocessedResult(execution, norm);
     execution.store('postprocessed', 'result', snapshot as any);
-    return output;
+    return norm;
   };
 }
 

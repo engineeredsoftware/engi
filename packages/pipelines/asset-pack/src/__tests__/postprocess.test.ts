@@ -27,7 +27,7 @@ describe('normalizeAssetPackOutput', () => {
     const normalized = normalizeAssetPackOutput(output, exec);
     expect(normalized.shippable.prUrl).toContain('/pull/123');
     expect(normalized.deliveryMechanism?.prUrl).toContain('/pull/123');
-    expect(normalized.writtenAsset.prUrl).toContain('/pull/123');
+    expect(normalized.writtenAsset?.prUrl).toBeUndefined();
     expect(normalized.artifacts.filesModified).toEqual(['a.ts', 'b.ts']);
     expect(normalized.need).toBe('Need a repository-backed pull request');
     expect(normalized.writtenAssetType).toBe('need-satisfaction-asset-pack');
@@ -76,6 +76,7 @@ describe('normalizeAssetPackOutput', () => {
     expect(result.deliveryMechanism).toBeUndefined();
     expect(result.summary).toBe('Finish-preserved AssetPack synthesis artifacts.');
     expect(result.assetPackSynthesisArtifacts?.summary).toBe('Finish-preserved AssetPack synthesis artifacts.');
+    expect(result.writtenAssets?.summary).toBe('Finish-preserved AssetPack synthesis artifacts.');
     expect(result.assetPackSynthesisArtifacts?.proofEvidence).toEqual(['finish-summary-read']);
     expect(result.assetPack).toEqual({
       need: 'Need a review-ready written asset',

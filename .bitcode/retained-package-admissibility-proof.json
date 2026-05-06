@@ -1,8 +1,8 @@
 {
   "reportId": "v26-retained-package-admissibility-proof",
   "version": "V26",
-  "proofSourceCommit": "93b652b76315046863c456db20b6970460bd7901",
-  "generatedAt": "2026-05-06T01:29:27-03:00",
+  "proofSourceCommit": "bdccd937bbd9ae0997a3d8d1248a157c00574d46",
+  "generatedAt": "2026-05-06T06:30:53-03:00",
   "generatorId": "bitcode.proven-generator.v1",
   "worktreeState": "dirty-preview",
   "passed": true,
@@ -54,14 +54,15 @@
       "rationale": "typed model/query ownership and generated database types remain the retained schema contract layer",
       "role": "typed Bitcode model/query and profile-contract boundary",
       "writeBoundary": "ORM helpers may read/write rows only as schema infrastructure; experimental field-intelligence query ownership is cut from the active package",
-      "proofObligation": "retained ORM admission is tied to generated database types, active models, profile readiness, vector support, and no active field-intelligence corridor",
+      "proofObligation": "retained ORM admission is tied to generated database types, active models, profile readiness, AssetPack evidence vector support, and no active field-intelligence corridor",
       "requiredFiles": [
         "packages/orm/src/client.ts",
         "packages/orm/src/models/index.ts",
+        "packages/orm/src/models/bitcode-execution-storage.ts",
         "packages/orm/src/profile-contract.ts",
-        "packages/orm/src/queries/vector.ts",
         "packages/orm/src/types/database.generated.ts",
         "packages/orm/src/types/database.ts",
+        "packages/orm/src/types/generated/asset_pack_pipeline.generated.ts",
         "packages/orm/scripts/generate-db-types.ts"
       ],
       "missingFiles": [],

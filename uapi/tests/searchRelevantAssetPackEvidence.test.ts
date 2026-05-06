@@ -29,6 +29,8 @@ beforeEach(() => {
   jest.clearAllMocks();
   mockEmbeddingsCreate.mockReset();
   (supabaseAdmin.rpc as jest.Mock).mockReset();
+  delete process.env.BITCODE_ASSET_PACK_EVIDENCE_EMBEDDING_MODEL;
+  delete process.env.BITCODE_DEFAULT_EMBEDDING_MODEL;
   process.env.OPENAI_API_KEY = 'fake';
 });
 
@@ -60,6 +62,28 @@ describe('searchRelevantAssetPackEvidence', () => {
 
     await searchRelevantAssetPackEvidence({ repoOwner: 'o', repoName: 'r', repoBranch: 'b', repoCommit: 'c', stage: 'post-context', count: 2, embeddingClient: mockEmbeddingClient });
     expect(supabaseAdmin.rpc).toHaveBeenCalledWith('match_deliverable_vectors', { query_embedding: [3], match_count: 2 });
+  });
+
+  it('allows an injected embedding client without a live provider key', async () => {
+    delete process.env.OPENAI_API_KEY;
+    process.env.BITCODE_ASSET_PACK_EVIDENCE_EMBEDDING_MODEL = 'bitcode-test-embedding-model';
+    mockEmbeddingsCreate.mockResolvedValue({ data: [{ embedding: [9] }] });
+    (supabaseAdmin.rpc as jest.Mock).mockResolvedValue({ data: [], error: null });
+
+    await searchRelevantAssetPackEvidence({
+      repoOwner: 'o',
+      repoName: 'r',
+      repoBranch: 'b',
+      repoCommit: 'c',
+      stage: 'pre-context',
+      embeddingClient: mockEmbeddingClient,
+    });
+
+    expect(mockEmbeddingsCreate).toHaveBeenCalledWith({
+      model: 'bitcode-test-embedding-model',
+      input: expect.stringContaining('Repository: o/r'),
+    });
+    expect(supabaseAdmin.rpc).toHaveBeenCalledWith('match_deliverable_vectors', { query_embedding: [9], match_count: 5 });
   });
 
   it('returns empty on RPC error', async () => {

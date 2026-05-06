@@ -365,7 +365,7 @@ export function getHeaderShippables(
   return (
     assetPackCompletion?.shippables ||
     assetPackCompletion?.deliveryMechanism ||
-    getHeaderWrittenAssets(assetPackCompletion)
+    null
   );
 }
 
@@ -378,8 +378,8 @@ export function mergeHeaderShippables(
   if (!writtenAssets && !deliveryMechanism) return null;
 
   return {
-    pullRequest: deliveryMechanism?.pullRequest ?? writtenAssets?.pullRequest ?? null,
-    fileChanges: writtenAssets?.fileChanges ?? deliveryMechanism?.fileChanges ?? null,
+    pullRequest: deliveryMechanism?.pullRequest ?? null,
+    fileChanges: writtenAssets?.fileChanges ?? null,
     summary: writtenAssets?.summary ?? deliveryMechanism?.summary ?? null,
   };
 }

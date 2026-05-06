@@ -3,7 +3,7 @@
  * 
  * Provides type-safe database access for V26 schema with:
  * - Type-safe Supabase client wrapper
- * - Vector search support (pgvector)
+ * - AssetPack evidence vector storage support (pgvector)
  * - Consistent model patterns
  * - Row Level Security compliance
  * 
@@ -50,6 +50,7 @@ export { ExecutionEventsModel } from './models/execution-events';
 
 // Essential Infrastructure models
 export { NotificationsModel } from './models/notifications';
+export { MessageAttachmentsModel } from './models/message-attachments';
 
 // VCS Integration models
 export { VCSRepositoryModel, getVCSRepositoryModel } from './models/vcs-repositories';
@@ -163,12 +164,8 @@ export { OrganizationBtdUsageModel } from './models/organization-btd-usage';
  *   status: 'pending'
  * });
  * 
- * // Vector search for similar AssetPack evidence
- * const similar = await client.vectors.search({
- *   embedding: queryEmbedding,
- *   table: 'asset_pack_vectors',
- *   limit: 5
- * });
+ * // Vector rows for similar AssetPack evidence
+ * const vectors = await client.assetPackVectors.listByAssetPackEvidenceId(assetPackEvidence.id);
  */
 
 import type { Tables } from './types/database';

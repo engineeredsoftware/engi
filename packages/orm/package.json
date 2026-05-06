@@ -1,12 +1,12 @@
 {
   "name": "@bitcode/orm",
   "version": "1.0.0",
-  "description": "Bitcode ORM - Database access layer with vector search",
-  "main": "dist/index.js",
-  "types": "dist/index.d.ts",
+  "description": "Bitcode ORM - Database access layer with AssetPack evidence vector storage",
+  "main": "src/index.ts",
+  "types": "src/index.ts",
   "scripts": {
     "build": "tsc",
-    "codegen:db": "node scripts/generate-db-types.js",
+    "codegen:db": "ts-node --transpile-only scripts/generate-db-types.ts",
     "clean": "rm -rf dist",
     "test": "jest --passWithNoTests",
     "generate-types": "supabase gen types typescript --local > src/types/database.ts"

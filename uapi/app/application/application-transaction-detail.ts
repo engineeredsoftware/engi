@@ -59,7 +59,7 @@ export function getApplicationTransactionWrittenAssets(
 export function getApplicationTransactionDeliveryMechanism(
   detail: ApplicationRunDetailSnapshot | null,
 ): ShippablesDoc | null {
-  return detail?.shippables || detail?.deliveryMechanism || getApplicationTransactionWrittenAssets(detail);
+  return detail?.shippables || detail?.deliveryMechanism || null;
 }
 
 export function countApplicationTransactionShippableSurfaces(detail: ApplicationRunDetailSnapshot | null) {
@@ -89,7 +89,7 @@ export function buildApplicationTransactionOverviewMetrics(
   selectedRun: WorkspaceRun,
   detail: ApplicationRunDetailSnapshot | null,
 ) {
-  const shippableSurfaceCount = countApplicationTransactionShippableSurfaces(detail) || selectedRun.itemCount || 0;
+  const shippableSurfaceCount = countApplicationTransactionShippableSurfaces(detail);
 
   return [
     { label: 'Shippables', value: formatNumber(shippableSurfaceCount) },

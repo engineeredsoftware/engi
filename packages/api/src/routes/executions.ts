@@ -120,7 +120,6 @@ function buildWrittenAssets(row: ExecutionHistoryRow) {
   return (
     asRecord(assetPackCompletion?.writtenAssets) ||
     buildAssetPackSynthesisArtifacts(row) ||
-    asRecord(assetPackCompletion?.shippables) ||
     asRecord(output?.writtenAssets) ||
     asRecord(output?.assetPackSynthesisArtifacts)
   );
@@ -136,28 +135,62 @@ function buildAssetPackSynthesisArtifacts(row: ExecutionHistoryRow) {
   );
 }
 
+function hasPullRequestDelivery(surface: Record<string, unknown> | null) {
+  if (!surface) return false;
+  return Boolean(
+    asRecord(surface.pullRequest) ||
+    asString(surface.prUrl) ||
+    asString(surface.url)
+  );
+}
+
+function normalizeDeliveryMechanismSurface(surface: Record<string, unknown> | null) {
+  if (!surface) return null;
+  const directPullRequest = asRecord(surface.pullRequest);
+  const fallbackPullRequestUrl = asString(surface.prUrl) || asString(surface.url);
+  const pullRequest = directPullRequest || (fallbackPullRequestUrl ? {
+    url: fallbackPullRequestUrl,
+    ...(asString(surface.title) ? { title: asString(surface.title) } : {}),
+    ...(asNumber(surface.number) ? { number: asNumber(surface.number) } : {}),
+  } : null);
+  const summary = asString(surface.summary);
+
+  if (!pullRequest && !summary) return null;
+
+  return {
+    ...(pullRequest ? { pullRequest } : {}),
+    ...(summary ? { summary } : {}),
+  };
+}
+
 function buildDeliveryMechanism(row: ExecutionHistoryRow) {
   const output = readOutputRecord(row);
   const assetPackCompletion = readAssetPackCompletion(row);
-
-  return (
+  const explicitDeliveryMechanism =
     asRecord(assetPackCompletion?.deliveryMechanism) ||
     asRecord(assetPackCompletion?.shippables) ||
     asRecord(output?.deliveryMechanism) ||
-    asRecord(output?.shippables) ||
-    buildWrittenAssets(row)
-  );
+    asRecord(output?.shippables);
+
+  const deliverySurface = normalizeDeliveryMechanismSurface(explicitDeliveryMechanism);
+  if (deliverySurface) return deliverySurface;
+
+  const summary = asString(assetPackCompletion?.summary) || asString(output?.summary);
+  return summary ? { summary } : null;
 }
 
 function buildShippables(row: ExecutionHistoryRow) {
   const output = readOutputRecord(row);
   const assetPackCompletion = readAssetPackCompletion(row);
-
-  return (
+  const explicitShippables =
     asRecord(assetPackCompletion?.shippables) ||
-    buildDeliveryMechanism(row) ||
-    asRecord(output?.shippables)
-  );
+    asRecord(output?.shippables);
+
+  const normalizedExplicitShippables = normalizeDeliveryMechanismSurface(explicitShippables);
+  if (hasPullRequestDelivery(normalizedExplicitShippables)) return normalizedExplicitShippables;
+
+  const deliveryMechanism = buildDeliveryMechanism(row);
+  return hasPullRequestDelivery(deliveryMechanism) ? deliveryMechanism : null;
 }
 
 function buildNeed(row: ExecutionHistoryRow) {
@@ -332,6 +365,14 @@ function buildMetadata(row: ExecutionHistoryRow) {
 
 function buildNormalizedAssetPackCompletion(row: ExecutionHistoryRow) {
   const assetPackCompletion = readAssetPackCompletion(row);
+  const {
+    shippables: _retainedShippables,
+    deliveryMechanism: _retainedDeliveryMechanism,
+    writtenAssets: _retainedWrittenAssets,
+    assetPackSynthesisArtifacts: _retainedAssetPackSynthesisArtifacts,
+    deliverables: _retainedDeliverables,
+    ...assetPackCompletionRest
+  } = assetPackCompletion || {};
   const assetPackSynthesisArtifacts = buildAssetPackSynthesisArtifacts(row);
   const writtenAssets = buildWrittenAssets(row);
   const shippables = buildShippables(row);
@@ -364,7 +405,7 @@ function buildNormalizedAssetPackCompletion(row: ExecutionHistoryRow) {
   }
 
   return {
-    ...(assetPackCompletion || {}),
+    ...assetPackCompletionRest,
     ...(summary ? { summary } : {}),
     ...(assetPackSynthesisArtifacts ? { assetPackSynthesisArtifacts } : {}),
     ...(writtenAssets ? { writtenAssets } : {}),

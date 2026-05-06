@@ -14,6 +14,13 @@ const POST_CONTEXT_ASSET_PACK_EVIDENCE_COUNT = parseInt(
   process.env.BITCODE_POST_CONTEXT_ASSET_PACK_EVIDENCE_COUNT ?? '10',
   10
 );
+function getAssetPackEvidenceEmbeddingModel() {
+  return (
+    process.env.BITCODE_ASSET_PACK_EVIDENCE_EMBEDDING_MODEL ??
+    process.env.BITCODE_DEFAULT_EMBEDDING_MODEL ??
+    'text-embedding-ada-002'
+  );
+}
 
 export interface AssetPackEvidenceEmbeddingClient {
   embeddings: {
@@ -39,7 +46,7 @@ export async function searchRelevantAssetPackEvidence(params: {
 
   log(`searchRelevantAssetPackEvidence for ${repoOwner}/${repoName}@${repoBranch} (${stage})`, 'info');
 
-  if (!process.env.OPENAI_API_KEY) {
+  if (!embeddingClient && !process.env.OPENAI_API_KEY) {
     log('OPENAI_API_KEY not set, cannot perform AssetPack evidence search', 'warn');
     return [];
   }
@@ -53,8 +60,22 @@ export async function searchRelevantAssetPackEvidence(params: {
   const contextText = contextLines.join('\n');
 
   const embeddings = embeddingClient ?? new OpenAI({ apiKey: process.env.OPENAI_API_KEY! });
-  const embedRes = await embeddings.embeddings.create({ model: 'text-embedding-ada-002', input: contextText });
-  const queryEmbedding = embedRes.data[0].embedding as any;
+  let queryEmbedding: unknown;
+  try {
+    const embedRes = await embeddings.embeddings.create({
+      model: getAssetPackEvidenceEmbeddingModel(),
+      input: contextText,
+    });
+    queryEmbedding = embedRes.data?.[0]?.embedding;
+  } catch (error) {
+    log('searchRelevantAssetPackEvidence embedding error', 'error', { error });
+    return [];
+  }
+
+  if (!Array.isArray(queryEmbedding)) {
+    log('searchRelevantAssetPackEvidence missing embedding vector', 'warn');
+    return [];
+  }
 
   const matchCount =
     count ??

@@ -101,7 +101,7 @@ const AssetPackCompletionAgent = factoryAgentWithSingleStep<any, AssetPackComple
       (execution as any).prompt?.setSpecificExecution(
         'specific_execution:output:shape',
         (
-          'Output JSON with keys: shippables{pullRequest,fileChanges,summary}, assetPackSynthesisArtifacts{pullRequest,fileChanges,summary,proofEvidence?,reviewNotes?}, writtenAssets{pullRequest,fileChanges,summary}, deliveryMechanism{pullRequest,summary}, processingStats{time,tokens?,measuredBtd?,feeAsset?,btcFeesPaid?,btcFeeUsdEquivalent?}, repoSnapshot{org,repo,branch,commit}. V26 Finish delivers AssetPack evidence through Bitcode-owned pull-request fields only.'
+          'Output JSON with keys: assetPackSynthesisArtifacts{fileChanges,summary,proofEvidence?,reviewNotes?}, writtenAssets{fileChanges,summary}, shippables{pullRequest,summary}, deliveryMechanism{pullRequest,summary}, processingStats{time,tokens?,measuredBtd?,feeAsset?,btcFeesPaid?,btcFeeUsdEquivalent?}, repoSnapshot{org,repo,branch,commit}. V26 Finish stores AssetPack evidence separately from the GitHub pull-request Shippable delivery mechanism.'
         ) as unknown as PromptPart
       );
     } catch {}

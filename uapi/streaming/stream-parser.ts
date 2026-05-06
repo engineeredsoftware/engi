@@ -58,6 +58,42 @@ function normalizeAssetPackSurface(surface: any, fileChanges?: any, summary?: st
   return normalized;
 }
 
+function normalizeAssetPackEvidenceSurface(surface: any, fileChanges?: any, summary?: string | null) {
+  const normalized = normalizeAssetPackSurface(surface, fileChanges, summary);
+  if (!normalized) return null;
+
+  const hasEvidence =
+    normalized.fileChanges ||
+    normalized.summary ||
+    (Array.isArray(normalized.proofEvidence) && normalized.proofEvidence.length > 0) ||
+    (Array.isArray(normalized.reviewNotes) && normalized.reviewNotes.length > 0);
+
+  if (!hasEvidence) return null;
+
+  return {
+    ...normalized,
+    pullRequest: null,
+  };
+}
+
+function normalizeAssetPackDeliverySurface(surface: any, summary?: string | null) {
+  const normalized = normalizeAssetPackSurface(surface, null, summary);
+  if (!normalized) return null;
+  if (!normalized.pullRequest && !normalized.summary) return null;
+
+  return {
+    pullRequest: normalized.pullRequest,
+    fileChanges: null,
+    summary: normalized.summary,
+  };
+}
+
+function normalizePullRequestShippableSurface(surface: any, summary?: string | null) {
+  const deliverySurface = normalizeAssetPackDeliverySurface(surface, summary);
+  if (!deliverySurface?.pullRequest) return null;
+  return deliverySurface;
+}
+
 function pickCanonicalCompletionResult(result: any) {
   if (!result || typeof result !== 'object') {
     return {};
@@ -210,35 +246,37 @@ export const parseStreamChunk = (chunk: string): ParsedStreamData => {
             const explicitDeliveryMechanism = normalizeAssetPackSurface(data.result.deliveryMechanism);
             const explicitShippables = normalizeAssetPackSurface(data.result.shippables) || explicitDeliveryMechanism;
             const actionsFileChanges = data.result.actions?.files || null;
+            const deliveryEvidenceSurface =
+              normalizeAssetPackEvidenceSurface(explicitDeliveryMechanism) ||
+              normalizeAssetPackEvidenceSurface(explicitShippables);
 
             const semanticFileChanges =
               explicitAssetPackSynthesisArtifacts?.fileChanges ||
               explicitWrittenAssets?.fileChanges ||
               topLevelFileChanges ||
-              explicitShippables?.fileChanges ||
-              explicitDeliveryMechanism?.fileChanges ||
+              deliveryEvidenceSurface?.fileChanges ||
               actionsFileChanges ||
               null;
 
-            const actionsSurface = normalizeAssetPackSurface({
+            const actionsSurface = normalizeAssetPackDeliverySurface({
               pullRequest: data.result.actions?.pullRequest || null,
-            }, topLevelFileChanges || actionsFileChanges || explicitShippables?.fileChanges || explicitDeliveryMechanism?.fileChanges || explicitWrittenAssets?.fileChanges || null, data.result.summary || null);
+            }, data.result.summary || null);
 
             const writtenAssets =
               explicitWrittenAssets ||
               explicitAssetPackSynthesisArtifacts ||
               (data.result.summary || semanticFileChanges
-                  ? normalizeAssetPackSurface(null, semanticFileChanges, data.result.summary || null)
+                  ? normalizeAssetPackEvidenceSurface(null, semanticFileChanges, data.result.summary || null)
                 : null);
 
             const deliveryMechanism =
-              explicitDeliveryMechanism ||
-              explicitShippables ||
+              normalizeAssetPackDeliverySurface(explicitDeliveryMechanism) ||
+              normalizeAssetPackDeliverySurface(explicitShippables) ||
               actionsSurface;
 
             const shippables =
-              explicitShippables ||
-              deliveryMechanism;
+              normalizePullRequestShippableSurface(explicitShippables) ||
+              normalizePullRequestShippableSurface(deliveryMechanism);
 
             parsedData.completion = {
               ...canonicalResult,

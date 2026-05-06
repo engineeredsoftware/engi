@@ -15,6 +15,10 @@ const { supabaseAdmin } = require('@bitcode/supabase');
 // Retained Exchange storage identifiers; this script owns AssetPack evidence semantics.
 const ASSET_PACK_EVIDENCE_TABLE = 'deliverables';
 const ASSET_PACK_EVIDENCE_VECTOR_TABLE = 'deliverable_vectors';
+const ASSET_PACK_EVIDENCE_EMBEDDING_MODEL =
+  process.env.BITCODE_ASSET_PACK_EVIDENCE_EMBEDDING_MODEL ||
+  process.env.BITCODE_DEFAULT_EMBEDDING_MODEL ||
+  'text-embedding-ada-002';
 
 async function main() {
   const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
@@ -37,7 +41,7 @@ async function main() {
 
     try {
       const res = await openai.embeddings.create({
-        model: 'text-embedding-ada-002',
+        model: ASSET_PACK_EVIDENCE_EMBEDDING_MODEL,
         input: evidence.output || ''
       });
       const embedding = res.data[0].embedding;

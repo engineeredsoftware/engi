@@ -288,6 +288,21 @@ describe('application-transaction-detail helpers', () => {
     expect(getApplicationTransactionDeliveryMechanism(detail)?.summary).toBe('Shippable summary.');
   });
 
+  it('does not treat written AssetPack evidence as a Finish delivery mechanism', () => {
+    const writtenOnlyDetail = {
+      ...detail,
+      shippables: null,
+      deliveryMechanism: null,
+      writtenAssets: {
+        summary: 'Written-only AssetPack evidence.',
+        fileChanges: { edited: 1, created: 0, deleted: 0, paths: ['src/index.ts'] },
+      },
+    };
+
+    expect(getApplicationTransactionDeliveryMechanism(writtenOnlyDetail)).toBeNull();
+    expect(countApplicationTransactionShippableSurfaces(writtenOnlyDetail)).toBe(0);
+  });
+
   it('keeps removed deliverables fields out of the active detail contract', () => {
     expect(detail).not.toHaveProperty('deliverables');
   });

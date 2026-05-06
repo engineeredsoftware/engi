@@ -351,7 +351,7 @@ export function ExecutionsClient() {
     getHeaderShippables(historyAssetPackCompletion) ||
     headerPostprocessed?.shippables ||
     headerPostprocessed?.deliveryMechanism ||
-    writtenAssetsForPanels;
+    null;
   const shippablesForPanels = mergeHeaderShippables(
     writtenAssetsForPanels,
     deliveryMechanismForPanels,
@@ -522,7 +522,7 @@ export function ExecutionsClient() {
           }}
           shippables={{
             pullRequest: deliveryMechanismForPanels?.pullRequest ?? null,
-            fileChanges: writtenAssetsForPanels?.fileChanges ?? deliveryMechanismForPanels?.fileChanges ?? null,
+            fileChanges: writtenAssetsForPanels?.fileChanges ?? null,
             summary:
               writtenAssetsForPanels?.summary ||
               historyAssetPackCompletion?.summary ||

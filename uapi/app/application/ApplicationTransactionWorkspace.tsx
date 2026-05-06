@@ -89,17 +89,14 @@ function buildMasterDetailSubstructures(
   detail: ApplicationRunDetailSnapshot | null,
 ): ApplicationMasterDetailSubstructure[] {
   const writtenAssets = detail?.writtenAssets || null;
-  const deliveryMechanism = detail?.shippables || detail?.deliveryMechanism || writtenAssets;
+  const deliveryMechanism = detail?.shippables || detail?.deliveryMechanism || null;
   const mergedAssetPackSurface = {
-    pullRequest: deliveryMechanism?.pullRequest ?? writtenAssets?.pullRequest ?? null,
-    fileChanges: writtenAssets?.fileChanges ?? deliveryMechanism?.fileChanges ?? null,
+    pullRequest: deliveryMechanism?.pullRequest ?? null,
+    fileChanges: writtenAssets?.fileChanges ?? null,
     summary: writtenAssets?.summary ?? deliveryMechanism?.summary ?? null,
   };
-  const shippableSurfaceCount =
-    countShippableSurfaces(deliveryMechanism || writtenAssets) ||
-    detail?.historyItemCount ||
-    selectedRun.itemCount ||
-    0;
+  const attachedAssetPackSurfaceCount =
+    countShippableSurfaces(deliveryMechanism) + (writtenAssets ? 1 : 0);
 
   return MASTER_DETAIL_SUBSTRUCTURES.map((substructure) => {
     if (substructure.id === 'transactions') {
@@ -128,7 +125,7 @@ function buildMasterDetailSubstructures(
           mergedAssetPackSurface.summary ||
           'Finish-delivered Shippables and AssetPack evidence stay inside the selected Bitcode activity context so you can inspect output without leaving the Bitcode Terminal.',
         metrics: [
-          { label: 'Shippables', value: formatNumber(shippableSurfaceCount) },
+          { label: 'Attached surfaces', value: formatNumber(attachedAssetPackSurfaceCount) },
           { label: 'Closure focus', value: detail?.closureFocus || selectedRun.closureFocus || 'materialized output' },
         ],
         rows: [

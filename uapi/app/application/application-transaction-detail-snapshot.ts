@@ -188,6 +188,40 @@ function coerceShippableSurface(value: unknown): ShippablesDoc | null {
   };
 }
 
+function buildWrittenAssetSurface(surface?: ShippablesDoc | null): ShippablesDoc | null {
+  if (!surface) return null;
+
+  const summary = surface.summary || null;
+  const fileChanges = surface.fileChanges || null;
+  if (!summary && !fileChanges) return null;
+
+  return {
+    pullRequest: null,
+    fileChanges,
+    summary,
+  };
+}
+
+function buildDeliverySurface(surface?: ShippablesDoc | null): ShippablesDoc | null {
+  if (!surface) return null;
+
+  const pullRequest = surface.pullRequest || null;
+  const summary = surface.summary || null;
+  if (!pullRequest && !summary) return null;
+
+  return {
+    pullRequest,
+    fileChanges: null,
+    summary,
+  };
+}
+
+function buildPullRequestShippableSurface(surface?: ShippablesDoc | null): ShippablesDoc | null {
+  const deliverySurface = buildDeliverySurface(surface);
+  if (!deliverySurface?.pullRequest) return null;
+  return deliverySurface;
+}
+
 function coerceRows(value: unknown) {
   if (!Array.isArray(value)) return [];
   return value
@@ -501,12 +535,16 @@ export function buildApplicationRunDetailFromSelectedRun(
     return selectedRun.protocolProjectionDetail;
   }
 
+  const fallbackWrittenAssets = buildWrittenAssetSurface(fallbackShippables);
+  const fallbackDeliveryMechanism = buildDeliverySurface(fallbackShippables);
+  const fallbackPrShippables = buildPullRequestShippableSurface(fallbackShippables);
+
   return {
     summary: selectedRun.summary || fallbackShippables?.summary || null,
     assetPackSynthesisArtifacts: null,
-    writtenAssets: fallbackShippables || null,
-    shippables: fallbackShippables || null,
-    deliveryMechanism: fallbackShippables || null,
+    writtenAssets: fallbackWrittenAssets,
+    shippables: fallbackPrShippables,
+    deliveryMechanism: fallbackDeliveryMechanism,
     repoSnapshot: parseRepository(selectedRun.repository, selectedRun.branch),
     processingStats: {
       time: null,
@@ -553,12 +591,11 @@ export function normalizeApplicationRunDetailPayload(
     coerceShippableSurface(run.delivery_mechanism) ||
     coerceShippableSurface(assetPackCompletion?.shippables) ||
     coerceShippableSurface(run.shippables) ||
-    base.deliveryMechanism ||
-    writtenAssets;
+    base.deliveryMechanism;
   const shippables =
-    coerceShippableSurface(assetPackCompletion?.shippables) ||
-    coerceShippableSurface(run.shippables) ||
-    deliveryMechanism ||
+    buildPullRequestShippableSurface(coerceShippableSurface(assetPackCompletion?.shippables)) ||
+    buildPullRequestShippableSurface(coerceShippableSurface(run.shippables)) ||
+    buildPullRequestShippableSurface(deliveryMechanism) ||
     base.shippables ||
     null;
   const repoSnapshot =

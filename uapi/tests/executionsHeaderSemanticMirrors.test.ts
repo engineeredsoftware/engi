@@ -57,4 +57,35 @@ describe('executions header semantic mirrors', () => {
       summary: 'Primary AssetPack synthesis artifact summary.',
     });
   });
+
+  it('does not promote written AssetPack evidence into delivery mechanisms', () => {
+    const assetPackCompletion: HeaderAssetPackCompletion = {
+      assetPackSynthesisArtifacts: {
+        summary: 'Evidence-only AssetPack synthesis.',
+        fileChanges: {
+          edited: 1,
+          created: 0,
+          deleted: 0,
+          paths: ['src/index.ts'],
+        },
+      },
+    };
+
+    expect(getHeaderDeliveryMechanism(assetPackCompletion)).toBeNull();
+    expect(
+      mergeHeaderShippables(
+        getHeaderWrittenAssets(assetPackCompletion),
+        getHeaderDeliveryMechanism(assetPackCompletion),
+      ),
+    ).toEqual({
+      pullRequest: null,
+      fileChanges: {
+        edited: 1,
+        created: 0,
+        deleted: 0,
+        paths: ['src/index.ts'],
+      },
+      summary: 'Evidence-only AssetPack synthesis.',
+    });
+  });
 });

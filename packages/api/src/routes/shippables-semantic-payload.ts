@@ -64,6 +64,46 @@ function buildSurfaceFromActions(result: Record<string, unknown>, fileChanges: F
   };
 }
 
+function buildEvidenceSurface(surface: SurfaceRecord): SurfaceRecord {
+  if (!surface) return null;
+  const fileChanges = surface.fileChanges || null;
+  const proofEvidence = surface.proofEvidence?.length ? surface.proofEvidence : null;
+  const reviewNotes = surface.reviewNotes?.length ? surface.reviewNotes : null;
+  const summary = surface.summary || null;
+
+  if (!fileChanges && !proofEvidence && !reviewNotes && !summary) return null;
+
+  return {
+    pullRequest: null,
+    fileChanges,
+    proofEvidence,
+    reviewNotes,
+    summary,
+  };
+}
+
+function buildDeliverySurface(surface: SurfaceRecord): SurfaceRecord {
+  if (!surface) return null;
+  const pullRequest = surface.pullRequest || null;
+  const summary = surface.summary || null;
+
+  if (!pullRequest && !summary) return null;
+
+  return {
+    pullRequest,
+    fileChanges: null,
+    proofEvidence: null,
+    reviewNotes: null,
+    summary,
+  };
+}
+
+function buildPullRequestShippableSurface(surface: SurfaceRecord): SurfaceRecord {
+  const deliverySurface = buildDeliverySurface(surface);
+  if (!deliverySurface?.pullRequest) return null;
+  return deliverySurface;
+}
+
 function buildAssetPack(
   assetPackCompletion: AssetPackCompletionRecord,
   result: Record<string, unknown>,
@@ -89,6 +129,15 @@ export function buildSemanticCompletionResult(params: {
   fileChanges?: FileChanges;
 }) {
   const resultRecord = asRecord(params.result) || {};
+  const {
+    shippables: _retainedShippables,
+    deliveryMechanism: _retainedDeliveryMechanism,
+    writtenAssets: _retainedWrittenAssets,
+    assetPackSynthesisArtifacts: _retainedAssetPackSynthesisArtifacts,
+    deliverables: _retainedDeliverables,
+    actions: _retainedActions,
+    ...safeResultRecord
+  } = resultRecord;
   const assetPackCompletion = params.assetPackCompletion || null;
   const topLevelFileChanges = params.fileChanges || null;
   const explicitWrittenAssets =
@@ -105,13 +154,17 @@ export function buildSemanticCompletionResult(params: {
     asSurfaceRecord(resultRecord.shippables) ||
     explicitDeliveryMechanism;
   const actionsSurface = buildSurfaceFromActions(resultRecord, topLevelFileChanges);
+  const actionEvidenceSurface = buildEvidenceSurface(actionsSurface);
+  const actionDeliverySurface = buildDeliverySurface(actionsSurface);
+  const deliveryEvidenceSurface =
+    buildEvidenceSurface(explicitDeliveryMechanism) ||
+    buildEvidenceSurface(explicitShippables);
   const semanticFileChanges =
     explicitAssetPackSynthesisArtifacts?.fileChanges ||
     explicitWrittenAssets?.fileChanges ||
     topLevelFileChanges ||
-    explicitDeliveryMechanism?.fileChanges ||
-    explicitShippables?.fileChanges ||
-    actionsSurface?.fileChanges ||
+    deliveryEvidenceSurface?.fileChanges ||
+    actionEvidenceSurface?.fileChanges ||
     null;
 
   const writtenAssets =
@@ -126,14 +179,14 @@ export function buildSemanticCompletionResult(params: {
       : null);
 
   const deliveryMechanism =
-    explicitDeliveryMechanism ||
-    explicitShippables ||
-    actionsSurface ||
-    writtenAssets;
+    buildDeliverySurface(explicitDeliveryMechanism) ||
+    buildDeliverySurface(explicitShippables) ||
+    actionDeliverySurface ||
+    null;
 
   const shippables =
-    explicitShippables ||
-    deliveryMechanism ||
+    buildPullRequestShippableSurface(explicitShippables) ||
+    buildPullRequestShippableSurface(deliveryMechanism) ||
     null;
 
   const summary =
@@ -154,7 +207,7 @@ export function buildSemanticCompletionResult(params: {
 
   return {
     clientResult: {
-      ...resultRecord,
+      ...safeResultRecord,
       ...(summary ? { summary } : {}),
       ...(assetPackCompletion?.processingStats ? { processingStats: assetPackCompletion.processingStats } : {}),
       ...(assetPackCompletion?.repoSnapshot ? { repoSnapshot: assetPackCompletion.repoSnapshot } : {}),
@@ -167,18 +220,16 @@ export function buildSemanticCompletionResult(params: {
       ...(assetPack ? { assetPack } : {}),
       ...(explicitAssetPackSynthesisArtifacts || writtenAssets || shippables || deliveryMechanism ? { semanticKind: 'asset-pack-written-asset' } : {}),
       actions: {
-        pullRequest: deliveryMechanism?.pullRequest ?? writtenAssets?.pullRequest ?? null,
+        pullRequest: deliveryMechanism?.pullRequest ?? null,
         files:
           topLevelFileChanges ||
-          actionsSurface?.fileChanges ||
-          deliveryMechanism?.fileChanges ||
+          actionEvidenceSurface?.fileChanges ||
           writtenAssets?.fileChanges ||
           null,
       },
     },
     fileChanges:
       topLevelFileChanges ||
-      deliveryMechanism?.fileChanges ||
       writtenAssets?.fileChanges ||
       null,
   };

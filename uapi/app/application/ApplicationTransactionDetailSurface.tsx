@@ -172,12 +172,12 @@ export default function ApplicationTransactionDetailSurface({
     [closureFollowThrough, closureState, detail, selectedRun],
   );
   const writtenAssets = detail?.writtenAssets || null;
-  const deliveryMechanism = detail?.shippables || detail?.deliveryMechanism || writtenAssets;
+  const deliveryMechanism = detail?.shippables || detail?.deliveryMechanism || null;
   const mergedAssetPackSurface =
     writtenAssets || deliveryMechanism
       ? {
-          pullRequest: deliveryMechanism?.pullRequest ?? writtenAssets?.pullRequest ?? null,
-          fileChanges: writtenAssets?.fileChanges ?? deliveryMechanism?.fileChanges ?? null,
+          pullRequest: deliveryMechanism?.pullRequest ?? null,
+          fileChanges: writtenAssets?.fileChanges ?? null,
           summary: writtenAssets?.summary ?? deliveryMechanism?.summary ?? null,
         }
       : null;
@@ -320,7 +320,7 @@ export default function ApplicationTransactionDetailSurface({
             </section>
           ) : showShippables ? (
             <div className="rounded-[1.5rem] border border-white/8 bg-black/20 px-5 py-5 text-sm leading-6 text-neutral-300">
-              No materialized written asset or Delivering mechanism is attached to this Bitcode activity yet. The same
+              No materialized AssetPack evidence or Finish delivery mechanism is attached to this Bitcode activity yet. The same
               activity detail still keeps proofs, history, and closure reading available.
             </div>
           ) : null}

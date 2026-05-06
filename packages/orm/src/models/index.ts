@@ -38,6 +38,7 @@ export { PipelineRunsModel } from './pipeline-runs';
 
 // System models (V26)
 export { NotificationsModel } from './notifications';
+export { MessageAttachmentsModel } from './message-attachments';
 
 // Auxillary and organization support models
 export { UsersModel } from './users';

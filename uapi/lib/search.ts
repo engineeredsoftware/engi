@@ -1,6 +1,14 @@
 import OpenAI from 'openai';
 let supabaseModulePromise: Promise<typeof import('@bitcode/supabase')> | null = null;
 
+function getEvidenceDocumentEmbeddingModel() {
+  return (
+    process.env.BITCODE_EVIDENCE_DOCUMENT_EMBEDDING_MODEL ??
+    process.env.BITCODE_DEFAULT_EMBEDDING_MODEL ??
+    'text-embedding-ada-002'
+  );
+}
+
 async function getSupabaseAdmin() {
   if (!supabaseModulePromise) {
     supabaseModulePromise = import('@bitcode/supabase');
@@ -16,10 +24,20 @@ interface SearchRelevantEvidenceDocumentsParams {
   repoCommit: string;
   stage: 'pre-context' | 'post-context';
   count?: number;
+  embeddingClient?: EvidenceDocumentEmbeddingClient;
+}
+
+interface EvidenceDocumentEmbeddingClient {
+  embeddings: {
+    create(params: { model: string; input: string }): Promise<{ data: Array<{ embedding: unknown }> }>;
+  };
 }
 
 export async function searchRelevantEvidenceDocuments(params: SearchRelevantEvidenceDocumentsParams) {
-  const client = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
+  if (!params.embeddingClient && !process.env.OPENAI_API_KEY) {
+    return [];
+  }
+
   const summary = [
     `Repository: ${params.repoOwner}/${params.repoName}`,
     `Branch: ${params.repoBranch}`,
@@ -27,13 +45,20 @@ export async function searchRelevantEvidenceDocuments(params: SearchRelevantEvid
     `Stage: ${params.stage}`
   ].join('\n');
 
-  const embeddingResponse = await client.embeddings.create({
-    model: 'text-embedding-ada-002',
-    input: summary
-  });
+  const client = params.embeddingClient ?? new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
+  let embedding: unknown;
+  try {
+    const embeddingResponse = await client.embeddings.create({
+      model: getEvidenceDocumentEmbeddingModel(),
+      input: summary
+    });
 
-  const embedding = embeddingResponse.data?.[0]?.embedding;
-  if (!embedding) {
+    embedding = embeddingResponse.data?.[0]?.embedding;
+  } catch {
+    return [];
+  }
+
+  if (!Array.isArray(embedding)) {
     return [];
   }
 

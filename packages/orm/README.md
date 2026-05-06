@@ -1,12 +1,12 @@
 # @bitcode/orm
 
-Type-safe database access layer for the Bitcode platform. Provides 1:1 mapping with Supabase migrations, vector search support, and consistent read/write helpers.
+Type-safe database access layer for the Bitcode platform. Provides 1:1 mapping with Supabase migrations, AssetPack evidence vector storage, and consistent read/write helpers.
 
 ## Core Architecture
 
 - **Client Management**: Separate admin and user clients
 - **Model System**: Type-safe model classes for all entities
-- **Vector Search**: pgvector integration for semantic search
+- **AssetPack Evidence Vectors**: pgvector-backed storage helpers for AssetPack evidence rows
 - **Profile Contracts**: V26 readiness and profile helpers for Bitcode account state
 
 ## Client Types
@@ -36,12 +36,8 @@ const assetPackEvidence = await client.assetPackEvidence.list({
   limit: 10
 });
 
-// Vector search example
-const relatedRuns = await client.vector.search({
-  embedding,
-  matchThreshold: 0.78,
-  matchCount: 10
-});
+// AssetPack evidence vectors
+const relatedVectors = await client.assetPackVectors.listByAssetPackEvidenceId(assetPackEvidence[0].id);
 ```
 
 ## Available Models
@@ -53,8 +49,8 @@ const relatedRuns = await client.vector.search({
 
 ## Bitcode Storage Capabilities
 
-- **Semantic Search**: Vector similarity matching
-- **pgvector Integration**: Native PostgreSQL vector operations
+- **Semantic Search Support**: AssetPack evidence vector rows and RPC-backed search surfaces
+- **pgvector Integration**: Native PostgreSQL vector storage for admitted AssetPack evidence
 - **Profile Readiness**: Canonical user/profile readiness checks used by app and API routes
 - **Schema Contracts**: Generated database types and typed model helpers kept in lockstep with Supabase migrations
 

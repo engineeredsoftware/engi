@@ -25,7 +25,6 @@ export function normalizeAssetPackOutput(output: AssetPackOutput, execution: Exe
   if (prUrl) {
     enhanced.deliveryMechanism = { ...(deliveryMechanism || {}), prUrl } as any;
     enhanced.shippable = { ...(enhanced.shippable || enhanced.deliveryMechanism || {}), prUrl } as any;
-    enhanced.writtenAsset = { ...(enhanced.writtenAsset || enhanced.deliveryMechanism || {}), prUrl } as any;
   }
 
   // 2) Backfill artifacts from execution if missing
@@ -65,9 +64,6 @@ export function normalizeAssetPackOutput(output: AssetPackOutput, execution: Exe
   }
   if (!enhanced.shippable && enhanced.deliveryMechanism) {
     enhanced.shippable = { ...enhanced.deliveryMechanism };
-  }
-  if (!enhanced.writtenAsset && enhanced.shippable) {
-    enhanced.writtenAsset = { ...enhanced.shippable };
   }
 
   return enhanced;
@@ -152,6 +148,7 @@ export function buildAssetPackPostprocessedResult(
     shippables: shippables as any,
     deliveryMechanism: normalized.deliveryMechanism || shippable,
     assetPackSynthesisArtifacts: (finishArtifacts || normalized.assetPackSynthesisArtifacts || null) as any,
+    writtenAssets: (finishArtifacts || normalized.assetPackSynthesisArtifacts || null) as any,
     artifacts,
     writtenAssetType,
     deliveryMechanismTemplate,

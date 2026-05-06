@@ -23,4 +23,4 @@ import { PromptPart } from '../../parts/PromptPart';
  * ]
  */
 export const PROMPTPART_SPECIFIC_AGENT_ASSETPACKVALIDATIONREADYTOFINISH_TRY_SUBSTEP_STRUCTURED_OUTPUT: PromptPart = 
-  'assetpackvalidationreadytofinish try substep structured output: return structured output with need satisfaction, writtenAssetType, writtenAssets, assetPack evidence, validation status, and deliveryMechanism wrapper fields when connected-interface delivery is required.' as PromptPart;
+  'assetpackvalidationreadytofinish try substep structured output: return structured output with need satisfaction, writtenAssetType, writtenAssets and assetPack evidence, validation status, and deliveryMechanism wrapper fields only when PR Delivering through a connected-interface pull request is required.' as PromptPart;

@@ -33,7 +33,8 @@ describe('application-transaction-detail-snapshot helpers', () => {
 
     expect(snapshot.summary).toBe('Fallback selected-run summary.');
     expect(snapshot.shippables?.pullRequest?.title).toBe('Fallback PR');
-    expect(snapshot.writtenAssets?.pullRequest?.title).toBe('Fallback PR');
+    expect(snapshot.writtenAssets?.pullRequest).toBeNull();
+    expect(snapshot.writtenAssets?.summary).toBe('Fallback Shippable summary.');
     expect(snapshot.deliveryMechanism?.pullRequest?.title).toBe('Fallback PR');
     expect(snapshot.repoSnapshot).toMatchObject({
       org: 'bitcode',

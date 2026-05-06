@@ -14,6 +14,7 @@ import { AssetPackEvidenceModel } from './models/asset-pack-evidence';
 import { ExecutionEventsModel } from './models/execution-events';
 import { PipelineRunsModel } from './models/pipeline-runs';
 import { NotificationsModel } from './models/notifications';
+import { MessageAttachmentsModel } from './models/message-attachments';
 import { UserConnectionsModel } from './models/user-connections';
 import { UserBtdBalancesModel } from './models/user-btd-balances';
 import {
@@ -49,6 +50,7 @@ export interface BitcodeOrmClient {
   bitcodeErrorLogs: BitcodeErrorLogsModel;
   bitcodeTokenCosts: BitcodeTokenCostsModel;
   notifications: NotificationsModel;
+  messageAttachments: MessageAttachmentsModel;
   userConnections: UserConnectionsModel;
   userBtdBalances: UserBtdBalancesModel;
 }
@@ -96,6 +98,7 @@ export function createClient(authToken?: string): BitcodeOrmClient {
     bitcodeErrorLogs: new BitcodeErrorLogsModel(supabase),
     bitcodeTokenCosts: new BitcodeTokenCostsModel(supabase),
     notifications: new NotificationsModel(supabase),
+    messageAttachments: new MessageAttachmentsModel(supabase),
     userConnections: new UserConnectionsModel(supabase),
     userBtdBalances: new UserBtdBalancesModel(supabase)
   };
@@ -134,6 +137,7 @@ export function createAdminClient(): AdminClient {
     bitcodeErrorLogs: new BitcodeErrorLogsModel(supabase),
     bitcodeTokenCosts: new BitcodeTokenCostsModel(supabase),
     notifications: new NotificationsModel(supabase),
+    messageAttachments: new MessageAttachmentsModel(supabase),
     userConnections: new UserConnectionsModel(supabase),
     userBtdBalances: new UserBtdBalancesModel(supabase)
   };
